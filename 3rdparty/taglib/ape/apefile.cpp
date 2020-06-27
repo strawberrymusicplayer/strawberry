@@ -83,7 +83,7 @@ bool APE::File::isSupported(IOStream *stream) {
   // An APE file has an ID "MAC " somewhere. An ID3v2 tag may precede.
 
   const ByteVector buffer = Utils::readHeader(stream, bufferSize(), true);
-  return (buffer.find("MAC ") != ByteVector::npos());
+  return (buffer.find("MAC ") == 0);
 
 }
 
