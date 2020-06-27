@@ -1161,10 +1161,6 @@ if(UNIX AND NOT APPLE)
   endif()
 endif()
 
-if(NOT USE_SYSTEM_SINGLEAPPLICATION)
-  add_dependencies(strawberry_lib ${SINGLEAPPLICATION_LIBRARIES} ${SINGLECOREAPPLICATION_LIBRARIES})
-endif()
-
 ###############################################################################
 
 set(EXECUTABLE_OUTPUT_PATH ..)
