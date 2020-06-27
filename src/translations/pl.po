@@ -243,11 +243,11 @@ msgstr "pozostało %n"
 msgid "%title - %artist%"
 msgstr "%title - %artist%"
 
-#: ../build/src/ui_mainwindow.h:652
+#: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
 msgstr "&O Strawberry"
 
-#: ../build/src/ui_mainwindow.h:660
+#: ../build/src/ui_mainwindow.h:661
 msgid "&Add file..."
 msgstr "&Dodaj plik…"
 
@@ -259,11 +259,11 @@ msgstr "&Wyrównaj tekst"
 msgid "&Center"
 msgstr "Do śr&odka"
 
-#: ../build/src/ui_mainwindow.h:631
+#: ../build/src/ui_mainwindow.h:632
 msgid "&Clear playlist"
 msgstr "&Wyczyść listę odtwarzania"
 
-#: ../build/src/ui_mainwindow.h:666
+#: ../build/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
 msgstr "M&enedżer zakładek"
 
@@ -275,11 +275,11 @@ msgstr "&Własny"
 msgid "&Default"
 msgstr "&Domyślny"
 
-#: ../build/src/ui_mainwindow.h:698
+#: ../build/src/ui_mainwindow.h:699
 msgid "&Do a full collection rescan"
 msgstr "&Przeskanuj całą kolekcję od nowa"
 
-#: ../build/src/ui_mainwindow.h:671
+#: ../build/src/ui_mainwindow.h:672
 msgid "&Equalizer"
 msgstr "&Korektor graficzny"
 
@@ -292,7 +292,7 @@ msgstr "&Ukryj %1"
 msgid "&Hide..."
 msgstr "&Ukryj…"
 
-#: ../build/src/ui_mainwindow.h:674
+#: ../build/src/ui_mainwindow.h:675
 msgid "&Jump to the currently playing track"
 msgstr "&przeskocz do odtwarzanej ścieżki"
 
@@ -300,7 +300,7 @@ msgstr "&przeskocz do odtwarzanej ścieżki"
 msgid "&Left"
 msgstr "Do &lewej"
 
-#: ../build/src/ui_mainwindow.h:686
+#: ../build/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
 msgstr "Wczytaj &listę odtwarzania…"
 
@@ -308,19 +308,19 @@ msgstr "Wczytaj &listę odtwarzania…"
 msgid "&Manual proxy configuration"
 msgstr "&Ręczna konfiguracja serwera pośredniczącego"
 
-#: ../build/src/ui_mainwindow.h:715
+#: ../build/src/ui_mainwindow.h:716
 msgid "&Music"
 msgstr "&Muzyka"
 
-#: ../build/src/ui_mainwindow.h:694
+#: ../build/src/ui_mainwindow.h:695
 msgid "&Mute"
 msgstr "&Wycisz"
 
-#: ../build/src/ui_mainwindow.h:678
+#: ../build/src/ui_mainwindow.h:679
 msgid "&New playlist"
 msgstr "&Nowa lista odtwarzania"
 
-#: ../build/src/ui_mainwindow.h:618
+#: ../build/src/ui_mainwindow.h:619
 msgid "&Next track"
 msgstr "&Następna ścieżka"
 
@@ -332,19 +332,19 @@ msgstr "&Bez obrazu tła"
 msgid "&None"
 msgstr "&Brak"
 
-#: ../build/src/ui_mainwindow.h:664
+#: ../build/src/ui_mainwindow.h:665
 msgid "&Open file..."
 msgstr "&Otwórz plik…"
 
-#: ../build/src/ui_mainwindow.h:610
+#: ../build/src/ui_mainwindow.h:611
 msgid "&Play"
 msgstr "&Odtwarzaj"
 
-#: ../build/src/ui_mainwindow.h:622
+#: ../build/src/ui_mainwindow.h:623
 msgid "&Quit"
 msgstr "&Zakończ"
 
-#: ../build/src/ui_mainwindow.h:669
+#: ../build/src/ui_mainwindow.h:670
 msgid "&Repeat mode"
 msgstr "Tryb powtarzania"
 
@@ -356,15 +356,15 @@ msgstr "&Przywróć kolumny do postaci domyślnej"
 msgid "&Right"
 msgstr "Do p&rawej"
 
-#: ../build/src/ui_mainwindow.h:648
+#: ../build/src/ui_mainwindow.h:649
 msgid "&Settings..."
 msgstr "&Ustawienia…"
 
-#: ../build/src/ui_mainwindow.h:668
+#: ../build/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
 msgstr "&Tryb losowania"
 
-#: ../build/src/ui_mainwindow.h:614
+#: ../build/src/ui_mainwindow.h:615
 msgid "&Stop"
 msgstr "&Zatrzymaj"
 
@@ -372,15 +372,15 @@ msgstr "&Zatrzymaj"
 msgid "&Stretch columns to fit window"
 msgstr "&Rozciągaj kolumny, aby dopasować do okna"
 
-#: ../build/src/ui_mainwindow.h:718
+#: ../build/src/ui_mainwindow.h:719
 msgid "&Tools"
 msgstr "Narzędzia"
 
-#: ../build/src/ui_mainwindow.h:672
+#: ../build/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
 msgstr "&Transkoduj muzykę"
 
-#: ../build/src/ui_mainwindow.h:692
+#: ../build/src/ui_mainwindow.h:693
 msgid "&Update changed collection folders"
 msgstr "&Zaktualizuj zmienione katalogi kolekcji"
 
@@ -473,7 +473,7 @@ msgstr "ASF (WMA)"
 msgid "Abort"
 msgstr "Przerwij"
 
-#: ../build/src/ui_mainwindow.h:699
+#: ../build/src/ui_mainwindow.h:700
 msgid "Abort collection scan"
 msgstr "Przerwij skanowanie kolekcji"
 
@@ -481,7 +481,7 @@ msgstr "Przerwij skanowanie kolekcji"
 msgid "About"
 msgstr "O programie"
 
-#: ../build/src/ui_mainwindow.h:693
+#: ../build/src/ui_mainwindow.h:694
 msgid "About &Qt"
 msgstr "O &Qt"
 
@@ -502,7 +502,7 @@ msgctxt "Category label"
 msgid "Action"
 msgstr "Akcja"
 
-#: ../build/src/ui_mainwindow.h:673
+#: ../build/src/ui_mainwindow.h:674
 msgid "Add &folder..."
 msgstr "Dodaj &katalog…"
 
@@ -528,11 +528,11 @@ msgstr "Dodaj katalog…"
 msgid "Add file"
 msgstr "Dodaj plik"
 
-#: ../build/src/ui_mainwindow.h:709
+#: ../build/src/ui_mainwindow.h:710
 msgid "Add file to transcoder"
 msgstr "Dodaj plik do transkodera"
 
-#: ../build/src/ui_mainwindow.h:707
+#: ../build/src/ui_mainwindow.h:708
 msgid "Add file(s) to transcoder"
 msgstr "Dodaj plik(i) do transkodera"
 
@@ -631,7 +631,7 @@ msgstr "Dodaj znacznik numeru"
 msgid "Add song year tag"
 msgstr "Dodaj znacznik roku"
 
-#: ../build/src/ui_mainwindow.h:712
+#: ../build/src/ui_mainwindow.h:713
 msgid "Add stream..."
 msgstr "Dodaj strumień…"
 
@@ -1059,7 +1059,7 @@ msgstr "Długość bufora"
 msgid "Buffering"
 msgstr "Buforowanie"
 
-#: ../build/src/ui_mainwindow.h:667
+#: ../build/src/ui_mainwindow.h:668
 msgid "C&onsole"
 msgstr "K&onsola"
 
@@ -1120,7 +1120,7 @@ msgstr "Wyczyść"
 msgid "Clear Disk Cache"
 msgstr "Wyczyść pamięć podręczną na dysku"
 
-#: core/mainwindow.cpp:2021 ../build/src/ui_mainwindow.h:633
+#: core/mainwindow.cpp:2021 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Wyczyść listę odtwarzania"
 
@@ -1213,7 +1213,7 @@ msgstr "Komentarz"
 msgid "Complete tags automatically"
 msgstr "Automatycznie uzupełnij znaczniki"
 
-#: ../build/src/ui_mainwindow.h:700
+#: ../build/src/ui_mainwindow.h:701
 msgid "Complete tags automatically..."
 msgstr "Automatycznie uzupełnij znaczniki…"
 
@@ -1394,7 +1394,7 @@ msgstr "Płynne przejście przy automatycznej zmianie ścieżek"
 msgid "Cross-fade when changing tracks manually"
 msgstr "Płynne przejście przy ręcznej zmianie ścieżek"
 
-#: ../build/src/ui_mainwindow.h:628
+#: ../build/src/ui_mainwindow.h:629
 msgid "Ctrl+Alt+V"
 msgstr "Ctrl+Alt+V"
 
@@ -1402,51 +1402,51 @@ msgstr "Ctrl+Alt+V"
 msgid "Ctrl+Down"
 msgstr "Ctrl+Dół"
 
-#: ../build/src/ui_mainwindow.h:640
+#: ../build/src/ui_mainwindow.h:641
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: ../build/src/ui_mainwindow.h:658
+#: ../build/src/ui_mainwindow.h:659
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: ../build/src/ui_mainwindow.h:676
+#: ../build/src/ui_mainwindow.h:677
 msgid "Ctrl+J"
 msgstr "Ctrl+J"
 
-#: ../build/src/ui_mainwindow.h:636 ../build/src/ui_queueview.h:144
+#: ../build/src/ui_mainwindow.h:637 ../build/src/ui_queueview.h:144
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: ../build/src/ui_mainwindow.h:696
+#: ../build/src/ui_mainwindow.h:697
 msgid "Ctrl+M"
 msgstr "Ctrl+M"
 
-#: ../build/src/ui_mainwindow.h:680
+#: ../build/src/ui_mainwindow.h:681
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: ../build/src/ui_mainwindow.h:650
+#: ../build/src/ui_mainwindow.h:651
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: ../build/src/ui_mainwindow.h:624
+#: ../build/src/ui_mainwindow.h:625
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: ../build/src/ui_mainwindow.h:684
+#: ../build/src/ui_mainwindow.h:685
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: ../build/src/ui_mainwindow.h:662
+#: ../build/src/ui_mainwindow.h:663
 msgid "Ctrl+Shift+A"
 msgstr "Ctrl+Shift+A"
 
-#: ../build/src/ui_mainwindow.h:688
+#: ../build/src/ui_mainwindow.h:689
 msgid "Ctrl+Shift+O"
 msgstr "Ctrl+Shift+O"
 
-#: ../build/src/ui_mainwindow.h:702
+#: ../build/src/ui_mainwindow.h:703
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
@@ -1671,7 +1671,7 @@ msgstr "Przeciągnij, aby zmienić pozycję"
 msgid "Edit tag \"%1\"..."
 msgstr "Edytuj znacznik „%1”…"
 
-#: ../build/src/ui_mainwindow.h:644
+#: ../build/src/ui_mainwindow.h:645
 msgid "Edit tag..."
 msgstr "Edytuj znacznik…"
 
@@ -1684,7 +1684,7 @@ msgid "Edit track information"
 msgstr "Edytuj informacje o ścieżce"
 
 #: context/contextalbumsview.cpp:266 collection/collectionview.cpp:335
-#: widgets/fileviewlist.cpp:54 ../build/src/ui_mainwindow.h:638
+#: widgets/fileviewlist.cpp:54 ../build/src/ui_mainwindow.h:639
 msgid "Edit track information..."
 msgstr "Edytuj informacje o ścieżce…"
 
@@ -1882,27 +1882,27 @@ msgstr "Eksportowanie zakończone"
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Wyodrębniono okładek: %1 z %2 (pominięto: %3)"
 
-#: ../build/src/ui_mainwindow.h:654
+#: ../build/src/ui_mainwindow.h:655
 msgid "F1"
 msgstr "F1"
 
-#: ../build/src/ui_mainwindow.h:646
+#: ../build/src/ui_mainwindow.h:647
 msgid "F2"
 msgstr "F2"
 
-#: ../build/src/ui_mainwindow.h:608
+#: ../build/src/ui_mainwindow.h:609
 msgid "F5"
 msgstr "F5"
 
-#: ../build/src/ui_mainwindow.h:612
+#: ../build/src/ui_mainwindow.h:613
 msgid "F6"
 msgstr "F6"
 
-#: ../build/src/ui_mainwindow.h:616
+#: ../build/src/ui_mainwindow.h:617
 msgid "F7"
 msgstr "F7"
 
-#: ../build/src/ui_mainwindow.h:620
+#: ../build/src/ui_mainwindow.h:621
 msgid "F8"
 msgstr "F8"
 
@@ -2121,11 +2121,11 @@ msgstr "Uwierzytelnianie Geniusa"
 msgid "Genre"
 msgstr "Gatunek"
 
-#: ../build/src/ui_mainwindow.h:690
+#: ../build/src/ui_mainwindow.h:691
 msgid "Go to next playlist tab"
 msgstr "Przejdź do kolejnej zakładki z listą odtwarzania"
 
-#: ../build/src/ui_mainwindow.h:691
+#: ../build/src/ui_mainwindow.h:692
 msgid "Go to previous playlist tab"
 msgstr "Przejdź do poprzedniej zakładki z listą odtwarzania"
 
@@ -2244,7 +2244,7 @@ msgstr ""
 "Informacje sprzętowe są widoczne tylko wtedy, gdy urządzenie jest podłączone."
 ""
 
-#: ../build/src/ui_mainwindow.h:717
+#: ../build/src/ui_mainwindow.h:718
 msgid "Help"
 msgstr "Pomoc"
 
@@ -2507,7 +2507,7 @@ msgstr "Zaloguj się"
 msgid "Long term prediction profile (LTP)"
 msgstr "Profil przewidywania długoterminowego (LTP)"
 
-#: ../build/src/ui_mainwindow.h:630
+#: ../build/src/ui_mainwindow.h:631
 msgid "Love"
 msgstr "Pokochaj"
 
@@ -2839,7 +2839,7 @@ msgstr "Otworzyć adres URL w przeglądarce internetowej?"
 msgid "Open a directory to import music from"
 msgstr "Importuj muzykę z katalogu"
 
-#: ../build/src/ui_mainwindow.h:665
+#: ../build/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
 msgstr "Otwórz pł&ytę audio…"
 
@@ -2928,7 +2928,7 @@ msgstr "Nadpisz istniejące pliki"
 msgid "Overwrite s&maller ones only"
 msgstr "Nadpisz tylko &mniejsze"
 
-#: ../build/src/ui_mainwindow.h:716
+#: ../build/src/ui_mainwindow.h:717
 msgid "P&laylist"
 msgstr "&Lista odtwarzania"
 
@@ -3134,7 +3134,7 @@ msgstr "Podgląd"
 msgid "Previous"
 msgstr "Wstecz"
 
-#: ../build/src/ui_mainwindow.h:606
+#: ../build/src/ui_mainwindow.h:607
 msgid "Previous track"
 msgstr "Poprzednia ścieżka"
 
@@ -3253,11 +3253,11 @@ msgstr "Zapamiętaj mój wybór"
 msgid "Remove"
 msgstr "Usuń"
 
-#: ../build/src/ui_mainwindow.h:705
+#: ../build/src/ui_mainwindow.h:706
 msgid "Remove &duplicates from playlist"
 msgstr "Usuń &duplikaty z listy odtwarzania"
 
-#: ../build/src/ui_mainwindow.h:706
+#: ../build/src/ui_mainwindow.h:707
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Usuń &niedostępne utwory z listy odtwarzania"
 
@@ -3269,7 +3269,7 @@ msgstr "Usuń katalog"
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../build/src/ui_mainwindow.h:670
+#: ../build/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
 msgstr "Usuń z listy odtwarzania"
 
@@ -3293,7 +3293,7 @@ msgstr "Zmień nazwę listy odtwarzania"
 msgid "Rename playlist..."
 msgstr "Zmień nazwę listy odtwarzania…"
 
-#: ../build/src/ui_mainwindow.h:642
+#: ../build/src/ui_mainwindow.h:643
 msgid "Renumber tracks in this order..."
 msgstr "Ponumeruj utwory według tej kolejności…"
 
@@ -3347,7 +3347,7 @@ msgstr "Brakuje elementów zapytania w odpowiedzi z Tidal."
 msgid "Rescan song(s)"
 msgstr "Przeskanuj utwór/utwory ponownie"
 
-#: ../build/src/ui_mainwindow.h:711
+#: ../build/src/ui_mainwindow.h:712
 msgid "Rescan songs(s)"
 msgstr "Przeskanuj utwór/utwory ponownie"
 
@@ -3440,7 +3440,7 @@ msgstr "Rock"
 msgid "Run"
 msgstr "Uruchom"
 
-#: ../build/src/ui_mainwindow.h:656
+#: ../build/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
 msgstr "Losuj z listy odtwarzania"
 
@@ -3467,7 +3467,7 @@ msgstr "Częstotliwość próbkowania"
 msgid "Samplerate"
 msgstr "Częstotliwość próbkowania"
 
-#: ../build/src/ui_mainwindow.h:682
+#: ../build/src/ui_mainwindow.h:683
 msgid "Save &playlist..."
 msgstr "Zapisz &listę odtwarzania…"
 
@@ -3640,7 +3640,7 @@ msgstr "Ustaw %1 na „%2”…"
 msgid "Set the volume to <value> percent"
 msgstr "Ustaw głośność na n-procent"
 
-#: ../build/src/ui_mainwindow.h:643
+#: ../build/src/ui_mainwindow.h:644
 msgid "Set value for all selected tracks..."
 msgstr "Ustaw wartość dla wszystkich zaznaczonych utworów…"
 
@@ -3779,7 +3779,7 @@ msgstr "Pokazuj widżet odtwarzania"
 msgid "Show scrobble button"
 msgstr "Pokazuj przycisk scrobblowania"
 
-#: ../build/src/ui_mainwindow.h:713
+#: ../build/src/ui_mainwindow.h:714
 msgid "Show sidebar"
 msgstr "Pokazuj pasek boczny"
 
@@ -3943,7 +3943,7 @@ msgstr "Zatrzymaj po każdej ścieżce"
 msgid "Stop after every track"
 msgstr "Zatrzymaj po każdej ścieżce"
 
-#: core/mainwindow.cpp:607 ../build/src/ui_mainwindow.h:626
+#: core/mainwindow.cpp:607 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "Zatrzymaj po tej ścieżce"
 
@@ -3968,7 +3968,7 @@ msgstr "Zatrzymano"
 msgid "Strawberry Error"
 msgstr "Błąd Strawberry"
 
-#: ../build/src/ui_mainwindow.h:605
+#: ../build/src/ui_mainwindow.h:606
 msgid "Strawberry Music Player"
 msgstr "Odtwarzacz muzyki Strawberry"
 
@@ -4273,7 +4273,7 @@ msgstr "Dzisiaj"
 msgid "Toggle queue status"
 msgstr "Przełącz stan kolejki"
 
-#: ../build/src/ui_mainwindow.h:704
+#: ../build/src/ui_mainwindow.h:705
 msgid "Toggle scrobbling"
 msgstr "Włącz scrobling"
 

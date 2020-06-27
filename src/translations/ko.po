@@ -228,11 +228,11 @@ msgstr "%n개 남음"
 msgid "%title - %artist%"
 msgstr "%title - %artist%"
 
-#: ../build/src/ui_mainwindow.h:652
+#: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
 msgstr "Strawberry 정보(&A)"
 
-#: ../build/src/ui_mainwindow.h:660
+#: ../build/src/ui_mainwindow.h:661
 msgid "&Add file..."
 msgstr "파일 추가(&A)..."
 
@@ -244,11 +244,11 @@ msgstr "텍스트 정렬(&A)"
 msgid "&Center"
 msgstr "가운데(&C)"
 
-#: ../build/src/ui_mainwindow.h:631
+#: ../build/src/ui_mainwindow.h:632
 msgid "&Clear playlist"
 msgstr "재생 목록 비우기(&C)"
 
-#: ../build/src/ui_mainwindow.h:666
+#: ../build/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
 msgstr "표지 관리자(&C)"
 
@@ -260,11 +260,11 @@ msgstr "사용자 정의(&C)"
 msgid "&Default"
 msgstr "기본값(&D)"
 
-#: ../build/src/ui_mainwindow.h:698
+#: ../build/src/ui_mainwindow.h:699
 msgid "&Do a full collection rescan"
 msgstr "전체 라이브러리 재탐색(&D)"
 
-#: ../build/src/ui_mainwindow.h:671
+#: ../build/src/ui_mainwindow.h:672
 msgid "&Equalizer"
 msgstr "이퀄라이저(&E)"
 
@@ -277,7 +277,7 @@ msgstr "%1 숨기기(&H)"
 msgid "&Hide..."
 msgstr "숨기기(&H)..."
 
-#: ../build/src/ui_mainwindow.h:674
+#: ../build/src/ui_mainwindow.h:675
 msgid "&Jump to the currently playing track"
 msgstr "현재 재생 중인 트랙으로 이동(&J)"
 
@@ -285,7 +285,7 @@ msgstr "현재 재생 중인 트랙으로 이동(&J)"
 msgid "&Left"
 msgstr "왼쪽(&L)"
 
-#: ../build/src/ui_mainwindow.h:686
+#: ../build/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
 msgstr "재생 목록 불러오기(&L)..."
 
@@ -293,19 +293,19 @@ msgstr "재생 목록 불러오기(&L)..."
 msgid "&Manual proxy configuration"
 msgstr "수동 프록시 설정(&M)"
 
-#: ../build/src/ui_mainwindow.h:715
+#: ../build/src/ui_mainwindow.h:716
 msgid "&Music"
 msgstr "음악(&M)"
 
-#: ../build/src/ui_mainwindow.h:694
+#: ../build/src/ui_mainwindow.h:695
 msgid "&Mute"
 msgstr "음소거(&M)"
 
-#: ../build/src/ui_mainwindow.h:678
+#: ../build/src/ui_mainwindow.h:679
 msgid "&New playlist"
 msgstr "새 재생 목록(&N)"
 
-#: ../build/src/ui_mainwindow.h:618
+#: ../build/src/ui_mainwindow.h:619
 msgid "&Next track"
 msgstr "다음 트랙(&N)"
 
@@ -317,19 +317,19 @@ msgstr "배경 그림 없음(&N)"
 msgid "&None"
 msgstr "없음(&N)"
 
-#: ../build/src/ui_mainwindow.h:664
+#: ../build/src/ui_mainwindow.h:665
 msgid "&Open file..."
 msgstr "파일 열기(&O)..."
 
-#: ../build/src/ui_mainwindow.h:610
+#: ../build/src/ui_mainwindow.h:611
 msgid "&Play"
 msgstr "재생(&P)"
 
-#: ../build/src/ui_mainwindow.h:622
+#: ../build/src/ui_mainwindow.h:623
 msgid "&Quit"
 msgstr "끝내기(&Q)"
 
-#: ../build/src/ui_mainwindow.h:669
+#: ../build/src/ui_mainwindow.h:670
 msgid "&Repeat mode"
 msgstr "반복 모드(&R)"
 
@@ -341,15 +341,15 @@ msgstr "기본값으로 열 초기화(&R)"
 msgid "&Right"
 msgstr "오른쪽(&R)"
 
-#: ../build/src/ui_mainwindow.h:648
+#: ../build/src/ui_mainwindow.h:649
 msgid "&Settings..."
 msgstr "설정(&S)..."
 
-#: ../build/src/ui_mainwindow.h:668
+#: ../build/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
 msgstr "무순서 재생 모드(&S)"
 
-#: ../build/src/ui_mainwindow.h:614
+#: ../build/src/ui_mainwindow.h:615
 msgid "&Stop"
 msgstr "정지(&S)"
 
@@ -357,15 +357,15 @@ msgstr "정지(&S)"
 msgid "&Stretch columns to fit window"
 msgstr "창 크기에 맞게 열 너비 조정(&S)"
 
-#: ../build/src/ui_mainwindow.h:718
+#: ../build/src/ui_mainwindow.h:719
 msgid "&Tools"
 msgstr "도구(&T)"
 
-#: ../build/src/ui_mainwindow.h:672
+#: ../build/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
 msgstr "음악 변환(&T)"
 
-#: ../build/src/ui_mainwindow.h:692
+#: ../build/src/ui_mainwindow.h:693
 msgid "&Update changed collection folders"
 msgstr "라이브러리 변경 사항 업데이트(&U)"
 
@@ -455,7 +455,7 @@ msgstr "ASF(WMA)"
 msgid "Abort"
 msgstr "중지"
 
-#: ../build/src/ui_mainwindow.h:699
+#: ../build/src/ui_mainwindow.h:700
 msgid "Abort collection scan"
 msgstr "라이브러리 검색 중지"
 
@@ -463,7 +463,7 @@ msgstr "라이브러리 검색 중지"
 msgid "About"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:693
+#: ../build/src/ui_mainwindow.h:694
 msgid "About &Qt"
 msgstr "Qt 정보(&Q)"
 
@@ -484,7 +484,7 @@ msgctxt "Category label"
 msgid "Action"
 msgstr "동작"
 
-#: ../build/src/ui_mainwindow.h:673
+#: ../build/src/ui_mainwindow.h:674
 msgid "Add &folder..."
 msgstr "폴더 추가(&F)..."
 
@@ -509,11 +509,11 @@ msgstr "디렉터리 추가..."
 msgid "Add file"
 msgstr "파일 추가"
 
-#: ../build/src/ui_mainwindow.h:709
+#: ../build/src/ui_mainwindow.h:710
 msgid "Add file to transcoder"
 msgstr "변환할 파일 추가"
 
-#: ../build/src/ui_mainwindow.h:707
+#: ../build/src/ui_mainwindow.h:708
 msgid "Add file(s) to transcoder"
 msgstr "변환할 파일 추가"
 
@@ -612,7 +612,7 @@ msgstr "트랙 태그 추가"
 msgid "Add song year tag"
 msgstr "년도 태그 추가"
 
-#: ../build/src/ui_mainwindow.h:712
+#: ../build/src/ui_mainwindow.h:713
 msgid "Add stream..."
 msgstr ""
 
@@ -1040,7 +1040,7 @@ msgstr "버퍼 시간"
 msgid "Buffering"
 msgstr "버퍼링"
 
-#: ../build/src/ui_mainwindow.h:667
+#: ../build/src/ui_mainwindow.h:668
 msgid "C&onsole"
 msgstr "콘솔(&O)"
 
@@ -1101,7 +1101,7 @@ msgstr "비우기"
 msgid "Clear Disk Cache"
 msgstr "디스크 캐시 비우기"
 
-#: core/mainwindow.cpp:2021 ../build/src/ui_mainwindow.h:633
+#: core/mainwindow.cpp:2021 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "재생 목록 비우기"
 
@@ -1189,7 +1189,7 @@ msgstr "설명"
 msgid "Complete tags automatically"
 msgstr "자동으로 태그 완성"
 
-#: ../build/src/ui_mainwindow.h:700
+#: ../build/src/ui_mainwindow.h:701
 msgid "Complete tags automatically..."
 msgstr "자동으로 태그 완성..."
 
@@ -1363,7 +1363,7 @@ msgstr "트랙을 자동으로 바꿀 때 크로스페이드"
 msgid "Cross-fade when changing tracks manually"
 msgstr "트랙을 직접 바꿀 때 크로스페이드"
 
-#: ../build/src/ui_mainwindow.h:628
+#: ../build/src/ui_mainwindow.h:629
 msgid "Ctrl+Alt+V"
 msgstr "Ctrl+Alt+V"
 
@@ -1371,51 +1371,51 @@ msgstr "Ctrl+Alt+V"
 msgid "Ctrl+Down"
 msgstr "Ctrl+Down"
 
-#: ../build/src/ui_mainwindow.h:640
+#: ../build/src/ui_mainwindow.h:641
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: ../build/src/ui_mainwindow.h:658
+#: ../build/src/ui_mainwindow.h:659
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: ../build/src/ui_mainwindow.h:676
+#: ../build/src/ui_mainwindow.h:677
 msgid "Ctrl+J"
 msgstr "Ctrl+J"
 
-#: ../build/src/ui_mainwindow.h:636 ../build/src/ui_queueview.h:144
+#: ../build/src/ui_mainwindow.h:637 ../build/src/ui_queueview.h:144
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: ../build/src/ui_mainwindow.h:696
+#: ../build/src/ui_mainwindow.h:697
 msgid "Ctrl+M"
 msgstr "Ctrl+M"
 
-#: ../build/src/ui_mainwindow.h:680
+#: ../build/src/ui_mainwindow.h:681
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: ../build/src/ui_mainwindow.h:650
+#: ../build/src/ui_mainwindow.h:651
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: ../build/src/ui_mainwindow.h:624
+#: ../build/src/ui_mainwindow.h:625
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: ../build/src/ui_mainwindow.h:684
+#: ../build/src/ui_mainwindow.h:685
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: ../build/src/ui_mainwindow.h:662
+#: ../build/src/ui_mainwindow.h:663
 msgid "Ctrl+Shift+A"
 msgstr "Ctrl+Shift+A"
 
-#: ../build/src/ui_mainwindow.h:688
+#: ../build/src/ui_mainwindow.h:689
 msgid "Ctrl+Shift+O"
 msgstr "Ctrl+Shift+O"
 
-#: ../build/src/ui_mainwindow.h:702
+#: ../build/src/ui_mainwindow.h:703
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
@@ -1640,7 +1640,7 @@ msgstr "위치를 바꾸려면 드래그하십시오"
 msgid "Edit tag \"%1\"..."
 msgstr "\"%1\" 태그 편집..."
 
-#: ../build/src/ui_mainwindow.h:644
+#: ../build/src/ui_mainwindow.h:645
 msgid "Edit tag..."
 msgstr "태그 편집..."
 
@@ -1653,7 +1653,7 @@ msgid "Edit track information"
 msgstr "트랙 정보 편집"
 
 #: context/contextalbumsview.cpp:266 collection/collectionview.cpp:335
-#: widgets/fileviewlist.cpp:54 ../build/src/ui_mainwindow.h:638
+#: widgets/fileviewlist.cpp:54 ../build/src/ui_mainwindow.h:639
 msgid "Edit track information..."
 msgstr "트랙 정보 편집..."
 
@@ -1849,27 +1849,27 @@ msgstr "내보내기 완료"
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "앨범아트 %2개 중 %1개 내보냄(%3개 건너뜀)"
 
-#: ../build/src/ui_mainwindow.h:654
+#: ../build/src/ui_mainwindow.h:655
 msgid "F1"
 msgstr "F1"
 
-#: ../build/src/ui_mainwindow.h:646
+#: ../build/src/ui_mainwindow.h:647
 msgid "F2"
 msgstr "F2"
 
-#: ../build/src/ui_mainwindow.h:608
+#: ../build/src/ui_mainwindow.h:609
 msgid "F5"
 msgstr "F5"
 
-#: ../build/src/ui_mainwindow.h:612
+#: ../build/src/ui_mainwindow.h:613
 msgid "F6"
 msgstr "F6"
 
-#: ../build/src/ui_mainwindow.h:616
+#: ../build/src/ui_mainwindow.h:617
 msgid "F7"
 msgstr "F7"
 
-#: ../build/src/ui_mainwindow.h:620
+#: ../build/src/ui_mainwindow.h:621
 msgid "F8"
 msgstr "F8"
 
@@ -2086,11 +2086,11 @@ msgstr ""
 msgid "Genre"
 msgstr "장르"
 
-#: ../build/src/ui_mainwindow.h:690
+#: ../build/src/ui_mainwindow.h:691
 msgid "Go to next playlist tab"
 msgstr "다음 재생 목록 탭으로 이동"
 
-#: ../build/src/ui_mainwindow.h:691
+#: ../build/src/ui_mainwindow.h:692
 msgid "Go to previous playlist tab"
 msgstr "이전 재생 목록 탭으로 이동"
 
@@ -2205,7 +2205,7 @@ msgstr "하드웨어 정보"
 msgid "Hardware information is only available while the device is connected."
 msgstr "장치가 연결되어 있는 동안에만 하드웨어 정보를 볼 수 있습니다."
 
-#: ../build/src/ui_mainwindow.h:717
+#: ../build/src/ui_mainwindow.h:718
 msgid "Help"
 msgstr "도움말"
 
@@ -2460,7 +2460,7 @@ msgstr "로그인"
 msgid "Long term prediction profile (LTP)"
 msgstr "장기 예측 프로필(LTP)"
 
-#: ../build/src/ui_mainwindow.h:630
+#: ../build/src/ui_mainwindow.h:631
 msgid "Love"
 msgstr "좋아요"
 
@@ -2788,7 +2788,7 @@ msgstr "웹 브라우저에서 URL을 여시겠습니까?"
 msgid "Open a directory to import music from"
 msgstr "음악을 가져올 폴더 선택"
 
-#: ../build/src/ui_mainwindow.h:665
+#: ../build/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
 msgstr "오디오 CD 열기(&C)..."
 
@@ -2877,7 +2877,7 @@ msgstr "기존 파일 덮어쓰기"
 msgid "Overwrite s&maller ones only"
 msgstr "더 작은 것만 덮어쓰기(&M)"
 
-#: ../build/src/ui_mainwindow.h:716
+#: ../build/src/ui_mainwindow.h:717
 msgid "P&laylist"
 msgstr "재생 목록(&L)"
 
@@ -3075,7 +3075,7 @@ msgstr "미리 보기"
 msgid "Previous"
 msgstr "이전"
 
-#: ../build/src/ui_mainwindow.h:606
+#: ../build/src/ui_mainwindow.h:607
 msgid "Previous track"
 msgstr "이전 트랙"
 
@@ -3192,11 +3192,11 @@ msgstr "내 선택 기억"
 msgid "Remove"
 msgstr "삭제"
 
-#: ../build/src/ui_mainwindow.h:705
+#: ../build/src/ui_mainwindow.h:706
 msgid "Remove &duplicates from playlist"
 msgstr "재생 목록에서 중복 항목 삭제(&D)"
 
-#: ../build/src/ui_mainwindow.h:706
+#: ../build/src/ui_mainwindow.h:707
 msgid "Remove &unavailable tracks from playlist"
 msgstr "재생 목록에서 사용할 수 없는 트랙 삭제(&U)"
 
@@ -3208,7 +3208,7 @@ msgstr "폴더 삭제"
 msgid "Remove from favorites"
 msgstr "즐겨찾기에서 삭제"
 
-#: ../build/src/ui_mainwindow.h:670
+#: ../build/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
 msgstr "재생 목록에서 제거"
 
@@ -3232,7 +3232,7 @@ msgstr "재생 목록 이름 바꾸기"
 msgid "Rename playlist..."
 msgstr "재생 목록 이름 바꾸기..."
 
-#: ../build/src/ui_mainwindow.h:642
+#: ../build/src/ui_mainwindow.h:643
 msgid "Renumber tracks in this order..."
 msgstr "다음 순서로 트랙 번호 다시 매기기..."
 
@@ -3286,7 +3286,7 @@ msgstr "Tidal 응답에 쿼리 항목이 없습니다."
 msgid "Rescan song(s)"
 msgstr "노래 다시 검색"
 
-#: ../build/src/ui_mainwindow.h:711
+#: ../build/src/ui_mainwindow.h:712
 msgid "Rescan songs(s)"
 msgstr "노래 다시 검색"
 
@@ -3377,7 +3377,7 @@ msgstr "록"
 msgid "Run"
 msgstr "실행"
 
-#: ../build/src/ui_mainwindow.h:656
+#: ../build/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
 msgstr "재생 목록 섞기(&H)"
 
@@ -3404,7 +3404,7 @@ msgstr "샘플링 레이트"
 msgid "Samplerate"
 msgstr "샘플링 레이트"
 
-#: ../build/src/ui_mainwindow.h:682
+#: ../build/src/ui_mainwindow.h:683
 msgid "Save &playlist..."
 msgstr "재생 목록 저장(&P)..."
 
@@ -3577,7 +3577,7 @@ msgstr "%1을(를) \"%2\"(으)로 설정..."
 msgid "Set the volume to <value> percent"
 msgstr "음량을 <value> 퍼센트로 설정"
 
-#: ../build/src/ui_mainwindow.h:643
+#: ../build/src/ui_mainwindow.h:644
 msgid "Set value for all selected tracks..."
 msgstr "선택한 모든 트랙의 값 설정..."
 
@@ -3716,7 +3716,7 @@ msgstr "재생 위젯 표시"
 msgid "Show scrobble button"
 msgstr "스크로블 단추 표시"
 
-#: ../build/src/ui_mainwindow.h:713
+#: ../build/src/ui_mainwindow.h:714
 msgid "Show sidebar"
 msgstr "사이드바 표시"
 
@@ -3879,7 +3879,7 @@ msgstr "각각 트랙이 끝난 후 정지"
 msgid "Stop after every track"
 msgstr "모든 트랙 이후에 정지"
 
-#: core/mainwindow.cpp:607 ../build/src/ui_mainwindow.h:626
+#: core/mainwindow.cpp:607 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "현재 트랙 이후 정지"
 
@@ -3904,7 +3904,7 @@ msgstr "정지됨"
 msgid "Strawberry Error"
 msgstr "Strawberry 오류"
 
-#: ../build/src/ui_mainwindow.h:605
+#: ../build/src/ui_mainwindow.h:606
 msgid "Strawberry Music Player"
 msgstr "Strawberry 음악 재생기"
 
@@ -4188,7 +4188,7 @@ msgstr "오늘"
 msgid "Toggle queue status"
 msgstr "대기열 상태 전환"
 
-#: ../build/src/ui_mainwindow.h:704
+#: ../build/src/ui_mainwindow.h:705
 msgid "Toggle scrobbling"
 msgstr "스크로블 전환"
 

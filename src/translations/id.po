@@ -233,11 +233,11 @@ msgstr "%n tersisa"
 msgid "%title - %artist%"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:652
+#: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
 msgstr "&Tentang Strawberry"
 
-#: ../build/src/ui_mainwindow.h:660
+#: ../build/src/ui_mainwindow.h:661
 msgid "&Add file..."
 msgstr "&Tambah file..."
 
@@ -249,11 +249,11 @@ msgstr "Sej&ajarkan teks"
 msgid "&Center"
 msgstr "&Tengah"
 
-#: ../build/src/ui_mainwindow.h:631
+#: ../build/src/ui_mainwindow.h:632
 msgid "&Clear playlist"
 msgstr "&Bersihkan daftar putar"
 
-#: ../build/src/ui_mainwindow.h:666
+#: ../build/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
 msgstr "Pengelola &Sampul"
 
@@ -265,11 +265,11 @@ msgstr "&Ubahsuai"
 msgid "&Default"
 msgstr "Stan&dar"
 
-#: ../build/src/ui_mainwindow.h:698
+#: ../build/src/ui_mainwindow.h:699
 msgid "&Do a full collection rescan"
 msgstr "Lakukan pemin&daian ulang seluruh pustaka"
 
-#: ../build/src/ui_mainwindow.h:671
+#: ../build/src/ui_mainwindow.h:672
 msgid "&Equalizer"
 msgstr "&Equalizer"
 
@@ -282,7 +282,7 @@ msgstr "&Sembunyikan %1"
 msgid "&Hide..."
 msgstr "&Sembunyikan..."
 
-#: ../build/src/ui_mainwindow.h:674
+#: ../build/src/ui_mainwindow.h:675
 msgid "&Jump to the currently playing track"
 msgstr "&Lompat ke trek yang sedang berputar"
 
@@ -290,7 +290,7 @@ msgstr "&Lompat ke trek yang sedang berputar"
 msgid "&Left"
 msgstr "&Kiri"
 
-#: ../build/src/ui_mainwindow.h:686
+#: ../build/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
 msgstr "&Muat daftar putar..."
 
@@ -298,19 +298,19 @@ msgstr "&Muat daftar putar..."
 msgid "&Manual proxy configuration"
 msgstr "Konfigurasi proxy &manual"
 
-#: ../build/src/ui_mainwindow.h:715
+#: ../build/src/ui_mainwindow.h:716
 msgid "&Music"
 msgstr "&Musik"
 
-#: ../build/src/ui_mainwindow.h:694
+#: ../build/src/ui_mainwindow.h:695
 msgid "&Mute"
 msgstr "&Bisukan"
 
-#: ../build/src/ui_mainwindow.h:678
+#: ../build/src/ui_mainwindow.h:679
 msgid "&New playlist"
 msgstr "&Daftar putar baru"
 
-#: ../build/src/ui_mainwindow.h:618
+#: ../build/src/ui_mainwindow.h:619
 msgid "&Next track"
 msgstr "&Trek berikutnya"
 
@@ -322,19 +322,19 @@ msgstr "&Tidak ada gambar latar belakang"
 msgid "&None"
 msgstr "&Nihil"
 
-#: ../build/src/ui_mainwindow.h:664
+#: ../build/src/ui_mainwindow.h:665
 msgid "&Open file..."
 msgstr "&Buka berkas..."
 
-#: ../build/src/ui_mainwindow.h:610
+#: ../build/src/ui_mainwindow.h:611
 msgid "&Play"
 msgstr "&Putar"
 
-#: ../build/src/ui_mainwindow.h:622
+#: ../build/src/ui_mainwindow.h:623
 msgid "&Quit"
 msgstr "&Keluar"
 
-#: ../build/src/ui_mainwindow.h:669
+#: ../build/src/ui_mainwindow.h:670
 msgid "&Repeat mode"
 msgstr "Mode pe&rulangan"
 
@@ -346,15 +346,15 @@ msgstr "Atu&r ulang kolom ke pengaturan standar"
 msgid "&Right"
 msgstr "&Kanan"
 
-#: ../build/src/ui_mainwindow.h:648
+#: ../build/src/ui_mainwindow.h:649
 msgid "&Settings..."
 msgstr "&Pengaturan..."
 
-#: ../build/src/ui_mainwindow.h:668
+#: ../build/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
 msgstr "Mode &Acak"
 
-#: ../build/src/ui_mainwindow.h:614
+#: ../build/src/ui_mainwindow.h:615
 msgid "&Stop"
 msgstr "Ber&henti"
 
@@ -362,15 +362,15 @@ msgstr "Ber&henti"
 msgid "&Stretch columns to fit window"
 msgstr "&Regang kolom agar pas dengan jendela"
 
-#: ../build/src/ui_mainwindow.h:718
+#: ../build/src/ui_mainwindow.h:719
 msgid "&Tools"
 msgstr "&Perkakas"
 
-#: ../build/src/ui_mainwindow.h:672
+#: ../build/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
 msgstr "&Transkode Musik"
 
-#: ../build/src/ui_mainwindow.h:692
+#: ../build/src/ui_mainwindow.h:693
 msgid "&Update changed collection folders"
 msgstr "Perbar&ui folder pustaka yang telah diubah"
 
@@ -464,7 +464,7 @@ msgstr "ASF (WMA)"
 msgid "Abort"
 msgstr "Batal"
 
-#: ../build/src/ui_mainwindow.h:699
+#: ../build/src/ui_mainwindow.h:700
 msgid "Abort collection scan"
 msgstr "Batalkan pemindaian pustaka"
 
@@ -472,7 +472,7 @@ msgstr "Batalkan pemindaian pustaka"
 msgid "About"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:693
+#: ../build/src/ui_mainwindow.h:694
 msgid "About &Qt"
 msgstr "Tentang &Qt"
 
@@ -493,7 +493,7 @@ msgctxt "Category label"
 msgid "Action"
 msgstr "Tindakan"
 
-#: ../build/src/ui_mainwindow.h:673
+#: ../build/src/ui_mainwindow.h:674
 msgid "Add &folder..."
 msgstr "Tambah &folder..."
 
@@ -518,11 +518,11 @@ msgstr "Tambah direktori..."
 msgid "Add file"
 msgstr "Tambah berkas"
 
-#: ../build/src/ui_mainwindow.h:709
+#: ../build/src/ui_mainwindow.h:710
 msgid "Add file to transcoder"
 msgstr "Tambah berkas ke transkoder"
 
-#: ../build/src/ui_mainwindow.h:707
+#: ../build/src/ui_mainwindow.h:708
 msgid "Add file(s) to transcoder"
 msgstr "Tambah berkas ke transkoder"
 
@@ -621,7 +621,7 @@ msgstr "Tambahkan nomor trek"
 msgid "Add song year tag"
 msgstr "Tambahkan tahun rilis"
 
-#: ../build/src/ui_mainwindow.h:712
+#: ../build/src/ui_mainwindow.h:713
 msgid "Add stream..."
 msgstr ""
 
@@ -1049,7 +1049,7 @@ msgstr "Durasi Bufer"
 msgid "Buffering"
 msgstr "Membufer..."
 
-#: ../build/src/ui_mainwindow.h:667
+#: ../build/src/ui_mainwindow.h:668
 msgid "C&onsole"
 msgstr "K&onsol"
 
@@ -1110,7 +1110,7 @@ msgstr "Bersihkan"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:2021 ../build/src/ui_mainwindow.h:633
+#: core/mainwindow.cpp:2021 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
@@ -1199,7 +1199,7 @@ msgstr "Komentar"
 msgid "Complete tags automatically"
 msgstr "Lengkapi tag secara otomatis"
 
-#: ../build/src/ui_mainwindow.h:700
+#: ../build/src/ui_mainwindow.h:701
 msgid "Complete tags automatically..."
 msgstr "Lengkapi tag secara otomatis..."
 
@@ -1379,7 +1379,7 @@ msgstr "Lesap-silang ketika mengubah trek secara otomatis"
 msgid "Cross-fade when changing tracks manually"
 msgstr "Lesap-silang ketika mengubah trek secara manual"
 
-#: ../build/src/ui_mainwindow.h:628
+#: ../build/src/ui_mainwindow.h:629
 msgid "Ctrl+Alt+V"
 msgstr "Ctrl+Alt+V"
 
@@ -1387,51 +1387,51 @@ msgstr "Ctrl+Alt+V"
 msgid "Ctrl+Down"
 msgstr "Ctrl+Down"
 
-#: ../build/src/ui_mainwindow.h:640
+#: ../build/src/ui_mainwindow.h:641
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: ../build/src/ui_mainwindow.h:658
+#: ../build/src/ui_mainwindow.h:659
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: ../build/src/ui_mainwindow.h:676
+#: ../build/src/ui_mainwindow.h:677
 msgid "Ctrl+J"
 msgstr "Ctrl+J"
 
-#: ../build/src/ui_mainwindow.h:636 ../build/src/ui_queueview.h:144
+#: ../build/src/ui_mainwindow.h:637 ../build/src/ui_queueview.h:144
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: ../build/src/ui_mainwindow.h:696
+#: ../build/src/ui_mainwindow.h:697
 msgid "Ctrl+M"
 msgstr "Ctrl+M"
 
-#: ../build/src/ui_mainwindow.h:680
+#: ../build/src/ui_mainwindow.h:681
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: ../build/src/ui_mainwindow.h:650
+#: ../build/src/ui_mainwindow.h:651
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: ../build/src/ui_mainwindow.h:624
+#: ../build/src/ui_mainwindow.h:625
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: ../build/src/ui_mainwindow.h:684
+#: ../build/src/ui_mainwindow.h:685
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: ../build/src/ui_mainwindow.h:662
+#: ../build/src/ui_mainwindow.h:663
 msgid "Ctrl+Shift+A"
 msgstr "Ctrl+Shift+A"
 
-#: ../build/src/ui_mainwindow.h:688
+#: ../build/src/ui_mainwindow.h:689
 msgid "Ctrl+Shift+O"
 msgstr "Ctrl+Shift+O"
 
-#: ../build/src/ui_mainwindow.h:702
+#: ../build/src/ui_mainwindow.h:703
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
@@ -1656,7 +1656,7 @@ msgstr "Seret untuk reposisi"
 msgid "Edit tag \"%1\"..."
 msgstr "Sunting tag \"%1\"..."
 
-#: ../build/src/ui_mainwindow.h:644
+#: ../build/src/ui_mainwindow.h:645
 msgid "Edit tag..."
 msgstr "Sunting tag..."
 
@@ -1669,7 +1669,7 @@ msgid "Edit track information"
 msgstr "Sunting informasi trek"
 
 #: context/contextalbumsview.cpp:266 collection/collectionview.cpp:335
-#: widgets/fileviewlist.cpp:54 ../build/src/ui_mainwindow.h:638
+#: widgets/fileviewlist.cpp:54 ../build/src/ui_mainwindow.h:639
 msgid "Edit track information..."
 msgstr "Sunting informasi trek..."
 
@@ -1865,27 +1865,27 @@ msgstr "Ekspor selesai"
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Mengekspor %1 sampul dari %2 (%3 dilewati)"
 
-#: ../build/src/ui_mainwindow.h:654
+#: ../build/src/ui_mainwindow.h:655
 msgid "F1"
 msgstr "F1"
 
-#: ../build/src/ui_mainwindow.h:646
+#: ../build/src/ui_mainwindow.h:647
 msgid "F2"
 msgstr "F2"
 
-#: ../build/src/ui_mainwindow.h:608
+#: ../build/src/ui_mainwindow.h:609
 msgid "F5"
 msgstr "F5"
 
-#: ../build/src/ui_mainwindow.h:612
+#: ../build/src/ui_mainwindow.h:613
 msgid "F6"
 msgstr "F6"
 
-#: ../build/src/ui_mainwindow.h:616
+#: ../build/src/ui_mainwindow.h:617
 msgid "F7"
 msgstr "F7"
 
-#: ../build/src/ui_mainwindow.h:620
+#: ../build/src/ui_mainwindow.h:621
 msgid "F8"
 msgstr "F8"
 
@@ -2103,11 +2103,11 @@ msgstr ""
 msgid "Genre"
 msgstr "Genre"
 
-#: ../build/src/ui_mainwindow.h:690
+#: ../build/src/ui_mainwindow.h:691
 msgid "Go to next playlist tab"
 msgstr "Buka tab daftar putar selanjutnya"
 
-#: ../build/src/ui_mainwindow.h:691
+#: ../build/src/ui_mainwindow.h:692
 msgid "Go to previous playlist tab"
 msgstr "Buka tab daftar putar sebelumnya"
 
@@ -2222,7 +2222,7 @@ msgstr "Informasi perangkat keras"
 msgid "Hardware information is only available while the device is connected."
 msgstr "Informasi hardware hanya tersedia ketika perangkat tersambung."
 
-#: ../build/src/ui_mainwindow.h:717
+#: ../build/src/ui_mainwindow.h:718
 msgid "Help"
 msgstr "Bantuan"
 
@@ -2481,7 +2481,7 @@ msgstr "Masuk"
 msgid "Long term prediction profile (LTP)"
 msgstr "Profil prediksi jangka panjang (LTP)"
 
-#: ../build/src/ui_mainwindow.h:630
+#: ../build/src/ui_mainwindow.h:631
 msgid "Love"
 msgstr "Suka"
 
@@ -2813,7 +2813,7 @@ msgstr ""
 msgid "Open a directory to import music from"
 msgstr "Buka sebuah direktori untuk mengimpor musik dari"
 
-#: ../build/src/ui_mainwindow.h:665
+#: ../build/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
 msgstr "Buka &CD audio..."
 
@@ -2902,7 +2902,7 @@ msgstr "Timpa berkas yang ada"
 msgid "Overwrite s&maller ones only"
 msgstr "Hanya ti&mpa yang lebih kecil"
 
-#: ../build/src/ui_mainwindow.h:716
+#: ../build/src/ui_mainwindow.h:717
 msgid "P&laylist"
 msgstr "D&aftar putar"
 
@@ -3100,7 +3100,7 @@ msgstr "Pratinjau"
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: ../build/src/ui_mainwindow.h:606
+#: ../build/src/ui_mainwindow.h:607
 msgid "Previous track"
 msgstr "Trek sebelumnya"
 
@@ -3217,11 +3217,11 @@ msgstr "Ingat pilihan saya"
 msgid "Remove"
 msgstr "Buang"
 
-#: ../build/src/ui_mainwindow.h:705
+#: ../build/src/ui_mainwindow.h:706
 msgid "Remove &duplicates from playlist"
 msgstr "Buang &duplikat dari daftar putar"
 
-#: ../build/src/ui_mainwindow.h:706
+#: ../build/src/ui_mainwindow.h:707
 msgid "Remove &unavailable tracks from playlist"
 msgstr "B&uang trek yang tidak tersedia dari daftar putar"
 
@@ -3233,7 +3233,7 @@ msgstr "Buang folder"
 msgid "Remove from favorites"
 msgstr "Buang dari favorit"
 
-#: ../build/src/ui_mainwindow.h:670
+#: ../build/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
 msgstr "Buang dari daftar putar"
 
@@ -3257,7 +3257,7 @@ msgstr "Ubah nama daftar putar"
 msgid "Rename playlist..."
 msgstr "Ubah nama daftar putar.."
 
-#: ../build/src/ui_mainwindow.h:642
+#: ../build/src/ui_mainwindow.h:643
 msgid "Renumber tracks in this order..."
 msgstr "Beri nomor baru trek dalam urutan ini..."
 
@@ -3311,7 +3311,7 @@ msgstr "Balasan dari Tidal tidak memiliki artikel yang diminta."
 msgid "Rescan song(s)"
 msgstr "Pindai ulang lagu"
 
-#: ../build/src/ui_mainwindow.h:711
+#: ../build/src/ui_mainwindow.h:712
 msgid "Rescan songs(s)"
 msgstr "Pindai ulang lagu"
 
@@ -3404,7 +3404,7 @@ msgstr "Rock"
 msgid "Run"
 msgstr "Jalankan"
 
-#: ../build/src/ui_mainwindow.h:656
+#: ../build/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
 msgstr "A&cak daftar putar"
 
@@ -3431,7 +3431,7 @@ msgstr "Laju sampel"
 msgid "Samplerate"
 msgstr "Lajusampel"
 
-#: ../build/src/ui_mainwindow.h:682
+#: ../build/src/ui_mainwindow.h:683
 msgid "Save &playlist..."
 msgstr "Simpan &daftar putar..."
 
@@ -3604,7 +3604,7 @@ msgstr "Tetapkan %1 ke \"%2\"..."
 msgid "Set the volume to <value> percent"
 msgstr "Tetapkan volume ke <value> persen"
 
-#: ../build/src/ui_mainwindow.h:643
+#: ../build/src/ui_mainwindow.h:644
 msgid "Set value for all selected tracks..."
 msgstr "Tetapkan nilai untuk semua trek terpilih..."
 
@@ -3743,7 +3743,7 @@ msgstr "Tampilkan widget berputar"
 msgid "Show scrobble button"
 msgstr "Tampilkan tombol scrobble"
 
-#: ../build/src/ui_mainwindow.h:713
+#: ../build/src/ui_mainwindow.h:714
 msgid "Show sidebar"
 msgstr ""
 
@@ -3907,7 +3907,7 @@ msgstr "Berhenti setelah masing-masing trek"
 msgid "Stop after every track"
 msgstr "Berhenti setelah setiap trek"
 
-#: core/mainwindow.cpp:607 ../build/src/ui_mainwindow.h:626
+#: core/mainwindow.cpp:607 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "Berhenti setelah trek ini"
 
@@ -3932,7 +3932,7 @@ msgstr "Berhenti"
 msgid "Strawberry Error"
 msgstr "Kesalahan dengan Strawberry"
 
-#: ../build/src/ui_mainwindow.h:605
+#: ../build/src/ui_mainwindow.h:606
 msgid "Strawberry Music Player"
 msgstr "Pemutar Musik Strawberry"
 
@@ -4237,7 +4237,7 @@ msgstr "Hari Ini"
 msgid "Toggle queue status"
 msgstr "Alihkan status antrean"
 
-#: ../build/src/ui_mainwindow.h:704
+#: ../build/src/ui_mainwindow.h:705
 msgid "Toggle scrobbling"
 msgstr "Alihkan scrobbling"
 

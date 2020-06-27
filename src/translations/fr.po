@@ -259,11 +259,11 @@ msgstr "%n restant"
 msgid "%title - %artist%"
 msgstr "%titre - %artiste%"
 
-#: ../build/src/ui_mainwindow.h:652
+#: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
 msgstr "À propos de Strawberry"
 
-#: ../build/src/ui_mainwindow.h:660
+#: ../build/src/ui_mainwindow.h:661
 msgid "&Add file..."
 msgstr "&Ajouter un fichier..."
 
@@ -275,11 +275,11 @@ msgstr "&Aligner le texte"
 msgid "&Center"
 msgstr "&Centrer"
 
-#: ../build/src/ui_mainwindow.h:631
+#: ../build/src/ui_mainwindow.h:632
 msgid "&Clear playlist"
 msgstr "&Vider la liste de lecture"
 
-#: ../build/src/ui_mainwindow.h:666
+#: ../build/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
 msgstr "Gestionnaire de po&chettes"
 
@@ -291,11 +291,11 @@ msgstr "&Personnaliser"
 msgid "&Default"
 msgstr "&Par défaut"
 
-#: ../build/src/ui_mainwindow.h:698
+#: ../build/src/ui_mainwindow.h:699
 msgid "&Do a full collection rescan"
 msgstr "&Refaire une analyse complète de la bibliothèque"
 
-#: ../build/src/ui_mainwindow.h:671
+#: ../build/src/ui_mainwindow.h:672
 msgid "&Equalizer"
 msgstr "&Égaliseur"
 
@@ -308,7 +308,7 @@ msgstr "&Masquer %1"
 msgid "&Hide..."
 msgstr "&Masquer..."
 
-#: ../build/src/ui_mainwindow.h:674
+#: ../build/src/ui_mainwindow.h:675
 msgid "&Jump to the currently playing track"
 msgstr "&Aller à la piste en cours de lecture"
 
@@ -316,7 +316,7 @@ msgstr "&Aller à la piste en cours de lecture"
 msgid "&Left"
 msgstr "&Gauche"
 
-#: ../build/src/ui_mainwindow.h:686
+#: ../build/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
 msgstr "&Charger une liste de lecture..."
 
@@ -324,19 +324,19 @@ msgstr "&Charger une liste de lecture..."
 msgid "&Manual proxy configuration"
 msgstr "Configuration &manuelle du proxy"
 
-#: ../build/src/ui_mainwindow.h:715
+#: ../build/src/ui_mainwindow.h:716
 msgid "&Music"
 msgstr "&Musique"
 
-#: ../build/src/ui_mainwindow.h:694
+#: ../build/src/ui_mainwindow.h:695
 msgid "&Mute"
 msgstr "&Sourdine"
 
-#: ../build/src/ui_mainwindow.h:678
+#: ../build/src/ui_mainwindow.h:679
 msgid "&New playlist"
 msgstr "&Nouvelle liste de lecture"
 
-#: ../build/src/ui_mainwindow.h:618
+#: ../build/src/ui_mainwindow.h:619
 msgid "&Next track"
 msgstr "&Piste suivante"
 
@@ -348,19 +348,19 @@ msgstr "&Aucune image d'arrière plan"
 msgid "&None"
 msgstr "Aucu&n"
 
-#: ../build/src/ui_mainwindow.h:664
+#: ../build/src/ui_mainwindow.h:665
 msgid "&Open file..."
 msgstr "&Ouvrir un fichier..."
 
-#: ../build/src/ui_mainwindow.h:610
+#: ../build/src/ui_mainwindow.h:611
 msgid "&Play"
 msgstr "&Lecture"
 
-#: ../build/src/ui_mainwindow.h:622
+#: ../build/src/ui_mainwindow.h:623
 msgid "&Quit"
 msgstr "&Quitter"
 
-#: ../build/src/ui_mainwindow.h:669
+#: ../build/src/ui_mainwindow.h:670
 msgid "&Repeat mode"
 msgstr "Mode &répétition"
 
@@ -372,15 +372,15 @@ msgstr "&Réinitialiser les colonnes aux valeurs par défaut"
 msgid "&Right"
 msgstr "&Droite"
 
-#: ../build/src/ui_mainwindow.h:648
+#: ../build/src/ui_mainwindow.h:649
 msgid "&Settings..."
 msgstr "&Paramètres..."
 
-#: ../build/src/ui_mainwindow.h:668
+#: ../build/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
 msgstr "&Mode aléatoire"
 
-#: ../build/src/ui_mainwindow.h:614
+#: ../build/src/ui_mainwindow.h:615
 msgid "&Stop"
 msgstr "&Stop"
 
@@ -388,15 +388,15 @@ msgstr "&Stop"
 msgid "&Stretch columns to fit window"
 msgstr "Étirer les &colonnes pour s'adapter à la fenêtre"
 
-#: ../build/src/ui_mainwindow.h:718
+#: ../build/src/ui_mainwindow.h:719
 msgid "&Tools"
 msgstr "&Outils"
 
-#: ../build/src/ui_mainwindow.h:672
+#: ../build/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
 msgstr "&Transcoder la musique"
 
-#: ../build/src/ui_mainwindow.h:692
+#: ../build/src/ui_mainwindow.h:693
 msgid "&Update changed collection folders"
 msgstr "&Mettre à jour les dossiers de la bibliothèque"
 
@@ -490,7 +490,7 @@ msgstr "ASF (WMA)"
 msgid "Abort"
 msgstr "Abandonner"
 
-#: ../build/src/ui_mainwindow.h:699
+#: ../build/src/ui_mainwindow.h:700
 msgid "Abort collection scan"
 msgstr "Abandonner l'analyse de la bibliothèque"
 
@@ -498,7 +498,7 @@ msgstr "Abandonner l'analyse de la bibliothèque"
 msgid "About"
 msgstr "À propos de"
 
-#: ../build/src/ui_mainwindow.h:693
+#: ../build/src/ui_mainwindow.h:694
 msgid "About &Qt"
 msgstr "À propos de &Qt"
 
@@ -519,7 +519,7 @@ msgctxt "Category label"
 msgid "Action"
 msgstr "Action"
 
-#: ../build/src/ui_mainwindow.h:673
+#: ../build/src/ui_mainwindow.h:674
 msgid "Add &folder..."
 msgstr "Ajouter un &dossier..."
 
@@ -546,11 +546,11 @@ msgstr "Ajouter un dossier..."
 msgid "Add file"
 msgstr "Ajouter un fichier"
 
-#: ../build/src/ui_mainwindow.h:709
+#: ../build/src/ui_mainwindow.h:710
 msgid "Add file to transcoder"
 msgstr "Ajouter un fichier à transcoder"
 
-#: ../build/src/ui_mainwindow.h:707
+#: ../build/src/ui_mainwindow.h:708
 msgid "Add file(s) to transcoder"
 msgstr "Ajouter des fichiers à transcoder"
 
@@ -649,7 +649,7 @@ msgstr "Ajouter le tag piste du morceau"
 msgid "Add song year tag"
 msgstr "Ajouter le tag année du morceau"
 
-#: ../build/src/ui_mainwindow.h:712
+#: ../build/src/ui_mainwindow.h:713
 msgid "Add stream..."
 msgstr "Ajouter un flux..."
 
@@ -1085,7 +1085,7 @@ msgstr "Durée du tampon"
 msgid "Buffering"
 msgstr "Mise en mémoire tampon"
 
-#: ../build/src/ui_mainwindow.h:667
+#: ../build/src/ui_mainwindow.h:668
 msgid "C&onsole"
 msgstr "C&onsole"
 
@@ -1150,7 +1150,7 @@ msgstr "Effacer"
 msgid "Clear Disk Cache"
 msgstr "Vider le cache disque"
 
-#: core/mainwindow.cpp:2021 ../build/src/ui_mainwindow.h:633
+#: core/mainwindow.cpp:2021 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Vider la liste de lecture"
 
@@ -1241,7 +1241,7 @@ msgstr "Commentaire"
 msgid "Complete tags automatically"
 msgstr "Compléter les tags automatiquement"
 
-#: ../build/src/ui_mainwindow.h:700
+#: ../build/src/ui_mainwindow.h:701
 msgid "Complete tags automatically..."
 msgstr "Compléter les tags automatiquement..."
 
@@ -1423,7 +1423,7 @@ msgstr "Appliquer un fondu lors des changements de piste automatiques"
 msgid "Cross-fade when changing tracks manually"
 msgstr "Appliquer un fondu lors des changements de piste manuels"
 
-#: ../build/src/ui_mainwindow.h:628
+#: ../build/src/ui_mainwindow.h:629
 msgid "Ctrl+Alt+V"
 msgstr "Ctrl+Alt+V"
 
@@ -1431,51 +1431,51 @@ msgstr "Ctrl+Alt+V"
 msgid "Ctrl+Down"
 msgstr "Ctrl+Down"
 
-#: ../build/src/ui_mainwindow.h:640
+#: ../build/src/ui_mainwindow.h:641
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: ../build/src/ui_mainwindow.h:658
+#: ../build/src/ui_mainwindow.h:659
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: ../build/src/ui_mainwindow.h:676
+#: ../build/src/ui_mainwindow.h:677
 msgid "Ctrl+J"
 msgstr "Ctrl+J"
 
-#: ../build/src/ui_mainwindow.h:636 ../build/src/ui_queueview.h:144
+#: ../build/src/ui_mainwindow.h:637 ../build/src/ui_queueview.h:144
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: ../build/src/ui_mainwindow.h:696
+#: ../build/src/ui_mainwindow.h:697
 msgid "Ctrl+M"
 msgstr "Ctrl+M"
 
-#: ../build/src/ui_mainwindow.h:680
+#: ../build/src/ui_mainwindow.h:681
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: ../build/src/ui_mainwindow.h:650
+#: ../build/src/ui_mainwindow.h:651
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: ../build/src/ui_mainwindow.h:624
+#: ../build/src/ui_mainwindow.h:625
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: ../build/src/ui_mainwindow.h:684
+#: ../build/src/ui_mainwindow.h:685
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: ../build/src/ui_mainwindow.h:662
+#: ../build/src/ui_mainwindow.h:663
 msgid "Ctrl+Shift+A"
 msgstr "Ctrl+Maj+A"
 
-#: ../build/src/ui_mainwindow.h:688
+#: ../build/src/ui_mainwindow.h:689
 msgid "Ctrl+Shift+O"
 msgstr "Ctrl+Maj+O"
 
-#: ../build/src/ui_mainwindow.h:702
+#: ../build/src/ui_mainwindow.h:703
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
@@ -1702,7 +1702,7 @@ msgstr "Déplacer pour repositionner"
 msgid "Edit tag \"%1\"..."
 msgstr "Modifier le tag « %1 »..."
 
-#: ../build/src/ui_mainwindow.h:644
+#: ../build/src/ui_mainwindow.h:645
 msgid "Edit tag..."
 msgstr "Modifier le tag..."
 
@@ -1715,7 +1715,7 @@ msgid "Edit track information"
 msgstr "Modifier la description de la piste"
 
 #: context/contextalbumsview.cpp:266 collection/collectionview.cpp:335
-#: widgets/fileviewlist.cpp:54 ../build/src/ui_mainwindow.h:638
+#: widgets/fileviewlist.cpp:54 ../build/src/ui_mainwindow.h:639
 msgid "Edit track information..."
 msgstr "Modifier la description de la piste..."
 
@@ -1915,27 +1915,27 @@ msgstr "Export terminé"
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "%1 pochettes exportées sur %2 (%3 ignorées)"
 
-#: ../build/src/ui_mainwindow.h:654
+#: ../build/src/ui_mainwindow.h:655
 msgid "F1"
 msgstr "F1"
 
-#: ../build/src/ui_mainwindow.h:646
+#: ../build/src/ui_mainwindow.h:647
 msgid "F2"
 msgstr "F2"
 
-#: ../build/src/ui_mainwindow.h:608
+#: ../build/src/ui_mainwindow.h:609
 msgid "F5"
 msgstr "F5"
 
-#: ../build/src/ui_mainwindow.h:612
+#: ../build/src/ui_mainwindow.h:613
 msgid "F6"
 msgstr "F6"
 
-#: ../build/src/ui_mainwindow.h:616
+#: ../build/src/ui_mainwindow.h:617
 msgid "F7"
 msgstr "F7"
 
-#: ../build/src/ui_mainwindow.h:620
+#: ../build/src/ui_mainwindow.h:621
 msgid "F8"
 msgstr "F8"
 
@@ -2154,11 +2154,11 @@ msgstr "Authentification Genius"
 msgid "Genre"
 msgstr "Genre"
 
-#: ../build/src/ui_mainwindow.h:690
+#: ../build/src/ui_mainwindow.h:691
 msgid "Go to next playlist tab"
 msgstr "Aller à la liste de lecture suivante"
 
-#: ../build/src/ui_mainwindow.h:691
+#: ../build/src/ui_mainwindow.h:692
 msgid "Go to previous playlist tab"
 msgstr "Aller à la liste de lecture précédente"
 
@@ -2275,7 +2275,7 @@ msgstr ""
 "Les informations sur le matériel sont disponibles uniquement lorsque le "
 "périphérique est connecté."
 
-#: ../build/src/ui_mainwindow.h:717
+#: ../build/src/ui_mainwindow.h:718
 msgid "Help"
 msgstr "Aide"
 
@@ -2538,7 +2538,7 @@ msgstr "Se connecter"
 msgid "Long term prediction profile (LTP)"
 msgstr "Profil de prédiction à long terme (PLT)"
 
-#: ../build/src/ui_mainwindow.h:630
+#: ../build/src/ui_mainwindow.h:631
 msgid "Love"
 msgstr "J'aime"
 
@@ -2876,7 +2876,7 @@ msgstr "Ouvrir le lien dans le navigateur internet ?"
 msgid "Open a directory to import music from"
 msgstr "Ouvrir un répertoire pour en importer la musique"
 
-#: ../build/src/ui_mainwindow.h:665
+#: ../build/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
 msgstr "Ouvrir un &CD audio..."
 
@@ -2965,7 +2965,7 @@ msgstr "Écraser les fichiers existants"
 msgid "Overwrite s&maller ones only"
 msgstr "Écraser uniquement les plus &petits"
 
-#: ../build/src/ui_mainwindow.h:716
+#: ../build/src/ui_mainwindow.h:717
 msgid "P&laylist"
 msgstr "Liste de &lecture"
 
@@ -3170,7 +3170,7 @@ msgstr "Aperçu"
 msgid "Previous"
 msgstr "Précédent"
 
-#: ../build/src/ui_mainwindow.h:606
+#: ../build/src/ui_mainwindow.h:607
 msgid "Previous track"
 msgstr "Piste précédente"
 
@@ -3289,11 +3289,11 @@ msgstr "Se souvenir de mon choix"
 msgid "Remove"
 msgstr "Supprimer"
 
-#: ../build/src/ui_mainwindow.h:705
+#: ../build/src/ui_mainwindow.h:706
 msgid "Remove &duplicates from playlist"
 msgstr "Supprimer les &doublons de la liste de lecture"
 
-#: ../build/src/ui_mainwindow.h:706
+#: ../build/src/ui_mainwindow.h:707
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Supprimer les pistes &indisponibles de la liste de lecture"
 
@@ -3305,7 +3305,7 @@ msgstr "Supprimer un dossier"
 msgid "Remove from favorites"
 msgstr "Supprimer des favoris"
 
-#: ../build/src/ui_mainwindow.h:670
+#: ../build/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
 msgstr "Supprimer de la liste de lecture"
 
@@ -3329,7 +3329,7 @@ msgstr "Renommer la liste de lecture"
 msgid "Rename playlist..."
 msgstr "Renommer la liste de lecture..."
 
-#: ../build/src/ui_mainwindow.h:642
+#: ../build/src/ui_mainwindow.h:643
 msgid "Renumber tracks in this order..."
 msgstr "Renuméroter les pistes dans cet ordre..."
 
@@ -3383,7 +3383,7 @@ msgstr "La réponse de Tidal est : élément de requête manquante."
 msgid "Rescan song(s)"
 msgstr "Réanalyser le morceau"
 
-#: ../build/src/ui_mainwindow.h:711
+#: ../build/src/ui_mainwindow.h:712
 msgid "Rescan songs(s)"
 msgstr "Réanalyser les morceaux"
 
@@ -3476,7 +3476,7 @@ msgstr "Rock"
 msgid "Run"
 msgstr "Lancer"
 
-#: ../build/src/ui_mainwindow.h:656
+#: ../build/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
 msgstr "Mélan&ger la liste de lecture"
 
@@ -3503,7 +3503,7 @@ msgstr "Échantillonnage"
 msgid "Samplerate"
 msgstr "Échantillonnage"
 
-#: ../build/src/ui_mainwindow.h:682
+#: ../build/src/ui_mainwindow.h:683
 msgid "Save &playlist..."
 msgstr "Enregistrer la &liste de lecture..."
 
@@ -3676,7 +3676,7 @@ msgstr "Définir %1 à la valeur « %2 »..."
 msgid "Set the volume to <value> percent"
 msgstr "Définir le volume à <value> pour-cent"
 
-#: ../build/src/ui_mainwindow.h:643
+#: ../build/src/ui_mainwindow.h:644
 msgid "Set value for all selected tracks..."
 msgstr "Définir une valeur pour toutes les pistes sélectionnées..."
 
@@ -3816,7 +3816,7 @@ msgstr "Afficher l'applet lecture"
 msgid "Show scrobble button"
 msgstr "Afficher le bouton scrobble"
 
-#: ../build/src/ui_mainwindow.h:713
+#: ../build/src/ui_mainwindow.h:714
 msgid "Show sidebar"
 msgstr "Afficher la barre latérale"
 
@@ -3980,7 +3980,7 @@ msgstr "Arrêter la lecture après chaque piste"
 msgid "Stop after every track"
 msgstr "Arrêter la lecture après chaque piste"
 
-#: core/mainwindow.cpp:607 ../build/src/ui_mainwindow.h:626
+#: core/mainwindow.cpp:607 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "Arrêter la lecture après cette piste"
 
@@ -4005,7 +4005,7 @@ msgstr "Interrompu"
 msgid "Strawberry Error"
 msgstr "Erreur de Strawberry"
 
-#: ../build/src/ui_mainwindow.h:605
+#: ../build/src/ui_mainwindow.h:606
 msgid "Strawberry Music Player"
 msgstr "Lecteur audio Strawberry"
 
@@ -4321,7 +4321,7 @@ msgstr "Aujourd'hui"
 msgid "Toggle queue status"
 msgstr "Basculer l'état de la file d'attente"
 
-#: ../build/src/ui_mainwindow.h:704
+#: ../build/src/ui_mainwindow.h:705
 msgid "Toggle scrobbling"
 msgstr "Basculer le scrobbling"
 
