@@ -52,7 +52,6 @@ list(APPEND COMPILE_OPTIONS
   -Wformat=2
   -Wdisabled-optimization
   -Wno-sign-conversion
-  -Wno-bool-conversion
   $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
   $<$<COMPILE_LANGUAGE:CXX>:-Wno-old-style-cast>
   $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
