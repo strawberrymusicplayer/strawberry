@@ -56,6 +56,7 @@
 #include "playlistparsers/playlistparser.h"
 #include "ui_playlistcontainer.h"
 #include "widgets/qsearchfield.h"
+#include "settings/appearancesettingspage.h"
 
 const char *PlaylistContainer::kSettingsGroup = "Playlist";
 const int PlaylistContainer::kFilterDelayMs = 100;
@@ -230,6 +231,18 @@ void PlaylistContainer::SetViewModel(Playlist *playlist) {
 }
 
 void PlaylistContainer::ReloadSettings() {
+
+  QSettings s;
+  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  int iconsize_playlist_buttons = s.value(AppearanceSettingsPage::kIconSizePlaylistButtons, 20).toInt();
+  s.endGroup();
+
+  ui_->create_new->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
+  ui_->load->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
+  ui_->save->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
+  ui_->clear->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
+  ui_->undo->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
+  ui_->redo->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
 
   bool playlist_clear = settings_.value("playlist_clear", true).toBool();
   if (playlist_clear) {

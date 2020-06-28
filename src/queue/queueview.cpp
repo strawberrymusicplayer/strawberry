@@ -28,6 +28,7 @@
 #include <QTreeView>
 #include <QList>
 #include <QTimer>
+#include <QSettings>
 #include <QKeySequence>
 #include <QLabel>
 #include <QToolButton>
@@ -39,6 +40,7 @@
 #include "queue.h"
 #include "queueview.h"
 #include "ui_queueview.h"
+#include "settings/appearancesettingspage.h"
 
 QueueView::QueueView(QWidget *parent)
     : QWidget(parent),
@@ -64,6 +66,8 @@ QueueView::QueueView(QWidget *parent)
   connect(ui_->remove, SIGNAL(clicked()), SLOT(Remove()));
   connect(ui_->clear, SIGNAL(clicked()), SLOT(Clear()));
 
+  ReloadSettings();
+
 }
 
 QueueView::~QueueView() {
@@ -76,6 +80,20 @@ void QueueView::SetPlaylistManager(PlaylistManager *manager) {
 
   connect(playlists_, SIGNAL(CurrentChanged(Playlist*)), SLOT(CurrentPlaylistChanged(Playlist*)));
   CurrentPlaylistChanged(playlists_->current());
+
+}
+
+void QueueView::ReloadSettings() {
+
+  QSettings s;
+  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettingsPage::kIconSizeLeftPanelButtons, 22).toInt();
+  s.endGroup();
+
+  ui_->move_down->setIconSize(QSize(iconsize, iconsize));
+  ui_->move_up->setIconSize(QSize(iconsize, iconsize));
+  ui_->remove->setIconSize(QSize(iconsize, iconsize));
+  ui_->clear->setIconSize(QSize(iconsize, iconsize));
 
 }
 

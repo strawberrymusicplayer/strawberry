@@ -36,6 +36,7 @@
 #include <QSize>
 #include <QMenu>
 #include <QAction>
+#include <QSettings>
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QToolButton>
@@ -53,6 +54,7 @@
 #include "playlistmanager.h"
 #include "ui_playlistlistcontainer.h"
 #include "organise/organisedialog.h"
+#include "settings/appearancesettingspage.h"
 #ifndef Q_OS_WIN
 #  include "device/devicemanager.h"
 #  include "device/devicestatefiltermodel.h"
@@ -118,9 +120,51 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
 
   model_->invisibleRootItem()->setData(PlaylistListModel::Type_Folder, PlaylistListModel::Role_Type);
 
+  ReloadSettings();
+
 }
 
 PlaylistListContainer::~PlaylistListContainer() { delete ui_; }
+
+void PlaylistListContainer::SetApplication(Application *app) {
+
+  app_ = app;
+  PlaylistManager *manager = app_->playlist_manager();
+  Player *player = app_->player();
+
+  connect(manager, SIGNAL(PlaylistAdded(int, QString, bool)), SLOT(AddPlaylist(int, QString, bool)));
+  connect(manager, SIGNAL(PlaylistFavorited(int, bool)), SLOT(PlaylistFavoriteStateChanged(int, bool)));
+  connect(manager, SIGNAL(PlaylistRenamed(int, QString)), SLOT(PlaylistRenamed(int, QString)));
+  connect(manager, SIGNAL(CurrentChanged(Playlist*)), SLOT(CurrentChanged(Playlist*)));
+  connect(manager, SIGNAL(ActiveChanged(Playlist*)), SLOT(ActiveChanged(Playlist*)));
+
+  connect(model_, SIGNAL(PlaylistRenamed(int, QString)), manager, SLOT(Rename(int, QString)));
+
+  connect(player, SIGNAL(Paused()), SLOT(ActivePaused()));
+  connect(player, SIGNAL(Playing()), SLOT(ActivePlaying()));
+  connect(player, SIGNAL(Stopped()), SLOT(ActiveStopped()));
+
+  // Get all playlists, even ones that are hidden in the UI.
+  for (const PlaylistBackend::Playlist &p : app->playlist_backend()->GetAllFavoritePlaylists()) {
+    QStandardItem *playlist_item = model_->NewPlaylist(p.name, p.id);
+    QStandardItem *parent_folder = model_->FolderByPath(p.ui_path);
+    parent_folder->appendRow(playlist_item);
+  }
+
+}
+
+void PlaylistListContainer::ReloadSettings() {
+
+  QSettings s;
+  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettingsPage::kIconSizeLeftPanelButtons, 22).toInt();
+  s.endGroup();
+
+  ui_->new_folder->setIconSize(QSize(iconsize, iconsize));
+  ui_->remove->setIconSize(QSize(iconsize, iconsize));
+  ui_->save_playlist->setIconSize(QSize(iconsize, iconsize));
+
+}
 
 void PlaylistListContainer::showEvent(QShowEvent *e) {
 
@@ -159,33 +203,6 @@ void PlaylistListContainer::RecursivelySetIcons(QStandardItem *parent) const {
         child->setIcon(model_->playlist_icon());
         break;
     }
-  }
-
-}
-
-void PlaylistListContainer::SetApplication(Application *app) {
-
-  app_ = app;
-  PlaylistManager *manager = app_->playlist_manager();
-  Player *player = app_->player();
-
-  connect(manager, SIGNAL(PlaylistAdded(int, QString, bool)), SLOT(AddPlaylist(int, QString, bool)));
-  connect(manager, SIGNAL(PlaylistFavorited(int, bool)), SLOT(PlaylistFavoriteStateChanged(int, bool)));
-  connect(manager, SIGNAL(PlaylistRenamed(int, QString)), SLOT(PlaylistRenamed(int, QString)));
-  connect(manager, SIGNAL(CurrentChanged(Playlist*)), SLOT(CurrentChanged(Playlist*)));
-  connect(manager, SIGNAL(ActiveChanged(Playlist*)), SLOT(ActiveChanged(Playlist*)));
-
-  connect(model_, SIGNAL(PlaylistRenamed(int, QString)), manager, SLOT(Rename(int, QString)));
-
-  connect(player, SIGNAL(Paused()), SLOT(ActivePaused()));
-  connect(player, SIGNAL(Playing()), SLOT(ActivePlaying()));
-  connect(player, SIGNAL(Stopped()), SLOT(ActiveStopped()));
-
-  // Get all playlists, even ones that are hidden in the UI.
-  for (const PlaylistBackend::Playlist &p : app->playlist_backend()->GetAllFavoritePlaylists()) {
-    QStandardItem *playlist_item = model_->NewPlaylist(p.name, p.id);
-    QStandardItem *parent_folder = model_->FolderByPath(p.ui_path);
-    parent_folder->appendRow(playlist_item);
   }
 
 }

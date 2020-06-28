@@ -191,7 +191,20 @@ InternetTabsView::~InternetTabsView() {
   delete ui_;
 }
 
-void InternetTabsView::ReloadSettings() { ui_->search_view->ReloadSettings(); }
+void InternetTabsView::ReloadSettings() {
+
+  if (service_->artists_collection_model()) {
+    ui_->artists_collection->view()->ReloadSettings();
+  }
+  if (service_->albums_collection_model()) {
+    ui_->albums_collection->view()->ReloadSettings();
+  }
+  if (service_->songs_collection_model()) {
+    ui_->songs_collection->view()->ReloadSettings();
+  }
+  ui_->search_view->ReloadSettings();
+
+}
 
 void InternetTabsView::GetArtists() {
 

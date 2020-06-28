@@ -45,6 +45,8 @@ class InternetCollectionViewContainer : public QWidget {
   explicit InternetCollectionViewContainer(QWidget *parent = nullptr);
   ~InternetCollectionViewContainer() override;
 
+  void ReloadSettings();
+
   QStackedWidget *stacked() const { return ui_->stacked; }
   QWidget *help_page() const { return ui_->help_page; }
   QWidget *internetcollection_page() const { return ui_->internetcollection_page; }
@@ -55,7 +57,6 @@ class InternetCollectionViewContainer : public QWidget {
   QPushButton *button_abort() const { return ui_->abort; }
   QLabel *status() const { return ui_->status; }
   QProgressBar *progressbar() const { return ui_->progressbar; }
-  void ReloadSettings() { view()->ReloadSettings(); }
 
  private slots:
   void contextMenuEvent(QContextMenuEvent *e) override;

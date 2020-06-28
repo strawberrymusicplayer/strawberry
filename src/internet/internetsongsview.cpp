@@ -85,7 +85,12 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
 
 InternetSongsView::~InternetSongsView() { delete ui_; }
 
-void InternetSongsView::ReloadSettings() {}
+void InternetSongsView::ReloadSettings() {
+
+  ui_->filter->ReloadSettings();
+  ui_->view->ReloadSettings();
+
+}
 
 void InternetSongsView::OpenSettingsDialog() {
   app_->OpenSettingsDialogAtPage(service_->settings_page());

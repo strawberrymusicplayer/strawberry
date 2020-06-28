@@ -28,6 +28,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QSettings>
 #include <QMessageBox>
 #include <QScrollBar>
 #include <QLineEdit>
@@ -44,6 +45,7 @@
 #ifdef HAVE_GSTREAMER
 #  include "organise/organiseerrordialog.h"
 #endif
+#include "settings/appearancesettingspage.h"
 
 const char *FileView::kFileFilter =
     "*.wav *.flac *.wv *.ogg *.oga *.opus *.spx *.ape *.mpc "
@@ -91,10 +93,26 @@ FileView::FileView(QWidget *parent)
   QString filter(FileView::kFileFilter);
   filter_list_ << filter.split(" ");
 
+  ReloadSettings();
+
 }
 
 FileView::~FileView() {
   delete ui_;
+}
+
+void FileView::ReloadSettings() {
+
+  QSettings s;
+  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettingsPage::kIconSizeLeftPanelButtons, 22).toInt();
+  s.endGroup();
+
+  ui_->back->setIconSize(QSize(iconsize, iconsize));
+  ui_->forward->setIconSize(QSize(iconsize, iconsize));
+  ui_->home->setIconSize(QSize(iconsize, iconsize));
+  ui_->up->setIconSize(QSize(iconsize, iconsize));
+
 }
 
 void FileView::SetPath(const QString &path) {

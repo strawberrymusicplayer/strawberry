@@ -85,6 +85,7 @@
 #include "internetsearchsortmodel.h"
 #include "internetsearchview.h"
 #include "ui_internetsearchview.h"
+#include "settings/appearancesettingspage.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;
@@ -244,6 +245,11 @@ void InternetSearchView::ReloadSettings() {
       CollectionModel::GroupBy(s.value("search_group_by2", int(CollectionModel::GroupBy_AlbumDisc)).toInt()),
       CollectionModel::GroupBy(s.value("search_group_by3", int(CollectionModel::GroupBy_None)).toInt())));
   s.endGroup();
+
+  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettingsPage::kIconSizeConfigureButtons, 20).toInt();
+  s.endGroup();
+  ui_->settings->setIconSize(QSize(iconsize, iconsize));
 
 }
 

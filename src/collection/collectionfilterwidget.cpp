@@ -50,6 +50,7 @@
 #include "groupbydialog.h"
 #include "ui_collectionfilterwidget.h"
 #include "widgets/qsearchfield.h"
+#include "settings/appearancesettingspage.h"
 
 CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
     : QWidget(parent),
@@ -135,9 +136,21 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
   connect(ui_->filter, SIGNAL(textChanged(QString)), SLOT(FilterTextChanged(QString)));
 
+  ReloadSettings();
+
 }
 
 CollectionFilterWidget::~CollectionFilterWidget() { delete ui_; }
+
+void CollectionFilterWidget::ReloadSettings() {
+
+  QSettings s;
+  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettingsPage::kIconSizeConfigureButtons, 20).toInt();
+  s.endGroup();
+  ui_->options->setIconSize(QSize(iconsize, iconsize));
+
+}
 
 QString CollectionFilterWidget::group_by() {
 

@@ -54,6 +54,12 @@
               <height>0</height>
              </size>
             </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
             <property name="popupMode">
              <enum>QToolButton::InstantPopup</enum>
             </property>
@@ -225,7 +231,7 @@
             <x>0</x>
             <y>0</y>
             <width>398</width>
-            <height>528</height>
+            <height>527</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">

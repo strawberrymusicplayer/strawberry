@@ -55,6 +55,8 @@ class FileView : public QWidget {
 
   static const char *kFileFilter;
 
+  void ReloadSettings();
+
   void SetPath(const QString &path);
   void SetTaskManager(TaskManager *task_manager);
 

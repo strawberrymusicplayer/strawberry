@@ -51,4 +51,9 @@ InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent
 
 InternetCollectionViewContainer::~InternetCollectionViewContainer() { delete ui_; }
 
+void InternetCollectionViewContainer::ReloadSettings() {
+  filter()->ReloadSettings();
+  view()->ReloadSettings();
+}
+
 void InternetCollectionViewContainer::contextMenuEvent(QContextMenuEvent *e) { Q_UNUSED(e); }

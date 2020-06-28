@@ -911,6 +911,16 @@ void MainWindow::ReloadSettings() {
   menu_playmode_ = BehaviourSettingsPage::PlayBehaviour(s.value("menu_playmode", BehaviourSettingsPage::PlayBehaviour_IfStopped).toInt());
   s.endGroup();
 
+  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettingsPage::kIconSizePlayControlButtons, 32).toInt();
+  s.endGroup();
+
+  ui_->back_button->setIconSize(QSize(iconsize, iconsize));
+  ui_->pause_play_button->setIconSize(QSize(iconsize, iconsize));
+  ui_->stop_button->setIconSize(QSize(iconsize, iconsize));
+  ui_->forward_button->setIconSize(QSize(iconsize, iconsize));
+  ui_->button_love->setIconSize(QSize(iconsize, iconsize));
+
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
   bool volume_control = s.value("volume_control", true).toBool();
   s.endGroup();
@@ -968,6 +978,9 @@ void MainWindow::ReloadAllSettings() {
   album_cover_choice_controller_->ReloadSettings();
   if (cover_manager_.get()) cover_manager_->ReloadSettings();
   context_view_->ReloadSettings();
+  file_view_->ReloadSettings();
+  queue_view_->ReloadSettings();
+  playlist_list_->ReloadSettings();
   app_->cover_providers()->ReloadSettings();
   app_->lyrics_providers()->ReloadSettings();
 #ifdef HAVE_SUBSONIC

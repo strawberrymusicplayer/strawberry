@@ -102,7 +102,11 @@ void InternetCollectionView::SetFilter(CollectionFilterWidget *filter) {
 
 }
 
-void InternetCollectionView::ReloadSettings() {}
+void InternetCollectionView::ReloadSettings() {
+
+  if (filter_) filter_->ReloadSettings();
+
+}
 
 void InternetCollectionView::SaveFocus() {
 

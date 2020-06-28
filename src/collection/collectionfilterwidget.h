@@ -79,6 +79,8 @@ class CollectionFilterWidget : public QWidget {
   QString group_by();
   QString group_by(const int number);
 
+  void ReloadSettings();
+
  public slots:
   void SetQueryMode(QueryOptions::QueryMode query_mode);
   void FocusOnFilter(QKeyEvent *e);

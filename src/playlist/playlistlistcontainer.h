@@ -52,6 +52,7 @@ class PlaylistListContainer : public QWidget {
   ~PlaylistListContainer() override;
 
   void SetApplication(Application *app);
+  void ReloadSettings();
 
  protected:
   void showEvent(QShowEvent *e) override;

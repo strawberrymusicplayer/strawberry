@@ -39,6 +39,7 @@ class QueueView : public QWidget {
   ~QueueView() override;
 
   void SetPlaylistManager(PlaylistManager *manager);
+  void ReloadSettings();
 
  private slots:
   void CurrentPlaylistChanged(Playlist *playlist);

@@ -50,8 +50,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>16</width>
-           <height>16</height>
+           <width>22</width>
+           <height>22</height>
           </size>
          </property>
          <property name="shortcut">
@@ -69,8 +69,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>16</width>
-           <height>16</height>
+           <width>22</width>
+           <height>22</height>
           </size>
          </property>
          <property name="shortcut">
@@ -89,6 +89,12 @@
          <property name="text">
           <string/>
          </property>
+         <property name="iconSize">
+          <size>
+           <width>22</width>
+           <height>22</height>
+          </size>
+         </property>
         </widget>
        </item>
        <item>
@@ -101,8 +107,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>16</width>
-           <height>16</height>
+           <width>22</width>
+           <height>22</height>
           </size>
          </property>
          <property name="shortcut">

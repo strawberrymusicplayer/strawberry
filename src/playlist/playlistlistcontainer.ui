@@ -64,12 +64,24 @@
         <property name="toolTip">
          <string>New folder</string>
         </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="remove">
         <property name="toolTip">
          <string>Delete</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -81,7 +93,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="save_playlist"/>
+       <widget class="QToolButton" name="save_playlist">
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="Line" name="line_2">

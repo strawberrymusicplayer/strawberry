@@ -124,8 +124,8 @@
                  <widget class="QToolButton" name="back_button">
                   <property name="iconSize">
                    <size>
-                    <width>22</width>
-                    <height>22</height>
+                    <width>32</width>
+                    <height>32</height>
                    </size>
                   </property>
                   <property name="autoRaise">
@@ -137,8 +137,8 @@
                  <widget class="QToolButton" name="pause_play_button">
                   <property name="iconSize">
                    <size>
-                    <width>22</width>
-                    <height>22</height>
+                    <width>32</width>
+                    <height>32</height>
                    </size>
                   </property>
                   <property name="autoRaise">
@@ -153,8 +153,8 @@
                   </property>
                   <property name="iconSize">
                    <size>
-                    <width>22</width>
-                    <height>22</height>
+                    <width>32</width>
+                    <height>32</height>
                    </size>
                   </property>
                   <property name="popupMode">
@@ -169,8 +169,8 @@
                  <widget class="QToolButton" name="forward_button">
                   <property name="iconSize">
                    <size>
-                    <width>22</width>
-                    <height>22</height>
+                    <width>32</width>
+                    <height>32</height>
                    </size>
                   </property>
                   <property name="autoRaise">
@@ -207,8 +207,8 @@
                     <widget class="QToolButton" name="button_love">
                      <property name="iconSize">
                       <size>
-                       <width>22</width>
-                       <height>22</height>
+                       <width>32</width>
+                       <height>32</height>
                       </size>
                      </property>
                      <property name="autoRaise">

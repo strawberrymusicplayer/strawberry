@@ -75,6 +75,11 @@ const char *AppearanceSettingsPage::kTabBarSystemColor= "tab_system_color";
 const char *AppearanceSettingsPage::kTabBarGradient = "tab_gradient";
 const char *AppearanceSettingsPage::kTabBarColor = "tab_color";
 
+const char *AppearanceSettingsPage::kIconSizePlayControlButtons = "icon_size_play_control_buttons";
+const char *AppearanceSettingsPage::kIconSizePlaylistButtons = "icon_size_playlist_buttons";
+const char *AppearanceSettingsPage::kIconSizeLeftPanelButtons = "icon_size_left_panel_buttons";
+const char *AppearanceSettingsPage::kIconSizeConfigureButtons = "icon_size_configure_buttons";
+
 AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
     : SettingsPage(dialog),
       ui_(new Ui_AppearanceSettingsPage),
@@ -186,6 +191,11 @@ void AppearanceSettingsPage::Load() {
   ui_->checkbox_background_image_keep_aspect_ratio->setEnabled(ui_->checkbox_background_image_stretch->isChecked());
   ui_->checkbox_background_image_do_not_cut->setEnabled(ui_->checkbox_background_image_stretch->isChecked() && ui_->checkbox_background_image_keep_aspect_ratio->isChecked());
 
+  ui_->spinbox_icon_size_play_control_buttons->setValue(s.value(kIconSizePlayControlButtons, 32).toInt());
+  ui_->spinbox_icon_size_playlist_buttons->setValue(s.value(kIconSizePlaylistButtons, 20).toInt());
+  ui_->spinbox_icon_size_left_panel_buttons->setValue(s.value(kIconSizeLeftPanelButtons, 22).toInt());
+  ui_->spinbox_icon_size_configure_buttons->setValue(s.value(kIconSizeConfigureButtons, 16).toInt());
+
   s.endGroup();
 
   Init(ui_->layout_appearancesettingspage->parentWidget());
@@ -244,6 +254,11 @@ void AppearanceSettingsPage::Save() {
   s.setValue(kTabBarSystemColor, ui_->tabbar_system_color->isChecked());
   s.setValue(kTabBarGradient, ui_->tabbar_gradient->isChecked());
   s.setValue(kTabBarColor, current_tabbar_bg_color_);
+
+  s.setValue(kIconSizePlayControlButtons, ui_->spinbox_icon_size_play_control_buttons->value());
+  s.setValue(kIconSizePlaylistButtons, ui_->spinbox_icon_size_playlist_buttons->value());
+  s.setValue(kIconSizeLeftPanelButtons, ui_->spinbox_icon_size_left_panel_buttons->value());
+  s.setValue(kIconSizeConfigureButtons, ui_->spinbox_icon_size_configure_buttons->value());
 
   s.endGroup();
 
