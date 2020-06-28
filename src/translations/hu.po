@@ -316,7 +316,7 @@ msgstr "Ú&j lejátszólista"
 msgid "&Next track"
 msgstr "Kö&vetkező szám"
 
-#: ../build/src/ui_appearancesettingspage.h:402
+#: ../build/src/ui_appearancesettingspage.h:478
 msgid "&No background image"
 msgstr "&Nincs háttérkép"
 
@@ -376,11 +376,11 @@ msgstr "&Zene átkódolása"
 msgid "&Update changed collection folders"
 msgstr "Gyű&jtemény megváltozott mappáinak frissítése"
 
-#: ../build/src/ui_appearancesettingspage.h:395
+#: ../build/src/ui_appearancesettingspage.h:471
 msgid "&Use the system default color"
 msgstr "R&endszer alapértelmezett"
 
-#: ../build/src/ui_appearancesettingspage.h:388
+#: ../build/src/ui_appearancesettingspage.h:464
 msgid "&Use the system default color set"
 msgstr "&Rendszer alapértelmezett színkészletének használata"
 
@@ -411,7 +411,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:423
+#: ../build/src/ui_appearancesettingspage.h:499
 msgid "0px"
 msgstr "0 px"
 
@@ -423,7 +423,7 @@ msgstr "1 nap"
 msgid "1 track"
 msgstr "1 szám"
 
-#: ../build/src/ui_appearancesettingspage.h:425
+#: ../build/src/ui_appearancesettingspage.h:501
 msgid "40%"
 msgstr "40%"
 
@@ -517,7 +517,7 @@ msgstr "Minden szám hozzáadása a mappából és almappáiból"
 msgid "Add directory..."
 msgstr "Mappa hozzáadása"
 
-#: core/mainwindow.cpp:1934
+#: core/mainwindow.cpp:1947
 msgid "Add file"
 msgstr "Fájl hozzáadása"
 
@@ -533,7 +533,7 @@ msgstr "Fájl(ok) hozzáadása az átkódoláshoz"
 msgid "Add files to transcode"
 msgstr "Fájlok felvétele átkódoláshoz"
 
-#: core/mainwindow.cpp:1959 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:1972 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Mappa hozzáadása"
 
@@ -629,15 +629,15 @@ msgstr "Dal évének hozzáadása"
 msgid "Add stream..."
 msgstr "Stream hozzáadása..."
 
-#: internet/internetsearchview.cpp:319
+#: internet/internetsearchview.cpp:325
 msgid "Add to albums"
 msgstr "Hozzáadás albumokhoz"
 
-#: core/mainwindow.cpp:1750
+#: core/mainwindow.cpp:1763
 msgid "Add to another playlist"
 msgstr "Hozzáadás másik lejátszólistához"
 
-#: internet/internetsearchview.cpp:316
+#: internet/internetsearchview.cpp:322
 msgid "Add to artists"
 msgstr "Hozzáadás előadókhoz"
 
@@ -645,7 +645,7 @@ msgstr "Hozzáadás előadókhoz"
 msgid "Add to playlist"
 msgstr "Hozzáadás lejátszólistához"
 
-#: internet/internetsearchview.cpp:322
+#: internet/internetsearchview.cpp:328
 msgid "Add to songs"
 msgstr "Hozzáadás dalokhoz"
 
@@ -679,7 +679,7 @@ msgstr "Hozzáadva ma"
 msgid "Added within three months"
 msgstr "Hozzáadva három hónapon belül"
 
-#: collection/collectionfilterwidget.cpp:216
+#: collection/collectionfilterwidget.cpp:229
 msgid "Advanced grouping..."
 msgstr "Egyedi csoportosítás…"
 
@@ -687,7 +687,7 @@ msgstr "Egyedi csoportosítás…"
 msgid "After copying..."
 msgstr "Másolás után…"
 
-#: ../build/src/ui_appearancesettingspage.h:406
+#: ../build/src/ui_appearancesettingspage.h:482
 msgid "Albu&m cover"
 msgstr "&Albumborító"
 
@@ -810,7 +810,7 @@ msgstr "Hiba történt '%1' metaadatainak írása közben"
 msgid "Angry"
 msgstr "Düh"
 
-#: ../build/src/ui_appearancesettingspage.h:386
+#: ../build/src/ui_appearancesettingspage.h:462
 msgid "Appearance"
 msgstr "Megjelenés"
 
@@ -819,8 +819,8 @@ msgid "Append files/URLs to the playlist"
 msgstr "Fájlok/URL-ek hozzáfűzése a lejátszólistához"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:319
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:305
-#: internet/internetcollectionview.cpp:307 device/deviceview.cpp:234
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:311
+#: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Hozzáfűzés az aktuális lejátszólistához"
 
@@ -930,7 +930,7 @@ msgstr "A legutóbbi szám automatikus kiválasztása"
 msgid "Available"
 msgstr "Elérhető"
 
-#: collection/collectionfilterwidget.cpp:80
+#: collection/collectionfilterwidget.cpp:81
 msgid "Available fields"
 msgstr "Elérhető mezők"
 
@@ -950,7 +950,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Háttérszín"
 
-#: ../build/src/ui_appearancesettingspage.h:400
+#: ../build/src/ui_appearancesettingspage.h:476
 msgid "Background image"
 msgstr "Háttérkép"
 
@@ -1017,7 +1017,7 @@ msgstr "Blokk típus"
 msgid "Bluetooth MAC Address"
 msgstr "Bluetooth MAC cím"
 
-#: ../build/src/ui_appearancesettingspage.h:422
+#: ../build/src/ui_appearancesettingspage.h:498
 msgid "Blur amount"
 msgstr "Elmosás"
 
@@ -1029,15 +1029,15 @@ msgstr "Törzs"
 msgid "Boom analyzer"
 msgstr "Fellendülés"
 
-#: ../build/src/ui_appearancesettingspage.h:415
+#: ../build/src/ui_appearancesettingspage.h:491
 msgid "Bottom Left"
 msgstr "Balra lent"
 
-#: ../build/src/ui_appearancesettingspage.h:416
+#: ../build/src/ui_appearancesettingspage.h:492
 msgid "Bottom Right"
 msgstr "Jobbra lent"
 
-#: ../build/src/ui_appearancesettingspage.h:408
+#: ../build/src/ui_appearancesettingspage.h:484
 msgid "Browse..."
 msgstr "Tallózás…"
 
@@ -1110,7 +1110,7 @@ msgid "Classical"
 msgstr "Klasszikus"
 
 #: widgets/lineedit.cpp:60 transcoder/transcodedialog.cpp:99
-#: ../build/src/ui_queueview.h:141
+#: ../build/src/ui_queueview.h:142
 msgid "Clear"
 msgstr "Ürítés"
 
@@ -1118,7 +1118,7 @@ msgstr "Ürítés"
 msgid "Clear Disk Cache"
 msgstr "Lemezgyorsítótár törlése"
 
-#: core/mainwindow.cpp:2021 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2034 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Lejátszólista törlése"
 
@@ -1142,7 +1142,7 @@ msgstr ""
 "Ide kattintva kedvenccé teheti a lejátszólistát, így elmenti és elérhető a "
 "bal oldali sávban „Lejátszólisták” panelen keresztül"
 
-#: internet/internetcollectionview.cpp:285
+#: internet/internetcollectionview.cpp:289
 msgid "Click here to retrieve music"
 msgstr "Kattintson ide a zenék lekéréséhez"
 
@@ -1182,7 +1182,7 @@ msgstr "Gyűjtemény szűrő"
 msgid "Collection advanced grouping"
 msgstr "Gyűjtemény egyedi csoportosítása"
 
-#: core/mainwindow.cpp:2493
+#: core/mainwindow.cpp:2506
 msgid "Collection rescan notice"
 msgstr "Gyűjtemény újraolvasási figyelmeztetés"
 
@@ -1190,7 +1190,7 @@ msgstr "Gyűjtemény újraolvasási figyelmeztetés"
 msgid "Color"
 msgstr "Szín"
 
-#: ../build/src/ui_appearancesettingspage.h:387
+#: ../build/src/ui_appearancesettingspage.h:463
 msgid "Colors"
 msgstr "Színek"
 
@@ -1229,11 +1229,15 @@ msgstr "A konfiguráció hiányos"
 msgid "Configuration incorrect"
 msgstr "A konfiguráció hibás"
 
-#: internet/internetsearchview.cpp:187 internet/internetsearchview.cpp:334
+#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:340
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
 msgstr "%1 beállítása..."
+
+#: ../build/src/ui_appearancesettingspage.h:506
+msgid "Configure buttons"
+msgstr ""
 
 #: core/mainwindow.cpp:576
 msgid "Configure collection..."
@@ -1282,7 +1286,7 @@ msgid "Copy to collection..."
 msgstr "Másolás a gyűjteménybe..."
 
 #: core/mainwindow.cpp:631 context/contextalbumsview.cpp:262
-#: collection/collectionview.cpp:330 playlist/playlistlistcontainer.cpp:100
+#: collection/collectionview.cpp:330 playlist/playlistlistcontainer.cpp:102
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
 msgstr "Másolás eszközre..."
@@ -1393,7 +1397,7 @@ msgstr "Áttűnés használata számok kézi váltásánál"
 msgid "Ctrl+Alt+V"
 msgstr "Ctrl+Alt+V"
 
-#: ../build/src/ui_queueview.h:134
+#: ../build/src/ui_queueview.h:135
 msgid "Ctrl+Down"
 msgstr "Ctrl+Le"
 
@@ -1409,7 +1413,7 @@ msgstr "Ctrl+H"
 msgid "Ctrl+J"
 msgstr "Ctrl+J"
 
-#: ../build/src/ui_mainwindow.h:637 ../build/src/ui_queueview.h:144
+#: ../build/src/ui_mainwindow.h:637 ../build/src/ui_queueview.h:145
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
@@ -1445,7 +1449,7 @@ msgstr "Ctrl+Shift+O"
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: ../build/src/ui_savedgroupingmanager.h:106 ../build/src/ui_queueview.h:128
+#: ../build/src/ui_savedgroupingmanager.h:106 ../build/src/ui_queueview.h:129
 msgid "Ctrl+Up"
 msgstr "Ctrl+Fel"
 
@@ -1457,7 +1461,7 @@ msgstr "Jelenlegi gyorsítótár használatban:"
 msgid "Custom"
 msgstr "Egyéni"
 
-#: ../build/src/ui_appearancesettingspage.h:407
+#: ../build/src/ui_appearancesettingspage.h:483
 msgid "Custom image:"
 msgstr "Egyéni kép:"
 
@@ -1501,16 +1505,16 @@ msgstr "Hangerő csökkentése 4 százalékkal"
 msgid "Decrease the volume by <value> percent"
 msgstr "Hangerő csökkentése <value> százalékkal"
 
-#: ../build/src/ui_appearancesettingspage.h:401
+#: ../build/src/ui_appearancesettingspage.h:477
 msgid "Default bac&kground image"
 msgstr "A&lapértelmezett háttérkép"
 
-#: playlist/playlistlistcontainer.cpp:98
-#: ../build/src/ui_playlistlistcontainer.h:130
+#: playlist/playlistlistcontainer.cpp:100
+#: ../build/src/ui_playlistlistcontainer.h:133
 msgid "Delete"
 msgstr "Törlés"
 
-#: widgets/fileview.cpp:221 device/deviceview.cpp:417
+#: widgets/fileview.cpp:239 device/deviceview.cpp:417
 msgid "Delete files"
 msgstr "Fájlok törlése"
 
@@ -1534,11 +1538,11 @@ msgstr "Az eredeti fájlok törlése"
 msgid "Deleting files"
 msgstr "Fájlok törlése"
 
-#: core/mainwindow.cpp:1673
+#: core/mainwindow.cpp:1686
 msgid "Dequeue selected tracks"
 msgstr "Kijelölt számok eltávolítása a lejátszási sorból"
 
-#: core/mainwindow.cpp:1672
+#: core/mainwindow.cpp:1685
 msgid "Dequeue track"
 msgstr "Szám eltávolítása a lejátszási sorból"
 
@@ -1599,7 +1603,7 @@ msgstr "Szakaszos átvitel"
 msgid "Disk Cache Size"
 msgstr "Lemezgyorsítótár mérete"
 
-#: collection/collectionfilterwidget.cpp:127
+#: collection/collectionfilterwidget.cpp:128
 #: ../build/src/ui_collectionsettingspage.h:417
 msgid "Display options"
 msgstr "Beállítások megtekintése"
@@ -1612,7 +1616,7 @@ msgstr "OSD megjelenítése"
 msgid "Do not convert any music"
 msgstr "Ne konvertáljon egy zenét sem"
 
-#: ../build/src/ui_appearancesettingspage.h:421
+#: ../build/src/ui_appearancesettingspage.h:497
 msgid "Do not cut image"
 msgstr "Ne legyen levágva a képből"
 
@@ -1661,7 +1665,7 @@ msgstr "Metaadatok letöltése"
 msgid "Drag to reposition"
 msgstr "Húzza el az áthelyezéshez"
 
-#: core/mainwindow.cpp:1714
+#: core/mainwindow.cpp:1727
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "\"%1\" címke szerkesztése..."
@@ -1760,7 +1764,7 @@ msgstr "Add meg az exportálandó borítók nevét (kiterjesztés nélkül):"
 msgid "Enter a new name for this playlist"
 msgstr "Adjon meg új nevet a lejátszólistának"
 
-#: internet/internetsearchview.cpp:391 ../build/src/ui_internetsearchview.h:230
+#: internet/internetsearchview.cpp:397 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr "Írja be a fenti keresési kifejezéseket a zene kereséséhez"
 
@@ -1774,7 +1778,7 @@ msgstr "Adja meg a keresett kifejezést"
 msgid "Enter the URL of a stream:"
 msgstr "Stream URL-jének megadása:"
 
-#: playlist/playlistlistcontainer.cpp:195
+#: playlist/playlistlistcontainer.cpp:212
 msgid "Enter the name of the folder"
 msgstr "Adja meg a mappa nevét"
 
@@ -1798,7 +1802,7 @@ msgstr "Megegyezik a --log-levels *:1 kapcsolóval"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Megegyezik a --log-levels *:3 kapcsolóval"
 
-#: core/mainwindow.cpp:2265 core/mainwindow.cpp:2387
+#: core/mainwindow.cpp:2278 core/mainwindow.cpp:2400
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "Error"
 msgstr "Hiba"
@@ -1998,6 +2002,10 @@ msgstr "Fájlok"
 msgid "Files to transcode"
 msgstr "Átkódolandó fájlok"
 
+#: ../build/src/ui_appearancesettingspage.h:503
+msgid "Files, playlists and queue buttons"
+msgstr ""
+
 #: context/contextview.cpp:213
 msgid "Filetype"
 msgstr "Fájltípus"
@@ -2051,7 +2059,7 @@ msgstr ""
 
 #: ../build/src/ui_collectionviewcontainer.h:58
 #: ../build/src/ui_playlistcontainer.h:150
-#: ../build/src/ui_playlistlistcontainer.h:125 ../build/src/ui_trackslider.h:68
+#: ../build/src/ui_playlistlistcontainer.h:128 ../build/src/ui_trackslider.h:68
 #: ../build/src/ui_fileview.h:106 ../build/src/ui_loginstatewidget.h:167
 #: ../build/src/ui_internetcollectionviewcontainer.h:138
 #: ../build/src/ui_deviceviewcontainer.h:51
@@ -2141,64 +2149,64 @@ msgstr "Nem elérhető dalok elszürkítése induláskor"
 msgid "Group Collection by..."
 msgstr "Gyűjtemény csoportosítása..."
 
-#: collection/collectionfilterwidget.cpp:119
-#: internet/internetsearchview.cpp:332
+#: collection/collectionfilterwidget.cpp:120
+#: internet/internetsearchview.cpp:338
 msgid "Group by"
 msgstr "Csoportosítás"
 
-#: collection/collectionfilterwidget.cpp:193
+#: collection/collectionfilterwidget.cpp:206
 msgid "Group by Album"
 msgstr "Csoportosítás album szerint"
 
-#: collection/collectionfilterwidget.cpp:190
+#: collection/collectionfilterwidget.cpp:203
 msgid "Group by Album Artist"
 msgstr "Csoportosítás albumelőadó szerint"
 
-#: collection/collectionfilterwidget.cpp:177
+#: collection/collectionfilterwidget.cpp:190
 msgid "Group by Album artist/Album"
 msgstr "Csoportosítás albumelőadó/album szerint"
 
-#: collection/collectionfilterwidget.cpp:178
+#: collection/collectionfilterwidget.cpp:191
 msgid "Group by Album artist/Album - Disc"
 msgstr "Csoportosítás albumelőadó/album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:179
+#: collection/collectionfilterwidget.cpp:192
 msgid "Group by Album artist/Year - Album"
 msgstr "Csoportosítás albumelőadó/év - album szerint"
 
-#: collection/collectionfilterwidget.cpp:180
+#: collection/collectionfilterwidget.cpp:193
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Csoportosítás albumelőadó/év - album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:191
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Artist"
 msgstr "Csoportosítás Előadó szerint"
 
-#: collection/collectionfilterwidget.cpp:182
+#: collection/collectionfilterwidget.cpp:195
 msgid "Group by Artist/Album"
 msgstr "Csoportosítás előadó/album szerint"
 
-#: collection/collectionfilterwidget.cpp:183
+#: collection/collectionfilterwidget.cpp:196
 msgid "Group by Artist/Album - Disc"
 msgstr "Csoportosítás előadó/album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:184
+#: collection/collectionfilterwidget.cpp:197
 msgid "Group by Artist/Year - Album"
 msgstr "Csoportosítás előadó/év - album szerint"
 
-#: collection/collectionfilterwidget.cpp:185
+#: collection/collectionfilterwidget.cpp:198
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Csoportosítás előadó/év - album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:194
+#: collection/collectionfilterwidget.cpp:207
 msgid "Group by Genre/Album"
 msgstr "Csoportosítás műfaj/album szerint"
 
-#: collection/collectionfilterwidget.cpp:187
+#: collection/collectionfilterwidget.cpp:200
 msgid "Group by Genre/Album artist/Album"
 msgstr "Csoportosítás műfaj/albumelőadó/album szerint"
 
-#: collection/collectionfilterwidget.cpp:188
+#: collection/collectionfilterwidget.cpp:201
 msgid "Group by Genre/Artist/Album"
 msgstr "Csoportosítás műfaj/előadó/album szerint"
 
@@ -2209,11 +2217,11 @@ msgstr "Csoportosítás műfaj/előadó/album szerint"
 msgid "Grouping"
 msgstr "Csoportosítás"
 
-#: collection/collectionfilterwidget.cpp:237
+#: collection/collectionfilterwidget.cpp:250
 msgid "Grouping Name"
 msgstr "Csoportosítás neve:"
 
-#: collection/collectionfilterwidget.cpp:237
+#: collection/collectionfilterwidget.cpp:250
 msgid "Grouping name:"
 msgstr "Csoportosítás neve:"
 
@@ -2254,6 +2262,10 @@ msgstr "Magas (%1 fps)"
 #: ../build/src/ui_deviceproperties.h:372
 msgid "Icon"
 msgstr "Ikon"
+
+#: ../build/src/ui_appearancesettingspage.h:502
+msgid "Icon sizes"
+msgstr ""
 
 #: widgets/fancytabwidget.cpp:603
 msgid "Icons on top"
@@ -2333,7 +2345,7 @@ msgstr "Beszúrás..."
 msgid "Integrity check"
 msgstr "Integritás ellenőrzése"
 
-#: ../build/src/ui_internetsearchview.h:224
+#: ../build/src/ui_internetsearchview.h:225
 msgid "Internet Search View"
 msgstr "Internet keresés nézet"
 
@@ -2361,7 +2373,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Ugrás az előző dalra"
 
-#: ../build/src/ui_appearancesettingspage.h:420
+#: ../build/src/ui_appearancesettingspage.h:496
 msgid "Keep aspect ratio"
 msgstr "Képarány megtartása"
 
@@ -2452,7 +2464,7 @@ msgstr "Borító betöltése lemezről"
 msgid "Load cover from disk..."
 msgstr "Borító betöltése lemezről..."
 
-#: playlist/playlistcontainer.cpp:307
+#: playlist/playlistcontainer.cpp:320
 msgid "Load playlist"
 msgstr "Lejátszólista betöltése"
 
@@ -2546,7 +2558,7 @@ msgstr "Megjelölés meghallgatottként"
 msgid "Mark disappeared songs unavailable"
 msgstr "Eltűnt dalok megjelölése nem elérhetőként"
 
-#: ../build/src/ui_appearancesettingspage.h:418
+#: ../build/src/ui_appearancesettingspage.h:494
 msgid "Max cover size"
 msgstr "Maximum méret"
 
@@ -2563,7 +2575,7 @@ msgstr "Közepes (%1 fps)"
 msgid "Metadata"
 msgstr "Metaadatok"
 
-#: ../build/src/ui_appearancesettingspage.h:414
+#: ../build/src/ui_appearancesettingspage.h:490
 msgid "Middle"
 msgstr "Középen"
 
@@ -2642,7 +2654,7 @@ msgstr "Csatolási pont"
 msgid "Mount points"
 msgstr "Csatolási pontok"
 
-#: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:169
+#: ../build/src/ui_queueview.h:126 ../build/src/ui_coverssettingspage.h:169
 #: ../build/src/ui_lyricssettingspage.h:169
 msgid "Move down"
 msgstr "Mozgatás lefelé"
@@ -2651,12 +2663,12 @@ msgstr "Mozgatás lefelé"
 msgid "Move to collection..."
 msgstr "Áthelyezés a gyűjteménybe..."
 
-#: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:168
+#: ../build/src/ui_queueview.h:132 ../build/src/ui_coverssettingspage.h:168
 #: ../build/src/ui_lyricssettingspage.h:168
 msgid "Move up"
 msgstr "Mozgatás felfelé"
 
-#: core/mainwindow.cpp:1934 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:1947 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Zene"
 
@@ -2690,12 +2702,12 @@ msgstr "Soha"
 msgid "Never start playing"
 msgstr "Soha ne indítsa el a lejátszást"
 
-#: playlist/playlistlistcontainer.cpp:97 playlist/playlistlistcontainer.cpp:195
-#: ../build/src/ui_playlistlistcontainer.h:127
+#: playlist/playlistlistcontainer.cpp:99 playlist/playlistlistcontainer.cpp:212
+#: ../build/src/ui_playlistlistcontainer.h:130
 msgid "New folder"
 msgstr "Új mappa"
 
-#: core/mainwindow.cpp:1766
+#: core/mainwindow.cpp:1779
 msgid "New playlist"
 msgstr "Új lejátszólista"
 
@@ -2727,7 +2739,7 @@ msgstr "Hosszú blokkok nélkül"
 msgid "No match."
 msgstr "Nincs egyezés."
 
-#: playlist/playlistcontainer.cpp:388
+#: playlist/playlistcontainer.cpp:401
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -2751,7 +2763,7 @@ msgstr "Nincs lejátszott dal"
 msgid "None"
 msgstr "Egyik sem"
 
-#: core/mainwindow.cpp:2265 core/mainwindow.cpp:2387
+#: core/mainwindow.cpp:2278 core/mainwindow.cpp:2400
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Egy kiválasztott dal sem alkalmas az eszközre való másoláshoz"
@@ -2817,7 +2829,7 @@ msgstr "Be"
 msgid "On startup"
 msgstr "Indulásnál"
 
-#: ../build/src/ui_appearancesettingspage.h:424
+#: ../build/src/ui_appearancesettingspage.h:500
 msgid "Opacity"
 msgstr "Átlátszóság"
 
@@ -2838,8 +2850,8 @@ msgid "Open device"
 msgstr "Eszköz megnyitása"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:307
-#: internet/internetcollectionview.cpp:309 device/deviceview.cpp:236
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:313
+#: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:304
 msgid "Open in new playlist"
 msgstr "Megnyitás új lejátszólistában"
@@ -2940,7 +2952,7 @@ msgstr "Jelszó"
 msgid "Password Protected"
 msgstr "Jelszóval védett"
 
-#: core/mainwindow.cpp:1105 core/mainwindow.cpp:1576
+#: core/mainwindow.cpp:1118 core/mainwindow.cpp:1589
 #: core/qtsystemtrayicon.cpp:202
 msgid "Pause"
 msgstr "Szünet"
@@ -2968,11 +2980,15 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Egyszerű oldalsáv"
 
-#: core/mainwindow.cpp:605 core/mainwindow.cpp:1058 core/mainwindow.cpp:1087
-#: core/mainwindow.cpp:1580 core/qtsystemtrayicon.cpp:189
+#: core/mainwindow.cpp:605 core/mainwindow.cpp:1071 core/mainwindow.cpp:1100
+#: core/mainwindow.cpp:1593 core/qtsystemtrayicon.cpp:189
 #: core/qtsystemtrayicon.cpp:214
 msgid "Play"
 msgstr "Lejátszás"
+
+#: ../build/src/ui_appearancesettingspage.h:505
+msgid "Play control buttons"
+msgstr ""
 
 #: playlist/playlist.cpp:1190 ../build/src/ui_edittagdialog.h:666
 msgid "Play count"
@@ -2995,18 +3011,22 @@ msgstr "A(z) <n>. szám lejátszása a lejátszólistában"
 msgid "Player options"
 msgstr "Lejátszó beállítások"
 
-#: playlist/playlistcontainer.cpp:302 playlist/playlistlistcontainer.cpp:257
-#: playlist/playlistlistcontainer.cpp:345 playlist/playlistmanager.cpp:105
+#: playlist/playlistcontainer.cpp:315 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistlistcontainer.cpp:362 playlist/playlistmanager.cpp:105
 #: playlist/playlistmanager.cpp:183 playlist/playlistmanager.cpp:540
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
 msgid "Playlist"
 msgstr "Lejátszólista"
 
+#: ../build/src/ui_appearancesettingspage.h:504
+msgid "Playlist buttons"
+msgstr ""
+
 #: widgets/osd.cpp:191
 msgid "Playlist finished"
 msgstr "A lejátszólista befejezve"
 
-#: core/mainwindow.cpp:2021
+#: core/mainwindow.cpp:2034
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3045,7 +3065,7 @@ msgstr "Értesítés időtartama"
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:409
+#: ../build/src/ui_appearancesettingspage.h:485
 msgid "Position"
 msgstr "Helyzet"
 
@@ -3070,7 +3090,7 @@ msgstr "Előnyben részesített albumborító fájlnevek (vesszővel elválasztv
 msgid "Preferred format"
 msgstr "Előnyben részesített formátum"
 
-#: collection/collectionfilterwidget.cpp:69
+#: collection/collectionfilterwidget.cpp:70
 #, fuzzy
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
@@ -3156,26 +3176,26 @@ msgstr "Eszköz lekérdezése..."
 msgid "Queue"
 msgstr "Lejátszási sor"
 
-#: core/mainwindow.cpp:1675
+#: core/mainwindow.cpp:1688
 msgid "Queue selected tracks"
 msgstr "Kijelölt számok hozzáadása a lejátszási sorhoz"
 
-#: core/mainwindow.cpp:611 core/mainwindow.cpp:1679
+#: core/mainwindow.cpp:611 core/mainwindow.cpp:1692
 msgid "Queue selected tracks to play next"
 msgstr "Kijelölt számok lejátszása következőre"
 
-#: core/mainwindow.cpp:1681 collection/collectionview.cpp:325
-#: internet/internetcollectionview.cpp:313
+#: core/mainwindow.cpp:1694 collection/collectionview.cpp:325
+#: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Lejátszás következőre"
 
-#: core/mainwindow.cpp:1674 context/contextalbumsview.cpp:257
-#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:310
-#: internet/internetcollectionview.cpp:312
+#: core/mainwindow.cpp:1687 context/contextalbumsview.cpp:257
+#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:316
+#: internet/internetcollectionview.cpp:316
 msgid "Queue track"
 msgstr "Szám hozzáadása a lejátszási sorhoz"
 
-#: ../build/src/ui_queueview.h:123
+#: ../build/src/ui_queueview.h:124
 #, fuzzy
 msgid "QueueView"
 msgstr "Lejátszási sor nézet"
@@ -3241,7 +3261,7 @@ msgstr "Ahogy &legutoljára volt"
 msgid "Remember my choice"
 msgstr "Választás megjegyzése"
 
-#: ../build/src/ui_savedgroupingmanager.h:103 ../build/src/ui_queueview.h:137
+#: ../build/src/ui_savedgroupingmanager.h:103 ../build/src/ui_queueview.h:138
 #: ../build/src/ui_transcodedialog.h:221
 msgid "Remove"
 msgstr "Eltávolítás"
@@ -3258,7 +3278,7 @@ msgstr "&Nem elérhető számok törlése a lejátszólistáról"
 msgid "Remove folder"
 msgstr "Mappa eltávolítása"
 
-#: internet/internetcollectionview.cpp:318
+#: internet/internetcollectionview.cpp:322
 msgid "Remove from favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
@@ -3270,7 +3290,7 @@ msgstr "Törlés a lejátszólistáról"
 msgid "Remove playlist"
 msgstr "Lejátszólista eltávolítása"
 
-#: playlist/playlistlistcontainer.cpp:379
+#: playlist/playlistlistcontainer.cpp:396
 msgid "Remove playlists"
 msgstr "Lejátszólisták eltávolítása"
 
@@ -3307,8 +3327,8 @@ msgid "Repeat track"
 msgstr "Szám ismétlése"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:320
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:306
-#: internet/internetcollectionview.cpp:308 device/deviceview.cpp:235
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:312
+#: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Aktuális lejátszólista cseréje"
 
@@ -3479,7 +3499,7 @@ msgstr "Borító mentése lemezre..."
 msgid "Save current grouping"
 msgstr "Jelenlegi csoportosítás mentése"
 
-#: playlist/playlistlistcontainer.cpp:99
+#: playlist/playlistlistcontainer.cpp:101
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Lejátszólista mentése"
@@ -3558,7 +3578,7 @@ msgstr "Keresés késleltetése"
 msgid "Search for album covers..."
 msgstr "Albumborítók keresése..."
 
-#: internet/internetsearchview.cpp:328
+#: internet/internetsearchview.cpp:334
 msgid "Search for this"
 msgstr "Keresés erre"
 
@@ -3587,11 +3607,11 @@ msgstr "A lejátszott szám adott pozícióra tekerése"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Léptetés billentyűparanccsal, vagy egérgörgővel"
 
-#: ../build/src/ui_appearancesettingspage.h:392
+#: ../build/src/ui_appearancesettingspage.h:468
 msgid "Select background color:"
 msgstr "Háttérszín kiválasztása:"
 
-#: settings/appearancesettingspage.cpp:325
+#: settings/appearancesettingspage.cpp:340
 msgid "Select background image"
 msgstr "Háttérkép kiválasztása"
 
@@ -3599,11 +3619,11 @@ msgstr "Háttérkép kiválasztása"
 msgid "Select best possible match"
 msgstr "A legjobban illeszkedő találatot választja"
 
-#: ../build/src/ui_appearancesettingspage.h:390
+#: ../build/src/ui_appearancesettingspage.h:466
 msgid "Select foreground color:"
 msgstr "Előtérszín kiválasztása:"
 
-#: ../build/src/ui_appearancesettingspage.h:398
+#: ../build/src/ui_appearancesettingspage.h:474
 msgid "Select tabbar color:"
 msgstr "Lapsáv színének kiválasztása:"
 
@@ -3623,7 +3643,7 @@ msgstr "Szerver URL"
 msgid "Server URL is invalid."
 msgstr "A szerver URL-je érvénytelen."
 
-#: core/mainwindow.cpp:1713
+#: core/mainwindow.cpp:1726
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 beállítása erre: \"%2\"..."
@@ -3654,7 +3674,7 @@ msgstr "%1 billentyűkombinációja"
 msgid "Shortcuts"
 msgstr "Gyorsbillentyűk"
 
-#: collection/collectionfilterwidget.cpp:106
+#: collection/collectionfilterwidget.cpp:107
 msgid "Show"
 msgstr "Megjelenítés"
 
@@ -3848,11 +3868,11 @@ msgstr "Kihagyások száma"
 msgid "Skip forwards in playlist"
 msgstr "Előreléptetés a lejátszólistában"
 
-#: core/mainwindow.cpp:1686
+#: core/mainwindow.cpp:1699
 msgid "Skip selected tracks"
 msgstr "Kiválasztott számok kihagyása"
 
-#: core/mainwindow.cpp:1685
+#: core/mainwindow.cpp:1698
 msgid "Skip track"
 msgstr "Szám kihagyása"
 
@@ -4005,7 +4025,7 @@ msgstr "URL streamelése ezzel"
 msgid "Streaming"
 msgstr "Internet"
 
-#: ../build/src/ui_appearancesettingspage.h:419
+#: ../build/src/ui_appearancesettingspage.h:495
 msgid "Stretch image to fill playlist"
 msgstr "Kép nyújtása a lejátszólista kitöltéséhez"
 
@@ -4053,7 +4073,7 @@ msgstr "Támogatott formátumok"
 msgid "System colors"
 msgstr "Rendszerszínek"
 
-#: ../build/src/ui_appearancesettingspage.h:394
+#: ../build/src/ui_appearancesettingspage.h:470
 msgid "Tabbar colors"
 msgstr "Lapsáv színei"
 
@@ -4106,11 +4126,11 @@ msgstr "Köszönet az Amarok-hoz és a Clementine-hez hozzájárulóknak."
 msgid "The \"%1\" command could not be started."
 msgstr "A \"%1\" parancs nem végrehajtható."
 
-#: ../build/src/ui_appearancesettingspage.h:404
+#: ../build/src/ui_appearancesettingspage.h:480
 msgid "The album cover of the currently playing song"
 msgstr "A jelenleg játszott dal albumborítója"
 
-#: internet/internetcollectionview.cpp:279
+#: internet/internetcollectionview.cpp:283
 msgid "The internet collection is empty!"
 msgstr "Az internetes gyűjtemény üres!"
 
@@ -4122,7 +4142,7 @@ msgstr "A kért oldal nem létezik!"
 msgid "The site you requested is not an image!"
 msgstr "A kért oldal nem egy kép!"
 
-#: core/mainwindow.cpp:2488
+#: core/mainwindow.cpp:2501
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4150,7 +4170,7 @@ msgstr ""
 "Néhány dal törlése közben hiba lépett fel. Az alábbi fájlokat nem sikerült "
 "törölni:"
 
-#: widgets/fileview.cpp:222
+#: widgets/fileview.cpp:240
 msgid ""
 "These files will be deleted from disk, are you sure you want to continue?"
 msgstr ""
@@ -4264,7 +4284,7 @@ msgstr "Cím"
 msgid "Today"
 msgstr "Ma"
 
-#: core/mainwindow.cpp:608 core/mainwindow.cpp:1676
+#: core/mainwindow.cpp:608 core/mainwindow.cpp:1689
 msgid "Toggle queue status"
 msgstr "Lejátszási sor"
 
@@ -4272,7 +4292,7 @@ msgstr "Lejátszási sor"
 msgid "Toggle scrobbling"
 msgstr "Scrobble funkció váltása"
 
-#: core/mainwindow.cpp:614 core/mainwindow.cpp:1687
+#: core/mainwindow.cpp:614 core/mainwindow.cpp:1700
 #, fuzzy
 msgid "Toggle skip status"
 msgstr "Állapot átugrása"
@@ -4362,11 +4382,11 @@ msgstr "Ismeretlen hiba"
 msgid "Unset cover"
 msgstr "Borító törlése"
 
-#: core/mainwindow.cpp:1684
+#: core/mainwindow.cpp:1697
 msgid "Unskip selected tracks"
 msgstr "A kiválasztott számok lejátszása"
 
-#: core/mainwindow.cpp:1683
+#: core/mainwindow.cpp:1696
 msgid "Unskip track"
 msgstr "Szám lejátszása"
 
@@ -4388,11 +4408,11 @@ msgstr "%1 frissítése..."
 msgid "Updating collection"
 msgstr "Gyűjtemény frissítése"
 
-#: ../build/src/ui_appearancesettingspage.h:412
+#: ../build/src/ui_appearancesettingspage.h:488
 msgid "Upper Left"
 msgstr "Balra fent"
 
-#: ../build/src/ui_appearancesettingspage.h:413
+#: ../build/src/ui_appearancesettingspage.h:489
 msgid "Upper Right"
 msgstr "Jobbra fent"
 
@@ -4426,7 +4446,7 @@ msgstr "Tidal beállítások használata hitelesítéshez."
 msgid "Use X11's shortcut keys"
 msgstr "X11 gyorsbillentyűk használata"
 
-#: ../build/src/ui_appearancesettingspage.h:389
+#: ../build/src/ui_appearancesettingspage.h:465
 msgid "Use a custom color set"
 msgstr "Egyéni színkészlet használata"
 
@@ -4442,11 +4462,11 @@ msgstr "Hitelesítés használata"
 msgid "Use bitrate management engine"
 msgstr "Bitráta kezelés használata"
 
-#: ../build/src/ui_appearancesettingspage.h:396
+#: ../build/src/ui_appearancesettingspage.h:472
 msgid "Use custom color"
 msgstr "Egyéni szín"
 
-#: ../build/src/ui_appearancesettingspage.h:397
+#: ../build/src/ui_appearancesettingspage.h:473
 msgid "Use gradient background"
 msgstr "Átmenetes háttérszín"
 
@@ -4462,7 +4482,7 @@ msgstr "Valós idejű figyelés"
 msgid "Use pattern"
 msgstr "Minta használata"
 
-#: ../build/src/ui_appearancesettingspage.h:426
+#: ../build/src/ui_appearancesettingspage.h:507
 msgid "Use system theme icons"
 msgstr "Rendszerikonok használata"
 
@@ -4590,7 +4610,7 @@ msgid ""
 msgstr ""
 "Szeretné a többi dalt ebből az albumból áthelyezni a Vegyes előadók közé is?"
 
-#: core/mainwindow.cpp:2492
+#: core/mainwindow.cpp:2505
 msgid "Would you like to run a full rescan right now?"
 msgstr "Akar futtatni egy teljes újraolvasást most?"
 
@@ -4620,7 +4640,7 @@ msgstr "Év - Album - Lemez"
 msgid "Yesterday"
 msgstr "Tegnap"
 
-#: playlist/playlistlistcontainer.cpp:379
+#: playlist/playlistlistcontainer.cpp:396
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
@@ -4713,15 +4733,15 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "%n dal felvétele"
 
-#: ../build/src/ui_internetsearchview.h:227
+#: ../build/src/ui_internetsearchview.h:228
 msgid "albums"
 msgstr "albumok"
 
-#: collection/collectionfilterwidget.cpp:72
+#: collection/collectionfilterwidget.cpp:73
 msgid "artist"
 msgstr "előadó"
 
-#: ../build/src/ui_internetsearchview.h:226
+#: ../build/src/ui_internetsearchview.h:227
 msgid "artists"
 msgstr "előadók"
 
@@ -4773,7 +4793,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "%n dal eltávolítása"
 
-#: collection/collectionfilterwidget.cpp:76
+#: collection/collectionfilterwidget.cpp:77
 msgid "searches the collection for all artists that contain the word"
 msgstr "a szót tartalmazó előadók keresése a gyűjteményben"
 
@@ -4781,7 +4801,7 @@ msgstr "a szót tartalmazó előadók keresése a gyűjteményben"
 msgid "shuffle songs"
 msgstr "dalok keverése"
 
-#: ../build/src/ui_internetsearchview.h:228
+#: ../build/src/ui_internetsearchview.h:229
 msgid "songs"
 msgstr "dalok"
 

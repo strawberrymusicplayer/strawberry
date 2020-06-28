@@ -309,7 +309,7 @@ msgstr "새 재생 목록(&N)"
 msgid "&Next track"
 msgstr "다음 트랙(&N)"
 
-#: ../build/src/ui_appearancesettingspage.h:402
+#: ../build/src/ui_appearancesettingspage.h:478
 msgid "&No background image"
 msgstr "배경 그림 없음(&N)"
 
@@ -369,11 +369,11 @@ msgstr "음악 변환(&T)"
 msgid "&Update changed collection folders"
 msgstr "라이브러리 변경 사항 업데이트(&U)"
 
-#: ../build/src/ui_appearancesettingspage.h:395
+#: ../build/src/ui_appearancesettingspage.h:471
 msgid "&Use the system default color"
 msgstr "시스템 기본 색 사용(&U)"
 
-#: ../build/src/ui_appearancesettingspage.h:388
+#: ../build/src/ui_appearancesettingspage.h:464
 msgid "&Use the system default color set"
 msgstr "시스템 기본 색 배열 사용(&U)"
 
@@ -402,7 +402,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:423
+#: ../build/src/ui_appearancesettingspage.h:499
 msgid "0px"
 msgstr "0px"
 
@@ -414,7 +414,7 @@ msgstr "1일"
 msgid "1 track"
 msgstr "트랙 1개"
 
-#: ../build/src/ui_appearancesettingspage.h:425
+#: ../build/src/ui_appearancesettingspage.h:501
 msgid "40%"
 msgstr "40%"
 
@@ -505,7 +505,7 @@ msgstr "디렉터리와 모든 하위 디렉터리의 트랙을 추가합니다"
 msgid "Add directory..."
 msgstr "디렉터리 추가..."
 
-#: core/mainwindow.cpp:1934
+#: core/mainwindow.cpp:1947
 msgid "Add file"
 msgstr "파일 추가"
 
@@ -521,7 +521,7 @@ msgstr "변환할 파일 추가"
 msgid "Add files to transcode"
 msgstr "변환할 파일 추가"
 
-#: core/mainwindow.cpp:1959 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:1972 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "폴더 추가"
 
@@ -616,15 +616,15 @@ msgstr "년도 태그 추가"
 msgid "Add stream..."
 msgstr ""
 
-#: internet/internetsearchview.cpp:319
+#: internet/internetsearchview.cpp:325
 msgid "Add to albums"
 msgstr "앨범에 추가"
 
-#: core/mainwindow.cpp:1750
+#: core/mainwindow.cpp:1763
 msgid "Add to another playlist"
 msgstr "다른 재생 목록에 추가"
 
-#: internet/internetsearchview.cpp:316
+#: internet/internetsearchview.cpp:322
 msgid "Add to artists"
 msgstr "아티스트에 추가"
 
@@ -632,7 +632,7 @@ msgstr "아티스트에 추가"
 msgid "Add to playlist"
 msgstr "재생 목록에 추가"
 
-#: internet/internetsearchview.cpp:322
+#: internet/internetsearchview.cpp:328
 msgid "Add to songs"
 msgstr "노래에 추가"
 
@@ -666,7 +666,7 @@ msgstr "오늘 추가됨"
 msgid "Added within three months"
 msgstr "3개월 이내에 추가됨"
 
-#: collection/collectionfilterwidget.cpp:216
+#: collection/collectionfilterwidget.cpp:229
 msgid "Advanced grouping..."
 msgstr "고급 그룹..."
 
@@ -674,7 +674,7 @@ msgstr "고급 그룹..."
 msgid "After copying..."
 msgstr "복사한 후..."
 
-#: ../build/src/ui_appearancesettingspage.h:406
+#: ../build/src/ui_appearancesettingspage.h:482
 msgid "Albu&m cover"
 msgstr "앨범아트(&M)"
 
@@ -797,7 +797,7 @@ msgstr "'%1'에 메타데이터를 쓰는 중 오류 발생"
 msgid "Angry"
 msgstr "화남"
 
-#: ../build/src/ui_appearancesettingspage.h:386
+#: ../build/src/ui_appearancesettingspage.h:462
 msgid "Appearance"
 msgstr "모양"
 
@@ -806,8 +806,8 @@ msgid "Append files/URLs to the playlist"
 msgstr "재생 목록에 파일/URL 추가"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:319
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:305
-#: internet/internetcollectionview.cpp:307 device/deviceview.cpp:234
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:311
+#: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "현재 재생 목록에 추가"
 
@@ -917,7 +917,7 @@ msgstr "현재 재생 중인 트랙을 자동으로 선택"
 msgid "Available"
 msgstr "사용 가능"
 
-#: collection/collectionfilterwidget.cpp:80
+#: collection/collectionfilterwidget.cpp:81
 msgid "Available fields"
 msgstr "사용 가능한 필드"
 
@@ -937,7 +937,7 @@ msgstr "백엔드"
 msgid "Background color"
 msgstr "배경 색상"
 
-#: ../build/src/ui_appearancesettingspage.h:400
+#: ../build/src/ui_appearancesettingspage.h:476
 msgid "Background image"
 msgstr "배경 그림"
 
@@ -1004,7 +1004,7 @@ msgstr "블록 형식"
 msgid "Bluetooth MAC Address"
 msgstr "블루투스 MAC 주소"
 
-#: ../build/src/ui_appearancesettingspage.h:422
+#: ../build/src/ui_appearancesettingspage.h:498
 msgid "Blur amount"
 msgstr "블러 정도"
 
@@ -1016,15 +1016,15 @@ msgstr "본문"
 msgid "Boom analyzer"
 msgstr "붐 분석기"
 
-#: ../build/src/ui_appearancesettingspage.h:415
+#: ../build/src/ui_appearancesettingspage.h:491
 msgid "Bottom Left"
 msgstr "왼쪽 아래"
 
-#: ../build/src/ui_appearancesettingspage.h:416
+#: ../build/src/ui_appearancesettingspage.h:492
 msgid "Bottom Right"
 msgstr "오른쪽 아래"
 
-#: ../build/src/ui_appearancesettingspage.h:408
+#: ../build/src/ui_appearancesettingspage.h:484
 msgid "Browse..."
 msgstr "찾아보기..."
 
@@ -1093,7 +1093,7 @@ msgid "Classical"
 msgstr "클래식"
 
 #: widgets/lineedit.cpp:60 transcoder/transcodedialog.cpp:99
-#: ../build/src/ui_queueview.h:141
+#: ../build/src/ui_queueview.h:142
 msgid "Clear"
 msgstr "비우기"
 
@@ -1101,7 +1101,7 @@ msgstr "비우기"
 msgid "Clear Disk Cache"
 msgstr "디스크 캐시 비우기"
 
-#: core/mainwindow.cpp:2021 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2034 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "재생 목록 비우기"
 
@@ -1124,7 +1124,7 @@ msgid ""
 msgstr ""
 "이 재생 목록을 즐겨찾기에 추가하려면 클릭하십시오. 저장된 재생 목록은 왼쪽 사이드바의 \"재생 목록\" 패널에서 접근할 수 있습니다"
 
-#: internet/internetcollectionview.cpp:285
+#: internet/internetcollectionview.cpp:289
 msgid "Click here to retrieve music"
 msgstr "음악을 가져오려면 여기를 클릭하십시오"
 
@@ -1164,7 +1164,7 @@ msgstr "라이브러리 필터"
 msgid "Collection advanced grouping"
 msgstr "라이브러리 고급 그룹"
 
-#: core/mainwindow.cpp:2493
+#: core/mainwindow.cpp:2506
 msgid "Collection rescan notice"
 msgstr "모음집 재탐색 알림"
 
@@ -1172,7 +1172,7 @@ msgstr "모음집 재탐색 알림"
 msgid "Color"
 msgstr "색상"
 
-#: ../build/src/ui_appearancesettingspage.h:387
+#: ../build/src/ui_appearancesettingspage.h:463
 msgid "Colors"
 msgstr "색상"
 
@@ -1209,11 +1209,15 @@ msgstr "설정이 불완전함"
 msgid "Configuration incorrect"
 msgstr "설정이 잘못됨"
 
-#: internet/internetsearchview.cpp:187 internet/internetsearchview.cpp:334
+#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:340
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
 msgstr "%1 설정..."
+
+#: ../build/src/ui_appearancesettingspage.h:506
+msgid "Configure buttons"
+msgstr ""
 
 #: core/mainwindow.cpp:576
 msgid "Configure collection..."
@@ -1261,7 +1265,7 @@ msgid "Copy to collection..."
 msgstr "라이브러리로 복사..."
 
 #: core/mainwindow.cpp:631 context/contextalbumsview.cpp:262
-#: collection/collectionview.cpp:330 playlist/playlistlistcontainer.cpp:100
+#: collection/collectionview.cpp:330 playlist/playlistlistcontainer.cpp:102
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
 msgstr "장치로 복사..."
@@ -1367,7 +1371,7 @@ msgstr "트랙을 직접 바꿀 때 크로스페이드"
 msgid "Ctrl+Alt+V"
 msgstr "Ctrl+Alt+V"
 
-#: ../build/src/ui_queueview.h:134
+#: ../build/src/ui_queueview.h:135
 msgid "Ctrl+Down"
 msgstr "Ctrl+Down"
 
@@ -1383,7 +1387,7 @@ msgstr "Ctrl+H"
 msgid "Ctrl+J"
 msgstr "Ctrl+J"
 
-#: ../build/src/ui_mainwindow.h:637 ../build/src/ui_queueview.h:144
+#: ../build/src/ui_mainwindow.h:637 ../build/src/ui_queueview.h:145
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
@@ -1419,7 +1423,7 @@ msgstr "Ctrl+Shift+O"
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: ../build/src/ui_savedgroupingmanager.h:106 ../build/src/ui_queueview.h:128
+#: ../build/src/ui_savedgroupingmanager.h:106 ../build/src/ui_queueview.h:129
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
@@ -1431,7 +1435,7 @@ msgstr ""
 msgid "Custom"
 msgstr "사용자 정의"
 
-#: ../build/src/ui_appearancesettingspage.h:407
+#: ../build/src/ui_appearancesettingspage.h:483
 msgid "Custom image:"
 msgstr "사용자 정의 이미지:"
 
@@ -1475,16 +1479,16 @@ msgstr "4퍼센트만큼 음량 내리기"
 msgid "Decrease the volume by <value> percent"
 msgstr "<value>%만큼 음량 내리기"
 
-#: ../build/src/ui_appearancesettingspage.h:401
+#: ../build/src/ui_appearancesettingspage.h:477
 msgid "Default bac&kground image"
 msgstr "기본 배경 그림(&K)"
 
-#: playlist/playlistlistcontainer.cpp:98
-#: ../build/src/ui_playlistlistcontainer.h:130
+#: playlist/playlistlistcontainer.cpp:100
+#: ../build/src/ui_playlistlistcontainer.h:133
 msgid "Delete"
 msgstr "삭제"
 
-#: widgets/fileview.cpp:221 device/deviceview.cpp:417
+#: widgets/fileview.cpp:239 device/deviceview.cpp:417
 msgid "Delete files"
 msgstr "파일 삭제"
 
@@ -1508,11 +1512,11 @@ msgstr "원본 파일 삭제"
 msgid "Deleting files"
 msgstr "파일 삭제 중"
 
-#: core/mainwindow.cpp:1673
+#: core/mainwindow.cpp:1686
 msgid "Dequeue selected tracks"
 msgstr "선택한 트랙을 대기열에서 삭제"
 
-#: core/mainwindow.cpp:1672
+#: core/mainwindow.cpp:1685
 msgid "Dequeue track"
 msgstr "대기열에서 트랙 삭제"
 
@@ -1573,7 +1577,7 @@ msgstr "불연속적인 전송"
 msgid "Disk Cache Size"
 msgstr "디스크 캐시 크기"
 
-#: collection/collectionfilterwidget.cpp:127
+#: collection/collectionfilterwidget.cpp:128
 #: ../build/src/ui_collectionsettingspage.h:417
 msgid "Display options"
 msgstr "옵션 표시"
@@ -1586,7 +1590,7 @@ msgstr "OSD 표시"
 msgid "Do not convert any music"
 msgstr "어떤 곡도 변환하지 않기"
 
-#: ../build/src/ui_appearancesettingspage.h:421
+#: ../build/src/ui_appearancesettingspage.h:497
 msgid "Do not cut image"
 msgstr "이미지 자르지 않기"
 
@@ -1635,7 +1639,7 @@ msgstr "메타데이터 다운로드 중"
 msgid "Drag to reposition"
 msgstr "위치를 바꾸려면 드래그하십시오"
 
-#: core/mainwindow.cpp:1714
+#: core/mainwindow.cpp:1727
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "\"%1\" 태그 편집..."
@@ -1734,7 +1738,7 @@ msgstr "내보낼 표지 파일 이름 입력(확장자 제외):"
 msgid "Enter a new name for this playlist"
 msgstr "재생 목록의 새로운 이름 입력"
 
-#: internet/internetsearchview.cpp:391 ../build/src/ui_internetsearchview.h:230
+#: internet/internetsearchview.cpp:397 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr "음악을 찾으려면 위에 검색어를 입력하십시오"
 
@@ -1747,7 +1751,7 @@ msgstr "여기에 검색어 입력"
 msgid "Enter the URL of a stream:"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:195
+#: playlist/playlistlistcontainer.cpp:212
 msgid "Enter the name of the folder"
 msgstr "폴더 이름 입력"
 
@@ -1771,7 +1775,7 @@ msgstr "--log-levels *:1과 동일함"
 msgid "Equivalent to --log-levels *:3"
 msgstr "--log-levels *:3과 동일함"
 
-#: core/mainwindow.cpp:2265 core/mainwindow.cpp:2387
+#: core/mainwindow.cpp:2278 core/mainwindow.cpp:2400
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "Error"
 msgstr "오류"
@@ -1971,6 +1975,10 @@ msgstr "파일"
 msgid "Files to transcode"
 msgstr "변환할 파일"
 
+#: ../build/src/ui_appearancesettingspage.h:503
+msgid "Files, playlists and queue buttons"
+msgstr ""
+
 #: context/contextview.cpp:213
 msgid "Filetype"
 msgstr "파일 형식"
@@ -2023,7 +2031,7 @@ msgstr ""
 
 #: ../build/src/ui_collectionviewcontainer.h:58
 #: ../build/src/ui_playlistcontainer.h:150
-#: ../build/src/ui_playlistlistcontainer.h:125 ../build/src/ui_trackslider.h:68
+#: ../build/src/ui_playlistlistcontainer.h:128 ../build/src/ui_trackslider.h:68
 #: ../build/src/ui_fileview.h:106 ../build/src/ui_loginstatewidget.h:167
 #: ../build/src/ui_internetcollectionviewcontainer.h:138
 #: ../build/src/ui_deviceviewcontainer.h:51
@@ -2113,64 +2121,64 @@ msgstr "시작할 때 재생 목록에서 사용할 수 없는 곡을 회색으�
 msgid "Group Collection by..."
 msgstr "모음집 그룹 방식..."
 
-#: collection/collectionfilterwidget.cpp:119
-#: internet/internetsearchview.cpp:332
+#: collection/collectionfilterwidget.cpp:120
+#: internet/internetsearchview.cpp:338
 msgid "Group by"
 msgstr "그룹 방식"
 
-#: collection/collectionfilterwidget.cpp:193
+#: collection/collectionfilterwidget.cpp:206
 msgid "Group by Album"
 msgstr "앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:190
+#: collection/collectionfilterwidget.cpp:203
 msgid "Group by Album Artist"
 msgstr "앨범 아티스트로 그룹"
 
-#: collection/collectionfilterwidget.cpp:177
+#: collection/collectionfilterwidget.cpp:190
 msgid "Group by Album artist/Album"
 msgstr "앨범 아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:178
+#: collection/collectionfilterwidget.cpp:191
 msgid "Group by Album artist/Album - Disc"
 msgstr "앨범 아티스트/앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:179
+#: collection/collectionfilterwidget.cpp:192
 msgid "Group by Album artist/Year - Album"
 msgstr "앨범 아티스트/년도 - 앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:180
+#: collection/collectionfilterwidget.cpp:193
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "앨범 아티스트/년도 - 앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:191
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Artist"
 msgstr "아티스트로 그룹"
 
-#: collection/collectionfilterwidget.cpp:182
+#: collection/collectionfilterwidget.cpp:195
 msgid "Group by Artist/Album"
 msgstr "아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:183
+#: collection/collectionfilterwidget.cpp:196
 msgid "Group by Artist/Album - Disc"
 msgstr "아티스트/앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:184
+#: collection/collectionfilterwidget.cpp:197
 msgid "Group by Artist/Year - Album"
 msgstr "아티스트/년도 - 앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:185
+#: collection/collectionfilterwidget.cpp:198
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "아티스트/년도 - 앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:194
+#: collection/collectionfilterwidget.cpp:207
 msgid "Group by Genre/Album"
 msgstr "장르/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:187
+#: collection/collectionfilterwidget.cpp:200
 msgid "Group by Genre/Album artist/Album"
 msgstr "장르/앨범 아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:188
+#: collection/collectionfilterwidget.cpp:201
 msgid "Group by Genre/Artist/Album"
 msgstr "장르/아티스트/앨범으로 그룹"
 
@@ -2181,11 +2189,11 @@ msgstr "장르/아티스트/앨범으로 그룹"
 msgid "Grouping"
 msgstr "그룹"
 
-#: collection/collectionfilterwidget.cpp:237
+#: collection/collectionfilterwidget.cpp:250
 msgid "Grouping Name"
 msgstr "그룹 이름"
 
-#: collection/collectionfilterwidget.cpp:237
+#: collection/collectionfilterwidget.cpp:250
 msgid "Grouping name:"
 msgstr "그룹 이름:"
 
@@ -2225,6 +2233,10 @@ msgstr "높음(%1 fps)"
 #: ../build/src/ui_deviceproperties.h:372
 msgid "Icon"
 msgstr "아이콘"
+
+#: ../build/src/ui_appearancesettingspage.h:502
+msgid "Icon sizes"
+msgstr ""
 
 #: widgets/fancytabwidget.cpp:603
 msgid "Icons on top"
@@ -2298,7 +2310,7 @@ msgstr "삽입..."
 msgid "Integrity check"
 msgstr "무결성 검사"
 
-#: ../build/src/ui_internetsearchview.h:224
+#: ../build/src/ui_internetsearchview.h:225
 msgid "Internet Search View"
 msgstr ""
 
@@ -2324,7 +2336,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "바로 이전 곡으로 이동"
 
-#: ../build/src/ui_appearancesettingspage.h:420
+#: ../build/src/ui_appearancesettingspage.h:496
 msgid "Keep aspect ratio"
 msgstr "종횡비 유지"
 
@@ -2415,7 +2427,7 @@ msgstr "디스크에서 표지 불러오기"
 msgid "Load cover from disk..."
 msgstr "디스크에서 표지 불러오기..."
 
-#: playlist/playlistcontainer.cpp:307
+#: playlist/playlistcontainer.cpp:320
 msgid "Load playlist"
 msgstr "재생 목록 불러오기"
 
@@ -2509,7 +2521,7 @@ msgstr "들었음으로 표시"
 msgid "Mark disappeared songs unavailable"
 msgstr "사라진 곡을 사용할 수 없는 것으로 표시"
 
-#: ../build/src/ui_appearancesettingspage.h:418
+#: ../build/src/ui_appearancesettingspage.h:494
 msgid "Max cover size"
 msgstr "최대 표지 크기"
 
@@ -2526,7 +2538,7 @@ msgstr "중간(%1 fps)"
 msgid "Metadata"
 msgstr "메타데이터"
 
-#: ../build/src/ui_appearancesettingspage.h:414
+#: ../build/src/ui_appearancesettingspage.h:490
 msgid "Middle"
 msgstr "중간"
 
@@ -2605,7 +2617,7 @@ msgstr "마운트 지점"
 msgid "Mount points"
 msgstr "마운트 지점"
 
-#: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:169
+#: ../build/src/ui_queueview.h:126 ../build/src/ui_coverssettingspage.h:169
 #: ../build/src/ui_lyricssettingspage.h:169
 msgid "Move down"
 msgstr "아래로 이동"
@@ -2614,12 +2626,12 @@ msgstr "아래로 이동"
 msgid "Move to collection..."
 msgstr "모음집으로 이동..."
 
-#: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:168
+#: ../build/src/ui_queueview.h:132 ../build/src/ui_coverssettingspage.h:168
 #: ../build/src/ui_lyricssettingspage.h:168
 msgid "Move up"
 msgstr "위로 이동"
 
-#: core/mainwindow.cpp:1934 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:1947 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "음악"
 
@@ -2653,12 +2665,12 @@ msgstr "없음"
 msgid "Never start playing"
 msgstr "재생을 시작하지 않음"
 
-#: playlist/playlistlistcontainer.cpp:97 playlist/playlistlistcontainer.cpp:195
-#: ../build/src/ui_playlistlistcontainer.h:127
+#: playlist/playlistlistcontainer.cpp:99 playlist/playlistlistcontainer.cpp:212
+#: ../build/src/ui_playlistlistcontainer.h:130
 msgid "New folder"
 msgstr "새 폴더"
 
-#: core/mainwindow.cpp:1766
+#: core/mainwindow.cpp:1779
 msgid "New playlist"
 msgstr "새로운 재생 목록"
 
@@ -2690,7 +2702,7 @@ msgstr "긴 블록 없음"
 msgid "No match."
 msgstr "일치하는 결과가 없습니다."
 
-#: playlist/playlistcontainer.cpp:388
+#: playlist/playlistcontainer.cpp:401
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "일치하는 결과를 찾을 수 없습니다. 검색어를 비우면 전체 재생 목록을 볼 수 있습니다."
@@ -2712,7 +2724,7 @@ msgstr "재생 중인 곡 없음"
 msgid "None"
 msgstr "없음"
 
-#: core/mainwindow.cpp:2265 core/mainwindow.cpp:2387
+#: core/mainwindow.cpp:2278 core/mainwindow.cpp:2400
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "선택한 음악을 장치에 복사하기에 적합하지 않음"
@@ -2776,7 +2788,7 @@ msgstr "켜짐"
 msgid "On startup"
 msgstr "시작할 때"
 
-#: ../build/src/ui_appearancesettingspage.h:424
+#: ../build/src/ui_appearancesettingspage.h:500
 msgid "Opacity"
 msgstr "불투명도"
 
@@ -2797,8 +2809,8 @@ msgid "Open device"
 msgstr "장치 열기"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:307
-#: internet/internetcollectionview.cpp:309 device/deviceview.cpp:236
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:313
+#: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:304
 msgid "Open in new playlist"
 msgstr "새 재생 목록에서 열기"
@@ -2899,7 +2911,7 @@ msgstr "암호"
 msgid "Password Protected"
 msgstr "암호로 보호됨"
 
-#: core/mainwindow.cpp:1105 core/mainwindow.cpp:1576
+#: core/mainwindow.cpp:1118 core/mainwindow.cpp:1589
 #: core/qtsystemtrayicon.cpp:202
 msgid "Pause"
 msgstr "일시 정지"
@@ -2927,11 +2939,15 @@ msgstr "픽셀"
 msgid "Plain sidebar"
 msgstr "일반 사이드바"
 
-#: core/mainwindow.cpp:605 core/mainwindow.cpp:1058 core/mainwindow.cpp:1087
-#: core/mainwindow.cpp:1580 core/qtsystemtrayicon.cpp:189
+#: core/mainwindow.cpp:605 core/mainwindow.cpp:1071 core/mainwindow.cpp:1100
+#: core/mainwindow.cpp:1593 core/qtsystemtrayicon.cpp:189
 #: core/qtsystemtrayicon.cpp:214
 msgid "Play"
 msgstr "재생"
+
+#: ../build/src/ui_appearancesettingspage.h:505
+msgid "Play control buttons"
+msgstr ""
 
 #: playlist/playlist.cpp:1190 ../build/src/ui_edittagdialog.h:666
 msgid "Play count"
@@ -2954,18 +2970,22 @@ msgstr "재생 목록의 <n>번째 곡 재생"
 msgid "Player options"
 msgstr "재생기 옵션"
 
-#: playlist/playlistcontainer.cpp:302 playlist/playlistlistcontainer.cpp:257
-#: playlist/playlistlistcontainer.cpp:345 playlist/playlistmanager.cpp:105
+#: playlist/playlistcontainer.cpp:315 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistlistcontainer.cpp:362 playlist/playlistmanager.cpp:105
 #: playlist/playlistmanager.cpp:183 playlist/playlistmanager.cpp:540
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
 msgid "Playlist"
 msgstr "재생 목록"
 
+#: ../build/src/ui_appearancesettingspage.h:504
+msgid "Playlist buttons"
+msgstr ""
+
 #: widgets/osd.cpp:191
 msgid "Playlist finished"
 msgstr "재생 목록 끝남"
 
-#: core/mainwindow.cpp:2021
+#: core/mainwindow.cpp:2034
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3002,7 +3022,7 @@ msgstr "팝업 시간"
 msgid "Port"
 msgstr "포트"
 
-#: ../build/src/ui_appearancesettingspage.h:409
+#: ../build/src/ui_appearancesettingspage.h:485
 msgid "Position"
 msgstr "위치"
 
@@ -3027,7 +3047,7 @@ msgstr "선호하는 앨범아트 파일 이름(쉼표로 구분)"
 msgid "Preferred format"
 msgstr "선호하는 형식"
 
-#: collection/collectionfilterwidget.cpp:69
+#: collection/collectionfilterwidget.cpp:70
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr "검색어 앞에 필드 이름을 입력하면 해당 필드에서만 검색합니다. 예:"
@@ -3107,26 +3127,26 @@ msgstr "장치 질의 중..."
 msgid "Queue"
 msgstr "대기열"
 
-#: core/mainwindow.cpp:1675
+#: core/mainwindow.cpp:1688
 msgid "Queue selected tracks"
 msgstr "선택한 트랙을 대기열에 추가"
 
-#: core/mainwindow.cpp:611 core/mainwindow.cpp:1679
+#: core/mainwindow.cpp:611 core/mainwindow.cpp:1692
 msgid "Queue selected tracks to play next"
 msgstr "선택한 트랙을 다음에 재생하도록 대기열에 추가"
 
-#: core/mainwindow.cpp:1681 collection/collectionview.cpp:325
-#: internet/internetcollectionview.cpp:313
+#: core/mainwindow.cpp:1694 collection/collectionview.cpp:325
+#: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "다음에 재생할 대기열에 추가"
 
-#: core/mainwindow.cpp:1674 context/contextalbumsview.cpp:257
-#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:310
-#: internet/internetcollectionview.cpp:312
+#: core/mainwindow.cpp:1687 context/contextalbumsview.cpp:257
+#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:316
+#: internet/internetcollectionview.cpp:316
 msgid "Queue track"
 msgstr "대기열에 트랙 추가"
 
-#: ../build/src/ui_queueview.h:123
+#: ../build/src/ui_queueview.h:124
 msgid "QueueView"
 msgstr "대기열 보기"
 
@@ -3187,7 +3207,7 @@ msgstr "마지막으로 사용한 값 기억(&L)"
 msgid "Remember my choice"
 msgstr "내 선택 기억"
 
-#: ../build/src/ui_savedgroupingmanager.h:103 ../build/src/ui_queueview.h:137
+#: ../build/src/ui_savedgroupingmanager.h:103 ../build/src/ui_queueview.h:138
 #: ../build/src/ui_transcodedialog.h:221
 msgid "Remove"
 msgstr "삭제"
@@ -3204,7 +3224,7 @@ msgstr "재생 목록에서 사용할 수 없는 트랙 삭제(&U)"
 msgid "Remove folder"
 msgstr "폴더 삭제"
 
-#: internet/internetcollectionview.cpp:318
+#: internet/internetcollectionview.cpp:322
 msgid "Remove from favorites"
 msgstr "즐겨찾기에서 삭제"
 
@@ -3216,7 +3236,7 @@ msgstr "재생 목록에서 제거"
 msgid "Remove playlist"
 msgstr "재생 목록 삭제"
 
-#: playlist/playlistlistcontainer.cpp:379
+#: playlist/playlistlistcontainer.cpp:396
 msgid "Remove playlists"
 msgstr "재생 목록 삭제"
 
@@ -3253,8 +3273,8 @@ msgid "Repeat track"
 msgstr "한 곡 반복"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:320
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:306
-#: internet/internetcollectionview.cpp:308 device/deviceview.cpp:235
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:312
+#: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "현재 재생 목록 대체"
 
@@ -3424,7 +3444,7 @@ msgstr "디스크에 표지 저장..."
 msgid "Save current grouping"
 msgstr "현재 그룹 저장"
 
-#: playlist/playlistlistcontainer.cpp:99
+#: playlist/playlistlistcontainer.cpp:101
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
@@ -3503,7 +3523,7 @@ msgstr "검색 지연 시간"
 msgid "Search for album covers..."
 msgstr "앨범아트 검색..."
 
-#: internet/internetsearchview.cpp:328
+#: internet/internetsearchview.cpp:334
 msgid "Search for this"
 msgstr "다음 항목 검색"
 
@@ -3532,11 +3552,11 @@ msgstr "현재 재생 중인 트랙의 절대적 위치로 이동"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "키보드 단축키 또는 마우스 휠을 사용하여 이동"
 
-#: ../build/src/ui_appearancesettingspage.h:392
+#: ../build/src/ui_appearancesettingspage.h:468
 msgid "Select background color:"
 msgstr "배경 색상 선택:"
 
-#: settings/appearancesettingspage.cpp:325
+#: settings/appearancesettingspage.cpp:340
 msgid "Select background image"
 msgstr "배경 그림 선택"
 
@@ -3544,11 +3564,11 @@ msgstr "배경 그림 선택"
 msgid "Select best possible match"
 msgstr "가장 유사한 일치 선택"
 
-#: ../build/src/ui_appearancesettingspage.h:390
+#: ../build/src/ui_appearancesettingspage.h:466
 msgid "Select foreground color:"
 msgstr "전경 색상 선택:"
 
-#: ../build/src/ui_appearancesettingspage.h:398
+#: ../build/src/ui_appearancesettingspage.h:474
 msgid "Select tabbar color:"
 msgstr "탭 표시줄 색상 선택:"
 
@@ -3568,7 +3588,7 @@ msgstr "서버 URL"
 msgid "Server URL is invalid."
 msgstr "서버 URL이 잘못되었습니다."
 
-#: core/mainwindow.cpp:1713
+#: core/mainwindow.cpp:1726
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1을(를) \"%2\"(으)로 설정..."
@@ -3599,7 +3619,7 @@ msgstr "%1 단축키"
 msgid "Shortcuts"
 msgstr "단축키"
 
-#: collection/collectionfilterwidget.cpp:106
+#: collection/collectionfilterwidget.cpp:107
 msgid "Show"
 msgstr "표시"
 
@@ -3793,11 +3813,11 @@ msgstr "건너뛴 횟수"
 msgid "Skip forwards in playlist"
 msgstr "재생 목록의 다음 곡으로 전환"
 
-#: core/mainwindow.cpp:1686
+#: core/mainwindow.cpp:1699
 msgid "Skip selected tracks"
 msgstr "선택한 트랙 건너뛰기"
 
-#: core/mainwindow.cpp:1685
+#: core/mainwindow.cpp:1698
 msgid "Skip track"
 msgstr "트랙 건너뛰기"
 
@@ -3945,7 +3965,7 @@ msgstr "스트림 URL 메서드"
 msgid "Streaming"
 msgstr "스트리밍"
 
-#: ../build/src/ui_appearancesettingspage.h:419
+#: ../build/src/ui_appearancesettingspage.h:495
 msgid "Stretch image to fill playlist"
 msgstr "이미지를 재생 목록 크기로 늘려서 맞춤"
 
@@ -3993,7 +4013,7 @@ msgstr "지원하는 형식"
 msgid "System colors"
 msgstr "시스템 색상"
 
-#: ../build/src/ui_appearancesettingspage.h:394
+#: ../build/src/ui_appearancesettingspage.h:470
 msgid "Tabbar colors"
 msgstr "탭 표시줄 색상"
 
@@ -4046,11 +4066,11 @@ msgstr "Amarok과 Clementine 기여자들에게 감사를 전합니다."
 msgid "The \"%1\" command could not be started."
 msgstr "\"%1\" 명령을 시작할 수 없습니다."
 
-#: ../build/src/ui_appearancesettingspage.h:404
+#: ../build/src/ui_appearancesettingspage.h:480
 msgid "The album cover of the currently playing song"
 msgstr "재생 중인 음악의 앨범아트"
 
-#: internet/internetcollectionview.cpp:279
+#: internet/internetcollectionview.cpp:283
 msgid "The internet collection is empty!"
 msgstr "인터넷 모음집이 비어 있습니다!"
 
@@ -4062,7 +4082,7 @@ msgstr "요청한 사이트가 존재하지 않습니다!"
 msgid "The site you requested is not an image!"
 msgstr "요청한 사이트는 이미지가 아닙니다!"
 
-#: core/mainwindow.cpp:2488
+#: core/mainwindow.cpp:2501
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4084,7 +4104,7 @@ msgid ""
 "deleted:"
 msgstr "일부 곡을 삭제하는 중 문제가 발생했습니다. 다음 파일을 삭제할 수 없습니다: "
 
-#: widgets/fileview.cpp:222
+#: widgets/fileview.cpp:240
 msgid ""
 "These files will be deleted from disk, are you sure you want to continue?"
 msgstr "디스크에서 다음 파일을 삭제합니다. 계속 진행하시겠습니까?"
@@ -4184,7 +4204,7 @@ msgstr "제목"
 msgid "Today"
 msgstr "오늘"
 
-#: core/mainwindow.cpp:608 core/mainwindow.cpp:1676
+#: core/mainwindow.cpp:608 core/mainwindow.cpp:1689
 msgid "Toggle queue status"
 msgstr "대기열 상태 전환"
 
@@ -4192,7 +4212,7 @@ msgstr "대기열 상태 전환"
 msgid "Toggle scrobbling"
 msgstr "스크로블 전환"
 
-#: core/mainwindow.cpp:614 core/mainwindow.cpp:1687
+#: core/mainwindow.cpp:614 core/mainwindow.cpp:1700
 msgid "Toggle skip status"
 msgstr "건너뛰기 상태 전환"
 
@@ -4281,11 +4301,11 @@ msgstr "알 수 없는 오류"
 msgid "Unset cover"
 msgstr "표지 설정 해제"
 
-#: core/mainwindow.cpp:1684
+#: core/mainwindow.cpp:1697
 msgid "Unskip selected tracks"
 msgstr "선택한 트랙 건너뛰기 해제"
 
-#: core/mainwindow.cpp:1683
+#: core/mainwindow.cpp:1696
 msgid "Unskip track"
 msgstr "트랙 건너뛰기 해제"
 
@@ -4307,11 +4327,11 @@ msgstr "%1% 업데이트 중..."
 msgid "Updating collection"
 msgstr "모음집 업데이트 중"
 
-#: ../build/src/ui_appearancesettingspage.h:412
+#: ../build/src/ui_appearancesettingspage.h:488
 msgid "Upper Left"
 msgstr "왼쪽 위"
 
-#: ../build/src/ui_appearancesettingspage.h:413
+#: ../build/src/ui_appearancesettingspage.h:489
 msgid "Upper Right"
 msgstr "오른쪽 위"
 
@@ -4343,7 +4363,7 @@ msgstr ""
 msgid "Use X11's shortcut keys"
 msgstr "X11 단축키 사용"
 
-#: ../build/src/ui_appearancesettingspage.h:389
+#: ../build/src/ui_appearancesettingspage.h:465
 msgid "Use a custom color set"
 msgstr "사용자 정의 색 배열 사용"
 
@@ -4359,11 +4379,11 @@ msgstr "인증 사용"
 msgid "Use bitrate management engine"
 msgstr "비트 전송률 관리 엔진 사용"
 
-#: ../build/src/ui_appearancesettingspage.h:396
+#: ../build/src/ui_appearancesettingspage.h:472
 msgid "Use custom color"
 msgstr "사용자 정의 색상 사용"
 
-#: ../build/src/ui_appearancesettingspage.h:397
+#: ../build/src/ui_appearancesettingspage.h:473
 msgid "Use gradient background"
 msgstr "그라디언트 배경 사용"
 
@@ -4379,7 +4399,7 @@ msgstr "라이브 검색 사용"
 msgid "Use pattern"
 msgstr "패턴 사용"
 
-#: ../build/src/ui_appearancesettingspage.h:426
+#: ../build/src/ui_appearancesettingspage.h:507
 msgid "Use system theme icons"
 msgstr "시스템 테마 아이콘 사용"
 
@@ -4503,7 +4523,7 @@ msgid ""
 "well?"
 msgstr "이 앨범의 다른 곡도 편집 음반으로 이동하시겠습니까?"
 
-#: core/mainwindow.cpp:2492
+#: core/mainwindow.cpp:2505
 msgid "Would you like to run a full rescan right now?"
 msgstr "지금 전부 다시 검색하시겠습니까?"
 
@@ -4533,7 +4553,7 @@ msgstr "년도 - 앨범 - 디스크"
 msgid "Yesterday"
 msgstr "어제"
 
-#: playlist/playlistlistcontainer.cpp:379
+#: playlist/playlistlistcontainer.cpp:396
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
@@ -4618,15 +4638,15 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "%n곡 추가"
 
-#: ../build/src/ui_internetsearchview.h:227
+#: ../build/src/ui_internetsearchview.h:228
 msgid "albums"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:72
+#: collection/collectionfilterwidget.cpp:73
 msgid "artist"
 msgstr "아티스트"
 
-#: ../build/src/ui_internetsearchview.h:226
+#: ../build/src/ui_internetsearchview.h:227
 msgid "artists"
 msgstr ""
 
@@ -4678,7 +4698,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "%n곡 삭제"
 
-#: collection/collectionfilterwidget.cpp:76
+#: collection/collectionfilterwidget.cpp:77
 msgid "searches the collection for all artists that contain the word"
 msgstr "라이브러리에서 해당 단어를 포함하는 모든 아티스트 검색"
 
@@ -4686,7 +4706,7 @@ msgstr "라이브러리에서 해당 단어를 포함하는 모든 아티스트 
 msgid "shuffle songs"
 msgstr "노래 섞기"
 
-#: ../build/src/ui_internetsearchview.h:228
+#: ../build/src/ui_internetsearchview.h:229
 msgid "songs"
 msgstr ""
 
