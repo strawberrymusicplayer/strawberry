@@ -149,6 +149,7 @@ void CollectionFilterWidget::ReloadSettings() {
   int iconsize = s.value(AppearanceSettingsPage::kIconSizeConfigureButtons, 20).toInt();
   s.endGroup();
   ui_->options->setIconSize(QSize(iconsize, iconsize));
+  ui_->filter->setIconSize(iconsize);
 
 }
 

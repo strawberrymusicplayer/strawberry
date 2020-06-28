@@ -250,6 +250,7 @@ void InternetSearchView::ReloadSettings() {
   int iconsize = s.value(AppearanceSettingsPage::kIconSizeConfigureButtons, 20).toInt();
   s.endGroup();
   ui_->settings->setIconSize(QSize(iconsize, iconsize));
+  ui_->search->setIconSize(iconsize);
 
 }
 

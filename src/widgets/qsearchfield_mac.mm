@@ -167,6 +167,8 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   [pool drain];
 }
 
+void QSearchField::setIconSize(const int iconsize) {}
+
 void QSearchField::setText(const QString &text) {
   Q_ASSERT(pimpl);
   if (!pimpl) return;

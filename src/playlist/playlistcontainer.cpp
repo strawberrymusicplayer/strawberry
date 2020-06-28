@@ -234,15 +234,16 @@ void PlaylistContainer::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  int iconsize_playlist_buttons = s.value(AppearanceSettingsPage::kIconSizePlaylistButtons, 20).toInt();
+  int iconsize = s.value(AppearanceSettingsPage::kIconSizePlaylistButtons, 20).toInt();
   s.endGroup();
 
-  ui_->create_new->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
-  ui_->load->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
-  ui_->save->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
-  ui_->clear->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
-  ui_->undo->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
-  ui_->redo->setIconSize(QSize(iconsize_playlist_buttons, iconsize_playlist_buttons));
+  ui_->create_new->setIconSize(QSize(iconsize, iconsize));
+  ui_->load->setIconSize(QSize(iconsize, iconsize));
+  ui_->save->setIconSize(QSize(iconsize, iconsize));
+  ui_->clear->setIconSize(QSize(iconsize, iconsize));
+  ui_->undo->setIconSize(QSize(iconsize, iconsize));
+  ui_->redo->setIconSize(QSize(iconsize, iconsize));
+  ui_->filter->setIconSize(iconsize);
 
   bool playlist_clear = settings_.value("playlist_clear", true).toBool();
   if (playlist_clear) {

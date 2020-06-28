@@ -73,7 +73,7 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   QIcon clearIcon(IconLoader::Load("edit-clear-locationbar-ltr"));
 
   clearbutton->setIcon(clearIcon);
-  clearbutton->setIconSize(QSize(16, 16));
+  clearbutton->setIconSize(QSize(20, 20));
   clearbutton->setStyleSheet("border: none; padding: 0px;");
   clearbutton->resize(clearbutton->sizeHint());
 
@@ -93,6 +93,19 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   layout->addWidget(lineEdit);
 
   lineEdit->installEventFilter(this);
+
+}
+
+void QSearchField::setIconSize(const int iconsize) {
+
+  pimpl->clearbutton_->setIconSize(QSize(iconsize, iconsize));
+  pimpl->clearbutton_->resize(pimpl->clearbutton_->sizeHint());
+
+  pimpl->lineedit_->setStyleSheet(QString("QLineEdit { padding-left: %1px; } ").arg(pimpl->clearbutton_->width()));
+  const int frame_width = pimpl->lineedit_->style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
+  const int width = frame_width + qMax(pimpl->lineedit_->minimumSizeHint().width(), pimpl->clearButtonPaddedWidth());
+  const int height = frame_width + qMax(pimpl->lineedit_->minimumSizeHint().height(), pimpl->clearButtonPaddedHeight());
+  pimpl->lineedit_->setMinimumSize(width, height);
 
 }
 
