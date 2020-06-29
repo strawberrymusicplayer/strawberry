@@ -56,9 +56,9 @@
 #include "core/stylehelper.h"
 #include "settings/appearancesettingspage.h"
 
-const QSize FancyTabWidget::IconSize_LargeSidebar = QSize(24, 24);
+const QSize FancyTabWidget::IconSize_LargeSidebar = QSize(32, 32);
 const QSize FancyTabWidget::IconSize_SmallSidebar = QSize(22, 22);
-const QSize FancyTabWidget::TabSize_LargeSidebar = QSize(70, 47);
+const QSize FancyTabWidget::TabSize_LargeSidebar = QSize(70, 58);
 
 class FancyTabBar: public QTabBar {
 
@@ -96,12 +96,15 @@ class FancyTabBar: public QTabBar {
   QSize tabSizeHint(int index) const override {
 
     FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
-    QSize size = FancyTabWidget::TabSize_LargeSidebar;
 
-    if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar) {
-      size = QTabBar::tabSizeHint(index);
+    QSize size;
+    if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar) {
+      size = FancyTabWidget::TabSize_LargeSidebar;
     }
-    size.setWidth(std::max(size.width(), 37));
+    else {
+      size = QTabBar::tabSizeHint(index);
+      size.setWidth(std::max(size.width(), 37));
+    }
 
     return size;
 
