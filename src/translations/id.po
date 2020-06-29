@@ -314,7 +314,7 @@ msgstr "&Daftar putar baru"
 msgid "&Next track"
 msgstr "&Trek berikutnya"
 
-#: ../build/src/ui_appearancesettingspage.h:478
+#: ../build/src/ui_appearancesettingspage.h:497
 msgid "&No background image"
 msgstr "&Tidak ada gambar latar belakang"
 
@@ -374,11 +374,11 @@ msgstr "&Transkode Musik"
 msgid "&Update changed collection folders"
 msgstr "Perbar&ui folder pustaka yang telah diubah"
 
-#: ../build/src/ui_appearancesettingspage.h:471
+#: ../build/src/ui_appearancesettingspage.h:490
 msgid "&Use the system default color"
 msgstr "G&unakan warna standar sistem"
 
-#: ../build/src/ui_appearancesettingspage.h:464
+#: ../build/src/ui_appearancesettingspage.h:483
 msgid "&Use the system default color set"
 msgstr "G&unakan set warna standar sistem"
 
@@ -409,7 +409,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:499
+#: ../build/src/ui_appearancesettingspage.h:518
 msgid "0px"
 msgstr "0px"
 
@@ -421,7 +421,7 @@ msgstr "1 hari"
 msgid "1 track"
 msgstr "1 trek"
 
-#: ../build/src/ui_appearancesettingspage.h:501
+#: ../build/src/ui_appearancesettingspage.h:520
 msgid "40%"
 msgstr "40%"
 
@@ -625,7 +625,7 @@ msgstr "Tambahkan tahun rilis"
 msgid "Add stream..."
 msgstr ""
 
-#: internet/internetsearchview.cpp:325
+#: internet/internetsearchview.cpp:326
 msgid "Add to albums"
 msgstr "Tambahkan ke album"
 
@@ -633,7 +633,7 @@ msgstr "Tambahkan ke album"
 msgid "Add to another playlist"
 msgstr "Tambahkan ke daftar putar lainnya"
 
-#: internet/internetsearchview.cpp:322
+#: internet/internetsearchview.cpp:323
 msgid "Add to artists"
 msgstr "Tambahkan ke artis"
 
@@ -641,7 +641,7 @@ msgstr "Tambahkan ke artis"
 msgid "Add to playlist"
 msgstr "Tambahkan ke daftar putar"
 
-#: internet/internetsearchview.cpp:328
+#: internet/internetsearchview.cpp:329
 msgid "Add to songs"
 msgstr "Tambahkan ke lagu"
 
@@ -675,7 +675,7 @@ msgstr "Ditambahkan hari ini"
 msgid "Added within three months"
 msgstr "Ditambahkan pada tiga bulan terakhir"
 
-#: collection/collectionfilterwidget.cpp:229
+#: collection/collectionfilterwidget.cpp:230
 msgid "Advanced grouping..."
 msgstr "Pengelompokkan lanjut..."
 
@@ -683,7 +683,7 @@ msgstr "Pengelompokkan lanjut..."
 msgid "After copying..."
 msgstr "Setelah menyalin..."
 
-#: ../build/src/ui_appearancesettingspage.h:482
+#: ../build/src/ui_appearancesettingspage.h:501
 msgid "Albu&m cover"
 msgstr "Sa&mpul album"
 
@@ -806,7 +806,7 @@ msgstr "Sebuah galat terjadi saat menulis metadata ke '%1'"
 msgid "Angry"
 msgstr "Marah"
 
-#: ../build/src/ui_appearancesettingspage.h:462
+#: ../build/src/ui_appearancesettingspage.h:481
 msgid "Appearance"
 msgstr "Penampilan"
 
@@ -815,7 +815,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Tambahkan berkas/URL ke daftar putar"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:319
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:311
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:312
 #: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Tambahkan ke daftar putar saat ini"
@@ -946,7 +946,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Warna latar belakang"
 
-#: ../build/src/ui_appearancesettingspage.h:476
+#: ../build/src/ui_appearancesettingspage.h:495
 msgid "Background image"
 msgstr "Gambar latar belakang"
 
@@ -1013,7 +1013,7 @@ msgstr "Tipe blok"
 msgid "Bluetooth MAC Address"
 msgstr "Alamat MAC Bluetooth"
 
-#: ../build/src/ui_appearancesettingspage.h:498
+#: ../build/src/ui_appearancesettingspage.h:517
 msgid "Blur amount"
 msgstr "Besaran kekaburan"
 
@@ -1025,15 +1025,15 @@ msgstr "Badan"
 msgid "Boom analyzer"
 msgstr "Penganalisis dentuman"
 
-#: ../build/src/ui_appearancesettingspage.h:491
+#: ../build/src/ui_appearancesettingspage.h:510
 msgid "Bottom Left"
 msgstr "Kiri Bawah"
 
-#: ../build/src/ui_appearancesettingspage.h:492
+#: ../build/src/ui_appearancesettingspage.h:511
 msgid "Bottom Right"
 msgstr "Kanan Bawah"
 
-#: ../build/src/ui_appearancesettingspage.h:484
+#: ../build/src/ui_appearancesettingspage.h:503
 msgid "Browse..."
 msgstr "Ramban..."
 
@@ -1182,7 +1182,7 @@ msgstr "Pemberitahuan pemindaian ulang pustaka"
 msgid "Color"
 msgstr "Warna"
 
-#: ../build/src/ui_appearancesettingspage.h:463
+#: ../build/src/ui_appearancesettingspage.h:482
 msgid "Colors"
 msgstr "Warna"
 
@@ -1219,13 +1219,13 @@ msgstr "Konfigurasi tidak lengkap"
 msgid "Configuration incorrect"
 msgstr "Konfigurasi tidak benar"
 
-#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:340
+#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:341
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
 msgstr "Konfigurasi %1..."
 
-#: ../build/src/ui_appearancesettingspage.h:506
+#: ../build/src/ui_appearancesettingspage.h:524
 msgid "Configure buttons"
 msgstr ""
 
@@ -1451,7 +1451,7 @@ msgstr ""
 msgid "Custom"
 msgstr "Ubahsuai"
 
-#: ../build/src/ui_appearancesettingspage.h:483
+#: ../build/src/ui_appearancesettingspage.h:502
 msgid "Custom image:"
 msgstr "Gambar ubahsuai:"
 
@@ -1495,7 +1495,7 @@ msgstr "Kurangi volume 4 persen"
 msgid "Decrease the volume by <value> percent"
 msgstr "Kurangi volume <value> persen"
 
-#: ../build/src/ui_appearancesettingspage.h:477
+#: ../build/src/ui_appearancesettingspage.h:496
 msgid "Default bac&kground image"
 msgstr "Gambar latar bela&kang standar"
 
@@ -1606,7 +1606,7 @@ msgstr "Tampilkan tampilan-pada-layar"
 msgid "Do not convert any music"
 msgstr "Jangan konversi musik apapun"
 
-#: ../build/src/ui_appearancesettingspage.h:497
+#: ../build/src/ui_appearancesettingspage.h:516
 msgid "Do not cut image"
 msgstr "Jangan potong gambar"
 
@@ -1754,7 +1754,7 @@ msgstr "Masukkan nama berkas untuk sampul yang diekspor (tanpa ekstensi):"
 msgid "Enter a new name for this playlist"
 msgstr "Masukkan nama baru untuk daftar putar ini"
 
-#: internet/internetsearchview.cpp:397 ../build/src/ui_internetsearchview.h:231
+#: internet/internetsearchview.cpp:398 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr "Masukkan kata pencarian di atas untuk mencari musik"
 
@@ -1991,7 +1991,7 @@ msgstr "Berkas"
 msgid "Files to transcode"
 msgstr "Berkas untuk ditranskode"
 
-#: ../build/src/ui_appearancesettingspage.h:503
+#: ../build/src/ui_appearancesettingspage.h:525
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2139,63 +2139,63 @@ msgid "Group Collection by..."
 msgstr "Grup Pustaka berdasarkan..."
 
 #: collection/collectionfilterwidget.cpp:120
-#: internet/internetsearchview.cpp:338
+#: internet/internetsearchview.cpp:339
 msgid "Group by"
 msgstr "Grup berdasarkan"
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:207
 msgid "Group by Album"
 msgstr "Grup berdasarkan Album"
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album Artist"
 msgstr "Grup berdasarkan Artis Album"
 
-#: collection/collectionfilterwidget.cpp:190
+#: collection/collectionfilterwidget.cpp:191
 msgid "Group by Album artist/Album"
 msgstr "Grup berdasarkan Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:191
+#: collection/collectionfilterwidget.cpp:192
 msgid "Group by Album artist/Album - Disc"
 msgstr "Grup berdasarkan Artis album/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:192
+#: collection/collectionfilterwidget.cpp:193
 msgid "Group by Album artist/Year - Album"
 msgstr "Grup berdasarkan Artis album/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:193
+#: collection/collectionfilterwidget.cpp:194
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis album/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:205
 msgid "Group by Artist"
 msgstr "Grup berdasarkan Artis"
 
-#: collection/collectionfilterwidget.cpp:195
+#: collection/collectionfilterwidget.cpp:196
 msgid "Group by Artist/Album"
 msgstr "Grup berdasarkan Artis/Album"
 
-#: collection/collectionfilterwidget.cpp:196
+#: collection/collectionfilterwidget.cpp:197
 msgid "Group by Artist/Album - Disc"
 msgstr "Grup berdasarkan Artis/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:197
+#: collection/collectionfilterwidget.cpp:198
 msgid "Group by Artist/Year - Album"
 msgstr "Grup berdasarkan Artis/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:198
+#: collection/collectionfilterwidget.cpp:199
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:208
 msgid "Group by Genre/Album"
 msgstr "Grup berdasarkan Genre/Album"
 
-#: collection/collectionfilterwidget.cpp:200
+#: collection/collectionfilterwidget.cpp:201
 msgid "Group by Genre/Album artist/Album"
 msgstr "Grup berdasarkan Genre/Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:202
 msgid "Group by Genre/Artist/Album"
 msgstr "Grup berdasarkan Genre/Artis/Album"
 
@@ -2206,11 +2206,11 @@ msgstr "Grup berdasarkan Genre/Artis/Album"
 msgid "Grouping"
 msgstr "Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:251
 msgid "Grouping Name"
 msgstr "Nama Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:251
 msgid "Grouping name:"
 msgstr "Nama pengelompokan:"
 
@@ -2251,11 +2251,11 @@ msgstr "Tinggi (%1 fps)"
 msgid "Icon"
 msgstr "Ikon"
 
-#: ../build/src/ui_appearancesettingspage.h:502
+#: ../build/src/ui_appearancesettingspage.h:521
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:612
 msgid "Icons on top"
 msgstr "Ikon di atas"
 
@@ -2357,7 +2357,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Lompat ke lagu sebelumnya sesegera"
 
-#: ../build/src/ui_appearancesettingspage.h:496
+#: ../build/src/ui_appearancesettingspage.h:515
 msgid "Keep aspect ratio"
 msgstr "Jaga aspek ratio"
 
@@ -2385,7 +2385,7 @@ msgstr "Balai Besar"
 msgid "Large album cover"
 msgstr "Sampul album besar"
 
-#: widgets/fancytabwidget.cpp:599
+#: widgets/fancytabwidget.cpp:608
 msgid "Large sidebar"
 msgstr "Bilah sisi besar"
 
@@ -2448,7 +2448,7 @@ msgstr "Muat sampul dari diska"
 msgid "Load cover from disk..."
 msgstr "Muat sampul dari diska..."
 
-#: playlist/playlistcontainer.cpp:320
+#: playlist/playlistcontainer.cpp:321
 msgid "Load playlist"
 msgstr "Muat daftar putar"
 
@@ -2542,7 +2542,7 @@ msgstr "Tandai sudah didengar"
 msgid "Mark disappeared songs unavailable"
 msgstr "Tandai lagu yang hilang sebagai tidak tersedia"
 
-#: ../build/src/ui_appearancesettingspage.h:494
+#: ../build/src/ui_appearancesettingspage.h:513
 msgid "Max cover size"
 msgstr "Ukuran sampul maksimum"
 
@@ -2559,7 +2559,7 @@ msgstr "Sedang (%1 fps)"
 msgid "Metadata"
 msgstr "Metadata"
 
-#: ../build/src/ui_appearancesettingspage.h:490
+#: ../build/src/ui_appearancesettingspage.h:509
 msgid "Middle"
 msgstr "Tengah"
 
@@ -2723,7 +2723,7 @@ msgstr "Tanpa blok panjang"
 msgid "No match."
 msgstr "Tidak ada yang cocok."
 
-#: playlist/playlistcontainer.cpp:401
+#: playlist/playlistcontainer.cpp:402
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -2813,7 +2813,7 @@ msgstr "Nyala"
 msgid "On startup"
 msgstr "Saat membuka"
 
-#: ../build/src/ui_appearancesettingspage.h:500
+#: ../build/src/ui_appearancesettingspage.h:519
 msgid "Opacity"
 msgstr "Kelegapan"
 
@@ -2834,7 +2834,7 @@ msgid "Open device"
 msgstr "Buka perangkat"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:313
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:314
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:304
 msgid "Open in new playlist"
@@ -2960,7 +2960,7 @@ msgstr "Penampil"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:610
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
@@ -2970,7 +2970,7 @@ msgstr "Bilah sisi polos"
 msgid "Play"
 msgstr "Putar"
 
-#: ../build/src/ui_appearancesettingspage.h:505
+#: ../build/src/ui_appearancesettingspage.h:523
 msgid "Play control buttons"
 msgstr ""
 
@@ -2995,14 +2995,14 @@ msgstr "Putar trek ke <n> dalam daftar putar"
 msgid "Player options"
 msgstr "Opsi pemutar"
 
-#: playlist/playlistcontainer.cpp:315 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistcontainer.cpp:316 playlist/playlistlistcontainer.cpp:274
 #: playlist/playlistlistcontainer.cpp:362 playlist/playlistmanager.cpp:105
 #: playlist/playlistmanager.cpp:183 playlist/playlistmanager.cpp:540
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
 msgid "Playlist"
 msgstr "Daftar putar"
 
-#: ../build/src/ui_appearancesettingspage.h:504
+#: ../build/src/ui_appearancesettingspage.h:522
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3047,7 +3047,7 @@ msgstr "Durasi sembulan"
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:485
+#: ../build/src/ui_appearancesettingspage.h:504
 msgid "Position"
 msgstr "Posisi"
 
@@ -3166,7 +3166,7 @@ msgid "Queue to play next"
 msgstr "Antre untuk diputar selanjutnya"
 
 #: core/mainwindow.cpp:1687 context/contextalbumsview.cpp:257
-#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:316
+#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
 msgstr "Antre trek"
@@ -3298,7 +3298,7 @@ msgid "Repeat track"
 msgstr "Ulang trek"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:320
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:312
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:313
 #: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Ganti daftar putar saat ini"
@@ -3550,7 +3550,7 @@ msgstr "Jeda pencarian"
 msgid "Search for album covers..."
 msgstr "Cari sampul album..."
 
-#: internet/internetsearchview.cpp:334
+#: internet/internetsearchview.cpp:335
 msgid "Search for this"
 msgstr "Cari ini"
 
@@ -3579,11 +3579,11 @@ msgstr "Jangkau yang sedang diputar ke posisi mutlak"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Menjangkau menggunakan pintasan keyboard atau roda mouse"
 
-#: ../build/src/ui_appearancesettingspage.h:468
+#: ../build/src/ui_appearancesettingspage.h:487
 msgid "Select background color:"
 msgstr "Pilih warna latar belakang:"
 
-#: settings/appearancesettingspage.cpp:340
+#: settings/appearancesettingspage.cpp:343
 msgid "Select background image"
 msgstr "Pilih gambar latar belakang"
 
@@ -3591,11 +3591,11 @@ msgstr "Pilih gambar latar belakang"
 msgid "Select best possible match"
 msgstr "Pilih kecocokan yang terbaik"
 
-#: ../build/src/ui_appearancesettingspage.h:466
+#: ../build/src/ui_appearancesettingspage.h:485
 msgid "Select foreground color:"
 msgstr "Pilih warna latar depan:"
 
-#: ../build/src/ui_appearancesettingspage.h:474
+#: ../build/src/ui_appearancesettingspage.h:493
 msgid "Select tabbar color:"
 msgstr "Pilih warna tabbar:"
 
@@ -3852,7 +3852,7 @@ msgstr "Lewati trek"
 msgid "Small album cover"
 msgstr "Sampul album kecil"
 
-#: widgets/fancytabwidget.cpp:600
+#: widgets/fancytabwidget.cpp:609
 msgid "Small sidebar"
 msgstr "Bilah sisi kecil"
 
@@ -3995,7 +3995,7 @@ msgstr "Metode URL Stream"
 msgid "Streaming"
 msgstr "Streaming"
 
-#: ../build/src/ui_appearancesettingspage.h:495
+#: ../build/src/ui_appearancesettingspage.h:514
 msgid "Stretch image to fill playlist"
 msgstr "Regangkan gambar hingga memenuhi daftar putar"
 
@@ -4043,11 +4043,15 @@ msgstr "Format yang didukung"
 msgid "System colors"
 msgstr "Warna sistem"
 
-#: ../build/src/ui_appearancesettingspage.h:470
+#: ../build/src/ui_appearancesettingspage.h:489
 msgid "Tabbar colors"
 msgstr "Warna tabbar"
 
-#: widgets/fancytabwidget.cpp:602
+#: ../build/src/ui_appearancesettingspage.h:526
+msgid "Tabbar large mode"
+msgstr ""
+
+#: widgets/fancytabwidget.cpp:611
 msgid "Tabs on top"
 msgstr "Tab di puncak"
 
@@ -4096,7 +4100,7 @@ msgstr ""
 msgid "The \"%1\" command could not be started."
 msgstr "Perintah \"%1\" tidak dapat dimulai."
 
-#: ../build/src/ui_appearancesettingspage.h:480
+#: ../build/src/ui_appearancesettingspage.h:499
 msgid "The album cover of the currently playing song"
 msgstr "Sampul album dari lagu yang diputar saat ini"
 
@@ -4376,11 +4380,11 @@ msgstr "Memperbarui %1%..."
 msgid "Updating collection"
 msgstr "Memperbarui pustaka"
 
-#: ../build/src/ui_appearancesettingspage.h:488
+#: ../build/src/ui_appearancesettingspage.h:507
 msgid "Upper Left"
 msgstr "Kiri Atas"
 
-#: ../build/src/ui_appearancesettingspage.h:489
+#: ../build/src/ui_appearancesettingspage.h:508
 msgid "Upper Right"
 msgstr "Kanan Atas"
 
@@ -4412,7 +4416,7 @@ msgstr ""
 msgid "Use X11's shortcut keys"
 msgstr "Gunakan pintasan X11"
 
-#: ../build/src/ui_appearancesettingspage.h:465
+#: ../build/src/ui_appearancesettingspage.h:484
 msgid "Use a custom color set"
 msgstr "Gunakan set warna ubahsuai"
 
@@ -4428,11 +4432,11 @@ msgstr "Gunakan otentikasi"
 msgid "Use bitrate management engine"
 msgstr "Gunakan mesin pengelolaan lajubit"
 
-#: ../build/src/ui_appearancesettingspage.h:472
+#: ../build/src/ui_appearancesettingspage.h:491
 msgid "Use custom color"
 msgstr "Gunakan warna kustom"
 
-#: ../build/src/ui_appearancesettingspage.h:473
+#: ../build/src/ui_appearancesettingspage.h:492
 msgid "Use gradient background"
 msgstr "Gunakan latar belakang gradien"
 
@@ -4448,7 +4452,7 @@ msgstr "Gunakan pemindaian langsung"
 msgid "Use pattern"
 msgstr "Gunakan pola"
 
-#: ../build/src/ui_appearancesettingspage.h:507
+#: ../build/src/ui_appearancesettingspage.h:527
 msgid "Use system theme icons"
 msgstr "Gunakan ikon tema sistem"
 

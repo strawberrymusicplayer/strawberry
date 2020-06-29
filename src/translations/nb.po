@@ -310,7 +310,7 @@ msgstr "&Ny spilleliste"
 msgid "&Next track"
 msgstr "&Neste spor"
 
-#: ../build/src/ui_appearancesettingspage.h:478
+#: ../build/src/ui_appearancesettingspage.h:497
 msgid "&No background image"
 msgstr "&Ingen bakgrunn"
 
@@ -370,11 +370,11 @@ msgstr "&Omkod musikk"
 msgid "&Update changed collection folders"
 msgstr "Oppdater endrede samling"
 
-#: ../build/src/ui_appearancesettingspage.h:471
+#: ../build/src/ui_appearancesettingspage.h:490
 msgid "&Use the system default color"
 msgstr "&bruk standard system farger"
 
-#: ../build/src/ui_appearancesettingspage.h:464
+#: ../build/src/ui_appearancesettingspage.h:483
 msgid "&Use the system default color set"
 msgstr "&Bruk system standard fargeoppsett"
 
@@ -404,7 +404,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:499
+#: ../build/src/ui_appearancesettingspage.h:518
 msgid "0px"
 msgstr "0px"
 
@@ -416,7 +416,7 @@ msgstr "1 dag"
 msgid "1 track"
 msgstr "1 spor"
 
-#: ../build/src/ui_appearancesettingspage.h:501
+#: ../build/src/ui_appearancesettingspage.h:520
 msgid "40%"
 msgstr "40%"
 
@@ -619,7 +619,7 @@ msgstr "Fest etikett for utgivelsesår på sporet"
 msgid "Add stream..."
 msgstr ""
 
-#: internet/internetsearchview.cpp:325
+#: internet/internetsearchview.cpp:326
 msgid "Add to albums"
 msgstr "Legg til albumer"
 
@@ -627,7 +627,7 @@ msgstr "Legg til albumer"
 msgid "Add to another playlist"
 msgstr "Legg til i annen spilleliste"
 
-#: internet/internetsearchview.cpp:322
+#: internet/internetsearchview.cpp:323
 msgid "Add to artists"
 msgstr "Legg til artister"
 
@@ -635,7 +635,7 @@ msgstr "Legg til artister"
 msgid "Add to playlist"
 msgstr "Legg til i spilleliste"
 
-#: internet/internetsearchview.cpp:328
+#: internet/internetsearchview.cpp:329
 msgid "Add to songs"
 msgstr "Legg til sanger"
 
@@ -669,7 +669,7 @@ msgstr "Lagt til i dag"
 msgid "Added within three months"
 msgstr "Lagt til innen tre måneder"
 
-#: collection/collectionfilterwidget.cpp:229
+#: collection/collectionfilterwidget.cpp:230
 msgid "Advanced grouping..."
 msgstr "Avansert gruppering…"
 
@@ -677,7 +677,7 @@ msgstr "Avansert gruppering…"
 msgid "After copying..."
 msgstr "Etter kopiering…"
 
-#: ../build/src/ui_appearancesettingspage.h:482
+#: ../build/src/ui_appearancesettingspage.h:501
 msgid "Albu&m cover"
 msgstr "Albu&m kover"
 
@@ -800,7 +800,7 @@ msgstr "Det oppstod en feil når metadata skulle skrives til '%1'"
 msgid "Angry"
 msgstr "Sint"
 
-#: ../build/src/ui_appearancesettingspage.h:462
+#: ../build/src/ui_appearancesettingspage.h:481
 msgid "Appearance"
 msgstr "Utseende"
 
@@ -809,7 +809,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Tilføy filer/URLer til spillelista"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:319
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:311
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:312
 #: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Legg til i gjeldende spilleliste"
@@ -941,7 +941,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Bakgrunnsfarge"
 
-#: ../build/src/ui_appearancesettingspage.h:476
+#: ../build/src/ui_appearancesettingspage.h:495
 msgid "Background image"
 msgstr "Bakgrunnsbilde"
 
@@ -1008,7 +1008,7 @@ msgstr "Blokktype"
 msgid "Bluetooth MAC Address"
 msgstr "Bluetooth MAC Address"
 
-#: ../build/src/ui_appearancesettingspage.h:498
+#: ../build/src/ui_appearancesettingspage.h:517
 msgid "Blur amount"
 msgstr "Mengde slør"
 
@@ -1020,15 +1020,15 @@ msgstr "Brødtekst"
 msgid "Boom analyzer"
 msgstr "Boomanalysator"
 
-#: ../build/src/ui_appearancesettingspage.h:491
+#: ../build/src/ui_appearancesettingspage.h:510
 msgid "Bottom Left"
 msgstr "Nede til venstre"
 
-#: ../build/src/ui_appearancesettingspage.h:492
+#: ../build/src/ui_appearancesettingspage.h:511
 msgid "Bottom Right"
 msgstr "Nede til høyre"
 
-#: ../build/src/ui_appearancesettingspage.h:484
+#: ../build/src/ui_appearancesettingspage.h:503
 msgid "Browse..."
 msgstr "Bla gjennom…"
 
@@ -1177,7 +1177,7 @@ msgstr "Melding om gjennomsøk av samlingen"
 msgid "Color"
 msgstr "Farger"
 
-#: ../build/src/ui_appearancesettingspage.h:463
+#: ../build/src/ui_appearancesettingspage.h:482
 msgid "Colors"
 msgstr "Farger"
 
@@ -1214,13 +1214,13 @@ msgstr "Oppsett ikke komplett"
 msgid "Configuration incorrect"
 msgstr "Uriktig oppsett"
 
-#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:340
+#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:341
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
 msgstr "Sett opp %1…"
 
-#: ../build/src/ui_appearancesettingspage.h:506
+#: ../build/src/ui_appearancesettingspage.h:524
 msgid "Configure buttons"
 msgstr ""
 
@@ -1446,7 +1446,7 @@ msgstr ""
 msgid "Custom"
 msgstr "Egendefinert"
 
-#: ../build/src/ui_appearancesettingspage.h:483
+#: ../build/src/ui_appearancesettingspage.h:502
 msgid "Custom image:"
 msgstr "Egendefinert bilde:"
 
@@ -1490,7 +1490,7 @@ msgstr "Senk volum med 4 prosent"
 msgid "Decrease the volume by <value> percent"
 msgstr "Demp lydstyrken med <value> prosent"
 
-#: ../build/src/ui_appearancesettingspage.h:477
+#: ../build/src/ui_appearancesettingspage.h:496
 msgid "Default bac&kground image"
 msgstr "Forhåndsvalgt bak&grunnsbilde"
 
@@ -1601,7 +1601,7 @@ msgstr "Overleggsvisning"
 msgid "Do not convert any music"
 msgstr "Ikke konverter musikk"
 
-#: ../build/src/ui_appearancesettingspage.h:497
+#: ../build/src/ui_appearancesettingspage.h:516
 msgid "Do not cut image"
 msgstr "Ikke kutt bildet"
 
@@ -1749,7 +1749,7 @@ msgstr "Skriv inn et filnavn for eksportert albumomslag (uten filendelse):"
 msgid "Enter a new name for this playlist"
 msgstr "Gi denne spillelista et nytt navn"
 
-#: internet/internetsearchview.cpp:397 ../build/src/ui_internetsearchview.h:231
+#: internet/internetsearchview.cpp:398 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr "Skriv inn søkeord ovenfor for å finne musikk"
 
@@ -1986,7 +1986,7 @@ msgstr "Filer"
 msgid "Files to transcode"
 msgstr "Filer som skal omkodes"
 
-#: ../build/src/ui_appearancesettingspage.h:503
+#: ../build/src/ui_appearancesettingspage.h:525
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2134,63 +2134,63 @@ msgid "Group Collection by..."
 msgstr "Grupper samling etter…"
 
 #: collection/collectionfilterwidget.cpp:120
-#: internet/internetsearchview.cpp:338
+#: internet/internetsearchview.cpp:339
 msgid "Group by"
 msgstr "Grupper etter"
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:207
 msgid "Group by Album"
 msgstr "Grupper etter album"
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album Artist"
 msgstr "Grupper etter album artist"
 
-#: collection/collectionfilterwidget.cpp:190
+#: collection/collectionfilterwidget.cpp:191
 msgid "Group by Album artist/Album"
 msgstr "Grupper etter album artist/album"
 
-#: collection/collectionfilterwidget.cpp:191
+#: collection/collectionfilterwidget.cpp:192
 msgid "Group by Album artist/Album - Disc"
 msgstr "Grupper etter album artist/album - disc"
 
-#: collection/collectionfilterwidget.cpp:192
+#: collection/collectionfilterwidget.cpp:193
 msgid "Group by Album artist/Year - Album"
 msgstr "Grupper etter album artist/år - album"
 
-#: collection/collectionfilterwidget.cpp:193
+#: collection/collectionfilterwidget.cpp:194
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Grupper etter album artist/år - album - disc"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:205
 msgid "Group by Artist"
 msgstr "Grupper etter artist"
 
-#: collection/collectionfilterwidget.cpp:195
+#: collection/collectionfilterwidget.cpp:196
 msgid "Group by Artist/Album"
 msgstr "Grupper etter artist/album"
 
-#: collection/collectionfilterwidget.cpp:196
+#: collection/collectionfilterwidget.cpp:197
 msgid "Group by Artist/Album - Disc"
 msgstr "Grupper etter artist/album - disc"
 
-#: collection/collectionfilterwidget.cpp:197
+#: collection/collectionfilterwidget.cpp:198
 msgid "Group by Artist/Year - Album"
 msgstr "Grupper etter artist/år - album"
 
-#: collection/collectionfilterwidget.cpp:198
+#: collection/collectionfilterwidget.cpp:199
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Grupper etter artist/år - album - disc"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:208
 msgid "Group by Genre/Album"
 msgstr "Grupper etter sjanger/album"
 
-#: collection/collectionfilterwidget.cpp:200
+#: collection/collectionfilterwidget.cpp:201
 msgid "Group by Genre/Album artist/Album"
 msgstr "Grupper etter sjanger/album artist/album"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:202
 msgid "Group by Genre/Artist/Album"
 msgstr "Grupper etter sjanger/artist/album"
 
@@ -2201,11 +2201,11 @@ msgstr "Grupper etter sjanger/artist/album"
 msgid "Grouping"
 msgstr "Gruppering"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:251
 msgid "Grouping Name"
 msgstr "Grupperingsnavn"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:251
 msgid "Grouping name:"
 msgstr "Grupperingsnavn:"
 
@@ -2247,11 +2247,11 @@ msgstr "Høy (%1 bilder/sekund)"
 msgid "Icon"
 msgstr "Ikon"
 
-#: ../build/src/ui_appearancesettingspage.h:502
+#: ../build/src/ui_appearancesettingspage.h:521
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:612
 msgid "Icons on top"
 msgstr "Ikoner øverst"
 
@@ -2351,7 +2351,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Gå til forrige sang nå"
 
-#: ../build/src/ui_appearancesettingspage.h:496
+#: ../build/src/ui_appearancesettingspage.h:515
 msgid "Keep aspect ratio"
 msgstr "Keep aspect ratio"
 
@@ -2379,7 +2379,7 @@ msgstr "Storsal"
 msgid "Large album cover"
 msgstr "Stort omslag"
 
-#: widgets/fancytabwidget.cpp:599
+#: widgets/fancytabwidget.cpp:608
 msgid "Large sidebar"
 msgstr "Stort sidefelt"
 
@@ -2442,7 +2442,7 @@ msgstr "Hent omslag fra disk"
 msgid "Load cover from disk..."
 msgstr "Hent omslag fra disk…"
 
-#: playlist/playlistcontainer.cpp:320
+#: playlist/playlistcontainer.cpp:321
 msgid "Load playlist"
 msgstr "Åpne spilleliste"
 
@@ -2536,7 +2536,7 @@ msgstr "Merk som hørt"
 msgid "Mark disappeared songs unavailable"
 msgstr "Merk tapte sanger utilgjengelige"
 
-#: ../build/src/ui_appearancesettingspage.h:494
+#: ../build/src/ui_appearancesettingspage.h:513
 msgid "Max cover size"
 msgstr "Maksimal kover størrelse"
 
@@ -2553,7 +2553,7 @@ msgstr "Medium (%1 bilder/sekund)"
 msgid "Metadata"
 msgstr "Metadata"
 
-#: ../build/src/ui_appearancesettingspage.h:490
+#: ../build/src/ui_appearancesettingspage.h:509
 msgid "Middle"
 msgstr "Midten"
 
@@ -2717,7 +2717,7 @@ msgstr "Ingen lange blokker"
 msgid "No match."
 msgstr "Ingen treff."
 
-#: playlist/playlistcontainer.cpp:401
+#: playlist/playlistcontainer.cpp:402
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "Ingen treff.  Visk ut søkefeltet for å vise hele spillelisten igjen."
@@ -2803,7 +2803,7 @@ msgstr "På"
 msgid "On startup"
 msgstr "Ved oppstart"
 
-#: ../build/src/ui_appearancesettingspage.h:500
+#: ../build/src/ui_appearancesettingspage.h:519
 msgid "Opacity"
 msgstr "Dekkevne"
 
@@ -2824,7 +2824,7 @@ msgid "Open device"
 msgstr "Åpne enhet"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:313
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:314
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:304
 msgid "Open in new playlist"
@@ -2950,7 +2950,7 @@ msgstr "Utøver"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:610
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
@@ -2960,7 +2960,7 @@ msgstr "Enkelt sidefelt"
 msgid "Play"
 msgstr "Spill"
 
-#: ../build/src/ui_appearancesettingspage.h:505
+#: ../build/src/ui_appearancesettingspage.h:523
 msgid "Play control buttons"
 msgstr ""
 
@@ -2985,14 +2985,14 @@ msgstr "Spill av <n>ende spor i spillelista"
 msgid "Player options"
 msgstr "Innstillinger for avspiller"
 
-#: playlist/playlistcontainer.cpp:315 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistcontainer.cpp:316 playlist/playlistlistcontainer.cpp:274
 #: playlist/playlistlistcontainer.cpp:362 playlist/playlistmanager.cpp:105
 #: playlist/playlistmanager.cpp:183 playlist/playlistmanager.cpp:540
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
 msgid "Playlist"
 msgstr "Spilleliste"
 
-#: ../build/src/ui_appearancesettingspage.h:504
+#: ../build/src/ui_appearancesettingspage.h:522
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3037,7 +3037,7 @@ msgstr "Oppsprettsvinduets varighet"
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:485
+#: ../build/src/ui_appearancesettingspage.h:504
 msgid "Position"
 msgstr "Posisjon"
 
@@ -3157,7 +3157,7 @@ msgid "Queue to play next"
 msgstr "Legg i kø for å spille som neste"
 
 #: core/mainwindow.cpp:1687 context/contextalbumsview.cpp:257
-#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:316
+#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
 msgstr "Legg spor i kø"
@@ -3289,7 +3289,7 @@ msgid "Repeat track"
 msgstr "Gjenta spor"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:320
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:312
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:313
 #: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Erstatt gjeldende spilleliste"
@@ -3541,7 +3541,7 @@ msgstr "Søke forsinkelse"
 msgid "Search for album covers..."
 msgstr "Søk etter albumomslag…"
 
-#: internet/internetsearchview.cpp:334
+#: internet/internetsearchview.cpp:335
 msgid "Search for this"
 msgstr "Søk etter dette"
 
@@ -3570,11 +3570,11 @@ msgstr "Gå til et bestemt tidspunkt i sporet"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Gå frem-/bakover ved bruk av en tastatursnarvei eller musehjulet"
 
-#: ../build/src/ui_appearancesettingspage.h:468
+#: ../build/src/ui_appearancesettingspage.h:487
 msgid "Select background color:"
 msgstr "Velg bakgrunnsfarge:"
 
-#: settings/appearancesettingspage.cpp:340
+#: settings/appearancesettingspage.cpp:343
 msgid "Select background image"
 msgstr "Velg bakgrunnsbilde"
 
@@ -3582,11 +3582,11 @@ msgstr "Velg bakgrunnsbilde"
 msgid "Select best possible match"
 msgstr "Velg det beste treffet"
 
-#: ../build/src/ui_appearancesettingspage.h:466
+#: ../build/src/ui_appearancesettingspage.h:485
 msgid "Select foreground color:"
 msgstr "Velg forgrunnsfarge:"
 
-#: ../build/src/ui_appearancesettingspage.h:474
+#: ../build/src/ui_appearancesettingspage.h:493
 msgid "Select tabbar color:"
 msgstr "Velg tabbar farge:"
 
@@ -3843,7 +3843,7 @@ msgstr "Hopp over spor"
 msgid "Small album cover"
 msgstr "Lite albumomslag"
 
-#: widgets/fancytabwidget.cpp:600
+#: widgets/fancytabwidget.cpp:609
 msgid "Small sidebar"
 msgstr "Lite sidefelt"
 
@@ -3986,7 +3986,7 @@ msgstr "Strøm URL metode"
 msgid "Streaming"
 msgstr "Strømming"
 
-#: ../build/src/ui_appearancesettingspage.h:495
+#: ../build/src/ui_appearancesettingspage.h:514
 msgid "Stretch image to fill playlist"
 msgstr "Utvid bildet til å fylle spilleliste"
 
@@ -4034,11 +4034,15 @@ msgstr "Støttede formater"
 msgid "System colors"
 msgstr "Systemfarger"
 
-#: ../build/src/ui_appearancesettingspage.h:470
+#: ../build/src/ui_appearancesettingspage.h:489
 msgid "Tabbar colors"
 msgstr "Tabbar farger"
 
-#: widgets/fancytabwidget.cpp:602
+#: ../build/src/ui_appearancesettingspage.h:526
+msgid "Tabbar large mode"
+msgstr ""
+
+#: widgets/fancytabwidget.cpp:611
 msgid "Tabs on top"
 msgstr "Faner på toppen"
 
@@ -4087,7 +4091,7 @@ msgstr ""
 msgid "The \"%1\" command could not be started."
 msgstr "Kunne ikke starte kommandoen \"%1\"."
 
-#: ../build/src/ui_appearancesettingspage.h:480
+#: ../build/src/ui_appearancesettingspage.h:499
 msgid "The album cover of the currently playing song"
 msgstr "Albumomslaget til sangen som spilles av for øyeblikket"
 
@@ -4363,11 +4367,11 @@ msgstr "Oppdaterer %1% …"
 msgid "Updating collection"
 msgstr "Oppdaterer samling"
 
-#: ../build/src/ui_appearancesettingspage.h:488
+#: ../build/src/ui_appearancesettingspage.h:507
 msgid "Upper Left"
 msgstr "Oppe til venstre"
 
-#: ../build/src/ui_appearancesettingspage.h:489
+#: ../build/src/ui_appearancesettingspage.h:508
 msgid "Upper Right"
 msgstr "Oppe til høyre"
 
@@ -4399,7 +4403,7 @@ msgstr ""
 msgid "Use X11's shortcut keys"
 msgstr "Bruk X11 snarveier"
 
-#: ../build/src/ui_appearancesettingspage.h:465
+#: ../build/src/ui_appearancesettingspage.h:484
 msgid "Use a custom color set"
 msgstr "Bruk egendefinert fargedrakt"
 
@@ -4415,11 +4419,11 @@ msgstr "Bruk autentisering"
 msgid "Use bitrate management engine"
 msgstr "Bruk kontrollert bitrate"
 
-#: ../build/src/ui_appearancesettingspage.h:472
+#: ../build/src/ui_appearancesettingspage.h:491
 msgid "Use custom color"
 msgstr "Bruk egendefinert farge"
 
-#: ../build/src/ui_appearancesettingspage.h:473
+#: ../build/src/ui_appearancesettingspage.h:492
 msgid "Use gradient background"
 msgstr "Bruk gradient bakgrunn"
 
@@ -4435,7 +4439,7 @@ msgstr "Bruk live skanning"
 msgid "Use pattern"
 msgstr "Bruk pattern"
 
-#: ../build/src/ui_appearancesettingspage.h:507
+#: ../build/src/ui_appearancesettingspage.h:527
 msgid "Use system theme icons"
 msgstr "Bruk ikoner fra system theme"
 

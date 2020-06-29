@@ -314,7 +314,7 @@ msgstr "&Nový seznam skladeb"
 msgid "&Next track"
 msgstr "&Další skladba"
 
-#: ../build/src/ui_appearancesettingspage.h:478
+#: ../build/src/ui_appearancesettingspage.h:497
 msgid "&No background image"
 msgstr "&Chybějící obrázek na pozadí"
 
@@ -374,11 +374,11 @@ msgstr "&Převést hudbu"
 msgid "&Update changed collection folders"
 msgstr "&Aktualizovat změny ve složkách kolekce"
 
-#: ../build/src/ui_appearancesettingspage.h:471
+#: ../build/src/ui_appearancesettingspage.h:490
 msgid "&Use the system default color"
 msgstr "&Použít nastavení barvu systému"
 
-#: ../build/src/ui_appearancesettingspage.h:464
+#: ../build/src/ui_appearancesettingspage.h:483
 msgid "&Use the system default color set"
 msgstr "&Použít systémový motiv barev"
 
@@ -409,7 +409,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:499
+#: ../build/src/ui_appearancesettingspage.h:518
 msgid "0px"
 msgstr "0 px"
 
@@ -421,7 +421,7 @@ msgstr "1 den"
 msgid "1 track"
 msgstr "1 stopa"
 
-#: ../build/src/ui_appearancesettingspage.h:501
+#: ../build/src/ui_appearancesettingspage.h:520
 msgid "40%"
 msgstr "40%"
 
@@ -624,7 +624,7 @@ msgstr "Přidat značku rok písně"
 msgid "Add stream..."
 msgstr "Přidat přenos..."
 
-#: internet/internetsearchview.cpp:325
+#: internet/internetsearchview.cpp:326
 msgid "Add to albums"
 msgstr "Přidat do alb"
 
@@ -632,7 +632,7 @@ msgstr "Přidat do alb"
 msgid "Add to another playlist"
 msgstr "Přidat do jiného seznamu skladeb"
 
-#: internet/internetsearchview.cpp:322
+#: internet/internetsearchview.cpp:323
 msgid "Add to artists"
 msgstr "Přidat k umělcům"
 
@@ -640,7 +640,7 @@ msgstr "Přidat k umělcům"
 msgid "Add to playlist"
 msgstr "Přidat do seznamu skladeb"
 
-#: internet/internetsearchview.cpp:328
+#: internet/internetsearchview.cpp:329
 msgid "Add to songs"
 msgstr "Přidat ke skladbám"
 
@@ -674,7 +674,7 @@ msgstr "Přidána dnes"
 msgid "Added within three months"
 msgstr "Přidána během tří měsíců"
 
-#: collection/collectionfilterwidget.cpp:229
+#: collection/collectionfilterwidget.cpp:230
 msgid "Advanced grouping..."
 msgstr "Pokročilé seskupování..."
 
@@ -682,7 +682,7 @@ msgstr "Pokročilé seskupování..."
 msgid "After copying..."
 msgstr "Po zkopírování..."
 
-#: ../build/src/ui_appearancesettingspage.h:482
+#: ../build/src/ui_appearancesettingspage.h:501
 msgid "Albu&m cover"
 msgstr "Obal alb&a"
 
@@ -806,7 +806,7 @@ msgstr "Při zápisu údajů do '%1' se vyskytla chyba"
 msgid "Angry"
 msgstr "Naštvaný"
 
-#: ../build/src/ui_appearancesettingspage.h:462
+#: ../build/src/ui_appearancesettingspage.h:481
 msgid "Appearance"
 msgstr "Vzhled"
 
@@ -815,7 +815,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Přidat soubory/adresy do seznamu skladeb"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:319
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:311
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:312
 #: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Přidat do současného seznamu skladeb"
@@ -947,7 +947,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Barva pozadí"
 
-#: ../build/src/ui_appearancesettingspage.h:476
+#: ../build/src/ui_appearancesettingspage.h:495
 msgid "Background image"
 msgstr "Obrázek na pozadí"
 
@@ -1015,7 +1015,7 @@ msgstr "Typ bloku"
 msgid "Bluetooth MAC Address"
 msgstr "MAC adresa Bluetooth"
 
-#: ../build/src/ui_appearancesettingspage.h:498
+#: ../build/src/ui_appearancesettingspage.h:517
 msgid "Blur amount"
 msgstr "Velikost rozmazání"
 
@@ -1027,15 +1027,15 @@ msgstr "Tělo"
 msgid "Boom analyzer"
 msgstr "Růstový analyzátor"
 
-#: ../build/src/ui_appearancesettingspage.h:491
+#: ../build/src/ui_appearancesettingspage.h:510
 msgid "Bottom Left"
 msgstr "Vlevo dole"
 
-#: ../build/src/ui_appearancesettingspage.h:492
+#: ../build/src/ui_appearancesettingspage.h:511
 msgid "Bottom Right"
 msgstr "Vpravo dole"
 
-#: ../build/src/ui_appearancesettingspage.h:484
+#: ../build/src/ui_appearancesettingspage.h:503
 msgid "Browse..."
 msgstr "Procházet…"
 
@@ -1186,7 +1186,7 @@ msgstr "Zpráva o prohledání sbírky"
 msgid "Color"
 msgstr "Barva"
 
-#: ../build/src/ui_appearancesettingspage.h:463
+#: ../build/src/ui_appearancesettingspage.h:482
 msgid "Colors"
 msgstr "Barvy"
 
@@ -1223,13 +1223,13 @@ msgstr "Konfigurace není hotová"
 msgid "Configuration incorrect"
 msgstr "Konfigurace není správná"
 
-#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:340
+#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:341
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
 msgstr "Nastavit %1..."
 
-#: ../build/src/ui_appearancesettingspage.h:506
+#: ../build/src/ui_appearancesettingspage.h:524
 msgid "Configure buttons"
 msgstr ""
 
@@ -1455,7 +1455,7 @@ msgstr "Využití mezipaměti na disku:"
 msgid "Custom"
 msgstr "Vlastní"
 
-#: ../build/src/ui_appearancesettingspage.h:483
+#: ../build/src/ui_appearancesettingspage.h:502
 msgid "Custom image:"
 msgstr "Vlastní obrázek:"
 
@@ -1499,7 +1499,7 @@ msgstr "Snížit hlasitost o 4 procenta"
 msgid "Decrease the volume by <value> percent"
 msgstr "Snížit hlasitost o <value> procent"
 
-#: ../build/src/ui_appearancesettingspage.h:477
+#: ../build/src/ui_appearancesettingspage.h:496
 msgid "Default bac&kground image"
 msgstr "Výchozí obrázek poza&dí"
 
@@ -1610,7 +1610,7 @@ msgstr "Zobrazovat informace na obrazovce (OSD)"
 msgid "Do not convert any music"
 msgstr "Nepřevádět žádnou hudbu"
 
-#: ../build/src/ui_appearancesettingspage.h:497
+#: ../build/src/ui_appearancesettingspage.h:516
 msgid "Do not cut image"
 msgstr "Neořezávat obrázek"
 
@@ -1759,7 +1759,7 @@ msgstr "Zadejte souborový název pro uložené obaly (bez přípony):"
 msgid "Enter a new name for this playlist"
 msgstr "Zadejte název tohoto seznamu skladeb"
 
-#: internet/internetsearchview.cpp:397 ../build/src/ui_internetsearchview.h:231
+#: internet/internetsearchview.cpp:398 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr "Výše zadejte hledaný výraz pro vyhledání hudby"
 
@@ -1996,7 +1996,7 @@ msgstr "Soubory"
 msgid "Files to transcode"
 msgstr "Soubory k překódování"
 
-#: ../build/src/ui_appearancesettingspage.h:503
+#: ../build/src/ui_appearancesettingspage.h:525
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2148,63 +2148,63 @@ msgid "Group Collection by..."
 msgstr "Seskupovat v hudební sbírce podle..."
 
 #: collection/collectionfilterwidget.cpp:120
-#: internet/internetsearchview.cpp:338
+#: internet/internetsearchview.cpp:339
 msgid "Group by"
 msgstr "Seskupovat podle"
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:207
 msgid "Group by Album"
 msgstr "Seskupovat podle alba"
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album Artist"
 msgstr "Seskupit dle Autora alba"
 
-#: collection/collectionfilterwidget.cpp:190
+#: collection/collectionfilterwidget.cpp:191
 msgid "Group by Album artist/Album"
 msgstr "Seskupovat podle umělce alba/alba"
 
-#: collection/collectionfilterwidget.cpp:191
+#: collection/collectionfilterwidget.cpp:192
 msgid "Group by Album artist/Album - Disc"
 msgstr "Seskupit jako Autor alba/Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:192
+#: collection/collectionfilterwidget.cpp:193
 msgid "Group by Album artist/Year - Album"
 msgstr "Seskupit jako Autor alba/Rok - Album"
 
-#: collection/collectionfilterwidget.cpp:193
+#: collection/collectionfilterwidget.cpp:194
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Seskupit jako Autor alba/Rok - Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:205
 msgid "Group by Artist"
 msgstr "Seskupovat podle umělce"
 
-#: collection/collectionfilterwidget.cpp:195
+#: collection/collectionfilterwidget.cpp:196
 msgid "Group by Artist/Album"
 msgstr "Seskupovat podle umělce/alba"
 
-#: collection/collectionfilterwidget.cpp:196
+#: collection/collectionfilterwidget.cpp:197
 msgid "Group by Artist/Album - Disc"
 msgstr "Seskupit jako Umělec/Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:197
+#: collection/collectionfilterwidget.cpp:198
 msgid "Group by Artist/Year - Album"
 msgstr "Seskupovat podle umělce/roku - alba"
 
-#: collection/collectionfilterwidget.cpp:198
+#: collection/collectionfilterwidget.cpp:199
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Seskupit jako Umělec/Rok - Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:208
 msgid "Group by Genre/Album"
 msgstr "Seskupovat podle žánru/alba"
 
-#: collection/collectionfilterwidget.cpp:200
+#: collection/collectionfilterwidget.cpp:201
 msgid "Group by Genre/Album artist/Album"
 msgstr "Seskupit jako Žánr/Autor alba/Album"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:202
 msgid "Group by Genre/Artist/Album"
 msgstr "Seskupovat podle žánru/umělce/alba"
 
@@ -2215,11 +2215,11 @@ msgstr "Seskupovat podle žánru/umělce/alba"
 msgid "Grouping"
 msgstr "Seskupení"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:251
 msgid "Grouping Name"
 msgstr "Název seskupení"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:251
 msgid "Grouping name:"
 msgstr "Název seskupení:"
 
@@ -2261,11 +2261,11 @@ msgstr "Vysoký (%1 fps)"
 msgid "Icon"
 msgstr "Ikona"
 
-#: ../build/src/ui_appearancesettingspage.h:502
+#: ../build/src/ui_appearancesettingspage.h:521
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:612
 msgid "Icons on top"
 msgstr "Ikony nahoře"
 
@@ -2373,7 +2373,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Skočit ihned na předchozí píseň"
 
-#: ../build/src/ui_appearancesettingspage.h:496
+#: ../build/src/ui_appearancesettingspage.h:515
 msgid "Keep aspect ratio"
 msgstr "Zachovat poměr stran"
 
@@ -2401,7 +2401,7 @@ msgstr "Velký sál"
 msgid "Large album cover"
 msgstr "Velký obal alba"
 
-#: widgets/fancytabwidget.cpp:599
+#: widgets/fancytabwidget.cpp:608
 msgid "Large sidebar"
 msgstr "Velký postranní panel"
 
@@ -2464,7 +2464,7 @@ msgstr "Nahrát obal z disku"
 msgid "Load cover from disk..."
 msgstr "Nahrát obal na disku..."
 
-#: playlist/playlistcontainer.cpp:320
+#: playlist/playlistcontainer.cpp:321
 msgid "Load playlist"
 msgstr "Nahrát seznam skladeb"
 
@@ -2558,7 +2558,7 @@ msgstr "Označit jako poslechnuté"
 msgid "Mark disappeared songs unavailable"
 msgstr "Označit zmizelé skladby jako nedostupné"
 
-#: ../build/src/ui_appearancesettingspage.h:494
+#: ../build/src/ui_appearancesettingspage.h:513
 msgid "Max cover size"
 msgstr "Maximální velikost obalu alba"
 
@@ -2575,7 +2575,7 @@ msgstr "Střední (%1 fps)"
 msgid "Metadata"
 msgstr "Metadata"
 
-#: ../build/src/ui_appearancesettingspage.h:490
+#: ../build/src/ui_appearancesettingspage.h:509
 msgid "Middle"
 msgstr "Střed"
 
@@ -2739,7 +2739,7 @@ msgstr "Žádné dlouhé bloky"
 msgid "No match."
 msgstr "Žádná shoda."
 
-#: playlist/playlistcontainer.cpp:401
+#: playlist/playlistcontainer.cpp:402
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -2828,7 +2828,7 @@ msgstr "Zapnuto"
 msgid "On startup"
 msgstr "Při startu"
 
-#: ../build/src/ui_appearancesettingspage.h:500
+#: ../build/src/ui_appearancesettingspage.h:519
 msgid "Opacity"
 msgstr "Neprůhlednost"
 
@@ -2849,7 +2849,7 @@ msgid "Open device"
 msgstr "Otevřít zařízení"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:313
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:314
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:304
 msgid "Open in new playlist"
@@ -2975,7 +2975,7 @@ msgstr "Účinkující"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:610
 msgid "Plain sidebar"
 msgstr "Prostý postranní panel"
 
@@ -2985,7 +2985,7 @@ msgstr "Prostý postranní panel"
 msgid "Play"
 msgstr "Přehrát"
 
-#: ../build/src/ui_appearancesettingspage.h:505
+#: ../build/src/ui_appearancesettingspage.h:523
 msgid "Play control buttons"
 msgstr ""
 
@@ -3010,14 +3010,14 @@ msgstr "Přehrát <n>. skladbu v seznamu se skladbami"
 msgid "Player options"
 msgstr "Nastavení přehrávače"
 
-#: playlist/playlistcontainer.cpp:315 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistcontainer.cpp:316 playlist/playlistlistcontainer.cpp:274
 #: playlist/playlistlistcontainer.cpp:362 playlist/playlistmanager.cpp:105
 #: playlist/playlistmanager.cpp:183 playlist/playlistmanager.cpp:540
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
 msgid "Playlist"
 msgstr "Seznam skladeb"
 
-#: ../build/src/ui_appearancesettingspage.h:504
+#: ../build/src/ui_appearancesettingspage.h:522
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3064,7 +3064,7 @@ msgstr "Doba zobrazení oznámení"
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:485
+#: ../build/src/ui_appearancesettingspage.h:504
 msgid "Position"
 msgstr "Pozice"
 
@@ -3187,7 +3187,7 @@ msgid "Queue to play next"
 msgstr "Do fronty jako další"
 
 #: core/mainwindow.cpp:1687 context/contextalbumsview.cpp:257
-#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:316
+#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
 msgstr "Přidat skladbu do řady"
@@ -3320,7 +3320,7 @@ msgid "Repeat track"
 msgstr "Opakovat skladbu"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:320
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:312
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:313
 #: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Nahradit současný seznam skladeb"
@@ -3574,7 +3574,7 @@ msgstr "Zpožděné vyhledávání"
 msgid "Search for album covers..."
 msgstr "Hledat obaly alb..."
 
-#: internet/internetsearchview.cpp:334
+#: internet/internetsearchview.cpp:335
 msgid "Search for this"
 msgstr "Hledat toto"
 
@@ -3603,11 +3603,11 @@ msgstr "Skočit v nyní přehrávané skladbě na určité místo"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Posunování pomocí klávesové zkratky nebo kolečka myši"
 
-#: ../build/src/ui_appearancesettingspage.h:468
+#: ../build/src/ui_appearancesettingspage.h:487
 msgid "Select background color:"
 msgstr "Vybrat barvu pozadí:"
 
-#: settings/appearancesettingspage.cpp:340
+#: settings/appearancesettingspage.cpp:343
 msgid "Select background image"
 msgstr "Vybrat obrázek na pozadí"
 
@@ -3615,11 +3615,11 @@ msgstr "Vybrat obrázek na pozadí"
 msgid "Select best possible match"
 msgstr "Vyberte nejlepší možnou shodu"
 
-#: ../build/src/ui_appearancesettingspage.h:466
+#: ../build/src/ui_appearancesettingspage.h:485
 msgid "Select foreground color:"
 msgstr "Vybrat barvu popředí:"
 
-#: ../build/src/ui_appearancesettingspage.h:474
+#: ../build/src/ui_appearancesettingspage.h:493
 #, fuzzy
 msgid "Select tabbar color:"
 msgstr "Vybrat barvu tabbar:"
@@ -3881,7 +3881,7 @@ msgstr "Přeskočit skladbu"
 msgid "Small album cover"
 msgstr "Malý obal alba"
 
-#: widgets/fancytabwidget.cpp:600
+#: widgets/fancytabwidget.cpp:609
 msgid "Small sidebar"
 msgstr "Malý postranní panel"
 
@@ -4028,7 +4028,7 @@ msgstr "Metoda URL streamu"
 msgid "Streaming"
 msgstr "Streamování"
 
-#: ../build/src/ui_appearancesettingspage.h:495
+#: ../build/src/ui_appearancesettingspage.h:514
 msgid "Stretch image to fill playlist"
 msgstr "Roztáhnout obrázek aby vyplnil seznam skladeb"
 
@@ -4076,12 +4076,16 @@ msgstr "Podporované formáty"
 msgid "System colors"
 msgstr "Systémové barvy"
 
-#: ../build/src/ui_appearancesettingspage.h:470
+#: ../build/src/ui_appearancesettingspage.h:489
 #, fuzzy
 msgid "Tabbar colors"
 msgstr "Barvy tabbaru"
 
-#: widgets/fancytabwidget.cpp:602
+#: ../build/src/ui_appearancesettingspage.h:526
+msgid "Tabbar large mode"
+msgstr ""
+
+#: widgets/fancytabwidget.cpp:611
 msgid "Tabs on top"
 msgstr "Karty nahoře"
 
@@ -4130,7 +4134,7 @@ msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
 msgid "The \"%1\" command could not be started."
 msgstr "Příkaz \"%1\" se nepodařilo provést."
 
-#: ../build/src/ui_appearancesettingspage.h:480
+#: ../build/src/ui_appearancesettingspage.h:499
 msgid "The album cover of the currently playing song"
 msgstr "Obal alba nyní přehrávané písně"
 
@@ -4408,11 +4412,11 @@ msgstr "Obnovuje se %1%..."
 msgid "Updating collection"
 msgstr "Obnovuje se hudební sbírka"
 
-#: ../build/src/ui_appearancesettingspage.h:488
+#: ../build/src/ui_appearancesettingspage.h:507
 msgid "Upper Left"
 msgstr "Vlevo nahoře"
 
-#: ../build/src/ui_appearancesettingspage.h:489
+#: ../build/src/ui_appearancesettingspage.h:508
 msgid "Upper Right"
 msgstr "Vpravo nahoře"
 
@@ -4446,7 +4450,7 @@ msgstr "Použijte nastavení Tidal pro přihlášení."
 msgid "Use X11's shortcut keys"
 msgstr "Použijte zkratkové klávesy X11"
 
-#: ../build/src/ui_appearancesettingspage.h:465
+#: ../build/src/ui_appearancesettingspage.h:484
 msgid "Use a custom color set"
 msgstr "Použít vlastní sadu barev:"
 
@@ -4462,11 +4466,11 @@ msgstr "Použít ověření"
 msgid "Use bitrate management engine"
 msgstr "Použít stroj na správu datového toku"
 
-#: ../build/src/ui_appearancesettingspage.h:472
+#: ../build/src/ui_appearancesettingspage.h:491
 msgid "Use custom color"
 msgstr "Použít vlastní barvy"
 
-#: ../build/src/ui_appearancesettingspage.h:473
+#: ../build/src/ui_appearancesettingspage.h:492
 msgid "Use gradient background"
 msgstr "Použít gradientu"
 
@@ -4483,7 +4487,7 @@ msgstr "Aktualizovat kolekci za chodu"
 msgid "Use pattern"
 msgstr "Použít vzor"
 
-#: ../build/src/ui_appearancesettingspage.h:507
+#: ../build/src/ui_appearancesettingspage.h:527
 msgid "Use system theme icons"
 msgstr "Použít ikony ze systémového motivu"
 

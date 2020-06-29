@@ -341,7 +341,7 @@ msgstr "Neue Wiedergabeliste"
 msgid "&Next track"
 msgstr "Nächstes Lied"
 
-#: ../build/src/ui_appearancesettingspage.h:478
+#: ../build/src/ui_appearancesettingspage.h:497
 msgid "&No background image"
 msgstr "Kein Hintergrundbild"
 
@@ -401,11 +401,11 @@ msgstr "Musik umwandeln"
 msgid "&Update changed collection folders"
 msgstr "&Aktualisieren der veränderten Verzeichnisse der Sammlung"
 
-#: ../build/src/ui_appearancesettingspage.h:471
+#: ../build/src/ui_appearancesettingspage.h:490
 msgid "&Use the system default color"
 msgstr "System Standardfarben benutzen"
 
-#: ../build/src/ui_appearancesettingspage.h:464
+#: ../build/src/ui_appearancesettingspage.h:483
 msgid "&Use the system default color set"
 msgstr "System Standardfarbenset benutzen"
 
@@ -436,7 +436,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:499
+#: ../build/src/ui_appearancesettingspage.h:518
 msgid "0px"
 msgstr "0px"
 
@@ -448,7 +448,7 @@ msgstr "1 Tag"
 msgid "1 track"
 msgstr "1 Titel"
 
-#: ../build/src/ui_appearancesettingspage.h:501
+#: ../build/src/ui_appearancesettingspage.h:520
 msgid "40%"
 msgstr "40%"
 
@@ -653,7 +653,7 @@ msgstr "Titelerscheinungsjahr hinzufügen"
 msgid "Add stream..."
 msgstr "Datenstrom hinzufügen..."
 
-#: internet/internetsearchview.cpp:325
+#: internet/internetsearchview.cpp:326
 msgid "Add to albums"
 msgstr "Zu Alben hinzufügen"
 
@@ -661,7 +661,7 @@ msgstr "Zu Alben hinzufügen"
 msgid "Add to another playlist"
 msgstr "Zu anderer Wiedergabeliste hinzufügen"
 
-#: internet/internetsearchview.cpp:322
+#: internet/internetsearchview.cpp:323
 msgid "Add to artists"
 msgstr "Zu Künstlern hinzufügen"
 
@@ -669,7 +669,7 @@ msgstr "Zu Künstlern hinzufügen"
 msgid "Add to playlist"
 msgstr "Zur Wiedergabeliste hinzufügen"
 
-#: internet/internetsearchview.cpp:328
+#: internet/internetsearchview.cpp:329
 msgid "Add to songs"
 msgstr "Zu den Liedern hinzufügen"
 
@@ -703,7 +703,7 @@ msgstr "Heute hinzugefügt"
 msgid "Added within three months"
 msgstr "In den letzten drei Monaten hinzugefügt"
 
-#: collection/collectionfilterwidget.cpp:229
+#: collection/collectionfilterwidget.cpp:230
 msgid "Advanced grouping..."
 msgstr "Erweiterte Sortierung …"
 
@@ -711,7 +711,7 @@ msgstr "Erweiterte Sortierung …"
 msgid "After copying..."
 msgstr "Nach dem Kopieren …"
 
-#: ../build/src/ui_appearancesettingspage.h:482
+#: ../build/src/ui_appearancesettingspage.h:501
 msgid "Albu&m cover"
 msgstr "Albu&m cover"
 
@@ -838,7 +838,7 @@ msgstr "Beim Schreiben der Metadaten für '%1' trat ein Fehler auf"
 msgid "Angry"
 msgstr "Wütend"
 
-#: ../build/src/ui_appearancesettingspage.h:462
+#: ../build/src/ui_appearancesettingspage.h:481
 msgid "Appearance"
 msgstr "Erscheinungsbild"
 
@@ -847,7 +847,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Dateien/Adressen an die Wiedergabeliste anhängen"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:319
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:311
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:312
 #: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Zur aktuellen Wiedergabeliste hinzufügen"
@@ -979,7 +979,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Hintergrundfarbe:"
 
-#: ../build/src/ui_appearancesettingspage.h:476
+#: ../build/src/ui_appearancesettingspage.h:495
 msgid "Background image"
 msgstr "Hintergrundbild"
 
@@ -1046,7 +1046,7 @@ msgstr "Blocktyp"
 msgid "Bluetooth MAC Address"
 msgstr "Bluetooth MAC Addresse"
 
-#: ../build/src/ui_appearancesettingspage.h:498
+#: ../build/src/ui_appearancesettingspage.h:517
 msgid "Blur amount"
 msgstr "Unschärfe"
 
@@ -1058,15 +1058,15 @@ msgstr "Textkörper:"
 msgid "Boom analyzer"
 msgstr "Boom"
 
-#: ../build/src/ui_appearancesettingspage.h:491
+#: ../build/src/ui_appearancesettingspage.h:510
 msgid "Bottom Left"
 msgstr "Unten links"
 
-#: ../build/src/ui_appearancesettingspage.h:492
+#: ../build/src/ui_appearancesettingspage.h:511
 msgid "Bottom Right"
 msgstr "Unten rechts"
 
-#: ../build/src/ui_appearancesettingspage.h:484
+#: ../build/src/ui_appearancesettingspage.h:503
 msgid "Browse..."
 msgstr "Durchsuchen …"
 
@@ -1217,7 +1217,7 @@ msgstr "Hinweis beim erneuten durchsuchen der Bibliothek"
 msgid "Color"
 msgstr "Farbe"
 
-#: ../build/src/ui_appearancesettingspage.h:463
+#: ../build/src/ui_appearancesettingspage.h:482
 msgid "Colors"
 msgstr "Farben"
 
@@ -1254,13 +1254,13 @@ msgstr "Einstellungen nicht vollständig"
 msgid "Configuration incorrect"
 msgstr "Konfiguration inkorrekt"
 
-#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:340
+#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:341
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
 msgstr "%1 konfigurieren …"
 
-#: ../build/src/ui_appearancesettingspage.h:506
+#: ../build/src/ui_appearancesettingspage.h:524
 msgid "Configure buttons"
 msgstr ""
 
@@ -1487,7 +1487,7 @@ msgstr "Aktuell wird dieser Cache genutzt:"
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
-#: ../build/src/ui_appearancesettingspage.h:483
+#: ../build/src/ui_appearancesettingspage.h:502
 msgid "Custom image:"
 msgstr "Benutzerdefiniertes Bild:"
 
@@ -1531,7 +1531,7 @@ msgstr "Lautstäre um 4% vrringern"
 msgid "Decrease the volume by <value> percent"
 msgstr "Lautstärke um <value> Prozent verringern"
 
-#: ../build/src/ui_appearancesettingspage.h:477
+#: ../build/src/ui_appearancesettingspage.h:496
 msgid "Default bac&kground image"
 msgstr "Default Hintergrundbild"
 
@@ -1642,7 +1642,7 @@ msgstr "Bildschirmanzeige anzeigen"
 msgid "Do not convert any music"
 msgstr "Nichts umwandeln"
 
-#: ../build/src/ui_appearancesettingspage.h:497
+#: ../build/src/ui_appearancesettingspage.h:516
 msgid "Do not cut image"
 msgstr "Bild nicht beschneiden"
 
@@ -1793,7 +1793,7 @@ msgstr ""
 msgid "Enter a new name for this playlist"
 msgstr "Neuer Name für diese Wiedergabeliste"
 
-#: internet/internetsearchview.cpp:397 ../build/src/ui_internetsearchview.h:231
+#: internet/internetsearchview.cpp:398 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr "Oberhalb Suchkriterien eingeben um Musik zu finden"
 
@@ -2030,7 +2030,7 @@ msgstr "Dateien"
 msgid "Files to transcode"
 msgstr "Dateien zum Umwandeln"
 
-#: ../build/src/ui_appearancesettingspage.h:503
+#: ../build/src/ui_appearancesettingspage.h:525
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2178,63 +2178,63 @@ msgid "Group Collection by..."
 msgstr "Bibliothek sortieren nach …"
 
 #: collection/collectionfilterwidget.cpp:120
-#: internet/internetsearchview.cpp:338
+#: internet/internetsearchview.cpp:339
 msgid "Group by"
 msgstr "Sortieren nach"
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:207
 msgid "Group by Album"
 msgstr "Album"
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album Artist"
 msgstr "Gropieren nach Album Künster"
 
-#: collection/collectionfilterwidget.cpp:190
+#: collection/collectionfilterwidget.cpp:191
 msgid "Group by Album artist/Album"
 msgstr "Nach Albuminterpret/Album gruppieren"
 
-#: collection/collectionfilterwidget.cpp:191
+#: collection/collectionfilterwidget.cpp:192
 msgid "Group by Album artist/Album - Disc"
 msgstr "Gruppe von Album Künstler/Album - Disc"
 
-#: collection/collectionfilterwidget.cpp:192
+#: collection/collectionfilterwidget.cpp:193
 msgid "Group by Album artist/Year - Album"
 msgstr "Gruppe von Album Künstler/Jahr - Album"
 
-#: collection/collectionfilterwidget.cpp:193
+#: collection/collectionfilterwidget.cpp:194
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Gruppe von Album Künstler/Jahr - Album - Disc"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:205
 msgid "Group by Artist"
 msgstr "Interpret"
 
-#: collection/collectionfilterwidget.cpp:195
+#: collection/collectionfilterwidget.cpp:196
 msgid "Group by Artist/Album"
 msgstr "Interpret/Album"
 
-#: collection/collectionfilterwidget.cpp:196
+#: collection/collectionfilterwidget.cpp:197
 msgid "Group by Artist/Album - Disc"
 msgstr "Gruppe nach Künstler/Album - Disc"
 
-#: collection/collectionfilterwidget.cpp:197
+#: collection/collectionfilterwidget.cpp:198
 msgid "Group by Artist/Year - Album"
 msgstr "Interpret/Jahr"
 
-#: collection/collectionfilterwidget.cpp:198
+#: collection/collectionfilterwidget.cpp:199
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Gruppe nach Künstler/Jahr - Album - Disc"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:208
 msgid "Group by Genre/Album"
 msgstr "Genre/Album"
 
-#: collection/collectionfilterwidget.cpp:200
+#: collection/collectionfilterwidget.cpp:201
 msgid "Group by Genre/Album artist/Album"
 msgstr "Gruppe nach Genre/Album Künstler/Album"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:202
 msgid "Group by Genre/Artist/Album"
 msgstr "Genre/Interpret/Album"
 
@@ -2245,11 +2245,11 @@ msgstr "Genre/Interpret/Album"
 msgid "Grouping"
 msgstr "Sortierung"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:251
 msgid "Grouping Name"
 msgstr "Sortiername"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:251
 msgid "Grouping name:"
 msgstr "Sortiername:"
 
@@ -2292,11 +2292,11 @@ msgstr "Hoch (%1 fps)"
 msgid "Icon"
 msgstr "Symbol"
 
-#: ../build/src/ui_appearancesettingspage.h:502
+#: ../build/src/ui_appearancesettingspage.h:521
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:612
 msgid "Icons on top"
 msgstr "Symbole oben"
 
@@ -2400,7 +2400,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Gleich zum vorherigen Titel springen"
 
-#: ../build/src/ui_appearancesettingspage.h:496
+#: ../build/src/ui_appearancesettingspage.h:515
 msgid "Keep aspect ratio"
 msgstr "Das Seitenverhältnis behalten"
 
@@ -2429,7 +2429,7 @@ msgstr "Großer Raum"
 msgid "Large album cover"
 msgstr "Großes Titelbild"
 
-#: widgets/fancytabwidget.cpp:599
+#: widgets/fancytabwidget.cpp:608
 msgid "Large sidebar"
 msgstr "Große Seitenleiste"
 
@@ -2492,7 +2492,7 @@ msgstr "Titelbild aus Datei laden"
 msgid "Load cover from disk..."
 msgstr "Titelbild von Datenträger wählen …"
 
-#: playlist/playlistcontainer.cpp:320
+#: playlist/playlistcontainer.cpp:321
 msgid "Load playlist"
 msgstr "Wiedergabeliste laden"
 
@@ -2586,7 +2586,7 @@ msgstr "Als gehört markieren"
 msgid "Mark disappeared songs unavailable"
 msgstr "Verschwundene Lieder als nicht verfügbar markieren"
 
-#: ../build/src/ui_appearancesettingspage.h:494
+#: ../build/src/ui_appearancesettingspage.h:513
 msgid "Max cover size"
 msgstr "Maximale Cover Größe"
 
@@ -2603,7 +2603,7 @@ msgstr "Mittel (%1 fps)"
 msgid "Metadata"
 msgstr "Metadaten"
 
-#: ../build/src/ui_appearancesettingspage.h:490
+#: ../build/src/ui_appearancesettingspage.h:509
 msgid "Middle"
 msgstr "Mitte"
 
@@ -2767,7 +2767,7 @@ msgstr "Keine langen Blöcke"
 msgid "No match."
 msgstr "Keine Übereinstimmung."
 
-#: playlist/playlistcontainer.cpp:401
+#: playlist/playlistcontainer.cpp:402
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -2858,7 +2858,7 @@ msgstr "An"
 msgid "On startup"
 msgstr "Beim Laden"
 
-#: ../build/src/ui_appearancesettingspage.h:500
+#: ../build/src/ui_appearancesettingspage.h:519
 msgid "Opacity"
 msgstr "Deckkraft"
 
@@ -2879,7 +2879,7 @@ msgid "Open device"
 msgstr "Gerät öffnen"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:313
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:314
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:304
 msgid "Open in new playlist"
@@ -3005,7 +3005,7 @@ msgstr "Besetzung"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:610
 msgid "Plain sidebar"
 msgstr "Einfache Seitenleiste"
 
@@ -3015,7 +3015,7 @@ msgstr "Einfache Seitenleiste"
 msgid "Play"
 msgstr "Wiedergabe"
 
-#: ../build/src/ui_appearancesettingspage.h:505
+#: ../build/src/ui_appearancesettingspage.h:523
 msgid "Play control buttons"
 msgstr ""
 
@@ -3041,14 +3041,14 @@ msgstr "Titelnummer <n> der Wiedergabeliste abspielen"
 msgid "Player options"
 msgstr "Spielereinstellungen"
 
-#: playlist/playlistcontainer.cpp:315 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistcontainer.cpp:316 playlist/playlistlistcontainer.cpp:274
 #: playlist/playlistlistcontainer.cpp:362 playlist/playlistmanager.cpp:105
 #: playlist/playlistmanager.cpp:183 playlist/playlistmanager.cpp:540
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
 msgid "Playlist"
 msgstr "Wiedergabeliste"
 
-#: ../build/src/ui_appearancesettingspage.h:504
+#: ../build/src/ui_appearancesettingspage.h:522
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3095,7 +3095,7 @@ msgstr "Anzeigedauer"
 msgid "Port"
 msgstr "Anschluss (Port)"
 
-#: ../build/src/ui_appearancesettingspage.h:485
+#: ../build/src/ui_appearancesettingspage.h:504
 msgid "Position"
 msgstr "Position"
 
@@ -3220,7 +3220,7 @@ msgid "Queue to play next"
 msgstr "In die Warteschlange, um sie als nächstes abzuspielen"
 
 #: core/mainwindow.cpp:1687 context/contextalbumsview.cpp:257
-#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:316
+#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
 msgstr "Titel in die Warteschlange einreihen"
@@ -3354,7 +3354,7 @@ msgid "Repeat track"
 msgstr "Titel wiederholen"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:320
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:312
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:313
 #: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Wiedergabeliste ersetzen"
@@ -3607,7 +3607,7 @@ msgstr "Suche verzögert"
 msgid "Search for album covers..."
 msgstr "Nach Titelbild suchen …"
 
-#: internet/internetsearchview.cpp:334
+#: internet/internetsearchview.cpp:335
 msgid "Search for this"
 msgstr "Nach diesem suchen"
 
@@ -3636,11 +3636,11 @@ msgstr "Im aktuellen Titel zu einer Position springen"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Mit Tastaturkürzel oder Mausrad spulen"
 
-#: ../build/src/ui_appearancesettingspage.h:468
+#: ../build/src/ui_appearancesettingspage.h:487
 msgid "Select background color:"
 msgstr "Hintergrundfarbe:"
 
-#: settings/appearancesettingspage.cpp:340
+#: settings/appearancesettingspage.cpp:343
 msgid "Select background image"
 msgstr "Hintergrundbild wählen"
 
@@ -3648,11 +3648,11 @@ msgstr "Hintergrundbild wählen"
 msgid "Select best possible match"
 msgstr "Bitte die bestmögliche Übereinstimmung auswählen"
 
-#: ../build/src/ui_appearancesettingspage.h:466
+#: ../build/src/ui_appearancesettingspage.h:485
 msgid "Select foreground color:"
 msgstr "Schriftfarbe:"
 
-#: ../build/src/ui_appearancesettingspage.h:474
+#: ../build/src/ui_appearancesettingspage.h:493
 msgid "Select tabbar color:"
 msgstr "Wähle die Farbe der Reiterleiste"
 
@@ -3911,7 +3911,7 @@ msgstr "Titel überspringen"
 msgid "Small album cover"
 msgstr "Kleines Titelbild"
 
-#: widgets/fancytabwidget.cpp:600
+#: widgets/fancytabwidget.cpp:609
 msgid "Small sidebar"
 msgstr "Schmale Seitenleiste"
 
@@ -4056,7 +4056,7 @@ msgstr "Datenstrom URL Methode"
 msgid "Streaming"
 msgstr "Streaming"
 
-#: ../build/src/ui_appearancesettingspage.h:495
+#: ../build/src/ui_appearancesettingspage.h:514
 msgid "Stretch image to fill playlist"
 msgstr "Bild strecken, um die Wiedergabeliste zu füllen"
 
@@ -4104,11 +4104,15 @@ msgstr "Unterstützte Formate"
 msgid "System colors"
 msgstr "Systemfarben"
 
-#: ../build/src/ui_appearancesettingspage.h:470
+#: ../build/src/ui_appearancesettingspage.h:489
 msgid "Tabbar colors"
 msgstr "Farben der Reiterleiste"
 
-#: widgets/fancytabwidget.cpp:602
+#: ../build/src/ui_appearancesettingspage.h:526
+msgid "Tabbar large mode"
+msgstr ""
+
+#: widgets/fancytabwidget.cpp:611
 msgid "Tabs on top"
 msgstr "Reiter oben"
 
@@ -4158,7 +4162,7 @@ msgstr ""
 msgid "The \"%1\" command could not be started."
 msgstr "Der Befehl »%1« konnte nicht ausgeführt werden."
 
-#: ../build/src/ui_appearancesettingspage.h:480
+#: ../build/src/ui_appearancesettingspage.h:499
 msgid "The album cover of the currently playing song"
 msgstr "Das Titelbild des gerade abgespielten Titels"
 
@@ -4443,11 +4447,11 @@ msgstr "%1% wird aktualisiert …"
 msgid "Updating collection"
 msgstr "Bibliothek wird aktualisiert"
 
-#: ../build/src/ui_appearancesettingspage.h:488
+#: ../build/src/ui_appearancesettingspage.h:507
 msgid "Upper Left"
 msgstr "Oben links"
 
-#: ../build/src/ui_appearancesettingspage.h:489
+#: ../build/src/ui_appearancesettingspage.h:508
 msgid "Upper Right"
 msgstr "Oben rechts"
 
@@ -4481,7 +4485,7 @@ msgstr "Benutze Tidal Einstellungen zum Authentifizieren. "
 msgid "Use X11's shortcut keys"
 msgstr "Benutze X11 Tastenkürzel"
 
-#: ../build/src/ui_appearancesettingspage.h:465
+#: ../build/src/ui_appearancesettingspage.h:484
 msgid "Use a custom color set"
 msgstr "Ein benutzerdefiniertes Farbschema verwenden"
 
@@ -4497,11 +4501,11 @@ msgstr "Legitimierung verwenden"
 msgid "Use bitrate management engine"
 msgstr "Bitratenverwaltung verwenden"
 
-#: ../build/src/ui_appearancesettingspage.h:472
+#: ../build/src/ui_appearancesettingspage.h:491
 msgid "Use custom color"
 msgstr "Benutze benutzerdefinierte Farbe"
 
-#: ../build/src/ui_appearancesettingspage.h:473
+#: ../build/src/ui_appearancesettingspage.h:492
 msgid "Use gradient background"
 msgstr "Benutze Hintergrund mit Farbverlauf"
 
@@ -4517,7 +4521,7 @@ msgstr "Benutze Live scannen"
 msgid "Use pattern"
 msgstr "Benutze Muster"
 
-#: ../build/src/ui_appearancesettingspage.h:507
+#: ../build/src/ui_appearancesettingspage.h:527
 msgid "Use system theme icons"
 msgstr "Systemthemensymbole verwenden"
 
