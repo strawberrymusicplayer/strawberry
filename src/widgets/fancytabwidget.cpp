@@ -56,9 +56,10 @@
 #include "core/stylehelper.h"
 #include "settings/appearancesettingspage.h"
 
-const QSize FancyTabWidget::IconSize_LargeSidebar = QSize(32, 32);
-const QSize FancyTabWidget::IconSize_SmallSidebar = QSize(22, 22);
-const QSize FancyTabWidget::TabSize_LargeSidebar = QSize(70, 58);
+const int FancyTabWidget::IconSize_LargeSidebar = 32;
+const int FancyTabWidget::IconSize_SmallSidebar = 22;
+const int FancyTabWidget::TabSize_LargeSidebarWidth = 70;
+
 
 class FancyTabBar: public QTabBar {
 
@@ -99,7 +100,7 @@ class FancyTabBar: public QTabBar {
 
     QSize size;
     if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar) {
-      size = FancyTabWidget::TabSize_LargeSidebar;
+      size = QSize(std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22), tabWidget->iconsize_largesidebar() + 24);
     }
     else {
       size = QTabBar::tabSizeHint(index);
@@ -277,14 +278,14 @@ class FancyTabBar: public QTabBar {
         const int PADDING = 5;
         if (verticalTextTabs) {
           tabrectIcon = tabrectLabel;
-          tabrectIcon.setSize(FancyTabWidget::IconSize_SmallSidebar);
+          tabrectIcon.setSize(QSize(FancyTabWidget::IconSize_SmallSidebar, FancyTabWidget::IconSize_SmallSidebar));
           tabrectIcon.translate(PADDING, PADDING);
         }
         else {
           tabrectIcon = tabrectLabel;
-          tabrectIcon.setSize(FancyTabWidget::IconSize_LargeSidebar);
+          tabrectIcon.setSize(QSize(tabWidget->iconsize_largesidebar(), tabWidget->iconsize_largesidebar()));
           // Center the icon
-          const int moveRight = (FancyTabWidget::TabSize_LargeSidebar.width() -  FancyTabWidget::IconSize_LargeSidebar.width() -1) / 2;
+          const int moveRight = (std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22) - tabWidget->iconsize_largesidebar() -1) / 2;
           tabrectIcon.translate(moveRight, PADDING);
         }
         tabIcon(index).paint(&p, tabrectIcon, iconFlags);
@@ -374,7 +375,10 @@ void FancyTabWidget::currentTabChanged(const int idx) {
 FancyTabWidget::FancyTabWidget(QWidget* parent) : QTabWidget(parent),
       menu_(nullptr),
       mode_(Mode_None),
-      bottom_widget_(nullptr)
+      bottom_widget_(nullptr),
+      bg_color_system_(true),
+      bg_gradient_(true),
+      iconsize_largesidebar_(FancyTabWidget::IconSize_LargeSidebar)
   {
 
   FancyTabBar *tabBar = new FancyTabBar(this);
@@ -441,9 +445,11 @@ void FancyTabWidget::ReloadSettings() {
   bg_color_system_ = s.value(AppearanceSettingsPage::kTabBarSystemColor, false).toBool();
   bg_gradient_ = s.value(AppearanceSettingsPage::kTabBarGradient, true).toBool();
   bg_color_ = s.value(AppearanceSettingsPage::kTabBarColor, StyleHelper::highlightColor()).value<QColor>();
+  iconsize_largesidebar_ = s.value(AppearanceSettingsPage::kIconSizeTabbarLargeMode, FancyTabWidget::IconSize_LargeSidebar).toInt();;
   s.endGroup();
 
   update();
+  tabBarUpdateGeometry();
 
 }
 

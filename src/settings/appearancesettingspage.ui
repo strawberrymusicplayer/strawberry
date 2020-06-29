@@ -436,38 +436,21 @@
       <item>
        <layout class="QGridLayout" name="layout_icon_sizes">
         <item row="2" column="0">
-         <widget class="QLabel" name="label_icon_size_left_panel_buttons">
-          <property name="text">
-           <string>Files, playlists and queue buttons</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
          <widget class="QLabel" name="label_icon_size_playlist_buttons">
           <property name="text">
            <string>Playlist buttons</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
+        <item row="1" column="0">
          <widget class="QLabel" name="label_icon_size_play_control_buttons">
           <property name="text">
            <string>Play control buttons</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
-         <widget class="QSpinBox" name="spinbox_icon_size_left_panel_buttons">
-          <property name="minimum">
-           <number>16</number>
-          </property>
-          <property name="maximum">
-           <number>64</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QSpinBox" name="spinbox_icon_size_play_control_buttons">
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="spinbox_icon_size_configure_buttons">
           <property name="minimum">
            <number>16</number>
           </property>
@@ -477,6 +460,26 @@
          </widget>
         </item>
         <item row="1" column="1">
+         <widget class="QSpinBox" name="spinbox_icon_size_play_control_buttons">
+          <property name="minimum">
+           <number>16</number>
+          </property>
+          <property name="maximum">
+           <number>64</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="spinbox_icon_size_left_panel_buttons">
+          <property name="minimum">
+           <number>16</number>
+          </property>
+          <property name="maximum">
+           <number>64</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
          <widget class="QSpinBox" name="spinbox_icon_size_playlist_buttons">
           <property name="minimum">
            <number>16</number>
@@ -486,15 +489,29 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item row="4" column="0">
          <widget class="QLabel" name="label_icon_size_configure_buttons">
           <property name="text">
            <string>Configure buttons</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QSpinBox" name="spinbox_icon_size_configure_buttons">
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_icon_size_left_panel_buttons">
+          <property name="text">
+           <string>Files, playlists and queue buttons</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_icon_size_tabbar_large_mode">
+          <property name="text">
+           <string>Tabbar large mode</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="spinbox_icon_size_tabbar_large_mode">
           <property name="minimum">
            <number>16</number>
           </property>
@@ -565,6 +582,11 @@
   <tabstop>checkbox_background_image_do_not_cut</tabstop>
   <tabstop>blur_slider</tabstop>
   <tabstop>opacity_slider</tabstop>
+  <tabstop>spinbox_icon_size_tabbar_large_mode</tabstop>
+  <tabstop>spinbox_icon_size_play_control_buttons</tabstop>
+  <tabstop>spinbox_icon_size_playlist_buttons</tabstop>
+  <tabstop>spinbox_icon_size_left_panel_buttons</tabstop>
+  <tabstop>spinbox_icon_size_configure_buttons</tabstop>
   <tabstop>checkbox_system_icons</tabstop>
  </tabstops>
  <resources/>
