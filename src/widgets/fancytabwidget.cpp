@@ -102,7 +102,7 @@ class FancyTabBar: public QTabBar {
     QSize size;
     if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar) {
       QFontMetrics fm(font());
-      size = QSize(std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22), tabWidget->iconsize_largesidebar() + fm.boundingRect(QRect(0, 0, std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22), height()), Qt::TextWordWrap, QTabBar::tabText(index)).height() + 6);
+      size = QSize(std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22), tabWidget->iconsize_largesidebar() + fm.boundingRect(QRect(0, 0, std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22), height()), Qt::TextWordWrap, QTabBar::tabText(index)).height() + 10);
     }
     else {
       size = QTabBar::tabSizeHint(index);
