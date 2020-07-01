@@ -2296,7 +2296,7 @@ msgstr "Symbol"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:612
+#: widgets/fancytabwidget.cpp:622
 msgid "Icons on top"
 msgstr "Symbole oben"
 
@@ -2429,7 +2429,7 @@ msgstr "Großer Raum"
 msgid "Large album cover"
 msgstr "Großes Titelbild"
 
-#: widgets/fancytabwidget.cpp:608
+#: widgets/fancytabwidget.cpp:618
 msgid "Large sidebar"
 msgstr "Große Seitenleiste"
 
@@ -3005,7 +3005,7 @@ msgstr "Besetzung"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:610
+#: widgets/fancytabwidget.cpp:620
 msgid "Plain sidebar"
 msgstr "Einfache Seitenleiste"
 
@@ -3911,7 +3911,7 @@ msgstr "Titel überspringen"
 msgid "Small album cover"
 msgstr "Kleines Titelbild"
 
-#: widgets/fancytabwidget.cpp:609
+#: widgets/fancytabwidget.cpp:619
 msgid "Small sidebar"
 msgstr "Schmale Seitenleiste"
 
@@ -4112,7 +4112,7 @@ msgstr "Farben der Reiterleiste"
 msgid "Tabbar large mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:611
+#: widgets/fancytabwidget.cpp:621
 msgid "Tabs on top"
 msgstr "Reiter oben"
 
