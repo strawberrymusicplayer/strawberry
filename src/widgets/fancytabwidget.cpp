@@ -38,6 +38,7 @@
 #include <QColor>
 #include <QRect>
 #include <QFont>
+#include <QFontMetrics>
 #include <QSize>
 #include <QPoint>
 #include <QBrush>
@@ -100,7 +101,8 @@ class FancyTabBar: public QTabBar {
 
     QSize size;
     if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar) {
-      size = QSize(std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22), tabWidget->iconsize_largesidebar() + 24);
+      QFontMetrics fm(font());
+      size = QSize(std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22), tabWidget->iconsize_largesidebar() + fm.boundingRect(QRect(0, 0, std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22), height()), Qt::TextWordWrap, QTabBar::tabText(index)).height() + 6);
     }
     else {
       size = QTabBar::tabSizeHint(index);
@@ -246,7 +248,7 @@ class FancyTabBar: public QTabBar {
         }
         else {
           m = QTransform::fromTranslate(tabrect.left(), tabrect.top());
-          textFlags = Qt::AlignHCenter | Qt::AlignBottom;
+          textFlags = Qt::AlignHCenter | Qt::AlignBottom | Qt::TextWordWrap;
           iconFlags = Qt::AlignHCenter | Qt::AlignTop;
 
           tabrectLabel = QRect(QPoint(0, 0), m.mapRect(tabrect).size());
