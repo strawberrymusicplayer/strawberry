@@ -106,11 +106,21 @@ class FancyTabBar: public QTabBar {
 
     QSize size;
     if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar) {
+
       QFont bold_font(font());
       bold_font.setBold(true);
       QFontMetrics fm(bold_font);
-      QRect rect = fm.boundingRect(QRect(0, 0, std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22), height()), Qt::TextWordWrap, QTabBar::tabText(index));
-      size = QSize(std::max(std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22), rect.width() + 40), tabWidget->iconsize_largesidebar() + rect.height() + 10);
+
+      // If the text of any tab is wider than the set width then use that instead.
+      int width = std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22);
+      for (int i = 0 ; i < count() ; ++i) {
+        QRect rect = fm.boundingRect(QRect(0, 0, std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22), height()), Qt::TextWordWrap, QTabBar::tabText(i));
+        rect.setWidth(rect.width() + 10);
+        if (rect.width() > width) width = rect.width();
+      }
+
+      QRect rect = fm.boundingRect(QRect(0, 0, width, height()), Qt::TextWordWrap, QTabBar::tabText(index));
+      size = QSize(width, tabWidget->iconsize_largesidebar() + rect.height() + 10);
     }
     else {
       size = QTabBar::tabSizeHint(index);
@@ -262,7 +272,7 @@ class FancyTabBar: public QTabBar {
           tabrectLabel = QRect(QPoint(0, 0), m.mapRect(tabrect).size());
 
           tabrectText = tabrectLabel;
-          tabrectText.translate(-7, -5);
+          tabrectText.translate(0, -5);
 
         }
 
