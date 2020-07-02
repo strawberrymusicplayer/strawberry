@@ -2251,7 +2251,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:622
+#: widgets/fancytabwidget.cpp:632
 msgid "Icons on top"
 msgstr "Ikoner øverst"
 
@@ -2379,7 +2379,7 @@ msgstr "Storsal"
 msgid "Large album cover"
 msgstr "Stort omslag"
 
-#: widgets/fancytabwidget.cpp:618
+#: widgets/fancytabwidget.cpp:628
 msgid "Large sidebar"
 msgstr "Stort sidefelt"
 
@@ -2950,7 +2950,7 @@ msgstr "Utøver"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:620
+#: widgets/fancytabwidget.cpp:630
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
@@ -3843,7 +3843,7 @@ msgstr "Hopp over spor"
 msgid "Small album cover"
 msgstr "Lite albumomslag"
 
-#: widgets/fancytabwidget.cpp:619
+#: widgets/fancytabwidget.cpp:629
 msgid "Small sidebar"
 msgstr "Lite sidefelt"
 
@@ -4042,7 +4042,7 @@ msgstr "Tabbar farger"
 msgid "Tabbar large mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:621
+#: widgets/fancytabwidget.cpp:631
 msgid "Tabs on top"
 msgstr "Faner på toppen"
 

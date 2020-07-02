@@ -2265,7 +2265,7 @@ msgstr "Ikona"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:622
+#: widgets/fancytabwidget.cpp:632
 msgid "Icons on top"
 msgstr "Ikony nahoře"
 
@@ -2401,7 +2401,7 @@ msgstr "Velký sál"
 msgid "Large album cover"
 msgstr "Velký obal alba"
 
-#: widgets/fancytabwidget.cpp:618
+#: widgets/fancytabwidget.cpp:628
 msgid "Large sidebar"
 msgstr "Velký postranní panel"
 
@@ -2975,7 +2975,7 @@ msgstr "Účinkující"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:620
+#: widgets/fancytabwidget.cpp:630
 msgid "Plain sidebar"
 msgstr "Prostý postranní panel"
 
@@ -3881,7 +3881,7 @@ msgstr "Přeskočit skladbu"
 msgid "Small album cover"
 msgstr "Malý obal alba"
 
-#: widgets/fancytabwidget.cpp:619
+#: widgets/fancytabwidget.cpp:629
 msgid "Small sidebar"
 msgstr "Malý postranní panel"
 
@@ -4085,7 +4085,7 @@ msgstr "Barvy tabbaru"
 msgid "Tabbar large mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:621
+#: widgets/fancytabwidget.cpp:631
 msgid "Tabs on top"
 msgstr "Karty nahoře"
 
