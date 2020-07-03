@@ -110,7 +110,8 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       about_to_finish_cb_id_(-1),
       bus_cb_id_(-1),
       discovery_finished_cb_id_(-1),
-      discovery_discovered_cb_id_(-1)
+      discovery_discovered_cb_id_(-1),
+      unsupported_analyzer_(false)
       {
 
   if (!sElementDeleter) {
@@ -427,6 +428,8 @@ bool GstEnginePipeline::InitAudioBin() {
     }
   }
 
+  unsupported_analyzer_ = false;
+
   return true;
 
 }
@@ -576,7 +579,10 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
   GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
   GstBuffer *buf16 = nullptr;
 
-  if (format.startsWith("S32")) {
+  if (format.startsWith("S16LE")) {
+    instance->unsupported_analyzer_ = false;
+  }
+  else if (format.startsWith("S32LE")) {
 
     GstMapInfo map_info;
     gst_buffer_map(buf, &map_info, GST_MAP_READ);
@@ -593,6 +599,55 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     buf16 = gst_buffer_new_wrapped(d, buf16_size);
     GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
     buf = buf16;
+
+    instance->unsupported_analyzer_ = false;
+  }
+
+  else if (format.startsWith("F32LE")) {
+
+    GstMapInfo map_info;
+    gst_buffer_map(buf, &map_info, GST_MAP_READ);
+
+    float *s = reinterpret_cast<float*>(map_info.data);
+    int samples = (map_info.size / sizeof(float)) / channels;
+    int buf16_size = samples * sizeof(int16_t) * channels;
+    int16_t *d = static_cast<int16_t*>(g_malloc(buf16_size));
+    memset(d, 0, buf16_size);
+    for (int i = 0 ; i < (samples * channels) ; ++i) {
+      float sample_float = (s[i] * 32768.0);
+      d[i] = static_cast<int16_t>(sample_float);
+    }
+    gst_buffer_unmap(buf, &map_info);
+    buf16 = gst_buffer_new_wrapped(d, buf16_size);
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
+    buf = buf16;
+
+    instance->unsupported_analyzer_ = false;
+  }
+  else if (format.startsWith("S24LE")) {
+
+    GstMapInfo map_info;
+    gst_buffer_map(buf, &map_info, GST_MAP_READ);
+
+    char *s24 = reinterpret_cast<char*>(map_info.data);
+    int samples = (map_info.size / sizeof(char)) / channels;
+    int buf16_size = samples * sizeof(int16_t) * channels;
+    int16_t *s16 = static_cast<int16_t*>(g_malloc(buf16_size));
+    memset(s16, 0, buf16_size);
+    for (int i = 0 ; i < (samples * channels) ; ++i) {
+      s16[i] = *(reinterpret_cast<int16_t*>(s24+1));
+      s24 += 3;
+    }
+    gst_buffer_unmap(buf, &map_info);
+    buf16 = gst_buffer_new_wrapped(s16, buf16_size);
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
+    buf = buf16;
+
+    instance->unsupported_analyzer_ = false;
+  }
+  else if (!instance->unsupported_analyzer_) {
+    instance->unsupported_analyzer_ = true;
+    qLog(Debug) << "Unsupported audio format for the analyzer" << format;
   }
 
   QList<GstBufferConsumer*> consumers;
