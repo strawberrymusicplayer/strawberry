@@ -630,6 +630,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     gst_buffer_map(buf, &map_info, GST_MAP_READ);
 
     char *s24 = reinterpret_cast<char*>(map_info.data);
+    char *s24e = s24 + map_info.size;
     int samples = (map_info.size / sizeof(char)) / channels;
     int buf16_size = samples * sizeof(int16_t) * channels;
     int16_t *s16 = static_cast<int16_t*>(g_malloc(buf16_size));
@@ -637,6 +638,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     for (int i = 0 ; i < (samples * channels) ; ++i) {
       s16[i] = *(reinterpret_cast<int16_t*>(s24+1));
       s24 += 3;
+      if (s24 >= s24e) break;
     }
     gst_buffer_unmap(buf, &map_info);
     buf16 = gst_buffer_new_wrapped(s16, buf16_size);
