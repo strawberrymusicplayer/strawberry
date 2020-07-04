@@ -532,16 +532,6 @@ jobs:
   build_ubuntu_bionic:
     docker:
       - image: ubuntu:bionic
-
-    steps:
-      - install_ubuntu_dependencies
-      - checkout
-      - cmake
-      - build_deb
-
-  build_ubuntu_eoan:
-    docker:
-      - image: ubuntu:eoan
     steps:
       - install_ubuntu_dependencies
       - checkout
@@ -627,10 +617,6 @@ workflows:
               only: /.*/
 
 
-      - build_ubuntu_eoan:
-          filters:
-            tags:
-              only: /.*/
       - build_ubuntu_bionic:
           filters:
             tags:
