@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-06-29 09:47-0400\n"
+"PO-Revision-Date: 2020-07-04 03:07-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -4125,7 +4125,7 @@ msgstr "Couleurs de la barre d'onglets"
 
 #: ../build/src/ui_appearancesettingspage.h:526
 msgid "Tabbar large mode"
-msgstr ""
+msgstr "Grande barre d'onglets"
 
 #: widgets/fancytabwidget.cpp:631
 msgid "Tabs on top"
