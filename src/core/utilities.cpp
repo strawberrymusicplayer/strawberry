@@ -393,6 +393,9 @@ void OpenInFileManager(const QString &path) {
     QString directory = info.dir().path();
     proc.startDetached(command, QStringList() << command_params << "--no-desktop" << directory);
   }
+  else if (command.startsWith("pcmanfm-qt")) {
+    proc.startDetached(command, QStringList() << command_params << QFileInfo(path).dir().path());
+  }
   else {
     proc.startDetached(command, QStringList() << command_params << path);
   }
