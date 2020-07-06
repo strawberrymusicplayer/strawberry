@@ -502,6 +502,7 @@ QScreen *OSDPretty::current_screen(const QPoint &pos) const {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
   screen = QGuiApplication::screenAt(pos);
 #else
+  Q_UNUSED(pos)
   if (window() && window()->windowHandle()) screen = window()->windowHandle()->screen();
 #endif
   if (!screen) screen = QGuiApplication::primaryScreen();
