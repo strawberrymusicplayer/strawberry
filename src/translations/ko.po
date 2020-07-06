@@ -177,7 +177,7 @@ msgstr "노래 %1곡"
 msgid "%1 songs"
 msgstr "노래 %1곡"
 
-#: core/utilities.cpp:426
+#: core/utilities.cpp:429
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "%1곡을 선택했습니다. 모두 여시겠습니까?"
@@ -3699,7 +3699,7 @@ msgstr "전체 크기 표시..."
 msgid "Show in collection..."
 msgstr "라이브러리에 표시..."
 
-#: core/utilities.cpp:420 core/utilities.cpp:426
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr "파일 탐색기에 표시"
 
@@ -4228,7 +4228,7 @@ msgstr "예쁜 OSD 표시 여부 전환"
 msgid "Tomorrow"
 msgstr "내일"
 
-#: core/utilities.cpp:420
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr "너무 많은 곡을 선택했습니다."
 

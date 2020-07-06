@@ -192,7 +192,7 @@ msgstr "%1 utwory(ów)%2"
 msgid "%1 songs"
 msgstr "%1 utwory(ów)"
 
-#: core/utilities.cpp:426
+#: core/utilities.cpp:429
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "Zaznaczonych utworów: %1. Czy na pewno chcesz je wszystkie otworzyć?"
@@ -3762,7 +3762,7 @@ msgstr "Pokaż w pełnym rozmiarze…"
 msgid "Show in collection..."
 msgstr "Pokaż w kolekcji…"
 
-#: core/utilities.cpp:420 core/utilities.cpp:426
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr "Pokaż w menedżerze plików"
 
@@ -4313,7 +4313,7 @@ msgstr "Przełącz wyświetlanie ładnego menu ekranowego (OSD)"
 msgid "Tomorrow"
 msgstr "Jutro"
 
-#: core/utilities.cpp:420
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr "Zaznaczono za dużo utworów."
 

@@ -182,7 +182,7 @@ msgstr "%1 lagu%2"
 msgid "%1 songs"
 msgstr ""
 
-#: core/utilities.cpp:426
+#: core/utilities.cpp:429
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "%1 lagu terpilih, apakah Anda yakin ingin membuka semuanya?"
@@ -3726,7 +3726,7 @@ msgstr "Tampilkan ukuran penuh..."
 msgid "Show in collection..."
 msgstr "Tampilkan di pustaka..."
 
-#: core/utilities.cpp:420 core/utilities.cpp:426
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr "Tampilkan di peramban berkas"
 
@@ -4277,7 +4277,7 @@ msgstr "Alihkan kenampakan tampilan-pada-layar cantik"
 msgid "Tomorrow"
 msgstr "Besok"
 
-#: core/utilities.cpp:420
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr "Terlalu banyak lagu yang terpilih."
 
