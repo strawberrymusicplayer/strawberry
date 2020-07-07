@@ -38,7 +38,6 @@
 #cmakedefine HAVE_LIBPULSE
 #cmakedefine HAVE_SPARKLE
 #cmakedefine HAVE_CHROMAPRINT
-#cmakedefine HAVE_TAGLIB_DSFFILE
 #cmakedefine HAVE_GLOBALSHORTCUTS
 #cmakedefine USE_INSTALL_PREFIX
 
@@ -54,6 +53,10 @@
 
 #cmakedefine HAVE_KEYSYMDEF_H
 #cmakedefine HAVE_XF86KEYSYM_H
+
+#cmakedefine USE_SYSTEM_TAGLIB
+#cmakedefine HAVE_TAGLIB_DSFFILE
+#cmakedefine HAVE_TAGLIB_DSDIFFFILE
 
 #cmakedefine USE_BUNDLE
 

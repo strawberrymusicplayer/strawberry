@@ -68,7 +68,9 @@
 #include "covermanager/albumcoverloader.h"
 #include "tagreadermessages.pb.h"
 
+#ifndef USE_SYSTEM_TAGLIB
 using namespace Strawberry_TagLib;
+#endif
 
 const QStringList Song::kColumns = QStringList() << "title"
                                                  << "album"

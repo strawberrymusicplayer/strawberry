@@ -25,51 +25,55 @@
 #include <map>
 #include <sys/stat.h>
 
-#include "taglib/taglib.h"
-#include "taglib/fileref.h"
-#include "taglib/tbytevector.h"
-#include "taglib/tfile.h"
-#include "taglib/tlist.h"
-#include "taglib/tstring.h"
-#include "taglib/tstringlist.h"
-#include "taglib/audioproperties.h"
-#include "taglib/attachedpictureframe.h"
-#include "taglib/textidentificationframe.h"
-#include "taglib/unsynchronizedlyricsframe.h"
-#include "taglib/xiphcomment.h"
-#include "taglib/commentsframe.h"
-#include "taglib/tag.h"
-#include "taglib/apetag.h"
-#include "taglib/apeitem.h"
-#include "taglib/apeproperties.h"
-#include "taglib/id3v2tag.h"
-#include "taglib/id3v2frame.h"
-#include "taglib/flacfile.h"
-#include "taglib/oggflacfile.h"
-#include "taglib/flacproperties.h"
-#include "taglib/flacpicture.h"
-#include "taglib/vorbisfile.h"
-#include "taglib/speexfile.h"
-#include "taglib/wavfile.h"
-#include "taglib/wavpackfile.h"
-#include "taglib/wavpackproperties.h"
-#include "taglib/aifffile.h"
-#include "taglib/asffile.h"
-#include "taglib/asftag.h"
-#include "taglib/asfattribute.h"
-#include "taglib/asfproperties.h"
-#include "taglib/mp4file.h"
-#include "taglib/mp4tag.h"
-#include "taglib/mp4item.h"
-#include "taglib/mp4coverart.h"
-#include "taglib/mp4properties.h"
-#include "taglib/mpcfile.h"
-#include "taglib/mpegfile.h"
-#include "taglib/opusfile.h"
-#include "taglib/trueaudiofile.h"
-#include "taglib/apefile.h"
-#include "taglib/dsffile.h"
-#include "taglib/dsdifffile.h"
+#include <taglib/taglib.h>
+#include <taglib/fileref.h>
+#include <taglib/tbytevector.h>
+#include <taglib/tfile.h>
+#include <taglib/tlist.h>
+#include <taglib/tstring.h>
+#include <taglib/tstringlist.h>
+#include <taglib/audioproperties.h>
+#include <taglib/attachedpictureframe.h>
+#include <taglib/textidentificationframe.h>
+#include <taglib/unsynchronizedlyricsframe.h>
+#include <taglib/xiphcomment.h>
+#include <taglib/commentsframe.h>
+#include <taglib/tag.h>
+#include <taglib/apetag.h>
+#include <taglib/apeitem.h>
+#include <taglib/apeproperties.h>
+#include <taglib/id3v2tag.h>
+#include <taglib/id3v2frame.h>
+#include <taglib/flacfile.h>
+#include <taglib/oggflacfile.h>
+#include <taglib/flacproperties.h>
+#include <taglib/flacpicture.h>
+#include <taglib/vorbisfile.h>
+#include <taglib/speexfile.h>
+#include <taglib/wavfile.h>
+#include <taglib/wavpackfile.h>
+#include <taglib/wavpackproperties.h>
+#include <taglib/aifffile.h>
+#include <taglib/asffile.h>
+#include <taglib/asftag.h>
+#include <taglib/asfattribute.h>
+#include <taglib/asfproperties.h>
+#include <taglib/mp4file.h>
+#include <taglib/mp4tag.h>
+#include <taglib/mp4item.h>
+#include <taglib/mp4coverart.h>
+#include <taglib/mp4properties.h>
+#include <taglib/mpcfile.h>
+#include <taglib/mpegfile.h>
+#include <taglib/opusfile.h>
+#include <taglib/trueaudiofile.h>
+#include <taglib/apefile.h>
+#ifdef HAVE_TAGLIB_DSFFILE
+#  include <taglib/dsffile.h>
+#endif
+#ifdef HAVE_TAGLIB_DSDIFFFILE
+#  include <taglib/dsdifffile.h>
+#endif
 
 #include <QtGlobal>
 #include <QFile>
@@ -152,8 +156,12 @@ pb::tagreader::SongMetadata_FileType TagReader::GuessFileType(TagLib::FileRef *f
   if (dynamic_cast<TagLib::MPC::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_MPC;
   if (dynamic_cast<TagLib::TrueAudio::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_TRUEAUDIO;
   if (dynamic_cast<TagLib::APE::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_APE;
+#ifdef HAVE_TAGLIB_DSFFILE
   if (dynamic_cast<TagLib::DSF::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_DSF;
+#endif
+#ifdef HAVE_TAGLIB_DSDIFFFILE
   if (dynamic_cast<TagLib::DSDIFF::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_DSDIFF;
+#endif
 
   return pb::tagreader::SongMetadata_FileType_UNKNOWN;
 
