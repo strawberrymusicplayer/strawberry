@@ -994,6 +994,7 @@ void MainWindow::ReloadAllSettings() {
 
 void MainWindow::RefreshStyleSheet() {
   QString contents(styleSheet());
+  setStyleSheet("");
   setStyleSheet(contents);
 }
 
