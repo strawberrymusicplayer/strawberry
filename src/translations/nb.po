@@ -310,7 +310,7 @@ msgstr "&Ny spilleliste"
 msgid "&Next track"
 msgstr "&Neste spor"
 
-#: ../build/src/ui_appearancesettingspage.h:497
+#: ../build/src/ui_appearancesettingspage.h:505
 msgid "&No background image"
 msgstr "&Ingen bakgrunn"
 
@@ -370,11 +370,11 @@ msgstr "&Omkod musikk"
 msgid "&Update changed collection folders"
 msgstr "Oppdater endrede samling"
 
-#: ../build/src/ui_appearancesettingspage.h:490
+#: ../build/src/ui_appearancesettingspage.h:498
 msgid "&Use the system default color"
 msgstr "&bruk standard system farger"
 
-#: ../build/src/ui_appearancesettingspage.h:483
+#: ../build/src/ui_appearancesettingspage.h:491
 msgid "&Use the system default color set"
 msgstr "&Bruk system standard fargeoppsett"
 
@@ -404,7 +404,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:518
+#: ../build/src/ui_appearancesettingspage.h:525
 msgid "0px"
 msgstr "0px"
 
@@ -416,7 +416,7 @@ msgstr "1 dag"
 msgid "1 track"
 msgstr "1 spor"
 
-#: ../build/src/ui_appearancesettingspage.h:520
+#: ../build/src/ui_appearancesettingspage.h:527
 msgid "40%"
 msgstr "40%"
 
@@ -431,6 +431,10 @@ msgstr ""
 "\n"
 "<p>Hvis du setter klammeparenteser rundt tekst som inneholder en kode, vil "
 "teksten skjules om koden er tom.</p>"
+
+#: ../build/src/ui_appearancesettingspage.h:510
+msgid "A Taste of Strawbs"
+msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:158
 msgid "A&utomatic"
@@ -508,7 +512,7 @@ msgstr "Legg til alle filer fra ei mappe og dens undermapper"
 msgid "Add directory..."
 msgstr "Legg til mappe…"
 
-#: core/mainwindow.cpp:1947
+#: core/mainwindow.cpp:1948
 msgid "Add file"
 msgstr "Legg til fil"
 
@@ -524,7 +528,7 @@ msgstr "Legg fil(er) til omkoder"
 msgid "Add files to transcode"
 msgstr "Legg filer til for omkoding"
 
-#: core/mainwindow.cpp:1972 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:1973 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Legg til mappe"
 
@@ -623,7 +627,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Legg til albumer"
 
-#: core/mainwindow.cpp:1763
+#: core/mainwindow.cpp:1764
 msgid "Add to another playlist"
 msgstr "Legg til i annen spilleliste"
 
@@ -677,7 +681,7 @@ msgstr "Avansert gruppering…"
 msgid "After copying..."
 msgstr "Etter kopiering…"
 
-#: ../build/src/ui_appearancesettingspage.h:501
+#: ../build/src/ui_appearancesettingspage.h:509
 msgid "Albu&m cover"
 msgstr "Albu&m kover"
 
@@ -800,7 +804,7 @@ msgstr "Det oppstod en feil når metadata skulle skrives til '%1'"
 msgid "Angry"
 msgstr "Sint"
 
-#: ../build/src/ui_appearancesettingspage.h:481
+#: ../build/src/ui_appearancesettingspage.h:489
 msgid "Appearance"
 msgstr "Utseende"
 
@@ -941,7 +945,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Bakgrunnsfarge"
 
-#: ../build/src/ui_appearancesettingspage.h:495
+#: ../build/src/ui_appearancesettingspage.h:503
 msgid "Background image"
 msgstr "Bakgrunnsbilde"
 
@@ -1008,7 +1012,7 @@ msgstr "Blokktype"
 msgid "Bluetooth MAC Address"
 msgstr "Bluetooth MAC Address"
 
-#: ../build/src/ui_appearancesettingspage.h:517
+#: ../build/src/ui_appearancesettingspage.h:524
 msgid "Blur amount"
 msgstr "Mengde slør"
 
@@ -1020,15 +1024,15 @@ msgstr "Brødtekst"
 msgid "Boom analyzer"
 msgstr "Boomanalysator"
 
-#: ../build/src/ui_appearancesettingspage.h:510
+#: ../build/src/ui_appearancesettingspage.h:517
 msgid "Bottom Left"
 msgstr "Nede til venstre"
 
-#: ../build/src/ui_appearancesettingspage.h:511
+#: ../build/src/ui_appearancesettingspage.h:518
 msgid "Bottom Right"
 msgstr "Nede til høyre"
 
-#: ../build/src/ui_appearancesettingspage.h:503
+#: ../build/src/ui_appearancesettingspage.h:512
 msgid "Browse..."
 msgstr "Bla gjennom…"
 
@@ -1105,7 +1109,7 @@ msgstr "Tøm"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:2034 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2035 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Tøm spillelisten"
 
@@ -1169,7 +1173,7 @@ msgstr "Collection Filter"
 msgid "Collection advanced grouping"
 msgstr "Avansert samlingsgruppering"
 
-#: core/mainwindow.cpp:2506
+#: core/mainwindow.cpp:2507
 msgid "Collection rescan notice"
 msgstr "Melding om gjennomsøk av samlingen"
 
@@ -1177,7 +1181,7 @@ msgstr "Melding om gjennomsøk av samlingen"
 msgid "Color"
 msgstr "Farger"
 
-#: ../build/src/ui_appearancesettingspage.h:482
+#: ../build/src/ui_appearancesettingspage.h:490
 msgid "Colors"
 msgstr "Farger"
 
@@ -1220,7 +1224,7 @@ msgstr "Uriktig oppsett"
 msgid "Configure %1..."
 msgstr "Sett opp %1…"
 
-#: ../build/src/ui_appearancesettingspage.h:524
+#: ../build/src/ui_appearancesettingspage.h:531
 msgid "Configure buttons"
 msgstr ""
 
@@ -1446,7 +1450,7 @@ msgstr ""
 msgid "Custom"
 msgstr "Egendefinert"
 
-#: ../build/src/ui_appearancesettingspage.h:502
+#: ../build/src/ui_appearancesettingspage.h:511
 msgid "Custom image:"
 msgstr "Egendefinert bilde:"
 
@@ -1490,7 +1494,7 @@ msgstr "Senk volum med 4 prosent"
 msgid "Decrease the volume by <value> percent"
 msgstr "Demp lydstyrken med <value> prosent"
 
-#: ../build/src/ui_appearancesettingspage.h:496
+#: ../build/src/ui_appearancesettingspage.h:504
 msgid "Default bac&kground image"
 msgstr "Forhåndsvalgt bak&grunnsbilde"
 
@@ -1523,11 +1527,11 @@ msgstr "Slett de originale filene"
 msgid "Deleting files"
 msgstr "Sletter filer"
 
-#: core/mainwindow.cpp:1686
+#: core/mainwindow.cpp:1687
 msgid "Dequeue selected tracks"
 msgstr "Fjern valgte spor fra avspillingskøen"
 
-#: core/mainwindow.cpp:1685
+#: core/mainwindow.cpp:1686
 msgid "Dequeue track"
 msgstr "Fjern sporet fra avspillingskøen"
 
@@ -1601,7 +1605,7 @@ msgstr "Overleggsvisning"
 msgid "Do not convert any music"
 msgstr "Ikke konverter musikk"
 
-#: ../build/src/ui_appearancesettingspage.h:516
+#: ../build/src/ui_appearancesettingspage.h:523
 msgid "Do not cut image"
 msgstr "Ikke kutt bildet"
 
@@ -1650,7 +1654,7 @@ msgstr "Laster ned metadata"
 msgid "Drag to reposition"
 msgstr "Dra for å endre posisjon"
 
-#: core/mainwindow.cpp:1727
+#: core/mainwindow.cpp:1728
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Rediger etiketten \"%1\"…"
@@ -1786,7 +1790,7 @@ msgstr "Tilsvarer --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Tilsvarer --log-levels *:3"
 
-#: core/mainwindow.cpp:2278 core/mainwindow.cpp:2400
+#: core/mainwindow.cpp:2279 core/mainwindow.cpp:2401
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "Error"
 msgstr "Feil"
@@ -1935,7 +1939,7 @@ msgstr "Hent hele album når en søker etter sanger"
 msgid "Fetching cover error"
 msgstr "Kunne ikke hente albumgrafikk"
 
-#: core/song.cpp:1017
+#: core/song.cpp:1019
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Fil %1 er ikke gjenkjent som en lydfil"
@@ -1986,7 +1990,7 @@ msgstr "Filer"
 msgid "Files to transcode"
 msgstr "Filer som skal omkodes"
 
-#: ../build/src/ui_appearancesettingspage.h:525
+#: ../build/src/ui_appearancesettingspage.h:532
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2247,7 +2251,7 @@ msgstr "Høy (%1 bilder/sekund)"
 msgid "Icon"
 msgstr "Ikon"
 
-#: ../build/src/ui_appearancesettingspage.h:521
+#: ../build/src/ui_appearancesettingspage.h:528
 msgid "Icon sizes"
 msgstr ""
 
@@ -2351,7 +2355,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Gå til forrige sang nå"
 
-#: ../build/src/ui_appearancesettingspage.h:515
+#: ../build/src/ui_appearancesettingspage.h:522
 msgid "Keep aspect ratio"
 msgstr "Keep aspect ratio"
 
@@ -2536,7 +2540,7 @@ msgstr "Merk som hørt"
 msgid "Mark disappeared songs unavailable"
 msgstr "Merk tapte sanger utilgjengelige"
 
-#: ../build/src/ui_appearancesettingspage.h:513
+#: ../build/src/ui_appearancesettingspage.h:520
 msgid "Max cover size"
 msgstr "Maksimal kover størrelse"
 
@@ -2553,7 +2557,7 @@ msgstr "Medium (%1 bilder/sekund)"
 msgid "Metadata"
 msgstr "Metadata"
 
-#: ../build/src/ui_appearancesettingspage.h:509
+#: ../build/src/ui_appearancesettingspage.h:516
 msgid "Middle"
 msgstr "Midten"
 
@@ -2646,7 +2650,7 @@ msgstr "Flytt til samling…"
 msgid "Move up"
 msgstr "Flytt oppover"
 
-#: core/mainwindow.cpp:1947 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:1948 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musikk"
 
@@ -2685,7 +2689,7 @@ msgstr "Aldri begynn avspilling"
 msgid "New folder"
 msgstr "Ny mappe"
 
-#: core/mainwindow.cpp:1779
+#: core/mainwindow.cpp:1780
 msgid "New playlist"
 msgstr "Ny spilleliste"
 
@@ -2739,7 +2743,7 @@ msgstr "Ingen sang spilles"
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2278 core/mainwindow.cpp:2400
+#: core/mainwindow.cpp:2279 core/mainwindow.cpp:2401
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
@@ -2803,7 +2807,7 @@ msgstr "På"
 msgid "On startup"
 msgstr "Ved oppstart"
 
-#: ../build/src/ui_appearancesettingspage.h:519
+#: ../build/src/ui_appearancesettingspage.h:526
 msgid "Opacity"
 msgstr "Dekkevne"
 
@@ -2926,7 +2930,7 @@ msgstr "Passord"
 msgid "Password Protected"
 msgstr "Passordbeskyttet"
 
-#: core/mainwindow.cpp:1118 core/mainwindow.cpp:1589
+#: core/mainwindow.cpp:1119 core/mainwindow.cpp:1590
 #: core/qtsystemtrayicon.cpp:202
 msgid "Pause"
 msgstr "Pause"
@@ -2954,13 +2958,13 @@ msgstr "Piksel"
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
-#: core/mainwindow.cpp:605 core/mainwindow.cpp:1071 core/mainwindow.cpp:1100
-#: core/mainwindow.cpp:1593 core/qtsystemtrayicon.cpp:189
+#: core/mainwindow.cpp:605 core/mainwindow.cpp:1072 core/mainwindow.cpp:1101
+#: core/mainwindow.cpp:1594 core/qtsystemtrayicon.cpp:189
 #: core/qtsystemtrayicon.cpp:214
 msgid "Play"
 msgstr "Spill"
 
-#: ../build/src/ui_appearancesettingspage.h:523
+#: ../build/src/ui_appearancesettingspage.h:530
 msgid "Play control buttons"
 msgstr ""
 
@@ -2992,7 +2996,7 @@ msgstr "Innstillinger for avspiller"
 msgid "Playlist"
 msgstr "Spilleliste"
 
-#: ../build/src/ui_appearancesettingspage.h:522
+#: ../build/src/ui_appearancesettingspage.h:529
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3000,7 +3004,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Spillelisten er ferdigspilt"
 
-#: core/mainwindow.cpp:2034
+#: core/mainwindow.cpp:2035
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3037,7 +3041,7 @@ msgstr "Oppsprettsvinduets varighet"
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:504
+#: ../build/src/ui_appearancesettingspage.h:513
 msgid "Position"
 msgstr "Posisjon"
 
@@ -3143,20 +3147,20 @@ msgstr "Spør enhet…"
 msgid "Queue"
 msgstr "Kø"
 
-#: core/mainwindow.cpp:1688
+#: core/mainwindow.cpp:1689
 msgid "Queue selected tracks"
 msgstr "Legg valgte spor i kø"
 
-#: core/mainwindow.cpp:611 core/mainwindow.cpp:1692
+#: core/mainwindow.cpp:611 core/mainwindow.cpp:1693
 msgid "Queue selected tracks to play next"
 msgstr "Legg valgte spor i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1694 collection/collectionview.cpp:325
+#: core/mainwindow.cpp:1695 collection/collectionview.cpp:325
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Legg i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1687 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1688 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:324 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
@@ -3570,11 +3574,11 @@ msgstr "Gå til et bestemt tidspunkt i sporet"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Gå frem-/bakover ved bruk av en tastatursnarvei eller musehjulet"
 
-#: ../build/src/ui_appearancesettingspage.h:487
+#: ../build/src/ui_appearancesettingspage.h:495
 msgid "Select background color:"
 msgstr "Velg bakgrunnsfarge:"
 
-#: settings/appearancesettingspage.cpp:343
+#: settings/appearancesettingspage.cpp:350
 msgid "Select background image"
 msgstr "Velg bakgrunnsbilde"
 
@@ -3582,11 +3586,11 @@ msgstr "Velg bakgrunnsbilde"
 msgid "Select best possible match"
 msgstr "Velg det beste treffet"
 
-#: ../build/src/ui_appearancesettingspage.h:485
+#: ../build/src/ui_appearancesettingspage.h:493
 msgid "Select foreground color:"
 msgstr "Velg forgrunnsfarge:"
 
-#: ../build/src/ui_appearancesettingspage.h:493
+#: ../build/src/ui_appearancesettingspage.h:501
 msgid "Select tabbar color:"
 msgstr "Velg tabbar farge:"
 
@@ -3606,7 +3610,7 @@ msgstr "Server URL"
 msgid "Server URL is invalid."
 msgstr "Server URL er ugyldig."
 
-#: core/mainwindow.cpp:1726
+#: core/mainwindow.cpp:1727
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Sett %1 til \"%2\"…"
@@ -3831,11 +3835,11 @@ msgstr "Antall ganger hoppet over"
 msgid "Skip forwards in playlist"
 msgstr "Gå fremover i spillelista"
 
-#: core/mainwindow.cpp:1699
+#: core/mainwindow.cpp:1700
 msgid "Skip selected tracks"
 msgstr "Hopp over valgte spor"
 
-#: core/mainwindow.cpp:1698
+#: core/mainwindow.cpp:1699
 msgid "Skip track"
 msgstr "Hopp over spor"
 
@@ -3986,7 +3990,7 @@ msgstr "Strøm URL metode"
 msgid "Streaming"
 msgstr "Strømming"
 
-#: ../build/src/ui_appearancesettingspage.h:514
+#: ../build/src/ui_appearancesettingspage.h:521
 msgid "Stretch image to fill playlist"
 msgstr "Utvid bildet til å fylle spilleliste"
 
@@ -4034,11 +4038,11 @@ msgstr "Støttede formater"
 msgid "System colors"
 msgstr "Systemfarger"
 
-#: ../build/src/ui_appearancesettingspage.h:489
+#: ../build/src/ui_appearancesettingspage.h:497
 msgid "Tabbar colors"
 msgstr "Tabbar farger"
 
-#: ../build/src/ui_appearancesettingspage.h:526
+#: ../build/src/ui_appearancesettingspage.h:533
 msgid "Tabbar large mode"
 msgstr ""
 
@@ -4091,7 +4095,7 @@ msgstr ""
 msgid "The \"%1\" command could not be started."
 msgstr "Kunne ikke starte kommandoen \"%1\"."
 
-#: ../build/src/ui_appearancesettingspage.h:499
+#: ../build/src/ui_appearancesettingspage.h:507
 msgid "The album cover of the currently playing song"
 msgstr "Albumomslaget til sangen som spilles av for øyeblikket"
 
@@ -4107,7 +4111,7 @@ msgstr "Siden du forespurte finnes ikke!"
 msgid "The site you requested is not an image!"
 msgstr "Siden du forespurte er ikke et bilde!"
 
-#: core/mainwindow.cpp:2501
+#: core/mainwindow.cpp:2502
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4244,7 +4248,7 @@ msgstr "Tittel"
 msgid "Today"
 msgstr "I dag"
 
-#: core/mainwindow.cpp:608 core/mainwindow.cpp:1689
+#: core/mainwindow.cpp:608 core/mainwindow.cpp:1690
 msgid "Toggle queue status"
 msgstr "Slå av/på køstatus"
 
@@ -4252,7 +4256,7 @@ msgstr "Slå av/på køstatus"
 msgid "Toggle scrobbling"
 msgstr "Slå av/på deling av lyttevaner"
 
-#: core/mainwindow.cpp:614 core/mainwindow.cpp:1700
+#: core/mainwindow.cpp:614 core/mainwindow.cpp:1701
 msgid "Toggle skip status"
 msgstr "Slå av/på hopp over status"
 
@@ -4323,7 +4327,7 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ultrabredt bånd (UWB)"
 
-#: core/song.cpp:521 context/contextalbumsmodel.cpp:360
+#: core/song.cpp:523 context/contextalbumsmodel.cpp:360
 #: collection/collectionmodel.cpp:435 collection/collectionmodel.cpp:440
 #: collection/collectionmodel.cpp:444 collection/collectionmodel.cpp:448
 #: collection/collectionmodel.cpp:452 collection/collectionmodel.cpp:1410
@@ -4341,11 +4345,11 @@ msgstr "Ukjent feil"
 msgid "Unset cover"
 msgstr "Fjern omslagsvalg"
 
-#: core/mainwindow.cpp:1697
+#: core/mainwindow.cpp:1698
 msgid "Unskip selected tracks"
 msgstr "Ikke hopp over de valgte sporene"
 
-#: core/mainwindow.cpp:1696
+#: core/mainwindow.cpp:1697
 msgid "Unskip track"
 msgstr "Ikke hopp over sporet"
 
@@ -4367,11 +4371,11 @@ msgstr "Oppdaterer %1% …"
 msgid "Updating collection"
 msgstr "Oppdaterer samling"
 
-#: ../build/src/ui_appearancesettingspage.h:507
+#: ../build/src/ui_appearancesettingspage.h:514
 msgid "Upper Left"
 msgstr "Oppe til venstre"
 
-#: ../build/src/ui_appearancesettingspage.h:508
+#: ../build/src/ui_appearancesettingspage.h:515
 msgid "Upper Right"
 msgstr "Oppe til høyre"
 
@@ -4403,7 +4407,7 @@ msgstr ""
 msgid "Use X11's shortcut keys"
 msgstr "Bruk X11 snarveier"
 
-#: ../build/src/ui_appearancesettingspage.h:484
+#: ../build/src/ui_appearancesettingspage.h:492
 msgid "Use a custom color set"
 msgstr "Bruk egendefinert fargedrakt"
 
@@ -4419,11 +4423,11 @@ msgstr "Bruk autentisering"
 msgid "Use bitrate management engine"
 msgstr "Bruk kontrollert bitrate"
 
-#: ../build/src/ui_appearancesettingspage.h:491
+#: ../build/src/ui_appearancesettingspage.h:499
 msgid "Use custom color"
 msgstr "Bruk egendefinert farge"
 
-#: ../build/src/ui_appearancesettingspage.h:492
+#: ../build/src/ui_appearancesettingspage.h:500
 msgid "Use gradient background"
 msgstr "Bruk gradient bakgrunn"
 
@@ -4439,7 +4443,7 @@ msgstr "Bruk live skanning"
 msgid "Use pattern"
 msgstr "Bruk pattern"
 
-#: ../build/src/ui_appearancesettingspage.h:527
+#: ../build/src/ui_appearancesettingspage.h:534
 msgid "Use system theme icons"
 msgstr "Bruk ikoner fra system theme"
 
@@ -4566,7 +4570,7 @@ msgid ""
 msgstr ""
 "Ønsker du å også flytte resten av sangene fra albumet til diverse artister?"
 
-#: core/mainwindow.cpp:2505
+#: core/mainwindow.cpp:2506
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 

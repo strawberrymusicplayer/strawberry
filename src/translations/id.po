@@ -314,7 +314,7 @@ msgstr "&Daftar putar baru"
 msgid "&Next track"
 msgstr "&Trek berikutnya"
 
-#: ../build/src/ui_appearancesettingspage.h:497
+#: ../build/src/ui_appearancesettingspage.h:505
 msgid "&No background image"
 msgstr "&Tidak ada gambar latar belakang"
 
@@ -374,11 +374,11 @@ msgstr "&Transkode Musik"
 msgid "&Update changed collection folders"
 msgstr "Perbar&ui folder pustaka yang telah diubah"
 
-#: ../build/src/ui_appearancesettingspage.h:490
+#: ../build/src/ui_appearancesettingspage.h:498
 msgid "&Use the system default color"
 msgstr "G&unakan warna standar sistem"
 
-#: ../build/src/ui_appearancesettingspage.h:483
+#: ../build/src/ui_appearancesettingspage.h:491
 msgid "&Use the system default color set"
 msgstr "G&unakan set warna standar sistem"
 
@@ -409,7 +409,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:518
+#: ../build/src/ui_appearancesettingspage.h:525
 msgid "0px"
 msgstr "0px"
 
@@ -421,7 +421,7 @@ msgstr "1 hari"
 msgid "1 track"
 msgstr "1 trek"
 
-#: ../build/src/ui_appearancesettingspage.h:520
+#: ../build/src/ui_appearancesettingspage.h:527
 msgid "40%"
 msgstr "40%"
 
@@ -437,6 +437,10 @@ msgstr ""
 "<p>Jika Anda mengurung bagian dari teks yang mengandung token dengan kurung "
 "kurawal, maka bagian tersebut akan disembunyikan jika token tersebut kosong."
 "</p>"
+
+#: ../build/src/ui_appearancesettingspage.h:510
+msgid "A Taste of Strawbs"
+msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:158
 msgid "A&utomatic"
@@ -514,7 +518,7 @@ msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 
-#: core/mainwindow.cpp:1947
+#: core/mainwindow.cpp:1948
 msgid "Add file"
 msgstr "Tambah berkas"
 
@@ -530,7 +534,7 @@ msgstr "Tambah berkas ke transkoder"
 msgid "Add files to transcode"
 msgstr "Tambah berkas untuk ditranskode"
 
-#: core/mainwindow.cpp:1972 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:1973 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Tambah folder"
 
@@ -629,7 +633,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Tambahkan ke album"
 
-#: core/mainwindow.cpp:1763
+#: core/mainwindow.cpp:1764
 msgid "Add to another playlist"
 msgstr "Tambahkan ke daftar putar lainnya"
 
@@ -683,7 +687,7 @@ msgstr "Pengelompokkan lanjut..."
 msgid "After copying..."
 msgstr "Setelah menyalin..."
 
-#: ../build/src/ui_appearancesettingspage.h:501
+#: ../build/src/ui_appearancesettingspage.h:509
 msgid "Albu&m cover"
 msgstr "Sa&mpul album"
 
@@ -806,7 +810,7 @@ msgstr "Sebuah galat terjadi saat menulis metadata ke '%1'"
 msgid "Angry"
 msgstr "Marah"
 
-#: ../build/src/ui_appearancesettingspage.h:481
+#: ../build/src/ui_appearancesettingspage.h:489
 msgid "Appearance"
 msgstr "Penampilan"
 
@@ -946,7 +950,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Warna latar belakang"
 
-#: ../build/src/ui_appearancesettingspage.h:495
+#: ../build/src/ui_appearancesettingspage.h:503
 msgid "Background image"
 msgstr "Gambar latar belakang"
 
@@ -1013,7 +1017,7 @@ msgstr "Tipe blok"
 msgid "Bluetooth MAC Address"
 msgstr "Alamat MAC Bluetooth"
 
-#: ../build/src/ui_appearancesettingspage.h:517
+#: ../build/src/ui_appearancesettingspage.h:524
 msgid "Blur amount"
 msgstr "Besaran kekaburan"
 
@@ -1025,15 +1029,15 @@ msgstr "Badan"
 msgid "Boom analyzer"
 msgstr "Penganalisis dentuman"
 
-#: ../build/src/ui_appearancesettingspage.h:510
+#: ../build/src/ui_appearancesettingspage.h:517
 msgid "Bottom Left"
 msgstr "Kiri Bawah"
 
-#: ../build/src/ui_appearancesettingspage.h:511
+#: ../build/src/ui_appearancesettingspage.h:518
 msgid "Bottom Right"
 msgstr "Kanan Bawah"
 
-#: ../build/src/ui_appearancesettingspage.h:503
+#: ../build/src/ui_appearancesettingspage.h:512
 msgid "Browse..."
 msgstr "Ramban..."
 
@@ -1110,7 +1114,7 @@ msgstr "Bersihkan"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:2034 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2035 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
@@ -1174,7 +1178,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Pengelompokan pustaka lanjutan"
 
-#: core/mainwindow.cpp:2506
+#: core/mainwindow.cpp:2507
 msgid "Collection rescan notice"
 msgstr "Pemberitahuan pemindaian ulang pustaka"
 
@@ -1182,7 +1186,7 @@ msgstr "Pemberitahuan pemindaian ulang pustaka"
 msgid "Color"
 msgstr "Warna"
 
-#: ../build/src/ui_appearancesettingspage.h:482
+#: ../build/src/ui_appearancesettingspage.h:490
 msgid "Colors"
 msgstr "Warna"
 
@@ -1225,7 +1229,7 @@ msgstr "Konfigurasi tidak benar"
 msgid "Configure %1..."
 msgstr "Konfigurasi %1..."
 
-#: ../build/src/ui_appearancesettingspage.h:524
+#: ../build/src/ui_appearancesettingspage.h:531
 msgid "Configure buttons"
 msgstr ""
 
@@ -1451,7 +1455,7 @@ msgstr ""
 msgid "Custom"
 msgstr "Ubahsuai"
 
-#: ../build/src/ui_appearancesettingspage.h:502
+#: ../build/src/ui_appearancesettingspage.h:511
 msgid "Custom image:"
 msgstr "Gambar ubahsuai:"
 
@@ -1495,7 +1499,7 @@ msgstr "Kurangi volume 4 persen"
 msgid "Decrease the volume by <value> percent"
 msgstr "Kurangi volume <value> persen"
 
-#: ../build/src/ui_appearancesettingspage.h:496
+#: ../build/src/ui_appearancesettingspage.h:504
 msgid "Default bac&kground image"
 msgstr "Gambar latar bela&kang standar"
 
@@ -1528,11 +1532,11 @@ msgstr "Hapus berkas yang asli"
 msgid "Deleting files"
 msgstr "Menghapus berkas"
 
-#: core/mainwindow.cpp:1686
+#: core/mainwindow.cpp:1687
 msgid "Dequeue selected tracks"
 msgstr "Buang antrean trek terpilih"
 
-#: core/mainwindow.cpp:1685
+#: core/mainwindow.cpp:1686
 msgid "Dequeue track"
 msgstr "Buang antrean trek"
 
@@ -1606,7 +1610,7 @@ msgstr "Tampilkan tampilan-pada-layar"
 msgid "Do not convert any music"
 msgstr "Jangan konversi musik apapun"
 
-#: ../build/src/ui_appearancesettingspage.h:516
+#: ../build/src/ui_appearancesettingspage.h:523
 msgid "Do not cut image"
 msgstr "Jangan potong gambar"
 
@@ -1655,7 +1659,7 @@ msgstr "Mengunduh metadata"
 msgid "Drag to reposition"
 msgstr "Seret untuk reposisi"
 
-#: core/mainwindow.cpp:1727
+#: core/mainwindow.cpp:1728
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Sunting tag \"%1\"..."
@@ -1791,7 +1795,7 @@ msgstr "Setara dengan --log-level *: 1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
-#: core/mainwindow.cpp:2278 core/mainwindow.cpp:2400
+#: core/mainwindow.cpp:2279 core/mainwindow.cpp:2401
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "Error"
 msgstr "Kesalahan"
@@ -1940,7 +1944,7 @@ msgstr "Ambil seluruh album saat mencari lagu"
 msgid "Fetching cover error"
 msgstr "Terjadi kesalahan saat mengambil sampul"
 
-#: core/song.cpp:1017
+#: core/song.cpp:1019
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Berkas %1 bukanlah berkas audio yang benar."
@@ -1991,7 +1995,7 @@ msgstr "Berkas"
 msgid "Files to transcode"
 msgstr "Berkas untuk ditranskode"
 
-#: ../build/src/ui_appearancesettingspage.h:525
+#: ../build/src/ui_appearancesettingspage.h:532
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2251,7 +2255,7 @@ msgstr "Tinggi (%1 fps)"
 msgid "Icon"
 msgstr "Ikon"
 
-#: ../build/src/ui_appearancesettingspage.h:521
+#: ../build/src/ui_appearancesettingspage.h:528
 msgid "Icon sizes"
 msgstr ""
 
@@ -2357,7 +2361,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Lompat ke lagu sebelumnya sesegera"
 
-#: ../build/src/ui_appearancesettingspage.h:515
+#: ../build/src/ui_appearancesettingspage.h:522
 msgid "Keep aspect ratio"
 msgstr "Jaga aspek ratio"
 
@@ -2542,7 +2546,7 @@ msgstr "Tandai sudah didengar"
 msgid "Mark disappeared songs unavailable"
 msgstr "Tandai lagu yang hilang sebagai tidak tersedia"
 
-#: ../build/src/ui_appearancesettingspage.h:513
+#: ../build/src/ui_appearancesettingspage.h:520
 msgid "Max cover size"
 msgstr "Ukuran sampul maksimum"
 
@@ -2559,7 +2563,7 @@ msgstr "Sedang (%1 fps)"
 msgid "Metadata"
 msgstr "Metadata"
 
-#: ../build/src/ui_appearancesettingspage.h:509
+#: ../build/src/ui_appearancesettingspage.h:516
 msgid "Middle"
 msgstr "Tengah"
 
@@ -2652,7 +2656,7 @@ msgstr "Pindah ke pustaka..."
 msgid "Move up"
 msgstr "Pindah naik"
 
-#: core/mainwindow.cpp:1947 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:1948 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musik"
 
@@ -2691,7 +2695,7 @@ msgstr "Jangan mulai memutar"
 msgid "New folder"
 msgstr "Folder baru"
 
-#: core/mainwindow.cpp:1779
+#: core/mainwindow.cpp:1780
 msgid "New playlist"
 msgstr "Daftar putar baru"
 
@@ -2747,7 +2751,7 @@ msgstr "Tidak ada lagu yang berputar"
 msgid "None"
 msgstr "Nihil"
 
-#: core/mainwindow.cpp:2278 core/mainwindow.cpp:2400
+#: core/mainwindow.cpp:2279 core/mainwindow.cpp:2401
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -2813,7 +2817,7 @@ msgstr "Nyala"
 msgid "On startup"
 msgstr "Saat membuka"
 
-#: ../build/src/ui_appearancesettingspage.h:519
+#: ../build/src/ui_appearancesettingspage.h:526
 msgid "Opacity"
 msgstr "Kelegapan"
 
@@ -2936,7 +2940,7 @@ msgstr "Sandi"
 msgid "Password Protected"
 msgstr "Terlindungi dengan Kata Sandi"
 
-#: core/mainwindow.cpp:1118 core/mainwindow.cpp:1589
+#: core/mainwindow.cpp:1119 core/mainwindow.cpp:1590
 #: core/qtsystemtrayicon.cpp:202
 msgid "Pause"
 msgstr "Jeda"
@@ -2964,13 +2968,13 @@ msgstr "Piksel"
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
-#: core/mainwindow.cpp:605 core/mainwindow.cpp:1071 core/mainwindow.cpp:1100
-#: core/mainwindow.cpp:1593 core/qtsystemtrayicon.cpp:189
+#: core/mainwindow.cpp:605 core/mainwindow.cpp:1072 core/mainwindow.cpp:1101
+#: core/mainwindow.cpp:1594 core/qtsystemtrayicon.cpp:189
 #: core/qtsystemtrayicon.cpp:214
 msgid "Play"
 msgstr "Putar"
 
-#: ../build/src/ui_appearancesettingspage.h:523
+#: ../build/src/ui_appearancesettingspage.h:530
 msgid "Play control buttons"
 msgstr ""
 
@@ -3002,7 +3006,7 @@ msgstr "Opsi pemutar"
 msgid "Playlist"
 msgstr "Daftar putar"
 
-#: ../build/src/ui_appearancesettingspage.h:522
+#: ../build/src/ui_appearancesettingspage.h:529
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3010,7 +3014,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Daftar putar selesai"
 
-#: core/mainwindow.cpp:2034
+#: core/mainwindow.cpp:2035
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3047,7 +3051,7 @@ msgstr "Durasi sembulan"
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:504
+#: ../build/src/ui_appearancesettingspage.h:513
 msgid "Position"
 msgstr "Posisi"
 
@@ -3152,20 +3156,20 @@ msgstr "Meminta perangkat..."
 msgid "Queue"
 msgstr "Antrean"
 
-#: core/mainwindow.cpp:1688
+#: core/mainwindow.cpp:1689
 msgid "Queue selected tracks"
 msgstr "Antre trek terpilih"
 
-#: core/mainwindow.cpp:611 core/mainwindow.cpp:1692
+#: core/mainwindow.cpp:611 core/mainwindow.cpp:1693
 msgid "Queue selected tracks to play next"
 msgstr "Antre trek terpilih untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1694 collection/collectionview.cpp:325
+#: core/mainwindow.cpp:1695 collection/collectionview.cpp:325
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Antre untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1687 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1688 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:324 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
@@ -3579,11 +3583,11 @@ msgstr "Jangkau yang sedang diputar ke posisi mutlak"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Menjangkau menggunakan pintasan keyboard atau roda mouse"
 
-#: ../build/src/ui_appearancesettingspage.h:487
+#: ../build/src/ui_appearancesettingspage.h:495
 msgid "Select background color:"
 msgstr "Pilih warna latar belakang:"
 
-#: settings/appearancesettingspage.cpp:343
+#: settings/appearancesettingspage.cpp:350
 msgid "Select background image"
 msgstr "Pilih gambar latar belakang"
 
@@ -3591,11 +3595,11 @@ msgstr "Pilih gambar latar belakang"
 msgid "Select best possible match"
 msgstr "Pilih kecocokan yang terbaik"
 
-#: ../build/src/ui_appearancesettingspage.h:485
+#: ../build/src/ui_appearancesettingspage.h:493
 msgid "Select foreground color:"
 msgstr "Pilih warna latar depan:"
 
-#: ../build/src/ui_appearancesettingspage.h:493
+#: ../build/src/ui_appearancesettingspage.h:501
 msgid "Select tabbar color:"
 msgstr "Pilih warna tabbar:"
 
@@ -3615,7 +3619,7 @@ msgstr "URL server"
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 
-#: core/mainwindow.cpp:1726
+#: core/mainwindow.cpp:1727
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Tetapkan %1 ke \"%2\"..."
@@ -3840,11 +3844,11 @@ msgstr "Lewati hitungan"
 msgid "Skip forwards in playlist"
 msgstr "Lewati maju di dalam daftar putar"
 
-#: core/mainwindow.cpp:1699
+#: core/mainwindow.cpp:1700
 msgid "Skip selected tracks"
 msgstr "Lewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1698
+#: core/mainwindow.cpp:1699
 msgid "Skip track"
 msgstr "Lewati trek"
 
@@ -3995,7 +3999,7 @@ msgstr "Metode URL Stream"
 msgid "Streaming"
 msgstr "Streaming"
 
-#: ../build/src/ui_appearancesettingspage.h:514
+#: ../build/src/ui_appearancesettingspage.h:521
 msgid "Stretch image to fill playlist"
 msgstr "Regangkan gambar hingga memenuhi daftar putar"
 
@@ -4043,11 +4047,11 @@ msgstr "Format yang didukung"
 msgid "System colors"
 msgstr "Warna sistem"
 
-#: ../build/src/ui_appearancesettingspage.h:489
+#: ../build/src/ui_appearancesettingspage.h:497
 msgid "Tabbar colors"
 msgstr "Warna tabbar"
 
-#: ../build/src/ui_appearancesettingspage.h:526
+#: ../build/src/ui_appearancesettingspage.h:533
 msgid "Tabbar large mode"
 msgstr ""
 
@@ -4100,7 +4104,7 @@ msgstr ""
 msgid "The \"%1\" command could not be started."
 msgstr "Perintah \"%1\" tidak dapat dimulai."
 
-#: ../build/src/ui_appearancesettingspage.h:499
+#: ../build/src/ui_appearancesettingspage.h:507
 msgid "The album cover of the currently playing song"
 msgstr "Sampul album dari lagu yang diputar saat ini"
 
@@ -4116,7 +4120,7 @@ msgstr "Situs yang Anda minta tidak ada!"
 msgid "The site you requested is not an image!"
 msgstr "Situs yang Anda minta bukan sebuah gambar!"
 
-#: core/mainwindow.cpp:2501
+#: core/mainwindow.cpp:2502
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4257,7 +4261,7 @@ msgstr "Judul"
 msgid "Today"
 msgstr "Hari Ini"
 
-#: core/mainwindow.cpp:608 core/mainwindow.cpp:1689
+#: core/mainwindow.cpp:608 core/mainwindow.cpp:1690
 msgid "Toggle queue status"
 msgstr "Alihkan status antrean"
 
@@ -4265,7 +4269,7 @@ msgstr "Alihkan status antrean"
 msgid "Toggle scrobbling"
 msgstr "Alihkan scrobbling"
 
-#: core/mainwindow.cpp:614 core/mainwindow.cpp:1700
+#: core/mainwindow.cpp:614 core/mainwindow.cpp:1701
 msgid "Toggle skip status"
 msgstr "Alihkan status melewati"
 
@@ -4336,7 +4340,7 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Pita ultra lebar (UWB)"
 
-#: core/song.cpp:521 context/contextalbumsmodel.cpp:360
+#: core/song.cpp:523 context/contextalbumsmodel.cpp:360
 #: collection/collectionmodel.cpp:435 collection/collectionmodel.cpp:440
 #: collection/collectionmodel.cpp:444 collection/collectionmodel.cpp:448
 #: collection/collectionmodel.cpp:452 collection/collectionmodel.cpp:1410
@@ -4354,11 +4358,11 @@ msgstr "Kesalahan tak terduga"
 msgid "Unset cover"
 msgstr "Tak set sampul"
 
-#: core/mainwindow.cpp:1697
+#: core/mainwindow.cpp:1698
 msgid "Unskip selected tracks"
 msgstr "Taklewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1696
+#: core/mainwindow.cpp:1697
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
@@ -4380,11 +4384,11 @@ msgstr "Memperbarui %1%..."
 msgid "Updating collection"
 msgstr "Memperbarui pustaka"
 
-#: ../build/src/ui_appearancesettingspage.h:507
+#: ../build/src/ui_appearancesettingspage.h:514
 msgid "Upper Left"
 msgstr "Kiri Atas"
 
-#: ../build/src/ui_appearancesettingspage.h:508
+#: ../build/src/ui_appearancesettingspage.h:515
 msgid "Upper Right"
 msgstr "Kanan Atas"
 
@@ -4416,7 +4420,7 @@ msgstr ""
 msgid "Use X11's shortcut keys"
 msgstr "Gunakan pintasan X11"
 
-#: ../build/src/ui_appearancesettingspage.h:484
+#: ../build/src/ui_appearancesettingspage.h:492
 msgid "Use a custom color set"
 msgstr "Gunakan set warna ubahsuai"
 
@@ -4432,11 +4436,11 @@ msgstr "Gunakan otentikasi"
 msgid "Use bitrate management engine"
 msgstr "Gunakan mesin pengelolaan lajubit"
 
-#: ../build/src/ui_appearancesettingspage.h:491
+#: ../build/src/ui_appearancesettingspage.h:499
 msgid "Use custom color"
 msgstr "Gunakan warna kustom"
 
-#: ../build/src/ui_appearancesettingspage.h:492
+#: ../build/src/ui_appearancesettingspage.h:500
 msgid "Use gradient background"
 msgstr "Gunakan latar belakang gradien"
 
@@ -4452,7 +4456,7 @@ msgstr "Gunakan pemindaian langsung"
 msgid "Use pattern"
 msgstr "Gunakan pola"
 
-#: ../build/src/ui_appearancesettingspage.h:527
+#: ../build/src/ui_appearancesettingspage.h:534
 msgid "Use system theme icons"
 msgstr "Gunakan ikon tema sistem"
 
@@ -4582,7 +4586,7 @@ msgstr ""
 "Apakah Anda ingin memindahkan lagu lainnya di dalam album ini ke Artis "
 "Beragam?"
 
-#: core/mainwindow.cpp:2505
+#: core/mainwindow.cpp:2506
 msgid "Would you like to run a full rescan right now?"
 msgstr "Apakah Anda ingin menjalankan pemindaian ulang menyeluruh sekarang?"
 
