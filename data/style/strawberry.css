@@ -11,6 +11,14 @@
   background-clip: content;
 }
 
+#playlist[strawbs_background_enabled = "true"] {
+  background-image: url(:pictures/strawbs.png);
+  background-attachment: fixed;
+  background-position: bottom right;
+  background-repeat: none;
+  background-clip: content;
+}
+
 QToolButton {
   border: 2px solid transparent;
   border-radius: 3px;

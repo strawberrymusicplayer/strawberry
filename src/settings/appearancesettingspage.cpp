@@ -105,8 +105,9 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
 
   connect(ui_->use_default_background, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setDisabled(bool)));
   connect(ui_->use_no_background, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setDisabled(bool)));
-  connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setEnabled(bool)));
   connect(ui_->use_album_cover_background, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setEnabled(bool)));
+  connect(ui_->use_strawbs_background, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setDisabled(bool)));
+  connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setEnabled(bool)));
 
   connect(ui_->select_background_image_filename_button, SIGNAL(pressed()), SLOT(SelectBackgroundImage()));
   connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->background_image_filename, SLOT(setEnabled(bool)));
@@ -165,18 +166,21 @@ void AppearanceSettingsPage::Load() {
   ui_->use_a_custom_color_set->setChecked(original_use_a_custom_color_set_);
 
   switch (background_image_type_) {
+    case BackgroundImageType_Default:
+      ui_->use_default_background->setChecked(true);
+      break;
     case BackgroundImageType_None:
       ui_->use_no_background->setChecked(true);
       break;
     case BackgroundImageType_Album:
       ui_->use_album_cover_background->setChecked(true);
       break;
+    case BackgroundImageType_Strawbs:
+      ui_->use_strawbs_background->setChecked(true);
+      break;
     case BackgroundImageType_Custom:
       ui_->use_custom_background_image->setChecked(true);
       break;
-    case BackgroundImageType_Default:
-    default:
-      ui_->use_default_background->setChecked(true);
   }
   ui_->background_image_filename->setText(background_image_filename_);
 
@@ -222,14 +226,17 @@ void AppearanceSettingsPage::Save() {
   }
 
   background_image_filename_ = ui_->background_image_filename->text();
-  if (ui_->use_no_background->isChecked()) {
+  if (ui_->use_default_background->isChecked()) {
+    background_image_type_ = BackgroundImageType_Default;
+  }
+  else if (ui_->use_no_background->isChecked()) {
     background_image_type_ = BackgroundImageType_None;
   }
   else if (ui_->use_album_cover_background->isChecked()) {
     background_image_type_ = BackgroundImageType_Album;
   }
-  else if (ui_->use_default_background->isChecked()) {
-    background_image_type_ = BackgroundImageType_Default;
+  else if (ui_->use_strawbs_background->isChecked()) {
+    background_image_type_ = BackgroundImageType_Strawbs;
   }
   else if (ui_->use_custom_background_image->isChecked()) {
     background_image_type_ = BackgroundImageType_Custom;

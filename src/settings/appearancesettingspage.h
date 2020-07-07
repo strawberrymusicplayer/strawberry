@@ -78,7 +78,8 @@ class AppearanceSettingsPage : public SettingsPage {
     BackgroundImageType_Default,
     BackgroundImageType_None,
     BackgroundImageType_Custom,
-    BackgroundImageType_Album
+    BackgroundImageType_Album,
+    BackgroundImageType_Strawbs
   };
 
   enum BackgroundImagePosition {

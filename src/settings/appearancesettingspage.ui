@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>674</width>
-    <height>865</height>
+    <height>896</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -166,6 +166,13 @@
         </property>
         <property name="text">
          <string>Albu&amp;m cover</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="use_strawbs_background">
+        <property name="text">
+         <string>A Taste of Strawbs</string>
         </property>
        </widget>
       </item>

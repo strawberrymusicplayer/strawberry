@@ -1128,6 +1128,7 @@ void PlaylistView::ReloadSettings() {
       previous_background_image_ = QPixmap();
     }
     setProperty("default_background_enabled", background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Default);
+    setProperty("strawbs_background_enabled", background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Strawbs);
     emit BackgroundPropertyChanged();
     force_background_redraw_ = true;
   }
