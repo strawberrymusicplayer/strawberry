@@ -95,5 +95,6 @@ add_test_file(src/collectionbackend_test.cpp false)
 add_test_file(src/collectionmodel_test.cpp true)
 add_test_file(src/songplaylistitem_test.cpp false)
 add_test_file(src/organiseformat_test.cpp false)
+add_test_file(src/playlist_test.cpp true)
 
 add_custom_target(run_strawberry_tests COMMAND ${CMAKE_CTEST_COMMAND} -V DEPENDS strawberry_tests)
