@@ -543,12 +543,12 @@ void PlaylistView::keyPressEvent(QKeyEvent *event) {
     QTreeView::keyPressEvent(event);
   }
   else if (event == QKeySequence::Delete) {
-    RemoveSelected(false);
+    RemoveSelected();
     event->accept();
 #ifdef Q_OS_MACOS
   }
   else if (event->key() == Qt::Key_Backspace) {
-    RemoveSelected(false);
+    RemoveSelected();
     event->accept();
 #endif
   }
@@ -586,7 +586,7 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent *e) {
   e->accept();
 }
 
-void PlaylistView::RemoveSelected(bool deleting_from_disk) {
+void PlaylistView::RemoveSelected() {
 
   int rows_removed = 0;
   QItemSelection selection(selectionModel()->selection());
@@ -603,13 +603,7 @@ void PlaylistView::RemoveSelected(bool deleting_from_disk) {
 
   for (const QItemSelectionRange &range : selection) {
     if (range.top() < last_row) rows_removed += range.height();
-
-    if (!deleting_from_disk) {
-      model()->removeRows(range.top(), range.height(), range.topLeft());
-    }
-    else {
-      model()->removeRows(range.top(), range.height(), QModelIndex());
-    }
+    model()->removeRows(range.top(), range.height(), range.parent());
   }
 
   int new_row = last_row - rows_removed;

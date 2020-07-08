@@ -101,7 +101,7 @@ class PlaylistView : public QTreeView {
   void SetApplication(Application *app);
   void SetItemDelegates(CollectionBackend *backend);
   void SetPlaylist(Playlist *playlist);
-  void RemoveSelected(bool deleting_from_disk);
+  void RemoveSelected();
 
   void SetReadOnlySettings(bool read_only) { read_only_settings_ = read_only; }
 
