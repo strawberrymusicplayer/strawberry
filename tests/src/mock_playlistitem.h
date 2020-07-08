@@ -32,9 +32,7 @@
 #include "playlist/playlistitem.h"
 
 class MockPlaylistItem : public PlaylistItem {
-
  public:
-
   MockPlaylistItem();
   MOCK_CONST_METHOD0(options, Options());
   MOCK_METHOD1(InitFromQuery, bool(const SqlRow& settings));
@@ -43,7 +41,8 @@ class MockPlaylistItem : public PlaylistItem {
   MOCK_CONST_METHOD0(Url, QUrl());
   MOCK_METHOD1(SetTemporaryMetadata, void(const Song& metadata));
   MOCK_METHOD0(ClearTemporaryMetadata, void());
-  //MOCK_METHOD1(DatabaseValue, QVariant(DatabaseColumn));
+  MOCK_METHOD1(SetArtManual, void(const QUrl &cover_url));
+  MOCK_CONST_METHOD1(DatabaseValue, QVariant(DatabaseColumn));
 
 };
 
