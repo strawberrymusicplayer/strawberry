@@ -1654,6 +1654,11 @@ void Playlist::Shuffle() {
   PlaylistItemList new_items(items_);
 
   int begin = 0;
+  if (current_item_index_.isValid()) {
+    if (new_items[0] != new_items[current_item_index_.row()])
+      std::swap(new_items[0], new_items[current_item_index_.row()]);
+    begin = 1;
+  }
 
   const int count = items_.count();
   for (int i = begin; i < count; ++i) {
