@@ -27,7 +27,6 @@ if (${CMAKE_SYSTEM_NAME} STREQUAL "OpenBSD")
   set(OPENBSD ON)
 endif()
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -221,8 +220,6 @@ add_subdirectory(3rdparty/singleapplication)
 set(SINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/singleapplication)
 set(SINGLEAPPLICATION_LIBRARIES singleapplication)
 set(SINGLECOREAPPLICATION_LIBRARIES singlecoreapplication)
-unset(SINGLEAPPLICATION_LIBRARY_DIRS)
-unset(SINGLECOREAPPLICATION_LIBRARY_DIRS)
 
 if (APPLE)
   find_library(SPARKLE Sparkle)
