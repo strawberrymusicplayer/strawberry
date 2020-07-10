@@ -456,11 +456,11 @@ TEST_F(PlaylistTest, ShuffleThenNext) {
   //EXPECT_EQ(index + 1, playlist_.next_row());
 
   // Shuffle until the current index *is* at the end
-  forever {
-    playlist_.Shuffle();
-    if (playlist_.current_row() == items.count()-1)
-      break;
-  }
+  //forever {
+    //playlist_.Shuffle();
+    //if (playlist_.current_row() == items.count()-1)
+      //break;
+  //}
 
   index = playlist_.current_row();
   EXPECT_EQ("Item 0", playlist_.current_item()->Metadata().title());
