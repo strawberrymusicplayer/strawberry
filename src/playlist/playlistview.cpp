@@ -219,6 +219,9 @@ void PlaylistView::SetApplication(Application *app) {
 
   Q_ASSERT(app);
   app_ = app;
+
+  SetItemDelegates();
+
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), this, SLOT(SongChanged(Song)));
   connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)));
   connect(app_->player(), SIGNAL(Playing()), SLOT(StartGlowing()));
@@ -227,18 +230,18 @@ void PlaylistView::SetApplication(Application *app) {
 
 }
 
-void PlaylistView::SetItemDelegates(CollectionBackend *backend) {
+void PlaylistView::SetItemDelegates() {
 
   setItemDelegate(new PlaylistDelegateBase(this));
 
   setItemDelegateForColumn(Playlist::Column_Title, new TextItemDelegate(this));
-  setItemDelegateForColumn(Playlist::Column_Album, new TagCompletionItemDelegate(this, backend, Playlist::Column_Album));
-  setItemDelegateForColumn(Playlist::Column_Artist, new TagCompletionItemDelegate(this, backend, Playlist::Column_Artist));
-  setItemDelegateForColumn(Playlist::Column_AlbumArtist, new TagCompletionItemDelegate(this, backend, Playlist::Column_AlbumArtist));
-  setItemDelegateForColumn(Playlist::Column_Genre, new TagCompletionItemDelegate(this, backend, Playlist::Column_Genre));
-  setItemDelegateForColumn(Playlist::Column_Composer, new TagCompletionItemDelegate(this, backend, Playlist::Column_Composer));
-  setItemDelegateForColumn(Playlist::Column_Performer, new TagCompletionItemDelegate(this, backend, Playlist::Column_Performer));
-  setItemDelegateForColumn(Playlist::Column_Grouping, new TagCompletionItemDelegate(this, backend, Playlist::Column_Grouping));
+  setItemDelegateForColumn(Playlist::Column_Album, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Album));
+  setItemDelegateForColumn(Playlist::Column_Artist, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Artist));
+  setItemDelegateForColumn(Playlist::Column_AlbumArtist, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_AlbumArtist));
+  setItemDelegateForColumn(Playlist::Column_Genre, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Genre));
+  setItemDelegateForColumn(Playlist::Column_Composer, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Composer));
+  setItemDelegateForColumn(Playlist::Column_Performer, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Performer));
+  setItemDelegateForColumn(Playlist::Column_Grouping, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Grouping));
   setItemDelegateForColumn(Playlist::Column_Length, new LengthItemDelegate(this));
   setItemDelegateForColumn(Playlist::Column_Filesize, new SizeItemDelegate(this));
   setItemDelegateForColumn(Playlist::Column_Filetype, new FileTypeItemDelegate(this));

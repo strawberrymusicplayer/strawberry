@@ -99,7 +99,7 @@ class PlaylistView : public QTreeView {
   static ColumnAlignmentMap DefaultColumnAlignment();
 
   void SetApplication(Application *app);
-  void SetItemDelegates(CollectionBackend *backend);
+  void SetItemDelegates();
   void SetPlaylist(Playlist *playlist);
   void RemoveSelected();
 
