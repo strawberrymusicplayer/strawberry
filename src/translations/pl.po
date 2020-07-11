@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-06-12 09:53-0400\n"
+"PO-Revision-Date: 2020-07-10 06:41-0400\n"
 "Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -449,7 +449,7 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:510
 msgid "A Taste of Strawbs"
-msgstr ""
+msgstr "A Taste of Strawbs"
 
 #: ../build/src/ui_playlistsettingspage.h:158
 msgid "A&utomatic"
@@ -1245,7 +1245,7 @@ msgstr "Skonfiguruj %1…"
 
 #: ../build/src/ui_appearancesettingspage.h:531
 msgid "Configure buttons"
-msgstr ""
+msgstr "Konfiguracja przycisków"
 
 #: core/mainwindow.cpp:576
 msgid "Configure collection..."
@@ -2014,7 +2014,7 @@ msgstr "Pliki do transkodowania"
 
 #: ../build/src/ui_appearancesettingspage.h:532
 msgid "Files, playlists and queue buttons"
-msgstr ""
+msgstr "Pliki, listy odtwarzania i kolejka"
 
 #: context/contextview.cpp:213
 msgid "Filetype"
@@ -2262,7 +2262,7 @@ msgstr "Pomoc"
 
 #: ../build/src/ui_behavioursettingspage.h:277
 msgid "Hide the main window"
-msgstr ""
+msgstr "Ukrywaj główne okno"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:201
 msgid "High"
@@ -2279,7 +2279,7 @@ msgstr "Ikona"
 
 #: ../build/src/ui_appearancesettingspage.h:528
 msgid "Icon sizes"
-msgstr ""
+msgstr "Rozmiary ikon"
 
 #: widgets/fancytabwidget.cpp:632
 msgid "Icons on top"
@@ -2478,7 +2478,7 @@ msgstr "Wczytaj okładkę z dysku"
 msgid "Load cover from disk..."
 msgstr "Wczytaj okładkę z dysku…"
 
-#: playlist/playlistcontainer.cpp:321
+#: playlist/playlistcontainer.cpp:320
 msgid "Load playlist"
 msgstr "Wczytaj listę odtwarzania"
 
@@ -2753,7 +2753,7 @@ msgstr "Bez długich bloków"
 msgid "No match."
 msgstr "Brak dopasowania."
 
-#: playlist/playlistcontainer.cpp:402
+#: playlist/playlistcontainer.cpp:401
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -3002,7 +3002,7 @@ msgstr "Odtwarzaj"
 
 #: ../build/src/ui_appearancesettingspage.h:530
 msgid "Play control buttons"
-msgstr ""
+msgstr "Odtwarzacz"
 
 #: playlist/playlist.cpp:1191 ../build/src/ui_edittagdialog.h:666
 msgid "Play count"
@@ -3025,7 +3025,7 @@ msgstr "Odtwórz n-tą ścieżkę na liście odtwarzania"
 msgid "Player options"
 msgstr "Opcje odtwarzacza"
 
-#: playlist/playlistcontainer.cpp:316 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistcontainer.cpp:315 playlist/playlistlistcontainer.cpp:274
 #: playlist/playlistlistcontainer.cpp:362 playlist/playlistmanager.cpp:105
 #: playlist/playlistmanager.cpp:183 playlist/playlistmanager.cpp:540
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
@@ -3034,7 +3034,7 @@ msgstr "Lista odtwarzania"
 
 #: ../build/src/ui_appearancesettingspage.h:529
 msgid "Playlist buttons"
-msgstr ""
+msgstr "Lista odtwarzania"
 
 #: widgets/osd.cpp:191
 msgid "Playlist finished"
@@ -3821,15 +3821,15 @@ msgstr "Pokazuj ikonę tacki systemowej"
 
 #: ../build/src/ui_behavioursettingspage.h:276
 msgid "Show the main window"
-msgstr ""
+msgstr "Pokazuj główne okno"
 
 #: ../build/src/ui_behavioursettingspage.h:278
 msgid "Show the main window maximized"
-msgstr ""
+msgstr "Maksymalizuj główne okno"
 
 #: ../build/src/ui_behavioursettingspage.h:279
 msgid "Show the main window minimized"
-msgstr ""
+msgstr "Minimalizuj główne okno"
 
 #: ../build/src/ui_playlistsequence.h:124
 msgid "Shuffle"
@@ -4091,7 +4091,7 @@ msgstr "Kolory paska zakładek"
 
 #: ../build/src/ui_appearancesettingspage.h:533
 msgid "Tabbar large mode"
-msgstr ""
+msgstr "Duży pasek zakładek"
 
 #: widgets/fancytabwidget.cpp:631
 msgid "Tabs on top"
@@ -4779,7 +4779,7 @@ msgid "hw"
 msgstr "hw"
 
 #: context/contextview.cpp:544 context/contextview.cpp:695
-#: playlist/playlistview.cpp:250 dialogs/edittagdialog.cpp:536
+#: playlist/playlistview.cpp:253 dialogs/edittagdialog.cpp:536
 msgid "kbps"
 msgstr "kb/s"
 
