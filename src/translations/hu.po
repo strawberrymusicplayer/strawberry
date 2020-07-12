@@ -85,18 +85,18 @@ msgstr "A gyorsbillentyűket inkább a %1 beállításaiban kell konfigurálni."
 msgid " kbps"
 msgstr " kbit/s"
 
-#: ../build/src/ui_scrobblersettingspage.h:323
+#: ../build/src/ui_scrobblersettingspage.h:320
 msgid " minutes"
 msgstr " percben"
 
-#: ../build/src/ui_backendsettingspage.h:454
+#: ../build/src/ui_backendsettingspage.h:453
+#: ../build/src/ui_backendsettingspage.h:470
 #: ../build/src/ui_backendsettingspage.h:473
-#: ../build/src/ui_backendsettingspage.h:476
 msgid " ms"
 msgstr " ms"
 
-#: ../build/src/ui_contextsettingspage.h:432
-#: ../build/src/ui_contextsettingspage.h:437
+#: ../build/src/ui_contextsettingspage.h:430
+#: ../build/src/ui_contextsettingspage.h:435
 msgid " pt"
 msgstr "pt"
 
@@ -104,7 +104,7 @@ msgstr "pt"
 msgid " s"
 msgstr " mp"
 
-#: ../build/src/ui_notificationssettingspage.h:470
+#: ../build/src/ui_notificationssettingspage.h:471
 msgid " seconds"
 msgstr " másodperc"
 
@@ -199,17 +199,17 @@ msgstr "%1 szám"
 msgid "%1 transferred"
 msgstr "%1 átküldve"
 
-#: ../build/src/ui_contextsettingspage.h:419
+#: ../build/src/ui_contextsettingspage.h:417
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:426
+#: ../build/src/ui_collectionsettingspage.h:423
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumelőadó-%album"
 
-#: ../build/src/ui_contextsettingspage.h:410
-#: ../build/src/ui_notificationssettingspage.h:458
+#: ../build/src/ui_contextsettingspage.h:408
+#: ../build/src/ui_notificationssettingspage.h:459
 msgid "%filename%"
 msgstr "%filename%"
 
@@ -231,7 +231,7 @@ msgctxt ""
 msgid "%n remaining"
 msgstr "%n hátralévő"
 
-#: ../build/src/ui_contextsettingspage.h:415
+#: ../build/src/ui_contextsettingspage.h:413
 msgid "%title - %artist%"
 msgstr "%cím - %előadó%"
 
@@ -259,11 +259,11 @@ msgstr "Lejátszólista tö&rlése"
 msgid "&Cover Manager"
 msgstr "&Borítókezelő"
 
-#: ../build/src/ui_shortcutssettingspage.h:241
+#: ../build/src/ui_shortcutssettingspage.h:240
 msgid "&Custom"
 msgstr "&Egyéni"
 
-#: ../build/src/ui_shortcutssettingspage.h:240
+#: ../build/src/ui_shortcutssettingspage.h:239
 msgid "&Default"
 msgstr "&Alapértelmezett"
 
@@ -296,7 +296,7 @@ msgstr "&Balra"
 msgid "&Load playlist..."
 msgstr "&Lejátszólista betöltése..."
 
-#: ../build/src/ui_networkproxysettingspage.h:167
+#: ../build/src/ui_networkproxysettingspage.h:166
 msgid "&Manual proxy configuration"
 msgstr "&Kézi proxybeállítás"
 
@@ -316,11 +316,11 @@ msgstr "Ú&j lejátszólista"
 msgid "&Next track"
 msgstr "Kö&vetkező szám"
 
-#: ../build/src/ui_appearancesettingspage.h:505
+#: ../build/src/ui_appearancesettingspage.h:521
 msgid "&No background image"
 msgstr "&Nincs háttérkép"
 
-#: ../build/src/ui_shortcutssettingspage.h:239
+#: ../build/src/ui_shortcutssettingspage.h:238
 msgid "&None"
 msgstr "&Nincs"
 
@@ -376,19 +376,19 @@ msgstr "&Zene átkódolása"
 msgid "&Update changed collection folders"
 msgstr "Gyű&jtemény megváltozott mappáinak frissítése"
 
-#: ../build/src/ui_appearancesettingspage.h:498
+#: ../build/src/ui_appearancesettingspage.h:514
 msgid "&Use the system default color"
 msgstr "R&endszer alapértelmezett"
 
-#: ../build/src/ui_appearancesettingspage.h:491
+#: ../build/src/ui_appearancesettingspage.h:507
 msgid "&Use the system default color set"
 msgstr "&Rendszer alapértelmezett színkészletének használata"
 
-#: ../build/src/ui_networkproxysettingspage.h:165
+#: ../build/src/ui_networkproxysettingspage.h:164
 msgid "&Use the system proxy settings"
 msgstr "&A rendszer proxybeállításainak használata"
 
-#: ../build/src/ui_scrobblersettingspage.h:325
+#: ../build/src/ui_scrobblersettingspage.h:322
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -411,7 +411,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:525
+#: ../build/src/ui_appearancesettingspage.h:541
 msgid "0px"
 msgstr "0 px"
 
@@ -423,7 +423,7 @@ msgstr "1 nap"
 msgid "1 track"
 msgstr "1 szám"
 
-#: ../build/src/ui_appearancesettingspage.h:527
+#: ../build/src/ui_appearancesettingspage.h:543
 msgid "40%"
 msgstr "40%"
 
@@ -440,27 +440,27 @@ msgstr ""
 "<p>Ha egy szövegrészt kapcsos zárójelekkel fog közre, akkor az rejtve marad, "
 "ha a benne lévő címke helyére nem helyettesíthető semmi.</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:510
+#: ../build/src/ui_appearancesettingspage.h:526
 msgid "A Taste of Strawbs"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:158
+#: ../build/src/ui_playlistsettingspage.h:155
 msgid "A&utomatic"
 msgstr "A&utomatikus"
 
-#: ../build/src/ui_transcodersettingspage.h:195
+#: ../build/src/ui_transcodersettingspage.h:192
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:448
+#: ../build/src/ui_backendsettingspage.h:447
 msgid "ALSA plugin"
 msgstr "ALSA plugin"
 
-#: ../build/src/ui_tidalsettingspage.h:321
+#: ../build/src/ui_tidalsettingspage.h:318
 msgid "API Token"
 msgstr "API token"
 
-#: ../build/src/ui_transcodersettingspage.h:196
+#: ../build/src/ui_transcodersettingspage.h:193
 msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
@@ -486,7 +486,7 @@ msgstr "A &Qt névjegye"
 msgid "About Strawberry"
 msgstr "A Strawberry névjegye"
 
-#: ../build/src/ui_playlistsettingspage.h:159
+#: ../build/src/ui_playlistsettingspage.h:156
 msgid "Absolu&te"
 msgstr "Abszolú&t"
 
@@ -494,7 +494,7 @@ msgstr "Abszolú&t"
 msgid "Absolute"
 msgstr "Abszolút"
 
-#: ../build/src/ui_shortcutssettingspage.h:237
+#: ../build/src/ui_shortcutssettingspage.h:236
 msgctxt "Category label"
 msgid "Action"
 msgstr "Művelet"
@@ -508,8 +508,8 @@ msgstr "&Mappa hozzáadása"
 msgid "Add Stream"
 msgstr "Stream hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:408
-#: ../build/src/ui_notificationssettingspage.h:456
+#: ../build/src/ui_contextsettingspage.h:406
+#: ../build/src/ui_notificationssettingspage.h:457
 msgid "Add a new line if supported by the notification type"
 msgstr "Sortörés hozzáadása ha az értesítés támogatja"
 
@@ -541,90 +541,90 @@ msgstr "Fájlok felvétele átkódoláshoz"
 msgid "Add folder"
 msgstr "Mappa hozzáadása"
 
-#: ../build/src/ui_collectionsettingspage.h:405
+#: ../build/src/ui_collectionsettingspage.h:402
 msgid "Add new folder..."
 msgstr "Új mappa hozzáadása…"
 
-#: ../build/src/ui_contextsettingspage.h:369
-#: ../build/src/ui_notificationssettingspage.h:411
+#: ../build/src/ui_contextsettingspage.h:367
+#: ../build/src/ui_notificationssettingspage.h:412
 msgid "Add song album tag"
 msgstr "Album hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:375
-#: ../build/src/ui_notificationssettingspage.h:417
+#: ../build/src/ui_contextsettingspage.h:373
+#: ../build/src/ui_notificationssettingspage.h:418
 msgid "Add song albumartist tag"
 msgstr "Albumelőadó hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:366
-#: ../build/src/ui_notificationssettingspage.h:408
+#: ../build/src/ui_contextsettingspage.h:364
+#: ../build/src/ui_notificationssettingspage.h:409
 msgid "Add song artist tag"
 msgstr "Előadó hozzáadása"
 
-#: ../build/src/ui_notificationssettingspage.h:453
+#: ../build/src/ui_notificationssettingspage.h:454
 msgid "Add song auto score"
 msgstr "Automatikus dal pontozás hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:381
-#: ../build/src/ui_notificationssettingspage.h:423
+#: ../build/src/ui_contextsettingspage.h:379
+#: ../build/src/ui_notificationssettingspage.h:424
 msgid "Add song composer tag"
 msgstr "Zeneszerző hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:390
-#: ../build/src/ui_notificationssettingspage.h:432
+#: ../build/src/ui_contextsettingspage.h:388
+#: ../build/src/ui_notificationssettingspage.h:433
 msgid "Add song disc tag"
 msgstr "Lemez hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:412
-#: ../build/src/ui_notificationssettingspage.h:460
+#: ../build/src/ui_contextsettingspage.h:410
+#: ../build/src/ui_notificationssettingspage.h:461
 msgid "Add song filename"
 msgstr "A dal fájlnevének hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:396
-#: ../build/src/ui_notificationssettingspage.h:438
+#: ../build/src/ui_contextsettingspage.h:394
+#: ../build/src/ui_notificationssettingspage.h:439
 msgid "Add song genre tag"
 msgstr "Műfaj hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:387
-#: ../build/src/ui_notificationssettingspage.h:429
+#: ../build/src/ui_contextsettingspage.h:385
+#: ../build/src/ui_notificationssettingspage.h:430
 msgid "Add song grouping tag"
 msgstr "Dal csoportosítás hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:399
-#: ../build/src/ui_notificationssettingspage.h:441
+#: ../build/src/ui_contextsettingspage.h:397
+#: ../build/src/ui_notificationssettingspage.h:442
 msgid "Add song length tag"
 msgstr "Számhossz hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:384
-#: ../build/src/ui_notificationssettingspage.h:426
+#: ../build/src/ui_contextsettingspage.h:382
+#: ../build/src/ui_notificationssettingspage.h:427
 msgid "Add song performer tag"
 msgstr "A dalelőadó hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:402
-#: ../build/src/ui_notificationssettingspage.h:444
+#: ../build/src/ui_contextsettingspage.h:400
+#: ../build/src/ui_notificationssettingspage.h:445
 msgid "Add song play count"
 msgstr "Lejátszásszámláló hozzáadása"
 
-#: ../build/src/ui_notificationssettingspage.h:450
+#: ../build/src/ui_notificationssettingspage.h:451
 msgid "Add song rating"
 msgstr "Dal értékelés hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:405
-#: ../build/src/ui_notificationssettingspage.h:447
+#: ../build/src/ui_contextsettingspage.h:403
+#: ../build/src/ui_notificationssettingspage.h:448
 msgid "Add song skip count"
 msgstr "Számkihagyás számláló hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:372
-#: ../build/src/ui_notificationssettingspage.h:414
+#: ../build/src/ui_contextsettingspage.h:370
+#: ../build/src/ui_notificationssettingspage.h:415
 msgid "Add song title tag"
 msgstr "Cím hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:393
-#: ../build/src/ui_notificationssettingspage.h:435
+#: ../build/src/ui_contextsettingspage.h:391
+#: ../build/src/ui_notificationssettingspage.h:436
 msgid "Add song track tag"
 msgstr "Dal sorszámának hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:378
-#: ../build/src/ui_notificationssettingspage.h:420
+#: ../build/src/ui_contextsettingspage.h:376
+#: ../build/src/ui_notificationssettingspage.h:421
 msgid "Add song year tag"
 msgstr "Dal évének hozzáadása"
 
@@ -653,7 +653,7 @@ msgstr "Hozzáadás lejátszólistához"
 msgid "Add to songs"
 msgstr "Hozzáadás dalokhoz"
 
-#: ../build/src/ui_behavioursettingspage.h:305
+#: ../build/src/ui_behavioursettingspage.h:309
 #: ../build/src/ui_behavioursettingspage.h:317
 msgid "Add to the queue"
 msgstr "Hozzáadás a lejátszási sorhoz"
@@ -691,7 +691,7 @@ msgstr "Egyedi csoportosítás…"
 msgid "After copying..."
 msgstr "Másolás után…"
 
-#: ../build/src/ui_appearancesettingspage.h:509
+#: ../build/src/ui_appearancesettingspage.h:525
 msgid "Albu&m cover"
 msgstr "&Albumborító"
 
@@ -700,13 +700,13 @@ msgstr "&Albumborító"
 #: ../build/src/ui_groupbydialog.h:130 ../build/src/ui_groupbydialog.h:154
 #: ../build/src/ui_groupbydialog.h:178 ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
-#: ../build/src/ui_contextsettingspage.h:422
+#: ../build/src/ui_contextsettingspage.h:420
 #: ../build/src/ui_edittagdialog.h:683
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:463
+#: ../build/src/ui_backendsettingspage.h:460
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (ideális hangerő minden számhoz)"
 
@@ -722,11 +722,11 @@ msgstr "Album - Lemez"
 msgid "Album artist"
 msgstr "Albumelőadó"
 
-#: ../build/src/ui_collectionsettingspage.h:430
+#: ../build/src/ui_collectionsettingspage.h:427
 msgid "Album cover pixmap cache"
 msgstr "Albumborító-gyorsítótár"
 
-#: ../build/src/ui_tidalsettingspage.h:334
+#: ../build/src/ui_tidalsettingspage.h:331
 msgid "Album cover size"
 msgstr "Albumborító mérete"
 
@@ -739,11 +739,11 @@ msgstr "Albumok"
 msgid "Albums by %1"
 msgstr "Albumok ettől: %1"
 
-#: ../build/src/ui_contextsettingspage.h:425
+#: ../build/src/ui_contextsettingspage.h:423
 msgid "Albums by Artist"
 msgstr "Albumok az előadótól"
 
-#: ../build/src/ui_tidalsettingspage.h:330
+#: ../build/src/ui_tidalsettingspage.h:327
 msgid "Albums search limit"
 msgstr "Album keresési korlát"
 
@@ -788,8 +788,8 @@ msgstr "Mid/side kódolás engedélyezése"
 msgid "Alongside the originals"
 msgstr "Az eredetiek mellé"
 
-#: ../build/src/ui_behavioursettingspage.h:291
-#: ../build/src/ui_behavioursettingspage.h:311
+#: ../build/src/ui_behavioursettingspage.h:299
+#: ../build/src/ui_behavioursettingspage.h:313
 msgid "Always start playing"
 msgstr "Mindig indítsa a lejátszást"
 
@@ -814,7 +814,7 @@ msgstr "Hiba történt '%1' metaadatainak írása közben"
 msgid "Angry"
 msgstr "Düh"
 
-#: ../build/src/ui_appearancesettingspage.h:489
+#: ../build/src/ui_appearancesettingspage.h:505
 msgid "Appearance"
 msgstr "Megjelenés"
 
@@ -828,11 +828,11 @@ msgstr "Fájlok/URL-ek hozzáfűzése a lejátszólistához"
 msgid "Append to current playlist"
 msgstr "Hozzáfűzés az aktuális lejátszólistához"
 
-#: ../build/src/ui_behavioursettingspage.h:302
+#: ../build/src/ui_behavioursettingspage.h:306
 msgid "Append to the playlist"
 msgstr "Hozzáadás a lejátszólistához"
 
-#: ../build/src/ui_backendsettingspage.h:466
+#: ../build/src/ui_backendsettingspage.h:463
 msgid "Apply compression to prevent clipping"
 msgstr "Tömörítés engedélyezése a túlvezérlés elkerülése érdekében"
 
@@ -862,11 +862,11 @@ msgstr "Előadó kezdése"
 msgid "Artists"
 msgstr "Előadók"
 
-#: ../build/src/ui_tidalsettingspage.h:329
+#: ../build/src/ui_tidalsettingspage.h:326
 msgid "Artists search limit"
 msgstr "Előadó keresési korlát"
 
-#: ../build/src/ui_playlistsettingspage.h:161
+#: ../build/src/ui_playlistsettingspage.h:158
 msgid "As&k when saving"
 msgstr "&Rákérdezés mentéskor"
 
@@ -874,11 +874,11 @@ msgstr "&Rákérdezés mentéskor"
 msgid "Audio format"
 msgstr "Hangformátum"
 
-#: ../build/src/ui_backendsettingspage.h:443
+#: ../build/src/ui_backendsettingspage.h:442
 msgid "Audio output"
 msgstr "Hang kimenet"
 
-#: ../build/src/ui_tidalsettingspage.h:326
+#: ../build/src/ui_tidalsettingspage.h:323
 msgid "Audio quality"
 msgstr "Hangminőség"
 
@@ -888,8 +888,8 @@ msgstr "Hitelesítés..."
 
 #: ../build/src/ui_coverssettingspage.h:170
 #: ../build/src/ui_lyricssettingspage.h:170
-#: ../build/src/ui_subsonicsettingspage.h:188
-#: ../build/src/ui_tidalsettingspage.h:318
+#: ../build/src/ui_subsonicsettingspage.h:185
+#: ../build/src/ui_tidalsettingspage.h:315
 msgid "Authentication"
 msgstr "Hitelesítés"
 
@@ -910,23 +910,23 @@ msgstr "Automatikus"
 msgid "Automatic"
 msgstr "Automatikus"
 
-#: ../build/src/ui_collectionsettingspage.h:407
+#: ../build/src/ui_collectionsettingspage.h:404
 msgid "Automatic updating"
 msgstr "Automatikus frissítés"
 
-#: ../build/src/ui_collectionsettingspage.h:418
+#: ../build/src/ui_collectionsettingspage.h:415
 msgid "Automatically open single categories in the collection tree"
 msgstr "Egyelemű kategóriák automatikus listázása a gyűjteményben"
 
-#: ../build/src/ui_contextsettingspage.h:427
+#: ../build/src/ui_contextsettingspage.h:425
 msgid "Automatically search for album cover"
 msgstr "Albumborító automatikus keresése"
 
-#: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:428
+#: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:426
 msgid "Automatically search for song lyrics"
 msgstr "Dalszövegek automatikus keresése"
 
-#: ../build/src/ui_playlistsettingspage.h:155
+#: ../build/src/ui_playlistsettingspage.h:152
 msgid "Automatically select current playing track"
 msgstr "A legutóbbi szám automatikus kiválasztása"
 
@@ -946,19 +946,19 @@ msgstr "Átlagos bitráta"
 msgid "Average image size"
 msgstr "Átlagos képméret"
 
-#: ../build/src/ui_backendsettingspage.h:442
+#: ../build/src/ui_backendsettingspage.h:441
 msgid "Backend"
 msgstr "Backend"
 
-#: ../build/src/ui_notificationssettingspage.h:486
+#: ../build/src/ui_notificationssettingspage.h:487
 msgid "Background color"
 msgstr "Háttérszín"
 
-#: ../build/src/ui_appearancesettingspage.h:503
+#: ../build/src/ui_appearancesettingspage.h:519
 msgid "Background image"
 msgstr "Háttérkép"
 
-#: ../build/src/ui_notificationssettingspage.h:485
+#: ../build/src/ui_notificationssettingspage.h:486
 msgid "Background opacity"
 msgstr "Háttér áttetszősége"
 
@@ -970,11 +970,11 @@ msgstr "Adatbázis biztonsági mentése"
 msgid "Balance"
 msgstr "Bal - jobb egyensúly"
 
-#: ../build/src/ui_notificationssettingspage.h:489
+#: ../build/src/ui_notificationssettingspage.h:488
 msgid "Basic Blue"
 msgstr "Egyszerű kék"
 
-#: ../build/src/ui_behavioursettingspage.h:268
+#: ../build/src/ui_behavioursettingspage.h:280
 msgid "Behavior"
 msgstr "Működés"
 
@@ -1021,11 +1021,11 @@ msgstr "Blokk típus"
 msgid "Bluetooth MAC Address"
 msgstr "Bluetooth MAC cím"
 
-#: ../build/src/ui_appearancesettingspage.h:524
+#: ../build/src/ui_appearancesettingspage.h:540
 msgid "Blur amount"
 msgstr "Elmosás"
 
-#: ../build/src/ui_notificationssettingspage.h:482
+#: ../build/src/ui_notificationssettingspage.h:483
 msgid "Body"
 msgstr "Törzs"
 
@@ -1033,23 +1033,23 @@ msgstr "Törzs"
 msgid "Boom analyzer"
 msgstr "Fellendülés"
 
-#: ../build/src/ui_appearancesettingspage.h:517
+#: ../build/src/ui_appearancesettingspage.h:533
 msgid "Bottom Left"
 msgstr "Balra lent"
 
-#: ../build/src/ui_appearancesettingspage.h:518
+#: ../build/src/ui_appearancesettingspage.h:534
 msgid "Bottom Right"
 msgstr "Jobbra lent"
 
-#: ../build/src/ui_appearancesettingspage.h:512
+#: ../build/src/ui_appearancesettingspage.h:528
 msgid "Browse..."
 msgstr "Tallózás…"
 
-#: ../build/src/ui_backendsettingspage.h:452
+#: ../build/src/ui_backendsettingspage.h:451
 msgid "Buffer"
 msgstr "Puffer"
 
-#: ../build/src/ui_backendsettingspage.h:453
+#: ../build/src/ui_backendsettingspage.h:452
 msgid "Buffer duration"
 msgstr "Puffer hossza"
 
@@ -1073,7 +1073,7 @@ msgstr "Bezárva."
 msgid "Change cover art"
 msgstr "Albumborító módosítása"
 
-#: ../build/src/ui_shortcutssettingspage.h:242
+#: ../build/src/ui_shortcutssettingspage.h:241
 msgid "Change shortcut..."
 msgstr "Kombináció módosítása..."
 
@@ -1089,11 +1089,11 @@ msgstr "Nyelv váltása"
 msgid "Check for updates..."
 msgstr "Frissítés keresése..."
 
-#: ../build/src/ui_notificationssettingspage.h:494
+#: ../build/src/ui_notificationssettingspage.h:493
 msgid "Choose color..."
 msgstr "Szín kiválasztása..."
 
-#: ../build/src/ui_notificationssettingspage.h:495
+#: ../build/src/ui_notificationssettingspage.h:494
 msgid "Choose font..."
 msgstr "Betűtípus választása..."
 
@@ -1118,7 +1118,7 @@ msgstr "Klasszikus"
 msgid "Clear"
 msgstr "Ürítés"
 
-#: ../build/src/ui_collectionsettingspage.h:436
+#: ../build/src/ui_collectionsettingspage.h:433
 msgid "Clear Disk Cache"
 msgstr "Lemezgyorsítótár törlése"
 
@@ -1154,7 +1154,7 @@ msgstr "Kattintson ide a zenék lekéréséhez"
 msgid "Click to toggle between remaining time and total time"
 msgstr "Kattintásra vált a hátralévő és a teljes idő kijelzése között"
 
-#: ../build/src/ui_tidalsettingspage.h:320
+#: ../build/src/ui_tidalsettingspage.h:317
 msgid "Client ID"
 msgstr "Kliens azonosító"
 
@@ -1174,7 +1174,7 @@ msgstr "Ezen ablak bezárása megszakítja az albumborítók keresését."
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:281 ../build/src/ui_collectionsettingspage.h:403
+#: core/mainwindow.cpp:281 ../build/src/ui_collectionsettingspage.h:400
 msgid "Collection"
 msgstr "Gyűjtemény"
 
@@ -1194,7 +1194,7 @@ msgstr "Gyűjtemény újraolvasási figyelmeztetés"
 msgid "Color"
 msgstr "Szín"
 
-#: ../build/src/ui_appearancesettingspage.h:490
+#: ../build/src/ui_appearancesettingspage.h:506
 msgid "Colors"
 msgstr "Színek"
 
@@ -1239,7 +1239,7 @@ msgstr "A konfiguráció hibás"
 msgid "Configure %1..."
 msgstr "%1 beállítása..."
 
-#: ../build/src/ui_appearancesettingspage.h:531
+#: ../build/src/ui_appearancesettingspage.h:548
 msgid "Configure buttons"
 msgstr "Gombok beállítása"
 
@@ -1259,11 +1259,11 @@ msgstr "Konzol"
 msgid "Constant bitrate"
 msgstr "Állandó bitráta"
 
-#: core/mainwindow.cpp:280 ../build/src/ui_contextsettingspage.h:364
+#: core/mainwindow.cpp:280 ../build/src/ui_contextsettingspage.h:362
 msgid "Context"
 msgstr "Adatok"
 
-#: ../build/src/ui_playlistsettingspage.h:152
+#: ../build/src/ui_playlistsettingspage.h:149
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Folytatás a következő elemtől a lejátszólistában, ha a dal nem elérhető"
@@ -1389,11 +1389,11 @@ msgstr "Borítók %1 helyről"
 msgid "Create a new playlist with files"
 msgstr "Új lejátszólista létrehozása fájlokkal"
 
-#: ../build/src/ui_backendsettingspage.h:470
+#: ../build/src/ui_backendsettingspage.h:467
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Áttűnés használata számok automatikus váltásánál"
 
-#: ../build/src/ui_backendsettingspage.h:469
+#: ../build/src/ui_backendsettingspage.h:466
 msgid "Cross-fade when changing tracks manually"
 msgstr "Áttűnés használata számok kézi váltásánál"
 
@@ -1457,7 +1457,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Fel"
 
-#: ../build/src/ui_collectionsettingspage.h:434
+#: ../build/src/ui_collectionsettingspage.h:431
 msgid "Current disk cache in use:"
 msgstr "Jelenlegi gyorsítótár használatban:"
 
@@ -1465,19 +1465,19 @@ msgstr "Jelenlegi gyorsítótár használatban:"
 msgid "Custom"
 msgstr "Egyéni"
 
-#: ../build/src/ui_appearancesettingspage.h:511
+#: ../build/src/ui_appearancesettingspage.h:527
 msgid "Custom image:"
 msgstr "Egyéni kép:"
 
-#: ../build/src/ui_notificationssettingspage.h:477
+#: ../build/src/ui_notificationssettingspage.h:478
 msgid "Custom message settings"
 msgstr "Egyedi üzenetbeállítások"
 
-#: ../build/src/ui_contextsettingspage.h:414
+#: ../build/src/ui_contextsettingspage.h:412
 msgid "Custom text settings"
 msgstr "Egyéni szövegbeállítások"
 
-#: ../build/src/ui_notificationssettingspage.h:491
+#: ../build/src/ui_notificationssettingspage.h:490
 msgid "Custom..."
 msgstr "Egyéni..."
 
@@ -1509,7 +1509,7 @@ msgstr "Hangerő csökkentése 4 százalékkal"
 msgid "Decrease the volume by <value> percent"
 msgstr "Hangerő csökkentése <value> százalékkal"
 
-#: ../build/src/ui_appearancesettingspage.h:504
+#: ../build/src/ui_appearancesettingspage.h:520
 msgid "Default bac&kground image"
 msgstr "A&lapértelmezett háttérkép"
 
@@ -1559,7 +1559,7 @@ msgid "Details..."
 msgstr "Részletek…"
 
 #: context/contextview.cpp:184 device/giolister.cpp:188
-#: ../build/src/ui_backendsettingspage.h:446
+#: ../build/src/ui_backendsettingspage.h:445
 msgid "Device"
 msgstr "Eszköz"
 
@@ -1575,7 +1575,7 @@ msgstr "Eszköztulajdonságok..."
 msgid "Devices"
 msgstr "Eszközök"
 
-#: ../build/src/ui_networkproxysettingspage.h:166
+#: ../build/src/ui_networkproxysettingspage.h:165
 msgid "Direct internet connection"
 msgstr "Közvetlen internetkapcsolat"
 
@@ -1583,11 +1583,11 @@ msgstr "Közvetlen internetkapcsolat"
 msgid "Directory"
 msgstr "Mappa"
 
-#: ../build/src/ui_notificationssettingspage.h:471
+#: ../build/src/ui_notificationssettingspage.h:472
 msgid "Disable duration"
 msgstr "Időtartam letiltása"
 
-#: ../build/src/ui_notificationssettingspage.h:464
+#: ../build/src/ui_notificationssettingspage.h:465
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Letiltva"
@@ -1603,12 +1603,12 @@ msgstr "Lemez"
 msgid "Discontinuous transmission"
 msgstr "Szakaszos átvitel"
 
-#: ../build/src/ui_collectionsettingspage.h:433
+#: ../build/src/ui_collectionsettingspage.h:430
 msgid "Disk Cache Size"
 msgstr "Lemezgyorsítótár mérete"
 
 #: collection/collectionfilterwidget.cpp:128
-#: ../build/src/ui_collectionsettingspage.h:417
+#: ../build/src/ui_collectionsettingspage.h:414
 msgid "Display options"
 msgstr "Beállítások megtekintése"
 
@@ -1620,7 +1620,7 @@ msgstr "OSD megjelenítése"
 msgid "Do not convert any music"
 msgstr "Ne konvertáljon egy zenét sem"
 
-#: ../build/src/ui_appearancesettingspage.h:523
+#: ../build/src/ui_appearancesettingspage.h:539
 msgid "Do not cut image"
 msgstr "Ne legyen levágva a képből"
 
@@ -1648,16 +1648,16 @@ msgstr "Ne álljon meg!"
 msgid "Double click to open"
 msgstr "Dupla kattintás a megnyitáshoz"
 
-#: ../build/src/ui_behavioursettingspage.h:313
+#: ../build/src/ui_behavioursettingspage.h:315
 msgid "Double clicking a song in the playlist will..."
 msgstr "Dupla kattintásra egy dalra a lejátszólistában…"
 
-#: ../build/src/ui_behavioursettingspage.h:299
+#: ../build/src/ui_behavioursettingspage.h:305
 msgid "Double clicking a song will..."
 msgstr "Dupla kattintásra egy dalra..."
 
-#: ../build/src/ui_subsonicsettingspage.h:194
-#: ../build/src/ui_tidalsettingspage.h:332
+#: ../build/src/ui_subsonicsettingspage.h:191
+#: ../build/src/ui_tidalsettingspage.h:329
 msgid "Download album covers"
 msgstr "Albumborítók letöltése"
 
@@ -1695,20 +1695,20 @@ msgstr "Száminformációk szerkesztése..."
 msgid "Edit tracks information..."
 msgstr "Száminformációk szerkesztése"
 
-#: ../build/src/ui_scrobblersettingspage.h:317
-#: ../build/src/ui_scrobblersettingspage.h:329
+#: ../build/src/ui_scrobblersettingspage.h:314
+#: ../build/src/ui_scrobblersettingspage.h:326
+#: ../build/src/ui_scrobblersettingspage.h:330
 #: ../build/src/ui_scrobblersettingspage.h:333
-#: ../build/src/ui_scrobblersettingspage.h:336
-#: ../build/src/ui_subsonicsettingspage.h:186
-#: ../build/src/ui_tidalsettingspage.h:316
+#: ../build/src/ui_subsonicsettingspage.h:183
+#: ../build/src/ui_tidalsettingspage.h:313
 msgid "Enable"
 msgstr "Engedélyezés"
 
-#: ../build/src/ui_collectionsettingspage.h:432
+#: ../build/src/ui_collectionsettingspage.h:429
 msgid "Enable Disk Cache"
 msgstr "A lemez gyorsítótárazásának engedélyezése"
 
-#: ../build/src/ui_contextsettingspage.h:421
+#: ../build/src/ui_contextsettingspage.h:419
 msgid "Enable Items"
 msgstr "Elemek engedélyezése"
 
@@ -1716,11 +1716,11 @@ msgstr "Elemek engedélyezése"
 msgid "Enable equalizer"
 msgstr "Hangszínszabályzó engedélyezése"
 
-#: ../build/src/ui_playlistsettingspage.h:156
+#: ../build/src/ui_playlistsettingspage.h:153
 msgid "Enable playlist clear button"
 msgstr "Lejátszólista törlése gomb engedélyezése"
 
-#: ../build/src/ui_playlistsettingspage.h:166
+#: ../build/src/ui_playlistsettingspage.h:163
 msgid "Enable song metadata inline edition with click"
 msgstr "Dalok metaadatainak szerkesztése kattintásra"
 
@@ -1728,11 +1728,11 @@ msgstr "Dalok metaadatainak szerkesztése kattintásra"
 msgid "Enable stereo balancer"
 msgstr "Hangbalansz engedélyezése"
 
-#: ../build/src/ui_backendsettingspage.h:451
+#: ../build/src/ui_backendsettingspage.h:450
 msgid "Enable volume control"
 msgstr "Hangerőszabályzás engedélyezése"
 
-#: ../build/src/ui_moodbarsettingspage.h:100
+#: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
 msgstr "Engedélyezve"
 
@@ -1748,11 +1748,11 @@ msgstr "Átkódolás minősége"
 msgid "Encoding mode"
 msgstr "Kódolási mód"
 
-#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:444
+#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:443
 msgid "Engine"
 msgstr "Motor"
 
-#: ../build/src/ui_contextsettingspage.h:424
+#: ../build/src/ui_contextsettingspage.h:422
 msgid "Engine and Device"
 msgstr "Motor és eszköz"
 
@@ -1845,7 +1845,7 @@ msgstr "Hiba történt a CDDA-eszköz szünetre állításakor."
 msgid "Error while setting CDDA device to ready state."
 msgstr "Hiba történt a CDDA eszköz készre állításakor."
 
-#: ../build/src/ui_backendsettingspage.h:471
+#: ../build/src/ui_backendsettingspage.h:468
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Kivéve az azonos albumon vagy azonos CUE fájlban lévő számok között"
 
@@ -1908,24 +1908,24 @@ msgstr "F7"
 msgid "F8"
 msgstr "F8"
 
-#: ../build/src/ui_transcodersettingspage.h:190
+#: ../build/src/ui_transcodersettingspage.h:187
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:474
+#: ../build/src/ui_backendsettingspage.h:471
 msgid "Fade out on pause / fade in on resume"
 msgstr "Áttűnés a szünet megnyomásakor és a folytatáskor"
 
-#: ../build/src/ui_backendsettingspage.h:468
+#: ../build/src/ui_backendsettingspage.h:465
 msgid "Fade out when stopping a track"
 msgstr "Elhalkulás szám megállításakor"
 
-#: ../build/src/ui_backendsettingspage.h:467
+#: ../build/src/ui_backendsettingspage.h:464
 msgid "Fading"
 msgstr "Elhalkulás"
 
+#: ../build/src/ui_backendsettingspage.h:469
 #: ../build/src/ui_backendsettingspage.h:472
-#: ../build/src/ui_backendsettingspage.h:475
 msgid "Fading duration"
 msgstr "Elhalkulás hossza"
 
@@ -1946,7 +1946,7 @@ msgstr "Letöltés automatikusan"
 msgid "Fetch completed"
 msgstr "Letöltés sikeres"
 
-#: ../build/src/ui_tidalsettingspage.h:333
+#: ../build/src/ui_tidalsettingspage.h:330
 msgid "Fetch entire albums when searching songs"
 msgstr "Dalok keresésénél teljes albumok letöltése"
 
@@ -1994,7 +1994,7 @@ msgstr "Fájltípus"
 msgid "Filename"
 msgstr "Fájlnév"
 
-#: ../build/src/ui_collectionsettingspage.h:423
+#: ../build/src/ui_collectionsettingspage.h:420
 msgid "Filename:"
 msgstr "Fájlnév:"
 
@@ -2006,7 +2006,7 @@ msgstr "Fájlok"
 msgid "Files to transcode"
 msgstr "Átkódolandó fájlok"
 
-#: ../build/src/ui_appearancesettingspage.h:532
+#: ../build/src/ui_appearancesettingspage.h:549
 msgid "Files, playlists and queue buttons"
 msgstr "Fájl- , lejátszólista- és lejátszásisor gombok"
 
@@ -2026,21 +2026,21 @@ msgstr "Első szinten"
 msgid "Fit cover to width"
 msgstr "Albumborító átméretezése szélesség szerint"
 
-#: ../build/src/ui_contextsettingspage.h:430
-#: ../build/src/ui_contextsettingspage.h:435
+#: ../build/src/ui_contextsettingspage.h:428
+#: ../build/src/ui_contextsettingspage.h:433
 msgid "Font"
 msgstr "Betűtípus"
 
-#: ../build/src/ui_contextsettingspage.h:434
+#: ../build/src/ui_contextsettingspage.h:432
 msgid "Font for data and lyrics"
 msgstr "Adatok és dalszöveg betűtípusa"
 
-#: ../build/src/ui_contextsettingspage.h:429
+#: ../build/src/ui_contextsettingspage.h:427
 msgid "Font for headline"
 msgstr "Cím betűtípusa"
 
-#: ../build/src/ui_contextsettingspage.h:431
-#: ../build/src/ui_contextsettingspage.h:436
+#: ../build/src/ui_contextsettingspage.h:429
+#: ../build/src/ui_contextsettingspage.h:434
 msgid "Font size"
 msgstr "Betűméret"
 
@@ -2111,7 +2111,7 @@ msgstr "Teljes magas"
 msgid "General"
 msgstr "Általános"
 
-#: ../build/src/ui_notificationssettingspage.h:468
+#: ../build/src/ui_notificationssettingspage.h:469
 msgid "General settings"
 msgstr "Általános beállítások"
 
@@ -2141,11 +2141,11 @@ msgstr "Váltás az előző lejátszólista lapra"
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "%1 borító a %2-ból/ből letöltve (%3 sikertelen)"
 
-#: ../build/src/ui_playlistsettingspage.h:153
+#: ../build/src/ui_playlistsettingspage.h:150
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr "Nem elérhető dalok elszürkítése lejátszásnál"
 
-#: ../build/src/ui_playlistsettingspage.h:154
+#: ../build/src/ui_playlistsettingspage.h:151
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "Nem elérhető dalok elszürkítése induláskor"
 
@@ -2229,7 +2229,7 @@ msgstr "Csoportosítás neve:"
 msgid "Grouping name:"
 msgstr "Csoportosítás neve:"
 
-#: ../build/src/ui_networkproxysettingspage.h:170
+#: ../build/src/ui_networkproxysettingspage.h:167
 msgid "HTTP proxy"
 msgstr "HTTP proxy"
 
@@ -2250,7 +2250,7 @@ msgstr ""
 msgid "Help"
 msgstr "&Súgó"
 
-#: ../build/src/ui_behavioursettingspage.h:277
+#: ../build/src/ui_behavioursettingspage.h:289
 msgid "Hide the main window"
 msgstr "Főablak elrejtése"
 
@@ -2267,11 +2267,11 @@ msgstr "Magas (%1 fps)"
 msgid "Icon"
 msgstr "Ikon"
 
-#: ../build/src/ui_appearancesettingspage.h:528
+#: ../build/src/ui_appearancesettingspage.h:544
 msgid "Icon sizes"
 msgstr "Ikonméretek"
 
-#: widgets/fancytabwidget.cpp:632
+#: widgets/fancytabwidget.cpp:662
 msgid "Icons on top"
 msgstr "Ikonok felül"
 
@@ -2279,7 +2279,7 @@ msgstr "Ikonok felül"
 msgid "Identifying song"
 msgstr "Dal azonosítása"
 
-#: ../build/src/ui_playlistsettingspage.h:164
+#: ../build/src/ui_playlistsettingspage.h:161
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
@@ -2325,7 +2325,7 @@ msgstr "%1 napon belül"
 msgid "In %1 weeks"
 msgstr "%1 héten belül"
 
-#: ../build/src/ui_notificationssettingspage.h:476
+#: ../build/src/ui_notificationssettingspage.h:477
 msgid "Include album art in the notification"
 msgstr "Albumborító megjelenítése az értesítésben"
 
@@ -2373,15 +2373,15 @@ msgstr ""
 "Ez a Clementine egy forkja, amely 2018-ban jelent meg, megcélozva a "
 "zenegyűjtőket és audiofileket."
 
-#: ../build/src/ui_behavioursettingspage.h:296
+#: ../build/src/ui_behavioursettingspage.h:302
 msgid "Jump to previous song right away"
 msgstr "Ugrás az előző dalra"
 
-#: ../build/src/ui_appearancesettingspage.h:522
+#: ../build/src/ui_appearancesettingspage.h:538
 msgid "Keep aspect ratio"
 msgstr "Képarány megtartása"
 
-#: ../build/src/ui_behavioursettingspage.h:270
+#: ../build/src/ui_behavioursettingspage.h:282
 msgid "Keep running in the background when the window is closed"
 msgstr "Bezárt ablak esetén futás a háttérben"
 
@@ -2389,7 +2389,7 @@ msgstr "Bezárt ablak esetén futás a háttérben"
 msgid "Keep the original files"
 msgstr "Eredeti fájlok megőrzése"
 
-#: ../build/src/ui_behavioursettingspage.h:280
+#: ../build/src/ui_behavioursettingspage.h:292
 msgid "Language"
 msgstr "Nyelv"
 
@@ -2405,7 +2405,7 @@ msgstr "Nagy terem"
 msgid "Large album cover"
 msgstr "Nagy albumborító"
 
-#: widgets/fancytabwidget.cpp:628
+#: widgets/fancytabwidget.cpp:658
 msgid "Large sidebar"
 msgstr "Nagy oldalsáv"
 
@@ -2418,7 +2418,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Utoljára lejátszva"
 
-#: ../build/src/ui_scrobblersettingspage.h:328
+#: ../build/src/ui_scrobblersettingspage.h:325
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2432,7 +2432,7 @@ msgstr "Bal"
 msgid "Length"
 msgstr "Időtartam"
 
-#: ../build/src/ui_scrobblersettingspage.h:332
+#: ../build/src/ui_scrobblersettingspage.h:329
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2440,7 +2440,7 @@ msgstr "Libre.fm"
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz hitelesítés"
 
-#: ../build/src/ui_scrobblersettingspage.h:335
+#: ../build/src/ui_scrobblersettingspage.h:332
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2500,12 +2500,12 @@ msgstr "Betöltés..."
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Fájlok/URL-ek betöltése, lejátszólista cseréje"
 
+#: ../build/src/ui_scrobblersettingspage.h:328
 #: ../build/src/ui_scrobblersettingspage.h:331
-#: ../build/src/ui_scrobblersettingspage.h:334
-#: ../build/src/ui_scrobblersettingspage.h:339
+#: ../build/src/ui_scrobblersettingspage.h:336
 #: ../build/src/ui_coverssettingspage.h:172
 #: ../build/src/ui_lyricssettingspage.h:172
-#: ../build/src/ui_tidalsettingspage.h:324
+#: ../build/src/ui_tidalsettingspage.h:321
 msgid "Login"
 msgstr "Bejelentkezés"
 
@@ -2526,7 +2526,7 @@ msgstr "Alacsony (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Alacsony komplexitású profil (LC)"
 
-#: ../build/src/ui_collectionsettingspage.h:428
+#: ../build/src/ui_collectionsettingspage.h:425
 msgid "Lowercase filename"
 msgstr "Kisbetűs fájlnevek"
 
@@ -2538,7 +2538,7 @@ msgstr "Dalszöveg"
 msgid "Lyrics providers"
 msgstr "Dalszöveg szolgáltatók"
 
-#: ../build/src/ui_transcodersettingspage.h:197
+#: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
 msgstr "MP3"
 
@@ -2558,11 +2558,11 @@ msgstr "Gyártó"
 msgid "Mark as listened"
 msgstr "Megjelölés meghallgatottként"
 
-#: ../build/src/ui_collectionsettingspage.h:410
+#: ../build/src/ui_collectionsettingspage.h:407
 msgid "Mark disappeared songs unavailable"
 msgstr "Eltűnt dalok megjelölése nem elérhetőként"
 
-#: ../build/src/ui_appearancesettingspage.h:520
+#: ../build/src/ui_appearancesettingspage.h:536
 msgid "Max cover size"
 msgstr "Maximum méret"
 
@@ -2575,11 +2575,11 @@ msgstr "Maximális bitráta"
 msgid "Medium (%1 fps)"
 msgstr "Közepes (%1 fps)"
 
-#: ../build/src/ui_playlistsettingspage.h:162
+#: ../build/src/ui_playlistsettingspage.h:159
 msgid "Metadata"
 msgstr "Metaadatok"
 
-#: ../build/src/ui_appearancesettingspage.h:516
+#: ../build/src/ui_appearancesettingspage.h:532
 msgid "Middle"
 msgstr "Középen"
 
@@ -2587,7 +2587,7 @@ msgstr "Középen"
 msgid "Minimum bitrate"
 msgstr "Minimális bitráta"
 
-#: ../build/src/ui_backendsettingspage.h:455
+#: ../build/src/ui_backendsettingspage.h:454
 msgid "Minimum buffer fill"
 msgstr "Minimum puffer"
 
@@ -2633,7 +2633,7 @@ msgstr "Hiányzó felhasználónév vagy jelszó."
 msgid "Model"
 msgstr "Modell"
 
-#: ../build/src/ui_collectionsettingspage.h:409
+#: ../build/src/ui_collectionsettingspage.h:406
 msgid "Monitor the collection for changes"
 msgstr "Gyűjtemény figyelése változások után"
 
@@ -2641,12 +2641,12 @@ msgstr "Gyűjtemény figyelése változások után"
 msgid "Mood"
 msgstr "Hangulat"
 
-#: ../build/src/ui_moodbarsettingspage.h:95
-#: ../build/src/ui_moodbarsettingspage.h:96
+#: ../build/src/ui_moodbarsettingspage.h:92
+#: ../build/src/ui_moodbarsettingspage.h:93
 msgid "Moodbar"
 msgstr "Hangulatsáv"
 
-#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:98
+#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:95
 msgid "Moodbar style"
 msgstr "Hangulatsáv stílusa"
 
@@ -2693,7 +2693,7 @@ msgstr "Elnevezési opciók"
 msgid "Narrow band (NB)"
 msgstr "Keskenysávú (NB)"
 
-#: ../build/src/ui_networkproxysettingspage.h:164
+#: ../build/src/ui_networkproxysettingspage.h:163
 msgid "Network Proxy"
 msgstr "Hálózati Proxy"
 
@@ -2701,8 +2701,8 @@ msgstr "Hálózati Proxy"
 msgid "Never"
 msgstr "Soha"
 
-#: ../build/src/ui_behavioursettingspage.h:289
-#: ../build/src/ui_behavioursettingspage.h:309
+#: ../build/src/ui_behavioursettingspage.h:297
+#: ../build/src/ui_behavioursettingspage.h:311
 msgid "Never start playing"
 msgstr "Soha ne indítsa el a lejátszást"
 
@@ -2801,11 +2801,11 @@ msgstr "Nincs kapcsolat"
 msgid "Not mounted - double click to mount"
 msgstr "Nincs csatolva - kattintson duplán a csatoláshoz"
 
-#: ../build/src/ui_notificationssettingspage.h:463
+#: ../build/src/ui_notificationssettingspage.h:464
 msgid "Notification type"
 msgstr "Értesítés típusa"
 
-#: ../build/src/ui_notificationssettingspage.h:406
+#: ../build/src/ui_notificationssettingspage.h:407
 msgid "Notifications"
 msgstr "Értesítések"
 
@@ -2829,11 +2829,11 @@ msgstr "Ki"
 msgid "On"
 msgstr "Be"
 
-#: ../build/src/ui_behavioursettingspage.h:274
+#: ../build/src/ui_behavioursettingspage.h:286
 msgid "On startup"
 msgstr "Indulásnál"
 
-#: ../build/src/ui_appearancesettingspage.h:526
+#: ../build/src/ui_appearancesettingspage.h:542
 msgid "Opacity"
 msgstr "Átlátszóság"
 
@@ -2856,12 +2856,12 @@ msgstr "Eszköz megnyitása"
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:321
 #: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:314
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
-#: ../build/src/ui_behavioursettingspage.h:304
+#: ../build/src/ui_behavioursettingspage.h:308
 msgid "Open in new playlist"
 msgstr "Megnyitás új lejátszólistában"
 
-#: ../build/src/ui_shortcutssettingspage.h:228
-#: ../build/src/ui_shortcutssettingspage.h:234
+#: ../build/src/ui_shortcutssettingspage.h:227
+#: ../build/src/ui_shortcutssettingspage.h:233
 msgid "Open..."
 msgstr "Megnyitás..."
 
@@ -2877,7 +2877,7 @@ msgstr "Optimalizálás &minőségre"
 msgid "Options..."
 msgstr "Beállítások..."
 
-#: ../build/src/ui_transcodersettingspage.h:193
+#: ../build/src/ui_transcodersettingspage.h:190
 msgid "Opus"
 msgstr "Opus"
 
@@ -2914,7 +2914,7 @@ msgid "Other options"
 msgstr "Egyéb beállítások"
 
 #: ../build/src/ui_albumcoverexport.h:203
-#: ../build/src/ui_backendsettingspage.h:445
+#: ../build/src/ui_backendsettingspage.h:444
 msgid "Output"
 msgstr "Kimenet"
 
@@ -2922,7 +2922,7 @@ msgstr "Kimenet"
 msgid "Output options"
 msgstr "Kimenet beállításai"
 
-#: ../build/src/ui_collectionsettingspage.h:427
+#: ../build/src/ui_collectionsettingspage.h:424
 msgid "Overwrite existing file"
 msgstr "Létező fájl felülírása"
 
@@ -2946,9 +2946,9 @@ msgstr "Partíció címke"
 msgid "Party"
 msgstr "Party"
 
-#: ../build/src/ui_networkproxysettingspage.h:176
-#: ../build/src/ui_subsonicsettingspage.h:190
-#: ../build/src/ui_tidalsettingspage.h:323
+#: ../build/src/ui_networkproxysettingspage.h:173
+#: ../build/src/ui_subsonicsettingspage.h:187
+#: ../build/src/ui_tidalsettingspage.h:320
 msgid "Password"
 msgstr "Jelszó"
 
@@ -2980,7 +2980,7 @@ msgstr "Előadó"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:630
+#: widgets/fancytabwidget.cpp:660
 msgid "Plain sidebar"
 msgstr "Egyszerű oldalsáv"
 
@@ -2990,7 +2990,7 @@ msgstr "Egyszerű oldalsáv"
 msgid "Play"
 msgstr "Lejátszás"
 
-#: ../build/src/ui_appearancesettingspage.h:530
+#: ../build/src/ui_appearancesettingspage.h:547
 msgid "Play control buttons"
 msgstr "Lejátszásirányító gombok"
 
@@ -3002,8 +3002,8 @@ msgstr "Lejátszások száma"
 msgid "Play if stopped, pause if playing"
 msgstr "Lejátszás, ha le van állítva, különben szünet"
 
-#: ../build/src/ui_behavioursettingspage.h:290
-#: ../build/src/ui_behavioursettingspage.h:310
+#: ../build/src/ui_behavioursettingspage.h:298
+#: ../build/src/ui_behavioursettingspage.h:312
 msgid "Play if there is nothing already playing"
 msgstr "Lejátszás, ha nincs lejátszás folyamatban"
 
@@ -3018,11 +3018,11 @@ msgstr "Lejátszó beállítások"
 #: playlist/playlistcontainer.cpp:315 playlist/playlistlistcontainer.cpp:274
 #: playlist/playlistlistcontainer.cpp:362 playlist/playlistmanager.cpp:105
 #: playlist/playlistmanager.cpp:183 playlist/playlistmanager.cpp:540
-#: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
+#: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:146
 msgid "Playlist"
 msgstr "Lejátszólista"
 
-#: ../build/src/ui_appearancesettingspage.h:529
+#: ../build/src/ui_appearancesettingspage.h:545
 msgid "Playlist buttons"
 msgstr "Lejátszólista gombok"
 
@@ -3061,32 +3061,32 @@ msgstr "Nyissa meg ezt az URL-t a böngészőben"
 msgid "Pop"
 msgstr "Pop"
 
-#: ../build/src/ui_notificationssettingspage.h:469
+#: ../build/src/ui_notificationssettingspage.h:470
 msgid "Popup duration"
 msgstr "Értesítés időtartama"
 
-#: ../build/src/ui_networkproxysettingspage.h:173
+#: ../build/src/ui_networkproxysettingspage.h:170
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:513
+#: ../build/src/ui_appearancesettingspage.h:529
 msgid "Position"
 msgstr "Helyzet"
 
-#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:465
+#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:462
 msgid "Pre-amp"
 msgstr "Előerősítő"
 
-#: ../build/src/ui_scrobblersettingspage.h:326
+#: ../build/src/ui_scrobblersettingspage.h:323
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Albumelőadó előnyben részesítése scrobble-ok beküldésénél"
 
-#: ../build/src/ui_subsonicsettingspage.h:192
-#: ../build/src/ui_tidalsettingspage.h:325
+#: ../build/src/ui_subsonicsettingspage.h:189
+#: ../build/src/ui_tidalsettingspage.h:322
 msgid "Preferences"
 msgstr "Beállítások"
 
-#: ../build/src/ui_collectionsettingspage.h:412
+#: ../build/src/ui_collectionsettingspage.h:409
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Előnyben részesített albumborító fájlnevek (vesszővel elválasztva)"
 
@@ -3129,17 +3129,17 @@ msgstr "Nyomjon meg egy billentyűt"
 msgid "Press a key combination to use for %1..."
 msgstr "Nyomjon meg egy billentyű kombinációt a %1 használatához..."
 
-#: ../build/src/ui_behavioursettingspage.h:293
+#: ../build/src/ui_behavioursettingspage.h:301
 msgid "Pressing \"Previous\" in player will..."
 msgstr "Az \"Előző\" gomb megnyomásakor..."
 
-#: ../build/src/ui_notificationssettingspage.h:484
+#: ../build/src/ui_notificationssettingspage.h:485
 msgid "Pretty OSD options"
 msgstr "Saját OSD beállítások"
 
-#: ../build/src/ui_contextsettingspage.h:433
-#: ../build/src/ui_contextsettingspage.h:438
-#: ../build/src/ui_notificationssettingspage.h:479
+#: ../build/src/ui_contextsettingspage.h:431
+#: ../build/src/ui_contextsettingspage.h:436
+#: ../build/src/ui_notificationssettingspage.h:480
 #: ../build/src/ui_organisedialog.h:282
 msgid "Preview"
 msgstr "Előnézet"
@@ -3204,11 +3204,11 @@ msgstr "Szám hozzáadása a lejátszási sorhoz"
 msgid "QueueView"
 msgstr "Lejátszási sor nézet"
 
-#: ../build/src/ui_backendsettingspage.h:462
+#: ../build/src/ui_backendsettingspage.h:459
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Rádió (egyenlő hangerő minden számhoz)"
 
-#: ../build/src/ui_playlistsettingspage.h:160
+#: ../build/src/ui_playlistsettingspage.h:157
 msgid "Re&lative"
 msgstr "Re&latív"
 
@@ -3257,7 +3257,7 @@ msgstr "Reggae"
 msgid "Relative"
 msgstr "Relatív"
 
-#: ../build/src/ui_behavioursettingspage.h:275
+#: ../build/src/ui_behavioursettingspage.h:287
 msgid "Remember from &last time"
 msgstr "Ahogy &legutoljára volt"
 
@@ -3278,7 +3278,7 @@ msgstr "Más&olatok törlése a lejátszólistáról"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "&Nem elérhető számok törlése a lejátszólistáról"
 
-#: ../build/src/ui_collectionsettingspage.h:406
+#: ../build/src/ui_collectionsettingspage.h:403
 msgid "Remove folder"
 msgstr "Mappa eltávolítása"
 
@@ -3336,7 +3336,7 @@ msgstr "Szám ismétlése"
 msgid "Replace current playlist"
 msgstr "Aktuális lejátszólista cseréje"
 
-#: ../build/src/ui_collectionsettingspage.h:429
+#: ../build/src/ui_collectionsettingspage.h:426
 msgid "Replace spaces with dashes"
 msgstr "Szóközök lecserélése kötőjelekkel"
 
@@ -3344,15 +3344,15 @@ msgstr "Szóközök lecserélése kötőjelekkel"
 msgid "Replace spaces with underscores"
 msgstr "Szóközök lecserélése aláhúzásjelekkel"
 
-#: ../build/src/ui_behavioursettingspage.h:303
+#: ../build/src/ui_behavioursettingspage.h:307
 msgid "Replace the playlist"
 msgstr "Lejátszólista cseréje"
 
-#: ../build/src/ui_backendsettingspage.h:457
+#: ../build/src/ui_backendsettingspage.h:456
 msgid "Replay Gain"
 msgstr "Visszhangerősítés (Replay Gain)"
 
-#: ../build/src/ui_backendsettingspage.h:459
+#: ../build/src/ui_backendsettingspage.h:458
 msgid "Replay Gain mode"
 msgstr "Visszhangerősítés módja"
 
@@ -3376,7 +3376,7 @@ msgstr "Visszaállítás"
 msgid "Reset play counts"
 msgstr "Lejátszás számlálók visszaállítása"
 
-#: ../build/src/ui_behavioursettingspage.h:297
+#: ../build/src/ui_behavioursettingspage.h:303
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "Dal újraindítása és újbóli megnyomáskor ugrás az előzőre"
 
@@ -3394,7 +3394,7 @@ msgstr "Csak az ASCII-ban engedélyezett karakterek használata"
 msgid "Restrict to characters allowed on FAT filesystems"
 msgstr "Csak a FAT fájlrendszerekben engedélyezett karakterek használata"
 
-#: ../build/src/ui_behavioursettingspage.h:271
+#: ../build/src/ui_behavioursettingspage.h:283
 msgid "Resume playback on start"
 msgstr "Lejátszás folytatása induláskor"
 
@@ -3460,7 +3460,7 @@ msgstr "Futtatás"
 msgid "S&huffle playlist"
 msgstr "Lejátszólista összeke&verése"
 
-#: ../build/src/ui_networkproxysettingspage.h:171
+#: ../build/src/ui_networkproxysettingspage.h:168
 msgid "SOCKS proxy"
 msgstr "SOCKS proxy"
 
@@ -3491,7 +3491,7 @@ msgstr "Leját&szólista mentése"
 msgid "Save album cover"
 msgstr "Albumborító mentése"
 
-#: ../build/src/ui_collectionsettingspage.h:422
+#: ../build/src/ui_collectionsettingspage.h:419
 msgid "Save album covers in album directory"
 msgstr "Albumborítók mentése az album könyvtárába"
 
@@ -3521,7 +3521,7 @@ msgstr "Lejátszólista mentése..."
 msgid "Save preset"
 msgstr "Beállítás mentése"
 
-#: ../build/src/ui_moodbarsettingspage.h:99
+#: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Save the .mood files directly in the songs folders"
 msgstr "A .mood fájlok mentése a dalok mappájába"
 
@@ -3529,7 +3529,7 @@ msgstr "A .mood fájlok mentése a dalok mappájába"
 msgid "Saved Grouping Manager"
 msgstr "Csoportosításkezelő"
 
-#: ../build/src/ui_collectionsettingspage.h:421
+#: ../build/src/ui_collectionsettingspage.h:418
 msgid "Saving album covers"
 msgstr "Albumborítók mentése"
 
@@ -3545,7 +3545,7 @@ msgstr "Skálázható mintavételezési profil (SSR)"
 msgid "Scale size"
 msgstr "Skála méret"
 
-#: ../build/src/ui_scrobblersettingspage.h:316
+#: ../build/src/ui_scrobblersettingspage.h:313
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
@@ -3559,7 +3559,7 @@ msgstr "Scrobbler %1 hiba: %2"
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "A %1 scrobbler nincs hitelesítve"
 
-#: ../build/src/ui_behavioursettingspage.h:273
+#: ../build/src/ui_behavioursettingspage.h:285
 msgid "Scroll over icon to change track"
 msgstr "Görgetés az ikon felett a számváltáshoz"
 
@@ -3574,7 +3574,7 @@ msgstr "Keresés"
 msgid "Search automatically"
 msgstr "Automatikus keresés"
 
-#: ../build/src/ui_tidalsettingspage.h:327
+#: ../build/src/ui_tidalsettingspage.h:324
 msgid "Search delay"
 msgstr "Keresés késleltetése"
 
@@ -3611,11 +3611,11 @@ msgstr "A lejátszott szám adott pozícióra tekerése"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Léptetés billentyűparanccsal, vagy egérgörgővel"
 
-#: ../build/src/ui_appearancesettingspage.h:495
+#: ../build/src/ui_appearancesettingspage.h:511
 msgid "Select background color:"
 msgstr "Háttérszín kiválasztása:"
 
-#: settings/appearancesettingspage.cpp:350
+#: settings/appearancesettingspage.cpp:353
 msgid "Select background image"
 msgstr "Háttérkép kiválasztása"
 
@@ -3623,11 +3623,11 @@ msgstr "Háttérkép kiválasztása"
 msgid "Select best possible match"
 msgstr "A legjobban illeszkedő találatot választja"
 
-#: ../build/src/ui_appearancesettingspage.h:493
+#: ../build/src/ui_appearancesettingspage.h:509
 msgid "Select foreground color:"
 msgstr "Előtérszín kiválasztása:"
 
-#: ../build/src/ui_appearancesettingspage.h:501
+#: ../build/src/ui_appearancesettingspage.h:517
 msgid "Select tabbar color:"
 msgstr "Lapsáv színének kiválasztása:"
 
@@ -3639,7 +3639,7 @@ msgstr "Kiválasztás..."
 msgid "Serial number"
 msgstr "Sorozatszám"
 
-#: ../build/src/ui_subsonicsettingspage.h:187
+#: ../build/src/ui_subsonicsettingspage.h:184
 msgid "Server URL"
 msgstr "Szerver URL"
 
@@ -3664,17 +3664,17 @@ msgstr "Érték beállítása minden kiválasztott számnak..."
 msgid "Settings"
 msgstr "Beállítások"
 
-#: ../build/src/ui_shortcutssettingspage.h:236
+#: ../build/src/ui_shortcutssettingspage.h:235
 msgid "Shortcut"
 msgstr "Kombináció"
 
 #: settings/shortcutssettingspage.cpp:266
-#: ../build/src/ui_shortcutssettingspage.h:238
+#: ../build/src/ui_shortcutssettingspage.h:237
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "%1 billentyűkombinációja"
 
-#: ../build/src/ui_shortcutssettingspage.h:226
+#: ../build/src/ui_shortcutssettingspage.h:225
 msgid "Shortcuts"
 msgstr "Gyorsbillentyűk"
 
@@ -3682,39 +3682,39 @@ msgstr "Gyorsbillentyűk"
 msgid "Show"
 msgstr "Megjelenítés"
 
-#: ../build/src/ui_notificationssettingspage.h:465
+#: ../build/src/ui_notificationssettingspage.h:466
 msgid "Show a &native desktop notification"
 msgstr "&Alapértelmezett értesítés"
 
-#: ../build/src/ui_playlistsettingspage.h:150
+#: ../build/src/ui_playlistsettingspage.h:147
 msgid "Show a glowing animation on the current track"
 msgstr "Ragyogás animáció megjelenítése a játszott számon a lejátszólistában"
 
-#: ../build/src/ui_moodbarsettingspage.h:97
+#: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
 msgstr "Hangulatsáv megjelenítése folyamatjelző sávként"
 
-#: ../build/src/ui_notificationssettingspage.h:473
+#: ../build/src/ui_notificationssettingspage.h:474
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "Értesítés megjelenítése, ha megváltoztatom az ismétlést/keverést"
 
-#: ../build/src/ui_notificationssettingspage.h:472
+#: ../build/src/ui_notificationssettingspage.h:473
 msgid "Show a notification when I change the volume"
 msgstr "Hangerő változtatásakor értesítés megjelenítése"
 
-#: ../build/src/ui_notificationssettingspage.h:474
+#: ../build/src/ui_notificationssettingspage.h:475
 msgid "Show a notification when I pause playback"
 msgstr "Szünet megnyomásakor értesítés megjelenítése"
 
-#: ../build/src/ui_notificationssettingspage.h:475
+#: ../build/src/ui_notificationssettingspage.h:476
 msgid "Show a notification when I resume playback"
 msgstr "Értesítés megjelenítése, amikor folytatom a lejátszást"
 
-#: ../build/src/ui_notificationssettingspage.h:467
+#: ../build/src/ui_notificationssettingspage.h:468
 msgid "Show a popup fro&m the system tray"
 msgstr "&Felugró értesítés megjelenítése a rendszertálcáról"
 
-#: ../build/src/ui_notificationssettingspage.h:466
+#: ../build/src/ui_notificationssettingspage.h:467
 msgid "Show a pretty OSD"
 msgstr "Saját OSD megjelenítése"
 
@@ -3726,7 +3726,7 @@ msgstr "Megjelenítés az állapotsáv felett"
 msgid "Show album cover"
 msgstr "Albumborító megjelenítése"
 
-#: ../build/src/ui_collectionsettingspage.h:419
+#: ../build/src/ui_collectionsettingspage.h:416
 msgid "Show album cover art in collection"
 msgstr "Albumborító megjelenítése a gyűjteményben"
 
@@ -3738,11 +3738,11 @@ msgstr "Albumok megjelenítése az előadótól"
 msgid "Show all songs"
 msgstr "Összes dal megjelenítése"
 
-#: ../build/src/ui_scrobblersettingspage.h:327
+#: ../build/src/ui_scrobblersettingspage.h:324
 msgid "Show dialog for errors"
 msgstr "Párbeszédablak megjelenítése hibáknál"
 
-#: ../build/src/ui_collectionsettingspage.h:420
+#: ../build/src/ui_collectionsettingspage.h:417
 msgid "Show dividers"
 msgstr "Elválasztók megjelenítése"
 
@@ -3771,7 +3771,7 @@ msgstr "Megnyitás a fájlböngészőben..."
 msgid "Show in various artists"
 msgstr "Megjelenítés a különböző előadók között"
 
-#: ../build/src/ui_scrobblersettingspage.h:321
+#: ../build/src/ui_scrobblersettingspage.h:318
 msgid "Show love button"
 msgstr "Kedvenc gomb megjelenítése"
 
@@ -3787,11 +3787,11 @@ msgstr "Csak a másolatok megjelenítése"
 msgid "Show only untagged"
 msgstr "Csak a címke nélküliek megjelenítése"
 
-#: ../build/src/ui_behavioursettingspage.h:272
+#: ../build/src/ui_behavioursettingspage.h:284
 msgid "Show playing widget"
 msgstr "Albumborító megjelenítése az oldalsávban"
 
-#: ../build/src/ui_scrobblersettingspage.h:320
+#: ../build/src/ui_scrobblersettingspage.h:317
 msgid "Show scrobble button"
 msgstr "Scrobble gomb megjelenítése"
 
@@ -3807,19 +3807,19 @@ msgstr "Dalszöveg megjelenítése"
 msgid "Show song technical data"
 msgstr "Technikai adatok megjelenítése"
 
-#: ../build/src/ui_behavioursettingspage.h:269
+#: ../build/src/ui_behavioursettingspage.h:281
 msgid "Show system tray icon"
 msgstr "Tálcaikon megjelenítése"
 
-#: ../build/src/ui_behavioursettingspage.h:276
+#: ../build/src/ui_behavioursettingspage.h:288
 msgid "Show the main window"
 msgstr "Főablak megjelenítése"
 
-#: ../build/src/ui_behavioursettingspage.h:278
+#: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show the main window maximized"
 msgstr "Főablak megjelenítése maximalizálva"
 
-#: ../build/src/ui_behavioursettingspage.h:279
+#: ../build/src/ui_behavioursettingspage.h:291
 msgid "Show the main window minimized"
 msgstr "Főablak megjelenítése minimalizálva"
 
@@ -3848,7 +3848,7 @@ msgid "Signing in..."
 msgstr "Belépés..."
 
 #: ../build/src/ui_albumcoverexport.h:211
-#: ../build/src/ui_collectionsettingspage.h:431
+#: ../build/src/ui_collectionsettingspage.h:428
 msgid "Size"
 msgstr "Méret"
 
@@ -3884,7 +3884,7 @@ msgstr "Szám kihagyása"
 msgid "Small album cover"
 msgstr "Kis albumborító"
 
-#: widgets/fancytabwidget.cpp:629
+#: widgets/fancytabwidget.cpp:659
 msgid "Small sidebar"
 msgstr "Kis oldalsáv"
 
@@ -3896,7 +3896,7 @@ msgstr "Lágy"
 msgid "Soft Rock"
 msgstr "Lágy Rock"
 
-#: ../build/src/ui_contextsettingspage.h:426
+#: ../build/src/ui_contextsettingspage.h:424
 msgid "Song Lyrics"
 msgstr "Dalszöveg"
 
@@ -3904,7 +3904,7 @@ msgstr "Dalszöveg"
 msgid "Songs"
 msgstr "Dalok"
 
-#: ../build/src/ui_scrobblersettingspage.h:318
+#: ../build/src/ui_scrobblersettingspage.h:315
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -3914,7 +3914,7 @@ msgstr ""
 "másodpercnél hosszabbak, illetve félig, vagy 4 percig le vannak játszva "
 "(amelyik korábban teljesül)."
 
-#: ../build/src/ui_tidalsettingspage.h:331
+#: ../build/src/ui_tidalsettingspage.h:328
 msgid "Songs search limit"
 msgstr "Dal keresési korlát"
 
@@ -3926,7 +3926,7 @@ msgstr "Elnézést"
 msgid "Source"
 msgstr "Forrás"
 
-#: ../build/src/ui_transcodersettingspage.h:194
+#: ../build/src/ui_transcodersettingspage.h:191
 msgid "Speex"
 msgstr "Speex"
 
@@ -3988,7 +3988,7 @@ msgstr "Strawberry hiba"
 msgid "Strawberry Music Player"
 msgstr "Strawberry Zenelejátszó"
 
-#: ../build/src/ui_notificationssettingspage.h:490
+#: ../build/src/ui_notificationssettingspage.h:489
 msgid "Strawberry Red"
 msgstr "Szamócavörös"
 
@@ -4000,7 +4000,7 @@ msgstr ""
 "Strawberry automatikusan az eszköz által is támogatott formátumba tudja "
 "konvertálni a számokat másolás előtt."
 
-#: ../build/src/ui_notificationssettingspage.h:462
+#: ../build/src/ui_notificationssettingspage.h:463
 msgid "Strawberry can show a message when the track changes."
 msgstr "A Strawberry felbukkanó üzenetben tudja jelezni, ha számot vált."
 
@@ -4021,7 +4021,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Nincsenek találatok ehhez a fájlhoz"
 
-#: ../build/src/ui_tidalsettingspage.h:335
+#: ../build/src/ui_tidalsettingspage.h:332
 msgid "Stream URL method"
 msgstr "URL streamelése ezzel"
 
@@ -4029,15 +4029,15 @@ msgstr "URL streamelése ezzel"
 msgid "Streaming"
 msgstr "Internet"
 
-#: ../build/src/ui_appearancesettingspage.h:521
+#: ../build/src/ui_appearancesettingspage.h:537
 msgid "Stretch image to fill playlist"
 msgstr "Kép nyújtása a lejátszólista kitöltéséhez"
 
-#: ../build/src/ui_scrobblersettingspage.h:322
+#: ../build/src/ui_scrobblersettingspage.h:319
 msgid "Submit scrobbles every"
 msgstr "Scrobble-ok beküldése minden"
 
-#: core/mainwindow.cpp:289 ../build/src/ui_subsonicsettingspage.h:185
+#: core/mainwindow.cpp:289 ../build/src/ui_subsonicsettingspage.h:182
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4058,8 +4058,8 @@ msgstr "%1 sikeresen írva"
 msgid "Suggested tags"
 msgstr "Javasolt címkék"
 
-#: ../build/src/ui_contextsettingspage.h:418
-#: ../build/src/ui_notificationssettingspage.h:481
+#: ../build/src/ui_contextsettingspage.h:416
+#: ../build/src/ui_notificationssettingspage.h:482
 #: ../build/src/ui_edittagdialog.h:678
 msgid "Summary"
 msgstr "Összegzés"
@@ -4077,15 +4077,19 @@ msgstr "Támogatott formátumok"
 msgid "System colors"
 msgstr "Rendszerszínek"
 
-#: ../build/src/ui_appearancesettingspage.h:497
+#: ../build/src/ui_appearancesettingspage.h:513
 msgid "Tabbar colors"
 msgstr "Lapsáv színei"
 
-#: ../build/src/ui_appearancesettingspage.h:533
+#: ../build/src/ui_appearancesettingspage.h:546
 msgid "Tabbar large mode"
 msgstr "Lapsáv nagy mód"
 
-#: widgets/fancytabwidget.cpp:631
+#: ../build/src/ui_appearancesettingspage.h:550
+msgid "Tabbar small mode"
+msgstr ""
+
+#: widgets/fancytabwidget.cpp:661
 msgid "Tabs on top"
 msgstr "Fülek felül"
 
@@ -4097,7 +4101,7 @@ msgstr "Címke letöltő"
 msgid "Target bitrate"
 msgstr "Cél bitráta"
 
-#: ../build/src/ui_contextsettingspage.h:423
+#: ../build/src/ui_contextsettingspage.h:421
 msgid "Technical Data"
 msgstr "Technikai adatok"
 
@@ -4105,7 +4109,7 @@ msgstr "Technikai adatok"
 msgid "Techno"
 msgstr "Techno"
 
-#: ../build/src/ui_subsonicsettingspage.h:191
+#: ../build/src/ui_subsonicsettingspage.h:188
 msgid "Test"
 msgstr "Teszt"
 
@@ -4117,7 +4121,7 @@ msgstr "Teszt sikertelen!"
 msgid "Test successful!"
 msgstr "Teszt sikeres!"
 
-#: ../build/src/ui_notificationssettingspage.h:493
+#: ../build/src/ui_notificationssettingspage.h:492
 msgid "Text options"
 msgstr "Szövegopciók"
 
@@ -4134,7 +4138,7 @@ msgstr "Köszönet az Amarok-hoz és a Clementine-hez hozzájárulóknak."
 msgid "The \"%1\" command could not be started."
 msgstr "A \"%1\" parancs nem végrehajtható."
 
-#: ../build/src/ui_appearancesettingspage.h:507
+#: ../build/src/ui_appearancesettingspage.h:523
 msgid "The album cover of the currently playing song"
 msgstr "A jelenleg játszott dal albumborítója"
 
@@ -4191,11 +4195,11 @@ msgid ""
 msgstr ""
 "Ezek a fájlok törölve lesznek az eszközről. Biztos benne, hogy folytatja?"
 
-#: ../build/src/ui_collectionsettingspage.h:404
+#: ../build/src/ui_collectionsettingspage.h:401
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "Ezek a mappák lesznek figyelve a gyűjtemény feltöltéséhez"
 
-#: ../build/src/ui_transcodersettingspage.h:189
+#: ../build/src/ui_transcodersettingspage.h:186
 msgid ""
 "These settings are used in the \"Transcode Music\" dialog, and when "
 "converting music before copying it to a device."
@@ -4260,11 +4264,11 @@ msgstr "Ez a beállítás változtatható a \"Működés\" menüben"
 msgid "This type of device is not supported: %1"
 msgstr "A %1 eszköztípus nem támogatott"
 
-#: core/mainwindow.cpp:292 ../build/src/ui_tidalsettingspage.h:315
+#: core/mainwindow.cpp:292 ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
 
-#: ../build/src/ui_tidalsettingspage.h:317
+#: ../build/src/ui_tidalsettingspage.h:314
 msgid ""
 "Tidal support is not official and requires a API token from a registered "
 "application to work. We can't help you getting these."
@@ -4282,7 +4286,7 @@ msgid "Timezone"
 msgstr "Időzóna"
 
 #: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1177
-#: organise/organisedialog.cpp:97 ../build/src/ui_contextsettingspage.h:417
+#: organise/organisedialog.cpp:97 ../build/src/ui_contextsettingspage.h:415
 #: ../build/src/ui_edittagdialog.h:681
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
@@ -4343,7 +4347,7 @@ msgstr "Zene átkódolása"
 msgid "Transcoder Log"
 msgstr "Átkódolási napló"
 
-#: ../build/src/ui_transcodersettingspage.h:188
+#: ../build/src/ui_transcodersettingspage.h:185
 msgid "Transcoding"
 msgstr "Átkódolás"
 
@@ -4398,7 +4402,7 @@ msgstr "A kiválasztott számok lejátszása"
 msgid "Unskip track"
 msgstr "Szám lejátszása"
 
-#: ../build/src/ui_collectionsettingspage.h:408
+#: ../build/src/ui_collectionsettingspage.h:405
 msgid "Update the collection when Strawberry starts"
 msgstr "Gyűjtemény frissítése a Strawberry indításakor"
 
@@ -4416,11 +4420,11 @@ msgstr "%1 frissítése..."
 msgid "Updating collection"
 msgstr "Gyűjtemény frissítése"
 
-#: ../build/src/ui_appearancesettingspage.h:514
+#: ../build/src/ui_appearancesettingspage.h:530
 msgid "Upper Left"
 msgstr "Balra fent"
 
-#: ../build/src/ui_appearancesettingspage.h:515
+#: ../build/src/ui_appearancesettingspage.h:531
 msgid "Upper Right"
 msgstr "Jobbra fent"
 
@@ -4428,21 +4432,19 @@ msgstr "Jobbra fent"
 msgid "Usage"
 msgstr "Használat"
 
-#: ../build/src/ui_shortcutssettingspage.h:227
+#: ../build/src/ui_shortcutssettingspage.h:226
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "Gnome (GSD) D-Bus gyorsbillentyűk használata"
 
-#: ../build/src/ui_scrobblersettingspage.h:330
-msgid "Use HTTPS for local redirectserver to bypass login problems"
+#: ../build/src/ui_scrobblersettingspage.h:327
+msgid "Use HTTPS for local redirectserver"
 msgstr ""
-"A bejelentkezési problémák elkerülése érdekében használjon HTTPS-t a helyi "
-"átirányító szerverhez."
 
-#: ../build/src/ui_tidalsettingspage.h:319
+#: ../build/src/ui_tidalsettingspage.h:316
 msgid "Use OAuth"
 msgstr "OAuth használata"
 
-#: ../build/src/ui_backendsettingspage.h:458
+#: ../build/src/ui_backendsettingspage.h:457
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Visszhangerősítés metaadatok használata, ha elérhetőek"
 
@@ -4450,19 +4452,19 @@ msgstr "Visszhangerősítés metaadatok használata, ha elérhetőek"
 msgid "Use Tidal settings to authenticate."
 msgstr "Tidal beállítások használata hitelesítéshez."
 
-#: ../build/src/ui_shortcutssettingspage.h:229
+#: ../build/src/ui_shortcutssettingspage.h:228
 msgid "Use X11's shortcut keys"
 msgstr "X11 gyorsbillentyűk használata"
 
-#: ../build/src/ui_appearancesettingspage.h:492
+#: ../build/src/ui_appearancesettingspage.h:508
 msgid "Use a custom color set"
 msgstr "Egyéni színkészlet használata"
 
-#: ../build/src/ui_notificationssettingspage.h:478
+#: ../build/src/ui_notificationssettingspage.h:479
 msgid "Use a custom message for notifications"
 msgstr "Egyéni üzenet használata értesítésnél"
 
-#: ../build/src/ui_networkproxysettingspage.h:174
+#: ../build/src/ui_networkproxysettingspage.h:171
 msgid "Use authentication"
 msgstr "Hitelesítés használata"
 
@@ -4470,27 +4472,27 @@ msgstr "Hitelesítés használata"
 msgid "Use bitrate management engine"
 msgstr "Bitráta kezelés használata"
 
-#: ../build/src/ui_appearancesettingspage.h:499
+#: ../build/src/ui_appearancesettingspage.h:515
 msgid "Use custom color"
 msgstr "Egyéni szín"
 
-#: ../build/src/ui_appearancesettingspage.h:500
+#: ../build/src/ui_appearancesettingspage.h:516
 msgid "Use gradient background"
 msgstr "Átmenetes háttérszín"
 
-#: ../build/src/ui_collectionsettingspage.h:424
+#: ../build/src/ui_collectionsettingspage.h:421
 msgid "Use hash"
 msgstr "Hash használata"
 
-#: ../build/src/ui_collectionsettingspage.h:411
+#: ../build/src/ui_collectionsettingspage.h:408
 msgid "Use live scanning"
 msgstr "Valós idejű figyelés"
 
-#: ../build/src/ui_collectionsettingspage.h:425
+#: ../build/src/ui_collectionsettingspage.h:422
 msgid "Use pattern"
 msgstr "Minta használata"
 
-#: ../build/src/ui_appearancesettingspage.h:534
+#: ../build/src/ui_appearancesettingspage.h:551
 msgid "Use system theme icons"
 msgstr "Rendszerikonok használata"
 
@@ -4498,7 +4500,7 @@ msgstr "Rendszerikonok használata"
 msgid "Use temporal noise shaping"
 msgstr "Átmeneti zajszűrő alkalmazása"
 
-#: ../build/src/ui_behavioursettingspage.h:283
+#: ../build/src/ui_behavioursettingspage.h:293
 msgid "Use the system default"
 msgstr "Rendszer alapértelmezés használata"
 
@@ -4510,13 +4512,13 @@ msgstr "Használt"
 msgid "User interface"
 msgstr "Kezelőfelület"
 
-#: ../build/src/ui_scrobblersettingspage.h:337
+#: ../build/src/ui_scrobblersettingspage.h:334
 msgid "User token:"
 msgstr "Felhasználói token:"
 
-#: ../build/src/ui_networkproxysettingspage.h:175
-#: ../build/src/ui_subsonicsettingspage.h:189
-#: ../build/src/ui_tidalsettingspage.h:322
+#: ../build/src/ui_networkproxysettingspage.h:172
+#: ../build/src/ui_subsonicsettingspage.h:186
+#: ../build/src/ui_tidalsettingspage.h:319
 msgid "Username"
 msgstr "Felhasználónév"
 
@@ -4529,7 +4531,7 @@ msgstr ""
 "X11 gyorsbillentyűk használata %1 esetén nem ajánlott, és lehetséges, hogy "
 "nem fog válaszolni a billentyűzet."
 
-#: ../build/src/ui_behavioursettingspage.h:286
+#: ../build/src/ui_behavioursettingspage.h:296
 msgid "Using the menu to add a song will..."
 msgstr "Dal felvételénél a menü használatával..."
 
@@ -4543,7 +4545,7 @@ msgstr "Változó bitráta"
 msgid "Various artists"
 msgstr "Egyes előadók"
 
-#: ../build/src/ui_subsonicsettingspage.h:193
+#: ../build/src/ui_subsonicsettingspage.h:190
 msgid "Verify server certificate"
 msgstr "Szerver tanúsítványának ellenőrzése"
 
@@ -4569,19 +4571,19 @@ msgstr "Hangtevékenység felismerése"
 msgid "Volume %1%"
 msgstr "Hangerő %1%"
 
-#: ../build/src/ui_transcodersettingspage.h:192
+#: ../build/src/ui_transcodersettingspage.h:189
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:151
+#: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:148
 msgid "Warn me when closing a playlist tab"
 msgstr "Figyelmeztessen a lejátszólista bezárásakor"
 
-#: ../build/src/ui_transcodersettingspage.h:191
+#: ../build/src/ui_transcodersettingspage.h:188
 msgid "WavPack"
 msgstr "WavPack"
 
-#: ../build/src/ui_collectionsettingspage.h:414
+#: ../build/src/ui_collectionsettingspage.h:411
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -4591,7 +4593,7 @@ msgstr ""
 "melyek neve tartalmazza az alábbi szavakat.\n"
 "Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból."
 
-#: ../build/src/ui_playlistsettingspage.h:157
+#: ../build/src/ui_playlistsettingspage.h:154
 msgid "When saving a playlist, file paths should be"
 msgstr "A lejátszólista mentésekor a fájl elérési útvonala"
 
@@ -4607,7 +4609,7 @@ msgstr "Szélessávú (WB)"
 msgid "Without cover:"
 msgstr "Borító nélkül:"
 
-#: ../build/src/ui_scrobblersettingspage.h:319
+#: ../build/src/ui_scrobblersettingspage.h:316
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Offline mód (mentés csak gyorsítótárba)"
 
@@ -4622,7 +4624,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "Akar futtatni egy teljes újraolvasást most?"
 
-#: ../build/src/ui_playlistsettingspage.h:167
+#: ../build/src/ui_playlistsettingspage.h:164
 msgid "Write metadata when saving playlists"
 msgstr "Lejátszólisták mentésekor metaadatok írása"
 
@@ -4694,7 +4696,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Ehhez az URL-hez szüksége van a GStreamerre."
 
-#: ../build/src/ui_shortcutssettingspage.h:233
+#: ../build/src/ui_shortcutssettingspage.h:232
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -4704,7 +4706,7 @@ msgstr ""
 "italic;\">számítógép irányítása</span>\" opciót a globális "
 "billentyűparancsok használatához a Strawberry-ben."
 
-#: ../build/src/ui_shortcutssettingspage.h:232
+#: ../build/src/ui_shortcutssettingspage.h:231
 msgid ""
 "You need to launch System Preferences and turn on \"<span style=\" font-"
 "style:italic;\">Enable access for assistive devices</span>\" to use global "
@@ -4723,7 +4725,7 @@ msgstr ""
 "A programmal meg kellett kapnia a GNU General Public License egy példányát "
 "is. Ha nem látogassa meg: %1"
 
-#: ../build/src/ui_behavioursettingspage.h:285
+#: ../build/src/ui_behavioursettingspage.h:295
 msgid "You will need to restart Strawberry if you change the language."
 msgstr "A nyelv megváltoztatásához újra kell indítani a Strawberry-t."
 
@@ -4768,7 +4770,7 @@ msgstr "kikapcsolva"
 msgid "disc %1"
 msgstr "%1. lemez"
 
-#: ../build/src/ui_backendsettingspage.h:449
+#: ../build/src/ui_backendsettingspage.h:448
 msgid "hw"
 msgstr "hw"
 
@@ -4783,7 +4785,7 @@ msgctxt ""
 msgid "move %n songs"
 msgstr "%n dal áthelyezése"
 
-#: ../build/src/ui_tidalsettingspage.h:328
+#: ../build/src/ui_tidalsettingspage.h:325
 msgid "ms"
 msgstr " ms"
 
@@ -4791,7 +4793,7 @@ msgstr " ms"
 msgid "options"
 msgstr "beállítások"
 
-#: ../build/src/ui_backendsettingspage.h:450
+#: ../build/src/ui_backendsettingspage.h:449
 msgid "p&lughw"
 msgstr "p&lughw"
 

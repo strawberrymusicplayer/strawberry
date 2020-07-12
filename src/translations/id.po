@@ -83,18 +83,18 @@ msgstr "Pintasan harus dikonfigurasi di pengaturan %1."
 msgid " kbps"
 msgstr " kbps"
 
-#: ../build/src/ui_scrobblersettingspage.h:323
+#: ../build/src/ui_scrobblersettingspage.h:320
 msgid " minutes"
 msgstr "menit"
 
-#: ../build/src/ui_backendsettingspage.h:454
+#: ../build/src/ui_backendsettingspage.h:453
+#: ../build/src/ui_backendsettingspage.h:470
 #: ../build/src/ui_backendsettingspage.h:473
-#: ../build/src/ui_backendsettingspage.h:476
 msgid " ms"
 msgstr " md"
 
-#: ../build/src/ui_contextsettingspage.h:432
-#: ../build/src/ui_contextsettingspage.h:437
+#: ../build/src/ui_contextsettingspage.h:430
+#: ../build/src/ui_contextsettingspage.h:435
 msgid " pt"
 msgstr ""
 
@@ -102,7 +102,7 @@ msgstr ""
 msgid " s"
 msgstr " d"
 
-#: ../build/src/ui_notificationssettingspage.h:470
+#: ../build/src/ui_notificationssettingspage.h:471
 msgid " seconds"
 msgstr " detik"
 
@@ -197,17 +197,17 @@ msgstr "%1 trek"
 msgid "%1 transferred"
 msgstr "%1 telah ditransfer"
 
-#: ../build/src/ui_contextsettingspage.h:419
+#: ../build/src/ui_contextsettingspage.h:417
 msgid "%album%"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:426
+#: ../build/src/ui_collectionsettingspage.h:423
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
 
-#: ../build/src/ui_contextsettingspage.h:410
-#: ../build/src/ui_notificationssettingspage.h:458
+#: ../build/src/ui_contextsettingspage.h:408
+#: ../build/src/ui_notificationssettingspage.h:459
 msgid "%filename%"
 msgstr "%filename%"
 
@@ -229,7 +229,7 @@ msgctxt ""
 msgid "%n remaining"
 msgstr "%n tersisa"
 
-#: ../build/src/ui_contextsettingspage.h:415
+#: ../build/src/ui_contextsettingspage.h:413
 msgid "%title - %artist%"
 msgstr ""
 
@@ -257,11 +257,11 @@ msgstr "&Bersihkan daftar putar"
 msgid "&Cover Manager"
 msgstr "Pengelola &Sampul"
 
-#: ../build/src/ui_shortcutssettingspage.h:241
+#: ../build/src/ui_shortcutssettingspage.h:240
 msgid "&Custom"
 msgstr "&Ubahsuai"
 
-#: ../build/src/ui_shortcutssettingspage.h:240
+#: ../build/src/ui_shortcutssettingspage.h:239
 msgid "&Default"
 msgstr "Stan&dar"
 
@@ -294,7 +294,7 @@ msgstr "&Kiri"
 msgid "&Load playlist..."
 msgstr "&Muat daftar putar..."
 
-#: ../build/src/ui_networkproxysettingspage.h:167
+#: ../build/src/ui_networkproxysettingspage.h:166
 msgid "&Manual proxy configuration"
 msgstr "Konfigurasi proxy &manual"
 
@@ -314,11 +314,11 @@ msgstr "&Daftar putar baru"
 msgid "&Next track"
 msgstr "&Trek berikutnya"
 
-#: ../build/src/ui_appearancesettingspage.h:505
+#: ../build/src/ui_appearancesettingspage.h:521
 msgid "&No background image"
 msgstr "&Tidak ada gambar latar belakang"
 
-#: ../build/src/ui_shortcutssettingspage.h:239
+#: ../build/src/ui_shortcutssettingspage.h:238
 msgid "&None"
 msgstr "&Nihil"
 
@@ -374,19 +374,19 @@ msgstr "&Transkode Musik"
 msgid "&Update changed collection folders"
 msgstr "Perbar&ui folder pustaka yang telah diubah"
 
-#: ../build/src/ui_appearancesettingspage.h:498
+#: ../build/src/ui_appearancesettingspage.h:514
 msgid "&Use the system default color"
 msgstr "G&unakan warna standar sistem"
 
-#: ../build/src/ui_appearancesettingspage.h:491
+#: ../build/src/ui_appearancesettingspage.h:507
 msgid "&Use the system default color set"
 msgstr "G&unakan set warna standar sistem"
 
-#: ../build/src/ui_networkproxysettingspage.h:165
+#: ../build/src/ui_networkproxysettingspage.h:164
 msgid "&Use the system proxy settings"
 msgstr "G&unakan pengaturan proxy sistem"
 
-#: ../build/src/ui_scrobblersettingspage.h:325
+#: ../build/src/ui_scrobblersettingspage.h:322
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -409,7 +409,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:525
+#: ../build/src/ui_appearancesettingspage.h:541
 msgid "0px"
 msgstr "0px"
 
@@ -421,7 +421,7 @@ msgstr "1 hari"
 msgid "1 track"
 msgstr "1 trek"
 
-#: ../build/src/ui_appearancesettingspage.h:527
+#: ../build/src/ui_appearancesettingspage.h:543
 msgid "40%"
 msgstr "40%"
 
@@ -438,27 +438,27 @@ msgstr ""
 "kurawal, maka bagian tersebut akan disembunyikan jika token tersebut kosong."
 "</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:510
+#: ../build/src/ui_appearancesettingspage.h:526
 msgid "A Taste of Strawbs"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:158
+#: ../build/src/ui_playlistsettingspage.h:155
 msgid "A&utomatic"
 msgstr "&Otomatis"
 
-#: ../build/src/ui_transcodersettingspage.h:195
+#: ../build/src/ui_transcodersettingspage.h:192
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:448
+#: ../build/src/ui_backendsettingspage.h:447
 msgid "ALSA plugin"
 msgstr "Plugin ALSA"
 
-#: ../build/src/ui_tidalsettingspage.h:321
+#: ../build/src/ui_tidalsettingspage.h:318
 msgid "API Token"
 msgstr "Token API"
 
-#: ../build/src/ui_transcodersettingspage.h:196
+#: ../build/src/ui_transcodersettingspage.h:193
 msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
@@ -484,7 +484,7 @@ msgstr "Tentang &Qt"
 msgid "About Strawberry"
 msgstr "Tentang Strawberry"
 
-#: ../build/src/ui_playlistsettingspage.h:159
+#: ../build/src/ui_playlistsettingspage.h:156
 msgid "Absolu&te"
 msgstr "Absolu&t"
 
@@ -492,7 +492,7 @@ msgstr "Absolu&t"
 msgid "Absolute"
 msgstr "Absolut"
 
-#: ../build/src/ui_shortcutssettingspage.h:237
+#: ../build/src/ui_shortcutssettingspage.h:236
 msgctxt "Category label"
 msgid "Action"
 msgstr "Tindakan"
@@ -505,8 +505,8 @@ msgstr "Tambah &folder..."
 msgid "Add Stream"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:408
-#: ../build/src/ui_notificationssettingspage.h:456
+#: ../build/src/ui_contextsettingspage.h:406
+#: ../build/src/ui_notificationssettingspage.h:457
 msgid "Add a new line if supported by the notification type"
 msgstr "Tambah baris baru jika didukung oleh tipe notifikasi"
 
@@ -538,90 +538,90 @@ msgstr "Tambah berkas untuk ditranskode"
 msgid "Add folder"
 msgstr "Tambah folder"
 
-#: ../build/src/ui_collectionsettingspage.h:405
+#: ../build/src/ui_collectionsettingspage.h:402
 msgid "Add new folder..."
 msgstr "Tambah folder baru..."
 
-#: ../build/src/ui_contextsettingspage.h:369
-#: ../build/src/ui_notificationssettingspage.h:411
+#: ../build/src/ui_contextsettingspage.h:367
+#: ../build/src/ui_notificationssettingspage.h:412
 msgid "Add song album tag"
 msgstr "Tambahkan nama album"
 
-#: ../build/src/ui_contextsettingspage.h:375
-#: ../build/src/ui_notificationssettingspage.h:417
+#: ../build/src/ui_contextsettingspage.h:373
+#: ../build/src/ui_notificationssettingspage.h:418
 msgid "Add song albumartist tag"
 msgstr "Tambahkan nama album artis"
 
-#: ../build/src/ui_contextsettingspage.h:366
-#: ../build/src/ui_notificationssettingspage.h:408
+#: ../build/src/ui_contextsettingspage.h:364
+#: ../build/src/ui_notificationssettingspage.h:409
 msgid "Add song artist tag"
 msgstr "Tambahkan nama artis"
 
-#: ../build/src/ui_notificationssettingspage.h:453
+#: ../build/src/ui_notificationssettingspage.h:454
 msgid "Add song auto score"
 msgstr "Tambahkan nilai otomatis"
 
-#: ../build/src/ui_contextsettingspage.h:381
-#: ../build/src/ui_notificationssettingspage.h:423
+#: ../build/src/ui_contextsettingspage.h:379
+#: ../build/src/ui_notificationssettingspage.h:424
 msgid "Add song composer tag"
 msgstr "Tambahkan nama komposer"
 
-#: ../build/src/ui_contextsettingspage.h:390
-#: ../build/src/ui_notificationssettingspage.h:432
+#: ../build/src/ui_contextsettingspage.h:388
+#: ../build/src/ui_notificationssettingspage.h:433
 msgid "Add song disc tag"
 msgstr "Tambahkan nomor cakram"
 
-#: ../build/src/ui_contextsettingspage.h:412
-#: ../build/src/ui_notificationssettingspage.h:460
+#: ../build/src/ui_contextsettingspage.h:410
+#: ../build/src/ui_notificationssettingspage.h:461
 msgid "Add song filename"
 msgstr "Tambahkan nama berkas"
 
-#: ../build/src/ui_contextsettingspage.h:396
-#: ../build/src/ui_notificationssettingspage.h:438
+#: ../build/src/ui_contextsettingspage.h:394
+#: ../build/src/ui_notificationssettingspage.h:439
 msgid "Add song genre tag"
 msgstr "Tambahkan genre"
 
-#: ../build/src/ui_contextsettingspage.h:387
-#: ../build/src/ui_notificationssettingspage.h:429
+#: ../build/src/ui_contextsettingspage.h:385
+#: ../build/src/ui_notificationssettingspage.h:430
 msgid "Add song grouping tag"
 msgstr "Tambahkan kelompok"
 
-#: ../build/src/ui_contextsettingspage.h:399
-#: ../build/src/ui_notificationssettingspage.h:441
+#: ../build/src/ui_contextsettingspage.h:397
+#: ../build/src/ui_notificationssettingspage.h:442
 msgid "Add song length tag"
 msgstr "Tambahkan durasi lagu"
 
-#: ../build/src/ui_contextsettingspage.h:384
-#: ../build/src/ui_notificationssettingspage.h:426
+#: ../build/src/ui_contextsettingspage.h:382
+#: ../build/src/ui_notificationssettingspage.h:427
 msgid "Add song performer tag"
 msgstr "Tambahkan nama penampil"
 
-#: ../build/src/ui_contextsettingspage.h:402
-#: ../build/src/ui_notificationssettingspage.h:444
+#: ../build/src/ui_contextsettingspage.h:400
+#: ../build/src/ui_notificationssettingspage.h:445
 msgid "Add song play count"
 msgstr "Tambahkan jumlah pemutaran"
 
-#: ../build/src/ui_notificationssettingspage.h:450
+#: ../build/src/ui_notificationssettingspage.h:451
 msgid "Add song rating"
 msgstr "Tambahkan peringkat"
 
-#: ../build/src/ui_contextsettingspage.h:405
-#: ../build/src/ui_notificationssettingspage.h:447
+#: ../build/src/ui_contextsettingspage.h:403
+#: ../build/src/ui_notificationssettingspage.h:448
 msgid "Add song skip count"
 msgstr "Tambahkan jumlah lewatan"
 
-#: ../build/src/ui_contextsettingspage.h:372
-#: ../build/src/ui_notificationssettingspage.h:414
+#: ../build/src/ui_contextsettingspage.h:370
+#: ../build/src/ui_notificationssettingspage.h:415
 msgid "Add song title tag"
 msgstr "Tambahkan judul lagu"
 
-#: ../build/src/ui_contextsettingspage.h:393
-#: ../build/src/ui_notificationssettingspage.h:435
+#: ../build/src/ui_contextsettingspage.h:391
+#: ../build/src/ui_notificationssettingspage.h:436
 msgid "Add song track tag"
 msgstr "Tambahkan nomor trek"
 
-#: ../build/src/ui_contextsettingspage.h:378
-#: ../build/src/ui_notificationssettingspage.h:420
+#: ../build/src/ui_contextsettingspage.h:376
+#: ../build/src/ui_notificationssettingspage.h:421
 msgid "Add song year tag"
 msgstr "Tambahkan tahun rilis"
 
@@ -649,7 +649,7 @@ msgstr "Tambahkan ke daftar putar"
 msgid "Add to songs"
 msgstr "Tambahkan ke lagu"
 
-#: ../build/src/ui_behavioursettingspage.h:305
+#: ../build/src/ui_behavioursettingspage.h:309
 #: ../build/src/ui_behavioursettingspage.h:317
 msgid "Add to the queue"
 msgstr "Tambahkan ke antrean"
@@ -687,7 +687,7 @@ msgstr "Pengelompokkan lanjut..."
 msgid "After copying..."
 msgstr "Setelah menyalin..."
 
-#: ../build/src/ui_appearancesettingspage.h:509
+#: ../build/src/ui_appearancesettingspage.h:525
 msgid "Albu&m cover"
 msgstr "Sa&mpul album"
 
@@ -696,13 +696,13 @@ msgstr "Sa&mpul album"
 #: ../build/src/ui_groupbydialog.h:130 ../build/src/ui_groupbydialog.h:154
 #: ../build/src/ui_groupbydialog.h:178 ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
-#: ../build/src/ui_contextsettingspage.h:422
+#: ../build/src/ui_contextsettingspage.h:420
 #: ../build/src/ui_edittagdialog.h:683
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:463
+#: ../build/src/ui_backendsettingspage.h:460
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (kenyaringan ideal untuk semua trek)"
 
@@ -718,11 +718,11 @@ msgstr "Album - Cakram"
 msgid "Album artist"
 msgstr "Album artis"
 
-#: ../build/src/ui_collectionsettingspage.h:430
+#: ../build/src/ui_collectionsettingspage.h:427
 msgid "Album cover pixmap cache"
 msgstr ""
 
-#: ../build/src/ui_tidalsettingspage.h:334
+#: ../build/src/ui_tidalsettingspage.h:331
 msgid "Album cover size"
 msgstr "Ukuran sampul album"
 
@@ -735,11 +735,11 @@ msgstr "Album"
 msgid "Albums by %1"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:425
+#: ../build/src/ui_contextsettingspage.h:423
 msgid "Albums by Artist"
 msgstr ""
 
-#: ../build/src/ui_tidalsettingspage.h:330
+#: ../build/src/ui_tidalsettingspage.h:327
 msgid "Albums search limit"
 msgstr "Batasan pencarian album"
 
@@ -784,8 +784,8 @@ msgstr "Izinkan enkode tengah/sisi"
 msgid "Alongside the originals"
 msgstr "Bersama dengan yang asli"
 
-#: ../build/src/ui_behavioursettingspage.h:291
-#: ../build/src/ui_behavioursettingspage.h:311
+#: ../build/src/ui_behavioursettingspage.h:299
+#: ../build/src/ui_behavioursettingspage.h:313
 msgid "Always start playing"
 msgstr "Selalu mulai memutar"
 
@@ -810,7 +810,7 @@ msgstr "Sebuah galat terjadi saat menulis metadata ke '%1'"
 msgid "Angry"
 msgstr "Marah"
 
-#: ../build/src/ui_appearancesettingspage.h:489
+#: ../build/src/ui_appearancesettingspage.h:505
 msgid "Appearance"
 msgstr "Penampilan"
 
@@ -824,11 +824,11 @@ msgstr "Tambahkan berkas/URL ke daftar putar"
 msgid "Append to current playlist"
 msgstr "Tambahkan ke daftar putar saat ini"
 
-#: ../build/src/ui_behavioursettingspage.h:302
+#: ../build/src/ui_behavioursettingspage.h:306
 msgid "Append to the playlist"
 msgstr "Tambahkan ke daftar putar"
 
-#: ../build/src/ui_backendsettingspage.h:466
+#: ../build/src/ui_backendsettingspage.h:463
 msgid "Apply compression to prevent clipping"
 msgstr "Terapkan kompresi untuk mencegah clipping"
 
@@ -858,11 +858,11 @@ msgstr "Inisial artis"
 msgid "Artists"
 msgstr "Artis"
 
-#: ../build/src/ui_tidalsettingspage.h:329
+#: ../build/src/ui_tidalsettingspage.h:326
 msgid "Artists search limit"
 msgstr "Batasan pencarian artis"
 
-#: ../build/src/ui_playlistsettingspage.h:161
+#: ../build/src/ui_playlistsettingspage.h:158
 msgid "As&k when saving"
 msgstr "Tanya&kan saat menyimpan"
 
@@ -870,11 +870,11 @@ msgstr "Tanya&kan saat menyimpan"
 msgid "Audio format"
 msgstr "Format audio"
 
-#: ../build/src/ui_backendsettingspage.h:443
+#: ../build/src/ui_backendsettingspage.h:442
 msgid "Audio output"
 msgstr "Keluaran audio"
 
-#: ../build/src/ui_tidalsettingspage.h:326
+#: ../build/src/ui_tidalsettingspage.h:323
 msgid "Audio quality"
 msgstr "Kualitas audio"
 
@@ -884,8 +884,8 @@ msgstr "Mengautentikasi..."
 
 #: ../build/src/ui_coverssettingspage.h:170
 #: ../build/src/ui_lyricssettingspage.h:170
-#: ../build/src/ui_subsonicsettingspage.h:188
-#: ../build/src/ui_tidalsettingspage.h:318
+#: ../build/src/ui_subsonicsettingspage.h:185
+#: ../build/src/ui_tidalsettingspage.h:315
 msgid "Authentication"
 msgstr "Otentikasi"
 
@@ -906,23 +906,23 @@ msgstr "Auto"
 msgid "Automatic"
 msgstr "Otomatis"
 
-#: ../build/src/ui_collectionsettingspage.h:407
+#: ../build/src/ui_collectionsettingspage.h:404
 msgid "Automatic updating"
 msgstr "Pembaruan otomatis"
 
-#: ../build/src/ui_collectionsettingspage.h:418
+#: ../build/src/ui_collectionsettingspage.h:415
 msgid "Automatically open single categories in the collection tree"
 msgstr "Secara otomatis membuka kategori tunggal di pohon pustaka"
 
-#: ../build/src/ui_contextsettingspage.h:427
+#: ../build/src/ui_contextsettingspage.h:425
 msgid "Automatically search for album cover"
 msgstr ""
 
-#: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:428
+#: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:426
 msgid "Automatically search for song lyrics"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:155
+#: ../build/src/ui_playlistsettingspage.h:152
 msgid "Automatically select current playing track"
 msgstr "Pilih trek yang sedang diputar secara otomatis"
 
@@ -942,19 +942,19 @@ msgstr "Lajubit rerata"
 msgid "Average image size"
 msgstr "Ukuran gambar rerata"
 
-#: ../build/src/ui_backendsettingspage.h:442
+#: ../build/src/ui_backendsettingspage.h:441
 msgid "Backend"
 msgstr "Backend"
 
-#: ../build/src/ui_notificationssettingspage.h:486
+#: ../build/src/ui_notificationssettingspage.h:487
 msgid "Background color"
 msgstr "Warna latar belakang"
 
-#: ../build/src/ui_appearancesettingspage.h:503
+#: ../build/src/ui_appearancesettingspage.h:519
 msgid "Background image"
 msgstr "Gambar latar belakang"
 
-#: ../build/src/ui_notificationssettingspage.h:485
+#: ../build/src/ui_notificationssettingspage.h:486
 msgid "Background opacity"
 msgstr "Kelegapan latar belakang"
 
@@ -966,11 +966,11 @@ msgstr "Membuat cadangan basis data"
 msgid "Balance"
 msgstr "Seimbang"
 
-#: ../build/src/ui_notificationssettingspage.h:489
+#: ../build/src/ui_notificationssettingspage.h:488
 msgid "Basic Blue"
 msgstr "Biru Dasar"
 
-#: ../build/src/ui_behavioursettingspage.h:268
+#: ../build/src/ui_behavioursettingspage.h:280
 msgid "Behavior"
 msgstr "Perilaku"
 
@@ -1017,11 +1017,11 @@ msgstr "Tipe blok"
 msgid "Bluetooth MAC Address"
 msgstr "Alamat MAC Bluetooth"
 
-#: ../build/src/ui_appearancesettingspage.h:524
+#: ../build/src/ui_appearancesettingspage.h:540
 msgid "Blur amount"
 msgstr "Besaran kekaburan"
 
-#: ../build/src/ui_notificationssettingspage.h:482
+#: ../build/src/ui_notificationssettingspage.h:483
 msgid "Body"
 msgstr "Badan"
 
@@ -1029,23 +1029,23 @@ msgstr "Badan"
 msgid "Boom analyzer"
 msgstr "Penganalisis dentuman"
 
-#: ../build/src/ui_appearancesettingspage.h:517
+#: ../build/src/ui_appearancesettingspage.h:533
 msgid "Bottom Left"
 msgstr "Kiri Bawah"
 
-#: ../build/src/ui_appearancesettingspage.h:518
+#: ../build/src/ui_appearancesettingspage.h:534
 msgid "Bottom Right"
 msgstr "Kanan Bawah"
 
-#: ../build/src/ui_appearancesettingspage.h:512
+#: ../build/src/ui_appearancesettingspage.h:528
 msgid "Browse..."
 msgstr "Ramban..."
 
-#: ../build/src/ui_backendsettingspage.h:452
+#: ../build/src/ui_backendsettingspage.h:451
 msgid "Buffer"
 msgstr "Buffer"
 
-#: ../build/src/ui_backendsettingspage.h:453
+#: ../build/src/ui_backendsettingspage.h:452
 msgid "Buffer duration"
 msgstr "Durasi Bufer"
 
@@ -1069,7 +1069,7 @@ msgstr "Dibatalkan."
 msgid "Change cover art"
 msgstr "Ubah sampul album"
 
-#: ../build/src/ui_shortcutssettingspage.h:242
+#: ../build/src/ui_shortcutssettingspage.h:241
 msgid "Change shortcut..."
 msgstr "Ubah pintasan..."
 
@@ -1085,11 +1085,11 @@ msgstr "Ubah bahasa"
 msgid "Check for updates..."
 msgstr "Periksa pembaruan..."
 
-#: ../build/src/ui_notificationssettingspage.h:494
+#: ../build/src/ui_notificationssettingspage.h:493
 msgid "Choose color..."
 msgstr "Pilih warna..."
 
-#: ../build/src/ui_notificationssettingspage.h:495
+#: ../build/src/ui_notificationssettingspage.h:494
 msgid "Choose font..."
 msgstr "Pilih huruf..."
 
@@ -1110,7 +1110,7 @@ msgstr "Klasik"
 msgid "Clear"
 msgstr "Bersihkan"
 
-#: ../build/src/ui_collectionsettingspage.h:436
+#: ../build/src/ui_collectionsettingspage.h:433
 msgid "Clear Disk Cache"
 msgstr ""
 
@@ -1146,7 +1146,7 @@ msgstr "Klik di sini untuk menerima musik"
 msgid "Click to toggle between remaining time and total time"
 msgstr "Klik untuk beralih antara waktu tersisa dan total waktu"
 
-#: ../build/src/ui_tidalsettingspage.h:320
+#: ../build/src/ui_tidalsettingspage.h:317
 msgid "Client ID"
 msgstr "Client ID"
 
@@ -1166,7 +1166,7 @@ msgstr "Menutup jendela ini akan menghentikan pencarian sampul album."
 msgid "Club"
 msgstr "Klub"
 
-#: core/mainwindow.cpp:281 ../build/src/ui_collectionsettingspage.h:403
+#: core/mainwindow.cpp:281 ../build/src/ui_collectionsettingspage.h:400
 msgid "Collection"
 msgstr "Pustakascan"
 
@@ -1186,7 +1186,7 @@ msgstr "Pemberitahuan pemindaian ulang pustaka"
 msgid "Color"
 msgstr "Warna"
 
-#: ../build/src/ui_appearancesettingspage.h:490
+#: ../build/src/ui_appearancesettingspage.h:506
 msgid "Colors"
 msgstr "Warna"
 
@@ -1229,7 +1229,7 @@ msgstr "Konfigurasi tidak benar"
 msgid "Configure %1..."
 msgstr "Konfigurasi %1..."
 
-#: ../build/src/ui_appearancesettingspage.h:531
+#: ../build/src/ui_appearancesettingspage.h:548
 msgid "Configure buttons"
 msgstr ""
 
@@ -1249,11 +1249,11 @@ msgstr "Konsol"
 msgid "Constant bitrate"
 msgstr "Lajubit konstan"
 
-#: core/mainwindow.cpp:280 ../build/src/ui_contextsettingspage.h:364
+#: core/mainwindow.cpp:280 ../build/src/ui_contextsettingspage.h:362
 msgid "Context"
 msgstr "Konteks"
 
-#: ../build/src/ui_playlistsettingspage.h:152
+#: ../build/src/ui_playlistsettingspage.h:149
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Lanjutkan ke lagu berikutnya jika suatu lagu di daftar putar tidak tersedia"
@@ -1379,11 +1379,11 @@ msgstr "Sampul dari %1"
 msgid "Create a new playlist with files"
 msgstr "Buat daftar putar baru dengan berkas"
 
-#: ../build/src/ui_backendsettingspage.h:470
+#: ../build/src/ui_backendsettingspage.h:467
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Lesap-silang ketika mengubah trek secara otomatis"
 
-#: ../build/src/ui_backendsettingspage.h:469
+#: ../build/src/ui_backendsettingspage.h:466
 msgid "Cross-fade when changing tracks manually"
 msgstr "Lesap-silang ketika mengubah trek secara manual"
 
@@ -1447,7 +1447,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
-#: ../build/src/ui_collectionsettingspage.h:434
+#: ../build/src/ui_collectionsettingspage.h:431
 msgid "Current disk cache in use:"
 msgstr ""
 
@@ -1455,19 +1455,19 @@ msgstr ""
 msgid "Custom"
 msgstr "Ubahsuai"
 
-#: ../build/src/ui_appearancesettingspage.h:511
+#: ../build/src/ui_appearancesettingspage.h:527
 msgid "Custom image:"
 msgstr "Gambar ubahsuai:"
 
-#: ../build/src/ui_notificationssettingspage.h:477
+#: ../build/src/ui_notificationssettingspage.h:478
 msgid "Custom message settings"
 msgstr "Setelan pesan ubahsuai"
 
-#: ../build/src/ui_contextsettingspage.h:414
+#: ../build/src/ui_contextsettingspage.h:412
 msgid "Custom text settings"
 msgstr ""
 
-#: ../build/src/ui_notificationssettingspage.h:491
+#: ../build/src/ui_notificationssettingspage.h:490
 msgid "Custom..."
 msgstr "Ubahsuai..."
 
@@ -1499,7 +1499,7 @@ msgstr "Kurangi volume 4 persen"
 msgid "Decrease the volume by <value> percent"
 msgstr "Kurangi volume <value> persen"
 
-#: ../build/src/ui_appearancesettingspage.h:504
+#: ../build/src/ui_appearancesettingspage.h:520
 msgid "Default bac&kground image"
 msgstr "Gambar latar bela&kang standar"
 
@@ -1549,7 +1549,7 @@ msgid "Details..."
 msgstr "Detail..."
 
 #: context/contextview.cpp:184 device/giolister.cpp:188
-#: ../build/src/ui_backendsettingspage.h:446
+#: ../build/src/ui_backendsettingspage.h:445
 msgid "Device"
 msgstr "Perangkat"
 
@@ -1565,7 +1565,7 @@ msgstr "Properti perangkat..."
 msgid "Devices"
 msgstr "Perangkat"
 
-#: ../build/src/ui_networkproxysettingspage.h:166
+#: ../build/src/ui_networkproxysettingspage.h:165
 msgid "Direct internet connection"
 msgstr "Sambungan internet langsung"
 
@@ -1573,11 +1573,11 @@ msgstr "Sambungan internet langsung"
 msgid "Directory"
 msgstr "Direktori"
 
-#: ../build/src/ui_notificationssettingspage.h:471
+#: ../build/src/ui_notificationssettingspage.h:472
 msgid "Disable duration"
 msgstr "Nonfungsikan durasi"
 
-#: ../build/src/ui_notificationssettingspage.h:464
+#: ../build/src/ui_notificationssettingspage.h:465
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Nonfungsi"
@@ -1593,12 +1593,12 @@ msgstr "Cakram"
 msgid "Discontinuous transmission"
 msgstr "Transmisi putus-putus"
 
-#: ../build/src/ui_collectionsettingspage.h:433
+#: ../build/src/ui_collectionsettingspage.h:430
 msgid "Disk Cache Size"
 msgstr ""
 
 #: collection/collectionfilterwidget.cpp:128
-#: ../build/src/ui_collectionsettingspage.h:417
+#: ../build/src/ui_collectionsettingspage.h:414
 msgid "Display options"
 msgstr "Opsi tampilan"
 
@@ -1610,7 +1610,7 @@ msgstr "Tampilkan tampilan-pada-layar"
 msgid "Do not convert any music"
 msgstr "Jangan konversi musik apapun"
 
-#: ../build/src/ui_appearancesettingspage.h:523
+#: ../build/src/ui_appearancesettingspage.h:539
 msgid "Do not cut image"
 msgstr "Jangan potong gambar"
 
@@ -1638,16 +1638,16 @@ msgstr "Jangan berhenti!"
 msgid "Double click to open"
 msgstr "Kilk ganda untuk membuka"
 
-#: ../build/src/ui_behavioursettingspage.h:313
+#: ../build/src/ui_behavioursettingspage.h:315
 msgid "Double clicking a song in the playlist will..."
 msgstr "Klik ganda pada lagu dalam daftar putar akan..."
 
-#: ../build/src/ui_behavioursettingspage.h:299
+#: ../build/src/ui_behavioursettingspage.h:305
 msgid "Double clicking a song will..."
 msgstr "Klik ganda pada lagu akan..."
 
-#: ../build/src/ui_subsonicsettingspage.h:194
-#: ../build/src/ui_tidalsettingspage.h:332
+#: ../build/src/ui_subsonicsettingspage.h:191
+#: ../build/src/ui_tidalsettingspage.h:329
 msgid "Download album covers"
 msgstr "Unduh sampul album"
 
@@ -1685,20 +1685,20 @@ msgstr "Sunting informasi trek..."
 msgid "Edit tracks information..."
 msgstr "Sunting informasi trek..."
 
-#: ../build/src/ui_scrobblersettingspage.h:317
-#: ../build/src/ui_scrobblersettingspage.h:329
+#: ../build/src/ui_scrobblersettingspage.h:314
+#: ../build/src/ui_scrobblersettingspage.h:326
+#: ../build/src/ui_scrobblersettingspage.h:330
 #: ../build/src/ui_scrobblersettingspage.h:333
-#: ../build/src/ui_scrobblersettingspage.h:336
-#: ../build/src/ui_subsonicsettingspage.h:186
-#: ../build/src/ui_tidalsettingspage.h:316
+#: ../build/src/ui_subsonicsettingspage.h:183
+#: ../build/src/ui_tidalsettingspage.h:313
 msgid "Enable"
 msgstr "Fungsikan"
 
-#: ../build/src/ui_collectionsettingspage.h:432
+#: ../build/src/ui_collectionsettingspage.h:429
 msgid "Enable Disk Cache"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:421
+#: ../build/src/ui_contextsettingspage.h:419
 msgid "Enable Items"
 msgstr ""
 
@@ -1706,11 +1706,11 @@ msgstr ""
 msgid "Enable equalizer"
 msgstr "Fungsikan ekualiser"
 
-#: ../build/src/ui_playlistsettingspage.h:156
+#: ../build/src/ui_playlistsettingspage.h:153
 msgid "Enable playlist clear button"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:166
+#: ../build/src/ui_playlistsettingspage.h:163
 msgid "Enable song metadata inline edition with click"
 msgstr "Fungsikan edisi metadata lagu sebaris dengan mengkliknya"
 
@@ -1718,11 +1718,11 @@ msgstr "Fungsikan edisi metadata lagu sebaris dengan mengkliknya"
 msgid "Enable stereo balancer"
 msgstr "Fungsikan penyeimbang stereo"
 
-#: ../build/src/ui_backendsettingspage.h:451
+#: ../build/src/ui_backendsettingspage.h:450
 msgid "Enable volume control"
 msgstr "Fungsikan kontrol volume"
 
-#: ../build/src/ui_moodbarsettingspage.h:100
+#: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
 msgstr "Terfungsikan"
 
@@ -1738,11 +1738,11 @@ msgstr "Kualitas mesin enkode"
 msgid "Encoding mode"
 msgstr "Mode enkode"
 
-#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:444
+#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:443
 msgid "Engine"
 msgstr "Mesin"
 
-#: ../build/src/ui_contextsettingspage.h:424
+#: ../build/src/ui_contextsettingspage.h:422
 msgid "Engine and Device"
 msgstr ""
 
@@ -1834,7 +1834,7 @@ msgstr ""
 msgid "Error while setting CDDA device to ready state."
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:471
+#: ../build/src/ui_backendsettingspage.h:468
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Kecuali antara trek pada album yang sama atau di lembar CUE yang sama"
 
@@ -1897,24 +1897,24 @@ msgstr "F7"
 msgid "F8"
 msgstr "F8"
 
-#: ../build/src/ui_transcodersettingspage.h:190
+#: ../build/src/ui_transcodersettingspage.h:187
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:474
+#: ../build/src/ui_backendsettingspage.h:471
 msgid "Fade out on pause / fade in on resume"
 msgstr "Lesap senyap saat jeda / lesap jelma saat melanjutkan"
 
-#: ../build/src/ui_backendsettingspage.h:468
+#: ../build/src/ui_backendsettingspage.h:465
 msgid "Fade out when stopping a track"
 msgstr "Lesap senyap saat menghentikan trek"
 
-#: ../build/src/ui_backendsettingspage.h:467
+#: ../build/src/ui_backendsettingspage.h:464
 msgid "Fading"
 msgstr "Melesap"
 
+#: ../build/src/ui_backendsettingspage.h:469
 #: ../build/src/ui_backendsettingspage.h:472
-#: ../build/src/ui_backendsettingspage.h:475
 msgid "Fading duration"
 msgstr "Durasi lesap"
 
@@ -1935,7 +1935,7 @@ msgstr "Ambil secara otomatis"
 msgid "Fetch completed"
 msgstr "Pengambilan selesai"
 
-#: ../build/src/ui_tidalsettingspage.h:333
+#: ../build/src/ui_tidalsettingspage.h:330
 msgid "Fetch entire albums when searching songs"
 msgstr "Ambil seluruh album saat mencari lagu"
 
@@ -1983,7 +1983,7 @@ msgstr "Jenis berkas"
 msgid "Filename"
 msgstr "Nama berkas"
 
-#: ../build/src/ui_collectionsettingspage.h:423
+#: ../build/src/ui_collectionsettingspage.h:420
 msgid "Filename:"
 msgstr "Nama berkas:"
 
@@ -1995,7 +1995,7 @@ msgstr "Berkas"
 msgid "Files to transcode"
 msgstr "Berkas untuk ditranskode"
 
-#: ../build/src/ui_appearancesettingspage.h:532
+#: ../build/src/ui_appearancesettingspage.h:549
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2015,21 +2015,21 @@ msgstr "Level pertama"
 msgid "Fit cover to width"
 msgstr "Paskan sampul ke lebar"
 
-#: ../build/src/ui_contextsettingspage.h:430
-#: ../build/src/ui_contextsettingspage.h:435
+#: ../build/src/ui_contextsettingspage.h:428
+#: ../build/src/ui_contextsettingspage.h:433
 msgid "Font"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:434
+#: ../build/src/ui_contextsettingspage.h:432
 msgid "Font for data and lyrics"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:429
+#: ../build/src/ui_contextsettingspage.h:427
 msgid "Font for headline"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:431
-#: ../build/src/ui_contextsettingspage.h:436
+#: ../build/src/ui_contextsettingspage.h:429
+#: ../build/src/ui_contextsettingspage.h:434
 msgid "Font size"
 msgstr ""
 
@@ -2100,7 +2100,7 @@ msgstr "Treble Penuh"
 msgid "General"
 msgstr "Umum"
 
-#: ../build/src/ui_notificationssettingspage.h:468
+#: ../build/src/ui_notificationssettingspage.h:469
 msgid "General settings"
 msgstr "Setelan umum"
 
@@ -2130,11 +2130,11 @@ msgstr "Buka tab daftar putar sebelumnya"
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "Mendapatkan %1 sampul dari %2 ( %3 gagal)"
 
-#: ../build/src/ui_playlistsettingspage.h:153
+#: ../build/src/ui_playlistsettingspage.h:150
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr "Abu-abukan lagu yang tidak tersedia di daftar putar saat pemutaran"
 
-#: ../build/src/ui_playlistsettingspage.h:154
+#: ../build/src/ui_playlistsettingspage.h:151
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "Abu-abukan lagu yang tidak tersedia di daftar putar saat membuka"
 
@@ -2218,7 +2218,7 @@ msgstr "Nama Pengelompokan"
 msgid "Grouping name:"
 msgstr "Nama pengelompokan:"
 
-#: ../build/src/ui_networkproxysettingspage.h:170
+#: ../build/src/ui_networkproxysettingspage.h:167
 msgid "HTTP proxy"
 msgstr "Proxy HTTP"
 
@@ -2238,7 +2238,7 @@ msgstr "Informasi hardware hanya tersedia ketika perangkat tersambung."
 msgid "Help"
 msgstr "Bantuan"
 
-#: ../build/src/ui_behavioursettingspage.h:277
+#: ../build/src/ui_behavioursettingspage.h:289
 msgid "Hide the main window"
 msgstr ""
 
@@ -2255,11 +2255,11 @@ msgstr "Tinggi (%1 fps)"
 msgid "Icon"
 msgstr "Ikon"
 
-#: ../build/src/ui_appearancesettingspage.h:528
+#: ../build/src/ui_appearancesettingspage.h:544
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:632
+#: widgets/fancytabwidget.cpp:662
 msgid "Icons on top"
 msgstr "Ikon di atas"
 
@@ -2267,7 +2267,7 @@ msgstr "Ikon di atas"
 msgid "Identifying song"
 msgstr "Mengidentifikasi lagu"
 
-#: ../build/src/ui_playlistsettingspage.h:164
+#: ../build/src/ui_playlistsettingspage.h:161
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
@@ -2311,7 +2311,7 @@ msgstr "Dalam %1 hari"
 msgid "In %1 weeks"
 msgstr "Dalam %1 minggu"
 
-#: ../build/src/ui_notificationssettingspage.h:476
+#: ../build/src/ui_notificationssettingspage.h:477
 msgid "Include album art in the notification"
 msgstr "Sertakan sampul album di dalam pemberitahuan"
 
@@ -2357,15 +2357,15 @@ msgid ""
 "audiophiles."
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:296
+#: ../build/src/ui_behavioursettingspage.h:302
 msgid "Jump to previous song right away"
 msgstr "Lompat ke lagu sebelumnya sesegera"
 
-#: ../build/src/ui_appearancesettingspage.h:522
+#: ../build/src/ui_appearancesettingspage.h:538
 msgid "Keep aspect ratio"
 msgstr "Jaga aspek ratio"
 
-#: ../build/src/ui_behavioursettingspage.h:270
+#: ../build/src/ui_behavioursettingspage.h:282
 msgid "Keep running in the background when the window is closed"
 msgstr "Tetap jalankan di belakang layar ketika jendela ditutup"
 
@@ -2373,7 +2373,7 @@ msgstr "Tetap jalankan di belakang layar ketika jendela ditutup"
 msgid "Keep the original files"
 msgstr "Simpan berkas yang asli"
 
-#: ../build/src/ui_behavioursettingspage.h:280
+#: ../build/src/ui_behavioursettingspage.h:292
 msgid "Language"
 msgstr "Bahasa"
 
@@ -2389,7 +2389,7 @@ msgstr "Balai Besar"
 msgid "Large album cover"
 msgstr "Sampul album besar"
 
-#: widgets/fancytabwidget.cpp:628
+#: widgets/fancytabwidget.cpp:658
 msgid "Large sidebar"
 msgstr "Bilah sisi besar"
 
@@ -2402,7 +2402,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Terakhir diputar"
 
-#: ../build/src/ui_scrobblersettingspage.h:328
+#: ../build/src/ui_scrobblersettingspage.h:325
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2416,7 +2416,7 @@ msgstr "Kiri"
 msgid "Length"
 msgstr "Durasi"
 
-#: ../build/src/ui_scrobblersettingspage.h:332
+#: ../build/src/ui_scrobblersettingspage.h:329
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2424,7 +2424,7 @@ msgstr "Libre.fm"
 msgid "ListenBrainz Authentication"
 msgstr "Otentikasi ListenBrainz"
 
-#: ../build/src/ui_scrobblersettingspage.h:335
+#: ../build/src/ui_scrobblersettingspage.h:332
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2484,12 +2484,12 @@ msgstr "Memuat..."
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Muat berkas/URL, menggantikan daftar putar saat ini"
 
+#: ../build/src/ui_scrobblersettingspage.h:328
 #: ../build/src/ui_scrobblersettingspage.h:331
-#: ../build/src/ui_scrobblersettingspage.h:334
-#: ../build/src/ui_scrobblersettingspage.h:339
+#: ../build/src/ui_scrobblersettingspage.h:336
 #: ../build/src/ui_coverssettingspage.h:172
 #: ../build/src/ui_lyricssettingspage.h:172
-#: ../build/src/ui_tidalsettingspage.h:324
+#: ../build/src/ui_tidalsettingspage.h:321
 msgid "Login"
 msgstr "Masuk"
 
@@ -2510,7 +2510,7 @@ msgstr "Rendah (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Profil kompleksitas rendah (LC)"
 
-#: ../build/src/ui_collectionsettingspage.h:428
+#: ../build/src/ui_collectionsettingspage.h:425
 msgid "Lowercase filename"
 msgstr "Nama berkas huruf kecil"
 
@@ -2522,7 +2522,7 @@ msgstr "Lirik"
 msgid "Lyrics providers"
 msgstr ""
 
-#: ../build/src/ui_transcodersettingspage.h:197
+#: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
 msgstr "MP3"
 
@@ -2542,11 +2542,11 @@ msgstr "Produsen"
 msgid "Mark as listened"
 msgstr "Tandai sudah didengar"
 
-#: ../build/src/ui_collectionsettingspage.h:410
+#: ../build/src/ui_collectionsettingspage.h:407
 msgid "Mark disappeared songs unavailable"
 msgstr "Tandai lagu yang hilang sebagai tidak tersedia"
 
-#: ../build/src/ui_appearancesettingspage.h:520
+#: ../build/src/ui_appearancesettingspage.h:536
 msgid "Max cover size"
 msgstr "Ukuran sampul maksimum"
 
@@ -2559,11 +2559,11 @@ msgstr "Lajubit maksimum"
 msgid "Medium (%1 fps)"
 msgstr "Sedang (%1 fps)"
 
-#: ../build/src/ui_playlistsettingspage.h:162
+#: ../build/src/ui_playlistsettingspage.h:159
 msgid "Metadata"
 msgstr "Metadata"
 
-#: ../build/src/ui_appearancesettingspage.h:516
+#: ../build/src/ui_appearancesettingspage.h:532
 msgid "Middle"
 msgstr "Tengah"
 
@@ -2571,7 +2571,7 @@ msgstr "Tengah"
 msgid "Minimum bitrate"
 msgstr "Lajubit minimum"
 
-#: ../build/src/ui_backendsettingspage.h:455
+#: ../build/src/ui_backendsettingspage.h:454
 msgid "Minimum buffer fill"
 msgstr "Minimum pengisian bufer"
 
@@ -2617,7 +2617,7 @@ msgstr "Nama pengguna atau kata sandi tidak tersedia."
 msgid "Model"
 msgstr "Model"
 
-#: ../build/src/ui_collectionsettingspage.h:409
+#: ../build/src/ui_collectionsettingspage.h:406
 msgid "Monitor the collection for changes"
 msgstr "Monitor perubahan pustaka"
 
@@ -2625,12 +2625,12 @@ msgstr "Monitor perubahan pustaka"
 msgid "Mood"
 msgstr "Mood"
 
-#: ../build/src/ui_moodbarsettingspage.h:95
-#: ../build/src/ui_moodbarsettingspage.h:96
+#: ../build/src/ui_moodbarsettingspage.h:92
+#: ../build/src/ui_moodbarsettingspage.h:93
 msgid "Moodbar"
 msgstr "Moodbar"
 
-#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:98
+#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:95
 msgid "Moodbar style"
 msgstr "Gaya moodbar"
 
@@ -2677,7 +2677,7 @@ msgstr "Opsi penamaan"
 msgid "Narrow band (NB)"
 msgstr "Pita sempit (NB)"
 
-#: ../build/src/ui_networkproxysettingspage.h:164
+#: ../build/src/ui_networkproxysettingspage.h:163
 msgid "Network Proxy"
 msgstr "Proxy Jaringan"
 
@@ -2685,8 +2685,8 @@ msgstr "Proxy Jaringan"
 msgid "Never"
 msgstr "Tidak Pernah"
 
-#: ../build/src/ui_behavioursettingspage.h:289
-#: ../build/src/ui_behavioursettingspage.h:309
+#: ../build/src/ui_behavioursettingspage.h:297
+#: ../build/src/ui_behavioursettingspage.h:311
 msgid "Never start playing"
 msgstr "Jangan mulai memutar"
 
@@ -2785,11 +2785,11 @@ msgstr "Tidak terhubung"
 msgid "Not mounted - double click to mount"
 msgstr "Tidak terkait - klik ganda untuk mengait"
 
-#: ../build/src/ui_notificationssettingspage.h:463
+#: ../build/src/ui_notificationssettingspage.h:464
 msgid "Notification type"
 msgstr "Tipe notifikasi"
 
-#: ../build/src/ui_notificationssettingspage.h:406
+#: ../build/src/ui_notificationssettingspage.h:407
 msgid "Notifications"
 msgstr "Notifikasi"
 
@@ -2813,11 +2813,11 @@ msgstr "Mati"
 msgid "On"
 msgstr "Nyala"
 
-#: ../build/src/ui_behavioursettingspage.h:274
+#: ../build/src/ui_behavioursettingspage.h:286
 msgid "On startup"
 msgstr "Saat membuka"
 
-#: ../build/src/ui_appearancesettingspage.h:526
+#: ../build/src/ui_appearancesettingspage.h:542
 msgid "Opacity"
 msgstr "Kelegapan"
 
@@ -2840,12 +2840,12 @@ msgstr "Buka perangkat"
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:321
 #: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:314
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
-#: ../build/src/ui_behavioursettingspage.h:304
+#: ../build/src/ui_behavioursettingspage.h:308
 msgid "Open in new playlist"
 msgstr "Buka di daftar putar baru"
 
-#: ../build/src/ui_shortcutssettingspage.h:228
-#: ../build/src/ui_shortcutssettingspage.h:234
+#: ../build/src/ui_shortcutssettingspage.h:227
+#: ../build/src/ui_shortcutssettingspage.h:233
 msgid "Open..."
 msgstr "Buka..."
 
@@ -2861,7 +2861,7 @@ msgstr "Optimasi untuk &kualitas"
 msgid "Options..."
 msgstr "Opsi..."
 
-#: ../build/src/ui_transcodersettingspage.h:193
+#: ../build/src/ui_transcodersettingspage.h:190
 msgid "Opus"
 msgstr "Opus"
 
@@ -2898,7 +2898,7 @@ msgid "Other options"
 msgstr "Opsi lainnya"
 
 #: ../build/src/ui_albumcoverexport.h:203
-#: ../build/src/ui_backendsettingspage.h:445
+#: ../build/src/ui_backendsettingspage.h:444
 msgid "Output"
 msgstr "Keluaran"
 
@@ -2906,7 +2906,7 @@ msgstr "Keluaran"
 msgid "Output options"
 msgstr "Opsi keluaran"
 
-#: ../build/src/ui_collectionsettingspage.h:427
+#: ../build/src/ui_collectionsettingspage.h:424
 msgid "Overwrite existing file"
 msgstr "Timpa berkas yang sudah ada"
 
@@ -2930,9 +2930,9 @@ msgstr "Label partisi"
 msgid "Party"
 msgstr "Pesta"
 
-#: ../build/src/ui_networkproxysettingspage.h:176
-#: ../build/src/ui_subsonicsettingspage.h:190
-#: ../build/src/ui_tidalsettingspage.h:323
+#: ../build/src/ui_networkproxysettingspage.h:173
+#: ../build/src/ui_subsonicsettingspage.h:187
+#: ../build/src/ui_tidalsettingspage.h:320
 msgid "Password"
 msgstr "Sandi"
 
@@ -2964,7 +2964,7 @@ msgstr "Penampil"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:630
+#: widgets/fancytabwidget.cpp:660
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
@@ -2974,7 +2974,7 @@ msgstr "Bilah sisi polos"
 msgid "Play"
 msgstr "Putar"
 
-#: ../build/src/ui_appearancesettingspage.h:530
+#: ../build/src/ui_appearancesettingspage.h:547
 msgid "Play control buttons"
 msgstr ""
 
@@ -2986,8 +2986,8 @@ msgstr "Jumlah putar"
 msgid "Play if stopped, pause if playing"
 msgstr "Putar jika berhenti, jeda jika berputar"
 
-#: ../build/src/ui_behavioursettingspage.h:290
-#: ../build/src/ui_behavioursettingspage.h:310
+#: ../build/src/ui_behavioursettingspage.h:298
+#: ../build/src/ui_behavioursettingspage.h:312
 msgid "Play if there is nothing already playing"
 msgstr "Putar jika tidak ada yang sedang diputar"
 
@@ -3002,11 +3002,11 @@ msgstr "Opsi pemutar"
 #: playlist/playlistcontainer.cpp:315 playlist/playlistlistcontainer.cpp:274
 #: playlist/playlistlistcontainer.cpp:362 playlist/playlistmanager.cpp:105
 #: playlist/playlistmanager.cpp:183 playlist/playlistmanager.cpp:540
-#: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
+#: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:146
 msgid "Playlist"
 msgstr "Daftar putar"
 
-#: ../build/src/ui_appearancesettingspage.h:529
+#: ../build/src/ui_appearancesettingspage.h:545
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3043,32 +3043,32 @@ msgstr ""
 msgid "Pop"
 msgstr "Pop"
 
-#: ../build/src/ui_notificationssettingspage.h:469
+#: ../build/src/ui_notificationssettingspage.h:470
 msgid "Popup duration"
 msgstr "Durasi sembulan"
 
-#: ../build/src/ui_networkproxysettingspage.h:173
+#: ../build/src/ui_networkproxysettingspage.h:170
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:513
+#: ../build/src/ui_appearancesettingspage.h:529
 msgid "Position"
 msgstr "Posisi"
 
-#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:465
+#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:462
 msgid "Pre-amp"
 msgstr "Pre-amp"
 
-#: ../build/src/ui_scrobblersettingspage.h:326
+#: ../build/src/ui_scrobblersettingspage.h:323
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Kemukakan artis album saat scrobble"
 
-#: ../build/src/ui_subsonicsettingspage.h:192
-#: ../build/src/ui_tidalsettingspage.h:325
+#: ../build/src/ui_subsonicsettingspage.h:189
+#: ../build/src/ui_tidalsettingspage.h:322
 msgid "Preferences"
 msgstr "Preferensi"
 
-#: ../build/src/ui_collectionsettingspage.h:412
+#: ../build/src/ui_collectionsettingspage.h:409
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Nama berkas sampul album yang diinginkan (dipisahkan koma)"
 
@@ -3105,17 +3105,17 @@ msgstr "Tekan tombol"
 msgid "Press a key combination to use for %1..."
 msgstr "Tekan kombinasi tombol untuk menggunakan %1..."
 
-#: ../build/src/ui_behavioursettingspage.h:293
+#: ../build/src/ui_behavioursettingspage.h:301
 msgid "Pressing \"Previous\" in player will..."
 msgstr "Menekan \"Sebelumnya\" pada pemutar akan..."
 
-#: ../build/src/ui_notificationssettingspage.h:484
+#: ../build/src/ui_notificationssettingspage.h:485
 msgid "Pretty OSD options"
 msgstr "Opsi Pretty OSD"
 
-#: ../build/src/ui_contextsettingspage.h:433
-#: ../build/src/ui_contextsettingspage.h:438
-#: ../build/src/ui_notificationssettingspage.h:479
+#: ../build/src/ui_contextsettingspage.h:431
+#: ../build/src/ui_contextsettingspage.h:436
+#: ../build/src/ui_notificationssettingspage.h:480
 #: ../build/src/ui_organisedialog.h:282
 msgid "Preview"
 msgstr "Pratinjau"
@@ -3179,11 +3179,11 @@ msgstr "Antre trek"
 msgid "QueueView"
 msgstr "QueueView"
 
-#: ../build/src/ui_backendsettingspage.h:462
+#: ../build/src/ui_backendsettingspage.h:459
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Radio (kenyaringan sama untuk semua trek)"
 
-#: ../build/src/ui_playlistsettingspage.h:160
+#: ../build/src/ui_playlistsettingspage.h:157
 msgid "Re&lative"
 msgstr "Re&latif"
 
@@ -3228,7 +3228,7 @@ msgstr "Reggae"
 msgid "Relative"
 msgstr "Relatif"
 
-#: ../build/src/ui_behavioursettingspage.h:275
+#: ../build/src/ui_behavioursettingspage.h:287
 msgid "Remember from &last time"
 msgstr "Ingat dari terakhir ka&li"
 
@@ -3249,7 +3249,7 @@ msgstr "Buang &duplikat dari daftar putar"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "B&uang trek yang tidak tersedia dari daftar putar"
 
-#: ../build/src/ui_collectionsettingspage.h:406
+#: ../build/src/ui_collectionsettingspage.h:403
 msgid "Remove folder"
 msgstr "Buang folder"
 
@@ -3307,7 +3307,7 @@ msgstr "Ulang trek"
 msgid "Replace current playlist"
 msgstr "Ganti daftar putar saat ini"
 
-#: ../build/src/ui_collectionsettingspage.h:429
+#: ../build/src/ui_collectionsettingspage.h:426
 msgid "Replace spaces with dashes"
 msgstr "Ganti spasi dengan garis strip"
 
@@ -3315,15 +3315,15 @@ msgstr "Ganti spasi dengan garis strip"
 msgid "Replace spaces with underscores"
 msgstr "Ganti spasi dengan garis bawah"
 
-#: ../build/src/ui_behavioursettingspage.h:303
+#: ../build/src/ui_behavioursettingspage.h:307
 msgid "Replace the playlist"
 msgstr "Ganti daftar putar"
 
-#: ../build/src/ui_backendsettingspage.h:457
+#: ../build/src/ui_backendsettingspage.h:456
 msgid "Replay Gain"
 msgstr "Replay Gain"
 
-#: ../build/src/ui_backendsettingspage.h:459
+#: ../build/src/ui_backendsettingspage.h:458
 msgid "Replay Gain mode"
 msgstr "Mode Replay Gain"
 
@@ -3347,7 +3347,7 @@ msgstr "Setel-ulang"
 msgid "Reset play counts"
 msgstr "Setel-ulang jumlah putar"
 
-#: ../build/src/ui_behavioursettingspage.h:297
+#: ../build/src/ui_behavioursettingspage.h:303
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "Mulai ulang lagu, lalu lompat ke yang sebelumnya jika ditekan lagi"
 
@@ -3366,7 +3366,7 @@ msgstr "Bataskan ke karakter ASCII"
 msgid "Restrict to characters allowed on FAT filesystems"
 msgstr "Bataskan ke karakter yang diperbolehkan oleh sistem file FAT"
 
-#: ../build/src/ui_behavioursettingspage.h:271
+#: ../build/src/ui_behavioursettingspage.h:283
 msgid "Resume playback on start"
 msgstr "Lanjutkan pemutaran saat memulai Strawberry"
 
@@ -3432,7 +3432,7 @@ msgstr "Jalankan"
 msgid "S&huffle playlist"
 msgstr "A&cak daftar putar"
 
-#: ../build/src/ui_networkproxysettingspage.h:171
+#: ../build/src/ui_networkproxysettingspage.h:168
 msgid "SOCKS proxy"
 msgstr "Proxy SOCKS"
 
@@ -3463,7 +3463,7 @@ msgstr "Simpan &daftar putar..."
 msgid "Save album cover"
 msgstr "Simpan sampul album"
 
-#: ../build/src/ui_collectionsettingspage.h:422
+#: ../build/src/ui_collectionsettingspage.h:419
 msgid "Save album covers in album directory"
 msgstr "Simpan sampul album di direktori album"
 
@@ -3493,7 +3493,7 @@ msgstr "Simpan daftar putar..."
 msgid "Save preset"
 msgstr "Simpan prasetel"
 
-#: ../build/src/ui_moodbarsettingspage.h:99
+#: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Save the .mood files directly in the songs folders"
 msgstr "Simpan berkas .mood di folder lagu"
 
@@ -3501,7 +3501,7 @@ msgstr "Simpan berkas .mood di folder lagu"
 msgid "Saved Grouping Manager"
 msgstr "Pengelola Pengelompokan Tersimpan"
 
-#: ../build/src/ui_collectionsettingspage.h:421
+#: ../build/src/ui_collectionsettingspage.h:418
 msgid "Saving album covers"
 msgstr "Menyimpan sampul album"
 
@@ -3517,7 +3517,7 @@ msgstr "Profil laju sampel terukur (LST)"
 msgid "Scale size"
 msgstr "Ukuran skala"
 
-#: ../build/src/ui_scrobblersettingspage.h:316
+#: ../build/src/ui_scrobblersettingspage.h:313
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
@@ -3531,7 +3531,7 @@ msgstr ""
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 tidak terautentikasi!"
 
-#: ../build/src/ui_behavioursettingspage.h:273
+#: ../build/src/ui_behavioursettingspage.h:285
 msgid "Scroll over icon to change track"
 msgstr "Gulir pada ikon untuk mengganti trek"
 
@@ -3546,7 +3546,7 @@ msgstr "Cari"
 msgid "Search automatically"
 msgstr "Cari secara otomatis"
 
-#: ../build/src/ui_tidalsettingspage.h:327
+#: ../build/src/ui_tidalsettingspage.h:324
 msgid "Search delay"
 msgstr "Jeda pencarian"
 
@@ -3583,11 +3583,11 @@ msgstr "Jangkau yang sedang diputar ke posisi mutlak"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Menjangkau menggunakan pintasan keyboard atau roda mouse"
 
-#: ../build/src/ui_appearancesettingspage.h:495
+#: ../build/src/ui_appearancesettingspage.h:511
 msgid "Select background color:"
 msgstr "Pilih warna latar belakang:"
 
-#: settings/appearancesettingspage.cpp:350
+#: settings/appearancesettingspage.cpp:353
 msgid "Select background image"
 msgstr "Pilih gambar latar belakang"
 
@@ -3595,11 +3595,11 @@ msgstr "Pilih gambar latar belakang"
 msgid "Select best possible match"
 msgstr "Pilih kecocokan yang terbaik"
 
-#: ../build/src/ui_appearancesettingspage.h:493
+#: ../build/src/ui_appearancesettingspage.h:509
 msgid "Select foreground color:"
 msgstr "Pilih warna latar depan:"
 
-#: ../build/src/ui_appearancesettingspage.h:501
+#: ../build/src/ui_appearancesettingspage.h:517
 msgid "Select tabbar color:"
 msgstr "Pilih warna tabbar:"
 
@@ -3611,7 +3611,7 @@ msgstr "Pilih..."
 msgid "Serial number"
 msgstr "Nomor seri"
 
-#: ../build/src/ui_subsonicsettingspage.h:187
+#: ../build/src/ui_subsonicsettingspage.h:184
 msgid "Server URL"
 msgstr "URL server"
 
@@ -3636,17 +3636,17 @@ msgstr "Tetapkan nilai untuk semua trek terpilih..."
 msgid "Settings"
 msgstr "Setelan"
 
-#: ../build/src/ui_shortcutssettingspage.h:236
+#: ../build/src/ui_shortcutssettingspage.h:235
 msgid "Shortcut"
 msgstr "Pintasan"
 
 #: settings/shortcutssettingspage.cpp:266
-#: ../build/src/ui_shortcutssettingspage.h:238
+#: ../build/src/ui_shortcutssettingspage.h:237
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "Pintasan untuk %1"
 
-#: ../build/src/ui_shortcutssettingspage.h:226
+#: ../build/src/ui_shortcutssettingspage.h:225
 msgid "Shortcuts"
 msgstr "Pintasan"
 
@@ -3654,39 +3654,39 @@ msgstr "Pintasan"
 msgid "Show"
 msgstr "Tampilkan"
 
-#: ../build/src/ui_notificationssettingspage.h:465
+#: ../build/src/ui_notificationssettingspage.h:466
 msgid "Show a &native desktop notification"
 msgstr "Tampilkan &notifikasi desktop asli"
 
-#: ../build/src/ui_playlistsettingspage.h:150
+#: ../build/src/ui_playlistsettingspage.h:147
 msgid "Show a glowing animation on the current track"
 msgstr "Tampilkan animasi bersinar di trek saat ini"
 
-#: ../build/src/ui_moodbarsettingspage.h:97
+#: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
 msgstr "Tampilkan moodbar di bilah kemajuan trek"
 
-#: ../build/src/ui_notificationssettingspage.h:473
+#: ../build/src/ui_notificationssettingspage.h:474
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "Tampilkan notifikasi ketika saya mengubah mode ulang/karau"
 
-#: ../build/src/ui_notificationssettingspage.h:472
+#: ../build/src/ui_notificationssettingspage.h:473
 msgid "Show a notification when I change the volume"
 msgstr "Tampilkan notifikasi ketika saya mengubah volume"
 
-#: ../build/src/ui_notificationssettingspage.h:474
+#: ../build/src/ui_notificationssettingspage.h:475
 msgid "Show a notification when I pause playback"
 msgstr "Tampilkan sebuah notifikasi ketika saya jeda pemutaran"
 
-#: ../build/src/ui_notificationssettingspage.h:475
+#: ../build/src/ui_notificationssettingspage.h:476
 msgid "Show a notification when I resume playback"
 msgstr "Tampilkan notifikasi saat Saya meneruskan pemutaran"
 
-#: ../build/src/ui_notificationssettingspage.h:467
+#: ../build/src/ui_notificationssettingspage.h:468
 msgid "Show a popup fro&m the system tray"
 msgstr "Tampilkan popup dari baki siste&m"
 
-#: ../build/src/ui_notificationssettingspage.h:466
+#: ../build/src/ui_notificationssettingspage.h:467
 msgid "Show a pretty OSD"
 msgstr "Tampilkan OSD cantik"
 
@@ -3698,7 +3698,7 @@ msgstr "Tampilkan di atas bilah status"
 msgid "Show album cover"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:419
+#: ../build/src/ui_collectionsettingspage.h:416
 msgid "Show album cover art in collection"
 msgstr "Tampilkan sampul album di pustaka"
 
@@ -3710,11 +3710,11 @@ msgstr "Tampilkan album berdasarkan artis"
 msgid "Show all songs"
 msgstr "Tampilkan semua lagu"
 
-#: ../build/src/ui_scrobblersettingspage.h:327
+#: ../build/src/ui_scrobblersettingspage.h:324
 msgid "Show dialog for errors"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:420
+#: ../build/src/ui_collectionsettingspage.h:417
 msgid "Show dividers"
 msgstr "Tampilkan pembagi"
 
@@ -3743,7 +3743,7 @@ msgstr "Tampilkan di peramban berkas..."
 msgid "Show in various artists"
 msgstr "Tampilkan di artis beragam"
 
-#: ../build/src/ui_scrobblersettingspage.h:321
+#: ../build/src/ui_scrobblersettingspage.h:318
 msgid "Show love button"
 msgstr "Tampilkan tombol suka"
 
@@ -3759,11 +3759,11 @@ msgstr "Tampilkan hanya duplikat"
 msgid "Show only untagged"
 msgstr "Tampilkan hanya tidak bertag"
 
-#: ../build/src/ui_behavioursettingspage.h:272
+#: ../build/src/ui_behavioursettingspage.h:284
 msgid "Show playing widget"
 msgstr "Tampilkan widget berputar"
 
-#: ../build/src/ui_scrobblersettingspage.h:320
+#: ../build/src/ui_scrobblersettingspage.h:317
 msgid "Show scrobble button"
 msgstr "Tampilkan tombol scrobble"
 
@@ -3779,19 +3779,19 @@ msgstr "Tampilkan lirik lagu"
 msgid "Show song technical data"
 msgstr "Tampilkan data teknis lagu"
 
-#: ../build/src/ui_behavioursettingspage.h:269
+#: ../build/src/ui_behavioursettingspage.h:281
 msgid "Show system tray icon"
 msgstr "Tampilkan ikon baki sistem"
 
-#: ../build/src/ui_behavioursettingspage.h:276
+#: ../build/src/ui_behavioursettingspage.h:288
 msgid "Show the main window"
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:278
+#: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show the main window maximized"
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:279
+#: ../build/src/ui_behavioursettingspage.h:291
 msgid "Show the main window minimized"
 msgstr ""
 
@@ -3820,7 +3820,7 @@ msgid "Signing in..."
 msgstr "Sedang masuk..."
 
 #: ../build/src/ui_albumcoverexport.h:211
-#: ../build/src/ui_collectionsettingspage.h:431
+#: ../build/src/ui_collectionsettingspage.h:428
 msgid "Size"
 msgstr "Ukuran"
 
@@ -3856,7 +3856,7 @@ msgstr "Lewati trek"
 msgid "Small album cover"
 msgstr "Sampul album kecil"
 
-#: widgets/fancytabwidget.cpp:629
+#: widgets/fancytabwidget.cpp:659
 msgid "Small sidebar"
 msgstr "Bilah sisi kecil"
 
@@ -3868,7 +3868,7 @@ msgstr "Soft"
 msgid "Soft Rock"
 msgstr "Soft Rock"
 
-#: ../build/src/ui_contextsettingspage.h:426
+#: ../build/src/ui_contextsettingspage.h:424
 msgid "Song Lyrics"
 msgstr ""
 
@@ -3876,7 +3876,7 @@ msgstr ""
 msgid "Songs"
 msgstr "Lagu"
 
-#: ../build/src/ui_scrobblersettingspage.h:318
+#: ../build/src/ui_scrobblersettingspage.h:315
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -3886,7 +3886,7 @@ msgstr ""
 "dari 30 detik, sudah berputar setidaknya setengah dari durasinya atau 4 "
 "menit (yang mana terdahulu terjadi)."
 
-#: ../build/src/ui_tidalsettingspage.h:331
+#: ../build/src/ui_tidalsettingspage.h:328
 msgid "Songs search limit"
 msgstr "Batasan pencarian lagu"
 
@@ -3898,7 +3898,7 @@ msgstr "Maaf"
 msgid "Source"
 msgstr "Sumber"
 
-#: ../build/src/ui_transcodersettingspage.h:194
+#: ../build/src/ui_transcodersettingspage.h:191
 msgid "Speex"
 msgstr "Speex"
 
@@ -3960,7 +3960,7 @@ msgstr "Kesalahan dengan Strawberry"
 msgid "Strawberry Music Player"
 msgstr "Pemutar Musik Strawberry"
 
-#: ../build/src/ui_notificationssettingspage.h:490
+#: ../build/src/ui_notificationssettingspage.h:489
 msgid "Strawberry Red"
 msgstr "Strawberry Red"
 
@@ -3972,7 +3972,7 @@ msgstr ""
 "Strawberry dapat secara otomatis mengonversi musik yang Anda salin ke "
 "perangkat ini ke dalam format yang dapat diputar."
 
-#: ../build/src/ui_notificationssettingspage.h:462
+#: ../build/src/ui_notificationssettingspage.h:463
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry dapat menampilkan pesan ketika trek berubah."
 
@@ -3991,7 +3991,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry tidak dapat menemukan hasil untuk berkas ini"
 
-#: ../build/src/ui_tidalsettingspage.h:335
+#: ../build/src/ui_tidalsettingspage.h:332
 msgid "Stream URL method"
 msgstr "Metode URL Stream"
 
@@ -3999,15 +3999,15 @@ msgstr "Metode URL Stream"
 msgid "Streaming"
 msgstr "Streaming"
 
-#: ../build/src/ui_appearancesettingspage.h:521
+#: ../build/src/ui_appearancesettingspage.h:537
 msgid "Stretch image to fill playlist"
 msgstr "Regangkan gambar hingga memenuhi daftar putar"
 
-#: ../build/src/ui_scrobblersettingspage.h:322
+#: ../build/src/ui_scrobblersettingspage.h:319
 msgid "Submit scrobbles every"
 msgstr "Kirimkan scrobble setiap"
 
-#: core/mainwindow.cpp:289 ../build/src/ui_subsonicsettingspage.h:185
+#: core/mainwindow.cpp:289 ../build/src/ui_subsonicsettingspage.h:182
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4028,8 +4028,8 @@ msgstr "Berhasil menulis %1"
 msgid "Suggested tags"
 msgstr "Tag yang disarankan"
 
-#: ../build/src/ui_contextsettingspage.h:418
-#: ../build/src/ui_notificationssettingspage.h:481
+#: ../build/src/ui_contextsettingspage.h:416
+#: ../build/src/ui_notificationssettingspage.h:482
 #: ../build/src/ui_edittagdialog.h:678
 msgid "Summary"
 msgstr "Ringkasan"
@@ -4047,15 +4047,19 @@ msgstr "Format yang didukung"
 msgid "System colors"
 msgstr "Warna sistem"
 
-#: ../build/src/ui_appearancesettingspage.h:497
+#: ../build/src/ui_appearancesettingspage.h:513
 msgid "Tabbar colors"
 msgstr "Warna tabbar"
 
-#: ../build/src/ui_appearancesettingspage.h:533
+#: ../build/src/ui_appearancesettingspage.h:546
 msgid "Tabbar large mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:631
+#: ../build/src/ui_appearancesettingspage.h:550
+msgid "Tabbar small mode"
+msgstr ""
+
+#: widgets/fancytabwidget.cpp:661
 msgid "Tabs on top"
 msgstr "Tab di puncak"
 
@@ -4067,7 +4071,7 @@ msgstr "Pengambil tag"
 msgid "Target bitrate"
 msgstr "Target lajubit"
 
-#: ../build/src/ui_contextsettingspage.h:423
+#: ../build/src/ui_contextsettingspage.h:421
 msgid "Technical Data"
 msgstr ""
 
@@ -4075,7 +4079,7 @@ msgstr ""
 msgid "Techno"
 msgstr "Tekno"
 
-#: ../build/src/ui_subsonicsettingspage.h:191
+#: ../build/src/ui_subsonicsettingspage.h:188
 msgid "Test"
 msgstr "Tes"
 
@@ -4087,7 +4091,7 @@ msgstr "Tes gagal!"
 msgid "Test successful!"
 msgstr "Tes berhasil!"
 
-#: ../build/src/ui_notificationssettingspage.h:493
+#: ../build/src/ui_notificationssettingspage.h:492
 msgid "Text options"
 msgstr "Opsi teks"
 
@@ -4104,7 +4108,7 @@ msgstr ""
 msgid "The \"%1\" command could not be started."
 msgstr "Perintah \"%1\" tidak dapat dimulai."
 
-#: ../build/src/ui_appearancesettingspage.h:507
+#: ../build/src/ui_appearancesettingspage.h:523
 msgid "The album cover of the currently playing song"
 msgstr "Sampul album dari lagu yang diputar saat ini"
 
@@ -4162,11 +4166,11 @@ msgstr ""
 "Berkas-berkas ini akan dihapus dari perangkat, apakah Anda yakin ingin "
 "melanjutkan?"
 
-#: ../build/src/ui_collectionsettingspage.h:404
+#: ../build/src/ui_collectionsettingspage.h:401
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "Folder berikut akan dipindai untuk musik untuk membuat pustaka Anda"
 
-#: ../build/src/ui_transcodersettingspage.h:189
+#: ../build/src/ui_transcodersettingspage.h:186
 msgid ""
 "These settings are used in the \"Transcode Music\" dialog, and when "
 "converting music before copying it to a device."
@@ -4232,11 +4236,11 @@ msgstr "Opsi ini dapat diubah di pengaturan \"Perilaku\""
 msgid "This type of device is not supported: %1"
 msgstr "Tipe perangkat ini tidak didukung: %1"
 
-#: core/mainwindow.cpp:292 ../build/src/ui_tidalsettingspage.h:315
+#: core/mainwindow.cpp:292 ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
 
-#: ../build/src/ui_tidalsettingspage.h:317
+#: ../build/src/ui_tidalsettingspage.h:314
 msgid ""
 "Tidal support is not official and requires a API token from a registered "
 "application to work. We can't help you getting these."
@@ -4251,7 +4255,7 @@ msgid "Timezone"
 msgstr "Zona waktu"
 
 #: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1177
-#: organise/organisedialog.cpp:97 ../build/src/ui_contextsettingspage.h:417
+#: organise/organisedialog.cpp:97 ../build/src/ui_contextsettingspage.h:415
 #: ../build/src/ui_edittagdialog.h:681
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
@@ -4311,7 +4315,7 @@ msgstr "Transkode Musik"
 msgid "Transcoder Log"
 msgstr "Log Transkoder"
 
-#: ../build/src/ui_transcodersettingspage.h:188
+#: ../build/src/ui_transcodersettingspage.h:185
 msgid "Transcoding"
 msgstr "Transkode"
 
@@ -4366,7 +4370,7 @@ msgstr "Taklewati trek yang dipilih"
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
-#: ../build/src/ui_collectionsettingspage.h:408
+#: ../build/src/ui_collectionsettingspage.h:405
 msgid "Update the collection when Strawberry starts"
 msgstr "Perbarui pustaka ketika memulai Strawberry"
 
@@ -4384,11 +4388,11 @@ msgstr "Memperbarui %1%..."
 msgid "Updating collection"
 msgstr "Memperbarui pustaka"
 
-#: ../build/src/ui_appearancesettingspage.h:514
+#: ../build/src/ui_appearancesettingspage.h:530
 msgid "Upper Left"
 msgstr "Kiri Atas"
 
-#: ../build/src/ui_appearancesettingspage.h:515
+#: ../build/src/ui_appearancesettingspage.h:531
 msgid "Upper Right"
 msgstr "Kanan Atas"
 
@@ -4396,19 +4400,19 @@ msgstr "Kanan Atas"
 msgid "Usage"
 msgstr "Penggunaan"
 
-#: ../build/src/ui_shortcutssettingspage.h:227
+#: ../build/src/ui_shortcutssettingspage.h:226
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "Gunakan pintasan D-Bus Gnome (GSD)"
 
-#: ../build/src/ui_scrobblersettingspage.h:330
-msgid "Use HTTPS for local redirectserver to bypass login problems"
-msgstr "Gunakan HTTPS pada redirectserver lokal untuk mengatasi masalah masuk"
+#: ../build/src/ui_scrobblersettingspage.h:327
+msgid "Use HTTPS for local redirectserver"
+msgstr ""
 
-#: ../build/src/ui_tidalsettingspage.h:319
+#: ../build/src/ui_tidalsettingspage.h:316
 msgid "Use OAuth"
 msgstr "Gunakan OAuth"
 
-#: ../build/src/ui_backendsettingspage.h:458
+#: ../build/src/ui_backendsettingspage.h:457
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Gunakan metadata Replay Gain jika tersedia"
 
@@ -4416,19 +4420,19 @@ msgstr "Gunakan metadata Replay Gain jika tersedia"
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_shortcutssettingspage.h:229
+#: ../build/src/ui_shortcutssettingspage.h:228
 msgid "Use X11's shortcut keys"
 msgstr "Gunakan pintasan X11"
 
-#: ../build/src/ui_appearancesettingspage.h:492
+#: ../build/src/ui_appearancesettingspage.h:508
 msgid "Use a custom color set"
 msgstr "Gunakan set warna ubahsuai"
 
-#: ../build/src/ui_notificationssettingspage.h:478
+#: ../build/src/ui_notificationssettingspage.h:479
 msgid "Use a custom message for notifications"
 msgstr "Gunakan pesan ubahsuai untuk pemberitahuan"
 
-#: ../build/src/ui_networkproxysettingspage.h:174
+#: ../build/src/ui_networkproxysettingspage.h:171
 msgid "Use authentication"
 msgstr "Gunakan otentikasi"
 
@@ -4436,27 +4440,27 @@ msgstr "Gunakan otentikasi"
 msgid "Use bitrate management engine"
 msgstr "Gunakan mesin pengelolaan lajubit"
 
-#: ../build/src/ui_appearancesettingspage.h:499
+#: ../build/src/ui_appearancesettingspage.h:515
 msgid "Use custom color"
 msgstr "Gunakan warna kustom"
 
-#: ../build/src/ui_appearancesettingspage.h:500
+#: ../build/src/ui_appearancesettingspage.h:516
 msgid "Use gradient background"
 msgstr "Gunakan latar belakang gradien"
 
-#: ../build/src/ui_collectionsettingspage.h:424
+#: ../build/src/ui_collectionsettingspage.h:421
 msgid "Use hash"
 msgstr "Gunakan hash"
 
-#: ../build/src/ui_collectionsettingspage.h:411
+#: ../build/src/ui_collectionsettingspage.h:408
 msgid "Use live scanning"
 msgstr "Gunakan pemindaian langsung"
 
-#: ../build/src/ui_collectionsettingspage.h:425
+#: ../build/src/ui_collectionsettingspage.h:422
 msgid "Use pattern"
 msgstr "Gunakan pola"
 
-#: ../build/src/ui_appearancesettingspage.h:534
+#: ../build/src/ui_appearancesettingspage.h:551
 msgid "Use system theme icons"
 msgstr "Gunakan ikon tema sistem"
 
@@ -4464,7 +4468,7 @@ msgstr "Gunakan ikon tema sistem"
 msgid "Use temporal noise shaping"
 msgstr "Gunakan pengasah derau temporal"
 
-#: ../build/src/ui_behavioursettingspage.h:283
+#: ../build/src/ui_behavioursettingspage.h:293
 msgid "Use the system default"
 msgstr "Gunakan bawaan sistem"
 
@@ -4476,13 +4480,13 @@ msgstr "Bekas"
 msgid "User interface"
 msgstr "Antarmuka"
 
-#: ../build/src/ui_scrobblersettingspage.h:337
+#: ../build/src/ui_scrobblersettingspage.h:334
 msgid "User token:"
 msgstr "Token pengguna:"
 
-#: ../build/src/ui_networkproxysettingspage.h:175
-#: ../build/src/ui_subsonicsettingspage.h:189
-#: ../build/src/ui_tidalsettingspage.h:322
+#: ../build/src/ui_networkproxysettingspage.h:172
+#: ../build/src/ui_subsonicsettingspage.h:186
+#: ../build/src/ui_tidalsettingspage.h:319
 msgid "Username"
 msgstr "Nama pengguna"
 
@@ -4495,7 +4499,7 @@ msgstr ""
 "Menggunakan pintasan X11 pada %1 tidak direkomendasikan dan dapat membuat "
 "keyboard tidak responsif!"
 
-#: ../build/src/ui_behavioursettingspage.h:286
+#: ../build/src/ui_behavioursettingspage.h:296
 msgid "Using the menu to add a song will..."
 msgstr "Menggunakan menu untuk menambah lagu akan..."
 
@@ -4509,7 +4513,7 @@ msgstr "Laju bit beragam"
 msgid "Various artists"
 msgstr "Artis beraga"
 
-#: ../build/src/ui_subsonicsettingspage.h:193
+#: ../build/src/ui_subsonicsettingspage.h:190
 msgid "Verify server certificate"
 msgstr "Verifikasi sertifikat server"
 
@@ -4535,19 +4539,19 @@ msgstr "Deteksi aktivitas suara"
 msgid "Volume %1%"
 msgstr "Volume %1%"
 
-#: ../build/src/ui_transcodersettingspage.h:192
+#: ../build/src/ui_transcodersettingspage.h:189
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:151
+#: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:148
 msgid "Warn me when closing a playlist tab"
 msgstr "Peringatkan saya ketika menutup tab daftar putar"
 
-#: ../build/src/ui_transcodersettingspage.h:191
+#: ../build/src/ui_transcodersettingspage.h:188
 msgid "WavPack"
 msgstr "WavPack"
 
-#: ../build/src/ui_collectionsettingspage.h:414
+#: ../build/src/ui_collectionsettingspage.h:411
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -4558,7 +4562,7 @@ msgstr ""
 "Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam "
 "direktori."
 
-#: ../build/src/ui_playlistsettingspage.h:157
+#: ../build/src/ui_playlistsettingspage.h:154
 msgid "When saving a playlist, file paths should be"
 msgstr "Ketika menyimpan daftar putar, lokasi berkas sebaiknya"
 
@@ -4574,7 +4578,7 @@ msgstr "Pita lebar (WB)"
 msgid "Without cover:"
 msgstr "Tanpa sampul:"
 
-#: ../build/src/ui_scrobblersettingspage.h:319
+#: ../build/src/ui_scrobblersettingspage.h:316
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Bekerja di modus offline (Hanya cache scrobble)"
 
@@ -4590,7 +4594,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "Apakah Anda ingin menjalankan pemindaian ulang menyeluruh sekarang?"
 
-#: ../build/src/ui_playlistsettingspage.h:167
+#: ../build/src/ui_playlistsettingspage.h:164
 msgid "Write metadata when saving playlists"
 msgstr "Tulis metadata saat menyimpan daftar putar"
 
@@ -4661,7 +4665,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Anda memerlukan GStreamer untuk URL ini."
 
-#: ../build/src/ui_shortcutssettingspage.h:233
+#: ../build/src/ui_shortcutssettingspage.h:232
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -4671,7 +4675,7 @@ msgstr ""
 "\"<span style=\"font-style:italic;\">mengendalikan komputer Anda</span>\" "
 "untuk menggunakan pintasan global di Strawberry."
 
-#: ../build/src/ui_shortcutssettingspage.h:232
+#: ../build/src/ui_shortcutssettingspage.h:231
 msgid ""
 "You need to launch System Preferences and turn on \"<span style=\" font-"
 "style:italic;\">Enable access for assistive devices</span>\" to use global "
@@ -4688,7 +4692,7 @@ msgid ""
 "this program.  If not, see %1"
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:285
+#: ../build/src/ui_behavioursettingspage.h:295
 msgid "You will need to restart Strawberry if you change the language."
 msgstr "Anda perlu memulai ulang Strawberry jika Anda mengubah bahasa."
 
@@ -4733,7 +4737,7 @@ msgstr "nonfungsi"
 msgid "disc %1"
 msgstr "cakram %1"
 
-#: ../build/src/ui_backendsettingspage.h:449
+#: ../build/src/ui_backendsettingspage.h:448
 msgid "hw"
 msgstr "hw"
 
@@ -4748,7 +4752,7 @@ msgctxt ""
 msgid "move %n songs"
 msgstr "pindah %n lagu"
 
-#: ../build/src/ui_tidalsettingspage.h:328
+#: ../build/src/ui_tidalsettingspage.h:325
 msgid "ms"
 msgstr "ms"
 
@@ -4756,7 +4760,7 @@ msgstr "ms"
 msgid "options"
 msgstr "opsi"
 
-#: ../build/src/ui_backendsettingspage.h:450
+#: ../build/src/ui_backendsettingspage.h:449
 msgid "p&lughw"
 msgstr "p&lughw"
 
