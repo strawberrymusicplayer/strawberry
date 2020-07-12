@@ -2,6 +2,32 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed cut-off text in about dialog.
+    * Fixed increasing play count when stop after track is enabled.
+    * Fixed showing/hiding playing widget when playback is started while window is hidden.
+    * Fixed "Show in file browser" to also work on local songs that are not in the collection.
+    * Fixed "Show in file browser" to work with PCManFM file manager.
+    * Fixed audio analyzer to work with S24LE and F32LE audio formats.
+    * Fixed playlist background image not loading.
+    * Fixed a memory leak when switching between playlists.
+    * Removed use of HTML in systemtray tooltip on KDE, since KDE no longer renders HTML in the systemtray.
+
+  Enhancements:
+    * Replaced use of C style casts.
+    * Adapted use of C++11 override.
+    * Improved CMake build files.
+    * Added new on startup options to show maximized or minimized.
+    * Builtin TagLib code is updated and improved.
+    * Made most icon sizes configurable in the settings, and increased default sizes for icons.
+    * Improved fancy tabbar to use font sizes from the theme instead of fixed sizes.
+    * Moving the currently playing song to the top when the playlist is manually shuffled.
+    * Added "a taste of Strawbs" background image.
+    * Fixed unit test for testing playlist model.
+    * Added new unit tests for tagreader.
+
 0.6.12:
 
   Bugfixes:
