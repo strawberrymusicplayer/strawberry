@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>800</height>
+    <width>460</width>
+    <height>960</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -132,7 +132,7 @@
       <item>
        <widget class="QCheckBox" name="checkbox_lastfm_https">
         <property name="text">
-         <string>Use HTTPS for local redirectserver to bypass login problems</string>
+         <string>Use HTTPS for local redirectserver</string>
         </property>
        </widget>
       </item>
