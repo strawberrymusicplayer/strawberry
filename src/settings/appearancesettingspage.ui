@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>674</width>
-    <height>1030</height>
+    <height>1071</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -596,6 +596,7 @@
   <tabstop>use_default_background</tabstop>
   <tabstop>use_no_background</tabstop>
   <tabstop>use_album_cover_background</tabstop>
+  <tabstop>use_strawbs_background</tabstop>
   <tabstop>use_custom_background_image</tabstop>
   <tabstop>background_image_filename</tabstop>
   <tabstop>select_background_image_filename_button</tabstop>
@@ -606,6 +607,7 @@
   <tabstop>checkbox_background_image_do_not_cut</tabstop>
   <tabstop>blur_slider</tabstop>
   <tabstop>opacity_slider</tabstop>
+  <tabstop>spinbox_icon_size_tabbar_small_mode</tabstop>
   <tabstop>spinbox_icon_size_tabbar_large_mode</tabstop>
   <tabstop>spinbox_icon_size_play_control_buttons</tabstop>
   <tabstop>spinbox_icon_size_playlist_buttons</tabstop>
