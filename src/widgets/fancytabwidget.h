@@ -74,8 +74,12 @@ class FancyTabWidget : public QTabWidget {
    static const int TabSize_LargeSidebarWidth;
    static const int IconSize_LargeSidebar;
    static const int IconSize_SmallSidebar;
+   static const int IconSize_PlainSidebar;
+   static const int IconSize_TabsSidebar;
+   static const int IconSize_IconsSidebar;
 
    Mode mode() const { return mode_; }
+   int iconsize_smallsidebar() const { return iconsize_smallsidebar_; }
    int iconsize_largesidebar() const { return iconsize_largesidebar_; }
 
   signals:
@@ -109,6 +113,7 @@ class FancyTabWidget : public QTabWidget {
    bool bg_color_system_;
    bool bg_gradient_;
    QColor bg_color_;
+   int iconsize_smallsidebar_;
    int iconsize_largesidebar_;
 
 };

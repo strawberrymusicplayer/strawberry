@@ -68,6 +68,7 @@ class AppearanceSettingsPage : public SettingsPage {
   static const char *kTabBarGradient;
   static const char *kTabBarColor;
 
+  static const char *kIconSizeTabbarSmallMode;
   static const char *kIconSizeTabbarLargeMode;
   static const char *kIconSizePlayControlButtons;
   static const char *kIconSizePlaylistButtons;

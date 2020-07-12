@@ -75,6 +75,7 @@ const char *AppearanceSettingsPage::kTabBarSystemColor= "tab_system_color";
 const char *AppearanceSettingsPage::kTabBarGradient = "tab_gradient";
 const char *AppearanceSettingsPage::kTabBarColor = "tab_color";
 
+const char *AppearanceSettingsPage::kIconSizeTabbarSmallMode = "icon_size_tabbar_small_mode";
 const char *AppearanceSettingsPage::kIconSizeTabbarLargeMode = "icon_size_tabbar_large_mode";
 const char *AppearanceSettingsPage::kIconSizePlayControlButtons = "icon_size_play_control_buttons";
 const char *AppearanceSettingsPage::kIconSizePlaylistButtons = "icon_size_playlist_buttons";
@@ -196,7 +197,8 @@ void AppearanceSettingsPage::Load() {
   ui_->checkbox_background_image_keep_aspect_ratio->setEnabled(ui_->checkbox_background_image_stretch->isChecked());
   ui_->checkbox_background_image_do_not_cut->setEnabled(ui_->checkbox_background_image_stretch->isChecked() && ui_->checkbox_background_image_keep_aspect_ratio->isChecked());
 
-  ui_->spinbox_icon_size_tabbar_large_mode->setValue(s.value(kIconSizeTabbarLargeMode, 32).toInt());
+  ui_->spinbox_icon_size_tabbar_small_mode->setValue(s.value(kIconSizeTabbarSmallMode, 32).toInt());
+  ui_->spinbox_icon_size_tabbar_large_mode->setValue(s.value(kIconSizeTabbarLargeMode, 40).toInt());
   ui_->spinbox_icon_size_play_control_buttons->setValue(s.value(kIconSizePlayControlButtons, 32).toInt());
   ui_->spinbox_icon_size_playlist_buttons->setValue(s.value(kIconSizePlaylistButtons, 20).toInt());
   ui_->spinbox_icon_size_left_panel_buttons->setValue(s.value(kIconSizeLeftPanelButtons, 22).toInt());
@@ -264,6 +266,7 @@ void AppearanceSettingsPage::Save() {
   s.setValue(kTabBarGradient, ui_->tabbar_gradient->isChecked());
   s.setValue(kTabBarColor, current_tabbar_bg_color_);
 
+  s.setValue(kIconSizeTabbarSmallMode, ui_->spinbox_icon_size_tabbar_small_mode->value());
   s.setValue(kIconSizeTabbarLargeMode, ui_->spinbox_icon_size_tabbar_large_mode->value());
   s.setValue(kIconSizePlayControlButtons, ui_->spinbox_icon_size_play_control_buttons->value());
   s.setValue(kIconSizePlaylistButtons, ui_->spinbox_icon_size_playlist_buttons->value());
