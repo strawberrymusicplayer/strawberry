@@ -61,7 +61,6 @@ const int FancyTabWidget::IconSize_LargeSidebar = 32;
 const int FancyTabWidget::IconSize_SmallSidebar = 22;
 const int FancyTabWidget::TabSize_LargeSidebarWidth = 70;
 
-
 class FancyTabBar: public QTabBar {
 
  private:
@@ -83,20 +82,26 @@ class FancyTabBar: public QTabBar {
 
     QSize tabSize(tabSizeHint(0));
     size.setWidth(tabSize.width());
-    int guessHeight = tabSize.height()*count();
+    int guessHeight = tabSize.height() * count();
     if (guessHeight > size.height())
       size.setHeight(guessHeight);
+
     return size;
 
   }
 
-  int width() {
+  int width() const {
     FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
-    int width = std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22);
-    for (int i = 0 ; i < count() ; ++i) {
-      if (tabSizeHint(i).width() > width) width = tabSizeHint(i).width();
+    if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar) {
+      int width = std::max(FancyTabWidget::TabSize_LargeSidebarWidth, tabWidget->iconsize_largesidebar() + 22);
+      for (int i = 0 ; i < count() ; ++i) {
+        if (tabSizeHint(i).width() > width) width = tabSizeHint(i).width();
+      }
+      return width;
     }
-    return width;
+    else {
+      return QTabBar::tabSizeHint(0).width();
+    }
   }
 
  protected:
@@ -123,8 +128,27 @@ class FancyTabBar: public QTabBar {
       size = QSize(width, tabWidget->iconsize_largesidebar() + rect.height() + 10);
     }
     else {
-      size = QTabBar::tabSizeHint(index);
-      size.setWidth(std::max(size.width(), 37));
+      if (tabWidget->mode() == FancyTabWidget::Mode_IconOnlyTabs) {
+        size = QSize(FancyTabWidget::IconSize_SmallSidebar + 10, FancyTabWidget::IconSize_SmallSidebar + 10);
+      }
+      else {
+        QFont bold_font(font());
+        bold_font.setBold(true);
+        QFontMetrics fm(bold_font);
+        QRect rect = fm.boundingRect(QRect(0, 0, 100, tabWidget->height()), Qt::AlignHCenter, QTabBar::tabText(index));
+        size = QTabBar::tabSizeHint(index);
+        int w = 0;
+        int h = 0;
+        if (tabWidget->mode() == FancyTabWidget::Mode_Tabs) {
+          w = FancyTabWidget::IconSize_SmallSidebar + rect.width() + 20;
+          h = FancyTabWidget::IconSize_SmallSidebar + rect.height() + 5;
+        }
+        else {
+          w = FancyTabWidget::IconSize_SmallSidebar + rect.height() + 5;
+          h = FancyTabWidget::IconSize_SmallSidebar + rect.width() + 20;
+        }
+        size = QSize(w, h);
+      }
     }
 
     return size;
@@ -167,7 +191,7 @@ class FancyTabBar: public QTabBar {
     }
     else if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar) {
       // traverse in the opposite order to save indices of spacers
-      for (int i = count() - 1; i >= 0; --i) {
+      for (int i = count() - 1 ; i >= 0 ; --i) {
         // spacers are disabled tabs
         if (!isTabEnabled(i) && !spacers.contains(i)) {
           spacers[i] = tabWidget->widget(i);
@@ -179,7 +203,7 @@ class FancyTabBar: public QTabBar {
 
     // Restore any label text that was hidden/cached for the IconOnlyTabs mode
     if (labelCache.count() > 0 && tabWidget->mode() != FancyTabWidget::Mode_IconOnlyTabs) {
-      for (int i =0; i < count(); i++) {
+      for (int i = 0 ; i < count() ; ++i) {
         setTabText(i, labelCache[tabWidget->widget(i)]);
       }
       labelCache.clear();
@@ -187,7 +211,7 @@ class FancyTabBar: public QTabBar {
     if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar && tabWidget->mode() != FancyTabWidget::Mode_SmallSidebar) {
       // Cache and hide label text for IconOnlyTabs mode
       if (tabWidget->mode() == FancyTabWidget::Mode_IconOnlyTabs && labelCache.count() == 0) {
-        for(int i =0; i < count(); i++) {
+        for(int i = 0 ; i < count() ; ++i) {
           labelCache[tabWidget->widget(i)] = tabText(i);
           setTabText(i, "");
         }
@@ -198,7 +222,7 @@ class FancyTabBar: public QTabBar {
 
     QStylePainter p(this);
 
-    for (int index = 0; index < count(); index++) {
+    for (int index = 0; index < count(); ++index) {
       const bool selected = tabWidget->currentIndex() == index;
       QRect tabrect = tabRect(index);
       QRect selectionRect = tabrect;
@@ -262,7 +286,7 @@ class FancyTabBar: public QTabBar {
           tabrectLabel = QRect(QPoint(0, 0), m.mapRect(tabrect).size());
 
           tabrectText = tabrectLabel;
-          tabrectText.translate(30, 0);
+          tabrectText.translate(FancyTabWidget::IconSize_SmallSidebar + 8, -5);
         }
         else {
           m = QTransform::fromTranslate(tabrect.left(), tabrect.top());
@@ -273,7 +297,6 @@ class FancyTabBar: public QTabBar {
 
           tabrectText = tabrectLabel;
           tabrectText.translate(0, -5);
-
         }
 
         p.setTransform(m);
