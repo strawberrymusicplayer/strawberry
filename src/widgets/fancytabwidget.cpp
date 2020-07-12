@@ -140,11 +140,11 @@ class FancyTabBar: public QTabBar {
         int w = 0;
         int h = 0;
         if (tabWidget->mode() == FancyTabWidget::Mode_Tabs) {
-          w = FancyTabWidget::IconSize_SmallSidebar + rect.width() + 20;
-          h = FancyTabWidget::IconSize_SmallSidebar + rect.height() + 5;
+          w = FancyTabWidget::IconSize_SmallSidebar + rect.width() + 10;
+          h = std::max(FancyTabWidget::IconSize_SmallSidebar, rect.height()) + 15;
         }
         else {
-          w = FancyTabWidget::IconSize_SmallSidebar + rect.height() + 5;
+          w = std::max(FancyTabWidget::IconSize_SmallSidebar, rect.height()) + 15;
           h = FancyTabWidget::IconSize_SmallSidebar + rect.width() + 20;
         }
         size = QSize(w, h);
@@ -286,7 +286,8 @@ class FancyTabBar: public QTabBar {
           tabrectLabel = QRect(QPoint(0, 0), m.mapRect(tabrect).size());
 
           tabrectText = tabrectLabel;
-          tabrectText.translate(FancyTabWidget::IconSize_SmallSidebar + 8, -5);
+          tabrectText.translate(FancyTabWidget::IconSize_SmallSidebar + 8, -2);
+
         }
         else {
           m = QTransform::fromTranslate(tabrect.left(), tabrect.top());
