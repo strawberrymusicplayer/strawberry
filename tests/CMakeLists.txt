@@ -117,6 +117,7 @@ macro(add_test_file test_source gui_required)
       ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
       ${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader
       ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
+      ${TAGLIB_INCLUDE_DIRS}
     )
     target_link_libraries(${TEST_NAME} PRIVATE ${Qt5Core_LIBRARIES} ${Qt5Sql_LIBRARIES} ${Qt5Test_LIBRARIES})
     target_link_libraries(${TEST_NAME} PRIVATE test_utils)
