@@ -51,7 +51,7 @@ You can also make a one-time payment through [paypal.me/jonaskvinge](https://pay
 
 It has so far been tested to work on Linux, OpenBSD and Windows.
 
-**We currently do not provide releases for macOS because there aren't any macOS developers actively working on this project. Development builds are available**
+**There currently isn't any macOS developers actively working on this project, so we might not be able to help you with issues related to macOS.**
 
 ### :heavy_exclamation_mark: Requirements
 
