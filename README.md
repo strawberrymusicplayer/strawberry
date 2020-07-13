@@ -49,7 +49,7 @@ You can also make a one-time payment through [paypal.me/jonaskvinge](https://pay
   * Subsonic and Tidal streaming support
 
 
-It has so far been tested to work on Linux, OpenBSD and Windows.
+It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
 
 **There currently isn't any macOS developers actively working on this project, so we might not be able to help you with issues related to macOS.**
 
