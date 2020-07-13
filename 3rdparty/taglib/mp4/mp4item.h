@@ -41,7 +41,7 @@ class TAGLIB_EXPORT Item {
   };
 
   enum ItemType {
-    TypeUndefined = 0,
+    TypeUndefined_ = 0,
     TypeBool,
     TypeInt,
     TypeIntPair,

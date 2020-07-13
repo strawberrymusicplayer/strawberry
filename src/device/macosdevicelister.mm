@@ -533,10 +533,10 @@ void MacOsDeviceLister::USBDeviceAddedCallback(void* refcon, io_iterator_t it) {
       device.address = [addr intValue];
 
       // First check the libmtp device list.
-      QSet<MTPDevice>::const_iterator it = sMTPDeviceList.find(device);
-      if (it != sMTPDeviceList.end()) {
+      QSet<MTPDevice>::const_iterator it2 = sMTPDeviceList.find(device);
+      if (it2 != sMTPDeviceList.end()) {
         // Fill in quirks flags from libmtp.
-        device.quirks = it->quirks;
+        device.quirks = it2->quirks;
         me->FoundMTPDevice(device, GetSerialForMTPDevice(object));
         continue;
       }

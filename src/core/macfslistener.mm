@@ -49,7 +49,7 @@ void MacFSListener::EventStreamCallback(ConstFSEventStreamRef stream, void* user
 
   MacFSListener* me = reinterpret_cast<MacFSListener*>(user_data);
   char** paths = reinterpret_cast<char**>(event_paths);
-  for (int i = 0; i < num_events; ++i) {
+  for (size_t i = 0; i < num_events; ++i) {
     QString path = QString::fromUtf8(paths[i]);
     qLog(Debug) << "Something changed at:" << path;
     while (path.endsWith('/')) {

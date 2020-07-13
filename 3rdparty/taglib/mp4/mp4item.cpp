@@ -57,7 +57,7 @@ class MP4::Item::ItemPrivate {
   explicit ItemPrivate() : data(new ItemData()) {
     data->valid = true;
     data->atomDataType = MP4::TypeUndefined;
-    data->type = MP4::Item::TypeUndefined;
+    data->type = MP4::Item::TypeUndefined_;
   }
 
   std::shared_ptr<ItemData> data;
@@ -207,7 +207,7 @@ String MP4::Item::toString() const {
         desc.append(Utils::formatString("[%d bytes of data]", static_cast<int>(d->data->m_coverArtList[i].data().size())));
       }
       return desc.toString(", ");
-    case TypeUndefined:
+    case TypeUndefined_:
       return "[unknown]";
   }
   return String();

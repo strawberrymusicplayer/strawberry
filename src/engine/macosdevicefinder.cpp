@@ -81,7 +81,7 @@ QList<DeviceFinder::Device> MacOsDeviceFinder::ListDevices() {
   if (!devices.get()) {
     return ret;
   }
-  const int device_count = device_size_bytes / sizeof(AudioDeviceID);
+  const UInt32 device_count = device_size_bytes / sizeof(AudioDeviceID);
 
   address.mScope = kAudioDevicePropertyScopeOutput;
   for (UInt32 i = 0; i < device_count; ++i) {
