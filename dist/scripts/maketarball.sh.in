@@ -31,6 +31,7 @@ tar -cJf $name-$version.tar.xz \
     --exclude="$root/.circleci" \
     --exclude="$root/Dockerfile" \
     --exclude="$root/CMakeLists.txt.user" \
+    --exclude="$root/.clang-format" \
     --exclude="$root/build" \
     --exclude="$root/zanata.xml" \
     --exclude="$root/.zanata-cache" \
