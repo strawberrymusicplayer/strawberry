@@ -71,12 +71,9 @@ class FancyTabWidget : public QTabWidget {
     Mode_PlainSidebar,
    };
 
-   static const int TabSize_LargeSidebarWidth;
+   static const int TabSize_LargeSidebarMinWidth;
    static const int IconSize_LargeSidebar;
    static const int IconSize_SmallSidebar;
-   static const int IconSize_PlainSidebar;
-   static const int IconSize_TabsSidebar;
-   static const int IconSize_IconsSidebar;
 
    Mode mode() const { return mode_; }
    int iconsize_smallsidebar() const { return iconsize_smallsidebar_; }
