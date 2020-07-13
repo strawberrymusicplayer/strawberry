@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-07-10 06:41-0400\n"
+"PO-Revision-Date: 2020-07-12 07:09-0400\n"
 "Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -2281,7 +2281,7 @@ msgstr "Ikona"
 msgid "Icon sizes"
 msgstr "Rozmiary ikon"
 
-#: widgets/fancytabwidget.cpp:662
+#: widgets/fancytabwidget.cpp:668
 msgid "Icons on top"
 msgstr "Ikony na górze"
 
@@ -2415,7 +2415,7 @@ msgstr "Duża sala"
 msgid "Large album cover"
 msgstr "Duża okładka albumu"
 
-#: widgets/fancytabwidget.cpp:658
+#: widgets/fancytabwidget.cpp:664
 msgid "Large sidebar"
 msgstr "Duży pasek boczny"
 
@@ -2990,7 +2990,7 @@ msgstr "Wykonawca"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:660
+#: widgets/fancytabwidget.cpp:666
 msgid "Plain sidebar"
 msgstr "Pasek boczny bez efektów"
 
@@ -3892,7 +3892,7 @@ msgstr "Pomiń ścieżkę"
 msgid "Small album cover"
 msgstr "Mała okładka albumu"
 
-#: widgets/fancytabwidget.cpp:659
+#: widgets/fancytabwidget.cpp:665
 msgid "Small sidebar"
 msgstr "Mały pasek boczny"
 
@@ -4095,9 +4095,9 @@ msgstr "Duży pasek zakładek"
 
 #: ../build/src/ui_appearancesettingspage.h:550
 msgid "Tabbar small mode"
-msgstr ""
+msgstr "Mały pasek zakładek"
 
-#: widgets/fancytabwidget.cpp:661
+#: widgets/fancytabwidget.cpp:667
 msgid "Tabs on top"
 msgstr "Zakładki na górze"
 
@@ -4442,7 +4442,7 @@ msgstr "Używaj skrótów klawiaturowych Gnome D-Bus (GSD)"
 
 #: ../build/src/ui_scrobblersettingspage.h:327
 msgid "Use HTTPS for local redirectserver"
-msgstr ""
+msgstr "Używaj HTTPS z lokalnym serwerem przekierowań"
 
 #: ../build/src/ui_tidalsettingspage.h:316
 msgid "Use OAuth"

@@ -2271,7 +2271,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr "Ikonméretek"
 
-#: widgets/fancytabwidget.cpp:662
+#: widgets/fancytabwidget.cpp:668
 msgid "Icons on top"
 msgstr "Ikonok felül"
 
@@ -2405,7 +2405,7 @@ msgstr "Nagy terem"
 msgid "Large album cover"
 msgstr "Nagy albumborító"
 
-#: widgets/fancytabwidget.cpp:658
+#: widgets/fancytabwidget.cpp:664
 msgid "Large sidebar"
 msgstr "Nagy oldalsáv"
 
@@ -2980,7 +2980,7 @@ msgstr "Előadó"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:660
+#: widgets/fancytabwidget.cpp:666
 msgid "Plain sidebar"
 msgstr "Egyszerű oldalsáv"
 
@@ -3884,7 +3884,7 @@ msgstr "Szám kihagyása"
 msgid "Small album cover"
 msgstr "Kis albumborító"
 
-#: widgets/fancytabwidget.cpp:659
+#: widgets/fancytabwidget.cpp:665
 msgid "Small sidebar"
 msgstr "Kis oldalsáv"
 
@@ -4089,7 +4089,7 @@ msgstr "Lapsáv nagy mód"
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:661
+#: widgets/fancytabwidget.cpp:667
 msgid "Tabs on top"
 msgstr "Fülek felül"
 

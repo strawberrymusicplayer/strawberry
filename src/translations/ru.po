@@ -2281,7 +2281,7 @@ msgstr "Значок"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:662
+#: widgets/fancytabwidget.cpp:668
 msgid "Icons on top"
 msgstr "Значки сверху"
 
@@ -2412,7 +2412,7 @@ msgstr "Большой зал"
 msgid "Large album cover"
 msgstr "Большая обложка альбома"
 
-#: widgets/fancytabwidget.cpp:658
+#: widgets/fancytabwidget.cpp:664
 msgid "Large sidebar"
 msgstr "Широкая боковая панель"
 
@@ -2986,7 +2986,7 @@ msgstr "Исполнитель"
 msgid "Pixel"
 msgstr "Пиксель"
 
-#: widgets/fancytabwidget.cpp:660
+#: widgets/fancytabwidget.cpp:666
 msgid "Plain sidebar"
 msgstr "Нормальная боковая панель"
 
@@ -3880,7 +3880,7 @@ msgstr "Пропустить трек"
 msgid "Small album cover"
 msgstr "Маленькая обложка альбома"
 
-#: widgets/fancytabwidget.cpp:659
+#: widgets/fancytabwidget.cpp:665
 msgid "Small sidebar"
 msgstr "Узкая боковая панель"
 
@@ -4084,7 +4084,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:661
+#: widgets/fancytabwidget.cpp:667
 msgid "Tabs on top"
 msgstr "Вкладки вверху"
 
