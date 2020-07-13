@@ -17,15 +17,40 @@ set(TESTUTILS-MOC-HEADERS src/mock_networkaccessmanager.h src/test_utils.h src/t
 
 qt5_wrap_cpp(TESTUTILS-SOURCES-MOC ${TESTUTILS-MOC-HEADERS})
 
+link_directories(
+  ${SQLITE_LIBRARY_DIRS}
+  ${TAGLIB_LIBRARY_DIRS}
+  ${QT_LIBRARY_DIRS}
+)
+
+if(HAVE_GSTREAMER)
+  link_directories(
+    ${GSTREAMER_LIBRARY_DIRS}
+    ${GSTREAMER_BASE_LIBRARY_DIRS}
+    ${GSTREAMER_APP_LIBRARY_DIRS}
+    ${GSTREAMER_AUDIO_LIBRARY_DIRS}
+    ${GSTREAMER_TAG_LIBRARY_DIRS}
+    ${GSTREAMER_PBUTILS_LIBRARY_DIRS}
+  )
+endif(HAVE_GSTREAMER)
+
+if(HAVE_CHROMAPRINT)
+  link_directories(${CHROMAPRINT_LIBRARY_DIRS})
+endif(HAVE_CHROMAPRINT)
+
+if(HAVE_AUDIOCD)
+  link_directories(${LIBCDIO_LIBRARY_DIRS})
+endif(HAVE_AUDIOCD)
+
+if(HAVE_LIBMTP)
+  link_directories(${LIBMTP_LIBRARY_DIRS})
+endif(HAVE_LIBMTP)
+
 add_library(test_utils STATIC EXCLUDE_FROM_ALL ${TESTUTILS-SOURCES} ${TESTUTILS-SOURCES-MOC})
 target_include_directories(test_utils SYSTEM PRIVATE
   ${GTEST_INCLUDE_DIRS}
   ${GMOCK_INCLUDE_DIRS}
-  ${Qt5Core_INCLUDE_DIRS}
-  ${Qt5Widgets_INCLUDE_DIRS}
-  ${Qt5Network_INCLUDE_DIRS}
-  ${Qt5Sql_INCLUDE_DIRS}
-  ${Qt5Test_INCLUDE_DIRS}
+  ${QT_INCLUDE_DIRS}
 )
 target_include_directories(test_utils PRIVATE
   ${CMAKE_BINARY_DIR}/src
@@ -36,17 +61,11 @@ target_link_libraries(test_utils PRIVATE
   ${GTEST_BOTH_LIBRARIES}
   ${GMOCK_LIBRARY}
   ${Qt5Core_LIBRARIES}
+  ${Qt5Widgets_LIBRARIES}
+  ${Qt5Network_LIBRARIES}
+  ${Qt5Sql_LIBRARIES}
   ${Qt5Test_LIBRARIES}
 )
-if(HAVE_GSTREAMER)
-  target_include_directories(test_utils SYSTEM PRIVATE
-    ${GSTREAMER_INCLUDE_DIRS}
-    ${GSTREAMER_BASE_INCLUDE_DIRS}
-    ${GSTREAMER_APP_INCLUDE_DIRS}
-    ${GSTREAMER_AUDIO_INCLUDE_DIRS}
-    ${GSTREAMER_TAG_INCLUDE_DIRS}
-  )
-endif(HAVE_GSTREAMER)
 
 add_custom_target(strawberry_tests echo "Running Strawberry tests" WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
 add_custom_target(build_tests WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
@@ -55,13 +74,29 @@ add_dependencies(strawberry_tests build_tests)
 qt5_add_resources(TEST-RESOURCE-SOURCES data/testdata.qrc)
 
 add_library(test_gui_main STATIC EXCLUDE_FROM_ALL ${TEST-RESOURCE-SOURCES} src/main.cpp)
+target_include_directories(test_gui_main SYSTEM PRIVATE ${QT_INCLUDE_DIRS})
+target_include_directories(test_gui_main PRIVATE
+  ${CMAKE_BINARY_DIR}/src
+  ${CMAKE_SOURCE_DIR}/src
+  ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
+  ${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader
+  ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
+)
 if(HAVE_GSTREAMER)
   target_include_directories(test_gui_main SYSTEM PRIVATE ${GSTREAMER_INCLUDE_DIRS})
 endif(HAVE_GSTREAMER)
-target_link_libraries(test_gui_main strawberry_lib)
+target_link_libraries(test_gui_main PRIVATE strawberry_lib)
 set_target_properties(test_gui_main PROPERTIES COMPILE_DEFINITIONS GUI)
 
 add_library(test_main STATIC EXCLUDE_FROM_ALL ${TEST-RESOURCE-SOURCES} src/main.cpp)
+target_include_directories(test_main SYSTEM PRIVATE ${QT_INCLUDE_DIRS})
+target_include_directories(test_main PRIVATE
+  ${CMAKE_BINARY_DIR}/src
+  ${CMAKE_SOURCE_DIR}/src
+  ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
+  ${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader
+  ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
+)
 if(HAVE_GSTREAMER)
   target_include_directories(test_main SYSTEM PRIVATE ${GSTREAMER_INCLUDE_DIRS})
 endif(HAVE_GSTREAMER)
@@ -71,8 +106,20 @@ target_link_libraries(test_main PRIVATE strawberry_lib)
 macro(add_test_file test_source gui_required)
     get_filename_component(TEST_NAME ${test_source} NAME_WE)
     add_executable(${TEST_NAME} EXCLUDE_FROM_ALL ${test_source})
-    target_include_directories(${TEST_NAME} SYSTEM PRIVATE ${GTEST_INCLUDE_DIRS} ${Qt5Test_INCLUDE_DIRS})
-    target_link_libraries(${TEST_NAME} PRIVATE strawberry_lib test_utils)
+    target_include_directories(${TEST_NAME} SYSTEM PRIVATE
+      ${GTEST_INCLUDE_DIRS}
+      ${GMOCK_INCLUDE_DIRS}
+      ${QT_INCLUDE_DIRS}
+    )
+    target_include_directories(${TEST_NAME} PRIVATE
+      ${CMAKE_BINARY_DIR}/src
+      ${CMAKE_SOURCE_DIR}/src
+      ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
+      ${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader
+      ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
+    )
+    target_link_libraries(${TEST_NAME} PRIVATE ${Qt5Core_LIBRARIES} ${Qt5Sql_LIBRARIES} ${Qt5Test_LIBRARIES})
+    target_link_libraries(${TEST_NAME} PRIVATE test_utils)
     set(GUI_REQUIRED ${gui_required})
     if(GUI_REQUIRED)
       target_link_libraries(${TEST_NAME} PRIVATE test_gui_main)
