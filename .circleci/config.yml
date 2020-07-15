@@ -80,7 +80,6 @@ commands:
             libpulse-devel
             gstreamer-devel
             gstreamer-plugins-base-devel
-            libxine-devel
             vlc-devel
             libQt5Core-devel
             libQt5Gui-devel

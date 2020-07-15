@@ -81,7 +81,6 @@
         <file>icons/128x128/view-refresh.png</file>
         <file>icons/128x128/library-music.png</file>
         <file>icons/128x128/vlc.png</file>
-        <file>icons/128x128/xine.png</file>
         <file>icons/128x128/zoom-in.png</file>
         <file>icons/128x128/zoom-out.png</file>
         <file>icons/128x128/scrobble.png</file>
@@ -172,7 +171,6 @@
         <file>icons/64x64/view-refresh.png</file>
         <file>icons/64x64/library-music.png</file>
         <file>icons/64x64/vlc.png</file>
-        <file>icons/64x64/xine.png</file>
         <file>icons/64x64/zoom-in.png</file>
         <file>icons/64x64/zoom-out.png</file>
         <file>icons/64x64/scrobble.png</file>
@@ -267,7 +265,6 @@
         <file>icons/48x48/view-refresh.png</file>
         <file>icons/48x48/library-music.png</file>
         <file>icons/48x48/vlc.png</file>
-        <file>icons/48x48/xine.png</file>
         <file>icons/48x48/zoom-in.png</file>
         <file>icons/48x48/zoom-out.png</file>
         <file>icons/48x48/scrobble.png</file>
@@ -362,7 +359,6 @@
         <file>icons/32x32/view-refresh.png</file>
         <file>icons/32x32/library-music.png</file>
         <file>icons/32x32/vlc.png</file>
-        <file>icons/32x32/xine.png</file>
         <file>icons/32x32/zoom-in.png</file>
         <file>icons/32x32/zoom-out.png</file>
         <file>icons/32x32/scrobble.png</file>
@@ -457,7 +453,6 @@
         <file>icons/22x22/view-refresh.png</file>
         <file>icons/22x22/library-music.png</file>
         <file>icons/22x22/vlc.png</file>
-        <file>icons/22x22/xine.png</file>
         <file>icons/22x22/zoom-in.png</file>
         <file>icons/22x22/zoom-out.png</file>
         <file>icons/22x22/scrobble.png</file>

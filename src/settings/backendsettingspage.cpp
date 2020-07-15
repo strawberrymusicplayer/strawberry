@@ -94,9 +94,6 @@ void BackendSettingsPage::Load() {
 #ifdef HAVE_GSTREAMER
   ui_->combobox_engine->addItem(IconLoader::Load("gstreamer"), EngineDescription(Engine::GStreamer), QVariant::fromValue(Engine::GStreamer));
 #endif
-#ifdef HAVE_XINE
-  ui_->combobox_engine->addItem(IconLoader::Load("xine"), EngineDescription(Engine::Xine), QVariant::fromValue(Engine::Xine));
-#endif
 #ifdef HAVE_VLC
   ui_->combobox_engine->addItem(IconLoader::Load("vlc"), EngineDescription(Engine::VLC), QVariant::fromValue(Engine::VLC));
 #endif

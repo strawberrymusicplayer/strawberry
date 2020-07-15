@@ -51,9 +51,6 @@
 #  include "engine/gstengine.h"
 #  include "engine/gststartup.h"
 #endif
-#ifdef HAVE_XINE
-#  include "engine/xineengine.h"
-#endif
 #ifdef HAVE_VLC
 #  include "engine/vlcengine.h"
 #endif
@@ -124,12 +121,6 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
         engine_.reset(gst_engine.release());
         break;
       }
-#endif
-#ifdef HAVE_XINE
-      case Engine::Xine:
-        use_enginetype=Engine::Xine;
-        engine_.reset(new XineEngine(app_->task_manager()));
-        break;
 #endif
 #ifdef HAVE_VLC
       case Engine::VLC:

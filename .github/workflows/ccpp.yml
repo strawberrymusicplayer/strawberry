@@ -38,7 +38,6 @@ jobs:
             libpulse-devel
             gstreamer-devel
             gstreamer-plugins-base-devel
-            libxine-devel
             vlc-devel
             libQt5Core-devel
             libQt5Gui-devel
@@ -109,7 +108,6 @@ jobs:
             libpulse-devel
             gstreamer-devel
             gstreamer-plugins-base-devel
-            libxine-devel
             vlc-devel
             libQt5Core-devel
             libQt5Gui-devel
@@ -188,7 +186,6 @@ jobs:
             libpulse-devel
             gstreamer-devel
             gstreamer-plugins-base-devel
-            libxine-devel
             vlc-devel
             libQt5Core-devel
             libQt5Gui-devel
@@ -269,7 +266,6 @@ jobs:
             libpulse-devel
             gstreamer-devel
             gstreamer-plugins-base-devel
-            libxine-devel
             vlc-devel
             libQt5Core-devel
             libQt5Gui-devel
@@ -1036,7 +1032,6 @@ jobs:
           -DENABLE_LIBGPOD=OFF
           -DENABLE_IMOBILEDEVICE=OFF
           -DENABLE_LIBMTP=OFF
-          -DENABLE_XINE=OFF
           -DProtobuf_PROTOC_EXECUTABLE=/usr/src/strawberry-mxe/usr/x86_64-pc-linux-gnu/bin/protoc
 
       - name: Run Make
@@ -1049,7 +1044,7 @@ jobs:
 
       - name: Create directories
         working-directory: build
-        run: mkdir -p gio-modules platforms sqldrivers imageformats styles gstreamer-plugins xine-plugins nsisplugins
+        run: mkdir -p gio-modules platforms sqldrivers imageformats styles gstreamer-plugins nsisplugins
 
       - name: Copy GIO modules
         working-directory: build

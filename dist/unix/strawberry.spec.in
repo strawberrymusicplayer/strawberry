@@ -73,7 +73,6 @@ BuildRequires:  pkgconfig(libmtp)
 BuildRequires:  pkgconfig(libnotify)
 BuildRequires:  pkgconfig(libudf)
 %if 0%{?suse_version} || 0%{?fedora_version}
-BuildRequires:  pkgconfig(libxine)
 BuildRequires:  pkgconfig(libvlc)
 %endif
 

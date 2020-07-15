@@ -99,7 +99,6 @@ parts:
       - libqt5x11extras5-dev
       - libgstreamer1.0-dev
       - libgstreamer-plugins-base1.0-dev
-      - libxine2-dev
       - libvlc-dev
       - libcdio-dev
       - libgpod-dev
@@ -135,7 +134,6 @@ parts:
       - libimobiledevice6
       - libplist3
       - libusbmuxd4
-      - libxine2
       - libvlc5
       - libvlccore9
       - libtag1v5
@@ -144,7 +142,6 @@ parts:
       - libx11-6
       - libxcomposite1
       - libxcursor1
-      - libxinerama1
       - libxrandr2
       - libdb5.3
       - libglu1

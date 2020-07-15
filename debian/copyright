@@ -213,21 +213,6 @@ Copyright: 2017, 2018, Jonas Kvinge <jonas@jkvinge.net>
            2003-2005, Mark Kretschmann <markey@web.de>
 License: GPL-2+
 
-Files: src/engine/xineengine.cpp
-       src/engine/xineengine.h
-Copyright: 2017, 2018, Jonas Kvinge <jonas@jkvinge.net>
-           2005, Ian Monroe <ian@monroe.nu>
-           2005, Christophe Thommeret <hftom@free.fr>
-           2005, 2006, Mark Kretschmann <markey@web.de>
-           2004, 2005, Max Howell <max.howell@methylblue.com>
-           2003, 2004, J. Kofler <kaffeine@gmx.net>
-License: GPL-2+
-
-Files: src/engine/xinescope.c
-       src/engine/xinescope.h
-Copyright: 2004, Max Howell <max.howell@methylblue.com>
-License: GPL-2+
-
 Files: src/widgets/fancytabwidget.cpp
        src/widgets/fancytabwidget.h
 Copyright: 2018, Vikram Ambrose <ambroseworks@gmail.com>

@@ -23,7 +23,6 @@ depends=(
   gstreamer
   gst-plugins-base
   gst-plugins-good
-  xine-lib
   vlc
   chromaprint
   libgpod

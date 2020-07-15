@@ -129,7 +129,6 @@ static const QMap<QString, IconProperties> iconmapper_ = {
     { "view-refresh",                  { {}} },
     { "library-music",                 { {"vinyl"}} },
     { "vlc",                           { {}} },
-    { "xine",                          { {}} },
     { "zoom-in",                       { {}} },
     { "zoom-out",                      { {}, 0, 0 } }
 

@@ -533,12 +533,6 @@ optional_source(HAVE_GSTREAMER
   HEADERS engine/gststartup.h engine/gstengine.h engine/gstenginepipeline.h engine/gstelementdeleter.h
 )
 
-# Xine
-optional_source(HAVE_XINE
-  SOURCES engine/xineengine.cpp engine/xinescope.c
-  HEADERS engine/xineengine.h
-)
-
 # VLC
 optional_source(HAVE_VLC
   SOURCES engine/vlcengine.cpp
@@ -944,10 +938,6 @@ if(HAVE_GSTREAMER)
   )
 endif(HAVE_GSTREAMER)
 
-if(HAVE_XINE)
-  link_directories(${LIBXINE_LIBRARY_DIRS})
-endif()
-
 if(HAVE_VLC)
   link_directories(${LIBVLC_LIBRARY_DIRS})
 endif()
@@ -1065,11 +1055,6 @@ endif(HAVE_GSTREAMER)
 
 if(HAVE_MOODBAR)
   target_link_libraries(strawberry_lib PRIVATE gstmoodbar)
-endif()
-
-if(HAVE_XINE)
-  target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBXINE_INCLUDE_DIRS})
-  target_link_libraries(strawberry_lib PRIVATE ${LIBXINE_LIBRARIES})
 endif()
 
 if(HAVE_VLC)

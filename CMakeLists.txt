@@ -118,7 +118,6 @@ pkg_check_modules(GSTREAMER_AUDIO gstreamer-audio-1.0)
 pkg_check_modules(GSTREAMER_APP gstreamer-app-1.0)
 pkg_check_modules(GSTREAMER_TAG gstreamer-tag-1.0)
 pkg_check_modules(GSTREAMER_PBUTILS gstreamer-pbutils-1.0)
-pkg_check_modules(LIBXINE libxine)
 pkg_check_modules(LIBVLC libvlc)
 pkg_check_modules(SQLITE REQUIRED sqlite3>=3.9)
 pkg_check_modules(LIBPULSE libpulse)
@@ -256,10 +255,6 @@ optional_component(GSTREAMER ON "Engine: GStreamer backend"
   DEPENDS "gstreamer-audio-1.0" GSTREAMER_AUDIO_FOUND
   DEPENDS "gstreamer-tag-1.0" GSTREAMER_TAG_FOUND
   DEPENDS "gstreamer-pbutils-1.0" GSTREAMER_PBUTILS_FOUND
-)
-
-optional_component(XINE ON "Engine: Xine backend"
-  DEPENDS "libxine" LIBXINE_FOUND
 )
 
 optional_component(VLC ON "Engine: VLC backend"
@@ -401,8 +396,8 @@ add_custom_target(uninstall
 
 # Show a summary of what we have enabled
 summary_show()
-if(NOT HAVE_GSTREAMER AND NOT HAVE_XINE AND NOT HAVE_VLC)
-  message(FATAL_ERROR "You need to have either GStreamer, Xine or VLC to compile!")
+if(NOT HAVE_GSTREAMER AND NOT HAVE_VLC)
+  message(FATAL_ERROR "You need to have either GStreamer or VLC to compile!")
 elseif(NOT HAVE_GSTREAMER)
   message(WARNING "GStreamer is the only engine that is fully implemented. Using other engines is possible but not recommended.")
 endif()
