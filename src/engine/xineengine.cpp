@@ -15,23 +15,12 @@
 
 #include "config.h"
 
-#ifndef XINE_ENGINE_INTERNAL
-#  define XINE_ENGINE_INTERNAL
-#endif
-
-#ifndef METRONOM_INTERNAL
-#  define METRONOM_INTERNAL
-#endif
-
 #include <cstdint>
 #include <sys/types.h>
 #include <ctime>
 #include <unistd.h>
 #include <cerrno>
 #include <xine.h>
-#ifdef XINE_ANALYZER
-#  include <xine/metronom.h>
-#endif
 
 #include <memory>
 #include <cstdlib>
@@ -58,9 +47,7 @@
 #include "enginebase.h"
 #include "enginetype.h"
 #include "xineengine.h"
-#ifdef XINE_ANALYZER
-#  include "xinescope.h"
-#endif
+#include "xinescope.h"
 
 #ifndef LLONG_MAX
 #define LLONG_MAX 9223372036854775807LL
@@ -77,10 +64,8 @@ XineEngine::XineEngine(TaskManager *task_manager)
     audioport_(nullptr),
     stream_(nullptr),
     eventqueue_(nullptr),
-#ifdef XINE_ANALYZER
     post_(nullptr),
     prune_(nullptr),
-#endif
     preamp_(1.0),
     have_metadata_(false) {
 
@@ -115,7 +100,7 @@ bool XineEngine::Init() {
 
   xine_init(xine_);
 
-#if !defined(XINE_SAFE_MODE) && defined(XINE_ANALYZER)
+#if !defined(XINE_SAFE_MODE)
   prune_.reset(new PruneScopeThread(this));
   prune_->start();
 #endif
@@ -169,7 +154,7 @@ bool XineEngine::OpenAudioDriver() {
     return false;
   }
 
-#if !defined(XINE_SAFE_MODE) && defined(XINE_ANALYZER)
+#if !defined(XINE_SAFE_MODE)
   post_ = scope_plugin_new(xine_, audioport_);
   if (!post_) {
     xine_close_audio_driver(xine_, audioport_);
@@ -187,12 +172,10 @@ bool XineEngine::OpenAudioDriver() {
 
 void XineEngine::CloseAudioDriver() {
 
-#ifdef XINE_ANALYZER
   if (post_) {
     xine_post_dispose(xine_, post_);
     post_ = nullptr;
   }
-#endif
 
   if (audioport_) {
     xine_close_audio_driver(xine_, audioport_);
@@ -259,14 +242,12 @@ bool XineEngine::EnsureStream() {
 
 void XineEngine::Cleanup() {
 
-#ifdef XINE_ANALYZER
   // Wait until the prune scope thread is done
   if (prune_) {
     prune_->exit();
     prune_->wait();
   }
   prune_.reset();
-#endif
 
   CloseStream();
   CloseAudioDriver();
@@ -310,7 +291,7 @@ bool XineEngine::Load(const QUrl &stream_url, const QUrl &original_url, const En
   int result = xine_open(stream_, stream_url.toString().toUtf8());
   if (result) {
 
-#if !defined(XINE_SAFE_MODE) && defined(XINE_ANALYZER)
+#if !defined(XINE_SAFE_MODE)
     xine_post_out_t *source = xine_get_audio_source(stream_);
     xine_post_in_t *target = (xine_post_in_t*)xine_post_input(post_, const_cast<char*>("audio in"));
     xine_post_wire(source, target);
@@ -893,8 +874,6 @@ void XineEngine::DetermineAndShowErrorMessage() {
 
 }
 
-#ifdef XINE_ANALYZER
-
 const Engine::Scope &XineEngine::scope(const int chunk_length) {
 
   Q_UNUSED(chunk_length);
@@ -903,7 +882,6 @@ const Engine::Scope &XineEngine::scope(const int chunk_length) {
     return scope_;
 
   MyNode *const myList = scope_plugin_list(post_);
-  metronom_t *const myMetronom = scope_plugin_metronom(post_);
   const int myChannels = scope_plugin_channels(post_);
   int scopeidx = 0;
 
@@ -925,7 +903,7 @@ const Engine::Scope &XineEngine::scope(const int chunk_length) {
     int64_t diff = current_vpts_;
     diff -= best_node->vpts;
     diff *= 1<<16;
-    diff /= myMetronom->pts_per_smpls;
+    diff /= 32768;
 
     const int16_t *data16  = best_node->mem;
     data16 += diff;
@@ -1004,8 +982,6 @@ void PruneScopeThread::run() {
   exec();
 
 }
-
-#endif
 
 EngineBase::PluginDetailsList XineEngine::GetPluginList() const {
 

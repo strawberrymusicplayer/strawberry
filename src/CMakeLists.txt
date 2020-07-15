@@ -535,11 +535,8 @@ optional_source(HAVE_GSTREAMER
 
 # Xine
 optional_source(HAVE_XINE
-  SOURCES engine/xineengine.cpp
+  SOURCES engine/xineengine.cpp engine/xinescope.c
   HEADERS engine/xineengine.h
-)
-optional_source(XINE_ANALYZER
-  SOURCES engine/xinescope.c
 )
 
 # VLC

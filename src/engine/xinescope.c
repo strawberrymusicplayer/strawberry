@@ -80,7 +80,7 @@ static void scope_port_put_buffer(xine_audio_port_t *port_gen, audio_buffer_t *b
 
   {
     int64_t
-    K  = myMetronom->pts_per_smpls; /*smpls = 1<<16 samples*/
+    K  = 32768; /*smpls = 1<<16 samples*/
     K *= num_samples;
     K /= (1<<16);
     K += new_node->vpts;

@@ -44,7 +44,6 @@
 #cmakedefine HAVE_GSTREAMER
 #cmakedefine HAVE_VLC
 #cmakedefine HAVE_XINE
-#cmakedefine XINE_ANALYZER
 
 #cmakedefine HAVE_SUBSONIC
 #cmakedefine HAVE_TIDAL
