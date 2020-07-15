@@ -64,17 +64,10 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
   connect(ui_->checkbox_showtrayicon, SIGNAL(toggled(bool)), SLOT(ShowTrayIconToggled(bool)));
 
 #ifdef Q_OS_MACOS
-  ui_->checkbox_showtrayicon->setEnabled(false);
-  ui_->groupbox_startup->setEnabled(false);
-#else
-  if (QSystemTrayIcon::isSystemTrayAvailable()) {
-    ui_->checkbox_showtrayicon->setEnabled(true);
-    ui_->groupbox_startup->setEnabled(true);
-  }
-  else {
-    ui_->checkbox_showtrayicon->setEnabled(false);
-    ui_->groupbox_startup->setEnabled(false);
-  }
+  ui_->checkbox_showtrayicon->hide();
+  ui_->checkbox_keeprunning->hide();
+  ui_->checkbox_scrolltrayicon->hide();
+  ui_->groupbox_startup->hide();
 #endif
 
 #ifdef HAVE_TRANSLATIONS
@@ -150,33 +143,56 @@ void BehaviourSettingsPage::Load() {
   QSettings s;
 
   s.beginGroup(kSettingsGroup);
-#ifdef Q_OS_MACOS
-  ui_->checkbox_showtrayicon->setChecked(false);
-  ui_->checkbox_scrolltrayicon->setChecked(false);
-  ui_->checkbox_keeprunning->setChecked(false);
-#else
+#ifndef Q_OS_MACOS
   if (QSystemTrayIcon::isSystemTrayAvailable()) {
+    ui_->checkbox_showtrayicon->setEnabled(true);
+    ui_->checkbox_keeprunning->setEnabled(true);
+    ui_->checkbox_scrolltrayicon->setEnabled(true);
+    ui_->radiobutton_hide->setEnabled(true);
     ui_->checkbox_showtrayicon->setChecked(s.value("showtrayicon", true).toBool());
-    ui_->checkbox_scrolltrayicon->setChecked(s.value("scrolltrayicon", ui_->checkbox_showtrayicon->isChecked()).toBool());
     ui_->checkbox_keeprunning->setChecked(s.value("keeprunning", false).toBool());
+    ui_->checkbox_scrolltrayicon->setChecked(s.value("scrolltrayicon", ui_->checkbox_showtrayicon->isChecked()).toBool());
   }
   else {
+    ui_->checkbox_showtrayicon->setEnabled(false);
+    ui_->checkbox_keeprunning->setEnabled(false);
+    ui_->checkbox_scrolltrayicon->setEnabled(false);
+    ui_->radiobutton_hide->setEnabled(false);
     ui_->checkbox_showtrayicon->setChecked(false);
-    ui_->checkbox_scrolltrayicon->setChecked(false);
     ui_->checkbox_keeprunning->setChecked(false);
+    ui_->checkbox_scrolltrayicon->setChecked(false);
+    ui_->radiobutton_hide->setChecked(false);
   }
 #endif
+
   ui_->checkbox_resumeplayback->setChecked(s.value("resumeplayback", false).toBool());
   ui_->checkbox_playingwidget->setChecked(s.value("playing_widget", true).toBool());
 
+#ifndef Q_OS_MACOS
   StartupBehaviour behaviour = StartupBehaviour(s.value("startupbehaviour", Startup_Remember).toInt());
   switch (behaviour) {
-    case Startup_Remember:   ui_->radiobutton_remember->setChecked(true); break;
-    case Startup_Show:   ui_->radiobutton_show->setChecked(true); break;
-    case Startup_Hide: ui_->radiobutton_hide->setChecked(true); break;
-    case Startup_ShowMaximized: ui_->radiobutton_show_maximized->setChecked(true); break;
-    case Startup_ShowMinimized: ui_->radiobutton_show_minimized->setChecked(true); break;
+    case Startup_Show:
+      ui_->radiobutton_show->setChecked(true);
+      break;
+    case Startup_ShowMaximized:
+      ui_->radiobutton_show_maximized->setChecked(true);
+      break;
+    case Startup_ShowMinimized:
+      ui_->radiobutton_show_minimized->setChecked(true);
+      break;
+    case Startup_Hide:
+      if (QSystemTrayIcon::isSystemTrayAvailable()) {
+        ui_->radiobutton_hide->setChecked(true);
+        break;
+      }
+      ;
+      // fallthrough
+    case BehaviourSettingsPage::Startup_Remember:
+    default:
+      ui_->radiobutton_remember->setChecked(true);
+      break;
   }
+#endif
 
   QString name = language_map_.key(s.value("language").toString());
   if (name.isEmpty())
