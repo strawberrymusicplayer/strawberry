@@ -822,42 +822,48 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   // Reload playlist settings, for BG and glowing
   ui_->playlist->view()->ReloadSettings();
 
-#ifdef Q_OS_MACOS // Always show mainwindow on startup if on macos
+#ifdef Q_OS_MACOS // Always show the mainwindow on startup for macOS
   show();
 #else
   QSettings s;
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
   BehaviourSettingsPage::StartupBehaviour behaviour = BehaviourSettingsPage::StartupBehaviour(s.value("startupbehaviour", BehaviourSettingsPage::Startup_Remember).toInt());
   s.endGroup();
-  bool hidden = settings_.value("hidden", false).toBool();
-  if (hidden && (!QSystemTrayIcon::isSystemTrayAvailable() || !tray_icon_ || !tray_icon_->IsVisible())) {
-    hidden = false;
-    settings_.setValue("hidden", false);
-    show();
-  }
-  else {
-    switch (behaviour) {
-      case BehaviourSettingsPage::Startup_Remember:
-        was_maximized_ = settings_.value("maximized", true).toBool();
-        if (was_maximized_) setWindowState(windowState() | Qt::WindowMaximized);
-        was_minimized_ = settings_.value("minimized", false).toBool();
-        if (was_minimized_) setWindowState(windowState() | Qt::WindowMinimized);
-        setVisible(!hidden);
-        break;
-      case BehaviourSettingsPage::Startup_Show:
-        show();
-        break;
-      case BehaviourSettingsPage::Startup_Hide:
+  switch (behaviour) {
+    case BehaviourSettingsPage::Startup_Show:
+      show();
+      break;
+    case BehaviourSettingsPage::Startup_ShowMaximized:
+      setWindowState(windowState() | Qt::WindowMaximized);
+      show();
+      break;
+    case BehaviourSettingsPage::Startup_ShowMinimized:
+      setWindowState(windowState() | Qt::WindowMinimized);
+      show();
+      break;
+    case BehaviourSettingsPage::Startup_Hide:
+      if (QSystemTrayIcon::isSystemTrayAvailable() && tray_icon_ && tray_icon_->IsVisible()) {
         hide();
         break;
-      case BehaviourSettingsPage::Startup_ShowMaximized:
-        setWindowState(windowState() | Qt::WindowMaximized);
+      }
+      // fallthrough
+    case BehaviourSettingsPage::Startup_Remember:
+    default: {
+
+      was_maximized_ = settings_.value("maximized", true).toBool();
+      if (was_maximized_) setWindowState(windowState() | Qt::WindowMaximized);
+
+      was_minimized_ = settings_.value("minimized", false).toBool();
+      if (was_minimized_) setWindowState(windowState() | Qt::WindowMinimized);
+
+      if (!QSystemTrayIcon::isSystemTrayAvailable() || !tray_icon_ || !tray_icon_->IsVisible()) {
+        settings_.setValue("hidden", false);
         show();
-        break;
-      case BehaviourSettingsPage::Startup_ShowMinimized:
-        setWindowState(windowState() | Qt::WindowMinimized);
-        show();
-        break;
+      }
+      else {
+        setVisible(!settings_.value("hidden", false).toBool());
+      }
+      break;
     }
   }
 #endif
