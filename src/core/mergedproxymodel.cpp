@@ -193,7 +193,7 @@ void MergedProxyModel::SourceModelReset() {
 
 void MergedProxyModel::SubModelReset() {
 
-  QAbstractItemModel *submodel = static_cast<QAbstractItemModel*>(sender());
+  QAbstractItemModel *submodel = qobject_cast<QAbstractItemModel*>(sender());
 
   // TODO: When we require Qt 4.6, use beginResetModel() and endResetModel() in CollectionModel and catch those here
   // that will let us do away with this std::numeric_limits<int>::max() hack.
@@ -241,7 +241,7 @@ QModelIndex MergedProxyModel::GetActualSourceParent(const QModelIndex &source_pa
 }
 
 void MergedProxyModel::RowsAboutToBeInserted(const QModelIndex &source_parent, int start, int end) {
-  beginInsertRows(mapFromSource(GetActualSourceParent(source_parent, static_cast<QAbstractItemModel*>(sender()))), start, end);
+  beginInsertRows(mapFromSource(GetActualSourceParent(source_parent, qobject_cast<QAbstractItemModel*>(sender()))), start, end);
 }
 
 void MergedProxyModel::RowsInserted(const QModelIndex&, int, int) {
@@ -249,7 +249,7 @@ void MergedProxyModel::RowsInserted(const QModelIndex&, int, int) {
 }
 
 void MergedProxyModel::RowsAboutToBeRemoved(const QModelIndex &source_parent, int start, int end) {
-  beginRemoveRows(mapFromSource(GetActualSourceParent(source_parent, static_cast<QAbstractItemModel*>(sender()))), start, end);
+  beginRemoveRows(mapFromSource(GetActualSourceParent(source_parent, qobject_cast<QAbstractItemModel*>(sender()))), start, end);
 }
 
 void MergedProxyModel::RowsRemoved(const QModelIndex&, int, int) {

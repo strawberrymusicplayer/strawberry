@@ -105,7 +105,7 @@ void FilesystemDevice::Close() {
 
 void FilesystemDevice::ExitFinished() {
 
-  QObject *obj = static_cast<QObject*>(sender());
+  QObject *obj = qobject_cast<QObject*>(sender());
   if (!obj) return;
   disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";

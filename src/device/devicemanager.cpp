@@ -205,7 +205,7 @@ void DeviceManager::CloseBackend() {
 
 void DeviceManager::BackendClosed() {
 
-  QObject *obj = static_cast<QObject*>(sender());
+  QObject *obj = qobject_cast<QObject*>(sender());
   disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully closed.";
   wait_for_exit_.removeAll(obj);
@@ -215,7 +215,7 @@ void DeviceManager::BackendClosed() {
 
 void DeviceManager::ListerClosed() {
 
-  DeviceLister *lister = static_cast<DeviceLister*>(sender());
+  DeviceLister *lister = qobject_cast<DeviceLister*>(sender());
   if (!lister) return;
 
   disconnect(lister, nullptr, this, nullptr);
@@ -228,7 +228,7 @@ void DeviceManager::ListerClosed() {
 
 void DeviceManager::DeviceDestroyed() {
 
-  ConnectedDevice *device = static_cast<ConnectedDevice*>(sender());
+  ConnectedDevice *device = qobject_cast<ConnectedDevice*>(sender());
   if (!wait_for_exit_.contains(device) || !backend_) return;
 
   wait_for_exit_.removeAll(device);
@@ -645,7 +645,7 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
       Q_ARG(int, info->database_id_),
       Q_ARG(bool, first_time));
 
-  ret.reset(static_cast<ConnectedDevice*>(instance));
+  ret.reset(qobject_cast<ConnectedDevice*>(instance));
 
   if (!ret) {
     qLog(Warning) << "Could not create device for" << device_url.toString();

@@ -145,7 +145,7 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
   background_ = QPixmap(":/pictures/osd_background.png");
 
   // Set the margins to allow for the drop shadow
-  QBoxLayout *l = static_cast<QBoxLayout*>(layout());
+  QBoxLayout *l = qobject_cast<QBoxLayout*>(layout());
   int margin = l->margin() + kDropShadowSize;
   l->setMargin(margin);
 

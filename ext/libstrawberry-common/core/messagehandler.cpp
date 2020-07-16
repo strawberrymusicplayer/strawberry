@@ -102,10 +102,10 @@ void _MessageHandlerBase::WriteMessage(const QByteArray &data) {
 
   // Sorry.
   if (flush_abstract_socket_) {
-    ((static_cast<QAbstractSocket*>(device_))->*(flush_abstract_socket_))();
+    ((qobject_cast<QAbstractSocket*>(device_))->*(flush_abstract_socket_))();
   }
   else if (flush_local_socket_) {
-    ((static_cast<QLocalSocket*>(device_))->*(flush_local_socket_))();
+    ((qobject_cast<QLocalSocket*>(device_))->*(flush_local_socket_))();
   }
 }
 

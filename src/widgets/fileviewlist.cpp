@@ -72,7 +72,7 @@ QList<QUrl> FileViewList::UrlListFromSelection() const {
   QList<QUrl> urls;
   for (const QModelIndex& index : menu_selection_.indexes()) {
     if (index.column() == 0)
-      urls << QUrl::fromLocalFile(static_cast<QFileSystemModel*>(model())->fileInfo(index).canonicalFilePath());
+      urls << QUrl::fromLocalFile(qobject_cast<QFileSystemModel*>(model())->fileInfo(index).canonicalFilePath());
   }
   std::sort(urls.begin(), urls.end());
 
@@ -98,7 +98,7 @@ MimeData *FileViewList::MimeDataFromSelection() const {
   }
   // otherwise, use the current root path
   else {
-    QString path = static_cast<QFileSystemModel*>(model())->rootPath();
+    QString path = qobject_cast<QFileSystemModel*>(model())->rootPath();
     if (path.length() > 20) {
       QFileInfo info(path);
       if (info.isDir()) {
@@ -122,7 +122,7 @@ QStringList FileViewList::FilenamesFromSelection() const {
   QStringList filenames;
   for (const QModelIndex& index : menu_selection_.indexes()) {
     if (index.column() == 0)
-      filenames << static_cast<QFileSystemModel*>(model())->filePath(index);
+      filenames << qobject_cast<QFileSystemModel*>(model())->filePath(index);
   }
   return filenames;
 

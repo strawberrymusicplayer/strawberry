@@ -168,7 +168,7 @@ SettingsDialog::SettingsDialog(Application *app, QMainWindow *mainwindow, QWidge
   ui_->list->setCurrentItem(pages_[Page_Behaviour].item_);
 
   // Make sure the list is big enough to show all the items
-  ui_->list->setMinimumWidth(static_cast<QAbstractItemView*>(ui_->list)->sizeHintForColumn(0));
+  ui_->list->setMinimumWidth(qobject_cast<QAbstractItemView*>(ui_->list)->sizeHintForColumn(0));
 
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
 

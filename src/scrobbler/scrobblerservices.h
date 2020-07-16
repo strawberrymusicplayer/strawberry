@@ -48,7 +48,7 @@ class ScrobblerServices : public QObject {
   ScrobblerService *ServiceByName(const QString &name);
   template <typename T>
   T *Service() {
-    return static_cast<T*>(this->ServiceByName(T::kName));
+    return qobject_cast<T*>(this->ServiceByName(T::kName));
   }
 
  private:

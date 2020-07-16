@@ -178,7 +178,7 @@ void GlobalShortcuts::Unregister() {
 
 bool GlobalShortcuts::IsMacAccessibilityEnabled() const {
 #ifdef Q_OS_MACOS
-  if (system_backend_) return static_cast<GlobalShortcutBackendMacOS*>(system_backend_)->IsAccessibilityEnabled();
+  if (system_backend_) return qobject_cast<GlobalShortcutBackendMacOS*>(system_backend_)->IsAccessibilityEnabled();
   else return false;
 #else
   return true;
@@ -187,6 +187,6 @@ bool GlobalShortcuts::IsMacAccessibilityEnabled() const {
 
 void GlobalShortcuts::ShowMacAccessibilityDialog() {
 #ifdef Q_OS_MACOS
-  if (system_backend_) static_cast<GlobalShortcutBackendMacOS*>(system_backend_)->ShowAccessibilityDialog();
+  if (system_backend_) qobject_cast<GlobalShortcutBackendMacOS*>(system_backend_)->ShowAccessibilityDialog();
 #endif
 }
