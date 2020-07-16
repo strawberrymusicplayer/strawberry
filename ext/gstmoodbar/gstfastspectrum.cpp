@@ -179,7 +179,7 @@ static void gst_fastspectrum_reset_state (GstFastSpectrum * spectrum) {
 
 static void gst_fastspectrum_finalize (GObject * object) {
 
-  GstFastSpectrum *spectrum = GST_FASTSPECTRUM (object);
+  GstFastSpectrum *spectrum = reinterpret_cast<GstFastSpectrum*>(object);
 
   gst_fastspectrum_reset_state (spectrum);
   g_mutex_clear (&spectrum->lock);
@@ -190,7 +190,7 @@ static void gst_fastspectrum_finalize (GObject * object) {
 
 static void gst_fastspectrum_set_property (GObject * object, guint prop_id, const GValue * value, GParamSpec * pspec) {
 
-  GstFastSpectrum *filter = GST_FASTSPECTRUM (object);
+  GstFastSpectrum *filter = reinterpret_cast<GstFastSpectrum*>(object);
 
   switch (prop_id) {
     case PROP_INTERVAL:{
@@ -222,7 +222,7 @@ static void gst_fastspectrum_set_property (GObject * object, guint prop_id, cons
 
 static void gst_fastspectrum_get_property (GObject * object, guint prop_id, GValue * value, GParamSpec * pspec) {
 
-  GstFastSpectrum *filter = GST_FASTSPECTRUM (object);
+  GstFastSpectrum *filter = reinterpret_cast<GstFastSpectrum*>(object);
 
   switch (prop_id) {
     case PROP_INTERVAL:
@@ -240,7 +240,7 @@ static void gst_fastspectrum_get_property (GObject * object, guint prop_id, GVal
 
 static gboolean gst_fastspectrum_start (GstBaseTransform * trans) {
 
-  GstFastSpectrum *spectrum = GST_FASTSPECTRUM (trans);
+  GstFastSpectrum *spectrum = reinterpret_cast<GstFastSpectrum*>(trans);
 
   gst_fastspectrum_reset_state (spectrum);
 
@@ -250,7 +250,7 @@ static gboolean gst_fastspectrum_start (GstBaseTransform * trans) {
 
 static gboolean gst_fastspectrum_stop (GstBaseTransform * trans) {
 
-  GstFastSpectrum *spectrum = GST_FASTSPECTRUM (trans);
+  GstFastSpectrum *spectrum = reinterpret_cast<GstFastSpectrum*>(trans);
 
   gst_fastspectrum_reset_state (spectrum);
 
@@ -334,7 +334,7 @@ static void input_data_mixed_int16_max (const guint8 * _in, double * out, guint 
 
 static gboolean gst_fastspectrum_setup (GstAudioFilter * base, const GstAudioInfo * info) {
 
-  GstFastSpectrum *spectrum = GST_FASTSPECTRUM (base);
+  GstFastSpectrum *spectrum = reinterpret_cast<GstFastSpectrum*>(base);
   GstFastSpectrumInputData input_data = nullptr;
 
   g_mutex_lock (&spectrum->lock);
@@ -392,7 +392,7 @@ static void gst_fastspectrum_run_fft (GstFastSpectrum * spectrum, guint input_po
 
 static GstFlowReturn gst_fastspectrum_transform_ip (GstBaseTransform *trans, GstBuffer *buffer) {
 
-  GstFastSpectrum *spectrum = GST_FASTSPECTRUM (trans);
+  GstFastSpectrum *spectrum = reinterpret_cast<GstFastSpectrum*>(trans);
   guint rate = GST_AUDIO_FILTER_RATE (spectrum);
   guint bps = GST_AUDIO_FILTER_BPS (spectrum);
   guint bpf = GST_AUDIO_FILTER_BPF (spectrum);
