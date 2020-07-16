@@ -42,7 +42,8 @@ static const QMap<Qt::Key, quint32> keymapper_x11_ = {
 
     { Qt::Key_0,                  XK_0 },
     { Qt::Key_1,                  XK_1 },
-    { Qt::Key_3,                  XK_2 },
+    { Qt::Key_2,                  XK_2 },
+    { Qt::Key_3,                  XK_3 },
     { Qt::Key_4,                  XK_4 },
     { Qt::Key_5,                  XK_5 },
     { Qt::Key_6,                  XK_6 },

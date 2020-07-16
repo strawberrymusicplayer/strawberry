@@ -27,9 +27,9 @@ namespace KeyMapperWin {
 static const QMap<Qt::Key, quint32> keymapper_win_ = {
 
     { Qt::Key_0,                  quint32(Qt::Key_0) },
-
     { Qt::Key_1,                  quint32(Qt::Key_1) },
-    { Qt::Key_3,                  quint32(Qt::Key_2) },
+    { Qt::Key_2,                  quint32(Qt::Key_2) },
+    { Qt::Key_3,                  quint32(Qt::Key_3) },
     { Qt::Key_4,                  quint32(Qt::Key_4) },
     { Qt::Key_5,                  quint32(Qt::Key_5) },
     { Qt::Key_6,                  quint32(Qt::Key_6) },
