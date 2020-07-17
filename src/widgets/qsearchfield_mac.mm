@@ -159,7 +159,7 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   NSSearchField *search = [[QocoaSearchField alloc] init];
   QSearchFieldDelegate *delegate = [[QSearchFieldDelegate alloc] init];
   pimpl = delegate->pimpl = new QSearchFieldPrivate(this, search);
-  [search setDelegate:delegate];
+  [search setDelegate:(id<NSSearchFieldDelegate>)delegate];
   setupLayout(search, this);
   setFixedHeight(24);
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -167,7 +167,9 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   [pool drain];
 }
 
-void QSearchField::setIconSize(const int iconsize) {}
+void QSearchField::setIconSize(const int iconsize) {
+  Q_UNUSED(iconsize);
+}
 
 void QSearchField::setText(const QString &text) {
   Q_ASSERT(pimpl);
