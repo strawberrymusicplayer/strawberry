@@ -13,6 +13,10 @@
     SBSystemPreferencesWindow, SBSystemPreferencesPane,
     SBSystemPreferencesAnchor;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmultichar"
+#pragma GCC diagnostic ignored "-Wfour-char-constants"
+
 enum SBSystemPreferencesSaveOptions {
   SBSystemPreferencesSaveOptionsYes = 'yes ' /* Save the file. */,
   SBSystemPreferencesSaveOptionsNo = 'no  ' /* Do not save the file. */,
@@ -27,6 +31,9 @@ enum SBSystemPreferencesPrintingErrorHandling {
   SBSystemPreferencesPrintingErrorHandlingDetailed =
       'lwdt' /* print a detailed report of PostScript errors */
 };
+
+#pragma GCC diagnostic pop
+
 typedef enum SBSystemPreferencesPrintingErrorHandling
     SBSystemPreferencesPrintingErrorHandling;
 
