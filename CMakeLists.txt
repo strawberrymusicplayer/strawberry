@@ -50,15 +50,10 @@ list(APPEND COMPILE_OPTIONS
   -Wunused-parameter
   -Wformat=2
   -Wdisabled-optimization
-  -Wno-sign-conversion
   $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
   $<$<COMPILE_LANGUAGE:CXX>:-Wno-old-style-cast>
   $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
 )
-
-if(APPLE)
-  list(APPEND COMPILE_OPTIONS -Wno-unused-parameter)
-endif()
 
 option(BUILD_WERROR "Build with -Werror" OFF)
 if(BUILD_WERROR)
