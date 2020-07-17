@@ -160,6 +160,9 @@ inline String formatString(const char *format, ...) {
   char buf[BufferSize];
   int length;
 
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wformat-nonliteral"
+
 #  if defined(HAVE_VSNPRINTF)
 
   length = vsnprintf(buf, BufferSize, format, args);
@@ -179,6 +182,8 @@ inline String formatString(const char *format, ...) {
   }
 
 #  endif
+
+  #pragma GCC diagnostic pop
 
   va_end(args);
 
