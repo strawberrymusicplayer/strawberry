@@ -57,6 +57,10 @@ static inline void setupLayout(NSView *cocoaView, QWidget *parent) {
   parent->setAttribute(Qt::WA_NativeWindow);
   QVBoxLayout *layout = new QVBoxLayout(parent);
   layout->setMargin(0);
+  // FIXME
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
   layout->addWidget(new QMacCocoaViewContainer(cocoaView, parent));
+  #pragma GCC diagnostic pop
 
 }
