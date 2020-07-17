@@ -159,7 +159,7 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 - (void)application:(NSApplication*)app openFiles:(NSArray*)filenames {
 
   qLog(Debug) << "Wants to open:" << filenames;
-  [filenames enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL* stop) {
+  [filenames enumerateObjectsUsingBlock:^(id object, NSUInteger, BOOL*) {
     [self application:app openFile:(NSString*)object];
   }];
 

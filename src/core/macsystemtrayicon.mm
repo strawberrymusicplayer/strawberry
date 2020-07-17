@@ -206,5 +206,6 @@ void MacSystemTrayIcon::ClearNowPlaying() {
 }
 
 void MacSystemTrayIcon::SetNowPlaying(const Song& song, const QUrl& cover_url) {
+  Q_UNUSED(cover_url);
   p_->ShowNowPlaying(song.artist(), song.PrettyTitle());
 }

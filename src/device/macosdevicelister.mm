@@ -837,7 +837,10 @@ quint64 MacOsDeviceLister::DeviceFreeSpace(const QString& serial) {
 
 }
 
-QVariantMap MacOsDeviceLister::DeviceHardwareInfo(const QString& serial){return QVariantMap();}
+QVariantMap MacOsDeviceLister::DeviceHardwareInfo(const QString& serial){
+  Q_UNUSED(serial);
+  return QVariantMap();
+}
 
 bool MacOsDeviceLister::AskForScan(const QString& serial) const {
   return !IsCDDevice(serial);

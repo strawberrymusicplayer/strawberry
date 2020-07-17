@@ -59,6 +59,7 @@ bool OSD::SupportsTrayPopups() { return false; }
 
 void OSD::ShowMessageNative(const QString& summary, const QString& message, const QString& icon, const QImage& image) {
   Q_UNUSED(icon);
+  Q_UNUSED(image);
   if (NotificationCenterSupported()) {
     scoped_nsobject<NSString> mac_message(
         [[NSString alloc] initWithUTF8String:message.toUtf8().constData()]);

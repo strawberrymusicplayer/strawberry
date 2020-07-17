@@ -47,6 +47,10 @@ void MacFSListener::Init() { run_loop_ = CFRunLoopGetCurrent(); }
 
 void MacFSListener::EventStreamCallback(ConstFSEventStreamRef stream, void* user_data, size_t num_events, void* event_paths, const FSEventStreamEventFlags event_flags[], const FSEventStreamEventId event_ids[]) {
 
+  Q_UNUSED(stream);
+  Q_UNUSED(event_flags);
+  Q_UNUSED(event_ids);
+
   MacFSListener* me = reinterpret_cast<MacFSListener*>(user_data);
   char** paths = reinterpret_cast<char**>(event_paths);
   for (size_t i = 0; i < num_events; ++i) {
