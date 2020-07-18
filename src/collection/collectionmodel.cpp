@@ -44,7 +44,7 @@
 #include <QUrl>
 #include <QImage>
 #include <QChar>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QPixmapCache>
 #include <QNetworkDiskCache>
 #include <QSettings>
@@ -861,7 +861,6 @@ void CollectionModel::LazyPopulate(CollectionItem *parent, const bool signal) {
 void CollectionModel::ResetAsync() {
   QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(this, &CollectionModel::RunQuery, root_);
   NewClosure(future, this, SLOT(ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult>)), future);
-
 }
 
 void CollectionModel::ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult> future) {
@@ -1421,7 +1420,7 @@ QString CollectionModel::PrettyYearAlbum(const int year, const QString &album) {
 
 QString CollectionModel::PrettyAlbumDisc(const QString &album, const int disc) {
 
-  if (disc <= 0 || album.contains(QRegExp(Song::kAlbumRemoveDisc))) return TextOrUnknown(album);
+  if (disc <= 0 || album.contains(QRegularExpression(Song::kAlbumRemoveDisc))) return TextOrUnknown(album);
   else return TextOrUnknown(album) + " - (Disc " + QString::number(disc) + ")";
 
 }
@@ -1433,7 +1432,7 @@ QString CollectionModel::PrettyYearAlbumDisc(const int year, const QString &albu
   if (year <= 0) str = TextOrUnknown(album);
   else str = QString::number(year) + " - " + TextOrUnknown(album);
 
-  if (!album.contains(QRegExp(Song::kAlbumRemoveDisc)) && disc > 0) str += " - (Disc " + QString::number(disc) + ")";
+  if (!album.contains(QRegularExpression(Song::kAlbumRemoveDisc)) && disc > 0) str += " - (Disc " + QString::number(disc) + ")";
 
   return str;
 
@@ -1447,7 +1446,7 @@ QString CollectionModel::SortText(QString text) {
   else {
     text = text.toLower();
   }
-  text = text.remove(QRegExp("[^\\w ]"));
+  text = text.remove(QRegularExpression("[^\\w ]"));
 
   return text;
 

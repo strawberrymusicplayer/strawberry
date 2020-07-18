@@ -50,6 +50,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QRegularExpression>
 #include <QRegExp>
 #include <QTcpServer>
 #include <QTemporaryFile>
@@ -157,7 +158,7 @@ QString WordyTimeNanosec(qint64 nanoseconds) {
 QString Ago(int seconds_since_epoch, const QLocale &locale) {
 
   const QDateTime now = QDateTime::currentDateTime();
-  const QDateTime then = QDateTime::fromTime_t(seconds_since_epoch);
+  const QDateTime then = QDateTime::fromSecsSinceEpoch(seconds_since_epoch);
   const int days_ago = then.date().daysTo(now.date());
   const QString time = then.time().toString(locale.timeFormat(QLocale::ShortFormat));
 
@@ -531,16 +532,6 @@ QByteArray Sha1CoverHash(const QString &artist, const QString &album) {
 
 QString PrettySize(const QSize &size) {
   return QString::number(size.width()) + "x" + QString::number(size.height());
-}
-
-void ForwardMouseEvent(const QMouseEvent *e, QWidget *target) {
-  QMouseEvent c(e->type(), target->mapFromGlobal(e->globalPos()), e->globalPos(), e->button(), e->buttons(), e->modifiers());
-
-  QApplication::sendEvent(target, &c);
-}
-
-bool IsMouseEventInWidget(const QMouseEvent *e, const QWidget *widget) {
-  return widget->rect().contains(widget->mapFromGlobal(e->globalPos()));
 }
 
 quint16 PickUnusedPort() {
@@ -944,7 +935,7 @@ QString ReplaceMessage(const QString &message, const Song &song, const QString &
     pos += variable_replacer.matchedLength();
   }
 
-  int index_of = copy.indexOf(QRegExp(" - (>|$)"));
+  int index_of = copy.indexOf(QRegularExpression(" - (>|$)"));
   if (index_of >= 0) copy = copy.remove(index_of, 3);
 
   return copy;

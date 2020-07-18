@@ -31,7 +31,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QInputDialog>
 #include <QList>
 #include <QTimer>
@@ -63,7 +63,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
   ui_->setupUi(this);
 
-  QString available_fields = Song::kFtsColumns.join(", ").replace(QRegExp("\\bfts"), "");
+  QString available_fields = Song::kFtsColumns.join(", ").replace(QRegularExpression("\\bfts"), "");
 
   ui_->filter->setToolTip(
   "<html><head/><body><p>" +

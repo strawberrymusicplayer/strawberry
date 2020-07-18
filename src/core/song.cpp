@@ -37,6 +37,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QRegularExpression>
 #include <QRegExp>
 #include <QUrl>
 #include <QImage>
@@ -148,9 +149,9 @@ const QString Song::kFtsUpdateSpec = Utilities::Updateify(Song::kFtsColumns).joi
 const QString Song::kManuallyUnsetCover = "(unset)";
 const QString Song::kEmbeddedCover = "(embedded)";
 
-const QRegExp Song::kAlbumRemoveDisc(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$");
-const QRegExp Song::kAlbumRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|([0-9]{1,4}) *Remaster) ?((\\)|\\])?)$");
-const QRegExp Song::kTitleRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|Live|Remastered Version|([0-9]{1,4}) *Remaster) ?((\\)|\\])?)$");
+const QRegularExpression Song::kAlbumRemoveDisc(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$");
+const QRegularExpression Song::kAlbumRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|([0-9]{1,4}) *Remaster) ?((\\)|\\])?)$");
+const QRegularExpression Song::kTitleRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|Live|Remastered Version|([0-9]{1,4}) *Remaster) ?((\\)|\\])?)$");
 const QString Song::kVariousArtists("various artists");
 
 const QStringList Song::kArticles = QStringList() << "the " << "a " << "an ";
@@ -322,8 +323,8 @@ const QUrl &Song::url() const { return d->url_; }
 const QString &Song::basefilename() const { return d->basefilename_; }
 Song::FileType Song::filetype() const { return d->filetype_; }
 int Song::filesize() const { return d->filesize_; }
-uint Song::mtime() const { return d->mtime_; }
-uint Song::ctime() const { return d->ctime_; }
+quint64 Song::mtime() const { return d->mtime_; }
+quint64 Song::ctime() const { return d->ctime_; }
 
 int Song::playcount() const { return d->playcount_; }
 int Song::skipcount() const { return d->skipcount_; }
@@ -958,7 +959,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
 
     else if (Song::kColumns.value(i) == "art_automatic") {
       QString art_automatic = tostr(x);
-      if (art_automatic.contains(QRegExp("..+:.*"))) {
+      if (art_automatic.contains(QRegularExpression("..+:.*"))) {
         set_art_automatic(QUrl::fromEncoded(art_automatic.toUtf8()));
       }
       else {
@@ -967,7 +968,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     }
     else if (Song::kColumns.value(i) == "art_manual") {
       QString art_manual = tostr(x);
-      if (art_manual.contains(QRegExp("..+:.*"))) {
+      if (art_manual.contains(QRegularExpression("..+:.*"))) {
         set_art_manual(QUrl::fromEncoded(art_manual.toUtf8()));
       }
       else {

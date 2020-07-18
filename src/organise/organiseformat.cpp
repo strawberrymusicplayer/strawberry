@@ -27,6 +27,7 @@
 #include <QString>
 #include <QStringBuilder>
 #include <QStringList>
+#include <QRegularExpression>
 #include <QRegExp>
 #include <QUrl>
 #include <QFileInfo>
@@ -68,10 +69,10 @@ const QStringList OrganiseFormat::kKnownTags = QStringList() << "title"
                                                              << "grouping"
                                                              << "lyrics";
 
-const QRegExp OrganiseFormat::kInvalidDirCharacters("[/\\\\]");
-const QRegExp OrganiseFormat::kProblematicCharacters("[:?*\"<>|]");
+const QRegularExpression OrganiseFormat::kInvalidDirCharacters("[/\\\\]");
+const QRegularExpression OrganiseFormat::kProblematicCharacters("[:?*\"<>|]");
 // From http://en.wikipedia.org/wiki/8.3_filename#Directory_table
-const QRegExp OrganiseFormat::kInvalidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]");
+const QRegularExpression OrganiseFormat::kInvalidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]");
 
 const char OrganiseFormat::kInvalidPrefixCharacters[] = ".";
 const int OrganiseFormat::kInvalidPrefixCharactersCount = arraysize(OrganiseFormat::kInvalidPrefixCharacters) - 1;
@@ -126,7 +127,7 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
     if (allow_ascii_ext_) ascii = 255;
     QString stripped;
     for (int i = 0 ; i < filename.length() ; ++i) {
-      const QCharRef c = filename[i];
+      const QChar c = filename[i];
       if (c < ascii) {
         stripped.append(c);
       }
@@ -167,7 +168,7 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
   }
   filename = parts_new.join("/");
 
-  if (replace_spaces_) filename.replace(QRegExp("\\s"), "_");
+  if (replace_spaces_) filename.replace(QRegularExpression("\\s"), "_");
 
   if (!extension.isEmpty()) {
     filename.append(QString(".%1").arg(extension));
@@ -254,7 +255,7 @@ QString OrganiseFormat::TagValue(const QString &tag, const Song &song) const {
   else if (tag == "artistinitial") {
     value = song.effective_albumartist().trimmed();
     if (!value.isEmpty()) {
-      value.replace(QRegExp("^the\\s+", Qt::CaseInsensitive), "");
+      value.replace(QRegularExpression("^the\\s+", QRegularExpression::CaseInsensitiveOption), "");
       value = value[0].toUpper();
     }
   }

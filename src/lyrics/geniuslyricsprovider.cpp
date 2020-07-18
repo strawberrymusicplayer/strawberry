@@ -36,6 +36,7 @@
 #include <QTextCodec>
 #include <QDesktopServices>
 #include <QCryptographicHash>
+#include <QRegularExpression>
 #include <QSettings>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -501,7 +502,7 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
     begin_idx += tag_begin.length();
     int end_idx = content.indexOf(tag_end, begin_idx);
     lyrics = content.mid(begin_idx, end_idx - begin_idx);
-    lyrics = lyrics.remove(QRegExp("<[^>]*>"));
+    lyrics = lyrics.remove(QRegularExpression("<[^>]*>"));
     lyrics = lyrics.trimmed();
   }
 

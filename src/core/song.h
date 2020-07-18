@@ -33,7 +33,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QUrl>
 #include <QImage>
 #include <QIcon>
@@ -120,10 +120,9 @@ class Song {
   static const QString kManuallyUnsetCover;
   static const QString kEmbeddedCover;
 
-  static const QRegExp kAlbumRemoveDisc;
-  static const QRegExp kAlbumRemoveMisc;
-  static const QRegExp kTitleRemoveMisc;
-  static const QRegExp kFilenameRemoveNonFatChars;
+  static const QRegularExpression kAlbumRemoveDisc;
+  static const QRegularExpression kAlbumRemoveMisc;
+  static const QRegularExpression kTitleRemoveMisc;
 
   static const QString kVariousArtists;
 
@@ -228,8 +227,8 @@ class Song {
   const QString &basefilename() const;
   FileType filetype() const;
   int filesize() const;
-  uint mtime() const;
-  uint ctime() const;
+  quint64 mtime() const;
+  quint64 ctime() const;
 
   int playcount() const;
   int skipcount() const;

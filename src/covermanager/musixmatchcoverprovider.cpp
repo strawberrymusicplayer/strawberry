@@ -25,10 +25,11 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QRegularExpression>
+#include <QTextCodec>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QTextCodec>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QJsonObject>
@@ -61,17 +62,17 @@ bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &
   QString album_stripped = album;
 
   artist_stripped = artist_stripped.replace('/', '-');
-  artist_stripped = artist_stripped.remove(QRegExp("[^A-Za-z0-9\\- ]"));
+  artist_stripped = artist_stripped.remove(QRegularExpression("[^A-Za-z0-9\\- ]"));
   artist_stripped = artist_stripped.simplified();
   artist_stripped = artist_stripped.replace(' ', '-');
-  artist_stripped = artist_stripped.replace(QRegExp("(-)\\1+"), "-");
+  artist_stripped = artist_stripped.replace(QRegularExpression("(-)\\1+"), "-");
   artist_stripped = artist_stripped.toLower();
 
   album_stripped = album_stripped.replace('/', '-');
-  album_stripped = album_stripped.remove(QRegExp("[^a-zA-Z0-9\\- ]"));
+  album_stripped = album_stripped.remove(QRegularExpression("[^a-zA-Z0-9\\- ]"));
   album_stripped = album_stripped.simplified();
   album_stripped = album_stripped.replace(' ', '-').toLower();
-  album_stripped = album_stripped.replace(QRegExp("(-)\\1+"), "-");
+  album_stripped = album_stripped.replace(QRegularExpression("(-)\\1+"), "-");
   album_stripped = album_stripped.toLower();
 
   if (artist_stripped.isEmpty() || album_stripped.isEmpty()) return false;
@@ -142,7 +143,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  if (content_json.contains(QRegExp("<[^>]*>"))) { // Make sure it's not HTML code.
+  if (content_json.contains(QRegularExpression("<[^>]*>"))) { // Make sure it's not HTML code.
     emit SearchFinished(id, results);
     return;
   }

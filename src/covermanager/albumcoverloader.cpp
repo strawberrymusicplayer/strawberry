@@ -32,6 +32,7 @@
 #include <QQueue>
 #include <QVariant>
 #include <QString>
+#include <QRegularExpression>
 #include <QUrl>
 #include <QImage>
 #include <QPixmap>
@@ -150,7 +151,7 @@ QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString
     filename = CoverFilenameFromVariable(artist, album);
     filename.remove(OrganiseFormat::kInvalidFatCharacters);
     if (cover_lowercase_) filename = filename.toLower();
-    if (cover_replace_spaces_) filename.replace(QRegExp("\\s"), "-");
+    if (cover_replace_spaces_) filename.replace(QRegularExpression("\\s"), "-");
     if (!extension.isEmpty()) {
       filename.append('.');
       filename.append(extension);

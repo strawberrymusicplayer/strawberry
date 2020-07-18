@@ -39,7 +39,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QUrl>
 #include <QImage>
 #include <QPixmap>
@@ -427,7 +427,7 @@ void InternetSearchView::SwapModels() {
 
 QStringList InternetSearchView::TokenizeQuery(const QString &query) {
 
-  QStringList tokens(query.split(QRegExp("\\s+")));
+  QStringList tokens(query.split(QRegularExpression("\\s+")));
 
   for (QStringList::iterator it = tokens.begin(); it != tokens.end(); ++it) {
     (*it).remove('(');

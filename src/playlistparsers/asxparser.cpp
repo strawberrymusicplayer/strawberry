@@ -26,6 +26,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QStringBuilder>
+#include <QRegularExpression>
 #include <QRegExp>
 #include <QUrl>
 #include <QXmlStreamReader>
@@ -52,7 +53,7 @@ SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const 
   int index = 0;
   while ((index = ex.indexIn(data, index)) != -1) {
     QString url = ex.cap(2);
-    url.replace(QRegExp("&(?!amp;|quot;|apos;|lt;|gt;)"), "&amp;");
+    url.replace(QRegularExpression("&(?!amp;|quot;|apos;|lt;|gt;)"), "&amp;");
 
     QByteArray replacement = QString(ex.cap(1) + url + "\"").toLocal8Bit();
     data.replace(ex.cap(0).toLocal8Bit(), replacement);

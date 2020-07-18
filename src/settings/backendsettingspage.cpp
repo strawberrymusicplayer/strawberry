@@ -26,7 +26,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QFontMetrics>
 #include <QAbstractItemView>
 #include <QListView>
@@ -311,7 +311,7 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
   if (engine()->ALSADeviceSupport(output)) {
     ui_->radiobutton_alsa_hw->setEnabled(true);
     ui_->radiobutton_alsa_plughw->setEnabled(true);
-    if (device.toString().contains(QRegExp("^plughw:.*"))) {
+    if (device.toString().contains(QRegularExpression("^plughw:.*"))) {
       ui_->radiobutton_alsa_hw->setChecked(false);
       ui_->radiobutton_alsa_plughw->setChecked(true);
       SwitchALSADevices(alsa_plugin::alsa_plughw);
@@ -476,11 +476,11 @@ void BackendSettingsPage::DeviceStringChanged() {
 
 #ifdef HAVE_ALSA
   if (engine()->ALSADeviceSupport(output.name)) {
-    if (ui_->lineedit_device->text().contains(QRegExp("^hw:.*")) && !ui_->radiobutton_alsa_hw->isChecked()) {
+    if (ui_->lineedit_device->text().contains(QRegularExpression("^hw:.*")) && !ui_->radiobutton_alsa_hw->isChecked()) {
       ui_->radiobutton_alsa_hw->setChecked(true);
       SwitchALSADevices(alsa_plugin::alsa_hw);
     }
-    else if (ui_->lineedit_device->text().contains(QRegExp("^plughw:.*")) && !ui_->radiobutton_alsa_plughw->isChecked()) {
+    else if (ui_->lineedit_device->text().contains(QRegularExpression("^plughw:.*")) && !ui_->radiobutton_alsa_plughw->isChecked()) {
       ui_->radiobutton_alsa_plughw->setChecked(true);
       SwitchALSADevices(alsa_plugin::alsa_plughw);
     }
@@ -542,10 +542,10 @@ void BackendSettingsPage::SwitchALSADevices(alsa_plugin alsaplugin) {
   for (int i = 0; i < ui_->combobox_device->count(); ++i) {
     QListView *view = qobject_cast<QListView *>(ui_->combobox_device->view());
     if (!view) continue;
-    if (alsaplugin == alsa_plugin::alsa_hw && ui_->combobox_device->itemData(i).toString().contains(QRegExp("^plughw:.*"))) {
+    if (alsaplugin == alsa_plugin::alsa_hw && ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^plughw:.*"))) {
       view->setRowHidden(i, true);
     }
-    else if (alsaplugin == alsa_plugin::alsa_plughw && ui_->combobox_device->itemData(i).toString().contains(QRegExp("^hw:.*"))) {
+    else if (alsaplugin == alsa_plugin::alsa_plughw && ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^hw:.*"))) {
       view->setRowHidden(i, true);
     }
     else {
@@ -567,9 +567,9 @@ void BackendSettingsPage::radiobutton_alsa_hw_clicked(bool checked) {
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   if (!engine()->ALSADeviceSupport(output.name)) return;
 
-  if (ui_->lineedit_device->text().contains(QRegExp("^plughw:.*"))) {
+  if (ui_->lineedit_device->text().contains(QRegularExpression("^plughw:.*"))) {
     SwitchALSADevices(alsa_plugin::alsa_hw);
-    QString device_new = ui_->lineedit_device->text().replace(QRegExp("^plughw:"), "hw:");
+    QString device_new = ui_->lineedit_device->text().replace(QRegularExpression("^plughw:"), "hw:");
     bool found(false);
     for (int i = 0; i < ui_->combobox_device->count(); ++i) {
       QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();
@@ -598,9 +598,9 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(bool checked) {
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   if (!engine()->ALSADeviceSupport(output.name)) return;
 
-  if (ui_->lineedit_device->text().contains(QRegExp("^hw:.*"))) {
+  if (ui_->lineedit_device->text().contains(QRegularExpression("^hw:.*"))) {
     SwitchALSADevices(alsa_plugin::alsa_plughw);
-    QString device_new = ui_->lineedit_device->text().replace(QRegExp("^hw:"), "plughw:");
+    QString device_new = ui_->lineedit_device->text().replace(QRegularExpression("^hw:"), "plughw:");
     bool found(false);
     for (int i = 0; i < ui_->combobox_device->count(); ++i) {
       QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();

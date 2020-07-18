@@ -31,7 +31,7 @@
 #include <QVariant>
 #include <QList>
 #include <QSet>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
@@ -370,7 +370,7 @@ QString ContextAlbumsModel::SortText(QString text) {
   else {
     text = text.toLower();
   }
-  text = text.remove(QRegExp("[^\\w ]"));
+  text = text.remove(QRegularExpression("[^\\w ]"));
 
   return text;
 

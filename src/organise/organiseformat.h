@@ -26,7 +26,7 @@
 #include <QObject>
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QRgb>
 #include <QSyntaxHighlighter>
 #include <QValidator>
@@ -43,9 +43,9 @@ class OrganiseFormat {
   static const char *kTagPattern;
   static const char *kBlockPattern;
   static const QStringList kKnownTags;
-  static const QRegExp kInvalidDirCharacters;
-  static const QRegExp kProblematicCharacters;
-  static const QRegExp kInvalidFatCharacters;
+  static const QRegularExpression kInvalidDirCharacters;
+  static const QRegularExpression kProblematicCharacters;
+  static const QRegularExpression kInvalidFatCharacters;
 
   static const char kInvalidPrefixCharacters[];
   static const int kInvalidPrefixCharactersCount;

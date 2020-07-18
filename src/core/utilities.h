@@ -85,12 +85,6 @@ QByteArray Sha1CoverHash(const QString &artist, const QString &album);
 // Picks an unused ephemeral port number.  Doesn't hold the port open so there's the obvious race condition
 quint16 PickUnusedPort();
 
-// Forwards a mouse event to a different widget, remapping the event's widget coordinates relative to those of the target widget.
-void ForwardMouseEvent(const QMouseEvent *e, QWidget *target);
-
-// Checks if the mouse event was inside the widget's rectangle.
-bool IsMouseEventInWidget(const QMouseEvent *e, const QWidget *widget);
-
 // Reads all children of the current element,
 // and returns with the stream reader either on the EndElement for the current element, or the end of the file - whichever came first.
 void ConsumeCurrentElement(QXmlStreamReader *reader);

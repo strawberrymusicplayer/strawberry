@@ -23,7 +23,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QString>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QUrl>
 
 #include "core/logging.h"
@@ -43,7 +43,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, qint64 beginning, cons
 
   QString filename = filename_or_url;
 
-  if (filename_or_url.contains(QRegExp("^[a-z]{2,}:"))) {
+  if (filename_or_url.contains(QRegularExpression("^[a-z]{2,}:"))) {
     QUrl url(filename_or_url);
     song->set_source(Song::SourceFromURL(url));
     if (song->source() == Song::Source_LocalFile) {

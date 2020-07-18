@@ -38,7 +38,7 @@
 #include <QString>
 #include <QStringBuilder>
 #include <QStringList>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QUrl>
 #include <QSqlDriver>
 #include <QSqlDatabase>
@@ -392,7 +392,7 @@ void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
 void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int schema_version, bool in_transaction) {
 
   // Run each command
-  const QStringList commands(schema.split(QRegExp("; *\n\n")));
+  const QStringList commands(schema.split(QRegularExpression("; *\n\n")));
 
   // We don't want this list to reflect possible DB schema changes so we initialize it before executing any statements.
   // If no outer transaction is provided the song tables need to be queried before beginning an inner transaction! Otherwise

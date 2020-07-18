@@ -38,7 +38,7 @@
 #include <QUrl>
 #include <QFileInfo>
 #include <QDateTime>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
@@ -1031,7 +1031,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
     info.first_url = QUrl::fromEncoded(query.Value(7).toByteArray());
 
     QString art_automatic = query.Value(5).toString();
-    if (art_automatic.contains(QRegExp("..+:.*"))) {
+    if (art_automatic.contains(QRegularExpression("..+:.*"))) {
       info.art_automatic = QUrl::fromEncoded(art_automatic.toUtf8());
     }
     else {
@@ -1039,7 +1039,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
     }
 
     QString art_manual = query.Value(6).toString();
-    if (art_manual.contains(QRegExp("..+:.*"))) {
+    if (art_manual.contains(QRegularExpression("..+:.*"))) {
       info.art_manual = QUrl::fromEncoded(art_manual.toUtf8());
     }
     else {
@@ -1228,7 +1228,7 @@ void CollectionBackend::IncrementPlayCount(int id) {
 
   QSqlQuery q(db);
   q.prepare(QString("UPDATE %1 SET playcount = playcount + 1, lastplayed = :now WHERE ROWID = :id").arg(songs_table_));
-  q.bindValue(":now", QDateTime::currentDateTime().toTime_t());
+  q.bindValue(":now", QDateTime::currentDateTime().toSecsSinceEpoch());
   q.bindValue(":id", id);
   q.exec();
   if (db_->CheckErrors(q)) return;

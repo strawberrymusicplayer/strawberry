@@ -32,6 +32,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QRegularExpression>
 #include <QRegExp>
 #include <QUrl>
 #include <QUrlQuery>
@@ -218,11 +219,11 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
   for (QString uri : uris) {
 
     // gphoto2 gives invalid hostnames with []:, characters in
-    uri.replace(QRegExp("//\\[usb:(\\d+),(\\d+)\\]"), "//usb-\\1-\\2");
+    uri.replace(QRegularExpression("//\\[usb:(\\d+),(\\d+)\\]"), "//usb-\\1-\\2");
 
     QUrl url;
 
-    if (uri.contains(QRegExp("..+:.*"))) {
+    if (uri.contains(QRegularExpression("..+:.*"))) {
       url = QUrl::fromEncoded(uri.toUtf8());
     }
     else {
