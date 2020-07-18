@@ -102,7 +102,11 @@ void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
   if (engine_->type() != Engine::EngineType::GStreamer) return;
 
   if (e->button() == Qt::RightButton) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    context_menu_->popup(e->globalPosition().toPoint());
+#else
     context_menu_->popup(e->globalPos());
+#endif
   }
 
 }
