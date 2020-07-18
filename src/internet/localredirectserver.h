@@ -31,6 +31,7 @@
 #include <QTcpServer>
 #include <QSslCertificate>
 #include <QSslKey>
+#include <QSslError>
 
 class QAbstractSocket;
 
