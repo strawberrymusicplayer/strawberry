@@ -35,7 +35,8 @@
 #include <QMap>
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 #include <QDateTime>
 #include <QIODevice>
 #include <QBuffer>
@@ -306,11 +307,12 @@ QString LinuxDemangle(const QString &symbol);
 
 QString LinuxDemangle(const QString &symbol) {
 
-  QRegExp regex("\\(([^+]+)");
-  if (!symbol.contains(regex)) {
+  QRegularExpression regex("\\(([^+]+)");
+  QRegularExpressionMatch match = regex.match(symbol);
+  if (!match.hasMatch()) {
     return symbol;
   }
-  QString mangled_function = regex.cap(1);
+  QString mangled_function = match.captured(1);
   return CXXDemangle(mangled_function);
 
 }

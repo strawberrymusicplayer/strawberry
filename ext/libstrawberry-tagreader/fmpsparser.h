@@ -23,12 +23,12 @@
 #include <QList>
 #include <QMetaType>
 #include <QString>
-#include <QRegExp>
+#include <QRegularExpression>
 
 class QVariant;
 
 class FMPSParser {
-public:
+ public:
   FMPSParser();
 
   // A FMPS result is a list of lists of values (where a value is a string or
@@ -54,10 +54,10 @@ public:
   int ParseListList(const QString &data, Result *ret) const;
   int ParseListListRef(const QStringRef &data, Result *ret) const;
 
-private:
-  QRegExp float_re_;
-  QRegExp string_re_;
-  QRegExp escape_re_;
+ private:
+  QRegularExpression float_re_;
+  QRegularExpression string_re_;
+  QRegularExpression escape_re_;
   Result result_;
 };
 

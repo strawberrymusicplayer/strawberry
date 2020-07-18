@@ -23,6 +23,8 @@
 #include <QVariant>
 #include <QString>
 #include <QChar>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 #include "fmpsparser.h"
 
@@ -89,20 +91,20 @@ bool FMPSParser::Parse(const QString &data) {
 
 int FMPSParser::ParseValueRef(const QStringRef& data, QVariant* ret) const {
   // Try to match a float
-  int pos = float_re_.indexIn(*data.string(), data.position());
-  if (pos == data.position()) {
-    *ret = float_re_.cap(1).toDouble();
-    return float_re_.matchedLength();
+  QRegularExpressionMatch re_match = float_re_.match(*data.string(), data.position());
+  if (re_match.captured() == data.position()) {
+    *ret = re_match.captured(1).toDouble();
+    return re_match.capturedLength();
   }
 
   // Otherwise try to match a string
-  pos = string_re_.indexIn(*data.string(), data.position());
-  if (pos == data.position()) {
+  re_match = string_re_.match(*data.string(), data.position());
+  if (re_match.captured() == data.position()) {
     // Replace escape sequences with their actual characters
-    QString value = string_re_.cap(1);
+    QString value = re_match.captured(1);
     value.replace(escape_re_, "\\1");
     *ret = value;
-    return string_re_.matchedLength();
+    return re_match.capturedLength();
   }
 
   return -1;
