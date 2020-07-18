@@ -38,6 +38,7 @@
 #include <QImage>
 #include <QNetworkCookie>
 #include <QNetworkReply>
+#include <QItemSelection>
 #ifdef HAVE_DBUS
 #  include <QDBusMetaType>
 #endif
@@ -76,6 +77,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<QList<QNetworkCookie> >("QList<QNetworkCookie>");
   qRegisterMetaType<QNetworkReply*>("QNetworkReply*");
   qRegisterMetaType<QNetworkReply**>("QNetworkReply**");
+  qRegisterMetaType<QItemSelection>("QItemSelection");
   qRegisterMetaTypeStreamOperators<QMap<int, int> >("ColumnAlignmentMap");
   qRegisterMetaType<Directory>("Directory");
   qRegisterMetaType<DirectoryList>("DirectoryList");
