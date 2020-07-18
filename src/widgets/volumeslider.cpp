@@ -241,7 +241,7 @@ void VolumeSlider::generateGradient() {
   QPainter p(&gradient_image);
 
   QLinearGradient gradient(gradient_image.rect().topLeft(), gradient_image.rect().topRight());
-  gradient.setColorAt(0, palette().color(QPalette::Background));
+  gradient.setColorAt(0, palette().color(QPalette::Window));
   gradient.setColorAt(1, palette().color(QPalette::Highlight));
   p.fillRect(gradient_image.rect(), QBrush(gradient));
 

@@ -91,7 +91,7 @@ void FreeSpaceBar::paintEvent(QPaintEvent*) {
   // Draw the reflection
   // Create the reflected pixmap
   QImage reflection(reflection_rect.size(), QImage::Format_ARGB32_Premultiplied);
-  reflection.fill(palette().color(QPalette::Background).rgba());
+  reflection.fill(palette().color(QPalette::Window).rgba());
   QPainter p(&reflection);
 
   // Set up the transformation
@@ -124,7 +124,6 @@ void FreeSpaceBar::paintEvent(QPaintEvent*) {
 void FreeSpaceBar::DrawBar(QPainter* p, const QRect &r) {
 
   p->setRenderHint(QPainter::Antialiasing, true);
-  p->setRenderHint(QPainter::HighQualityAntialiasing, true);
 
   QRect bar_rect(r);
   bar_rect.setWidth(float(bar_rect.width()) * (float(total_ - free_) / total_));

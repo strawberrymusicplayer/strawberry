@@ -90,9 +90,8 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, StyleSheetData styledat
                                                   .arg(alt.alpha()));
 
   ReplaceColor(&stylesheet, "Window", p, QPalette::Window);
-  ReplaceColor(&stylesheet, "Background", p, QPalette::Background);
+  ReplaceColor(&stylesheet, "Background", p, QPalette::Window);
   ReplaceColor(&stylesheet, "WindowText", p, QPalette::WindowText);
-  ReplaceColor(&stylesheet, "Foreground", p, QPalette::Foreground);
   ReplaceColor(&stylesheet, "Base", p, QPalette::Base);
   ReplaceColor(&stylesheet, "AlternateBase", p, QPalette::AlternateBase);
   ReplaceColor(&stylesheet, "ToolTipBase", p, QPalette::ToolTipBase);

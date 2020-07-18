@@ -45,7 +45,7 @@ ErrorDialog::ErrorDialog(QWidget *parent)
   QPixmap warning_pixmap(warning_icon.pixmap(48));
 
   QPalette messages_palette(ui_->messages->palette());
-  messages_palette.setColor(QPalette::Base, messages_palette.color(QPalette::Background));
+  messages_palette.setColor(QPalette::Base, messages_palette.color(QPalette::Window));
 
   ui_->messages->setPalette(messages_palette);
   ui_->icon->setPixmap(warning_pixmap);
