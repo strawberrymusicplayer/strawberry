@@ -20,6 +20,7 @@
 
 #include <gtest/gtest.h>
 
+#include <QByteArray>
 #include <QString>
 #include <QDateTime>
 #include <QtDebug>
@@ -31,11 +32,11 @@ TEST(UtilitiesTest, HmacFunctions) {
   QString key("key");
   QString data("The quick brown fox jumps over the lazy dog");
   // Test Hmac Md5
-  QByteArray result_hash_md5 = Utilities::HmacMd5(key.toLocal8Bit(), data.toLocal8Bit()).toHex();
+  QString result_hash_md5 = Utilities::HmacMd5(key.toLocal8Bit(), data.toLocal8Bit()).toHex();
   bool result_md5 = result_hash_md5 == QString("80070713463e7749b90c2dc24911e275");
   EXPECT_TRUE(result_md5);
   // Test Hmac Sha256
-  QByteArray result_hash_sha256 = Utilities::HmacSha256(key.toLocal8Bit(), data.toLocal8Bit()).toHex();
+  QString result_hash_sha256 = Utilities::HmacSha256(key.toLocal8Bit(), data.toLocal8Bit()).toHex();
   bool result_sha256 = result_hash_sha256 == QString("f7bc83f430538424b13298e6aa6fb143ef4d59a14946175997479dbc2d1a3cd8");
   EXPECT_TRUE(result_sha256);
 }
