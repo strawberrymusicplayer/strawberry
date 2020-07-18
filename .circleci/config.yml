@@ -500,15 +500,6 @@ jobs:
       - build_rpm
 
 
-  build_debian_stretch:
-    docker:
-      - image: debian:stretch
-    steps:
-      - install_debian_dependencies
-      - checkout
-      - cmake
-      - build_deb
-
   build_debian_buster:
     docker:
       - image: debian:buster
@@ -602,10 +593,6 @@ workflows:
               only: /.*/
 
 
-      - build_debian_stretch:
-          filters:
-            tags:
-              only: /.*/
       - build_debian_buster:
           filters:
             tags:
