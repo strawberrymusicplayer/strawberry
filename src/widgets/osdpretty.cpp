@@ -146,8 +146,12 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
 
   // Set the margins to allow for the drop shadow
   QBoxLayout *l = qobject_cast<QBoxLayout*>(layout());
-  int margin = l->margin() + kDropShadowSize;
-  l->setMargin(margin);
+  QMargins margin = l->contentsMargins() + kDropShadowSize;
+  margin.setTop(margin.top() + kDropShadowSize);
+  margin.setBottom(margin.bottom() + kDropShadowSize);
+  margin.setLeft(margin.left() + kDropShadowSize);
+  margin.setRight(margin.right() + kDropShadowSize);
+  l->setContentsMargins(margin);
 
   connect(qApp, SIGNAL(screenAdded(QScreen*)), this, SLOT(ScreenAdded(QScreen*)));
   connect(qApp, SIGNAL(screenRemoved(QScreen*)), this, SLOT(ScreenRemoved(QScreen*)));
@@ -210,7 +214,7 @@ void OSDPretty::ScreenRemoved(QScreen *screen) {
 }
 
 bool OSDPretty::IsTransparencyAvailable() {
-#if defined(HAVE_X11) && (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0))
+#if defined(HAVE_X11)
   return QX11Info::isCompositingManagerRunning();
 #endif
   return true;
@@ -277,7 +281,6 @@ void OSDPretty::paintEvent(QPaintEvent *) {
 
   QPainter p(this);
   p.setRenderHint(QPainter::Antialiasing);
-  p.setRenderHint(QPainter::HighQualityAntialiasing);
 
   QRect box(BoxBorder());
 
@@ -451,7 +454,11 @@ void OSDPretty::mousePressEvent(QMouseEvent *e) {
     hide();
   else {
     original_window_pos_ = pos();
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    drag_start_pos_ = e->globalPosition().toPoint();
+#else
     drag_start_pos_ = e->globalPos();
+#endif
   }
 
 }
@@ -459,11 +466,19 @@ void OSDPretty::mousePressEvent(QMouseEvent *e) {
 void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
 
   if (mode_ == Mode_Draggable) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    QPoint delta = e->globalPosition().toPoint() - drag_start_pos_;
+#else
     QPoint delta = e->globalPos() - drag_start_pos_;
+#endif
     QPoint new_pos = original_window_pos_ + delta;
 
     // Keep it to the bounds of the desktop
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    QScreen *screen = current_screen(e->globalPosition().toPoint());
+#else
     QScreen *screen = current_screen(e->globalPos());
+#endif
     if (!screen) return;
 
     QRect geometry = screen->availableGeometry();
