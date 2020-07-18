@@ -172,6 +172,8 @@ SettingsDialog::SettingsDialog(Application *app, QMainWindow *mainwindow, QWidge
 
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
 
+  connect(ui_->buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(DialogButtonClicked(QAbstractButton*)));
+
 }
 
 SettingsDialog::~SettingsDialog() {
