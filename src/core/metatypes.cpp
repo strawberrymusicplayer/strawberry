@@ -78,7 +78,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<QNetworkReply*>("QNetworkReply*");
   qRegisterMetaType<QNetworkReply**>("QNetworkReply**");
   qRegisterMetaType<QItemSelection>("QItemSelection");
-  qRegisterMetaTypeStreamOperators<QMap<int, int> >("ColumnAlignmentMap");
+  qRegisterMetaTypeStreamOperators<QMap<int, Qt::Alignment>>("ColumnAlignmentMap");
   qRegisterMetaType<Directory>("Directory");
   qRegisterMetaType<DirectoryList>("DirectoryList");
   qRegisterMetaType<Subdirectory>("Subdirectory");
