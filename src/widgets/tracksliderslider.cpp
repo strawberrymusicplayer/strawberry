@@ -99,12 +99,12 @@ void TrackSliderSlider::mouseMoveEvent(QMouseEvent* e) {
   int slider_min = gr.x();
   int slider_max = gr.right() - slider_length + 1;
 
-  mouse_hover_seconds_ = QStyle::sliderValueFromPosition(minimum() / kMsecPerSec, maximum() / kMsecPerSec, e->x() - slider_length / 2 - slider_min + 1, slider_max - slider_min);
+  mouse_hover_seconds_ = QStyle::sliderValueFromPosition(minimum() / kMsecPerSec, maximum() / kMsecPerSec, e->pos().x() - slider_length / 2 - slider_min + 1, slider_max - slider_min);
 
 #ifndef Q_OS_MACOS
   popup_->SetText(Utilities::PrettyTime(mouse_hover_seconds_));
   UpdateDeltaTime();
-  popup_->SetPopupPosition(mapTo(window(), QPoint(e->x(), rect().center().y())));
+  popup_->SetPopupPosition(mapTo(window(), QPoint(e->pos().x(), rect().center().y())));
 #endif
 }
 
