@@ -48,11 +48,12 @@ class FancyTabWidget : public QTabWidget {
  public:
   explicit FancyTabWidget(QWidget *parent = nullptr);
 
-  void AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label);
+   void AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label);
    bool EnableTab(QWidget *widget_view);
    bool DisableTab(QWidget *widget_view);
    int insertTab(const int idx, QWidget *page, const QIcon &icon, const QString &label);
    void addBottomWidget(QWidget* widget_view);
+   int IndexOfTab(QWidget *widget);
 
    void setBackgroundPixmap(const QPixmap& pixmap);
    void addSpacer();
@@ -101,11 +102,11 @@ class FancyTabWidget : public QTabWidget {
    void addMenuItem(QActionGroup* group, const QString& text, Mode mode);
 
    QPixmap background_pixmap_;
-   QMenu* menu_;
+   QMenu *menu_;
    Mode mode_;
    QWidget *bottom_widget_;
 
-   QMap <QWidget*, TabData*> tabs_;
+   QMap<QWidget*, TabData*> tabs_;
 
    bool bg_color_system_;
    bool bg_gradient_;

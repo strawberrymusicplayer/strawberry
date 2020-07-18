@@ -1197,7 +1197,7 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
 
 void MainWindow::TabSwitched() {
 
-  if (playing_widget_ && ui_->action_toggle_show_sidebar->isChecked() && (ui_->tabs->tabBar()->tabData(ui_->tabs->currentIndex()).toString().toLower() != "context" || !context_view_->album_enabled())) {
+  if (playing_widget_ && ui_->action_toggle_show_sidebar->isChecked() && (ui_->tabs->currentIndex() != ui_->tabs->IndexOfTab(context_view_) || !context_view_->album_enabled())) {
     ui_->widget_playing->SetEnabled();
   }
   else {

@@ -538,6 +538,11 @@ bool FancyTabWidget::DisableTab(QWidget *widget_view) {
 
 }
 
+int FancyTabWidget::IndexOfTab(QWidget *widget) {
+  if (!tabs_.contains(widget)) return -1;
+  return QTabWidget::indexOf(tabs_[widget]->page());
+}
+
 void FancyTabWidget::paintEvent(QPaintEvent *pe) {
 
   if (mode() != FancyTabWidget::Mode_LargeSidebar && mode() != FancyTabWidget::Mode_SmallSidebar) {
