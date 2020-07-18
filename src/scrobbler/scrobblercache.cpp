@@ -61,7 +61,9 @@ void ScrobblerCache::ReadCache() {
   if (!result) return;
 
   QTextStream stream(&file);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
   stream.setCodec("UTF-8");
+#endif
   QString data = stream.readAll();
   file.close();
 
@@ -179,7 +181,9 @@ void ScrobblerCache::WriteCache() {
     return;
   }
   QTextStream stream(&file);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
   stream.setCodec("UTF-8");
+#endif
   stream << doc.toJson();
   file.close();
 
