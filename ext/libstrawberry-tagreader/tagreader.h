@@ -37,7 +37,6 @@
 
 class QTextCodec;
 
-
 #ifndef USE_SYSTEM_TAGLIB
 using namespace Strawberry_TagLib;
 #endif

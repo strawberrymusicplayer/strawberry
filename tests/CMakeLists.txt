@@ -1,6 +1,13 @@
 enable_testing()
 
-find_package(Qt5 ${QT_MIN_VERSION} COMPONENTS Test REQUIRED)
+if(WITH_QT6)
+  find_package(Qt6 COMPONENTS Test REQUIRED)
+  set(QtTest_LIBRARIES Qt6::Test)
+else()
+  find_package(Qt5 ${QT_MIN_VERSION} COMPONENTS Test REQUIRED)
+  set(QtTest_LIBRARIES ${Qt5Test_LIBRARIES})
+endif()
+
 find_package(GTest REQUIRED)
 find_library(GMOCK_LIBRARY gmock REQUIRED)
 
@@ -15,7 +22,11 @@ set(TESTUTILS-SOURCES
 
 set(TESTUTILS-MOC-HEADERS src/mock_networkaccessmanager.h src/test_utils.h src/testobjectdecorators.h)
 
-qt5_wrap_cpp(TESTUTILS-SOURCES-MOC ${TESTUTILS-MOC-HEADERS})
+if(WITH_QT6)
+  qt6_wrap_cpp(TESTUTILS-SOURCES-MOC ${TESTUTILS-MOC-HEADERS})
+else()
+  qt5_wrap_cpp(TESTUTILS-SOURCES-MOC ${TESTUTILS-MOC-HEADERS})
+endif()
 
 link_directories(
   ${SQLITE_LIBRARY_DIRS}
@@ -60,18 +71,22 @@ target_include_directories(test_utils PRIVATE
 target_link_libraries(test_utils PRIVATE
   ${GTEST_BOTH_LIBRARIES}
   ${GMOCK_LIBRARY}
-  ${Qt5Core_LIBRARIES}
-  ${Qt5Widgets_LIBRARIES}
-  ${Qt5Network_LIBRARIES}
-  ${Qt5Sql_LIBRARIES}
-  ${Qt5Test_LIBRARIES}
+  ${QtCore_LIBRARIES}
+  ${QtWidgets_LIBRARIES}
+  ${QtNetwork_LIBRARIES}
+  ${QtSql_LIBRARIES}
+  ${QtTest_LIBRARIES}
 )
 
 add_custom_target(strawberry_tests echo "Running Strawberry tests" WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
 add_custom_target(build_tests WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
 add_dependencies(strawberry_tests build_tests)
 
-qt5_add_resources(TEST-RESOURCE-SOURCES data/testdata.qrc)
+if(WITH_QT6)
+  qt6_add_resources(TEST-RESOURCE-SOURCES data/testdata.qrc)
+else()
+  qt5_add_resources(TEST-RESOURCE-SOURCES data/testdata.qrc)
+endif()
 
 add_library(test_gui_main STATIC EXCLUDE_FROM_ALL ${TEST-RESOURCE-SOURCES} src/main.cpp)
 target_include_directories(test_gui_main SYSTEM PRIVATE ${QT_INCLUDE_DIRS})
@@ -119,7 +134,13 @@ macro(add_test_file test_source gui_required)
       ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
       ${TAGLIB_INCLUDE_DIRS}
     )
-    target_link_libraries(${TEST_NAME} PRIVATE ${Qt5Core_LIBRARIES} ${Qt5Sql_LIBRARIES} ${Qt5Test_LIBRARIES})
+    target_link_libraries(${TEST_NAME} PRIVATE
+      ${QtCore_LIBRARIES}
+      ${QtWidgets_LIBRARIES}
+      ${QtNetwork_LIBRARIES}
+      ${QtSql_LIBRARIES}
+      ${QtTest_LIBRARIES}
+    )
     target_link_libraries(${TEST_NAME} PRIVATE test_utils)
     set(GUI_REQUIRED ${gui_required})
     if(GUI_REQUIRED)
