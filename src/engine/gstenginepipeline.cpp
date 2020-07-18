@@ -40,6 +40,7 @@
 #include <QString>
 #include <QUrl>
 #include <QTimeLine>
+#include <QEasingCurve>
 #include <QMetaObject>
 #include <QUuid>
 #include <QtDebug>
@@ -1136,7 +1137,7 @@ void GstEnginePipeline::UpdateEqualizer() {
 
 }
 
-void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction, const QTimeLine::CurveShape shape, const bool use_fudge_timer) {
+void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction, const QEasingCurve::Type shape, const bool use_fudge_timer) {
 
   const int duration_msec = duration_nanosec / kNsecPerMsec;
 
@@ -1157,7 +1158,7 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
   connect(fader_.get(), SIGNAL(valueChanged(qreal)), SLOT(SetVolumeModifier(qreal)));
   connect(fader_.get(), SIGNAL(finished()), SLOT(FaderTimelineFinished()));
   fader_->setDirection(direction);
-  fader_->setCurveShape(shape);
+  fader_->setEasingCurve(shape);
   fader_->setCurrentTime(start_time);
   fader_->resume();
 

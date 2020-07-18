@@ -43,6 +43,7 @@
 #include <QStringList>
 #include <QUrl>
 #include <QTimeLine>
+#include <QEasingCurve>
 #include <QMetaObject>
 #include <QFlags>
 #include <QTimerEvent>
@@ -233,7 +234,7 @@ void GstEngine::Pause() {
   // Check if we started a fade out. If it isn't finished yet and the user pressed play, we inverse the fader and resume the playback.
   if (is_fading_out_to_pause_) {
     disconnect(current_pipeline_.get(), SIGNAL(FaderFinished()), nullptr, nullptr);
-    current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QTimeLine::EaseInOutCurve, false);
+    current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QEasingCurve::InOutQuad, false);
     is_fading_out_to_pause_ = false;
     has_faded_out_ = false;
     emit StateChanged(Engine::Playing);
@@ -264,7 +265,7 @@ void GstEngine::Unpause() {
     // If we pause with fadeout, deactivate fadeout and resume playback, the player would be muted if not faded in.
     if (has_faded_out_) {
       disconnect(current_pipeline_.get(), SIGNAL(FaderFinished()), nullptr, nullptr);
-      current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QTimeLine::EaseInOutCurve, false);
+      current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QEasingCurve::InOutQuad, false);
       has_faded_out_ = false;
     }
 
@@ -725,9 +726,9 @@ void GstEngine::StartFadeoutPause() {
   fadeout_pause_pipeline_ = current_pipeline_;
   disconnect(fadeout_pause_pipeline_.get(), SIGNAL(FaderFinished()), nullptr, nullptr);
 
-  fadeout_pause_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QTimeLine::EaseInOutCurve, false);
+  fadeout_pause_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QEasingCurve::InOutQuad, false);
   if (fadeout_pipeline_ && fadeout_pipeline_->state() == GST_STATE_PLAYING) {
-    fadeout_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QTimeLine::LinearCurve, false);
+    fadeout_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QEasingCurve::Linear, false);
   }
   connect(fadeout_pause_pipeline_.get(), SIGNAL(FaderFinished()), SLOT(FadeoutPauseFinished()));
   is_fading_out_to_pause_ = true;

@@ -37,6 +37,7 @@
 #include <QThreadPool>
 #include <QFuture>
 #include <QTimeLine>
+#include <QEasingCurve>
 #include <QBasicTimer>
 #include <QList>
 #include <QByteArray>
@@ -88,7 +89,7 @@ class GstEnginePipeline : public QObject {
   void SetStereoBalance(const float value);
   void SetEqualizerParams(const int preamp, const QList<int> &band_gains);
 
-  void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction = QTimeLine::Forward, const QTimeLine::CurveShape shape = QTimeLine::LinearCurve, const bool use_fudge_timer = true);
+  void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction = QTimeLine::Forward, const QEasingCurve::Type shape = QEasingCurve::Linear, const bool use_fudge_timer = true);
 
   // If this is set then it will be loaded automatically when playback finishes for gapless playback
   void SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, qint64 beginning_nanosec, qint64 end_nanosec);
