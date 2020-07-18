@@ -27,7 +27,6 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractItemModel>
-#include <QFuture>
 #include <QDataStream>
 #include <QMetaType>
 #include <QPair>
@@ -213,7 +212,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void ClearDiskCache();
 
   // Called after ResetAsync
-  void ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult> future);
+  void ResetAsyncQueryFinished(QueryResult result);
 
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 

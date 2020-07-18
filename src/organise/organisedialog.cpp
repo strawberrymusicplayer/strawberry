@@ -25,7 +25,7 @@
 #include <algorithm>
 
 #include <QtGlobal>
-#include <QtConcurrentRun>
+#include <QtConcurrent>
 #include <QAbstractItemModel>
 #include <QDialog>
 #include <QScreen>
@@ -344,10 +344,9 @@ bool OrganiseDialog::SetUrls(const QList<QUrl> &urls) {
 
 bool OrganiseDialog::SetFilenames(const QStringList &filenames) {
 
-  songs_future_ = QtConcurrent::run(this, &OrganiseDialog::LoadSongsBlocking, filenames);
-  NewClosure(songs_future_, [=]() { SetSongs(songs_future_.result()); });
-
   SetLoadingSongs(true);
+  songs_future_ = QtConcurrent::run([=]{ SetSongs(LoadSongsBlocking(filenames)); });
+
   return true;
 
 }

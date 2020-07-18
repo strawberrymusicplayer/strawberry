@@ -25,7 +25,7 @@
 #include <QObject>
 #include <QCoreApplication>
 #include <QStandardPaths>
-#include <QtConcurrentRun>
+#include <QtConcurrent>
 #include <QFuture>
 #include <QString>
 #include <QDir>
@@ -40,7 +40,7 @@
 #include "gststartup.h"
 
 GstStartup::GstStartup(QObject *parent) : QObject(parent) {
-  initialising_ = QtConcurrent::run(this, &GstStartup::InitialiseGStreamer);
+  initialising_ = QtConcurrent::run([=]{ InitialiseGStreamer(); });
 }
 
 GstStartup::~GstStartup() {

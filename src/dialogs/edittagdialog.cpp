@@ -25,8 +25,7 @@
 #include <limits>
 
 #include <QtGlobal>
-#include <QtConcurrentRun>
-#include <QFuture>
+#include <QtConcurrent>
 #include <QObject>
 #include <QWidget>
 #include <QDialog>
@@ -286,16 +285,15 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
   ui_->song_list->clear();
 
   // Reload tags in the background
-  QFuture<QList<Data>> future = QtConcurrent::run(this, &EditTagDialog::LoadData, s);
-  NewClosure(future, this, SLOT(SetSongsFinished(QFuture<QList<EditTagDialog::Data>>)), future);
+  (void)QtConcurrent::run([=]{ SetSongsFinished(LoadData(s)); });
 
 }
 
-void EditTagDialog::SetSongsFinished(QFuture<QList<Data>> future) {
+void EditTagDialog::SetSongsFinished(QList<Data> _data) {
 
   if (!SetLoading(QString())) return;
 
-  data_ = future.result();
+  data_ = _data;
   if (data_.count() == 0) {
     // If there were no valid songs, disable everything
     ui_->song_list->setEnabled(false);
