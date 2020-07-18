@@ -92,14 +92,14 @@ bool FMPSParser::Parse(const QString &data) {
 int FMPSParser::ParseValueRef(const QStringRef& data, QVariant* ret) const {
   // Try to match a float
   QRegularExpressionMatch re_match = float_re_.match(*data.string(), data.position());
-  if (re_match.captured() == data.position()) {
+  if (re_match.capturedStart() == data.position()) {
     *ret = re_match.captured(1).toDouble();
     return re_match.capturedLength();
   }
 
   // Otherwise try to match a string
   re_match = string_re_.match(*data.string(), data.position());
-  if (re_match.captured() == data.position()) {
+  if (re_match.capturedStart() == data.position()) {
     // Replace escape sequences with their actual characters
     QString value = re_match.captured(1);
     value.replace(escape_re_, "\\1");
