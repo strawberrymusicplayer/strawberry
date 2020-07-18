@@ -23,13 +23,13 @@
 #include <memory>
 
 #include <QWidget>
+#include <QStringList>
+#include <QUrl>
 #include <QList>
 #include <QListView>
 #include <QListWidget>
 #include <QListWidgetItem>
-#include <QStringList>
 #include <QMimeData>
-#include <QUrl>
 #include <QDropEvent>
 
 #include "core/song.h"
@@ -40,7 +40,11 @@
 
 AlbumCoverManagerList::AlbumCoverManagerList(QWidget *parent) : QListWidget(parent), manager_(nullptr) {}
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem*> &items) const {
+#else
 QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem*> items) const {
+#endif
 
   // Get songs
   SongList songs;
