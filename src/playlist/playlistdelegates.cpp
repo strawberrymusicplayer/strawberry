@@ -328,7 +328,7 @@ QString DateItemDelegate::displayText(const QVariant &value, const QLocale &loca
   if (!ok || time == -1)
     return QString();
 
-  return QDateTime::fromTime_t(time).toString(QLocale::system().dateTimeFormat(QLocale::ShortFormat));
+  return QDateTime::fromSecsSinceEpoch(time).toString(QLocale::system().dateTimeFormat(QLocale::ShortFormat));
 
 }
 

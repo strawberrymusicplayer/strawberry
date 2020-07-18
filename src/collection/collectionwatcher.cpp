@@ -328,7 +328,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
     return;
   }
 
-  if (!t->ignores_mtime() && !force_noincremental && t->is_incremental() && subdir.mtime == path_info.lastModified().toTime_t()) {
+  if (!t->ignores_mtime() && !force_noincremental && t->is_incremental() && subdir.mtime == path_info.lastModified().toSecsSinceEpoch()) {
     // The directory hasn't changed since last time
     t->AddToProgress(1);
     return;
@@ -362,7 +362,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
         Subdirectory new_subdir;
         new_subdir.directory_id = -1;
         new_subdir.path = child;
-        new_subdir.mtime = child_info.lastModified().toTime_t();
+        new_subdir.mtime = child_info.lastModified().toSecsSinceEpoch();
         my_new_subdirs << new_subdir;
       }
     }
@@ -393,7 +393,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
 
     Song matching_song(source_);
     if (FindSongByPath(songs_in_db, file, &matching_song)) {
-      uint matching_cue_mtime = GetMtimeForCue(matching_cue);
+      quint64 matching_cue_mtime = GetMtimeForCue(matching_cue);
 
       // The song is in the database and still on disk.
       // Check the mtime to see if it's been changed since it was added.
@@ -407,13 +407,13 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
 
       // cue sheet's path from collection (if any)
       QString song_cue = matching_song.cue_path();
-      uint song_cue_mtime = GetMtimeForCue(song_cue);
+      qint64 song_cue_mtime = GetMtimeForCue(song_cue);
 
       bool cue_deleted = song_cue_mtime == 0 && matching_song.has_cue();
       bool cue_added = matching_cue_mtime != 0 && !matching_song.has_cue();
 
       // watch out for cue songs which have their mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
-      bool changed = (matching_song.mtime() != qMax(file_info.lastModified().toTime_t(), song_cue_mtime)) || cue_deleted || cue_added;
+      bool changed = (matching_song.mtime() != static_cast<quint64>(qMax(file_info.lastModified().toSecsSinceEpoch(), song_cue_mtime))) || cue_deleted || cue_added;
 
       // Also want to look to see whether the album art has changed
       QUrl image = ImageForSong(file, album_art);
@@ -470,7 +470,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   // Add this subdir to the new or touched list
   Subdirectory updated_subdir;
   updated_subdir.directory_id = t->dir();
-  updated_subdir.mtime = path_info.exists() ? path_info.lastModified().toTime_t() : 0;
+  updated_subdir.mtime = path_info.exists() ? path_info.lastModified().toSecsSinceEpoch() : 0;
   updated_subdir.path = path;
 
   if (subdir.directory_id == -1)
@@ -560,7 +560,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
 
   SongList song_list;
 
-  uint matching_cue_mtime = GetMtimeForCue(matching_cue);
+  quint64 matching_cue_mtime = GetMtimeForCue(matching_cue);
   // If it's a cue - create virtual tracks
   if (matching_cue_mtime) {
     // don't process the same cue many times
@@ -629,7 +629,7 @@ void CollectionWatcher::PreserveUserSetData(const QString &file, const QUrl &ima
 
 }
 
-uint CollectionWatcher::GetMtimeForCue(const QString &cue_path) {
+quint64 CollectionWatcher::GetMtimeForCue(const QString &cue_path) {
 
   // Slight optimisation
   if (cue_path.isEmpty()) {
@@ -643,7 +643,7 @@ uint CollectionWatcher::GetMtimeForCue(const QString &cue_path) {
 
   const QDateTime cue_last_modified = file_info.lastModified();
 
-  return cue_last_modified.isValid() ? cue_last_modified.toTime_t() : 0;
+  return cue_last_modified.isValid() ? cue_last_modified.toSecsSinceEpoch() : 0;
 }
 
 void CollectionWatcher::AddWatch(const Directory &dir, const QString &path) {

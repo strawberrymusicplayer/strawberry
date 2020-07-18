@@ -250,7 +250,7 @@ void TidalService::LoadSession() {
   s.endGroup();
 
   if (!refresh_token_.isEmpty()) {
-    qint64 time = expires_in_ - (QDateTime::currentDateTime().toTime_t() - login_time_);
+    qint64 time = expires_in_ - (QDateTime::currentDateTime().toSecsSinceEpoch() - login_time_);
     if (time < 6) time = 6;
     timer_refresh_login_->setInterval(time * kMsecPerSec);
     timer_refresh_login_->start();
@@ -330,7 +330,7 @@ void TidalService::AuthorizationUrlReceived(const QUrl &url) {
       refresh_token_ = url_query.queryItemValue("refresh_token").toUtf8();
     }
     expires_in_ = url_query.queryItemValue("expires_in").toInt();
-    login_time_ = QDateTime::currentDateTime().toTime_t();
+    login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
     session_id_.clear();
 
     QSettings s;
@@ -483,7 +483,7 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
   if (json_obj.contains("refresh_token")) {
     refresh_token_ = json_obj["refresh_token"].toString();
   }
-  login_time_ = QDateTime::currentDateTime().toTime_t();
+  login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
 
   if (json_obj.contains("user") && json_obj["user"].isObject()) {
     QJsonObject obj_user = json_obj["user"].toObject();

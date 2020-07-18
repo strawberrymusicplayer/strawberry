@@ -166,7 +166,7 @@ class CollectionWatcher : public QObject {
   QUrl ImageForSong(const QString &path, QMap<QString, QStringList> &album_art);
   void AddWatch(const Directory &dir, const QString &path);
   void RemoveWatch(const Directory &dir, const Subdirectory &subdir);
-  uint GetMtimeForCue(const QString &cue_path);
+  quint64 GetMtimeForCue(const QString &cue_path);
   void PerformScan(bool incremental, bool ignore_mtimes);
 
   // Updates the sections of a cue associated and altered (according to mtime) media file during a scan.

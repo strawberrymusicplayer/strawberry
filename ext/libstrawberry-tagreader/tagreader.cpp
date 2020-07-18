@@ -177,11 +177,11 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
   song->set_basefilename(DataCommaSizeFromQString(info.fileName()));
   song->set_url(url.constData(), url.size());
   song->set_filesize(info.size());
-  song->set_mtime(info.lastModified().toTime_t());
+  song->set_mtime(info.lastModified().toSecsSinceEpoch());
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
-  song->set_ctime(info.birthTime().isValid() ? info.birthTime().toTime_t() : info.lastModified().toTime_t());
+  song->set_ctime(info.birthTime().isValid() ? info.birthTime().toSecsSinceEpoch() : info.lastModified().toSecsSinceEpoch());
 #else
-  song->set_ctime(info.created().toTime_t());
+  song->set_ctime(info.created().toSecsSinceEpoch());
 #endif
 
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));

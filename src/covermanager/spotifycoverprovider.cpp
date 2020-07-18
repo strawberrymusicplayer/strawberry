@@ -77,7 +77,7 @@ SpotifyCoverProvider::SpotifyCoverProvider(Application *app, QObject *parent) : 
   s.endGroup();
 
   if (!refresh_token_.isEmpty()) {
-    qint64 time = expires_in_ - (QDateTime::currentDateTime().toTime_t() - login_time_);
+    qint64 time = expires_in_ - (QDateTime::currentDateTime().toSecsSinceEpoch() - login_time_);
     if (time < 6) time = 6;
     refresh_login_timer_.setInterval(time * kMsecPerSec);
     refresh_login_timer_.start();
@@ -330,7 +330,7 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
     refresh_token_ = json_obj["refresh_token"].toString();
   }
   expires_in_ = json_obj["expires_in"].toInt();
-  login_time_ = QDateTime::currentDateTime().toTime_t();
+  login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
