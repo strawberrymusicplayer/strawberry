@@ -2537,7 +2537,11 @@ void MainWindow::Raise() {
   activateWindow();
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result) {
+#else
 bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result) {
+#endif
 
   Q_UNUSED(eventType);
   Q_UNUSED(result);
