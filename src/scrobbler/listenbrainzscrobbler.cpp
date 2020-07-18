@@ -122,7 +122,7 @@ void ListenBrainzScrobbler::LoadSession() {
   s.endGroup();
 
   if (!refresh_token_.isEmpty()) {
-    qint64 time = expires_in_ - (QDateTime::currentDateTime().toTime_t() - login_time_);
+    qint64 time = expires_in_ - (QDateTime::currentDateTime().toSecsSinceEpoch() - login_time_);
     if (time < 6) time = 6;
     refresh_login_timer_.setInterval(time * kMsecPerSec);
     refresh_login_timer_.start();
@@ -318,7 +318,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
   if (json_obj.contains("refresh_token")) {
     refresh_token_ = json_obj["refresh_token"].toString();
   }
-  login_time_ = QDateTime::currentDateTime().toTime_t();
+  login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -413,7 +413,7 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
   song_playing_ = song;
   scrobbled_ = false;
-  timestamp_ = QDateTime::currentDateTime().toTime_t();
+  timestamp_ = QDateTime::currentDateTime().toSecsSinceEpoch();
 
   if (!song.is_metadata_good() || !IsAuthenticated() || app_->scrobbler()->IsOffline()) return;
 
@@ -629,7 +629,7 @@ void ListenBrainzScrobbler::Error(const QString &error, const QVariant &debug) {
 
 void ListenBrainzScrobbler::CheckScrobblePrevSong() {
 
-  quint64 duration = QDateTime::currentDateTime().toTime_t() - timestamp_;
+  quint64 duration = QDateTime::currentDateTime().toSecsSinceEpoch() - timestamp_;
 
   if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.source() == Song::Source_Stream && duration > 30) {
     Song song(song_playing_);

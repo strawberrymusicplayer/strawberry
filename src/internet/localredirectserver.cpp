@@ -145,7 +145,7 @@ bool LocalRedirectServer::GenerateCertificate() {
     gnutls_global_deinit();
     return false;
   }
-  quint64 time = QDateTime::currentDateTime().toTime_t();
+  quint64 time = QDateTime::currentDateTime().toSecsSinceEpoch();
   gnutls_x509_crt_set_activation_time(crt, time);
   if (int result = gnutls_x509_crt_set_expiration_time(crt, time + 31536000L) != GNUTLS_E_SUCCESS) {
     error_ = QString("Failed to set the activation time of the certificate: %1").arg(gnutls_strerror(result));
