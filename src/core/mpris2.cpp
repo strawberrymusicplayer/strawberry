@@ -134,10 +134,9 @@ Mpris2::Mpris2(Application *app, QObject *parent)
 
   app_name_[0] = app_name_[0].toUpper();
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0))
   if (!QGuiApplication::desktopFileName().isEmpty())
     desktop_files_ << QGuiApplication::desktopFileName();
-#endif
+
   QStringList domain_split = QCoreApplication::organizationDomain().split(".");
   std::reverse(domain_split.begin(), domain_split.end());
   desktop_files_ << QStringList() << domain_split.join(".") + "." + QCoreApplication::applicationName().toLower();
