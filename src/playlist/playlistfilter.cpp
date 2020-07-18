@@ -25,7 +25,7 @@
 #include <QRegularExpression>
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
-#if QT_VERSION < QT_VERSION_CHECK(5, 12, 0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #  include <QRegExp>
 #endif
 
@@ -81,7 +81,7 @@ void PlaylistFilter::sort(int column, Qt::SortOrder order) {
 
 bool PlaylistFilter::filterAcceptsRow(int row, const QModelIndex &parent) const {
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QString filter = filterRegularExpression().pattern();
 #else
   QString filter = filterRegExp().pattern();
