@@ -61,7 +61,11 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
   bool registerShortcut(quint32 native_key, quint32 native_mods);
   bool unregisterShortcut(quint32 native_key, quint32 native_mods);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  bool nativeEventFilter(const QByteArray &eventtype, void *message, qintptr *result) override;
+#else
   bool nativeEventFilter(const QByteArray &eventtype, void *message, long *result) override;
+#endif
 
   static GlobalShortcut *initialized_;
   static QHash<QPair<quint32, quint32>, GlobalShortcut*> internal_shortcuts_;
