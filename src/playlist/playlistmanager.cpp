@@ -42,6 +42,7 @@
 #include <QtDebug>
 
 #include "core/application.h"
+#include "core/closure.h"
 #include "core/logging.h"
 #include "core/player.h"
 #include "core/utilities.h"
@@ -210,8 +211,15 @@ void PlaylistManager::Save(int id, const QString &filename, Playlist::Path path_
   }
   else {
     // Playlist is not in the playlist manager: probably save action was triggered from the left side bar and the playlist isn't loaded.
-    (void)QtConcurrent::run([=]() { parser_->Save(playlist_backend_->GetPlaylistSongs(id), filename, path_type); });
+    QFuture<QList<Song>> future = QtConcurrent::run(playlist_backend_, &PlaylistBackend::GetPlaylistSongs, id);
+    NewClosure(future, this, SLOT(ItemsLoadedForSavePlaylist(QFuture<SongList>, QString, Playlist::Path)), future, filename, path_type);
   }
+
+}
+
+void PlaylistManager::ItemsLoadedForSavePlaylist(QFuture<SongList> future, const QString &filename, Playlist::Path path_type) {
+
+  parser_->Save(future.result(), filename, path_type);
 
 }
 

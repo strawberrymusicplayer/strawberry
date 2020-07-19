@@ -30,6 +30,7 @@
 #include <QtConcurrent>
 #include <QThread>
 #include <QMutex>
+#include <QFuture>
 #include <QDataStream>
 #include <QMimeData>
 #include <QIODevice>
@@ -51,6 +52,7 @@
 #include <QtDebug>
 
 #include "core/application.h"
+#include "core/closure.h"
 #include "core/database.h"
 #include "core/iconloader.h"
 #include "core/logging.h"
@@ -857,14 +859,17 @@ void CollectionModel::LazyPopulate(CollectionItem *parent, const bool signal) {
 }
 
 void CollectionModel::ResetAsync() {
-  (void)QtConcurrent::run([=]() { ResetAsyncQueryFinished(RunQuery(root_)); });
+  QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(this, &CollectionModel::RunQuery, root_);
+  NewClosure(future, this, SLOT(ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult>)), future);
 }
 
-void CollectionModel::ResetAsyncQueryFinished(QueryResult result) {
+void CollectionModel::ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult> future) {
 
   if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
     backend_->Close();
   }
+
+  const struct QueryResult result = future.result();
 
   BeginReset();
   root_->lazy_loaded = true;

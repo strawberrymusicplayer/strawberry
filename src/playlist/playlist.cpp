@@ -1314,14 +1314,16 @@ void Playlist::Restore() {
   collection_items_by_id_.clear();
 
   cancel_restore_ = false;
-
-  (void)QtConcurrent::run([=]() { ItemsLoaded(backend_->GetPlaylistItems(id_)); });
+  QFuture<QList<PlaylistItemPtr>> future = QtConcurrent::run(backend_, &PlaylistBackend::GetPlaylistItems, id_);
+  NewClosure(future, this, SLOT(ItemsLoaded(QFuture<PlaylistItemList>)), future);
 
 }
 
-void Playlist::ItemsLoaded(PlaylistItemList items) {
+void Playlist::ItemsLoaded(QFuture<PlaylistItemList> future) {
 
   if (cancel_restore_) return;
+
+  PlaylistItemList items = future.result();
 
   // Backend returns empty elements for collection items which it couldn't match (because they got deleted); we don't need those
   QMutableListIterator<PlaylistItemPtr> it(items);
@@ -1351,7 +1353,7 @@ void Playlist::ItemsLoaded(PlaylistItemList items) {
 
   // Should we gray out deleted songs asynchronously on startup?
   if (greyout) {
-    (void)QtConcurrent::run([=]() { InvalidateDeletedSongs(); });
+    QtConcurrent::run(this, &Playlist::InvalidateDeletedSongs);
   }
 
   emit PlaylistLoaded();

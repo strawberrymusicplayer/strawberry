@@ -27,6 +27,7 @@
 #include <QObject>
 #include <QAbstractItemModel>
 #include <QDialog>
+#include <QFuture>
 #include <QList>
 #include <QVariant>
 #include <QString>
@@ -99,7 +100,7 @@ class EditTagDialog : public QDialog {
   };
 
  private slots:
-  void SetSongsFinished(QList<Data> _data);
+  void SetSongsFinished(QFuture<QList<EditTagDialog::Data>> future);
   void AcceptFinished();
 
   void SelectionChanged();

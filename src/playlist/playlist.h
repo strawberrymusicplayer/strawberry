@@ -29,6 +29,7 @@
 #include <QAbstractItemModel>
 #include <QAbstractListModel>
 #include <QPersistentModelIndex>
+#include <QFuture>
 #include <QList>
 #include <QMap>
 #include <QMultiMap>
@@ -348,7 +349,7 @@ class Playlist : public QAbstractListModel {
   void QueueLayoutChanged();
   void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &index);
   void ItemReloadComplete(const QPersistentModelIndex &index);
-  void ItemsLoaded(PlaylistItemList items);
+  void ItemsLoaded(QFuture<PlaylistItemList> future);
   void SongInsertVetoListenerDestroyed();
   void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
 

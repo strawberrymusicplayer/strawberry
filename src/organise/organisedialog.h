@@ -117,7 +117,7 @@ class OrganiseDialog : public QDialog {
 
   OrganiseFormat format_;
 
-  QFuture<void> songs_future_;
+  QFuture<SongList> songs_future_;
   SongList songs_;
   Organise::NewSongInfoList new_songs_info_;
   quint64 total_size_;
