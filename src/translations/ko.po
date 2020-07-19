@@ -157,7 +157,7 @@ msgstr ""
 msgid "%1 playlists (%2)"
 msgstr "재생 목록 %1개(%2)"
 
-#: playlist/playlistmanager.cpp:436
+#: playlist/playlistmanager.cpp:445
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1개 선택됨,"
@@ -182,7 +182,7 @@ msgstr "노래 %1곡"
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "%1곡을 선택했습니다. 모두 여시겠습니까?"
 
-#: playlist/playlistmanager.cpp:443 queue/queue.cpp:249
+#: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
 #, qt-format
 msgid "%1 tracks"
 msgstr "트랙 %1개"
@@ -389,7 +389,7 @@ msgid ""
 msgstr ""
 "(이 값은 노래를 스크로블한 후 스크로블을 서버에 전송할 때까지 지연 시간입니다. 0분으로 설정하면 즉시 스크로블을 보냅니다)."
 
-#: dialogs/edittagdialog.cpp:91
+#: dialogs/edittagdialog.cpp:93
 msgid "(different across multiple songs)"
 msgstr "(여러 곡마다 다름)"
 
@@ -410,7 +410,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1일"
 
-#: playlist/playlistmanager.cpp:443 queue/queue.cpp:249
+#: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
 msgid "1 track"
 msgstr "트랙 1개"
 
@@ -683,7 +683,7 @@ msgid "Albu&m cover"
 msgstr "앨범아트(&M)"
 
 #: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:87
-#: playlist/playlist.cpp:1179 organise/organisedialog.cpp:98
+#: playlist/playlist.cpp:1179 organise/organisedialog.cpp:99
 #: ../build/src/ui_groupbydialog.h:130 ../build/src/ui_groupbydialog.h:154
 #: ../build/src/ui_groupbydialog.h:178 ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
@@ -703,7 +703,7 @@ msgid "Album - Disc"
 msgstr "앨범 - 디스크"
 
 #: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1186
-#: organise/organisedialog.cpp:101 ../build/src/ui_groupbydialog.h:129
+#: organise/organisedialog.cpp:102 ../build/src/ui_groupbydialog.h:129
 #: ../build/src/ui_groupbydialog.h:153 ../build/src/ui_groupbydialog.h:177
 #: ../build/src/ui_edittagdialog.h:685
 msgid "Album artist"
@@ -792,7 +792,7 @@ msgstr "iTunes 데이터베이스를 장치로 복사하는 중 오류 발생"
 msgid "An error occurred loading the iTunes database"
 msgstr "iTunes 데이터베이스를 불러오는 중 오류 발생"
 
-#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:916
+#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:919
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "'%1'에 메타데이터를 쓰는 중 오류 발생"
@@ -828,12 +828,12 @@ msgstr "압축을 적용하여 클리핑 방지"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "\"%1\" 사전 설정을 지우시겠습니까?"
 
-#: dialogs/edittagdialog.cpp:835
+#: dialogs/edittagdialog.cpp:838
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "이 곡의 통계를 초기화하시겠습니까?"
 
 #: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:81
-#: playlist/playlist.cpp:1178 organise/organisedialog.cpp:99
+#: playlist/playlist.cpp:1178 organise/organisedialog.cpp:100
 #: ../build/src/ui_groupbydialog.h:128 ../build/src/ui_groupbydialog.h:152
 #: ../build/src/ui_groupbydialog.h:176 ../build/src/ui_albumcoversearcher.h:106
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:689
@@ -841,7 +841,7 @@ msgstr "이 곡의 통계를 초기화하시겠습니까?"
 msgid "Artist"
 msgstr "아티스트"
 
-#: organise/organisedialog.cpp:100
+#: organise/organisedialog.cpp:101
 msgid "Artist's initial"
 msgstr "아티스트 이니셜"
 
@@ -970,7 +970,7 @@ msgid "Best"
 msgstr "최고"
 
 #: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:132
-#: playlist/playlist.cpp:1196 organise/organisedialog.cpp:114
+#: playlist/playlist.cpp:1196 organise/organisedialog.cpp:115
 #: ../build/src/ui_groupbydialog.h:145 ../build/src/ui_groupbydialog.h:169
 #: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_edittagdialog.h:671
 msgid "Bit depth"
@@ -991,7 +991,7 @@ msgstr "비트 전송률"
 msgid "Bitrate"
 msgstr "비트 전송률"
 
-#: organise/organisedialog.cpp:112
+#: organise/organisedialog.cpp:113
 msgctxt "Refers to bitrate in file organise dialog."
 msgid "Bitrate"
 msgstr "비트 전송률"
@@ -1184,7 +1184,7 @@ msgstr "색상"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "쉼표로 구분된 class:level 목록, level은 0-3"
 
-#: playlist/playlist.cpp:1206 organise/organisedialog.cpp:110
+#: playlist/playlist.cpp:1206 organise/organisedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:687
 msgid "Comment"
 msgstr "설명"
@@ -1198,7 +1198,7 @@ msgid "Complete tags automatically..."
 msgstr "자동으로 태그 완성..."
 
 #: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1187
-#: organise/organisedialog.cpp:102 ../build/src/ui_groupbydialog.h:140
+#: organise/organisedialog.cpp:103 ../build/src/ui_groupbydialog.h:140
 #: ../build/src/ui_groupbydialog.h:164 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_edittagdialog.h:686
 msgid "Composer"
@@ -1300,7 +1300,7 @@ msgstr "%1 파일을 열 수 없음"
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "%1의 GStreamer 소스 엘리먼트를 생성할 수 없음"
 
-#: playlist/playlistmanager.cpp:195
+#: playlist/playlistmanager.cpp:197
 msgid "Couldn't create playlist"
 msgstr "재생 목록을 생성할 수 없음"
 
@@ -1323,24 +1323,24 @@ msgstr "%1 인코더를 찾을 수 없습니다. GStreamer 플러그인 설치 �
 msgid "Cover Manager"
 msgstr "표지 관리자"
 
-#: dialogs/edittagdialog.cpp:514
+#: dialogs/edittagdialog.cpp:517
 msgid "Cover art from embedded image"
 msgstr "내장된 이미지에서 불러온 표지 그림"
 
-#: dialogs/edittagdialog.cpp:517
+#: dialogs/edittagdialog.cpp:520
 #, qt-format
 msgid "Cover art loaded automatically from %1"
 msgstr "%1에서 자동으로 표지 그림을 불러옴"
 
-#: dialogs/edittagdialog.cpp:507
+#: dialogs/edittagdialog.cpp:510
 msgid "Cover art manually unset"
 msgstr "표지 그림을 수동으로 설정 해제함"
 
-#: dialogs/edittagdialog.cpp:520
+#: dialogs/edittagdialog.cpp:523
 msgid "Cover art not set"
 msgstr "표지 그림을 설정하지 않았음"
 
-#: dialogs/edittagdialog.cpp:511
+#: dialogs/edittagdialog.cpp:514
 #, qt-format
 msgid "Cover art set from %1"
 msgstr "%1에서 표지 그림을 설정함"
@@ -1567,7 +1567,7 @@ msgid "Disabled"
 msgstr "사용 안 함"
 
 #: collection/savedgroupingmanager.cpp:93 playlist/playlist.cpp:1181
-#: organise/organisedialog.cpp:106 ../build/src/ui_groupbydialog.h:132
+#: organise/organisedialog.cpp:107 ../build/src/ui_groupbydialog.h:132
 #: ../build/src/ui_groupbydialog.h:156 ../build/src/ui_groupbydialog.h:180
 #: ../build/src/ui_edittagdialog.h:684
 msgid "Disc"
@@ -1928,12 +1928,12 @@ msgstr "곡을 검색할 때 전체 앨범 가져오기"
 msgid "Fetching cover error"
 msgstr "표지 가져오기 오류"
 
-#: core/song.cpp:1020
+#: core/song.cpp:1019
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "%1 파일은 올바른 오디오 파일이 아닌 것 같습니다."
 
-#: organise/organisedialog.cpp:115
+#: organise/organisedialog.cpp:116
 msgid "File extension"
 msgstr "파일 확장자"
 
@@ -2092,7 +2092,7 @@ msgid "Genius Authentication"
 msgstr ""
 
 #: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1185
-#: organise/organisedialog.cpp:109 ../build/src/ui_groupbydialog.h:134
+#: organise/organisedialog.cpp:110 ../build/src/ui_groupbydialog.h:134
 #: ../build/src/ui_groupbydialog.h:158 ../build/src/ui_groupbydialog.h:182
 #: ../build/src/ui_edittagdialog.h:680
 msgid "Genre"
@@ -2187,7 +2187,7 @@ msgid "Group by Genre/Artist/Album"
 msgstr "장르/아티스트/앨범으로 그룹"
 
 #: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1189
-#: organise/organisedialog.cpp:104 ../build/src/ui_groupbydialog.h:142
+#: organise/organisedialog.cpp:105 ../build/src/ui_groupbydialog.h:142
 #: ../build/src/ui_groupbydialog.h:166 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_edittagdialog.h:682
 msgid "Grouping"
@@ -2390,7 +2390,7 @@ msgid "Left"
 msgstr "왼쪽"
 
 #: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:214
-#: playlist/playlist.cpp:1182 organise/organisedialog.cpp:111
+#: playlist/playlist.cpp:1182 organise/organisedialog.cpp:112
 #: ../build/src/ui_edittagdialog.h:665
 msgid "Length"
 msgstr "길이"
@@ -2443,11 +2443,11 @@ msgstr "MTP 장치 불러오는 중"
 msgid "Loading iPod database"
 msgstr "iPod 데이터베이스 불러오는 중"
 
-#: collection/collectionmodel.cpp:214
+#: collection/collectionmodel.cpp:216
 msgid "Loading songs"
 msgstr "노래 불러오는 중"
 
-#: playlist/songloaderinserter.cpp:164 dialogs/edittagdialog.cpp:281
+#: playlist/songloaderinserter.cpp:164 dialogs/edittagdialog.cpp:283
 msgid "Loading tracks"
 msgstr "트랙 불러오는 중"
 
@@ -2455,7 +2455,7 @@ msgstr "트랙 불러오는 중"
 msgid "Loading tracks info"
 msgstr "트랙 정보 불러오는 중"
 
-#: collection/collectionmodel.cpp:207 ../build/src/ui_organisedialog.h:283
+#: collection/collectionmodel.cpp:209 ../build/src/ui_organisedialog.h:283
 msgid "Loading..."
 msgstr "불러오는 중..."
 
@@ -2660,7 +2660,7 @@ msgstr "협대역(NB)"
 msgid "Network Proxy"
 msgstr "네트워크 프록시"
 
-#: playlist/playlistdelegates.cpp:341 dialogs/edittagdialog.cpp:561
+#: playlist/playlistdelegates.cpp:340 dialogs/edittagdialog.cpp:564
 msgid "Never"
 msgstr "없음"
 
@@ -2682,7 +2682,7 @@ msgstr "새로운 재생 목록"
 msgid "New songs"
 msgstr "새로운 음악"
 
-#: dialogs/edittagdialog.cpp:203 dialogs/trackselectiondialog.cpp:73
+#: dialogs/edittagdialog.cpp:205 dialogs/trackselectiondialog.cpp:73
 msgid "Next"
 msgstr "다음"
 
@@ -2858,7 +2858,7 @@ msgid "Original tags"
 msgstr "원본 태그"
 
 #: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1184
-#: organise/organisedialog.cpp:108 ../build/src/ui_groupbydialog.h:138
+#: organise/organisedialog.cpp:109 ../build/src/ui_groupbydialog.h:138
 #: ../build/src/ui_groupbydialog.h:162 ../build/src/ui_groupbydialog.h:186
 msgid "Original year"
 msgstr "원본 년도"
@@ -2929,7 +2929,7 @@ msgid "Paused"
 msgstr "일시 정지됨"
 
 #: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1188
-#: organise/organisedialog.cpp:103 ../build/src/ui_groupbydialog.h:141
+#: organise/organisedialog.cpp:104 ../build/src/ui_groupbydialog.h:141
 #: ../build/src/ui_groupbydialog.h:165 ../build/src/ui_groupbydialog.h:189
 #: ../build/src/ui_edittagdialog.h:691
 msgid "Performer"
@@ -2975,8 +2975,8 @@ msgid "Player options"
 msgstr "재생기 옵션"
 
 #: playlist/playlistcontainer.cpp:322 playlist/playlistlistcontainer.cpp:274
-#: playlist/playlistlistcontainer.cpp:362 playlist/playlistmanager.cpp:104
-#: playlist/playlistmanager.cpp:182 playlist/playlistmanager.cpp:531
+#: playlist/playlistlistcontainer.cpp:362 playlist/playlistmanager.cpp:106
+#: playlist/playlistmanager.cpp:184 playlist/playlistmanager.cpp:540
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:146
 msgid "Playlist"
 msgstr "재생 목록"
@@ -3095,7 +3095,7 @@ msgstr "예쁜 OSD 옵션"
 msgid "Preview"
 msgstr "미리 보기"
 
-#: dialogs/edittagdialog.cpp:202 dialogs/trackselectiondialog.cpp:72
+#: dialogs/edittagdialog.cpp:204 dialogs/trackselectiondialog.cpp:72
 msgid "Previous"
 msgstr "이전"
 
@@ -3318,7 +3318,7 @@ msgstr "노래 다시 검색"
 msgid "Reset"
 msgstr "초기화"
 
-#: dialogs/edittagdialog.cpp:835 ../build/src/ui_edittagdialog.h:664
+#: dialogs/edittagdialog.cpp:838 ../build/src/ui_edittagdialog.h:664
 msgid "Reset play counts"
 msgstr "재생 횟수 초기화"
 
@@ -3343,12 +3343,12 @@ msgstr "FAT 파일 시스템에서 사용할 수 있는 글자로 제한"
 msgid "Resume playback on start"
 msgstr "시작할 때 재생 다시 시작"
 
-#: subsonic/subsonicrequest.cpp:674 tidal/tidalrequest.cpp:1084
+#: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1084
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:675 tidal/tidalrequest.cpp:1085
+#: subsonic/subsonicrequest.cpp:674 tidal/tidalrequest.cpp:1085
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "앨범 %1개의 앨범아트 가져오는 중..."
@@ -3363,7 +3363,7 @@ msgstr "아티스트 %1명의 앨범 가져오는 중..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "아티스트 %1명의 앨범 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "앨범 가져오는 중..."
 
@@ -3371,12 +3371,12 @@ msgstr "앨범 가져오는 중..."
 msgid "Retrieving artists..."
 msgstr "아티스트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "앨범 %1개의 노래 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "앨범 %1개의 노래 가져오는 중..."
@@ -3418,7 +3418,7 @@ msgid "Safely remove the device after copying"
 msgstr "복사 후 안전하게 장치 제거"
 
 #: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1195
-#: organise/organisedialog.cpp:113 ../build/src/ui_groupbydialog.h:144
+#: organise/organisedialog.cpp:114 ../build/src/ui_groupbydialog.h:144
 #: ../build/src/ui_groupbydialog.h:168 ../build/src/ui_groupbydialog.h:192
 #: ../build/src/ui_edittagdialog.h:670
 msgid "Sample rate"
@@ -3453,7 +3453,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
 
-#: playlist/playlistmanager.cpp:249
+#: playlist/playlistmanager.cpp:258
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
@@ -3478,7 +3478,7 @@ msgstr "그룹 관리자 저장됨"
 msgid "Saving album covers"
 msgstr "앨범아트 저장 중"
 
-#: dialogs/edittagdialog.cpp:753 dialogs/trackselectiondialog.cpp:291
+#: dialogs/edittagdialog.cpp:756 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "트랙 저장 중"
 
@@ -4206,7 +4206,7 @@ msgid "Timezone"
 msgstr "시간대"
 
 #: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1177
-#: organise/organisedialog.cpp:97 ../build/src/ui_contextsettingspage.h:415
+#: organise/organisedialog.cpp:98 ../build/src/ui_contextsettingspage.h:415
 #: ../build/src/ui_edittagdialog.h:681
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
@@ -4252,7 +4252,7 @@ msgstr "전송된 총 바이트"
 msgid "Total network requests made"
 msgstr "총 네트워크 요청 수"
 
-#: playlist/playlist.cpp:1180 organise/organisedialog.cpp:105
+#: playlist/playlist.cpp:1180 organise/organisedialog.cpp:106
 #: ../build/src/ui_edittagdialog.h:688
 #: ../build/src/ui_trackselectiondialog.h:212
 msgid "Track"
@@ -4295,17 +4295,17 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "초광대역(UWB)"
 
-#: core/song.cpp:524 context/contextalbumsmodel.cpp:360
-#: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
-#: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
-#: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1404
-#: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:354
-#: playlist/playlistmanager.cpp:538 playlist/playlistmanager.cpp:539
-#: dialogs/edittagdialog.cpp:491 dialogs/edittagdialog.cpp:539
+#: core/song.cpp:523 context/contextalbumsmodel.cpp:360
+#: collection/collectionmodel.cpp:435 collection/collectionmodel.cpp:440
+#: collection/collectionmodel.cpp:444 collection/collectionmodel.cpp:448
+#: collection/collectionmodel.cpp:452 collection/collectionmodel.cpp:1409
+#: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:353
+#: playlist/playlistmanager.cpp:547 playlist/playlistmanager.cpp:548
+#: dialogs/edittagdialog.cpp:494 dialogs/edittagdialog.cpp:542
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: subsonic/subsonicrequest.cpp:844 tidal/tidalrequest.cpp:1254
+#: subsonic/subsonicrequest.cpp:843 tidal/tidalrequest.cpp:1254
 msgid "Unknown error"
 msgstr "알 수 없는 오류"
 
@@ -4456,7 +4456,7 @@ msgstr "메뉴에서 음악을 추가했을 때..."
 msgid "Variable bit rate"
 msgstr "가변 비트 전송률"
 
-#: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:550
+#: collection/collectionmodel.cpp:349 playlist/playlistmanager.cpp:559
 #: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
@@ -4544,7 +4544,7 @@ msgid "Write metadata when saving playlists"
 msgstr "재생 목록을 저장할 때 메타데이터 쓰기"
 
 #: collection/savedgroupingmanager.cpp:102 playlist/playlist.cpp:1183
-#: organise/organisedialog.cpp:107 ../build/src/ui_groupbydialog.h:135
+#: organise/organisedialog.cpp:108 ../build/src/ui_groupbydialog.h:135
 #: ../build/src/ui_groupbydialog.h:159 ../build/src/ui_groupbydialog.h:183
 #: ../build/src/ui_edittagdialog.h:690
 #: ../build/src/ui_trackselectiondialog.h:211
@@ -4682,7 +4682,7 @@ msgid "hw"
 msgstr "hw"
 
 #: context/contextview.cpp:544 context/contextview.cpp:695
-#: playlist/playlistview.cpp:253 dialogs/edittagdialog.cpp:534
+#: playlist/playlistview.cpp:253 dialogs/edittagdialog.cpp:537
 msgid "kbps"
 msgstr "kbps"
 
@@ -4726,7 +4726,7 @@ msgstr ""
 msgid "sort songs"
 msgstr "음악 정렬"
 
-#: playlist/playlistdelegates.cpp:223
+#: playlist/playlistdelegates.cpp:222
 msgid "stop"
 msgstr "정지"
 
