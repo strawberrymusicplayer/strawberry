@@ -428,7 +428,10 @@ QByteArray ScrobblingAPI20::GetReplyData(QNetworkReply *reply) {
           reply->error() == QNetworkReply::ContentOperationNotPermittedError ||
           reply->error() == QNetworkReply::AuthenticationRequiredError ||
           error_code == ScrobbleErrorCode::InvalidSessionKey ||
-          error_code == ScrobbleErrorCode::AuthenticationFailed
+          error_code == ScrobbleErrorCode::UnauthorizedToken ||
+          error_code == ScrobbleErrorCode::LoginRequired ||
+          error_code == ScrobbleErrorCode::AuthenticationFailed ||
+          error_code == ScrobbleErrorCode::APIKeySuspended
         ){
         // Session is probably expired
         Logout();
@@ -994,37 +997,65 @@ void ScrobblingAPI20::Error(const QString &error, const QVariant &debug) {
 QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) const {
 
   switch (error) {
+    case ScrobbleErrorCode::NoError:
+      return QString("This error does not exist.");
     case ScrobbleErrorCode::InvalidService:
-      return QString("Invalid service - This service does not exist");
+      return QString("Invalid service - This service does not exist.");
     case ScrobbleErrorCode::InvalidMethod:
-      return QString("Invalid Method - No method with that name in this package");
+      return QString("Invalid Method - No method with that name in this package.");
     case ScrobbleErrorCode::AuthenticationFailed:
-      return QString("Authentication Failed - You do not have permissions to access the service");
+      return QString("Authentication Failed - You do not have permissions to access the service.");
     case ScrobbleErrorCode::InvalidFormat:
-      return QString("Invalid format - This service doesn't exist in that format");
+      return QString("Invalid format - This service doesn't exist in that format.");
     case ScrobbleErrorCode::InvalidParameters:
-      return QString("Invalid parameters - Your request is missing a required parameter");
+      return QString("Invalid parameters - Your request is missing a required parameter.");
     case ScrobbleErrorCode::InvalidResourceSpecified:
       return QString("Invalid resource specified");
     case ScrobbleErrorCode::OperationFailed:
-      return QString("Operation failed - Something else went wrong");
+      return QString("Operation failed - Most likely the backend service failed. Please try again.");
     case ScrobbleErrorCode::InvalidSessionKey:
-      return QString("Invalid session key - Please re-authenticate");
+      return QString("Invalid session key - Please re-authenticate.");
     case ScrobbleErrorCode::InvalidApiKey:
-      return QString("Invalid API key - You must be granted a valid key by last.fm");
+      return QString("Invalid API key - You must be granted a valid key by last.fm.");
     case ScrobbleErrorCode::ServiceOffline:
       return QString("Service Offline - This service is temporarily offline. Try again later.");
+    case ScrobbleErrorCode::SubscribersOnly:
+      return QString("Subscribers Only - This station is only available to paid last.fm subscribers.");
     case ScrobbleErrorCode::InvalidMethodSignature:
-        return QString("Invalid method signature supplied");
-    case ScrobbleErrorCode::TempError:
-      return QString("There was a temporary error processing your request. Please try again");
-    case ScrobbleErrorCode::SuspendedAPIKey:
+      return QString("Invalid method signature supplied.");
+    case ScrobbleErrorCode::UnauthorizedToken:
+      return QString("Unauthorized Token - This token has not been authorized.");
+    case ScrobbleErrorCode::ItemUnavailable:
+      return QString("This item is not available for streaming.");
+    case ScrobbleErrorCode::TemporarilyUnavailable:
+      return QString("The service is temporarily unavailable, please try again.");
+    case ScrobbleErrorCode::LoginRequired:
+      return QString("Login: User requires to be logged in.");
+    case ScrobbleErrorCode::TrialExpired:
+      return QString("Trial Expired - This user has no free radio plays left. Subscription required.");
+    case ScrobbleErrorCode::ErrorDoesNotExist:
+      return QString("This error does not exist.");
+    case ScrobbleErrorCode::NotEnoughContent:
+      return QString("Not Enough Content - There is not enough content to play this station.");
+    case ScrobbleErrorCode::NotEnoughMembers:
+      return QString("Not Enough Members - This group does not have enough members for radio.");
+    case ScrobbleErrorCode::NotEnoughFans:
+      return QString("Not Enough Fans - This artist does not have enough fans for for radio.");
+    case ScrobbleErrorCode::NotEnoughNeighbours:
+      return QString("Not Enough Neighbours - There are not enough neighbours for radio.");
+    case ScrobbleErrorCode::NoPeakRadio:
+      return QString("No Peak Radio - This user is not allowed to listen to radio during peak usage.");
+    case ScrobbleErrorCode::RadioNotFound:
+      return QString("Radio Not Found - Radio station not found.");
+    case ScrobbleErrorCode::APIKeySuspended:
       return QString("Suspended API key - Access for your account has been suspended, please contact Last.fm");
+    case ScrobbleErrorCode::Deprecated:
+      return QString("Deprecated - This type of request is no longer supported.");
     case ScrobbleErrorCode::RateLimitExceeded:
-      return QString("Rate limit exceeded - Your IP has made too many requests in a short period");
-    default:
-      return QString("Unknown error");
+      return QString("Rate limit exceeded - Your IP has made too many requests in a short period.");
   }
+
+  return QString("Unknown error.");
 
 }
 
