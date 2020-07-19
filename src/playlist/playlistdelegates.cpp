@@ -42,7 +42,6 @@
 #include <QString>
 #include <QStringBuilder>
 #include <QUrl>
-#include <QRegExp>
 #include <QIcon>
 #include <QPixmap>
 #include <QPainter>

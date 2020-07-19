@@ -25,7 +25,8 @@
 #include <QMap>
 #include <QByteArray>
 #include <QString>
-#include <QRegExp>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 #include <QTextStream>
 
 #include "core/timeconstants.h"
@@ -48,7 +49,7 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
   Q_UNUSED(playlist_path);
 
   QMap<int, Song> songs;
-  QRegExp n_re("\\d+$");
+  QRegularExpression n_re("\\d+$");
 
   while (!device->atEnd()) {
     QString line = QString::fromUtf8(device->readLine()).trimmed();
@@ -56,8 +57,8 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
     QString key = line.left(equals).toLower();
     QString value = line.mid(equals + 1);
 
-    n_re.indexIn(key);
-    int n = n_re.cap(0).toInt();
+    QRegularExpressionMatch re_match = n_re.match(key);
+    int n = re_match.captured(0).toInt();
 
     if (key.startsWith("file")) {
       Song song = LoadSong(value, 0, dir);

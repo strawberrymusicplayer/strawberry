@@ -31,7 +31,8 @@
 #include <QStringList>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QRegExp>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 #include <QtAlgorithms>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -270,9 +271,10 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
         album = reader.readElementText();
       }
       else if (name == "date") {
-        QRegExp regex(kDateRegex);
-        if (regex.indexIn(reader.readElementText()) == 0) {
-          year = regex.cap(0).toInt();
+        QRegularExpression regex(kDateRegex);
+        QRegularExpressionMatch re_match = regex.match(reader.readElementText());
+        if (re_match.capturedStart() == 0) {
+          year = re_match.captured(0).toInt();
         }
       }
       else if (name == "artist-credit") {
@@ -465,9 +467,10 @@ MusicBrainzClient::Release MusicBrainzClient::ParseRelease(QXmlStreamReader *rea
         ret.SetStatusFromString(reader->readElementText());
       }
       else if (name == "date") {
-        QRegExp regex(kDateRegex);
-        if (regex.indexIn(reader->readElementText()) == 0) {
-          ret.year_ = regex.cap(0).toInt();
+        QRegularExpression regex(kDateRegex);
+        QRegularExpressionMatch re_match = regex.match(reader->readElementText());
+        if (re_match.capturedStart() == 0) {
+          ret.year_ = re_match.captured(0).toInt();
         }
       }
       else if (name == "track-list") {

@@ -28,7 +28,6 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QRegExp>
 #include <QImage>
 #include <QImageReader>
 #include <QNetworkAccessManager>

@@ -28,7 +28,7 @@
 #include <QStringBuilder>
 #include <QStringList>
 #include <QRegularExpression>
-#include <QRegExp>
+#include <QRegularExpressionMatch>
 #include <QUrl>
 #include <QFileInfo>
 #include <QDir>
@@ -180,30 +180,33 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
 
 QString OrganiseFormat::ParseBlock(QString block, const Song &song, bool *any_empty) const {
 
-  QRegExp tag_regexp(kTagPattern);
-  QRegExp block_regexp(kBlockPattern);
+  QRegularExpression tag_regexp(kTagPattern);
+  QRegularExpression block_regexp(kBlockPattern);
 
   // Find any blocks first
   int pos = 0;
-  while ((pos = block_regexp.indexIn(block, pos)) != -1) {
+  QRegularExpressionMatch re_match;
+  for (re_match = block_regexp.match(block, pos) ;  re_match.hasMatch() ; re_match = block_regexp.match(block, pos)) {
+    pos = re_match.capturedStart();
     // Recursively parse the block
     bool empty = false;
-    QString value = ParseBlock(block_regexp.cap(1), song, &empty);
+    QString value = ParseBlock(re_match.captured(1), song, &empty);
     if (empty) value = "";
 
     // Replace the block's value
-    block.replace(pos, block_regexp.matchedLength(), value);
+    block.replace(pos, re_match.capturedLength(), value);
     pos += value.length();
   }
 
   // Now look for tags
   bool empty = false;
   pos = 0;
-  while ((pos = tag_regexp.indexIn(block, pos)) != -1) {
-    QString value = TagValue(tag_regexp.cap(1), song);
+  for (re_match = tag_regexp.match(block, pos) ; re_match.hasMatch() ; re_match = tag_regexp.match(block, pos)) {
+    pos = re_match.capturedStart();
+    QString value = TagValue(re_match.captured(1), song);
     if (value.isEmpty()) empty = true;
 
-    block.replace(pos, tag_regexp.matchedLength(), value);
+    block.replace(pos, re_match.capturedLength(), value);
     pos += value.length();
   }
 
@@ -281,7 +284,7 @@ OrganiseFormat::Validator::Validator(QObject *parent) : QValidator(parent) {}
 
 QValidator::State OrganiseFormat::Validator::validate(QString &input, int&) const {
 
-  QRegExp tag_regexp(kTagPattern);
+  QRegularExpression tag_regexp(kTagPattern);
 
   // Make sure all the blocks match up
   int block_level = 0;
@@ -297,12 +300,14 @@ QValidator::State OrganiseFormat::Validator::validate(QString &input, int&) cons
   if (block_level != 0) return QValidator::Invalid;
 
   // Make sure the tags are valid
+  QRegularExpressionMatch re_match;
   int pos = 0;
-  while ((pos = tag_regexp.indexIn(input, pos)) != -1) {
-    if (!OrganiseFormat::kKnownTags.contains(tag_regexp.cap(1)))
+  for (re_match = tag_regexp.match(input, pos) ; re_match.hasMatch() ; re_match = tag_regexp.match(input, pos)) {
+    pos = re_match.capturedStart();
+    if (!OrganiseFormat::kKnownTags.contains(re_match.captured(1)))
       return QValidator::Invalid;
 
-    pos += tag_regexp.matchedLength();
+    pos += re_match.capturedLength();
   }
 
   return QValidator::Acceptable;
@@ -325,8 +330,8 @@ void OrganiseFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
   const QRgb valid_tag_color = light ? kValidTagColorLight : kValidTagColorDark;
   const QRgb invalid_tag_color = light ? kInvalidTagColorLight : kInvalidTagColorDark;
 
-  QRegExp tag_regexp(kTagPattern);
-  QRegExp block_regexp(kBlockPattern);
+  QRegularExpression tag_regexp(kTagPattern);
+  QRegularExpression block_regexp(kBlockPattern);
 
   QTextCharFormat block_format;
   block_format.setBackground(QColor(block_color));
@@ -335,20 +340,23 @@ void OrganiseFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
   setFormat(0, text.length(), QTextCharFormat());
 
   // Blocks
+  QRegularExpressionMatch re_match;
   int pos = 0;
-  while ((pos = block_regexp.indexIn(text, pos)) != -1) {
-    setFormat(pos, block_regexp.matchedLength(), block_format);
-    pos += block_regexp.matchedLength();
+  for (re_match = block_regexp.match(text, pos) ; re_match.hasMatch() ; re_match = block_regexp.match(text, pos)) {
+    pos = re_match.capturedStart();
+    setFormat(pos, re_match.capturedLength(), block_format);
+    pos += re_match.capturedLength();
   }
 
   // Tags
   pos = 0;
-  while ((pos = tag_regexp.indexIn(text, pos)) != -1) {
+  for (re_match = tag_regexp.match(text, pos) ; re_match.hasMatch() ; re_match = tag_regexp.match(text, pos)) {
+    pos = re_match.capturedStart();
     QTextCharFormat f = format(pos);
-    f.setForeground(QColor(OrganiseFormat::kKnownTags.contains(tag_regexp.cap(1)) ? valid_tag_color : invalid_tag_color));
+    f.setForeground(QColor(OrganiseFormat::kKnownTags.contains(re_match.captured(1)) ? valid_tag_color : invalid_tag_color));
 
-    setFormat(pos, tag_regexp.matchedLength(), f);
-    pos += tag_regexp.matchedLength();
+    setFormat(pos, re_match.capturedLength(), f);
+    pos += re_match.capturedLength();
   }
 
 }

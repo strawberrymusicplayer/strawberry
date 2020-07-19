@@ -51,7 +51,7 @@
 #include <QStringList>
 #include <QUrl>
 #include <QRegularExpression>
-#include <QRegExp>
+#include <QRegularExpressionMatch>
 #include <QTcpServer>
 #include <QTemporaryFile>
 #include <QPoint>
@@ -604,8 +604,9 @@ bool ParseUntilElementCI(QXmlStreamReader *reader, const QString &name) {
 
 QDateTime ParseRFC822DateTime(const QString &text) {
 
-  QRegExp regexp("(\\d{1,2}) (\\w{3,12}) (\\d+) (\\d{1,2}):(\\d{1,2}):(\\d{1,2})");
-  if (regexp.indexIn(text) == -1) {
+  QRegularExpression regexp("(\\d{1,2}) (\\w{3,12}) (\\d+) (\\d{1,2}):(\\d{1,2}):(\\d{1,2})");
+  QRegularExpressionMatch re_match = regexp.match(text);
+  if (!re_match.hasMatch()) {
     return QDateTime();
   }
 
@@ -637,9 +638,9 @@ QDateTime ParseRFC822DateTime(const QString &text) {
   monthmap["November"] = 11;
   monthmap["December"] = 12;
 
-  const QDate date(regexp.cap(static_cast<int>(MatchNames::YEARS)).toInt(), monthmap[regexp.cap(static_cast<int>(MatchNames::MONTHS))], regexp.cap(static_cast<int>(MatchNames::DAYS)).toInt());
+  const QDate date(re_match.captured(static_cast<int>(MatchNames::YEARS)).toInt(), monthmap[re_match.captured(static_cast<int>(MatchNames::MONTHS))], re_match.captured(static_cast<int>(MatchNames::DAYS)).toInt());
 
-  const QTime time(regexp.cap(static_cast<int>(MatchNames::HOURS)).toInt(), regexp.cap(static_cast<int>(MatchNames::MINUTES)).toInt(), regexp.cap(static_cast<int>(MatchNames::SECONDS)).toInt());
+  const QTime time(re_match.captured(static_cast<int>(MatchNames::HOURS)).toInt(), re_match.captured(static_cast<int>(MatchNames::MINUTES)).toInt(), re_match.captured(static_cast<int>(MatchNames::SECONDS)).toInt());
 
   return QDateTime(date, time);
 
@@ -923,16 +924,17 @@ QString MacAddress() {
 
 QString ReplaceMessage(const QString &message, const Song &song, const QString &newline) {
 
-  QRegExp variable_replacer("[%][a-z]+[%]");
+  QRegularExpression variable_replacer("[%][a-z]+[%]");
   QString copy(message);
 
   // Replace the first line
   int pos = 0;
-  variable_replacer.indexIn(message);
-  while ((pos = variable_replacer.indexIn(message, pos)) != -1) {
-    QStringList captured = variable_replacer.capturedTexts();
+  QRegularExpressionMatch match;
+  for (match = variable_replacer.match(message, pos) ; match.hasMatch() ; match = variable_replacer.match(message, pos)) {
+    pos = match.capturedStart();
+    QStringList captured = match.capturedTexts();
     copy.replace(captured[0], ReplaceVariable(captured[0], song, newline));
-    pos += variable_replacer.matchedLength();
+    pos += match.capturedLength();
   }
 
   int index_of = copy.indexOf(QRegularExpression(" - (>|$)"));

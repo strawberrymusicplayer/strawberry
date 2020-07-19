@@ -26,7 +26,8 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 #include <QDir>
 #include <QLocale>
 #include <QSettings>
@@ -74,13 +75,15 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
   // Populate the language combo box.  We do this by looking at all the compiled in translations.
   QDir dir(":/translations/");
   QStringList codes(dir.entryList(QStringList() << "*.qm"));
-  QRegExp lang_re("^strawberry_(.*).qm$");
+  QRegularExpression lang_re("^strawberry_(.*).qm$");
   for (const QString &filename : codes) {
 
-    // The regex captures the "ru" from "strawberry_ru.qm"
-    if (!lang_re.exactMatch(filename)) continue;
+    QRegularExpressionMatch re_match = lang_re.match(filename);
 
-    QString code = lang_re.cap(1);
+    // The regex captures the "ru" from "strawberry_ru.qm"
+    if (!re_match.hasMatch()) continue;
+
+    QString code = re_match.captured(1);
     QString lookup_code = QString(code)
                               .replace("@latin", "_Latn")
                               .replace("_CN", "_Hans_CN")

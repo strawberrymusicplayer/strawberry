@@ -27,9 +27,10 @@
 #include <QList>
 #include <QByteArray>
 #include <QString>
-#include <QRegExp>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 #include <QtDebug>
 
 #include "core/logging.h"
@@ -39,16 +40,17 @@ MtpConnection::MtpConnection(const QUrl &url) : device_(nullptr) {
 
   QString hostname = url.host();
   // Parse the URL
-  QRegExp host_re("^usb-(\\d+)-(\\d+)$");
+  QRegularExpression host_re("^usb-(\\d+)-(\\d+)$");
 
   unsigned int bus_location = 0;
   unsigned int device_num = 0;
 
   QUrlQuery url_query(url);
 
-  if (host_re.indexIn(hostname) >= 0) {
-    bus_location = host_re.cap(1).toUInt();
-    device_num = host_re.cap(2).toUInt();
+  QRegularExpressionMatch re_match = host_re.match(hostname);
+  if (re_match.hasMatch()) {
+    bus_location = re_match.captured(1).toUInt();
+    device_num = re_match.captured(2).toUInt();
   }
   else if (url_query.hasQueryItem("busnum")) {
     bus_location = url_query.queryItemValue("busnum").toUInt();

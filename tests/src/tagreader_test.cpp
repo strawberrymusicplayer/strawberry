@@ -25,10 +25,6 @@
 #include <QFile>
 #include <QByteArray>
 #include <QString>
-#include <QStringList>
-#include <QTemporaryFile>
-#include <QTextCodec>
-#include <QRegExp>
 #include <QCryptographicHash>
 
 #include "core/song.h"

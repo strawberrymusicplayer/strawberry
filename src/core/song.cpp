@@ -38,7 +38,6 @@
 #include <QString>
 #include <QStringList>
 #include <QRegularExpression>
-#include <QRegExp>
 #include <QUrl>
 #include <QImage>
 #include <QIcon>

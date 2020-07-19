@@ -33,7 +33,7 @@
 #include <QString>
 #include <QStringList>
 #include <QRegularExpression>
-#include <QRegExp>
+#include <QRegularExpressionMatch>
 #include <QUrl>
 #include <QUrlQuery>
 
@@ -237,11 +237,12 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
         url.setScheme("ipod");
       }
 
-      QRegExp device_re("usb/(\\d+)/(\\d+)");
-      if (device_re.indexIn(unix_device) >= 0) {
+      QRegularExpression device_re("usb/(\\d+)/(\\d+)");
+      QRegularExpressionMatch re_match = device_re.match(unix_device);
+      if (re_match.hasMatch()) {
         QUrlQuery url_query(url);
-        url_query.addQueryItem("busnum", device_re.cap(1));
-        url_query.addQueryItem("devnum", device_re.cap(2));
+        url_query.addQueryItem("busnum", re_match.captured(1));
+        url_query.addQueryItem("devnum", re_match.captured(2));
         url.setQuery(url_query);
       }
 

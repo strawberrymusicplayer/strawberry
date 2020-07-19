@@ -27,7 +27,7 @@
 #include <QString>
 #include <QStringBuilder>
 #include <QRegularExpression>
-#include <QRegExp>
+#include <QRegularExpressionMatch>
 #include <QUrl>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
@@ -49,14 +49,16 @@ SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const 
   QByteArray data = device->readAll();
 
   // Some playlists have unescaped & characters in URLs :(
-  QRegExp ex("(href\\s*=\\s*\")([^\"]+)\"");
+  QRegularExpression ex("(href\\s*=\\s*\")([^\"]+)\"");
+  QRegularExpressionMatch re_match;
   int index = 0;
-  while ((index = ex.indexIn(data, index)) != -1) {
-    QString url = ex.cap(2);
+  for (re_match = ex.match(data, index) ; re_match.hasMatch() ; re_match = ex.match(data, index)) {
+    index = re_match.capturedStart();
+    QString url = re_match.captured(2);
     url.replace(QRegularExpression("&(?!amp;|quot;|apos;|lt;|gt;)"), "&amp;");
 
-    QByteArray replacement = QString(ex.cap(1) + url + "\"").toLocal8Bit();
-    data.replace(ex.cap(0).toLocal8Bit(), replacement);
+    QByteArray replacement = QString(re_match.captured(1) + url + "\"").toLocal8Bit();
+    data.replace(re_match.captured(0).toLocal8Bit(), replacement);
     index += replacement.length();
   }
 
