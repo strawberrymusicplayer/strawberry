@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <functional>
 #include <algorithm>
 #include <iterator>
 #include <limits>
@@ -286,7 +287,7 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
   ui_->song_list->clear();
 
   // Reload tags in the background
-  QFuture<QList<Data>> future = QtConcurrent::run(this, &EditTagDialog::LoadData, s);
+  QFuture<QList<Data>> future = QtConcurrent::run(std::bind(&EditTagDialog::LoadData, this, s));
   NewClosure(future, this, SLOT(SetSongsFinished(QFuture<QList<EditTagDialog::Data>>)), future);
 
 }

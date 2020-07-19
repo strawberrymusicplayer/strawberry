@@ -1314,7 +1314,7 @@ void Playlist::Restore() {
   collection_items_by_id_.clear();
 
   cancel_restore_ = false;
-  QFuture<QList<PlaylistItemPtr>> future = QtConcurrent::run(backend_, &PlaylistBackend::GetPlaylistItems, id_);
+  QFuture<QList<PlaylistItemPtr>> future = QtConcurrent::run(std::bind(&PlaylistBackend::GetPlaylistItems, backend_, id_));
   NewClosure(future, this, SLOT(ItemsLoaded(QFuture<PlaylistItemList>)), future);
 
 }
@@ -1353,7 +1353,7 @@ void Playlist::ItemsLoaded(QFuture<PlaylistItemList> future) {
 
   // Should we gray out deleted songs asynchronously on startup?
   if (greyout) {
-    QtConcurrent::run(this, &Playlist::InvalidateDeletedSongs);
+    (void)QtConcurrent::run(std::bind(&Playlist::InvalidateDeletedSongs, this));
   }
 
   emit PlaylistLoaded();
