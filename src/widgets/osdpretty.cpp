@@ -146,7 +146,7 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
 
   // Set the margins to allow for the drop shadow
   QBoxLayout *l = qobject_cast<QBoxLayout*>(layout());
-  QMargins margin = l->contentsMargins() + kDropShadowSize;
+  QMargins margin = l->contentsMargins();
   margin.setTop(margin.top() + kDropShadowSize);
   margin.setBottom(margin.bottom() + kDropShadowSize);
   margin.setLeft(margin.left() + kDropShadowSize);
