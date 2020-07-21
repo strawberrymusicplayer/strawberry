@@ -3562,7 +3562,7 @@ msgstr "Tamaño de escala"
 msgid "Scrobbler"
 msgstr "Registro de reproducción"
 
-#: scrobbler/scrobblingapi20.cpp:993
+#: scrobbler/scrobblingapi20.cpp:1004
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""

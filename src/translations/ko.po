@@ -3494,7 +3494,7 @@ msgstr "크기 조정"
 msgid "Scrobbler"
 msgstr "스크로블러"
 
-#: scrobbler/scrobblingapi20.cpp:993
+#: scrobbler/scrobblingapi20.cpp:1004
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""

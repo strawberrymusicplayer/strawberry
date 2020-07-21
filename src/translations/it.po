@@ -3536,7 +3536,7 @@ msgstr "Riscala le dimensioni"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:993
+#: scrobbler/scrobblingapi20.cpp:1004
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
