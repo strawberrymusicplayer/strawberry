@@ -178,10 +178,12 @@ msgstr "%1 sanger"
 msgid "%1 songs"
 msgstr "%1 sanger"
 
-#: core/utilities.cpp:430
+#: core/utilities.cpp:439
 #, qt-format
-msgid "%1 songs selected, are you sure you want to open them all?"
-msgstr "%1 sanger valgt, er du sikker på at du vil åpne dem alle?"
+msgid ""
+"%1 songs in %2 different directories selected, are you sure you want to open "
+"them all?"
+msgstr ""
 
 #: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
 #, qt-format
@@ -3721,7 +3723,7 @@ msgstr "Fullskjermvisning…"
 msgid "Show in collection..."
 msgstr "Vis i samling…"
 
-#: core/utilities.cpp:424 core/utilities.cpp:430
+#: core/utilities.cpp:433 core/utilities.cpp:439
 msgid "Show in file browser"
 msgstr "Vis i fil utforsker"
 
@@ -4272,7 +4274,7 @@ msgstr "Slå av/på synlighet for det pene skjermbilde overlegget"
 msgid "Tomorrow"
 msgstr "I morgen"
 
-#: core/utilities.cpp:424
+#: core/utilities.cpp:433
 msgid "Too many songs selected."
 msgstr "For mange sanger er valgt."
 

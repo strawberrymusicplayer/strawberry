@@ -209,10 +209,12 @@ msgstr "%1 Lied%2"
 msgid "%1 songs"
 msgstr "%1 Lieder"
 
-#: core/utilities.cpp:430
+#: core/utilities.cpp:439
 #, qt-format
-msgid "%1 songs selected, are you sure you want to open them all?"
-msgstr "%1 Lieder ausgewählt, wollen sie wirklich alle öffnen?"
+msgid ""
+"%1 songs in %2 different directories selected, are you sure you want to open "
+"them all?"
+msgstr ""
 
 #: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
 #, qt-format
@@ -3789,7 +3791,7 @@ msgstr "In Originalgröße anzeigen …"
 msgid "Show in collection..."
 msgstr "In Bibliothek anzeigen …"
 
-#: core/utilities.cpp:424 core/utilities.cpp:430
+#: core/utilities.cpp:433 core/utilities.cpp:439
 msgid "Show in file browser"
 msgstr "Zeige im Dateimanager"
 
@@ -4352,7 +4354,7 @@ msgstr "Sichtbarkeit der Strawberry-Bildschirmanzeige anpassen"
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: core/utilities.cpp:424
+#: core/utilities.cpp:433
 msgid "Too many songs selected."
 msgstr "Zu viele Lieder ausgewählt."
 

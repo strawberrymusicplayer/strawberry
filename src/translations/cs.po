@@ -182,10 +182,12 @@ msgstr "%1 skladba%2"
 msgid "%1 songs"
 msgstr "%1 skladby"
 
-#: core/utilities.cpp:430
+#: core/utilities.cpp:439
 #, qt-format
-msgid "%1 songs selected, are you sure you want to open them all?"
-msgstr "Je vybráno %1 skladeb, chcete je všechny otevřít?"
+msgid ""
+"%1 songs in %2 different directories selected, are you sure you want to open "
+"them all?"
+msgstr ""
 
 #: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
 #, qt-format
@@ -3758,7 +3760,7 @@ msgstr "Ukázat v plné velikosti..."
 msgid "Show in collection..."
 msgstr "Ukazovat ve sbírce..."
 
-#: core/utilities.cpp:424 core/utilities.cpp:430
+#: core/utilities.cpp:433 core/utilities.cpp:439
 msgid "Show in file browser"
 msgstr "Zobrazit v průzkumníku souborů"
 
@@ -4317,7 +4319,7 @@ msgstr "Přepnout viditelnost hezkých oznámení na obrazovce (OSD)"
 msgid "Tomorrow"
 msgstr "Zítra"
 
-#: core/utilities.cpp:424
+#: core/utilities.cpp:433
 msgid "Too many songs selected."
 msgstr "Je vybráno příliš mnoho skladeb."
 

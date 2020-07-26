@@ -184,10 +184,12 @@ msgstr "%1 dal%2"
 msgid "%1 songs"
 msgstr "%1 dal"
 
-#: core/utilities.cpp:430
+#: core/utilities.cpp:439
 #, qt-format
-msgid "%1 songs selected, are you sure you want to open them all?"
-msgstr "%1 dal van kiválasztva, biztos meg szeretné őket nyitni?"
+msgid ""
+"%1 songs in %2 different directories selected, are you sure you want to open "
+"them all?"
+msgstr ""
 
 #: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
 #, qt-format
@@ -3758,7 +3760,7 @@ msgstr "Megjelenítés teljes méretben..."
 msgid "Show in collection..."
 msgstr "Megjelenítés a gyűjteményben..."
 
-#: core/utilities.cpp:424 core/utilities.cpp:430
+#: core/utilities.cpp:433 core/utilities.cpp:439
 msgid "Show in file browser"
 msgstr "Megnyitás a fájlböngészőben"
 
@@ -4317,7 +4319,7 @@ msgstr "OSD láthatóság bekapcsolása"
 msgid "Tomorrow"
 msgstr "Holnap"
 
-#: core/utilities.cpp:424
+#: core/utilities.cpp:433
 msgid "Too many songs selected."
 msgstr "Túl sok dal van kiválasztva."
 

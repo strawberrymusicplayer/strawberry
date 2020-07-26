@@ -207,11 +207,12 @@ msgstr "%1 morceau %2"
 msgid "%1 songs"
 msgstr "%1 morceaux"
 
-#: core/utilities.cpp:430
+#: core/utilities.cpp:439
 #, qt-format
-msgid "%1 songs selected, are you sure you want to open them all?"
+msgid ""
+"%1 songs in %2 different directories selected, are you sure you want to open "
+"them all?"
 msgstr ""
-"%1 morceaux sélectionnés, êtes-vous sûr(e) de vouloir tous les ouvrir ?"
 
 #: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
 #, qt-format
@@ -3805,7 +3806,7 @@ msgstr "Afficher en taille réelle..."
 msgid "Show in collection..."
 msgstr "Afficher dans la bibliothèque..."
 
-#: core/utilities.cpp:424 core/utilities.cpp:430
+#: core/utilities.cpp:433 core/utilities.cpp:439
 msgid "Show in file browser"
 msgstr "Afficher dans l'explorateur de fichiers"
 
@@ -4371,7 +4372,7 @@ msgstr "Basculer la visibilité de l'OSD"
 msgid "Tomorrow"
 msgstr "Demain"
 
-#: core/utilities.cpp:424
+#: core/utilities.cpp:433
 msgid "Too many songs selected."
 msgstr "Trop de morceaux sélectionnés."
 
