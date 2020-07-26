@@ -337,8 +337,10 @@ QString ColorToRgba(const QColor &c) {
 }
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
-void OpenInFileManager(const QString &path);
-void OpenInFileManager(const QString &path) {
+void OpenInFileManager(const QString path, const QUrl &url);
+void OpenInFileManager(const QString path, const QUrl &url) {
+
+  if (!url.isLocalFile()) return;
 
   QProcess proc;
   proc.start("xdg-mime", QStringList() << "query" << "default" << "inode/directory");
@@ -376,29 +378,22 @@ void OpenInFileManager(const QString &path) {
   }
 
   if (command.isEmpty() || command == "exo-open") {
-    QFileInfo info(path);
-    if (!info.exists()) return;
-    QString directory = info.dir().path();
-    if (directory.isEmpty()) return;
-    QDesktopServices::openUrl(QUrl::fromLocalFile(directory));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(path));
   }
   else if (command.startsWith("nautilus")) {
-    proc.startDetached(command, QStringList() << command_params << "--select" << path);
+    proc.startDetached(command, QStringList() << command_params << "--select" << url.toLocalFile());
   }
   else if (command.startsWith("dolphin") || command.startsWith("konqueror") || command.startsWith("kfmclient")) {
-    proc.startDetached(command, QStringList() << command_params << "--select" << "--new-window" << path);
+    proc.startDetached(command, QStringList() << command_params << "--select" << "--new-window" << url.toLocalFile());
   }
   else if (command.startsWith("caja")) {
-    QFileInfo info(path);
-    if (!info.exists()) return;
-    QString directory = info.dir().path();
-    proc.startDetached(command, QStringList() << command_params << "--no-desktop" << directory);
+    proc.startDetached(command, QStringList() << command_params << "--no-desktop" << path);
   }
   else if (command.startsWith("pcmanfm")) {
-    proc.startDetached(command, QStringList() << command_params << QFileInfo(path).dir().path());
+    proc.startDetached(command, QStringList() << command_params << path);
   }
   else {
-    proc.startDetached(command, QStringList() << command_params << path);
+    proc.startDetached(command, QStringList() << command_params << url.toLocalFile());
   }
 
 }
@@ -406,28 +401,42 @@ void OpenInFileManager(const QString &path) {
 
 #ifdef Q_OS_MACOS
 // Better than openUrl(dirname(path)) - also highlights file at path
-void RevealFileInFinder(QString const &path) {
+void RevealFileInFinder(const QString &path) {
   QProcess::execute("/usr/bin/open", QStringList() << "-R" << path);
 }
 #endif  // Q_OS_MACOS
 
 #ifdef Q_OS_WIN
-void ShowFileInExplorer(QString const &path);
-void ShowFileInExplorer(QString const &path) {
+void ShowFileInExplorer(const QString &path);
+void ShowFileInExplorer(const QString &path) {
   QProcess::execute("explorer.exe", QStringList() << "/select," << QDir::toNativeSeparators(path));
 }
 #endif
 
 void OpenInFileBrowser(const QList<QUrl> &urls) {
 
-  if (urls.count() > 50) {
+  QMap<QString, QUrl> dirs;
+
+  for (const QUrl &url : urls) {
+    if (!url.isLocalFile()) {
+      continue;
+    }
+    QString path = url.toLocalFile();
+    if (!QFile::exists(path)) continue;
+
+    const QString directory = QFileInfo(path).dir().path();
+    if (dirs.contains(directory)) continue;
+    dirs.insert(directory, url);
+  }
+
+  if (dirs.count() > 50) {
     QMessageBox messagebox(QMessageBox::Critical, tr("Show in file browser"), tr("Too many songs selected."));
     messagebox.exec();
     return;
   }
 
-  if (urls.count() > 5) {
-    QMessageBox messagebox(QMessageBox::Information, tr("Show in file browser"), tr("%1 songs selected, are you sure you want to open them all?").arg(urls.count()), QMessageBox::Open|QMessageBox::Cancel);
+  if (dirs.count() > 5) {
+    QMessageBox messagebox(QMessageBox::Information, tr("Show in file browser"), tr("%1 songs in %2 different directories selected, are you sure you want to open them all?").arg(urls.count()).arg(dirs.count()), QMessageBox::Open|QMessageBox::Cancel);
     messagebox.setTextFormat(Qt::RichText);
     int result = messagebox.exec();
     switch (result) {
@@ -439,27 +448,15 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
     }
   }
 
-  QSet<QString> dirs;
-
-  for (const QUrl &url : urls) {
-    if (!url.isLocalFile()) {
-      continue;
-    }
-    QString path = url.toLocalFile();
-
-    if (!QFile::exists(path)) continue;
-
-    const QString directory = QFileInfo(path).dir().path();
-    if (dirs.contains(directory)) continue;
-    dirs.insert(directory);
-
+  QMap<QString, QUrl>::iterator i;
+  for (i = dirs.begin(); i != dirs.end(); ++i) {
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
-    OpenInFileManager(path);
+    OpenInFileManager(i.key(), i.value());
 #elif defined(Q_OS_MACOS)
     // Revealing multiple files in the finder only opens one window, so it also makes sense to reveal at most one per directory
-    RevealFileInFinder(path);
+    RevealFileInFinder(i.value().toLocalFile());
 #elif defined(Q_OS_WIN32)
-    ShowFileInExplorer(path);
+    ShowFileInExplorer(i.value().toLocalFile());
 #endif
   }
 
