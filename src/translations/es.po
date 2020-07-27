@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-07-25 02:44-0400\n"
+"PO-Revision-Date: 2020-07-27 01:31-0400\n"
 "Last-Translator: Pablo Felip <takerna@gmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -208,6 +208,8 @@ msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
 msgstr ""
+"Se han seleccionado %1 temas en %2 directorios, ¿seguro que quieres abrirlos "
+"todos?"
 
 #: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
 #, qt-format
@@ -1020,12 +1022,12 @@ msgstr "Bit_rate"
 #: ../build/src/ui_transcoderoptionsasf.h:78
 #: ../build/src/ui_transcoderoptionsmp3.h:193
 msgid "Bitrate"
-msgstr "Velocidad"
+msgstr "Tasa bits"
 
 #: organise/organisedialog.cpp:113
 msgctxt "Refers to bitrate in file organise dialog."
 msgid "Bitrate"
-msgstr "Velocidad"
+msgstr "Tasa bits"
 
 #: analyzer/blockanalyzer.cpp:45
 msgid "Block analyzer"
@@ -2005,7 +2007,7 @@ msgstr "Tamaño del archivo"
 #: ../build/src/ui_groupbydialog.h:143 ../build/src/ui_groupbydialog.h:167
 #: ../build/src/ui_groupbydialog.h:191 ../build/src/ui_edittagdialog.h:673
 msgid "File type"
-msgstr "Tipo de archivo"
+msgstr "Tipo"
 
 #: ../build/src/ui_transcodedialog.h:219
 msgid "Filename"
