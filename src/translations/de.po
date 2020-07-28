@@ -38,13 +38,12 @@
 # Achim Schaefer <translate.zanata.org@schaefer-home.eu>, 2019. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Guido T. <GuidoTelscher@web.de>, 2020. #zanata
-# Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-07-12 07:18-0400\n"
+"PO-Revision-Date: 2020-07-28 06:48-0400\n"
 "Last-Translator: Guido T. <GuidoTelscher@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -215,6 +214,8 @@ msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
 msgstr ""
+"%1 Lieder in %2 unterschiedlichen Ordnern ausgewählt, bist du sicher, dass "
+"du sie alle öffnen willst?"
 
 #: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
 #, qt-format
@@ -2330,7 +2331,9 @@ msgstr ""
 msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
-msgstr "Líbí se a vyhovuje vám-li Strawberry, zvažte příspěvek."
+msgstr ""
+"Wenn Ihnen Strawberry gefällt und Sie es nutzen können, sollten Sie sponsern "
+"oder spenden."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -4120,7 +4123,7 @@ msgstr "Tab-Leiste großer Modus"
 
 #: ../build/src/ui_appearancesettingspage.h:550
 msgid "Tabbar small mode"
-msgstr ""
+msgstr "Tab-Leiste kleiner Modus"
 
 #: widgets/fancytabwidget.cpp:672
 msgid "Tabs on top"
@@ -4475,7 +4478,7 @@ msgstr "Benutze Gnome (GSD) D-Bus Tastenkürzel"
 
 #: ../build/src/ui_scrobblersettingspage.h:327
 msgid "Use HTTPS for local redirectserver"
-msgstr ""
+msgstr "Verwende HTTPS für lokalen Umleitungsserver"
 
 #: ../build/src/ui_tidalsettingspage.h:316
 msgid "Use OAuth"

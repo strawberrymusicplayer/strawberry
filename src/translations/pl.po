@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-07-18 01:05-0400\n"
+"PO-Revision-Date: 2020-07-28 04:47-0400\n"
 "Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -198,6 +198,8 @@ msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
 msgstr ""
+"Zaznaczonych utworów: %1, w katalogach: %2. Czy na pewno chcesz je wszystkie "
+"otworzyć?"
 
 #: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
 #, qt-format
