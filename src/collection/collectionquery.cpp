@@ -65,17 +65,21 @@ CollectionQuery::CollectionQuery(const QueryOptions &options)
           QString subtoken = token.section(':', 1, -1);
           subtoken.replace(":", " ");
           subtoken = subtoken.trimmed();
-          if (!subtoken.isEmpty())
-            query += "fts" + columntoken + subtoken + "* ";
+          if (!subtoken.isEmpty()) {
+            if (!query.isEmpty()) query.append(" ");
+            query += "fts" + columntoken + "\"" + subtoken + "\"*";
+          }
         }
         else {
           token.replace(":", " ");
           token = token.trimmed();
-          query += token + "* ";
+          if (!query.isEmpty()) query.append(" ");
+          query += "\"" + token + "\"*";
         }
       }
       else {
-        query += token + "* ";
+        if (!query.isEmpty()) query.append(" ");
+        query += "\"" + token + "\"*";
       }
     }
     if (!query.isEmpty()) {
