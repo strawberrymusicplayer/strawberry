@@ -25,9 +25,6 @@
 #include <QRegularExpression>
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#  include <QRegExp>
-#endif
 
 #include "playlist/playlist.h"
 #include "playlistfilter.h"
