@@ -357,7 +357,11 @@ void PlaylistTabBar::dragEnterEvent(QDragEnterEvent *e) {
 
 void PlaylistTabBar::dragMoveEvent(QDragMoveEvent *e) {
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  drag_hover_tab_ = tabAt(e->position().toPoint());
+#else
   drag_hover_tab_ = tabAt(e->pos());
+#endif
 
   if (drag_hover_tab_ != -1) {
     e->setDropAction(Qt::CopyAction);

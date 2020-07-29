@@ -974,7 +974,12 @@ void PlaylistView::dragMoveEvent(QDragMoveEvent *event) {
 
   QTreeView::dragMoveEvent(event);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  QModelIndex index(indexAt(event->position().toPoint()));
+#else
   QModelIndex index(indexAt(event->pos()));
+#endif
+
   drop_indicator_row_ = index.isValid() ? index.row() : 0;
 
 }
