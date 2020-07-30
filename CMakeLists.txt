@@ -338,10 +338,17 @@ optional_component(SPARKLE ON "Sparkle integration"
   DEPENDS "Sparkle" SPARKLE
 )
 
-optional_component(TRANSLATIONS ON "Translations"
-  DEPENDS "gettext" GETTEXT_FOUND
-  DEPENDS "Qt5LinguistTools" Qt5LinguistTools_FOUND
-)
+if(WITH_QT6)
+  optional_component(TRANSLATIONS ON "Translations"
+    DEPENDS "gettext" GETTEXT_FOUND
+    DEPENDS "Qt6LinguistTools" Qt6LinguistTools_FOUND
+  )
+else()
+  optional_component(TRANSLATIONS ON "Translations"
+    DEPENDS "gettext" GETTEXT_FOUND
+    DEPENDS "Qt5LinguistTools" Qt5LinguistTools_FOUND
+  )
+endif()
 
 optional_component(SUBSONIC ON "Subsonic support")
 optional_component(TIDAL ON "Tidal support")
