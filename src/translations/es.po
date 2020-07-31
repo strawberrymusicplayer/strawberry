@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-07-27 01:31-0400\n"
+"PO-Revision-Date: 2020-07-31 03:55-0400\n"
 "Last-Translator: Pablo Felip <takerna@gmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -139,7 +139,7 @@ msgstr "%1 álbum"
 #: context/contextview.cpp:468
 #, qt-format
 msgid "%1 albums"
-msgstr "%1 álbums"
+msgstr "%1 álbumes"
 
 #: context/contextview.cpp:463
 #, qt-format
@@ -756,11 +756,11 @@ msgstr "Álbumes"
 #: context/contextview.cpp:609
 #, qt-format
 msgid "Albums by %1"
-msgstr "Álbums de %1"
+msgstr "Álbumess de %1"
 
 #: ../build/src/ui_contextsettingspage.h:423
 msgid "Albums by Artist"
-msgstr "Albums por artista"
+msgstr "Álbumes por artista"
 
 #: ../build/src/ui_tidalsettingspage.h:327
 msgid "Albums search limit"
@@ -3428,7 +3428,7 @@ msgstr "Buscando carátula del álbum %1..."
 #: subsonic/subsonicrequest.cpp:674 tidal/tidalrequest.cpp:1085
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr "Buscando carátulas de %1 álbums."
+msgstr "Buscando carátulas de %1 álbumes."
 
 #: tidal/tidalrequest.cpp:466
 #, qt-format
