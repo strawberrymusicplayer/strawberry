@@ -69,8 +69,13 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
   // Copy or move
   bool result(true);
   if (job.remove_original_) {
-    result = QFile::rename(src.absoluteFilePath(), dest.absoluteFilePath());
-    if (!cover_src.filePath().isEmpty() && !cover_dest.filePath().isEmpty()) {
+    if (dest.exists() && !job.overwrite_) {
+      result = false;
+    }
+    else {
+      result = QFile::rename(src.absoluteFilePath(), dest.absoluteFilePath());
+    }
+    if ((!cover_dest.exists() || job.overwrite_) && !cover_src.filePath().isEmpty() && !cover_dest.filePath().isEmpty()) {
       QFile::rename(cover_src.absoluteFilePath(), cover_dest.absoluteFilePath());
     }
     // Remove empty directories.
@@ -83,10 +88,13 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
 #endif
   }
   else {
-    if (!dest.exists()) {
+    if (dest.exists() && !job.overwrite_) {
+      result = false;
+    }
+    else {
       result = QFile::copy(src.absoluteFilePath(), dest.absoluteFilePath());
     }
-    if (!cover_src.filePath().isEmpty() && !cover_dest.filePath().isEmpty() && !cover_dest.exists()) {
+    if ((!cover_dest.exists() || job.overwrite_) && !cover_src.filePath().isEmpty() && !cover_dest.filePath().isEmpty()) {
       QFile::copy(cover_src.absoluteFilePath(), cover_dest.absoluteFilePath());
     }
   }
