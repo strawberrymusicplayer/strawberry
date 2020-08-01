@@ -66,24 +66,23 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   QString available_fields = Song::kFtsColumns.join(", ").replace(QRegularExpression("\\bfts"), "");
 
   ui_->filter->setToolTip(
-  "<html><head/><body><p>" +
+  QString("<html><head/><body><p>") +
   tr("Prefix a word with a field name to limit the search to that field, e.g.:") +
-  " " +
-  "<span style=\"font-weight:600;\">" +
+  QString(" ") +
+  QString("<span style=\"font-weight:600;\">") +
   tr("artist") +
-  ":" +
-  "</span><span style=\"font-style:italic;\">Strawbs</span>" +
-  " " +
+  QString(":") +
+  QString("</span><span style=\"font-style:italic;\">Strawbs</span>") +
+  QString(" ") +
   tr("searches the collection for all artists that contain the word") +
-  "Strawbs" +
-  "." +
-  "</p><p><span style=\"font-weight:600;\">" +
+  QString(" Strawbs.") +
+  QString("</p><p><span style=\"font-weight:600;\">") +
   tr("Available fields") +
-  ": " +
+  QString(": ") +
   "</span><span style=\"font-style:italic;\">" +
   available_fields +
-  "</span>." +
-  "</p></body></html>"
+  QString("</span>.") +
+  QString("</p></body></html>")
   );
 
   connect(ui_->filter, SIGNAL(returnPressed()), SIGNAL(ReturnPressed()));
