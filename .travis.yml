@@ -25,6 +25,7 @@ before_install:
       brew install gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav;
       brew install libcdio libmtp libimobiledevice libplist;
       brew install create-dmg;
+      brew cask install sparkle;
       export Qt5_DIR=/usr/local/opt/qt5/lib/cmake;
       export Qt5LinguistTools_DIR=/usr/local/opt/qt5/lib/cmake/Qt5LinguistTools;
       export PATH="/usr/local/opt/gettext/bin:$PATH";
@@ -33,7 +34,7 @@ before_install:
     fi
 before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build cmake -Hstrawberry -Bbuild ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DUSE_BUNDLE=ON ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DUSE_BUNDLE=ON -DSPARKLE= ; fi
 script:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build make -C build -j8 ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
