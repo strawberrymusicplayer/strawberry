@@ -117,6 +117,9 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
 - (BOOL) applicationShouldHandleReopen: (NSApplication*)app hasVisibleWindows:(BOOL)flag {
 
+  Q_UNUSED(app);
+  Q_UNUSED(flag);
+
   if (application_handler_) {
     application_handler_->Activate();
   }
@@ -129,6 +132,7 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 }
 
 - (NSMenu*)applicationDockMenu:(NSApplication*)sender {
+  Q_UNUSED(sender);
   return dock_menu_;
 }
 
@@ -141,10 +145,12 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification {
-
+  Q_UNUSED(aNotification);
 }
 
 - (BOOL)application:(NSApplication*)app openFile:(NSString*)filename {
+
+  Q_UNUSED(app);
 
   qLog(Debug) << "Wants to open:" << [filename UTF8String];
 
@@ -166,10 +172,13 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 }
 
 - (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication*) sender {
+  Q_UNUSED(sender);
   return NSTerminateNow;
 }
 
 - (BOOL) userNotificationCenter: (id)center shouldPresentNotification: (id)notification {
+  Q_UNUSED(center);
+  Q_UNUSED(notification);
   // Always show notifications, even if Strawberry is in the foreground.
   return YES;
 }

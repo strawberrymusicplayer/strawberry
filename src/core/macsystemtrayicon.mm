@@ -52,6 +52,7 @@
 }
 
 - (BOOL) validateMenuItem: (NSMenuItem*)menuItem {
+  Q_UNUSED(menuItem);
   // This is called when the menu is shown.
   return action_->isEnabled();
 }

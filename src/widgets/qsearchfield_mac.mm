@@ -96,9 +96,9 @@ public:
     pimpl->returnPressed();
 }
 
--(BOOL)control: (NSControl *)control textView:
-(NSTextView *)textView doCommandBySelector:
-(SEL)commandSelector {
+-(BOOL)control: (NSControl*)control textView: (NSTextView*)textView doCommandBySelector: (SEL)commandSelector {
+  Q_UNUSED(control);
+  Q_UNUSED(textView);
   Q_ASSERT(pimpl);
   if (!pimpl) return NO;
   if (commandSelector == @selector(moveDown:)) {
