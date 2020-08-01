@@ -517,7 +517,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Aggiungi cartella..."
 
-#: core/mainwindow.cpp:1954
+#: core/mainwindow.cpp:1979
 msgid "Add file"
 msgstr "Aggiungi file"
 
@@ -533,7 +533,7 @@ msgstr "Aggiungi file al transcodificatore"
 msgid "Add files to transcode"
 msgstr "Aggiungi file da transcodificare"
 
-#: core/mainwindow.cpp:1979 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2004 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Aggiungi cartella"
 
@@ -632,7 +632,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Aggiungi agli album"
 
-#: core/mainwindow.cpp:1770
+#: core/mainwindow.cpp:1795
 msgid "Add to another playlist"
 msgstr "Aggiungi a un'altra scaletta"
 
@@ -678,7 +678,7 @@ msgstr "Aggiunti oggi"
 msgid "Added within three months"
 msgstr "Aggiunti negli ultimi tre mesi"
 
-#: collection/collectionfilterwidget.cpp:230
+#: collection/collectionfilterwidget.cpp:229
 msgid "Advanced grouping..."
 msgstr "Raggruppamento avanzato..."
 
@@ -750,7 +750,7 @@ msgstr "Album con copertina"
 msgid "Albums without covers"
 msgstr "Album senza copertina"
 
-#: core/mainwindow.cpp:185
+#: core/mainwindow.cpp:195
 msgid "All Files (*)"
 msgstr "Tutti i file (*)"
 
@@ -930,7 +930,7 @@ msgstr "Seleziona automaticamente la traccia che sta venendo riprodotta"
 msgid "Available"
 msgstr "Disponibile"
 
-#: collection/collectionfilterwidget.cpp:81
+#: collection/collectionfilterwidget.cpp:80
 msgid "Available fields"
 msgstr "Campi disponibili"
 
@@ -1082,7 +1082,7 @@ msgstr "Cambierà la traccia in riproduzione"
 msgid "Change the language"
 msgstr "Cambia la lingua"
 
-#: core/mainwindow.cpp:686
+#: core/mainwindow.cpp:695
 msgid "Check for updates..."
 msgstr "Controlla aggiornamenti..."
 
@@ -1115,7 +1115,7 @@ msgstr "Svuota"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:2041 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2066 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Svuota la scaletta"
 
@@ -1168,7 +1168,7 @@ msgstr "La chiusura di questa finestra fermerà la ricerca delle copertine."
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:281 ../build/src/ui_collectionsettingspage.h:400
+#: core/mainwindow.cpp:291 ../build/src/ui_collectionsettingspage.h:400
 msgid "Collection"
 msgstr "Raccolta"
 
@@ -1180,7 +1180,7 @@ msgstr "Filtro della Collezione"
 msgid "Collection advanced grouping"
 msgstr "Raggruppamento avanzato della raccolta"
 
-#: core/mainwindow.cpp:2513
+#: core/mainwindow.cpp:2538
 msgid "Collection rescan notice"
 msgstr "Notifica nuova scansione della raccolta"
 
@@ -1235,7 +1235,7 @@ msgstr "Configura %1..."
 msgid "Configure buttons"
 msgstr ""
 
-#: core/mainwindow.cpp:576
+#: core/mainwindow.cpp:586
 msgid "Configure collection..."
 msgstr "Configura raccolta..."
 
@@ -1251,7 +1251,7 @@ msgstr "Console"
 msgid "Constant bitrate"
 msgstr "Bitrate costante"
 
-#: core/mainwindow.cpp:280 ../build/src/ui_contextsettingspage.h:362
+#: core/mainwindow.cpp:290 ../build/src/ui_contextsettingspage.h:362
 msgid "Context"
 msgstr "Contesto"
 
@@ -1277,12 +1277,12 @@ msgstr "Converti qualsiasi musica che il dispositivo non può riprodurre"
 msgid "Copy album cover artwork"
 msgstr "Copia la copertina dell'album"
 
-#: core/mainwindow.cpp:633 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:643 widgets/fileviewlist.cpp:48
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Copia nella raccolta..."
 
-#: core/mainwindow.cpp:631 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:641 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:330 playlist/playlistlistcontainer.cpp:102
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
@@ -1535,11 +1535,11 @@ msgstr "Elimina i file originali"
 msgid "Deleting files"
 msgstr "Eliminazione dei file"
 
-#: core/mainwindow.cpp:1693
+#: core/mainwindow.cpp:1718
 msgid "Dequeue selected tracks"
 msgstr "Rimuovi le tracce selezionate dalla coda"
 
-#: core/mainwindow.cpp:1692
+#: core/mainwindow.cpp:1717
 msgid "Dequeue track"
 msgstr "Rimuovi tracce dalla coda"
 
@@ -1564,7 +1564,7 @@ msgstr "Proprietà del dispositivo"
 msgid "Device properties..."
 msgstr "Proprietà del dispositivo..."
 
-#: core/mainwindow.cpp:286
+#: core/mainwindow.cpp:296
 msgid "Devices"
 msgstr "Dispositivi"
 
@@ -1600,7 +1600,7 @@ msgstr "Trasmissione discontinua"
 msgid "Disk Cache Size"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:128
+#: collection/collectionfilterwidget.cpp:127
 #: ../build/src/ui_collectionsettingspage.h:414
 msgid "Display options"
 msgstr "Opzioni di visualizzazione"
@@ -1662,7 +1662,7 @@ msgstr "Scaricamento metadati in corso"
 msgid "Drag to reposition"
 msgstr "Trascina per riposizionare"
 
-#: core/mainwindow.cpp:1734
+#: core/mainwindow.cpp:1759
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Modifica tag \"%1\"..."
@@ -1800,7 +1800,7 @@ msgstr "Equivalente a --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente a --log-levels *:3"
 
-#: core/mainwindow.cpp:2285 core/mainwindow.cpp:2407
+#: core/mainwindow.cpp:2310 core/mainwindow.cpp:2432
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "Error"
 msgstr "Errore"
@@ -1992,7 +1992,7 @@ msgstr "Nome file"
 msgid "Filename:"
 msgstr "Nome del file:"
 
-#: core/mainwindow.cpp:282
+#: core/mainwindow.cpp:292
 msgid "Files"
 msgstr "File"
 
@@ -2149,64 +2149,64 @@ msgstr "Disabilita le canzoni non disponibili nelle playlist all'avvio"
 msgid "Group Collection by..."
 msgstr "Raggruppa raccolta per..."
 
-#: collection/collectionfilterwidget.cpp:120
+#: collection/collectionfilterwidget.cpp:119
 #: internet/internetsearchview.cpp:339
 msgid "Group by"
 msgstr "Raggruppa per"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:206
 msgid "Group by Album"
 msgstr "Raggruppa per album"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:203
 msgid "Group by Album Artist"
 msgstr "Raggruppa in base all'Artista dell'Album"
 
-#: collection/collectionfilterwidget.cpp:191
+#: collection/collectionfilterwidget.cpp:190
 msgid "Group by Album artist/Album"
 msgstr "Raggruppa per artista dell'album/album"
 
-#: collection/collectionfilterwidget.cpp:192
+#: collection/collectionfilterwidget.cpp:191
 msgid "Group by Album artist/Album - Disc"
 msgstr "Raggruppa in base ad Artista dell'Album/Disco - Album"
 
-#: collection/collectionfilterwidget.cpp:193
+#: collection/collectionfilterwidget.cpp:192
 msgid "Group by Album artist/Year - Album"
 msgstr "Raggruppa in base ad Artista dell'Album/Anno - Album"
 
-#: collection/collectionfilterwidget.cpp:194
+#: collection/collectionfilterwidget.cpp:193
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Raggruppa in base ad Artista dell'album/Anno - Album - Disco"
 
-#: collection/collectionfilterwidget.cpp:205
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Artist"
 msgstr "Raggruppa per artista"
 
-#: collection/collectionfilterwidget.cpp:196
+#: collection/collectionfilterwidget.cpp:195
 msgid "Group by Artist/Album"
 msgstr "Raggruppa per artista/album"
 
-#: collection/collectionfilterwidget.cpp:197
+#: collection/collectionfilterwidget.cpp:196
 msgid "Group by Artist/Album - Disc"
 msgstr "Raggruppa in base ad Artista/Album - Disco"
 
-#: collection/collectionfilterwidget.cpp:198
+#: collection/collectionfilterwidget.cpp:197
 msgid "Group by Artist/Year - Album"
 msgstr "Raggruppa per artista/anno - album"
 
-#: collection/collectionfilterwidget.cpp:199
+#: collection/collectionfilterwidget.cpp:198
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Raggruppa in base ad Artista/Anno - Album - Disco"
 
-#: collection/collectionfilterwidget.cpp:208
+#: collection/collectionfilterwidget.cpp:207
 msgid "Group by Genre/Album"
 msgstr "Raggruppa per genere/album"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:200
 msgid "Group by Genre/Album artist/Album"
 msgstr "Raggruppa in base a Genere/Artista dell'Album/Album"
 
-#: collection/collectionfilterwidget.cpp:202
+#: collection/collectionfilterwidget.cpp:201
 msgid "Group by Genre/Artist/Album"
 msgstr "Raggruppa per genere/artista/album"
 
@@ -2217,11 +2217,11 @@ msgstr "Raggruppa per genere/artista/album"
 msgid "Grouping"
 msgstr "Gruppo"
 
-#: collection/collectionfilterwidget.cpp:251
+#: collection/collectionfilterwidget.cpp:250
 msgid "Grouping Name"
 msgstr "Nome raggruppamento"
 
-#: collection/collectionfilterwidget.cpp:251
+#: collection/collectionfilterwidget.cpp:250
 msgid "Grouping name:"
 msgstr "Nome raggruppamento:"
 
@@ -2657,7 +2657,7 @@ msgstr "Punti di mount"
 msgid "Move down"
 msgstr "Sposta in basso"
 
-#: core/mainwindow.cpp:634 widgets/fileviewlist.cpp:49
+#: core/mainwindow.cpp:644 widgets/fileviewlist.cpp:49
 msgid "Move to collection..."
 msgstr "Sposta nella raccolta..."
 
@@ -2666,7 +2666,7 @@ msgstr "Sposta nella raccolta..."
 msgid "Move up"
 msgstr "Sposta in alto"
 
-#: core/mainwindow.cpp:1954 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:1979 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musica"
 
@@ -2705,7 +2705,7 @@ msgstr "Non iniziare mai la riproduzione"
 msgid "New folder"
 msgstr "Nuova cartella"
 
-#: core/mainwindow.cpp:1786
+#: core/mainwindow.cpp:1811
 msgid "New playlist"
 msgstr "Nuova scaletta"
 
@@ -2761,7 +2761,7 @@ msgstr "Nessuna canzone in riproduzione"
 msgid "None"
 msgstr "Nessuna"
 
-#: core/mainwindow.cpp:2285 core/mainwindow.cpp:2407
+#: core/mainwindow.cpp:2310 core/mainwindow.cpp:2432
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -2804,7 +2804,7 @@ msgstr "Tipo di notifica"
 msgid "Notifications"
 msgstr "Notifiche"
 
-#: core/macsystemtrayicon.mm:69
+#: core/macsystemtrayicon.mm:70
 msgid "Now Playing"
 msgstr "In riproduzione"
 
@@ -2880,7 +2880,7 @@ msgstr "Opus"
 msgid "Organise Files"
 msgstr "Organizza file"
 
-#: core/mainwindow.cpp:635 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:645 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:328
 msgid "Organise files..."
 msgstr "Organizza file..."
@@ -2951,7 +2951,7 @@ msgstr "Password"
 msgid "Password Protected"
 msgstr "Protetto da Password"
 
-#: core/mainwindow.cpp:1125 core/mainwindow.cpp:1596
+#: core/mainwindow.cpp:1150 core/mainwindow.cpp:1621
 #: core/qtsystemtrayicon.cpp:202
 msgid "Pause"
 msgstr "Pausa"
@@ -2979,8 +2979,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Barra laterale semplice"
 
-#: core/mainwindow.cpp:605 core/mainwindow.cpp:1078 core/mainwindow.cpp:1107
-#: core/mainwindow.cpp:1600 core/qtsystemtrayicon.cpp:189
+#: core/mainwindow.cpp:615 core/mainwindow.cpp:1103 core/mainwindow.cpp:1132
+#: core/mainwindow.cpp:1625 core/qtsystemtrayicon.cpp:189
 #: core/qtsystemtrayicon.cpp:214
 msgid "Play"
 msgstr "Riproduci"
@@ -3025,7 +3025,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Scaletta terminata"
 
-#: core/mainwindow.cpp:2041
+#: core/mainwindow.cpp:2066
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3037,7 +3037,7 @@ msgstr ""
 msgid "Playlist options"
 msgstr "Opzioni della scaletta"
 
-#: core/mainwindow.cpp:283
+#: core/mainwindow.cpp:293
 msgid "Playlists"
 msgstr "Playlist"
 
@@ -3169,24 +3169,24 @@ msgstr "Qualità"
 msgid "Querying device..."
 msgstr "Interrogazione dispositivo..."
 
-#: core/mainwindow.cpp:284
+#: core/mainwindow.cpp:294
 msgid "Queue"
 msgstr "Coda"
 
-#: core/mainwindow.cpp:1695
+#: core/mainwindow.cpp:1720
 msgid "Queue selected tracks"
 msgstr "Accoda le tracce selezionate"
 
-#: core/mainwindow.cpp:611 core/mainwindow.cpp:1699
+#: core/mainwindow.cpp:621 core/mainwindow.cpp:1724
 msgid "Queue selected tracks to play next"
 msgstr "Accoda i brani selezionati per riprodurli successivamente"
 
-#: core/mainwindow.cpp:1701 collection/collectionview.cpp:325
+#: core/mainwindow.cpp:1726 collection/collectionview.cpp:325
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Accoda cosa riprodurre dopo"
 
-#: core/mainwindow.cpp:1694 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1719 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:324 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
@@ -3638,7 +3638,7 @@ msgstr "URL del server"
 msgid "Server URL is invalid."
 msgstr "L'URL del server non è valido."
 
-#: core/mainwindow.cpp:1733
+#: core/mainwindow.cpp:1758
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Imposta %1 a \"%2\"..."
@@ -3669,7 +3669,7 @@ msgstr "Scorciatoia per %1"
 msgid "Shortcuts"
 msgstr "Scorciatoie"
 
-#: collection/collectionfilterwidget.cpp:107
+#: collection/collectionfilterwidget.cpp:106
 msgid "Show"
 msgstr "Mostra"
 
@@ -3726,7 +3726,7 @@ msgstr "Mostra la copertina dell'album nella collezione"
 msgid "Show albums by artist"
 msgstr "Mostra gli album in base all'artista"
 
-#: core/mainwindow.cpp:565
+#: core/mainwindow.cpp:575
 msgid "Show all songs"
 msgstr "Mostra tutti i brani"
 
@@ -3746,7 +3746,7 @@ msgstr "Mostra l'engine ed il dispositivo"
 msgid "Show fullsize..."
 msgstr "Mostra a dimensioni originali..."
 
-#: core/mainwindow.cpp:638
+#: core/mainwindow.cpp:648
 msgid "Show in collection..."
 msgstr "Mostra nella raccolta..."
 
@@ -3754,7 +3754,7 @@ msgstr "Mostra nella raccolta..."
 msgid "Show in file browser"
 msgstr "Mostra nel browser di file"
 
-#: core/mainwindow.cpp:636 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:646 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:337 widgets/fileviewlist.cpp:55
 msgid "Show in file browser..."
 msgstr "Mostra nel navigatore file..."
@@ -3771,11 +3771,11 @@ msgstr "Mostra il pulsante love"
 msgid "Show moodbar"
 msgstr "Mostra la barra dell'umore"
 
-#: core/mainwindow.cpp:566
+#: core/mainwindow.cpp:576
 msgid "Show only duplicates"
 msgstr "Mostra solo i duplicati"
 
-#: core/mainwindow.cpp:567
+#: core/mainwindow.cpp:577
 msgid "Show only untagged"
 msgstr "Mostra solo i brani senza tag"
 
@@ -3864,11 +3864,11 @@ msgstr "Salta il conteggio"
 msgid "Skip forwards in playlist"
 msgstr "Salta in avanti nella scaletta"
 
-#: core/mainwindow.cpp:1706
+#: core/mainwindow.cpp:1731
 msgid "Skip selected tracks"
 msgstr "Salta le tracce selezionate"
 
-#: core/mainwindow.cpp:1705
+#: core/mainwindow.cpp:1730
 msgid "Skip track"
 msgstr "Salta la traccia"
 
@@ -3952,7 +3952,7 @@ msgstr "Ferma dopo ogni traccia"
 msgid "Stop after every track"
 msgstr "Ferma dopo tutte le tracce"
 
-#: core/mainwindow.cpp:607 ../build/src/ui_mainwindow.h:627
+#: core/mainwindow.cpp:617 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "Ferma dopo questa traccia"
 
@@ -4029,7 +4029,7 @@ msgstr "Allarga l'immagine per riempire la playlist"
 msgid "Submit scrobbles every"
 msgstr "Invia gli scrobbles ogni"
 
-#: core/mainwindow.cpp:289 ../build/src/ui_subsonicsettingspage.h:182
+#: core/mainwindow.cpp:299 ../build/src/ui_subsonicsettingspage.h:182
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4146,7 +4146,7 @@ msgstr "Il sito richiesto non esiste!"
 msgid "The site you requested is not an image!"
 msgstr "Il sito richiesto non è un'immagine!"
 
-#: core/mainwindow.cpp:2508
+#: core/mainwindow.cpp:2533
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4262,7 +4262,7 @@ msgstr ""
 msgid "This type of device is not supported: %1"
 msgstr "Questi tipo di dispositivo non è supportato: %1"
 
-#: core/mainwindow.cpp:292 ../build/src/ui_tidalsettingspage.h:312
+#: core/mainwindow.cpp:302 ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
 
@@ -4291,7 +4291,7 @@ msgstr "Titolo"
 msgid "Today"
 msgstr "Oggi"
 
-#: core/mainwindow.cpp:608 core/mainwindow.cpp:1696
+#: core/mainwindow.cpp:618 core/mainwindow.cpp:1721
 msgid "Toggle queue status"
 msgstr "Cambia lo stato della coda"
 
@@ -4299,7 +4299,7 @@ msgstr "Cambia lo stato della coda"
 msgid "Toggle scrobbling"
 msgstr "Commuta lo scrobbling"
 
-#: core/mainwindow.cpp:614 core/mainwindow.cpp:1707
+#: core/mainwindow.cpp:624 core/mainwindow.cpp:1732
 msgid "Toggle skip status"
 msgstr "Attiva / Disattiva lo status di ignoramento"
 
@@ -4388,11 +4388,11 @@ msgstr "Errore sconosciuto"
 msgid "Unset cover"
 msgstr "Rimuovi copertina"
 
-#: core/mainwindow.cpp:1704
+#: core/mainwindow.cpp:1729
 msgid "Unskip selected tracks"
 msgstr "Ripristina le tracce selezionate"
 
-#: core/mainwindow.cpp:1703
+#: core/mainwindow.cpp:1728
 msgid "Unskip track"
 msgstr "Ripristina la traccia"
 
@@ -4614,7 +4614,7 @@ msgid ""
 "well?"
 msgstr "Vuoi spostare anche gli altri brani di questo album in Artisti vari?"
 
-#: core/mainwindow.cpp:2512
+#: core/mainwindow.cpp:2537
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vuoi eseguire subito una nuova scansione completa?"
 
