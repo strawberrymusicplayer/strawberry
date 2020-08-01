@@ -223,6 +223,7 @@ Section "Strawberry" Strawberry
   File "libbrotlidec.dll"
   File "libpsl-5.dll"
   File "liborc-0.4-0.dll"
+  File "libqtsparkle-qt5.dll"
 
 !ifdef arch_x86
   File "libgcc_s_sjlj-1.dll"
@@ -452,6 +453,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libbrotlidec.dll"
   Delete "$INSTDIR\libpsl-5.dll"
   Delete "$INSTDIR\liborc-0.4-0.dll"
+  Delete "$INSTDIR\libqtsparkle-qt5.dll"
 
 !ifdef arch_x86
   Delete "$INSTDIR\libgcc_s_sjlj-1.dll"

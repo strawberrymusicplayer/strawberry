@@ -37,6 +37,7 @@
 #cmakedefine HAVE_LIBMTP
 #cmakedefine HAVE_LIBPULSE
 #cmakedefine HAVE_SPARKLE
+#cmakedefine HAVE_QTSPARKLE
 #cmakedefine HAVE_CHROMAPRINT
 #cmakedefine HAVE_GLOBALSHORTCUTS
 #cmakedefine USE_INSTALL_PREFIX

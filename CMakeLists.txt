@@ -252,9 +252,20 @@ set(SINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/singleap
 set(SINGLEAPPLICATION_LIBRARIES singleapplication)
 set(SINGLECOREAPPLICATION_LIBRARIES singlecoreapplication)
 
-if (APPLE)
-  find_library(SPARKLE Sparkle)
-endif (APPLE)
+if(APPLE)
+  find_library(SPARKLE Sparkle PATHS /usr/local/Caskroom/sparkle/1.22.0 NAMES Sparkle Sparkle.framework)
+endif(APPLE)
+
+if((NOT SPARKLE) AND (APPLE OR WIN32))
+  if(WITH_QT6)
+    pkg_check_modules(QTSPARKLE qtsparkle-qt6)
+  else()
+    pkg_check_modules(QTSPARKLE qtsparkle-qt5)
+  endif()
+  if(QTSPARKLE_FOUND)
+    set(HAVE_QTSPARKLE ON)
+  endif()
+endif()
 
 if (WIN32)
   # RC compiler

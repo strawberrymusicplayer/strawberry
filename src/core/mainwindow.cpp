@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+#include "version.h"
 
 #include <memory>
 #include <functional>
@@ -70,6 +71,7 @@
 
 #include "core/logging.h"
 #include "core/closure.h"
+#include "core/network.h"
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -179,6 +181,10 @@
 
 #ifdef Q_OS_WIN
 #  include "windows7thumbbar.h"
+#endif
+
+#ifdef HAVE_QTSPARKLE
+#  include <qtsparkle-qt5/Updater>
 #endif
 
 const char *MainWindow::kSettingsGroup = "MainWindow";
@@ -681,8 +687,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   thumbbar_->SetActions(QList<QAction*>() << ui_->action_previous_track << ui_->action_play_pause << ui_->action_stop << ui_->action_next_track << nullptr << ui_->action_love);
 #endif
 
-#if (defined(Q_OS_MACOS) && defined(HAVE_SPARKLE))
-  // Add check for updates item to application menu.
+#if defined(HAVE_SPARKLE) || defined(HAVE_QTSPARKLE)
   QAction *check_updates = ui_->menu_tools->addAction(tr("Check for updates..."));
   check_updates->setMenuRole(QAction::ApplicationSpecificRole);
   connect(check_updates, SIGNAL(triggered(bool)), SLOT(CheckForUpdates()));
@@ -886,6 +891,22 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   if (app_->scrobbler()->IsEnabled() && !app_->scrobbler()->IsOffline()) {
     app_->scrobbler()->Submit();
   }
+
+#ifdef HAVE_QTSPARKLE
+  QUrl sparkle_url;
+#if defined(Q_OS_MACOS)
+  sparkle_url.setUrl("https://www.strawberrymusicplayer.org/sparkle-macos");
+#elif defined(Q_OS_WIN)
+  sparkle_url.setUrl("https://www.strawberrymusicplayer.org/sparkle-windows");
+#endif
+  if (!sparkle_url.isEmpty()) {
+    qLog(Debug) << "Creating Qt Sparkle updater";
+    qtsparkle::Updater *updater = new qtsparkle::Updater(sparkle_url, this);
+    updater->SetNetworkAccessManager(new NetworkAccessManager(this));
+    updater->SetVersion(STRAWBERRY_VERSION_PACKAGE);
+    connect(check_updates, SIGNAL(triggered()), updater, SLOT(CheckNow()));
+  }
+#endif
 
   qLog(Debug) << "Started" << QThread::currentThread();
   initialized_ = true;

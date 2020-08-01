@@ -77,6 +77,10 @@
 #include <singleapplication.h>
 #include <singlecoreapplication.h>
 
+#ifdef HAVE_QTSPARKLE
+#  include <qtsparkle-qt5/Updater>
+#endif
+
 #ifdef HAVE_DBUS
 #  include "core/mpris.h"
 #endif
@@ -242,6 +246,11 @@ int main(int argc, char* argv[]) {
   translations->LoadTranslation("strawberry", ":/translations", language);
   translations->LoadTranslation("strawberry", a.applicationDirPath(), language);
   translations->LoadTranslation("strawberry", QDir::currentPath(), language);
+
+#ifdef HAVE_QTSPARKLE
+  qtsparkle::LoadTranslations(language);
+#endif
+
 #endif
 
   Application app;
