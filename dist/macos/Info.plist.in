@@ -34,6 +34,8 @@
   <string>public.app-category.music</string>
   <key>LSMinimumSystemVersion</key>
   <string>10.13.4</string>
+  <key>SUFeedURL</key>
+  <string>https://www.strawberrymusicplayer.org/sparkle-macos</string>
   <key>CFBundleDocumentTypes</key>
   <array>
     <dict>
