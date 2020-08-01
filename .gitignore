@@ -104,7 +104,6 @@ Thumbs.db
 
 # Stuff in dist
 maketarball.sh
-create-dmg.sh
 changelog
 PKGBUILD
 

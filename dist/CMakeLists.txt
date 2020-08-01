@@ -3,7 +3,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/unix/PKGBUILD.in ${CMAKE_CURRENT_SOUR
 
 if (APPLE)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/create-dmg.sh.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/create-dmg.sh)
 endif (APPLE)
 
 if (WIN32)
