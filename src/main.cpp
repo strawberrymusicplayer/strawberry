@@ -78,8 +78,12 @@
 #include <singlecoreapplication.h>
 
 #ifdef HAVE_QTSPARKLE
-#  include <qtsparkle-qt5/Updater>
-#endif
+#  if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+#    include <qtsparkle-qt6/Updater>
+#  else
+#    include <qtsparkle-qt5/Updater>
+#  endif
+#endif  // HAVE_QTSPARKLE
 
 #ifdef HAVE_DBUS
 #  include "core/mpris.h"
