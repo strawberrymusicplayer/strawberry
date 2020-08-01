@@ -192,9 +192,11 @@ def GetBrokenLibraries(binary):
       continue  # unix style system library
     elif re.match(r'^\s*@executable_path', line) or re.match(r'^\s*@loader_path', line):
       # Potentially already fixed library
-      relative_path = os.path.join(*line.split('/')[3:])
-      if not os.path.exists(os.path.join(frameworks_dir, relative_path)):
-        broken_libs['frameworks'].append(relative_path)
+      path = line.split('/')[3:]
+      if path:
+        relative_path = os.path.join(*path)
+        if not os.path.exists(os.path.join(frameworks_dir, relative_path)):
+          broken_libs['frameworks'].append(relative_path)
     elif re.search(r'\w+\.framework', line):
       broken_libs['frameworks'].append(line)
     else:
