@@ -53,7 +53,7 @@
 #include "globalshortcuts/globalshortcutbackend-macos.h"
 
 #ifdef HAVE_SPARKLE
-#  import <Sparkle/SUUpdater.h>
+#  import <SUUpdater.h>
 #endif
 
 #include <QApplication>

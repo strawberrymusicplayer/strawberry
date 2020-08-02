@@ -31,7 +31,8 @@ LIBRARY_SEARCH_PATH = ['/usr/local/lib']
 
 FRAMEWORK_SEARCH_PATH = [
     '/Library/Frameworks',
-    os.path.join(os.environ['HOME'], 'Library/Frameworks')
+    os.path.join(os.environ['HOME'], 'Library/Frameworks'),
+    '/Library/Frameworks/Sparkle.framework/Versions'
 ]
 
 QT_PLUGINS = [
@@ -190,7 +191,7 @@ def GetBrokenLibraries(binary):
     elif re.match(r'^\s*/usr/lib/', line):
       #print "unix style system lib"
       continue  # unix style system library
-    elif re.match(r'^\s*@executable_path', line) or re.match(r'^\s*@loader_path', line):
+    elif re.match(r'^\s*@executable_path', line) or re.match(r'^\s*@rpath', line) or re.match(r'^\s*@loader_path', line):
       # Potentially already fixed library
       path = line.split('/')[3:]
       if path:
@@ -421,12 +422,14 @@ def FixLibraryInstallPath(library_path, library):
 
 def FixFrameworkInstallPath(library_path, library):
   parts = library_path.split(os.sep)
+  full_path = ""
   for i, part in enumerate(parts):
     if re.match(r'\w+\.framework', part):
       full_path = os.path.join(*parts[i:])
       break
-  new_path = '@executable_path/../Frameworks/%s' % full_path
-  FixInstallPath(library_path, library, new_path)
+  if full_path:
+    new_path = '@executable_path/../Frameworks/%s' % full_path
+    FixInstallPath(library_path, library, new_path)
 
 
 def FindQtPlugin(name):

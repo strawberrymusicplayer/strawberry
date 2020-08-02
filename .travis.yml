@@ -26,6 +26,8 @@ before_install:
       brew install libcdio libmtp libimobiledevice libplist;
       brew install create-dmg;
       brew cask install sparkle;
+      sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework /Library/Frameworks/Sparkle.framework;
+      sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework.dSYM /Library/Frameworks/Sparkle.framework.dSYM;
       export Qt5_DIR=/usr/local/opt/qt5/lib/cmake;
       export Qt5LinguistTools_DIR=/usr/local/opt/qt5/lib/cmake/Qt5LinguistTools;
       export PATH="/usr/local/opt/gettext/bin:$PATH";
@@ -34,7 +36,7 @@ before_install:
     fi
 before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build cmake -Hstrawberry -Bbuild ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DUSE_BUNDLE=ON -DSPARKLE= ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DUSE_BUNDLE=ON ; fi
 script:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build make -C build -j8 ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
