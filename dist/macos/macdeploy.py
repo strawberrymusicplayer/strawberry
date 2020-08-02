@@ -27,7 +27,7 @@ import traceback
 
 LOGGER = logging.getLogger('macdeploy')
 
-LIBRARY_SEARCH_PATH = ['/usr/local/lib']
+LIBRARY_SEARCH_PATH = ['/usr/local/lib', '/usr/local/opt/icu4c/lib']
 
 FRAMEWORK_SEARCH_PATH = [
     '/Library/Frameworks',
@@ -193,11 +193,20 @@ def GetBrokenLibraries(binary):
       continue  # unix style system library
     elif re.match(r'^\s*@executable_path', line) or re.match(r'^\s*@rpath', line) or re.match(r'^\s*@loader_path', line):
       # Potentially already fixed library
-      path = line.split('/')[3:]
-      if path:
-        relative_path = os.path.join(*path)
+      if line.count('/') == 1:
+        relative_path = os.path.join(*line.split('/')[1:])
+        if not os.path.exists(os.path.join(frameworks_dir, relative_path)):
+          broken_libs['libs'].append(relative_path)
+      elif line.count('/') == 2:
+        relative_path = os.path.join(*line.split('/')[2:])
+        if not os.path.exists(os.path.join(frameworks_dir, relative_path)):
+          broken_libs['libs'].append(relative_path)
+      elif line.count('/') >= 3:
+        relative_path = os.path.join(*line.split('/')[3:])
         if not os.path.exists(os.path.join(frameworks_dir, relative_path)):
           broken_libs['frameworks'].append(relative_path)
+      else:
+          print "GetBrokenLibraries Error: %s" % line
     elif re.search(r'\w+\.framework', line):
       broken_libs['frameworks'].append(line)
     else:
