@@ -309,6 +309,82 @@ jobs:
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
 
+  build_opensuse_qt6:
+    name: Build openSUSE Qt 6
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/tumbleweed
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Add Qt 6 repository
+        run: zypper -n ar -c -f -n 'repo-qt6' https://download.opensuse.org/repositories/home:/jonaski:/qt6/openSUSE_Tumbleweed/ repo-qt6
+      - name: Update packages
+        run: zypper --non-interactive --gpg-auto-import-keys ref
+      - name: Upgrade packages
+        run: zypper --non-interactive --gpg-auto-import-keys dup
+      - name: Install openSUSE dependencies
+        run: >
+            zypper --non-interactive --gpg-auto-import-keys install
+            lsb-release
+            rpm-build
+            git
+            tar
+            make
+            cmake
+            gcc
+            gcc-c++
+            gettext-tools
+            glibc-devel
+            libboost_headers-devel
+            boost-devel
+            glib2-devel
+            glib2-tools
+            dbus-1-devel
+            alsa-devel
+            libnotify-devel
+            libgnutls-devel
+            protobuf-devel
+            sqlite3-devel
+            libpulse-devel
+            gstreamer-devel
+            gstreamer-plugins-base-devel
+            vlc-devel
+            qt6-core-devel
+            qt6-gui-devel
+            qt6-widgets-devel
+            qt6-concurrent-devel
+            qt6-network-devel
+            qt6-sql-devel
+            qt6-dbus-devel
+            qt6-test-devel
+            qt6-x11extras-devel
+            qt6-base-common-devel
+            qt6-sql-sqlite
+            qt6-linguist-devel
+            qt6-qt5compat-devel
+            qt6-tools-linguist
+            libcdio-devel
+            libgpod-devel
+            libplist-devel
+            libmtp-devel
+            libusbmuxd-devel
+            libchromaprint-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWITH_QT6=ON
+      - name: Build
+        working-directory: build
+        run: cmake --build . --config $BUILD_TYPE
+
+
   build_fedora_32:
     name: Build Fedora 32
     runs-on: ubuntu-latest
