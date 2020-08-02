@@ -267,14 +267,21 @@ def FixFramework(path):
 
 
 def FixLibrary(path):
-  if path in fixed_libraries or FindSystemLibrary(os.path.basename(path)) is not None:
+
+  if path in fixed_libraries:
     return
-  else:
-    fixed_libraries.add(path)
+
+  # Always bundle libraries provided by homebrew (/usr/local).
+  if not re.match(r'^\s*/usr/local', path) and FindSystemLibrary(os.path.basename(path)) is not None:
+    return
+
+  fixed_libraries.add(path)
+
   abs_path = FindLibrary(path)
   if abs_path == "":
     print "Could not resolve %s, not fixing!" % path
     return
+
   broken_libs = GetBrokenLibraries(abs_path)
   FixAllLibraries(broken_libs)
 
@@ -422,7 +429,7 @@ def FindSystemLibrary(library_name):
 
 def FixLibraryInstallPath(library_path, library):
   system_library = FindSystemLibrary(os.path.basename(library_path))
-  if system_library is None:
+  if system_library is None or re.match(r'^\s*/usr/local', library_path):
     new_path = '@executable_path/../Frameworks/%s' % os.path.basename(library_path)
     FixInstallPath(library_path, library, new_path)
   else:
