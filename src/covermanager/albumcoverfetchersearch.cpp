@@ -152,6 +152,10 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
       results_copy[i].score -= 1.5;
     }
 
+    if (request_album.isEmpty() && result_artist != request_artist) {
+      results_copy[i].score -= 1;
+    }
+
     // Decrease score if the search was based on artist and song title, and the resulting album is a compilation or live album.
     // This is done since we can't match the album titles, and we want to prevent compilation or live albums from being picked before studio albums for streams.
     if (request_album.isEmpty() && (
