@@ -131,7 +131,7 @@ void ScrobblerCache::ReadCache() {
     int track = json_obj_track["track"].toInt();
     qint64 duration = json_obj_track["duration"].toVariant().toLongLong();
 
-    if (timestamp <= 0 || artist.isEmpty() || album.isEmpty() || song.isEmpty() || duration <= 0) {
+    if (timestamp <= 0 || artist.isEmpty() || song.isEmpty() || duration <= 0) {
       qLog(Error) << "Invalid cache data" << "for song" << song;
       continue;
     }
