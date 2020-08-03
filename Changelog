@@ -2,6 +2,33 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed incorrectly mapped global shortcuts keys "2" and "3".
+    * Fixed Last.fm scrobbling to correctly start array notation for parameters at 0 and not 1.
+    * Fixed sending trackNumber correctly for Last.fm and Libre.fm scrobbling.
+    * Fixed collection search when using special characters in the search query.
+    * Fixed reading and saving MP4 lyrics tag.
+    * Fixed reading ASF comment tag.
+    * (macOS) Fixed gst-libav plugin issue resulting in MP3 not working.
+
+  Enhancements:
+    * Simplified and improved startup behaviour code.
+    * Adapted all source code to be compatible with Qt 6, and increased required Qt version to 5.8.
+    * Added option to compile with Qt 6 (-DWITH_QT6=ON).
+    * Base warning for show in file browser on unique directories to avoid unneeded warning about opening many files.
+    * Use album artist instead of artist for album repeat mode when available.
+    * Added extra safety for overwriting files for filesystem storages when organizing files.
+    * (Unix) Added playback actions to desktop file.
+    * (macOS) Hide behaviour settings that are unavailable on macOS.
+    * (macOS) Fixed compile warnings.
+    * (macOS) Added Sparkle integration to notify on new versions.
+    * (Windows) Added QtSparkle support to notify on new versions.
+
+  Removed features:
+    * Removed Xine engine support.
+
 0.6.13:
 
   Bugfixes:
