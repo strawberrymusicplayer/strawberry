@@ -358,6 +358,10 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
 
     song->set_bitdepth(file_asf->audioProperties()->bitsPerSample());
 
+    if (file_asf->tag()) {
+      Decode(file_asf->tag()->comment(), nullptr, song->mutable_comment());
+    }
+
     const TagLib::ASF::AttributeListMap &attributes_map = file_asf->tag()->attributeListMap();
 
     if (attributes_map.contains(kASF_OriginalDate_ID)) {

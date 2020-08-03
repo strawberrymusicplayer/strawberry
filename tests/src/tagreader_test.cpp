@@ -1261,7 +1261,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     //EXPECT_EQ("strawberry performer", song.performer());
     //EXPECT_EQ("strawberry grouping", song.grouping());
     EXPECT_EQ("strawberry genre", song.genre());
-    //EXPECT_EQ("strawberry comment", song.comment());
+    EXPECT_EQ("strawberry comment", song.comment());
     //EXPECT_EQ("strawberry lyrics", song.lyrics());
     EXPECT_EQ(12, song.track());
     //EXPECT_EQ(1234, song.disc());
@@ -1297,7 +1297,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     //EXPECT_EQ("new performer", song.performer());
     //EXPECT_EQ("new grouping", song.grouping());
     EXPECT_EQ("new genre", song.genre());
-    //EXPECT_EQ("new comment", song.comment());
+    EXPECT_EQ("new comment", song.comment());
     //EXPECT_EQ("new lyrics", song.lyrics());
     EXPECT_EQ(21, song.track());
     //EXPECT_EQ(4321, song.disc());
@@ -1332,7 +1332,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     //EXPECT_EQ("strawberry performer", song.performer());
     //EXPECT_EQ("strawberry grouping", song.grouping());
     EXPECT_EQ("strawberry genre", song.genre());
-    //EXPECT_EQ("strawberry comment", song.comment());
+    EXPECT_EQ("strawberry comment", song.comment());
     //EXPECT_EQ("strawberry lyrics", song.lyrics());
     EXPECT_EQ(12, song.track());
     //EXPECT_EQ(1234, song.disc());
