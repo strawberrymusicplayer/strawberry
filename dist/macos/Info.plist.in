@@ -36,6 +36,8 @@
   <string>10.13.4</string>
   <key>SUFeedURL</key>
   <string>https://www.strawberrymusicplayer.org/sparkle-macos</string>
+  <key>SUPublicEDKey</key>
+  <string>3IRScV8YtNVnx7zoeJAXvg28Kh1gN/Pyl2iPM467pG8=</string>
   <key>CFBundleDocumentTypes</key>
   <array>
     <dict>
