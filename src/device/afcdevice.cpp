@@ -180,7 +180,7 @@ void AfcDevice::FinaliseDatabase() {
   itdb_device_set_sysinfo(db_->device, "FirewireGuid", url_.host().toUtf8().constData());
 
   // Copy the files back to the iPod
-  // No need to start another thread since we're already in the organiser thread
+  // No need to start another thread since we're already in the organizer thread
   AfcTransfer transfer(url_.host(), local_path_, nullptr, shared_from_this());
 
   itdb_start_sync(db_);

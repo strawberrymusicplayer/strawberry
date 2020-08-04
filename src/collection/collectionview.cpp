@@ -61,7 +61,7 @@
 #  include "device/devicestatefiltermodel.h"
 #endif
 #include "dialogs/edittagdialog.h"
-#include "organise/organisedialog.h"
+#include "organize/organizedialog.h"
 #include "settings/collectionsettingspage.h"
 
 CollectionView::CollectionView(QWidget *parent)
@@ -325,7 +325,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
     add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, SLOT(AddToPlaylistEnqueueNext()));
 
     context_menu_->addSeparator();
-    organise_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(Organise()));
+    organize_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, SLOT(Organize()));
 #ifndef Q_OS_WIN
     copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(CopyToDevice()));
 #endif
@@ -389,7 +389,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   rescan_songs_->setVisible(edit_track_->isVisible());
   rescan_songs_->setEnabled(true);
 
-  organise_->setVisible(regular_elements_only);
+  organize_->setVisible(regular_elements_only);
 #ifndef Q_OS_WIN
   copy_to_device_->setVisible(regular_elements_only);
 #endif
@@ -398,7 +398,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   no_show_in_various_->setVisible(regular_elements_only);
 
   // only when all selected items are editable
-  organise_->setEnabled(regular_elements == regular_editable);
+  organize_->setEnabled(regular_elements == regular_editable);
 #ifndef Q_OS_WIN
   copy_to_device_->setEnabled(regular_elements == regular_editable);
 #endif
@@ -529,15 +529,15 @@ SongList CollectionView::GetSelectedSongs() const {
 
 }
 
-void CollectionView::Organise() {
+void CollectionView::Organize() {
 
-  if (!organise_dialog_)
-    organise_dialog_.reset(new OrganiseDialog(app_->task_manager(), app_->collection_backend(), this));
+  if (!organize_dialog_)
+    organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), app_->collection_backend(), this));
 
-  organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
-  organise_dialog_->SetCopy(false);
-  if (organise_dialog_->SetSongs(GetSelectedSongs()))
-    organise_dialog_->show();
+  organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
+  organize_dialog_->SetCopy(false);
+  if (organize_dialog_->SetSongs(GetSelectedSongs()))
+    organize_dialog_->show();
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
@@ -568,13 +568,13 @@ void CollectionView::RescanSongs() {
 void CollectionView::CopyToDevice() {
 
 #ifndef Q_OS_WIN
-  if (!organise_dialog_)
-    organise_dialog_.reset(new OrganiseDialog(app_->task_manager(), nullptr, this));
+  if (!organize_dialog_)
+    organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), nullptr, this));
 
-  organise_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
-  organise_dialog_->SetCopy(true);
-  organise_dialog_->SetSongs(GetSelectedSongs());
-  organise_dialog_->show();
+  organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
+  organize_dialog_->SetCopy(true);
+  organize_dialog_->SetSongs(GetSelectedSongs());
+  organize_dialog_->show();
 #endif
 
 }

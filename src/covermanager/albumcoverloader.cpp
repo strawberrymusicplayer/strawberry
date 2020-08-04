@@ -47,7 +47,7 @@
 #include "core/tagreaderclient.h"
 #include "core/utilities.h"
 #include "settings/collectionsettingspage.h"
-#include "organise/organiseformat.h"
+#include "organize/organizeformat.h"
 #include "albumcoverloader.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
@@ -108,7 +108,7 @@ QString AlbumCoverLoader::AlbumCoverFilename(QString artist, QString album, cons
   filename = Utilities::UnicodeToAscii(filename.toLower());
   filename = filename.replace(' ', '-');
   filename = filename.replace("--", "-");
-  filename = filename.remove(OrganiseFormat::kInvalidFatCharacters);
+  filename = filename.remove(OrganizeFormat::kInvalidFatCharacters);
   filename = filename.simplified();
 
   if (!extension.isEmpty()) {
@@ -149,7 +149,7 @@ QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString
   QString filename;
   if (source == Song::Source_Collection && cover_album_dir_ && cover_filename_ == CollectionSettingsPage::SaveCover_Pattern && !cover_pattern_.isEmpty()) {
     filename = CoverFilenameFromVariable(artist, album);
-    filename.remove(OrganiseFormat::kInvalidFatCharacters);
+    filename.remove(OrganizeFormat::kInvalidFatCharacters);
     if (cover_lowercase_) filename = filename.toLower();
     if (cover_replace_spaces_) filename.replace(QRegularExpression("\\s"), "-");
     if (!extension.isEmpty()) {

@@ -42,7 +42,7 @@ class Application;
 class Playlist;
 class PlaylistListModel;
 class Ui_PlaylistListContainer;
-class OrganiseDialog;
+class OrganizeDialog;
 
 class PlaylistListContainer : public QWidget {
   Q_OBJECT
@@ -109,7 +109,7 @@ private:
 
   int active_playlist_id_;
 
-  std::unique_ptr<OrganiseDialog> organise_dialog_;
+  std::unique_ptr<OrganizeDialog> organize_dialog_;
 };
 
 #endif  // PLAYLISTLISTCONTAINER_H

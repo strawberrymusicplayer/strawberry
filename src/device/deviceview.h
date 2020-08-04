@@ -47,7 +47,7 @@ class QContextMenuEvent;
 class Application;
 class DeviceProperties;
 class MergedProxyModel;
-class OrganiseDialog;
+class OrganizeDialog;
 
 class DeviceItemDelegate : public CollectionItemDelegate {
   Q_OBJECT
@@ -85,7 +85,7 @@ class DeviceView : public AutoExpandingTreeView {
   void Load();
   void AddToPlaylist();
   void OpenInNewPlaylist();
-  void Organise();
+  void Organize();
   void Delete();
 
   void DeviceConnected(QModelIndex idx);
@@ -108,7 +108,7 @@ class DeviceView : public AutoExpandingTreeView {
   QSortFilterProxyModel *sort_model_;
 
   std::unique_ptr<DeviceProperties> properties_dialog_;
-  std::unique_ptr<OrganiseDialog> organise_dialog_;
+  std::unique_ptr<OrganizeDialog> organize_dialog_;
 
   QMenu *device_menu_;
   QAction *eject_action_;
@@ -119,7 +119,7 @@ class DeviceView : public AutoExpandingTreeView {
   QAction *load_action_;
   QAction *add_to_playlist_action_;
   QAction *open_in_new_playlist_;
-  QAction *organise_action_;
+  QAction *organize_action_;
   QAction *delete_action_;
 
   QModelIndex menu_index_;

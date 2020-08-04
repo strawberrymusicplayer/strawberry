@@ -36,7 +36,7 @@
 #include <QStringList>
 
 #include "core/song.h"
-#include "organiseformat.h"
+#include "organizeformat.h"
 
 class QThread;
 class QTimerEvent;
@@ -47,7 +47,7 @@ class TaskManager;
 class Transcoder;
 #endif
 
-class Organise : public QObject {
+class Organize : public QObject {
   Q_OBJECT
 
  public:
@@ -58,8 +58,8 @@ class Organise : public QObject {
   };
   typedef QList<NewSongInfo> NewSongInfoList;
 
-  explicit Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs, bool eject_after, const QString &playlist = QString());
-  ~Organise() override;
+  explicit Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs, bool eject_after, const QString &playlist = QString());
+  ~Organize() override;
 
   static const int kBatchSize;
 #ifdef HAVE_GSTREAMER
@@ -111,7 +111,7 @@ class Organise : public QObject {
   std::shared_ptr<MusicStorage> destination_;
   QList<Song::FileType> supported_filetypes_;
 
-  const OrganiseFormat format_;
+  const OrganizeFormat format_;
   const bool copy_;
   const bool overwrite_;
   const bool mark_as_listened_;

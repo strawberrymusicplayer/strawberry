@@ -53,7 +53,7 @@
 #include "playlistlistmodel.h"
 #include "playlistmanager.h"
 #include "ui_playlistlistcontainer.h"
-#include "organise/organisedialog.h"
+#include "organize/organizedialog.h"
 #include "settings/appearancesettingspage.h"
 #ifndef Q_OS_WIN
 #  include "device/devicemanager.h"
@@ -345,12 +345,12 @@ void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_index) {
 void PlaylistListContainer::CopyToDevice()
 {
 #ifndef Q_OS_WIN
-  // Reuse the organise dialog, but set the detail about the playlist name
-  if (!organise_dialog_) {
-    organise_dialog_.reset(new OrganiseDialog {app_->task_manager()});
+  // Reuse the organize dialog, but set the detail about the playlist name
+  if (!organize_dialog_) {
+    organize_dialog_.reset(new OrganizeDialog {app_->task_manager()});
   }
-  organise_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
-  organise_dialog_->SetCopy(true);
+  organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
+  organize_dialog_->SetCopy(true);
 
   const QModelIndex &current_index = proxy_->mapToSource(ui_->tree->currentIndex());
 
@@ -360,11 +360,11 @@ void PlaylistListContainer::CopyToDevice()
 
     QStandardItem *item = model_->PlaylistById(playlist_id);
     QString playlist_name = item ? item->text() : tr("Playlist");
-    organise_dialog_->SetPlaylist(playlist_name);
+    organize_dialog_->SetPlaylist(playlist_name);
 
     // Get the songs in the playlist
-    organise_dialog_->SetSongs(app_->playlist_manager()->playlist(playlist_id)->GetAllSongs());
-    organise_dialog_->show();
+    organize_dialog_->SetSongs(app_->playlist_manager()->playlist(playlist_id)->GetAllSongs());
+    organize_dialog_->show();
   }
 #endif
 }

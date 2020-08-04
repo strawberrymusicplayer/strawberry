@@ -21,7 +21,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>You can change the way the songs in the collection are organised.</string>
+      <string>You can change the way the songs in the collection are organized.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

@@ -32,14 +32,14 @@
 
 #include "core/song.h"
 
-class Ui_OrganiseErrorDialog;
+class Ui_OrganizeErrorDialog;
 
-class OrganiseErrorDialog : public QDialog {
+class OrganizeErrorDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit OrganiseErrorDialog(QWidget *parent = nullptr);
-  ~OrganiseErrorDialog() override;
+  explicit OrganizeErrorDialog(QWidget *parent = nullptr);
+  ~OrganizeErrorDialog() override;
 
   enum OperationType {
     Type_Copy,
@@ -50,7 +50,7 @@ class OrganiseErrorDialog : public QDialog {
   void Show(OperationType type, const QStringList &files_with_errors, const QStringList &log = QStringList());
 
 private:
-  Ui_OrganiseErrorDialog *ui_;
+  Ui_OrganizeErrorDialog *ui_;
 };
 
 #endif  // ORGANISEERRORDIALOG_H

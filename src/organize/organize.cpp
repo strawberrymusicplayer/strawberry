@@ -38,21 +38,21 @@
 #include "core/musicstorage.h"
 #include "core/tagreaderclient.h"
 #include "core/song.h"
-#include "organise.h"
+#include "organize.h"
 #ifdef HAVE_GSTREAMER
 #  include "transcoder/transcoder.h"
 #endif
 
-class OrganiseFormat;
+class OrganizeFormat;
 
 using std::placeholders::_1;
 
-const int Organise::kBatchSize = 10;
+const int Organize::kBatchSize = 10;
 #ifdef HAVE_GSTREAMER
-const int Organise::kTranscodeProgressInterval = 500;
+const int Organize::kTranscodeProgressInterval = 500;
 #endif
 
-Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs_info, bool eject_after, const QString &playlist)
+Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs_info, bool eject_after, const QString &playlist)
     : thread_(nullptr),
       task_manager_(task_manager),
 #ifdef HAVE_GSTREAMER
@@ -80,18 +80,18 @@ Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
 
 }
 
-Organise::~Organise() {
+Organize::~Organize() {
   if (thread_) {
     thread_->quit();
     thread_->deleteLater();
   }
 }
 
-void Organise::Start() {
+void Organize::Start() {
 
   if (thread_) return;
 
-  task_id_ = task_manager_->StartTask(tr("Organising files"));
+  task_id_ = task_manager_->StartTask(tr("Organizing files"));
   task_manager_->SetTaskBlocksCollectionScans(true);
 
   thread_ = new QThread;
@@ -106,7 +106,7 @@ void Organise::Start() {
 
 }
 
-void Organise::ProcessSomeFiles() {
+void Organize::ProcessSomeFiles() {
 
   if (!started_) {
     if (!destination_->StartCopy(&supported_filetypes_)) {
@@ -231,7 +231,7 @@ void Organise::ProcessSomeFiles() {
       job.cover_dest_ = QFileInfo(job.destination_).path() + "/" + QFileInfo(job.cover_source_).fileName();
     }
 
-    job.progress_ = std::bind(&Organise::SetSongProgress, this, _1, !task.transcoded_filename_.isEmpty());
+    job.progress_ = std::bind(&Organize::SetSongProgress, this, _1, !task.transcoded_filename_.isEmpty());
 
     if (!destination_->CopyToStorage(job)) {
       files_with_errors_ << task.song_info_.song_.basefilename();
@@ -261,7 +261,7 @@ void Organise::ProcessSomeFiles() {
 }
 
 #ifdef HAVE_GSTREAMER
-Song::FileType Organise::CheckTranscode(Song::FileType original_type) const {
+Song::FileType Organize::CheckTranscode(Song::FileType original_type) const {
 
   if (original_type == Song::FileType_Stream) return Song::FileType_Unknown;
 
@@ -289,7 +289,7 @@ Song::FileType Organise::CheckTranscode(Song::FileType original_type) const {
 }
 #endif
 
-void Organise::SetSongProgress(float progress, bool transcoded) {
+void Organize::SetSongProgress(float progress, bool transcoded) {
 
   const int max = transcoded ? 50 : 100;
   current_copy_progress_ = (transcoded ? 50 : 0) + qBound(0, static_cast<int>(progress * max), max - 1);
@@ -297,7 +297,7 @@ void Organise::SetSongProgress(float progress, bool transcoded) {
 
 }
 
-void Organise::UpdateProgress() {
+void Organize::UpdateProgress() {
 
   const int total = task_count_ * 100;
 
@@ -330,7 +330,7 @@ void Organise::UpdateProgress() {
 
 }
 
-void Organise::FileTranscoded(const QString &input, const QString &output, bool success) {
+void Organize::FileTranscoded(const QString &input, const QString &output, bool success) {
 
   Q_UNUSED(output);
 
@@ -348,7 +348,7 @@ void Organise::FileTranscoded(const QString &input, const QString &output, bool 
 
 }
 
-void Organise::timerEvent(QTimerEvent *e) {
+void Organize::timerEvent(QTimerEvent *e) {
 
   QObject::timerEvent(e);
 
@@ -360,7 +360,7 @@ void Organise::timerEvent(QTimerEvent *e) {
 
 }
 
-void Organise::LogLine(const QString message) {
+void Organize::LogLine(const QString message) {
 
   QString date(QDateTime::currentDateTime().toString(Qt::TextDate));
   log_.append(QString("%1: %2").arg(date, message));

@@ -44,11 +44,11 @@
 #include "core/utilities.h"
 #include "core/song.h"
 
-#include "organiseformat.h"
+#include "organizeformat.h"
 
-const char *OrganiseFormat::kTagPattern = "\\%([a-zA-Z]*)";
-const char *OrganiseFormat::kBlockPattern = "\\{([^{}]+)\\}";
-const QStringList OrganiseFormat::kKnownTags = QStringList() << "title"
+const char *OrganizeFormat::kTagPattern = "\\%([a-zA-Z]*)";
+const char *OrganizeFormat::kBlockPattern = "\\{([^{}]+)\\}";
+const QStringList OrganizeFormat::kKnownTags = QStringList() << "title"
                                                              << "album"
                                                              << "artist"
                                                              << "artistinitial"
@@ -69,23 +69,23 @@ const QStringList OrganiseFormat::kKnownTags = QStringList() << "title"
                                                              << "grouping"
                                                              << "lyrics";
 
-const QRegularExpression OrganiseFormat::kInvalidDirCharacters("[/\\\\]");
-const QRegularExpression OrganiseFormat::kProblematicCharacters("[:?*\"<>|]");
+const QRegularExpression OrganizeFormat::kInvalidDirCharacters("[/\\\\]");
+const QRegularExpression OrganizeFormat::kProblematicCharacters("[:?*\"<>|]");
 // From http://en.wikipedia.org/wiki/8.3_filename#Directory_table
-const QRegularExpression OrganiseFormat::kInvalidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]");
+const QRegularExpression OrganizeFormat::kInvalidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]");
 
-const char OrganiseFormat::kInvalidPrefixCharacters[] = ".";
-const int OrganiseFormat::kInvalidPrefixCharactersCount = arraysize(OrganiseFormat::kInvalidPrefixCharacters) - 1;
+const char OrganizeFormat::kInvalidPrefixCharacters[] = ".";
+const int OrganizeFormat::kInvalidPrefixCharactersCount = arraysize(OrganizeFormat::kInvalidPrefixCharacters) - 1;
 
-const QRgb OrganiseFormat::SyntaxHighlighter::kValidTagColorLight = qRgb(64, 64, 255);
-const QRgb OrganiseFormat::SyntaxHighlighter::kInvalidTagColorLight = qRgb(255, 64, 64);
-const QRgb OrganiseFormat::SyntaxHighlighter::kBlockColorLight = qRgb(230, 230, 230);
+const QRgb OrganizeFormat::SyntaxHighlighter::kValidTagColorLight = qRgb(64, 64, 255);
+const QRgb OrganizeFormat::SyntaxHighlighter::kInvalidTagColorLight = qRgb(255, 64, 64);
+const QRgb OrganizeFormat::SyntaxHighlighter::kBlockColorLight = qRgb(230, 230, 230);
 
-const QRgb OrganiseFormat::SyntaxHighlighter::kValidTagColorDark = qRgb(128, 128, 255);
-const QRgb OrganiseFormat::SyntaxHighlighter::kInvalidTagColorDark = qRgb(255, 128, 128);
-const QRgb OrganiseFormat::SyntaxHighlighter::kBlockColorDark = qRgb(64, 64, 64);
+const QRgb OrganizeFormat::SyntaxHighlighter::kValidTagColorDark = qRgb(128, 128, 255);
+const QRgb OrganizeFormat::SyntaxHighlighter::kInvalidTagColorDark = qRgb(255, 128, 128);
+const QRgb OrganizeFormat::SyntaxHighlighter::kBlockColorDark = qRgb(64, 64, 64);
 
-OrganiseFormat::OrganiseFormat(const QString &format)
+OrganizeFormat::OrganizeFormat(const QString &format)
     : format_(format),
       remove_problematic_(false),
       remove_non_fat_(false),
@@ -93,12 +93,12 @@ OrganiseFormat::OrganiseFormat(const QString &format)
       allow_ascii_ext_(false),
       replace_spaces_(true) {}
 
-void OrganiseFormat::set_format(const QString &v) {
+void OrganizeFormat::set_format(const QString &v) {
   format_ = v;
   format_.replace('\\', '/');
 }
 
-bool OrganiseFormat::IsValid() const {
+bool OrganizeFormat::IsValid() const {
 
   int pos = 0;
   QString format_copy(format_);
@@ -108,7 +108,7 @@ bool OrganiseFormat::IsValid() const {
 
 }
 
-QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
+QString OrganizeFormat::GetFilenameForSong(const Song &song) const {
 
   QString filename = ParseBlock(format_, song);
 
@@ -178,7 +178,7 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
 
 }
 
-QString OrganiseFormat::ParseBlock(QString block, const Song &song, bool *any_empty) const {
+QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *any_empty) const {
 
   QRegularExpression tag_regexp(kTagPattern);
   QRegularExpression block_regexp(kBlockPattern);
@@ -215,7 +215,7 @@ QString OrganiseFormat::ParseBlock(QString block, const Song &song, bool *any_em
 
 }
 
-QString OrganiseFormat::TagValue(const QString &tag, const Song &song) const {
+QString OrganizeFormat::TagValue(const QString &tag, const Song &song) const {
 
   QString value;
 
@@ -280,9 +280,9 @@ QString OrganiseFormat::TagValue(const QString &tag, const Song &song) const {
 
 }
 
-OrganiseFormat::Validator::Validator(QObject *parent) : QValidator(parent) {}
+OrganizeFormat::Validator::Validator(QObject *parent) : QValidator(parent) {}
 
-QValidator::State OrganiseFormat::Validator::validate(QString &input, int&) const {
+QValidator::State OrganizeFormat::Validator::validate(QString &input, int&) const {
 
   QRegularExpression tag_regexp(kTagPattern);
 
@@ -304,7 +304,7 @@ QValidator::State OrganiseFormat::Validator::validate(QString &input, int&) cons
   int pos = 0;
   for (re_match = tag_regexp.match(input, pos) ; re_match.hasMatch() ; re_match = tag_regexp.match(input, pos)) {
     pos = re_match.capturedStart();
-    if (!OrganiseFormat::kKnownTags.contains(re_match.captured(1)))
+    if (!OrganizeFormat::kKnownTags.contains(re_match.captured(1)))
       return QValidator::Invalid;
 
     pos += re_match.capturedLength();
@@ -314,16 +314,16 @@ QValidator::State OrganiseFormat::Validator::validate(QString &input, int&) cons
 
 }
 
-OrganiseFormat::SyntaxHighlighter::SyntaxHighlighter(QObject *parent)
+OrganizeFormat::SyntaxHighlighter::SyntaxHighlighter(QObject *parent)
     : QSyntaxHighlighter(parent) {}
 
-OrganiseFormat::SyntaxHighlighter::SyntaxHighlighter(QTextEdit *parent)
+OrganizeFormat::SyntaxHighlighter::SyntaxHighlighter(QTextEdit *parent)
     : QSyntaxHighlighter(parent) {}
 
-OrganiseFormat::SyntaxHighlighter::SyntaxHighlighter(QTextDocument *parent)
+OrganizeFormat::SyntaxHighlighter::SyntaxHighlighter(QTextDocument *parent)
     : QSyntaxHighlighter(parent) {}
 
-void OrganiseFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
+void OrganizeFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
 
   const bool light = QApplication::palette().color(QPalette::Base).value() > 128;
   const QRgb block_color = light ? kBlockColorLight : kBlockColorDark;
@@ -353,7 +353,7 @@ void OrganiseFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
   for (re_match = tag_regexp.match(text, pos) ; re_match.hasMatch() ; re_match = tag_regexp.match(text, pos)) {
     pos = re_match.capturedStart();
     QTextCharFormat f = format(pos);
-    f.setForeground(QColor(OrganiseFormat::kKnownTags.contains(re_match.captured(1)) ? valid_tag_color : invalid_tag_color));
+    f.setForeground(QColor(OrganizeFormat::kKnownTags.contains(re_match.captured(1)) ? valid_tag_color : invalid_tag_color));
 
     setFormat(pos, re_match.capturedLength(), f);
     pos += re_match.capturedLength();

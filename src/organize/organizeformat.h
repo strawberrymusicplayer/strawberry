@@ -35,10 +35,10 @@ class QTextDocument;
 class QTextEdit;
 class Song;
 
-class OrganiseFormat {
+class OrganizeFormat {
 
  public:
-  explicit OrganiseFormat(const QString &format = QString());
+  explicit OrganizeFormat(const QString &format = QString());
 
   static const char *kTagPattern;
   static const char *kBlockPattern;

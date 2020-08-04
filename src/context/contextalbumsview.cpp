@@ -56,7 +56,7 @@
 #  include "device/devicestatefiltermodel.h"
 #endif
 #include "dialogs/edittagdialog.h"
-#include "organise/organisedialog.h"
+#include "organize/organizedialog.h"
 
 #include "contextalbumsmodel.h"
 #include "contextalbumsview.h"
@@ -257,7 +257,7 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
     add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, SLOT(AddToPlaylistEnqueue()));
 
     context_menu_->addSeparator();
-    organise_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(Organise()));
+    organize_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, SLOT(Organize()));
 #ifndef Q_OS_WIN
     copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(CopyToDevice()));
 #endif
@@ -304,13 +304,13 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
   edit_track_->setVisible(regular_editable <= 1);
   edit_track_->setEnabled(regular_editable == 1);
 
-  organise_->setVisible(regular_elements_only);
+  organize_->setVisible(regular_elements_only);
 #ifndef Q_OS_WIN
   copy_to_device_->setVisible(regular_elements_only);
 #endif
 
   // only when all selected items are editable
-  organise_->setEnabled(regular_elements == regular_editable);
+  organize_->setEnabled(regular_elements == regular_editable);
 #ifndef Q_OS_WIN
   copy_to_device_->setEnabled(regular_elements == regular_editable);
 #endif
@@ -369,15 +369,15 @@ SongList ContextAlbumsView::GetSelectedSongs() const {
   return model_->GetChildSongs(selected_indexes);
 }
 
-void ContextAlbumsView::Organise() {
+void ContextAlbumsView::Organize() {
 
-  if (!organise_dialog_)
-    organise_dialog_.reset(new OrganiseDialog(app_->task_manager(), app_->collection_backend(), this));
+  if (!organize_dialog_)
+    organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), app_->collection_backend(), this));
 
-  organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
-  organise_dialog_->SetCopy(false);
-  if (organise_dialog_->SetSongs(GetSelectedSongs()))
-    organise_dialog_->show();
+  organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
+  organize_dialog_->SetCopy(false);
+  if (organize_dialog_->SetSongs(GetSelectedSongs()))
+    organize_dialog_->show();
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
@@ -396,13 +396,13 @@ void ContextAlbumsView::EditTracks() {
 
 void ContextAlbumsView::CopyToDevice() {
 #ifndef Q_OS_WIN
-  if (!organise_dialog_)
-    organise_dialog_.reset(new OrganiseDialog(app_->task_manager()));
+  if (!organize_dialog_)
+    organize_dialog_.reset(new OrganizeDialog(app_->task_manager()));
 
-  organise_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
-  organise_dialog_->SetCopy(true);
-  organise_dialog_->SetSongs(GetSelectedSongs());
-  organise_dialog_->show();
+  organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
+  organize_dialog_->SetCopy(true);
+  organize_dialog_->SetSongs(GetSelectedSongs());
+  organize_dialog_->show();
 #endif
 }
 

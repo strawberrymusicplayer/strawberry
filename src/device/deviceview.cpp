@@ -57,8 +57,8 @@
 #include "core/mimedata.h"
 #include "core/musicstorage.h"
 #include "core/utilities.h"
-#include "organise/organisedialog.h"
-#include "organise/organiseerrordialog.h"
+#include "organize/organizedialog.h"
+#include "organize/organizeerrordialog.h"
 #include "collection/collectiondirectorymodel.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionitemdelegate.h"
@@ -213,8 +213,8 @@ void DeviceView::SetApplication(Application *app) {
 
   properties_dialog_->SetDeviceManager(app_->device_manager());
 
-  organise_dialog_.reset(new OrganiseDialog(app_->task_manager(), nullptr, this));
-  organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
+  organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), nullptr, this));
+  organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
 
 }
 
@@ -236,7 +236,7 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
     open_in_new_playlist_ = collection_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylist()));
 
     collection_menu_->addSeparator();
-    organise_action_ = collection_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, SLOT(Organise()));
+    organize_action_ = collection_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, SLOT(Organize()));
     delete_action_ = collection_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from device..."), this, SLOT(Delete()));
   }
 
@@ -263,7 +263,7 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
       if (device && !device->LocalPath().isEmpty()) is_filesystem_device = true;
     }
 
-    organise_action_->setEnabled(is_filesystem_device);
+    organize_action_->setEnabled(is_filesystem_device);
 
     collection_menu_->popup(e->globalPos());
   }
@@ -427,7 +427,7 @@ void DeviceView::Delete() {
 
 }
 
-void DeviceView::Organise() {
+void DeviceView::Organize() {
 
   SongList songs = GetSelectedSongs();
   QStringList filenames;
@@ -435,9 +435,9 @@ void DeviceView::Organise() {
     filenames << song.url().toLocalFile();
   }
 
-  organise_dialog_->SetCopy(true);
-  organise_dialog_->SetFilenames(filenames);
-  organise_dialog_->show();
+  organize_dialog_->SetCopy(true);
+  organize_dialog_->SetFilenames(filenames);
+  organize_dialog_->show();
 
 }
 
@@ -450,8 +450,8 @@ void DeviceView::DeleteFinished(const SongList &songs_with_errors) {
 
   if (songs_with_errors.isEmpty()) return;
 
-  OrganiseErrorDialog *dialog = new OrganiseErrorDialog(this);
-  dialog->Show(OrganiseErrorDialog::Type_Delete, songs_with_errors);
+  OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
+  dialog->Show(OrganizeErrorDialog::Type_Delete, songs_with_errors);
   // It deletes itself when the user closes it
 
 }

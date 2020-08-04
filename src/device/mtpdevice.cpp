@@ -135,7 +135,7 @@ void MtpDevice::LoaderError(const QString& message) {
 
 bool MtpDevice::StartCopy(QList<Song::FileType> *supported_types) {
 
-  // Ensure only one "organise files" can be active at any one time
+  // Ensure only one "organize files" can be active at any one time
   db_busy_.lock();
 
   if (!connection_ || !connection_->is_valid()) return false;
@@ -200,7 +200,7 @@ void MtpDevice::FinishCopy(bool success) {
   songs_to_add_.clear();
   songs_to_remove_.clear();
 
-  // This is done in the organise thread so close the unique DB connection.
+  // This is done in the organize thread so close the unique DB connection.
   backend_->Close();
 
   db_busy_.unlock();

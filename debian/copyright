@@ -171,12 +171,12 @@ Files: src/core/main.cpp
        src/settings/shortcutssettingspage.h
        src/settings/appearancesettingspage.cpp
        src/settings/appearancesettingspage.h
-       src/organise/organise.cpp
-       src/organise/organise.h
-       src/organise/organisedialog.cpp
-       src/organise/organisedialog.h
-       src/organise/organiseerrordialog.cpp
-       src/organise/organiseerrordialog.h
+       src/organize/organize.cpp
+       src/organize/organize.h
+       src/organize/organizedialog.cpp
+       src/organize/organizedialog.h
+       src/organize/organizeerrordialog.cpp
+       src/organize/organizeerrordialog.h
        src/transcoder/transcoder.cpp
        src/transcoder/transcoder.h
        src/musicbrainz/musicbrainzclient.cpp

@@ -22,21 +22,21 @@
 #include <gtest/gtest.h>
 #include "test_utils.h"
 
-#include "organise/organiseformat.h"
+#include "organize/organizeformat.h"
 #include "core/timeconstants.h"
 #include "core/song.h"
 #include "core/logging.h"
 
 #include <QUrl>
 
-class OrganiseFormatTest : public ::testing::Test {
+class OrganizeFormatTest : public ::testing::Test {
 protected:
-  OrganiseFormat format_;
+  OrganizeFormat format_;
   Song song_;
 };
 
 
-TEST_F(OrganiseFormatTest, BasicReplace) {
+TEST_F(OrganizeFormatTest, BasicReplace) {
 
   song_.set_title("title");
   song_.set_album("album");
@@ -64,7 +64,7 @@ TEST_F(OrganiseFormatTest, BasicReplace) {
 
 }
 
-TEST_F(OrganiseFormatTest, Extension) {
+TEST_F(OrganizeFormatTest, Extension) {
 
   song_.set_url(QUrl("file:///some/path/filename.flac"));
 
@@ -74,7 +74,7 @@ TEST_F(OrganiseFormatTest, Extension) {
 
 }
 
-TEST_F(OrganiseFormatTest, ArtistInitial) {
+TEST_F(OrganizeFormatTest, ArtistInitial) {
 
   song_.set_artist("bob");
 
@@ -84,7 +84,7 @@ TEST_F(OrganiseFormatTest, ArtistInitial) {
 
 }
 
-TEST_F(OrganiseFormatTest, AlbumArtistInitial) {
+TEST_F(OrganizeFormatTest, AlbumArtistInitial) {
 
   song_.set_albumartist("bob");
 
@@ -94,14 +94,14 @@ TEST_F(OrganiseFormatTest, AlbumArtistInitial) {
 
 }
 
-TEST_F(OrganiseFormatTest, InvalidTag) {
+TEST_F(OrganizeFormatTest, InvalidTag) {
 
   format_.set_format("%invalid");
   EXPECT_FALSE(format_.IsValid());
 
 }
 
-TEST_F(OrganiseFormatTest, Blocks) {
+TEST_F(OrganizeFormatTest, Blocks) {
 
   format_.set_format("Before{Inside%year}After");
   ASSERT_TRUE(format_.IsValid());
@@ -117,7 +117,7 @@ TEST_F(OrganiseFormatTest, Blocks) {
 
 }
 
-TEST_F(OrganiseFormatTest, ReplaceSpaces) {
+TEST_F(OrganizeFormatTest, ReplaceSpaces) {
 
   song_.set_title("The Song Title");
   format_.set_format("The Format String %title");
@@ -129,7 +129,7 @@ TEST_F(OrganiseFormatTest, ReplaceSpaces) {
 
 }
 
-TEST_F(OrganiseFormatTest, ReplaceNonAscii) {
+TEST_F(OrganizeFormatTest, ReplaceNonAscii) {
 
   song_.set_artist(QString::fromUtf8("Röyksopp"));
   format_.set_format("%artist");
@@ -145,7 +145,7 @@ TEST_F(OrganiseFormatTest, ReplaceNonAscii) {
 
 }
 
-TEST_F(OrganiseFormatTest, TrackNumberPadding) {
+TEST_F(OrganizeFormatTest, TrackNumberPadding) {
 
   format_.set_format("%track");
 
@@ -164,7 +164,7 @@ TEST_F(OrganiseFormatTest, TrackNumberPadding) {
 }
 
 #if 0
-TEST_F(OrganiseFormatTest, ReplaceSlashes) {
+TEST_F(OrganizeFormatTest, ReplaceSlashes) {
 
   format_.set_format("%title");
   song_.set_title("foo/bar\\baz");

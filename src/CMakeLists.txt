@@ -221,10 +221,10 @@ set(SOURCES
   scrobbler/librefmscrobbler.cpp
   scrobbler/listenbrainzscrobbler.cpp
 
-  organise/organise.cpp
-  organise/organiseformat.cpp
-  organise/organisedialog.cpp
-  organise/organiseerrordialog.cpp
+  organize/organize.cpp
+  organize/organizeformat.cpp
+  organize/organizedialog.cpp
+  organize/organizeerrordialog.cpp
 
 )
 
@@ -415,9 +415,9 @@ set(HEADERS
   scrobbler/librefmscrobbler.h
   scrobbler/listenbrainzscrobbler.h
 
-  organise/organise.h
-  organise/organisedialog.h
-  organise/organiseerrordialog.h
+  organize/organize.h
+  organize/organizedialog.h
+  organize/organizeerrordialog.h
 
 )
 
@@ -475,8 +475,8 @@ set(UI
   internet/internetcollectionviewcontainer.ui
   internet/internetsearchview.ui
 
-  organise/organisedialog.ui
-  organise/organiseerrordialog.ui
+  organize/organizedialog.ui
+  organize/organizeerrordialog.ui
 
 )
 

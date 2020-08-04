@@ -137,7 +137,7 @@ bool GPodDevice::StartCopy(QList<Song::FileType> *supported_filetypes) {
     if (!db_) db_wait_cond_.wait(&db_mutex_);
   }
 
-  // Ensure only one "organise files" can be active at any one time
+  // Ensure only one "organize files" can be active at any one time
   db_busy_.lock();
 
   if (supported_filetypes) GetSupportedFiletypes(supported_filetypes);
@@ -257,7 +257,7 @@ void GPodDevice::WriteDatabase(bool success) {
     }
   }
 
-  // This is done in the organise thread so close the unique DB connection.
+  // This is done in the organize thread so close the unique DB connection.
   backend_->Close();
 
   songs_to_add_.clear();

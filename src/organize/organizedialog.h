@@ -38,8 +38,8 @@
 #include <QtEvents>
 
 #include "core/song.h"
-#include "organise.h"
-#include "organiseformat.h"
+#include "organize.h"
+#include "organizeformat.h"
 
 class QAbstractItemModel;
 class QWidget;
@@ -49,15 +49,15 @@ class QCloseEvent;
 
 class TaskManager;
 class CollectionBackend;
-class OrganiseErrorDialog;
-class Ui_OrganiseDialog;
+class OrganizeErrorDialog;
+class Ui_OrganizeDialog;
 
-class OrganiseDialog : public QDialog {
+class OrganizeDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit OrganiseDialog(TaskManager *task_manager, CollectionBackend *backend = nullptr, QWidget *parentwindow = nullptr, QWidget *parent = nullptr);
-  ~OrganiseDialog() override;
+  explicit OrganizeDialog(TaskManager *task_manager, CollectionBackend *backend = nullptr, QWidget *parentwindow = nullptr, QWidget *parent = nullptr);
+  ~OrganizeDialog() override;
 
   static const char *kDefaultFormat;
 
@@ -73,7 +73,7 @@ class OrganiseDialog : public QDialog {
 
   void SetCopy(bool copy);
 
-  static Organise::NewSongInfoList ComputeNewSongsFilenames(const SongList &songs, const OrganiseFormat &format);
+  static Organize::NewSongInfoList ComputeNewSongsFilenames(const SongList &songs, const OrganizeFormat &format);
   
   void SetPlaylist(const QString &playlist);
 
@@ -103,7 +103,7 @@ class OrganiseDialog : public QDialog {
   void InsertTag(const QString &tag);
   void UpdatePreviews();
 
-  void OrganiseFinished(const QStringList files_with_errors, const QStringList log);
+  void OrganizeFinished(const QStringList files_with_errors, const QStringList log);
 
   void AllowExtASCII(bool checked);
 
@@ -111,19 +111,19 @@ class OrganiseDialog : public QDialog {
   static const char *kSettingsGroup;
 
   QWidget *parentwindow_;
-  Ui_OrganiseDialog *ui_;
+  Ui_OrganizeDialog *ui_;
   TaskManager *task_manager_;
   CollectionBackend *backend_;
 
-  OrganiseFormat format_;
+  OrganizeFormat format_;
 
   QFuture<SongList> songs_future_;
   SongList songs_;
-  Organise::NewSongInfoList new_songs_info_;
+  Organize::NewSongInfoList new_songs_info_;
   quint64 total_size_;
   QString playlist_;
 
-  std::unique_ptr<OrganiseErrorDialog> error_dialog_;
+  std::unique_ptr<OrganizeErrorDialog> error_dialog_;
 
 };
 

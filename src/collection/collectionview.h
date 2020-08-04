@@ -45,7 +45,7 @@ class QPaintEvent;
 class Application;
 class CollectionFilterWidget;
 class EditTagDialog;
-class OrganiseDialog;
+class OrganizeDialog;
 
 class CollectionView : public AutoExpandingTreeView {
   Q_OBJECT
@@ -102,7 +102,7 @@ class CollectionView : public AutoExpandingTreeView {
   void AddToPlaylistEnqueue();
   void AddToPlaylistEnqueueNext();
   void OpenInNewPlaylist();
-  void Organise();
+  void Organize();
   void CopyToDevice();
   void EditTracks();
   void RescanSongs();
@@ -133,7 +133,7 @@ class CollectionView : public AutoExpandingTreeView {
   QAction *add_to_playlist_enqueue_;
   QAction *add_to_playlist_enqueue_next_;
   QAction *open_in_new_playlist_;
-  QAction *organise_;
+  QAction *organize_;
 #ifndef Q_OS_WIN
   QAction *copy_to_device_;
 #endif
@@ -145,7 +145,7 @@ class CollectionView : public AutoExpandingTreeView {
   QAction *show_in_various_;
   QAction *no_show_in_various_;
 
-  std::unique_ptr<OrganiseDialog> organise_dialog_;
+  std::unique_ptr<OrganizeDialog> organize_dialog_;
   std::unique_ptr<EditTagDialog> edit_tag_dialog_;
 
   bool is_in_keyboard_search_;

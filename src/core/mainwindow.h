@@ -77,7 +77,7 @@ class ErrorDialog;
 class FileView;
 class GlobalShortcuts;
 class MimeData;
-class OrganiseDialog;
+class OrganizeDialog;
 class PlaylistListContainer;
 class QueueView;
 class SystemTrayIcon;
@@ -168,7 +168,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void PlaylistCopyToCollection();
   void PlaylistMoveToCollection();
   void PlaylistCopyToDevice();
-  void PlaylistOrganiseSelected(const bool copy);
+  void PlaylistOrganizeSelected(const bool copy);
   void PlaylistOpenInBrowser();
   void ShowInCollection();
 
@@ -307,7 +307,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Lazy<SettingsDialog> settings_dialog_;
   Lazy<AlbumCoverManager> cover_manager_;
   std::unique_ptr<Equalizer> equalizer_;
-  Lazy<OrganiseDialog> organise_dialog_;
+  Lazy<OrganizeDialog> organize_dialog_;
 #ifdef HAVE_GSTREAMER
   Lazy<TranscodeDialog> transcode_dialog_;
 #endif
@@ -330,7 +330,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlist_play_pause_;
   QAction *playlist_stop_after_;
   QAction *playlist_undoredo_;
-  QAction *playlist_organise_;
+  QAction *playlist_organize_;
   QAction *playlist_show_in_collection_;
   QAction *playlist_copy_to_collection_;
   QAction *playlist_move_to_collection_;

@@ -427,7 +427,7 @@ msgstr "1 trek"
 msgid "40%"
 msgstr "40%"
 
-#: ../build/src/ui_organisedialog.h:269
+#: ../build/src/ui_organizedialog.h:269
 msgid ""
 "<p>Tokens start with %, for example: %artist %album %title </p>\n"
 "\n"
@@ -685,7 +685,7 @@ msgstr "Ditambahkan pada tiga bulan terakhir"
 msgid "Advanced grouping..."
 msgstr "Pengelompokkan lanjut..."
 
-#: ../build/src/ui_organisedialog.h:261
+#: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
 msgstr "Setelah menyalin..."
 
@@ -694,7 +694,7 @@ msgid "Albu&m cover"
 msgstr "Sa&mpul album"
 
 #: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:87
-#: playlist/playlist.cpp:1179 organise/organisedialog.cpp:99
+#: playlist/playlist.cpp:1179 organize/organizedialog.cpp:99
 #: ../build/src/ui_groupbydialog.h:130 ../build/src/ui_groupbydialog.h:154
 #: ../build/src/ui_groupbydialog.h:178 ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
@@ -714,7 +714,7 @@ msgid "Album - Disc"
 msgstr "Album - Cakram"
 
 #: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1186
-#: organise/organisedialog.cpp:102 ../build/src/ui_groupbydialog.h:129
+#: organize/organizedialog.cpp:102 ../build/src/ui_groupbydialog.h:129
 #: ../build/src/ui_groupbydialog.h:153 ../build/src/ui_groupbydialog.h:177
 #: ../build/src/ui_edittagdialog.h:685
 msgid "Album artist"
@@ -774,7 +774,7 @@ msgstr "Semua berkas (*)"
 msgid "All playlists (%1)"
 msgstr "Semua daftar putar (%1)"
 
-#: ../build/src/ui_organisedialog.h:277
+#: ../build/src/ui_organizedialog.h:277
 msgid "Allow extended ASCII characters"
 msgstr "Perbolehkan karakter ASCII diperpanjang"
 
@@ -844,7 +844,7 @@ msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Apakah Anda yakin ingin mengeset-ulang statistik lagu ini?"
 
 #: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:81
-#: playlist/playlist.cpp:1178 organise/organisedialog.cpp:100
+#: playlist/playlist.cpp:1178 organize/organizedialog.cpp:100
 #: ../build/src/ui_groupbydialog.h:128 ../build/src/ui_groupbydialog.h:152
 #: ../build/src/ui_groupbydialog.h:176 ../build/src/ui_albumcoversearcher.h:106
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:689
@@ -852,7 +852,7 @@ msgstr "Apakah Anda yakin ingin mengeset-ulang statistik lagu ini?"
 msgid "Artist"
 msgstr "Artis"
 
-#: organise/organisedialog.cpp:101
+#: organize/organizedialog.cpp:101
 msgid "Artist's initial"
 msgstr "Inisial artis"
 
@@ -981,7 +981,7 @@ msgid "Best"
 msgstr "Terbaik"
 
 #: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:132
-#: playlist/playlist.cpp:1196 organise/organisedialog.cpp:115
+#: playlist/playlist.cpp:1196 organize/organizedialog.cpp:115
 #: ../build/src/ui_groupbydialog.h:145 ../build/src/ui_groupbydialog.h:169
 #: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_edittagdialog.h:671
 msgid "Bit depth"
@@ -1002,8 +1002,8 @@ msgstr "Laju bit"
 msgid "Bitrate"
 msgstr "Lajubit"
 
-#: organise/organisedialog.cpp:113
-msgctxt "Refers to bitrate in file organise dialog."
+#: organize/organizedialog.cpp:113
+msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
 msgstr "Lajubit"
 
@@ -1196,7 +1196,7 @@ msgstr "Warna"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Daftar yang dipisahkan koma dari kelas:level, level adalah 0-3"
 
-#: playlist/playlist.cpp:1206 organise/organisedialog.cpp:111
+#: playlist/playlist.cpp:1206 organize/organizedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:687
 msgid "Comment"
 msgstr "Komentar"
@@ -1210,7 +1210,7 @@ msgid "Complete tags automatically..."
 msgstr "Lengkapi tag secara otomatis..."
 
 #: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1187
-#: organise/organisedialog.cpp:103 ../build/src/ui_groupbydialog.h:140
+#: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:140
 #: ../build/src/ui_groupbydialog.h:164 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_edittagdialog.h:686
 msgid "Composer"
@@ -1272,7 +1272,7 @@ msgstr "Konversi semua musik"
 msgid "Convert any music that the device can't play"
 msgstr "Konversi semua musik yang tidak dapat diputar oleh perangkat."
 
-#: ../build/src/ui_organisedialog.h:281
+#: ../build/src/ui_organizedialog.h:281
 msgid "Copy album cover artwork"
 msgstr "Salin sampul album"
 
@@ -1526,7 +1526,7 @@ msgstr "Hapus dari diska..."
 msgid "Delete preset"
 msgstr "Hapus prasetel"
 
-#: ../build/src/ui_organisedialog.h:265
+#: ../build/src/ui_organizedialog.h:265
 msgid "Delete the original files"
 msgstr "Hapus berkas yang asli"
 
@@ -1542,7 +1542,7 @@ msgstr "Buang antrean trek terpilih"
 msgid "Dequeue track"
 msgstr "Buang antrean trek"
 
-#: ../build/src/ui_organisedialog.h:260 ../build/src/ui_transcodedialog.h:229
+#: ../build/src/ui_organizedialog.h:260 ../build/src/ui_transcodedialog.h:229
 msgid "Destination"
 msgstr "Tujuan"
 
@@ -1585,7 +1585,7 @@ msgid "Disabled"
 msgstr "Nonfungsi"
 
 #: collection/savedgroupingmanager.cpp:93 playlist/playlist.cpp:1181
-#: organise/organisedialog.cpp:107 ../build/src/ui_groupbydialog.h:132
+#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:132
 #: ../build/src/ui_groupbydialog.h:156 ../build/src/ui_groupbydialog.h:180
 #: ../build/src/ui_edittagdialog.h:684
 msgid "Disc"
@@ -1807,11 +1807,11 @@ msgstr "Kesalahan"
 msgid "Error connecting MTP device %1"
 msgstr "Terjadi kesalahan saat menyambungkan perangkat MTP %1"
 
-#: organise/organiseerrordialog.cpp:71
+#: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
 msgstr "Terjadi kesalahan saat menyalin lagu"
 
-#: organise/organiseerrordialog.cpp:76
+#: organize/organizeerrordialog.cpp:76
 msgid "Error deleting songs"
 msgstr "Terjadi kesalahan saat menghapus lagu"
 
@@ -1951,7 +1951,7 @@ msgstr "Terjadi kesalahan saat mengambil sampul"
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Berkas %1 bukanlah berkas audio yang benar."
 
-#: organise/organisedialog.cpp:116
+#: organize/organizedialog.cpp:116
 msgid "File extension"
 msgstr "Ekstensi berkas"
 
@@ -2111,7 +2111,7 @@ msgid "Genius Authentication"
 msgstr ""
 
 #: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1185
-#: organise/organisedialog.cpp:110 ../build/src/ui_groupbydialog.h:134
+#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:134
 #: ../build/src/ui_groupbydialog.h:158 ../build/src/ui_groupbydialog.h:182
 #: ../build/src/ui_edittagdialog.h:680
 msgid "Genre"
@@ -2206,7 +2206,7 @@ msgid "Group by Genre/Artist/Album"
 msgstr "Grup berdasarkan Genre/Artis/Album"
 
 #: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1189
-#: organise/organisedialog.cpp:105 ../build/src/ui_groupbydialog.h:142
+#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:142
 #: ../build/src/ui_groupbydialog.h:166 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_edittagdialog.h:682
 msgid "Grouping"
@@ -2329,7 +2329,7 @@ msgstr "Naikkan volume <value> persen"
 msgid "Information"
 msgstr "Informasi"
 
-#: ../build/src/ui_organisedialog.h:273
+#: ../build/src/ui_organizedialog.h:273
 msgid "Insert..."
 msgstr "Sisipkan..."
 
@@ -2371,7 +2371,7 @@ msgstr "Jaga aspek ratio"
 msgid "Keep running in the background when the window is closed"
 msgstr "Tetap jalankan di belakang layar ketika jendela ditutup"
 
-#: ../build/src/ui_organisedialog.h:264
+#: ../build/src/ui_organizedialog.h:264
 msgid "Keep the original files"
 msgstr "Simpan berkas yang asli"
 
@@ -2413,7 +2413,7 @@ msgid "Left"
 msgstr "Kiri"
 
 #: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:214
-#: playlist/playlist.cpp:1182 organise/organisedialog.cpp:112
+#: playlist/playlist.cpp:1182 organize/organizedialog.cpp:112
 #: ../build/src/ui_edittagdialog.h:665
 msgid "Length"
 msgstr "Durasi"
@@ -2478,7 +2478,7 @@ msgstr "Memuat trek"
 msgid "Loading tracks info"
 msgstr "Memuat info trek"
 
-#: collection/collectionmodel.cpp:209 ../build/src/ui_organisedialog.h:283
+#: collection/collectionmodel.cpp:209 ../build/src/ui_organizedialog.h:283
 msgid "Loading..."
 msgstr "Memuat..."
 
@@ -2540,7 +2540,7 @@ msgstr "Kelola pengelompokan tersimpan"
 msgid "Manufacturer"
 msgstr "Produsen"
 
-#: ../build/src/ui_organisedialog.h:280
+#: ../build/src/ui_organizedialog.h:280
 msgid "Mark as listened"
 msgstr "Tandai sudah didengar"
 
@@ -2671,7 +2671,7 @@ msgstr "Bisu"
 msgid "Name"
 msgstr "Nama"
 
-#: ../build/src/ui_organisedialog.h:267
+#: ../build/src/ui_organizedialog.h:267
 msgid "Naming options"
 msgstr "Opsi penamaan"
 
@@ -2867,17 +2867,17 @@ msgstr "Opsi..."
 msgid "Opus"
 msgstr "Opus"
 
-#: ../build/src/ui_organisedialog.h:259
-msgid "Organise Files"
+#: ../build/src/ui_organizedialog.h:259
+msgid "Organize Files"
 msgstr "Atur Berkas"
 
 #: core/mainwindow.cpp:645 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:328
-msgid "Organise files..."
+msgid "Organize files..."
 msgstr "Atur berkas..."
 
-#: organise/organise.cpp:94
-msgid "Organising files"
+#: organize/organize.cpp:94
+msgid "Organizing files"
 msgstr "Mengatur berkas"
 
 #: dialogs/trackselectiondialog.cpp:195
@@ -2885,7 +2885,7 @@ msgid "Original tags"
 msgstr "Tag asli"
 
 #: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1184
-#: organise/organisedialog.cpp:109 ../build/src/ui_groupbydialog.h:138
+#: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:138
 #: ../build/src/ui_groupbydialog.h:162 ../build/src/ui_groupbydialog.h:186
 msgid "Original year"
 msgstr "Tahun asli"
@@ -2912,7 +2912,7 @@ msgstr "Opsi keluaran"
 msgid "Overwrite existing file"
 msgstr "Timpa berkas yang sudah ada"
 
-#: ../build/src/ui_organisedialog.h:279
+#: ../build/src/ui_organizedialog.h:279
 msgid "Overwrite existing files"
 msgstr "Timpa berkas yang ada"
 
@@ -2956,7 +2956,7 @@ msgid "Paused"
 msgstr "Jeda"
 
 #: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1188
-#: organise/organisedialog.cpp:104 ../build/src/ui_groupbydialog.h:141
+#: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:141
 #: ../build/src/ui_groupbydialog.h:165 ../build/src/ui_groupbydialog.h:189
 #: ../build/src/ui_edittagdialog.h:691
 msgid "Performer"
@@ -3118,7 +3118,7 @@ msgstr "Opsi Pretty OSD"
 #: ../build/src/ui_contextsettingspage.h:431
 #: ../build/src/ui_contextsettingspage.h:436
 #: ../build/src/ui_notificationssettingspage.h:480
-#: ../build/src/ui_organisedialog.h:282
+#: ../build/src/ui_organizedialog.h:282
 msgid "Preview"
 msgstr "Pratinjau"
 
@@ -3271,7 +3271,7 @@ msgstr "Buang daftar putar"
 msgid "Remove playlists"
 msgstr "Buang daftar putar"
 
-#: ../build/src/ui_organisedialog.h:274
+#: ../build/src/ui_organizedialog.h:274
 msgid "Remove problematic characters from filenames"
 msgstr ""
 
@@ -3313,7 +3313,7 @@ msgstr "Ganti daftar putar saat ini"
 msgid "Replace spaces with dashes"
 msgstr "Ganti spasi dengan garis strip"
 
-#: ../build/src/ui_organisedialog.h:278
+#: ../build/src/ui_organizedialog.h:278
 msgid "Replace spaces with underscores"
 msgstr "Ganti spasi dengan garis bawah"
 
@@ -3360,11 +3360,11 @@ msgstr ""
 "Mulai ulang trek, atau putar trek sebelumnya jika masih dalam 8 detik sejak "
 "mulai."
 
-#: ../build/src/ui_organisedialog.h:276
+#: ../build/src/ui_organizedialog.h:276
 msgid "Restrict characters to ASCII"
 msgstr "Bataskan ke karakter ASCII"
 
-#: ../build/src/ui_organisedialog.h:275
+#: ../build/src/ui_organizedialog.h:275
 msgid "Restrict to characters allowed on FAT filesystems"
 msgstr "Bataskan ke karakter yang diperbolehkan oleh sistem file FAT"
 
@@ -3442,12 +3442,12 @@ msgstr "Proxy SOCKS"
 msgid "Safely remove device"
 msgstr "Secara aman melepas perangkat"
 
-#: ../build/src/ui_organisedialog.h:284
+#: ../build/src/ui_organizedialog.h:284
 msgid "Safely remove the device after copying"
 msgstr "Secara aman melepas perangkat setelah menyalin"
 
 #: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1195
-#: organise/organisedialog.cpp:114 ../build/src/ui_groupbydialog.h:144
+#: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:144
 #: ../build/src/ui_groupbydialog.h:168 ../build/src/ui_groupbydialog.h:192
 #: ../build/src/ui_edittagdialog.h:670
 msgid "Sample rate"
@@ -4138,7 +4138,7 @@ msgstr ""
 msgid "There are other songs in this album"
 msgstr "Ada lagu lainnya di dalam album ini"
 
-#: organise/organiseerrordialog.cpp:72
+#: organize/organizeerrordialog.cpp:72
 msgid ""
 "There were problems copying some songs.  The following files could not be "
 "copied:"
@@ -4146,7 +4146,7 @@ msgstr ""
 "Ada masalah penyalinan pada beberapa lagu.  Berkas-berkas berikut tidak "
 "dapat disalin:"
 
-#: organise/organiseerrordialog.cpp:77
+#: organize/organizeerrordialog.cpp:77
 msgid ""
 "There were problems deleting some songs.  The following files could not be "
 "deleted:"
@@ -4257,7 +4257,7 @@ msgid "Timezone"
 msgstr "Zona waktu"
 
 #: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1177
-#: organise/organisedialog.cpp:98 ../build/src/ui_contextsettingspage.h:415
+#: organize/organizedialog.cpp:98 ../build/src/ui_contextsettingspage.h:415
 #: ../build/src/ui_edittagdialog.h:681
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
@@ -4303,7 +4303,7 @@ msgstr "Jumlah byte yang ditransfer"
 msgid "Total network requests made"
 msgstr "Total permintaan jaringan yang dibuat"
 
-#: playlist/playlist.cpp:1180 organise/organisedialog.cpp:106
+#: playlist/playlist.cpp:1180 organize/organizedialog.cpp:106
 #: ../build/src/ui_edittagdialog.h:688
 #: ../build/src/ui_trackselectiondialog.h:212
 msgid "Track"
@@ -4601,7 +4601,7 @@ msgid "Write metadata when saving playlists"
 msgstr "Tulis metadata saat menyimpan daftar putar"
 
 #: collection/savedgroupingmanager.cpp:102 playlist/playlist.cpp:1183
-#: organise/organisedialog.cpp:108 ../build/src/ui_groupbydialog.h:135
+#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:135
 #: ../build/src/ui_groupbydialog.h:159 ../build/src/ui_groupbydialog.h:183
 #: ../build/src/ui_edittagdialog.h:690
 #: ../build/src/ui_trackselectiondialog.h:211
@@ -4653,7 +4653,7 @@ msgid "You are signed in."
 msgstr "Anda sudah masuk."
 
 #: ../build/src/ui_groupbydialog.h:122
-msgid "You can change the way the songs in the collection are organised."
+msgid "You can change the way the songs in the collection are organized."
 msgstr "Anda dapat mengubah cara pengaturan lagu dalam pustaka."
 
 #: dialogs/about.cpp:128

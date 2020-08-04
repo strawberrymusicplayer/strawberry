@@ -33,10 +33,10 @@
 #include <QLabel>
 #include <QListWidget>
 
-#include "organiseerrordialog.h"
-#include "ui_organiseerrordialog.h"
+#include "organizeerrordialog.h"
+#include "ui_organizeerrordialog.h"
 
-OrganiseErrorDialog::OrganiseErrorDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_OrganiseErrorDialog) {
+OrganizeErrorDialog::OrganizeErrorDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_OrganizeErrorDialog) {
 
   ui_->setupUi(this);
 
@@ -47,11 +47,11 @@ OrganiseErrorDialog::OrganiseErrorDialog(QWidget *parent) : QDialog(parent), ui_
 
 }
 
-OrganiseErrorDialog::~OrganiseErrorDialog() {
+OrganizeErrorDialog::~OrganizeErrorDialog() {
   delete ui_;
 }
 
-void OrganiseErrorDialog::Show(OperationType type, const SongList &songs_with_errors, const QStringList &log) {
+void OrganizeErrorDialog::Show(OperationType type, const SongList &songs_with_errors, const QStringList &log) {
 
   QStringList files;
   for (const Song &song : songs_with_errors) {
@@ -61,7 +61,7 @@ void OrganiseErrorDialog::Show(OperationType type, const SongList &songs_with_er
 
 }
 
-void OrganiseErrorDialog::Show(OperationType type, const QStringList &files_with_errors, const QStringList &log) {
+void OrganizeErrorDialog::Show(OperationType type, const QStringList &files_with_errors, const QStringList &log) {
 
   QStringList sorted_files = files_with_errors;
   std::stable_sort(sorted_files.begin(), sorted_files.end());

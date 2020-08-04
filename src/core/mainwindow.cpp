@@ -99,7 +99,7 @@
 #include "dialogs/trackselectiondialog.h"
 #include "dialogs/edittagdialog.h"
 #include "dialogs/addstreamdialog.h"
-#include "organise/organisedialog.h"
+#include "organize/organizedialog.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"
 #include "widgets/volumeslider.h"
@@ -231,8 +231,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         return cover_manager;
       }),
       equalizer_(new Equalizer),
-      organise_dialog_([=]() {
-        OrganiseDialog *dialog = new OrganiseDialog(app->task_manager(), app->collection_backend(), this);
+      organize_dialog_([=]() {
+        OrganizeDialog *dialog = new OrganizeDialog(app->task_manager(), app->collection_backend(), this);
         dialog->SetDestinationModel(app->collection()->model()->directory_model());
         return dialog;
       }),
@@ -345,7 +345,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #endif
   playlist_list_->SetApplication(app_);
 
-  organise_dialog_->SetDestinationModel(app_->collection()->model()->directory_model());
+  organize_dialog_->SetDestinationModel(app_->collection()->model()->directory_model());
 
   // Icons
   qLog(Debug) << "Creating UI";
@@ -642,7 +642,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #endif
   playlist_copy_to_collection_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, SLOT(PlaylistCopyToCollection()));
   playlist_move_to_collection_ = playlist_menu_->addAction(IconLoader::Load("go-jump"), tr("Move to collection..."), this, SLOT(PlaylistMoveToCollection()));
-  playlist_organise_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(PlaylistMoveToCollection()));
+  playlist_organize_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, SLOT(PlaylistMoveToCollection()));
   playlist_open_in_browser_ = playlist_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, SLOT(PlaylistOpenInBrowser()));
   playlist_open_in_browser_->setVisible(false);
   playlist_show_in_collection_ = playlist_menu_->addAction(IconLoader::Load("edit-find"), tr("Show in collection..."), this, SLOT(ShowInCollection()));
@@ -1703,7 +1703,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
 #if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
   playlist_copy_to_device_->setVisible(false);
 #endif
-  playlist_organise_->setVisible(false);
+  playlist_organize_->setVisible(false);
 
   if (selected < 1) {
     playlist_queue_->setVisible(false);
@@ -1761,7 +1761,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
     // Is it a collection item?
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
-      playlist_organise_->setVisible(editable);
+      playlist_organize_->setVisible(editable);
       playlist_show_in_collection_->setVisible(editable);
       playlist_open_in_browser_->setVisible(true);
     }
@@ -2283,29 +2283,29 @@ void MainWindow::PlayingWidgetPositionChanged(const bool above_status_bar) {
 
 void MainWindow::CopyFilesToCollection(const QList<QUrl> &urls) {
 
-  organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
-  organise_dialog_->SetUrls(urls);
-  organise_dialog_->SetCopy(true);
-  organise_dialog_->show();
+  organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
+  organize_dialog_->SetUrls(urls);
+  organize_dialog_->SetCopy(true);
+  organize_dialog_->show();
 
 }
 
 void MainWindow::MoveFilesToCollection(const QList<QUrl> &urls) {
 
-  organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
-  organise_dialog_->SetUrls(urls);
-  organise_dialog_->SetCopy(false);
-  organise_dialog_->show();
+  organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
+  organize_dialog_->SetUrls(urls);
+  organize_dialog_->SetCopy(false);
+  organize_dialog_->show();
 
 }
 
 void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
 
 #if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
-  organise_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
-  organise_dialog_->SetCopy(true);
-  if (organise_dialog_->SetUrls(urls))
-    organise_dialog_->show();
+  organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
+  organize_dialog_->SetCopy(true);
+  if (organize_dialog_->SetUrls(urls))
+    organize_dialog_->show();
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
@@ -2332,14 +2332,14 @@ void MainWindow::EditFileTags(const QList<QUrl> &urls) {
 }
 
 void MainWindow::PlaylistCopyToCollection() {
-  PlaylistOrganiseSelected(true);
+  PlaylistOrganizeSelected(true);
 }
 
 void MainWindow::PlaylistMoveToCollection() {
-  PlaylistOrganiseSelected(false);
+  PlaylistOrganizeSelected(false);
 }
 
-void MainWindow::PlaylistOrganiseSelected(const bool copy) {
+void MainWindow::PlaylistOrganizeSelected(const bool copy) {
 
   SongList songs;
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
@@ -2353,10 +2353,10 @@ void MainWindow::PlaylistOrganiseSelected(const bool copy) {
   }
   if (songs.isEmpty()) return;
 
-  organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
-  organise_dialog_->SetSongs(songs);
-  organise_dialog_->SetCopy(copy);
-  organise_dialog_->show();
+  organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
+  organize_dialog_->SetSongs(songs);
+  organize_dialog_->SetCopy(copy);
+  organize_dialog_->show();
 
 }
 
@@ -2424,10 +2424,10 @@ void MainWindow::PlaylistCopyToDevice() {
   }
   if (songs.isEmpty()) return;
 
-  organise_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
-  organise_dialog_->SetCopy(true);
-  if (organise_dialog_->SetSongs(songs))
-    organise_dialog_->show();
+  organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
+  organize_dialog_->SetCopy(true);
+  if (organize_dialog_->SetSongs(songs))
+    organize_dialog_->show();
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }

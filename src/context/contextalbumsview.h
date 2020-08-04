@@ -48,7 +48,7 @@ class QPaintEvent;
 class Application;
 class ContextAlbumsModel;
 class EditTagDialog;
-class OrganiseDialog;
+class OrganizeDialog;
 
 class ContextItemDelegate : public QStyledItemDelegate {
   Q_OBJECT
@@ -93,7 +93,7 @@ class ContextAlbumsView : public AutoExpandingTreeView {
   void AddToPlaylist();
   void AddToPlaylistEnqueue();
   void OpenInNewPlaylist();
-  void Organise();
+  void Organize();
   void CopyToDevice();
   void EditTracks();
   void ShowInBrowser();
@@ -112,7 +112,7 @@ class ContextAlbumsView : public AutoExpandingTreeView {
   QAction *add_to_playlist_;
   QAction *add_to_playlist_enqueue_;
   QAction *open_in_new_playlist_;
-  QAction *organise_;
+  QAction *organize_;
 #ifndef Q_OS_WIN
   QAction *copy_to_device_;
 #endif
@@ -120,7 +120,7 @@ class ContextAlbumsView : public AutoExpandingTreeView {
   QAction *edit_tracks_;
   QAction *show_in_browser_;
 
-  std::unique_ptr<OrganiseDialog> organise_dialog_;
+  std::unique_ptr<OrganizeDialog> organize_dialog_;
   std::unique_ptr<EditTagDialog> edit_tag_dialog_;
 
   bool is_in_keyboard_search_;

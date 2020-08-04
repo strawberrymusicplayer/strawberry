@@ -43,7 +43,7 @@
 #include "fileviewlist.h"
 #include "ui_fileview.h"
 #ifdef HAVE_GSTREAMER
-#  include "organise/organiseerrordialog.h"
+#  include "organize/organizeerrordialog.h"
 #endif
 #include "settings/appearancesettingspage.h"
 
@@ -257,8 +257,8 @@ void FileView::DeleteFinished(const SongList &songs_with_errors) {
 
   if (songs_with_errors.isEmpty()) return;
 
-  OrganiseErrorDialog *dialog = new OrganiseErrorDialog(this);
-  dialog->Show(OrganiseErrorDialog::Type_Delete, songs_with_errors);
+  OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
+  dialog->Show(OrganizeErrorDialog::Type_Delete, songs_with_errors);
   // It deletes itself when the user closes it
 
 #else
