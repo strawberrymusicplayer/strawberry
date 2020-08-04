@@ -446,7 +446,7 @@ msgstr "1 трек"
 msgid "40%"
 msgstr "40%"
 
-#: ../build/src/ui_organizedialog.h:269
+#: ../build/src/ui_organizedialog.h:267
 msgid ""
 "<p>Tokens start with %, for example: %artist %album %title </p>\n"
 "\n"
@@ -713,8 +713,8 @@ msgstr "О&бложка альбома"
 
 #: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:87
 #: playlist/playlist.cpp:1179 organize/organizedialog.cpp:99
-#: ../build/src/ui_groupbydialog.h:130 ../build/src/ui_groupbydialog.h:154
-#: ../build/src/ui_groupbydialog.h:178 ../build/src/ui_albumcoversearcher.h:110
+#: ../build/src/ui_groupbydialog.h:186 ../build/src/ui_groupbydialog.h:208
+#: ../build/src/ui_groupbydialog.h:230 ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
 #: ../build/src/ui_contextsettingspage.h:420
 #: ../build/src/ui_edittagdialog.h:683
@@ -726,14 +726,14 @@ msgstr "Альбом"
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Альбом (идеальная громкость всех треков)"
 
-#: collection/savedgroupingmanager.cpp:90 ../build/src/ui_groupbydialog.h:131
-#: ../build/src/ui_groupbydialog.h:155 ../build/src/ui_groupbydialog.h:179
+#: collection/savedgroupingmanager.cpp:90 ../build/src/ui_groupbydialog.h:187
+#: ../build/src/ui_groupbydialog.h:209 ../build/src/ui_groupbydialog.h:231
 msgid "Album - Disc"
 msgstr "raАльбом - Диск"
 
 #: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1186
-#: organize/organizedialog.cpp:102 ../build/src/ui_groupbydialog.h:129
-#: ../build/src/ui_groupbydialog.h:153 ../build/src/ui_groupbydialog.h:177
+#: organize/organizedialog.cpp:102 ../build/src/ui_groupbydialog.h:185
+#: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
 #: ../build/src/ui_edittagdialog.h:685
 msgid "Album artist"
 msgstr "Исполнитель альбома"
@@ -792,7 +792,7 @@ msgstr "Все файлы (*)"
 msgid "All playlists (%1)"
 msgstr "Все плейлисты (%1)"
 
-#: ../build/src/ui_organizedialog.h:277
+#: ../build/src/ui_organizedialog.h:275
 msgid "Allow extended ASCII characters"
 msgstr "Разрешить расширенные символы ASCII"
 
@@ -863,8 +863,8 @@ msgstr "Вы действительно хотите сбросить стати
 
 #: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:81
 #: playlist/playlist.cpp:1178 organize/organizedialog.cpp:100
-#: ../build/src/ui_groupbydialog.h:128 ../build/src/ui_groupbydialog.h:152
-#: ../build/src/ui_groupbydialog.h:176 ../build/src/ui_albumcoversearcher.h:106
+#: ../build/src/ui_groupbydialog.h:184 ../build/src/ui_groupbydialog.h:206
+#: ../build/src/ui_groupbydialog.h:228 ../build/src/ui_albumcoversearcher.h:106
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:689
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Artist"
@@ -1000,8 +1000,8 @@ msgstr "Лучшее"
 
 #: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:132
 #: playlist/playlist.cpp:1196 organize/organizedialog.cpp:115
-#: ../build/src/ui_groupbydialog.h:145 ../build/src/ui_groupbydialog.h:169
-#: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_edittagdialog.h:671
+#: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
+#: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:671
 msgid "Bit depth"
 msgstr "Разрядность"
 
@@ -1010,8 +1010,8 @@ msgid "Bit rate"
 msgstr "Битрейт"
 
 #: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:135
-#: playlist/playlist.cpp:1197 ../build/src/ui_groupbydialog.h:146
-#: ../build/src/ui_groupbydialog.h:170 ../build/src/ui_groupbydialog.h:194
+#: playlist/playlist.cpp:1197 ../build/src/ui_groupbydialog.h:202
+#: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:128
 #: ../build/src/ui_transcoderoptionsopus.h:79
 #: ../build/src/ui_transcoderoptionsspeex.h:217
@@ -1023,7 +1023,7 @@ msgstr "Битрейт"
 #: organize/organizedialog.cpp:113
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr "Битрейт"
+msgstr ""
 
 #: analyzer/blockanalyzer.cpp:45
 msgid "Block analyzer"
@@ -1195,7 +1195,7 @@ msgstr "Фонотека"
 msgid "Collection Filter"
 msgstr ""
 
-#: ../build/src/ui_groupbydialog.h:121
+#: ../build/src/ui_groupbydialog.h:179
 msgid "Collection advanced grouping"
 msgstr "Расширенная группировка фонотеки"
 
@@ -1229,8 +1229,8 @@ msgid "Complete tags automatically..."
 msgstr "Заполнить теги автоматически..."
 
 #: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1187
-#: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:140
-#: ../build/src/ui_groupbydialog.h:164 ../build/src/ui_groupbydialog.h:188
+#: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:196
+#: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:686
 msgid "Composer"
 msgstr "Композитор"
@@ -1292,7 +1292,7 @@ msgstr "Конвертировать всю музыку"
 msgid "Convert any music that the device can't play"
 msgstr "Конвертировать всю музыку, не поддерживаемую устройством."
 
-#: ../build/src/ui_organizedialog.h:281
+#: ../build/src/ui_organizedialog.h:279
 msgid "Copy album cover artwork"
 msgstr "Копировать обложку альбома"
 
@@ -1546,7 +1546,7 @@ msgstr "Удалить с диска…"
 msgid "Delete preset"
 msgstr "Удалить профиль"
 
-#: ../build/src/ui_organizedialog.h:265
+#: ../build/src/ui_organizedialog.h:263
 msgid "Delete the original files"
 msgstr "Удалить оригинальные файлы"
 
@@ -1605,8 +1605,8 @@ msgid "Disabled"
 msgstr "Отключено"
 
 #: collection/savedgroupingmanager.cpp:93 playlist/playlist.cpp:1181
-#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:132
-#: ../build/src/ui_groupbydialog.h:156 ../build/src/ui_groupbydialog.h:180
+#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:188
+#: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
 #: ../build/src/ui_edittagdialog.h:684
 msgid "Disc"
 msgstr "Диск"
@@ -1996,8 +1996,8 @@ msgid "File size"
 msgstr "Размер файла"
 
 #: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1202
-#: ../build/src/ui_groupbydialog.h:143 ../build/src/ui_groupbydialog.h:167
-#: ../build/src/ui_groupbydialog.h:191 ../build/src/ui_edittagdialog.h:673
+#: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
+#: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:673
 msgid "File type"
 msgstr "Тип файла"
 
@@ -2029,7 +2029,7 @@ msgstr "Тип файл"
 msgid "Fingerprinting song"
 msgstr "Получение отпечатка песни"
 
-#: collection/savedgroupingmanager.cpp:56 ../build/src/ui_groupbydialog.h:124
+#: collection/savedgroupingmanager.cpp:56 ../build/src/ui_groupbydialog.h:182
 msgid "First level"
 msgstr "Первый уровень"
 
@@ -2089,8 +2089,8 @@ msgstr ""
 msgid "Form"
 msgstr "Форма"
 
-#: collection/savedgroupingmanager.cpp:96 ../build/src/ui_groupbydialog.h:133
-#: ../build/src/ui_groupbydialog.h:157 ../build/src/ui_groupbydialog.h:181
+#: collection/savedgroupingmanager.cpp:96 ../build/src/ui_groupbydialog.h:189
+#: ../build/src/ui_groupbydialog.h:211 ../build/src/ui_groupbydialog.h:233
 msgid "Format"
 msgstr "Формат"
 
@@ -2131,8 +2131,8 @@ msgid "Genius Authentication"
 msgstr ""
 
 #: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1185
-#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:134
-#: ../build/src/ui_groupbydialog.h:158 ../build/src/ui_groupbydialog.h:182
+#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:190
+#: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 #: ../build/src/ui_edittagdialog.h:680
 msgid "Genre"
 msgstr "Жанр"
@@ -2161,7 +2161,7 @@ msgstr ""
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "Помечать недоступные песни в пейлистах при запуске"
 
-#: ../build/src/ui_groupbydialog.h:123
+#: ../build/src/ui_groupbydialog.h:181
 msgid "Group Collection by..."
 msgstr "Сгруппировать фонотеку по…"
 
@@ -2227,8 +2227,8 @@ msgid "Group by Genre/Artist/Album"
 msgstr "Группировать по жанр/исполнитель/альбом"
 
 #: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1189
-#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:142
-#: ../build/src/ui_groupbydialog.h:166 ../build/src/ui_groupbydialog.h:190
+#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:198
+#: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:682
 msgid "Grouping"
 msgstr "Группа"
@@ -2352,7 +2352,7 @@ msgstr "Увеличить громкость на <value> процентов"
 msgid "Information"
 msgstr "Информация"
 
-#: ../build/src/ui_organizedialog.h:273
+#: ../build/src/ui_organizedialog.h:271
 msgid "Insert..."
 msgstr "Вставить…"
 
@@ -2394,7 +2394,7 @@ msgstr "Сохранять пропорции"
 msgid "Keep running in the background when the window is closed"
 msgstr "Продолжить работу в фоновом режиме при закрытии окна"
 
-#: ../build/src/ui_organizedialog.h:264
+#: ../build/src/ui_organizedialog.h:262
 msgid "Keep the original files"
 msgstr "Сохранять оригинальные файлы"
 
@@ -2501,7 +2501,7 @@ msgstr "Загрузка композиций"
 msgid "Loading tracks info"
 msgstr "Загрузка информации о треках"
 
-#: collection/collectionmodel.cpp:209 ../build/src/ui_organizedialog.h:283
+#: collection/collectionmodel.cpp:209 ../build/src/ui_organizedialog.h:281
 msgid "Loading..."
 msgstr "Загрузка…"
 
@@ -2563,7 +2563,7 @@ msgstr "Управление сохранёнными группами"
 msgid "Manufacturer"
 msgstr "Производитель"
 
-#: ../build/src/ui_organizedialog.h:280
+#: ../build/src/ui_organizedialog.h:278
 msgid "Mark as listened"
 msgstr "Пометить как прослушанное"
 
@@ -2694,7 +2694,7 @@ msgstr "Приглушить звук"
 msgid "Name"
 msgstr "Имя"
 
-#: ../build/src/ui_organizedialog.h:267
+#: ../build/src/ui_organizedialog.h:265
 msgid "Naming options"
 msgstr "Настройки названия"
 
@@ -2770,8 +2770,8 @@ msgstr "Без коротких блоков"
 msgid "No song playing"
 msgstr "Нет воспроизводимой песни"
 
-#: collection/savedgroupingmanager.cpp:78 ../build/src/ui_groupbydialog.h:127
-#: ../build/src/ui_groupbydialog.h:151 ../build/src/ui_groupbydialog.h:175
+#: collection/savedgroupingmanager.cpp:78 ../build/src/ui_groupbydialog.h:183
+#: ../build/src/ui_groupbydialog.h:205 ../build/src/ui_groupbydialog.h:227
 msgid "None"
 msgstr "Ничего"
 
@@ -2891,29 +2891,29 @@ msgstr "Opus"
 
 #: ../build/src/ui_organizedialog.h:259
 msgid "Organize Files"
-msgstr "Упорядочить файлы"
+msgstr ""
 
 #: core/mainwindow.cpp:645 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:328
 msgid "Organize files..."
-msgstr "Упорядочить файлы…"
+msgstr ""
 
 #: organize/organize.cpp:94
 msgid "Organizing files"
-msgstr "Упорядочивание файлов"
+msgstr ""
 
 #: dialogs/trackselectiondialog.cpp:195
 msgid "Original tags"
 msgstr "Исходные теги"
 
 #: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1184
-#: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:138
-#: ../build/src/ui_groupbydialog.h:162 ../build/src/ui_groupbydialog.h:186
+#: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:194
+#: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Original year"
 msgstr "Год выхода оригинала"
 
-#: collection/savedgroupingmanager.cpp:114 ../build/src/ui_groupbydialog.h:139
-#: ../build/src/ui_groupbydialog.h:163 ../build/src/ui_groupbydialog.h:187
+#: collection/savedgroupingmanager.cpp:114 ../build/src/ui_groupbydialog.h:195
+#: ../build/src/ui_groupbydialog.h:217 ../build/src/ui_groupbydialog.h:239
 msgid "Original year - Album"
 msgstr "Год выхода оригинала - Альбом"
 
@@ -2934,7 +2934,7 @@ msgstr "Настройки вывода"
 msgid "Overwrite existing file"
 msgstr "Перезаписать существующий файл"
 
-#: ../build/src/ui_organizedialog.h:279
+#: ../build/src/ui_organizedialog.h:277
 msgid "Overwrite existing files"
 msgstr "Перезаписать существующие файлы"
 
@@ -2978,8 +2978,8 @@ msgid "Paused"
 msgstr "Приостановлен"
 
 #: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1188
-#: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:141
-#: ../build/src/ui_groupbydialog.h:165 ../build/src/ui_groupbydialog.h:189
+#: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:197
+#: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:691
 msgid "Performer"
 msgstr "Исполнитель"
@@ -3142,7 +3142,7 @@ msgstr "Настройки OSD"
 #: ../build/src/ui_contextsettingspage.h:431
 #: ../build/src/ui_contextsettingspage.h:436
 #: ../build/src/ui_notificationssettingspage.h:480
-#: ../build/src/ui_organizedialog.h:282
+#: ../build/src/ui_organizedialog.h:280
 msgid "Preview"
 msgstr "Предпросмотр"
 
@@ -3295,7 +3295,7 @@ msgstr "Удалить плейлист"
 msgid "Remove playlists"
 msgstr "Удалить плейлисты"
 
-#: ../build/src/ui_organizedialog.h:274
+#: ../build/src/ui_organizedialog.h:272
 msgid "Remove problematic characters from filenames"
 msgstr ""
 
@@ -3337,7 +3337,7 @@ msgstr "Заменить текущий плейлист"
 msgid "Replace spaces with dashes"
 msgstr "Заменить пробелы на тире"
 
-#: ../build/src/ui_organizedialog.h:278
+#: ../build/src/ui_organizedialog.h:276
 msgid "Replace spaces with underscores"
 msgstr "Заменить пробелы на нижнее подчеркивание"
 
@@ -3384,11 +3384,11 @@ msgstr ""
 "Перезапустить трек или проиграть предыдущий, если не прошло 8 секунд от "
 "начала."
 
-#: ../build/src/ui_organizedialog.h:276
+#: ../build/src/ui_organizedialog.h:274
 msgid "Restrict characters to ASCII"
 msgstr "Ограничить символы до ASCII"
 
-#: ../build/src/ui_organizedialog.h:275
+#: ../build/src/ui_organizedialog.h:273
 msgid "Restrict to characters allowed on FAT filesystems"
 msgstr "Ограничить разрешенными символами в файловых системах FAT"
 
@@ -3466,13 +3466,13 @@ msgstr "SOCKS прокси"
 msgid "Safely remove device"
 msgstr "Безопасно извлечь устройство"
 
-#: ../build/src/ui_organizedialog.h:284
+#: ../build/src/ui_organizedialog.h:282
 msgid "Safely remove the device after copying"
 msgstr "Безопасно извлечь устройство после копирования"
 
 #: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1195
-#: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:144
-#: ../build/src/ui_groupbydialog.h:168 ../build/src/ui_groupbydialog.h:192
+#: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:200
+#: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 #: ../build/src/ui_edittagdialog.h:670
 msgid "Sample rate"
 msgstr "Частота"
@@ -3593,7 +3593,7 @@ msgstr "Поиск..."
 msgid "Second Level"
 msgstr "Второй уровень"
 
-#: ../build/src/ui_groupbydialog.h:148
+#: ../build/src/ui_groupbydialog.h:204
 msgid "Second level"
 msgstr "Второй уровень"
 
@@ -4208,7 +4208,7 @@ msgstr ""
 msgid "Third Level"
 msgstr "Третий уровень"
 
-#: ../build/src/ui_groupbydialog.h:172
+#: ../build/src/ui_groupbydialog.h:226
 msgid "Third level"
 msgstr "Третий уровень"
 
@@ -4623,20 +4623,20 @@ msgid "Write metadata when saving playlists"
 msgstr "Записывать метаданные при сохранении плейлистов"
 
 #: collection/savedgroupingmanager.cpp:102 playlist/playlist.cpp:1183
-#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:135
-#: ../build/src/ui_groupbydialog.h:159 ../build/src/ui_groupbydialog.h:183
+#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:191
+#: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:690
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Year"
 msgstr "Год"
 
-#: collection/savedgroupingmanager.cpp:105 ../build/src/ui_groupbydialog.h:136
-#: ../build/src/ui_groupbydialog.h:160 ../build/src/ui_groupbydialog.h:184
+#: collection/savedgroupingmanager.cpp:105 ../build/src/ui_groupbydialog.h:192
+#: ../build/src/ui_groupbydialog.h:214 ../build/src/ui_groupbydialog.h:236
 msgid "Year - Album"
 msgstr "Год - Альбом"
 
-#: collection/savedgroupingmanager.cpp:108 ../build/src/ui_groupbydialog.h:137
-#: ../build/src/ui_groupbydialog.h:161 ../build/src/ui_groupbydialog.h:185
+#: collection/savedgroupingmanager.cpp:108 ../build/src/ui_groupbydialog.h:193
+#: ../build/src/ui_groupbydialog.h:215 ../build/src/ui_groupbydialog.h:237
 msgid "Year - Album - Disc"
 msgstr "Год - Альбом - Диск"
 
@@ -4673,9 +4673,9 @@ msgstr "Вы вошли в систему как %1."
 msgid "You are signed in."
 msgstr "Вы вошли в систему."
 
-#: ../build/src/ui_groupbydialog.h:122
+#: ../build/src/ui_groupbydialog.h:180
 msgid "You can change the way the songs in the collection are organized."
-msgstr "Можно изменить способ организации композиций в фонотеке."
+msgstr ""
 
 #: dialogs/about.cpp:128
 #, qt-format
