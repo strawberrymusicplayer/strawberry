@@ -13,7 +13,7 @@ CREATE VIRTUAL TABLE %allsongstables_fts USING fts5(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize = "unicode61 remove_diacritics 0"
+  tokenize = "unicode61 remove_diacritics 1"
 
 );
 
@@ -28,7 +28,7 @@ CREATE VIRTUAL TABLE playlist_items_fts_ USING fts5(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize = "unicode61 remove_diacritics 0"
+  tokenize = "unicode61 remove_diacritics 1"
 
 );
 

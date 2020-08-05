@@ -410,7 +410,7 @@ CREATE VIRTUAL TABLE IF NOT EXISTS songs_fts USING fts5(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize = "unicode61 remove_diacritics 0"
+  tokenize = "unicode61 remove_diacritics 1"
 
 );
 
@@ -425,7 +425,7 @@ CREATE VIRTUAL TABLE IF NOT EXISTS tidal_artists_songs_fts USING fts5(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize = "unicode61 remove_diacritics 0"
+  tokenize = "unicode61 remove_diacritics 1"
 
 );
 
@@ -440,7 +440,7 @@ CREATE VIRTUAL TABLE IF NOT EXISTS tidal_albums_songs_fts USING fts5(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize = "unicode61 remove_diacritics 0"
+  tokenize = "unicode61 remove_diacritics 1"
 
 );
 
@@ -455,7 +455,7 @@ CREATE VIRTUAL TABLE IF NOT EXISTS tidal_songs_fts USING fts5(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize = "unicode61 remove_diacritics 0"
+  tokenize = "unicode61 remove_diacritics 1"
 
 );
 
@@ -470,7 +470,7 @@ CREATE VIRTUAL TABLE IF NOT EXISTS subsonic_songs_fts USING fts5(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize = "unicode61 remove_diacritics 0"
+  tokenize = "unicode61 remove_diacritics 1"
 
 );
 
@@ -485,7 +485,7 @@ CREATE VIRTUAL TABLE IF NOT EXISTS playlist_items_fts_ USING fts5(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize = "unicode61 remove_diacritics 0"
+  tokenize = "unicode61 remove_diacritics 1"
 
 );
 
@@ -500,6 +500,6 @@ CREATE VIRTUAL TABLE IF NOT EXISTS %allsongstables_fts USING fts5(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize = "unicode61 remove_diacritics 0"
+  tokenize = "unicode61 remove_diacritics 1"
 
 );
