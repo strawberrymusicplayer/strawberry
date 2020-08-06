@@ -1034,7 +1034,7 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
 
   QVariant q_duration = json_duration.toVariant();
   quint64 duration = 0;
-  if (q_duration.isValid() && (q_duration.type() == QVariant::Int || q_duration.type() == QVariant::Double)) {
+  if (q_duration.isValid()) {
     duration = q_duration.toLongLong() * kNsecPerSec;
   }
   else {
