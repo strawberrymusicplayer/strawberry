@@ -1688,6 +1688,11 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   ui_->action_rescan_songs->setEnabled(editable);
   ui_->action_rescan_songs->setVisible(editable);
 
+#ifdef HAVE_GSTREAMER
+  ui_->action_add_files_to_transcoder->setEnabled(editable);
+  ui_->action_add_files_to_transcoder->setVisible(editable);
+#endif
+
   // the rest of the read / write actions work only when there are no CUEs involved
   if (cue_selected) editable = 0;
 
