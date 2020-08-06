@@ -1691,7 +1691,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   // the rest of the read / write actions work only when there are no CUEs involved
   if (cue_selected) editable = 0;
 
-  playlist_open_in_browser_->setVisible(local_songs == selected);
+  playlist_open_in_browser_->setVisible(selected > 0 && local_songs == selected);
 
   bool track_column = (index.column() == Playlist::Column_Track);
   ui_->action_renumber_tracks->setVisible(editable >= 2 && track_column);
