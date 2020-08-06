@@ -28,6 +28,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QJsonObject>
+#include <QSslError>
 
 #include "jsoncoverprovider.h"
 
@@ -45,20 +46,42 @@ class QobuzCoverProvider : public JsonCoverProvider {
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
   void CancelSearch(const int id) override;
 
+  void Authenticate() override;
+  void Deauthenticate() override;
+  bool IsAuthenticated() const override { return !user_auth_token_.isEmpty(); }
+
+ private slots:
+  void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
+  void HandleAuthReply(QNetworkReply *reply);
+
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const int id);
 
  private:
   QByteArray GetReplyData(QNetworkReply *reply);
+  void AuthError(const QString &error = QString(), const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
+  typedef QPair<QString, QString> Param;
+  typedef QList<Param> ParamList;
+
+  static const char *kSettingsGroup;
+  static const char *kAuthUrl;
   static const char *kApiUrl;
   static const char *kAppID;
   static const int kLimit;
 
   QNetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
+
+  QString username_;
+  QString password_;
+  qint64 user_id_;
+  QString user_auth_token_;
+  QString device_id_;
+  qint64 credential_id_;
+  QStringList login_errors_;
 
 };
 
