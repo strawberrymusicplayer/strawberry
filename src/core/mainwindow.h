@@ -170,6 +170,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void PlaylistCopyToDevice();
   void PlaylistOrganizeSelected(const bool copy);
   void PlaylistOpenInBrowser();
+  void PlaylistCopyUrl();
   void ShowInCollection();
 
   void ChangeCollectionQueryMode(QAction *action);
@@ -338,6 +339,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlist_copy_to_device_;
 #endif
   QAction *playlist_open_in_browser_;
+  QAction *playlist_copy_url_;
   QAction *playlist_queue_;
   QAction* playlist_queue_play_next_;
   QAction *playlist_skip_;

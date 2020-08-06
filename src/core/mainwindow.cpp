@@ -68,6 +68,7 @@
 #include <QStackedWidget>
 #include <QTabBar>
 #include <QToolButton>
+#include <QClipboard>
 
 #include "core/logging.h"
 #include "core/closure.h"
@@ -646,6 +647,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_open_in_browser_ = playlist_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, SLOT(PlaylistOpenInBrowser()));
   playlist_open_in_browser_->setVisible(false);
   playlist_show_in_collection_ = playlist_menu_->addAction(IconLoader::Load("edit-find"), tr("Show in collection..."), this, SLOT(ShowInCollection()));
+  playlist_copy_url_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy URL(s)..."), this, SLOT(PlaylistCopyUrl()));
   playlist_menu_->addSeparator();
   playlistitem_actions_separator_ = playlist_menu_->addSeparator();
   playlist_menu_->addAction(ui_->action_clear_playlist);
@@ -1705,6 +1707,8 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
 #endif
   playlist_organize_->setVisible(false);
 
+  playlist_copy_url_->setVisible(selected > 0);
+
   if (selected < 1) {
     playlist_queue_->setVisible(false);
     playlist_queue_play_next_->setVisible(false);
@@ -2370,6 +2374,25 @@ void MainWindow::PlaylistOpenInBrowser() {
   }
 
   Utilities::OpenInFileBrowser(urls);
+
+}
+
+void MainWindow::PlaylistCopyUrl() {
+
+  QList<QUrl> urls;
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
+    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
+    if (!item) continue;
+    urls << item->StreamUrl();
+  }
+
+  if (urls.count() > 0) {
+    QMimeData *mime_data = new QMimeData;
+    mime_data->setUrls(urls);
+    QApplication::clipboard()->setMimeData(mime_data);
+  }
 
 }
 
