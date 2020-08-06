@@ -897,13 +897,31 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   bundle.bitrate = ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000;
   bundle.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
 
-  if (!bundle.title.isEmpty() && bundle.artist.isEmpty() && bundle.album.isEmpty() && bundle.title.contains(" - ")) {
-    QStringList title_splitted = bundle.title.split(" - ");
-    if (title_splitted.count() == 2) {
-      bundle.artist = title_splitted.first();
-      bundle.title = title_splitted.last();
-      bundle.artist = bundle.artist.trimmed();
-      bundle.title = bundle.title.trimmed();
+  if (!bundle.title.isEmpty() && bundle.artist.isEmpty() && bundle.album.isEmpty()) {
+    if (bundle.title.contains(" - ")) {
+      QStringList title_splitted = bundle.title.split(" - ");
+      bundle.artist = title_splitted.first().trimmed();
+      bundle.title = title_splitted.last().trimmed();
+    }
+    else if (bundle.title.contains('~') && bundle.title.count('~') >= 2) {
+      QStringList title_splitted = bundle.title.split('~');
+      int i = 1;
+      for (const QString &part : title_splitted) {
+        switch (i) {
+          case 1:
+            bundle.artist = part;
+            break;
+          case 2:
+            bundle.title = part;
+            break;
+          case 3:
+            bundle.album = part;
+            break;
+          default:
+            break;
+        }
+        ++i;
+      }
     }
   }
 
