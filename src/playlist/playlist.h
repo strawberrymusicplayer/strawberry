@@ -288,7 +288,7 @@ class Playlist : public QAbstractListModel {
   void ClearStreamMetadata();
   void SetStreamMetadata(const QUrl &url, const Song &song, const bool minor);
   void ItemChanged(PlaylistItemPtr item);
-  void UpdateItems(const SongList &songs);
+  void UpdateItems(SongList songs);
 
   void Clear();
   void RemoveDuplicateSongs();

@@ -1022,7 +1022,7 @@ void Playlist::InsertInternetItems(InternetService *service, const SongList &son
 
 }
 
-void Playlist::UpdateItems(const SongList &songs) {
+void Playlist::UpdateItems(SongList songs) {
 
   qLog(Debug) << "Updating playlist with new tracks' info";
 
@@ -1032,16 +1032,13 @@ void Playlist::UpdateItems(const SongList &songs) {
   // then we remove song from our list because we will not need to check it again.
   // And we also update undo actions.
 
-  QList<Song> songs_list;
-  for (const Song &song : songs) songs_list.append(song);
-
   for (int i = 0;  i < items_.size() ; i++) {
     // Update current items list
-    QMutableListIterator<Song> it(songs_list);
+    QMutableListIterator<Song> it(songs);
     while (it.hasNext()) {
       const Song &song = it.next();
       const PlaylistItemPtr &item = items_[i];
-      if (item->Metadata().url() == song.url()) {
+      if (item->Metadata().url() == song.url() && (item->Metadata().filetype() == Song::FileType_Unknown || item->Metadata().filetype() == Song::FileType_Stream || item->Metadata().filetype() == Song::FileType_CDDA)) {
         PlaylistItemPtr new_item;
         if (song.is_collection_song()) {
           new_item = PlaylistItemPtr(new CollectionPlaylistItem(song));
