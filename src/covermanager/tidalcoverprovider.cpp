@@ -77,15 +77,21 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
 
   if (!service_ || !service_->authenticated()) return false;
 
+  if (artist.isEmpty() && album.isEmpty() && title.isEmpty()) return false;
+
   QString resource;
-  QString query;
-  if (album.isEmpty()) {
+  QString query = artist;
+  if (album.isEmpty() && !title.isEmpty()) {
     resource = "search/tracks";
-    query = artist + " " + title;
+    if (!query.isEmpty()) query.append(" ");
+    query.append(title);
   }
   else {
     resource = "search/albums";
-    query = artist + " " + album;
+    if (!album.isEmpty()) {
+      if (!query.isEmpty()) query.append(" ");
+      query.append(album);
+    }
   }
 
   ParamList params = ParamList() << Param("query", query)

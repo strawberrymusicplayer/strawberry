@@ -74,6 +74,8 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
 
   Q_UNUSED(title);
 
+  if (artist.isEmpty() || album.isEmpty()) return false;
+
   SearchRequest request(id, artist, album);
   queue_search_requests_ << request;
 

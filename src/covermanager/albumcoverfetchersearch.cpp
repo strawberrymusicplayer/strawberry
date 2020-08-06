@@ -98,8 +98,8 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
       continue;
     }
 
-    // If album is missing, check if we can still use this provider by searching using artist + title.
-    if (!provider->allow_missing_album() && request_.album.isEmpty()) {
+    // If artist and album is missing, check if we can still use this provider by searching using title.
+    if (!provider->allow_missing_album() && request_.artist.isEmpty() && request_.album.isEmpty()) {
       continue;
     }
 

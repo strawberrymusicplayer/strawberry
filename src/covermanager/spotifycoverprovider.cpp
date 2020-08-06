@@ -356,18 +356,24 @@ bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &alb
 
   if (access_token_.isEmpty()) return false;
 
+  if (artist.isEmpty() && album.isEmpty() && title.isEmpty()) return false;
+
   QString type;
-  QString query;
   QString extract;
-  if (album.isEmpty()) {
+  QString query = artist;
+  if (album.isEmpty() && !title.isEmpty()) {
     type = "track";
-    query = artist + " " + title;
     extract = "tracks";
+    if (!query.isEmpty()) query.append(" ");
+    query.append(title);
   }
   else {
     type = "album";
-    query = artist + " " + album;
     extract = "albums";
+    if (!album.isEmpty()) {
+      if (!query.isEmpty()) query.append(" ");
+      query.append(album);
+    }
   }
 
   ParamList params = ParamList() << Param("q", query)

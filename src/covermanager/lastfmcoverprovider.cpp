@@ -71,18 +71,24 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
+  if (artist.isEmpty() && album.isEmpty() && title.isEmpty()) return false;
+
   QString method;
   QString type;
-  QString query;
-  if (album.isEmpty()) {
+  QString query = artist;
+  if (album.isEmpty() && !title.isEmpty()) {
     method = "track.search";
     type = "track";
-    query = artist + " " + title;
+    if (!query.isEmpty()) query.append(" ");
+    query.append(title);
   }
   else {
     method = "album.search";
     type = "album";
-    query = artist + " " + album;
+    if (!album.isEmpty()) {
+      if (!query.isEmpty()) query.append(" ");
+      query.append(album);
+    }
   }
 
   ParamList params = ParamList() << Param("api_key", kApiKey)

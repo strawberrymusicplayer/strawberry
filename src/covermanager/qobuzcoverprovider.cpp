@@ -297,12 +297,8 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
 
   if (artist.isEmpty() && album.isEmpty() && title.isEmpty()) return false;
 
-  QString query;
-  if (!artist.isEmpty()) {
-    query.append(artist);
-  }
-
   QString resource;
+  QString query = artist;
   if (album.isEmpty() && !title.isEmpty()) {
     resource = "track/search";
     if (!query.isEmpty()) query.append(" ");

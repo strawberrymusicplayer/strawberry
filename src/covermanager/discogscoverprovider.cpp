@@ -91,6 +91,8 @@ bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &alb
 
   Q_UNUSED(title);
 
+  if (artist.isEmpty() || album.isEmpty()) return false;
+
   std::shared_ptr<DiscogsCoverSearchContext> search = std::make_shared<DiscogsCoverSearchContext>(id, artist, album);
 
   requests_search_.insert(search->id, search);
