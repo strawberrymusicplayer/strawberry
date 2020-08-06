@@ -57,6 +57,7 @@
 #include "playlist/playlistsequence.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/albumcoverfetcher.h"
+#include "covermanager/coversearchstatistics.h"
 #include "equalizer/equalizer.h"
 
 #ifdef HAVE_DBUS
@@ -107,6 +108,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<AlbumCoverLoaderResult>("AlbumCoverLoaderResult");
   qRegisterMetaType<AlbumCoverLoaderResult::Type>("AlbumCoverLoaderResult::Type");
   qRegisterMetaType<CoverSearchResult>("CoverSearchResult");
+  qRegisterMetaType<CoverSearchStatistics>("CoverSearchStatistics");
   qRegisterMetaType<QList<CoverSearchResult> >("QList<CoverSearchResult>");
   qRegisterMetaType<CoverSearchResults>("CoverSearchResults");
   qRegisterMetaType<Equalizer::Params>("Equalizer::Params");
