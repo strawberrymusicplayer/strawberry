@@ -83,7 +83,9 @@ class PlaylistListContainer : public QWidget {
   void ActivePaused();
   void ActiveStopped();
 
-private:
+  void ItemsSelectedChanged(const bool selected);
+
+ private:
   QStandardItem *ItemForPlaylist(const QString &name, int id);
   QStandardItem *ItemForFolder(const QString &name) const;
   void RecursivelySetIcons(QStandardItem *parent) const;

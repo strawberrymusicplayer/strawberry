@@ -116,6 +116,7 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   proxy_->sort(0);
   ui_->tree->setModel(proxy_);
 
+  connect(ui_->tree, SIGNAL(ItemsSelectedChanged(bool)), SLOT(ItemsSelectedChanged(bool)));
   connect(ui_->tree, SIGNAL(doubleClicked(QModelIndex)), SLOT(ItemDoubleClicked(QModelIndex)));
 
   model_->invisibleRootItem()->setData(PlaylistListModel::Type_Folder, PlaylistListModel::Role_Type);
@@ -167,6 +168,9 @@ void PlaylistListContainer::ReloadSettings() {
 }
 
 void PlaylistListContainer::showEvent(QShowEvent *e) {
+
+  ui_->remove->setEnabled(ui_->tree->ItemsSelected());
+  ui_->save_playlist->setEnabled(ui_->tree->ItemsSelected());
 
   // Loading icons is expensive so only do it when the view is first opened
   if (loaded_icons_) {
@@ -331,6 +335,11 @@ void PlaylistListContainer::PlaylistPathChanged(int id, const QString &new_path)
 
 }
 
+void PlaylistListContainer::ItemsSelectedChanged(const bool selected) {
+  ui_->remove->setEnabled(selected);
+  ui_->save_playlist->setEnabled(selected);
+}
+
 void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_index) {
 
   const QModelIndex &index = proxy_->mapToSource(proxy_index);
@@ -342,8 +351,7 @@ void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_index) {
 
 }
 
-void PlaylistListContainer::CopyToDevice()
-{
+void PlaylistListContainer::CopyToDevice() {
 #ifndef Q_OS_WIN
   // Reuse the organize dialog, but set the detail about the playlist name
   if (!organize_dialog_) {
