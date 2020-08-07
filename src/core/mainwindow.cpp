@@ -427,7 +427,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_remove_unavailable, SIGNAL(triggered()), app_->playlist_manager(), SLOT(RemoveUnavailableCurrent()));
   connect(ui_->action_remove_from_playlist, SIGNAL(triggered()), SLOT(PlaylistRemoveCurrent()));
   connect(ui_->action_edit_track, SIGNAL(triggered()), SLOT(EditTracks()));
-  connect(ui_->action_rescan_songs, SIGNAL(triggered()), SLOT(RescanSongs()));
   connect(ui_->action_renumber_tracks, SIGNAL(triggered()), SLOT(RenumberTracks()));
   connect(ui_->action_selection_set_value, SIGNAL(triggered()), SLOT(SelectionSetValue()));
   connect(ui_->action_edit_value, SIGNAL(triggered()), SLOT(EditValue()));
@@ -633,7 +632,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_menu_->addAction(ui_->action_renumber_tracks);
   playlist_menu_->addAction(ui_->action_selection_set_value);
   playlist_menu_->addAction(ui_->action_auto_complete_tags);
-  playlist_menu_->addAction(ui_->action_rescan_songs);
+  playlist_rescan_songs_ = playlist_menu_->addAction(IconLoader::Load(""), tr("Rescan song(s)..."), this, SLOT(RescanSongs()));
+  playlist_menu_->addAction(playlist_rescan_songs_);
 #ifdef HAVE_GSTREAMER
   playlist_menu_->addAction(ui_->action_add_files_to_transcoder);
 #endif
@@ -1648,6 +1648,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   int in_skipped = 0;
   int not_in_skipped = 0;
   int local_songs = 0;
+  int collection_songs = 0;
 
   for (const QModelIndex &idx : selection) {
 
@@ -1658,6 +1659,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
     if (!item) continue;
 
     if (item->Metadata().url().isLocalFile()) ++local_songs;
+    if (item->Metadata().source() == Song::Source_Collection) ++collection_songs;
 
     if (item->Metadata().has_cue()) {
       cue_selected = true;
@@ -1685,8 +1687,8 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   ui_->action_auto_complete_tags->setVisible(false);
 #endif
 
-  ui_->action_rescan_songs->setEnabled(editable);
-  ui_->action_rescan_songs->setVisible(editable);
+  playlist_rescan_songs_->setEnabled(collection_songs > 0 && editable > 0);
+  playlist_rescan_songs_->setVisible(collection_songs > 0 && editable > 0);
 
 #ifdef HAVE_GSTREAMER
   ui_->action_add_files_to_transcoder->setEnabled(editable);

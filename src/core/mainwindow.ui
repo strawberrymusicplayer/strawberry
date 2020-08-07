@@ -831,11 +831,6 @@
     <string notr="true">Ctrl+Shift+T</string>
    </property>
   </action>
-  <action name="action_rescan_songs">
-   <property name="text">
-    <string>Rescan songs(s)</string>
-   </property>
-  </action>
   <action name="action_add_stream">
    <property name="text">
     <string>Add stream...</string>

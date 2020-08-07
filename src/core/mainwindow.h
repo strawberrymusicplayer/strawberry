@@ -348,6 +348,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlistitem_actions_separator_;
   QAction *search_for_artist_;
   QAction *search_for_album_;
+  QAction *playlist_rescan_songs_;
 
   QModelIndex playlist_menu_index_;
 
