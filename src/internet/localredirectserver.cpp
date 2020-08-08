@@ -284,7 +284,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
       emit Finished();
       return;
     }
-    ssl_socket->ignoreSslErrors({QSslError::SelfSignedCertificate});
+    ssl_socket->ignoreSslErrors(QList<QSslError>() << QSslError(QSslError::SelfSignedCertificate));
     ssl_socket->setPrivateKey(ssl_key_);
     ssl_socket->setLocalCertificate(ssl_certificate_);
     ssl_socket->setProtocol(QSsl::TlsV1_2);
