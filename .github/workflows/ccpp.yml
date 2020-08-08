@@ -360,9 +360,7 @@ jobs:
             qt6-x11extras-devel
             qt6-base-common-devel
             qt6-sql-sqlite
-            qt6-linguist-devel
             qt6-qt5compat-devel
-            qt6-tools-linguist
             libcdio-devel
             libgpod-devel
             libplist-devel
