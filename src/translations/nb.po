@@ -514,7 +514,7 @@ msgstr "Legg til alle filer fra ei mappe og dens undermapper"
 msgid "Add directory..."
 msgstr "Legg til mappe…"
 
-#: core/mainwindow.cpp:2019
+#: core/mainwindow.cpp:2018
 msgid "Add file"
 msgstr "Legg til fil"
 
@@ -530,7 +530,7 @@ msgstr "Legg fil(er) til omkoder"
 msgid "Add files to transcode"
 msgstr "Legg filer til for omkoding"
 
-#: core/mainwindow.cpp:2044 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2043 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Legg til mappe"
 
@@ -629,7 +629,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Legg til albumer"
 
-#: core/mainwindow.cpp:1828
+#: core/mainwindow.cpp:1827
 msgid "Add to another playlist"
 msgstr "Legg til i annen spilleliste"
 
@@ -1078,7 +1078,7 @@ msgstr "Bytt låten som spilles"
 msgid "Change the language"
 msgstr "Endre språk"
 
-#: core/mainwindow.cpp:716
+#: core/mainwindow.cpp:718
 msgid "Check for updates..."
 msgstr "Se etter oppdateringer…"
 
@@ -1111,7 +1111,7 @@ msgstr "Tøm"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:2106 ../build/src/ui_mainwindow.h:630
+#: core/mainwindow.cpp:2105 ../build/src/ui_mainwindow.h:630
 msgid "Clear playlist"
 msgstr "Tøm spillelisten"
 
@@ -1175,7 +1175,7 @@ msgstr "Collection Filter"
 msgid "Collection advanced grouping"
 msgstr "Avansert samlingsgruppering"
 
-#: core/mainwindow.cpp:2597
+#: core/mainwindow.cpp:2596
 msgid "Collection rescan notice"
 msgstr "Melding om gjennomsøk av samlingen"
 
@@ -1267,7 +1267,7 @@ msgstr "Konverter all musikk"
 msgid "Convert any music that the device can't play"
 msgstr "Konverter all musikk som enheten ikke kan spille"
 
-#: core/mainwindow.cpp:669
+#: core/mainwindow.cpp:671
 msgid "Copy URL(s)..."
 msgstr ""
 
@@ -1275,12 +1275,12 @@ msgstr ""
 msgid "Copy album cover artwork"
 msgstr "Kopier album omslaggrafikk"
 
-#: core/mainwindow.cpp:663 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:665 widgets/fileviewlist.cpp:48
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Kopier til samling…"
 
-#: core/mainwindow.cpp:661 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:663 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:330 playlist/playlistlistcontainer.cpp:102
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
@@ -1533,11 +1533,11 @@ msgstr "Slett de originale filene"
 msgid "Deleting files"
 msgstr "Sletter filer"
 
-#: core/mainwindow.cpp:1749
+#: core/mainwindow.cpp:1748
 msgid "Dequeue selected tracks"
 msgstr "Fjern valgte spor fra avspillingskøen"
 
-#: core/mainwindow.cpp:1748
+#: core/mainwindow.cpp:1747
 msgid "Dequeue track"
 msgstr "Fjern sporet fra avspillingskøen"
 
@@ -1660,7 +1660,7 @@ msgstr "Laster ned metadata"
 msgid "Drag to reposition"
 msgstr "Dra for å endre posisjon"
 
-#: core/mainwindow.cpp:1790
+#: core/mainwindow.cpp:1789
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Rediger etiketten \"%1\"…"
@@ -1800,7 +1800,7 @@ msgstr "Tilsvarer --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Tilsvarer --log-levels *:3"
 
-#: core/mainwindow.cpp:2350 core/mainwindow.cpp:2491
+#: core/mainwindow.cpp:2349 core/mainwindow.cpp:2490
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "Error"
 msgstr "Feil"
@@ -2655,7 +2655,7 @@ msgstr "Monteringspunkter"
 msgid "Move down"
 msgstr "Flytt nedover"
 
-#: core/mainwindow.cpp:664 widgets/fileviewlist.cpp:49
+#: core/mainwindow.cpp:666 widgets/fileviewlist.cpp:49
 msgid "Move to collection..."
 msgstr "Flytt til samling…"
 
@@ -2664,7 +2664,7 @@ msgstr "Flytt til samling…"
 msgid "Move up"
 msgstr "Flytt oppover"
 
-#: core/mainwindow.cpp:2019 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2018 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musikk"
 
@@ -2703,7 +2703,7 @@ msgstr "Aldri begynn avspilling"
 msgid "New folder"
 msgstr "Ny mappe"
 
-#: core/mainwindow.cpp:1844
+#: core/mainwindow.cpp:1843
 msgid "New playlist"
 msgstr "Ny spilleliste"
 
@@ -2757,7 +2757,7 @@ msgstr "Ingen sang spilles"
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2350 core/mainwindow.cpp:2491
+#: core/mainwindow.cpp:2349 core/mainwindow.cpp:2490
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
@@ -2873,7 +2873,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr ""
 
-#: core/mainwindow.cpp:665 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:667 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:328
 msgid "Organize files..."
 msgstr ""
@@ -2945,7 +2945,7 @@ msgstr "Passord"
 msgid "Password Protected"
 msgstr "Passordbeskyttet"
 
-#: core/mainwindow.cpp:1171 core/mainwindow.cpp:1642
+#: core/mainwindow.cpp:1173 core/mainwindow.cpp:1644
 #: core/qtsystemtrayicon.cpp:202
 msgid "Pause"
 msgstr "Pause"
@@ -2973,8 +2973,8 @@ msgstr "Piksel"
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
-#: core/mainwindow.cpp:634 core/mainwindow.cpp:1124 core/mainwindow.cpp:1153
-#: core/mainwindow.cpp:1646 core/qtsystemtrayicon.cpp:189
+#: core/mainwindow.cpp:634 core/mainwindow.cpp:1126 core/mainwindow.cpp:1155
+#: core/mainwindow.cpp:1648 core/qtsystemtrayicon.cpp:189
 #: core/qtsystemtrayicon.cpp:214
 msgid "Play"
 msgstr "Spill"
@@ -3019,7 +3019,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Spillelisten er ferdigspilt"
 
-#: core/mainwindow.cpp:2106
+#: core/mainwindow.cpp:2105
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3162,20 +3162,20 @@ msgstr "Spør enhet…"
 msgid "Queue"
 msgstr "Kø"
 
-#: core/mainwindow.cpp:1751
+#: core/mainwindow.cpp:1750
 msgid "Queue selected tracks"
 msgstr "Legg valgte spor i kø"
 
-#: core/mainwindow.cpp:640 core/mainwindow.cpp:1755
+#: core/mainwindow.cpp:640 core/mainwindow.cpp:1754
 msgid "Queue selected tracks to play next"
 msgstr "Legg valgte spor i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1757 collection/collectionview.cpp:325
+#: core/mainwindow.cpp:1756 collection/collectionview.cpp:325
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Legg i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1750 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1749 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:324 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
@@ -3341,7 +3341,7 @@ msgstr "Svar fra Tidal mangler query items."
 msgid "Rescan song(s)"
 msgstr "Reskann sang(er)"
 
-#: core/mainwindow.cpp:654
+#: core/mainwindow.cpp:656
 msgid "Rescan song(s)..."
 msgstr ""
 
@@ -3625,7 +3625,7 @@ msgstr "Server URL"
 msgid "Server URL is invalid."
 msgstr "Server URL er ugyldig."
 
-#: core/mainwindow.cpp:1789
+#: core/mainwindow.cpp:1788
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Sett %1 til \"%2\"…"
@@ -3732,7 +3732,7 @@ msgstr "Vis motor og enhet"
 msgid "Show fullsize..."
 msgstr "Fullskjermvisning…"
 
-#: core/mainwindow.cpp:668
+#: core/mainwindow.cpp:670
 msgid "Show in collection..."
 msgstr "Vis i samling…"
 
@@ -3740,7 +3740,7 @@ msgstr "Vis i samling…"
 msgid "Show in file browser"
 msgstr "Vis i fil utforsker"
 
-#: core/mainwindow.cpp:666 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:668 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:337 widgets/fileviewlist.cpp:55
 msgid "Show in file browser..."
 msgstr "Vis i fil utforsker"
@@ -3850,11 +3850,11 @@ msgstr "Antall ganger hoppet over"
 msgid "Skip forwards in playlist"
 msgstr "Gå fremover i spillelista"
 
-#: core/mainwindow.cpp:1762
+#: core/mainwindow.cpp:1761
 msgid "Skip selected tracks"
 msgstr "Hopp over valgte spor"
 
-#: core/mainwindow.cpp:1761
+#: core/mainwindow.cpp:1760
 msgid "Skip track"
 msgstr "Hopp over spor"
 
@@ -4130,7 +4130,7 @@ msgstr "Siden du forespurte finnes ikke!"
 msgid "The site you requested is not an image!"
 msgstr "Siden du forespurte er ikke et bilde!"
 
-#: core/mainwindow.cpp:2592
+#: core/mainwindow.cpp:2591
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4267,7 +4267,7 @@ msgstr "Tittel"
 msgid "Today"
 msgstr "I dag"
 
-#: core/mainwindow.cpp:637 core/mainwindow.cpp:1752
+#: core/mainwindow.cpp:637 core/mainwindow.cpp:1751
 msgid "Toggle queue status"
 msgstr "Slå av/på køstatus"
 
@@ -4275,7 +4275,7 @@ msgstr "Slå av/på køstatus"
 msgid "Toggle scrobbling"
 msgstr "Slå av/på deling av lyttevaner"
 
-#: core/mainwindow.cpp:643 core/mainwindow.cpp:1763
+#: core/mainwindow.cpp:643 core/mainwindow.cpp:1762
 msgid "Toggle skip status"
 msgstr "Slå av/på hopp over status"
 
@@ -4364,11 +4364,11 @@ msgstr "Ukjent feil"
 msgid "Unset cover"
 msgstr "Fjern omslagsvalg"
 
-#: core/mainwindow.cpp:1760
+#: core/mainwindow.cpp:1759
 msgid "Unskip selected tracks"
 msgstr "Ikke hopp over de valgte sporene"
 
-#: core/mainwindow.cpp:1759
+#: core/mainwindow.cpp:1758
 msgid "Unskip track"
 msgstr "Ikke hopp over sporet"
 
@@ -4590,7 +4590,7 @@ msgid ""
 msgstr ""
 "Ønsker du å også flytte resten av sangene fra albumet til diverse artister?"
 
-#: core/mainwindow.cpp:2596
+#: core/mainwindow.cpp:2595
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 
