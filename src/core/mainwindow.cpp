@@ -106,8 +106,8 @@
 #include "widgets/volumeslider.h"
 #include "widgets/fileview.h"
 #include "widgets/multiloadingindicator.h"
-#include "widgets/osd.h"
 #include "widgets/trackslider.h"
+#include "osd/osdbase.h"
 #include "context/contextview.h"
 #include "context/contextalbumsview.h"
 #include "collection/collection.h"
@@ -200,7 +200,7 @@ const int kTrackSliderUpdateTimeMs = 200;
 const int kTrackPositionUpdateTimeMs = 1000;
 }
 
-MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, const CommandlineOptions &options, QWidget *parent) :
+MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent) :
       QMainWindow(parent),
       ui_(new Ui_MainWindow),
 #ifdef Q_OS_WIN
@@ -990,6 +990,8 @@ void MainWindow::ReloadSettings() {
     }
   }
 
+  osd_->ReloadSettings();
+
   album_cover_choice_controller_->search_cover_auto_action()->setChecked(settings_.value("search_for_cover_auto", true).toBool());
 
 #ifdef HAVE_SUBSONIC
@@ -1024,7 +1026,6 @@ void MainWindow::ReloadAllSettings() {
   app_->ReloadSettings();
   app_->collection()->ReloadSettings();
   app_->player()->ReloadSettings();
-  osd_->ReloadSettings();
   collection_view_->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
   app_->playlist_manager()->playlist_container()->ReloadSettings();
@@ -2516,7 +2517,7 @@ void MainWindow::ShowCoverManager() {
 
 SettingsDialog *MainWindow::CreateSettingsDialog() {
 
-  SettingsDialog *settings_dialog = new SettingsDialog(app_, this);
+  SettingsDialog *settings_dialog = new SettingsDialog(app_, osd_, this);
 #ifdef HAVE_GLOBALSHORTCUTS
   settings_dialog->SetGlobalShortcutManager(global_shortcuts_);
 #endif
@@ -2695,7 +2696,7 @@ void MainWindow::AutoCompleteTagsAccepted() {
 
 }
 
-void MainWindow::HandleNotificationPreview(OSD::Behaviour type, QString line1, QString line2) {
+void MainWindow::HandleNotificationPreview(OSDBase::Behaviour type, QString line1, QString line2) {
 
   if (!app_->playlist_manager()->current()->GetAllSongs().isEmpty()) {
     // Show a preview notification for the first song in the current playlist

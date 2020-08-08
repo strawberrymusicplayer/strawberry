@@ -184,8 +184,6 @@ set(SOURCES
   widgets/linetextedit.cpp
   widgets/multiloadingindicator.cpp
   widgets/playingwidget.cpp
-  widgets/osd.cpp
-  widgets/osdpretty.cpp
   widgets/renametablineedit.cpp
   widgets/volumeslider.cpp
   widgets/stickyslider.cpp
@@ -194,6 +192,9 @@ set(SOURCES
   widgets/tracksliderpopup.cpp
   widgets/tracksliderslider.cpp
   widgets/loginstatewidget.cpp
+
+  osd/osdbase.cpp
+  osd/osdpretty.cpp
 
   musicbrainz/acoustidclient.cpp
   musicbrainz/musicbrainzclient.cpp
@@ -380,8 +381,6 @@ set(HEADERS
   widgets/linetextedit.h
   widgets/multiloadingindicator.h
   widgets/playingwidget.h
-  widgets/osd.h
-  widgets/osdpretty.h
   widgets/renametablineedit.h
   widgets/volumeslider.h
   widgets/stickyslider.h
@@ -391,6 +390,9 @@ set(HEADERS
   widgets/tracksliderslider.h
   widgets/loginstatewidget.h
   widgets/qsearchfield.h
+
+  osd/osdbase.h
+  osd/osdpretty.h
 
   musicbrainz/acoustidclient.h
   musicbrainz/musicbrainzclient.h
@@ -470,9 +472,10 @@ set(UI
   dialogs/userpassdialog.ui
 
   widgets/trackslider.ui
-  widgets/osdpretty.ui
   widgets/fileview.ui
   widgets/loginstatewidget.ui
+
+  osd/osdpretty.ui
 
   internet/internettabsview.ui
   internet/internetcollectionviewcontainer.ui
@@ -524,10 +527,12 @@ optional_source(HAVE_ALSA
     engine/alsadevicefinder.cpp
 )
 
-# X11
-optional_source(X11_FOUND
+# DBUS
+optional_source(HAVE_DBUS
  SOURCES
-   widgets/osd_x11.cpp
+   osd/osddbus.cpp
+ HEADERS
+   osd/osddbus.h
 )
 
 # GStreamer
@@ -829,7 +834,7 @@ optional_source(APPLE
     core/macsystemtrayicon.mm
     core/macscreensaver.cpp
     core/macfslistener.mm
-    widgets/osd_mac.mm
+    osd/osdmac.mm
     widgets/qsearchfield_mac.mm
     engine/macosdevicefinder.cpp
     globalshortcuts/globalshortcutbackend-macos.mm
@@ -837,6 +842,7 @@ optional_source(APPLE
   HEADERS
     core/macsystemtrayicon.h
     core/macfslistener.h
+    osd/osdmac.h
     globalshortcuts/globalshortcutbackend-macos.h
 )
 
@@ -854,7 +860,6 @@ optional_source(WIN32
   SOURCES
     engine/directsounddevicefinder.cpp
     engine/mmdevicefinder.cpp
-    widgets/osd_win.cpp
     core/windows7thumbbar.cpp
   HEADERS
     core/windows7thumbbar.h

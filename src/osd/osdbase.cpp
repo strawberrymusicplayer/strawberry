@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,22 +21,14 @@
 
 #include "config.h"
 
-#ifdef HAVE_DBUS
-# include <dbus/notification.h>
-#endif
-
 #include <QObject>
 #include <QCoreApplication>
-#include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QImage>
 #include <QSettings>
-#ifdef HAVE_DBUS
-#  include <QDBusPendingCall>
-#endif
 
-#include "osd.h"
+#include "osdbase.h"
 #include "osdpretty.h"
 
 #include "core/application.h"
@@ -44,12 +37,13 @@
 #include "core/utilities.h"
 #include "covermanager/currentalbumcoverloader.h"
 
-const char *OSD::kSettingsGroup = "OSD";
+const char *OSDBase::kSettingsGroup = "OSD";
 
-OSD::OSD(SystemTrayIcon *tray_icon, Application *app, QObject *parent)
+OSDBase::OSDBase(SystemTrayIcon *tray_icon, Application *app, QObject *parent)
     : QObject(parent),
       app_(app),
       tray_icon_(tray_icon),
+      pretty_popup_(new OSDPretty(OSDPretty::Mode_Popup)),
       app_name_(QCoreApplication::applicationName()),
       timeout_msec_(5000),
       behaviour_(Native),
@@ -63,28 +57,24 @@ OSD::OSD(SystemTrayIcon *tray_icon, Application *app, QObject *parent)
       custom_text2_(QString()),
       preview_mode_(false),
       force_show_next_(false),
-      ignore_next_stopped_(false),
-      pretty_popup_(new OSDPretty(OSDPretty::Mode_Popup))
+      ignore_next_stopped_(false)
   {
 
   connect(app_->current_albumcover_loader(), SIGNAL(ThumbnailLoaded(Song, QUrl, QImage)), SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
-
-  ReloadSettings();
-  Init();
 
   app_name_[0] = app_name_[0].toUpper();
 
 }
 
-OSD::~OSD() {
+OSDBase::~OSDBase() {
   delete pretty_popup_;
 }
 
-void OSD::ReloadSettings() {
+void OSDBase::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
-  behaviour_ = OSD::Behaviour(s.value("Behaviour", Native).toInt());
+  behaviour_ = OSDBase::Behaviour(s.value("Behaviour", Native).toInt());
   timeout_msec_ = s.value("Timeout", 5000).toInt();
   show_on_volume_change_ = s.value("ShowOnVolumeChange", false).toBool();
   show_art_ = s.value("ShowArt", true).toBool();
@@ -98,6 +88,7 @@ void OSD::ReloadSettings() {
 
   if (!SupportsNativeNotifications() && behaviour_ == Native)
     behaviour_ = Pretty;
+
   if (!SupportsTrayPopups() && behaviour_ == TrayPopup)
     behaviour_ = Disabled;
 
@@ -106,17 +97,21 @@ void OSD::ReloadSettings() {
 }
 
 // Reload just Pretty OSD settings, not everything
-void OSD::ReloadPrettyOSDSettings() {
+void OSDBase::ReloadPrettyOSDSettings() {
+
   pretty_popup_->set_popup_duration(timeout_msec_);
   pretty_popup_->ReloadSettings();
+
 }
 
-void OSD::ReshowCurrentSong() {
+void OSDBase::ReshowCurrentSong() {
+
   force_show_next_ = true;
   AlbumCoverLoaded(last_song_, last_image_uri_, last_image_);
+
 }
 
-void OSD::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
+void OSDBase::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
 
   // Don't change tray icon details if it's a preview
   if (!preview_mode_ && tray_icon_)
@@ -156,21 +151,27 @@ void OSD::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage
     ReloadSettings();
     preview_mode_ = false;
   }
+
 }
 
-void OSD::Paused() {
+void OSDBase::Paused() {
+
   if (show_on_pause_) {
     ShowMessage(app_name_, tr("Paused"));
   }
+
 }
 
-void OSD::Resumed() {
+void OSDBase::Resumed() {
+
   if (show_on_resume_) {
     AlbumCoverLoaded(last_song_, last_image_uri_, last_image_);
   }
+
 }
 
-void OSD::Stopped() {
+void OSDBase::Stopped() {
+
   if (tray_icon_) tray_icon_->ClearNowPlaying();
   if (ignore_next_stopped_) {
     ignore_next_stopped_ = false;
@@ -178,26 +179,31 @@ void OSD::Stopped() {
   }
 
   ShowMessage(app_name_, tr("Stopped"));
+
 }
 
-void OSD::StopAfterToggle(bool stop) {
+void OSDBase::StopAfterToggle(bool stop) {
   ShowMessage(app_name_, tr("Stop playing after track: %1").arg(stop ? tr("On") : tr("Off")));
 }
 
-void OSD::PlaylistFinished() {
+void OSDBase::PlaylistFinished() {
+
   // We get a PlaylistFinished followed by a Stopped from the player
   ignore_next_stopped_ = true;
 
   ShowMessage(app_name_, tr("Playlist finished"));
+
 }
 
-void OSD::VolumeChanged(int value) {
+void OSDBase::VolumeChanged(int value) {
+
   if (!show_on_volume_change_) return;
 
   ShowMessage(app_name_, tr("Volume %1%").arg(value));
+
 }
 
-void OSD::ShowMessage(const QString &summary, const QString &message, const QString icon, const QImage &image) {
+void OSDBase::ShowMessage(const QString &summary, const QString &message, const QString icon, const QImage &image) {
 
   if (pretty_popup_->toggle_mode()) {
     pretty_popup_->ShowMessage(summary, message, image);
@@ -234,15 +240,8 @@ void OSD::ShowMessage(const QString &summary, const QString &message, const QStr
 
 }
 
-#if !defined(HAVE_X11)
-#if defined(HAVE_DBUS)
-void OSD::CallFinished(QDBusPendingCallWatcher*) {}
-#else
-void OSD::CallFinished() {}
-#endif
-#endif
+void OSDBase::ShuffleModeChanged(PlaylistSequence::ShuffleMode mode) {
 
-void OSD::ShuffleModeChanged(PlaylistSequence::ShuffleMode mode) {
   if (show_on_play_mode_change_) {
     QString current_mode = QString();
     switch (mode) {
@@ -253,9 +252,11 @@ void OSD::ShuffleModeChanged(PlaylistSequence::ShuffleMode mode) {
     }
     ShowMessage(app_name_, current_mode);
   }
+
 }
 
-void OSD::RepeatModeChanged(PlaylistSequence::RepeatMode mode) {
+void OSDBase::RepeatModeChanged(PlaylistSequence::RepeatMode mode) {
+
   if (show_on_play_mode_change_) {
     QString current_mode = QString();
     switch (mode) {
@@ -268,9 +269,10 @@ void OSD::RepeatModeChanged(PlaylistSequence::RepeatMode mode) {
     }
     ShowMessage(app_name_, current_mode);
   }
+
 }
 
-QString OSD::ReplaceMessage(const QString &message, const Song &song) {
+QString OSDBase::ReplaceMessage(const QString &message, const Song &song) {
 
   QString newline = "<br/>";
 
@@ -305,7 +307,7 @@ QString OSD::ReplaceMessage(const QString &message, const Song &song) {
   return Utilities::ReplaceMessage(message, song, newline);
 }
 
-void OSD::ShowPreview(const Behaviour type, const QString &line1, const QString &line2, const Song &song) {
+void OSDBase::ShowPreview(const Behaviour type, const QString &line1, const QString &line2, const Song &song) {
 
   behaviour_ = type;
   custom_text1_ = line1;
@@ -318,7 +320,18 @@ void OSD::ShowPreview(const Behaviour type, const QString &line1, const QString 
 
 }
 
-void OSD::SetPrettyOSDToggleMode(bool toggle) {
+void OSDBase::SetPrettyOSDToggleMode(bool toggle) {
   pretty_popup_->set_toggle_mode(toggle);
 }
 
+bool OSDBase::SupportsNativeNotifications() {
+  return false;
+}
+
+bool OSDBase::SupportsTrayPopups() {
+  return tray_icon_;
+}
+
+void OSDBase::ShowMessageNative(const QString&, const QString&, const QString&, const QImage&) {
+  qLog(Warning) << "Not implemented";
+}

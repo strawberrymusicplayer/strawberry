@@ -30,7 +30,7 @@
 #include <QVariant>
 #include <QString>
 
-#include "widgets/osd.h"
+#include "osd/osdbase.h"
 
 class QCheckBox;
 class QComboBox;
@@ -72,7 +72,7 @@ class SettingsPage : public QWidget {
   virtual void Cancel() {}
 
  signals:
-  void NotificationPreview(OSD::Behaviour, QString, QString);
+  void NotificationPreview(OSDBase::Behaviour, QString, QString);
 
  private:
   SettingsDialog *dialog_;

@@ -34,7 +34,7 @@
 #include <QSettings>
 
 #include "engine/engine_fwd.h"
-#include "widgets/osd.h"
+#include "osd/osdbase.h"
 
 class QMainWindow;
 class QWidget;
@@ -69,7 +69,7 @@ class SettingsDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit SettingsDialog(Application *app, QMainWindow *mainwindow, QWidget *parent = nullptr);
+  explicit SettingsDialog(Application *app, OSDBase *osd, QMainWindow *mainwindow, QWidget *parent = nullptr);
   ~SettingsDialog() override;
 
   enum Page {
@@ -101,6 +101,7 @@ class SettingsDialog : public QDialog {
   bool is_loading_settings() const { return loading_settings_; }
 
   Application *app() const { return app_; }
+  OSDBase *osd() const { return osd_; }
   Player *player() const { return player_; }
   EngineBase *engine() const { return engine_; }
   CollectionDirectoryModel *collection_directory_model() const { return model_; }
@@ -138,7 +139,7 @@ class SettingsDialog : public QDialog {
 
  signals:
   void ReloadSettings();
-  void NotificationPreview(OSD::Behaviour, QString, QString);
+  void NotificationPreview(OSDBase::Behaviour, QString, QString);
 
  private slots:
   void CurrentItemChanged(QTreeWidgetItem *item);
@@ -149,6 +150,7 @@ class SettingsDialog : public QDialog {
 
   QMainWindow *mainwindow_;
   Application *app_;
+  OSDBase *osd_;
   Player *player_;
   EngineBase *engine_;
   CollectionDirectoryModel *model_;

@@ -122,8 +122,14 @@ Files: src/core/main.cpp
        src/context/contextalbumsview.h
        src/widgets/playingwidget.cpp
        src/widgets/playingwidget.h
-       src/widgets/osdpretty.cpp
-       src/widgets/osdpretty.h
+       src/osd/osdbase.cpp
+       src/osd/osdbase.h
+       src/osd/osdpretty.cpp
+       src/osd/osdpretty.h
+       src/osd/osddbus.cpp
+       src/osd/osddbus.h
+       src/osd/osdmac.cpp
+       src/osd/osdmac.h
        src/dialogs/about.cpp
        src/dialogs/about.h
        src/playlist/playlist.cpp

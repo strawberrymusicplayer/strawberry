@@ -112,10 +112,11 @@ void SettingsItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
 }
 
-SettingsDialog::SettingsDialog(Application *app, QMainWindow *mainwindow, QWidget *parent)
+SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *mainwindow, QWidget *parent)
     : QDialog(parent),
       mainwindow_(mainwindow),
       app_(app),
+      osd_(osd),
       player_(app_->player()),
       engine_(app_->player()->engine()),
       model_(app_->collection_model()->directory_model()),
@@ -278,7 +279,7 @@ void SettingsDialog::AddPage(Page id, SettingsPage *page, QTreeWidgetItem *paren
   if (!parent) parent = ui_->list->invisibleRootItem();
 
   // Connect page's signals to the settings dialog's signals
-  connect(page, SIGNAL(NotificationPreview(OSD::Behaviour, QString, QString)), SIGNAL(NotificationPreview(OSD::Behaviour, QString, QString)));
+  connect(page, SIGNAL(NotificationPreview(OSDBase::Behaviour, QString, QString)), SIGNAL(NotificationPreview(OSDBase::Behaviour, QString, QString)));
 
   // Create the list item
   QTreeWidgetItem *item = new QTreeWidgetItem;

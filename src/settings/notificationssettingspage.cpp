@@ -46,8 +46,8 @@
 #include <QSettings>
 
 #include "core/iconloader.h"
-#include "widgets/osd.h"
-#include "widgets/osdpretty.h"
+#include "osd/osdbase.h"
+#include "osd/osdpretty.h"
 #include "settingspage.h"
 #include "settingsdialog.h"
 #include "notificationssettingspage.h"
@@ -109,9 +109,9 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog* dialog)
   connect(ui_->notifications_exp_chooser2, SIGNAL(triggered(QAction*)), SLOT(InsertVariableSecondLine(QAction*)));
   connect(ui_->notifications_disable_duration, SIGNAL(toggled(bool)), ui_->notifications_duration, SLOT(setDisabled(bool)));
 
-  if (!OSD::SupportsNativeNotifications())
+  if (!dialog->osd()->SupportsNativeNotifications())
     ui_->notifications_native->setEnabled(false);
-  if (!OSD::SupportsTrayPopups()) ui_->notifications_tray->setEnabled(false);
+  if (!dialog->osd()->SupportsTrayPopups()) ui_->notifications_tray->setEnabled(false);
 
   connect(ui_->notifications_pretty, SIGNAL(toggled(bool)), SLOT(UpdatePopupVisible()));
 
@@ -143,28 +143,28 @@ void NotificationsSettingsPage::Load() {
 
   QSettings s;
 
-  s.beginGroup(OSD::kSettingsGroup);
-  OSD::Behaviour osd_behaviour = OSD::Behaviour(s.value("Behaviour", OSD::Native).toInt());
+  s.beginGroup(OSDBase::kSettingsGroup);
+  OSDBase::Behaviour osd_behaviour = OSDBase::Behaviour(s.value("Behaviour", OSDBase::Native).toInt());
   switch (osd_behaviour) {
-    case OSD::Native:
-      if (OSD::SupportsNativeNotifications()) {
+    case OSDBase::Native:
+      if (dialog()->osd()->SupportsNativeNotifications()) {
         ui_->notifications_native->setChecked(true);
         break;
       }
     // Fallthrough
 
-    case OSD::Pretty:
+    case OSDBase::Pretty:
       ui_->notifications_pretty->setChecked(true);
       break;
 
-    case OSD::TrayPopup:
-      if (OSD::SupportsTrayPopups()) {
+    case OSDBase::TrayPopup:
+      if (dialog()->osd()->SupportsTrayPopups()) {
         ui_->notifications_tray->setChecked(true);
         break;
       }
     // Fallthrough
 
-    case OSD::Disabled:
+    case OSDBase::Disabled:
     default:
       ui_->notifications_none->setChecked(true);
       break;
@@ -207,13 +207,13 @@ void NotificationsSettingsPage::Save() {
 
   QSettings s;
 
-  OSD::Behaviour osd_behaviour = OSD::Disabled;
-  if      (ui_->notifications_none->isChecked())   osd_behaviour = OSD::Disabled;
-  else if (ui_->notifications_native->isChecked()) osd_behaviour = OSD::Native;
-  else if (ui_->notifications_tray->isChecked())   osd_behaviour = OSD::TrayPopup;
-  else if (ui_->notifications_pretty->isChecked()) osd_behaviour = OSD::Pretty;
+  OSDBase::Behaviour osd_behaviour = OSDBase::Disabled;
+  if      (ui_->notifications_none->isChecked())   osd_behaviour = OSDBase::Disabled;
+  else if (ui_->notifications_native->isChecked()) osd_behaviour = OSDBase::Native;
+  else if (ui_->notifications_tray->isChecked())   osd_behaviour = OSDBase::TrayPopup;
+  else if (ui_->notifications_pretty->isChecked()) osd_behaviour = OSDBase::Pretty;
 
-  s.beginGroup(OSD::kSettingsGroup);
+  s.beginGroup(OSDBase::kSettingsGroup);
   s.setValue("Behaviour", int(osd_behaviour));
   s.setValue("Timeout", ui_->notifications_duration->value() * 1000);
   s.setValue("ShowOnVolumeChange", ui_->notifications_volume->isChecked());
@@ -324,15 +324,15 @@ void NotificationsSettingsPage::NotificationCustomTextChanged(bool enabled) {
 
 void NotificationsSettingsPage::PrepareNotificationPreview() {
 
-  OSD::Behaviour notificationType = OSD::Disabled;
+  OSDBase::Behaviour notificationType = OSDBase::Disabled;
   if (ui_->notifications_native->isChecked()) {
-    notificationType = OSD::Native;
+    notificationType = OSDBase::Native;
   }
   else if (ui_->notifications_pretty->isChecked()) {
-    notificationType = OSD::Pretty;
+    notificationType = OSDBase::Pretty;
   }
   else if (ui_->notifications_tray->isChecked()) {
-    notificationType = OSD::TrayPopup;
+    notificationType = OSDBase::TrayPopup;
   }
 
   // If user changes timeout or other options, that won't be reflected in the preview

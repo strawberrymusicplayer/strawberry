@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +23,7 @@
 
 #include <memory>
 
-#ifdef HAVE_DBUS
-#  include <dbus/notification.h>
-#endif
+#include <dbus/notification.h>
 
 #include <QtGlobal>
 #include <QObject>
@@ -35,21 +34,18 @@
 #include <QString>
 #include <QStringList>
 #include <QImage>
-#ifdef HAVE_DBUS
-#  include <QCoreApplication>
-#  include <QDBusArgument>
-#  include <QDBusConnection>
-#  include <QDBusError>
-#  include <QDBusPendingCall>
-#  include <QDBusPendingReply>
-#endif
+#include <QCoreApplication>
+#include <QDBusArgument>
+#include <QDBusConnection>
+#include <QDBusError>
+#include <QDBusPendingCall>
+#include <QDBusPendingReply>
+#include <QDBusPendingCallWatcher>
 #include <QJsonObject>
 #include <QtDebug>
 
 #include "core/logging.h"
-#include "osd.h"
-
-#ifdef HAVE_DBUS
+#include "osddbus.h"
 
 QDBusArgument &operator<< (QDBusArgument &arg, const QImage &image);
 const QDBusArgument &operator>> (const QDBusArgument &arg, QImage &image);
@@ -103,41 +99,38 @@ QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
 }
 
 const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image) {
+
   Q_UNUSED(image);
+
   // This is needed to link but shouldn't be called.
   Q_ASSERT(0);
   return arg;
+
 }
-#endif  // HAVE_DBUS
 
-void OSD::Init() {
+OSDDBus::OSDDBus(SystemTrayIcon *tray_icon, Application *app, QObject *parent) : OSDBase(tray_icon, app, parent) {
+  Init();
+}
 
-#ifdef HAVE_DBUS
+OSDDBus::~OSDDBus() = default;
+
+void OSDDBus::Init() {
+
   notification_id_ = 0;
 
   interface_.reset(new OrgFreedesktopNotificationsInterface(OrgFreedesktopNotificationsInterface::staticInterfaceName(), "/org/freedesktop/Notifications", QDBusConnection::sessionBus()));
   if (!interface_->isValid()) {
     qLog(Warning) << "Error connecting to notifications service.";
   }
-#endif  // HAVE_DBUS
 
 }
 
-bool OSD::SupportsNativeNotifications() {
+bool OSDDBus::SupportsNativeNotifications() { return true; }
 
-#ifdef HAVE_DBUS
-  return true;
-#else
-  return false;
-#endif
+bool OSDDBus::SupportsTrayPopups() { return true; }
 
-}
+void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, const QString &icon, const QImage &image) {
 
-bool OSD::SupportsTrayPopups() { return true; }
-
-void OSD::ShowMessageNative(const QString &summary, const QString &message, const QString &icon, const QImage &image) {
-
-#ifdef HAVE_DBUS
   if (!interface_) return;
 
   QVariantMap hints;
@@ -148,27 +141,19 @@ void OSD::ShowMessageNative(const QString &summary, const QString &message, cons
   hints["transient"] = QVariant(true);
 
   int id = 0;
-  if (last_notification_time_.secsTo(QDateTime::currentDateTime()) * 1000 < timeout_msec_) {
+  if (last_notification_time_.secsTo(QDateTime::currentDateTime()) * 1000 < timeout_msec()) {
     // Reuse the existing popup if it's still open.  The reason we don't always
     // reuse the popup is because the notification daemon on KDE4 won't re-show the bubble if it's already gone to the tray.  See issue #118
     id = notification_id_;
   }
 
-  QDBusPendingReply<uint> reply = interface_->Notify(QCoreApplication::applicationName(), id, icon, summary, message, QStringList(), hints, timeout_msec_);
+  QDBusPendingReply<uint> reply = interface_->Notify(QCoreApplication::applicationName(), id, icon, summary, message, QStringList(), hints, timeout_msec());
   QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
   connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), SLOT(CallFinished(QDBusPendingCallWatcher*)));
-#else   // HAVE_DBUS
-  Q_UNUSED(summary)
-  Q_UNUSED(message)
-  Q_UNUSED(icon)
-  Q_UNUSED(image)
-  qLog(Warning) << "not implemented";
-#endif  // HAVE_DBUS
 
 }
 
-#ifdef HAVE_DBUS
-void OSD::CallFinished(QDBusPendingCallWatcher *watcher) {
+void OSDDBus::CallFinished(QDBusPendingCallWatcher *watcher) {
 
   std::unique_ptr<QDBusPendingCallWatcher> w(watcher);
 
@@ -183,7 +168,6 @@ void OSD::CallFinished(QDBusPendingCallWatcher *watcher) {
     notification_id_ = id;
     last_notification_time_ = QDateTime::currentDateTime();
   }
+
 }
-#endif
-void OSD::CallFinished() {}
 

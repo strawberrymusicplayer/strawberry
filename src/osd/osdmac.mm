@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +21,7 @@
 
 #include "config.h"
 
-#include "osd.h"
+#include "osdmac.h"
 
 #include <QBuffer>
 #include <QByteArray>
@@ -35,7 +36,8 @@ bool NotificationCenterSupported() {
   return NSClassFromString(@"NSUserNotificationCenter");
 }
 
-void SendNotificationCenterMessage(NSString* title, NSString* subtitle) {
+void SendNotificationCenterMessage(NSString *title, NSString *subtitle) {
+
   Class clazz = NSClassFromString(@"NSUserNotificationCenter");
   id notification_center = [clazz defaultUserNotificationCenter];
 
@@ -45,26 +47,30 @@ void SendNotificationCenterMessage(NSString* title, NSString* subtitle) {
   [notification setSubtitle:subtitle];
 
   [notification_center deliverNotification:notification];
-}
+
 }
 
-void OSD::Init() {}
+}  // namespace
 
-bool OSD::SupportsNativeNotifications() {
+OSDMac::OSDMac(SystemTrayIcon *tray_icon, Application *app, QObject *parent) : OSDBase(tray_icon, app, parent) {}
+
+OSDMac::~OSDMac() = default;
+
+bool OSDMac::SupportsNativeNotifications() {
   return NotificationCenterSupported();
 }
 
-bool OSD::SupportsTrayPopups() { return false; }
+bool OSDMac::SupportsTrayPopups() { return false; }
 
+void OSDMac::ShowMessageNative(const QString &summary, const QString &message, const QString &icon, const QImage &image) {
 
-void OSD::ShowMessageNative(const QString& summary, const QString& message, const QString& icon, const QImage& image) {
   Q_UNUSED(icon);
   Q_UNUSED(image);
+
   if (NotificationCenterSupported()) {
-    scoped_nsobject<NSString> mac_message(
-        [[NSString alloc] initWithUTF8String:message.toUtf8().constData()]);
-    scoped_nsobject<NSString> mac_summary(
-        [[NSString alloc] initWithUTF8String:summary.toUtf8().constData()]);
+    scoped_nsobject<NSString> mac_message([[NSString alloc] initWithUTF8String:message.toUtf8().constData()]);
+    scoped_nsobject<NSString> mac_summary([[NSString alloc] initWithUTF8String:summary.toUtf8().constData()]);
     SendNotificationCenterMessage(mac_summary.get(), mac_message.get());
   }
+
 }
