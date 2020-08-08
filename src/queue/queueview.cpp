@@ -118,6 +118,7 @@ void QueueView::CurrentPlaylistChanged(Playlist *playlist) {
   ui_->list->setModel(current_playlist_->queue());
 
   connect(ui_->list->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), SLOT(UpdateButtonState()));
+  connect(ui_->list->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), SLOT(UpdateButtonState()));
 
   QTimer::singleShot(0, current_playlist_->queue(), SLOT(UpdateSummaryText()));
 
@@ -168,12 +169,14 @@ void QueueView::Remove() {
 
 void QueueView::UpdateButtonState() {
 
-  const QModelIndex current = ui_->list->selectionModel()->currentIndex();
-
-  if (current.isValid()) {
-    ui_->move_up->setEnabled(current.row() != 0);
-    ui_->move_down->setEnabled(current.row() != current_playlist_->queue()->rowCount()-1);
+  if (ui_->list->selectionModel()->selectedRows().count() > 0) {
     ui_->remove->setEnabled(true);
+    QModelIndex index_top = ui_->list->model()->index(0, 0);
+    QModelIndex index_bottom = ui_->list->model()->index(ui_->list->model()->rowCount() - 1, 0);
+    const QModelIndexList selected = ui_->list->selectionModel()->selectedIndexes();
+    bool all_selected = ui_->list->selectionModel()->selectedRows().count() == ui_->list->model()->rowCount();
+    ui_->move_up->setEnabled(!all_selected && !selected.contains(index_top));
+    ui_->move_down->setEnabled(!all_selected && !selected.contains(index_bottom));
   }
   else {
     ui_->move_up->setEnabled(false);
