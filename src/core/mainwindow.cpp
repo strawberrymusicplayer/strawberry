@@ -650,7 +650,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_menu_->addAction(ui_->action_edit_value);
   playlist_menu_->addAction(ui_->action_renumber_tracks);
   playlist_menu_->addAction(ui_->action_selection_set_value);
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   playlist_menu_->addAction(ui_->action_auto_complete_tags);
+#endif
   playlist_rescan_songs_ = playlist_menu_->addAction(IconLoader::Load("view-refresh"), tr("Rescan song(s)..."), this, SLOT(RescanSongs()));
   playlist_menu_->addAction(playlist_rescan_songs_);
 #ifdef HAVE_GSTREAMER
@@ -1701,9 +1703,6 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   ui_->action_auto_complete_tags->setEnabled(editable > 0);
   ui_->action_auto_complete_tags->setVisible(editable > 0);
-#else
-  ui_->action_auto_complete_tags->setEnabled(false);
-  ui_->action_auto_complete_tags->setVisible(false);
 #endif
 
   playlist_rescan_songs_->setEnabled(editable > 0);
