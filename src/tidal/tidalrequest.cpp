@@ -1022,10 +1022,12 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
 
   if (!allow_streaming) {
     Warn(QString("Song %1 %2 %3 is not allowStreaming").arg(artist).arg(album).arg(title));
+    return QString();
   }
 
   if (!stream_ready) {
     Warn(QString("Song %1 %2 %3 is not streamReady").arg(artist).arg(album).arg(title));
+    return QString();
   }
 
   QUrl url;
