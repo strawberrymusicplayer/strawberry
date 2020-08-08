@@ -112,11 +112,13 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
           error = QString("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
-      if (reply->error() != QNetworkReply::NoError) {
-        error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-      }
-      else {
-        error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+      if (error.isEmpty()) {
+        if (reply->error() != QNetworkReply::NoError) {
+          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        }
+        else {
+          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+        }
       }
       if (status == 401 && sub_status == 6001) {  // User does not have a valid session
         emit service_->Logout();
