@@ -158,15 +158,46 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
 
     // Decrease score if the search was based on artist and song title, and the resulting album is a compilation or live album.
     // This is done since we can't match the album titles, and we want to prevent compilation or live albums from being picked before studio albums for streams.
+    // TODO: Make these regular expressions.
     if (request_album.isEmpty() && (
         result_album.contains("hits") ||
+        result_album.contains("greatest") ||
         result_album.contains("best") ||
         result_album.contains("collection") ||
         result_album.contains("classics") ||
         result_album.contains("singles") ||
         result_album.contains("bootleg") ||
         result_album.contains("live") ||
-        result_album.contains("concert")
+        result_album.contains("concert") ||
+        result_album.contains("essential") ||
+        result_album.contains("ultimate") ||
+        result_album.contains("country rock") ||
+        result_album.contains("indie folk") ||
+        result_album.contains("soft rock") ||
+        result_album.contains("folk music") ||
+        result_album.contains("60's rock") ||
+        result_album.contains("60's romance") ||
+        result_album.contains("60s music") ||
+        result_album.contains("late 60s") ||
+        result_album.contains("the 60s") ||
+        result_album.contains("folk and blues") ||
+        result_album.contains("60 from the 60's") ||
+        result_album.contains("classic psychedelic") ||
+        result_album.contains("playlist: acoustic") ||
+        result_album.contains("90's rnb playlist") ||
+        result_album.contains("70s mixtape") ||
+        result_album.contains("rock 80s") ||
+        result_album.contains("classic 80s") ||
+        result_album.contains("rock anthems") ||
+        result_album.contains("rock songs") ||
+        result_album.contains("rock 2019") ||
+        result_album.contains("guitar anthems") ||
+        result_album.contains("driving anthems") ||
+        result_album.contains("traffic jam jams") ||
+        result_album.contains("perfect background music") ||
+        result_album.contains("70's gold") ||
+        result_album.contains("rockfluence") ||
+        result_album.contains("acoustic dinner accompaniment")
         )) {
       results_copy[i].score_match -= 1;
     }
