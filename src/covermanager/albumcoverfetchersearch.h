@@ -59,6 +59,8 @@ class AlbumCoverFetcherSearch : public QObject {
 
   CoverSearchStatistics statistics() const { return statistics_; }
 
+  static bool CoverSearchResultCompareNumber(const CoverSearchResult &a, const CoverSearchResult &b);
+
  signals:
   // It's the end of search (when there was no fetch-me-a-cover request).
   void SearchFinished(const quint64, const CoverSearchResults &results);
@@ -77,7 +79,7 @@ class AlbumCoverFetcherSearch : public QObject {
   void AllProvidersFinished();
 
   void FetchMoreImages();
-  float ScoreImage(const QImage &image) const;
+  float ScoreImage(const QSize size) const;
   void SendBestImage();
 
   static bool ProviderCompareOrder(CoverProvider *a, CoverProvider *b);

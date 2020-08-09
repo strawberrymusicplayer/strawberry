@@ -50,10 +50,10 @@ class LastFmCoverProvider : public JsonCoverProvider {
  private:
   enum LastFmImageSize {
     Unknown,
-    Small,
-    Medium,
-    Large,
-    ExtraLarge
+    Small = 34,
+    Medium = 64,
+    Large = 174,
+    ExtraLarge = 300
   };
 
   QByteArray GetReplyData(QNetworkReply *reply);

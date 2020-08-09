@@ -135,7 +135,7 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
   for (int i = 0 ; i < results_copy.count() ; ++i) {
 
     results_copy[i].provider = provider->name();
-    results_copy[i].score = provider->quality();
+    results_copy[i].score_provider = provider->quality();
 
     QString request_artist = request_.artist.toLower();
     QString request_album = request_.album.toLower();
@@ -143,17 +143,17 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
     QString result_album = results_copy[i].album.toLower();
 
     if (result_artist == request_artist) {
-      results_copy[i].score += 0.5;
+      results_copy[i].score_match += 0.5;
     }
     if (result_album == request_album) {
-      results_copy[i].score += 0.5;
+      results_copy[i].score_match += 0.5;
     }
     if (result_artist != request_artist && result_album != request_album) {
-      results_copy[i].score -= 1.5;
+      results_copy[i].score_match -= 1.5;
     }
 
     if (request_album.isEmpty() && result_artist != request_artist) {
-      results_copy[i].score -= 1;
+      results_copy[i].score_match -= 1;
     }
 
     // Decrease score if the search was based on artist and song title, and the resulting album is a compilation or live album.
@@ -168,8 +168,11 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
         result_album.contains("live") ||
         result_album.contains("concert")
         )) {
-      results_copy[i].score -= 1;
+      results_copy[i].score_match -= 1;
     }
+
+    // Set the initial image quality score besed on the size returned by the API, this is recalculated when the image is received.
+    results_copy[i].score_quality += ScoreImage(results_copy[i].image_size);
 
   }
 
@@ -231,7 +234,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
     ++i;
     CoverSearchResult result = results_.takeFirst();
 
-    qLog(Debug) << "Loading" << result.image_url << "from" << result.provider << "with current score" << result.score;
+    qLog(Debug) << "Loading" << result.image_url << "from" << result.provider << "with current score" << result.score();
 
     QNetworkRequest req(result.image_url);
     req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
@@ -278,9 +281,13 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
     if (QImageReader::supportedMimeTypes().contains(mimetype.toUtf8())) {
       QImage image;
       if (image.loadFromData(reply->readAll())) {
-        result.score += ScoreImage(image);
-        candidate_images_.insert(result.score, CandidateImage(result, image));
-        qLog(Debug) << reply->url() << "from" << result.provider << "scored" << result.score;
+        if (result.image_size != QSize(0,0) && result.image_size != image.size()) {
+          qLog(Debug) << "API size for image" << result.image_size << "for" << reply->url() << "from" << result.provider << "did not match retrieved size" << image.size();
+        }
+        result.image_size = image.size();
+        result.score_quality = ScoreImage(image.size());
+        candidate_images_.insert(result.score(), CandidateImage(result, image));
+        qLog(Debug) << reply->url() << "from" << result.provider << "scored" << result.score();
       }
       else {
         qLog(Error) << "Error decoding image data from" << reply->url();
@@ -310,18 +317,15 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
 
 }
 
-float AlbumCoverFetcherSearch::ScoreImage(const QImage &image) const {
+float AlbumCoverFetcherSearch::ScoreImage(const QSize size) const {
 
-  // Invalid images score nothing
-  if (image.isNull()) {
-    return 0.0;
-  }
+  if (size.width() == 0 || size.height() == 0) return 0.0;
 
   // A 500x500px image scores 1.0, bigger scores higher
-  const float size_score = std::sqrt(float(image.width() * image.height())) / kTargetSize;
+  const float size_score = std::sqrt(float(size.width() * size.height())) / kTargetSize;
 
   // A 1:1 image scores 1.0, anything else scores less
-  const float aspect_score = 1.0 - float(std::max(image.width(), image.height()) - std::min(image.width(), image.height())) / std::max(image.height(), image.width());
+  const float aspect_score = 1.0 - float(std::max(size.width(), size.height()) - std::min(size.width(), size.height())) / std::max(size.height(), size.width());
 
   return size_score + aspect_score;
 
@@ -337,7 +341,7 @@ void AlbumCoverFetcherSearch::SendBestImage() {
     cover_url = best_image.first.image_url;
     image = best_image.second;
 
-    qLog(Info) << "Using" << best_image.first.image_url << "from" << best_image.first.provider << "with score" << best_image.first.score;
+    qLog(Info) << "Using" << best_image.first.image_url << "from" << best_image.first.provider << "with score" << best_image.first.score();
 
     statistics_.chosen_images_by_provider_[best_image.first.provider]++;
     statistics_.chosen_images_++;
@@ -375,5 +379,9 @@ bool AlbumCoverFetcherSearch::ProviderCompareOrder(CoverProvider *a, CoverProvid
 }
 
 bool AlbumCoverFetcherSearch::CoverSearchResultCompareScore(const CoverSearchResult &a, const CoverSearchResult &b) {
-  return a.score > b.score;
+  return a.score() > b.score();
+}
+
+bool AlbumCoverFetcherSearch::CoverSearchResultCompareNumber(const CoverSearchResult &a, const CoverSearchResult &b) {
+  return a.number < b.number;
 }

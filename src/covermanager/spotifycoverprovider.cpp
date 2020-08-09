@@ -526,6 +526,7 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
       CoverSearchResult result;
       result.album = album;
       result.image_url = url;
+      result.image_size = QSize(width, height);
       if (!artists.isEmpty()) result.artist = artists.first();
       results << result;
     }

@@ -61,7 +61,7 @@ struct CoverSearchRequest {
 
 // This structure represents a single result of some album's cover search request.
 struct CoverSearchResult {
-  explicit CoverSearchResult() : score(0.0) {}
+  explicit CoverSearchResult() : score_provider(0.0), score_match(0.0), score_quality(0.0), number(0) {}
 
   // Used for grouping in the user interface.
   QString provider;
@@ -73,8 +73,23 @@ struct CoverSearchResult {
   // An URL of a cover image
   QUrl image_url;
 
+  // Image size
+  QSize image_size;
+
+  // Score for this provider
+  float score_provider;
+
+  // Score for match
+  float score_match;
+
+  // Score for image quality
+  float score_quality;
+
+  // The result number
+  int number;
+
   // Total score for this result
-  float score;
+  float score() const { return score_provider + score_match + score_quality; }
 
 };
 Q_DECLARE_METATYPE(CoverSearchResult)

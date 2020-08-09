@@ -26,6 +26,7 @@
 #include <QPair>
 #include <QSet>
 #include <QList>
+#include <QMap>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -45,6 +46,7 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "albumcoverfetcher.h"
+#include "albumcoverfetchersearch.h"
 #include "jsoncoverprovider.h"
 #include "deezercoverprovider.h"
 
@@ -197,26 +199,26 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
   disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  CoverSearchResults results;
-
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    emit SearchFinished(id, results);
+    emit SearchFinished(id, CoverSearchResults());
     return;
   }
 
   QJsonValue value_data = ExtractData(data);
   if (!value_data.isArray()) {
-    emit SearchFinished(id, results);
+    emit SearchFinished(id, CoverSearchResults());
     return;
   }
 
   QJsonArray array_data = value_data.toArray();
   if (array_data.isEmpty()) {
-    emit SearchFinished(id, results);
+    emit SearchFinished(id, CoverSearchResults());
     return;
   }
 
+  QMap<QUrl, CoverSearchResult> results;
+  int i = 0;
   for (const QJsonValue &json_value : array_data) {
 
     if (!json_value.isObject()) {
@@ -270,36 +272,46 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
     }
     QString album = obj_album["title"].toString();
 
-    QString cover;
-    if (obj_album.contains("cover_xl")) {
-      cover = obj_album["cover_xl"].toString();
-    }
-    else if (obj_album.contains("cover_big")) {
-      cover = obj_album["cover_big"].toString();
-    }
-    else if (obj_album.contains("cover_medium")) {
-      cover = obj_album["cover_medium"].toString();
-    }
-    else if (obj_album.contains("cover_small")) {
-      cover = obj_album["cover_small"].toString();
-    }
-    else {
-      Error("Invalid Json reply, data array value album object is missing cover.", obj_album);
-      continue;
-    }
-    QUrl url(cover);
-
-    album.remove(Song::kAlbumRemoveDisc);
-    album.remove(Song::kAlbumRemoveMisc);
+    album = album.remove(Song::kAlbumRemoveDisc);
+    album = album.remove(Song::kAlbumRemoveMisc);
 
     CoverSearchResult cover_result;
     cover_result.artist = artist;
     cover_result.album = album;
-    cover_result.image_url = url;
-    results << cover_result;
+
+    bool have_cover = false;
+    QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QString("cover_xl"), QSize(1000, 1000))
+                                                                              << qMakePair(QString("cover_big"), QSize(500, 500));
+    for (const QPair<QString, QSize> &cover_size : cover_sizes) {
+      if (!obj_album.contains(cover_size.first)) continue;
+      QString cover = obj_album[cover_size.first].toString();
+      if (!have_cover) {
+        have_cover = true;
+        ++i;
+      }
+      QUrl url(cover);
+      if (!results.contains(url)) {
+        cover_result.image_url = url;
+        cover_result.image_size = cover_size.second;
+        cover_result.number = i;
+        results.insert(url, cover_result);
+      }
+    }
+
+    if (!have_cover) {
+      Error("Invalid Json reply, data array value album object is missing cover.", obj_album);
+    }
 
   }
-  emit SearchFinished(id, results);
+
+  if (results.isEmpty()) {
+    emit SearchFinished(id, CoverSearchResults());
+  }
+  else {
+    CoverSearchResults cover_results = results.values();
+    std::stable_sort(cover_results.begin(), cover_results.end(), AlbumCoverFetcherSearch::CoverSearchResultCompareNumber);
+    emit SearchFinished(id, cover_results);
+  }
 
 }
 

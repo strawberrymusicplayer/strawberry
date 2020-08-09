@@ -177,37 +177,37 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
   disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  CoverSearchResults results;
-
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    emit SearchFinished(id, results);
+    emit SearchFinished(id, CoverSearchResults());
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    emit SearchFinished(id, results);
+    emit SearchFinished(id, CoverSearchResults());
     return;
   }
 
   if (!json_obj.contains("items")) {
     Error("Json object is missing items.", json_obj);
-    emit SearchFinished(id, results);
+    emit SearchFinished(id, CoverSearchResults());
     return;
   }
   QJsonValue value_items = json_obj["items"];
 
   if (!value_items.isArray()) {
-    emit SearchFinished(id, results);
+    emit SearchFinished(id, CoverSearchResults());
     return;
   }
   QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
-    emit SearchFinished(id, results);
+    emit SearchFinished(id, CoverSearchResults());
     return;
   }
 
+  CoverSearchResults results;
+  int i = 0;
   for (const QJsonValue &value_item : array_items) {
 
     if (!value_item.isObject()) {
@@ -256,15 +256,22 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
     album = album.remove(Song::kAlbumRemoveDisc);
     album = album.remove(Song::kAlbumRemoveMisc);
-
     cover = cover.replace("-", "/");
-    QUrl cover_url (QString("%1/images/%2/%3.jpg").arg(kResourcesUrl).arg(cover).arg("1280x1280"));
 
     CoverSearchResult cover_result;
     cover_result.artist = artist;
     cover_result.album = album;
-    cover_result.image_url = cover_url;
-    results << cover_result;
+    cover_result.number = ++i;
+
+    QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QString("1280x1280"), QSize(1280, 1280))
+                                                                              << qMakePair(QString("750x750"), QSize(750, 750))
+                                                                              << qMakePair(QString("640x640"), QSize(640, 640));
+    for (const QPair<QString, QSize> &cover_size : cover_sizes) {
+      QUrl cover_url(QString("%1/images/%2/%3.jpg").arg(kResourcesUrl).arg(cover).arg(cover_size.first));
+      cover_result.image_url = cover_url;
+      cover_result.image_size = cover_size.second;
+      results << cover_result;
+    }
 
   }
   emit SearchFinished(id, results);

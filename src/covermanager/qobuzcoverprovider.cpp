@@ -493,13 +493,14 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     }
     QUrl cover_url(obj_image["large"].toString());
 
-    album.remove(Song::kAlbumRemoveDisc);
-    album.remove(Song::kAlbumRemoveMisc);
+    album = album.remove(Song::kAlbumRemoveDisc);
+    album = album.remove(Song::kAlbumRemoveMisc);
 
     CoverSearchResult cover_result;
     cover_result.artist = artist;
     cover_result.album = album;
     cover_result.image_url = cover_url;
+    cover_result.image_size = QSize(600, 600);
     results << cover_result;
 
   }

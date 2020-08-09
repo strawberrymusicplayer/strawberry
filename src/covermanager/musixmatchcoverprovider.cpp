@@ -196,36 +196,27 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  QString cover;
-
-  if (obj_album.contains("coverart800x800")) {
-    cover = obj_album["coverart800x800"].toString();
-  }
-  else if (obj_album.contains("coverart500x500")) {
-    cover = obj_album["coverart500x500"].toString();
-  }
-  else if (obj_album.contains("coverart350x350")) {
-    cover = obj_album["coverart350x350"].toString();
-  }
-
-  if (cover.isEmpty()) {
-    emit SearchFinished(id, results);
-    return;
-  }
-  QUrl cover_url(cover);
-  if (!cover_url.isValid()) {
-    Error("Received cover url is not valid.", cover);
-    emit SearchFinished(id, results);
-    return;
-  }
-
   CoverSearchResult result;
   result.artist = obj_album["artistName"].toString();
   result.album = obj_album["name"].toString();
-  result.image_url = cover_url;
 
-  if (artist.toLower() == result.artist.toLower() || album.toLower() == result.album.toLower()) {
-    results.append(result);
+  if (artist.toLower() != result.artist.toLower() && album.toLower() != result.album.toLower()) {
+    emit SearchFinished(id, results);
+    return;
+  }
+
+  QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QString("coverart800x800"), QSize(800, 800))
+                                                                            << qMakePair(QString("coverart500x500"), QSize(500, 500))
+                                                                            << qMakePair(QString("coverart350x350"), QSize(300, 300));
+
+  for (const QPair<QString, QSize> &cover_size : cover_sizes) {
+    if (!obj_album.contains(cover_size.first)) continue;
+    QUrl cover_url(obj_album[cover_size.first].toString());
+    if (cover_url.isValid()) {
+      result.image_url = cover_url;
+      result.image_size = cover_size.second;
+      results << result;
+    }
   }
 
   emit SearchFinished(id, results);

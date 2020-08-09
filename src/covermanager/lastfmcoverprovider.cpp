@@ -275,6 +275,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
     cover_result.artist = artist;
     cover_result.album = album;
     cover_result.image_url = url;
+    cover_result.image_size = QSize(size, size);
     results << cover_result;
   }
   emit SearchFinished(id, results);
