@@ -207,7 +207,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
 
   QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QString("coverart800x800"), QSize(800, 800))
                                                                             << qMakePair(QString("coverart500x500"), QSize(500, 500))
-                                                                            << qMakePair(QString("coverart350x350"), QSize(300, 300));
+                                                                            << qMakePair(QString("coverart350x350"), QSize(350, 350));
 
   for (const QPair<QString, QSize> &cover_size : cover_sizes) {
     if (!obj_album.contains(cover_size.first)) continue;
