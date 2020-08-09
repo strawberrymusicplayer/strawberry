@@ -39,6 +39,7 @@
 #include <QRegularExpression>
 #include <QUrl>
 #include <QAbstractItemModel>
+#include <QScrollBar>
 #include <QSettings>
 #include <QtDebug>
 
@@ -366,8 +367,14 @@ void PlaylistManager::OneOfPlaylistsChanged() {
 void PlaylistManager::SetCurrentPlaylist(int id) {
 
   Q_ASSERT(playlists_.contains(id));
+
+  // Save the scroll position for the current playlist.
+  if (playlists_.contains(current_)) {
+    playlists_[current_].scroll_position = playlist_container_->view()->verticalScrollBar()->value();
+  }
+
   current_ = id;
-  emit CurrentChanged(current());
+  emit CurrentChanged(current(), playlists_[id].scroll_position);
   UpdateSummaryText();
 
 }

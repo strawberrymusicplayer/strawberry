@@ -25,6 +25,7 @@
 #include <QWidget>
 #include <QItemSelectionModel>
 #include <QSortFilterProxyModel>
+#include <QScrollBar>
 #include <QAction>
 #include <QList>
 #include <QVariant>
@@ -160,7 +161,7 @@ void PlaylistContainer::SetManager(PlaylistManager *manager) {
 
   connect(ui_->tab_bar, SIGNAL(PlaylistOrderChanged(QList<int>)), manager, SLOT(ChangePlaylistOrder(QList<int>)));
 
-  connect(manager, SIGNAL(CurrentChanged(Playlist*)), SLOT(SetViewModel(Playlist*)));
+  connect(manager, SIGNAL(CurrentChanged(Playlist*, int)), SLOT(SetViewModel(Playlist*, int)));
   connect(manager, SIGNAL(PlaylistAdded(int, QString, bool)), SLOT(PlaylistAdded(int, QString, bool)));
   connect(manager, SIGNAL(PlaylistManagerInitialized()), SLOT(Started()));
   connect(manager, SIGNAL(PlaylistClosed(int)), SLOT(PlaylistClosed(int)));
@@ -168,7 +169,7 @@ void PlaylistContainer::SetManager(PlaylistManager *manager) {
 
 }
 
-void PlaylistContainer::SetViewModel(Playlist *playlist) {
+void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_position) {
 
   if (view()->selectionModel()) {
     disconnect(view()->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(SelectionChanged()));
@@ -191,6 +192,7 @@ void PlaylistContainer::SetViewModel(Playlist *playlist) {
   view()->setModel(playlist->proxy());
   view()->SetPlaylist(playlist);
   view()->selectionModel()->select(manager_->current_selection(), QItemSelectionModel::ClearAndSelect);
+  if (scroll_position != 0) view()->verticalScrollBar()->setValue(scroll_position);
   playlist->IgnoreSorting(false);
 
   connect(view()->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(SelectionChanged()));

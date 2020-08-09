@@ -80,7 +80,7 @@ class PlaylistContainer : public QWidget {
   void GoToNextPlaylistTab();
   void GoToPreviousPlaylistTab();
 
-  void SetViewModel(Playlist *playlist);
+  void SetViewModel(Playlist *playlist, const int scroll_position);
   void PlaylistAdded(int id, const QString &name, bool favorite);
   void PlaylistClosed(int id);
   void PlaylistRenamed(int id, const QString &new_name);

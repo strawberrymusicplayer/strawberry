@@ -112,7 +112,7 @@ class PlaylistManagerInterface : public QObject {
   void PlaylistClosed(int id);
   void PlaylistRenamed(int id, const QString &new_name);
   void PlaylistFavorited(int id, bool favorite);
-  void CurrentChanged(Playlist *new_playlist);
+  void CurrentChanged(Playlist *new_playlist, const int scroll_position = 0);
   void ActiveChanged(Playlist *new_playlist);
 
   void Error(const QString &message);
@@ -223,10 +223,11 @@ class PlaylistManager : public PlaylistManagerInterface {
 
  private:
   struct Data {
-    explicit Data(Playlist *_p = nullptr, const QString& _name = QString()) : p(_p), name(_name) {}
+    explicit Data(Playlist *_p = nullptr, const QString& _name = QString()) : p(_p), name(_name), scroll_position(0) {}
     Playlist *p;
     QString name;
     QItemSelection selection;
+    int scroll_position;
   };
 
   Application *app_;
