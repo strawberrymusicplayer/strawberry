@@ -258,8 +258,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
   switch (result.type_) {
     case UrlHandler::LoadResult::Error:
       if (is_current) {
-        EngineStateChanged(Engine::Error);
-        FatalError();
+        InvalidSongRequested(result.original_url_);
       }
       emit Error(result.error_);
       break;
