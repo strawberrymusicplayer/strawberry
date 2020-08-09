@@ -406,16 +406,8 @@ void Playlist::ItemReloadComplete(const QPersistentModelIndex &index) {
   if (index.isValid()) {
 
     PlaylistItemPtr item = item_at(index.row());
-    if (item) {
-
-      // Update temporary metadata for songs that are not in the collection.
-      // Songs that are in the collection is updated through the collection watcher/backend in playlist manager.
-      if (item->Metadata().source() != Song::Source_Collection) {
-        SongPlaylistItem *song_item = static_cast<SongPlaylistItem*>(item.get());
-        if (song_item) {
-          song_item->UpdateTemporaryMetadata(song_item->DatabaseSongMetadata());
-        }
-      }
+    if (item && item->HasTemporaryMetadata()) {  // Update temporary metadata.
+      item->UpdateTemporaryMetadata(item->OriginalMetadata());
     }
 
     emit dataChanged(index, index);

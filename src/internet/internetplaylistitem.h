@@ -40,6 +40,7 @@ class InternetPlaylistItem : public PlaylistItem {
 
   bool InitFromQuery(const SqlRow &query) override;
   Song Metadata() const override;
+  Song OriginalMetadata() const override { return metadata_; }
   QUrl Url() const override;
   void SetArtManual(const QUrl &cover_url) override;
 

@@ -76,6 +76,8 @@ void PlaylistItem::SetTemporaryMetadata(const Song &metadata) {
 
 void PlaylistItem::UpdateTemporaryMetadata(const Song &metadata) {
 
+  if (!temp_metadata_.is_valid()) return;
+
   Song old_metadata = temp_metadata_;
   temp_metadata_ = metadata;
 

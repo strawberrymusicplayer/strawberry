@@ -41,11 +41,14 @@ class SongPlaylistItem : public PlaylistItem {
   void Reload() override;
 
   Song Metadata() const override;
+  Song OriginalMetadata() const override { return song_; }
 
   QUrl Url() const override;
 
-  Song DatabaseSongMetadata() const override { return song_; }
   void SetArtManual(const QUrl &cover_url) override;
+
+ protected:
+  Song DatabaseSongMetadata() const override { return song_; }
 
  private:
   Song song_;

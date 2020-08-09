@@ -73,6 +73,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   QFuture<void> BackgroundReload();
 
   virtual Song Metadata() const = 0;
+  virtual Song OriginalMetadata() const = 0;
   virtual QUrl Url() const = 0;
 
   void SetTemporaryMetadata(const Song &metadata);
