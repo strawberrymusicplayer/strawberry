@@ -843,8 +843,11 @@ void EditTagDialog::ResetPlayCounts() {
   song->set_skipcount(0);
   song->set_lastplayed(-1);
 
-  app_->collection_backend()->ResetStatisticsAsync(song->id());
+  if (song->is_collection_song())
+    app_->collection_backend()->ResetStatisticsAsync(song->id());
+
   UpdateStatisticsTab(*song);
+
 }
 
 void EditTagDialog::FetchTag() {
@@ -919,7 +922,7 @@ void EditTagDialog::SongSaveComplete(TagReaderReply *reply, const QString &filen
     QString message = tr("An error occurred writing metadata to '%1'").arg(filename);
     emit Error(message);
   }
-  else if (song.directory_id() != -1) {
+  else if (song.is_collection_song()) {
     app_->collection_backend()->AddOrUpdateSongs(SongList() << song);
   }
 
