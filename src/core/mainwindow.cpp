@@ -1902,7 +1902,7 @@ void MainWindow::EditTracks() {
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
     if (!item) continue;
-    Song song = item->Metadata();
+    Song song = item->OriginalMetadata();
     if (song.IsEditable()) {
       songs << song;
       items << item;
@@ -1939,7 +1939,7 @@ void MainWindow::RenumberTracks() {
 
   // if first selected song has a track number set, start from that offset
   if (!indexes.isEmpty()) {
-    const Song first_song = app_->playlist_manager()->current()->item_at(indexes[0].row())->Metadata();
+    const Song first_song = app_->playlist_manager()->current()->item_at(indexes[0].row())->OriginalMetadata();
     if (first_song.track() > 0) track = first_song.track();
   }
 
@@ -2090,7 +2090,7 @@ void MainWindow::ShowInCollection() {
   }
   QString search;
   if (!songs.isEmpty()) {
-    search ="artist:" + songs.first().artist() + " album:" + songs.first().album();
+    search = "artist:" + songs.first().artist() + " album:" + songs.first().album();
   }
   collection_view_->filter()->ShowInCollection(search);
 
@@ -2281,7 +2281,7 @@ void MainWindow::AddFilesToTranscoder() {
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
     if (!item) continue;
-    Song song = item->Metadata();
+    Song song = item->OriginalMetadata();
     if (!song.is_valid() || !song.url().isLocalFile()) continue;
     filenames << song.url().toLocalFile();
   }
