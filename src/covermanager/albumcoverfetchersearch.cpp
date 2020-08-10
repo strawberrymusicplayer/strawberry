@@ -266,7 +266,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
     ++i;
     CoverSearchResult result = results_.takeFirst();
 
-    qLog(Debug) << "Loading" << result.image_url << "from" << result.provider << "with current score" << result.score();
+    qLog(Debug) << "Loading" << result.artist << result.album << result.image_url << "from" << result.provider << "with current score" << result.score();
 
     QNetworkRequest req(result.image_url);
     req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
