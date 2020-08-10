@@ -197,7 +197,8 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
         result_album.contains("perfect background music") ||
         result_album.contains("70's gold") ||
         result_album.contains("rockfluence") ||
-        result_album.contains("acoustic dinner accompaniment")
+        result_album.contains("acoustic dinner accompaniment") ||
+        result_album.contains("complete studio albums")
         )) {
       results_copy[i].score_match -= 1;
     }
