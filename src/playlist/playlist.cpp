@@ -371,7 +371,7 @@ bool Playlist::setData(const QModelIndex &index, const QVariant &value, int role
 
   int row = index.row();
   PlaylistItemPtr item = item_at(row);
-  Song song = item->Metadata();
+  Song song = item->OriginalMetadata();
 
   if (index.data() == value) return false;
 
