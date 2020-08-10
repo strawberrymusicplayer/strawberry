@@ -803,7 +803,7 @@ msgstr "Terjadi kesalahan saat menyalin basis data iTunes ke perangkat"
 msgid "An error occurred loading the iTunes database"
 msgstr "Sebuah galat terjadi saat memuat basis data iTunes"
 
-#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:919
+#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:922
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Sebuah galat terjadi saat menulis metadata ke '%1'"

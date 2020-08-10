@@ -836,7 +836,7 @@ msgstr ""
 msgid "An error occurred loading the iTunes database"
 msgstr "Beim Laden der iTunes-Datenbank ist ein Fehler aufgetreten"
 
-#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:919
+#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:922
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Beim Schreiben der Metadaten für '%1' trat ein Fehler auf"

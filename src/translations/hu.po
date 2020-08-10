@@ -809,7 +809,7 @@ msgstr "Hiba történt az iTunes adatbázis eszközre másolása közben"
 msgid "An error occurred loading the iTunes database"
 msgstr "Hiba történt az iTunes adatbázis betöltése közben"
 
-#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:919
+#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:922
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Hiba történt '%1' metaadatainak írása közben"

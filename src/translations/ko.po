@@ -794,7 +794,7 @@ msgstr "iTunes 데이터베이스를 장치로 복사하는 중 오류 발생"
 msgid "An error occurred loading the iTunes database"
 msgstr "iTunes 데이터베이스를 불러오는 중 오류 발생"
 
-#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:919
+#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:922
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "'%1'에 메타데이터를 쓰는 중 오류 발생"

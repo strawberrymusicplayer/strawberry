@@ -821,7 +821,7 @@ msgstr "Произошла ошибка при копировании базы �
 msgid "An error occurred loading the iTunes database"
 msgstr "Произошла ошибка при загрузке данных iTunes"
 
-#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:919
+#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:922
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Ошибка при записи мета-данных в '%1'"

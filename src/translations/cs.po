@@ -803,7 +803,7 @@ msgstr "Vyskytla se chyba při nahrávání iTunes databáze na zařízení"
 msgid "An error occurred loading the iTunes database"
 msgstr "Při nahrávání databáze iTunes nastala chyba"
 
-#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:919
+#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:922
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Při zápisu údajů do '%1' se vyskytla chyba"

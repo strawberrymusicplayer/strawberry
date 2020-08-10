@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-07-29 12:07-0400\n"
+"PO-Revision-Date: 2020-08-10 02:36-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -837,7 +837,7 @@ msgid "An error occurred loading the iTunes database"
 msgstr ""
 "Une erreur est survenue lors du chargement de la base de données iTunes"
 
-#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:919
+#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:922
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr ""
@@ -1042,7 +1042,7 @@ msgstr "Débit"
 #: organize/organizedialog.cpp:113
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr ""
+msgstr "Débit"
 
 #: analyzer/blockanalyzer.cpp:45
 msgid "Block analyzer"
@@ -1318,7 +1318,7 @@ msgstr "Convertir la musique que le périphérique ne peut pas lire"
 
 #: core/mainwindow.cpp:671
 msgid "Copy URL(s)..."
-msgstr ""
+msgstr "Copie des URL(s)..."
 
 #: ../build/src/ui_organizedialog.h:279
 msgid "Copy album cover artwork"
@@ -1834,7 +1834,7 @@ msgstr "Saisissez le nom du dossier"
 
 #: ../build/src/ui_userpassdialog.h:90
 msgid "Enter username and password"
-msgstr ""
+msgstr "Entrer le nom d'utilisateur et le mot de passe"
 
 #: settings/scrobblersettingspage.cpp:81
 msgid "Enter your user token from"
@@ -2683,7 +2683,7 @@ msgstr ""
 
 #: covermanager/qobuzcoverprovider.cpp:93
 msgid "Missing username and password."
-msgstr ""
+msgstr "Nom d'utilisateur et mot de passe manquants."
 
 #: subsonic/subsonicservice.cpp:390
 msgid "Missing username or password."
@@ -2945,16 +2945,16 @@ msgstr "Opus"
 
 #: ../build/src/ui_organizedialog.h:259
 msgid "Organize Files"
-msgstr ""
+msgstr "Organiser les fichiers"
 
 #: core/mainwindow.cpp:667 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:328
 msgid "Organize files..."
-msgstr ""
+msgstr "Organisation des fichiers..."
 
 #: organize/organize.cpp:94
 msgid "Organizing files"
-msgstr ""
+msgstr "Organisation des fichiers"
 
 #: dialogs/trackselectiondialog.cpp:195
 msgid "Original tags"
@@ -3427,7 +3427,7 @@ msgstr "Réanalyser le morceau"
 
 #: core/mainwindow.cpp:656
 msgid "Rescan song(s)..."
-msgstr ""
+msgstr "Réanalyse des morceaux..."
 
 #: widgets/lineedit.cpp:70
 msgid "Reset"
@@ -4759,6 +4759,8 @@ msgstr "Vous êtes connecté."
 #: ../build/src/ui_groupbydialog.h:180
 msgid "You can change the way the songs in the collection are organized."
 msgstr ""
+"Vous pouvez changer la façon dont les morceaux de la collection sont "
+"organisés."
 
 #: dialogs/about.cpp:128
 #, qt-format

@@ -797,7 +797,7 @@ msgstr "En feil oppsto ved innlasting av iTunes-databasen til enheten"
 msgid "An error occurred loading the iTunes database"
 msgstr "En feil oppsto ved innlasting av iTunes-databasen"
 
-#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:919
+#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:922
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Det oppstod en feil når metadata skulle skrives til '%1'"
