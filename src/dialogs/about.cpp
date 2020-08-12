@@ -41,6 +41,7 @@ About::About(QWidget *parent):QDialog(parent) {
 
   ui_.setupUi(this);
   setWindowFlags(this->windowFlags()|Qt::WindowStaysOnTopHint);
+  setWindowTitle(tr("About Strawberry"));
 
   strawberry_authors_ \
            << Person("Jonas Kvinge", "jonas@jkvinge.net");
@@ -85,17 +86,14 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person("Thomas Pierson", "contact@thomaspierson.fr")
            << Person("Fabio Loli", "fabio.lolix@gmail.com");
 
-  QString Title(tr("About Strawberry"));
-
   QFont title_font;
   title_font.setBold(true);
   title_font.setPointSize(title_font.pointSize() + 4);
 
-  setWindowTitle(Title);
-
   ui_.label_title->setFont(title_font);
-  ui_.label_title->setText(Title);
+  ui_.label_title->setText(windowTitle());
   ui_.label_text->setText(MainHtml());
+  ui_.text_contributors->document()->setDefaultStyleSheet(QString("a {color: %1; }").arg(palette().text().color().name()));
   ui_.text_contributors->setText(ContributorsHtml());
 
   ui_.buttonBox->button(QDialogButtonBox::Close)->setShortcut(QKeySequence::Close);
@@ -117,15 +115,18 @@ QString About::MainHtml() const {
   ret += QString("</p>");
 
   ret += QString("<p>");
-  ret += tr("Strawberry is free software released under GPL. The source code is available on %1").arg("<a href=\"https://github.com/strawberrymusicplayer/strawberry\">GitHub</a>.");
+  ret += tr("Strawberry is free software released under GPL. The source code is available on %1").arg(QString("<a style=\"color:%1;\" href=\"https://github.com/strawberrymusicplayer/strawberry\">GitHub</a>.").arg(palette().text().color().name()));
   ret += QString("<br />");
-  ret += tr("You should have received a copy of the GNU General Public License along with this program.  If not, see %1").arg("<a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>");
+  ret += tr("You should have received a copy of the GNU General Public License along with this program.  If not, see %1").arg(QString("<a style=\"color:%1;\" href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>").arg(palette().text().color().name()));
   ret += QString("</p>");
 
   ret += QString("<p>");
   ret += tr("If you like Strawberry and can make use of it, consider sponsoring or donating.");
   ret += QString("<br />");
-  ret += tr("You can sponsor the author on %1. You can also make a one-time payment through %2.").arg("<a href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>").arg("<a href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>");
+  ret += tr("You can sponsor the author on %1. You can also make a one-time payment through %2.")
+  .arg(QString("<a style=\"color:%1;\" href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>").arg(palette().text().color().name()))
+  .arg(QString("<a style=\"color:%1;\" href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>").arg(palette().text().color().name()));
+
   ret += QString("</p>");
 
   return ret;
