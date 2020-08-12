@@ -97,8 +97,6 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
       total_album_count_(0),
       artist_icon_(IconLoader::Load("folder-sound")),
       album_icon_(IconLoader::Load("cdcase")),
-      playlists_dir_icon_(IconLoader::Load("folder-sound")),
-      playlist_icon_(IconLoader::Load("albums")),
       init_task_id_(-1),
       use_pretty_covers_(false),
       show_dividers_(true),
@@ -695,8 +693,6 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
 
     case Qt::DecorationRole:
       switch (item->type) {
-        case CollectionItem::Type_PlaylistContainer:
-          return playlists_dir_icon_;
         case CollectionItem::Type_Container:
           switch (container_type) {
             case GroupBy_Album:

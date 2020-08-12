@@ -120,7 +120,6 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   QMap<int, CollectionItem*> song_nodes_;
   QIcon album_icon_;
   QPixmap no_cover_icon_;
-  QIcon playlists_dir_icon_;
   AlbumCoverLoaderOptions cover_loader_options_;
   typedef QPair<CollectionItem*, QString> ItemAndCacheKey;
   QMap<quint64, ItemAndCacheKey> pending_art_;

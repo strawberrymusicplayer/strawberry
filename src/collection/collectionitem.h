@@ -33,7 +33,6 @@ class CollectionItem : public SimpleTreeItem<CollectionItem> {
     Type_Divider,
     Type_Container,
     Type_Song,
-    Type_PlaylistContainer,
     Type_LoadingIndicator,
   };
 

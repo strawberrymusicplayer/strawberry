@@ -62,8 +62,7 @@ ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *
       SimpleTreeModel<CollectionItem>(new CollectionItem(this), parent),
       backend_(backend),
       app_(app),
-      album_icon_(IconLoader::Load("cdcase")),
-      playlists_dir_icon_(IconLoader::Load("folder-sound")) {
+      album_icon_(IconLoader::Load("cdcase")) {
 
   root_->lazy_loaded = true;
 
@@ -195,8 +194,6 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
 
     case Qt::DecorationRole:
       switch (item->type) {
-        case CollectionItem::Type_PlaylistContainer:
-          return playlists_dir_icon_;
         case CollectionItem::Type_Container:
           if (item->type == CollectionItem::Type_Container && item->container_level == 0) { return album_icon_; }
           break;
