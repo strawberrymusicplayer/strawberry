@@ -18,6 +18,10 @@
   !define debug
 !endif
 
+!if "@WITH_QT6@" == "ON"
+  !define with_qt6
+!endif
+
 !ifdef debug
   !define PRODUCT_NAME "Strawberry Music Player Debug"
   !define PRODUCT_NAME_SHORT "Strawberry"
@@ -91,17 +95,33 @@ SetCompressor /SOLID lzma
 Name "${PRODUCT_NAME}"
 !ifdef arch_x86
   !ifdef debug
-    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x86.exe"
+    !ifdef with_qt6
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-Debug-x86.exe"
+    !else
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x86.exe"
+    !endif
   !else
-    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x86.exe"
+    !ifdef with_qt6
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-x86.exe"
+    !else
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x86.exe"
+    !endif
   !endif
 !endif
 
 !ifdef arch_x64
   !ifdef debug
-    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x64.exe"
+    !ifdef with_qt6
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-Debug-x64.exe"
+    !else
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x64.exe"
+    !endif
   !else
-    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x64.exe"
+    !ifdef with_qt6
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-x64.exe"
+    !else
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x64.exe"
+    !endif
   !endif
 !endif
 
@@ -209,6 +229,16 @@ Section "Strawberry" Strawberry
   File "libwavpack-1.dll"
   File "libwinpthread-1.dll"
   File "libxml2-2.dll"
+!ifdef with_qt6
+  File "Qt6Concurrent.dll"
+  File "Qt6Core.dll"
+  File "Qt6Gui.dll"
+  File "Qt6Network.dll"
+  File "Qt6Sql.dll"
+  File "Qt6Widgets.dll"
+  File "Qt6WinExtras.dll"
+  File "libqtsparkle-qt6.dll"
+!else
   File "Qt5Concurrent.dll"
   File "Qt5Core.dll"
   File "Qt5Gui.dll"
@@ -216,6 +246,8 @@ Section "Strawberry" Strawberry
   File "Qt5Sql.dll"
   File "Qt5Widgets.dll"
   File "Qt5WinExtras.dll"
+  File "libqtsparkle-qt5.dll"
+!endif
   File "zlib1.dll"
   File "libzstd.dll"
   File "libtasn1-6.dll"
@@ -223,7 +255,6 @@ Section "Strawberry" Strawberry
   File "libbrotlidec.dll"
   File "libpsl-5.dll"
   File "liborc-0.4-0.dll"
-  File "libqtsparkle-qt5.dll"
 
 !ifdef arch_x86
   File "libgcc_s_sjlj-1.dll"
@@ -446,6 +477,15 @@ Section "Uninstall"
   Delete "$INSTDIR\Qt5Sql.dll"
   Delete "$INSTDIR\Qt5Widgets.dll"
   Delete "$INSTDIR\Qt5WinExtras.dll"
+  Delete "$INSTDIR\libqtsparkle-qt5.dll"
+  Delete "$INSTDIR\Qt6Concurrent.dll"
+  Delete "$INSTDIR\Qt6Core.dll"
+  Delete "$INSTDIR\Qt6Gui.dll"
+  Delete "$INSTDIR\Qt6Network.dll"
+  Delete "$INSTDIR\Qt6Sql.dll"
+  Delete "$INSTDIR\Qt6Widgets.dll"
+  Delete "$INSTDIR\Qt6WinExtras.dll"
+  Delete "$INSTDIR\libqtsparkle-qt6.dll"
   Delete "$INSTDIR\zlib1.dll"
   Delete "$INSTDIR\libzstd.dll"
   Delete "$INSTDIR\libtasn1-6.dll"
@@ -453,7 +493,6 @@ Section "Uninstall"
   Delete "$INSTDIR\libbrotlidec.dll"
   Delete "$INSTDIR\libpsl-5.dll"
   Delete "$INSTDIR\liborc-0.4-0.dll"
-  Delete "$INSTDIR\libqtsparkle-qt5.dll"
 
 !ifdef arch_x86
   Delete "$INSTDIR\libgcc_s_sjlj-1.dll"
