@@ -482,7 +482,7 @@ msgstr ""
 msgid "About &Qt"
 msgstr "Tentang &Qt"
 
-#: dialogs/about.cpp:88
+#: dialogs/about.cpp:44
 msgid "About Strawberry"
 msgstr "Tentang Strawberry"
 
@@ -896,7 +896,7 @@ msgstr "Otentikasi"
 msgid "Authentication failed"
 msgstr "Otentikasi gagal"
 
-#: dialogs/about.cpp:141
+#: dialogs/about.cpp:142
 msgid "Author and maintainer"
 msgstr ""
 
@@ -1120,11 +1120,11 @@ msgstr ""
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
-#: dialogs/about.cpp:159
+#: dialogs/about.cpp:160
 msgid "Clementine authors"
 msgstr ""
 
-#: dialogs/about.cpp:168
+#: dialogs/about.cpp:169
 msgid "Clementine contributors"
 msgstr ""
 
@@ -1260,7 +1260,7 @@ msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Lanjutkan ke lagu berikutnya jika suatu lagu di daftar putar tidak tersedia"
 
-#: dialogs/about.cpp:150
+#: dialogs/about.cpp:151
 msgid "Contributors"
 msgstr ""
 
@@ -1806,7 +1806,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
 #: core/mainwindow.cpp:2350 core/mainwindow.cpp:2491
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:543
 msgid "Error"
 msgstr "Kesalahan"
 
@@ -2293,7 +2293,7 @@ msgstr ""
 "Jika Anda lanjutkan, perangkat ini akan bekerja lambat dan lagu-lagu yang "
 "disalin mungkin tidak bekerja."
 
-#: dialogs/about.cpp:126
+#: dialogs/about.cpp:124
 msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
@@ -2361,7 +2361,7 @@ msgstr "Trek intro"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Balasan tidak benar dari peramban web. Token tidak tersedia."
 
-#: dialogs/about.cpp:116
+#: dialogs/about.cpp:114
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
@@ -2474,7 +2474,7 @@ msgstr "Memuat perangkat MTP"
 msgid "Loading iPod database"
 msgstr "Memuat basis data iPod"
 
-#: collection/collectionmodel.cpp:216
+#: collection/collectionmodel.cpp:214
 msgid "Loading songs"
 msgstr "Memuat lagu"
 
@@ -2486,7 +2486,7 @@ msgstr "Memuat trek"
 msgid "Loading tracks info"
 msgstr "Memuat info trek"
 
-#: collection/collectionmodel.cpp:209 ../build/src/ui_organizedialog.h:281
+#: collection/collectionmodel.cpp:207 ../build/src/ui_organizedialog.h:281
 msgid "Loading..."
 msgstr "Memuat..."
 
@@ -2766,7 +2766,7 @@ msgid "None"
 msgstr "Nihil"
 
 #: core/mainwindow.cpp:2350 core/mainwindow.cpp:2491
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:543
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
 "Tidak satu pun dari lagu yang dipilih cocok untuk disalin ke perangkat"
@@ -3991,11 +3991,11 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry dapat menampilkan pesan ketika trek berubah."
 
-#: dialogs/about.cpp:114
+#: dialogs/about.cpp:112
 msgid "Strawberry is a music player and music collection organizer."
 msgstr ""
 
-#: dialogs/about.cpp:120
+#: dialogs/about.cpp:118
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
@@ -4110,11 +4110,11 @@ msgstr "Tes berhasil!"
 msgid "Text options"
 msgstr "Opsi teks"
 
-#: dialogs/about.cpp:177
+#: dialogs/about.cpp:178
 msgid "Thanks to"
 msgstr ""
 
-#: dialogs/about.cpp:185
+#: dialogs/about.cpp:186
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
@@ -4147,7 +4147,7 @@ msgstr ""
 "Versi Strawberry yang baru saja Anda perbarui membutuhkan pemindaian ulang "
 "pustaka menyeluruh karena fitur baru yang tercantum di bawah ini:"
 
-#: collection/collectionview.cpp:441
+#: collection/collectionview.cpp:442
 msgid "There are other songs in this album"
 msgstr "Ada lagu lainnya di dalam album ini"
 
@@ -4359,10 +4359,10 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Pita ultra lebar (UWB)"
 
-#: core/song.cpp:523 context/contextalbumsmodel.cpp:360
-#: collection/collectionmodel.cpp:435 collection/collectionmodel.cpp:440
-#: collection/collectionmodel.cpp:444 collection/collectionmodel.cpp:448
-#: collection/collectionmodel.cpp:452 collection/collectionmodel.cpp:1409
+#: core/song.cpp:523 context/contextalbumsmodel.cpp:357
+#: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
+#: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
+#: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1405
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:554 playlist/playlistmanager.cpp:555
 #: dialogs/edittagdialog.cpp:494 dialogs/edittagdialog.cpp:542
@@ -4523,7 +4523,7 @@ msgstr "Menggunakan menu untuk menambah lagu akan..."
 msgid "Variable bit rate"
 msgstr "Laju bit beragam"
 
-#: collection/collectionmodel.cpp:349 playlist/playlistmanager.cpp:566
+#: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:566
 #: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
@@ -4533,7 +4533,7 @@ msgstr "Artis beraga"
 msgid "Verify server certificate"
 msgstr "Verifikasi sertifikat server"
 
-#: dialogs/about.cpp:110
+#: dialogs/about.cpp:108
 #, qt-format
 msgid "Version %1"
 msgstr ""
@@ -4598,7 +4598,7 @@ msgstr "Tanpa sampul:"
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Bekerja di modus offline (Hanya cache scrobble)"
 
-#: collection/collectionview.cpp:442
+#: collection/collectionview.cpp:443
 msgid ""
 "Would you like to move the other songs in this album to Various Artists as "
 "well?"
@@ -4670,7 +4670,7 @@ msgstr "Anda sudah masuk."
 msgid "You can change the way the songs in the collection are organized."
 msgstr ""
 
-#: dialogs/about.cpp:128
+#: dialogs/about.cpp:126
 #, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
@@ -4701,7 +4701,7 @@ msgstr ""
 "style:italic;\">Perbolehkan akses untuk perangkat pembantu</span>\" untuk "
 "menggunakan pintasan global di Strawberry."
 
-#: dialogs/about.cpp:122
+#: dialogs/about.cpp:120
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "

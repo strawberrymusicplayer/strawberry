@@ -486,7 +486,7 @@ msgstr "Névjegy"
 msgid "About &Qt"
 msgstr "A &Qt névjegye"
 
-#: dialogs/about.cpp:88
+#: dialogs/about.cpp:44
 msgid "About Strawberry"
 msgstr "A Strawberry névjegye"
 
@@ -902,7 +902,7 @@ msgstr "Hitelesítés"
 msgid "Authentication failed"
 msgstr "A hitelesítés meghiúsult"
 
-#: dialogs/about.cpp:141
+#: dialogs/about.cpp:142
 msgid "Author and maintainer"
 msgstr "Szerző és karbantartó"
 
@@ -1130,11 +1130,11 @@ msgstr "Lemezgyorsítótár törlése"
 msgid "Clear playlist"
 msgstr "Lejátszólista törlése"
 
-#: dialogs/about.cpp:159
+#: dialogs/about.cpp:160
 msgid "Clementine authors"
 msgstr "A Clementine szerzői"
 
-#: dialogs/about.cpp:168
+#: dialogs/about.cpp:169
 msgid "Clementine contributors"
 msgstr "A Clementine közreműködői"
 
@@ -1272,7 +1272,7 @@ msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Folytatás a következő elemtől a lejátszólistában, ha a dal nem elérhető"
 
-#: dialogs/about.cpp:150
+#: dialogs/about.cpp:151
 msgid "Contributors"
 msgstr "Közreműködők"
 
@@ -1819,7 +1819,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Megegyezik a --log-levels *:3 kapcsolóval"
 
 #: core/mainwindow.cpp:2350 core/mainwindow.cpp:2491
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:543
 msgid "Error"
 msgstr "Hiba"
 
@@ -2307,7 +2307,7 @@ msgstr ""
 "Ha folytatja, az eszköz lassan fog működni és a rá másolt számok "
 "használhatatlanok lehetnek."
 
-#: dialogs/about.cpp:126
+#: dialogs/about.cpp:124
 msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
@@ -2377,7 +2377,7 @@ msgstr "Bevezető számok"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Érvénytelen válasz a böngészőből. Hiányzó token."
 
-#: dialogs/about.cpp:116
+#: dialogs/about.cpp:114
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
@@ -2492,7 +2492,7 @@ msgstr "MTP eszköz beolvasása"
 msgid "Loading iPod database"
 msgstr "iPod adatbázis betöltése"
 
-#: collection/collectionmodel.cpp:216
+#: collection/collectionmodel.cpp:214
 msgid "Loading songs"
 msgstr "Dalok betöltése"
 
@@ -2504,7 +2504,7 @@ msgstr "Számok betöltése"
 msgid "Loading tracks info"
 msgstr "Száminformációk betöltése"
 
-#: collection/collectionmodel.cpp:209 ../build/src/ui_organizedialog.h:281
+#: collection/collectionmodel.cpp:207 ../build/src/ui_organizedialog.h:281
 msgid "Loading..."
 msgstr "Betöltés..."
 
@@ -2784,7 +2784,7 @@ msgid "None"
 msgstr "Egyik sem"
 
 #: core/mainwindow.cpp:2350 core/mainwindow.cpp:2491
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:543
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Egy kiválasztott dal sem alkalmas az eszközre való másoláshoz"
 
@@ -4021,11 +4021,11 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "A Strawberry felbukkanó üzenetben tudja jelezni, ha számot vált."
 
-#: dialogs/about.cpp:114
+#: dialogs/about.cpp:112
 msgid "Strawberry is a music player and music collection organizer."
 msgstr "A Strawberry egy zenelejátszó és egy zenegyűjtemény kezelő."
 
-#: dialogs/about.cpp:120
+#: dialogs/about.cpp:118
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
@@ -4142,11 +4142,11 @@ msgstr "Teszt sikeres!"
 msgid "Text options"
 msgstr "Szövegopciók"
 
-#: dialogs/about.cpp:177
+#: dialogs/about.cpp:178
 msgid "Thanks to"
 msgstr "Köszönet még"
 
-#: dialogs/about.cpp:185
+#: dialogs/about.cpp:186
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Köszönet az Amarok-hoz és a Clementine-hez hozzájárulóknak."
 
@@ -4179,7 +4179,7 @@ msgstr ""
 "A Strawberry most frissült verziójának szüksége van a teljes gyűjtemény "
 "újraolvasására az alább sorolt új funkciók használatához:"
 
-#: collection/collectionview.cpp:441
+#: collection/collectionview.cpp:442
 msgid "There are other songs in this album"
 msgstr "Vannak más dalok is ebben az albumban"
 
@@ -4393,10 +4393,10 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ultra szélessávú (UWB)"
 
-#: core/song.cpp:523 context/contextalbumsmodel.cpp:360
-#: collection/collectionmodel.cpp:435 collection/collectionmodel.cpp:440
-#: collection/collectionmodel.cpp:444 collection/collectionmodel.cpp:448
-#: collection/collectionmodel.cpp:452 collection/collectionmodel.cpp:1409
+#: core/song.cpp:523 context/contextalbumsmodel.cpp:357
+#: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
+#: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
+#: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1405
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:554 playlist/playlistmanager.cpp:555
 #: dialogs/edittagdialog.cpp:494 dialogs/edittagdialog.cpp:542
@@ -4557,7 +4557,7 @@ msgstr "Dal felvételénél a menü használatával..."
 msgid "Variable bit rate"
 msgstr "Változó bitráta"
 
-#: collection/collectionmodel.cpp:349 playlist/playlistmanager.cpp:566
+#: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:566
 #: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
@@ -4567,7 +4567,7 @@ msgstr "Egyes előadók"
 msgid "Verify server certificate"
 msgstr "Szerver tanúsítványának ellenőrzése"
 
-#: dialogs/about.cpp:110
+#: dialogs/about.cpp:108
 #, qt-format
 msgid "Version %1"
 msgstr "Verzió: %1"
@@ -4631,7 +4631,7 @@ msgstr "Borító nélkül:"
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Offline mód (mentés csak gyorsítótárba)"
 
-#: collection/collectionview.cpp:442
+#: collection/collectionview.cpp:443
 msgid ""
 "Would you like to move the other songs in this album to Various Artists as "
 "well?"
@@ -4704,7 +4704,7 @@ msgstr ""
 "Megváltoztathatja, hogy milyen módon legyenek a dalok rendezve a "
 "gyűjteményben."
 
-#: dialogs/about.cpp:128
+#: dialogs/about.cpp:126
 #, fuzzy, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
@@ -4736,7 +4736,7 @@ msgstr ""
 "italic;\">Hozzáférés a kisegítő lehetőségekhez</span>\" a globális "
 "gyorsbillentyűk használatához a Strawberry-ben."
 
-#: dialogs/about.cpp:122
+#: dialogs/about.cpp:120
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "

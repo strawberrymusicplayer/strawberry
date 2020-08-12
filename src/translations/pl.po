@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-07-28 04:47-0400\n"
+"PO-Revision-Date: 2020-08-11 07:41-0400\n"
 "Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -493,7 +493,7 @@ msgstr "O programie"
 msgid "About &Qt"
 msgstr "O &Qt"
 
-#: dialogs/about.cpp:88
+#: dialogs/about.cpp:44
 msgid "About Strawberry"
 msgstr "O Strawberry"
 
@@ -908,7 +908,7 @@ msgstr "Uwierzytelnianie"
 msgid "Authentication failed"
 msgstr "Błąd uwierzytelniania"
 
-#: dialogs/about.cpp:141
+#: dialogs/about.cpp:142
 msgid "Author and maintainer"
 msgstr "Autor i opiekun"
 
@@ -1017,7 +1017,7 @@ msgstr "Przepływność"
 #: organize/organizedialog.cpp:113
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr ""
+msgstr "Przepływność"
 
 #: analyzer/blockanalyzer.cpp:45
 msgid "Block analyzer"
@@ -1132,11 +1132,11 @@ msgstr "Wyczyść pamięć podręczną na dysku"
 msgid "Clear playlist"
 msgstr "Wyczyść listę odtwarzania"
 
-#: dialogs/about.cpp:159
+#: dialogs/about.cpp:160
 msgid "Clementine authors"
 msgstr "Autorzy Clementine"
 
-#: dialogs/about.cpp:168
+#: dialogs/about.cpp:169
 msgid "Clementine contributors"
 msgstr "Współautorzy Clementine"
 
@@ -1275,7 +1275,7 @@ msgstr "Kontekst"
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr "Jeśli utwór jest niedostępny, przechodź do następnego"
 
-#: dialogs/about.cpp:150
+#: dialogs/about.cpp:151
 msgid "Contributors"
 msgstr "Współautorzy"
 
@@ -1289,7 +1289,7 @@ msgstr "Przekonwertuj muzykę, której nie może odtworzyć urządzenie"
 
 #: core/mainwindow.cpp:671
 msgid "Copy URL(s)..."
-msgstr ""
+msgstr "Skopiuj adres(y) URL…"
 
 #: ../build/src/ui_organizedialog.h:279
 msgid "Copy album cover artwork"
@@ -1802,7 +1802,7 @@ msgstr "Wprowadź nazwę katalogu"
 
 #: ../build/src/ui_userpassdialog.h:90
 msgid "Enter username and password"
-msgstr ""
+msgstr "Podaj nazwę użytkownika i hasło"
 
 #: settings/scrobblersettingspage.cpp:81
 msgid "Enter your user token from"
@@ -1825,7 +1825,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Równoważne z --log-levels *:3"
 
 #: core/mainwindow.cpp:2350 core/mainwindow.cpp:2491
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:543
 msgid "Error"
 msgstr "Błąd"
 
@@ -2317,7 +2317,7 @@ msgstr ""
 "Jeśli będziesz kontynuował, urządzenie będzie działać wolniej i skopiowane "
 "na nie utwory mogą nie działać."
 
-#: dialogs/about.cpp:126
+#: dialogs/about.cpp:124
 msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
@@ -2387,7 +2387,7 @@ msgstr "Czołówki"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Niepoprawna odpowiedź z przeglądarki internetowej. Brakuje tokenu."
 
-#: dialogs/about.cpp:116
+#: dialogs/about.cpp:114
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
@@ -2502,7 +2502,7 @@ msgstr "Wczytywanie urządzenia MTP"
 msgid "Loading iPod database"
 msgstr "Wczytywanie bazy danych iPoda"
 
-#: collection/collectionmodel.cpp:216
+#: collection/collectionmodel.cpp:214
 msgid "Loading songs"
 msgstr "Wczytywanie utworów"
 
@@ -2514,7 +2514,7 @@ msgstr "Wczytywanie ścieżek"
 msgid "Loading tracks info"
 msgstr "Wczytywanie informacji o utworze"
 
-#: collection/collectionmodel.cpp:209 ../build/src/ui_organizedialog.h:281
+#: collection/collectionmodel.cpp:207 ../build/src/ui_organizedialog.h:281
 msgid "Loading..."
 msgstr "Wczytywanie…"
 
@@ -2649,7 +2649,7 @@ msgstr "Brakuje adresu URL serwera, nazwy użytkownika lub hasła."
 
 #: covermanager/qobuzcoverprovider.cpp:93
 msgid "Missing username and password."
-msgstr ""
+msgstr "Nie podano nazwy użytkownika z hasłem."
 
 #: subsonic/subsonicservice.cpp:390
 msgid "Missing username or password."
@@ -2794,7 +2794,7 @@ msgid "None"
 msgstr "Brak"
 
 #: core/mainwindow.cpp:2350 core/mainwindow.cpp:2491
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:543
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
 "Żaden z zaznaczonych utworów nie był odpowiedni do skopiowania na urządzenie"
@@ -2909,16 +2909,16 @@ msgstr "Opus"
 
 #: ../build/src/ui_organizedialog.h:259
 msgid "Organize Files"
-msgstr ""
+msgstr "Organizuj pliki"
 
 #: core/mainwindow.cpp:667 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:328
 msgid "Organize files..."
-msgstr ""
+msgstr "Organizuj pliki…"
 
 #: organize/organize.cpp:94
 msgid "Organizing files"
-msgstr ""
+msgstr "Organizuję pliki"
 
 #: dialogs/trackselectiondialog.cpp:195
 msgid "Original tags"
@@ -3390,7 +3390,7 @@ msgstr "Przeskanuj utwór/utwory ponownie"
 
 #: core/mainwindow.cpp:656
 msgid "Rescan song(s)..."
-msgstr ""
+msgstr "Przeskanuj ponownie utwory…"
 
 #: widgets/lineedit.cpp:70
 msgid "Reset"
@@ -4029,11 +4029,11 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry może pokazywać powiadomienia, gdy zmienia się ścieżka."
 
-#: dialogs/about.cpp:114
+#: dialogs/about.cpp:112
 msgid "Strawberry is a music player and music collection organizer."
 msgstr "Strawberry to odtwarzacz muzyki i menedżer kolekcji utworów."
 
-#: dialogs/about.cpp:120
+#: dialogs/about.cpp:118
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
@@ -4150,11 +4150,11 @@ msgstr "Test zakończył się powodzeniem!"
 msgid "Text options"
 msgstr "Opcje tekstu"
 
-#: dialogs/about.cpp:177
+#: dialogs/about.cpp:178
 msgid "Thanks to"
 msgstr "Podziękowania"
 
-#: dialogs/about.cpp:185
+#: dialogs/about.cpp:186
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 "Podziękowania dla wszystkich innych współautorów Amaroka i Clementine."
@@ -4188,7 +4188,7 @@ msgstr ""
 "Wersja, do której właśnie zaktualizowano odtwarzacz Strawberry, wymaga "
 "odświeżenia całej biblioteki. Wynika to z wprowadzenia następujących zmian:"
 
-#: collection/collectionview.cpp:441
+#: collection/collectionview.cpp:442
 msgid "There are other songs in this album"
 msgstr "Na tym albumie są inne utwory"
 
@@ -4397,10 +4397,10 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ultraszerokie pasmo (UWB)"
 
-#: core/song.cpp:523 context/contextalbumsmodel.cpp:360
-#: collection/collectionmodel.cpp:435 collection/collectionmodel.cpp:440
-#: collection/collectionmodel.cpp:444 collection/collectionmodel.cpp:448
-#: collection/collectionmodel.cpp:452 collection/collectionmodel.cpp:1409
+#: core/song.cpp:523 context/contextalbumsmodel.cpp:357
+#: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
+#: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
+#: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1405
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:554 playlist/playlistmanager.cpp:555
 #: dialogs/edittagdialog.cpp:494 dialogs/edittagdialog.cpp:542
@@ -4561,7 +4561,7 @@ msgstr "Po dodaniu utworu z menu kontekstowego..."
 msgid "Variable bit rate"
 msgstr "Zmienna przepływność (VBR)"
 
-#: collection/collectionmodel.cpp:349 playlist/playlistmanager.cpp:566
+#: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:566
 #: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
@@ -4571,7 +4571,7 @@ msgstr "Różni artyści"
 msgid "Verify server certificate"
 msgstr "Weryfikuj certyfikat serwera"
 
-#: dialogs/about.cpp:110
+#: dialogs/about.cpp:108
 #, qt-format
 msgid "Version %1"
 msgstr "Wersja %1"
@@ -4636,7 +4636,7 @@ msgstr "Bez okładki:"
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Pracuj w trybie offline (tylko scrobble z pamięci podręcznej)"
 
-#: collection/collectionview.cpp:442
+#: collection/collectionview.cpp:443
 msgid ""
 "Would you like to move the other songs in this album to Various Artists as "
 "well?"
@@ -4705,9 +4705,9 @@ msgstr "Zalogowano."
 
 #: ../build/src/ui_groupbydialog.h:180
 msgid "You can change the way the songs in the collection are organized."
-msgstr ""
+msgstr "Możesz zmienić sposób organizacji utworów w kolekcji."
 
-#: dialogs/about.cpp:128
+#: dialogs/about.cpp:126
 #, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
@@ -4740,7 +4740,7 @@ msgstr ""
 "Preferencje systemowe i zaznaczyć „<span style=\" font-style:italic;\">Włącz "
 "dostęp do urządzeń wspomagających</span>”."
 
-#: dialogs/about.cpp:122
+#: dialogs/about.cpp:120
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
