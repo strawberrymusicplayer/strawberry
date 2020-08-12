@@ -366,32 +366,33 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   int regular_editable = 0;
 
   for (const QModelIndex &index : selected_indexes) {
-    regular_elements++;
+    ++regular_elements;
     if(app_->collection_model()->data(index, CollectionModel::Role_Editable).toBool()) {
-      regular_editable++;
+      ++regular_editable;
     }
   }
 
-  // TODO: check if custom plugin actions should be enabled / visible
   const int songs_selected = regular_elements;
   const bool regular_elements_only = songs_selected == regular_elements && regular_elements > 0;
 
   // in all modes
-  load_->setEnabled(songs_selected);
-  add_to_playlist_->setEnabled(songs_selected);
-  open_in_new_playlist_->setEnabled(songs_selected);
-  add_to_playlist_enqueue_->setEnabled(songs_selected);
+  load_->setEnabled(songs_selected > 0);
+  add_to_playlist_->setEnabled(songs_selected > 0);
+  open_in_new_playlist_->setEnabled(songs_selected > 0);
+  add_to_playlist_enqueue_->setEnabled(songs_selected > 0);
 
   // if neither edit_track not edit_tracks are available, we show disabled edit_track element
-  edit_track_->setVisible(regular_editable <= 1);
+  edit_track_->setVisible(regular_editable == 1);
   edit_track_->setEnabled(regular_editable == 1);
+  edit_tracks_->setVisible(regular_editable > 1);
+  edit_tracks_->setEnabled(regular_editable > 1);
 
-  rescan_songs_->setVisible(edit_track_->isVisible());
-  rescan_songs_->setEnabled(true);
+  rescan_songs_->setVisible(regular_editable > 0);
+  rescan_songs_->setEnabled(regular_editable > 0);
 
-  organize_->setVisible(regular_elements_only);
+  organize_->setVisible(regular_elements == regular_editable);
 #ifndef Q_OS_WIN
-  copy_to_device_->setVisible(regular_elements_only);
+  copy_to_device_->setVisible(regular_elements == regular_editable);
 #endif
   //delete_->setVisible(regular_elements_only);
   show_in_various_->setVisible(regular_elements_only);
