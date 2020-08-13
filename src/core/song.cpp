@@ -199,8 +199,8 @@ struct Song::Private : public QSharedData {
   QUrl url_;
   FileType filetype_;
   int filesize_;
-  int mtime_;
-  int ctime_;
+  qint64 mtime_;
+  qint64 ctime_;
   bool unavailable_;
 
   int playcount_;
@@ -322,8 +322,8 @@ const QUrl &Song::url() const { return d->url_; }
 const QString &Song::basefilename() const { return d->basefilename_; }
 Song::FileType Song::filetype() const { return d->filetype_; }
 int Song::filesize() const { return d->filesize_; }
-quint64 Song::mtime() const { return d->mtime_; }
-quint64 Song::ctime() const { return d->ctime_; }
+qint64 Song::mtime() const { return d->mtime_; }
+qint64 Song::ctime() const { return d->ctime_; }
 
 int Song::playcount() const { return d->playcount_; }
 int Song::skipcount() const { return d->skipcount_; }
@@ -428,8 +428,8 @@ void Song::set_url(const QUrl &v) { d->url_ = v; }
 void Song::set_basefilename(const QString &v) { d->basefilename_ = v; }
 void Song::set_filetype(FileType v) { d->filetype_ = v; }
 void Song::set_filesize(int v) { d->filesize_ = v; }
-void Song::set_mtime(int v) { d->mtime_ = v; }
-void Song::set_ctime(int v) { d->ctime_ = v; }
+void Song::set_mtime(qint64 v) { d->mtime_ = v; }
+void Song::set_ctime(qint64 v) { d->ctime_ = v; }
 void Song::set_unavailable(bool v) { d->unavailable_ = v; }
 
 void Song::set_playcount(int v) { d->playcount_ = v; }
@@ -925,10 +925,10 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
       d->filesize_ = toint(x);
     }
     else if (Song::kColumns.value(i) == "mtime") {
-      d->mtime_ = toint(x);
+      d->mtime_ = tolonglong(x);
     }
     else if (Song::kColumns.value(i) == "ctime") {
-      d->ctime_ = toint(x);
+      d->ctime_ = tolonglong(x);
     }
     else if (Song::kColumns.value(i) == "unavailable") {
       d->unavailable_ = q.value(x).toBool();

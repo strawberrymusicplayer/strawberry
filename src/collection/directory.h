@@ -49,7 +49,7 @@ struct Subdirectory {
 
   int directory_id;
   QString path;
-  uint mtime;
+  qint64 mtime;
 };
 Q_DECLARE_METATYPE(Subdirectory)
 

@@ -55,8 +55,8 @@ message SongMetadata {
   optional string basefilename = 22;
   optional FileType filetype = 23;
   optional int32 filesize = 24;
-  optional int32 mtime = 25;
-  optional int32 ctime = 26;
+  optional int64 mtime = 25;
+  optional int64 ctime = 26;
 
   optional int32 playcount = 27;
   optional int32 skipcount = 28;

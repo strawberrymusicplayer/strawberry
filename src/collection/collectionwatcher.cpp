@@ -393,7 +393,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
 
     Song matching_song(source_);
     if (FindSongByPath(songs_in_db, file, &matching_song)) {
-      quint64 matching_cue_mtime = GetMtimeForCue(matching_cue);
+      qint64 matching_cue_mtime = GetMtimeForCue(matching_cue);
 
       // The song is in the database and still on disk.
       // Check the mtime to see if it's been changed since it was added.
@@ -413,7 +413,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       bool cue_added = matching_cue_mtime != 0 && !matching_song.has_cue();
 
       // watch out for cue songs which have their mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
-      bool changed = (matching_song.mtime() != static_cast<quint64>(qMax(file_info.lastModified().toSecsSinceEpoch(), song_cue_mtime))) || cue_deleted || cue_added;
+      bool changed = (matching_song.mtime() != qMax(file_info.lastModified().toSecsSinceEpoch(), song_cue_mtime)) || cue_deleted || cue_added;
 
       // Also want to look to see whether the album art has changed
       QUrl image = ImageForSong(file, album_art);

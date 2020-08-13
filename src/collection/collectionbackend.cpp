@@ -222,7 +222,7 @@ SubdirectoryList CollectionBackend::SubdirsInDirectory(int id, QSqlDatabase &db)
     Subdirectory subdir;
     subdir.directory_id = id;
     subdir.path = q.value(0).toString();
-    subdir.mtime = q.value(1).toUInt();
+    subdir.mtime = q.value(1).toLongLong();
     subdirs << subdir;
   }
 
