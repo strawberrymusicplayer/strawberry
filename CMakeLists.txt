@@ -368,6 +368,8 @@ else()
   )
 endif()
 
+option(INSTALL_TRANSLATIONS "Install translations" OFF)
+
 optional_component(SUBSONIC ON "Subsonic support")
 optional_component(TIDAL ON "Tidal support")
 

@@ -1243,6 +1243,10 @@ if(NOT APPLE)
   install(TARGETS strawberry RUNTIME DESTINATION bin)
 endif()
 
+if(INSTALL_TRANSLATIONS_FILES)
+  install(FILES ${INSTALL_TRANSLATIONS_FILES} DESTINATION share/translations)
+endif()
+
 if(APPLE)
   set_target_properties(strawberry PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/../dist/macos/Info.plist")
 endif (APPLE)

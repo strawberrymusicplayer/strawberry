@@ -37,6 +37,7 @@
 #include <QSpinBox>
 #include <QComboBox>
 #include <QGroupBox>
+#include <QStandardPaths>
 
 #include "core/iconloader.h"
 #include "core/mainwindow.h"
@@ -73,8 +74,12 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
 
 #ifdef HAVE_TRANSLATIONS
   // Populate the language combo box.  We do this by looking at all the compiled in translations.
-  QDir dir(":/translations/");
-  QStringList codes(dir.entryList(QStringList() << "*.qm"));
+  QDir dir1(":/translations/");
+  QDir dir2(TRANSLATIONS_DIR);
+  QStringList codes(dir1.entryList(QStringList() << "*.qm"));
+  if (dir2.exists()) {
+    codes << dir2.entryList(QStringList() << "*.qm");
+  }
   QRegularExpression lang_re("^strawberry_(.*).qm$");
   for (const QString &filename : codes) {
 

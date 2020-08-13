@@ -225,7 +225,7 @@ int main(int argc, char* argv[]) {
   // Resources
   Q_INIT_RESOURCE(data);
   Q_INIT_RESOURCE(icons);
-#ifdef HAVE_TRANSLATIONS
+#if defined(HAVE_TRANSLATIONS) && !defined(INSTALL_TRANSLATIONS)
   Q_INIT_RESOURCE(translations);
 #endif
 
@@ -254,6 +254,7 @@ int main(int argc, char* argv[]) {
 
   translations->LoadTranslation("qt", QLibraryInfo::location(QLibraryInfo::TranslationsPath), language);
   translations->LoadTranslation("strawberry", ":/translations", language);
+  translations->LoadTranslation("strawberry", TRANSLATIONS_DIR, language);
   translations->LoadTranslation("strawberry", a.applicationDirPath(), language);
   translations->LoadTranslation("strawberry", QDir::currentPath(), language);
 

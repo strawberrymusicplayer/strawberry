@@ -19,6 +19,8 @@ set (XGETTEXT_OPTIONS
     --from-code=utf-8
     )
 
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/translations)
+
 macro(add_pot outfiles header pot)
   # Make relative filenames for all source files
   set(add_pot_sources)
@@ -64,18 +66,21 @@ macro(add_po outfiles po_prefix)
     )
 
     list(APPEND ${outfiles} ${_qm_filepath})
+    list(APPEND INSTALL_TRANSLATIONS_FILES ${_qm_filepath})
   endforeach (_lang)
 
   # Generate a qrc file for the translations
-  set(_qrc ${CMAKE_CURRENT_BINARY_DIR}/${ADD_PO_DIRECTORY}/translations.qrc)
-  file(WRITE ${_qrc} "<RCC><qresource prefix=\"/${ADD_PO_DIRECTORY}\">")
-  foreach(_lang ${ADD_PO_LANGUAGES})
-    file(APPEND ${_qrc} "<file>${po_prefix}${_lang}.qm</file>")
-  endforeach(_lang)
-  file(APPEND ${_qrc} "</qresource></RCC>")
-  if(WITH_QT6)
-    qt6_add_resources(${outfiles} ${_qrc})
-  else()
-    qt5_add_resources(${outfiles} ${_qrc})
+  if(NOT INSTALL_TRANSLATIONS)
+    set(_qrc ${CMAKE_CURRENT_BINARY_DIR}/${ADD_PO_DIRECTORY}/translations.qrc)
+    file(WRITE ${_qrc} "<RCC><qresource prefix=\"/${ADD_PO_DIRECTORY}\">")
+    foreach(_lang ${ADD_PO_LANGUAGES})
+      file(APPEND ${_qrc} "<file>${po_prefix}${_lang}.qm</file>")
+    endforeach(_lang)
+    file(APPEND ${_qrc} "</qresource></RCC>")
+    if(WITH_QT6)
+      qt6_add_resources(${outfiles} ${_qrc})
+    else()
+      qt5_add_resources(${outfiles} ${_qrc})
+    endif()
   endif()
 endmacro(add_po)
