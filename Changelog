@@ -11,6 +11,9 @@ Unreleased:
     * Fixed collection search when using special characters in the search query.
     * Fixed reading and saving MP4 lyrics tag.
     * Fixed reading ASF comment tag.
+    * Fixed adding playlist songs outside the collection when there are multiple files with the same URL.
+    * Fixed the rescan songs option to work with local songs outside of the collection.
+    * Fixed problems with editing song metadata in the playlists.
     * (macOS) Fixed gst-libav plugin issue resulting in MP3 not working.
 
   Enhancements:
@@ -20,6 +23,10 @@ Unreleased:
     * Base warning for show in file browser on unique directories to avoid unneeded warning about opening many files.
     * Use album artist instead of artist for album repeat mode when available.
     * Added extra safety for overwriting files for filesystem storages when organizing files.
+    * Remove diacritics in FTS search.
+    * Improved playlist context menu.
+    * Added fatal CMake error for missing protobuf compiler.
+    * Added support for parsing radio streams metadata with tilde in title.
     * (Unix) Added playback actions to desktop file.
     * (macOS) Hide behaviour settings that are unavailable on macOS.
     * (macOS) Fixed compile warnings.
