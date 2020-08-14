@@ -28,9 +28,6 @@ depends=(
   libgpod
   libcdio
   libmtp
-  libusbmuxd
-  libplist
-  libimobiledevice
   fftw
 )
 optdepends=(

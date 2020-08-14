@@ -44,7 +44,7 @@ You can also make a one-time payment through [paypal.me/jonaskvinge](https://pay
   * Support for multiple backends
   * Audio analyzer
   * Audio equalizer
-  * Transfer music to iPod, iPhone, MTP or mass-storage USB player
+  * Transfer music to iPod, MTP or mass-storage USB player
   * Scrobbler with support for [Last.fm](https://www.last.fm/), [Libre.fm](https://libre.fm/) and [ListenBrainz](https://listenbrainz.org/)
   * Subsonic and Tidal streaming support
 
@@ -78,7 +78,6 @@ Optional dependencies:
 * Audio CD: [libcdio](https://www.gnu.org/software/libcdio/)
 * MTP devices: [libmtp](http://libmtp.sourceforge.net/)
 * iPod Classic devices: [libgpod](http://www.gtkpod.org/libgpod/)
-* iPhone, iPod Touch, iPad and Apple TV devices: [libimobiledevice, libplist and libusbmuxd](https://www.libimobiledevice.org/)
 * Moodbar: [fftw3](http://www.fftw.org/)
 
 Either GStreamer or VLC engine is required, but only GStreamer is fully implemented so far.

@@ -73,10 +73,6 @@
 #ifdef HAVE_LIBMTP
 #  include "mtpdevice.h"
 #endif
-#ifdef HAVE_IMOBILEDEVICE
-#  include "afcdevice.h"
-#  include "ilister.h"
-#endif
 #if defined(Q_OS_MACOS) and defined(HAVE_LIBMTP)
 #  include "macosdevicelister.h"
 #endif
@@ -125,9 +121,6 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
 #if defined(Q_OS_MACOS) and defined(HAVE_LIBMTP)
   AddLister(new MacOsDeviceLister);
 #endif
-#ifdef HAVE_IMOBILEDEVICE
-  AddLister(new iLister);
-#endif
 
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
   AddDeviceClass<CddaDevice>();
@@ -141,10 +134,6 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
 
 #ifdef HAVE_LIBMTP
   AddDeviceClass<MtpDevice>();
-#endif
-
-#ifdef HAVE_IMOBILEDEVICE
-  AddDeviceClass<AfcDevice>();
 #endif
 
 }

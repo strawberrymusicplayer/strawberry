@@ -53,9 +53,7 @@ jobs:
             libqt5-linguist-devel
             libcdio-devel
             libgpod-devel
-            libplist-devel
             libmtp-devel
-            libusbmuxd-devel
             libchromaprint-devel
             desktop-file-utils
             update-desktop-files
@@ -123,9 +121,7 @@ jobs:
             libqt5-linguist-devel
             libcdio-devel
             libgpod-devel
-            libplist-devel
             libmtp-devel
-            libusbmuxd-devel
             libchromaprint-devel
             desktop-file-utils
             update-desktop-files
@@ -201,9 +197,7 @@ jobs:
             libqt5-linguist-devel
             libcdio-devel
             libgpod-devel
-            libplist-devel
             libmtp-devel
-            libusbmuxd-devel
             libchromaprint-devel
             desktop-file-utils
             update-desktop-files
@@ -281,9 +275,7 @@ jobs:
             libqt5-linguist-devel
             libcdio-devel
             libgpod-devel
-            libplist-devel
             libmtp-devel
-            libusbmuxd-devel
             libchromaprint-devel
             desktop-file-utils
             update-desktop-files
@@ -363,9 +355,7 @@ jobs:
             qt6-qt5compat-devel
             libcdio-devel
             libgpod-devel
-            libplist-devel
             libmtp-devel
-            libusbmuxd-devel
             libchromaprint-devel
             desktop-file-utils
             update-desktop-files
@@ -434,8 +424,6 @@ jobs:
             taglib-devel
             libcdio-devel
             libgpod-devel
-            libplist-devel
-            libusbmuxd-devel
             libmtp-devel
             libchromaprint-devel
             fftw-devel
@@ -518,8 +506,6 @@ jobs:
             libchromaprint-devel
             libcdio-devel
             libgpod-devel
-            libplist-devel
-            libusbmuxd-devel
             libmtp-devel
             libjpeg-devel
             cairo-devel
@@ -607,8 +593,6 @@ jobs:
             lib64gstreamer-plugins-base1.0-devel
             lib64cdio-devel
             lib64gpod-devel
-            lib64plist-devel
-            lib64usbmuxd-devel
             lib64mtp-devel
             lib64raw1394-devel
             lib64chromaprint-devel
@@ -684,9 +668,6 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
-            libimobiledevice-dev
-            libplist-dev
-            libusbmuxd-dev
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -743,9 +724,6 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
-            libimobiledevice-dev
-            libplist-dev
-            libusbmuxd-dev
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -807,9 +785,6 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
-            libimobiledevice-dev
-            libplist-dev
-            libusbmuxd-dev
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -871,9 +846,6 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
-            libimobiledevice-dev
-            libplist-dev
-            libusbmuxd-dev
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -935,9 +907,6 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
-            libimobiledevice-dev
-            libplist-dev
-            libusbmuxd-dev
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -980,8 +949,6 @@ jobs:
           gst-libav
           libcdio
           libmtp
-          libimobiledevice
-          libplist
           create-dmg
           taglib
 
@@ -1045,7 +1012,6 @@ jobs:
           -DENABLE_WIN32_CONSOLE=OFF
           -DENABLE_DBUS=OFF
           -DENABLE_LIBGPOD=OFF
-          -DENABLE_IMOBILEDEVICE=OFF
           -DENABLE_LIBMTP=OFF
           -DProtobuf_PROTOC_EXECUTABLE=/usr/src/strawberry-mxe/usr/x86_64-pc-linux-gnu/bin/protoc
 

@@ -95,9 +95,7 @@ commands:
             libqt5-linguist-devel
             libcdio-devel
             libgpod-devel
-            libplist-devel
             libmtp-devel
-            libusbmuxd-devel
             libchromaprint-devel
             desktop-file-utils
             update-desktop-files
@@ -149,8 +147,6 @@ commands:
             taglib-devel
             libcdio-devel
             libgpod-devel
-            libplist-devel
-            libusbmuxd-devel
             libmtp-devel
             libchromaprint-devel
             fftw-devel
@@ -213,8 +209,6 @@ commands:
             libchromaprint-devel
             libcdio-devel
             libgpod-devel
-            libplist-devel
-            libusbmuxd-devel
             libmtp-devel
             libjpeg-devel
             cairo-devel
@@ -280,8 +274,6 @@ commands:
             lib64gstreamer-plugins-base1.0-devel
             lib64cdio-devel
             lib64gpod-devel
-            lib64plist-devel
-            lib64usbmuxd-devel
             lib64mtp-devel
             lib64raw1394-devel
             lib64chromaprint-devel
@@ -335,9 +327,6 @@ commands:
             libcdio-dev
             libmtp-dev
             libgpod-dev
-            libimobiledevice-dev
-            libplist-dev
-            libusbmuxd-dev
 
 
   install_ubuntu_dependencies:
@@ -389,9 +378,6 @@ commands:
             libcdio-dev
             libmtp-dev
             libgpod-dev
-            libimobiledevice-dev
-            libplist-dev
-            libusbmuxd-dev
 
 
 jobs:

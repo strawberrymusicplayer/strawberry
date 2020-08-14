@@ -106,7 +106,7 @@ Features:
   - Support for multiple backends
   - Audio analyzer
   - Audio equalizer
-  - Transfer music to iPod, iPhone, MTP or mass-storage USB player
+  - Transfer music to iPod, MTP or mass-storage USB player
   - Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
   - Streaming support for Subsonic
 

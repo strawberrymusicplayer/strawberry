@@ -101,11 +101,8 @@ parts:
       - libgstreamer-plugins-base1.0-dev
       - libvlc-dev
       - libcdio-dev
-      - libgpod-dev
-      - libimobiledevice-dev
+      - libgpod-devdev
       - libmtp-dev
-      - libplist-dev
-      - libusbmuxd-dev
       - libchromaprint-dev
       - libfftw3-dev
 
@@ -131,9 +128,6 @@ parts:
       - libcdio17
       - libgpod4
       - libmtp9
-      - libimobiledevice6
-      - libplist3
-      - libusbmuxd4
       - libvlc5
       - libvlccore9
       - libtag1v5

@@ -36,6 +36,7 @@ Unreleased:
 
   Removed features:
     * Removed Xine engine support.
+    * Removed broken imobiledevice (iPhone) support.
 
 0.6.13:
 

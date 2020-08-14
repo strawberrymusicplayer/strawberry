@@ -23,7 +23,7 @@ before_install:
       brew unlink python@2 || travis_terminate 1;
       brew install glib pkgconfig libffi protobuf protobuf-c qt gettext gnutls fftw sqlite chromaprint zlib taglib;
       brew install gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav;
-      brew install libcdio libmtp libimobiledevice libplist;
+      brew install libcdio libmtp;
       brew install create-dmg;
       brew cask install sparkle;
       sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework /Library/Frameworks/Sparkle.framework;
