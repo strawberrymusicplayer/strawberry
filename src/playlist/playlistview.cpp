@@ -353,8 +353,6 @@ void PlaylistView::LoadGeometry() {
     header_->ShowSection(Playlist::Column_Title);
   }
 
-  header_->setSortIndicatorShown(false);
-
 }
 
 void PlaylistView::SaveGeometry() {
