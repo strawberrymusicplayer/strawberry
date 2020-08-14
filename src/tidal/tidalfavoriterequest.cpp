@@ -135,7 +135,11 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
 
   QUrl url(api_url() + QString("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type));
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
   if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
@@ -239,7 +243,11 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const QStrin
   QUrl url(api_url() + QString("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type) + QString("/") + id);
   url.setQuery(url_query);
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
   if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());

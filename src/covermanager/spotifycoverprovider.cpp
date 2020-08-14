@@ -232,8 +232,12 @@ void SpotifyCoverProvider::RequestAccessToken(const QString code, const QUrl red
   }
 
   QUrl new_url(kOAuthAccessTokenUrl);
-  QNetworkRequest req = QNetworkRequest(new_url);
+  QNetworkRequest req(new_url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QString auth_header_data = QByteArray::fromBase64(kClientIDB64) + QString(":") + QByteArray::fromBase64(kClientSecretB64);
   req.setRawHeader("Authorization", "Basic " + auth_header_data.toUtf8().toBase64());
@@ -388,7 +392,11 @@ bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &alb
   QUrl url(kApiUrl + QString("/search"));
   url.setQuery(url_query);
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   req.setRawHeader("Authorization", "Bearer " + access_token_.toUtf8());
 

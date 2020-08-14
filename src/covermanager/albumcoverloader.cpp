@@ -378,7 +378,11 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
     }
     else if (network_->supportedSchemes().contains(cover_url.scheme())) {  // Remote URL
       QNetworkRequest request(cover_url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+      request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
       request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
       QNetworkReply *reply = network_->get(request);
       connect(reply, &QNetworkReply::finished, [=] { RemoteFetchFinished(reply, cover_url); });
 
@@ -405,7 +409,11 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cov
       return;  // Give up.
     }
     QNetworkRequest request = reply->request();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
     request.setUrl(redirect.toUrl());
     QNetworkReply *redirected_reply = network_->get(request);
     connect(redirected_reply, &QNetworkReply::finished, [=] { RemoteFetchFinished(redirected_reply, redirect.toUrl()); });

@@ -57,7 +57,11 @@ bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album,
 
   QUrl url(kUrlSearch + QString(QUrl::toPercentEncoding(artist)) + "/" + QString(QUrl::toPercentEncoding(title)));
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, title); });

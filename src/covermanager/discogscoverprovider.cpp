@@ -174,7 +174,11 @@ QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &pa
   url_query.addQueryItem("Signature", QUrl::toPercentEncoding(signature.toBase64()));
 
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
 

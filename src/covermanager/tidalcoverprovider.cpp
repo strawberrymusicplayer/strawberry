@@ -106,7 +106,11 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
   QUrl url(kApiUrl + QString("/") + resource);
   url.setQuery(url_query);
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   if (!service_->access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + service_->access_token().toUtf8());
   if (!service_->session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", service_->session_id().toUtf8());

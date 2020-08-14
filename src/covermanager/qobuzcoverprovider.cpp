@@ -109,6 +109,11 @@ void QobuzCoverProvider::Authenticate() {
 
   QUrl url(kAuthUrl);
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
+  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
@@ -327,7 +332,11 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
   url.setQuery(url_query);
 
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   req.setRawHeader("X-App-Id", kAppID);
   req.setRawHeader("X-User-Auth-Token", user_auth_token_.toUtf8());

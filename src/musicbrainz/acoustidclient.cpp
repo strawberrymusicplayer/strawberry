@@ -82,7 +82,11 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
   url.setQuery(url_query);
 
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   QNetworkReply *reply = network_->get(req);
   connect(reply, &QNetworkReply::finished, [=] { RequestFinished(reply, id); });
   requests_[id] = reply;

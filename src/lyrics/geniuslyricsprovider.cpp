@@ -190,7 +190,11 @@ void GeniusLyricsProvider::RequestAccessToken(const QUrl &url, const QUrl &redir
 
     QUrl new_url(kOAuthAccessTokenUrl);
     QNetworkRequest req = QNetworkRequest(new_url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+    req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
     req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
     QByteArray query = new_url_query.toString(QUrl::FullyEncoded).toUtf8();
 
     QNetworkReply *reply = network_->post(req, query);
@@ -322,7 +326,11 @@ bool GeniusLyricsProvider::StartSearch(const QString &artist, const QString &alb
   QUrl url(kUrlSearch);
   url.setQuery(url_query);
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   req.setRawHeader("Authorization", "Bearer " + access_token_.toUtf8());
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
@@ -440,7 +448,11 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64
     search->requests_lyric_.insert(url, lyric);
 
     QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+    req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
     req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
     QNetworkReply *new_reply = network_->get(req);
     replies_ << new_reply;
     connect(new_reply, &QNetworkReply::finished, [=] { HandleLyricReply(new_reply, search->id, url); });

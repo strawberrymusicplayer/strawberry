@@ -161,7 +161,11 @@ void MusicBrainzClient::StartDiscIdRequest(const QString &discid) {
   url.setQuery(url_query);
 
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   QNetworkReply *reply = network_->get(req);
   connect(reply, &QNetworkReply::finished, [=] { DiscIdRequestFinished(discid, reply); });
 
@@ -183,7 +187,11 @@ void MusicBrainzClient::FlushRequests() {
   url.setQuery(url_query);
 
   QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   QNetworkReply *reply = network_->get(req);
   connect(reply, &QNetworkReply::finished, [=] { RequestFinished(reply, request.id, request.number); });
   requests_.insert(request.id, reply);
