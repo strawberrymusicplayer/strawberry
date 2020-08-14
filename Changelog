@@ -27,6 +27,7 @@ Unreleased:
     * Improved playlist context menu.
     * Added fatal CMake error for missing protobuf compiler.
     * Added support for parsing radio streams metadata with tilde in title.
+    * Added CMake option to install translation files.
     * (Unix) Added playback actions to desktop file.
     * (macOS) Hide behaviour settings that are unavailable on macOS.
     * (macOS) Fixed compile warnings.
