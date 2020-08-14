@@ -791,14 +791,6 @@ msgstr "Bersama dengan yang asli"
 msgid "Always start playing"
 msgstr "Selalu mulai memutar"
 
-#: device/afcdevice.cpp:90
-msgid "An error occurred copying the iTunes database from the device"
-msgstr "Terjadi kesalahan saat menyalin basis data iTunes dari perangkat"
-
-#: device/afcdevice.cpp:191
-msgid "An error occurred copying the iTunes database onto the device"
-msgstr "Terjadi kesalahan saat menyalin basis data iTunes ke perangkat"
-
 #: device/gpodloader.cpp:79
 msgid "An error occurred loading the iTunes database"
 msgstr "Sebuah galat terjadi saat memuat basis data iTunes"
@@ -1015,10 +1007,6 @@ msgstr "Penganalisis blok"
 msgid "Block type"
 msgstr "Tipe blok"
 
-#: device/ilister.cpp:141
-msgid "Bluetooth MAC Address"
-msgstr "Alamat MAC Bluetooth"
-
 #: ../build/src/ui_appearancesettingspage.h:540
 msgid "Blur amount"
 msgstr "Besaran kekaburan"
@@ -1184,10 +1172,6 @@ msgstr "Pengelompokan pustaka lanjutan"
 msgid "Collection rescan notice"
 msgstr "Pemberitahuan pemindaian ulang pustaka"
 
-#: device/ilister.cpp:136
-msgid "Color"
-msgstr "Warna"
-
 #: ../build/src/ui_appearancesettingspage.h:506
 msgid "Colors"
 msgstr "Warna"
@@ -1239,7 +1223,7 @@ msgstr ""
 msgid "Configure collection..."
 msgstr "Konfigurasi pustaka..."
 
-#: device/devicemanager.cpp:355 device/devicemanager.cpp:356
+#: device/devicemanager.cpp:344 device/devicemanager.cpp:345
 msgid "Connect device"
 msgstr "Sambungkan perangkat"
 
@@ -1290,10 +1274,6 @@ msgstr "Salin ke pustaka..."
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
 msgstr "Salin ke perangkat..."
-
-#: device/afctransfer.cpp:52
-msgid "Copying iPod database"
-msgstr "Menyalin basis data iPod"
 
 #: transcoder/transcoder.cpp:66
 #, qt-format
@@ -1949,8 +1929,8 @@ msgstr "Pengambilan selesai"
 msgid "Fetch entire albums when searching songs"
 msgstr "Ambil seluruh album saat mencari lagu"
 
-#: covermanager/coverfromurldialog.cpp:83
-#: covermanager/coverfromurldialog.cpp:95
+#: covermanager/coverfromurldialog.cpp:88
+#: covermanager/coverfromurldialog.cpp:100
 msgid "Fetching cover error"
 msgstr "Terjadi kesalahan saat mengambil sampul"
 
@@ -2285,7 +2265,7 @@ msgstr ""
 "Jika diaktifkan, mengklik lagu yang dipilih di dalam tampilan daftar putar "
 "memperbolehkan Anda menyunting nilai tag secara langsung"
 
-#: device/devicemanager.cpp:613 device/devicemanager.cpp:621
+#: device/devicemanager.cpp:602 device/devicemanager.cpp:610
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
@@ -2593,13 +2573,13 @@ msgstr ""
 msgid "Missing Subsonic username or password."
 msgstr "Nama pengguna atau kata sandi Subsonic tidak tersedia."
 
-#: tidal/tidalservice.cpp:732 tidal/tidalservice.cpp:791
-#: tidal/tidalservice.cpp:848 tidal/tidalservice.cpp:913
-#: tidal/tidalservice.cpp:973 tidal/tidalstreamurlrequest.cpp:89
+#: tidal/tidalservice.cpp:737 tidal/tidalservice.cpp:796
+#: tidal/tidalservice.cpp:853 tidal/tidalservice.cpp:918
+#: tidal/tidalservice.cpp:978 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:693
+#: tidal/tidalservice.cpp:698
 msgid "Missing Tidal API token."
 msgstr "Token API Tidal tidak tersedia."
 
@@ -2607,11 +2587,11 @@ msgstr "Token API Tidal tidak tersedia."
 msgid "Missing Tidal client ID."
 msgstr "Client ID Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:701
+#: tidal/tidalservice.cpp:706
 msgid "Missing Tidal password."
 msgstr "Kata sandi Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:697
+#: tidal/tidalservice.cpp:702
 msgid "Missing Tidal username."
 msgstr "Nama pengguna Tidal tidak tersedia."
 
@@ -2623,7 +2603,7 @@ msgstr "URL server, nama pengguna atau kata sandi tidak tersedia."
 msgid "Missing username and password."
 msgstr ""
 
-#: subsonic/subsonicservice.cpp:390
+#: subsonic/subsonicservice.cpp:400
 msgid "Missing username or password."
 msgstr "Nama pengguna atau kata sandi tidak tersedia."
 
@@ -2737,7 +2717,7 @@ msgstr "Tidak ada sampul untuk diekspor."
 msgid "No long blocks"
 msgstr "Tanpa blok panjang"
 
-#: tidal/tidalrequest.cpp:1250
+#: tidal/tidalrequest.cpp:1254
 msgid "No match."
 msgstr "Tidak ada yang cocok."
 
@@ -2779,15 +2759,15 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Tipe blok normal"
 
-#: tidal/tidalservice.cpp:705
+#: tidal/tidalservice.cpp:710
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Tidak terautentikasi dengan Tidal dan jumlah maksimum upaya masuk tercapai."
 
-#: tidal/tidalservice.cpp:727 tidal/tidalservice.cpp:786
-#: tidal/tidalservice.cpp:843 tidal/tidalservice.cpp:908
-#: tidal/tidalservice.cpp:969 tidal/tidalstreamurlrequest.cpp:85
+#: tidal/tidalservice.cpp:732 tidal/tidalservice.cpp:791
+#: tidal/tidalservice.cpp:848 tidal/tidalservice.cpp:913
+#: tidal/tidalservice.cpp:974 tidal/tidalstreamurlrequest.cpp:85
 msgid "Not authenticated with Tidal."
 msgstr "Tidak terautentikasi dengan Tidal."
 
@@ -2950,10 +2930,6 @@ msgstr "Pesta"
 #: ../build/src/ui_tidalsettingspage.h:320
 msgid "Password"
 msgstr "Sandi"
-
-#: device/ilister.cpp:138
-msgid "Password Protected"
-msgstr "Terlindungi dengan Kata Sandi"
 
 #: core/mainwindow.cpp:1174 core/mainwindow.cpp:1645
 #: core/qtsystemtrayicon.cpp:202
@@ -3219,7 +3195,7 @@ msgstr ""
 "Balasan yang tidak benar diterima dari peramban web. Coba opsi HTTPS, atau "
 "gunakan peramban web lain seperti Chromium atau Chrome."
 
-#: lyrics/geniuslyricsprovider.cpp:204
+#: lyrics/geniuslyricsprovider.cpp:208
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
@@ -3536,12 +3512,12 @@ msgstr "Ukuran skala"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1004
+#: scrobbler/scrobblingapi20.cpp:1012
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:531
+#: scrobbler/scrobblingapi20.cpp:539
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 tidak terautentikasi!"
@@ -3630,7 +3606,7 @@ msgstr "Nomor seri"
 msgid "Server URL"
 msgstr "URL server"
 
-#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:109
+#: subsonic/subsonicservice.cpp:395 settings/subsonicsettingspage.cpp:109
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 
@@ -4131,11 +4107,11 @@ msgstr "Sampul album dari lagu yang diputar saat ini"
 msgid "The internet collection is empty!"
 msgstr "Koleksi internet kosong!"
 
-#: covermanager/coverfromurldialog.cpp:83
+#: covermanager/coverfromurldialog.cpp:88
 msgid "The site you requested does not exist!"
 msgstr "Situs yang Anda minta tidak ada!"
 
-#: covermanager/coverfromurldialog.cpp:95
+#: covermanager/coverfromurldialog.cpp:100
 msgid "The site you requested is not an image!"
 msgstr "Situs yang Anda minta bukan sebuah gambar!"
 
@@ -4217,23 +4193,23 @@ msgstr ""
 msgid "This device supports the following file formats:"
 msgstr "Perangkat ini mendukung format berkas berikut:"
 
-#: device/devicemanager.cpp:611 device/devicemanager.cpp:619
+#: device/devicemanager.cpp:600 device/devicemanager.cpp:608
 msgid "This device will not work properly"
 msgstr "Perangkat ini tidak akan bekerja dengan baik"
 
-#: device/devicemanager.cpp:612
+#: device/devicemanager.cpp:601
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr ""
 "Ini adalah perangkat MTP, tetapi Anda mengompilasi Strawberry tanpa dukungan "
 "libmtp."
 
-#: device/devicemanager.cpp:620
+#: device/devicemanager.cpp:609
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr ""
 "Ini adalah iPod, tetapi Anda mengompilasi Strawberry tanpa dukungan libgpod."
 
-#: device/devicemanager.cpp:355
+#: device/devicemanager.cpp:344
 msgid ""
 "This is the first time you have connected this device.  Strawberry will now "
 "scan the device to find music files - this may take some time."
@@ -4246,7 +4222,7 @@ msgstr ""
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "Opsi ini dapat diubah di pengaturan \"Perilaku\""
 
-#: device/devicemanager.cpp:634
+#: device/devicemanager.cpp:623
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Tipe perangkat ini tidak didukung: %1"
@@ -4264,10 +4240,6 @@ msgstr ""
 #: ../build/src/ui_behavioursettingspage.h:320
 msgid "Time step"
 msgstr "Selang waktu"
-
-#: device/ilister.cpp:139
-msgid "Timezone"
-msgstr "Zona waktu"
 
 #: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1166
 #: organize/organizedialog.cpp:98 ../build/src/ui_contextsettingspage.h:415
@@ -4369,7 +4341,7 @@ msgstr "Pita ultra lebar (UWB)"
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: subsonic/subsonicrequest.cpp:843 tidal/tidalrequest.cpp:1256
+#: subsonic/subsonicrequest.cpp:847 tidal/tidalrequest.cpp:1260
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
 
@@ -4581,10 +4553,6 @@ msgstr ""
 #: ../build/src/ui_playlistsettingspage.h:154
 msgid "When saving a playlist, file paths should be"
 msgstr "Ketika menyimpan daftar putar, lokasi berkas sebaiknya"
-
-#: device/ilister.cpp:140
-msgid "WiFi MAC Address"
-msgstr "Alamat MAC WiFi"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:228
 msgid "Wide band (WB)"

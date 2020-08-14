@@ -820,18 +820,6 @@ msgstr "A côté des originaux"
 msgid "Always start playing"
 msgstr "Toujours commencer la lecture"
 
-#: device/afcdevice.cpp:90
-msgid "An error occurred copying the iTunes database from the device"
-msgstr ""
-"Une erreur est survenue lors de la copie de la base iTunes depuis le "
-"périphérique"
-
-#: device/afcdevice.cpp:191
-msgid "An error occurred copying the iTunes database onto the device"
-msgstr ""
-"Une erreur est survenue lors de la copie de la base iTunes sur le "
-"périphérique"
-
 #: device/gpodloader.cpp:79
 msgid "An error occurred loading the iTunes database"
 msgstr ""
@@ -1052,10 +1040,6 @@ msgstr "Spectrogramme avec blocs"
 msgid "Block type"
 msgstr "Type de bloc"
 
-#: device/ilister.cpp:141
-msgid "Bluetooth MAC Address"
-msgstr "Adresse MAC du Bluetooth"
-
 #: ../build/src/ui_appearancesettingspage.h:540
 msgid "Blur amount"
 msgstr "Niveau de flou"
@@ -1225,10 +1209,6 @@ msgstr "Groupement avancé de la bibliothèque"
 msgid "Collection rescan notice"
 msgstr "Avertissement de réanalyse de la bibliothèque"
 
-#: device/ilister.cpp:136
-msgid "Color"
-msgstr "Couleur"
-
 #: ../build/src/ui_appearancesettingspage.h:506
 msgid "Colors"
 msgstr "Couleurs"
@@ -1282,7 +1262,7 @@ msgstr "Configurer les boutons"
 msgid "Configure collection..."
 msgstr "Configurer votre bibliothèque..."
 
-#: device/devicemanager.cpp:355 device/devicemanager.cpp:356
+#: device/devicemanager.cpp:344 device/devicemanager.cpp:345
 msgid "Connect device"
 msgstr "Connexion du périphérique"
 
@@ -1334,10 +1314,6 @@ msgstr "Copier vers la bibliothèque..."
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
 msgstr "Copier sur le périphérique..."
-
-#: device/afctransfer.cpp:52
-msgid "Copying iPod database"
-msgstr "Copier la base de données de l'iPod"
 
 #: transcoder/transcoder.cpp:66
 #, qt-format
@@ -2000,8 +1976,8 @@ msgstr "Récupération terminé"
 msgid "Fetch entire albums when searching songs"
 msgstr "Récupérer les albums entiers lors d'une recherche de morceau"
 
-#: covermanager/coverfromurldialog.cpp:83
-#: covermanager/coverfromurldialog.cpp:95
+#: covermanager/coverfromurldialog.cpp:88
+#: covermanager/coverfromurldialog.cpp:100
 msgid "Fetching cover error"
 msgstr "Erreur lors de la récupération de la pochette"
 
@@ -2339,7 +2315,7 @@ msgstr ""
 "Si cette option est activée, cliquer sur un morceau sélectionné dans la "
 "liste de lecture vous permettra d'éditer directement la valeur du tag"
 
-#: device/devicemanager.cpp:613 device/devicemanager.cpp:621
+#: device/devicemanager.cpp:602 device/devicemanager.cpp:610
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
@@ -2652,15 +2628,15 @@ msgstr ""
 msgid "Missing Subsonic username or password."
 msgstr "Le nom d'utilisateur ou le mot de passe de Subsonic est manquant."
 
-#: tidal/tidalservice.cpp:732 tidal/tidalservice.cpp:791
-#: tidal/tidalservice.cpp:848 tidal/tidalservice.cpp:913
-#: tidal/tidalservice.cpp:973 tidal/tidalstreamurlrequest.cpp:89
+#: tidal/tidalservice.cpp:737 tidal/tidalservice.cpp:796
+#: tidal/tidalservice.cpp:853 tidal/tidalservice.cpp:918
+#: tidal/tidalservice.cpp:978 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 "Le jeton de l'API Tidal, le nom d'utilisateur ou le mot de passe est "
 "manquant."
 
-#: tidal/tidalservice.cpp:693
+#: tidal/tidalservice.cpp:698
 msgid "Missing Tidal API token."
 msgstr "Le jeton de l'API Tidal est manquant."
 
@@ -2668,11 +2644,11 @@ msgstr "Le jeton de l'API Tidal est manquant."
 msgid "Missing Tidal client ID."
 msgstr "L'ID du client Tidal est manquant."
 
-#: tidal/tidalservice.cpp:701
+#: tidal/tidalservice.cpp:706
 msgid "Missing Tidal password."
 msgstr "Le mot de passe de Tidal est manquant."
 
-#: tidal/tidalservice.cpp:697
+#: tidal/tidalservice.cpp:702
 msgid "Missing Tidal username."
 msgstr "Le nom d'utilisateur de Tidal est manquant."
 
@@ -2685,7 +2661,7 @@ msgstr ""
 msgid "Missing username and password."
 msgstr "Nom d'utilisateur et mot de passe manquants."
 
-#: subsonic/subsonicservice.cpp:390
+#: subsonic/subsonicservice.cpp:400
 msgid "Missing username or password."
 msgstr "Le nom d'utilisateur ou le mot de passe est manquant."
 
@@ -2799,7 +2775,7 @@ msgstr "Aucune pochette à exporter."
 msgid "No long blocks"
 msgstr "Aucun bloc long"
 
-#: tidal/tidalrequest.cpp:1250
+#: tidal/tidalrequest.cpp:1254
 msgid "No match."
 msgstr "Aucune correspondance."
 
@@ -2842,16 +2818,16 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Type de bloc normal"
 
-#: tidal/tidalservice.cpp:705
+#: tidal/tidalservice.cpp:710
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Aucune authentification sur Tidal et nombre maximum de tentatives de "
 "connexion atteint."
 
-#: tidal/tidalservice.cpp:727 tidal/tidalservice.cpp:786
-#: tidal/tidalservice.cpp:843 tidal/tidalservice.cpp:908
-#: tidal/tidalservice.cpp:969 tidal/tidalstreamurlrequest.cpp:85
+#: tidal/tidalservice.cpp:732 tidal/tidalservice.cpp:791
+#: tidal/tidalservice.cpp:848 tidal/tidalservice.cpp:913
+#: tidal/tidalservice.cpp:974 tidal/tidalstreamurlrequest.cpp:85
 msgid "Not authenticated with Tidal."
 msgstr "Aucune authentification sur Tidal."
 
@@ -3014,10 +2990,6 @@ msgstr "Soirée"
 #: ../build/src/ui_tidalsettingspage.h:320
 msgid "Password"
 msgstr "Mot de passe"
-
-#: device/ilister.cpp:138
-msgid "Password Protected"
-msgstr "Protégé par mot de passe"
 
 #: core/mainwindow.cpp:1174 core/mainwindow.cpp:1645
 #: core/qtsystemtrayicon.cpp:202
@@ -3292,7 +3264,7 @@ msgstr ""
 "Réponse invalide du navigateur internet. Essayez avec l'option HTTPS, ou "
 "utilisez un autre navigateur tel que Chromium ou Chrome."
 
-#: lyrics/geniuslyricsprovider.cpp:204
+#: lyrics/geniuslyricsprovider.cpp:208
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "Rediriger depuis Genius ne contient pas de code ou d'état des éléments de "
@@ -3611,12 +3583,12 @@ msgstr "Taille redimensionnée"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1004
+#: scrobbler/scrobblingapi20.cpp:1012
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Erreur Scrobbler %1 : %2"
 
-#: scrobbler/scrobblingapi20.cpp:531
+#: scrobbler/scrobblingapi20.cpp:539
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 n'est pas authentifié !"
@@ -3705,7 +3677,7 @@ msgstr "Numéro de série"
 msgid "Server URL"
 msgstr "L'URL du serveur"
 
-#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:109
+#: subsonic/subsonicservice.cpp:395 settings/subsonicsettingspage.cpp:109
 msgid "Server URL is invalid."
 msgstr "L'URL du serveur est invalide."
 
@@ -4210,11 +4182,11 @@ msgstr "La pochette d'album de la piste en cours de lecture"
 msgid "The internet collection is empty!"
 msgstr "La bibliothèque Internet est vide !"
 
-#: covermanager/coverfromurldialog.cpp:83
+#: covermanager/coverfromurldialog.cpp:88
 msgid "The site you requested does not exist!"
 msgstr "Le site demandé n'existe pas !"
 
-#: covermanager/coverfromurldialog.cpp:95
+#: covermanager/coverfromurldialog.cpp:100
 msgid "The site you requested is not an image!"
 msgstr "Le site demandé n'est pas une image !"
 
@@ -4300,23 +4272,23 @@ msgstr ""
 msgid "This device supports the following file formats:"
 msgstr "Ce périphérique supporte les formats suivant :"
 
-#: device/devicemanager.cpp:611 device/devicemanager.cpp:619
+#: device/devicemanager.cpp:600 device/devicemanager.cpp:608
 msgid "This device will not work properly"
 msgstr "Ce périphérique ne fonctionne pas correctement"
 
-#: device/devicemanager.cpp:612
+#: device/devicemanager.cpp:601
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr ""
 "Ceci est un périphérique MTP, mais vous avez compilé Strawberry sans le "
 "support libmtp."
 
-#: device/devicemanager.cpp:620
+#: device/devicemanager.cpp:609
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr ""
 "Ceci est un iPod, mais vous avez compilé Strawberry sans le support libgpod."
 
-#: device/devicemanager.cpp:355
+#: device/devicemanager.cpp:344
 msgid ""
 "This is the first time you have connected this device.  Strawberry will now "
 "scan the device to find music files - this may take some time."
@@ -4330,7 +4302,7 @@ msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr ""
 "Cette option peut être modifiée dans les préférences de « Comportement »"
 
-#: device/devicemanager.cpp:634
+#: device/devicemanager.cpp:623
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Ce type de périphérique n'est pas supporté : %1"
@@ -4351,10 +4323,6 @@ msgstr ""
 #: ../build/src/ui_behavioursettingspage.h:320
 msgid "Time step"
 msgstr "Pas temporel"
-
-#: device/ilister.cpp:139
-msgid "Timezone"
-msgstr "Fuseau horaire"
 
 #: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1166
 #: organize/organizedialog.cpp:98 ../build/src/ui_contextsettingspage.h:415
@@ -4456,7 +4424,7 @@ msgstr "Très large bande (UWB)"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: subsonic/subsonicrequest.cpp:843 tidal/tidalrequest.cpp:1256
+#: subsonic/subsonicrequest.cpp:847 tidal/tidalrequest.cpp:1260
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
@@ -4668,10 +4636,6 @@ msgstr ""
 #: ../build/src/ui_playlistsettingspage.h:154
 msgid "When saving a playlist, file paths should be"
 msgstr "Emplacement des fichiers lors de la sauvegarde d'une liste de lecture"
-
-#: device/ilister.cpp:140
-msgid "WiFi MAC Address"
-msgstr "Adresse MAC du WiFi"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:228
 msgid "Wide band (WB)"
