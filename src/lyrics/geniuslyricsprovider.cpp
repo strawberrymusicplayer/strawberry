@@ -189,7 +189,7 @@ void GeniusLyricsProvider::RequestAccessToken(const QUrl &url, const QUrl &redir
     }
 
     QUrl new_url(kOAuthAccessTokenUrl);
-    QNetworkRequest req = QNetworkRequest(new_url);
+    QNetworkRequest req(new_url);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
     req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 #else

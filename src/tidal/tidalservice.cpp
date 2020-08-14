@@ -389,11 +389,16 @@ void TidalService::RequestAccessToken(const QString &code) {
   }
 
   QUrl url(kOAuthAccessTokenUrl);
-  QNetworkRequest request = QNetworkRequest(url);
+  QNetworkRequest req(url);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#else
+  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
 
   login_errors_.clear();
-  QNetworkReply *reply = network_->post(request, query);
+  QNetworkReply *reply = network_->post(req, query);
   replies_ << reply;
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
   connect(reply, &QNetworkReply::finished, [=] { AccessTokenRequestFinished(reply); });
