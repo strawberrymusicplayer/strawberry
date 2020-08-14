@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+0.7.1:
 
   Bugfixes:
     * Fixed incorrectly mapped global shortcuts keys "2" and "3".
