@@ -61,6 +61,6 @@
 
 #cmakedefine HAVE_TRANSLATIONS
 #cmakedefine INSTALL_TRANSLATIONS
-#define TRANSLATIONS_DIR "${CMAKE_INSTALL_PREFIX}/share/translations"
+#define TRANSLATIONS_DIR "${CMAKE_INSTALL_PREFIX}/share/strawberry/translations"
 
 #endif // CONFIG_H_IN
