@@ -2,6 +2,13 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+0.7.2:
+
+  BugFixes:
+    * Fixed installation directory for translations.
+    * Fixed collection sorting for non-ASCII characters.
+    * Fixed closing connected devices on exit.
+
 0.7.1:
 
   Bugfixes:
