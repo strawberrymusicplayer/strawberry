@@ -1442,7 +1442,7 @@ QString CollectionModel::SortText(QString text) {
   else {
     text = text.toLower();
   }
-  text = text.remove(QRegularExpression("[^\\w ]"));
+  text = text.remove(QRegularExpression("[^\\w ]", QRegularExpression::UseUnicodePropertiesOption));
 
   return text;
 

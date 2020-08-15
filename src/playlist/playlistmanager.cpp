@@ -234,7 +234,7 @@ void PlaylistManager::SaveWithUI(int id, const QString &playlist_name) {
   QString filter = settings.value("last_save_filter", parser()->default_filter()).toString();
 
   QString suggested_filename = playlist_name;
-  suggested_filename.replace(QRegularExpression("\\W"), "");
+  suggested_filename.replace(QRegularExpression("\\W", QRegularExpression::UseUnicodePropertiesOption), "");
 
   qLog(Debug) << "Using extension:" << extension;
 
