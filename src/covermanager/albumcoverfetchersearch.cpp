@@ -171,6 +171,7 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
         result_album.contains("concert") ||
         result_album.contains("essential") ||
         result_album.contains("ultimate") ||
+        result_album.contains("karaoke") ||
         result_album.contains("country rock") ||
         result_album.contains("indie folk") ||
         result_album.contains("soft rock") ||
@@ -198,7 +199,8 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
         result_album.contains("70's gold") ||
         result_album.contains("rockfluence") ||
         result_album.contains("acoustic dinner accompaniment") ||
-        result_album.contains("complete studio albums")
+        result_album.contains("complete studio albums") ||
+        result_album.contains("mellow rock")
         )) {
       results_copy[i].score_match -= 1;
     }
