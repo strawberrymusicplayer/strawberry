@@ -172,6 +172,7 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
         result_album.contains("essential") ||
         result_album.contains("ultimate") ||
         result_album.contains("karaoke") ||
+        result_album.contains("mixtape") ||
         result_album.contains("country rock") ||
         result_album.contains("indie folk") ||
         result_album.contains("soft rock") ||
@@ -186,7 +187,6 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
         result_album.contains("classic psychedelic") ||
         result_album.contains("playlist: acoustic") ||
         result_album.contains("90's rnb playlist") ||
-        result_album.contains("70s mixtape") ||
         result_album.contains("rock 80s") ||
         result_album.contains("classic 80s") ||
         result_album.contains("rock anthems") ||
