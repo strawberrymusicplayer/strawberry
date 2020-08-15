@@ -550,14 +550,14 @@ jobs:
       - uses: actions/checkout@v1.2.0
 
       - name: Update packages
-        run: urpmi.update -a
+        run: urpmi.update --auto -a
 
       - name: Configure auto update
-        run: urpmi --auto-update
+        run: urpmi --auto --auto-update
 
       - name: Install Mageia dependencies
         run: >
-            urpmi --force
+            urpmi --auto --force
             urpmi-debuginfo-install
             git
             tar

@@ -231,14 +231,14 @@ commands:
     steps:
       - run:
           name: Update packages
-          command: urpmi.update -a
+          command: urpmi.update --auto -a
       - run:
           name: Configure auto update
-          command: urpmi --auto-update
+          command: urpmi --auto --auto-update
       - run:
           name: Install dependencies
           command: >
-            urpmi --force
+            urpmi --auto --force
             urpmi-debuginfo-install
             git
             tar
