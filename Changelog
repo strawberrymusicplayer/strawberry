@@ -14,6 +14,8 @@ ChangeLog
     * Fixed adding playlist songs outside the collection when there are multiple files with the same URL.
     * Fixed the rescan songs option to work with local songs outside of the collection.
     * Fixed problems with editing song metadata in the playlists.
+    * Fixed saving and restoring playlist scrollbar position when switching between playlists.
+    * Fixed minor issue in cue parser with date and genre.
     * (macOS) Fixed gst-libav plugin issue resulting in MP3 not working.
 
   Enhancements:
@@ -28,6 +30,7 @@ ChangeLog
     * Added fatal CMake error for missing protobuf compiler.
     * Added support for parsing radio streams metadata with tilde in title.
     * Added CMake option to install translation files.
+    * Increased maximum time step for seeking to 60.
     * (Unix) Added playback actions to desktop file.
     * (macOS) Hide behaviour settings that are unavailable on macOS.
     * (macOS) Fixed compile warnings.
