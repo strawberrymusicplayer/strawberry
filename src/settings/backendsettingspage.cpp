@@ -92,17 +92,17 @@ void BackendSettingsPage::Load() {
 
   ui_->combobox_engine->clear();
 #ifdef HAVE_GSTREAMER
-  ui_->combobox_engine->addItem(IconLoader::Load("gstreamer"), EngineDescription(Engine::GStreamer), QVariant::fromValue(Engine::GStreamer));
+  ui_->combobox_engine->addItem(IconLoader::Load("gstreamer"), EngineDescription(Engine::GStreamer), QVariant::fromValue(static_cast<int>(Engine::GStreamer)));
 #endif
 #ifdef HAVE_VLC
-  ui_->combobox_engine->addItem(IconLoader::Load("vlc"), EngineDescription(Engine::VLC), QVariant::fromValue(Engine::VLC));
+  ui_->combobox_engine->addItem(IconLoader::Load("vlc"), EngineDescription(Engine::VLC), QVariant::fromValue(static_cast<int>(Engine::VLC)));
 #endif
 
   enginetype_current_ = enginetype;
   output_current_ = s_.value("output", QString()).toString();
   device_current_ = s_.value("device", QVariant());
 
-  ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(enginetype));
+  ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(enginetype)));
   if (EngineInitialised()) Load_Engine(enginetype);
 
   ui_->checkbox_volume_control->setChecked(s_.value("volume_control", true).toBool());
@@ -216,7 +216,7 @@ void BackendSettingsPage::Load_Engine(Engine::EngineType enginetype) {
     Engine::EngineType new_enginetype = dialog()->app()->player()->CreateEngine(enginetype);
     dialog()->app()->player()->Init();
     if (new_enginetype != enginetype) {
-      ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(engine()->type()));
+      ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(engine()->type())));
     }
   }
 
@@ -426,7 +426,7 @@ void BackendSettingsPage::EngineChanged(int index) {
 
   if (engine()->state() != Engine::Empty) {
       errordialog_.ShowMessage("Can't switch engine while playing!");
-      ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(engine()->type()));
+      ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(engine()->type())));
       return;
   }
 
