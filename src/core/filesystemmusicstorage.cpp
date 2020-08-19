@@ -108,6 +108,17 @@ bool FilesystemMusicStorage::DeleteFromStorage(const DeleteJob &job) {
   QString path = job.metadata_.url().toLocalFile();
   QFileInfo fileInfo(path);
 
+  if (job.use_trash_) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+  if (fileInfo.isDir())
+    return Utilities::MoveToTrashRecursive(path);
+  else
+    return QFile::moveToTrash(path);
+#else
+    return false;
+#endif
+  }
+
   if (fileInfo.isDir())
     return Utilities::RemoveRecursive(path);
   else

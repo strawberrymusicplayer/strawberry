@@ -450,6 +450,13 @@ If there are no matches then it will use the largest image in the directory.</st
      </layout>
     </widget>
    </item>
+   <item>
+    <widget class="QCheckBox" name="checkbox_delete_files">
+     <property name="text">
+      <string>Enable delete files in the right click context menu</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>

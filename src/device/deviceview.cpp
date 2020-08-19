@@ -421,7 +421,7 @@ void DeviceView::Delete() {
 
   std::shared_ptr<MusicStorage> storage = device_index.data(MusicStorage::Role_Storage).value<std::shared_ptr<MusicStorage>>();
 
-  DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage);
+  DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, false);
   connect(delete_files, SIGNAL(Finished(SongList)), SLOT(DeleteFinished(SongList)));
   delete_files->Start(GetSelectedSongs());
 

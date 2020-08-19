@@ -169,6 +169,7 @@ set(SOURCES
   dialogs/trackselectiondialog.cpp
   dialogs/addstreamdialog.cpp
   dialogs/userpassdialog.cpp
+  dialogs/deleteconfirmationdialog.cpp
 
   widgets/autoexpandingtreeview.cpp
   widgets/busyindicator.cpp
@@ -367,6 +368,7 @@ set(HEADERS
   dialogs/trackselectiondialog.h
   dialogs/addstreamdialog.h
   dialogs/userpassdialog.h
+  dialogs/deleteconfirmationdialog.h
 
   widgets/autoexpandingtreeview.h
   widgets/busyindicator.h

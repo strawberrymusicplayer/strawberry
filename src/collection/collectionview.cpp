@@ -48,6 +48,7 @@
 #include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "core/utilities.h"
+#include "core/deletefiles.h"
 #include "collection.h"
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
@@ -61,7 +62,9 @@
 #  include "device/devicestatefiltermodel.h"
 #endif
 #include "dialogs/edittagdialog.h"
+#include "dialogs/deleteconfirmationdialog.h"
 #include "organize/organizedialog.h"
+#include "organize/organizeerrordialog.h"
 #include "settings/collectionsettingspage.h"
 
 CollectionView::CollectionView(QWidget *parent)
@@ -73,7 +76,23 @@ CollectionView::CollectionView(QWidget *parent)
       total_album_count_(-1),
       nomusic_(":/pictures/nomusic.png"),
       context_menu_(nullptr),
-      is_in_keyboard_search_(false)
+      action_load_(nullptr),
+      action_add_to_playlist_(nullptr),
+      action_add_to_playlist_enqueue_(nullptr),
+      action_add_to_playlist_enqueue_next_(nullptr),
+      action_open_in_new_playlist_(nullptr),
+      action_organize_(nullptr),
+#ifndef Q_OS_WIN
+      action_copy_to_device_(nullptr),
+#endif
+      action_edit_track_(nullptr),
+      action_edit_tracks_(nullptr),
+      action_rescan_songs_(nullptr),
+      action_show_in_browser_(nullptr),
+      action_show_in_various_(nullptr),
+      action_no_show_in_various_(nullptr),
+      is_in_keyboard_search_(false),
+      delete_files_(false)
   {
 
   setItemDelegate(new CollectionItemDelegate(this));
@@ -211,6 +230,8 @@ void CollectionView::ReloadSettings() {
     app_->collection_model()->set_show_dividers(settings.value("show_dividers", true).toBool());
   }
 
+  delete_files_ = settings.value("delete_files", false).toBool();
+
   settings.endGroup();
 
 }
@@ -316,41 +337,41 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    add_to_playlist_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, SLOT(AddToPlaylist()));
-    load_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, SLOT(Load()));
-    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylist()));
+    action_add_to_playlist_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, SLOT(AddToPlaylist()));
+    action_load_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, SLOT(Load()));
+    action_open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylist()));
 
     context_menu_->addSeparator();
-    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, SLOT(AddToPlaylistEnqueue()));
-    add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, SLOT(AddToPlaylistEnqueueNext()));
+    action_add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, SLOT(AddToPlaylistEnqueue()));
+    action_add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, SLOT(AddToPlaylistEnqueueNext()));
 
     context_menu_->addSeparator();
-    organize_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, SLOT(Organize()));
+    action_organize_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, SLOT(Organize()));
 #ifndef Q_OS_WIN
-    copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(CopyToDevice()));
+    action_copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(CopyToDevice()));
 #endif
-    //delete_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from disk..."), this, SLOT(Delete()));
+    action_delete_files_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from disk..."), this, SLOT(Delete()));
 
     context_menu_->addSeparator();
-    edit_track_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit track information..."), this, SLOT(EditTracks()));
-    edit_tracks_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit tracks information..."), this, SLOT(EditTracks()));
-    show_in_browser_ = context_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, SLOT(ShowInBrowser()));
+    action_edit_track_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit track information..."), this, SLOT(EditTracks()));
+    action_edit_tracks_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit tracks information..."), this, SLOT(EditTracks()));
+    action_show_in_browser_ = context_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, SLOT(ShowInBrowser()));
 
     context_menu_->addSeparator();
 
-    rescan_songs_ = context_menu_->addAction(tr("Rescan song(s)"), this, SLOT(RescanSongs()));
+    action_rescan_songs_ = context_menu_->addAction(tr("Rescan song(s)"), this, SLOT(RescanSongs()));
 
     context_menu_->addSeparator();
-    show_in_various_ = context_menu_->addAction( tr("Show in various artists"), this, SLOT(ShowInVarious()));
-    no_show_in_various_ = context_menu_->addAction( tr("Don't show in various artists"), this, SLOT(NoShowInVarious()));
+    action_show_in_various_ = context_menu_->addAction( tr("Show in various artists"), this, SLOT(ShowInVarious()));
+    action_no_show_in_various_ = context_menu_->addAction( tr("Don't show in various artists"), this, SLOT(NoShowInVarious()));
 
     context_menu_->addSeparator();
 
     context_menu_->addMenu(filter_->menu());
 
 #ifndef Q_OS_WIN
-    copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
-    connect(app_->device_manager()->connected_devices_model(), SIGNAL(IsEmptyChanged(bool)), copy_to_device_, SLOT(setDisabled(bool)));
+    action_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
+    connect(app_->device_manager()->connected_devices_model(), SIGNAL(IsEmptyChanged(bool)), action_copy_to_device_, SLOT(setDisabled(bool)));
 #endif
 
   }
@@ -376,34 +397,45 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   const bool regular_elements_only = songs_selected == regular_elements && regular_elements > 0;
 
   // in all modes
-  load_->setEnabled(songs_selected > 0);
-  add_to_playlist_->setEnabled(songs_selected > 0);
-  open_in_new_playlist_->setEnabled(songs_selected > 0);
-  add_to_playlist_enqueue_->setEnabled(songs_selected > 0);
+  action_load_->setEnabled(songs_selected > 0);
+  action_add_to_playlist_->setEnabled(songs_selected > 0);
+  action_open_in_new_playlist_->setEnabled(songs_selected > 0);
+  action_add_to_playlist_enqueue_->setEnabled(songs_selected > 0);
 
   // if neither edit_track not edit_tracks are available, we show disabled edit_track element
-  edit_track_->setVisible(regular_editable == 1);
-  edit_track_->setEnabled(regular_editable == 1);
-  edit_tracks_->setVisible(regular_editable > 1);
-  edit_tracks_->setEnabled(regular_editable > 1);
+  action_edit_track_->setVisible(regular_editable == 1);
+  action_edit_track_->setEnabled(regular_editable == 1);
+  action_edit_tracks_->setVisible(regular_editable > 1);
+  action_edit_tracks_->setEnabled(regular_editable > 1);
 
-  rescan_songs_->setVisible(regular_editable > 0);
-  rescan_songs_->setEnabled(regular_editable > 0);
+  action_rescan_songs_->setVisible(regular_editable > 0);
+  action_rescan_songs_->setEnabled(regular_editable > 0);
 
-  organize_->setVisible(regular_elements == regular_editable);
+  action_organize_->setVisible(regular_elements == regular_editable);
 #ifndef Q_OS_WIN
-  copy_to_device_->setVisible(regular_elements == regular_editable);
+  action_copy_to_device_->setVisible(regular_elements == regular_editable);
 #endif
-  //delete_->setVisible(regular_elements_only);
-  show_in_various_->setVisible(regular_elements_only);
-  no_show_in_various_->setVisible(regular_elements_only);
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+  action_delete_files_->setVisible(regular_elements == regular_editable && delete_files_);
+#else
+  action_delete_files_->setVisible(false);
+#endif
+
+  action_show_in_various_->setVisible(regular_elements_only);
+  action_no_show_in_various_->setVisible(regular_elements_only);
 
   // only when all selected items are editable
-  organize_->setEnabled(regular_elements == regular_editable);
+  action_organize_->setEnabled(regular_elements == regular_editable);
 #ifndef Q_OS_WIN
-  copy_to_device_->setEnabled(regular_elements == regular_editable);
+  action_copy_to_device_->setEnabled(regular_elements == regular_editable);
 #endif
-  //delete_->setEnabled(regular_elements == regular_editable);
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+  action_delete_files_->setEnabled(regular_elements == regular_editable && delete_files_);
+#else
+  action_delete_files_->setEnabled(false);
+#endif
 
   context_menu_->popup(e->globalPos());
 
@@ -618,4 +650,34 @@ int CollectionView::TotalArtists() {
 }
 int CollectionView::TotalAlbums() {
   return total_album_count_;
+}
+
+void CollectionView::Delete() {
+
+  if (!delete_files_) return;
+
+  SongList selected_songs = GetSelectedSongs();
+  QStringList files;
+  for (const Song &song : selected_songs) {
+    files << song.url().toString();
+  }
+  if (DeleteConfirmationDialog::warning(files) != QDialogButtonBox::Yes) return;
+
+  // We can cheat and always take the storage of the first directory, since they'll all be FilesystemMusicStorage in a collection and deleting doesn't check the actual directory.
+  std::shared_ptr<MusicStorage> storage = app_->collection_model()->directory_model()->index(0, 0).data(MusicStorage::Role_Storage).value<std::shared_ptr<MusicStorage>>();
+
+  DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, true);
+  connect(delete_files, SIGNAL(Finished(SongList)), SLOT(DeleteFinished(SongList)));
+  delete_files->Start(selected_songs);
+
+}
+
+void CollectionView::DeleteFilesFinished(const SongList &songs_with_errors) {
+
+  if (songs_with_errors.isEmpty()) return;
+
+  OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
+  dialog->Show(OrganizeErrorDialog::Type_Delete, songs_with_errors);
+  // It deletes itself when the user closes it
+
 }

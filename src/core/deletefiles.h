@@ -38,7 +38,7 @@ class DeleteFiles : public QObject {
   Q_OBJECT
 
  public:
-  explicit DeleteFiles(TaskManager *task_manager, std::shared_ptr<MusicStorage> storage);
+  explicit DeleteFiles(TaskManager *task_manager, std::shared_ptr<MusicStorage> storage, const bool use_trash);
   ~DeleteFiles() override;
 
   static const int kBatchSize;
@@ -59,6 +59,7 @@ signals:
   std::shared_ptr<MusicStorage> storage_;
 
   SongList songs_;
+  bool use_trash_;
 
   bool started_;
 

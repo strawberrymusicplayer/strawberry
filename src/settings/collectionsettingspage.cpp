@@ -178,6 +178,8 @@ void CollectionSettingsPage::Load() {
   ui_->spinbox_disk_cache_size->setValue(s.value(kSettingsDiskCacheSize, kSettingsDiskCacheSizeDefault).toInt());
   ui_->combobox_disk_cache_size->setCurrentIndex(s.value(kSettingsDiskCacheSizeUnit, static_cast<int>(CacheSizeUnit_MB)).toInt());
 
+  ui_->checkbox_delete_files->setChecked(s.value("delete_files", false).toBool());
+
   s.endGroup();
 
   DiskCacheEnable(ui_->checkbox_disk_cache->checkState());
@@ -226,6 +228,8 @@ void CollectionSettingsPage::Save() {
   s.setValue(kSettingsDiskCacheEnable, ui_->checkbox_disk_cache->isChecked());
   s.setValue(kSettingsDiskCacheSize, ui_->spinbox_disk_cache_size->value());
   s.setValue(kSettingsDiskCacheSizeUnit, ui_->combobox_disk_cache_size->currentIndex());
+
+  s.setValue("delete_files", ui_->checkbox_delete_files->isChecked());
 
   s.endGroup();
 

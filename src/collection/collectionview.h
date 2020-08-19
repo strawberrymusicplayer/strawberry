@@ -109,6 +109,8 @@ class CollectionView : public AutoExpandingTreeView {
   void ShowInBrowser();
   void ShowInVarious();
   void NoShowInVarious();
+  void Delete();
+  void DeleteFilesFinished(const SongList &songs_with_errors);
 
  private:
   void RecheckIsEmpty();
@@ -128,27 +130,28 @@ class CollectionView : public AutoExpandingTreeView {
 
   QMenu *context_menu_;
   QModelIndex context_menu_index_;
-  QAction *load_;
-  QAction *add_to_playlist_;
-  QAction *add_to_playlist_enqueue_;
-  QAction *add_to_playlist_enqueue_next_;
-  QAction *open_in_new_playlist_;
-  QAction *organize_;
+  QAction *action_load_;
+  QAction *action_add_to_playlist_;
+  QAction *action_add_to_playlist_enqueue_;
+  QAction *action_add_to_playlist_enqueue_next_;
+  QAction *action_open_in_new_playlist_;
+  QAction *action_organize_;
 #ifndef Q_OS_WIN
-  QAction *copy_to_device_;
+  QAction *action_copy_to_device_;
 #endif
-  QAction *delete_;
-  QAction *edit_track_;
-  QAction *edit_tracks_;
-  QAction *rescan_songs_;
-  QAction *show_in_browser_;
-  QAction *show_in_various_;
-  QAction *no_show_in_various_;
+  QAction *action_edit_track_;
+  QAction *action_edit_tracks_;
+  QAction *action_rescan_songs_;
+  QAction *action_show_in_browser_;
+  QAction *action_show_in_various_;
+  QAction *action_no_show_in_various_;
+  QAction *action_delete_files_;
 
   std::unique_ptr<OrganizeDialog> organize_dialog_;
   std::unique_ptr<EditTagDialog> edit_tag_dialog_;
 
   bool is_in_keyboard_search_;
+  bool delete_files_;
 
   // Save focus
   Song last_selected_song_;

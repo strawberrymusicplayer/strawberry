@@ -264,6 +264,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void ExitFinished();
 
+  void PlaylistDelete();
+
  private:
 
   void SaveSettings();
@@ -331,15 +333,16 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlist_play_pause_;
   QAction *playlist_stop_after_;
   QAction *playlist_undoredo_;
-  QAction *playlist_organize_;
+  QAction *playlist_copy_url_;
   QAction *playlist_show_in_collection_;
   QAction *playlist_copy_to_collection_;
   QAction *playlist_move_to_collection_;
+  QAction *playlist_open_in_browser_;
+  QAction *playlist_organize_;
 #ifndef Q_OS_WIN
   QAction *playlist_copy_to_device_;
 #endif
-  QAction *playlist_open_in_browser_;
-  QAction *playlist_copy_url_;
+  QAction *playlist_delete_;
   QAction *playlist_queue_;
   QAction* playlist_queue_play_next_;
   QAction *playlist_skip_;
@@ -369,6 +372,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Song song_playing_;
   QImage image_original_;
   int exit_count_;
+  bool delete_files_;
 
 };
 

@@ -56,6 +56,7 @@ class MusicStorage {
   typedef std::function<void(float progress)> ProgressFunction;
 
   struct CopyJob {
+    CopyJob() : overwrite_(false), mark_as_listened_(false), remove_original_(false), albumcover_(false) {}
     QString source_;
     QString destination_;
     Song metadata_;
@@ -70,7 +71,9 @@ class MusicStorage {
   };
 
   struct DeleteJob {
+    DeleteJob() : use_trash_(false) {}
     Song metadata_;
+    bool use_trash_;
   };
 
   virtual QString LocalPath() const { return QString(); }

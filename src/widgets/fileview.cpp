@@ -39,6 +39,7 @@
 #include "core/filesystemmusicstorage.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
+#include "dialogs/deleteconfirmationdialog.h"
 #include "fileview.h"
 #include "fileviewlist.h"
 #include "ui_fileview.h"
@@ -85,9 +86,7 @@ FileView::FileView(QWidget *parent)
   connect(ui_->list, SIGNAL(CopyToCollection(QList<QUrl>)), SIGNAL(CopyToCollection(QList<QUrl>)));
   connect(ui_->list, SIGNAL(MoveToCollection(QList<QUrl>)), SIGNAL(MoveToCollection(QList<QUrl>)));
   connect(ui_->list, SIGNAL(CopyToDevice(QList<QUrl>)), SIGNAL(CopyToDevice(QList<QUrl>)));
-#ifdef HAVE_GSTREAMER
   connect(ui_->list, SIGNAL(Delete(QStringList)), SLOT(Delete(QStringList)));
-#endif
   connect(ui_->list, SIGNAL(EditTags(QList<QUrl>)), SIGNAL(EditTags(QList<QUrl>)));
 
   QString filter(FileView::kFileFilter);
@@ -231,39 +230,23 @@ void FileView::UndoCommand::undo() {
 
 void FileView::Delete(const QStringList &filenames) {
 
-#ifdef HAVE_GSTREAMER
+  if (filenames.isEmpty()) return;
 
-  if (filenames.isEmpty())
-    return;
+  if (DeleteConfirmationDialog::warning(filenames) != QDialogButtonBox::Yes) return;
 
-  if (QMessageBox::warning(this, tr("Delete files"),
-        tr("These files will be deleted from disk, are you sure you want to continue?"),
-        QMessageBox::Yes, QMessageBox::Cancel) != QMessageBox::Yes)
-    return;
-
-  DeleteFiles *delete_files = new DeleteFiles(task_manager_, storage_);
+  DeleteFiles *delete_files = new DeleteFiles(task_manager_, storage_, true);
   connect(delete_files, SIGNAL(Finished(SongList)), SLOT(DeleteFinished(SongList)));
   delete_files->Start(filenames);
-
-#else
-  Q_UNUSED(filenames)
-#endif
 
 }
 
 void FileView::DeleteFinished(const SongList &songs_with_errors) {
-
-#ifdef HAVE_GSTREAMER
 
   if (songs_with_errors.isEmpty()) return;
 
   OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
   dialog->Show(OrganizeErrorDialog::Type_Delete, songs_with_errors);
   // It deletes itself when the user closes it
-
-#else
-  Q_UNUSED(songs_with_errors)
-#endif
 
 }
 

@@ -64,6 +64,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_delete_files">
+     <property name="text">
+      <string>Enable delete files in the right click context menu</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_paths">
      <property name="title">
       <string>When saving a playlist, file paths should be</string>

@@ -34,10 +34,11 @@
 
 const int DeleteFiles::kBatchSize = 50;
 
-DeleteFiles::DeleteFiles(TaskManager *task_manager, std::shared_ptr<MusicStorage> storage)
+DeleteFiles::DeleteFiles(TaskManager *task_manager, std::shared_ptr<MusicStorage> storage, const bool use_trash)
     : thread_(nullptr),
       task_manager_(task_manager),
       storage_(storage),
+      use_trash_(use_trash),
       started_(false),
       task_id_(0),
       progress_(0) {
@@ -112,6 +113,7 @@ void DeleteFiles::ProcessSomeFiles() {
 
     MusicStorage::DeleteJob job;
     job.metadata_ = song;
+    job.use_trash_ = use_trash_;
 
     if (!storage_->DeleteFromStorage(job)) {
       songs_with_errors_ << song;
