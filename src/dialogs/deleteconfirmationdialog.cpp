@@ -20,6 +20,7 @@
 #include <algorithm>
 
 #include <QGuiApplication>
+#include <QWindow>
 #include <QScreen>
 #include <QStringList>
 #include <QStyle>
