@@ -178,7 +178,12 @@ void CollectionSettingsPage::Load() {
   ui_->spinbox_disk_cache_size->setValue(s.value(kSettingsDiskCacheSize, kSettingsDiskCacheSizeDefault).toInt());
   ui_->combobox_disk_cache_size->setCurrentIndex(s.value(kSettingsDiskCacheSizeUnit, static_cast<int>(CacheSizeUnit_MB)).toInt());
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   ui_->checkbox_delete_files->setChecked(s.value("delete_files", false).toBool());
+#else
+  ui_->checkbox_delete_files->setChecked(false);
+  ui_->checkbox_delete_files->hide();
+#endif
 
   s.endGroup();
 
