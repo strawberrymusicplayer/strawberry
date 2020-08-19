@@ -48,6 +48,7 @@
 #include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "core/utilities.h"
+#include "core/musicstorage.h"
 #include "core/deletefiles.h"
 #include "collection.h"
 #include "collectionbackend.h"
