@@ -63,24 +63,25 @@ void WplParser::ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *so
 
   while (!reader->atEnd()) {
     QXmlStreamReader::TokenType type = reader->readNext();
+    QString name = reader->name().toString();
     switch (type) {
       case QXmlStreamReader::StartElement: {
-        QStringRef name = reader->name();
         if (name == "media") {
-          QStringRef src = reader->attributes().value("src");
+          QString src = reader->attributes().value("src").toString();
           if (!src.isEmpty()) {
-            Song song = LoadSong(src.toString(), 0, dir);
+            Song song = LoadSong(src, 0, dir);
             if (song.is_valid()) {
               songs->append(song);
             }
           }
-        } else {
+        }
+        else {
           Utilities::ConsumeCurrentElement(reader);
         }
         break;
       }
       case QXmlStreamReader::EndElement: {
-        if (reader->name() == "seq") {
+        if (name == "seq") {
           return;
         }
         break;

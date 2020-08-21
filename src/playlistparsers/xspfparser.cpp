@@ -71,9 +71,9 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir) const {
 
   while (!reader->atEnd()) {
     QXmlStreamReader::TokenType type = reader->readNext();
+    QString name = reader->name().toString();
     switch (type) {
       case QXmlStreamReader::StartElement: {
-        QStringRef name = reader->name();
         if (name == "location") {
           location = reader->readElementText();
         }
@@ -111,7 +111,7 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir) const {
         break;
       }
       case QXmlStreamReader::EndElement: {
-        if (reader->name() == "track") {
+        if (name == "track") {
           goto return_song;
         }
       }

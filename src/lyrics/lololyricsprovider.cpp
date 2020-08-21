@@ -115,7 +115,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
     QString status;
     while (!reader.atEnd()) {
       QXmlStreamReader::TokenType type = reader.readNext();
-      QStringRef name = reader.name();
+      QString name = reader.name().toString();
       if (type == QXmlStreamReader::StartElement) {
         if (name == "result") {
           status.clear();
