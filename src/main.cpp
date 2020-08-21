@@ -196,14 +196,8 @@ int main(int argc, char* argv[]) {
   QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR);
 #endif
 
-#ifndef Q_OS_MACOS
   // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad idea, and makes some menus in Strawberry look confusing.
   QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
-#else
-  QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, true);
-  // Fixes focus issue with NSSearchField, see QTBUG-11401
-  QCoreApplication::setAttribute(Qt::AA_NativeWindows, true);
-#endif
 
   // Set the permissions on the config file on Unix - it can contain passwords for internet services so it's important that other users can't read it.
   // On Windows these are stored in the registry instead.
