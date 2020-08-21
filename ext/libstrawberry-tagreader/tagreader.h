@@ -66,7 +66,6 @@ class TagReader {
 
   void ParseOggTag(const TagLib::Ogg::FieldListMap &map, const QTextCodec *codec, QString *disc, QString *compilation, pb::tagreader::SongMetadata *song) const;
   void ParseAPETag(const TagLib::APE::ItemListMap &map, const QTextCodec *codec, QString *disc, QString *compilation, pb::tagreader::SongMetadata *song) const;
-  void ParseFMPSFrame(const QString &name, const QString &value, pb::tagreader::SongMetadata *song) const;
 
   void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, const pb::tagreader::SongMetadata &song) const;
   void SaveAPETag(TagLib::APE::Tag *tag, const pb::tagreader::SongMetadata &song) const;

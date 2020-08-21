@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
 set(MESSAGES tagreadermessages.proto)
-set(SOURCES fmpsparser.cpp tagreader.cpp)
+set(SOURCES tagreader.cpp)
 
 protobuf_generate_cpp(PROTO_SOURCES PROTO_HEADERS ${MESSAGES})
 

@@ -90,8 +90,6 @@
 
 #include "core/logging.h"
 #include "core/messagehandler.h"
-
-#include "fmpsparser.h"
 #include "core/timeconstants.h"
 
 class FileRefFactory {
@@ -297,15 +295,6 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
         if (frame && TStringToQString(frame->description()) != "iTunNORM") {
           Decode(frame->text(), nullptr, song->mutable_comment());
           break;
-        }
-      }
-
-      // Parse FMPS frames
-      for (uint i = 0; i < map["TXXX"].size(); ++i) {
-        const TagLib::ID3v2::UserTextIdentificationFrame *frame = dynamic_cast<const TagLib::ID3v2::UserTextIdentificationFrame*>(map["TXXX"][i]);
-
-        if (frame && frame->description().startsWith("FMPS_")) {
-          ParseFMPSFrame(TStringToQString(frame->description()), TStringToQString(frame->fieldList()[1]), song);
         }
       }
 
@@ -518,33 +507,6 @@ void TagReader::ParseAPETag(const TagLib::APE::ItemListMap &map, const QTextCode
     int playcount = TStringToQString(map["FMPS_PLAYCOUNT"].toString()).toFloat();
     if (song->playcount() <= 0 && playcount > 0) {
       song->set_playcount(playcount);
-    }
-  }
-
-}
-
-void TagReader::ParseFMPSFrame(const QString &name, const QString &value, pb::tagreader::SongMetadata *song) const {
-
-  qLog(Debug) << "Parsing FMPSFrame" << name << ", " << value;
-  FMPSParser parser;
-
-  if (!parser.Parse(value) || parser.is_empty()) return;
-
-  QVariant var;
-
-  if (name == "FMPS_PlayCount") {
-    var = parser.result()[0][0];
-    if (var.type() == QVariant::Double) {
-      song->set_playcount(var.toDouble());
-    }
-  }
-  else if (name == "FMPS_PlayCount_User") {
-    // Take a user playcount only if there's no playcount already set
-    if (song->playcount() == 0 && parser.result()[0].count() >= 2) {
-      var = parser.result()[0][1];
-      if (var.type() == QVariant::Double) {
-        song->set_playcount(var.toDouble());
-      }
     }
   }
 
