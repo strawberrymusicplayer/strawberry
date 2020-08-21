@@ -392,24 +392,6 @@ jobs:
       - build_source
 
 
-  build_opensuse_tumbleweed:
-    docker:
-      - image: opensuse/tumbleweed
-    environment:
-      RPM_BUILD_NCPUS: "2"
-    steps:
-      - run:
-          name: Update packages
-          command: zypper --non-interactive --gpg-auto-import-keys ref
-      - run:
-          name: Upgrade packages
-          command: zypper --non-interactive --gpg-auto-import-keys dup
-      - install_opensuse_dependencies
-      - checkout
-      - cmake
-      - build_source
-      - build_rpm
-
   build_opensuse_lp151:
     docker:
       - image: opensuse/leap:15.1
@@ -543,10 +525,6 @@ workflows:
               only: /.*/
 
 
-      - build_opensuse_tumbleweed:
-          filters:
-            tags:
-              only: /.*/
       - build_opensuse_lp151:
           filters:
             tags:
