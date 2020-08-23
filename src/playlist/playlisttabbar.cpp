@@ -130,7 +130,7 @@ void PlaylistTabBar::contextMenuEvent(QContextMenuEvent *e) {
 
 void PlaylistTabBar::mouseReleaseEvent(QMouseEvent *e) {
 
-  if (e->button() == Qt::MidButton) {
+  if (e->button() == Qt::MiddleButton) {
     // Update menu index
     menu_index_ = tabAt(e->pos());
     Close();
@@ -145,7 +145,7 @@ void PlaylistTabBar::mouseDoubleClickEvent(QMouseEvent *e) {
   int index = tabAt(e->pos());
 
   // Discard a double click with the middle button
-  if (e->button() != Qt::MidButton) {
+  if (e->button() != Qt::MiddleButton) {
     if (index == -1) {
       new_->activate(QAction::Trigger);
     }

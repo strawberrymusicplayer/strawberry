@@ -62,8 +62,8 @@ void TrackSliderSlider::mousePressEvent(QMouseEvent* e) {
     int abs_buttons = style()->styleHint(QStyle::SH_Slider_AbsoluteSetButtons);
     if (abs_buttons & Qt::LeftButton)
       new_button = Qt::LeftButton;
-    else if (abs_buttons & Qt::MidButton)
-      new_button = Qt::MidButton;
+    else if (abs_buttons & Qt::MiddleButton)
+      new_button = Qt::MiddleButton;
     else if (abs_buttons & Qt::RightButton)
       new_button = Qt::RightButton;
   }
