@@ -39,4 +39,14 @@ UrlHandler::LoadResult::LoadResult(const QUrl &original_url, const Type type, co
   error_(error)
   {}
 
+UrlHandler::LoadResult::LoadResult(const QUrl &original_url, const Type type, const QString error) :
+  original_url_(original_url),
+  type_(type),
+  filetype_(Song::FileType_Stream),
+  samplerate_(-1),
+  bit_depth_(-1),
+  length_nanosec_(-1),
+  error_(error)
+  {}
+
 UrlHandler::UrlHandler(QObject *parent) : QObject(parent) {}
