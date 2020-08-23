@@ -580,7 +580,7 @@ int Playlist::previous_row(const bool ignore_repeat_track) const {
 
 }
 
-void Playlist::set_current_row(const int i, const bool is_stopping) {
+void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const bool is_stopping) {
 
   QModelIndex old_current_item_index = current_item_index_;
 
@@ -631,7 +631,7 @@ void Playlist::set_current_row(const int i, const bool is_stopping) {
   }
 
   if (current_item_index_.isValid() && !is_stopping) {
-    InformOfCurrentSongChange();
+    InformOfCurrentSongChange(autoscroll);
   }
 
   if (current_item_index_.isValid()) {
@@ -927,7 +927,7 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, const int pos, const
     undo_stack_->push(new PlaylistUndoCommands::InsertItems(this, items, pos, enqueue, enqueue_next));
   }
 
-  if (play_now) emit PlayRequested(index(start, 0));
+  if (play_now) emit PlayRequested(index(start, 0), AutoScroll_Maybe);
 
 }
 
@@ -1507,7 +1507,7 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool m
   }
   else {
     update_scrobble_point = true;
-    InformOfCurrentSongChange();
+    InformOfCurrentSongChange(AutoScroll_Never);
   }
 
   if (update_scrobble_point) UpdateScrobblePoint();
@@ -1613,7 +1613,7 @@ void Playlist::ReloadItems(const QList<int> &rows) {
     item->Reload();
 
     if (row == current_row()) {
-      InformOfCurrentSongChange();
+      InformOfCurrentSongChange(AutoScroll_Never);
     }
     else {
       emit dataChanged(index(row, 0), index(row, ColumnCount - 1));
@@ -1829,7 +1829,7 @@ void Playlist::ItemChanged(PlaylistItemPtr item) {
 
 }
 
-void Playlist::InformOfCurrentSongChange() {
+void Playlist::InformOfCurrentSongChange(const AutoScroll autoscroll) {
 
   emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
 
@@ -1837,6 +1837,7 @@ void Playlist::InformOfCurrentSongChange() {
   const Song metadata(current_item_metadata());
   if (metadata.is_valid()) {
     emit CurrentSongChanged(metadata);
+    emit MaybeAutoscroll(autoscroll);
   }
 
 }

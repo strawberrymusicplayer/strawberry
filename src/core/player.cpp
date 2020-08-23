@@ -81,6 +81,7 @@ Player::Player(Application *app, QObject *parent)
     analyzer_(nullptr),
     equalizer_(nullptr),
     stream_change_type_(Engine::First),
+    autoscroll_(Playlist::AutoScroll_Maybe),
     last_state_(Engine::Empty),
     nb_errors_received_(0),
     volume_before_mute_(100),
@@ -265,7 +266,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
     case UrlHandler::LoadResult::NoMoreTracks:
       qLog(Debug) << "URL handler for" << result.original_url_ << "said no more tracks" << is_current;
-      if (is_current) NextItem(stream_change_type_);
+      if (is_current) NextItem(stream_change_type_, autoscroll_);
       break;
 
     case UrlHandler::LoadResult::TrackAvailable: {
@@ -321,7 +322,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       if (update) {
         if (is_current) {
           item->SetTemporaryMetadata(song);
-          app_->playlist_manager()->active()->InformOfCurrentSongChange();
+          app_->playlist_manager()->active()->InformOfCurrentSongChange(autoscroll_);
         }
         else if (is_next) {
           next_item->SetTemporaryMetadata(song);
@@ -352,17 +353,17 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
 }
 
-void Player::Next() { NextInternal(Engine::Manual); }
+void Player::Next() { NextInternal(Engine::Manual, Playlist::AutoScroll_Always); }
 
-void Player::NextInternal(const Engine::TrackChangeFlags change) {
+void Player::NextInternal(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll) {
 
-  if (HandleStopAfter()) return;
+  if (HandleStopAfter(autoscroll)) return;
 
-  NextItem(change);
+  NextItem(change, autoscroll);
 
 }
 
-void Player::NextItem(const Engine::TrackChangeFlags change) {
+void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll) {
 
   Playlist *active_playlist = app_->playlist_manager()->active();
 
@@ -391,17 +392,17 @@ void Player::NextItem(const Engine::TrackChangeFlags change) {
     return;
   }
 
-  PlayAt(i, change, false);
+  PlayAt(i, change, autoscroll, false);
 
 }
 
-bool Player::HandleStopAfter() {
+bool Player::HandleStopAfter(const Playlist::AutoScroll autoscroll) {
 
   if (app_->playlist_manager()->active()->stop_after_current()) {
     // Find what the next track would've been, and mark that one as current so it plays next time the user presses Play.
     const int next_row = app_->playlist_manager()->active()->next_row();
     if (next_row != -1) {
-      app_->playlist_manager()->active()->set_current_row(next_row, true);
+      app_->playlist_manager()->active()->set_current_row(next_row, autoscroll, true);
     }
 
     app_->playlist_manager()->active()->StopAfter(-1);
@@ -419,13 +420,13 @@ void Player::TrackEnded() {
     app_->playlist_manager()->collection_backend()->IncrementPlayCountAsync(current_item_->Metadata().id());
   }
 
-  if (HandleStopAfter()) return;
+  if (HandleStopAfter(Playlist::AutoScroll_Maybe)) return;
 
-  NextInternal(Engine::Auto);
+  NextInternal(Engine::Auto, Playlist::AutoScroll_Maybe);
 
 }
 
-void Player::PlayPause() {
+void Player::PlayPause(Playlist::AutoScroll autoscroll) {
 
   switch (engine_->state()) {
     case Engine::Paused:
@@ -451,7 +452,7 @@ void Player::PlayPause() {
       int i = app_->playlist_manager()->active()->current_row();
       if (i == -1) i = app_->playlist_manager()->active()->last_played_row();
       if (i == -1) i = 0;
-      PlayAt(i, Engine::First, true);
+      PlayAt(i, Engine::First, autoscroll, true);
       break;
     }
   }
@@ -496,21 +497,21 @@ void Player::PreviousItem(const Engine::TrackChangeFlags change) {
     QDateTime now = QDateTime::currentDateTime();
     if (last_pressed_previous_.isValid() && last_pressed_previous_.secsTo(now) >= 2) {
       last_pressed_previous_ = now;
-      PlayAt(app_->playlist_manager()->active()->current_row(), change, false);
+      PlayAt(app_->playlist_manager()->active()->current_row(), change, Playlist::AutoScroll_Always, false);
       return;
     }
     last_pressed_previous_ = now;
   }
 
   int i = app_->playlist_manager()->active()->previous_row(ignore_repeat_track);
-  app_->playlist_manager()->active()->set_current_row(i);
+  app_->playlist_manager()->active()->set_current_row(i, Playlist::AutoScroll_Always);
   if (i == -1) {
     Stop();
-    PlayAt(i, change, true);
+    PlayAt(i, change, Playlist::AutoScroll_Always, true);
     return;
   }
 
-  PlayAt(i, change, false);
+  PlayAt(i, change, Playlist::AutoScroll_Always, false);
 
 }
 
@@ -558,7 +559,7 @@ void Player::SetVolume(const int value) {
 
 int Player::GetVolume() const { return engine_->volume(); }
 
-void Player::PlayAt(const int index, Engine::TrackChangeFlags change, const bool reshuffle) {
+void Player::PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle) {
 
   if (current_item_ && change == Engine::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
     emit TrackSkipped(current_item_);
@@ -569,7 +570,7 @@ void Player::PlayAt(const int index, Engine::TrackChangeFlags change, const bool
   }
 
   if (reshuffle) app_->playlist_manager()->active()->ReshuffleIndices();
-  app_->playlist_manager()->active()->set_current_row(index);
+  app_->playlist_manager()->active()->set_current_row(index, autoscroll);
   if (app_->playlist_manager()->active()->current_row() == -1) {
     // Maybe index didn't exist in the playlist.
     return;
@@ -583,12 +584,13 @@ void Player::PlayAt(const int index, Engine::TrackChangeFlags change, const bool
     if (loading_async_.contains(url)) return;
 
     stream_change_type_ = change;
+    autoscroll_ = autoscroll;
     HandleLoadResult(url_handlers_[url.scheme()]->StartLoading(url));
   }
   else {
     qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url;
     if (current_item_->HasTemporaryMetadata()) {
-      app_->playlist_manager()->active()->InformOfCurrentSongChange();
+      app_->playlist_manager()->active()->InformOfCurrentSongChange(autoscroll);
     }
     engine_->Play(url, current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec());
   }
@@ -743,6 +745,7 @@ void Player::TrackAboutToEnd() {
   // Get the actual track URL rather than the stream URL.
   if (url_handlers_.contains(url.scheme())) {
     if (loading_async_.contains(url)) return;
+    autoscroll_ = Playlist::AutoScroll_Maybe;
     UrlHandler::LoadResult result = url_handlers_[url.scheme()]->StartLoading(url);
     switch (result.type_) {
       case UrlHandler::LoadResult::Error:
@@ -781,7 +784,7 @@ void Player::InvalidSongRequested(const QUrl &url) {
     return;
   }
 
-  NextItem(Engine::Auto);
+  NextItem(Engine::Auto, Playlist::AutoScroll_Maybe);
 
 }
 

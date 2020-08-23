@@ -145,6 +145,12 @@ class Playlist : public QAbstractListModel {
     Path_Ask_User,       // Only used in preferences: to ask user which of the previous values he wants to use.
   };
 
+  enum AutoScroll {
+    AutoScroll_Never,
+    AutoScroll_Maybe,
+    AutoScroll_Always
+  };
+
   static const char *kCddaMimeType;
   static const char *kRowsMimetype;
   static const char *kPlayNowMimetype;
@@ -250,7 +256,7 @@ class Playlist : public QAbstractListModel {
 
   void StopAfter(const int row);
   void ReloadItems(const QList<int> &rows);
-  void InformOfCurrentSongChange();
+  void InformOfCurrentSongChange(const AutoScroll autoscroll);
 
   // Registers an object which will get notifications when new songs are about to be inserted into this playlist.
   void AddSongInsertVetoListener(SongInsertVetoListener *listener);
@@ -279,7 +285,7 @@ class Playlist : public QAbstractListModel {
   static bool ComparePathDepths(Qt::SortOrder, PlaylistItemPtr, PlaylistItemPtr);
 
  public slots:
-  void set_current_row(const int i, const bool is_stopping = false);
+  void set_current_row(const int i, const AutoScroll autoscroll = AutoScroll_Maybe, const bool is_stopping = false);
   void Paused();
   void Playing();
   void Stopped();
@@ -309,7 +315,8 @@ class Playlist : public QAbstractListModel {
   void CurrentSongChanged(Song metadata);
   void SongMetadataChanged(Song metadata);
   void EditingFinished(QModelIndex idx);
-  void PlayRequested(QModelIndex idx);
+  void PlayRequested(QModelIndex idx, Playlist::AutoScroll autoscroll);
+  void MaybeAutoscroll(Playlist::AutoScroll autoscroll);
 
   // Signals that the underlying list of items was changed, meaning that something was added to it, removed from it or the ordering changed.
   void PlaylistChanged();

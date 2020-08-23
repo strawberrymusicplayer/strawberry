@@ -56,6 +56,7 @@
 #include "mac_startup.h"
 #include "osd/osdbase.h"
 #include "collection/collectionmodel.h"
+#include "playlist/playlist.h"
 #include "playlist/playlistitem.h"
 #include "settings/settingsdialog.h"
 #include "settings/behavioursettingspage.h"
@@ -173,7 +174,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void ChangeCollectionQueryMode(QAction *action);
 
-  void PlayIndex(const QModelIndex &idx);
+  void PlayIndex(const QModelIndex &idx, Playlist::AutoScroll autoscroll);
   void PlaylistDoubleClick(const QModelIndex &idx);
   void StopAfterCurrent();
 

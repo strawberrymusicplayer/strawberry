@@ -548,11 +548,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   connect(app_->playlist_manager(), SIGNAL(EditingFinished(QModelIndex)), SLOT(PlaylistEditFinished(QModelIndex)));
   connect(app_->playlist_manager(), SIGNAL(Error(QString)), SLOT(ShowErrorDialog(QString)));
   connect(app_->playlist_manager(), SIGNAL(SummaryTextChanged(QString)), ui_->playlist_summary, SLOT(setText(QString)));
-  connect(app_->playlist_manager(), SIGNAL(PlayRequested(QModelIndex)), SLOT(PlayIndex(QModelIndex)));
+  connect(app_->playlist_manager(), SIGNAL(PlayRequested(QModelIndex, Playlist::AutoScroll)), SLOT(PlayIndex(QModelIndex, Playlist::AutoScroll)));
 
   connect(ui_->playlist->view(), SIGNAL(doubleClicked(QModelIndex)), SLOT(PlaylistDoubleClick(QModelIndex)));
-  connect(ui_->playlist->view(), SIGNAL(PlayItem(QModelIndex)), SLOT(PlayIndex(QModelIndex)));
-  connect(ui_->playlist->view(), SIGNAL(PlayPause()), app_->player(), SLOT(PlayPause()));
+  connect(ui_->playlist->view(), SIGNAL(PlayItem(QModelIndex, Playlist::AutoScroll)), SLOT(PlayIndex(QModelIndex, Playlist::AutoScroll)));
+  connect(ui_->playlist->view(), SIGNAL(PlayPause(Playlist::AutoScroll)), app_->player(), SLOT(PlayPause(Playlist::AutoScroll)));
   connect(ui_->playlist->view(), SIGNAL(RightClicked(QPoint, QModelIndex)), SLOT(PlaylistRightClick(QPoint, QModelIndex)));
   connect(ui_->playlist->view(), SIGNAL(SeekForward()), app_->player(), SLOT(SeekForward()));
   connect(ui_->playlist->view(), SIGNAL(SeekBackward()), app_->player(), SLOT(SeekBackward()));
@@ -1364,7 +1364,7 @@ void MainWindow::ResumePlaybackSeek(const int playback_position) {
 
 }
 
-void MainWindow::PlayIndex(const QModelIndex &idx) {
+void MainWindow::PlayIndex(const QModelIndex &idx, Playlist::AutoScroll autoscroll) {
 
   if (!idx.isValid()) return;
 
@@ -1375,7 +1375,7 @@ void MainWindow::PlayIndex(const QModelIndex &idx) {
   }
 
   app_->playlist_manager()->SetActiveToCurrent();
-  app_->player()->PlayAt(row, Engine::Manual, true);
+  app_->player()->PlayAt(row, Engine::Manual, autoscroll, true);
 
 }
 
@@ -1392,13 +1392,13 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &idx) {
   switch (doubleclick_playlist_addmode_) {
     case BehaviourSettingsPage::PlaylistAddBehaviour_Play:
       app_->playlist_manager()->SetActiveToCurrent();
-      app_->player()->PlayAt(row, Engine::Manual, true);
+      app_->player()->PlayAt(row, Engine::Manual, Playlist::AutoScroll_Never, true);
       break;
 
     case BehaviourSettingsPage::PlaylistAddBehaviour_Enqueue:
       app_->playlist_manager()->current()->queue()->ToggleTracks(QModelIndexList() << idx);
       if (app_->player()->GetState() != Engine::Playing) {
-        app_->player()->PlayAt(app_->playlist_manager()->current()->queue()->TakeNext(), Engine::Manual, true);
+        app_->player()->PlayAt(app_->playlist_manager()->current()->queue()->TakeNext(), Engine::Manual, Playlist::AutoScroll_Never, true);
       }
       break;
   }
@@ -1870,10 +1870,10 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
 void MainWindow::PlaylistPlay() {
 
   if (app_->playlist_manager()->current()->current_row() == playlist_menu_index_.row()) {
-    app_->player()->PlayPause();
+    app_->player()->PlayPause(Playlist::AutoScroll_Never);
   }
   else {
-    PlayIndex(playlist_menu_index_);
+    PlayIndex(playlist_menu_index_, Playlist::AutoScroll_Never);
   }
 
 }
@@ -2161,7 +2161,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
       }
       break;
     case CommandlineOptions::Player_PlayPause:
-      app_->player()->PlayPause();
+      app_->player()->PlayPause(Playlist::AutoScroll_Maybe);
       break;
     case CommandlineOptions::Player_Pause:
       app_->player()->Pause();
@@ -2236,7 +2236,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
     app_->player()->SeekTo(app_->player()->engine()->position_nanosec() / kNsecPerSec + options.seek_by());
   }
 
-  if (options.play_track_at() != -1) app_->player()->PlayAt(options.play_track_at(), Engine::Manual, true);
+  if (options.play_track_at() != -1) app_->player()->PlayAt(options.play_track_at(), Engine::Manual, Playlist::AutoScroll_Maybe, true);
 
   if (options.show_osd()) app_->player()->ShowOSD();
 
@@ -2740,7 +2740,7 @@ void MainWindow::ShowConsole() {
 void MainWindow::keyPressEvent(QKeyEvent *event) {
 
   if (event->key() == Qt::Key_Space) {
-    app_->player()->PlayPause();
+    app_->player()->PlayPause(Playlist::AutoScroll_Never);
     event->accept();
   }
   else if (event->key() == Qt::Key_Left) {

@@ -37,6 +37,7 @@
 #include "urlhandler.h"
 #include "engine/engine_fwd.h"
 #include "engine/enginetype.h"
+#include "playlist/playlist.h"
 #include "playlist/playlistitem.h"
 #include "settings/behavioursettingspage.h"
 
@@ -72,10 +73,10 @@ class PlayerInterface : public QObject {
   virtual void ReloadSettings() = 0;
 
   // Manual track change to the specified track
-  virtual void PlayAt(const int row, Engine::TrackChangeFlags change, const bool reshuffle) = 0;
+  virtual void PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle) = 0;
 
   // If there's currently a song playing, pause it, otherwise play the track that was playing last, or the first one on the playlist
-  virtual void PlayPause() = 0;
+  virtual void PlayPause(Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) = 0;
   virtual void RestartOrPrevious() = 0;
 
   // Skips this track.  Might load more of the current radio station.
@@ -158,8 +159,8 @@ class Player : public PlayerInterface {
  public slots:
   void ReloadSettings() override;
 
-  void PlayAt(const int row, Engine::TrackChangeFlags change, const bool reshuffle) override;
-  void PlayPause() override;
+  void PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle) override;
+  void PlayPause(Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) override;
   void RestartOrPrevious() override;
   void Next() override;
   void Previous() override;
@@ -191,10 +192,10 @@ class Player : public PlayerInterface {
   void TrackAboutToEnd();
   void TrackEnded();
   // Play the next item on the playlist - disregarding radio stations like last.fm that might have more tracks.
-  void NextItem(const Engine::TrackChangeFlags change);
+  void NextItem(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll);
   void PreviousItem(const Engine::TrackChangeFlags change);
 
-  void NextInternal(const Engine::TrackChangeFlags);
+  void NextInternal(const Engine::TrackChangeFlags, const Playlist::AutoScroll autoscroll);
 
   void FatalError();
   void ValidSongRequested(const QUrl&);
@@ -205,7 +206,7 @@ class Player : public PlayerInterface {
 
  private:
   // Returns true if we were supposed to stop after this track.
-  bool HandleStopAfter();
+  bool HandleStopAfter(const Playlist::AutoScroll autoscroll);
 
  private:
   Application *app_;
@@ -221,6 +222,7 @@ class Player : public PlayerInterface {
   PlaylistItemPtr current_item_;
 
   Engine::TrackChangeFlags stream_change_type_;
+  Playlist::AutoScroll autoscroll_;
   Engine::State last_state_;
   int nb_errors_received_;
 

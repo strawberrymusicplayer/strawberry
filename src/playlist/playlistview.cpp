@@ -266,7 +266,7 @@ void PlaylistView::SetItemDelegates() {
 void PlaylistView::SetPlaylist(Playlist *playlist) {
 
   if (playlist_) {
-    disconnect(playlist_, SIGNAL(CurrentSongChanged(Song)), this, SLOT(MaybeAutoscroll()));
+    disconnect(playlist_, SIGNAL(MaybeAutoscroll(Playlist::AutoScroll)), this, SLOT(MaybeAutoscroll(Playlist::AutoScroll)));
     disconnect(playlist_, SIGNAL(destroyed()), this, SLOT(PlaylistDestroyed()));
     disconnect(playlist_, SIGNAL(QueueChanged()), this, SLOT(update()));
   }
@@ -279,7 +279,7 @@ void PlaylistView::SetPlaylist(Playlist *playlist) {
   JumpToLastPlayedTrack();
 
   connect(playlist_, SIGNAL(RestoreFinished()), SLOT(JumpToLastPlayedTrack()));
-  connect(playlist_, SIGNAL(CurrentSongChanged(Song)), SLOT(MaybeAutoscroll()));
+  connect(playlist_, SIGNAL(MaybeAutoscroll(Playlist::AutoScroll)), SLOT(MaybeAutoscroll(Playlist::AutoScroll)));
   connect(playlist_, SIGNAL(destroyed()), SLOT(PlaylistDestroyed()));
   connect(playlist_, SIGNAL(QueueChanged()), SLOT(update()));
 
@@ -530,7 +530,7 @@ void PlaylistView::showEvent(QShowEvent *) {
   if (currently_glowing_ && glow_enabled_)
     glow_timer_.start(1500 / kGlowIntensitySteps, this);
 
-  MaybeAutoscroll();
+  MaybeAutoscroll(Playlist::AutoScroll_Maybe);
 
 }
 
@@ -559,7 +559,7 @@ void PlaylistView::keyPressEvent(QKeyEvent *event) {
     CopyCurrentSongToClipboard();
   }
   else if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
-    if (currentIndex().isValid()) emit PlayItem(currentIndex());
+    if (currentIndex().isValid()) emit PlayItem(currentIndex(), Playlist::AutoScroll_Never);
     event->accept();
   }
   else if (event->modifiers() != Qt::ControlModifier && event->key() == Qt::Key_Space) {
@@ -767,25 +767,26 @@ void PlaylistView::InhibitAutoscrollTimeout() {
   inhibit_autoscroll_ = false;
 }
 
-void PlaylistView::MaybeAutoscroll() {
-  if (!inhibit_autoscroll_) JumpToCurrentlyPlayingTrack();
+void PlaylistView::MaybeAutoscroll(const Playlist::AutoScroll autoscroll) {
+  if (autoscroll == Playlist::AutoScroll_Always || (autoscroll == Playlist::AutoScroll_Maybe && !inhibit_autoscroll_)) JumpToCurrentlyPlayingTrack();
 }
 
 void PlaylistView::JumpToCurrentlyPlayingTrack() {
 
   Q_ASSERT(playlist_);
 
-  // Usage of the "Jump to the currently playing track" action shall enable autoscroll
-  inhibit_autoscroll_ = false;
-
   if (playlist_->current_row() == -1) return;
 
   QModelIndex current = playlist_->proxy()->mapFromSource(playlist_->index(playlist_->current_row(), 0));
   if (!current.isValid()) return;
 
-  currently_autoscrolling_ = true;
+  if (visibleRegion().boundingRect().contains(visualRect(current))) return;
+
+  // Usage of the "Jump to the currently playing track" action shall enable autoscroll
+  inhibit_autoscroll_ = false;
 
   // Scroll to the item
+  currently_autoscrolling_ = true;
   scrollTo(current, QAbstractItemView::PositionAtCenter);
   currently_autoscrolling_ = false;
 

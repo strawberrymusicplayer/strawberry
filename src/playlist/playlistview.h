@@ -123,8 +123,8 @@ class PlaylistView : public QTreeView {
   void edit(const QModelIndex &idx) { return QAbstractItemView::edit(idx); }
 
  signals:
-  void PlayItem(QModelIndex idx);
-  void PlayPause();
+  void PlayItem(QModelIndex idx, Playlist::AutoScroll autoscroll);
+  void PlayPause(Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Never);
   void RightClicked(QPoint global_pos, QModelIndex idx);
   void SeekForward();
   void SeekBackward();
@@ -164,7 +164,7 @@ class PlaylistView : public QTreeView {
 
  private slots:
   void InhibitAutoscrollTimeout();
-  void MaybeAutoscroll();
+  void MaybeAutoscroll(const Playlist::AutoScroll autoscroll);
   void InvalidateCachedCurrentPixmap();
   void PlaylistDestroyed();
   void StretchChanged(const bool stretch);

@@ -149,7 +149,7 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
   connect(ret, SIGNAL(PlaylistChanged()), SLOT(UpdateSummaryText()));
   connect(ret, SIGNAL(EditingFinished(QModelIndex)), SIGNAL(EditingFinished(QModelIndex)));
   connect(ret, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
-  connect(ret, SIGNAL(PlayRequested(QModelIndex)), SIGNAL(PlayRequested(QModelIndex)));
+  connect(ret, SIGNAL(PlayRequested(QModelIndex, Playlist::AutoScroll)), SIGNAL(PlayRequested(QModelIndex, Playlist::AutoScroll)));
   connect(playlist_container_->view(), SIGNAL(ColumnAlignmentChanged(ColumnAlignmentMap)), ret, SLOT(SetColumnAlignment(ColumnAlignmentMap)));
   connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)), ret, SLOT(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)));
 
