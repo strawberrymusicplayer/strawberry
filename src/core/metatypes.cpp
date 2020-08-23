@@ -42,6 +42,7 @@
 #include <QItemSelection>
 #ifdef HAVE_DBUS
 #  include <QDBusMetaType>
+#  include <QDBusArgument>
 #endif
 
 #include "song.h"
@@ -62,6 +63,7 @@
 
 #ifdef HAVE_DBUS
 #  include "mpris2.h"
+#  include "osd/osddbus.h"
 #  include "dbus/metatypes.h"
 #endif
 
@@ -115,6 +117,7 @@ void RegisterMetaTypes() {
   qRegisterMetaTypeStreamOperators<Equalizer::Params>("Equalizer::Params");
 #ifdef HAVE_DBUS
   qDBusRegisterMetaType<QList<QByteArray>>();
+  qDBusRegisterMetaType<QImage>();
   qDBusRegisterMetaType<TrackMetadata>();
   qDBusRegisterMetaType<Track_Ids>();
   qDBusRegisterMetaType<MprisPlaylist>();
@@ -122,9 +125,6 @@ void RegisterMetaTypes() {
   qDBusRegisterMetaType<MaybePlaylist>();
   qDBusRegisterMetaType<InterfacesAndProperties>();
   qDBusRegisterMetaType<ManagedObjectList>();
-#ifdef HAVE_X11
-  qDBusRegisterMetaType<QImage>();
-#endif
 #endif
 
   qRegisterMetaType<InternetSearchView::ResultList>("InternetSearchView::ResultList");
