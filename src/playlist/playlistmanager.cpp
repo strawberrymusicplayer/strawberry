@@ -98,7 +98,7 @@ void PlaylistManager::Init(CollectionBackend *collection_backend, PlaylistBacken
   connect(collection_backend_, SIGNAL(SongsStatisticsChanged(SongList)), SLOT(SongsDiscovered(SongList)));
 
   for (const PlaylistBackend::Playlist &p : playlist_backend->GetAllOpenPlaylists()) {
-    playlists_loading_++;
+    ++playlists_loading_;
     Playlist *ret = AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
     connect(ret, SIGNAL(PlaylistLoaded()), SLOT(PlaylistLoaded()));
   }
@@ -115,7 +115,7 @@ void PlaylistManager::PlaylistLoaded() {
   Playlist *playlist = qobject_cast<Playlist*>(sender());
   if (!playlist) return;
   disconnect(playlist, SIGNAL(PlaylistLoaded()), this, SLOT(PlaylistLoaded()));
-  playlists_loading_--;
+  --playlists_loading_;
   if (playlists_loading_ == 0) emit AllPlaylistsLoaded();
 
 }
@@ -137,7 +137,7 @@ QItemSelection PlaylistManager::selection(int id) const {
   return it->selection;
 }
 
-Playlist *PlaylistManager::AddPlaylist(int id, const QString &name, const QString &special_type, const QString &ui_path, bool favorite) {
+Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const bool favorite) {
 
   Playlist *ret = new Playlist(playlist_backend_, app_->task_manager(), collection_backend_, id, special_type, favorite);
   ret->set_sequence(sequence_);
@@ -206,7 +206,7 @@ void PlaylistManager::Load(const QString &filename) {
 
 }
 
-void PlaylistManager::Save(int id, const QString &filename, Playlist::Path path_type) {
+void PlaylistManager::Save(const int id, const QString &filename, const Playlist::Path path_type) {
 
   if (playlists_.contains(id)) {
     parser_->Save(playlist(id)->GetAllSongs(), filename, path_type);
@@ -219,13 +219,13 @@ void PlaylistManager::Save(int id, const QString &filename, Playlist::Path path_
 
 }
 
-void PlaylistManager::ItemsLoadedForSavePlaylist(QFuture<SongList> future, const QString &filename, Playlist::Path path_type) {
+void PlaylistManager::ItemsLoadedForSavePlaylist(QFuture<SongList> future, const QString &filename, const Playlist::Path path_type) {
 
   parser_->Save(future.result(), filename, path_type);
 
 }
 
-void PlaylistManager::SaveWithUI(int id, const QString &playlist_name) {
+void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
 
   QSettings settings;
   settings.beginGroup(Playlist::kSettingsGroup);
@@ -291,7 +291,7 @@ void PlaylistManager::SaveWithUI(int id, const QString &playlist_name) {
 
 }
 
-void PlaylistManager::Rename(int id, const QString &new_name) {
+void PlaylistManager::Rename(const int id, const QString &new_name) {
 
   Q_ASSERT(playlists_.contains(id));
 
@@ -302,7 +302,7 @@ void PlaylistManager::Rename(int id, const QString &new_name) {
 
 }
 
-void PlaylistManager::Favorite(int id, bool favorite) {
+void PlaylistManager::Favorite(const int id, const bool favorite) {
 
   if (playlists_.contains(id)) {
     // If playlists_ contains this playlist, its means it's opened: star or unstar it.
@@ -319,7 +319,7 @@ void PlaylistManager::Favorite(int id, bool favorite) {
 
 }
 
-bool PlaylistManager::Close(int id) {
+bool PlaylistManager::Close(const int id) {
 
   // Won't allow removing the last playlist
   if (playlists_.count() <= 1 || !playlists_.contains(id)) return false;
@@ -349,7 +349,7 @@ bool PlaylistManager::Close(int id) {
 
 }
 
-void PlaylistManager::Delete(int id) {
+void PlaylistManager::Delete(const int id) {
 
   if (!Close(id)) {
     return;
@@ -364,7 +364,7 @@ void PlaylistManager::OneOfPlaylistsChanged() {
   emit PlaylistChanged(qobject_cast<Playlist*>(sender()));
 }
 
-void PlaylistManager::SetCurrentPlaylist(int id) {
+void PlaylistManager::SetCurrentPlaylist(const int id) {
 
   Q_ASSERT(playlists_.contains(id));
 
@@ -379,7 +379,7 @@ void PlaylistManager::SetCurrentPlaylist(int id) {
 
 }
 
-void PlaylistManager::SetActivePlaylist(int id) {
+void PlaylistManager::SetActivePlaylist(const int id) {
 
   Q_ASSERT(playlists_.contains(id));
 
@@ -489,7 +489,7 @@ void PlaylistManager::SongsDiscovered(const SongList &songs) {
 }
 
 // When Player has processed the new song chosen by the user...
-void PlaylistManager::SongChangeRequestProcessed(const QUrl &url, bool valid) {
+void PlaylistManager::SongChangeRequestProcessed(const QUrl &url, const bool valid) {
 
   for (Playlist *playlist : GetAllPlaylists()) {
     if (playlist->ApplyValidityOnCurrentSong(url, valid)) {
@@ -499,7 +499,7 @@ void PlaylistManager::SongChangeRequestProcessed(const QUrl &url, bool valid) {
 
 }
 
-void PlaylistManager::InsertUrls(int id, const QList<QUrl> &urls, int pos, bool play_now, bool enqueue) {
+void PlaylistManager::InsertUrls(const int id, const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue) {
 
   Q_ASSERT(playlists_.contains(id));
 
@@ -507,7 +507,7 @@ void PlaylistManager::InsertUrls(int id, const QList<QUrl> &urls, int pos, bool 
 
 }
 
-void PlaylistManager::InsertSongs(int id, const SongList &songs, int pos, bool play_now, bool enqueue) {
+void PlaylistManager::InsertSongs(const int id, const SongList &songs, const int pos, const bool play_now, const bool enqueue) {
 
   Q_ASSERT(playlists_.contains(id));
 
@@ -515,7 +515,7 @@ void PlaylistManager::InsertSongs(int id, const SongList &songs, int pos, bool p
 
 }
 
-void PlaylistManager::RemoveItemsWithoutUndo(int id, const QList<int> &indices) {
+void PlaylistManager::RemoveItemsWithoutUndo(const int id, const QList<int> &indices) {
 
   Q_ASSERT(playlists_.contains(id));
 
@@ -577,7 +577,7 @@ QString PlaylistManager::GetNameForNewPlaylist(const SongList &songs) {
 
 }
 
-void PlaylistManager::Open(int id) {
+void PlaylistManager::Open(const int id) {
 
   if (playlists_.contains(id)) {
     return;
@@ -592,13 +592,13 @@ void PlaylistManager::Open(int id) {
 
 }
 
-void PlaylistManager::SetCurrentOrOpen(int id) {
+void PlaylistManager::SetCurrentOrOpen(const int id) {
 
   Open(id);
   SetCurrentPlaylist(id);
 
 }
 
-bool PlaylistManager::IsPlaylistOpen(int id) {
+bool PlaylistManager::IsPlaylistOpen(const int id) {
   return playlists_.contains(id);
 }

@@ -93,7 +93,7 @@ class Playlist : public QAbstractListModel {
   friend class PlaylistUndoCommands::ReOrderItems;
 
  public:
-  explicit Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, int id, const QString &special_type = QString(), bool favorite = false, QObject *parent = nullptr);
+  explicit Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, const int id, const QString &special_type = QString(), const bool favorite = false, QObject *parent = nullptr);
   ~Playlist() override;
 
   void SkipTracks(const QModelIndexList &source_indexes);
@@ -166,7 +166,7 @@ class Playlist : public QAbstractListModel {
   static const qint64 kMinScrobblePointNsecs;
   static const qint64 kMaxScrobblePointNsecs;
 
-  static bool CompareItems(int column, Qt::SortOrder order, PlaylistItemPtr a, PlaylistItemPtr b);
+  static bool CompareItems(const int column, const Qt::SortOrder order, PlaylistItemPtr a, PlaylistItemPtr b);
 
   static QString column_name(Column column);
   static QString abbreviated_column_name(Column column);
@@ -186,13 +186,13 @@ class Playlist : public QAbstractListModel {
   const QString &ui_path() const { return ui_path_; }
   void set_ui_path(const QString &path) { ui_path_ = path; }
   bool is_favorite() const { return favorite_; }
-  void set_favorite(bool favorite) { favorite_ = favorite; }
+  void set_favorite(const bool favorite) { favorite_ = favorite; }
 
   int current_row() const;
   int last_played_row() const;
   void reset_last_played() { last_played_item_index_ = QPersistentModelIndex(); }
-  int next_row(bool ignore_repeat_track = false) const;
-  int previous_row(bool ignore_repeat_track = false) const;
+  int next_row(const bool ignore_repeat_track = false) const;
+  int previous_row(const bool ignore_repeat_track = false) const;
 
   const QModelIndex current_index() const;
 
@@ -201,15 +201,15 @@ class Playlist : public QAbstractListModel {
   QString special_type() const { return special_type_; }
   void set_special_type(const QString &v) { special_type_ = v; }
 
-  const PlaylistItemPtr &item_at(int index) const { return items_[index]; }
-  bool has_item_at(int index) const { return index >= 0 && index < rowCount(); }
+  const PlaylistItemPtr &item_at(const int index) const { return items_[index]; }
+  bool has_item_at(const int index) const { return index >= 0 && index < rowCount(); }
 
   PlaylistItemPtr current_item() const;
 
   PlaylistItem::Options current_item_options() const;
   Song current_item_metadata() const;
 
-  PlaylistItemList collection_items_by_id(int id) const;
+  PlaylistItemList collection_items_by_id(const int id) const;
 
   SongList GetAllSongs() const;
   PlaylistItemList GetAllItems() const;
@@ -222,8 +222,8 @@ class Playlist : public QAbstractListModel {
 
   bool scrobbled() const { return scrobbled_; }
   bool nowplaying() const { return nowplaying_; }
-  void set_scrobbled(bool state) { scrobbled_ = state; }
-  void set_nowplaying(bool state) { nowplaying_ = state; }
+  void set_scrobbled(const bool state) { scrobbled_ = state; }
+  void set_nowplaying(const bool state) { nowplaying_ = state; }
   void set_editing(const int row) { editing_ = row; }
   qint64 scrobble_point_nanosec() const { return scrobble_point_; }
   void UpdateScrobblePoint(const qint64 seek_point_nanosec = 0);
@@ -248,7 +248,7 @@ class Playlist : public QAbstractListModel {
   // Removes from the playlist all local files that don't exist anymore.
   void RemoveDeletedSongs();
 
-  void StopAfter(int row);
+  void StopAfter(const int row);
   void ReloadItems(const QList<int> &rows);
   void InformOfCurrentSongChange();
 
@@ -259,16 +259,16 @@ class Playlist : public QAbstractListModel {
 
   // Just emits the dataChanged() signal so the mood column is repainted.
 #ifdef HAVE_MOODBAR
-  void MoodbarUpdated(const QModelIndex& index);
+  void MoodbarUpdated(const QModelIndex &idx);
 #endif
 
   // QAbstractListModel
   int rowCount(const QModelIndex& = QModelIndex()) const override { return items_.count(); }
   int columnCount(const QModelIndex& = QModelIndex()) const override { return ColumnCount; }
   QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
-  bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+  bool setData(const QModelIndex &idx, const QVariant &value, int role) override;
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-  Qt::ItemFlags flags(const QModelIndex &index) const override;
+  Qt::ItemFlags flags(const QModelIndex &idx) const override;
   QStringList mimeTypes() const override;
   Qt::DropActions supportedDropActions() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
@@ -279,11 +279,11 @@ class Playlist : public QAbstractListModel {
   static bool ComparePathDepths(Qt::SortOrder, PlaylistItemPtr, PlaylistItemPtr);
 
  public slots:
-  void set_current_row(int index, bool is_stopping = false);
+  void set_current_row(const int i, const bool is_stopping = false);
   void Paused();
   void Playing();
   void Stopped();
-  void IgnoreSorting(bool value) { ignore_sorting_ = value; }
+  void IgnoreSorting(const bool value) { ignore_sorting_ = value; }
 
   void ClearStreamMetadata();
   void SetStreamMetadata(const QUrl &url, const Song &song, const bool minor);
@@ -295,7 +295,7 @@ class Playlist : public QAbstractListModel {
   void RemoveUnavailableSongs();
   void Shuffle();
 
-  void ShuffleModeChanged(PlaylistSequence::ShuffleMode mode);
+  void ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode);
 
   void SetColumnAlignment(const ColumnAlignmentMap &alignment);
 
@@ -306,34 +306,34 @@ class Playlist : public QAbstractListModel {
  signals:
   void RestoreFinished();
   void PlaylistLoaded();
-  void CurrentSongChanged(const Song &metadata);
-  void SongMetadataChanged(const Song &metadata);
-  void EditingFinished(const QModelIndex &index);
-  void PlayRequested(const QModelIndex &index);
+  void CurrentSongChanged(Song metadata);
+  void SongMetadataChanged(Song metadata);
+  void EditingFinished(QModelIndex idx);
+  void PlayRequested(QModelIndex idx);
 
   // Signals that the underlying list of items was changed, meaning that something was added to it, removed from it or the ordering changed.
   void PlaylistChanged();
   void DynamicModeChanged(bool dynamic);
 
-  void Error(const QString &message);
+  void Error(QString message);
 
   // Signals that the queue has changed, meaning that the remaining queued items should update their position.
   void QueueChanged();
 
  private:
-  void SetCurrentIsPaused(bool paused);
-  int NextVirtualIndex(int i, bool ignore_repeat_track) const;
-  int PreviousVirtualIndex(int i, bool ignore_repeat_track) const;
-  bool FilterContainsVirtualIndex(int i) const;
+  void SetCurrentIsPaused(const bool paused);
+  int NextVirtualIndex(int i, const bool ignore_repeat_track) const;
+  int PreviousVirtualIndex(int i, const bool ignore_repeat_track) const;
+  bool FilterContainsVirtualIndex(const int i) const;
 
   template <typename T>
-  void InsertSongItems(const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next = false);
+  void InsertSongItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next = false);
 
   // Modify the playlist without changing the undo stack.  These are used by our friends in PlaylistUndoCommands
   void InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bool enqueue = false, bool enqueue_next = false);
   PlaylistItemList RemoveItemsWithoutUndo(const int row, const int count);
   void MoveItemsWithoutUndo(const QList<int> &source_rows, int pos);
-  void MoveItemWithoutUndo(int source, int dest);
+  void MoveItemWithoutUndo(const int source, const int dest);
   void MoveItemsWithoutUndo(int start, const QList<int> &dest_rows);
   void ReOrderWithoutUndo(const PlaylistItemList &new_items);
 
@@ -343,9 +343,9 @@ class Playlist : public QAbstractListModel {
   bool removeRows(QList<int> &rows);
 
  private slots:
-  void TracksAboutToBeDequeued(const QModelIndex&, int begin, int end);
+  void TracksAboutToBeDequeued(const QModelIndex&, const int begin, const int end);
   void TracksDequeued();
-  void TracksEnqueued(const QModelIndex&, int begin, int end);
+  void TracksEnqueued(const QModelIndex&, const int begin, const int end);
   void QueueLayoutChanged();
   void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &index);
   void ItemReloadComplete(const QPersistentModelIndex &index);

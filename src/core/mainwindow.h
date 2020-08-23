@@ -100,14 +100,14 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
 
  public:
-  explicit MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd, const CommandlineOptions& options, QWidget *parent = nullptr);
+  explicit MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent = nullptr);
   ~MainWindow() override;
 
   static const char *kSettingsGroup;
   static const char *kAllFilesFilterSpec;
 
   void SetHiddenInTray(const bool hidden);
-  void CommandlineOptionsReceived(const CommandlineOptions& options);
+  void CommandlineOptionsReceived(const CommandlineOptions &options);
 
  protected:
   void keyPressEvent(QKeyEvent *event) override;
@@ -120,7 +120,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   // PlatformInterface
   void Activate() override;
-  bool LoadUrl(const QString& url) override;
+  bool LoadUrl(const QString &url) override;
 
  signals:
   void AlbumCoverReady(const Song &song, const QImage &image);
@@ -128,23 +128,21 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   // Signals that stop playing after track was toggled.
   void StopAfterToggled(bool stop);
 
-  void IntroPointReached();
-
   void AuthorizationUrlReceived(const QUrl &url);
 
  private slots:
-  void FilePathChanged(const QString& path);
+  void FilePathChanged(const QString &path);
 
   void EngineChanged(Engine::EngineType enginetype);
   void MediaStopped();
   void MediaPaused();
   void MediaPlaying();
   void TrackSkipped(PlaylistItemPtr item);
-  void ForceShowOSD(const Song& song, const bool toggle);
+  void ForceShowOSD(const Song &song, const bool toggle);
 
   void PlaylistMenuHidden();
-  void PlaylistRightClick(const QPoint& global_pos, const QModelIndex& index);
-  void PlaylistCurrentChanged(const QModelIndex& current);
+  void PlaylistRightClick(const QPoint &global_pos, const QModelIndex &index);
+  void PlaylistCurrentChanged(const QModelIndex &current);
   void PlaylistViewSelectionModelChanged();
   void PlaylistPlay();
   void PlaylistStopAfter();
@@ -152,7 +150,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void PlaylistQueuePlayNext();
   void PlaylistSkip();
   void PlaylistRemoveCurrent();
-  void PlaylistEditFinished(const QModelIndex& index);
+  void PlaylistEditFinished(const QModelIndex &idx);
   void PlaylistClearCurrent();
   void RescanSongs();
   void EditTracks();
@@ -175,17 +173,17 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void ChangeCollectionQueryMode(QAction *action);
 
-  void PlayIndex(const QModelIndex& index);
-  void PlaylistDoubleClick(const QModelIndex& index);
+  void PlayIndex(const QModelIndex &idx);
+  void PlaylistDoubleClick(const QModelIndex &idx);
   void StopAfterCurrent();
 
-  void SongChanged(const Song& song);
+  void SongChanged(const Song &song);
   void VolumeChanged(const int volume);
 
-  void CopyFilesToCollection(const QList<QUrl>& urls);
-  void MoveFilesToCollection(const QList<QUrl>& urls);
-  void CopyFilesToDevice(const QList<QUrl>& urls);
-  void EditFileTags(const QList<QUrl>& urls);
+  void CopyFilesToCollection(const QList<QUrl> &urls);
+  void MoveFilesToCollection(const QList<QUrl> &urls);
+  void CopyFilesToDevice(const QList<QUrl> &urls);
+  void EditFileTags(const QList<QUrl> &urls);
 
   void AddToPlaylist(QMimeData *q_mimedata);
   void AddToPlaylist(QAction *action);
@@ -217,12 +215,12 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void PlayingWidgetPositionChanged(const bool above_status_bar);
 
-  void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex& index);
+  void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx);
 
   void ShowCoverManager();
 
   void ShowAboutDialog();
-  void ShowErrorDialog(const QString& message);
+  void ShowErrorDialog(const QString &message);
   void ShowTranscodeDialog();
   SettingsDialog *CreateSettingsDialog();
   EditTagDialog *CreateEditTagDialog();
@@ -270,8 +268,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void SaveSettings();
 
-  void ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour b, MimeData *mimedata) const;
-  void ApplyPlayBehaviour(BehaviourSettingsPage::PlayBehaviour b, MimeData *mimedata) const;
+  void ApplyAddBehaviour(const BehaviourSettingsPage::AddBehaviour b, MimeData *mimedata) const;
+  void ApplyPlayBehaviour(const BehaviourSettingsPage::PlayBehaviour b, MimeData *mimedata) const;
 
   void CheckFullRescanRevisions();
 

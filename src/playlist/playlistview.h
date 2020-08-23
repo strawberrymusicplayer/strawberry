@@ -118,19 +118,19 @@ class PlaylistView : public QTreeView {
   void ReloadSettings();
   void SaveGeometry();
   void SaveSettings();
-  void SetColumnAlignment(int section, Qt::Alignment alignment);
+  void SetColumnAlignment(const int section, const Qt::Alignment alignment);
   void JumpToCurrentlyPlayingTrack();
-  void edit(const QModelIndex &index) { return QAbstractItemView::edit(index); }
+  void edit(const QModelIndex &idx) { return QAbstractItemView::edit(idx); }
 
  signals:
-  void PlayItem(const QModelIndex &index);
+  void PlayItem(QModelIndex idx);
   void PlayPause();
-  void RightClicked(const QPoint &global_pos, const QModelIndex &index);
+  void RightClicked(QPoint global_pos, QModelIndex idx);
   void SeekForward();
   void SeekBackward();
   void FocusOnFilterSignal(QKeyEvent *event);
   void BackgroundPropertyChanged();
-  void ColumnAlignmentChanged(const ColumnAlignmentMap &alignment);
+  void ColumnAlignmentChanged(ColumnAlignmentMap alignment);
 
  protected:
   // QWidget
@@ -152,14 +152,14 @@ class PlaylistView : public QTreeView {
 
   // QTreeView
   void drawTree(QPainter *painter, const QRegion &region) const;
-  void drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+  void drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
   // QAbstractScrollArea
   void scrollContentsBy(int dx, int dy) override;
 
   // QAbstractItemView
   void rowsInserted(const QModelIndex &parent, int start, int end) override;
-  bool edit(const QModelIndex &index, QAbstractItemView::EditTrigger trigger, QEvent *event) override;
+  bool edit(const QModelIndex &idx, QAbstractItemView::EditTrigger trigger, QEvent *event) override;
   void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
 
  private slots:
@@ -167,8 +167,8 @@ class PlaylistView : public QTreeView {
   void MaybeAutoscroll();
   void InvalidateCachedCurrentPixmap();
   void PlaylistDestroyed();
-  void StretchChanged(bool stretch);
-  void FadePreviousBackgroundImage(qreal value);
+  void StretchChanged(const bool stretch);
+  void FadePreviousBackgroundImage(const qreal value);
   void StopGlowing();
   void StartGlowing();
   void JumpToLastPlayedTrack();
@@ -182,7 +182,7 @@ class PlaylistView : public QTreeView {
   void LoadGeometry();
   void ReloadBarPixmaps();
   QList<QPixmap> LoadBarPixmap(const QString &filename);
-  void UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, const QModelIndex &index);
+  void UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, const QModelIndex &idx);
 
   void set_background_image_type(AppearanceSettingsPage::BackgroundImageType bg) {
     background_image_type_ = bg;

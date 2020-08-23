@@ -354,7 +354,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
 void Player::Next() { NextInternal(Engine::Manual); }
 
-void Player::NextInternal(Engine::TrackChangeFlags change) {
+void Player::NextInternal(const Engine::TrackChangeFlags change) {
 
   if (HandleStopAfter()) return;
 
@@ -362,7 +362,7 @@ void Player::NextInternal(Engine::TrackChangeFlags change) {
 
 }
 
-void Player::NextItem(Engine::TrackChangeFlags change) {
+void Player::NextItem(const Engine::TrackChangeFlags change) {
 
   Playlist *active_playlist = app_->playlist_manager()->active();
 
@@ -487,7 +487,7 @@ bool Player::PreviousWouldRestartTrack() const {
 
 void Player::Previous() { PreviousItem(Engine::Manual); }
 
-void Player::PreviousItem(Engine::TrackChangeFlags change) {
+void Player::PreviousItem(const Engine::TrackChangeFlags change) {
 
   const bool ignore_repeat_track = change & Engine::Manual;
 
@@ -514,7 +514,7 @@ void Player::PreviousItem(Engine::TrackChangeFlags change) {
 
 }
 
-void Player::EngineStateChanged(Engine::State state) {
+void Player::EngineStateChanged(const Engine::State state) {
 
   if (Engine::Error == state) {
     nb_errors_received_++;
@@ -542,7 +542,7 @@ void Player::EngineStateChanged(Engine::State state) {
 
 }
 
-void Player::SetVolume(int value) {
+void Player::SetVolume(const int value) {
 
   int old_volume = engine_->volume();
 
@@ -558,7 +558,7 @@ void Player::SetVolume(int value) {
 
 int Player::GetVolume() const { return engine_->volume(); }
 
-void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) {
+void Player::PlayAt(const int index, Engine::TrackChangeFlags change, const bool reshuffle) {
 
   if (current_item_ && change == Engine::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
     emit TrackSkipped(current_item_);
@@ -611,7 +611,7 @@ void Player::CurrentMetadataChanged(const Song &metadata) {
 
 }
 
-void Player::SeekTo(int seconds) {
+void Player::SeekTo(const int seconds) {
 
   const qint64 length_nanosec = engine_->length_nanosec();
 
@@ -662,7 +662,7 @@ void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
 
 }
 
-PlaylistItemPtr Player::GetItemAt(int pos) const {
+PlaylistItemPtr Player::GetItemAt(const int pos) const {
 
   if (pos < 0 || pos >= app_->playlist_manager()->active()->rowCount())
     return PlaylistItemPtr();
@@ -762,8 +762,6 @@ void Player::TrackAboutToEnd() {
   engine_->StartPreloading(url, next_item->Url(), next_item->Metadata().has_cue(), next_item->effective_beginning_nanosec(), next_item->effective_end_nanosec());
 
 }
-
-void Player::IntroPointReached() { NextInternal(Engine::Intro); }
 
 void Player::FatalError() {
   nb_errors_received_ = 0;

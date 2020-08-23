@@ -406,15 +406,15 @@ void PlaylistView::drawTree(QPainter *painter, const QRegion &region) const {
 
 }
 
-void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
   QStyleOptionViewItem opt(option);
 
-  bool is_current = index.data(Playlist::Role_IsCurrent).toBool();
-  bool is_paused = index.data(Playlist::Role_IsPaused).toBool();
+  bool is_current = idx.data(Playlist::Role_IsCurrent).toBool();
+  bool is_paused = idx.data(Playlist::Role_IsPaused).toBool();
 
   if (is_current) {
-    const_cast<PlaylistView*>(this)->last_current_item_ = index;
+    const_cast<PlaylistView*>(this)->last_current_item_ = idx;
     const_cast<PlaylistView*>(this)->last_glow_rect_ = opt.rect;
 
     int step = glow_intensity_step_;
@@ -433,7 +433,7 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
     middle.setRight(middle.right() - currenttrack_bar_right_[0].width());
 
     // Selection
-    if (selectionModel()->isSelected(index))
+    if (selectionModel()->isSelected(idx))
       painter->fillRect(opt.rect, opt.palette.color(QPalette::Highlight));
 
     // Draw the bar
@@ -453,7 +453,7 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
     opt.decorationSize = QSize(20, 20);
 
     // Draw the actual row data on top.  We cache this, because it's fairly expensive (1-2ms), and we do it many times per second.
-    const bool cache_dirty = cached_current_row_rect_ != opt.rect || cached_current_row_row_ != index.row() || cached_current_row_.isNull();
+    const bool cache_dirty = cached_current_row_rect_ != opt.rect || cached_current_row_row_ != idx.row() || cached_current_row_.isNull();
 
     // We can't update the cache if we're not drawing the entire region,
     // QTreeView clips its drawing to only the columns in the region, so it wouldn't update the whole pixmap properly.
@@ -464,31 +464,31 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
     }
     else {
       if (whole_region) {
-        const_cast<PlaylistView*>(this)->UpdateCachedCurrentRowPixmap(opt, index);
+        const_cast<PlaylistView*>(this)->UpdateCachedCurrentRowPixmap(opt, idx);
         painter->drawPixmap(opt.rect, cached_current_row_);
       }
       else {
-        QTreeView::drawRow(painter, opt, index);
+        QTreeView::drawRow(painter, opt, idx);
       }
     }
   }
   else {
-    QTreeView::drawRow(painter, opt, index);
+    QTreeView::drawRow(painter, opt, idx);
   }
 
 }
 
-void PlaylistView::UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, const QModelIndex &index) {
+void PlaylistView::UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, const QModelIndex &idx) {
 
   cached_current_row_rect_ = option.rect;
-  cached_current_row_row_ = index.row();
+  cached_current_row_row_ = idx.row();
 
   option.rect.moveTo(0, 0);
   cached_current_row_ = QPixmap(option.rect.size());
   cached_current_row_.fill(Qt::transparent);
 
   QPainter p(&cached_current_row_);
-  QTreeView::drawRow(&p, option, index);
+  QTreeView::drawRow(&p, option, idx);
 
 }
 
@@ -611,15 +611,15 @@ void PlaylistView::RemoveSelected() {
 
   int new_row = last_row - rows_removed;
   // Index of the first column for the row to select
-  QModelIndex new_index = model()->index(new_row, 0);
+  QModelIndex new_idx = model()->index(new_row, 0);
 
   // Select the new current item, we want always the item after the last selected
-  if (new_index.isValid()) {
+  if (new_idx.isValid()) {
     // Workaround to update keyboard selected row, if it's not the first row (this also triggers selection)
     if (new_row != 0)
       keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier));
     // Update visual selection with the entire row
-    selectionModel()->select(new_index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+    selectionModel()->select(new_idx, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
   }
   else {
     // We're removing the last item, select the new last row
@@ -634,8 +634,8 @@ QList<int> PlaylistView::GetEditableColumns() {
   QHeaderView *h = header();
   for (int col = 0; col < h->count(); col++) {
     if (h->isSectionHidden(col)) continue;
-    QModelIndex index = model()->index(0, col);
-    if (index.flags() & Qt::ItemIsEditable) columns << h->visualIndex(col);
+    QModelIndex idx = model()->index(0, col);
+    if (idx.flags() & Qt::ItemIsEditable) columns << h->visualIndex(col);
   }
   std::sort(columns.begin(), columns.end());
   return columns;
@@ -646,12 +646,12 @@ QModelIndex PlaylistView::NextEditableIndex(const QModelIndex &current) {
 
   QList<int> columns = GetEditableColumns();
   QHeaderView *h = header();
-  int index = columns.indexOf(h->visualIndex(current.column()));
+  int idx = columns.indexOf(h->visualIndex(current.column()));
 
-  if (index + 1 >= columns.size())
+  if (idx + 1 >= columns.size())
     return model()->index(current.row() + 1, h->logicalIndex(columns.first()));
 
-  return model()->index(current.row(), h->logicalIndex(columns[index + 1]));
+  return model()->index(current.row(), h->logicalIndex(columns[idx + 1]));
 
 }
 
@@ -659,20 +659,20 @@ QModelIndex PlaylistView::PrevEditableIndex(const QModelIndex &current) {
 
   QList<int> columns = GetEditableColumns();
   QHeaderView *h = header();
-  int index = columns.indexOf(h->visualIndex(current.column()));
+  int idx = columns.indexOf(h->visualIndex(current.column()));
 
-  if (index - 1 < 0)
+  if (idx - 1 < 0)
     return model()->index(current.row() - 1, h->logicalIndex(columns.last()));
 
-  return model()->index(current.row(), h->logicalIndex(columns[index - 1]));
+  return model()->index(current.row(), h->logicalIndex(columns[idx - 1]));
 
 }
 
-bool PlaylistView::edit(const QModelIndex &index, QAbstractItemView::EditTrigger trigger, QEvent *event) {
+bool PlaylistView::edit(const QModelIndex &idx, QAbstractItemView::EditTrigger trigger, QEvent *event) {
 
-  bool result = QAbstractItemView::edit(index, trigger, event);
+  bool result = QAbstractItemView::edit(idx, trigger, event);
   if (result && trigger == QAbstractItemView::AllEditTriggers && !event) {
-    playlist_->set_editing(index.row());
+    playlist_->set_editing(idx.row());
   }
   return result;
 
@@ -685,19 +685,19 @@ void PlaylistView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHi
   }
   else if (hint == QAbstractItemDelegate::EditNextItem || hint == QAbstractItemDelegate::EditPreviousItem) {
 
-    QModelIndex index;
+    QModelIndex idx;
     if (hint == QAbstractItemDelegate::EditNextItem)
-      index = NextEditableIndex(currentIndex());
+      idx = NextEditableIndex(currentIndex());
     else
-      index = PrevEditableIndex(currentIndex());
+      idx = PrevEditableIndex(currentIndex());
 
-    if (!index.isValid()) {
+    if (!idx.isValid()) {
       QTreeView::closeEditor(editor, QAbstractItemDelegate::SubmitModelCache);
     }
     else {
       QTreeView::closeEditor(editor, QAbstractItemDelegate::NoHint);
-      setCurrentIndex(index);
-      QAbstractItemView::edit(index);
+      setCurrentIndex(idx);
+      QAbstractItemView::edit(idx);
     }
   }
   else {
@@ -787,7 +787,6 @@ void PlaylistView::JumpToCurrentlyPlayingTrack() {
 
   // Scroll to the item
   scrollTo(current, QAbstractItemView::PositionAtCenter);
-
   currently_autoscrolling_ = false;
 
 }
@@ -975,12 +974,12 @@ void PlaylistView::dragMoveEvent(QDragMoveEvent *event) {
   QTreeView::dragMoveEvent(event);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  QModelIndex index(indexAt(event->position().toPoint()));
+  QModelIndex idx(indexAt(event->position().toPoint()));
 #else
-  QModelIndex index(indexAt(event->pos()));
+  QModelIndex idx(indexAt(event->pos()));
 #endif
 
-  drop_indicator_row_ = index.isValid() ? index.row() : 0;
+  drop_indicator_row_ = idx.isValid() ? idx.row() : 0;
 
 }
 
@@ -1154,7 +1153,7 @@ void PlaylistView::SaveSettings() {
 
 }
 
-void PlaylistView::StretchChanged(bool stretch) {
+void PlaylistView::StretchChanged(const bool stretch) {
 
   if (!initialized_) return;
   setHorizontalScrollBarPolicy(stretch ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
@@ -1205,7 +1204,7 @@ ColumnAlignmentMap PlaylistView::DefaultColumnAlignment() {
 
 }
 
-void PlaylistView::SetColumnAlignment(int section, Qt::Alignment alignment) {
+void PlaylistView::SetColumnAlignment(const int section, const Qt::Alignment alignment) {
 
   if (section < 0) return;
 
@@ -1327,7 +1326,7 @@ void PlaylistView::set_background_image(const QImage &image) {
 
 }
 
-void PlaylistView::FadePreviousBackgroundImage(qreal value) {
+void PlaylistView::FadePreviousBackgroundImage(const qreal value) {
 
   previous_background_image_opacity_ = value;
   if (qFuzzyCompare(previous_background_image_opacity_, qreal(0.0))) {

@@ -528,7 +528,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   connect(app_->player(), SIGNAL(Stopped()), SLOT(MediaStopped()));
   connect(app_->player(), SIGNAL(Seeked(qlonglong)), SLOT(Seeked(qlonglong)));
   connect(app_->player(), SIGNAL(TrackSkipped(PlaylistItemPtr)), SLOT(TrackSkipped(PlaylistItemPtr)));
-  connect(this, SIGNAL(IntroPointReached()), app_->player(), SLOT(IntroPointReached()));
   connect(app_->player(), SIGNAL(VolumeChanged(int)), SLOT(VolumeChanged(int)));
 
   connect(app_->player(), SIGNAL(Paused()), ui_->playlist, SLOT(ActivePaused()));
@@ -1365,14 +1364,14 @@ void MainWindow::ResumePlaybackSeek(const int playback_position) {
 
 }
 
-void MainWindow::PlayIndex(const QModelIndex &index) {
+void MainWindow::PlayIndex(const QModelIndex &idx) {
 
-  if (!index.isValid()) return;
+  if (!idx.isValid()) return;
 
-  int row = index.row();
-  if (index.model() == app_->playlist_manager()->current()->proxy()) {
+  int row = idx.row();
+  if (idx.model() == app_->playlist_manager()->current()->proxy()) {
     // The index was in the proxy model (might've been filtered), so we need to get the actual row in the source model.
-    row = app_->playlist_manager()->current()->proxy()->mapToSource(index).row();
+    row = app_->playlist_manager()->current()->proxy()->mapToSource(idx).row();
   }
 
   app_->playlist_manager()->SetActiveToCurrent();
@@ -1380,14 +1379,14 @@ void MainWindow::PlayIndex(const QModelIndex &index) {
 
 }
 
-void MainWindow::PlaylistDoubleClick(const QModelIndex &index) {
+void MainWindow::PlaylistDoubleClick(const QModelIndex &idx) {
 
-  if (!index.isValid()) return;
+  if (!idx.isValid()) return;
 
-  int row = index.row();
-  if (index.model() == app_->playlist_manager()->current()->proxy()) {
+  int row = idx.row();
+  if (idx.model() == app_->playlist_manager()->current()->proxy()) {
     // The index was in the proxy model (might've been filtered), so we need to get the actual row in the source model.
-    row = app_->playlist_manager()->current()->proxy()->mapToSource(index).row();
+    row = app_->playlist_manager()->current()->proxy()->mapToSource(idx).row();
   }
 
   switch (doubleclick_playlist_addmode_) {
@@ -1397,7 +1396,7 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &index) {
       break;
 
     case BehaviourSettingsPage::PlaylistAddBehaviour_Enqueue:
-      app_->playlist_manager()->current()->queue()->ToggleTracks(QModelIndexList() << index);
+      app_->playlist_manager()->current()->queue()->ToggleTracks(QModelIndexList() << idx);
       if (app_->player()->GetState() != Engine::Playing) {
         app_->player()->PlayAt(app_->playlist_manager()->current()->queue()->TakeNext(), Engine::Manual, true);
       }
@@ -1482,7 +1481,7 @@ void MainWindow::FilePathChanged(const QString &path) {
   settings_.setValue("file_path", path);
 }
 
-void MainWindow::Seeked(qlonglong microseconds) {
+void MainWindow::Seeked(const qlonglong microseconds) {
 
   const int position = microseconds / kUsecPerSec;
   const int length = app_->player()->GetCurrentItem()->Metadata().length_nanosec() / kNsecPerSec;
@@ -1528,7 +1527,7 @@ void MainWindow::UpdateTrackSliderPosition() {
 
 }
 
-void MainWindow::ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour b, MimeData *mimedata) const {
+void MainWindow::ApplyAddBehaviour(const BehaviourSettingsPage::AddBehaviour b, MimeData *mimedata) const {
 
   switch (b) {
       case BehaviourSettingsPage::AddBehaviour_Append:
@@ -1552,7 +1551,7 @@ void MainWindow::ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour b, MimeDa
   }
 }
 
-void MainWindow::ApplyPlayBehaviour(BehaviourSettingsPage::PlayBehaviour b, MimeData *mimedata) const {
+void MainWindow::ApplyPlayBehaviour(const BehaviourSettingsPage::PlayBehaviour b, MimeData *mimedata) const {
 
   switch (b) {
     case BehaviourSettingsPage::PlayBehaviour_Always:
@@ -1973,10 +1972,10 @@ void MainWindow::RenumberTracks() {
 
 }
 
-void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &index) {
+void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx) {
 
-  if (reply->is_successful() && index.isValid()) {
-    app_->playlist_manager()->current()->ReloadItems(QList<int>()<< index.row());
+  if (reply->is_successful() && idx.isValid()) {
+    app_->playlist_manager()->current()->ReloadItems(QList<int>()<< idx.row());
   }
   reply->deleteLater();
 
@@ -2133,8 +2132,8 @@ void MainWindow::PlaylistClearCurrent() {
 
 }
 
-void MainWindow::PlaylistEditFinished(const QModelIndex &index) {
-  if (index == playlist_menu_index_) SelectionSetValue();
+void MainWindow::PlaylistEditFinished(const QModelIndex &idx) {
+  if (idx == playlist_menu_index_) SelectionSetValue();
 }
 
 void MainWindow::CommandlineOptionsReceived(const quint32 instanceId, const QByteArray &string_options) {
