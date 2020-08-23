@@ -32,7 +32,6 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QImage>
 #include <QtDBus>
 #include <QDBusArgument>
 #include <qdbusextratypes.h>
@@ -69,9 +68,6 @@ const QDBusArgument &operator>> (const QDBusArgument &arg, MprisPlaylist &playli
 
 QDBusArgument &operator<<(QDBusArgument &arg, const MaybePlaylist &playlist);
 const QDBusArgument &operator>> (const QDBusArgument &arg, MaybePlaylist &playlist);
-
-QDBusArgument &operator<< (QDBusArgument &arg, const QImage &image);
-const QDBusArgument &operator>> (const QDBusArgument &arg, QImage &image);
 
 namespace mpris {
 

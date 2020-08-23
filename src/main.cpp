@@ -63,9 +63,6 @@
 #include <QSettings>
 #include <QLoggingCategory>
 #include <QtDebug>
-#ifdef HAVE_DBUS
-#  include <QDBusArgument>
-#endif
 #ifdef HAVE_TRANSLATIONS
 #  include <QTranslator>
 #endif
@@ -108,11 +105,6 @@
 #  include "osd/osdmac.h"
 #else
 #  include "osd/osdbase.h"
-#endif
-
-#ifdef HAVE_DBUS
-  QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image);
-  const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image);
 #endif
 
 int main(int argc, char* argv[]) {

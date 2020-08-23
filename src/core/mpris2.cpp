@@ -36,7 +36,6 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QImage>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDBusArgument>
@@ -72,7 +71,7 @@ QDBusArgument &operator<<(QDBusArgument &arg, const MprisPlaylist &playlist) {
   return arg;
 }
 
-const QDBusArgument &operator>> (const QDBusArgument &arg, MprisPlaylist &playlist) {
+const QDBusArgument &operator>>(const QDBusArgument &arg, MprisPlaylist &playlist) {
   arg.beginStructure();
   arg >> playlist.id >> playlist.name >> playlist.icon;
   arg.endStructure();
@@ -87,7 +86,7 @@ QDBusArgument &operator<<(QDBusArgument &arg, const MaybePlaylist &playlist) {
   return arg;
 }
 
-const QDBusArgument &operator>> (const QDBusArgument &arg, MaybePlaylist &playlist) {
+const QDBusArgument &operator>>(const QDBusArgument &arg, MaybePlaylist &playlist) {
   arg.beginStructure();
   arg >> playlist.valid >> playlist.playlist;
   arg.endStructure();

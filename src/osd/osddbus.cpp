@@ -47,9 +47,6 @@
 #include "core/logging.h"
 #include "osddbus.h"
 
-QDBusArgument &operator<< (QDBusArgument &arg, const QImage &image);
-const QDBusArgument &operator>> (const QDBusArgument &arg, QImage &image);
-
 QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
 
   if (image.isNull()) {

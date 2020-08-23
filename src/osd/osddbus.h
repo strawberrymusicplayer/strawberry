@@ -32,6 +32,7 @@
 #include <QDateTime>
 #include <QImage>
 #include <QDBusPendingCall>
+#include <QDBusArgument>
 
 #include "osdbase.h"
 
@@ -66,5 +67,8 @@ class OSDDBus : public OSDBase {
   QDateTime last_notification_time_;
 
 };
+
+QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image);
+const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image);
 
 #endif  // OSDDBUS_H
