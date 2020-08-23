@@ -78,19 +78,21 @@ QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
 #endif
 
   arg.beginStructure();
-  arg << i.width();
-  arg << i.height();
+  arg << static_cast<qint32>(i.width());
+  arg << static_cast<qint32>(i.height());
   arg << static_cast<qint32>(i.bytesPerLine());
   arg << i.hasAlphaChannel();
-  int channels = i.isGrayscale() ? 1 : (i.hasAlphaChannel() ? 4 : 3);
-  arg << i.depth() / channels;
+  qint32 channels = i.isGrayscale() ? 1 : (i.hasAlphaChannel() ? 4 : 3);
+  qint32 bitspersample = i.depth() / channels;
+  arg << bitspersample;
   arg << channels;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
-  arg << QByteArray(reinterpret_cast<const char*>(i.bits()), i.sizeInBytes());
+  arg << QByteArray(reinterpret_cast<const char*>(i.constBits()), static_cast<int>(i.sizeInBytes()));
 #else
-  arg << QByteArray(reinterpret_cast<const char*>(i.bits()), i.byteCount());
+  arg << QByteArray(reinterpret_cast<const char*>(i.constBits()), i.byteCount());
 #endif
   arg.endStructure();
+
   return arg;
 
 }
