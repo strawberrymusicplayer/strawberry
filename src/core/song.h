@@ -132,6 +132,7 @@ class Song {
 
   static Source SourceFromURL(const QUrl &url);
   static QString TextForSource(Source source);
+  static Song::Source SourceFromText(const QString &source);
   static QIcon IconForSource(Source source);
   static QString TextForFiletype(FileType filetype);
   static QString ExtensionForFiletype(FileType filetype);

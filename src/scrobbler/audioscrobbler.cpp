@@ -74,7 +74,27 @@ void AudioScrobbler::ReloadSettings() {
   submit_delay_ = s.value("submit", 0).toInt();
   prefer_albumartist_ = s.value("albumartist", false).toBool();
   show_error_dialog_ = s.value("show_error_dialog", true).toBool();
+  QStringList sources = s.value("sources").toStringList();
   s.endGroup();
+
+  sources_.clear();
+
+  if (sources.isEmpty()) {
+    sources_ << Song::Source_Unknown
+             << Song::Source_LocalFile
+             << Song::Source_Collection
+             << Song::Source_CDDA
+             << Song::Source_Device
+             << Song::Source_Stream
+             << Song::Source_Tidal
+             << Song::Source_Subsonic
+             << Song::Source_Qobuz;
+  }
+  else {
+    for (const QString &source : sources) {
+      sources_ << Song::SourceFromText(source);
+    }
+  }
 
   emit ScrobblingEnabledChanged(enabled_);
   emit ScrobbleButtonVisibilityChanged(scrobble_button_);
@@ -122,6 +142,8 @@ void AudioScrobbler::ShowConfig() {
 
 void AudioScrobbler::UpdateNowPlaying(const Song &song) {
 
+  if (!sources_.contains(song.source())) return;
+
   qLog(Debug) << "Sending now playing for song" << song.artist() << song.album() << song.title();
 
   for (ScrobblerService *service : scrobbler_services_->List()) {
@@ -141,6 +163,8 @@ void AudioScrobbler::ClearPlaying() {
 }
 
 void AudioScrobbler::Scrobble(const Song &song, const int scrobble_point) {
+
+  if (!sources_.contains(song.source())) return;
 
   qLog(Debug) << "Scrobbling song" << song.artist() << song.album() << song.title() << "at" << scrobble_point;
 

@@ -23,8 +23,10 @@
 #include "config.h"
 
 #include <QObject>
+#include <QList>
 #include <QString>
 
+#include "core/song.h"
 #include "scrobblerservices.h"
 
 class Application;
@@ -46,6 +48,7 @@ class AudioScrobbler : public QObject {
   int SubmitDelay() const { return submit_delay_; }
   bool PreferAlbumArtist() const { return prefer_albumartist_; }
   bool ShowErrorDialog() const { return show_error_dialog_; }
+  QList<Song::Source> sources() const { return sources_; }
 
   void UpdateNowPlaying(const Song &song);
   void ClearPlaying();
@@ -86,6 +89,7 @@ class AudioScrobbler : public QObject {
   int submit_delay_;
   bool prefer_albumartist_;
   bool show_error_dialog_;
+  QList<Song::Source> sources_;
 
 };
 

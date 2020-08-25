@@ -33,6 +33,7 @@
 #include "settingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
+#include "core/song.h"
 #include "widgets/loginstatewidget.h"
 
 #include "scrobbler/audioscrobbler.h"
@@ -96,6 +97,15 @@ void ScrobblerSettingsPage::Load() {
   ui_->checkbox_albumartist->setChecked(scrobbler_->PreferAlbumArtist());
   ui_->checkbox_show_error_dialog->setChecked(scrobbler_->ShowErrorDialog());
 
+  ui_->checkbox_source_collection->setChecked(scrobbler_->sources().contains(Song::Source_Collection));
+  ui_->checkbox_source_local->setChecked(scrobbler_->sources().contains(Song::Source_LocalFile));
+  ui_->checkbox_source_cdda->setChecked(scrobbler_->sources().contains(Song::Source_CDDA));
+  ui_->checkbox_source_device->setChecked(scrobbler_->sources().contains(Song::Source_Device));
+  ui_->checkbox_source_tidal->setChecked(scrobbler_->sources().contains(Song::Source_Tidal));
+  ui_->checkbox_source_subsonic->setChecked(scrobbler_->sources().contains(Song::Source_Subsonic));
+  ui_->checkbox_source_stream->setChecked(scrobbler_->sources().contains(Song::Source_Stream));
+  ui_->checkbox_source_unknown->setChecked(scrobbler_->sources().contains(Song::Source_Unknown));
+
   ui_->checkbox_lastfm_enable->setChecked(lastfmscrobbler_->IsEnabled());
   ui_->checkbox_lastfm_https->setChecked(lastfmscrobbler_->IsUseHTTPS());
   LastFM_RefreshControls(lastfmscrobbler_->IsAuthenticated());
@@ -123,6 +133,19 @@ void ScrobblerSettingsPage::Save() {
   s.setValue("submit", ui_->spinbox_submit->value());
   s.setValue("albumartist", ui_->checkbox_albumartist->isChecked());
   s.setValue("show_error_dialog", ui_->checkbox_show_error_dialog->isChecked());
+
+  QStringList sources;
+  if (ui_->checkbox_source_collection->isChecked()) sources << Song::TextForSource(Song::Source_Collection);
+  if (ui_->checkbox_source_local->isChecked()) sources << Song::TextForSource(Song::Source_LocalFile);
+  if (ui_->checkbox_source_cdda->isChecked()) sources << Song::TextForSource(Song::Source_CDDA);
+  if (ui_->checkbox_source_device->isChecked()) sources << Song::TextForSource(Song::Source_Device);
+  if (ui_->checkbox_source_tidal->isChecked()) sources << Song::TextForSource(Song::Source_Tidal);
+  if (ui_->checkbox_source_subsonic->isChecked()) sources << Song::TextForSource(Song::Source_Subsonic);
+  if (ui_->checkbox_source_stream->isChecked()) sources << Song::TextForSource(Song::Source_Stream);
+  if (ui_->checkbox_source_unknown->isChecked()) sources << Song::TextForSource(Song::Source_Unknown);
+
+  s.setValue("sources", sources);
+
   s.endGroup();
 
   s.beginGroup(LastFMScrobbler::kSettingsGroup);

@@ -480,6 +480,21 @@ QString Song::TextForSource(Source source) {
 
 }
 
+Song::Source Song::SourceFromText(const QString &source) {
+
+  if (source == "file") return Source_LocalFile;
+  if (source == "collection") return Source_Collection;
+  if (source == "cd") return Source_CDDA;
+  if (source == "device") return Source_Device;
+  if (source == "stream") return Source_Stream;
+  if (source == "tidal") return Source_Tidal;
+  if (source == "subsonic") return Source_Subsonic;
+  if (source == "qobuz") return Source_Qobuz;
+
+  return Source_Unknown;
+
+}
+
 QIcon Song::IconForSource(Source source) {
 
   switch (source) {
