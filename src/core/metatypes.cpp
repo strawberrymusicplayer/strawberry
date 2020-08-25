@@ -83,8 +83,10 @@ void RegisterMetaTypes() {
   qRegisterMetaType<QNetworkReply*>("QNetworkReply*");
   qRegisterMetaType<QNetworkReply**>("QNetworkReply**");
   qRegisterMetaType<QItemSelection>("QItemSelection");
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   qRegisterMetaTypeStreamOperators<QMap<int, Qt::Alignment>>("ColumnAlignmentMap");
   qRegisterMetaTypeStreamOperators<QMap<int, int>>("ColumnAlignmentIntMap");
+#endif
   qRegisterMetaType<Directory>("Directory");
   qRegisterMetaType<DirectoryList>("DirectoryList");
   qRegisterMetaType<Subdirectory>("Subdirectory");
@@ -114,7 +116,9 @@ void RegisterMetaTypes() {
   qRegisterMetaType<QList<CoverSearchResult> >("QList<CoverSearchResult>");
   qRegisterMetaType<CoverSearchResults>("CoverSearchResults");
   qRegisterMetaType<Equalizer::Params>("Equalizer::Params");
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   qRegisterMetaTypeStreamOperators<Equalizer::Params>("Equalizer::Params");
+#endif
 #ifdef HAVE_DBUS
   qDBusRegisterMetaType<QList<QByteArray>>();
   qDBusRegisterMetaType<QImage>();
