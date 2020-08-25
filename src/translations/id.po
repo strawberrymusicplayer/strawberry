@@ -83,7 +83,7 @@ msgstr "Pintasan harus dikonfigurasi di pengaturan %1."
 msgid " kbps"
 msgstr " kbps"
 
-#: ../build/src/ui_scrobblersettingspage.h:320
+#: ../build/src/ui_scrobblersettingspage.h:400
 msgid " minutes"
 msgstr "menit"
 
@@ -388,7 +388,7 @@ msgstr "G&unakan set warna standar sistem"
 msgid "&Use the system proxy settings"
 msgstr "G&unakan pengaturan proxy sistem"
 
-#: ../build/src/ui_scrobblersettingspage.h:322
+#: ../build/src/ui_scrobblersettingspage.h:402
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -1055,6 +1055,10 @@ msgstr "K&onsol"
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Pemutaran CD hanya tersedia dengan mesin GStreamer."
 
+#: ../build/src/ui_scrobblersettingspage.h:408
+msgid "CDDA"
+msgstr "CDDA"
+
 #: tidal/tidalstreamurlrequest.cpp:107
 msgid "Cancelled."
 msgstr "Dibatalkan."
@@ -1161,6 +1165,7 @@ msgid "Club"
 msgstr "Klub"
 
 #: core/mainwindow.cpp:316 ../build/src/ui_collectionsettingspage.h:406
+#: ../build/src/ui_scrobblersettingspage.h:406
 msgid "Collection"
 msgstr "Pustakascan"
 
@@ -1541,6 +1546,7 @@ msgstr "Detail..."
 
 #: context/contextview.cpp:184 device/giolister.cpp:189
 #: ../build/src/ui_backendsettingspage.h:445
+#: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Device"
 msgstr "Perangkat"
 
@@ -1676,10 +1682,10 @@ msgstr "Sunting informasi trek..."
 msgid "Edit tracks information..."
 msgstr "Sunting informasi trek..."
 
-#: ../build/src/ui_scrobblersettingspage.h:314
-#: ../build/src/ui_scrobblersettingspage.h:326
-#: ../build/src/ui_scrobblersettingspage.h:330
-#: ../build/src/ui_scrobblersettingspage.h:333
+#: ../build/src/ui_scrobblersettingspage.h:394
+#: ../build/src/ui_scrobblersettingspage.h:415
+#: ../build/src/ui_scrobblersettingspage.h:419
+#: ../build/src/ui_scrobblersettingspage.h:422
 #: ../build/src/ui_subsonicsettingspage.h:183
 #: ../build/src/ui_tidalsettingspage.h:313
 msgid "Enable"
@@ -1704,6 +1710,10 @@ msgstr "Fungsikan ekualiser"
 
 #: ../build/src/ui_playlistsettingspage.h:159
 msgid "Enable playlist clear button"
+msgstr ""
+
+#: ../build/src/ui_scrobblersettingspage.h:405
+msgid "Enable scrobbling for the following sources:"
 msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:170
@@ -1775,7 +1785,7 @@ msgstr "Masukkan nama folder"
 msgid "Enter username and password"
 msgstr ""
 
-#: settings/scrobblersettingspage.cpp:81
+#: settings/scrobblersettingspage.cpp:82
 msgid "Enter your user token from"
 msgstr ""
 
@@ -1944,7 +1954,7 @@ msgstr "Ambil seluruh album saat mencari lagu"
 msgid "Fetching cover error"
 msgstr "Terjadi kesalahan saat mengambil sampul"
 
-#: core/song.cpp:1019
+#: core/song.cpp:1034
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Berkas %1 bukanlah berkas audio yang benar."
@@ -2402,7 +2412,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Terakhir diputar"
 
-#: ../build/src/ui_scrobblersettingspage.h:325
+#: ../build/src/ui_scrobblersettingspage.h:414
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2416,7 +2426,7 @@ msgstr "Kiri"
 msgid "Length"
 msgstr "Durasi"
 
-#: ../build/src/ui_scrobblersettingspage.h:329
+#: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2424,7 +2434,7 @@ msgstr "Libre.fm"
 msgid "ListenBrainz Authentication"
 msgstr "Otentikasi ListenBrainz"
 
-#: ../build/src/ui_scrobblersettingspage.h:332
+#: ../build/src/ui_scrobblersettingspage.h:421
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2484,9 +2494,13 @@ msgstr "Memuat..."
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Muat berkas/URL, menggantikan daftar putar saat ini"
 
-#: ../build/src/ui_scrobblersettingspage.h:328
-#: ../build/src/ui_scrobblersettingspage.h:331
-#: ../build/src/ui_scrobblersettingspage.h:336
+#: ../build/src/ui_scrobblersettingspage.h:412
+msgid "Local file"
+msgstr ""
+
+#: ../build/src/ui_scrobblersettingspage.h:417
+#: ../build/src/ui_scrobblersettingspage.h:420
+#: ../build/src/ui_scrobblersettingspage.h:425
 #: ../build/src/ui_coverssettingspage.h:172
 #: ../build/src/ui_lyricssettingspage.h:172
 #: ../build/src/ui_tidalsettingspage.h:321
@@ -3060,7 +3074,7 @@ msgstr "Posisi"
 msgid "Pre-amp"
 msgstr "Pre-amp"
 
-#: ../build/src/ui_scrobblersettingspage.h:323
+#: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Kemukakan artis album saat scrobble"
 
@@ -3518,7 +3532,7 @@ msgstr "Profil laju sampel terukur (LST)"
 msgid "Scale size"
 msgstr "Ukuran skala"
 
-#: ../build/src/ui_scrobblersettingspage.h:313
+#: ../build/src/ui_scrobblersettingspage.h:393
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
@@ -3711,7 +3725,7 @@ msgstr "Tampilkan album berdasarkan artis"
 msgid "Show all songs"
 msgstr "Tampilkan semua lagu"
 
-#: ../build/src/ui_scrobblersettingspage.h:324
+#: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Show dialog for errors"
 msgstr ""
 
@@ -3744,7 +3758,7 @@ msgstr "Tampilkan di peramban berkas..."
 msgid "Show in various artists"
 msgstr "Tampilkan di artis beragam"
 
-#: ../build/src/ui_scrobblersettingspage.h:318
+#: ../build/src/ui_scrobblersettingspage.h:398
 msgid "Show love button"
 msgstr "Tampilkan tombol suka"
 
@@ -3764,7 +3778,7 @@ msgstr "Tampilkan hanya tidak bertag"
 msgid "Show playing widget"
 msgstr "Tampilkan widget berputar"
 
-#: ../build/src/ui_scrobblersettingspage.h:317
+#: ../build/src/ui_scrobblersettingspage.h:397
 msgid "Show scrobble button"
 msgstr "Tampilkan tombol scrobble"
 
@@ -3877,7 +3891,7 @@ msgstr ""
 msgid "Songs"
 msgstr "Lagu"
 
-#: ../build/src/ui_scrobblersettingspage.h:315
+#: ../build/src/ui_scrobblersettingspage.h:395
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -3992,6 +4006,10 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry tidak dapat menemukan hasil untuk berkas ini"
 
+#: ../build/src/ui_scrobblersettingspage.h:409
+msgid "Stream"
+msgstr "Strim"
+
 #: ../build/src/ui_tidalsettingspage.h:332
 msgid "Stream URL method"
 msgstr "Metode URL Stream"
@@ -4004,11 +4022,12 @@ msgstr "Streaming"
 msgid "Stretch image to fill playlist"
 msgstr "Regangkan gambar hingga memenuhi daftar putar"
 
-#: ../build/src/ui_scrobblersettingspage.h:319
+#: ../build/src/ui_scrobblersettingspage.h:399
 msgid "Submit scrobbles every"
 msgstr "Kirimkan scrobble setiap"
 
-#: core/mainwindow.cpp:324 ../build/src/ui_subsonicsettingspage.h:182
+#: core/mainwindow.cpp:324 ../build/src/ui_scrobblersettingspage.h:411
+#: ../build/src/ui_subsonicsettingspage.h:182
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4235,7 +4254,8 @@ msgstr "Opsi ini dapat diubah di pengaturan \"Perilaku\""
 msgid "This type of device is not supported: %1"
 msgstr "Tipe perangkat ini tidak didukung: %1"
 
-#: core/mainwindow.cpp:327 ../build/src/ui_tidalsettingspage.h:312
+#: core/mainwindow.cpp:327 ../build/src/ui_scrobblersettingspage.h:407
+#: ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
 
@@ -4339,13 +4359,14 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Pita ultra lebar (UWB)"
 
-#: core/song.cpp:523 context/contextalbumsmodel.cpp:357
+#: core/song.cpp:538 context/contextalbumsmodel.cpp:357
 #: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
 #: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
 #: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1405
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:554 playlist/playlistmanager.cpp:555
 #: dialogs/edittagdialog.cpp:494 dialogs/edittagdialog.cpp:542
+#: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
@@ -4399,7 +4420,7 @@ msgstr "Penggunaan"
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "Gunakan pintasan D-Bus Gnome (GSD)"
 
-#: ../build/src/ui_scrobblersettingspage.h:327
+#: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Use HTTPS for local redirectserver"
 msgstr ""
 
@@ -4475,7 +4496,7 @@ msgstr "Bekas"
 msgid "User interface"
 msgstr "Antarmuka"
 
-#: ../build/src/ui_scrobblersettingspage.h:334
+#: ../build/src/ui_scrobblersettingspage.h:423
 msgid "User token:"
 msgstr "Token pengguna:"
 
@@ -4570,7 +4591,7 @@ msgstr "Pita lebar (WB)"
 msgid "Without cover:"
 msgstr "Tanpa sampul:"
 
-#: ../build/src/ui_scrobblersettingspage.h:316
+#: ../build/src/ui_scrobblersettingspage.h:396
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Bekerja di modus offline (Hanya cache scrobble)"
 

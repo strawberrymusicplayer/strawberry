@@ -79,7 +79,7 @@ msgstr "I collegamenti devono invece essere configurati in %1."
 msgid " kbps"
 msgstr " kbps"
 
-#: ../build/src/ui_scrobblersettingspage.h:320
+#: ../build/src/ui_scrobblersettingspage.h:400
 msgid " minutes"
 msgstr "minuti"
 
@@ -384,7 +384,7 @@ msgstr "&Usa il set dei colori di default"
 msgid "&Use the system proxy settings"
 msgstr "&Usa le impostazioni del proxy di sistema"
 
-#: ../build/src/ui_scrobblersettingspage.h:322
+#: ../build/src/ui_scrobblersettingspage.h:402
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -1054,6 +1054,10 @@ msgid "CD playback is only available with the GStreamer engine."
 msgstr ""
 "La riproduzione CD è disponibile unicamente tramite l'engine GStreamer"
 
+#: ../build/src/ui_scrobblersettingspage.h:408
+msgid "CDDA"
+msgstr "CDDA"
+
 #: tidal/tidalstreamurlrequest.cpp:107
 msgid "Cancelled."
 msgstr "Cancellato."
@@ -1161,6 +1165,7 @@ msgid "Club"
 msgstr "Club"
 
 #: core/mainwindow.cpp:316 ../build/src/ui_collectionsettingspage.h:406
+#: ../build/src/ui_scrobblersettingspage.h:406
 msgid "Collection"
 msgstr "Raccolta"
 
@@ -1542,6 +1547,7 @@ msgstr "Dettagli..."
 
 #: context/contextview.cpp:184 device/giolister.cpp:189
 #: ../build/src/ui_backendsettingspage.h:445
+#: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Device"
 msgstr "Dispositivo"
 
@@ -1677,10 +1683,10 @@ msgstr "Modifica informazioni sulla traccia..."
 msgid "Edit tracks information..."
 msgstr "Modifica le informazioni sulle tracce..."
 
-#: ../build/src/ui_scrobblersettingspage.h:314
-#: ../build/src/ui_scrobblersettingspage.h:326
-#: ../build/src/ui_scrobblersettingspage.h:330
-#: ../build/src/ui_scrobblersettingspage.h:333
+#: ../build/src/ui_scrobblersettingspage.h:394
+#: ../build/src/ui_scrobblersettingspage.h:415
+#: ../build/src/ui_scrobblersettingspage.h:419
+#: ../build/src/ui_scrobblersettingspage.h:422
 #: ../build/src/ui_subsonicsettingspage.h:183
 #: ../build/src/ui_tidalsettingspage.h:313
 msgid "Enable"
@@ -1705,6 +1711,10 @@ msgstr "Abilita equalizzatore"
 
 #: ../build/src/ui_playlistsettingspage.h:159
 msgid "Enable playlist clear button"
+msgstr ""
+
+#: ../build/src/ui_scrobblersettingspage.h:405
+msgid "Enable scrobbling for the following sources:"
 msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:170
@@ -1778,7 +1788,7 @@ msgstr "Digita il nome della cartella"
 msgid "Enter username and password"
 msgstr ""
 
-#: settings/scrobblersettingspage.cpp:81
+#: settings/scrobblersettingspage.cpp:82
 msgid "Enter your user token from"
 msgstr "Inserisci il tuo token utente da"
 
@@ -1947,7 +1957,7 @@ msgstr "Ottieni gli album interi quando cerchi delle canzoni"
 msgid "Fetching cover error"
 msgstr "Errore di scaricamento della copertina"
 
-#: core/song.cpp:1019
+#: core/song.cpp:1034
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Il file %1 non è stato riconosciuto come un file audio valido."
@@ -2410,7 +2420,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Ultima riproduzione"
 
-#: ../build/src/ui_scrobblersettingspage.h:325
+#: ../build/src/ui_scrobblersettingspage.h:414
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2424,7 +2434,7 @@ msgstr "Sinistra"
 msgid "Length"
 msgstr "Durata"
 
-#: ../build/src/ui_scrobblersettingspage.h:329
+#: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2432,7 +2442,7 @@ msgstr "Libre.fm"
 msgid "ListenBrainz Authentication"
 msgstr "Autenticazione di ListenBrainz"
 
-#: ../build/src/ui_scrobblersettingspage.h:332
+#: ../build/src/ui_scrobblersettingspage.h:421
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2492,9 +2502,13 @@ msgstr "Caricamento in corso..."
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Carica file/URL, sostituendo la scaletta attuale"
 
-#: ../build/src/ui_scrobblersettingspage.h:328
-#: ../build/src/ui_scrobblersettingspage.h:331
-#: ../build/src/ui_scrobblersettingspage.h:336
+#: ../build/src/ui_scrobblersettingspage.h:412
+msgid "Local file"
+msgstr ""
+
+#: ../build/src/ui_scrobblersettingspage.h:417
+#: ../build/src/ui_scrobblersettingspage.h:420
+#: ../build/src/ui_scrobblersettingspage.h:425
 #: ../build/src/ui_coverssettingspage.h:172
 #: ../build/src/ui_lyricssettingspage.h:172
 #: ../build/src/ui_tidalsettingspage.h:321
@@ -3069,7 +3083,7 @@ msgstr "Posizione"
 msgid "Pre-amp"
 msgstr "Preamplificazione"
 
-#: ../build/src/ui_scrobblersettingspage.h:323
+#: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Preferisci l'artista dell'album nell'invio degli scrobble"
 
@@ -3533,7 +3547,7 @@ msgstr "Profilo con campionamento scalabile (SSR)"
 msgid "Scale size"
 msgstr "Riscala le dimensioni"
 
-#: ../build/src/ui_scrobblersettingspage.h:313
+#: ../build/src/ui_scrobblersettingspage.h:393
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
@@ -3729,7 +3743,7 @@ msgstr "Mostra gli album in base all'artista"
 msgid "Show all songs"
 msgstr "Mostra tutti i brani"
 
-#: ../build/src/ui_scrobblersettingspage.h:324
+#: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Show dialog for errors"
 msgstr ""
 
@@ -3762,7 +3776,7 @@ msgstr "Mostra nel navigatore file..."
 msgid "Show in various artists"
 msgstr "Mostra in artisti vari"
 
-#: ../build/src/ui_scrobblersettingspage.h:318
+#: ../build/src/ui_scrobblersettingspage.h:398
 msgid "Show love button"
 msgstr "Mostra il pulsante love"
 
@@ -3782,7 +3796,7 @@ msgstr "Mostra solo i brani senza tag"
 msgid "Show playing widget"
 msgstr "Mostra il widget in riproduzione"
 
-#: ../build/src/ui_scrobblersettingspage.h:317
+#: ../build/src/ui_scrobblersettingspage.h:397
 msgid "Show scrobble button"
 msgstr "Mostra il pulsante di scrobble"
 
@@ -3895,7 +3909,7 @@ msgstr "Testo della canzone"
 msgid "Songs"
 msgstr "Canzoni"
 
-#: ../build/src/ui_scrobblersettingspage.h:315
+#: ../build/src/ui_scrobblersettingspage.h:395
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -4012,6 +4026,10 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry non ha trovato risultati per questo file"
 
+#: ../build/src/ui_scrobblersettingspage.h:409
+msgid "Stream"
+msgstr "Flusso"
+
 #: ../build/src/ui_tidalsettingspage.h:332
 msgid "Stream URL method"
 msgstr "Metodo per lo Stream dell'URL"
@@ -4024,11 +4042,12 @@ msgstr "Streaming"
 msgid "Stretch image to fill playlist"
 msgstr "Allarga l'immagine per riempire la playlist"
 
-#: ../build/src/ui_scrobblersettingspage.h:319
+#: ../build/src/ui_scrobblersettingspage.h:399
 msgid "Submit scrobbles every"
 msgstr "Invia gli scrobbles ogni"
 
-#: core/mainwindow.cpp:324 ../build/src/ui_subsonicsettingspage.h:182
+#: core/mainwindow.cpp:324 ../build/src/ui_scrobblersettingspage.h:411
+#: ../build/src/ui_subsonicsettingspage.h:182
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4259,7 +4278,8 @@ msgstr ""
 msgid "This type of device is not supported: %1"
 msgstr "Questi tipo di dispositivo non è supportato: %1"
 
-#: core/mainwindow.cpp:327 ../build/src/ui_tidalsettingspage.h:312
+#: core/mainwindow.cpp:327 ../build/src/ui_scrobblersettingspage.h:407
+#: ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
 
@@ -4363,13 +4383,14 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Banda ultra larga (UWB)"
 
-#: core/song.cpp:523 context/contextalbumsmodel.cpp:357
+#: core/song.cpp:538 context/contextalbumsmodel.cpp:357
 #: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
 #: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
 #: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1405
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:554 playlist/playlistmanager.cpp:555
 #: dialogs/edittagdialog.cpp:494 dialogs/edittagdialog.cpp:542
+#: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Unknown"
 msgstr "Sconosciuto"
 
@@ -4423,7 +4444,7 @@ msgstr "Utilizzo"
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "Usa le scorciatoie da tastiera di Gnome (GSD) D-Bus"
 
-#: ../build/src/ui_scrobblersettingspage.h:327
+#: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Use HTTPS for local redirectserver"
 msgstr ""
 
@@ -4499,7 +4520,7 @@ msgstr "Utilizzato"
 msgid "User interface"
 msgstr "Interfaccia utente"
 
-#: ../build/src/ui_scrobblersettingspage.h:334
+#: ../build/src/ui_scrobblersettingspage.h:423
 msgid "User token:"
 msgstr "Token utente:"
 
@@ -4594,7 +4615,7 @@ msgstr "Banda larga (WB)"
 msgid "Without cover:"
 msgstr "Senza copertina:"
 
-#: ../build/src/ui_scrobblersettingspage.h:316
+#: ../build/src/ui_scrobblersettingspage.h:396
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Lavora in modalità offline (solo scrobbles in cache)"
 
