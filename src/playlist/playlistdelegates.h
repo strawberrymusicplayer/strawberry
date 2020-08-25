@@ -177,12 +177,12 @@ class SongSourceDelegate : public PlaylistDelegateBase {
  public:
   explicit SongSourceDelegate(QObject *parent);
   QString displayText(const QVariant &value, const QLocale &locale) const override;
-  void paint(QPainter *paint, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
  private:
   QPixmap LookupPixmap(const Song::Source &source, const QSize &size) const;
 
-  mutable QPixmapCache cache_;
+  mutable QPixmapCache pixmap_cache_;
 };
 
 #endif // PLAYLISTDELEGATES_H

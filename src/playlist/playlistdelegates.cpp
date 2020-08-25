@@ -459,30 +459,31 @@ QString SongSourceDelegate::displayText(const QVariant &value, const QLocale&) c
 QPixmap SongSourceDelegate::LookupPixmap(const Song::Source &source, const QSize &size) const {
 
   QPixmap pixmap;
-  if (cache_.find(Song::TextForSource(source), &pixmap)) {
+  QString cache_key = QString("%1-%2x%3").arg(Song::TextForSource(source)).arg(size.width()).arg(size.height());
+  if (pixmap_cache_.find(cache_key, &pixmap)) {
     return pixmap;
   }
 
   QIcon icon(Song::IconForSource(source));
   pixmap = icon.pixmap(size.height());
-  cache_.insert(Song::TextForSource(source), pixmap);
+  pixmap_cache_.insert(cache_key, pixmap);
 
   return pixmap;
 
 }
 
-void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
   // Draw the background
-  PlaylistDelegateBase::paint(painter, option, index);
+  PlaylistDelegateBase::paint(painter, option, idx);
 
   QStyleOptionViewItem option_copy(option);
-  initStyleOption(&option_copy, index);
+  initStyleOption(&option_copy, idx);
 
-  const Song::Source &source = Song::Source(index.data().toInt());
+  const Song::Source source = Song::Source(idx.data().toInt());
   QPixmap pixmap = LookupPixmap(source, option_copy.decorationSize);
 
-  QWidget *parent_widget = reinterpret_cast<QWidget*>(parent());
+  QWidget *parent_widget = qobject_cast<QWidget*>(parent());
   int device_pixel_ratio = parent_widget->devicePixelRatio();
 
   // Draw the pixmap in the middle of the rectangle
@@ -492,4 +493,3 @@ void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   painter->drawPixmap(draw_rect, pixmap);
 
 }
-
