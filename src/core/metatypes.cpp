@@ -83,6 +83,8 @@ void RegisterMetaTypes() {
   qRegisterMetaType<QNetworkReply*>("QNetworkReply*");
   qRegisterMetaType<QNetworkReply**>("QNetworkReply**");
   qRegisterMetaType<QItemSelection>("QItemSelection");
+  qRegisterMetaType<QMap<int, Qt::Alignment>>("ColumnAlignmentMap");
+  qRegisterMetaType<QMap<int, int>>("ColumnAlignmentIntMap");
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   qRegisterMetaTypeStreamOperators<QMap<int, Qt::Alignment>>("ColumnAlignmentMap");
   qRegisterMetaTypeStreamOperators<QMap<int, int>>("ColumnAlignmentIntMap");
