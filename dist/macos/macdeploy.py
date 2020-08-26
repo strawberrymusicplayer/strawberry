@@ -21,7 +21,6 @@ import logging
 import os
 import re
 import subprocess
-import commands
 import sys
 import traceback
 
@@ -156,7 +155,7 @@ class CouldNotFindGstreamerPluginError(Error):
   pass
 
 if len(sys.argv) < 2:
-  print 'Usage: %s <bundle.app>' % sys.argv[0]
+  print('Usage: %s <bundle.app>' % sys.argv[0])
 
 bundle_dir = sys.argv[1]
 
@@ -176,20 +175,21 @@ fixed_frameworks = set()
 
 
 def GetBrokenLibraries(binary):
-  #print "Checking libs for binary: %s" % binary
-  output = subprocess.Popen([OTOOL, '-L', binary], stdout=subprocess.PIPE).communicate()[0]
+  #print("Checking libs for binary: %s" % binary)
+  output = subprocess.Popen([OTOOL, '-L', binary], stdout=subprocess.PIPE).communicate()[0].decode('utf-8')
   broken_libs = {'frameworks': [], 'libs': []}
   for line in [x.split(' ')[0].lstrip() for x in output.split('\n')[1:]]:
-    #print "Checking line: %s" % line
+    #print("Checking line: %s" % line)
     if not line:  # skip empty lines
       continue
     if os.path.basename(binary) == os.path.basename(line):
-      #print "mnope %s-%s" % (os.path.basename(binary), os.path.basename(line))
+      #print("mnope %s-%s" % (os.path.basename(binary), os.path.basename(line)))
       continue
     if re.match(r'^\s*/System/', line):
+      #print("system framework: %s" % line)
       continue  # System framework
     elif re.match(r'^\s*/usr/lib/', line):
-      #print "unix style system lib"
+      #print("unix style system lib: %s" % line)
       continue  # unix style system library
     elif re.match(r'^\s*@executable_path', line) or re.match(r'^\s*@rpath', line) or re.match(r'^\s*@loader_path', line):
       # Potentially already fixed library
@@ -206,8 +206,9 @@ def GetBrokenLibraries(binary):
         if not os.path.exists(os.path.join(frameworks_dir, relative_path)):
           broken_libs['frameworks'].append(relative_path)
       else:
-          print "GetBrokenLibraries Error: %s" % line
+          print("GetBrokenLibraries Error: %s" % line)
     elif re.search(r'\w+\.framework', line):
+      #print("framework: %s" % line)
       broken_libs['frameworks'].append(line)
     else:
       broken_libs['libs'].append(line)
@@ -279,7 +280,7 @@ def FixLibrary(path):
 
   abs_path = FindLibrary(path)
   if abs_path == "":
-    print "Could not resolve %s, not fixing!" % path
+    print("Could not resolve %s, not fixing!" % path)
     return
 
   broken_libs = GetBrokenLibraries(abs_path)
@@ -482,7 +483,7 @@ def main():
   try:
     FixPlugin('strawberry-tagreader', '.')
   except:
-    print 'Failed to find blob: %s' % traceback.format_exc()
+    print('Failed to find blob: %s' % traceback.format_exc())
 
   for plugin in GSTREAMER_PLUGINS:
     FixPlugin(FindGstreamerPlugin(plugin), 'gstreamer')
@@ -495,11 +496,11 @@ def main():
     #FixPlugin(FindQtPlugin(plugin), os.path.dirname(plugin))
 
   if len(sys.argv) <= 2:
-    print 'Would run %d commands:' % len(commands)
+    print('Would run %d commands:' % len(commands))
     for command in commands:
-      print ' '.join(command)
+      print(' '.join(command))
 
-    #print 'OK?'
+    #print('OK?')
     #raw_input()
 
   for command in commands:
