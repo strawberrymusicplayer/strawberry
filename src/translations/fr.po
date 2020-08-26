@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-08-10 02:36-0400\n"
+"PO-Revision-Date: 2020-08-26 01:25-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -859,7 +859,7 @@ msgstr "Appliquer une compression pour prévenir les coupures"
 
 #: dialogs/deleteconfirmationdialog.cpp:69
 msgid "Are you sure you want to continue?"
-msgstr ""
+msgstr "Êtes-vous sûr(e) de vouloir continuer ?"
 
 #: equalizer/equalizer.cpp:227
 #, qt-format
@@ -1746,6 +1746,7 @@ msgstr "Activer les éléments"
 #: ../build/src/ui_playlistsettingspage.h:160
 msgid "Enable delete files in the right click context menu"
 msgstr ""
+"Activer la suppression des fichiers dans le menu contextuel du clic droit"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Enable equalizer"
@@ -1757,7 +1758,7 @@ msgstr "Activer le bouton d'effacement de la liste de lecture"
 
 #: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Enable scrobbling for the following sources:"
-msgstr ""
+msgstr "Activer le scrobbling pour les sources suivantes :"
 
 #: ../build/src/ui_playlistsettingspage.h:170
 msgid "Enable song metadata inline edition with click"
@@ -2550,7 +2551,7 @@ msgstr "Charger des fichiers/URLs, et remplacer la liste de lecture actuelle"
 
 #: ../build/src/ui_scrobblersettingspage.h:412
 msgid "Local file"
-msgstr ""
+msgstr "Fichier local"
 
 #: ../build/src/ui_scrobblersettingspage.h:417
 #: ../build/src/ui_scrobblersettingspage.h:420
@@ -4209,7 +4210,7 @@ msgstr "La pochette d'album de la piste en cours de lecture"
 
 #: dialogs/deleteconfirmationdialog.cpp:56
 msgid "The following files will be deleted from disk:"
-msgstr ""
+msgstr "Les fichiers suivants seront supprimés du disque :"
 
 #: internet/internetcollectionview.cpp:283
 msgid "The internet collection is empty!"

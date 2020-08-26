@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-08-08 05:34-0400\n"
+"PO-Revision-Date: 2020-08-26 07:18-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -34,7 +34,6 @@ msgid ""
 "\n"
 "Favorited playlists will be saved here"
 msgstr ""
-"\n"
 "\n"
 "A lejátszólista kedvenccé tételéhez kattintson a lista neve melletti csillag "
 "ikonra\n"
@@ -834,7 +833,7 @@ msgstr "Tömörítés engedélyezése a túlvezérlés elkerülése érdekében"
 
 #: dialogs/deleteconfirmationdialog.cpp:69
 msgid "Are you sure you want to continue?"
-msgstr ""
+msgstr "Biztos folytatni szeretné?"
 
 #: equalizer/equalizer.cpp:227
 #, qt-format
@@ -1714,7 +1713,7 @@ msgstr "Elemek engedélyezése"
 #: ../build/src/ui_collectionsettingspage.h:440
 #: ../build/src/ui_playlistsettingspage.h:160
 msgid "Enable delete files in the right click context menu"
-msgstr ""
+msgstr "Fájlok törlésének engedélyezése a jobb-kattintásos menüből"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Enable equalizer"
@@ -1726,7 +1725,7 @@ msgstr "Lejátszólista törlése gomb engedélyezése"
 
 #: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Enable scrobbling for the following sources:"
-msgstr ""
+msgstr "Scrobble-ozás engedélyezése a következő forrásokhoz:"
 
 #: ../build/src/ui_playlistsettingspage.h:170
 msgid "Enable song metadata inline edition with click"
@@ -2514,7 +2513,7 @@ msgstr "Fájlok/URL-ek betöltése, lejátszólista cseréje"
 
 #: ../build/src/ui_scrobblersettingspage.h:412
 msgid "Local file"
-msgstr ""
+msgstr "Helyi fájl"
 
 #: ../build/src/ui_scrobblersettingspage.h:417
 #: ../build/src/ui_scrobblersettingspage.h:420
@@ -4166,7 +4165,7 @@ msgstr "A jelenleg játszott dal albumborítója"
 
 #: dialogs/deleteconfirmationdialog.cpp:56
 msgid "The following files will be deleted from disk:"
-msgstr ""
+msgstr "A következő fájlok lesznek törölve a lemezről:"
 
 #: internet/internetcollectionview.cpp:283
 msgid "The internet collection is empty!"
