@@ -2,8 +2,6 @@ sudo: required
 language: C++
 os:
   - osx
-services:
-  - docker
 compiler:
   - gcc
 
@@ -27,8 +25,6 @@ before_install:
   - sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework.dSYM /Library/Frameworks/Sparkle.framework.dSYM
   - export Qt5_DIR=/usr/local/opt/qt5/lib/cmake
   - export Qt5LinguistTools_DIR=/usr/local/opt/qt5/lib/cmake/Qt5LinguistTools
-  - export PATH="/usr/local/opt/gettext/bin:$PATH"
-  - export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig/:/usr/local/opt/zlib/lib/pkgconfig:$PKG_CONFIG_PATH"
   - ls /usr/local/lib/gstreamer-1.0
 before_script:
   - mkdir build
@@ -42,9 +38,9 @@ after_success:
   - ls -lh strawberry*.dmg
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CC_FOR_BUILD" == "gcc" ]] && [ -f ~/.ssh/id_rsa ]; then
       if [[ "$TRAVIS_BRANCH" == "master" ]]; then
-        rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos;
+        rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos/highsierra/;
       elif [[ "$TRAVIS_BRANCH" == "macos" ]]; then
-        rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos;
+        rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos/highsierra/;
       fi
     fi
 

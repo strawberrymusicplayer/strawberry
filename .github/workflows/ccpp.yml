@@ -894,10 +894,14 @@ jobs:
         working-directory: build
         shell: bash
         run: make install
-      #- name: Create DMG
-      #  working-directory: build
-      #  shell: bash
-      #  run: make dmg
+      - name: Create DMG
+        working-directory: build
+        shell: bash
+        run: make dmg
+      - uses: actions/upload-artifact@v2
+        with:
+          name: upload-macos
+          path: build/strawberry-*.dmg
 
 
   build-windows:
@@ -1045,3 +1049,27 @@ jobs:
       - name: Build Windows installer
         working-directory: build
         run: makensis strawberry.nsi
+
+
+  upload-macos:
+    name: Upload macOS DMG
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/macos'
+    needs:
+      - build-macos
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - uses: actions/download-artifact@v2
+        with:
+          path: uploads
+      - name: Install SSH keys
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{ secrets.KNOWN_HOSTS2 }}
+          key: ${{ secrets.SSH_KEY }}
+      - name: rsync
+        run: |
+          set -x
+          for i in $(find uploads -type f -name '*.dmg'); do
+            rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/macos/catalina/
+          done
