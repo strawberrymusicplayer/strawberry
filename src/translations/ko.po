@@ -78,7 +78,7 @@ msgstr " %1 설정에서 단축키를 설정하십시오."
 msgid " kbps"
 msgstr " kbps"
 
-#: ../build/src/ui_scrobblersettingspage.h:400
+#: ../build/src/ui_scrobblersettingspage.h:380
 msgid " minutes"
 msgstr " 분"
 
@@ -383,7 +383,7 @@ msgstr "시스템 기본 색 배열 사용(&U)"
 msgid "&Use the system proxy settings"
 msgstr "시스템 프록시 설정 사용(&U)"
 
-#: ../build/src/ui_scrobblersettingspage.h:402
+#: ../build/src/ui_scrobblersettingspage.h:382
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -1046,7 +1046,7 @@ msgstr "콘솔(&O)"
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD 재생은 GStreamer 엔진에서만 지원합니다."
 
-#: ../build/src/ui_scrobblersettingspage.h:408
+#: ../build/src/ui_scrobblersettingspage.h:392
 msgid "CDDA"
 msgstr "CDDA"
 
@@ -1155,7 +1155,7 @@ msgid "Club"
 msgstr "클럽"
 
 #: core/mainwindow.cpp:316 ../build/src/ui_collectionsettingspage.h:406
-#: ../build/src/ui_scrobblersettingspage.h:406
+#: ../build/src/ui_scrobblersettingspage.h:386
 msgid "Collection"
 msgstr "모음집"
 
@@ -1530,7 +1530,7 @@ msgstr "자세히..."
 
 #: context/contextview.cpp:184 device/giolister.cpp:189
 #: ../build/src/ui_backendsettingspage.h:445
-#: ../build/src/ui_scrobblersettingspage.h:413
+#: ../build/src/ui_scrobblersettingspage.h:390
 msgid "Device"
 msgstr "장치"
 
@@ -1666,10 +1666,10 @@ msgstr "트랙 정보 편집..."
 msgid "Edit tracks information..."
 msgstr "트랙 정보 편집..."
 
-#: ../build/src/ui_scrobblersettingspage.h:394
-#: ../build/src/ui_scrobblersettingspage.h:415
-#: ../build/src/ui_scrobblersettingspage.h:419
-#: ../build/src/ui_scrobblersettingspage.h:422
+#: ../build/src/ui_scrobblersettingspage.h:374
+#: ../build/src/ui_scrobblersettingspage.h:395
+#: ../build/src/ui_scrobblersettingspage.h:399
+#: ../build/src/ui_scrobblersettingspage.h:402
 #: ../build/src/ui_subsonicsettingspage.h:183
 #: ../build/src/ui_tidalsettingspage.h:313
 msgid "Enable"
@@ -1696,7 +1696,7 @@ msgstr "이퀄라이저 활성화"
 msgid "Enable playlist clear button"
 msgstr "재생 목록 비우기 단추 활성화"
 
-#: ../build/src/ui_scrobblersettingspage.h:405
+#: ../build/src/ui_scrobblersettingspage.h:385
 msgid "Enable scrobbling for the following sources:"
 msgstr ""
 
@@ -2391,7 +2391,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "마지막 재생"
 
-#: ../build/src/ui_scrobblersettingspage.h:414
+#: ../build/src/ui_scrobblersettingspage.h:394
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2405,7 +2405,7 @@ msgstr "왼쪽"
 msgid "Length"
 msgstr "길이"
 
-#: ../build/src/ui_scrobblersettingspage.h:418
+#: ../build/src/ui_scrobblersettingspage.h:398
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2413,7 +2413,7 @@ msgstr "Libre.fm"
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz 인증"
 
-#: ../build/src/ui_scrobblersettingspage.h:421
+#: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2473,13 +2473,13 @@ msgstr "불러오는 중..."
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "불러올 파일이나 URL, 현재 재생 목록을 대체함"
 
-#: ../build/src/ui_scrobblersettingspage.h:412
+#: ../build/src/ui_scrobblersettingspage.h:388
 msgid "Local file"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:417
-#: ../build/src/ui_scrobblersettingspage.h:420
-#: ../build/src/ui_scrobblersettingspage.h:425
+#: ../build/src/ui_scrobblersettingspage.h:397
+#: ../build/src/ui_scrobblersettingspage.h:400
+#: ../build/src/ui_scrobblersettingspage.h:405
 #: ../build/src/ui_coverssettingspage.h:172
 #: ../build/src/ui_lyricssettingspage.h:172
 #: ../build/src/ui_tidalsettingspage.h:321
@@ -3049,7 +3049,7 @@ msgstr "위치"
 msgid "Pre-amp"
 msgstr "프리앰프"
 
-#: ../build/src/ui_scrobblersettingspage.h:403
+#: ../build/src/ui_scrobblersettingspage.h:383
 msgid "Prefer album artist when sending scrobbles"
 msgstr "스크로블을 보낼 때 앨범 아티스트 선호"
 
@@ -3505,7 +3505,7 @@ msgstr "확장 가능한 샘플링 레이트 프로필(SSR)"
 msgid "Scale size"
 msgstr "크기 조정"
 
-#: ../build/src/ui_scrobblersettingspage.h:393
+#: ../build/src/ui_scrobblersettingspage.h:373
 msgid "Scrobbler"
 msgstr "스크로블러"
 
@@ -3698,7 +3698,7 @@ msgstr "아티스트별로 앨범 표시"
 msgid "Show all songs"
 msgstr "모든 곡 표시"
 
-#: ../build/src/ui_scrobblersettingspage.h:404
+#: ../build/src/ui_scrobblersettingspage.h:384
 msgid "Show dialog for errors"
 msgstr ""
 
@@ -3731,7 +3731,7 @@ msgstr "파일 탐색기에 표시..."
 msgid "Show in various artists"
 msgstr "편집 음반으로 표시"
 
-#: ../build/src/ui_scrobblersettingspage.h:398
+#: ../build/src/ui_scrobblersettingspage.h:378
 msgid "Show love button"
 msgstr "좋아요 단추 표시"
 
@@ -3751,7 +3751,7 @@ msgstr "태그되지 않은 것만 표시"
 msgid "Show playing widget"
 msgstr "재생 위젯 표시"
 
-#: ../build/src/ui_scrobblersettingspage.h:397
+#: ../build/src/ui_scrobblersettingspage.h:377
 msgid "Show scrobble button"
 msgstr "스크로블 단추 표시"
 
@@ -3864,7 +3864,7 @@ msgstr "노래 가사"
 msgid "Songs"
 msgstr "노래"
 
-#: ../build/src/ui_scrobblersettingspage.h:395
+#: ../build/src/ui_scrobblersettingspage.h:375
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -3976,7 +3976,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry에서 이 파일의 결과를 찾을 수 없습니다"
 
-#: ../build/src/ui_scrobblersettingspage.h:409
+#: ../build/src/ui_scrobblersettingspage.h:391
 msgid "Stream"
 msgstr "스트림"
 
@@ -3992,11 +3992,11 @@ msgstr "스트리밍"
 msgid "Stretch image to fill playlist"
 msgstr "이미지를 재생 목록 크기로 늘려서 맞춤"
 
-#: ../build/src/ui_scrobblersettingspage.h:399
+#: ../build/src/ui_scrobblersettingspage.h:379
 msgid "Submit scrobbles every"
 msgstr "스크로블 제출 주기"
 
-#: core/mainwindow.cpp:324 ../build/src/ui_scrobblersettingspage.h:411
+#: core/mainwindow.cpp:324 ../build/src/ui_scrobblersettingspage.h:389
 #: ../build/src/ui_subsonicsettingspage.h:182
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4206,7 +4206,7 @@ msgstr "이 옵션은 \"행동\" 설정에서 변경할 수 있습니다"
 msgid "This type of device is not supported: %1"
 msgstr "다음 장치의 형식은 지원하지 않습니다: %1"
 
-#: core/mainwindow.cpp:327 ../build/src/ui_scrobblersettingspage.h:407
+#: core/mainwindow.cpp:327 ../build/src/ui_scrobblersettingspage.h:387
 #: ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
@@ -4318,7 +4318,7 @@ msgstr "초광대역(UWB)"
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:554 playlist/playlistmanager.cpp:555
 #: dialogs/edittagdialog.cpp:494 dialogs/edittagdialog.cpp:542
-#: ../build/src/ui_scrobblersettingspage.h:410
+#: ../build/src/ui_scrobblersettingspage.h:393
 msgid "Unknown"
 msgstr "알 수 없음"
 
@@ -4372,7 +4372,7 @@ msgstr "사용"
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "그놈 D-Bus 단축키(GSD) 사용"
 
-#: ../build/src/ui_scrobblersettingspage.h:416
+#: ../build/src/ui_scrobblersettingspage.h:396
 msgid "Use HTTPS for local redirectserver"
 msgstr ""
 
@@ -4448,7 +4448,7 @@ msgstr "사용됨"
 msgid "User interface"
 msgstr "사용자 인터페이스"
 
-#: ../build/src/ui_scrobblersettingspage.h:423
+#: ../build/src/ui_scrobblersettingspage.h:403
 msgid "User token:"
 msgstr "사용자 토큰:"
 
@@ -4539,7 +4539,7 @@ msgstr "광대역(WB)"
 msgid "Without cover:"
 msgstr "표지 없음:"
 
-#: ../build/src/ui_scrobblersettingspage.h:396
+#: ../build/src/ui_scrobblersettingspage.h:376
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "오프라인 모드로 작업(스크로블을 캐시에만 추가)"
 

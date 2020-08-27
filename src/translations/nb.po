@@ -79,7 +79,7 @@ msgstr ""
 msgid " kbps"
 msgstr "kbps"
 
-#: ../build/src/ui_scrobblersettingspage.h:400
+#: ../build/src/ui_scrobblersettingspage.h:380
 msgid " minutes"
 msgstr " minutter"
 
@@ -384,7 +384,7 @@ msgstr "&Bruk system standard fargeoppsett"
 msgid "&Use the system proxy settings"
 msgstr "&Bruk forvalgte mellomtjener-innstillinger"
 
-#: ../build/src/ui_scrobblersettingspage.h:402
+#: ../build/src/ui_scrobblersettingspage.h:382
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -1050,7 +1050,7 @@ msgstr "K&onsoll"
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD avspilling er kun mulig med gstreamer"
 
-#: ../build/src/ui_scrobblersettingspage.h:408
+#: ../build/src/ui_scrobblersettingspage.h:392
 msgid "CDDA"
 msgstr "CDDA"
 
@@ -1160,7 +1160,7 @@ msgid "Club"
 msgstr "Klubbmusikk"
 
 #: core/mainwindow.cpp:316 ../build/src/ui_collectionsettingspage.h:406
-#: ../build/src/ui_scrobblersettingspage.h:406
+#: ../build/src/ui_scrobblersettingspage.h:386
 msgid "Collection"
 msgstr "Samling"
 
@@ -1541,7 +1541,7 @@ msgstr "Detaljer…"
 
 #: context/contextview.cpp:184 device/giolister.cpp:189
 #: ../build/src/ui_backendsettingspage.h:445
-#: ../build/src/ui_scrobblersettingspage.h:413
+#: ../build/src/ui_scrobblersettingspage.h:390
 msgid "Device"
 msgstr "Enhet"
 
@@ -1677,10 +1677,10 @@ msgstr "Rediger spor informasjon…"
 msgid "Edit tracks information..."
 msgstr "Rediger spor informasjon…"
 
-#: ../build/src/ui_scrobblersettingspage.h:394
-#: ../build/src/ui_scrobblersettingspage.h:415
-#: ../build/src/ui_scrobblersettingspage.h:419
-#: ../build/src/ui_scrobblersettingspage.h:422
+#: ../build/src/ui_scrobblersettingspage.h:374
+#: ../build/src/ui_scrobblersettingspage.h:395
+#: ../build/src/ui_scrobblersettingspage.h:399
+#: ../build/src/ui_scrobblersettingspage.h:402
 #: ../build/src/ui_subsonicsettingspage.h:183
 #: ../build/src/ui_tidalsettingspage.h:313
 msgid "Enable"
@@ -1707,7 +1707,7 @@ msgstr "Slå på tonekontroll (EQ)"
 msgid "Enable playlist clear button"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:405
+#: ../build/src/ui_scrobblersettingspage.h:385
 msgid "Enable scrobbling for the following sources:"
 msgstr ""
 
@@ -2406,7 +2406,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Sist spilt"
 
-#: ../build/src/ui_scrobblersettingspage.h:414
+#: ../build/src/ui_scrobblersettingspage.h:394
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2420,7 +2420,7 @@ msgstr "Venstre"
 msgid "Length"
 msgstr "Lengde"
 
-#: ../build/src/ui_scrobblersettingspage.h:418
+#: ../build/src/ui_scrobblersettingspage.h:398
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2428,7 +2428,7 @@ msgstr "Libre.fm"
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz autentisering"
 
-#: ../build/src/ui_scrobblersettingspage.h:421
+#: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2488,13 +2488,13 @@ msgstr "Åpner…"
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Åpne filer/URL-er; erstatt gjeldende spilleliste"
 
-#: ../build/src/ui_scrobblersettingspage.h:412
+#: ../build/src/ui_scrobblersettingspage.h:388
 msgid "Local file"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:417
-#: ../build/src/ui_scrobblersettingspage.h:420
-#: ../build/src/ui_scrobblersettingspage.h:425
+#: ../build/src/ui_scrobblersettingspage.h:397
+#: ../build/src/ui_scrobblersettingspage.h:400
+#: ../build/src/ui_scrobblersettingspage.h:405
 #: ../build/src/ui_coverssettingspage.h:172
 #: ../build/src/ui_lyricssettingspage.h:172
 #: ../build/src/ui_tidalsettingspage.h:321
@@ -3064,7 +3064,7 @@ msgstr "Posisjon"
 msgid "Pre-amp"
 msgstr "Forforsterker"
 
-#: ../build/src/ui_scrobblersettingspage.h:403
+#: ../build/src/ui_scrobblersettingspage.h:383
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Foretrekk album artist når scrobbler sendes"
 
@@ -3523,7 +3523,7 @@ msgstr "Skalerbar samplingsrate-profil (SSR)"
 msgid "Scale size"
 msgstr "Skaler størrelse"
 
-#: ../build/src/ui_scrobblersettingspage.h:393
+#: ../build/src/ui_scrobblersettingspage.h:373
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
@@ -3716,7 +3716,7 @@ msgstr "Vis albumer med artist"
 msgid "Show all songs"
 msgstr "Vis alle sanger"
 
-#: ../build/src/ui_scrobblersettingspage.h:404
+#: ../build/src/ui_scrobblersettingspage.h:384
 msgid "Show dialog for errors"
 msgstr ""
 
@@ -3749,7 +3749,7 @@ msgstr "Vis i fil utforsker"
 msgid "Show in various artists"
 msgstr "Vis under diverse artister"
 
-#: ../build/src/ui_scrobblersettingspage.h:398
+#: ../build/src/ui_scrobblersettingspage.h:378
 msgid "Show love button"
 msgstr "Vis love knapp"
 
@@ -3769,7 +3769,7 @@ msgstr "Bare vis filer uten etiketter"
 msgid "Show playing widget"
 msgstr "Vis spille widget"
 
-#: ../build/src/ui_scrobblersettingspage.h:397
+#: ../build/src/ui_scrobblersettingspage.h:377
 msgid "Show scrobble button"
 msgstr "Vis knappen for rapportering av lyttevaner"
 
@@ -3882,7 +3882,7 @@ msgstr "Sangtekst"
 msgid "Songs"
 msgstr "Sanger"
 
-#: ../build/src/ui_scrobblersettingspage.h:395
+#: ../build/src/ui_scrobblersettingspage.h:375
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -3997,7 +3997,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry klarte ikke å finne resultater for denne filen"
 
-#: ../build/src/ui_scrobblersettingspage.h:409
+#: ../build/src/ui_scrobblersettingspage.h:391
 msgid "Stream"
 msgstr "Strøm"
 
@@ -4013,11 +4013,11 @@ msgstr "Strømming"
 msgid "Stretch image to fill playlist"
 msgstr "Utvid bildet til å fylle spilleliste"
 
-#: ../build/src/ui_scrobblersettingspage.h:399
+#: ../build/src/ui_scrobblersettingspage.h:379
 msgid "Submit scrobbles every"
 msgstr "Send scrobbles hver"
 
-#: core/mainwindow.cpp:324 ../build/src/ui_scrobblersettingspage.h:411
+#: core/mainwindow.cpp:324 ../build/src/ui_scrobblersettingspage.h:389
 #: ../build/src/ui_subsonicsettingspage.h:182
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4242,7 +4242,7 @@ msgstr "Dette valget kan endres under innstillinger for \"Oppførsel\""
 msgid "This type of device is not supported: %1"
 msgstr "Denne enhetstypen (%1) støttes ikke."
 
-#: core/mainwindow.cpp:327 ../build/src/ui_scrobblersettingspage.h:407
+#: core/mainwindow.cpp:327 ../build/src/ui_scrobblersettingspage.h:387
 #: ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
@@ -4354,7 +4354,7 @@ msgstr "Ultrabredt bånd (UWB)"
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:554 playlist/playlistmanager.cpp:555
 #: dialogs/edittagdialog.cpp:494 dialogs/edittagdialog.cpp:542
-#: ../build/src/ui_scrobblersettingspage.h:410
+#: ../build/src/ui_scrobblersettingspage.h:393
 msgid "Unknown"
 msgstr "Ukjent"
 
@@ -4408,7 +4408,7 @@ msgstr "Bruk"
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "Bruk Gnome (GSD) D-Bus snarveier"
 
-#: ../build/src/ui_scrobblersettingspage.h:416
+#: ../build/src/ui_scrobblersettingspage.h:396
 msgid "Use HTTPS for local redirectserver"
 msgstr ""
 
@@ -4484,7 +4484,7 @@ msgstr "Brukt"
 msgid "User interface"
 msgstr "Brukergrensesnitt"
 
-#: ../build/src/ui_scrobblersettingspage.h:423
+#: ../build/src/ui_scrobblersettingspage.h:403
 msgid "User token:"
 msgstr "Bruker nøkkel:"
 
@@ -4577,7 +4577,7 @@ msgstr "Bredbånd (WB)"
 msgid "Without cover:"
 msgstr "Uten omslag:"
 
-#: ../build/src/ui_scrobblersettingspage.h:396
+#: ../build/src/ui_scrobblersettingspage.h:376
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Jobb i frakoblet modus (bare cache scrobbler)"
 

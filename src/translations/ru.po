@@ -102,7 +102,7 @@ msgstr "Горячие клавиши должны быть настроены �
 msgid " kbps"
 msgstr " кбит/с"
 
-#: ../build/src/ui_scrobblersettingspage.h:400
+#: ../build/src/ui_scrobblersettingspage.h:380
 msgid " minutes"
 msgstr "минуты"
 
@@ -407,7 +407,7 @@ msgstr "&Использовать системный набор цветов п�
 msgid "&Use the system proxy settings"
 msgstr "&Использовать системные настройки прокси"
 
-#: ../build/src/ui_scrobblersettingspage.h:402
+#: ../build/src/ui_scrobblersettingspage.h:382
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -1073,7 +1073,7 @@ msgstr "&Консоль"
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Воспроизведение CD доступно только с движком GStreamer."
 
-#: ../build/src/ui_scrobblersettingspage.h:408
+#: ../build/src/ui_scrobblersettingspage.h:392
 msgid "CDDA"
 msgstr "CDDA"
 
@@ -1184,7 +1184,7 @@ msgid "Club"
 msgstr "Клубный"
 
 #: core/mainwindow.cpp:316 ../build/src/ui_collectionsettingspage.h:406
-#: ../build/src/ui_scrobblersettingspage.h:406
+#: ../build/src/ui_scrobblersettingspage.h:386
 msgid "Collection"
 msgstr "Фонотека"
 
@@ -1566,7 +1566,7 @@ msgstr "Подробнее…"
 
 #: context/contextview.cpp:184 device/giolister.cpp:189
 #: ../build/src/ui_backendsettingspage.h:445
-#: ../build/src/ui_scrobblersettingspage.h:413
+#: ../build/src/ui_scrobblersettingspage.h:390
 msgid "Device"
 msgstr "Устройство"
 
@@ -1702,10 +1702,10 @@ msgstr "Изменить информацию о треке"
 msgid "Edit tracks information..."
 msgstr "Изменить информацию о треках"
 
-#: ../build/src/ui_scrobblersettingspage.h:394
-#: ../build/src/ui_scrobblersettingspage.h:415
-#: ../build/src/ui_scrobblersettingspage.h:419
-#: ../build/src/ui_scrobblersettingspage.h:422
+#: ../build/src/ui_scrobblersettingspage.h:374
+#: ../build/src/ui_scrobblersettingspage.h:395
+#: ../build/src/ui_scrobblersettingspage.h:399
+#: ../build/src/ui_scrobblersettingspage.h:402
 #: ../build/src/ui_subsonicsettingspage.h:183
 #: ../build/src/ui_tidalsettingspage.h:313
 msgid "Enable"
@@ -1732,7 +1732,7 @@ msgstr "Включить эквалайзер"
 msgid "Enable playlist clear button"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:405
+#: ../build/src/ui_scrobblersettingspage.h:385
 msgid "Enable scrobbling for the following sources:"
 msgstr ""
 
@@ -2435,7 +2435,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Последнее прослушивание"
 
-#: ../build/src/ui_scrobblersettingspage.h:414
+#: ../build/src/ui_scrobblersettingspage.h:394
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2449,7 +2449,7 @@ msgstr "Левый канал"
 msgid "Length"
 msgstr "Длина"
 
-#: ../build/src/ui_scrobblersettingspage.h:418
+#: ../build/src/ui_scrobblersettingspage.h:398
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2457,7 +2457,7 @@ msgstr "Libre.fm"
 msgid "ListenBrainz Authentication"
 msgstr "Аутентификация ListenBrainz"
 
-#: ../build/src/ui_scrobblersettingspage.h:421
+#: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2517,13 +2517,13 @@ msgstr "Загрузка…"
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Загрузка файлов/ссылок с заменой текущего плейлиста"
 
-#: ../build/src/ui_scrobblersettingspage.h:412
+#: ../build/src/ui_scrobblersettingspage.h:388
 msgid "Local file"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:417
-#: ../build/src/ui_scrobblersettingspage.h:420
-#: ../build/src/ui_scrobblersettingspage.h:425
+#: ../build/src/ui_scrobblersettingspage.h:397
+#: ../build/src/ui_scrobblersettingspage.h:400
+#: ../build/src/ui_scrobblersettingspage.h:405
 #: ../build/src/ui_coverssettingspage.h:172
 #: ../build/src/ui_lyricssettingspage.h:172
 #: ../build/src/ui_tidalsettingspage.h:321
@@ -3096,7 +3096,7 @@ msgstr "Позиция"
 msgid "Pre-amp"
 msgstr "Предусиление"
 
-#: ../build/src/ui_scrobblersettingspage.h:403
+#: ../build/src/ui_scrobblersettingspage.h:383
 msgid "Prefer album artist when sending scrobbles"
 msgstr ""
 
@@ -3556,7 +3556,7 @@ msgstr "Профиль Scalable sampling rate (SSR)"
 msgid "Scale size"
 msgstr "Размер масштабирования"
 
-#: ../build/src/ui_scrobblersettingspage.h:393
+#: ../build/src/ui_scrobblersettingspage.h:373
 msgid "Scrobbler"
 msgstr "Скробблер"
 
@@ -3749,7 +3749,7 @@ msgstr "Показать альбомы исполнителя"
 msgid "Show all songs"
 msgstr "Показать все композиции"
 
-#: ../build/src/ui_scrobblersettingspage.h:404
+#: ../build/src/ui_scrobblersettingspage.h:384
 msgid "Show dialog for errors"
 msgstr ""
 
@@ -3782,7 +3782,7 @@ msgstr "Открыть в диспетчере файлов"
 msgid "Show in various artists"
 msgstr "Показать в «Различных исполнителях»"
 
-#: ../build/src/ui_scrobblersettingspage.h:398
+#: ../build/src/ui_scrobblersettingspage.h:378
 msgid "Show love button"
 msgstr "Показать кнопку нравится"
 
@@ -3802,7 +3802,7 @@ msgstr "Показывать только без тегов"
 msgid "Show playing widget"
 msgstr "Показать виджет воспроизведения"
 
-#: ../build/src/ui_scrobblersettingspage.h:397
+#: ../build/src/ui_scrobblersettingspage.h:377
 msgid "Show scrobble button"
 msgstr "Показать кнопку скробблинга"
 
@@ -3915,7 +3915,7 @@ msgstr ""
 msgid "Songs"
 msgstr "Песни"
 
-#: ../build/src/ui_scrobblersettingspage.h:395
+#: ../build/src/ui_scrobblersettingspage.h:375
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -4031,7 +4031,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry не смог найти результаты по запросу для этого файла"
 
-#: ../build/src/ui_scrobblersettingspage.h:409
+#: ../build/src/ui_scrobblersettingspage.h:391
 msgid "Stream"
 msgstr "Поток"
 
@@ -4047,11 +4047,11 @@ msgstr "Потоковое воспроизведение"
 msgid "Stretch image to fill playlist"
 msgstr "Растягивать изображение для заполнения плейлиста"
 
-#: ../build/src/ui_scrobblersettingspage.h:399
+#: ../build/src/ui_scrobblersettingspage.h:379
 msgid "Submit scrobbles every"
 msgstr "Отправить скробблы каждые"
 
-#: core/mainwindow.cpp:324 ../build/src/ui_scrobblersettingspage.h:411
+#: core/mainwindow.cpp:324 ../build/src/ui_scrobblersettingspage.h:389
 #: ../build/src/ui_subsonicsettingspage.h:182
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4277,7 +4277,7 @@ msgstr "Эта опция может быть изменена в настрой
 msgid "This type of device is not supported: %1"
 msgstr "Не поддерживаемый тип устройства: %1"
 
-#: core/mainwindow.cpp:327 ../build/src/ui_scrobblersettingspage.h:407
+#: core/mainwindow.cpp:327 ../build/src/ui_scrobblersettingspage.h:387
 #: ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
@@ -4389,7 +4389,7 @@ msgstr "Ультраширокая полоса пропускания (UWB)"
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:554 playlist/playlistmanager.cpp:555
 #: dialogs/edittagdialog.cpp:494 dialogs/edittagdialog.cpp:542
-#: ../build/src/ui_scrobblersettingspage.h:410
+#: ../build/src/ui_scrobblersettingspage.h:393
 msgid "Unknown"
 msgstr "Неизвестный"
 
@@ -4443,7 +4443,7 @@ msgstr "Использование"
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "Использовать сочетания клавиш Gnome (GSD) D-Bus"
 
-#: ../build/src/ui_scrobblersettingspage.h:416
+#: ../build/src/ui_scrobblersettingspage.h:396
 msgid "Use HTTPS for local redirectserver"
 msgstr ""
 
@@ -4519,7 +4519,7 @@ msgstr "Использовано"
 msgid "User interface"
 msgstr "Интерфейс"
 
-#: ../build/src/ui_scrobblersettingspage.h:423
+#: ../build/src/ui_scrobblersettingspage.h:403
 msgid "User token:"
 msgstr "Пользовательский токен:"
 
@@ -4614,7 +4614,7 @@ msgstr "Шировая полоса пропускания (WB)"
 msgid "Without cover:"
 msgstr "Без обложек:"
 
-#: ../build/src/ui_scrobblersettingspage.h:396
+#: ../build/src/ui_scrobblersettingspage.h:376
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Работа в автономном режиме (только кэшировать скробблинг)"
 
