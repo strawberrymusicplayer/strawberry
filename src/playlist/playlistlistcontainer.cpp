@@ -335,7 +335,6 @@ void PlaylistListContainer::PlaylistPathChanged(int id, const QString &new_path)
 }
 
 void PlaylistListContainer::ItemsSelectedChanged(const bool selected) {
-  qLog(Debug) << __PRETTY_FUNCTION__ << selected;
   ui_->remove->setEnabled(selected);
   ui_->save_playlist->setEnabled(selected);
 }
