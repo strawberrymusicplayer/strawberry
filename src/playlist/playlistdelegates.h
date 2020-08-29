@@ -56,7 +56,7 @@ class CollectionBackend;
 class Player;
 
 class QueuedItemDelegate : public QStyledItemDelegate {
-public:
+ public:
   explicit QueuedItemDelegate(QObject *parent, int indicator_column = Playlist::Column_Title);
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
@@ -145,14 +145,14 @@ class TagCompletionModel : public QStringListModel {
 class TagCompleter : public QCompleter {
   Q_OBJECT
 
-public:
+ public:
   explicit TagCompleter(CollectionBackend *backend, Playlist::Column column, QLineEdit *editor);
   ~TagCompleter() override;
 
  private slots:
   void ModelReady(QFuture<TagCompletionModel*> future);
 
-private:
+ private:
   QLineEdit *editor_;
 };
 

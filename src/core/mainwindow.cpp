@@ -361,7 +361,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
 
   ui_->playlist->SetManager(app_->playlist_manager());
 
-  ui_->playlist->view()->SetApplication(app_);
+  ui_->playlist->view()->Init(app_);
 
   collection_view_->view()->setModel(collection_sort_model_);
   collection_view_->view()->SetApplication(app_);
@@ -1066,7 +1066,6 @@ void MainWindow::SaveSettings() {
   SaveGeometry();
   SavePlaybackStatus();
   ui_->tabs->SaveSettings(kSettingsGroup);
-  ui_->playlist->view()->SaveGeometry();
   ui_->playlist->view()->SaveSettings();
   app_->scrobbler()->WriteCache();
 

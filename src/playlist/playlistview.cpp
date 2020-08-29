@@ -128,7 +128,6 @@ void PlaylistProxyStyle::drawPrimitive(PrimitiveElement element, const QStyleOpt
 
 }
 
-
 PlaylistView::PlaylistView(QWidget *parent)
     : QTreeView(parent),
       app_(nullptr),
@@ -143,11 +142,10 @@ PlaylistView::PlaylistView(QWidget *parent)
       background_image_keep_aspect_ratio_(true),
       blur_radius_(AppearanceSettingsPage::kDefaultBlurRadius),
       opacity_level_(AppearanceSettingsPage::kDefaultOpacityLevel),
-      initialized_(false),
       background_initialized_(false),
-      setting_initial_header_layout_(false),
-      read_only_settings_(true),
-      state_loaded_(false),
+      set_initial_header_layout_(false),
+      header_state_loaded_(false),
+      header_state_restored_(false),
       previous_background_image_opacity_(0.0),
       fade_animation_(new QTimeLine(1000, this)),
       force_background_redraw_(false),
@@ -169,20 +167,28 @@ PlaylistView::PlaylistView(QWidget *parent)
       currenttrack_pause_(":/pictures/currenttrack_pause.png"),
       cached_current_row_row_(-1),
       drop_indicator_row_(-1),
-      drag_over_(false) {
+      drag_over_(false),
+      column_alignment_(DefaultColumnAlignment()) {
 
   setHeader(header_);
   header_->setSectionsMovable(true);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
   header_->setFirstSectionMovable(true);
 #endif
+  header_->setSortIndicator(Playlist::Column_Title, Qt::AscendingOrder);
+
   setStyle(style_);
   setMouseTracking(true);
+  setAlternatingRowColors(true);
+  setAttribute(Qt::WA_MacShowFocusRect, false);
+#ifdef Q_OS_MACOS
+  setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+#endif
 
-  connect(header_, SIGNAL(sectionResized(int, int, int)), SLOT(SaveGeometry()));
-  connect(header_, SIGNAL(sectionMoved(int, int, int)), SLOT(SaveGeometry()));
-  connect(header_, SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SLOT(SaveGeometry()));
-  connect(header_, SIGNAL(SectionVisibilityChanged(int, bool)), SLOT(SaveGeometry()));
+  connect(header_, SIGNAL(sectionResized(int, int, int)), SLOT(SetHeaderState()));
+  connect(header_, SIGNAL(sectionMoved(int, int, int)), SLOT(SetHeaderState()));
+  connect(header_, SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SLOT(SetHeaderState()));
+  connect(header_, SIGNAL(SectionVisibilityChanged(int, bool)), SLOT(SetHeaderState()));
 
   connect(header_, SIGNAL(sectionResized(int, int, int)), SLOT(InvalidateCachedCurrentPixmap()));
   connect(header_, SIGNAL(sectionMoved(int, int, int)), SLOT(InvalidateCachedCurrentPixmap()));
@@ -196,26 +202,17 @@ PlaylistView::PlaylistView(QWidget *parent)
   horizontalScrollBar()->installEventFilter(this);
   verticalScrollBar()->installEventFilter(this);
 
-  setAlternatingRowColors(true);
-
-  setAttribute(Qt::WA_MacShowFocusRect, false);
-
-#ifdef Q_OS_MACOS
-  setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-#endif
   // For fading
   connect(fade_animation_, SIGNAL(valueChanged(qreal)), SLOT(FadePreviousBackgroundImage(qreal)));
   fade_animation_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
 
-  initialized_ = true;
-
 }
 
 PlaylistView::~PlaylistView() {
-  delete style_;
+  style_->deleteLater();
 }
 
-void PlaylistView::SetApplication(Application *app) {
+void PlaylistView::Init(Application *app) {
 
   Q_ASSERT(app);
   app_ = app;
@@ -263,28 +260,6 @@ void PlaylistView::SetItemDelegates() {
 
 }
 
-void PlaylistView::SetPlaylist(Playlist *playlist) {
-
-  if (playlist_) {
-    disconnect(playlist_, SIGNAL(MaybeAutoscroll(Playlist::AutoScroll)), this, SLOT(MaybeAutoscroll(Playlist::AutoScroll)));
-    disconnect(playlist_, SIGNAL(destroyed()), this, SLOT(PlaylistDestroyed()));
-    disconnect(playlist_, SIGNAL(QueueChanged()), this, SLOT(update()));
-  }
-
-  playlist_ = playlist;
-  LoadGeometry();
-  ReloadSettings();
-  setFocus();
-  read_only_settings_ = false;
-  JumpToLastPlayedTrack();
-
-  connect(playlist_, SIGNAL(RestoreFinished()), SLOT(JumpToLastPlayedTrack()));
-  connect(playlist_, SIGNAL(MaybeAutoscroll(Playlist::AutoScroll)), SLOT(MaybeAutoscroll(Playlist::AutoScroll)));
-  connect(playlist_, SIGNAL(destroyed()), SLOT(PlaylistDestroyed()));
-  connect(playlist_, SIGNAL(QueueChanged()), SLOT(update()));
-
-}
-
 void PlaylistView::setModel(QAbstractItemModel *m) {
 
   if (model()) {
@@ -301,44 +276,106 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 
 }
 
-void PlaylistView::LoadGeometry() {
+void PlaylistView::SetPlaylist(Playlist *playlist) {
 
-  if (!state_loaded_) {
-    QSettings s;
-    s.beginGroup(Playlist::kSettingsGroup);
-    state_ = s.value("state").toByteArray();
-    state_loaded_ = true;
-    s.endGroup();
+  if (playlist_) {
+    disconnect(playlist_, SIGNAL(MaybeAutoscroll(Playlist::AutoScroll)), this, SLOT(MaybeAutoscroll(Playlist::AutoScroll)));
+    disconnect(playlist_, SIGNAL(destroyed()), this, SLOT(PlaylistDestroyed()));
+    disconnect(playlist_, SIGNAL(QueueChanged()), this, SLOT(update()));
   }
 
-  if (!header_->RestoreState(state_)) {
-    // Maybe we're upgrading from a version that persisted the state with QHeaderView.
-    if (!header_->restoreState(state_)) {
-      header_->HideSection(Playlist::Column_AlbumArtist);
-      header_->HideSection(Playlist::Column_Performer);
-      header_->HideSection(Playlist::Column_Composer);
-      header_->HideSection(Playlist::Column_Year);
-      header_->HideSection(Playlist::Column_OriginalYear);
-      header_->HideSection(Playlist::Column_Disc);
-      header_->HideSection(Playlist::Column_Genre);
-      header_->HideSection(Playlist::Column_Filename);
-      header_->HideSection(Playlist::Column_BaseFilename);
-      header_->HideSection(Playlist::Column_Filesize);
-      header_->HideSection(Playlist::Column_DateCreated);
-      header_->HideSection(Playlist::Column_DateModified);
-      header_->HideSection(Playlist::Column_PlayCount);
-      header_->HideSection(Playlist::Column_SkipCount);
-      header_->HideSection(Playlist::Column_LastPlayed);
-      header_->HideSection(Playlist::Column_Comment);
-      header_->HideSection(Playlist::Column_Grouping);
-      header_->HideSection(Playlist::Column_Mood);
+  playlist_ = playlist;
+  RestoreHeaderState();
+  setFocus();
+  JumpToLastPlayedTrack();
 
-      header_->moveSection(header_->visualIndex(Playlist::Column_Track), 0);
-      setting_initial_header_layout_ = true;
-    }
-    else {
-      setting_initial_header_layout_ = true;
-    }
+  connect(playlist_, SIGNAL(RestoreFinished()), SLOT(JumpToLastPlayedTrack()));
+  connect(playlist_, SIGNAL(MaybeAutoscroll(Playlist::AutoScroll)), SLOT(MaybeAutoscroll(Playlist::AutoScroll)));
+  connect(playlist_, SIGNAL(destroyed()), SLOT(PlaylistDestroyed()));
+  connect(playlist_, SIGNAL(QueueChanged()), SLOT(update()));
+
+}
+
+void PlaylistView::LoadHeaderState() {
+
+  QSettings s;
+  s.beginGroup(Playlist::kSettingsGroup);
+  if (s.contains("state")) header_state_ = s.value("state").toByteArray();
+  if (s.contains("column_alignments")) column_alignment_ = s.value("column_alignments").value<ColumnAlignmentMap>();
+  s.endGroup();
+
+  if (column_alignment_.isEmpty()) {
+    column_alignment_ = DefaultColumnAlignment();
+  }
+
+  header_state_loaded_ = true;
+
+}
+
+void PlaylistView::SetHeaderState() {
+
+  if (!header_state_loaded_) return;
+  header_state_ = header_->SaveState();
+
+}
+
+void PlaylistView::ResetHeaderState() {
+
+  set_initial_header_layout_ = true;
+  header_state_ = header_->ResetState();
+  RestoreHeaderState();
+
+}
+
+void PlaylistView::RestoreHeaderState() {
+
+  if (!header_state_loaded_) LoadHeaderState();
+
+  if (header_state_.isEmpty() || !header_->RestoreState(header_state_)) {
+    set_initial_header_layout_ = true;
+  }
+
+  if (set_initial_header_layout_) {
+
+    header_->HideSection(Playlist::Column_AlbumArtist);
+    header_->HideSection(Playlist::Column_Performer);
+    header_->HideSection(Playlist::Column_Composer);
+    header_->HideSection(Playlist::Column_Year);
+    header_->HideSection(Playlist::Column_OriginalYear);
+    header_->HideSection(Playlist::Column_Disc);
+    header_->HideSection(Playlist::Column_Genre);
+    header_->HideSection(Playlist::Column_Filename);
+    header_->HideSection(Playlist::Column_BaseFilename);
+    header_->HideSection(Playlist::Column_Filesize);
+    header_->HideSection(Playlist::Column_DateCreated);
+    header_->HideSection(Playlist::Column_DateModified);
+    header_->HideSection(Playlist::Column_PlayCount);
+    header_->HideSection(Playlist::Column_SkipCount);
+    header_->HideSection(Playlist::Column_LastPlayed);
+    header_->HideSection(Playlist::Column_Comment);
+    header_->HideSection(Playlist::Column_Grouping);
+    header_->HideSection(Playlist::Column_Mood);
+
+    header_->moveSection(header_->visualIndex(Playlist::Column_Track), 0);
+
+    header_->SetStretchEnabled(true);
+
+    header_->SetColumnWidth(Playlist::Column_Track, 0.04);
+    header_->SetColumnWidth(Playlist::Column_Title, 0.26);
+    header_->SetColumnWidth(Playlist::Column_Artist, 0.20);
+    header_->SetColumnWidth(Playlist::Column_Album, 0.14);
+    header_->SetColumnWidth(Playlist::Column_Length, 0.03);
+    header_->SetColumnWidth(Playlist::Column_Samplerate, 0.07);
+    header_->SetColumnWidth(Playlist::Column_Bitdepth, 0.07);
+    header_->SetColumnWidth(Playlist::Column_Bitrate, 0.07);
+    header_->SetColumnWidth(Playlist::Column_Filetype, 0.06);
+    header_->SetColumnWidth(Playlist::Column_Source, 0.06);
+
+    header_state_ = header_->SaveState();
+    header_->RestoreState(header_state_);
+
+    set_initial_header_layout_ = false;
+
   }
 
   // Make sure at least one column is visible
@@ -353,12 +390,9 @@ void PlaylistView::LoadGeometry() {
     header_->ShowSection(Playlist::Column_Title);
   }
 
-}
+  header_state_restored_ = true;
 
-void PlaylistView::SaveGeometry() {
-
-  if (!initialized_ || !state_loaded_) return;
-  state_ = header_->SaveState();
+  emit ColumnAlignmentChanged(column_alignment_);
 
 }
 
@@ -805,11 +839,9 @@ void PlaylistView::JumpToLastPlayedTrack() {
   last_current_item_ = last_played;
   setCurrentIndex(last_current_item_);
 
-  currently_autoscrolling_ = true;
-
   // Scroll to the item
+  currently_autoscrolling_ = true;
   scrollTo(last_played, QAbstractItemView::PositionAtCenter);
-
   currently_autoscrolling_ = false;
 
 }
@@ -1024,11 +1056,6 @@ void PlaylistView::ReloadSettings() {
   select_track_ = s.value("select_track", false).toBool();
   s.endGroup();
 
-  s.beginGroup(Playlist::kSettingsGroup);
-  bool stretch = s.value("stretch", true).toBool();
-  column_alignment_ = s.value("column_alignments").value<ColumnAlignmentMap>();
-  s.endGroup();
-
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   QVariant background_image_type_var = s.value(AppearanceSettingsPage::kBackgroundImageType);
   QVariant background_image_position_var = s.value(AppearanceSettingsPage::kBackgroundImagePosition);
@@ -1042,33 +1069,8 @@ void PlaylistView::ReloadSettings() {
   int opacity_level = s.value(AppearanceSettingsPage::kOpacityLevel, AppearanceSettingsPage::kDefaultOpacityLevel).toInt();
   s.endGroup();
 
-  if (setting_initial_header_layout_) {
-
-    header_->SetStretchEnabled(stretch);
-
-    header_->SetColumnWidth(Playlist::Column_Track, 0.02);
-    header_->SetColumnWidth(Playlist::Column_Title, 0.16);
-    header_->SetColumnWidth(Playlist::Column_Artist, 0.12);
-    header_->SetColumnWidth(Playlist::Column_Album, 0.12);
-    header_->SetColumnWidth(Playlist::Column_Length, 0.03);
-    header_->SetColumnWidth(Playlist::Column_Samplerate, 0.07);
-    header_->SetColumnWidth(Playlist::Column_Bitdepth, 0.07);
-    header_->SetColumnWidth(Playlist::Column_Bitrate, 0.07);
-    header_->SetColumnWidth(Playlist::Column_Filetype, 0.06);
-    header_->SetColumnWidth(Playlist::Column_Source, 0.06);
-
-    setting_initial_header_layout_ = false;
-
-  }
-
   if (currently_glowing_ && glow_enabled_ && isVisible()) StartGlowing();
   if (!glow_enabled_) StopGlowing();
-
-  if (column_alignment_.isEmpty()) {
-    column_alignment_ = DefaultColumnAlignment();
-  }
-  emit ColumnAlignmentChanged(column_alignment_);
-
 
   // Background:
   AppearanceSettingsPage::BackgroundImageType background_image_type(AppearanceSettingsPage::BackgroundImageType_Default);
@@ -1144,7 +1146,7 @@ void PlaylistView::ReloadSettings() {
 
 void PlaylistView::SaveSettings() {
 
-  if (!initialized_ || read_only_settings_) return;
+  if (!header_state_loaded_) return;
 
   QSettings s;
   s.beginGroup(Playlist::kSettingsGroup);
@@ -1156,9 +1158,10 @@ void PlaylistView::SaveSettings() {
 
 void PlaylistView::StretchChanged(const bool stretch) {
 
-  if (!initialized_) return;
+  if (!header_state_loaded_) return;
+
   setHorizontalScrollBarPolicy(stretch ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
-  SaveGeometry();
+  SetHeaderState();
 
 }
 
@@ -1352,21 +1355,5 @@ void PlaylistView::focusInEvent(QFocusEvent *event) {
       selectionModel()->select(new_selection, QItemSelectionModel::Select);
     }
   }
-
-}
-
-void PlaylistView::ResetColumns() {
-
-  QSettings s;
-  s.beginGroup(Playlist::kSettingsGroup);
-  s.remove("state");
-  s.endGroup();
-  state_loaded_ = false;
-  read_only_settings_ = true;
-  setting_initial_header_layout_ = true;
-  ReloadSettings();
-  LoadGeometry();
-  read_only_settings_ = false;
-  SetPlaylist(playlist_);
 
 }

@@ -143,5 +143,5 @@ void PlaylistHeader::enterEvent(QEvent*) {
 }
 
 void PlaylistHeader::ResetColumns() {
-  view_->ResetColumns();
+  view_->ResetHeaderState();
 }

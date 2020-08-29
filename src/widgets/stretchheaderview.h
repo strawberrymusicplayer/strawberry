@@ -52,6 +52,7 @@ class StretchHeaderView : public QHeaderView {
   // Use these instead of QHeaderView::restoreState and QHeaderView::saveState to persist the proportional values directly and avoid floating point errors over time.
   bool RestoreState(const QByteArray &sdata);
   QByteArray SaveState() const;
+  QByteArray ResetState();
 
   // Hides a section and resizes all other sections to fill the gap.  Does nothing if you try to hide the last section.
   void HideSection(const int logical);
@@ -85,7 +86,7 @@ class StretchHeaderView : public QHeaderView {
 
  private:
   // Scales column_widths_ values so the total is 1.0.
-  void NormaliseWidths(const QList<int>& sections = QList<int>());
+  void NormaliseWidths(const QList<int> &sections = QList<int>());
 
   // Resizes the actual columns to make them match the proportional values in column_widths_.
   void UpdateWidths(const QList<int>& sections = QList<int>());
