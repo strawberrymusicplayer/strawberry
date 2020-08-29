@@ -406,7 +406,7 @@ TagCompleter::TagCompleter(CollectionBackend *backend, Playlist::Column column, 
 }
 
 TagCompleter::~TagCompleter() {
-  delete model();
+  model()->deleteLater();
 }
 
 void TagCompleter::ModelReady(QFuture<TagCompletionModel*> future) {
