@@ -169,25 +169,24 @@ void PlaylistListContainer::ReloadSettings() {
 
 void PlaylistListContainer::showEvent(QShowEvent *e) {
 
+  // Loading icons is expensive so only do it when the view is first opened
+  if (!loaded_icons_) {
+    loaded_icons_ = true;
+
+    action_new_folder_->setIcon(IconLoader::Load("folder-new"));
+    action_remove_->setIcon(IconLoader::Load("edit-delete"));
+    action_save_playlist_->setIcon(IconLoader::Load("document-save"));
+    action_copy_to_device_->setIcon(IconLoader::Load("device"));
+
+    model_->SetIcons(IconLoader::Load("view-media-playlist"), IconLoader::Load("folder"));
+
+    // Apply these icons to items that have already been created.
+    RecursivelySetIcons(model_->invisibleRootItem());
+
+  }
+
   ui_->remove->setEnabled(ui_->tree->ItemsSelected());
   ui_->save_playlist->setEnabled(ui_->tree->ItemsSelected());
-
-  // Loading icons is expensive so only do it when the view is first opened
-  if (loaded_icons_) {
-    QWidget::showEvent(e);
-    return;
-  }
-  loaded_icons_ = true;
-
-  action_new_folder_->setIcon(IconLoader::Load("folder-new"));
-  action_remove_->setIcon(IconLoader::Load("edit-delete"));
-  action_save_playlist_->setIcon(IconLoader::Load("document-save"));
-  action_copy_to_device_->setIcon(IconLoader::Load("device"));
-
-  model_->SetIcons(IconLoader::Load("view-media-playlist"), IconLoader::Load("folder"));
-
-  // Apply these icons to items that have already been created.
-  RecursivelySetIcons(model_->invisibleRootItem());
 
   QWidget::showEvent(e);
 
@@ -336,6 +335,7 @@ void PlaylistListContainer::PlaylistPathChanged(int id, const QString &new_path)
 }
 
 void PlaylistListContainer::ItemsSelectedChanged(const bool selected) {
+  qLog(Debug) << __PRETTY_FUNCTION__ << selected;
   ui_->remove->setEnabled(selected);
   ui_->save_playlist->setEnabled(selected);
 }
