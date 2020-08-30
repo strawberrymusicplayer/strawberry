@@ -84,7 +84,6 @@ public:
     static bool usePixmapCache() { return true; }
 
     static QPixmap disabledSideBarIcon(const QPixmap &enabledicon);
-    static void drawIconWithShadow(const QIcon &icon, const QRect &rect, QPainter *p, QIcon::Mode iconMode, int dipRadius = 3, const QColor &color = QColor(0, 0, 0, 130), const QPoint &dipOffset = QPoint(1, -2));
     static void drawCornerImage(const QImage &img, QPainter *painter, const QRect &rect, int left = 0, int top = 0, int right = 0, int bottom = 0);
 
     static void tintImage(QImage &img, const QColor &tintColor);
