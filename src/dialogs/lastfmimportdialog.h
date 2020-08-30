@@ -28,7 +28,6 @@
 
 #include "ui_lastfmimportdialog.h"
 
-class QShowEvent;
 class QCloseEvent;
 class LastFMImport;
 
@@ -40,15 +39,16 @@ class LastFMImportDialog : public QDialog {
   ~LastFMImportDialog() override;
 
  protected:
-  void showEvent(QShowEvent*);
   void closeEvent(QCloseEvent*);
 
  private:
+  void ResetFinished();
   void Reset();
 
  private slots:
   void Start();
   void Cancel();
+  void Close();
   void UpdateGoButtonState();
 
   void UpdateTotal(const int lastplayed_total, const int playcount_total);

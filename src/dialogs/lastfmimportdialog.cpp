@@ -22,7 +22,6 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QProgressBar>
-#include <QShowEvent>
 #include <QCloseEvent>
 
 #include "lastfmimportdialog.h"
@@ -47,7 +46,7 @@ LastFMImportDialog::LastFMImportDialog(LastFMImport *lastfm_import, QWidget *par
 
   Reset();
 
-  connect(ui_->button_close, SIGNAL(clicked()), SLOT(hide()));
+  connect(ui_->button_close, SIGNAL(clicked()), SLOT(Close()));
   connect(ui_->button_go, SIGNAL(clicked()), SLOT(Start()));
   connect(ui_->button_cancel, SIGNAL(clicked()), SLOT(Cancel()));
 
@@ -58,21 +57,9 @@ LastFMImportDialog::LastFMImportDialog(LastFMImport *lastfm_import, QWidget *par
 
 LastFMImportDialog::~LastFMImportDialog() { delete ui_; }
 
-void LastFMImportDialog::showEvent(QShowEvent*) {
-
-  if (ui_->stackedWidget->currentWidget() == ui_->page_start) {
-    Reset();
-  }
-
-}
-
 void LastFMImportDialog::closeEvent(QCloseEvent*) {
 
-  if (ui_->stackedWidget->currentWidget() == ui_->page_progress && finished_) {
-    finished_ = false;
-    Reset();
-    ui_->stackedWidget->setCurrentWidget(ui_->page_start);
-  }
+  ResetFinished();
 
 }
 
@@ -94,6 +81,23 @@ void LastFMImportDialog::Cancel() {
     lastfm_import_->AbortAll();
     ui_->stackedWidget->setCurrentWidget(ui_->page_start);
     Reset();
+  }
+
+}
+
+void LastFMImportDialog::Close() {
+
+  ResetFinished();
+  hide();
+
+}
+
+void LastFMImportDialog::ResetFinished() {
+
+  if (finished_ && ui_->stackedWidget->currentWidget() == ui_->page_progress) {
+    finished_ = false;
+    Reset();
+    ui_->stackedWidget->setCurrentWidget(ui_->page_start);
   }
 
 }
