@@ -704,11 +704,6 @@ QModelIndex PlaylistView::PrevEditableIndex(const QModelIndex &current) {
 
 bool PlaylistView::edit(const QModelIndex &idx, QAbstractItemView::EditTrigger trigger, QEvent *event) {
 
-  // Only allow playlist editing if song is editable.
-  if (trigger == QAbstractItemView::AllEditTriggers && !event && playlist_ && !playlist_->item_at(idx.row())->Metadata().IsEditable()) {
-    return false;
-  }
-
   bool result = QAbstractItemView::edit(idx, trigger, event);
   if (result && trigger == QAbstractItemView::AllEditTriggers && !event) {
     playlist_->set_editing(idx.row());
