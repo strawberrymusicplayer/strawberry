@@ -147,6 +147,7 @@ set(SOURCES
   lyrics/geniuslyricsprovider.cpp
   lyrics/musixmatchlyricsprovider.cpp
   lyrics/chartlyricsprovider.cpp
+  lyrics/fandomlyricsprovider.cpp
 
   settings/settingsdialog.cpp
   settings/settingspage.cpp
@@ -348,6 +349,7 @@ set(HEADERS
   lyrics/geniuslyricsprovider.h
   lyrics/musixmatchlyricsprovider.h
   lyrics/chartlyricsprovider.h
+  lyrics/fandomlyricsprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h
