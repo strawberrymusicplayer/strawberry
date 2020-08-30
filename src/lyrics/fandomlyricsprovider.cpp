@@ -165,6 +165,10 @@ QJsonArray FandomLyricsProvider::ExtractResult(QNetworkReply *reply, const QStri
   }
   json_obj = json_obj[json_obj.keys().first()].toObject();
 
+  if (json_obj.contains("missing")) {
+    return QJsonArray();
+  }
+
   if (!json_obj.contains("revisions")) {
     Error("JSON reply is missing revisions.", json_obj);
     return QJsonArray();
