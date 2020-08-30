@@ -47,6 +47,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   explicit ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, Application *app, QObject *parent = nullptr);
   ~ScrobblingAPI20() override;
 
+  static const char *kApiKey;
   static const char *kRedirectUrl;
 
   void ReloadSettings() override;
@@ -118,7 +119,6 @@ class ScrobblingAPI20 : public ScrobblerService {
     RateLimitExceeded = 29,
   };
 
-  static const char *kApiKey;
   static const char *kSecret;
   static const int kScrobblesPerRequest;
 
@@ -129,7 +129,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   void AuthError(const QString &error);
   void SendSingleScrobble(ScrobblerCacheItemPtr item);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
-  QString ErrorString(const ScrobbleErrorCode error) const;
+  static QString ErrorString(const ScrobbleErrorCode error);
   void DoSubmit() override;
   void CheckScrobblePrevSong();
 

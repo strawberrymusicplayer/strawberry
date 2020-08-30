@@ -96,6 +96,7 @@ class InternetTabsView;
 class Windows7ThumbBar;
 #endif
 class AddStreamDialog;
+class LastFMImportDialog;
 
 class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
@@ -323,6 +324,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   InternetSongsView *subsonic_view_;
   InternetTabsView *tidal_view_;
+
+  LastFMImportDialog *lastfm_import_dialog_;
 
   QAction *collection_show_all_;
   QAction *collection_show_duplicates_;

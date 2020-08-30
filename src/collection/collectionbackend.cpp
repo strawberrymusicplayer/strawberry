@@ -42,6 +42,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+#include "core/logging.h"
 #include "core/database.h"
 #include "core/scopedtransaction.h"
 
@@ -1295,5 +1296,81 @@ void CollectionBackend::DeleteAll() {
   }
 
   emit DatabaseReset();
+
+}
+
+SongList CollectionBackend::GetSongsBy(const QString &artist, const QString &album, const QString &title) {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  SongList songs;
+  QSqlQuery q(db);
+  if (album.isEmpty()) {
+    q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE artist = :artist COLLATE NOCASE AND title = :title COLLATE NOCASE").arg(songs_table_));
+  }
+  else {
+    q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE artist = :artist COLLATE NOCASE AND album = :album COLLATE NOCASE AND title = :title COLLATE NOCASE").arg(songs_table_));
+  }
+  q.bindValue(":artist", artist);
+  if (!album.isEmpty()) q.bindValue(":album", album);
+  q.bindValue(":title", title);
+  q.exec();
+  if (db_->CheckErrors(q)) return SongList();
+  while (q.next()) {
+    Song song(source_);
+    song.InitFromQuery(q, true);
+    songs << song;
+  }
+
+  return songs;
+
+}
+
+void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const int lastplayed) {
+
+  SongList songs = GetSongsBy(artist, album, title);
+  if (songs.isEmpty()) {
+    qLog(Debug) << "Could not find a matching song in the database for" << artist << album << title;
+    return;
+  }
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  for (const Song &song : songs) {
+    QSqlQuery q(db);
+    q.prepare(QString("UPDATE %1 SET lastplayed = :lastplayed WHERE ROWID = :id").arg(songs_table_));
+    q.bindValue(":lastplayed", lastplayed);
+    q.bindValue(":id", song.id());
+    q.exec();
+    if (db_->CheckErrors(q)) continue;
+  }
+
+  emit SongsStatisticsChanged(SongList() << songs);
+
+}
+
+void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &title, const int playcount) {
+
+  SongList songs = GetSongsBy(artist, QString(), title);
+  if (songs.isEmpty()) {
+    qLog(Debug) << "Could not find a matching song in the database for" << artist << title;
+    return;
+  }
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  for (const Song &song : songs) {
+    QSqlQuery q(db);
+    q.prepare(QString("UPDATE %1 SET playcount = :playcount WHERE ROWID = :id").arg(songs_table_));
+    q.bindValue(":playcount", playcount);
+    q.bindValue(":id", song.id());
+    q.exec();
+    if (db_->CheckErrors(q)) continue;
+  }
+
+  emit SongsStatisticsChanged(SongList() << songs);
 
 }

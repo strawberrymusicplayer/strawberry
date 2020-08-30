@@ -40,6 +40,7 @@
 #include "collectionbackend.h"
 #include "collectionmodel.h"
 #include "playlist/playlistmanager.h"
+#include "scrobbler/lastfmimport.h"
 
 const char *SCollection::kSongsTable = "songs";
 const char *SCollection::kDirsTable = "directories";
@@ -109,6 +110,9 @@ void SCollection::Init() {
   connect(backend_, SIGNAL(SongsStatisticsChanged(SongList)), SLOT(SongsStatisticsChanged(SongList)));
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(CurrentSongChanged(Song)));
   connect(app_->player(), SIGNAL(Stopped()), SLOT(Stopped()));
+
+  connect(app_->lastfm_import(), SIGNAL(UpdateLastPlayed(QString, QString, QString, int)), backend_, SLOT(UpdateLastPlayed(QString, QString, QString, int)));
+  connect(app_->lastfm_import(), SIGNAL(UpdatePlayCount(QString, QString, int)), backend_, SLOT(UpdatePlayCount(QString, QString, int)));
 
   // This will start the watcher checking for updates
   backend_->LoadDirectoriesAsync();

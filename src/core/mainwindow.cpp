@@ -103,6 +103,7 @@
 #include "dialogs/edittagdialog.h"
 #include "dialogs/addstreamdialog.h"
 #include "dialogs/deleteconfirmationdialog.h"
+#include "dialogs/lastfmimportdialog.h"
 #include "organize/organizedialog.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"
@@ -169,6 +170,7 @@
 #include "internet/internetsearchview.h"
 
 #include "scrobbler/audioscrobbler.h"
+#include "scrobbler/lastfmimport.h"
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 #  include "musicbrainz/tagfetcher.h"
@@ -257,6 +259,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
 #ifdef HAVE_TIDAL
       tidal_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source_Tidal), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
 #endif
+      lastfm_import_dialog_(new LastFMImportDialog(app_->lastfm_import(), this)),
       collection_show_all_(nullptr),
       collection_show_duplicates_(nullptr),
       collection_show_untagged_(nullptr),
@@ -417,6 +420,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   ui_->action_update_collection->setIcon(IconLoader::Load("view-refresh"));
   ui_->action_full_collection_scan->setIcon(IconLoader::Load("view-refresh"));
   ui_->action_settings->setIcon(IconLoader::Load("configure"));
+  ui_->action_import_data_from_last_fm->setIcon(IconLoader::Load("scrobble"));
 
   // Scrobble
 
@@ -457,6 +461,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   connect(ui_->action_auto_complete_tags, SIGNAL(triggered()), SLOT(AutoCompleteTags()));
 #endif
   connect(ui_->action_settings, SIGNAL(triggered()), SLOT(OpenSettingsDialog()));
+  connect(ui_->action_import_data_from_last_fm, SIGNAL(triggered()), lastfm_import_dialog_, SLOT(show()));
   connect(ui_->action_toggle_show_sidebar, SIGNAL(toggled(bool)), SLOT(ToggleSidebar(bool)));
   connect(ui_->action_about_strawberry, SIGNAL(triggered()), SLOT(ShowAboutDialog()));
   connect(ui_->action_about_qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
@@ -821,6 +826,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   ScrobbleButtonVisibilityChanged(app_->scrobbler()->ScrobbleButton());
   LoveButtonVisibilityChanged(app_->scrobbler()->LoveButton());
   ScrobblingEnabledChanged(app_->scrobbler()->IsEnabled());
+
+  // Last.fm ImportData
+  connect(app_->lastfm_import(), SIGNAL(Finished()), lastfm_import_dialog_, SLOT(Finished()));
+  connect(app_->lastfm_import(), SIGNAL(FinishedWithError(QString)), lastfm_import_dialog_, SLOT(FinishedWithError(QString)));
+  connect(app_->lastfm_import(), SIGNAL(UpdateTotal(int, int)), lastfm_import_dialog_, SLOT(UpdateTotal(int, int)));
+  connect(app_->lastfm_import(), SIGNAL(UpdateProgress(int, int)), lastfm_import_dialog_, SLOT(UpdateProgress(int, int)));
 
   // Load settings
   qLog(Debug) << "Loading settings";

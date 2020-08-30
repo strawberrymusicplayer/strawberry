@@ -205,6 +205,10 @@ class CollectionBackend : public CollectionBackendInterface {
   void ResetStatistics(const int id);
   void SongPathChanged(const Song &song, const QFileInfo &new_file);
 
+  SongList GetSongsBy(const QString &artist, const QString &album, const QString &title);
+  void UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const int lastplayed);
+  void UpdatePlayCount(const QString &artist, const QString &title, const int playcount);
+
  signals:
   void DirectoryDiscovered(const Directory &dir, const SubdirectoryList &subdirs);
   void DirectoryDeleted(const Directory &dir);

@@ -170,6 +170,7 @@ set(SOURCES
   dialogs/addstreamdialog.cpp
   dialogs/userpassdialog.cpp
   dialogs/deleteconfirmationdialog.cpp
+  dialogs/lastfmimportdialog.cpp
 
   widgets/autoexpandingtreeview.cpp
   widgets/busyindicator.cpp
@@ -223,6 +224,7 @@ set(SOURCES
   scrobbler/lastfmscrobbler.cpp
   scrobbler/librefmscrobbler.cpp
   scrobbler/listenbrainzscrobbler.cpp
+  scrobbler/lastfmimport.cpp
 
   organize/organize.cpp
   organize/organizeformat.cpp
@@ -369,6 +371,7 @@ set(HEADERS
   dialogs/addstreamdialog.h
   dialogs/userpassdialog.h
   dialogs/deleteconfirmationdialog.h
+  dialogs/lastfmimportdialog.h
 
   widgets/autoexpandingtreeview.h
   widgets/busyindicator.h
@@ -420,6 +423,7 @@ set(HEADERS
   scrobbler/lastfmscrobbler.h
   scrobbler/librefmscrobbler.h
   scrobbler/listenbrainzscrobbler.h
+  scrobbler/lastfmimport.h
 
   organize/organize.h
   organize/organizedialog.h
@@ -472,6 +476,7 @@ set(UI
   dialogs/trackselectiondialog.ui
   dialogs/addstreamdialog.ui
   dialogs/userpassdialog.ui
+  dialogs/lastfmimportdialog.ui
 
   widgets/trackslider.ui
   widgets/fileview.ui

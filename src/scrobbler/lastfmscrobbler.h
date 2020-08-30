@@ -42,13 +42,13 @@ class LastFMScrobbler : public ScrobblingAPI20 {
 
   static const char *kName;
   static const char *kSettingsGroup;
+  static const char *kApiUrl;
 
   NetworkAccessManager *network() const override { return network_; }
   ScrobblerCache *cache() const override { return cache_; }
 
  private:
   static const char *kAuthUrl;
-  static const char *kApiUrl;
   static const char *kCacheFile;
 
   QString settings_group_;

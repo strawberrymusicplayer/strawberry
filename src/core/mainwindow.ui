@@ -511,6 +511,7 @@
     <addaction name="action_abort_collection_scan"/>
     <addaction name="separator"/>
     <addaction name="action_settings"/>
+    <addaction name="action_import_data_from_last_fm"/>
     <addaction name="action_console"/>
     <addaction name="separator"/>
     <addaction name="action_toggle_show_sidebar"/>
@@ -842,6 +843,11 @@
    </property>
    <property name="text">
     <string>Show sidebar</string>
+   </property>
+  </action>
+  <action name="action_import_data_from_last_fm">
+   <property name="text">
+    <string>Import data from last.fm...</string>
    </property>
   </action>
  </widget>

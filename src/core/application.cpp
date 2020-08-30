@@ -69,6 +69,7 @@
 #include "lyrics/chartlyricsprovider.h"
 
 #include "scrobbler/audioscrobbler.h"
+#include "scrobbler/lastfmimport.h"
 
 #include "internet/internetservices.h"
 
@@ -160,6 +161,7 @@ class ApplicationImpl {
           return internet_services;
         }),
         scrobbler_([=]() { return new AudioScrobbler(app, app); }),
+        lastfm_import_([=]() { return new LastFMImport(app); }),
 
 #ifdef HAVE_MOODBAR
         moodbar_loader_([=]() { return new MoodbarLoader(app, app); }),
@@ -187,6 +189,7 @@ class ApplicationImpl {
   Lazy<LyricsProviders> lyrics_providers_;
   Lazy<InternetServices> internet_services_;
   Lazy<AudioScrobbler> scrobbler_;
+  Lazy<LastFMImport> lastfm_import_;
 #ifdef HAVE_MOODBAR
   Lazy<MoodbarLoader> moodbar_loader_;
   Lazy<MoodbarController> moodbar_controller_;
@@ -315,6 +318,7 @@ PlaylistBackend *Application::playlist_backend() const { return p_->playlist_bac
 PlaylistManager *Application::playlist_manager() const { return p_->playlist_manager_.get(); }
 InternetServices *Application::internet_services() const { return p_->internet_services_.get(); }
 AudioScrobbler *Application::scrobbler() const { return p_->scrobbler_.get(); }
+LastFMImport *Application::lastfm_import() const { return p_->lastfm_import_.get(); }
 #ifdef HAVE_MOODBAR
 MoodbarController *Application::moodbar_controller() const { return p_->moodbar_controller_.get(); }
 MoodbarLoader *Application::moodbar_loader() const { return p_->moodbar_loader_.get(); }

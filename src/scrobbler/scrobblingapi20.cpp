@@ -1013,7 +1013,7 @@ void ScrobblingAPI20::Error(const QString &error, const QVariant &debug) {
 
 }
 
-QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) const {
+QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) {
 
   switch (error) {
     case ScrobbleErrorCode::NoError:
