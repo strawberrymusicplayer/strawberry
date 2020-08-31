@@ -226,66 +226,6 @@ commands:
             gstreamer1-plugins-base-devel
 
 
-  install_mageia_dependencies:
-    description: Install Mageia dependencies
-    steps:
-      - run:
-          name: Update packages
-          command: urpmi.update --auto -a
-      - run:
-          name: Configure auto update
-          command: urpmi --auto --auto-update
-      - run:
-          name: Install dependencies
-          command: >
-            urpmi --auto --force
-            urpmi-debuginfo-install
-            git
-            tar
-            rpmdevtools
-            make
-            cmake
-            glibc
-            binutils
-            gcc-c++
-            man
-            gettext
-            notification-daemon
-            dbus-devel
-            libgnutls-devel
-            lib64boost-devel
-            lib64protobuf-devel
-            protobuf-compiler
-            lib64sqlite3-devel
-            lib64alsa2-devel
-            lib64pulseaudio-devel
-            lib64notify-devel
-            lib64qt5core-devel
-            lib64qt5gui-devel
-            lib64qt5widgets-devel
-            lib64qt5network-devel
-            lib64qt5concurrent-devel
-            lib64qt5sql-devel
-            lib64qt5dbus-devel
-            lib64qt5x11extras-devel
-            lib64qt5help-devel
-            libqt5test-devel
-            lib64gstreamer1.0-devel
-            lib64gstreamer-plugins-base1.0-devel
-            lib64cdio-devel
-            lib64gpod-devel
-            lib64mtp-devel
-            lib64raw1394-devel
-            lib64chromaprint-devel
-            libfftw-devel
-            desktop-file-utils
-            appstream-util
-            libappstream-glib8
-            hicolor-icon-theme
-            qt5ct
-            lib64mesaegl1
-
-
   install_debian_dependencies:
     description: Install Debian dependencies
     steps:
@@ -455,19 +395,6 @@ jobs:
       - build_rpm
 
 
-  build_mageia_7:
-    docker:
-      - image: mageia:7
-    environment:
-      RPM_BUILD_NCPUS: "2"
-    steps:
-      - install_mageia_dependencies
-      - checkout
-      - cmake
-      - build_source
-      - build_rpm
-
-
   build_debian_buster:
     docker:
       - image: debian:buster
@@ -540,12 +467,6 @@ workflows:
             tags:
               only: /.*/
       - build_fedora_32:
-          filters:
-            tags:
-              only: /.*/
-
-
-      - build_mageia_7:
           filters:
             tags:
               only: /.*/
