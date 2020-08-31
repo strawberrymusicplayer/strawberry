@@ -1050,7 +1050,7 @@ msgstr "CD 재생은 GStreamer 엔진에서만 지원합니다."
 msgid "CDDA"
 msgstr "CDDA"
 
-#: ../build/src/ui_lastfmimportdialog.h:158
+#: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
 msgstr ""
 
@@ -1082,7 +1082,7 @@ msgstr "업데이트 확인..."
 msgid "Choose color..."
 msgstr "색상 선택..."
 
-#: ../build/src/ui_lastfmimportdialog.h:150
+#: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
 msgstr ""
 
@@ -1146,7 +1146,7 @@ msgstr "남은 시간과 전체 시간을 전환하려면 클릭하십시오"
 msgid "Client ID"
 msgstr "클라이언트 ID"
 
-#: ../build/src/ui_lastfmimportdialog.h:157
+#: ../build/src/ui_lastfmimportdialog.h:156
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Close"
 msgstr "닫기"
@@ -2125,7 +2125,7 @@ msgstr "다음 재생 목록 탭으로 이동"
 msgid "Go to previous playlist tab"
 msgstr "이전 재생 목록 탭으로 이동"
 
-#: ../build/src/ui_lastfmimportdialog.h:156
+#: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
 msgstr ""
 
@@ -2299,7 +2299,7 @@ msgstr "그림 (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "그림 (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
-#: ../build/src/ui_lastfmimportdialog.h:149
+#: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
 msgstr ""
 
@@ -2403,7 +2403,7 @@ msgstr "큰 앨범아트"
 msgid "Large sidebar"
 msgstr "큰 사이드바"
 
-#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:151
+#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "마지막 재생"
 
@@ -3002,7 +3002,7 @@ msgstr ""
 msgid "Play count"
 msgstr "재생 횟수"
 
-#: ../build/src/ui_lastfmimportdialog.h:152
+#: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
 msgstr ""
 
@@ -3421,12 +3421,12 @@ msgstr "FAT 파일 시스템에서 사용할 수 있는 글자로 제한"
 msgid "Resume playback on start"
 msgstr "시작할 때 재생 다시 시작"
 
-#: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:679 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:674 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:680 tidal/tidalrequest.cpp:1087
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "앨범 %1개의 앨범아트 가져오는 중..."
@@ -3441,7 +3441,7 @@ msgstr "아티스트 %1명의 앨범 가져오는 중..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "아티스트 %1명의 앨범 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "앨범 가져오는 중..."
 
@@ -3449,12 +3449,12 @@ msgstr "앨범 가져오는 중..."
 msgid "Retrieving artists..."
 msgstr "아티스트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "앨범 %1개의 노래 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "앨범 %1개의 노래 가져오는 중..."
@@ -4385,7 +4385,7 @@ msgstr "초광대역(UWB)"
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: subsonic/subsonicrequest.cpp:847 tidal/tidalrequest.cpp:1260
+#: subsonic/subsonicrequest.cpp:853 tidal/tidalrequest.cpp:1260
 msgid "Unknown error"
 msgstr "알 수 없는 오류"
 
@@ -4577,7 +4577,7 @@ msgstr "Vorbis"
 msgid "Warn me when closing a playlist tab"
 msgstr "재생 목록 탭을 닫을 때 알리기"
 
-#: ../build/src/ui_lastfmimportdialog.h:153
+#: ../build/src/ui_lastfmimportdialog.h:152
 msgid ""
 "Warning: Play counts and last played from last.fm will completely replace "
 "the same data for the matched songs. Play counts will replace the data based "

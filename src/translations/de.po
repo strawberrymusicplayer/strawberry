@@ -1089,7 +1089,7 @@ msgstr "CD Wiedergabe ist nur mit de GStreamer Implemetierung verfügbar"
 msgid "CDDA"
 msgstr "CDDA"
 
-#: ../build/src/ui_lastfmimportdialog.h:158
+#: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
 msgstr ""
 
@@ -1121,7 +1121,7 @@ msgstr "Nach Aktualisierungen suchen …"
 msgid "Choose color..."
 msgstr "Farbe wählen …"
 
-#: ../build/src/ui_lastfmimportdialog.h:150
+#: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
 msgstr ""
 
@@ -1188,7 +1188,7 @@ msgstr "Klicken Sie um zwischen verbleibender und Gesamtzeit zu wechseln"
 msgid "Client ID"
 msgstr "Client ID"
 
-#: ../build/src/ui_lastfmimportdialog.h:157
+#: ../build/src/ui_lastfmimportdialog.h:156
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Close"
 msgstr "Schliessen"
@@ -2178,7 +2178,7 @@ msgstr "Zum nächsten Wiedergabelistenreiter wechseln"
 msgid "Go to previous playlist tab"
 msgstr "Zum vorherigen Wiedergabelistenreiter wechseln"
 
-#: ../build/src/ui_lastfmimportdialog.h:156
+#: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
 msgstr ""
 
@@ -2360,7 +2360,7 @@ msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
-#: ../build/src/ui_lastfmimportdialog.h:149
+#: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
 msgstr ""
 
@@ -2467,7 +2467,7 @@ msgstr "Großes Titelbild"
 msgid "Large sidebar"
 msgstr "Große Seitenleiste"
 
-#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:151
+#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Zuletzt gespielt"
 
@@ -3071,7 +3071,7 @@ msgstr "Steuerungstasten"
 msgid "Play count"
 msgstr "Wiedergabezähler"
 
-#: ../build/src/ui_lastfmimportdialog.h:152
+#: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
 msgstr ""
 
@@ -3504,12 +3504,12 @@ msgstr "Beschränkung auf die in FAT-Dateisystemen erlaubten Zeichen"
 msgid "Resume playback on start"
 msgstr "Wiedergabe beim Start fortsetzten"
 
-#: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:679 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Empfange Albumcover für %1 Album... "
 
-#: subsonic/subsonicrequest.cpp:674 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:680 tidal/tidalrequest.cpp:1087
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Empfange Albencover für %1 Alben..."
@@ -3524,7 +3524,7 @@ msgstr "Empfange Alben von %1 Künstler..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Empfange Alben von %1 Künstlern..."
 
-#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "Empfange Alben..."
 
@@ -3532,12 +3532,12 @@ msgstr "Empfange Alben..."
 msgid "Retrieving artists..."
 msgstr "Empfange Künstler..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Empfange Lieder für %1 Album..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Empfange Lieder für %1 Alben..."
@@ -4498,7 +4498,7 @@ msgstr "Ulte Weit Band (UWB)"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: subsonic/subsonicrequest.cpp:847 tidal/tidalrequest.cpp:1260
+#: subsonic/subsonicrequest.cpp:853 tidal/tidalrequest.cpp:1260
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
@@ -4692,7 +4692,7 @@ msgstr "Vorbis"
 msgid "Warn me when closing a playlist tab"
 msgstr "Hinweis beim Schließen eines Wiedergabelistenreiters anzeigen"
 
-#: ../build/src/ui_lastfmimportdialog.h:153
+#: ../build/src/ui_lastfmimportdialog.h:152
 msgid ""
 "Warning: Play counts and last played from last.fm will completely replace "
 "the same data for the matched songs. Play counts will replace the data based "

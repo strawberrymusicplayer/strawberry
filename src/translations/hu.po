@@ -1064,7 +1064,7 @@ msgstr "A CD-lejátszás csak a GStreamer-rel érhető el."
 msgid "CDDA"
 msgstr "CDDA"
 
-#: ../build/src/ui_lastfmimportdialog.h:158
+#: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
 msgstr ""
 
@@ -1096,7 +1096,7 @@ msgstr "Frissítés keresése..."
 msgid "Choose color..."
 msgstr "Szín kiválasztása..."
 
-#: ../build/src/ui_lastfmimportdialog.h:150
+#: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
 msgstr ""
 
@@ -1165,7 +1165,7 @@ msgstr "Kattintásra vált a hátralévő és a teljes idő kijelzése között"
 msgid "Client ID"
 msgstr "Kliens azonosító"
 
-#: ../build/src/ui_lastfmimportdialog.h:157
+#: ../build/src/ui_lastfmimportdialog.h:156
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Close"
 msgstr "Bezárás"
@@ -2154,7 +2154,7 @@ msgstr "Váltás a következő lejátszólista lapra"
 msgid "Go to previous playlist tab"
 msgstr "Váltás az előző lejátszólista lapra"
 
-#: ../build/src/ui_lastfmimportdialog.h:156
+#: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
 msgstr ""
 
@@ -2335,7 +2335,7 @@ msgstr "Képek (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Képek (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
-#: ../build/src/ui_lastfmimportdialog.h:149
+#: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
 msgstr ""
 
@@ -2441,7 +2441,7 @@ msgstr "Nagy albumborító"
 msgid "Large sidebar"
 msgstr "Nagy oldalsáv"
 
-#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:151
+#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Utoljára lejátszva"
 
@@ -3044,7 +3044,7 @@ msgstr "Lejátszásirányító gombok"
 msgid "Play count"
 msgstr "Lejátszások száma"
 
-#: ../build/src/ui_lastfmimportdialog.h:152
+#: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
 msgstr ""
 
@@ -3477,12 +3477,12 @@ msgstr "Csak a FAT fájlrendszerekben engedélyezett karakterek használata"
 msgid "Resume playback on start"
 msgstr "Lejátszás folytatása induláskor"
 
-#: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:679 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Albumborító lekérése %1 albumhoz..."
 
-#: subsonic/subsonicrequest.cpp:674 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:680 tidal/tidalrequest.cpp:1087
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Albumborítók lekérése %1 albumokhoz..."
@@ -3497,7 +3497,7 @@ msgstr "Dalok lekérése %1 előadótól..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Albumok lekérése %1 előadóktól..."
 
-#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "Albumok lekérésre..."
 
@@ -3505,12 +3505,12 @@ msgstr "Albumok lekérésre..."
 msgid "Retrieving artists..."
 msgstr "Előadók lekérése..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Dalok lekérése %1 albumhoz..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Dalok lekérése %1 albumhoz..."
@@ -4466,7 +4466,7 @@ msgstr "Ultra szélessávú (UWB)"
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: subsonic/subsonicrequest.cpp:847 tidal/tidalrequest.cpp:1260
+#: subsonic/subsonicrequest.cpp:853 tidal/tidalrequest.cpp:1260
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
@@ -4660,7 +4660,7 @@ msgstr "Vorbis"
 msgid "Warn me when closing a playlist tab"
 msgstr "Figyelmeztessen a lejátszólista bezárásakor"
 
-#: ../build/src/ui_lastfmimportdialog.h:153
+#: ../build/src/ui_lastfmimportdialog.h:152
 msgid ""
 "Warning: Play counts and last played from last.fm will completely replace "
 "the same data for the matched songs. Play counts will replace the data based "

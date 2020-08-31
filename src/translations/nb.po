@@ -1054,7 +1054,7 @@ msgstr "CD avspilling er kun mulig med gstreamer"
 msgid "CDDA"
 msgstr "CDDA"
 
-#: ../build/src/ui_lastfmimportdialog.h:158
+#: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
 msgstr ""
 
@@ -1086,7 +1086,7 @@ msgstr "Se etter oppdateringer…"
 msgid "Choose color..."
 msgstr "Velg farge…"
 
-#: ../build/src/ui_lastfmimportdialog.h:150
+#: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
 msgstr ""
 
@@ -1151,7 +1151,7 @@ msgstr "Klikk for å bytte mellom gjenværende og total tid"
 msgid "Client ID"
 msgstr "Client ID"
 
-#: ../build/src/ui_lastfmimportdialog.h:157
+#: ../build/src/ui_lastfmimportdialog.h:156
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Close"
 msgstr "Lukk"
@@ -2137,7 +2137,7 @@ msgstr "Gå til neste fane på spillelista"
 msgid "Go to previous playlist tab"
 msgstr "Gå til forrige fane på spillelista"
 
-#: ../build/src/ui_lastfmimportdialog.h:156
+#: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
 msgstr ""
 
@@ -2314,7 +2314,7 @@ msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
-#: ../build/src/ui_lastfmimportdialog.h:149
+#: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
 msgstr ""
 
@@ -2418,7 +2418,7 @@ msgstr "Stort omslag"
 msgid "Large sidebar"
 msgstr "Stort sidefelt"
 
-#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:151
+#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Sist spilt"
 
@@ -3017,7 +3017,7 @@ msgstr ""
 msgid "Play count"
 msgstr "Antall avspillinger"
 
-#: ../build/src/ui_lastfmimportdialog.h:152
+#: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
 msgstr ""
 
@@ -3439,12 +3439,12 @@ msgstr "Begrens til tegn tillat på FAT filsystem"
 msgid "Resume playback on start"
 msgstr "Gjenoppta avspilling etter oppstart"
 
-#: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:679 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mottar album kover for %1 album..."
 
-#: subsonic/subsonicrequest.cpp:674 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:680 tidal/tidalrequest.cpp:1087
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Mottar album kover for %1 albums..."
@@ -3459,7 +3459,7 @@ msgstr "Mottar albumer for %1 artist..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Mottar albumer for %1 artister..."
 
-#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "Mottar albumer..."
 
@@ -3467,12 +3467,12 @@ msgstr "Mottar albumer..."
 msgid "Retrieving artists..."
 msgstr "Mottar artister..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Mottar sanger for %1 album..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Mottar sanger for %1 albumer..."
@@ -4421,7 +4421,7 @@ msgstr "Ultrabredt bånd (UWB)"
 msgid "Unknown"
 msgstr "Ukjent"
 
-#: subsonic/subsonicrequest.cpp:847 tidal/tidalrequest.cpp:1260
+#: subsonic/subsonicrequest.cpp:853 tidal/tidalrequest.cpp:1260
 msgid "Unknown error"
 msgstr "Ukjent feil"
 
@@ -4615,7 +4615,7 @@ msgstr "Vorbis"
 msgid "Warn me when closing a playlist tab"
 msgstr "Advarsel når jeg lukker en spilleliste-fane"
 
-#: ../build/src/ui_lastfmimportdialog.h:153
+#: ../build/src/ui_lastfmimportdialog.h:152
 msgid ""
 "Warning: Play counts and last played from last.fm will completely replace "
 "the same data for the matched songs. Play counts will replace the data based "

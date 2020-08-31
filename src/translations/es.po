@@ -1080,7 +1080,7 @@ msgstr "La reproducción de CD solo es posible con GStreamer."
 msgid "CDDA"
 msgstr "CDDA"
 
-#: ../build/src/ui_lastfmimportdialog.h:158
+#: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
 msgstr ""
 
@@ -1112,7 +1112,7 @@ msgstr "Buscar actualizaciones…"
 msgid "Choose color..."
 msgstr "Elegir color…"
 
-#: ../build/src/ui_lastfmimportdialog.h:150
+#: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
 msgstr ""
 
@@ -1178,7 +1178,7 @@ msgstr "Clic para conmutar entre tiempo restante y tiempo total"
 msgid "Client ID"
 msgstr "ID de cliente"
 
-#: ../build/src/ui_lastfmimportdialog.h:157
+#: ../build/src/ui_lastfmimportdialog.h:156
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Close"
 msgstr "Cerrar"
@@ -2171,7 +2171,7 @@ msgstr "Ir a la siguiente pestaña de lista de reproducción"
 msgid "Go to previous playlist tab"
 msgstr "Ir a la anterior pestaña de lista de reproducción"
 
-#: ../build/src/ui_lastfmimportdialog.h:156
+#: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
 msgstr ""
 
@@ -2358,7 +2358,7 @@ msgstr ""
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Imágenes (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
-#: ../build/src/ui_lastfmimportdialog.h:149
+#: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
 msgstr ""
 
@@ -2464,7 +2464,7 @@ msgstr "Portada de álbum grande"
 msgid "Large sidebar"
 msgstr "Barra lateral grande"
 
-#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:151
+#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Últimas reproducidas"
 
@@ -3068,7 +3068,7 @@ msgstr "Botones de control de reproducción"
 msgid "Play count"
 msgstr "Número de reproducciones"
 
-#: ../build/src/ui_lastfmimportdialog.h:152
+#: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
 msgstr ""
 
@@ -3497,12 +3497,12 @@ msgstr "Limitar a caracteres permitidos en sistemas de archivos FAT"
 msgid "Resume playback on start"
 msgstr "Reanudar la reproducción al iniciar"
 
-#: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:679 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Buscando carátula del álbum %1..."
 
-#: subsonic/subsonicrequest.cpp:674 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:680 tidal/tidalrequest.cpp:1087
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Buscando carátulas de %1 álbumes."
@@ -3517,7 +3517,7 @@ msgstr "Buscando álbumes de %1 artista..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Buscando álbumes de %1 artistas..."
 
-#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "Buscando álbumes..."
 
@@ -3525,12 +3525,12 @@ msgstr "Buscando álbumes..."
 msgid "Retrieving artists..."
 msgstr "Buscando artistas..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Buscando pistas de %1 álbum..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Buscando pistas de %1 álbumes..."
@@ -4487,7 +4487,7 @@ msgstr "Banda ultraancha (UWB)"
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: subsonic/subsonicrequest.cpp:847 tidal/tidalrequest.cpp:1260
+#: subsonic/subsonicrequest.cpp:853 tidal/tidalrequest.cpp:1260
 msgid "Unknown error"
 msgstr "Error desconocido"
 
@@ -4682,7 +4682,7 @@ msgstr "Vorbis"
 msgid "Warn me when closing a playlist tab"
 msgstr "Avisarme antes de cerrar una pestaña de lista de reproducción"
 
-#: ../build/src/ui_lastfmimportdialog.h:153
+#: ../build/src/ui_lastfmimportdialog.h:152
 msgid ""
 "Warning: Play counts and last played from last.fm will completely replace "
 "the same data for the matched songs. Play counts will replace the data based "

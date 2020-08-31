@@ -1058,7 +1058,7 @@ msgstr ""
 msgid "CDDA"
 msgstr "CDDA"
 
-#: ../build/src/ui_lastfmimportdialog.h:158
+#: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
 msgstr ""
 
@@ -1090,7 +1090,7 @@ msgstr "Controlla aggiornamenti..."
 msgid "Choose color..."
 msgstr "Scegli colore..."
 
-#: ../build/src/ui_lastfmimportdialog.h:150
+#: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
 msgstr ""
 
@@ -1156,7 +1156,7 @@ msgstr "Clic per passare dal tempo rimanente al tempo totale"
 msgid "Client ID"
 msgstr "ID del Client"
 
-#: ../build/src/ui_lastfmimportdialog.h:157
+#: ../build/src/ui_lastfmimportdialog.h:156
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Close"
 msgstr "Chiudi"
@@ -2146,7 +2146,7 @@ msgstr "Vai alla scheda della scaletta successiva"
 msgid "Go to previous playlist tab"
 msgstr "Vai alla scheda della scaletta precedente"
 
-#: ../build/src/ui_lastfmimportdialog.h:156
+#: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
 msgstr ""
 
@@ -2328,7 +2328,7 @@ msgstr ""
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Immagini (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
-#: ../build/src/ui_lastfmimportdialog.h:149
+#: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
 msgstr ""
 
@@ -2432,7 +2432,7 @@ msgstr "Copertina grande"
 msgid "Large sidebar"
 msgstr "Pannello laterale grande"
 
-#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:151
+#: playlist/playlist.cpp:1183 ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Ultima riproduzione"
 
@@ -3036,7 +3036,7 @@ msgstr ""
 msgid "Play count"
 msgstr "Contatore di riproduzione"
 
-#: ../build/src/ui_lastfmimportdialog.h:152
+#: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
 msgstr ""
 
@@ -3463,12 +3463,12 @@ msgstr "Restringi i caratteri a quelli permessi dal filesystem FAT"
 msgid "Resume playback on start"
 msgstr "Riprendi la riproduzione all'avvio"
 
-#: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:679 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Recupero della copertina per l'album %1..."
 
-#: subsonic/subsonicrequest.cpp:674 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:680 tidal/tidalrequest.cpp:1087
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Recupero delle copertine per gli album %1..."
@@ -3483,7 +3483,7 @@ msgstr "Recupero degli album per l'artista %1..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Recupero degli album per gli artisti %1..."
 
-#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "Recupero degli album..."
 
@@ -3491,12 +3491,12 @@ msgstr "Recupero degli album..."
 msgid "Retrieving artists..."
 msgstr "Recupero degli artisti..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Recupero delle canzoni per l'album %1..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Recupero delle canzoni per gli album %1..."
@@ -4457,7 +4457,7 @@ msgstr "Banda ultra larga (UWB)"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: subsonic/subsonicrequest.cpp:847 tidal/tidalrequest.cpp:1260
+#: subsonic/subsonicrequest.cpp:853 tidal/tidalrequest.cpp:1260
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
@@ -4651,7 +4651,7 @@ msgstr "Vorbis"
 msgid "Warn me when closing a playlist tab"
 msgstr "Avvisami alla chiusura di una scheda della scaletta"
 
-#: ../build/src/ui_lastfmimportdialog.h:153
+#: ../build/src/ui_lastfmimportdialog.h:152
 msgid ""
 "Warning: Play counts and last played from last.fm will completely replace "
 "the same data for the matched songs. Play counts will replace the data based "
