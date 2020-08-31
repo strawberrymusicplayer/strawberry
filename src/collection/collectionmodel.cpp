@@ -98,7 +98,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
       artist_icon_(IconLoader::Load("folder-sound")),
       album_icon_(IconLoader::Load("cdcase")),
       init_task_id_(-1),
-      use_pretty_covers_(false),
+      use_pretty_covers_(true),
       show_dividers_(true),
       use_disk_cache_(false) {
 
