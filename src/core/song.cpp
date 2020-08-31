@@ -26,6 +26,15 @@
 #include <taglib/fileref.h>
 #include <taglib/id3v1genres.h>
 
+#ifdef HAVE_LIBGPOD
+#  include <gdk-pixbuf/gdk-pixbuf.h>
+#  include <gpod/itdb.h>
+#endif
+
+#ifdef HAVE_LIBMTP
+#  include <libmtp.h>
+#endif
+
 #include <QtGlobal>
 #include <QObject>
 #include <QFile>
@@ -45,14 +54,6 @@
 #include <QSqlQuery>
 #include <QStandardPaths>
 #include <QtDebug>
-
-#ifdef HAVE_LIBGPOD
-#include <gpod/itdb.h>
-#endif
-
-#ifdef HAVE_LIBMTP
-#include <libmtp.h>
-#endif
 
 #include "core/logging.h"
 #include "core/messagehandler.h"
@@ -1061,7 +1062,7 @@ void Song::InitArtManual() {
 }
 
 #ifdef HAVE_LIBGPOD
-void Song::InitFromItdb(const Itdb_Track *track, const QString &prefix) {
+void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
 
   d->valid_ = true;
 
@@ -1103,6 +1104,22 @@ void Song::InitFromItdb(const Itdb_Track *track, const QString &prefix) {
   d->playcount_ = track->playcount;
   d->skipcount_ = track->skipcount;
   d->lastplayed_ = track->time_played;
+
+  if (itdb_track_has_thumbnails(track)) {
+    GdkPixbuf *pixbuf = static_cast<GdkPixbuf*>(itdb_track_get_thumbnail(track, -1, -1));
+    if (pixbuf) {
+      gchar *buffer = nullptr;
+      gsize buffer_size = 0;
+      GError *error = nullptr;
+      gdk_pixbuf_save_to_buffer(pixbuf, &buffer, &buffer_size, "jpeg", &error, nullptr);
+      if (buffer) {
+        const QByteArray data = QByteArray::fromRawData(buffer, buffer_size);
+        d->image_.loadFromData(data, "JPEG");
+        g_free(buffer);
+      }
+      g_object_unref(pixbuf);
+    }
+  }
 
 }
 
