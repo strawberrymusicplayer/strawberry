@@ -34,6 +34,7 @@
 #include <QUrl>
 #include <QImage>
 #include <QtDebug>
+#include <QTemporaryFile>
 
 #include "core/logging.h"
 #include "core/application.h"
@@ -181,16 +182,26 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
     bool result = false;
     if (!job.metadata_.image().isNull()) {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
-      result = itdb_track_set_thumbnails_from_data(track, job.metadata_.image().constBits(), job.metadata_.image().sizeInBytes());
-      track->has_artwork = 1;
+      // Workaround, see issue: https://github.com/strawberrymusicplayer/strawberry/issues/519
+      // result = itdb_track_set_thumbnails_from_data(track, job.metadata_.image().constBits(), job.metadata_.image().sizeInBytes());
+      QTemporaryFile cover_file;
+      if (cover_file.open()) {
+        QImage image = job.metadata_.image();
+        if (image.save(cover_file.fileName())) {
+          result = itdb_track_set_thumbnails(track, cover_file.fileName().toLocal8Bit().constData());
+          if (result) track->has_artwork = 1;
+        }
+        cover_file.close();
+        cover_file.remove();
+      }
 #else
       result = itdb_track_set_thumbnails_from_data(track, job.metadata_.image().constBits(), job.metadata_.image().byteCount());
-      track->has_artwork = 1;
+      if (result) track->has_artwork = 1;
 #endif
     }
     else if (!job.cover_source_.isEmpty()) {
       result = itdb_track_set_thumbnails(track, job.cover_source_.toLocal8Bit().constData());
-      track->has_artwork = 1;
+      if (result) track->has_artwork = 1;
     }
     else {
       result = true;
