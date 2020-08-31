@@ -28,6 +28,7 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QDateTime>
 #include <QImage>
 #include <QImageReader>
 #include <QNetworkAccessManager>
@@ -614,6 +615,11 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
     }
   }
 
+  qint64 created = 0;
+  if (json_obj.contains("created")) {
+    created = QDateTime::fromString(json_obj["created"].toString(), Qt::ISODate).toSecsSinceEpoch();
+  }
+
   QUrl url;
   url.setScheme(url_handler_->scheme());
   url.setPath(song_id);
@@ -654,8 +660,8 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
   song.set_directory_id(0);
   song.set_filetype(filetype);
   song.set_filesize(size);
-  song.set_mtime(0);
-  song.set_ctime(0);
+  song.set_mtime(created);
+  song.set_ctime(created);
   song.set_bitrate(bitrate);
   song.set_valid(true);
 
