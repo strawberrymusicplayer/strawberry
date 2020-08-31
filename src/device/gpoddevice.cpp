@@ -187,8 +187,8 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
       QTemporaryFile cover_file;
       if (cover_file.open()) {
         QImage image = job.metadata_.image();
-        if (image.save(cover_file.fileName())) {
-          result = itdb_track_set_thumbnails(track, cover_file.fileName().toLocal8Bit().constData());
+        if (image.save(cover_file.fileName(), "JPG")) {
+          result = itdb_track_set_thumbnails(track, cover_file.fileName().toUtf8().constData());
           if (result) track->has_artwork = 1;
         }
         cover_file.close();
@@ -200,7 +200,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
 #endif
     }
     else if (!job.cover_source_.isEmpty()) {
-      result = itdb_track_set_thumbnails(track, job.cover_source_.toLocal8Bit().constData());
+      result = itdb_track_set_thumbnails(track, job.cover_source_.toUtf8().constData());
       if (result) track->has_artwork = 1;
     }
     else {
