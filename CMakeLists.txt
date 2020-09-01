@@ -13,7 +13,9 @@ include(cmake/OptionalSource.cmake)
 include(cmake/ParseArguments.cmake)
 include(cmake/Rpm.cmake)
 include(cmake/Deb.cmake)
-include(cmake/Dmg.cmake)
+if(APPLE)
+  include(cmake/Dmg.cmake)
+endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
