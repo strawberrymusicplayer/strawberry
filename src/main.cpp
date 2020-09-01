@@ -127,8 +127,8 @@ int main(int argc, char* argv[]) {
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
   QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
 
   // This makes us show up nicely in gnome-volume-control
   g_set_application_name(QCoreApplication::applicationName().toLocal8Bit());
