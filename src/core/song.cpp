@@ -66,7 +66,6 @@
 #include "application.h"
 #include "mpris_common.h"
 #include "collection/sqlrow.h"
-#include "covermanager/albumcoverloader.h"
 #include "tagreadermessages.pb.h"
 
 #ifndef USE_SYSTEM_TAGLIB
@@ -685,9 +684,10 @@ QString Song::ImageCacheDir(const Song::Source source) {
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/tidalalbumcovers";
     case Song::Source_Qobuz:
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/qobuzalbumcovers";
+    case Song::Source_Device:
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/devicealbumcovers";
     case Song::Source_LocalFile:
     case Song::Source_CDDA:
-    case Song::Source_Device:
     case Song::Source_Stream:
     case Song::Source_Unknown:
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/albumcovers";
@@ -1105,17 +1105,16 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
   d->skipcount_ = track->skipcount;
   d->lastplayed_ = track->time_played;
 
-  if (itdb_track_has_thumbnails(track)) {
+  if (itdb_track_has_thumbnails(track) && !d->artist_.isEmpty() && !d->title_.isEmpty()) {
     GdkPixbuf *pixbuf = static_cast<GdkPixbuf*>(itdb_track_get_thumbnail(track, -1, -1));
     if (pixbuf) {
-      gchar *buffer = nullptr;
-      gsize buffer_size = 0;
+      QString cover_path = ImageCacheDir(Source_Device);
+      QDir dir(cover_path);
+      if (!dir.exists()) dir.mkpath(cover_path);
+      QString cover_file = cover_path + "/" + Utilities::Sha1CoverHash(effective_albumartist(), effective_album()).toHex() + ".jpg";
       GError *error = nullptr;
-      gdk_pixbuf_save_to_buffer(pixbuf, &buffer, &buffer_size, "jpeg", &error, nullptr);
-      if (buffer) {
-        const QByteArray data = QByteArray::fromRawData(buffer, buffer_size);
-        d->image_.loadFromData(data, "JPEG");
-        g_free(buffer);
+      if (dir.exists() && gdk_pixbuf_save(pixbuf, cover_file.toUtf8().constData(), "jpeg", &error, nullptr)) {
+        d->art_manual_ = QUrl::fromLocalFile(cover_file);
       }
       g_object_unref(pixbuf);
     }
