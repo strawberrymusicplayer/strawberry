@@ -1999,7 +1999,7 @@ msgstr "Abrufen des ganzen Albums wenn nach Liedern gesucht wird"
 msgid "Fetching cover error"
 msgstr "Abrufen des Titelbildes ist fehlgeschlagen"
 
-#: core/song.cpp:1034
+#: core/song.cpp:1035
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Datei %1 kann nicht als korrekte Audiodatei erkannt werden."

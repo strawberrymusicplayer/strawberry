@@ -1947,7 +1947,7 @@ msgstr "곡을 검색할 때 전체 앨범 가져오기"
 msgid "Fetching cover error"
 msgstr "표지 가져오기 오류"
 
-#: core/song.cpp:1034
+#: core/song.cpp:1035
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "%1 파일은 올바른 오디오 파일이 아닌 것 같습니다."

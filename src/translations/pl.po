@@ -1982,7 +1982,7 @@ msgstr "Pobieraj całe albumy podczas wyszukiwania utworów"
 msgid "Fetching cover error"
 msgstr "Błąd podczas pobierania okładki"
 
-#: core/song.cpp:1034
+#: core/song.cpp:1035
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Plik „%1” nie jest rozpoznany jako plik dźwiękowy."

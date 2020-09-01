@@ -1983,7 +1983,7 @@ msgstr "Получать весь альбом при поиске песен"
 msgid "Fetching cover error"
 msgstr "Ошибка получения обложки"
 
-#: core/song.cpp:1034
+#: core/song.cpp:1035
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Файл %1 не распознается как допустимый аудиофайл."

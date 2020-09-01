@@ -1966,7 +1966,7 @@ msgstr "Ottieni gli album interi quando cerchi delle canzoni"
 msgid "Fetching cover error"
 msgstr "Errore di scaricamento della copertina"
 
-#: core/song.cpp:1034
+#: core/song.cpp:1035
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Il file %1 non è stato riconosciuto come un file audio valido."

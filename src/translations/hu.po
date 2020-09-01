@@ -1975,7 +1975,7 @@ msgstr "Dalok keresésénél teljes albumok letöltése"
 msgid "Fetching cover error"
 msgstr "Hiba a borító betöltése közben"
 
-#: core/song.cpp:1034
+#: core/song.cpp:1035
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "A (z)% 1 fájl nem ismerhető fel érvényes hangfájlként."

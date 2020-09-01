@@ -1968,7 +1968,7 @@ msgstr "Načítat celá alba při vyhledávání"
 msgid "Fetching cover error"
 msgstr "Chyba při stahování obalu"
 
-#: core/song.cpp:1034
+#: core/song.cpp:1035
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Soubor %1 nebyl rozpoznán jako platný zvukový soubor."

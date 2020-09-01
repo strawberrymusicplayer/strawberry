@@ -1963,7 +1963,7 @@ msgstr "Ambil seluruh album saat mencari lagu"
 msgid "Fetching cover error"
 msgstr "Terjadi kesalahan saat mengambil sampul"
 
-#: core/song.cpp:1034
+#: core/song.cpp:1035
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Berkas %1 bukanlah berkas audio yang benar."

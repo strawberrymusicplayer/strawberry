@@ -1992,7 +1992,7 @@ msgstr "Devolver el álbum completo al buscar pistas"
 msgid "Fetching cover error"
 msgstr "Error al obtener la portada"
 
-#: core/song.cpp:1034
+#: core/song.cpp:1035
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "El archivo de audio %1 no parece válido."

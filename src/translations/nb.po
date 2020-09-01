@@ -1958,7 +1958,7 @@ msgstr "Hent hele album når en søker etter sanger"
 msgid "Fetching cover error"
 msgstr "Kunne ikke hente albumgrafikk"
 
-#: core/song.cpp:1034
+#: core/song.cpp:1035
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Fil %1 er ikke gjenkjent som en lydfil"
