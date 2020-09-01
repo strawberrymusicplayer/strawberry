@@ -126,6 +126,7 @@ pkg_check_modules(LIBPULSE libpulse)
 pkg_check_modules(CHROMAPRINT libchromaprint)
 pkg_check_modules(LIBGPOD libgpod-1.0>=0.7.92)
 pkg_check_modules(LIBMTP libmtp>=1.0)
+pkg_check_modules(GDK_PIXBUF gdk-pixbuf-2.0)
 find_package(Gettext)
 find_package(FFTW3)
 
@@ -335,6 +336,7 @@ optional_component(GIO ON "Devices: GIO device backend"
 
 optional_component(LIBGPOD ON "Devices: iPod classic support"
   DEPENDS "libgpod" LIBGPOD_FOUND
+  DEPENDS "gdk-pixbuf" GDK_PIXBUF_FOUND
 )
 
 optional_component(LIBMTP ON "Devices: MTP support"
