@@ -39,7 +39,7 @@ class LastFMImportDialog : public QDialog {
   ~LastFMImportDialog() override;
 
  protected:
-  void closeEvent(QCloseEvent*);
+  void closeEvent(QCloseEvent*) override;
 
  private:
   void ResetFinished();
