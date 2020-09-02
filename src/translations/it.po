@@ -1476,7 +1476,7 @@ msgstr "Impostazioni personalizzate del testo"
 msgid "Custom..."
 msgstr "Personalizzato..."
 
-#: device/udisks2lister.cpp:108
+#: device/udisks2lister.cpp:113
 msgid "D-Bus path"
 msgstr "Percorso D-Bus"
 
@@ -2694,7 +2694,7 @@ msgstr "Stile della barra dell'umore"
 msgid "Mount point"
 msgstr "Punto di mount"
 
-#: device/udisks2lister.cpp:110
+#: device/udisks2lister.cpp:115
 msgid "Mount points"
 msgstr "Punti di mount"
 
@@ -2979,7 +2979,7 @@ msgstr "Sovrascrivi solamente i più &piccoli "
 msgid "P&laylist"
 msgstr "P&laylist"
 
-#: device/udisks2lister.cpp:111
+#: device/udisks2lister.cpp:116
 msgid "Partition label"
 msgstr "Etichetta di partizione"
 
@@ -3702,7 +3702,7 @@ msgstr "Seleziona il colore della scheda"
 msgid "Select..."
 msgstr "Seleziona..."
 
-#: device/udisks2lister.cpp:109
+#: device/udisks2lister.cpp:114
 msgid "Serial number"
 msgstr "Numero seriale"
 
@@ -4438,7 +4438,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL"
 
-#: device/udisks2lister.cpp:112
+#: device/udisks2lister.cpp:117
 msgid "UUID"
 msgstr "UUID"
 

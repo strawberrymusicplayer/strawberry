@@ -1508,7 +1508,7 @@ msgstr "Benutzerdefinierte Texteinstellungen"
 msgid "Custom..."
 msgstr "Eigene …"
 
-#: device/udisks2lister.cpp:108
+#: device/udisks2lister.cpp:113
 msgid "D-Bus path"
 msgstr "D-Bus Pfad"
 
@@ -2729,7 +2729,7 @@ msgstr "Stil des Stimmungsbarometers"
 msgid "Mount point"
 msgstr "Einhängepunkt"
 
-#: device/udisks2lister.cpp:110
+#: device/udisks2lister.cpp:115
 msgid "Mount points"
 msgstr "Einhängepunkte"
 
@@ -3014,7 +3014,7 @@ msgstr "Überschreibe nur k&leinere"
 msgid "P&laylist"
 msgstr "P&layliste"
 
-#: device/udisks2lister.cpp:111
+#: device/udisks2lister.cpp:116
 msgid "Partition label"
 msgstr "Partitionsbezeichnung"
 
@@ -3741,7 +3741,7 @@ msgstr "Wähle die Farbe der Reiterleiste"
 msgid "Select..."
 msgstr "Auswählen …"
 
-#: device/udisks2lister.cpp:109
+#: device/udisks2lister.cpp:114
 msgid "Serial number"
 msgstr "Seriennummer"
 
@@ -4479,7 +4479,7 @@ msgstr "Adresse"
 msgid "URL(s)"
 msgstr "Adresse(n)"
 
-#: device/udisks2lister.cpp:112
+#: device/udisks2lister.cpp:117
 msgid "UUID"
 msgstr "UUID"
 

@@ -1486,7 +1486,7 @@ msgstr "Egyéni szövegbeállítások"
 msgid "Custom..."
 msgstr "Egyéni..."
 
-#: device/udisks2lister.cpp:108
+#: device/udisks2lister.cpp:113
 msgid "D-Bus path"
 msgstr "D-Bus útvonal"
 
@@ -2703,7 +2703,7 @@ msgstr "Hangulatsáv stílusa"
 msgid "Mount point"
 msgstr "Csatolási pont"
 
-#: device/udisks2lister.cpp:110
+#: device/udisks2lister.cpp:115
 msgid "Mount points"
 msgstr "Csatolási pontok"
 
@@ -2987,7 +2987,7 @@ msgstr "&Csak a kisebbeket írja felül"
 msgid "P&laylist"
 msgstr "&Lejátszólista"
 
-#: device/udisks2lister.cpp:111
+#: device/udisks2lister.cpp:116
 msgid "Partition label"
 msgstr "Partíció címke"
 
@@ -3714,7 +3714,7 @@ msgstr "Lapsáv színének kiválasztása:"
 msgid "Select..."
 msgstr "Kiválasztás..."
 
-#: device/udisks2lister.cpp:109
+#: device/udisks2lister.cpp:114
 msgid "Serial number"
 msgstr "Sorozatszám"
 
@@ -4447,7 +4447,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL(-ek)"
 
-#: device/udisks2lister.cpp:112
+#: device/udisks2lister.cpp:117
 msgid "UUID"
 msgstr "UUID"
 

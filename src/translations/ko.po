@@ -1459,7 +1459,7 @@ msgstr "사용자 정의 텍스트 설정"
 msgid "Custom..."
 msgstr "사용자 정의..."
 
-#: device/udisks2lister.cpp:108
+#: device/udisks2lister.cpp:113
 msgid "D-Bus path"
 msgstr "D-Bus 경로"
 
@@ -2665,7 +2665,7 @@ msgstr "무드바 스타일"
 msgid "Mount point"
 msgstr "마운트 지점"
 
-#: device/udisks2lister.cpp:110
+#: device/udisks2lister.cpp:115
 msgid "Mount points"
 msgstr "마운트 지점"
 
@@ -2945,7 +2945,7 @@ msgstr "더 작은 것만 덮어쓰기(&M)"
 msgid "P&laylist"
 msgstr "재생 목록(&L)"
 
-#: device/udisks2lister.cpp:111
+#: device/udisks2lister.cpp:116
 msgid "Partition label"
 msgstr "파티션 레이블"
 
@@ -3658,7 +3658,7 @@ msgstr "탭 표시줄 색상 선택:"
 msgid "Select..."
 msgstr "선택..."
 
-#: device/udisks2lister.cpp:109
+#: device/udisks2lister.cpp:114
 msgid "Serial number"
 msgstr "일련 번호"
 
@@ -4366,7 +4366,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL"
 
-#: device/udisks2lister.cpp:112
+#: device/udisks2lister.cpp:117
 msgid "UUID"
 msgstr "UUID"
 

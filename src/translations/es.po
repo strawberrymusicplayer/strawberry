@@ -1500,7 +1500,7 @@ msgstr "Ajustes de texto personalizados"
 msgid "Custom..."
 msgstr "Personalizado…"
 
-#: device/udisks2lister.cpp:108
+#: device/udisks2lister.cpp:113
 msgid "D-Bus path"
 msgstr "Ruta de D-Bus"
 
@@ -2726,7 +2726,7 @@ msgstr "Estilo de la barra de ánimo"
 msgid "Mount point"
 msgstr "Punto de montaje"
 
-#: device/udisks2lister.cpp:110
+#: device/udisks2lister.cpp:115
 msgid "Mount points"
 msgstr "Puntos de montaje"
 
@@ -3011,7 +3011,7 @@ msgstr "Sobrescribir únicamente los &más pequeños"
 msgid "P&laylist"
 msgstr "Lista de re&producción"
 
-#: device/udisks2lister.cpp:111
+#: device/udisks2lister.cpp:116
 msgid "Partition label"
 msgstr "Etiqueta de partición"
 
@@ -3734,7 +3734,7 @@ msgstr "Seleccionar color barra pestañas:"
 msgid "Select..."
 msgstr "Seleccionar..."
 
-#: device/udisks2lister.cpp:109
+#: device/udisks2lister.cpp:114
 msgid "Serial number"
 msgstr "Número de serie"
 
@@ -4468,7 +4468,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL"
 
-#: device/udisks2lister.cpp:112
+#: device/udisks2lister.cpp:117
 msgid "UUID"
 msgstr "UUID"
 

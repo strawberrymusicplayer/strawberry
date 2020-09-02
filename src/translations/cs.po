@@ -1479,7 +1479,7 @@ msgstr "Vlastní nastavení textu"
 msgid "Custom..."
 msgstr "Vlastní..."
 
-#: device/udisks2lister.cpp:108
+#: device/udisks2lister.cpp:113
 msgid "D-Bus path"
 msgstr "Cesta k D-Bus"
 
@@ -2702,7 +2702,7 @@ msgstr "Styl Ukazatele nálady"
 msgid "Mount point"
 msgstr "Přípojný bod"
 
-#: device/udisks2lister.cpp:110
+#: device/udisks2lister.cpp:115
 msgid "Mount points"
 msgstr "Přípojné body"
 
@@ -2985,7 +2985,7 @@ msgstr "Přepsat pouze menší"
 msgid "P&laylist"
 msgstr "Seznam sklad&eb"
 
-#: device/udisks2lister.cpp:111
+#: device/udisks2lister.cpp:116
 msgid "Partition label"
 msgstr "Štítek oddílu"
 
@@ -3710,7 +3710,7 @@ msgstr "Vybrat barvu tabbar:"
 msgid "Select..."
 msgstr "Vybrat..."
 
-#: device/udisks2lister.cpp:109
+#: device/udisks2lister.cpp:114
 msgid "Serial number"
 msgstr "Sériové číslo"
 
@@ -4447,7 +4447,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "Adresa (URL)"
 
-#: device/udisks2lister.cpp:112
+#: device/udisks2lister.cpp:117
 msgid "UUID"
 msgstr "UUID"
 

@@ -1470,7 +1470,7 @@ msgstr "Egendefinert tekst innstilling"
 msgid "Custom..."
 msgstr "Egendefinert…"
 
-#: device/udisks2lister.cpp:108
+#: device/udisks2lister.cpp:113
 msgid "D-Bus path"
 msgstr "D-Bus sti"
 
@@ -2680,7 +2680,7 @@ msgstr "Moodbar stil"
 msgid "Mount point"
 msgstr "Monteringspunkt"
 
-#: device/udisks2lister.cpp:110
+#: device/udisks2lister.cpp:115
 msgid "Mount points"
 msgstr "Monteringspunkter"
 
@@ -2960,7 +2960,7 @@ msgstr "Bare overskriv mindre"
 msgid "P&laylist"
 msgstr "Spilleliste"
 
-#: device/udisks2lister.cpp:111
+#: device/udisks2lister.cpp:116
 msgid "Partition label"
 msgstr "Partisjonsnavn"
 
@@ -3676,7 +3676,7 @@ msgstr "Velg tabbar farge:"
 msgid "Select..."
 msgstr "Velg…"
 
-#: device/udisks2lister.cpp:109
+#: device/udisks2lister.cpp:114
 msgid "Serial number"
 msgstr "Serienummer"
 
@@ -4402,7 +4402,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL(er)"
 
-#: device/udisks2lister.cpp:112
+#: device/udisks2lister.cpp:117
 msgid "UUID"
 msgstr "UUID"
 

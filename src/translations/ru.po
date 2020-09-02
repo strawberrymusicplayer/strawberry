@@ -1495,7 +1495,7 @@ msgstr ""
 msgid "Custom..."
 msgstr "Пользовательский…"
 
-#: device/udisks2lister.cpp:108
+#: device/udisks2lister.cpp:113
 msgid "D-Bus path"
 msgstr "Путь D-Bus"
 
@@ -2709,7 +2709,7 @@ msgstr "Стиль Moodbar"
 msgid "Mount point"
 msgstr "Точка монтирования"
 
-#: device/udisks2lister.cpp:110
+#: device/udisks2lister.cpp:115
 msgid "Mount points"
 msgstr "Точки монтирования"
 
@@ -2992,7 +2992,7 @@ msgstr "Перезаписать только более маленькие"
 msgid "P&laylist"
 msgstr "&Плейлист"
 
-#: device/udisks2lister.cpp:111
+#: device/udisks2lister.cpp:116
 msgid "Partition label"
 msgstr "Метка раздела"
 
@@ -3709,7 +3709,7 @@ msgstr "Выберите цвет панели вкладок:"
 msgid "Select..."
 msgstr "Выбрать…"
 
-#: device/udisks2lister.cpp:109
+#: device/udisks2lister.cpp:114
 msgid "Serial number"
 msgstr "Серийный номер"
 
@@ -4437,7 +4437,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "Ссылки"
 
-#: device/udisks2lister.cpp:112
+#: device/udisks2lister.cpp:117
 msgid "UUID"
 msgstr "UUID"
 

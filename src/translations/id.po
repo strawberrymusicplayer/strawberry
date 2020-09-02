@@ -1475,7 +1475,7 @@ msgstr ""
 msgid "Custom..."
 msgstr "Ubahsuai..."
 
-#: device/udisks2lister.cpp:108
+#: device/udisks2lister.cpp:113
 msgid "D-Bus path"
 msgstr "Lokasi D-Bus"
 
@@ -2686,7 +2686,7 @@ msgstr "Gaya moodbar"
 msgid "Mount point"
 msgstr "Titik kait"
 
-#: device/udisks2lister.cpp:110
+#: device/udisks2lister.cpp:115
 msgid "Mount points"
 msgstr "Titik kait"
 
@@ -2970,7 +2970,7 @@ msgstr "Hanya ti&mpa yang lebih kecil"
 msgid "P&laylist"
 msgstr "D&aftar putar"
 
-#: device/udisks2lister.cpp:111
+#: device/udisks2lister.cpp:116
 msgid "Partition label"
 msgstr "Label partisi"
 
@@ -3685,7 +3685,7 @@ msgstr "Pilih warna tabbar:"
 msgid "Select..."
 msgstr "Pilih..."
 
-#: device/udisks2lister.cpp:109
+#: device/udisks2lister.cpp:114
 msgid "Serial number"
 msgstr "Nomor seri"
 
@@ -4414,7 +4414,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL"
 
-#: device/udisks2lister.cpp:112
+#: device/udisks2lister.cpp:117
 msgid "UUID"
 msgstr "UUID"
 
