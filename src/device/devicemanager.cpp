@@ -256,7 +256,7 @@ void DeviceManager::AddDeviceFromDB(DeviceInfo *info) {
     existing->icon_ = info->icon_;
     QModelIndex idx = ItemToIndex(existing);
     if (idx.isValid()) emit dataChanged(idx, idx);
-    delete info;
+    root_->Delete(info->row);
   }
   else {
     qLog(Info) << "Device added from database: " << info->friendly_name_;
