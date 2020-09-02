@@ -244,8 +244,6 @@ QStringList DeviceLister::GuessIconForPath(const QString &path) {
       QString colour = GetIpodColour(info->ipod_model);
       QString model = GetIpodModel(info->ipod_model);
 
-      itdb_device_free(device);
-
       if (!colour.isEmpty()) {
         QString colour_icon = "multimedia-player-ipod-%1-%2";
         ret << colour_icon.arg(model, colour);
@@ -261,6 +259,8 @@ QStringList DeviceLister::GuessIconForPath(const QString &path) {
       }
 
     }
+
+    itdb_device_free(device);
 
   }
 #else
