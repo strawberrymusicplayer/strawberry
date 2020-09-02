@@ -61,8 +61,13 @@ QStringList Udisks2Lister::DeviceUniqueIDs() {
 }
 
 QVariantList Udisks2Lister::DeviceIcons(const QString &id) {
-  Q_UNUSED(id);
-  return QVariantList();
+
+  QReadLocker locker(&device_data_lock_);
+  if (!device_data_.contains(id)) return QVariantList();
+  QString path = device_data_[id].mount_paths.at(0);
+
+  return QVariantList() << GuessIconForPath(path) << GuessIconForModel(DeviceManufacturer(id), DeviceModel(id));
+
 }
 
 QString Udisks2Lister::DeviceManufacturer(const QString &id) {
@@ -116,23 +121,21 @@ QVariantMap Udisks2Lister::DeviceHardwareInfo(const QString &id) {
 }
 
 QString Udisks2Lister::MakeFriendlyName(const QString &id) {
+
   QReadLocker locker(&device_data_lock_);
   if (!device_data_.contains(id)) return "";
   return device_data_[id].friendly_name;
+
 }
 
 QList<QUrl> Udisks2Lister::MakeDeviceUrls(const QString &id) {
+
   QReadLocker locker(&device_data_lock_);
   QList<QUrl> ret;
   if (!device_data_.contains(id)) return ret;
-  // Special case for Apple
-  if (id.contains("iPod")) {
-    ret << MakeUrlFromLocalPath(device_data_[id].mount_paths.at(0));
-  }
-  else {
-    ret << QUrl::fromLocalFile(device_data_[id].mount_paths.at(0));
-  }
+  ret << MakeUrlFromLocalPath(device_data_[id].mount_paths.at(0));
   return ret;
+
 }
 
 void Udisks2Lister::UnmountDevice(const QString &id) {
