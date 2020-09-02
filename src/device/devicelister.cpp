@@ -237,20 +237,31 @@ QStringList DeviceLister::GuessIconForPath(const QString &path) {
     itdb_device_set_mountpoint(device, path.toLocal8Bit().constData());
     const Itdb_IpodInfo* info = itdb_device_get_ipod_info(device);
 
-    QString colour = GetIpodColour(info->ipod_model);
-    QString model = GetIpodModel(info->ipod_model);
+    if (info->ipod_model == ITDB_IPOD_MODEL_INVALID) {
+      ret << "device-ipod";
+    }
+    else {
+      QString colour = GetIpodColour(info->ipod_model);
+      QString model = GetIpodModel(info->ipod_model);
 
-    itdb_device_free(device);
+      itdb_device_free(device);
 
-    if (!colour.isEmpty()) {
-      QString colour_icon = "multimedia-player-ipod-%1-%2";
-      ret << colour_icon.arg(model, colour);
+      if (!colour.isEmpty()) {
+        QString colour_icon = "multimedia-player-ipod-%1-%2";
+        ret << colour_icon.arg(model, colour);
+      }
+
+      if (!model.isEmpty()) {
+        QString model_icon = "multimedia-player-ipod-%1";
+        ret << model_icon.arg(model);
+      }
+
+      if (ret.isEmpty()) {
+        ret << "device-ipod";
+      }
+
     }
 
-    if (!model.isEmpty()) {
-      QString model_icon = "multimedia-player-ipod-%1";
-      ret << model_icon.arg(model);
-    }
   }
 #else
   Q_UNUSED(path)
