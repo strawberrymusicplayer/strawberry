@@ -192,7 +192,7 @@ msgstr ""
 "%1 zene van %2 különböző könyvtárból kiválasztva, biztos meg szeretné nyitni "
 "az összeset?"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:249
+#: playlist/playlistmanager.cpp:459 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 szám"
@@ -422,7 +422,7 @@ msgstr "0 px"
 msgid "1 day"
 msgstr "1 nap"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:249
+#: playlist/playlistmanager.cpp:459 queue/queue.cpp:254
 msgid "1 track"
 msgstr "1 szám"
 

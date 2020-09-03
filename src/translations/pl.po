@@ -201,7 +201,7 @@ msgstr ""
 "Zaznaczonych utworów: %1, w katalogach: %2. Czy na pewno chcesz je wszystkie "
 "otworzyć?"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:249
+#: playlist/playlistmanager.cpp:459 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 ścieżki(ek)"
@@ -430,7 +430,7 @@ msgstr "0 px"
 msgid "1 day"
 msgstr "1 dzień"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:249
+#: playlist/playlistmanager.cpp:459 queue/queue.cpp:254
 msgid "1 track"
 msgstr "1 ścieżka"
 

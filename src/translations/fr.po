@@ -216,7 +216,7 @@ msgstr ""
 "%1 morceaux dans %2 répertoires différents sélectionnés, êtes-vous sûr(e) de "
 "vouloir tous les ouvrir ?"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:249
+#: playlist/playlistmanager.cpp:459 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 pistes"
@@ -446,7 +446,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 jour"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:249
+#: playlist/playlistmanager.cpp:459 queue/queue.cpp:254
 msgid "1 track"
 msgstr "Une piste"
 
