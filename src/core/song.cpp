@@ -1545,5 +1545,7 @@ void Song::MergeUserSetData(const Song &other) {
   set_skipcount(other.skipcount());
   set_lastplayed(other.lastplayed());
   set_art_manual(other.art_manual());
+  set_compilation_on(other.compilation_on());
+  set_compilation_off(other.compilation_off());
 
 }
