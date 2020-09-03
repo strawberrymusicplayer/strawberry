@@ -95,6 +95,7 @@ class Queue : public QAbstractProxyModel {
   QList<QPersistentModelIndex> source_indexes_;
   const Playlist *playlist_;
   quint64 total_length_ns_;
+  QMetaObject::Connection signal_item_count_changed_;
 
 };
 

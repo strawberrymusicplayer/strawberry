@@ -46,7 +46,7 @@ const char *Queue::kRowsMimetype = "application/x-strawberry-queue-rows";
 
 Queue::Queue(Playlist *parent) : QAbstractProxyModel(parent), playlist_(parent), total_length_ns_(0) {
 
-  connect(this, SIGNAL(ItemCountChanged(int)), SLOT(UpdateTotalLength()));
+  signal_item_count_changed_ = connect(this, SIGNAL(ItemCountChanged(int)), SLOT(UpdateTotalLength()));
   connect(this, SIGNAL(TotalLengthChanged(quint64)), SLOT(UpdateSummaryText()));
 
   UpdateSummaryText();
@@ -113,6 +113,8 @@ void Queue::SourceDataChanged(const QModelIndex &top_left, const QModelIndex &bo
 
 void Queue::SourceLayoutChanged() {
 
+  disconnect(signal_item_count_changed_);
+
   for (int i = 0; i < source_indexes_.count(); ++i) {
     if (!source_indexes_[i].isValid()) {
       beginRemoveRows(QModelIndex(), i, i);
@@ -121,6 +123,9 @@ void Queue::SourceLayoutChanged() {
       --i;
     }
   }
+
+  signal_item_count_changed_ = connect(this, SIGNAL(ItemCountChanged(int)), SLOT(UpdateTotalLength()));
+
   emit ItemCountChanged(this->ItemCount());
 
 }
