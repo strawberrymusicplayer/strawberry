@@ -16,85 +16,61 @@
 # You should have received a copy of the GNU General Public License
 # along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 
-sizes="128x128 64x64 48x48 32x32 22x22"
+sizes="full 128 64 48 32 22"
 
-# 
-
-#for i in full/*
-#do
-#  source=$i
-#  file=`basename $i`
-
-#  id=`identify "$i"` || exit 1
-#  if [ "$id" = "" ] ; then
-#    echo "ERROR: Cannot determine format and geometry for image: \"$i\"."
-#    continue
-#  fi
-#  g=`echo $id | awk '{print $3}'` || exit 1
-#  if [ "$g" = "" ] ; then
-#    echo "ERROR: Cannot determine geometry for image: \"$i\"."
-#    continue
-#  fi
-
-  # Geometry can be 563x144+0+0 or 75x98
-  # we need to get rid of the plus (+) and the x characters:
-#  w=`echo $g | sed 's/[^0-9]/ /g' | awk '{print $1}'` || exit 1
-#  if [ "$w" = "" ] ; then
-#    echo "ERROR: Cannot determine width for image: \"$x\"."
-#    continue
-#  fi
-#  h=`echo $g | sed 's/[^0-9]/ /g' | awk '{print $2}'` || exit 1
-#  if [ "$h" = "" ] ; then
-#    echo "ERROR: Cannot determine height for image: \"$x\"."
-#    continue
-#  fi
-
-#  for x in $sizes
-#  do
-
-#    dest="$x/$file"
-#    if [ -f $dest ]; then
-#      continue
-#    fi
-
-#    x_w=$(echo $x | cut -d 'x' -f1)
-#    x_h=$(echo $x | cut -d 'x' -f2)
-
-#    if [ "$w" -lt "$x_w" ] || [ "$h" -lt "$x_h" ]; then
-#      continue
-#    fi
-
-    #echo "convert -verbose -resize $x $source $dest"
-    #convert -verbose -resize $x $source $dest
-
-#  done
-#done
-
-
-for i in $sizes
+for s in $sizes
 do
-  for x in $i/*
+  if [ "$s" = "full" ]; then
+    dir=$s
+  else
+    dir=${s}x${s}
+  fi
+  if ! [ -d "$dir" ]; then
+    echo "Missing $dir directory."
+    continue
+  fi
+  for f in ${dir}/*
   do
-    file=`basename $x`
-    
+    file=`basename $f`
+
     for y in $sizes
     do
-      if [ "$y" = "$i" ]; then
+
+      if [ "$s" = "$y" ]; then
         continue
       fi
-      if ! [ -f "$y/$file" ]; then
-        echo "Warning: $y/$file does not exist, but $x exists."
+
+     if [ "$y" = "full" ]; then
+        dir2=$y
+      else
+        dir2=${y}x${y}
+      fi
+
+      if [ "$dir2" = "full" ]; then
+        continue
+      fi
+
+      if ! [ "$s" = "full" ] && [ $y -gt $s ]; then
+        continue
+      fi
+
+      if ! [ -f "${dir2}/$file" ]; then
+        echo "Warning: ${dir2}/$file does not exist, but ${dir}/${file} exists."
       fi
     done
 
-    id=`identify "$x"` || exit 1
+    if [ "$dir" = "full" ]; then
+      continue
+    fi
+
+    id=`identify "$f"` || exit 1
     if [ "$id" = "" ] ; then
-      echo "ERROR: Cannot determine format and geometry for image: \"$x\"."
+      echo "ERROR: Cannot determine format and geometry for image: \"$f\"."
       continue
     fi
     g=`echo $id | awk '{print $3}'` || exit 1
     if [ "$g" = "" ] ; then
-      echo "ERROR: Cannot determine geometry for image: \"$x\"."
+      echo "ERROR: Cannot determine geometry for image: \"$f\"."
       continue
     fi
 
@@ -102,17 +78,17 @@ do
     # we need to get rid of the plus (+) and the x characters:
     w=`echo $g | sed 's/[^0-9]/ /g' | awk '{print $1}'` || exit 1
     if [ "$w" = "" ] ; then
-      echo "ERROR: Cannot determine width for image: \"$x\"."
+      echo "ERROR: Cannot determine width for image: \"$f\"."
       continue
     fi
     h=`echo $g | sed 's/[^0-9]/ /g' | awk '{print $2}'` || exit 1
     if [ "$h" = "" ] ; then
-      echo "ERROR: Cannot determine height for image: \"$x\"."
+      echo "ERROR: Cannot determine height for image: \"$f\"."
       continue
     fi
 
-    if ! [ "${h}x${w}" = "$i" ]; then
-      echo "Warning: $x is not $i, but ${h}x${w}!"
+    if ! [ "${h}x${w}" = "$dir" ]; then
+      echo "Warning: $f is not $dir, but ${h}x${w}!"
     fi
 
   done
