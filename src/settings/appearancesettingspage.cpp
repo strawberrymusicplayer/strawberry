@@ -123,6 +123,10 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
   connect(ui_->select_tabbar_color, SIGNAL(pressed()), SLOT(TabBarSelectBGColor()));
   connect(ui_->tabbar_system_color, SIGNAL(toggled(bool)), SLOT(TabBarSystemColor(bool)));
 
+#if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
+  ui_->checkbox_system_icons->hide();
+#endif
+
   Load();
 
 }
@@ -192,7 +196,10 @@ void AppearanceSettingsPage::Load() {
   ui_->checkbox_background_image_keep_aspect_ratio->setChecked(s.value(kBackgroundImageKeepAspectRatio, true).toBool());
   ui_->blur_slider->setValue(s.value(kBlurRadius, kDefaultBlurRadius).toInt());
   ui_->opacity_slider->setValue(s.value(kOpacityLevel, kDefaultOpacityLevel).toInt());
+
+#if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
   ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
+#endif
 
   ui_->checkbox_background_image_keep_aspect_ratio->setEnabled(ui_->checkbox_background_image_stretch->isChecked());
   ui_->checkbox_background_image_do_not_cut->setEnabled(ui_->checkbox_background_image_stretch->isChecked() && ui_->checkbox_background_image_keep_aspect_ratio->isChecked());
@@ -260,7 +267,11 @@ void AppearanceSettingsPage::Save() {
   s.setValue(kBlurRadius, ui_->blur_slider->value());
   s.setValue(kOpacityLevel, ui_->opacity_slider->value());
 
+#if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
+  s.setValue(kSystemThemeIcons, false);
+#else
   s.setValue(kSystemThemeIcons, ui_->checkbox_system_icons->isChecked());
+#endif
 
   s.setValue(kTabBarSystemColor, ui_->tabbar_system_color->isChecked());
   s.setValue(kTabBarGradient, ui_->tabbar_gradient->isChecked());
