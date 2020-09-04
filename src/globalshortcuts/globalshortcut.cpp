@@ -26,6 +26,10 @@
 #include <QHash>
 #include <QFlags>
 #include <QtDebug>
+#include <QKeySequence>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#  include <QKeyCombination>
+#endif
 
 #include "core/logging.h"
 
@@ -79,9 +83,15 @@ bool GlobalShortcut::setShortcut(const QKeySequence &shortcut) {
   if (shortcut.isEmpty()) return false;
   shortcut_ = shortcut;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  QKeyCombination key_combination(shortcut[0]);
+  qt_key_ = key_combination.key();
+  qt_mods_ = key_combination.keyboardModifiers();
+#else
   Qt::KeyboardModifiers all_mods = Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::MetaModifier;
   qt_key_ = Qt::Key((shortcut[0] ^ all_mods) & shortcut[0]);
   qt_mods_ = Qt::KeyboardModifiers(shortcut[0] & all_mods);
+#endif
 
   native_key_ = nativeKeycode(qt_key_);
   if (native_key_ == 0) return false;
