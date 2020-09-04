@@ -520,7 +520,7 @@ msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 
-#: core/mainwindow.cpp:2042
+#: core/mainwindow.cpp:2047
 msgid "Add file"
 msgstr "Tambah berkas"
 
@@ -536,7 +536,7 @@ msgstr "Tambah berkas ke transkoder"
 msgid "Add files to transcode"
 msgstr "Tambah berkas untuk ditranskode"
 
-#: core/mainwindow.cpp:2067 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2072 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Tambah folder"
 
@@ -635,7 +635,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Tambahkan ke album"
 
-#: core/mainwindow.cpp:1851
+#: core/mainwindow.cpp:1856
 msgid "Add to another playlist"
 msgstr "Tambahkan ke daftar putar lainnya"
 
@@ -1083,7 +1083,7 @@ msgstr "Ganti lagu yang diputar saat ini"
 msgid "Change the language"
 msgstr "Ubah bahasa"
 
-#: core/mainwindow.cpp:727
+#: core/mainwindow.cpp:729
 msgid "Check for updates..."
 msgstr "Periksa pembaruan..."
 
@@ -1120,7 +1120,7 @@ msgstr "Bersihkan"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:2129 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2134 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
@@ -1186,7 +1186,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Pengelompokan pustaka lanjutan"
 
-#: core/mainwindow.cpp:2620
+#: core/mainwindow.cpp:2625
 msgid "Collection rescan notice"
 msgstr "Pemberitahuan pemindaian ulang pustaka"
 
@@ -1237,7 +1237,7 @@ msgstr "Konfigurasi %1..."
 msgid "Configure buttons"
 msgstr ""
 
-#: core/mainwindow.cpp:614
+#: core/mainwindow.cpp:616
 msgid "Configure collection..."
 msgstr "Konfigurasi pustaka..."
 
@@ -1274,7 +1274,7 @@ msgstr "Konversi semua musik"
 msgid "Convert any music that the device can't play"
 msgstr "Konversi semua musik yang tidak dapat diputar oleh perangkat."
 
-#: core/mainwindow.cpp:671
+#: core/mainwindow.cpp:673
 msgid "Copy URL(s)..."
 msgstr ""
 
@@ -1282,12 +1282,12 @@ msgstr ""
 msgid "Copy album cover artwork"
 msgstr "Salin sampul album"
 
-#: core/mainwindow.cpp:675 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:677 widgets/fileviewlist.cpp:48
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Salin ke pustaka..."
 
-#: core/mainwindow.cpp:678 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:680 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:102
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
@@ -1520,7 +1520,7 @@ msgstr "Hapus berkas"
 msgid "Delete from device..."
 msgstr "Hapus dari perangkat..."
 
-#: core/mainwindow.cpp:680 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:682 collection/collectionview.cpp:354
 #: widgets/fileviewlist.cpp:51
 msgid "Delete from disk..."
 msgstr "Hapus dari diska..."
@@ -1537,11 +1537,11 @@ msgstr "Hapus berkas yang asli"
 msgid "Deleting files"
 msgstr "Menghapus berkas"
 
-#: core/mainwindow.cpp:1768
+#: core/mainwindow.cpp:1773
 msgid "Dequeue selected tracks"
 msgstr "Buang antrean trek terpilih"
 
-#: core/mainwindow.cpp:1767
+#: core/mainwindow.cpp:1772
 msgid "Dequeue track"
 msgstr "Buang antrean trek"
 
@@ -1665,7 +1665,7 @@ msgstr "Mengunduh metadata"
 msgid "Drag to reposition"
 msgstr "Seret untuk reposisi"
 
-#: core/mainwindow.cpp:1809
+#: core/mainwindow.cpp:1814
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Sunting tag \"%1\"..."
@@ -1814,7 +1814,7 @@ msgstr "Setara dengan --log-level *: 1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
-#: core/mainwindow.cpp:2373 core/mainwindow.cpp:2514
+#: core/mainwindow.cpp:2378 core/mainwindow.cpp:2519
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Kesalahan"
@@ -2695,7 +2695,7 @@ msgstr "Titik kait"
 msgid "Move down"
 msgstr "Pindah turun"
 
-#: core/mainwindow.cpp:676 widgets/fileviewlist.cpp:49
+#: core/mainwindow.cpp:678 widgets/fileviewlist.cpp:49
 msgid "Move to collection..."
 msgstr "Pindah ke pustaka..."
 
@@ -2704,7 +2704,7 @@ msgstr "Pindah ke pustaka..."
 msgid "Move up"
 msgstr "Pindah naik"
 
-#: core/mainwindow.cpp:2042 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2047 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musik"
 
@@ -2743,7 +2743,7 @@ msgstr "Jangan mulai memutar"
 msgid "New folder"
 msgstr "Folder baru"
 
-#: core/mainwindow.cpp:1867
+#: core/mainwindow.cpp:1872
 msgid "New playlist"
 msgstr "Daftar putar baru"
 
@@ -2799,7 +2799,7 @@ msgstr "Tidak ada lagu yang berputar"
 msgid "None"
 msgstr "Nihil"
 
-#: core/mainwindow.cpp:2373 core/mainwindow.cpp:2514
+#: core/mainwindow.cpp:2378 core/mainwindow.cpp:2519
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -2917,7 +2917,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr ""
 
-#: core/mainwindow.cpp:674 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:676 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:350
 msgid "Organize files..."
 msgstr ""
@@ -2985,7 +2985,7 @@ msgstr "Pesta"
 msgid "Password"
 msgstr "Sandi"
 
-#: core/mainwindow.cpp:1192 core/mainwindow.cpp:1663
+#: core/mainwindow.cpp:1197 core/mainwindow.cpp:1668
 #: core/qtsystemtrayicon.cpp:202
 msgid "Pause"
 msgstr "Jeda"
@@ -3013,8 +3013,8 @@ msgstr "Piksel"
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
-#: core/mainwindow.cpp:643 core/mainwindow.cpp:1145 core/mainwindow.cpp:1174
-#: core/mainwindow.cpp:1667 core/qtsystemtrayicon.cpp:189
+#: core/mainwindow.cpp:645 core/mainwindow.cpp:1150 core/mainwindow.cpp:1179
+#: core/mainwindow.cpp:1672 core/qtsystemtrayicon.cpp:189
 #: core/qtsystemtrayicon.cpp:214
 msgid "Play"
 msgstr "Putar"
@@ -3073,7 +3073,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Daftar putar selesai"
 
-#: core/mainwindow.cpp:2129
+#: core/mainwindow.cpp:2134
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3215,20 +3215,20 @@ msgstr "Meminta perangkat..."
 msgid "Queue"
 msgstr "Antrean"
 
-#: core/mainwindow.cpp:1770
+#: core/mainwindow.cpp:1775
 msgid "Queue selected tracks"
 msgstr "Antre trek terpilih"
 
-#: core/mainwindow.cpp:649 core/mainwindow.cpp:1774
+#: core/mainwindow.cpp:651 core/mainwindow.cpp:1779
 msgid "Queue selected tracks to play next"
 msgstr "Antre trek terpilih untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1776 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1781 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Antre untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1769 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1774 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
@@ -3413,7 +3413,7 @@ msgstr "Balasan dari Tidal tidak memiliki artikel yang diminta."
 msgid "Rescan song(s)"
 msgstr "Pindai ulang lagu"
 
-#: core/mainwindow.cpp:665
+#: core/mainwindow.cpp:667
 msgid "Rescan song(s)..."
 msgstr ""
 
@@ -3665,7 +3665,7 @@ msgstr "Menjangkau menggunakan pintasan keyboard atau roda mouse"
 msgid "Select background color:"
 msgstr "Pilih warna latar belakang:"
 
-#: settings/appearancesettingspage.cpp:353
+#: settings/appearancesettingspage.cpp:364
 msgid "Select background image"
 msgstr "Pilih gambar latar belakang"
 
@@ -3697,7 +3697,7 @@ msgstr "URL server"
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 
-#: core/mainwindow.cpp:1808
+#: core/mainwindow.cpp:1813
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Tetapkan %1 ke \"%2\"..."
@@ -3784,7 +3784,7 @@ msgstr "Tampilkan sampul album di pustaka"
 msgid "Show albums by artist"
 msgstr "Tampilkan album berdasarkan artis"
 
-#: core/mainwindow.cpp:603
+#: core/mainwindow.cpp:605
 msgid "Show all songs"
 msgstr "Tampilkan semua lagu"
 
@@ -3804,7 +3804,7 @@ msgstr "Tampilkan mesin dan perangkat"
 msgid "Show fullsize..."
 msgstr "Tampilkan ukuran penuh..."
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:674
 msgid "Show in collection..."
 msgstr "Tampilkan di pustaka..."
 
@@ -3812,7 +3812,7 @@ msgstr "Tampilkan di pustaka..."
 msgid "Show in file browser"
 msgstr "Tampilkan di peramban berkas"
 
-#: core/mainwindow.cpp:673 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:675 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:359 widgets/fileviewlist.cpp:55
 msgid "Show in file browser..."
 msgstr "Tampilkan di peramban berkas..."
@@ -3829,11 +3829,11 @@ msgstr "Tampilkan tombol suka"
 msgid "Show moodbar"
 msgstr "Tampilkan moodbar"
 
-#: core/mainwindow.cpp:604
+#: core/mainwindow.cpp:606
 msgid "Show only duplicates"
 msgstr "Tampilkan hanya duplikat"
 
-#: core/mainwindow.cpp:605
+#: core/mainwindow.cpp:607
 msgid "Show only untagged"
 msgstr "Tampilkan hanya tidak bertag"
 
@@ -3922,11 +3922,11 @@ msgstr "Lewati hitungan"
 msgid "Skip forwards in playlist"
 msgstr "Lewati maju di dalam daftar putar"
 
-#: core/mainwindow.cpp:1781
+#: core/mainwindow.cpp:1786
 msgid "Skip selected tracks"
 msgstr "Lewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1780
+#: core/mainwindow.cpp:1785
 msgid "Skip track"
 msgstr "Lewati trek"
 
@@ -4009,7 +4009,7 @@ msgstr "Berhenti setelah masing-masing trek"
 msgid "Stop after every track"
 msgstr "Berhenti setelah setiap trek"
 
-#: core/mainwindow.cpp:645 ../build/src/ui_mainwindow.h:627
+#: core/mainwindow.cpp:647 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "Berhenti setelah trek ini"
 
@@ -4211,7 +4211,7 @@ msgstr "Situs yang Anda minta tidak ada!"
 msgid "The site you requested is not an image!"
 msgstr "Situs yang Anda minta bukan sebuah gambar!"
 
-#: core/mainwindow.cpp:2615
+#: core/mainwindow.cpp:2620
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4343,7 +4343,7 @@ msgstr "Judul"
 msgid "Today"
 msgstr "Hari Ini"
 
-#: core/mainwindow.cpp:646 core/mainwindow.cpp:1771
+#: core/mainwindow.cpp:648 core/mainwindow.cpp:1776
 msgid "Toggle queue status"
 msgstr "Alihkan status antrean"
 
@@ -4351,7 +4351,7 @@ msgstr "Alihkan status antrean"
 msgid "Toggle scrobbling"
 msgstr "Alihkan scrobbling"
 
-#: core/mainwindow.cpp:652 core/mainwindow.cpp:1782
+#: core/mainwindow.cpp:654 core/mainwindow.cpp:1787
 msgid "Toggle skip status"
 msgstr "Alihkan status melewati"
 
@@ -4441,11 +4441,11 @@ msgstr "Kesalahan tak terduga"
 msgid "Unset cover"
 msgstr "Tak set sampul"
 
-#: core/mainwindow.cpp:1779
+#: core/mainwindow.cpp:1784
 msgid "Unskip selected tracks"
 msgstr "Taklewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1778
+#: core/mainwindow.cpp:1783
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
@@ -4674,7 +4674,7 @@ msgstr ""
 "Apakah Anda ingin memindahkan lagu lainnya di dalam album ini ke Artis "
 "Beragam?"
 
-#: core/mainwindow.cpp:2619
+#: core/mainwindow.cpp:2624
 msgid "Would you like to run a full rescan right now?"
 msgstr "Apakah Anda ingin menjalankan pemindaian ulang menyeluruh sekarang?"
 

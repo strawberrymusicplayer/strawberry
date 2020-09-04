@@ -524,7 +524,7 @@ msgstr "Minden szám hozzáadása a mappából és almappáiból"
 msgid "Add directory..."
 msgstr "Mappa hozzáadása"
 
-#: core/mainwindow.cpp:2042
+#: core/mainwindow.cpp:2047
 msgid "Add file"
 msgstr "Fájl hozzáadása"
 
@@ -540,7 +540,7 @@ msgstr "Fájl(ok) hozzáadása az átkódoláshoz"
 msgid "Add files to transcode"
 msgstr "Fájlok felvétele átkódoláshoz"
 
-#: core/mainwindow.cpp:2067 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2072 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Mappa hozzáadása"
 
@@ -640,7 +640,7 @@ msgstr "Stream hozzáadása..."
 msgid "Add to albums"
 msgstr "Hozzáadás albumokhoz"
 
-#: core/mainwindow.cpp:1851
+#: core/mainwindow.cpp:1856
 msgid "Add to another playlist"
 msgstr "Hozzáadás másik lejátszólistához"
 
@@ -1088,7 +1088,7 @@ msgstr "Váltás a legutóbb játszott dalra"
 msgid "Change the language"
 msgstr "Nyelv váltása"
 
-#: core/mainwindow.cpp:727
+#: core/mainwindow.cpp:729
 msgid "Check for updates..."
 msgstr "Frissítés keresése..."
 
@@ -1129,7 +1129,7 @@ msgstr "Ürítés"
 msgid "Clear Disk Cache"
 msgstr "Lemezgyorsítótár törlése"
 
-#: core/mainwindow.cpp:2129 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2134 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Lejátszólista törlése"
 
@@ -1195,7 +1195,7 @@ msgstr "Gyűjtemény szűrő"
 msgid "Collection advanced grouping"
 msgstr "Gyűjtemény egyedi csoportosítása"
 
-#: core/mainwindow.cpp:2620
+#: core/mainwindow.cpp:2625
 msgid "Collection rescan notice"
 msgstr "Gyűjtemény újraolvasási figyelmeztetés"
 
@@ -1248,7 +1248,7 @@ msgstr "%1 beállítása..."
 msgid "Configure buttons"
 msgstr "Gombok beállítása"
 
-#: core/mainwindow.cpp:614
+#: core/mainwindow.cpp:616
 msgid "Configure collection..."
 msgstr "Gyűjtemény beállítása..."
 
@@ -1285,7 +1285,7 @@ msgstr "Összes zene konvertálása"
 msgid "Convert any music that the device can't play"
 msgstr "Az eszköz által nem támogatott zenék konvertálása"
 
-#: core/mainwindow.cpp:671
+#: core/mainwindow.cpp:673
 msgid "Copy URL(s)..."
 msgstr "URL(-ek) másolása"
 
@@ -1293,12 +1293,12 @@ msgstr "URL(-ek) másolása"
 msgid "Copy album cover artwork"
 msgstr "Albumborító másolása"
 
-#: core/mainwindow.cpp:675 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:677 widgets/fileviewlist.cpp:48
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Másolás a gyűjteménybe..."
 
-#: core/mainwindow.cpp:678 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:680 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:102
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
@@ -1531,7 +1531,7 @@ msgstr "Fájlok törlése"
 msgid "Delete from device..."
 msgstr "Törlés az eszközről..."
 
-#: core/mainwindow.cpp:680 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:682 collection/collectionview.cpp:354
 #: widgets/fileviewlist.cpp:51
 msgid "Delete from disk..."
 msgstr "Törlés a lemezről..."
@@ -1548,11 +1548,11 @@ msgstr "Az eredeti fájlok törlése"
 msgid "Deleting files"
 msgstr "Fájlok törlése"
 
-#: core/mainwindow.cpp:1768
+#: core/mainwindow.cpp:1773
 msgid "Dequeue selected tracks"
 msgstr "Kijelölt számok eltávolítása a lejátszási sorból"
 
-#: core/mainwindow.cpp:1767
+#: core/mainwindow.cpp:1772
 msgid "Dequeue track"
 msgstr "Szám eltávolítása a lejátszási sorból"
 
@@ -1676,7 +1676,7 @@ msgstr "Metaadatok letöltése"
 msgid "Drag to reposition"
 msgstr "Húzza el az áthelyezéshez"
 
-#: core/mainwindow.cpp:1809
+#: core/mainwindow.cpp:1814
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "\"%1\" címke szerkesztése..."
@@ -1826,7 +1826,7 @@ msgstr "Megegyezik a --log-levels *:1 kapcsolóval"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Megegyezik a --log-levels *:3 kapcsolóval"
 
-#: core/mainwindow.cpp:2373 core/mainwindow.cpp:2514
+#: core/mainwindow.cpp:2378 core/mainwindow.cpp:2519
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Hiba"
@@ -2712,7 +2712,7 @@ msgstr "Csatolási pontok"
 msgid "Move down"
 msgstr "Mozgatás lefelé"
 
-#: core/mainwindow.cpp:676 widgets/fileviewlist.cpp:49
+#: core/mainwindow.cpp:678 widgets/fileviewlist.cpp:49
 msgid "Move to collection..."
 msgstr "Áthelyezés a gyűjteménybe..."
 
@@ -2721,7 +2721,7 @@ msgstr "Áthelyezés a gyűjteménybe..."
 msgid "Move up"
 msgstr "Mozgatás felfelé"
 
-#: core/mainwindow.cpp:2042 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2047 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Zene"
 
@@ -2760,7 +2760,7 @@ msgstr "Soha ne indítsa el a lejátszást"
 msgid "New folder"
 msgstr "Új mappa"
 
-#: core/mainwindow.cpp:1867
+#: core/mainwindow.cpp:1872
 msgid "New playlist"
 msgstr "Új lejátszólista"
 
@@ -2816,7 +2816,7 @@ msgstr "Nincs lejátszott dal"
 msgid "None"
 msgstr "Egyik sem"
 
-#: core/mainwindow.cpp:2373 core/mainwindow.cpp:2514
+#: core/mainwindow.cpp:2378 core/mainwindow.cpp:2519
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Egy kiválasztott dal sem alkalmas az eszközre való másoláshoz"
@@ -2934,7 +2934,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "Fájlok rendezése"
 
-#: core/mainwindow.cpp:674 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:676 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:350
 msgid "Organize files..."
 msgstr "Fájlok rendezése..."
@@ -3002,7 +3002,7 @@ msgstr "Party"
 msgid "Password"
 msgstr "Jelszó"
 
-#: core/mainwindow.cpp:1192 core/mainwindow.cpp:1663
+#: core/mainwindow.cpp:1197 core/mainwindow.cpp:1668
 #: core/qtsystemtrayicon.cpp:202
 msgid "Pause"
 msgstr "Szünet"
@@ -3030,8 +3030,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Egyszerű oldalsáv"
 
-#: core/mainwindow.cpp:643 core/mainwindow.cpp:1145 core/mainwindow.cpp:1174
-#: core/mainwindow.cpp:1667 core/qtsystemtrayicon.cpp:189
+#: core/mainwindow.cpp:645 core/mainwindow.cpp:1150 core/mainwindow.cpp:1179
+#: core/mainwindow.cpp:1672 core/qtsystemtrayicon.cpp:189
 #: core/qtsystemtrayicon.cpp:214
 msgid "Play"
 msgstr "Lejátszás"
@@ -3090,7 +3090,7 @@ msgstr "Lejátszólista gombok"
 msgid "Playlist finished"
 msgstr "A lejátszólista befejezve"
 
-#: core/mainwindow.cpp:2129
+#: core/mainwindow.cpp:2134
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3240,20 +3240,20 @@ msgstr "Eszköz lekérdezése..."
 msgid "Queue"
 msgstr "Lejátszási sor"
 
-#: core/mainwindow.cpp:1770
+#: core/mainwindow.cpp:1775
 msgid "Queue selected tracks"
 msgstr "Kijelölt számok hozzáadása a lejátszási sorhoz"
 
-#: core/mainwindow.cpp:649 core/mainwindow.cpp:1774
+#: core/mainwindow.cpp:651 core/mainwindow.cpp:1779
 msgid "Queue selected tracks to play next"
 msgstr "Kijelölt számok lejátszása következőre"
 
-#: core/mainwindow.cpp:1776 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1781 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Lejátszás következőre"
 
-#: core/mainwindow.cpp:1769 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1774 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
@@ -3443,7 +3443,7 @@ msgstr "A Tidal válaszából hiányoznak a lekérdezett elemek."
 msgid "Rescan song(s)"
 msgstr "Zenék újraellenőrzése"
 
-#: core/mainwindow.cpp:665
+#: core/mainwindow.cpp:667
 msgid "Rescan song(s)..."
 msgstr "Dalok újraellenőrzése..."
 
@@ -3694,7 +3694,7 @@ msgstr "Léptetés billentyűparanccsal, vagy egérgörgővel"
 msgid "Select background color:"
 msgstr "Háttérszín kiválasztása:"
 
-#: settings/appearancesettingspage.cpp:353
+#: settings/appearancesettingspage.cpp:364
 msgid "Select background image"
 msgstr "Háttérkép kiválasztása"
 
@@ -3726,7 +3726,7 @@ msgstr "Szerver URL"
 msgid "Server URL is invalid."
 msgstr "A szerver URL-je érvénytelen."
 
-#: core/mainwindow.cpp:1808
+#: core/mainwindow.cpp:1813
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 beállítása erre: \"%2\"..."
@@ -3813,7 +3813,7 @@ msgstr "Albumborító megjelenítése a gyűjteményben"
 msgid "Show albums by artist"
 msgstr "Albumok megjelenítése az előadótól"
 
-#: core/mainwindow.cpp:603
+#: core/mainwindow.cpp:605
 msgid "Show all songs"
 msgstr "Összes dal megjelenítése"
 
@@ -3833,7 +3833,7 @@ msgstr "Motor és eszköz megjelenítése"
 msgid "Show fullsize..."
 msgstr "Megjelenítés teljes méretben..."
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:674
 msgid "Show in collection..."
 msgstr "Megjelenítés a gyűjteményben..."
 
@@ -3841,7 +3841,7 @@ msgstr "Megjelenítés a gyűjteményben..."
 msgid "Show in file browser"
 msgstr "Megnyitás a fájlböngészőben"
 
-#: core/mainwindow.cpp:673 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:675 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:359 widgets/fileviewlist.cpp:55
 msgid "Show in file browser..."
 msgstr "Megnyitás a fájlböngészőben..."
@@ -3858,11 +3858,11 @@ msgstr "Kedvenc gomb megjelenítése"
 msgid "Show moodbar"
 msgstr "Hangulatsáv megjelenítése"
 
-#: core/mainwindow.cpp:604
+#: core/mainwindow.cpp:606
 msgid "Show only duplicates"
 msgstr "Csak a másolatok megjelenítése"
 
-#: core/mainwindow.cpp:605
+#: core/mainwindow.cpp:607
 msgid "Show only untagged"
 msgstr "Csak a címke nélküliek megjelenítése"
 
@@ -3951,11 +3951,11 @@ msgstr "Kihagyások száma"
 msgid "Skip forwards in playlist"
 msgstr "Előreléptetés a lejátszólistában"
 
-#: core/mainwindow.cpp:1781
+#: core/mainwindow.cpp:1786
 msgid "Skip selected tracks"
 msgstr "Kiválasztott számok kihagyása"
 
-#: core/mainwindow.cpp:1780
+#: core/mainwindow.cpp:1785
 msgid "Skip track"
 msgstr "Szám kihagyása"
 
@@ -4038,7 +4038,7 @@ msgstr "Leállítás a minden egyes szám után"
 msgid "Stop after every track"
 msgstr "Leállítás minden szám után"
 
-#: core/mainwindow.cpp:645 ../build/src/ui_mainwindow.h:627
+#: core/mainwindow.cpp:647 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "Leállítás az aktuális szám után"
 
@@ -4242,7 +4242,7 @@ msgstr "A kért oldal nem létezik!"
 msgid "The site you requested is not an image!"
 msgstr "A kért oldal nem egy kép!"
 
-#: core/mainwindow.cpp:2615
+#: core/mainwindow.cpp:2620
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4375,7 +4375,7 @@ msgstr "Cím"
 msgid "Today"
 msgstr "Ma"
 
-#: core/mainwindow.cpp:646 core/mainwindow.cpp:1771
+#: core/mainwindow.cpp:648 core/mainwindow.cpp:1776
 msgid "Toggle queue status"
 msgstr "Lejátszási sor"
 
@@ -4383,7 +4383,7 @@ msgstr "Lejátszási sor"
 msgid "Toggle scrobbling"
 msgstr "Scrobble funkció váltása"
 
-#: core/mainwindow.cpp:652 core/mainwindow.cpp:1782
+#: core/mainwindow.cpp:654 core/mainwindow.cpp:1787
 #, fuzzy
 msgid "Toggle skip status"
 msgstr "Állapot átugrása"
@@ -4474,11 +4474,11 @@ msgstr "Ismeretlen hiba"
 msgid "Unset cover"
 msgstr "Borító törlése"
 
-#: core/mainwindow.cpp:1779
+#: core/mainwindow.cpp:1784
 msgid "Unskip selected tracks"
 msgstr "A kiválasztott számok lejátszása"
 
-#: core/mainwindow.cpp:1778
+#: core/mainwindow.cpp:1783
 msgid "Unskip track"
 msgstr "Szám lejátszása"
 
@@ -4705,7 +4705,7 @@ msgid ""
 msgstr ""
 "Szeretné a többi dalt ebből az albumból áthelyezni a Vegyes előadók közé is?"
 
-#: core/mainwindow.cpp:2619
+#: core/mainwindow.cpp:2624
 msgid "Would you like to run a full rescan right now?"
 msgstr "Akar futtatni egy teljes újraolvasást most?"
 
