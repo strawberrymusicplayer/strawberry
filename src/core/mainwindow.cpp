@@ -415,6 +415,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
 
   ui_->action_cover_manager->setIcon(IconLoader::Load("document-download"));
   ui_->action_edit_track->setIcon(IconLoader::Load("edit-rename"));
+  ui_->action_edit_value->setIcon(IconLoader::Load("edit-rename"));
+  ui_->action_selection_set_value->setIcon(IconLoader::Load("edit-rename"));
   ui_->action_equalizer->setIcon(IconLoader::Load("equalizer"));
   ui_->action_transcoder->setIcon(IconLoader::Load("tools-wizard"));
   ui_->action_update_collection->setIcon(IconLoader::Load("view-refresh"));
