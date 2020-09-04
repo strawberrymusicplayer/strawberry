@@ -21,7 +21,7 @@
 #include <functional>
 #include <memory>
 
-// Helper for lazy initialisation of objects.
+// Helper for lazy initialization of objects.
 // Usage:
 //    Lazy<Foo> my_lazy_object([]() { return new Foo; });
 
@@ -48,19 +48,18 @@ class Lazy {
   // Returns true if the object is not yet initialised.
   explicit operator bool() const { return ptr_; }
 
-  // Deletes the underlying object and will re-run the initialisation function
-  // if the object is requested again.
-  void reset() { ptr_.reset(nullptr); }
+  // Deletes the underlying object and will re-run the initialisation function if the object is requested again.
+  void reset() { ptr_.reset(); }
 
  private:
   void CheckInitialised() const {
     if (!ptr_) {
-      ptr_.reset(init_());
+      ptr_.reset(init_(), [](T*obj) { obj->deleteLater(); });
     }
   }
 
   const std::function<T*()> init_;
-  mutable std::unique_ptr<T> ptr_;
+  mutable std::shared_ptr<T> ptr_;
 };
 
 #endif  // LAZY_H

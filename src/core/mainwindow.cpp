@@ -1087,6 +1087,9 @@ void MainWindow::SaveSettings() {
 
 void MainWindow::Exit() {
 
+  // Make sure Settings dialog is destroyed first.
+  settings_dialog_.reset();
+
   ++exit_count_;
 
   SaveSettings();
