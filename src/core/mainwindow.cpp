@@ -920,7 +920,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
 
   QShortcut *close_window_shortcut = new QShortcut(this);
-  close_window_shortcut->setKey(Qt::CTRL + Qt::Key_W);
+  close_window_shortcut->setKey(Qt::CTRL | Qt::Key_W);
   connect(close_window_shortcut, SIGNAL(activated()), SLOT(SetHiddenInTray()));
 
   CheckFullRescanRevisions();
