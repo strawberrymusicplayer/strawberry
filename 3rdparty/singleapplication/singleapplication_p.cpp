@@ -103,7 +103,7 @@ void SingleApplicationPrivate::genBlockServerName() {
     appData.addData(SingleApplication::app_t::applicationVersion().toUtf8());
   }
 
-  if (! (options & SingleApplication::Mode::ExcludeAppPath)) {
+  if (!(options & SingleApplication::Mode::ExcludeAppPath)) {
 #ifdef Q_OS_WIN
     appData.addData(SingleApplication::app_t::applicationFilePath().toLower().toUtf8());
 #else
@@ -174,7 +174,7 @@ void SingleApplicationPrivate::startPrimary() {
   QObject::connect(server, &QLocalServer::newConnection, this, &SingleApplicationPrivate::slotConnectionEstablished);
 
   // Reset the number of connections
-  InstancesInfo* inst = static_cast <InstancesInfo*>(memory->data());
+  InstancesInfo* inst = static_cast<InstancesInfo*>(memory->data());
 
   inst->primary = true;
   inst->primaryPid = q->applicationPid();
@@ -219,7 +219,11 @@ void SingleApplicationPrivate::connectToPrimary(const int msecs, const Connectio
     writeStream << blockServerName.toLatin1();
     writeStream << static_cast<quint8>(connectionType);
     writeStream << instanceNumber;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    quint16 checksum = qChecksum(initMsg);
+#else
     quint16 checksum = qChecksum(initMsg.constData(), static_cast<quint32>(initMsg.length()));
+#endif
     writeStream << checksum;
 
     // The header indicates the message length that follows
@@ -228,7 +232,7 @@ void SingleApplicationPrivate::connectToPrimary(const int msecs, const Connectio
 
     headerStream.setVersion(QDataStream::Qt_5_6);
 
-    headerStream << static_cast <quint64>(initMsg.length());
+    headerStream << static_cast<quint64>(initMsg.length());
 
     socket->write(header);
     socket->write(initMsg);
@@ -240,7 +244,13 @@ void SingleApplicationPrivate::connectToPrimary(const int msecs, const Connectio
 
 quint16 SingleApplicationPrivate::blockChecksum() {
 
-  return qChecksum(static_cast <const char *>(memory->data()), offsetof(InstancesInfo, checksum));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  quint16 checksum = qChecksum(QByteArray(static_cast<const char*>(memory->constData()), offsetof(InstancesInfo, checksum)));
+#else
+  quint16 checksum = qChecksum(static_cast<const char*>(memory->constData()), offsetof(InstancesInfo, checksum));
+#endif
+
+  return checksum;
 
 }
 
@@ -354,7 +364,7 @@ void SingleApplicationPrivate::readInitMessageBody(QLocalSocket *sock) {
   ConnectionType connectionType = InvalidConnection;
   quint8 connTypeVal = InvalidConnection;
   readStream >> connTypeVal;
-  connectionType = static_cast <ConnectionType>(connTypeVal);
+  connectionType = static_cast<ConnectionType>(connTypeVal);
 
   // instance id
   quint32 instanceId = 0;
@@ -364,7 +374,11 @@ void SingleApplicationPrivate::readInitMessageBody(QLocalSocket *sock) {
   quint16 msgChecksum = 0;
   readStream >> msgChecksum;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  const quint16 actualChecksum = qChecksum(msgBytes);
+#else
   const quint16 actualChecksum = qChecksum(msgBytes.constData(), static_cast<quint32>(msgBytes.length() - sizeof(quint16)));
+#endif
 
   bool isValid = readStream.status() == QDataStream::Ok && QLatin1String(latin1Name) == blockServerName && msgChecksum == actualChecksum;
 
