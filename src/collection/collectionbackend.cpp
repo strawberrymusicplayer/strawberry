@@ -1000,10 +1000,8 @@ void CollectionBackend::UpdateCompilations(QSqlQuery &find_song, QSqlQuery &upda
 
 CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist, const bool compilation_required, const QueryOptions &opt) {
 
-  AlbumList ret;
-
   CollectionQuery query(opt);
-  query.SetColumnSpec("album, artist, albumartist, compilation, compilation_detected, art_automatic, art_manual, url");
+  query.SetColumnSpec("url, artist, albumartist, album, compilation_effective, art_automatic, art_manual");
   query.SetOrderBy("album");
 
   if (compilation_required) {
@@ -1016,20 +1014,24 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
 
   {
     QMutexLocker l(db_->Mutex());
-    if (!ExecQuery(&query)) return ret;
+    if (!ExecQuery(&query)) return AlbumList();
   }
 
-  QString last_album;
-  QString last_artist;
-  QString last_album_artist;
+  QMap<QString, Album> albums;
   while (query.Next()) {
-    bool is_compilation = query.Value(3).toBool() | query.Value(4).toBool();
+    bool is_compilation = query.Value(4).toBool();
 
     Album info;
-    info.artist = is_compilation ? QString() : query.Value(1).toString();
-    info.album_artist = is_compilation ? QString() : query.Value(2).toString();
-    info.album_name = query.Value(0).toString();
-    info.first_url = QUrl::fromEncoded(query.Value(7).toByteArray());
+    QString directory;
+    info.first_url = QUrl::fromEncoded(query.Value(0).toByteArray());
+    if (is_compilation) {
+      directory = info.first_url.toString(QUrl::PreferLocalFile|QUrl::RemoveFilename);
+    }
+    else {
+      info.artist = query.Value(1).toString();
+      info.album_artist = query.Value(2).toString();
+    }
+    info.album_name = query.Value(3).toString();
 
     QString art_automatic = query.Value(5).toString();
     if (art_automatic.contains(QRegularExpression("..+:.*"))) {
@@ -1047,17 +1049,27 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
       info.art_manual = QUrl::fromLocalFile(art_manual);
     }
 
-    if ((info.artist == last_artist || info.album_artist == last_album_artist) && info.album_name == last_album)
-      continue;
+    QString effective_albumartist = info.album_artist.isEmpty() ? info.artist : info.album_artist;
+    QString key;
+    if (!effective_albumartist.isEmpty()) {
+      key.append(effective_albumartist);
+    }
+    if (!directory.isEmpty()) {
+      if (!key.isEmpty()) key.append("-");
+      key.append(directory);
+    }
+    if (!info.album_name.isEmpty()) {
+      if (!key.isEmpty()) key.append("-");
+      key.append(info.album_name);
+    }
 
-    ret << info;
+    if (key.isEmpty()) continue;
 
-    last_album = info.album_name;
-    last_artist = info.artist;
-    last_album_artist = info.album_artist;
+    if (!albums.contains(key)) albums.insert(key, info);
+
   }
 
-  return ret;
+  return albums.values();
 
 }
 
