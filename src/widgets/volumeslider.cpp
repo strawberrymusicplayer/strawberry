@@ -342,7 +342,11 @@ void VolumeSlider::paintEvent(QPaintEvent*) {
 
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void VolumeSlider::enterEvent(QEnterEvent*) {
+#else
 void VolumeSlider::enterEvent(QEvent*) {
+#endif
 
   m_animEnter = true;
   m_animCount = 0;

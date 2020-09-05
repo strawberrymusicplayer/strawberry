@@ -439,12 +439,16 @@ void OSDPretty::Reposition() {
 #endif
 }
 
-void OSDPretty::enterEvent(QEvent *) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void OSDPretty::enterEvent(QEnterEvent*) {
+#else
+void OSDPretty::enterEvent(QEvent*) {
+#endif
   if (mode_ == Mode_Popup)
     setWindowOpacity(0.25);
 }
 
-void OSDPretty::leaveEvent(QEvent *) {
+void OSDPretty::leaveEvent(QEvent*) {
   setWindowOpacity(1.0);
 }
 

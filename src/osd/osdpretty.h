@@ -44,6 +44,7 @@ class QEvent;
 class QMouseEvent;
 class QPaintEvent;
 class QShowEvent;
+class QEnterEvent;
 
 class Ui_OSDPretty;
 
@@ -115,8 +116,12 @@ class OSDPretty : public QWidget {
 
  protected:
   void paintEvent(QPaintEvent *e) override;
-  void enterEvent(QEvent *e) override;
-  void leaveEvent(QEvent *e) override;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  void enterEvent(QEnterEvent*) override;
+#else
+  void enterEvent(QEvent*) override;
+#endif
+  void leaveEvent(QEvent*) override;
   void mousePressEvent(QMouseEvent *e) override;
   void showEvent(QShowEvent *e) override;
   void mouseMoveEvent(QMouseEvent *e) override;

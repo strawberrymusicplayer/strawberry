@@ -30,6 +30,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QWheelEvent>
+#  include <QEnterEvent>
 
 #include "core/timeconstants.h"
 #include "core/utilities.h"
@@ -120,7 +121,11 @@ void TrackSliderSlider::wheelEvent(QWheelEvent *e) {
 
 }
 
-void TrackSliderSlider::enterEvent(QEvent* e) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void TrackSliderSlider::enterEvent(QEnterEvent *e) {
+#else
+void TrackSliderSlider::enterEvent(QEvent *e) {
+#endif
   QSlider::enterEvent(e);
 #ifndef Q_OS_MACOS
   if (isEnabled()) {
@@ -129,7 +134,7 @@ void TrackSliderSlider::enterEvent(QEvent* e) {
 #endif
 }
 
-void TrackSliderSlider::leaveEvent(QEvent* e) {
+void TrackSliderSlider::leaveEvent(QEvent *e) {
   QSlider::leaveEvent(e);
 #ifndef Q_OS_MACOS
   if (popup_->isVisible()) {
@@ -138,7 +143,7 @@ void TrackSliderSlider::leaveEvent(QEvent* e) {
 #endif
 }
 
-void TrackSliderSlider::keyPressEvent(QKeyEvent* event) {
+void TrackSliderSlider::keyPressEvent(QKeyEvent *event) {
   if (event->key() == Qt::Key_Left || event->key() == Qt::Key_Down) {
     emit SeekBackward();
     event->accept();

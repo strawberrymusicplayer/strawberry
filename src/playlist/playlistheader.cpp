@@ -31,6 +31,7 @@
 #include <QActionGroup>
 #include <QEvent>
 #include <QContextMenuEvent>
+#include <QEnterEvent>
 
 #include "playlistheader.h"
 #include "playlistview.h"
@@ -138,7 +139,11 @@ void PlaylistHeader::ToggleVisible(int section) {
   emit SectionVisibilityChanged(section, !isSectionHidden(section));
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void PlaylistHeader::enterEvent(QEnterEvent*) {
+#else
 void PlaylistHeader::enterEvent(QEvent*) {
+#endif
   emit MouseEntered();
 }
 
