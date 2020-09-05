@@ -214,6 +214,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
       app_(app),
       tray_icon_(tray_icon),
       osd_(osd),
+      console_([=]() {
+        Console *console = new Console(app);
+        return console;
+      }),
       edit_tag_dialog_(std::bind(&MainWindow::CreateEditTagDialog, this)),
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
 #ifdef HAVE_GLOBALSHORTCUTS
@@ -474,7 +478,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   connect(ui_->action_add_folder, SIGNAL(triggered()), SLOT(AddFolder()));
   connect(ui_->action_add_stream, SIGNAL(triggered()), SLOT(AddStream()));
   connect(ui_->action_cover_manager, SIGNAL(triggered()), SLOT(ShowCoverManager()));
-  connect(ui_->action_equalizer, SIGNAL(triggered()), equalizer_.get(), SLOT(show()));
+  connect(ui_->action_equalizer, SIGNAL(triggered()), equalizer_.get(), SLOT(ShowEqualizer()));
 #if defined(HAVE_GSTREAMER)
   connect(ui_->action_transcoder, SIGNAL(triggered()), SLOT(ShowTranscodeDialog()));
 #else
@@ -1941,6 +1945,7 @@ void MainWindow::EditTracks() {
 
   edit_tag_dialog_->SetSongs(songs, items);
   edit_tag_dialog_->show();
+  edit_tag_dialog_->raise();
 
 }
 
@@ -2092,7 +2097,10 @@ void MainWindow::AddCDTracks() {
 
 }
 
-void MainWindow::AddStream() { add_stream_dialog_->show(); }
+void MainWindow::AddStream() {
+  add_stream_dialog_->show();
+  add_stream_dialog_->raise();
+}
 
 void MainWindow::AddStreamAccepted() {
 
@@ -2355,6 +2363,7 @@ void MainWindow::CopyFilesToCollection(const QList<QUrl> &urls) {
   organize_dialog_->SetUrls(urls);
   organize_dialog_->SetCopy(true);
   organize_dialog_->show();
+  organize_dialog_->raise();
 
 }
 
@@ -2364,6 +2373,7 @@ void MainWindow::MoveFilesToCollection(const QList<QUrl> &urls) {
   organize_dialog_->SetUrls(urls);
   organize_dialog_->SetCopy(false);
   organize_dialog_->show();
+  organize_dialog_->raise();
 
 }
 
@@ -2372,8 +2382,10 @@ void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
 #if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
   organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organize_dialog_->SetCopy(true);
-  if (organize_dialog_->SetUrls(urls))
+  if (organize_dialog_->SetUrls(urls)) {
     organize_dialog_->show();
+    organize_dialog_->raise();
+  }
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
@@ -2396,6 +2408,7 @@ void MainWindow::EditFileTags(const QList<QUrl> &urls) {
 
   edit_tag_dialog_->SetSongs(songs);
   edit_tag_dialog_->show();
+  edit_tag_dialog_->raise();
 
 }
 
@@ -2425,6 +2438,7 @@ void MainWindow::PlaylistOrganizeSelected(const bool copy) {
   organize_dialog_->SetSongs(songs);
   organize_dialog_->SetCopy(copy);
   organize_dialog_->show();
+  organize_dialog_->raise();
 
 }
 
@@ -2513,8 +2527,10 @@ void MainWindow::PlaylistCopyToDevice() {
 
   organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organize_dialog_->SetCopy(true);
-  if (organize_dialog_->SetSongs(songs))
+  if (organize_dialog_->SetSongs(songs)) {
     organize_dialog_->show();
+    organize_dialog_->raise();
+  }
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
@@ -2540,6 +2556,14 @@ void MainWindow::ChangeCollectionQueryMode(QAction *action) {
 void MainWindow::ShowCoverManager() {
 
   cover_manager_->show();
+  cover_manager_->raise();
+
+}
+
+void MainWindow::ShowEqualizer() {
+
+  equalizer_->show();
+  equalizer_->raise();
 
 }
 
@@ -2562,6 +2586,7 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
 void MainWindow::OpenSettingsDialog() {
 
   settings_dialog_->show();
+  settings_dialog_->raise();
 
 }
 
@@ -2581,6 +2606,7 @@ EditTagDialog *MainWindow::CreateEditTagDialog() {
 void MainWindow::ShowAboutDialog() {
 
   about_dialog_->show();
+  about_dialog_->raise();
 
 }
 
@@ -2588,6 +2614,7 @@ void MainWindow::ShowTranscodeDialog() {
 
 #ifdef HAVE_GSTREAMER
   transcode_dialog_->show();
+  transcode_dialog_->raise();
 #endif
 
 }
@@ -2707,6 +2734,7 @@ void MainWindow::AutoCompleteTags() {
   track_selection_dialog_->Init(songs);
   tag_fetcher_->StartFetch(songs);
   track_selection_dialog_->show();
+  track_selection_dialog_->raise();
 
 #endif
 
@@ -2748,8 +2776,10 @@ void MainWindow::HandleNotificationPreview(OSDBase::Behaviour type, QString line
 }
 
 void MainWindow::ShowConsole() {
-  Console *console = new Console(app_, this);
-  console->show();
+
+  console_->show();
+  console_->raise();
+
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
