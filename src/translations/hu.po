@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-08-26 07:18-0400\n"
+"PO-Revision-Date: 2020-09-08 02:26-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -1066,7 +1066,7 @@ msgstr "CDDA"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr ""
+msgstr "Mégse"
 
 #: tidal/tidalstreamurlrequest.cpp:107
 msgid "Cancelled."
@@ -1098,7 +1098,7 @@ msgstr "Szín kiválasztása..."
 
 #: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
-msgstr ""
+msgstr "Válassza ki az importálandó adatokat a last.fm-ből"
 
 #: ../build/src/ui_notificationssettingspage.h:494
 msgid "Choose font..."
@@ -2156,7 +2156,7 @@ msgstr "Váltás az előző lejátszólista lapra"
 
 #: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr ""
+msgstr "Ugrás!"
 
 #: covermanager/albumcovermanager.cpp:530
 #: covermanager/coversearchstatisticsdialog.cpp:69
@@ -2337,11 +2337,11 @@ msgstr "Képek (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
 #: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
-msgstr ""
+msgstr "Adatok importálása last.fm-ből"
 
 #: ../build/src/ui_mainwindow.h:714
 msgid "Import data from last.fm..."
-msgstr ""
+msgstr "Adatok importálása last.fm-ből..."
 
 #: ../build/src/ui_transcodedialog.h:225
 msgid "Import..."
@@ -2676,7 +2676,7 @@ msgstr "Hiányzó felhasználónév vagy jelszó."
 
 #: scrobbler/lastfmimport.cpp:218
 msgid "Missing username, please login to last.fm first!"
-msgstr ""
+msgstr "Hiányzó felhasználónév, elsőnek jelentkezzen be a last.fm-be!"
 
 #: device/deviceproperties.cpp:175
 msgid "Model"
@@ -3046,7 +3046,7 @@ msgstr "Lejátszások száma"
 
 #: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
-msgstr ""
+msgstr "Lejátszások száma"
 
 #: core/commandlineoptions.cpp:165
 msgid "Play if stopped, pause if playing"

@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-08-26 01:25-0400\n"
+"PO-Revision-Date: 2020-09-08 01:09-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -1094,7 +1094,7 @@ msgstr "CDDA"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr ""
+msgstr "Annulé"
 
 #: tidal/tidalstreamurlrequest.cpp:107
 msgid "Cancelled."
@@ -1126,7 +1126,7 @@ msgstr "Choisir une couleur..."
 
 #: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
-msgstr ""
+msgstr "Choisissez les données à importer de last.fm"
 
 #: ../build/src/ui_notificationssettingspage.h:494
 msgid "Choose font..."
@@ -2193,7 +2193,7 @@ msgstr "Aller à la liste de lecture précédente"
 
 #: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr ""
+msgstr "Aller !"
 
 #: covermanager/albumcovermanager.cpp:530
 #: covermanager/coversearchstatisticsdialog.cpp:69
@@ -2375,11 +2375,11 @@ msgstr "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
 #: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
-msgstr ""
+msgstr "Importer les données de last.fm"
 
 #: ../build/src/ui_mainwindow.h:714
 msgid "Import data from last.fm..."
-msgstr ""
+msgstr "Importer les données de last.fm..."
 
 #: ../build/src/ui_transcodedialog.h:225
 msgid "Import..."
@@ -2491,7 +2491,7 @@ msgstr "Dernière écoute"
 #: dialogs/lastfmimportdialog.cpp:155
 #, qt-format
 msgid "Last played for %1 songs received."
-msgstr ""
+msgstr "Dernière lecture pour %1 morceaux reçus."
 
 #: ../build/src/ui_scrobblersettingspage.h:394
 msgid "Last.fm"
@@ -2719,6 +2719,7 @@ msgstr "Le nom d'utilisateur ou le mot de passe est manquant."
 #: scrobbler/lastfmimport.cpp:218
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
+"Nom d'utilisateur manquant, veuillez d'abord vous connecter à last.fm !"
 
 #: device/deviceproperties.cpp:175
 msgid "Model"
@@ -3335,12 +3336,12 @@ msgstr ""
 
 #: dialogs/lastfmimportdialog.cpp:72
 msgid "Receiving initial data from last.fm..."
-msgstr ""
+msgstr "Réception des données initiales de last.fm..."
 
 #: dialogs/lastfmimportdialog.cpp:132
 #, qt-format
 msgid "Receiving last played for %1 songs."
-msgstr ""
+msgstr "Réception de la dernière lecture de %1 morceaux."
 
 #: dialogs/lastfmimportdialog.cpp:129
 #, qt-format
