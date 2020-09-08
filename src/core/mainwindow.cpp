@@ -478,7 +478,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   connect(ui_->action_add_folder, SIGNAL(triggered()), SLOT(AddFolder()));
   connect(ui_->action_add_stream, SIGNAL(triggered()), SLOT(AddStream()));
   connect(ui_->action_cover_manager, SIGNAL(triggered()), SLOT(ShowCoverManager()));
-  connect(ui_->action_equalizer, SIGNAL(triggered()), equalizer_.get(), SLOT(ShowEqualizer()));
+  connect(ui_->action_equalizer, SIGNAL(triggered()), SLOT(ShowEqualizer()));
 #if defined(HAVE_GSTREAMER)
   connect(ui_->action_transcoder, SIGNAL(triggered()), SLOT(ShowTranscodeDialog()));
 #else
