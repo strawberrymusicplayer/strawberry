@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-09-08 01:09-0400\n"
+"PO-Revision-Date: 2020-09-09 07:20-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -3091,7 +3091,7 @@ msgstr "Compteur d'écoutes"
 
 #: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
-msgstr ""
+msgstr "Compteur d'écoutes"
 
 #: core/commandlineoptions.cpp:165
 msgid "Play if stopped, pause if playing"
@@ -3110,11 +3110,13 @@ msgstr "Lire la <n>ème piste de la liste de lecture"
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
+"Compteur d'écoutes pour %1 morceaux et dernière lecture pour %2 morceaux "
+"reçus."
 
 #: dialogs/lastfmimportdialog.cpp:158
 #, qt-format
 msgid "Playcounts for %1 songs received."
-msgstr ""
+msgstr "Compteur d'écoutes pour %1 morceaux reçus."
 
 #: core/commandlineoptions.cpp:163
 msgid "Player options"
@@ -3347,11 +3349,13 @@ msgstr "Réception de la dernière lecture de %1 morceaux."
 #, qt-format
 msgid "Receiving playcount for %1 songs and last played for %2 songs."
 msgstr ""
+"Réception du compteur d'écoute pour %1 morceaux et de la dernière lecture "
+"pour %2 morceaux."
 
 #: dialogs/lastfmimportdialog.cpp:135
 #, qt-format
 msgid "Receiving playcounts for %1 songs."
-msgstr ""
+msgstr "Réception du compteur d'écoutes pour %1 morceaux."
 
 #: lyrics/geniuslyricsprovider.cpp:208
 msgid "Redirect from Genius is missing query items code or state."
@@ -4718,6 +4722,11 @@ msgid ""
 "on artist and song title for the same albums! Please backup your database "
 "before you start."
 msgstr ""
+"Attention : Le compteur d'écoutes et la dernière lecture de last.fm "
+"remplaceront complètement les mêmes données pour les morceaux correspondants."
+" Le compteur d'écoutes remplacera les données basées sur l'artiste et le "
+"titre du morceau pour les mêmes albums ! Veuillez sauvegarder votre base de "
+"données avant de commencer."
 
 #: ../build/src/ui_transcodersettingspage.h:188
 msgid "WavPack"
