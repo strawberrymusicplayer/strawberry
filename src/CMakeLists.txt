@@ -976,6 +976,7 @@ link_directories(
   ${SINGLEAPPLICATION_LIBRARY_DIRS}
   ${SINGLECOREAPPLICATION_LIBRARY_DIRS}
   ${QTSPARKLE_LIBRARY_DIRS}
+  ${Iconv_LIBRARY_DIRS}
 )
 
 if(HAVE_ALSA)
@@ -1073,6 +1074,7 @@ target_link_libraries(strawberry_lib PUBLIC
   ${SINGLEAPPLICATION_LIBRARIES}
   ${SINGLECOREAPPLICATION_LIBRARIES}
   ${QTSPARKLE_LIBRARIES}
+  ${Iconv_LIBRARY}
   libstrawberry-common
   libstrawberry-tagreader
 )
