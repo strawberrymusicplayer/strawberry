@@ -116,6 +116,7 @@ GSTREAMER_PLUGINS = [
     'libgstlibav.dylib',
     'libgstaiff.dylib',
     'libgstlame.dylib',
+    'libgstmusepack.dylib',
 
 ]
 
