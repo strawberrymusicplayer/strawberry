@@ -80,10 +80,10 @@ class CollectionBackendInterface : public QObject {
   virtual void UpdateTotalArtistCountAsync() = 0;
   virtual void UpdateTotalAlbumCountAsync() = 0;
 
-  virtual SongList FindSongsInDirectory(int id) = 0;
-  virtual SubdirectoryList SubdirsInDirectory(int id) = 0;
+  virtual SongList FindSongsInDirectory(const int id) = 0;
+  virtual SubdirectoryList SubdirsInDirectory(const int id) = 0;
   virtual DirectoryList GetAllDirectories() = 0;
-  virtual void ChangeDirPath(int id, const QString &old_path, const QString &new_path) = 0;
+  virtual void ChangeDirPath(const int id, const QString &old_path, const QString &new_path) = 0;
 
   virtual QStringList GetAllArtists(const QueryOptions &opt = QueryOptions()) = 0;
   virtual QStringList GetAllArtistsWithAlbums(const QueryOptions &opt = QueryOptions()) = 0;
@@ -99,7 +99,7 @@ class CollectionBackendInterface : public QObject {
   virtual void UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url) = 0;
   virtual Album GetAlbumArt(const QString &artist, const QString &albumartist, const QString &album) = 0;
 
-  virtual Song GetSongById(int id) = 0;
+  virtual Song GetSongById(const int id) = 0;
 
   // Returns all sections of a song with the given filename. If there's just one section the resulting list will have it's size equal to 1.
   virtual SongList GetSongsByUrl(const QUrl &url) = 0;
@@ -195,7 +195,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void AddOrUpdateSongs(const SongList &songs);
   void UpdateMTimesOnly(const SongList &songs);
   void DeleteSongs(const SongList &songs);
-  void MarkSongsUnavailable(const SongList &songs, bool unavailable = true);
+  void MarkSongsUnavailable(const SongList &songs, const bool unavailable = true);
   void AddOrUpdateSubdirs(const SubdirectoryList &subdirs);
   void UpdateCompilations();
   void UpdateManualAlbumArt(const QString &artist,  const QString &albumartist, const QString &album, const QUrl &cover_url);

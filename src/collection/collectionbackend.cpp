@@ -109,15 +109,15 @@ void CollectionBackend::UpdateTotalAlbumCountAsync() {
   metaObject()->invokeMethod(this, "UpdateTotalAlbumCount", Qt::QueuedConnection);
 }
 
-void CollectionBackend::IncrementPlayCountAsync(int id) {
+void CollectionBackend::IncrementPlayCountAsync(const int id) {
   metaObject()->invokeMethod(this, "IncrementPlayCount", Qt::QueuedConnection, Q_ARG(int, id));
 }
 
-void CollectionBackend::IncrementSkipCountAsync(int id, float progress) {
+void CollectionBackend::IncrementSkipCountAsync(const int id, const float progress) {
   metaObject()->invokeMethod(this, "IncrementSkipCount", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(float, progress));
 }
 
-void CollectionBackend::ResetStatisticsAsync(int id) {
+void CollectionBackend::ResetStatisticsAsync(const int id) {
   metaObject()->invokeMethod(this, "ResetStatistics", Qt::QueuedConnection, Q_ARG(int, id));
 }
 
@@ -134,7 +134,7 @@ void CollectionBackend::LoadDirectories() {
 
 }
 
-void CollectionBackend::ChangeDirPath(int id, const QString &old_path, const QString &new_path) {
+void CollectionBackend::ChangeDirPath(const int id, const QString &old_path, const QString &new_path) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -202,7 +202,7 @@ DirectoryList CollectionBackend::GetAllDirectories() {
 
 }
 
-SubdirectoryList CollectionBackend::SubdirsInDirectory(int id) {
+SubdirectoryList CollectionBackend::SubdirsInDirectory(const int id) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db = db_->Connect();
@@ -210,7 +210,7 @@ SubdirectoryList CollectionBackend::SubdirsInDirectory(int id) {
 
 }
 
-SubdirectoryList CollectionBackend::SubdirsInDirectory(int id, QSqlDatabase &db) {
+SubdirectoryList CollectionBackend::SubdirsInDirectory(const int id, QSqlDatabase &db) {
 
   QSqlQuery q(db);
   q.prepare(QString("SELECT path, mtime FROM %1 WHERE directory_id = :dir").arg(subdirs_table_));
@@ -328,7 +328,7 @@ void CollectionBackend::RemoveDirectory(const Directory &dir) {
 
 }
 
-SongList CollectionBackend::FindSongsInDirectory(int id) {
+SongList CollectionBackend::FindSongsInDirectory(const int id) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -582,7 +582,7 @@ void CollectionBackend::DeleteSongs(const SongList &songs) {
 
 }
 
-void CollectionBackend::MarkSongsUnavailable(const SongList &songs, bool unavailable) {
+void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool unavailable) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -701,7 +701,7 @@ SongList CollectionBackend::ExecCollectionQuery(CollectionQuery *query) {
 
 }
 
-Song CollectionBackend::GetSongById(int id) {
+Song CollectionBackend::GetSongById(const int id) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
   return GetSongById(id, db);
@@ -750,7 +750,7 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
 
 }
 
-Song CollectionBackend::GetSongById(int id, QSqlDatabase &db) {
+Song CollectionBackend::GetSongById(const int id, QSqlDatabase &db) {
   SongList list = GetSongsById(QStringList() << QString::number(id), db);
   if (list.isEmpty()) return Song();
   return list.first();
@@ -1168,7 +1168,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
 
 }
 
-void CollectionBackend::ForceCompilation(const QString &album, const QList<QString> &artists, bool on) {
+void CollectionBackend::ForceCompilation(const QString &album, const QList<QString> &artists, const bool on) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -1179,7 +1179,7 @@ void CollectionBackend::ForceCompilation(const QString &album, const QList<QStri
     CollectionQuery query;
     query.SetColumnSpec("ROWID, " + Song::kColumnSpec);
     query.AddWhere("album", album);
-    if (!artist.isNull() && !artist.isEmpty()) query.AddWhere("artist", artist);
+    if (!artist.isEmpty()) query.AddWhere("artist", artist);
 
     if (!ExecQuery(&query)) return;
 
@@ -1224,7 +1224,7 @@ bool CollectionBackend::ExecQuery(CollectionQuery *q) {
   return !db_->CheckErrors(q->Exec(db_->Connect(), songs_table_, fts_table_));
 }
 
-void CollectionBackend::IncrementPlayCount(int id) {
+void CollectionBackend::IncrementPlayCount(const int id) {
 
   if (id == -1) return;
 
@@ -1243,7 +1243,7 @@ void CollectionBackend::IncrementPlayCount(int id) {
 
 }
 
-void CollectionBackend::IncrementSkipCount(int id, float progress) {
+void CollectionBackend::IncrementSkipCount(const int id, const float progress) {
 
   Q_UNUSED(progress);
 
@@ -1263,7 +1263,7 @@ void CollectionBackend::IncrementSkipCount(int id, float progress) {
 
 }
 
-void CollectionBackend::ResetStatistics(int id) {
+void CollectionBackend::ResetStatistics(const int id) {
 
   if (id == -1) return;
 

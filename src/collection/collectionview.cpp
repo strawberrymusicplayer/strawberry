@@ -247,7 +247,7 @@ void CollectionView::SetApplication(Application *app) {
 
 void CollectionView::SetFilter(CollectionFilterWidget *filter) { filter_ = filter; }
 
-void CollectionView::TotalSongCountUpdated(int count) {
+void CollectionView::TotalSongCountUpdated(const int count) {
 
   int old = total_song_count_;
   total_song_count_ = count;
@@ -262,7 +262,7 @@ void CollectionView::TotalSongCountUpdated(int count) {
 
 }
 
-void CollectionView::TotalArtistCountUpdated(int count) {
+void CollectionView::TotalArtistCountUpdated(const int count) {
 
   int old = total_artist_count_;
   total_artist_count_ = count;
@@ -277,7 +277,7 @@ void CollectionView::TotalArtistCountUpdated(int count) {
 
 }
 
-void CollectionView::TotalAlbumCountUpdated(int count) {
+void CollectionView::TotalAlbumCountUpdated(const int count) {
 
   int old = total_album_count_;
   total_album_count_ = count;
@@ -446,7 +446,7 @@ void CollectionView::ShowInVarious() { ShowInVarious(true); }
 
 void CollectionView::NoShowInVarious() { ShowInVarious(false); }
 
-void CollectionView::ShowInVarious(bool on) {
+void CollectionView::ShowInVarious(const bool on) {
 
   if (!context_menu_index_.isValid()) return;
 
@@ -454,7 +454,7 @@ void CollectionView::ShowInVarious(bool on) {
   // We put through "Various Artists" changes one album at a time,
   // to make sure the old album node gets removed (due to all children removed), before the new one gets added
   QMultiMap<QString, QString> albums;
-  for (const Song& song : GetSelectedSongs()) {
+  for (const Song &song : GetSelectedSongs()) {
     if (albums.find(song.album(), song.artist()) == albums.end())
       albums.insert(song.album(), song.artist());
   }
@@ -473,7 +473,7 @@ void CollectionView::ShowInVarious(bool on) {
     if (other_artists.count() > 0) {
       if (QMessageBox::question(this,
               tr("There are other songs in this album"),
-              tr("Would you like to move the other songs in this album to Various Artists as well?"),
+              tr("Would you like to move the other songs on this album to Various Artists as well?"),
                                 QMessageBox::Yes | QMessageBox::No,
                                 QMessageBox::Yes) == QMessageBox::Yes) {
         for (const QString &s : other_artists) {

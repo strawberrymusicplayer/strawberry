@@ -53,7 +53,7 @@ class PlaylistManagerInterface : public QObject {
   virtual int current_id() const = 0;
   virtual int active_id() const = 0;
 
-  virtual Playlist *playlist(int id) const = 0;
+  virtual Playlist *playlist(const int id) const = 0;
   virtual Playlist *current() const = 0;
   virtual Playlist *active() const = 0;
 
@@ -107,12 +107,12 @@ class PlaylistManagerInterface : public QObject {
   void PlaylistManagerInitialized();
   void AllPlaylistsLoaded();
 
-  void PlaylistAdded(int id, QString name, bool favorite);
-  void PlaylistDeleted(int id);
-  void PlaylistClosed(int id);
-  void PlaylistRenamed(int id, QString new_name);
-  void PlaylistFavorited(int id, bool favorite);
-  void CurrentChanged(Playlist *new_playlist, int scroll_position = 0);
+  void PlaylistAdded(const int id, QString name, const bool favorite);
+  void PlaylistDeleted(const int id);
+  void PlaylistClosed(const int id);
+  void PlaylistRenamed(const int id, QString new_name);
+  void PlaylistFavorited(const int id, const bool favorite);
+  void CurrentChanged(Playlist *new_playlist, const int scroll_position = 0);
   void ActiveChanged(Playlist *new_playlist);
 
   void Error(QString message);
@@ -158,8 +158,8 @@ class PlaylistManager : public PlaylistManagerInterface {
   QItemSelection current_selection() const override { return selection(current_id()); }
   QItemSelection active_selection() const override { return selection(active_id()); }
 
-  QString GetPlaylistName(int index) const override { return playlists_[index].name; }
-  bool IsPlaylistFavorite(int index) const { return playlists_[index].p->is_favorite(); }
+  QString GetPlaylistName(const int index) const override { return playlists_[index].name; }
+  bool IsPlaylistFavorite(const int index) const { return playlists_[index].p->is_favorite(); }
 
   void Init(CollectionBackend *collection_backend, PlaylistBackend *playlist_backend, PlaylistSequence *sequence, PlaylistContainer *playlist_container);
 

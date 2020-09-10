@@ -70,9 +70,9 @@ class CollectionView : public AutoExpandingTreeView {
   int TotalAlbums();
 
  public slots:
-  void TotalSongCountUpdated(int count);
-  void TotalArtistCountUpdated(int count);
-  void TotalAlbumCountUpdated(int count);
+  void TotalSongCountUpdated(const int count);
+  void TotalArtistCountUpdated(const int count);
+  void TotalAlbumCountUpdated(const int count);
   void ReloadSettings();
 
   void FilterReturnPressed();
@@ -88,7 +88,7 @@ class CollectionView : public AutoExpandingTreeView {
   void TotalSongCountUpdated_();
   void TotalArtistCountUpdated_();
   void TotalAlbumCountUpdated_();
-  void Error(const QString &message);
+  void Error(QString);
 
  protected:
   // QWidget
@@ -114,7 +114,7 @@ class CollectionView : public AutoExpandingTreeView {
 
  private:
   void RecheckIsEmpty();
-  void ShowInVarious(bool on);
+  void ShowInVarious(const bool on);
   bool RestoreLevelFocus(const QModelIndex &parent = QModelIndex());
   void SaveContainerPath(const QModelIndex &child);
 
