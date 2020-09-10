@@ -1022,12 +1022,8 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
     bool is_compilation = query.Value(4).toBool();
 
     Album info;
-    QString directory;
     info.first_url = QUrl::fromEncoded(query.Value(0).toByteArray());
-    if (is_compilation) {
-      directory = info.first_url.toString(QUrl::PreferLocalFile|QUrl::RemoveFilename);
-    }
-    else {
+    if (!is_compilation) {
       info.artist = query.Value(1).toString();
       info.album_artist = query.Value(2).toString();
     }
@@ -1053,10 +1049,6 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
     QString key;
     if (!effective_albumartist.isEmpty()) {
       key.append(effective_albumartist);
-    }
-    if (!directory.isEmpty()) {
-      if (!key.isEmpty()) key.append("-");
-      key.append(directory);
     }
     if (!info.album_name.isEmpty()) {
       if (!key.isEmpty()) key.append("-");
