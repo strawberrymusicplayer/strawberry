@@ -21,6 +21,8 @@
 #ifndef RESOURCES_ENV_H
 #define RESOURCES_ENV_H
 
+#include "config.h"
+
 #include <gtest/gtest.h>
 
 #include <QResource>
@@ -29,8 +31,10 @@ class ResourcesEnvironment : public ::testing::Environment {
 public:
   void SetUp() override {
     Q_INIT_RESOURCE(data);
-    Q_INIT_RESOURCE(translations);
     Q_INIT_RESOURCE(testdata);
+#ifdef HAVE_TRANSLATIONS
+    Q_INIT_RESOURCE(translations);
+#endif
   }
 };
 
