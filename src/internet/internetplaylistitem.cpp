@@ -38,8 +38,15 @@
 InternetPlaylistItem::InternetPlaylistItem(const Song::Source source)
     : PlaylistItem(source) {}
 
+InternetPlaylistItem::InternetPlaylistItem(const Song &metadata)
+    : PlaylistItem(metadata.source()),
+      source_(metadata.source()),
+      metadata_(metadata) {
+  InitMetadata();
+}
+
 InternetPlaylistItem::InternetPlaylistItem(InternetService *service, const Song &metadata)
-    : PlaylistItem(Song::Source_Stream),
+    : PlaylistItem(metadata.source()),
       source_(service->source()),
       metadata_(metadata) {
   InitMetadata();

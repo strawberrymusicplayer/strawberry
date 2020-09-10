@@ -38,9 +38,7 @@
 
 #include "internet/internetplaylistitem.h"
 
-PlaylistItem::~PlaylistItem() {}
-
-PlaylistItem *PlaylistItem::NewFromSource(const Song::Source &source) {
+PlaylistItem *PlaylistItem::NewFromSource(const Song::Source source) {
 
   switch (source) {
     case Song::Source_Collection:
@@ -60,6 +58,29 @@ PlaylistItem *PlaylistItem::NewFromSource(const Song::Source &source) {
   return new SongPlaylistItem(source);
 
 }
+
+PlaylistItem *PlaylistItem::NewFromSong(const Song &song) {
+
+  switch (song.source()) {
+    case Song::Source_Collection:
+      return new CollectionPlaylistItem(song);
+    case Song::Source_Subsonic:
+    case Song::Source_Tidal:
+    case Song::Source_Qobuz:
+    case Song::Source_Stream:
+      return new InternetPlaylistItem(song);
+    case Song::Source_LocalFile:
+    case Song::Source_CDDA:
+    case Song::Source_Device:
+    case Song::Source_Unknown:
+      break;
+  }
+
+  return new SongPlaylistItem(song);
+
+}
+
+PlaylistItem::~PlaylistItem() {}
 
 void PlaylistItem::BindToQuery(QSqlQuery *query) const {
 
