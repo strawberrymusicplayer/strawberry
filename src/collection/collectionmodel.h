@@ -85,25 +85,27 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   // These values get saved in QSettings - don't change them
   enum GroupBy {
     GroupBy_None = 0,
-    GroupBy_Artist = 1,
-    GroupBy_Album = 2,
-    GroupBy_YearAlbum = 3,
-    GroupBy_Year = 4,
-    GroupBy_Composer = 5,
-    GroupBy_Genre = 6,
-    GroupBy_AlbumArtist = 7,
-    GroupBy_FileType = 8,
-    GroupBy_Performer = 9,
-    GroupBy_Grouping = 10,
-    GroupBy_Bitrate = 11,
-    GroupBy_Disc = 12,
-    GroupBy_OriginalYearAlbum = 13,
-    GroupBy_OriginalYear = 14,
-    GroupBy_Samplerate = 15,
-    GroupBy_Bitdepth = 16,
+    GroupBy_AlbumArtist = 1,
+    GroupBy_Artist = 2,
+    GroupBy_Album = 3,
+    GroupBy_AlbumDisc = 4,
+    GroupBy_YearAlbum = 5,
+    GroupBy_YearAlbumDisc = 6,
+    GroupBy_OriginalYearAlbum = 7,
+    GroupBy_OriginalYearAlbumDisc = 8,
+    GroupBy_Disc = 9,
+    GroupBy_Year = 10,
+    GroupBy_OriginalYear = 11,
+    GroupBy_Genre = 12,
+    GroupBy_Composer = 13,
+    GroupBy_Performer = 14,
+    GroupBy_Grouping = 15,
+    GroupBy_FileType = 16,
     GroupBy_Format = 17,
-    GroupBy_AlbumDisc = 18,
-    GroupBy_YearAlbumDisc = 19
+    GroupBy_Samplerate = 18,
+    GroupBy_Bitdepth = 19,
+    GroupBy_Bitrate = 20,
+    GroupByCount = 21,
   };
 
   struct Grouping {
@@ -170,6 +172,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static QString PrettyYearAlbum(const int year, const QString &album);
   static QString PrettyAlbumDisc(const QString &album, const int disc);
   static QString PrettyYearAlbumDisc(const int year, const QString &album, const int disc);
+  static QString PrettyDisc(const int disc);
   static QString SortText(QString text);
   static QString SortTextForNumber(const int number);
   static QString SortTextForArtist(QString artist);
@@ -179,7 +182,18 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   quint64 icon_cache_disk_size() { return sIconCache->cacheSize(); }
 
-  static bool IsAlbumGrouping(const GroupBy group_by) { return group_by == GroupBy_Album || group_by == GroupBy_YearAlbum || group_by == GroupBy_OriginalYearAlbum || group_by == GroupBy_AlbumDisc || group_by == GroupBy_YearAlbumDisc; }
+  static bool IsArtistGroupBy(const GroupBy group_by) {
+    return group_by == CollectionModel::GroupBy_Artist || group_by == CollectionModel::GroupBy_AlbumArtist;
+  }
+  static bool IsAlbumGroupBy(const GroupBy group_by) { return group_by == GroupBy_Album || group_by == GroupBy_YearAlbum || group_by == GroupBy_AlbumDisc || group_by == GroupBy_YearAlbumDisc || group_by == GroupBy_OriginalYearAlbum || group_by == GroupBy_OriginalYearAlbumDisc; }
+
+  void set_use_lazy_loading(const bool value) { use_lazy_loading_ = value; }
+
+  QMap<QString, CollectionItem*> container_nodes(const int i) { return container_nodes_[i]; }
+  QList<CollectionItem*> song_nodes() const { return song_nodes_.values(); }
+  int divider_nodes_count() const { return divider_nodes_.count(); }
+
+  void ExpandAll(CollectionItem *item = nullptr) const;
 
  signals:
   void TotalSongCountUpdated(const int count);
@@ -248,6 +262,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QString DividerDisplayText(const GroupBy type, const QString &key) const;
 
   // Helpers
+  static bool IsCompilationArtistNode(const CollectionItem *node) { return node == node->parent->compilation_artist_node_; }
   QString AlbumIconPixmapCacheKey(const QModelIndex &idx) const;
   QVariant AlbumIcon(const QModelIndex &idx);
   QVariant data(const CollectionItem *item, const int role) const;
@@ -288,6 +303,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   bool use_pretty_covers_;
   bool show_dividers_;
   bool use_disk_cache_;
+  bool use_lazy_loading_;
 
   AlbumCoverLoaderOptions cover_loader_options_;
 

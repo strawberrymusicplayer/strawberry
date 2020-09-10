@@ -213,14 +213,26 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(QObject *parent) {
   // read saved groupings
   QSettings s;
   s.beginGroup(CollectionModel::kSavedGroupingsSettingsGroup);
-  QStringList saved = s.childKeys();
-  for (int i = 0; i < saved.size(); ++i) {
-    QByteArray bytes = s.value(saved.at(i)).toByteArray();
-    QDataStream ds(&bytes, QIODevice::ReadOnly);
-    CollectionModel::Grouping g;
-    ds >> g;
-    ret->addAction(CreateGroupByAction(saved.at(i), parent, g));
+  int version = s.value("version").toInt();
+  if (version == 1) {
+    QStringList saved = s.childKeys();
+    for (int i = 0; i < saved.size(); ++i) {
+      if (saved.at(i) == "version") continue;
+      QByteArray bytes = s.value(saved.at(i)).toByteArray();
+      QDataStream ds(&bytes, QIODevice::ReadOnly);
+      CollectionModel::Grouping g;
+      ds >> g;
+      ret->addAction(CreateGroupByAction(saved.at(i), parent, g));
+    }
   }
+  else {
+    QStringList saved = s.childKeys();
+    for (int i = 0; i < saved.size(); ++i) {
+      if (saved.at(i) == "version") continue;
+      s.remove(saved.at(i));
+    }
+  }
+  s.endGroup();
 
   QAction *sep2 = new QAction(parent);
   sep2->setSeparator(true);
@@ -301,10 +313,18 @@ void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
   if (!settings_group_.isEmpty()) {
     QSettings s;
     s.beginGroup(settings_group_);
-    model_->SetGroupBy(CollectionModel::Grouping(
-        CollectionModel::GroupBy(s.value(group_by(1), int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-        CollectionModel::GroupBy(s.value(group_by(2), int(CollectionModel::GroupBy_AlbumDisc)).toInt()),
-        CollectionModel::GroupBy(s.value(group_by(3), int(CollectionModel::GroupBy_None)).toInt())));
+    int version = 0;
+    if (s.contains("group_by_version")) version = s.value("group_by_version", 0).toInt();
+    if (version == 1) {
+      model_->SetGroupBy(CollectionModel::Grouping(
+          CollectionModel::GroupBy(s.value(group_by(1), int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
+          CollectionModel::GroupBy(s.value(group_by(2), int(CollectionModel::GroupBy_AlbumDisc)).toInt()),
+          CollectionModel::GroupBy(s.value(group_by(3), int(CollectionModel::GroupBy_None)).toInt())));
+    }
+    else {
+      model_->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc, CollectionModel::GroupBy_None));
+    }
+    s.endGroup();
   }
 
 }
@@ -327,9 +347,11 @@ void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping &g)
     // Save the settings
     QSettings s;
     s.beginGroup(settings_group_);
+    s.setValue("group_by_version", 1);
     s.setValue(group_by(1), int(g[0]));
     s.setValue(group_by(2), int(g[1]));
     s.setValue(group_by(3), int(g[2]));
+    s.endGroup();
   }
 
   // Now make sure the correct action is checked

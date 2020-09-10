@@ -113,10 +113,36 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       has_artist_icon = true;
       break;
 
+    case CollectionModel::GroupBy_Album:
+      display_text = CollectionModel::TextOrUnknown(s.album());
+      sort_text = CollectionModel::SortTextForArtist(s.album());
+      unique_tag = s.album_id();
+      has_album_icon = true;
+      break;
+
+    case CollectionModel::GroupBy_AlbumDisc:{
+      int disc = qMax(0, s.disc());
+      display_text = CollectionModel::PrettyAlbumDisc(s.album(), disc);
+      sort_text = s.album() + CollectionModel::SortTextForNumber(disc);
+      unique_tag = s.album_id();
+      has_album_icon = true;
+      break;
+    }
+
     case CollectionModel::GroupBy_YearAlbum:{
       int year = qMax(0, s.year());
       display_text = CollectionModel::PrettyYearAlbum(year, s.album());
       sort_text = CollectionModel::SortTextForNumber(year) + s.album();
+      unique_tag = s.album_id();
+      has_album_icon = true;
+      break;
+    }
+
+    case CollectionModel::GroupBy_YearAlbumDisc:{
+      int year = qMax(0, s.year());
+      int disc = qMax(0, s.disc());
+      display_text = CollectionModel::PrettyYearAlbumDisc(year, s.album(), disc);
+      sort_text = CollectionModel::SortTextForNumber(year) + s.album() + CollectionModel::SortTextForNumber(disc);
       unique_tag = s.album_id();
       has_album_icon = true;
       break;
@@ -131,19 +157,41 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       break;
     }
 
+    case CollectionModel::GroupBy_OriginalYearAlbumDisc:{
+      const int year = qMax(0, s.effective_originalyear());
+      const int disc = qMax(0, s.disc());
+      display_text = CollectionModel::PrettyYearAlbumDisc(year, s.album(), disc);
+      sort_text = CollectionModel::SortTextForNumber(year) + s.album() + CollectionModel::SortTextForNumber(disc);
+      unique_tag = s.album_id();
+      has_album_icon = true;
+      break;
+    }
+
+    case CollectionModel::GroupBy_Disc:
+      display_text = CollectionModel::PrettyDisc(s.disc());
+      sort_text = CollectionModel::SortTextForArtist(display_text);
+      has_album_icon = true;
+      break;
+
     case CollectionModel::GroupBy_Year:{
-      int year = qMax(0, s.year());
+      const int year = qMax(0, s.year());
       display_text = QString::number(year);
       sort_text = CollectionModel::SortTextForNumber(year) + " ";
       break;
     }
 
     case CollectionModel::GroupBy_OriginalYear:{
-      int year = qMax(0, s.effective_originalyear());
+      const int year = qMax(0, s.effective_originalyear());
       display_text = QString::number(year);
       sort_text = CollectionModel::SortTextForNumber(year) + " ";
       break;
     }
+
+    case CollectionModel::GroupBy_Genre:
+      display_text = CollectionModel::TextOrUnknown(s.genre());
+      sort_text = CollectionModel::SortTextForArtist(s.genre());
+      has_album_icon = true;
+      break;
 
     case CollectionModel::GroupBy_Composer:
       display_text = CollectionModel::TextOrUnknown(s.composer());
@@ -157,48 +205,14 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       has_album_icon = true;
       break;
 
-    case CollectionModel::GroupBy_Disc:
-      display_text = s.disc();
-      sort_text = CollectionModel::SortTextForArtist(display_text);
-      has_album_icon = true;
-      break;
-
     case CollectionModel::GroupBy_Grouping:
       display_text = CollectionModel::TextOrUnknown(s.grouping());
       sort_text = CollectionModel::SortTextForArtist(s.grouping());
       has_album_icon = true;
       break;
 
-    case CollectionModel::GroupBy_Genre:
-      display_text = CollectionModel::TextOrUnknown(s.genre());
-      sort_text = CollectionModel::SortTextForArtist(s.genre());
-      has_album_icon = true;
-      break;
-
-    case CollectionModel::GroupBy_Album:
-      display_text = CollectionModel::TextOrUnknown(s.album());
-      sort_text = CollectionModel::SortTextForArtist(s.album());
-      unique_tag = s.album_id();
-      has_album_icon = true;
-      break;
-
     case CollectionModel::GroupBy_FileType:
       display_text = s.TextForFiletype();
-      sort_text = display_text;
-      break;
-
-    case CollectionModel::GroupBy_Bitrate:
-      display_text = QString(s.bitrate(), 1);
-      sort_text = display_text;
-      break;
-
-    case CollectionModel::GroupBy_Samplerate:
-      display_text = QString(s.samplerate(), 1);
-      sort_text = display_text;
-      break;
-
-    case CollectionModel::GroupBy_Bitdepth:
-      display_text = QString(s.bitdepth(), 1);
       sort_text = display_text;
       break;
 
@@ -217,24 +231,23 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       sort_text = display_text;
       break;
 
-    case CollectionModel::GroupBy_AlbumDisc:{
-      int disc = qMax(0, s.disc());
-      display_text = CollectionModel::PrettyAlbumDisc(s.album(), disc);
-      sort_text = s.album() + CollectionModel::SortTextForNumber(disc);
-      unique_tag = s.album_id();
-      has_album_icon = true;
+    case CollectionModel::GroupBy_Samplerate:
+      display_text = QString(s.samplerate(), 1);
+      sort_text = display_text;
       break;
-    }
-    case CollectionModel::GroupBy_YearAlbumDisc:{
-      int year = qMax(0, s.year());
-      int disc = qMax(0, s.disc());
-      display_text = CollectionModel::PrettyYearAlbumDisc(year, s.album(), disc);
-      sort_text = CollectionModel::SortTextForNumber(year) + s.album() + CollectionModel::SortTextForNumber(disc);
-      unique_tag = s.album_id();
-      has_album_icon = true;
+
+    case CollectionModel::GroupBy_Bitdepth:
+      display_text = QString(s.bitdepth(), 1);
+      sort_text = display_text;
       break;
-    }
+
+    case CollectionModel::GroupBy_Bitrate:
+      display_text = QString(s.bitrate(), 1);
+      sort_text = display_text;
+      break;
+
     case CollectionModel::GroupBy_None:
+    case CollectionModel::GroupByCount:
       return parent;
   }
 

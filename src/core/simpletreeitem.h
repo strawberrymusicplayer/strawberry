@@ -32,21 +32,21 @@
 template <typename T>
 class SimpleTreeItem {
  public:
-  explicit SimpleTreeItem(int _type, SimpleTreeModel<T>* _model);  // For the root item
-  explicit SimpleTreeItem(int _type, const QString& _key, T* _parent = nullptr);
-  explicit SimpleTreeItem(int _type, T* _parent = nullptr);
+  explicit SimpleTreeItem(int _type, SimpleTreeModel<T> *_model);  // For the root item
+  explicit SimpleTreeItem(int _type, const QString &_key, T *_parent = nullptr);
+  explicit SimpleTreeItem(int _type, T *_parent = nullptr);
   virtual ~SimpleTreeItem();
 
-  void InsertNotify(T* _parent);
+  void InsertNotify(T *_parent);
   void DeleteNotify(int child_row);
   void ClearNotify();
   void ChangedNotify();
 
   void Delete(int child_row);
-  T* ChildByKey(const QString& key) const;
+  T* ChildByKey(const QString &key) const;
 
-  QString DisplayText() const { return display_text.isNull() ? key : display_text; }
-  QString SortText() const { return sort_text.isNull() ? key : sort_text; }
+  QString DisplayText() const { return display_text; }
+  QString SortText() const { return sort_text; }
 
   int type;
   QString key;
@@ -64,7 +64,7 @@ class SimpleTreeItem {
 };
 
 template <typename T>
-SimpleTreeItem<T>::SimpleTreeItem(int _type, SimpleTreeModel<T>* _model)
+SimpleTreeItem<T>::SimpleTreeItem(int _type, SimpleTreeModel<T> *_model)
     : type(_type),
       row(0),
       lazy_loaded(true),
@@ -73,7 +73,7 @@ SimpleTreeItem<T>::SimpleTreeItem(int _type, SimpleTreeModel<T>* _model)
       model(_model) {}
 
 template <typename T>
-SimpleTreeItem<T>::SimpleTreeItem(int _type, const QString& _key, T* _parent)
+SimpleTreeItem<T>::SimpleTreeItem(int _type, const QString &_key, T *_parent)
     : type(_type),
       key(_key),
       lazy_loaded(false),
@@ -87,7 +87,7 @@ SimpleTreeItem<T>::SimpleTreeItem(int _type, const QString& _key, T* _parent)
 }
 
 template <typename T>
-SimpleTreeItem<T>::SimpleTreeItem(int _type, T* _parent)
+SimpleTreeItem<T>::SimpleTreeItem(int _type, T *_parent)
     : type(_type),
       lazy_loaded(false),
       parent(_parent),
@@ -100,7 +100,7 @@ SimpleTreeItem<T>::SimpleTreeItem(int _type, T* _parent)
 }
 
 template <typename T>
-void SimpleTreeItem<T>::InsertNotify(T* _parent) {
+void SimpleTreeItem<T>::InsertNotify(T *_parent) {
   parent = _parent;
   model = parent->model;
   row = parent->children.count();
@@ -151,8 +151,8 @@ void SimpleTreeItem<T>::Delete(int child_row) {
 }
 
 template <typename T>
-T* SimpleTreeItem<T>::ChildByKey(const QString &_key) const {
-  for (T* child : children) {
+T *SimpleTreeItem<T>::ChildByKey(const QString &_key) const {
+  for (T *child : children) {
     if (child->key == _key) return child;
   }
   return nullptr;

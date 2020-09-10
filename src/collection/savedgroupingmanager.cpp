@@ -74,14 +74,15 @@ SavedGroupingManager::~SavedGroupingManager() {
 QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g) {
 
   switch (g) {
-    case CollectionModel::GroupBy_None: {
+    case CollectionModel::GroupBy_None:
+    case CollectionModel::GroupByCount: {
       return tr("None");
-    }
-    case CollectionModel::GroupBy_Artist: {
-      return tr("Artist");
     }
     case CollectionModel::GroupBy_AlbumArtist: {
       return tr("Album artist");
+    }
+    case CollectionModel::GroupBy_Artist: {
+      return tr("Artist");
     }
     case CollectionModel::GroupBy_Album: {
       return tr("Album");
@@ -89,29 +90,29 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g)
     case CollectionModel::GroupBy_AlbumDisc: {
       return tr("Album - Disc");
     }
-    case CollectionModel::GroupBy_Disc: {
-      return tr("Disc");
-    }
-    case CollectionModel::GroupBy_Format: {
-      return tr("Format");
-    }
-    case CollectionModel::GroupBy_Genre: {
-      return tr("Genre");
-    }
-    case CollectionModel::GroupBy_Year: {
-      return tr("Year");
-    }
     case CollectionModel::GroupBy_YearAlbum: {
       return tr("Year - Album");
     }
     case CollectionModel::GroupBy_YearAlbumDisc: {
       return tr("Year - Album - Disc");
     }
+    case CollectionModel::GroupBy_OriginalYearAlbum: {
+      return tr("Original year - Album");
+    }
+    case CollectionModel::GroupBy_OriginalYearAlbumDisc: {
+      return tr("Original year - Album - Disc");
+    }
+    case CollectionModel::GroupBy_Disc: {
+      return tr("Disc");
+    }
+    case CollectionModel::GroupBy_Year: {
+      return tr("Year");
+    }
     case CollectionModel::GroupBy_OriginalYear: {
       return tr("Original year");
     }
-    case CollectionModel::GroupBy_OriginalYearAlbum: {
-      return tr("Original year - Album");
+    case CollectionModel::GroupBy_Genre: {
+      return tr("Genre");
     }
     case CollectionModel::GroupBy_Composer: {
       return tr("Composer");
@@ -125,6 +126,9 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g)
     case CollectionModel::GroupBy_FileType: {
       return tr("File type");
     }
+    case CollectionModel::GroupBy_Format: {
+      return tr("Format");
+    }
     case CollectionModel::GroupBy_Samplerate: {
       return tr("Sample rate");
     }
@@ -134,8 +138,9 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g)
     case CollectionModel::GroupBy_Bitrate: {
       return tr("Bitrate");
     }
-    default: { return tr("Unknown"); }
   }
+
+  return tr("Unknown");
 
 }
 
@@ -144,21 +149,33 @@ void SavedGroupingManager::UpdateModel() {
   model_->setRowCount(0);  // don't use clear, it deletes headers
   QSettings s;
   s.beginGroup(CollectionModel::kSavedGroupingsSettingsGroup);
-  QStringList saved = s.childKeys();
-  for (int i = 0; i < saved.size(); ++i) {
-    QByteArray bytes = s.value(saved.at(i)).toByteArray();
-    QDataStream ds(&bytes, QIODevice::ReadOnly);
-    CollectionModel::Grouping g;
-    ds >> g;
+  int version = s.value("version").toInt();
+  if (version == 1) {
+    QStringList saved = s.childKeys();
+    for (int i = 0; i < saved.size(); ++i) {
+      if (saved.at(i) == "version") continue;
+      QByteArray bytes = s.value(saved.at(i)).toByteArray();
+      QDataStream ds(&bytes, QIODevice::ReadOnly);
+      CollectionModel::Grouping g;
+      ds >> g;
 
-    QList<QStandardItem*> list;
-    list << new QStandardItem(saved.at(i))
-         << new QStandardItem(GroupByToString(g.first))
-         << new QStandardItem(GroupByToString(g.second))
-         << new QStandardItem(GroupByToString(g.third));
+      QList<QStandardItem*> list;
+      list << new QStandardItem(saved.at(i))
+           << new QStandardItem(GroupByToString(g.first))
+           << new QStandardItem(GroupByToString(g.second))
+           << new QStandardItem(GroupByToString(g.third));
 
-    model_->appendRow(list);
+      model_->appendRow(list);
+    }
   }
+  else {
+    QStringList saved = s.childKeys();
+    for (int i = 0; i < saved.size(); ++i) {
+      if (saved.at(i) == "version") continue;
+      s.remove(saved.at(i));
+    }
+  }
+  s.endGroup();
 
 }
 
@@ -173,6 +190,7 @@ void SavedGroupingManager::Remove() {
         s.remove(model_->item(index.row(), 0)->text());
       }
     }
+    s.endGroup();
   }
   UpdateModel();
   filter_->UpdateGroupByActions();

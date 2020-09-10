@@ -810,7 +810,7 @@ void InternetSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
 
   // Is this an album?
   const CollectionModel::GroupBy container_type = CollectionModel::GroupBy(proxy_index.data(CollectionModel::Role_ContainerType).toInt());
-  if (!CollectionModel::IsAlbumGrouping(container_type)) return;
+  if (!CollectionModel::IsAlbumGroupBy(container_type)) return;
 
   // Mark the item as loading art
 
