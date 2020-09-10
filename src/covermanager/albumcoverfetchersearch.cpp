@@ -81,6 +81,12 @@ void AlbumCoverFetcherSearch::TerminateSearch() {
 
 void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
 
+  // Ignore Radio Paradise "commercial" break.
+  if (request_.artist.toLower() == "commercial-free" && request_.title.toLower() == "listener-supported") {
+    TerminateSearch();
+    return;
+  }
+
   QList<CoverProvider*> cover_providers_sorted = cover_providers->List();
   std::stable_sort(cover_providers_sorted.begin(), cover_providers_sorted.end(), ProviderCompareOrder);
 
@@ -203,6 +209,9 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
         result_album.contains("mellow rock")
         )) {
       results_copy[i].score_match -= 1;
+    }
+    else if (request_album.isEmpty() && result_album.contains("soundtrack")) {
+      results_copy[i].score_match -= 0.5;
     }
 
     // Set the initial image quality score besed on the size returned by the API, this is recalculated when the image is received.

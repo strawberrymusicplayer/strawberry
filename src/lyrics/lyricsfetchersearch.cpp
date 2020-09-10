@@ -56,6 +56,12 @@ void LyricsFetcherSearch::TerminateSearch() {
 
 void LyricsFetcherSearch::Start(LyricsProviders *lyrics_providers) {
 
+  // Ignore Radio Paradise "commercial" break.
+  if (request_.artist.toLower() == "commercial-free" && request_.title.toLower() == "listener-supported") {
+    TerminateSearch();
+    return;
+  }
+
   QList<LyricsProvider*> lyrics_providers_sorted = lyrics_providers->List();
   std::stable_sort(lyrics_providers_sorted.begin(), lyrics_providers_sorted.end(), ProviderCompareOrder);
 
