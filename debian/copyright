@@ -12,7 +12,6 @@ Files: src/core/timeconstants.h
        ext/libstrawberry-common/core/logging.h
        ext/libstrawberry-common/core/messagehandler.cpp
        ext/libstrawberry-common/core/messagehandler.h
-       ext/libstrawberry-common/core/override.h
 Copyright: 2011, 2012, David Sansome <me@davidsansome.com>
 License: Apache-2.0
 
