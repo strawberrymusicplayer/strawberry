@@ -240,10 +240,16 @@ void InternetSearchView::ReloadSettings() {
       break;
   }
 
-  SetGroupBy(CollectionModel::Grouping(
-      CollectionModel::GroupBy(s.value("search_group_by1", int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-      CollectionModel::GroupBy(s.value("search_group_by2", int(CollectionModel::GroupBy_AlbumDisc)).toInt()),
-      CollectionModel::GroupBy(s.value("search_group_by3", int(CollectionModel::GroupBy_None)).toInt())));
+  int group_by_version = s.value("search_group_by_version", 0).toInt();
+  if (group_by_version == 1 && s.contains("search_group_by1") && s.contains("search_group_by2") && s.contains("search_group_by3")) {
+    SetGroupBy(CollectionModel::Grouping(
+        CollectionModel::GroupBy(s.value("search_group_by1", int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
+        CollectionModel::GroupBy(s.value("search_group_by2", int(CollectionModel::GroupBy_AlbumDisc)).toInt()),
+        CollectionModel::GroupBy(s.value("search_group_by3", int(CollectionModel::GroupBy_None)).toInt())));
+  }
+  else {
+    SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy(CollectionModel::GroupBy_AlbumArtist), CollectionModel::GroupBy(CollectionModel::GroupBy_AlbumDisc), CollectionModel::GroupBy(CollectionModel::GroupBy_None)));
+  }
   s.endGroup();
 
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
@@ -694,6 +700,7 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping &g) {
   // Save the setting
   QSettings s;
   s.beginGroup(service_->settings_group());
+  s.setValue("search_group_by_version", 1);
   s.setValue("search_group_by1", int(g.first));
   s.setValue("search_group_by2", int(g.second));
   s.setValue("search_group_by3", int(g.third));
