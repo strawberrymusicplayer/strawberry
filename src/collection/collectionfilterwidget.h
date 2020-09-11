@@ -77,6 +77,7 @@ class CollectionFilterWidget : public QWidget {
   void SetCollectionModel(CollectionModel *model);
 
   QString group_by();
+  QString group_by_version();
   QString group_by(const int number);
 
   void ReloadSettings();

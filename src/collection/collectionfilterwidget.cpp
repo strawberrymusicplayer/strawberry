@@ -163,6 +163,17 @@ QString CollectionFilterWidget::group_by() {
 
 }
 
+QString CollectionFilterWidget::group_by_version() {
+
+  if (settings_prefix_.isEmpty()) {
+    return QString("group_by_version");
+  }
+  else {
+    return QString("%1_group_by_version").arg(settings_prefix_);
+  }
+
+}
+
 QString CollectionFilterWidget::group_by(const int number) { return group_by() + QString::number(number); }
 
 void CollectionFilterWidget::UpdateGroupByActions() {
@@ -314,7 +325,7 @@ void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
     QSettings s;
     s.beginGroup(settings_group_);
     int version = 0;
-    if (s.contains("group_by_version")) version = s.value("group_by_version", 0).toInt();
+    if (s.contains(group_by_version())) version = s.value(group_by_version(), 0).toInt();
     if (version == 1) {
       model_->SetGroupBy(CollectionModel::Grouping(
           CollectionModel::GroupBy(s.value(group_by(1), int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
@@ -347,7 +358,7 @@ void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping &g)
     // Save the settings
     QSettings s;
     s.beginGroup(settings_group_);
-    s.setValue("group_by_version", 1);
+    s.setValue(group_by_version(), 1);
     s.setValue(group_by(1), int(g[0]));
     s.setValue(group_by(2), int(g[1]));
     s.setValue(group_by(3), int(g[2]));
