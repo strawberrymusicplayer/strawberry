@@ -636,7 +636,7 @@ msgstr "Dal évének hozzáadása"
 msgid "Add stream..."
 msgstr "Stream hozzáadása..."
 
-#: internet/internetsearchview.cpp:326
+#: internet/internetsearchview.cpp:332
 msgid "Add to albums"
 msgstr "Hozzáadás albumokhoz"
 
@@ -644,7 +644,7 @@ msgstr "Hozzáadás albumokhoz"
 msgid "Add to another playlist"
 msgstr "Hozzáadás másik lejátszólistához"
 
-#: internet/internetsearchview.cpp:323
+#: internet/internetsearchview.cpp:329
 msgid "Add to artists"
 msgstr "Hozzáadás előadókhoz"
 
@@ -652,7 +652,7 @@ msgstr "Hozzáadás előadókhoz"
 msgid "Add to playlist"
 msgstr "Hozzáadás lejátszólistához"
 
-#: internet/internetsearchview.cpp:329
+#: internet/internetsearchview.cpp:335
 msgid "Add to songs"
 msgstr "Hozzáadás dalokhoz"
 
@@ -686,7 +686,7 @@ msgstr "Hozzáadva ma"
 msgid "Added within three months"
 msgstr "Hozzáadva három hónapon belül"
 
-#: collection/collectionfilterwidget.cpp:241
+#: collection/collectionfilterwidget.cpp:252
 msgid "Advanced grouping..."
 msgstr "Egyedi csoportosítás…"
 
@@ -818,7 +818,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Fájlok/URL-ek hozzáfűzése a lejátszólistához"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:341
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:312
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:318
 #: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Hozzáfűzés az aktuális lejátszólistához"
@@ -1238,7 +1238,7 @@ msgstr "A konfiguráció hiányos"
 msgid "Configuration incorrect"
 msgstr "A konfiguráció hibás"
 
-#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:341
+#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:347
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
@@ -1784,7 +1784,7 @@ msgstr "Add meg az exportálandó borítók nevét (kiterjesztés nélkül):"
 msgid "Enter a new name for this playlist"
 msgstr "Adjon meg új nevet a lejátszólistának"
 
-#: internet/internetsearchview.cpp:398 ../build/src/ui_internetsearchview.h:231
+#: internet/internetsearchview.cpp:404 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr "Írja be a fenti keresési kifejezéseket a zene kereséséhez"
 
@@ -2178,63 +2178,63 @@ msgid "Group Collection by..."
 msgstr "Gyűjtemény csoportosítása..."
 
 #: collection/collectionfilterwidget.cpp:119
-#: internet/internetsearchview.cpp:339
+#: internet/internetsearchview.cpp:345
 msgid "Group by"
 msgstr "Csoportosítás"
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:217
 msgid "Group by Album"
 msgstr "Csoportosítás album szerint"
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:214
 msgid "Group by Album Artist"
 msgstr "Csoportosítás albumelőadó szerint"
 
-#: collection/collectionfilterwidget.cpp:190
+#: collection/collectionfilterwidget.cpp:201
 msgid "Group by Album artist/Album"
 msgstr "Csoportosítás albumelőadó/album szerint"
 
-#: collection/collectionfilterwidget.cpp:191
+#: collection/collectionfilterwidget.cpp:202
 msgid "Group by Album artist/Album - Disc"
 msgstr "Csoportosítás albumelőadó/album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:192
+#: collection/collectionfilterwidget.cpp:203
 msgid "Group by Album artist/Year - Album"
 msgstr "Csoportosítás albumelőadó/év - album szerint"
 
-#: collection/collectionfilterwidget.cpp:193
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Csoportosítás albumelőadó/év - album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:215
 msgid "Group by Artist"
 msgstr "Csoportosítás Előadó szerint"
 
-#: collection/collectionfilterwidget.cpp:195
+#: collection/collectionfilterwidget.cpp:206
 msgid "Group by Artist/Album"
 msgstr "Csoportosítás előadó/album szerint"
 
-#: collection/collectionfilterwidget.cpp:196
+#: collection/collectionfilterwidget.cpp:207
 msgid "Group by Artist/Album - Disc"
 msgstr "Csoportosítás előadó/album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:197
+#: collection/collectionfilterwidget.cpp:208
 msgid "Group by Artist/Year - Album"
 msgstr "Csoportosítás előadó/év - album szerint"
 
-#: collection/collectionfilterwidget.cpp:198
+#: collection/collectionfilterwidget.cpp:209
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Csoportosítás előadó/év - album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:218
 msgid "Group by Genre/Album"
 msgstr "Csoportosítás műfaj/album szerint"
 
-#: collection/collectionfilterwidget.cpp:200
+#: collection/collectionfilterwidget.cpp:211
 msgid "Group by Genre/Album artist/Album"
 msgstr "Csoportosítás műfaj/albumelőadó/album szerint"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:212
 msgid "Group by Genre/Artist/Album"
 msgstr "Csoportosítás műfaj/előadó/album szerint"
 
@@ -2245,11 +2245,11 @@ msgstr "Csoportosítás műfaj/előadó/album szerint"
 msgid "Grouping"
 msgstr "Csoportosítás"
 
-#: collection/collectionfilterwidget.cpp:262
+#: collection/collectionfilterwidget.cpp:273
 msgid "Grouping Name"
 msgstr "Csoportosítás neve:"
 
-#: collection/collectionfilterwidget.cpp:262
+#: collection/collectionfilterwidget.cpp:273
 msgid "Grouping name:"
 msgstr "Csoportosítás neve:"
 
@@ -2903,7 +2903,7 @@ msgid "Open device"
 msgstr "Eszköz megnyitása"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:343
-#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:314
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:320
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:308
 msgid "Open in new playlist"
@@ -3258,7 +3258,7 @@ msgid "Queue to play next"
 msgstr "Lejátszás következőre"
 
 #: core/mainwindow.cpp:1778 context/contextalbumsview.cpp:257
-#: collection/collectionview.cpp:346 internet/internetsearchview.cpp:317
+#: collection/collectionview.cpp:346 internet/internetsearchview.cpp:323
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
 msgstr "Szám hozzáadása a lejátszási sorhoz"
@@ -3414,7 +3414,7 @@ msgid "Repeat track"
 msgstr "Szám ismétlése"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:342
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:313
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:319
 #: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Aktuális lejátszólista cseréje"
@@ -3665,7 +3665,7 @@ msgstr "Keresés késleltetése"
 msgid "Search for album covers..."
 msgstr "Albumborítók keresése..."
 
-#: internet/internetsearchview.cpp:335
+#: internet/internetsearchview.cpp:341
 msgid "Search for this"
 msgstr "Keresés erre"
 

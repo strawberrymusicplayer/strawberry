@@ -630,7 +630,7 @@ msgstr "Přidat značku rok písně"
 msgid "Add stream..."
 msgstr "Přidat přenos..."
 
-#: internet/internetsearchview.cpp:326
+#: internet/internetsearchview.cpp:332
 msgid "Add to albums"
 msgstr "Přidat do alb"
 
@@ -638,7 +638,7 @@ msgstr "Přidat do alb"
 msgid "Add to another playlist"
 msgstr "Přidat do jiného seznamu skladeb"
 
-#: internet/internetsearchview.cpp:323
+#: internet/internetsearchview.cpp:329
 msgid "Add to artists"
 msgstr "Přidat k umělcům"
 
@@ -646,7 +646,7 @@ msgstr "Přidat k umělcům"
 msgid "Add to playlist"
 msgstr "Přidat do seznamu skladeb"
 
-#: internet/internetsearchview.cpp:329
+#: internet/internetsearchview.cpp:335
 msgid "Add to songs"
 msgstr "Přidat ke skladbám"
 
@@ -680,7 +680,7 @@ msgstr "Přidána dnes"
 msgid "Added within three months"
 msgstr "Přidána během tří měsíců"
 
-#: collection/collectionfilterwidget.cpp:241
+#: collection/collectionfilterwidget.cpp:252
 msgid "Advanced grouping..."
 msgstr "Pokročilé seskupování..."
 
@@ -813,7 +813,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Přidat soubory/adresy do seznamu skladeb"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:341
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:312
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:318
 #: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Přidat do současného seznamu skladeb"
@@ -1231,7 +1231,7 @@ msgstr "Konfigurace není hotová"
 msgid "Configuration incorrect"
 msgstr "Konfigurace není správná"
 
-#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:341
+#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:347
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
@@ -1778,7 +1778,7 @@ msgstr "Zadejte souborový název pro uložené obaly (bez přípony):"
 msgid "Enter a new name for this playlist"
 msgstr "Zadejte název tohoto seznamu skladeb"
 
-#: internet/internetsearchview.cpp:398 ../build/src/ui_internetsearchview.h:231
+#: internet/internetsearchview.cpp:404 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr "Výše zadejte hledaný výraz pro vyhledání hudby"
 
@@ -2175,63 +2175,63 @@ msgid "Group Collection by..."
 msgstr "Seskupovat v hudební sbírce podle..."
 
 #: collection/collectionfilterwidget.cpp:119
-#: internet/internetsearchview.cpp:339
+#: internet/internetsearchview.cpp:345
 msgid "Group by"
 msgstr "Seskupovat podle"
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:217
 msgid "Group by Album"
 msgstr "Seskupovat podle alba"
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:214
 msgid "Group by Album Artist"
 msgstr "Seskupit dle Autora alba"
 
-#: collection/collectionfilterwidget.cpp:190
+#: collection/collectionfilterwidget.cpp:201
 msgid "Group by Album artist/Album"
 msgstr "Seskupovat podle umělce alba/alba"
 
-#: collection/collectionfilterwidget.cpp:191
+#: collection/collectionfilterwidget.cpp:202
 msgid "Group by Album artist/Album - Disc"
 msgstr "Seskupit jako Autor alba/Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:192
+#: collection/collectionfilterwidget.cpp:203
 msgid "Group by Album artist/Year - Album"
 msgstr "Seskupit jako Autor alba/Rok - Album"
 
-#: collection/collectionfilterwidget.cpp:193
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Seskupit jako Autor alba/Rok - Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:215
 msgid "Group by Artist"
 msgstr "Seskupovat podle umělce"
 
-#: collection/collectionfilterwidget.cpp:195
+#: collection/collectionfilterwidget.cpp:206
 msgid "Group by Artist/Album"
 msgstr "Seskupovat podle umělce/alba"
 
-#: collection/collectionfilterwidget.cpp:196
+#: collection/collectionfilterwidget.cpp:207
 msgid "Group by Artist/Album - Disc"
 msgstr "Seskupit jako Umělec/Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:197
+#: collection/collectionfilterwidget.cpp:208
 msgid "Group by Artist/Year - Album"
 msgstr "Seskupovat podle umělce/roku - alba"
 
-#: collection/collectionfilterwidget.cpp:198
+#: collection/collectionfilterwidget.cpp:209
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Seskupit jako Umělec/Rok - Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:218
 msgid "Group by Genre/Album"
 msgstr "Seskupovat podle žánru/alba"
 
-#: collection/collectionfilterwidget.cpp:200
+#: collection/collectionfilterwidget.cpp:211
 msgid "Group by Genre/Album artist/Album"
 msgstr "Seskupit jako Žánr/Autor alba/Album"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:212
 msgid "Group by Genre/Artist/Album"
 msgstr "Seskupovat podle žánru/umělce/alba"
 
@@ -2242,11 +2242,11 @@ msgstr "Seskupovat podle žánru/umělce/alba"
 msgid "Grouping"
 msgstr "Seskupení"
 
-#: collection/collectionfilterwidget.cpp:262
+#: collection/collectionfilterwidget.cpp:273
 msgid "Grouping Name"
 msgstr "Název seskupení"
 
-#: collection/collectionfilterwidget.cpp:262
+#: collection/collectionfilterwidget.cpp:273
 msgid "Grouping name:"
 msgstr "Název seskupení:"
 
@@ -2901,7 +2901,7 @@ msgid "Open device"
 msgstr "Otevřít zařízení"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:343
-#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:314
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:320
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:308
 msgid "Open in new playlist"
@@ -3254,7 +3254,7 @@ msgid "Queue to play next"
 msgstr "Do fronty jako další"
 
 #: core/mainwindow.cpp:1778 context/contextalbumsview.cpp:257
-#: collection/collectionview.cpp:346 internet/internetsearchview.cpp:317
+#: collection/collectionview.cpp:346 internet/internetsearchview.cpp:323
 #: internet/internetcollectionview.cpp:316
 msgid "Queue track"
 msgstr "Přidat skladbu do řady"
@@ -3406,7 +3406,7 @@ msgid "Repeat track"
 msgstr "Opakovat skladbu"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:342
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:313
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:319
 #: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Nahradit současný seznam skladeb"
@@ -3660,7 +3660,7 @@ msgstr "Zpožděné vyhledávání"
 msgid "Search for album covers..."
 msgstr "Hledat obaly alb..."
 
-#: internet/internetsearchview.cpp:335
+#: internet/internetsearchview.cpp:341
 msgid "Search for this"
 msgstr "Hledat toto"
 
