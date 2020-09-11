@@ -944,10 +944,6 @@ jobs:
         working-directory: build
         run: make -j2
 
-      - name: Strip executables
-        working-directory: build
-        run: /usr/src/strawberry-mxe/usr/bin/x86_64-w64-mingw32.shared-strip *.exe
-
       - name: Create directories
         working-directory: build
         run: mkdir -p gio-modules platforms sqldrivers imageformats styles gstreamer-plugins nsisplugins
@@ -1024,13 +1020,9 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstlibav.dll
           ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
 
-      - name: Copy killproc.exe
+      - name: Copy extra binaries
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/killproc.exe .
-
-      - name: Copy liborc-0.4-0.dll
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/liborc-0.4-0.dll .
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,killproc.exe,liborc-0.4-0.dll} .
 
       - name: Copy dependencies
         working-directory: build
@@ -1045,6 +1037,10 @@ jobs:
           -F ./imageformats
           -F ./gstreamer-plugins
           -R /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared
+
+      - name: Strip binaries
+        working-directory: build
+        run: find . -type f \( -iname \*.dll -o -iname \*.exe \) -exec /usr/src/strawberry-mxe/usr/bin/x86_64-w64-mingw32.shared-strip {} \;
 
       - name: Copy nsis files
         working-directory: build
