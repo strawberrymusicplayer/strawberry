@@ -111,4 +111,3 @@ void GstStartup::SetEnvironment() {
   Utilities::SetEnv("PULSE_PROP_media.role", "music");
 
 }
-
