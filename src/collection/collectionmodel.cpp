@@ -397,7 +397,7 @@ QString CollectionModel::DividerKey(const GroupBy type, CollectionItem *item) co
     case GroupBy_Genre:
     case GroupBy_Format:
     case GroupBy_FileType: {
-      QChar c = item->sort_text[0];
+      QChar c = item->sort_text[0].toUpper();
       if (c.isDigit()) return "0";
       if (c == ' ') return QString();
         if (c.decompositionTag() != QChar::NoDecomposition)
@@ -1564,7 +1564,8 @@ void CollectionModel::FinishItem(const GroupBy type, const bool signal, const bo
   // Create the divider entry if we're supposed to
   if (create_divider && show_dividers_) {
     QString divider_key = DividerKey(type, item);
-    item->sort_text.prepend(divider_key);
+    if (item->sort_text.isEmpty() || item->sort_text[0].toUpper() != divider_key)
+      item->sort_text.prepend(divider_key);
 
     if (!divider_key.isEmpty() && !divider_nodes_.contains(divider_key)) {
       if (signal)
@@ -1573,7 +1574,7 @@ void CollectionModel::FinishItem(const GroupBy type, const bool signal, const bo
       CollectionItem *divider = new CollectionItem(CollectionItem::Type_Divider, root_);
       divider->key = divider_key;
       divider->display_text = DividerDisplayText(type, divider_key);
-      divider->sort_text = divider_key;
+      divider->sort_text = divider_key + "0000";
       divider->lazy_loaded = true;
 
       divider_nodes_[divider_key] = divider;
