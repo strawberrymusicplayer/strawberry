@@ -619,7 +619,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
 
   QAction *collection_config_action = new QAction(IconLoader::Load("configure"), tr("Configure collection..."), this);
   connect(collection_config_action, SIGNAL(triggered()), SLOT(ShowCollectionConfig()));
-  collection_view_->filter()->SetSettingsGroup(kSettingsGroup);
+  collection_view_->filter()->SetSettingsGroup(CollectionSettingsPage::kSettingsGroup);
   collection_view_->filter()->SetCollectionModel(app_->collection()->model());
 
   QAction *separator = new QAction(this);
