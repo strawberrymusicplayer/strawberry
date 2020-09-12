@@ -4472,7 +4472,7 @@ msgstr "Ultraszerokie pasmo (UWB)"
 #: core/song.cpp:538 context/contextalbumsmodel.cpp:357
 #: collection/collectionmodel.cpp:461 collection/collectionmodel.cpp:466
 #: collection/collectionmodel.cpp:470 collection/collectionmodel.cpp:474
-#: collection/collectionmodel.cpp:478 collection/collectionmodel.cpp:1589
+#: collection/collectionmodel.cpp:478 collection/collectionmodel.cpp:1590
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:554 playlist/playlistmanager.cpp:555
 #: dialogs/edittagdialog.cpp:494 dialogs/edittagdialog.cpp:542
