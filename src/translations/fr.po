@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-09-09 07:20-0400\n"
+"PO-Revision-Date: 2020-09-14 01:32-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -3005,7 +3005,7 @@ msgstr "Année d'origine - Album"
 
 #: collection/savedgroupingmanager.cpp:103
 msgid "Original year - Album - Disc"
-msgstr ""
+msgstr "Année d'origine - Album - CD"
 
 #: core/commandlineoptions.cpp:183
 msgid "Other options"
@@ -4768,6 +4768,8 @@ msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"
 msgstr ""
+"Souhaitez-vous également déplacer les autres morceaux de cet album vers "
+"Compilations d'artistes ?"
 
 #: core/mainwindow.cpp:2651
 msgid "Would you like to run a full rescan right now?"
