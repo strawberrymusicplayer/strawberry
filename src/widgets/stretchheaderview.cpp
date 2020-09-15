@@ -44,7 +44,10 @@ StretchHeaderView::StretchHeaderView(const Qt::Orientation orientation, QWidget 
     : QHeaderView(orientation, parent),
       stretch_enabled_(false),
     in_mouse_move_event_(false) {
+
   connect(this, SIGNAL(sectionResized(int,int,int)), SLOT(SectionResized(int,int,int)));
+  setMinimumSectionSize(kMinimumColumnWidth);
+
 }
 
 void StretchHeaderView::setModel(QAbstractItemModel *model) {
@@ -91,9 +94,6 @@ void StretchHeaderView::UpdateWidths(const QList<int> &sections) {
   for (int i = 0; i < column_widths_.count(); ++i) {
     const ColumnWidthType w = column_widths_[i];
     int pixels = w * width();
-
-    if (pixels != 0 && total_w - int(total_w) > 0.5)
-      pixels ++;
 
     total_w += w;
 
