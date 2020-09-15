@@ -226,6 +226,7 @@ set(SOURCES
   scrobbler/librefmscrobbler.cpp
   scrobbler/listenbrainzscrobbler.cpp
   scrobbler/lastfmimport.cpp
+  scrobbler/subsonicscrobbler.cpp
 
   organize/organize.cpp
   organize/organizeformat.cpp
@@ -426,6 +427,7 @@ set(HEADERS
   scrobbler/librefmscrobbler.h
   scrobbler/listenbrainzscrobbler.h
   scrobbler/lastfmimport.h
+  scrobbler/subsonicscrobbler.h
 
   organize/organize.h
   organize/organizedialog.h

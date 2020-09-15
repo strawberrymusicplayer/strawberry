@@ -27,6 +27,7 @@
 #include <QPair>
 #include <QList>
 #include <QString>
+#include <QVariant>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QNetworkAccessManager>
@@ -377,6 +378,17 @@ void SubsonicService::CheckConfiguration() {
     return;
   }
 
+}
+
+void SubsonicService::Scrobble(QString subsonic_song_id, bool submission) {
+  if (!scrobble_request_) {
+    scrobble_request_.reset(new SubsonicRequest(this, url_handler_, app_, this));
+  }
+
+  scrobble_request_->CreateGetRequest("scrobble", ParamList() <<
+    Param("id", subsonic_song_id) <<
+    Param("submission", QVariant(submission).toString())
+  );
 }
 
 void SubsonicService::ResetSongsRequest() {

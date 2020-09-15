@@ -79,6 +79,7 @@ class SubsonicService : public InternetService {
   QSortFilterProxyModel *songs_collection_sort_model() override { return collection_sort_model_; }
 
   void CheckConfiguration();
+  void Scrobble(QString subsonic_song_id, bool submission);
 
  public slots:
   void ShowConfig() override;
@@ -116,6 +117,7 @@ class SubsonicService : public InternetService {
   QSortFilterProxyModel *collection_sort_model_;
 
   std::shared_ptr<SubsonicRequest> songs_request_;
+  std::shared_ptr<SubsonicRequest> scrobble_request_;
 
   QUrl server_url_;
   QString username_;
