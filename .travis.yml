@@ -15,7 +15,6 @@ before_install:
   - brew update
   - travis_wait 120 brew upgrade || echo "Failed"
   - travis_wait 120 brew upgrade || echo "Failed"
-  - brew unlink python@2
   - brew install glib pkgconfig libffi protobuf protobuf-c qt gettext gnutls fftw sqlite chromaprint zlib taglib
   - brew install gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav
   - brew install libcdio libmtp

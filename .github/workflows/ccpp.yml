@@ -845,8 +845,6 @@ jobs:
         run: brew update
       - name: Upgrade
         run: brew upgrade
-      - name: Unlink python
-        run: brew unlink python@2
       - name: Install packages
         run: >
           brew install
