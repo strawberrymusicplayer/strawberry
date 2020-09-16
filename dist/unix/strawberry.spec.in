@@ -108,14 +108,18 @@ Features:
 
 %build
 %{cmake} -DCMAKE_BUILD_TYPE:STRING=Release
-%if 0%{?centos}
+%if 0%{?centos} || 0%{?mageia}
   %make_build
 %else
   %cmake_build
 %endif
 
 %install
-%cmake_install
+%if 0%{?centos} || 0%{?mageia}
+  %make_install
+%else
+  %cmake_install
+%endif
 
 %if 0%{?suse_version}
   %suse_update_desktop_file org.strawberrymusicplayer.strawberry Qt AudioVideo Audio Player
