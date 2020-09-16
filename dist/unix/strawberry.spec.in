@@ -80,13 +80,6 @@ BuildRequires:  pkgconfig(libvlc)
 Requires:       libQt5Sql5-sqlite
 %endif
 
-%if 0%{?suse_version} && 0%{?suse_version} < 1500
-Requires(post): update-desktop-files
-Requires(post): gtk3-tools
-Requires(postun): update-desktop-files
-Requires(postun): gtk3-tools
-%endif
-
 %description
 Strawberry is a music player and music collection organizer.
 It is a fork of Clementine. The name is inspired by the band Strawbs.
@@ -114,52 +107,18 @@ Features:
 %setup -qn %{name}-@STRAWBERRY_VERSION_PACKAGE@
 
 %build
-%if 0%{?suse_version} || 0%{?mageia}
-  %{cmake} ..
+%{cmake} -DCMAKE_BUILD_TYPE:STRING=Release
+%if 0%{?centos}
+  %make_build
 %else
-  mkdir -p %{_target_platform}
-  pushd %{_target_platform}
-  %{cmake} ..
-  popd
-%endif
-
-%if 0%{?suse_version} || 0%{?mageia}
-  %if 0%{?suse_version} && 0%{?suse_version} < 1500
-    make %{?_smp_mflags}
-  %else
-    %make_build
-  %endif
-%else
-  %make_build -C %{_target_platform}
+  %cmake_build
 %endif
 
 %install
-%if 0%{?suse_version}
-  %cmake_install
-%else
-  %if 0%{?mageia}
-    %make_install -C build
-  %else
-    %make_install -C %{_target_platform}
-  %endif
-%endif
-
-%if 0%{?suse_version} && 0%{?suse_version} < 1500
-rm -f %{buildroot}%{_datadir}/metainfo/org.strawberrymusicplayer.strawberry.appdata.xml
-%endif
+%cmake_install
 
 %if 0%{?suse_version}
   %suse_update_desktop_file org.strawberrymusicplayer.strawberry Qt AudioVideo Audio Player
-%endif
-
-%if 0%{?suse_version} && 0%{?suse_version} < 1500
-%post
-%desktop_database_post
-%icon_theme_cache_post
-
-%postun
-%desktop_database_postun
-%icon_theme_cache_postun
 %endif
 
 %check
@@ -167,9 +126,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawberrymusicpl
 %if 0%{?fedora_version}
   appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.strawberrymusicplayer.strawberry.appdata.xml
 %else
-  %if ! 0%{?suse_version} || ( 0%{?suse_version} && 0%{?suse_version} >= 1500 )
-    appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.strawberrymusicplayer.strawberry.appdata.xml
-  %endif
+  appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.strawberrymusicplayer.strawberry.appdata.xml
 %endif
 
 %files
@@ -183,9 +140,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawberrymusicpl
 %if 0%{?fedora_version}
   %{_metainfodir}/*.appdata.xml
 %else
-  %if ! 0%{?suse_version} || ( 0%{?suse_version} && 0%{?suse_version} >= 1500 )
-    %{_datadir}/metainfo/*.appdata.xml
-  %endif
+  %{_datadir}/metainfo/*.appdata.xml
 %endif
 %{_mandir}/man1/%{name}.1.*
 %{_mandir}/man1/%{name}-tagreader.1.*
