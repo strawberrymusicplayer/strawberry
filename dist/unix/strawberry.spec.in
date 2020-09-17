@@ -115,10 +115,14 @@ Features:
 %endif
 
 %install
-%if 0%{?centos} || 0%{?mageia}
+%if 0%{?centos}
   %make_install
 %else
+%if 0%{?mageia}
+  %make_install -C build
+%else
   %cmake_install
+%endif
 %endif
 
 %if 0%{?suse_version}
