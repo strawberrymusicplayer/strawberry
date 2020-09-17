@@ -37,40 +37,24 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QSettings>
 #include <QtDebug>
 
 #include "core/application.h"
 #include "core/network.h"
 #include "core/logging.h"
 #include "core/song.h"
-#include "core/utilities.h"
-#include "dialogs/userpassdialog.h"
+#include "internet/internetservices.h"
+#include "qobuz/qobuzservice.h"
+#include "qobuz/qobuzbaserequest.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
 #include "qobuzcoverprovider.h"
 
-const char *QobuzCoverProvider::kSettingsGroup = "Qobuz";
-const char *QobuzCoverProvider::kAuthUrl = "https://www.qobuz.com/api.json/0.2/user/login";
-const char *QobuzCoverProvider::kApiUrl = "https://www.qobuz.com/api.json/0.2";
-const char *QobuzCoverProvider::kAppID = "OTQyODUyNTY3";
 const int QobuzCoverProvider::kLimit = 10;
 
-QobuzCoverProvider::QobuzCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Qobuz", true, true, 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {
-
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-  username_ = s.value("username").toString();
-  QByteArray password = s.value("password").toByteArray();
-  if (password.isEmpty()) password_.clear();
-  else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
-  user_auth_token_ = s.value("user_auth_token").toString();
-  user_id_ = s.value("user_id").toLongLong();
-  credential_id_ = s.value("credential_id").toLongLong();
-  device_id_ = s.value("device_id").toString();
-  s.endGroup();
-
-}
+QobuzCoverProvider::QobuzCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Qobuz", true, true, 2.0, true, true, app, parent),
+  service_(app->internet_services()->Service<QobuzService>()),
+  network_(new NetworkAccessManager(this)) {}
 
 QobuzCoverProvider::~QobuzCoverProvider() {
 
@@ -79,221 +63,6 @@ QobuzCoverProvider::~QobuzCoverProvider() {
     disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
-  }
-
-}
-
-void QobuzCoverProvider::Authenticate() {
-
-  login_errors_.clear();
-
-  if (username_.isEmpty() || password_.isEmpty()) {
-    UserPassDialog dialog;
-    if (dialog.exec() == QDialog::Rejected || dialog.username().isEmpty() || dialog.password().isEmpty()) {
-      AuthError(tr("Missing username and password."));
-      return;
-    }
-    username_ = dialog.username();
-    password_ = dialog.password();
-  }
-
-  const ParamList params = ParamList() << Param("app_id", QString::fromUtf8(QByteArray::fromBase64(kAppID)))
-                                       << Param("username", username_)
-                                       << Param("password", password_)
-                                       << Param("device_manufacturer_id", Utilities::MacAddress());
-
-  QUrlQuery url_query;
-  for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-  }
-
-  QUrl url(kAuthUrl);
-  QNetworkRequest req(url);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-
-  QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
-  QNetworkReply *reply = network_->post(req, query);
-  replies_ << reply;
-  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
-  connect(reply, &QNetworkReply::finished, [=] { HandleAuthReply(reply); });
-
-}
-
-void QobuzCoverProvider::HandleAuthReply(QNetworkReply *reply) {
-
-  if (!replies_.contains(reply)) return;
-  replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
-  reply->deleteLater();
-
-  if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-      // This is a network error, there is nothing more to do.
-      AuthError(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-      return;
-    }
-    else {
-      // See if there is Json data containing "status", "code" and "message" - then use that instead.
-      QByteArray data(reply->readAll());
-      QJsonParseError json_error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
-        QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("code") && json_obj.contains("message")) {
-          QString status = json_obj["status"].toString();
-          int code = json_obj["code"].toInt();
-          QString message = json_obj["message"].toString();
-          login_errors_ << QString("%1 (%2)").arg(message).arg(code);
-          if (code == 401) {
-            username_.clear();
-            password_.clear();
-          }
-        }
-      }
-      if (login_errors_.isEmpty()) {
-        if (reply->error() != QNetworkReply::NoError) {
-          login_errors_ << QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-          if(reply->error() == QNetworkReply::AuthenticationRequiredError) {
-            username_.clear();
-            password_.clear();
-          }
-        }
-        else {
-          login_errors_ << QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-        }
-      }
-      AuthError();
-      return;
-    }
-  }
-
-  login_errors_.clear();
-
-  QByteArray data = reply->readAll();
-  QJsonParseError json_error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-
-  if (json_error.error != QJsonParseError::NoError) {
-    AuthError("Authentication reply from server missing Json data.");
-    return;
-  }
-
-  if (json_doc.isEmpty()) {
-    AuthError("Authentication reply from server has empty Json document.");
-    return;
-  }
-
-  if (!json_doc.isObject()) {
-    AuthError("Authentication reply from server has Json document that is not an object.", json_doc);
-    return;
-  }
-
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    AuthError("Authentication reply from server has empty Json object.", json_doc);
-    return;
-  }
-
-  if (!json_obj.contains("user_auth_token")) {
-    AuthError("Authentication reply from server is missing user_auth_token", json_obj);
-    return;
-  }
-  user_auth_token_ = json_obj["user_auth_token"].toString();
-
-  if (!json_obj.contains("user")) {
-    AuthError("Authentication reply from server is missing user", json_obj);
-    return;
-  }
-  QJsonValue json_user = json_obj["user"];
-  if (!json_user.isObject()) {
-    AuthError("Authentication reply user is not a object", json_obj);
-    return;
-  }
-  QJsonObject json_obj_user = json_user.toObject();
-
-  if (!json_obj_user.contains("id")) {
-    AuthError("Authentication reply from server is missing user id", json_obj_user);
-    return;
-  }
-  user_id_ = json_obj_user["id"].toVariant().toLongLong();
-
-  if (!json_obj_user.contains("device")) {
-    AuthError("Authentication reply from server is missing user device", json_obj_user);
-    return;
-  }
-  QJsonValue json_device = json_obj_user["device"];
-  if (!json_device.isObject()) {
-    AuthError("Authentication reply from server user device is not a object", json_device);
-    return;
-  }
-  QJsonObject json_obj_device = json_device.toObject();
-
-  if (!json_obj_device.contains("device_manufacturer_id")) {
-    AuthError("Authentication reply from server device is missing device_manufacturer_id", json_obj_device);
-    return;
-  }
-  device_id_ = json_obj_device["device_manufacturer_id"].toString();
-
-  if (!json_obj_user.contains("credential")) {
-    AuthError("Authentication reply from server is missing user credential", json_obj_user);
-    return;
-  }
-  QJsonValue json_credential = json_obj_user["credential"];
-  if (!json_credential.isObject()) {
-    AuthError("Authentication reply from serve userr credential is not a object", json_device);
-    return;
-  }
-  QJsonObject json_obj_credential = json_credential.toObject();
-
-  if (!json_obj_credential.contains("id")) {
-    AuthError("Authentication reply user credential from server is missing user credential id", json_obj_device);
-    return;
-  }
-  //credential_id_ = json_obj_credential["id"].toInt();
-
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("username", username_);
-  s.setValue("password", password_.toUtf8().toBase64());
-  s.setValue("user_auth_token", user_auth_token_);
-  s.setValue("user_id", user_id_);
-  s.setValue("credential_id", credential_id_);
-  s.setValue("device_id", device_id_);
-  s.endGroup();
-
-  qLog(Debug) << "Qobuz: Login successful" << "user id" << user_id_ << "user auth token" << user_auth_token_ << "device id" << device_id_;
-
-  emit AuthenticationComplete(true);
-  emit AuthenticationSuccess();
-
-}
-
-void QobuzCoverProvider::Deauthenticate() {
-
-  user_auth_token_.clear();
-  user_id_ = 0;
-  credential_id_ = 0;
-  device_id_.clear();
-
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.remove("user_auth_token");
-  s.remove("user_id");
-  s.remove("credential_id");
-  s.remove("device_id");
-  s.endGroup();
-
-}
-
-void QobuzCoverProvider::HandleLoginSSLErrors(QList<QSslError> ssl_errors) {
-
-  for (const QSslError &ssl_error : ssl_errors) {
-    login_errors_ += ssl_error.errorString();
   }
 
 }
@@ -319,7 +88,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
 
   ParamList params = ParamList() << Param("query", query)
                                  << Param("limit", QString::number(kLimit))
-                                 << Param("app_id", QString::fromUtf8(QByteArray::fromBase64(kAppID)));
+                                 << Param("app_id", service_->app_id().toUtf8());
 
   std::sort(params.begin(), params.end());
 
@@ -328,7 +97,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(kApiUrl + QString("/") + resource);
+  QUrl url(QobuzBaseRequest::kApiUrl + QString("/") + resource);
   url.setQuery(url_query);
 
   QNetworkRequest req(url);
@@ -338,7 +107,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  req.setRawHeader("X-App-Id", kAppID);
+  req.setRawHeader("X-App-Id", service_->app_id().toUtf8());
   req.setRawHeader("X-User-Auth-Token", user_auth_token_.toUtf8());
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
@@ -514,20 +283,6 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   }
   emit SearchFinished(id, results);
-
-}
-
-void QobuzCoverProvider::AuthError(const QString &error, const QVariant &debug) {
-
-  if (!error.isEmpty()) login_errors_ << error;
-
-  for (const QString &e : login_errors_) Error(e);
-  if (debug.isValid()) qLog(Debug) << debug;
-
-  emit AuthenticationFailure(login_errors_);
-  emit AuthenticationComplete(false, login_errors_);
-
-  login_errors_.clear();
 
 }
 

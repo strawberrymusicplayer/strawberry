@@ -245,6 +245,8 @@ class Song {
   const QString &cue_path() const;
   bool has_cue() const;
 
+  float rating() const;
+
   const QString &effective_album() const;
   int effective_originalyear() const;
   const QString &effective_albumartist() const;
@@ -287,6 +289,8 @@ class Song {
   QString TitleWithCompilationArtist() const;
 
   QString SampleRateBitDepthToText() const;
+
+  QString PrettyRating() const;
 
   // Setters
   bool IsEditable() const;
@@ -345,6 +349,8 @@ class Song {
   void set_art_manual(const QUrl &v);
 
   void set_cue_path(const QString &v);
+
+  void set_rating(const float v);
 
   void set_stream_url(const QUrl &v);
   void set_image(const QImage &i);

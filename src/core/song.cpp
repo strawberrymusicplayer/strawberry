@@ -125,6 +125,8 @@ const QStringList Song::kColumns = QStringList() << "title"
 
                                                  << "cue_path"
 
+                                                 << "rating"
+
 						 ;
 
 const QString Song::kColumnSpec = Song::kColumns.join(", ");
@@ -217,6 +219,8 @@ struct Song::Private : public QSharedData {
 
   QString cue_path_;            // If the song has a CUE, this contains it's path.
 
+  float rating_;                // Database rating, not read from tags.
+
   QUrl stream_url_;             // Temporary stream url set by url handler.
   QImage image_;                // Album Cover image set by album cover loader.
   bool init_from_file_;         // Whether this song was loaded from a file using taglib.
@@ -258,6 +262,8 @@ Song::Private::Private(Song::Source source)
       compilation_detected_(false),
       compilation_on_(false),
       compilation_off_(false),
+
+      rating_(-1),
 
       init_from_file_(false),
       suspicious_tags_(false)
@@ -346,6 +352,8 @@ const QImage &Song::image() const { return d->image_; }
 
 const QString &Song::cue_path() const { return d->cue_path_; }
 bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
+
+float Song::rating() const { return d->rating_; }
 
 bool Song::is_collection_song() const { return d->source_ == Source_Collection; }
 bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.isEmpty() && !d->title_.isEmpty(); }
@@ -443,6 +451,8 @@ void Song::set_compilation_off(bool v) { d->compilation_off_ = v; }
 void Song::set_art_automatic(const QUrl &v) { d->art_automatic_ = v; }
 void Song::set_art_manual(const QUrl &v) { d->art_manual_ = v; }
 void Song::set_cue_path(const QString &v) { d->cue_path_ = v; }
+
+void Song::set_rating(float v) { d->rating_ = v; }
 
 void Song::set_stream_url(const QUrl &v) { d->stream_url_ = v; }
 void Song::set_image(const QImage &i) { d->image_ = i; }
@@ -1000,6 +1010,10 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
       d->cue_path_ = tostr(x);
     }
 
+    else if (Song::kColumns.value(i) == "rating") {
+      d->rating_ = tofloat(x);
+    }
+
     else {
       qLog(Error) << "Forgot to handle" << Song::kColumns.value(i);
     }
@@ -1363,6 +1377,8 @@ void Song::BindToQuery(QSqlQuery *query) const {
 
   query->bindValue(":cue_path", d->cue_path_);
 
+  query->bindValue(":rating", intval(d->rating_));
+
 #undef intval
 #undef notnullintval
 #undef strval
@@ -1438,6 +1454,16 @@ QString Song::SampleRateBitDepthToText() const {
   if (d->bitdepth_ == -1) return QString("%1 hz").arg(d->samplerate_);
 
   return QString("%1 hz / %2 bit").arg(d->samplerate_).arg(d->bitdepth_);
+
+}
+
+QString Song::PrettyRating() const {
+
+  float rating = d->rating_;
+
+  if (rating == -1.0f) return "0";
+
+  return QString::number(static_cast<int>(rating * 100));
 
 }
 
@@ -1547,5 +1573,6 @@ void Song::MergeUserSetData(const Song &other) {
   set_art_manual(other.art_manual());
   set_compilation_on(other.compilation_on());
   set_compilation_off(other.compilation_off());
+  set_rating(other.rating());
 
 }

@@ -72,6 +72,8 @@ class QTimerEvent;
 class Application;
 class CollectionBackend;
 class PlaylistHeader;
+class DynamicPlaylistControls;
+class RatingItemDelegate;
 
 // This proxy style works around a bug/feature introduced in Qt 4.7's QGtkStyle
 // that uses Gtk to paint row backgrounds, ignoring any custom brush or palette the caller set in the QStyleOption.
@@ -148,6 +150,7 @@ class PlaylistView : public QTreeView {
   void dropEvent(QDropEvent *event) override;
   bool eventFilter(QObject *object, QEvent *event) override;
   void focusInEvent(QFocusEvent *event) override;
+  void resizeEvent(QResizeEvent *event) override;
 
   // QTreeView
   void drawTree(QPainter *painter, const QRegion &region) const;
@@ -177,6 +180,10 @@ class PlaylistView : public QTreeView {
   void Stopped();
   void SongChanged(const Song &song);
   void AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResult result = AlbumCoverLoaderResult());
+  void DynamicModeChanged(const bool dynamic);
+  void SetRatingLockStatus(const bool state);
+  void RatingHoverIn(const QModelIndex &idx, const QPoint &pos);
+  void RatingHoverOut();
 
  private:
   void LoadHeaderState();
@@ -205,6 +212,8 @@ class PlaylistView : public QTreeView {
   QList<int> GetEditableColumns();
   QModelIndex NextEditableIndex(const QModelIndex &current);
   QModelIndex PrevEditableIndex(const QModelIndex &current);
+
+  void RepositionDynamicControls();
 
   Application *app_;
   PlaylistProxyStyle *style_;
@@ -275,10 +284,15 @@ class PlaylistView : public QTreeView {
   int drop_indicator_row_;
   bool drag_over_;
 
+  int header_state_version_;
   QByteArray header_state_;
   ColumnAlignmentMap column_alignment_;
+  bool rating_locked_;
 
   Song song_playing_;
+
+  DynamicPlaylistControls *dynamic_controls_;
+  RatingItemDelegate *rating_delegate_;
 
 };
 

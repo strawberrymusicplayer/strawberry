@@ -493,3 +493,40 @@ void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   painter->drawPixmap(draw_rect, pixmap);
 
 }
+
+RatingItemDelegate::RatingItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
+
+void RatingItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
+
+  // Draw the background
+  option.widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &option, painter, option.widget);
+
+  // Don't draw anything else if the user can't set the rating of this item
+  if (!idx.data(Playlist::Role_CanSetRating).toBool()) return;
+
+  const bool hover = mouse_over_index_.isValid() && (mouse_over_index_ == idx || (selected_indexes_.contains(mouse_over_index_) && selected_indexes_.contains(idx)));
+
+  const double rating = (hover ? RatingPainter::RatingForPos(mouse_over_pos_, option.rect) : idx.data().toDouble());
+
+  painter_.Paint(painter, option.rect, rating);
+
+}
+
+QSize RatingItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const {
+
+  QSize size = PlaylistDelegateBase::sizeHint(option, idx);
+  size.setWidth(size.height() * RatingPainter::kStarCount);
+  return size;
+
+}
+
+QString RatingItemDelegate::displayText(const QVariant &value, const QLocale&) const {
+
+  if (value.isNull() || value.toDouble() <= 0) return QString();
+
+  // Round to the nearest 0.5
+  const double rating = float(int(value.toDouble()  * RatingPainter::kStarCount * 2 + 0.5)) / 2;
+
+  return QString::number(rating, 'f', 1);
+
+}

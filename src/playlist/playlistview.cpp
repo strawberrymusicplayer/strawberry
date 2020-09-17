@@ -78,6 +78,7 @@
 #include "covermanager/albumcoverloaderresult.h"
 #include "settings/appearancesettingspage.h"
 #include "settings/playlistsettingspage.h"
+#include "dynamicplaylistcontrols.h"
 
 #ifdef HAVE_MOODBAR
 #  include "moodbar/moodbaritemdelegate.h"
@@ -168,7 +169,11 @@ PlaylistView::PlaylistView(QWidget *parent)
       cached_current_row_row_(-1),
       drop_indicator_row_(-1),
       drag_over_(false),
-      column_alignment_(DefaultColumnAlignment()) {
+      header_state_version_(1),
+      column_alignment_(DefaultColumnAlignment()),
+      rating_locked_(false),
+      dynamic_controls_(new DynamicPlaylistControls(this)),
+      rating_delegate_(nullptr) {
 
   setHeader(header_);
   header_->setSectionsMovable(true);
@@ -195,12 +200,17 @@ PlaylistView::PlaylistView(QWidget *parent)
   connect(header_, SIGNAL(SectionVisibilityChanged(int, bool)), SLOT(InvalidateCachedCurrentPixmap()));
   connect(header_, SIGNAL(StretchEnabledChanged(bool)), SLOT(StretchChanged(bool)));
 
+  connect(header_, SIGNAL(SectionRatingLockStatusChanged(bool)), SLOT(SetRatingLockStatus(bool)));
+  connect(header_, SIGNAL(MouseEntered()), SLOT(RatingHoverOut()));
+
   inhibit_autoscroll_timer_->setInterval(kAutoscrollGraceTimeout * 1000);
   inhibit_autoscroll_timer_->setSingleShot(true);
   connect(inhibit_autoscroll_timer_, SIGNAL(timeout()), SLOT(InhibitAutoscrollTimeout()));
 
   horizontalScrollBar()->installEventFilter(this);
   verticalScrollBar()->installEventFilter(this);
+
+  dynamic_controls_->hide();
 
   // For fading
   connect(fade_animation_, SIGNAL(valueChanged(qreal)), SLOT(FadePreviousBackgroundImage(qreal)));
@@ -258,12 +268,16 @@ void PlaylistView::SetItemDelegates() {
   setItemDelegateForColumn(Playlist::Column_Mood, new MoodbarItemDelegate(app_, this, this));
 #endif
 
+  rating_delegate_ = new RatingItemDelegate(this);
+  setItemDelegateForColumn(Playlist::Column_Rating, rating_delegate_);
+
 }
 
 void PlaylistView::setModel(QAbstractItemModel *m) {
 
   if (model()) {
     disconnect(model(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(InvalidateCachedCurrentPixmap()));
+    disconnect(model(), SIGNAL(layoutAboutToBeChanged()), this, SLOT(RatingHoverOut()));
 
     // When changing the model, always invalidate the current pixmap.
     // If a remote client uses "stop after", without invaliding the stop mark would not appear.
@@ -273,6 +287,7 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
   QTreeView::setModel(m);
 
   connect(model(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(InvalidateCachedCurrentPixmap()));
+  connect(model(), SIGNAL(layoutAboutToBeChanged()), this, SLOT(RatingHoverOut()));
 
 }
 
@@ -282,10 +297,16 @@ void PlaylistView::SetPlaylist(Playlist *playlist) {
     disconnect(playlist_, SIGNAL(MaybeAutoscroll(Playlist::AutoScroll)), this, SLOT(MaybeAutoscroll(Playlist::AutoScroll)));
     disconnect(playlist_, SIGNAL(destroyed()), this, SLOT(PlaylistDestroyed()));
     disconnect(playlist_, SIGNAL(QueueChanged()), this, SLOT(update()));
+
+    disconnect(playlist_, SIGNAL(DynamicModeChanged(bool)), this, SLOT(DynamicModeChanged(bool)));
+    disconnect(dynamic_controls_, SIGNAL(Expand()), playlist_, SLOT(ExpandDynamicPlaylist()));
+    disconnect(dynamic_controls_, SIGNAL(Repopulate()), playlist_, SLOT(RepopulateDynamicPlaylist()));
+    disconnect(dynamic_controls_, SIGNAL(TurnOff()), playlist_, SLOT(TurnOffDynamicPlaylist()));
   }
 
   playlist_ = playlist;
   RestoreHeaderState();
+  DynamicModeChanged(playlist->is_dynamic());
   setFocus();
   JumpToLastPlayedTrack();
 
@@ -294,13 +315,21 @@ void PlaylistView::SetPlaylist(Playlist *playlist) {
   connect(playlist_, SIGNAL(destroyed()), SLOT(PlaylistDestroyed()));
   connect(playlist_, SIGNAL(QueueChanged()), SLOT(update()));
 
+  connect(playlist_, SIGNAL(DynamicModeChanged(bool)), SLOT(DynamicModeChanged(bool)));
+  connect(dynamic_controls_, SIGNAL(Expand()), playlist_, SLOT(ExpandDynamicPlaylist()));
+  connect(dynamic_controls_, SIGNAL(Repopulate()), playlist_, SLOT(RepopulateDynamicPlaylist()));
+  connect(dynamic_controls_, SIGNAL(TurnOff()), playlist_, SLOT(TurnOffDynamicPlaylist()));
+
 }
 
 void PlaylistView::LoadHeaderState() {
 
   QSettings s;
   s.beginGroup(Playlist::kSettingsGroup);
-  if (s.contains("state")) header_state_ = s.value("state").toByteArray();
+  if (s.contains("state")) {
+    header_state_version_ = s.value("state_version", 0).toInt();
+    header_state_ = s.value("state").toByteArray();
+  }
   if (s.contains("column_alignments")) column_alignment_ = s.value("column_alignments").value<ColumnAlignmentMap>();
   s.endGroup();
 
@@ -322,6 +351,7 @@ void PlaylistView::SetHeaderState() {
 void PlaylistView::ResetHeaderState() {
 
   set_initial_header_layout_ = true;
+  header_state_version_ = 1;
   header_state_ = header_->ResetState();
   RestoreHeaderState();
 
@@ -355,6 +385,7 @@ void PlaylistView::RestoreHeaderState() {
     header_->HideSection(Playlist::Column_Comment);
     header_->HideSection(Playlist::Column_Grouping);
     header_->HideSection(Playlist::Column_Mood);
+    header_->HideSection(Playlist::Column_Rating);
 
     header_->moveSection(header_->visualIndex(Playlist::Column_Track), 0);
 
@@ -376,6 +407,11 @@ void PlaylistView::RestoreHeaderState() {
 
     set_initial_header_layout_ = false;
 
+  }
+
+  if (header_state_version_ < 1) {
+    header_->HideSection(Playlist::Column_Rating);
+    header_state_version_ = 1;
   }
 
   // Make sure at least one column is visible
@@ -744,6 +780,17 @@ void PlaylistView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHi
 
 void PlaylistView::mouseMoveEvent(QMouseEvent *event) {
 
+  // Check whether rating section is locked by user or not
+  if (!rating_locked_) {
+    QModelIndex idx = indexAt(event->pos());
+    if (idx.isValid() && idx.data(Playlist::Role_CanSetRating).toBool()) {
+      RatingHoverIn(idx, event->pos());
+    }
+    else if (rating_delegate_->is_mouse_over()) {
+      RatingHoverOut();
+    }
+  }
+
   if (!drag_over_) {
     QTreeView::mouseMoveEvent(event);
   }
@@ -751,6 +798,10 @@ void PlaylistView::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void PlaylistView::leaveEvent(QEvent *e) {
+
+  if (rating_delegate_->is_mouse_over() && !rating_locked_) {
+    RatingHoverOut();
+  }
 
   QTreeView::leaveEvent(e);
 
@@ -764,18 +815,46 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
   }
 
   QModelIndex idx = indexAt(event->pos());
-  if (event->button() == Qt::XButton1 && idx.isValid()) {
-    app_->player()->Previous();
-  }
-  else if (event->button() == Qt::XButton2 && idx.isValid()) {
-    app_->player()->Next();
-  }
-  else {
-    QTreeView::mousePressEvent(event);
+  if (idx.isValid()) {
+    switch (event->button()) {
+      case Qt::XButton1:
+        app_->player()->Previous();
+        break;
+      case Qt::XButton2:
+        app_->player()->Next();
+        break;
+      case Qt::LeftButton:{
+        if (idx.data(Playlist::Role_CanSetRating).toBool() && !rating_locked_) {
+          // Calculate which star was clicked
+          double new_rating = RatingPainter::RatingForPos(event->pos(), visualRect(idx));
+          if (selectedIndexes().contains(idx)) {
+            // Update all the selected item ratings
+            QModelIndexList src_index_list;
+            for (const QModelIndex &i : selectedIndexes()) {
+              if (i.data(Playlist::Role_CanSetRating).toBool()) {
+                src_index_list << playlist_->proxy()->mapToSource(i);
+              }
+            }
+            if (!src_index_list.isEmpty()) {
+              playlist_->RateSongs(src_index_list, new_rating);
+            }
+          }
+          else {
+            // Update only this item rating
+            playlist_->RateSong(playlist_->proxy()->mapToSource(idx), new_rating);
+          }
+        }
+        break;
+      }
+      default:
+        break;
+    }
   }
 
   inhibit_autoscroll_ = true;
   inhibit_autoscroll_timer_->start();
+
+  QTreeView::mousePressEvent(event);
 
 }
 
@@ -1150,8 +1229,10 @@ void PlaylistView::SaveSettings() {
 
   QSettings s;
   s.beginGroup(Playlist::kSettingsGroup);
+  s.setValue("state_version", header_state_version_);
   s.setValue("state", header_->SaveState());
   s.setValue("column_alignments", QVariant::fromValue<ColumnAlignmentMap>(column_alignment_));
+  s.setValue("rating_locked", rating_locked_);
   s.endGroup();
 
 }
@@ -1162,6 +1243,15 @@ void PlaylistView::StretchChanged(const bool stretch) {
 
   setHorizontalScrollBarPolicy(stretch ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
   SetHeaderState();
+
+}
+
+void PlaylistView::resizeEvent(QResizeEvent *e) {
+
+  QTreeView::resizeEvent(e);
+  if (dynamic_controls_->isVisible()) {
+    RepositionDynamicControls();
+  }
 
 }
 
@@ -1354,6 +1444,78 @@ void PlaylistView::focusInEvent(QFocusEvent *event) {
       QItemSelection new_selection(current.sibling(current.row(), 0), current.sibling(current.row(), current.model()->columnCount(current.parent()) - 1));
       selectionModel()->select(new_selection, QItemSelectionModel::Select);
     }
+  }
+
+}
+
+void PlaylistView::DynamicModeChanged(bool dynamic) {
+
+  if (!dynamic) {
+    dynamic_controls_->hide();
+  }
+  else {
+    RepositionDynamicControls();
+    dynamic_controls_->show();
+  }
+
+}
+
+void PlaylistView::RepositionDynamicControls() {
+
+  dynamic_controls_->resize(dynamic_controls_->sizeHint());
+  dynamic_controls_->move((width() - dynamic_controls_->width()) / 2, height() - dynamic_controls_->height() - 20);
+
+}
+
+void PlaylistView::SetRatingLockStatus(const bool state) {
+
+  if (!header_state_loaded_) return;
+
+  rating_locked_ = state;
+
+}
+
+void PlaylistView::RatingHoverIn(const QModelIndex &idx, const QPoint &pos) {
+
+  if (editTriggers() & QAbstractItemView::NoEditTriggers) {
+    return;
+  }
+
+  const QModelIndex old_index = rating_delegate_->mouse_over_index();
+  rating_delegate_->set_mouse_over(idx, selectedIndexes(), pos);
+  setCursor(Qt::PointingHandCursor);
+
+  update(idx);
+  update(old_index);
+  for (const QModelIndex &i : selectedIndexes()) {
+    if (i.column() == Playlist::Column_Rating) update(i);
+  }
+
+  if (idx.data(Playlist::Role_IsCurrent).toBool() || old_index.data(Playlist::Role_IsCurrent).toBool()) {
+    InvalidateCachedCurrentPixmap();
+  }
+
+}
+
+void PlaylistView::RatingHoverOut() {
+
+  if (editTriggers() & QAbstractItemView::NoEditTriggers) {
+    return;
+  }
+
+  const QModelIndex old_index = rating_delegate_->mouse_over_index();
+  rating_delegate_->set_mouse_out();
+  setCursor(QCursor());
+
+  update(old_index);
+  for (const QModelIndex &i : selectedIndexes()) {
+    if (i.column() == Playlist::Column_Rating) {
+      update(i);
+    }
+  }
+
+  if (old_index.data(Playlist::Role_IsCurrent).toBool()) {
+    InvalidateCachedCurrentPixmap();
   }
 
 }

@@ -45,6 +45,7 @@
 #include "core/logging.h"
 #include "core/database.h"
 #include "core/scopedtransaction.h"
+#include "smartplaylists/smartplaylistsearch.h"
 
 #include "directory.h"
 #include "collectionbackend.h"
@@ -1303,6 +1304,38 @@ void CollectionBackend::DeleteAll() {
 
 }
 
+SongList CollectionBackend::FindSongs(const SmartPlaylistSearch &search) {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  // Build the query
+  QString sql = search.ToSql(songs_table());
+
+  // Run the query
+  SongList ret;
+  QSqlQuery query(db);
+  query.prepare(sql);
+  query.exec();
+  if (db_->CheckErrors(query)) return ret;
+
+  // Read the results
+  while (query.next()) {
+    Song song;
+    song.InitFromQuery(query, true);
+    ret << song;
+  }
+  return ret;
+
+}
+
+SongList CollectionBackend::GetAllSongs() {
+
+  // Get all the songs!
+  return FindSongs(SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::Sort_FieldAsc, SmartPlaylistSearchTerm::Field_Artist, -1));
+
+}
+
 SongList CollectionBackend::GetSongsBy(const QString &artist, const QString &album, const QString &title) {
 
   QMutexLocker l(db_->Mutex());
@@ -1378,3 +1411,44 @@ void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &ti
   emit SongsStatisticsChanged(SongList() << songs);
 
 }
+
+void CollectionBackend::UpdateSongRating(const int id, const float rating) {
+
+  if (id == -1) return;
+
+  QList<int> id_list;
+  id_list << id;
+  UpdateSongsRating(id_list, rating);
+
+}
+
+void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const float rating) {
+
+  if (id_list.isEmpty()) return;
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  QStringList id_str_list;
+  for (int i : id_list) {
+    id_str_list << QString::number(i);
+  }
+  QString ids = id_str_list.join(",");
+  QSqlQuery q(db);
+  q.prepare(QString("UPDATE %1 SET rating = :rating WHERE ROWID IN (%2)").arg(songs_table_, ids));
+  q.bindValue(":rating", rating);
+  q.exec();
+  if (db_->CheckErrors(q)) return;
+  SongList new_song_list = GetSongsById(id_str_list, db);
+  emit SongsRatingChanged(new_song_list);
+
+}
+
+void CollectionBackend::UpdateSongRatingAsync(const int id, const float rating) {
+  metaObject()->invokeMethod(this, "UpdateSongRating", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(float, rating));
+}
+
+void CollectionBackend::UpdateSongsRatingAsync(const QList<int>& ids, const float rating) {
+  metaObject()->invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(float, rating));
+}
+

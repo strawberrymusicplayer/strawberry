@@ -13,8 +13,10 @@
         <file>schema/schema-10.sql</file>
         <file>schema/schema-11.sql</file>
         <file>schema/schema-12.sql</file>
+        <file>schema/schema-13.sql</file>
         <file>schema/device-schema.sql</file>
         <file>style/strawberry.css</file>
+        <file>style/smartplaylistsearchterm.css</file>
         <file>html/playing-tooltip.html</file>
         <file>html/oauthsuccess.html</file>
         <file>pictures/strawberry.png</file>
@@ -40,6 +42,8 @@
         <file>pictures/osd_shadow_edge.png</file>
         <file>pictures/nyancat.png</file>
         <file>pictures/rainbowdash.png</file>
+        <file>pictures/star-on.png</file>
+        <file>pictures/star-off.png</file>
         <file>fonts/HumongousofEternitySt.ttf</file>
         <file>mood/sample.mood</file>
         <file>text/ghosts.txt</file>

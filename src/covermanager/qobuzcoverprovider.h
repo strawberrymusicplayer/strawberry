@@ -31,10 +31,12 @@
 #include <QSslError>
 
 #include "jsoncoverprovider.h"
+#include "qobuz/qobuzservice.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
+class QobuzService;
 
 class QobuzCoverProvider : public JsonCoverProvider {
   Q_OBJECT
@@ -46,32 +48,23 @@ class QobuzCoverProvider : public JsonCoverProvider {
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
   void CancelSearch(const int id) override;
 
-  void Authenticate() override;
-  void Deauthenticate() override;
-  bool IsAuthenticated() const override { return !user_auth_token_.isEmpty(); }
-
- private slots:
-  void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
-  void HandleAuthReply(QNetworkReply *reply);
+  bool IsAuthenticated() const override { return service_ && service_->authenticated(); }
+  void Deauthenticate() override { if (service_) service_->Logout(); }
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const int id);
 
  private:
   QByteArray GetReplyData(QNetworkReply *reply);
-  void AuthError(const QString &error = QString(), const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
-  static const char *kSettingsGroup;
-  static const char *kAuthUrl;
-  static const char *kApiUrl;
-  static const char *kAppID;
   static const int kLimit;
 
+  QobuzService *service_;
   QNetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 

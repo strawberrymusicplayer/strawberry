@@ -96,6 +96,7 @@ void PlaylistManager::Init(CollectionBackend *collection_backend, PlaylistBacken
 
   connect(collection_backend_, SIGNAL(SongsDiscovered(SongList)), SLOT(SongsDiscovered(SongList)));
   connect(collection_backend_, SIGNAL(SongsStatisticsChanged(SongList)), SLOT(SongsDiscovered(SongList)));
+  connect(collection_backend_, SIGNAL(SongsRatingChanged(SongList)), SLOT(SongsDiscovered(SongList)));
 
   for (const PlaylistBackend::Playlist &p : playlist_backend->GetAllOpenPlaylists()) {
     ++playlists_loading_;
@@ -602,3 +603,26 @@ void PlaylistManager::SetCurrentOrOpen(const int id) {
 bool PlaylistManager::IsPlaylistOpen(const int id) {
   return playlists_.contains(id);
 }
+
+void PlaylistManager::PlaySmartPlaylist(PlaylistGeneratorPtr generator, bool as_new, bool clear) {
+
+  if (as_new) {
+    New(generator->name());
+  }
+
+  if (clear) {
+    current()->Clear();
+  }
+
+  current()->InsertSmartPlaylist(generator);
+
+}
+
+void PlaylistManager::RateCurrentSong(const double rating) {
+  active()->RateSong(active()->current_index(), rating);
+}
+
+void PlaylistManager::RateCurrentSong(const int rating) {
+  RateCurrentSong(rating / 5.0);
+}
+

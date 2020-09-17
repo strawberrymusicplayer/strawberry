@@ -90,6 +90,7 @@ class SettingsDialog : public QDialog {
     Page_Moodbar,
     Page_Subsonic,
     Page_Tidal,
+    Page_Qobuz,
   };
 
   enum Role {

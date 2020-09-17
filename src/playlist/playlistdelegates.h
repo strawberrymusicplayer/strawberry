@@ -51,6 +51,7 @@
 
 #include "playlist.h"
 #include "core/song.h"
+#include "widgets/ratingwidget.h"
 
 class CollectionBackend;
 class Player;
@@ -183,6 +184,31 @@ class SongSourceDelegate : public PlaylistDelegateBase {
   QPixmap LookupPixmap(const Song::Source &source, const QSize &size) const;
 
   mutable QPixmapCache pixmap_cache_;
+};
+
+class RatingItemDelegate : public PlaylistDelegateBase {
+ public:
+  RatingItemDelegate(QObject *parent);
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
+  QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
+  QString displayText(const QVariant &value, const QLocale &locale) const override;
+
+  void set_mouse_over(const QModelIndex &idx, const QModelIndexList &selected_indexes, const QPoint &pos) {
+    mouse_over_index_ = idx;
+    selected_indexes_ = selected_indexes;
+    mouse_over_pos_ = pos;
+  }
+
+  void set_mouse_out() { mouse_over_index_ = QModelIndex(); }
+  bool is_mouse_over() const { return mouse_over_index_.isValid(); }
+  QModelIndex mouse_over_index() const { return mouse_over_index_; }
+
+ private:
+  RatingPainter painter_;
+
+  QModelIndex mouse_over_index_;
+  QPoint mouse_over_pos_;
+  QModelIndexList selected_indexes_;
 };
 
 #endif // PLAYLISTDELEGATES_H

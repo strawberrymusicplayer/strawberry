@@ -161,6 +161,9 @@
 #  include "tidal/tidalservice.h"
 #  include "settings/tidalsettingspage.h"
 #endif
+#ifdef HAVE_QOBUZ
+#  include "settings/qobuzsettingspage.h"
+#endif
 
 #include "internet/internetservices.h"
 #include "internet/internetservice.h"
@@ -184,6 +187,9 @@
 #  include "moodbar/moodbarcontroller.h"
 #  include "moodbar/moodbarproxystyle.h"
 #endif
+
+#include "smartplaylists/smartplaylistsviewcontainer.h"
+#include "smartplaylists/smartplaylistsview.h"
 
 #ifdef Q_OS_WIN
 #  include "windows7thumbbar.h"
@@ -257,11 +263,15 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
         connect(add_stream_dialog, SIGNAL(accepted()), this, SLOT(AddStreamAccepted()));
         return add_stream_dialog;
       }),
+      smartplaylists_view_(new SmartPlaylistsViewContainer(app, this)),
 #ifdef HAVE_SUBSONIC
       subsonic_view_(new InternetSongsView(app_, app->internet_services()->ServiceBySource(Song::Source_Subsonic), SubsonicSettingsPage::kSettingsGroup, SettingsDialog::Page_Subsonic, this)),
 #endif
 #ifdef HAVE_TIDAL
       tidal_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source_Tidal), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
+#endif
+#ifdef HAVE_QOBUZ
+      qobuz_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source_Qobuz), QobuzSettingsPage::kSettingsGroup, SettingsDialog::Page_Qobuz, this)),
 #endif
       lastfm_import_dialog_(new LastFMImportDialog(app_->lastfm_import(), this)),
       collection_show_all_(nullptr),
@@ -296,6 +306,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
       playing_widget_(true),
       doubleclick_addmode_(BehaviourSettingsPage::AddBehaviour_Append),
       doubleclick_playmode_(BehaviourSettingsPage::PlayBehaviour_Never),
+      doubleclick_playlist_addmode_(BehaviourSettingsPage::PlaylistAddBehaviour_Play),
       menu_playmode_(BehaviourSettingsPage::PlayBehaviour_Never),
       exit_count_(0),
       delete_files_(false)
@@ -321,9 +332,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   // Add tabs to the fancy tab widget
   ui_->tabs->AddTab(context_view_, "context", IconLoader::Load("strawberry"), tr("Context"));
   ui_->tabs->AddTab(collection_view_, "collection", IconLoader::Load("library-music"), tr("Collection"));
-  ui_->tabs->AddTab(file_view_, "files", IconLoader::Load("document-open"), tr("Files"));
-  ui_->tabs->AddTab(playlist_list_, "playlists", IconLoader::Load("view-media-playlist"), tr("Playlists"));
   ui_->tabs->AddTab(queue_view_, "queue", IconLoader::Load("footsteps"), tr("Queue"));
+  ui_->tabs->AddTab(playlist_list_, "playlists", IconLoader::Load("view-media-playlist"), tr("Playlists"));
+  ui_->tabs->AddTab(smartplaylists_view_, "smartplaylists", IconLoader::Load("view-media-playlist"), tr("Smart playlists"));
+  ui_->tabs->AddTab(file_view_, "files", IconLoader::Load("document-open"), tr("Files"));
 #ifndef Q_OS_WIN
   ui_->tabs->AddTab(device_view_, "devices", IconLoader::Load("device"), tr("Devices"));
 #endif
@@ -332,6 +344,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
 #endif
 #ifdef HAVE_TIDAL
   ui_->tabs->AddTab(tidal_view_, "tidal", IconLoader::Load("tidal"), tr("Tidal"));
+#endif
+#ifdef HAVE_QOBUZ
+  ui_->tabs->AddTab(qobuz_view_, "qobuz", IconLoader::Load("qobuz"), tr("Qobuz"));
 #endif
 
   // Add the playing widget to the fancy tab widget
@@ -644,6 +659,13 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
     connect(this, SIGNAL(AuthorizationUrlReceived(QUrl)), tidalservice, SLOT(AuthorizationUrlReceived(QUrl)));
 #endif
 
+#ifdef HAVE_QOBUZ
+  connect(qobuz_view_->artists_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(qobuz_view_->albums_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(qobuz_view_->songs_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(qobuz_view_->search_view(), SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+#endif
+
   // Playlist menu
   connect(playlist_menu_, SIGNAL(aboutToHide()), SLOT(PlaylistMenuHidden()));
   playlist_play_pause_ = playlist_menu_->addAction(tr("Play"), this, SLOT(PlaylistPlay()));
@@ -829,6 +851,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   connect(app_->playlist_manager()->sequence(), SIGNAL(RepeatModeChanged(PlaylistSequence::RepeatMode)), osd_, SLOT(RepeatModeChanged(PlaylistSequence::RepeatMode)));
   connect(app_->playlist_manager()->sequence(), SIGNAL(ShuffleModeChanged(PlaylistSequence::ShuffleMode)), osd_, SLOT(ShuffleModeChanged(PlaylistSequence::ShuffleMode)));
 
+  // Smart playlists
+  connect(smartplaylists_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+
   ScrobbleButtonVisibilityChanged(app_->scrobbler()->ScrobbleButton());
   LoveButtonVisibilityChanged(app_->scrobbler()->LoveButton());
   ScrobblingEnabledChanged(app_->scrobbler()->IsEnabled());
@@ -849,8 +874,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
     restoreGeometry(settings_.value("geometry").toByteArray());
   }
 
-  if (!ui_->splitter->restoreState(settings_.value("splitter_state").toByteArray())) {
-    ui_->splitter->setSizes(QList<int>() << 250 << width() - 250);
+  if (!settings_.contains("splitter_state") || !ui_->splitter->restoreState(settings_.value("splitter_state").toByteArray())) {
+    ui_->splitter->setSizes(QList<int>() << 20 << (width() - 20));
   }
 
   ui_->tabs->setCurrentIndex(settings_.value("current_tab", 1).toInt());
@@ -981,9 +1006,9 @@ void MainWindow::ReloadSettings() {
   playing_widget_ = s.value("playing_widget", true).toBool();
   if (playing_widget_ != ui_->widget_playing->IsEnabled()) TabSwitched();
   doubleclick_addmode_ = BehaviourSettingsPage::AddBehaviour(s.value("doubleclick_addmode", BehaviourSettingsPage::AddBehaviour_Append).toInt());
-  doubleclick_playmode_ = BehaviourSettingsPage::PlayBehaviour(s.value("doubleclick_playmode", BehaviourSettingsPage::PlayBehaviour_IfStopped).toInt());
-  doubleclick_playlist_addmode_ = BehaviourSettingsPage::PlaylistAddBehaviour(s.value("doubleclick_playlist_addmode", BehaviourSettingsPage::PlaylistAddBehaviour_Play).toInt());
-  menu_playmode_ = BehaviourSettingsPage::PlayBehaviour(s.value("menu_playmode", BehaviourSettingsPage::PlayBehaviour_IfStopped).toInt());
+  doubleclick_playmode_ = BehaviourSettingsPage::PlayBehaviour(s.value("doubleclick_playmode", BehaviourSettingsPage::PlayBehaviour_Never).toInt());
+  doubleclick_playlist_addmode_ = BehaviourSettingsPage::PlaylistAddBehaviour(s.value("doubleclick_playlist_addmode", BehaviourSettingsPage::PlayBehaviour_Never).toInt());
+  menu_playmode_ = BehaviourSettingsPage::PlayBehaviour(s.value("menu_playmode", BehaviourSettingsPage::PlayBehaviour_Never).toInt());
   s.endGroup();
 
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
@@ -1039,6 +1064,16 @@ void MainWindow::ReloadSettings() {
     ui_->tabs->DisableTab(tidal_view_);
 #endif
 
+#ifdef HAVE_QOBUZ
+  s.beginGroup(QobuzSettingsPage::kSettingsGroup);
+  bool enable_qobuz = s.value("enabled", false).toBool();
+  s.endGroup();
+  if (enable_qobuz)
+    ui_->tabs->EnableTab(qobuz_view_);
+  else
+    ui_->tabs->DisableTab(qobuz_view_);
+#endif
+
   ui_->tabs->ReloadSettings();
 
 }
@@ -1061,6 +1096,7 @@ void MainWindow::ReloadAllSettings() {
   file_view_->ReloadSettings();
   queue_view_->ReloadSettings();
   playlist_list_->ReloadSettings();
+  smartplaylists_view_->ReloadSettings();
   app_->cover_providers()->ReloadSettings();
   app_->lyrics_providers()->ReloadSettings();
 #ifdef HAVE_SUBSONIC
@@ -1068,6 +1104,9 @@ void MainWindow::ReloadAllSettings() {
 #endif
 #ifdef HAVE_TIDAL
   tidal_view_->ReloadSettings();
+#endif
+#ifdef HAVE_QOBUZ
+  qobuz_view_->ReloadSettings();
 #endif
 
 }

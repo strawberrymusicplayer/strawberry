@@ -46,6 +46,7 @@
 #include "covermanager/albumcoverloaderresult.h"
 #include "playlistitem.h"
 #include "playlistsequence.h"
+#include "smartplaylists/playlistgenerator_fwd.h"
 
 class QMimeData;
 class QSortFilterProxyModel;
@@ -128,6 +129,7 @@ class Playlist : public QAbstractListModel {
     Column_Grouping,
     Column_Source,
     Column_Mood,
+    Column_Rating,
     ColumnCount
   };
 
@@ -135,7 +137,8 @@ class Playlist : public QAbstractListModel {
     Role_IsCurrent = Qt::UserRole + 1,
     Role_IsPaused,
     Role_StopAfter,
-    Role_QueuePosition
+    Role_QueuePosition,
+    Role_CanSetRating,
   };
 
   enum Path {
@@ -203,6 +206,8 @@ class Playlist : public QAbstractListModel {
   const QModelIndex current_index() const;
 
   bool stop_after_current() const;
+  bool is_dynamic() const { return static_cast<bool>(dynamic_playlist_); }
+  int dynamic_history_length() const;
 
   QString special_type() const { return special_type_; }
   void set_special_type(const QString &v) { special_type_ = v; }
@@ -240,6 +245,7 @@ class Playlist : public QAbstractListModel {
   void InsertSongs(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertSongsOrCollectionItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertInternetItems(InternetService* service, const SongList& songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertSmartPlaylist(PlaylistGeneratorPtr gen, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
 
   void ReshuffleIndices();
 
@@ -284,6 +290,10 @@ class Playlist : public QAbstractListModel {
 
   static bool ComparePathDepths(Qt::SortOrder, PlaylistItemPtr, PlaylistItemPtr);
 
+  // Changes rating of a song to the given value asynchronously
+  void RateSong(const QModelIndex &idx, const double rating);
+  void RateSongs(const QModelIndexList &index_list, const double rating);
+
  public slots:
   void set_current_row(const int i, const AutoScroll autoscroll = AutoScroll_Maybe, const bool is_stopping = false);
   void Paused();
@@ -308,6 +318,10 @@ class Playlist : public QAbstractListModel {
   void InsertUrls(const QList<QUrl> &urls, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
   // Removes items with given indices from the playlist. This operation is not undoable.
   void RemoveItemsWithoutUndo(const QList<int> &indicesIn);
+
+  void ExpandDynamicPlaylist();
+  void RepopulateDynamicPlaylist();
+  void TurnOffDynamicPlaylist();
 
  signals:
   void RestoreFinished();
@@ -348,6 +362,9 @@ class Playlist : public QAbstractListModel {
 
   // Removes rows with given indices from this playlist.
   bool removeRows(QList<int> &rows);
+
+  void TurnOnDynamicPlaylist(PlaylistGeneratorPtr gen);
+  void InsertDynamicItems(const int count);
 
  private slots:
   void TracksAboutToBeDequeued(const QModelIndex&, const int begin, const int end);
@@ -411,6 +428,8 @@ class Playlist : public QAbstractListModel {
   qint64 scrobble_point_;
 
   int editing_;
+
+  PlaylistGeneratorPtr dynamic_playlist_;
 
 };
 

@@ -62,7 +62,9 @@ CREATE TABLE device_%deviceid_songs (
   effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
 
-  cue_path TEXT
+  cue_path TEXT,
+
+  rating INTEGER DEFAULT -1
 
 );
 
@@ -75,4 +77,4 @@ CREATE VIRTUAL TABLE device_%deviceid_fts USING fts5(
   tokenize = "unicode61 remove_diacritics 1"
 );
 
-UPDATE devices SET schema_version=1 WHERE ROWID=%deviceid;
+UPDATE devices SET schema_version=2 WHERE ROWID=%deviceid;

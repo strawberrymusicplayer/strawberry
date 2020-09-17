@@ -121,6 +121,10 @@ void CoversSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QList
         DisableAuthentication();
         ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
       }
+      else if (provider->name() == "Qobuz" && !provider->IsAuthenticated()) {
+        DisableAuthentication();
+        ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
+      }
       else {
         ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::LoggedIn : LoginStateWidget::LoggedOut);
         ui_->button_authenticate->setEnabled(true);
@@ -228,6 +232,10 @@ void CoversSettingsPage::LogoutClicked() {
   if (provider->name() == "Tidal") {
     DisableAuthentication();
     ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
+  }
+  else if (provider->name() == "Qobuz") {
+    DisableAuthentication();
+    ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
   }
   else {
     ui_->button_authenticate->setEnabled(true);

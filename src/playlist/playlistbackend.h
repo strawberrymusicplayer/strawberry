@@ -37,6 +37,7 @@
 #include "core/song.h"
 #include "collection/sqlrow.h"
 #include "playlistitem.h"
+#include "smartplaylists/playlistgenerator.h"
 
 class QThread;
 class Application;
@@ -57,6 +58,9 @@ class PlaylistBackend : public QObject {
     bool favorite;
     int last_played;
     QString special_type;
+    PlaylistGenerator::Type dynamic_type;
+    QString dynamic_backend;
+    QByteArray dynamic_data;
   };
   typedef QList<Playlist> PlaylistList;
 
@@ -77,7 +81,7 @@ class PlaylistBackend : public QObject {
   void SetPlaylistUiPath(int id, const QString &path);
 
   int CreatePlaylist(const QString &name, const QString &special_type);
-  void SavePlaylistAsync(int playlist, const PlaylistItemList &items, int last_played);
+  void SavePlaylistAsync(int playlist, const PlaylistItemList &items, int last_played, PlaylistGeneratorPtr dynamic);
   void RenamePlaylist(int id, const QString &new_name);
   void FavoritePlaylist(int id, bool is_favorite);
   void RemovePlaylist(int id);
@@ -86,7 +90,7 @@ class PlaylistBackend : public QObject {
 
  public slots:
   void Exit();
-  void SavePlaylist(int playlist, const PlaylistItemList &items, int last_played);
+  void SavePlaylist(int playlist, const PlaylistItemList &items, int last_played, PlaylistGeneratorPtr dynamic);
 
 signals:
   void ExitFinished();

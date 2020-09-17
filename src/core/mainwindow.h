@@ -93,6 +93,7 @@ class TranscodeDialog;
 class Ui_MainWindow;
 class InternetSongsView;
 class InternetTabsView;
+class SmartPlaylistsViewContainer;
 #ifdef Q_OS_WIN
 class Windows7ThumbBar;
 #endif
@@ -325,8 +326,11 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   std::unique_ptr<TrackSelectionDialog> track_selection_dialog_;
   PlaylistItemList autocomplete_tag_items_;
 
+  SmartPlaylistsViewContainer *smartplaylists_view_;
+
   InternetSongsView *subsonic_view_;
   InternetTabsView *tidal_view_;
+  InternetTabsView *qobuz_view_;
 
   LastFMImportDialog *lastfm_import_dialog_;
 

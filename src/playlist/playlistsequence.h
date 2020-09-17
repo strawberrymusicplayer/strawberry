@@ -68,14 +68,15 @@ class PlaylistSequence : public QWidget {
   QMenu *shuffle_menu() const { return shuffle_menu_; }
 
  public slots:
-  void SetRepeatMode(PlaylistSequence::RepeatMode mode);
-  void SetShuffleMode(PlaylistSequence::ShuffleMode mode);
+  void SetRepeatMode(const PlaylistSequence::RepeatMode mode);
+  void SetShuffleMode(const PlaylistSequence::ShuffleMode mode);
   void CycleShuffleMode();
   void CycleRepeatMode();
+  void SetUsingDynamicPlaylist(const bool dynamic);
 
  signals:
-  void RepeatModeChanged(PlaylistSequence::RepeatMode mode);
-  void ShuffleModeChanged(PlaylistSequence::ShuffleMode mode);
+  void RepeatModeChanged(const PlaylistSequence::RepeatMode mode);
+  void ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode);
 
  private slots:
   void RepeatActionTriggered(QAction *);
@@ -97,7 +98,7 @@ class PlaylistSequence : public QWidget {
   bool loading_;
   RepeatMode repeat_mode_;
   ShuffleMode shuffle_mode_;
-
+  bool dynamic_;
 };
 
 #endif  // PLAYLISTSEQUENCE_H

@@ -34,6 +34,7 @@
 
 #include "core/song.h"
 #include "playlist.h"
+#include "smartplaylists/playlistgenerator.h"
 
 class QModelIndex;
 
@@ -76,6 +77,8 @@ class PlaylistManagerInterface : public QObject {
   virtual PlaylistParser *parser() const = 0;
   virtual PlaylistContainer *playlist_container() const = 0;
 
+  virtual void PlaySmartPlaylist(PlaylistGeneratorPtr generator, const bool as_new, const bool clear) = 0;
+
  public slots:
   virtual void New(const QString &name, const SongList& songs = SongList(), const QString &special_type = QString()) = 0;
   virtual void Load(const QString &filename) = 0;
@@ -102,6 +105,11 @@ class PlaylistManagerInterface : public QObject {
   virtual void SetActivePlaying() = 0;
   virtual void SetActivePaused() = 0;
   virtual void SetActiveStopped() = 0;
+
+  // Rate current song using 0.0 - 1.0 scale.
+  virtual void RateCurrentSong(const double rating) = 0;
+  // Rate current song using 0 - 5 scale.
+  virtual void RateCurrentSong(const int rating) = 0;
 
  signals:
   void PlaylistManagerInitialized();
@@ -196,7 +204,6 @@ class PlaylistManager : public PlaylistManagerInterface {
   void ShuffleCurrent() override;
   void RemoveDuplicatesCurrent() override;
   void RemoveUnavailableCurrent() override;
-  //void SetActiveStreamMetadata(const QUrl& url, const Song& song);
 
   void SongChangeRequestProcessed(const QUrl& url, const bool valid) override;
 
@@ -206,6 +213,13 @@ class PlaylistManager : public PlaylistManagerInterface {
   void RemoveItemsWithoutUndo(const int id, const QList<int>& indices);
   // Remove the current playing song
   void RemoveCurrentSong();
+
+  void PlaySmartPlaylist(PlaylistGeneratorPtr generator, const bool as_new, const bool clear) override;
+
+  // Rate current song using 0.0 - 1.0 scale.
+  void RateCurrentSong(const double rating) override;
+  // Rate current song using 0 - 5 scale.
+  void RateCurrentSong(const int rating) override;
 
  private slots:
   void SetActivePlaying() override;

@@ -40,6 +40,7 @@
 
 class QThread;
 class Database;
+class SmartPlaylistSearch;
 
 class CollectionBackendInterface : public QObject {
   Q_OBJECT
@@ -182,9 +183,15 @@ class CollectionBackend : public CollectionBackendInterface {
   Song GetSongBySongId(const QString &song_id);
   SongList GetSongsBySongId(const QStringList &song_ids);
 
+  SongList GetAllSongs();
+  SongList FindSongs(const SmartPlaylistSearch &search);
+
   Song::Source Source() const;
 
   void AddOrUpdateSongsAsync(const SongList &songs);
+
+  void UpdateSongRatingAsync(const int id, const float rating);
+  void UpdateSongsRatingAsync(const QList<int> &ids, const float rating);
 
  public slots:
   void Exit();
@@ -209,19 +216,23 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const int lastplayed);
   void UpdatePlayCount(const QString &artist, const QString &title, const int playcount);
 
- signals:
-  void DirectoryDiscovered(const Directory &dir, const SubdirectoryList &subdirs);
-  void DirectoryDeleted(const Directory &dir);
+  void UpdateSongRating(const int id, const float rating);
+  void UpdateSongsRating(const QList<int> &id_list, const float rating);
 
-  void SongsDiscovered(const SongList &songs);
-  void SongsDeleted(const SongList &songs);
-  void SongsStatisticsChanged(const SongList& songs);
+ signals:
+  void DirectoryDiscovered(Directory, SubdirectoryList);
+  void DirectoryDeleted(Directory);
+
+  void SongsDiscovered(SongList);
+  void SongsDeleted(SongList);
+  void SongsStatisticsChanged(SongList);
 
   void DatabaseReset();
 
-  void TotalSongCountUpdated(const int total);
-  void TotalArtistCountUpdated(const int total);
-  void TotalAlbumCountUpdated(const int total);
+  void TotalSongCountUpdated(int);
+  void TotalArtistCountUpdated(int);
+  void TotalAlbumCountUpdated(int);
+  void SongsRatingChanged(SongList);
 
   void ExitFinished();
 
