@@ -59,7 +59,7 @@ class TidalService : public InternetService {
   Q_OBJECT
 
  public:
-  TidalService(Application *app, QObject *parent);
+  explicit TidalService(Application *app, QObject *parent);
   ~TidalService() override;
 
   static const Song::Source kSource;
@@ -120,8 +120,6 @@ class TidalService : public InternetService {
     QueryType_SearchAlbums,
     QueryType_SearchSongs,
   };
-
- signals:
 
  public slots:
   void ShowConfig() override;

@@ -51,7 +51,7 @@ class TidalRequest : public TidalBaseRequest {
 
  public:
 
-  TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent);
+  explicit TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent);
   ~TidalRequest() override;
 
   void ReloadSettings();

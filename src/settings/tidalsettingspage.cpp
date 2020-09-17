@@ -88,7 +88,7 @@ void TidalSettingsPage::Load() {
 
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());
-  ui_->oauth->setChecked(s.value("oauth", false).toBool());
+  ui_->oauth->setChecked(s.value("oauth", true).toBool());
 
   ui_->client_id->setText(s.value("client_id").toString());
   ui_->api_token->setText(s.value("api_token").toString());
@@ -105,7 +105,7 @@ void TidalSettingsPage::Load() {
   ui_->songssearchlimit->setValue(s.value("songssearchlimit", 10).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
-  dialog()->ComboBoxLoadFromSettings(s, ui_->coversize, "coversize", "320x320");
+  dialog()->ComboBoxLoadFromSettings(s, ui_->coversize, "coversize", "640x640");
 
   StreamUrlMethod stream_url = static_cast<StreamUrlMethod>(s.value("streamurl").toInt());
   int i = ui_->streamurl->findData(stream_url);
@@ -158,8 +158,16 @@ void TidalSettingsPage::LoginClicked() {
     emit Authorize(ui_->client_id->text());
   }
   else {
-    if (ui_->api_token->text().isEmpty() || ui_->username->text().isEmpty() || ui_->password->text().isEmpty()) {
-      QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing API token, username or password."));
+    if (ui_->api_token->text().isEmpty()) {
+      QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing API token."));
+      return;
+    }
+    if (ui_->username->text().isEmpty()) {
+      QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing username."));
+      return;
+    }
+    if (ui_->password->text().isEmpty()) {
+      QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing password."));
       return;
     }
     emit Login(ui_->api_token->text(), ui_->username->text(), ui_->password->text());

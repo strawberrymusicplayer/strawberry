@@ -41,7 +41,7 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   Q_OBJECT
 
  public:
-  TidalStreamURLRequest(TidalService *service, NetworkAccessManager *network, const QUrl &original_url, QObject *parent);
+  explicit TidalStreamURLRequest(TidalService *service, NetworkAccessManager *network, const QUrl &original_url, QObject *parent);
   ~TidalStreamURLRequest() override;
 
   void GetStreamURL();

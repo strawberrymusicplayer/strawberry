@@ -264,7 +264,7 @@ void TidalService::ReloadSettings() {
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
 
   enabled_ = s.value("enabled", false).toBool();
-  oauth_ = s.value("oauth", false).toBool();
+  oauth_ = s.value("oauth", true).toBool();
   client_id_ = s.value("client_id").toString();
   api_token_ = s.value("api_token").toString();
 
@@ -279,7 +279,7 @@ void TidalService::ReloadSettings() {
   albumssearchlimit_ = s.value("albumssearchlimit", 10).toInt();
   songssearchlimit_ = s.value("songssearchlimit", 10).toInt();
   fetchalbums_ = s.value("fetchalbums", false).toBool();
-  coversize_ = s.value("coversize", "320x320").toString();
+  coversize_ = s.value("coversize", "640x640").toString();
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
   stream_url_method_ = static_cast<TidalSettingsPage::StreamUrlMethod>(s.value("streamurl").toInt());
 

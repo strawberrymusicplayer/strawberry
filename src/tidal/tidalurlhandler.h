@@ -37,7 +37,7 @@ class TidalUrlHandler : public UrlHandler {
   Q_OBJECT
 
  public:
-  TidalUrlHandler(Application *app, TidalService *service);
+  explicit TidalUrlHandler(Application *app, TidalService *service);
 
   QString scheme() const override { return service_->url_scheme(); }
   LoadResult StartLoading(const QUrl &url) override;

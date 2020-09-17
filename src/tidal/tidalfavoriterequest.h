@@ -38,7 +38,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   Q_OBJECT
 
  public:
-  TidalFavoriteRequest(TidalService *service, NetworkAccessManager *network, QObject *parent);
+  explicit TidalFavoriteRequest(TidalService *service, NetworkAccessManager *network, QObject *parent);
   ~TidalFavoriteRequest() override;
 
   enum FavoriteType {
