@@ -35,7 +35,8 @@ You can also make a one-time payment through [paypal.me/jonaskvinge](https://pay
   * Supports WAV, FLAC, WavPack, Ogg FLAC, Ogg Vorbis, Ogg Opus, Ogg Speex, MPC, TrueAudio, AIFF, MP4, MP3, ASF and Monkey's Audio.
   * Audio CD playback
   * Native desktop notifications
-  * Playlists in multiple formats
+  * Playlist management
+  * Smart and dynmamic playlists
   * Advanced audio output and device configuration for bit-perfect playback on Linux
   * Edit tags on music files
   * Fetch tags from MusicBrainz
@@ -46,7 +47,7 @@ You can also make a one-time payment through [paypal.me/jonaskvinge](https://pay
   * Audio equalizer
   * Transfer music to iPod, MTP or mass-storage USB player
   * Scrobbler with support for [Last.fm](https://www.last.fm/), [Libre.fm](https://libre.fm/) and [ListenBrainz](https://listenbrainz.org/)
-  * Subsonic and Tidal streaming support
+  * Subsonic, Tidal and Qobuz streaming support
 
 
 It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
