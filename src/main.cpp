@@ -240,7 +240,11 @@ int main(int argc, char* argv[]) {
 
   std::unique_ptr<Translations> translations(new Translations);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  translations->LoadTranslation("qt", QLibraryInfo::path(QLibraryInfo::TranslationsPath), language);
+#else
   translations->LoadTranslation("qt", QLibraryInfo::location(QLibraryInfo::TranslationsPath), language);
+#endif
   translations->LoadTranslation("strawberry", ":/translations", language);
   translations->LoadTranslation("strawberry", TRANSLATIONS_DIR, language);
   translations->LoadTranslation("strawberry", a.applicationDirPath(), language);
