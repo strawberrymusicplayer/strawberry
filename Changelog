@@ -2,6 +2,36 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  BugFixes:
+    * Fixed engine selection in backend settings with Qt 6.
+    * Fixed pixelated playlist source icon for currently playing song.
+    * Fixed crash when deleting queued songs from playlist.
+    * Fixed situations where songs could disappear or be shown multiple times with certain collection groupings.
+    * Fixed initial sizes of playlist header columns.
+    * Disable use of HTML in system tray tooltip on Cinnamon too.
+    * (macOS) Fixed crash on exit when cover manager is open.
+    * (macOS) Fixed graphical corruption.
+
+  Enhancements:
+    * Improved playlist autoscrolling.
+    * Only allow playlist right click tag editing for editable songs.
+    * Read song creation time from subsonic API.
+    * Remember manually set compilation status for albums when songs are rescanned.
+    * Added icons for edit tag playlist right click menu actions.
+    * Maximize dialogs if they are already open when clicked again in the menu.
+
+  New features:
+    * Added setting for enabling scrobbling based on song source.
+    * Added optional delete from disk in collection and playlist.
+    * Added Last.fm import data wizard.
+    * Added smart and dynamic playlists.
+    * Added song ratings.
+    * Added lyrics from fandom.com.
+    * Added Qobuz streaming support.
+    * Load thumbnails from iPods to show under device collection.
+
 0.7.2:
 
   BugFixes:
