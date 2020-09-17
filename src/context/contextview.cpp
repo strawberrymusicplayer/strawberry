@@ -365,8 +365,8 @@ void ContextView::ReloadSettings() {
   title_fmt_ = s.value(ContextSettingsPage::kSettingsTitleFmt, "%title% - %artist%").toString();
   summary_fmt_ = s.value(ContextSettingsPage::kSettingsSummaryFmt, "%album%").toString();
   action_show_album_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ALBUM], true).toBool());
-  action_show_data_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA], true).toBool());
-  action_show_output_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE], true).toBool());
+  action_show_data_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA], false).toBool());
+  action_show_output_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE], false).toBool());
   action_show_albums_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ALBUMS_BY_ARTIST], false).toBool());
   action_show_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS], true).toBool());
   action_search_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS], true).toBool());
