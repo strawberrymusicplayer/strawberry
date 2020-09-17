@@ -867,12 +867,14 @@ optional_source(HAVE_SUBSONIC
     subsonic/subsonicurlhandler.cpp
     subsonic/subsonicbaserequest.cpp
     subsonic/subsonicrequest.cpp
+    subsonic/subsonicscrobblerequest.cpp
     settings/subsonicsettingspage.cpp
   HEADERS
     subsonic/subsonicservice.h
     subsonic/subsonicurlhandler.h
     subsonic/subsonicbaserequest.h
     subsonic/subsonicrequest.h
+    subsonic/subsonicscrobblerequest.h
     settings/subsonicsettingspage.h
   UI
     settings/subsonicsettingspage.ui

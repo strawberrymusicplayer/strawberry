@@ -54,6 +54,7 @@
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
 #include "subsonicrequest.h"
+#include "subsonicscrobblerequest.h"
 #include "settings/settingsdialog.h"
 #include "settings/subsonicsettingspage.h"
 
@@ -380,15 +381,19 @@ void SubsonicService::CheckConfiguration() {
 
 }
 
-void SubsonicService::Scrobble(QString subsonic_song_id, bool submission) {
-  if (!scrobble_request_) {
-    scrobble_request_.reset(new SubsonicRequest(this, url_handler_, app_, this));
+void SubsonicService::Scrobble(QString song_id, bool submission, QDateTime time) {
+
+  if (!server_url().isValid() || username().isEmpty() || password().isEmpty()) {
+    return;
   }
 
-  scrobble_request_->CreateGetRequest("scrobble", ParamList() <<
-    Param("id", subsonic_song_id) <<
-    Param("submission", QVariant(submission).toString())
-  );
+  if (!scrobble_request_.get()) {
+    // we're doing requests every 30-240s the whole time, so keep reusing this instance
+    scrobble_request_.reset(new SubsonicScrobbleRequest(this, url_handler_, app_, this));
+  }
+
+  scrobble_request_->CreateScrobbleRequest(song_id, submission, time);
+
 }
 
 void SubsonicService::ResetSongsRequest() {

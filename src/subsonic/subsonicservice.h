@@ -35,6 +35,7 @@
 #include <QUrl>
 #include <QNetworkAccessManager>
 #include <QSslError>
+#include <QDateTime>
 
 #include "core/song.h"
 #include "internet/internetservice.h"
@@ -45,6 +46,7 @@ class QNetworkReply;
 class Application;
 class SubsonicUrlHandler;
 class SubsonicRequest;
+class SubsonicScrobbleRequest;
 class CollectionBackend;
 class CollectionModel;
 
@@ -79,7 +81,7 @@ class SubsonicService : public InternetService {
   QSortFilterProxyModel *songs_collection_sort_model() override { return collection_sort_model_; }
 
   void CheckConfiguration();
-  void Scrobble(QString subsonic_song_id, bool submission);
+  void Scrobble(QString song_id, bool submission, QDateTime time);
 
  public slots:
   void ShowConfig() override;
@@ -117,7 +119,7 @@ class SubsonicService : public InternetService {
   QSortFilterProxyModel *collection_sort_model_;
 
   std::shared_ptr<SubsonicRequest> songs_request_;
-  std::shared_ptr<SubsonicRequest> scrobble_request_;
+  std::shared_ptr<SubsonicScrobbleRequest> scrobble_request_;
 
   QUrl server_url_;
   QString username_;

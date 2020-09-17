@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020, Pascal Below <spezifisch@below.fr>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,38 +21,22 @@
 #include "config.h"
 
 #include <QtGlobal>
-#include <QDesktopServices>
 #include <QVariant>
-#include <QByteArray>
 #include <QString>
-#include <QUrl>
-#include <QUrlQuery>
 #include <QDateTime>
-#include <QMessageBox>
-#include <QSettings>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonValue>
 #include <QTimer>
 #include <QtDebug>
 
 #include "core/application.h"
-#include "core/network.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "core/logging.h"
 #include "core/closure.h"
-#include "internet/localredirectserver.h"
 #include "internet/internetservices.h"
 #include "subsonic/subsonicservice.h"
 
 #include "audioscrobbler.h"
 #include "scrobblerservice.h"
-#include "scrobblercache.h"
-#include "scrobblercacheitem.h"
 #include "subsonicscrobbler.h"
 
 const char *SubsonicScrobbler::kName = "Subsonic";
@@ -75,14 +60,16 @@ void SubsonicScrobbler::UpdateNowPlaying(const Song &song) {
   if (song.source() != Song::Source::Source_Subsonic) return;
 
   song_playing_ = song;
+  time_ = QDateTime::currentDateTime();
 
   if (!song.is_metadata_good() || app_->scrobbler()->IsOffline()) return;
 
-  service_->Scrobble(song.song_id(), false);
+  service_->Scrobble(song.song_id(), false, time_);
 }
 
 void SubsonicScrobbler::ClearPlaying() {
   song_playing_ = Song();
+  time_ = QDateTime();
 }
 
 void SubsonicScrobbler::Scrobble(const Song &song) {
@@ -115,11 +102,10 @@ void SubsonicScrobbler::Submit() {
 
   if (app_->scrobbler()->IsOffline()) return;
 
-  service_->Scrobble(song_playing_.song_id(), true);
+  service_->Scrobble(song_playing_.song_id(), true, time_);
 }
 
 void SubsonicScrobbler::Error(const QString &error, const QVariant &debug) {
   qLog(Error) << "SubsonicScrobbler:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
 }
-

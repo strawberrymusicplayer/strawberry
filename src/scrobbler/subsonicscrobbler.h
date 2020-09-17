@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020, Pascal Below <spezifisch@below.fr>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,13 +25,9 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QList>
+#include <QDateTime>
 #include <QVariant>
-#include <QByteArray>
 #include <QString>
-#include <QUrl>
-#include <QJsonDocument>
-#include <QTimer>
 
 #include "core/song.h"
 #include "scrobblerservice.h"
@@ -70,8 +67,8 @@ class SubsonicScrobbler : public ScrobblerService {
   SubsonicService *service_;
   bool submitted_;
   Song song_playing_;
+  QDateTime time_;
 
 };
 
 #endif  // SUBSONICSCROBBLER_H
-
