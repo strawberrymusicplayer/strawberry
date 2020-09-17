@@ -105,7 +105,8 @@ class SmartPlaylistSearchTerm {
     Date_Hour = 0,
     Date_Day,
     Date_Week,
-    Date_Month, Date_Year
+    Date_Month,
+    Date_Year
   };
 
   explicit SmartPlaylistSearchTerm();

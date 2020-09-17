@@ -36,7 +36,7 @@
 
 class SmartPlaylistWizard::TypePage : public QWizardPage {
  public:
-  TypePage(QWidget *parent) : QWizardPage(parent), next_id_(-1) {}
+  explicit TypePage(QWidget *parent) : QWizardPage(parent), next_id_(-1) {}
 
   int nextId() const { return next_id_; }
   int next_id_;
@@ -44,7 +44,7 @@ class SmartPlaylistWizard::TypePage : public QWizardPage {
 
 class SmartPlaylistWizard::FinishPage : public QWizardPage {
  public:
-  FinishPage(QWidget *parent) : QWizardPage(parent), ui_(new Ui_SmartPlaylistWizardFinishPage) {
+  explicit FinishPage(QWidget *parent) : QWizardPage(parent), ui_(new Ui_SmartPlaylistWizardFinishPage) {
     ui_->setupUi(this);
     connect(ui_->name, SIGNAL(textChanged(QString)), SIGNAL(completeChanged()));
   }

@@ -32,7 +32,7 @@
 SmartPlaylistSearchTerm::SmartPlaylistSearchTerm() : field_(Field_Title), operator_(Op_Equals) {}
 
 SmartPlaylistSearchTerm::SmartPlaylistSearchTerm(Field field, Operator op, const QVariant &value)
-    : field_(field), operator_(op), value_(value) {}
+    : field_(field), operator_(op), value_(value), date_(Date_Hour) {}
 
 QString SmartPlaylistSearchTerm::ToSql() const {
 

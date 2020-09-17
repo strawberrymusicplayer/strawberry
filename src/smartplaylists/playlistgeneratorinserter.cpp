@@ -38,6 +38,7 @@ PlaylistGeneratorInserter::PlaylistGeneratorInserter(TaskManager *task_manager, 
       task_manager_(task_manager),
       collection_(collection),
       task_id_(-1),
+      destination_(nullptr),
       is_dynamic_(false)
       {}
 
