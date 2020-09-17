@@ -37,6 +37,7 @@
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "core/application.h"
+#include "core/utilities.h"
 #include "covermanager/albumcoverloader.h"
 #include "qobuzservice.h"
 #include "qobuzurlhandler.h"
