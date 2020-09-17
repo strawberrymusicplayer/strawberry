@@ -107,7 +107,6 @@ void SCollection::Init() {
   connect(watcher_, SIGNAL(SubdirsDiscovered(SubdirectoryList)), backend_, SLOT(AddOrUpdateSubdirs(SubdirectoryList)));
   connect(watcher_, SIGNAL(SubdirsMTimeUpdated(SubdirectoryList)), backend_, SLOT(AddOrUpdateSubdirs(SubdirectoryList)));
   connect(watcher_, SIGNAL(CompilationsNeedUpdating()), backend_, SLOT(UpdateCompilations()));
-  connect(backend_, SIGNAL(SongsStatisticsChanged(SongList)), SLOT(SongsStatisticsChanged(SongList)));
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(CurrentSongChanged(Song)));
   connect(app_->player(), SIGNAL(Stopped()), SLOT(Stopped()));
 
@@ -182,8 +181,4 @@ void SCollection::CurrentSongChanged(const Song &song) {  // FIXME
     connect(reply, SIGNAL(Finished(bool)), reply, SLOT(deleteLater()));
   }
 
-}
-
-void SCollection::SongsStatisticsChanged(const SongList &songs) {
-  Q_UNUSED(songs);
 }

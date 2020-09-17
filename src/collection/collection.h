@@ -79,7 +79,6 @@ class SCollection : public QObject {
   void IncrementalScan();
 
   void CurrentSongChanged(const Song &song);
-  void SongsStatisticsChanged(const SongList& songs);
   void Stopped();
 
  signals:
