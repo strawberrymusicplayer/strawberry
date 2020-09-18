@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-09-08 02:26-0400\n"
+"PO-Revision-Date: 2020-09-18 01:26-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -109,7 +109,7 @@ msgstr " másodperc"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
-msgstr ""
+msgstr "dalok"
 
 #: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
 #, qt-format
@@ -190,7 +190,7 @@ msgstr "%1 dal"
 #: smartplaylists/smartplaylistsearchpreview.cpp:145
 #, qt-format
 msgid "%1 songs found"
-msgstr ""
+msgstr "%1 dal található"
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:142
 #, qt-format
@@ -450,7 +450,7 @@ msgstr "40%"
 
 #: smartplaylists/smartplaylistsmodel.cpp:76
 msgid "50 random tracks"
-msgstr ""
+msgstr "50 véletlenszerű szám"
 
 #: ../build/src/ui_organizedialog.h:267
 msgid ""
@@ -487,7 +487,7 @@ msgstr "A&utomatikus"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: ../build/src/ui_transcodersettingspage.h:192
 msgid "AAC"
@@ -824,7 +824,7 @@ msgstr "Összes lejátszólista (%1)"
 
 #: smartplaylists/smartplaylistsmodel.cpp:119
 msgid "All tracks"
-msgstr ""
+msgstr "Összes szám"
 
 #: ../build/src/ui_organizedialog.h:275
 msgid "Allow extended ASCII characters"
@@ -858,7 +858,7 @@ msgstr "Düh"
 
 #: ../build/src/ui_qobuzsettingspage.h:274
 msgid "App ID"
-msgstr ""
+msgstr "Alkalmazás ID"
 
 #: ../build/src/ui_qobuzsettingspage.h:277
 msgid "App Secret"
@@ -1153,7 +1153,7 @@ msgstr "Frissítés keresése..."
 
 #: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Choose a name for your smart playlist"
-msgstr ""
+msgstr "Válasszon nevet az okos lejátszólistának"
 
 #: ../build/src/ui_notificationssettingspage.h:493
 msgid "Choose color..."
@@ -1170,6 +1170,8 @@ msgstr "Betűtípus választása..."
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:154
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
+"Válassza ki, hogy a lejátszólista hogyan legyen rendezve, és hány számot "
+"tartalmazzon."
 
 #: ../build/src/ui_coverssettingspage.h:167
 msgid "Choose the providers you want to use when searching for covers."
@@ -1268,7 +1270,7 @@ msgstr "Gyűjtemény újraolvasási figyelmeztetés"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:85
 msgid "Collection search"
-msgstr ""
+msgstr "Keresés gyűjteményben"
 
 #: ../build/src/ui_appearancesettingspage.h:506
 msgid "Colors"
@@ -1580,8 +1582,9 @@ msgid "Date modified"
 msgstr "Módosítás dátuma"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:434
+#, fuzzy
 msgid "Days"
-msgstr ""
+msgstr "Nap"
 
 #: core/commandlineoptions.cpp:172
 msgid "Decrease the volume by 4 percent"
@@ -1620,7 +1623,7 @@ msgstr "Beállítás törlése"
 #: smartplaylists/smartplaylistsviewcontainer.cpp:82
 #: ../build/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
-msgstr ""
+msgstr "Okos lejátszólista törlése"
 
 #: ../build/src/ui_organizedialog.h:263
 msgid "Delete the original files"
@@ -1761,19 +1764,19 @@ msgstr "Húzza el az áthelyezéshez"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:105
 msgid "Dynamic mode is on"
-msgstr ""
+msgstr "A dinamikus mód be van kapcsolva"
 
 #: smartplaylists/smartplaylistsmodel.cpp:120
 msgid "Dynamic random mix"
-msgstr ""
+msgstr "Dinamikus véletlen keverés"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
-msgstr ""
+msgstr "Okos lejátszólista szerkesztése"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:81
 msgid "Edit smart playlist..."
-msgstr ""
+msgstr "Okos lejátszólista szerkesztése..."
 
 #: core/mainwindow.cpp:1857
 #, qt-format
@@ -1966,8 +1969,9 @@ msgid "Error while setting CDDA device to ready state."
 msgstr "Hiba történt a CDDA eszköz készre állításakor."
 
 #: smartplaylists/smartplaylistsmodel.cpp:82
+#, fuzzy
 msgid "Ever played"
-msgstr ""
+msgstr "Bármikor lejátszva"
 
 #: ../build/src/ui_backendsettingspage.h:468
 msgid "Except between tracks on the same album or in the same CUE sheet"
@@ -1979,7 +1983,7 @@ msgstr "Meglévő borítók"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
-msgstr ""
+msgstr "Kinyitás"
 
 #: widgets/loginstatewidget.cpp:150
 #, qt-format
@@ -2064,7 +2068,7 @@ msgstr "Gyors"
 
 #: smartplaylists/smartplaylistsmodel.cpp:106
 msgid "Favourite tracks"
-msgstr ""
+msgstr "Kedvenc számok"
 
 #: ../build/src/ui_albumcovermanager.h:223
 msgid "Fetch Missing Covers"
@@ -2156,7 +2160,7 @@ msgstr "Ujjlenyomat készítése a dalhoz"
 
 #: smartplaylists/smartplaylistwizard.cpp:86
 msgid "Finish"
-msgstr ""
+msgstr "Befejezés"
 
 #: collection/savedgroupingmanager.cpp:56 ../build/src/ui_groupbydialog.h:182
 msgid "First level"
