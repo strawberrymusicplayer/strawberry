@@ -75,6 +75,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
       collection_sort_model_(new QSortFilterProxyModel(this)),
       verify_certificate_(false),
       download_album_covers_(true),
+      server_side_scrobbling_(false),
       ping_redirects_(0)
   {
 
@@ -140,6 +141,7 @@ void SubsonicService::ReloadSettings() {
 
   verify_certificate_ = s.value("verifycertificate", false).toBool();
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
+  server_side_scrobbling_ = s.value("serversidescrobbling", false).toBool();
 
   s.endGroup();
 
@@ -382,6 +384,10 @@ void SubsonicService::CheckConfiguration() {
 }
 
 void SubsonicService::Scrobble(QString song_id, bool submission, QDateTime time) {
+
+  if (!server_side_scrobbling()) {
+      return;
+  }
 
   if (!server_url().isValid() || username().isEmpty() || password().isEmpty()) {
     return;
