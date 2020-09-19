@@ -683,7 +683,7 @@ void QobuzService::CancelSearch() {
 
 void QobuzService::SendSearch() {
 
-  QobuzBaseRequest::QueryType type;
+  QobuzBaseRequest::QueryType type = QobuzBaseRequest::QueryType_None;
 
   switch (pending_search_type_) {
     case InternetSearchView::SearchType_Artists:
