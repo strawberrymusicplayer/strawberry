@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <windows.h>
 #include <initguid.h>
 #include <devpkey.h>
 #include <functiondiscoverykeys_devpkey.h>
