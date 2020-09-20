@@ -270,7 +270,7 @@ bool MoveToTrashRecursive(const QString &path) {
   return dir.rmdir(path);
 
 #else
-
+  Q_UNUSED(path)
   return false;
 
 #endif
