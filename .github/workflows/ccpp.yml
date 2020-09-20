@@ -706,6 +706,7 @@ jobs:
         run: >
             apt-get update && apt-get install -y
             build-essential
+            dh-make
             ssh
             git
             make
@@ -762,6 +763,7 @@ jobs:
         run: >
             apt-get update && apt-get install -y
             build-essential
+            dh-make
             ssh
             git
             make
