@@ -135,24 +135,10 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="checkbox_source_tidal">
-        <property name="text">
-         <string>Tidal</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
        <widget class="QCheckBox" name="checkbox_source_local">
         <property name="text">
          <string>Local file</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QCheckBox" name="checkbox_source_subsonic">
-        <property name="text">
-         <string>Subsonic</string>
         </property>
        </widget>
       </item>
@@ -163,17 +149,38 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="checkbox_source_cdda">
+        <property name="text">
+         <string>CDDA</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
        <widget class="QCheckBox" name="checkbox_source_stream">
         <property name="text">
          <string>Stream</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QCheckBox" name="checkbox_source_cdda">
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="checkbox_source_subsonic">
         <property name="text">
-         <string>CDDA</string>
+         <string>Subsonic</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="checkbox_source_tidal">
+        <property name="text">
+         <string>Tidal</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="checkbox_source_qobuz">
+        <property name="text">
+         <string>Qobuz</string>
         </property>
        </widget>
       </item>
@@ -398,6 +405,16 @@
   <tabstop>checkbox_love_button</tabstop>
   <tabstop>spinbox_submit</tabstop>
   <tabstop>checkbox_albumartist</tabstop>
+  <tabstop>checkbox_show_error_dialog</tabstop>
+  <tabstop>checkbox_source_collection</tabstop>
+  <tabstop>checkbox_source_local</tabstop>
+  <tabstop>checkbox_source_device</tabstop>
+  <tabstop>checkbox_source_cdda</tabstop>
+  <tabstop>checkbox_source_stream</tabstop>
+  <tabstop>checkbox_source_subsonic</tabstop>
+  <tabstop>checkbox_source_tidal</tabstop>
+  <tabstop>checkbox_source_qobuz</tabstop>
+  <tabstop>checkbox_source_unknown</tabstop>
   <tabstop>checkbox_lastfm_enable</tabstop>
   <tabstop>checkbox_lastfm_https</tabstop>
   <tabstop>button_lastfm_login</tabstop>
