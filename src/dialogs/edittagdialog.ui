@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>863</width>
-    <height>645</height>
+    <height>671</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
      </widget>
      <widget class="QTabWidget" name="tab_widget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="summary_tab">
        <attribute name="title">
@@ -150,7 +150,7 @@
            <number>18</number>
           </property>
           <item row="0" column="0">
-           <widget class="QLabel" name="length_label">
+           <widget class="QLabel" name="label_length">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -194,7 +194,7 @@
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QLabel" name="playcount_label">
+           <widget class="QLabel" name="label_playcount">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -226,7 +226,7 @@
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="QLabel" name="skipcount_label">
+           <widget class="QLabel" name="label_skipcount">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -252,7 +252,7 @@
            </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="bitrate_label">
+           <widget class="QLabel" name="label_bitrate">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -290,7 +290,7 @@
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QLabel" name="lastplayed_label">
+           <widget class="QLabel" name="label_lastplayed">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -316,7 +316,7 @@
            </widget>
           </item>
           <item row="2" column="0">
-           <widget class="QLabel" name="samplerate_label">
+           <widget class="QLabel" name="label_samplerate">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -348,7 +348,7 @@
            </widget>
           </item>
           <item row="3" column="0">
-           <widget class="QLabel" name="bitdepth_label">
+           <widget class="QLabel" name="label_bitdepth">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -380,7 +380,7 @@
            </widget>
           </item>
           <item row="4" column="0">
-           <widget class="QLabel" name="filesize_label">
+           <widget class="QLabel" name="label_filesize">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -412,7 +412,7 @@
            </widget>
           </item>
           <item row="6" column="0">
-           <widget class="QLabel" name="filetype_label">
+           <widget class="QLabel" name="label_filetype">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -447,7 +447,7 @@
            </widget>
           </item>
           <item row="7" column="0">
-           <widget class="QLabel" name="mtime_label">
+           <widget class="QLabel" name="label_mtime">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -473,7 +473,7 @@
            </widget>
           </item>
           <item row="8" column="0">
-           <widget class="QLabel" name="ctime_label">
+           <widget class="QLabel" name="label_ctime">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -499,7 +499,7 @@
            </widget>
           </item>
           <item row="5" column="0">
-           <widget class="QLabel" name="filename_label">
+           <widget class="QLabel" name="label_filename">
             <property name="text">
              <string>File name</string>
             </property>
@@ -580,6 +580,12 @@
         </item>
         <item row="7" column="0">
          <widget class="QLabel" name="genre_label">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Genre</string>
           </property>
@@ -609,7 +615,13 @@
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QLabel" name="title_label">
+         <widget class="QLabel" name="label_title">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Title</string>
           </property>
@@ -619,7 +631,13 @@
          </widget>
         </item>
         <item row="6" column="0">
-         <widget class="QLabel" name="grouping_label">
+         <widget class="QLabel" name="label_grouping">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Grouping</string>
           </property>
@@ -629,7 +647,13 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="album_label">
+         <widget class="QLabel" name="label_album">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Album</string>
           </property>
@@ -669,7 +693,13 @@
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="albumartist_label">
+         <widget class="QLabel" name="label_albumartist">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Album artist</string>
           </property>
@@ -689,7 +719,13 @@
          </widget>
         </item>
         <item row="4" column="0">
-         <widget class="QLabel" name="composer_label">
+         <widget class="QLabel" name="label_composer">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Composer</string>
           </property>
@@ -699,7 +735,13 @@
          </widget>
         </item>
         <item row="11" column="0">
-         <widget class="QLabel" name="comment_label">
+         <widget class="QLabel" name="label_comment">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Comment</string>
           </property>
@@ -719,7 +761,7 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QLabel" name="track_label">
+         <widget class="QLabel" name="label_track">
           <property name="text">
            <string>Track</string>
           </property>
@@ -755,7 +797,13 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="artist_label">
+         <widget class="QLabel" name="label_artist">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Artist</string>
           </property>
@@ -791,7 +839,7 @@
          </widget>
         </item>
         <item row="2" column="2">
-         <widget class="QLabel" name="year_label">
+         <widget class="QLabel" name="label_year">
           <property name="text">
            <string>Year</string>
           </property>
@@ -811,7 +859,13 @@
          </widget>
         </item>
         <item row="5" column="0">
-         <widget class="QLabel" name="performer_label">
+         <widget class="QLabel" name="label_performer">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Performer</string>
           </property>
@@ -822,6 +876,12 @@
         </item>
         <item row="10" column="0">
          <widget class="QLabel" name="label_lyrics">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Lyrics</string>
           </property>
@@ -837,6 +897,32 @@
           </property>
           <property name="has_clear_button" stdset="0">
            <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="CheckBox" name="compilation">
+          <property name="has_reset_button" stdset="0">
+           <bool>false</bool>
+          </property>
+          <property name="has_clear_button" stdset="0">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_compilation">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Compilation</string>
+          </property>
+          <property name="buddy">
+           <cstring>compilation</cstring>
           </property>
          </widget>
         </item>
@@ -876,6 +962,11 @@
   <customwidget>
    <class>SpinBox</class>
    <extends>QSpinBox</extends>
+   <header>widgets/lineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CheckBox</class>
+   <extends>QCheckBox</extends>
    <header>widgets/lineedit.h</header>
   </customwidget>
  </customwidgets>

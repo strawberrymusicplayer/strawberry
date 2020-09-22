@@ -54,6 +54,7 @@
 #include <QShortcut>
 #include <QSize>
 #include <QSpinBox>
+#include <QCheckBox>
 #include <QSplitter>
 #include <QTabWidget>
 #include <QTextEdit>
@@ -155,6 +156,9 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       }
       else if (qobject_cast<QSpinBox*>(widget)) {
         connect(widget, SIGNAL(valueChanged(int)), SLOT(FieldValueEdited()));
+      }
+      else if (qobject_cast<QCheckBox*>(widget)) {
+        connect(widget, SIGNAL(stateChanged(int)), SLOT(FieldValueEdited()));
       }
     }
   }
@@ -275,6 +279,7 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const 
   }
 
   return ret;
+
 }
 
 void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
@@ -325,9 +330,11 @@ void EditTagDialog::SetSongsFinished(QFuture<QList<Data>> future) {
 }
 
 void EditTagDialog::SetSongListVisibility(bool visible) {
+
   ui_->song_list->setVisible(visible);
   previous_button_->setEnabled(visible);
   next_button_->setEnabled(visible);
+
 }
 
 QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
@@ -345,6 +352,7 @@ QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
   if (id == "track") return song.track();
   if (id == "disc") return song.disc();
   if (id == "year") return song.year();
+  if (id == "compilation") return song.compilation();
   qLog(Warning) << "Unknown ID" << id;
   return QVariant();
 
@@ -365,16 +373,19 @@ void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
   else if (id == "track") current_.set_track(value.toInt());
   else if (id == "disc") current_.set_disc(value.toInt());
   else if (id == "year") current_.set_year(value.toInt());
+  else if (id == "compilation") current_.set_compilation(value.toBool());
   else qLog(Warning) << "Unknown ID" << id;
 
 }
 
 bool EditTagDialog::DoesValueVary(const QModelIndexList &sel, const QString &id) const {
+
   QVariant value = data_[sel.first().row()].current_value(id);
   for (int i = 1; i < sel.count(); ++i) {
     if (value != data_[sel[i].row()].current_value(id)) return true;
   }
   return false;
+
 }
 
 bool EditTagDialog::IsValueModified(const QModelIndexList &sel, const QString &id) const {
@@ -396,10 +407,14 @@ void EditTagDialog::InitFieldValue(const FieldData &field, const QModelIndexList
     editor->clear_hint();
     if (varies) {
       editor->set_hint(tr(EditTagDialog::kHintText));
+      editor->set_partially();
     }
     else {
-      editor->set_text(data_[sel[0].row()].current_value(field.id_).toString());
+      editor->set_value(data_[sel[0].row()].current_value(field.id_));
     }
+  }
+  else {
+    qLog(Error) << "Missing editor for" << field.editor_->objectName();
   }
 
   UpdateModifiedField(field, sel);
@@ -410,8 +425,12 @@ void EditTagDialog::UpdateFieldValue(const FieldData &field, const QModelIndexLi
 
   // Get the value from the field
   QVariant value;
+
   if (ExtendedEditor *editor = dynamic_cast<ExtendedEditor*>(field.editor_)) {
-    value = editor->text();
+    value = editor->value();
+  }
+  else {
+    qLog(Error) << "Missing editor for" << field.editor_->objectName();
   }
 
   // Did we get it?
@@ -654,6 +673,7 @@ void EditTagDialog::LoadCoverFromURL() {
   QUrl cover_url = album_cover_choice_controller_->LoadCoverFromURL(song);
 
   if (!cover_url.isEmpty()) UpdateCoverOf(*song, sel, cover_url);
+
 }
 
 void EditTagDialog::SearchForCover() {
@@ -666,6 +686,7 @@ void EditTagDialog::SearchForCover() {
   QUrl cover_url = album_cover_choice_controller_->SearchForCover(song);
 
   if (!cover_url.isEmpty()) UpdateCoverOf(*song, sel, cover_url);
+
 }
 
 void EditTagDialog::UnsetCover() {
@@ -677,6 +698,7 @@ void EditTagDialog::UnsetCover() {
 
   QUrl cover_url = album_cover_choice_controller_->UnsetCover(song);
   UpdateCoverOf(*song, sel, cover_url);
+
 }
 
 void EditTagDialog::ShowCover() {
@@ -687,6 +709,7 @@ void EditTagDialog::ShowCover() {
   }
 
   album_cover_choice_controller_->ShowCover(*song);
+
 }
 
 void EditTagDialog::UpdateCoverOf(const Song &selected, const QModelIndexList &sel, const QUrl &cover_url) {
@@ -716,6 +739,7 @@ void EditTagDialog::NextSong() {
 
   int row = (ui_->song_list->currentRow() + 1) % ui_->song_list->count();
   ui_->song_list->setCurrentRow(row);
+
 }
 
 void EditTagDialog::PreviousSong() {
@@ -726,12 +750,15 @@ void EditTagDialog::PreviousSong() {
 
   int row = (ui_->song_list->currentRow() - 1 + ui_->song_list->count()) % ui_->song_list->count();
   ui_->song_list->setCurrentRow(row);
+
 }
 
 void EditTagDialog::ButtonClicked(QAbstractButton *button) {
+
   if (button == ui_->button_box->button(QDialogButtonBox::Discard)) {
     reject();
   }
+
 }
 
 void EditTagDialog::SaveData(const QList<Data> &tag_data) {
@@ -802,6 +829,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
     }
   }
   return false;
+
 }
 
 void EditTagDialog::showEvent(QShowEvent *e) {
@@ -815,6 +843,7 @@ void EditTagDialog::showEvent(QShowEvent *e) {
   ui_->tab_widget->setCurrentIndex(s.value("current_tab").toInt());
 
   QDialog::showEvent(e);
+
 }
 
 void EditTagDialog::hideEvent(QHideEvent *e) {
@@ -825,6 +854,7 @@ void EditTagDialog::hideEvent(QHideEvent *e) {
   s.setValue("current_tab", ui_->tab_widget->currentIndex());
 
   QDialog::hideEvent(e);
+
 }
 
 void EditTagDialog::ResetPlayCounts() {
