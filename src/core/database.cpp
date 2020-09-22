@@ -63,7 +63,9 @@ QMutex Database::sNextConnectionIdMutex;
 Database::Database(Application *app, QObject *parent, const QString &database_name) :
       QObject(parent),
       app_(app),
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
       mutex_(QMutex::Recursive),
+#endif
       injected_database_name_(database_name),
       query_hash_(0),
       startup_schema_version_(-1),
