@@ -46,7 +46,7 @@ class SubsonicScrobbler : public ScrobblerService {
 
   void ReloadSettings() override;
 
-  bool IsEnabled() const override { return true; }
+  bool IsEnabled() const override { return enabled_; }
   bool IsAuthenticated() const override { return true; }
 
   void UpdateNowPlaying(const Song &song) override;
@@ -65,6 +65,7 @@ class SubsonicScrobbler : public ScrobblerService {
  private:
   Application *app_;
   SubsonicService *service_;
+  bool enabled_;
   bool submitted_;
   Song song_playing_;
   QDateTime time_;

@@ -104,8 +104,6 @@ class SubsonicService : public InternetService {
 
   void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  bool server_side_scrobbling() { return server_side_scrobbling_; }
-
   static const char *kClientName;
   static const char *kApiVersion;
   static const char *kSongsTable;
@@ -128,7 +126,6 @@ class SubsonicService : public InternetService {
   QString password_;
   bool verify_certificate_;
   bool download_album_covers_;
-  bool server_side_scrobbling_;
 
   QStringList errors_;
   int ping_redirects_;

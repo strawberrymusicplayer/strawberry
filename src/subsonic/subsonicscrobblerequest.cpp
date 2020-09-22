@@ -51,12 +51,12 @@ SubsonicScrobbleRequest::SubsonicScrobbleRequest(SubsonicService *service, Subso
 
 SubsonicScrobbleRequest::~SubsonicScrobbleRequest() {
 
-    while (!replies_.isEmpty()) {
-      QNetworkReply *reply = replies_.takeFirst();
-      disconnect(reply, nullptr, this, nullptr);
-      if (reply->isRunning()) reply->abort();
-      reply->deleteLater();
-    }
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    if (reply->isRunning()) reply->abort();
+    reply->deleteLater();
+  }
 
 }
 

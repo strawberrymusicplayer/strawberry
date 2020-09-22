@@ -33,6 +33,7 @@
 #include "core/logging.h"
 #include "core/closure.h"
 #include "internet/internetservices.h"
+#include "settings/subsonicsettingspage.h"
 #include "subsonic/subsonicservice.h"
 
 #include "audioscrobbler.h"
@@ -44,8 +45,11 @@ const char *SubsonicScrobbler::kName = "Subsonic";
 SubsonicScrobbler::SubsonicScrobbler(Application *app, QObject *parent) : ScrobblerService(kName, app, parent),
   app_(app),
   service_(app->internet_services()->Service<SubsonicService>()),
+  enabled_(false),
   submitted_(false) {
+
   ReloadSettings();
+
 }
 
 SubsonicScrobbler::~SubsonicScrobbler() {
@@ -54,9 +58,15 @@ SubsonicScrobbler::~SubsonicScrobbler() {
 
 void SubsonicScrobbler::ReloadSettings() {
 
+  QSettings s;
+  s.beginGroup(SubsonicSettingsPage::kSettingsGroup);
+  enabled_ = s.value("serversidescrobbling", false).toBool();
+  s.endGroup();
+
 }
 
 void SubsonicScrobbler::UpdateNowPlaying(const Song &song) {
+
   if (song.source() != Song::Source::Source_Subsonic) return;
 
   song_playing_ = song;
@@ -65,14 +75,18 @@ void SubsonicScrobbler::UpdateNowPlaying(const Song &song) {
   if (!song.is_metadata_good() || app_->scrobbler()->IsOffline()) return;
 
   service_->Scrobble(song.song_id(), false, time_);
+
 }
 
 void SubsonicScrobbler::ClearPlaying() {
+
   song_playing_ = Song();
   time_ = QDateTime();
+
 }
 
 void SubsonicScrobbler::Scrobble(const Song &song) {
+
   if (song.source() != Song::Source::Source_Subsonic) return;
 
   if (song.id() != song_playing_.id() || song.url() != song_playing_.url() || !song.is_metadata_good()) return;
@@ -97,15 +111,19 @@ void SubsonicScrobbler::DoSubmit() {
 }
 
 void SubsonicScrobbler::Submit() {
+
   qLog(Debug) << "SubsonicScrobbler: Submitting scrobble for " << song_playing_.song_id();
   submitted_ = false;
 
   if (app_->scrobbler()->IsOffline()) return;
 
   service_->Scrobble(song_playing_.song_id(), true, time_);
+
 }
 
 void SubsonicScrobbler::Error(const QString &error, const QVariant &debug) {
+
   qLog(Error) << "SubsonicScrobbler:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }
