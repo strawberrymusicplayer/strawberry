@@ -114,8 +114,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void CommandlineOptionsReceived(const CommandlineOptions &options);
 
  protected:
-  void keyPressEvent(QKeyEvent *event) override;
-  void closeEvent(QCloseEvent *event) override;
+  void keyPressEvent(QKeyEvent *e) override;
+  void closeEvent(QCloseEvent *e) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) override;
 #else
@@ -368,14 +368,17 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QTimer *track_slider_timer_;
   QSettings settings_;
 
-  bool initialized_;
-  bool was_maximized_;
-  bool was_minimized_;
+  bool keep_running_;
   bool playing_widget_;
   BehaviourSettingsPage::AddBehaviour doubleclick_addmode_;
   BehaviourSettingsPage::PlayBehaviour doubleclick_playmode_;
   BehaviourSettingsPage::PlaylistAddBehaviour doubleclick_playlist_addmode_;
   BehaviourSettingsPage::PlayBehaviour menu_playmode_;
+
+  bool initialized_;
+  bool was_maximized_;
+  bool was_minimized_;
+  bool hidden_;
 
   Song song_;
   Song song_playing_;

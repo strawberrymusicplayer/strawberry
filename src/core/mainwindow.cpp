@@ -300,14 +300,16 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
       collection_sort_model_(new QSortFilterProxyModel(this)),
       track_position_timer_(new QTimer(this)),
       track_slider_timer_(new QTimer(this)),
-      initialized_(false),
-      was_maximized_(true),
-      was_minimized_(false),
+      keep_running_(false),
       playing_widget_(true),
       doubleclick_addmode_(BehaviourSettingsPage::AddBehaviour_Append),
       doubleclick_playmode_(BehaviourSettingsPage::PlayBehaviour_Never),
       doubleclick_playlist_addmode_(BehaviourSettingsPage::PlaylistAddBehaviour_Play),
       menu_playmode_(BehaviourSettingsPage::PlayBehaviour_Never),
+      initialized_(false),
+      was_maximized_(true),
+      was_minimized_(false),
+      hidden_(false),
       exit_count_(0),
       delete_files_(false)
       {
@@ -935,11 +937,13 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
       if (was_minimized_) setWindowState(windowState() | Qt::WindowMinimized);
 
       if (!QSystemTrayIcon::isSystemTrayAvailable() || !tray_icon_ || !tray_icon_->IsVisible()) {
+        hidden_ = false;
         settings_.setValue("hidden", false);
         show();
       }
       else {
-        setVisible(!settings_.value("hidden", false).toBool());
+        hidden_ = settings_.value("hidden", false).toBool();
+        setVisible(!hidden_);
       }
       break;
     }
@@ -1003,6 +1007,7 @@ void MainWindow::ReloadSettings() {
 #endif
 
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+  keep_running_ = s.value("keeprunning", false).toBool();
   playing_widget_ = s.value("playing_widget", true).toBool();
   if (playing_widget_ != ui_->widget_playing->IsEnabled()) TabSwitched();
   doubleclick_addmode_ = BehaviourSettingsPage::AddBehaviour(s.value("doubleclick_addmode", BehaviourSettingsPage::AddBehaviour_Append).toInt());
@@ -1132,12 +1137,12 @@ void MainWindow::SaveSettings() {
 
 void MainWindow::Exit() {
 
-  // Make sure Settings dialog is destroyed first.
-  settings_dialog_.reset();
-
   ++exit_count_;
 
   SaveSettings();
+
+  // Make sure Settings dialog is destroyed first.
+  settings_dialog_.reset();
 
   if (exit_count_ > 1) {
     qApp->quit();
@@ -1339,6 +1344,7 @@ void MainWindow::SaveGeometry() {
 
   settings_.setValue("maximized", isMaximized());
   settings_.setValue("minimized", isMinimized());
+  settings_.setValue("hidden", hidden_);
   settings_.setValue("geometry", saveGeometry());
   settings_.setValue("splitter_state", ui_->splitter->saveState());
 
@@ -1469,7 +1475,7 @@ void MainWindow::VolumeWheelEvent(const int delta) {
 
 void MainWindow::ToggleShowHide() {
 
-  if (settings_.value("hidden").toBool()) {
+  if (hidden_) {
     show();
     SetHiddenInTray(false);
   }
@@ -1500,15 +1506,10 @@ void MainWindow::StopAfterCurrent() {
   emit StopAfterToggled(app_->playlist_manager()->active()->stop_after_current());
 }
 
-void MainWindow::closeEvent(QCloseEvent *event) {
+void MainWindow::closeEvent(QCloseEvent *e) {
 
-  QSettings settings;
-  settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  bool keep_running = settings.value("keeprunning", false).toBool();
-  settings.endGroup();
-
-  if (keep_running && event->spontaneous() && QSystemTrayIcon::isSystemTrayAvailable()) {
-    event->ignore();
+  if (!hidden_ && keep_running_ && e->spontaneous() && QSystemTrayIcon::isSystemTrayAvailable()) {
+    e->ignore();
     SetHiddenInTray(true);
   }
   else {
@@ -1519,7 +1520,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 void MainWindow::SetHiddenInTray(const bool hidden) {
 
-  settings_.setValue("hidden", hidden);
+  hidden_ = hidden;
 
   // Some window managers don't remember maximized state between calls to hide() and show(), so we have to remember it ourself.
   if (hidden) {
@@ -2821,22 +2822,22 @@ void MainWindow::ShowConsole() {
 
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event) {
+void MainWindow::keyPressEvent(QKeyEvent *e) {
 
-  if (event->key() == Qt::Key_Space) {
+  if (e->key() == Qt::Key_Space) {
     app_->player()->PlayPause(Playlist::AutoScroll_Never);
-    event->accept();
+    e->accept();
   }
-  else if (event->key() == Qt::Key_Left) {
+  else if (e->key() == Qt::Key_Left) {
     ui_->track_slider->Seek(-1);
-    event->accept();
+    e->accept();
   }
-  else if (event->key() == Qt::Key_Right) {
+  else if (e->key() == Qt::Key_Right) {
     ui_->track_slider->Seek(1);
-    event->accept();
+    e->accept();
   }
   else {
-    QMainWindow::keyPressEvent(event);
+    QMainWindow::keyPressEvent(e);
   }
 
 }
