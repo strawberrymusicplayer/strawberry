@@ -27,6 +27,7 @@
 #include <QPair>
 #include <QList>
 #include <QString>
+#include <QVariant>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QNetworkAccessManager>
@@ -53,6 +54,7 @@
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
 #include "subsonicrequest.h"
+#include "subsonicscrobblerequest.h"
 #include "settings/settingsdialog.h"
 #include "settings/subsonicsettingspage.h"
 
@@ -376,6 +378,21 @@ void SubsonicService::CheckConfiguration() {
     emit TestComplete(false, "Missing Subsonic password.");
     return;
   }
+
+}
+
+void SubsonicService::Scrobble(QString song_id, bool submission, QDateTime time) {
+
+  if (!server_url().isValid() || username().isEmpty() || password().isEmpty()) {
+    return;
+  }
+
+  if (!scrobble_request_.get()) {
+    // we're doing requests every 30-240s the whole time, so keep reusing this instance
+    scrobble_request_.reset(new SubsonicScrobbleRequest(this, url_handler_, app_, this));
+  }
+
+  scrobble_request_->CreateScrobbleRequest(song_id, submission, time);
 
 }
 

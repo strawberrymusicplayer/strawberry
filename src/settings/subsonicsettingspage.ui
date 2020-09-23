@@ -120,6 +120,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_server_scrobbling">
+        <property name="text">
+         <string>Server-side scrobbling</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

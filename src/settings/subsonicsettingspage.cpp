@@ -75,6 +75,7 @@ void SubsonicSettingsPage::Load() {
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
   ui_->checkbox_verify_certificate->setChecked(s.value("verifycertificate", false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
+  ui_->checkbox_server_scrobbling->setChecked(s.value("serversidescrobbling", false).toBool());
   s.endGroup();
 
   Init(ui_->layout_subsonicsettingspage->parentWidget());
@@ -91,6 +92,7 @@ void SubsonicSettingsPage::Save() {
   s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
   s.setValue("verifycertificate", ui_->checkbox_verify_certificate->isChecked());
   s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
+  s.setValue("serversidescrobbling", ui_->checkbox_server_scrobbling->isChecked());
   s.endGroup();
 
   service_->ReloadSettings();
