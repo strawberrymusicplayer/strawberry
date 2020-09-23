@@ -752,6 +752,63 @@ jobs:
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
 
+  build_debian_bullseye:
+    name: Build Debian Bullseye
+    runs-on: ubuntu-latest
+    container:
+      image: debian:bullseye
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install Debian dependencies
+        run: >
+            apt-get update && apt-get install -y
+            build-essential
+            dh-make
+            ssh
+            git
+            make
+            cmake
+            gcc
+            pkg-config
+            fakeroot
+            gettext
+            lsb-release
+            libglib2.0-dev
+            dpkg-dev
+            libdbus-1-dev
+            libboost-dev
+            libprotobuf-dev
+            protobuf-compiler
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            qtbase5-dev
+            qtbase5-dev-tools
+            qtbase5-private-dev
+            libqt5x11extras5-dev
+            qttools5-dev
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: make deb
+        shell: bash
+        run: dpkg-buildpackage -b -d -uc -us -nc -j2
+
+
   build_ubuntu_bionic:
     name: Build Ubuntu Bionic
     runs-on: ubuntu-latest
@@ -765,6 +822,7 @@ jobs:
         run: >
             apt-get update && apt-get install -y
             build-essential
+            dh-make
             ssh
             git
             make
@@ -826,6 +884,7 @@ jobs:
         run: >
             apt-get update && apt-get install -y
             build-essential
+            dh-make
             ssh
             git
             make
@@ -887,6 +946,7 @@ jobs:
         run: >
             apt-get update && apt-get install -y
             build-essential
+            dh-make
             ssh
             git
             make
