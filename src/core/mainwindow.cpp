@@ -156,6 +156,7 @@
 #include "settings/playlistsettingspage.h"
 #ifdef HAVE_SUBSONIC
 #  include "settings/subsonicsettingspage.h"
+#  include "scrobbler/subsonicscrobbler.h"
 #endif
 #ifdef HAVE_TIDAL
 #  include "tidal/tidalservice.h"
@@ -1057,6 +1058,7 @@ void MainWindow::ReloadSettings() {
     ui_->tabs->EnableTab(subsonic_view_);
   else
     ui_->tabs->DisableTab(subsonic_view_);
+  app_->scrobbler()->Service<SubsonicScrobbler>()->ReloadSettings();
 #endif
 
 #ifdef HAVE_TIDAL
