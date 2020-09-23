@@ -234,7 +234,6 @@ commands:
           command: >
             apt-get update && apt-get install -y
             build-essential
-            dh-make
             ssh
             git
             make
@@ -405,15 +404,6 @@ jobs:
       - cmake
       - build_deb
 
-  build_debian_bullseye:
-    docker:
-      - image: debian:bullseye
-    steps:
-      - install_debian_dependencies
-      - checkout
-      - cmake
-      - build_deb
-
 
   build_ubuntu_bionic:
     docker:
@@ -480,10 +470,6 @@ workflows:
 
 
       - build_debian_buster:
-          filters:
-            tags:
-              only: /.*/
-      - build_debian_bullseye:
           filters:
             tags:
               only: /.*/
