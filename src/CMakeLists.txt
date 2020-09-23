@@ -242,7 +242,6 @@ set(SOURCES
   scrobbler/librefmscrobbler.cpp
   scrobbler/listenbrainzscrobbler.cpp
   scrobbler/lastfmimport.cpp
-  scrobbler/subsonicscrobbler.cpp
 
   organize/organize.cpp
   organize/organizeformat.cpp
@@ -457,7 +456,6 @@ set(HEADERS
   scrobbler/librefmscrobbler.h
   scrobbler/listenbrainzscrobbler.h
   scrobbler/lastfmimport.h
-  scrobbler/subsonicscrobbler.h
 
   organize/organize.h
   organize/organizedialog.h
@@ -907,6 +905,7 @@ optional_source(HAVE_SUBSONIC
     subsonic/subsonicrequest.cpp
     subsonic/subsonicscrobblerequest.cpp
     settings/subsonicsettingspage.cpp
+    scrobbler/subsonicscrobbler.cpp
   HEADERS
     subsonic/subsonicservice.h
     subsonic/subsonicurlhandler.h
@@ -914,6 +913,7 @@ optional_source(HAVE_SUBSONIC
     subsonic/subsonicrequest.h
     subsonic/subsonicscrobblerequest.h
     settings/subsonicsettingspage.h
+    scrobbler/subsonicscrobbler.h
   UI
     settings/subsonicsettingspage.ui
 )

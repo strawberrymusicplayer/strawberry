@@ -37,7 +37,9 @@
 #include "lastfmscrobbler.h"
 #include "librefmscrobbler.h"
 #include "listenbrainzscrobbler.h"
-#include "subsonicscrobbler.h"
+#ifdef HAVE_SUBSONIC
+#  include "subsonicscrobbler.h"
+#endif
 
 AudioScrobbler::AudioScrobbler(Application *app, QObject *parent) :
   QObject(parent),
@@ -55,7 +57,9 @@ AudioScrobbler::AudioScrobbler(Application *app, QObject *parent) :
   scrobbler_services_->AddService(new LastFMScrobbler(app_, scrobbler_services_));
   scrobbler_services_->AddService(new LibreFMScrobbler(app_, scrobbler_services_));
   scrobbler_services_->AddService(new ListenBrainzScrobbler(app_, scrobbler_services_));
+#ifdef HAVE_SUBSONIC
   scrobbler_services_->AddService(new SubsonicScrobbler(app_, scrobbler_services_));
+#endif
 
   ReloadSettings();
 
