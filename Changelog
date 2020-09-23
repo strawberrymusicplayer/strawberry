@@ -10,6 +10,7 @@ Unreleased:
     * Fixed crash when deleting queued songs from playlist.
     * Fixed situations where songs could disappear or be shown multiple times with certain collection groupings.
     * Fixed initial sizes of playlist header columns.
+    * Fixed Strawberry preventing logout.
     * Disable use of HTML in system tray tooltip on Cinnamon too.
     * (macOS) Fixed crash on exit when cover manager is open.
     * (macOS) Fixed graphical corruption.
@@ -21,6 +22,7 @@ Unreleased:
     * Remember manually set compilation status for albums when songs are rescanned.
     * Added icons for edit tag playlist right click menu actions.
     * Maximize dialogs if they are already open when clicked again in the menu.
+    * Added support for compilation tag to edit tag dialog.
 
   New features:
     * Added setting for enabling scrobbling based on song source.
@@ -30,6 +32,7 @@ Unreleased:
     * Added song ratings.
     * Added lyrics from fandom.com.
     * Added Qobuz streaming support.
+    * Added Subsonic server side scrobbling support.
     * Load thumbnails from iPods to show under device collection.
 
 0.7.2:
