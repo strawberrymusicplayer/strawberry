@@ -235,7 +235,7 @@ void ScrobblerCache::ClearSent(const QList<quint64> &list) {
 
   for (const quint64 timestamp : list) {
     if (!scrobbler_cache_.contains(timestamp)) continue;
-    ScrobblerCacheItemPtr item = scrobbler_cache_.take(timestamp);
+    ScrobblerCacheItemPtr item = scrobbler_cache_.value(timestamp);
     item->sent_ = false;
   }
 
