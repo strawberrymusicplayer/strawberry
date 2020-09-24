@@ -22,6 +22,7 @@
 #include <memory>
 
 #include <QObject>
+#include <QDir>
 #include <QMimeType>
 #include <QMimeDatabase>
 #include <QByteArray>
@@ -695,10 +696,14 @@ void SubsonicRequest::AddAlbumCoverRequest(Song &song) {
     return;
   }
 
+  QString cover_path = Song::ImageCacheDir(Song::Source_Subsonic);
+  QDir dir(cover_path);
+  if (!dir.exists()) dir.mkpath(cover_path);
+
   AlbumCoverRequest request;
   request.album_id = song.album_id();
   request.url = cover_url;
-  request.filename = Song::ImageCacheDir(Song::Source_Subsonic) + "/" + cover_url_query.queryItemValue("id");
+  request.filename = cover_path + "/" + cover_url_query.queryItemValue("id");
   if (request.filename.isEmpty()) return;
 
   album_covers_requests_sent_.insert(cover_url, &song);
