@@ -3771,13 +3771,13 @@ msgstr "Ogranicz do znaków dozwolonych na systemach plików FAT"
 msgid "Resume playback on start"
 msgstr "Wznawiaj odtwarzanie po uruchomieniu programu"
 
-#: subsonic/subsonicrequest.cpp:679 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:680 tidal/tidalrequest.cpp:1086
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Pobieranie okładki albumu dla „%1”…"
 
-#: subsonic/subsonicrequest.cpp:680 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:681 tidal/tidalrequest.cpp:1087
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -3793,7 +3793,7 @@ msgstr "Pobieranie albumów %1 artysty…"
 msgid "Retrieving albums for %1 artists..."
 msgstr "Pobieranie albumów %1 artystów…"
 
-#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "Pobieranie albumów…"
@@ -3802,13 +3802,13 @@ msgstr "Pobieranie albumów…"
 msgid "Retrieving artists..."
 msgstr "Pobieranie artystów…"
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:725
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Pobieranie utworów dla albumu „%1”…"
 
-#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:321 tidal/tidalrequest.cpp:726
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -4814,7 +4814,7 @@ msgstr "Ultraszerokie pasmo (UWB)"
 msgid "Unknown"
 msgstr "nieznany"
 
-#: subsonic/subsonicrequest.cpp:853 tidal/tidalrequest.cpp:1260
+#: subsonic/subsonicrequest.cpp:858 tidal/tidalrequest.cpp:1260
 #: qobuz/qobuzrequest.cpp:1319
 msgid "Unknown error"
 msgstr "Nieznany błąd"
