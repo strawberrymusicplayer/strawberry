@@ -597,6 +597,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
   QModelIndex old_current_item_index = current_item_index_;
 
   ClearStreamMetadata();
+  nowplaying_ = false;
 
   if (next_row() != -1 && next_row() != i) {
     PlaylistItemPtr next_item = item_at(next_row());
@@ -1613,6 +1614,7 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool m
   }
   else {
     update_scrobble_point = true;
+    nowplaying_ = false;
     InformOfCurrentSongChange(AutoScroll_Never);
   }
 
@@ -2145,7 +2147,6 @@ void Playlist::UpdateScrobblePoint(const qint64 seek_point_nanosec) {
     }
   }
 
-  nowplaying_ = false;
   scrobbled_ = false;
 
 }

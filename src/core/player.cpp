@@ -589,9 +589,6 @@ void Player::PlayAt(const int index, Engine::TrackChangeFlags change, const Play
   }
   else {
     qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url;
-    if (current_item_->HasTemporaryMetadata()) {
-      app_->playlist_manager()->active()->InformOfCurrentSongChange(autoscroll);
-    }
     engine_->Play(url, current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec());
   }
 
