@@ -149,14 +149,20 @@ void PlayingWidget::Init(Application *app, AlbumCoverChoiceController *album_cov
 }
 
 void PlayingWidget::SetEnabled(bool enabled) {
+
+  if (enabled == enabled_) return;
+
   if (enabled) SetEnabled();
   else SetDisabled();
+
 }
 
 void PlayingWidget::SetEnabled() {
 
+  if (enabled_) return;
   enabled_ = true;
-  if (active_ && (!visible_ || (timeline_show_hide_->state() == QTimeLine::Running && timeline_show_hide_->currentFrame() <= 2))) {
+
+  if (active_) {
     SetVisible(true);
   }
 
@@ -164,30 +170,37 @@ void PlayingWidget::SetEnabled() {
 
 void PlayingWidget::SetDisabled() {
 
+  if (!enabled_) return;
   enabled_ = false;
-  if (visible_ || (timeline_show_hide_->state() == QTimeLine::Running && timeline_show_hide_->currentFrame() > 2 && total_height_ - timeline_show_hide_->currentFrame() <= 2)) {
-    SetVisible(false);
-  }
+
+  SetVisible(false);
 
 }
 
 void PlayingWidget::SetVisible(bool visible) {
 
   if (timeline_show_hide_->state() == QTimeLine::Running) {
-    if (timeline_show_hide_->direction() == QTimeLine::Backward && enabled_ && active_) {
-      timeline_show_hide_->toggleDirection();
+    if (timeline_show_hide_->currentFrame() <= 5) {
+      timeline_show_hide_->stop();
     }
-    if (timeline_show_hide_->direction() == QTimeLine::Forward && (!enabled_ || !active_)) {
+    else if (timeline_show_hide_->direction() == QTimeLine::Backward && enabled_ && active_) {
       timeline_show_hide_->toggleDirection();
+      return;
     }
-    return;
+    else if (timeline_show_hide_->direction() == QTimeLine::Forward && (!enabled_ || !active_)) {
+      timeline_show_hide_->toggleDirection();
+      return;
+    }
+    else {
+      timeline_show_hide_->stop();
+    }
   }
 
-  if (visible == visible_) return;
-
-  timeline_show_hide_->setFrameRange(0, total_height_);
-  timeline_show_hide_->setDirection(visible ? QTimeLine::Forward : QTimeLine::Backward);
-  timeline_show_hide_->start();
+  if (visible != visible_) {
+    timeline_show_hide_->setFrameRange(0, total_height_);
+    timeline_show_hide_->setDirection(visible ? QTimeLine::Forward : QTimeLine::Backward);
+    timeline_show_hide_->start();
+  }
 
 }
 
@@ -332,8 +345,8 @@ void PlayingWidget::SetHeight(int height) {
   setMaximumHeight(height);
   update();
 
-  if (height >= total_height_) visible_ = true;
-  if (height <= 0) visible_ = false;
+  if (height >= total_height_ - 5) visible_ = true;
+  if (height <= 5) visible_ = false;
 
   if (timeline_show_hide_->state() == QTimeLine::Running) {
     if (timeline_show_hide_->direction() == QTimeLine::Backward && enabled_ && active_) {
