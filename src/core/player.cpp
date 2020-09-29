@@ -237,10 +237,11 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
   if (!item) {
     return;
   }
-  const bool has_next_row = app_->playlist_manager()->active()->next_row() != -1;
+  int next_row = app_->playlist_manager()->active()->next_row();
+  const bool has_next_row = next_row != -1;
   PlaylistItemPtr next_item;
   if (has_next_row) {
-    next_item = app_->playlist_manager()->active()->item_at(app_->playlist_manager()->active()->next_row());
+    next_item = app_->playlist_manager()->active()->item_at(next_row);
   }
 
   bool is_current(false);
@@ -322,11 +323,12 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       if (update) {
         if (is_current) {
           item->SetTemporaryMetadata(song);
-          app_->playlist_manager()->active()->InformOfCurrentSongChange(autoscroll_);
+          app_->playlist_manager()->active()->InformOfCurrentSongChange(autoscroll_, true);
+          app_->playlist_manager()->active()->UpdateScrobblePoint();
         }
         else if (is_next) {
           next_item->SetTemporaryMetadata(song);
-          app_->playlist_manager()->active()->ItemChanged(next_item);
+          app_->playlist_manager()->active()->ItemChanged(next_row);
         }
       }
 
@@ -599,15 +601,6 @@ void Player::CurrentMetadataChanged(const Song &metadata) {
   // Those things might have changed (especially when a previously invalid song was reloaded) so we push the latest version into Engine
   engine_->RefreshMarkers(metadata.beginning_nanosec(), metadata.end_nanosec());
 
-  // Send now playing to scrobble services
-  if (app_->scrobbler()->IsEnabled() && engine_->state() == Engine::Playing) {
-    Playlist *playlist = app_->playlist_manager()->active();
-    current_item_ = playlist->current_item();
-    if (playlist && current_item_ && !playlist->nowplaying() && current_item_->Metadata() == metadata && current_item_->Metadata().is_metadata_good()) {
-      emit SendNowPlaying();
-    }
-  }
-
 }
 
 void Player::SeekTo(const int seconds) {
@@ -649,13 +642,14 @@ void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
     return;
   }
 
-  if (app_->playlist_manager()->active()->next_row() != -1) {
-    PlaylistItemPtr next_item = app_->playlist_manager()->active()->item_at(app_->playlist_manager()->active()->next_row());
+  int next_row = app_->playlist_manager()->active()->next_row();
+  if (next_row != -1) {
+    PlaylistItemPtr next_item = app_->playlist_manager()->active()->item_at(next_row);
     if (bundle.url == next_item->Url()) {
       Song song = next_item->Metadata();
       song.MergeFromSimpleMetaBundle(bundle);
       next_item->SetTemporaryMetadata(song);
-      app_->playlist_manager()->active()->ItemChanged(next_item);
+      app_->playlist_manager()->active()->ItemChanged(next_row);
     }
   }
 

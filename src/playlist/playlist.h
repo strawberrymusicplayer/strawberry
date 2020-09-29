@@ -232,9 +232,7 @@ class Playlist : public QAbstractListModel {
   QUndoStack *undo_stack() const { return undo_stack_; }
 
   bool scrobbled() const { return scrobbled_; }
-  bool nowplaying() const { return nowplaying_; }
   void set_scrobbled(const bool state) { scrobbled_ = state; }
-  void set_nowplaying(const bool state) { nowplaying_ = state; }
   void set_editing(const int row) { editing_ = row; }
   qint64 scrobble_point_nanosec() const { return scrobble_point_; }
   void UpdateScrobblePoint(const qint64 seek_point_nanosec = 0);
@@ -262,7 +260,7 @@ class Playlist : public QAbstractListModel {
 
   void StopAfter(const int row);
   void ReloadItems(const QList<int> &rows);
-  void InformOfCurrentSongChange(const AutoScroll autoscroll);
+  void InformOfCurrentSongChange(const AutoScroll autoscroll, const bool minor);
 
   // Registers an object which will get notifications when new songs are about to be inserted into this playlist.
   void AddSongInsertVetoListener(SongInsertVetoListener *listener);
@@ -290,6 +288,9 @@ class Playlist : public QAbstractListModel {
 
   static bool ComparePathDepths(Qt::SortOrder, PlaylistItemPtr, PlaylistItemPtr);
 
+  void ItemChanged(PlaylistItemPtr item);
+  void ItemChanged(const int row);
+
   // Changes rating of a song to the given value asynchronously
   void RateSong(const QModelIndex &idx, const double rating);
   void RateSongs(const QModelIndexList &index_list, const double rating);
@@ -303,7 +304,6 @@ class Playlist : public QAbstractListModel {
 
   void ClearStreamMetadata();
   void SetStreamMetadata(const QUrl &url, const Song &song, const bool minor);
-  void ItemChanged(PlaylistItemPtr item);
   void UpdateItems(SongList songs);
 
   void Clear();
@@ -424,7 +424,6 @@ class Playlist : public QAbstractListModel {
   bool cancel_restore_;
 
   bool scrobbled_;
-  bool nowplaying_;
   qint64 scrobble_point_;
 
   int editing_;

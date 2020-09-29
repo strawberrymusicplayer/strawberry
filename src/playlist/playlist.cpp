@@ -134,7 +134,6 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
       special_type_(special_type),
       cancel_restore_(false),
       scrobbled_(false),
-      nowplaying_(false),
       scrobble_point_(-1),
       editing_(-1) {
 
@@ -599,11 +598,12 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
 
   if (new_current_item_index != current_item_index_) ClearStreamMetadata();
 
-  if (next_row() != -1 && next_row() != i) {
-    PlaylistItemPtr next_item = item_at(next_row());
+  int nextrow = next_row();
+  if (nextrow != -1 && nextrow != i) {
+    PlaylistItemPtr next_item = item_at(nextrow);
     if (next_item) {
       next_item->ClearTemporaryMetadata();
-      emit dataChanged(index(next_row(), 0), index(next_row(), ColumnCount - 1));
+      emit dataChanged(index(nextrow, 0), index(nextrow, ColumnCount - 1));
     }
   }
 
@@ -644,7 +644,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
   }
 
   if (current_item_index_.isValid() && !is_stopping) {
-    InformOfCurrentSongChange(autoscroll);
+    InformOfCurrentSongChange(autoscroll, false);
   }
 
   // The structure of a dynamic playlist is as follows:
@@ -1596,29 +1596,10 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool m
 
   if (!current_item() || current_item()->Url() != url) return;
 
-  //qLog(Debug) << "Setting temporary metadata for" << url;
-
   bool update_scrobble_point = song.length_nanosec() != current_item_metadata().length_nanosec();
-
   current_item()->SetTemporaryMetadata(song);
-
-  if (minor) {
-    if (editing_ != current_item_index_.row()) {
-      emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
-    }
-    // if the song is invalid, we won't play it - there's no point in informing anybody about the change
-    const Song metadata(current_item_metadata());
-    if (metadata.is_valid()) {
-      emit SongMetadataChanged(metadata);
-    }
-  }
-  else {
-    update_scrobble_point = true;
-    nowplaying_ = false;
-    InformOfCurrentSongChange(AutoScroll_Never);
-  }
-
   if (update_scrobble_point) UpdateScrobblePoint();
+  InformOfCurrentSongChange(AutoScroll_Never, minor);
 
 }
 
@@ -1737,10 +1718,16 @@ void Playlist::ReloadItems(const QList<int> &rows) {
   for (int row : rows) {
     PlaylistItemPtr item = item_at(row);
 
+    Song old_metadata = item->Metadata();
+
     item->Reload();
 
     if (row == current_row()) {
-      InformOfCurrentSongChange(AutoScroll_Never);
+      const bool minor = old_metadata.title() == item->Metadata().title() &&
+                         old_metadata.albumartist() == item->Metadata().albumartist() &&
+                         old_metadata.artist() == item->Metadata().artist() &&
+                         old_metadata.album() == item->Metadata().album();
+      InformOfCurrentSongChange(AutoScroll_Never, minor);
     }
     else {
       emit dataChanged(index(row, 0), index(row, ColumnCount - 1));
@@ -1946,28 +1933,41 @@ void Playlist::QueueLayoutChanged() {
 
 }
 
+void Playlist::ItemChanged(const int row) {
+
+  QModelIndex idx = index(row, ColumnCount - 1);
+  if (idx.isValid()) {
+    emit dataChanged(index(row, 0), index(row, ColumnCount - 1));
+  }
+
+}
+
 void Playlist::ItemChanged(PlaylistItemPtr item) {
 
   for (int row = 0; row < items_.count(); ++row) {
     if (items_[row] == item) {
-      QModelIndex idx = index(row, ColumnCount - 1);
-      if (idx.isValid()) {
-        emit dataChanged(index(row, 0), index(row, ColumnCount - 1));
-      }
+      ItemChanged(row);
     }
   }
 
 }
 
-void Playlist::InformOfCurrentSongChange(const AutoScroll autoscroll) {
-
-  emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
+void Playlist::InformOfCurrentSongChange(const AutoScroll autoscroll, const bool minor) {
 
   // if the song is invalid, we won't play it - there's no point in informing anybody about the change
   const Song metadata(current_item_metadata());
   if (metadata.is_valid()) {
-    emit CurrentSongChanged(metadata);
-    emit MaybeAutoscroll(autoscroll);
+    if (minor) {
+      emit SongMetadataChanged(metadata);
+      if (editing_ != current_item_index_.row()) {
+        emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
+      }
+    }
+    else {
+      emit CurrentSongChanged(metadata);
+      emit MaybeAutoscroll(autoscroll);
+      emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
+    }
   }
 
 }
