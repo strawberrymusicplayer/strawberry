@@ -88,6 +88,8 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
   connect(ui_->button_clear_disk_cache, SIGNAL(clicked()), dialog->app(), SIGNAL(ClearPixmapDiskCache()));
   connect(ui_->button_clear_disk_cache, SIGNAL(clicked()), SLOT(ClearPixmapDiskCache()));
 
+  ui_->live_scanning->hide();
+
 }
 
 CollectionSettingsPage::~CollectionSettingsPage() { delete ui_; }
