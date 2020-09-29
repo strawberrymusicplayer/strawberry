@@ -36,7 +36,7 @@ You can also make a one-time payment through [paypal.me/jonaskvinge](https://pay
   * Audio CD playback
   * Native desktop notifications
   * Playlist management
-  * Smart and dynmamic playlists
+  * Smart and dynamic playlists
   * Advanced audio output and device configuration for bit-perfect playback on Linux
   * Edit tags on music files
   * Fetch tags from MusicBrainz
