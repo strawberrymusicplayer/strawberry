@@ -11,6 +11,10 @@ Unreleased:
     * Fixed situations where songs could disappear or be shown multiple times with certain collection groupings.
     * Fixed initial sizes of playlist header columns.
     * Fixed Strawberry preventing logout.
+    * Fixed incorrectly splitting of basename for moodbar and transcoding for filenames with several dots.
+    * Fixed certain cases where "playing now" for scrobbler were sent twice.
+    * Fixed album cover loaded twice for certain songs causing slugglish playing widget.
+    * Fixed playing widget to draw text after album cover is fully shown.
     * Disable use of HTML in system tray tooltip on Cinnamon too.
     * (macOS) Fixed crash on exit when cover manager is open.
     * (macOS) Fixed graphical corruption.
