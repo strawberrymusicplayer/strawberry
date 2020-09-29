@@ -52,10 +52,6 @@ SubsonicScrobbler::SubsonicScrobbler(Application *app, QObject *parent) : Scrobb
 
 }
 
-SubsonicScrobbler::~SubsonicScrobbler() {
-
-}
-
 void SubsonicScrobbler::ReloadSettings() {
 
   QSettings s;
@@ -106,13 +102,9 @@ void SubsonicScrobbler::Scrobble(const Song &song) {
 
 }
 
-void SubsonicScrobbler::DoSubmit() {
-
-}
-
 void SubsonicScrobbler::Submit() {
 
-  qLog(Debug) << "SubsonicScrobbler: Submitting scrobble for " << song_playing_.song_id();
+  qLog(Debug) << "SubsonicScrobbler: Submitting scrobble for" << song_playing_.artist() << song_playing_.title();
   submitted_ = false;
 
   if (app_->scrobbler()->IsOffline()) return;

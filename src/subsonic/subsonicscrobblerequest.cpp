@@ -45,9 +45,7 @@ SubsonicScrobbleRequest::SubsonicScrobbleRequest(SubsonicService *service, Subso
       url_handler_(url_handler),
       app_(app),
       scrobble_requests_active_(0)
-      {
-
-}
+      {}
 
 SubsonicScrobbleRequest::~SubsonicScrobbleRequest() {
 

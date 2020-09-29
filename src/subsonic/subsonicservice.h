@@ -81,7 +81,7 @@ class SubsonicService : public InternetService {
   QSortFilterProxyModel *songs_collection_sort_model() override { return collection_sort_model_; }
 
   void CheckConfiguration();
-  void Scrobble(QString song_id, bool submission, QDateTime time);
+  void Scrobble(const QString &song_id, const bool submission, const QDateTime time);
 
  public slots:
   void ShowConfig() override;

@@ -381,7 +381,7 @@ void SubsonicService::CheckConfiguration() {
 
 }
 
-void SubsonicService::Scrobble(QString song_id, bool submission, QDateTime time) {
+void SubsonicService::Scrobble(const QString &song_id, const bool submission, const QDateTime time) {
 
   if (!server_url().isValid() || username().isEmpty() || password().isEmpty()) {
     return;
