@@ -55,9 +55,9 @@ OSDBase::OSDBase(SystemTrayIcon *tray_icon, Application *app, QObject *parent)
       use_custom_text_(false),
       custom_text1_(QString()),
       custom_text2_(QString()),
-      preview_mode_(false),
       force_show_next_(false),
-      ignore_next_stopped_(false)
+      ignore_next_stopped_(false),
+      playing_(false)
   {
 
   connect(app_->current_albumcover_loader(), SIGNAL(ThumbnailLoaded(Song, QUrl, QImage)), SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
@@ -107,23 +107,34 @@ void OSDBase::ReloadPrettyOSDSettings() {
 void OSDBase::ReshowCurrentSong() {
 
   force_show_next_ = true;
-  AlbumCoverLoaded(last_song_, last_image_uri_, last_image_);
+  ShowPlaying(last_song_, last_image_uri_, last_image_);
 
 }
 
 void OSDBase::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
 
-  // Don't change tray icon details if it's a preview
-  if (!preview_mode_ && tray_icon_)
-    tray_icon_->SetNowPlaying(song, cover_url);
+  if (song != song_playing_) return;
 
   last_song_ = song;
   last_image_ = image;
   last_image_uri_ = cover_url;
 
+  ShowPlaying(song, cover_url, image);
+
+}
+
+void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage &image, const bool preview) {
+
+  // Don't change tray icon details if it's a preview
+  if (!preview && tray_icon_) tray_icon_->SetNowPlaying(song, cover_url);
+
   QStringList message_parts;
   QString summary;
-  if (!use_custom_text_) {
+  if (use_custom_text_) {
+    summary = ReplaceMessage(custom_text1_, song);
+    message_parts << ReplaceMessage(custom_text2_, song);
+  }
+  else {
     summary = song.PrettyTitle();
     if (!song.artist().isEmpty())
       summary = QString("%1 - %2").arg(song.artist(), summary);
@@ -134,10 +145,6 @@ void OSDBase::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QI
     if (song.track() > 0)
       message_parts << tr("track %1").arg(song.track());
   }
-  else {
-    summary = ReplaceMessage(custom_text1_, song);
-    message_parts << ReplaceMessage(custom_text2_, song);
-  }
 
   if (show_art_) {
     ShowMessage(summary, message_parts.join(", "), "notification-audio-play", image);
@@ -147,17 +154,37 @@ void OSDBase::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QI
   }
 
   // Reload the saved settings if they were changed for preview
-  if (preview_mode_) {
+  if (preview) {
     ReloadSettings();
-    preview_mode_ = false;
   }
 
+}
+
+void OSDBase::SongChanged(const Song &song) {
+   playing_ = true;
+   song_playing_ = song;
 }
 
 void OSDBase::Paused() {
 
   if (show_on_pause_) {
-    ShowMessage(app_name_, tr("Paused"));
+    QString summary;
+    if (use_custom_text_) {
+      summary = ReplaceMessage(custom_text1_, last_song_);
+    }
+    else {
+      summary = last_song_.PrettyTitle();
+      if (!last_song_.artist().isEmpty()) {
+        summary.append(" - ");
+        summary.append(last_song_.artist());
+      }
+    }
+    if (show_art_) {
+      ShowMessage(summary, tr("Paused"), QString(), last_image_);
+    }
+    else {
+      ShowMessage(summary, tr("Paused"));
+    }
   }
 
 }
@@ -165,12 +192,17 @@ void OSDBase::Paused() {
 void OSDBase::Resumed() {
 
   if (show_on_resume_) {
-    AlbumCoverLoaded(last_song_, last_image_uri_, last_image_);
+    ShowPlaying(last_song_, last_image_uri_, last_image_);
   }
 
 }
 
 void OSDBase::Stopped() {
+
+  if (!playing_) return;
+
+  playing_ = false;
+  song_playing_ = Song();
 
   if (tray_icon_) tray_icon_->ClearNowPlaying();
   if (ignore_next_stopped_) {
@@ -178,7 +210,28 @@ void OSDBase::Stopped() {
     return;
   }
 
-  ShowMessage(app_name_, tr("Stopped"));
+  QString summary;
+  if (use_custom_text_) {
+    summary = ReplaceMessage(custom_text1_, last_song_);
+  }
+  else {
+    summary = last_song_.PrettyTitle();
+    if (!last_song_.artist().isEmpty()) {
+      summary.append(" - ");
+      summary.append(last_song_.artist());
+    }
+  }
+
+  if (show_art_) {
+    ShowMessage(summary, tr("Stopped"), QString(), last_image_);
+  }
+  else {
+    ShowMessage(summary, tr("Stopped"));
+  }
+
+  last_song_ = Song();
+  last_image_ = QImage();
+  last_image_uri_.clear();
 
 }
 
@@ -315,8 +368,7 @@ void OSDBase::ShowPreview(const Behaviour type, const QString &line1, const QStr
   if (!use_custom_text_) use_custom_text_ = true;
 
   // We want to reload the settings, but we can't do this here because the cover art loading is asynch
-  preview_mode_ = true;
-  AlbumCoverLoaded(song, QUrl(), QImage());
+  ShowPlaying(song, QUrl(), QImage(), true);
 
 }
 

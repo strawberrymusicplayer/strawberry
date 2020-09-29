@@ -66,6 +66,7 @@ class OSDBase : public QObject {
  public slots:
   void ReloadSettings();
 
+  void SongChanged(const Song &song);
   void Paused();
   void Resumed();
   void Stopped();
@@ -80,6 +81,7 @@ class OSDBase : public QObject {
   void ShowPreview(const Behaviour type, const QString &line1, const QString &line2, const Song &song);
 
  private:
+  void ShowPlaying(const Song &song, const QUrl &cover_url, const QImage &image, const bool preview = false);
   void ShowMessage(const QString &summary, const QString &message = QString(), const QString icon = QString("strawberry"), const QImage &image = QImage());
   QString ReplaceMessage(const QString &message, const Song &song);
   virtual void ShowMessageNative(const QString &summary, const QString &message, const QString &icon = QString(), const QImage &image = QImage());
@@ -103,11 +105,12 @@ class OSDBase : public QObject {
   bool use_custom_text_;
   QString custom_text1_;
   QString custom_text2_;
-  bool preview_mode_;
 
   bool force_show_next_;
   bool ignore_next_stopped_;
+  bool playing_;
 
+  Song song_playing_;
   Song last_song_;
   QUrl last_image_uri_;
   QImage last_image_;

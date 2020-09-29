@@ -563,6 +563,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   connect(app_->player(), SIGNAL(Playing()), ui_->playlist, SLOT(ActivePlaying()));
   connect(app_->player(), SIGNAL(Stopped()), ui_->playlist, SLOT(ActiveStopped()));
 
+  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), osd_, SLOT(SongChanged(Song)));
   connect(app_->player(), SIGNAL(Paused()), osd_, SLOT(Paused()));
   connect(app_->player(), SIGNAL(Resumed()), osd_, SLOT(Resumed()));
   connect(app_->player(), SIGNAL(Stopped()), osd_, SLOT(Stopped()));
