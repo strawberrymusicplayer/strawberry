@@ -748,7 +748,11 @@ void Player::TrackAboutToEnd() {
         loading_async_ << url;
         return;
       case UrlHandler::LoadResult::TrackAvailable:
+        qLog(Debug) << "URL handler for" << result.original_url_ << "returned" << result.stream_url_;
         url = result.stream_url_;
+        Song song = next_item->Metadata();
+        song.set_stream_url(url);
+        next_item->SetTemporaryMetadata(song);
         break;
     }
   }
