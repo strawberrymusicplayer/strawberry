@@ -136,6 +136,7 @@ class PlayingWidget : public QWidget {
 
   Song song_;
   Song song_playing_;
+  QImage image_current_;
   QImage image_original_;
   QPixmap pixmap_cover_;
   QPixmap pixmap_previous_track_;

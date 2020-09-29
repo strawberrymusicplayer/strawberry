@@ -271,7 +271,7 @@ void PlayingWidget::Stopped() {
   active_ = false;
   song_playing_ = Song();
   song_ = Song();
-  image_original_ = QImage();
+  image_current_ = QImage();
   SetVisible(false);
 
 }
@@ -294,11 +294,13 @@ void PlayingWidget::SongChanged(const Song &song) {
 
 void PlayingWidget::AlbumCoverLoaded(const Song &song, const QImage &image) {
 
-  if (!playing_ || song != song_playing_ || image == image_original_) return;
+  if (!playing_ || song != song_playing_ || image == image_current_) return;
 
   active_ = true;
   downloading_covers_ = false;
   song_ = song;
+  image_current_ = image;
+
   SetImage(image);
 
 }
@@ -455,9 +457,11 @@ void PlayingWidget::DrawContents(QPainter *p) {
       }
 
       // Draw the text below
-      p->translate(x_offset, height() - text_height);
-      details_->drawContents(p);
-      p->translate(-x_offset, -height() + text_height);
+      if (timeline_show_hide_->state() != QTimeLine::Running) {
+        p->translate(x_offset, height() - text_height);
+        details_->drawContents(p);
+        p->translate(-x_offset, -height() + text_height);
+      }
 
       break;
   }
