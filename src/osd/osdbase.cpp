@@ -175,8 +175,8 @@ void OSDBase::Paused() {
     else {
       summary = last_song_.PrettyTitle();
       if (!last_song_.artist().isEmpty()) {
-        summary.append(" - ");
-        summary.append(last_song_.artist());
+        summary.prepend(" - ");
+        summary.prepend(last_song_.artist());
       }
     }
     if (show_art_) {
@@ -217,8 +217,8 @@ void OSDBase::Stopped() {
   else {
     summary = last_song_.PrettyTitle();
     if (!last_song_.artist().isEmpty()) {
-      summary.append(" - ");
-      summary.append(last_song_.artist());
+      summary.prepend(" - ");
+      summary.prepend(last_song_.artist());
     }
   }
 
