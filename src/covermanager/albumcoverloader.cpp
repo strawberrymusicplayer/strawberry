@@ -377,6 +377,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
       return TryLoadResult(false, !image.isNull(), type, cover_url, image.isNull() ? task->options.default_output_image_ : image);
     }
     else if (network_->supportedSchemes().contains(cover_url.scheme())) {  // Remote URL
+      qLog(Debug) << "Loading remote cover from" << cover_url;
       QNetworkRequest request(cover_url);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
       request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
