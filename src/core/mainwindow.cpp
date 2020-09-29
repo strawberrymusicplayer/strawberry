@@ -1261,6 +1261,8 @@ void MainWindow::MediaPlaying() {
   track_position_timer_->start();
   track_slider_timer_->start();
   UpdateTrackPosition();
+
+  if (app_->playlist_manager()->active()) app_->playlist_manager()->active()->set_nowplaying(false);
   SendNowPlaying();
 
 }

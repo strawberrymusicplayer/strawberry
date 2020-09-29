@@ -595,9 +595,9 @@ int Playlist::previous_row(const bool ignore_repeat_track) const {
 void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const bool is_stopping) {
 
   QModelIndex old_current_item_index = current_item_index_;
+  QModelIndex new_current_item_index = QPersistentModelIndex(index(i, 0, QModelIndex()));
 
-  ClearStreamMetadata();
-  nowplaying_ = false;
+  if (new_current_item_index != current_item_index_) ClearStreamMetadata();
 
   if (next_row() != -1 && next_row() != i) {
     PlaylistItemPtr next_item = item_at(next_row());
@@ -607,7 +607,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
     }
   }
 
-  current_item_index_ = QPersistentModelIndex(index(i, 0, QModelIndex()));
+  current_item_index_ = new_current_item_index;
 
   // if the given item is the first in the queue, remove it from the queue
   if (current_item_index_.row() == queue_->PeekNext()) {
