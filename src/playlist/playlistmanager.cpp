@@ -193,14 +193,14 @@ void PlaylistManager::Load(const QString &filename) {
 
   QFileInfo info(filename);
 
-  int id = playlist_backend_->CreatePlaylist(info.baseName(), QString());
+  int id = playlist_backend_->CreatePlaylist(info.completeBaseName(), QString());
 
   if (id == -1) {
     emit Error(tr("Couldn't create playlist"));
     return;
   }
 
-  Playlist *playlist = AddPlaylist(id, info.baseName(), QString(), QString(), false);
+  Playlist *playlist = AddPlaylist(id, info.completeBaseName(), QString(), QString(), false);
 
   QList<QUrl> urls;
   playlist->InsertUrls(urls << QUrl::fromLocalFile(filename));

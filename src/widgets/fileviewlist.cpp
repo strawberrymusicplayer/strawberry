@@ -105,7 +105,7 @@ MimeData *FileViewList::MimeDataFromSelection() const {
         mimedata->name_for_new_playlist_ = QDir(info.filePath()).dirName();
       }
       else {
-        mimedata->name_for_new_playlist_ = info.baseName();
+        mimedata->name_for_new_playlist_ = info.completeBaseName();
       }
     }
     else {

@@ -87,7 +87,7 @@ QStringList MoodbarLoader::MoodFilenames(const QString& song_filename) {
 
   const QFileInfo file_info(song_filename);
   const QString dir_path(file_info.dir().path());
-  const QString mood_filename = file_info.baseName() + ".mood";
+  const QString mood_filename = file_info.completeBaseName() + ".mood";
 
   return QStringList() << dir_path + "/." + mood_filename << dir_path + "/" + mood_filename;
 

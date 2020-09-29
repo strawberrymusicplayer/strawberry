@@ -292,7 +292,7 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
 
   if (!fileinfo_output.isFile() || fileinfo_output.filePath().isEmpty() || fileinfo_output.path().isEmpty() || fileinfo_output.fileName().isEmpty() || fileinfo_output.suffix().isEmpty()) {
     QFileInfo fileinfo_input(input);
-    QString filename = fileinfo_input.baseName() + "." + preset.extension_;
+    QString filename = fileinfo_input.completeBaseName() + "." + preset.extension_;
     fileinfo_output.setFile(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/transcoder/"  + filename);
     QDir dir;
     dir.mkdir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/transcoder");
@@ -301,7 +301,7 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
   // Never overwrite existing files
   if (fileinfo_output.exists()) {
     QString path = fileinfo_output.path();
-    QString filename = fileinfo_output.baseName();
+    QString filename = fileinfo_output.completeBaseName();
     QString suffix = fileinfo_output.suffix();
     for (int i = 0;; ++i) {
       QString new_filename = QString("%1/%2-%3.%4").arg(path).arg(filename).arg(i).arg(suffix);
