@@ -188,6 +188,9 @@ void PlayingWidget::SetVisible(bool visible) {
       timeline_show_hide_->toggleDirection();
       return;
     }
+    else {
+      timeline_show_hide_->stop();
+    }
   }
 
   if (visible != visible_) {
@@ -268,6 +271,7 @@ void PlayingWidget::Stopped() {
   active_ = false;
   song_playing_ = Song();
   song_ = Song();
+  image_original_ = QImage();
   SetVisible(false);
 
 }
@@ -290,7 +294,7 @@ void PlayingWidget::SongChanged(const Song &song) {
 
 void PlayingWidget::AlbumCoverLoaded(const Song &song, const QImage &image) {
 
-  if (!playing_ || song != song_playing_ || (timeline_fade_->state() == QTimeLine::Running && image == image_original_)) return;
+  if (!playing_ || song != song_playing_ || image == image_original_) return;
 
   active_ = true;
   downloading_covers_ = false;
