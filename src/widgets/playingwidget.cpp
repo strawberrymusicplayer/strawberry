@@ -182,15 +182,11 @@ void PlayingWidget::SetVisible(bool visible) {
   if (timeline_show_hide_->state() == QTimeLine::Running) {
     if (timeline_show_hide_->direction() == QTimeLine::Backward && enabled_ && active_) {
       timeline_show_hide_->toggleDirection();
-      return;
     }
     else if (timeline_show_hide_->direction() == QTimeLine::Forward && (!enabled_ || !active_)) {
       timeline_show_hide_->toggleDirection();
-      return;
     }
-    else {
-      timeline_show_hide_->stop();
-    }
+    return;
   }
 
   if (visible != visible_) {
