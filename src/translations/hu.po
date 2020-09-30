@@ -558,11 +558,11 @@ msgstr "Sortörés hozzáadása ha az értesítés támogatja"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Minden szám hozzáadása a mappából és almappáiból"
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:103
 msgid "Add directory..."
 msgstr "Mappa hozzáadása"
 
-#: core/mainwindow.cpp:2094
+#: core/mainwindow.cpp:2091
 msgid "Add file"
 msgstr "Fájl hozzáadása"
 
@@ -578,7 +578,7 @@ msgstr "Fájl(ok) hozzáadása az átkódoláshoz"
 msgid "Add files to transcode"
 msgstr "Fájlok felvétele átkódoláshoz"
 
-#: core/mainwindow.cpp:2119 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2116 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Mappa hozzáadása"
 
@@ -682,7 +682,7 @@ msgstr "Stream hozzáadása..."
 msgid "Add to albums"
 msgstr "Hozzáadás albumokhoz"
 
-#: core/mainwindow.cpp:1902
+#: core/mainwindow.cpp:1899
 msgid "Add to another playlist"
 msgstr "Hozzáadás másik lejátszólistához"
 
@@ -847,7 +847,7 @@ msgstr "Mindig indítsa a lejátszást"
 msgid "An error occurred loading the iTunes database"
 msgstr "Hiba történt az iTunes adatbázis betöltése közben"
 
-#: playlist/playlist.cpp:409 dialogs/edittagdialog.cpp:953
+#: playlist/playlist.cpp:408 dialogs/edittagdialog.cpp:953
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Hiba történt '%1' metaadatainak írása közben"
@@ -1198,7 +1198,7 @@ msgstr "Ürítés"
 msgid "Clear Disk Cache"
 msgstr "Lemezgyorsítótár törlése"
 
-#: core/mainwindow.cpp:2184 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2181 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Lejátszólista törlése"
 
@@ -1264,7 +1264,7 @@ msgstr "Gyűjtemény szűrő"
 msgid "Collection advanced grouping"
 msgstr "Gyűjtemény egyedi csoportosítása"
 
-#: core/mainwindow.cpp:2694
+#: core/mainwindow.cpp:2691
 msgid "Collection rescan notice"
 msgstr "Gyűjtemény újraolvasási figyelmeztetés"
 
@@ -1637,11 +1637,11 @@ msgstr "Az eredeti fájlok törlése"
 msgid "Deleting files"
 msgstr "Fájlok törlése"
 
-#: core/mainwindow.cpp:1819
+#: core/mainwindow.cpp:1816
 msgid "Dequeue selected tracks"
 msgstr "Kijelölt számok eltávolítása a lejátszási sorból"
 
-#: core/mainwindow.cpp:1818
+#: core/mainwindow.cpp:1815
 msgid "Dequeue track"
 msgstr "Szám eltávolítása a lejátszási sorból"
 
@@ -1724,7 +1724,7 @@ msgstr "Ne legyen levágva a képből"
 msgid "Do not overwrite"
 msgstr "Ne írja felül"
 
-#: osd/osdbase.cpp:263 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:316 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Nincs ismétlés"
 
@@ -1732,7 +1732,7 @@ msgstr "Nincs ismétlés"
 msgid "Don't show in various artists"
 msgstr "Ne mutassa a különböző előadók között"
 
-#: osd/osdbase.cpp:248 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:301 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Nincs keverés"
 
@@ -1782,7 +1782,7 @@ msgstr "Okos lejátszólista szerkesztése"
 msgid "Edit smart playlist..."
 msgstr "Okos lejátszólista szerkesztése..."
 
-#: core/mainwindow.cpp:1860
+#: core/mainwindow.cpp:1857
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "\"%1\" címke szerkesztése..."
@@ -1933,7 +1933,7 @@ msgstr "Megegyezik a --log-levels *:1 kapcsolóval"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Megegyezik a --log-levels *:3 kapcsolóval"
 
-#: core/mainwindow.cpp:2432 core/mainwindow.cpp:2577
+#: core/mainwindow.cpp:2429 core/mainwindow.cpp:2574
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Hiba"
@@ -2537,7 +2537,7 @@ msgstr "Internet keresés nézet"
 msgid "Internet Tabs View"
 msgstr "Internet lap nézet"
 
-#: osd/osdbase.cpp:268 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Bevezető számok"
 
@@ -2931,7 +2931,7 @@ msgstr "Áthelyezés a gyűjteménybe..."
 msgid "Move up"
 msgstr "Mozgatás felfelé"
 
-#: core/mainwindow.cpp:2094 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2091 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Zene"
 
@@ -2975,7 +2975,7 @@ msgstr "Soha ne indítsa el a lejátszást"
 msgid "New folder"
 msgstr "Új mappa"
 
-#: core/mainwindow.cpp:1918
+#: core/mainwindow.cpp:1915
 msgid "New playlist"
 msgstr "Új lejátszólista"
 
@@ -3047,7 +3047,7 @@ msgstr "Nincs lejátszott dal"
 msgid "None"
 msgstr "Egyik sem"
 
-#: core/mainwindow.cpp:2432 core/mainwindow.cpp:2577
+#: core/mainwindow.cpp:2429 core/mainwindow.cpp:2574
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Egy kiválasztott dal sem alkalmas az eszközre való másoláshoz"
@@ -3110,11 +3110,11 @@ msgstr "&Összes felülírása"
 msgid "OSD Preview"
 msgstr "OSD Előnézet"
 
-#: osd/osdbase.cpp:186
+#: osd/osdbase.cpp:239
 msgid "Off"
 msgstr "Ki"
 
-#: osd/osdbase.cpp:186
+#: osd/osdbase.cpp:239
 msgid "On"
 msgstr "Be"
 
@@ -3252,7 +3252,7 @@ msgstr "Party"
 msgid "Password"
 msgstr "Jelszó"
 
-#: core/mainwindow.cpp:1247 core/mainwindow.cpp:1714
+#: core/mainwindow.cpp:1247 core/mainwindow.cpp:1711
 #: core/qtsystemtrayicon.cpp:202
 msgid "Pause"
 msgstr "Szünet"
@@ -3261,7 +3261,7 @@ msgstr "Szünet"
 msgid "Pause playback"
 msgstr "Lejátszás szüneteltetése"
 
-#: osd/osdbase.cpp:160
+#: osd/osdbase.cpp:183 osd/osdbase.cpp:186
 msgid "Paused"
 msgstr "Szüneteltetve"
 
@@ -3281,7 +3281,7 @@ msgid "Plain sidebar"
 msgstr "Egyszerű oldalsáv"
 
 #: core/mainwindow.cpp:674 core/mainwindow.cpp:1200 core/mainwindow.cpp:1229
-#: core/mainwindow.cpp:1718 core/qtsystemtrayicon.cpp:189
+#: core/mainwindow.cpp:1715 core/qtsystemtrayicon.cpp:189
 #: core/qtsystemtrayicon.cpp:214
 msgid "Play"
 msgstr "Lejátszás"
@@ -3340,11 +3340,11 @@ msgstr "Lejátszólista"
 msgid "Playlist buttons"
 msgstr "Lejátszólista gombok"
 
-#: osd/osdbase.cpp:194
+#: osd/osdbase.cpp:247
 msgid "Playlist finished"
 msgstr "A lejátszólista befejezve"
 
-#: core/mainwindow.cpp:2184
+#: core/mainwindow.cpp:2181
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3515,20 +3515,20 @@ msgstr "Eszköz lekérdezése..."
 msgid "Queue"
 msgstr "Lejátszási sor"
 
-#: core/mainwindow.cpp:1821
+#: core/mainwindow.cpp:1818
 msgid "Queue selected tracks"
 msgstr "Kijelölt számok hozzáadása a lejátszási sorhoz"
 
-#: core/mainwindow.cpp:680 core/mainwindow.cpp:1825
+#: core/mainwindow.cpp:680 core/mainwindow.cpp:1822
 msgid "Queue selected tracks to play next"
 msgstr "Kijelölt számok lejátszása következőre"
 
-#: core/mainwindow.cpp:1827 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1824 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Lejátszás következőre"
 
-#: core/mainwindow.cpp:1820 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1817 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -3677,15 +3677,15 @@ msgstr "Számok újraszámozása ebben a sorrendben..."
 msgid "Repeat"
 msgstr "Ismétlés"
 
-#: osd/osdbase.cpp:265 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:318 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Album ismétlése"
 
-#: osd/osdbase.cpp:266 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:319 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Lejátszólista ismétlése"
 
-#: osd/osdbase.cpp:264 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:317 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Szám ismétlése"
 
@@ -4035,7 +4035,7 @@ msgstr "A szerver URL-je érvénytelen."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1859
+#: core/mainwindow.cpp:1856
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 beállítása erre: \"%2\"..."
@@ -4219,15 +4219,15 @@ msgstr "Főablak megjelenítése minimalizálva"
 msgid "Shuffle"
 msgstr "Keverés"
 
-#: osd/osdbase.cpp:251 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:304 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Albumok összekeverése"
 
-#: osd/osdbase.cpp:249 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:302 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Az összes véletlenszerűen"
 
-#: osd/osdbase.cpp:250 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:303 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Zeneszámok összekeverése az albumokban"
 
@@ -4264,11 +4264,11 @@ msgstr "Kihagyások száma"
 msgid "Skip forwards in playlist"
 msgstr "Előreléptetés a lejátszólistában"
 
-#: core/mainwindow.cpp:1832
+#: core/mainwindow.cpp:1829
 msgid "Skip selected tracks"
 msgstr "Kiválasztott számok kihagyása"
 
-#: core/mainwindow.cpp:1831
+#: core/mainwindow.cpp:1828
 msgid "Skip track"
 msgstr "Szám kihagyása"
 
@@ -4364,7 +4364,7 @@ msgstr "%1 indítása"
 msgid "Stop after each track"
 msgstr "Leállítás a minden egyes szám után"
 
-#: osd/osdbase.cpp:267
+#: osd/osdbase.cpp:320
 msgid "Stop after every track"
 msgstr "Leállítás minden szám után"
 
@@ -4380,12 +4380,12 @@ msgstr "Lejátszás leállítása"
 msgid "Stop playback after current track"
 msgstr "Leállítás az aktuális szám után"
 
-#: osd/osdbase.cpp:186
+#: osd/osdbase.cpp:239
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Leállítás az aktuális szám után: %1"
 
-#: osd/osdbase.cpp:181
+#: osd/osdbase.cpp:226 osd/osdbase.cpp:229
 msgid "Stopped"
 msgstr "Leállítva"
 
@@ -4580,7 +4580,7 @@ msgstr "A kért oldal nem létezik!"
 msgid "The site you requested is not an image!"
 msgstr "A kért oldal nem egy kép!"
 
-#: core/mainwindow.cpp:2689
+#: core/mainwindow.cpp:2686
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4713,7 +4713,7 @@ msgstr "Cím"
 msgid "Today"
 msgstr "Ma"
 
-#: core/mainwindow.cpp:677 core/mainwindow.cpp:1822
+#: core/mainwindow.cpp:677 core/mainwindow.cpp:1819
 msgid "Toggle queue status"
 msgstr "Lejátszási sor"
 
@@ -4721,7 +4721,7 @@ msgstr "Lejátszási sor"
 msgid "Toggle scrobbling"
 msgstr "Scrobble funkció váltása"
 
-#: core/mainwindow.cpp:683 core/mainwindow.cpp:1833
+#: core/mainwindow.cpp:683 core/mainwindow.cpp:1830
 #, fuzzy
 msgid "Toggle skip status"
 msgstr "Állapot átugrása"
@@ -4817,11 +4817,11 @@ msgstr "Ismeretlen hiba"
 msgid "Unset cover"
 msgstr "Borító törlése"
 
-#: core/mainwindow.cpp:1830
+#: core/mainwindow.cpp:1827
 msgid "Unskip selected tracks"
 msgstr "A kiválasztott számok lejátszása"
 
-#: core/mainwindow.cpp:1829
+#: core/mainwindow.cpp:1826
 msgid "Unskip track"
 msgstr "Szám lejátszása"
 
@@ -4999,7 +4999,7 @@ msgstr "Megjelenítések"
 msgid "Voice activity detection"
 msgstr "Hangtevékenység felismerése"
 
-#: osd/osdbase.cpp:202
+#: osd/osdbase.cpp:255
 #, qt-format
 msgid "Volume %1%"
 msgstr "Hangerő %1%"
@@ -5060,7 +5060,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2693
+#: core/mainwindow.cpp:2690
 msgid "Would you like to run a full rescan right now?"
 msgstr "Akar futtatni egy teljes újraolvasást most?"
 
@@ -5243,7 +5243,7 @@ msgstr ""
 msgid "disabled"
 msgstr "kikapcsolva"
 
-#: osd/osdbase.cpp:133
+#: osd/osdbase.cpp:144
 #, qt-format
 msgid "disc %1"
 msgstr "%1. lemez"
@@ -5374,7 +5374,7 @@ msgstr ""
 msgid "stop"
 msgstr "leállítás"
 
-#: osd/osdbase.cpp:135
+#: osd/osdbase.cpp:146
 #, qt-format
 msgid "track %1"
 msgstr "%1. szám"
