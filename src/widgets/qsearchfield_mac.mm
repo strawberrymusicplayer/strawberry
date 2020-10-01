@@ -21,7 +21,6 @@ THE SOFTWARE.
 */
 
 #include "qsearchfield.h"
-
 #include "qocoa_mac.h"
 
 #import "Foundation/NSAutoreleasePool.h"
@@ -29,8 +28,11 @@ THE SOFTWARE.
 #import "AppKit/NSSearchField.h"
 
 #include <QApplication>
-#include <QKeyEvent>
+#include <QWindow>
+#include <QString>
 #include <QClipboard>
+#include <QBoxLayout>
+#include <QKeyEvent>
 
 class QSearchFieldPrivate : public QObject {
 public:
@@ -155,16 +157,24 @@ public:
 @end
 
 QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
+
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   NSSearchField *search = [[QocoaSearchField alloc] init];
   QSearchFieldDelegate *delegate = [[QSearchFieldDelegate alloc] init];
   pimpl = delegate->pimpl = new QSearchFieldPrivate(this, search);
   [search setDelegate:(id<NSSearchFieldDelegate>)delegate];
-  setupLayout(search, this);
+
+  QVBoxLayout *layout = new QVBoxLayout(this);
+  layout->setMargin(0);
+  layout->addWidget(QWidget::createWindowContainer(QWindow::fromWinId(WId(search)), this));
+
+  setAttribute(Qt::WA_NativeWindow);
   setFixedHeight(24);
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
   [search release];
   [pool drain];
+
 }
 
 void QSearchField::setIconSize(const int iconsize) {
