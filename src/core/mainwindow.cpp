@@ -1455,7 +1455,7 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &idx) {
   switch (doubleclick_playlist_addmode_) {
     case BehaviourSettingsPage::PlaylistAddBehaviour_Play:
       app_->playlist_manager()->SetActiveToCurrent();
-      app_->player()->PlayAt(row, Engine::Manual, Playlist::AutoScroll_Never, true);
+      app_->player()->PlayAt(row, Engine::Manual, Playlist::AutoScroll_Never, true, true);
       break;
 
     case BehaviourSettingsPage::PlaylistAddBehaviour_Enqueue:

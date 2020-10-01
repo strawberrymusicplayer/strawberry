@@ -478,7 +478,6 @@ void Player::Stop(bool stop_after) {
 }
 
 void Player::StopAfterCurrent() {
-
   app_->playlist_manager()->active()->StopAfter(app_->playlist_manager()->active()->current_row());
 }
 
@@ -499,14 +498,14 @@ void Player::PreviousItem(const Engine::TrackChangeFlags change) {
     QDateTime now = QDateTime::currentDateTime();
     if (last_pressed_previous_.isValid() && last_pressed_previous_.secsTo(now) >= 2) {
       last_pressed_previous_ = now;
-      PlayAt(app_->playlist_manager()->active()->current_row(), change, Playlist::AutoScroll_Always, false);
+      PlayAt(app_->playlist_manager()->active()->current_row(), change, Playlist::AutoScroll_Always, false, true);
       return;
     }
     last_pressed_previous_ = now;
   }
 
   int i = app_->playlist_manager()->active()->previous_row(ignore_repeat_track);
-  app_->playlist_manager()->active()->set_current_row(i, Playlist::AutoScroll_Always);
+  app_->playlist_manager()->active()->set_current_row(i, Playlist::AutoScroll_Always, false, true);
   if (i == -1) {
     Stop();
     PlayAt(i, change, Playlist::AutoScroll_Always, true);
@@ -561,7 +560,7 @@ void Player::SetVolume(const int value) {
 
 int Player::GetVolume() const { return engine_->volume(); }
 
-void Player::PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle) {
+void Player::PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform) {
 
   if (current_item_ && change == Engine::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
     emit TrackSkipped(current_item_);
@@ -572,7 +571,8 @@ void Player::PlayAt(const int index, Engine::TrackChangeFlags change, const Play
   }
 
   if (reshuffle) app_->playlist_manager()->active()->ReshuffleIndices();
-  app_->playlist_manager()->active()->set_current_row(index, autoscroll);
+
+  app_->playlist_manager()->active()->set_current_row(index, autoscroll, false, force_inform);
   if (app_->playlist_manager()->active()->current_row() == -1) {
     // Maybe index didn't exist in the playlist.
     return;
@@ -619,6 +619,10 @@ void Player::SeekTo(const int seconds) {
   app_->playlist_manager()->active()->UpdateScrobblePoint(nanosec);
 
   emit Seeked(nanosec / 1000);
+
+  if (seconds == 0) {
+    app_->playlist_manager()->active()->InformOfCurrentSongChange(Playlist::AutoScroll_Maybe, false);
+  }
 
 }
 

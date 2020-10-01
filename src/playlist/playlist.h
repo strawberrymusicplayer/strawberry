@@ -295,8 +295,10 @@ class Playlist : public QAbstractListModel {
   void RateSong(const QModelIndex &idx, const double rating);
   void RateSongs(const QModelIndexList &index_list, const double rating);
 
+  void set_auto_sort(const bool auto_sort) { auto_sort_ = auto_sort; }
+
  public slots:
-  void set_current_row(const int i, const AutoScroll autoscroll = AutoScroll_Maybe, const bool is_stopping = false);
+  void set_current_row(const int i, const AutoScroll autoscroll = AutoScroll_Maybe, const bool is_stopping = false, const bool force_inform = false);
   void Paused();
   void Playing();
   void Stopped();
@@ -429,6 +431,10 @@ class Playlist : public QAbstractListModel {
   int editing_;
 
   PlaylistGeneratorPtr dynamic_playlist_;
+
+  bool auto_sort_;
+  int sort_column_;
+  Qt::SortOrder sort_order_;
 
 };
 

@@ -135,7 +135,11 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
       cancel_restore_(false),
       scrobbled_(false),
       scrobble_point_(-1),
-      editing_(-1) {
+      editing_(-1),
+      auto_sort_(false),
+      sort_column_(Column_Title),
+      sort_order_(Qt::AscendingOrder)
+      {
 
   undo_stack_->setUndoLimit(kUndoStackSize);
 
@@ -591,10 +595,11 @@ int Playlist::previous_row(const bool ignore_repeat_track) const {
 
 }
 
-void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const bool is_stopping) {
+void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const bool is_stopping, const bool force_inform) {
 
   QModelIndex old_current_item_index = current_item_index_;
-  QModelIndex new_current_item_index = QPersistentModelIndex(index(i, 0, QModelIndex()));
+  QModelIndex new_current_item_index;
+  if (i != -1) new_current_item_index = QPersistentModelIndex(index(i, 0, QModelIndex()));
 
   if (new_current_item_index != current_item_index_) ClearStreamMetadata();
 
@@ -610,11 +615,11 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
   current_item_index_ = new_current_item_index;
 
   // if the given item is the first in the queue, remove it from the queue
-  if (current_item_index_.row() == queue_->PeekNext()) {
+  if (current_item_index_.isValid() && current_item_index_.row() == queue_->PeekNext()) {
     queue_->TakeNext();
   }
 
-  if (current_item_index_ == old_current_item_index) {
+  if (current_item_index_ == old_current_item_index && !force_inform) {
     UpdateScrobblePoint();
     return;
   }
@@ -653,26 +658,24 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
   if (dynamic_playlist_ && current_item_index_.isValid()) {
 
     // When advancing to the next track
-    if (i > old_current_item_index.row()) {
+    if (old_current_item_index.isValid() && i > old_current_item_index.row()) {
       // Move the new item one position ahead of the last item in the history.
       MoveItemWithoutUndo(current_item_index_.row(), dynamic_history_length());
 
-      // Compute the number of new items that have to be inserted. This is not
-      // necessarily 1 because the user might have added or removed items
-      // manually. Note that the future excludes the current item.
+      // Compute the number of new items that have to be inserted
+      // This is not necessarily 1 because the user might have added or removed items manually.
+      // Note that the future excludes the current item.
       const int count = dynamic_history_length() + 1 + dynamic_playlist_->GetDynamicFuture() - items_.count();
       if (count > 0) {
         InsertDynamicItems(count);
       }
 
-      // Shrink the history, again this is not necessarily by 1, because the
-      // user might have moved items by hand.
+      // Shrink the history, again this is not necessarily by 1, because the user might have moved items by hand.
       const int remove_count = dynamic_history_length() - dynamic_playlist_->GetDynamicHistory();
       if (0 < remove_count) RemoveItemsWithoutUndo(0, remove_count);
     }
 
-    // the above actions make all commands on the undo stack invalid, so we
-    // better clear it.
+    // the above actions make all commands on the undo stack invalid, so we better clear it.
     undo_stack_->clear();
   }
 
@@ -1060,7 +1063,13 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, const int p
   }
 
   Save();
-  ReshuffleIndices();
+
+  if (auto_sort_) {
+    sort(sort_column_, sort_order_);
+  }
+  else {
+    ReshuffleIndices();
+  }
 
 }
 
@@ -1307,6 +1316,9 @@ QString Playlist::abbreviated_column_name(const Column column) {
 }
 
 void Playlist::sort(int column, Qt::SortOrder order) {
+
+  sort_column_ = column;
+  sort_order_ = order;
 
   if (ignore_sorting_) return;
 

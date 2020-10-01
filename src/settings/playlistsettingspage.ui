@@ -71,6 +71,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_auto_sort">
+     <property name="text">
+      <string>Automatically sort playlist when inserting songs</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_paths">
      <property name="title">
       <string>When saving a playlist, file paths should be</string>

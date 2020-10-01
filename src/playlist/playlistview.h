@@ -257,6 +257,7 @@ class PlaylistView : public QTreeView {
 
   bool glow_enabled_;
   bool select_track_;
+  bool auto_sort_;
 
   bool currently_glowing_;
   QBasicTimer glow_timer_;

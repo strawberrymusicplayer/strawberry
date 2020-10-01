@@ -158,6 +158,7 @@ PlaylistView::PlaylistView(QWidget *parent)
       previous_background_image_y_(0),
       glow_enabled_(true),
       select_track_(false),
+      auto_sort_(false),
       currently_glowing_(false),
       glow_intensity_step_(0),
       inhibit_autoscroll_timer_(new QTimer(this)),
@@ -309,6 +310,7 @@ void PlaylistView::SetPlaylist(Playlist *playlist) {
   DynamicModeChanged(playlist->is_dynamic());
   setFocus();
   JumpToLastPlayedTrack();
+  playlist->set_auto_sort(auto_sort_);
 
   connect(playlist_, SIGNAL(RestoreFinished()), SLOT(JumpToLastPlayedTrack()));
   connect(playlist_, SIGNAL(MaybeAutoscroll(Playlist::AutoScroll)), SLOT(MaybeAutoscroll(Playlist::AutoScroll)));
@@ -1133,6 +1135,7 @@ void PlaylistView::ReloadSettings() {
   glow_enabled_ = s.value("glow_effect", glow_effect).toBool();
   bool editmetadatainline = s.value("editmetadatainline", false).toBool();
   select_track_ = s.value("select_track", false).toBool();
+  auto_sort_ = s.value("auto_sort", false).toBool();
   s.endGroup();
 
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
@@ -1220,6 +1223,8 @@ void PlaylistView::ReloadSettings() {
     setEditTriggers(editTriggers() | QAbstractItemView::SelectedClicked);
   else
     setEditTriggers(editTriggers() & ~QAbstractItemView::SelectedClicked);
+
+  if (playlist_) playlist_->set_auto_sort(auto_sort_);
 
 }
 

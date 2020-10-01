@@ -73,7 +73,7 @@ class PlayerInterface : public QObject {
   virtual void ReloadSettings() = 0;
 
   // Manual track change to the specified track
-  virtual void PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle) = 0;
+  virtual void PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) = 0;
 
   // If there's currently a song playing, pause it, otherwise play the track that was playing last, or the first one on the playlist
   virtual void PlayPause(Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) = 0;
@@ -158,7 +158,7 @@ class Player : public PlayerInterface {
  public slots:
   void ReloadSettings() override;
 
-  void PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle) override;
+  void PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
   void PlayPause(Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) override;
   void RestartOrPrevious() override;
   void Next() override;
