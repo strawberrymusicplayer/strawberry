@@ -63,6 +63,8 @@ class OSDBase : public QObject {
   virtual bool SupportsNativeNotifications();
   virtual bool SupportsTrayPopups();
 
+  QString app_name() { return app_name_; }
+
  public slots:
   void ReloadSettings();
 

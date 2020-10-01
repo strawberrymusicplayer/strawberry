@@ -146,11 +146,14 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
       message_parts << tr("track %1").arg(song.track());
   }
 
+  summary = summary.remove('&').simplified();
+  QString message = message_parts.join(", ").remove('&').simplified();
+
   if (show_art_) {
-    ShowMessage(summary, message_parts.join(", "), "notification-audio-play", image);
+    ShowMessage(summary, message, "notification-audio-play", image);
   }
   else {
-    ShowMessage(summary, message_parts.join(", "), "notification-audio-play", QImage());
+    ShowMessage(summary, message, "notification-audio-play", QImage());
   }
 
   // Reload the saved settings if they were changed for preview
@@ -179,6 +182,7 @@ void OSDBase::Paused() {
         summary.prepend(last_song_.artist());
       }
     }
+    summary = summary.remove('&').simplified();
     if (show_art_) {
       ShowMessage(summary, tr("Paused"), QString(), last_image_);
     }
@@ -221,6 +225,8 @@ void OSDBase::Stopped() {
       summary.prepend(last_song_.artist());
     }
   }
+
+  summary = summary.remove('&').simplified();
 
   if (show_art_) {
     ShowMessage(summary, tr("Stopped"), QString(), last_image_);
