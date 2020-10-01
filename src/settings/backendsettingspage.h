@@ -25,7 +25,6 @@
 #include <QObject>
 #include <QVariant>
 #include <QString>
-#include <QSettings>
 
 #include "engine/enginetype.h"
 #include "dialogs/errordialog.h"
@@ -85,7 +84,6 @@ private:
   void SwitchALSADevices(alsa_plugin alsaplugin);
 #endif
 
-  QSettings s_;
   bool configloaded_;
   bool engineloaded_;
   ErrorDialog errordialog_;

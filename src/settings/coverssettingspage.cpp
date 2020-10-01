@@ -73,6 +73,8 @@ CoversSettingsPage::~CoversSettingsPage() { delete ui_; }
 
 void CoversSettingsPage::Load() {
 
+  if (!QSettings().contains(kSettingsGroup)) set_changed();
+
   ui_->providers->clear();
 
   QList<CoverProvider*> cover_providers_sorted = dialog()->app()->cover_providers()->List();

@@ -65,8 +65,6 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
   ui_->list->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
   setWindowIcon(IconLoader::Load("keyboard"));
 
-  settings_.beginGroup(kSettingsGroup);
-
   connect(ui_->list, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), SLOT(ItemClicked(QTreeWidgetItem*)));
   connect(ui_->radio_none, SIGNAL(clicked()), SLOT(NoneClicked()));
   connect(ui_->radio_default, SIGNAL(clicked()), SLOT(DefaultClicked()));
@@ -102,6 +100,10 @@ bool GlobalShortcutsSettingsPage::IsEnabled() const {
 
 void GlobalShortcutsSettingsPage::Load() {
 
+  QSettings s;
+  if (!s.contains(kSettingsGroup)) set_changed();
+  s.beginGroup(kSettingsGroup);
+
   GlobalShortcuts *manager = dialog()->global_shortcuts_manager();
 
   if (!initialised_) {
@@ -128,32 +130,32 @@ void GlobalShortcutsSettingsPage::Load() {
     else {
       qLog(Debug) << "X11 backend is unavailable.";
       ui_->widget_x11->hide();
-      settings_.setValue("use_x11", false);
+      s.setValue("use_x11", false);
     }
 
-    for (const GlobalShortcuts::Shortcut &s : manager->shortcuts().values()) {
+    for (const GlobalShortcuts::Shortcut &i : manager->shortcuts().values()) {
       Shortcut shortcut;
-      shortcut.s = s;
-      shortcut.key = s.action->shortcut();
-      shortcut.item = new QTreeWidgetItem(ui_->list, QStringList() << s.action->text() << s.action->shortcut().toString(QKeySequence::NativeText));
-      shortcut.item->setData(0, Qt::UserRole, s.id);
-      shortcuts_[s.id] = shortcut;
+      shortcut.s = i;
+      shortcut.key = i.action->shortcut();
+      shortcut.item = new QTreeWidgetItem(ui_->list, QStringList() << i.action->text() << i.action->shortcut().toString(QKeySequence::NativeText));
+      shortcut.item->setData(0, Qt::UserRole, i.id);
+      shortcuts_[i.id] = shortcut;
     }
 
     ui_->list->sortItems(0, Qt::AscendingOrder);
     ItemClicked(ui_->list->topLevelItem(0));
   }
 
-  for (const Shortcut &s : shortcuts_.values()) {
-    SetShortcut(s.s.id, s.s.action->shortcut());
+  for (const Shortcut &shortcut : shortcuts_.values()) {
+    SetShortcut(shortcut.s.id, shortcut.s.action->shortcut());
   }
 
-  bool use_gsd = settings_.value("use_gsd", true).toBool();
+  bool use_gsd = s.value("use_gsd", true).toBool();
   if (ui_->widget_gsd->isVisibleTo(this)) {
     ui_->checkbox_gsd->setChecked(use_gsd);
   }
 
-  bool use_x11 = settings_.value("use_x11", false).toBool();
+  bool use_x11 = s.value("use_x11", false).toBool();
   if (ui_->widget_x11->isVisibleTo(this)) {
     ui_->checkbox_x11->setChecked(use_x11);
   }
@@ -174,20 +176,27 @@ void GlobalShortcutsSettingsPage::Load() {
   ui_->label_macos_mavericks->setVisible(macos_version >= 9);
 #endif  // Q_OS_MACOS
 
+  s.endGroup();
+
   Init(ui_->layout_globalshortcutssettingspage->parentWidget());
 
 }
 
 void GlobalShortcutsSettingsPage::Save() {
 
-  for (const Shortcut &s : shortcuts_.values()) {
-    s.s.action->setShortcut(s.key);
-    s.s.shortcut->setKey(s.key);
-    settings_.setValue(s.s.id, s.key.toString());
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+
+  for (const Shortcut &shortcut : shortcuts_.values()) {
+    shortcut.s.action->setShortcut(shortcut.key);
+    shortcut.s.shortcut->setKey(shortcut.key);
+    s.setValue(shortcut.s.id, shortcut.key.toString());
   }
 
-  settings_.setValue("use_gsd", ui_->checkbox_gsd->isChecked());
-  settings_.setValue("use_x11", ui_->checkbox_x11->isChecked());
+  s.setValue("use_gsd", ui_->checkbox_gsd->isChecked());
+  s.setValue("use_x11", ui_->checkbox_x11->isChecked());
+
+  s.endGroup();
 
   dialog()->global_shortcuts_manager()->ReloadSettings();
 

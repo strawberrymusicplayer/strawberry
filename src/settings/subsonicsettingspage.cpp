@@ -65,6 +65,7 @@ SubsonicSettingsPage::~SubsonicSettingsPage() { delete ui_; }
 void SubsonicSettingsPage::Load() {
 
   QSettings s;
+  if (!s.contains(kSettingsGroup)) set_changed();
 
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());

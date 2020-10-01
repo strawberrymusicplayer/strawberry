@@ -71,13 +71,10 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog) : SettingsPage(
   ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).width("-WW.W dB"));
 #endif
 
-  s_.beginGroup(BackendSettingsPage::kSettingsGroup);
-
 }
 
 BackendSettingsPage::~BackendSettingsPage() {
 
-  s_.endGroup();
   delete ui_;
 
 }
@@ -87,7 +84,12 @@ void BackendSettingsPage::Load() {
   configloaded_ = false;
   engineloaded_ = false;
 
-  Engine::EngineType enginetype = Engine::EngineTypeFromName(s_.value("engine", EngineName(Engine::None)).toString());
+  QSettings s;
+  if (!s.contains(kSettingsGroup)) set_changed();
+
+  s.beginGroup(kSettingsGroup);
+
+  Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::None)).toString());
   if (enginetype == Engine::None && engine()) enginetype = engine()->type();
 
   ui_->combobox_engine->clear();
@@ -99,21 +101,21 @@ void BackendSettingsPage::Load() {
 #endif
 
   enginetype_current_ = enginetype;
-  output_current_ = s_.value("output", QString()).toString();
-  device_current_ = s_.value("device", QVariant());
+  output_current_ = s.value("output", QString()).toString();
+  device_current_ = s.value("device", QVariant());
 
   ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(enginetype)));
   if (EngineInitialised()) Load_Engine(enginetype);
 
-  ui_->checkbox_volume_control->setChecked(s_.value("volume_control", true).toBool());
+  ui_->checkbox_volume_control->setChecked(s.value("volume_control", true).toBool());
 
-  ui_->spinbox_bufferduration->setValue(s_.value("bufferduration", 4000).toInt());
-  ui_->slider_bufferminfill->setValue(s_.value("bufferminfill", 33).toInt());
+  ui_->spinbox_bufferduration->setValue(s.value("bufferduration", 4000).toInt());
+  ui_->slider_bufferminfill->setValue(s.value("bufferminfill", 33).toInt());
 
-  ui_->checkbox_replaygain->setChecked(s_.value("rgenabled", false).toBool());
-  ui_->combobox_replaygainmode->setCurrentIndex(s_.value("rgmode", 0).toInt());
-  ui_->stickslider_replaygainpreamp->setValue(s_.value("rgpreamp", 0.0).toDouble() * 10 + 150);
-  ui_->checkbox_replaygaincompression->setChecked(s_.value("rgcompression", true).toBool());
+  ui_->checkbox_replaygain->setChecked(s.value("rgenabled", false).toBool());
+  ui_->combobox_replaygainmode->setCurrentIndex(s.value("rgmode", 0).toInt());
+  ui_->stickslider_replaygainpreamp->setValue(s.value("rgpreamp", 0.0).toDouble() * 10 + 150);
+  ui_->checkbox_replaygaincompression->setChecked(s.value("rgcompression", true).toBool());
 
 #if defined(HAVE_ALSA)
   bool fade_default = false;
@@ -121,18 +123,18 @@ void BackendSettingsPage::Load() {
   bool fade_default = true;
 #endif
 
-  ui_->checkbox_fadeout_stop->setChecked(s_.value("FadeoutEnabled", fade_default).toBool());
-  ui_->checkbox_fadeout_cross->setChecked(s_.value("CrossfadeEnabled", fade_default).toBool());
-  ui_->checkbox_fadeout_auto->setChecked(s_.value("AutoCrossfadeEnabled", false).toBool());
-  ui_->checkbox_fadeout_samealbum->setChecked(s_.value("NoCrossfadeSameAlbum", true).toBool());
-  ui_->checkbox_fadeout_pauseresume->setChecked(s_.value("FadeoutPauseEnabled", false).toBool());
-  ui_->spinbox_fadeduration->setValue(s_.value("FadeoutDuration", 2000).toInt());
-  ui_->spinbox_fadeduration_pauseresume->setValue(s_.value("FadeoutPauseDuration", 250).toInt());
+  ui_->checkbox_fadeout_stop->setChecked(s.value("FadeoutEnabled", fade_default).toBool());
+  ui_->checkbox_fadeout_cross->setChecked(s.value("CrossfadeEnabled", fade_default).toBool());
+  ui_->checkbox_fadeout_auto->setChecked(s.value("AutoCrossfadeEnabled", false).toBool());
+  ui_->checkbox_fadeout_samealbum->setChecked(s.value("NoCrossfadeSameAlbum", true).toBool());
+  ui_->checkbox_fadeout_pauseresume->setChecked(s.value("FadeoutPauseEnabled", false).toBool());
+  ui_->spinbox_fadeduration->setValue(s.value("FadeoutDuration", 2000).toInt());
+  ui_->spinbox_fadeduration_pauseresume->setValue(s.value("FadeoutPauseDuration", 250).toInt());
 
 #if defined(HAVE_ALSA)
   ui_->lineedit_device->show();
   ui_->widget_alsa_plugin->show();
-  int alsaplug_int = alsa_plugin(s_.value("alsaplugin", 0).toInt());
+  int alsaplug_int = alsa_plugin(s.value("alsaplugin", 0).toInt());
   if (alsa_plugin(alsaplug_int)) {
     alsa_plugin alsaplugin = alsa_plugin(alsaplug_int);
     switch (alsaplugin) {
@@ -198,6 +200,8 @@ void BackendSettingsPage::Load() {
   if (enginetype_current_ != enginetype || output_name != output_current_ || device_value != device_current_) {
     set_changed();
   }
+
+  s.endGroup();
 
 }
 
@@ -396,33 +400,38 @@ void BackendSettingsPage::Save() {
   else if (ui_->combobox_device->currentText() == "Custom") device_value = ui_->lineedit_device->text();
   else device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();
 
-  s_.setValue("engine", EngineName(enginetype));
-  s_.setValue("output", output_name);
-  s_.setValue("device", device_value);
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
 
-  s_.setValue("bufferduration", ui_->spinbox_bufferduration->value());
-  s_.setValue("bufferminfill", ui_->slider_bufferminfill->value());
+  s.setValue("engine", EngineName(enginetype));
+  s.setValue("output", output_name);
+  s.setValue("device", device_value);
 
-  s_.setValue("rgenabled", ui_->checkbox_replaygain->isChecked());
-  s_.setValue("rgmode", ui_->combobox_replaygainmode->currentIndex());
-  s_.setValue("rgpreamp", float(ui_->stickslider_replaygainpreamp->value()) / 10 - 15);
-  s_.setValue("rgcompression", ui_->checkbox_replaygaincompression->isChecked());
+  s.setValue("bufferduration", ui_->spinbox_bufferduration->value());
+  s.setValue("bufferminfill", ui_->slider_bufferminfill->value());
 
-  s_.setValue("FadeoutEnabled", ui_->checkbox_fadeout_stop->isChecked());
-  s_.setValue("CrossfadeEnabled", ui_->checkbox_fadeout_cross->isChecked());
-  s_.setValue("AutoCrossfadeEnabled", ui_->checkbox_fadeout_auto->isChecked());
-  s_.setValue("NoCrossfadeSameAlbum", ui_->checkbox_fadeout_samealbum->isChecked());
-  s_.setValue("FadeoutPauseEnabled", ui_->checkbox_fadeout_pauseresume->isChecked());
-  s_.setValue("FadeoutDuration", ui_->spinbox_fadeduration->value());
-  s_.setValue("FadeoutPauseDuration", ui_->spinbox_fadeduration_pauseresume->value());
+  s.setValue("rgenabled", ui_->checkbox_replaygain->isChecked());
+  s.setValue("rgmode", ui_->combobox_replaygainmode->currentIndex());
+  s.setValue("rgpreamp", float(ui_->stickslider_replaygainpreamp->value()) / 10 - 15);
+  s.setValue("rgcompression", ui_->checkbox_replaygaincompression->isChecked());
+
+  s.setValue("FadeoutEnabled", ui_->checkbox_fadeout_stop->isChecked());
+  s.setValue("CrossfadeEnabled", ui_->checkbox_fadeout_cross->isChecked());
+  s.setValue("AutoCrossfadeEnabled", ui_->checkbox_fadeout_auto->isChecked());
+  s.setValue("NoCrossfadeSameAlbum", ui_->checkbox_fadeout_samealbum->isChecked());
+  s.setValue("FadeoutPauseEnabled", ui_->checkbox_fadeout_pauseresume->isChecked());
+  s.setValue("FadeoutDuration", ui_->spinbox_fadeduration->value());
+  s.setValue("FadeoutPauseDuration", ui_->spinbox_fadeduration_pauseresume->value());
 
 #ifdef HAVE_ALSA
-  if (ui_->radiobutton_alsa_hw->isChecked()) s_.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_hw));
-  else if (ui_->radiobutton_alsa_plughw->isChecked()) s_.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_plughw));
-  else s_.remove("alsaplugin");
+  if (ui_->radiobutton_alsa_hw->isChecked()) s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_hw));
+  else if (ui_->radiobutton_alsa_plughw->isChecked()) s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_plughw));
+  else s.remove("alsaplugin");
 #endif
 
-  s_.setValue("volume_control", ui_->checkbox_volume_control->isChecked());
+  s.setValue("volume_control", ui_->checkbox_volume_control->isChecked());
+
+  s.endGroup();
 
 }
 

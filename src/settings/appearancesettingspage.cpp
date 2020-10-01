@@ -138,6 +138,8 @@ AppearanceSettingsPage::~AppearanceSettingsPage() {
 void AppearanceSettingsPage::Load() {
 
   QSettings s;
+  if (!s.contains(kSettingsGroup)) set_changed();
+
   s.beginGroup(kSettingsGroup);
 
   QPalette p = QApplication::palette();

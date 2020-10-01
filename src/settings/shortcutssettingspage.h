@@ -81,7 +81,6 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   bool initialised_;
   std::unique_ptr<GlobalShortcutGrabber> grabber_;
 
-  QSettings settings_;
   QMap<QString, Shortcut> shortcuts_;
 
   QString current_id_;

@@ -43,7 +43,7 @@ class NotificationsSettingsPage : public SettingsPage {
   explicit NotificationsSettingsPage(SettingsDialog *dialog);
   ~NotificationsSettingsPage() override;
 
-  static const char *kSettingsGroup;
+  //static const char *kSettingsGroup;
 
   void Load() override;
   void Save() override;

@@ -85,6 +85,7 @@ TidalSettingsPage::~TidalSettingsPage() { delete ui_; }
 void TidalSettingsPage::Load() {
 
   QSettings s;
+  if (!s.contains(kSettingsGroup)) set_changed();
 
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());

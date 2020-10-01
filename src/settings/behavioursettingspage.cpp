@@ -149,8 +149,9 @@ BehaviourSettingsPage::~BehaviourSettingsPage() {
 void BehaviourSettingsPage::Load() {
 
   QSettings s;
-
+  if (!s.contains(kSettingsGroup)) set_changed();
   s.beginGroup(kSettingsGroup);
+
 #ifndef Q_OS_MACOS
   if (QSystemTrayIcon::isSystemTrayAvailable()) {
     ui_->checkbox_showtrayicon->setEnabled(true);

@@ -89,6 +89,9 @@ ScrobblerSettingsPage::~ScrobblerSettingsPage() { delete ui_; }
 
 void ScrobblerSettingsPage::Load() {
 
+  QSettings s;
+  if (!s.contains(kSettingsGroup)) set_changed();
+
   ui_->checkbox_enable->setChecked(scrobbler_->IsEnabled());
   ui_->checkbox_scrobble_button->setChecked(scrobbler_->ScrobbleButton());
   ui_->checkbox_love_button->setChecked(scrobbler_->LoveButton());
