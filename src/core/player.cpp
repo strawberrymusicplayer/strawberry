@@ -505,7 +505,7 @@ void Player::PreviousItem(const Engine::TrackChangeFlags change) {
   }
 
   int i = app_->playlist_manager()->active()->previous_row(ignore_repeat_track);
-  app_->playlist_manager()->active()->set_current_row(i, Playlist::AutoScroll_Always, false, true);
+  app_->playlist_manager()->active()->set_current_row(i, Playlist::AutoScroll_Always, false);
   if (i == -1) {
     Stop();
     PlayAt(i, change, Playlist::AutoScroll_Always, true);
