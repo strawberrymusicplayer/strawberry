@@ -181,6 +181,24 @@ void BackendSettingsPage::Load() {
 
   Init(ui_->layout_backendsettingspage->parentWidget());
 
+  // Check if engine, output or device is set to a different setting than the configured to force saving settings.
+
+  enginetype = ui_->combobox_engine->itemData(ui_->combobox_engine->currentIndex()).value<Engine::EngineType>();
+  QString output_name;
+  if (ui_->combobox_output->currentText().isEmpty()) output_name = engine()->DefaultOutput();
+  else {
+    EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
+    output_name = output.name;
+  }
+  QVariant device_value;
+  if (ui_->combobox_device->currentText().isEmpty()) device_value = QVariant();
+  else if (ui_->combobox_device->currentText() == "Custom") device_value = ui_->lineedit_device->text();
+  else device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();
+
+  if (enginetype_current_ != enginetype || output_name != output_current_ || device_value != device_current_) {
+    set_changed();
+  }
+
 }
 
 bool BackendSettingsPage::EngineInitialised() {
@@ -207,7 +225,7 @@ void BackendSettingsPage::Load_Engine(Engine::EngineType enginetype) {
   ui_->combobox_device->setEnabled(false);
 
   ui_->lineedit_device->setEnabled(false);
-  ui_->lineedit_device->setText("");
+  ui_->lineedit_device->clear();
 
   ui_->groupbox_replaygain->setEnabled(false);
 
@@ -218,6 +236,7 @@ void BackendSettingsPage::Load_Engine(Engine::EngineType enginetype) {
     if (new_enginetype != enginetype) {
       ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(engine()->type())));
     }
+    set_changed();
   }
 
   engineloaded_ = true;
@@ -282,8 +301,7 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
   DeviceFinder::Device df_device;
 
   ui_->combobox_device->clear();
-  ui_->combobox_device->setEnabled(false);
-  ui_->lineedit_device->setText("");
+  ui_->lineedit_device->clear();
 
 #ifdef Q_OS_WIN
   if (engine()->type() != Engine::GStreamer)
@@ -353,7 +371,7 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
     }
   }
 
-  if (devices > 0 || ui_->combobox_device->currentText() == "Custom") ui_->combobox_device->setEnabled(true);
+  ui_->combobox_device->setEnabled(devices > 0 || engine()->CustomDeviceSupport(output));
 
   FadingOptionsChanged();
 
@@ -425,9 +443,9 @@ void BackendSettingsPage::EngineChanged(int index) {
   if (engine()->type() == enginetype) return;
 
   if (engine()->state() != Engine::Empty) {
-      errordialog_.ShowMessage("Can't switch engine while playing!");
-      ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(engine()->type())));
-      return;
+    errordialog_.ShowMessage("Can't switch engine while playing!");
+    ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(engine()->type())));
+    return;
   }
 
   engineloaded_ = false;
@@ -455,12 +473,12 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
     ui_->lineedit_device->setEnabled(true);
     if (ui_->combobox_device->currentText() != "Custom") {
       if (device.type() == QVariant::String) ui_->lineedit_device->setText(device.toString());
-      else ui_->lineedit_device->setText("");
+      else ui_->lineedit_device->clear();
     }
   }
   else {
     ui_->lineedit_device->setEnabled(false);
-    if (!ui_->lineedit_device->text().isEmpty()) ui_->lineedit_device->setText("");
+    if (!ui_->lineedit_device->text().isEmpty()) ui_->lineedit_device->clear();
   }
 
   FadingOptionsChanged();
@@ -514,7 +532,7 @@ void BackendSettingsPage::DeviceStringChanged() {
   }
   else {
     ui_->lineedit_device->setEnabled(false);
-    if (!ui_->lineedit_device->text().isEmpty()) ui_->lineedit_device->setText("");
+    if (!ui_->lineedit_device->text().isEmpty()) ui_->lineedit_device->clear();
     if ((!found) && (ui_->combobox_device->count() > 0) && (ui_->combobox_device->currentIndex() != 0)) ui_->combobox_device->setCurrentIndex(0);
   }
 
