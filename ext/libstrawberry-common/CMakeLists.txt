@@ -20,7 +20,7 @@ if(APPLE)
   list(APPEND SOURCES core/scoped_nsautorelease_pool.mm)
 endif(APPLE)
 
-if(WITH_QT6)
+if(BUILD_WITH_QT6)
   qt6_wrap_cpp(MOC ${HEADERS})
 else()
   qt5_wrap_cpp(MOC ${HEADERS})

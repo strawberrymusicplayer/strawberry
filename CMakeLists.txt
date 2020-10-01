@@ -133,7 +133,17 @@ pkg_check_modules(GDK_PIXBUF gdk-pixbuf-2.0)
 find_package(Gettext)
 find_package(FFTW3)
 
-option(WITH_QT6 "Use Qt 6" OFF)
+option(BUILD_WITH_QT5 "Use Qt 5" OFF)
+option(BUILD_WITH_QT6 "Use Qt 6" OFF)
+
+if(WITH_QT6)
+  set(BUILD_WITH_QT6 ON)
+endif()
+
+if(NOT BUILD_WITH_QT5 AND NOT BUILD_WITH_QT6)
+  set(BUILD_WITH_QT5 ON)
+endif()
+
 set(QT_COMPONENTS Core Concurrent Widgets Network Sql)
 if(X11_FOUND)
   list(APPEND QT_COMPONENTS X11Extras)
@@ -148,7 +158,7 @@ if(WIN32)
   list(APPEND QT_COMPONENTS WinExtras)
 endif()
 
-if(WITH_QT6)
+if(BUILD_WITH_QT6)
   list(APPEND QT_COMPONENTS Core5Compat)
   find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
   set(QtCore_LIBRARIES Qt6::Core)
@@ -178,7 +188,7 @@ if(WITH_QT6)
   if (Qt6LinguistTools_FOUND)
     set(QT_LCONVERT_EXECUTABLE Qt6::lconvert)
   endif()
-else()
+elseif(BUILD_WITH_QT5)
   set(QT_MIN_VERSION 5.8)
   find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS ${QT_COMPONENTS})
   set(QtCore_LIBRARIES ${Qt5Core_LIBRARIES})
@@ -213,6 +223,8 @@ else()
   if (Qt5LinguistTools_FOUND)
     set(QT_LCONVERT_EXECUTABLE Qt5::lconvert)
   endif()
+else()
+  message(FATAL_ERROR "Set BUILD_WITH_QT5 or BUILD_WITH_QT6")
 endif()
 
 if(X11_FOUND)
@@ -265,7 +277,7 @@ if(APPLE)
 endif(APPLE)
 
 if(NOT SPARKLE AND (APPLE OR WIN32))
-  if(WITH_QT6)
+  if(BUILD_WITH_QT6)
     pkg_check_modules(QTSPARKLE qtsparkle-qt6)
   else()
     pkg_check_modules(QTSPARKLE qtsparkle-qt5)
@@ -351,7 +363,7 @@ optional_component(SPARKLE ON "Sparkle integration"
   DEPENDS "Sparkle" SPARKLE
 )
 
-if(WITH_QT6)
+if(BUILD_WITH_QT6)
   optional_component(TRANSLATIONS ON "Translations"
     DEPENDS "gettext" GETTEXT_FOUND
     DEPENDS "Qt6LinguistTools" Qt6LinguistTools_FOUND

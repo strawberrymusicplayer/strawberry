@@ -367,7 +367,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWITH_QT6=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WITH_QT6=ON
       - name: Build
         working-directory: build
         run: cmake --build . --config $BUILD_TYPE

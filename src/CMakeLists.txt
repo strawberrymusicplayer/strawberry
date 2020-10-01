@@ -607,7 +607,7 @@ if(UNIX AND HAVE_DBUS)
     HEADERS device/udisks2lister.h
   )
 
-  if (WITH_QT6)
+  if (Qt6Core_FOUND)
 
     # MPRIS 2.0 DBUS interfaces
     qt6_add_dbus_adaptor(SOURCES
@@ -704,7 +704,7 @@ if(UNIX AND HAVE_DBUS)
            PROPERTIES NO_NAMESPACE dbus/udisks2drive INCLUDE dbus/metatypes.h)
        set_source_files_properties(dbus/org.freedesktop.UDisks2.Job.xml
            PROPERTIES NO_NAMESPACE dbus/udisks2job INCLUDE dbus/metatypes.h)
-       if(WITH_QT6)
+       if(Qt6Core_FOUND)
          qt6_add_dbus_interface(SOURCES
              dbus/org.freedesktop.DBus.ObjectManager.xml
              dbus/objectmanager)
@@ -987,7 +987,7 @@ optional_source(HAVE_MOODBAR
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
-if(WITH_QT6)
+if(Qt6Core_FOUND)
   qt6_wrap_cpp(MOC ${HEADERS})
   qt6_wrap_ui(UIC ${UI})
   qt6_add_resources(QRC ${RESOURCES})

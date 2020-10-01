@@ -39,6 +39,6 @@ target_link_libraries(libstrawberry-tagreader PRIVATE
   libstrawberry-common
 )
 
-if(WITH_QT6)
+if(BUILD_WITH_QT6)
   target_link_libraries(libstrawberry-tagreader PRIVATE Qt6::Core5Compat)
 endif()

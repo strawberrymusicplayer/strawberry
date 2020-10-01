@@ -15,7 +15,7 @@ macro(optional_source TOGGLE)
     list(APPEND OTHER_SOURCES ${OPTIONAL_SOURCE_HEADERS})
 
     set(_uic_sources)
-    if(WITH_QT6)
+    if(BUILD_WITH_QT6)
       qt6_wrap_ui(_uic_sources ${OPTIONAL_SOURCE_UI})
     else()
       qt5_wrap_ui(_uic_sources ${OPTIONAL_SOURCE_UI})

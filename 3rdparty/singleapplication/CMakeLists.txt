@@ -10,7 +10,7 @@ endif()
 
 set(SINGLEAPP-SOURCES singleapplication.cpp singleapplication_p.cpp)
 set(SINGLEAPP-MOC-HEADERS singleapplication.h singleapplication_p.h)
-if(WITH_QT6)
+if(BUILD_WITH_QT6)
   qt6_wrap_cpp(SINGLEAPP-SOURCES-MOC ${SINGLEAPP-MOC-HEADERS})
 else()
   qt5_wrap_cpp(SINGLEAPP-SOURCES-MOC ${SINGLEAPP-MOC-HEADERS})
@@ -33,7 +33,7 @@ target_link_libraries(singleapplication PRIVATE
 
 set(SINGLECOREAPP-SOURCES singlecoreapplication.cpp singlecoreapplication_p.cpp)
 set(SINGLECOREAPP-MOC-HEADERS singlecoreapplication.h singlecoreapplication_p.h)
-if(WITH_QT6)
+if(BUILD_WITH_QT6)
   qt6_wrap_cpp(SINGLECOREAPP-SOURCES-MOC ${SINGLECOREAPP-MOC-HEADERS})
 else()
   qt5_wrap_cpp(SINGLECOREAPP-SOURCES-MOC ${SINGLECOREAPP-MOC-HEADERS})

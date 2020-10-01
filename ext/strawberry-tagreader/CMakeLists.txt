@@ -4,7 +4,7 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 set(SOURCES main.cpp tagreaderworker.cpp)
 
-if(WITH_QT6)
+if(BUILD_WITH_QT6)
   qt6_wrap_cpp(MOC ${HEADERS})
   qt6_add_resources(QRC data/data.qrc)
 else()

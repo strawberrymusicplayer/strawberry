@@ -1,6 +1,6 @@
 enable_testing()
 
-if(WITH_QT6)
+if(BUILD_WITH_QT6)
   find_package(Qt6 COMPONENTS Test REQUIRED)
   set(QtTest_LIBRARIES Qt6::Test)
 else()
@@ -22,7 +22,7 @@ set(TESTUTILS-SOURCES
 
 set(TESTUTILS-MOC-HEADERS src/mock_networkaccessmanager.h src/test_utils.h src/testobjectdecorators.h)
 
-if(WITH_QT6)
+if(BUILD_WITH_QT6)
   qt6_wrap_cpp(TESTUTILS-SOURCES-MOC ${TESTUTILS-MOC-HEADERS})
 else()
   qt5_wrap_cpp(TESTUTILS-SOURCES-MOC ${TESTUTILS-MOC-HEADERS})
@@ -82,7 +82,7 @@ add_custom_target(strawberry_tests echo "Running Strawberry tests" WORKING_DIREC
 add_custom_target(build_tests WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
 add_dependencies(strawberry_tests build_tests)
 
-if(WITH_QT6)
+if(BUILD_WITH_QT6)
   qt6_add_resources(TEST-RESOURCE-SOURCES data/testdata.qrc)
 else()
   qt5_add_resources(TEST-RESOURCE-SOURCES data/testdata.qrc)
