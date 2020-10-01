@@ -65,7 +65,7 @@ static const char *kNoMediaFile = ".nomedia";
 static const char *kNoMusicFile = ".nomusic";
 }
 
-QStringList CollectionWatcher::sValidImages;
+QStringList CollectionWatcher::sValidImages = QStringList() << "jpg" << "png" << "gif" << "jpeg";
 
 CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
     : QObject(parent),
@@ -89,10 +89,6 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
 
   rescan_timer_->setInterval(1000);
   rescan_timer_->setSingleShot(true);
-
-  if (sValidImages.isEmpty()) {
-    sValidImages << "jpg" << "png" << "gif" << "jpeg";
-  }
 
   ReloadSettings();
 
