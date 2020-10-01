@@ -39,7 +39,7 @@ msgstr ""
 "\n"
 "Daftar putar yang difavoritkan akan disimpan di sini"
 
-#: settings/shortcutssettingspage.cpp:321
+#: settings/shortcutssettingspage.cpp:330
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -48,7 +48,7 @@ msgstr ""
 " Pintasan di %1 biasanya digunakan melalui D-Bus GSD sehingga harus "
 "dikonfigurasi di cinnamon-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:319
+#: settings/shortcutssettingspage.cpp:328
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -57,7 +57,7 @@ msgstr ""
 " Pintasan di %1 biasanya digunakan melalui D-Bus GSD sehingga harus "
 "dikonfigurasi di gnome-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:317
+#: settings/shortcutssettingspage.cpp:326
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
@@ -66,7 +66,7 @@ msgstr ""
 " Pintasan di %1 biasanya digunakan melalui D-Bus MPRIS sehingga harus "
 "dikonfigurasi di pengaturan %1."
 
-#: settings/shortcutssettingspage.cpp:323
+#: settings/shortcutssettingspage.cpp:332
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr "Pintasan harus dikonfigurasi di pengaturan %1."
@@ -151,12 +151,12 @@ msgstr "%1 hari"
 msgid "%1 days ago"
 msgstr "%1 hari yang lalu"
 
-#: settings/coverssettingspage.cpp:138
+#: settings/coverssettingspage.cpp:140
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:133
+#: settings/coverssettingspage.cpp:135
 #, qt-format
 msgid "%1 needs authentication."
 msgstr ""
@@ -478,7 +478,7 @@ msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:162
+#: ../build/src/ui_playlistsettingspage.h:169
 msgid "A&utomatic"
 msgstr "&Otomatis"
 
@@ -524,7 +524,7 @@ msgstr "Tentang &Qt"
 msgid "About Strawberry"
 msgstr "Tentang Strawberry"
 
-#: ../build/src/ui_playlistsettingspage.h:163
+#: ../build/src/ui_playlistsettingspage.h:170
 msgid "Absolu&te"
 msgstr "Absolu&t"
 
@@ -558,7 +558,7 @@ msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 
-#: core/mainwindow.cpp:2091
+#: core/mainwindow.cpp:2093
 msgid "Add file"
 msgstr "Tambah berkas"
 
@@ -574,7 +574,7 @@ msgstr "Tambah berkas ke transkoder"
 msgid "Add files to transcode"
 msgstr "Tambah berkas untuk ditranskode"
 
-#: core/mainwindow.cpp:2116 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2118 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Tambah folder"
 
@@ -677,7 +677,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Tambahkan ke album"
 
-#: core/mainwindow.cpp:1899
+#: core/mainwindow.cpp:1901
 msgid "Add to another playlist"
 msgstr "Tambahkan ke daftar putar lainnya"
 
@@ -736,7 +736,7 @@ msgid "Albu&m cover"
 msgstr "Sa&mpul album"
 
 #: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:88
-#: playlist/playlist.cpp:1255 organize/organizedialog.cpp:99
+#: playlist/playlist.cpp:1264 organize/organizedialog.cpp:99
 #: ../build/src/ui_groupbydialog.h:186 ../build/src/ui_groupbydialog.h:208
 #: ../build/src/ui_groupbydialog.h:230 ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
@@ -755,7 +755,7 @@ msgstr "Album (kenyaringan ideal untuk semua trek)"
 msgid "Album - Disc"
 msgstr "Album - Cakram"
 
-#: collection/savedgroupingmanager.cpp:82 playlist/playlist.cpp:1262
+#: collection/savedgroupingmanager.cpp:82 playlist/playlist.cpp:1271
 #: organize/organizedialog.cpp:102 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
 #: ../build/src/ui_edittagdialog.h:709
@@ -842,7 +842,7 @@ msgstr "Selalu mulai memutar"
 msgid "An error occurred loading the iTunes database"
 msgstr "Sebuah galat terjadi saat memuat basis data iTunes"
 
-#: playlist/playlist.cpp:408 dialogs/edittagdialog.cpp:953
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:953
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Sebuah galat terjadi saat menulis metadata ke '%1'"
@@ -896,7 +896,7 @@ msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Apakah Anda yakin ingin mengeset-ulang statistik lagu ini?"
 
 #: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:85
-#: playlist/playlist.cpp:1254 organize/organizedialog.cpp:100
+#: playlist/playlist.cpp:1263 organize/organizedialog.cpp:100
 #: ../build/src/ui_groupbydialog.h:184 ../build/src/ui_groupbydialog.h:206
 #: ../build/src/ui_groupbydialog.h:228 ../build/src/ui_albumcoversearcher.h:106
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:713
@@ -917,7 +917,7 @@ msgstr "Artis"
 msgid "Artists search limit"
 msgstr "Batasan pencarian artis"
 
-#: ../build/src/ui_playlistsettingspage.h:165
+#: ../build/src/ui_playlistsettingspage.h:172
 msgid "As&k when saving"
 msgstr "Tanya&kan saat menyimpan"
 
@@ -946,8 +946,8 @@ msgstr "Mengautentikasi..."
 msgid "Authentication"
 msgstr "Otentikasi"
 
-#: settings/coverssettingspage.cpp:268 settings/lyricssettingspage.cpp:248
-#: settings/tidalsettingspage.cpp:213 settings/qobuzsettingspage.cpp:170
+#: settings/coverssettingspage.cpp:270 settings/lyricssettingspage.cpp:250
+#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:171
 msgid "Authentication failed"
 msgstr "Otentikasi gagal"
 
@@ -979,9 +979,13 @@ msgstr ""
 msgid "Automatically search for song lyrics"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:158
+#: ../build/src/ui_playlistsettingspage.h:164
 msgid "Automatically select current playing track"
 msgstr "Pilih trek yang sedang diputar secara otomatis"
+
+#: ../build/src/ui_playlistsettingspage.h:167
+msgid "Automatically sort playlist when inserting songs"
+msgstr ""
 
 #: widgets/freespacebar.cpp:68
 msgid "Available"
@@ -1036,7 +1040,7 @@ msgid "Best"
 msgstr "Terbaik"
 
 #: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:136
-#: playlist/playlist.cpp:1272 organize/organizedialog.cpp:115
+#: playlist/playlist.cpp:1281 organize/organizedialog.cpp:115
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:695
 msgid "Bit depth"
@@ -1047,7 +1051,7 @@ msgid "Bit rate"
 msgstr "Laju bit"
 
 #: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:139
-#: playlist/playlist.cpp:1273 ../build/src/ui_groupbydialog.h:202
+#: playlist/playlist.cpp:1282 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:128
 #: ../build/src/ui_transcoderoptionsopus.h:79
@@ -1187,7 +1191,7 @@ msgstr "Bersihkan"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:2181 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2183 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
@@ -1253,7 +1257,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Pengelompokan pustaka lanjutan"
 
-#: core/mainwindow.cpp:2691
+#: core/mainwindow.cpp:2693
 msgid "Collection rescan notice"
 msgstr "Pemberitahuan pemindaian ulang pustaka"
 
@@ -1269,7 +1273,7 @@ msgstr "Warna"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Daftar yang dipisahkan koma dari kelas:level, level adalah 0-3"
 
-#: playlist/playlist.cpp:1282 smartplaylists/smartplaylistsearchterm.cpp:374
+#: playlist/playlist.cpp:1291 smartplaylists/smartplaylistsearchterm.cpp:374
 #: organize/organizedialog.cpp:111 ../build/src/ui_edittagdialog.h:711
 msgid "Comment"
 msgstr "Komentar"
@@ -1286,21 +1290,21 @@ msgstr "Lengkapi tag secara otomatis"
 msgid "Complete tags automatically..."
 msgstr "Lengkapi tag secara otomatis..."
 
-#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1263
+#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1272
 #: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:710
 msgid "Composer"
 msgstr "Komposer"
 
-#: settings/subsonicsettingspage.cpp:105 settings/tidalsettingspage.cpp:155
-#: settings/tidalsettingspage.cpp:162 settings/tidalsettingspage.cpp:166
-#: settings/tidalsettingspage.cpp:170 settings/qobuzsettingspage.cpp:128
-#: settings/qobuzsettingspage.cpp:132 settings/qobuzsettingspage.cpp:136
+#: settings/subsonicsettingspage.cpp:106 settings/tidalsettingspage.cpp:156
+#: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:129
+#: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
 msgid "Configuration incomplete"
 msgstr "Konfigurasi tidak lengkap"
 
-#: settings/subsonicsettingspage.cpp:111
+#: settings/subsonicsettingspage.cpp:112
 msgid "Configuration incorrect"
 msgstr "Konfigurasi tidak benar"
 
@@ -1334,7 +1338,7 @@ msgstr "Lajubit konstan"
 msgid "Context"
 msgstr "Konteks"
 
-#: ../build/src/ui_playlistsettingspage.h:155
+#: ../build/src/ui_playlistsettingspage.h:161
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Lanjutkan ke lagu berikutnya jika suatu lagu di daftar putar tidak tersedia"
@@ -1365,7 +1369,7 @@ msgid "Copy to collection..."
 msgstr "Salin ke pustaka..."
 
 #: core/mainwindow.cpp:709 context/contextalbumsview.cpp:262
-#: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:102
+#: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:101
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
 msgstr "Salin ke perangkat..."
@@ -1564,11 +1568,11 @@ msgstr "Dansa"
 msgid "Database corruption detected."
 msgstr "Kerusakan basis data terdeteksi."
 
-#: playlist/playlist.cpp:1280 ../build/src/ui_edittagdialog.h:700
+#: playlist/playlist.cpp:1289 ../build/src/ui_edittagdialog.h:700
 msgid "Date created"
 msgstr "Tanggal dibuat"
 
-#: playlist/playlist.cpp:1279 ../build/src/ui_edittagdialog.h:699
+#: playlist/playlist.cpp:1288 ../build/src/ui_edittagdialog.h:699
 msgid "Date modified"
 msgstr "Tanggal diubah"
 
@@ -1588,7 +1592,7 @@ msgstr "Kurangi volume <value> persen"
 msgid "Default bac&kground image"
 msgstr "Gambar latar bela&kang standar"
 
-#: playlist/playlistlistcontainer.cpp:100
+#: playlist/playlistlistcontainer.cpp:99
 #: ../build/src/ui_playlistlistcontainer.h:133
 msgid "Delete"
 msgstr "Hapus"
@@ -1623,11 +1627,11 @@ msgstr "Hapus berkas yang asli"
 msgid "Deleting files"
 msgstr "Menghapus berkas"
 
-#: core/mainwindow.cpp:1816
+#: core/mainwindow.cpp:1818
 msgid "Dequeue selected tracks"
 msgstr "Buang antrean trek terpilih"
 
-#: core/mainwindow.cpp:1815
+#: core/mainwindow.cpp:1817
 msgid "Dequeue track"
 msgstr "Buang antrean trek"
 
@@ -1674,7 +1678,7 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Nonfungsi"
 
-#: collection/savedgroupingmanager.cpp:106 playlist/playlist.cpp:1257
+#: collection/savedgroupingmanager.cpp:106 playlist/playlist.cpp:1266
 #: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
 #: ../build/src/ui_edittagdialog.h:708
@@ -1710,7 +1714,7 @@ msgstr "Jangan potong gambar"
 msgid "Do not overwrite"
 msgstr "Jangan timpa"
 
-#: osd/osdbase.cpp:316 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Jangan ulang"
 
@@ -1718,7 +1722,7 @@ msgstr "Jangan ulang"
 msgid "Don't show in various artists"
 msgstr "Jangan tampilkan di artis beragam"
 
-#: osd/osdbase.cpp:301 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Jangan karau"
 
@@ -1768,7 +1772,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1857
+#: core/mainwindow.cpp:1859
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Sunting tag \"%1\"..."
@@ -1813,7 +1817,7 @@ msgid "Enable Items"
 msgstr ""
 
 #: ../build/src/ui_collectionsettingspage.h:440
-#: ../build/src/ui_playlistsettingspage.h:160
+#: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable delete files in the right click context menu"
 msgstr ""
 
@@ -1821,7 +1825,7 @@ msgstr ""
 msgid "Enable equalizer"
 msgstr "Fungsikan ekualiser"
 
-#: ../build/src/ui_playlistsettingspage.h:159
+#: ../build/src/ui_playlistsettingspage.h:165
 msgid "Enable playlist clear button"
 msgstr ""
 
@@ -1829,7 +1833,7 @@ msgstr ""
 msgid "Enable scrobbling for the following sources:"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:170
+#: ../build/src/ui_playlistsettingspage.h:177
 msgid "Enable song metadata inline edition with click"
 msgstr "Fungsikan edisi metadata lagu sebaris dengan mengkliknya"
 
@@ -1890,7 +1894,7 @@ msgstr "Masukkan lema pencarian di sini"
 msgid "Enter the URL of a stream:"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:215
+#: playlist/playlistlistcontainer.cpp:214
 msgid "Enter the name of the folder"
 msgstr "Masukkan nama folder"
 
@@ -1918,7 +1922,7 @@ msgstr "Setara dengan --log-level *: 1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
-#: core/mainwindow.cpp:2429 core/mainwindow.cpp:2574
+#: core/mainwindow.cpp:2431 core/mainwindow.cpp:2576
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Kesalahan"
@@ -2092,11 +2096,11 @@ msgstr "Ekstensi berkas"
 msgid "File formats"
 msgstr "Format berkas"
 
-#: playlist/playlist.cpp:1275 ../build/src/ui_edittagdialog.h:701
+#: playlist/playlist.cpp:1284 ../build/src/ui_edittagdialog.h:701
 msgid "File name"
 msgstr "Nama berkas"
 
-#: playlist/playlist.cpp:1276
+#: playlist/playlist.cpp:1285
 msgid "File name (without path)"
 msgstr "Nama berkas (tanpa jalur)"
 
@@ -2104,11 +2108,11 @@ msgstr "Nama berkas (tanpa jalur)"
 msgid "File paths"
 msgstr "Lokasi berkas"
 
-#: playlist/playlist.cpp:1277 ../build/src/ui_edittagdialog.h:696
+#: playlist/playlist.cpp:1286 ../build/src/ui_edittagdialog.h:696
 msgid "File size"
 msgstr "Ukuran berkas"
 
-#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1278
+#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1287
 #: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
 #: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:697
 msgid "File type"
@@ -2257,7 +2261,7 @@ msgstr "Setelan umum"
 msgid "Genius Authentication"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1261
+#: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1270
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 #: ../build/src/ui_edittagdialog.h:704
@@ -2283,11 +2287,11 @@ msgstr ""
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "Mendapatkan %1 sampul dari %2 ( %3 gagal)"
 
-#: ../build/src/ui_playlistsettingspage.h:156
+#: ../build/src/ui_playlistsettingspage.h:162
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr "Abu-abukan lagu yang tidak tersedia di daftar putar saat pemutaran"
 
-#: ../build/src/ui_playlistsettingspage.h:157
+#: ../build/src/ui_playlistsettingspage.h:163
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "Abu-abukan lagu yang tidak tersedia di daftar putar saat membuka"
 
@@ -2356,7 +2360,7 @@ msgstr "Grup berdasarkan Genre/Artis album/Album"
 msgid "Group by Genre/Artist/Album"
 msgstr "Grup berdasarkan Genre/Artis/Album"
 
-#: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1265
+#: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1274
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:706
@@ -2424,7 +2428,7 @@ msgstr "Ikon di atas"
 msgid "Identifying song"
 msgstr "Mengidentifikasi lagu"
 
-#: ../build/src/ui_playlistsettingspage.h:168
+#: ../build/src/ui_playlistsettingspage.h:175
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
@@ -2518,7 +2522,7 @@ msgstr ""
 msgid "Internet Tabs View"
 msgstr ""
 
-#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:327 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Trek intro"
 
@@ -2568,7 +2572,7 @@ msgstr "Sampul album besar"
 msgid "Large sidebar"
 msgstr "Bilah sisi besar"
 
-#: playlist/playlist.cpp:1269 smartplaylists/smartplaylistsmodel.cpp:94
+#: playlist/playlist.cpp:1278 smartplaylists/smartplaylistsmodel.cpp:94
 #: ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Terakhir diputar"
@@ -2596,7 +2600,7 @@ msgid "Left"
 msgstr "Kiri"
 
 #: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:214
-#: playlist/playlist.cpp:1258 organize/organizedialog.cpp:112
+#: playlist/playlist.cpp:1267 organize/organizedialog.cpp:112
 #: ../build/src/ui_edittagdialog.h:689
 msgid "Length"
 msgstr "Durasi"
@@ -2771,7 +2775,7 @@ msgstr "Jumlah maksimum upaya masuk tercapai."
 msgid "Medium (%1 fps)"
 msgstr "Sedang (%1 fps)"
 
-#: ../build/src/ui_playlistsettingspage.h:166
+#: ../build/src/ui_playlistsettingspage.h:173
 msgid "Metadata"
 msgstr "Metadata"
 
@@ -2787,7 +2791,7 @@ msgstr "Lajubit minimum"
 msgid "Minimum buffer fill"
 msgstr "Minimum pengisian bufer"
 
-#: settings/tidalsettingspage.cpp:162
+#: settings/tidalsettingspage.cpp:163
 msgid "Missing API token."
 msgstr ""
 
@@ -2823,7 +2827,7 @@ msgstr ""
 msgid "Missing Tidal API token."
 msgstr "Token API Tidal tidak tersedia."
 
-#: settings/tidalsettingspage.cpp:155
+#: settings/tidalsettingspage.cpp:156
 msgid "Missing Tidal client ID."
 msgstr "Client ID Tidal tidak tersedia."
 
@@ -2835,15 +2839,15 @@ msgstr "Kata sandi Tidal tidak tersedia."
 msgid "Missing Tidal username."
 msgstr "Nama pengguna Tidal tidak tersedia."
 
-#: settings/qobuzsettingspage.cpp:128
+#: settings/qobuzsettingspage.cpp:129
 msgid "Missing app id."
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:170 settings/qobuzsettingspage.cpp:136
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:137
 msgid "Missing password."
 msgstr ""
 
-#: settings/subsonicsettingspage.cpp:105
+#: settings/subsonicsettingspage.cpp:106
 msgid "Missing server url, username or password."
 msgstr "URL server, nama pengguna atau kata sandi tidak tersedia."
 
@@ -2855,7 +2859,7 @@ msgstr "Nama pengguna atau kata sandi tidak tersedia."
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:132
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:133
 msgid "Missing username."
 msgstr ""
 
@@ -2871,7 +2875,7 @@ msgstr "Monitor perubahan pustaka"
 msgid "Months"
 msgstr ""
 
-#: playlist/playlist.cpp:1284
+#: playlist/playlist.cpp:1293
 msgid "Mood"
 msgstr "Mood"
 
@@ -2910,7 +2914,7 @@ msgstr "Pindah ke pustaka..."
 msgid "Move up"
 msgstr "Pindah naik"
 
-#: core/mainwindow.cpp:2091 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2093 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musik"
 
@@ -2949,12 +2953,12 @@ msgstr ""
 msgid "Never start playing"
 msgstr "Jangan mulai memutar"
 
-#: playlist/playlistlistcontainer.cpp:99 playlist/playlistlistcontainer.cpp:215
+#: playlist/playlistlistcontainer.cpp:98 playlist/playlistlistcontainer.cpp:214
 #: ../build/src/ui_playlistlistcontainer.h:130
 msgid "New folder"
 msgstr "Folder baru"
 
-#: core/mainwindow.cpp:1915
+#: core/mainwindow.cpp:1917
 msgid "New playlist"
 msgstr "Daftar putar baru"
 
@@ -3009,7 +3013,7 @@ msgstr ""
 "Tidak ada yang cocok.  Kosongkan kotak pencarian untuk menampilkan lagi "
 "seluruh daftar putar."
 
-#: settings/coverssettingspage.cpp:193 settings/lyricssettingspage.cpp:183
+#: settings/coverssettingspage.cpp:195 settings/lyricssettingspage.cpp:185
 msgid "No provider selected."
 msgstr ""
 
@@ -3026,7 +3030,7 @@ msgstr "Tidak ada lagu yang berputar"
 msgid "None"
 msgstr "Nihil"
 
-#: core/mainwindow.cpp:2429 core/mainwindow.cpp:2574
+#: core/mainwindow.cpp:2431 core/mainwindow.cpp:2576
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3089,11 +3093,11 @@ msgstr "T&impa semua"
 msgid "OSD Preview"
 msgstr "Pratinjau OSD"
 
-#: osd/osdbase.cpp:239
+#: osd/osdbase.cpp:245
 msgid "Off"
 msgstr "Mati"
 
-#: osd/osdbase.cpp:239
+#: osd/osdbase.cpp:245
 msgid "On"
 msgstr "Nyala"
 
@@ -3171,7 +3175,7 @@ msgstr ""
 msgid "Original tags"
 msgstr "Tag asli"
 
-#: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1260
+#: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1269
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Original year"
@@ -3231,7 +3235,7 @@ msgstr "Pesta"
 msgid "Password"
 msgstr "Sandi"
 
-#: core/mainwindow.cpp:1247 core/mainwindow.cpp:1711
+#: core/mainwindow.cpp:1247 core/mainwindow.cpp:1713
 #: core/qtsystemtrayicon.cpp:202
 msgid "Pause"
 msgstr "Jeda"
@@ -3240,11 +3244,11 @@ msgstr "Jeda"
 msgid "Pause playback"
 msgstr "Jeda pemutaran"
 
-#: osd/osdbase.cpp:183 osd/osdbase.cpp:186
+#: osd/osdbase.cpp:187 osd/osdbase.cpp:190
 msgid "Paused"
 msgstr "Jeda"
 
-#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1264
+#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1273
 #: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:715
@@ -3260,7 +3264,7 @@ msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
 #: core/mainwindow.cpp:674 core/mainwindow.cpp:1200 core/mainwindow.cpp:1229
-#: core/mainwindow.cpp:1715 core/qtsystemtrayicon.cpp:189
+#: core/mainwindow.cpp:1717 core/qtsystemtrayicon.cpp:189
 #: core/qtsystemtrayicon.cpp:214
 msgid "Play"
 msgstr "Putar"
@@ -3269,7 +3273,7 @@ msgstr "Putar"
 msgid "Play control buttons"
 msgstr ""
 
-#: playlist/playlist.cpp:1267 ../build/src/ui_edittagdialog.h:690
+#: playlist/playlist.cpp:1276 ../build/src/ui_edittagdialog.h:690
 msgid "Play count"
 msgstr "Jumlah putar"
 
@@ -3308,10 +3312,10 @@ msgstr ""
 msgid "Player options"
 msgstr "Opsi pemutar"
 
-#: playlist/playlistcontainer.cpp:321 playlist/playlistlistcontainer.cpp:277
-#: playlist/playlistlistcontainer.cpp:369 playlist/playlistmanager.cpp:108
+#: playlist/playlistcontainer.cpp:321 playlist/playlistlistcontainer.cpp:279
+#: playlist/playlistlistcontainer.cpp:377 playlist/playlistmanager.cpp:108
 #: playlist/playlistmanager.cpp:186 playlist/playlistmanager.cpp:548
-#: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:152
+#: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Daftar putar"
 
@@ -3319,11 +3323,11 @@ msgstr "Daftar putar"
 msgid "Playlist buttons"
 msgstr ""
 
-#: osd/osdbase.cpp:247
+#: osd/osdbase.cpp:253
 msgid "Playlist finished"
 msgstr "Daftar putar selesai"
 
-#: core/mainwindow.cpp:2181
+#: core/mainwindow.cpp:2183
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3486,20 +3490,20 @@ msgstr "Meminta perangkat..."
 msgid "Queue"
 msgstr "Antrean"
 
-#: core/mainwindow.cpp:1818
+#: core/mainwindow.cpp:1820
 msgid "Queue selected tracks"
 msgstr "Antre trek terpilih"
 
-#: core/mainwindow.cpp:680 core/mainwindow.cpp:1822
+#: core/mainwindow.cpp:680 core/mainwindow.cpp:1824
 msgid "Queue selected tracks to play next"
 msgstr "Antre trek terpilih untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1824 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1826 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Antre untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1817 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1819 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -3514,11 +3518,11 @@ msgstr "QueueView"
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Radio (kenyaringan sama untuk semua trek)"
 
-#: playlist/playlist.cpp:1285
+#: playlist/playlist.cpp:1294
 msgid "Rating"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:164
+#: ../build/src/ui_playlistsettingspage.h:171
 msgid "Re&lative"
 msgstr "Re&latif"
 
@@ -3619,7 +3623,7 @@ msgstr "Buang dari daftar putar"
 msgid "Remove playlist"
 msgstr "Buang daftar putar"
 
-#: playlist/playlistlistcontainer.cpp:403
+#: playlist/playlistlistcontainer.cpp:413
 msgid "Remove playlists"
 msgstr "Buang daftar putar"
 
@@ -3643,15 +3647,15 @@ msgstr "Beri nomor baru trek dalam urutan ini..."
 msgid "Repeat"
 msgstr "Ulang"
 
-#: osd/osdbase.cpp:318 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Ulang album"
 
-#: osd/osdbase.cpp:319 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:325 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Ulang daftar putar"
 
-#: osd/osdbase.cpp:317 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Ulang trek"
 
@@ -3808,7 +3812,7 @@ msgstr "Secara aman melepas perangkat"
 msgid "Safely remove the device after copying"
 msgstr "Secara aman melepas perangkat setelah menyalin"
 
-#: collection/savedgroupingmanager.cpp:133 playlist/playlist.cpp:1271
+#: collection/savedgroupingmanager.cpp:133 playlist/playlist.cpp:1280
 #: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 #: ../build/src/ui_edittagdialog.h:694
@@ -3839,7 +3843,7 @@ msgstr "Simpan sampul ke diska..."
 msgid "Save current grouping"
 msgstr "Simpan pengelompokan saat ini"
 
-#: playlist/playlistlistcontainer.cpp:101
+#: playlist/playlistlistcontainer.cpp:100
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Simpan daftar putar"
@@ -3966,7 +3970,7 @@ msgstr "Menjangkau menggunakan pintasan keyboard atau roda mouse"
 msgid "Select background color:"
 msgstr "Pilih warna latar belakang:"
 
-#: settings/appearancesettingspage.cpp:364
+#: settings/appearancesettingspage.cpp:366
 msgid "Select background image"
 msgstr "Pilih gambar latar belakang"
 
@@ -3994,7 +3998,7 @@ msgstr "Nomor seri"
 msgid "Server URL"
 msgstr "URL server"
 
-#: subsonic/subsonicservice.cpp:412 settings/subsonicsettingspage.cpp:111
+#: subsonic/subsonicservice.cpp:412 settings/subsonicsettingspage.cpp:112
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 
@@ -4002,7 +4006,7 @@ msgstr "URL server tidak benar."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1856
+#: core/mainwindow.cpp:1858
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Tetapkan %1 ke \"%2\"..."
@@ -4023,7 +4027,7 @@ msgstr "Setelan"
 msgid "Shortcut"
 msgstr "Pintasan"
 
-#: settings/shortcutssettingspage.cpp:266
+#: settings/shortcutssettingspage.cpp:275
 #: ../build/src/ui_shortcutssettingspage.h:237
 #, qt-format
 msgid "Shortcut for %1"
@@ -4041,7 +4045,7 @@ msgstr "Tampilkan"
 msgid "Show a &native desktop notification"
 msgstr "Tampilkan &notifikasi desktop asli"
 
-#: ../build/src/ui_playlistsettingspage.h:153
+#: ../build/src/ui_playlistsettingspage.h:159
 msgid "Show a glowing animation on the current track"
 msgstr "Tampilkan animasi bersinar di trek saat ini"
 
@@ -4186,15 +4190,15 @@ msgstr ""
 msgid "Shuffle"
 msgstr "Karau"
 
-#: osd/osdbase.cpp:304 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:310 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Karau album"
 
-#: osd/osdbase.cpp:302 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Karau semua"
 
-#: osd/osdbase.cpp:303 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Karau trek di dalam album ini"
 
@@ -4223,7 +4227,7 @@ msgstr "Ska"
 msgid "Skip backwards in playlist"
 msgstr "Lewati mundur di dalam daftar putar"
 
-#: playlist/playlist.cpp:1268 ../build/src/ui_edittagdialog.h:691
+#: playlist/playlist.cpp:1277 ../build/src/ui_edittagdialog.h:691
 msgid "Skip count"
 msgstr "Lewati hitungan"
 
@@ -4231,11 +4235,11 @@ msgstr "Lewati hitungan"
 msgid "Skip forwards in playlist"
 msgstr "Lewati maju di dalam daftar putar"
 
-#: core/mainwindow.cpp:1829
+#: core/mainwindow.cpp:1831
 msgid "Skip selected tracks"
 msgstr "Lewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1828
+#: core/mainwindow.cpp:1830
 msgid "Skip track"
 msgstr "Lewati trek"
 
@@ -4298,7 +4302,7 @@ msgstr ""
 msgid "Sorting"
 msgstr ""
 
-#: playlist/playlist.cpp:1283
+#: playlist/playlist.cpp:1292
 msgid "Source"
 msgstr "Sumber"
 
@@ -4331,7 +4335,7 @@ msgstr "Memulai %1"
 msgid "Stop after each track"
 msgstr "Berhenti setelah masing-masing trek"
 
-#: osd/osdbase.cpp:320
+#: osd/osdbase.cpp:326
 msgid "Stop after every track"
 msgstr "Berhenti setelah setiap trek"
 
@@ -4347,12 +4351,12 @@ msgstr "Hentikan pemutaran"
 msgid "Stop playback after current track"
 msgstr "Hentikan pemutaran setelah trek saat ini"
 
-#: osd/osdbase.cpp:239
+#: osd/osdbase.cpp:245
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Berhenti memutar setelah trek: %1"
 
-#: osd/osdbase.cpp:226 osd/osdbase.cpp:229
+#: osd/osdbase.cpp:232 osd/osdbase.cpp:235
 msgid "Stopped"
 msgstr "Berhenti"
 
@@ -4496,11 +4500,11 @@ msgstr "Tekno"
 msgid "Test"
 msgstr "Tes"
 
-#: settings/subsonicsettingspage.cpp:145
+#: settings/subsonicsettingspage.cpp:146
 msgid "Test failed!"
 msgstr "Tes gagal!"
 
-#: settings/subsonicsettingspage.cpp:136
+#: settings/subsonicsettingspage.cpp:137
 msgid "Test successful!"
 msgstr "Tes berhasil!"
 
@@ -4516,7 +4520,7 @@ msgstr ""
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
-#: settings/shortcutssettingspage.cpp:244
+#: settings/shortcutssettingspage.cpp:253
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Perintah \"%1\" tidak dapat dimulai."
@@ -4545,7 +4549,7 @@ msgstr "Situs yang Anda minta tidak ada!"
 msgid "The site you requested is not an image!"
 msgstr "Situs yang Anda minta bukan sebuah gambar!"
 
-#: core/mainwindow.cpp:2686
+#: core/mainwindow.cpp:2688
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4666,7 +4670,7 @@ msgstr ""
 msgid "Time step"
 msgstr "Selang waktu"
 
-#: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1253
+#: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1262
 #: organize/organizedialog.cpp:98 ../build/src/ui_contextsettingspage.h:414
 #: ../build/src/ui_edittagdialog.h:705
 #: ../build/src/ui_trackselectiondialog.h:210
@@ -4677,7 +4681,7 @@ msgstr "Judul"
 msgid "Today"
 msgstr "Hari Ini"
 
-#: core/mainwindow.cpp:677 core/mainwindow.cpp:1819
+#: core/mainwindow.cpp:677 core/mainwindow.cpp:1821
 msgid "Toggle queue status"
 msgstr "Alihkan status antrean"
 
@@ -4685,7 +4689,7 @@ msgstr "Alihkan status antrean"
 msgid "Toggle scrobbling"
 msgstr "Alihkan scrobbling"
 
-#: core/mainwindow.cpp:683 core/mainwindow.cpp:1830
+#: core/mainwindow.cpp:683 core/mainwindow.cpp:1832
 msgid "Toggle skip status"
 msgstr "Alihkan status melewati"
 
@@ -4713,7 +4717,7 @@ msgstr "Jumlah byte yang ditransfer"
 msgid "Total network requests made"
 msgstr "Total permintaan jaringan yang dibuat"
 
-#: playlist/playlist.cpp:1256 organize/organizedialog.cpp:106
+#: playlist/playlist.cpp:1265 organize/organizedialog.cpp:106
 #: ../build/src/ui_edittagdialog.h:712
 #: ../build/src/ui_trackselectiondialog.h:212
 msgid "Track"
@@ -4780,11 +4784,11 @@ msgstr "Kesalahan tak terduga"
 msgid "Unset cover"
 msgstr "Tak set sampul"
 
-#: core/mainwindow.cpp:1827
+#: core/mainwindow.cpp:1829
 msgid "Unskip selected tracks"
 msgstr "Taklewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1826
+#: core/mainwindow.cpp:1828
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
@@ -4792,7 +4796,7 @@ msgstr "Taklewati trek"
 msgid "Update the collection when Strawberry starts"
 msgstr "Perbarui pustaka ketika memulai Strawberry"
 
-#: collection/collectionwatcher.cpp:134
+#: collection/collectionwatcher.cpp:130
 #, qt-format
 msgid "Updating %1"
 msgstr "Memperbarui %1"
@@ -4802,7 +4806,7 @@ msgstr "Memperbarui %1"
 msgid "Updating %1%..."
 msgstr "Memperbarui %1%..."
 
-#: collection/collectionwatcher.cpp:132
+#: collection/collectionwatcher.cpp:128
 msgid "Updating collection"
 msgstr "Memperbarui pustaka"
 
@@ -4830,7 +4834,7 @@ msgstr ""
 msgid "Use OAuth"
 msgstr "Gunakan OAuth"
 
-#: settings/coverssettingspage.cpp:126 settings/coverssettingspage.cpp:238
+#: settings/coverssettingspage.cpp:128 settings/coverssettingspage.cpp:240
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
@@ -4838,7 +4842,7 @@ msgstr ""
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Gunakan metadata Replay Gain jika tersedia"
 
-#: settings/coverssettingspage.cpp:122 settings/coverssettingspage.cpp:234
+#: settings/coverssettingspage.cpp:124 settings/coverssettingspage.cpp:236
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
@@ -4918,7 +4922,7 @@ msgstr "Token pengguna:"
 msgid "Username"
 msgstr "Nama pengguna"
 
-#: settings/shortcutssettingspage.cpp:315
+#: settings/shortcutssettingspage.cpp:324
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -4962,7 +4966,7 @@ msgstr "Visualisasi"
 msgid "Voice activity detection"
 msgstr "Deteksi aktivitas suara"
 
-#: osd/osdbase.cpp:255
+#: osd/osdbase.cpp:261
 #, qt-format
 msgid "Volume %1%"
 msgstr "Volume %1%"
@@ -4971,7 +4975,7 @@ msgstr "Volume %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:154
+#: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:160
 msgid "Warn me when closing a playlist tab"
 msgstr "Peringatkan saya ketika menutup tab daftar putar"
 
@@ -5002,7 +5006,7 @@ msgstr ""
 "Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam "
 "direktori."
 
-#: ../build/src/ui_playlistsettingspage.h:161
+#: ../build/src/ui_playlistsettingspage.h:168
 msgid "When saving a playlist, file paths should be"
 msgstr "Ketika menyimpan daftar putar, lokasi berkas sebaiknya"
 
@@ -5024,15 +5028,15 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2690
+#: core/mainwindow.cpp:2692
 msgid "Would you like to run a full rescan right now?"
 msgstr "Apakah Anda ingin menjalankan pemindaian ulang menyeluruh sekarang?"
 
-#: ../build/src/ui_playlistsettingspage.h:171
+#: ../build/src/ui_playlistsettingspage.h:178
 msgid "Write metadata when saving playlists"
 msgstr "Tulis metadata saat menyimpan daftar putar"
 
-#: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1259
+#: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1268
 #: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:714
@@ -5058,7 +5062,7 @@ msgstr ""
 msgid "Yesterday"
 msgstr "Kemarin"
 
-#: playlist/playlistlistcontainer.cpp:403
+#: playlist/playlistlistcontainer.cpp:413
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
@@ -5236,7 +5240,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:544 context/contextview.cpp:695
-#: playlist/playlistview.cpp:260 dialogs/edittagdialog.cpp:557
+#: playlist/playlistview.cpp:261 dialogs/edittagdialog.cpp:557
 msgid "kbps"
 msgstr "kbps"
 
