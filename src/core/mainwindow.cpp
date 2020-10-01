@@ -1284,6 +1284,8 @@ void MainWindow::VolumeChanged(const int volume) {
 
 void MainWindow::SongChanged(const Song &song) {
 
+  qLog(Debug) << "Song changed to" << song.artist() << song.album() << song.title();
+
   song_playing_ = song;
   song_ = song;
   setWindowTitle(song.PrettyTitleWithArtist());
