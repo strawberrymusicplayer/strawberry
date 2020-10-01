@@ -29,6 +29,7 @@
 #include <QWidget>
 #include <QString>
 #include <QIcon>
+#include <QModelIndex>
 
 class QStandardItem;
 class QSortFilterProxyModel;
@@ -37,7 +38,6 @@ class QAction;
 class QContextMenuEvent;
 class QShowEvent;
 
-class QModelIndex;
 class Application;
 class Playlist;
 class PlaylistListModel;
@@ -61,20 +61,17 @@ class PlaylistListContainer : public QWidget {
  private slots:
   // From the UI
   void NewFolderClicked();
-  void DeleteClicked();
-  void ItemDoubleClicked(const QModelIndex &index);
-  void CopyToDevice();
+  void ItemDoubleClicked(const QModelIndex proxy_idx);
 
   // From the model
-  void PlaylistPathChanged(int id, const QString &new_path);
+  void PlaylistPathChanged(const int id, const QString &new_path);
 
   // From the PlaylistManager
-  void PlaylistRenamed(int id, const QString &new_name);
+  void PlaylistRenamed(const int id, const QString &new_name);
   // Add playlist if favorite == true
-  void AddPlaylist(int id, const QString &name, bool favorite);
-  void RemovePlaylist(int id);
-  void SavePlaylist();
-  void PlaylistFavoriteStateChanged(int id, bool favorite);
+  void AddPlaylist(const int id, const QString &name, const bool favorite);
+  void RemovePlaylist(const int id);
+  void PlaylistFavoriteStateChanged(const int id, const bool favorite);
   void CurrentChanged(Playlist *new_playlist);
   void ActiveChanged(Playlist *new_playlist);
 
@@ -84,6 +81,10 @@ class PlaylistListContainer : public QWidget {
   void ActiveStopped();
 
   void ItemsSelectedChanged(const bool selected);
+
+  void SavePlaylist();
+  void Delete();
+  void CopyToDevice();
 
  private:
   QStandardItem *ItemForPlaylist(const QString &name, int id);

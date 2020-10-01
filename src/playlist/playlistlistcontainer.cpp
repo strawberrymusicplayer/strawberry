@@ -63,8 +63,7 @@
 class PlaylistListSortFilterModel : public QSortFilterProxyModel {
 public:
   explicit PlaylistListSortFilterModel(QObject *parent)
-    : QSortFilterProxyModel(parent) {
-  }
+    : QSortFilterProxyModel(parent) {}
 
   bool lessThan(const QModelIndex &left, const QModelIndex &right) const override {
     // Compare the display text first.
@@ -106,7 +105,7 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   ui_->save_playlist->setDefaultAction(action_save_playlist_);
 
   connect(action_new_folder_, SIGNAL(triggered()), SLOT(NewFolderClicked()));
-  connect(action_remove_, SIGNAL(triggered()), SLOT(DeleteClicked()));
+  connect(action_remove_, SIGNAL(triggered()), SLOT(Delete()));
   connect(action_save_playlist_, SIGNAL(triggered()), SLOT(SavePlaylist()));
   connect(action_copy_to_device_, SIGNAL(triggered()), SLOT(CopyToDevice()));
   connect(model_, SIGNAL(PlaylistPathChanged(int, QString)), SLOT(PlaylistPathChanged(int, QString)));
@@ -223,7 +222,7 @@ void PlaylistListContainer::NewFolderClicked() {
 
 }
 
-void PlaylistListContainer::AddPlaylist(int id, const QString &name, bool favorite) {
+void PlaylistListContainer::AddPlaylist(const int id, const QString &name, const bool favorite) {
 
   if (!favorite) {
     return;
@@ -242,7 +241,7 @@ void PlaylistListContainer::AddPlaylist(int id, const QString &name, bool favori
 
 }
 
-void PlaylistListContainer::PlaylistRenamed(int id, const QString &new_name) {
+void PlaylistListContainer::PlaylistRenamed(const int id, const QString &new_name) {
 
   QStandardItem *item = model_->PlaylistById(id);
   if (!item) {
@@ -253,7 +252,7 @@ void PlaylistListContainer::PlaylistRenamed(int id, const QString &new_name) {
 
 }
 
-void PlaylistListContainer::RemovePlaylist(int id) {
+void PlaylistListContainer::RemovePlaylist(const int id) {
 
   QStandardItem *item = model_->PlaylistById(id);
   if (item) {
@@ -268,11 +267,14 @@ void PlaylistListContainer::RemovePlaylist(int id) {
 
 void PlaylistListContainer::SavePlaylist() {
 
-  const QModelIndex &current_index = proxy_->mapToSource(ui_->tree->currentIndex());
+  const QModelIndex proxy_idx = ui_->tree->currentIndex();
+  if (!proxy_idx.isValid()) return;
+  const QModelIndex idx = proxy_->mapToSource(proxy_idx);
+  if (!idx.isValid()) return;
 
   // Is it a playlist?
-  if (current_index.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
-    const int playlist_id = current_index.data(PlaylistListModel::Role_PlaylistId).toInt();
+  if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
+    const int playlist_id = idx.data(PlaylistListModel::Role_PlaylistId).toInt();
     QStandardItem *item = model_->PlaylistById(playlist_id);
     QString playlist_name = item ? item->text() : tr("Playlist");
     app_->playlist_manager()->SaveWithUI(playlist_id, playlist_name);
@@ -280,7 +282,7 @@ void PlaylistListContainer::SavePlaylist() {
 
 }
 
-void PlaylistListContainer::PlaylistFavoriteStateChanged(int id, bool favorite) {
+void PlaylistListContainer::PlaylistFavoriteStateChanged(const int id, const bool favorite) {
 
   if (favorite) {
     const QString &name = app_->playlist_manager()->GetPlaylistName(id);
@@ -316,13 +318,13 @@ void PlaylistListContainer::CurrentChanged(Playlist *new_playlist) {
     return;
   }
 
-  QModelIndex index = proxy_->mapFromSource(item->index());
-  ui_->tree->selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect);
-  ui_->tree->scrollTo(index);
+  QModelIndex idx = proxy_->mapFromSource(item->index());
+  ui_->tree->selectionModel()->setCurrentIndex(idx, QItemSelectionModel::ClearAndSelect);
+  ui_->tree->scrollTo(idx);
 
 }
 
-void PlaylistListContainer::PlaylistPathChanged(int id, const QString &new_path) {
+void PlaylistListContainer::PlaylistPathChanged(const int id, const QString &new_path) {
 
   // Update the path in the database
   app_->playlist_backend()->SetPlaylistUiPath(id, new_path);
@@ -339,31 +341,37 @@ void PlaylistListContainer::ItemsSelectedChanged(const bool selected) {
   ui_->save_playlist->setEnabled(selected);
 }
 
-void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_index) {
+void PlaylistListContainer::ItemDoubleClicked(const QModelIndex proxy_idx) {
 
-  const QModelIndex &index = proxy_->mapToSource(proxy_index);
+  const QModelIndex idx = proxy_->mapToSource(proxy_idx);
+  if (!idx.isValid()) return;
 
   // Is it a playlist?
-  if (index.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
-    app_->playlist_manager()->SetCurrentOrOpen(index.data(PlaylistListModel::Role_PlaylistId).toInt());
+  if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
+    app_->playlist_manager()->SetCurrentOrOpen(idx.data(PlaylistListModel::Role_PlaylistId).toInt());
   }
 
 }
 
 void PlaylistListContainer::CopyToDevice() {
+
 #ifndef Q_OS_WIN
+
+  const QModelIndex proxy_idx = ui_->tree->currentIndex();
+  if (!proxy_idx.isValid()) return;
+  const QModelIndex idx = proxy_->mapToSource(proxy_idx);
+  if (!idx.isValid()) return;
+
   // Reuse the organize dialog, but set the detail about the playlist name
   if (!organize_dialog_) {
-    organize_dialog_.reset(new OrganizeDialog {app_->task_manager()});
+    organize_dialog_.reset(new OrganizeDialog(app_->task_manager()));
   }
   organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organize_dialog_->SetCopy(true);
 
-  const QModelIndex &current_index = proxy_->mapToSource(ui_->tree->currentIndex());
-
   // Is it a playlist?
-  if (current_index.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
-    const int playlist_id = current_index.data(PlaylistListModel::Role_PlaylistId).toInt();
+  if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
+    const int playlist_id = idx.data(PlaylistListModel::Role_PlaylistId).toInt();
 
     QStandardItem *item = model_->PlaylistById(playlist_id);
     QString playlist_name = item ? item->text() : tr("Playlist");
@@ -376,24 +384,26 @@ void PlaylistListContainer::CopyToDevice() {
 #endif
 }
 
-void PlaylistListContainer::DeleteClicked() {
+void PlaylistListContainer::Delete() {
+
+  if (ui_->tree->selectionModel()->selectedRows().count() == 0) return;
 
   QSet<int> ids;
   QList<QPersistentModelIndex> folders_to_delete;
 
-  for (const QModelIndex &proxy_index : ui_->tree->selectionModel()->selectedRows(0)) {
-    const QModelIndex &index = proxy_->mapToSource(proxy_index);
+  for (const QModelIndex proxy_index : ui_->tree->selectionModel()->selectedRows()) {
+    const QModelIndex idx = proxy_->mapToSource(proxy_index);
 
     // Is it a playlist?
-    switch (index.data(PlaylistListModel::Role_Type).toInt()) {
+    switch (idx.data(PlaylistListModel::Role_Type).toInt()) {
       case PlaylistListModel::Type_Playlist:
-        ids << index.data(PlaylistListModel::Role_PlaylistId).toInt();
+        ids << idx.data(PlaylistListModel::Role_PlaylistId).toInt();
         break;
 
       case PlaylistListModel::Type_Folder:
         // Find all the playlists inside.
-        RecursivelyFindPlaylists(index, &ids);
-        folders_to_delete << index;
+        RecursivelyFindPlaylists(idx, &ids);
+        folders_to_delete << idx;
         break;
     }
   }
@@ -413,9 +423,9 @@ void PlaylistListContainer::DeleteClicked() {
   }
 
   // Delete the top-level folders.
-  for (const QPersistentModelIndex &index : folders_to_delete) {
-    if (index.isValid()) {
-      model_->removeRow(index.row(), index.parent());
+  for (const QPersistentModelIndex &idx : folders_to_delete) {
+    if (idx.isValid()) {
+      model_->removeRow(idx.row(), idx.parent());
     }
   }
 
@@ -448,6 +458,11 @@ void PlaylistListContainer::contextMenuEvent(QContextMenuEvent *e) {
     menu_->addSeparator();
     menu_->addAction(action_copy_to_device_);
   }
+
+  action_remove_->setVisible(ui_->tree->ItemsSelected());
+  action_save_playlist_->setVisible(ui_->tree->ItemsSelected());
+  action_copy_to_device_->setVisible(ui_->tree->ItemsSelected());
+
   menu_->popup(e->globalPos());
 
 }
@@ -477,7 +492,7 @@ void PlaylistListContainer::ActiveStopped() {
   UpdateActiveIcon(active_playlist_id_, QIcon());
 }
 
-void PlaylistListContainer::UpdateActiveIcon(int id, const QIcon &icon) {
+void PlaylistListContainer::UpdateActiveIcon(const int id, const QIcon &icon) {
 
   if (id == -1) {
     return;

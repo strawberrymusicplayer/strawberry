@@ -55,6 +55,7 @@ void PlaylistListView::paintEvent(QPaintEvent *event) {
   else {
     AutoExpandingTreeView::paintEvent(event);
   }
+
 }
 
 bool PlaylistListView::ItemsSelected() const {
