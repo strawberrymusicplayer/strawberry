@@ -2,7 +2,7 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/jonaskvinge)
 =======================
 
-Strawberry is a music player and music collection organizer. It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles. It's written in C++ using the Qt 5 or 6 toolkit.
+Strawberry is a music player and music collection organizer. It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles. It's written in C++ using the Qt toolkit.
 
 ![Browse](https://www.strawberrymusicplayer.org/pictures/screenshot-002-large.png)
 
@@ -97,10 +97,12 @@ With Qt 6 we also depend on the Core5Compat module for QTextCodec.
     cd strawberry
     mkdir build && cd build
     cmake ..
-    make -j4
+    make -j$(nproc)
     sudo make install
     
-To compile with Qt 6 use: cmake .. -DWITH_QT6=ON
+To compile with Qt 6 use:
+
+    cmake .. -DBUILD_WITH_QT6=ON
 
 ### :penguin:	Packaging status
 
