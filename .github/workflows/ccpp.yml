@@ -1230,3 +1230,22 @@ jobs:
           for i in $(find uploads -type f -name '*.dmg'); do
             rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/macos/catalina/
           done
+
+
+  build_snap:
+    name: Build Snap
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - uses: snapcore/action-build@v1
+        id: snapcraft
+      - uses: snapcore/action-publish@v1
+        if: github.ref == 'refs/heads/snap'
+        with:
+          store_login: ${{ secrets.SNAP_STORE_LOGIN }}
+          snap: ${{ steps.snapcraft.outputs.snap }}
+          release: beta
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_snap
+          path: ${{ steps.snapcraft.outputs.snap }}
