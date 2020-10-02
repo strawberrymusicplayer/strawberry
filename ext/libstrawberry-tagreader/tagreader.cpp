@@ -532,7 +532,8 @@ void TagReader::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, con
 
 bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetadata &song) const {
 
-  if (filename.isNull() || filename.isEmpty()) return false;
+  if (filename.isEmpty()) return false;
+
   qLog(Debug) << "Saving tags to" << filename;
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));;
   if (!fileref || fileref->isNull()) return false;

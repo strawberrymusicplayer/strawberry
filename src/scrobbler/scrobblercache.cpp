@@ -75,7 +75,7 @@ void ScrobblerCache::ReadCache() {
     qLog(Error) << "Scrobbler cache is missing JSON data.";
     return;
   }
-  if (json_doc.isNull() || json_doc.isEmpty()) {
+  if (json_doc.isEmpty()) {
     qLog(Error) << "Scrobbler cache has empty JSON document.";
     return;
   }

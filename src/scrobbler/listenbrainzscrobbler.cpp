@@ -278,7 +278,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
       QString error;
       QJsonParseError json_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (json_obj.contains("error") && json_obj.contains("error_description")) {
           QString error_code = json_obj["error"].toString();
@@ -383,7 +383,7 @@ QByteArray ListenBrainzScrobbler::GetReplyData(QNetworkReply *reply) {
       QString error;
       QJsonParseError json_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (json_obj.contains("code") && json_obj.contains("error")) {
           int error_code = json_obj["code"].toInt();

@@ -156,7 +156,7 @@ QByteArray LastFMImport::GetReplyData(QNetworkReply *reply) {
       QJsonParseError json_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       int error_code = -1;
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (json_obj.contains("error") && json_obj.contains("message")) {
           error_code = json_obj["error"].toInt();
@@ -190,7 +190,7 @@ QJsonObject LastFMImport::ExtractJsonObj(const QByteArray &data) {
     Error("Reply from server missing Json data.", data);
     return QJsonObject();
   }
-  if (json_doc.isNull() || json_doc.isEmpty()) {
+  if (json_doc.isEmpty()) {
     Error("Received empty Json document.", json_doc);
     return QJsonObject();
   }

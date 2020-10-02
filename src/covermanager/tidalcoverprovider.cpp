@@ -145,7 +145,7 @@ QByteArray TidalCoverProvider::GetReplyData(QNetworkReply *reply) {
       int status = 0;
       int sub_status = 0;
       QString error;
-      if (parse_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
           status = json_obj["status"].toInt();

@@ -39,7 +39,7 @@ QJsonObject ScrobblerService::ExtractJsonObj(const QByteArray &data, const bool 
     Error("Reply from server missing Json data.", data);
     return QJsonObject();
   }
-  if (json_doc.isNull() || json_doc.isEmpty()) {
+  if (json_doc.isEmpty()) {
     Error("Received empty Json document.", json_doc);
     return QJsonObject();
   }
