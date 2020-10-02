@@ -1240,7 +1240,7 @@ jobs:
       - uses: snapcore/action-build@v1
         id: snapcraft
       - uses: snapcore/action-publish@v1
-        if: github.ref == 'refs/heads/snap'
+        if: github.ref == 'refs/heads/master'
         with:
           store_login: ${{ secrets.SNAP_STORE_LOGIN }}
           snap: ${{ steps.snapcraft.outputs.snap }}
