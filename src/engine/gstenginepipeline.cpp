@@ -133,6 +133,8 @@ GstEnginePipeline::~GstEnginePipeline() {
       g_signal_handler_disconnect(G_OBJECT(discoverer_), discovery_finished_cb_id_);
 
     g_object_unref(discoverer_);
+    discoverer_ = nullptr;
+
   }
 
   if (pipeline_) {
@@ -151,9 +153,13 @@ GstEnginePipeline::~GstEnginePipeline() {
     if (bus_cb_id_ != -1)
       g_source_remove(bus_cb_id_);
 
-    gst_element_set_state(pipeline_, GST_STATE_NULL);
+    if (state() != GST_STATE_NULL)
+      gst_element_set_state(pipeline_, GST_STATE_NULL);
 
     gst_object_unref(GST_OBJECT(pipeline_));
+
+    pipeline_ = nullptr;
+
   }
 
 }
@@ -958,7 +964,7 @@ guint GstEnginePipeline::ParseUIntTag(GstTagList *list, const char *tag) const {
 
 void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
 
-  if (msg->src != GST_OBJECT(pipeline_)) {
+  if (!pipeline_ || msg->src != GST_OBJECT(pipeline_)) {
     // We only care about state changes of the whole pipeline.
     return;
   }
@@ -1036,7 +1042,7 @@ qint64 GstEnginePipeline::position() const {
 qint64 GstEnginePipeline::length() const {
 
   gint64 value = 0;
-  gst_element_query_duration(pipeline_, GST_FORMAT_TIME, &value);
+  if (pipeline_) gst_element_query_duration(pipeline_, GST_FORMAT_TIME, &value);
 
   return value;
 
@@ -1045,7 +1051,7 @@ qint64 GstEnginePipeline::length() const {
 GstState GstEnginePipeline::state() const {
 
   GstState s, sp;
-  if (gst_element_get_state(pipeline_, &s, &sp, kGstStateTimeoutNanosecs) == GST_STATE_CHANGE_FAILURE)
+  if (!pipeline_ || gst_element_get_state(pipeline_, &s, &sp, kGstStateTimeoutNanosecs) == GST_STATE_CHANGE_FAILURE)
     return GST_STATE_NULL;
 
   return s;
