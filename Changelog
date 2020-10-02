@@ -16,6 +16,7 @@ Unreleased:
     * Fixed album cover loaded twice for certain songs causing slugglish playing widget.
     * Fixed playing widget to draw text after album cover is fully shown.
     * Disable use of HTML in system tray tooltip on Cinnamon too.
+    * Remove problematic '&' character from OSD messages.
     * (macOS) Fixed crash on exit when cover manager is open.
     * (macOS) Fixed graphical corruption.
 
@@ -27,6 +28,9 @@ Unreleased:
     * Added icons for edit tag playlist right click menu actions.
     * Maximize dialogs if they are already open when clicked again in the menu.
     * Added support for compilation tag to edit tag dialog.
+    * Show song info and album cover in OSD on stop and pause.
+    * Reshow OSD on song restart.
+    * Always save initial settings.
 
   New features:
     * Added setting for enabling scrobbling based on song source.
