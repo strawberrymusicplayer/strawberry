@@ -394,7 +394,7 @@ void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::Aut
     return;
   }
 
-  PlayAt(i, change, autoscroll, false);
+  PlayAt(i, change, autoscroll, false, true);
 
 }
 
