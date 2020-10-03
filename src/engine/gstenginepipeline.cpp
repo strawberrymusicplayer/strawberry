@@ -148,10 +148,14 @@ GstEnginePipeline::~GstEnginePipeline() {
     if (about_to_finish_cb_id_ != -1)
       g_signal_handler_disconnect(G_OBJECT(pipeline_), about_to_finish_cb_id_);
 
-    gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(pipeline_)), nullptr, nullptr, nullptr);
-
     if (bus_cb_id_ != -1)
       g_source_remove(bus_cb_id_);
+
+    GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
+    if (bus) {
+      gst_bus_set_sync_handler(bus, nullptr, nullptr, nullptr);
+      gst_object_unref(bus);
+    }
 
     if (state() != GST_STATE_NULL)
       gst_element_set_state(pipeline_, GST_STATE_NULL);
