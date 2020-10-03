@@ -93,7 +93,6 @@
 #include "core/systemtrayicon.h"
 #include "core/application.h"
 #include "core/networkproxyfactory.h"
-#include "core/scangiomodulepath.h"
 #ifdef HAVE_TRANSLATIONS
 #  include "core/translations.h"
 #endif
@@ -280,9 +279,7 @@ int main(int argc, char* argv[]) {
 #ifdef Q_OS_MACOS
   mac::EnableFullScreen(w);
 #endif  // Q_OS_MACOS
-#ifdef HAVE_GIO
-  ScanGIOModulePath();
-#endif
+
 #ifdef HAVE_DBUS
   QObject::connect(&mpris, SIGNAL(RaiseMainWindow()), &w, SLOT(Raise()));
 #endif

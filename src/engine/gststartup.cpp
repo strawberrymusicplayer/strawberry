@@ -31,6 +31,7 @@
 #include <QDir>
 #include <QFile>
 
+#include "core/logging.h"
 #include "core/utilities.h"
 
 #ifdef HAVE_MOODBAR
@@ -62,50 +63,73 @@ void GstStartup::InitialiseGStreamer() {
 
 void GstStartup::SetEnvironment() {
 
-  QString gio_path;
-  QString scanner_path;
-  QString plugin_path;
-  QString registry_filename;
+  QString bundle_path = QCoreApplication::applicationDirPath();
 
-// On Windows and macOS we bundle the gstreamer plugins with strawberry
+#ifdef USE_BUNDLE_DIR
+  QString bundle_dir = USE_BUNDLE_DIR;
+  if (!bundle_dir.isEmpty()) {
+    bundle_path.append("/" + bundle_dir);
+  }
+#endif
+
+  QString gio_module_path;
+  QString gst_plugin_scanner;
+  QString gst_plugin_path;
+  QString gst_registry_filename;
+
 #ifdef USE_BUNDLE
 #if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
-  gio_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gio-modules";
+  gio_module_path = bundle_path + "/gio-modules";
 #endif
 #if defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
-  scanner_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gst-plugin-scanner";
-  plugin_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gstreamer";
+  gst_plugin_scanner = bundle_path + "/gst-plugin-scanner";
+  gst_plugin_path = bundle_path + "/gstreamer";
 #endif
 #if defined(Q_OS_WIN32)
-  plugin_path = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/gstreamer-plugins");
+  //gst_plugin_scanner = bundle_path + "/gst-plugin-scanner.exe";
+  gst_plugin_path = bundle_path + "/gstreamer-plugins";
 #endif
 #endif
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
-  registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
+  gst_registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
 #endif
 
-  if (!gio_path.isEmpty()) {
-    //Utilities::SetEnv("GIO_MODULE_DIR", gio_path);
-    Utilities::SetEnv("GIO_EXTRA_MODULES", gio_path);
-  }
-
-  if (!scanner_path.isEmpty()) Utilities::SetEnv("GST_PLUGIN_SCANNER", scanner_path);
-
-  if (!plugin_path.isEmpty()) {
-    Utilities::SetEnv("GST_PLUGIN_PATH", plugin_path);
-    // Never load plugins from anywhere else.
-    Utilities::SetEnv("GST_PLUGIN_SYSTEM_PATH", plugin_path);
-  }
-
-  if (!registry_filename.isEmpty()) {
-#ifdef Q_OS_WIN32 // Workaround for issue #266 - TLS/SSL support not available; install glib-networking
-    QFile registry_file(registry_filename);
-    if (registry_file.exists()) {
-      registry_file.remove();
+  if (!gio_module_path.isEmpty()) {
+    if (QDir(gio_module_path).exists()) {
+      qLog(Debug) << "Setting GIO module path to" << gio_module_path;
+      Utilities::SetEnv("GIO_EXTRA_MODULES", gio_module_path);
     }
-#endif
-    Utilities::SetEnv("GST_REGISTRY", registry_filename);
+    else {
+      qLog(Debug) << "GIO module path does not exist:" << gio_module_path;
+    }
+  }
+
+  if (!gst_plugin_scanner.isEmpty()) {
+    if (QFile(gst_plugin_scanner).exists()) {
+      qLog(Debug) << "Setting GST plugin scanner to" << gst_plugin_scanner;
+      Utilities::SetEnv("GST_PLUGIN_SCANNER", gst_plugin_scanner);
+    }
+    else {
+      qLog(Debug) << "GST plugin scanner does not exist:" << gst_plugin_scanner;
+    }
+  }
+
+  if (!gst_plugin_path.isEmpty()) {
+    if (QDir(gst_plugin_path).exists()) {
+      qLog(Debug) << "Setting GST plugin path to" << gst_plugin_path;
+      Utilities::SetEnv("GST_PLUGIN_PATH", gst_plugin_path);
+      // Never load plugins from anywhere else.
+      Utilities::SetEnv("GST_PLUGIN_SYSTEM_PATH", gst_plugin_path);
+    }
+    else {
+      qLog(Debug) << "GST plugin path does not exist:" << gst_plugin_path;
+    }
+  }
+
+  if (!gst_registry_filename.isEmpty()) {
+    qLog(Debug) << "Setting GST registry file to" << gst_registry_filename;
+    Utilities::SetEnv("GST_REGISTRY", gst_registry_filename);
   }
 
   Utilities::SetEnv("PULSE_PROP_media.role", "music");
