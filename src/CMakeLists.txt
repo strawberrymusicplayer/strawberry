@@ -33,7 +33,6 @@ set(SOURCES
   core/thread.cpp
   core/urlhandler.cpp
   core/utilities.cpp
-  core/scangiomodulepath.cpp
   core/iconloader.cpp
   core/qtsystemtrayicon.cpp
   core/standarditemiconloader.cpp
