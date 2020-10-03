@@ -7,7 +7,6 @@ endif (APPLE)
 
 if (WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi.in ${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi @ONLY)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry-wasapi.nsi.in ${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry-wasapi.nsi @ONLY)
 endif (WIN32)
 
 if (UNIX AND NOT APPLE)
