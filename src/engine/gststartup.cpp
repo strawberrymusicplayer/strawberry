@@ -107,28 +107,28 @@ void GstStartup::SetEnvironment() {
 
   if (!gst_plugin_scanner.isEmpty()) {
     if (QFile(gst_plugin_scanner).exists()) {
-      qLog(Debug) << "Setting GST plugin scanner to" << gst_plugin_scanner;
+      qLog(Debug) << "Setting GStreamer plugin scanner to" << gst_plugin_scanner;
       Utilities::SetEnv("GST_PLUGIN_SCANNER", gst_plugin_scanner);
     }
     else {
-      qLog(Debug) << "GST plugin scanner does not exist:" << gst_plugin_scanner;
+      qLog(Debug) << "GStreamer plugin scanner does not exist:" << gst_plugin_scanner;
     }
   }
 
   if (!gst_plugin_path.isEmpty()) {
     if (QDir(gst_plugin_path).exists()) {
-      qLog(Debug) << "Setting GST plugin path to" << gst_plugin_path;
+      qLog(Debug) << "Setting GStreamer plugin path to" << gst_plugin_path;
       Utilities::SetEnv("GST_PLUGIN_PATH", gst_plugin_path);
       // Never load plugins from anywhere else.
       Utilities::SetEnv("GST_PLUGIN_SYSTEM_PATH", gst_plugin_path);
     }
     else {
-      qLog(Debug) << "GST plugin path does not exist:" << gst_plugin_path;
+      qLog(Debug) << "GStreamer plugin path does not exist:" << gst_plugin_path;
     }
   }
 
   if (!gst_registry_filename.isEmpty()) {
-    qLog(Debug) << "Setting GST registry file to" << gst_registry_filename;
+    qLog(Debug) << "Setting GStreamer registry file to" << gst_registry_filename;
     Utilities::SetEnv("GST_REGISTRY", gst_registry_filename);
   }
 
