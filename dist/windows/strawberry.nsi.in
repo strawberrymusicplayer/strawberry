@@ -402,6 +402,12 @@ Section "Start menu items" startmenu
 
 SectionEnd
 
+Section "Tidal URL Scheme"
+  WriteRegStr HKCR "tidal" "URL Protocol" ""
+  WriteRegStr HKCR "tidal" "" "URL:tidal"
+  WriteRegStr HKCR 'tidal\shell\open\command' '' '"${PRODUCT_INSTALL_DIR}\strawberry.exe" "%1"'
+SectionEnd
+
 Section "Uninstaller"
   ; Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
