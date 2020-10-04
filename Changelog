@@ -41,7 +41,6 @@ Unreleased:
     * Added Qobuz streaming support.
     * Added Subsonic server side scrobbling support.
     * Load thumbnails from iPods to show under device collection.
-    * (Windows) Added back WASAPI support.
 
 0.7.2:
 
