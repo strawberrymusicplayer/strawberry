@@ -33,6 +33,7 @@
 #include <QImage>
 #include <QDBusPendingCall>
 #include <QDBusArgument>
+#include <QVersionNumber>
 
 #include "osdbase.h"
 
@@ -63,6 +64,7 @@ class OSDDBus : public OSDBase {
 
  private:
   std::unique_ptr<OrgFreedesktopNotificationsInterface> interface_;
+  QVersionNumber version_;
   uint notification_id_;
   QDateTime last_notification_time_;
 

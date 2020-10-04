@@ -35,6 +35,7 @@
 #include <QStringList>
 #include <QImage>
 #include <QCoreApplication>
+#include <QVersionNumber>
 #include <QDBusArgument>
 #include <QDBusConnection>
 #include <QDBusError>
@@ -107,7 +108,7 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image) {
 
 }
 
-OSDDBus::OSDDBus(SystemTrayIcon *tray_icon, Application *app, QObject *parent) : OSDBase(tray_icon, app, parent) {
+OSDDBus::OSDDBus(SystemTrayIcon *tray_icon, Application *app, QObject *parent) : OSDBase(tray_icon, app, parent), version_(1, 1), notification_id_(0) {
   Init();
 }
 
@@ -115,11 +116,18 @@ OSDDBus::~OSDDBus() = default;
 
 void OSDDBus::Init() {
 
-  notification_id_ = 0;
-
   interface_.reset(new OrgFreedesktopNotificationsInterface(OrgFreedesktopNotificationsInterface::staticInterfaceName(), "/org/freedesktop/Notifications", QDBusConnection::sessionBus()));
   if (!interface_->isValid()) {
     qLog(Warning) << "Error connecting to notifications service.";
+  }
+
+  QString vendor, version, spec_version;
+  QDBusReply<QString> reply = interface_->GetServerInformation(vendor, version, spec_version);
+  if (reply.isValid()) {
+    version_ = QVersionNumber::fromString(spec_version);
+  }
+  else {
+    qLog(Error) << "Could not retrieve notification server information." << reply.error();
   }
 
 }
@@ -133,8 +141,17 @@ void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, 
   if (!interface_) return;
 
   QVariantMap hints;
+
   if (!image.isNull()) {
-    hints["image_data"] = QVariant(image);
+    if (version_ >= QVersionNumber(1, 2)) {
+      hints["image-data"] = QVariant(image);
+    }
+    else if (version_ >= QVersionNumber(1, 1)) {
+      hints["image_data"] = QVariant(image);
+    }
+    else {
+      hints["icon_data"] = QVariant(image);
+    }
   }
 
   hints["transient"] = QVariant(true);
