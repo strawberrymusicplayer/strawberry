@@ -38,7 +38,6 @@ Unreleased:
     * Added Last.fm import data wizard.
     * Added smart and dynamic playlists.
     * Added song ratings.
-    * Added lyrics from fandom.com.
     * Added Qobuz streaming support.
     * Added Subsonic server side scrobbling support.
     * Load thumbnails from iPods to show under device collection.
