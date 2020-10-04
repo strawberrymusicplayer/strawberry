@@ -59,7 +59,7 @@
  * @param {bool} allowSecondaryInstances
  */
 SingleApplication::SingleApplication(int &argc, char *argv[], bool allowSecondary, Options options, int timeout)
-  : app_t(argc, argv), d_ptr(new SingleApplicationPrivate(this)) {
+    : app_t(argc, argv), d_ptr(new SingleApplicationPrivate(this)) {
 
   Q_D(SingleApplication);
 
@@ -88,7 +88,7 @@ SingleApplication::SingleApplication(int &argc, char *argv[], bool allowSecondar
   }
   else {
     // Attempt to attach to the memory segment
-    if (! d->memory->attach()) {
+    if (!d->memory->attach()) {
       qCritical() << "SingleApplication: Unable to attach to shared memory block.";
       qCritical() << d->memory->errorString();
       delete d;
@@ -96,7 +96,7 @@ SingleApplication::SingleApplication(int &argc, char *argv[], bool allowSecondar
     }
   }
 
-  InstancesInfo* inst = static_cast<InstancesInfo*>(d->memory->data());
+  InstancesInfo *inst = static_cast<InstancesInfo *>(d->memory->data());
   QElapsedTimer time;
   time.start();
 
@@ -118,7 +118,7 @@ SingleApplication::SingleApplication(int &argc, char *argv[], bool allowSecondar
     QThread::sleep(QRandomGenerator::global()->bounded(8u, 18u));
 #else
     qsrand(QDateTime::currentMSecsSinceEpoch() % std::numeric_limits<uint>::max());
-    QThread::sleep(8 + static_cast<unsigned long>(static_cast <float>(qrand()) / RAND_MAX * 10));
+    QThread::sleep(8 + static_cast<unsigned long>(static_cast<float>(qrand()) / RAND_MAX * 10));
 #endif
   }
 
@@ -148,7 +148,6 @@ SingleApplication::SingleApplication(int &argc, char *argv[], bool allowSecondar
   delete d;
 
   ::exit(EXIT_SUCCESS);
-
 }
 
 /**
@@ -193,5 +192,4 @@ bool SingleApplication::sendMessage(QByteArray message, int timeout) {
   bool dataWritten = d->socket->waitForBytesWritten(timeout);
   d->socket->flush();
   return dataWritten;
-
 }

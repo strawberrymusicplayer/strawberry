@@ -59,7 +59,7 @@
  * @param {bool} allowSecondaryInstances
  */
 SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allowSecondary, Options options, int timeout)
-  : app_t(argc, argv), d_ptr(new SingleCoreApplicationPrivate(this)) {
+    : app_t(argc, argv), d_ptr(new SingleCoreApplicationPrivate(this)) {
 
   Q_D(SingleCoreApplication);
 
@@ -96,7 +96,7 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
     }
   }
 
-  InstancesInfo* inst = static_cast<InstancesInfo*>(d->memory->data());
+  InstancesInfo *inst = static_cast<InstancesInfo *>(d->memory->data());
   QElapsedTimer time;
   time.start();
 
@@ -104,7 +104,7 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
   while (true) {
     d->memory->lock();
 
-    if(d->blockChecksum() == inst->checksum) break;
+    if (d->blockChecksum() == inst->checksum) break;
 
     if (time.elapsed() > 5000) {
       qWarning() << "SingleCoreApplication: Shared memory block has been in an inconsistent state from more than 5s. Assuming primary instance failure.";
@@ -118,7 +118,7 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
     QThread::sleep(QRandomGenerator::global()->bounded(8u, 18u));
 #else
     qsrand(QDateTime::currentMSecsSinceEpoch() % std::numeric_limits<uint>::max());
-    QThread::sleep(8 + static_cast<unsigned long>(static_cast <float>(qrand()) / RAND_MAX * 10));
+    QThread::sleep(8 + static_cast<unsigned long>(static_cast<float>(qrand()) / RAND_MAX * 10));
 #endif
   }
 
@@ -134,7 +134,7 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
     inst->checksum = d->blockChecksum();
     d->instanceNumber = inst->secondary;
     d->startSecondary();
-    if(d->options & Mode::SecondaryNotification) {
+    if (d->options & Mode::SecondaryNotification) {
       d->connectToPrimary(timeout, SingleCoreApplicationPrivate::SecondaryInstance);
     }
     d->memory->unlock();
@@ -148,7 +148,6 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
   delete d;
 
   ::exit(EXIT_SUCCESS);
-
 }
 
 /**
@@ -184,7 +183,7 @@ bool SingleCoreApplication::sendMessage(QByteArray message, int timeout) {
   Q_D(SingleCoreApplication);
 
   // Nobody to connect to
-  if(isPrimary()) return false;
+  if (isPrimary()) return false;
 
   // Make sure the socket is connected
   d->connectToPrimary(timeout, SingleCoreApplicationPrivate::Reconnect);
@@ -193,5 +192,4 @@ bool SingleCoreApplication::sendMessage(QByteArray message, int timeout) {
   bool dataWritten = d->socket->waitForBytesWritten(timeout);
   d->socket->flush();
   return dataWritten;
-
 }

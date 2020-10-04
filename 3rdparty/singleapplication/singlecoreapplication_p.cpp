@@ -62,12 +62,11 @@
 #endif
 
 SingleCoreApplicationPrivate::SingleCoreApplicationPrivate(SingleCoreApplication *_q_ptr)
-  : q_ptr(_q_ptr),
-    memory(nullptr),
-    socket(nullptr),
-    server(nullptr),
-    instanceNumber(-1)
-    {}
+    : q_ptr(_q_ptr),
+      memory(nullptr),
+      socket(nullptr),
+      server(nullptr),
+      instanceNumber(-1) {}
 
 SingleCoreApplicationPrivate::~SingleCoreApplicationPrivate() {
 
@@ -77,7 +76,7 @@ SingleCoreApplicationPrivate::~SingleCoreApplicationPrivate() {
   }
 
   memory->lock();
-  InstancesInfo* inst = static_cast<InstancesInfo*>(memory->data());
+  InstancesInfo *inst = static_cast<InstancesInfo *>(memory->data());
   if (server != nullptr) {
     server->close();
     delete server;
@@ -88,7 +87,6 @@ SingleCoreApplicationPrivate::~SingleCoreApplicationPrivate() {
   memory->unlock();
 
   delete memory;
-
 }
 
 void SingleCoreApplicationPrivate::genBlockServerName() {
@@ -115,17 +113,17 @@ void SingleCoreApplicationPrivate::genBlockServerName() {
   if (options & SingleCoreApplication::Mode::User) {
 #ifdef Q_OS_UNIX
     QByteArray username;
-#if defined(HAVE_GETEUID) && defined(HAVE_GETPWUID)
+#  if defined(HAVE_GETEUID) && defined(HAVE_GETPWUID)
     struct passwd *pw = getpwuid(geteuid());
     if (pw) {
       username = pw->pw_name;
     }
-#endif
+#  endif
     if (username.isEmpty()) username = qgetenv("USER");
     appData.addData(username);
 #endif
 #ifdef Q_OS_WIN
-    wchar_t username [ UNLEN + 1 ];
+    wchar_t username[UNLEN + 1];
     // Specifies size of the buffer on input
     DWORD usernameLength = UNLEN + 1;
     if (GetUserNameW(username, &usernameLength)) {
@@ -139,17 +137,15 @@ void SingleCoreApplicationPrivate::genBlockServerName() {
 
   // Replace the backslash in RFC 2045 Base64 [a-zA-Z0-9+/=] to comply with server naming requirements.
   blockServerName = appData.result().toBase64().replace("/", "_");
-
 }
 
 void SingleCoreApplicationPrivate::initializeMemoryBlock() {
 
-  InstancesInfo* inst = static_cast<InstancesInfo*>(memory->data());
+  InstancesInfo *inst = static_cast<InstancesInfo *>(memory->data());
   inst->primary = false;
   inst->secondary = 0;
   inst->primaryPid = -1;
   inst->checksum = blockChecksum();
-
 }
 
 void SingleCoreApplicationPrivate::startPrimary() {
@@ -174,14 +170,13 @@ void SingleCoreApplicationPrivate::startPrimary() {
   QObject::connect(server, &QLocalServer::newConnection, this, &SingleCoreApplicationPrivate::slotConnectionEstablished);
 
   // Reset the number of connections
-  InstancesInfo* inst = static_cast <InstancesInfo*>(memory->data());
+  InstancesInfo *inst = static_cast<InstancesInfo *>(memory->data());
 
   inst->primary = true;
   inst->primaryPid = q->applicationPid();
   inst->checksum = blockChecksum();
 
   instanceNumber = 0;
-
 }
 
 void SingleCoreApplicationPrivate::startSecondary() {}
@@ -239,19 +234,17 @@ void SingleCoreApplicationPrivate::connectToPrimary(const int msecs, const Conne
     socket->flush();
     socket->waitForBytesWritten(msecs);
   }
-
 }
 
 quint16 SingleCoreApplicationPrivate::blockChecksum() {
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  quint16 checksum = qChecksum(QByteArray(static_cast<const char*>(memory->constData()), offsetof(InstancesInfo, checksum)));
+  quint16 checksum = qChecksum(QByteArray(static_cast<const char *>(memory->constData()), offsetof(InstancesInfo, checksum)));
 #else
-  quint16 checksum = qChecksum(static_cast<const char*>(memory->constData()), offsetof(InstancesInfo, checksum));
+  quint16 checksum = qChecksum(static_cast<const char *>(memory->constData()), offsetof(InstancesInfo, checksum));
 #endif
 
   return checksum;
-
 }
 
 qint64 SingleCoreApplicationPrivate::primaryPid() {
@@ -259,12 +252,11 @@ qint64 SingleCoreApplicationPrivate::primaryPid() {
   qint64 pid;
 
   memory->lock();
-  InstancesInfo* inst = static_cast<InstancesInfo*>(memory->data());
+  InstancesInfo *inst = static_cast<InstancesInfo *>(memory->data());
   pid = inst->primaryPid;
   memory->unlock();
 
   return pid;
-
 }
 
 /**
@@ -279,35 +271,31 @@ void SingleCoreApplicationPrivate::slotConnectionEstablished() {
     [nextConnSocket, this]() {
       auto &info = connectionMap[nextConnSocket];
       Q_EMIT this->slotClientConnectionClosed(nextConnSocket, info.instanceId);
-    }
-  );
+    });
 
   QObject::connect(nextConnSocket, &QLocalSocket::disconnected,
-    [nextConnSocket, this](){
+    [nextConnSocket, this]() {
       connectionMap.remove(nextConnSocket);
       nextConnSocket->deleteLater();
-    }
-  );
+    });
 
   QObject::connect(nextConnSocket, &QLocalSocket::readyRead,
     [nextConnSocket, this]() {
       auto &info = connectionMap[nextConnSocket];
-      switch(info.stage) {
-      case StageHeader:
-        readInitMessageHeader(nextConnSocket);
-        break;
-      case StageBody:
-        readInitMessageBody(nextConnSocket);
-        break;
-      case StageConnected:
-        Q_EMIT this->slotDataAvailable(nextConnSocket, info.instanceId);
-        break;
-      default:
-        break;
+      switch (info.stage) {
+        case StageHeader:
+          readInitMessageHeader(nextConnSocket);
+          break;
+        case StageBody:
+          readInitMessageBody(nextConnSocket);
+          break;
+        case StageConnected:
+          Q_EMIT this->slotDataAvailable(nextConnSocket, info.instanceId);
+          break;
+        default:
+          break;
       };
-    }
-  );
-
+    });
 }
 
 void SingleCoreApplicationPrivate::readInitMessageHeader(QLocalSocket *sock) {
@@ -334,7 +322,6 @@ void SingleCoreApplicationPrivate::readInitMessageHeader(QLocalSocket *sock) {
   if (sock->bytesAvailable() >= static_cast<qint64>(msgLen)) {
     readInitMessageBody(sock);
   }
-
 }
 
 void SingleCoreApplicationPrivate::readInitMessageBody(QLocalSocket *sock) {
@@ -397,19 +384,16 @@ void SingleCoreApplicationPrivate::readInitMessageBody(QLocalSocket *sock) {
   if (sock->bytesAvailable() > 0) {
     Q_EMIT this->slotDataAvailable(sock, instanceId);
   }
-
 }
 
 void SingleCoreApplicationPrivate::slotDataAvailable(QLocalSocket *dataSocket, const quint32 instanceId) {
 
   Q_Q(SingleCoreApplication);
   Q_EMIT q->receivedMessage(instanceId, dataSocket->readAll());
-
 }
 
 void SingleCoreApplicationPrivate::slotClientConnectionClosed(QLocalSocket *closedSocket, const quint32 instanceId) {
 
   if (closedSocket->bytesAvailable() > 0)
     Q_EMIT slotDataAvailable(closedSocket, instanceId);
-
 }

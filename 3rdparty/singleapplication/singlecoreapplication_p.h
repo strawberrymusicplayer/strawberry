@@ -94,12 +94,12 @@ class SingleCoreApplicationPrivate : public QObject {
   quint32 instanceNumber;
   QString blockServerName;
   SingleCoreApplication::Options options;
-  QMap<QLocalSocket*, ConnectionInfo> connectionMap;
+  QMap<QLocalSocket *, ConnectionInfo> connectionMap;
 
  public slots:
   void slotConnectionEstablished();
-  void slotDataAvailable(QLocalSocket*, const quint32);
-  void slotClientConnectionClosed(QLocalSocket*, const quint32);
+  void slotDataAvailable(QLocalSocket *, const quint32);
+  void slotClientConnectionClosed(QLocalSocket *, const quint32);
 };
 
 #endif  // SINGLECOREAPPLICATION_P_H

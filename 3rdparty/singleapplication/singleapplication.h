@@ -51,7 +51,7 @@ class SingleApplication : public QApplication {
 
   typedef QApplication app_t;
 
-public:
+ public:
   /**
    * @brief Mode of operation of SingleApplication.
    * Whether the block should be user-wide or system-wide and whether the
@@ -63,11 +63,11 @@ public:
    * @enum
    */
   enum Mode {
-    User                   = 1 << 0,
-    System                 = 1 << 1,
-    SecondaryNotification  = 1 << 2,
-    ExcludeAppVersion      = 1 << 3,
-    ExcludeAppPath         = 1 << 4
+    User = 1 << 0,
+    System = 1 << 1,
+    SecondaryNotification = 1 << 2,
+    ExcludeAppVersion = 1 << 3,
+    ExcludeAppPath = 1 << 4
   };
   Q_DECLARE_FLAGS(Options, Mode)
 
@@ -91,7 +91,7 @@ public:
    * Usually 4*timeout would be the worst case (fail) scenario.
    * @see See the corresponding QAPPLICATION_CLASS constructor for reference
    */
-  explicit SingleApplication( int &argc, char *argv[], bool allowSecondary = false, Options options = Mode::User, int timeout = 1000 );
+  explicit SingleApplication(int &argc, char *argv[], bool allowSecondary = false, Options options = Mode::User, int timeout = 1000);
   ~SingleApplication() override;
 
   /**
@@ -125,18 +125,17 @@ public:
    * @note sendMessage() will return false if invoked from the primary
    * instance.
    */
-  bool sendMessage( QByteArray message, int timeout = 1000 );
+  bool sendMessage(QByteArray message, int timeout = 1000);
 
  signals:
   void instanceStarted();
-  void receivedMessage( quint32 instanceId, QByteArray message );
+  void receivedMessage(quint32 instanceId, QByteArray message);
 
  private:
   SingleApplicationPrivate *d_ptr;
   Q_DECLARE_PRIVATE(SingleApplication)
-
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(SingleApplication::Options)
 
-#endif // SINGLEAPPLICATION_H
+#endif  // SINGLEAPPLICATION_H
