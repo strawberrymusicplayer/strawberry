@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) Itay Grudev 2015 - 2016
+// Copyright (c) Itay Grudev 2015 - 2020
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,11 +31,12 @@
 //
 //
 
-#ifndef SINGLECOREAPPLICATION_P_H
-#define SINGLECOREAPPLICATION_P_H
+#ifndef SINGLEAPPLICATION_P_H
+#define SINGLEAPPLICATION_P_H
 
 #include <QtGlobal>
 #include <QObject>
+#include <QString>
 #include <QMap>
 
 #include "singlecoreapplication.h"
@@ -48,6 +49,7 @@ struct InstancesInfo {
   bool primary;
   quint32 secondary;
   qint64 primaryPid;
+  char primaryUser[128];
   quint16 checksum;
 };
 
@@ -60,6 +62,7 @@ struct ConnectionInfo {
 
 class SingleCoreApplicationPrivate : public QObject {
   Q_OBJECT
+
  public:
   enum ConnectionType : quint8 {
     InvalidConnection = 0,
@@ -74,32 +77,35 @@ class SingleCoreApplicationPrivate : public QObject {
   };
   Q_DECLARE_PUBLIC(SingleCoreApplication)
 
-  explicit SingleCoreApplicationPrivate(SingleCoreApplication *_q_ptr);
+  explicit SingleCoreApplicationPrivate(SingleCoreApplication *ptr);
   ~SingleCoreApplicationPrivate() override;
 
+  QString getUsername();
   void genBlockServerName();
   void initializeMemoryBlock();
   void startPrimary();
   void startSecondary();
-  void connectToPrimary(const int msecs, const ConnectionType connectionType);
+  bool connectToPrimary(const int msecs, const ConnectionType connectionType);
   quint16 blockChecksum();
   qint64 primaryPid();
+  QString primaryUser();
   void readInitMessageHeader(QLocalSocket *socket);
   void readInitMessageBody(QLocalSocket *socket);
+  void randomSleep();
 
   SingleCoreApplication *q_ptr;
-  QSharedMemory *memory;
-  QLocalSocket *socket;
-  QLocalServer *server;
-  quint32 instanceNumber;
-  QString blockServerName;
-  SingleCoreApplication::Options options;
-  QMap<QLocalSocket *, ConnectionInfo> connectionMap;
+  QSharedMemory *memory_;
+  QLocalSocket *socket_;
+  QLocalServer *server_;
+  quint32 instanceNumber_;
+  QString blockServerName_;
+  SingleCoreApplication::Options options_;
+  QMap<QLocalSocket*, ConnectionInfo> connectionMap_;
 
  public slots:
   void slotConnectionEstablished();
-  void slotDataAvailable(QLocalSocket *, const quint32);
-  void slotClientConnectionClosed(QLocalSocket *, const quint32);
+  void slotDataAvailable(QLocalSocket*, const quint32);
+  void slotClientConnectionClosed(QLocalSocket*, const quint32);
 };
 
-#endif  // SINGLECOREAPPLICATION_P_H
+#endif  // SINGLEAPPLICATION_P_H

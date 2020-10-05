@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) Itay Grudev 2015 - 2018
+// Copyright (c) Itay Grudev 2015 - 2020
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -42,9 +42,8 @@
 class SingleApplicationPrivate;
 
 /**
- * @brief The SingleApplication class handles multipe instances of the same
- * Application
- * @see QCoreApplication
+ * @brief The SingleApplication class handles multipe instances of the same Application
+ * @see QApplication
  */
 class SingleApplication : public QApplication {
   Q_OBJECT
@@ -119,6 +118,18 @@ class SingleApplication : public QApplication {
   qint64 primaryPid();
 
   /**
+   * @brief Returns the username of the user running the primary instance
+   * @returns {QString}
+   */
+  QString primaryUser();
+
+  /**
+   * @brief Returns the username of the current user
+   * @returns {QString}
+   */
+  QString currentUser();
+
+  /**
    * @brief Sends a message to the primary instance. Returns true on success.
    * @param {int} timeout - Timeout for connecting
    * @returns {bool}
@@ -134,6 +145,7 @@ class SingleApplication : public QApplication {
  private:
   SingleApplicationPrivate *d_ptr;
   Q_DECLARE_PRIVATE(SingleApplication)
+  void abortSafely();
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(SingleApplication::Options)
