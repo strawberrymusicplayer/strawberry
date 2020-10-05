@@ -31,8 +31,8 @@
 //
 //
 
-#ifndef SINGLEAPPLICATION_P_H
-#define SINGLEAPPLICATION_P_H
+#ifndef SINGLECOREAPPLICATION_P_H
+#define SINGLECOREAPPLICATION_P_H
 
 #include <QtGlobal>
 #include <QObject>
@@ -108,4 +108,4 @@ class SingleCoreApplicationPrivate : public QObject {
   void slotClientConnectionClosed(QLocalSocket*, const quint32);
 };
 
-#endif  // SINGLEAPPLICATION_P_H
+#endif  // SINGLECOREAPPLICATION_P_H
