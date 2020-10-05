@@ -277,10 +277,10 @@ bool SingleApplicationPrivate::connectToPrimary(int timeout, ConnectionType conn
 
   socket_->write(header);
   socket_->write(initMsg);
+  bool result = socket_->waitForBytesWritten(timeout - time.elapsed());
   socket_->flush();
-  if (socket_->waitForBytesWritten(timeout - time.elapsed())) return true;
 
-  return false;
+  return result;
 
 }
 
