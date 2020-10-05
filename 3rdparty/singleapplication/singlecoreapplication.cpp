@@ -244,7 +244,7 @@ bool SingleCoreApplication::sendMessage(QByteArray message, int timeout) {
   if (isPrimary()) return false;
 
   // Make sure the socket is connected
-  if (!d->connectToPrimary(timeout, SingleApplicationPrivate::Reconnect))
+  if (!d->connectToPrimary(timeout, SingleCoreApplicationPrivate::Reconnect))
     return false;
 
   d->socket_->write(message);
