@@ -150,7 +150,9 @@ int main(int argc, char* argv[]) {
       if (options.is_empty()) {
         qLog(Info) << "Strawberry is already running - activating existing window (1)";
       }
-      core_app.sendMessage(options.Serialize(), 5000);
+      if (!core_app.sendMessage(options.Serialize(), 5000)) {
+        qLog(Error) << "Could not send message to primary instance.";
+      }
       return 0;
     }
   }
@@ -180,7 +182,9 @@ int main(int argc, char* argv[]) {
     if (options.is_empty()) {
       qLog(Info) << "Strawberry is already running - activating existing window (2)";
     }
-    a.sendMessage(options.Serialize(), 5000);
+    if (!a.sendMessage(options.Serialize(), 5000)) {
+      qLog(Error) << "Could not send message to primary instance.";
+    }
     return 0;
   }
 
