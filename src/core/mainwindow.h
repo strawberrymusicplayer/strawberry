@@ -114,8 +114,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void CommandlineOptionsReceived(const CommandlineOptions &options);
 
  protected:
-  void keyPressEvent(QKeyEvent *e) override;
+  void showEvent(QShowEvent *e) override;
   void closeEvent(QCloseEvent *e) override;
+  void keyPressEvent(QKeyEvent *e) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) override;
 #else

@@ -1507,6 +1507,14 @@ void MainWindow::StopAfterCurrent() {
   emit StopAfterToggled(app_->playlist_manager()->active()->stop_after_current());
 }
 
+void MainWindow::showEvent(QShowEvent *e) {
+
+  hidden_ = false;
+
+  QMainWindow::showEvent(e);
+
+}
+
 void MainWindow::closeEvent(QCloseEvent *e) {
 
   if (!hidden_ && keep_running_ && e->spontaneous() && QSystemTrayIcon::isSystemTrayAvailable()) {
@@ -2211,9 +2219,11 @@ void MainWindow::CommandlineOptionsReceived(const quint32 instanceId, const QByt
     raise();
     show();
     activateWindow();
+    hidden_ = false;
   }
   else
     CommandlineOptionsReceived(options);
+
 }
 
 void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
@@ -2713,8 +2723,11 @@ void MainWindow::PlaylistCurrentChanged(const QModelIndex &proxy_current) {
 }
 
 void MainWindow::Raise() {
+
   show();
   activateWindow();
+  hidden_ = false;
+
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
