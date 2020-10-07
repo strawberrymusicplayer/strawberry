@@ -82,9 +82,9 @@ msgstr " kbps"
 msgid " minutes"
 msgstr " 분"
 
-#: ../build/src/ui_backendsettingspage.h:453
-#: ../build/src/ui_backendsettingspage.h:470
-#: ../build/src/ui_backendsettingspage.h:473
+#: ../build/src/ui_backendsettingspage.h:495
+#: ../build/src/ui_backendsettingspage.h:514
+#: ../build/src/ui_backendsettingspage.h:517
 msgid " ms"
 msgstr " ms"
 
@@ -481,7 +481,7 @@ msgstr ""
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:447
+#: ../build/src/ui_backendsettingspage.h:490
 msgid "ALSA plugin"
 msgstr "ALSA 플러그인"
 
@@ -737,7 +737,7 @@ msgstr "앨범아트(&M)"
 msgid "Album"
 msgstr "앨범"
 
-#: ../build/src/ui_backendsettingspage.h:460
+#: ../build/src/ui_backendsettingspage.h:504
 msgid "Album (ideal loudness for all tracks)"
 msgstr "앨범(모든 트랙에 이상적인 음량)"
 
@@ -869,7 +869,7 @@ msgstr "현재 재생 목록에 추가"
 msgid "Append to the playlist"
 msgstr "재생 목록에 추가"
 
-#: ../build/src/ui_backendsettingspage.h:463
+#: ../build/src/ui_backendsettingspage.h:507
 msgid "Apply compression to prevent clipping"
 msgstr "압축을 적용하여 클리핑 방지"
 
@@ -917,7 +917,7 @@ msgstr "저장할 때 묻기(&K)"
 msgid "Audio format"
 msgstr "오디오 형식"
 
-#: ../build/src/ui_backendsettingspage.h:442
+#: ../build/src/ui_backendsettingspage.h:485
 msgid "Audio output"
 msgstr "오디오 출력"
 
@@ -994,7 +994,7 @@ msgstr "평균 비트 전송률"
 msgid "Average image size"
 msgstr "평균 그림 크기"
 
-#: ../build/src/ui_backendsettingspage.h:441
+#: ../build/src/ui_backendsettingspage.h:484
 msgid "Backend"
 msgstr "백엔드"
 
@@ -1089,11 +1089,11 @@ msgstr "오른쪽 아래"
 msgid "Browse..."
 msgstr "찾아보기..."
 
-#: ../build/src/ui_backendsettingspage.h:451
+#: ../build/src/ui_backendsettingspage.h:494
 msgid "Buffer"
 msgstr "버퍼"
 
-#: ../build/src/ui_backendsettingspage.h:452
+#: ../build/src/ui_backendsettingspage.h:496
 msgid "Buffer duration"
 msgstr "버퍼 시간"
 
@@ -1448,11 +1448,11 @@ msgstr "%1의 표지"
 msgid "Create a new playlist with files"
 msgstr "지정한 파일을 포함하는 새 재생 목록 만들기"
 
-#: ../build/src/ui_backendsettingspage.h:467
+#: ../build/src/ui_backendsettingspage.h:511
 msgid "Cross-fade when changing tracks automatically"
 msgstr "트랙을 자동으로 바꿀 때 크로스페이드"
 
-#: ../build/src/ui_backendsettingspage.h:466
+#: ../build/src/ui_backendsettingspage.h:510
 msgid "Cross-fade when changing tracks manually"
 msgstr "트랙을 직접 바꿀 때 크로스페이드"
 
@@ -1576,6 +1576,10 @@ msgstr "<value>%만큼 음량 내리기"
 msgid "Default bac&kground image"
 msgstr "기본 배경 그림(&K)"
 
+#: ../build/src/ui_backendsettingspage.h:499
+msgid "Defaults"
+msgstr ""
+
 #: playlist/playlistlistcontainer.cpp:99
 #: ../build/src/ui_playlistlistcontainer.h:133
 msgid "Delete"
@@ -1628,7 +1632,7 @@ msgid "Details..."
 msgstr "자세히..."
 
 #: context/contextview.cpp:184 device/giolister.cpp:189
-#: ../build/src/ui_backendsettingspage.h:445
+#: ../build/src/ui_backendsettingspage.h:488
 #: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Device"
 msgstr "장치"
@@ -1825,7 +1829,7 @@ msgstr "클릭하여 음악 메타데이터를 바로 편집하려면 활성화"
 msgid "Enable stereo balancer"
 msgstr "스테레오 균형 맞추기 활성화"
 
-#: ../build/src/ui_backendsettingspage.h:450
+#: ../build/src/ui_backendsettingspage.h:493
 msgid "Enable volume control"
 msgstr "음량 제어 활성화"
 
@@ -1845,7 +1849,7 @@ msgstr "인코딩 엔진 품질"
 msgid "Encoding mode"
 msgstr "인코딩 모드"
 
-#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:443
+#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:486
 msgid "Engine"
 msgstr "엔진"
 
@@ -1949,7 +1953,7 @@ msgstr ""
 msgid "Ever played"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:468
+#: ../build/src/ui_backendsettingspage.h:512
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "같은 앨범이나 같은 CUE 시트의 트랙 사이에서는 제외"
 
@@ -2020,20 +2024,20 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:471
+#: ../build/src/ui_backendsettingspage.h:515
 msgid "Fade out on pause / fade in on resume"
 msgstr "일시 정지 시 페이드 아웃/다시 시작 시 페이드 인"
 
-#: ../build/src/ui_backendsettingspage.h:465
+#: ../build/src/ui_backendsettingspage.h:509
 msgid "Fade out when stopping a track"
 msgstr "트랙 정지 시 페이드 아웃"
 
-#: ../build/src/ui_backendsettingspage.h:464
+#: ../build/src/ui_backendsettingspage.h:508
 msgid "Fading"
 msgstr "페이드"
 
-#: ../build/src/ui_backendsettingspage.h:469
-#: ../build/src/ui_backendsettingspage.h:472
+#: ../build/src/ui_backendsettingspage.h:513
+#: ../build/src/ui_backendsettingspage.h:516
 msgid "Fading duration"
 msgstr "페이드 시간"
 
@@ -2391,6 +2395,10 @@ msgstr "높음"
 msgid "High (%1 fps)"
 msgstr "높음(%1 fps)"
 
+#: ../build/src/ui_backendsettingspage.h:497
+msgid "High watermark"
+msgstr ""
+
 #: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "Hours"
 msgstr ""
@@ -2693,6 +2701,10 @@ msgstr "낮음(%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "낮은 복잡도 프로필(LC)"
 
+#: ../build/src/ui_backendsettingspage.h:498
+msgid "Low watermark"
+msgstr ""
+
 #: ../build/src/ui_collectionsettingspage.h:431
 msgid "Lowercase filename"
 msgstr "소문자 파일 이름"
@@ -2765,10 +2777,6 @@ msgstr "중간"
 #: ../build/src/ui_transcoderoptionsvorbis.h:205
 msgid "Minimum bitrate"
 msgstr "최소 비트 전송률"
-
-#: ../build/src/ui_backendsettingspage.h:454
-msgid "Minimum buffer fill"
-msgstr "최소 버퍼 크기"
 
 #: settings/tidalsettingspage.cpp:163
 msgid "Missing API token."
@@ -3170,7 +3178,7 @@ msgid "Other options"
 msgstr "기타 옵션"
 
 #: ../build/src/ui_albumcoverexport.h:203
-#: ../build/src/ui_backendsettingspage.h:444
+#: ../build/src/ui_backendsettingspage.h:487
 msgid "Output"
 msgstr "출력"
 
@@ -3347,7 +3355,7 @@ msgstr "포트"
 msgid "Position"
 msgstr "위치"
 
-#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:462
+#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:506
 msgid "Pre-amp"
 msgstr "프리앰프"
 
@@ -3489,7 +3497,7 @@ msgstr "대기열에 트랙 추가"
 msgid "QueueView"
 msgstr "대기열 보기"
 
-#: ../build/src/ui_backendsettingspage.h:459
+#: ../build/src/ui_backendsettingspage.h:503
 msgid "Radio (equal loudness for all tracks)"
 msgstr "라디오(모든 트랙을 같은 음량으로)"
 
@@ -3653,11 +3661,11 @@ msgstr "공백을 밑줄로 대체"
 msgid "Replace the playlist"
 msgstr "재생 목록 대체"
 
-#: ../build/src/ui_backendsettingspage.h:456
+#: ../build/src/ui_backendsettingspage.h:500
 msgid "Replay Gain"
 msgstr "리플레이게인"
 
-#: ../build/src/ui_backendsettingspage.h:458
+#: ../build/src/ui_backendsettingspage.h:502
 msgid "Replay Gain mode"
 msgstr "리플레이게인 모드"
 
@@ -4790,7 +4798,7 @@ msgstr "OAuth 사용"
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:457
+#: ../build/src/ui_backendsettingspage.h:501
 msgid "Use Replay Gain metadata if it is available"
 msgstr "사용 가능한 경우 리플레이게인 메타데이터 사용"
 
@@ -4907,10 +4915,6 @@ msgstr "버전 %1"
 #: ../build/src/ui_albumcovermanager.h:218
 msgid "View"
 msgstr "보기"
-
-#: core/dbusscreensaver.cpp:37
-msgid "Visualizations"
-msgstr "시각화"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:232
 msgid "Voice activity detection"
@@ -5174,7 +5178,7 @@ msgstr ""
 msgid "greater than"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:448
+#: ../build/src/ui_backendsettingspage.h:491
 msgid "hw"
 msgstr "hw"
 
@@ -5238,7 +5242,7 @@ msgstr ""
 msgid "options"
 msgstr "옵션"
 
-#: ../build/src/ui_backendsettingspage.h:449
+#: ../build/src/ui_backendsettingspage.h:492
 msgid "p&lughw"
 msgstr "plughw(&L)"
 

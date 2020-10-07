@@ -86,9 +86,9 @@ msgstr " kb/s"
 msgid " minutes"
 msgstr " minut"
 
-#: ../build/src/ui_backendsettingspage.h:453
-#: ../build/src/ui_backendsettingspage.h:470
-#: ../build/src/ui_backendsettingspage.h:473
+#: ../build/src/ui_backendsettingspage.h:495
+#: ../build/src/ui_backendsettingspage.h:514
+#: ../build/src/ui_backendsettingspage.h:517
 msgid " ms"
 msgstr " ms"
 
@@ -489,7 +489,7 @@ msgstr ""
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:447
+#: ../build/src/ui_backendsettingspage.h:490
 msgid "ALSA plugin"
 msgstr "ALSA plugin"
 
@@ -745,7 +745,7 @@ msgstr "Obal alb&a"
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:460
+#: ../build/src/ui_backendsettingspage.h:504
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (ideální hlasitost pro všechny skladby)"
 
@@ -878,7 +878,7 @@ msgstr "Přidat do současného seznamu skladeb"
 msgid "Append to the playlist"
 msgstr "Přidat do seznamu skladeb"
 
-#: ../build/src/ui_backendsettingspage.h:463
+#: ../build/src/ui_backendsettingspage.h:507
 msgid "Apply compression to prevent clipping"
 msgstr "Použít kompresi, aby se zabránilo ořezávání zvuku (clippingu)"
 
@@ -927,7 +927,7 @@ msgstr "Ze&ptat se při ukládání"
 msgid "Audio format"
 msgstr "Zvukový formát"
 
-#: ../build/src/ui_backendsettingspage.h:442
+#: ../build/src/ui_backendsettingspage.h:485
 msgid "Audio output"
 msgstr "Zvukový výstup"
 
@@ -1004,7 +1004,7 @@ msgstr "Průměrný datový tok"
 msgid "Average image size"
 msgstr "Průměrná velikost obrázku"
 
-#: ../build/src/ui_backendsettingspage.h:441
+#: ../build/src/ui_backendsettingspage.h:484
 msgid "Backend"
 msgstr "Backend"
 
@@ -1100,11 +1100,11 @@ msgstr "Vpravo dole"
 msgid "Browse..."
 msgstr "Procházet…"
 
-#: ../build/src/ui_backendsettingspage.h:451
+#: ../build/src/ui_backendsettingspage.h:494
 msgid "Buffer"
 msgstr "Mezipaměť"
 
-#: ../build/src/ui_backendsettingspage.h:452
+#: ../build/src/ui_backendsettingspage.h:496
 msgid "Buffer duration"
 msgstr "Délka vyrovnávací paměti"
 
@@ -1468,11 +1468,11 @@ msgstr "Obaly od %1"
 msgid "Create a new playlist with files"
 msgstr "Vytvořit nový seznam skladeb se soubory"
 
-#: ../build/src/ui_backendsettingspage.h:467
+#: ../build/src/ui_backendsettingspage.h:511
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Prolínání při automatické změně skladby"
 
-#: ../build/src/ui_backendsettingspage.h:466
+#: ../build/src/ui_backendsettingspage.h:510
 msgid "Cross-fade when changing tracks manually"
 msgstr "Prolínání při ruční změně skladby"
 
@@ -1596,6 +1596,10 @@ msgstr "Snížit hlasitost o <value> procent"
 msgid "Default bac&kground image"
 msgstr "Výchozí obrázek poza&dí"
 
+#: ../build/src/ui_backendsettingspage.h:499
+msgid "Defaults"
+msgstr ""
+
 #: playlist/playlistlistcontainer.cpp:99
 #: ../build/src/ui_playlistlistcontainer.h:133
 msgid "Delete"
@@ -1648,7 +1652,7 @@ msgid "Details..."
 msgstr "Podrobnosti..."
 
 #: context/contextview.cpp:184 device/giolister.cpp:189
-#: ../build/src/ui_backendsettingspage.h:445
+#: ../build/src/ui_backendsettingspage.h:488
 #: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Device"
 msgstr "Zařízení"
@@ -1846,7 +1850,7 @@ msgstr "Povolit upravování popisných dat písně klepnutím v řádku"
 msgid "Enable stereo balancer"
 msgstr "Zapnout vyrovnávání sterea"
 
-#: ../build/src/ui_backendsettingspage.h:450
+#: ../build/src/ui_backendsettingspage.h:493
 msgid "Enable volume control"
 msgstr "Povolit ovládání hlasitosti"
 
@@ -1866,7 +1870,7 @@ msgstr "Kvalita kódovacího stroje"
 msgid "Encoding mode"
 msgstr "Režim kódování"
 
-#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:443
+#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:486
 msgid "Engine"
 msgstr "Engine"
 
@@ -1970,7 +1974,7 @@ msgstr "Chyba při přenastavování CCDA zařízení do připraveného stavu."
 msgid "Ever played"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:468
+#: ../build/src/ui_backendsettingspage.h:512
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Kromě mezistop na tom samém albu nebo v tom samém listu CUE"
 
@@ -2041,20 +2045,20 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:471
+#: ../build/src/ui_backendsettingspage.h:515
 msgid "Fade out on pause / fade in on resume"
 msgstr "Zeslabení při pozastavení/Zesílení při obnovení přehrávání"
 
-#: ../build/src/ui_backendsettingspage.h:465
+#: ../build/src/ui_backendsettingspage.h:509
 msgid "Fade out when stopping a track"
 msgstr "Zeslabit při zastavování skladby"
 
-#: ../build/src/ui_backendsettingspage.h:464
+#: ../build/src/ui_backendsettingspage.h:508
 msgid "Fading"
 msgstr "Slábnutí"
 
-#: ../build/src/ui_backendsettingspage.h:469
-#: ../build/src/ui_backendsettingspage.h:472
+#: ../build/src/ui_backendsettingspage.h:513
+#: ../build/src/ui_backendsettingspage.h:516
 msgid "Fading duration"
 msgstr "Doba slábnutí"
 
@@ -2418,6 +2422,10 @@ msgstr "Vysoká"
 msgid "High (%1 fps)"
 msgstr "Vysoký (%1 fps)"
 
+#: ../build/src/ui_backendsettingspage.h:497
+msgid "High watermark"
+msgstr ""
+
 #: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "Hours"
 msgstr ""
@@ -2730,6 +2738,10 @@ msgstr "Nízký (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Nízkosložitostní profil"
 
+#: ../build/src/ui_backendsettingspage.h:498
+msgid "Low watermark"
+msgstr ""
+
 #: ../build/src/ui_collectionsettingspage.h:431
 msgid "Lowercase filename"
 msgstr "Název souboru malými písmeny"
@@ -2802,10 +2814,6 @@ msgstr "Střed"
 #: ../build/src/ui_transcoderoptionsvorbis.h:205
 msgid "Minimum bitrate"
 msgstr "Nejnižší datový tok"
-
-#: ../build/src/ui_backendsettingspage.h:454
-msgid "Minimum buffer fill"
-msgstr "Nejmenší naplnění vyrovnávací paměti"
 
 #: settings/tidalsettingspage.cpp:163
 msgid "Missing API token."
@@ -3210,7 +3218,7 @@ msgid "Other options"
 msgstr "Další volby"
 
 #: ../build/src/ui_albumcoverexport.h:203
-#: ../build/src/ui_backendsettingspage.h:444
+#: ../build/src/ui_backendsettingspage.h:487
 msgid "Output"
 msgstr "Výstup"
 
@@ -3389,7 +3397,7 @@ msgstr "Port"
 msgid "Position"
 msgstr "Pozice"
 
-#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:462
+#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:506
 msgid "Pre-amp"
 msgstr "Předzesílení"
 
@@ -3535,7 +3543,7 @@ msgstr "Přidat skladbu do řady"
 msgid "QueueView"
 msgstr "Zobrazení fronty"
 
-#: ../build/src/ui_backendsettingspage.h:459
+#: ../build/src/ui_backendsettingspage.h:503
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Rádio (shodná hlasitost pro všechny skladby)"
 
@@ -3700,11 +3708,11 @@ msgstr "Nahradit mezery podtržítky"
 msgid "Replace the playlist"
 msgstr "Nahradit seznam skladeb"
 
-#: ../build/src/ui_backendsettingspage.h:456
+#: ../build/src/ui_backendsettingspage.h:500
 msgid "Replay Gain"
 msgstr "Zesílení přehrávaných skladeb"
 
-#: ../build/src/ui_backendsettingspage.h:458
+#: ../build/src/ui_backendsettingspage.h:502
 msgid "Replay Gain mode"
 msgstr "Režim zesílení přehrávaných skladeb"
 
@@ -4871,7 +4879,7 @@ msgstr "Použijte OAuth"
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:457
+#: ../build/src/ui_backendsettingspage.h:501
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Používat metadata pro zesílení přehrávaných skladeb, jsou-li dostupná"
 
@@ -4991,10 +4999,6 @@ msgstr "Verze %1"
 #: ../build/src/ui_albumcovermanager.h:218
 msgid "View"
 msgstr "Pohled"
-
-#: core/dbusscreensaver.cpp:37
-msgid "Visualizations"
-msgstr "Vizualizace"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:232
 msgid "Voice activity detection"
@@ -5269,7 +5273,7 @@ msgstr ""
 msgid "greater than"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:448
+#: ../build/src/ui_backendsettingspage.h:491
 #, fuzzy
 msgid "hw"
 msgstr "hardware"
@@ -5334,7 +5338,7 @@ msgstr ""
 msgid "options"
 msgstr "volby"
 
-#: ../build/src/ui_backendsettingspage.h:449
+#: ../build/src/ui_backendsettingspage.h:492
 #, fuzzy
 msgid "p&lughw"
 msgstr "p&lughw"

@@ -83,9 +83,9 @@ msgstr "kbps"
 msgid " minutes"
 msgstr " minutter"
 
-#: ../build/src/ui_backendsettingspage.h:453
-#: ../build/src/ui_backendsettingspage.h:470
-#: ../build/src/ui_backendsettingspage.h:473
+#: ../build/src/ui_backendsettingspage.h:495
+#: ../build/src/ui_backendsettingspage.h:514
+#: ../build/src/ui_backendsettingspage.h:517
 msgid " ms"
 msgstr "ms"
 
@@ -484,7 +484,7 @@ msgstr ""
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:447
+#: ../build/src/ui_backendsettingspage.h:490
 msgid "ALSA plugin"
 msgstr "ALSA plugin"
 
@@ -740,7 +740,7 @@ msgstr "Albu&m kover"
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:460
+#: ../build/src/ui_backendsettingspage.h:504
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (ideell lydstyrkeutgjevning for alle spor)"
 
@@ -872,7 +872,7 @@ msgstr "Legg til i gjeldende spilleliste"
 msgid "Append to the playlist"
 msgstr "Legg til i spillelista"
 
-#: ../build/src/ui_backendsettingspage.h:463
+#: ../build/src/ui_backendsettingspage.h:507
 msgid "Apply compression to prevent clipping"
 msgstr "Legg til kompressor, for å unngå klipping"
 
@@ -921,7 +921,7 @@ msgstr "Spør ved lagring"
 msgid "Audio format"
 msgstr "Lydformat"
 
-#: ../build/src/ui_backendsettingspage.h:442
+#: ../build/src/ui_backendsettingspage.h:485
 msgid "Audio output"
 msgstr "Lyd-utenhet"
 
@@ -998,7 +998,7 @@ msgstr "Gjennomsnittlig bitrate"
 msgid "Average image size"
 msgstr "Gjennomsnittlig bildestørrelse"
 
-#: ../build/src/ui_backendsettingspage.h:441
+#: ../build/src/ui_backendsettingspage.h:484
 msgid "Backend"
 msgstr "Backend"
 
@@ -1093,11 +1093,11 @@ msgstr "Nede til høyre"
 msgid "Browse..."
 msgstr "Bla gjennom…"
 
-#: ../build/src/ui_backendsettingspage.h:451
+#: ../build/src/ui_backendsettingspage.h:494
 msgid "Buffer"
 msgstr "Buffer"
 
-#: ../build/src/ui_backendsettingspage.h:452
+#: ../build/src/ui_backendsettingspage.h:496
 msgid "Buffer duration"
 msgstr "Mellomlagringslengde"
 
@@ -1459,11 +1459,11 @@ msgstr "Omslag fra %1"
 msgid "Create a new playlist with files"
 msgstr "Opprett ny spilleliste med filer"
 
-#: ../build/src/ui_backendsettingspage.h:467
+#: ../build/src/ui_backendsettingspage.h:511
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Miks overgang når spor skiftes automatisk"
 
-#: ../build/src/ui_backendsettingspage.h:466
+#: ../build/src/ui_backendsettingspage.h:510
 msgid "Cross-fade when changing tracks manually"
 msgstr "Mikse overgang når du skifter spor selv"
 
@@ -1587,6 +1587,10 @@ msgstr "Demp lydstyrken med <value> prosent"
 msgid "Default bac&kground image"
 msgstr "Forhåndsvalgt bak&grunnsbilde"
 
+#: ../build/src/ui_backendsettingspage.h:499
+msgid "Defaults"
+msgstr ""
+
 #: playlist/playlistlistcontainer.cpp:99
 #: ../build/src/ui_playlistlistcontainer.h:133
 msgid "Delete"
@@ -1639,7 +1643,7 @@ msgid "Details..."
 msgstr "Detaljer…"
 
 #: context/contextview.cpp:184 device/giolister.cpp:189
-#: ../build/src/ui_backendsettingspage.h:445
+#: ../build/src/ui_backendsettingspage.h:488
 #: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Device"
 msgstr "Enhet"
@@ -1836,7 +1840,7 @@ msgstr "Slå på direkteredigering med ett klikk"
 msgid "Enable stereo balancer"
 msgstr "Aktiver stereo balanse"
 
-#: ../build/src/ui_backendsettingspage.h:450
+#: ../build/src/ui_backendsettingspage.h:493
 msgid "Enable volume control"
 msgstr "Aktiver volumkontroll"
 
@@ -1856,7 +1860,7 @@ msgstr "Koding motorens kvalitetsinnstilling"
 msgid "Encoding mode"
 msgstr "Kodingsmodus"
 
-#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:443
+#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:486
 msgid "Engine"
 msgstr "Motor"
 
@@ -1960,7 +1964,7 @@ msgstr ""
 msgid "Ever played"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:468
+#: ../build/src/ui_backendsettingspage.h:512
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Unntatt mellom spor fra samme album eller CUE-fil"
 
@@ -2031,20 +2035,20 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:471
+#: ../build/src/ui_backendsettingspage.h:515
 msgid "Fade out on pause / fade in on resume"
 msgstr "Ton ut/inn ved pause/start"
 
-#: ../build/src/ui_backendsettingspage.h:465
+#: ../build/src/ui_backendsettingspage.h:509
 msgid "Fade out when stopping a track"
 msgstr "Ton ut når sporet stoppes"
 
-#: ../build/src/ui_backendsettingspage.h:464
+#: ../build/src/ui_backendsettingspage.h:508
 msgid "Fading"
 msgstr "Ton inn/ut"
 
-#: ../build/src/ui_backendsettingspage.h:469
-#: ../build/src/ui_backendsettingspage.h:472
+#: ../build/src/ui_backendsettingspage.h:513
+#: ../build/src/ui_backendsettingspage.h:516
 msgid "Fading duration"
 msgstr "Tonings-varighet"
 
@@ -2404,6 +2408,10 @@ msgstr "Høy"
 msgid "High (%1 fps)"
 msgstr "Høy (%1 bilder/sekund)"
 
+#: ../build/src/ui_backendsettingspage.h:497
+msgid "High watermark"
+msgstr ""
+
 #: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "Hours"
 msgstr ""
@@ -2708,6 +2716,10 @@ msgstr "Lav (%1 bilder/sekund)"
 msgid "Low complexity profile (LC)"
 msgstr "Profil for lavkompleksitet (LC)"
 
+#: ../build/src/ui_backendsettingspage.h:498
+msgid "Low watermark"
+msgstr ""
+
 #: ../build/src/ui_collectionsettingspage.h:431
 msgid "Lowercase filename"
 msgstr "Små bokstaver filnavn"
@@ -2780,10 +2792,6 @@ msgstr "Midten"
 #: ../build/src/ui_transcoderoptionsvorbis.h:205
 msgid "Minimum bitrate"
 msgstr "Minimal bitrate"
-
-#: ../build/src/ui_backendsettingspage.h:454
-msgid "Minimum buffer fill"
-msgstr "Minimum mellomlagerutfylling"
 
 #: settings/tidalsettingspage.cpp:163
 msgid "Missing API token."
@@ -3185,7 +3193,7 @@ msgid "Other options"
 msgstr "Andre innstillinger"
 
 #: ../build/src/ui_albumcoverexport.h:203
-#: ../build/src/ui_backendsettingspage.h:444
+#: ../build/src/ui_backendsettingspage.h:487
 msgid "Output"
 msgstr "Utgang"
 
@@ -3362,7 +3370,7 @@ msgstr "Port"
 msgid "Position"
 msgstr "Posisjon"
 
-#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:462
+#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:506
 msgid "Pre-amp"
 msgstr "Forforsterker"
 
@@ -3505,7 +3513,7 @@ msgstr "Legg spor i kø"
 msgid "QueueView"
 msgstr "Køoversikt"
 
-#: ../build/src/ui_backendsettingspage.h:459
+#: ../build/src/ui_backendsettingspage.h:503
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Radio (lik lydstyrkeutgjevning for alle spor)"
 
@@ -3669,11 +3677,11 @@ msgstr "Erstatt mellomrom med understrek"
 msgid "Replace the playlist"
 msgstr "Erstatt spillelista"
 
-#: ../build/src/ui_backendsettingspage.h:456
+#: ../build/src/ui_backendsettingspage.h:500
 msgid "Replay Gain"
 msgstr "Normalisering"
 
-#: ../build/src/ui_backendsettingspage.h:458
+#: ../build/src/ui_backendsettingspage.h:502
 msgid "Replay Gain mode"
 msgstr "ReplayGain-modus"
 
@@ -4826,7 +4834,7 @@ msgstr "Bruk OAuth"
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:457
+#: ../build/src/ui_backendsettingspage.h:501
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Bruk normalisering-metadata hvis tilgjengelig"
 
@@ -4945,10 +4953,6 @@ msgstr "Versjon %1"
 #: ../build/src/ui_albumcovermanager.h:218
 msgid "View"
 msgstr "Vis"
-
-#: core/dbusscreensaver.cpp:37
-msgid "Visualizations"
-msgstr "Visualiseringer"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:232
 msgid "Voice activity detection"
@@ -5216,7 +5220,7 @@ msgstr ""
 msgid "greater than"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:448
+#: ../build/src/ui_backendsettingspage.h:491
 msgid "hw"
 msgstr "hw"
 
@@ -5280,7 +5284,7 @@ msgstr ""
 msgid "options"
 msgstr "innstillinger"
 
-#: ../build/src/ui_backendsettingspage.h:449
+#: ../build/src/ui_backendsettingspage.h:492
 msgid "p&lughw"
 msgstr "p&lughw"
 
