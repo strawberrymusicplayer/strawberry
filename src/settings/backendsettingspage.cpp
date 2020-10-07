@@ -57,6 +57,9 @@
 #include "ui_backendsettingspage.h"
 
 const char *BackendSettingsPage::kSettingsGroup = "Backend";
+const qint64 BackendSettingsPage::kDefaultBufferDuration = 4000;
+const double BackendSettingsPage::kDefaultBufferLowWatermark = 0.33;
+const double BackendSettingsPage::kDefaultBufferHighWatermark = 0.99;
 
 BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog) : SettingsPage(dialog), ui_(new Ui_BackendSettingsPage) {
 
@@ -64,10 +67,8 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog) : SettingsPage(
   setWindowIcon(IconLoader::Load("soundcard"));
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
-  ui_->label_bufferminfillvalue->setMinimumWidth(QFontMetrics(ui_->label_bufferminfillvalue->font()).horizontalAdvance("WW%"));
   ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).horizontalAdvance("-WW.W dB"));
 #else
-  ui_->label_bufferminfillvalue->setMinimumWidth(QFontMetrics(ui_->label_bufferminfillvalue->font()).width("WW%"));
   ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).width("-WW.W dB"));
 #endif
 
@@ -109,8 +110,10 @@ void BackendSettingsPage::Load() {
 
   ui_->checkbox_volume_control->setChecked(s.value("volume_control", true).toBool());
 
-  ui_->spinbox_bufferduration->setValue(s.value("bufferduration", 4000).toInt());
-  ui_->slider_bufferminfill->setValue(s.value("bufferminfill", 33).toInt());
+  ui_->spinbox_bufferduration->setValue(s.value("bufferduration", kDefaultBufferDuration).toInt());
+
+  ui_->spinbox_low_watermark->setValue(s.value("bufferlowwatermark", kDefaultBufferLowWatermark).toDouble());
+  ui_->spinbox_high_watermark->setValue(s.value("bufferhighwatermark", kDefaultBufferHighWatermark).toDouble());
 
   ui_->checkbox_replaygain->setChecked(s.value("rgenabled", false).toBool());
   ui_->combobox_replaygainmode->setCurrentIndex(s.value("rgmode", 0).toInt());
@@ -171,12 +174,13 @@ void BackendSettingsPage::Load() {
   connect(ui_->radiobutton_alsa_hw, SIGNAL(clicked(bool)), SLOT(radiobutton_alsa_hw_clicked(bool)));
   connect(ui_->radiobutton_alsa_plughw, SIGNAL(clicked(bool)), SLOT(radiobutton_alsa_plughw_clicked(bool)));
 #endif
-  connect(ui_->slider_bufferminfill, SIGNAL(valueChanged(int)), SLOT(BufferMinFillChanged(int)));
+  //connect(ui_->slider_bufferminfill, SIGNAL(valueChanged(int)), SLOT(BufferMinFillChanged(int)));
   connect(ui_->stickslider_replaygainpreamp, SIGNAL(valueChanged(int)), SLOT(RgPreampChanged(int)));
   connect(ui_->checkbox_fadeout_stop, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
   connect(ui_->checkbox_fadeout_cross, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
   connect(ui_->checkbox_fadeout_auto, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
   connect(ui_->checkbox_volume_control, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
+  connect(ui_->button_buffer_defaults, SIGNAL(clicked()), SLOT(BufferDefaults()));
 
   FadingOptionsChanged();
   RgPreampChanged(ui_->stickslider_replaygainpreamp->value());
@@ -215,7 +219,7 @@ bool BackendSettingsPage::EngineInitialised() {
 
 }
 
-void BackendSettingsPage::Load_Engine(Engine::EngineType enginetype) {
+void BackendSettingsPage::Load_Engine(const Engine::EngineType enginetype) {
 
   if (!EngineInitialised()) return;
 
@@ -297,7 +301,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
 
 }
 
-void BackendSettingsPage::Load_Device(QString output, QVariant device) {
+void BackendSettingsPage::Load_Device(const QString &output, const QVariant &device) {
 
   if (!EngineInitialised()) return;
 
@@ -408,7 +412,8 @@ void BackendSettingsPage::Save() {
   s.setValue("device", device_value);
 
   s.setValue("bufferduration", ui_->spinbox_bufferduration->value());
-  s.setValue("bufferminfill", ui_->slider_bufferminfill->value());
+  s.setValue("bufferlowwatermark", ui_->spinbox_low_watermark->value());
+  s.setValue("bufferhighwatermark", ui_->spinbox_high_watermark->value());
 
   s.setValue("rgenabled", ui_->checkbox_replaygain->isChecked());
   s.setValue("rgmode", ui_->combobox_replaygainmode->currentIndex());
@@ -442,7 +447,7 @@ void BackendSettingsPage::Cancel() {
   }
 }
 
-void BackendSettingsPage::EngineChanged(int index) {
+void BackendSettingsPage::EngineChanged(const int index) {
 
   if (!configloaded_ || !EngineInitialised()) return;
 
@@ -462,7 +467,7 @@ void BackendSettingsPage::EngineChanged(int index) {
 
 }
 
-void BackendSettingsPage::OutputChanged(int index) {
+void BackendSettingsPage::OutputChanged(const int index) {
 
   if (!configloaded_ || !EngineInitialised()) return;
 
@@ -549,7 +554,7 @@ void BackendSettingsPage::DeviceStringChanged() {
 
 }
 
-void BackendSettingsPage::RgPreampChanged(int value) {
+void BackendSettingsPage::RgPreampChanged(const int value) {
 
   float db = float(value) / 10 - 15;
   QString db_str = QString::asprintf("%+.1f dB", db);
@@ -557,12 +562,8 @@ void BackendSettingsPage::RgPreampChanged(int value) {
 
 }
 
-void BackendSettingsPage::BufferMinFillChanged(int value) {
-  ui_->label_bufferminfillvalue->setText(QString::number(value) + "%");
-}
-
 #ifdef HAVE_ALSA
-void BackendSettingsPage::SwitchALSADevices(alsa_plugin alsaplugin) {
+void BackendSettingsPage::SwitchALSADevices(const alsa_plugin alsaplugin) {
 
   // All ALSA devices are listed twice, one for "hw" and one for "plughw"
   // Only show one of them by making the other ones invisible based on the alsa plugin radiobuttons
@@ -583,7 +584,7 @@ void BackendSettingsPage::SwitchALSADevices(alsa_plugin alsaplugin) {
 }
 #endif
 
-void BackendSettingsPage::radiobutton_alsa_hw_clicked(bool checked) {
+void BackendSettingsPage::radiobutton_alsa_hw_clicked(const bool checked) {
 
   Q_UNUSED(checked);
 
@@ -614,7 +615,7 @@ void BackendSettingsPage::radiobutton_alsa_hw_clicked(bool checked) {
 
 }
 
-void BackendSettingsPage::radiobutton_alsa_plughw_clicked(bool checked) {
+void BackendSettingsPage::radiobutton_alsa_plughw_clicked(const bool checked) {
 
   Q_UNUSED(checked);
 
@@ -661,5 +662,14 @@ void BackendSettingsPage::FadingOptionsChanged() {
   }
 
   ui_->widget_fading_options->setEnabled(ui_->checkbox_fadeout_stop->isChecked() || ui_->checkbox_fadeout_cross->isChecked() || ui_->checkbox_fadeout_auto->isChecked());
+
+}
+
+
+void BackendSettingsPage::BufferDefaults() {
+
+  ui_->spinbox_bufferduration->setValue(kDefaultBufferDuration);
+  ui_->spinbox_low_watermark->setValue(kDefaultBufferLowWatermark);
+  ui_->spinbox_high_watermark->setValue(kDefaultBufferHighWatermark);
 
 }

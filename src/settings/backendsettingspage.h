@@ -45,6 +45,9 @@ public:
   ~BackendSettingsPage() override;
 
   static const char *kSettingsGroup;
+  static const qint64 kDefaultBufferDuration;
+  static const double kDefaultBufferLowWatermark;
+  static const double kDefaultBufferHighWatermark;
 
   void Load() override;
   void Save() override;
@@ -53,15 +56,15 @@ public:
   EngineBase *engine() const { return dialog()->app()->player()->engine(); }
 
  private slots:
-  void EngineChanged(int index);
-  void OutputChanged(int index);
-  void DeviceSelectionChanged(int index);
+  void EngineChanged(const int index);
+  void OutputChanged(const int index);
+  void DeviceSelectionChanged(const int index);
   void DeviceStringChanged();
-  void RgPreampChanged(int value);
-  void BufferMinFillChanged(int value);
-  void radiobutton_alsa_hw_clicked(bool checked);
-  void radiobutton_alsa_plughw_clicked(bool checked);
+  void RgPreampChanged(const int value);
+  void radiobutton_alsa_hw_clicked(const bool checked);
+  void radiobutton_alsa_plughw_clicked(const bool checked);
   void FadingOptionsChanged();
+  void BufferDefaults();
 
 private:
 #ifdef HAVE_ALSA
@@ -79,9 +82,9 @@ private:
 
   void Load_Engine(Engine::EngineType enginetype);
   void Load_Output(QString output, QVariant device);
-  void Load_Device(QString output, QVariant device);
+  void Load_Device(const QString &output, const QVariant &device);
 #ifdef HAVE_ALSA
-  void SwitchALSADevices(alsa_plugin alsaplugin);
+  void SwitchALSADevices(const alsa_plugin alsaplugin);
 #endif
 
   bool configloaded_;

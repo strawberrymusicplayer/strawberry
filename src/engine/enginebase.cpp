@@ -46,8 +46,9 @@ Engine::Base::Base()
       rg_mode_(0),
       rg_preamp_(0),
       rg_compression_(true),
-      buffer_duration_nanosec_(4000),
-      buffer_min_fill_(33),
+      buffer_duration_nanosec_(BackendSettingsPage::kDefaultBufferDuration * kNsecPerMsec),
+      buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
+      buffer_high_watermark_(BackendSettingsPage::kDefaultBufferHighWatermark),
       fadeout_enabled_(true),
       crossfade_enabled_(true),
       autocrossfade_enabled_(false),
@@ -105,8 +106,9 @@ void Engine::Base::ReloadSettings() {
 
   volume_control_ = s.value("volume_control", true).toBool();
 
-  buffer_duration_nanosec_ = s.value("bufferduration", 4000).toLongLong() * kNsecPerMsec;
-  buffer_min_fill_ = s.value("bufferminfill", 33).toInt();
+  buffer_duration_nanosec_ = s.value("bufferduration", BackendSettingsPage::kDefaultBufferDuration).toLongLong() * kNsecPerMsec;
+  buffer_low_watermark_ = s.value("bufferlowwatermark", BackendSettingsPage::kDefaultBufferLowWatermark).toDouble();
+  buffer_high_watermark_ = s.value("bufferhighwatermark", BackendSettingsPage::kDefaultBufferHighWatermark).toDouble();
 
   rg_enabled_ = s.value("rgenabled", false).toBool();
   rg_mode_ = s.value("rgmode", 0).toInt();

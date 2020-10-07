@@ -186,7 +186,8 @@ public:
 
   // Buffering
   quint64 buffer_duration_nanosec_;
-  int buffer_min_fill_;
+  double buffer_low_watermark_;
+  double buffer_high_watermark_;
 
   // Fadeout
   bool fadeout_enabled_;

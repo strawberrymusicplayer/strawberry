@@ -50,6 +50,7 @@
 #include "core/signalchecker.h"
 #include "core/timeconstants.h"
 #include "core/song.h"
+#include "settings/backendsettingspage.h"
 #include "enginebase.h"
 #include "gstengine.h"
 #include "gstenginepipeline.h"
@@ -80,8 +81,9 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       rg_mode_(0),
       rg_preamp_(0.0),
       rg_compression_(true),
-      buffer_duration_nanosec_(1 * kNsecPerSec),
-      buffer_min_fill_(33),
+      buffer_duration_nanosec_(BackendSettingsPage::kDefaultBufferDuration * kNsecPerMsec),
+      buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
+      buffer_high_watermark_(BackendSettingsPage::kDefaultBufferHighWatermark),
       buffering_(false),
       segment_start_(0),
       segment_start_received_(false),
@@ -203,8 +205,12 @@ void GstEnginePipeline::set_buffer_duration_nanosec(const qint64 buffer_duration
   buffer_duration_nanosec_ = buffer_duration_nanosec;
 }
 
-void GstEnginePipeline::set_buffer_min_fill(int percent) {
-  buffer_min_fill_ = percent;
+void GstEnginePipeline::set_buffer_low_watermark(const double value) {
+  buffer_low_watermark_ = value;
+}
+
+void GstEnginePipeline::set_buffer_high_watermark(const double value) {
+  buffer_high_watermark_ = value;
 }
 
 bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec) {
@@ -382,10 +388,12 @@ bool GstEnginePipeline::InitAudioBin() {
 
   g_object_set(G_OBJECT(audioqueue_), "max-size-buffers", 0, nullptr);
   g_object_set(G_OBJECT(audioqueue_), "max-size-bytes", 0, nullptr);
-  g_object_set(G_OBJECT(audioqueue_), "max-size-time", buffer_duration_nanosec_, nullptr);
-  g_object_set(G_OBJECT(audioqueue_), "low-percent", buffer_min_fill_, nullptr);
   if (buffer_duration_nanosec_ > 0) {
+    qLog(Info) << "Setting buffer duration:" << buffer_duration_nanosec_ << "low watermark:" << buffer_low_watermark_ << "high watermark:" << buffer_high_watermark_;
     g_object_set(G_OBJECT(audioqueue_), "use-buffering", true, nullptr);
+    g_object_set(G_OBJECT(audioqueue_), "max-size-time", buffer_duration_nanosec_, nullptr);
+    g_object_set(G_OBJECT(audioqueue_), "low-watermark", buffer_low_watermark_, nullptr);
+    g_object_set(G_OBJECT(audioqueue_), "high-watermark", buffer_high_watermark_, nullptr);
   }
 
   // Link all elements
@@ -748,7 +756,7 @@ gboolean GstEnginePipeline::BusCallback(GstBus*, GstMessage *msg, gpointer self)
 
 }
 
-GstBusSyncReply GstEnginePipeline::BusCallbackSync(GstBus *, GstMessage *msg, gpointer self) {
+GstBusSyncReply GstEnginePipeline::BusCallbackSync(GstBus*, GstMessage *msg, gpointer self) {
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 

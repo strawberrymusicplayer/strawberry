@@ -71,8 +71,9 @@ class GstEnginePipeline : public QObject {
   void set_stereo_balancer_enabled(const bool enabled);
   void set_equalizer_enabled(const bool enabled);
   void set_replaygain(const bool enabled, const int mode, const float preamp, const bool compression);
-  void set_buffer_duration_nanosec(qint64 duration_nanosec);
-  void set_buffer_min_fill(int percent);
+  void set_buffer_duration_nanosec(const qint64 duration_nanosec);
+  void set_buffer_low_watermark(const double value);
+  void set_buffer_high_watermark(const double value);
 
   // Creates the pipeline, returns false on error
   bool InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec);
@@ -211,7 +212,8 @@ class GstEnginePipeline : public QObject {
 
   // Buffering
   quint64 buffer_duration_nanosec_;
-  int buffer_min_fill_;
+  double buffer_low_watermark_;
+  double buffer_high_watermark_;
   bool buffering_;
 
   // These get called when there is a new audio buffer available
