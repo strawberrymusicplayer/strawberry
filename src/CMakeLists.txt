@@ -37,7 +37,6 @@ set(SOURCES
   core/qtsystemtrayicon.cpp
   core/standarditemiconloader.cpp
   core/systemtrayicon.cpp
-  core/screensaver.cpp
   core/scopedtransaction.cpp
   core/translations.cpp
 
@@ -596,7 +595,7 @@ if(UNIX AND HAVE_DBUS)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
 
   optional_source(HAVE_DBUS
-    SOURCES core/mpris.cpp core/mpris2.cpp core/dbusscreensaver.cpp
+    SOURCES core/mpris.cpp core/mpris2.cpp
     HEADERS core/mpris.h core/mpris2.h
   )
   optional_source(HAVE_UDISKS2
@@ -861,7 +860,6 @@ optional_source(APPLE
     core/mac_utilities.mm
     core/mac_startup.mm
     core/macsystemtrayicon.mm
-    core/macscreensaver.cpp
     core/macfslistener.mm
     osd/osdmac.mm
     widgets/qsearchfield_mac.mm
