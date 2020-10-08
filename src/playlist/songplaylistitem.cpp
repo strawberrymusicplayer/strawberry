@@ -52,6 +52,6 @@ Song SongPlaylistItem::Metadata() const {
 void SongPlaylistItem::SetArtManual(const QUrl &cover_url) {
 
   song_.set_art_manual(cover_url);
-  temp_metadata_.set_art_manual(cover_url);
+  if (HasTemporaryMetadata()) temp_metadata_.set_art_manual(cover_url);
 
 }
