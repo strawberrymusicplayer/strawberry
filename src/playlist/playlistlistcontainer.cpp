@@ -85,7 +85,9 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
       action_new_folder_(new QAction(this)),
       action_remove_(new QAction(this)),
       action_save_playlist_(new QAction(this)),
+#ifndef Q_OS_WIN
       action_copy_to_device_(new QAction(this)),
+#endif
       model_(new PlaylistListModel(this)),
       proxy_(new PlaylistListSortFilterModel(this)),
       loaded_icons_(false),
@@ -98,7 +100,9 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   action_new_folder_->setText(tr("New folder"));
   action_remove_->setText(tr("Delete"));
   action_save_playlist_->setText(tr("Save playlist", "Save playlist menu action."));
+#ifndef Q_OS_WIN
   action_copy_to_device_->setText(tr("Copy to device..."));
+#endif
 
   ui_->new_folder->setDefaultAction(action_new_folder_);
   ui_->remove->setDefaultAction(action_remove_);
@@ -107,7 +111,9 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   connect(action_new_folder_, SIGNAL(triggered()), SLOT(NewFolderClicked()));
   connect(action_remove_, SIGNAL(triggered()), SLOT(Delete()));
   connect(action_save_playlist_, SIGNAL(triggered()), SLOT(SavePlaylist()));
+#ifndef Q_OS_WIN
   connect(action_copy_to_device_, SIGNAL(triggered()), SLOT(CopyToDevice()));
+#endif
   connect(model_, SIGNAL(PlaylistPathChanged(int, QString)), SLOT(PlaylistPathChanged(int, QString)));
 
   proxy_->setSourceModel(model_);
@@ -175,7 +181,9 @@ void PlaylistListContainer::showEvent(QShowEvent *e) {
     action_new_folder_->setIcon(IconLoader::Load("folder-new"));
     action_remove_->setIcon(IconLoader::Load("edit-delete"));
     action_save_playlist_->setIcon(IconLoader::Load("document-save"));
+#ifndef Q_OS_WIN
     action_copy_to_device_->setIcon(IconLoader::Load("device"));
+#endif
 
     model_->SetIcons(IconLoader::Load("view-media-playlist"), IconLoader::Load("folder"));
 
@@ -362,26 +370,31 @@ void PlaylistListContainer::CopyToDevice() {
   const QModelIndex idx = proxy_->mapToSource(proxy_idx);
   if (!idx.isValid()) return;
 
-  // Reuse the organize dialog, but set the detail about the playlist name
-  if (!organize_dialog_) {
-    organize_dialog_.reset(new OrganizeDialog(app_->task_manager()));
-  }
-  organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
-  organize_dialog_->SetCopy(true);
-
   // Is it a playlist?
   if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
     const int playlist_id = idx.data(PlaylistListModel::Role_PlaylistId).toInt();
 
+    Playlist *playlist = app_->playlist_manager()->playlist(playlist_id);
+    if (!playlist) {
+      QMessageBox::critical(this, tr("Copy to device"), tr("Playlist must be open first."));
+      return;
+    }
+
     QStandardItem *item = model_->PlaylistById(playlist_id);
     QString playlist_name = item ? item->text() : tr("Playlist");
-    organize_dialog_->SetPlaylist(playlist_name);
 
-    // Get the songs in the playlist
-    organize_dialog_->SetSongs(app_->playlist_manager()->playlist(playlist_id)->GetAllSongs());
+    // Reuse the organize dialog, but set the detail about the playlist name
+    if (!organize_dialog_) {
+      organize_dialog_.reset(new OrganizeDialog(app_->task_manager()));
+    }
+    organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
+    organize_dialog_->SetCopy(true);
+    organize_dialog_->SetPlaylist(playlist_name);
+    organize_dialog_->SetSongs(playlist->GetAllSongs());
     organize_dialog_->show();
   }
 #endif
+
 }
 
 void PlaylistListContainer::Delete() {
@@ -455,13 +468,17 @@ void PlaylistListContainer::contextMenuEvent(QContextMenuEvent *e) {
     menu_->addAction(action_remove_);
     menu_->addSeparator();
     menu_->addAction(action_save_playlist_);
+#ifndef Q_OS_WIN
     menu_->addSeparator();
     menu_->addAction(action_copy_to_device_);
+#endif
   }
 
   action_remove_->setVisible(ui_->tree->ItemsSelected());
   action_save_playlist_->setVisible(ui_->tree->ItemsSelected());
+#ifndef Q_OS_WIN
   action_copy_to_device_->setVisible(ui_->tree->ItemsSelected());
+#endif
 
   menu_->popup(e->globalPos());
 

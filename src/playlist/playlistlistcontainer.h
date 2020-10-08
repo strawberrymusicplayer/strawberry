@@ -102,7 +102,9 @@ class PlaylistListContainer : public QWidget {
   QAction *action_new_folder_;
   QAction *action_remove_;
   QAction *action_save_playlist_;
+#ifndef Q_OS_WIN
   QAction *action_copy_to_device_;
+#endif
 
   PlaylistListModel *model_;
   QSortFilterProxyModel *proxy_;
