@@ -15,10 +15,14 @@ Unreleased:
     * Fixed certain cases where "playing now" for scrobbler were sent twice.
     * Fixed album cover loaded twice for certain songs causing slugglish playing widget.
     * Fixed playing widget to draw text after album cover is fully shown.
+    * Fixed crash when trying to copy a closed playlist to a device.
+    * Fixed incorrect song source for CUE songs when added through the collection watcher.
     * Disable use of HTML in system tray tooltip on Cinnamon too.
     * Remove problematic '&' character from OSD messages.
     * (macOS) Fixed crash on exit when cover manager is open.
     * (macOS) Fixed graphical corruption.
+    * (Windows) Fixed GStreamer registry problems.
+    * (Windows) Register Tidal URL Scheme in Windows installer.
 
   Enhancements:
     * Improved playlist autoscrolling.
@@ -31,6 +35,9 @@ Unreleased:
     * Show song info and album cover in OSD on stop and pause.
     * Reshow OSD on song restart.
     * Always save initial settings.
+    * Removed use of deprecated gstreamer "low-percent" (Minimum buffer fill setting).
+    * Added buffer low and high watermark settings to backend settings.
+    * Make use of newer version of the desktop notifications service when available.
 
   New features:
     * Added setting for enabling scrobbling based on song source.
