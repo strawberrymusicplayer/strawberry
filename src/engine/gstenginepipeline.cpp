@@ -598,6 +598,10 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
   GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
   GstBuffer *buf16 = nullptr;
 
+  quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_;
+  quint64 duration = GST_BUFFER_DURATION(buf);
+  qint64 end_time = start_time + duration;
+
   if (format.startsWith("S16LE")) {
     instance->unsupported_analyzer_ = false;
   }
@@ -687,28 +691,22 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
   }
 
   // Calculate the end time of this buffer so we can stop playback if it's after the end time of this song.
-  if (instance->end_offset_nanosec_ > 0) {
-    quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_;
-    quint64 duration = GST_BUFFER_DURATION(buf);
-    qint64 end_time = start_time + duration;
+  if (instance->end_offset_nanosec_ > 0 && end_time > instance->end_offset_nanosec_) {
+    if (instance->has_next_valid_url() && instance->next_stream_url_ == instance->stream_url_ && instance->next_beginning_offset_nanosec_ == instance->end_offset_nanosec_) {
+      // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
+      instance->end_offset_nanosec_ = instance->next_end_offset_nanosec_;
+      instance->next_stream_url_.clear();
+      instance->next_original_url_.clear();
+      instance->next_beginning_offset_nanosec_ = 0;
+      instance->next_end_offset_nanosec_ = 0;
 
-    if (end_time > instance->end_offset_nanosec_) {
-      if (instance->has_next_valid_url() && instance->next_stream_url_ == instance->stream_url_ && instance->next_beginning_offset_nanosec_ == instance->end_offset_nanosec_) {
-          // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
-          instance->end_offset_nanosec_ = instance->next_end_offset_nanosec_;
-          instance->next_stream_url_.clear();
-          instance->next_original_url_.clear();
-          instance->next_beginning_offset_nanosec_ = 0;
-          instance->next_end_offset_nanosec_ = 0;
-
-          // GstEngine will try to seek to the start of the new section, but we're already there so ignore it.
-          instance->ignore_next_seek_ = true;
-          emit instance->EndOfStreamReached(instance->id(), true);
-      }
-      else {
-        // There's no next song
-        emit instance->EndOfStreamReached(instance->id(), false);
-      }
+      // GstEngine will try to seek to the start of the new section, but we're already there so ignore it.
+      instance->ignore_next_seek_ = true;
+      emit instance->EndOfStreamReached(instance->id(), true);
+    }
+    else {
+      // There's no next song
+      emit instance->EndOfStreamReached(instance->id(), false);
     }
   }
 
