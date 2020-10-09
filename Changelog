@@ -2,9 +2,9 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+0.8.1:
 
-  BugFixes:
+  Bugfixes:
     * Fixed engine selection in backend settings with Qt 6.
     * Fixed pixelated playlist source icon for currently playing song.
     * Fixed crash when deleting queued songs from playlist.
@@ -51,7 +51,7 @@ Unreleased:
 
 0.7.2:
 
-  BugFixes:
+  Bugfixes:
     * Fixed installation directory for translations.
     * Fixed collection sorting for non-ASCII characters.
     * Fixed closing connected devices on exit.
