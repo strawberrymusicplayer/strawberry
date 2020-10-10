@@ -57,6 +57,9 @@ const int SubsonicRequest::kMaxConcurrentAlbumsRequests = 3;
 const int SubsonicRequest::kMaxConcurrentAlbumSongsRequests = 3;
 const int SubsonicRequest::kMaxConcurrentAlbumCoverRequests = 1;
 
+QStringList SubsonicRequest::kSupportedImageMimeTypes;
+QStringList SubsonicRequest::kSupportedImageFormats;
+
 SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent)
     : SubsonicBaseRequest(service, parent),
       service_(service),
@@ -77,6 +80,14 @@ SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *u
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
   network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
 #endif
+
+  for (const QByteArray &mimetype : QImageReader::supportedMimeTypes()) {
+    kSupportedImageMimeTypes.append(QString::fromUtf8(mimetype));
+  }
+
+  for (const QByteArray &filetype : QImageReader::supportedImageFormats()) {
+    kSupportedImageFormats.append(filetype);
+  }
 
 }
 
@@ -703,7 +714,7 @@ void SubsonicRequest::AddAlbumCoverRequest(Song &song) {
   AlbumCoverRequest request;
   request.album_id = song.album_id();
   request.url = cover_url;
-  request.filename = cover_path + "/" + cover_url_query.queryItemValue("id");
+  request.filename = cover_path + "/" + cover_url_query.queryItemValue("id") + ".jpg";
   if (request.filename.isEmpty()) return;
 
   album_covers_requests_sent_.insert(cover_url, &song);
@@ -780,39 +791,31 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl url, c
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-  if (!QImageReader::supportedMimeTypes().contains(mimetype.toUtf8())) {
+  if (!kSupportedImageMimeTypes.contains(mimetype, Qt::CaseInsensitive) && !kSupportedImageFormats.contains(mimetype, Qt::CaseInsensitive)) {
     Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype).arg(url.toString()));
     if (album_covers_requests_sent_.contains(url)) album_covers_requests_sent_.remove(url);
     AlbumCoverFinishCheck();
     return;
   }
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
-  QList<QByteArray> format_list = QImageReader::imageFormatsForMimeType(mimetype.toUtf8());
-#else
-  QList<QByteArray> format_list = Utilities::ImageFormatsForMimeType(mimetype.toUtf8());
-#endif
-
   QByteArray data = reply->readAll();
-  if (format_list.isEmpty() || data.isEmpty()) {
+  if (data.isEmpty()) {
     Error(QString("Received empty image data for %1").arg(url.toString()));
     if (album_covers_requests_sent_.contains(url)) album_covers_requests_sent_.remove(url);
     AlbumCoverFinishCheck();
     return;
   }
-  QByteArray format = format_list.first();
-  QString fullfilename = filename + "." + format.toLower();
 
   QImage image;
-  if (image.loadFromData(data, format)) {
-    if (image.save(fullfilename, format)) {
+  if (image.loadFromData(data)) {
+    if (image.save(filename, "JPG")) {
       while (album_covers_requests_sent_.contains(url)) {
         Song *song = album_covers_requests_sent_.take(url);
-        song->set_art_automatic(QUrl::fromLocalFile(fullfilename));
+        song->set_art_automatic(QUrl::fromLocalFile(filename));
       }
     }
     else {
-      Error(QString("Error saving image data to %1.").arg(fullfilename));
+      Error(QString("Error saving image data to %1.").arg(filename));
       if (album_covers_requests_sent_.contains(url)) album_covers_requests_sent_.remove(url);
     }
   }

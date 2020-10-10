@@ -115,6 +115,8 @@ class SubsonicRequest : public SubsonicBaseRequest {
   static const int kMaxConcurrentArtistAlbumsRequests;
   static const int kMaxConcurrentAlbumSongsRequests;
   static const int kMaxConcurrentAlbumCoverRequests;
+  static QStringList kSupportedImageMimeTypes;
+  static QStringList kSupportedImageFormats;
 
   SubsonicService *service_;
   SubsonicUrlHandler *url_handler_;
