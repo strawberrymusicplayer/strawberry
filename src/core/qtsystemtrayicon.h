@@ -52,7 +52,7 @@ class QtSystemTrayIcon : public SystemTrayIcon {
 
   void ShowPopup(const QString &summary, const QString &message, int timeout) override;
 
-  void SetNowPlaying(const Song &song, const QUrl &cover_url) override;
+  void SetNowPlaying(const Song &song, const QUrl&) override;
   void ClearNowPlaying() override;
 
   bool MuteEnabled() const override { return action_mute_->isVisible(); }
@@ -87,11 +87,6 @@ class QtSystemTrayIcon : public SystemTrayIcon {
   QAction *action_stop_after_this_track_;
   QAction *action_mute_;
   QAction *action_love_;
-
-#ifndef Q_OS_WIN
-  QString de_;
-  QString pattern_;
-#endif
 
 };
 

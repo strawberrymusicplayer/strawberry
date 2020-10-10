@@ -61,16 +61,6 @@ QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
   tray_->installEventFilter(this);
   ClearNowPlaying();
 
-#ifndef Q_OS_WIN
-  de_ = Utilities::DesktopEnvironment().toLower();
-  QFile pattern_file(":/html/playing-tooltip.html");
-  if (pattern_file.open(QIODevice::ReadOnly)) {
-    pattern_ = QString::fromLatin1(pattern_file.readAll());
-    pattern_file.close();
-  }
-
-#endif
-
   connect(tray_, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), SLOT(Clicked(QSystemTrayIcon::ActivationReason)));
 
 }
@@ -231,50 +221,9 @@ void QtSystemTrayIcon::SetVisible(bool visible) {
   tray_->setVisible(visible);
 }
 
-void QtSystemTrayIcon::SetNowPlaying(const Song &song, const QUrl &cover_url) {
+void QtSystemTrayIcon::SetNowPlaying(const Song &song, const QUrl&) {
 
-#ifdef Q_OS_WIN
-  Q_UNUSED(song);
-  Q_UNUSED(cover_url);
-  // Windows doesn't support HTML in tooltips, so just show something basic
   tray_->setToolTip(song.PrettyTitleWithArtist());
-#else
-
-  if (de_ == "kde" || de_ == "cinnamon" || de_ == "x-cinnamon") {
-    tray_->setToolTip(song.PrettyTitleWithArtist());
-    return;
-  }
-
-  int columns = cover_url.isEmpty() ? 1 : 2;
-
-  QString tooltip(pattern_);
-
-  tooltip.replace("%columns"    , QString::number(columns));
-  tooltip.replace("%appName"    , app_name_);
-
-  tooltip.replace("%titleKey"   , tr("Title") % ":");
-  tooltip.replace("%titleValue" , song.PrettyTitle().toHtmlEscaped());
-  tooltip.replace("%artistKey"  , tr("Artist") % ":");
-  tooltip.replace("%artistValue", song.artist().toHtmlEscaped());
-  tooltip.replace("%albumKey"   , tr("Album") % ":");
-  tooltip.replace("%albumValue" , song.album().toHtmlEscaped());
-
-  tooltip.replace("%lengthKey"  , tr("Length") % ":");
-  tooltip.replace("%lengthValue", song.PrettyLength().toHtmlEscaped());
-
-  if (columns == 2) {
-    QString final_path = cover_url.isLocalFile() ? cover_url.path() : cover_url.toString();
-    tooltip.replace("%image", "    <td>      <img src=\"" % final_path % "\" />   </td>");
-  }
-  else {
-    tooltip.replace("<td>%image</td>", "");
-    tooltip.replace("%image", "");
-  }
-
-  // TODO: we should also repaint this
-  tray_->setToolTip(tooltip);
-
-#endif
 
 }
 
