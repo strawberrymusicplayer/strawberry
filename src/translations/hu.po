@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-09-18 01:26-0400\n"
+"PO-Revision-Date: 2020-10-10 03:42-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -1383,7 +1383,7 @@ msgstr "Másolás a gyűjteménybe..."
 
 #: playlist/playlistlistcontainer.cpp:379
 msgid "Copy to device"
-msgstr ""
+msgstr "Másolás eszközre"
 
 #: core/mainwindow.cpp:709 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:104
@@ -2692,7 +2692,7 @@ msgstr "iPod adatbázis betöltése"
 
 #: smartplaylists/playlistgeneratorinserter.cpp:58
 msgid "Loading smart playlist"
-msgstr ""
+msgstr "Okos lejátszólista betöltése"
 
 #: collection/collectionmodel.cpp:211
 msgid "Loading songs"
@@ -2826,7 +2826,7 @@ msgstr "Minimális bitráta"
 
 #: settings/tidalsettingspage.cpp:163
 msgid "Missing API token."
-msgstr ""
+msgstr "Hiányzó API token."
 
 #: qobuz/qobuzservice.cpp:719 qobuz/qobuzstreamurlrequest.cpp:84
 msgid "Missing Qobuz app ID or secret."
@@ -2840,11 +2840,11 @@ msgstr ""
 
 #: qobuz/qobuzservice.cpp:479
 msgid "Missing Qobuz password."
-msgstr ""
+msgstr "Hiányzó Qobuz jelszó."
 
 #: qobuz/qobuzservice.cpp:475
 msgid "Missing Qobuz username."
-msgstr ""
+msgstr "Hiányzó Qobuz felhasználónév."
 
 #: subsonic/subsonicurlhandler.cpp:45
 msgid "Missing Subsonic username or password."
@@ -2878,7 +2878,7 @@ msgstr ""
 
 #: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:137
 msgid "Missing password."
-msgstr ""
+msgstr "Hiányzó jelszó."
 
 #: settings/subsonicsettingspage.cpp:106
 msgid "Missing server url, username or password."
@@ -2894,7 +2894,7 @@ msgstr "Hiányzó felhasználónév, elsőnek jelentkezzen be a last.fm-be!"
 
 #: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:133
 msgid "Missing username."
-msgstr ""
+msgstr "Hiányzó felhasználónév."
 
 #: device/deviceproperties.cpp:175
 msgid "Model"
@@ -2923,7 +2923,7 @@ msgstr "Hangulatsáv stílusa"
 
 #: smartplaylists/smartplaylistsmodel.cpp:100
 msgid "Most played"
-msgstr ""
+msgstr "Legtöbbet játszott"
 
 #: device/giolister.cpp:188
 msgid "Mount point"
@@ -2979,7 +2979,7 @@ msgstr "Soha"
 
 #: smartplaylists/smartplaylistsmodel.cpp:88
 msgid "Never played"
-msgstr ""
+msgstr "Nem volt még lejátszva"
 
 #: ../build/src/ui_behavioursettingspage.h:297
 #: ../build/src/ui_behavioursettingspage.h:311
@@ -3002,7 +3002,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:68
 msgid "New smart playlist..."
-msgstr ""
+msgstr "Új okos lejátszólista..."
 
 #: widgets/freespacebar.cpp:69
 msgid "New songs"
@@ -3014,7 +3014,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsmodel.cpp:69
 msgid "Newest tracks"
-msgstr ""
+msgstr "Legújabb számok"
 
 #: dialogs/edittagdialog.cpp:210 dialogs/trackselectiondialog.cpp:73
 msgid "Next"
@@ -3080,7 +3080,7 @@ msgstr "Normál blokkok"
 #: qobuz/qobuzservice.cpp:505 qobuz/qobuzservice.cpp:560
 #: qobuz/qobuzservice.cpp:613
 msgid "Not authenticated with Qobuz."
-msgstr ""
+msgstr "Nincs hitelesítve a Qobuzzal."
 
 #: tidal/tidalservice.cpp:710
 msgid ""
@@ -3141,7 +3141,7 @@ msgstr "Indulásnál"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:139
 msgid "Only show the first"
-msgstr ""
+msgstr "Csak az első megjelenítése"
 
 #: ../build/src/ui_appearancesettingspage.h:542
 msgid "Opacity"
@@ -3222,7 +3222,7 @@ msgstr "Eredeti megjelenés - Album"
 
 #: collection/savedgroupingmanager.cpp:103
 msgid "Original year - Album - Disc"
-msgstr ""
+msgstr "Megjelenési év - Album - Lemez"
 
 #: core/commandlineoptions.cpp:183
 msgid "Other options"
@@ -3381,7 +3381,7 @@ msgstr "Lejátszólista beállítások"
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
-msgstr ""
+msgstr "Lejátszólista típusa"
 
 #: core/mainwindow.cpp:339
 msgid "Playlists"
@@ -3512,7 +3512,7 @@ msgstr ""
 #: core/mainwindow.cpp:352 ../build/src/ui_scrobblersettingspage.h:409
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
-msgstr ""
+msgstr "Qobuz"
 
 #: ../build/src/ui_qobuzsettingspage.h:272
 msgid ""
@@ -3567,7 +3567,7 @@ msgstr "Rádió (egyenlő hangerő minden számhoz)"
 
 #: playlist/playlist.cpp:1294
 msgid "Rating"
-msgstr ""
+msgstr "Értékelés"
 
 #: ../build/src/ui_playlistsettingspage.h:171
 msgid "Re&lative"
@@ -3783,13 +3783,13 @@ msgstr "Csak a FAT fájlrendszerekben engedélyezett karakterek használata"
 msgid "Resume playback on start"
 msgstr "Lejátszás folytatása induláskor"
 
-#: subsonic/subsonicrequest.cpp:680 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:699 tidal/tidalrequest.cpp:1086
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Albumborító lekérése %1 albumhoz..."
 
-#: subsonic/subsonicrequest.cpp:681 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:700 tidal/tidalrequest.cpp:1087
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -3805,7 +3805,7 @@ msgstr "Dalok lekérése %1 előadótól..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Albumok lekérése %1 előadóktól..."
 
-#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:140 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "Albumok lekérésre..."
@@ -3814,13 +3814,13 @@ msgstr "Albumok lekérésre..."
 msgid "Retrieving artists..."
 msgstr "Előadók lekérése..."
 
-#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:331 tidal/tidalrequest.cpp:725
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Dalok lekérése %1 albumhoz..."
 
-#: subsonic/subsonicrequest.cpp:321 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:332 tidal/tidalrequest.cpp:726
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -4303,11 +4303,11 @@ msgstr "Kis oldalsáv"
 
 #: smartplaylists/smartplaylistwizard.cpp:70
 msgid "Smart playlist"
-msgstr ""
+msgstr "Okos lejátszólista"
 
 #: core/mainwindow.cpp:340
 msgid "Smart playlists"
-msgstr ""
+msgstr "Okos lejátszólisták"
 
 #: equalizer/equalizer.cpp:151
 msgid "Soft"
@@ -4350,7 +4350,7 @@ msgstr ""
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:134
 msgid "Sorting"
-msgstr ""
+msgstr "Rendezés"
 
 #: playlist/playlist.cpp:1292
 msgid "Source"
@@ -4412,7 +4412,7 @@ msgstr "Leállítva"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:419
 msgid "Strawberry"
-msgstr ""
+msgstr "Strawberry"
 
 #: ../build/src/ui_errordialog.h:92
 msgid "Strawberry Error"
@@ -4819,9 +4819,9 @@ msgid "Ultra wide band (UWB)"
 msgstr "Ultra szélessávú (UWB)"
 
 #: core/song.cpp:548 context/contextalbumsmodel.cpp:357
-#: collection/collectionmodel.cpp:462 collection/collectionmodel.cpp:467
-#: collection/collectionmodel.cpp:471 collection/collectionmodel.cpp:475
-#: collection/collectionmodel.cpp:479 collection/collectionmodel.cpp:1591
+#: collection/collectionmodel.cpp:463 collection/collectionmodel.cpp:468
+#: collection/collectionmodel.cpp:472 collection/collectionmodel.cpp:476
+#: collection/collectionmodel.cpp:480 collection/collectionmodel.cpp:1592
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:555 playlist/playlistmanager.cpp:556
 #: dialogs/edittagdialog.cpp:514 dialogs/edittagdialog.cpp:562
@@ -4829,7 +4829,7 @@ msgstr "Ultra szélessávú (UWB)"
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: subsonic/subsonicrequest.cpp:858 tidal/tidalrequest.cpp:1260
+#: subsonic/subsonicrequest.cpp:869 tidal/tidalrequest.cpp:1260
 #: qobuz/qobuzrequest.cpp:1319
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
@@ -5148,12 +5148,12 @@ msgstr ""
 "gyűjteményben."
 
 #: dialogs/about.cpp:126
-#, fuzzy, qt-format
+#, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
 "through %2."
 msgstr ""
-"A szerzőt támogathatja a %1-on. Egyszeri összeggel pedig a %2-n keresztül."
+"A szerzőt támogathatja a %1-on, egyszeri összeggel pedig a %2-n keresztül."
 
 #: core/songloader.cpp:134 core/songloader.cpp:139
 msgid "You need GStreamer for this URL."
@@ -5198,7 +5198,7 @@ msgstr "Az ön gyűjteménye üres!"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "Z-A"
-msgstr ""
+msgstr "Z-A"
 
 #: equalizer/equalizer.cpp:155
 msgid "Zero"

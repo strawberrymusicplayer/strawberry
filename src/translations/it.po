@@ -3765,13 +3765,13 @@ msgstr "Restringi i caratteri a quelli permessi dal filesystem FAT"
 msgid "Resume playback on start"
 msgstr "Riprendi la riproduzione all'avvio"
 
-#: subsonic/subsonicrequest.cpp:680 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:699 tidal/tidalrequest.cpp:1086
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Recupero della copertina per l'album %1..."
 
-#: subsonic/subsonicrequest.cpp:681 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:700 tidal/tidalrequest.cpp:1087
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -3787,7 +3787,7 @@ msgstr "Recupero degli album per l'artista %1..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Recupero degli album per gli artisti %1..."
 
-#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:140 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "Recupero degli album..."
@@ -3796,13 +3796,13 @@ msgstr "Recupero degli album..."
 msgid "Retrieving artists..."
 msgstr "Recupero degli artisti..."
 
-#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:331 tidal/tidalrequest.cpp:725
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Recupero delle canzoni per l'album %1..."
 
-#: subsonic/subsonicrequest.cpp:321 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:332 tidal/tidalrequest.cpp:726
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -4806,9 +4806,9 @@ msgid "Ultra wide band (UWB)"
 msgstr "Banda ultra larga (UWB)"
 
 #: core/song.cpp:548 context/contextalbumsmodel.cpp:357
-#: collection/collectionmodel.cpp:462 collection/collectionmodel.cpp:467
-#: collection/collectionmodel.cpp:471 collection/collectionmodel.cpp:475
-#: collection/collectionmodel.cpp:479 collection/collectionmodel.cpp:1591
+#: collection/collectionmodel.cpp:463 collection/collectionmodel.cpp:468
+#: collection/collectionmodel.cpp:472 collection/collectionmodel.cpp:476
+#: collection/collectionmodel.cpp:480 collection/collectionmodel.cpp:1592
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:555 playlist/playlistmanager.cpp:556
 #: dialogs/edittagdialog.cpp:514 dialogs/edittagdialog.cpp:562
@@ -4816,7 +4816,7 @@ msgstr "Banda ultra larga (UWB)"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: subsonic/subsonicrequest.cpp:858 tidal/tidalrequest.cpp:1260
+#: subsonic/subsonicrequest.cpp:869 tidal/tidalrequest.cpp:1260
 #: qobuz/qobuzrequest.cpp:1319
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
