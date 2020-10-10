@@ -100,7 +100,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void AddAlbumSongsRequest(const QString &artist_id, const QString &album_id, const QString &album_artist, const int offset = 0);
   void FlushAlbumSongsRequests();
 
-  QString ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested = QString(), const QString &album_id_requested = QString(), const QString &album_artist = QString());
+  QString ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested = QString(), const QString &album_id_requested = QString(), const QString &album_artist = QString(), qint64 album_created = 0);
 
   void GetAlbumCovers();
   void AddAlbumCoverRequest(Song &song);

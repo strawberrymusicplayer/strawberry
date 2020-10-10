@@ -442,6 +442,11 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
   }
   QJsonArray array_songs = json_song.toArray();
 
+  qint64 created = 0;
+  if (obj_album.contains("created")) {
+    created = QDateTime::fromString(obj_album["created"].toString(), Qt::ISODate).toSecsSinceEpoch();
+  }
+
   bool compilation = false;
   bool multidisc = false;
   SongList songs;
@@ -456,7 +461,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
 
     ++songs_received;
     Song song(Song::Source_Subsonic);
-    ParseSong(song, obj_song, artist_id, album_id, album_artist);
+    ParseSong(song, obj_song, artist_id, album_id, album_artist, created);
     if (!song.is_valid()) continue;
     if (song.disc() >= 2) multidisc = true;
     if (song.is_compilation()) compilation = true;
@@ -497,7 +502,7 @@ void SubsonicRequest::SongsFinishCheck() {
 
 }
 
-QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested, const QString &album_id_requested, const QString &album_artist) {
+QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested, const QString &album_id_requested, const QString &album_artist, qint64 album_created) {
 
   Q_UNUSED(artist_id_requested);
   Q_UNUSED(album_id_requested);
@@ -630,6 +635,9 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
   qint64 created = 0;
   if (json_obj.contains("created")) {
     created = QDateTime::fromString(json_obj["created"].toString(), Qt::ISODate).toSecsSinceEpoch();
+  }
+  else {
+    created = album_created;
   }
 
   QUrl url;
