@@ -502,7 +502,7 @@ void SubsonicRequest::SongsFinishCheck() {
 
 }
 
-QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested, const QString &album_id_requested, const QString &album_artist, qint64 album_created) {
+QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested, const QString &album_id_requested, const QString &album_artist, const qint64 album_created) {
 
   Q_UNUSED(artist_id_requested);
   Q_UNUSED(album_id_requested);
