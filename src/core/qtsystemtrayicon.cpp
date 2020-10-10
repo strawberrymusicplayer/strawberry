@@ -24,8 +24,6 @@
 #include <QCoreApplication>
 #include <QSystemTrayIcon>
 #include <QAction>
-#include <QIODevice>
-#include <QFile>
 #include <QMenu>
 #include <QIcon>
 #include <QString>
