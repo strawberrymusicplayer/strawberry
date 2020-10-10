@@ -1170,27 +1170,29 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-  if (!QImageReader::supportedMimeTypes().contains(mimetype.toUtf8())) {
+  if (!Utilities::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !Utilities::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
     Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype).arg(url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     AlbumCoverFinishCheck();
     return;
   }
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
-  QList<QByteArray> format_list = QImageReader::imageFormatsForMimeType(mimetype.toUtf8());
-#else
-  QList<QByteArray> format_list = Utilities::ImageFormatsForMimeType(mimetype.toUtf8());
-#endif
-
   QByteArray data = reply->readAll();
-  if (format_list.isEmpty() || data.isEmpty()) {
+  if (data.isEmpty()) {
     Error(QString("Received empty image data for %1").arg(url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     AlbumCoverFinishCheck();
     return;
   }
-  QByteArray format = format_list.first();
+
+  QList<QByteArray> format_list = Utilities::ImageFormatsForMimeType(mimetype.toUtf8());
+  QByteArray format;
+  if (format_list.isEmpty()) {
+    format = "JPG";
+  }
+  else {
+    format = format_list.first();
+  }
 
   QImage image;
   if (image.loadFromData(data, format)) {

@@ -57,9 +57,6 @@ const int SubsonicRequest::kMaxConcurrentAlbumsRequests = 3;
 const int SubsonicRequest::kMaxConcurrentAlbumSongsRequests = 3;
 const int SubsonicRequest::kMaxConcurrentAlbumCoverRequests = 1;
 
-QStringList SubsonicRequest::kSupportedImageMimeTypes;
-QStringList SubsonicRequest::kSupportedImageFormats;
-
 SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent)
     : SubsonicBaseRequest(service, parent),
       service_(service),
@@ -80,14 +77,6 @@ SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *u
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
   network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
 #endif
-
-  for (const QByteArray &mimetype : QImageReader::supportedMimeTypes()) {
-    kSupportedImageMimeTypes.append(QString::fromUtf8(mimetype));
-  }
-
-  for (const QByteArray &filetype : QImageReader::supportedImageFormats()) {
-    kSupportedImageFormats.append(filetype);
-  }
 
 }
 
@@ -799,7 +788,7 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl url, c
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-  if (!kSupportedImageMimeTypes.contains(mimetype, Qt::CaseInsensitive) && !kSupportedImageFormats.contains(mimetype, Qt::CaseInsensitive)) {
+  if (!Utilities::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !Utilities::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
     Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype).arg(url.toString()));
     if (album_covers_requests_sent_.contains(url)) album_covers_requests_sent_.remove(url);
     AlbumCoverFinishCheck();

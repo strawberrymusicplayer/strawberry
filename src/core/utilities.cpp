@@ -64,6 +64,7 @@
 #include <QtEvents>
 #include <QMessageBox>
 #include <QNetworkInterface>
+#include <QImageReader>
 #include <QtDebug>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 #  include <QRandomGenerator>
@@ -107,6 +108,9 @@
 #endif
 
 namespace Utilities {
+
+QStringList kSupportedImageMimeTypes;
+QStringList kSupportedImageFormats;
 
 static QString tr(const char *str) {
   return QCoreApplication::translate("", str);
@@ -1024,13 +1028,41 @@ bool IsColorDark(const QColor &color) {
   return ((30 * color.red() + 59 * color.green() + 11 * color.blue()) / 100) <= 130;
 }
 
+QStringList SupportedImageMimeTypes() {
+
+  if (kSupportedImageMimeTypes.isEmpty()) {
+    for (const QByteArray &mimetype : QImageReader::supportedMimeTypes()) {
+      kSupportedImageMimeTypes << mimetype;
+    }
+  }
+
+  return kSupportedImageMimeTypes;
+
+}
+
+QStringList SupportedImageFormats() {
+
+  if (kSupportedImageFormats.isEmpty()) {
+    for (const QByteArray &filetype : QImageReader::supportedImageFormats()) {
+      kSupportedImageFormats << filetype;
+    }
+  }
+
+  return kSupportedImageFormats;
+
+}
+
 QList<QByteArray> ImageFormatsForMimeType(const QByteArray &mimetype) {
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
+  return QImageReader::imageFormatsForMimeType(mimetype);
+#else
   if (mimetype == "image/bmp") return QList<QByteArray>() << "BMP";
   else if (mimetype == "image/gif") return QList<QByteArray>() << "GIF";
   else if (mimetype == "image/jpeg") return QList<QByteArray>() << "JPG";
   else if (mimetype == "image/png") return QList<QByteArray>() << "PNG";
   else return QList<QByteArray>();
+#endif
 
 }
 

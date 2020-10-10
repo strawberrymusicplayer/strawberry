@@ -1220,7 +1220,7 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
 
   if (reply->error() != QNetworkReply::NoError) {
     Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    album_covers_requests_sent_.remove(cover_url);
+    if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     AlbumCoverFinishCheck();
     return;
   }
@@ -1233,27 +1233,29 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-  if (!QImageReader::supportedMimeTypes().contains(mimetype.toUtf8())) {
+  if (!Utilities::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !Utilities::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
     Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype).arg(cover_url.toString()));
     if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     AlbumCoverFinishCheck();
     return;
   }
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
-  QList<QByteArray> format_list = QImageReader::imageFormatsForMimeType(mimetype.toUtf8());
-#else
-  QList<QByteArray> format_list = Utilities::ImageFormatsForMimeType(mimetype.toUtf8());
-#endif
-
   QByteArray data = reply->readAll();
-  if (format_list.isEmpty() || data.isEmpty()) {
+  if (data.isEmpty()) {
     Error(QString("Received empty image data for %1").arg(cover_url.toString()));
-    album_covers_requests_sent_.remove(cover_url);
+    if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     AlbumCoverFinishCheck();
     return;
   }
-  QByteArray format = format_list.first();
+
+  QList<QByteArray> format_list = Utilities::ImageFormatsForMimeType(mimetype.toUtf8());
+  QByteArray format;
+  if (format_list.isEmpty()) {
+    format = "JPG";
+  }
+  else {
+    format = format_list.first();
+  }
 
   QImage image;
   if (image.loadFromData(data, format)) {
@@ -1263,10 +1265,13 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
         song->set_art_automatic(QUrl::fromLocalFile(filename));
       }
     }
-
+    else {
+      Error(QString("Error saving image data to %1").arg(filename));
+      if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
+    }
   }
   else {
-    album_covers_requests_sent_.remove(cover_url);
+    if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     Error(QString("Error decoding image data from %1").arg(cover_url.toString()));
   }
 

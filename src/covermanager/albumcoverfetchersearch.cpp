@@ -40,6 +40,7 @@
 #include <QtDebug>
 
 #include "core/logging.h"
+#include "core/utilities.h"
 #include "core/networktimeouts.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"
@@ -325,7 +326,7 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
   }
   else {
     QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-    if (QImageReader::supportedMimeTypes().contains(mimetype.toUtf8())) {
+    if (Utilities::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) || Utilities::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
       QImage image;
       if (image.loadFromData(reply->readAll())) {
         if (result.image_size != QSize(0,0) && result.image_size != image.size()) {

@@ -158,6 +158,8 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
 
 bool IsColorDark(const QColor &color);
 
+QStringList SupportedImageMimeTypes();
+QStringList SupportedImageFormats();
 QList<QByteArray> ImageFormatsForMimeType(const QByteArray &mimetype);
 
 }  // namespace
