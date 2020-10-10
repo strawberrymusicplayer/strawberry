@@ -853,7 +853,11 @@ Song CollectionBackend::GetSongBySongId(const QString &song_id, QSqlDatabase &db
 
 SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDatabase &db) {
 
-  QString in = song_ids.join(",");
+  QStringList song_ids2;
+  for (const QString &song_id : song_ids) {
+    song_ids2 << "'" + song_id + "'";
+  }
+  QString in = song_ids2.join(",");
 
   QSqlQuery q(db);
   q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE SONG_ID IN (%2)").arg(songs_table_, in));
