@@ -36,13 +36,14 @@
 # Sébastien Morin <sebsweb@gmail.com>, 2019. #zanata
 # David Geiger <geiger.david68210@gmail.com>, 2020. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
+# Papoteur <yves.brungard_mageia@gadz.org>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-09-18 01:23-0400\n"
-"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
+"PO-Revision-Date: 2020-10-11 12:19-0400\n"
+"Last-Translator: Papoteur <yves.brungard_mageia@gadz.org>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -166,12 +167,12 @@ msgstr "%1 artistes"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:147
+#: core/utilities.cpp:151
 #, qt-format
 msgid "%1 days"
 msgstr "%1 jours"
 
-#: core/utilities.cpp:167
+#: core/utilities.cpp:171
 #, qt-format
 msgid "%1 days ago"
 msgstr "Il y a %1 jours"
@@ -221,7 +222,7 @@ msgstr "%1 morceaux trouvés"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 morceaux trouvés (affichage %2)"
 
-#: core/utilities.cpp:463
+#: core/utilities.cpp:467
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -460,7 +461,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:147
+#: core/utilities.cpp:151
 msgid "1 day"
 msgstr "1 jour"
 
@@ -770,10 +771,10 @@ msgstr "Après avoir copié..."
 msgid "Albu&m cover"
 msgstr "&Pochette de l'album"
 
-#: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:88
-#: playlist/playlist.cpp:1264 organize/organizedialog.cpp:99
-#: ../build/src/ui_groupbydialog.h:186 ../build/src/ui_groupbydialog.h:208
-#: ../build/src/ui_groupbydialog.h:230 ../build/src/ui_albumcoversearcher.h:110
+#: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1264
+#: organize/organizedialog.cpp:99 ../build/src/ui_groupbydialog.h:186
+#: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
+#: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
 #: ../build/src/ui_contextsettingspage.h:419
 #: ../build/src/ui_edittagdialog.h:707
@@ -933,10 +934,10 @@ msgid "Are you sure you want to reset this song's statistics?"
 msgstr ""
 "Êtes vous sûr(e) de vouloir réinitialiser les statistiques de ce morceau ?"
 
-#: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:85
-#: playlist/playlist.cpp:1263 organize/organizedialog.cpp:100
-#: ../build/src/ui_groupbydialog.h:184 ../build/src/ui_groupbydialog.h:206
-#: ../build/src/ui_groupbydialog.h:228 ../build/src/ui_albumcoversearcher.h:106
+#: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1263
+#: organize/organizedialog.cpp:100 ../build/src/ui_groupbydialog.h:184
+#: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
+#: ../build/src/ui_albumcoversearcher.h:106
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:713
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Artist"
@@ -1024,7 +1025,7 @@ msgstr "Sélectionner automatiquement la piste en cours de lecture"
 
 #: ../build/src/ui_playlistsettingspage.h:167
 msgid "Automatically sort playlist when inserting songs"
-msgstr ""
+msgstr "Trier la liste automatique quand des morceaux sont insérés"
 
 #: widgets/freespacebar.cpp:68
 msgid "Available"
@@ -1327,7 +1328,7 @@ msgstr "Commentaire"
 
 #: ../build/src/ui_edittagdialog.h:717
 msgid "Compilation"
-msgstr ""
+msgstr "Compilation"
 
 #: ../build/src/ui_edittagdialog.h:703
 msgid "Complete tags automatically"
@@ -1418,7 +1419,7 @@ msgstr "Copier vers la bibliothèque..."
 
 #: playlist/playlistlistcontainer.cpp:379
 msgid "Copy to device"
-msgstr ""
+msgstr "Copie vers le périphérique"
 
 #: core/mainwindow.cpp:709 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:104
@@ -1647,7 +1648,7 @@ msgstr "Image d'arrière-&plan par défaut"
 
 #: ../build/src/ui_backendsettingspage.h:499
 msgid "Defaults"
-msgstr ""
+msgstr "Défauts"
 
 #: playlist/playlistlistcontainer.cpp:101
 #: ../build/src/ui_playlistlistcontainer.h:133
@@ -2479,7 +2480,7 @@ msgstr "Élevé (%1 fps)"
 
 #: ../build/src/ui_backendsettingspage.h:497
 msgid "High watermark"
-msgstr ""
+msgstr "Filigrane fort"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "Hours"
@@ -2545,12 +2546,12 @@ msgstr "Importer les données de last.fm..."
 msgid "Import..."
 msgstr "Importer..."
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:185
 #, qt-format
 msgid "In %1 days"
 msgstr "Dans %1 jours"
 
-#: core/utilities.cpp:184
+#: core/utilities.cpp:188
 #, qt-format
 msgid "In %1 weeks"
 msgstr "Dans %1 semaines"
@@ -2678,9 +2679,8 @@ msgstr "Pistes les moins préférées"
 msgid "Left"
 msgstr "Gauche"
 
-#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:214
-#: playlist/playlist.cpp:1267 organize/organizedialog.cpp:112
-#: ../build/src/ui_edittagdialog.h:689
+#: context/contextview.cpp:214 playlist/playlist.cpp:1267
+#: organize/organizedialog.cpp:112 ../build/src/ui_edittagdialog.h:689
 msgid "Length"
 msgstr "Durée"
 
@@ -2795,7 +2795,7 @@ msgstr "Profile à faible complexité (FC)"
 
 #: ../build/src/ui_backendsettingspage.h:498
 msgid "Low watermark"
-msgstr ""
+msgstr "Filigrane fin"
 
 #: ../build/src/ui_collectionsettingspage.h:431
 msgid "Lowercase filename"
@@ -3070,7 +3070,7 @@ msgstr "Dernières pistes"
 msgid "Next"
 msgstr "Suivant"
 
-#: core/utilities.cpp:182
+#: core/utilities.cpp:186
 msgid "Next week"
 msgstr "La semaine prochaine"
 
@@ -3086,7 +3086,7 @@ msgstr "Aucune pochette à exporter."
 msgid "No long blocks"
 msgstr "Aucun bloc long"
 
-#: tidal/tidalrequest.cpp:1254 qobuz/qobuzrequest.cpp:1313
+#: tidal/tidalrequest.cpp:1256 qobuz/qobuzrequest.cpp:1318
 msgid "No match."
 msgstr "Aucune correspondance."
 
@@ -3322,7 +3322,7 @@ msgid "Password"
 msgstr "Mot de passe"
 
 #: core/mainwindow.cpp:1247 core/mainwindow.cpp:1721
-#: core/qtsystemtrayicon.cpp:202
+#: core/qtsystemtrayicon.cpp:190
 msgid "Pause"
 msgstr "Pause"
 
@@ -3350,8 +3350,8 @@ msgid "Plain sidebar"
 msgstr "Barre latérale simple"
 
 #: core/mainwindow.cpp:674 core/mainwindow.cpp:1200 core/mainwindow.cpp:1229
-#: core/mainwindow.cpp:1725 core/qtsystemtrayicon.cpp:189
-#: core/qtsystemtrayicon.cpp:214
+#: core/mainwindow.cpp:1725 core/qtsystemtrayicon.cpp:177
+#: core/qtsystemtrayicon.cpp:202
 msgid "Play"
 msgstr "Lecture"
 
@@ -3426,7 +3426,7 @@ msgstr ""
 
 #: playlist/playlistlistcontainer.cpp:379
 msgid "Playlist must be open first."
-msgstr ""
+msgstr "La liste doit d'abord être ouverte"
 
 #: core/commandlineoptions.cpp:178
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
@@ -3800,7 +3800,7 @@ msgstr "La réponse de Tidal est : élément de requête manquante."
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:108
 msgid "Repopulate"
-msgstr ""
+msgstr "Rafraîchir"
 
 #: collection/collectionview.cpp:363
 msgid "Rescan song(s)"
@@ -3841,13 +3841,13 @@ msgstr "Limiter aux caractères autorisés sur les systèmes FAT"
 msgid "Resume playback on start"
 msgstr "Redémarrer la lecture au démarrage"
 
-#: subsonic/subsonicrequest.cpp:699 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1086
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Récupération de la pochette pour l'album %1 ..."
 
-#: subsonic/subsonicrequest.cpp:700 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1087
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -3863,7 +3863,7 @@ msgstr "Récupération des albums pour l'artiste %1 ..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Récupération des albums pour les artistes %1 ..."
 
-#: subsonic/subsonicrequest.cpp:140 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "Récupération des albums..."
@@ -3872,13 +3872,13 @@ msgstr "Récupération des albums..."
 msgid "Retrieving artists..."
 msgstr "Récupération des artistes..."
 
-#: subsonic/subsonicrequest.cpp:331 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:725
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Récupération des morceaux pour l'album %1 ..."
 
-#: subsonic/subsonicrequest.cpp:332 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:321 tidal/tidalrequest.cpp:726
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -4112,7 +4112,7 @@ msgstr "L'URL du serveur est invalide."
 
 #: ../build/src/ui_subsonicsettingspage.h:198
 msgid "Server-side scrobbling"
-msgstr ""
+msgstr "Scrobbling côté serveur"
 
 #: core/mainwindow.cpp:1866
 #, qt-format
@@ -4230,7 +4230,7 @@ msgstr "Afficher en taille réelle..."
 msgid "Show in collection..."
 msgstr "Afficher dans la bibliothèque..."
 
-#: core/utilities.cpp:457 core/utilities.cpp:463
+#: core/utilities.cpp:461 core/utilities.cpp:467
 msgid "Show in file browser"
 msgstr "Afficher dans l'explorateur de fichiers"
 
@@ -4789,14 +4789,14 @@ msgstr ""
 msgid "Time step"
 msgstr "Pas temporel"
 
-#: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1262
-#: organize/organizedialog.cpp:98 ../build/src/ui_contextsettingspage.h:414
+#: playlist/playlist.cpp:1262 organize/organizedialog.cpp:98
+#: ../build/src/ui_contextsettingspage.h:414
 #: ../build/src/ui_edittagdialog.h:705
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
 msgstr "Titre"
 
-#: core/utilities.cpp:165 core/utilities.cpp:179
+#: core/utilities.cpp:169 core/utilities.cpp:183
 msgid "Today"
 msgstr "Aujourd'hui"
 
@@ -4816,11 +4816,11 @@ msgstr "Basculer le saut du statut"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Basculer la visibilité de l'OSD"
 
-#: core/utilities.cpp:180
+#: core/utilities.cpp:184
 msgid "Tomorrow"
 msgstr "Demain"
 
-#: core/utilities.cpp:457
+#: core/utilities.cpp:461
 msgid "Too many songs selected."
 msgstr "Trop de morceaux sélectionnés."
 
@@ -4894,8 +4894,8 @@ msgstr "Très large bande (UWB)"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: subsonic/subsonicrequest.cpp:869 tidal/tidalrequest.cpp:1260
-#: qobuz/qobuzrequest.cpp:1319
+#: subsonic/subsonicrequest.cpp:858 tidal/tidalrequest.cpp:1262
+#: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
@@ -5182,7 +5182,7 @@ msgstr "Année - Album - CD"
 msgid "Years"
 msgstr "Années"
 
-#: core/utilities.cpp:166
+#: core/utilities.cpp:170
 msgid "Yesterday"
 msgstr "Hier"
 
@@ -5348,19 +5348,19 @@ msgstr "ne contient pas"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:273
 msgid "empty"
-msgstr ""
+msgstr "vide"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:263
 msgid "ends with"
-msgstr ""
+msgstr "fini par"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:269
 msgid "equals"
-msgstr ""
+msgstr "est égal à"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:265
 msgid "greater than"
-msgstr ""
+msgstr "plus grand que"
 
 #: ../build/src/ui_backendsettingspage.h:491
 msgid "hw"
@@ -5368,7 +5368,7 @@ msgstr "hw"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:245
 msgid "in the last"
-msgstr ""
+msgstr "à la fin"
 
 #: context/contextview.cpp:544 context/contextview.cpp:695
 #: playlist/playlistview.cpp:261 dialogs/edittagdialog.cpp:557
@@ -5377,11 +5377,11 @@ msgstr "kbps"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:267
 msgid "less than"
-msgstr ""
+msgstr "moins que"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:416
 msgid "longest first"
-msgstr ""
+msgstr "le plus long d'abord"
 
 #: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
@@ -5396,19 +5396,19 @@ msgstr "ms"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:414
 msgid "newest first"
-msgstr ""
+msgstr "le plus récent"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:275
 msgid "not empty"
-msgstr ""
+msgstr "non vide"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:271
 msgid "not equals"
-msgstr ""
+msgstr "différent"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:247
 msgid "not in the last"
-msgstr ""
+msgstr "pas en dernier"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:243
 msgid "not on"
@@ -5416,7 +5416,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:414
 msgid "oldest first"
-msgstr ""
+msgstr "le plus ancien en premier"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:241
 msgid "on"
@@ -5443,7 +5443,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:416
 msgid "shortest first"
-msgstr ""
+msgstr "le plus court en premier"
 
 #: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
@@ -5451,7 +5451,7 @@ msgstr "mélanger les morceaux"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:419
 msgid "smallest first"
-msgstr ""
+msgstr "le plus petit en premier"
 
 #: ../build/src/ui_internetsearchview.h:229
 msgid "songs"
@@ -5463,7 +5463,7 @@ msgstr "trier les morceaux"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:261
 msgid "starts with"
-msgstr ""
+msgstr "commence par"
 
 #: playlist/playlistdelegates.cpp:222
 msgid "stop"

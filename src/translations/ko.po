@@ -136,12 +136,12 @@ msgstr "아티스트 %1명"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:147
+#: core/utilities.cpp:151
 #, qt-format
 msgid "%1 days"
 msgstr "%1일"
 
-#: core/utilities.cpp:167
+#: core/utilities.cpp:171
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1일 전"
@@ -191,7 +191,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:463
+#: core/utilities.cpp:467
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -426,7 +426,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:147
+#: core/utilities.cpp:151
 msgid "1 day"
 msgstr "1일"
 
@@ -726,10 +726,10 @@ msgstr "복사한 후..."
 msgid "Albu&m cover"
 msgstr "앨범아트(&M)"
 
-#: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:88
-#: playlist/playlist.cpp:1264 organize/organizedialog.cpp:99
-#: ../build/src/ui_groupbydialog.h:186 ../build/src/ui_groupbydialog.h:208
-#: ../build/src/ui_groupbydialog.h:230 ../build/src/ui_albumcoversearcher.h:110
+#: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1264
+#: organize/organizedialog.cpp:99 ../build/src/ui_groupbydialog.h:186
+#: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
+#: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
 #: ../build/src/ui_contextsettingspage.h:419
 #: ../build/src/ui_edittagdialog.h:707
@@ -886,10 +886,10 @@ msgstr "\"%1\" 사전 설정을 지우시겠습니까?"
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "이 곡의 통계를 초기화하시겠습니까?"
 
-#: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:85
-#: playlist/playlist.cpp:1263 organize/organizedialog.cpp:100
-#: ../build/src/ui_groupbydialog.h:184 ../build/src/ui_groupbydialog.h:206
-#: ../build/src/ui_groupbydialog.h:228 ../build/src/ui_albumcoversearcher.h:106
+#: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1263
+#: organize/organizedialog.cpp:100 ../build/src/ui_groupbydialog.h:184
+#: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
+#: ../build/src/ui_albumcoversearcher.h:106
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:713
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Artist"
@@ -2461,12 +2461,12 @@ msgstr ""
 msgid "Import..."
 msgstr "가져오기..."
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:185
 #, qt-format
 msgid "In %1 days"
 msgstr "%1일 후"
 
-#: core/utilities.cpp:184
+#: core/utilities.cpp:188
 #, qt-format
 msgid "In %1 weeks"
 msgstr "%1주 후"
@@ -2590,9 +2590,8 @@ msgstr ""
 msgid "Left"
 msgstr "왼쪽"
 
-#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:214
-#: playlist/playlist.cpp:1267 organize/organizedialog.cpp:112
-#: ../build/src/ui_edittagdialog.h:689
+#: context/contextview.cpp:214 playlist/playlist.cpp:1267
+#: organize/organizedialog.cpp:112 ../build/src/ui_edittagdialog.h:689
 msgid "Length"
 msgstr "길이"
 
@@ -2978,7 +2977,7 @@ msgstr ""
 msgid "Next"
 msgstr "다음"
 
-#: core/utilities.cpp:182
+#: core/utilities.cpp:186
 msgid "Next week"
 msgstr "다음 주"
 
@@ -2994,7 +2993,7 @@ msgstr "내보낼 표지가 없습니다."
 msgid "No long blocks"
 msgstr "긴 블록 없음"
 
-#: tidal/tidalrequest.cpp:1254 qobuz/qobuzrequest.cpp:1313
+#: tidal/tidalrequest.cpp:1256 qobuz/qobuzrequest.cpp:1318
 msgid "No match."
 msgstr "일치하는 결과가 없습니다."
 
@@ -3224,7 +3223,7 @@ msgid "Password"
 msgstr "암호"
 
 #: core/mainwindow.cpp:1247 core/mainwindow.cpp:1721
-#: core/qtsystemtrayicon.cpp:202
+#: core/qtsystemtrayicon.cpp:190
 msgid "Pause"
 msgstr "일시 정지"
 
@@ -3252,8 +3251,8 @@ msgid "Plain sidebar"
 msgstr "일반 사이드바"
 
 #: core/mainwindow.cpp:674 core/mainwindow.cpp:1200 core/mainwindow.cpp:1229
-#: core/mainwindow.cpp:1725 core/qtsystemtrayicon.cpp:189
-#: core/qtsystemtrayicon.cpp:214
+#: core/mainwindow.cpp:1725 core/qtsystemtrayicon.cpp:177
+#: core/qtsystemtrayicon.cpp:202
 msgid "Play"
 msgstr "재생"
 
@@ -3723,13 +3722,13 @@ msgstr "FAT 파일 시스템에서 사용할 수 있는 글자로 제한"
 msgid "Resume playback on start"
 msgstr "시작할 때 재생 다시 시작"
 
-#: subsonic/subsonicrequest.cpp:699 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1086
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:700 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1087
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -3745,7 +3744,7 @@ msgstr "아티스트 %1명의 앨범 가져오는 중..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "아티스트 %1명의 앨범 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:140 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "앨범 가져오는 중..."
@@ -3754,13 +3753,13 @@ msgstr "앨범 가져오는 중..."
 msgid "Retrieving artists..."
 msgstr "아티스트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:331 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:725
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "앨범 %1개의 노래 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:332 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:321 tidal/tidalrequest.cpp:726
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -4111,7 +4110,7 @@ msgstr "전체 크기 표시..."
 msgid "Show in collection..."
 msgstr "라이브러리에 표시..."
 
-#: core/utilities.cpp:457 core/utilities.cpp:463
+#: core/utilities.cpp:461 core/utilities.cpp:467
 msgid "Show in file browser"
 msgstr "파일 탐색기에 표시"
 
@@ -4639,14 +4638,14 @@ msgstr ""
 msgid "Time step"
 msgstr "시간 간격"
 
-#: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1262
-#: organize/organizedialog.cpp:98 ../build/src/ui_contextsettingspage.h:414
+#: playlist/playlist.cpp:1262 organize/organizedialog.cpp:98
+#: ../build/src/ui_contextsettingspage.h:414
 #: ../build/src/ui_edittagdialog.h:705
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
 msgstr "제목"
 
-#: core/utilities.cpp:165 core/utilities.cpp:179
+#: core/utilities.cpp:169 core/utilities.cpp:183
 msgid "Today"
 msgstr "오늘"
 
@@ -4666,11 +4665,11 @@ msgstr "건너뛰기 상태 전환"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "예쁜 OSD 표시 여부 전환"
 
-#: core/utilities.cpp:180
+#: core/utilities.cpp:184
 msgid "Tomorrow"
 msgstr "내일"
 
-#: core/utilities.cpp:457
+#: core/utilities.cpp:461
 msgid "Too many songs selected."
 msgstr "너무 많은 곡을 선택했습니다."
 
@@ -4744,8 +4743,8 @@ msgstr "초광대역(UWB)"
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: subsonic/subsonicrequest.cpp:869 tidal/tidalrequest.cpp:1260
-#: qobuz/qobuzrequest.cpp:1319
+#: subsonic/subsonicrequest.cpp:858 tidal/tidalrequest.cpp:1262
+#: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "알 수 없는 오류"
 
@@ -5019,7 +5018,7 @@ msgstr "년도 - 앨범 - 디스크"
 msgid "Years"
 msgstr ""
 
-#: core/utilities.cpp:166
+#: core/utilities.cpp:170
 msgid "Yesterday"
 msgstr "어제"
 

@@ -167,12 +167,12 @@ msgstr "%1 Künstler"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:147
+#: core/utilities.cpp:151
 #, qt-format
 msgid "%1 days"
 msgstr "%1 Tage"
 
-#: core/utilities.cpp:167
+#: core/utilities.cpp:171
 #, qt-format
 msgid "%1 days ago"
 msgstr "vor %1 Tagen"
@@ -222,7 +222,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:463
+#: core/utilities.cpp:467
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -461,7 +461,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:147
+#: core/utilities.cpp:151
 msgid "1 day"
 msgstr "1 Tag"
 
@@ -764,10 +764,10 @@ msgstr "Nach dem Kopieren …"
 msgid "Albu&m cover"
 msgstr "Albu&m cover"
 
-#: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:88
-#: playlist/playlist.cpp:1264 organize/organizedialog.cpp:99
-#: ../build/src/ui_groupbydialog.h:186 ../build/src/ui_groupbydialog.h:208
-#: ../build/src/ui_groupbydialog.h:230 ../build/src/ui_albumcoversearcher.h:110
+#: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1264
+#: organize/organizedialog.cpp:99 ../build/src/ui_groupbydialog.h:186
+#: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
+#: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
 #: ../build/src/ui_contextsettingspage.h:419
 #: ../build/src/ui_edittagdialog.h:707
@@ -925,10 +925,10 @@ msgstr ""
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Wollen Sie die Statistiken dieses Titels wirklich zurücksetzen?"
 
-#: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:85
-#: playlist/playlist.cpp:1263 organize/organizedialog.cpp:100
-#: ../build/src/ui_groupbydialog.h:184 ../build/src/ui_groupbydialog.h:206
-#: ../build/src/ui_groupbydialog.h:228 ../build/src/ui_albumcoversearcher.h:106
+#: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1263
+#: organize/organizedialog.cpp:100 ../build/src/ui_groupbydialog.h:184
+#: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
+#: ../build/src/ui_albumcoversearcher.h:106
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:713
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Artist"
@@ -2522,12 +2522,12 @@ msgstr ""
 msgid "Import..."
 msgstr "Importieren"
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:185
 #, qt-format
 msgid "In %1 days"
 msgstr "In %1 Tagen"
 
-#: core/utilities.cpp:184
+#: core/utilities.cpp:188
 #, qt-format
 msgid "In %1 weeks"
 msgstr "In %1 Wochen"
@@ -2654,9 +2654,8 @@ msgstr ""
 msgid "Left"
 msgstr "Links"
 
-#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:214
-#: playlist/playlist.cpp:1267 organize/organizedialog.cpp:112
-#: ../build/src/ui_edittagdialog.h:689
+#: context/contextview.cpp:214 playlist/playlist.cpp:1267
+#: organize/organizedialog.cpp:112 ../build/src/ui_edittagdialog.h:689
 msgid "Length"
 msgstr "Länge"
 
@@ -3042,7 +3041,7 @@ msgstr ""
 msgid "Next"
 msgstr "Weiter"
 
-#: core/utilities.cpp:182
+#: core/utilities.cpp:186
 msgid "Next week"
 msgstr "Nächste Woche"
 
@@ -3058,7 +3057,7 @@ msgstr "Keine Titelbilder zum Exportieren."
 msgid "No long blocks"
 msgstr "Keine langen Blöcke"
 
-#: tidal/tidalrequest.cpp:1254 qobuz/qobuzrequest.cpp:1313
+#: tidal/tidalrequest.cpp:1256 qobuz/qobuzrequest.cpp:1318
 msgid "No match."
 msgstr "Keine Übereinstimmung."
 
@@ -3293,7 +3292,7 @@ msgid "Password"
 msgstr "Passwort:"
 
 #: core/mainwindow.cpp:1247 core/mainwindow.cpp:1721
-#: core/qtsystemtrayicon.cpp:202
+#: core/qtsystemtrayicon.cpp:190
 msgid "Pause"
 msgstr "Pause"
 
@@ -3321,8 +3320,8 @@ msgid "Plain sidebar"
 msgstr "Einfache Seitenleiste"
 
 #: core/mainwindow.cpp:674 core/mainwindow.cpp:1200 core/mainwindow.cpp:1229
-#: core/mainwindow.cpp:1725 core/qtsystemtrayicon.cpp:189
-#: core/qtsystemtrayicon.cpp:214
+#: core/mainwindow.cpp:1725 core/qtsystemtrayicon.cpp:177
+#: core/qtsystemtrayicon.cpp:202
 msgid "Play"
 msgstr "Wiedergabe"
 
@@ -3806,13 +3805,13 @@ msgstr "Beschränkung auf die in FAT-Dateisystemen erlaubten Zeichen"
 msgid "Resume playback on start"
 msgstr "Wiedergabe beim Start fortsetzten"
 
-#: subsonic/subsonicrequest.cpp:699 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1086
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Empfange Albumcover für %1 Album... "
 
-#: subsonic/subsonicrequest.cpp:700 tidal/tidalrequest.cpp:1087
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1087
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -3828,7 +3827,7 @@ msgstr "Empfange Alben von %1 Künstler..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Empfange Alben von %1 Künstlern..."
 
-#: subsonic/subsonicrequest.cpp:140 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "Empfange Alben..."
@@ -3837,13 +3836,13 @@ msgstr "Empfange Alben..."
 msgid "Retrieving artists..."
 msgstr "Empfange Künstler..."
 
-#: subsonic/subsonicrequest.cpp:331 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:725
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Empfange Lieder für %1 Album..."
 
-#: subsonic/subsonicrequest.cpp:332 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:321 tidal/tidalrequest.cpp:726
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -4196,7 +4195,7 @@ msgstr "In Originalgröße anzeigen …"
 msgid "Show in collection..."
 msgstr "In Bibliothek anzeigen …"
 
-#: core/utilities.cpp:457 core/utilities.cpp:463
+#: core/utilities.cpp:461 core/utilities.cpp:467
 msgid "Show in file browser"
 msgstr "Zeige im Dateimanager"
 
@@ -4752,14 +4751,14 @@ msgstr ""
 msgid "Time step"
 msgstr "Zeitschritt"
 
-#: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1262
-#: organize/organizedialog.cpp:98 ../build/src/ui_contextsettingspage.h:414
+#: playlist/playlist.cpp:1262 organize/organizedialog.cpp:98
+#: ../build/src/ui_contextsettingspage.h:414
 #: ../build/src/ui_edittagdialog.h:705
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
 msgstr "Titel"
 
-#: core/utilities.cpp:165 core/utilities.cpp:179
+#: core/utilities.cpp:169 core/utilities.cpp:183
 msgid "Today"
 msgstr "Heute"
 
@@ -4779,11 +4778,11 @@ msgstr "Überspring-Status umschalten"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Sichtbarkeit der Strawberry-Bildschirmanzeige anpassen"
 
-#: core/utilities.cpp:180
+#: core/utilities.cpp:184
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: core/utilities.cpp:457
+#: core/utilities.cpp:461
 msgid "Too many songs selected."
 msgstr "Zu viele Lieder ausgewählt."
 
@@ -4857,8 +4856,8 @@ msgstr "Ulte Weit Band (UWB)"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: subsonic/subsonicrequest.cpp:869 tidal/tidalrequest.cpp:1260
-#: qobuz/qobuzrequest.cpp:1319
+#: subsonic/subsonicrequest.cpp:858 tidal/tidalrequest.cpp:1262
+#: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
@@ -5137,7 +5136,7 @@ msgstr "Jahr - Album - Disc"
 msgid "Years"
 msgstr ""
 
-#: core/utilities.cpp:166
+#: core/utilities.cpp:170
 msgid "Yesterday"
 msgstr "Gestern"
 
