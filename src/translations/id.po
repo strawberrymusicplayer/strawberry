@@ -39,7 +39,7 @@ msgstr ""
 "\n"
 "Daftar putar yang difavoritkan akan disimpan di sini"
 
-#: settings/shortcutssettingspage.cpp:330
+#: settings/shortcutssettingspage.cpp:331
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -48,7 +48,7 @@ msgstr ""
 " Pintasan di %1 biasanya digunakan melalui D-Bus GSD sehingga harus "
 "dikonfigurasi di cinnamon-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:328
+#: settings/shortcutssettingspage.cpp:329
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -57,7 +57,7 @@ msgstr ""
 " Pintasan di %1 biasanya digunakan melalui D-Bus GSD sehingga harus "
 "dikonfigurasi di gnome-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:326
+#: settings/shortcutssettingspage.cpp:327
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
@@ -66,7 +66,7 @@ msgstr ""
 " Pintasan di %1 biasanya digunakan melalui D-Bus MPRIS sehingga harus "
 "dikonfigurasi di pengaturan %1."
 
-#: settings/shortcutssettingspage.cpp:332
+#: settings/shortcutssettingspage.cpp:333
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr "Pintasan harus dikonfigurasi di pengaturan %1."
@@ -947,7 +947,7 @@ msgid "Authentication"
 msgstr "Otentikasi"
 
 #: settings/coverssettingspage.cpp:270 settings/lyricssettingspage.cpp:250
-#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:171
+#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:173
 msgid "Authentication failed"
 msgstr "Otentikasi gagal"
 
@@ -1299,8 +1299,8 @@ msgstr "Komposer"
 
 #: settings/subsonicsettingspage.cpp:106 settings/tidalsettingspage.cpp:156
 #: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:129
-#: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:131
+#: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
 msgid "Configuration incomplete"
 msgstr "Konfigurasi tidak lengkap"
 
@@ -1760,7 +1760,7 @@ msgstr "Unduh sampul album"
 msgid "Downloading metadata"
 msgstr "Mengunduh metadata"
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "Drag to reposition"
 msgstr "Seret untuk reposisi"
 
@@ -2850,11 +2850,11 @@ msgstr "Kata sandi Tidal tidak tersedia."
 msgid "Missing Tidal username."
 msgstr "Nama pengguna Tidal tidak tersedia."
 
-#: settings/qobuzsettingspage.cpp:129
+#: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
 msgstr ""
 
@@ -2870,7 +2870,7 @@ msgstr "Nama pengguna atau kata sandi tidak tersedia."
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:133
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
 msgstr ""
 
@@ -3101,7 +3101,7 @@ msgstr "Sekarang Diputar"
 msgid "O&verwrite all"
 msgstr "T&impa semua"
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "OSD Preview"
 msgstr "Pratinjau OSD"
 
@@ -4043,7 +4043,7 @@ msgstr "Setelan"
 msgid "Shortcut"
 msgstr "Pintasan"
 
-#: settings/shortcutssettingspage.cpp:275
+#: settings/shortcutssettingspage.cpp:276
 #: ../build/src/ui_shortcutssettingspage.h:237
 #, qt-format
 msgid "Shortcut for %1"
@@ -4536,7 +4536,7 @@ msgstr ""
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
-#: settings/shortcutssettingspage.cpp:253
+#: settings/shortcutssettingspage.cpp:254
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Perintah \"%1\" tidak dapat dimulai."
@@ -4938,7 +4938,7 @@ msgstr "Token pengguna:"
 msgid "Username"
 msgstr "Nama pengguna"
 
-#: settings/shortcutssettingspage.cpp:324
+#: settings/shortcutssettingspage.cpp:325
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "

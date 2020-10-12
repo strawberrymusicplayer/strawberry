@@ -65,7 +65,7 @@ msgstr ""
 "\n"
 "Favorisierte Wiedergabelisten werden hier gespeichert"
 
-#: settings/shortcutssettingspage.cpp:330
+#: settings/shortcutssettingspage.cpp:331
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -74,7 +74,7 @@ msgstr ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
 "in cinnamon-settings-daemon instead."
 
-#: settings/shortcutssettingspage.cpp:328
+#: settings/shortcutssettingspage.cpp:329
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -83,7 +83,7 @@ msgstr ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
 "in gnome-settings-daemon instead."
 
-#: settings/shortcutssettingspage.cpp:326
+#: settings/shortcutssettingspage.cpp:327
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
@@ -92,7 +92,7 @@ msgstr ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
 "configured in %1 settings instead."
 
-#: settings/shortcutssettingspage.cpp:332
+#: settings/shortcutssettingspage.cpp:333
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr "Tastenkürzel sollten stattdessen in %1 konfiguriert werden"
@@ -977,7 +977,7 @@ msgid "Authentication"
 msgstr "Authentifizierung"
 
 #: settings/coverssettingspage.cpp:270 settings/lyricssettingspage.cpp:250
-#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:171
+#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:173
 msgid "Authentication failed"
 msgstr "Legitimierung fehlgeschlagen"
 
@@ -1331,8 +1331,8 @@ msgstr "Komponist"
 
 #: settings/subsonicsettingspage.cpp:106 settings/tidalsettingspage.cpp:156
 #: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:129
-#: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:131
+#: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
 msgid "Configuration incomplete"
 msgstr "Einstellungen nicht vollständig"
 
@@ -1793,7 +1793,7 @@ msgstr "Titelbilder herunterladen"
 msgid "Downloading metadata"
 msgstr "Metadaten werden heruntergeladen "
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "Drag to reposition"
 msgstr "Klicken und ziehen um die Position zu ändern"
 
@@ -2893,11 +2893,11 @@ msgstr "Tidal Passwort fehlt. "
 msgid "Missing Tidal username."
 msgstr "Tidal Benutzername fehlt."
 
-#: settings/qobuzsettingspage.cpp:129
+#: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
 msgstr ""
 
@@ -2913,7 +2913,7 @@ msgstr "Nutzername oder Passwort fehlt"
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:133
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
 msgstr ""
 
@@ -3145,7 +3145,7 @@ msgstr "Aktueller Musiktitel"
 msgid "O&verwrite all"
 msgstr "O&alles überschreiben"
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "OSD Preview"
 msgstr "Vorschau der Bildschirmanzeige"
 
@@ -4099,7 +4099,7 @@ msgstr "Einstellungen"
 msgid "Shortcut"
 msgstr "Tastenkürzel"
 
-#: settings/shortcutssettingspage.cpp:275
+#: settings/shortcutssettingspage.cpp:276
 #: ../build/src/ui_shortcutssettingspage.h:237
 #, qt-format
 msgid "Shortcut for %1"
@@ -4597,7 +4597,7 @@ msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 "Dank an all die anderen, die zu Amarok und Clementine beigetragen haben."
 
-#: settings/shortcutssettingspage.cpp:253
+#: settings/shortcutssettingspage.cpp:254
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Der Befehl »%1« konnte nicht ausgeführt werden."
@@ -5003,7 +5003,7 @@ msgstr "Benutzerschlüssel"
 msgid "Username"
 msgstr "Benutzername"
 
-#: settings/shortcutssettingspage.cpp:324
+#: settings/shortcutssettingspage.cpp:325
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "

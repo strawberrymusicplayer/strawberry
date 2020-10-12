@@ -42,8 +42,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-10-11 12:19-0400\n"
-"Last-Translator: Papoteur <yves.brungard_mageia@gadz.org>\n"
+"PO-Revision-Date: 2020-10-12 01:09-0400\n"
+"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -64,7 +64,7 @@ msgstr ""
 "\n"
 "Les listes de lecture favorites seront sauvegardées ici"
 
-#: settings/shortcutssettingspage.cpp:330
+#: settings/shortcutssettingspage.cpp:331
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -73,7 +73,7 @@ msgstr ""
 " Les raccourcis sur %1 sont généralement utilisés via le D-Bus GSD et "
 "doivent être configurés dans cinnamon-settings-daemon à la place."
 
-#: settings/shortcutssettingspage.cpp:328
+#: settings/shortcutssettingspage.cpp:329
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -82,7 +82,7 @@ msgstr ""
 " Les raccourcis sur %1 sont généralement utilisés via le D-Bus GSD et "
 "doivent être configurés dans gnome-settings-daemon à la place."
 
-#: settings/shortcutssettingspage.cpp:326
+#: settings/shortcutssettingspage.cpp:327
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
@@ -91,7 +91,7 @@ msgstr ""
 " Les raccourcis sur %1 sont généralement utilisés via MPRIS D-Bus et doivent "
 "être configurés avec les réglages %1 à la place."
 
-#: settings/shortcutssettingspage.cpp:332
+#: settings/shortcutssettingspage.cpp:333
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr ""
@@ -986,7 +986,7 @@ msgid "Authentication"
 msgstr "Authentification"
 
 #: settings/coverssettingspage.cpp:270 settings/lyricssettingspage.cpp:250
-#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:171
+#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:173
 msgid "Authentication failed"
 msgstr "Échec de l'authentification"
 
@@ -1347,8 +1347,8 @@ msgstr "Compositeur"
 
 #: settings/subsonicsettingspage.cpp:106 settings/tidalsettingspage.cpp:156
 #: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:129
-#: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:131
+#: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
 msgid "Configuration incomplete"
 msgstr "Configuration incomplète"
 
@@ -1812,7 +1812,7 @@ msgstr "Télécharger des pochettes d'albums"
 msgid "Downloading metadata"
 msgstr "Téléchargement des métadonnées"
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "Drag to reposition"
 msgstr "Déplacer pour repositionner"
 
@@ -2920,11 +2920,11 @@ msgstr "Le mot de passe de Tidal est manquant."
 msgid "Missing Tidal username."
 msgstr "Le nom d'utilisateur de Tidal est manquant."
 
-#: settings/qobuzsettingspage.cpp:129
+#: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
 msgstr "ID d'application manquant."
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
 msgstr "Mot de passe manquant."
 
@@ -2942,7 +2942,7 @@ msgid "Missing username, please login to last.fm first!"
 msgstr ""
 "Nom d'utilisateur manquant, veuillez d'abord vous connecter à last.fm !"
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:133
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
 msgstr "Nom d'utilisateur manquant."
 
@@ -3175,7 +3175,7 @@ msgstr "Lecture en cours"
 msgid "O&verwrite all"
 msgstr "To&ut écraser"
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "OSD Preview"
 msgstr "Prévisualisation de l'affichage à l'écran (OSD)"
 
@@ -3426,7 +3426,7 @@ msgstr ""
 
 #: playlist/playlistlistcontainer.cpp:379
 msgid "Playlist must be open first."
-msgstr "La liste doit d'abord être ouverte"
+msgstr "La liste de lecture doit d'abord être ouverte."
 
 #: core/commandlineoptions.cpp:178
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
@@ -4135,7 +4135,7 @@ msgstr "Paramètres"
 msgid "Shortcut"
 msgstr "Raccourci"
 
-#: settings/shortcutssettingspage.cpp:275
+#: settings/shortcutssettingspage.cpp:276
 #: ../build/src/ui_shortcutssettingspage.h:237
 #, qt-format
 msgid "Shortcut for %1"
@@ -4632,7 +4632,7 @@ msgstr "Remerciements à"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Remerciements à tous les autres contributeurs d'Amarok et Clementine."
 
-#: settings/shortcutssettingspage.cpp:253
+#: settings/shortcutssettingspage.cpp:254
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "La commande « %1 » n'a pas pu être démarrée."
@@ -5041,7 +5041,7 @@ msgstr "Jeton utilisateur :"
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: settings/shortcutssettingspage.cpp:324
+#: settings/shortcutssettingspage.cpp:325
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "

@@ -58,7 +58,7 @@ msgstr ""
 "\n"
 "Избранные плейлисты хранятся тут"
 
-#: settings/shortcutssettingspage.cpp:330
+#: settings/shortcutssettingspage.cpp:331
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -67,7 +67,7 @@ msgstr ""
 "Горячие клавиши на %1 обычно используются через GSD D-Bus и должны быть "
 "настроены в cinnamon-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:328
+#: settings/shortcutssettingspage.cpp:329
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -76,7 +76,7 @@ msgstr ""
 "Горячие клавиши на %1 обычно используются через GSD D-Bus и должны быть "
 "настроены в gnome-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:326
+#: settings/shortcutssettingspage.cpp:327
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
@@ -85,7 +85,7 @@ msgstr ""
 "Горячие клавиши на %1 обычно используются через MPRIS D-Bus и должны быть "
 "выбранны в настройках %1."
 
-#: settings/shortcutssettingspage.cpp:332
+#: settings/shortcutssettingspage.cpp:333
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr "Горячие клавиши должны быть настроены в настройках %1."
@@ -965,7 +965,7 @@ msgid "Authentication"
 msgstr "Аутентификация"
 
 #: settings/coverssettingspage.cpp:270 settings/lyricssettingspage.cpp:250
-#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:171
+#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:173
 msgid "Authentication failed"
 msgstr "Ошибка аутентификации"
 
@@ -1318,8 +1318,8 @@ msgstr "Композитор"
 
 #: settings/subsonicsettingspage.cpp:106 settings/tidalsettingspage.cpp:156
 #: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:129
-#: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:131
+#: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
 msgid "Configuration incomplete"
 msgstr "Конфигурация не завершена"
 
@@ -1780,7 +1780,7 @@ msgstr "Скачать обложки альбомов"
 msgid "Downloading metadata"
 msgstr "Загрузка метаданных"
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "Drag to reposition"
 msgstr "Тащите для перемещения"
 
@@ -2873,11 +2873,11 @@ msgstr "Отсутствует Tidal пароль."
 msgid "Missing Tidal username."
 msgstr "Отсутствует имя пользователя Tidal."
 
-#: settings/qobuzsettingspage.cpp:129
+#: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
 msgstr ""
 
@@ -2893,7 +2893,7 @@ msgstr "Отсутствует имя пользователя или парол
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:133
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
 msgstr ""
 
@@ -3123,7 +3123,7 @@ msgstr "Сейчас проигрывается"
 msgid "O&verwrite all"
 msgstr "&Перезаписать все"
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "OSD Preview"
 msgstr "Предпросмотр OSD"
 
@@ -4067,7 +4067,7 @@ msgstr "Настройки"
 msgid "Shortcut"
 msgstr "Сочетание клавиш"
 
-#: settings/shortcutssettingspage.cpp:275
+#: settings/shortcutssettingspage.cpp:276
 #: ../build/src/ui_shortcutssettingspage.h:237
 #, qt-format
 msgid "Shortcut for %1"
@@ -4561,7 +4561,7 @@ msgstr ""
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
-#: settings/shortcutssettingspage.cpp:253
+#: settings/shortcutssettingspage.cpp:254
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Команда «%1» не может быть выполнена"
@@ -4961,7 +4961,7 @@ msgstr "Пользовательский токен:"
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: settings/shortcutssettingspage.cpp:324
+#: settings/shortcutssettingspage.cpp:325
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "

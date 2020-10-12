@@ -38,7 +38,7 @@ msgstr ""
 "\n"
 "Oblíbené seznamy skladeb budou uloženy zde"
 
-#: settings/shortcutssettingspage.cpp:330
+#: settings/shortcutssettingspage.cpp:331
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -47,7 +47,7 @@ msgstr ""
 "Zkratky na %1 jsou většinou používány přes GSD D-Bus a měly by se nastavovat "
 "přes cinnamon-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:328
+#: settings/shortcutssettingspage.cpp:329
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -56,7 +56,7 @@ msgstr ""
 "Zkratky na %1 jsou většinou používány přes GSD D-Bus a měly by se nastavovat "
 "přes gnome-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:326
+#: settings/shortcutssettingspage.cpp:327
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
@@ -65,7 +65,7 @@ msgstr ""
 "Zkratky na %1 jsou většinou používány přes MPRIS D-Bus a měly by se "
 "nastavovat přes nastavení %1."
 
-#: settings/shortcutssettingspage.cpp:332
+#: settings/shortcutssettingspage.cpp:333
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr "Zkratky se by se měly nastavovat v nastavení %1."
@@ -948,7 +948,7 @@ msgid "Authentication"
 msgstr "Ověření"
 
 #: settings/coverssettingspage.cpp:270 settings/lyricssettingspage.cpp:250
-#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:171
+#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:173
 msgid "Authentication failed"
 msgstr "Ověření selhalo"
 
@@ -1303,8 +1303,8 @@ msgstr "Skladatel"
 
 #: settings/subsonicsettingspage.cpp:106 settings/tidalsettingspage.cpp:156
 #: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:129
-#: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:131
+#: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
 msgid "Configuration incomplete"
 msgstr "Konfigurace není hotová"
 
@@ -1764,7 +1764,7 @@ msgstr "Stahovat obaly alb"
 msgid "Downloading metadata"
 msgstr "Stahují se popisná data"
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "Drag to reposition"
 msgstr "Tažením přemístěte"
 
@@ -2866,11 +2866,11 @@ msgstr "Chybějící heslo k Tidal."
 msgid "Missing Tidal username."
 msgstr "Chybějící uživatelské jméno k Tidal."
 
-#: settings/qobuzsettingspage.cpp:129
+#: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
 msgstr ""
 
@@ -2886,7 +2886,7 @@ msgstr "Chybějící uživatelské jméno nebo heslo."
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:133
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
 msgstr ""
 
@@ -3116,7 +3116,7 @@ msgstr "Právě se přehrává"
 msgid "O&verwrite all"
 msgstr "Přeps&at vše"
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "OSD Preview"
 msgstr "Náhled OSD"
 
@@ -4068,7 +4068,7 @@ msgstr "Nastavení"
 msgid "Shortcut"
 msgstr "Klávesová zkratka"
 
-#: settings/shortcutssettingspage.cpp:275
+#: settings/shortcutssettingspage.cpp:276
 #: ../build/src/ui_shortcutssettingspage.h:237
 #, qt-format
 msgid "Shortcut for %1"
@@ -4570,7 +4570,7 @@ msgstr "Díky"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
 
-#: settings/shortcutssettingspage.cpp:253
+#: settings/shortcutssettingspage.cpp:254
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Příkaz \"%1\" se nepodařilo provést."
@@ -4972,7 +4972,7 @@ msgstr "Uživatelský token:"
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: settings/shortcutssettingspage.cpp:324
+#: settings/shortcutssettingspage.cpp:325
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "

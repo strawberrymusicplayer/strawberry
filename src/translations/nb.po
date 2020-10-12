@@ -33,7 +33,7 @@ msgstr ""
 "\n"
 "Favoritt-spillelister vil lagres her"
 
-#: settings/shortcutssettingspage.cpp:330
+#: settings/shortcutssettingspage.cpp:331
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -42,7 +42,7 @@ msgstr ""
 "Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
 "cinnamon-settings-daemon i stedet"
 
-#: settings/shortcutssettingspage.cpp:328
+#: settings/shortcutssettingspage.cpp:329
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -51,7 +51,7 @@ msgstr ""
 "Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
 "gnome-settings-daemon i stedet"
 
-#: settings/shortcutssettingspage.cpp:326
+#: settings/shortcutssettingspage.cpp:327
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
@@ -60,7 +60,7 @@ msgstr ""
 "Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
 "gnome-settings-daemon i stedet"
 
-#: settings/shortcutssettingspage.cpp:332
+#: settings/shortcutssettingspage.cpp:333
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr ""
@@ -942,7 +942,7 @@ msgid "Authentication"
 msgstr "Autentisering"
 
 #: settings/coverssettingspage.cpp:270 settings/lyricssettingspage.cpp:250
-#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:171
+#: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:173
 msgid "Authentication failed"
 msgstr "Identitetsbekreftelse feilet"
 
@@ -1294,8 +1294,8 @@ msgstr "Komponist"
 
 #: settings/subsonicsettingspage.cpp:106 settings/tidalsettingspage.cpp:156
 #: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:129
-#: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:131
+#: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
 msgid "Configuration incomplete"
 msgstr "Oppsett ikke komplett"
 
@@ -1755,7 +1755,7 @@ msgstr "Last ned album kover"
 msgid "Downloading metadata"
 msgstr "Laster ned metadata"
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "Drag to reposition"
 msgstr "Dra for å endre posisjon"
 
@@ -2844,11 +2844,11 @@ msgstr "Mangler Tidal passord."
 msgid "Missing Tidal username."
 msgstr "Mangler Tidal brukernavn."
 
-#: settings/qobuzsettingspage.cpp:129
+#: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:137
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
 msgstr ""
 
@@ -2864,7 +2864,7 @@ msgstr "Mangler brukernavn eller passord."
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:133
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
 msgstr ""
 
@@ -3091,7 +3091,7 @@ msgstr "Nå spilles"
 msgid "O&verwrite all"
 msgstr "O&verskriv alle"
 
-#: settings/notificationssettingspage.cpp:67
+#: settings/notificationssettingspage.cpp:65
 msgid "OSD Preview"
 msgstr "Forhåndsvisning av skjermbildeoverlegg"
 
@@ -4034,7 +4034,7 @@ msgstr "Innstillinger"
 msgid "Shortcut"
 msgstr "Hurtigtast"
 
-#: settings/shortcutssettingspage.cpp:275
+#: settings/shortcutssettingspage.cpp:276
 #: ../build/src/ui_shortcutssettingspage.h:237
 #, qt-format
 msgid "Shortcut for %1"
@@ -4527,7 +4527,7 @@ msgstr "Takk til"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
-#: settings/shortcutssettingspage.cpp:253
+#: settings/shortcutssettingspage.cpp:254
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Kunne ikke starte kommandoen \"%1\"."
@@ -4926,7 +4926,7 @@ msgstr "Bruker nøkkel:"
 msgid "Username"
 msgstr "Brukernavn"
 
-#: settings/shortcutssettingspage.cpp:324
+#: settings/shortcutssettingspage.cpp:325
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
