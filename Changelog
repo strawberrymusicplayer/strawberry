@@ -2,6 +2,18 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed broken transition to next song for CUE files with certain audio formats (regression since version 0.6.13).
+    * Fixed all collection divider keys showing on top with some language collate settings (regression in version 0.8.1).
+    * Fixed SQL querying songs by song ID when song ID is a string.
+    * Fixed saving album covers for LMS Subsonic servers.
+    * Fixed reading song creation dates with LMS Subsonic servers.
+    * Fixed saving initial settings.
+    * Removed use of HTML in system tray icon tooltip for all desktop environments instead of just KDE and Cinnamon.
+    * (Windows) Ignore "IDirectSoundBuffer_GetStatus The operation completed successfully" false error when switching device while playing.
+
 0.8.1:
 
   Bugfixes:
