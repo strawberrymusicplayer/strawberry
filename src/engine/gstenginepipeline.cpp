@@ -868,22 +868,25 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   gchar *debugs = nullptr;
 
   gst_message_parse_error(msg, &error, &debugs);
+  GQuark domain = error->domain;
+  int code = error->code;
   QString message = QString::fromLocal8Bit(error->message);
   QString debugstr = QString::fromLocal8Bit(debugs);
-  int domain = error->domain;
-  int code = error->code;
   g_error_free(error);
   g_free(debugs);
 
-  if (state() == GST_STATE_PLAYING && pipeline_is_initialised_ && next_uri_set_ && (domain == static_cast<int>(GST_RESOURCE_ERROR) || domain == static_cast<int>(GST_STREAM_ERROR))) {
+  if (state() == GST_STATE_PLAYING && pipeline_is_initialised_ && next_uri_set_ && (domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
     // A track is still playing and the next uri is not playable. We ignore the error here so it can play until the end.
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
-    qLog(Debug) << "Ignoring error when loading next track";
+    qLog(Info) << "Ignoring error when loading next track";
     GstPad *sinkpad = gst_element_get_static_pad(audiobin_, "sink");
     gst_pad_send_event(sinkpad, gst_event_new_eos());
     gst_object_unref(sinkpad);
     return;
   }
+
+  qLog(Error) << __FUNCTION__ << "ID:" << id() << "Domain:" << domain << "Code:" << code << "Error:" << message;
+  qLog(Error) << __FUNCTION__ << "ID:" << id() << "Domain:" << domain << "Code:" << code << "Debug:" << debugstr;
 
   if (!redirect_url_.isEmpty() && debugstr.contains("A redirect message was posted on the bus and should have been handled by the application.")) {
     // mmssrc posts a message on the bus *and* makes an error message when it wants to do a redirect.
@@ -891,9 +894,14 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
     return;
   }
 
-  qLog(Error) << __FUNCTION__ << id() << debugstr;
+#ifdef Q_OS_WIN
+  // Ignore non-error received for directsoundsink: "IDirectSoundBuffer_GetStatus The operation completed successfully"
+  if (code == GST_RESOURCE_ERROR_OPEN_WRITE && message.contains("IDirectSoundBuffer_GetStatus The operation completed successfully.")) {
+    return;
+  }
+#endif
 
-  emit Error(id(), message, domain, code);
+  emit Error(id(), message, static_cast<int>(domain), code);
 
 }
 

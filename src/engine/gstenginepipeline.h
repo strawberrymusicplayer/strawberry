@@ -122,11 +122,11 @@ class GstEnginePipeline : public QObject {
   void SetVolumeModifier(qreal mod);
 
  signals:
-  void EndOfStreamReached(const int pipeline_id, const bool has_next_track);
-  void MetadataFound(const int pipeline_id, const Engine::SimpleMetaBundle &bundle);
+  void EndOfStreamReached(int pipeline_id, bool has_next_track);
+  void MetadataFound(int pipeline_id, const Engine::SimpleMetaBundle &bundle);
   // This indicates an error, delegated from GStreamer, in the pipeline.
   // The message, domain and error_code are related to GStreamer's GError.
-  void Error(const int pipeline_id, const QString &message, const int domain, const int error_code);
+  void Error(int pipeline_id, QString message, int domain, int error_code);
   void FaderFinished();
 
   void BufferingStarted();

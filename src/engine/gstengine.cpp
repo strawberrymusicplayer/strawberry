@@ -509,7 +509,7 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const QString &messag
 
   if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id) return;
 
-  qLog(Error) << "Gstreamer error:" << domain << error_code << message;
+  qLog(Error) << "GStreamer error:" << domain << error_code << message;
 
   current_pipeline_.reset();
   BufferingFinished();
