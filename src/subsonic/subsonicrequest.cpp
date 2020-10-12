@@ -803,9 +803,15 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl url, c
     return;
   }
 
+  QList<QByteArray> format_list = Utilities::ImageFormatsForMimeType(mimetype.toUtf8());
+  char *format = nullptr;
+  if (!format_list.isEmpty()) {
+    format = format_list.first().data();
+  }
+
   QImage image;
-  if (image.loadFromData(data)) {
-    if (image.save(filename, "JPG")) {
+  if (image.loadFromData(data, format)) {
+    if (image.save(filename, format)) {
       while (album_covers_requests_sent_.contains(url)) {
         Song *song = album_covers_requests_sent_.take(url);
         song->set_art_automatic(QUrl::fromLocalFile(filename));

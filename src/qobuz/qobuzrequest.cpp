@@ -1249,12 +1249,9 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
   }
 
   QList<QByteArray> format_list = Utilities::ImageFormatsForMimeType(mimetype.toUtf8());
-  QByteArray format;
-  if (format_list.isEmpty()) {
-    format = "JPG";
-  }
-  else {
-    format = format_list.first();
+  char *format = nullptr;
+  if (!format_list.isEmpty()) {
+    format = format_list.first().data();
   }
 
   QImage image;
