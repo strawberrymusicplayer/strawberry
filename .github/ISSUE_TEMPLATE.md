@@ -7,7 +7,10 @@ assignees: ''
 
 ---
 
-For technical issues, questions and feature requests please use the forum on https://forum.strawberrymusicplayer.org/
+For technical issues, questions and feature suggestions/requests please use the forum on https://forum.strawberrymusicplayer.org/
+
+Check the Changelog to see if the issue is already fixed: https://github.com/strawberrymusicplayer/strawberry/blob/master/Changelog
+If it's fixed, try the latest development build from: https://builds.strawberrymusicplayer.org/
 
 **Describe the bug**
 A clear and concise description of what the bug is.
