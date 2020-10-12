@@ -138,8 +138,6 @@ AppearanceSettingsPage::~AppearanceSettingsPage() {
 void AppearanceSettingsPage::Load() {
 
   QSettings s;
-  if (!s.contains(kSettingsGroup)) set_changed();
-
   s.beginGroup(kSettingsGroup);
 
   QPalette p = QApplication::palette();
@@ -216,6 +214,8 @@ void AppearanceSettingsPage::Load() {
   s.endGroup();
 
   Init(ui_->layout_appearancesettingspage->parentWidget());
+
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
 }
 

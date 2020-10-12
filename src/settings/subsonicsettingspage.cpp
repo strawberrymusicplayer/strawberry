@@ -65,8 +65,6 @@ SubsonicSettingsPage::~SubsonicSettingsPage() { delete ui_; }
 void SubsonicSettingsPage::Load() {
 
   QSettings s;
-  if (!s.contains(kSettingsGroup)) set_changed();
-
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());
   ui_->server_url->setText(s.value("url").toString());
@@ -80,6 +78,8 @@ void SubsonicSettingsPage::Load() {
   s.endGroup();
 
   Init(ui_->layout_subsonicsettingspage->parentWidget());
+
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
 }
 

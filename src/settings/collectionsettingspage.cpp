@@ -149,7 +149,6 @@ void CollectionSettingsPage::Load() {
   }
 
   QSettings s;
-  if (!s.contains(kSettingsGroup)) set_changed();
 
   s.beginGroup(kSettingsGroup);
   ui_->auto_open->setChecked(s.value("auto_open", true).toBool());
@@ -195,6 +194,7 @@ void CollectionSettingsPage::Load() {
   ui_->disk_cache_in_use->setText((dialog()->app()->collection_model()->icon_cache_disk_size() == 0 ? "empty" : Utilities::PrettySize(dialog()->app()->collection_model()->icon_cache_disk_size())));
 
   Init(ui_->layout_collectionsettingspage->parentWidget());
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
 }
 

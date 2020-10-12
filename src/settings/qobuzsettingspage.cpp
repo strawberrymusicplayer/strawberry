@@ -98,6 +98,8 @@ void QobuzSettingsPage::Load() {
 
   Init(ui_->layout_qobuzsettingspage->parentWidget());
 
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+
 }
 
 void QobuzSettingsPage::Save() {

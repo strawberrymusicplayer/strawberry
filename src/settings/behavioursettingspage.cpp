@@ -149,7 +149,6 @@ BehaviourSettingsPage::~BehaviourSettingsPage() {
 void BehaviourSettingsPage::Load() {
 
   QSettings s;
-  if (!s.contains(kSettingsGroup)) set_changed();
   s.beginGroup(kSettingsGroup);
 
 #ifndef Q_OS_MACOS
@@ -224,6 +223,8 @@ void BehaviourSettingsPage::Load() {
   s.endGroup();
 
   Init(ui_->layout_behavioursettingspage->parentWidget());
+
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
 }
 

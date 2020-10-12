@@ -85,8 +85,6 @@ TidalSettingsPage::~TidalSettingsPage() { delete ui_; }
 void TidalSettingsPage::Load() {
 
   QSettings s;
-  if (!s.contains(kSettingsGroup)) set_changed();
-
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());
   ui_->oauth->setChecked(s.value("oauth", true).toBool());
@@ -119,6 +117,8 @@ void TidalSettingsPage::Load() {
   if (service_->authenticated()) ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
 
   Init(ui_->layout_tidalsettingspage->parentWidget());
+
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
 }
 

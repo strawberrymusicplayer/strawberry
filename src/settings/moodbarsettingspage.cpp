@@ -66,8 +66,6 @@ MoodbarSettingsPage::~MoodbarSettingsPage() { delete ui_; }
 void MoodbarSettingsPage::Load() {
 
   QSettings s;
-  if (!s.contains(kSettingsGroup)) set_changed();
-
   s.beginGroup(kSettingsGroup);
   ui_->moodbar_enabled->setChecked(s.value("enabled", false).toBool());
   ui_->moodbar_show->setChecked(s.value("show", false).toBool());
@@ -78,6 +76,8 @@ void MoodbarSettingsPage::Load() {
   InitMoodbarPreviews();
 
   Init(ui_->layout_moodbarsettingspage->parentWidget());
+
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
 }
 

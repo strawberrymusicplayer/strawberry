@@ -31,6 +31,7 @@
 #include <QString>
 
 #include "osd/osdbase.h"
+#include "core/logging.h"
 
 class QCheckBox;
 class QComboBox;

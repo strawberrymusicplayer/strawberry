@@ -56,8 +56,6 @@
 class QHideEvent;
 class QShowEvent;
 
-//const char *NotificationsSettingsPage::kSettingsGroup = "Notifications";
-
 NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog* dialog)
     : SettingsPage(dialog), ui_(new Ui_NotificationsSettingsPage), pretty_popup_(new OSDPretty(OSDPretty::Mode_Draggable)) {
 
@@ -142,7 +140,6 @@ void NotificationsSettingsPage::hideEvent(QHideEvent*) {
 void NotificationsSettingsPage::Load() {
 
   QSettings s;
-  if (!s.contains(OSDBase::kSettingsGroup)) set_changed();
 
   s.beginGroup(OSDBase::kSettingsGroup);
   OSDBase::Behaviour osd_behaviour = OSDBase::Behaviour(s.value("Behaviour", OSDBase::Native).toInt());
@@ -201,6 +198,8 @@ void NotificationsSettingsPage::Load() {
   UpdatePopupVisible();
 
   Init(ui_->layout_notificationssettingspage->parentWidget());
+
+  if (!QSettings().childGroups().contains(OSDBase::kSettingsGroup)) set_changed();
 
 }
 

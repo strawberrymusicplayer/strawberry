@@ -86,8 +86,6 @@ void BackendSettingsPage::Load() {
   engineloaded_ = false;
 
   QSettings s;
-  if (!s.contains(kSettingsGroup)) set_changed();
-
   s.beginGroup(kSettingsGroup);
 
   Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::None)).toString());
@@ -185,6 +183,7 @@ void BackendSettingsPage::Load() {
   RgPreampChanged(ui_->stickslider_replaygainpreamp->value());
 
   Init(ui_->layout_backendsettingspage->parentWidget());
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
   // Check if engine, output or device is set to a different setting than the configured to force saving settings.
 

@@ -49,8 +49,6 @@ PlaylistSettingsPage::~PlaylistSettingsPage() {
 void PlaylistSettingsPage::Load() {
 
   QSettings s;
-  if (!s.contains(kSettingsGroup)) set_changed();
-
   s.beginGroup(kSettingsGroup);
 
 #ifdef Q_OS_MACOS
@@ -96,6 +94,8 @@ void PlaylistSettingsPage::Load() {
   s.endGroup();
 
   Init(ui_->layout_playlistsettingspage->parentWidget());
+
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
 }
 

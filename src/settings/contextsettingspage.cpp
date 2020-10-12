@@ -125,9 +125,8 @@ ContextSettingsPage::~ContextSettingsPage() { delete ui_; }
 void ContextSettingsPage::Load() {
 
   QSettings s;
-  if (!s.contains(kSettingsGroup)) set_changed();
-
   s.beginGroup(kSettingsGroup);
+
   ui_->context_custom_text1->setText(s.value(kSettingsTitleFmt, "%title% - %artist%").toString());
   ui_->context_custom_text2->setText(s.value(kSettingsSummaryFmt, "%album%").toString());
 
@@ -156,6 +155,8 @@ void ContextSettingsPage::Load() {
   s.endGroup();
 
   Init(ui_->layout_contextsettingspage->parentWidget());
+
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
 }
 

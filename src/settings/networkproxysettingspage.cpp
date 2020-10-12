@@ -51,7 +51,6 @@ NetworkProxySettingsPage::~NetworkProxySettingsPage() { delete ui_; }
 void NetworkProxySettingsPage::Load() {
 
   QSettings s;
-  if (!s.contains(kSettingsGroup)) set_changed();
 
   s.beginGroup(NetworkProxyFactory::kSettingsGroup);
   NetworkProxyFactory::Mode mode = NetworkProxyFactory::Mode(s.value("mode", NetworkProxyFactory::Mode_System).toInt());
@@ -79,6 +78,8 @@ void NetworkProxySettingsPage::Load() {
   s.endGroup();
 
   Init(ui_->layout_networkproxysettingspage->parentWidget());
+
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
 }
 

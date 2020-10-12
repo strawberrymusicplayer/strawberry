@@ -73,8 +73,6 @@ LyricsSettingsPage::~LyricsSettingsPage() { delete ui_; }
 
 void LyricsSettingsPage::Load() {
 
-  if (!QSettings().contains(kSettingsGroup)) set_changed();
-
   ui_->providers->clear();
 
   QList<LyricsProvider*> lyrics_providers_sorted = dialog()->app()->lyrics_providers()->List();
@@ -88,6 +86,8 @@ void LyricsSettingsPage::Load() {
   }
 
   Init(ui_->layout_lyricssettingspage->parentWidget());
+
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
 }
 

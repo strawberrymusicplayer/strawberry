@@ -123,6 +123,8 @@ void ScrobblerSettingsPage::Load() {
 
   Init(ui_->layout_scrobblersettingspage->parentWidget());
 
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+
 }
 
 void ScrobblerSettingsPage::Save() {

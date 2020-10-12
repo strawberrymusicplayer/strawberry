@@ -101,7 +101,6 @@ bool GlobalShortcutsSettingsPage::IsEnabled() const {
 void GlobalShortcutsSettingsPage::Load() {
 
   QSettings s;
-  if (!s.contains(kSettingsGroup)) set_changed();
   s.beginGroup(kSettingsGroup);
 
   GlobalShortcuts *manager = dialog()->global_shortcuts_manager();
@@ -179,6 +178,8 @@ void GlobalShortcutsSettingsPage::Load() {
   s.endGroup();
 
   Init(ui_->layout_globalshortcutssettingspage->parentWidget());
+
+  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
 
 }
 
