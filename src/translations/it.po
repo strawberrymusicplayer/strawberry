@@ -3022,7 +3022,7 @@ msgstr "Nessuna copertina da esportare."
 msgid "No long blocks"
 msgstr "Nessun blocco lungo"
 
-#: tidal/tidalrequest.cpp:1256 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1253 qobuz/qobuzrequest.cpp:1315
 msgid "No match."
 msgstr "Nessuna corrispondenza."
 
@@ -4815,8 +4815,8 @@ msgstr "Banda ultra larga (UWB)"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: subsonic/subsonicrequest.cpp:858 tidal/tidalrequest.cpp:1262
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:864 tidal/tidalrequest.cpp:1259
+#: qobuz/qobuzrequest.cpp:1321
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 

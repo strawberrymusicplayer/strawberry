@@ -3086,7 +3086,7 @@ msgstr "Aucune pochette à exporter."
 msgid "No long blocks"
 msgstr "Aucun bloc long"
 
-#: tidal/tidalrequest.cpp:1256 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1253 qobuz/qobuzrequest.cpp:1315
 msgid "No match."
 msgstr "Aucune correspondance."
 
@@ -4894,8 +4894,8 @@ msgstr "Très large bande (UWB)"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: subsonic/subsonicrequest.cpp:858 tidal/tidalrequest.cpp:1262
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:864 tidal/tidalrequest.cpp:1259
+#: qobuz/qobuzrequest.cpp:1321
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 

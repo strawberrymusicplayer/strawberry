@@ -3057,7 +3057,7 @@ msgstr "Keine Titelbilder zum Exportieren."
 msgid "No long blocks"
 msgstr "Keine langen Blöcke"
 
-#: tidal/tidalrequest.cpp:1256 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1253 qobuz/qobuzrequest.cpp:1315
 msgid "No match."
 msgstr "Keine Übereinstimmung."
 
@@ -4856,8 +4856,8 @@ msgstr "Ulte Weit Band (UWB)"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: subsonic/subsonicrequest.cpp:858 tidal/tidalrequest.cpp:1262
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:864 tidal/tidalrequest.cpp:1259
+#: qobuz/qobuzrequest.cpp:1321
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 

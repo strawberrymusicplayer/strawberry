@@ -2993,7 +2993,7 @@ msgstr "내보낼 표지가 없습니다."
 msgid "No long blocks"
 msgstr "긴 블록 없음"
 
-#: tidal/tidalrequest.cpp:1256 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1253 qobuz/qobuzrequest.cpp:1315
 msgid "No match."
 msgstr "일치하는 결과가 없습니다."
 
@@ -4743,8 +4743,8 @@ msgstr "초광대역(UWB)"
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: subsonic/subsonicrequest.cpp:858 tidal/tidalrequest.cpp:1262
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:864 tidal/tidalrequest.cpp:1259
+#: qobuz/qobuzrequest.cpp:1321
 msgid "Unknown error"
 msgstr "알 수 없는 오류"
 
