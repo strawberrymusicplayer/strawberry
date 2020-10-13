@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+0.8.2:
 
   Bugfixes:
     * Fixed broken transition to next song for CUE files with certain audio formats (regression since version 0.6.13).
