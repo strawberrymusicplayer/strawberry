@@ -1000,10 +1000,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1.2.0
-      - name: Update
-        run: brew update
-      - name: Upgrade
-        run: brew upgrade
+      #- name: Update
+      #  run: brew update
+      #- name: Upgrade
+      #  run: brew upgrade
       - name: Install packages
         run: >
           brew install
@@ -1245,7 +1245,7 @@ jobs:
           store_login: ${{ secrets.SNAP_STORE_LOGIN }}
           snap: ${{ steps.snapcraft.outputs.snap }}
           release: beta
-      - uses: actions/upload-artifact@v2
-        with:
-          name: release_snap
-          path: ${{ steps.snapcraft.outputs.snap }}
+      #- uses: actions/upload-artifact@v2
+      #  with:
+      #    name: release_snap
+      #   path: ${{ steps.snapcraft.outputs.snap }}
