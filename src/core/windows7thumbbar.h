@@ -23,22 +23,21 @@
 
 #include "config.h"
 
+#include <windows.h>
+#include <shobjidl.h>
+
 #include <QObject>
 #include <QWidget>
 #include <QList>
 #include <QString>
 #include <QAction>
 
-#ifndef Q_OS_WIN32
-  typedef void MSG;
-#endif  // Q_OS_WIN32
-
 class Windows7ThumbBar : public QObject {
   Q_OBJECT
 
-public:
-  // Creates a list of buttons in the taskbar icon for this window.  Does nothing and is safe to use on other operating systems too.
-  explicit Windows7ThumbBar(QWidget *widget = 0);
+ public:
+  // Creates a list of buttons in the taskbar icon for this window.
+  explicit Windows7ThumbBar(QWidget *widget = nullptr);
 
   static const int kIconSize;
   static const int kMaxButtonCount;
@@ -49,17 +48,16 @@ public:
   // Call this from the parent's winEvent() function.
   void HandleWinEvent(MSG *msg);
 
-private slots:
+ private slots:
   void ActionChanged();
 
-private:
+ private:
   QWidget *widget_;
   QList<QAction*> actions_;
 
   unsigned int button_created_message_id_;
 
-  // Really an ITaskbarList3* but I don't want to have to include windows.h here
-  void *taskbar_list_;
+  ITaskbarList3 *taskbar_list_;
 };
 
 #endif  // WINDOWS7THUMBBAR_H

@@ -30,9 +30,11 @@
 #ifndef _WIN32_WINNT
   #define _WIN32_WINNT 0x0600
 #endif
+
 #include <windows.h>
 #include <commctrl.h>
 #include <shobjidl.h>
+
 extern HICON qt_pixmapToWinHICON(const QPixmap &p);
 
 #include "core/logging.h"
@@ -47,7 +49,7 @@ Windows7ThumbBar::Windows7ThumbBar(QWidget *widget)
       button_created_message_id_(0),
       taskbar_list_(nullptr) {}
 
-void Windows7ThumbBar::SetActions(const QList<QAction*>& actions) {
+void Windows7ThumbBar::SetActions(const QList<QAction*> &actions) {
 
   qLog(Debug) << "Setting actions";
   Q_ASSERT(actions.count() <= kMaxButtonCount);
@@ -74,10 +76,10 @@ static void SetupButton(const QAction *action, THUMBBUTTON *button) {
     if (!action->isVisible()) {
       button->dwFlags = THUMBBUTTONFLAGS(button->dwFlags | THBF_HIDDEN);
     }
-    button->dwMask = THUMBBUTTONMASK(THB_ICON | THB_TOOLTIP | THB_FLAGS);
+    button->dwMask = THUMBBUTTONMASK(THB_ICON |THB_TOOLTIP | THB_FLAGS);
   }
   else {
-    button->hIcon = 0;
+    button->hIcon = nullptr;
     button->szTip[0] = L'\0';
     button->dwFlags = THBF_NOBACKGROUND;
     button->dwMask = THUMBBUTTONMASK(THB_FLAGS);
@@ -99,7 +101,7 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
     // Unref the old taskbar list if we had one
     if (taskbar_list_) {
       qLog(Debug) << "Releasing old taskbar list";
-      reinterpret_cast<ITaskbarList3*>(taskbar_list_)->Release();
+      taskbar_list_->Release();
       taskbar_list_ = nullptr;
     }
 
@@ -112,11 +114,10 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
       return;
     }
 
-    ITaskbarList3 *taskbar_list = reinterpret_cast<ITaskbarList3*>(taskbar_list_);
-    hr = taskbar_list->HrInit();
+    hr = taskbar_list_->HrInit();
     if (hr != S_OK) {
       qLog(Warning) << "Error initialising taskbar list" << Qt::hex << DWORD (hr);
-      taskbar_list->Release();
+      taskbar_list_->Release();
       taskbar_list_ = nullptr;
       return;
     }
@@ -124,7 +125,7 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
     // Add the buttons
     qLog(Debug) << "Initialising" << actions_.count() << "buttons";
     THUMBBUTTON buttons[kMaxButtonCount];
-    for (int i = 0; i < actions_.count(); ++i) {
+    for (int i = 0 ; i < actions_.count() ; ++i) {
       const QAction *action = actions_[i];
       THUMBBUTTON *button = &buttons[i];
       button->iId = i;
@@ -132,12 +133,14 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
     }
 
     qLog(Debug) << "Adding buttons";
-    hr = taskbar_list->ThumbBarAddButtons((HWND)widget_->winId(), actions_.count(), buttons);
-    if (hr != S_OK)
+    hr = taskbar_list_->ThumbBarAddButtons(reinterpret_cast<HWND>(widget_->winId()), actions_.count(), buttons);
+    if (hr != S_OK) {
       qLog(Debug) << "Failed to add buttons" << Qt::hex << DWORD (hr);
-    for (int i = 0; i < actions_.count(); i++) {
-      if (buttons[i].hIcon)
+    }
+    for (int i = 0 ; i < actions_.count() ; ++i) {
+      if (buttons[i].hIcon) {
         DestroyIcon (buttons[i].hIcon);
+      }
     }
   }
   else if (msg->message == WM_COMMAND) {
@@ -156,18 +159,23 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
 void Windows7ThumbBar::ActionChanged() {
 
   if (!taskbar_list_) return;
-  ITaskbarList3 *taskbar_list = reinterpret_cast<ITaskbarList3*>(taskbar_list_);
 
   THUMBBUTTON buttons[kMaxButtonCount];
-  for (int i = 0; i < actions_.count(); ++i) {
-    const QAction *action = actions_[i];
+  for (int i = 0 ; i < actions_.count() ; ++i) {
+    QAction *action = actions_[i];
     THUMBBUTTON *button = &buttons[i];
 
     button->iId = i;
     SetupButton(action, button);
-    if (buttons->hIcon) DestroyIcon(buttons->hIcon);
+
   }
 
-  taskbar_list->ThumbBarUpdateButtons((HWND)widget_->winId(), actions_.count(), buttons);
+  taskbar_list_->ThumbBarUpdateButtons(reinterpret_cast<HWND>(widget_->winId()), actions_.count(), buttons);
+
+  for (int i = 0 ; i < actions_.count() ; ++i) {
+    if (buttons[i].hIcon) {
+      DestroyIcon(buttons[i].hIcon);
+    }
+  }
 
 }
