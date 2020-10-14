@@ -29,6 +29,7 @@
 #include <QObject>
 #include <QMetaObject>
 #include <QThread>
+#include <QtConcurrent>
 #include <QAbstractItemModel>
 #include <QDir>
 #include <QList>
@@ -46,7 +47,6 @@
 #include "devicemanager.h"
 
 #include "core/application.h"
-#include "core/concurrentrun.h"
 #include "core/database.h"
 #include "core/iconloader.h"
 #include "core/logging.h"
@@ -102,7 +102,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   connect(this, SIGNAL(DeviceCreatedFromDB(DeviceInfo*)), SLOT(AddDeviceFromDB(DeviceInfo*)));
 
   // This reads from the database and contents on the database mutex, which can be very slow on startup.
-  ConcurrentRun::Run<void>(&thread_pool_, std::bind(&DeviceManager::LoadAllDevices, this));
+  QtConcurrent::run(&thread_pool_, std::bind(&DeviceManager::LoadAllDevices, this));
 
   // This proxy model only shows connected devices
   connected_devices_model_ = new DeviceStateFilterModel(this);
