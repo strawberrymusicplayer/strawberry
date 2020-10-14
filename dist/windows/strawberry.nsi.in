@@ -279,6 +279,16 @@ Section "Strawberry" Strawberry
   File "libqtsparkle-qt5.dll"
 !endif
 
+!ifdef debug
+  File "gdb.exe"
+  File "libdl.dll"
+  File "libexpat-1.dll"
+  File "libmman.dll"
+  File "libmpfr-6.dll"
+  File "libreadline8.dll"
+  File "libtermcap.dll"
+!endif
+
   File "killproc.exe"
 
   ; Register Strawberry with Default Programs
@@ -532,6 +542,16 @@ Section "Uninstall"
   Delete "$INSTDIR\swresample-3.dll"
   Delete "$INSTDIR\swscale-5.dll"
   Delete "$INSTDIR\zlib1.dll"
+
+!ifdef debug
+  Delete "$INSTDIR\gdb.exe"
+  Delete "$INSTDIR\libdl.dll"
+  Delete "$INSTDIR\libexpat-1.dll"
+  Delete "$INSTDIR\libmman.dll"
+  Delete "$INSTDIR\libmpfr-6.dll"
+  Delete "$INSTDIR\libreadline8.dll"
+  Delete "$INSTDIR\libtermcap.dll"
+!endif
 
   Delete "$INSTDIR\gio-modules\libgiognutls.dll"
   Delete "$INSTDIR\platforms\qwindows.dll"
