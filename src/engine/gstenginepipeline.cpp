@@ -33,6 +33,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QCoreApplication>
+#include <QtConcurrent>
 #include <QMutex>
 #include <QByteArray>
 #include <QList>
@@ -45,7 +46,6 @@
 #include <QUuid>
 #include <QtDebug>
 
-#include "core/concurrentrun.h"
 #include "core/logging.h"
 #include "core/signalchecker.h"
 #include "core/timeconstants.h"
@@ -1077,7 +1077,7 @@ GstState GstEnginePipeline::state() const {
 }
 
 QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) {
-  return ConcurrentRun::Run<GstStateChangeReturn, GstElement*, GstState>(&set_state_threadpool_, &gst_element_set_state, pipeline_, state);
+  return QtConcurrent::run(&set_state_threadpool_, &gst_element_set_state, pipeline_, state);
 }
 
 bool GstEnginePipeline::Seek(const qint64 nanosec) {
