@@ -76,7 +76,7 @@ static void SetupButton(const QAction *action, THUMBBUTTON *button) {
     if (!action->isVisible()) {
       button->dwFlags = THUMBBUTTONFLAGS(button->dwFlags | THBF_HIDDEN);
     }
-    button->dwMask = THUMBBUTTONMASK(THB_ICON |THB_TOOLTIP | THB_FLAGS);
+    button->dwMask = THUMBBUTTONMASK(THB_ICON | THB_TOOLTIP | THB_FLAGS);
   }
   else {
     button->hIcon = nullptr;
