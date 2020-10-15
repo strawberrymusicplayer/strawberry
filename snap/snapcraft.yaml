@@ -1,10 +1,9 @@
 name: strawberry
-version: '0.8.2+git'
+adopt-info: strawberry
 summary: music player and collection organizer
 description: |
   Strawberry is a music player and collection organizer.
-  It is a fork of Clementine released in 2018 aimed at music collectors,
-  audio enthusiasts and audiophiles
+  It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles
 
 grade: stable
 confinement: strict
@@ -43,7 +42,7 @@ parts:
 
   alsa-lib:
     plugin: autotools
-    source: https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.1.2.tar.bz2
+    source: https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.3.tar.bz2
     configflags:
       - --prefix=/usr
       - --sysconfdir=/etc
@@ -71,6 +70,9 @@ parts:
     after:
       - alsa-lib
       - desktop-qt5
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version "$(git describe --tags | sed 's/^v//' | cut -d "-" -f1-2)"
     override-build: |
       cmake ../src -DCMAKE_INSTALL_PREFIX=/usr
       make -j $(getconf _NPROCESSORS_ONLN)
@@ -84,6 +86,7 @@ parts:
       - gcc
       - g++
       - protobuf-compiler
+      - gettext
       - libglib2.0-dev
       - libgnutls28-dev
       - libdbus-1-dev
@@ -96,6 +99,7 @@ parts:
       - qtbase5-dev
       - qtbase5-dev-tools
       - qtbase5-private-dev
+      - qttools5-dev
       - libqt5x11extras5-dev
       - libgstreamer1.0-dev
       - libgstreamer-plugins-base1.0-dev
@@ -154,6 +158,10 @@ parts:
       - gstreamer1.0-plugins-bad
       - gstreamer1.0-plugins-ugly
       - gstreamer1.0-libav
+      - qt5-gtk-platformtheme
+      - plasma-integration
+      - kde-style-breeze
+      - qtwayland5
 
 apps:
   strawberry:
@@ -174,7 +182,7 @@ apps:
       - x11
       - wayland
       - alsa
-      - pulseaudio
+      - audio-playback
       - removable-media
       - optical-drive
       - raw-usb
