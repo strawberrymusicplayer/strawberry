@@ -104,6 +104,7 @@
 #include "dialogs/addstreamdialog.h"
 #include "dialogs/deleteconfirmationdialog.h"
 #include "dialogs/lastfmimportdialog.h"
+#include "dialogs/snapdialog.h"
 #include "organize/organizedialog.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"
@@ -983,6 +984,18 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
     updater->SetNetworkAccessManager(new NetworkAccessManager(this));
     updater->SetVersion(STRAWBERRY_VERSION_PACKAGE);
     connect(check_updates, SIGNAL(triggered()), updater, SLOT(CheckNow()));
+  }
+#endif
+
+#ifdef Q_OS_LINUX
+  if (!Utilities::GetEnv("SNAP").isEmpty() && !Utilities::GetEnv("SNAP_NAME").isEmpty()) {
+    s.beginGroup(kSettingsGroup);
+    if (!s.value("ignore_snap", false).toBool()) {
+      SnapDialog *snap_dialog = new SnapDialog();
+      snap_dialog->setAttribute(Qt::WA_DeleteOnClose);
+      snap_dialog->show();
+    }
+    s.endGroup();
   }
 #endif
 

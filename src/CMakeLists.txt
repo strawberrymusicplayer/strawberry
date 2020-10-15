@@ -184,6 +184,7 @@ set(SOURCES
   dialogs/userpassdialog.cpp
   dialogs/deleteconfirmationdialog.cpp
   dialogs/lastfmimportdialog.cpp
+  dialogs/snapdialog.cpp
 
   widgets/autoexpandingtreeview.cpp
   widgets/busyindicator.cpp
@@ -399,6 +400,7 @@ set(HEADERS
   dialogs/userpassdialog.h
   dialogs/deleteconfirmationdialog.h
   dialogs/lastfmimportdialog.h
+  dialogs/snapdialog.h
 
   widgets/autoexpandingtreeview.h
   widgets/busyindicator.h
@@ -513,6 +515,7 @@ set(UI
   dialogs/addstreamdialog.ui
   dialogs/userpassdialog.ui
   dialogs/lastfmimportdialog.ui
+  dialogs/snapdialog.ui
 
   widgets/trackslider.ui
   widgets/fileview.ui
