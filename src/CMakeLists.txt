@@ -887,9 +887,9 @@ optional_source(WIN32
   SOURCES
     engine/directsounddevicefinder.cpp
     engine/mmdevicefinder.cpp
-    core/windows7thumbbar.cpp
-  HEADERS
-    core/windows7thumbbar.h
+    #core/windows7thumbbar.cpp
+  #HEADERS
+    #core/windows7thumbbar.h
 )
 
 optional_source(HAVE_SUBSONIC
