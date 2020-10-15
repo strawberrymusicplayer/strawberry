@@ -555,7 +555,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Aggiungi cartella..."
 
-#: core/mainwindow.cpp:2101
+#: core/mainwindow.cpp:2114
 msgid "Add file"
 msgstr "Aggiungi file"
 
@@ -571,7 +571,7 @@ msgstr "Aggiungi file al transcodificatore"
 msgid "Add files to transcode"
 msgstr "Aggiungi file da transcodificare"
 
-#: core/mainwindow.cpp:2126 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2139 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Aggiungi cartella"
 
@@ -674,7 +674,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Aggiungi agli album"
 
-#: core/mainwindow.cpp:1909
+#: core/mainwindow.cpp:1922
 msgid "Add to another playlist"
 msgstr "Aggiungi a un'altra scaletta"
 
@@ -793,7 +793,7 @@ msgstr "Album con copertina"
 msgid "Albums without covers"
 msgstr "Album senza copertina"
 
-#: core/mainwindow.cpp:208
+#: core/mainwindow.cpp:209
 msgid "All Files (*)"
 msgstr "Tutti i file (*)"
 
@@ -1145,7 +1145,7 @@ msgstr "Cambierà la traccia in riproduzione"
 msgid "Change the language"
 msgstr "Cambia la lingua"
 
-#: core/mainwindow.cpp:758
+#: core/mainwindow.cpp:759
 msgid "Check for updates..."
 msgstr "Controlla aggiornamenti..."
 
@@ -1190,7 +1190,7 @@ msgstr "Svuota"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:2191 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2204 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Svuota la scaletta"
 
@@ -1244,7 +1244,7 @@ msgstr "La chiusura di questa finestra fermerà la ricerca delle copertine."
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:337 ../build/src/ui_collectionsettingspage.h:406
+#: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:406
 #: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Collection"
 msgstr "Raccolta"
@@ -1257,7 +1257,7 @@ msgstr "Filtro della Collezione"
 msgid "Collection advanced grouping"
 msgstr "Raggruppamento avanzato della raccolta"
 
-#: core/mainwindow.cpp:2703
+#: core/mainwindow.cpp:2716
 msgid "Collection rescan notice"
 msgstr "Notifica nuova scansione della raccolta"
 
@@ -1318,7 +1318,7 @@ msgstr "Configura %1..."
 msgid "Configure buttons"
 msgstr ""
 
-#: core/mainwindow.cpp:638
+#: core/mainwindow.cpp:639
 msgid "Configure collection..."
 msgstr "Configura raccolta..."
 
@@ -1334,7 +1334,7 @@ msgstr "Console"
 msgid "Constant bitrate"
 msgstr "Bitrate costante"
 
-#: core/mainwindow.cpp:336 ../build/src/ui_contextsettingspage.h:361
+#: core/mainwindow.cpp:337 ../build/src/ui_contextsettingspage.h:361
 msgid "Context"
 msgstr "Contesto"
 
@@ -1356,7 +1356,7 @@ msgstr "Converti tutta la musica"
 msgid "Convert any music that the device can't play"
 msgstr "Converti qualsiasi musica che il dispositivo non può riprodurre"
 
-#: core/mainwindow.cpp:702
+#: core/mainwindow.cpp:703
 msgid "Copy URL(s)..."
 msgstr ""
 
@@ -1364,7 +1364,7 @@ msgstr ""
 msgid "Copy album cover artwork"
 msgstr "Copia la copertina dell'album"
 
-#: core/mainwindow.cpp:706 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:707 widgets/fileviewlist.cpp:48
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Copia nella raccolta..."
@@ -1373,7 +1373,7 @@ msgstr "Copia nella raccolta..."
 msgid "Copy to device"
 msgstr ""
 
-#: core/mainwindow.cpp:709 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:710 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:104
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
@@ -1614,7 +1614,7 @@ msgstr "Elimina i file"
 msgid "Delete from device..."
 msgstr "Elimina da dispositivo..."
 
-#: core/mainwindow.cpp:711 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:712 collection/collectionview.cpp:354
 #: widgets/fileviewlist.cpp:51
 msgid "Delete from disk..."
 msgstr "Elimina dal disco..."
@@ -1636,11 +1636,11 @@ msgstr "Elimina i file originali"
 msgid "Deleting files"
 msgstr "Eliminazione dei file"
 
-#: core/mainwindow.cpp:1826
+#: core/mainwindow.cpp:1839
 msgid "Dequeue selected tracks"
 msgstr "Rimuovi le tracce selezionate dalla coda"
 
-#: core/mainwindow.cpp:1825
+#: core/mainwindow.cpp:1838
 msgid "Dequeue track"
 msgstr "Rimuovi tracce dalla coda"
 
@@ -1666,7 +1666,7 @@ msgstr "Proprietà del dispositivo"
 msgid "Device properties..."
 msgstr "Proprietà del dispositivo..."
 
-#: core/mainwindow.cpp:343
+#: core/mainwindow.cpp:344
 msgid "Devices"
 msgstr "Dispositivi"
 
@@ -1722,6 +1722,10 @@ msgstr "Non ritagliare l'immagine"
 #: ../build/src/ui_albumcoverexport.h:208
 msgid "Do not overwrite"
 msgstr "Non sovrascrivere"
+
+#: ../build/src/ui_snapdialog.h:120
+msgid "Do not show this message again."
+msgstr ""
 
 #: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
@@ -1781,7 +1785,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1867
+#: core/mainwindow.cpp:1880
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Modifica tag \"%1\"..."
@@ -1933,7 +1937,7 @@ msgstr "Equivalente a --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente a --log-levels *:3"
 
-#: core/mainwindow.cpp:2441 core/mainwindow.cpp:2586
+#: core/mainwindow.cpp:2454 core/mainwindow.cpp:2599
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Errore"
@@ -2137,7 +2141,7 @@ msgstr "Nome file"
 msgid "Filename:"
 msgstr "Nome del file:"
 
-#: core/mainwindow.cpp:341
+#: core/mainwindow.cpp:342
 msgid "Files"
 msgstr "File"
 
@@ -2189,6 +2193,15 @@ msgstr ""
 #: ../build/src/ui_contextsettingspage.h:428
 #: ../build/src/ui_contextsettingspage.h:433
 msgid "Font size"
+msgstr ""
+
+#: dialogs/snapdialog.cpp:56
+#, qt-format
+msgid "For Ubuntu there is an official PPA repository available at %1."
+msgstr ""
+
+#: dialogs/snapdialog.cpp:64
+msgid "For a better experience please consider the other options above."
 msgstr ""
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
@@ -2554,6 +2567,10 @@ msgstr "Risposta non valida dal browser web. Token mancante."
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
+msgstr ""
+
+#: dialogs/snapdialog.cpp:44
+msgid "It is detected that Strawberry is running as a Snap"
 msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:302
@@ -2924,7 +2941,7 @@ msgstr "Punti di mount"
 msgid "Move down"
 msgstr "Sposta in basso"
 
-#: core/mainwindow.cpp:707 widgets/fileviewlist.cpp:49
+#: core/mainwindow.cpp:708 widgets/fileviewlist.cpp:49
 msgid "Move to collection..."
 msgstr "Sposta nella raccolta..."
 
@@ -2933,7 +2950,7 @@ msgstr "Sposta nella raccolta..."
 msgid "Move up"
 msgstr "Sposta in alto"
 
-#: core/mainwindow.cpp:2101 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2114 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musica"
 
@@ -2978,7 +2995,7 @@ msgstr "Non iniziare mai la riproduzione"
 msgid "New folder"
 msgstr "Nuova cartella"
 
-#: core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:1938
 msgid "New playlist"
 msgstr "Nuova scaletta"
 
@@ -3050,7 +3067,7 @@ msgstr "Nessuna canzone in riproduzione"
 msgid "None"
 msgstr "Nessuna"
 
-#: core/mainwindow.cpp:2441 core/mainwindow.cpp:2586
+#: core/mainwindow.cpp:2454 core/mainwindow.cpp:2599
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3118,6 +3135,13 @@ msgstr "Anteprima OSD"
 msgid "Off"
 msgstr "Spento"
 
+#: dialogs/snapdialog.cpp:60
+#, qt-format
+msgid ""
+"Official releases are available for Debian and Ubuntu which also work on "
+"most of their derivatives. See %1 for more information."
+msgstr ""
+
 #: osd/osdbase.cpp:245
 msgid "On"
 msgstr "Acceso"
@@ -3183,7 +3207,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr ""
 
-#: core/mainwindow.cpp:705 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:706 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:350
 msgid "Organize files..."
 msgstr ""
@@ -3256,7 +3280,7 @@ msgstr "Festa"
 msgid "Password"
 msgstr "Password"
 
-#: core/mainwindow.cpp:1247 core/mainwindow.cpp:1721
+#: core/mainwindow.cpp:1260 core/mainwindow.cpp:1734
 #: core/qtsystemtrayicon.cpp:190
 msgid "Pause"
 msgstr "Pausa"
@@ -3284,8 +3308,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Barra laterale semplice"
 
-#: core/mainwindow.cpp:674 core/mainwindow.cpp:1200 core/mainwindow.cpp:1229
-#: core/mainwindow.cpp:1725 core/qtsystemtrayicon.cpp:177
+#: core/mainwindow.cpp:675 core/mainwindow.cpp:1213 core/mainwindow.cpp:1242
+#: core/mainwindow.cpp:1738 core/qtsystemtrayicon.cpp:177
 #: core/qtsystemtrayicon.cpp:202
 msgid "Play"
 msgstr "Riproduci"
@@ -3348,7 +3372,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Scaletta terminata"
 
-#: core/mainwindow.cpp:2191
+#: core/mainwindow.cpp:2204
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3368,7 +3392,7 @@ msgstr "Opzioni della scaletta"
 msgid "Playlist type"
 msgstr ""
 
-#: core/mainwindow.cpp:339
+#: core/mainwindow.cpp:340
 msgid "Playlists"
 msgstr "Playlist"
 
@@ -3494,7 +3518,7 @@ msgstr "Avanzamento"
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:352 ../build/src/ui_scrobblersettingspage.h:409
+#: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:409
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3517,24 +3541,24 @@ msgstr "Qualità"
 msgid "Querying device..."
 msgstr "Interrogazione dispositivo..."
 
-#: core/mainwindow.cpp:338
+#: core/mainwindow.cpp:339
 msgid "Queue"
 msgstr "Coda"
 
-#: core/mainwindow.cpp:1828
+#: core/mainwindow.cpp:1841
 msgid "Queue selected tracks"
 msgstr "Accoda le tracce selezionate"
 
-#: core/mainwindow.cpp:680 core/mainwindow.cpp:1832
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1845
 msgid "Queue selected tracks to play next"
 msgstr "Accoda i brani selezionati per riprodurli successivamente"
 
-#: core/mainwindow.cpp:1834 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1847 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Accoda cosa riprodurre dopo"
 
-#: core/mainwindow.cpp:1827 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1840 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -3729,7 +3753,7 @@ msgstr ""
 msgid "Rescan song(s)"
 msgstr "Riscansiona canzone/i"
 
-#: core/mainwindow.cpp:696
+#: core/mainwindow.cpp:697
 msgid "Rescan song(s)..."
 msgstr ""
 
@@ -4039,7 +4063,7 @@ msgstr "L'URL del server non è valido."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1866
+#: core/mainwindow.cpp:1879
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Imposta %1 a \"%2\"..."
@@ -4127,7 +4151,7 @@ msgstr "Mostra la copertina dell'album nella collezione"
 msgid "Show albums by artist"
 msgstr "Mostra gli album in base all'artista"
 
-#: core/mainwindow.cpp:627
+#: core/mainwindow.cpp:628
 msgid "Show all songs"
 msgstr "Mostra tutti i brani"
 
@@ -4151,7 +4175,7 @@ msgstr "Mostra l'engine ed il dispositivo"
 msgid "Show fullsize..."
 msgstr "Mostra a dimensioni originali..."
 
-#: core/mainwindow.cpp:703
+#: core/mainwindow.cpp:704
 msgid "Show in collection..."
 msgstr "Mostra nella raccolta..."
 
@@ -4159,7 +4183,7 @@ msgstr "Mostra nella raccolta..."
 msgid "Show in file browser"
 msgstr "Mostra nel browser di file"
 
-#: core/mainwindow.cpp:704 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:705 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:359 widgets/fileviewlist.cpp:55
 msgid "Show in file browser..."
 msgstr "Mostra nel navigatore file..."
@@ -4176,11 +4200,11 @@ msgstr "Mostra il pulsante love"
 msgid "Show moodbar"
 msgstr "Mostra la barra dell'umore"
 
-#: core/mainwindow.cpp:628
+#: core/mainwindow.cpp:629
 msgid "Show only duplicates"
 msgstr "Mostra solo i duplicati"
 
-#: core/mainwindow.cpp:629
+#: core/mainwindow.cpp:630
 msgid "Show only untagged"
 msgstr "Mostra solo i brani senza tag"
 
@@ -4269,11 +4293,11 @@ msgstr "Salta il conteggio"
 msgid "Skip forwards in playlist"
 msgstr "Salta in avanti nella scaletta"
 
-#: core/mainwindow.cpp:1839
+#: core/mainwindow.cpp:1852
 msgid "Skip selected tracks"
 msgstr "Salta le tracce selezionate"
 
-#: core/mainwindow.cpp:1838
+#: core/mainwindow.cpp:1851
 msgid "Skip track"
 msgstr "Salta la traccia"
 
@@ -4289,7 +4313,7 @@ msgstr "Pannello laterale piccolo"
 msgid "Smart playlist"
 msgstr ""
 
-#: core/mainwindow.cpp:340
+#: core/mainwindow.cpp:341
 msgid "Smart playlists"
 msgstr ""
 
@@ -4374,7 +4398,7 @@ msgstr "Ferma dopo ogni traccia"
 msgid "Stop after every track"
 msgstr "Ferma dopo tutte le tracce"
 
-#: core/mainwindow.cpp:676 ../build/src/ui_mainwindow.h:627
+#: core/mainwindow.cpp:677 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "Ferma dopo questa traccia"
 
@@ -4435,6 +4459,21 @@ msgid ""
 "on %1"
 msgstr ""
 
+#: dialogs/snapdialog.cpp:40
+msgid "Strawberry is running as a Snap"
+msgstr ""
+
+#: ../build/src/ui_snapdialog.h:117
+msgid "Strawberry is running as a snap"
+msgstr ""
+
+#: dialogs/snapdialog.cpp:48
+msgid ""
+"Strawberry is slower, and has restrictions when running as a Snap. Accessing "
+"the root filesystem (/) will not work. There also might be other "
+"restrictions such as accessing certain devices or network shares."
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry non ha trovato risultati per questo file"
@@ -4459,7 +4498,7 @@ msgstr "Allarga l'immagine per riempire la playlist"
 msgid "Submit scrobbles every"
 msgstr "Invia gli scrobbles ogni"
 
-#: core/mainwindow.cpp:346 ../build/src/ui_scrobblersettingspage.h:407
+#: core/mainwindow.cpp:347 ../build/src/ui_scrobblersettingspage.h:407
 #: ../build/src/ui_subsonicsettingspage.h:188
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4585,7 +4624,7 @@ msgstr "Il sito richiesto non esiste!"
 msgid "The site you requested is not an image!"
 msgstr "Il sito richiesto non è un'immagine!"
 
-#: core/mainwindow.cpp:2698
+#: core/mainwindow.cpp:2711
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4695,7 +4734,7 @@ msgstr ""
 msgid "This type of device is not supported: %1"
 msgstr "Questi tipo di dispositivo non è supportato: %1"
 
-#: core/mainwindow.cpp:349 ../build/src/ui_scrobblersettingspage.h:408
+#: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:408
 #: ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
@@ -4721,7 +4760,7 @@ msgstr "Titolo"
 msgid "Today"
 msgstr "Oggi"
 
-#: core/mainwindow.cpp:677 core/mainwindow.cpp:1829
+#: core/mainwindow.cpp:678 core/mainwindow.cpp:1842
 msgid "Toggle queue status"
 msgstr "Cambia lo stato della coda"
 
@@ -4729,7 +4768,7 @@ msgstr "Cambia lo stato della coda"
 msgid "Toggle scrobbling"
 msgstr "Commuta lo scrobbling"
 
-#: core/mainwindow.cpp:683 core/mainwindow.cpp:1840
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1853
 msgid "Toggle skip status"
 msgstr "Attiva / Disattiva lo status di ignoramento"
 
@@ -4824,11 +4863,11 @@ msgstr "Errore sconosciuto"
 msgid "Unset cover"
 msgstr "Rimuovi copertina"
 
-#: core/mainwindow.cpp:1837
+#: core/mainwindow.cpp:1850
 msgid "Unskip selected tracks"
 msgstr "Ripristina le tracce selezionate"
 
-#: core/mainwindow.cpp:1836
+#: core/mainwindow.cpp:1849
 msgid "Unskip track"
 msgstr "Ripristina la traccia"
 
@@ -5064,7 +5103,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2702
+#: core/mainwindow.cpp:2715
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vuoi eseguire subito una nuova scansione completa?"
 

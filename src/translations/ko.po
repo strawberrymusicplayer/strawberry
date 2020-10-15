@@ -549,7 +549,7 @@ msgstr "디렉터리와 모든 하위 디렉터리의 트랙을 추가합니다"
 msgid "Add directory..."
 msgstr "디렉터리 추가..."
 
-#: core/mainwindow.cpp:2101
+#: core/mainwindow.cpp:2114
 msgid "Add file"
 msgstr "파일 추가"
 
@@ -565,7 +565,7 @@ msgstr "변환할 파일 추가"
 msgid "Add files to transcode"
 msgstr "변환할 파일 추가"
 
-#: core/mainwindow.cpp:2126 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2139 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "폴더 추가"
 
@@ -668,7 +668,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "앨범에 추가"
 
-#: core/mainwindow.cpp:1909
+#: core/mainwindow.cpp:1922
 msgid "Add to another playlist"
 msgstr "다른 재생 목록에 추가"
 
@@ -787,7 +787,7 @@ msgstr "앨범아트가 있는 앨범"
 msgid "Albums without covers"
 msgstr "앨범아트가 없는 앨범"
 
-#: core/mainwindow.cpp:208
+#: core/mainwindow.cpp:209
 msgid "All Files (*)"
 msgstr "모든 파일 (*)"
 
@@ -1137,7 +1137,7 @@ msgstr "지금 재생 중인 음악 변경"
 msgid "Change the language"
 msgstr "언어 변경"
 
-#: core/mainwindow.cpp:758
+#: core/mainwindow.cpp:759
 msgid "Check for updates..."
 msgstr "업데이트 확인..."
 
@@ -1182,7 +1182,7 @@ msgstr "비우기"
 msgid "Clear Disk Cache"
 msgstr "디스크 캐시 비우기"
 
-#: core/mainwindow.cpp:2191 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2204 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "재생 목록 비우기"
 
@@ -1234,7 +1234,7 @@ msgstr "이 창을 닫으면 앨범아트 검색을 정지합니다."
 msgid "Club"
 msgstr "클럽"
 
-#: core/mainwindow.cpp:337 ../build/src/ui_collectionsettingspage.h:406
+#: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:406
 #: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Collection"
 msgstr "모음집"
@@ -1247,7 +1247,7 @@ msgstr "라이브러리 필터"
 msgid "Collection advanced grouping"
 msgstr "라이브러리 고급 그룹"
 
-#: core/mainwindow.cpp:2703
+#: core/mainwindow.cpp:2716
 msgid "Collection rescan notice"
 msgstr "모음집 재탐색 알림"
 
@@ -1308,7 +1308,7 @@ msgstr "%1 설정..."
 msgid "Configure buttons"
 msgstr ""
 
-#: core/mainwindow.cpp:638
+#: core/mainwindow.cpp:639
 msgid "Configure collection..."
 msgstr "모음집 설정..."
 
@@ -1324,7 +1324,7 @@ msgstr "콘솔"
 msgid "Constant bitrate"
 msgstr "고정 비트 전송률"
 
-#: core/mainwindow.cpp:336 ../build/src/ui_contextsettingspage.h:361
+#: core/mainwindow.cpp:337 ../build/src/ui_contextsettingspage.h:361
 msgid "Context"
 msgstr "지금 재생"
 
@@ -1344,7 +1344,7 @@ msgstr "모든 곡 변환"
 msgid "Convert any music that the device can't play"
 msgstr "장치에서 재생할 수 없는 곡 변환"
 
-#: core/mainwindow.cpp:702
+#: core/mainwindow.cpp:703
 msgid "Copy URL(s)..."
 msgstr ""
 
@@ -1352,7 +1352,7 @@ msgstr ""
 msgid "Copy album cover artwork"
 msgstr "앨범아트 복사"
 
-#: core/mainwindow.cpp:706 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:707 widgets/fileviewlist.cpp:48
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "라이브러리로 복사..."
@@ -1361,7 +1361,7 @@ msgstr "라이브러리로 복사..."
 msgid "Copy to device"
 msgstr ""
 
-#: core/mainwindow.cpp:709 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:710 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:104
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
@@ -1597,7 +1597,7 @@ msgstr "파일 삭제"
 msgid "Delete from device..."
 msgstr "장치에서 삭제..."
 
-#: core/mainwindow.cpp:711 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:712 collection/collectionview.cpp:354
 #: widgets/fileviewlist.cpp:51
 msgid "Delete from disk..."
 msgstr "디스크에서 삭제..."
@@ -1619,11 +1619,11 @@ msgstr "원본 파일 삭제"
 msgid "Deleting files"
 msgstr "파일 삭제 중"
 
-#: core/mainwindow.cpp:1826
+#: core/mainwindow.cpp:1839
 msgid "Dequeue selected tracks"
 msgstr "선택한 트랙을 대기열에서 삭제"
 
-#: core/mainwindow.cpp:1825
+#: core/mainwindow.cpp:1838
 msgid "Dequeue track"
 msgstr "대기열에서 트랙 삭제"
 
@@ -1649,7 +1649,7 @@ msgstr "장치 속성"
 msgid "Device properties..."
 msgstr "장치 속성..."
 
-#: core/mainwindow.cpp:343
+#: core/mainwindow.cpp:344
 msgid "Devices"
 msgstr "장치"
 
@@ -1705,6 +1705,10 @@ msgstr "이미지 자르지 않기"
 #: ../build/src/ui_albumcoverexport.h:208
 msgid "Do not overwrite"
 msgstr "덮어쓰지 않기"
+
+#: ../build/src/ui_snapdialog.h:120
+msgid "Do not show this message again."
+msgstr ""
 
 #: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
@@ -1764,7 +1768,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1867
+#: core/mainwindow.cpp:1880
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "\"%1\" 태그 편집..."
@@ -1914,7 +1918,7 @@ msgstr "--log-levels *:1과 동일함"
 msgid "Equivalent to --log-levels *:3"
 msgstr "--log-levels *:3과 동일함"
 
-#: core/mainwindow.cpp:2441 core/mainwindow.cpp:2586
+#: core/mainwindow.cpp:2454 core/mainwindow.cpp:2599
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "오류"
@@ -2118,7 +2122,7 @@ msgstr "파일 이름"
 msgid "Filename:"
 msgstr "파일 이름:"
 
-#: core/mainwindow.cpp:341
+#: core/mainwindow.cpp:342
 msgid "Files"
 msgstr "파일"
 
@@ -2171,6 +2175,15 @@ msgstr "제목 폰트 설정"
 #: ../build/src/ui_contextsettingspage.h:433
 msgid "Font size"
 msgstr "글자 크기"
+
+#: dialogs/snapdialog.cpp:56
+#, qt-format
+msgid "For Ubuntu there is an official PPA repository available at %1."
+msgstr ""
+
+#: dialogs/snapdialog.cpp:64
+msgid "For a better experience please consider the other options above."
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
@@ -2525,6 +2538,10 @@ msgstr "웹 브라우저에서 잘못된 응답을 받았습니다. 토큰이 �
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
+msgstr ""
+
+#: dialogs/snapdialog.cpp:44
+msgid "It is detected that Strawberry is running as a Snap"
 msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:302
@@ -2895,7 +2912,7 @@ msgstr "마운트 지점"
 msgid "Move down"
 msgstr "아래로 이동"
 
-#: core/mainwindow.cpp:707 widgets/fileviewlist.cpp:49
+#: core/mainwindow.cpp:708 widgets/fileviewlist.cpp:49
 msgid "Move to collection..."
 msgstr "모음집으로 이동..."
 
@@ -2904,7 +2921,7 @@ msgstr "모음집으로 이동..."
 msgid "Move up"
 msgstr "위로 이동"
 
-#: core/mainwindow.cpp:2101 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2114 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "음악"
 
@@ -2949,7 +2966,7 @@ msgstr "재생을 시작하지 않음"
 msgid "New folder"
 msgstr "새 폴더"
 
-#: core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:1938
 msgid "New playlist"
 msgstr "새로운 재생 목록"
 
@@ -3019,7 +3036,7 @@ msgstr "재생 중인 곡 없음"
 msgid "None"
 msgstr "없음"
 
-#: core/mainwindow.cpp:2441 core/mainwindow.cpp:2586
+#: core/mainwindow.cpp:2454 core/mainwindow.cpp:2599
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "선택한 음악을 장치에 복사하기에 적합하지 않음"
@@ -3083,6 +3100,13 @@ msgstr "OSD 미리 보기"
 #: osd/osdbase.cpp:245
 msgid "Off"
 msgstr "꺼짐"
+
+#: dialogs/snapdialog.cpp:60
+#, qt-format
+msgid ""
+"Official releases are available for Debian and Ubuntu which also work on "
+"most of their derivatives. See %1 for more information."
+msgstr ""
 
 #: osd/osdbase.cpp:245
 msgid "On"
@@ -3149,7 +3173,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr ""
 
-#: core/mainwindow.cpp:705 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:706 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:350
 msgid "Organize files..."
 msgstr ""
@@ -3222,7 +3246,7 @@ msgstr "파티"
 msgid "Password"
 msgstr "암호"
 
-#: core/mainwindow.cpp:1247 core/mainwindow.cpp:1721
+#: core/mainwindow.cpp:1260 core/mainwindow.cpp:1734
 #: core/qtsystemtrayicon.cpp:190
 msgid "Pause"
 msgstr "일시 정지"
@@ -3250,8 +3274,8 @@ msgstr "픽셀"
 msgid "Plain sidebar"
 msgstr "일반 사이드바"
 
-#: core/mainwindow.cpp:674 core/mainwindow.cpp:1200 core/mainwindow.cpp:1229
-#: core/mainwindow.cpp:1725 core/qtsystemtrayicon.cpp:177
+#: core/mainwindow.cpp:675 core/mainwindow.cpp:1213 core/mainwindow.cpp:1242
+#: core/mainwindow.cpp:1738 core/qtsystemtrayicon.cpp:177
 #: core/qtsystemtrayicon.cpp:202
 msgid "Play"
 msgstr "재생"
@@ -3314,7 +3338,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "재생 목록 끝남"
 
-#: core/mainwindow.cpp:2191
+#: core/mainwindow.cpp:2204
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3334,7 +3358,7 @@ msgstr "재생 목록 옵션"
 msgid "Playlist type"
 msgstr ""
 
-#: core/mainwindow.cpp:339
+#: core/mainwindow.cpp:340
 msgid "Playlists"
 msgstr "재생 목록"
 
@@ -3454,7 +3478,7 @@ msgstr "진행"
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:352 ../build/src/ui_scrobblersettingspage.h:409
+#: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:409
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3477,24 +3501,24 @@ msgstr "음질"
 msgid "Querying device..."
 msgstr "장치 질의 중..."
 
-#: core/mainwindow.cpp:338
+#: core/mainwindow.cpp:339
 msgid "Queue"
 msgstr "대기열"
 
-#: core/mainwindow.cpp:1828
+#: core/mainwindow.cpp:1841
 msgid "Queue selected tracks"
 msgstr "선택한 트랙을 대기열에 추가"
 
-#: core/mainwindow.cpp:680 core/mainwindow.cpp:1832
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1845
 msgid "Queue selected tracks to play next"
 msgstr "선택한 트랙을 다음에 재생하도록 대기열에 추가"
 
-#: core/mainwindow.cpp:1834 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1847 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "다음에 재생할 대기열에 추가"
 
-#: core/mainwindow.cpp:1827 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1840 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -3689,7 +3713,7 @@ msgstr ""
 msgid "Rescan song(s)"
 msgstr "노래 다시 검색"
 
-#: core/mainwindow.cpp:696
+#: core/mainwindow.cpp:697
 msgid "Rescan song(s)..."
 msgstr ""
 
@@ -3995,7 +4019,7 @@ msgstr "서버 URL이 잘못되었습니다."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1866
+#: core/mainwindow.cpp:1879
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1을(를) \"%2\"(으)로 설정..."
@@ -4082,7 +4106,7 @@ msgstr "앨범 목록에 앨범아트 표시"
 msgid "Show albums by artist"
 msgstr "아티스트별로 앨범 표시"
 
-#: core/mainwindow.cpp:627
+#: core/mainwindow.cpp:628
 msgid "Show all songs"
 msgstr "모든 곡 표시"
 
@@ -4106,7 +4130,7 @@ msgstr "엔진과 장치 표시"
 msgid "Show fullsize..."
 msgstr "전체 크기 표시..."
 
-#: core/mainwindow.cpp:703
+#: core/mainwindow.cpp:704
 msgid "Show in collection..."
 msgstr "라이브러리에 표시..."
 
@@ -4114,7 +4138,7 @@ msgstr "라이브러리에 표시..."
 msgid "Show in file browser"
 msgstr "파일 탐색기에 표시"
 
-#: core/mainwindow.cpp:704 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:705 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:359 widgets/fileviewlist.cpp:55
 msgid "Show in file browser..."
 msgstr "파일 탐색기에 표시..."
@@ -4131,11 +4155,11 @@ msgstr "좋아요 단추 표시"
 msgid "Show moodbar"
 msgstr "무드바 표시"
 
-#: core/mainwindow.cpp:628
+#: core/mainwindow.cpp:629
 msgid "Show only duplicates"
 msgstr "복사본만 표시"
 
-#: core/mainwindow.cpp:629
+#: core/mainwindow.cpp:630
 msgid "Show only untagged"
 msgstr "태그되지 않은 것만 표시"
 
@@ -4224,11 +4248,11 @@ msgstr "건너뛴 횟수"
 msgid "Skip forwards in playlist"
 msgstr "재생 목록의 다음 곡으로 전환"
 
-#: core/mainwindow.cpp:1839
+#: core/mainwindow.cpp:1852
 msgid "Skip selected tracks"
 msgstr "선택한 트랙 건너뛰기"
 
-#: core/mainwindow.cpp:1838
+#: core/mainwindow.cpp:1851
 msgid "Skip track"
 msgstr "트랙 건너뛰기"
 
@@ -4244,7 +4268,7 @@ msgstr "작은 사이드바"
 msgid "Smart playlist"
 msgstr ""
 
-#: core/mainwindow.cpp:340
+#: core/mainwindow.cpp:341
 msgid "Smart playlists"
 msgstr ""
 
@@ -4327,7 +4351,7 @@ msgstr "각각 트랙이 끝난 후 정지"
 msgid "Stop after every track"
 msgstr "모든 트랙 이후에 정지"
 
-#: core/mainwindow.cpp:676 ../build/src/ui_mainwindow.h:627
+#: core/mainwindow.cpp:677 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "현재 트랙 이후 정지"
 
@@ -4385,6 +4409,21 @@ msgid ""
 "on %1"
 msgstr ""
 
+#: dialogs/snapdialog.cpp:40
+msgid "Strawberry is running as a Snap"
+msgstr ""
+
+#: ../build/src/ui_snapdialog.h:117
+msgid "Strawberry is running as a snap"
+msgstr ""
+
+#: dialogs/snapdialog.cpp:48
+msgid ""
+"Strawberry is slower, and has restrictions when running as a Snap. Accessing "
+"the root filesystem (/) will not work. There also might be other "
+"restrictions such as accessing certain devices or network shares."
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry에서 이 파일의 결과를 찾을 수 없습니다"
@@ -4409,7 +4448,7 @@ msgstr "이미지를 재생 목록 크기로 늘려서 맞춤"
 msgid "Submit scrobbles every"
 msgstr "스크로블 제출 주기"
 
-#: core/mainwindow.cpp:346 ../build/src/ui_scrobblersettingspage.h:407
+#: core/mainwindow.cpp:347 ../build/src/ui_scrobblersettingspage.h:407
 #: ../build/src/ui_subsonicsettingspage.h:188
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4535,7 +4574,7 @@ msgstr "요청한 사이트가 존재하지 않습니다!"
 msgid "The site you requested is not an image!"
 msgstr "요청한 사이트는 이미지가 아닙니다!"
 
-#: core/mainwindow.cpp:2698
+#: core/mainwindow.cpp:2711
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4623,7 +4662,7 @@ msgstr "이 옵션은 \"행동\" 설정에서 변경할 수 있습니다"
 msgid "This type of device is not supported: %1"
 msgstr "다음 장치의 형식은 지원하지 않습니다: %1"
 
-#: core/mainwindow.cpp:349 ../build/src/ui_scrobblersettingspage.h:408
+#: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:408
 #: ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
@@ -4649,7 +4688,7 @@ msgstr "제목"
 msgid "Today"
 msgstr "오늘"
 
-#: core/mainwindow.cpp:677 core/mainwindow.cpp:1829
+#: core/mainwindow.cpp:678 core/mainwindow.cpp:1842
 msgid "Toggle queue status"
 msgstr "대기열 상태 전환"
 
@@ -4657,7 +4696,7 @@ msgstr "대기열 상태 전환"
 msgid "Toggle scrobbling"
 msgstr "스크로블 전환"
 
-#: core/mainwindow.cpp:683 core/mainwindow.cpp:1840
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1853
 msgid "Toggle skip status"
 msgstr "건너뛰기 상태 전환"
 
@@ -4752,11 +4791,11 @@ msgstr "알 수 없는 오류"
 msgid "Unset cover"
 msgstr "표지 설정 해제"
 
-#: core/mainwindow.cpp:1837
+#: core/mainwindow.cpp:1850
 msgid "Unskip selected tracks"
 msgstr "선택한 트랙 건너뛰기 해제"
 
-#: core/mainwindow.cpp:1836
+#: core/mainwindow.cpp:1849
 msgid "Unskip track"
 msgstr "트랙 건너뛰기 해제"
 
@@ -4988,7 +5027,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2702
+#: core/mainwindow.cpp:2715
 msgid "Would you like to run a full rescan right now?"
 msgstr "지금 전부 다시 검색하시겠습니까?"
 
