@@ -36,26 +36,8 @@ MMDeviceFinder::MMDeviceFinder() : DeviceFinder("mmdevice", { "wasapisink" }) {}
 
 QList<DeviceFinder::Device> MMDeviceFinder::ListDevices() {
 
-  HRESULT hr = S_OK;
-
-  IMMDeviceEnumerator *enumerator = nullptr;
-  hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, (void**)&enumerator);
-  if (FAILED(hr)) {
-    return QList<Device>();
-  }
-
-  IMMDeviceCollection *collection = nullptr;
-  hr = enumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &collection);
-  if (FAILED(hr)) {
-    enumerator->Release();
-    return QList<Device>();
-  }
-
-  UINT count;
-  hr = collection->GetCount(&count);
-  if (FAILED(hr)) {
-    collection->Release();
-    enumerator->Release();
+  HRESULT hr_coinit = CoInitializeEx(NULL, COINIT_MULTITHREADED);
+  if (hr_coinit != S_OK && hr_coinit != S_FALSE) {
     return QList<Device>();
   }
 
@@ -65,51 +47,50 @@ QList<DeviceFinder::Device> MMDeviceFinder::ListDevices() {
   default_device.iconname = GuessIconName(default_device.description);
   devices.append(default_device);
 
-  for (ULONG i = 0 ; i < count ; i++) {
-
-    IMMDevice *endpoint = nullptr;
-    hr = collection->Item(i, &endpoint);
-    if (FAILED(hr)) { return devices; }
-
-    LPWSTR pwszid = nullptr;
-    hr = endpoint->GetId(&pwszid);
-    if (FAILED(hr)) {
-      endpoint->Release();
-      continue;
+  IMMDeviceEnumerator *enumerator = nullptr;
+  HRESULT hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, (void**)&enumerator);
+  if (hr == S_OK) {
+    IMMDeviceCollection *collection = nullptr;
+    hr = enumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &collection);
+    if (hr == S_OK) {
+      UINT count;
+      hr = collection->GetCount(&count);
+      if (hr == S_OK) {
+        for (ULONG i = 0 ; i < count ; i++) {
+          IMMDevice *endpoint = nullptr;
+          hr = collection->Item(i, &endpoint);
+          if (hr == S_OK) {
+            LPWSTR pwszid = nullptr;
+            hr = endpoint->GetId(&pwszid);
+            if (hr == S_OK) {
+              IPropertyStore *props = nullptr;
+              hr = endpoint->OpenPropertyStore(STGM_READ, &props);
+              if (hr == S_OK) {
+                PROPVARIANT var_name;
+                PropVariantInit(&var_name);
+                hr = props->GetValue(PKEY_Device_FriendlyName, &var_name);
+                if (hr == S_OK) {
+                  Device device;
+                  device.description = QString::fromWCharArray(var_name.pwszVal);
+                  device.iconname = GuessIconName(device.description);
+                  device.value = QString::fromStdWString(pwszid);
+                  devices.append(device);
+                  PropVariantClear(&var_name);
+                }
+                props->Release();
+              }
+              CoTaskMemFree(pwszid);
+            }
+            endpoint->Release();
+          }
+        }
+      }
+      collection->Release();
     }
-
-    IPropertyStore *props = nullptr;
-    hr = endpoint->OpenPropertyStore(STGM_READ, &props);
-    if (FAILED(hr)) {
-      CoTaskMemFree(pwszid);
-      endpoint->Release();
-      continue;
-    }
-
-    PROPVARIANT var_name;
-    PropVariantInit(&var_name);
-    hr = props->GetValue(PKEY_Device_FriendlyName, &var_name);
-    if (FAILED(hr)) {
-      props->Release();
-      CoTaskMemFree(pwszid);
-      endpoint->Release();
-      continue;
-    }
-
-    Device device;
-    device.description = QString::fromWCharArray(var_name.pwszVal);
-    device.iconname = GuessIconName(device.description);
-    device.value = QString::fromStdWString(pwszid);
-    devices.append(device);
-
-    PropVariantClear(&var_name);
-    props->Release();
-    CoTaskMemFree(pwszid);
-    endpoint->Release();
-
+    enumerator->Release();
   }
-  collection->Release();
-  enumerator->Release();
+
+  if (hr_coinit == S_OK || hr_coinit == S_FALSE) CoUninitialize();
 
   return devices;
 
