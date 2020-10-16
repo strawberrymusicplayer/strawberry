@@ -406,6 +406,8 @@ void PlayingWidget::UpdateDetailsText() {
   // if something spans multiple lines the height needs to change
   if (mode_ == LargeSongDetails) UpdateHeight();
 
+  update();
+
 }
 
 void PlayingWidget::paintEvent(QPaintEvent *e) {
