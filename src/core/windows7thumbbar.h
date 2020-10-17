@@ -28,8 +28,9 @@
 #include <QObject>
 #include <QWidget>
 #include <QList>
-#include <QString>
-#include <QAction>
+
+class QTimer;
+class QAction;
 
 class Windows7ThumbBar : public QObject {
   Q_OBJECT
@@ -52,10 +53,12 @@ class Windows7ThumbBar : public QObject {
   void SetupButton(const QAction *action, THUMBBUTTON *button);
 
  private slots:
+  void ActionChangedTriggered();
   void ActionChanged();
 
  private:
   QWidget *widget_;
+  QTimer *timer_;
   QList<QAction*> actions_;
 
   unsigned int button_created_message_id_;

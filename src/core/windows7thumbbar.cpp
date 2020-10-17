@@ -26,6 +26,7 @@
 #include <QList>
 #include <QPixmap>
 #include <QAction>
+#include <QTimer>
 #include <QtDebug>
 
 #ifndef _WIN32_WINNT
@@ -47,7 +48,14 @@ const int Windows7ThumbBar::kMaxButtonCount = 7;
 Windows7ThumbBar::Windows7ThumbBar(QWidget *widget)
     : QObject(widget),
       widget_(widget),
-      button_created_message_id_(0) {}
+      timer_(new QTimer(this)),
+      button_created_message_id_(0) {
+
+  timer_->setSingleShot(true);
+  timer_->setInterval(300);
+  connect(timer_, SIGNAL(timeout()), SLOT(ActionChanged()));
+
+}
 
 void Windows7ThumbBar::SetActions(const QList<QAction*> &actions) {
 
@@ -57,7 +65,7 @@ void Windows7ThumbBar::SetActions(const QList<QAction*> &actions) {
   actions_ = actions;
   for (QAction *action : actions) {
     if (action) {
-      connect(action, SIGNAL(changed()), SLOT(ActionChanged()));
+      connect(action, SIGNAL(changed()), SLOT(ActionChangedTriggered()));
     }
   }
   qLog(Debug) << "Done";
@@ -80,7 +88,7 @@ ITaskbarList3 *Windows7ThumbBar::CreateTaskbarList() {
 
   hr = taskbar_list->HrInit();
   if (hr != S_OK) {
-    qLog(Warning) << "Error initialising taskbar list" << Qt::hex << DWORD (hr);
+    qLog(Warning) << "Error initializing taskbar list" << Qt::hex << DWORD (hr);
     taskbar_list->Release();
     return nullptr;
   }
@@ -160,6 +168,10 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
     }
   }
 
+}
+
+void Windows7ThumbBar::ActionChangedTriggered() {
+  if (!timer_->isActive()) timer_->start();
 }
 
 void Windows7ThumbBar::ActionChanged() {
