@@ -199,7 +199,7 @@ void CddaSongLoader::LoadSongs() {
       musicbrainz_client->StartDiscIdRequest(musicbrainz_discid);
       g_free(string_mb);
       gst_message_unref(msg_tag);
-      gst_tag_list_free(tags);
+      gst_tag_list_unref(tags);
     }
   }
 #endif

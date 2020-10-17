@@ -949,7 +949,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
     }
   }
 
-  gst_tag_list_free(taglist);
+  gst_tag_list_unref(taglist);
 
   emit MetadataFound(id(), bundle);
 
