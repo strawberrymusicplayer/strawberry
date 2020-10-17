@@ -2,6 +2,12 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed updating playing widget song details in small cover mode.
+    * (Windows) Added WASAPI plugin.
+
 0.8.2:
 
   Bugfixes:
