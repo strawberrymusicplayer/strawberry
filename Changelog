@@ -6,6 +6,8 @@ Unreleased:
 
   Bugfixes:
     * Fixed updating playing widget song details in small cover mode.
+
+  Enhancements:
     * (Windows) Added WASAPI plugin.
 
 0.8.2:
