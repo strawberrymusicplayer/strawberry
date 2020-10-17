@@ -193,7 +193,7 @@
 #include "smartplaylists/smartplaylistsviewcontainer.h"
 #include "smartplaylists/smartplaylistsview.h"
 
-#if 0
+#if defined(Q_OS_WIN) && defined(DEBUG)
 #  include "windows7thumbbar.h"
 #endif
 
@@ -216,7 +216,7 @@ const int kTrackPositionUpdateTimeMs = 1000;
 MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent) :
       QMainWindow(parent),
       ui_(new Ui_MainWindow),
-#if 0
+#if defined(Q_OS_WIN) && defined(DEBUG)
       thumbbar_(new Windows7ThumbBar(this)),
 #endif
       app_(app),
@@ -751,7 +751,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   }
 
   // Windows 7 thumbbar buttons
-#if 0
+#if defined(Q_OS_WIN) && defined(DEBUG)
   thumbbar_->SetActions(QList<QAction*>() << ui_->action_previous_track << ui_->action_play_pause << ui_->action_stop << ui_->action_next_track << nullptr << ui_->action_love);
 #endif
 
@@ -2752,7 +2752,7 @@ bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *r
   Q_UNUSED(eventType);
   Q_UNUSED(result);
 
-#if 0
+#if defined(Q_OS_WIN) && defined(DEBUG)
   MSG *msg = static_cast<MSG*>(message);
   thumbbar_->HandleWinEvent(msg);
 #else
