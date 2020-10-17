@@ -36,7 +36,7 @@ class PulseDeviceFinder : public DeviceFinder {
   explicit PulseDeviceFinder();
   ~PulseDeviceFinder() override;
 
-  bool Initialise() override;
+  bool Initialize() override;
   QList<Device> ListDevices() override;
 
  private:

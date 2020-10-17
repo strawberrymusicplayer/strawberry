@@ -70,8 +70,8 @@ class StretchHeaderView : public QHeaderView {
   bool is_stretch_enabled() const { return stretch_enabled_; }
 
  public slots:
-  // Changes the stretch mode.  Enabling stretch mode will initialise the
-  // proportional column widths from the current state of the header.
+  // Changes the stretch mode.
+  // Enabling stretch mode will initialize the proportional column widths from the current state of the header.
   void ToggleStretchEnabled();
   void SetStretchEnabled(const bool enabled);
 

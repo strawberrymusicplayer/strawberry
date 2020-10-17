@@ -99,7 +99,7 @@ GstEngine::GstEngine(TaskManager *task_manager)
 
 GstEngine::~GstEngine() {
 
-  EnsureInitialised();
+  EnsureInitialized();
   current_pipeline_.reset();
 
   if (latest_buffer_) {
@@ -136,7 +136,7 @@ Engine::State GstEngine::state() const {
 
 void GstEngine::StartPreloading(const QUrl &stream_url, const QUrl &original_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec) {
 
-  EnsureInitialised();
+  EnsureInitialized();
 
   QByteArray gst_url = FixupUrl(stream_url);
 
@@ -148,7 +148,7 @@ void GstEngine::StartPreloading(const QUrl &stream_url, const QUrl &original_url
 
 bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
 
-  EnsureInitialised();
+  EnsureInitialized();
 
   Engine::Base::Load(stream_url, original_url, change, force_stop_at_end, beginning_nanosec, end_nanosec);
 
@@ -186,7 +186,7 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
 
 bool GstEngine::Play(const quint64 offset_nanosec) {
 
-  EnsureInitialised();
+  EnsureInitialized();
 
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return false;
 
@@ -344,7 +344,7 @@ const Engine::Scope &GstEngine::scope(const int chunk_length) {
 
 EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
 
-  const_cast<GstEngine*>(this)->EnsureInitialised();
+  const_cast<GstEngine*>(this)->EnsureInitialized();
 
   EngineBase::OutputDetailsList ret;
 
@@ -369,7 +369,7 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
 
 bool GstEngine::ValidOutput(const QString &output) {
 
-  EnsureInitialised();
+  EnsureInitialized();
 
   PluginDetailsList plugins = GetPluginList("Sink/Audio");
   for (const PluginDetails &plugin : plugins) {
@@ -645,7 +645,7 @@ void GstEngine::BufferingFinished() {
 
 GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) const {
 
-  const_cast<GstEngine*>(this)->EnsureInitialised();
+  const_cast<GstEngine*>(this)->EnsureInitialized();
 
   PluginDetailsList ret;
 
@@ -672,7 +672,7 @@ GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) 
 
 QByteArray GstEngine::FixupUrl(const QUrl &url) {
 
-  EnsureInitialised();
+  EnsureInitialized();
 
   QByteArray uri;
 
@@ -749,7 +749,7 @@ void GstEngine::StopTimers() {
 
 std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
-  EnsureInitialised();
+  EnsureInitialized();
 
   std::shared_ptr<GstEnginePipeline> ret(new GstEnginePipeline(this));
   ret->set_output_device(output_, device_);

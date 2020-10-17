@@ -28,7 +28,7 @@ class MMDeviceFinder : public DeviceFinder {
  public:
   explicit MMDeviceFinder();
 
-  virtual bool Initialise() { return true; }
+  virtual bool Initialize() { return true; }
   virtual QList<Device> ListDevices();
 };
 

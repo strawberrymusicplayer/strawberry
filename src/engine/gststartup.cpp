@@ -41,14 +41,12 @@
 #include "gststartup.h"
 
 GstStartup::GstStartup(QObject *parent) : QObject(parent) {
-  initialising_ = QtConcurrent::run([=]{ InitialiseGStreamer(); });
+  initializing_ = QtConcurrent::run([=]{ InitializeGStreamer(); });
 }
 
-GstStartup::~GstStartup() {
-  //gst_deinit();
-}
+GstStartup::~GstStartup() {}
 
-void GstStartup::InitialiseGStreamer() {
+void GstStartup::InitializeGStreamer() {
 
   SetEnvironment();
 

@@ -80,7 +80,7 @@ class MtpDevice : public ConnectedDevice {
   int GetCapacity(LIBMTP_mtpdevice_struct* device);
 
  private:
-  static bool sInitialisedLibMTP;
+  static bool sInitializedLibMTP;
 
   MtpLoader *loader_;
   QThread *loader_thread_;

@@ -64,7 +64,7 @@ const QStringList CollectionSettingsPage::cacheUnitNames = { "KB", "MB", "GB", "
 CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
     : SettingsPage(dialog),
       ui_(new Ui_CollectionSettingsPage),
-      initialised_model_(false)
+      initialized_model_(false)
       {
 
   ui_->setupUi(this);
@@ -137,13 +137,13 @@ void CollectionSettingsPage::DiskCacheEnable(const int state) {
 
 void CollectionSettingsPage::Load() {
 
-  if (!initialised_model_) {
+  if (!initialized_model_) {
     if (ui_->list->selectionModel()) {
       disconnect(ui_->list->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this, SLOT(CurrentRowChanged(QModelIndex)));
     }
 
     ui_->list->setModel(dialog()->collection_directory_model());
-    initialised_model_ = true;
+    initialized_model_ = true;
 
     connect(ui_->list->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), SLOT(CurrentRowChanged(QModelIndex)));
   }

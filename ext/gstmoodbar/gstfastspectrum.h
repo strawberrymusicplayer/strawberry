@@ -65,7 +65,7 @@ struct GstFastSpectrum {
   GstClockTime message_ts;      /* starttime for next message */
 
   /* <private> */
-  bool channel_data_initialised;
+  bool channel_data_initialized;
   double* input_ring_buffer;
   double* fft_input;
   fftw_complex* fft_output;

@@ -166,7 +166,7 @@ void Player::Init() {
     CreateEngine(enginetype);
   }
 
-  if (!engine_->Init()) { qFatal("Error initialising audio engine"); }
+  if (!engine_->Init()) { qFatal("Error initializing audio engine"); }
 
   analyzer_->SetEngine(engine_.get());
 

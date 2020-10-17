@@ -72,7 +72,7 @@ class VLCEngine : public Engine::Base {
   libvlc_media_player_t *player_;
   Engine::State state_;
 
-  bool Initialised() const { return (instance_ && player_); }
+  bool Initialized() const { return (instance_ && player_); }
   uint position() const;
   uint length() const;
   bool CanDecode(const QUrl &url);

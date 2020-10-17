@@ -51,7 +51,7 @@ const int MoodbarSettingsPage::kMoodbarPreviewHeight = 18;
 MoodbarSettingsPage::MoodbarSettingsPage(SettingsDialog* dialog)
     : SettingsPage(dialog),
       ui_(new Ui_MoodbarSettingsPage),
-      initialised_(false)
+      initialized_(false)
       {
 
   ui_->setupUi(this);
@@ -96,8 +96,8 @@ void MoodbarSettingsPage::Cancel() {}
 
 void MoodbarSettingsPage::InitMoodbarPreviews() {
 
-  if (initialised_) return;
-  initialised_ = true;
+  if (initialized_) return;
+  initialized_ = true;
 
   const QSize preview_size(kMoodbarPreviewWidth, kMoodbarPreviewHeight);
   ui_->moodbar_style->setIconSize(preview_size);

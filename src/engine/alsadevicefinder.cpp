@@ -35,8 +35,7 @@
 #include "alsadevicefinder.h"
 
 AlsaDeviceFinder::AlsaDeviceFinder()
-    : DeviceFinder("alsa", {"alsa","alsasink"}) {
-}
+    : DeviceFinder("alsa", {"alsa","alsasink"}) {}
 
 QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
 
@@ -45,7 +44,7 @@ QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
   snd_pcm_stream_name(SND_PCM_STREAM_PLAYBACK);
 
   int card = -1;
-  snd_ctl_card_info_t* cardinfo;
+  snd_ctl_card_info_t *cardinfo = nullptr;
   snd_ctl_card_info_alloca(&cardinfo);
   while (true) {
 
@@ -59,7 +58,7 @@ QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
     char str[32];
     snprintf(str, sizeof(str) - 1, "hw:%d", card);
 
-    snd_ctl_t* handle;
+    snd_ctl_t *handle = nullptr;
     result = snd_ctl_open(&handle, str, 0);
     if (result < 0) {
       qLog(Error) << "Unable to open soundcard" << card << ":" << snd_strerror(result);
@@ -75,7 +74,7 @@ QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
     }
 
     int dev = -1;
-    snd_pcm_info_t* pcminfo;
+    snd_pcm_info_t *pcminfo = nullptr;
     snd_pcm_info_alloca(&pcminfo);
     while (true) {
 

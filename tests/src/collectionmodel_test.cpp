@@ -91,7 +91,7 @@ class CollectionModelTest : public ::testing::Test {
   bool added_dir_;
 };
 
-TEST_F(CollectionModelTest, Initialisation) {
+TEST_F(CollectionModelTest, Initialization) {
   EXPECT_EQ(0, model_->rowCount(QModelIndex()));
 }
 

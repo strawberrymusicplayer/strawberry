@@ -205,7 +205,7 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
   if (JobFinishedEvent::sEventType == -1)
     JobFinishedEvent::sEventType = QEvent::registerEventType();
 
-  // Initialise some settings for the lamemp3enc element.
+  // Initialize some settings for the lamemp3enc element.
   QSettings s;
   s.beginGroup("Transcoder/lamemp3enc" + settings_postfix_);
 

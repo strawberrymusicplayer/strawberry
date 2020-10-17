@@ -40,7 +40,7 @@ class DeviceLister : public QObject {
   DeviceLister();
   ~DeviceLister() override;
 
-  // Tries to start the thread and initialise the engine.  This object will be moved to the new thread.
+  // Tries to start the thread and initialize the engine.  This object will be moved to the new thread.
   void Start();
   virtual void ExitAsync();
 

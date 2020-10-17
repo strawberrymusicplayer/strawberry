@@ -104,7 +104,7 @@ void BackendSettingsPage::Load() {
   device_current_ = s.value("device", QVariant());
 
   ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(enginetype)));
-  if (EngineInitialised()) Load_Engine(enginetype);
+  if (EngineInitialized()) Load_Engine(enginetype);
 
   ui_->checkbox_volume_control->setChecked(s.value("volume_control", true).toBool());
 
@@ -152,7 +152,7 @@ void BackendSettingsPage::Load() {
   ui_->widget_alsa_plugin->hide();
 #endif
 
-  if (!EngineInitialised()) return;
+  if (!EngineInitialized()) return;
 
   if (engine()->state() == Engine::Empty) {
     if (ui_->combobox_engine->count() > 1) ui_->combobox_engine->setEnabled(true);
@@ -207,7 +207,7 @@ void BackendSettingsPage::Load() {
 
 }
 
-bool BackendSettingsPage::EngineInitialised() {
+bool BackendSettingsPage::EngineInitialized() {
 
   if (!engine() || engine()->type() == Engine::None) {
     errordialog_.ShowMessage("Engine is not initialized! Please restart.");
@@ -219,7 +219,7 @@ bool BackendSettingsPage::EngineInitialised() {
 
 void BackendSettingsPage::Load_Engine(const Engine::EngineType enginetype) {
 
-  if (!EngineInitialised()) return;
+  if (!EngineInitialized()) return;
 
   QString output = output_current_;
   QVariant device = device_current_;
@@ -253,7 +253,7 @@ void BackendSettingsPage::Load_Engine(const Engine::EngineType enginetype) {
 
 void BackendSettingsPage::Load_Output(QString output, QVariant device) {
 
-  if (!EngineInitialised()) return;
+  if (!EngineInitialized()) return;
 
   if (output.isEmpty()) output = engine()->DefaultOutput();
 
@@ -301,7 +301,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
 
 void BackendSettingsPage::Load_Device(const QString &output, const QVariant &device) {
 
-  if (!EngineInitialised()) return;
+  if (!EngineInitialized()) return;
 
   int devices = 0;
   DeviceFinder::Device df_device;
@@ -385,7 +385,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
 
 void BackendSettingsPage::Save() {
 
-  if (!EngineInitialised()) return;
+  if (!EngineInitialized()) return;
 
   QVariant enginetype_v = ui_->combobox_engine->itemData(ui_->combobox_engine->currentIndex());
   Engine::EngineType enginetype = enginetype_v.value<Engine::EngineType>();
@@ -447,7 +447,7 @@ void BackendSettingsPage::Cancel() {
 
 void BackendSettingsPage::EngineChanged(const int index) {
 
-  if (!configloaded_ || !EngineInitialised()) return;
+  if (!configloaded_ || !EngineInitialized()) return;
 
   QVariant v = ui_->combobox_engine->itemData(index);
   Engine::EngineType enginetype = v.value<Engine::EngineType>();
@@ -467,7 +467,7 @@ void BackendSettingsPage::EngineChanged(const int index) {
 
 void BackendSettingsPage::OutputChanged(const int index) {
 
-  if (!configloaded_ || !EngineInitialised()) return;
+  if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
   Load_Device(output.name, QVariant());
@@ -476,7 +476,7 @@ void BackendSettingsPage::OutputChanged(const int index) {
 
 void BackendSettingsPage::DeviceSelectionChanged(int index) {
 
-  if (!configloaded_ || !EngineInitialised()) return;
+  if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   QVariant device = ui_->combobox_device->itemData(index).value<QVariant>();
@@ -499,7 +499,7 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
 
 void BackendSettingsPage::DeviceStringChanged() {
 
-  if (!configloaded_ || !EngineInitialised()) return;
+  if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   bool found(false);
@@ -588,7 +588,7 @@ void BackendSettingsPage::radiobutton_alsa_hw_clicked(const bool checked) {
 
 #ifdef HAVE_ALSA
 
-  if (!configloaded_ || !EngineInitialised()) return;
+  if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   if (!engine()->ALSADeviceSupport(output.name)) return;
@@ -619,7 +619,7 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(const bool checked) {
 
 #ifdef HAVE_ALSA
 
-  if (!configloaded_ || !EngineInitialised()) return;
+  if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   if (!engine()->ALSADeviceSupport(output.name)) return;
@@ -646,7 +646,7 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(const bool checked) {
 
 void BackendSettingsPage::FadingOptionsChanged() {
 
-  if (!configloaded_ || !EngineInitialised()) return;
+  if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   if (engine()->type() == Engine::GStreamer && !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty()) && ui_->checkbox_volume_control->isChecked()) {

@@ -202,7 +202,7 @@ QSqlDatabase Database::Connect() {
     UpdateMainSchema(&db);
   }
 
-  // We might have to initialise the schema in some attached databases now, if they were deleted and don't match up with the main schema version.
+  // We might have to initialize the schema in some attached databases now, if they were deleted and don't match up with the main schema version.
   for (const QString &key : attached_databases_.keys()) {
     if (attached_databases_[key].is_temporary_ && attached_databases_[key].schema_.isEmpty())
       continue;

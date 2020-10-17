@@ -249,7 +249,7 @@ class GstEnginePipeline : public QObject {
 
   // Seeking while the pipeline is in the READY state doesn't work, so we have to wait until it goes to PAUSED or PLAYING.
   // Also we have to wait for the playbin to be connected.
-  bool pipeline_is_initialised_;
+  bool pipeline_is_initialized_;
   bool pipeline_is_connected_;
   qint64 pending_seek_nanosec_;
 

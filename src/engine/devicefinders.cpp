@@ -70,8 +70,8 @@ void DeviceFinders::Init() {
 #endif
 
   for (DeviceFinder *finder : device_finders) {
-    if (!finder->Initialise()) {
-      qLog(Warning) << "Failed to initialise DeviceFinder for" << finder->name();
+    if (!finder->Initialize()) {
+      qLog(Warning) << "Failed to initialize DeviceFinder for" << finder->name();
       delete finder;
       continue;
     }

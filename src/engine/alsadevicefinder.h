@@ -30,7 +30,7 @@ class AlsaDeviceFinder : public DeviceFinder {
  public:
   explicit AlsaDeviceFinder();
 
-  bool Initialise() override { return true; }
+  bool Initialize() override { return true; }
   QList<Device> ListDevices() override;
 };
 

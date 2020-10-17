@@ -115,7 +115,7 @@ static void gst_fastspectrum_init (GstFastSpectrum * spectrum) {
   spectrum->interval = DEFAULT_INTERVAL;
   spectrum->bands = DEFAULT_BANDS;
 
-  spectrum->channel_data_initialised = false;
+  spectrum->channel_data_initialized = false;
 
   g_mutex_init (&spectrum->lock);
 
@@ -137,14 +137,14 @@ static void gst_fastspectrum_alloc_channel_data (GstFastSpectrum * spectrum) {
     QMutexLocker l(klass->fftw_lock);
     spectrum->plan = fftw_plan_dft_r2c_1d(nfft, spectrum->fft_input, spectrum->fft_output, FFTW_ESTIMATE);
   }
-  spectrum->channel_data_initialised = true;
+  spectrum->channel_data_initialized = true;
 
 }
 
 static void gst_fastspectrum_free_channel_data (GstFastSpectrum * spectrum) {
 
   GstFastSpectrumClass* klass = reinterpret_cast<GstFastSpectrumClass*>(G_OBJECT_GET_CLASS(spectrum));
-  if (spectrum->channel_data_initialised) {
+  if (spectrum->channel_data_initialized) {
     {
       QMutexLocker l(klass->fftw_lock);
       fftw_destroy_plan(spectrum->plan);
@@ -154,7 +154,7 @@ static void gst_fastspectrum_free_channel_data (GstFastSpectrum * spectrum) {
     delete[] spectrum->input_ring_buffer;
     delete[] spectrum->spect_magnitude;
 
-    spectrum->channel_data_initialised = false;
+    spectrum->channel_data_initialized = false;
   }
 
 }
@@ -422,7 +422,7 @@ static GstFlowReturn gst_fastspectrum_transform_ip (GstBaseTransform *trans, Gst
   /* If we don't have a FFT context yet (or it was reset due to parameter
    * changes) get one and allocate memory for everything
    */
-  if (!spectrum->channel_data_initialised) {
+  if (!spectrum->channel_data_initialized) {
     GST_DEBUG_OBJECT (spectrum, "allocating for bands %u", bands);
 
     gst_fastspectrum_alloc_channel_data (spectrum);

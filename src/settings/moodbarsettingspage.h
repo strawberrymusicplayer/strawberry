@@ -50,7 +50,7 @@ class MoodbarSettingsPage : public SettingsPage {
 
   Ui_MoodbarSettingsPage* ui_;
 
-  bool initialised_;
+  bool initialized_;
 };
 
 #endif  // MOODBARSETTINGSPAGE_H

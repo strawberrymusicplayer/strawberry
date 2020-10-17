@@ -110,7 +110,7 @@ int main(int argc, char* argv[]) {
 
 #ifdef Q_OS_MACOS
   // Do Mac specific startup to get media keys working.
-  // This must go before QApplication initialisation.
+  // This must go before QApplication initialization.
   mac::MacMain();
 #endif
 
@@ -134,7 +134,7 @@ int main(int argc, char* argv[]) {
 
   RegisterMetaTypes();
 
-  // Initialise logging.  Log levels are set after the commandline options are parsed below.
+  // Initialize logging.  Log levels are set after the commandline options are parsed below.
   logging::Init();
   g_log_set_default_handler(reinterpret_cast<GLogFunc>(&logging::GLog), nullptr);
 

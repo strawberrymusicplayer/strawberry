@@ -47,7 +47,7 @@ class DeviceFinder {
   void add_output(const QString output) { outputs_.append(output); }
 
   // Does any necessary setup, returning false if this DeviceFinder cannot be used.
-  virtual bool Initialise() = 0;
+  virtual bool Initialize() = 0;
 
   // Returns a list of available devices.
   virtual QList<Device> ListDevices() = 0;

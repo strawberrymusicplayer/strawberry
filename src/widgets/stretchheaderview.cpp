@@ -221,7 +221,7 @@ void StretchHeaderView::SetStretchEnabled(const bool enabled) {
   stretch_enabled_ = enabled;
 
   if (enabled) {
-    // Initialise the list of widths from the current state of the widget
+    // Initialize the list of widths from the current state of the widget
     column_widths_.resize(count());
     for (int i = 0; i < count(); ++i) {
       column_widths_[i] = ColumnWidthType(sectionSize(i)) / width();

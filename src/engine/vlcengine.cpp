@@ -108,7 +108,7 @@ bool VLCEngine::Load(const QUrl &stream_url, const QUrl &original_url, const Eng
   Q_UNUSED(beginning_nanosec);
   Q_UNUSED(end_nanosec);
 
-  if (!Initialised()) return false;
+  if (!Initialized()) return false;
 
   // Create the media object
   VlcScopedRef<libvlc_media_t> media(libvlc_media_new_location(instance_, stream_url.toEncoded().constData()));
@@ -121,7 +121,7 @@ bool VLCEngine::Load(const QUrl &stream_url, const QUrl &original_url, const Eng
 
 bool VLCEngine::Play(const quint64 offset_nanosec) {
 
-  if (!Initialised()) return false;
+  if (!Initialized()) return false;
 
   // Set audio output
   if (!output_.isEmpty() && output_ != "auto") {
@@ -147,28 +147,28 @@ void VLCEngine::Stop(const bool stop_after) {
 
   Q_UNUSED(stop_after);
 
-  if (!Initialised()) return;
+  if (!Initialized()) return;
   libvlc_media_player_stop(player_);
 
 }
 
 void VLCEngine::Pause() {
 
-  if (!Initialised()) return;
+  if (!Initialized()) return;
   libvlc_media_player_pause(player_);
 
 }
 
 void VLCEngine::Unpause() {
 
-  if (!Initialised()) return;
+  if (!Initialized()) return;
   libvlc_media_player_play(player_);
 
 }
 
 void VLCEngine::Seek(const quint64 offset_nanosec) {
 
-  if (!Initialised()) return;
+  if (!Initialized()) return;
 
   int offset = (offset_nanosec / kNsecPerMsec);
 
@@ -182,7 +182,7 @@ void VLCEngine::Seek(const quint64 offset_nanosec) {
 }
 
 void VLCEngine::SetVolumeSW(const uint percent) {
-  if (!Initialised()) return;
+  if (!Initialized()) return;
   if (!volume_control_ && percent != 100) return;
   libvlc_audio_set_volume(player_, percent);
 }
@@ -248,7 +248,7 @@ bool VLCEngine::ALSADeviceSupport(const QString &output) {
 
 uint VLCEngine::position() const {
 
-  if (!Initialised()) return (0);
+  if (!Initialized()) return (0);
 
   bool is_playing = libvlc_media_player_is_playing(player_);
   if (!is_playing) return 0;
@@ -260,7 +260,7 @@ uint VLCEngine::position() const {
 
 uint VLCEngine::length() const {
 
-  if (!Initialised()) return(0);
+  if (!Initialized()) return(0);
 
   bool is_playing = libvlc_media_player_is_playing(player_);
   if (!is_playing) return 0;

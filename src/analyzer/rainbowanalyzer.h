@@ -92,7 +92,7 @@ class RainbowAnalyzer : public Analyzer::Base {
   }
 
  private:
-  // "constants" that get initialised in the constructor
+  // "constants" that get initialized in the constructor
   float band_scale_[kRainbowBands];
   QPen colors_[kRainbowBands];
 

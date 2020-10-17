@@ -76,7 +76,7 @@ private:
 
   Ui_BackendSettingsPage *ui_;
 
-  bool EngineInitialised();
+  bool EngineInitialized();
 
   void EngineChanged(Engine::EngineType enginetype);
 

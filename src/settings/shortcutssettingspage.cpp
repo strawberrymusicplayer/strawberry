@@ -57,7 +57,7 @@ const char *GlobalShortcutsSettingsPage::kSettingsGroup = "GlobalShortcuts";
 GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
     : SettingsPage(dialog),
       ui_(new Ui_GlobalShortcutsSettingsPage),
-      initialised_(false),
+      initialized_(false),
       grabber_(new GlobalShortcutGrabber) {
 
   ui_->setupUi(this);
@@ -105,8 +105,8 @@ void GlobalShortcutsSettingsPage::Load() {
 
   GlobalShortcuts *manager = dialog()->global_shortcuts_manager();
 
-  if (!initialised_) {
-    initialised_ = true;
+  if (!initialized_) {
+    initialized_ = true;
 
     de_ = Utilities::DesktopEnvironment();
     ui_->widget_warning->hide();

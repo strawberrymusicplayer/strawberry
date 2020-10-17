@@ -40,7 +40,7 @@
 
 // INSTRUCTIONS Base2D
 // 1. do anything that depends on height() in init(), Base2D will call it before you are shown
-// 2. otherwise you can use the constructor to initialise things
+// 2. otherwise you can use the constructor to initialize things
 // 3. reimplement analyze(), and paint to canvas(), Base2D will update the widget when you return control to it
 // 4. if you want to manipulate the scope, reimplement transform()
 // 5. for convenience <vector> <qpixmap.h> <qwdiget.h> are pre-included

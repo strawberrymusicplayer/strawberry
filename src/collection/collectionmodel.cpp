@@ -817,7 +817,7 @@ CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
   int child_level = parent == root_ ? 0 : parent->container_level + 1;
   GroupBy child_type = child_level >= 3 ? GroupBy_None : group_by_[child_level];
 
-  // Initialise the query.  child_type says what type of thing we want (artists, songs, etc.)
+  // Initialize the query.  child_type says what type of thing we want (artists, songs, etc.)
   CollectionQuery q(query_options_);
   InitQuery(child_type, &q);
 
@@ -1133,7 +1133,7 @@ CollectionItem *CollectionModel::InitItem(const GroupBy type, const bool signal,
 
   if (signal) beginInsertRows(ItemToIndex(parent), parent->children.count(), parent->children.count());
 
-  // Initialise the item depending on what type it's meant to be
+  // Initialize the item depending on what type it's meant to be
   CollectionItem *item = new CollectionItem(item_type, parent);
   item->compilation_artist_node_ = nullptr;
   item->container_level = container_level;

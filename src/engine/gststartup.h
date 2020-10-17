@@ -34,12 +34,12 @@ class GstStartup : public QObject {
   explicit GstStartup(QObject *parent = nullptr);
   ~GstStartup() override;
 
-  void EnsureInitialised() { initialising_.waitForFinished(); }
+  void EnsureInitialized() { initializing_.waitForFinished(); }
 
  private:
-  void InitialiseGStreamer();
+  void InitializeGStreamer();
   void SetEnvironment();
-  QFuture<void> initialising_;
+  QFuture<void> initializing_;
 
 };
 

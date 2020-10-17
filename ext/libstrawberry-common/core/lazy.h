@@ -34,25 +34,25 @@ class Lazy {
   Lazy() : init_([]() { return new T; }) {}
 
   T* get() const {
-    CheckInitialised();
+    CheckInitialized();
     return ptr_.get();
   }
 
   typename std::add_lvalue_reference<T>::type operator*() const {
-    CheckInitialised();
+    CheckInitialized();
     return *ptr_;
   }
 
   T* operator->() const { return get(); }
 
-  // Returns true if the object is not yet initialised.
+  // Returns true if the object is not yet initialized.
   explicit operator bool() const { return ptr_; }
 
-  // Deletes the underlying object and will re-run the initialisation function if the object is requested again.
+  // Deletes the underlying object and will re-run the initialization function if the object is requested again.
   void reset() { ptr_.reset(); }
 
  private:
-  void CheckInitialised() const {
+  void CheckInitialized() const {
     if (!ptr_) {
       ptr_.reset(init_(), [](T*obj) { obj->deleteLater(); });
     }

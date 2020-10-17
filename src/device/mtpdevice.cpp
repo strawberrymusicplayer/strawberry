@@ -47,7 +47,7 @@
 class DeviceLister;
 class DeviceManager;
 
-bool MtpDevice::sInitialisedLibMTP = false;
+bool MtpDevice::sInitializedLibMTP = false;
 
 MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
   : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time),
@@ -55,9 +55,9 @@ MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &uniqu
     loader_thread_(nullptr),
     closing_(false) {
 
-  if (!sInitialisedLibMTP) {
+  if (!sInitializedLibMTP) {
     LIBMTP_Init();
-    sInitialisedLibMTP = true;
+    sInitializedLibMTP = true;
   }
 
 }

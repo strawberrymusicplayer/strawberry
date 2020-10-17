@@ -321,7 +321,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   connect(app, SIGNAL(ErrorAdded(QString)), SLOT(ShowErrorDialog(QString)));
   connect(app, SIGNAL(SettingsDialogRequested(SettingsDialog::Page)), SLOT(OpenSettingsDialogAtPage(SettingsDialog::Page)));
 
-  // Initialise the UI
+  // Initialize the UI
   ui_->setupUi(this);
 
   album_cover_choice_controller_->Init(app);
@@ -330,7 +330,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   context_view_->Init(app_, collection_view_->view(), album_cover_choice_controller_);
   ui_->widget_playing->Init(app_, album_cover_choice_controller_);
 
-  // Initialise the search widget
+  // Initialize the search widget
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
@@ -363,8 +363,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   track_slider_timer_->setInterval(kTrackSliderUpdateTimeMs);
   connect(track_slider_timer_, SIGNAL(timeout()), SLOT(UpdateTrackSliderPosition()));
 
-  // Start initialising the player
-  qLog(Debug) << "Initialising player";
+  // Start initializing the player
+  qLog(Debug) << "Initializing player";
   app_->player()->SetAnalyzer(ui_->analyzer);
   app_->player()->SetEqualizer(equalizer_.get());
   app_->player()->Init();

@@ -92,7 +92,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       next_end_offset_nanosec_(-1),
       ignore_next_seek_(false),
       ignore_tags_(false),
-      pipeline_is_initialised_(false),
+      pipeline_is_initialized_(false),
       pipeline_is_connected_(false),
       pending_seek_nanosec_(-1),
       last_known_position_ns_(0),
@@ -480,7 +480,7 @@ GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeIn
 
 }
 
-void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec *, gpointer self) {
+void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec*, gpointer self) {
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
@@ -537,7 +537,7 @@ void GstEnginePipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer self) 
   gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM | GST_PAD_PROBE_TYPE_EVENT_FLUSH), PlaybinProbe, instance, nullptr);
 
   instance->pipeline_is_connected_ = true;
-  if (instance->pending_seek_nanosec_ != -1 && instance->pipeline_is_initialised_) {
+  if (instance->pending_seek_nanosec_ != -1 && instance->pipeline_is_initialized_) {
     QMetaObject::invokeMethod(instance, "Seek", Qt::QueuedConnection, Q_ARG(qint64, instance->pending_seek_nanosec_));
   }
 
@@ -804,7 +804,7 @@ GstBusSyncReply GstEnginePipeline::BusCallbackSync(GstBus*, GstMessage *msg, gpo
 void GstEnginePipeline::StreamStatusMessageReceived(GstMessage *msg) {
 
   GstStreamStatusType type;
-  GstElement *owner;
+  GstElement *owner = nullptr;
   gst_message_parse_stream_status(msg, &type, &owner);
 
   if (type == GST_STREAM_STATUS_TYPE_CREATE) {
@@ -835,9 +835,9 @@ void GstEnginePipeline::StreamStartMessageReceived() {
 
 }
 
-void GstEnginePipeline::TaskEnterCallback(GstTask *, GThread *, gpointer) {
+void GstEnginePipeline::TaskEnterCallback(GstTask*, GThread*, gpointer) {
 
-  // Bump the priority of the thread only on OS X
+  // Bump the priority of the thread only on macOS
 
 #ifdef Q_OS_MACOS
   sched_param param;
@@ -875,7 +875,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   g_error_free(error);
   g_free(debugs);
 
-  if (state() == GST_STATE_PLAYING && pipeline_is_initialised_ && next_uri_set_ && (domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
+  if (state() == GST_STATE_PLAYING && pipeline_is_initialized_ && next_uri_set_ && (domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
     // A track is still playing and the next uri is not playable. We ignore the error here so it can play until the end.
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
     qLog(Info) << "Ignoring error when loading next track";
@@ -990,15 +990,15 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   GstState old_state, new_state, pending;
   gst_message_parse_state_changed(msg, &old_state, &new_state, &pending);
 
-  if (!pipeline_is_initialised_ && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
-    pipeline_is_initialised_ = true;
+  if (!pipeline_is_initialized_ && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
+    pipeline_is_initialized_ = true;
     if (pending_seek_nanosec_ != -1 && pipeline_is_connected_) {
       QMetaObject::invokeMethod(this, "Seek", Qt::QueuedConnection, Q_ARG(qint64, pending_seek_nanosec_));
     }
   }
 
-  if (pipeline_is_initialised_ && new_state != GST_STATE_PAUSED && new_state != GST_STATE_PLAYING) {
-    pipeline_is_initialised_ = false;
+  if (pipeline_is_initialized_ && new_state != GST_STATE_PAUSED && new_state != GST_STATE_PLAYING) {
+    pipeline_is_initialized_ = false;
 
     if (next_uri_set_ && new_state == GST_STATE_READY) {
       // Revert uri and go back to PLAY state again
@@ -1050,7 +1050,7 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 
 qint64 GstEnginePipeline::position() const {
 
-  if (pipeline_is_initialised_)
+  if (pipeline_is_initialized_)
     gst_element_query_position(pipeline_, GST_FORMAT_TIME, &last_known_position_ns_);
 
   return last_known_position_ns_;
@@ -1087,7 +1087,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
     return true;
   }
 
-  if (!pipeline_is_connected_ || !pipeline_is_initialised_) {
+  if (!pipeline_is_connected_ || !pipeline_is_initialized_) {
     pending_seek_nanosec_ = nanosec;
     return true;
   }

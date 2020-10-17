@@ -85,7 +85,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   bool ALSADeviceSupport(const QString &output) override;
 
   void SetStartup(GstStartup *gst_startup) { gst_startup_ = gst_startup; }
-  void EnsureInitialised() { gst_startup_->EnsureInitialised(); }
+  void EnsureInitialized() { gst_startup_->EnsureInitialized(); }
 
   GstElement *CreateElement(const QString &factoryName, GstElement *bin = nullptr, const bool showerror = true);
   void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) override;

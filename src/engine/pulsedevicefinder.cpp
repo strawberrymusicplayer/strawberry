@@ -37,7 +37,7 @@
 PulseDeviceFinder::PulseDeviceFinder() : DeviceFinder("pulseaudio", {"pulseaudio", "pulse", "pulsesink"} ), mainloop_(nullptr), context_(nullptr) {
 }
 
-bool PulseDeviceFinder::Initialise() {
+bool PulseDeviceFinder::Initialize() {
 
   mainloop_ = pa_mainloop_new();
   if (!mainloop_) {

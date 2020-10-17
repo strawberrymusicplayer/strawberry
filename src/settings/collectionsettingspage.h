@@ -76,7 +76,7 @@ class CollectionSettingsPage : public SettingsPage {
 
  private:
   Ui_CollectionSettingsPage *ui_;
-  bool initialised_model_;
+  bool initialized_model_;
 
   static const QStringList cacheUnitNames;
 };

@@ -78,7 +78,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
  private:
   Ui_GlobalShortcutsSettingsPage *ui_;
 
-  bool initialised_;
+  bool initialized_;
   std::unique_ptr<GlobalShortcutGrabber> grabber_;
 
   QMap<QString, Shortcut> shortcuts_;
