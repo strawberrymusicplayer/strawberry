@@ -37,9 +37,6 @@ MMDeviceFinder::MMDeviceFinder() : DeviceFinder("mmdevice", { "wasapisink" }) {}
 QList<DeviceFinder::Device> MMDeviceFinder::ListDevices() {
 
   HRESULT hr_coinit = CoInitializeEx(NULL, COINIT_MULTITHREADED);
-  if (hr_coinit != S_OK && hr_coinit != S_FALSE) {
-    return QList<Device>();
-  }
 
   QList<Device> devices;
   Device default_device;
@@ -77,17 +74,38 @@ QList<DeviceFinder::Device> MMDeviceFinder::ListDevices() {
                   devices.append(device);
                   PropVariantClear(&var_name);
                 }
+                else {
+                  qLog(Error) << "IPropertyStore::GetValue failed." << Qt::hex << DWORD(hr);
+                }
                 props->Release();
+              }
+              else {
+                qLog(Error) << "IPropertyStore::OpenPropertyStore failed." << Qt::hex << DWORD(hr);
               }
               CoTaskMemFree(pwszid);
             }
+            else {
+              qLog(Error) << "IMMDevice::GetId failed." << Qt::hex << DWORD(hr);
+            }
             endpoint->Release();
+          }
+          else {
+            qLog(Error) << "IMMDeviceCollection::Item failed." << Qt::hex << DWORD(hr);
           }
         }
       }
+      else {
+        qLog(Error) << "IMMDeviceCollection::GetCount failed." << Qt::hex << DWORD(hr);
+      }
       collection->Release();
     }
+    else {
+      qLog(Error) << "EnumAudioEndpoints failed." << Qt::hex << DWORD(hr);
+    }
     enumerator->Release();
+  }
+  else {
+    qLog(Error) << "CoCreateInstance failed." << Qt::hex << DWORD(hr);
   }
 
   if (hr_coinit == S_OK || hr_coinit == S_FALSE) CoUninitialize();
