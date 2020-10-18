@@ -733,7 +733,7 @@ msgid "Albu&m cover"
 msgstr "Copertina dell'albu&m"
 
 #: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1264
-#: organize/organizedialog.cpp:99 ../build/src/ui_groupbydialog.h:186
+#: organize/organizedialog.cpp:102 ../build/src/ui_groupbydialog.h:186
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
@@ -753,7 +753,7 @@ msgid "Album - Disc"
 msgstr "Album - Disco"
 
 #: collection/savedgroupingmanager.cpp:82 playlist/playlist.cpp:1271
-#: organize/organizedialog.cpp:102 ../build/src/ui_groupbydialog.h:185
+#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
 #: ../build/src/ui_edittagdialog.h:709
 msgid "Album artist"
@@ -894,7 +894,7 @@ msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Sei sicuro di voler azzerare le statistiche del brano?"
 
 #: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1263
-#: organize/organizedialog.cpp:100 ../build/src/ui_groupbydialog.h:184
+#: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:106
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:713
@@ -902,7 +902,7 @@ msgstr "Sei sicuro di voler azzerare le statistiche del brano?"
 msgid "Artist"
 msgstr "Artista"
 
-#: organize/organizedialog.cpp:101
+#: organize/organizedialog.cpp:104
 msgid "Artist's initial"
 msgstr "Iniziale dell'artista"
 
@@ -1038,7 +1038,7 @@ msgid "Best"
 msgstr "Migliore"
 
 #: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:136
-#: playlist/playlist.cpp:1281 organize/organizedialog.cpp:115
+#: playlist/playlist.cpp:1281 organize/organizedialog.cpp:118
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:695
 msgid "Bit depth"
@@ -1059,7 +1059,7 @@ msgstr "Bitrate"
 msgid "Bitrate"
 msgstr "Bitrate"
 
-#: organize/organizedialog.cpp:113
+#: organize/organizedialog.cpp:116
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
 msgstr ""
@@ -1274,7 +1274,7 @@ msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Elenco separato da virgole di classe:livello, livello è 0-3"
 
 #: playlist/playlist.cpp:1291 smartplaylists/smartplaylistsearchterm.cpp:374
-#: organize/organizedialog.cpp:111 ../build/src/ui_edittagdialog.h:711
+#: organize/organizedialog.cpp:114 ../build/src/ui_edittagdialog.h:711
 msgid "Comment"
 msgstr "Commento"
 
@@ -1291,7 +1291,7 @@ msgid "Complete tags automatically..."
 msgstr "Completa automaticamente i tag..."
 
 #: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1272
-#: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:196
+#: organize/organizedialog.cpp:106 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:710
 msgid "Composer"
@@ -1688,7 +1688,7 @@ msgid "Disabled"
 msgstr "Disabilitata"
 
 #: collection/savedgroupingmanager.cpp:106 playlist/playlist.cpp:1266
-#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:188
+#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
 #: ../build/src/ui_edittagdialog.h:708
 msgid "Disc"
@@ -2103,7 +2103,7 @@ msgstr "Errore di scaricamento della copertina"
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Il file %1 non è stato riconosciuto come un file audio valido."
 
-#: organize/organizedialog.cpp:116
+#: organize/organizedialog.cpp:119
 msgid "File extension"
 msgstr "Estensione file"
 
@@ -2287,7 +2287,7 @@ msgid "Genius Authentication"
 msgstr ""
 
 #: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1270
-#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:190
+#: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 #: ../build/src/ui_edittagdialog.h:704
 msgid "Genre"
@@ -2387,7 +2387,7 @@ msgid "Group by Genre/Artist/Album"
 msgstr "Raggruppa per genere/artista/album"
 
 #: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1274
-#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:198
+#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:706
 msgid "Grouping"
@@ -2637,7 +2637,7 @@ msgid "Left"
 msgstr "Sinistra"
 
 #: context/contextview.cpp:214 playlist/playlist.cpp:1267
-#: organize/organizedialog.cpp:112 ../build/src/ui_edittagdialog.h:689
+#: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:689
 msgid "Length"
 msgstr "Durata"
 
@@ -3212,7 +3212,7 @@ msgstr ""
 msgid "Organize files..."
 msgstr ""
 
-#: organize/organize.cpp:94
+#: organize/organize.cpp:93
 msgid "Organizing files"
 msgstr ""
 
@@ -3221,7 +3221,7 @@ msgid "Original tags"
 msgstr "Tag originali"
 
 #: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1269
-#: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:194
+#: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Original year"
 msgstr "Anno originale"
@@ -3294,7 +3294,7 @@ msgid "Paused"
 msgstr "In pausa"
 
 #: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1273
-#: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:197
+#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:715
 msgid "Performer"
@@ -3868,7 +3868,7 @@ msgid "Safely remove the device after copying"
 msgstr "Rimuovi il dispositivo in sicurezza al termine della copia"
 
 #: collection/savedgroupingmanager.cpp:133 playlist/playlist.cpp:1280
-#: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:200
+#: organize/organizedialog.cpp:117 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 #: ../build/src/ui_edittagdialog.h:694
 msgid "Sample rate"
@@ -4749,7 +4749,7 @@ msgstr ""
 msgid "Time step"
 msgstr "Intervallo di tempo"
 
-#: playlist/playlist.cpp:1262 organize/organizedialog.cpp:98
+#: playlist/playlist.cpp:1262 organize/organizedialog.cpp:101
 #: ../build/src/ui_contextsettingspage.h:414
 #: ../build/src/ui_edittagdialog.h:705
 #: ../build/src/ui_trackselectiondialog.h:210
@@ -4796,7 +4796,7 @@ msgstr "Totale byte trasferiti"
 msgid "Total network requests made"
 msgstr "Totale richieste di rete effettuate"
 
-#: playlist/playlist.cpp:1265 organize/organizedialog.cpp:106
+#: playlist/playlist.cpp:1265 organize/organizedialog.cpp:109
 #: ../build/src/ui_edittagdialog.h:712
 #: ../build/src/ui_trackselectiondialog.h:212
 msgid "Track"
@@ -5112,7 +5112,7 @@ msgid "Write metadata when saving playlists"
 msgstr "Scrivi i metadata quando si salvano le playlist"
 
 #: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1268
-#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:191
+#: organize/organizedialog.cpp:111 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:714
 #: ../build/src/ui_trackselectiondialog.h:211

@@ -727,7 +727,7 @@ msgid "Albu&m cover"
 msgstr "앨범아트(&M)"
 
 #: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1264
-#: organize/organizedialog.cpp:99 ../build/src/ui_groupbydialog.h:186
+#: organize/organizedialog.cpp:102 ../build/src/ui_groupbydialog.h:186
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
@@ -747,7 +747,7 @@ msgid "Album - Disc"
 msgstr "앨범 - 디스크"
 
 #: collection/savedgroupingmanager.cpp:82 playlist/playlist.cpp:1271
-#: organize/organizedialog.cpp:102 ../build/src/ui_groupbydialog.h:185
+#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
 #: ../build/src/ui_edittagdialog.h:709
 msgid "Album artist"
@@ -887,7 +887,7 @@ msgid "Are you sure you want to reset this song's statistics?"
 msgstr "이 곡의 통계를 초기화하시겠습니까?"
 
 #: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1263
-#: organize/organizedialog.cpp:100 ../build/src/ui_groupbydialog.h:184
+#: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:106
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:713
@@ -895,7 +895,7 @@ msgstr "이 곡의 통계를 초기화하시겠습니까?"
 msgid "Artist"
 msgstr "아티스트"
 
-#: organize/organizedialog.cpp:101
+#: organize/organizedialog.cpp:104
 msgid "Artist's initial"
 msgstr "아티스트 이니셜"
 
@@ -1031,7 +1031,7 @@ msgid "Best"
 msgstr "최고"
 
 #: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:136
-#: playlist/playlist.cpp:1281 organize/organizedialog.cpp:115
+#: playlist/playlist.cpp:1281 organize/organizedialog.cpp:118
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:695
 msgid "Bit depth"
@@ -1052,7 +1052,7 @@ msgstr "비트 전송률"
 msgid "Bitrate"
 msgstr "비트 전송률"
 
-#: organize/organizedialog.cpp:113
+#: organize/organizedialog.cpp:116
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
 msgstr ""
@@ -1264,7 +1264,7 @@ msgid "Comma separated list of class:level, level is 0-3"
 msgstr "쉼표로 구분된 class:level 목록, level은 0-3"
 
 #: playlist/playlist.cpp:1291 smartplaylists/smartplaylistsearchterm.cpp:374
-#: organize/organizedialog.cpp:111 ../build/src/ui_edittagdialog.h:711
+#: organize/organizedialog.cpp:114 ../build/src/ui_edittagdialog.h:711
 msgid "Comment"
 msgstr "설명"
 
@@ -1281,7 +1281,7 @@ msgid "Complete tags automatically..."
 msgstr "자동으로 태그 완성..."
 
 #: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1272
-#: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:196
+#: organize/organizedialog.cpp:106 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:710
 msgid "Composer"
@@ -1671,7 +1671,7 @@ msgid "Disabled"
 msgstr "사용 안 함"
 
 #: collection/savedgroupingmanager.cpp:106 playlist/playlist.cpp:1266
-#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:188
+#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
 #: ../build/src/ui_edittagdialog.h:708
 msgid "Disc"
@@ -2084,7 +2084,7 @@ msgstr "표지 가져오기 오류"
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "%1 파일은 올바른 오디오 파일이 아닌 것 같습니다."
 
-#: organize/organizedialog.cpp:116
+#: organize/organizedialog.cpp:119
 msgid "File extension"
 msgstr "파일 확장자"
 
@@ -2266,7 +2266,7 @@ msgid "Genius Authentication"
 msgstr ""
 
 #: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1270
-#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:190
+#: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 #: ../build/src/ui_edittagdialog.h:704
 msgid "Genre"
@@ -2365,7 +2365,7 @@ msgid "Group by Genre/Artist/Album"
 msgstr "장르/아티스트/앨범으로 그룹"
 
 #: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1274
-#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:198
+#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:706
 msgid "Grouping"
@@ -2608,7 +2608,7 @@ msgid "Left"
 msgstr "왼쪽"
 
 #: context/contextview.cpp:214 playlist/playlist.cpp:1267
-#: organize/organizedialog.cpp:112 ../build/src/ui_edittagdialog.h:689
+#: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:689
 msgid "Length"
 msgstr "길이"
 
@@ -3178,7 +3178,7 @@ msgstr ""
 msgid "Organize files..."
 msgstr ""
 
-#: organize/organize.cpp:94
+#: organize/organize.cpp:93
 msgid "Organizing files"
 msgstr ""
 
@@ -3187,7 +3187,7 @@ msgid "Original tags"
 msgstr "원본 태그"
 
 #: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1269
-#: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:194
+#: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Original year"
 msgstr "원본 년도"
@@ -3260,7 +3260,7 @@ msgid "Paused"
 msgstr "일시 정지됨"
 
 #: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1273
-#: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:197
+#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:715
 msgid "Performer"
@@ -3826,7 +3826,7 @@ msgid "Safely remove the device after copying"
 msgstr "복사 후 안전하게 장치 제거"
 
 #: collection/savedgroupingmanager.cpp:133 playlist/playlist.cpp:1280
-#: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:200
+#: organize/organizedialog.cpp:117 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 #: ../build/src/ui_edittagdialog.h:694
 msgid "Sample rate"
@@ -4677,7 +4677,7 @@ msgstr ""
 msgid "Time step"
 msgstr "시간 간격"
 
-#: playlist/playlist.cpp:1262 organize/organizedialog.cpp:98
+#: playlist/playlist.cpp:1262 organize/organizedialog.cpp:101
 #: ../build/src/ui_contextsettingspage.h:414
 #: ../build/src/ui_edittagdialog.h:705
 #: ../build/src/ui_trackselectiondialog.h:210
@@ -4724,7 +4724,7 @@ msgstr "전송된 총 바이트"
 msgid "Total network requests made"
 msgstr "총 네트워크 요청 수"
 
-#: playlist/playlist.cpp:1265 organize/organizedialog.cpp:106
+#: playlist/playlist.cpp:1265 organize/organizedialog.cpp:109
 #: ../build/src/ui_edittagdialog.h:712
 #: ../build/src/ui_trackselectiondialog.h:212
 msgid "Track"
@@ -5036,7 +5036,7 @@ msgid "Write metadata when saving playlists"
 msgstr "재생 목록을 저장할 때 메타데이터 쓰기"
 
 #: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1268
-#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:191
+#: organize/organizedialog.cpp:111 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:714
 #: ../build/src/ui_trackselectiondialog.h:211
