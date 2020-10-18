@@ -174,6 +174,7 @@ void Organize::ProcessSomeFiles() {
       // Fiddle the filename extension as well to match the new type
       song.set_url(QUrl::fromLocalFile(Utilities::FiddleFileExtension(song.basefilename(), task.new_extension_)));
       song.set_basefilename(Utilities::FiddleFileExtension(song.basefilename(), task.new_extension_));
+      task.song_info_.new_filename_ = Utilities::FiddleFileExtension(task.song_info_.new_filename_, task.new_extension_);
 
       // Have to set this to the size of the new file or else funny stuff happens
       song.set_filesize(QFileInfo(task.transcoded_filename_).size());

@@ -108,7 +108,7 @@ bool OrganizeFormat::IsValid() const {
 
 }
 
-QString OrganizeFormat::GetFilenameForSong(const Song &song) const {
+QString OrganizeFormat::GetFilenameForSong(const Song &song, QString extension) const {
 
   QString filename = ParseBlock(format_, song);
 
@@ -144,7 +144,7 @@ QString OrganizeFormat::GetFilenameForSong(const Song &song) const {
   filename = filename.simplified();
 
   QFileInfo info(filename);
-  QString extension = info.suffix();
+  if (extension.isEmpty()) extension = info.suffix();
   QString filepath;
   if (!info.path().isEmpty() && info.path() != ".") {
     filepath.append(info.path());

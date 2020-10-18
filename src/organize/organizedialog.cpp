@@ -68,6 +68,9 @@
 #include "organizedialog.h"
 #include "organizeerrordialog.h"
 #include "ui_organizedialog.h"
+#ifdef HAVE_GSTREAMER
+#  include "transcoder/transcoder.h"
+#endif
 
 const char *OrganizeDialog::kDefaultFormat = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
 
@@ -405,7 +408,7 @@ void OrganizeDialog::InsertTag(const QString &tag) {
   ui_->naming->insertPlainText("%" + tag);
 }
 
-Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongList &songs, const OrganizeFormat &format) {
+Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongList &songs, const OrganizeFormat &format, const QString &extension) {
 
   // Check if we will have multiple files with the same name.
   // If so, they will erase each other if the overwrite flag is set.
@@ -414,7 +417,7 @@ Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongLis
   Organize::NewSongInfoList new_songs_info;
 
   for (const Song &song : songs) {
-    QString new_filename = format.GetFilenameForSong(song);
+    QString new_filename = format.GetFilenameForSong(song, extension);
     if (filenames.contains(new_filename)) {
       QString song_number = QString::number(++filenames[new_filename]);
       new_filename = Utilities::PathWithoutFilenameExtension(new_filename) + "(" + song_number + ")." + QFileInfo(new_filename).suffix();
@@ -473,7 +476,15 @@ void OrganizeDialog::UpdatePreviews() {
   ui_->button_box->button(QDialogButtonBox::Ok)->setEnabled(ok);
   if (!format_valid) return;
 
-  new_songs_info_ = ComputeNewSongsFilenames(songs_, format_);
+  QString extension;
+#ifdef HAVE_GSTREAMER
+  if (storage && storage->GetTranscodeMode() == MusicStorage::Transcode_Always) {
+    const Song::FileType format = storage->GetTranscodeFormat();
+    TranscoderPreset preset = Transcoder::PresetForFileType(format);
+    extension = preset.extension_;
+  }
+#endif
+  new_songs_info_ = ComputeNewSongsFilenames(songs_, format_, extension);
 
   // Update the previews
   ui_->preview->clear();

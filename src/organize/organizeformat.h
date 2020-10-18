@@ -65,7 +65,7 @@ class OrganizeFormat {
   void set_replace_spaces(const bool v) { replace_spaces_ = v; }
 
   bool IsValid() const;
-  QString GetFilenameForSong(const Song &song) const;
+  QString GetFilenameForSong(const Song &song, QString extension = QString()) const;
 
   class Validator : public QValidator {
    public:
