@@ -420,7 +420,7 @@ Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongLis
     QString new_filename = format.GetFilenameForSong(song, extension);
     if (filenames.contains(new_filename)) {
       QString song_number = QString::number(++filenames[new_filename]);
-      new_filename = Utilities::PathWithoutFilenameExtension(new_filename) + "(" + song_number + ")." + QFileInfo(new_filename).suffix();
+      new_filename = QFileInfo(new_filename).completeBaseName() + "(" + song_number + ")." + QFileInfo(new_filename).suffix();
     }
     filenames.insert(new_filename, 1);
     new_songs_info << Organize::NewSongInfo(song, new_filename);

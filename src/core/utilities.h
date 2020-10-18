@@ -114,10 +114,6 @@ bool UrlOnSameDriveAsStrawberry(const QUrl &url);
 // Get relative path to Strawberry binary
 QUrl GetRelativePathToStrawberryBin(const QUrl &url);
 
-// Get the path without the filename extension
-QString PathWithoutFilenameExtension(const QString &filename);
-QString FiddleFileExtension(const QString &filename, const QString &new_extension);
-
 QString GetEnv(const QString &key);
 void SetEnv(const char *key, const QString &value);
 void IncreaseFDLimit();
