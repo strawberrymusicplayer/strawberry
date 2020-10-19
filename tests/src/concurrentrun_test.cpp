@@ -2,11 +2,11 @@
 
 #include <gtest/gtest.h>
 
+#include <QtConcurrent>
 #include <QThreadPool>
 #include <QEventLoop>
 #include <QFutureWatcher>
 
-#include "core/concurrentrun.h"
 #include "test_utils.h"
 
 int f();
@@ -17,7 +17,7 @@ int f() {
 TEST(ConcurrentRunTest, ConcurrentRun0StartAndWait) {
 
   QThreadPool threadpool;
-  QFuture<int> future = ConcurrentRun::Run<int>(&threadpool, &f);
+  QFuture<int> future = QtConcurrent::run(&threadpool, &f);
   QFutureWatcher<int> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
@@ -36,7 +36,7 @@ TEST(ConcurrentRunTest, ConcurrentRun1StartAndWait) {
 
   QThreadPool threadpool;
   int i = 1336;
-  QFuture<int> future = ConcurrentRun::Run<int, int>(&threadpool, &g, i);
+  QFuture<int> future = QtConcurrent::run(&threadpool, &g, i);
   QFutureWatcher<int> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
@@ -56,7 +56,7 @@ TEST(ConcurrentRunTest, ConcurrentRun2StartAndWait) {
   int i = 10;
   int j = 42;
   QThreadPool threadpool;
-  QFuture<int> future = ConcurrentRun::Run<int, int, int>(&threadpool, &max, i, j);
+  QFuture<int> future = QtConcurrent::run(&threadpool, &max, i, j);
   QFutureWatcher<int> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
@@ -77,7 +77,7 @@ TEST(ConcurrentRunTest, ConcurrentRun3StartAndWait) {
   int j = 42;
   int k = 50;
   QThreadPool threadpool;
-  QFuture<int> future = ConcurrentRun::Run<int, int, int, int>(&threadpool, &sum, i, j, k);
+  QFuture<int> future = QtConcurrent::run(&threadpool, &sum, i, j, k);
   QFutureWatcher<int> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
@@ -109,7 +109,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction1Start) {
   QThreadPool threadpool;
 
   int n = 10;
-  QFuture<void> future = ConcurrentRun::Run<void, int*>(&threadpool, &aFunction, &n);
+  QFuture<void> future = QtConcurrent::run(&threadpool, &aFunction, &n);
   QFutureWatcher<void> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
@@ -124,7 +124,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction2Start) {
   QThreadPool threadpool;
 
   int n = 10, m = 11;
-  QFuture<void> future = ConcurrentRun::Run<void, int*, int*>(&threadpool, &bFunction, &n, &m);
+  QFuture<void> future = QtConcurrent::run(&threadpool, &bFunction, &n, &m);
   QFutureWatcher<void> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
@@ -140,7 +140,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction3Start) {
   QThreadPool threadpool;
 
   int n = 10, m = 11, o = 12;
-  QFuture<void> future = ConcurrentRun::Run<void, int*, int*, int*>(&threadpool, &cFunction, &n, &m, &o);
+  QFuture<void> future = QtConcurrent::run(&threadpool, &cFunction, &n, &m, &o);
   QFutureWatcher<void> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
@@ -165,7 +165,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidBindFunctionStart) {
 
   A a;
   int nb = 10;
-  QFuture<void> future = ConcurrentRun::Run<void>(&threadpool, std::bind(&A::f, &a, &nb));
+  QFuture<void> future = QtConcurrent::run(&threadpool, std::bind(&A::f, &a, &nb));
   QFutureWatcher<void> watcher;
   watcher.setFuture(future);
   QEventLoop loop;

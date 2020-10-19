@@ -136,6 +136,7 @@ macro(add_test_file test_source gui_required)
     )
     target_link_libraries(${TEST_NAME} PRIVATE
       ${QtCore_LIBRARIES}
+      ${QtConcurrent_LIBRARIES}
       ${QtWidgets_LIBRARIES}
       ${QtNetwork_LIBRARIES}
       ${QtSql_LIBRARIES}
