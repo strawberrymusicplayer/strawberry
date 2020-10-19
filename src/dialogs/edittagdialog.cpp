@@ -721,13 +721,16 @@ void EditTagDialog::UpdateCoverOf(const Song &selected, const QModelIndexList &s
 
   // Now check if we have any other songs cached that share that artist and album (and would therefore be changed as well)
   for (int i = 0; i < data_.count(); ++i) {
-    if (i == sel.first().row())  // Already changed this one
-      continue;
 
-    Song *other_song = &data_[i].original_;
-    if (selected.artist() == other_song->artist() && selected.album() == other_song->album()) {
-      other_song->set_art_manual(cover_url);
+    if (i != sel.first().row()) {
+      Song *other_song = &data_[i].original_;
+      if (selected.effective_albumartist() == other_song->effective_albumartist() && selected.album() == other_song->album()) {
+        other_song->set_art_manual(cover_url);
+      }
     }
+
+    data_[i].current_.set_art_manual(data_[i].original_.art_manual());
+
   }
 
 }
