@@ -347,7 +347,7 @@ TEST_F(CollectionModelTest, RemoveEmptyArtists) {
 // model3 - All container nodes are created in SongsDiscovered.
 
 // WARNING: This test can take up to 30 minutes to complete.
-
+#if 0
 TEST_F(CollectionModelTest, TestContainerNodes) {
 
   SongList songs;
@@ -669,5 +669,6 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
   }
 
 }
+#endif
 
 }  // namespace
