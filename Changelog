@@ -7,6 +7,7 @@ Unreleased:
   Bugfixes:
     * Fixed updating playing widget song details in small cover mode.
     * Fixed file extension when transcoding songs.
+    * Fixed updating album cover to collection in edit tag dialog when pressing save.
 
   Enhancements:
     * (Windows) Added WASAPI plugin.
