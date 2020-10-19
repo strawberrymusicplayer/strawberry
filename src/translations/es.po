@@ -863,7 +863,7 @@ msgstr "Comenzar siempre la reproducción"
 msgid "An error occurred loading the iTunes database"
 msgstr "Se produjo un error cargando la base de datos iTunes"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:953
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:956
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Se produjo un error al escribir los metadatos en «%1»"
@@ -912,7 +912,7 @@ msgstr "¿Seguro que deseas continuar?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "¿Seguro que deseas eliminar el ajuste predefinido «%1»?"
 
-#: dialogs/edittagdialog.cpp:869
+#: dialogs/edittagdialog.cpp:872
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "¿Seguro que deseas restablecer las estadísticas de esta canción?"
 
@@ -3244,7 +3244,7 @@ msgstr "Organizar archivos."
 msgid "Organize files..."
 msgstr "Organizar archivos..."
 
-#: organize/organize.cpp:93
+#: organize/organize.cpp:94
 msgid "Organizing files"
 msgstr "Organizardo archivos"
 
@@ -3795,7 +3795,7 @@ msgstr "Volver a escanear tema(s)..."
 msgid "Reset"
 msgstr "Restablecer"
 
-#: dialogs/edittagdialog.cpp:869 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:872 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "Reiniciar contador de reproducciones"
 
@@ -3962,7 +3962,7 @@ msgstr "Gestor de agrupamientos guardados"
 msgid "Saving album covers"
 msgstr "Guardando carátulas"
 
-#: dialogs/edittagdialog.cpp:784 dialogs/trackselectiondialog.cpp:291
+#: dialogs/edittagdialog.cpp:787 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "Guardando las pistas"
 

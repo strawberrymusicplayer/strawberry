@@ -833,7 +833,7 @@ msgstr "항상 재생 시작"
 msgid "An error occurred loading the iTunes database"
 msgstr "iTunes 데이터베이스를 불러오는 중 오류 발생"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:953
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:956
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "'%1'에 메타데이터를 쓰는 중 오류 발생"
@@ -882,7 +882,7 @@ msgstr ""
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "\"%1\" 사전 설정을 지우시겠습니까?"
 
-#: dialogs/edittagdialog.cpp:869
+#: dialogs/edittagdialog.cpp:872
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "이 곡의 통계를 초기화하시겠습니까?"
 
@@ -3178,7 +3178,7 @@ msgstr ""
 msgid "Organize files..."
 msgstr ""
 
-#: organize/organize.cpp:93
+#: organize/organize.cpp:94
 msgid "Organizing files"
 msgstr ""
 
@@ -3721,7 +3721,7 @@ msgstr ""
 msgid "Reset"
 msgstr "초기화"
 
-#: dialogs/edittagdialog.cpp:869 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:872 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "재생 횟수 초기화"
 
@@ -3886,7 +3886,7 @@ msgstr "그룹 관리자 저장됨"
 msgid "Saving album covers"
 msgstr "앨범아트 저장 중"
 
-#: dialogs/edittagdialog.cpp:784 dialogs/trackselectiondialog.cpp:291
+#: dialogs/edittagdialog.cpp:787 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "트랙 저장 중"
 

@@ -842,7 +842,7 @@ msgstr "Vždy začít přehrávat"
 msgid "An error occurred loading the iTunes database"
 msgstr "Při nahrávání databáze iTunes nastala chyba"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:953
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:956
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Při zápisu údajů do '%1' se vyskytla chyba"
@@ -891,7 +891,7 @@ msgstr ""
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Opravdu chcete smazat nastavení \"%1\"?"
 
-#: dialogs/edittagdialog.cpp:869
+#: dialogs/edittagdialog.cpp:872
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Opravdu chcete nastavit statistiku této písně znovu?"
 
@@ -3218,7 +3218,7 @@ msgstr ""
 msgid "Organize files..."
 msgstr ""
 
-#: organize/organize.cpp:93
+#: organize/organize.cpp:94
 msgid "Organizing files"
 msgstr ""
 
@@ -3768,7 +3768,7 @@ msgstr ""
 msgid "Reset"
 msgstr "Obnovit výchozí"
 
-#: dialogs/edittagdialog.cpp:869 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:872 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "Vynulovat počty přehrání"
 
@@ -3937,7 +3937,7 @@ msgstr "Spravce uložených seskupení"
 msgid "Saving album covers"
 msgstr "Ukládání obalů alb"
 
-#: dialogs/edittagdialog.cpp:784 dialogs/trackselectiondialog.cpp:291
+#: dialogs/edittagdialog.cpp:787 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "Ukládají se skladby"
 

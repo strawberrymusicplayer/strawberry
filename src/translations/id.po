@@ -842,7 +842,7 @@ msgstr "Selalu mulai memutar"
 msgid "An error occurred loading the iTunes database"
 msgstr "Sebuah galat terjadi saat memuat basis data iTunes"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:953
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:956
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Sebuah galat terjadi saat menulis metadata ke '%1'"
@@ -891,7 +891,7 @@ msgstr ""
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Apakah Anda yakin ingin menghapus prasetel \"%1\"?"
 
-#: dialogs/edittagdialog.cpp:869
+#: dialogs/edittagdialog.cpp:872
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Apakah Anda yakin ingin mengeset-ulang statistik lagu ini?"
 
@@ -3203,7 +3203,7 @@ msgstr ""
 msgid "Organize files..."
 msgstr ""
 
-#: organize/organize.cpp:93
+#: organize/organize.cpp:94
 msgid "Organizing files"
 msgstr ""
 
@@ -3746,7 +3746,7 @@ msgstr ""
 msgid "Reset"
 msgstr "Setel-ulang"
 
-#: dialogs/edittagdialog.cpp:869 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:872 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "Setel-ulang jumlah putar"
 
@@ -3913,7 +3913,7 @@ msgstr "Pengelola Pengelompokan Tersimpan"
 msgid "Saving album covers"
 msgstr "Menyimpan sampul album"
 
-#: dialogs/edittagdialog.cpp:784 dialogs/trackselectiondialog.cpp:291
+#: dialogs/edittagdialog.cpp:787 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "Menyimpan trek"
 

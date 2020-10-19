@@ -37,13 +37,14 @@
 # David Geiger <geiger.david68210@gmail.com>, 2020. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
 # Papoteur <yves.brungard_mageia@gadz.org>, 2020. #zanata
+# Sébastien Morin <sebsweb@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-10-12 01:09-0400\n"
-"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
+"PO-Revision-Date: 2020-10-19 02:36-0400\n"
+"Last-Translator: Sébastien Morin <sebsweb@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -879,7 +880,7 @@ msgid "An error occurred loading the iTunes database"
 msgstr ""
 "Une erreur est survenue lors du chargement de la base de données iTunes"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:953
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:956
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr ""
@@ -929,7 +930,7 @@ msgstr "Êtes-vous sûr(e) de vouloir continuer ?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Êtes-vous sûr(e) de vouloir supprimer la valeur prédéfinie « %1 » ?"
 
-#: dialogs/edittagdialog.cpp:869
+#: dialogs/edittagdialog.cpp:872
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr ""
 "Êtes vous sûr(e) de vouloir réinitialiser les statistiques de ce morceau ?"
@@ -1774,7 +1775,7 @@ msgstr "Ne pas écraser"
 
 #: ../build/src/ui_snapdialog.h:120
 msgid "Do not show this message again."
-msgstr ""
+msgstr "Ne plus afficher ce message."
 
 #: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
@@ -2254,11 +2255,13 @@ msgstr "Taille de police"
 #: dialogs/snapdialog.cpp:56
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr ""
+msgstr "Pour Ubuntu, il existe un dépôt PPA officiel disponible sur %1."
 
 #: dialogs/snapdialog.cpp:64
 msgid "For a better experience please consider the other options above."
 msgstr ""
+"Pour améliorer l'expérience de l'utilisateur, veuillez envisager l'une des "
+"options ci-dessus."
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
@@ -2632,6 +2635,8 @@ msgstr ""
 #: dialogs/snapdialog.cpp:44
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr ""
+"Nous avons détecté que Strawberry est en cours d'exécution en tant que "
+"programme Snap."
 
 #: ../build/src/ui_behavioursettingspage.h:302
 msgid "Jump to previous song right away"
@@ -3206,6 +3211,9 @@ msgid ""
 "Official releases are available for Debian and Ubuntu which also work on "
 "most of their derivatives. See %1 for more information."
 msgstr ""
+"Des paquetages officiels sont disponibles pour Debian et Ubuntu, et "
+"fonctionnent aussi sur la plupart de leurs dérivés. Voir %1 pour plus "
+"d'informations."
 
 #: osd/osdbase.cpp:245
 msgid "On"
@@ -3277,7 +3285,7 @@ msgstr "Organiser les fichiers"
 msgid "Organize files..."
 msgstr "Organisation des fichiers..."
 
-#: organize/organize.cpp:93
+#: organize/organize.cpp:94
 msgid "Organizing files"
 msgstr "Organisation des fichiers"
 
@@ -3838,7 +3846,7 @@ msgstr "Réanalyse des morceaux..."
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: dialogs/edittagdialog.cpp:869 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:872 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "Réinitialiser le compteur de lecture"
 
@@ -4005,7 +4013,7 @@ msgstr "Gestionnaire des regroupements enregistrés"
 msgid "Saving album covers"
 msgstr "Sauvegarde des pochettes d'album"
 
-#: dialogs/edittagdialog.cpp:784 dialogs/trackselectiondialog.cpp:291
+#: dialogs/edittagdialog.cpp:787 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "Sauvegarde des pistes"
 
@@ -4537,11 +4545,11 @@ msgstr ""
 
 #: dialogs/snapdialog.cpp:40
 msgid "Strawberry is running as a Snap"
-msgstr ""
+msgstr "Strawberry est en cours d'exécution en tant que programme Snap"
 
 #: ../build/src/ui_snapdialog.h:117
 msgid "Strawberry is running as a snap"
-msgstr ""
+msgstr "Strawberry est en cours d'exécution en tant que programme Snap"
 
 #: dialogs/snapdialog.cpp:48
 msgid ""
@@ -4549,6 +4557,10 @@ msgid ""
 "the root filesystem (/) will not work. There also might be other "
 "restrictions such as accessing certain devices or network shares."
 msgstr ""
+"Strawberry est plus lent, et comporte des restrictions, lorsqu'il est "
+"exécuté en tant que programme Snap. Il sera impossible d'accéder à la "
+"partition root (/). D'autres restrictions peuvent survenir, comme "
+"l'incapacité à accéder à certains périphériques ou à des partages réseaux."
 
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
@@ -5451,7 +5463,7 @@ msgstr "pas en dernier"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:243
 msgid "not on"
-msgstr ""
+msgstr "non allumé"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:414
 msgid "oldest first"
@@ -5459,7 +5471,7 @@ msgstr "le plus ancien en premier"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:241
 msgid "on"
-msgstr ""
+msgstr "allumé"
 
 #: core/commandlineoptions.cpp:162
 msgid "options"
