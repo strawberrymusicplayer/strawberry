@@ -731,8 +731,6 @@ gboolean GstEnginePipeline::BusCallback(GstBus*, GstMessage *msg, gpointer self)
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
-  qLog(Debug) << instance->id() << "bus message" << GST_MESSAGE_TYPE_NAME(msg);
-
   switch (GST_MESSAGE_TYPE(msg)) {
     case GST_MESSAGE_ERROR:
       instance->ErrorMessageReceived(msg);
@@ -757,8 +755,6 @@ gboolean GstEnginePipeline::BusCallback(GstBus*, GstMessage *msg, gpointer self)
 GstBusSyncReply GstEnginePipeline::BusCallbackSync(GstBus*, GstMessage *msg, gpointer self) {
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
-
-  qLog(Debug) << instance->id() << "sync bus message" << GST_MESSAGE_TYPE_NAME(msg);
 
   switch (GST_MESSAGE_TYPE(msg)) {
     case GST_MESSAGE_EOS:
