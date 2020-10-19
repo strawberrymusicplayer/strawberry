@@ -108,6 +108,10 @@ const char *EnumToString(const QMetaObject &meta, const char *name, int value);
 QStringList Prepend(const QString &text, const QStringList &list);
 QStringList Updateify(const QStringList &list);
 
+// Get the path without the filename extension
+QString PathWithoutFilenameExtension(const QString &filename);
+QString FiddleFileExtension(const QString &filename, const QString &new_extension);
+
 QString GetEnv(const QString &key);
 void SetEnv(const char *key, const QString &value);
 void IncreaseFDLimit();

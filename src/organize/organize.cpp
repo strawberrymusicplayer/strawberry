@@ -33,6 +33,7 @@
 #include <QtDebug>
 
 #include "core/logging.h"
+#include "core/utilities.h"
 #include "core/taskmanager.h"
 #include "core/musicstorage.h"
 #include "core/tagreaderclient.h"
@@ -171,9 +172,9 @@ void Organize::ProcessSomeFiles() {
       song.set_filetype(task.new_filetype_);
 
       // Fiddle the filename extension as well to match the new type
-      song.set_url(QUrl::fromLocalFile(QFileInfo(song.basefilename()).completeBaseName() + "." + task.new_extension_));
-      song.set_basefilename(QFileInfo(song.basefilename()).completeBaseName() + "." + task.new_extension_);
-      task.song_info_.new_filename_ = QFileInfo(task.song_info_.new_filename_).completeBaseName() + "." + task.new_extension_;
+      song.set_url(QUrl::fromLocalFile(Utilities::FiddleFileExtension(song.basefilename(), task.new_extension_)));
+      song.set_basefilename(Utilities::FiddleFileExtension(song.basefilename(), task.new_extension_));
+      task.song_info_.new_filename_ = Utilities::FiddleFileExtension(task.song_info_.new_filename_, task.new_extension_);
 
       // Have to set this to the size of the new file or else funny stuff happens
       song.set_filesize(QFileInfo(task.transcoded_filename_).size());

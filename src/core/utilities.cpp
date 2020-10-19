@@ -762,6 +762,15 @@ bool IsLaptop() {
 
 }
 
+QString PathWithoutFilenameExtension(const QString &filename) {
+  if (filename.section('/', -1, -1).contains('.')) return filename.section('.', 0, -2);
+  return filename;
+}
+
+QString FiddleFileExtension(const QString &filename, const QString &new_extension) {
+  return PathWithoutFilenameExtension(filename) + "." + new_extension;
+}
+
 QString GetEnv(const QString &key) {
   return QString::fromLocal8Bit(qgetenv(key.toLocal8Bit()));
 }
