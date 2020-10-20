@@ -134,6 +134,7 @@ GstEnginePipeline::~GstEnginePipeline() {
     if (discovery_finished_cb_id_ != -1)
       g_signal_handler_disconnect(G_OBJECT(discoverer_), discovery_finished_cb_id_);
 
+    gst_discoverer_stop(discoverer_);
     g_object_unref(discoverer_);
     discoverer_ = nullptr;
 
@@ -234,6 +235,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl ori
   notify_source_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "notify::source", &SourceSetupCallback, this);
   about_to_finish_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
 
+#ifdef Q_OS_LINUX
   // Setting up a discoverer
   discoverer_ = gst_discoverer_new(kDiscoveryTimeoutS * GST_SECOND, nullptr);
   if (discoverer_) {
@@ -241,6 +243,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl ori
     discovery_finished_cb_id_ = CHECKED_GCONNECT(G_OBJECT(discoverer_), "finished", &StreamDiscoveryFinished, this);
     gst_discoverer_start(discoverer_);
   }
+#endif
 
   if (!InitAudioBin()) return false;
 
@@ -441,11 +444,13 @@ bool GstEnginePipeline::InitAudioBin() {
   gst_object_unref(bus);
 
   // Add request to discover the stream
+#ifdef Q_OS_LINUX
   if (discoverer_) {
     if (!gst_discoverer_discover_uri_async(discoverer_, stream_url_.toStdString().c_str())) {
       qLog(Error) << "Failed to start stream discovery for" << stream_url_;
     }
   }
+#endif
 
   unsupported_analyzer_ = false;
 
@@ -1003,11 +1008,13 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
       SetState(GST_STATE_PLAYING);
 
       // Add request to discover the stream
+#ifdef Q_OS_LINUX
       if (discoverer_) {
         if (!gst_discoverer_discover_uri_async(discoverer_, stream_url_.toStdString().c_str())) {
           qLog(Error) << "Failed to start stream discovery for" << stream_url_;
         }
       }
+#endif
 
     }
   }
@@ -1257,12 +1264,14 @@ void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &ori
   next_beginning_offset_nanosec_ = beginning_nanosec;
   next_end_offset_nanosec_ = end_nanosec;
 
+#ifdef Q_OS_LINUX
   // Add request to discover the stream
   if (discoverer_) {
     if (!gst_discoverer_discover_uri_async(discoverer_, next_stream_url_.toStdString().c_str())) {
       qLog(Error) << "Failed to start stream discovery for" << next_stream_url_;
     }
   }
+#endif
 
 }
 
