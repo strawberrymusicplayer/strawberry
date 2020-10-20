@@ -31,6 +31,7 @@
 #include <string>
 
 #include <gst/gst.h>
+#include <gst/pbutils/pbutils.h>
 
 #include <QtGlobal>
 #include <QFuture>
@@ -53,6 +54,7 @@
 #include "core/logging.h"
 #include "core/taskmanager.h"
 #include "core/timeconstants.h"
+#include "core/signalchecker.h"
 #include "enginebase.h"
 #include "enginetype.h"
 #include "gstengine.h"
@@ -71,9 +73,12 @@ const char *GstEngine::kAVDTPSink = "avdtpsink";
 const char *GstEngine::InterAudiosink = "interaudiosink";
 const char *GstEngine::kDirectSoundSink = "directsoundsink";
 const char *GstEngine::kOSXAudioSink = "osxaudiosink";
+const int GstEngine::kDiscoveryTimeoutS = 10;
 
 GstEngine::GstEngine(TaskManager *task_manager)
     : task_manager_(task_manager),
+      gst_startup_(nullptr),
+      discoverer_(nullptr),
       buffering_task_id_(-1),
       latest_buffer_(nullptr),
       stereo_balancer_enabled_(false),
@@ -86,7 +91,10 @@ GstEngine::GstEngine(TaskManager *task_manager)
       is_fading_out_to_pause_(false),
       has_faded_out_(false),
       scope_chunk_(0),
-      have_new_buffer_(false) {
+      have_new_buffer_(false),
+      discovery_finished_cb_id_(-1),
+      discovery_discovered_cb_id_(-1)
+      {
 
   type_ = Engine::GStreamer;
   seek_timer_->setSingleShot(true);
@@ -105,6 +113,19 @@ GstEngine::~GstEngine() {
   if (latest_buffer_) {
     gst_buffer_unref(latest_buffer_);
     latest_buffer_ = nullptr;
+  }
+
+  if (discoverer_) {
+
+    if (discovery_discovered_cb_id_ != -1)
+      g_signal_handler_disconnect(G_OBJECT(discoverer_), discovery_discovered_cb_id_);
+    if (discovery_finished_cb_id_ != -1)
+      g_signal_handler_disconnect(G_OBJECT(discoverer_), discovery_finished_cb_id_);
+
+    gst_discoverer_stop(discoverer_);
+    g_object_unref(discoverer_);
+    discoverer_ = nullptr;
+
   }
 
 }
@@ -141,8 +162,17 @@ void GstEngine::StartPreloading(const QUrl &stream_url, const QUrl &original_url
   QByteArray gst_url = FixupUrl(stream_url);
 
   // No crossfading, so we can just queue the new URL in the existing pipeline and get gapless playback (hopefully)
-  if (current_pipeline_)
+  if (current_pipeline_) {
     current_pipeline_->SetNextUrl(gst_url, original_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
+    // Add request to discover the stream
+#ifdef Q_OS_LINUX
+    if (discoverer_) {
+      if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.toStdString().c_str())) {
+        qLog(Error) << "Failed to start stream discovery for" << gst_url;
+      }
+    }
+#endif
+  }
 
 }
 
@@ -179,6 +209,27 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
   // Maybe fade in this track
   if (crossfade)
     current_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Forward);
+
+  // Setting up stream discoverer
+#ifdef Q_OS_LINUX
+  if (!discoverer_) {
+    discoverer_ = gst_discoverer_new(kDiscoveryTimeoutS * GST_SECOND, nullptr);
+    if (discoverer_) {
+      discovery_discovered_cb_id_ = CHECKED_GCONNECT(G_OBJECT(discoverer_), "discovered", &StreamDiscovered, this);
+      discovery_finished_cb_id_ = CHECKED_GCONNECT(G_OBJECT(discoverer_), "finished", &StreamDiscoveryFinished, this);
+      gst_discoverer_start(discoverer_);
+    }
+  }
+#endif
+
+  // Add request to discover the stream
+#ifdef Q_OS_LINUX
+  if (discoverer_) {
+    if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.toStdString().c_str())) {
+      qLog(Error) << "Failed to start stream discovery for" << gst_url;
+    }
+  }
+#endif
 
   return true;
 
@@ -842,6 +893,72 @@ void GstEngine::UpdateScope(const int chunk_length) {
     gst_buffer_unref(latest_buffer_);
     latest_buffer_ = nullptr;
     buffer_format_.clear();
+  }
+
+}
+
+void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError*, gpointer self) {
+
+  GstEngine *instance = reinterpret_cast<GstEngine*>(self);
+  if (!instance->current_pipeline_) return;
+
+  QString discovered_url(gst_discoverer_info_get_uri(info));
+
+  GstDiscovererResult result = gst_discoverer_info_get_result(info);
+  if (result != GST_DISCOVERER_OK) {
+    QString error_message = GSTdiscovererErrorMessage(result);
+    qLog(Error) << QString("Stream discovery for %1 failed: %2").arg(discovered_url).arg(error_message);
+    return;
+  }
+
+  GList *audio_streams = gst_discoverer_info_get_audio_streams(info);
+  if (audio_streams) {
+
+    GstDiscovererStreamInfo *stream_info = reinterpret_cast<GstDiscovererStreamInfo*>(g_list_first(audio_streams)->data);
+
+    Engine::SimpleMetaBundle bundle;
+    if (discovered_url == instance->current_pipeline_->stream_url()) {
+      bundle.url = instance->current_pipeline_->original_url();
+    }
+    else if (discovered_url == instance->current_pipeline_->next_stream_url()) {
+      bundle.url = instance->current_pipeline_->next_original_url();
+    }
+    bundle.stream_url = QUrl(discovered_url);
+    bundle.samplerate = gst_discoverer_audio_info_get_sample_rate(GST_DISCOVERER_AUDIO_INFO(stream_info));
+    bundle.bitdepth = gst_discoverer_audio_info_get_depth(GST_DISCOVERER_AUDIO_INFO(stream_info));
+    bundle.bitrate = gst_discoverer_audio_info_get_bitrate(GST_DISCOVERER_AUDIO_INFO(stream_info)) / 1000;
+
+    GstCaps *caps = gst_discoverer_stream_info_get_caps(stream_info);
+    gchar *codec_description = gst_pb_utils_get_codec_description(caps);
+    QString filetype_description = (codec_description ? QString(codec_description) : QString("Unknown"));
+    g_free(codec_description);
+
+    gst_caps_unref(caps);
+    gst_discoverer_stream_info_list_free(audio_streams);
+
+    bundle.filetype = Song::FiletypeByDescription(filetype_description);
+    qLog(Info) << "Got stream info for" << discovered_url + ":" << filetype_description;
+
+    emit instance->MetaData(bundle);
+
+  }
+  else {
+    qLog(Error) << "Could not detect an audio stream in" << discovered_url;
+  }
+
+}
+
+void GstEngine::StreamDiscoveryFinished(GstDiscoverer*, gpointer) {}
+
+QString GstEngine::GSTdiscovererErrorMessage(GstDiscovererResult result) {
+
+  switch (result) {
+    case GST_DISCOVERER_URI_INVALID:     return "The URI is invalid";
+    case GST_DISCOVERER_TIMEOUT:         return "The discovery timed-out";
+    case GST_DISCOVERER_BUSY:            return "The discoverer was already discovering a file";
+    case GST_DISCOVERER_MISSING_PLUGINS: return "Some plugins are missing for full discovery";
+    case GST_DISCOVERER_ERROR:
+    default:                             return "An error happened and the GError is set";
   }
 
 }

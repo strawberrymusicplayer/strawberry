@@ -28,6 +28,7 @@
 #include <memory>
 
 #include <gst/gst.h>
+#include <gst/pbutils/pbutils.h>
 
 #include <QtGlobal>
 #include <QObject>
@@ -126,19 +127,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void BufferingFinished();
 
  private:
-  static const char *kAutoSink;
-  static const char *kALSASink;
-  static const char *kOpenALSASink;
-  static const char *kOSSSink;
-  static const char *kOSS4Sink;
-  static const char *kJackAudioSink;
-  static const char *kPulseSink;
-  static const char *kA2DPSink;
-  static const char *kAVDTPSink;
-  static const char *InterAudiosink;
-  static const char *kDirectSoundSink;
-  static const char *kOSXAudioSink;
-
   PluginDetailsList GetPluginList(const QString &classname) const;
   QByteArray FixupUrl(const QUrl &url);
 
@@ -153,13 +141,32 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
   void UpdateScope(int chunk_length);
 
+  static void StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError*, gpointer self);
+  static void StreamDiscoveryFinished(GstDiscoverer*, gpointer);
+  static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
+
  private:
+  static const char *kAutoSink;
+  static const char *kALSASink;
+  static const char *kOpenALSASink;
+  static const char *kOSSSink;
+  static const char *kOSS4Sink;
+  static const char *kJackAudioSink;
+  static const char *kPulseSink;
+  static const char *kA2DPSink;
+  static const char *kAVDTPSink;
+  static const char *InterAudiosink;
+  static const char *kDirectSoundSink;
+  static const char *kOSXAudioSink;
+  static const int kDiscoveryTimeoutS;
   static const qint64 kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
   static const qint64 kPreloadGapNanosec = 5000 * kNsecPerMsec;     // 5s
   static const qint64 kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
 
   TaskManager *task_manager_;
   GstStartup *gst_startup_;
+  GstDiscoverer *discoverer_;
+
   int buffering_task_id_;
 
   std::shared_ptr<GstEnginePipeline> current_pipeline_;
@@ -196,6 +203,9 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   bool have_new_buffer_;
   int scope_chunks_;
   QString buffer_format_;
+
+  int discovery_finished_cb_id_;
+  int discovery_discovered_cb_id_;
 
 };
 

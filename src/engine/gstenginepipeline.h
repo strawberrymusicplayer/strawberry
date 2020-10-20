@@ -29,7 +29,6 @@
 #include <glib-object.h>
 #include <glib/gtypes.h>
 #include <gst/gst.h>
-#include <gst/pbutils/pbutils.h>
 
 #include <QtGlobal>
 #include <QObject>
@@ -100,7 +99,9 @@ class GstEnginePipeline : public QObject {
 
   // Get information about the music playback
   QByteArray stream_url() const { return stream_url_; }
+  QByteArray next_stream_url() const { return next_stream_url_; }
   QUrl original_url() const { return original_url_; }
+  QUrl next_original_url() const { return next_original_url_; }
   bool is_valid() const { return valid_; }
 
   // Please note that this method (unlike GstEngine's.position()) is multiple-section media unaware.
@@ -149,9 +150,6 @@ class GstEnginePipeline : public QObject {
   static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage*, gpointer);
   static gboolean BusCallback(GstBus*, GstMessage*, gpointer);
   static void TaskEnterCallback(GstTask*, GThread*, gpointer);
-  static void StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError*, gpointer self);
-  static void StreamDiscoveryFinished(GstDiscoverer*, gpointer);
-  static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
 
   void TagMessageReceived(GstMessage*);
   void ErrorMessageReceived(GstMessage*);
@@ -174,7 +172,6 @@ class GstEnginePipeline : public QObject {
  private:
   static const int kGstStateTimeoutNanosecs;
   static const int kFaderFudgeMsec;
-  static const int kDiscoveryTimeoutS;
   static const int kEqBandCount;
   static const int kEqBandFrequencies[];
 
@@ -275,14 +272,11 @@ class GstEnginePipeline : public QObject {
   GstElement *audiopanorama_;
   GstElement *equalizer_;
   GstElement *equalizer_preamp_;
-  GstDiscoverer *discoverer_;
 
   int pad_added_cb_id_;
   int notify_source_cb_id_;
   int about_to_finish_cb_id_;
   int bus_cb_id_;
-  int discovery_finished_cb_id_;
-  int discovery_discovered_cb_id_;
 
   QThreadPool set_state_threadpool_;
 
