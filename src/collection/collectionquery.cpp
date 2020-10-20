@@ -136,6 +136,10 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
     if (value.type() == QVariant::Int) {
       where_clauses_ << QString("%1 %2 %3").arg(column, op, value.toString());
     }
+    else if (value.type() == QVariant::String && value.toString().isNull()) {
+      where_clauses_ << QString("%1 %2 ?").arg(column, op);
+      bound_values_ << QString("");
+    }
     else {
       where_clauses_ << QString("%1 %2 ?").arg(column, op);
       bound_values_ << value;
