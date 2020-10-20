@@ -1566,7 +1566,7 @@ void CollectionModel::FinishItem(const GroupBy type, const bool signal, const bo
   // Create the divider entry if we're supposed to
   if (create_divider && show_dividers_) {
     QString divider_key = DividerKey(type, item);
-    if (item->sort_text.isEmpty() || item->sort_text[0].toLower() != divider_key)
+    if (!divider_key.isEmpty() && (item->sort_text.isEmpty() || item->sort_text[0].toLower() != divider_key || divider_key[0].isDigit()))
       item->sort_text.prepend(divider_key);
 
     if (!divider_key.isEmpty() && !divider_nodes_.contains(divider_key)) {
