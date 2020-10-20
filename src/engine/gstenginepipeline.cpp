@@ -142,8 +142,7 @@ GstEnginePipeline::~GstEnginePipeline() {
       gst_object_unref(bus);
     }
 
-    if (state() != GST_STATE_NULL)
-      gst_element_set_state(pipeline_, GST_STATE_NULL);
+    gst_element_set_state(pipeline_, GST_STATE_NULL);
 
     gst_object_unref(GST_OBJECT(pipeline_));
 
