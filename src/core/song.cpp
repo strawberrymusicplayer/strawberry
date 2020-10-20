@@ -1372,7 +1372,7 @@ void Song::BindToQuery(QSqlQuery *query) const {
   query->bindValue(":art_automatic", d->art_automatic_.toString(QUrl::FullyEncoded));
   query->bindValue(":art_manual", d->art_manual_.toString(QUrl::FullyEncoded));
 
-  query->bindValue(":effective_albumartist", this->effective_albumartist());
+  query->bindValue(":effective_albumartist", strval(this->effective_albumartist()));
   query->bindValue(":effective_originalyear", intval(this->effective_originalyear()));
 
   query->bindValue(":cue_path", d->cue_path_);
