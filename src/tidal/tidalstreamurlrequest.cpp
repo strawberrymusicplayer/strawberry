@@ -25,6 +25,7 @@
 #include <QMimeType>
 #include <QIODevice>
 #include <QFile>
+#include <QFileInfo>
 #include <QDir>
 #include <QList>
 #include <QByteArray>
@@ -184,7 +185,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
     return;
   }
 
-  Song::FileType filetype(Song::FileType_Unknown);
+  Song::FileType filetype(Song::FileType_Stream);
 
   if (json_obj.contains("codec") || json_obj.contains("codecs")) {
     QString codec;
@@ -275,6 +276,11 @@ void TidalStreamURLRequest::StreamURLReceived() {
   else if (json_obj.contains("url")) {
     QUrl new_url(json_obj["url"].toString());
     urls << new_url;
+    if (filetype == Song::FileType_Stream) {
+      // Guess filetype by filename extension in URL.
+      filetype = Song::FiletypeByExtension(QFileInfo(new_url.path()).suffix());
+      if (filetype == Song::FileType_Unknown) filetype = Song::FileType_Stream;
+    }
   }
 
   if (urls.isEmpty()) {
