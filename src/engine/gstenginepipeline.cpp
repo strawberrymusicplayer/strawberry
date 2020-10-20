@@ -134,7 +134,6 @@ GstEnginePipeline::~GstEnginePipeline() {
     if (discovery_finished_cb_id_ != -1)
       g_signal_handler_disconnect(G_OBJECT(discoverer_), discovery_finished_cb_id_);
 
-    gst_discoverer_stop(discoverer_);
     g_object_unref(discoverer_);
     discoverer_ = nullptr;
 
