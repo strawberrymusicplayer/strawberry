@@ -1147,7 +1147,7 @@ msgstr "Tampon"
 msgid "Buffer duration"
 msgstr "Durée du tampon"
 
-#: engine/gstengine.cpp:630
+#: engine/gstengine.cpp:681
 msgid "Buffering"
 msgstr "Mise en mémoire tampon"
 

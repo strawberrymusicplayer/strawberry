@@ -1097,7 +1097,7 @@ msgstr "버퍼"
 msgid "Buffer duration"
 msgstr "버퍼 시간"
 
-#: engine/gstengine.cpp:630
+#: engine/gstengine.cpp:681
 msgid "Buffering"
 msgstr "버퍼링"
 
