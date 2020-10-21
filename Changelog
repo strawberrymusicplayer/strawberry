@@ -8,6 +8,9 @@ Unreleased:
     * Fixed updating playing widget song details in small cover mode.
     * Fixed file extension when transcoding songs.
     * Fixed updating album cover to collection in edit tag dialog when pressing save.
+    * Fixed songs with empty artist in collection.
+    * Fixed possible crashes with stream discovery.
+    * Fixed always setting engine state to null.
 
   Enhancements:
     * (Windows) Added WASAPI plugin.
