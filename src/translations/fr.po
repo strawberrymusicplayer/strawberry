@@ -1167,7 +1167,7 @@ msgstr "CDDA"
 msgid "Cancel"
 msgstr "Annulé"
 
-#: tidal/tidalstreamurlrequest.cpp:107 qobuz/qobuzstreamurlrequest.cpp:103
+#: tidal/tidalstreamurlrequest.cpp:108 qobuz/qobuzstreamurlrequest.cpp:103
 msgid "Cancelled."
 msgstr "Annulé."
 
@@ -2920,7 +2920,7 @@ msgstr "Le nom d'utilisateur ou le mot de passe de Subsonic est manquant."
 
 #: tidal/tidalservice.cpp:737 tidal/tidalservice.cpp:796
 #: tidal/tidalservice.cpp:853 tidal/tidalservice.cpp:918
-#: tidal/tidalservice.cpp:978 tidal/tidalstreamurlrequest.cpp:89
+#: tidal/tidalservice.cpp:978 tidal/tidalstreamurlrequest.cpp:90
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 "Le jeton de l'API Tidal, le nom d'utilisateur ou le mot de passe est "
@@ -3165,7 +3165,7 @@ msgstr ""
 
 #: tidal/tidalservice.cpp:732 tidal/tidalservice.cpp:791
 #: tidal/tidalservice.cpp:848 tidal/tidalservice.cpp:913
-#: tidal/tidalservice.cpp:974 tidal/tidalstreamurlrequest.cpp:85
+#: tidal/tidalservice.cpp:974 tidal/tidalstreamurlrequest.cpp:86
 msgid "Not authenticated with Tidal."
 msgstr "Aucune authentification sur Tidal."
 
