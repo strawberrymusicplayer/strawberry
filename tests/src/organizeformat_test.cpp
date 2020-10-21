@@ -76,7 +76,6 @@ TEST_F(OrganizeFormatTest, BasicReplacePaths) {
 
   ASSERT_TRUE(format_.IsValid());
 
-  qLog(Debug) << format_.GetFilenameForSong(song_);
   EXPECT_EQ("albumartist/album/321_albumartist_artist_album_title", format_.GetFilenameForSong(song_));
 
 }
