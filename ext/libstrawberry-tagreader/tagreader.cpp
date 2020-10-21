@@ -235,14 +235,14 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
 
   else if (TagLib::WavPack::File *file_wavpack = dynamic_cast<TagLib::WavPack::File *>(fileref->file())) {
     song->set_bitdepth(file_wavpack->audioProperties()->bitsPerSample());
-    if (file_wavpack->tag()) {
+    if (file_wavpack->APETag()) {
       ParseAPETag(file_wavpack->APETag()->itemListMap(), nullptr, &disc, &compilation, song);
     }
     if (tag) Decode(tag->comment(), nullptr, song->mutable_comment());
   }
 
   else if (TagLib::APE::File *file_ape = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
-    if (file_ape->tag()) {
+    if (file_ape->APETag()) {
       ParseAPETag(file_ape->APETag()->itemListMap(), nullptr, &disc, &compilation, song);
     }
     song->set_bitdepth(file_ape->audioProperties()->bitsPerSample());
