@@ -368,7 +368,7 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
   }
 
   else if (TagLib::MPC::File* file_mpc = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
-    if (file_mpc->tag()) {
+    if (file_mpc->APETag()) {
       ParseAPETag(file_mpc->APETag()->itemListMap(), nullptr, &disc, &compilation, song);
     }
     if (tag) Decode(tag->comment(), nullptr, song->mutable_comment());
