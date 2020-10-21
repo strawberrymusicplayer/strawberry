@@ -64,6 +64,41 @@ TEST_F(OrganizeFormatTest, BasicReplace) {
 
 }
 
+TEST_F(OrganizeFormatTest, BasicReplacePaths) {
+
+  song_.set_title("title");
+  song_.set_album("album");
+  song_.set_artist("artist");
+  song_.set_albumartist("albumartist");
+  song_.set_track(321);
+
+  format_.set_format("%albumartist/%album/%track %albumartist %artist %album %title");
+
+  ASSERT_TRUE(format_.IsValid());
+
+  qLog(Debug) << format_.GetFilenameForSong(song_);
+  EXPECT_EQ("albumartist/album/321_albumartist_artist_album_title", format_.GetFilenameForSong(song_));
+
+}
+
+TEST_F(OrganizeFormatTest, PathOnlyFormat) {
+
+  song_.set_title("title");
+  song_.set_album("album");
+  song_.set_artist("artist");
+  song_.set_albumartist("albumartist");
+  song_.set_track(321);
+  song_.set_url(QUrl("file:///music/whatever/321_albumartist_artist_album_title"));
+  song_.set_basefilename("321_albumartist_artist_album_title");
+
+  format_.set_format("%albumartist/%album/");
+
+  ASSERT_TRUE(format_.IsValid());
+
+  EXPECT_EQ("albumartist/album/321_albumartist_artist_album_title", format_.GetFilenameForSong(song_));
+
+}
+
 TEST_F(OrganizeFormatTest, Extension) {
 
   song_.set_url(QUrl("file:///some/path/filename.flac"));
@@ -163,13 +198,10 @@ TEST_F(OrganizeFormatTest, TrackNumberPadding) {
 
 }
 
-#if 0
 TEST_F(OrganizeFormatTest, ReplaceSlashes) {
 
   format_.set_format("%title");
   song_.set_title("foo/bar\\baz");
-  qLog(Debug) << format_.GetFilenameForSong(song_);
-  EXPECT_EQ("foo_bar_baz", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("foobarbaz", format_.GetFilenameForSong(song_));
 
 }
-#endif
