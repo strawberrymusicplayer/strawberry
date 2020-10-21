@@ -115,7 +115,15 @@ QString OrganizeFormat::GetFilenameForSong(const Song &song, QString extension) 
   if (QFileInfo(filename).completeBaseName().isEmpty()) {
     // Avoid having empty filenames, or filenames with extension only: in this case, keep the original filename.
     // We remove the extension from "filename" if it exists, as song.basefilename() also contains the extension.
-    filename = QFileInfo(filename).path() + "/" + song.basefilename();
+    QString path = QFileInfo(filename).path();
+    filename.clear();
+    if (!path.isEmpty()) {
+      filename.append(path);
+      if (path.right(1) != '/' && path.right(1) != '\\') {
+        filename.append('/');
+      }
+    }
+    filename.append(song.basefilename());
   }
 
   if (remove_problematic_) filename = filename.remove(kProblematicCharacters);
