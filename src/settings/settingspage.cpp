@@ -34,14 +34,6 @@
 
 SettingsPage::SettingsPage(SettingsDialog *dialog) : QWidget(dialog), dialog_(dialog), ui_widget_(nullptr), changed_(false) {}
 
-void SettingsPage::showEvent(QShowEvent *e) {
-
-  changed_ = false;
-
-  QWidget::showEvent(e);
-
-}
-
 void SettingsPage::Init(QWidget *ui_widget) {
 
   if (!ui_widget) return;
