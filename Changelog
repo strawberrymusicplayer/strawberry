@@ -10,7 +10,9 @@ Unreleased:
     * Fixed updating album cover to collection in edit tag dialog when pressing save.
     * Fixed songs with empty artist in collection.
     * Fixed possible crashes with stream discovery.
-    * Fixed always setting engine state to null.
+    * Fixed setting engine state to null.
+    * Fixed tagreader crash with empty APE tags.
+    * Fixed a gstreamer memory leak.
 
   Enhancements:
     * (Windows) Added WASAPI plugin.
