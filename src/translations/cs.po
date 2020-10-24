@@ -2705,7 +2705,7 @@ msgstr "Nahrává se databáze iPod"
 msgid "Loading smart playlist"
 msgstr ""
 
-#: collection/collectionmodel.cpp:211
+#: collection/collectionmodel.cpp:212
 msgid "Loading songs"
 msgstr "Nahrávají se písně"
 
@@ -2717,7 +2717,7 @@ msgstr "Nahrávají se skladby"
 msgid "Loading tracks info"
 msgstr "Nahrávají se informace o skladbě"
 
-#: collection/collectionmodel.cpp:204
+#: collection/collectionmodel.cpp:205
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:281
 msgid "Loading..."
@@ -2984,7 +2984,7 @@ msgstr "Úzké pásmo"
 msgid "Network Proxy"
 msgstr "Síťová proxy"
 
-#: playlist/playlistdelegates.cpp:340 dialogs/edittagdialog.cpp:584
+#: playlist/playlistdelegates.cpp:344 dialogs/edittagdialog.cpp:584
 msgid "Never"
 msgstr "Nikdy"
 
@@ -4852,11 +4852,11 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ultra široké pásmo"
 
-#: core/song.cpp:548 context/contextalbumsmodel.cpp:357
-#: collection/collectionmodel.cpp:463 collection/collectionmodel.cpp:468
-#: collection/collectionmodel.cpp:472 collection/collectionmodel.cpp:476
-#: collection/collectionmodel.cpp:480 collection/collectionmodel.cpp:1592
-#: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:353
+#: core/song.cpp:548 context/contextalbumsmodel.cpp:358
+#: collection/collectionmodel.cpp:464 collection/collectionmodel.cpp:469
+#: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
+#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1593
+#: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
 #: playlist/playlistmanager.cpp:555 playlist/playlistmanager.cpp:556
 #: dialogs/edittagdialog.cpp:514 dialogs/edittagdialog.cpp:562
 #: ../build/src/ui_scrobblersettingspage.h:410
@@ -5028,7 +5028,7 @@ msgstr "Použití nabídky pro přidání písně..."
 msgid "Variable bit rate"
 msgstr "Proměnlivý datový tok"
 
-#: collection/collectionmodel.cpp:372 collection/collectionmodel.cpp:373
+#: collection/collectionmodel.cpp:373 collection/collectionmodel.cpp:374
 #: playlist/playlistmanager.cpp:567 covermanager/albumcovermanager.cpp:333
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
@@ -5330,7 +5330,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:544 context/contextview.cpp:695
-#: playlist/playlistview.cpp:261 dialogs/edittagdialog.cpp:557
+#: playlist/playlistview.cpp:262 dialogs/edittagdialog.cpp:557
 msgid "kbps"
 msgstr "kb/s"
 
@@ -5424,7 +5424,7 @@ msgstr "Třídit skladby"
 msgid "starts with"
 msgstr ""
 
-#: playlist/playlistdelegates.cpp:222
+#: playlist/playlistdelegates.cpp:226
 msgid "stop"
 msgstr "zastavit"
 
