@@ -63,11 +63,21 @@ SnapDialog::SnapDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_SnapDialog
   text += QString("<p>");
   text += tr("For a better experience please consider the other options above.");
   text += QString("</p>");
-  
+
+  text += QString("<p>");
+  text += tr("Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configration before you uninstall the snap:");
+  text += QString("<br />");
+  text += QString("cp ~/snap/strawberry/*/.config/strawberry/strawberry.conf ~/.config/strawberry/strawberry.conf<br />");
+  text += QString("cp ~/snap/strawberry/*/.local/share/strawberry/strawberry/strawberry.db ~/.local/share/strawberry/strawberry/strawberry.db<br />");
+  text += QString("</p>");
+  text += QString("<p>");
+  text += tr("Uninstall the snap with: snap remove strawberry");
+  text += QString("</p>");
   text += QString("<p></p>");
 
   ui_->label_text->setText(text);
   ui_->label_text->adjustSize();
+  adjustSize();
 
   ui_->buttonBox->button(QDialogButtonBox::Ok)->setShortcut(QKeySequence::Close);
 
