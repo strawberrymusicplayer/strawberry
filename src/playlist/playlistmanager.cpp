@@ -52,6 +52,7 @@
 #include "collection/collectionplaylistitem.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/currentalbumcoverloader.h"
+#include "organize/organizeformat.h"
 #include "playlist.h"
 #include "playlistbackend.h"
 #include "playlistcontainer.h"
@@ -235,7 +236,7 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   QString filter = settings.value("last_save_filter", parser()->default_filter()).toString();
 
   QString suggested_filename = playlist_name;
-  suggested_filename.replace(QRegularExpression("\\W", QRegularExpression::UseUnicodePropertiesOption), "");
+  suggested_filename = suggested_filename.remove(OrganizeFormat::kProblematicCharacters);
 
   qLog(Debug) << "Using extension:" << extension;
 
