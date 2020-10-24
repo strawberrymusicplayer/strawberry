@@ -22,6 +22,7 @@
 #include <QtGlobal>
 #include <QWidget>
 #include <QSettings>
+#include <QMetaType>
 #include <QList>
 #include <QVariant>
 #include <QString>
@@ -365,7 +366,13 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   }
 
   // This allows a custom ALSA device string ie: "hw:0,0" even if it is not listed.
-  if (engine()->CustomDeviceSupport(output) && device.type() == QVariant::String && !device.toString().isEmpty()) {
+  if (engine()->CustomDeviceSupport(output) &&
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+      device.metaType().id() == QMetaType::QString
+#else
+      device.type() == QVariant::String
+#endif
+      && !device.toString().isEmpty()) {
     ui_->lineedit_device->setText(device.toString());
     if (!found) {
       for (int i = 0; i < ui_->combobox_device->count(); ++i) {
@@ -484,7 +491,12 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
   if (engine()->CustomDeviceSupport(output.name)) {
     ui_->lineedit_device->setEnabled(true);
     if (ui_->combobox_device->currentText() != "Custom") {
-      if (device.type() == QVariant::String) ui_->lineedit_device->setText(device.toString());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+      if (device.metaType().id() == QMetaType::QString)
+#else
+      if (device.type() == QVariant::String)
+#endif
+        ui_->lineedit_device->setText(device.toString());
       else ui_->lineedit_device->clear();
     }
   }
@@ -519,7 +531,11 @@ void BackendSettingsPage::DeviceStringChanged() {
 
   for (int i = 0; i < ui_->combobox_device->count(); ++i) {
     QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    if (device.metaType().id() != QMetaType::QString) continue;
+#else
     if (device.type() != QVariant::String) continue;
+#endif
     if (device.toString().isEmpty()) continue;
     if (ui_->combobox_device->itemText(i) == "Custom") continue;
     if (device.toString() == ui_->lineedit_device->text()) {
@@ -599,7 +615,11 @@ void BackendSettingsPage::radiobutton_alsa_hw_clicked(const bool checked) {
     bool found(false);
     for (int i = 0; i < ui_->combobox_device->count(); ++i) {
       QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+      if (device.metaType().id() != QMetaType::QString) continue;
+#else
       if (device.type() != QVariant::String) continue;
+#endif
       if (device.toString().isEmpty()) continue;
       if (device.toString() == device_new) {
         if (ui_->combobox_device->currentIndex() != i) ui_->combobox_device->setCurrentIndex(i);
@@ -630,7 +650,11 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(const bool checked) {
     bool found(false);
     for (int i = 0; i < ui_->combobox_device->count(); ++i) {
       QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+      if (device.metaType().id() != QMetaType::QString) continue;
+#else
       if (device.type() != QVariant::String) continue;
+#endif
       if (device.toString().isEmpty()) continue;
       if (device.toString() == device_new) {
         if (ui_->combobox_device->currentIndex() != i) ui_->combobox_device->setCurrentIndex(i);

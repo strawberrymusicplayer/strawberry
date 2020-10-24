@@ -37,6 +37,7 @@
 #include <QList>
 #include <QSet>
 #include <QMap>
+#include <QMetaType>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -1730,8 +1731,14 @@ bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem
   QVariant left(data(a, CollectionModel::Role_SortText));
   QVariant right(data(b, CollectionModel::Role_SortText));
 
-  if (left.type() == QVariant::Int) return left.toInt() < right.toInt();
-  return left.toString() < right.toString();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  if (left.metaType().id() == QMetaType::Int)
+#else
+  if (left.type() == QVariant::Int)
+#endif
+    return left.toInt() < right.toInt();
+  else
+    return left.toString() < right.toString();
 
 }
 

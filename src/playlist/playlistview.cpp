@@ -38,6 +38,7 @@
 #include <QFontMetrics>
 #include <QKeySequence>
 #include <QMimeData>
+#include <QMetaType>
 #include <QList>
 #include <QSize>
 #include <QTimeLine>
@@ -1328,7 +1329,11 @@ void PlaylistView::CopyCurrentSongToClipboard() const {
     }
 
     const QVariant var_data = model()->data(currentIndex().sibling(currentIndex().row(), i));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    if (var_data.metaType().id() == QMetaType::QString) {
+#else
     if (var_data.type() == QVariant::String) {
+#endif
       columns << var_data.toString();
     }
   }

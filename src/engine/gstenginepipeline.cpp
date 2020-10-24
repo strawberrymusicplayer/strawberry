@@ -34,6 +34,7 @@
 #include <QCoreApplication>
 #include <QtConcurrent>
 #include <QMutex>
+#include <QMetaType>
 #include <QByteArray>
 #include <QList>
 #include <QVariant>
@@ -242,21 +243,42 @@ bool GstEnginePipeline::InitAudioBin() {
   }
 
   if (device_.isValid() && g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink), "device")) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    switch (device_.metaType().id()) {
+      case QMetaType::QString:
+#else
     switch (device_.type()) {
       case QVariant::String:
+#endif
         if (device_.toString().isEmpty()) break;
         g_object_set(G_OBJECT(audiosink), "device", device_.toString().toUtf8().constData(), nullptr);
         break;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+      case QMetaType::QByteArray:
+#else
       case QVariant::ByteArray:
+#endif
         g_object_set(G_OBJECT(audiosink), "device", device_.toByteArray().constData(), nullptr);
         break;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+      case QMetaType::LongLong:
+#else
       case QVariant::LongLong:
+#endif
         g_object_set(G_OBJECT(audiosink), "device", device_.toLongLong(), nullptr);
         break;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+      case QMetaType::Int:
+#else
       case QVariant::Int:
+#endif
         g_object_set(G_OBJECT(audiosink), "device", device_.toInt(), nullptr);
         break;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+      case QMetaType::QUuid:
+#else
       case QVariant::Uuid:
+#endif
         g_object_set(G_OBJECT(audiosink), "device", device_.toUuid(), nullptr);
         break;
       default:

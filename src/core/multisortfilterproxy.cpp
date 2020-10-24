@@ -69,6 +69,20 @@ int MultiSortFilterProxy::Compare(const QVariant &left, const QVariant &right) c
 
   // Copied from the QSortFilterProxyModel::lessThan implementation, but returns -1, 0 or 1 instead of true or false.
   switch (left.userType()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    case QMetaType::UnknownType:   return (right.metaType().id() != QMetaType::UnknownType) ? -1 : 0;
+    case QMetaType::Int:           return DoCompare(left.toInt(), right.toInt());
+    case QMetaType::UInt:          return DoCompare(left.toUInt(), right.toUInt());
+    case QMetaType::LongLong:      return DoCompare(left.toLongLong(), right.toLongLong());
+    case QMetaType::ULongLong:     return DoCompare(left.toULongLong(), right.toULongLong());
+    case QMetaType::Float:         return DoCompare(left.toFloat(), right.toFloat());
+    case QMetaType::Double:        return DoCompare(left.toDouble(), right.toDouble());
+    case QMetaType::Char:          return DoCompare(left.toChar(), right.toChar());
+    case QMetaType::QDate:         return DoCompare(left.toDate(), right.toDate());
+    case QMetaType::QTime:         return DoCompare(left.toTime(), right.toTime());
+    case QMetaType::QDateTime:     return DoCompare(left.toDateTime(), right.toDateTime());
+    case QMetaType::QString:
+#else
     case QVariant::Invalid:   return (right.type() != QVariant::Invalid) ? -1 : 0;
     case QVariant::Int:       return DoCompare(left.toInt(), right.toInt());
     case QVariant::UInt:      return DoCompare(left.toUInt(), right.toUInt());
@@ -81,6 +95,7 @@ int MultiSortFilterProxy::Compare(const QVariant &left, const QVariant &right) c
     case QVariant::Time:      return DoCompare(left.toTime(), right.toTime());
     case QVariant::DateTime:  return DoCompare(left.toDateTime(), right.toDateTime());
     case QVariant::String:
+#endif
     default:
       if (isSortLocaleAware())
         return left.toString().localeAwareCompare(right.toString());

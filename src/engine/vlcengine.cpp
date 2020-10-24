@@ -24,6 +24,7 @@
 #include <vlc/vlc.h>
 
 #include <QtGlobal>
+#include <QMetaType>
 #include <QVariant>
 #include <QByteArray>
 #include <QUrl>
@@ -130,7 +131,13 @@ bool VLCEngine::Play(const quint64 offset_nanosec) {
   }
 
   // Set audio device
-  if (device_.isValid() && device_.type() == QVariant::String && !device_.toString().isEmpty()) {
+  if (device_.isValid() &&
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+      device_.metaType().id() == QMetaType::QString
+#else
+      device_.type() == QVariant::String
+#endif
+      && !device_.toString().isEmpty()) {
     libvlc_audio_output_device_set(player_, nullptr, device_.toString().toLocal8Bit().data());
   }
 

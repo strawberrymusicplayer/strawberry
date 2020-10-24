@@ -116,7 +116,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   enum DatabaseColumn { Column_CollectionId };
 
   virtual QVariant DatabaseValue(DatabaseColumn) const {
-    return QVariant(QVariant::String);
+    return QVariant(QString());
   }
   virtual Song DatabaseSongMetadata() const { return Song(); }
 

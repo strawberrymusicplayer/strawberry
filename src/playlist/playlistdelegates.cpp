@@ -177,7 +177,11 @@ QString PlaylistDelegateBase::displayText(const QVariant &value, const QLocale&)
 
   QString text;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  switch(value.metaType().id()) {
+#else
   switch (static_cast<QMetaType::Type>(value.type())) {
+#endif
     case QMetaType::Int: {
       int v = value.toInt();
       if (v > 0) text = QString::number(v);
@@ -432,7 +436,11 @@ QString NativeSeparatorsDelegate::displayText(const QVariant &value, const QLoca
   const QString string_value = value.toString();
 
   QUrl url;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  if (value.metaType().id() == QMetaType::QUrl) {
+#else
   if (value.type() == QVariant::Url) {
+#endif
     url = value.toUrl();
   }
   else if (string_value.contains("://")) {

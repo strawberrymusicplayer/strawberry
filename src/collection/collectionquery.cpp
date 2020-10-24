@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <QtGlobal>
+#include <QMetaType>
 #include <QDateTime>
 #include <QVariant>
 #include <QString>
@@ -133,10 +134,20 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
   }
   else {
     // Do integers inline - sqlite seems to get confused when you pass integers to bound parameters
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    if (value.metaType().id() == QMetaType::Int) {
+#else
     if (value.type() == QVariant::Int) {
+#endif
       where_clauses_ << QString("%1 %2 %3").arg(column, op, value.toString());
     }
-    else if (value.type() == QVariant::String && value.toString().isNull()) {
+    else if (
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    value.metaType().id() == QMetaType::QString
+#else
+    value.type() == QVariant::String
+#endif
+    && value.toString().isNull()) {
       where_clauses_ << QString("%1 %2 ?").arg(column, op);
       bound_values_ << QString("");
     }
