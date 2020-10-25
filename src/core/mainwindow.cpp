@@ -1531,18 +1531,20 @@ void MainWindow::showEvent(QShowEvent *e) {
 void MainWindow::closeEvent(QCloseEvent *e) {
 
   if (!hidden_ && keep_running_ && e->spontaneous() && QSystemTrayIcon::isSystemTrayAvailable()) {
-    e->ignore();
     SetHiddenInTray(true);
   }
   else {
     Exit();
   }
 
+  QMainWindow::closeEvent(e);
+
 }
 
 void MainWindow::SetHiddenInTray(const bool hidden) {
 
   hidden_ = hidden;
+  settings_.setValue("hidden", hidden_);
 
   // Some window managers don't remember maximized state between calls to hide() and show(), so we have to remember it ourself.
   if (hidden) {
