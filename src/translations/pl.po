@@ -176,7 +176,7 @@ msgstr "%1 wymaga uwierzytelniania."
 msgid "%1 playlists (%2)"
 msgstr "%1 list(y) odtwarzania (%2)"
 
-#: playlist/playlistmanager.cpp:453
+#: playlist/playlistmanager.cpp:454
 #, qt-format
 msgid "%1 selected of"
 msgstr "zaznaczono %1 z"
@@ -215,7 +215,7 @@ msgstr ""
 "Zaznaczonych utworów: %1, w katalogach: %2. Czy na pewno chcesz je wszystkie "
 "otworzyć?"
 
-#: playlist/playlistmanager.cpp:460 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:461 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 ścieżki(ek)"
@@ -448,7 +448,7 @@ msgstr "0 px"
 msgid "1 day"
 msgstr "1 dzień"
 
-#: playlist/playlistmanager.cpp:460 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:461 queue/queue.cpp:254
 msgid "1 track"
 msgstr "1 ścieżka"
 
@@ -570,7 +570,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Dodaj katalog…"
 
-#: core/mainwindow.cpp:2114
+#: core/mainwindow.cpp:2116
 msgid "Add file"
 msgstr "Dodaj plik"
 
@@ -586,7 +586,7 @@ msgstr "Dodaj plik(i) do transkodera"
 msgid "Add files to transcode"
 msgstr "Dodaj pliki to transkodowania"
 
-#: core/mainwindow.cpp:2139 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2141 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Dodaj katalog"
 
@@ -689,7 +689,7 @@ msgstr "Dodaj strumień…"
 msgid "Add to albums"
 msgstr "Dodaj do albumów"
 
-#: core/mainwindow.cpp:1922
+#: core/mainwindow.cpp:1924
 msgid "Add to another playlist"
 msgstr "Dodaj do innej listy odtwarzania"
 
@@ -1203,7 +1203,7 @@ msgstr "Wyczyść"
 msgid "Clear Disk Cache"
 msgstr "Wyczyść pamięć podręczną na dysku"
 
-#: core/mainwindow.cpp:2204 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2206 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Wyczyść listę odtwarzania"
 
@@ -1271,7 +1271,7 @@ msgstr "Filtr kolekcji"
 msgid "Collection advanced grouping"
 msgstr "Zaawansowanie grupowanie kolekcji"
 
-#: core/mainwindow.cpp:2716
+#: core/mainwindow.cpp:2718
 msgid "Collection rescan notice"
 msgstr "Konieczność odświeżenia kolekcji"
 
@@ -1393,6 +1393,12 @@ msgstr ""
 msgid "Copy to device..."
 msgstr "Skopiuj na urządzenie…"
 
+#: dialogs/snapdialog.cpp:68
+msgid ""
+"Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
+"avoid losing configration before you uninstall the snap:"
+msgstr ""
+
 #: transcoder/transcoder.cpp:66
 #, qt-format
 msgid ""
@@ -1418,7 +1424,7 @@ msgstr "Nie udało się otworzyć pliku „%1”"
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Nie udało się utworzyć elementu źródłowego GStreamera dla „%1”"
 
-#: playlist/playlistmanager.cpp:199
+#: playlist/playlistmanager.cpp:200
 msgid "Couldn't create playlist"
 msgstr "Nie można utworzyć listy odtwarzania"
 
@@ -1652,11 +1658,11 @@ msgstr "Usuń oryginalne pliki"
 msgid "Deleting files"
 msgstr "Usuwanie plików"
 
-#: core/mainwindow.cpp:1839
+#: core/mainwindow.cpp:1841
 msgid "Dequeue selected tracks"
 msgstr "Usuń zaznaczone ścieżki z kolejki"
 
-#: core/mainwindow.cpp:1838
+#: core/mainwindow.cpp:1840
 msgid "Dequeue track"
 msgstr "Usuń ścieżkę z kolejki"
 
@@ -1801,7 +1807,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1880
+#: core/mainwindow.cpp:1882
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Edytuj znacznik „%1”…"
@@ -1953,7 +1959,7 @@ msgstr "Równoważne z --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Równoważne z --log-levels *:3"
 
-#: core/mainwindow.cpp:2454 core/mainwindow.cpp:2599
+#: core/mainwindow.cpp:2456 core/mainwindow.cpp:2601
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Błąd"
@@ -2970,7 +2976,7 @@ msgstr "Przenieś do kolekcji…"
 msgid "Move up"
 msgstr "Przesuń w górę"
 
-#: core/mainwindow.cpp:2114 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2116 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Muzyka"
 
@@ -3015,7 +3021,7 @@ msgstr "Nie odtwarzaj automatycznie"
 msgid "New folder"
 msgstr "Nowy katalog"
 
-#: core/mainwindow.cpp:1938
+#: core/mainwindow.cpp:1940
 msgid "New playlist"
 msgstr "Nowa lista odtwarzania"
 
@@ -3087,7 +3093,7 @@ msgstr "Żaden utwór nie jest odtwarzany"
 msgid "None"
 msgstr "Brak"
 
-#: core/mainwindow.cpp:2454 core/mainwindow.cpp:2599
+#: core/mainwindow.cpp:2456 core/mainwindow.cpp:2601
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3299,7 +3305,7 @@ msgstr "Impreza"
 msgid "Password"
 msgstr "Hasło"
 
-#: core/mainwindow.cpp:1260 core/mainwindow.cpp:1734
+#: core/mainwindow.cpp:1260 core/mainwindow.cpp:1736
 #: core/qtsystemtrayicon.cpp:190
 msgid "Pause"
 msgstr "Wstrzymaj"
@@ -3328,7 +3334,7 @@ msgid "Plain sidebar"
 msgstr "Pasek boczny bez efektów"
 
 #: core/mainwindow.cpp:675 core/mainwindow.cpp:1213 core/mainwindow.cpp:1242
-#: core/mainwindow.cpp:1738 core/qtsystemtrayicon.cpp:177
+#: core/mainwindow.cpp:1740 core/qtsystemtrayicon.cpp:177
 #: core/qtsystemtrayicon.cpp:202
 msgid "Play"
 msgstr "Odtwarzaj"
@@ -3379,8 +3385,8 @@ msgid "Player options"
 msgstr "Opcje odtwarzacza"
 
 #: playlist/playlistcontainer.cpp:321 playlist/playlistlistcontainer.cpp:287
-#: playlist/playlistlistcontainer.cpp:384 playlist/playlistmanager.cpp:108
-#: playlist/playlistmanager.cpp:186 playlist/playlistmanager.cpp:548
+#: playlist/playlistlistcontainer.cpp:384 playlist/playlistmanager.cpp:109
+#: playlist/playlistmanager.cpp:187 playlist/playlistmanager.cpp:549
 #: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Lista odtwarzania"
@@ -3393,7 +3399,7 @@ msgstr "Lista odtwarzania"
 msgid "Playlist finished"
 msgstr "Zakończono odtwarzanie listy"
 
-#: core/mainwindow.cpp:2204
+#: core/mainwindow.cpp:2206
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3568,21 +3574,21 @@ msgstr "Odpytywanie urządzenia…"
 msgid "Queue"
 msgstr "Kolejka"
 
-#: core/mainwindow.cpp:1841
+#: core/mainwindow.cpp:1843
 msgid "Queue selected tracks"
 msgstr "Dodaj zaznaczone ścieżki do kolejki"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1845
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1847
 msgid "Queue selected tracks to play next"
 msgstr ""
 "Dodaj zaznaczone ścieżki do kolejki, aby odtworzyć w następnej kolejności"
 
-#: core/mainwindow.cpp:1847 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1849 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Dodaj do kolejki, aby następnie odtworzyć"
 
-#: core/mainwindow.cpp:1840 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1842 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -3930,7 +3936,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Zapisz listę odtwarzania"
 
-#: playlist/playlistmanager.cpp:260
+#: playlist/playlistmanager.cpp:261
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Zapisz listę odtwarzania"
@@ -4088,7 +4094,7 @@ msgstr "Adres URL serwera jest niepoprawny."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1879
+#: core/mainwindow.cpp:1881
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Ustaw %1 na „%2”…"
@@ -4317,11 +4323,11 @@ msgstr "Liczba pominięć utworu"
 msgid "Skip forwards in playlist"
 msgstr "Przeskocz w przód na liście odtwarzania"
 
-#: core/mainwindow.cpp:1852
+#: core/mainwindow.cpp:1854
 msgid "Skip selected tracks"
 msgstr "Pomiń zaznaczone ścieżki"
 
-#: core/mainwindow.cpp:1851
+#: core/mainwindow.cpp:1853
 msgid "Skip track"
 msgstr "Pomiń ścieżkę"
 
@@ -4649,7 +4655,7 @@ msgstr "Żądana strona nie istnieje!"
 msgid "The site you requested is not an image!"
 msgstr "Żądana strona nie jest obrazem!"
 
-#: core/mainwindow.cpp:2711
+#: core/mainwindow.cpp:2713
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4779,7 +4785,7 @@ msgstr "Tytuł"
 msgid "Today"
 msgstr "Dzisiaj"
 
-#: core/mainwindow.cpp:678 core/mainwindow.cpp:1842
+#: core/mainwindow.cpp:678 core/mainwindow.cpp:1844
 msgid "Toggle queue status"
 msgstr "Przełącz stan kolejki"
 
@@ -4787,7 +4793,7 @@ msgstr "Przełącz stan kolejki"
 msgid "Toggle scrobbling"
 msgstr "Włącz scrobling"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1853
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1855
 msgid "Toggle skip status"
 msgstr "Przełącz stan pominięcia"
 
@@ -4862,12 +4868,16 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ultraszerokie pasmo (UWB)"
 
+#: dialogs/snapdialog.cpp:74
+msgid "Uninstall the snap with: snap remove strawberry"
+msgstr ""
+
 #: core/song.cpp:548 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:464 collection/collectionmodel.cpp:469
 #: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1593
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
-#: playlist/playlistmanager.cpp:555 playlist/playlistmanager.cpp:556
+#: playlist/playlistmanager.cpp:556 playlist/playlistmanager.cpp:557
 #: dialogs/edittagdialog.cpp:514 dialogs/edittagdialog.cpp:562
 #: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Unknown"
@@ -4882,11 +4892,11 @@ msgstr "Nieznany błąd"
 msgid "Unset cover"
 msgstr "Usuń okładkę"
 
-#: core/mainwindow.cpp:1850
+#: core/mainwindow.cpp:1852
 msgid "Unskip selected tracks"
 msgstr "Nie pomijaj zaznaczonych ścieżek"
 
-#: core/mainwindow.cpp:1849
+#: core/mainwindow.cpp:1851
 msgid "Unskip track"
 msgstr "Nie pomijaj ścieżki"
 
@@ -5038,7 +5048,7 @@ msgid "Variable bit rate"
 msgstr "Zmienna przepływność (VBR)"
 
 #: collection/collectionmodel.cpp:373 collection/collectionmodel.cpp:374
-#: playlist/playlistmanager.cpp:567 covermanager/albumcovermanager.cpp:333
+#: playlist/playlistmanager.cpp:568 covermanager/albumcovermanager.cpp:333
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Różni artyści"
@@ -5126,7 +5136,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2715
+#: core/mainwindow.cpp:2717
 msgid "Would you like to run a full rescan right now?"
 msgstr "Chcesz wykonać pełne skanowanie od nowa teraz?"
 
