@@ -1530,12 +1530,16 @@ void MainWindow::showEvent(QShowEvent *e) {
 
 void MainWindow::closeEvent(QCloseEvent *e) {
 
+#ifdef Q_OS_MACOS
+  Exit();
+#else
   if (!hidden_ && keep_running_ && e->spontaneous() && QSystemTrayIcon::isSystemTrayAvailable()) {
     SetHiddenInTray(true);
   }
   else {
     Exit();
   }
+#endif
 
   QMainWindow::closeEvent(e);
 
@@ -2745,25 +2749,21 @@ void MainWindow::Raise() {
 
 }
 
+#ifdef Q_OS_WIN
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result) {
 #else
 bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result) {
 #endif
 
-  Q_UNUSED(eventType);
-  Q_UNUSED(result);
-
-#ifdef Q_OS_WIN
-  MSG *msg = static_cast<MSG*>(message);
-  thumbbar_->HandleWinEvent(msg);
-#else
-  Q_UNUSED(message);
-#endif
-
-  return false;
+  if (exit_count_ == 0 && message) {
+    MSG *msg = static_cast<MSG*>(message);
+    thumbbar_->HandleWinEvent(msg);
+  }
+  return QMainWindow::nativeEvent(eventType, message, result);
 
 }
+#endif  // Q_OS_WIN
 
 void MainWindow::AutoCompleteTags() {
 
