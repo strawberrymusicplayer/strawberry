@@ -397,7 +397,7 @@ void ContextAlbumsView::EditTracks() {
 void ContextAlbumsView::CopyToDevice() {
 #ifndef Q_OS_WIN
   if (!organize_dialog_)
-    organize_dialog_.reset(new OrganizeDialog(app_->task_manager()));
+    organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), nullptr, this));
 
   organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organize_dialog_->SetCopy(true);

@@ -26,6 +26,7 @@
 #include <algorithm>
 
 #include <QtGlobal>
+#include <QGuiApplication>
 #include <QtConcurrent>
 #include <QAbstractItemModel>
 #include <QDialog>
@@ -72,9 +73,8 @@
 #  include "transcoder/transcoder.h"
 #endif
 
-const char *OrganizeDialog::kDefaultFormat = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
-
 const char *OrganizeDialog::kSettingsGroup = "OrganizeDialog";
+const char *OrganizeDialog::kDefaultFormat = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
 
 OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *backend, QWidget *parentwindow, QWidget *parent)
     : QDialog(parent),
@@ -82,7 +82,8 @@ OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *bac
       ui_(new Ui_OrganizeDialog),
       task_manager_(task_manager),
       backend_(backend),
-      total_size_(0) {
+      total_size_(0),
+      devices_(false) {
 
   ui_->setupUi(this);
 
@@ -150,11 +151,13 @@ OrganizeDialog::~OrganizeDialog() {
   delete ui_;
 }
 
-void OrganizeDialog::SetDestinationModel(QAbstractItemModel *model, bool devices) {
+void OrganizeDialog::SetDestinationModel(QAbstractItemModel *model, const bool devices) {
 
   ui_->destination->setModel(model);
 
   ui_->eject_after->setVisible(devices);
+
+  devices_ = devices;
 
 }
 
@@ -167,7 +170,7 @@ void OrganizeDialog::showEvent(QShowEvent*) {
 
 void OrganizeDialog::closeEvent(QCloseEvent*) {
 
-  SaveGeometry();
+  if (!devices_) SaveGeometry();
 
 }
 
@@ -204,15 +207,19 @@ void OrganizeDialog::reject() {
 
 void OrganizeDialog::LoadGeometry() {
 
-  if (parentwindow_) {
-
+  if (devices_) {
+    AdjustSize();
+  }
+  else {
     QSettings s;
     s.beginGroup(kSettingsGroup);
     if (s.contains("geometry")) {
       restoreGeometry(s.value("geometry").toByteArray());
     }
     s.endGroup();
+  }
 
+  if (parentwindow_) {
   // Center the window on the same screen as the parentwindow.
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     QScreen *screen = parentwindow_->screen();
@@ -237,6 +244,39 @@ void OrganizeDialog::SaveGeometry() {
     s.setValue("geometry", saveGeometry());
     s.endGroup();
   }
+
+}
+
+void OrganizeDialog::AdjustSize() {
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+  QScreen *screen = QWidget::screen();
+#else
+  QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : QGuiApplication::primaryScreen());
+#endif
+  int max_width = 0;
+  int max_height = 0;
+  if (screen) {
+    max_width = screen->geometry().size().width() / 0.5;
+    max_height = static_cast<int>(float(screen->geometry().size().height()) / float(1.5));
+  }
+
+  int min_width = 0;
+  int min_height = 0;
+  if (ui_->preview->isVisible()) {
+    int h = ui_->layout_copying->sizeHint().height() +
+            ui_->button_box->sizeHint().height() +
+            ui_->eject_after->sizeHint().height() +
+            ui_->free_space->sizeHint().height() +
+            ui_->groupbox_naming->sizeHint().height();
+    if (ui_->preview->count() > 0) h += ui_->preview->sizeHintForRow(0) * ui_->preview->count();
+    else h += ui_->loading_page->sizeHint().height();
+    min_width = std::min(ui_->preview->sizeHintForColumn(0), max_width);
+    min_height = std::min(h, max_height);
+  }
+
+  setMinimumSize(min_width, min_height);
+  adjustSize();
 
 }
 
@@ -356,7 +396,7 @@ bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
 
 }
 
-void OrganizeDialog::SetLoadingSongs(bool loading) {
+void OrganizeDialog::SetLoadingSongs(const bool loading) {
 
   if (loading) {
     ui_->preview_stack->setCurrentWidget(ui_->loading_page);
@@ -395,12 +435,11 @@ SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) {
 
 }
 
-void OrganizeDialog::SetCopy(bool copy) {
+void OrganizeDialog::SetCopy(const bool copy) {
     ui_->aftercopying->setCurrentIndex(copy ? 0 : 1);
 }
 
-void OrganizeDialog::SetPlaylist(const QString &playlist)
-{
+void OrganizeDialog::SetPlaylist(const QString &playlist) {
     playlist_ = playlist;
 }
 
@@ -497,9 +536,10 @@ void OrganizeDialog::UpdatePreviews() {
     }
   }
 
-}
+  if (devices_)
+    AdjustSize();
 
-QSize OrganizeDialog::sizeHint() const { return QSize(650, 0); }
+}
 
 void OrganizeDialog::OrganizeFinished(const QStringList files_with_errors, const QStringList log) {
   if (files_with_errors.isEmpty()) return;
@@ -508,6 +548,6 @@ void OrganizeDialog::OrganizeFinished(const QStringList files_with_errors, const
   error_dialog_->Show(OrganizeErrorDialog::Type_Copy, files_with_errors, log);
 }
 
-void OrganizeDialog::AllowExtASCII(bool checked) {
+void OrganizeDialog::AllowExtASCII(const bool checked) {
   ui_->allow_ascii_ext->setEnabled(checked);
 }

@@ -59,11 +59,7 @@ class OrganizeDialog : public QDialog {
   explicit OrganizeDialog(TaskManager *task_manager, CollectionBackend *backend = nullptr, QWidget *parentwindow = nullptr, QWidget *parent = nullptr);
   ~OrganizeDialog() override;
 
-  static const char *kDefaultFormat;
-
-  QSize sizeHint() const override;
-
-  void SetDestinationModel(QAbstractItemModel *model, bool devices = false);
+  void SetDestinationModel(QAbstractItemModel *model, const bool devices = false);
 
   // These functions return true if any songs were actually added to the dialog.
   // SetSongs returns immediately, SetUrls and SetFilenames load the songs in the background.
@@ -71,7 +67,7 @@ class OrganizeDialog : public QDialog {
   bool SetUrls(const QList<QUrl> &urls);
   bool SetFilenames(const QStringList &filenames);
 
-  void SetCopy(bool copy);
+  void SetCopy(const bool copy);
 
   static Organize::NewSongInfoList ComputeNewSongsFilenames(const SongList &songs, const OrganizeFormat &format, const QString &extension = QString());
   
@@ -85,9 +81,10 @@ class OrganizeDialog : public QDialog {
   void LoadGeometry();
   void SaveGeometry();
   void LoadSettings();
+  void AdjustSize();
 
   SongList LoadSongsBlocking(const QStringList &filenames);
-  void SetLoadingSongs(bool loading);
+  void SetLoadingSongs(const bool loading);
 
  signals:
   void FileCopied(int);
@@ -105,10 +102,11 @@ class OrganizeDialog : public QDialog {
 
   void OrganizeFinished(const QStringList files_with_errors, const QStringList log);
 
-  void AllowExtASCII(bool checked);
+  void AllowExtASCII(const bool checked);
 
  private:
   static const char *kSettingsGroup;
+  static const char *kDefaultFormat;
 
   QWidget *parentwindow_;
   Ui_OrganizeDialog *ui_;
@@ -124,6 +122,8 @@ class OrganizeDialog : public QDialog {
   QString playlist_;
 
   std::unique_ptr<OrganizeErrorDialog> error_dialog_;
+
+  bool devices_;
 
 };
 
