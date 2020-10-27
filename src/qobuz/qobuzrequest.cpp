@@ -656,7 +656,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
     }
 
     QString artist = obj_artist["name"].toString();
-    if (artist_id_requested != 0 && artist_id != artist_id_requested) {
+    if (!artist_id_requested.isEmpty() && artist_id != artist_id_requested) {
       qLog(Debug) << "Skipping artist" << "artist" << artist << artist_id << "does not match album artist" << album_artist_id << album_artist;
       continue;
     }
