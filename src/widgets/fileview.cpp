@@ -43,9 +43,7 @@
 #include "fileview.h"
 #include "fileviewlist.h"
 #include "ui_fileview.h"
-#ifdef HAVE_GSTREAMER
-#  include "organize/organizeerrordialog.h"
-#endif
+#include "organize/organizeerrordialog.h"
 #include "settings/appearancesettingspage.h"
 
 const char *FileView::kFileFilter =
