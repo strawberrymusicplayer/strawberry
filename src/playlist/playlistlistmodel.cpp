@@ -206,7 +206,7 @@ QStandardItem *PlaylistListModel::NewPlaylist(const QString &name, int id) const
   ret->setData(PlaylistListModel::Type_Playlist, PlaylistListModel::Role_Type);
   ret->setData(id, PlaylistListModel::Role_PlaylistId);
   ret->setIcon(playlist_icon_);
-  ret->setFlags(Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
+  ret->setFlags(Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
   return ret;
 
 }
