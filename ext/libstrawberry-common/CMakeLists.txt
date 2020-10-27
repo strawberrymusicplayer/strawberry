@@ -28,16 +28,12 @@ endif()
 
 link_directories(
   ${GLIB_LIBRARY_DIRS}
-  ${QtCore_LIBRARY_DIRS}
-  ${QtNetwork_LIBRARY_DIRS}
 )
 
 add_library(libstrawberry-common STATIC ${SOURCES} ${MOC})
 
 target_include_directories(libstrawberry-common SYSTEM PRIVATE
   ${GLIB_INCLUDE_DIRS}
-  ${QtCore_INCLUDE_DIRS}
-  ${QtNetwork_INCLUDE_DIRS}
 )
 
 target_include_directories(libstrawberry-common PRIVATE

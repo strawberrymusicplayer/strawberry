@@ -9,7 +9,6 @@ link_directories(
   ${GSTREAMER_BASE_LIBRARY_DIRS}
   ${GSTREAMER_AUDIO_LIBRARY_DIRS}
   ${FFTW3_LIBRARY_DIRS}
-  ${QtCore_LIBRARY_DIRS}
 )
 
 add_library(gstmoodbar STATIC ${SOURCES})
@@ -21,7 +20,6 @@ target_include_directories(gstmoodbar SYSTEM PRIVATE
   ${GSTREAMER_BASE_INCLUDE_DIRS}
   ${GSTREAMER_AUDIO_INCLUDE_DIRS}
   ${FFTW3_INCLUDE_DIR}
-  ${QtCore_INCLUDE_DIRS}
 )
 
 target_include_directories(gstmoodbar PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

@@ -15,8 +15,6 @@ endif()
 link_directories(
   ${GLIB_LIBRARY_DIRS}
   ${TAGLIB_LIBRARY_DIRS}
-  ${QtCore_LIBRARY_DIRS}
-  ${QtNetwork_LIBRARY_DIRS}
 )
 
 add_executable(strawberry-tagreader ${SOURCES} ${MOC} ${QRC})
@@ -24,8 +22,6 @@ add_executable(strawberry-tagreader ${SOURCES} ${MOC} ${QRC})
 target_include_directories(strawberry-tagreader SYSTEM PRIVATE
   ${GLIB_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
-  ${QtCore_INCLUDE_DIRS}
-  ${QtNetwork_INCLUDE_DIRS}
 )
 
 target_include_directories(strawberry-tagreader PRIVATE

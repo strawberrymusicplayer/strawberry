@@ -9,7 +9,6 @@ link_directories(
   ${GLIB_LIBRARY_DIRS}
   ${PROTOBUF_LIBRARY_DIRS}
   ${TAGLIB_LIBRARY_DIRS}
-  ${Qt5Core_LIBRARY_DIRS}
 )
 
 add_library(libstrawberry-tagreader STATIC ${PROTO_SOURCES} ${SOURCES})
@@ -17,8 +16,6 @@ add_library(libstrawberry-tagreader STATIC ${PROTO_SOURCES} ${SOURCES})
 target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE
   ${GLIB_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
-  ${QtCore_INCLUDE_DIRS}
-  ${QtNetwork_INCLUDE_DIRS}
 )
 
 target_include_directories(libstrawberry-tagreader PRIVATE

@@ -31,7 +31,6 @@ endif()
 link_directories(
   ${SQLITE_LIBRARY_DIRS}
   ${TAGLIB_LIBRARY_DIRS}
-  ${QT_LIBRARY_DIRS}
 )
 
 if(HAVE_GSTREAMER)
@@ -61,7 +60,6 @@ add_library(test_utils STATIC EXCLUDE_FROM_ALL ${TESTUTILS-SOURCES} ${TESTUTILS-
 target_include_directories(test_utils SYSTEM PRIVATE
   ${GTEST_INCLUDE_DIRS}
   ${GMOCK_INCLUDE_DIRS}
-  ${QT_INCLUDE_DIRS}
 )
 target_include_directories(test_utils PRIVATE
   ${CMAKE_BINARY_DIR}/src
@@ -89,7 +87,6 @@ else()
 endif()
 
 add_library(test_gui_main STATIC EXCLUDE_FROM_ALL ${TEST-RESOURCE-SOURCES} src/main.cpp)
-target_include_directories(test_gui_main SYSTEM PRIVATE ${QT_INCLUDE_DIRS})
 target_include_directories(test_gui_main PRIVATE
   ${CMAKE_BINARY_DIR}/src
   ${CMAKE_SOURCE_DIR}/src
@@ -104,7 +101,6 @@ target_link_libraries(test_gui_main PRIVATE strawberry_lib)
 set_target_properties(test_gui_main PROPERTIES COMPILE_DEFINITIONS GUI)
 
 add_library(test_main STATIC EXCLUDE_FROM_ALL ${TEST-RESOURCE-SOURCES} src/main.cpp)
-target_include_directories(test_main SYSTEM PRIVATE ${QT_INCLUDE_DIRS})
 target_include_directories(test_main PRIVATE
   ${CMAKE_BINARY_DIR}/src
   ${CMAKE_SOURCE_DIR}/src
@@ -124,7 +120,6 @@ macro(add_test_file test_source gui_required)
     target_include_directories(${TEST_NAME} SYSTEM PRIVATE
       ${GTEST_INCLUDE_DIRS}
       ${GMOCK_INCLUDE_DIRS}
-      ${QT_INCLUDE_DIRS}
     )
     target_include_directories(${TEST_NAME} PRIVATE
       ${CMAKE_BINARY_DIR}/src

@@ -16,11 +16,6 @@ else()
   qt5_wrap_cpp(SINGLEAPP-SOURCES-MOC ${SINGLEAPP-MOC-HEADERS})
 endif()
 add_library(singleapplication STATIC ${SINGLEAPP-SOURCES} ${SINGLEAPP-SOURCES-MOC})
-target_include_directories(singleapplication SYSTEM PRIVATE
-  ${QtCore_INCLUDE_DIRS}
-  ${QtWidgets_INCLUDE_DIRS}
-  ${QtNetwork_INCLUDE_DIRS}
-)
 target_include_directories(singleapplication PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
@@ -39,10 +34,6 @@ else()
   qt5_wrap_cpp(SINGLECOREAPP-SOURCES-MOC ${SINGLECOREAPP-MOC-HEADERS})
 endif()
 add_library(singlecoreapplication STATIC ${SINGLECOREAPP-SOURCES} ${SINGLECOREAPP-SOURCES-MOC})
-target_include_directories(singlecoreapplication SYSTEM PRIVATE
-  ${QtCore_INCLUDE_DIRS}
-  ${QtNetwork_INCLUDE_DIRS}
-)
 target_include_directories(singlecoreapplication PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
