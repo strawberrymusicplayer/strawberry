@@ -452,7 +452,7 @@ msgstr "40%"
 msgid "50 random tracks"
 msgstr "50 véletlenszerű szám"
 
-#: ../build/src/ui_organizedialog.h:267
+#: ../build/src/ui_organizedialog.h:274
 msgid ""
 "<p>Tokens start with %, for example: %artist %album %title </p>\n"
 "\n"
@@ -562,7 +562,7 @@ msgstr "Minden szám hozzáadása a mappából és almappáiból"
 msgid "Add directory..."
 msgstr "Mappa hozzáadása"
 
-#: core/mainwindow.cpp:2116
+#: core/mainwindow.cpp:2120
 msgid "Add file"
 msgstr "Fájl hozzáadása"
 
@@ -578,7 +578,7 @@ msgstr "Fájl(ok) hozzáadása az átkódoláshoz"
 msgid "Add files to transcode"
 msgstr "Fájlok felvétele átkódoláshoz"
 
-#: core/mainwindow.cpp:2141 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2145 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Mappa hozzáadása"
 
@@ -682,7 +682,7 @@ msgstr "Stream hozzáadása..."
 msgid "Add to albums"
 msgstr "Hozzáadás albumokhoz"
 
-#: core/mainwindow.cpp:1924
+#: core/mainwindow.cpp:1928
 msgid "Add to another playlist"
 msgstr "Hozzáadás másik lejátszólistához"
 
@@ -732,7 +732,7 @@ msgstr "Hozzáadva három hónapon belül"
 msgid "Advanced grouping..."
 msgstr "Egyedi csoportosítás…"
 
-#: ../build/src/ui_organizedialog.h:261
+#: ../build/src/ui_organizedialog.h:268
 msgid "After copying..."
 msgstr "Másolás után…"
 
@@ -741,7 +741,7 @@ msgid "Albu&m cover"
 msgstr "&Albumborító"
 
 #: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1264
-#: organize/organizedialog.cpp:102 ../build/src/ui_groupbydialog.h:186
+#: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:186
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
@@ -761,7 +761,7 @@ msgid "Album - Disc"
 msgstr "Album - Lemez"
 
 #: collection/savedgroupingmanager.cpp:82 playlist/playlist.cpp:1271
-#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:185
+#: organize/organizedialog.cpp:106 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
 #: ../build/src/ui_edittagdialog.h:709
 msgid "Album artist"
@@ -826,7 +826,7 @@ msgstr "Összes lejátszólista (%1)"
 msgid "All tracks"
 msgstr "Összes szám"
 
-#: ../build/src/ui_organizedialog.h:275
+#: ../build/src/ui_organizedialog.h:282
 msgid "Allow extended ASCII characters"
 msgstr "Bővített ASCII karakterek engedélyezése"
 
@@ -901,7 +901,7 @@ msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Biztos benne, hogy visszaállítja ennek a dalnak a statisztikáit?"
 
 #: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1263
-#: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:184
+#: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:106
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:713
@@ -909,7 +909,7 @@ msgstr "Biztos benne, hogy visszaállítja ennek a dalnak a statisztikáit?"
 msgid "Artist"
 msgstr "Előadó"
 
-#: organize/organizedialog.cpp:104
+#: organize/organizedialog.cpp:105
 msgid "Artist's initial"
 msgstr "Előadó kezdése"
 
@@ -1045,7 +1045,7 @@ msgid "Best"
 msgstr "Legjobb"
 
 #: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:136
-#: playlist/playlist.cpp:1281 organize/organizedialog.cpp:118
+#: playlist/playlist.cpp:1281 organize/organizedialog.cpp:119
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:695
 msgid "Bit depth"
@@ -1066,7 +1066,7 @@ msgstr "Bitráta"
 msgid "Bitrate"
 msgstr "Bitráta"
 
-#: organize/organizedialog.cpp:116
+#: organize/organizedialog.cpp:117
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
 msgstr "Bitráta"
@@ -1202,7 +1202,7 @@ msgstr "Ürítés"
 msgid "Clear Disk Cache"
 msgstr "Lemezgyorsítótár törlése"
 
-#: core/mainwindow.cpp:2206 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2210 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Lejátszólista törlése"
 
@@ -1268,7 +1268,7 @@ msgstr "Gyűjtemény szűrő"
 msgid "Collection advanced grouping"
 msgstr "Gyűjtemény egyedi csoportosítása"
 
-#: core/mainwindow.cpp:2718
+#: core/mainwindow.cpp:2722
 msgid "Collection rescan notice"
 msgstr "Gyűjtemény újraolvasási figyelmeztetés"
 
@@ -1287,7 +1287,7 @@ msgstr ""
 "értékeket vehetnek fel"
 
 #: playlist/playlist.cpp:1291 smartplaylists/smartplaylistsearchterm.cpp:374
-#: organize/organizedialog.cpp:114 ../build/src/ui_edittagdialog.h:711
+#: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:711
 msgid "Comment"
 msgstr "Megjegyzés"
 
@@ -1304,7 +1304,7 @@ msgid "Complete tags automatically..."
 msgstr "Címkék automatikus kiegészítése"
 
 #: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1272
-#: organize/organizedialog.cpp:106 ../build/src/ui_groupbydialog.h:196
+#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:710
 msgid "Composer"
@@ -1372,7 +1372,7 @@ msgstr "Az eszköz által nem támogatott zenék konvertálása"
 msgid "Copy URL(s)..."
 msgstr "URL(-ek) másolása"
 
-#: ../build/src/ui_organizedialog.h:279
+#: ../build/src/ui_organizedialog.h:286
 msgid "Copy album cover artwork"
 msgstr "Albumborító másolása"
 
@@ -1647,7 +1647,7 @@ msgstr "Beállítás törlése"
 msgid "Delete smart playlist"
 msgstr "Okos lejátszólista törlése"
 
-#: ../build/src/ui_organizedialog.h:263
+#: ../build/src/ui_organizedialog.h:270
 msgid "Delete the original files"
 msgstr "Az eredeti fájlok törlése"
 
@@ -1655,15 +1655,15 @@ msgstr "Az eredeti fájlok törlése"
 msgid "Deleting files"
 msgstr "Fájlok törlése"
 
-#: core/mainwindow.cpp:1841
+#: core/mainwindow.cpp:1845
 msgid "Dequeue selected tracks"
 msgstr "Kijelölt számok eltávolítása a lejátszási sorból"
 
-#: core/mainwindow.cpp:1840
+#: core/mainwindow.cpp:1844
 msgid "Dequeue track"
 msgstr "Szám eltávolítása a lejátszási sorból"
 
-#: ../build/src/ui_organizedialog.h:260 ../build/src/ui_transcodedialog.h:229
+#: ../build/src/ui_organizedialog.h:267 ../build/src/ui_transcodedialog.h:229
 msgid "Destination"
 msgstr "Cél"
 
@@ -1707,7 +1707,7 @@ msgid "Disabled"
 msgstr "Letiltva"
 
 #: collection/savedgroupingmanager.cpp:106 playlist/playlist.cpp:1266
-#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:188
+#: organize/organizedialog.cpp:111 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
 #: ../build/src/ui_edittagdialog.h:708
 msgid "Disc"
@@ -1804,7 +1804,7 @@ msgstr "Okos lejátszólista szerkesztése"
 msgid "Edit smart playlist..."
 msgstr "Okos lejátszólista szerkesztése..."
 
-#: core/mainwindow.cpp:1882
+#: core/mainwindow.cpp:1886
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "\"%1\" címke szerkesztése..."
@@ -1955,7 +1955,7 @@ msgstr "Megegyezik a --log-levels *:1 kapcsolóval"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Megegyezik a --log-levels *:3 kapcsolóval"
 
-#: core/mainwindow.cpp:2456 core/mainwindow.cpp:2601
+#: core/mainwindow.cpp:2460 core/mainwindow.cpp:2605
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Hiba"
@@ -2122,7 +2122,7 @@ msgstr "Hiba a borító betöltése közben"
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "A (z)% 1 fájl nem ismerhető fel érvényes hangfájlként."
 
-#: organize/organizedialog.cpp:119
+#: organize/organizedialog.cpp:120
 msgid "File extension"
 msgstr "Fájlkiterjesztés"
 
@@ -2305,7 +2305,7 @@ msgid "Genius Authentication"
 msgstr "Genius hitelesítés"
 
 #: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1270
-#: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:190
+#: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 #: ../build/src/ui_edittagdialog.h:704
 msgid "Genre"
@@ -2404,7 +2404,7 @@ msgid "Group by Genre/Artist/Album"
 msgstr "Csoportosítás műfaj/előadó/album szerint"
 
 #: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1274
-#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:198
+#: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:706
 msgid "Grouping"
@@ -2556,7 +2556,7 @@ msgstr "Hangerő növelése <value> százalékkal"
 msgid "Information"
 msgstr "Információ"
 
-#: ../build/src/ui_organizedialog.h:271
+#: ../build/src/ui_organizedialog.h:278
 msgid "Insert..."
 msgstr "Beszúrás..."
 
@@ -2604,7 +2604,7 @@ msgstr "Képarány megtartása"
 msgid "Keep running in the background when the window is closed"
 msgstr "Bezárt ablak esetén futás a háttérben"
 
-#: ../build/src/ui_organizedialog.h:262
+#: ../build/src/ui_organizedialog.h:269
 msgid "Keep the original files"
 msgstr "Eredeti fájlok megőrzése"
 
@@ -2656,7 +2656,7 @@ msgid "Left"
 msgstr "Bal"
 
 #: context/contextview.cpp:214 playlist/playlist.cpp:1267
-#: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:689
+#: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:689
 msgid "Length"
 msgstr "Időtartam"
 
@@ -2730,7 +2730,7 @@ msgstr "Száminformációk betöltése"
 
 #: collection/collectionmodel.cpp:205
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
-#: ../build/src/ui_organizedialog.h:281
+#: ../build/src/ui_organizedialog.h:288
 msgid "Loading..."
 msgstr "Betöltés..."
 
@@ -2801,7 +2801,7 @@ msgstr "Mentett csoportosítások kezelése"
 msgid "Manufacturer"
 msgstr "Gyártó"
 
-#: ../build/src/ui_organizedialog.h:278
+#: ../build/src/ui_organizedialog.h:285
 msgid "Mark as listened"
 msgstr "Megjelölés meghallgatottként"
 
@@ -2969,7 +2969,7 @@ msgstr "Áthelyezés a gyűjteménybe..."
 msgid "Move up"
 msgstr "Mozgatás felfelé"
 
-#: core/mainwindow.cpp:2116 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2120 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Zene"
 
@@ -2983,7 +2983,7 @@ msgstr "Némítás"
 msgid "Name"
 msgstr "Név"
 
-#: ../build/src/ui_organizedialog.h:265
+#: ../build/src/ui_organizedialog.h:272
 msgid "Naming options"
 msgstr "Elnevezési opciók"
 
@@ -3014,7 +3014,7 @@ msgstr "Soha ne indítsa el a lejátszást"
 msgid "New folder"
 msgstr "Új mappa"
 
-#: core/mainwindow.cpp:1940
+#: core/mainwindow.cpp:1944
 msgid "New playlist"
 msgstr "Új lejátszólista"
 
@@ -3086,7 +3086,7 @@ msgstr "Nincs lejátszott dal"
 msgid "None"
 msgstr "Egyik sem"
 
-#: core/mainwindow.cpp:2456 core/mainwindow.cpp:2601
+#: core/mainwindow.cpp:2460 core/mainwindow.cpp:2605
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Egy kiválasztott dal sem alkalmas az eszközre való másoláshoz"
@@ -3221,7 +3221,7 @@ msgstr "Beállítások..."
 msgid "Opus"
 msgstr "Opus"
 
-#: ../build/src/ui_organizedialog.h:259
+#: ../build/src/ui_organizedialog.h:266
 msgid "Organize Files"
 msgstr "Fájlok rendezése"
 
@@ -3239,7 +3239,7 @@ msgid "Original tags"
 msgstr "Eredeti címkék"
 
 #: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1269
-#: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:194
+#: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Original year"
 msgstr "Eredeti megjelenés"
@@ -3270,7 +3270,7 @@ msgstr "Kimenet beállításai"
 msgid "Overwrite existing file"
 msgstr "Létező fájl felülírása"
 
-#: ../build/src/ui_organizedialog.h:277
+#: ../build/src/ui_organizedialog.h:284
 msgid "Overwrite existing files"
 msgstr "Létező fájlok felülírása"
 
@@ -3298,7 +3298,7 @@ msgstr "Party"
 msgid "Password"
 msgstr "Jelszó"
 
-#: core/mainwindow.cpp:1260 core/mainwindow.cpp:1736
+#: core/mainwindow.cpp:1260 core/mainwindow.cpp:1740
 #: core/qtsystemtrayicon.cpp:190
 msgid "Pause"
 msgstr "Szünet"
@@ -3312,7 +3312,7 @@ msgid "Paused"
 msgstr "Szüneteltetve"
 
 #: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1273
-#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:197
+#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:715
 msgid "Performer"
@@ -3327,7 +3327,7 @@ msgid "Plain sidebar"
 msgstr "Egyszerű oldalsáv"
 
 #: core/mainwindow.cpp:675 core/mainwindow.cpp:1213 core/mainwindow.cpp:1242
-#: core/mainwindow.cpp:1740 core/qtsystemtrayicon.cpp:177
+#: core/mainwindow.cpp:1744 core/qtsystemtrayicon.cpp:177
 #: core/qtsystemtrayicon.cpp:202
 msgid "Play"
 msgstr "Lejátszás"
@@ -3390,7 +3390,7 @@ msgstr "Lejátszólista gombok"
 msgid "Playlist finished"
 msgstr "A lejátszólista befejezve"
 
-#: core/mainwindow.cpp:2206
+#: core/mainwindow.cpp:2210
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3510,7 +3510,7 @@ msgstr "Saját OSD beállítások"
 #: ../build/src/ui_contextsettingspage.h:430
 #: ../build/src/ui_contextsettingspage.h:435
 #: ../build/src/ui_notificationssettingspage.h:480
-#: ../build/src/ui_organizedialog.h:280
+#: ../build/src/ui_organizedialog.h:287
 msgid "Preview"
 msgstr "Előnézet"
 
@@ -3565,20 +3565,20 @@ msgstr "Eszköz lekérdezése..."
 msgid "Queue"
 msgstr "Lejátszási sor"
 
-#: core/mainwindow.cpp:1843
+#: core/mainwindow.cpp:1847
 msgid "Queue selected tracks"
 msgstr "Kijelölt számok hozzáadása a lejátszási sorhoz"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1847
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1851
 msgid "Queue selected tracks to play next"
 msgstr "Kijelölt számok lejátszása következőre"
 
-#: core/mainwindow.cpp:1849 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1853 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Lejátszás következőre"
 
-#: core/mainwindow.cpp:1842 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1846 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -3707,7 +3707,7 @@ msgstr "Lejátszólista eltávolítása"
 msgid "Remove playlists"
 msgstr "Lejátszólisták eltávolítása"
 
-#: ../build/src/ui_organizedialog.h:272
+#: ../build/src/ui_organizedialog.h:279
 msgid "Remove problematic characters from filenames"
 msgstr "Problémás karakterek eltávolítása a fájlnevekből"
 
@@ -3750,7 +3750,7 @@ msgstr "Aktuális lejátszólista cseréje"
 msgid "Replace spaces with dashes"
 msgstr "Szóközök lecserélése kötőjelekkel"
 
-#: ../build/src/ui_organizedialog.h:276
+#: ../build/src/ui_organizedialog.h:283
 msgid "Replace spaces with underscores"
 msgstr "Szóközök lecserélése aláhúzásjelekkel"
 
@@ -3800,11 +3800,11 @@ msgid ""
 msgstr ""
 "Szám újraindítása, vagy az előző szám lejátszása, ha 8 mp-en belül tartott."
 
-#: ../build/src/ui_organizedialog.h:274
+#: ../build/src/ui_organizedialog.h:281
 msgid "Restrict characters to ASCII"
 msgstr "Csak az ASCII-ban engedélyezett karakterek használata"
 
-#: ../build/src/ui_organizedialog.h:273
+#: ../build/src/ui_organizedialog.h:280
 msgid "Restrict to characters allowed on FAT filesystems"
 msgstr "Csak a FAT fájlrendszerekben engedélyezett karakterek használata"
 
@@ -3887,12 +3887,12 @@ msgstr "SOCKS proxy"
 msgid "Safely remove device"
 msgstr "Eszköz biztonságos eltávolítása"
 
-#: ../build/src/ui_organizedialog.h:282
+#: ../build/src/ui_organizedialog.h:289
 msgid "Safely remove the device after copying"
 msgstr "Eszköz biztonságos eltávolítása másolás után"
 
 #: collection/savedgroupingmanager.cpp:133 playlist/playlist.cpp:1280
-#: organize/organizedialog.cpp:117 ../build/src/ui_groupbydialog.h:200
+#: organize/organizedialog.cpp:118 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 #: ../build/src/ui_edittagdialog.h:694
 msgid "Sample rate"
@@ -4085,7 +4085,7 @@ msgstr "A szerver URL-je érvénytelen."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1881
+#: core/mainwindow.cpp:1885
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 beállítása erre: \"%2\"..."
@@ -4314,11 +4314,11 @@ msgstr "Kihagyások száma"
 msgid "Skip forwards in playlist"
 msgstr "Előreléptetés a lejátszólistában"
 
-#: core/mainwindow.cpp:1854
+#: core/mainwindow.cpp:1858
 msgid "Skip selected tracks"
 msgstr "Kiválasztott számok kihagyása"
 
-#: core/mainwindow.cpp:1853
+#: core/mainwindow.cpp:1857
 msgid "Skip track"
 msgstr "Szám kihagyása"
 
@@ -4645,7 +4645,7 @@ msgstr "A kért oldal nem létezik!"
 msgid "The site you requested is not an image!"
 msgstr "A kért oldal nem egy kép!"
 
-#: core/mainwindow.cpp:2713
+#: core/mainwindow.cpp:2717
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4767,7 +4767,7 @@ msgstr ""
 msgid "Time step"
 msgstr "Léptetés ideje"
 
-#: playlist/playlist.cpp:1262 organize/organizedialog.cpp:101
+#: playlist/playlist.cpp:1262 organize/organizedialog.cpp:102
 #: ../build/src/ui_contextsettingspage.h:414
 #: ../build/src/ui_edittagdialog.h:705
 #: ../build/src/ui_trackselectiondialog.h:210
@@ -4778,7 +4778,7 @@ msgstr "Cím"
 msgid "Today"
 msgstr "Ma"
 
-#: core/mainwindow.cpp:678 core/mainwindow.cpp:1844
+#: core/mainwindow.cpp:678 core/mainwindow.cpp:1848
 msgid "Toggle queue status"
 msgstr "Lejátszási sor"
 
@@ -4786,7 +4786,7 @@ msgstr "Lejátszási sor"
 msgid "Toggle scrobbling"
 msgstr "Scrobble funkció váltása"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1855
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1859
 #, fuzzy
 msgid "Toggle skip status"
 msgstr "Állapot átugrása"
@@ -4815,7 +4815,7 @@ msgstr "Összes átküldött bájt"
 msgid "Total network requests made"
 msgstr "Összes hálózati kérelem"
 
-#: playlist/playlist.cpp:1265 organize/organizedialog.cpp:109
+#: playlist/playlist.cpp:1265 organize/organizedialog.cpp:110
 #: ../build/src/ui_edittagdialog.h:712
 #: ../build/src/ui_trackselectiondialog.h:212
 msgid "Track"
@@ -4886,11 +4886,11 @@ msgstr "Ismeretlen hiba"
 msgid "Unset cover"
 msgstr "Borító törlése"
 
-#: core/mainwindow.cpp:1852
+#: core/mainwindow.cpp:1856
 msgid "Unskip selected tracks"
 msgstr "A kiválasztott számok lejátszása"
 
-#: core/mainwindow.cpp:1851
+#: core/mainwindow.cpp:1855
 msgid "Unskip track"
 msgstr "Szám lejátszása"
 
@@ -5125,7 +5125,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2717
+#: core/mainwindow.cpp:2721
 msgid "Would you like to run a full rescan right now?"
 msgstr "Akar futtatni egy teljes újraolvasást most?"
 
@@ -5134,7 +5134,7 @@ msgid "Write metadata when saving playlists"
 msgstr "Lejátszólisták mentésekor metaadatok írása"
 
 #: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1268
-#: organize/organizedialog.cpp:111 ../build/src/ui_groupbydialog.h:191
+#: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:714
 #: ../build/src/ui_trackselectiondialog.h:211
