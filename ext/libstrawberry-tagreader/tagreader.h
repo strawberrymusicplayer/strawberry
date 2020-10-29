@@ -52,12 +52,12 @@ class TagReader {
   explicit TagReader();
   ~TagReader();
 
+  bool IsMediaFile(const QString &filename) const;
   pb::tagreader::SongMetadata_FileType GuessFileType(TagLib::FileRef *fileref) const;
 
   void ReadFile(const QString &filename, pb::tagreader::SongMetadata *song) const;
   bool SaveFile(const QString &filename, const pb::tagreader::SongMetadata &song) const;
 
-  bool IsMediaFile(const QString &filename) const;
   QByteArray LoadEmbeddedArt(const QString &filename) const;
   QByteArray LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const;
 
@@ -69,9 +69,6 @@ class TagReader {
 
   void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, const pb::tagreader::SongMetadata &song) const;
   void SaveAPETag(TagLib::APE::Tag *tag, const pb::tagreader::SongMetadata &song) const;
-
-  void SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const;
-  void SetUserTextFrame(const std::string &description, const std::string& value, TagLib::ID3v2::Tag *tag) const;
 
   void SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const;

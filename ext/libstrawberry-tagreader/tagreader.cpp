@@ -138,6 +138,15 @@ TagReader::~TagReader() {
   delete factory_;
 }
 
+bool TagReader::IsMediaFile(const QString &filename) const {
+
+  qLog(Debug) << "Checking for valid file" << filename;
+
+  std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  return !fileref->isNull() && fileref->tag();
+
+}
+
 pb::tagreader::SongMetadata_FileType TagReader::GuessFileType(TagLib::FileRef *fileref) const {
 
   if (dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_WAV;
@@ -289,7 +298,7 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
       if (!map["APIC"].isEmpty()) song->set_art_automatic(kEmbeddedCover);
 
       // Find a suitable comment tag.  For now we ignore iTunNORM comments.
-      for (uint i = 0; i < map["COMM"].size(); ++i) {
+      for (uint i = 0 ; i < map["COMM"].size() ; ++i) {
         const TagLib::ID3v2::CommentsFrame *frame = dynamic_cast<const TagLib::ID3v2::CommentsFrame*>(map["COMM"][i]);
 
         if (frame && TStringToQString(frame->description()) != "iTunNORM") {
@@ -367,7 +376,7 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
     }
   }
 
-  else if (TagLib::MPC::File* file_mpc = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
+  else if (TagLib::MPC::File *file_mpc = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
     if (file_mpc->APETag()) {
       ParseAPETag(file_mpc->APETag()->itemListMap(), nullptr, &disc, &compilation, song);
     }
@@ -517,8 +526,8 @@ void TagReader::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, con
   vorbis_comments->addField("COMPOSER", StdStringToTaglibString(song.composer()), true);
   vorbis_comments->addField("PERFORMER", StdStringToTaglibString(song.performer()), true);
   vorbis_comments->addField("CONTENT GROUP", StdStringToTaglibString(song.grouping()), true);
-  vorbis_comments->addField("DISCNUMBER", QStringToTaglibString(song.disc() <= 0 -1 ? QString() : QString::number(song.disc())), true);
-  vorbis_comments->addField("COMPILATION", StdStringToTaglibString(song.compilation() ? "1" : "0"), true);
+  vorbis_comments->addField("DISCNUMBER", QStringToTaglibString(song.disc() <= 0 ? QString() : QString::number(song.disc())), true);
+  vorbis_comments->addField("COMPILATION", QStringToTaglibString(song.compilation() ? "1" : QString()), true);
 
   // Try to be coherent, the two forms are used but the first one is preferred
 
@@ -538,13 +547,16 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));;
   if (!fileref || fileref->isNull()) return false;
 
-  fileref->tag()->setTitle(StdStringToTaglibString(song.title()));
-  fileref->tag()->setArtist(StdStringToTaglibString(song.artist()));
-  fileref->tag()->setAlbum(StdStringToTaglibString(song.album()));
-  fileref->tag()->setGenre(StdStringToTaglibString(song.genre()));
-  fileref->tag()->setComment(StdStringToTaglibString(song.comment()));
-  fileref->tag()->setYear(song.year());
-  fileref->tag()->setTrack(song.track());
+  fileref->tag()->setTitle(song.title().empty() ? TagLib::String() : StdStringToTaglibString(song.title()));
+  fileref->tag()->setArtist(song.artist().empty() ? TagLib::String() : StdStringToTaglibString(song.artist()));
+  fileref->tag()->setAlbum(song.album().empty() ? TagLib::String() : StdStringToTaglibString(song.album()));
+  fileref->tag()->setGenre(song.genre().empty() ? TagLib::String() : StdStringToTaglibString(song.genre()));
+  fileref->tag()->setComment(song.comment().empty() ? TagLib::String() : StdStringToTaglibString(song.comment()));
+  fileref->tag()->setYear(song.year() <= 0 ? 0 : song.year());
+  fileref->tag()->setTrack(song.track() <= 0 ? 0 : song.track());
+
+  bool saved = false;
+  bool result = false;
 
   if (TagLib::FLAC::File *file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
     TagLib::Ogg::XiphComment *tag = file->xiphComment();
@@ -572,14 +584,16 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
   else if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file_mpeg->ID3v2Tag(true);
     if (!tag) return false;
-    SetTextFrame("TPOS", song.disc() <= 0 -1 ? QString() : QString::number(song.disc()), tag);
-    SetTextFrame("TCOM", song.composer(), tag);
-    SetTextFrame("TIT1", song.grouping(), tag);
-    SetTextFrame("TOPE", song.performer(), tag);
+    SetTextFrame("TPOS", song.disc() <= 0 ? QString() : QString::number(song.disc()), tag);
+    SetTextFrame("TCOM", song.composer().empty() ? std::string() : song.composer(), tag);
+    SetTextFrame("TIT1", song.grouping().empty() ? std::string() : song.grouping(), tag);
+    SetTextFrame("TOPE", song.performer().empty() ? std::string() : song.performer(), tag);
     // Skip TPE1 (which is the artist) here because we already set it
-    SetTextFrame("TPE2", song.albumartist(), tag);
-    SetTextFrame("TCMP", std::string(song.compilation() ? "1" : "0"), tag);
-    SetUnsyncLyricsFrame(song.lyrics(), tag);
+    SetTextFrame("TPE2", song.albumartist().empty() ? std::string() : song.albumartist(), tag);
+    SetTextFrame("TCMP", song.compilation() ? QString::number(1) : QString(), tag);
+    SetUnsyncLyricsFrame(song.lyrics().empty() ? std::string() : song.lyrics(), tag);
+    result = file_mpeg->save(TagLib::MPEG::File::ID3v2);
+    saved = true;
   }
 
   else if (TagLib::MP4::File *file_mp4 = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
@@ -598,53 +612,29 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
     SetVorbisComments(tag, song);
   }
 
-  bool ret = fileref->save();
+  if (!saved) {
+    result = fileref->save();
+  }
+
 #ifdef Q_OS_LINUX
-  if (ret) {
+  if (result) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
     utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
   }
 #endif  // Q_OS_LINUX
 
-  return ret;
+  return result;
 }
 
 void TagReader::SaveAPETag(TagLib::APE::Tag *tag, const pb::tagreader::SongMetadata &song) const {
 
   tag->setItem("album artist", TagLib::APE::Item("album artist", TagLib::StringList(song.albumartist().c_str())));
-  tag->setItem("disc", TagLib::APE::Item("disc", TagLib::String::number(song.disc() <= 0 - 1 ? 0 : song.disc())));
+  tag->addValue("disc", QStringToTaglibString(song.disc() <= 0 ? QString() : QString::number(song.disc())), true);
   tag->setItem("composer", TagLib::APE::Item("composer", TagLib::StringList(song.composer().c_str())));
   tag->setItem("grouping", TagLib::APE::Item("grouping", TagLib::StringList(song.grouping().c_str())));
   tag->setItem("performer", TagLib::APE::Item("performer", TagLib::StringList(song.performer().c_str())));
   tag->setItem("lyrics", TagLib::APE::Item("lyrics", TagLib::String(song.lyrics())));
-  tag->setItem("compilation", TagLib::APE::Item("compilation", TagLib::StringList(song.compilation() ? "1" : "0")));
-
-}
-
-void TagReader::SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const {
-
-  const QByteArray descr_utf8(description.toUtf8());
-  const QByteArray value_utf8(value.toUtf8());
-  qLog(Debug) << "Setting FMPSFrame:" << description << ", " << value;
-  SetUserTextFrame(std::string(descr_utf8.constData(), descr_utf8.length()), std::string(value_utf8.constData(), value_utf8.length()), tag);
-
-}
-
-void TagReader::SetUserTextFrame(const std::string &description, const std::string &value, TagLib::ID3v2::Tag *tag) const {
-
-  const TagLib::String t_description = StdStringToTaglibString(description);
-  // Remove the frame if it already exists
-  TagLib::ID3v2::UserTextIdentificationFrame *frame = TagLib::ID3v2::UserTextIdentificationFrame::find(tag, t_description);
-  if (frame) {
-    tag->removeFrame(frame);
-  }
-
-  // Create and add a new frame
-  frame = new TagLib::ID3v2::UserTextIdentificationFrame(TagLib::String::UTF8);
-
-  frame->setDescription(t_description);
-  frame->setText(StdStringToTaglibString(value));
-  tag->addFrame(frame);
+  tag->addValue("compilation", QStringToTaglibString(song.compilation() ? QString::number(1) : QString()), true);
 
 }
 
@@ -652,6 +642,7 @@ void TagReader::SetTextFrame(const char *id, const QString &value, TagLib::ID3v2
 
   const QByteArray utf8(value.toUtf8());
   SetTextFrame(id, std::string(utf8.constData(), utf8.length()), tag);
+
 }
 
 void TagReader::SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const {
@@ -665,6 +656,8 @@ void TagReader::SetTextFrame(const char *id, const std::string &value, TagLib::I
     tag->removeFrame(tag->frameListMap()[id_vector].front());
   }
 
+  if (value.empty()) return;
+
   // If no frames stored create empty frame
   if (frames_buffer.isEmpty()) {
     TagLib::ID3v2::TextIdentificationFrame frame(id_vector, TagLib::String::UTF8);
@@ -672,23 +665,14 @@ void TagReader::SetTextFrame(const char *id, const std::string &value, TagLib::I
   }
 
   // Update and add the frames
-  for (int lyrics_index = 0; lyrics_index < frames_buffer.size(); lyrics_index++) {
-    TagLib::ID3v2::TextIdentificationFrame* frame = new TagLib::ID3v2::TextIdentificationFrame(frames_buffer.at(lyrics_index));
-    if (lyrics_index == 0) {
+  for (int i = 0 ; i < frames_buffer.size() ; ++i) {
+    TagLib::ID3v2::TextIdentificationFrame *frame = new TagLib::ID3v2::TextIdentificationFrame(frames_buffer.at(i));
+    if (i == 0) {
       frame->setText(StdStringToTaglibString(value));
     }
     // add frame takes ownership and clears the memory
     tag->addFrame(frame);
   }
-
-}
-
-bool TagReader::IsMediaFile(const QString &filename) const {
-
-  qLog(Debug) << "Checking for valid file" << filename;
-
-  std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
-  return !fileref->isNull() && fileref->tag();
 
 }
 
@@ -711,8 +695,7 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
   if (flac_file && flac_file->xiphComment()) {
     TagLib::List<TagLib::FLAC::Picture*> pics = flac_file->pictureList();
     if (!pics.isEmpty()) {
-      // Use the first picture in the file - this could be made cleverer and
-      // pick the front cover if it's present.
+      // Use the first picture in the file - this could be made cleverer and pick the front cover if it's present.
 
       std::list<TagLib::FLAC::Picture*>::iterator it = pics.begin();
       TagLib::FLAC::Picture *picture = *it;
@@ -817,7 +800,7 @@ QByteArray TagReader::LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) co
 
 }
 
-void TagReader::SetUnsyncLyricsFrame(const std::string& value, TagLib::ID3v2::Tag* tag) const {
+void TagReader::SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3v2::Tag *tag) const {
 
   TagLib::ByteVector id_vector("USLT");
   QVector<TagLib::ByteVector> frames_buffer;
@@ -828,6 +811,8 @@ void TagReader::SetUnsyncLyricsFrame(const std::string& value, TagLib::ID3v2::Ta
     tag->removeFrame(tag->frameListMap()[id_vector].front());
   }
 
+  if (value.empty()) return;
+
   // If no frames stored create empty frame
   if (frames_buffer.isEmpty()) {
     TagLib::ID3v2::UnsynchronizedLyricsFrame frame(TagLib::String::UTF8);
@@ -836,9 +821,9 @@ void TagReader::SetUnsyncLyricsFrame(const std::string& value, TagLib::ID3v2::Ta
   }
 
   // Update and add the frames
-  for (int lyrics_index = 0; lyrics_index < frames_buffer.size(); lyrics_index++) {
-    TagLib::ID3v2::UnsynchronizedLyricsFrame* frame = new TagLib::ID3v2::UnsynchronizedLyricsFrame(frames_buffer.at(lyrics_index));
-    if (lyrics_index == 0) {
+  for (int i = 0 ; i < frames_buffer.size() ; ++i) {
+    TagLib::ID3v2::UnsynchronizedLyricsFrame *frame = new TagLib::ID3v2::UnsynchronizedLyricsFrame(frames_buffer.at(i));
+    if (i == 0) {
       frame->setText(StdStringToTaglibString(value));
     }
     // add frame takes ownership and clears the memory
