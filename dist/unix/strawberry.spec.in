@@ -107,6 +107,9 @@ Features:
 %setup -qn %{name}-@STRAWBERRY_VERSION_PACKAGE@
 
 %build
+%if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
+  export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
+%endif
 %{cmake} -DCMAKE_BUILD_TYPE:STRING=Release
 %if 0%{?centos} || 0%{?mageia}
   %make_build
