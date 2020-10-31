@@ -35,37 +35,24 @@ msgstr ""
 "\n"
 "Le scalette preferite saranno salvate qui"
 
-#: settings/shortcutssettingspage.cpp:331
+#: settings/shortcutssettingspage.cpp:310
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in cinnamon-settings-daemon instead."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"cinnamon-settings-daemon instead."
 msgstr ""
-"I collegamenti su %1 vanno solitamente utilizzati tramite il D-Bus GSD e "
-"devono invece essere configurati tramite cinnamon-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:329
+#: settings/shortcutssettingspage.cpp:308
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in gnome-settings-daemon instead."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"gnome-settings-daemon instead."
 msgstr ""
-"I collegamenti su %1 vanno solitamente utilizzati tramite il D-Bus GSD e "
-"devono invece essere configurati tramite gnome-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:327
+#: settings/shortcutssettingspage.cpp:306
 #, qt-format
-msgid ""
-" Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
-"configured in %1 settings instead."
+msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
-"I collegamenti su %1 vanno solitamente utilizzati tramite il D-Bus MPRIS e "
-"devono invece essere configurati in %1."
-
-#: settings/shortcutssettingspage.cpp:333
-#, qt-format
-msgid " Shortcuts should be configured in %1 settings instead."
-msgstr "I collegamenti devono invece essere configurati in %1."
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -269,11 +256,11 @@ msgstr "&Pulisci playlist"
 msgid "&Cover Manager"
 msgstr "&Manager Copertine"
 
-#: ../build/src/ui_shortcutssettingspage.h:240
+#: ../build/src/ui_shortcutssettingspage.h:257
 msgid "&Custom"
 msgstr "&Personalizzata"
 
-#: ../build/src/ui_shortcutssettingspage.h:239
+#: ../build/src/ui_shortcutssettingspage.h:256
 msgid "&Default"
 msgstr "&Default"
 
@@ -334,7 +321,7 @@ msgstr "&Prossima traccia"
 msgid "&No background image"
 msgstr "&Nessuna immagine di sfondo"
 
-#: ../build/src/ui_shortcutssettingspage.h:238
+#: ../build/src/ui_shortcutssettingspage.h:255
 msgid "&None"
 msgstr "&Nessuna"
 
@@ -508,7 +495,7 @@ msgstr "Interrompi"
 msgid "Abort collection scan"
 msgstr "Annulla lo scan della collezione"
 
-#: ../build/src/ui_about.h:155
+#: ../build/src/ui_about.h:151
 msgid "About"
 msgstr ""
 
@@ -528,7 +515,7 @@ msgstr "Absolu&te"
 msgid "Absolute"
 msgstr "Assoluto"
 
-#: ../build/src/ui_shortcutssettingspage.h:236
+#: ../build/src/ui_shortcutssettingspage.h:253
 msgctxt "Category label"
 msgid "Action"
 msgstr "Azione"
@@ -1133,7 +1120,7 @@ msgstr "Cancellato."
 msgid "Change cover art"
 msgstr "Cambia copertina"
 
-#: ../build/src/ui_shortcutssettingspage.h:241
+#: ../build/src/ui_shortcutssettingspage.h:258
 msgid "Change shortcut..."
 msgstr "Cambia la scorciatoia..."
 
@@ -2458,7 +2445,7 @@ msgstr "Icona"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:673
+#: widgets/fancytabwidget.cpp:701
 msgid "Icons on top"
 msgstr "Icone in alto"
 
@@ -2611,7 +2598,7 @@ msgstr "Sala grande"
 msgid "Large album cover"
 msgstr "Copertina grande"
 
-#: widgets/fancytabwidget.cpp:669
+#: widgets/fancytabwidget.cpp:697
 msgid "Large sidebar"
 msgstr "Pannello laterale grande"
 
@@ -2960,7 +2947,7 @@ msgstr "Sposta in alto"
 msgid "Music"
 msgstr "Musica"
 
-#: globalshortcuts/globalshortcuts.cpp:72
+#: globalshortcuts/globalshortcuts.cpp:75
 msgid "Mute"
 msgstr "Silenzia"
 
@@ -3188,8 +3175,8 @@ msgstr "Apri dispositivo"
 msgid "Open in new playlist"
 msgstr "Apri in nuova scaletta"
 
-#: ../build/src/ui_shortcutssettingspage.h:227
-#: ../build/src/ui_shortcutssettingspage.h:233
+#: ../build/src/ui_shortcutssettingspage.h:243
+#: ../build/src/ui_shortcutssettingspage.h:250
 msgid "Open..."
 msgstr "Apri..."
 
@@ -3310,7 +3297,7 @@ msgstr "Musicista"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:671
+#: widgets/fancytabwidget.cpp:699
 msgid "Plain sidebar"
 msgstr "Barra laterale semplice"
 
@@ -4086,17 +4073,17 @@ msgstr "Imposta valore per tutte le tracce selezionate..."
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: ../build/src/ui_shortcutssettingspage.h:235
+#: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
 msgstr "Scorciatoia"
 
-#: settings/shortcutssettingspage.cpp:276
-#: ../build/src/ui_shortcutssettingspage.h:237
+#: settings/shortcutssettingspage.cpp:255
+#: ../build/src/ui_shortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "Scorciatoia per %1"
 
-#: ../build/src/ui_shortcutssettingspage.h:225
+#: ../build/src/ui_shortcutssettingspage.h:241
 msgid "Shortcuts"
 msgstr "Scorciatoie"
 
@@ -4311,7 +4298,7 @@ msgstr "Salta la traccia"
 msgid "Small album cover"
 msgstr "Copertine piccole"
 
-#: widgets/fancytabwidget.cpp:670
+#: widgets/fancytabwidget.cpp:698
 msgid "Small sidebar"
 msgstr "Pannello laterale piccolo"
 
@@ -4557,7 +4544,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:672
+#: widgets/fancytabwidget.cpp:700
 msgid "Tabs on top"
 msgstr "Schede in alto"
 
@@ -4601,7 +4588,7 @@ msgstr "Grazie a"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Grazie a tutti gli altri contributori di Amarok e Clementine"
 
-#: settings/shortcutssettingspage.cpp:254
+#: settings/shortcutssettingspage.cpp:233
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Il comando \"%1\" non può essere avviato."
@@ -4911,12 +4898,16 @@ msgstr "Superiore Destro"
 msgid "Usage"
 msgstr "Utilizzo"
 
-#: ../build/src/ui_shortcutssettingspage.h:226
-msgid "Use Gnome (GSD) D-Bus shortcut keys"
-msgstr "Usa le scorciatoie da tastiera di Gnome (GSD) D-Bus"
+#: ../build/src/ui_shortcutssettingspage.h:242
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Use HTTPS for local redirectserver"
+msgstr ""
+
+#: ../build/src/ui_shortcutssettingspage.h:244
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:316
@@ -4935,9 +4926,9 @@ msgstr "Utilizza i metadati del guadagno di riproduzione se disponibili"
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_shortcutssettingspage.h:228
-msgid "Use X11's shortcut keys"
-msgstr "Usa le scorciatoie da tastiera di X11"
+#: ../build/src/ui_shortcutssettingspage.h:245
+msgid "Use X11 shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:508
 msgid "Use a custom color set"
@@ -5011,7 +5002,7 @@ msgstr "Token utente:"
 msgid "Username"
 msgstr "Nome utente"
 
-#: settings/shortcutssettingspage.cpp:325
+#: settings/shortcutssettingspage.cpp:304
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5192,7 +5183,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Hai bisogno di GStreamer per questo URL"
 
-#: ../build/src/ui_shortcutssettingspage.h:232
+#: ../build/src/ui_shortcutssettingspage.h:249
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -5202,7 +5193,7 @@ msgstr ""
 "style=\"font-style:italic\">controllare il tuo computer</span>\" per "
 "utilizzare le scorciatoie globali in Strawberry."
 
-#: ../build/src/ui_shortcutssettingspage.h:231
+#: ../build/src/ui_shortcutssettingspage.h:248
 msgid ""
 "You need to launch System Preferences and turn on \"<span style=\" font-"
 "style:italic;\">Enable access for assistive devices</span>\" to use global "

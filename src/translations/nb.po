@@ -33,39 +33,24 @@ msgstr ""
 "\n"
 "Favoritt-spillelister vil lagres her"
 
-#: settings/shortcutssettingspage.cpp:331
+#: settings/shortcutssettingspage.cpp:310
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in cinnamon-settings-daemon instead."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"cinnamon-settings-daemon instead."
 msgstr ""
-"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
-"cinnamon-settings-daemon i stedet"
 
-#: settings/shortcutssettingspage.cpp:329
+#: settings/shortcutssettingspage.cpp:308
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in gnome-settings-daemon instead."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"gnome-settings-daemon instead."
 msgstr ""
-"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
-"gnome-settings-daemon i stedet"
 
-#: settings/shortcutssettingspage.cpp:327
+#: settings/shortcutssettingspage.cpp:306
 #, qt-format
-msgid ""
-" Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
-"configured in %1 settings instead."
+msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
-"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
-"gnome-settings-daemon i stedet"
-
-#: settings/shortcutssettingspage.cpp:333
-#, qt-format
-msgid " Shortcuts should be configured in %1 settings instead."
-msgstr ""
-"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
-"gnome-settings-daemon i stedet"
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -269,11 +254,11 @@ msgstr "&Slett spilleliste"
 msgid "&Cover Manager"
 msgstr "&Behandling av plateomslag"
 
-#: ../build/src/ui_shortcutssettingspage.h:240
+#: ../build/src/ui_shortcutssettingspage.h:257
 msgid "&Custom"
 msgstr "&Egendefinert"
 
-#: ../build/src/ui_shortcutssettingspage.h:239
+#: ../build/src/ui_shortcutssettingspage.h:256
 msgid "&Default"
 msgstr "&Standard"
 
@@ -334,7 +319,7 @@ msgstr "&Neste spor"
 msgid "&No background image"
 msgstr "&Ingen bakgrunn"
 
-#: ../build/src/ui_shortcutssettingspage.h:238
+#: ../build/src/ui_shortcutssettingspage.h:255
 msgid "&None"
 msgstr "&Ingen"
 
@@ -506,7 +491,7 @@ msgstr "Avbryt"
 msgid "Abort collection scan"
 msgstr "Avbryt skann av samlingen"
 
-#: ../build/src/ui_about.h:155
+#: ../build/src/ui_about.h:151
 msgid "About"
 msgstr ""
 
@@ -526,7 +511,7 @@ msgstr "Absolu&tt"
 msgid "Absolute"
 msgstr "Absolutt"
 
-#: ../build/src/ui_shortcutssettingspage.h:236
+#: ../build/src/ui_shortcutssettingspage.h:253
 msgctxt "Category label"
 msgid "Action"
 msgstr "Handling"
@@ -1129,7 +1114,7 @@ msgstr "Avbrutt"
 msgid "Change cover art"
 msgstr "Endre omslagsbilde"
 
-#: ../build/src/ui_shortcutssettingspage.h:241
+#: ../build/src/ui_shortcutssettingspage.h:258
 msgid "Change shortcut..."
 msgstr "Endre snarvei…"
 
@@ -2447,7 +2432,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:673
+#: widgets/fancytabwidget.cpp:701
 msgid "Icons on top"
 msgstr "Ikoner øverst"
 
@@ -2597,7 +2582,7 @@ msgstr "Storsal"
 msgid "Large album cover"
 msgstr "Stort omslag"
 
-#: widgets/fancytabwidget.cpp:669
+#: widgets/fancytabwidget.cpp:697
 msgid "Large sidebar"
 msgstr "Stort sidefelt"
 
@@ -2946,7 +2931,7 @@ msgstr "Flytt oppover"
 msgid "Music"
 msgstr "Musikk"
 
-#: globalshortcuts/globalshortcuts.cpp:72
+#: globalshortcuts/globalshortcuts.cpp:75
 msgid "Mute"
 msgstr "Demp"
 
@@ -3169,8 +3154,8 @@ msgstr "Åpne enhet"
 msgid "Open in new playlist"
 msgstr "Åpne i ny spilleliste"
 
-#: ../build/src/ui_shortcutssettingspage.h:227
-#: ../build/src/ui_shortcutssettingspage.h:233
+#: ../build/src/ui_shortcutssettingspage.h:243
+#: ../build/src/ui_shortcutssettingspage.h:250
 msgid "Open..."
 msgstr "Åpne…"
 
@@ -3291,7 +3276,7 @@ msgstr "Utøver"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:671
+#: widgets/fancytabwidget.cpp:699
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
@@ -4060,17 +4045,17 @@ msgstr "Sett verdi for alle valgte spor…"
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: ../build/src/ui_shortcutssettingspage.h:235
+#: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
 msgstr "Hurtigtast"
 
-#: settings/shortcutssettingspage.cpp:276
-#: ../build/src/ui_shortcutssettingspage.h:237
+#: settings/shortcutssettingspage.cpp:255
+#: ../build/src/ui_shortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "Hurtigtast for %1"
 
-#: ../build/src/ui_shortcutssettingspage.h:225
+#: ../build/src/ui_shortcutssettingspage.h:241
 msgid "Shortcuts"
 msgstr "Hurtigtaster"
 
@@ -4284,7 +4269,7 @@ msgstr "Hopp over spor"
 msgid "Small album cover"
 msgstr "Lite albumomslag"
 
-#: widgets/fancytabwidget.cpp:670
+#: widgets/fancytabwidget.cpp:698
 msgid "Small sidebar"
 msgstr "Lite sidefelt"
 
@@ -4528,7 +4513,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:672
+#: widgets/fancytabwidget.cpp:700
 msgid "Tabs on top"
 msgstr "Faner på toppen"
 
@@ -4572,7 +4557,7 @@ msgstr "Takk til"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
-#: settings/shortcutssettingspage.cpp:254
+#: settings/shortcutssettingspage.cpp:233
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Kunne ikke starte kommandoen \"%1\"."
@@ -4875,12 +4860,16 @@ msgstr "Oppe til høyre"
 msgid "Usage"
 msgstr "Bruk"
 
-#: ../build/src/ui_shortcutssettingspage.h:226
-msgid "Use Gnome (GSD) D-Bus shortcut keys"
-msgstr "Bruk Gnome (GSD) D-Bus snarveier"
+#: ../build/src/ui_shortcutssettingspage.h:242
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Use HTTPS for local redirectserver"
+msgstr ""
+
+#: ../build/src/ui_shortcutssettingspage.h:244
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:316
@@ -4899,9 +4888,9 @@ msgstr "Bruk normalisering-metadata hvis tilgjengelig"
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_shortcutssettingspage.h:228
-msgid "Use X11's shortcut keys"
-msgstr "Bruk X11 snarveier"
+#: ../build/src/ui_shortcutssettingspage.h:245
+msgid "Use X11 shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:508
 msgid "Use a custom color set"
@@ -4975,7 +4964,7 @@ msgstr "Bruker nøkkel:"
 msgid "Username"
 msgstr "Brukernavn"
 
-#: settings/shortcutssettingspage.cpp:325
+#: settings/shortcutssettingspage.cpp:304
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5153,7 +5142,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Du trenge gstreamer for denne URLen"
 
-#: ../build/src/ui_shortcutssettingspage.h:232
+#: ../build/src/ui_shortcutssettingspage.h:249
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -5163,7 +5152,7 @@ msgstr ""
 "style:italic\">styre datamaskinen din</span>\" for å bruke globale snarveier "
 "i Strawberry."
 
-#: ../build/src/ui_shortcutssettingspage.h:231
+#: ../build/src/ui_shortcutssettingspage.h:248
 msgid ""
 "You need to launch System Preferences and turn on \"<span style=\" font-"
 "style:italic;\">Enable access for assistive devices</span>\" to use global "

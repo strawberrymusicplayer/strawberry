@@ -38,37 +38,24 @@ msgstr ""
 "\n"
 "Oblíbené seznamy skladeb budou uloženy zde"
 
-#: settings/shortcutssettingspage.cpp:331
+#: settings/shortcutssettingspage.cpp:310
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in cinnamon-settings-daemon instead."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"cinnamon-settings-daemon instead."
 msgstr ""
-"Zkratky na %1 jsou většinou používány přes GSD D-Bus a měly by se nastavovat "
-"přes cinnamon-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:329
+#: settings/shortcutssettingspage.cpp:308
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in gnome-settings-daemon instead."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"gnome-settings-daemon instead."
 msgstr ""
-"Zkratky na %1 jsou většinou používány přes GSD D-Bus a měly by se nastavovat "
-"přes gnome-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:327
+#: settings/shortcutssettingspage.cpp:306
 #, qt-format
-msgid ""
-" Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
-"configured in %1 settings instead."
+msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
-"Zkratky na %1 jsou většinou používány přes MPRIS D-Bus a měly by se "
-"nastavovat přes nastavení %1."
-
-#: settings/shortcutssettingspage.cpp:333
-#, qt-format
-msgid " Shortcuts should be configured in %1 settings instead."
-msgstr "Zkratky se by se měly nastavovat v nastavení %1."
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -273,11 +260,11 @@ msgstr "&Vyčistit seznam skladeb"
 msgid "&Cover Manager"
 msgstr "&Správce obalů"
 
-#: ../build/src/ui_shortcutssettingspage.h:240
+#: ../build/src/ui_shortcutssettingspage.h:257
 msgid "&Custom"
 msgstr "Vl&astní"
 
-#: ../build/src/ui_shortcutssettingspage.h:239
+#: ../build/src/ui_shortcutssettingspage.h:256
 msgid "&Default"
 msgstr "&Výchozí"
 
@@ -338,7 +325,7 @@ msgstr "&Další skladba"
 msgid "&No background image"
 msgstr "&Chybějící obrázek na pozadí"
 
-#: ../build/src/ui_shortcutssettingspage.h:238
+#: ../build/src/ui_shortcutssettingspage.h:255
 msgid "&None"
 msgstr "Žád&né"
 
@@ -511,7 +498,7 @@ msgstr "Přerušit"
 msgid "Abort collection scan"
 msgstr "Zrušit aktualizaci kolekce"
 
-#: ../build/src/ui_about.h:155
+#: ../build/src/ui_about.h:151
 msgid "About"
 msgstr ""
 
@@ -531,7 +518,7 @@ msgstr "Absolut&ní"
 msgid "Absolute"
 msgstr "Absolutní"
 
-#: ../build/src/ui_shortcutssettingspage.h:236
+#: ../build/src/ui_shortcutssettingspage.h:253
 msgctxt "Category label"
 msgid "Action"
 msgstr "Činnost"
@@ -1138,7 +1125,7 @@ msgstr "Zrušeno."
 msgid "Change cover art"
 msgstr "Změnit obal"
 
-#: ../build/src/ui_shortcutssettingspage.h:241
+#: ../build/src/ui_shortcutssettingspage.h:258
 msgid "Change shortcut..."
 msgstr "Změnit klávesovou zkratku..."
 
@@ -2461,7 +2448,7 @@ msgstr "Ikona"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:673
+#: widgets/fancytabwidget.cpp:701
 msgid "Icons on top"
 msgstr "Ikony nahoře"
 
@@ -2619,7 +2606,7 @@ msgstr "Velký sál"
 msgid "Large album cover"
 msgstr "Velký obal alba"
 
-#: widgets/fancytabwidget.cpp:669
+#: widgets/fancytabwidget.cpp:697
 msgid "Large sidebar"
 msgstr "Velký postranní panel"
 
@@ -2968,7 +2955,7 @@ msgstr "Posunout nahoru"
 msgid "Music"
 msgstr "Hudba"
 
-#: globalshortcuts/globalshortcuts.cpp:72
+#: globalshortcuts/globalshortcuts.cpp:75
 msgid "Mute"
 msgstr "Ztlumit"
 
@@ -3194,8 +3181,8 @@ msgstr "Otevřít zařízení"
 msgid "Open in new playlist"
 msgstr "Otevřít v novém seznamu skladeb"
 
-#: ../build/src/ui_shortcutssettingspage.h:227
-#: ../build/src/ui_shortcutssettingspage.h:233
+#: ../build/src/ui_shortcutssettingspage.h:243
+#: ../build/src/ui_shortcutssettingspage.h:250
 msgid "Open..."
 msgstr "Otevřít..."
 
@@ -3316,7 +3303,7 @@ msgstr "Účinkující"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:671
+#: widgets/fancytabwidget.cpp:699
 msgid "Plain sidebar"
 msgstr "Prostý postranní panel"
 
@@ -4094,17 +4081,17 @@ msgstr "Nastavit hodnotu pro vybrané skladby..."
 msgid "Settings"
 msgstr "Nastavení"
 
-#: ../build/src/ui_shortcutssettingspage.h:235
+#: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
 msgstr "Klávesová zkratka"
 
-#: settings/shortcutssettingspage.cpp:276
-#: ../build/src/ui_shortcutssettingspage.h:237
+#: settings/shortcutssettingspage.cpp:255
+#: ../build/src/ui_shortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "Klávesová zkratka pro %1"
 
-#: ../build/src/ui_shortcutssettingspage.h:225
+#: ../build/src/ui_shortcutssettingspage.h:241
 msgid "Shortcuts"
 msgstr "Zkratky"
 
@@ -4322,7 +4309,7 @@ msgstr "Přeskočit skladbu"
 msgid "Small album cover"
 msgstr "Malý obal alba"
 
-#: widgets/fancytabwidget.cpp:670
+#: widgets/fancytabwidget.cpp:698
 msgid "Small sidebar"
 msgstr "Malý postranní panel"
 
@@ -4571,7 +4558,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:672
+#: widgets/fancytabwidget.cpp:700
 msgid "Tabs on top"
 msgstr "Karty nahoře"
 
@@ -4615,7 +4602,7 @@ msgstr "Díky"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
 
-#: settings/shortcutssettingspage.cpp:254
+#: settings/shortcutssettingspage.cpp:233
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Příkaz \"%1\" se nepodařilo provést."
@@ -4920,12 +4907,16 @@ msgstr "Vpravo nahoře"
 msgid "Usage"
 msgstr "Zacházení"
 
-#: ../build/src/ui_shortcutssettingspage.h:226
-msgid "Use Gnome (GSD) D-Bus shortcut keys"
-msgstr "Použíte klávesové zkratky GNOME (GSD) D-Bus"
+#: ../build/src/ui_shortcutssettingspage.h:242
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Use HTTPS for local redirectserver"
+msgstr ""
+
+#: ../build/src/ui_shortcutssettingspage.h:244
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:316
@@ -4944,9 +4935,9 @@ msgstr "Používat metadata pro zesílení přehrávaných skladeb, jsou-li dost
 msgid "Use Tidal settings to authenticate."
 msgstr "Použijte nastavení Tidal pro přihlášení."
 
-#: ../build/src/ui_shortcutssettingspage.h:228
-msgid "Use X11's shortcut keys"
-msgstr "Použijte zkratkové klávesy X11"
+#: ../build/src/ui_shortcutssettingspage.h:245
+msgid "Use X11 shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:508
 msgid "Use a custom color set"
@@ -5021,7 +5012,7 @@ msgstr "Uživatelský token:"
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: settings/shortcutssettingspage.cpp:325
+#: settings/shortcutssettingspage.cpp:304
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5204,7 +5195,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Pro tento odkaz je potřeba GStreamer."
 
-#: ../build/src/ui_shortcutssettingspage.h:232
+#: ../build/src/ui_shortcutssettingspage.h:249
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -5214,7 +5205,7 @@ msgstr ""
 "spustit Nastavení Systému a povolit Strawberry \"<span style=\"font-style:"
 "italic\">ovládat váš počítač</span>\"."
 
-#: ../build/src/ui_shortcutssettingspage.h:231
+#: ../build/src/ui_shortcutssettingspage.h:248
 msgid ""
 "You need to launch System Preferences and turn on \"<span style=\" font-"
 "style:italic;\">Enable access for assistive devices</span>\" to use global "

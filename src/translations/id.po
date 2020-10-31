@@ -39,37 +39,24 @@ msgstr ""
 "\n"
 "Daftar putar yang difavoritkan akan disimpan di sini"
 
-#: settings/shortcutssettingspage.cpp:331
+#: settings/shortcutssettingspage.cpp:310
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in cinnamon-settings-daemon instead."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"cinnamon-settings-daemon instead."
 msgstr ""
-" Pintasan di %1 biasanya digunakan melalui D-Bus GSD sehingga harus "
-"dikonfigurasi di cinnamon-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:329
+#: settings/shortcutssettingspage.cpp:308
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in gnome-settings-daemon instead."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"gnome-settings-daemon instead."
 msgstr ""
-" Pintasan di %1 biasanya digunakan melalui D-Bus GSD sehingga harus "
-"dikonfigurasi di gnome-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:327
+#: settings/shortcutssettingspage.cpp:306
 #, qt-format
-msgid ""
-" Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
-"configured in %1 settings instead."
+msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
-" Pintasan di %1 biasanya digunakan melalui D-Bus MPRIS sehingga harus "
-"dikonfigurasi di pengaturan %1."
-
-#: settings/shortcutssettingspage.cpp:333
-#, qt-format
-msgid " Shortcuts should be configured in %1 settings instead."
-msgstr "Pintasan harus dikonfigurasi di pengaturan %1."
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -273,11 +260,11 @@ msgstr "&Bersihkan daftar putar"
 msgid "&Cover Manager"
 msgstr "Pengelola &Sampul"
 
-#: ../build/src/ui_shortcutssettingspage.h:240
+#: ../build/src/ui_shortcutssettingspage.h:257
 msgid "&Custom"
 msgstr "&Ubahsuai"
 
-#: ../build/src/ui_shortcutssettingspage.h:239
+#: ../build/src/ui_shortcutssettingspage.h:256
 msgid "&Default"
 msgstr "Stan&dar"
 
@@ -338,7 +325,7 @@ msgstr "&Trek berikutnya"
 msgid "&No background image"
 msgstr "&Tidak ada gambar latar belakang"
 
-#: ../build/src/ui_shortcutssettingspage.h:238
+#: ../build/src/ui_shortcutssettingspage.h:255
 msgid "&None"
 msgstr "&Nihil"
 
@@ -512,7 +499,7 @@ msgstr "Batal"
 msgid "Abort collection scan"
 msgstr "Batalkan pemindaian pustaka"
 
-#: ../build/src/ui_about.h:155
+#: ../build/src/ui_about.h:151
 msgid "About"
 msgstr ""
 
@@ -532,7 +519,7 @@ msgstr "Absolu&t"
 msgid "Absolute"
 msgstr "Absolut"
 
-#: ../build/src/ui_shortcutssettingspage.h:236
+#: ../build/src/ui_shortcutssettingspage.h:253
 msgctxt "Category label"
 msgid "Action"
 msgstr "Tindakan"
@@ -1134,7 +1121,7 @@ msgstr "Dibatalkan."
 msgid "Change cover art"
 msgstr "Ubah sampul album"
 
-#: ../build/src/ui_shortcutssettingspage.h:241
+#: ../build/src/ui_shortcutssettingspage.h:258
 msgid "Change shortcut..."
 msgstr "Ubah pintasan..."
 
@@ -2451,7 +2438,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:673
+#: widgets/fancytabwidget.cpp:701
 msgid "Icons on top"
 msgstr "Ikon di atas"
 
@@ -2603,7 +2590,7 @@ msgstr "Balai Besar"
 msgid "Large album cover"
 msgstr "Sampul album besar"
 
-#: widgets/fancytabwidget.cpp:669
+#: widgets/fancytabwidget.cpp:697
 msgid "Large sidebar"
 msgstr "Bilah sisi besar"
 
@@ -2952,7 +2939,7 @@ msgstr "Pindah naik"
 msgid "Music"
 msgstr "Musik"
 
-#: globalshortcuts/globalshortcuts.cpp:72
+#: globalshortcuts/globalshortcuts.cpp:75
 msgid "Mute"
 msgstr "Bisu"
 
@@ -3179,8 +3166,8 @@ msgstr "Buka perangkat"
 msgid "Open in new playlist"
 msgstr "Buka di daftar putar baru"
 
-#: ../build/src/ui_shortcutssettingspage.h:227
-#: ../build/src/ui_shortcutssettingspage.h:233
+#: ../build/src/ui_shortcutssettingspage.h:243
+#: ../build/src/ui_shortcutssettingspage.h:250
 msgid "Open..."
 msgstr "Buka..."
 
@@ -3301,7 +3288,7 @@ msgstr "Penampil"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:671
+#: widgets/fancytabwidget.cpp:699
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
@@ -4069,17 +4056,17 @@ msgstr "Tetapkan nilai untuk semua trek terpilih..."
 msgid "Settings"
 msgstr "Setelan"
 
-#: ../build/src/ui_shortcutssettingspage.h:235
+#: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
 msgstr "Pintasan"
 
-#: settings/shortcutssettingspage.cpp:276
-#: ../build/src/ui_shortcutssettingspage.h:237
+#: settings/shortcutssettingspage.cpp:255
+#: ../build/src/ui_shortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "Pintasan untuk %1"
 
-#: ../build/src/ui_shortcutssettingspage.h:225
+#: ../build/src/ui_shortcutssettingspage.h:241
 msgid "Shortcuts"
 msgstr "Pintasan"
 
@@ -4293,7 +4280,7 @@ msgstr "Lewati trek"
 msgid "Small album cover"
 msgstr "Sampul album kecil"
 
-#: widgets/fancytabwidget.cpp:670
+#: widgets/fancytabwidget.cpp:698
 msgid "Small sidebar"
 msgstr "Bilah sisi kecil"
 
@@ -4537,7 +4524,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:672
+#: widgets/fancytabwidget.cpp:700
 msgid "Tabs on top"
 msgstr "Tab di puncak"
 
@@ -4581,7 +4568,7 @@ msgstr ""
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
-#: settings/shortcutssettingspage.cpp:254
+#: settings/shortcutssettingspage.cpp:233
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Perintah \"%1\" tidak dapat dimulai."
@@ -4887,12 +4874,16 @@ msgstr "Kanan Atas"
 msgid "Usage"
 msgstr "Penggunaan"
 
-#: ../build/src/ui_shortcutssettingspage.h:226
-msgid "Use Gnome (GSD) D-Bus shortcut keys"
-msgstr "Gunakan pintasan D-Bus Gnome (GSD)"
+#: ../build/src/ui_shortcutssettingspage.h:242
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Use HTTPS for local redirectserver"
+msgstr ""
+
+#: ../build/src/ui_shortcutssettingspage.h:244
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:316
@@ -4911,9 +4902,9 @@ msgstr "Gunakan metadata Replay Gain jika tersedia"
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_shortcutssettingspage.h:228
-msgid "Use X11's shortcut keys"
-msgstr "Gunakan pintasan X11"
+#: ../build/src/ui_shortcutssettingspage.h:245
+msgid "Use X11 shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:508
 msgid "Use a custom color set"
@@ -4987,7 +4978,7 @@ msgstr "Token pengguna:"
 msgid "Username"
 msgstr "Nama pengguna"
 
-#: settings/shortcutssettingspage.cpp:325
+#: settings/shortcutssettingspage.cpp:304
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5168,7 +5159,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Anda memerlukan GStreamer untuk URL ini."
 
-#: ../build/src/ui_shortcutssettingspage.h:232
+#: ../build/src/ui_shortcutssettingspage.h:249
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -5178,7 +5169,7 @@ msgstr ""
 "\"<span style=\"font-style:italic;\">mengendalikan komputer Anda</span>\" "
 "untuk menggunakan pintasan global di Strawberry."
 
-#: ../build/src/ui_shortcutssettingspage.h:231
+#: ../build/src/ui_shortcutssettingspage.h:248
 msgid ""
 "You need to launch System Preferences and turn on \"<span style=\" font-"
 "style:italic;\">Enable access for assistive devices</span>\" to use global "

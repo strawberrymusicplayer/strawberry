@@ -40,31 +40,24 @@ msgstr "\n"
 "\n"
 "즐겨찾는 재생 목록은 여기에 저장됩니다"
 
-#: settings/shortcutssettingspage.cpp:331
+#: settings/shortcutssettingspage.cpp:310
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in cinnamon-settings-daemon instead."
-msgstr " %1의 단축키는 GSD D-Bus로 관리되며 cinamon-settings-daemon 설정에서 변경해야 합니다."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"cinnamon-settings-daemon instead."
+msgstr ""
 
-#: settings/shortcutssettingspage.cpp:329
+#: settings/shortcutssettingspage.cpp:308
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in gnome-settings-daemon instead."
-msgstr " %1의 단축키는 GSD D-Bus로 관리되며 gnome-settings-daemon 설정에서 변경해야 합니다."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"gnome-settings-daemon instead."
+msgstr ""
 
-#: settings/shortcutssettingspage.cpp:327
+#: settings/shortcutssettingspage.cpp:306
 #, qt-format
-msgid ""
-" Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
-"configured in %1 settings instead."
-msgstr " %1의 단축키는 MPRIS D-Bus로 관리되며 %1 설정에서 변경해야 합니다."
-
-#: settings/shortcutssettingspage.cpp:333
-#, qt-format
-msgid " Shortcuts should be configured in %1 settings instead."
-msgstr " %1 설정에서 단축키를 설정하십시오."
+msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -268,11 +261,11 @@ msgstr "재생 목록 비우기(&C)"
 msgid "&Cover Manager"
 msgstr "표지 관리자(&C)"
 
-#: ../build/src/ui_shortcutssettingspage.h:240
+#: ../build/src/ui_shortcutssettingspage.h:257
 msgid "&Custom"
 msgstr "사용자 정의(&C)"
 
-#: ../build/src/ui_shortcutssettingspage.h:239
+#: ../build/src/ui_shortcutssettingspage.h:256
 msgid "&Default"
 msgstr "기본값(&D)"
 
@@ -333,7 +326,7 @@ msgstr "다음 트랙(&N)"
 msgid "&No background image"
 msgstr "배경 그림 없음(&N)"
 
-#: ../build/src/ui_shortcutssettingspage.h:238
+#: ../build/src/ui_shortcutssettingspage.h:255
 msgid "&None"
 msgstr "없음(&N)"
 
@@ -503,7 +496,7 @@ msgstr "중지"
 msgid "Abort collection scan"
 msgstr "라이브러리 검색 중지"
 
-#: ../build/src/ui_about.h:155
+#: ../build/src/ui_about.h:151
 msgid "About"
 msgstr ""
 
@@ -523,7 +516,7 @@ msgstr "절대 경로(&T)"
 msgid "Absolute"
 msgstr "절대 경로"
 
-#: ../build/src/ui_shortcutssettingspage.h:236
+#: ../build/src/ui_shortcutssettingspage.h:253
 msgctxt "Category label"
 msgid "Action"
 msgstr "동작"
@@ -1125,7 +1118,7 @@ msgstr "취소됨."
 msgid "Change cover art"
 msgstr "표지 그림 변경"
 
-#: ../build/src/ui_shortcutssettingspage.h:241
+#: ../build/src/ui_shortcutssettingspage.h:258
 msgid "Change shortcut..."
 msgstr "단축키 변경..."
 
@@ -2434,7 +2427,7 @@ msgstr "아이콘"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:673
+#: widgets/fancytabwidget.cpp:701
 msgid "Icons on top"
 msgstr "상단에 아이콘"
 
@@ -2582,7 +2575,7 @@ msgstr "거대한 홀"
 msgid "Large album cover"
 msgstr "큰 앨범아트"
 
-#: widgets/fancytabwidget.cpp:669
+#: widgets/fancytabwidget.cpp:697
 msgid "Large sidebar"
 msgstr "큰 사이드바"
 
@@ -2931,7 +2924,7 @@ msgstr "위로 이동"
 msgid "Music"
 msgstr "음악"
 
-#: globalshortcuts/globalshortcuts.cpp:72
+#: globalshortcuts/globalshortcuts.cpp:75
 msgid "Mute"
 msgstr "음소거"
 
@@ -3154,8 +3147,8 @@ msgstr "장치 열기"
 msgid "Open in new playlist"
 msgstr "새 재생 목록에서 열기"
 
-#: ../build/src/ui_shortcutssettingspage.h:227
-#: ../build/src/ui_shortcutssettingspage.h:233
+#: ../build/src/ui_shortcutssettingspage.h:243
+#: ../build/src/ui_shortcutssettingspage.h:250
 msgid "Open..."
 msgstr "열기..."
 
@@ -3276,7 +3269,7 @@ msgstr "연주가"
 msgid "Pixel"
 msgstr "픽셀"
 
-#: widgets/fancytabwidget.cpp:671
+#: widgets/fancytabwidget.cpp:699
 msgid "Plain sidebar"
 msgstr "일반 사이드바"
 
@@ -4042,17 +4035,17 @@ msgstr "선택한 모든 트랙의 값 설정..."
 msgid "Settings"
 msgstr "설정"
 
-#: ../build/src/ui_shortcutssettingspage.h:235
+#: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
 msgstr "단축키"
 
-#: settings/shortcutssettingspage.cpp:276
-#: ../build/src/ui_shortcutssettingspage.h:237
+#: settings/shortcutssettingspage.cpp:255
+#: ../build/src/ui_shortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "%1 단축키"
 
-#: ../build/src/ui_shortcutssettingspage.h:225
+#: ../build/src/ui_shortcutssettingspage.h:241
 msgid "Shortcuts"
 msgstr "단축키"
 
@@ -4266,7 +4259,7 @@ msgstr "트랙 건너뛰기"
 msgid "Small album cover"
 msgstr "작은 앨범아트"
 
-#: widgets/fancytabwidget.cpp:670
+#: widgets/fancytabwidget.cpp:698
 msgid "Small sidebar"
 msgstr "작은 사이드바"
 
@@ -4507,7 +4500,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:672
+#: widgets/fancytabwidget.cpp:700
 msgid "Tabs on top"
 msgstr "위쪽에 탭 표시"
 
@@ -4551,7 +4544,7 @@ msgstr "감사"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Amarok과 Clementine 기여자들에게 감사를 전합니다."
 
-#: settings/shortcutssettingspage.cpp:254
+#: settings/shortcutssettingspage.cpp:233
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "\"%1\" 명령을 시작할 수 없습니다."
@@ -4839,12 +4832,16 @@ msgstr "오른쪽 위"
 msgid "Usage"
 msgstr "사용"
 
-#: ../build/src/ui_shortcutssettingspage.h:226
-msgid "Use Gnome (GSD) D-Bus shortcut keys"
-msgstr "그놈 D-Bus 단축키(GSD) 사용"
+#: ../build/src/ui_shortcutssettingspage.h:242
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Use HTTPS for local redirectserver"
+msgstr ""
+
+#: ../build/src/ui_shortcutssettingspage.h:244
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:316
@@ -4863,9 +4860,9 @@ msgstr "사용 가능한 경우 리플레이게인 메타데이터 사용"
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_shortcutssettingspage.h:228
-msgid "Use X11's shortcut keys"
-msgstr "X11 단축키 사용"
+#: ../build/src/ui_shortcutssettingspage.h:245
+msgid "Use X11 shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:508
 msgid "Use a custom color set"
@@ -4939,7 +4936,7 @@ msgstr "사용자 토큰:"
 msgid "Username"
 msgstr "사용자 이름"
 
-#: settings/shortcutssettingspage.cpp:325
+#: settings/shortcutssettingspage.cpp:304
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5113,7 +5110,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "이 URL에 접근하려면 GStreamer가 필요합니다."
 
-#: ../build/src/ui_shortcutssettingspage.h:232
+#: ../build/src/ui_shortcutssettingspage.h:249
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -5122,7 +5119,7 @@ msgstr ""
 "시스템 설정을 실행한 다음 Strawberry에서 \"<span style=\" font-style:italic;\">컴퓨터 제어 허용</"
 "span>\"을 활성화해야 Strawberry에서 전역 단축키를 사용할 수 있습니다."
 
-#: ../build/src/ui_shortcutssettingspage.h:231
+#: ../build/src/ui_shortcutssettingspage.h:248
 msgid ""
 "You need to launch System Preferences and turn on \"<span style=\" font-"
 "style:italic;\">Enable access for assistive devices</span>\" to use global "

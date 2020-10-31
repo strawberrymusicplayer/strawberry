@@ -40,37 +40,24 @@ msgstr ""
 "\n"
 "A kedvenc lejátszólisták ide lesznek elmentve"
 
-#: settings/shortcutssettingspage.cpp:331
+#: settings/shortcutssettingspage.cpp:310
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in cinnamon-settings-daemon instead."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"cinnamon-settings-daemon instead."
 msgstr ""
-"A %1 gyorsbillentyűk általában a GSD D-Bus-on keresztül vannak használva, "
-"ezeket inkább a cinnamon-settings-daemon-ban kell beállítani."
 
-#: settings/shortcutssettingspage.cpp:329
+#: settings/shortcutssettingspage.cpp:308
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
-"in gnome-settings-daemon instead."
+" Shortcuts on %1 are usually used through GSD and should be configured in "
+"gnome-settings-daemon instead."
 msgstr ""
-"A %1 gyorsbillentyűk általában a GSD D-Bus-on keresztül vannak használva, "
-"ezeket inkább a gnome-settings-daemon-ban kell beállítani."
 
-#: settings/shortcutssettingspage.cpp:327
+#: settings/shortcutssettingspage.cpp:306
 #, qt-format
-msgid ""
-" Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
-"configured in %1 settings instead."
+msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
-"A %1 gyorsbillentyűk általában a MPRIS D-Bus-on keresztül vannak használva, "
-"ezeket inkább a %1 beállításaiban kell beállítani."
-
-#: settings/shortcutssettingspage.cpp:333
-#, qt-format
-msgid " Shortcuts should be configured in %1 settings instead."
-msgstr "A gyorsbillentyűket inkább a %1 beállításaiban kell konfigurálni."
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -276,11 +263,11 @@ msgstr "Lejátszólista tö&rlése"
 msgid "&Cover Manager"
 msgstr "&Borítókezelő"
 
-#: ../build/src/ui_shortcutssettingspage.h:240
+#: ../build/src/ui_shortcutssettingspage.h:257
 msgid "&Custom"
 msgstr "&Egyéni"
 
-#: ../build/src/ui_shortcutssettingspage.h:239
+#: ../build/src/ui_shortcutssettingspage.h:256
 msgid "&Default"
 msgstr "&Alapértelmezett"
 
@@ -341,7 +328,7 @@ msgstr "Kö&vetkező szám"
 msgid "&No background image"
 msgstr "&Nincs háttérkép"
 
-#: ../build/src/ui_shortcutssettingspage.h:238
+#: ../build/src/ui_shortcutssettingspage.h:255
 msgid "&None"
 msgstr "&Nincs"
 
@@ -515,7 +502,7 @@ msgstr "Megszakít"
 msgid "Abort collection scan"
 msgstr "Gyűjtemény ellenőrzésének megszakítása"
 
-#: ../build/src/ui_about.h:155
+#: ../build/src/ui_about.h:151
 msgid "About"
 msgstr "Névjegy"
 
@@ -535,7 +522,7 @@ msgstr "Abszolú&t"
 msgid "Absolute"
 msgstr "Abszolút"
 
-#: ../build/src/ui_shortcutssettingspage.h:236
+#: ../build/src/ui_shortcutssettingspage.h:253
 msgctxt "Category label"
 msgid "Action"
 msgstr "Művelet"
@@ -1139,7 +1126,7 @@ msgstr "Bezárva."
 msgid "Change cover art"
 msgstr "Albumborító módosítása"
 
-#: ../build/src/ui_shortcutssettingspage.h:241
+#: ../build/src/ui_shortcutssettingspage.h:258
 msgid "Change shortcut..."
 msgstr "Kombináció módosítása..."
 
@@ -2468,7 +2455,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr "Ikonméretek"
 
-#: widgets/fancytabwidget.cpp:673
+#: widgets/fancytabwidget.cpp:701
 msgid "Icons on top"
 msgstr "Ikonok felül"
 
@@ -2624,7 +2611,7 @@ msgstr "Nagy terem"
 msgid "Large album cover"
 msgstr "Nagy albumborító"
 
-#: widgets/fancytabwidget.cpp:669
+#: widgets/fancytabwidget.cpp:697
 msgid "Large sidebar"
 msgstr "Nagy oldalsáv"
 
@@ -2973,7 +2960,7 @@ msgstr "Mozgatás felfelé"
 msgid "Music"
 msgstr "Zene"
 
-#: globalshortcuts/globalshortcuts.cpp:72
+#: globalshortcuts/globalshortcuts.cpp:75
 msgid "Mute"
 msgstr "Némítás"
 
@@ -3200,8 +3187,8 @@ msgstr "Eszköz megnyitása"
 msgid "Open in new playlist"
 msgstr "Megnyitás új lejátszólistában"
 
-#: ../build/src/ui_shortcutssettingspage.h:227
-#: ../build/src/ui_shortcutssettingspage.h:233
+#: ../build/src/ui_shortcutssettingspage.h:243
+#: ../build/src/ui_shortcutssettingspage.h:250
 msgid "Open..."
 msgstr "Megnyitás..."
 
@@ -3322,7 +3309,7 @@ msgstr "Előadó"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:671
+#: widgets/fancytabwidget.cpp:699
 msgid "Plain sidebar"
 msgstr "Egyszerű oldalsáv"
 
@@ -4102,17 +4089,17 @@ msgstr "Érték beállítása minden kiválasztott számnak..."
 msgid "Settings"
 msgstr "Beállítások"
 
-#: ../build/src/ui_shortcutssettingspage.h:235
+#: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
 msgstr "Kombináció"
 
-#: settings/shortcutssettingspage.cpp:276
-#: ../build/src/ui_shortcutssettingspage.h:237
+#: settings/shortcutssettingspage.cpp:255
+#: ../build/src/ui_shortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "%1 billentyűkombinációja"
 
-#: ../build/src/ui_shortcutssettingspage.h:225
+#: ../build/src/ui_shortcutssettingspage.h:241
 msgid "Shortcuts"
 msgstr "Gyorsbillentyűk"
 
@@ -4326,7 +4313,7 @@ msgstr "Szám kihagyása"
 msgid "Small album cover"
 msgstr "Kis albumborító"
 
-#: widgets/fancytabwidget.cpp:670
+#: widgets/fancytabwidget.cpp:698
 msgid "Small sidebar"
 msgstr "Kis oldalsáv"
 
@@ -4572,7 +4559,7 @@ msgstr "Lapsáv nagy mód"
 msgid "Tabbar small mode"
 msgstr "Lapsáv kis mód"
 
-#: widgets/fancytabwidget.cpp:672
+#: widgets/fancytabwidget.cpp:700
 msgid "Tabs on top"
 msgstr "Fülek felül"
 
@@ -4616,7 +4603,7 @@ msgstr "Köszönet még"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Köszönet az Amarok-hoz és a Clementine-hez hozzájárulóknak."
 
-#: settings/shortcutssettingspage.cpp:254
+#: settings/shortcutssettingspage.cpp:233
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "A \"%1\" parancs nem végrehajtható."
@@ -4924,13 +4911,17 @@ msgstr "Jobbra fent"
 msgid "Usage"
 msgstr "Használat"
 
-#: ../build/src/ui_shortcutssettingspage.h:226
-msgid "Use Gnome (GSD) D-Bus shortcut keys"
-msgstr "Gnome (GSD) D-Bus gyorsbillentyűk használata"
+#: ../build/src/ui_shortcutssettingspage.h:242
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Use HTTPS for local redirectserver"
 msgstr "HTTPS használata a helyi átirányító szerverhez"
+
+#: ../build/src/ui_shortcutssettingspage.h:244
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:316
 msgid "Use OAuth"
@@ -4948,9 +4939,9 @@ msgstr "Visszhangerősítés metaadatok használata, ha elérhetőek"
 msgid "Use Tidal settings to authenticate."
 msgstr "Tidal beállítások használata hitelesítéshez."
 
-#: ../build/src/ui_shortcutssettingspage.h:228
-msgid "Use X11's shortcut keys"
-msgstr "X11 gyorsbillentyűk használata"
+#: ../build/src/ui_shortcutssettingspage.h:245
+msgid "Use X11 shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:508
 msgid "Use a custom color set"
@@ -5024,7 +5015,7 @@ msgstr "Felhasználói token:"
 msgid "Username"
 msgstr "Felhasználónév"
 
-#: settings/shortcutssettingspage.cpp:325
+#: settings/shortcutssettingspage.cpp:304
 #, fuzzy, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5207,7 +5198,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Ehhez az URL-hez szüksége van a GStreamerre."
 
-#: ../build/src/ui_shortcutssettingspage.h:232
+#: ../build/src/ui_shortcutssettingspage.h:249
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -5217,7 +5208,7 @@ msgstr ""
 "italic;\">számítógép irányítása</span>\" opciót a globális "
 "billentyűparancsok használatához a Strawberry-ben."
 
-#: ../build/src/ui_shortcutssettingspage.h:231
+#: ../build/src/ui_shortcutssettingspage.h:248
 msgid ""
 "You need to launch System Preferences and turn on \"<span style=\" font-"
 "style:italic;\">Enable access for assistive devices</span>\" to use global "
