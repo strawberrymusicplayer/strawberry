@@ -411,7 +411,7 @@ void FancyTabWidget::currentTabChanged(const int idx) {
 
 }
 
-// Override subElementRect() and use QCommonStyle to fix a problem with certain styles.
+// Override QStyle::subElementRect() and use QCommonStyle to fix a problem with certain styles.
 // Something is causing the contents of the tabbar to be stretched from top to bottom with space between icons and text.
 // You can see this on the default Fedora (Gnome) installation.
 // Also fixes the tabbar on macOS where the content was in the middle.
