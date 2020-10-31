@@ -73,11 +73,12 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
 
 #if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
 #ifdef HAVE_DBUS
-  connect(ui_->checkbox_gsd, SIGNAL(clicked(bool)), SLOT(GSDChanged(bool)));
+  connect(ui_->checkbox_gsd, SIGNAL(clicked(bool)), SLOT(ShortcutOptionsChanged()));
+  connect(ui_->checkbox_kde, SIGNAL(clicked(bool)), SLOT(ShortcutOptionsChanged()));
   connect(ui_->button_gsd_open, SIGNAL(clicked()), SLOT(OpenGnomeKeybindingProperties()));
 #endif
 #ifdef HAVE_X11
-  connect(ui_->checkbox_x11, SIGNAL(clicked(bool)), SLOT(X11Changed(bool)));
+  connect(ui_->checkbox_x11, SIGNAL(clicked(bool)), SLOT(ShortcutOptionsChanged()));
 #endif
 #endif  // !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
 
@@ -114,12 +115,21 @@ void GlobalShortcutsSettingsPage::Load() {
     connect(ui_->button_macos_open, SIGNAL(clicked()), manager, SLOT(ShowMacAccessibilityDialog()));
 
     if (manager->IsGsdAvailable()) {
-      qLog(Debug) << "Gnome (GSD) D-Bus backend is available.";
+      qLog(Debug) << "Gnome (GSD) backend is available.";
       ui_->widget_gsd->show();
     }
     else {
-      qLog(Debug) << "Gnome (GSD) D-Bus backend is unavailable.";
+      qLog(Debug) << "Gnome (GSD) backend is unavailable.";
       ui_->widget_gsd->hide();
+    }
+
+    if (manager->IsKdeAvailable()) {
+      qLog(Debug) << "KDE (KGlobalAccel) backend is available.";
+      ui_->widget_kde->show();
+    }
+    else {
+      qLog(Debug) << "KDE (KGlobalAccel) backend is unavailable.";
+      ui_->widget_kde->hide();
     }
 
     if (manager->IsX11Available()) {
@@ -129,7 +139,6 @@ void GlobalShortcutsSettingsPage::Load() {
     else {
       qLog(Debug) << "X11 backend is unavailable.";
       ui_->widget_x11->hide();
-      s.setValue("use_x11", false);
     }
 
     for (const GlobalShortcuts::Shortcut &i : manager->shortcuts().values()) {
@@ -149,24 +158,19 @@ void GlobalShortcutsSettingsPage::Load() {
     SetShortcut(shortcut.s.id, shortcut.s.action->shortcut());
   }
 
-  bool use_gsd = s.value("use_gsd", true).toBool();
   if (ui_->widget_gsd->isVisibleTo(this)) {
-    ui_->checkbox_gsd->setChecked(use_gsd);
+    ui_->checkbox_gsd->setChecked(s.value("use_gsd", true).toBool());
   }
 
-  bool use_x11 = s.value("use_x11", false).toBool();
+  if (ui_->widget_kde->isVisibleTo(this)) {
+    ui_->checkbox_kde->setChecked(s.value("use_kde", true).toBool());
+  }
+
   if (ui_->widget_x11->isVisibleTo(this)) {
-    ui_->checkbox_x11->setChecked(use_x11);
+    ui_->checkbox_x11->setChecked(s.value("use_x11", false).toBool());
   }
 
-#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
-#ifdef HAVE_DBUS
-  GSDChanged(true);
-#endif
-#ifdef HAVE_X11
-  X11Changed(true);
-#endif
-#endif
+  ShortcutOptionsChanged();
 
   ui_->widget_macos->setVisible(!manager->IsMacAccessibilityEnabled());
 #ifdef Q_OS_MACOS
@@ -195,6 +199,7 @@ void GlobalShortcutsSettingsPage::Save() {
   }
 
   s.setValue("use_gsd", ui_->checkbox_gsd->isChecked());
+  s.setValue("use_kde", ui_->checkbox_kde->isChecked());
   s.setValue("use_x11", ui_->checkbox_x11->isChecked());
 
   s.endGroup();
@@ -203,50 +208,24 @@ void GlobalShortcutsSettingsPage::Save() {
 
 }
 
-void GlobalShortcutsSettingsPage::X11Changed(bool) {
+void GlobalShortcutsSettingsPage::ShortcutOptionsChanged() {
 
-  if (!ui_->widget_x11->isVisibleTo(this)) return;
+  bool configure_shortcuts = (ui_->widget_kde->isVisibleTo(this) && ui_->checkbox_kde->isChecked()) ||
+                             (ui_->widget_x11->isVisibleTo(this) && ui_->checkbox_x11->isChecked());
 
-  if (ui_->checkbox_x11->isChecked()) {
-    ui_->list->setEnabled(true);
-    ui_->shortcut_options->setEnabled(true);
+  ui_->list->setEnabled(configure_shortcuts);
+  ui_->shortcut_options->setEnabled(configure_shortcuts);
+
+  if (ui_->widget_x11->isVisibleTo(this) && ui_->checkbox_x11->isChecked()) {
+    ui_->widget_warning->show();
     X11Warning();
   }
   else {
-    ui_->list->setEnabled(false);
-    ui_->shortcut_options->setEnabled(false);
     ui_->widget_warning->hide();
   }
 
 }
 
-void GlobalShortcutsSettingsPage::GSDChanged(bool) {
-
-  if (!ui_->widget_gsd->isVisibleTo(this)) return;
-
-  if (ui_->checkbox_gsd->isChecked()) {
-    if (ui_->checkbox_x11->isEnabled()) {
-      ui_->checkbox_x11->setEnabled(false);
-    }
-    if (ui_->checkbox_x11->isChecked()) {
-      ui_->checkbox_x11->setChecked(false);
-    }
-    ui_->list->setEnabled(false);
-    ui_->shortcut_options->setEnabled(false);
-    ui_->widget_warning->hide();
-  }
-  else {
-    if (!ui_->checkbox_x11->isEnabled()) {
-      ui_->checkbox_x11->setEnabled(true);
-      if (ui_->checkbox_x11->isChecked()) {
-        ui_->list->setEnabled(true);
-        ui_->shortcut_options->setEnabled(true);
-        X11Warning();
-      }
-    }
-  }
-
-}
 void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
 
   if (!QProcess::startDetached("gnome-keybinding-properties", QStringList())) {
@@ -324,13 +303,11 @@ void GlobalShortcutsSettingsPage::X11Warning() {
   if (de_.toLower() == "kde" || de_.toLower() == "gnome" || de_.toLower() == "x-cinnamon") {
     QString text(tr("Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!").arg(de_));
     if (de_.toLower() == "kde")
-      text += tr(" Shortcuts on %1 are usually used through MPRIS D-Bus and should be configured in %1 settings instead.").arg(de_);
+      text += tr(" Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.").arg(de_);
     else if (de_.toLower() == "gnome")
-      text += tr(" Shortcuts on %1 are usually used through GSD D-Bus and should be configured in gnome-settings-daemon instead.").arg(de_);
+      text += tr(" Shortcuts on %1 are usually used through GSD and should be configured in gnome-settings-daemon instead.").arg(de_);
     else if (de_.toLower() == "x-cinnamon")
-      text += tr(" Shortcuts on %1 are usually used through GSD D-Bus and should be configured in cinnamon-settings-daemon instead.").arg(de_);
-    else
-      text += tr(" Shortcuts should be configured in %1 settings instead.").arg(de_);
+      text += tr(" Shortcuts on %1 are usually used through GSD and should be configured in cinnamon-settings-daemon instead.").arg(de_);
     ui_->label_warn_text->setText(text);
     ui_->widget_warning->show();
   }

@@ -559,8 +559,8 @@ if(HAVE_GLOBALSHORTCUTS)
     SOURCES globalshortcuts/globalshortcut-x11.cpp
   )
   optional_source(HAVE_DBUS
-    SOURCES globalshortcuts/globalshortcutbackend-gsd.cpp
-    HEADERS globalshortcuts/globalshortcutbackend-gsd.h
+    SOURCES globalshortcuts/globalshortcutbackend-gsd.cpp globalshortcuts/globalshortcutbackend-kde.cpp
+    HEADERS globalshortcuts/globalshortcutbackend-gsd.h globalshortcuts/globalshortcutbackend-kde.h
   )
   optional_source(WIN32
     SOURCES globalshortcuts/globalshortcut-win.cpp
@@ -634,6 +634,14 @@ if(UNIX AND HAVE_DBUS)
         dbus/org.gnome.SettingsDaemon.MediaKeys.xml
         dbus/gnomesettingsdaemon)
 
+    # org.kde.KGlobalAccel interface
+    qt6_add_dbus_interface(SOURCES
+        dbus/org.kde.KGlobalAccel.xml
+        dbus/kglobalaccel)
+    qt6_add_dbus_interface(SOURCES
+        dbus/org.kde.KGlobalAccel.Component.xml
+        dbus/kglobalaccelcomponent)
+
   else()
 
     # MPRIS 2.0 DBUS interfaces
@@ -661,6 +669,14 @@ if(UNIX AND HAVE_DBUS)
     qt5_add_dbus_interface(SOURCES
         dbus/org.gnome.SettingsDaemon.MediaKeys.xml
         dbus/gnomesettingsdaemon)
+
+    # org.kde.KGlobalAccel interface
+    qt5_add_dbus_interface(SOURCES
+        dbus/org.kde.KGlobalAccel.xml
+        dbus/kglobalaccel)
+    qt5_add_dbus_interface(SOURCES
+        dbus/org.kde.KGlobalAccel.Component.xml
+        dbus/kglobalaccelcomponent)
 
   endif()
 

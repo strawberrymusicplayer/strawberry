@@ -50,6 +50,7 @@ class GlobalShortcuts : public QWidget {
 
   QMap<QString, Shortcut> shortcuts() const { return shortcuts_; }
   bool IsGsdAvailable() const;
+  bool IsKdeAvailable() const;
   bool IsX11Available() const;
   bool IsMacAccessibilityEnabled() const;
 
@@ -87,13 +88,15 @@ class GlobalShortcuts : public QWidget {
   Shortcut AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key);
 
  private:
-  GlobalShortcutBackend *dbus_backend_;
+  GlobalShortcutBackend *gsd_backend_;
+  GlobalShortcutBackend *kde_backend_;
   GlobalShortcutBackend *system_backend_;
 
   QMap<QString, Shortcut> shortcuts_;
   QSettings settings_;
 
   bool use_gsd_;
+  bool use_kde_;
   bool use_x11_;
 };
 

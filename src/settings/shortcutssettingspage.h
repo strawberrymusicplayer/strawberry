@@ -55,8 +55,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   void Save() override;
 
  private slots:
-  void X11Changed(bool);
-  void GSDChanged(bool);
+  void ShortcutOptionsChanged();
   void OpenGnomeKeybindingProperties();
 
   void ItemClicked(QTreeWidgetItem*);

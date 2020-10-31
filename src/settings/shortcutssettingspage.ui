@@ -42,7 +42,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Use Gnome (GSD) D-Bus shortcut keys</string>
+         <string>Use Gnome (GSD) shortcuts when available</string>
         </property>
        </widget>
       </item>
@@ -50,6 +50,31 @@
        <widget class="QPushButton" name="button_gsd_open">
         <property name="text">
          <string>Open...</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_kde" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QCheckBox" name="checkbox_kde">
+        <property name="text">
+         <string>Use KDE (KGlobalAccel) shortcuts when available</string>
         </property>
        </widget>
       </item>
@@ -83,7 +108,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Use X11's shortcut keys</string>
+         <string>Use X11 shortcuts when available</string>
         </property>
        </widget>
       </item>

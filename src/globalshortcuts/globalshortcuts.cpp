@@ -39,6 +39,7 @@
 
 #ifdef HAVE_DBUS
 #  include "globalshortcutbackend-gsd.h"
+#  include "globalshortcutbackend-kde.h"
 #endif
 #if defined(HAVE_X11) || defined(Q_OS_WIN)
 #  include "globalshortcutbackend-system.h"
@@ -51,9 +52,11 @@
 
 GlobalShortcuts::GlobalShortcuts(QWidget *parent)
     : QWidget(parent),
-      dbus_backend_(nullptr),
+      gsd_backend_(nullptr),
+      kde_backend_(nullptr),
       system_backend_(nullptr),
       use_gsd_(true),
+      use_kde_(true),
       use_x11_(false)
   {
 
@@ -82,7 +85,8 @@ GlobalShortcuts::GlobalShortcuts(QWidget *parent)
 
   // Create backends - these do the actual shortcut registration
 #ifdef HAVE_DBUS
-  dbus_backend_ = new GlobalShortcutBackendGSD(this);
+  gsd_backend_ = new GlobalShortcutBackendGSD(this);
+  kde_backend_ = new GlobalShortcutBackendKDE(this);
 #endif
 
 #ifdef Q_OS_MACOS
@@ -106,6 +110,7 @@ void GlobalShortcuts::ReloadSettings() {
 
   // The actual shortcuts have been set in our actions for us by the config dialog already - we just need to reread the gnome settings.
   use_gsd_ = settings_.value("use_gsd", true).toBool();
+  use_kde_ = settings_.value("use_kde", true).toBool();
   use_x11_ = settings_.value("use_x11", false).toBool();
 
   Unregister();
@@ -149,6 +154,16 @@ bool GlobalShortcuts::IsGsdAvailable() const {
 
 }
 
+bool GlobalShortcuts::IsKdeAvailable() const {
+
+#ifdef HAVE_DBUS
+  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendKDE::kKdeService);
+#else
+  return false;
+#endif
+
+}
+
 bool GlobalShortcuts::IsX11Available() const {
 
 #ifdef HAVE_X11
@@ -160,7 +175,9 @@ bool GlobalShortcuts::IsX11Available() const {
 }
 
 void GlobalShortcuts::Register() {
-  if (use_gsd_ && dbus_backend_ && dbus_backend_->Register()) return;
+
+  if (use_gsd_ && gsd_backend_ && gsd_backend_->Register()) return;
+  if (use_kde_ && kde_backend_ && kde_backend_->Register()) return;
 #ifdef HAVE_X11 // If this system has X11, only use the system backend if X11 is enabled in the global shortcut settings
   if (use_x11_) {
 #endif
@@ -169,11 +186,15 @@ void GlobalShortcuts::Register() {
 #ifdef HAVE_X11
    }
 #endif
+
 }
 
 void GlobalShortcuts::Unregister() {
-  if (dbus_backend_ && dbus_backend_->is_active()) dbus_backend_->Unregister();
+
+  if (gsd_backend_ && gsd_backend_->is_active()) gsd_backend_->Unregister();
+  if (kde_backend_ && kde_backend_->is_active()) kde_backend_->Unregister();
   if (system_backend_ && system_backend_->is_active()) system_backend_->Unregister();
+
 }
 
 bool GlobalShortcuts::IsMacAccessibilityEnabled() const {
