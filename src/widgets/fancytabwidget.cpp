@@ -52,6 +52,11 @@
 #include <QLayout>
 #include <QBoxLayout>
 #include <QtEvents>
+#include <QStyle>
+#include <QCommonStyle>
+#include <QProxyStyle>
+#include <QStyleOption>
+#include <QStyleOptionComplex>
 
 #include "fancytabwidget.h"
 #include "core/stylehelper.h"
@@ -406,7 +411,25 @@ void FancyTabWidget::currentTabChanged(const int idx) {
 
 }
 
-FancyTabWidget::FancyTabWidget(QWidget* parent) : QTabWidget(parent),
+// Override subElementRect() and use QCommonStyle to fix a problem with certain styles.
+// Something is causing the contents of the tabbar to be stretched from top to bottom with space between icons and text.
+// You can see this on the default Fedora (Gnome) installation.
+// Also fixes the tabbar on macOS where the content was in the middle.
+
+class FancyTabWidgetProxyStyle : public QProxyStyle {
+ public:
+  explicit FancyTabWidgetProxyStyle(QStyle *style) : QProxyStyle(style), common_style_(new QCommonStyle()) {}
+  ~FancyTabWidgetProxyStyle() override { common_style_->deleteLater(); }
+
+  QRect subElementRect(QStyle::SubElement element, const QStyleOption *option, const QWidget *widget = nullptr) const override {
+    return common_style_->subElementRect(element, option, widget);
+  }
+
+ private:
+  QCommonStyle *common_style_;
+};
+
+FancyTabWidget::FancyTabWidget(QWidget *parent) : QTabWidget(parent),
       menu_(nullptr),
       mode_(Mode_None),
       bottom_widget_(nullptr),
@@ -422,9 +445,14 @@ FancyTabWidget::FancyTabWidget(QWidget* parent) : QTabWidget(parent),
   setMovable(true);
   setElideMode(Qt::ElideNone);
   setUsesScrollButtons(true);
+  setStyle(new FancyTabWidgetProxyStyle(style()));
 
   connect(tabBar, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged(int)));
 
+}
+
+FancyTabWidget::~FancyTabWidget() {
+  style()->deleteLater();
 }
 
 void FancyTabWidget::Load(const QString &kSettingsGroup) {
