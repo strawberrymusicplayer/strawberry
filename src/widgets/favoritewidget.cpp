@@ -52,7 +52,7 @@ void FavoriteWidget::SetFavorite(bool favorite) {
 
 QSize FavoriteWidget::sizeHint() const {
   const int frame_width = 1 + style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
-  return QSize(kStarSize + frame_width * 2, kStarSize + frame_width * 2);
+  return QSize(kStarSize + frame_width, kStarSize + frame_width);
 }
 
 void FavoriteWidget::paintEvent(QPaintEvent *e) {
