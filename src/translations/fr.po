@@ -2502,7 +2502,7 @@ msgstr "Icône"
 msgid "Icon sizes"
 msgstr "Tailles des icônes"
 
-#: widgets/fancytabwidget.cpp:701
+#: widgets/fancytabwidget.cpp:712
 msgid "Icons on top"
 msgstr "Icônes au dessus"
 
@@ -2662,7 +2662,7 @@ msgstr "Large Salle"
 msgid "Large album cover"
 msgstr "Grande pochette d'album"
 
-#: widgets/fancytabwidget.cpp:697
+#: widgets/fancytabwidget.cpp:708
 msgid "Large sidebar"
 msgstr "Barre latérale large"
 
@@ -3369,7 +3369,7 @@ msgstr "Interprète"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:699
+#: widgets/fancytabwidget.cpp:710
 msgid "Plain sidebar"
 msgstr "Barre latérale simple"
 
@@ -4380,7 +4380,7 @@ msgstr "Passer la piste"
 msgid "Small album cover"
 msgstr "Petite pochette d'album"
 
-#: widgets/fancytabwidget.cpp:698
+#: widgets/fancytabwidget.cpp:709
 msgid "Small sidebar"
 msgstr "Petite barre latérale"
 
@@ -4631,7 +4631,7 @@ msgstr "Grande barre d'onglets"
 msgid "Tabbar small mode"
 msgstr "Petite barre d'onglets"
 
-#: widgets/fancytabwidget.cpp:700
+#: widgets/fancytabwidget.cpp:711
 msgid "Tabs on top"
 msgstr "Onglets au dessus"
 

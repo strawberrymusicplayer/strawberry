@@ -2427,7 +2427,7 @@ msgstr "아이콘"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:701
+#: widgets/fancytabwidget.cpp:712
 msgid "Icons on top"
 msgstr "상단에 아이콘"
 
@@ -2575,7 +2575,7 @@ msgstr "거대한 홀"
 msgid "Large album cover"
 msgstr "큰 앨범아트"
 
-#: widgets/fancytabwidget.cpp:697
+#: widgets/fancytabwidget.cpp:708
 msgid "Large sidebar"
 msgstr "큰 사이드바"
 
@@ -3269,7 +3269,7 @@ msgstr "연주가"
 msgid "Pixel"
 msgstr "픽셀"
 
-#: widgets/fancytabwidget.cpp:699
+#: widgets/fancytabwidget.cpp:710
 msgid "Plain sidebar"
 msgstr "일반 사이드바"
 
@@ -4259,7 +4259,7 @@ msgstr "트랙 건너뛰기"
 msgid "Small album cover"
 msgstr "작은 앨범아트"
 
-#: widgets/fancytabwidget.cpp:698
+#: widgets/fancytabwidget.cpp:709
 msgid "Small sidebar"
 msgstr "작은 사이드바"
 
@@ -4500,7 +4500,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:700
+#: widgets/fancytabwidget.cpp:711
 msgid "Tabs on top"
 msgstr "위쪽에 탭 표시"
 

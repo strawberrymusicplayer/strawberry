@@ -2462,7 +2462,7 @@ msgstr "Ikona"
 msgid "Icon sizes"
 msgstr "Rozmiary ikon"
 
-#: widgets/fancytabwidget.cpp:701
+#: widgets/fancytabwidget.cpp:712
 msgid "Icons on top"
 msgstr "Ikony na górze"
 
@@ -2618,7 +2618,7 @@ msgstr "Duża sala"
 msgid "Large album cover"
 msgstr "Duża okładka albumu"
 
-#: widgets/fancytabwidget.cpp:697
+#: widgets/fancytabwidget.cpp:708
 msgid "Large sidebar"
 msgstr "Duży pasek boczny"
 
@@ -3316,7 +3316,7 @@ msgstr "Wykonawca"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:699
+#: widgets/fancytabwidget.cpp:710
 msgid "Plain sidebar"
 msgstr "Pasek boczny bez efektów"
 
@@ -4322,7 +4322,7 @@ msgstr "Pomiń ścieżkę"
 msgid "Small album cover"
 msgstr "Mała okładka albumu"
 
-#: widgets/fancytabwidget.cpp:698
+#: widgets/fancytabwidget.cpp:709
 msgid "Small sidebar"
 msgstr "Mały pasek boczny"
 
@@ -4568,7 +4568,7 @@ msgstr "Duży pasek zakładek"
 msgid "Tabbar small mode"
 msgstr "Mały pasek zakładek"
 
-#: widgets/fancytabwidget.cpp:700
+#: widgets/fancytabwidget.cpp:711
 msgid "Tabs on top"
 msgstr "Zakładki na górze"
 

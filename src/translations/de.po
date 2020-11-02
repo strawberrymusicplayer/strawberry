@@ -43,7 +43,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-07-28 06:48-0400\n"
+"PO-Revision-Date: 2020-11-01 06:31-0500\n"
 "Last-Translator: Guido T. <GuidoTelscher@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -71,6 +71,8 @@ msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "cinnamon-settings-daemon instead."
 msgstr ""
+"Verknüpfungen zu %1 werden normalerweise über GSD verwendet und sollten "
+"stattdessen im cinnamon-settings-daemon konfiguriert werden."
 
 #: settings/shortcutssettingspage.cpp:308
 #, qt-format
@@ -78,11 +80,15 @@ msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "gnome-settings-daemon instead."
 msgstr ""
+"Verknüpfungen zu %1 werden normalerweise über GSD verwendet und sollten "
+"stattdessen im Gnome-settings-daemon konfiguriert werden."
 
 #: settings/shortcutssettingspage.cpp:306
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
+"Verknüpfungen zu %1 werden normalerweise über MPRIS und KGlobalAccel "
+"verwendet."
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -121,7 +127,7 @@ msgstr " Sekunden"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
-msgstr ""
+msgstr "Lieder"
 
 #: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
 #, qt-format
@@ -202,12 +208,12 @@ msgstr "%1 Lieder"
 #: smartplaylists/smartplaylistsearchpreview.cpp:145
 #, qt-format
 msgid "%1 songs found"
-msgstr ""
+msgstr "%1 Lieder gefunden"
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:142
 #, qt-format
 msgid "%1 songs found (showing %2)"
-msgstr ""
+msgstr "%1 Lieder gefunden (zeigt %2)"
 
 #: core/utilities.cpp:467
 #, qt-format
@@ -327,7 +333,7 @@ msgstr "Wiedergabeliste laden"
 
 #: playlist/playlistheader.cpp:58
 msgid "&Lock rating"
-msgstr ""
+msgstr "&Lock Bewertung"
 
 #: ../build/src/ui_networkproxysettingspage.h:166
 msgid "&Manual proxy configuration"
@@ -462,7 +468,7 @@ msgstr "40%"
 
 #: smartplaylists/smartplaylistsmodel.cpp:76
 msgid "50 random tracks"
-msgstr ""
+msgstr "50 zufällige Titel"
 
 #: ../build/src/ui_organizedialog.h:274
 msgid ""
@@ -486,11 +492,17 @@ msgid ""
 "There are different types of smart playlist that offer different ways of "
 "selecting songs."
 msgstr ""
+"Eine intelligente Wiedergabeliste ist eine dynamische Liste von Titeln, die "
+"aus Ihrer Sammlung stammen. Es gibt verschiedene Arten von intelligenten "
+"Wiedergabelisten, die verschiedene Möglichkeiten zur Auswahl von Songs "
+"bieten."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:152
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr ""
+"Ein Lied wird in die Wiedergabeliste aufgenommen, wenn es diesen Bedingungen "
+"entspricht."
 
 #: ../build/src/ui_playlistsettingspage.h:169
 msgid "A&utomatic"
@@ -498,7 +510,7 @@ msgstr "A&utomatisch"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: ../build/src/ui_transcodersettingspage.h:192
 msgid "AAC"
@@ -600,7 +612,7 @@ msgstr "Neuen Ordner hinzufügen …"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:430
 msgid "Add search term"
-msgstr ""
+msgstr "Ergänze Suchbegriff"
 
 #: ../build/src/ui_contextsettingspage.h:366
 #: ../build/src/ui_notificationssettingspage.h:412
@@ -835,7 +847,7 @@ msgstr "Alle Wiedergabelisten (%1)"
 
 #: smartplaylists/smartplaylistsmodel.cpp:119
 msgid "All tracks"
-msgstr ""
+msgstr "Alle Lieder"
 
 #: ../build/src/ui_organizedialog.h:282
 msgid "Allow extended ASCII characters"
@@ -900,7 +912,7 @@ msgstr "Komprimieren um Übersteuerung zu vermeiden"
 
 #: dialogs/deleteconfirmationdialog.cpp:69
 msgid "Are you sure you want to continue?"
-msgstr ""
+msgstr "Bist du dir sicher, dass du weitermachen willst?"
 
 #: equalizer/equalizer.cpp:227
 #, qt-format
@@ -1002,7 +1014,7 @@ msgstr "Automatisch den aktuellen Song auswählen"
 
 #: ../build/src/ui_playlistsettingspage.h:167
 msgid "Automatically sort playlist when inserting songs"
-msgstr ""
+msgstr "Sortierliste beim Einfügen von Songs automatisch sortieren"
 
 #: widgets/freespacebar.cpp:68
 msgid "Available"
@@ -1081,7 +1093,7 @@ msgstr "Bitrate"
 #: organize/organizedialog.cpp:117
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr ""
+msgstr "Bitrate"
 
 #: analyzer/blockanalyzer.cpp:45
 msgid "Block analyzer"
@@ -1141,7 +1153,7 @@ msgstr "CDDA"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: tidal/tidalstreamurlrequest.cpp:108 qobuz/qobuzstreamurlrequest.cpp:103
 msgid "Cancelled."
@@ -1169,7 +1181,7 @@ msgstr "Nach Aktualisierungen suchen …"
 
 #: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Choose a name for your smart playlist"
-msgstr ""
+msgstr "Wählen Sie einen Namen für Ihre intelligente Wiedergabeliste"
 
 #: ../build/src/ui_notificationssettingspage.h:493
 msgid "Choose color..."
@@ -1177,7 +1189,7 @@ msgstr "Farbe wählen …"
 
 #: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
-msgstr ""
+msgstr "Wählen Sie die zu importierenden Daten aus last.fm aus"
 
 #: ../build/src/ui_notificationssettingspage.h:494
 msgid "Choose font..."
@@ -1186,6 +1198,8 @@ msgstr "Schriftart wählen …"
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:154
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
+"Wählen Sie aus, wie die Wiedergabeliste sortiert und wie viele Titel sie "
+"enthalten soll."
 
 #: ../build/src/ui_coverssettingspage.h:167
 msgid "Choose the providers you want to use when searching for covers."
@@ -1282,7 +1296,7 @@ msgstr "Hinweis beim erneuten durchsuchen der Bibliothek"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:85
 msgid "Collection search"
-msgstr ""
+msgstr "Sammlung durchsuchen"
 
 #: ../build/src/ui_appearancesettingspage.h:506
 msgid "Colors"
@@ -1299,7 +1313,7 @@ msgstr "Kommentar"
 
 #: ../build/src/ui_edittagdialog.h:717
 msgid "Compilation"
-msgstr ""
+msgstr "Zusammenstellung"
 
 #: ../build/src/ui_edittagdialog.h:703
 msgid "Complete tags automatically"
@@ -1377,7 +1391,7 @@ msgstr "Musik umwandeln, die das Gerät nicht wiedergeben kann"
 
 #: core/mainwindow.cpp:703
 msgid "Copy URL(s)..."
-msgstr ""
+msgstr "Kopiere URL-Pfade"
 
 #: ../build/src/ui_organizedialog.h:286
 msgid "Copy album cover artwork"
@@ -1390,7 +1404,7 @@ msgstr "Zur Bibliothek kopieren …"
 
 #: playlist/playlistlistcontainer.cpp:379
 msgid "Copy to device"
-msgstr ""
+msgstr "Kopieren auf ein Gerät"
 
 #: core/mainwindow.cpp:710 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:104
@@ -1403,6 +1417,9 @@ msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
 "avoid losing configration before you uninstall the snap:"
 msgstr ""
+"Kopieren Sie Ihre Strawberry.conf und Ihre Strawberry.db aus Ihrem ~ / snap-"
+"Verzeichnis, um zu vermeiden, dass die Konfiguration verloren geht, bevor "
+"Sie den Snap deinstallieren:"
 
 #: transcoder/transcoder.cpp:66
 #, qt-format
@@ -1608,7 +1625,7 @@ msgstr "Geändert"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:434
 msgid "Days"
-msgstr ""
+msgstr "Tage"
 
 #: core/commandlineoptions.cpp:172
 msgid "Decrease the volume by 4 percent"
@@ -1624,7 +1641,7 @@ msgstr "Default Hintergrundbild"
 
 #: ../build/src/ui_backendsettingspage.h:499
 msgid "Defaults"
-msgstr ""
+msgstr "Voreinstellungen"
 
 #: playlist/playlistlistcontainer.cpp:101
 #: ../build/src/ui_playlistlistcontainer.h:133
@@ -1651,7 +1668,7 @@ msgstr "Voreinstellung löschen"
 #: smartplaylists/smartplaylistsviewcontainer.cpp:82
 #: ../build/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
-msgstr ""
+msgstr "Löschen Sie die intelligente Wiedergabeliste"
 
 #: ../build/src/ui_organizedialog.h:270
 msgid "Delete the original files"
@@ -1750,7 +1767,7 @@ msgstr "Nicht überschreiben"
 
 #: ../build/src/ui_snapdialog.h:120
 msgid "Do not show this message again."
-msgstr ""
+msgstr "Zeige diese Nachricht nicht wieder."
 
 #: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
@@ -1796,19 +1813,19 @@ msgstr "Klicken und ziehen um die Position zu ändern"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:105
 msgid "Dynamic mode is on"
-msgstr ""
+msgstr "Dynamischer Modus ist an"
 
 #: smartplaylists/smartplaylistsmodel.cpp:120
 msgid "Dynamic random mix"
-msgstr ""
+msgstr "Dynamischer Zufallsmix"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
-msgstr ""
+msgstr "Bearbeiten Sie die intelligente Wiedergabeliste"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:81
 msgid "Edit smart playlist..."
-msgstr ""
+msgstr "Bearbeiten Sie die intelligente Wiedergabeliste..."
 
 #: core/mainwindow.cpp:1886
 #, qt-format
@@ -1858,6 +1875,8 @@ msgstr "Elemente aktivieren"
 #: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable delete files in the right click context menu"
 msgstr ""
+"Aktivieren Sie das Löschen von Dateien im Kontextmenü mit der rechten "
+"Maustaste"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Enable equalizer"
@@ -1869,7 +1888,7 @@ msgstr "Wiedergabeliste löschen - Knopf aktivieren"
 
 #: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Enable scrobbling for the following sources:"
-msgstr ""
+msgstr "Aktivieren Sie das Scrobbeln für die folgenden Quellen:"
 
 #: ../build/src/ui_playlistsettingspage.h:177
 msgid "Enable song metadata inline edition with click"
@@ -1941,7 +1960,7 @@ msgstr "Geben Sie den Namen des Ordners ein"
 
 #: ../build/src/ui_userpassdialog.h:90
 msgid "Enter username and password"
-msgstr ""
+msgstr "Geben Sie Username und Passwort ein"
 
 #: settings/scrobblersettingspage.cpp:82
 msgid "Enter your user token from"
@@ -2004,7 +2023,7 @@ msgstr "Fehler beim Einstellen des CDDA-Geräts in die Bereitschaft. "
 
 #: smartplaylists/smartplaylistsmodel.cpp:82
 msgid "Ever played"
-msgstr ""
+msgstr "Jemals gespielt"
 
 #: ../build/src/ui_backendsettingspage.h:512
 msgid "Except between tracks on the same album or in the same CUE sheet"
@@ -2016,7 +2035,7 @@ msgstr "Existierende Titelbilder"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
-msgstr ""
+msgstr "Ausdehnen"
 
 #: widgets/loginstatewidget.cpp:150
 #, qt-format
@@ -2101,7 +2120,7 @@ msgstr "Schnell"
 
 #: smartplaylists/smartplaylistsmodel.cpp:106
 msgid "Favourite tracks"
-msgstr ""
+msgstr "Lieblingstitel"
 
 #: ../build/src/ui_albumcovermanager.h:223
 msgid "Fetch Missing Covers"
@@ -2186,6 +2205,8 @@ msgstr "Dateityp"
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:88
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
+"Suchen Sie nach Titeln in Ihrer Sammlung, die den von Ihnen angegebenen "
+"Kriterien entsprechen."
 
 #: musicbrainz/tagfetcher.cpp:63
 msgid "Fingerprinting song"
@@ -2193,7 +2214,7 @@ msgstr "Titel wird analysiert"
 
 #: smartplaylists/smartplaylistwizard.cpp:86
 msgid "Finish"
-msgstr ""
+msgstr "Fertigstellen"
 
 #: collection/savedgroupingmanager.cpp:56 ../build/src/ui_groupbydialog.h:182
 msgid "First level"
@@ -2224,11 +2245,13 @@ msgstr "Schriftgröße"
 #: dialogs/snapdialog.cpp:56
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr ""
+msgstr "Für Ubuntu gibt es ein offizielles PPA-Repository unter %1."
 
 #: dialogs/snapdialog.cpp:64
 msgid "For a better experience please consider the other options above."
 msgstr ""
+"Für eine bessere Erfahrung berücksichtigen Sie bitte die anderen oben "
+"genannten Optionen."
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
@@ -2328,7 +2351,7 @@ msgstr "Zum vorherigen Wiedergabelistenreiter wechseln"
 
 #: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr ""
+msgstr "Los!"
 
 #: covermanager/albumcovermanager.cpp:530
 #: covermanager/coversearchstatisticsdialog.cpp:69
@@ -2462,11 +2485,11 @@ msgstr "Hoch (%1 fps)"
 
 #: ../build/src/ui_backendsettingspage.h:497
 msgid "High watermark"
-msgstr ""
+msgstr "Hochwassermarke"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "Hours"
-msgstr ""
+msgstr "Stunden"
 
 #: ../build/src/ui_deviceproperties.h:372
 msgid "Icon"
@@ -2476,7 +2499,7 @@ msgstr "Symbol"
 msgid "Icon sizes"
 msgstr "Icon Größe"
 
-#: widgets/fancytabwidget.cpp:701
+#: widgets/fancytabwidget.cpp:712
 msgid "Icons on top"
 msgstr "Symbole oben"
 
@@ -2518,11 +2541,11 @@ msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
 #: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
-msgstr ""
+msgstr "Importieren Sie Daten aus last.fm"
 
 #: ../build/src/ui_mainwindow.h:714
 msgid "Import data from last.fm..."
-msgstr ""
+msgstr "Importieren Sie Daten aus last.fm..."
 
 #: ../build/src/ui_transcodedialog.h:225
 msgid "Import..."
@@ -2543,6 +2566,8 @@ msgid ""
 "In dynamic mode new tracks will be chosen and added to the playlist every "
 "time a song finishes."
 msgstr ""
+"Im dynamischen Modus werden bei jedem Ende eines Songs neue Titel ausgewählt "
+"und zur Wiedergabeliste hinzugefügt."
 
 #: ../build/src/ui_notificationssettingspage.h:477
 msgid "Include album art in the notification"
@@ -2550,7 +2575,7 @@ msgstr "Titelbild in der Benachrichtigung anzeigen"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
-msgstr ""
+msgstr "Alle Titel zusammen"
 
 #: core/commandlineoptions.cpp:171
 msgid "Increase the volume by 4 percent"
@@ -2598,7 +2623,7 @@ msgstr ""
 
 #: dialogs/snapdialog.cpp:44
 msgid "It is detected that Strawberry is running as a Snap"
-msgstr ""
+msgstr "Es wird erkannt, dass Strawberry als Snap ausgeführt wird"
 
 #: ../build/src/ui_behavioursettingspage.h:302
 msgid "Jump to previous song right away"
@@ -2633,7 +2658,7 @@ msgstr "Großer Raum"
 msgid "Large album cover"
 msgstr "Großes Titelbild"
 
-#: widgets/fancytabwidget.cpp:697
+#: widgets/fancytabwidget.cpp:708
 msgid "Large sidebar"
 msgstr "Große Seitenleiste"
 
@@ -2650,7 +2675,7 @@ msgstr "Zuletzt wiedergegeben"
 #: dialogs/lastfmimportdialog.cpp:155
 #, qt-format
 msgid "Last played for %1 songs received."
-msgstr ""
+msgstr "Zuletzt gespielt für %1 erhaltene Songs."
 
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Last.fm"
@@ -2658,7 +2683,7 @@ msgstr "Last.fm"
 
 #: smartplaylists/smartplaylistsmodel.cpp:112
 msgid "Least favourite tracks"
-msgstr ""
+msgstr "Am wenigsten gemochte Titel"
 
 #: ../build/src/ui_equalizer.h:178
 msgid "Left"
@@ -2675,7 +2700,7 @@ msgstr "Libre.fm"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:137
 msgid "Limits"
-msgstr ""
+msgstr "Begrenzungen"
 
 #: scrobbler/listenbrainzscrobbler.cpp:178
 msgid "ListenBrainz Authentication"
@@ -2723,7 +2748,7 @@ msgstr "iPod-Datenbank wird geladen"
 
 #: smartplaylists/playlistgeneratorinserter.cpp:58
 msgid "Loading smart playlist"
-msgstr ""
+msgstr "Lade intelligente Wiedergabeliste"
 
 #: collection/collectionmodel.cpp:212
 msgid "Loading songs"
@@ -2749,7 +2774,7 @@ msgstr "Dateien/Adressen laden und die Wiedergabeliste ersetzen"
 
 #: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Local file"
-msgstr ""
+msgstr "Lokale Datei"
 
 #: ../build/src/ui_scrobblersettingspage.h:414
 #: ../build/src/ui_scrobblersettingspage.h:417
@@ -2780,7 +2805,7 @@ msgstr "Geringes Komplexitätsprofil (LC)"
 
 #: ../build/src/ui_backendsettingspage.h:498
 msgid "Low watermark"
-msgstr ""
+msgstr "Niedrigwassermarke"
 
 #: ../build/src/ui_collectionsettingspage.h:431
 msgid "Lowercase filename"
@@ -2820,11 +2845,11 @@ msgstr "Verschwundene Lieder als nicht verfügbar markieren"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:110
 msgid "Match every search term (AND)"
-msgstr ""
+msgstr "Passend zu jedem Suchbegriff (UND)"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:111
 msgid "Match one or more search terms (OR)"
-msgstr ""
+msgstr "Übereinstimmend mit einem oder mehreren Suchbegriffen (ODER)"
 
 #: ../build/src/ui_appearancesettingspage.h:536
 msgid "Max cover size"
@@ -2836,7 +2861,7 @@ msgstr "Maximale Bitrate"
 
 #: qobuz/qobuzservice.cpp:467
 msgid "Maximum number of login attempts reached."
-msgstr ""
+msgstr "Maximale Anzahl von Anmeldeversuchen erreicht."
 
 #: analyzer/analyzercontainer.cpp:74
 #, qt-format
@@ -2857,25 +2882,25 @@ msgstr "Minimale Bitrate"
 
 #: settings/tidalsettingspage.cpp:163
 msgid "Missing API token."
-msgstr ""
+msgstr "API Zeichen fehlt."
 
 #: qobuz/qobuzservice.cpp:719 qobuz/qobuzstreamurlrequest.cpp:84
 msgid "Missing Qobuz app ID or secret."
-msgstr ""
+msgstr "Fehlende Qobuz-App-ID oder geheim."
 
 #: qobuz/qobuzservice.cpp:471 qobuz/qobuzservice.cpp:500
 #: qobuz/qobuzservice.cpp:555 qobuz/qobuzservice.cpp:608
 #: qobuz/qobuzservice.cpp:673
 msgid "Missing Qobuz app ID."
-msgstr ""
+msgstr "Fehlende Qobuz-App-ID."
 
 #: qobuz/qobuzservice.cpp:479
 msgid "Missing Qobuz password."
-msgstr ""
+msgstr "Fehlendes Qobuz Passwort."
 
 #: qobuz/qobuzservice.cpp:475
 msgid "Missing Qobuz username."
-msgstr ""
+msgstr "Fehlender Qobuz Username."
 
 #: subsonic/subsonicurlhandler.cpp:45
 msgid "Missing Subsonic username or password."
@@ -2905,11 +2930,11 @@ msgstr "Tidal Benutzername fehlt."
 
 #: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
-msgstr ""
+msgstr "Fehlende App-ID."
 
 #: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
-msgstr ""
+msgstr "Fehlendes Passwort."
 
 #: settings/subsonicsettingspage.cpp:106
 msgid "Missing server url, username or password."
@@ -2921,11 +2946,11 @@ msgstr "Nutzername oder Passwort fehlt"
 
 #: scrobbler/lastfmimport.cpp:218
 msgid "Missing username, please login to last.fm first!"
-msgstr ""
+msgstr "Fehlender Benutzername, bitte melden Sie sich zuerst bei last.fm an!"
 
 #: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
-msgstr ""
+msgstr "Fehlender Benutzername."
 
 #: device/deviceproperties.cpp:175
 msgid "Model"
@@ -2937,7 +2962,7 @@ msgstr "Bibliothek auf Änderungen überwachen"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:438
 msgid "Months"
-msgstr ""
+msgstr "Monate"
 
 #: playlist/playlist.cpp:1293
 msgid "Mood"
@@ -2954,7 +2979,7 @@ msgstr "Stil des Stimmungsbarometers"
 
 #: smartplaylists/smartplaylistsmodel.cpp:100
 msgid "Most played"
-msgstr ""
+msgstr "Am meisten gespielt"
 
 #: device/giolister.cpp:188
 msgid "Mount point"
@@ -3010,7 +3035,7 @@ msgstr "Niemals"
 
 #: smartplaylists/smartplaylistsmodel.cpp:88
 msgid "Never played"
-msgstr ""
+msgstr "Nie gespielt"
 
 #: ../build/src/ui_behavioursettingspage.h:297
 #: ../build/src/ui_behavioursettingspage.h:311
@@ -3029,11 +3054,11 @@ msgstr "Neue Wiedergabeliste"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
-msgstr ""
+msgstr "Neue intelligente Wiedergabeliste"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:68
 msgid "New smart playlist..."
-msgstr ""
+msgstr "Neue intelligente Wiedergabeliste..."
 
 #: widgets/freespacebar.cpp:69
 msgid "New songs"
@@ -3041,11 +3066,11 @@ msgstr "Neue Titel"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
-msgstr ""
+msgstr "Neue Titel werden automatisch hinzugefügt."
 
 #: smartplaylists/smartplaylistsmodel.cpp:69
 msgid "Newest tracks"
-msgstr ""
+msgstr "Neueste Titel"
 
 #: dialogs/edittagdialog.cpp:210 dialogs/trackselectiondialog.cpp:73
 msgid "Next"
@@ -3111,7 +3136,7 @@ msgstr "Normaler Blocktyp"
 #: qobuz/qobuzservice.cpp:505 qobuz/qobuzservice.cpp:560
 #: qobuz/qobuzservice.cpp:613
 msgid "Not authenticated with Qobuz."
-msgstr ""
+msgstr "Nicht mit Qobuz authentifiziert."
 
 #: tidal/tidalservice.cpp:710
 msgid ""
@@ -3128,7 +3153,7 @@ msgstr "Nicht bei Tidal authentifiziert."
 
 #: playlist/playlistsequence.cpp:211
 msgid "Not available while using a dynamic playlist"
-msgstr ""
+msgstr "Nicht verfügbar, wenn eine dynamische Wiedergabeliste verwendet wird"
 
 #: device/deviceview.cpp:130
 msgid "Not connected"
@@ -3169,6 +3194,9 @@ msgid ""
 "Official releases are available for Debian and Ubuntu which also work on "
 "most of their derivatives. See %1 for more information."
 msgstr ""
+"Für Debian und Ubuntu sind offizielle Releases verfügbar, die auch für die "
+"meisten ihrer Derivate funktionieren. Weitere Informationen finden Sie unter "
+"%1."
 
 #: osd/osdbase.cpp:245
 msgid "On"
@@ -3180,7 +3208,7 @@ msgstr "Beim Laden"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:139
 msgid "Only show the first"
-msgstr ""
+msgstr "Zeige nur die ersten"
 
 #: ../build/src/ui_appearancesettingspage.h:542
 msgid "Opacity"
@@ -3233,16 +3261,16 @@ msgstr "Opus"
 
 #: ../build/src/ui_organizedialog.h:266
 msgid "Organize Files"
-msgstr ""
+msgstr "Dateien organisieren"
 
 #: core/mainwindow.cpp:706 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:350
 msgid "Organize files..."
-msgstr ""
+msgstr "Dateien organisieren..."
 
 #: organize/organize.cpp:94
 msgid "Organizing files"
-msgstr ""
+msgstr "Dateien organisieren"
 
 #: dialogs/trackselectiondialog.cpp:195
 msgid "Original tags"
@@ -3261,7 +3289,7 @@ msgstr "Ursprüngliches Jahr - Album"
 
 #: collection/savedgroupingmanager.cpp:103
 msgid "Original year - Album - Disc"
-msgstr ""
+msgstr "Originaljahr - Album - Disc"
 
 #: core/commandlineoptions.cpp:183
 msgid "Other options"
@@ -3332,7 +3360,7 @@ msgstr "Besetzung"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:699
+#: widgets/fancytabwidget.cpp:710
 msgid "Plain sidebar"
 msgstr "Einfache Seitenleiste"
 
@@ -3352,7 +3380,7 @@ msgstr "Wiedergabezähler"
 
 #: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
-msgstr ""
+msgstr "Wiedergabezähler"
 
 #: core/commandlineoptions.cpp:165
 msgid "Play if stopped, pause if playing"
@@ -3366,7 +3394,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:76
 msgid "Play next"
-msgstr ""
+msgstr "Spiele als nächstes"
 
 #: core/commandlineoptions.cpp:182
 msgid "Play the <n>th track in the playlist"
@@ -3376,11 +3404,12 @@ msgstr "Titelnummer <n> der Wiedergabeliste abspielen"
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
+"Wiedergabezahl für %1 Songs und zuletzt gespielt für %2 empfangene Songs."
 
 #: dialogs/lastfmimportdialog.cpp:158
 #, qt-format
 msgid "Playcounts for %1 songs received."
-msgstr ""
+msgstr "Wiedergabezahl für %1 empfangene Lieder."
 
 #: core/commandlineoptions.cpp:163
 msgid "Player options"
@@ -3412,7 +3441,7 @@ msgstr ""
 
 #: playlist/playlistlistcontainer.cpp:379
 msgid "Playlist must be open first."
-msgstr ""
+msgstr "Die Wiedergabeliste muss zuerst geöffnet sein."
 
 #: core/commandlineoptions.cpp:178
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
@@ -3421,7 +3450,7 @@ msgstr "Wiedergabeliste einrichten"
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
-msgstr ""
+msgstr "Art der Wiedergabenliste"
 
 #: core/mainwindow.cpp:340
 msgid "Playlists"
@@ -3545,18 +3574,21 @@ msgstr "Fortschritt"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:135
 msgid "Put songs in a random order"
-msgstr ""
+msgstr "Ordne die Songs in zufälliger Reihenfolge an"
 
 #: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:409
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
-msgstr ""
+msgstr "Qobuz"
 
 #: ../build/src/ui_qobuzsettingspage.h:272
 msgid ""
 "Qobuz support is not official and requires an API app ID and secret from a "
 "registered application to work. We can't help you getting these."
 msgstr ""
+"Der Qobuz-Support ist nicht offiziell und erfordert eine API-App-ID und ein "
+"geheime registrierte Anwendung, um zu funktionieren. Wir können Ihnen nicht "
+"helfen, diese zu bekommen."
 
 #: ../build/src/ui_transcoderoptionsflac.h:80
 #: ../build/src/ui_transcoderoptionsvorbis.h:201
@@ -3606,7 +3638,7 @@ msgstr "Radio (gleicher Pegel für alle Titel)"
 
 #: playlist/playlist.cpp:1294
 msgid "Rating"
-msgstr ""
+msgstr "Bewertung"
 
 #: ../build/src/ui_playlistsettingspage.h:171
 msgid "Re&lative"
@@ -3631,22 +3663,23 @@ msgstr ""
 
 #: dialogs/lastfmimportdialog.cpp:72
 msgid "Receiving initial data from last.fm..."
-msgstr ""
+msgstr "Empfangen von Anfangsdaten von last.fm ..."
 
 #: dialogs/lastfmimportdialog.cpp:132
 #, qt-format
 msgid "Receiving last played for %1 songs."
-msgstr ""
+msgstr "Empfangen der zuletzt gespielten %1 Songs."
 
 #: dialogs/lastfmimportdialog.cpp:129
 #, qt-format
 msgid "Receiving playcount for %1 songs and last played for %2 songs."
 msgstr ""
+"Empfangen der Wiedergabezahl für %1 Songs und zuletzt gespielt für %2 Songs."
 
 #: dialogs/lastfmimportdialog.cpp:135
 #, qt-format
 msgid "Receiving playcounts for %1 songs."
-msgstr ""
+msgstr "Empfangen der Wiedergabezahl für %1 Songs."
 
 #: lyrics/geniuslyricsprovider.cpp:208
 msgid "Redirect from Genius is missing query items code or state."
@@ -3780,7 +3813,7 @@ msgstr "Bei der Antwort von Tidal fehlen Abfrageelemente."
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:108
 msgid "Repopulate"
-msgstr ""
+msgstr "Neu füllen"
 
 #: collection/collectionview.cpp:363
 msgid "Rescan song(s)"
@@ -3788,7 +3821,7 @@ msgstr "Lied erneut scannen"
 
 #: core/mainwindow.cpp:697
 msgid "Rescan song(s)..."
-msgstr ""
+msgstr "Lieder erneut scannen..."
 
 #: widgets/lineedit.cpp:71
 msgid "Reset"
@@ -4018,16 +4051,16 @@ msgstr "Nach diesem suchen"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
-msgstr ""
+msgstr "Suchmodus"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:153
 msgid "Search options"
-msgstr ""
+msgstr "Suchoptionen"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:151
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
-msgstr ""
+msgstr "Suchbegriffe"
 
 #: tidal/tidalrequest.cpp:289 tidal/tidalrequest.cpp:303
 #: tidal/tidalrequest.cpp:317 qobuz/qobuzrequest.cpp:276
@@ -4093,7 +4126,7 @@ msgstr "Server URL ist ungültig."
 
 #: ../build/src/ui_subsonicsettingspage.h:198
 msgid "Server-side scrobbling"
-msgstr ""
+msgstr "Serverseitiges Scrobbling"
 
 #: core/mainwindow.cpp:1885
 #, qt-format
@@ -4190,7 +4223,7 @@ msgstr "Alle Titel anzeigen"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
-msgstr ""
+msgstr "Zeige alle Lieder"
 
 #: ../build/src/ui_scrobblersettingspage.h:400
 msgid "Show dialog for errors"
@@ -4338,17 +4371,17 @@ msgstr "Titel überspringen"
 msgid "Small album cover"
 msgstr "Kleines Titelbild"
 
-#: widgets/fancytabwidget.cpp:698
+#: widgets/fancytabwidget.cpp:709
 msgid "Small sidebar"
 msgstr "Schmale Seitenleiste"
 
 #: smartplaylists/smartplaylistwizard.cpp:70
 msgid "Smart playlist"
-msgstr ""
+msgstr "Intelligente Wiedergabeliste"
 
 #: core/mainwindow.cpp:341
 msgid "Smart playlists"
-msgstr ""
+msgstr "Intelligente Wiedergabelisten"
 
 #: equalizer/equalizer.cpp:151
 msgid "Soft"
@@ -4387,11 +4420,11 @@ msgstr "Sorry"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:136
 msgid "Sort songs by"
-msgstr ""
+msgstr "Sortiere Titel nach"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:134
 msgid "Sorting"
-msgstr ""
+msgstr "Sortieren"
 
 #: playlist/playlist.cpp:1292
 msgid "Source"
@@ -4453,7 +4486,7 @@ msgstr "Angehalten"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:419
 msgid "Strawberry"
-msgstr ""
+msgstr "Strawberry"
 
 #: ../build/src/ui_errordialog.h:92
 msgid "Strawberry Error"
@@ -4494,11 +4527,11 @@ msgstr ""
 
 #: dialogs/snapdialog.cpp:40
 msgid "Strawberry is running as a Snap"
-msgstr ""
+msgstr "Strawberry läuft als Snap"
 
 #: ../build/src/ui_snapdialog.h:117
 msgid "Strawberry is running as a snap"
-msgstr ""
+msgstr "Strawberry läuft als Snap"
 
 #: dialogs/snapdialog.cpp:48
 msgid ""
@@ -4506,6 +4539,10 @@ msgid ""
 "the root filesystem (/) will not work. There also might be other "
 "restrictions such as accessing certain devices or network shares."
 msgstr ""
+"Strawberry ist langsamer und unterliegt Einschränkungen, wenn sie als Snap "
+"ausgeführt wird. Der Zugriff auf das Root-Dateisystem (/) funktioniert nicht."
+" Möglicherweise gibt es auch andere Einschränkungen, z. B. den Zugriff auf "
+"bestimmte Geräte oder Netzwerkfreigaben."
 
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
@@ -4584,7 +4621,7 @@ msgstr "Tab-Leiste großer Modus"
 msgid "Tabbar small mode"
 msgstr "Tab-Leiste kleiner Modus"
 
-#: widgets/fancytabwidget.cpp:700
+#: widgets/fancytabwidget.cpp:711
 msgid "Tabs on top"
 msgstr "Reiter oben"
 
@@ -4640,7 +4677,7 @@ msgstr "Das Titelbild des gerade abgespielten Titels"
 
 #: dialogs/deleteconfirmationdialog.cpp:56
 msgid "The following files will be deleted from disk:"
-msgstr ""
+msgstr "Die folgenden Dateien werden von der Festplatte gelöscht:"
 
 #: internet/internetcollectionview.cpp:283
 msgid "The internet collection is empty!"
@@ -4648,7 +4685,7 @@ msgstr "Die Internet Sammlung ist leer!"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:419
 msgid "The second value must be greater than the first one!"
-msgstr ""
+msgstr "Der zweite Wert muss größer sein als der erste!"
 
 #: covermanager/coverfromurldialog.cpp:88
 msgid "The site you requested does not exist!"
@@ -4859,7 +4896,7 @@ msgstr "Umwandlungsoptionen"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
-msgstr ""
+msgstr "Abschalten"
 
 #: device/giolister.cpp:190
 msgid "URI"
@@ -4879,7 +4916,7 @@ msgstr "Ulte Weit Band (UWB)"
 
 #: dialogs/snapdialog.cpp:74
 msgid "Uninstall the snap with: snap remove strawberry"
-msgstr ""
+msgstr "Deinstallieren Sie den Snap mit: Snap entfernen Strawberry"
 
 #: core/song.cpp:548 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:464 collection/collectionmodel.cpp:469
@@ -4941,7 +4978,7 @@ msgstr "Benutzung"
 
 #: ../build/src/ui_shortcutssettingspage.h:242
 msgid "Use Gnome (GSD) shortcuts when available"
-msgstr ""
+msgstr "Verwenden Sie Gnome-Verknüpfungen (GSD), sofern verfügbar"
 
 #: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Use HTTPS for local redirectserver"
@@ -4949,7 +4986,7 @@ msgstr "Verwende HTTPS für lokalen Umleitungsserver"
 
 #: ../build/src/ui_shortcutssettingspage.h:244
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr ""
+msgstr "Verwenden Sie KDE-Verknüpfungen (KGlobalAccel), sofern verfügbar"
 
 #: ../build/src/ui_tidalsettingspage.h:316
 msgid "Use OAuth"
@@ -4957,7 +4994,7 @@ msgstr "Benutze OAuth"
 
 #: settings/coverssettingspage.cpp:128 settings/coverssettingspage.cpp:240
 msgid "Use Qobuz settings to authenticate."
-msgstr ""
+msgstr "Verwenden Sie die Qobuz-Einstellungen zur Authentifizierung."
 
 #: ../build/src/ui_backendsettingspage.h:501
 msgid "Use Replay Gain metadata if it is available"
@@ -4969,7 +5006,7 @@ msgstr "Benutze Tidal Einstellungen zum Authentifizieren. "
 
 #: ../build/src/ui_shortcutssettingspage.h:245
 msgid "Use X11 shortcuts when available"
-msgstr ""
+msgstr "Verwenden Sie X11-Verknüpfungen, sofern verfügbar"
 
 #: ../build/src/ui_appearancesettingspage.h:508
 msgid "Use a custom color set"
@@ -4993,7 +5030,7 @@ msgstr "Benutze benutzerdefinierte Farbe"
 
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:81
 msgid "Use dynamic mode"
-msgstr ""
+msgstr "Benutze den dynamischen Modus"
 
 #: ../build/src/ui_appearancesettingspage.h:516
 msgid "Use gradient background"
@@ -5103,6 +5140,11 @@ msgid ""
 "on artist and song title for the same albums! Please backup your database "
 "before you start."
 msgstr ""
+"Warnung: Die Anzahl der Wiedergaben und die zuletzt von last.fm gespielten "
+"Spiele ersetzen vollständig dieselben Daten für die übereinstimmenden Songs. "
+"Die Anzahl der Wiedergaben ersetzt die Daten basierend auf dem Interpreten "
+"und dem Songtitel für dieselben Alben! Bitte sichern Sie Ihre Datenbank, "
+"bevor Sie beginnen."
 
 #: ../build/src/ui_transcodersettingspage.h:188
 msgid "WavPack"
@@ -5110,7 +5152,7 @@ msgstr "WavPack"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "Weeks"
-msgstr ""
+msgstr "Wochen"
 
 #: ../build/src/ui_collectionsettingspage.h:417
 msgid ""
@@ -5145,6 +5187,8 @@ msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"
 msgstr ""
+"Möchten Sie die anderen Songs auf diesem Album auch zu Various Artists "
+"verschieben?"
 
 #: core/mainwindow.cpp:2721
 msgid "Would you like to run a full rescan right now?"
@@ -5174,7 +5218,7 @@ msgstr "Jahr - Album - Disc"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:440
 msgid "Years"
-msgstr ""
+msgstr "Jahre"
 
 #: core/utilities.cpp:170
 msgid "Yesterday"
@@ -5211,7 +5255,7 @@ msgstr "Sie sind angemeldet."
 
 #: ../build/src/ui_groupbydialog.h:180
 msgid "You can change the way the songs in the collection are organized."
-msgstr ""
+msgstr "Sie können die Organisation der Songs in der Sammlung ändern."
 
 #: dialogs/about.cpp:126
 #, qt-format
@@ -5265,7 +5309,7 @@ msgstr "Ihre Bibliothek ist leer!"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "Z-A"
-msgstr ""
+msgstr "Z-A"
 
 #: equalizer/equalizer.cpp:155
 msgid "Zero"
@@ -5279,11 +5323,11 @@ msgstr "%n Titel hinzufügen"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:237
 msgid "after"
-msgstr ""
+msgstr "danach"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:273
 msgid "ago"
-msgstr ""
+msgstr "zuvor"
 
 #: ../build/src/ui_internetsearchview.h:228
 msgid "albums"
@@ -5291,7 +5335,7 @@ msgstr "Alben\n"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
-msgstr ""
+msgstr "und"
 
 #: collection/collectionfilterwidget.cpp:73
 msgid "artist"
@@ -5307,19 +5351,19 @@ msgstr "automatisch"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:239
 msgid "before"
-msgstr ""
+msgstr "davor"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:249
 msgid "between"
-msgstr ""
+msgstr "dazwischen"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:419
 msgid "biggest first"
-msgstr ""
+msgstr "Größte zuerst"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "contains"
-msgstr ""
+msgstr "beinhaltet"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
 #: ../build/src/ui_transcoderoptionsvorbis.h:209
@@ -5334,23 +5378,23 @@ msgstr "CD %1"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:259
 msgid "does not contain"
-msgstr ""
+msgstr "beinhaltet nicht"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:273
 msgid "empty"
-msgstr ""
+msgstr "leer"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:263
 msgid "ends with"
-msgstr ""
+msgstr "ended mit"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:269
 msgid "equals"
-msgstr ""
+msgstr "ist gleich"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:265
 msgid "greater than"
-msgstr ""
+msgstr "größer als"
 
 #: ../build/src/ui_backendsettingspage.h:491
 msgid "hw"
@@ -5358,7 +5402,7 @@ msgstr "hw"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:245
 msgid "in the last"
-msgstr ""
+msgstr "als letztes"
 
 #: context/contextview.cpp:544 context/contextview.cpp:695
 #: playlist/playlistview.cpp:262 dialogs/edittagdialog.cpp:557
@@ -5367,11 +5411,11 @@ msgstr "Kb/s"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:267
 msgid "less than"
-msgstr ""
+msgstr "weniger als"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:416
 msgid "longest first"
-msgstr ""
+msgstr "Längste zuerst"
 
 #: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
@@ -5386,31 +5430,31 @@ msgstr "ms"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:414
 msgid "newest first"
-msgstr ""
+msgstr "Neueste zuerst"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:275
 msgid "not empty"
-msgstr ""
+msgstr "nicht leer"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:271
 msgid "not equals"
-msgstr ""
+msgstr "ist nicht gleich"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:247
 msgid "not in the last"
-msgstr ""
+msgstr "nicht als letztes"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:243
 msgid "not on"
-msgstr ""
+msgstr "nicht an"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:414
 msgid "oldest first"
-msgstr ""
+msgstr "älteste zuerst"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:241
 msgid "on"
-msgstr ""
+msgstr "an"
 
 #: core/commandlineoptions.cpp:162
 msgid "options"
@@ -5432,7 +5476,7 @@ msgstr "durchsucht die Sammlung nach allen Künstlern, die das Wort enthalten"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:416
 msgid "shortest first"
-msgstr ""
+msgstr "kürzeste zuerst"
 
 #: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
@@ -5440,7 +5484,7 @@ msgstr "Titel mischen"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:419
 msgid "smallest first"
-msgstr ""
+msgstr "kleinste zuerst"
 
 #: ../build/src/ui_internetsearchview.h:229
 msgid "songs"
@@ -5452,7 +5496,7 @@ msgstr "Titel sortieren"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:261
 msgid "starts with"
-msgstr ""
+msgstr "beginnt mit"
 
 #: playlist/playlistdelegates.cpp:226
 msgid "stop"
