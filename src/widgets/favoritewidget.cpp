@@ -70,9 +70,7 @@ void FavoriteWidget::paintEvent(QPaintEvent *e) {
 
 }
 
-void FavoriteWidget::mouseReleaseEvent(QMouseEvent *e) {
-
-  Q_UNUSED(e);
+void FavoriteWidget::mouseDoubleClickEvent(QMouseEvent *e) {
 
   favorite_ = !favorite_;
   update();
