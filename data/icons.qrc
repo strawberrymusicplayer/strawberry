@@ -72,6 +72,7 @@
         <file>icons/128x128/star-grey.png</file>
         <file>icons/128x128/star.png</file>
         <file>icons/128x128/strawberry.png</file>
+        <file>icons/128x128/strawberry-grey.png</file>
         <file>icons/128x128/tools-wizard.png</file>
         <file>icons/128x128/view-choose.png</file>
         <file>icons/128x128/view-fullscreen.png</file>
@@ -164,6 +165,7 @@
         <file>icons/64x64/star-grey.png</file>
         <file>icons/64x64/star.png</file>
         <file>icons/64x64/strawberry.png</file>
+        <file>icons/64x64/strawberry-grey.png</file>
         <file>icons/64x64/tools-wizard.png</file>
         <file>icons/64x64/view-choose.png</file>
         <file>icons/64x64/view-fullscreen.png</file>
@@ -260,6 +262,7 @@
         <file>icons/48x48/star-grey.png</file>
         <file>icons/48x48/star.png</file>
         <file>icons/48x48/strawberry.png</file>
+        <file>icons/48x48/strawberry-grey.png</file>
         <file>icons/48x48/tools-wizard.png</file>
         <file>icons/48x48/view-choose.png</file>
         <file>icons/48x48/view-fullscreen.png</file>
@@ -356,6 +359,7 @@
         <file>icons/32x32/star-grey.png</file>
         <file>icons/32x32/star.png</file>
         <file>icons/32x32/strawberry.png</file>
+        <file>icons/32x32/strawberry-grey.png</file>
         <file>icons/32x32/tools-wizard.png</file>
         <file>icons/32x32/view-choose.png</file>
         <file>icons/32x32/view-fullscreen.png</file>
@@ -452,6 +456,7 @@
         <file>icons/22x22/star-grey.png</file>
         <file>icons/22x22/star.png</file>
         <file>icons/22x22/strawberry.png</file>
+        <file>icons/22x22/strawberry-grey.png</file>
         <file>icons/22x22/tools-wizard.png</file>
         <file>icons/22x22/view-choose.png</file>
         <file>icons/22x22/view-fullscreen.png</file>

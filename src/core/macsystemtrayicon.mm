@@ -166,6 +166,7 @@ class MacSystemTrayIconPrivate {
 MacSystemTrayIcon::MacSystemTrayIcon(QObject* parent)
     : SystemTrayIcon(parent),
       normal_icon_(QPixmap(":/pictures/strawberry.png").scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)) {
+      grey_icon_(QPixmap(":/pictures/strawberry-grey.png").scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)) {
   QApplication::setWindowIcon(normal_icon_);
 }
 

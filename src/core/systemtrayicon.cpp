@@ -47,31 +47,29 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
 
 QPixmap SystemTrayIcon::CreateIcon(const QPixmap &icon, const QPixmap &grey_icon) {
 
-  Q_UNUSED(grey_icon);
-
   QRect rect(icon.rect());
 
   // The angle of the line that's used to cover the icon.
-  // Centered on rect.topRight()
-  double angle = double(100 - song_progress()) / 100.0 * M_PI_2 + M_PI;
+  // Centered on rect.topLeft()
+  double angle = double(100 - song_progress()) / 100.0 * M_PI_2;
   double length = sqrt(pow(rect.width(), 2.0) + pow(rect.height(), 2.0));
 
   QPolygon mask;
-  mask << rect.topRight();
-  mask << rect.topRight() + QPoint(length * sin(angle), -length * cos(angle));
-
-  if (song_progress() > 50) mask << rect.bottomLeft();
-
   mask << rect.topLeft();
+  mask << rect.topLeft() + QPoint(length * sin(angle), length * cos(angle));
+
+  if (song_progress() > 50) mask << rect.bottomRight();
+
   mask << rect.topRight();
+  mask << rect.topLeft();
 
   QPixmap ret(icon);
   QPainter p(&ret);
 
   // Draw the grey bit
-  //p.setClipRegion(mask);
-  //p.drawPixmap(0, 0, grey_icon);
-  //p.setClipping(false);
+  p.setClipRegion(mask);
+  p.drawPixmap(0, 0, grey_icon);
+  p.setClipping(false);
 
   // Draw the playing or paused icon in the top-right
   if (!current_state_icon().isNull()) {
