@@ -30,12 +30,14 @@
 #include <QPolygon>
 #include <QRect>
 #include <QVector>
+#include <QSettings>
 
 #include "systemtrayicon.h"
 #include "qtsystemtrayicon.h"
 #ifdef Q_OS_MACOS
 #  include "macsystemtrayicon.h"
 #endif
+#include "settings/appearancesettingspage.h"
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent)
   : QObject(parent),
@@ -49,27 +51,34 @@ QPixmap SystemTrayIcon::CreateIcon(const QPixmap &icon, const QPixmap &grey_icon
 
   QRect rect(icon.rect());
 
-  // The angle of the line that's used to cover the icon.
-  // Centered on rect.topLeft()
-  double angle = double(100 - song_progress()) / 100.0 * M_PI_2;
-  double length = sqrt(pow(rect.width(), 2.0) + pow(rect.height(), 2.0));
-
-  QPolygon mask;
-  mask << rect.topLeft();
-  mask << rect.topLeft() + QPoint(length * sin(angle), length * cos(angle));
-
-  if (song_progress() > 50) mask << rect.bottomRight();
-
-  mask << rect.topRight();
-  mask << rect.topLeft();
+  QSettings s;
+  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  bool trayicon_progress = s.value(AppearanceSettingsPage::kTrayIconProgress, false).toBool();
+  s.endGroup();
 
   QPixmap ret(icon);
   QPainter p(&ret);
 
-  // Draw the grey bit
-  p.setClipRegion(mask);
-  p.drawPixmap(0, 0, grey_icon);
-  p.setClipping(false);
+  if (trayicon_progress) {
+    // The angle of the line that's used to cover the icon.
+    // Centered on rect.topLeft()
+    double angle = double(100 - song_progress()) / 100.0 * M_PI_2;
+    double length = sqrt(pow(rect.width(), 2.0) + pow(rect.height(), 2.0));
+
+    QPolygon mask;
+    mask << rect.topLeft();
+    mask << rect.topLeft() + QPoint(length * sin(angle), length * cos(angle));
+
+    if (song_progress() > 50) mask << rect.bottomRight();
+
+    mask << rect.topRight();
+    mask << rect.topLeft();
+
+    // Draw the grey bit
+    p.setClipRegion(mask);
+    p.drawPixmap(0, 0, grey_icon);
+    p.setClipping(false);
+  }
 
   // Draw the playing or paused icon in the top-right
   if (!current_state_icon().isNull()) {

@@ -563,6 +563,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_trayicon_progress">
+     <property name="text">
+      <string>Show song progress on system tray icon</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="checkbox_system_icons">
      <property name="text">
       <string>Use system theme icons</string>
@@ -613,6 +620,7 @@
   <tabstop>spinbox_icon_size_playlist_buttons</tabstop>
   <tabstop>spinbox_icon_size_left_panel_buttons</tabstop>
   <tabstop>spinbox_icon_size_configure_buttons</tabstop>
+  <tabstop>checkbox_trayicon_progress</tabstop>
   <tabstop>checkbox_system_icons</tabstop>
  </tabstops>
  <resources/>

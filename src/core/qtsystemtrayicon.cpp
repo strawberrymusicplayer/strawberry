@@ -54,8 +54,7 @@ QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
       action_mute_(nullptr) {
 
   app_name_[0] = app_name_[0].toUpper();
-  QIcon theme_icon_grey =
-      IconLoader::Load("strawberry-grey");
+  QIcon theme_icon_grey = IconLoader::Load("strawberry-grey");
   if (! theme_icon_grey.isNull()) {
     grey_icon_ = theme_icon_grey.pixmap(48, QIcon::Disabled);
   }
