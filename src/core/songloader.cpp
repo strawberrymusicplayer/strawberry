@@ -439,6 +439,7 @@ SongLoader::Result SongLoader::LoadRemote() {
     errors_ << tr("Couldn't create gstreamer source element for %1").arg(url_.toString());
     return Error;
   }
+  g_object_set(source, "ssl-strict", FALSE, nullptr);
 
   // Create the other elements and link them up
   GstElement *typefind = gst_element_factory_make("typefind", nullptr);
