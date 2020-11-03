@@ -71,7 +71,15 @@ SnapDialog::SnapDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_SnapDialog
   text += QString("cp ~/snap/strawberry/current/.local/share/strawberry/strawberry/strawberry.db ~/.local/share/strawberry/strawberry/strawberry.db<br />");
   text += QString("</p>");
   text += QString("<p>");
-  text += tr("Uninstall the snap with: snap remove strawberry");
+  text += tr("Uninstall the snap with:");
+  text += QString("<br />");
+  text += QString("snap remove strawberry");
+  text += QString("</p>");
+  text += QString("<p>");
+  text += tr("Install strawberry through PPA:<br />");
+  text += QString("sudo add-apt-repository ppa:jonaski/strawberry<br />");
+  text += QString("sudo apt-get update<br />");
+  text += QString("sudo apt install strawberry");
   text += QString("</p>");
   text += QString("<p></p>");
 
