@@ -51,15 +51,10 @@ QPixmap SystemTrayIcon::CreateIcon(const QPixmap &icon, const QPixmap &grey_icon
 
   QRect rect(icon.rect());
 
-  QSettings s;
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  bool trayicon_progress = s.value(AppearanceSettingsPage::kTrayIconProgress, false).toBool();
-  s.endGroup();
-
   QPixmap ret(icon);
   QPainter p(&ret);
 
-  if (trayicon_progress) {
+  if (trayicon_progress_) {
     // The angle of the line that's used to cover the icon.
     // Centered on rect.topLeft()
     double angle = double(100 - song_progress()) / 100.0 * M_PI_2;

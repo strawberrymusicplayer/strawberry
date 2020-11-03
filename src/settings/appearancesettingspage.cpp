@@ -199,9 +199,7 @@ void AppearanceSettingsPage::Load() {
   ui_->blur_slider->setValue(s.value(kBlurRadius, kDefaultBlurRadius).toInt());
   ui_->opacity_slider->setValue(s.value(kOpacityLevel, kDefaultOpacityLevel).toInt());
 
-#if !defined(Q_OS_WIN)
   ui_->checkbox_trayicon_progress->setChecked(s.value(kTrayIconProgress, false).toBool());
-#endif
 
 #if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
   ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
@@ -275,11 +273,7 @@ void AppearanceSettingsPage::Save() {
   s.setValue(kBlurRadius, ui_->blur_slider->value());
   s.setValue(kOpacityLevel, ui_->opacity_slider->value());
 
-#if defined(Q_OS_WIN)
-  s.setValue(kTrayIconProgress, false);
-#else
   s.setValue(kTrayIconProgress, ui_->checkbox_trayicon_progress->isChecked());
-#endif
 
 #if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
   s.setValue(kSystemThemeIcons, false);

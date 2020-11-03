@@ -1032,7 +1032,10 @@ void MainWindow::ReloadSettings() {
 
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   int iconsize = s.value(AppearanceSettingsPage::kIconSizePlayControlButtons, 32).toInt();
+  bool trayicon_progress = s.value(AppearanceSettingsPage::kTrayIconProgress, false).toBool();
   s.endGroup();
+
+  if (tray_icon_) tray_icon_->SetTrayiconProgress(trayicon_progress);
 
   ui_->back_button->setIconSize(QSize(iconsize, iconsize));
   ui_->pause_play_button->setIconSize(QSize(iconsize, iconsize));
@@ -2960,7 +2963,7 @@ void MainWindow::SetToggleScrobblingIcon(const bool value) {
   if (value) {
     if (app_->playlist_manager()->active() && app_->playlist_manager()->active()->scrobbled())
       ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", 22));
-    else 
+    else
       ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", 22)); // TODO: Create a faint version of the icon
   }
   else {
