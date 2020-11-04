@@ -200,6 +200,12 @@ public:
   qint64 fadeout_pause_duration_;
   qint64 fadeout_pause_duration_nanosec_;
 
+  // Proxy
+  QString proxy_address_;
+  bool proxy_authentication_;
+  QString proxy_user_;
+  QString proxy_pass_;
+
  private:
   bool about_to_end_emitted_;
   Q_DISABLE_COPY(Base)

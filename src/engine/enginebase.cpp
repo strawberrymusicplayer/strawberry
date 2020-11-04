@@ -34,6 +34,7 @@
 #include "engine_fwd.h"
 #include "enginebase.h"
 #include "settings/backendsettingspage.h"
+#include "settings/networkproxysettingspage.h"
 
 Engine::Base::Base()
     : volume_(100),
@@ -56,6 +57,7 @@ Engine::Base::Base()
       fadeout_pause_enabled_(false),
       fadeout_duration_(2),
       fadeout_duration_nanosec_(2 * kNsecPerSec),
+      proxy_authentication_(false),
       about_to_end_emitted_(false) {}
 
 Engine::Base::~Base() {}
@@ -125,6 +127,31 @@ void Engine::Base::ReloadSettings() {
   fadeout_pause_duration_ = s.value("FadeoutPauseDuration", 250).toLongLong();
   fadeout_pause_duration_nanosec_ = (fadeout_pause_duration_ * kNsecPerMsec);
 
+  s.endGroup();
+
+  s.beginGroup(NetworkProxySettingsPage::kSettingsGroup);
+  if (s.contains("engine") && s.value("engine").toBool()) {
+    QString proxy_host = s.value("hostname").toString();
+    int proxy_port = s.value("port").toInt();
+    if (proxy_host.isEmpty() || proxy_port <= 0) {
+      proxy_address_.clear();
+      proxy_authentication_ = false;
+      proxy_user_.clear();
+      proxy_pass_.clear();
+    }
+    else {
+      proxy_address_ = QString("%1:%2").arg(proxy_host).arg(proxy_port);
+      proxy_authentication_ = s.value("use_authentication").toBool();
+      proxy_user_ = s.value("username").toString();
+      proxy_pass_ = s.value("password").toString();
+    }
+  }
+  else {
+    proxy_address_.clear();
+    proxy_authentication_ = false;
+    proxy_user_.clear();
+    proxy_pass_.clear();
+  }
   s.endGroup();
 
 }

@@ -75,6 +75,7 @@ void NetworkProxySettingsPage::Load() {
   ui_->proxy_auth->setChecked(s.value("use_authentication", false).toBool());
   ui_->proxy_username->setText(s.value("username").toString());
   ui_->proxy_password->setText(s.value("password").toString());
+  ui_->proxy_engine->setChecked(s.value("engine", true).toBool());
   s.endGroup();
 
   Init(ui_->layout_networkproxysettingspage->parentWidget());
@@ -100,6 +101,7 @@ void NetworkProxySettingsPage::Save() {
   s.setValue("use_authentication", ui_->proxy_auth->isChecked());
   s.setValue("username", ui_->proxy_username->text());
   s.setValue("password", ui_->proxy_password->text());
+  s.setValue("engine", ui_->proxy_engine->isChecked());
   s.endGroup();
 
   NetworkProxyFactory::Instance()->ReloadSettings();

@@ -84,6 +84,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
       buffer_high_watermark_(BackendSettingsPage::kDefaultBufferHighWatermark),
       buffering_(false),
+      proxy_authentication_(false),
       segment_start_(0),
       segment_start_received_(false),
       end_offset_nanosec_(-1),
@@ -194,6 +195,13 @@ void GstEnginePipeline::set_buffer_low_watermark(const double value) {
 
 void GstEnginePipeline::set_buffer_high_watermark(const double value) {
   buffer_high_watermark_ = value;
+}
+
+void GstEnginePipeline::set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass) {
+  proxy_address_ = address;
+  proxy_authentication_ = authentication;
+  proxy_user_ = user;
+  proxy_pass_ = pass;
 }
 
 bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec) {
@@ -489,6 +497,19 @@ void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec*, gpoint
     QString user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion());
     g_object_set(element, "user-agent", user_agent.toUtf8().constData(), nullptr);
     g_object_set(element, "ssl-strict", FALSE, nullptr);
+  }
+
+  if (!instance->proxy_address_.isEmpty() && g_object_class_find_property(G_OBJECT_GET_CLASS(element), "proxy")) {
+    qLog(Debug) << "Setting proxy to" << instance->proxy_address_;
+    g_object_set(element, "proxy", instance->proxy_address_.toUtf8().constData(), nullptr);
+    if (instance->proxy_authentication_ &&
+        g_object_class_find_property(G_OBJECT_GET_CLASS(element), "proxy-id") &&
+        g_object_class_find_property(G_OBJECT_GET_CLASS(element), "proxy-pw") &&
+        !instance->proxy_user_.isEmpty() &&
+        !instance->proxy_pass_.isEmpty())
+    {
+      g_object_set(element, "proxy-id", instance->proxy_user_.toUtf8().constData(), "proxy-pw", instance->proxy_pass_.toUtf8().constData(), nullptr);
+    }
   }
 
   // If the pipeline was buffering we stop that now.
