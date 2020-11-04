@@ -57,6 +57,7 @@ class SystemTrayIcon : public QObject {
 
  public slots:
   void SetProgress(int percentage);
+  void SetTrayiconProgress(bool enabled) { trayicon_progress_ = enabled; }
   virtual void SetPaused();
   virtual void SetPlaying(bool enable_play_pause = false);
   virtual void SetStopped();
@@ -85,6 +86,7 @@ class SystemTrayIcon : public QObject {
   QPixmap playing_icon_;
   QPixmap paused_icon_;
   QPixmap current_state_icon_;
+  bool trayicon_progress_;
 };
 
 #endif  // SYSTEMTRAYICON_H

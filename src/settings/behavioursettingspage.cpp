@@ -68,6 +68,7 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
 #ifdef Q_OS_MACOS
   ui_->checkbox_showtrayicon->hide();
   ui_->checkbox_keeprunning->hide();
+  ui_->checkbox_trayicon_progress->hide();
   ui_->checkbox_scrolltrayicon->hide();
   ui_->groupbox_startup->hide();
 #endif
@@ -155,19 +156,23 @@ void BehaviourSettingsPage::Load() {
   if (QSystemTrayIcon::isSystemTrayAvailable()) {
     ui_->checkbox_showtrayicon->setEnabled(true);
     ui_->checkbox_keeprunning->setEnabled(true);
+    ui_->checkbox_trayicon_progress->setEnabled(true);
     ui_->checkbox_scrolltrayicon->setEnabled(true);
     ui_->radiobutton_hide->setEnabled(true);
     ui_->checkbox_showtrayicon->setChecked(s.value("showtrayicon", true).toBool());
     ui_->checkbox_keeprunning->setChecked(s.value("keeprunning", false).toBool());
+    ui_->checkbox_trayicon_progress->setChecked(s.value("trayicon_progress", false).toBool());
     ui_->checkbox_scrolltrayicon->setChecked(s.value("scrolltrayicon", ui_->checkbox_showtrayicon->isChecked()).toBool());
   }
   else {
     ui_->checkbox_showtrayicon->setEnabled(false);
     ui_->checkbox_keeprunning->setEnabled(false);
+    ui_->checkbox_trayicon_progress->setEnabled(false);
     ui_->checkbox_scrolltrayicon->setEnabled(false);
     ui_->radiobutton_hide->setEnabled(false);
     ui_->checkbox_showtrayicon->setChecked(false);
     ui_->checkbox_keeprunning->setChecked(false);
+    ui_->checkbox_trayicon_progress->setChecked(false);
     ui_->checkbox_scrolltrayicon->setChecked(false);
     ui_->radiobutton_hide->setChecked(false);
   }
@@ -235,6 +240,7 @@ void BehaviourSettingsPage::Save() {
 
   s.setValue("showtrayicon", ui_->checkbox_showtrayicon->isChecked());
   s.setValue("keeprunning", ui_->checkbox_keeprunning->isChecked());
+  s.setValue("trayicon_progress", ui_->checkbox_trayicon_progress->isChecked());
   s.setValue("resumeplayback", ui_->checkbox_resumeplayback->isChecked());
   s.setValue("playing_widget", ui_->checkbox_playingwidget->isChecked());
   s.setValue("scrolltrayicon", ui_->checkbox_scrolltrayicon->isChecked());
@@ -275,6 +281,7 @@ void BehaviourSettingsPage::ShowTrayIconToggled(bool on) {
   ui_->radiobutton_hide->setEnabled(on);
   if (!on && ui_->radiobutton_hide->isChecked()) ui_->radiobutton_remember->setChecked(true);
   ui_->checkbox_keeprunning->setEnabled(on);
+  ui_->checkbox_trayicon_progress->setEnabled(on);
   ui_->checkbox_scrolltrayicon->setEnabled(on);
 
 }
