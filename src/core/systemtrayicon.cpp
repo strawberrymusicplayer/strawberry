@@ -30,14 +30,12 @@
 #include <QPolygon>
 #include <QRect>
 #include <QVector>
-#include <QSettings>
 
 #include "systemtrayicon.h"
 #include "qtsystemtrayicon.h"
 #ifdef Q_OS_MACOS
 #  include "macsystemtrayicon.h"
 #endif
-#include "settings/appearancesettingspage.h"
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent)
   : QObject(parent),

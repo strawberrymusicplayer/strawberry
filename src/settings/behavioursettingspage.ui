@@ -35,6 +35,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_trayicon_progress">
+     <property name="text">
+      <string>Show song progress on system tray icon</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="checkbox_resumeplayback">
      <property name="text">
       <string>Resume playback on start</string>
@@ -340,6 +347,7 @@
  <tabstops>
   <tabstop>checkbox_showtrayicon</tabstop>
   <tabstop>checkbox_keeprunning</tabstop>
+  <tabstop>checkbox_trayicon_progress</tabstop>
   <tabstop>checkbox_resumeplayback</tabstop>
   <tabstop>checkbox_playingwidget</tabstop>
   <tabstop>checkbox_scrolltrayicon</tabstop>

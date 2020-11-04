@@ -62,8 +62,6 @@ class AppearanceSettingsPage : public SettingsPage {
   static const int kDefaultBlurRadius;
   static const int kDefaultOpacityLevel;
 
-  static const char *kTrayIconProgress;
-
   static const char *kSystemThemeIcons;
 
   static const char *kTabBarSystemColor;

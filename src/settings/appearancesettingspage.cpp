@@ -69,8 +69,6 @@ const char *AppearanceSettingsPage::kOpacityLevel = "opacity_level";
 const int AppearanceSettingsPage::kDefaultBlurRadius = 0;
 const int AppearanceSettingsPage::kDefaultOpacityLevel = 40;
 
-const char *AppearanceSettingsPage::kTrayIconProgress = "trayicon_progress";
-
 const char *AppearanceSettingsPage::kSystemThemeIcons = "system_icons";
 
 const char *AppearanceSettingsPage::kTabBarSystemColor= "tab_system_color";
@@ -199,8 +197,6 @@ void AppearanceSettingsPage::Load() {
   ui_->blur_slider->setValue(s.value(kBlurRadius, kDefaultBlurRadius).toInt());
   ui_->opacity_slider->setValue(s.value(kOpacityLevel, kDefaultOpacityLevel).toInt());
 
-  ui_->checkbox_trayicon_progress->setChecked(s.value(kTrayIconProgress, false).toBool());
-
 #if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
   ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
 #endif
@@ -272,8 +268,6 @@ void AppearanceSettingsPage::Save() {
 
   s.setValue(kBlurRadius, ui_->blur_slider->value());
   s.setValue(kOpacityLevel, ui_->opacity_slider->value());
-
-  s.setValue(kTrayIconProgress, ui_->checkbox_trayicon_progress->isChecked());
 
 #if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
   s.setValue(kSystemThemeIcons, false);
