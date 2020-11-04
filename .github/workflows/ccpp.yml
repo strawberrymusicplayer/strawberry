@@ -7,7 +7,7 @@ jobs:
     name: Create source tarball
     runs-on: ubuntu-latest
     container:
-      image: opensuse/leap:15.1
+      image: opensuse/leap:15.2
     steps:
       - uses: actions/checkout@v1.2.0
       - name: Update packages
