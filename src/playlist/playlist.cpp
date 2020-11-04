@@ -49,12 +49,10 @@
 #include <QUrl>
 #include <QFont>
 #include <QBrush>
-#include <QLinkedList>
 #include <QUndoStack>
 #include <QUndoCommand>
 #include <QAbstractListModel>
 #include <QMutableListIterator>
-#include <QMutableLinkedListIterator>
 #include <QFlags>
 #include <QSettings>
 #include <QtDebug>
