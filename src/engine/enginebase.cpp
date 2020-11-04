@@ -31,6 +31,7 @@
 #include <QSettings>
 
 #include "core/timeconstants.h"
+#include "core/networkproxyfactory.h"
 #include "engine_fwd.h"
 #include "enginebase.h"
 #include "settings/backendsettingspage.h"
@@ -130,7 +131,8 @@ void Engine::Base::ReloadSettings() {
   s.endGroup();
 
   s.beginGroup(NetworkProxySettingsPage::kSettingsGroup);
-  if (s.contains("engine") && s.value("engine").toBool()) {
+  NetworkProxyFactory::Mode proxy_mode = NetworkProxyFactory::Mode(s.value("mode", NetworkProxyFactory::Mode_System).toInt());
+  if (proxy_mode == NetworkProxyFactory::Mode_Manual && s.contains("engine") && s.value("engine").toBool()) {
     QString proxy_host = s.value("hostname").toString();
     int proxy_port = s.value("port").toInt();
     if (proxy_host.isEmpty() || proxy_port <= 0) {
