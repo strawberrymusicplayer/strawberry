@@ -84,8 +84,6 @@ Optional dependencies:
 Either GStreamer or VLC engine is required, but only GStreamer is fully implemented so far.
 You should also install the gstreamer plugins base and good, and optionally bad and ugly.
 
-With Qt 6 we also depend on the Core5Compat module for QTextCodec.
-
 ### :wrench:	Compiling from source
 
 ### Get the code:
