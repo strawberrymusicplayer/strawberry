@@ -50,7 +50,6 @@
 #include <QUrl>
 #include <QImage>
 #include <QIcon>
-#include <QTextCodec>
 #include <QSqlQuery>
 #include <QStandardPaths>
 #include <QtDebug>
@@ -743,14 +742,6 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
 
 void Song::set_genre_id3(int id) {
   set_genre(TStringToQString(TagLib::ID3v1::genre(id)));
-}
-
-QString Song::Decode(const QString &tag, const QTextCodec *codec) {
-  if (!codec) {
-    return tag;
-  }
-
-  return codec->toUnicode(tag.toUtf8());
 }
 
 void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {

@@ -26,7 +26,6 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QRegularExpression>
-#include <QTextCodec>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -122,14 +121,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     emit SearchFinished(id, results);
     return;
   }
-
-  QTextCodec *codec = QTextCodec::codecForName("utf-8");
-  if (!codec) {
-    emit SearchFinished(id, results);
-    return;
-  }
-  QString content = codec->toUnicode(data);
-
+  QString content = data;
   QString data_begin = "var __mxmState = ";
   QString data_end = ";</script>";
   int begin_idx = content.indexOf(data_begin);

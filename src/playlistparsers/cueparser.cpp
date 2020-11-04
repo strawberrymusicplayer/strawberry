@@ -29,7 +29,6 @@
 #include <QStringList>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
-#include <QTextCodec>
 #include <QTextStream>
 #include <QtDebug>
 
@@ -63,9 +62,6 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
   SongList ret;
 
   QTextStream text_stream(device);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-  text_stream.setCodec(QTextCodec::codecForUtfText(device->peek(1024), QTextCodec::codecForName("UTF-8")));
-#endif
 
   QString dir_path = dir.absolutePath();
   // read the first line already

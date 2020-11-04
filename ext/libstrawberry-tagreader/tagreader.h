@@ -35,8 +35,6 @@
 
 #include "tagreadermessages.pb.h"
 
-class QTextCodec;
-
 #ifndef USE_SYSTEM_TAGLIB
 using namespace Strawberry_TagLib;
 #endif
@@ -61,11 +59,11 @@ class TagReader {
   QByteArray LoadEmbeddedArt(const QString &filename) const;
   QByteArray LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const;
 
-  static void Decode(const TagLib::String& tag, const QTextCodec *codec, std::string *output);
-  static void Decode(const QString &tag, const QTextCodec *codec, std::string *output);
+  static void Decode(const TagLib::String &tag, std::string *output);
+  static void Decode(const QString &tag, std::string *output);
 
-  void ParseOggTag(const TagLib::Ogg::FieldListMap &map, const QTextCodec *codec, QString *disc, QString *compilation, pb::tagreader::SongMetadata *song) const;
-  void ParseAPETag(const TagLib::APE::ItemListMap &map, const QTextCodec *codec, QString *disc, QString *compilation, pb::tagreader::SongMetadata *song) const;
+  void ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString *disc, QString *compilation, pb::tagreader::SongMetadata *song) const;
+  void ParseAPETag(const TagLib::APE::ItemListMap &map, QString *disc, QString *compilation, pb::tagreader::SongMetadata *song) const;
 
   void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, const pb::tagreader::SongMetadata &song) const;
   void SaveAPETag(TagLib::APE::Tag *tag, const pb::tagreader::SongMetadata &song) const;

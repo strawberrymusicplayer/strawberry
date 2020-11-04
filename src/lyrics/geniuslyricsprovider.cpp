@@ -33,7 +33,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSslError>
-#include <QTextCodec>
 #include <QDesktopServices>
 #include <QCryptographicHash>
 #include <QRegularExpression>
@@ -496,13 +495,7 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
     EndSearch(search, lyric);
     return;
   }
-
-  QTextCodec *codec = QTextCodec::codecForName("utf-8");
-  if (!codec) {
-    EndSearch(search, lyric);
-    return;
-  }
-  QString content = codec->toUnicode(data);
+  QString content = data;
 
   // Extract the lyrics from HTML.
 
