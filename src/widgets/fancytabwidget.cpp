@@ -426,7 +426,7 @@ class FancyTabWidgetProxyStyle : public QProxyStyle {
       QRect proxy_style_rect = QProxyStyle::subElementRect(element, option, widget);
       QRect commonstyle_rect = common_style_->subElementRect(element, option, widget);
       // Make the tabs align on top instead of the middle (macOS style hack).
-      if (proxy_style_rect.y() > 10) proxy_style_rect.setY(commonstyle_rect.y());
+      // if (proxy_style_rect.y() > 10) proxy_style_rect.setY(commonstyle_rect.y());
       // Fix stretched tabbar (Fedora/Gnome style issue).
       proxy_style_rect.setHeight(commonstyle_rect.height());
       return proxy_style_rect;
