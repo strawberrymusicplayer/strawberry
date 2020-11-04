@@ -103,22 +103,22 @@ msgstr "dalok"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 scrobbler hitelesítés"
 
-#: context/contextview.cpp:467
+#: context/contextview.cpp:468
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:468
+#: context/contextview.cpp:469
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 album"
 
-#: context/contextview.cpp:463
+#: context/contextview.cpp:464
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 előadó"
 
-#: context/contextview.cpp:464
+#: context/contextview.cpp:465
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 előadó"
@@ -159,7 +159,7 @@ msgstr "%1 lejátszólista (%2)"
 msgid "%1 selected of"
 msgstr "%1 kiválasztva"
 
-#: context/contextview.cpp:459
+#: context/contextview.cpp:460
 #, qt-format
 msgid "%1 song"
 msgstr "%1 dal"
@@ -169,7 +169,7 @@ msgstr "%1 dal"
 msgid "%1 song%2"
 msgstr "%1 dal%2"
 
-#: context/contextview.cpp:460
+#: context/contextview.cpp:461
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 dal"
@@ -766,7 +766,7 @@ msgstr "Albumborító mérete"
 msgid "Albums"
 msgstr "Albumok"
 
-#: context/contextview.cpp:609
+#: context/contextview.cpp:610
 #, qt-format
 msgid "Albums by %1"
 msgstr "Albumok ettől: %1"
@@ -967,7 +967,7 @@ msgstr "Egyelemű kategóriák automatikus listázása a gyűjteményben"
 msgid "Automatically search for album cover"
 msgstr "Albumborító automatikus keresése"
 
-#: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:425
+#: context/contextview.cpp:339 ../build/src/ui_contextsettingspage.h:425
 msgid "Automatically search for song lyrics"
 msgstr "Dalszövegek automatikus keresése"
 
@@ -1031,7 +1031,7 @@ msgstr "Működés"
 msgid "Best"
 msgstr "Legjobb"
 
-#: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:136
+#: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:136
 #: playlist/playlist.cpp:1281 organize/organizedialog.cpp:119
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:695
@@ -1042,7 +1042,7 @@ msgstr "Bitmélység"
 msgid "Bit rate"
 msgstr "Bitráta"
 
-#: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:139
+#: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:139
 #: playlist/playlist.cpp:1282 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:128
@@ -1658,7 +1658,7 @@ msgstr "Cél"
 msgid "Details..."
 msgstr "Részletek…"
 
-#: context/contextview.cpp:184 device/giolister.cpp:189
+#: context/contextview.cpp:185 device/giolister.cpp:189
 #: ../build/src/ui_backendsettingspage.h:488
 #: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Device"
@@ -1880,7 +1880,7 @@ msgstr "Átkódolás minősége"
 msgid "Encoding mode"
 msgstr "Kódolási mód"
 
-#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:486
+#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:486
 msgid "Engine"
 msgstr "Motor"
 
@@ -2159,7 +2159,7 @@ msgstr "Átkódolandó fájlok"
 msgid "Files, playlists and queue buttons"
 msgstr "Fájl- , lejátszólista- és lejátszásisor gombok"
 
-#: context/contextview.cpp:213
+#: context/contextview.cpp:214
 msgid "Filetype"
 msgstr "Fájltípus"
 
@@ -2547,6 +2547,10 @@ msgstr "Információ"
 msgid "Insert..."
 msgstr "Beszúrás..."
 
+#: dialogs/snapdialog.cpp:79
+msgid "Install strawberry through PPA:<br />"
+msgstr ""
+
 #: core/database.cpp:490
 msgid "Integrity check"
 msgstr "Integritás ellenőrzése"
@@ -2642,7 +2646,7 @@ msgstr ""
 msgid "Left"
 msgstr "Bal"
 
-#: context/contextview.cpp:214 playlist/playlist.cpp:1267
+#: context/contextview.cpp:215 playlist/playlist.cpp:1267
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:689
 msgid "Length"
 msgstr "Időtartam"
@@ -3064,7 +3068,7 @@ msgstr "Nincsenek szolgáltatók kiválasztva."
 msgid "No short blocks"
 msgstr "Rövid blokkok nélkül"
 
-#: context/contextview.cpp:456
+#: context/contextview.cpp:457
 msgid "No song playing"
 msgstr "Nincs lejátszott dal"
 
@@ -3885,7 +3889,7 @@ msgstr "Eszköz biztonságos eltávolítása másolás után"
 msgid "Sample rate"
 msgstr "Mintavételi sűrűség"
 
-#: context/contextview.cpp:215
+#: context/contextview.cpp:216
 msgid "Samplerate"
 msgstr "Mintavétel"
 
@@ -4147,7 +4151,7 @@ msgstr "Saját OSD megjelenítése"
 msgid "Show above status bar"
 msgstr "Megjelenítés az állapotsáv felett"
 
-#: context/contextview.cpp:318
+#: context/contextview.cpp:319
 msgid "Show album cover"
 msgstr "Albumborító megjelenítése"
 
@@ -4155,7 +4159,7 @@ msgstr "Albumborító megjelenítése"
 msgid "Show album cover art in collection"
 msgstr "Albumborító megjelenítése a gyűjteményben"
 
-#: context/contextview.cpp:330
+#: context/contextview.cpp:331
 msgid "Show albums by artist"
 msgstr "Albumok megjelenítése az előadótól"
 
@@ -4175,7 +4179,7 @@ msgstr "Párbeszédablak megjelenítése hibáknál"
 msgid "Show dividers"
 msgstr "Elválasztók megjelenítése"
 
-#: context/contextview.cpp:326
+#: context/contextview.cpp:327
 msgid "Show engine and device"
 msgstr "Motor és eszköz megjelenítése"
 
@@ -4228,11 +4232,11 @@ msgstr "Scrobble gomb megjelenítése"
 msgid "Show sidebar"
 msgstr "Oldalsáv megjelenítése"
 
-#: context/contextview.cpp:334
+#: context/contextview.cpp:335
 msgid "Show song lyrics"
 msgstr "Dalszöveg megjelenítése"
 
-#: context/contextview.cpp:322
+#: context/contextview.cpp:323
 msgid "Show song technical data"
 msgstr "Technikai adatok megjelenítése"
 
@@ -4850,7 +4854,7 @@ msgid "Ultra wide band (UWB)"
 msgstr "Ultra szélessávú (UWB)"
 
 #: dialogs/snapdialog.cpp:74
-msgid "Uninstall the snap with: snap remove strawberry"
+msgid "Uninstall the snap with:"
 msgstr ""
 
 #: core/song.cpp:548 context/contextalbumsmodel.cpp:358
@@ -5332,7 +5336,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:544 context/contextview.cpp:695
+#: context/contextview.cpp:545 context/contextview.cpp:696
 #: playlist/playlistview.cpp:262 dialogs/edittagdialog.cpp:557
 msgid "kbps"
 msgstr "kb/s"

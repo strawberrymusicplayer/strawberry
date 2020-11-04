@@ -103,22 +103,22 @@ msgstr ""
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 스크로블러 인증"
 
-#: context/contextview.cpp:467
+#: context/contextview.cpp:468
 #, qt-format
 msgid "%1 album"
 msgstr "앨범 %1개"
 
-#: context/contextview.cpp:468
+#: context/contextview.cpp:469
 #, qt-format
 msgid "%1 albums"
 msgstr "앨범 %1개"
 
-#: context/contextview.cpp:463
+#: context/contextview.cpp:464
 #, qt-format
 msgid "%1 artist"
 msgstr "아티스트 %1명"
 
-#: context/contextview.cpp:464
+#: context/contextview.cpp:465
 #, qt-format
 msgid "%1 artists"
 msgstr "아티스트 %1명"
@@ -159,7 +159,7 @@ msgstr "재생 목록 %1개(%2)"
 msgid "%1 selected of"
 msgstr "%1개 선택됨,"
 
-#: context/contextview.cpp:459
+#: context/contextview.cpp:460
 #, qt-format
 msgid "%1 song"
 msgstr "노래 %1곡"
@@ -169,7 +169,7 @@ msgstr "노래 %1곡"
 msgid "%1 song%2"
 msgstr "노래 %1곡"
 
-#: context/contextview.cpp:460
+#: context/contextview.cpp:461
 #, qt-format
 msgid "%1 songs"
 msgstr "노래 %1곡"
@@ -758,7 +758,7 @@ msgstr "앨범아트 크기"
 msgid "Albums"
 msgstr "앨범"
 
-#: context/contextview.cpp:609
+#: context/contextview.cpp:610
 #, qt-format
 msgid "Albums by %1"
 msgstr "%1의 앨범"
@@ -959,7 +959,7 @@ msgstr "한 개의 하위 항목만 있을 때 자동으로 열기"
 msgid "Automatically search for album cover"
 msgstr "자동으로 앨범아트 찾기"
 
-#: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:425
+#: context/contextview.cpp:339 ../build/src/ui_contextsettingspage.h:425
 msgid "Automatically search for song lyrics"
 msgstr "자동으로 가사 찾기"
 
@@ -1023,7 +1023,7 @@ msgstr "행동"
 msgid "Best"
 msgstr "최고"
 
-#: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:136
+#: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:136
 #: playlist/playlist.cpp:1281 organize/organizedialog.cpp:119
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:695
@@ -1034,7 +1034,7 @@ msgstr "비트 해상도"
 msgid "Bit rate"
 msgstr "비트 전송률"
 
-#: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:139
+#: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:139
 #: playlist/playlist.cpp:1282 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:128
@@ -1634,7 +1634,7 @@ msgstr "대상"
 msgid "Details..."
 msgstr "자세히..."
 
-#: context/contextview.cpp:184 device/giolister.cpp:189
+#: context/contextview.cpp:185 device/giolister.cpp:189
 #: ../build/src/ui_backendsettingspage.h:488
 #: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Device"
@@ -1856,7 +1856,7 @@ msgstr "인코딩 엔진 품질"
 msgid "Encoding mode"
 msgstr "인코딩 모드"
 
-#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:486
+#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:486
 msgid "Engine"
 msgstr "엔진"
 
@@ -2133,7 +2133,7 @@ msgstr "변환할 파일"
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
-#: context/contextview.cpp:213
+#: context/contextview.cpp:214
 msgid "Filetype"
 msgstr "파일 형식"
 
@@ -2513,6 +2513,10 @@ msgstr "정보"
 msgid "Insert..."
 msgstr "삽입..."
 
+#: dialogs/snapdialog.cpp:79
+msgid "Install strawberry through PPA:<br />"
+msgstr ""
+
 #: core/database.cpp:490
 msgid "Integrity check"
 msgstr "무결성 검사"
@@ -2606,7 +2610,7 @@ msgstr ""
 msgid "Left"
 msgstr "왼쪽"
 
-#: context/contextview.cpp:214 playlist/playlist.cpp:1267
+#: context/contextview.cpp:215 playlist/playlist.cpp:1267
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:689
 msgid "Length"
 msgstr "길이"
@@ -3026,7 +3030,7 @@ msgstr "아무 곳도 선택되지 않았습니다."
 msgid "No short blocks"
 msgstr "짧은 블록 없음"
 
-#: context/contextview.cpp:456
+#: context/contextview.cpp:457
 msgid "No song playing"
 msgstr "재생 중인 곡 없음"
 
@@ -3831,7 +3835,7 @@ msgstr "복사 후 안전하게 장치 제거"
 msgid "Sample rate"
 msgstr "샘플링 레이트"
 
-#: context/contextview.cpp:215
+#: context/contextview.cpp:216
 msgid "Samplerate"
 msgstr "샘플링 레이트"
 
@@ -4093,7 +4097,7 @@ msgstr "예쁜 OSD 표시"
 msgid "Show above status bar"
 msgstr "상태 표시줄 위에 표시"
 
-#: context/contextview.cpp:318
+#: context/contextview.cpp:319
 msgid "Show album cover"
 msgstr ""
 
@@ -4101,7 +4105,7 @@ msgstr ""
 msgid "Show album cover art in collection"
 msgstr "앨범 목록에 앨범아트 표시"
 
-#: context/contextview.cpp:330
+#: context/contextview.cpp:331
 msgid "Show albums by artist"
 msgstr "아티스트별로 앨범 표시"
 
@@ -4121,7 +4125,7 @@ msgstr ""
 msgid "Show dividers"
 msgstr "구분자 표시"
 
-#: context/contextview.cpp:326
+#: context/contextview.cpp:327
 msgid "Show engine and device"
 msgstr "엔진과 장치 표시"
 
@@ -4174,11 +4178,11 @@ msgstr "스크로블 단추 표시"
 msgid "Show sidebar"
 msgstr "사이드바 표시"
 
-#: context/contextview.cpp:334
+#: context/contextview.cpp:335
 msgid "Show song lyrics"
 msgstr "노래 가사 표시"
 
-#: context/contextview.cpp:322
+#: context/contextview.cpp:323
 msgid "Show song technical data"
 msgstr "노래의 기술적 데이터 표시"
 
@@ -4771,7 +4775,7 @@ msgid "Ultra wide band (UWB)"
 msgstr "초광대역(UWB)"
 
 #: dialogs/snapdialog.cpp:74
-msgid "Uninstall the snap with: snap remove strawberry"
+msgid "Uninstall the snap with:"
 msgstr ""
 
 #: core/song.cpp:548 context/contextalbumsmodel.cpp:358
@@ -5240,7 +5244,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:544 context/contextview.cpp:695
+#: context/contextview.cpp:545 context/contextview.cpp:696
 #: playlist/playlistview.cpp:262 dialogs/edittagdialog.cpp:557
 msgid "kbps"
 msgstr "kbps"

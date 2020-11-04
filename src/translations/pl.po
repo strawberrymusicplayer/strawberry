@@ -112,22 +112,22 @@ msgstr "utwory"
 msgid "%1 Scrobbler Authentication"
 msgstr "Uwierzytelnianie w scrobblera %1"
 
-#: context/contextview.cpp:467
+#: context/contextview.cpp:468
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:468
+#: context/contextview.cpp:469
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 albumy(ów)"
 
-#: context/contextview.cpp:463
+#: context/contextview.cpp:464
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artysta"
 
-#: context/contextview.cpp:464
+#: context/contextview.cpp:465
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artyści(ów)"
@@ -168,7 +168,7 @@ msgstr "%1 list(y) odtwarzania (%2)"
 msgid "%1 selected of"
 msgstr "zaznaczono %1 z"
 
-#: context/contextview.cpp:459
+#: context/contextview.cpp:460
 #, qt-format
 msgid "%1 song"
 msgstr "%1 utwór"
@@ -178,7 +178,7 @@ msgstr "%1 utwór"
 msgid "%1 song%2"
 msgstr "%1 utwory(ów)%2"
 
-#: context/contextview.cpp:460
+#: context/contextview.cpp:461
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 utwory(ów)"
@@ -773,7 +773,7 @@ msgstr "Rozmiar okładki albumu"
 msgid "Albums"
 msgstr "Albumy"
 
-#: context/contextview.cpp:609
+#: context/contextview.cpp:610
 #, qt-format
 msgid "Albums by %1"
 msgstr "Albumy artysty „%1”"
@@ -974,7 +974,7 @@ msgstr "Automatycznie rozwiń pojedyncze kategorie w drzewie kolekcji"
 msgid "Automatically search for album cover"
 msgstr "Automatycznie wyszukuj okładek albumów"
 
-#: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:425
+#: context/contextview.cpp:339 ../build/src/ui_contextsettingspage.h:425
 msgid "Automatically search for song lyrics"
 msgstr "Automatycznie szukaj tekstu utworu"
 
@@ -1038,7 +1038,7 @@ msgstr "Zachowanie"
 msgid "Best"
 msgstr "Najlepsza"
 
-#: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:136
+#: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:136
 #: playlist/playlist.cpp:1281 organize/organizedialog.cpp:119
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:695
@@ -1049,7 +1049,7 @@ msgstr "Rozdzielczość bitowa"
 msgid "Bit rate"
 msgstr "Przepływność"
 
-#: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:139
+#: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:139
 #: playlist/playlist.cpp:1282 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:128
@@ -1661,7 +1661,7 @@ msgstr "Miejsce docelowe"
 msgid "Details..."
 msgstr "Szczegóły…"
 
-#: context/contextview.cpp:184 device/giolister.cpp:189
+#: context/contextview.cpp:185 device/giolister.cpp:189
 #: ../build/src/ui_backendsettingspage.h:488
 #: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Device"
@@ -1885,7 +1885,7 @@ msgstr "Jakość silnika kodowania"
 msgid "Encoding mode"
 msgstr "Tryb kodowania"
 
-#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:486
+#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:486
 msgid "Engine"
 msgstr "Silnik"
 
@@ -2162,7 +2162,7 @@ msgstr "Pliki do transkodowania"
 msgid "Files, playlists and queue buttons"
 msgstr "Pliki, listy odtwarzania i kolejka"
 
-#: context/contextview.cpp:213
+#: context/contextview.cpp:214
 msgid "Filetype"
 msgstr "Rodzaj pliku"
 
@@ -2554,6 +2554,10 @@ msgstr "Informacje"
 msgid "Insert..."
 msgstr "Wstaw…"
 
+#: dialogs/snapdialog.cpp:79
+msgid "Install strawberry through PPA:<br />"
+msgstr ""
+
 #: core/database.cpp:490
 msgid "Integrity check"
 msgstr "Sprawdzanie spójności"
@@ -2649,7 +2653,7 @@ msgstr ""
 msgid "Left"
 msgstr "Lewy"
 
-#: context/contextview.cpp:214 playlist/playlist.cpp:1267
+#: context/contextview.cpp:215 playlist/playlist.cpp:1267
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:689
 msgid "Length"
 msgstr "Długość"
@@ -3071,7 +3075,7 @@ msgstr "Nie wybrano żadnego dostawcy."
 msgid "No short blocks"
 msgstr "Bez krótkich bloków"
 
-#: context/contextview.cpp:456
+#: context/contextview.cpp:457
 msgid "No song playing"
 msgstr "Żaden utwór nie jest odtwarzany"
 
@@ -3894,7 +3898,7 @@ msgstr "Bezpiecznie usuń urządzenie po skopiowaniu"
 msgid "Sample rate"
 msgstr "Częstotliwość próbkowania"
 
-#: context/contextview.cpp:215
+#: context/contextview.cpp:216
 msgid "Samplerate"
 msgstr "Częstotliwość próbkowania"
 
@@ -4156,7 +4160,7 @@ msgstr "Pokazuj ładne menu ekranowe (OSD)"
 msgid "Show above status bar"
 msgstr "Pokazuj ponad paskiem stanu"
 
-#: context/contextview.cpp:318
+#: context/contextview.cpp:319
 msgid "Show album cover"
 msgstr "Pokazuj okładkę albumu"
 
@@ -4164,7 +4168,7 @@ msgstr "Pokazuj okładkę albumu"
 msgid "Show album cover art in collection"
 msgstr "Pokazuj okładki albumów w kolekcji"
 
-#: context/contextview.cpp:330
+#: context/contextview.cpp:331
 msgid "Show albums by artist"
 msgstr "Pokazuj albumy artysty"
 
@@ -4184,7 +4188,7 @@ msgstr "Pokazuj okna z błędami"
 msgid "Show dividers"
 msgstr "Pokazuj separatory"
 
-#: context/contextview.cpp:326
+#: context/contextview.cpp:327
 msgid "Show engine and device"
 msgstr "Pokazuj silnik i urządzenie"
 
@@ -4237,11 +4241,11 @@ msgstr "Pokazuj przycisk scrobblowania"
 msgid "Show sidebar"
 msgstr "Pokazuj pasek boczny"
 
-#: context/contextview.cpp:334
+#: context/contextview.cpp:335
 msgid "Show song lyrics"
 msgstr "Pokazuj tekst utworu"
 
-#: context/contextview.cpp:322
+#: context/contextview.cpp:323
 msgid "Show song technical data"
 msgstr "Pokazuj dane techniczne utworu"
 
@@ -4856,7 +4860,7 @@ msgid "Ultra wide band (UWB)"
 msgstr "Ultraszerokie pasmo (UWB)"
 
 #: dialogs/snapdialog.cpp:74
-msgid "Uninstall the snap with: snap remove strawberry"
+msgid "Uninstall the snap with:"
 msgstr ""
 
 #: core/song.cpp:548 context/contextalbumsmodel.cpp:358
@@ -5341,7 +5345,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:544 context/contextview.cpp:695
+#: context/contextview.cpp:545 context/contextview.cpp:696
 #: playlist/playlistview.cpp:262 dialogs/edittagdialog.cpp:557
 msgid "kbps"
 msgstr "kb/s"
