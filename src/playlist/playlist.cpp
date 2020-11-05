@@ -29,6 +29,7 @@
 #include <iterator>
 #include <type_traits>
 #include <unordered_map>
+#include <random>
 
 #include <QtGlobal>
 #include <QObject>
