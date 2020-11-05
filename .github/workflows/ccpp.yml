@@ -352,7 +352,6 @@ jobs:
             qt6-x11extras-devel
             qt6-base-common-devel
             qt6-sql-sqlite
-            qt6-qt5compat-devel
             libcdio-devel
             libgpod-devel
             libmtp-devel
