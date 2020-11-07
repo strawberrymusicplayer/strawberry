@@ -2540,9 +2540,9 @@ void MainWindow::PlaylistCopyUrl() {
   }
 
   if (urls.count() > 0) {
-    QMimeData *mime_data = new QMimeData;
-    mime_data->setUrls(urls);
-    QApplication::clipboard()->setMimeData(mime_data);
+    QMimeData mime_data;
+    mime_data.setUrls(urls);
+    QApplication::clipboard()->setText(mime_data.text());
   }
 
 }
