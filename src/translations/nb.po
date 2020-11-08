@@ -315,7 +315,7 @@ msgstr "&Ny spilleliste"
 msgid "&Next track"
 msgstr "&Neste spor"
 
-#: ../build/src/ui_appearancesettingspage.h:521
+#: ../build/src/ui_appearancesettingspage.h:562
 msgid "&No background image"
 msgstr "&Ingen bakgrunn"
 
@@ -375,11 +375,11 @@ msgstr "&Omkod musikk"
 msgid "&Update changed collection folders"
 msgstr "Oppdater endrede samling"
 
-#: ../build/src/ui_appearancesettingspage.h:514
+#: ../build/src/ui_appearancesettingspage.h:555
 msgid "&Use the system default color"
 msgstr "&bruk standard system farger"
 
-#: ../build/src/ui_appearancesettingspage.h:507
+#: ../build/src/ui_appearancesettingspage.h:548
 msgid "&Use the system default color set"
 msgstr "&Bruk system standard fargeoppsett"
 
@@ -409,7 +409,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:541
+#: ../build/src/ui_appearancesettingspage.h:582
 msgid "0px"
 msgstr "0px"
 
@@ -421,7 +421,7 @@ msgstr "1 dag"
 msgid "1 track"
 msgstr "1 spor"
 
-#: ../build/src/ui_appearancesettingspage.h:543
+#: ../build/src/ui_appearancesettingspage.h:584
 msgid "40%"
 msgstr "40%"
 
@@ -441,7 +441,7 @@ msgstr ""
 "<p>Hvis du setter klammeparenteser rundt tekst som inneholder en kode, vil "
 "teksten skjules om koden er tom.</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:526
+#: ../build/src/ui_appearancesettingspage.h:567
 msgid "A Taste of Strawbs"
 msgstr ""
 
@@ -710,7 +710,7 @@ msgstr "Avansert gruppering…"
 msgid "After copying..."
 msgstr "Etter kopiering…"
 
-#: ../build/src/ui_appearancesettingspage.h:525
+#: ../build/src/ui_appearancesettingspage.h:566
 msgid "Albu&m cover"
 msgstr "Albu&m kover"
 
@@ -838,7 +838,7 @@ msgstr "App ID"
 msgid "App Secret"
 msgstr "App Secret"
 
-#: ../build/src/ui_appearancesettingspage.h:505
+#: ../build/src/ui_appearancesettingspage.h:542
 msgid "Appearance"
 msgstr "Utseende"
 
@@ -991,7 +991,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Bakgrunnsfarge"
 
-#: ../build/src/ui_appearancesettingspage.h:519
+#: ../build/src/ui_appearancesettingspage.h:560
 msgid "Background image"
 msgstr "Bakgrunnsbilde"
 
@@ -1054,7 +1054,7 @@ msgstr "Blokkanalyse"
 msgid "Block type"
 msgstr "Blokktype"
 
-#: ../build/src/ui_appearancesettingspage.h:540
+#: ../build/src/ui_appearancesettingspage.h:581
 msgid "Blur amount"
 msgstr "Mengde slør"
 
@@ -1066,15 +1066,15 @@ msgstr "Brødtekst"
 msgid "Boom analyzer"
 msgstr "Boomanalysator"
 
-#: ../build/src/ui_appearancesettingspage.h:533
+#: ../build/src/ui_appearancesettingspage.h:574
 msgid "Bottom Left"
 msgstr "Nede til venstre"
 
-#: ../build/src/ui_appearancesettingspage.h:534
+#: ../build/src/ui_appearancesettingspage.h:575
 msgid "Bottom Right"
 msgstr "Nede til høyre"
 
-#: ../build/src/ui_appearancesettingspage.h:528
+#: ../build/src/ui_appearancesettingspage.h:569
 msgid "Browse..."
 msgstr "Bla gjennom…"
 
@@ -1245,7 +1245,7 @@ msgstr "Melding om gjennomsøk av samlingen"
 msgid "Collection search"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:506
+#: ../build/src/ui_appearancesettingspage.h:547
 msgid "Colors"
 msgstr "Farger"
 
@@ -1294,7 +1294,7 @@ msgstr "Uriktig oppsett"
 msgid "Configure %1..."
 msgstr "Sett opp %1…"
 
-#: ../build/src/ui_appearancesettingspage.h:548
+#: ../build/src/ui_appearancesettingspage.h:589
 msgid "Configure buttons"
 msgstr ""
 
@@ -1530,7 +1530,7 @@ msgstr ""
 msgid "Custom"
 msgstr "Egendefinert"
 
-#: ../build/src/ui_appearancesettingspage.h:527
+#: ../build/src/ui_appearancesettingspage.h:568
 msgid "Custom image:"
 msgstr "Egendefinert bilde:"
 
@@ -1578,7 +1578,7 @@ msgstr "Senk volum med 4 prosent"
 msgid "Decrease the volume by <value> percent"
 msgstr "Demp lydstyrken med <value> prosent"
 
-#: ../build/src/ui_appearancesettingspage.h:520
+#: ../build/src/ui_appearancesettingspage.h:561
 msgid "Default bac&kground image"
 msgstr "Forhåndsvalgt bak&grunnsbilde"
 
@@ -1700,7 +1700,7 @@ msgstr "Overleggsvisning"
 msgid "Do not convert any music"
 msgstr "Ikke konverter musikk"
 
-#: ../build/src/ui_appearancesettingspage.h:539
+#: ../build/src/ui_appearancesettingspage.h:580
 msgid "Do not cut image"
 msgstr "Ikke kutt bildet"
 
@@ -2132,7 +2132,7 @@ msgstr "Filer"
 msgid "Files to transcode"
 msgstr "Filer som skal omkodes"
 
-#: ../build/src/ui_appearancesettingspage.h:549
+#: ../build/src/ui_appearancesettingspage.h:590
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2428,11 +2428,11 @@ msgstr ""
 msgid "Icon"
 msgstr "Ikon"
 
-#: ../build/src/ui_appearancesettingspage.h:544
+#: ../build/src/ui_appearancesettingspage.h:585
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:712
+#: widgets/fancytabwidget.cpp:711
 msgid "Icons on top"
 msgstr "Ikoner øverst"
 
@@ -2558,7 +2558,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Gå til forrige sang nå"
 
-#: ../build/src/ui_appearancesettingspage.h:538
+#: ../build/src/ui_appearancesettingspage.h:579
 msgid "Keep aspect ratio"
 msgstr "Keep aspect ratio"
 
@@ -2586,7 +2586,7 @@ msgstr "Storsal"
 msgid "Large album cover"
 msgstr "Stort omslag"
 
-#: widgets/fancytabwidget.cpp:708
+#: widgets/fancytabwidget.cpp:707
 msgid "Large sidebar"
 msgstr "Stort sidefelt"
 
@@ -2779,7 +2779,7 @@ msgstr ""
 msgid "Match one or more search terms (OR)"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:536
+#: ../build/src/ui_appearancesettingspage.h:577
 msgid "Max cover size"
 msgstr "Maksimal kover størrelse"
 
@@ -2800,7 +2800,7 @@ msgstr "Medium (%1 bilder/sekund)"
 msgid "Metadata"
 msgstr "Metadata"
 
-#: ../build/src/ui_appearancesettingspage.h:532
+#: ../build/src/ui_appearancesettingspage.h:573
 msgid "Middle"
 msgstr "Midten"
 
@@ -3130,7 +3130,7 @@ msgstr "Ved oppstart"
 msgid "Only show the first"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:542
+#: ../build/src/ui_appearancesettingspage.h:583
 msgid "Opacity"
 msgstr "Dekkevne"
 
@@ -3280,7 +3280,7 @@ msgstr "Utøver"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:709
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
@@ -3290,7 +3290,7 @@ msgstr "Enkelt sidefelt"
 msgid "Play"
 msgstr "Spill"
 
-#: ../build/src/ui_appearancesettingspage.h:547
+#: ../build/src/ui_appearancesettingspage.h:588
 msgid "Play control buttons"
 msgstr ""
 
@@ -3340,7 +3340,7 @@ msgstr "Innstillinger for avspiller"
 msgid "Playlist"
 msgstr "Spilleliste"
 
-#: ../build/src/ui_appearancesettingspage.h:545
+#: ../build/src/ui_appearancesettingspage.h:586
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3393,7 +3393,7 @@ msgstr "Oppsprettsvinduets varighet"
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:529
+#: ../build/src/ui_appearancesettingspage.h:570
 msgid "Position"
 msgstr "Posisjon"
 
@@ -3992,11 +3992,11 @@ msgstr "Gå til et bestemt tidspunkt i sporet"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Gå frem-/bakover ved bruk av en tastatursnarvei eller musehjulet"
 
-#: ../build/src/ui_appearancesettingspage.h:511
+#: ../build/src/ui_appearancesettingspage.h:552
 msgid "Select background color:"
 msgstr "Velg bakgrunnsfarge:"
 
-#: settings/appearancesettingspage.cpp:366
+#: settings/appearancesettingspage.cpp:377
 msgid "Select background image"
 msgstr "Velg bakgrunnsbilde"
 
@@ -4004,11 +4004,11 @@ msgstr "Velg bakgrunnsbilde"
 msgid "Select best possible match"
 msgstr "Velg det beste treffet"
 
-#: ../build/src/ui_appearancesettingspage.h:509
+#: ../build/src/ui_appearancesettingspage.h:550
 msgid "Select foreground color:"
 msgstr "Velg forgrunnsfarge:"
 
-#: ../build/src/ui_appearancesettingspage.h:517
+#: ../build/src/ui_appearancesettingspage.h:558
 msgid "Select tabbar color:"
 msgstr "Velg tabbar farge:"
 
@@ -4048,6 +4048,10 @@ msgstr "Sett verdi for alle valgte spor…"
 #: ../build/src/ui_settingsdialog.h:113
 msgid "Settings"
 msgstr "Innstillinger"
+
+#: ../build/src/ui_appearancesettingspage.h:546
+msgid "Settings require restart."
+msgstr ""
 
 #: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
@@ -4277,7 +4281,7 @@ msgstr "Hopp over spor"
 msgid "Small album cover"
 msgstr "Lite albumomslag"
 
-#: widgets/fancytabwidget.cpp:709
+#: widgets/fancytabwidget.cpp:708
 msgid "Small sidebar"
 msgstr "Lite sidefelt"
 
@@ -4460,9 +4464,14 @@ msgstr "Strøm URL metode"
 msgid "Streaming"
 msgstr "Strømming"
 
-#: ../build/src/ui_appearancesettingspage.h:537
+#: ../build/src/ui_appearancesettingspage.h:578
 msgid "Stretch image to fill playlist"
 msgstr "Utvid bildet til å fylle spilleliste"
+
+#: ../build/src/ui_appearancesettingspage.h:543
+#: ../build/src/ui_appearancesettingspage.h:544
+msgid "Style"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:395
 msgid "Submit scrobbles every"
@@ -4509,19 +4518,19 @@ msgstr "Støttede formater"
 msgid "System colors"
 msgstr "Systemfarger"
 
-#: ../build/src/ui_appearancesettingspage.h:513
+#: ../build/src/ui_appearancesettingspage.h:554
 msgid "Tabbar colors"
 msgstr "Tabbar farger"
 
-#: ../build/src/ui_appearancesettingspage.h:546
+#: ../build/src/ui_appearancesettingspage.h:587
 msgid "Tabbar large mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:550
+#: ../build/src/ui_appearancesettingspage.h:591
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:710
 msgid "Tabs on top"
 msgstr "Faner på toppen"
 
@@ -4570,7 +4579,7 @@ msgstr ""
 msgid "The \"%1\" command could not be started."
 msgstr "Kunne ikke starte kommandoen \"%1\"."
 
-#: ../build/src/ui_appearancesettingspage.h:523
+#: ../build/src/ui_appearancesettingspage.h:564
 msgid "The album cover of the currently playing song"
 msgstr "Albumomslaget til sangen som spilles av for øyeblikket"
 
@@ -4856,11 +4865,11 @@ msgstr "Oppdaterer %1% …"
 msgid "Updating collection"
 msgstr "Oppdaterer samling"
 
-#: ../build/src/ui_appearancesettingspage.h:530
+#: ../build/src/ui_appearancesettingspage.h:571
 msgid "Upper Left"
 msgstr "Oppe til venstre"
 
-#: ../build/src/ui_appearancesettingspage.h:531
+#: ../build/src/ui_appearancesettingspage.h:572
 msgid "Upper Right"
 msgstr "Oppe til høyre"
 
@@ -4900,7 +4909,7 @@ msgstr ""
 msgid "Use X11 shortcuts when available"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:508
+#: ../build/src/ui_appearancesettingspage.h:549
 msgid "Use a custom color set"
 msgstr "Bruk egendefinert fargedrakt"
 
@@ -4916,7 +4925,7 @@ msgstr "Bruk autentisering"
 msgid "Use bitrate management engine"
 msgstr "Bruk kontrollert bitrate"
 
-#: ../build/src/ui_appearancesettingspage.h:515
+#: ../build/src/ui_appearancesettingspage.h:556
 msgid "Use custom color"
 msgstr "Bruk egendefinert farge"
 
@@ -4924,7 +4933,7 @@ msgstr "Bruk egendefinert farge"
 msgid "Use dynamic mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:516
+#: ../build/src/ui_appearancesettingspage.h:557
 msgid "Use gradient background"
 msgstr "Bruk gradient bakgrunn"
 
@@ -4944,7 +4953,7 @@ msgstr "Bruk pattern"
 msgid "Use proxy settings for streaming"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:551
+#: ../build/src/ui_appearancesettingspage.h:545
 msgid "Use system theme icons"
 msgstr "Bruk ikoner fra system theme"
 

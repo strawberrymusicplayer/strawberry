@@ -340,7 +340,7 @@ msgstr "&Новый плейлист"
 msgid "&Next track"
 msgstr "&Следующая дорожка"
 
-#: ../build/src/ui_appearancesettingspage.h:521
+#: ../build/src/ui_appearancesettingspage.h:562
 msgid "&No background image"
 msgstr "&Нет фонового изображения"
 
@@ -400,11 +400,11 @@ msgstr "&Конвертировать музыку"
 msgid "&Update changed collection folders"
 msgstr "&Обновить измененные папки коллекции"
 
-#: ../build/src/ui_appearancesettingspage.h:514
+#: ../build/src/ui_appearancesettingspage.h:555
 msgid "&Use the system default color"
 msgstr "&Использовать системный цвет по умолчанию"
 
-#: ../build/src/ui_appearancesettingspage.h:507
+#: ../build/src/ui_appearancesettingspage.h:548
 msgid "&Use the system default color set"
 msgstr "&Использовать системный набор цветов по умолчанию"
 
@@ -435,7 +435,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:541
+#: ../build/src/ui_appearancesettingspage.h:582
 msgid "0px"
 msgstr "0px"
 
@@ -447,7 +447,7 @@ msgstr "1 день"
 msgid "1 track"
 msgstr "1 трек"
 
-#: ../build/src/ui_appearancesettingspage.h:543
+#: ../build/src/ui_appearancesettingspage.h:584
 msgid "40%"
 msgstr "40%"
 
@@ -467,7 +467,7 @@ msgstr ""
 "<p>Если Вы окружили часть текста фигурными скобками, то эта часть текста не "
 "будет видна, если значения полей будут пустыми</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:526
+#: ../build/src/ui_appearancesettingspage.h:567
 msgid "A Taste of Strawbs"
 msgstr ""
 
@@ -736,7 +736,7 @@ msgstr "Расширенная сортировка…"
 msgid "After copying..."
 msgstr "После копирования…"
 
-#: ../build/src/ui_appearancesettingspage.h:525
+#: ../build/src/ui_appearancesettingspage.h:566
 msgid "Albu&m cover"
 msgstr "О&бложка альбома"
 
@@ -864,7 +864,7 @@ msgstr "App ID"
 msgid "App Secret"
 msgstr "App Secret"
 
-#: ../build/src/ui_appearancesettingspage.h:505
+#: ../build/src/ui_appearancesettingspage.h:542
 msgid "Appearance"
 msgstr "Внешний вид"
 
@@ -1016,7 +1016,7 @@ msgstr "Бэкенд"
 msgid "Background color"
 msgstr "Цвет фона"
 
-#: ../build/src/ui_appearancesettingspage.h:519
+#: ../build/src/ui_appearancesettingspage.h:560
 msgid "Background image"
 msgstr "Фоновое изображение"
 
@@ -1079,7 +1079,7 @@ msgstr "Блоковый анализатор"
 msgid "Block type"
 msgstr "Тип блока"
 
-#: ../build/src/ui_appearancesettingspage.h:540
+#: ../build/src/ui_appearancesettingspage.h:581
 msgid "Blur amount"
 msgstr "Степень размытости"
 
@@ -1091,15 +1091,15 @@ msgstr "Содержимое"
 msgid "Boom analyzer"
 msgstr "Плавающий анализатор"
 
-#: ../build/src/ui_appearancesettingspage.h:533
+#: ../build/src/ui_appearancesettingspage.h:574
 msgid "Bottom Left"
 msgstr "Слева внизу"
 
-#: ../build/src/ui_appearancesettingspage.h:534
+#: ../build/src/ui_appearancesettingspage.h:575
 msgid "Bottom Right"
 msgstr "Справа внизу"
 
-#: ../build/src/ui_appearancesettingspage.h:528
+#: ../build/src/ui_appearancesettingspage.h:569
 msgid "Browse..."
 msgstr "Обзор…"
 
@@ -1271,7 +1271,7 @@ msgstr "Уведомление о сканировании фонотеки"
 msgid "Collection search"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:506
+#: ../build/src/ui_appearancesettingspage.h:547
 msgid "Colors"
 msgstr "Цвета"
 
@@ -1320,7 +1320,7 @@ msgstr "Некорректная конфигурация"
 msgid "Configure %1..."
 msgstr "Настроить %1…"
 
-#: ../build/src/ui_appearancesettingspage.h:548
+#: ../build/src/ui_appearancesettingspage.h:589
 msgid "Configure buttons"
 msgstr ""
 
@@ -1557,7 +1557,7 @@ msgstr ""
 msgid "Custom"
 msgstr "Пользовательский"
 
-#: ../build/src/ui_appearancesettingspage.h:527
+#: ../build/src/ui_appearancesettingspage.h:568
 msgid "Custom image:"
 msgstr "Собственное изображение:"
 
@@ -1605,7 +1605,7 @@ msgstr "Уменьшить громкость на 4 процента"
 msgid "Decrease the volume by <value> percent"
 msgstr "Уменьшить громкость на <value> процентов"
 
-#: ../build/src/ui_appearancesettingspage.h:520
+#: ../build/src/ui_appearancesettingspage.h:561
 msgid "Default bac&kground image"
 msgstr "&Фоновое изображение по умолчанию"
 
@@ -1727,7 +1727,7 @@ msgstr "Показывать экранное уведомление"
 msgid "Do not convert any music"
 msgstr "Не конвертировать какую-либо музыку"
 
-#: ../build/src/ui_appearancesettingspage.h:539
+#: ../build/src/ui_appearancesettingspage.h:580
 msgid "Do not cut image"
 msgstr "Не вырезать изображение"
 
@@ -2159,7 +2159,7 @@ msgstr "Файлы"
 msgid "Files to transcode"
 msgstr "Файлы для конвертации"
 
-#: ../build/src/ui_appearancesettingspage.h:549
+#: ../build/src/ui_appearancesettingspage.h:590
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2456,11 +2456,11 @@ msgstr ""
 msgid "Icon"
 msgstr "Значок"
 
-#: ../build/src/ui_appearancesettingspage.h:544
+#: ../build/src/ui_appearancesettingspage.h:585
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:712
+#: widgets/fancytabwidget.cpp:711
 msgid "Icons on top"
 msgstr "Значки сверху"
 
@@ -2589,7 +2589,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Немедленный переход к предыдущей песне"
 
-#: ../build/src/ui_appearancesettingspage.h:538
+#: ../build/src/ui_appearancesettingspage.h:579
 msgid "Keep aspect ratio"
 msgstr "Сохранять пропорции"
 
@@ -2617,7 +2617,7 @@ msgstr "Большой зал"
 msgid "Large album cover"
 msgstr "Большая обложка альбома"
 
-#: widgets/fancytabwidget.cpp:708
+#: widgets/fancytabwidget.cpp:707
 msgid "Large sidebar"
 msgstr "Широкая боковая панель"
 
@@ -2810,7 +2810,7 @@ msgstr ""
 msgid "Match one or more search terms (OR)"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:536
+#: ../build/src/ui_appearancesettingspage.h:577
 msgid "Max cover size"
 msgstr "Максимальный размер обложки"
 
@@ -2831,7 +2831,7 @@ msgstr "Средняя (%1 fps)"
 msgid "Metadata"
 msgstr "Метаданные"
 
-#: ../build/src/ui_appearancesettingspage.h:532
+#: ../build/src/ui_appearancesettingspage.h:573
 msgid "Middle"
 msgstr "Середина"
 
@@ -3164,7 +3164,7 @@ msgstr "При запуске"
 msgid "Only show the first"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:542
+#: ../build/src/ui_appearancesettingspage.h:583
 msgid "Opacity"
 msgstr "Непрозрачность"
 
@@ -3314,7 +3314,7 @@ msgstr "Исполнитель"
 msgid "Pixel"
 msgstr "Пиксель"
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:709
 msgid "Plain sidebar"
 msgstr "Нормальная боковая панель"
 
@@ -3324,7 +3324,7 @@ msgstr "Нормальная боковая панель"
 msgid "Play"
 msgstr "Воспроизвести"
 
-#: ../build/src/ui_appearancesettingspage.h:547
+#: ../build/src/ui_appearancesettingspage.h:588
 msgid "Play control buttons"
 msgstr ""
 
@@ -3374,7 +3374,7 @@ msgstr "Настройки проигрывателя"
 msgid "Playlist"
 msgstr "Плейлист"
 
-#: ../build/src/ui_appearancesettingspage.h:545
+#: ../build/src/ui_appearancesettingspage.h:586
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3427,7 +3427,7 @@ msgstr "Длительность отображения"
 msgid "Port"
 msgstr "Порт"
 
-#: ../build/src/ui_appearancesettingspage.h:529
+#: ../build/src/ui_appearancesettingspage.h:570
 msgid "Position"
 msgstr "Позиция"
 
@@ -4027,11 +4027,11 @@ msgstr "Перемотать текущую трек на абсолютную �
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Перемотка с помощью горячих клавиш клавиатуры или  колеса мыши"
 
-#: ../build/src/ui_appearancesettingspage.h:511
+#: ../build/src/ui_appearancesettingspage.h:552
 msgid "Select background color:"
 msgstr "Выбрать цвет фона:"
 
-#: settings/appearancesettingspage.cpp:366
+#: settings/appearancesettingspage.cpp:377
 msgid "Select background image"
 msgstr "Выбрать фоновое изображение"
 
@@ -4039,11 +4039,11 @@ msgstr "Выбрать фоновое изображение"
 msgid "Select best possible match"
 msgstr "Выбрать самые подходящие результаты"
 
-#: ../build/src/ui_appearancesettingspage.h:509
+#: ../build/src/ui_appearancesettingspage.h:550
 msgid "Select foreground color:"
 msgstr "Выберать основной цвет:"
 
-#: ../build/src/ui_appearancesettingspage.h:517
+#: ../build/src/ui_appearancesettingspage.h:558
 msgid "Select tabbar color:"
 msgstr "Выберите цвет панели вкладок:"
 
@@ -4083,6 +4083,10 @@ msgstr "Установить значение для всех выделенны
 #: ../build/src/ui_settingsdialog.h:113
 msgid "Settings"
 msgstr "Настройки"
+
+#: ../build/src/ui_appearancesettingspage.h:546
+msgid "Settings require restart."
+msgstr ""
 
 #: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
@@ -4312,7 +4316,7 @@ msgstr "Пропустить трек"
 msgid "Small album cover"
 msgstr "Маленькая обложка альбома"
 
-#: widgets/fancytabwidget.cpp:709
+#: widgets/fancytabwidget.cpp:708
 msgid "Small sidebar"
 msgstr "Узкая боковая панель"
 
@@ -4496,9 +4500,14 @@ msgstr "Метод потокового URL"
 msgid "Streaming"
 msgstr "Потоковое воспроизведение"
 
-#: ../build/src/ui_appearancesettingspage.h:537
+#: ../build/src/ui_appearancesettingspage.h:578
 msgid "Stretch image to fill playlist"
 msgstr "Растягивать изображение для заполнения плейлиста"
+
+#: ../build/src/ui_appearancesettingspage.h:543
+#: ../build/src/ui_appearancesettingspage.h:544
+msgid "Style"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:395
 msgid "Submit scrobbles every"
@@ -4545,19 +4554,19 @@ msgstr "Поддерживаемые форматы"
 msgid "System colors"
 msgstr "Системные цвета"
 
-#: ../build/src/ui_appearancesettingspage.h:513
+#: ../build/src/ui_appearancesettingspage.h:554
 msgid "Tabbar colors"
 msgstr "Цвета вкладок"
 
-#: ../build/src/ui_appearancesettingspage.h:546
+#: ../build/src/ui_appearancesettingspage.h:587
 msgid "Tabbar large mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:550
+#: ../build/src/ui_appearancesettingspage.h:591
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:710
 msgid "Tabs on top"
 msgstr "Вкладки вверху"
 
@@ -4606,7 +4615,7 @@ msgstr ""
 msgid "The \"%1\" command could not be started."
 msgstr "Команда «%1» не может быть выполнена"
 
-#: ../build/src/ui_appearancesettingspage.h:523
+#: ../build/src/ui_appearancesettingspage.h:564
 msgid "The album cover of the currently playing song"
 msgstr "Обложка альбома текущей композиции"
 
@@ -4893,11 +4902,11 @@ msgstr "Обновление %1%…"
 msgid "Updating collection"
 msgstr "Обновление фонотеки"
 
-#: ../build/src/ui_appearancesettingspage.h:530
+#: ../build/src/ui_appearancesettingspage.h:571
 msgid "Upper Left"
 msgstr "Сверху слева"
 
-#: ../build/src/ui_appearancesettingspage.h:531
+#: ../build/src/ui_appearancesettingspage.h:572
 msgid "Upper Right"
 msgstr "Сверху справа"
 
@@ -4937,7 +4946,7 @@ msgstr ""
 msgid "Use X11 shortcuts when available"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:508
+#: ../build/src/ui_appearancesettingspage.h:549
 msgid "Use a custom color set"
 msgstr "Использовать собственный набор цветов"
 
@@ -4953,7 +4962,7 @@ msgstr "Использовать аутентификацию"
 msgid "Use bitrate management engine"
 msgstr "Использовать движок управления битрейтом"
 
-#: ../build/src/ui_appearancesettingspage.h:515
+#: ../build/src/ui_appearancesettingspage.h:556
 msgid "Use custom color"
 msgstr "Использовать пользовательский цвет"
 
@@ -4961,7 +4970,7 @@ msgstr "Использовать пользовательский цвет"
 msgid "Use dynamic mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:516
+#: ../build/src/ui_appearancesettingspage.h:557
 msgid "Use gradient background"
 msgstr "Использовать градиентный фон"
 
@@ -4981,7 +4990,7 @@ msgstr "Использовать шаблон"
 msgid "Use proxy settings for streaming"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:551
+#: ../build/src/ui_appearancesettingspage.h:545
 msgid "Use system theme icons"
 msgstr "Использовать системную тему иконок"
 

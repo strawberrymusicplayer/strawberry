@@ -321,7 +321,7 @@ msgstr "&Nový seznam skladeb"
 msgid "&Next track"
 msgstr "&Další skladba"
 
-#: ../build/src/ui_appearancesettingspage.h:521
+#: ../build/src/ui_appearancesettingspage.h:562
 msgid "&No background image"
 msgstr "&Chybějící obrázek na pozadí"
 
@@ -381,11 +381,11 @@ msgstr "&Převést hudbu"
 msgid "&Update changed collection folders"
 msgstr "&Aktualizovat změny ve složkách kolekce"
 
-#: ../build/src/ui_appearancesettingspage.h:514
+#: ../build/src/ui_appearancesettingspage.h:555
 msgid "&Use the system default color"
 msgstr "&Použít nastavení barvu systému"
 
-#: ../build/src/ui_appearancesettingspage.h:507
+#: ../build/src/ui_appearancesettingspage.h:548
 msgid "&Use the system default color set"
 msgstr "&Použít systémový motiv barev"
 
@@ -416,7 +416,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:541
+#: ../build/src/ui_appearancesettingspage.h:582
 msgid "0px"
 msgstr "0 px"
 
@@ -428,7 +428,7 @@ msgstr "1 den"
 msgid "1 track"
 msgstr "1 stopa"
 
-#: ../build/src/ui_appearancesettingspage.h:543
+#: ../build/src/ui_appearancesettingspage.h:584
 msgid "40%"
 msgstr "40%"
 
@@ -448,7 +448,7 @@ msgstr ""
 "<p>Pokud obklopíte části textu obsahující symbol složenými závorkami, tato "
 "část bude skryta, je-li symbol prázdný.</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:526
+#: ../build/src/ui_appearancesettingspage.h:567
 msgid "A Taste of Strawbs"
 msgstr ""
 
@@ -717,7 +717,7 @@ msgstr "Pokročilé seskupování..."
 msgid "After copying..."
 msgstr "Po zkopírování..."
 
-#: ../build/src/ui_appearancesettingspage.h:525
+#: ../build/src/ui_appearancesettingspage.h:566
 msgid "Albu&m cover"
 msgstr "Obal alb&a"
 
@@ -846,7 +846,7 @@ msgstr ""
 msgid "App Secret"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:505
+#: ../build/src/ui_appearancesettingspage.h:542
 msgid "Appearance"
 msgstr "Vzhled"
 
@@ -999,7 +999,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Barva pozadí"
 
-#: ../build/src/ui_appearancesettingspage.h:519
+#: ../build/src/ui_appearancesettingspage.h:560
 msgid "Background image"
 msgstr "Obrázek na pozadí"
 
@@ -1063,7 +1063,7 @@ msgstr "Blokový analyzátor"
 msgid "Block type"
 msgstr "Typ bloku"
 
-#: ../build/src/ui_appearancesettingspage.h:540
+#: ../build/src/ui_appearancesettingspage.h:581
 msgid "Blur amount"
 msgstr "Velikost rozmazání"
 
@@ -1075,15 +1075,15 @@ msgstr "Tělo"
 msgid "Boom analyzer"
 msgstr "Růstový analyzátor"
 
-#: ../build/src/ui_appearancesettingspage.h:533
+#: ../build/src/ui_appearancesettingspage.h:574
 msgid "Bottom Left"
 msgstr "Vlevo dole"
 
-#: ../build/src/ui_appearancesettingspage.h:534
+#: ../build/src/ui_appearancesettingspage.h:575
 msgid "Bottom Right"
 msgstr "Vpravo dole"
 
-#: ../build/src/ui_appearancesettingspage.h:528
+#: ../build/src/ui_appearancesettingspage.h:569
 msgid "Browse..."
 msgstr "Procházet…"
 
@@ -1256,7 +1256,7 @@ msgstr "Zpráva o prohledání sbírky"
 msgid "Collection search"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:506
+#: ../build/src/ui_appearancesettingspage.h:547
 msgid "Colors"
 msgstr "Barvy"
 
@@ -1305,7 +1305,7 @@ msgstr "Konfigurace není správná"
 msgid "Configure %1..."
 msgstr "Nastavit %1..."
 
-#: ../build/src/ui_appearancesettingspage.h:548
+#: ../build/src/ui_appearancesettingspage.h:589
 msgid "Configure buttons"
 msgstr ""
 
@@ -1541,7 +1541,7 @@ msgstr "Využití mezipaměti na disku:"
 msgid "Custom"
 msgstr "Vlastní"
 
-#: ../build/src/ui_appearancesettingspage.h:527
+#: ../build/src/ui_appearancesettingspage.h:568
 msgid "Custom image:"
 msgstr "Vlastní obrázek:"
 
@@ -1589,7 +1589,7 @@ msgstr "Snížit hlasitost o 4 procenta"
 msgid "Decrease the volume by <value> percent"
 msgstr "Snížit hlasitost o <value> procent"
 
-#: ../build/src/ui_appearancesettingspage.h:520
+#: ../build/src/ui_appearancesettingspage.h:561
 msgid "Default bac&kground image"
 msgstr "Výchozí obrázek poza&dí"
 
@@ -1711,7 +1711,7 @@ msgstr "Zobrazovat informace na obrazovce (OSD)"
 msgid "Do not convert any music"
 msgstr "Nepřevádět žádnou hudbu"
 
-#: ../build/src/ui_appearancesettingspage.h:539
+#: ../build/src/ui_appearancesettingspage.h:580
 msgid "Do not cut image"
 msgstr "Neořezávat obrázek"
 
@@ -2144,7 +2144,7 @@ msgstr "Soubory"
 msgid "Files to transcode"
 msgstr "Soubory k překódování"
 
-#: ../build/src/ui_appearancesettingspage.h:549
+#: ../build/src/ui_appearancesettingspage.h:590
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2444,11 +2444,11 @@ msgstr ""
 msgid "Icon"
 msgstr "Ikona"
 
-#: ../build/src/ui_appearancesettingspage.h:544
+#: ../build/src/ui_appearancesettingspage.h:585
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:712
+#: widgets/fancytabwidget.cpp:711
 msgid "Icons on top"
 msgstr "Ikony nahoře"
 
@@ -2582,7 +2582,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Skočit ihned na předchozí píseň"
 
-#: ../build/src/ui_appearancesettingspage.h:538
+#: ../build/src/ui_appearancesettingspage.h:579
 msgid "Keep aspect ratio"
 msgstr "Zachovat poměr stran"
 
@@ -2610,7 +2610,7 @@ msgstr "Velký sál"
 msgid "Large album cover"
 msgstr "Velký obal alba"
 
-#: widgets/fancytabwidget.cpp:708
+#: widgets/fancytabwidget.cpp:707
 msgid "Large sidebar"
 msgstr "Velký postranní panel"
 
@@ -2803,7 +2803,7 @@ msgstr ""
 msgid "Match one or more search terms (OR)"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:536
+#: ../build/src/ui_appearancesettingspage.h:577
 msgid "Max cover size"
 msgstr "Maximální velikost obalu alba"
 
@@ -2824,7 +2824,7 @@ msgstr "Střední (%1 fps)"
 msgid "Metadata"
 msgstr "Metadata"
 
-#: ../build/src/ui_appearancesettingspage.h:532
+#: ../build/src/ui_appearancesettingspage.h:573
 msgid "Middle"
 msgstr "Střed"
 
@@ -3157,7 +3157,7 @@ msgstr "Při startu"
 msgid "Only show the first"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:542
+#: ../build/src/ui_appearancesettingspage.h:583
 msgid "Opacity"
 msgstr "Neprůhlednost"
 
@@ -3307,7 +3307,7 @@ msgstr "Účinkující"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:709
 msgid "Plain sidebar"
 msgstr "Prostý postranní panel"
 
@@ -3317,7 +3317,7 @@ msgstr "Prostý postranní panel"
 msgid "Play"
 msgstr "Přehrát"
 
-#: ../build/src/ui_appearancesettingspage.h:547
+#: ../build/src/ui_appearancesettingspage.h:588
 msgid "Play control buttons"
 msgstr ""
 
@@ -3367,7 +3367,7 @@ msgstr "Nastavení přehrávače"
 msgid "Playlist"
 msgstr "Seznam skladeb"
 
-#: ../build/src/ui_appearancesettingspage.h:545
+#: ../build/src/ui_appearancesettingspage.h:586
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3422,7 +3422,7 @@ msgstr "Doba zobrazení oznámení"
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:529
+#: ../build/src/ui_appearancesettingspage.h:570
 msgid "Position"
 msgstr "Pozice"
 
@@ -4027,11 +4027,11 @@ msgstr "Skočit v nyní přehrávané skladbě na určité místo"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Posunování pomocí klávesové zkratky nebo kolečka myši"
 
-#: ../build/src/ui_appearancesettingspage.h:511
+#: ../build/src/ui_appearancesettingspage.h:552
 msgid "Select background color:"
 msgstr "Vybrat barvu pozadí:"
 
-#: settings/appearancesettingspage.cpp:366
+#: settings/appearancesettingspage.cpp:377
 msgid "Select background image"
 msgstr "Vybrat obrázek na pozadí"
 
@@ -4039,11 +4039,11 @@ msgstr "Vybrat obrázek na pozadí"
 msgid "Select best possible match"
 msgstr "Vyberte nejlepší možnou shodu"
 
-#: ../build/src/ui_appearancesettingspage.h:509
+#: ../build/src/ui_appearancesettingspage.h:550
 msgid "Select foreground color:"
 msgstr "Vybrat barvu popředí:"
 
-#: ../build/src/ui_appearancesettingspage.h:517
+#: ../build/src/ui_appearancesettingspage.h:558
 #, fuzzy
 msgid "Select tabbar color:"
 msgstr "Vybrat barvu tabbar:"
@@ -4084,6 +4084,10 @@ msgstr "Nastavit hodnotu pro vybrané skladby..."
 #: ../build/src/ui_settingsdialog.h:113
 msgid "Settings"
 msgstr "Nastavení"
+
+#: ../build/src/ui_appearancesettingspage.h:546
+msgid "Settings require restart."
+msgstr ""
 
 #: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
@@ -4317,7 +4321,7 @@ msgstr "Přeskočit skladbu"
 msgid "Small album cover"
 msgstr "Malý obal alba"
 
-#: widgets/fancytabwidget.cpp:709
+#: widgets/fancytabwidget.cpp:708
 msgid "Small sidebar"
 msgstr "Malý postranní panel"
 
@@ -4504,9 +4508,14 @@ msgstr "Metoda URL streamu"
 msgid "Streaming"
 msgstr "Streamování"
 
-#: ../build/src/ui_appearancesettingspage.h:537
+#: ../build/src/ui_appearancesettingspage.h:578
 msgid "Stretch image to fill playlist"
 msgstr "Roztáhnout obrázek aby vyplnil seznam skladeb"
+
+#: ../build/src/ui_appearancesettingspage.h:543
+#: ../build/src/ui_appearancesettingspage.h:544
+msgid "Style"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:395
 msgid "Submit scrobbles every"
@@ -4553,20 +4562,20 @@ msgstr "Podporované formáty"
 msgid "System colors"
 msgstr "Systémové barvy"
 
-#: ../build/src/ui_appearancesettingspage.h:513
+#: ../build/src/ui_appearancesettingspage.h:554
 #, fuzzy
 msgid "Tabbar colors"
 msgstr "Barvy tabbaru"
 
-#: ../build/src/ui_appearancesettingspage.h:546
+#: ../build/src/ui_appearancesettingspage.h:587
 msgid "Tabbar large mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:550
+#: ../build/src/ui_appearancesettingspage.h:591
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:710
 msgid "Tabs on top"
 msgstr "Karty nahoře"
 
@@ -4615,7 +4624,7 @@ msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
 msgid "The \"%1\" command could not be started."
 msgstr "Příkaz \"%1\" se nepodařilo provést."
 
-#: ../build/src/ui_appearancesettingspage.h:523
+#: ../build/src/ui_appearancesettingspage.h:564
 msgid "The album cover of the currently playing song"
 msgstr "Obal alba nyní přehrávané písně"
 
@@ -4903,11 +4912,11 @@ msgstr "Obnovuje se %1%..."
 msgid "Updating collection"
 msgstr "Obnovuje se hudební sbírka"
 
-#: ../build/src/ui_appearancesettingspage.h:530
+#: ../build/src/ui_appearancesettingspage.h:571
 msgid "Upper Left"
 msgstr "Vlevo nahoře"
 
-#: ../build/src/ui_appearancesettingspage.h:531
+#: ../build/src/ui_appearancesettingspage.h:572
 msgid "Upper Right"
 msgstr "Vpravo nahoře"
 
@@ -4947,7 +4956,7 @@ msgstr "Použijte nastavení Tidal pro přihlášení."
 msgid "Use X11 shortcuts when available"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:508
+#: ../build/src/ui_appearancesettingspage.h:549
 msgid "Use a custom color set"
 msgstr "Použít vlastní sadu barev:"
 
@@ -4963,7 +4972,7 @@ msgstr "Použít ověření"
 msgid "Use bitrate management engine"
 msgstr "Použít stroj na správu datového toku"
 
-#: ../build/src/ui_appearancesettingspage.h:515
+#: ../build/src/ui_appearancesettingspage.h:556
 msgid "Use custom color"
 msgstr "Použít vlastní barvy"
 
@@ -4971,7 +4980,7 @@ msgstr "Použít vlastní barvy"
 msgid "Use dynamic mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:516
+#: ../build/src/ui_appearancesettingspage.h:557
 msgid "Use gradient background"
 msgstr "Použít gradientu"
 
@@ -4992,7 +5001,7 @@ msgstr "Použít vzor"
 msgid "Use proxy settings for streaming"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:551
+#: ../build/src/ui_appearancesettingspage.h:545
 msgid "Use system theme icons"
 msgstr "Použít ikony ze systémového motivu"
 
