@@ -11,6 +11,7 @@ Unreleased:
     * Fix stretched fancy/side tabbar style issue on Fedora/Gnome.
     * Fix centering star icon on playlist tabbar.
     * Fix network proxy settings for streaming.
+    * Fix copy URL to clipboard to handle non-ASCII characters.
 
   Enhancements:
     * Add support for native global shortcuts on KDE.
@@ -19,6 +20,8 @@ Unreleased:
     * Change star/unstar playlist to doubleclick instead of singleclick.
     * Don't edit playlist name on doubleclick in playlists view.
     * Make context view top label text selectable.
+    * Add setting to change Qt style.
+    * Clear ID3v3 tags that are empty, and clear ID3v1 tags when setting ID3v3 tags.
     * Remove remaining uses of QTextCodec.
     * Remove Core5Compat dependency.
 
