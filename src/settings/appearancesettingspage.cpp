@@ -23,6 +23,7 @@
 
 #include <QApplication>
 #include <QWidget>
+#include <QStyleFactory>
 #include <QVariant>
 #include <QString>
 #include <QStringBuilder>
@@ -51,6 +52,9 @@
 
 const char *AppearanceSettingsPage::kSettingsGroup = "Appearance";
 
+const char *AppearanceSettingsPage::kStyle = "style";
+const char *AppearanceSettingsPage::kSystemThemeIcons = "system_icons";
+
 const char *AppearanceSettingsPage::kUseCustomColorSet = "use-custom-set";
 const char *AppearanceSettingsPage::kForegroundColor = "foreground-color";
 const char *AppearanceSettingsPage::kBackgroundColor = "background-color";
@@ -68,8 +72,6 @@ const char *AppearanceSettingsPage::kOpacityLevel = "opacity_level";
 
 const int AppearanceSettingsPage::kDefaultBlurRadius = 0;
 const int AppearanceSettingsPage::kDefaultOpacityLevel = 40;
-
-const char *AppearanceSettingsPage::kSystemThemeIcons = "system_icons";
 
 const char *AppearanceSettingsPage::kTabBarSystemColor= "tab_system_color";
 const char *AppearanceSettingsPage::kTabBarGradient = "tab_gradient";
@@ -90,6 +92,11 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("view-media-visualization"));
+
+  ui_->combobox_style->addItem("default", "default");
+  for (const QString &style : QStyleFactory::keys()) {
+    ui_->combobox_style->addItem(style, style);
+  }
 
   ui_->combobox_backgroundimageposition->setItemData(0, BackgroundImagePosition_UpperLeft);
   ui_->combobox_backgroundimageposition->setItemData(1, BackgroundImagePosition_UpperRight);
@@ -139,6 +146,12 @@ void AppearanceSettingsPage::Load() {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
+
+  ComboBoxLoadFromSettings(s, ui_->combobox_style, kStyle, "default");
+
+#if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
+  ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
+#endif
 
   QPalette p = QApplication::palette();
 
@@ -197,10 +210,6 @@ void AppearanceSettingsPage::Load() {
   ui_->blur_slider->setValue(s.value(kBlurRadius, kDefaultBlurRadius).toInt());
   ui_->opacity_slider->setValue(s.value(kOpacityLevel, kDefaultOpacityLevel).toInt());
 
-#if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
-  ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
-#endif
-
   ui_->checkbox_background_image_keep_aspect_ratio->setEnabled(ui_->checkbox_background_image_stretch->isChecked());
   ui_->checkbox_background_image_do_not_cut->setEnabled(ui_->checkbox_background_image_stretch->isChecked() && ui_->checkbox_background_image_keep_aspect_ratio->isChecked());
 
@@ -222,8 +231,16 @@ void AppearanceSettingsPage::Load() {
 void AppearanceSettingsPage::Save() {
 
   QSettings s;
-
   s.beginGroup(kSettingsGroup);
+
+  s.setValue("style", ui_->combobox_style->currentText());
+
+#if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
+  s.setValue(kSystemThemeIcons, false);
+#else
+  s.setValue(kSystemThemeIcons, ui_->checkbox_system_icons->isChecked());
+#endif
+
   bool use_a_custom_color_set = ui_->use_a_custom_color_set->isChecked();
   s.setValue(kUseCustomColorSet, use_a_custom_color_set);
   if (use_a_custom_color_set) {
@@ -268,12 +285,6 @@ void AppearanceSettingsPage::Save() {
 
   s.setValue(kBlurRadius, ui_->blur_slider->value());
   s.setValue(kOpacityLevel, ui_->opacity_slider->value());
-
-#if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
-  s.setValue(kSystemThemeIcons, false);
-#else
-  s.setValue(kSystemThemeIcons, ui_->checkbox_system_icons->isChecked());
-#endif
 
   s.setValue(kTabBarSystemColor, ui_->tabbar_system_color->isChecked());
   s.setValue(kTabBarGradient, ui_->tabbar_gradient->isChecked());

@@ -44,6 +44,8 @@ class AppearanceSettingsPage : public SettingsPage {
 
   static const char *kSettingsGroup;
 
+  static const char *kStyle;
+
   static const char *kUseCustomColorSet;
   static const char *kForegroundColor;
   static const char *kBackgroundColor;

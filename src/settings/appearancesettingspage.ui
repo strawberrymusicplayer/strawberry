@@ -15,6 +15,56 @@
   </property>
   <layout class="QVBoxLayout" name="layout_appearancesettingspage">
    <item>
+    <widget class="QGroupBox" name="groupbox_style">
+     <property name="title">
+      <string>Style</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="layout_style">
+        <item>
+         <widget class="QLabel" name="label_style">
+          <property name="text">
+           <string>Style</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="combobox_style"/>
+        </item>
+        <item>
+         <spacer name="spacer_style">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_system_icons">
+        <property name="text">
+         <string>Use system theme icons</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Settings require restart.</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_colors">
      <property name="title">
       <string>Colors</string>
@@ -563,13 +613,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkbox_system_icons">
-     <property name="text">
-      <string>Use system theme icons</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <spacer name="spacer_bottom">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -613,7 +656,6 @@
   <tabstop>spinbox_icon_size_playlist_buttons</tabstop>
   <tabstop>spinbox_icon_size_left_panel_buttons</tabstop>
   <tabstop>spinbox_icon_size_configure_buttons</tabstop>
-  <tabstop>checkbox_system_icons</tabstop>
  </tabstops>
  <resources/>
  <connections>

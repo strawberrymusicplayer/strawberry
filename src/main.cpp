@@ -97,6 +97,7 @@
 #  include "core/translations.h"
 #endif
 #include "settings/behavioursettingspage.h"
+#include "settings/appearancesettingspage.h"
 
 #ifdef HAVE_DBUS
 #  include "osd/osddbus.h"
@@ -196,6 +197,16 @@ int main(int argc, char* argv[]) {
 
   // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad idea, and makes some menus in Strawberry look confusing.
   QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
+
+  {
+    QSettings s;
+    s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+    QString style = s.value(AppearanceSettingsPage::kStyle, "default").toString();
+    s.endGroup();
+    if (style != "default") {
+      QApplication::setStyle(style);
+    }
+  }
 
   // Set the permissions on the config file on Unix - it can contain passwords for internet services so it's important that other users can't read it.
   // On Windows these are stored in the registry instead.
