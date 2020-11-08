@@ -43,7 +43,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-10-19 02:36-0400\n"
+"PO-Revision-Date: 2020-11-07 02:40-0500\n"
 "Last-Translator: Sébastien Morin <sebsweb@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -71,6 +71,8 @@ msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "cinnamon-settings-daemon instead."
 msgstr ""
+"Les raccourcis sur %1 sont généralement ceux de GSD et doivent être "
+"configurés dans cinnamon-settings-daemon à la place."
 
 #: settings/shortcutssettingspage.cpp:308
 #, qt-format
@@ -78,11 +80,14 @@ msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "gnome-settings-daemon instead."
 msgstr ""
+"Les raccourcis sur %1 sont généralement ceux de Gnome et doivent être "
+"configurés dans gnome-settings-daemon à la place."
 
 #: settings/shortcutssettingspage.cpp:306
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
+"Les raccourcis sur %1 sont généralement ceux de MPRIS et de KGlobalAccel."
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -1419,6 +1424,8 @@ msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
 "avoid losing configration before you uninstall the snap:"
 msgstr ""
+"Copiez les fichiers strawberry.conf et strawberry.db depuis votre répertoire "
+"~/snap pour éviter de perdre vos paramètres avant de désinstaller le snap :"
 
 #: transcoder/transcoder.cpp:66
 #, qt-format
@@ -2598,7 +2605,7 @@ msgstr "Insérer..."
 
 #: dialogs/snapdialog.cpp:79
 msgid "Install strawberry through PPA:<br />"
-msgstr ""
+msgstr "Installez strawberry via PPA :<br />"
 
 #: core/database.cpp:490
 msgid "Integrity check"
@@ -4305,7 +4312,7 @@ msgstr "Afficher les paroles"
 
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show song progress on system tray icon"
-msgstr ""
+msgstr "Afficher l'avancée de la chanson dans la barre des tâches"
 
 #: context/contextview.cpp:323
 msgid "Show song technical data"
@@ -4936,7 +4943,7 @@ msgstr "Très large bande (UWB)"
 
 #: dialogs/snapdialog.cpp:74
 msgid "Uninstall the snap with:"
-msgstr ""
+msgstr "Désinstallez le snap avec :"
 
 #: core/song.cpp:547 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:464 collection/collectionmodel.cpp:469
@@ -4998,7 +5005,7 @@ msgstr "Usage"
 
 #: ../build/src/ui_shortcutssettingspage.h:242
 msgid "Use Gnome (GSD) shortcuts when available"
-msgstr ""
+msgstr "Utilisez les raccourcis de Gnome (GSD) lorsque c'est possible"
 
 #: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Use HTTPS for local redirectserver"
@@ -5006,7 +5013,7 @@ msgstr "Utiliser HTTPS pour les redirections locales au serveur"
 
 #: ../build/src/ui_shortcutssettingspage.h:244
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr ""
+msgstr "Utilisez les raccourcis de KDE (KGlobalAccel) lorsque c'est possible"
 
 #: ../build/src/ui_tidalsettingspage.h:316
 msgid "Use OAuth"
@@ -5026,7 +5033,7 @@ msgstr "Utiliser les paramètres de Tidal pour vous authentifier."
 
 #: ../build/src/ui_shortcutssettingspage.h:245
 msgid "Use X11 shortcuts when available"
-msgstr ""
+msgstr "Utilisez les raccourcis de X11 lorsque c'est possible"
 
 #: ../build/src/ui_appearancesettingspage.h:508
 msgid "Use a custom color set"
@@ -5070,7 +5077,7 @@ msgstr "Utiliser un motif"
 
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
-msgstr ""
+msgstr "Utilisez les paramètres proxy pour diffuser en direct"
 
 #: ../build/src/ui_appearancesettingspage.h:551
 msgid "Use system theme icons"
