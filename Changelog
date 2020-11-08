@@ -8,7 +8,7 @@ Unreleased:
     * Fix preventing session logout when window is maxmimized.
     * Fix empty space in organize window when copying songs/playlists to devices.
     * Fix crash when opening about dialog in a wayland session.
-    * Fix stretched fancy/side tabbar style issue on Fedora/Gnome.
+    * Fix stretched fancy/side tabbar style issue with adwaita style (Fedora/Gnome).
     * Fix centering star icon on playlist tabbar.
     * Fix network proxy settings for streaming.
     * Fix copy URL to clipboard to handle non-ASCII characters.
