@@ -97,14 +97,14 @@ void TidalSettingsPage::Load() {
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
 
-  dialog()->ComboBoxLoadFromSettings(s, ui_->quality, "quality", "LOSSLESS");
+  ComboBoxLoadFromSettings(s, ui_->quality, "quality", "LOSSLESS");
   ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
   ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 4).toInt());
   ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());
   ui_->songssearchlimit->setValue(s.value("songssearchlimit", 10).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
-  dialog()->ComboBoxLoadFromSettings(s, ui_->coversize, "coversize", "640x640");
+  ComboBoxLoadFromSettings(s, ui_->coversize, "coversize", "640x640");
 
   StreamUrlMethod stream_url = static_cast<StreamUrlMethod>(s.value("streamurl").toInt());
   int i = ui_->streamurl->findData(stream_url);

@@ -29,6 +29,7 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QSettings>
 
 #include "osd/osdbase.h"
 #include "core/logging.h"
@@ -64,6 +65,9 @@ class SettingsPage : public QWidget {
   SettingsDialog *dialog() const { return dialog_; }
 
   void set_changed() { changed_ = true; }
+
+  void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const QString &default_value);
+  void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value);
 
  private:
   virtual void Save() = 0;

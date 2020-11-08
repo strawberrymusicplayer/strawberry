@@ -85,7 +85,7 @@ void QobuzSettingsPage::Load() {
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
 
-  dialog()->ComboBoxLoadFromSettings(s, ui_->format, "format", 27);
+  ComboBoxLoadFromSettings(s, ui_->format, "format", 27);
   ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
   ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 4).toInt());
   ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());

@@ -111,9 +111,6 @@ class SettingsDialog : public QDialog {
 
   void OpenAtPage(Page page);
 
-  void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const QString &default_value);
-  void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value);
-
  protected:
   void showEvent(QShowEvent *e) override;
   void closeEvent(QCloseEvent*) override;
