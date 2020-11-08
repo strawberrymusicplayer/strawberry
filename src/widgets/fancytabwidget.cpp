@@ -411,10 +411,9 @@ void FancyTabWidget::currentTabChanged(const int idx) {
 
 }
 
-// Override QStyle::subElementRect() and use QCommonStyle to fix a problem with certain styles.
-// Something is causing the contents of the tabbar to be stretched from top to bottom with space between icons and text.
+// Override QStyle::subElementRect() and use QCommonStyle to fix a problem with the adwaita style.
+// The adwaita style is causing the contents of the tabbar to be stretched from top to bottom with space between icons and text.
 // You can see this on the default Fedora (Gnome) installation.
-// Also fixes the tabbar on macOS where the content was in the middle.
 
 class FancyTabWidgetProxyStyle : public QProxyStyle {
  public:
@@ -424,11 +423,8 @@ class FancyTabWidgetProxyStyle : public QProxyStyle {
   QRect subElementRect(QStyle::SubElement element, const QStyleOption *option, const QWidget *widget = nullptr) const override {
     if (element == QStyle::SE_TabWidgetTabBar) {
       QRect proxy_style_rect = QProxyStyle::subElementRect(element, option, widget);
-      QRect commonstyle_rect = common_style_->subElementRect(element, option, widget);
-      // Make the tabs align on top instead of the middle (macOS style hack).
-      // if (proxy_style_rect.y() > 10) proxy_style_rect.setY(commonstyle_rect.y());
-      // Fix stretched tabbar (Fedora/Gnome style issue).
-      proxy_style_rect.setHeight(commonstyle_rect.height());
+      // Fix stretched tabbar (adwaita style issue).
+      proxy_style_rect.setHeight(common_style_->subElementRect(element, option, widget).height());
       return proxy_style_rect;
     }
     else {
