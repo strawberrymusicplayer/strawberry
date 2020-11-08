@@ -206,6 +206,7 @@ int main(int argc, char* argv[]) {
     if (style != "default") {
       QApplication::setStyle(style);
     }
+    if (QApplication::style()) qLog(Debug) << "Style:" << QApplication::style()->objectName();
   }
 
   // Set the permissions on the config file on Unix - it can contain passwords for internet services so it's important that other users can't read it.
