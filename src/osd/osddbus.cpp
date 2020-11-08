@@ -33,6 +33,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QRegularExpression>
 #include <QImage>
 #include <QCoreApplication>
 #include <QVersionNumber>
@@ -141,7 +142,8 @@ void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, 
   if (!interface_) return;
 
   QVariantMap hints;
-  QString summary_stripped = summary.toHtmlEscaped();
+  QString summary_stripped = summary;
+  summary_stripped = summary_stripped.remove(QRegularExpression("[&\"<>]")).simplified();
   QString message_stripped = message.toHtmlEscaped();
 
   if (!image.isNull()) {
