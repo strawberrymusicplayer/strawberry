@@ -146,8 +146,7 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
       message_parts << tr("track %1").arg(song.track());
   }
 
-  summary = summary.remove('&').simplified();
-  QString message = message_parts.join(", ").remove('&').simplified();
+  QString message = message_parts.join(", ");
 
   if (show_art_) {
     ShowMessage(summary, message, "notification-audio-play", image);
