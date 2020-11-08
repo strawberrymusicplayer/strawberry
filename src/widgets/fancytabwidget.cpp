@@ -25,6 +25,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QApplication>
 #include <QTabBar>
 #include <QWidget>
 #include <QTimer>
@@ -452,7 +453,9 @@ FancyTabWidget::FancyTabWidget(QWidget *parent) : QTabWidget(parent),
   setMovable(true);
   setElideMode(Qt::ElideNone);
   setUsesScrollButtons(true);
-  setStyle(new FancyTabWidgetProxyStyle(style()));
+  if (QApplication::style() && QApplication::style()->objectName().toLower().contains(QRegularExpression("^adwaita.*$"))) {
+    setStyle(new FancyTabWidgetProxyStyle(style()));
+  }
 
   connect(tabBar, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged(int)));
 
