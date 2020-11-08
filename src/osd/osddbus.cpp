@@ -141,10 +141,8 @@ void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, 
   if (!interface_) return;
 
   QVariantMap hints;
-  QString summary_stripped = summary;
-  QString message_stripped = message;
-  summary_stripped = summary_stripped.replace('&', "&amp;").simplified();
-  message_stripped = message_stripped.replace('&', "&amp;").simplified();
+  QString summary_stripped = summary.toHtmlEscaped();
+  QString message_stripped = message.toHtmlEscaped();
 
   if (!image.isNull()) {
     if (version_ >= QVersionNumber(1, 2)) {
