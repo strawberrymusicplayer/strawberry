@@ -1723,7 +1723,7 @@ msgstr "Nepřepisovat"
 msgid "Do not show this message again."
 msgstr ""
 
-#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Neopakovat"
 
@@ -1731,7 +1731,7 @@ msgstr "Neopakovat"
 msgid "Don't show in various artists"
 msgstr "Nezobrazovat pod různými umělci"
 
-#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:306 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Nemíchat"
 
@@ -2557,7 +2557,7 @@ msgstr "Zobrazení vyhledávání na internetu"
 msgid "Internet Tabs View"
 msgstr "Zobrazení karet Internetu"
 
-#: osd/osdbase.cpp:327 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:326 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Skladby úvodu"
 
@@ -3134,7 +3134,7 @@ msgstr "Přeps&at vše"
 msgid "OSD Preview"
 msgstr "Náhled OSD"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "Off"
 msgstr "Vypnuto"
 
@@ -3145,7 +3145,7 @@ msgid ""
 "most of their derivatives. See %1 for more information."
 msgstr ""
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "On"
 msgstr "Zapnuto"
 
@@ -3292,7 +3292,7 @@ msgstr "Pozastavit"
 msgid "Pause playback"
 msgstr "Pozastavit přehrávání"
 
-#: osd/osdbase.cpp:187 osd/osdbase.cpp:190
+#: osd/osdbase.cpp:186 osd/osdbase.cpp:189
 msgid "Paused"
 msgstr "Pozastaveno"
 
@@ -3371,7 +3371,7 @@ msgstr "Seznam skladeb"
 msgid "Playlist buttons"
 msgstr ""
 
-#: osd/osdbase.cpp:253
+#: osd/osdbase.cpp:252
 msgid "Playlist finished"
 msgstr "Seznam skladeb dokončen"
 
@@ -3706,15 +3706,15 @@ msgstr "Přečíslovat skladby v tomto pořadí..."
 msgid "Repeat"
 msgstr "Opakovat"
 
-#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Opakovat album"
 
-#: osd/osdbase.cpp:325 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Opakovat seznam skladeb"
 
-#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Opakovat skladbu"
 
@@ -4264,15 +4264,15 @@ msgstr ""
 msgid "Shuffle"
 msgstr "Zamíchat"
 
-#: osd/osdbase.cpp:310 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Zamíchat alba"
 
-#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Zamíchat vše"
 
-#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Zamíchat skladby na tomto albu"
 
@@ -4410,7 +4410,7 @@ msgstr "Spouští se %1"
 msgid "Stop after each track"
 msgstr "Zastavit po každé skladbě"
 
-#: osd/osdbase.cpp:326
+#: osd/osdbase.cpp:325
 msgid "Stop after every track"
 msgstr "Zastavit po každé skladbě"
 
@@ -4426,12 +4426,12 @@ msgstr "Zastavit přehrávání"
 msgid "Stop playback after current track"
 msgstr "Zastavit přehrávání po současné skladbě"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Zastavit přehrávání po skladbě: %1"
 
-#: osd/osdbase.cpp:232 osd/osdbase.cpp:235
+#: osd/osdbase.cpp:231 osd/osdbase.cpp:234
 msgid "Stopped"
 msgstr "Zastaveno"
 
@@ -5073,7 +5073,7 @@ msgstr "Pohled"
 msgid "Voice activity detection"
 msgstr "Zjištění hlasové činnosti"
 
-#: osd/osdbase.cpp:261
+#: osd/osdbase.cpp:260
 #, qt-format
 msgid "Volume %1%"
 msgstr "Hlasitost %1 %"

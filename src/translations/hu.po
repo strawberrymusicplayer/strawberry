@@ -1733,7 +1733,7 @@ msgstr "Ne írja felül"
 msgid "Do not show this message again."
 msgstr ""
 
-#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Nincs ismétlés"
 
@@ -1741,7 +1741,7 @@ msgstr "Nincs ismétlés"
 msgid "Don't show in various artists"
 msgstr "Ne mutassa a különböző előadók között"
 
-#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:306 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Nincs keverés"
 
@@ -2563,7 +2563,7 @@ msgstr "Internet keresés nézet"
 msgid "Internet Tabs View"
 msgstr "Internet lap nézet"
 
-#: osd/osdbase.cpp:327 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:326 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Bevezető számok"
 
@@ -3140,7 +3140,7 @@ msgstr "&Összes felülírása"
 msgid "OSD Preview"
 msgstr "OSD Előnézet"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "Off"
 msgstr "Ki"
 
@@ -3151,7 +3151,7 @@ msgid ""
 "most of their derivatives. See %1 for more information."
 msgstr ""
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "On"
 msgstr "Be"
 
@@ -3298,7 +3298,7 @@ msgstr "Szünet"
 msgid "Pause playback"
 msgstr "Lejátszás szüneteltetése"
 
-#: osd/osdbase.cpp:187 osd/osdbase.cpp:190
+#: osd/osdbase.cpp:186 osd/osdbase.cpp:189
 msgid "Paused"
 msgstr "Szüneteltetve"
 
@@ -3377,7 +3377,7 @@ msgstr "Lejátszólista"
 msgid "Playlist buttons"
 msgstr "Lejátszólista gombok"
 
-#: osd/osdbase.cpp:253
+#: osd/osdbase.cpp:252
 msgid "Playlist finished"
 msgstr "A lejátszólista befejezve"
 
@@ -3718,15 +3718,15 @@ msgstr "Számok újraszámozása ebben a sorrendben..."
 msgid "Repeat"
 msgstr "Ismétlés"
 
-#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Album ismétlése"
 
-#: osd/osdbase.cpp:325 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Lejátszólista ismétlése"
 
-#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Szám ismétlése"
 
@@ -4268,15 +4268,15 @@ msgstr "Főablak megjelenítése minimalizálva"
 msgid "Shuffle"
 msgstr "Keverés"
 
-#: osd/osdbase.cpp:310 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Albumok összekeverése"
 
-#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Az összes véletlenszerűen"
 
-#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Zeneszámok összekeverése az albumokban"
 
@@ -4413,7 +4413,7 @@ msgstr "%1 indítása"
 msgid "Stop after each track"
 msgstr "Leállítás a minden egyes szám után"
 
-#: osd/osdbase.cpp:326
+#: osd/osdbase.cpp:325
 msgid "Stop after every track"
 msgstr "Leállítás minden szám után"
 
@@ -4429,12 +4429,12 @@ msgstr "Lejátszás leállítása"
 msgid "Stop playback after current track"
 msgstr "Leállítás az aktuális szám után"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Leállítás az aktuális szám után: %1"
 
-#: osd/osdbase.cpp:232 osd/osdbase.cpp:235
+#: osd/osdbase.cpp:231 osd/osdbase.cpp:234
 msgid "Stopped"
 msgstr "Leállítva"
 
@@ -5076,7 +5076,7 @@ msgstr "Nézet"
 msgid "Voice activity detection"
 msgstr "Hangtevékenység felismerése"
 
-#: osd/osdbase.cpp:261
+#: osd/osdbase.cpp:260
 #, qt-format
 msgid "Volume %1%"
 msgstr "Hangerő %1%"

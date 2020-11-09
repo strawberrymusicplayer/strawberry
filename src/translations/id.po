@@ -1719,7 +1719,7 @@ msgstr "Jangan timpa"
 msgid "Do not show this message again."
 msgstr ""
 
-#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Jangan ulang"
 
@@ -1727,7 +1727,7 @@ msgstr "Jangan ulang"
 msgid "Don't show in various artists"
 msgstr "Jangan tampilkan di artis beragam"
 
-#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:306 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Jangan karau"
 
@@ -2544,7 +2544,7 @@ msgstr ""
 msgid "Internet Tabs View"
 msgstr ""
 
-#: osd/osdbase.cpp:327 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:326 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Trek intro"
 
@@ -3119,7 +3119,7 @@ msgstr "T&impa semua"
 msgid "OSD Preview"
 msgstr "Pratinjau OSD"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "Off"
 msgstr "Mati"
 
@@ -3130,7 +3130,7 @@ msgid ""
 "most of their derivatives. See %1 for more information."
 msgstr ""
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "On"
 msgstr "Nyala"
 
@@ -3277,7 +3277,7 @@ msgstr "Jeda"
 msgid "Pause playback"
 msgstr "Jeda pemutaran"
 
-#: osd/osdbase.cpp:187 osd/osdbase.cpp:190
+#: osd/osdbase.cpp:186 osd/osdbase.cpp:189
 msgid "Paused"
 msgstr "Jeda"
 
@@ -3356,7 +3356,7 @@ msgstr "Daftar putar"
 msgid "Playlist buttons"
 msgstr ""
 
-#: osd/osdbase.cpp:253
+#: osd/osdbase.cpp:252
 msgid "Playlist finished"
 msgstr "Daftar putar selesai"
 
@@ -3684,15 +3684,15 @@ msgstr "Beri nomor baru trek dalam urutan ini..."
 msgid "Repeat"
 msgstr "Ulang"
 
-#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Ulang album"
 
-#: osd/osdbase.cpp:325 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Ulang daftar putar"
 
-#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Ulang trek"
 
@@ -4235,15 +4235,15 @@ msgstr ""
 msgid "Shuffle"
 msgstr "Karau"
 
-#: osd/osdbase.cpp:310 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Karau album"
 
-#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Karau semua"
 
-#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Karau trek di dalam album ini"
 
@@ -4380,7 +4380,7 @@ msgstr "Memulai %1"
 msgid "Stop after each track"
 msgstr "Berhenti setelah masing-masing trek"
 
-#: osd/osdbase.cpp:326
+#: osd/osdbase.cpp:325
 msgid "Stop after every track"
 msgstr "Berhenti setelah setiap trek"
 
@@ -4396,12 +4396,12 @@ msgstr "Hentikan pemutaran"
 msgid "Stop playback after current track"
 msgstr "Hentikan pemutaran setelah trek saat ini"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Berhenti memutar setelah trek: %1"
 
-#: osd/osdbase.cpp:232 osd/osdbase.cpp:235
+#: osd/osdbase.cpp:231 osd/osdbase.cpp:234
 msgid "Stopped"
 msgstr "Berhenti"
 
@@ -5039,7 +5039,7 @@ msgstr "Tampilan"
 msgid "Voice activity detection"
 msgstr "Deteksi aktivitas suara"
 
-#: osd/osdbase.cpp:261
+#: osd/osdbase.cpp:260
 #, qt-format
 msgid "Volume %1%"
 msgstr "Volume %1%"

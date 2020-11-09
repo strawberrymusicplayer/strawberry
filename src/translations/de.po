@@ -1769,7 +1769,7 @@ msgstr "Nicht überschreiben"
 msgid "Do not show this message again."
 msgstr "Zeige diese Nachricht nicht wieder."
 
-#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Wiederholung aus"
 
@@ -1777,7 +1777,7 @@ msgstr "Wiederholung aus"
 msgid "Don't show in various artists"
 msgstr "Nicht unter »Verschiedene Interpreten« anzeigen"
 
-#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:306 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Zufallsmodus aus"
 
@@ -2609,7 +2609,7 @@ msgstr "Internet Suchansicht"
 msgid "Internet Tabs View"
 msgstr "Internet Registerkartenansicht"
 
-#: osd/osdbase.cpp:327 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:326 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Einleitungstitel"
 
@@ -3188,7 +3188,7 @@ msgstr "O&alles überschreiben"
 msgid "OSD Preview"
 msgstr "Vorschau der Bildschirmanzeige"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "Off"
 msgstr "Aus"
 
@@ -3202,7 +3202,7 @@ msgstr ""
 "meisten ihrer Derivate funktionieren. Weitere Informationen finden Sie unter "
 "%1."
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "On"
 msgstr "An"
 
@@ -3349,7 +3349,7 @@ msgstr "Pause"
 msgid "Pause playback"
 msgstr "Wiedergabe pausieren"
 
-#: osd/osdbase.cpp:187 osd/osdbase.cpp:190
+#: osd/osdbase.cpp:186 osd/osdbase.cpp:189
 msgid "Paused"
 msgstr "Pausiert"
 
@@ -3430,7 +3430,7 @@ msgstr "Wiedergabeliste"
 msgid "Playlist buttons"
 msgstr "Steuerung der Playliste"
 
-#: osd/osdbase.cpp:253
+#: osd/osdbase.cpp:252
 msgid "Playlist finished"
 msgstr "Wiedergabeliste beendet"
 
@@ -3772,15 +3772,15 @@ msgstr "Musiktitel in dieser Reihenfolge neu nummerieren …"
 msgid "Repeat"
 msgstr "Wiederholung"
 
-#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Album wiederholen"
 
-#: osd/osdbase.cpp:325 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Wiedergabeliste wiederholen"
 
-#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Titel wiederholen"
 
@@ -4326,15 +4326,15 @@ msgstr "Zeige das Hauptfenster minimiert"
 msgid "Shuffle"
 msgstr "Zufallsmodus"
 
-#: osd/osdbase.cpp:310 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Zufällige Albenreihenfolge"
 
-#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Zufällige Titelreihenfolge"
 
-#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Zufällige Titelreihenfolge innerhalb eines Albums"
 
@@ -4471,7 +4471,7 @@ msgstr "Starte %1"
 msgid "Stop after each track"
 msgstr "Wiedergabe nach jedem Titel anhalten"
 
-#: osd/osdbase.cpp:326
+#: osd/osdbase.cpp:325
 msgid "Stop after every track"
 msgstr "Wiedergabe nach jedem Titel anhalten"
 
@@ -4487,12 +4487,12 @@ msgstr "Wiedergabe anhalten"
 msgid "Stop playback after current track"
 msgstr "Wiedergabe nach aktuellem Titel anhalten"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Wiedergabe anhalten nach: %1"
 
-#: osd/osdbase.cpp:232 osd/osdbase.cpp:235
+#: osd/osdbase.cpp:231 osd/osdbase.cpp:234
 msgid "Stopped"
 msgstr "Angehalten"
 
@@ -5141,7 +5141,7 @@ msgstr "Ansicht"
 msgid "Voice activity detection"
 msgstr "Sprachaktivitätserkennung"
 
-#: osd/osdbase.cpp:261
+#: osd/osdbase.cpp:260
 #, qt-format
 msgid "Volume %1%"
 msgstr "Lautstärke %1%"

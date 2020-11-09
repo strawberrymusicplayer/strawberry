@@ -1709,7 +1709,7 @@ msgstr "덮어쓰지 않기"
 msgid "Do not show this message again."
 msgstr ""
 
-#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "반복하지 않기"
 
@@ -1717,7 +1717,7 @@ msgstr "반복하지 않기"
 msgid "Don't show in various artists"
 msgstr "여러 아티스로 표시하지 않기"
 
-#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:306 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "섞지 않기"
 
@@ -2529,7 +2529,7 @@ msgstr ""
 msgid "Internet Tabs View"
 msgstr ""
 
-#: osd/osdbase.cpp:327 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:326 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "인트로 트랙"
 
@@ -3100,7 +3100,7 @@ msgstr "모두 덮어쓰기(&V)"
 msgid "OSD Preview"
 msgstr "OSD 미리 보기"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "Off"
 msgstr "꺼짐"
 
@@ -3111,7 +3111,7 @@ msgid ""
 "most of their derivatives. See %1 for more information."
 msgstr ""
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "On"
 msgstr "켜짐"
 
@@ -3258,7 +3258,7 @@ msgstr "일시 정지"
 msgid "Pause playback"
 msgstr "재생 일시 정지"
 
-#: osd/osdbase.cpp:187 osd/osdbase.cpp:190
+#: osd/osdbase.cpp:186 osd/osdbase.cpp:189
 msgid "Paused"
 msgstr "일시 정지됨"
 
@@ -3337,7 +3337,7 @@ msgstr "재생 목록"
 msgid "Playlist buttons"
 msgstr ""
 
-#: osd/osdbase.cpp:253
+#: osd/osdbase.cpp:252
 msgid "Playlist finished"
 msgstr "재생 목록 끝남"
 
@@ -3665,15 +3665,15 @@ msgstr "다음 순서로 트랙 번호 다시 매기기..."
 msgid "Repeat"
 msgstr "반복"
 
-#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "앨범 반복"
 
-#: osd/osdbase.cpp:325 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "재생 목록 반복"
 
-#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "한 곡 반복"
 
@@ -4214,15 +4214,15 @@ msgstr ""
 msgid "Shuffle"
 msgstr "셔플 재생"
 
-#: osd/osdbase.cpp:310 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "앨범 셔플"
 
-#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "모두 셔플"
 
-#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "이 앨범에 있는 곡만 셔플"
 
@@ -4358,7 +4358,7 @@ msgstr "%1 시작 중"
 msgid "Stop after each track"
 msgstr "각각 트랙이 끝난 후 정지"
 
-#: osd/osdbase.cpp:326
+#: osd/osdbase.cpp:325
 msgid "Stop after every track"
 msgstr "모든 트랙 이후에 정지"
 
@@ -4374,12 +4374,12 @@ msgstr "재생 정지"
 msgid "Stop playback after current track"
 msgstr "현재 트랙 이후에 재생 정지"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "트랙 재생 후 정지: %1"
 
-#: osd/osdbase.cpp:232 osd/osdbase.cpp:235
+#: osd/osdbase.cpp:231 osd/osdbase.cpp:234
 msgid "Stopped"
 msgstr "정지됨"
 
@@ -4995,7 +4995,7 @@ msgstr "보기"
 msgid "Voice activity detection"
 msgstr "음성 활동 감지"
 
-#: osd/osdbase.cpp:261
+#: osd/osdbase.cpp:260
 #, qt-format
 msgid "Volume %1%"
 msgstr "음량 %1%"

@@ -1776,7 +1776,7 @@ msgstr "Ne pas écraser"
 msgid "Do not show this message again."
 msgstr "Ne plus afficher ce message."
 
-#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Ne pas répéter"
 
@@ -1784,7 +1784,7 @@ msgstr "Ne pas répéter"
 msgid "Don't show in various artists"
 msgstr "Ne pas classer dans la catégorie « Compilations d'artistes »"
 
-#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:306 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Aléatoire : désactivé"
 
@@ -2619,7 +2619,7 @@ msgstr "Affichage des recherches Internet"
 msgid "Internet Tabs View"
 msgstr "Affichage des onglets Internet"
 
-#: osd/osdbase.cpp:327 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:326 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Introduction des pistes"
 
@@ -3204,7 +3204,7 @@ msgstr "To&ut écraser"
 msgid "OSD Preview"
 msgstr "Prévisualisation de l'affichage à l'écran (OSD)"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "Off"
 msgstr "Désactivé"
 
@@ -3218,7 +3218,7 @@ msgstr ""
 "fonctionnent aussi sur la plupart de leurs dérivés. Voir %1 pour plus "
 "d'informations."
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "On"
 msgstr "Activé"
 
@@ -3365,7 +3365,7 @@ msgstr "Pause"
 msgid "Pause playback"
 msgstr "Mettre la lecture en pause"
 
-#: osd/osdbase.cpp:187 osd/osdbase.cpp:190
+#: osd/osdbase.cpp:186 osd/osdbase.cpp:189
 msgid "Paused"
 msgstr "En pause"
 
@@ -3446,7 +3446,7 @@ msgstr "Liste de lecture"
 msgid "Playlist buttons"
 msgstr "Boutons de liste de lecture"
 
-#: osd/osdbase.cpp:253
+#: osd/osdbase.cpp:252
 msgid "Playlist finished"
 msgstr "Liste de lecture terminée"
 
@@ -3790,15 +3790,15 @@ msgstr "Renuméroter les pistes dans cet ordre..."
 msgid "Repeat"
 msgstr "Répéter"
 
-#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Répéter l'album"
 
-#: osd/osdbase.cpp:325 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Répéter la liste de lecture"
 
-#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Répéter la piste"
 
@@ -4342,15 +4342,15 @@ msgstr "Afficher la fenêtre principale en réduit"
 msgid "Shuffle"
 msgstr "Aléatoire"
 
-#: osd/osdbase.cpp:310 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Aléatoire : albums"
 
-#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Aléatoire : tout"
 
-#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Aléatoire : pistes de cet album"
 
@@ -4487,7 +4487,7 @@ msgstr "Lancement de %1"
 msgid "Stop after each track"
 msgstr "Arrêter la lecture après chaque piste"
 
-#: osd/osdbase.cpp:326
+#: osd/osdbase.cpp:325
 msgid "Stop after every track"
 msgstr "Arrêter la lecture après chaque piste"
 
@@ -4503,12 +4503,12 @@ msgstr "Arrêter la lecture"
 msgid "Stop playback after current track"
 msgstr "Arrêter la lecture après ce morceau"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Arrêter la lecture après la piste : %1"
 
-#: osd/osdbase.cpp:232 osd/osdbase.cpp:235
+#: osd/osdbase.cpp:231 osd/osdbase.cpp:234
 msgid "Stopped"
 msgstr "Interrompu"
 
@@ -5160,7 +5160,7 @@ msgstr "Vue"
 msgid "Voice activity detection"
 msgstr "Détecteur d’activité vocale"
 
-#: osd/osdbase.cpp:261
+#: osd/osdbase.cpp:260
 #, qt-format
 msgid "Volume %1%"
 msgstr "Volume %1%"

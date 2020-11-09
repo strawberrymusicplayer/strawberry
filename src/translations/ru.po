@@ -1739,7 +1739,7 @@ msgstr "Не перезаписывать"
 msgid "Do not show this message again."
 msgstr ""
 
-#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Не повторять"
 
@@ -1747,7 +1747,7 @@ msgstr "Не повторять"
 msgid "Don't show in various artists"
 msgstr "Не показывать в «Различных исполнителях»"
 
-#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:306 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Не перемешивать"
 
@@ -2567,7 +2567,7 @@ msgstr ""
 msgid "Internet Tabs View"
 msgstr ""
 
-#: osd/osdbase.cpp:327 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:326 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Вступительные треки"
 
@@ -3141,7 +3141,7 @@ msgstr "&Перезаписать все"
 msgid "OSD Preview"
 msgstr "Предпросмотр OSD"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "Off"
 msgstr "Выкл."
 
@@ -3152,7 +3152,7 @@ msgid ""
 "most of their derivatives. See %1 for more information."
 msgstr ""
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 msgid "On"
 msgstr "Вкл."
 
@@ -3299,7 +3299,7 @@ msgstr "Пауза"
 msgid "Pause playback"
 msgstr "Приостановить воспроизведение"
 
-#: osd/osdbase.cpp:187 osd/osdbase.cpp:190
+#: osd/osdbase.cpp:186 osd/osdbase.cpp:189
 msgid "Paused"
 msgstr "Приостановлен"
 
@@ -3378,7 +3378,7 @@ msgstr "Плейлист"
 msgid "Playlist buttons"
 msgstr ""
 
-#: osd/osdbase.cpp:253
+#: osd/osdbase.cpp:252
 msgid "Playlist finished"
 msgstr "Плейлист закончился"
 
@@ -3708,15 +3708,15 @@ msgstr "Перенумеровать треки в данном порядке�
 msgid "Repeat"
 msgstr "Повтор"
 
-#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Повторять альбом"
 
-#: osd/osdbase.cpp:325 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Повторять плейлист"
 
-#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Повторять трек"
 
@@ -4259,15 +4259,15 @@ msgstr ""
 msgid "Shuffle"
 msgstr "Перемешивание"
 
-#: osd/osdbase.cpp:310 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Перемешать альбомы"
 
-#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Перемешать все"
 
-#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Перемешать треки в этом альбоме"
 
@@ -4405,7 +4405,7 @@ msgstr "Запуск %1"
 msgid "Stop after each track"
 msgstr "Останавливать после каждого трека"
 
-#: osd/osdbase.cpp:326
+#: osd/osdbase.cpp:325
 msgid "Stop after every track"
 msgstr "Останавливать после каждого трека"
 
@@ -4421,12 +4421,12 @@ msgstr "Остановить воспроизведение"
 msgid "Stop playback after current track"
 msgstr "Остановить после текущего трека"
 
-#: osd/osdbase.cpp:245
+#: osd/osdbase.cpp:244
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Остановить воспроизведение после трека: %1"
 
-#: osd/osdbase.cpp:232 osd/osdbase.cpp:235
+#: osd/osdbase.cpp:231 osd/osdbase.cpp:234
 msgid "Stopped"
 msgstr "Остановлено"
 
@@ -5062,7 +5062,7 @@ msgstr "Просмотр"
 msgid "Voice activity detection"
 msgstr "Определение голоса"
 
-#: osd/osdbase.cpp:261
+#: osd/osdbase.cpp:260
 #, qt-format
 msgid "Volume %1%"
 msgstr "Громкость %1%"
