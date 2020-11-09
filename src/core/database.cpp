@@ -519,11 +519,13 @@ void Database::DoBackup() {
 
   QSqlDatabase db(this->Connect());
 
+  if (!db.isOpen()) return;
+
   // Before we overwrite anything, make sure the database is not corrupt
   QMutexLocker l(&mutex_);
-  const bool ok = IntegrityCheck(db);
 
-  if (ok) {
+  const bool ok = IntegrityCheck(db);
+  if (ok && SchemaVersion(&db) == kSchemaVersion) {
     BackupFile(db.databaseName());
   }
 
