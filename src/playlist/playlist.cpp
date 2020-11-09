@@ -403,9 +403,10 @@ void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelInd
   if (reply->is_successful() && idx.isValid()) {
     if (reply->message().save_file_response().success()) {
       PlaylistItemPtr item = item_at(idx.row());
-      if (!item) return;
-      QFuture<void> future = item->BackgroundReload();
-      NewClosure(future, this, SLOT(ItemReloadComplete(QPersistentModelIndex)), idx);
+      if (item) {
+        QFuture<void> future = item->BackgroundReload();
+        NewClosure(future, this, SLOT(ItemReloadComplete(QPersistentModelIndex)), idx);
+      }
     }
     else {
       emit Error(tr("An error occurred writing metadata to '%1'").arg(QString::fromStdString(reply->request_message().save_file_request().filename())));
