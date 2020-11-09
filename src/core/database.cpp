@@ -132,6 +132,7 @@ QSqlDatabase Database::Connect() {
   if (db.isOpen()) {
     return db;
   }
+  db.setConnectOptions("QSQLITE_BUSY_TIMEOUT=30000");
   //qLog(Debug) << "Opened database with connection id" << connection_id;
 
   if (!injected_database_name_.isNull())
