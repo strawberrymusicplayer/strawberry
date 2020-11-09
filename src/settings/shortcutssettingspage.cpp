@@ -71,16 +71,20 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
   connect(ui_->radio_custom, SIGNAL(clicked()), SLOT(ChangeClicked()));
   connect(ui_->button_change, SIGNAL(clicked()), SLOT(ChangeClicked()));
 
-#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
-#ifdef HAVE_DBUS
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+#  ifdef HAVE_DBUS
   connect(ui_->checkbox_gsd, SIGNAL(clicked(bool)), SLOT(ShortcutOptionsChanged()));
   connect(ui_->checkbox_kde, SIGNAL(clicked(bool)), SLOT(ShortcutOptionsChanged()));
   connect(ui_->button_gsd_open, SIGNAL(clicked()), SLOT(OpenGnomeKeybindingProperties()));
-#endif
-#ifdef HAVE_X11
+#  endif
+#  ifdef HAVE_X11
   connect(ui_->checkbox_x11, SIGNAL(clicked(bool)), SLOT(ShortcutOptionsChanged()));
-#endif
-#endif  // !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
+#  endif
+#else
+  ui_->widget_gsd->hide();
+  ui_->widget_kde->hide();
+  ui_->widget_x11->hide();
+#endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
 
 }
 
@@ -114,6 +118,7 @@ void GlobalShortcutsSettingsPage::Load() {
 
     connect(ui_->button_macos_open, SIGNAL(clicked()), manager, SLOT(ShowMacAccessibilityDialog()));
 
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
     if (manager->IsGsdAvailable()) {
       qLog(Debug) << "Gnome (GSD) backend is available.";
       ui_->widget_gsd->show();
@@ -140,6 +145,7 @@ void GlobalShortcutsSettingsPage::Load() {
       qLog(Debug) << "X11 backend is unavailable.";
       ui_->widget_x11->hide();
     }
+#endif
 
     for (const GlobalShortcuts::Shortcut &i : manager->shortcuts().values()) {
       Shortcut shortcut;
@@ -158,6 +164,7 @@ void GlobalShortcutsSettingsPage::Load() {
     SetShortcut(shortcut.s.id, shortcut.s.action->shortcut());
   }
 
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
   if (ui_->widget_gsd->isVisibleTo(this)) {
     ui_->checkbox_gsd->setChecked(s.value("use_gsd", true).toBool());
   }
@@ -169,8 +176,11 @@ void GlobalShortcutsSettingsPage::Load() {
   if (ui_->widget_x11->isVisibleTo(this)) {
     ui_->checkbox_x11->setChecked(s.value("use_x11", false).toBool());
   }
+#endif
 
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
   ShortcutOptionsChanged();
+#endif
 
   ui_->widget_macos->setVisible(!manager->IsMacAccessibilityEnabled());
 #ifdef Q_OS_MACOS
@@ -198,9 +208,11 @@ void GlobalShortcutsSettingsPage::Save() {
     s.setValue(shortcut.s.id, shortcut.key.toString());
   }
 
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
   s.setValue("use_gsd", ui_->checkbox_gsd->isChecked());
   s.setValue("use_kde", ui_->checkbox_kde->isChecked());
   s.setValue("use_x11", ui_->checkbox_x11->isChecked());
+#endif
 
   s.endGroup();
 
