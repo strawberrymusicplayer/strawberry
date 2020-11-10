@@ -220,6 +220,7 @@ class PlaylistView : public QTreeView {
   Playlist *playlist_;
   PlaylistHeader *header_;
 
+  qreal device_pixel_ratio_;
   AppearanceSettingsPage::BackgroundImageType background_image_type_;
   QString background_image_filename_;
   AppearanceSettingsPage::BackgroundImagePosition background_image_position_;

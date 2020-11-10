@@ -214,6 +214,9 @@ PlaylistView::PlaylistView(QWidget *parent)
 
   dynamic_controls_->hide();
 
+  // To proper scale all pixmaps
+    device_pixel_ratio_ = devicePixelRatioF();
+
   // For fading
   connect(fade_animation_, SIGNAL(valueChanged(qreal)), SLOT(FadePreviousBackgroundImage(qreal)));
   fade_animation_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
@@ -557,7 +560,8 @@ void PlaylistView::UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, con
   cached_current_row_row_ = idx.row();
 
   option.rect.moveTo(0, 0);
-  cached_current_row_ = QPixmap(option.rect.size());
+  cached_current_row_ = QPixmap(option.rect.width() * device_pixel_ratio_, option.rect.height() * device_pixel_ratio_);
+  cached_current_row_.setDevicePixelRatio(device_pixel_ratio_);
   cached_current_row_.fill(Qt::transparent);
 
   QPainter p(&cached_current_row_);
@@ -1023,7 +1027,8 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
 
   if (drop_indicator_row_ != -1) {
     if (cached_tree_.isNull()) {
-      cached_tree_ = QPixmap(size());
+      cached_tree_ = QPixmap(size().width() * device_pixel_ratio_, size().height() * device_pixel_ratio_);
+      cached_tree_.setDevicePixelRatio(device_pixel_ratio_);
       cached_tree_.fill(Qt::transparent);
 
       QPainter cache_painter(&cached_tree_);
