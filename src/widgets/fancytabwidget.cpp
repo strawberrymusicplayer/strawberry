@@ -438,6 +438,7 @@ class FancyTabWidgetProxyStyle : public QProxyStyle {
 };
 
 FancyTabWidget::FancyTabWidget(QWidget *parent) : QTabWidget(parent),
+      style_(nullptr),
       menu_(nullptr),
       mode_(Mode_None),
       bottom_widget_(nullptr),
@@ -454,7 +455,8 @@ FancyTabWidget::FancyTabWidget(QWidget *parent) : QTabWidget(parent),
   setElideMode(Qt::ElideNone);
   setUsesScrollButtons(true);
   if (QApplication::style() && QApplication::style()->objectName().toLower().contains(QRegularExpression("^adwaita.*$"))) {
-    setStyle(new FancyTabWidgetProxyStyle(style()));
+    style_ = new FancyTabWidgetProxyStyle(style());
+    setStyle(style_);
   }
 
   connect(tabBar, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged(int)));
@@ -462,7 +464,7 @@ FancyTabWidget::FancyTabWidget(QWidget *parent) : QTabWidget(parent),
 }
 
 FancyTabWidget::~FancyTabWidget() {
-  style()->deleteLater();
+  if (style_) style_->deleteLater();
 }
 
 void FancyTabWidget::Load(const QString &kSettingsGroup) {

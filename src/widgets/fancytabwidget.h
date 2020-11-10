@@ -37,6 +37,7 @@ class QMenu;
 class QActionGroup;
 class QContextMenuEvent;
 class QPaintEvent;
+class QProxyStyle;
 class TabData;
 
 namespace Core {
@@ -102,6 +103,7 @@ class FancyTabWidget : public QTabWidget {
  private:
   void addMenuItem(QActionGroup* group, const QString& text, Mode mode);
 
+  QProxyStyle *style_;
   QPixmap background_pixmap_;
   QMenu *menu_;
   Mode mode_;
