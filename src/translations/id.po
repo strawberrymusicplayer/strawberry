@@ -2438,7 +2438,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:713
 msgid "Icons on top"
 msgstr "Ikon di atas"
 
@@ -2594,7 +2594,7 @@ msgstr "Balai Besar"
 msgid "Large album cover"
 msgstr "Sampul album besar"
 
-#: widgets/fancytabwidget.cpp:707
+#: widgets/fancytabwidget.cpp:709
 msgid "Large sidebar"
 msgstr "Bilah sisi besar"
 
@@ -3292,7 +3292,7 @@ msgstr "Penampil"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:709
+#: widgets/fancytabwidget.cpp:711
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
@@ -4292,7 +4292,7 @@ msgstr "Lewati trek"
 msgid "Small album cover"
 msgstr "Sampul album kecil"
 
-#: widgets/fancytabwidget.cpp:708
+#: widgets/fancytabwidget.cpp:710
 msgid "Small sidebar"
 msgstr "Bilah sisi kecil"
 
@@ -4541,7 +4541,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:712
 msgid "Tabs on top"
 msgstr "Tab di puncak"
 
@@ -5313,7 +5313,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:545 context/contextview.cpp:696
-#: playlist/playlistview.cpp:262 dialogs/edittagdialog.cpp:557
+#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:557
 msgid "kbps"
 msgstr "kbps"
 

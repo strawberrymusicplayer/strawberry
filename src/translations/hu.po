@@ -2455,7 +2455,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr "Ikonméretek"
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:713
 msgid "Icons on top"
 msgstr "Ikonok felül"
 
@@ -2615,7 +2615,7 @@ msgstr "Nagy terem"
 msgid "Large album cover"
 msgstr "Nagy albumborító"
 
-#: widgets/fancytabwidget.cpp:707
+#: widgets/fancytabwidget.cpp:709
 msgid "Large sidebar"
 msgstr "Nagy oldalsáv"
 
@@ -3313,7 +3313,7 @@ msgstr "Előadó"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:709
+#: widgets/fancytabwidget.cpp:711
 msgid "Plain sidebar"
 msgstr "Egyszerű oldalsáv"
 
@@ -4325,7 +4325,7 @@ msgstr "Szám kihagyása"
 msgid "Small album cover"
 msgstr "Kis albumborító"
 
-#: widgets/fancytabwidget.cpp:708
+#: widgets/fancytabwidget.cpp:710
 msgid "Small sidebar"
 msgstr "Kis oldalsáv"
 
@@ -4576,7 +4576,7 @@ msgstr "Lapsáv nagy mód"
 msgid "Tabbar small mode"
 msgstr "Lapsáv kis mód"
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:712
 msgid "Tabs on top"
 msgstr "Fülek felül"
 
@@ -5354,7 +5354,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:545 context/contextview.cpp:696
-#: playlist/playlistview.cpp:262 dialogs/edittagdialog.cpp:557
+#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:557
 msgid "kbps"
 msgstr "kb/s"
 

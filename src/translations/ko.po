@@ -2427,7 +2427,7 @@ msgstr "아이콘"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:713
 msgid "Icons on top"
 msgstr "상단에 아이콘"
 
@@ -2579,7 +2579,7 @@ msgstr "거대한 홀"
 msgid "Large album cover"
 msgstr "큰 앨범아트"
 
-#: widgets/fancytabwidget.cpp:707
+#: widgets/fancytabwidget.cpp:709
 msgid "Large sidebar"
 msgstr "큰 사이드바"
 
@@ -3273,7 +3273,7 @@ msgstr "연주가"
 msgid "Pixel"
 msgstr "픽셀"
 
-#: widgets/fancytabwidget.cpp:709
+#: widgets/fancytabwidget.cpp:711
 msgid "Plain sidebar"
 msgstr "일반 사이드바"
 
@@ -4271,7 +4271,7 @@ msgstr "트랙 건너뛰기"
 msgid "Small album cover"
 msgstr "작은 앨범아트"
 
-#: widgets/fancytabwidget.cpp:708
+#: widgets/fancytabwidget.cpp:710
 msgid "Small sidebar"
 msgstr "작은 사이드바"
 
@@ -4517,7 +4517,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:712
 msgid "Tabs on top"
 msgstr "위쪽에 탭 표시"
 
@@ -5262,7 +5262,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:545 context/contextview.cpp:696
-#: playlist/playlistview.cpp:262 dialogs/edittagdialog.cpp:557
+#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:557
 msgid "kbps"
 msgstr "kbps"
 
