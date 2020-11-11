@@ -215,7 +215,7 @@ PlaylistView::PlaylistView(QWidget *parent)
   dynamic_controls_->hide();
 
   // To proper scale all pixmaps
-    device_pixel_ratio_ = devicePixelRatioF();
+  device_pixel_ratio_ = devicePixelRatioF();
 
   // For fading
   connect(fade_animation_, SIGNAL(valueChanged(qreal)), SLOT(FadePreviousBackgroundImage(qreal)));
