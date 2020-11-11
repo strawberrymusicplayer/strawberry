@@ -12,6 +12,7 @@ Unreleased:
     * Fix centering star icon on playlist tabbar.
     * Fix network proxy settings for streaming.
     * Fix copy URL to clipboard to handle non-ASCII characters.
+    * Fix HiDPI scaling for glow animation and drag over playlist.
 
   Enhancements:
     * Add support for native global shortcuts on KDE.
