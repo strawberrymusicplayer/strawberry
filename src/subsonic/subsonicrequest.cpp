@@ -251,7 +251,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
   }
 
   int albums_received = 0;
-  for (const QJsonValue &value_album : array_albums) {
+  for (const QJsonValue value_album : array_albums) {
 
     ++albums_received;
 
@@ -440,7 +440,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
   bool multidisc = false;
   SongList songs;
   int songs_received = 0;
-  for (const QJsonValue &value_song : array_songs) {
+  for (const QJsonValue value_song : array_songs) {
 
     if (!value_song.isObject()) {
       Error("Invalid Json reply, track is not a object.", value_song);

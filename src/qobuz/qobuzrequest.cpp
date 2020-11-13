@@ -396,7 +396,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
   }
 
   int artists_received = 0;
-  for (const QJsonValue &value_item : array_items) {
+  for (const QJsonValue value_item : array_items) {
 
     ++artists_received;
 
@@ -609,7 +609,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
   }
 
   int albums_received = 0;
-  for (const QJsonValue &value : array_items) {
+  for (const QJsonValue value : array_items) {
 
     ++albums_received;
 
@@ -907,7 +907,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id_
   //bool multidisc = false;
   SongList songs;
   int songs_received = 0;
-  for (const QJsonValue &value_item : array_items) {
+  for (const QJsonValue value_item : array_items) {
 
     if (!value_item.isObject()) {
       Error("Invalid Json reply, track is not a object.", value_item);

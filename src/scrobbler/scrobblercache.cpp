@@ -102,7 +102,7 @@ void ScrobblerCache::ReadCache() {
     return;
   }
 
-  for (const QJsonValue &value : json_array) {
+  for (const QJsonValue value : json_array) {
     if (!value.isObject()) {
       qLog(Error) << "Scrobbler cache JSON tracks array value is not an object.";
       qLog(Debug) << value;

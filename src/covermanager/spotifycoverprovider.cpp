@@ -496,7 +496,7 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
   }
 
   CoverSearchResults results;
-  for (const QJsonValue &value_item : array_items) {
+  for (const QJsonValue value_item : array_items) {
 
     if (!value_item.isObject()) {
       continue;
@@ -516,14 +516,14 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
     QString album = obj_album["name"].toString();
 
     QStringList artists;
-    for (const QJsonValue &value_artist : array_artists) {
+    for (const QJsonValue value_artist : array_artists) {
       if (!value_artist.isObject()) continue;
       QJsonObject obj_artist = value_artist.toObject();
       if (!obj_artist.contains("name")) continue;
       artists << obj_artist["name"].toString();
     }
 
-    for (const QJsonValue &value_image : array_images) {
+    for (const QJsonValue value_image : array_images) {
       if (!value_image.isObject()) continue;
       QJsonObject obj_image = value_image.toObject();
       if (!obj_image.contains("url") || !obj_image.contains("width") || !obj_image.contains("height")) continue;

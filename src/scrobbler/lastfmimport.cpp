@@ -356,7 +356,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
 
     QJsonArray array_track = json_obj["track"].toArray();
 
-    for (const QJsonValue &value_track : array_track) {
+    for (const QJsonValue value_track : array_track) {
 
       ++lastplayed_received_;
 
@@ -516,7 +516,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
   else {
 
     QJsonArray array_track = json_obj["track"].toArray();
-    for (const QJsonValue &value_track : array_track) {
+    for (const QJsonValue value_track : array_track) {
 
       ++playcount_received_;
 

@@ -218,7 +218,7 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
   }
   QJsonArray array_items = value_items.toArray();
 
-  for (const QJsonValue &value : array_items) {
+  for (const QJsonValue value : array_items) {
 
     if (!value.isObject()) {
       Error("Invalid Json reply, value in items is not a object.", value);

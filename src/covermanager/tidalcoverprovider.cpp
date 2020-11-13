@@ -212,7 +212,7 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   CoverSearchResults results;
   int i = 0;
-  for (const QJsonValue &value_item : array_items) {
+  for (const QJsonValue value_item : array_items) {
 
     if (!value_item.isObject()) {
       Error("Invalid Json reply, items array item is not a object.", value_item);

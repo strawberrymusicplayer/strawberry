@@ -167,11 +167,11 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   // List of <id, nb of sources> pairs
   QList<IdSource> id_source_list;
 
-  for (const QJsonValue& v : json_results) {
+  for (const QJsonValue v : json_results) {
     QJsonObject r = v.toObject();
     if (!r["recordings"].isUndefined()) {
       QJsonArray json_recordings = r["recordings"].toArray();
-      for (const QJsonValue& recording : json_recordings) {
+      for (const QJsonValue recording : json_recordings) {
         QJsonObject o = recording.toObject();
         if (!o["id"].isUndefined()) {
           id_source_list << IdSource(o["id"].toString(), o["sources"].toInt());
