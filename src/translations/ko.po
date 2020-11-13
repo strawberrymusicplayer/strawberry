@@ -4794,7 +4794,7 @@ msgstr ""
 #: core/song.cpp:547 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:464 collection/collectionmodel.cpp:469
 #: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
-#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1593
+#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1594
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
 #: playlist/playlistmanager.cpp:556 playlist/playlistmanager.cpp:557
 #: dialogs/edittagdialog.cpp:514 dialogs/edittagdialog.cpp:562
