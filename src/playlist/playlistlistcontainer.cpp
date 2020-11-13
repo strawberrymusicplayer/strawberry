@@ -404,7 +404,7 @@ void PlaylistListContainer::Delete() {
   QSet<int> ids;
   QList<QPersistentModelIndex> folders_to_delete;
 
-  for (const QModelIndex proxy_index : ui_->tree->selectionModel()->selectedRows()) {
+  for (const QModelIndex &proxy_index : ui_->tree->selectionModel()->selectedRows()) {
     const QModelIndex idx = proxy_->mapToSource(proxy_index);
 
     // Is it a playlist?
