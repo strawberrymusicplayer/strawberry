@@ -1178,7 +1178,7 @@ jobs:
 
       - name: Copy extra binaries
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,killproc.exe,liborc-0.4-0.dll} .
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,killproc.exe} .
 
       - name: Copy dependencies
         working-directory: build
