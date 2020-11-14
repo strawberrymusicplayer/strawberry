@@ -75,7 +75,9 @@ void GlobalShortcutBackendKDE::RegisterFinished(QDBusPendingCallWatcher *watcher
   watcher->deleteLater();
 
   if (!reply.isValid()) {
-    qLog(Error) << "Failed to register:" << reply.error().name() << reply.error().message();
+    if (reply.error().name() != "org.kde.kglobalaccel.NoSuchComponent") {
+      qLog(Error) << "Failed to register:" << reply.error().name() << reply.error().message();
+    }
     return;
   }
 
@@ -108,7 +110,7 @@ void GlobalShortcutBackendKDE::DoUnregister() {
     }
   }
 
-  disconnect(component_, nullptr, this, nullptr);
+  if (component_) disconnect(component_, nullptr, this, nullptr);
 
   qLog(Debug) << "Unregistered";
 
