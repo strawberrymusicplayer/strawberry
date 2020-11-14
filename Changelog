@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+0.8.4:
 
   Bugfixes:
     * Fix preventing session logout when window is maxmimized.
