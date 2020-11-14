@@ -13,6 +13,8 @@ Unreleased:
     * Fix network proxy settings for streaming.
     * Fix copy URL to clipboard to handle non-ASCII characters.
     * Fix HiDPI scaling for glow animation and drag over playlist.
+    * Fix smart playlist search by filename.
+    * Fix single letter collection nodes showing before dividers.
 
   Enhancements:
     * Add support for native global shortcuts on KDE.
