@@ -219,6 +219,12 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl ori
   g_object_get(G_OBJECT(pipeline_), "flags", &flags, nullptr);
   flags |= 0x00000002;
   flags &= ~0x00000001;
+  if (volume_enabled_) {
+    flags |= 0x00000010;
+  }
+  else {
+    flags &= ~0x00000010;
+  }
   g_object_set(G_OBJECT(pipeline_), "flags", flags, nullptr);
 
   pad_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &NewPadCallback, this);
