@@ -893,7 +893,11 @@ void CollectionModel::LazyPopulate(CollectionItem *parent, const bool signal) {
 }
 
 void CollectionModel::ResetAsync() {
-  QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(std::bind(&CollectionModel::RunQuery, this, root_));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(&CollectionModel::RunQuery, this, root_);
+#else
+  QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(this, &CollectionModel::RunQuery, root_);
+#endif
   NewClosure(future, this, SLOT(ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult>)), future);
 }
 

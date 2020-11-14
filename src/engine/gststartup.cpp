@@ -41,7 +41,11 @@
 #include "gststartup.h"
 
 GstStartup::GstStartup(QObject *parent) : QObject(parent) {
-  initializing_ = QtConcurrent::run([=]{ InitializeGStreamer(); });
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  initializing_ = QtConcurrent::run(&GstStartup::InitializeGStreamer, this);
+#else
+  initializing_ = QtConcurrent::run(this, &GstStartup::InitializeGStreamer);
+#endif
 }
 
 GstStartup::~GstStartup() {}

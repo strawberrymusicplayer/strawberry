@@ -293,7 +293,11 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
   ui_->song_list->clear();
 
   // Reload tags in the background
-  QFuture<QList<Data>> future = QtConcurrent::run(std::bind(&EditTagDialog::LoadData, this, s));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  QFuture<QList<Data>> future = QtConcurrent::run(&EditTagDialog::LoadData, this, s);
+#else
+  QFuture<QList<Data>> future = QtConcurrent::run(this, &EditTagDialog::LoadData, s);
+#endif
   NewClosure(future, this, SLOT(SetSongsFinished(QFuture<QList<EditTagDialog::Data>>)), future);
 
 }

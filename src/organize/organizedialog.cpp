@@ -387,8 +387,11 @@ bool OrganizeDialog::SetUrls(const QList<QUrl> &urls) {
 }
 
 bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
-
-  songs_future_ = QtConcurrent::run(std::bind(&OrganizeDialog::LoadSongsBlocking, this, filenames));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  songs_future_ = QtConcurrent::run(&OrganizeDialog::LoadSongsBlocking, this, filenames);
+#else
+  songs_future_ = QtConcurrent::run(this, &OrganizeDialog::LoadSongsBlocking, filenames);
+#endif
   NewClosure(songs_future_, [=]() { SetSongs(songs_future_.result()); });
 
   SetLoadingSongs(true);
