@@ -149,7 +149,7 @@ msgstr ""
 msgid "%1 playlists (%2)"
 msgstr "%1 scalette (%2)"
 
-#: playlist/playlistmanager.cpp:454
+#: playlist/playlistmanager.cpp:458
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 selezionate di"
@@ -186,7 +186,7 @@ msgid ""
 "them all?"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:461 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:465 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 tracce"
@@ -420,7 +420,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "un giorno"
 
-#: playlist/playlistmanager.cpp:461 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:465 queue/queue.cpp:254
 msgid "1 track"
 msgstr "una traccia"
 
@@ -827,7 +827,7 @@ msgid "An error occurred loading the iTunes database"
 msgstr ""
 "Si è verificato un errore durante la il caricamento del database di iTunes"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:956
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:960
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Si è verificato un errore durante la scrittura dei metadati su '%1'"
@@ -876,7 +876,7 @@ msgstr ""
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Sei sicuro di voler eliminare la preimpostazione \"%1\"?"
 
-#: dialogs/edittagdialog.cpp:872
+#: dialogs/edittagdialog.cpp:876
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Sei sicuro di voler azzerare le statistiche del brano?"
 
@@ -1309,7 +1309,7 @@ msgstr ""
 msgid "Configure collection..."
 msgstr "Configura raccolta..."
 
-#: device/devicemanager.cpp:344 device/devicemanager.cpp:345
+#: device/devicemanager.cpp:348 device/devicemanager.cpp:349
 msgid "Connect device"
 msgstr "Connetti dispositivo"
 
@@ -1422,24 +1422,24 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "Gestore delle copertine"
 
-#: dialogs/edittagdialog.cpp:537
+#: dialogs/edittagdialog.cpp:541
 msgid "Cover art from embedded image"
 msgstr "Copertina da immagine integrata"
 
-#: dialogs/edittagdialog.cpp:540
+#: dialogs/edittagdialog.cpp:544
 #, qt-format
 msgid "Cover art loaded automatically from %1"
 msgstr "Copertina caricata automaticamente da %1"
 
-#: dialogs/edittagdialog.cpp:530
+#: dialogs/edittagdialog.cpp:534
 msgid "Cover art manually unset"
 msgstr "Copertina rimossa manualmente"
 
-#: dialogs/edittagdialog.cpp:543
+#: dialogs/edittagdialog.cpp:547
 msgid "Cover art not set"
 msgstr "Copertina non impostata"
 
-#: dialogs/edittagdialog.cpp:534
+#: dialogs/edittagdialog.cpp:538
 #, qt-format
 msgid "Cover art set from %1"
 msgstr "Copertina impostata da %1"
@@ -1953,7 +1953,7 @@ msgstr "Errore durante l'eliminazione dei brani"
 msgid "Error processing %1: %2"
 msgstr "Errore durante l'elaborazione di %1: %2"
 
-#: playlist/songloaderinserter.cpp:109
+#: playlist/songloaderinserter.cpp:113
 msgid "Error while loading audio CD."
 msgstr "Errore durante il caricamento del CD audio"
 
@@ -2461,7 +2461,7 @@ msgstr ""
 "Se attivata, il clic su un brano selezionato nella vista della scaletta ti "
 "consentirà di modificare direttamente il valore di un tag"
 
-#: device/devicemanager.cpp:602 device/devicemanager.cpp:610
+#: device/devicemanager.cpp:606 device/devicemanager.cpp:614
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
@@ -2698,11 +2698,11 @@ msgstr ""
 msgid "Loading songs"
 msgstr "Caricamento brani in corso"
 
-#: playlist/songloaderinserter.cpp:164 dialogs/edittagdialog.cpp:289
+#: playlist/songloaderinserter.cpp:168 dialogs/edittagdialog.cpp:289
 msgid "Loading tracks"
 msgstr "Caricamento delle tracce"
 
-#: playlist/songloaderinserter.cpp:194
+#: playlist/songloaderinserter.cpp:198
 msgid "Loading tracks info"
 msgstr "Caricamento informazioni della traccia"
 
@@ -2973,7 +2973,7 @@ msgstr "Banda stretta (NB)"
 msgid "Network Proxy"
 msgstr "Proxy di rete"
 
-#: playlist/playlistdelegates.cpp:344 dialogs/edittagdialog.cpp:584
+#: playlist/playlistdelegates.cpp:344 dialogs/edittagdialog.cpp:588
 msgid "Never"
 msgstr "Mai"
 
@@ -3356,7 +3356,7 @@ msgstr "Opzioni del lettore"
 
 #: playlist/playlistcontainer.cpp:321 playlist/playlistlistcontainer.cpp:287
 #: playlist/playlistlistcontainer.cpp:384 playlist/playlistmanager.cpp:109
-#: playlist/playlistmanager.cpp:187 playlist/playlistmanager.cpp:549
+#: playlist/playlistmanager.cpp:187 playlist/playlistmanager.cpp:553
 #: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Scaletta"
@@ -3758,7 +3758,7 @@ msgstr ""
 msgid "Reset"
 msgstr "Azzera"
 
-#: dialogs/edittagdialog.cpp:872 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:876 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "Azzera i contatori"
 
@@ -3900,7 +3900,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Salva la scaletta"
 
-#: playlist/playlistmanager.cpp:261
+#: playlist/playlistmanager.cpp:265
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Salva la scaletta"
@@ -3925,7 +3925,7 @@ msgstr "Gestore raggruppamenti salvati"
 msgid "Saving album covers"
 msgstr "Salvataggio delle copertine dell'album"
 
-#: dialogs/edittagdialog.cpp:787 dialogs/trackselectiondialog.cpp:291
+#: dialogs/edittagdialog.cpp:791 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "Salvataggio tracce in corso"
 
@@ -4709,23 +4709,23 @@ msgstr ""
 msgid "This device supports the following file formats:"
 msgstr "Questo dispositivo utilizza i seguenti formati file:"
 
-#: device/devicemanager.cpp:600 device/devicemanager.cpp:608
+#: device/devicemanager.cpp:604 device/devicemanager.cpp:612
 msgid "This device will not work properly"
 msgstr "Il dispositivo non funzionerà correttamente"
 
-#: device/devicemanager.cpp:601
+#: device/devicemanager.cpp:605
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr ""
 "Questo è un dispositivo MTP, ma hai compilato Strawberry senza il supporto a "
 "libmtp."
 
-#: device/devicemanager.cpp:609
+#: device/devicemanager.cpp:613
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr ""
 "Questo è un iPod, ma hai compilato Strawberry senza il supporto a libgpod."
 
-#: device/devicemanager.cpp:344
+#: device/devicemanager.cpp:348
 msgid ""
 "This is the first time you have connected this device.  Strawberry will now "
 "scan the device to find music files - this may take some time."
@@ -4739,7 +4739,7 @@ msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr ""
 "Questa opzione può essere modificata nelle preferenze di \"Comportamento\""
 
-#: device/devicemanager.cpp:623
+#: device/devicemanager.cpp:627
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Questi tipo di dispositivo non è supportato: %1"
@@ -4860,10 +4860,10 @@ msgstr ""
 #: core/song.cpp:547 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:464 collection/collectionmodel.cpp:469
 #: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
-#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1594
+#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1598
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
-#: playlist/playlistmanager.cpp:556 playlist/playlistmanager.cpp:557
-#: dialogs/edittagdialog.cpp:514 dialogs/edittagdialog.cpp:562
+#: playlist/playlistmanager.cpp:560 playlist/playlistmanager.cpp:561
+#: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
 #: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Unknown"
 msgstr "Sconosciuto"
@@ -5041,7 +5041,7 @@ msgid "Variable bit rate"
 msgstr "Bitrate variabile"
 
 #: collection/collectionmodel.cpp:373 collection/collectionmodel.cpp:374
-#: playlist/playlistmanager.cpp:568 covermanager/albumcovermanager.cpp:333
+#: playlist/playlistmanager.cpp:572 covermanager/albumcovermanager.cpp:333
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Artisti vari"
@@ -5338,7 +5338,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:545 context/contextview.cpp:696
-#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:557
+#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:561
 msgid "kbps"
 msgstr "kbps"
 

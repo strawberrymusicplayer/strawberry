@@ -154,7 +154,7 @@ msgstr ""
 msgid "%1 playlists (%2)"
 msgstr "재생 목록 %1개(%2)"
 
-#: playlist/playlistmanager.cpp:454
+#: playlist/playlistmanager.cpp:458
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1개 선택됨,"
@@ -191,7 +191,7 @@ msgid ""
 "them all?"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:461 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:465 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "트랙 %1개"
@@ -423,7 +423,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1일"
 
-#: playlist/playlistmanager.cpp:461 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:465 queue/queue.cpp:254
 msgid "1 track"
 msgstr "트랙 1개"
 
@@ -826,7 +826,7 @@ msgstr "항상 재생 시작"
 msgid "An error occurred loading the iTunes database"
 msgstr "iTunes 데이터베이스를 불러오는 중 오류 발생"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:956
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:960
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "'%1'에 메타데이터를 쓰는 중 오류 발생"
@@ -875,7 +875,7 @@ msgstr ""
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "\"%1\" 사전 설정을 지우시겠습니까?"
 
-#: dialogs/edittagdialog.cpp:872
+#: dialogs/edittagdialog.cpp:876
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "이 곡의 통계를 초기화하시겠습니까?"
 
@@ -1305,7 +1305,7 @@ msgstr ""
 msgid "Configure collection..."
 msgstr "모음집 설정..."
 
-#: device/devicemanager.cpp:344 device/devicemanager.cpp:345
+#: device/devicemanager.cpp:348 device/devicemanager.cpp:349
 msgid "Connect device"
 msgstr "장치 연결"
 
@@ -1411,24 +1411,24 @@ msgstr "%1 인코더를 찾을 수 없습니다. GStreamer 플러그인 설치 �
 msgid "Cover Manager"
 msgstr "표지 관리자"
 
-#: dialogs/edittagdialog.cpp:537
+#: dialogs/edittagdialog.cpp:541
 msgid "Cover art from embedded image"
 msgstr "내장된 이미지에서 불러온 표지 그림"
 
-#: dialogs/edittagdialog.cpp:540
+#: dialogs/edittagdialog.cpp:544
 #, qt-format
 msgid "Cover art loaded automatically from %1"
 msgstr "%1에서 자동으로 표지 그림을 불러옴"
 
-#: dialogs/edittagdialog.cpp:530
+#: dialogs/edittagdialog.cpp:534
 msgid "Cover art manually unset"
 msgstr "표지 그림을 수동으로 설정 해제함"
 
-#: dialogs/edittagdialog.cpp:543
+#: dialogs/edittagdialog.cpp:547
 msgid "Cover art not set"
 msgstr "표지 그림을 설정하지 않았음"
 
-#: dialogs/edittagdialog.cpp:534
+#: dialogs/edittagdialog.cpp:538
 #, qt-format
 msgid "Cover art set from %1"
 msgstr "%1에서 표지 그림을 설정함"
@@ -1940,7 +1940,7 @@ msgstr "노래 삭제 오류"
 msgid "Error processing %1: %2"
 msgstr "%1 처리 오류: %2"
 
-#: playlist/songloaderinserter.cpp:109
+#: playlist/songloaderinserter.cpp:113
 msgid "Error while loading audio CD."
 msgstr "오디오 CD를 불러오는 중 오류가 발생했습니다."
 
@@ -2441,7 +2441,7 @@ msgid ""
 "edit the tag value directly"
 msgstr "활성화하면 재생 목록에서 선택한 노래를 클릭하여 태그 값을 직접 수정할 수 있습니다."
 
-#: device/devicemanager.cpp:602 device/devicemanager.cpp:610
+#: device/devicemanager.cpp:606 device/devicemanager.cpp:614
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
@@ -2675,11 +2675,11 @@ msgstr ""
 msgid "Loading songs"
 msgstr "노래 불러오는 중"
 
-#: playlist/songloaderinserter.cpp:164 dialogs/edittagdialog.cpp:289
+#: playlist/songloaderinserter.cpp:168 dialogs/edittagdialog.cpp:289
 msgid "Loading tracks"
 msgstr "트랙 불러오는 중"
 
-#: playlist/songloaderinserter.cpp:194
+#: playlist/songloaderinserter.cpp:198
 msgid "Loading tracks info"
 msgstr "트랙 정보 불러오는 중"
 
@@ -2950,7 +2950,7 @@ msgstr "협대역(NB)"
 msgid "Network Proxy"
 msgstr "네트워크 프록시"
 
-#: playlist/playlistdelegates.cpp:344 dialogs/edittagdialog.cpp:584
+#: playlist/playlistdelegates.cpp:344 dialogs/edittagdialog.cpp:588
 msgid "Never"
 msgstr "없음"
 
@@ -3328,7 +3328,7 @@ msgstr "재생기 옵션"
 
 #: playlist/playlistcontainer.cpp:321 playlist/playlistlistcontainer.cpp:287
 #: playlist/playlistlistcontainer.cpp:384 playlist/playlistmanager.cpp:109
-#: playlist/playlistmanager.cpp:187 playlist/playlistmanager.cpp:549
+#: playlist/playlistmanager.cpp:187 playlist/playlistmanager.cpp:553
 #: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "재생 목록"
@@ -3724,7 +3724,7 @@ msgstr ""
 msgid "Reset"
 msgstr "초기화"
 
-#: dialogs/edittagdialog.cpp:872 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:876 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "재생 횟수 초기화"
 
@@ -3864,7 +3864,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
 
-#: playlist/playlistmanager.cpp:261
+#: playlist/playlistmanager.cpp:265
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
@@ -3889,7 +3889,7 @@ msgstr "그룹 관리자 저장됨"
 msgid "Saving album covers"
 msgstr "앨범아트 저장 중"
 
-#: dialogs/edittagdialog.cpp:787 dialogs/trackselectiondialog.cpp:291
+#: dialogs/edittagdialog.cpp:791 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "트랙 저장 중"
 
@@ -4650,20 +4650,20 @@ msgstr "Strawberry에서 이 장치가 지원하는 파일 형식을 파악하�
 msgid "This device supports the following file formats:"
 msgstr "이 장치는 다음 파일 형식을 지원합니다:"
 
-#: device/devicemanager.cpp:600 device/devicemanager.cpp:608
+#: device/devicemanager.cpp:604 device/devicemanager.cpp:612
 msgid "This device will not work properly"
 msgstr "이 장치는 올바르게 작동하지 않을 수 있음"
 
-#: device/devicemanager.cpp:601
+#: device/devicemanager.cpp:605
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr "이 장치는 MTP 장치이지만 Strawberry를 컴파일할 때 libmtp 지원이 빠졌습니다."
 
-#: device/devicemanager.cpp:609
+#: device/devicemanager.cpp:613
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr "이 장치는 iPod이지만 Strawberry를 컴파일할 때 libgpod 지원이 빠졌습니다."
 
-#: device/devicemanager.cpp:344
+#: device/devicemanager.cpp:348
 msgid ""
 "This is the first time you have connected this device.  Strawberry will now "
 "scan the device to find music files - this may take some time."
@@ -4673,7 +4673,7 @@ msgstr "이 장치를 처음 연결했습니다. Strawberry에서 장치에 있�
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "이 옵션은 \"행동\" 설정에서 변경할 수 있습니다"
 
-#: device/devicemanager.cpp:623
+#: device/devicemanager.cpp:627
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "다음 장치의 형식은 지원하지 않습니다: %1"
@@ -4794,10 +4794,10 @@ msgstr ""
 #: core/song.cpp:547 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:464 collection/collectionmodel.cpp:469
 #: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
-#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1594
+#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1598
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
-#: playlist/playlistmanager.cpp:556 playlist/playlistmanager.cpp:557
-#: dialogs/edittagdialog.cpp:514 dialogs/edittagdialog.cpp:562
+#: playlist/playlistmanager.cpp:560 playlist/playlistmanager.cpp:561
+#: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
 #: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Unknown"
 msgstr "알 수 없음"
@@ -4973,7 +4973,7 @@ msgid "Variable bit rate"
 msgstr "가변 비트 전송률"
 
 #: collection/collectionmodel.cpp:373 collection/collectionmodel.cpp:374
-#: playlist/playlistmanager.cpp:568 covermanager/albumcovermanager.cpp:333
+#: playlist/playlistmanager.cpp:572 covermanager/albumcovermanager.cpp:333
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "편집 음반"
@@ -5262,7 +5262,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:545 context/contextview.cpp:696
-#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:557
+#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:561
 msgid "kbps"
 msgstr "kbps"
 

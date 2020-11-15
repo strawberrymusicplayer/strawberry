@@ -154,7 +154,7 @@ msgstr "A(z) %1 hitelesítést igényel."
 msgid "%1 playlists (%2)"
 msgstr "%1 lejátszólista (%2)"
 
-#: playlist/playlistmanager.cpp:454
+#: playlist/playlistmanager.cpp:458
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 kiválasztva"
@@ -193,7 +193,7 @@ msgstr ""
 "%1 zene van %2 különböző könyvtárból kiválasztva, biztos meg szeretné nyitni "
 "az összeset?"
 
-#: playlist/playlistmanager.cpp:461 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:465 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 szám"
@@ -427,7 +427,7 @@ msgstr "0 px"
 msgid "1 day"
 msgstr "1 nap"
 
-#: playlist/playlistmanager.cpp:461 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:465 queue/queue.cpp:254
 msgid "1 track"
 msgstr "1 szám"
 
@@ -834,7 +834,7 @@ msgstr "Mindig indítsa a lejátszást"
 msgid "An error occurred loading the iTunes database"
 msgstr "Hiba történt az iTunes adatbázis betöltése közben"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:956
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:960
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Hiba történt '%1' metaadatainak írása közben"
@@ -883,7 +883,7 @@ msgstr "Biztos folytatni szeretné?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Biztos benne, hogy törli a \"%1\" beállítást?"
 
-#: dialogs/edittagdialog.cpp:872
+#: dialogs/edittagdialog.cpp:876
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Biztos benne, hogy visszaállítja ennek a dalnak a statisztikáit?"
 
@@ -1322,7 +1322,7 @@ msgstr "Gombok beállítása"
 msgid "Configure collection..."
 msgstr "Gyűjtemény beállítása..."
 
-#: device/devicemanager.cpp:344 device/devicemanager.cpp:345
+#: device/devicemanager.cpp:348 device/devicemanager.cpp:349
 msgid "Connect device"
 msgstr "Eszköz csatlakoztatása"
 
@@ -1434,24 +1434,24 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "Borítókezelő"
 
-#: dialogs/edittagdialog.cpp:537
+#: dialogs/edittagdialog.cpp:541
 msgid "Cover art from embedded image"
 msgstr "Albumborító a beágyazott képből"
 
-#: dialogs/edittagdialog.cpp:540
+#: dialogs/edittagdialog.cpp:544
 #, qt-format
 msgid "Cover art loaded automatically from %1"
 msgstr "Az albumborítót %1 helyről automatikusan betölti"
 
-#: dialogs/edittagdialog.cpp:530
+#: dialogs/edittagdialog.cpp:534
 msgid "Cover art manually unset"
 msgstr "Az albumborító manuálisan eltávolítva"
 
-#: dialogs/edittagdialog.cpp:543
+#: dialogs/edittagdialog.cpp:547
 msgid "Cover art not set"
 msgstr "Albumborító nincs beállítva"
 
-#: dialogs/edittagdialog.cpp:534
+#: dialogs/edittagdialog.cpp:538
 #, qt-format
 msgid "Cover art set from %1"
 msgstr "Albumborító beállítva %1 helyről"
@@ -1965,7 +1965,7 @@ msgstr "Hiba történt a dalok törlése közben"
 msgid "Error processing %1: %2"
 msgstr "Hiba %1: %2 feldolgozásakor"
 
-#: playlist/songloaderinserter.cpp:109
+#: playlist/songloaderinserter.cpp:113
 msgid "Error while loading audio CD."
 msgstr "Hiba a CD betöltése közben."
 
@@ -2471,7 +2471,7 @@ msgstr ""
 "Ha engedélyezve van, a kijelölt dal címkéje szerkeszthető lesz a "
 "lejátszólistán"
 
-#: device/devicemanager.cpp:602 device/devicemanager.cpp:610
+#: device/devicemanager.cpp:606 device/devicemanager.cpp:614
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
@@ -2711,11 +2711,11 @@ msgstr "Okos lejátszólista betöltése"
 msgid "Loading songs"
 msgstr "Dalok betöltése"
 
-#: playlist/songloaderinserter.cpp:164 dialogs/edittagdialog.cpp:289
+#: playlist/songloaderinserter.cpp:168 dialogs/edittagdialog.cpp:289
 msgid "Loading tracks"
 msgstr "Számok betöltése"
 
-#: playlist/songloaderinserter.cpp:194
+#: playlist/songloaderinserter.cpp:198
 msgid "Loading tracks info"
 msgstr "Száminformációk betöltése"
 
@@ -2986,7 +2986,7 @@ msgstr "Keskenysávú (NB)"
 msgid "Network Proxy"
 msgstr "Hálózati Proxy"
 
-#: playlist/playlistdelegates.cpp:344 dialogs/edittagdialog.cpp:584
+#: playlist/playlistdelegates.cpp:344 dialogs/edittagdialog.cpp:588
 msgid "Never"
 msgstr "Soha"
 
@@ -3368,7 +3368,7 @@ msgstr "Lejátszó beállítások"
 
 #: playlist/playlistcontainer.cpp:321 playlist/playlistlistcontainer.cpp:287
 #: playlist/playlistlistcontainer.cpp:384 playlist/playlistmanager.cpp:109
-#: playlist/playlistmanager.cpp:187 playlist/playlistmanager.cpp:549
+#: playlist/playlistmanager.cpp:187 playlist/playlistmanager.cpp:553
 #: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Lejátszólista"
@@ -3777,7 +3777,7 @@ msgstr "Dalok újraellenőrzése..."
 msgid "Reset"
 msgstr "Visszaállítás"
 
-#: dialogs/edittagdialog.cpp:872 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:876 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "Lejátszás számlálók visszaállítása"
 
@@ -3918,7 +3918,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Lejátszólista mentése"
 
-#: playlist/playlistmanager.cpp:261
+#: playlist/playlistmanager.cpp:265
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Lejátszólista mentése"
@@ -3943,7 +3943,7 @@ msgstr "Csoportosításkezelő"
 msgid "Saving album covers"
 msgstr "Albumborítók mentése"
 
-#: dialogs/edittagdialog.cpp:787 dialogs/trackselectiondialog.cpp:291
+#: dialogs/edittagdialog.cpp:791 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "Számok mentése"
 
@@ -4720,23 +4720,23 @@ msgstr ""
 msgid "This device supports the following file formats:"
 msgstr "Ez az eszköz az alábbi fájlformátumokat támogatja:"
 
-#: device/devicemanager.cpp:600 device/devicemanager.cpp:608
+#: device/devicemanager.cpp:604 device/devicemanager.cpp:612
 msgid "This device will not work properly"
 msgstr "Az eszköz nem fog megfelelően működni"
 
-#: device/devicemanager.cpp:601
+#: device/devicemanager.cpp:605
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr ""
 "Ez egy MTP eszköz, de a Strawberry libmtp támogatás nélkül lett lefordítva."
 
-#: device/devicemanager.cpp:609
+#: device/devicemanager.cpp:613
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr ""
 "Ez az eszköz egy iPod, de a Strawberry libgpod támogatás nélkül lett "
 "lefordítva."
 
-#: device/devicemanager.cpp:344
+#: device/devicemanager.cpp:348
 msgid ""
 "This is the first time you have connected this device.  Strawberry will now "
 "scan the device to find music files - this may take some time."
@@ -4748,7 +4748,7 @@ msgstr ""
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "Ez a beállítás változtatható a \"Működés\" menüben"
 
-#: device/devicemanager.cpp:623
+#: device/devicemanager.cpp:627
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "A %1 eszköztípus nem támogatott"
@@ -4873,10 +4873,10 @@ msgstr ""
 #: core/song.cpp:547 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:464 collection/collectionmodel.cpp:469
 #: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
-#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1594
+#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1598
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
-#: playlist/playlistmanager.cpp:556 playlist/playlistmanager.cpp:557
-#: dialogs/edittagdialog.cpp:514 dialogs/edittagdialog.cpp:562
+#: playlist/playlistmanager.cpp:560 playlist/playlistmanager.cpp:561
+#: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
 #: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Unknown"
 msgstr "Ismeretlen"
@@ -5054,7 +5054,7 @@ msgid "Variable bit rate"
 msgstr "Változó bitráta"
 
 #: collection/collectionmodel.cpp:373 collection/collectionmodel.cpp:374
-#: playlist/playlistmanager.cpp:568 covermanager/albumcovermanager.cpp:333
+#: playlist/playlistmanager.cpp:572 covermanager/albumcovermanager.cpp:333
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Egyes előadók"
@@ -5354,7 +5354,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:545 context/contextview.cpp:696
-#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:557
+#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:561
 msgid "kbps"
 msgstr "kb/s"
 
