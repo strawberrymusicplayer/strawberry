@@ -23,7 +23,7 @@
 
 #include <QObject>
 
-#include "playlistgenerator_fwd.h"
+#include "playlistgenerator.h"
 
 class QWizard;
 
@@ -36,7 +36,7 @@ class SmartPlaylistWizardPlugin : public QObject {
  public:
   explicit SmartPlaylistWizardPlugin(Application *app, CollectionBackend *collection, QObject *parent);
 
-  virtual QString type() const = 0;
+  virtual PlaylistGenerator::Type type() const = 0;
   virtual QString name() const = 0;
   virtual QString description() const = 0;
   virtual bool is_dynamic() const { return false; }

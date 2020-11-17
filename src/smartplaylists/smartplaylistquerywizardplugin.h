@@ -44,7 +44,7 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
   explicit SmartPlaylistQueryWizardPlugin(Application *app, CollectionBackend *collection, QObject *parent);
   ~SmartPlaylistQueryWizardPlugin();
 
-  QString type() const { return "Query"; }
+  PlaylistGenerator::Type type() const { return PlaylistGenerator::Type_Query; }
   QString name() const;
   QString description() const;
   bool is_dynamic() const { return true; }
