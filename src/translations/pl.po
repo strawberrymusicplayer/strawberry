@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-10-10 09:03-0400\n"
+"PO-Revision-Date: 2020-11-16 05:17-0500\n"
 "Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -482,7 +482,7 @@ msgstr "Ustalane a&utomatycznie"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "A-Z"
-msgstr ""
+msgstr "A-Ż"
 
 #: ../build/src/ui_transcodersettingspage.h:192
 msgid "AAC"
@@ -5267,7 +5267,7 @@ msgstr "Twoja kolekcja jest pusta!"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "Z-A"
-msgstr ""
+msgstr "Z-A"
 
 #: equalizer/equalizer.cpp:155
 msgid "Zero"
@@ -5281,11 +5281,11 @@ msgstr "dodaj utworów: %n"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:237
 msgid "after"
-msgstr ""
+msgstr "po"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:273
 msgid "ago"
-msgstr ""
+msgstr "temu"
 
 #: ../build/src/ui_internetsearchview.h:228
 msgid "albums"
@@ -5293,7 +5293,7 @@ msgstr "albumy"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
-msgstr ""
+msgstr "i"
 
 #: collection/collectionfilterwidget.cpp:73
 msgid "artist"
@@ -5309,19 +5309,19 @@ msgstr "automatycznie"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:239
 msgid "before"
-msgstr ""
+msgstr "przed"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:249
 msgid "between"
-msgstr ""
+msgstr "pomiędzy"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:419
 msgid "biggest first"
-msgstr ""
+msgstr "najpierw największe"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "contains"
-msgstr ""
+msgstr "zawiera"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
 #: ../build/src/ui_transcoderoptionsvorbis.h:209
@@ -5336,23 +5336,23 @@ msgstr "płyta %1"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:259
 msgid "does not contain"
-msgstr ""
+msgstr "nie zawiera"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:273
 msgid "empty"
-msgstr ""
+msgstr "pusta"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:263
 msgid "ends with"
-msgstr ""
+msgstr "kończy się na"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:269
 msgid "equals"
-msgstr ""
+msgstr "="
 
 #: smartplaylists/smartplaylistsearchterm.cpp:265
 msgid "greater than"
-msgstr ""
+msgstr ">"
 
 #: ../build/src/ui_backendsettingspage.h:491
 msgid "hw"
@@ -5369,11 +5369,11 @@ msgstr "kb/s"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:267
 msgid "less than"
-msgstr ""
+msgstr "<"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:416
 msgid "longest first"
-msgstr ""
+msgstr "najpierw najdłuższe"
 
 #: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
@@ -5388,7 +5388,7 @@ msgstr "ms"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:414
 msgid "newest first"
-msgstr ""
+msgstr "najpierw najnowsze"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:275
 msgid "not empty"
@@ -5396,7 +5396,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:271
 msgid "not equals"
-msgstr ""
+msgstr "≠"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:247
 msgid "not in the last"
@@ -5408,11 +5408,11 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:414
 msgid "oldest first"
-msgstr ""
+msgstr "najpierw najstarsze"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:241
 msgid "on"
-msgstr ""
+msgstr "na"
 
 #: core/commandlineoptions.cpp:162
 msgid "options"
@@ -5434,7 +5434,7 @@ msgstr "szuka w kolekcji wszystkich artystów, mających w nazwie słowo"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:416
 msgid "shortest first"
-msgstr ""
+msgstr "najpierw najkrótsze"
 
 #: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
@@ -5442,7 +5442,7 @@ msgstr "losuj utwory"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:419
 msgid "smallest first"
-msgstr ""
+msgstr "najpierw najmniejsze"
 
 #: ../build/src/ui_internetsearchview.h:229
 msgid "songs"

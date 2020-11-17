@@ -43,8 +43,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-07 02:40-0500\n"
-"Last-Translator: Sébastien Morin <sebsweb@gmail.com>\n"
+"PO-Revision-Date: 2020-11-16 02:30-0500\n"
+"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -4168,7 +4168,7 @@ msgstr "Paramètres"
 
 #: ../build/src/ui_appearancesettingspage.h:546
 msgid "Settings require restart."
-msgstr ""
+msgstr "Les paramètres nécessitent un redémarrage."
 
 #: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
@@ -4596,7 +4596,7 @@ msgstr "Étirer l'image pour remplir la liste de lecture"
 #: ../build/src/ui_appearancesettingspage.h:543
 #: ../build/src/ui_appearancesettingspage.h:544
 msgid "Style"
-msgstr ""
+msgstr "Style"
 
 #: ../build/src/ui_scrobblersettingspage.h:395
 msgid "Submit scrobbles every"
