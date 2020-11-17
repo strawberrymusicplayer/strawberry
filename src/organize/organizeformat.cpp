@@ -136,12 +136,12 @@ QString OrganizeFormat::GetFilenameForSong(const Song &song, QString extension) 
     QString stripped;
     for (int i = 0 ; i < filename.length() ; ++i) {
       const QChar c = filename[i];
-      if (c < ascii) {
+      if (c.unicode() < ascii) {
         stripped.append(c);
       }
       else {
         const QString decomposition = c.decomposition();
-        if (!decomposition.isEmpty() && decomposition[0] < ascii)
+        if (!decomposition.isEmpty() && decomposition[0].unicode() < ascii)
           stripped.append(decomposition[0]);
       }
     }
