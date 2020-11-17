@@ -96,7 +96,11 @@ class InternetSearchModel : public QStandardItemModel {
 
 };
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+inline size_t qHash(const InternetSearchModel::ContainerKey &key) {
+#else
 inline uint qHash(const InternetSearchModel::ContainerKey &key) {
+#endif
   return qHash(key.group_[0]) ^ qHash(key.group_[1]) ^ qHash(key.group_[2]);
 }
 

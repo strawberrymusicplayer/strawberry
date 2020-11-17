@@ -218,7 +218,11 @@ class MusicBrainzClient : public QObject {
 
 };
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+inline size_t qHash(const MusicBrainzClient::Result& result) {
+#else
 inline uint qHash(const MusicBrainzClient::Result& result) {
+#endif
   return qHash(result.album_) ^ qHash(result.artist_) ^ result.duration_msec_ ^ qHash(result.title_) ^ result.track_ ^ result.year_;
 }
 

@@ -1500,7 +1500,11 @@ bool Song::operator!=(const Song &other) const {
   return source() != other.source() || url() != other.url() || beginning_nanosec() != other.beginning_nanosec();
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+size_t qHash(const Song &song) {
+#else
 uint qHash(const Song &song) {
+#endif
   // Should compare the same fields as operator==
   return qHash(song.url().toString()) ^ qHash(song.beginning_nanosec());
 }

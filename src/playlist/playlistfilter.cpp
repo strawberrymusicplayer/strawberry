@@ -84,7 +84,11 @@ bool PlaylistFilter::filterAcceptsRow(int row, const QModelIndex &parent) const 
   QString filter = filterRegExp().pattern();
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  size_t hash = qHash(filter);
+#else
   uint hash = qHash(filter);
+#endif
   if (hash != query_hash_) {
     // Parse the query
     FilterParser p(filter, column_names_, numerical_columns_);

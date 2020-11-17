@@ -100,7 +100,11 @@ class ScopedIOObject {
 
 QSet<MacOsDeviceLister::MTPDevice> MacOsDeviceLister::sMTPDeviceList;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+size_t qHash(const MacOsDeviceLister::MTPDevice& d) {
+#else
 uint qHash(const MacOsDeviceLister::MTPDevice& d) {
+#endif
   return qHash(d.vendor_id) ^ qHash(d.product_id);
 }
 

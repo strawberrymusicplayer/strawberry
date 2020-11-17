@@ -378,7 +378,11 @@ Q_DECLARE_METATYPE(Song)
 typedef QList<Song> SongList;
 Q_DECLARE_METATYPE(QList<Song>)
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+size_t qHash(const Song &song);
+#else
 uint qHash(const Song &song);
+#endif
 // Hash function using field checked in IsSimilar function
 uint HashSimilar(const Song &song);
 
