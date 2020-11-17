@@ -232,17 +232,17 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       break;
 
     case CollectionModel::GroupBy_Samplerate:
-      display_text = QString(s.samplerate(), 1);
+      display_text = QString::number(s.samplerate());
       sort_text = display_text;
       break;
 
     case CollectionModel::GroupBy_Bitdepth:
-      display_text = QString(s.bitdepth(), 1);
+      display_text = QString::number(s.bitdepth());
       sort_text = display_text;
       break;
 
     case CollectionModel::GroupBy_Bitrate:
-      display_text = QString(s.bitrate(), 1);
+      display_text = QString::number(s.bitrate());
       sort_text = display_text;
       break;
 
