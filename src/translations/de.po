@@ -43,7 +43,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-01 06:31-0500\n"
+"PO-Revision-Date: 2020-11-17 05:53-0500\n"
 "Last-Translator: Guido T. <GuidoTelscher@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -2485,7 +2485,7 @@ msgstr "Hoch (%1 fps)"
 
 #: ../build/src/ui_backendsettingspage.h:497
 msgid "High watermark"
-msgstr "Hochwassermarke"
+msgstr "Höchstwert"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "Hours"
@@ -2595,7 +2595,7 @@ msgstr "Einfügen …"
 
 #: dialogs/snapdialog.cpp:79
 msgid "Install strawberry through PPA:<br />"
-msgstr ""
+msgstr "Installiere Strawberry durch ein PPA:<br />"
 
 #: core/database.cpp:491
 msgid "Integrity check"
@@ -2809,7 +2809,7 @@ msgstr "Geringes Komplexitätsprofil (LC)"
 
 #: ../build/src/ui_backendsettingspage.h:498
 msgid "Low watermark"
-msgstr "Niedrigwassermarke"
+msgstr "Niedrigster Wert"
 
 #: ../build/src/ui_collectionsettingspage.h:431
 msgid "Lowercase filename"
@@ -4151,7 +4151,7 @@ msgstr "Einstellungen"
 
 #: ../build/src/ui_appearancesettingspage.h:546
 msgid "Settings require restart."
-msgstr ""
+msgstr "Einstellungen erfordern einen Neustart. "
 
 #: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
@@ -4300,7 +4300,7 @@ msgstr "Zeige Liedtexte"
 
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show song progress on system tray icon"
-msgstr ""
+msgstr "Zeigen Sie den Song-Fortschritt auf dem Taskleistensymbol an"
 
 #: context/contextview.cpp:323
 msgid "Show song technical data"
@@ -4579,7 +4579,7 @@ msgstr "Bild strecken, um die Wiedergabeliste zu füllen"
 #: ../build/src/ui_appearancesettingspage.h:543
 #: ../build/src/ui_appearancesettingspage.h:544
 msgid "Style"
-msgstr ""
+msgstr "Stil"
 
 #: ../build/src/ui_scrobblersettingspage.h:395
 msgid "Submit scrobbles every"
@@ -4933,7 +4933,7 @@ msgstr "Ulte Weit Band (UWB)"
 
 #: dialogs/snapdialog.cpp:74
 msgid "Uninstall the snap with:"
-msgstr ""
+msgstr "Deinstalliere den Snap mit:"
 
 #: core/song.cpp:547 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:464 collection/collectionmodel.cpp:469
@@ -5067,7 +5067,7 @@ msgstr "Benutze Muster"
 
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
-msgstr ""
+msgstr "Verwenden Sie die Proxy-Einstellungen für das Streaming"
 
 #: ../build/src/ui_appearancesettingspage.h:545
 msgid "Use system theme icons"
