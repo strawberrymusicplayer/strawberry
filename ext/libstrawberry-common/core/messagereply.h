@@ -20,6 +20,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QThread>
 #include <QSemaphore>
 #include <QString>
 
@@ -87,6 +88,9 @@ void MessageReply<MessageType>::SetReply(const MessageType &message) {
 
   qLog(Debug) << "Releasing ID" << id() << "(finished)";
   semaphore_.release();
+
+  // The signal is not always emitted without this.
+  QThread::usleep(10);
 
   emit Finished(success_);
 
