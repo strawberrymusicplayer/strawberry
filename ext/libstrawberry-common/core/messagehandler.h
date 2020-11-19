@@ -43,7 +43,7 @@ class QIODevice;
 class _MessageHandlerBase : public QObject {
   Q_OBJECT
 
-public:
+ public:
   // device can be nullptr, in which case you must call SetDevice before writing any messages.
   _MessageHandlerBase(QIODevice *device, QObject *parent);
 
@@ -52,16 +52,16 @@ public:
   // After this is true, messages cannot be sent to the handler any more.
   bool is_device_closed() const { return is_device_closed_; }
 
-protected slots:
+ protected slots:
   void WriteMessage(const QByteArray &data);
   void DeviceReadyRead();
   virtual void DeviceClosed();
 
-protected:
+ protected:
   virtual bool RawMessageArrived(const QByteArray &data) = 0;
   virtual void AbortAll() = 0;
 
-protected:
+ protected:
   typedef bool (QAbstractSocket::*FlushAbstractSocket)();
   typedef bool (QLocalSocket::*FlushLocalSocket)();
 
@@ -80,7 +80,7 @@ protected:
 // You should subclass this and implement the MessageArrived(MessageType) method.
 template <typename MT>
 class AbstractMessageHandler : public _MessageHandlerBase {
-public:
+ public:
   AbstractMessageHandler(QIODevice *device, QObject *parent);
   ~AbstractMessageHandler() override { AbortAll(); }
 
@@ -102,7 +102,7 @@ public:
   // Sets the "id" field of reply to the same as the request, and sends the reply on the socket.  Used on the worker side.
   void SendReply(const MessageType &request, MessageType *reply);
 
-protected:
+ protected:
   // Called when a message is received from the socket.
   virtual void MessageArrived(const MessageType &message) { Q_UNUSED(message); }
 
@@ -110,7 +110,7 @@ protected:
   bool RawMessageArrived(const QByteArray &data) override;
   void AbortAll() override;
 
-private:
+ private:
   QMap<int, ReplyType*> pending_replies_;
 };
 
@@ -146,6 +146,7 @@ void AbstractMessageHandler<MT>::SendReply(const MessageType &request, MessageTy
 
 template<typename MT>
 bool AbstractMessageHandler<MT>::RawMessageArrived(const QByteArray &data) {
+
   MessageType message;
   if (!message.ParseFromArray(data.constData(), data.size())) {
     return false;
@@ -161,14 +162,17 @@ bool AbstractMessageHandler<MT>::RawMessageArrived(const QByteArray &data) {
   }
 
   return true;
+
 }
 
 template<typename MT>
 void AbstractMessageHandler<MT>::AbortAll() {
+
   for (ReplyType *reply : pending_replies_) {
     reply->Abort();
   }
   pending_replies_.clear();
+
 }
 
 #endif  // MESSAGEHANDLER_H

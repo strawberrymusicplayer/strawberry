@@ -27,11 +27,9 @@
 #include "tagreaderworker.h"
 
 TagReaderWorker::TagReaderWorker(QIODevice *socket, QObject *parent)
-  : AbstractMessageHandler<pb::tagreader::Message>(socket, parent)
-{
-}
+  : AbstractMessageHandler<pb::tagreader::Message>(socket, parent) {}
 
-void TagReaderWorker::MessageArrived(const pb::tagreader::Message& message) {
+void TagReaderWorker::MessageArrived(const pb::tagreader::Message &message) {
 
   pb::tagreader::Message reply;
 
@@ -51,6 +49,7 @@ void TagReaderWorker::MessageArrived(const pb::tagreader::Message& message) {
   }
 
   SendReply(message, &reply);
+
 }
 
 

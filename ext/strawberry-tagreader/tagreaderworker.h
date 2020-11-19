@@ -29,14 +29,14 @@
 class QIODevice;
 
 class TagReaderWorker : public AbstractMessageHandler<pb::tagreader::Message> {
-public:
+ public:
   explicit TagReaderWorker(QIODevice *socket, QObject *parent = nullptr);
 
-protected:
+ protected:
   void MessageArrived(const pb::tagreader::Message &message) override;
   void DeviceClosed() override;
 
-private:
+ private:
   TagReader tag_reader_;
 };
 

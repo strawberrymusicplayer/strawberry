@@ -48,11 +48,11 @@ class _WorkerPoolBase : public QObject {
  public:
   explicit _WorkerPoolBase(QObject *parent = nullptr);
 
-signals:
+ signals:
   // Emitted when a worker failed to start.  This usually happens when the worker wasn't found, or couldn't be executed.
   void WorkerFailedToStart();
 
-protected slots:
+ protected slots:
   virtual void DoStart() {}
   virtual void NewConnection() {}
   virtual void ProcessError(QProcess::ProcessError) {}
@@ -78,7 +78,7 @@ class WorkerPool : public _WorkerPoolBase {
   void SetExecutableName(const QString &executable_name);
 
   // Sets the number of worker process to use.  Defaults to 1 <= (processors / 2) <= 2.
-  void SetWorkerCount(int count);
+  void SetWorkerCount(const int count);
 
   // Sets the prefix to use for the local server (on unix this is a named pipe in /tmp).
   // Defaults to QApplication::applicationName().
@@ -93,14 +93,14 @@ class WorkerPool : public _WorkerPoolBase {
   // Can be called from any thread.
   ReplyType *SendMessageWithReply(MessageType *message);
 
-protected:
+ protected:
   // These are all reimplemented slots, they are called on the WorkerPool's thread.
   void DoStart() override;
   void NewConnection() override;
   void ProcessError(QProcess::ProcessError error) override;
   void SendQueuedMessages() override;
 
-private:
+ private:
   struct Worker {
     Worker() : local_server_(nullptr), local_socket_(nullptr), process_(nullptr), handler_(nullptr) {}
 
@@ -138,7 +138,7 @@ private:
   // Returns the next handler, or nullptr if there isn't one.  Must be called from my thread.
   HandlerType *NextHandler() const;
 
-private:
+ private:
   QString local_server_name_;
   QString executable_name_;
   QString executable_path_;
@@ -170,6 +170,7 @@ WorkerPool<HandlerType>::WorkerPool(QObject *parent)
 
 template <typename HandlerType>
 WorkerPool<HandlerType>::~WorkerPool() {
+
   for (const Worker &worker : workers_) {
     if (worker.local_socket_ && worker.process_) {
       disconnect(worker.process_, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(ProcessError(QProcess::ProcessError)));
@@ -193,10 +194,11 @@ WorkerPool<HandlerType>::~WorkerPool() {
   for (ReplyType *reply : message_queue_) {
     reply->Abort();
   }
+
 }
 
 template <typename HandlerType>
-void WorkerPool<HandlerType>::SetWorkerCount(int count) {
+void WorkerPool<HandlerType>::SetWorkerCount(const int count) {
   Q_ASSERT(workers_.isEmpty());
   worker_count_ = count;
 }
@@ -220,6 +222,7 @@ void WorkerPool<HandlerType>::Start() {
 
 template <typename HandlerType>
 void WorkerPool<HandlerType>::DoStart() {
+
   Q_ASSERT(workers_.isEmpty());
   Q_ASSERT(!executable_name_.isEmpty());
   Q_ASSERT(QThread::currentThread() == thread());
@@ -248,10 +251,12 @@ void WorkerPool<HandlerType>::DoStart() {
 
     workers_ << worker;
   }
+
 }
 
 template <typename HandlerType>
 void WorkerPool<HandlerType>::StartOneWorker(Worker *worker) {
+
   Q_ASSERT(QThread::currentThread() == thread());
 
   DeleteQObjectPointerLater(&worker->local_server_);
@@ -284,6 +289,7 @@ void WorkerPool<HandlerType>::StartOneWorker(Worker *worker) {
   // Start the process
   worker->process_->setProcessChannelMode(QProcess::ForwardedChannels);
   worker->process_->start(executable_path_, QStringList() << worker->local_server_->fullServerName());
+
 }
 
 template <typename HandlerType>
@@ -338,20 +344,24 @@ void WorkerPool<HandlerType>::ProcessError(QProcess::ProcessError error) {
       StartOneWorker(worker);
       break;
   }
+
 }
 
 template <typename HandlerType>
 typename WorkerPool<HandlerType>::ReplyType*
 WorkerPool<HandlerType>::NewReply(MessageType *message) {
+
   const int id = next_id_.fetchAndAddOrdered(1);
   message->set_id(id);
 
   return new ReplyType(*message);
+
 }
 
 template <typename HandlerType>
 typename WorkerPool<HandlerType>::ReplyType*
 WorkerPool<HandlerType>::SendMessageWithReply(MessageType *message) {
+
   ReplyType *reply = NewReply(message);
 
   // Add the pending reply to the queue
@@ -364,10 +374,12 @@ WorkerPool<HandlerType>::SendMessageWithReply(MessageType *message) {
   metaObject()->invokeMethod(this, "SendQueuedMessages", Qt::QueuedConnection);
 
   return reply;
+
 }
 
 template <typename HandlerType>
 void WorkerPool<HandlerType>::SendQueuedMessages() {
+
   QMutexLocker l(&message_queue_mutex_);
 
   while (!message_queue_.isEmpty()) {
@@ -384,10 +396,12 @@ void WorkerPool<HandlerType>::SendQueuedMessages() {
 
     handler->SendRequest(reply);
   }
+
 }
 
 template <typename HandlerType>
 HandlerType *WorkerPool<HandlerType>::NextHandler() const {
+
   for (int i = 0; i < workers_.count(); ++i) {
     const int worker_index = (next_worker_ + i) % workers_.count();
 
@@ -398,6 +412,7 @@ HandlerType *WorkerPool<HandlerType>::NextHandler() const {
   }
 
   return nullptr;
+
 }
 
 #endif  // WORKERPOOL_H

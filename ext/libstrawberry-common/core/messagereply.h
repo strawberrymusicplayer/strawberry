@@ -57,29 +57,27 @@ class _MessageReplyBase : public QObject {
 template <typename MessageType>
 class MessageReply : public _MessageReplyBase {
  public:
-  explicit MessageReply(const MessageType& request_message, QObject *parent = nullptr);
+  explicit MessageReply(const MessageType &request_message, QObject *parent = nullptr);
 
   int id() const override { return request_message_.id(); }
-  const MessageType& request_message() const { return request_message_; }
-  const MessageType& message() const { return reply_message_; }
+  const MessageType &request_message() const { return request_message_; }
+  const MessageType &message() const { return reply_message_; }
 
-  void SetReply(const MessageType& message);
+  void SetReply(const MessageType &message);
 
-private:
+ private:
   MessageType request_message_;
   MessageType reply_message_;
 };
 
 
 template<typename MessageType>
-MessageReply<MessageType>::MessageReply(const MessageType& request_message, QObject *parent)
-  : _MessageReplyBase(parent)
-{
+MessageReply<MessageType>::MessageReply(const MessageType &request_message, QObject *parent) : _MessageReplyBase(parent) {
   request_message_.MergeFrom(request_message);
 }
 
 template<typename MessageType>
-void MessageReply<MessageType>::SetReply(const MessageType& message) {
+void MessageReply<MessageType>::SetReply(const MessageType &message) {
 
   Q_ASSERT(!finished_);
 

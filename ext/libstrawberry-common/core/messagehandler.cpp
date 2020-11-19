@@ -107,10 +107,10 @@ void _MessageHandlerBase::WriteMessage(const QByteArray &data) {
   else if (flush_local_socket_) {
     ((qobject_cast<QLocalSocket*>(device_))->*(flush_local_socket_))();
   }
+
 }
 
 void _MessageHandlerBase::DeviceClosed() {
   is_device_closed_ = true;
   AbortAll();
 }
-
