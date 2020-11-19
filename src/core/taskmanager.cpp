@@ -61,7 +61,7 @@ QList<TaskManager::Task> TaskManager::GetTasks() {
 
 }
 
-void TaskManager::SetTaskBlocksCollectionScans(int id) {
+void TaskManager::SetTaskBlocksCollectionScans(const int id) {
 
   {
     QMutexLocker l(&mutex_);
@@ -76,7 +76,7 @@ void TaskManager::SetTaskBlocksCollectionScans(int id) {
 
 }
 
-void TaskManager::SetTaskProgress(int id, int progress, int max) {
+void TaskManager::SetTaskProgress(const int id, const qint64 progress, const qint64 max) {
 
   {
     QMutexLocker l(&mutex_);
@@ -90,7 +90,7 @@ void TaskManager::SetTaskProgress(int id, int progress, int max) {
   emit TasksChanged();
 }
 
-void TaskManager::IncreaseTaskProgress(int id, int progress, int max) {
+void TaskManager::IncreaseTaskProgress(const int id, const qint64 progress, const qint64 max) {
 
   {
     QMutexLocker l(&mutex_);
@@ -105,7 +105,7 @@ void TaskManager::IncreaseTaskProgress(int id, int progress, int max) {
 
 }
 
-void TaskManager::SetTaskFinished(int id) {
+void TaskManager::SetTaskFinished(const int id) {
 
   bool resume_collection_watchers = false;
 
