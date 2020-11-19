@@ -101,7 +101,7 @@ message LoadEmbeddedArtResponse {
 }
 
 message Message {
-  optional int32 id = 1;
+  optional int64 id = 1;
 
   optional ReadFileRequest read_file_request = 2;
   optional ReadFileResponse read_file_response = 3;

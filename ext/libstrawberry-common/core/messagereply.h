@@ -33,7 +33,7 @@ class _MessageReplyBase : public QObject {
  public:
   explicit _MessageReplyBase(QObject *parent = nullptr);
 
-  virtual int id() const = 0;
+  virtual qint64 id() const = 0;
   bool is_finished() const { return finished_; }
   bool is_successful() const { return success_; }
 
@@ -59,7 +59,7 @@ class MessageReply : public _MessageReplyBase {
  public:
   explicit MessageReply(const MessageType &request_message, QObject *parent = nullptr);
 
-  int id() const override { return request_message_.id(); }
+  qint64 id() const override { return request_message_.id(); }
   const MessageType &request_message() const { return request_message_; }
   const MessageType &message() const { return reply_message_; }
 

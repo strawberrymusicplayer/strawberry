@@ -32,7 +32,7 @@
 #include <QQueue>
 #include <QString>
 #include <QStringList>
-#include <QAtomicInt>
+#include <QAtomicInteger>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 #  include <QRandomGenerator>
 #endif
@@ -147,7 +147,7 @@ class WorkerPool : public _WorkerPoolBase {
   mutable int next_worker_;
   QList<Worker> workers_;
 
-  QAtomicInt next_id_;
+  QAtomicInteger<qint64> next_id_;
 
   QMutex message_queue_mutex_;
   QQueue<ReplyType*> message_queue_;
@@ -351,7 +351,7 @@ template <typename HandlerType>
 typename WorkerPool<HandlerType>::ReplyType*
 WorkerPool<HandlerType>::NewReply(MessageType *message) {
 
-  const int id = next_id_.fetchAndAddOrdered(1);
+  const qint64 id = next_id_.fetchAndAddOrdered(1);
   message->set_id(id);
 
   return new ReplyType(*message);

@@ -111,7 +111,7 @@ class AbstractMessageHandler : public _MessageHandlerBase {
   void AbortAll() override;
 
  private:
-  QMap<int, ReplyType*> pending_replies_;
+  QMap<qint64, ReplyType*> pending_replies_;
 };
 
 template <typename MT>
