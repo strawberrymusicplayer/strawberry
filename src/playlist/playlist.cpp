@@ -847,7 +847,6 @@ void Playlist::InsertSmartPlaylist(PlaylistGeneratorPtr generator, const int pos
 void Playlist::TurnOnDynamicPlaylist(PlaylistGeneratorPtr gen) {
 
   dynamic_playlist_ = gen;
-  playlist_sequence_->SetUsingDynamicPlaylist(true);
   ShuffleModeChanged(PlaylistSequence::Shuffle_Off);
   emit DynamicModeChanged(true);
   Save();
@@ -2197,7 +2196,6 @@ void Playlist::TurnOffDynamicPlaylist() {
   dynamic_playlist_.reset();
 
   if (playlist_sequence_) {
-    playlist_sequence_->SetUsingDynamicPlaylist(false);
     ShuffleModeChanged(playlist_sequence_->shuffle_mode());
   }
 

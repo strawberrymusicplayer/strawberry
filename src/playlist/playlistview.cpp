@@ -1465,12 +1465,12 @@ void PlaylistView::focusInEvent(QFocusEvent *event) {
 
 void PlaylistView::DynamicModeChanged(bool dynamic) {
 
-  if (!dynamic) {
-    dynamic_controls_->hide();
-  }
-  else {
+  if (dynamic) {
     RepositionDynamicControls();
     dynamic_controls_->show();
+  }
+  else {
+    dynamic_controls_->hide();
   }
 
 }

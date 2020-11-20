@@ -67,12 +67,13 @@ class PlaylistSequence : public QWidget {
   QMenu *repeat_menu() const { return repeat_menu_; }
   QMenu *shuffle_menu() const { return shuffle_menu_; }
 
+  void set_dynamic(const bool dynamic) { dynamic_ = dynamic; }
+
  public slots:
   void SetRepeatMode(const PlaylistSequence::RepeatMode mode);
   void SetShuffleMode(const PlaylistSequence::ShuffleMode mode);
   void CycleShuffleMode();
   void CycleRepeatMode();
-  void SetUsingDynamicPlaylist(const bool dynamic);
 
  signals:
   void RepeatModeChanged(const PlaylistSequence::RepeatMode mode);

@@ -205,17 +205,6 @@ void PlaylistSequence::SetShuffleMode(const ShuffleMode mode) {
 
 }
 
-void PlaylistSequence::SetUsingDynamicPlaylist(const bool dynamic) {
-
-  dynamic_ = dynamic;
-  const QString not_available(tr("Not available while using a dynamic playlist"));
-
-  setEnabled(!dynamic);
-  ui_->shuffle->setToolTip(dynamic ? not_available : tr("Shuffle"));
-  ui_->repeat->setToolTip(dynamic ? not_available : tr("Repeat"));
-
-}
-
 PlaylistSequence::ShuffleMode PlaylistSequence::shuffle_mode() const {
   return dynamic_ ? Shuffle_Off : shuffle_mode_;
 }

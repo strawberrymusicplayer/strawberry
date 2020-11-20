@@ -118,7 +118,9 @@ void PlaylistManager::PlaylistLoaded() {
   if (!playlist) return;
   disconnect(playlist, SIGNAL(PlaylistLoaded()), this, SLOT(PlaylistLoaded()));
   --playlists_loading_;
-  if (playlists_loading_ == 0) emit AllPlaylistsLoaded();
+  if (playlists_loading_ == 0) {
+    emit AllPlaylistsLoaded();
+  }
 
 }
 
@@ -396,7 +398,7 @@ void PlaylistManager::SetActivePlaylist(const int id) {
 
   emit ActiveChanged(active());
 
-  sequence_->SetUsingDynamicPlaylist(active()->is_dynamic());
+  sequence_->set_dynamic(active()->is_dynamic());
 
 }
 
