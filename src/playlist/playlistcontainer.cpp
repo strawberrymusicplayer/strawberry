@@ -75,6 +75,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
       tab_bar_animation_(new QTimeLine(500, this)),
       no_matches_label_(nullptr),
       filter_timer_(new QTimer(this)) {
+
   ui_->setupUi(this);
 
   no_matches_label_ = new QLabel(ui_->playlist);
@@ -279,6 +280,7 @@ void PlaylistContainer::UpdateActiveIcon(const QIcon &icon) {
 
   // Set our icon
   if (!icon.isNull()) ui_->tab_bar->set_icon_by_id(manager_->active_id(), icon);
+
 }
 
 void PlaylistContainer::PlaylistAdded(int id, const QString &name, bool favorite) {
@@ -300,18 +302,22 @@ void PlaylistContainer::PlaylistAdded(int id, const QString &name, bool favorite
       // Skip the animation since the window is hidden (eg. if we're still loading the UI).
       tab_bar_visible_ = true;
       ui_->tab_bar->setMaximumHeight(tab_bar_animation_->endFrame());
-    } else {
+    }
+    else {
       SetTabBarVisible(true);
     }
   }
+
 }
 
 void PlaylistContainer::Started() { starting_up_ = false; }
 
 void PlaylistContainer::PlaylistClosed(int id) {
+
   ui_->tab_bar->RemoveTab(id);
 
   if (ui_->tab_bar->count() <= 1) SetTabBarVisible(false);
+
 }
 
 void PlaylistContainer::PlaylistRenamed(int id, const QString &new_name) {
@@ -330,30 +336,36 @@ void PlaylistContainer::LoadPlaylist() {
   settings_.setValue("last_load_playlist", filename);
 
   manager_->Load(filename);
+
 }
 
 void PlaylistContainer::SavePlaylist(int id = -1) {
+
   // Use the tab name as the suggested name
   QString suggested_name = ui_->tab_bar->tabText(ui_->tab_bar->currentIndex());
 
   manager_->SaveWithUI(id, suggested_name);
+
 }
 
-void PlaylistContainer::ClearPlaylist() {
-}
+void PlaylistContainer::ClearPlaylist() {}
 
 void PlaylistContainer::GoToNextPlaylistTab() {
+
   // Get the next tab' id
   int id_next = ui_->tab_bar->id_of((ui_->tab_bar->currentIndex() + 1) % ui_->tab_bar->count());
   // Switch to next tab
   manager_->SetCurrentPlaylist(id_next);
+
 }
 
 void PlaylistContainer::GoToPreviousPlaylistTab() {
+
   // Get the next tab' id
   int id_previous = ui_->tab_bar->id_of((ui_->tab_bar->currentIndex()+ui_->tab_bar->count()-1) % ui_->tab_bar->count());
   // Switch to next tab
   manager_->SetCurrentPlaylist(id_previous);
+
 }
 
 void PlaylistContainer::Save() {
@@ -361,14 +373,17 @@ void PlaylistContainer::Save() {
   if (starting_up_) return;
 
   settings_.setValue("current_playlist", ui_->tab_bar->current_id());
+
 }
 
 void PlaylistContainer::SetTabBarVisible(bool visible) {
+
   if (tab_bar_visible_ == visible) return;
   tab_bar_visible_ = visible;
 
   tab_bar_animation_->setDirection(visible ? QTimeLine::Forward : QTimeLine::Backward);
   tab_bar_animation_->start();
+
 }
 
 void PlaylistContainer::SetTabBarHeight(int height) {
