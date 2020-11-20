@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-18 06:14-0500\n"
+"PO-Revision-Date: 2020-11-19 01:14-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -162,7 +162,7 @@ msgstr "%1 behöver autentisering."
 msgid "%1 playlists (%2)"
 msgstr "%1 spellistor (%2)"
 
-#: playlist/playlistmanager.cpp:458
+#: playlist/playlistmanager.cpp:460
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 vald(a) av"
@@ -200,7 +200,7 @@ msgid ""
 msgstr ""
 "%1 låtar i %2 olika valda mappar, är du säker på att du vill öppna dem alla?"
 
-#: playlist/playlistmanager.cpp:465 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:467 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 spår"
@@ -377,7 +377,7 @@ msgstr "&Stoppa"
 
 #: playlist/playlistheader.cpp:56
 msgid "&Stretch columns to fit window"
-msgstr "&Justera kolumner så de passar fönstret"
+msgstr "&Sträck ut kolumner så de passar i fönstret"
 
 #: ../build/src/ui_mainwindow.h:719
 msgid "&Tools"
@@ -434,7 +434,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 dag"
 
-#: playlist/playlistmanager.cpp:465 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:467 queue/queue.cpp:254
 msgid "1 track"
 msgstr "1 spår"
 
@@ -638,12 +638,12 @@ msgstr "Lägg till etikett för låtens längd"
 #: ../build/src/ui_contextsettingspage.h:381
 #: ../build/src/ui_notificationssettingspage.h:427
 msgid "Add song performer tag"
-msgstr "Lägg till etikett för utövare"
+msgstr "Lägg till etikett för aktör"
 
 #: ../build/src/ui_contextsettingspage.h:399
 #: ../build/src/ui_notificationssettingspage.h:445
 msgid "Add song play count"
-msgstr "Lägg till antal uppspelningar"
+msgstr "Lägg till spelningsantal"
 
 #: ../build/src/ui_notificationssettingspage.h:451
 msgid "Add song rating"
@@ -704,11 +704,11 @@ msgstr "Lägg till..."
 
 #: ../build/src/ui_collectionfilterwidget.h:100
 msgid "Added this month"
-msgstr "Tillagda denna månad"
+msgstr "Tillagda den här månaden"
 
 #: ../build/src/ui_collectionfilterwidget.h:94
 msgid "Added this week"
-msgstr "Tillagda denna vecka"
+msgstr "Tillagda den här veckan"
 
 #: ../build/src/ui_collectionfilterwidget.h:99
 msgid "Added this year"
@@ -831,7 +831,7 @@ msgstr "Tillåt mellan-/sidokodning"
 
 #: ../build/src/ui_transcodedialog.h:232
 msgid "Alongside the originals"
-msgstr "Tillsammans med originalen"
+msgstr "Vid sidan av originalen"
 
 #: ../build/src/ui_behavioursettingspage.h:307
 #: ../build/src/ui_behavioursettingspage.h:321
@@ -1132,7 +1132,7 @@ msgstr "Avbruten."
 
 #: ../build/src/ui_edittagdialog.h:687
 msgid "Change cover art"
-msgstr "Ändra omslag"
+msgstr "Byt omslag"
 
 #: ../build/src/ui_shortcutssettingspage.h:258
 msgid "Change shortcut..."
@@ -1194,7 +1194,7 @@ msgstr "Rensa diskcache"
 
 #: core/mainwindow.cpp:2213 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
-msgstr "Rensa spellistan"
+msgstr "Rensa spellista"
 
 #: dialogs/about.cpp:160
 msgid "Clementine authors"
@@ -1314,7 +1314,7 @@ msgstr "Konfiguration felaktig"
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
-msgstr "Ställ in %1..."
+msgstr "Konfigurera %1..."
 
 #: ../build/src/ui_appearancesettingspage.h:589
 msgid "Configure buttons"
@@ -1553,7 +1553,7 @@ msgstr "Aktuell diskcache i användning:"
 
 #: equalizer/equalizer.cpp:137
 msgid "Custom"
-msgstr "Anpassat"
+msgstr "Anpassad"
 
 #: ../build/src/ui_appearancesettingspage.h:568
 msgid "Custom image:"
@@ -1656,7 +1656,7 @@ msgstr "Ta bort spår från kön"
 
 #: ../build/src/ui_organizedialog.h:267 ../build/src/ui_transcodedialog.h:229
 msgid "Destination"
-msgstr "Mål"
+msgstr "Destination"
 
 #: ../build/src/ui_transcodedialog.h:236
 msgid "Details..."
@@ -2155,7 +2155,7 @@ msgstr "Filer"
 
 #: ../build/src/ui_transcodedialog.h:216
 msgid "Files to transcode"
-msgstr "Filer som skall omkodas"
+msgstr "Filer att omkoda"
 
 #: ../build/src/ui_appearancesettingspage.h:590
 msgid "Files, playlists and queue buttons"
@@ -2310,14 +2310,14 @@ msgstr "Gå till föregående spellisteflik"
 
 #: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr "Kör!"
+msgstr "Starta!"
 
 #: covermanager/albumcovermanager.cpp:530
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
 msgid "Got %1 covers out of %2 (%3 failed)"
-msgstr "Erhöll %1 omslagsbild utav %2 (%3 misslyckades)"
+msgstr "Erhöll %1 omslagsbilder av %2 (%3 misslyckades)"
 
 #: ../build/src/ui_playlistsettingspage.h:162
 msgid "Grey out unavailable songs in playlists on playback"
@@ -2397,7 +2397,7 @@ msgstr "Gruppera efter Genre/Artist/Album"
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:706
 msgid "Grouping"
-msgstr "Gruppera"
+msgstr "Gruppering"
 
 #: collection/collectionfilterwidget.cpp:273
 msgid "Grouping Name"
@@ -2652,7 +2652,7 @@ msgstr "Vänster"
 #: context/contextview.cpp:215 playlist/playlist.cpp:1267
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:689
 msgid "Length"
-msgstr "Speltid"
+msgstr "Längd"
 
 #: ../build/src/ui_scrobblersettingspage.h:415
 msgid "Libre.fm"
@@ -2906,7 +2906,7 @@ msgstr "Användarnamn eller lösenord saknas."
 
 #: scrobbler/lastfmimport.cpp:218
 msgid "Missing username, please login to last.fm first!"
-msgstr "Användarnamn saknas, logga in på last.fm först!"
+msgstr "Användarnamn saknas, vänligen logga in på last.fm först!"
 
 #: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
@@ -3060,7 +3060,7 @@ msgstr "Ingen matchning."
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
-"Inga träffar hittades. Töm sökrutan för att visa hela spellistan igen."
+"Inga träffar hittades.  Rensa sökrutan för att visa hela spellistan igen."
 
 #: settings/coverssettingspage.cpp:195 settings/lyricssettingspage.cpp:185
 msgid "No provider selected."
@@ -3310,7 +3310,7 @@ msgstr "Pausad"
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:715
 msgid "Performer"
-msgstr "Utövare"
+msgstr "Aktör"
 
 #: ../build/src/ui_albumcoverexport.h:214
 msgid "Pixel"
@@ -3332,11 +3332,11 @@ msgstr "Spela kontrollknappar"
 
 #: playlist/playlist.cpp:1276 ../build/src/ui_edittagdialog.h:690
 msgid "Play count"
-msgstr "Antal uppspelningar"
+msgstr "Antal spelningar"
 
 #: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
-msgstr "Antal spelningar"
+msgstr "Spelningsantal"
 
 #: core/commandlineoptions.cpp:165
 msgid "Play if stopped, pause if playing"
@@ -3371,7 +3371,7 @@ msgstr "Spelaralternativ"
 
 #: playlist/playlistcontainer.cpp:321 playlist/playlistlistcontainer.cpp:287
 #: playlist/playlistlistcontainer.cpp:384 playlist/playlistmanager.cpp:109
-#: playlist/playlistmanager.cpp:187 playlist/playlistmanager.cpp:553
+#: playlist/playlistmanager.cpp:187 playlist/playlistmanager.cpp:555
 #: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Spellista"
@@ -3779,7 +3779,7 @@ msgstr "Återställ"
 
 #: dialogs/edittagdialog.cpp:876 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
-msgstr "Återställ spelantal"
+msgstr "Återställ spelningsantal"
 
 #: ../build/src/ui_behavioursettingspage.h:311
 msgid "Restart song, then jump to previous if pressed again"
@@ -3926,7 +3926,7 @@ msgstr "Spara spellista"
 
 #: playlist/playlisttabbar.cpp:75
 msgid "Save playlist..."
-msgstr "Spara spellistan..."
+msgstr "Spara spellista..."
 
 #: equalizer/equalizer.cpp:209 ../build/src/ui_equalizer.h:171
 msgid "Save preset"
@@ -3938,7 +3938,7 @@ msgstr "Spara .mood-filerna direkt i låtmapparna"
 
 #: ../build/src/ui_savedgroupingmanager.h:101
 msgid "Saved Grouping Manager"
-msgstr "Sparad Grupperings Hanterare"
+msgstr "Sparad grupperingshanterare"
 
 #: ../build/src/ui_collectionsettingspage.h:424
 msgid "Saving album covers"
@@ -4223,7 +4223,7 @@ msgstr "Visa endast dubbletter"
 
 #: core/mainwindow.cpp:630
 msgid "Show only untagged"
-msgstr "Visa otaggade endast"
+msgstr "Visa endast otaggade"
 
 #: ../build/src/ui_behavioursettingspage.h:292
 msgid "Show playing widget"
@@ -4235,7 +4235,7 @@ msgstr "Visa knappen \"scrobble\""
 
 #: ../build/src/ui_mainwindow.h:713
 msgid "Show sidebar"
-msgstr "Visa sidofältet"
+msgstr "Visa sidofält"
 
 #: context/contextview.cpp:335
 msgid "Show song lyrics"
@@ -4821,7 +4821,7 @@ msgstr "Totalt överförda byte"
 
 #: covermanager/coversearchstatisticsdialog.cpp:82
 msgid "Total network requests made"
-msgstr "Totalt antal nätverksbegäran"
+msgstr "Totalt antal nätverksförfrågningar"
 
 #: playlist/playlist.cpp:1265 organize/organizedialog.cpp:110
 #: ../build/src/ui_edittagdialog.h:712
@@ -4879,7 +4879,7 @@ msgstr "Avinstallera snap med:"
 #: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1598
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
-#: playlist/playlistmanager.cpp:560 playlist/playlistmanager.cpp:561
+#: playlist/playlistmanager.cpp:562 playlist/playlistmanager.cpp:563
 #: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
 #: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Unknown"
@@ -5058,7 +5058,7 @@ msgid "Variable bit rate"
 msgstr "Variabel bithastighet"
 
 #: collection/collectionmodel.cpp:373 collection/collectionmodel.cpp:374
-#: playlist/playlistmanager.cpp:572 covermanager/albumcovermanager.cpp:333
+#: playlist/playlistmanager.cpp:574 covermanager/albumcovermanager.cpp:333
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Diverse artister"
@@ -5100,10 +5100,10 @@ msgid ""
 "on artist and song title for the same albums! Please backup your database "
 "before you start."
 msgstr ""
-"Varning: Spelantal och senast spelade från last.fm ersätter fullständigt "
-"samma data för matchade låtar. Spelantal kommer att ersätta data baserat på "
-"artist och låttitel för samma album! Säkerhetskopiera din databas innan du "
-"börjar."
+"Varning: Spelningsantal och senast spelade från last.fm ersätter "
+"fullständigt samma data för matchade låtar. Spelningsantal kommer att "
+"ersätta data baserat på artist och låttitel för samma album! Vänligen "
+"säkerhetskopiera din databas innan du börjar."
 
 #: ../build/src/ui_transcodersettingspage.h:188
 msgid "WavPack"

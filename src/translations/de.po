@@ -43,7 +43,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-17 05:53-0500\n"
+"PO-Revision-Date: 2020-11-19 03:15-0500\n"
 "Last-Translator: Guido T. <GuidoTelscher@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -185,7 +185,7 @@ msgstr "%1 muss sich authentifizieren."
 msgid "%1 playlists (%2)"
 msgstr "%1 Wiedergabelisten (%2)"
 
-#: playlist/playlistmanager.cpp:458
+#: playlist/playlistmanager.cpp:460
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 ausgewählt von"
@@ -224,7 +224,7 @@ msgstr ""
 "%1 Lieder in %2 unterschiedlichen Ordnern ausgewählt, bist du sicher, dass "
 "du sie alle öffnen willst?"
 
-#: playlist/playlistmanager.cpp:465 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:467 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 Titel"
@@ -458,7 +458,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 Tag"
 
-#: playlist/playlistmanager.cpp:465 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:467 queue/queue.cpp:254
 msgid "1 track"
 msgstr "1 Titel"
 
@@ -814,7 +814,7 @@ msgstr "Alben vom Künstler"
 #: ../build/src/ui_tidalsettingspage.h:327
 #: ../build/src/ui_qobuzsettingspage.h:284
 msgid "Albums search limit"
-msgstr "Alben such Limit"
+msgstr "Alben Suchlimit"
 
 #: covermanager/albumcovermanager.cpp:165
 msgid "Albums with covers"
@@ -939,12 +939,12 @@ msgstr "Initialen des Interpreten"
 
 #: ../build/src/ui_internettabsview.h:116
 msgid "Artists"
-msgstr "Künster"
+msgstr "Künstler"
 
 #: ../build/src/ui_tidalsettingspage.h:326
 #: ../build/src/ui_qobuzsettingspage.h:283
 msgid "Artists search limit"
-msgstr "Künster such Limit"
+msgstr "Künstler Suchlimit"
 
 #: ../build/src/ui_playlistsettingspage.h:172
 msgid "As&k when saving"
@@ -2383,7 +2383,7 @@ msgstr "Album"
 
 #: collection/collectionfilterwidget.cpp:214
 msgid "Group by Album Artist"
-msgstr "Gropieren nach Album Künster"
+msgstr "Gruppieren nach Album-Künstler"
 
 #: collection/collectionfilterwidget.cpp:201
 msgid "Group by Album artist/Album"
@@ -3421,7 +3421,7 @@ msgstr "Spielereinstellungen"
 
 #: playlist/playlistcontainer.cpp:321 playlist/playlistlistcontainer.cpp:287
 #: playlist/playlistlistcontainer.cpp:384 playlist/playlistmanager.cpp:109
-#: playlist/playlistmanager.cpp:187 playlist/playlistmanager.cpp:553
+#: playlist/playlistmanager.cpp:187 playlist/playlistmanager.cpp:555
 #: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Wiedergabeliste"
@@ -4300,7 +4300,7 @@ msgstr "Zeige Liedtexte"
 
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show song progress on system tray icon"
-msgstr "Zeigen Sie den Song-Fortschritt auf dem Taskleistensymbol an"
+msgstr "Zeigen Sie den Song-Fortschritt auf dem Taskleisten Symbol an"
 
 #: context/contextview.cpp:323
 msgid "Show song technical data"
@@ -4424,11 +4424,11 @@ msgstr ""
 #: ../build/src/ui_tidalsettingspage.h:328
 #: ../build/src/ui_qobuzsettingspage.h:285
 msgid "Songs search limit"
-msgstr "Liedersuche Limit"
+msgstr "Lieder Suchlimit"
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
-msgstr "Sorry"
+msgstr "Entschuldigung"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:136
 msgid "Sort songs by"
@@ -4940,7 +4940,7 @@ msgstr "Deinstalliere den Snap mit:"
 #: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1598
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
-#: playlist/playlistmanager.cpp:560 playlist/playlistmanager.cpp:561
+#: playlist/playlistmanager.cpp:562 playlist/playlistmanager.cpp:563
 #: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
 #: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Unknown"
@@ -5119,7 +5119,7 @@ msgid "Variable bit rate"
 msgstr "Variable Bitrate"
 
 #: collection/collectionmodel.cpp:373 collection/collectionmodel.cpp:374
-#: playlist/playlistmanager.cpp:572 covermanager/albumcovermanager.cpp:333
+#: playlist/playlistmanager.cpp:574 covermanager/albumcovermanager.cpp:333
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Verschiedene Interpreten"
