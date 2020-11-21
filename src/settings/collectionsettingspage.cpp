@@ -88,8 +88,6 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
   connect(ui_->button_clear_disk_cache, SIGNAL(clicked()), dialog->app(), SIGNAL(ClearPixmapDiskCache()));
   connect(ui_->button_clear_disk_cache, SIGNAL(clicked()), SLOT(ClearPixmapDiskCache()));
 
-  ui_->live_scanning->hide();
-
 }
 
 CollectionSettingsPage::~CollectionSettingsPage() { delete ui_; }
@@ -157,7 +155,6 @@ void CollectionSettingsPage::Load() {
   ui_->startup_scan->setChecked(s.value("startup_scan", true).toBool());
   ui_->monitor->setChecked(s.value("monitor", true).toBool());
   ui_->mark_songs_unavailable->setChecked(s.value("mark_songs_unavailable", false).toBool());
-  ui_->live_scanning->setChecked(s.value("live_scanning", false).toBool());
 
   QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
   ui_->cover_art_patterns->setText(filters.join(","));
@@ -209,7 +206,6 @@ void CollectionSettingsPage::Save() {
   s.setValue("startup_scan", ui_->startup_scan->isChecked());
   s.setValue("monitor", ui_->monitor->isChecked());
   s.setValue("mark_songs_unavailable", ui_->mark_songs_unavailable->isChecked());
-  s.setValue("live_scanning", ui_->live_scanning->isChecked());
 
   QString filter_text = ui_->cover_art_patterns->text();
 

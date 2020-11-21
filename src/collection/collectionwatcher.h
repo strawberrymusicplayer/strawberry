@@ -195,7 +195,6 @@ class CollectionWatcher : public QObject {
   bool scan_on_startup_;
   bool monitor_;
   bool mark_songs_unavailable_;
-  bool live_scanning_;
 
   bool stop_requested_;
   bool rescan_in_progress_; // True if RescanTracksNow() has been called and is working.

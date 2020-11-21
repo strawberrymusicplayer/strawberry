@@ -100,13 +100,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="live_scanning">
-        <property name="text">
-         <string>Use live scanning</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QLabel" name="label_preferred_cover_filenames">
         <property name="text">
          <string>Preferred album art filenames (comma separated)</string>
@@ -466,7 +459,6 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>startup_scan</tabstop>
   <tabstop>monitor</tabstop>
   <tabstop>mark_songs_unavailable</tabstop>
-  <tabstop>live_scanning</tabstop>
   <tabstop>cover_art_patterns</tabstop>
   <tabstop>auto_open</tabstop>
   <tabstop>pretty_covers</tabstop>

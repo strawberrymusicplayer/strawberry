@@ -76,7 +76,6 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
       scan_on_startup_(true),
       monitor_(true),
       mark_songs_unavailable_(false),
-      live_scanning_(false),
       stop_requested_(false),
       rescan_in_progress_(false),
       rescan_timer_(new QTimer(this)),
@@ -479,8 +478,6 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   }
 
   t->AddToProgress(1);
-
-  if (live_scanning_) t->CommitNewOrUpdatedSongs();
 
   // Recurse into the new subdirs that we found
   t->AddToProgressMax(my_new_subdirs.count());
