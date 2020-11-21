@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.0)
-
 find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 if(NOT GETTEXT_XGETTEXT_EXECUTABLE)
   message(FATAL_ERROR "Could not find xgettext executable")
