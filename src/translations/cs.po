@@ -204,7 +204,7 @@ msgstr "%1 přeneseno"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:429
+#: ../build/src/ui_collectionsettingspage.h:421
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -540,7 +540,7 @@ msgstr "Přidat nový řádek, je-li to podporováno typem oznámení"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Přidat všechny skladby z adresáři a všech jeho podadresářů"
 
-#: settings/collectionsettingspage.cpp:103
+#: settings/collectionsettingspage.cpp:101
 msgid "Add directory..."
 msgstr "Přidat složku..."
 
@@ -564,7 +564,7 @@ msgstr "Přidat soubory pro překódování"
 msgid "Add folder"
 msgstr "Přidat složku"
 
-#: ../build/src/ui_collectionsettingspage.h:408
+#: ../build/src/ui_collectionsettingspage.h:401
 msgid "Add new folder..."
 msgstr "Přidat novou složku..."
 
@@ -748,7 +748,7 @@ msgstr "Album - Disk"
 msgid "Album artist"
 msgstr "Umělec alba"
 
-#: ../build/src/ui_collectionsettingspage.h:433
+#: ../build/src/ui_collectionsettingspage.h:425
 msgid "Album cover pixmap cache"
 msgstr "Mezipaměť obalů alb"
 
@@ -951,11 +951,11 @@ msgstr "Automaticky"
 msgid "Automatic"
 msgstr "Automaticky"
 
-#: ../build/src/ui_collectionsettingspage.h:410
+#: ../build/src/ui_collectionsettingspage.h:403
 msgid "Automatic updating"
 msgstr "Automatická aktualizace"
 
-#: ../build/src/ui_collectionsettingspage.h:421
+#: ../build/src/ui_collectionsettingspage.h:413
 msgid "Automatically open single categories in the collection tree"
 msgstr "Automaticky otevřít jednotlivé skupiny ve stromu sbírky"
 
@@ -1178,7 +1178,7 @@ msgstr "Klasická"
 msgid "Clear"
 msgstr "Smazat"
 
-#: ../build/src/ui_collectionsettingspage.h:439
+#: ../build/src/ui_collectionsettingspage.h:431
 msgid "Clear Disk Cache"
 msgstr "Vyčistit mezipaměť na disku"
 
@@ -1235,7 +1235,7 @@ msgstr "Zavření tohoto okna zastaví hledání obalů alb."
 msgid "Club"
 msgstr "Klub"
 
-#: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:406
+#: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:399
 #: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Collection"
 msgstr "Sbírka"
@@ -1533,7 +1533,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
-#: ../build/src/ui_collectionsettingspage.h:437
+#: ../build/src/ui_collectionsettingspage.h:429
 msgid "Current disk cache in use:"
 msgstr "Využití mezipaměti na disku:"
 
@@ -1694,12 +1694,12 @@ msgstr "Disk"
 msgid "Discontinuous transmission"
 msgstr "Nesouvislý přenos"
 
-#: ../build/src/ui_collectionsettingspage.h:436
+#: ../build/src/ui_collectionsettingspage.h:428
 msgid "Disk Cache Size"
 msgstr "Velikost mezipaměti na disku"
 
 #: collection/collectionfilterwidget.cpp:127
-#: ../build/src/ui_collectionsettingspage.h:420
+#: ../build/src/ui_collectionsettingspage.h:412
 msgid "Display options"
 msgstr "Volby zobrazení"
 
@@ -1817,7 +1817,7 @@ msgstr "Upravit informace o skladbách..."
 msgid "Enable"
 msgstr "Povolit"
 
-#: ../build/src/ui_collectionsettingspage.h:435
+#: ../build/src/ui_collectionsettingspage.h:427
 msgid "Enable Disk Cache"
 msgstr "Povolit mezipaměť na disku"
 
@@ -1825,7 +1825,7 @@ msgstr "Povolit mezipaměť na disku"
 msgid "Enable Items"
 msgstr "Povolit Položky"
 
-#: ../build/src/ui_collectionsettingspage.h:440
+#: ../build/src/ui_collectionsettingspage.h:432
 #: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable delete files in the right click context menu"
 msgstr ""
@@ -2132,7 +2132,7 @@ msgstr "Typ souboru"
 msgid "Filename"
 msgstr "Název souboru"
 
-#: ../build/src/ui_collectionsettingspage.h:426
+#: ../build/src/ui_collectionsettingspage.h:418
 msgid "Filename:"
 msgstr "Název souboru:"
 
@@ -2759,7 +2759,7 @@ msgstr "Nízkosložitostní profil"
 msgid "Low watermark"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:431
+#: ../build/src/ui_collectionsettingspage.h:423
 msgid "Lowercase filename"
 msgstr "Název souboru malými písmeny"
 
@@ -2791,7 +2791,7 @@ msgstr "Výrobce"
 msgid "Mark as listened"
 msgstr "Označit jako poslechnuté"
 
-#: ../build/src/ui_collectionsettingspage.h:413
+#: ../build/src/ui_collectionsettingspage.h:406
 msgid "Mark disappeared songs unavailable"
 msgstr "Označit zmizelé skladby jako nedostupné"
 
@@ -2908,7 +2908,7 @@ msgstr ""
 msgid "Model"
 msgstr "Model"
 
-#: ../build/src/ui_collectionsettingspage.h:412
+#: ../build/src/ui_collectionsettingspage.h:405
 msgid "Monitor the collection for changes"
 msgstr "Sledovat změny ve sbírce"
 
@@ -3247,7 +3247,7 @@ msgstr "Výstup"
 msgid "Output options"
 msgstr "Možnosti výstupu"
 
-#: ../build/src/ui_collectionsettingspage.h:430
+#: ../build/src/ui_collectionsettingspage.h:422
 msgid "Overwrite existing file"
 msgstr "Přepsat existující soubor"
 
@@ -3436,7 +3436,7 @@ msgstr "Preferovat autory alb při odesílání na server"
 msgid "Preferences"
 msgstr "Nastavení"
 
-#: ../build/src/ui_collectionsettingspage.h:415
+#: ../build/src/ui_collectionsettingspage.h:407
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Upřednostňované názvy souborů s obaly alb (oddělené čárkou)"
 
@@ -3662,7 +3662,7 @@ msgstr "Odstranit &duplikáty ze seznamu skladeb"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Odstranit &nedostupné skladby ze seznamu skladeb"
 
-#: ../build/src/ui_collectionsettingspage.h:409
+#: ../build/src/ui_collectionsettingspage.h:402
 msgid "Remove folder"
 msgstr "Odstranit složku"
 
@@ -3721,7 +3721,7 @@ msgstr "Opakovat skladbu"
 msgid "Replace current playlist"
 msgstr "Nahradit současný seznam skladeb"
 
-#: ../build/src/ui_collectionsettingspage.h:432
+#: ../build/src/ui_collectionsettingspage.h:424
 msgid "Replace spaces with dashes"
 msgstr "Nahradit mezery pomlčkami"
 
@@ -3888,7 +3888,7 @@ msgstr "Uložit seznam skladeb..."
 msgid "Save album cover"
 msgstr "Uložit obal alba"
 
-#: ../build/src/ui_collectionsettingspage.h:425
+#: ../build/src/ui_collectionsettingspage.h:417
 msgid "Save album covers in album directory"
 msgstr "Ukládat obaly alb ve složce alba"
 
@@ -3926,7 +3926,7 @@ msgstr "Ukládat .mood soubory přímo ve složkách skladeb"
 msgid "Saved Grouping Manager"
 msgstr "Spravce uložených seskupení"
 
-#: ../build/src/ui_collectionsettingspage.h:424
+#: ../build/src/ui_collectionsettingspage.h:416
 msgid "Saving album covers"
 msgstr "Ukládání obalů alb"
 
@@ -4150,7 +4150,7 @@ msgstr "Ukazovat nad stavovým řádkem"
 msgid "Show album cover"
 msgstr "Ukazovat obal alba"
 
-#: ../build/src/ui_collectionsettingspage.h:422
+#: ../build/src/ui_collectionsettingspage.h:414
 msgid "Show album cover art in collection"
 msgstr "Ukazovat obaly alb v kolekci"
 
@@ -4170,7 +4170,7 @@ msgstr ""
 msgid "Show dialog for errors"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:423
+#: ../build/src/ui_collectionsettingspage.h:415
 msgid "Show dividers"
 msgstr "Ukazovat oddělovače"
 
@@ -4281,7 +4281,7 @@ msgid "Signing in..."
 msgstr "Přihlašuje se..."
 
 #: ../build/src/ui_albumcoverexport.h:211
-#: ../build/src/ui_collectionsettingspage.h:434
+#: ../build/src/ui_collectionsettingspage.h:426
 msgid "Size"
 msgstr "Velikost"
 
@@ -4678,7 +4678,7 @@ msgid ""
 "continue?"
 msgstr "Tyto soubory budou smazány ze zařízení. Opravdu chcete pokračovat?"
 
-#: ../build/src/ui_collectionsettingspage.h:407
+#: ../build/src/ui_collectionsettingspage.h:400
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "Strawberry bude novou hudbu pro vaši sbírku hledat v těchto složkách"
 
@@ -4890,11 +4890,11 @@ msgstr "Zrušit přeskočení vybraných skladeb"
 msgid "Unskip track"
 msgstr "Zrušit přeskočení skladby"
 
-#: ../build/src/ui_collectionsettingspage.h:411
+#: ../build/src/ui_collectionsettingspage.h:404
 msgid "Update the collection when Strawberry starts"
 msgstr "Při spuštění Strawberry obnovit hudební sbírku"
 
-#: collection/collectionwatcher.cpp:130
+#: collection/collectionwatcher.cpp:129
 #, qt-format
 msgid "Updating %1"
 msgstr "Obnovuje se %1"
@@ -4904,7 +4904,7 @@ msgstr "Obnovuje se %1"
 msgid "Updating %1%..."
 msgstr "Obnovuje se %1%..."
 
-#: collection/collectionwatcher.cpp:128
+#: collection/collectionwatcher.cpp:127
 msgid "Updating collection"
 msgstr "Obnovuje se hudební sbírka"
 
@@ -4980,16 +4980,11 @@ msgstr ""
 msgid "Use gradient background"
 msgstr "Použít gradientu"
 
-#: ../build/src/ui_collectionsettingspage.h:427
+#: ../build/src/ui_collectionsettingspage.h:419
 msgid "Use hash"
 msgstr "Použít hash"
 
-#: ../build/src/ui_collectionsettingspage.h:414
-#, fuzzy
-msgid "Use live scanning"
-msgstr "Aktualizovat kolekci za chodu"
-
-#: ../build/src/ui_collectionsettingspage.h:428
+#: ../build/src/ui_collectionsettingspage.h:420
 msgid "Use pattern"
 msgstr "Použít vzor"
 
@@ -5098,7 +5093,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:417
+#: ../build/src/ui_collectionsettingspage.h:409
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"

@@ -220,7 +220,7 @@ msgstr "pobrano: %1"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:429
+#: ../build/src/ui_collectionsettingspage.h:421
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -560,7 +560,7 @@ msgid "Add all tracks from a directory and all its subdirectories"
 msgstr ""
 "Dodaj wszystkie ścieżki z podanego katalogu i wszystkich jego podkatalogów."
 
-#: settings/collectionsettingspage.cpp:103
+#: settings/collectionsettingspage.cpp:101
 msgid "Add directory..."
 msgstr "Dodaj katalog…"
 
@@ -584,7 +584,7 @@ msgstr "Dodaj pliki to transkodowania"
 msgid "Add folder"
 msgstr "Dodaj katalog"
 
-#: ../build/src/ui_collectionsettingspage.h:408
+#: ../build/src/ui_collectionsettingspage.h:401
 msgid "Add new folder..."
 msgstr "Dodaj nowy katalog…"
 
@@ -768,7 +768,7 @@ msgstr "Album - Płyta"
 msgid "Album artist"
 msgstr "Artysta albumu"
 
-#: ../build/src/ui_collectionsettingspage.h:433
+#: ../build/src/ui_collectionsettingspage.h:425
 msgid "Album cover pixmap cache"
 msgstr "Pamięć podręczna pixmap okładek albumów"
 
@@ -969,11 +969,11 @@ msgstr "Automatycznie"
 msgid "Automatic"
 msgstr "Ustalane automatycznie"
 
-#: ../build/src/ui_collectionsettingspage.h:410
+#: ../build/src/ui_collectionsettingspage.h:403
 msgid "Automatic updating"
 msgstr "Aktualizacja automatyczna"
 
-#: ../build/src/ui_collectionsettingspage.h:421
+#: ../build/src/ui_collectionsettingspage.h:413
 msgid "Automatically open single categories in the collection tree"
 msgstr "Automatycznie rozwiń pojedyncze kategorie w drzewie kolekcji"
 
@@ -1193,7 +1193,7 @@ msgstr "Klasyczna"
 msgid "Clear"
 msgstr "Wyczyść"
 
-#: ../build/src/ui_collectionsettingspage.h:439
+#: ../build/src/ui_collectionsettingspage.h:431
 msgid "Clear Disk Cache"
 msgstr "Wyczyść pamięć podręczną na dysku"
 
@@ -1252,7 +1252,7 @@ msgstr ""
 msgid "Club"
 msgstr "Klubowa"
 
-#: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:406
+#: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:399
 #: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Collection"
 msgstr "Kolekcja"
@@ -1555,7 +1555,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Góra"
 
-#: ../build/src/ui_collectionsettingspage.h:437
+#: ../build/src/ui_collectionsettingspage.h:429
 msgid "Current disk cache in use:"
 msgstr "Bieżące użycie pamięci podręcznej na dysku:"
 
@@ -1716,12 +1716,12 @@ msgstr "Płyta"
 msgid "Discontinuous transmission"
 msgstr "Nieciągła transmisja (DTX)"
 
-#: ../build/src/ui_collectionsettingspage.h:436
+#: ../build/src/ui_collectionsettingspage.h:428
 msgid "Disk Cache Size"
 msgstr "Rozmiar pamięci podręcznej na dysku"
 
 #: collection/collectionfilterwidget.cpp:127
-#: ../build/src/ui_collectionsettingspage.h:420
+#: ../build/src/ui_collectionsettingspage.h:412
 msgid "Display options"
 msgstr "Opcje wyświetlania"
 
@@ -1839,7 +1839,7 @@ msgstr "Edytuj informacje o ścieżkach…"
 msgid "Enable"
 msgstr "Włącz"
 
-#: ../build/src/ui_collectionsettingspage.h:435
+#: ../build/src/ui_collectionsettingspage.h:427
 msgid "Enable Disk Cache"
 msgstr "Włącz pamięć podręczną na dysku"
 
@@ -1847,7 +1847,7 @@ msgstr "Włącz pamięć podręczną na dysku"
 msgid "Enable Items"
 msgstr "Pokazuj"
 
-#: ../build/src/ui_collectionsettingspage.h:440
+#: ../build/src/ui_collectionsettingspage.h:432
 #: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable delete files in the right click context menu"
 msgstr "Włącz opcję usuwania plików w menu kontekstowym"
@@ -2155,7 +2155,7 @@ msgstr "Rodzaj pliku"
 msgid "Filename"
 msgstr "Nazwa pliku"
 
-#: ../build/src/ui_collectionsettingspage.h:426
+#: ../build/src/ui_collectionsettingspage.h:418
 msgid "Filename:"
 msgstr "Nazwa pliku:"
 
@@ -2782,7 +2782,7 @@ msgstr "Profil niskiej złożoności (LC)"
 msgid "Low watermark"
 msgstr "Niski znak wodny"
 
-#: ../build/src/ui_collectionsettingspage.h:431
+#: ../build/src/ui_collectionsettingspage.h:423
 msgid "Lowercase filename"
 msgstr "Nazwa pliku małymi literami"
 
@@ -2814,7 +2814,7 @@ msgstr "Wytwórca"
 msgid "Mark as listened"
 msgstr "Oznacz jako przesłuchany"
 
-#: ../build/src/ui_collectionsettingspage.h:413
+#: ../build/src/ui_collectionsettingspage.h:406
 msgid "Mark disappeared songs unavailable"
 msgstr "Oznacz brakujące utwory jako niedostępne"
 
@@ -2931,7 +2931,7 @@ msgstr "Brakuje nazwy użytkownika."
 msgid "Model"
 msgstr "Model"
 
-#: ../build/src/ui_collectionsettingspage.h:412
+#: ../build/src/ui_collectionsettingspage.h:405
 msgid "Monitor the collection for changes"
 msgstr "Monitoruj zmiany w kolekcji"
 
@@ -3273,7 +3273,7 @@ msgstr "Wyjście"
 msgid "Output options"
 msgstr "Opcje wyjścia"
 
-#: ../build/src/ui_collectionsettingspage.h:430
+#: ../build/src/ui_collectionsettingspage.h:422
 msgid "Overwrite existing file"
 msgstr "Nadpisz istniejący plik"
 
@@ -3464,7 +3464,7 @@ msgstr "Preferuj artystę albumu podczas wysyłania scrobbli"
 msgid "Preferences"
 msgstr "Ustawienia"
 
-#: ../build/src/ui_collectionsettingspage.h:415
+#: ../build/src/ui_collectionsettingspage.h:407
 msgid "Preferred album art filenames (comma separated)"
 msgstr ""
 "Preferuj okładki w plikach zawierających w nazwie (oddziel przecinkami):"
@@ -3697,7 +3697,7 @@ msgstr "Usuń &duplikaty z listy odtwarzania"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Usuń &niedostępne utwory z listy odtwarzania"
 
-#: ../build/src/ui_collectionsettingspage.h:409
+#: ../build/src/ui_collectionsettingspage.h:402
 msgid "Remove folder"
 msgstr "Usuń katalog"
 
@@ -3756,7 +3756,7 @@ msgstr "Powtarzaj utwór"
 msgid "Replace current playlist"
 msgstr "Zastąp aktualną listę odtwarzania"
 
-#: ../build/src/ui_collectionsettingspage.h:432
+#: ../build/src/ui_collectionsettingspage.h:424
 msgid "Replace spaces with dashes"
 msgstr "Zamień znaki odstępu na myślniki"
 
@@ -3921,7 +3921,7 @@ msgstr "Zapisz &listę odtwarzania…"
 msgid "Save album cover"
 msgstr "Zapisz okładkę albumu"
 
-#: ../build/src/ui_collectionsettingspage.h:425
+#: ../build/src/ui_collectionsettingspage.h:417
 msgid "Save album covers in album directory"
 msgstr "Zapisuj okładki w katalogach albumów"
 
@@ -3959,7 +3959,7 @@ msgstr "Zapisuj pliki .mood bezpośrednio w katalogach utworów"
 msgid "Saved Grouping Manager"
 msgstr "Menedżer zapisanych grupowań"
 
-#: ../build/src/ui_collectionsettingspage.h:424
+#: ../build/src/ui_collectionsettingspage.h:416
 msgid "Saving album covers"
 msgstr "Zapisywanie okładek albumów"
 
@@ -4179,7 +4179,7 @@ msgstr "Pokazuj ponad paskiem stanu"
 msgid "Show album cover"
 msgstr "Pokazuj okładkę albumu"
 
-#: ../build/src/ui_collectionsettingspage.h:422
+#: ../build/src/ui_collectionsettingspage.h:414
 msgid "Show album cover art in collection"
 msgstr "Pokazuj okładki albumów w kolekcji"
 
@@ -4199,7 +4199,7 @@ msgstr "Pokazuj wszystkie utwory"
 msgid "Show dialog for errors"
 msgstr "Pokazuj okna z błędami"
 
-#: ../build/src/ui_collectionsettingspage.h:423
+#: ../build/src/ui_collectionsettingspage.h:415
 msgid "Show dividers"
 msgstr "Pokazuj separatory"
 
@@ -4309,7 +4309,7 @@ msgid "Signing in..."
 msgstr "Logowanie…"
 
 #: ../build/src/ui_albumcoverexport.h:211
-#: ../build/src/ui_collectionsettingspage.h:434
+#: ../build/src/ui_collectionsettingspage.h:426
 msgid "Size"
 msgstr "Rozmiar"
 
@@ -4709,7 +4709,7 @@ msgid ""
 msgstr ""
 "Te pliki zostaną usunięte z urządzenia. Czy na pewno chcesz kontynuować?"
 
-#: ../build/src/ui_collectionsettingspage.h:407
+#: ../build/src/ui_collectionsettingspage.h:400
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "Te katalogi będą skanowane w poszukiwaniu muzyki"
 
@@ -4919,11 +4919,11 @@ msgstr "Nie pomijaj zaznaczonych ścieżek"
 msgid "Unskip track"
 msgstr "Nie pomijaj ścieżki"
 
-#: ../build/src/ui_collectionsettingspage.h:411
+#: ../build/src/ui_collectionsettingspage.h:404
 msgid "Update the collection when Strawberry starts"
 msgstr "Odświeżaj kolekcję przy uruchamianiu Strawberry"
 
-#: collection/collectionwatcher.cpp:130
+#: collection/collectionwatcher.cpp:129
 #, qt-format
 msgid "Updating %1"
 msgstr "Odświeżanie %1"
@@ -4933,7 +4933,7 @@ msgstr "Odświeżanie %1"
 msgid "Updating %1%..."
 msgstr "Odświeżanie %1%…"
 
-#: collection/collectionwatcher.cpp:128
+#: collection/collectionwatcher.cpp:127
 msgid "Updating collection"
 msgstr "Aktualizowanie kolekcji"
 
@@ -5009,15 +5009,11 @@ msgstr "Używaj trybu dynamicznego"
 msgid "Use gradient background"
 msgstr "Używaj gradientu tła"
 
-#: ../build/src/ui_collectionsettingspage.h:427
+#: ../build/src/ui_collectionsettingspage.h:419
 msgid "Use hash"
 msgstr "Używaj funkcji skrótu (hash)"
 
-#: ../build/src/ui_collectionsettingspage.h:414
-msgid "Use live scanning"
-msgstr "Używaj skanowania „na żywo”"
-
-#: ../build/src/ui_collectionsettingspage.h:428
+#: ../build/src/ui_collectionsettingspage.h:420
 msgid "Use pattern"
 msgstr "Używaj wzorca"
 
@@ -5130,7 +5126,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr "Tygodni"
 
-#: ../build/src/ui_collectionsettingspage.h:417
+#: ../build/src/ui_collectionsettingspage.h:409
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"

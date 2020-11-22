@@ -214,7 +214,7 @@ msgstr "%1 överfört"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:429
+#: ../build/src/ui_collectionsettingspage.h:421
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -554,7 +554,7 @@ msgstr "Lägg till en ny rad om det stöds av aviseringstypen"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Lägg till alla låtar från en mapp och alla dess undermappar"
 
-#: settings/collectionsettingspage.cpp:103
+#: settings/collectionsettingspage.cpp:101
 msgid "Add directory..."
 msgstr "Lägg till mapp..."
 
@@ -578,7 +578,7 @@ msgstr "Lägg till filer för omkodning"
 msgid "Add folder"
 msgstr "Lägg till mapp"
 
-#: ../build/src/ui_collectionsettingspage.h:408
+#: ../build/src/ui_collectionsettingspage.h:401
 msgid "Add new folder..."
 msgstr "Lägg till ny mapp..."
 
@@ -762,7 +762,7 @@ msgstr "Album - Skiva"
 msgid "Album artist"
 msgstr "Albumartist"
 
-#: ../build/src/ui_collectionsettingspage.h:433
+#: ../build/src/ui_collectionsettingspage.h:425
 msgid "Album cover pixmap cache"
 msgstr "Albumomslag pixmap-cache"
 
@@ -963,11 +963,11 @@ msgstr "Auto"
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: ../build/src/ui_collectionsettingspage.h:410
+#: ../build/src/ui_collectionsettingspage.h:403
 msgid "Automatic updating"
 msgstr "Automatisk uppdatering"
 
-#: ../build/src/ui_collectionsettingspage.h:421
+#: ../build/src/ui_collectionsettingspage.h:413
 msgid "Automatically open single categories in the collection tree"
 msgstr "Öppna enskilda kategorier automatiskt i samlingsträdet"
 
@@ -1188,7 +1188,7 @@ msgstr "Klassisk"
 msgid "Clear"
 msgstr "Rensa"
 
-#: ../build/src/ui_collectionsettingspage.h:439
+#: ../build/src/ui_collectionsettingspage.h:431
 msgid "Clear Disk Cache"
 msgstr "Rensa diskcache"
 
@@ -1246,7 +1246,7 @@ msgstr ""
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:406
+#: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:399
 #: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Collection"
 msgstr "Samling"
@@ -1547,7 +1547,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Upp"
 
-#: ../build/src/ui_collectionsettingspage.h:437
+#: ../build/src/ui_collectionsettingspage.h:429
 msgid "Current disk cache in use:"
 msgstr "Aktuell diskcache i användning:"
 
@@ -1708,12 +1708,12 @@ msgstr "Skiva"
 msgid "Discontinuous transmission"
 msgstr "Icke-kontinuerlig sändning"
 
-#: ../build/src/ui_collectionsettingspage.h:436
+#: ../build/src/ui_collectionsettingspage.h:428
 msgid "Disk Cache Size"
 msgstr "Diskcache storlek"
 
 #: collection/collectionfilterwidget.cpp:127
-#: ../build/src/ui_collectionsettingspage.h:420
+#: ../build/src/ui_collectionsettingspage.h:412
 msgid "Display options"
 msgstr "Visningsalternativ"
 
@@ -1831,7 +1831,7 @@ msgstr "Redigera spårinformation..."
 msgid "Enable"
 msgstr "Aktivera"
 
-#: ../build/src/ui_collectionsettingspage.h:435
+#: ../build/src/ui_collectionsettingspage.h:427
 msgid "Enable Disk Cache"
 msgstr "Aktivera diskcache"
 
@@ -1839,7 +1839,7 @@ msgstr "Aktivera diskcache"
 msgid "Enable Items"
 msgstr "Aktivera poster"
 
-#: ../build/src/ui_collectionsettingspage.h:440
+#: ../build/src/ui_collectionsettingspage.h:432
 #: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable delete files in the right click context menu"
 msgstr "Aktivera ta bort filer i snabbmenyn till högerklick"
@@ -2145,7 +2145,7 @@ msgstr "Filtyp"
 msgid "Filename"
 msgstr "Filnamn"
 
-#: ../build/src/ui_collectionsettingspage.h:426
+#: ../build/src/ui_collectionsettingspage.h:418
 msgid "Filename:"
 msgstr "Filnamn:"
 
@@ -2767,7 +2767,7 @@ msgstr "Låg komplexitetprofil (LC)"
 msgid "Low watermark"
 msgstr "Låg vattenstämpel"
 
-#: ../build/src/ui_collectionsettingspage.h:431
+#: ../build/src/ui_collectionsettingspage.h:423
 msgid "Lowercase filename"
 msgstr "Filnamn med gemener"
 
@@ -2799,7 +2799,7 @@ msgstr "Tillverkare"
 msgid "Mark as listened"
 msgstr "Markera som lyssnad"
 
-#: ../build/src/ui_collectionsettingspage.h:413
+#: ../build/src/ui_collectionsettingspage.h:406
 msgid "Mark disappeared songs unavailable"
 msgstr "Markera försvunna låtar som otillgängliga"
 
@@ -2916,7 +2916,7 @@ msgstr "Användarnamn saknas."
 msgid "Model"
 msgstr "Modell"
 
-#: ../build/src/ui_collectionsettingspage.h:412
+#: ../build/src/ui_collectionsettingspage.h:405
 msgid "Monitor the collection for changes"
 msgstr "Bevaka ändringar i samlingen"
 
@@ -3256,7 +3256,7 @@ msgstr "Utgång"
 msgid "Output options"
 msgstr "Utdataalternativ"
 
-#: ../build/src/ui_collectionsettingspage.h:430
+#: ../build/src/ui_collectionsettingspage.h:422
 msgid "Overwrite existing file"
 msgstr "Skriv över befintlig fil"
 
@@ -3445,7 +3445,7 @@ msgstr "Föredra albumartist vid sändning av \"scrobbles\""
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ../build/src/ui_collectionsettingspage.h:415
+#: ../build/src/ui_collectionsettingspage.h:407
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Föredragna omslagsbildsfilnamn (kommaseparerade)"
 
@@ -3674,7 +3674,7 @@ msgstr "Ta bort &dubbletter från spellistan"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Ta bort &otillgängliga spår från spellistan"
 
-#: ../build/src/ui_collectionsettingspage.h:409
+#: ../build/src/ui_collectionsettingspage.h:402
 msgid "Remove folder"
 msgstr "Ta bort mapp"
 
@@ -3733,7 +3733,7 @@ msgstr "Upprepa spår"
 msgid "Replace current playlist"
 msgstr "Ersätt den aktuella spellistan"
 
-#: ../build/src/ui_collectionsettingspage.h:432
+#: ../build/src/ui_collectionsettingspage.h:424
 msgid "Replace spaces with dashes"
 msgstr "Ersätter mellanslag med understreck"
 
@@ -3898,7 +3898,7 @@ msgstr "Spara &spellistan..."
 msgid "Save album cover"
 msgstr "Spara albumomslag"
 
-#: ../build/src/ui_collectionsettingspage.h:425
+#: ../build/src/ui_collectionsettingspage.h:417
 msgid "Save album covers in album directory"
 msgstr "Spara albumomslag i albummappen"
 
@@ -3936,7 +3936,7 @@ msgstr "Spara .mood-filerna direkt i låtmapparna"
 msgid "Saved Grouping Manager"
 msgstr "Sparad grupperingshanterare"
 
-#: ../build/src/ui_collectionsettingspage.h:424
+#: ../build/src/ui_collectionsettingspage.h:416
 msgid "Saving album covers"
 msgstr "Sparar albumomslag"
 
@@ -4156,7 +4156,7 @@ msgstr "Visa ovanför statusraden"
 msgid "Show album cover"
 msgstr "Visa albumomslag"
 
-#: ../build/src/ui_collectionsettingspage.h:422
+#: ../build/src/ui_collectionsettingspage.h:414
 msgid "Show album cover art in collection"
 msgstr "Visa omslagsbilder i samlingen"
 
@@ -4176,7 +4176,7 @@ msgstr "Visa alla låtarna"
 msgid "Show dialog for errors"
 msgstr "Visa dialogruta för fel"
 
-#: ../build/src/ui_collectionsettingspage.h:423
+#: ../build/src/ui_collectionsettingspage.h:415
 msgid "Show dividers"
 msgstr "Visa avdelare"
 
@@ -4286,7 +4286,7 @@ msgid "Signing in..."
 msgstr "Loggar in..."
 
 #: ../build/src/ui_albumcoverexport.h:211
-#: ../build/src/ui_collectionsettingspage.h:434
+#: ../build/src/ui_collectionsettingspage.h:426
 msgid "Size"
 msgstr "Storlek"
 
@@ -4685,7 +4685,7 @@ msgstr ""
 "Filerna kommer att tas bort från enheten, är du säker på att du vill "
 "fortsätta?"
 
-#: ../build/src/ui_collectionsettingspage.h:407
+#: ../build/src/ui_collectionsettingspage.h:400
 msgid "These folders will be scanned for music to make up your collection"
 msgstr ""
 "Dessa mappar kommer att sökas igenom efter musik för att komplettera ditt "
@@ -4898,11 +4898,11 @@ msgstr "Hoppa inte över valda spår"
 msgid "Unskip track"
 msgstr "Hoppa inte över valt spår"
 
-#: ../build/src/ui_collectionsettingspage.h:411
+#: ../build/src/ui_collectionsettingspage.h:404
 msgid "Update the collection when Strawberry starts"
 msgstr "Uppdatera samlingen när Strawberry startar"
 
-#: collection/collectionwatcher.cpp:130
+#: collection/collectionwatcher.cpp:129
 #, qt-format
 msgid "Updating %1"
 msgstr "Uppdaterar %1"
@@ -4912,7 +4912,7 @@ msgstr "Uppdaterar %1"
 msgid "Updating %1%..."
 msgstr "Uppdaterar %1%..."
 
-#: collection/collectionwatcher.cpp:128
+#: collection/collectionwatcher.cpp:127
 msgid "Updating collection"
 msgstr "Uppdaterar samlingen"
 
@@ -4988,15 +4988,11 @@ msgstr "Aktivera dynamiskt läge"
 msgid "Use gradient background"
 msgstr "Använd tonad bakgrund"
 
-#: ../build/src/ui_collectionsettingspage.h:427
+#: ../build/src/ui_collectionsettingspage.h:419
 msgid "Use hash"
 msgstr "Använd hash"
 
-#: ../build/src/ui_collectionsettingspage.h:414
-msgid "Use live scanning"
-msgstr "Använd direktsökning"
-
-#: ../build/src/ui_collectionsettingspage.h:428
+#: ../build/src/ui_collectionsettingspage.h:420
 msgid "Use pattern"
 msgstr "Använd mönster"
 
@@ -5109,7 +5105,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr "Veckor"
 
-#: ../build/src/ui_collectionsettingspage.h:417
+#: ../build/src/ui_collectionsettingspage.h:409
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
