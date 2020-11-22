@@ -848,7 +848,11 @@ void EditTagDialog::showEvent(QShowEvent *e) {
   // Restore the tab that was current last time.
   QSettings s;
   s.beginGroup(kSettingsGroup);
+  if (s.contains("geometry")) {
+    restoreGeometry(s.value("geometry").toByteArray());
+  }
   ui_->tab_widget->setCurrentIndex(s.value("current_tab").toInt());
+  s.endGroup();
 
   QDialog::showEvent(e);
 
@@ -859,7 +863,9 @@ void EditTagDialog::hideEvent(QHideEvent *e) {
   // Save the current tab
   QSettings s;
   s.beginGroup(kSettingsGroup);
+  s.setValue("geometry", saveGeometry());
   s.setValue("current_tab", ui_->tab_widget->currentIndex());
+  s.endGroup();
 
   QDialog::hideEvent(e);
 
