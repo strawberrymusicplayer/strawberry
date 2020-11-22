@@ -389,6 +389,8 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
       QString title = obj_track["name"].toString();
       QDateTime datetime = QDateTime::fromString(date, "dd MMM yyyy, hh:mm");
 
+      if (!datetime.isValid()) continue;
+
       emit UpdateLastPlayed(artist, album, title, datetime.toSecsSinceEpoch());
       UpdateProgress();
 

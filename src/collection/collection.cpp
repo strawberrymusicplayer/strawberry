@@ -110,7 +110,7 @@ void SCollection::Init() {
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(CurrentSongChanged(Song)));
   connect(app_->player(), SIGNAL(Stopped()), SLOT(Stopped()));
 
-  connect(app_->lastfm_import(), SIGNAL(UpdateLastPlayed(QString, QString, QString, int)), backend_, SLOT(UpdateLastPlayed(QString, QString, QString, int)));
+  connect(app_->lastfm_import(), SIGNAL(UpdateLastPlayed(QString, QString, QString, qint64)), backend_, SLOT(UpdateLastPlayed(QString, QString, QString, qint64)));
   connect(app_->lastfm_import(), SIGNAL(UpdatePlayCount(QString, QString, int)), backend_, SLOT(UpdatePlayCount(QString, QString, int)));
 
   // This will start the watcher checking for updates

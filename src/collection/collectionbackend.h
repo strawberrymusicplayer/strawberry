@@ -213,7 +213,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void SongPathChanged(const Song &song, const QFileInfo &new_file);
 
   SongList GetSongsBy(const QString &artist, const QString &album, const QString &title);
-  void UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const int lastplayed);
+  void UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const qint64 lastplayed);
   void UpdatePlayCount(const QString &artist, const QString &title, const int playcount);
 
   void UpdateSongRating(const int id, const float rating);

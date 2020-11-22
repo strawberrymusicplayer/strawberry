@@ -1368,7 +1368,7 @@ SongList CollectionBackend::GetSongsBy(const QString &artist, const QString &alb
 
 }
 
-void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const int lastplayed) {
+void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const qint64 lastplayed) {
 
   SongList songs = GetSongsBy(artist, album, title);
   if (songs.isEmpty()) {

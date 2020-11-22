@@ -80,7 +80,7 @@ class LastFMImport : public QObject {
 
  signals:
   void UpdatePlayCount(QString, QString, int);
-  void UpdateLastPlayed(QString, QString, QString, int);
+  void UpdateLastPlayed(QString, QString, QString, qint64);
   void UpdateTotal(int, int);
   void UpdateProgress(int, int);
   void Finished();
