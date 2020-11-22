@@ -178,16 +178,7 @@ QSqlQuery PlaylistBackend::GetPlaylistRows(int playlist) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  QString query = "SELECT songs.ROWID, " + Song::JoinSpec("songs") +
-                  ","
-                  "       p.ROWID, " +
-                  Song::JoinSpec("p") +
-                  ","
-                  "       p.type"
-                  " FROM playlist_items AS p"
-                  " LEFT JOIN songs"
-                  "    ON p.collection_id = songs.ROWID"
-                  " WHERE p.playlist = :playlist";
+  QString query = "SELECT songs.ROWID, " + Song::JoinSpec("songs") + ", p.ROWID, " + Song::JoinSpec("p") + ", p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist";
   QSqlQuery q(db);
   // Forward iterations only may be faster
   q.setForwardOnly(true);
