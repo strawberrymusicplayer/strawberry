@@ -871,7 +871,7 @@ msgid "An error occurred loading the iTunes database"
 msgstr ""
 "Une erreur est survenue lors du chargement de la base de données iTunes"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:960
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:966
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr ""
@@ -921,7 +921,7 @@ msgstr "Êtes-vous sûr(e) de vouloir continuer ?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Êtes-vous sûr(e) de vouloir supprimer la valeur prédéfinie « %1 » ?"
 
-#: dialogs/edittagdialog.cpp:876
+#: dialogs/edittagdialog.cpp:882
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr ""
 "Êtes vous sûr(e) de vouloir réinitialiser les statistiques de ce morceau ?"
@@ -3845,7 +3845,7 @@ msgstr "Réanalyse des morceaux..."
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: dialogs/edittagdialog.cpp:876 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:882 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "Réinitialiser le compteur de lecture"
 

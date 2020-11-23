@@ -821,7 +821,7 @@ msgstr "Alltid start avspilling"
 msgid "An error occurred loading the iTunes database"
 msgstr "En feil oppsto ved innlasting av iTunes-databasen"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:960
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:966
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Det oppstod en feil når metadata skulle skrives til '%1'"
@@ -870,7 +870,7 @@ msgstr ""
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Er du sikker på at du vil slette \"%1\"-forhåndsinnstillingen?"
 
-#: dialogs/edittagdialog.cpp:876
+#: dialogs/edittagdialog.cpp:882
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr ""
 "Er du sikker på at du ønsker å nullstille statistikk for denne sangen?"
@@ -3728,7 +3728,7 @@ msgstr ""
 msgid "Reset"
 msgstr "Tilbakestill"
 
-#: dialogs/edittagdialog.cpp:876 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:882 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "Tilbakestill avspillingsteller"
 

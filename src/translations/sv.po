@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-20 09:31-0500\n"
+"PO-Revision-Date: 2020-11-22 09:03-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -109,7 +109,7 @@ msgstr " låtar"
 #: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
 #, qt-format
 msgid "%1 Scrobbler Authentication"
-msgstr "%1 Scrobbler-autentisering"
+msgstr "%1 Skrobblarautentisering"
 
 #: context/contextview.cpp:468
 #, qt-format
@@ -409,9 +409,9 @@ msgid ""
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
 "immediately)."
 msgstr ""
-"(Detta är förseningen mellan när en låt är \"scrobbled\" och när "
-"\"scrobbles\" skickas till servern. Om du ställer in tiden till 0 minuter "
-"skickas \"scrobbles\" omedelbart)."
+"(Detta är förseningen mellan när en låt är skrobblad och när skrobblingar "
+"skickas till servern. Om du ställer in tiden till 0 minuter skickas "
+"skrobblingar omedelbart)."
 
 #: dialogs/edittagdialog.cpp:95
 msgid "(different across multiple songs)"
@@ -842,7 +842,7 @@ msgstr "Alltid starta uppspelning"
 msgid "An error occurred loading the iTunes database"
 msgstr "Ett fel uppstod vid inläsning av iTunes-databasen"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:960
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:966
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Ett fel uppstod när metadata skulle skrivas till \"%1\""
@@ -891,7 +891,7 @@ msgstr "Är du säker på att du vill fortsätta?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Är du säker på att du vill ta bort förinställningen \"%1\"?"
 
-#: dialogs/edittagdialog.cpp:876
+#: dialogs/edittagdialog.cpp:882
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Är du säker på att du vill återställa den här låtens statistik?"
 
@@ -1854,7 +1854,7 @@ msgstr "Aktivera spellistans rensningsknapp"
 
 #: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Enable scrobbling for the following sources:"
-msgstr "Aktivera \"scrobbling\" för följande källor:"
+msgstr "Aktivera skrobbling för följande källor:"
 
 #: ../build/src/ui_playlistsettingspage.h:177
 msgid "Enable song metadata inline edition with click"
@@ -2817,7 +2817,7 @@ msgstr "Största omslagsstorleken"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:208
 msgid "Maximum bitrate"
-msgstr "Högsta överföringskapacitet"
+msgstr "Högsta överföringskapaciteten"
 
 #: qobuz/qobuzservice.cpp:467
 msgid "Maximum number of login attempts reached."
@@ -3437,7 +3437,7 @@ msgstr "Förförstärkare"
 
 #: ../build/src/ui_scrobblersettingspage.h:399
 msgid "Prefer album artist when sending scrobbles"
-msgstr "Föredra albumartist vid sändning av \"scrobbles\""
+msgstr "Föredra albumartist vid sändning av skrobblingar"
 
 #: ../build/src/ui_subsonicsettingspage.h:195
 #: ../build/src/ui_tidalsettingspage.h:322
@@ -3773,7 +3773,7 @@ msgstr "Omsökning av låt(ar)..."
 msgid "Reset"
 msgstr "Återställ"
 
-#: dialogs/edittagdialog.cpp:876 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:882 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "Återställ spelningsantal"
 
@@ -3954,17 +3954,17 @@ msgstr "Skalnings storlek"
 
 #: ../build/src/ui_scrobblersettingspage.h:389
 msgid "Scrobbler"
-msgstr "Scrobbler"
+msgstr "Skrobblare"
 
 #: scrobbler/scrobblingapi20.cpp:1012
 #, qt-format
 msgid "Scrobbler %1 error: %2"
-msgstr "Scrobbler %1 fel: %2"
+msgstr "Skrobblare %1 fel: %2"
 
 #: scrobbler/scrobblingapi20.cpp:539
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
-msgstr "Scrobbler %1 är inte autentiserad!"
+msgstr "Skrobblare %1 är inte autentiserad!"
 
 #: ../build/src/ui_behavioursettingspage.h:293
 msgid "Scroll over icon to change track"
@@ -4071,7 +4071,7 @@ msgstr "Servernswebbadress är ogiltig."
 
 #: ../build/src/ui_subsonicsettingspage.h:198
 msgid "Server-side scrobbling"
-msgstr "\"Scrobbling\" på serversidan"
+msgstr "Skrobbling på serversidan"
 
 #: core/mainwindow.cpp:1888
 #, qt-format
@@ -4227,7 +4227,7 @@ msgstr "Visa spelande gränssnittskomponent"
 
 #: ../build/src/ui_scrobblersettingspage.h:393
 msgid "Show scrobble button"
-msgstr "Visa knappen \"scrobble\""
+msgstr "Visa knappen skrobbla"
 
 #: ../build/src/ui_mainwindow.h:713
 msgid "Show sidebar"
@@ -4356,9 +4356,9 @@ msgid ""
 "seconds, have been playing for at least half its duration or for 4 minutes "
 "(whichever occurs earlier)."
 msgstr ""
-"Låtar är \"scrobbled\" om de har giltiga metadata och är längre än 30 "
-"sekunder, har spelats i minst hälften av dess varaktighet eller i 4 minuter "
-"(beroende på vilket som inträffar tidigare)."
+"Låtar är skrobblade om de har giltiga metadata och är längre än 30 sekunder, "
+"har spelats i minst hälften av dess varaktighet eller i 4 minuter (beroende "
+"på vilket som inträffar tidigare)."
 
 #: ../build/src/ui_tidalsettingspage.h:328
 #: ../build/src/ui_qobuzsettingspage.h:285
@@ -4521,7 +4521,7 @@ msgstr "Format"
 
 #: ../build/src/ui_scrobblersettingspage.h:395
 msgid "Submit scrobbles every"
-msgstr "Skicka \"scrobbles\" varje"
+msgstr "Skicka skrobblingar varje"
 
 #: core/mainwindow.cpp:347 ../build/src/ui_scrobblersettingspage.h:407
 #: ../build/src/ui_subsonicsettingspage.h:188
@@ -4789,7 +4789,7 @@ msgstr "Växla köstatus"
 
 #: ../build/src/ui_mainwindow.h:705
 msgid "Toggle scrobbling"
-msgstr "Växla \"scrobbling\""
+msgstr "Växla skrobbling"
 
 #: core/mainwindow.cpp:684 core/mainwindow.cpp:1862
 msgid "Toggle skip status"
@@ -5130,7 +5130,7 @@ msgstr "Utan omslag:"
 
 #: ../build/src/ui_scrobblersettingspage.h:392
 msgid "Work in offline mode (Only cache scrobbles)"
-msgstr "Arbeta i frånkopplat läge (endast cache-\"scrobbles\")"
+msgstr "Arbeta i frånkopplat läge (cacha endast skrobblingar)"
 
 #: collection/collectionview.cpp:476
 msgid ""

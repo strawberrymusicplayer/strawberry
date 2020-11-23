@@ -834,7 +834,7 @@ msgstr "Mindig indítsa a lejátszást"
 msgid "An error occurred loading the iTunes database"
 msgstr "Hiba történt az iTunes adatbázis betöltése közben"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:960
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:966
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Hiba történt '%1' metaadatainak írása közben"
@@ -883,7 +883,7 @@ msgstr "Biztos folytatni szeretné?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Biztos benne, hogy törli a \"%1\" beállítást?"
 
-#: dialogs/edittagdialog.cpp:876
+#: dialogs/edittagdialog.cpp:882
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Biztos benne, hogy visszaállítja ennek a dalnak a statisztikáit?"
 
@@ -3773,7 +3773,7 @@ msgstr "Dalok újraellenőrzése..."
 msgid "Reset"
 msgstr "Visszaállítás"
 
-#: dialogs/edittagdialog.cpp:876 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:882 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "Lejátszás számlálók visszaállítása"
 
