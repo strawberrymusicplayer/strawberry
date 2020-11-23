@@ -537,7 +537,6 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
   fileref->tag()->setYear(song.year() <= 0 ? 0 : song.year());
   fileref->tag()->setTrack(song.track() <= 0 ? 0 : song.track());
 
-  bool saved = false;
   bool result = false;
 
   if (TagLib::FLAC::File *file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
@@ -574,8 +573,6 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
     SetTextFrame("TPE2", song.albumartist().empty() ? std::string() : song.albumartist(), tag);
     SetTextFrame("TCMP", song.compilation() ? QString::number(1) : QString(), tag);
     SetUnsyncLyricsFrame(song.lyrics().empty() ? std::string() : song.lyrics(), tag);
-    result = file_mpeg->save(TagLib::MPEG::File::ID3v2);
-    saved = true;
   }
 
   else if (TagLib::MP4::File *file_mp4 = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
@@ -594,10 +591,7 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
     SetVorbisComments(tag, song);
   }
 
-  if (!saved) {
-    result = fileref->save();
-  }
-
+  result = fileref->save();
 #ifdef Q_OS_LINUX
   if (result) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
