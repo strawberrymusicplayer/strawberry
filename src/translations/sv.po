@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-22 09:03-0500\n"
+"PO-Revision-Date: 2020-11-22 10:29-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -1244,7 +1244,7 @@ msgstr ""
 
 #: equalizer/equalizer.cpp:139
 msgid "Club"
-msgstr "Club"
+msgstr "Klubb"
 
 #: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:399
 #: ../build/src/ui_scrobblersettingspage.h:402
@@ -1273,7 +1273,7 @@ msgstr "Färger"
 
 #: core/commandlineoptions.cpp:188
 msgid "Comma separated list of class:level, level is 0-3"
-msgstr "Lista, separerad med komma, över class:level; level är 0-3"
+msgstr "Kommaseparerad lista över class:level; level är 0-3"
 
 #: playlist/playlist.cpp:1290 smartplaylists/smartplaylistsearchterm.cpp:374
 #: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:711
@@ -1577,7 +1577,7 @@ msgstr "D-Bus sökväg"
 
 #: equalizer/equalizer.cpp:140
 msgid "Dance"
-msgstr "Dance"
+msgstr "Dans"
 
 #: core/database.cpp:506
 msgid "Database corruption detected."
@@ -2271,15 +2271,15 @@ msgstr "Frusen"
 
 #: equalizer/equalizer.cpp:141
 msgid "Full Bass"
-msgstr "Full bas"
+msgstr "Hel bas"
 
 #: equalizer/equalizer.cpp:143
 msgid "Full Bass + Treble"
-msgstr "Full bas + diskant"
+msgstr "Hel bas + diskant"
 
 #: equalizer/equalizer.cpp:142
 msgid "Full Treble"
-msgstr "Full diskant"
+msgstr "Hel diskant"
 
 #: settings/settingsdialog.cpp:133
 msgid "General"
@@ -2350,15 +2350,15 @@ msgstr "Gruppera efter artist/album"
 
 #: collection/collectionfilterwidget.cpp:202
 msgid "Group by Album artist/Album - Disc"
-msgstr "Gruppera efter Albumartist/Album - Skiva"
+msgstr "Gruppera efter albumartist/album - Skiva"
 
 #: collection/collectionfilterwidget.cpp:203
 msgid "Group by Album artist/Year - Album"
-msgstr "Gruppera efter Albumartist/År - Album"
+msgstr "Gruppera efter albumartist/år - album"
 
 #: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album artist/Year - Album - Disc"
-msgstr "Gruppera efter Albumartist/År - Album - Skiva"
+msgstr "Gruppera efter albumartist/år - album - skiva"
 
 #: collection/collectionfilterwidget.cpp:215
 msgid "Group by Artist"
@@ -2366,19 +2366,19 @@ msgstr "Gruppera efter artist"
 
 #: collection/collectionfilterwidget.cpp:206
 msgid "Group by Artist/Album"
-msgstr "Gruppera efter Artist/Album"
+msgstr "Gruppera efter artist/album"
 
 #: collection/collectionfilterwidget.cpp:207
 msgid "Group by Artist/Album - Disc"
-msgstr "Gruppera efter Artist/Album - Skiva"
+msgstr "Gruppera efter artist/album - skiva"
 
 #: collection/collectionfilterwidget.cpp:208
 msgid "Group by Artist/Year - Album"
-msgstr "Gruppera efter Artist/År - Album"
+msgstr "Gruppera efter artist/år - album"
 
 #: collection/collectionfilterwidget.cpp:209
 msgid "Group by Artist/Year - Album - Disc"
-msgstr "Gruppera efter Artist/År - Album - Skiva"
+msgstr "Gruppera efter artist/år - album - skiva"
 
 #: collection/collectionfilterwidget.cpp:218
 msgid "Group by Genre/Album"
@@ -2386,11 +2386,11 @@ msgstr "Gruppera efter genre/album"
 
 #: collection/collectionfilterwidget.cpp:211
 msgid "Group by Genre/Album artist/Album"
-msgstr "Gruppera efter Genre/Albumartist/Album"
+msgstr "Gruppera efter genre/albumartist/album"
 
 #: collection/collectionfilterwidget.cpp:212
 msgid "Group by Genre/Artist/Album"
-msgstr "Gruppera efter Genre/Artist/Album"
+msgstr "Gruppera efter genre/artist/album"
 
 #: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1273
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:198
@@ -3968,7 +3968,7 @@ msgstr "Skrobblare %1 är inte autentiserad!"
 
 #: ../build/src/ui_behavioursettingspage.h:293
 msgid "Scroll over icon to change track"
-msgstr "Rulla över ikonen för att byta spår"
+msgstr "Skrolla över ikonen för att byta spår"
 
 #: covermanager/albumcoversearcher.cpp:198
 #: covermanager/albumcoversearcher.cpp:217
