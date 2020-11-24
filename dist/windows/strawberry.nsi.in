@@ -175,6 +175,7 @@ Section "Strawberry" Strawberry
   File "strawberry-tagreader.exe"
   File "strawberry.ico"
   File "sqlite3.exe"
+  File "gst-launch-1.0.exe"
 
 !ifdef arch_x86
   File "libgcc_s_sjlj-1.dll"
@@ -443,6 +444,7 @@ Section "Uninstall"
   Delete "$INSTDIR\strawberry.exe"
   Delete "$INSTDIR\strawberry-tagreader.exe"
   Delete "$INSTDIR\sqlite3.exe"
+  Delete "$INSTDIR\gst-launch-1.0.exe"
 
 !ifdef arch_x86
   Delete "$INSTDIR\libgcc_s_sjlj-1.dll"
