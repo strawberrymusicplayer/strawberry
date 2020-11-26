@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-18 03:48-0500\n"
+"PO-Revision-Date: 2020-11-24 07:26-0500\n"
 "Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -489,7 +489,7 @@ msgstr "Ustalane a&utomatycznie"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "A-Z"
-msgstr "A-Z"
+msgstr "A-Ż"
 
 #: ../build/src/ui_transcodersettingspage.h:192
 msgid "AAC"
@@ -5279,7 +5279,7 @@ msgstr "Twoja kolekcja jest pusta!"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "Z-A"
-msgstr "Z-A"
+msgstr "Ż-A"
 
 #: equalizer/equalizer.cpp:155
 msgid "Zero"

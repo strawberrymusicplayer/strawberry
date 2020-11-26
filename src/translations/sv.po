@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-24 07:01-0500\n"
+"PO-Revision-Date: 2020-11-25 04:25-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -704,11 +704,11 @@ msgstr "Lägg till..."
 
 #: ../build/src/ui_collectionfilterwidget.h:100
 msgid "Added this month"
-msgstr "Tillagda den här månaden"
+msgstr "Tillagda denna månad"
 
 #: ../build/src/ui_collectionfilterwidget.h:94
 msgid "Added this week"
-msgstr "Tillagda den här veckan"
+msgstr "Tillagda denna vecka"
 
 #: ../build/src/ui_collectionfilterwidget.h:99
 msgid "Added this year"
@@ -1021,7 +1021,7 @@ msgstr "Bakgrundsopacitet"
 
 #: core/database.cpp:555
 msgid "Backing up database"
-msgstr "Säkerhetskopiera databasen"
+msgstr "Säkerhetskopierar databas"
 
 #: ../build/src/ui_equalizer.h:179
 msgid "Balance"
@@ -1044,7 +1044,7 @@ msgstr "Bästa"
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:695
 msgid "Bit depth"
-msgstr "Överföringsdjup"
+msgstr "Bitdjup"
 
 #: ../build/src/ui_edittagdialog.h:692
 msgid "Bit rate"
@@ -1858,7 +1858,7 @@ msgstr "Aktivera skrobbling för följande källor:"
 
 #: ../build/src/ui_playlistsettingspage.h:177
 msgid "Enable song metadata inline edition with click"
-msgstr "Aktivera redigering av låtmetadata vid klick"
+msgstr "Aktivera redigering av låtmetadata genom klick"
 
 #: ../build/src/ui_equalizer.h:177
 msgid "Enable stereo balancer"
@@ -3457,8 +3457,8 @@ msgstr "Önskat format"
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
-"Använd ett fältnamn som förstavelse på ett ord för att begränsa sökningen "
-"till det fältet, t.ex.:"
+"Använd ett fältnamn som prefix för ett ord för att begränsa sökningen till "
+"det fältet, t.ex.:"
 
 #: core/songloader.cpp:153
 msgid "Preload function was not set for blocking operation."
@@ -4974,7 +4974,7 @@ msgstr "Använd autentisering"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:202
 msgid "Use bitrate management engine"
-msgstr "Använd motor för hantering av överföringskapacitet"
+msgstr "Använd motor för hantering av bithastighet"
 
 #: ../build/src/ui_appearancesettingspage.h:556
 msgid "Use custom color"
