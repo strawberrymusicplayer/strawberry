@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-25 04:25-0500\n"
+"PO-Revision-Date: 2020-11-26 01:18-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -59,13 +59,13 @@ msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "gnome-settings-daemon instead."
 msgstr ""
-" Kortkommandon på %1 används vanligtvis via GSD och konfigureras i gnome-"
-"settings-daemon istället."
+" Genvägar på %1 används vanligtvis via GSD och konfigureras i gnome-settings-"
+"daemon istället."
 
 #: settings/shortcutssettingspage.cpp:318
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
-msgstr " Kortkommandon på %1 används vanligtvis via MPRIS och KGlobalAccel."
+msgstr " Genvägar på %1 används vanligtvis via MPRIS och KGlobalAccel."
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -1136,7 +1136,7 @@ msgstr "Byt omslag"
 
 #: ../build/src/ui_shortcutssettingspage.h:258
 msgid "Change shortcut..."
-msgstr "Byt kortkommando..."
+msgstr "Byt genväg..."
 
 #: ../build/src/ui_behavioursettingspage.h:324
 msgid "Change the currently playing song"
@@ -4096,17 +4096,17 @@ msgstr "Inställningar kräver omstart."
 
 #: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
-msgstr "Kortkommando"
+msgstr "Genväg"
 
 #: settings/shortcutssettingspage.cpp:267
 #: ../build/src/ui_shortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
-msgstr "Kortkommando för %1"
+msgstr "Genväg för %1"
 
 #: ../build/src/ui_shortcutssettingspage.h:241
 msgid "Shortcuts"
-msgstr "Kortkommandon"
+msgstr "Genvägar"
 
 #: collection/collectionfilterwidget.cpp:106
 msgid "Show"
@@ -4930,7 +4930,7 @@ msgstr "Användning"
 
 #: ../build/src/ui_shortcutssettingspage.h:242
 msgid "Use Gnome (GSD) shortcuts when available"
-msgstr "Använd Gnome (GSD) kortkommandon när de är tillgängliga"
+msgstr "Använd Gnome (GSD) genvägar när de är tillgängliga"
 
 #: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Use HTTPS for local redirectserver"
@@ -4938,7 +4938,7 @@ msgstr "Använd HTTPS för lokal omdirigeringsserver"
 
 #: ../build/src/ui_shortcutssettingspage.h:244
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr "Använd KDE (KGlobalAccel) kortkommandon när de är tillgängliga"
+msgstr "Använd KDE (KGlobalAccel) genvägar när de är tillgängliga"
 
 #: ../build/src/ui_tidalsettingspage.h:316
 msgid "Use OAuth"
@@ -4958,7 +4958,7 @@ msgstr "Använd Tidal-inställningar för att autentisera."
 
 #: ../build/src/ui_shortcutssettingspage.h:245
 msgid "Use X11 shortcuts when available"
-msgstr "Använd X11-kortkommandon när de är tillgängliga"
+msgstr "Använd X11-genvägar när de är tillgängliga"
 
 #: ../build/src/ui_appearancesettingspage.h:549
 msgid "Use a custom color set"
@@ -5038,7 +5038,7 @@ msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
 "become unresponsive!"
 msgstr ""
-"Användning av X11-kortkommandon på %1 rekommenderas inte och kan orsaka att "
+"Användning av X11-genvägar på %1 rekommenderas inte och kan orsaka att "
 "tangentbordet inte svarar!"
 
 #: ../build/src/ui_behavioursettingspage.h:304
@@ -5230,7 +5230,7 @@ msgid ""
 msgstr ""
 "Du behöver starta Systeminställningar och tillåta Strawberry att \"<span "
 "style=\"font-style:italic\">kontrollera din dator</span>\" för att använda "
-"globala kortkommandon i Strawberry."
+"globala genvägar i Strawberry."
 
 #: ../build/src/ui_shortcutssettingspage.h:248
 msgid ""
@@ -5240,7 +5240,7 @@ msgid ""
 msgstr ""
 "Du behöver starta Systeminställningar och aktivera \"<span style=\" font-"
 "style:italic;\">Aktivera åtkomst för hjälpmedel </span>\" för att använda "
-"globala kortkommandon i Strawberry."
+"globala genvägar i Strawberry."
 
 #: dialogs/about.cpp:120
 #, qt-format
