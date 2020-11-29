@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-26 01:18-0500\n"
+"PO-Revision-Date: 2020-11-28 12:31-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -5118,7 +5118,7 @@ msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:168
 msgid "When saving a playlist, file paths should be"
-msgstr "När en spellista sparas ska sökvägen vara"
+msgstr "När en spellista sparas ska sökvägarna vara"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:228
 msgid "Wide band (WB)"
