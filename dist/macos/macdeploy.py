@@ -88,7 +88,6 @@ GSTREAMER_PLUGINS = [
     'libgstosxaudio.dylib',
     'libgstplayback.dylib',
     'libgstrawparse.dylib',
-    'libgstrealmedia.dylib',
     'libgstreplaygain.dylib',
     'libgstsoup.dylib',
     'libgstspectrum.dylib',
