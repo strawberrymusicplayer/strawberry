@@ -464,11 +464,11 @@ workflows:
               only: /.*/
 
 
-      - build_fedora_31:
+      - build_fedora_32:
           filters:
             tags:
               only: /.*/
-      - build_fedora_32:
+      - build_fedora_33:
           filters:
             tags:
               only: /.*/
