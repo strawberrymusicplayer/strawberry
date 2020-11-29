@@ -220,10 +220,13 @@ if(X11_FOUND)
   endif()
 endif(X11_FOUND)
 
-find_path(QPA_QPLATFORMNATIVEINTERFACE_H qpa/qplatformnativeinterface.h PATHS ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+find_path(QPA_QPLATFORMNATIVEINTERFACE_H qpa/qplatformnativeinterface.h PATHS ${Qt${QT_MAJOR_VERSION}Gui_PRIVATE_INCLUDE_DIRS})
 if(QPA_QPLATFORMNATIVEINTERFACE_H)
   set(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H ON)
-  include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+  include_directories(${Qt${QT_MAJOR_VERSION}Gui_PRIVATE_INCLUDE_DIRS})
+  message(STATUS "Have qpa/qplatformnativeinterface.h header.")
+else()
+  message(STATUS "Missing qpa/qplatformnativeinterface.h header.")
 endif()
 
 # TAGLIB
