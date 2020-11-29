@@ -999,10 +999,6 @@ jobs:
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v1.2.0
-      - name: Update
-        run: brew update
-      - name: Upgrade
-        run: brew upgrade
       - name: Install packages
         run: >
           brew install
