@@ -326,7 +326,7 @@ jobs:
 
   build_source:
     docker:
-      - image: opensuse/leap:15.1
+      - image: opensuse/leap:15.2
     steps:
       - install_opensuse_dependencies
       - checkout
@@ -359,9 +359,9 @@ jobs:
       - build_rpm
 
 
-  build_fedora_31:
+  build_fedora_32:
     docker:
-      - image: fedora:31
+      - image: fedora:32
     environment:
       RPM_BUILD_NCPUS: "2"
     steps:
@@ -371,9 +371,9 @@ jobs:
       - build_source
       - build_rpm
 
-  build_fedora_32:
+  build_fedora_33:
     docker:
-      - image: fedora:32
+      - image: fedora:33
     environment:
       RPM_BUILD_NCPUS: "2"
     steps:
