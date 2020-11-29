@@ -53,10 +53,12 @@
 #include <QSettings>
 #include <QFlags>
 #include <QtEvents>
-#ifdef HAVE_X11
+#ifdef HAVE_X11EXTRAS
 # include <QX11Info>
+#elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+#  include <qpa/qplatformnativeinterface.h>
 #endif
-#ifdef Q_OS_WIN
+#ifdef HAVE_WINEXTRAS
 # include <QtWin>
 #endif
 
@@ -214,10 +216,26 @@ void OSDPretty::ScreenRemoved(QScreen *screen) {
 }
 
 bool OSDPretty::IsTransparencyAvailable() {
-#if defined(HAVE_X11)
+
+#if defined(HAVE_X11EXTRAS)
   return QX11Info::isCompositingManagerRunning();
+#elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+  if (qApp) {
+    QPlatformNativeInterface *native = qApp->platformNativeInterface();
+    if (native) {
+      QScreen *screen = popup_screen_ == nullptr ?  QGuiApplication::primaryScreen() : popup_screen_;
+      if (screen) {
+        return native->nativeResourceForScreen(QByteArray("compositingEnabled"), screen);
+      }
+      else return false;
+    }
+    else return false;
+  }
+  else return false;
 #endif
+
   return true;
+
 }
 
 void OSDPretty::Load() {
@@ -433,10 +451,11 @@ void OSDPretty::Reposition() {
     setMask(mask);
   }
 
-#ifdef Q_OS_WIN
+#ifdef HAVE_WINEXTRAS
   // On windows, enable blurbehind on the masked area
   QtWin::enableBlurBehindWindow(this, QRegion(mask));
 #endif
+
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)

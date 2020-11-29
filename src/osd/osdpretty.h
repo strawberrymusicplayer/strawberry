@@ -71,7 +71,7 @@ class OSDPretty : public QWidget {
   static const QRgb kPresetBlue;
   static const QRgb kPresetRed;
 
-  static bool IsTransparencyAvailable();
+  bool IsTransparencyAvailable();
 
   void SetMessage(const QString &summary, const QString& message, const QImage &image);
   void ShowMessage(const QString &summary, const QString& message, const QImage &image);

@@ -548,14 +548,14 @@ if(HAVE_GLOBALSHORTCUTS)
     HEADERS globalshortcuts/globalshortcuts.h globalshortcuts/globalshortcutbackend.h globalshortcuts/globalshortcutgrabber.h settings/shortcutssettingspage.h
     UI globalshortcuts/globalshortcutgrabber.ui settings/shortcutssettingspage.ui
   )
-  if (X11_FOUND OR WIN32)
+  if(HAVE_X11EXTRAS OR WIN32)
     set(X11_OR_WIN ON)
   endif()
   optional_source(X11_OR_WIN
     SOURCES globalshortcuts/globalshortcutbackend-system.cpp globalshortcuts/globalshortcut.cpp
     HEADERS globalshortcuts/globalshortcutbackend-system.h globalshortcuts/globalshortcut.h
   )
-  optional_source(X11_FOUND
+  optional_source(HAVE_X11EXTRAS
     SOURCES globalshortcuts/globalshortcut-x11.cpp
   )
   optional_source(HAVE_DBUS

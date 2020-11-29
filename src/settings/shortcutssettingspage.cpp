@@ -77,7 +77,7 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
   connect(ui_->checkbox_kde, SIGNAL(clicked(bool)), SLOT(ShortcutOptionsChanged()));
   connect(ui_->button_gsd_open, SIGNAL(clicked()), SLOT(OpenGnomeKeybindingProperties()));
 #  endif
-#  ifdef HAVE_X11
+#  ifdef HAVE_X11EXTRAS
   connect(ui_->checkbox_x11, SIGNAL(clicked(bool)), SLOT(ShortcutOptionsChanged()));
 #  endif
 #else

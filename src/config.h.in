@@ -64,4 +64,8 @@
 #cmakedefine INSTALL_TRANSLATIONS
 #define TRANSLATIONS_DIR "${CMAKE_INSTALL_PREFIX}/share/strawberry/translations"
 
+#cmakedefine HAVE_X11EXTRAS
+#cmakedefine HAVE_WINEXTRAS
+#cmakedefine HAVE_QPA_QPLATFORMNATIVEINTERFACE_H
+
 #endif // CONFIG_H_IN

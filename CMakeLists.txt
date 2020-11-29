@@ -161,17 +161,22 @@ else()
 endif()
 
 set(QT_COMPONENTS Core Concurrent Widgets Network Sql)
-if(X11_FOUND)
-  list(APPEND QT_COMPONENTS X11Extras)
-endif()
+unset(OPTIONAL_COMPONENTS)
+
 if(DBUS_FOUND)
   list(APPEND QT_COMPONENTS DBus)
 endif()
+if(X11_FOUND)
+  list(APPEND OPTIONAL_COMPONENTS X11Extras)
+endif()
 if(WIN32)
-  list(APPEND QT_COMPONENTS WinExtras)
+  list(APPEND OPTIONAL_COMPONENTS WinExtras)
 endif()
 
 find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS ${QT_COMPONENTS})
+if(OPTIONAL_COMPONENTS)
+  find_package(Qt${QT_MAJOR_VERSION} OPTIONAL_COMPONENTS ${OPTIONAL_COMPONENTS})
+endif(OPTIONAL_COMPONENTS)
 
 set(QtCore_LIBRARIES Qt${QT_MAJOR_VERSION}::Core)
 set(QtConcurrent_LIBRARIES Qt${QT_MAJOR_VERSION}::Concurrent)
@@ -187,10 +192,12 @@ endif()
 if(Qt${QT_MAJOR_VERSION}X11Extras_FOUND)
   set(QtX11Extras_LIBRARIES Qt${QT_MAJOR_VERSION}::X11Extras)
   list(APPEND QT_LIBRARIES Qt${QT_MAJOR_VERSION}::X11Extras)
+  set(HAVE_X11EXTRAS ON)
 endif()
 if(Qt${QT_MAJOR_VERSION}WinExtras_FOUND)
   set(QtWinExtras_LIBRARIES Qt${QT_MAJOR_VERSION}::WinExtras)
   list(APPEND QT_LIBRARIES Qt${QT_MAJOR_VERSION}::WinExtras)
+  set(HAVE_WINEXTRAS ON)
 endif()
 
 find_package(Qt${QT_MAJOR_VERSION} QUIET COMPONENTS LinguistTools CONFIG)
@@ -212,6 +219,12 @@ if(X11_FOUND)
     message(WARNING, "Missing X11/XF86keysym.h")
   endif()
 endif(X11_FOUND)
+
+find_path(QPA_QPLATFORMNATIVEINTERFACE_H qpa/qplatformnativeinterface.h PATHS ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+if(QPA_QPLATFORMNATIVEINTERFACE_H)
+  set(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H ON)
+  include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+endif()
 
 # TAGLIB
 option(USE_SYSTEM_TAGLIB "Use system taglib" OFF)
@@ -305,6 +318,10 @@ endif()
 
 optional_component(GLOBALSHORTCUTS ON "Global shortcuts"
   DEPENDS "D-Bus, X11, Windows or macOS" HAVE_GLOBALSHORTCUTS_SUPPORT
+)
+
+optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
+  DEPENDS "X11Extras" Qt${QT_MAJOR_VERSION}X11Extras_FOUND
 )
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"

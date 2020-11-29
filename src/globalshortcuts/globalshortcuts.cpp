@@ -30,8 +30,8 @@
 #ifdef HAVE_DBUS
 # include <QDBusConnectionInterface>
 #endif
-#ifdef HAVE_X11
-#include <QX11Info>
+#ifdef HAVE_X11EXTRAS
+#  include <QX11Info>
 #endif
 
 #include "globalshortcuts.h"
@@ -41,7 +41,7 @@
 #  include "globalshortcutbackend-gsd.h"
 #  include "globalshortcutbackend-kde.h"
 #endif
-#if defined(HAVE_X11) || defined(Q_OS_WIN)
+#if defined(HAVE_X11EXTRAS) || defined(Q_OS_WIN)
 #  include "globalshortcutbackend-system.h"
 #endif
 #ifdef Q_OS_MACOS
@@ -97,7 +97,7 @@ GlobalShortcuts::GlobalShortcuts(QWidget *parent)
   if (!system_backend_)
     system_backend_ = new GlobalShortcutBackendSystem(this);
 #endif
-#if defined(HAVE_X11)
+#if defined(HAVE_X11EXTRAS)
   if (!system_backend_ && IsX11Available())
     system_backend_ = new GlobalShortcutBackendSystem(this);
 #endif
@@ -166,7 +166,7 @@ bool GlobalShortcuts::IsKdeAvailable() const {
 
 bool GlobalShortcuts::IsX11Available() const {
 
-#ifdef HAVE_X11
+#ifdef HAVE_X11EXTRAS
   return QX11Info::isPlatformX11();
 #else
   return false;
@@ -178,12 +178,12 @@ void GlobalShortcuts::Register() {
 
   if (use_gsd_ && gsd_backend_ && gsd_backend_->Register()) return;
   if (use_kde_ && kde_backend_ && kde_backend_->Register()) return;
-#ifdef HAVE_X11 // If this system has X11, only use the system backend if X11 is enabled in the global shortcut settings
+#ifdef HAVE_X11EXTRAS // If this system has X11, only use the system backend if X11 is enabled in the global shortcut settings
   if (use_x11_) {
 #endif
     if (system_backend_)
       system_backend_->Register();
-#ifdef HAVE_X11
+#ifdef HAVE_X11EXTRAS
    }
 #endif
 
