@@ -15,13 +15,14 @@
 # whdgmawkd <whdgmawkd@naver.com>, 2014-2015
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Shinjo Park <peremen@gmail.com>, 2020. #zanata
+# zlzleking <zlzleking@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-06-12 05:39-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2020-11-29 09:13-0500\n"
+"Last-Translator: zlzleking <zlzleking@gmail.com>\n"
 "Language-Team: Korean\n"
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
@@ -259,7 +260,7 @@ msgstr "재생 목록 비우기(&C)"
 
 #: ../build/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
-msgstr "표지 관리자(&C)"
+msgstr "앨범아트 관리자(&C)"
 
 #: ../build/src/ui_shortcutssettingspage.h:257
 msgid "&Custom"
@@ -324,7 +325,7 @@ msgstr "다음 트랙(&N)"
 
 #: ../build/src/ui_appearancesettingspage.h:562
 msgid "&No background image"
-msgstr "배경 그림 없음(&N)"
+msgstr "배경 없음(&N)"
 
 #: ../build/src/ui_shortcutssettingspage.h:255
 msgid "&None"
@@ -360,7 +361,7 @@ msgstr "설정(&S)..."
 
 #: ../build/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
-msgstr "무순서 재생 모드(&S)"
+msgstr "셔플 재생 모드(&S)"
 
 #: ../build/src/ui_mainwindow.h:615
 msgid "&Stop"
@@ -433,7 +434,7 @@ msgstr "40%"
 
 #: smartplaylists/smartplaylistsmodel.cpp:76
 msgid "50 random tracks"
-msgstr ""
+msgstr "랜덤 곡 50곡"
 
 #: ../build/src/ui_organizedialog.h:274
 msgid ""
@@ -456,11 +457,13 @@ msgid ""
 "There are different types of smart playlist that offer different ways of "
 "selecting songs."
 msgstr ""
+"스마트 재생 목록은 조건에 맞는 곡들을 라이브러리에서 찾아 자동으로 생성됩니다. 다양한 스마트 재생 목록과 스마트 재생 목록을 만드는 "
+"규칙들이 있습니다."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:152
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
-msgstr ""
+msgstr "이 조건에 맞는 곡들이 재생 목록에 들어갑니다."
 
 #: ../build/src/ui_playlistsettingspage.h:169
 msgid "A&utomatic"
@@ -468,7 +471,7 @@ msgstr "자동(&U)"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: ../build/src/ui_transcodersettingspage.h:192
 msgid "AAC"
@@ -527,7 +530,7 @@ msgstr "폴더 추가(&F)..."
 
 #: ../build/src/ui_addstreamdialog.h:77
 msgid "Add Stream"
-msgstr ""
+msgstr "스트림 추가"
 
 #: ../build/src/ui_contextsettingspage.h:405
 #: ../build/src/ui_notificationssettingspage.h:457
@@ -568,7 +571,7 @@ msgstr "새로운 폴더 추가..."
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:430
 msgid "Add search term"
-msgstr ""
+msgstr "검색 조건 추가"
 
 #: ../build/src/ui_contextsettingspage.h:366
 #: ../build/src/ui_notificationssettingspage.h:412
@@ -655,7 +658,7 @@ msgstr "년도 태그 추가"
 
 #: ../build/src/ui_mainwindow.h:712
 msgid "Add stream..."
-msgstr ""
+msgstr "스트림 추가"
 
 #: internet/internetsearchview.cpp:332
 msgid "Add to albums"
@@ -803,7 +806,7 @@ msgstr "모든 재생 목록(%1)"
 
 #: smartplaylists/smartplaylistsmodel.cpp:119
 msgid "All tracks"
-msgstr ""
+msgstr "모든 트랙"
 
 #: ../build/src/ui_organizedialog.h:282
 msgid "Allow extended ASCII characters"
@@ -868,7 +871,7 @@ msgstr "압축을 적용하여 클리핑 방지"
 
 #: dialogs/deleteconfirmationdialog.cpp:69
 msgid "Are you sure you want to continue?"
-msgstr ""
+msgstr "계속하시겠습니까?"
 
 #: equalizer/equalizer.cpp:227
 #, qt-format
@@ -937,7 +940,7 @@ msgstr "인증 실패"
 
 #: dialogs/about.cpp:142
 msgid "Author and maintainer"
-msgstr ""
+msgstr "제작자 및 메인테이너"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Auto"
@@ -969,7 +972,7 @@ msgstr "현재 재생 중인 트랙을 자동으로 선택"
 
 #: ../build/src/ui_playlistsettingspage.h:167
 msgid "Automatically sort playlist when inserting songs"
-msgstr ""
+msgstr "곡을 추가하면 자동으로 재생목록 정렬"
 
 #: widgets/freespacebar.cpp:68
 msgid "Available"
@@ -1048,7 +1051,7 @@ msgstr "비트 전송률"
 #: organize/organizedialog.cpp:117
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr ""
+msgstr "비트레이트"
 
 #: analyzer/blockanalyzer.cpp:45
 msgid "Block analyzer"
@@ -1108,7 +1111,7 @@ msgstr "CDDA"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr ""
+msgstr "취소"
 
 #: tidal/tidalstreamurlrequest.cpp:108 qobuz/qobuzstreamurlrequest.cpp:103
 msgid "Cancelled."
@@ -1136,7 +1139,7 @@ msgstr "업데이트 확인..."
 
 #: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Choose a name for your smart playlist"
-msgstr ""
+msgstr "스마트 재생 목록 이름을 정하세요"
 
 #: ../build/src/ui_notificationssettingspage.h:493
 msgid "Choose color..."
@@ -1152,7 +1155,7 @@ msgstr "글꼴 선택..."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:154
 msgid "Choose how the playlist is sorted and how many songs it will contain."
-msgstr ""
+msgstr "재생목록 정렬 조건과 최대로 들어갈 곡 수를 정하세요."
 
 #: ../build/src/ui_coverssettingspage.h:167
 msgid "Choose the providers you want to use when searching for covers."
@@ -1230,7 +1233,7 @@ msgstr "클럽"
 #: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:399
 #: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Collection"
-msgstr "모음집"
+msgstr "라이브러리"
 
 #: ../build/src/ui_collectionfilterwidget.h:91
 msgid "Collection Filter"
@@ -1242,11 +1245,11 @@ msgstr "라이브러리 고급 그룹"
 
 #: core/mainwindow.cpp:2725
 msgid "Collection rescan notice"
-msgstr "모음집 재탐색 알림"
+msgstr "라이브러리 재탐색 알림"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:85
 msgid "Collection search"
-msgstr ""
+msgstr "라이브러리 검색"
 
 #: ../build/src/ui_appearancesettingspage.h:547
 msgid "Colors"
@@ -1303,7 +1306,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:639
 msgid "Configure collection..."
-msgstr "모음집 설정..."
+msgstr "라이브러리 설정..."
 
 #: device/devicemanager.cpp:348 device/devicemanager.cpp:349
 msgid "Connect device"
@@ -1339,7 +1342,7 @@ msgstr "장치에서 재생할 수 없는 곡 변환"
 
 #: core/mainwindow.cpp:703
 msgid "Copy URL(s)..."
-msgstr ""
+msgstr "URL 복사"
 
 #: ../build/src/ui_organizedialog.h:286
 msgid "Copy album cover artwork"
@@ -1352,7 +1355,7 @@ msgstr "라이브러리로 복사..."
 
 #: playlist/playlistlistcontainer.cpp:379
 msgid "Copy to device"
-msgstr ""
+msgstr "디바이스에 복사"
 
 #: core/mainwindow.cpp:710 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:104
@@ -1365,6 +1368,8 @@ msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
 "avoid losing configration before you uninstall the snap:"
 msgstr ""
+"Snap 제거 시 설정이 날아가는 것을 원치 않으신다면 strawberry.conf와 strawberry.db 파일을 ~/snap에서 "
+"백업하십시오."
 
 #: transcoder/transcoder.cpp:66
 #, qt-format
@@ -1521,7 +1526,7 @@ msgstr "Ctrl+Up"
 
 #: ../build/src/ui_collectionsettingspage.h:429
 msgid "Current disk cache in use:"
-msgstr ""
+msgstr "현재 사용중인 디스크 캐시 :"
 
 #: equalizer/equalizer.cpp:137
 msgid "Custom"
@@ -1581,7 +1586,7 @@ msgstr "기본 배경 그림(&K)"
 
 #: ../build/src/ui_backendsettingspage.h:499
 msgid "Defaults"
-msgstr ""
+msgstr "기본 설정"
 
 #: playlist/playlistlistcontainer.cpp:101
 #: ../build/src/ui_playlistlistcontainer.h:133
@@ -1608,7 +1613,7 @@ msgstr "사전 설정 삭제"
 #: smartplaylists/smartplaylistsviewcontainer.cpp:82
 #: ../build/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
-msgstr ""
+msgstr "스마트 재생 목록 제거"
 
 #: ../build/src/ui_organizedialog.h:270
 msgid "Delete the original files"
@@ -1707,7 +1712,7 @@ msgstr "덮어쓰지 않기"
 
 #: ../build/src/ui_snapdialog.h:120
 msgid "Do not show this message again."
-msgstr ""
+msgstr "메세지 다시 보지 않기"
 
 #: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
@@ -1753,19 +1758,19 @@ msgstr "위치를 바꾸려면 드래그하십시오"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:105
 msgid "Dynamic mode is on"
-msgstr ""
+msgstr "자동 모드가 켜졌습니다"
 
 #: smartplaylists/smartplaylistsmodel.cpp:120
 msgid "Dynamic random mix"
-msgstr ""
+msgstr "모든 곡 랜덤 믹스"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
-msgstr ""
+msgstr "스마트 재생 목록 수정"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:81
 msgid "Edit smart playlist..."
-msgstr ""
+msgstr "스마트 재생 목록 수정"
 
 #: core/mainwindow.cpp:1889
 #, qt-format
@@ -1814,7 +1819,7 @@ msgstr "항목 활성화"
 #: ../build/src/ui_collectionsettingspage.h:432
 #: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable delete files in the right click context menu"
-msgstr ""
+msgstr "마우스 우클릭 메뉴로부터 파일 제거 활성화"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Enable equalizer"
@@ -1826,7 +1831,7 @@ msgstr "재생 목록 비우기 단추 활성화"
 
 #: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Enable scrobbling for the following sources:"
-msgstr ""
+msgstr "이 소스로부터 스크로블링 켜기"
 
 #: ../build/src/ui_playlistsettingspage.h:177
 msgid "Enable song metadata inline edition with click"
@@ -1887,7 +1892,7 @@ msgstr "여기에 검색어 입력"
 
 #: ../build/src/ui_addstreamdialog.h:78
 msgid "Enter the URL of a stream:"
-msgstr ""
+msgstr "스트림 URL 입력"
 
 #: playlist/playlistlistcontainer.cpp:222
 msgid "Enter the name of the folder"
@@ -1895,7 +1900,7 @@ msgstr "폴더 이름 입력"
 
 #: ../build/src/ui_userpassdialog.h:90
 msgid "Enter username and password"
-msgstr ""
+msgstr "계정명과 패스워드 입력"
 
 #: settings/scrobblersettingspage.cpp:82
 msgid "Enter your user token from"
@@ -1946,19 +1951,19 @@ msgstr "오디오 CD를 불러오는 중 오류가 발생했습니다."
 
 #: device/cddasongloader.cpp:114 device/cddasongloader.cpp:123
 msgid "Error while querying CDDA tracks."
-msgstr ""
+msgstr "CDDA 트랙을 로딩하는데 오류가 있습니다."
 
 #: device/cddasongloader.cpp:102
 msgid "Error while setting CDDA device to pause state."
-msgstr ""
+msgstr "CDDA 디바이스를 일시정지하는데 오류가 있습니다."
 
 #: device/cddasongloader.cpp:94
 msgid "Error while setting CDDA device to ready state."
-msgstr ""
+msgstr "CDDA 디바이스를 준비하는데 오류가 있습니다."
 
 #: smartplaylists/smartplaylistsmodel.cpp:82
 msgid "Ever played"
-msgstr ""
+msgstr "재생된 적 있음"
 
 #: ../build/src/ui_backendsettingspage.h:512
 msgid "Except between tracks on the same album or in the same CUE sheet"
@@ -1970,7 +1975,7 @@ msgstr "존재하는 표지"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
-msgstr ""
+msgstr "확장"
 
 #: widgets/loginstatewidget.cpp:150
 #, qt-format
@@ -2055,7 +2060,7 @@ msgstr "빠름"
 
 #: smartplaylists/smartplaylistsmodel.cpp:106
 msgid "Favourite tracks"
-msgstr ""
+msgstr "좋아요 표시된 곡"
 
 #: ../build/src/ui_albumcovermanager.h:223
 msgid "Fetch Missing Covers"
@@ -2147,7 +2152,7 @@ msgstr "노래 정보 추출 중"
 
 #: smartplaylists/smartplaylistwizard.cpp:86
 msgid "Finish"
-msgstr ""
+msgstr "완료"
 
 #: collection/savedgroupingmanager.cpp:56 ../build/src/ui_groupbydialog.h:182
 msgid "First level"
@@ -2178,7 +2183,7 @@ msgstr "글자 크기"
 #: dialogs/snapdialog.cpp:56
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr ""
+msgstr "우분투용 공식 PPA 저장소는 %1 에서 찾을 수 있습니다."
 
 #: dialogs/snapdialog.cpp:64
 msgid "For a better experience please consider the other options above."
@@ -2300,7 +2305,7 @@ msgstr "시작할 때 재생 목록에서 사용할 수 없는 곡을 회색으�
 
 #: ../build/src/ui_groupbydialog.h:181
 msgid "Group Collection by..."
-msgstr "모음집 그룹 방식..."
+msgstr "라이브러리 그룹 방식..."
 
 #: collection/collectionfilterwidget.cpp:119
 #: internet/internetsearchview.cpp:345
@@ -2425,7 +2430,7 @@ msgstr "아이콘"
 
 #: ../build/src/ui_appearancesettingspage.h:585
 msgid "Icon sizes"
-msgstr ""
+msgstr "아이콘 크기"
 
 #: widgets/fancytabwidget.cpp:713
 msgid "Icons on top"
@@ -2451,7 +2456,7 @@ msgstr "계속 진행하면 이 장치가 느리게 작동하거나 복사된 �
 msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
-msgstr ""
+msgstr "Strawberry가 마음에 들었다면 스폰서쉽과 기부를 할 수 있습니다."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2463,11 +2468,11 @@ msgstr "그림 (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
 #: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
-msgstr ""
+msgstr "last.fm으로부터 데이터 가져오기"
 
 #: ../build/src/ui_mainwindow.h:714
 msgid "Import data from last.fm..."
-msgstr ""
+msgstr "last.fm으로부터 데이터 가져오기"
 
 #: ../build/src/ui_transcodedialog.h:225
 msgid "Import..."
@@ -2487,7 +2492,7 @@ msgstr "%1주 후"
 msgid ""
 "In dynamic mode new tracks will be chosen and added to the playlist every "
 "time a song finishes."
-msgstr ""
+msgstr "다이나믹 모드일 때는 곡이 끝날 때마다 새 곡이 재생목록에 추가됩니다."
 
 #: ../build/src/ui_notificationssettingspage.h:477
 msgid "Include album art in the notification"
@@ -2495,7 +2500,7 @@ msgstr "알림에 앨범 커버 포함"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
-msgstr ""
+msgstr "모든 곡 추가"
 
 #: core/commandlineoptions.cpp:171
 msgid "Increase the volume by 4 percent"
@@ -2515,7 +2520,7 @@ msgstr "삽입..."
 
 #: dialogs/snapdialog.cpp:79
 msgid "Install strawberry through PPA:<br />"
-msgstr ""
+msgstr "이 PPA로부터 설치됨:<br />"
 
 #: core/database.cpp:491
 msgid "Integrity check"
@@ -2541,11 +2546,11 @@ msgstr "웹 브라우저에서 잘못된 응답을 받았습니다. 토큰이 �
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
-msgstr ""
+msgstr "이 프로그램은 2018년에 음악 컬렉터들과 오디오파일을 위해 Clementine으로부터 포크되었습니다."
 
 #: dialogs/snapdialog.cpp:44
 msgid "It is detected that Strawberry is running as a Snap"
-msgstr ""
+msgstr "Strawberry가 Snap에서 실행되고 있는 것을 감지하였습니다."
 
 #: ../build/src/ui_behavioursettingspage.h:310
 msgid "Jump to previous song right away"
@@ -2669,7 +2674,7 @@ msgstr "iPod 데이터베이스 불러오는 중"
 
 #: smartplaylists/playlistgeneratorinserter.cpp:58
 msgid "Loading smart playlist"
-msgstr ""
+msgstr "스마트 재생 목록 로딩"
 
 #: collection/collectionmodel.cpp:212
 msgid "Loading songs"
@@ -2695,7 +2700,7 @@ msgstr "불러올 파일이나 URL, 현재 재생 목록을 대체함"
 
 #: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Local file"
-msgstr ""
+msgstr "로컬 파일"
 
 #: ../build/src/ui_scrobblersettingspage.h:414
 #: ../build/src/ui_scrobblersettingspage.h:417
@@ -2766,11 +2771,11 @@ msgstr "사라진 곡을 사용할 수 없는 것으로 표시"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:110
 msgid "Match every search term (AND)"
-msgstr ""
+msgstr "모든 조건에 맞는 곡 (AND)"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:111
 msgid "Match one or more search terms (OR)"
-msgstr ""
+msgstr "조건 중 하나라도 맞는 곡 (OR)"
 
 #: ../build/src/ui_appearancesettingspage.h:577
 msgid "Max cover size"
@@ -2803,7 +2808,7 @@ msgstr "최소 비트 전송률"
 
 #: settings/tidalsettingspage.cpp:163
 msgid "Missing API token."
-msgstr ""
+msgstr "API 토큰이 없습니다."
 
 #: qobuz/qobuzservice.cpp:719 qobuz/qobuzstreamurlrequest.cpp:84
 msgid "Missing Qobuz app ID or secret."
@@ -2831,7 +2836,7 @@ msgstr "Subsonic 사용자 이름이나 암호가 없습니다."
 #: tidal/tidalservice.cpp:853 tidal/tidalservice.cpp:918
 #: tidal/tidalservice.cpp:978 tidal/tidalstreamurlrequest.cpp:90
 msgid "Missing Tidal API token, username or password."
-msgstr ""
+msgstr "타이달 API토큰, 계정 혹은 비밀번호가 없습니다."
 
 #: tidal/tidalservice.cpp:698
 msgid "Missing Tidal API token."
@@ -2851,11 +2856,11 @@ msgstr "Tidal 사용자 이름이 없습니다."
 
 #: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
-msgstr ""
+msgstr "app_id가 없습니다."
 
 #: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
-msgstr ""
+msgstr "패스워드가 없습니다."
 
 #: settings/subsonicsettingspage.cpp:106
 msgid "Missing server url, username or password."
@@ -2867,11 +2872,11 @@ msgstr "사용자 이름이나 암호가 없습니다."
 
 #: scrobbler/lastfmimport.cpp:218
 msgid "Missing username, please login to last.fm first!"
-msgstr ""
+msgstr "계정명이 없습니다. last.fm에 먼저 로그인해주세요."
 
 #: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
-msgstr ""
+msgstr "계정명이 없습니다."
 
 #: device/deviceproperties.cpp:175
 msgid "Model"
@@ -2900,7 +2905,7 @@ msgstr "무드바 스타일"
 
 #: smartplaylists/smartplaylistsmodel.cpp:100
 msgid "Most played"
-msgstr ""
+msgstr "많이 재생된 곡"
 
 #: device/giolister.cpp:188
 msgid "Mount point"
@@ -2917,7 +2922,7 @@ msgstr "아래로 이동"
 
 #: core/mainwindow.cpp:708 widgets/fileviewlist.cpp:49
 msgid "Move to collection..."
-msgstr "모음집으로 이동..."
+msgstr "라이브러리로 이동..."
 
 #: ../build/src/ui_queueview.h:132 ../build/src/ui_coverssettingspage.h:168
 #: ../build/src/ui_lyricssettingspage.h:168
@@ -2956,7 +2961,7 @@ msgstr "없음"
 
 #: smartplaylists/smartplaylistsmodel.cpp:88
 msgid "Never played"
-msgstr ""
+msgstr "한번도 재생하지 않은 곡"
 
 #: ../build/src/ui_behavioursettingspage.h:305
 #: ../build/src/ui_behavioursettingspage.h:319
@@ -2975,11 +2980,11 @@ msgstr "새로운 재생 목록"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
-msgstr ""
+msgstr "새 스마트 재생 목록"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:68
 msgid "New smart playlist..."
-msgstr ""
+msgstr "새 스마트 재생 목록"
 
 #: widgets/freespacebar.cpp:69
 msgid "New songs"
@@ -2987,11 +2992,11 @@ msgstr "새로운 음악"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
-msgstr ""
+msgstr "새 곡들이 자동으로 추가됩니다."
 
 #: smartplaylists/smartplaylistsmodel.cpp:69
 msgid "Newest tracks"
-msgstr ""
+msgstr "새로 추가된 곡"
 
 #: dialogs/edittagdialog.cpp:210 dialogs/trackselectiondialog.cpp:73
 msgid "Next"
@@ -3105,7 +3110,7 @@ msgstr "꺼짐"
 msgid ""
 "Official releases are available for Debian and Ubuntu which also work on "
 "most of their derivatives. See %1 for more information."
-msgstr ""
+msgstr "공식 릴리즈가 데비안, 우분투 혹은 파생 배포판에서 제공됩니다. %1을 참조하십시오."
 
 #: osd/osdbase.cpp:244
 msgid "On"
@@ -3289,7 +3294,7 @@ msgstr "재생 횟수"
 
 #: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
-msgstr ""
+msgstr "재생 횟수"
 
 #: core/commandlineoptions.cpp:165
 msgid "Play if stopped, pause if playing"
@@ -3302,7 +3307,7 @@ msgstr "재생 중인 곡이 없다면 재생"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:76
 msgid "Play next"
-msgstr ""
+msgstr "다음 재생"
 
 #: core/commandlineoptions.cpp:182
 msgid "Play the <n>th track in the playlist"
@@ -3706,7 +3711,7 @@ msgstr "Tidal 응답에 쿼리 항목이 없습니다."
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:108
 msgid "Repopulate"
-msgstr ""
+msgstr "다시 가져오기"
 
 #: collection/collectionview.cpp:363
 msgid "Rescan song(s)"
@@ -3714,7 +3719,7 @@ msgstr "노래 다시 검색"
 
 #: core/mainwindow.cpp:697
 msgid "Rescan song(s)..."
-msgstr ""
+msgstr "다시 곡 검색"
 
 #: widgets/lineedit.cpp:71
 msgid "Reset"
@@ -3941,16 +3946,16 @@ msgstr "다음 항목 검색"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
-msgstr ""
+msgstr "검색 모드"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:153
 msgid "Search options"
-msgstr ""
+msgstr "검색 옵션"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:151
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
-msgstr ""
+msgstr "검색 조건"
 
 #: tidal/tidalrequest.cpp:289 tidal/tidalrequest.cpp:303
 #: tidal/tidalrequest.cpp:317 qobuz/qobuzrequest.cpp:276
@@ -4016,7 +4021,7 @@ msgstr "서버 URL이 잘못되었습니다."
 
 #: ../build/src/ui_subsonicsettingspage.h:198
 msgid "Server-side scrobbling"
-msgstr ""
+msgstr "서버 사이드 스크로블링"
 
 #: core/mainwindow.cpp:1888
 #, qt-format
@@ -4037,7 +4042,7 @@ msgstr "설정"
 
 #: ../build/src/ui_appearancesettingspage.h:546
 msgid "Settings require restart."
-msgstr ""
+msgstr "설정을 적용하려면 재시작이 필요합니다."
 
 #: ../build/src/ui_shortcutssettingspage.h:252
 msgid "Shortcut"
@@ -4099,7 +4104,7 @@ msgstr "상태 표시줄 위에 표시"
 
 #: context/contextview.cpp:319
 msgid "Show album cover"
-msgstr ""
+msgstr "앨범아트 보기"
 
 #: ../build/src/ui_collectionsettingspage.h:414
 msgid "Show album cover art in collection"
@@ -4115,11 +4120,11 @@ msgstr "모든 곡 표시"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
-msgstr ""
+msgstr "모든 곡 보기"
 
 #: ../build/src/ui_scrobblersettingspage.h:400
 msgid "Show dialog for errors"
-msgstr ""
+msgstr "에러 내용 보기"
 
 #: ../build/src/ui_collectionsettingspage.h:415
 msgid "Show dividers"
@@ -4184,7 +4189,7 @@ msgstr "노래 가사 표시"
 
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show song progress on system tray icon"
-msgstr ""
+msgstr "트레이 아이콘에 곡 재생 상황 표시"
 
 #: context/contextview.cpp:323
 msgid "Show song technical data"
@@ -4196,15 +4201,15 @@ msgstr "시스템 트레이 아이콘 표시"
 
 #: ../build/src/ui_behavioursettingspage.h:296
 msgid "Show the main window"
-msgstr ""
+msgstr "메인 창 표시"
 
 #: ../build/src/ui_behavioursettingspage.h:298
 msgid "Show the main window maximized"
-msgstr ""
+msgstr "최대화 상태로 실행"
 
 #: ../build/src/ui_behavioursettingspage.h:299
 msgid "Show the main window minimized"
-msgstr ""
+msgstr "최소화 상태로 실행"
 
 #: ../build/src/ui_playlistsequence.h:124
 msgid "Shuffle"
@@ -4273,11 +4278,11 @@ msgstr "작은 사이드바"
 
 #: smartplaylists/smartplaylistwizard.cpp:70
 msgid "Smart playlist"
-msgstr ""
+msgstr "스마트 재생 목록"
 
 #: core/mainwindow.cpp:341
 msgid "Smart playlists"
-msgstr ""
+msgstr "스마트 재생 목록"
 
 #: equalizer/equalizer.cpp:151
 msgid "Soft"
@@ -4381,7 +4386,7 @@ msgstr "정지됨"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:419
 msgid "Strawberry"
-msgstr ""
+msgstr "Strawberry"
 
 #: ../build/src/ui_errordialog.h:92
 msgid "Strawberry Error"
@@ -4414,15 +4419,15 @@ msgstr "Strawberry는 음악 재생기 및 음악 라이브러리 관리 도구�
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
 "on %1"
-msgstr ""
+msgstr "Strawberry는 GPL로 라이선스되는 자유 소프트웨어이고 소스 코드는 %1에서 볼 수 있습니다."
 
 #: dialogs/snapdialog.cpp:40
 msgid "Strawberry is running as a Snap"
-msgstr ""
+msgstr "Strawberry는 Snap에서 실행되고 있습니다."
 
 #: ../build/src/ui_snapdialog.h:117
 msgid "Strawberry is running as a snap"
-msgstr ""
+msgstr "Strawberry는 Snap에서 실행되고 있습니다."
 
 #: dialogs/snapdialog.cpp:48
 msgid ""
@@ -4568,15 +4573,15 @@ msgstr "재생 중인 음악의 앨범아트"
 
 #: dialogs/deleteconfirmationdialog.cpp:56
 msgid "The following files will be deleted from disk:"
-msgstr ""
+msgstr "이 파일들이 디스크에서 제거됩니다."
 
 #: internet/internetcollectionview.cpp:283
 msgid "The internet collection is empty!"
-msgstr "인터넷 모음집이 비어 있습니다!"
+msgstr "인터넷 라이브러리가 비어 있습니다!"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:419
 msgid "The second value must be greater than the first one!"
-msgstr ""
+msgstr "두번째 값은 첫번째보다 커야 합니다."
 
 #: covermanager/coverfromurldialog.cpp:88
 msgid "The site you requested does not exist!"
@@ -4831,7 +4836,7 @@ msgstr "%1% 업데이트 중..."
 
 #: collection/collectionwatcher.cpp:127
 msgid "Updating collection"
-msgstr "모음집 업데이트 중"
+msgstr "라이브러리 업데이트 중"
 
 #: ../build/src/ui_appearancesettingspage.h:571
 msgid "Upper Left"
@@ -4891,7 +4896,7 @@ msgstr "인증 사용"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:202
 msgid "Use bitrate management engine"
-msgstr "비트 전송률 관리 엔진 사용"
+msgstr "비트레이트 관리 엔진 사용"
 
 #: ../build/src/ui_appearancesettingspage.h:556
 msgid "Use custom color"
@@ -5146,7 +5151,7 @@ msgstr ""
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program.  If not, see %1"
-msgstr ""
+msgstr "GPL 라이선스가 프로그램과 함께 제공됩니다. 만약 그렇지 않았다면 %1에서 볼 수 있습니다."
 
 #: ../build/src/ui_behavioursettingspage.h:303
 msgid "You will need to restart Strawberry if you change the language."
@@ -5158,7 +5163,7 @@ msgstr "라이브러리가 비어 있습니다!"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "Z-A"
-msgstr ""
+msgstr "Z-A"
 
 #: equalizer/equalizer.cpp:155
 msgid "Zero"
