@@ -81,8 +81,8 @@ class PlayerInterface : public QObject {
 
   // Skips this track.  Might load more of the current radio station.
   virtual void Next() = 0;
-
   virtual void Previous() = 0;
+  virtual void PlayPlaylist(const QString& playlistName) = 0;
   virtual void SetVolume(const int value) = 0;
   virtual void VolumeUp() = 0;
   virtual void VolumeDown() = 0;
@@ -163,6 +163,7 @@ class Player : public PlayerInterface {
   void RestartOrPrevious() override;
   void Next() override;
   void Previous() override;
+  void PlayPlaylist(const QString& playlistName) override;
   void SetVolume(const int value) override;
   void VolumeUp() override { SetVolume(GetVolume() + 5); }
   void VolumeDown() override { SetVolume(GetVolume() - 5); }
@@ -195,6 +196,7 @@ class Player : public PlayerInterface {
   void PreviousItem(const Engine::TrackChangeFlags change);
 
   void NextInternal(const Engine::TrackChangeFlags, const Playlist::AutoScroll autoscroll);
+  void PlayPlaylistInternal(Engine::TrackChangeFlags, const Playlist::AutoScroll autoscroll, const QString& playlistName);
 
   void FatalError();
   void ValidSongRequested(const QUrl&);
