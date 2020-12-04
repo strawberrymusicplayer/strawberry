@@ -1464,21 +1464,22 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &idx) {
 
   if (!idx.isValid()) return;
 
-  int row = idx.row();
+  QModelIndex source_idx = idx;
   if (idx.model() == app_->playlist_manager()->current()->proxy()) {
     // The index was in the proxy model (might've been filtered), so we need to get the actual row in the source model.
-    row = app_->playlist_manager()->current()->proxy()->mapToSource(idx).row();
+    source_idx = app_->playlist_manager()->current()->proxy()->mapToSource(idx);
   }
 
   switch (doubleclick_playlist_addmode_) {
     case BehaviourSettingsPage::PlaylistAddBehaviour_Play:
       app_->playlist_manager()->SetActiveToCurrent();
-      app_->player()->PlayAt(row, Engine::Manual, Playlist::AutoScroll_Never, true, true);
+      app_->player()->PlayAt(source_idx.row(), Engine::Manual, Playlist::AutoScroll_Never, true, true);
       break;
 
     case BehaviourSettingsPage::PlaylistAddBehaviour_Enqueue:
-      app_->playlist_manager()->current()->queue()->ToggleTracks(QModelIndexList() << idx);
+      app_->playlist_manager()->current()->queue()->ToggleTracks(QModelIndexList() << source_idx);
       if (app_->player()->GetState() != Engine::Playing) {
+        app_->playlist_manager()->SetActiveToCurrent();
         app_->player()->PlayAt(app_->playlist_manager()->current()->queue()->TakeNext(), Engine::Manual, Playlist::AutoScroll_Never, true);
       }
       break;
