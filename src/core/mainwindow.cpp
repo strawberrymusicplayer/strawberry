@@ -2274,6 +2274,14 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
     case CommandlineOptions::Player_Next:
       app_->player()->Next();
       break;
+    case CommandlineOptions::Player_PlayPlaylist:
+      if (options.playlist_name().isEmpty()) {
+        qLog(Error) << "ERROR: playlist name missing";
+      }
+      else {
+        app_->player()->PlayPlaylist(options.playlist_name());
+      }
+      break;
     case CommandlineOptions::Player_RestartOrPrevious:
       app_->player()->RestartOrPrevious();
       break;
