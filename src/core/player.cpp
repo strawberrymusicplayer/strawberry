@@ -398,22 +398,20 @@ void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::Aut
 
 }
 
-void Player::PlayPlaylist(const QString& playlistName) {
+void Player::PlayPlaylist(const QString &playlistName) {
   PlayPlaylistInternal(Engine::Manual, Playlist::AutoScroll_Always, playlistName);
 }
 
-void Player::PlayPlaylistInternal(Engine::TrackChangeFlags change,
-                                  const Playlist::AutoScroll autoscroll,
-                                  const QString& playlistName) {
-  Playlist* playlist = nullptr;
-  for (Playlist* p : app_->playlist_manager()->GetAllPlaylists()) {
+void Player::PlayPlaylistInternal(Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const QString &playlistName) {
+  Playlist *playlist = nullptr;
+  for (Playlist *p : app_->playlist_manager()->GetAllPlaylists()) {
     if (playlistName == app_->playlist_manager()->GetPlaylistName(p->id())) {
       playlist = p;
       break;
     }
   }
 
-  if (playlist == NULL) {
+  if (playlist == nullptr) {
      qLog(Warning) << "Playlist '" << playlistName << "' not found.";
     return;
    }
