@@ -545,7 +545,7 @@ msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 
-#: core/mainwindow.cpp:2123
+#: core/mainwindow.cpp:2124
 msgid "Add file"
 msgstr "Tambah berkas"
 
@@ -561,7 +561,7 @@ msgstr "Tambah berkas ke transkoder"
 msgid "Add files to transcode"
 msgstr "Tambah berkas untuk ditranskode"
 
-#: core/mainwindow.cpp:2148 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2149 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Tambah folder"
 
@@ -664,7 +664,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Tambahkan ke album"
 
-#: core/mainwindow.cpp:1931
+#: core/mainwindow.cpp:1932
 msgid "Add to another playlist"
 msgstr "Tambahkan ke daftar putar lainnya"
 
@@ -850,7 +850,7 @@ msgstr "App Secret"
 msgid "Appearance"
 msgstr "Penampilan"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:182
 msgid "Append files/URLs to the playlist"
 msgstr "Tambahkan berkas/URL ke daftar putar"
 
@@ -1129,7 +1129,7 @@ msgstr "Ubah pintasan..."
 msgid "Change the currently playing song"
 msgstr "Ganti lagu yang diputar saat ini"
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:188
 msgid "Change the language"
 msgstr "Ubah bahasa"
 
@@ -1178,7 +1178,7 @@ msgstr "Bersihkan"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:2213 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2214 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
@@ -1244,7 +1244,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Pengelompokan pustaka lanjutan"
 
-#: core/mainwindow.cpp:2725
+#: core/mainwindow.cpp:2734
 msgid "Collection rescan notice"
 msgstr "Pemberitahuan pemindaian ulang pustaka"
 
@@ -1256,7 +1256,7 @@ msgstr ""
 msgid "Colors"
 msgstr "Warna"
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:191
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Daftar yang dipisahkan koma dari kelas:level, level adalah 0-3"
 
@@ -1457,7 +1457,7 @@ msgstr ""
 msgid "Covers from %1"
 msgstr "Sampul dari %1"
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:181
 msgid "Create a new playlist with files"
 msgstr "Buat daftar putar baru dengan berkas"
 
@@ -1577,11 +1577,11 @@ msgstr "Tanggal diubah"
 msgid "Days"
 msgstr ""
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:174
 msgid "Decrease the volume by 4 percent"
 msgstr "Kurangi volume 4 persen"
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:176
 msgid "Decrease the volume by <value> percent"
 msgstr "Kurangi volume <value> persen"
 
@@ -1628,11 +1628,11 @@ msgstr "Hapus berkas yang asli"
 msgid "Deleting files"
 msgstr "Menghapus berkas"
 
-#: core/mainwindow.cpp:1848
+#: core/mainwindow.cpp:1849
 msgid "Dequeue selected tracks"
 msgstr "Buang antrean trek terpilih"
 
-#: core/mainwindow.cpp:1847
+#: core/mainwindow.cpp:1848
 msgid "Dequeue track"
 msgstr "Buang antrean trek"
 
@@ -1699,7 +1699,7 @@ msgstr ""
 msgid "Display options"
 msgstr "Opsi tampilan"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:186
 msgid "Display the on-screen-display"
 msgstr "Tampilkan tampilan-pada-layar"
 
@@ -1777,7 +1777,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:1890
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Sunting tag \"%1\"..."
@@ -1919,15 +1919,15 @@ msgstr "Semua koleksi"
 msgid "Equalizer"
 msgstr "Ekualiser"
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:189
 msgid "Equivalent to --log-levels *:1"
 msgstr "Setara dengan --log-level *: 1"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:190
 msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
-#: core/mainwindow.cpp:2463 core/mainwindow.cpp:2608
+#: core/mainwindow.cpp:2472 core/mainwindow.cpp:2617
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Kesalahan"
@@ -2512,11 +2512,11 @@ msgstr "Sertakan sampul album di dalam pemberitahuan"
 msgid "Include all songs"
 msgstr ""
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:173
 msgid "Increase the volume by 4 percent"
 msgstr "Naikkan volume 4 persen"
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:175
 msgid "Increase the volume by <value> percent"
 msgstr "Naikkan volume <value> persen"
 
@@ -2704,7 +2704,7 @@ msgstr "Memuat info trek"
 msgid "Loading..."
 msgstr "Memuat..."
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:183
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Muat berkas/URL, menggantikan daftar putar saat ini"
 
@@ -2939,7 +2939,7 @@ msgstr "Pindah ke pustaka..."
 msgid "Move up"
 msgstr "Pindah naik"
 
-#: core/mainwindow.cpp:2123 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2124 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musik"
 
@@ -2984,7 +2984,7 @@ msgstr "Jangan mulai memutar"
 msgid "New folder"
 msgstr "Folder baru"
 
-#: core/mainwindow.cpp:1947
+#: core/mainwindow.cpp:1948
 msgid "New playlist"
 msgstr "Daftar putar baru"
 
@@ -3056,7 +3056,7 @@ msgstr "Tidak ada lagu yang berputar"
 msgid "None"
 msgstr "Nihil"
 
-#: core/mainwindow.cpp:2463 core/mainwindow.cpp:2608
+#: core/mainwindow.cpp:2472 core/mainwindow.cpp:2617
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3219,7 +3219,7 @@ msgstr "Tahun asli - Album"
 msgid "Original year - Album - Disc"
 msgstr ""
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:186
 msgid "Other options"
 msgstr "Opsi lainnya"
 
@@ -3264,12 +3264,12 @@ msgstr "Pesta"
 msgid "Password"
 msgstr "Sandi"
 
-#: core/mainwindow.cpp:1263 core/mainwindow.cpp:1743
+#: core/mainwindow.cpp:1263 core/mainwindow.cpp:1744
 #: core/qtsystemtrayicon.cpp:193
 msgid "Pause"
 msgstr "Jeda"
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:168
 msgid "Pause playback"
 msgstr "Jeda pemutaran"
 
@@ -3293,7 +3293,7 @@ msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
 #: core/mainwindow.cpp:675 core/mainwindow.cpp:1216 core/mainwindow.cpp:1245
-#: core/mainwindow.cpp:1747 core/qtsystemtrayicon.cpp:180
+#: core/mainwindow.cpp:1748 core/qtsystemtrayicon.cpp:180
 #: core/qtsystemtrayicon.cpp:205
 msgid "Play"
 msgstr "Putar"
@@ -3310,7 +3310,11 @@ msgstr "Jumlah putar"
 msgid "Play counts"
 msgstr ""
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:185
+msgid "Play given playlist"
+msgstr ""
+
+#: core/commandlineoptions.cpp:167
 msgid "Play if stopped, pause if playing"
 msgstr "Putar jika berhenti, jeda jika berputar"
 
@@ -3323,7 +3327,7 @@ msgstr "Putar jika tidak ada yang sedang diputar"
 msgid "Play next"
 msgstr ""
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:184
 msgid "Play the <n>th track in the playlist"
 msgstr "Putar trek ke <n> dalam daftar putar"
 
@@ -3337,7 +3341,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr ""
 
-#: core/commandlineoptions.cpp:163
+#: core/commandlineoptions.cpp:165
 msgid "Player options"
 msgstr "Opsi pemutar"
 
@@ -3356,7 +3360,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Daftar putar selesai"
 
-#: core/mainwindow.cpp:2213
+#: core/mainwindow.cpp:2214
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3367,7 +3371,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr ""
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:180
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
 msgid "Playlist options"
 msgstr "Opsi daftar putar"
@@ -3480,7 +3484,7 @@ msgstr "Sebelumnya"
 msgid "Previous track"
 msgstr "Trek sebelumnya"
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:192
 msgid "Print out version information"
 msgstr "Cetak informasi versi"
 
@@ -3523,20 +3527,20 @@ msgstr "Meminta perangkat..."
 msgid "Queue"
 msgstr "Antrean"
 
-#: core/mainwindow.cpp:1850
+#: core/mainwindow.cpp:1851
 msgid "Queue selected tracks"
 msgstr "Antre trek terpilih"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1854
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1855
 msgid "Queue selected tracks to play next"
 msgstr "Antre trek terpilih untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1856 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1857 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Antre untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1849 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1850 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -3747,7 +3751,7 @@ msgstr "Setel-ulang jumlah putar"
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "Mulai ulang lagu, lalu lompat ke yang sebelumnya jika ditekan lagi"
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:179
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
@@ -3987,11 +3991,11 @@ msgstr "Level Kedua"
 msgid "Second level"
 msgstr "Level kedua"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:178
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Jangkau trek yang sedang diputar berdasarkan nilai relatif"
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:177
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Jangkau yang sedang diputar ke posisi mutlak"
 
@@ -4039,12 +4043,12 @@ msgstr "URL server tidak benar."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1888
+#: core/mainwindow.cpp:1889
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Tetapkan %1 ke \"%2\"..."
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:172
 msgid "Set the volume to <value> percent"
 msgstr "Tetapkan volume ke <value> persen"
 
@@ -4264,7 +4268,7 @@ msgstr "Ukuran:"
 msgid "Ska"
 msgstr "Ska"
 
-#: core/commandlineoptions.cpp:168
+#: core/commandlineoptions.cpp:170
 msgid "Skip backwards in playlist"
 msgstr "Lewati mundur di dalam daftar putar"
 
@@ -4272,15 +4276,15 @@ msgstr "Lewati mundur di dalam daftar putar"
 msgid "Skip count"
 msgstr "Lewati hitungan"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:171
 msgid "Skip forwards in playlist"
 msgstr "Lewati maju di dalam daftar putar"
 
-#: core/mainwindow.cpp:1861
+#: core/mainwindow.cpp:1862
 msgid "Skip selected tracks"
 msgstr "Lewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1860
+#: core/mainwindow.cpp:1861
 msgid "Skip track"
 msgstr "Lewati trek"
 
@@ -4359,7 +4363,7 @@ msgstr ""
 msgid "Standard"
 msgstr "Standar"
 
-#: core/commandlineoptions.cpp:164
+#: core/commandlineoptions.cpp:166
 msgid "Start the playlist currently playing"
 msgstr "Mulai daftar putar yang berputar saat ini"
 
@@ -4384,11 +4388,11 @@ msgstr "Berhenti setelah setiap trek"
 msgid "Stop after this track"
 msgstr "Berhenti setelah trek ini"
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:168
 msgid "Stop playback"
 msgstr "Hentikan pemutaran"
 
-#: core/commandlineoptions.cpp:167
+#: core/commandlineoptions.cpp:169
 msgid "Stop playback after current track"
 msgstr "Hentikan pemutaran setelah trek saat ini"
 
@@ -4610,7 +4614,7 @@ msgstr "Situs yang Anda minta tidak ada!"
 msgid "The site you requested is not an image!"
 msgstr "Situs yang Anda minta bukan sebuah gambar!"
 
-#: core/mainwindow.cpp:2720
+#: core/mainwindow.cpp:2729
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4742,7 +4746,7 @@ msgstr "Judul"
 msgid "Today"
 msgstr "Hari Ini"
 
-#: core/mainwindow.cpp:678 core/mainwindow.cpp:1851
+#: core/mainwindow.cpp:678 core/mainwindow.cpp:1852
 msgid "Toggle queue status"
 msgstr "Alihkan status antrean"
 
@@ -4750,11 +4754,11 @@ msgstr "Alihkan status antrean"
 msgid "Toggle scrobbling"
 msgstr "Alihkan scrobbling"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1862
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1863
 msgid "Toggle skip status"
 msgstr "Alihkan status melewati"
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:187
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Alihkan kenampakan tampilan-pada-layar cantik"
 
@@ -4813,7 +4817,7 @@ msgstr ""
 msgid "URI"
 msgstr "URI"
 
-#: core/commandlineoptions.cpp:162
+#: core/commandlineoptions.cpp:164
 msgid "URL(s)"
 msgstr "URL"
 
@@ -4849,11 +4853,11 @@ msgstr "Kesalahan tak terduga"
 msgid "Unset cover"
 msgstr "Tak set sampul"
 
-#: core/mainwindow.cpp:1859
+#: core/mainwindow.cpp:1860
 msgid "Unskip selected tracks"
 msgstr "Taklewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1858
+#: core/mainwindow.cpp:1859
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
@@ -4883,7 +4887,7 @@ msgstr "Kiri Atas"
 msgid "Upper Right"
 msgstr "Kanan Atas"
 
-#: core/commandlineoptions.cpp:162
+#: core/commandlineoptions.cpp:164
 msgid "Usage"
 msgstr "Penggunaan"
 
@@ -5093,7 +5097,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2724
+#: core/mainwindow.cpp:2733
 msgid "Would you like to run a full rescan right now?"
 msgstr "Apakah Anda ingin menjalankan pemindaian ulang menyeluruh sekarang?"
 
@@ -5356,7 +5360,7 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-#: core/commandlineoptions.cpp:162
+#: core/commandlineoptions.cpp:164
 msgid "options"
 msgstr "opsi"
 

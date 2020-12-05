@@ -544,7 +544,7 @@ msgstr "Přidat všechny skladby z adresáři a všech jeho podadresářů"
 msgid "Add directory..."
 msgstr "Přidat složku..."
 
-#: core/mainwindow.cpp:2123
+#: core/mainwindow.cpp:2124
 msgid "Add file"
 msgstr "Přidat soubor"
 
@@ -560,7 +560,7 @@ msgstr "Přidat soubor(y) k překódování"
 msgid "Add files to transcode"
 msgstr "Přidat soubory pro překódování"
 
-#: core/mainwindow.cpp:2148 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2149 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Přidat složku"
 
@@ -663,7 +663,7 @@ msgstr "Přidat přenos..."
 msgid "Add to albums"
 msgstr "Přidat do alb"
 
-#: core/mainwindow.cpp:1931
+#: core/mainwindow.cpp:1932
 msgid "Add to another playlist"
 msgstr "Přidat do jiného seznamu skladeb"
 
@@ -850,7 +850,7 @@ msgstr ""
 msgid "Appearance"
 msgstr "Vzhled"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:182
 msgid "Append files/URLs to the playlist"
 msgstr "Přidat soubory/adresy do seznamu skladeb"
 
@@ -1133,7 +1133,7 @@ msgstr "Změnit klávesovou zkratku..."
 msgid "Change the currently playing song"
 msgstr "Změnit nyní přehrávanou píseň"
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:188
 msgid "Change the language"
 msgstr "Změnit jazyk"
 
@@ -1182,7 +1182,7 @@ msgstr "Smazat"
 msgid "Clear Disk Cache"
 msgstr "Vyčistit mezipaměť na disku"
 
-#: core/mainwindow.cpp:2213 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2214 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Vyprázdnit seznam skladeb"
 
@@ -1248,7 +1248,7 @@ msgstr "Filtr Kolekce"
 msgid "Collection advanced grouping"
 msgstr "Pokročilé seskupování sbírky"
 
-#: core/mainwindow.cpp:2725
+#: core/mainwindow.cpp:2734
 msgid "Collection rescan notice"
 msgstr "Zpráva o prohledání sbírky"
 
@@ -1260,7 +1260,7 @@ msgstr ""
 msgid "Colors"
 msgstr "Barvy"
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:191
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Čárkou oddělený seznam class:level, level je 0-3"
 
@@ -1461,7 +1461,7 @@ msgstr "Obaly alb"
 msgid "Covers from %1"
 msgstr "Obaly od %1"
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:181
 msgid "Create a new playlist with files"
 msgstr "Vytvořit nový seznam skladeb se soubory"
 
@@ -1581,11 +1581,11 @@ msgstr "Datum změny"
 msgid "Days"
 msgstr ""
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:174
 msgid "Decrease the volume by 4 percent"
 msgstr "Snížit hlasitost o 4 procenta"
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:176
 msgid "Decrease the volume by <value> percent"
 msgstr "Snížit hlasitost o <value> procent"
 
@@ -1632,11 +1632,11 @@ msgstr "Smazat původní soubory"
 msgid "Deleting files"
 msgstr "Probíhá mazání souborů"
 
-#: core/mainwindow.cpp:1848
+#: core/mainwindow.cpp:1849
 msgid "Dequeue selected tracks"
 msgstr "Odstranit vybrané skladby z řady"
 
-#: core/mainwindow.cpp:1847
+#: core/mainwindow.cpp:1848
 msgid "Dequeue track"
 msgstr "Odstranit skladbu z řady"
 
@@ -1703,7 +1703,7 @@ msgstr "Velikost mezipaměti na disku"
 msgid "Display options"
 msgstr "Volby zobrazení"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:186
 msgid "Display the on-screen-display"
 msgstr "Zobrazovat informace na obrazovce (OSD)"
 
@@ -1781,7 +1781,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:1890
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Upravit značku \"%1\"..."
@@ -1924,15 +1924,15 @@ msgstr "Celá sbírka"
 msgid "Equalizer"
 msgstr "Ekvalizér"
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:189
 msgid "Equivalent to --log-levels *:1"
 msgstr "Rovnocenné s --log-levels *:1"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:190
 msgid "Equivalent to --log-levels *:3"
 msgstr "Rovnocenné s --log-levels *:3"
 
-#: core/mainwindow.cpp:2463 core/mainwindow.cpp:2608
+#: core/mainwindow.cpp:2472 core/mainwindow.cpp:2617
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Chyba"
@@ -2523,11 +2523,11 @@ msgstr "Zahrnout obal alba do oznámení"
 msgid "Include all songs"
 msgstr ""
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:173
 msgid "Increase the volume by 4 percent"
 msgstr "Zvýšit hlasitost o 4 procenta"
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:175
 msgid "Increase the volume by <value> percent"
 msgstr "Zvýšit hlasitost o <value> procent"
 
@@ -2720,7 +2720,7 @@ msgstr "Nahrávají se informace o skladbě"
 msgid "Loading..."
 msgstr "Nahrává se..."
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:183
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Nahraje soubory/adresy (URL), nahradí současný seznam skladeb"
 
@@ -2955,7 +2955,7 @@ msgstr "Přesunout do sbírky..."
 msgid "Move up"
 msgstr "Posunout nahoru"
 
-#: core/mainwindow.cpp:2123 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2124 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Hudba"
 
@@ -3000,7 +3000,7 @@ msgstr "Nikdy nezačít přehrávání"
 msgid "New folder"
 msgstr "Nová složka"
 
-#: core/mainwindow.cpp:1947
+#: core/mainwindow.cpp:1948
 msgid "New playlist"
 msgstr "Nový seznam skladeb"
 
@@ -3072,7 +3072,7 @@ msgstr "Žádná skladba se nepřehrává"
 msgid "None"
 msgstr "Žádná"
 
-#: core/mainwindow.cpp:2463 core/mainwindow.cpp:2608
+#: core/mainwindow.cpp:2472 core/mainwindow.cpp:2617
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Žádná z vybraných písní nebyla vhodná ke zkopírování do zařízení"
@@ -3234,7 +3234,7 @@ msgstr "Původní rok - Album"
 msgid "Original year - Album - Disc"
 msgstr ""
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:186
 msgid "Other options"
 msgstr "Další volby"
 
@@ -3279,12 +3279,12 @@ msgstr "Oslava"
 msgid "Password"
 msgstr "Heslo"
 
-#: core/mainwindow.cpp:1263 core/mainwindow.cpp:1743
+#: core/mainwindow.cpp:1263 core/mainwindow.cpp:1744
 #: core/qtsystemtrayicon.cpp:193
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:168
 msgid "Pause playback"
 msgstr "Pozastavit přehrávání"
 
@@ -3308,7 +3308,7 @@ msgid "Plain sidebar"
 msgstr "Prostý postranní panel"
 
 #: core/mainwindow.cpp:675 core/mainwindow.cpp:1216 core/mainwindow.cpp:1245
-#: core/mainwindow.cpp:1747 core/qtsystemtrayicon.cpp:180
+#: core/mainwindow.cpp:1748 core/qtsystemtrayicon.cpp:180
 #: core/qtsystemtrayicon.cpp:205
 msgid "Play"
 msgstr "Přehrát"
@@ -3325,7 +3325,11 @@ msgstr "Počet přehrání"
 msgid "Play counts"
 msgstr ""
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:185
+msgid "Play given playlist"
+msgstr ""
+
+#: core/commandlineoptions.cpp:167
 msgid "Play if stopped, pause if playing"
 msgstr "Přehrát, pokud je zastaveno, pozastavit, pokud je přehráváno"
 
@@ -3338,7 +3342,7 @@ msgstr "Hrát, pokud se již něco nepřehrává"
 msgid "Play next"
 msgstr ""
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:184
 msgid "Play the <n>th track in the playlist"
 msgstr "Přehrát <n>. skladbu v seznamu se skladbami"
 
@@ -3352,7 +3356,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr ""
 
-#: core/commandlineoptions.cpp:163
+#: core/commandlineoptions.cpp:165
 msgid "Player options"
 msgstr "Nastavení přehrávače"
 
@@ -3371,7 +3375,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Seznam skladeb dokončen"
 
-#: core/mainwindow.cpp:2213
+#: core/mainwindow.cpp:2214
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3384,7 +3388,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr ""
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:180
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
 msgid "Playlist options"
 msgstr "Nastavení seznamu skladeb"
@@ -3501,7 +3505,7 @@ msgstr "Předchozí"
 msgid "Previous track"
 msgstr "Předchozí skladba"
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:192
 msgid "Print out version information"
 msgstr "Vypsat informaci o verzi"
 
@@ -3544,20 +3548,20 @@ msgstr "Dotazování se zařízení..."
 msgid "Queue"
 msgstr "Fronta"
 
-#: core/mainwindow.cpp:1850
+#: core/mainwindow.cpp:1851
 msgid "Queue selected tracks"
 msgstr "Přidat vybrané skladby do řady"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1854
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1855
 msgid "Queue selected tracks to play next"
 msgstr "Přidat vybrané skladby do fronty"
 
-#: core/mainwindow.cpp:1856 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1857 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Do fronty jako další"
 
-#: core/mainwindow.cpp:1849 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1850 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -3771,7 +3775,7 @@ msgstr ""
 "Spustit píseň znovu, potom, v případě že je tlačítko opět stisknuto, skočit "
 "na předchozí"
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:179
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
@@ -4011,11 +4015,11 @@ msgstr "Druhá úroveň"
 msgid "Second level"
 msgstr "Druhá úroveň"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:178
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Přetočit v nyní přehrávané skladbě"
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:177
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Skočit v nyní přehrávané skladbě na určité místo"
 
@@ -4064,12 +4068,12 @@ msgstr "Adresa serveru není správná."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1888
+#: core/mainwindow.cpp:1889
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Nastavit %1 na \"%2\"..."
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:172
 msgid "Set the volume to <value> percent"
 msgstr "Nastavit hlasitost na <value> procent"
 
@@ -4293,7 +4297,7 @@ msgstr "Velikost:"
 msgid "Ska"
 msgstr "Ska"
 
-#: core/commandlineoptions.cpp:168
+#: core/commandlineoptions.cpp:170
 msgid "Skip backwards in playlist"
 msgstr "Předchozí skladba v seznamu skladeb"
 
@@ -4301,15 +4305,15 @@ msgstr "Předchozí skladba v seznamu skladeb"
 msgid "Skip count"
 msgstr "Počet přeskočení"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:171
 msgid "Skip forwards in playlist"
 msgstr "Další skladba v seznamu skladeb"
 
-#: core/mainwindow.cpp:1861
+#: core/mainwindow.cpp:1862
 msgid "Skip selected tracks"
 msgstr "Přeskočit vybrané skladby"
 
-#: core/mainwindow.cpp:1860
+#: core/mainwindow.cpp:1861
 msgid "Skip track"
 msgstr "Přeskočit skladbu"
 
@@ -4389,7 +4393,7 @@ msgstr "Přihlášení ke Spotify"
 msgid "Standard"
 msgstr "Obvyklý"
 
-#: core/commandlineoptions.cpp:164
+#: core/commandlineoptions.cpp:166
 msgid "Start the playlist currently playing"
 msgstr "Přehrát současnou skladbu v seznamu skladeb"
 
@@ -4414,11 +4418,11 @@ msgstr "Zastavit po každé skladbě"
 msgid "Stop after this track"
 msgstr "Zastavit po této skladbě"
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:168
 msgid "Stop playback"
 msgstr "Zastavit přehrávání"
 
-#: core/commandlineoptions.cpp:167
+#: core/commandlineoptions.cpp:169
 msgid "Stop playback after current track"
 msgstr "Zastavit přehrávání po současné skladbě"
 
@@ -4644,7 +4648,7 @@ msgstr "Požadovaná stránka neexistuje!"
 msgid "The site you requested is not an image!"
 msgstr "Požadovaná stránka není obrázek!"
 
-#: core/mainwindow.cpp:2720
+#: core/mainwindow.cpp:2729
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4774,7 +4778,7 @@ msgstr "Název"
 msgid "Today"
 msgstr "Dnes"
 
-#: core/mainwindow.cpp:678 core/mainwindow.cpp:1851
+#: core/mainwindow.cpp:678 core/mainwindow.cpp:1852
 msgid "Toggle queue status"
 msgstr "Přepnout stav řady"
 
@@ -4782,12 +4786,12 @@ msgstr "Přepnout stav řady"
 msgid "Toggle scrobbling"
 msgstr "Přepnout odesílání informací o přehrávání"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1862
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1863
 #, fuzzy
 msgid "Toggle skip status"
 msgstr "Přepnout stav přeskakování"
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:187
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Přepnout viditelnost hezkých oznámení na obrazovce (OSD)"
 
@@ -4846,7 +4850,7 @@ msgstr ""
 msgid "URI"
 msgstr "URI"
 
-#: core/commandlineoptions.cpp:162
+#: core/commandlineoptions.cpp:164
 msgid "URL(s)"
 msgstr "Adresa (URL)"
 
@@ -4882,11 +4886,11 @@ msgstr "Neznámá chyba"
 msgid "Unset cover"
 msgstr "Odebrat obal"
 
-#: core/mainwindow.cpp:1859
+#: core/mainwindow.cpp:1860
 msgid "Unskip selected tracks"
 msgstr "Zrušit přeskočení vybraných skladeb"
 
-#: core/mainwindow.cpp:1858
+#: core/mainwindow.cpp:1859
 msgid "Unskip track"
 msgstr "Zrušit přeskočení skladby"
 
@@ -4916,7 +4920,7 @@ msgstr "Vlevo nahoře"
 msgid "Upper Right"
 msgstr "Vpravo nahoře"
 
-#: core/commandlineoptions.cpp:162
+#: core/commandlineoptions.cpp:164
 msgid "Usage"
 msgstr "Zacházení"
 
@@ -5126,7 +5130,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2724
+#: core/mainwindow.cpp:2733
 msgid "Would you like to run a full rescan right now?"
 msgstr "Chcete spustit toto úplné nové prohledání hned teď?"
 
@@ -5394,7 +5398,7 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-#: core/commandlineoptions.cpp:162
+#: core/commandlineoptions.cpp:164
 msgid "options"
 msgstr "volby"
 

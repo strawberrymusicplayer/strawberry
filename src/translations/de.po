@@ -586,7 +586,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Verzeichnis hinzufügen …"
 
-#: core/mainwindow.cpp:2123
+#: core/mainwindow.cpp:2124
 msgid "Add file"
 msgstr "Datei hinzufügen"
 
@@ -602,7 +602,7 @@ msgstr "Datei(en) zum Umwandler hinzufügen"
 msgid "Add files to transcode"
 msgstr "Dateien zum Umwandeln hinzufügen"
 
-#: core/mainwindow.cpp:2148 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2149 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Ordner hinzufügen"
 
@@ -705,7 +705,7 @@ msgstr "Datenstrom hinzufügen..."
 msgid "Add to albums"
 msgstr "Zu Alben hinzufügen"
 
-#: core/mainwindow.cpp:1931
+#: core/mainwindow.cpp:1932
 msgid "Add to another playlist"
 msgstr "Zu anderer Wiedergabeliste hinzufügen"
 
@@ -891,7 +891,7 @@ msgstr "App Secret"
 msgid "Appearance"
 msgstr "Erscheinungsbild"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:182
 msgid "Append files/URLs to the playlist"
 msgstr "Dateien/Adressen an die Wiedergabeliste anhängen"
 
@@ -1171,7 +1171,7 @@ msgstr "Tastenkürzel ändern …"
 msgid "Change the currently playing song"
 msgstr "Den aktuell spielenden Titel ändern"
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:188
 msgid "Change the language"
 msgstr "Sprache ändern"
 
@@ -1223,7 +1223,7 @@ msgstr "Leeren"
 msgid "Clear Disk Cache"
 msgstr "Lösche Plattenspeicher"
 
-#: core/mainwindow.cpp:2213 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2214 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Wiedergabeliste leeren"
 
@@ -1290,7 +1290,7 @@ msgstr "Sammlungsfilter"
 msgid "Collection advanced grouping"
 msgstr "Erweiterte Bibliothekssortierung"
 
-#: core/mainwindow.cpp:2725
+#: core/mainwindow.cpp:2734
 msgid "Collection rescan notice"
 msgstr "Hinweis beim erneuten durchsuchen der Bibliothek"
 
@@ -1302,7 +1302,7 @@ msgstr "Sammlung durchsuchen"
 msgid "Colors"
 msgstr "Farben"
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:191
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Komma getrennte Liste mit »class:level« (Level ist 0-3)"
 
@@ -1507,7 +1507,7 @@ msgstr "Titelbilder"
 msgid "Covers from %1"
 msgstr "Titelbild von  %1"
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:181
 msgid "Create a new playlist with files"
 msgstr "Neue Wiedergabelist mit Dateien erstellen"
 
@@ -1627,11 +1627,11 @@ msgstr "Geändert"
 msgid "Days"
 msgstr "Tage"
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:174
 msgid "Decrease the volume by 4 percent"
 msgstr "Lautstäre um 4% vrringern"
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:176
 msgid "Decrease the volume by <value> percent"
 msgstr "Lautstärke um <value> Prozent verringern"
 
@@ -1678,11 +1678,11 @@ msgstr "Ursprüngliche Dateien löschen"
 msgid "Deleting files"
 msgstr "Dateien werden gelöscht"
 
-#: core/mainwindow.cpp:1848
+#: core/mainwindow.cpp:1849
 msgid "Dequeue selected tracks"
 msgstr "Titel aus der Warteschlange nehmen"
 
-#: core/mainwindow.cpp:1847
+#: core/mainwindow.cpp:1848
 msgid "Dequeue track"
 msgstr "Titel aus der Warteschlange nehmen"
 
@@ -1749,7 +1749,7 @@ msgstr "Größe des Plattenspeichers"
 msgid "Display options"
 msgstr "Anzeigeoptionen"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:186
 msgid "Display the on-screen-display"
 msgstr "Bildschirmanzeige anzeigen"
 
@@ -1827,7 +1827,7 @@ msgstr "Bearbeiten Sie die intelligente Wiedergabeliste"
 msgid "Edit smart playlist..."
 msgstr "Bearbeiten Sie die intelligente Wiedergabeliste..."
 
-#: core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:1890
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Schlagwort »%1« bearbeiten …"
@@ -1974,15 +1974,15 @@ msgstr "Gesamte Sammlung"
 msgid "Equalizer"
 msgstr "Equalizer"
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:189
 msgid "Equivalent to --log-levels *:1"
 msgstr "Äquivalent zu --log-levels *:1"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:190
 msgid "Equivalent to --log-levels *:3"
 msgstr "Äquivalent zu --log-levels *:3"
 
-#: core/mainwindow.cpp:2463 core/mainwindow.cpp:2608
+#: core/mainwindow.cpp:2472 core/mainwindow.cpp:2617
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Fehler"
@@ -2577,11 +2577,11 @@ msgstr "Titelbild in der Benachrichtigung anzeigen"
 msgid "Include all songs"
 msgstr "Alle Titel zusammen"
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:173
 msgid "Increase the volume by 4 percent"
 msgstr "Lautstärke um 4 % erhöhen"
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:175
 msgid "Increase the volume by <value> percent"
 msgstr "Lautstärke um <value> Prozent erhöhen"
 
@@ -2772,7 +2772,7 @@ msgstr "Titelinfo wird geladen"
 msgid "Loading..."
 msgstr "Wird geladen …"
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:183
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Dateien/Adressen laden und die Wiedergabeliste ersetzen"
 
@@ -3007,7 +3007,7 @@ msgstr "Zur Bibliothek verschieben …"
 msgid "Move up"
 msgstr "Nach oben"
 
-#: core/mainwindow.cpp:2123 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2124 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musik"
 
@@ -3052,7 +3052,7 @@ msgstr "Nie mit der Wiedergabe beginnen"
 msgid "New folder"
 msgstr "Neuer Ordner"
 
-#: core/mainwindow.cpp:1947
+#: core/mainwindow.cpp:1948
 msgid "New playlist"
 msgstr "Neue Wiedergabeliste"
 
@@ -3124,7 +3124,7 @@ msgstr "Kein Lied wird gespielt"
 msgid "None"
 msgstr "Nichts"
 
-#: core/mainwindow.cpp:2463 core/mainwindow.cpp:2608
+#: core/mainwindow.cpp:2472 core/mainwindow.cpp:2617
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Keiner der gewählten Titel war zum Kopieren auf ein Gerät geeignet."
@@ -3291,7 +3291,7 @@ msgstr "Ursprüngliches Jahr - Album"
 msgid "Original year - Album - Disc"
 msgstr "Originaljahr - Album - Disc"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:186
 msgid "Other options"
 msgstr "Weitere Optionen"
 
@@ -3336,12 +3336,12 @@ msgstr "Party"
 msgid "Password"
 msgstr "Passwort:"
 
-#: core/mainwindow.cpp:1263 core/mainwindow.cpp:1743
+#: core/mainwindow.cpp:1263 core/mainwindow.cpp:1744
 #: core/qtsystemtrayicon.cpp:193
 msgid "Pause"
 msgstr "Pause"
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:168
 msgid "Pause playback"
 msgstr "Wiedergabe pausieren"
 
@@ -3365,7 +3365,7 @@ msgid "Plain sidebar"
 msgstr "Einfache Seitenleiste"
 
 #: core/mainwindow.cpp:675 core/mainwindow.cpp:1216 core/mainwindow.cpp:1245
-#: core/mainwindow.cpp:1747 core/qtsystemtrayicon.cpp:180
+#: core/mainwindow.cpp:1748 core/qtsystemtrayicon.cpp:180
 #: core/qtsystemtrayicon.cpp:205
 msgid "Play"
 msgstr "Wiedergabe"
@@ -3382,7 +3382,11 @@ msgstr "Wiedergabezähler"
 msgid "Play counts"
 msgstr "Wiedergabezähler"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:185
+msgid "Play given playlist"
+msgstr ""
+
+#: core/commandlineoptions.cpp:167
 msgid "Play if stopped, pause if playing"
 msgstr "Wiedergeben wenn angehalten, pausieren bei Wiedergabe"
 
@@ -3396,7 +3400,7 @@ msgstr ""
 msgid "Play next"
 msgstr "Spiele als nächstes"
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:184
 msgid "Play the <n>th track in the playlist"
 msgstr "Titelnummer <n> der Wiedergabeliste abspielen"
 
@@ -3411,7 +3415,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr "Wiedergabezahl für %1 empfangene Lieder."
 
-#: core/commandlineoptions.cpp:163
+#: core/commandlineoptions.cpp:165
 msgid "Player options"
 msgstr "Spielereinstellungen"
 
@@ -3430,7 +3434,7 @@ msgstr "Steuerung der Playliste"
 msgid "Playlist finished"
 msgstr "Wiedergabeliste beendet"
 
-#: core/mainwindow.cpp:2213
+#: core/mainwindow.cpp:2214
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3443,7 +3447,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr "Die Wiedergabeliste muss zuerst geöffnet sein."
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:180
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
 msgid "Playlist options"
 msgstr "Wiedergabeliste einrichten"
@@ -3560,7 +3564,7 @@ msgstr "Vorheriger"
 msgid "Previous track"
 msgstr "Vorheriger Titel"
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:192
 msgid "Print out version information"
 msgstr "Versionsinformationen anzeigen"
 
@@ -3606,22 +3610,22 @@ msgstr "Gerät wird abgefragt …"
 msgid "Queue"
 msgstr "Warteschlange"
 
-#: core/mainwindow.cpp:1850
+#: core/mainwindow.cpp:1851
 msgid "Queue selected tracks"
 msgstr "Titel in die Warteschlange einreihen"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1854
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1855
 msgid "Queue selected tracks to play next"
 msgstr ""
 "Ausgewählte Titel in die Warteschlange stellen, um sie als nächstes "
 "abzuspielen"
 
-#: core/mainwindow.cpp:1856 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1857 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "In die Warteschlange, um sie als nächstes abzuspielen"
 
-#: core/mainwindow.cpp:1849 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1850 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -3836,7 +3840,7 @@ msgid "Restart song, then jump to previous if pressed again"
 msgstr ""
 "Titel neu starten, dann zum vorherigen Titel springen, wenn nochmal gedrückt"
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:179
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
@@ -4076,11 +4080,11 @@ msgstr "Zweite Stufe"
 msgid "Second level"
 msgstr "Zweite Stufe"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:178
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Im aktuellen Titel vorspulen"
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:177
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Im aktuellen Titel zu einer Position springen"
 
@@ -4128,12 +4132,12 @@ msgstr "Server URL ist ungültig."
 msgid "Server-side scrobbling"
 msgstr "Serverseitiges Scrobbling"
 
-#: core/mainwindow.cpp:1888
+#: core/mainwindow.cpp:1889
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 zu »%2« einstellen …"
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:172
 msgid "Set the volume to <value> percent"
 msgstr "Setze Lautstärke auf <value>%"
 
@@ -4355,7 +4359,7 @@ msgstr "Größe:"
 msgid "Ska"
 msgstr "Ska"
 
-#: core/commandlineoptions.cpp:168
+#: core/commandlineoptions.cpp:170
 msgid "Skip backwards in playlist"
 msgstr "Vorherigen Titel in der Wiedergabeliste"
 
@@ -4363,15 +4367,15 @@ msgstr "Vorherigen Titel in der Wiedergabeliste"
 msgid "Skip count"
 msgstr "Übersprungzähler"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:171
 msgid "Skip forwards in playlist"
 msgstr "Nächsten Titel in der Wiedergabeliste"
 
-#: core/mainwindow.cpp:1861
+#: core/mainwindow.cpp:1862
 msgid "Skip selected tracks"
 msgstr "Ausgewählte Titel überspringen"
 
-#: core/mainwindow.cpp:1860
+#: core/mainwindow.cpp:1861
 msgid "Skip track"
 msgstr "Titel überspringen"
 
@@ -4450,7 +4454,7 @@ msgstr "Spotify Authentifizierung"
 msgid "Standard"
 msgstr "Standard"
 
-#: core/commandlineoptions.cpp:164
+#: core/commandlineoptions.cpp:166
 msgid "Start the playlist currently playing"
 msgstr "Die aktuelle Wiedergabeliste abspielen"
 
@@ -4475,11 +4479,11 @@ msgstr "Wiedergabe nach jedem Titel anhalten"
 msgid "Stop after this track"
 msgstr "Wiedergabe nach diesem Titel anhalten"
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:168
 msgid "Stop playback"
 msgstr "Wiedergabe anhalten"
 
-#: core/commandlineoptions.cpp:167
+#: core/commandlineoptions.cpp:169
 msgid "Stop playback after current track"
 msgstr "Wiedergabe nach aktuellem Titel anhalten"
 
@@ -4708,7 +4712,7 @@ msgstr "Die aufgerufene Seite existiert nicht!"
 msgid "The site you requested is not an image!"
 msgstr "Die angeforderte Seite ist kein Bild!"
 
-#: core/mainwindow.cpp:2720
+#: core/mainwindow.cpp:2729
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4844,7 +4848,7 @@ msgstr "Titel"
 msgid "Today"
 msgstr "Heute"
 
-#: core/mainwindow.cpp:678 core/mainwindow.cpp:1851
+#: core/mainwindow.cpp:678 core/mainwindow.cpp:1852
 msgid "Toggle queue status"
 msgstr "Einreihungsstatus ändern"
 
@@ -4852,11 +4856,11 @@ msgstr "Einreihungsstatus ändern"
 msgid "Toggle scrobbling"
 msgstr "Scrobbeln ein- oder ausschalten"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1862
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1863
 msgid "Toggle skip status"
 msgstr "Überspring-Status umschalten"
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:187
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Sichtbarkeit der Strawberry-Bildschirmanzeige anpassen"
 
@@ -4915,7 +4919,7 @@ msgstr "Abschalten"
 msgid "URI"
 msgstr "Adresse"
 
-#: core/commandlineoptions.cpp:162
+#: core/commandlineoptions.cpp:164
 msgid "URL(s)"
 msgstr "Adresse(n)"
 
@@ -4951,11 +4955,11 @@ msgstr "Unbekannter Fehler"
 msgid "Unset cover"
 msgstr "Titelbild entfernen"
 
-#: core/mainwindow.cpp:1859
+#: core/mainwindow.cpp:1860
 msgid "Unskip selected tracks"
 msgstr "Überspringen der ausgewählten Titel aufheben"
 
-#: core/mainwindow.cpp:1858
+#: core/mainwindow.cpp:1859
 msgid "Unskip track"
 msgstr "Titel nicht überspringen"
 
@@ -4985,7 +4989,7 @@ msgstr "Oben links"
 msgid "Upper Right"
 msgstr "Oben rechts"
 
-#: core/commandlineoptions.cpp:162
+#: core/commandlineoptions.cpp:164
 msgid "Usage"
 msgstr "Benutzung"
 
@@ -5203,7 +5207,7 @@ msgstr ""
 "Möchten Sie die anderen Songs auf diesem Album auch zu Various Artists "
 "verschieben?"
 
-#: core/mainwindow.cpp:2724
+#: core/mainwindow.cpp:2733
 msgid "Would you like to run a full rescan right now?"
 msgstr "Möchten Sie jetzt Ihre Musiksammlung erneut einlesen?"
 
@@ -5469,7 +5473,7 @@ msgstr "älteste zuerst"
 msgid "on"
 msgstr "an"
 
-#: core/commandlineoptions.cpp:162
+#: core/commandlineoptions.cpp:164
 msgid "options"
 msgstr "Einstellungen"
 
