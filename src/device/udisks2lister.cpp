@@ -370,13 +370,21 @@ Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectP
       result.uuid = block.idUUID();
       result.capacity = drive.size();
 
-      if (!result.label.isEmpty())
-        result.friendly_name = result.label;
-      else
+      if (result.label.isEmpty()) {
         result.friendly_name = result.model + " " + result.uuid;
+      }
+      else {
+        result.friendly_name = result.label;
+      }
 
-      for (const auto &p : filesystem.mountPoints())
-        result.mount_paths.push_back(p);
+      for (const QByteArray &p : filesystem.mountPoints()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)  // Workaround a bytearray to string conversion issue with Qt 6
+        QString mountpoint = QByteArray(p.data(), strlen(p.data()));
+#else
+        QString mountpoint = p;
+#endif
+        result.mount_paths.push_back(mountpoint);
+      }
 
       result.free_space = Utilities::FileSystemFreeSpace(result.mount_paths.at(0));
     }
