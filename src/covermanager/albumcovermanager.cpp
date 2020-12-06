@@ -204,7 +204,7 @@ void AlbumCoverManager::Init() {
   connect(ui_->export_covers, SIGNAL(clicked()), SLOT(ExportCovers()));
   connect(cover_fetcher_, SIGNAL(AlbumCoverFetched(quint64, QUrl, QImage, CoverSearchStatistics)), SLOT(AlbumCoverFetched(quint64, QUrl, QImage, CoverSearchStatistics)));
   connect(ui_->action_fetch, SIGNAL(triggered()), SLOT(FetchSingleCover()));
-  connect(ui_->albums, SIGNAL(doubleClicked(QModelIndex)), SLOT(ShowCover()));
+  connect(ui_->albums, SIGNAL(doubleClicked(QModelIndex)), SLOT(AlbumDoubleClicked(QModelIndex)));
   connect(ui_->action_add_to_playlist, SIGNAL(triggered()), SLOT(AddSelectedToPlaylist()));
   connect(ui_->action_load, SIGNAL(triggered()), SLOT(LoadSelectedToPlaylist()));
 
@@ -811,12 +811,10 @@ SongMimeData *AlbumCoverManager::GetMimeDataForAlbums(const QModelIndexList &ind
 
 void AlbumCoverManager::AlbumDoubleClicked(const QModelIndex &index) {
 
-  SongMimeData *mimedata = GetMimeDataForAlbums(QModelIndexList() << index);
-  if (mimedata) {
-    mimedata->from_doubleclick_ = true;
-    emit AddToPlaylist(mimedata);
-  }
-
+  SongList songs = GetSongsInAlbum(index);
+  if (songs.isEmpty()) return;
+  
+  album_cover_choice_controller_->ShowCover(songs.first());
 }
 
 void AlbumCoverManager::AddSelectedToPlaylist() {
