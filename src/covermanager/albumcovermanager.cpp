@@ -204,7 +204,7 @@ void AlbumCoverManager::Init() {
   connect(ui_->export_covers, SIGNAL(clicked()), SLOT(ExportCovers()));
   connect(cover_fetcher_, SIGNAL(AlbumCoverFetched(quint64, QUrl, QImage, CoverSearchStatistics)), SLOT(AlbumCoverFetched(quint64, QUrl, QImage, CoverSearchStatistics)));
   connect(ui_->action_fetch, SIGNAL(triggered()), SLOT(FetchSingleCover()));
-  connect(ui_->albums, SIGNAL(doubleClicked(QModelIndex)), SLOT(AlbumDoubleClicked(QModelIndex)));
+  connect(ui_->albums, SIGNAL(doubleClicked(QModelIndex)), SLOT(ShowCover()));
   connect(ui_->action_add_to_playlist, SIGNAL(triggered()), SLOT(AddSelectedToPlaylist()));
   connect(ui_->action_load, SIGNAL(triggered()), SLOT(LoadSelectedToPlaylist()));
 
