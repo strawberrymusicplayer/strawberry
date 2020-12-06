@@ -35,9 +35,7 @@ script:
 after_success:
   - ls -lh strawberry*.dmg
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [ -f ~/.ssh/id_rsa ]; then
-      if [[ "$TRAVIS_BRANCH" == "master" ]]; then
-        rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos/mojave/;
-      elif [[ "$TRAVIS_BRANCH" == "travis" ]]; then
+      if [[ "$TRAVIS_BRANCH" == "master" ]] || [[ "$TRAVIS_BRANCH" == "travis" ]]; then
         rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos/mojave/;
       fi
     fi
