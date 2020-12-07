@@ -621,6 +621,7 @@ void AlbumCoverManager::ShowCover() {
   if (!song.is_valid()) return;
 
   album_cover_choice_controller_->ShowCover(song);
+
 }
 
 void AlbumCoverManager::FetchSingleCover() {
@@ -809,13 +810,11 @@ SongMimeData *AlbumCoverManager::GetMimeDataForAlbums(const QModelIndexList &ind
 
 }
 
-void AlbumCoverManager::AlbumDoubleClicked(const QModelIndex &index) {
+void AlbumCoverManager::AlbumDoubleClicked(const QModelIndex &idx) {
 
-  SongMimeData *mimedata = GetMimeDataForAlbums(QModelIndexList() << index);
-  if (mimedata) {
-    mimedata->from_doubleclick_ = true;
-    emit AddToPlaylist(mimedata);
-  }
+  QListWidgetItem *item = static_cast<QListWidgetItem*>(idx.internalPointer());
+  if (!item) return;
+  album_cover_choice_controller_->ShowCover(ItemAsSong(item));
 
 }
 

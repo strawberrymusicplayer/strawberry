@@ -151,7 +151,7 @@ class AlbumCoverManager : public QMainWindow {
   void ShowCover();
 
   // For adding albums to the playlist
-  void AlbumDoubleClicked(const QModelIndex &index);
+  void AlbumDoubleClicked(const QModelIndex &idx);
   void AddSelectedToPlaylist();
   void LoadSelectedToPlaylist();
 
