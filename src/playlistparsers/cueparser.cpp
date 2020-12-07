@@ -295,8 +295,11 @@ bool CueParser::UpdateSong(const CueEntry &entry, const QString &next_index, Son
   song->set_albumartist(entry.album_artist);
   song->set_composer(entry.PrettyComposer());
   song->set_genre(entry.genre);
-  song->set_year(entry.date.toInt());
-  song->set_disc(entry.disc.toInt());
+
+  int year = entry.date.toInt();
+  if (year > 0) song->set_year(year);
+  int disc = entry.disc.toInt();
+  if (disc > 0) song->set_disc(disc);
 
   return true;
 
@@ -320,9 +323,12 @@ bool CueParser::UpdateLastSong(const CueEntry &entry, Song *song) const {
   song->set_album(entry.album);
   song->set_albumartist(entry.album_artist);
   song->set_genre(entry.genre);
-  song->set_year(entry.date.toInt());
   song->set_composer(entry.PrettyComposer());
-  song->set_disc(entry.disc.toInt());
+
+  int year = entry.date.toInt();
+  if (year > 0) song->set_year(year);
+  int disc = entry.disc.toInt();
+  if (disc > 0) song->set_disc(disc);
 
   // We don't do anything with the end here because it's already set to the end of the media file (if it exists)
   song->set_beginning_nanosec(beginning);
