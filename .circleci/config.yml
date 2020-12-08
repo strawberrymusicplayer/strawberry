@@ -155,77 +155,6 @@ commands:
             hicolor-icon-theme
 
 
-  install_centos_dependencies:
-    description: Install CentOS dependencies
-    steps:
-      - run:
-          name: Install epel-release
-          command: dnf install -y epel-release
-      - run:
-          name: Install epel-release-latest-8.noarch.rpm
-          command: dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-      - run:
-          name: Install config-manager
-          command: dnf install -y 'dnf-command(config-manager)'
-      - run:
-          name: PowerTools
-          command: dnf config-manager --set-enabled PowerTools
-      - run:
-          name: DNF Clean All
-          command: dnf clean all
-      - run:
-          name: Update packages
-          command: dnf update -y
-      - run:
-          name: Install CentOS dependencies
-          command: >
-            dnf install -y
-            glibc
-            gcc-c++
-            make
-            libtool
-            cmake3
-            rpmdevtools
-            redhat-lsb-core
-            git
-            man
-            tar
-            gettext
-            boost-devel
-            fuse-devel
-            dbus-devel
-            libnotify-devel
-            gnutls-devel
-            sqlite-devel
-            protobuf-devel
-            protobuf-compiler
-            alsa-lib-devel
-            pulseaudio-libs-devel
-            qt5-devel
-            qt5-qtbase-devel
-            qt5-qtx11extras-devel
-            qt5-qttools-devel
-            fftw-devel
-            libchromaprint-devel
-            libcdio-devel
-            libgpod-devel
-            libmtp-devel
-            libjpeg-devel
-            cairo-devel
-            dbus-x11
-            xorg-x11-server-Xvfb
-            xorg-x11-xauth
-            vim-common
-            desktop-file-utils
-            libappstream-glib
-            appstream-data
-            hicolor-icon-theme
-            python3-pip
-            python3-devel
-            gstreamer1-devel
-            gstreamer1-plugins-base-devel
-
-
   install_debian_dependencies:
     description: Install Debian dependencies
     steps:
@@ -384,19 +313,6 @@ jobs:
       - build_rpm
 
 
-  build_centos_8:
-    docker:
-      - image: centos:8
-    environment:
-      RPM_BUILD_NCPUS: "2"
-    steps:
-      - install_centos_dependencies
-      - checkout
-      - cmake
-      - build_source
-      - build_rpm
-
-
   build_debian_buster:
     docker:
       - image: debian:buster
@@ -469,12 +385,6 @@ workflows:
             tags:
               only: /.*/
       - build_fedora_33:
-          filters:
-            tags:
-              only: /.*/
-
-
-      - build_centos_8:
           filters:
             tags:
               only: /.*/
