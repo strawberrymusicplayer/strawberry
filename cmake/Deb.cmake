@@ -9,8 +9,7 @@ if (LSB_RELEASE_EXEC AND DPKG_BUILDPACKAGE)
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
 
-  if (DEB_CODENAME)
-    configure_file(${CMAKE_SOURCE_DIR}/debian/changelog.in ${CMAKE_SOURCE_DIR}/debian/changelog)
+  if (DEB_CODENAME AND DEB_DATE)
     add_custom_target(deb
       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
       COMMAND ${DPKG_BUILDPACKAGE} -b -d -uc -us

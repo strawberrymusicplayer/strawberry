@@ -57,7 +57,7 @@ if (LSB_RELEASE_EXEC AND RPMBUILD_EXEC)
       set(RPM_DISTRO ${DIST_NAME} CACHE STRING "Suffix of the rpm file")
     endif()
     message(STATUS "RPM Suffix: ${RPM_DISTRO}")
-    configure_file(${CMAKE_SOURCE_DIR}/dist/unix/strawberry.spec.in ${CMAKE_SOURCE_DIR}/dist/unix/strawberry.spec @ONLY)
+
     add_custom_target(rpm
       COMMAND ${CMAKE_SOURCE_DIR}/dist/scripts/maketarball.sh
       COMMAND ${CMAKE_COMMAND} -E copy strawberry-${STRAWBERRY_VERSION_PACKAGE}.tar.xz ${RPMBUILD_DIR}/SOURCES/

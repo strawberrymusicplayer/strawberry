@@ -1,4 +1,10 @@
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh.in ${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh @ONLY)
+if(RPM_DISTRO AND RPM_DATE)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/unix/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/unix/strawberry.spec @ONLY)
+endif(RPM_DISTRO AND RPM_DATE)
+if(DEB_CODENAME AND DEB_DATE)
+  configure_file(${CMAKE_SOURCE_DIR}/debian/changelog.in ${CMAKE_SOURCE_DIR}/debian/changelog)
+endif(DEB_CODENAME AND DEB_DATE)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/unix/PKGBUILD.in ${CMAKE_CURRENT_SOURCE_DIR}/unix/PKGBUILD @ONLY)
 
 if (APPLE)
