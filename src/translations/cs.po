@@ -69,7 +69,7 @@ msgstr ""
 msgid " kbps"
 msgstr " kb/s"
 
-#: ../build/src/ui_scrobblersettingspage.h:396
+#: ../build/src/ui_scrobblersettingspage.h:397
 msgid " minutes"
 msgstr " minut"
 
@@ -393,7 +393,7 @@ msgstr "&Použít systémový motiv barev"
 msgid "&Use the system proxy settings"
 msgstr "&Použít nastavení systému"
 
-#: ../build/src/ui_scrobblersettingspage.h:398
+#: ../build/src/ui_scrobblersettingspage.h:399
 #, fuzzy
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
@@ -1109,7 +1109,7 @@ msgstr "&Konzola"
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Přehrávání disků CD je možné pouze za použití GStreamer enginu."
 
-#: ../build/src/ui_scrobblersettingspage.h:405
+#: ../build/src/ui_scrobblersettingspage.h:406
 msgid "CDDA"
 msgstr "CDDA"
 
@@ -1236,7 +1236,7 @@ msgid "Club"
 msgstr "Klub"
 
 #: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:399
-#: ../build/src/ui_scrobblersettingspage.h:402
+#: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Collection"
 msgstr "Sbírka"
 
@@ -1650,7 +1650,7 @@ msgstr "Podrobnosti..."
 
 #: context/contextview.cpp:185 device/giolister.cpp:189
 #: ../build/src/ui_backendsettingspage.h:488
-#: ../build/src/ui_scrobblersettingspage.h:404
+#: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Device"
 msgstr "Zařízení"
 
@@ -1807,10 +1807,10 @@ msgstr "Upravit informace o skladbě..."
 msgid "Edit tracks information..."
 msgstr "Upravit informace o skladbách..."
 
-#: ../build/src/ui_scrobblersettingspage.h:390
-#: ../build/src/ui_scrobblersettingspage.h:412
-#: ../build/src/ui_scrobblersettingspage.h:416
-#: ../build/src/ui_scrobblersettingspage.h:419
+#: ../build/src/ui_scrobblersettingspage.h:391
+#: ../build/src/ui_scrobblersettingspage.h:413
+#: ../build/src/ui_scrobblersettingspage.h:417
+#: ../build/src/ui_scrobblersettingspage.h:420
 #: ../build/src/ui_subsonicsettingspage.h:189
 #: ../build/src/ui_tidalsettingspage.h:313
 #: ../build/src/ui_qobuzsettingspage.h:271
@@ -1838,7 +1838,7 @@ msgstr "Povolit ekvalizér"
 msgid "Enable playlist clear button"
 msgstr "Zobrazit tlačítko pro vyčištění seznamu skladeb"
 
-#: ../build/src/ui_scrobblersettingspage.h:401
+#: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Enable scrobbling for the following sources:"
 msgstr ""
 
@@ -2008,12 +2008,12 @@ msgstr "Uložit stažené obaly"
 msgid "Export embedded covers"
 msgstr "Uložit vložené obaly"
 
-#: covermanager/albumcovermanager.cpp:888
-#: covermanager/albumcovermanager.cpp:914
+#: covermanager/albumcovermanager.cpp:887
+#: covermanager/albumcovermanager.cpp:913
 msgid "Export finished"
 msgstr "Uložení dokončeno"
 
-#: covermanager/albumcovermanager.cpp:899
+#: covermanager/albumcovermanager.cpp:898
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Uloženo %1 obalů z %2 (%3 přeskočeno)"
@@ -2629,7 +2629,7 @@ msgstr "Naposledy hráno"
 msgid "Last played for %1 songs received."
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:411
+#: ../build/src/ui_scrobblersettingspage.h:412
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2646,7 +2646,7 @@ msgstr "Vlevo"
 msgid "Length"
 msgstr "Délka"
 
-#: ../build/src/ui_scrobblersettingspage.h:415
+#: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2658,7 +2658,7 @@ msgstr ""
 msgid "ListenBrainz Authentication"
 msgstr "Přihlášení na ListenBrainz"
 
-#: ../build/src/ui_scrobblersettingspage.h:418
+#: ../build/src/ui_scrobblersettingspage.h:419
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2724,13 +2724,13 @@ msgstr "Nahrává se..."
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Nahraje soubory/adresy (URL), nahradí současný seznam skladeb"
 
-#: ../build/src/ui_scrobblersettingspage.h:403
+#: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Local file"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:414
-#: ../build/src/ui_scrobblersettingspage.h:417
-#: ../build/src/ui_scrobblersettingspage.h:422
+#: ../build/src/ui_scrobblersettingspage.h:415
+#: ../build/src/ui_scrobblersettingspage.h:418
+#: ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_coverssettingspage.h:172
 #: ../build/src/ui_lyricssettingspage.h:172
 #: ../build/src/ui_tidalsettingspage.h:321
@@ -3036,7 +3036,7 @@ msgstr "Příští týden"
 msgid "No analyzer"
 msgstr "Žádný analyzátor"
 
-#: covermanager/albumcovermanager.cpp:889
+#: covermanager/albumcovermanager.cpp:888
 msgid "No covers to export."
 msgstr "Žádné obaly k uložení"
 
@@ -3430,7 +3430,7 @@ msgstr "Pozice"
 msgid "Pre-amp"
 msgstr "Předzesílení"
 
-#: ../build/src/ui_scrobblersettingspage.h:399
+#: ../build/src/ui_scrobblersettingspage.h:400
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Preferovat autory alb při odesílání na server"
 
@@ -3521,7 +3521,7 @@ msgstr "Průběh"
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:409
+#: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:410
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr ""
@@ -3946,7 +3946,7 @@ msgstr "Profil škálovatelného vzorkovacího kmitočtu"
 msgid "Scale size"
 msgstr "Velikost měřítka"
 
-#: ../build/src/ui_scrobblersettingspage.h:389
+#: ../build/src/ui_scrobblersettingspage.h:390
 msgid "Scrobbler"
 msgstr "doporučování hudby"
 
@@ -4170,7 +4170,7 @@ msgstr "Ukázat všechny písně"
 msgid "Show all the songs"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:400
+#: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Show dialog for errors"
 msgstr ""
 
@@ -4203,7 +4203,7 @@ msgstr "Ukázat v prohlížeči souborů..."
 msgid "Show in various artists"
 msgstr "Ukázat pod různými umělci"
 
-#: ../build/src/ui_scrobblersettingspage.h:394
+#: ../build/src/ui_scrobblersettingspage.h:395
 msgid "Show love button"
 msgstr "Zobrazit tlačítko To Miluju!"
 
@@ -4224,7 +4224,7 @@ msgstr "Ukázat pouze neoznačené"
 msgid "Show playing widget"
 msgstr "Zobrazit widget s přehráváním"
 
-#: ../build/src/ui_scrobblersettingspage.h:393
+#: ../build/src/ui_scrobblersettingspage.h:394
 msgid "Show scrobble button"
 msgstr "Zobrazit tlačítko pro doporučování hudby"
 
@@ -4349,7 +4349,7 @@ msgstr "Texty skladeb"
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../build/src/ui_scrobblersettingspage.h:391
+#: ../build/src/ui_scrobblersettingspage.h:392
 #, fuzzy
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
@@ -4495,7 +4495,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry se pro tento soubor výsledky najít nepodařilo"
 
-#: ../build/src/ui_scrobblersettingspage.h:406
+#: ../build/src/ui_scrobblersettingspage.h:407
 msgid "Stream"
 msgstr "Proud"
 
@@ -4517,11 +4517,11 @@ msgstr "Roztáhnout obrázek aby vyplnil seznam skladeb"
 msgid "Style"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:395
+#: ../build/src/ui_scrobblersettingspage.h:396
 msgid "Submit scrobbles every"
 msgstr "Odeslat přehrané skladby každých"
 
-#: core/mainwindow.cpp:347 ../build/src/ui_scrobblersettingspage.h:407
+#: core/mainwindow.cpp:347 ../build/src/ui_scrobblersettingspage.h:408
 #: ../build/src/ui_subsonicsettingspage.h:188
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4750,7 +4750,7 @@ msgstr "Tuto volbu lze změnit v nastavení Chování"
 msgid "This type of device is not supported: %1"
 msgstr "Tento typ zařízení není podporován: %1"
 
-#: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:408
+#: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:409
 #: ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
@@ -4873,7 +4873,7 @@ msgstr ""
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
 #: playlist/playlistmanager.cpp:564 playlist/playlistmanager.cpp:565
 #: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
-#: ../build/src/ui_scrobblersettingspage.h:410
+#: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "Neznámý"
 
@@ -4928,7 +4928,7 @@ msgstr "Zacházení"
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:413
+#: ../build/src/ui_scrobblersettingspage.h:414
 msgid "Use HTTPS for local redirectserver"
 msgstr ""
 
@@ -5016,7 +5016,7 @@ msgstr "Použito"
 msgid "User interface"
 msgstr "Uživatelské rozhraní"
 
-#: ../build/src/ui_scrobblersettingspage.h:420
+#: ../build/src/ui_scrobblersettingspage.h:421
 msgid "User token:"
 msgstr "Uživatelský token:"
 
@@ -5120,7 +5120,7 @@ msgstr "Široké pásmo"
 msgid "Without cover:"
 msgstr "Bez obalu:"
 
-#: ../build/src/ui_scrobblersettingspage.h:392
+#: ../build/src/ui_scrobblersettingspage.h:393
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Pracovat v režimu offline (pouze ukládat přehrané skladby)"
 

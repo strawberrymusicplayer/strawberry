@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-28 12:31-0500\n"
+"PO-Revision-Date: 2020-12-08 03:00-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -79,7 +79,7 @@ msgstr " Genvägar på %1 används vanligtvis via MPRIS och KGlobalAccel."
 msgid " kbps"
 msgstr " kbps"
 
-#: ../build/src/ui_scrobblersettingspage.h:396
+#: ../build/src/ui_scrobblersettingspage.h:397
 msgid " minutes"
 msgstr " minuter"
 
@@ -284,7 +284,7 @@ msgstr "&Gör en fullständig omsökning av samling"
 
 #: ../build/src/ui_mainwindow.h:672
 msgid "&Equalizer"
-msgstr "&Utjämnare"
+msgstr "&Frekvenskorrigerare"
 
 #: playlist/playlistheader.cpp:100
 #, qt-format
@@ -403,7 +403,7 @@ msgstr "&Använd systemets standard färguppsättning"
 msgid "&Use the system proxy settings"
 msgstr "&Använd systemets proxyinställningar"
 
-#: ../build/src/ui_scrobblersettingspage.h:398
+#: ../build/src/ui_scrobblersettingspage.h:399
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -1118,7 +1118,7 @@ msgstr "K&onsol"
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD-uppspelning är endast tillgänglig med GStreamer-motorn."
 
-#: ../build/src/ui_scrobblersettingspage.h:405
+#: ../build/src/ui_scrobblersettingspage.h:406
 msgid "CDDA"
 msgstr "CD-ljud"
 
@@ -1247,7 +1247,7 @@ msgid "Club"
 msgstr "Klubb"
 
 #: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:399
-#: ../build/src/ui_scrobblersettingspage.h:402
+#: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Collection"
 msgstr "Samling"
 
@@ -1664,7 +1664,7 @@ msgstr "Detaljer..."
 
 #: context/contextview.cpp:185 device/giolister.cpp:189
 #: ../build/src/ui_backendsettingspage.h:488
-#: ../build/src/ui_scrobblersettingspage.h:404
+#: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Device"
 msgstr "Enhet"
 
@@ -1821,10 +1821,10 @@ msgstr "Redigera spårinformation..."
 msgid "Edit tracks information..."
 msgstr "Redigera spårinformation..."
 
-#: ../build/src/ui_scrobblersettingspage.h:390
-#: ../build/src/ui_scrobblersettingspage.h:412
-#: ../build/src/ui_scrobblersettingspage.h:416
-#: ../build/src/ui_scrobblersettingspage.h:419
+#: ../build/src/ui_scrobblersettingspage.h:391
+#: ../build/src/ui_scrobblersettingspage.h:413
+#: ../build/src/ui_scrobblersettingspage.h:417
+#: ../build/src/ui_scrobblersettingspage.h:420
 #: ../build/src/ui_subsonicsettingspage.h:189
 #: ../build/src/ui_tidalsettingspage.h:313
 #: ../build/src/ui_qobuzsettingspage.h:271
@@ -1846,13 +1846,13 @@ msgstr "Aktivera ta bort filer i snabbmenyn till högerklick"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Enable equalizer"
-msgstr "Aktivera utjämnare"
+msgstr "Aktivera frekvenskorrigerare"
 
 #: ../build/src/ui_playlistsettingspage.h:165
 msgid "Enable playlist clear button"
 msgstr "Aktivera spellistans rensningsknapp"
 
-#: ../build/src/ui_scrobblersettingspage.h:401
+#: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Enable scrobbling for the following sources:"
 msgstr "Aktivera skrobbling för följande källor:"
 
@@ -1935,7 +1935,7 @@ msgstr "Hela samlingen"
 
 #: ../build/src/ui_equalizer.h:168 ../build/src/ui_equalizerslider.h:98
 msgid "Equalizer"
-msgstr "Utjämnare"
+msgstr "Frekvenskorrigerare"
 
 #: core/commandlineoptions.cpp:189
 msgid "Equivalent to --log-levels *:1"
@@ -2021,12 +2021,12 @@ msgstr "Exportera hämtade omslag"
 msgid "Export embedded covers"
 msgstr "Exportera inbäddade omslag"
 
-#: covermanager/albumcovermanager.cpp:888
-#: covermanager/albumcovermanager.cpp:914
+#: covermanager/albumcovermanager.cpp:887
+#: covermanager/albumcovermanager.cpp:913
 msgid "Export finished"
 msgstr "Exporteringen är färdig"
 
-#: covermanager/albumcovermanager.cpp:899
+#: covermanager/albumcovermanager.cpp:898
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Exporterat %1 omslag av %2 (%3 överhoppade)"
@@ -2637,7 +2637,7 @@ msgstr "Senast spelad"
 msgid "Last played for %1 songs received."
 msgstr "Senast spelad för %1 mottagna låtar."
 
-#: ../build/src/ui_scrobblersettingspage.h:411
+#: ../build/src/ui_scrobblersettingspage.h:412
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2654,7 +2654,7 @@ msgstr "Vänster"
 msgid "Length"
 msgstr "Längd"
 
-#: ../build/src/ui_scrobblersettingspage.h:415
+#: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2666,7 +2666,7 @@ msgstr "Begränsningar"
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz-autentisering"
 
-#: ../build/src/ui_scrobblersettingspage.h:418
+#: ../build/src/ui_scrobblersettingspage.h:419
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2732,13 +2732,13 @@ msgstr "Läser in..."
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Läser in filer/webbadresser, ersätter aktuell spellista"
 
-#: ../build/src/ui_scrobblersettingspage.h:403
+#: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Local file"
 msgstr "Lokal fil"
 
-#: ../build/src/ui_scrobblersettingspage.h:414
-#: ../build/src/ui_scrobblersettingspage.h:417
-#: ../build/src/ui_scrobblersettingspage.h:422
+#: ../build/src/ui_scrobblersettingspage.h:415
+#: ../build/src/ui_scrobblersettingspage.h:418
+#: ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_coverssettingspage.h:172
 #: ../build/src/ui_lyricssettingspage.h:172
 #: ../build/src/ui_tidalsettingspage.h:321
@@ -3044,7 +3044,7 @@ msgstr "Nästa vecka"
 msgid "No analyzer"
 msgstr "Ingen analysator"
 
-#: covermanager/albumcovermanager.cpp:889
+#: covermanager/albumcovermanager.cpp:888
 msgid "No covers to export."
 msgstr "Inga omslag att exportera."
 
@@ -3336,7 +3336,7 @@ msgstr "Spelningsantal"
 
 #: core/commandlineoptions.cpp:185
 msgid "Play given playlist"
-msgstr ""
+msgstr "Spela given spellista"
 
 #: core/commandlineoptions.cpp:167
 msgid "Play if stopped, pause if playing"
@@ -3439,7 +3439,7 @@ msgstr "Position"
 msgid "Pre-amp"
 msgstr "Förförstärkare"
 
-#: ../build/src/ui_scrobblersettingspage.h:399
+#: ../build/src/ui_scrobblersettingspage.h:400
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Föredra albumartist vid sändning av skrobblingar"
 
@@ -3530,7 +3530,7 @@ msgstr "Förlopp"
 msgid "Put songs in a random order"
 msgstr "Lägg till låtar i slumpmässig ordning"
 
-#: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:409
+#: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:410
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3956,7 +3956,7 @@ msgstr "Skalbar samplingsfrekvensprofil (SSR)"
 msgid "Scale size"
 msgstr "Skalningsstorlek"
 
-#: ../build/src/ui_scrobblersettingspage.h:389
+#: ../build/src/ui_scrobblersettingspage.h:390
 msgid "Scrobbler"
 msgstr "Skrobblare"
 
@@ -4176,7 +4176,7 @@ msgstr "Visa alla låtar"
 msgid "Show all the songs"
 msgstr "Visa alla låtarna"
 
-#: ../build/src/ui_scrobblersettingspage.h:400
+#: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Show dialog for errors"
 msgstr "Visa dialogruta för fel"
 
@@ -4209,7 +4209,7 @@ msgstr "Visa i filhanterare..."
 msgid "Show in various artists"
 msgstr "Visa i diverse artister"
 
-#: ../build/src/ui_scrobblersettingspage.h:394
+#: ../build/src/ui_scrobblersettingspage.h:395
 msgid "Show love button"
 msgstr "Visa knappen \"Älska\""
 
@@ -4229,7 +4229,7 @@ msgstr "Visa med saknade taggar"
 msgid "Show playing widget"
 msgstr "Visa spelande gränssnittskomponent"
 
-#: ../build/src/ui_scrobblersettingspage.h:393
+#: ../build/src/ui_scrobblersettingspage.h:394
 msgid "Show scrobble button"
 msgstr "Visa knappen skrobbla"
 
@@ -4354,7 +4354,7 @@ msgstr "Låttexter"
 msgid "Songs"
 msgstr "Låtar"
 
-#: ../build/src/ui_scrobblersettingspage.h:391
+#: ../build/src/ui_scrobblersettingspage.h:392
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -4502,7 +4502,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry kunde inte hitta resultat för den här filen"
 
-#: ../build/src/ui_scrobblersettingspage.h:406
+#: ../build/src/ui_scrobblersettingspage.h:407
 msgid "Stream"
 msgstr "Ström"
 
@@ -4523,11 +4523,11 @@ msgstr "Sträck ut bilden för att fylla spellistan"
 msgid "Style"
 msgstr "Format"
 
-#: ../build/src/ui_scrobblersettingspage.h:395
+#: ../build/src/ui_scrobblersettingspage.h:396
 msgid "Submit scrobbles every"
 msgstr "Skicka skrobblingar varje"
 
-#: core/mainwindow.cpp:347 ../build/src/ui_scrobblersettingspage.h:407
+#: core/mainwindow.cpp:347 ../build/src/ui_scrobblersettingspage.h:408
 #: ../build/src/ui_subsonicsettingspage.h:188
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4759,7 +4759,7 @@ msgstr "Detta alternativ kan ändras i inställningarna för \"Beteende\""
 msgid "This type of device is not supported: %1"
 msgstr "Denna typ av enhet är inte stödd: %1"
 
-#: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:408
+#: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:409
 #: ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
@@ -4881,7 +4881,7 @@ msgstr "Avinstallera snap med:"
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
 #: playlist/playlistmanager.cpp:564 playlist/playlistmanager.cpp:565
 #: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
-#: ../build/src/ui_scrobblersettingspage.h:410
+#: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "Okänt"
 
@@ -4936,7 +4936,7 @@ msgstr "Användning"
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr "Använd Gnome (GSD) genvägar när de är tillgängliga"
 
-#: ../build/src/ui_scrobblersettingspage.h:413
+#: ../build/src/ui_scrobblersettingspage.h:414
 msgid "Use HTTPS for local redirectserver"
 msgstr "Använd HTTPS för lokal omdirigeringsserver"
 
@@ -5024,7 +5024,7 @@ msgstr "Använt"
 msgid "User interface"
 msgstr "Användargränssnitt"
 
-#: ../build/src/ui_scrobblersettingspage.h:420
+#: ../build/src/ui_scrobblersettingspage.h:421
 msgid "User token:"
 msgstr "Användartoken:"
 
@@ -5132,7 +5132,7 @@ msgstr "Bredband (WB)"
 msgid "Without cover:"
 msgstr "Utan omslag:"
 
-#: ../build/src/ui_scrobblersettingspage.h:392
+#: ../build/src/ui_scrobblersettingspage.h:393
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Arbeta i frånkopplat läge (cacha endast skrobblingar)"
 

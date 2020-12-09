@@ -71,7 +71,7 @@ msgstr ""
 msgid " kbps"
 msgstr " kbit/s"
 
-#: ../build/src/ui_scrobblersettingspage.h:396
+#: ../build/src/ui_scrobblersettingspage.h:397
 msgid " minutes"
 msgstr " percben"
 
@@ -396,7 +396,7 @@ msgstr "&Rendszer alapértelmezett színkészletének használata"
 msgid "&Use the system proxy settings"
 msgstr "&A rendszer proxybeállításainak használata"
 
-#: ../build/src/ui_scrobblersettingspage.h:398
+#: ../build/src/ui_scrobblersettingspage.h:399
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -1110,7 +1110,7 @@ msgstr "&Konzol"
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "A CD-lejátszás csak a GStreamer-rel érhető el."
 
-#: ../build/src/ui_scrobblersettingspage.h:405
+#: ../build/src/ui_scrobblersettingspage.h:406
 msgid "CDDA"
 msgstr "CDDA"
 
@@ -1243,7 +1243,7 @@ msgid "Club"
 msgstr "Club"
 
 #: core/mainwindow.cpp:338 ../build/src/ui_collectionsettingspage.h:399
-#: ../build/src/ui_scrobblersettingspage.h:402
+#: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Collection"
 msgstr "Gyűjtemény"
 
@@ -1660,7 +1660,7 @@ msgstr "Részletek…"
 
 #: context/contextview.cpp:185 device/giolister.cpp:189
 #: ../build/src/ui_backendsettingspage.h:488
-#: ../build/src/ui_scrobblersettingspage.h:404
+#: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Device"
 msgstr "Eszköz"
 
@@ -1817,10 +1817,10 @@ msgstr "Száminformációk szerkesztése..."
 msgid "Edit tracks information..."
 msgstr "Száminformációk szerkesztése"
 
-#: ../build/src/ui_scrobblersettingspage.h:390
-#: ../build/src/ui_scrobblersettingspage.h:412
-#: ../build/src/ui_scrobblersettingspage.h:416
-#: ../build/src/ui_scrobblersettingspage.h:419
+#: ../build/src/ui_scrobblersettingspage.h:391
+#: ../build/src/ui_scrobblersettingspage.h:413
+#: ../build/src/ui_scrobblersettingspage.h:417
+#: ../build/src/ui_scrobblersettingspage.h:420
 #: ../build/src/ui_subsonicsettingspage.h:189
 #: ../build/src/ui_tidalsettingspage.h:313
 #: ../build/src/ui_qobuzsettingspage.h:271
@@ -1848,7 +1848,7 @@ msgstr "Hangszínszabályzó engedélyezése"
 msgid "Enable playlist clear button"
 msgstr "Lejátszólista törlése gomb engedélyezése"
 
-#: ../build/src/ui_scrobblersettingspage.h:401
+#: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Enable scrobbling for the following sources:"
 msgstr "Scrobble-ozás engedélyezése a következő forrásokhoz:"
 
@@ -2019,12 +2019,12 @@ msgstr "Letöltött borítók exportálása"
 msgid "Export embedded covers"
 msgstr "Beágyazott borítók exportálása"
 
-#: covermanager/albumcovermanager.cpp:888
-#: covermanager/albumcovermanager.cpp:914
+#: covermanager/albumcovermanager.cpp:887
+#: covermanager/albumcovermanager.cpp:913
 msgid "Export finished"
 msgstr "Eportálás befejezve"
 
-#: covermanager/albumcovermanager.cpp:899
+#: covermanager/albumcovermanager.cpp:898
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "%1 borító exportálva ennyiből %2 (%3 sikertelen)"
@@ -2634,7 +2634,7 @@ msgstr "Utoljára lejátszva"
 msgid "Last played for %1 songs received."
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:411
+#: ../build/src/ui_scrobblersettingspage.h:412
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2651,7 +2651,7 @@ msgstr "Bal"
 msgid "Length"
 msgstr "Időtartam"
 
-#: ../build/src/ui_scrobblersettingspage.h:415
+#: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2663,7 +2663,7 @@ msgstr ""
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz hitelesítés"
 
-#: ../build/src/ui_scrobblersettingspage.h:418
+#: ../build/src/ui_scrobblersettingspage.h:419
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2729,13 +2729,13 @@ msgstr "Betöltés..."
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Fájlok/URL-ek betöltése, lejátszólista cseréje"
 
-#: ../build/src/ui_scrobblersettingspage.h:403
+#: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Local file"
 msgstr "Helyi fájl"
 
-#: ../build/src/ui_scrobblersettingspage.h:414
-#: ../build/src/ui_scrobblersettingspage.h:417
-#: ../build/src/ui_scrobblersettingspage.h:422
+#: ../build/src/ui_scrobblersettingspage.h:415
+#: ../build/src/ui_scrobblersettingspage.h:418
+#: ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_coverssettingspage.h:172
 #: ../build/src/ui_lyricssettingspage.h:172
 #: ../build/src/ui_tidalsettingspage.h:321
@@ -3041,7 +3041,7 @@ msgstr "Következő héten"
 msgid "No analyzer"
 msgstr "Kikapcsolva"
 
-#: covermanager/albumcovermanager.cpp:889
+#: covermanager/albumcovermanager.cpp:888
 msgid "No covers to export."
 msgstr "Nincsenek exportálandó borítók"
 
@@ -3436,7 +3436,7 @@ msgstr "Helyzet"
 msgid "Pre-amp"
 msgstr "Előerősítő"
 
-#: ../build/src/ui_scrobblersettingspage.h:399
+#: ../build/src/ui_scrobblersettingspage.h:400
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Albumelőadó előnyben részesítése scrobble-ok beküldésénél"
 
@@ -3529,7 +3529,7 @@ msgstr "Folyamat"
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:409
+#: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:410
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3955,7 +3955,7 @@ msgstr "Skálázható mintavételezési profil (SSR)"
 msgid "Scale size"
 msgstr "Skála méret"
 
-#: ../build/src/ui_scrobblersettingspage.h:389
+#: ../build/src/ui_scrobblersettingspage.h:390
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
@@ -4175,7 +4175,7 @@ msgstr "Összes dal megjelenítése"
 msgid "Show all the songs"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:400
+#: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Show dialog for errors"
 msgstr "Párbeszédablak megjelenítése hibáknál"
 
@@ -4208,7 +4208,7 @@ msgstr "Megnyitás a fájlböngészőben..."
 msgid "Show in various artists"
 msgstr "Megjelenítés a különböző előadók között"
 
-#: ../build/src/ui_scrobblersettingspage.h:394
+#: ../build/src/ui_scrobblersettingspage.h:395
 msgid "Show love button"
 msgstr "Kedvenc gomb megjelenítése"
 
@@ -4228,7 +4228,7 @@ msgstr "Csak a címke nélküliek megjelenítése"
 msgid "Show playing widget"
 msgstr "Albumborító megjelenítése az oldalsávban"
 
-#: ../build/src/ui_scrobblersettingspage.h:393
+#: ../build/src/ui_scrobblersettingspage.h:394
 msgid "Show scrobble button"
 msgstr "Scrobble gomb megjelenítése"
 
@@ -4353,7 +4353,7 @@ msgstr "Dalszöveg"
 msgid "Songs"
 msgstr "Dalok"
 
-#: ../build/src/ui_scrobblersettingspage.h:391
+#: ../build/src/ui_scrobblersettingspage.h:392
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -4498,7 +4498,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Nincsenek találatok ehhez a fájlhoz"
 
-#: ../build/src/ui_scrobblersettingspage.h:406
+#: ../build/src/ui_scrobblersettingspage.h:407
 msgid "Stream"
 msgstr "Adatfolyam"
 
@@ -4519,11 +4519,11 @@ msgstr "Kép nyújtása a lejátszólista kitöltéséhez"
 msgid "Style"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:395
+#: ../build/src/ui_scrobblersettingspage.h:396
 msgid "Submit scrobbles every"
 msgstr "Scrobble-ok beküldése minden"
 
-#: core/mainwindow.cpp:347 ../build/src/ui_scrobblersettingspage.h:407
+#: core/mainwindow.cpp:347 ../build/src/ui_scrobblersettingspage.h:408
 #: ../build/src/ui_subsonicsettingspage.h:188
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4753,7 +4753,7 @@ msgstr "Ez a beállítás változtatható a \"Működés\" menüben"
 msgid "This type of device is not supported: %1"
 msgstr "A %1 eszköztípus nem támogatott"
 
-#: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:408
+#: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:409
 #: ../build/src/ui_tidalsettingspage.h:312
 msgid "Tidal"
 msgstr "Tidal"
@@ -4877,7 +4877,7 @@ msgstr ""
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
 #: playlist/playlistmanager.cpp:564 playlist/playlistmanager.cpp:565
 #: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
-#: ../build/src/ui_scrobblersettingspage.h:410
+#: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "Ismeretlen"
 
@@ -4932,7 +4932,7 @@ msgstr "Használat"
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:413
+#: ../build/src/ui_scrobblersettingspage.h:414
 msgid "Use HTTPS for local redirectserver"
 msgstr "HTTPS használata a helyi átirányító szerverhez"
 
@@ -5020,7 +5020,7 @@ msgstr "Használt"
 msgid "User interface"
 msgstr "Kezelőfelület"
 
-#: ../build/src/ui_scrobblersettingspage.h:420
+#: ../build/src/ui_scrobblersettingspage.h:421
 msgid "User token:"
 msgstr "Felhasználói token:"
 
@@ -5123,7 +5123,7 @@ msgstr "Szélessávú (WB)"
 msgid "Without cover:"
 msgstr "Borító nélkül:"
 
-#: ../build/src/ui_scrobblersettingspage.h:392
+#: ../build/src/ui_scrobblersettingspage.h:393
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Offline mód (mentés csak gyorsítótárba)"
 
