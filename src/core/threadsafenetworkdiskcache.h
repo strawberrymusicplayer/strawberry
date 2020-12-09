@@ -19,27 +19,43 @@
  *
  */
 
-#ifndef NETWORK_H
-#define NETWORK_H
+#ifndef THREADSAFENETWORKDISKCACHE_H
+#define THREADSAFENETWORKDISKCACHE_H
 
 #include "config.h"
 
 #include <QtGlobal>
 #include <QObject>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
+#include <QAbstractNetworkCache>
+#include <QMutex>
+#include <QUrl>
+#include <QNetworkCacheMetaData>
 
 class QIODevice;
-class QNetworkReply;
+class QNetworkDiskCache;
 
-class NetworkAccessManager : public QNetworkAccessManager {
-  Q_OBJECT
+class ThreadSafeNetworkDiskCache : public QAbstractNetworkCache {
+ Q_OBJECT
 
  public:
-  explicit NetworkAccessManager(QObject *parent = nullptr);
+  explicit ThreadSafeNetworkDiskCache(QObject *parent);
+  ~ThreadSafeNetworkDiskCache() override;
 
- protected:
-  QNetworkReply *createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) override;
+  qint64 cacheSize() const override;
+  QIODevice *data(const QUrl &url) override;
+  void insert(QIODevice *device) override;
+  QNetworkCacheMetaData metaData(const QUrl &url) override;
+  QIODevice *prepare(const QNetworkCacheMetaData &metaData) override;
+  bool remove(const QUrl &url) override;
+  void updateMetaData(const QNetworkCacheMetaData &metaData) override;
+
+ public slots:
+  void clear() override;
+
+ private:
+  static QMutex sMutex;
+  static int sInstances;
+  static QNetworkDiskCache *sCache;
 };
 
-#endif  // NETWORK_H
+#endif  // THREADSAFENETWORKDISKCACHE_H

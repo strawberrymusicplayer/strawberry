@@ -21,89 +21,18 @@
 
 #include "config.h"
 
-#include <type_traits>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QCoreApplication>
-#include <QStandardPaths>
 #include <QIODevice>
-#include <QMutex>
-#include <QVariant>
 #include <QByteArray>
 #include <QString>
-#include <QUrl>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QNetworkDiskCache>
-#include <QNetworkCacheMetaData>
-#include <QAbstractNetworkCache>
 
 #include "network.h"
-
-QMutex ThreadSafeNetworkDiskCache::sMutex;
-ThreadSafeNetworkDiskCache *ThreadSafeNetworkDiskCache::sInstance = nullptr;
-QNetworkDiskCache *ThreadSafeNetworkDiskCache::sCache = nullptr;
-
-ThreadSafeNetworkDiskCache::ThreadSafeNetworkDiskCache(QObject *parent) : QAbstractNetworkCache(parent) {
-
-  QMutexLocker l(&sMutex);
-  if (!sCache) {
-    sInstance = this;
-    sCache = new QNetworkDiskCache;
-#ifdef Q_OS_WIN32
-    sCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/strawberry/networkcache");
-#else
-    sCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/networkcache");
-#endif
-  }
-
-}
-
-ThreadSafeNetworkDiskCache::~ThreadSafeNetworkDiskCache() {
-  if (this == sInstance) delete sCache;
-}
-
-qint64 ThreadSafeNetworkDiskCache::cacheSize() const {
-  QMutexLocker l(&sMutex);
-  return sCache->cacheSize();
-}
-
-QIODevice *ThreadSafeNetworkDiskCache::data(const QUrl &url) {
-  QMutexLocker l(&sMutex);
-  return sCache->data(url);
-}
-
-void ThreadSafeNetworkDiskCache::insert(QIODevice *device) {
-  QMutexLocker l(&sMutex);
-  sCache->insert(device);
-}
-
-QNetworkCacheMetaData ThreadSafeNetworkDiskCache::metaData(const QUrl &url) {
-  QMutexLocker l(&sMutex);
-  return sCache->metaData(url);
-}
-
-QIODevice *ThreadSafeNetworkDiskCache::prepare(const QNetworkCacheMetaData &metaData) {
-  QMutexLocker l(&sMutex);
-  return sCache->prepare(metaData);
-}
-
-bool ThreadSafeNetworkDiskCache::remove(const QUrl &url) {
-  QMutexLocker l(&sMutex);
-  return sCache->remove(url);
-}
-
-void ThreadSafeNetworkDiskCache::updateMetaData(const QNetworkCacheMetaData &metaData) {
-  QMutexLocker l(&sMutex);
-  sCache->updateMetaData(metaData);
-}
-
-void ThreadSafeNetworkDiskCache::clear() {
-  QMutexLocker l(&sMutex);
-  sCache->clear();
-}
+#include "threadsafenetworkdiskcache.h"
 
 NetworkAccessManager::NetworkAccessManager(QObject *parent)
     : QNetworkAccessManager(parent) {
@@ -144,4 +73,5 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
   }
 
   return QNetworkAccessManager::createRequest(op, new_request, outgoingData);
+
 }
