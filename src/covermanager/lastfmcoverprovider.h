@@ -31,7 +31,7 @@
 
 #include "jsoncoverprovider.h"
 
-class QNetworkAccessManager;
+class NetworkAccessManager;
 class QNetworkReply;
 class Application;
 
@@ -65,7 +65,7 @@ class LastFmCoverProvider : public JsonCoverProvider {
   static const char *kApiKey;
   static const char *kSecret;
 
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

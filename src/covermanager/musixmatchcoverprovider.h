@@ -30,8 +30,8 @@
 
 #include "jsoncoverprovider.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
+class NetworkAccessManager;
 
 class MusixmatchCoverProvider : public JsonCoverProvider {
   Q_OBJECT
@@ -50,7 +50,7 @@ class MusixmatchCoverProvider : public JsonCoverProvider {
   void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album);
 
  private:
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

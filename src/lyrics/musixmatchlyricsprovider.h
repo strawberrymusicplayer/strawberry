@@ -31,8 +31,8 @@
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
+class NetworkAccessManager;
 
 class MusixmatchLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
@@ -51,7 +51,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
   void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &album, const QString &title);
 
  private:
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

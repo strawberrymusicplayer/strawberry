@@ -30,8 +30,8 @@
 #include "lyricsprovider.h"
 #include "lyricsfetcher.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
+class NetworkAccessManager;
 
 class ChartLyricsProvider : public LyricsProvider {
   Q_OBJECT
@@ -52,7 +52,7 @@ class ChartLyricsProvider : public LyricsProvider {
  private:
   static const char *kUrlSearch;
 
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

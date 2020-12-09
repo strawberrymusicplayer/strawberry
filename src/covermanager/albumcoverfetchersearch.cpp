@@ -34,13 +34,13 @@
 #include <QUrl>
 #include <QImage>
 #include <QImageReader>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QtDebug>
 
 #include "core/logging.h"
 #include "core/utilities.h"
+#include "core/network.h"
 #include "core/networktimeouts.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"
@@ -52,8 +52,7 @@ const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 6000;
 const int AlbumCoverFetcherSearch::kTargetSize = 500;
 const float AlbumCoverFetcherSearch::kGoodScore = 4.0;
 
-AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(
-    const CoverSearchRequest &request, QNetworkAccessManager *network, QObject *parent)
+AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(const CoverSearchRequest &request, NetworkAccessManager *network, QObject *parent)
     : QObject(parent),
       request_(request),
       image_load_timeout_(new NetworkTimeouts(kImageLoadTimeoutMs, this)),

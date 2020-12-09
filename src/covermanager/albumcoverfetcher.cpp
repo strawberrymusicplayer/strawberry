@@ -22,7 +22,6 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QNetworkAccessManager>
 #include <QTimer>
 #include <QString>
 #include <QImage>
@@ -34,7 +33,7 @@
 
 const int AlbumCoverFetcher::kMaxConcurrentRequests = 5;
 
-AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *parent, QNetworkAccessManager *network)
+AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *parent, NetworkAccessManager *network)
     : QObject(parent),
       cover_providers_(cover_providers),
       network_(network ? network : new NetworkAccessManager(this)),

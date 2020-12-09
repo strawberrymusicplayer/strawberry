@@ -30,8 +30,8 @@
 
 #include "lyricsprovider.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
+class NetworkAccessManager;
 
 class LoloLyricsProvider : public LyricsProvider {
   Q_OBJECT
@@ -51,7 +51,7 @@ class LoloLyricsProvider : public LyricsProvider {
 
  private:
   static const char *kUrlSearch;
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

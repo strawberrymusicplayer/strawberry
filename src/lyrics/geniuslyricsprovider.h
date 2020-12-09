@@ -38,9 +38,8 @@
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
-
+class NetworkAccessManager;
 class LocalRedirectServer;
 
 class GeniusLyricsProvider : public JsonLyricsProvider {
@@ -96,7 +95,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   static const char *kUrlSearch;
 
  private:
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   LocalRedirectServer *server_;
   QString code_verifier_;
   QString code_challenge_;

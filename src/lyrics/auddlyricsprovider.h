@@ -32,8 +32,8 @@
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
+class NetworkAccessManager;
 
 class AuddLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
@@ -56,7 +56,7 @@ class AuddLyricsProvider : public JsonLyricsProvider {
   static const char *kUrlSearch;
   static const char *kAPITokenB64;
   static const int kMaxLength;
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

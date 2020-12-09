@@ -35,9 +35,9 @@
 #include "jsoncoverprovider.h"
 #include "tidal/tidalservice.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
+class NetworkAccessManager;
 
 class TidalCoverProvider : public JsonCoverProvider {
   Q_OBJECT
@@ -65,7 +65,7 @@ class TidalCoverProvider : public JsonCoverProvider {
   static const int kLimit;
 
   TidalService *service_;
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

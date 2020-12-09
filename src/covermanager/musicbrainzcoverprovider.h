@@ -32,10 +32,10 @@
 
 #include "jsoncoverprovider.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
 class QTimer;
 class Application;
+class NetworkAccessManager;
 
 class MusicbrainzCoverProvider : public JsonCoverProvider {
   Q_OBJECT
@@ -68,7 +68,7 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
   static const int kLimit;
   static const int kRequestsDelay;
 
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   QTimer *timer_flush_requests_;
   QQueue<SearchRequest> queue_search_requests_;
   QList<QNetworkReply*> replies_;

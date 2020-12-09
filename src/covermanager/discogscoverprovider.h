@@ -40,7 +40,7 @@
 #include "jsoncoverprovider.h"
 #include "albumcoverfetcher.h"
 
-class QNetworkAccessManager;
+class NetworkAccessManager;
 class QNetworkReply;
 class QTimer;
 class Application;
@@ -99,7 +99,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   static const char *kSecretKeyB64;
   static const int kRequestsDelay;
 
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   QTimer *timer_flush_requests_;
   QQueue<std::shared_ptr<DiscogsCoverSearchContext>> queue_search_requests_;
   QQueue<DiscogsCoverReleaseContext> queue_release_requests_;

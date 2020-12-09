@@ -33,9 +33,9 @@
 #include "jsoncoverprovider.h"
 #include "qobuz/qobuzservice.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
+class NetworkAccessManager;
 class QobuzService;
 
 class QobuzCoverProvider : public JsonCoverProvider {
@@ -65,7 +65,7 @@ class QobuzCoverProvider : public JsonCoverProvider {
   static const int kLimit;
 
   QobuzService *service_;
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
   QString username_;

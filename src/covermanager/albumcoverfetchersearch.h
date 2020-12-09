@@ -36,10 +36,10 @@
 #include "albumcoverfetcher.h"
 #include "coversearchstatistics.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
 class CoverProvider;
 class CoverProviders;
+class NetworkAccessManager;
 class NetworkTimeouts;
 
 // This class encapsulates a single search for covers initiated by an AlbumCoverFetcher.
@@ -49,7 +49,7 @@ class AlbumCoverFetcherSearch : public QObject {
   Q_OBJECT
 
  public:
-  explicit AlbumCoverFetcherSearch(const CoverSearchRequest &request, QNetworkAccessManager *network, QObject *parent);
+  explicit AlbumCoverFetcherSearch(const CoverSearchRequest &request, NetworkAccessManager *network, QObject *parent);
   ~AlbumCoverFetcherSearch() override;
 
   void Start(CoverProviders *cover_providers);
@@ -107,7 +107,7 @@ class AlbumCoverFetcherSearch : public QObject {
   typedef QPair<CoverSearchResult, QImage> CandidateImage;
   QMultiMap<float, CandidateImage> candidate_images_;
 
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
 
   bool cancel_requested_;
 

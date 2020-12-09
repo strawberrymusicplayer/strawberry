@@ -30,8 +30,8 @@
 
 #include "jsonlyricsprovider.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
+class NetworkAccessManager;
 
 class OVHLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
@@ -51,7 +51,7 @@ class OVHLyricsProvider : public JsonLyricsProvider {
 
  private:
   static const char *kUrlSearch;
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

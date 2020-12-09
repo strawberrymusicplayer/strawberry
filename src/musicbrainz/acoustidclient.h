@@ -28,8 +28,8 @@
 #include <QString>
 #include <QStringList>
 
-class QNetworkAccessManager;
 class QNetworkReply;
+class NetworkAccessManager;
 class NetworkTimeouts;
 
 class AcoustidClient : public QObject {
@@ -68,7 +68,7 @@ class AcoustidClient : public QObject {
   static const char *kUrl;
   static const int kDefaultTimeout;
 
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   NetworkTimeouts *timeouts_;
   QMap<int, QNetworkReply*> requests_;
 

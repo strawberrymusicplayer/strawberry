@@ -36,9 +36,9 @@
 
 #include "jsoncoverprovider.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
+class NetworkAccessManager;
 class LocalRedirectServer;
 
 class SpotifyCoverProvider : public JsonCoverProvider {
@@ -80,7 +80,7 @@ class SpotifyCoverProvider : public JsonCoverProvider {
   static const char *kApiUrl;
   static const int kLimit;
 
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   LocalRedirectServer *server_;
   QStringList login_errors_;
   QString code_verifier_;

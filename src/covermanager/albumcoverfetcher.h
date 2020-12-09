@@ -35,7 +35,7 @@
 #include <QImage>
 
 class QTimer;
-class QNetworkAccessManager;
+class NetworkAccessManager;
 class CoverProviders;
 class AlbumCoverFetcherSearch;
 struct CoverSearchStatistics;
@@ -103,7 +103,7 @@ class AlbumCoverFetcher : public QObject {
   Q_OBJECT
 
  public:
-  explicit AlbumCoverFetcher(CoverProviders *cover_providers, QObject *parent = nullptr, QNetworkAccessManager *network = nullptr);
+  explicit AlbumCoverFetcher(CoverProviders *cover_providers, QObject *parent = nullptr, NetworkAccessManager *network = nullptr);
   ~AlbumCoverFetcher() override;
 
   static const int kMaxConcurrentRequests;
@@ -126,7 +126,7 @@ class AlbumCoverFetcher : public QObject {
   void AddRequest(const CoverSearchRequest &req);
 
   CoverProviders *cover_providers_;
-  QNetworkAccessManager *network_;
+  NetworkAccessManager *network_;
   quint64 next_id_;
 
   QQueue<CoverSearchRequest> queued_requests_;
