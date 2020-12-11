@@ -28,7 +28,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Zanata 4.6.2\n"
 
-#: playlist/playlistlistview.cpp:50
+#: playlist/playlistlistview.cpp:51
 msgid ""
 "\n"
 "\n"
@@ -82,8 +82,8 @@ msgstr " 분"
 msgid " ms"
 msgstr " ms"
 
-#: ../build/src/ui_contextsettingspage.h:429
-#: ../build/src/ui_contextsettingspage.h:434
+#: ../build/src/ui_contextsettingspage.h:450
+#: ../build/src/ui_contextsettingspage.h:455
 msgid " pt"
 msgstr ""
 
@@ -91,7 +91,7 @@ msgstr ""
 msgid " s"
 msgstr " s"
 
-#: ../build/src/ui_notificationssettingspage.h:471
+#: ../build/src/ui_notificationssettingspage.h:478
 msgid " seconds"
 msgstr " 초"
 
@@ -155,7 +155,7 @@ msgstr ""
 msgid "%1 playlists (%2)"
 msgstr "재생 목록 %1개(%2)"
 
-#: playlist/playlistmanager.cpp:462
+#: playlist/playlistmanager.cpp:463
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1개 선택됨,"
@@ -192,17 +192,17 @@ msgid ""
 "them all?"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:469 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:470 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "트랙 %1개"
 
-#: covermanager/albumcovermanager.cpp:536
+#: covermanager/albumcovermanager.cpp:537
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1개 전송됨"
 
-#: ../build/src/ui_contextsettingspage.h:416
+#: ../build/src/ui_contextsettingspage.h:437
 msgid "%album%"
 msgstr "%album%"
 
@@ -211,8 +211,8 @@ msgstr "%album%"
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
 
-#: ../build/src/ui_contextsettingspage.h:407
-#: ../build/src/ui_notificationssettingspage.h:459
+#: ../build/src/ui_contextsettingspage.h:416
+#: ../build/src/ui_notificationssettingspage.h:458
 msgid "%filename%"
 msgstr "%filename%"
 
@@ -234,9 +234,23 @@ msgctxt ""
 msgid "%n remaining"
 msgstr "%n개 남음"
 
-#: ../build/src/ui_contextsettingspage.h:412
+#: ../build/src/ui_contextsettingspage.h:428
+#: ../build/src/ui_notificationssettingspage.h:466
+msgid "%originalyear%"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:424
+msgid "%rating%"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:433
 msgid "%title - %artist%"
 msgstr "%title - %artist%"
+
+#: ../build/src/ui_contextsettingspage.h:420
+#: ../build/src/ui_notificationssettingspage.h:462
+msgid "%url%"
+msgstr ""
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
@@ -246,11 +260,11 @@ msgstr "Strawberry 정보(&A)"
 msgid "&Add file..."
 msgstr "파일 추가(&A)..."
 
-#: playlist/playlistheader.cpp:62
+#: playlist/playlistheader.cpp:63
 msgid "&Align text"
 msgstr "텍스트 정렬(&A)"
 
-#: playlist/playlistheader.cpp:65
+#: playlist/playlistheader.cpp:66
 msgid "&Center"
 msgstr "가운데(&C)"
 
@@ -278,12 +292,12 @@ msgstr "전체 라이브러리 재탐색(&D)"
 msgid "&Equalizer"
 msgstr "이퀄라이저(&E)"
 
-#: playlist/playlistheader.cpp:100
+#: playlist/playlistheader.cpp:101
 #, qt-format
 msgid "&Hide %1"
 msgstr "%1 숨기기(&H)"
 
-#: playlist/playlistheader.cpp:55
+#: playlist/playlistheader.cpp:56
 msgid "&Hide..."
 msgstr "숨기기(&H)..."
 
@@ -291,7 +305,7 @@ msgstr "숨기기(&H)..."
 msgid "&Jump to the currently playing track"
 msgstr "현재 재생 중인 트랙으로 이동(&J)"
 
-#: playlist/playlistheader.cpp:64
+#: playlist/playlistheader.cpp:65
 msgid "&Left"
 msgstr "왼쪽(&L)"
 
@@ -299,7 +313,7 @@ msgstr "왼쪽(&L)"
 msgid "&Load playlist..."
 msgstr "재생 목록 불러오기(&L)..."
 
-#: playlist/playlistheader.cpp:58
+#: playlist/playlistheader.cpp:59
 msgid "&Lock rating"
 msgstr ""
 
@@ -347,11 +361,11 @@ msgstr "끝내기(&Q)"
 msgid "&Repeat mode"
 msgstr "반복 모드(&R)"
 
-#: playlist/playlistheader.cpp:57
+#: playlist/playlistheader.cpp:58
 msgid "&Reset columns to default"
 msgstr "기본값으로 열 초기화(&R)"
 
-#: playlist/playlistheader.cpp:66
+#: playlist/playlistheader.cpp:67
 msgid "&Right"
 msgstr "오른쪽(&R)"
 
@@ -367,7 +381,7 @@ msgstr "셔플 재생 모드(&S)"
 msgid "&Stop"
 msgstr "정지(&S)"
 
-#: playlist/playlistheader.cpp:56
+#: playlist/playlistheader.cpp:57
 msgid "&Stretch columns to fit window"
 msgstr "창 크기에 맞게 열 너비 조정(&S)"
 
@@ -424,7 +438,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1일"
 
-#: playlist/playlistmanager.cpp:469 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:470 queue/queue.cpp:254
 msgid "1 track"
 msgstr "트랙 1개"
 
@@ -489,8 +503,8 @@ msgstr "API 토큰"
 msgid "ASF (WMA)"
 msgstr "ASF(WMA)"
 
-#: covermanager/albumcovermanager.cpp:132
-#: covermanager/albumcoversearcher.cpp:190
+#: covermanager/albumcovermanager.cpp:133
+#: covermanager/albumcoversearcher.cpp:191
 #: ../build/src/ui_internetcollectionviewcontainer.h:141
 msgid "Abort"
 msgstr "중지"
@@ -532,8 +546,8 @@ msgstr "폴더 추가(&F)..."
 msgid "Add Stream"
 msgstr "스트림 추가"
 
-#: ../build/src/ui_contextsettingspage.h:405
-#: ../build/src/ui_notificationssettingspage.h:457
+#: ../build/src/ui_contextsettingspage.h:414
+#: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add a new line if supported by the notification type"
 msgstr "알림 형식이 지원한다면 새로운 줄 추가"
 
@@ -573,86 +587,93 @@ msgstr "새로운 폴더 추가..."
 msgid "Add search term"
 msgstr "검색 조건 추가"
 
-#: ../build/src/ui_contextsettingspage.h:366
-#: ../build/src/ui_notificationssettingspage.h:412
+#: ../build/src/ui_contextsettingspage.h:422
+#: ../build/src/ui_notificationssettingspage.h:464
+msgid "Add song URL"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:375
+#: ../build/src/ui_notificationssettingspage.h:414
 msgid "Add song album tag"
 msgstr "앨범 태그 추가"
 
-#: ../build/src/ui_contextsettingspage.h:372
-#: ../build/src/ui_notificationssettingspage.h:418
+#: ../build/src/ui_contextsettingspage.h:381
+#: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song albumartist tag"
 msgstr "앨범 아티스트 태그 추가"
 
-#: ../build/src/ui_contextsettingspage.h:363
-#: ../build/src/ui_notificationssettingspage.h:409
+#: ../build/src/ui_contextsettingspage.h:372
+#: ../build/src/ui_notificationssettingspage.h:411
 msgid "Add song artist tag"
 msgstr "아티스트 태그 추가"
 
-#: ../build/src/ui_notificationssettingspage.h:454
-msgid "Add song auto score"
-msgstr "자동 점수 추가"
-
-#: ../build/src/ui_contextsettingspage.h:378
-#: ../build/src/ui_notificationssettingspage.h:424
+#: ../build/src/ui_contextsettingspage.h:387
+#: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song composer tag"
 msgstr "작곡가 태그 추가"
 
-#: ../build/src/ui_contextsettingspage.h:387
-#: ../build/src/ui_notificationssettingspage.h:433
+#: ../build/src/ui_contextsettingspage.h:396
+#: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song disc tag"
 msgstr "음악 디스크 태그 추가"
 
-#: ../build/src/ui_contextsettingspage.h:409
-#: ../build/src/ui_notificationssettingspage.h:461
+#: ../build/src/ui_contextsettingspage.h:418
+#: ../build/src/ui_notificationssettingspage.h:460
 msgid "Add song filename"
 msgstr "음악 파일 이름 추가"
 
-#: ../build/src/ui_contextsettingspage.h:393
-#: ../build/src/ui_notificationssettingspage.h:439
+#: ../build/src/ui_contextsettingspage.h:402
+#: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song genre tag"
 msgstr "장르 태그 추가"
 
-#: ../build/src/ui_contextsettingspage.h:384
-#: ../build/src/ui_notificationssettingspage.h:430
+#: ../build/src/ui_contextsettingspage.h:393
+#: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song grouping tag"
 msgstr "음악 그룹화 태그 추가"
 
-#: ../build/src/ui_contextsettingspage.h:396
-#: ../build/src/ui_notificationssettingspage.h:442
+#: ../build/src/ui_contextsettingspage.h:405
+#: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song length tag"
 msgstr "음악 길이 태그 추가"
 
-#: ../build/src/ui_contextsettingspage.h:381
-#: ../build/src/ui_notificationssettingspage.h:427
+#: ../build/src/ui_contextsettingspage.h:430
+#: ../build/src/ui_notificationssettingspage.h:468
+msgid "Add song original year tag"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:390
+#: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song performer tag"
 msgstr "음악 연주가 태그 추가"
 
-#: ../build/src/ui_contextsettingspage.h:399
-#: ../build/src/ui_notificationssettingspage.h:445
+#: ../build/src/ui_contextsettingspage.h:408
+#: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song play count"
 msgstr "재생 횟수 추가"
 
-#: ../build/src/ui_notificationssettingspage.h:451
+#: ../build/src/ui_contextsettingspage.h:426
+#: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song rating"
 msgstr "음악 별점 추가"
 
-#: ../build/src/ui_contextsettingspage.h:402
-#: ../build/src/ui_notificationssettingspage.h:448
+#: ../build/src/ui_contextsettingspage.h:411
+#: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song skip count"
 msgstr "건너뛴 횟수 추가"
 
-#: ../build/src/ui_contextsettingspage.h:369
-#: ../build/src/ui_notificationssettingspage.h:415
+#: ../build/src/ui_contextsettingspage.h:378
+#: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song title tag"
 msgstr "제목 태그 추가"
 
-#: ../build/src/ui_contextsettingspage.h:390
-#: ../build/src/ui_notificationssettingspage.h:436
+#: ../build/src/ui_contextsettingspage.h:399
+#: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song track tag"
 msgstr "트랙 태그 추가"
 
-#: ../build/src/ui_contextsettingspage.h:375
-#: ../build/src/ui_notificationssettingspage.h:421
+#: ../build/src/ui_contextsettingspage.h:384
+#: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song year tag"
 msgstr "년도 태그 추가"
 
@@ -727,7 +748,7 @@ msgstr "앨범아트(&M)"
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
-#: ../build/src/ui_contextsettingspage.h:419
+#: ../build/src/ui_contextsettingspage.h:440
 #: ../build/src/ui_edittagdialog.h:707
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Album"
@@ -766,7 +787,7 @@ msgstr "앨범"
 msgid "Albums by %1"
 msgstr "%1의 앨범"
 
-#: ../build/src/ui_contextsettingspage.h:422
+#: ../build/src/ui_contextsettingspage.h:443
 msgid "Albums by Artist"
 msgstr "아티스트별 앨범"
 
@@ -775,11 +796,11 @@ msgstr "아티스트별 앨범"
 msgid "Albums search limit"
 msgstr "앨범 검색 제한"
 
-#: covermanager/albumcovermanager.cpp:165
+#: covermanager/albumcovermanager.cpp:166
 msgid "Albums with covers"
 msgstr "앨범아트가 있는 앨범"
 
-#: covermanager/albumcovermanager.cpp:166
+#: covermanager/albumcovermanager.cpp:167
 msgid "Albums without covers"
 msgstr "앨범아트가 없는 앨범"
 
@@ -787,11 +808,11 @@ msgstr "앨범아트가 없는 앨범"
 msgid "All Files (*)"
 msgstr "모든 파일 (*)"
 
-#: covermanager/albumcovermanager.cpp:164
+#: covermanager/albumcovermanager.cpp:165
 msgid "All albums"
 msgstr "모든 앨범"
 
-#: covermanager/albumcovermanager.cpp:332
+#: covermanager/albumcovermanager.cpp:333
 msgid "All artists"
 msgstr "모든 아티스트"
 
@@ -958,11 +979,11 @@ msgstr "자동 업데이트 중"
 msgid "Automatically open single categories in the collection tree"
 msgstr "한 개의 하위 항목만 있을 때 자동으로 열기"
 
-#: ../build/src/ui_contextsettingspage.h:424
+#: ../build/src/ui_contextsettingspage.h:445
 msgid "Automatically search for album cover"
 msgstr "자동으로 앨범아트 찾기"
 
-#: context/contextview.cpp:339 ../build/src/ui_contextsettingspage.h:425
+#: context/contextview.cpp:339 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
 msgstr "자동으로 가사 찾기"
 
@@ -994,7 +1015,7 @@ msgstr "평균 그림 크기"
 msgid "Backend"
 msgstr "백엔드"
 
-#: ../build/src/ui_notificationssettingspage.h:487
+#: ../build/src/ui_notificationssettingspage.h:494
 msgid "Background color"
 msgstr "배경 색상"
 
@@ -1002,7 +1023,7 @@ msgstr "배경 색상"
 msgid "Background image"
 msgstr "배경 그림"
 
-#: ../build/src/ui_notificationssettingspage.h:486
+#: ../build/src/ui_notificationssettingspage.h:493
 msgid "Background opacity"
 msgstr "배경 불투명도"
 
@@ -1014,7 +1035,7 @@ msgstr "데이터베이스 백업 중"
 msgid "Balance"
 msgstr "균형"
 
-#: ../build/src/ui_notificationssettingspage.h:488
+#: ../build/src/ui_notificationssettingspage.h:495
 msgid "Basic Blue"
 msgstr "기본 파랑"
 
@@ -1065,7 +1086,7 @@ msgstr "블록 형식"
 msgid "Blur amount"
 msgstr "블러 정도"
 
-#: ../build/src/ui_notificationssettingspage.h:483
+#: ../build/src/ui_notificationssettingspage.h:490
 msgid "Body"
 msgstr "본문"
 
@@ -1141,7 +1162,7 @@ msgstr "업데이트 확인..."
 msgid "Choose a name for your smart playlist"
 msgstr "스마트 재생 목록 이름을 정하세요"
 
-#: ../build/src/ui_notificationssettingspage.h:493
+#: ../build/src/ui_notificationssettingspage.h:500
 msgid "Choose color..."
 msgstr "색상 선택..."
 
@@ -1149,7 +1170,7 @@ msgstr "색상 선택..."
 msgid "Choose data to import from last.fm"
 msgstr ""
 
-#: ../build/src/ui_notificationssettingspage.h:494
+#: ../build/src/ui_notificationssettingspage.h:501
 msgid "Choose font..."
 msgstr "글꼴 선택..."
 
@@ -1222,7 +1243,7 @@ msgstr "닫기"
 msgid "Close playlist"
 msgstr "재생 목록 닫기"
 
-#: covermanager/albumcovermanager.cpp:239
+#: covermanager/albumcovermanager.cpp:240
 msgid "Closing this window will stop searching for album covers."
 msgstr "이 창을 닫으면 앨범아트 검색을 정지합니다."
 
@@ -1320,7 +1341,7 @@ msgstr "콘솔"
 msgid "Constant bitrate"
 msgstr "고정 비트 전송률"
 
-#: core/mainwindow.cpp:337 ../build/src/ui_contextsettingspage.h:361
+#: core/mainwindow.cpp:337 ../build/src/ui_contextsettingspage.h:370
 msgid "Context"
 msgstr "지금 재생"
 
@@ -1353,12 +1374,12 @@ msgstr "앨범아트 복사"
 msgid "Copy to collection..."
 msgstr "라이브러리로 복사..."
 
-#: playlist/playlistlistcontainer.cpp:379
+#: playlist/playlistlistcontainer.cpp:380
 msgid "Copy to device"
 msgstr "디바이스에 복사"
 
 #: core/mainwindow.cpp:710 context/contextalbumsview.cpp:262
-#: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:104
+#: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:105
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
 msgstr "장치로 복사..."
@@ -1393,7 +1414,7 @@ msgstr "%1 파일을 열 수 없음"
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "%1의 GStreamer 소스 엘리먼트를 생성할 수 없음"
 
-#: playlist/playlistmanager.cpp:202
+#: playlist/playlistmanager.cpp:203
 msgid "Couldn't create playlist"
 msgstr "재생 목록을 생성할 수 없음"
 
@@ -1446,7 +1467,7 @@ msgstr "앨범 아트 가져오기"
 msgid "Covers"
 msgstr "앨범아트"
 
-#: covermanager/albumcoversearcher.cpp:127
+#: covermanager/albumcoversearcher.cpp:128
 #: covermanager/coversearchstatisticsdialog.cpp:75
 #, qt-format
 msgid "Covers from %1"
@@ -1536,15 +1557,15 @@ msgstr "사용자 정의"
 msgid "Custom image:"
 msgstr "사용자 정의 이미지:"
 
-#: ../build/src/ui_notificationssettingspage.h:478
+#: ../build/src/ui_notificationssettingspage.h:485
 msgid "Custom message settings"
 msgstr "사용자 정의 메시지 설정"
 
-#: ../build/src/ui_contextsettingspage.h:411
+#: ../build/src/ui_contextsettingspage.h:432
 msgid "Custom text settings"
 msgstr "사용자 정의 텍스트 설정"
 
-#: ../build/src/ui_notificationssettingspage.h:490
+#: ../build/src/ui_notificationssettingspage.h:497
 msgid "Custom..."
 msgstr "사용자 정의..."
 
@@ -1588,7 +1609,7 @@ msgstr "기본 배경 그림(&K)"
 msgid "Defaults"
 msgstr "기본 설정"
 
-#: playlist/playlistlistcontainer.cpp:101
+#: playlist/playlistlistcontainer.cpp:102
 #: ../build/src/ui_playlistlistcontainer.h:133
 msgid "Delete"
 msgstr "삭제"
@@ -1665,11 +1686,11 @@ msgstr "직접 인터넷 연결"
 msgid "Directory"
 msgstr "디렉터리"
 
-#: ../build/src/ui_notificationssettingspage.h:472
+#: ../build/src/ui_notificationssettingspage.h:479
 msgid "Disable duration"
 msgstr "비활성화 시간"
 
-#: ../build/src/ui_notificationssettingspage.h:465
+#: ../build/src/ui_notificationssettingspage.h:472
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "사용 안 함"
@@ -1714,7 +1735,7 @@ msgstr "덮어쓰지 않기"
 msgid "Do not show this message again."
 msgstr "메세지 다시 보지 않기"
 
-#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "반복하지 않기"
 
@@ -1722,11 +1743,11 @@ msgstr "반복하지 않기"
 msgid "Don't show in various artists"
 msgstr "여러 아티스로 표시하지 않기"
 
-#: osd/osdbase.cpp:306 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:334 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "섞지 않기"
 
-#: covermanager/albumcovermanager.cpp:240
+#: covermanager/albumcovermanager.cpp:241
 msgid "Don't stop!"
 msgstr "멈추지 마세요!"
 
@@ -1812,7 +1833,7 @@ msgstr "활성화"
 msgid "Enable Disk Cache"
 msgstr "디스크 캐시 활성화"
 
-#: ../build/src/ui_contextsettingspage.h:418
+#: ../build/src/ui_contextsettingspage.h:439
 msgid "Enable Items"
 msgstr "항목 활성화"
 
@@ -1865,7 +1886,7 @@ msgstr "인코딩 모드"
 msgid "Engine"
 msgstr "엔진"
 
-#: ../build/src/ui_contextsettingspage.h:421
+#: ../build/src/ui_contextsettingspage.h:442
 msgid "Engine and Device"
 msgstr "엔진과 장치"
 
@@ -1894,7 +1915,7 @@ msgstr "여기에 검색어 입력"
 msgid "Enter the URL of a stream:"
 msgstr "스트림 URL 입력"
 
-#: playlist/playlistlistcontainer.cpp:222
+#: playlist/playlistlistcontainer.cpp:223
 msgid "Enter the name of the folder"
 msgstr "폴더 이름 입력"
 
@@ -1998,12 +2019,12 @@ msgstr "다운로드한 표지 내보내기"
 msgid "Export embedded covers"
 msgstr "내장된 표지 내보내기"
 
-#: covermanager/albumcovermanager.cpp:887
-#: covermanager/albumcovermanager.cpp:913
+#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:914
 msgid "Export finished"
 msgstr "내보내기 완료"
 
-#: covermanager/albumcovermanager.cpp:898
+#: covermanager/albumcovermanager.cpp:899
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "앨범아트 %2개 중 %1개 내보냄(%3개 건너뜀)"
@@ -2162,21 +2183,21 @@ msgstr "첫 단계"
 msgid "Fit cover to width"
 msgstr "앨범아트를 너비에 맞춤"
 
-#: ../build/src/ui_contextsettingspage.h:427
-#: ../build/src/ui_contextsettingspage.h:432
+#: ../build/src/ui_contextsettingspage.h:448
+#: ../build/src/ui_contextsettingspage.h:453
 msgid "Font"
 msgstr "폰트"
 
-#: ../build/src/ui_contextsettingspage.h:431
+#: ../build/src/ui_contextsettingspage.h:452
 msgid "Font for data and lyrics"
 msgstr "내용과 가사 폰트 설정"
 
-#: ../build/src/ui_contextsettingspage.h:426
+#: ../build/src/ui_contextsettingspage.h:447
 msgid "Font for headline"
 msgstr "제목 폰트 설정"
 
-#: ../build/src/ui_contextsettingspage.h:428
-#: ../build/src/ui_contextsettingspage.h:433
+#: ../build/src/ui_contextsettingspage.h:449
+#: ../build/src/ui_contextsettingspage.h:454
 msgid "Font size"
 msgstr "글자 크기"
 
@@ -2261,7 +2282,7 @@ msgstr "고음 강화"
 msgid "General"
 msgstr "일반"
 
-#: ../build/src/ui_notificationssettingspage.h:469
+#: ../build/src/ui_notificationssettingspage.h:476
 msgid "General settings"
 msgstr "일반 설정"
 
@@ -2288,7 +2309,7 @@ msgstr "이전 재생 목록 탭으로 이동"
 msgid "Go!"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:530
+#: covermanager/albumcovermanager.cpp:531
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2494,7 +2515,7 @@ msgid ""
 "time a song finishes."
 msgstr "다이나믹 모드일 때는 곡이 끝날 때마다 새 곡이 재생목록에 추가됩니다."
 
-#: ../build/src/ui_notificationssettingspage.h:477
+#: ../build/src/ui_notificationssettingspage.h:484
 msgid "Include album art in the notification"
 msgstr "알림에 앨범 커버 포함"
 
@@ -2534,7 +2555,7 @@ msgstr ""
 msgid "Internet Tabs View"
 msgstr ""
 
-#: osd/osdbase.cpp:326 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:354 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "인트로 트랙"
 
@@ -2660,7 +2681,7 @@ msgstr "디스크에서 표지 불러오기"
 msgid "Load cover from disk..."
 msgstr "디스크에서 표지 불러오기..."
 
-#: playlist/playlistcontainer.cpp:332
+#: playlist/playlistcontainer.cpp:333
 msgid "Load playlist"
 msgstr "재생 목록 불러오기"
 
@@ -2968,8 +2989,8 @@ msgstr "한번도 재생하지 않은 곡"
 msgid "Never start playing"
 msgstr "재생을 시작하지 않음"
 
-#: playlist/playlistlistcontainer.cpp:100
-#: playlist/playlistlistcontainer.cpp:222
+#: playlist/playlistlistcontainer.cpp:101
+#: playlist/playlistlistcontainer.cpp:223
 #: ../build/src/ui_playlistlistcontainer.h:130
 msgid "New folder"
 msgstr "새 폴더"
@@ -3010,7 +3031,7 @@ msgstr "다음 주"
 msgid "No analyzer"
 msgstr "분석기 없음"
 
-#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:889
 msgid "No covers to export."
 msgstr "내보낼 표지가 없습니다."
 
@@ -3022,7 +3043,7 @@ msgstr "긴 블록 없음"
 msgid "No match."
 msgstr "일치하는 결과가 없습니다."
 
-#: playlist/playlistcontainer.cpp:422
+#: playlist/playlistcontainer.cpp:423
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "일치하는 결과를 찾을 수 없습니다. 검색어를 비우면 전체 재생 목록을 볼 수 있습니다."
@@ -3081,11 +3102,11 @@ msgstr "연결되지 않음"
 msgid "Not mounted - double click to mount"
 msgstr "마운트되지 않음 - 마운트하려면 두 번 클릭"
 
-#: ../build/src/ui_notificationssettingspage.h:464
+#: ../build/src/ui_notificationssettingspage.h:471
 msgid "Notification type"
 msgstr "알림 종류"
 
-#: ../build/src/ui_notificationssettingspage.h:407
+#: ../build/src/ui_notificationssettingspage.h:409
 msgid "Notifications"
 msgstr "알림"
 
@@ -3101,7 +3122,7 @@ msgstr "모두 덮어쓰기(&V)"
 msgid "OSD Preview"
 msgstr "OSD 미리 보기"
 
-#: osd/osdbase.cpp:244
+#: osd/osdbase.cpp:262
 msgid "Off"
 msgstr "꺼짐"
 
@@ -3112,7 +3133,7 @@ msgid ""
 "most of their derivatives. See %1 for more information."
 msgstr "공식 릴리즈가 데비안, 우분투 혹은 파생 배포판에서 제공됩니다. %1을 참조하십시오."
 
-#: osd/osdbase.cpp:244
+#: osd/osdbase.cpp:262
 msgid "On"
 msgstr "켜짐"
 
@@ -3259,7 +3280,7 @@ msgstr "일시 정지"
 msgid "Pause playback"
 msgstr "재생 일시 정지"
 
-#: osd/osdbase.cpp:186 osd/osdbase.cpp:189
+#: osd/osdbase.cpp:203 osd/osdbase.cpp:206
 msgid "Paused"
 msgstr "일시 정지됨"
 
@@ -3331,9 +3352,9 @@ msgstr ""
 msgid "Player options"
 msgstr "재생기 옵션"
 
-#: playlist/playlistcontainer.cpp:327 playlist/playlistlistcontainer.cpp:287
-#: playlist/playlistlistcontainer.cpp:384 playlist/playlistmanager.cpp:109
-#: playlist/playlistmanager.cpp:189 playlist/playlistmanager.cpp:557
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
+#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:110
+#: playlist/playlistmanager.cpp:190 playlist/playlistmanager.cpp:558
 #: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "재생 목록"
@@ -3342,7 +3363,7 @@ msgstr "재생 목록"
 msgid "Playlist buttons"
 msgstr ""
 
-#: osd/osdbase.cpp:252
+#: osd/osdbase.cpp:270
 msgid "Playlist finished"
 msgstr "재생 목록 끝남"
 
@@ -3353,7 +3374,7 @@ msgid ""
 "playlist?"
 msgstr "재생 목록에 %1곡이 있습니다. 실행 취소하기에는 너무 큽니다. 재생 목록을 비우시겠습니까?"
 
-#: playlist/playlistlistcontainer.cpp:379
+#: playlist/playlistlistcontainer.cpp:380
 msgid "Playlist must be open first."
 msgstr ""
 
@@ -3383,7 +3404,7 @@ msgstr "웹 브라우저에서 다음 URL을 여십시오"
 msgid "Pop"
 msgstr "팝"
 
-#: ../build/src/ui_notificationssettingspage.h:470
+#: ../build/src/ui_notificationssettingspage.h:477
 msgid "Popup duration"
 msgstr "팝업 시간"
 
@@ -3450,14 +3471,14 @@ msgstr "%1에 사용할 단축키를 누르십시오..."
 msgid "Pressing \"Previous\" in player will..."
 msgstr "재생기에서 \"이전\"을 눌렀을 때..."
 
-#: ../build/src/ui_notificationssettingspage.h:485
+#: ../build/src/ui_notificationssettingspage.h:492
 msgid "Pretty OSD options"
 msgstr "예쁜 OSD 옵션"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
-#: ../build/src/ui_contextsettingspage.h:430
-#: ../build/src/ui_contextsettingspage.h:435
-#: ../build/src/ui_notificationssettingspage.h:480
+#: ../build/src/ui_contextsettingspage.h:451
+#: ../build/src/ui_contextsettingspage.h:456
+#: ../build/src/ui_notificationssettingspage.h:487
 #: ../build/src/ui_organizedialog.h:287
 msgid "Preview"
 msgstr "미리 보기"
@@ -3549,7 +3570,7 @@ msgstr ""
 msgid "Re&lative"
 msgstr "상대 경로(&L)"
 
-#: covermanager/albumcovermanager.cpp:239
+#: covermanager/albumcovermanager.cpp:240
 msgid "Really cancel?"
 msgstr "정말로 취소하시겠습니까?"
 
@@ -3646,7 +3667,7 @@ msgstr "재생 목록에서 제거"
 msgid "Remove playlist"
 msgstr "재생 목록 삭제"
 
-#: playlist/playlistlistcontainer.cpp:426
+#: playlist/playlistlistcontainer.cpp:427
 msgid "Remove playlists"
 msgstr "재생 목록 삭제"
 
@@ -3670,15 +3691,15 @@ msgstr "다음 순서로 트랙 번호 다시 매기기..."
 msgid "Repeat"
 msgstr "반복"
 
-#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:351 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "앨범 반복"
 
-#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:352 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "재생 목록 반복"
 
-#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:350 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "한 곡 반복"
 
@@ -3864,12 +3885,12 @@ msgstr "디스크에 표지 저장..."
 msgid "Save current grouping"
 msgstr "현재 그룹 저장"
 
-#: playlist/playlistlistcontainer.cpp:102
+#: playlist/playlistlistcontainer.cpp:103
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
@@ -3924,8 +3945,8 @@ msgstr "스크로블러 %1이(가) 인증되지 않았습니다!"
 msgid "Scroll over icon to change track"
 msgstr "트랙을 변경하려면 아이콘  위에서 스크롤하십시오"
 
-#: covermanager/albumcoversearcher.cpp:198
-#: covermanager/albumcoversearcher.cpp:217
+#: covermanager/albumcoversearcher.cpp:199
+#: covermanager/albumcoversearcher.cpp:218
 #: ../build/src/ui_albumcoversearcher.h:113
 #: ../build/src/ui_internettabsview.h:119
 msgid "Search"
@@ -4066,7 +4087,7 @@ msgstr "단축키"
 msgid "Show"
 msgstr "표시"
 
-#: ../build/src/ui_notificationssettingspage.h:466
+#: ../build/src/ui_notificationssettingspage.h:473
 msgid "Show a &native desktop notification"
 msgstr "네이티브 데스크톱 알림 표시(&N)"
 
@@ -4078,27 +4099,27 @@ msgstr "현재 트랙에 빛나는 애니메이션 표시"
 msgid "Show a moodbar in the track progress bar"
 msgstr "트랙 진행 표시줄에 무드바 표시"
 
-#: ../build/src/ui_notificationssettingspage.h:474
+#: ../build/src/ui_notificationssettingspage.h:481
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "반복/셔플 모드 변경 시 알림 표시"
 
-#: ../build/src/ui_notificationssettingspage.h:473
+#: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a notification when I change the volume"
 msgstr "음량을 변경할 때 알림 표시"
 
-#: ../build/src/ui_notificationssettingspage.h:475
+#: ../build/src/ui_notificationssettingspage.h:482
 msgid "Show a notification when I pause playback"
 msgstr "재생을 일시 정지할 때 알림 표시"
 
-#: ../build/src/ui_notificationssettingspage.h:476
+#: ../build/src/ui_notificationssettingspage.h:483
 msgid "Show a notification when I resume playback"
 msgstr "재생을 다시 시작할 때 알림 표시"
 
-#: ../build/src/ui_notificationssettingspage.h:468
+#: ../build/src/ui_notificationssettingspage.h:475
 msgid "Show a popup fro&m the system tray"
 msgstr "시스템 트레이에서 팝업 표시(&M)"
 
-#: ../build/src/ui_notificationssettingspage.h:467
+#: ../build/src/ui_notificationssettingspage.h:474
 msgid "Show a pretty OSD"
 msgstr "예쁜 OSD 표시"
 
@@ -4219,15 +4240,15 @@ msgstr "최소화 상태로 실행"
 msgid "Shuffle"
 msgstr "셔플 재생"
 
-#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:337 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "앨범 셔플"
 
-#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:335 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "모두 셔플"
 
-#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:336 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "이 앨범에 있는 곡만 셔플"
 
@@ -4296,7 +4317,7 @@ msgstr "소프트"
 msgid "Soft Rock"
 msgstr "소프트 록"
 
-#: ../build/src/ui_contextsettingspage.h:423
+#: ../build/src/ui_contextsettingspage.h:444
 msgid "Song Lyrics"
 msgstr "노래 가사"
 
@@ -4363,7 +4384,7 @@ msgstr "%1 시작 중"
 msgid "Stop after each track"
 msgstr "각각 트랙이 끝난 후 정지"
 
-#: osd/osdbase.cpp:325
+#: osd/osdbase.cpp:353
 msgid "Stop after every track"
 msgstr "모든 트랙 이후에 정지"
 
@@ -4379,12 +4400,12 @@ msgstr "재생 정지"
 msgid "Stop playback after current track"
 msgstr "현재 트랙 이후에 재생 정지"
 
-#: osd/osdbase.cpp:244
+#: osd/osdbase.cpp:262
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "트랙 재생 후 정지: %1"
 
-#: osd/osdbase.cpp:231 osd/osdbase.cpp:234
+#: osd/osdbase.cpp:249 osd/osdbase.cpp:252
 msgid "Stopped"
 msgstr "정지됨"
 
@@ -4400,7 +4421,7 @@ msgstr "Strawberry 오류"
 msgid "Strawberry Music Player"
 msgstr "Strawberry 음악 재생기"
 
-#: ../build/src/ui_notificationssettingspage.h:489
+#: ../build/src/ui_notificationssettingspage.h:496
 msgid "Strawberry Red"
 msgstr "Strawberry Red"
 
@@ -4410,7 +4431,7 @@ msgid ""
 "a format that it can play."
 msgstr "Strawberry는 장치로 곡을 복사할 때 장치에서 재생 가능한 형식으로 자동 변환할 수 있습니다."
 
-#: ../build/src/ui_notificationssettingspage.h:463
+#: ../build/src/ui_notificationssettingspage.h:470
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry에서 재생 중인 곡을 전환할 때 메시지를 표시할 수 있습니다."
 
@@ -4491,8 +4512,8 @@ msgstr "%1 기록 완료"
 msgid "Suggested tags"
 msgstr "제안된 태그"
 
-#: ../build/src/ui_contextsettingspage.h:415
-#: ../build/src/ui_notificationssettingspage.h:482
+#: ../build/src/ui_contextsettingspage.h:436
+#: ../build/src/ui_notificationssettingspage.h:489
 #: ../build/src/ui_edittagdialog.h:702
 msgid "Summary"
 msgstr "요약"
@@ -4534,7 +4555,7 @@ msgstr "태그 가져오기"
 msgid "Target bitrate"
 msgstr "목표 비트 전송률"
 
-#: ../build/src/ui_contextsettingspage.h:420
+#: ../build/src/ui_contextsettingspage.h:441
 msgid "Technical Data"
 msgstr "기술적 데이터"
 
@@ -4554,7 +4575,7 @@ msgstr "테스트 실패!"
 msgid "Test successful!"
 msgstr "테스트 성공!"
 
-#: ../build/src/ui_notificationssettingspage.h:492
+#: ../build/src/ui_notificationssettingspage.h:499
 msgid "Text options"
 msgstr "텍스트 옵션"
 
@@ -4699,7 +4720,7 @@ msgid "Time step"
 msgstr "시간 간격"
 
 #: playlist/playlist.cpp:1261 organize/organizedialog.cpp:102
-#: ../build/src/ui_contextsettingspage.h:414
+#: ../build/src/ui_contextsettingspage.h:435
 #: ../build/src/ui_edittagdialog.h:705
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
@@ -4801,7 +4822,7 @@ msgstr ""
 #: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1598
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
-#: playlist/playlistmanager.cpp:564 playlist/playlistmanager.cpp:565
+#: playlist/playlistmanager.cpp:565 playlist/playlistmanager.cpp:566
 #: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
@@ -4890,7 +4911,7 @@ msgstr ""
 msgid "Use a custom color set"
 msgstr "사용자 정의 색 배열 사용"
 
-#: ../build/src/ui_notificationssettingspage.h:479
+#: ../build/src/ui_notificationssettingspage.h:486
 msgid "Use a custom message for notifications"
 msgstr "알림에 표시할 사용자 정의 메시지 설정"
 
@@ -4974,7 +4995,7 @@ msgid "Variable bit rate"
 msgstr "가변 비트 전송률"
 
 #: collection/collectionmodel.cpp:373 collection/collectionmodel.cpp:374
-#: playlist/playlistmanager.cpp:576 covermanager/albumcovermanager.cpp:333
+#: playlist/playlistmanager.cpp:577 covermanager/albumcovermanager.cpp:334
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "편집 음반"
@@ -4996,7 +5017,7 @@ msgstr "보기"
 msgid "Voice activity detection"
 msgstr "음성 활동 감지"
 
-#: osd/osdbase.cpp:260
+#: osd/osdbase.cpp:278
 #, qt-format
 msgid "Volume %1%"
 msgstr "음량 %1%"
@@ -5090,7 +5111,7 @@ msgstr ""
 msgid "Yesterday"
 msgstr "어제"
 
-#: playlist/playlistlistcontainer.cpp:426
+#: playlist/playlistlistcontainer.cpp:427
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
@@ -5229,7 +5250,7 @@ msgstr ""
 msgid "disabled"
 msgstr "사용 안 함"
 
-#: osd/osdbase.cpp:144
+#: osd/osdbase.cpp:147
 #, qt-format
 msgid "disc %1"
 msgstr "디스크 %1"
@@ -5360,7 +5381,7 @@ msgstr ""
 msgid "stop"
 msgstr "정지"
 
-#: osd/osdbase.cpp:146
+#: osd/osdbase.cpp:150
 #, qt-format
 msgid "track %1"
 msgstr "트랙 %1"

@@ -29,7 +29,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Zanata 4.6.2\n"
 
-#: playlist/playlistlistview.cpp:50
+#: playlist/playlistlistview.cpp:51
 msgid ""
 "\n"
 "\n"
@@ -89,8 +89,8 @@ msgstr " minuter"
 msgid " ms"
 msgstr " ms"
 
-#: ../build/src/ui_contextsettingspage.h:429
-#: ../build/src/ui_contextsettingspage.h:434
+#: ../build/src/ui_contextsettingspage.h:450
+#: ../build/src/ui_contextsettingspage.h:455
 msgid " pt"
 msgstr " pt"
 
@@ -98,7 +98,7 @@ msgstr " pt"
 msgid " s"
 msgstr " s"
 
-#: ../build/src/ui_notificationssettingspage.h:471
+#: ../build/src/ui_notificationssettingspage.h:478
 msgid " seconds"
 msgstr " sekunder"
 
@@ -162,7 +162,7 @@ msgstr "%1 behöver autentisering."
 msgid "%1 playlists (%2)"
 msgstr "%1 spellistor (%2)"
 
-#: playlist/playlistmanager.cpp:462
+#: playlist/playlistmanager.cpp:463
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 vald(a) av"
@@ -200,17 +200,17 @@ msgid ""
 msgstr ""
 "%1 låtar i %2 olika valda mappar, är du säker på att du vill öppna dem alla?"
 
-#: playlist/playlistmanager.cpp:469 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:470 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 spår"
 
-#: covermanager/albumcovermanager.cpp:536
+#: covermanager/albumcovermanager.cpp:537
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 överfört"
 
-#: ../build/src/ui_contextsettingspage.h:416
+#: ../build/src/ui_contextsettingspage.h:437
 msgid "%album%"
 msgstr "%album%"
 
@@ -219,8 +219,8 @@ msgstr "%album%"
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
 
-#: ../build/src/ui_contextsettingspage.h:407
-#: ../build/src/ui_notificationssettingspage.h:459
+#: ../build/src/ui_contextsettingspage.h:416
+#: ../build/src/ui_notificationssettingspage.h:458
 msgid "%filename%"
 msgstr "%filename%"
 
@@ -242,9 +242,23 @@ msgctxt ""
 msgid "%n remaining"
 msgstr "%n återstår"
 
-#: ../build/src/ui_contextsettingspage.h:412
+#: ../build/src/ui_contextsettingspage.h:428
+#: ../build/src/ui_notificationssettingspage.h:466
+msgid "%originalyear%"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:424
+msgid "%rating%"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:433
 msgid "%title - %artist%"
 msgstr "%title - %artist%"
+
+#: ../build/src/ui_contextsettingspage.h:420
+#: ../build/src/ui_notificationssettingspage.h:462
+msgid "%url%"
+msgstr ""
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
@@ -254,11 +268,11 @@ msgstr "&Om Strawberry"
 msgid "&Add file..."
 msgstr "&Lägg till fil..."
 
-#: playlist/playlistheader.cpp:62
+#: playlist/playlistheader.cpp:63
 msgid "&Align text"
 msgstr "&Justera text"
 
-#: playlist/playlistheader.cpp:65
+#: playlist/playlistheader.cpp:66
 msgid "&Center"
 msgstr "&Centrera"
 
@@ -286,12 +300,12 @@ msgstr "&Gör en fullständig omsökning av samling"
 msgid "&Equalizer"
 msgstr "&Frekvenskorrigerare"
 
-#: playlist/playlistheader.cpp:100
+#: playlist/playlistheader.cpp:101
 #, qt-format
 msgid "&Hide %1"
 msgstr "&Dölj %1"
 
-#: playlist/playlistheader.cpp:55
+#: playlist/playlistheader.cpp:56
 msgid "&Hide..."
 msgstr "&Dölj..."
 
@@ -299,7 +313,7 @@ msgstr "&Dölj..."
 msgid "&Jump to the currently playing track"
 msgstr "&Hoppa till spår som nu spelas"
 
-#: playlist/playlistheader.cpp:64
+#: playlist/playlistheader.cpp:65
 msgid "&Left"
 msgstr "&Vänster"
 
@@ -307,7 +321,7 @@ msgstr "&Vänster"
 msgid "&Load playlist..."
 msgstr "&Läs in spellista..."
 
-#: playlist/playlistheader.cpp:58
+#: playlist/playlistheader.cpp:59
 msgid "&Lock rating"
 msgstr "&Lås betyg"
 
@@ -355,11 +369,11 @@ msgstr "A&vsluta"
 msgid "&Repeat mode"
 msgstr "&Upprepningsläge"
 
-#: playlist/playlistheader.cpp:57
+#: playlist/playlistheader.cpp:58
 msgid "&Reset columns to default"
 msgstr "&Återställ kolumner till standard"
 
-#: playlist/playlistheader.cpp:66
+#: playlist/playlistheader.cpp:67
 msgid "&Right"
 msgstr "&Höger"
 
@@ -375,7 +389,7 @@ msgstr "&Blandningsläge"
 msgid "&Stop"
 msgstr "&Stoppa"
 
-#: playlist/playlistheader.cpp:56
+#: playlist/playlistheader.cpp:57
 msgid "&Stretch columns to fit window"
 msgstr "&Sträck ut kolumner så de passar i fönstret"
 
@@ -434,7 +448,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 dag"
 
-#: playlist/playlistmanager.cpp:469 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:470 queue/queue.cpp:254
 msgid "1 track"
 msgstr "1 spår"
 
@@ -502,8 +516,8 @@ msgstr "API-token"
 msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
-#: covermanager/albumcovermanager.cpp:132
-#: covermanager/albumcoversearcher.cpp:190
+#: covermanager/albumcovermanager.cpp:133
+#: covermanager/albumcoversearcher.cpp:191
 #: ../build/src/ui_internetcollectionviewcontainer.h:141
 msgid "Abort"
 msgstr "Avbryt"
@@ -545,8 +559,8 @@ msgstr "Lägg till &mapp..."
 msgid "Add Stream"
 msgstr "Lägg till ström"
 
-#: ../build/src/ui_contextsettingspage.h:405
-#: ../build/src/ui_notificationssettingspage.h:457
+#: ../build/src/ui_contextsettingspage.h:414
+#: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add a new line if supported by the notification type"
 msgstr "Lägg till en ny rad om det stöds av aviseringstypen"
 
@@ -586,86 +600,93 @@ msgstr "Lägg till ny mapp..."
 msgid "Add search term"
 msgstr "Lägg till sökterm"
 
-#: ../build/src/ui_contextsettingspage.h:366
-#: ../build/src/ui_notificationssettingspage.h:412
+#: ../build/src/ui_contextsettingspage.h:422
+#: ../build/src/ui_notificationssettingspage.h:464
+msgid "Add song URL"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:375
+#: ../build/src/ui_notificationssettingspage.h:414
 msgid "Add song album tag"
 msgstr "Lägg till tagg för låtens album"
 
-#: ../build/src/ui_contextsettingspage.h:372
-#: ../build/src/ui_notificationssettingspage.h:418
+#: ../build/src/ui_contextsettingspage.h:381
+#: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song albumartist tag"
 msgstr "Lägg till tagg för låtens albumartist"
 
-#: ../build/src/ui_contextsettingspage.h:363
-#: ../build/src/ui_notificationssettingspage.h:409
+#: ../build/src/ui_contextsettingspage.h:372
+#: ../build/src/ui_notificationssettingspage.h:411
 msgid "Add song artist tag"
 msgstr "Lägg till tagg för låtens artist"
 
-#: ../build/src/ui_notificationssettingspage.h:454
-msgid "Add song auto score"
-msgstr "Lägg till poäng för låt automatiskt"
-
-#: ../build/src/ui_contextsettingspage.h:378
-#: ../build/src/ui_notificationssettingspage.h:424
+#: ../build/src/ui_contextsettingspage.h:387
+#: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song composer tag"
 msgstr "Lägg till tagg för låtens kompositör"
 
-#: ../build/src/ui_contextsettingspage.h:387
-#: ../build/src/ui_notificationssettingspage.h:433
+#: ../build/src/ui_contextsettingspage.h:396
+#: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song disc tag"
 msgstr "Lägg till tagg för skivnummer"
 
-#: ../build/src/ui_contextsettingspage.h:409
-#: ../build/src/ui_notificationssettingspage.h:461
+#: ../build/src/ui_contextsettingspage.h:418
+#: ../build/src/ui_notificationssettingspage.h:460
 msgid "Add song filename"
 msgstr "Lägg till låtens filnamn"
 
-#: ../build/src/ui_contextsettingspage.h:393
-#: ../build/src/ui_notificationssettingspage.h:439
+#: ../build/src/ui_contextsettingspage.h:402
+#: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song genre tag"
 msgstr "Lägg till tagg för låtgenre"
 
-#: ../build/src/ui_contextsettingspage.h:384
-#: ../build/src/ui_notificationssettingspage.h:430
+#: ../build/src/ui_contextsettingspage.h:393
+#: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song grouping tag"
 msgstr "Lägg till tagg för låtgruppering"
 
-#: ../build/src/ui_contextsettingspage.h:396
-#: ../build/src/ui_notificationssettingspage.h:442
+#: ../build/src/ui_contextsettingspage.h:405
+#: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song length tag"
 msgstr "Lägg till tagg för låtens längd"
 
-#: ../build/src/ui_contextsettingspage.h:381
-#: ../build/src/ui_notificationssettingspage.h:427
+#: ../build/src/ui_contextsettingspage.h:430
+#: ../build/src/ui_notificationssettingspage.h:468
+msgid "Add song original year tag"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:390
+#: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song performer tag"
 msgstr "Lägg till tagg för aktör"
 
-#: ../build/src/ui_contextsettingspage.h:399
-#: ../build/src/ui_notificationssettingspage.h:445
+#: ../build/src/ui_contextsettingspage.h:408
+#: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song play count"
 msgstr "Lägg till spelningsantal"
 
-#: ../build/src/ui_notificationssettingspage.h:451
+#: ../build/src/ui_contextsettingspage.h:426
+#: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song rating"
 msgstr "Lägg till låtbetyg"
 
-#: ../build/src/ui_contextsettingspage.h:402
-#: ../build/src/ui_notificationssettingspage.h:448
+#: ../build/src/ui_contextsettingspage.h:411
+#: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song skip count"
 msgstr "Lägg till antal överhoppningar"
 
-#: ../build/src/ui_contextsettingspage.h:369
-#: ../build/src/ui_notificationssettingspage.h:415
+#: ../build/src/ui_contextsettingspage.h:378
+#: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song title tag"
 msgstr "Lägg till tagg för låtens titel"
 
-#: ../build/src/ui_contextsettingspage.h:390
-#: ../build/src/ui_notificationssettingspage.h:436
+#: ../build/src/ui_contextsettingspage.h:399
+#: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song track tag"
 msgstr "Lägg till tagg för spårnummer"
 
-#: ../build/src/ui_contextsettingspage.h:375
-#: ../build/src/ui_notificationssettingspage.h:421
+#: ../build/src/ui_contextsettingspage.h:384
+#: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song year tag"
 msgstr "Lägg till tagg för år"
 
@@ -740,7 +761,7 @@ msgstr "Albu&momslag"
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
-#: ../build/src/ui_contextsettingspage.h:419
+#: ../build/src/ui_contextsettingspage.h:440
 #: ../build/src/ui_edittagdialog.h:707
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Album"
@@ -779,7 +800,7 @@ msgstr "Album"
 msgid "Albums by %1"
 msgstr "Album av %1"
 
-#: ../build/src/ui_contextsettingspage.h:422
+#: ../build/src/ui_contextsettingspage.h:443
 msgid "Albums by Artist"
 msgstr "Album av Artist"
 
@@ -788,11 +809,11 @@ msgstr "Album av Artist"
 msgid "Albums search limit"
 msgstr "Gräns för sökning av album"
 
-#: covermanager/albumcovermanager.cpp:165
+#: covermanager/albumcovermanager.cpp:166
 msgid "Albums with covers"
 msgstr "Album med omslag"
 
-#: covermanager/albumcovermanager.cpp:166
+#: covermanager/albumcovermanager.cpp:167
 msgid "Albums without covers"
 msgstr "Album utan omslag"
 
@@ -800,11 +821,11 @@ msgstr "Album utan omslag"
 msgid "All Files (*)"
 msgstr "Alla filer (*)"
 
-#: covermanager/albumcovermanager.cpp:164
+#: covermanager/albumcovermanager.cpp:165
 msgid "All albums"
 msgstr "Alla album"
 
-#: covermanager/albumcovermanager.cpp:332
+#: covermanager/albumcovermanager.cpp:333
 msgid "All artists"
 msgstr "Alla artister"
 
@@ -971,11 +992,11 @@ msgstr "Automatisk uppdatering"
 msgid "Automatically open single categories in the collection tree"
 msgstr "Öppna enskilda kategorier automatiskt i samlingsträdet"
 
-#: ../build/src/ui_contextsettingspage.h:424
+#: ../build/src/ui_contextsettingspage.h:445
 msgid "Automatically search for album cover"
 msgstr "Sök automatiskt efter albumomslag"
 
-#: context/contextview.cpp:339 ../build/src/ui_contextsettingspage.h:425
+#: context/contextview.cpp:339 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
 msgstr "Sök automatiskt efter låttexter"
 
@@ -1007,7 +1028,7 @@ msgstr "Genomsnittlig bildstorlek"
 msgid "Backend"
 msgstr "Backend"
 
-#: ../build/src/ui_notificationssettingspage.h:487
+#: ../build/src/ui_notificationssettingspage.h:494
 msgid "Background color"
 msgstr "Bakgrundsfärg"
 
@@ -1015,7 +1036,7 @@ msgstr "Bakgrundsfärg"
 msgid "Background image"
 msgstr "Bakgrundsbild"
 
-#: ../build/src/ui_notificationssettingspage.h:486
+#: ../build/src/ui_notificationssettingspage.h:493
 msgid "Background opacity"
 msgstr "Bakgrundsopacitet"
 
@@ -1027,7 +1048,7 @@ msgstr "Säkerhetskopierar databas"
 msgid "Balance"
 msgstr "Balans"
 
-#: ../build/src/ui_notificationssettingspage.h:488
+#: ../build/src/ui_notificationssettingspage.h:495
 msgid "Basic Blue"
 msgstr "Basblå"
 
@@ -1078,7 +1099,7 @@ msgstr "Blocktyp"
 msgid "Blur amount"
 msgstr "Suddighet"
 
-#: ../build/src/ui_notificationssettingspage.h:483
+#: ../build/src/ui_notificationssettingspage.h:490
 msgid "Body"
 msgstr "Brödtext"
 
@@ -1154,7 +1175,7 @@ msgstr "Sök efter uppdateringar..."
 msgid "Choose a name for your smart playlist"
 msgstr "Välj ett namn för din smarta spellista"
 
-#: ../build/src/ui_notificationssettingspage.h:493
+#: ../build/src/ui_notificationssettingspage.h:500
 msgid "Choose color..."
 msgstr "Välj färg..."
 
@@ -1162,7 +1183,7 @@ msgstr "Välj färg..."
 msgid "Choose data to import from last.fm"
 msgstr "Välj data att importera från last.fm"
 
-#: ../build/src/ui_notificationssettingspage.h:494
+#: ../build/src/ui_notificationssettingspage.h:501
 msgid "Choose font..."
 msgstr "Välj typsnitt..."
 
@@ -1237,7 +1258,7 @@ msgstr "Stäng"
 msgid "Close playlist"
 msgstr "Stäng spellista"
 
-#: covermanager/albumcovermanager.cpp:239
+#: covermanager/albumcovermanager.cpp:240
 msgid "Closing this window will stop searching for album covers."
 msgstr ""
 "Stängning av detta fönster kommer att stoppa sökningen efter albumomslag."
@@ -1336,7 +1357,7 @@ msgstr "Konsol"
 msgid "Constant bitrate"
 msgstr "Konstant bithastighet"
 
-#: core/mainwindow.cpp:337 ../build/src/ui_contextsettingspage.h:361
+#: core/mainwindow.cpp:337 ../build/src/ui_contextsettingspage.h:370
 msgid "Context"
 msgstr "Kontext"
 
@@ -1369,12 +1390,12 @@ msgstr "Kopiera albumomslag"
 msgid "Copy to collection..."
 msgstr "Kopiera till samlingen..."
 
-#: playlist/playlistlistcontainer.cpp:379
+#: playlist/playlistlistcontainer.cpp:380
 msgid "Copy to device"
 msgstr "Kopiera till enheten"
 
 #: core/mainwindow.cpp:710 context/contextalbumsview.cpp:262
-#: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:104
+#: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:105
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
 msgstr "Kopiera till enhet..."
@@ -1412,7 +1433,7 @@ msgstr "Det gick inte att öppna filen %1"
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Det gick inte att skapa gstreamer-källelement för %1"
 
-#: playlist/playlistmanager.cpp:202
+#: playlist/playlistmanager.cpp:203
 msgid "Couldn't create playlist"
 msgstr "Kunde inte skapa spellista"
 
@@ -1469,7 +1490,7 @@ msgstr "Omslagsleverantörer"
 msgid "Covers"
 msgstr "Omslag"
 
-#: covermanager/albumcoversearcher.cpp:127
+#: covermanager/albumcoversearcher.cpp:128
 #: covermanager/coversearchstatisticsdialog.cpp:75
 #, qt-format
 msgid "Covers from %1"
@@ -1559,15 +1580,15 @@ msgstr "Anpassad"
 msgid "Custom image:"
 msgstr "Anpassad bild:"
 
-#: ../build/src/ui_notificationssettingspage.h:478
+#: ../build/src/ui_notificationssettingspage.h:485
 msgid "Custom message settings"
 msgstr "Anpassade meddelandeinställningar"
 
-#: ../build/src/ui_contextsettingspage.h:411
+#: ../build/src/ui_contextsettingspage.h:432
 msgid "Custom text settings"
 msgstr "Anpassade textinställningar"
 
-#: ../build/src/ui_notificationssettingspage.h:490
+#: ../build/src/ui_notificationssettingspage.h:497
 msgid "Custom..."
 msgstr "Anpassad..."
 
@@ -1611,7 +1632,7 @@ msgstr "Standardba&kgrundsbild"
 msgid "Defaults"
 msgstr "Standardvärden"
 
-#: playlist/playlistlistcontainer.cpp:101
+#: playlist/playlistlistcontainer.cpp:102
 #: ../build/src/ui_playlistlistcontainer.h:133
 msgid "Delete"
 msgstr "Ta bort"
@@ -1688,11 +1709,11 @@ msgstr "Direkt internetanslutning"
 msgid "Directory"
 msgstr "Mapp"
 
-#: ../build/src/ui_notificationssettingspage.h:472
+#: ../build/src/ui_notificationssettingspage.h:479
 msgid "Disable duration"
 msgstr "Inaktivera varaktighet"
 
-#: ../build/src/ui_notificationssettingspage.h:465
+#: ../build/src/ui_notificationssettingspage.h:472
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Inaktiverad"
@@ -1737,7 +1758,7 @@ msgstr "Skriv inte över"
 msgid "Do not show this message again."
 msgstr "Visa inte detta meddelande igen."
 
-#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Upprepa inte"
 
@@ -1745,11 +1766,11 @@ msgstr "Upprepa inte"
 msgid "Don't show in various artists"
 msgstr "Visa inte i diverse artister"
 
-#: osd/osdbase.cpp:306 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:334 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Blanda inte"
 
-#: covermanager/albumcovermanager.cpp:240
+#: covermanager/albumcovermanager.cpp:241
 msgid "Don't stop!"
 msgstr "Stoppa inte!"
 
@@ -1835,7 +1856,7 @@ msgstr "Aktivera"
 msgid "Enable Disk Cache"
 msgstr "Aktivera diskcache"
 
-#: ../build/src/ui_contextsettingspage.h:418
+#: ../build/src/ui_contextsettingspage.h:439
 msgid "Enable Items"
 msgstr "Aktivera poster"
 
@@ -1888,7 +1909,7 @@ msgstr "Kodningsläge"
 msgid "Engine"
 msgstr "Motor"
 
-#: ../build/src/ui_contextsettingspage.h:421
+#: ../build/src/ui_contextsettingspage.h:442
 msgid "Engine and Device"
 msgstr "Motor och enhet"
 
@@ -1917,7 +1938,7 @@ msgstr "Ange söktermer här"
 msgid "Enter the URL of a stream:"
 msgstr "Ange webbadressen till en ström:"
 
-#: playlist/playlistlistcontainer.cpp:222
+#: playlist/playlistlistcontainer.cpp:223
 msgid "Enter the name of the folder"
 msgstr "Ange mappens namn"
 
@@ -2021,12 +2042,12 @@ msgstr "Exportera hämtade omslag"
 msgid "Export embedded covers"
 msgstr "Exportera inbäddade omslag"
 
-#: covermanager/albumcovermanager.cpp:887
-#: covermanager/albumcovermanager.cpp:913
+#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:914
 msgid "Export finished"
 msgstr "Exporteringen är färdig"
 
-#: covermanager/albumcovermanager.cpp:898
+#: covermanager/albumcovermanager.cpp:899
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Exporterat %1 omslag av %2 (%3 överhoppade)"
@@ -2185,21 +2206,21 @@ msgstr "Första nivån"
 msgid "Fit cover to width"
 msgstr "Passa omslag till bredd"
 
-#: ../build/src/ui_contextsettingspage.h:427
-#: ../build/src/ui_contextsettingspage.h:432
+#: ../build/src/ui_contextsettingspage.h:448
+#: ../build/src/ui_contextsettingspage.h:453
 msgid "Font"
 msgstr "Typsnitt"
 
-#: ../build/src/ui_contextsettingspage.h:431
+#: ../build/src/ui_contextsettingspage.h:452
 msgid "Font for data and lyrics"
 msgstr "Typsnitt för data och låttexter"
 
-#: ../build/src/ui_contextsettingspage.h:426
+#: ../build/src/ui_contextsettingspage.h:447
 msgid "Font for headline"
 msgstr "Teckensnitt för rubrik"
 
-#: ../build/src/ui_contextsettingspage.h:428
-#: ../build/src/ui_contextsettingspage.h:433
+#: ../build/src/ui_contextsettingspage.h:449
+#: ../build/src/ui_contextsettingspage.h:454
 msgid "Font size"
 msgstr "Typsnittsstorlek"
 
@@ -2285,7 +2306,7 @@ msgstr "Hel diskant"
 msgid "General"
 msgstr "Allmänt"
 
-#: ../build/src/ui_notificationssettingspage.h:469
+#: ../build/src/ui_notificationssettingspage.h:476
 msgid "General settings"
 msgstr "Allmänna inställningar"
 
@@ -2312,7 +2333,7 @@ msgstr "Gå till föregående spellisteflik"
 msgid "Go!"
 msgstr "Starta!"
 
-#: covermanager/albumcovermanager.cpp:530
+#: covermanager/albumcovermanager.cpp:531
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2526,7 +2547,7 @@ msgstr ""
 "I dynamiskt läge kommer nya spår väljas och läggas till i spellistan varje "
 "gång en låt tar slut."
 
-#: ../build/src/ui_notificationssettingspage.h:477
+#: ../build/src/ui_notificationssettingspage.h:484
 msgid "Include album art in the notification"
 msgstr "Inkludera albumomslag i aviseringen"
 
@@ -2566,7 +2587,7 @@ msgstr "Internetsökvy"
 msgid "Internet Tabs View"
 msgstr "Internet-flikvy"
 
-#: osd/osdbase.cpp:326 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:354 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Låtintroduktion"
 
@@ -2694,7 +2715,7 @@ msgstr "Läs in omslag från disk"
 msgid "Load cover from disk..."
 msgstr "Läs in omslag från disk..."
 
-#: playlist/playlistcontainer.cpp:332
+#: playlist/playlistcontainer.cpp:333
 msgid "Load playlist"
 msgstr "Läs in spellista"
 
@@ -3002,8 +3023,8 @@ msgstr "Aldrig spelade"
 msgid "Never start playing"
 msgstr "Aldrig starta uppspelning"
 
-#: playlist/playlistlistcontainer.cpp:100
-#: playlist/playlistlistcontainer.cpp:222
+#: playlist/playlistlistcontainer.cpp:101
+#: playlist/playlistlistcontainer.cpp:223
 #: ../build/src/ui_playlistlistcontainer.h:130
 msgid "New folder"
 msgstr "Ny mapp"
@@ -3044,7 +3065,7 @@ msgstr "Nästa vecka"
 msgid "No analyzer"
 msgstr "Ingen analysator"
 
-#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:889
 msgid "No covers to export."
 msgstr "Inga omslag att exportera."
 
@@ -3056,7 +3077,7 @@ msgstr "Inga långa block"
 msgid "No match."
 msgstr "Ingen matchning."
 
-#: playlist/playlistcontainer.cpp:422
+#: playlist/playlistcontainer.cpp:423
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -3117,11 +3138,11 @@ msgstr "Inte ansluten"
 msgid "Not mounted - double click to mount"
 msgstr "Inte monterad - dubbelklicka för att montera"
 
-#: ../build/src/ui_notificationssettingspage.h:464
+#: ../build/src/ui_notificationssettingspage.h:471
 msgid "Notification type"
 msgstr "Aviseringstyp"
 
-#: ../build/src/ui_notificationssettingspage.h:407
+#: ../build/src/ui_notificationssettingspage.h:409
 msgid "Notifications"
 msgstr "Aviseringar"
 
@@ -3137,7 +3158,7 @@ msgstr "S&kriv över alla"
 msgid "OSD Preview"
 msgstr "Förhandsvisning av avisering"
 
-#: osd/osdbase.cpp:244
+#: osd/osdbase.cpp:262
 msgid "Off"
 msgstr "Av"
 
@@ -3150,7 +3171,7 @@ msgstr ""
 "Officiella versioner är tillgängliga för Debian och Ubuntu som också "
 "fungerar på de flesta av deras derivat. Se %1 för mer information."
 
-#: osd/osdbase.cpp:244
+#: osd/osdbase.cpp:262
 msgid "On"
 msgstr "På"
 
@@ -3297,7 +3318,7 @@ msgstr "Pausa"
 msgid "Pause playback"
 msgstr "Pausa uppspelning"
 
-#: osd/osdbase.cpp:186 osd/osdbase.cpp:189
+#: osd/osdbase.cpp:203 osd/osdbase.cpp:206
 msgid "Paused"
 msgstr "Pausad"
 
@@ -3369,9 +3390,9 @@ msgstr "Spelantal för %1 mottagna låtar."
 msgid "Player options"
 msgstr "Spelaralternativ"
 
-#: playlist/playlistcontainer.cpp:327 playlist/playlistlistcontainer.cpp:287
-#: playlist/playlistlistcontainer.cpp:384 playlist/playlistmanager.cpp:109
-#: playlist/playlistmanager.cpp:189 playlist/playlistmanager.cpp:557
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
+#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:110
+#: playlist/playlistmanager.cpp:190 playlist/playlistmanager.cpp:558
 #: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Spellista"
@@ -3380,7 +3401,7 @@ msgstr "Spellista"
 msgid "Playlist buttons"
 msgstr "Spellistknappar"
 
-#: osd/osdbase.cpp:252
+#: osd/osdbase.cpp:270
 msgid "Playlist finished"
 msgstr "Spellistan slutförd"
 
@@ -3393,7 +3414,7 @@ msgstr ""
 "Spellistan har %1 låtar, för stora för att ångra, är du säker på att du vill "
 "rensa spellistan?"
 
-#: playlist/playlistlistcontainer.cpp:379
+#: playlist/playlistlistcontainer.cpp:380
 msgid "Playlist must be open first."
 msgstr "Spellistan måste vara öppen först."
 
@@ -3423,7 +3444,7 @@ msgstr "Vänligen öppna den här webbadressen i din webbläsare"
 msgid "Pop"
 msgstr "Pop"
 
-#: ../build/src/ui_notificationssettingspage.h:470
+#: ../build/src/ui_notificationssettingspage.h:477
 msgid "Popup duration"
 msgstr "Popup-varaktighet"
 
@@ -3494,14 +3515,14 @@ msgstr "Tryck en tangentkombination att använda för %1..."
 msgid "Pressing \"Previous\" in player will..."
 msgstr "Att klicka på \"Föregående\" i spelaren kommer att..."
 
-#: ../build/src/ui_notificationssettingspage.h:485
+#: ../build/src/ui_notificationssettingspage.h:492
 msgid "Pretty OSD options"
 msgstr "Alternativ för snygg avisering"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
-#: ../build/src/ui_contextsettingspage.h:430
-#: ../build/src/ui_contextsettingspage.h:435
-#: ../build/src/ui_notificationssettingspage.h:480
+#: ../build/src/ui_contextsettingspage.h:451
+#: ../build/src/ui_contextsettingspage.h:456
+#: ../build/src/ui_notificationssettingspage.h:487
 #: ../build/src/ui_organizedialog.h:287
 msgid "Preview"
 msgstr "Förhandsvisning"
@@ -3596,7 +3617,7 @@ msgstr "Betyg"
 msgid "Re&lative"
 msgstr "Re&lativ"
 
-#: covermanager/albumcovermanager.cpp:239
+#: covermanager/albumcovermanager.cpp:240
 msgid "Really cancel?"
 msgstr "Verkligen avbryta?"
 
@@ -3694,7 +3715,7 @@ msgstr "Ta bort från spellistan"
 msgid "Remove playlist"
 msgstr "Ta bort spellista"
 
-#: playlist/playlistlistcontainer.cpp:426
+#: playlist/playlistlistcontainer.cpp:427
 msgid "Remove playlists"
 msgstr "Ta bort spellistor"
 
@@ -3718,15 +3739,15 @@ msgstr "Omnumrera spår i denna ordning..."
 msgid "Repeat"
 msgstr "Upprepa"
 
-#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:351 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Upprepa album"
 
-#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:352 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Upprepa spellista"
 
-#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:350 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Upprepa spår"
 
@@ -3914,12 +3935,12 @@ msgstr "Spara omslag till disk..."
 msgid "Save current grouping"
 msgstr "Spara aktuell gruppering"
 
-#: playlist/playlistlistcontainer.cpp:102
+#: playlist/playlistlistcontainer.cpp:103
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Spara spellista"
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Spara spellista"
@@ -3974,8 +3995,8 @@ msgstr "Skrobblare %1 är inte autentiserad!"
 msgid "Scroll over icon to change track"
 msgstr "Rulla över ikonen med muspekaren för att byta spår"
 
-#: covermanager/albumcoversearcher.cpp:198
-#: covermanager/albumcoversearcher.cpp:217
+#: covermanager/albumcoversearcher.cpp:199
+#: covermanager/albumcoversearcher.cpp:218
 #: ../build/src/ui_albumcoversearcher.h:113
 #: ../build/src/ui_internettabsview.h:119
 msgid "Search"
@@ -4116,7 +4137,7 @@ msgstr "Genvägar"
 msgid "Show"
 msgstr "Visa"
 
-#: ../build/src/ui_notificationssettingspage.h:466
+#: ../build/src/ui_notificationssettingspage.h:473
 msgid "Show a &native desktop notification"
 msgstr "Visa en &naturlig skrivbordsavisering"
 
@@ -4128,27 +4149,27 @@ msgstr "Visa en lysande animation på det nuvarande spåret"
 msgid "Show a moodbar in the track progress bar"
 msgstr "Visa ett stämningsdiagram i spårets förloppsfält"
 
-#: ../build/src/ui_notificationssettingspage.h:474
+#: ../build/src/ui_notificationssettingspage.h:481
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "Visa en avisering när jag ändrar upprepnings-/blandningsläge"
 
-#: ../build/src/ui_notificationssettingspage.h:473
+#: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a notification when I change the volume"
 msgstr "Visa en avisering när jag ändrar volymen"
 
-#: ../build/src/ui_notificationssettingspage.h:475
+#: ../build/src/ui_notificationssettingspage.h:482
 msgid "Show a notification when I pause playback"
 msgstr "Visa en avisering när jag pausar uppspelningen"
 
-#: ../build/src/ui_notificationssettingspage.h:476
+#: ../build/src/ui_notificationssettingspage.h:483
 msgid "Show a notification when I resume playback"
 msgstr "Visa en avisering när jag återupptar uppspelningen"
 
-#: ../build/src/ui_notificationssettingspage.h:468
+#: ../build/src/ui_notificationssettingspage.h:475
 msgid "Show a popup fro&m the system tray"
 msgstr "Visa en popup fr&ån systemfältet"
 
-#: ../build/src/ui_notificationssettingspage.h:467
+#: ../build/src/ui_notificationssettingspage.h:474
 msgid "Show a pretty OSD"
 msgstr "Visa en snygg avisering"
 
@@ -4269,15 +4290,15 @@ msgstr "Visa huvudfönstret som minimerat"
 msgid "Shuffle"
 msgstr "Blanda"
 
-#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:337 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Blanda album"
 
-#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:335 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Blanda allt"
 
-#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:336 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Blanda låtar i detta album"
 
@@ -4346,7 +4367,7 @@ msgstr "Soft"
 msgid "Soft Rock"
 msgstr "Soft Rock"
 
-#: ../build/src/ui_contextsettingspage.h:423
+#: ../build/src/ui_contextsettingspage.h:444
 msgid "Song Lyrics"
 msgstr "Låttexter"
 
@@ -4414,7 +4435,7 @@ msgstr "Startar %1"
 msgid "Stop after each track"
 msgstr "Stoppa efter varje låt"
 
-#: osd/osdbase.cpp:325
+#: osd/osdbase.cpp:353
 msgid "Stop after every track"
 msgstr "Stoppa efter varje låt"
 
@@ -4430,12 +4451,12 @@ msgstr "Stoppa uppspelning"
 msgid "Stop playback after current track"
 msgstr "Stoppa uppspelning efter aktuellt spår"
 
-#: osd/osdbase.cpp:244
+#: osd/osdbase.cpp:262
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Sluta spela efter spår: %1"
 
-#: osd/osdbase.cpp:231 osd/osdbase.cpp:234
+#: osd/osdbase.cpp:249 osd/osdbase.cpp:252
 msgid "Stopped"
 msgstr "Stoppad"
 
@@ -4451,7 +4472,7 @@ msgstr "Strawberry-fel"
 msgid "Strawberry Music Player"
 msgstr "Strawberry Music Player"
 
-#: ../build/src/ui_notificationssettingspage.h:489
+#: ../build/src/ui_notificationssettingspage.h:496
 msgid "Strawberry Red"
 msgstr "Strawberry Red"
 
@@ -4463,7 +4484,7 @@ msgstr ""
 "Strawberry kan automatiskt konvertera musiken du kopierar till den här "
 "enheten till ett format som den kan spela."
 
-#: ../build/src/ui_notificationssettingspage.h:463
+#: ../build/src/ui_notificationssettingspage.h:470
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry kan visa ett meddelande vid byte av spår."
 
@@ -4549,8 +4570,8 @@ msgstr "Skrev %1 med lyckat resultat"
 msgid "Suggested tags"
 msgstr "Föreslagna taggar"
 
-#: ../build/src/ui_contextsettingspage.h:415
-#: ../build/src/ui_notificationssettingspage.h:482
+#: ../build/src/ui_contextsettingspage.h:436
+#: ../build/src/ui_notificationssettingspage.h:489
 #: ../build/src/ui_edittagdialog.h:702
 msgid "Summary"
 msgstr "Sammanfattning"
@@ -4592,7 +4613,7 @@ msgstr "Tagghämtare"
 msgid "Target bitrate"
 msgstr "Önskad bithastighet"
 
-#: ../build/src/ui_contextsettingspage.h:420
+#: ../build/src/ui_contextsettingspage.h:441
 msgid "Technical Data"
 msgstr "Tekniska data"
 
@@ -4612,7 +4633,7 @@ msgstr "Testet misslyckades!"
 msgid "Test successful!"
 msgstr "Testet lyckades!"
 
-#: ../build/src/ui_notificationssettingspage.h:492
+#: ../build/src/ui_notificationssettingspage.h:499
 msgid "Text options"
 msgstr "Textalternativ"
 
@@ -4777,7 +4798,7 @@ msgid "Time step"
 msgstr "Tidssteg"
 
 #: playlist/playlist.cpp:1261 organize/organizedialog.cpp:102
-#: ../build/src/ui_contextsettingspage.h:414
+#: ../build/src/ui_contextsettingspage.h:435
 #: ../build/src/ui_edittagdialog.h:705
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
@@ -4879,7 +4900,7 @@ msgstr "Avinstallera snap med:"
 #: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1598
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
-#: playlist/playlistmanager.cpp:564 playlist/playlistmanager.cpp:565
+#: playlist/playlistmanager.cpp:565 playlist/playlistmanager.cpp:566
 #: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
@@ -4968,7 +4989,7 @@ msgstr "Använd X11-genvägar när de är tillgängliga"
 msgid "Use a custom color set"
 msgstr "Använd en anpassad färguppsättning"
 
-#: ../build/src/ui_notificationssettingspage.h:479
+#: ../build/src/ui_notificationssettingspage.h:486
 msgid "Use a custom message for notifications"
 msgstr "Använd ett eget meddelande för aviseringar"
 
@@ -5054,7 +5075,7 @@ msgid "Variable bit rate"
 msgstr "Variabel bithastighet"
 
 #: collection/collectionmodel.cpp:373 collection/collectionmodel.cpp:374
-#: playlist/playlistmanager.cpp:576 covermanager/albumcovermanager.cpp:333
+#: playlist/playlistmanager.cpp:577 covermanager/albumcovermanager.cpp:334
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Diverse artister"
@@ -5076,7 +5097,7 @@ msgstr "Visa"
 msgid "Voice activity detection"
 msgstr "Upptäckt av röstaktivitet"
 
-#: osd/osdbase.cpp:260
+#: osd/osdbase.cpp:278
 #, qt-format
 msgid "Volume %1%"
 msgstr "Volym %1%"
@@ -5178,7 +5199,7 @@ msgstr "År"
 msgid "Yesterday"
 msgstr "Igår"
 
-#: playlist/playlistlistcontainer.cpp:426
+#: playlist/playlistlistcontainer.cpp:427
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
@@ -5327,7 +5348,7 @@ msgstr "som innehåller"
 msgid "disabled"
 msgstr "inaktiverad"
 
-#: osd/osdbase.cpp:144
+#: osd/osdbase.cpp:147
 #, qt-format
 msgid "disc %1"
 msgstr "skiva %1"
@@ -5458,7 +5479,7 @@ msgstr "som börjar med"
 msgid "stop"
 msgstr "stoppa"
 
-#: osd/osdbase.cpp:146
+#: osd/osdbase.cpp:150
 #, qt-format
 msgid "track %1"
 msgstr "spår %1"

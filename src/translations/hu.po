@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Zanata 4.6.2\n"
 
-#: playlist/playlistlistview.cpp:50
+#: playlist/playlistlistview.cpp:51
 msgid ""
 "\n"
 "\n"
@@ -81,8 +81,8 @@ msgstr " percben"
 msgid " ms"
 msgstr " ms"
 
-#: ../build/src/ui_contextsettingspage.h:429
-#: ../build/src/ui_contextsettingspage.h:434
+#: ../build/src/ui_contextsettingspage.h:450
+#: ../build/src/ui_contextsettingspage.h:455
 msgid " pt"
 msgstr "pt"
 
@@ -90,7 +90,7 @@ msgstr "pt"
 msgid " s"
 msgstr " mp"
 
-#: ../build/src/ui_notificationssettingspage.h:471
+#: ../build/src/ui_notificationssettingspage.h:478
 msgid " seconds"
 msgstr " másodperc"
 
@@ -154,7 +154,7 @@ msgstr "A(z) %1 hitelesítést igényel."
 msgid "%1 playlists (%2)"
 msgstr "%1 lejátszólista (%2)"
 
-#: playlist/playlistmanager.cpp:462
+#: playlist/playlistmanager.cpp:463
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 kiválasztva"
@@ -193,17 +193,17 @@ msgstr ""
 "%1 zene van %2 különböző könyvtárból kiválasztva, biztos meg szeretné nyitni "
 "az összeset?"
 
-#: playlist/playlistmanager.cpp:469 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:470 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 szám"
 
-#: covermanager/albumcovermanager.cpp:536
+#: covermanager/albumcovermanager.cpp:537
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 átküldve"
 
-#: ../build/src/ui_contextsettingspage.h:416
+#: ../build/src/ui_contextsettingspage.h:437
 msgid "%album%"
 msgstr "%album%"
 
@@ -212,8 +212,8 @@ msgstr "%album%"
 msgid "%albumartist-%album"
 msgstr "%albumelőadó-%album"
 
-#: ../build/src/ui_contextsettingspage.h:407
-#: ../build/src/ui_notificationssettingspage.h:459
+#: ../build/src/ui_contextsettingspage.h:416
+#: ../build/src/ui_notificationssettingspage.h:458
 msgid "%filename%"
 msgstr "%filename%"
 
@@ -235,9 +235,23 @@ msgctxt ""
 msgid "%n remaining"
 msgstr "%n hátralévő"
 
-#: ../build/src/ui_contextsettingspage.h:412
+#: ../build/src/ui_contextsettingspage.h:428
+#: ../build/src/ui_notificationssettingspage.h:466
+msgid "%originalyear%"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:424
+msgid "%rating%"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:433
 msgid "%title - %artist%"
 msgstr "%cím - %előadó%"
+
+#: ../build/src/ui_contextsettingspage.h:420
+#: ../build/src/ui_notificationssettingspage.h:462
+msgid "%url%"
+msgstr ""
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
@@ -247,11 +261,11 @@ msgstr "&Strawberry névjegye"
 msgid "&Add file..."
 msgstr "&Fájl hozzáadása..."
 
-#: playlist/playlistheader.cpp:62
+#: playlist/playlistheader.cpp:63
 msgid "&Align text"
 msgstr "&Szöveg igazítása"
 
-#: playlist/playlistheader.cpp:65
+#: playlist/playlistheader.cpp:66
 msgid "&Center"
 msgstr "&Középre"
 
@@ -279,12 +293,12 @@ msgstr "&Gyűjtemény teljes újraellenőrzése"
 msgid "&Equalizer"
 msgstr "&Hangerőszabályzó"
 
-#: playlist/playlistheader.cpp:100
+#: playlist/playlistheader.cpp:101
 #, qt-format
 msgid "&Hide %1"
 msgstr "%1 &elrejtése"
 
-#: playlist/playlistheader.cpp:55
+#: playlist/playlistheader.cpp:56
 msgid "&Hide..."
 msgstr "&Elrejtés..."
 
@@ -292,7 +306,7 @@ msgstr "&Elrejtés..."
 msgid "&Jump to the currently playing track"
 msgstr "&Ugrás a most játszott számra"
 
-#: playlist/playlistheader.cpp:64
+#: playlist/playlistheader.cpp:65
 msgid "&Left"
 msgstr "&Balra"
 
@@ -300,7 +314,7 @@ msgstr "&Balra"
 msgid "&Load playlist..."
 msgstr "&Lejátszólista betöltése..."
 
-#: playlist/playlistheader.cpp:58
+#: playlist/playlistheader.cpp:59
 msgid "&Lock rating"
 msgstr ""
 
@@ -348,11 +362,11 @@ msgstr "&Kilépés"
 msgid "&Repeat mode"
 msgstr "&Ismétlés"
 
-#: playlist/playlistheader.cpp:57
+#: playlist/playlistheader.cpp:58
 msgid "&Reset columns to default"
 msgstr "&Oszlopok visszaállítása"
 
-#: playlist/playlistheader.cpp:66
+#: playlist/playlistheader.cpp:67
 msgid "&Right"
 msgstr "&Jobbra"
 
@@ -368,7 +382,7 @@ msgstr "&Keverés"
 msgid "&Stop"
 msgstr "&Leállítás"
 
-#: playlist/playlistheader.cpp:56
+#: playlist/playlistheader.cpp:57
 msgid "&Stretch columns to fit window"
 msgstr "&Oszlopszélesség igazítása az ablakhoz"
 
@@ -427,7 +441,7 @@ msgstr "0 px"
 msgid "1 day"
 msgstr "1 nap"
 
-#: playlist/playlistmanager.cpp:469 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:470 queue/queue.cpp:254
 msgid "1 track"
 msgstr "1 szám"
 
@@ -492,8 +506,8 @@ msgstr "API token"
 msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
-#: covermanager/albumcovermanager.cpp:132
-#: covermanager/albumcoversearcher.cpp:190
+#: covermanager/albumcovermanager.cpp:133
+#: covermanager/albumcoversearcher.cpp:191
 #: ../build/src/ui_internetcollectionviewcontainer.h:141
 msgid "Abort"
 msgstr "Megszakít"
@@ -536,8 +550,8 @@ msgstr "&Mappa hozzáadása"
 msgid "Add Stream"
 msgstr "Stream hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:405
-#: ../build/src/ui_notificationssettingspage.h:457
+#: ../build/src/ui_contextsettingspage.h:414
+#: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add a new line if supported by the notification type"
 msgstr "Sortörés hozzáadása ha az értesítés támogatja"
 
@@ -577,86 +591,93 @@ msgstr "Új mappa hozzáadása…"
 msgid "Add search term"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:366
-#: ../build/src/ui_notificationssettingspage.h:412
+#: ../build/src/ui_contextsettingspage.h:422
+#: ../build/src/ui_notificationssettingspage.h:464
+msgid "Add song URL"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:375
+#: ../build/src/ui_notificationssettingspage.h:414
 msgid "Add song album tag"
 msgstr "Album hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:372
-#: ../build/src/ui_notificationssettingspage.h:418
+#: ../build/src/ui_contextsettingspage.h:381
+#: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song albumartist tag"
 msgstr "Albumelőadó hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:363
-#: ../build/src/ui_notificationssettingspage.h:409
+#: ../build/src/ui_contextsettingspage.h:372
+#: ../build/src/ui_notificationssettingspage.h:411
 msgid "Add song artist tag"
 msgstr "Előadó hozzáadása"
 
-#: ../build/src/ui_notificationssettingspage.h:454
-msgid "Add song auto score"
-msgstr "Automatikus dal pontozás hozzáadása"
-
-#: ../build/src/ui_contextsettingspage.h:378
-#: ../build/src/ui_notificationssettingspage.h:424
+#: ../build/src/ui_contextsettingspage.h:387
+#: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song composer tag"
 msgstr "Zeneszerző hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:387
-#: ../build/src/ui_notificationssettingspage.h:433
+#: ../build/src/ui_contextsettingspage.h:396
+#: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song disc tag"
 msgstr "Lemez hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:409
-#: ../build/src/ui_notificationssettingspage.h:461
+#: ../build/src/ui_contextsettingspage.h:418
+#: ../build/src/ui_notificationssettingspage.h:460
 msgid "Add song filename"
 msgstr "A dal fájlnevének hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:393
-#: ../build/src/ui_notificationssettingspage.h:439
+#: ../build/src/ui_contextsettingspage.h:402
+#: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song genre tag"
 msgstr "Műfaj hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:384
-#: ../build/src/ui_notificationssettingspage.h:430
+#: ../build/src/ui_contextsettingspage.h:393
+#: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song grouping tag"
 msgstr "Dal csoportosítás hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:396
-#: ../build/src/ui_notificationssettingspage.h:442
+#: ../build/src/ui_contextsettingspage.h:405
+#: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song length tag"
 msgstr "Számhossz hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:381
-#: ../build/src/ui_notificationssettingspage.h:427
+#: ../build/src/ui_contextsettingspage.h:430
+#: ../build/src/ui_notificationssettingspage.h:468
+msgid "Add song original year tag"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:390
+#: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song performer tag"
 msgstr "A dalelőadó hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:399
-#: ../build/src/ui_notificationssettingspage.h:445
+#: ../build/src/ui_contextsettingspage.h:408
+#: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song play count"
 msgstr "Lejátszásszámláló hozzáadása"
 
-#: ../build/src/ui_notificationssettingspage.h:451
+#: ../build/src/ui_contextsettingspage.h:426
+#: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song rating"
 msgstr "Dal értékelés hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:402
-#: ../build/src/ui_notificationssettingspage.h:448
+#: ../build/src/ui_contextsettingspage.h:411
+#: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song skip count"
 msgstr "Számkihagyás számláló hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:369
-#: ../build/src/ui_notificationssettingspage.h:415
+#: ../build/src/ui_contextsettingspage.h:378
+#: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song title tag"
 msgstr "Cím hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:390
-#: ../build/src/ui_notificationssettingspage.h:436
+#: ../build/src/ui_contextsettingspage.h:399
+#: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song track tag"
 msgstr "Dal sorszámának hozzáadása"
 
-#: ../build/src/ui_contextsettingspage.h:375
-#: ../build/src/ui_notificationssettingspage.h:421
+#: ../build/src/ui_contextsettingspage.h:384
+#: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song year tag"
 msgstr "Dal évének hozzáadása"
 
@@ -732,7 +753,7 @@ msgstr "&Albumborító"
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
-#: ../build/src/ui_contextsettingspage.h:419
+#: ../build/src/ui_contextsettingspage.h:440
 #: ../build/src/ui_edittagdialog.h:707
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Album"
@@ -771,7 +792,7 @@ msgstr "Albumok"
 msgid "Albums by %1"
 msgstr "Albumok ettől: %1"
 
-#: ../build/src/ui_contextsettingspage.h:422
+#: ../build/src/ui_contextsettingspage.h:443
 msgid "Albums by Artist"
 msgstr "Albumok az előadótól"
 
@@ -780,11 +801,11 @@ msgstr "Albumok az előadótól"
 msgid "Albums search limit"
 msgstr "Album keresési korlát"
 
-#: covermanager/albumcovermanager.cpp:165
+#: covermanager/albumcovermanager.cpp:166
 msgid "Albums with covers"
 msgstr "Albumok borítóval"
 
-#: covermanager/albumcovermanager.cpp:166
+#: covermanager/albumcovermanager.cpp:167
 msgid "Albums without covers"
 msgstr "Albumok borító nélkül"
 
@@ -792,11 +813,11 @@ msgstr "Albumok borító nélkül"
 msgid "All Files (*)"
 msgstr "Minden fájl (*)"
 
-#: covermanager/albumcovermanager.cpp:164
+#: covermanager/albumcovermanager.cpp:165
 msgid "All albums"
 msgstr "Összes album"
 
-#: covermanager/albumcovermanager.cpp:332
+#: covermanager/albumcovermanager.cpp:333
 msgid "All artists"
 msgstr "Összes előadó"
 
@@ -963,11 +984,11 @@ msgstr "Automatikus frissítés"
 msgid "Automatically open single categories in the collection tree"
 msgstr "Egyelemű kategóriák automatikus listázása a gyűjteményben"
 
-#: ../build/src/ui_contextsettingspage.h:424
+#: ../build/src/ui_contextsettingspage.h:445
 msgid "Automatically search for album cover"
 msgstr "Albumborító automatikus keresése"
 
-#: context/contextview.cpp:339 ../build/src/ui_contextsettingspage.h:425
+#: context/contextview.cpp:339 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
 msgstr "Dalszövegek automatikus keresése"
 
@@ -999,7 +1020,7 @@ msgstr "Átlagos képméret"
 msgid "Backend"
 msgstr "Backend"
 
-#: ../build/src/ui_notificationssettingspage.h:487
+#: ../build/src/ui_notificationssettingspage.h:494
 msgid "Background color"
 msgstr "Háttérszín"
 
@@ -1007,7 +1028,7 @@ msgstr "Háttérszín"
 msgid "Background image"
 msgstr "Háttérkép"
 
-#: ../build/src/ui_notificationssettingspage.h:486
+#: ../build/src/ui_notificationssettingspage.h:493
 msgid "Background opacity"
 msgstr "Háttér áttetszősége"
 
@@ -1019,7 +1040,7 @@ msgstr "Adatbázis biztonsági mentése"
 msgid "Balance"
 msgstr "Bal - jobb egyensúly"
 
-#: ../build/src/ui_notificationssettingspage.h:488
+#: ../build/src/ui_notificationssettingspage.h:495
 msgid "Basic Blue"
 msgstr "Egyszerű kék"
 
@@ -1070,7 +1091,7 @@ msgstr "Blokk típus"
 msgid "Blur amount"
 msgstr "Elmosás"
 
-#: ../build/src/ui_notificationssettingspage.h:483
+#: ../build/src/ui_notificationssettingspage.h:490
 msgid "Body"
 msgstr "Törzs"
 
@@ -1146,7 +1167,7 @@ msgstr "Frissítés keresése..."
 msgid "Choose a name for your smart playlist"
 msgstr "Válasszon nevet az okos lejátszólistának"
 
-#: ../build/src/ui_notificationssettingspage.h:493
+#: ../build/src/ui_notificationssettingspage.h:500
 msgid "Choose color..."
 msgstr "Szín kiválasztása..."
 
@@ -1154,7 +1175,7 @@ msgstr "Szín kiválasztása..."
 msgid "Choose data to import from last.fm"
 msgstr "Válassza ki az importálandó adatokat a last.fm-ből"
 
-#: ../build/src/ui_notificationssettingspage.h:494
+#: ../build/src/ui_notificationssettingspage.h:501
 msgid "Choose font..."
 msgstr "Betűtípus választása..."
 
@@ -1234,7 +1255,7 @@ msgstr "Bezárás"
 msgid "Close playlist"
 msgstr "Lejátszólista bezárása"
 
-#: covermanager/albumcovermanager.cpp:239
+#: covermanager/albumcovermanager.cpp:240
 msgid "Closing this window will stop searching for album covers."
 msgstr "Ezen ablak bezárása megszakítja az albumborítók keresését."
 
@@ -1334,7 +1355,7 @@ msgstr "Konzol"
 msgid "Constant bitrate"
 msgstr "Állandó bitráta"
 
-#: core/mainwindow.cpp:337 ../build/src/ui_contextsettingspage.h:361
+#: core/mainwindow.cpp:337 ../build/src/ui_contextsettingspage.h:370
 msgid "Context"
 msgstr "Adatok"
 
@@ -1368,12 +1389,12 @@ msgstr "Albumborító másolása"
 msgid "Copy to collection..."
 msgstr "Másolás a gyűjteménybe..."
 
-#: playlist/playlistlistcontainer.cpp:379
+#: playlist/playlistlistcontainer.cpp:380
 msgid "Copy to device"
 msgstr "Másolás eszközre"
 
 #: core/mainwindow.cpp:710 context/contextalbumsview.cpp:262
-#: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:104
+#: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:105
 #: widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
 msgstr "Másolás eszközre..."
@@ -1407,7 +1428,7 @@ msgstr "Nem lehet megnyitni a fájlt: %1"
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Nem sikerült létrehozni a Gstreamer forráselemet a(z) %1 számára."
 
-#: playlist/playlistmanager.cpp:202
+#: playlist/playlistmanager.cpp:203
 msgid "Couldn't create playlist"
 msgstr "Nem lehet létrehozni a lejátszólistát"
 
@@ -1464,7 +1485,7 @@ msgstr "Borító szolgáltatók"
 msgid "Covers"
 msgstr "Borítók"
 
-#: covermanager/albumcoversearcher.cpp:127
+#: covermanager/albumcoversearcher.cpp:128
 #: covermanager/coversearchstatisticsdialog.cpp:75
 #, qt-format
 msgid "Covers from %1"
@@ -1554,15 +1575,15 @@ msgstr "Egyéni"
 msgid "Custom image:"
 msgstr "Egyéni kép:"
 
-#: ../build/src/ui_notificationssettingspage.h:478
+#: ../build/src/ui_notificationssettingspage.h:485
 msgid "Custom message settings"
 msgstr "Egyedi üzenetbeállítások"
 
-#: ../build/src/ui_contextsettingspage.h:411
+#: ../build/src/ui_contextsettingspage.h:432
 msgid "Custom text settings"
 msgstr "Egyéni szövegbeállítások"
 
-#: ../build/src/ui_notificationssettingspage.h:490
+#: ../build/src/ui_notificationssettingspage.h:497
 msgid "Custom..."
 msgstr "Egyéni..."
 
@@ -1607,7 +1628,7 @@ msgstr "A&lapértelmezett háttérkép"
 msgid "Defaults"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:101
+#: playlist/playlistlistcontainer.cpp:102
 #: ../build/src/ui_playlistlistcontainer.h:133
 msgid "Delete"
 msgstr "Törlés"
@@ -1684,11 +1705,11 @@ msgstr "Közvetlen internetkapcsolat"
 msgid "Directory"
 msgstr "Mappa"
 
-#: ../build/src/ui_notificationssettingspage.h:472
+#: ../build/src/ui_notificationssettingspage.h:479
 msgid "Disable duration"
 msgstr "Időtartam letiltása"
 
-#: ../build/src/ui_notificationssettingspage.h:465
+#: ../build/src/ui_notificationssettingspage.h:472
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Letiltva"
@@ -1733,7 +1754,7 @@ msgstr "Ne írja felül"
 msgid "Do not show this message again."
 msgstr ""
 
-#: osd/osdbase.cpp:321 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Nincs ismétlés"
 
@@ -1741,11 +1762,11 @@ msgstr "Nincs ismétlés"
 msgid "Don't show in various artists"
 msgstr "Ne mutassa a különböző előadók között"
 
-#: osd/osdbase.cpp:306 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:334 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Nincs keverés"
 
-#: covermanager/albumcovermanager.cpp:240
+#: covermanager/albumcovermanager.cpp:241
 msgid "Don't stop!"
 msgstr "Ne álljon meg!"
 
@@ -1831,7 +1852,7 @@ msgstr "Engedélyezés"
 msgid "Enable Disk Cache"
 msgstr "A lemez gyorsítótárazásának engedélyezése"
 
-#: ../build/src/ui_contextsettingspage.h:418
+#: ../build/src/ui_contextsettingspage.h:439
 msgid "Enable Items"
 msgstr "Elemek engedélyezése"
 
@@ -1884,7 +1905,7 @@ msgstr "Kódolási mód"
 msgid "Engine"
 msgstr "Motor"
 
-#: ../build/src/ui_contextsettingspage.h:421
+#: ../build/src/ui_contextsettingspage.h:442
 msgid "Engine and Device"
 msgstr "Motor és eszköz"
 
@@ -1914,7 +1935,7 @@ msgstr "Adja meg a keresett kifejezést"
 msgid "Enter the URL of a stream:"
 msgstr "Stream URL-jének megadása:"
 
-#: playlist/playlistlistcontainer.cpp:222
+#: playlist/playlistlistcontainer.cpp:223
 msgid "Enter the name of the folder"
 msgstr "Adja meg a mappa nevét"
 
@@ -2019,12 +2040,12 @@ msgstr "Letöltött borítók exportálása"
 msgid "Export embedded covers"
 msgstr "Beágyazott borítók exportálása"
 
-#: covermanager/albumcovermanager.cpp:887
-#: covermanager/albumcovermanager.cpp:913
+#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:914
 msgid "Export finished"
 msgstr "Eportálás befejezve"
 
-#: covermanager/albumcovermanager.cpp:898
+#: covermanager/albumcovermanager.cpp:899
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "%1 borító exportálva ennyiből %2 (%3 sikertelen)"
@@ -2183,21 +2204,21 @@ msgstr "Első szinten"
 msgid "Fit cover to width"
 msgstr "Albumborító átméretezése szélesség szerint"
 
-#: ../build/src/ui_contextsettingspage.h:427
-#: ../build/src/ui_contextsettingspage.h:432
+#: ../build/src/ui_contextsettingspage.h:448
+#: ../build/src/ui_contextsettingspage.h:453
 msgid "Font"
 msgstr "Betűtípus"
 
-#: ../build/src/ui_contextsettingspage.h:431
+#: ../build/src/ui_contextsettingspage.h:452
 msgid "Font for data and lyrics"
 msgstr "Adatok és dalszöveg betűtípusa"
 
-#: ../build/src/ui_contextsettingspage.h:426
+#: ../build/src/ui_contextsettingspage.h:447
 msgid "Font for headline"
 msgstr "Cím betűtípusa"
 
-#: ../build/src/ui_contextsettingspage.h:428
-#: ../build/src/ui_contextsettingspage.h:433
+#: ../build/src/ui_contextsettingspage.h:449
+#: ../build/src/ui_contextsettingspage.h:454
 msgid "Font size"
 msgstr "Betűméret"
 
@@ -2283,7 +2304,7 @@ msgstr "Teljes magas"
 msgid "General"
 msgstr "Általános"
 
-#: ../build/src/ui_notificationssettingspage.h:469
+#: ../build/src/ui_notificationssettingspage.h:476
 msgid "General settings"
 msgstr "Általános beállítások"
 
@@ -2310,7 +2331,7 @@ msgstr "Váltás az előző lejátszólista lapra"
 msgid "Go!"
 msgstr "Ugrás!"
 
-#: covermanager/albumcovermanager.cpp:530
+#: covermanager/albumcovermanager.cpp:531
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2523,7 +2544,7 @@ msgid ""
 "time a song finishes."
 msgstr ""
 
-#: ../build/src/ui_notificationssettingspage.h:477
+#: ../build/src/ui_notificationssettingspage.h:484
 msgid "Include album art in the notification"
 msgstr "Albumborító megjelenítése az értesítésben"
 
@@ -2563,7 +2584,7 @@ msgstr "Internet keresés nézet"
 msgid "Internet Tabs View"
 msgstr "Internet lap nézet"
 
-#: osd/osdbase.cpp:326 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:354 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Bevezető számok"
 
@@ -2691,7 +2712,7 @@ msgstr "Borító betöltése lemezről"
 msgid "Load cover from disk..."
 msgstr "Borító betöltése lemezről..."
 
-#: playlist/playlistcontainer.cpp:332
+#: playlist/playlistcontainer.cpp:333
 msgid "Load playlist"
 msgstr "Lejátszólista betöltése"
 
@@ -2999,8 +3020,8 @@ msgstr "Nem volt még lejátszva"
 msgid "Never start playing"
 msgstr "Soha ne indítsa el a lejátszást"
 
-#: playlist/playlistlistcontainer.cpp:100
-#: playlist/playlistlistcontainer.cpp:222
+#: playlist/playlistlistcontainer.cpp:101
+#: playlist/playlistlistcontainer.cpp:223
 #: ../build/src/ui_playlistlistcontainer.h:130
 msgid "New folder"
 msgstr "Új mappa"
@@ -3041,7 +3062,7 @@ msgstr "Következő héten"
 msgid "No analyzer"
 msgstr "Kikapcsolva"
 
-#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:889
 msgid "No covers to export."
 msgstr "Nincsenek exportálandó borítók"
 
@@ -3053,7 +3074,7 @@ msgstr "Hosszú blokkok nélkül"
 msgid "No match."
 msgstr "Nincs egyezés."
 
-#: playlist/playlistcontainer.cpp:422
+#: playlist/playlistcontainer.cpp:423
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -3116,11 +3137,11 @@ msgstr "Nincs kapcsolat"
 msgid "Not mounted - double click to mount"
 msgstr "Nincs csatolva - kattintson duplán a csatoláshoz"
 
-#: ../build/src/ui_notificationssettingspage.h:464
+#: ../build/src/ui_notificationssettingspage.h:471
 msgid "Notification type"
 msgstr "Értesítés típusa"
 
-#: ../build/src/ui_notificationssettingspage.h:407
+#: ../build/src/ui_notificationssettingspage.h:409
 msgid "Notifications"
 msgstr "Értesítések"
 
@@ -3136,7 +3157,7 @@ msgstr "&Összes felülírása"
 msgid "OSD Preview"
 msgstr "OSD Előnézet"
 
-#: osd/osdbase.cpp:244
+#: osd/osdbase.cpp:262
 msgid "Off"
 msgstr "Ki"
 
@@ -3147,7 +3168,7 @@ msgid ""
 "most of their derivatives. See %1 for more information."
 msgstr ""
 
-#: osd/osdbase.cpp:244
+#: osd/osdbase.cpp:262
 msgid "On"
 msgstr "Be"
 
@@ -3294,7 +3315,7 @@ msgstr "Szünet"
 msgid "Pause playback"
 msgstr "Lejátszás szüneteltetése"
 
-#: osd/osdbase.cpp:186 osd/osdbase.cpp:189
+#: osd/osdbase.cpp:203 osd/osdbase.cpp:206
 msgid "Paused"
 msgstr "Szüneteltetve"
 
@@ -3366,9 +3387,9 @@ msgstr ""
 msgid "Player options"
 msgstr "Lejátszó beállítások"
 
-#: playlist/playlistcontainer.cpp:327 playlist/playlistlistcontainer.cpp:287
-#: playlist/playlistlistcontainer.cpp:384 playlist/playlistmanager.cpp:109
-#: playlist/playlistmanager.cpp:189 playlist/playlistmanager.cpp:557
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
+#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:110
+#: playlist/playlistmanager.cpp:190 playlist/playlistmanager.cpp:558
 #: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Lejátszólista"
@@ -3377,7 +3398,7 @@ msgstr "Lejátszólista"
 msgid "Playlist buttons"
 msgstr "Lejátszólista gombok"
 
-#: osd/osdbase.cpp:252
+#: osd/osdbase.cpp:270
 msgid "Playlist finished"
 msgstr "A lejátszólista befejezve"
 
@@ -3390,7 +3411,7 @@ msgstr ""
 "%1 dal van lejátszólistában, túl nagy ahhoz, hogy visszavonja, biztosan "
 "törölni szeretné?"
 
-#: playlist/playlistlistcontainer.cpp:379
+#: playlist/playlistlistcontainer.cpp:380
 msgid "Playlist must be open first."
 msgstr ""
 
@@ -3420,7 +3441,7 @@ msgstr "Nyissa meg ezt az URL-t a böngészőben"
 msgid "Pop"
 msgstr "Pop"
 
-#: ../build/src/ui_notificationssettingspage.h:470
+#: ../build/src/ui_notificationssettingspage.h:477
 msgid "Popup duration"
 msgstr "Értesítés időtartama"
 
@@ -3493,14 +3514,14 @@ msgstr "Nyomjon meg egy billentyű kombinációt a %1 használatához..."
 msgid "Pressing \"Previous\" in player will..."
 msgstr "Az \"Előző\" gomb megnyomásakor..."
 
-#: ../build/src/ui_notificationssettingspage.h:485
+#: ../build/src/ui_notificationssettingspage.h:492
 msgid "Pretty OSD options"
 msgstr "Saját OSD beállítások"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
-#: ../build/src/ui_contextsettingspage.h:430
-#: ../build/src/ui_contextsettingspage.h:435
-#: ../build/src/ui_notificationssettingspage.h:480
+#: ../build/src/ui_contextsettingspage.h:451
+#: ../build/src/ui_contextsettingspage.h:456
+#: ../build/src/ui_notificationssettingspage.h:487
 #: ../build/src/ui_organizedialog.h:287
 msgid "Preview"
 msgstr "Előnézet"
@@ -3593,7 +3614,7 @@ msgstr "Értékelés"
 msgid "Re&lative"
 msgstr "Re&latív"
 
-#: covermanager/albumcovermanager.cpp:239
+#: covermanager/albumcovermanager.cpp:240
 msgid "Really cancel?"
 msgstr "Tényleg kilép?"
 
@@ -3694,7 +3715,7 @@ msgstr "Törlés a lejátszólistáról"
 msgid "Remove playlist"
 msgstr "Lejátszólista eltávolítása"
 
-#: playlist/playlistlistcontainer.cpp:426
+#: playlist/playlistlistcontainer.cpp:427
 msgid "Remove playlists"
 msgstr "Lejátszólisták eltávolítása"
 
@@ -3718,15 +3739,15 @@ msgstr "Számok újraszámozása ebben a sorrendben..."
 msgid "Repeat"
 msgstr "Ismétlés"
 
-#: osd/osdbase.cpp:323 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:351 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Album ismétlése"
 
-#: osd/osdbase.cpp:324 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:352 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Lejátszólista ismétlése"
 
-#: osd/osdbase.cpp:322 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:350 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Szám ismétlése"
 
@@ -3913,12 +3934,12 @@ msgstr "Borító mentése lemezre..."
 msgid "Save current grouping"
 msgstr "Jelenlegi csoportosítás mentése"
 
-#: playlist/playlistlistcontainer.cpp:102
+#: playlist/playlistlistcontainer.cpp:103
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Lejátszólista mentése"
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Lejátszólista mentése"
@@ -3973,8 +3994,8 @@ msgstr "A %1 scrobbler nincs hitelesítve"
 msgid "Scroll over icon to change track"
 msgstr "Görgetés az ikon felett a számváltáshoz"
 
-#: covermanager/albumcoversearcher.cpp:198
-#: covermanager/albumcoversearcher.cpp:217
+#: covermanager/albumcoversearcher.cpp:199
+#: covermanager/albumcoversearcher.cpp:218
 #: ../build/src/ui_albumcoversearcher.h:113
 #: ../build/src/ui_internettabsview.h:119
 msgid "Search"
@@ -4115,7 +4136,7 @@ msgstr "Gyorsbillentyűk"
 msgid "Show"
 msgstr "Megjelenítés"
 
-#: ../build/src/ui_notificationssettingspage.h:466
+#: ../build/src/ui_notificationssettingspage.h:473
 msgid "Show a &native desktop notification"
 msgstr "&Alapértelmezett értesítés"
 
@@ -4127,27 +4148,27 @@ msgstr "Ragyogás animáció megjelenítése a játszott számon a lejátszólis
 msgid "Show a moodbar in the track progress bar"
 msgstr "Hangulatsáv megjelenítése folyamatjelző sávként"
 
-#: ../build/src/ui_notificationssettingspage.h:474
+#: ../build/src/ui_notificationssettingspage.h:481
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "Értesítés megjelenítése, ha megváltoztatom az ismétlést/keverést"
 
-#: ../build/src/ui_notificationssettingspage.h:473
+#: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a notification when I change the volume"
 msgstr "Hangerő változtatásakor értesítés megjelenítése"
 
-#: ../build/src/ui_notificationssettingspage.h:475
+#: ../build/src/ui_notificationssettingspage.h:482
 msgid "Show a notification when I pause playback"
 msgstr "Szünet megnyomásakor értesítés megjelenítése"
 
-#: ../build/src/ui_notificationssettingspage.h:476
+#: ../build/src/ui_notificationssettingspage.h:483
 msgid "Show a notification when I resume playback"
 msgstr "Értesítés megjelenítése, amikor folytatom a lejátszást"
 
-#: ../build/src/ui_notificationssettingspage.h:468
+#: ../build/src/ui_notificationssettingspage.h:475
 msgid "Show a popup fro&m the system tray"
 msgstr "&Felugró értesítés megjelenítése a rendszertálcáról"
 
-#: ../build/src/ui_notificationssettingspage.h:467
+#: ../build/src/ui_notificationssettingspage.h:474
 msgid "Show a pretty OSD"
 msgstr "Saját OSD megjelenítése"
 
@@ -4268,15 +4289,15 @@ msgstr "Főablak megjelenítése minimalizálva"
 msgid "Shuffle"
 msgstr "Keverés"
 
-#: osd/osdbase.cpp:309 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:337 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Albumok összekeverése"
 
-#: osd/osdbase.cpp:307 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:335 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Az összes véletlenszerűen"
 
-#: osd/osdbase.cpp:308 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:336 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Zeneszámok összekeverése az albumokban"
 
@@ -4345,7 +4366,7 @@ msgstr "Lágy"
 msgid "Soft Rock"
 msgstr "Lágy Rock"
 
-#: ../build/src/ui_contextsettingspage.h:423
+#: ../build/src/ui_contextsettingspage.h:444
 msgid "Song Lyrics"
 msgstr "Dalszöveg"
 
@@ -4413,7 +4434,7 @@ msgstr "%1 indítása"
 msgid "Stop after each track"
 msgstr "Leállítás a minden egyes szám után"
 
-#: osd/osdbase.cpp:325
+#: osd/osdbase.cpp:353
 msgid "Stop after every track"
 msgstr "Leállítás minden szám után"
 
@@ -4429,12 +4450,12 @@ msgstr "Lejátszás leállítása"
 msgid "Stop playback after current track"
 msgstr "Leállítás az aktuális szám után"
 
-#: osd/osdbase.cpp:244
+#: osd/osdbase.cpp:262
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Leállítás az aktuális szám után: %1"
 
-#: osd/osdbase.cpp:231 osd/osdbase.cpp:234
+#: osd/osdbase.cpp:249 osd/osdbase.cpp:252
 msgid "Stopped"
 msgstr "Leállítva"
 
@@ -4450,7 +4471,7 @@ msgstr "Strawberry hiba"
 msgid "Strawberry Music Player"
 msgstr "Strawberry Zenelejátszó"
 
-#: ../build/src/ui_notificationssettingspage.h:489
+#: ../build/src/ui_notificationssettingspage.h:496
 msgid "Strawberry Red"
 msgstr "Szamócavörös"
 
@@ -4462,7 +4483,7 @@ msgstr ""
 "Strawberry automatikusan az eszköz által is támogatott formátumba tudja "
 "konvertálni a számokat másolás előtt."
 
-#: ../build/src/ui_notificationssettingspage.h:463
+#: ../build/src/ui_notificationssettingspage.h:470
 msgid "Strawberry can show a message when the track changes."
 msgstr "A Strawberry felbukkanó üzenetben tudja jelezni, ha számot vált."
 
@@ -4545,8 +4566,8 @@ msgstr "%1 sikeresen írva"
 msgid "Suggested tags"
 msgstr "Javasolt címkék"
 
-#: ../build/src/ui_contextsettingspage.h:415
-#: ../build/src/ui_notificationssettingspage.h:482
+#: ../build/src/ui_contextsettingspage.h:436
+#: ../build/src/ui_notificationssettingspage.h:489
 #: ../build/src/ui_edittagdialog.h:702
 msgid "Summary"
 msgstr "Összegzés"
@@ -4588,7 +4609,7 @@ msgstr "Címke letöltő"
 msgid "Target bitrate"
 msgstr "Cél bitráta"
 
-#: ../build/src/ui_contextsettingspage.h:420
+#: ../build/src/ui_contextsettingspage.h:441
 msgid "Technical Data"
 msgstr "Technikai adatok"
 
@@ -4608,7 +4629,7 @@ msgstr "Teszt sikertelen!"
 msgid "Test successful!"
 msgstr "Teszt sikeres!"
 
-#: ../build/src/ui_notificationssettingspage.h:492
+#: ../build/src/ui_notificationssettingspage.h:499
 msgid "Text options"
 msgstr "Szövegopciók"
 
@@ -4772,7 +4793,7 @@ msgid "Time step"
 msgstr "Léptetés ideje"
 
 #: playlist/playlist.cpp:1261 organize/organizedialog.cpp:102
-#: ../build/src/ui_contextsettingspage.h:414
+#: ../build/src/ui_contextsettingspage.h:435
 #: ../build/src/ui_edittagdialog.h:705
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
@@ -4875,7 +4896,7 @@ msgstr ""
 #: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1598
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
-#: playlist/playlistmanager.cpp:564 playlist/playlistmanager.cpp:565
+#: playlist/playlistmanager.cpp:565 playlist/playlistmanager.cpp:566
 #: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
@@ -4964,7 +4985,7 @@ msgstr ""
 msgid "Use a custom color set"
 msgstr "Egyéni színkészlet használata"
 
-#: ../build/src/ui_notificationssettingspage.h:479
+#: ../build/src/ui_notificationssettingspage.h:486
 msgid "Use a custom message for notifications"
 msgstr "Egyéni üzenet használata értesítésnél"
 
@@ -5050,7 +5071,7 @@ msgid "Variable bit rate"
 msgstr "Változó bitráta"
 
 #: collection/collectionmodel.cpp:373 collection/collectionmodel.cpp:374
-#: playlist/playlistmanager.cpp:576 covermanager/albumcovermanager.cpp:333
+#: playlist/playlistmanager.cpp:577 covermanager/albumcovermanager.cpp:334
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Egyes előadók"
@@ -5072,7 +5093,7 @@ msgstr "Nézet"
 msgid "Voice activity detection"
 msgstr "Hangtevékenység felismerése"
 
-#: osd/osdbase.cpp:260
+#: osd/osdbase.cpp:278
 #, qt-format
 msgid "Volume %1%"
 msgstr "Hangerő %1%"
@@ -5167,7 +5188,7 @@ msgstr ""
 msgid "Yesterday"
 msgstr "Tegnap"
 
-#: playlist/playlistlistcontainer.cpp:426
+#: playlist/playlistlistcontainer.cpp:427
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
@@ -5316,7 +5337,7 @@ msgstr ""
 msgid "disabled"
 msgstr "kikapcsolva"
 
-#: osd/osdbase.cpp:144
+#: osd/osdbase.cpp:147
 #, qt-format
 msgid "disc %1"
 msgstr "%1. lemez"
@@ -5447,7 +5468,7 @@ msgstr ""
 msgid "stop"
 msgstr "leállítás"
 
-#: osd/osdbase.cpp:146
+#: osd/osdbase.cpp:150
 #, qt-format
 msgid "track %1"
 msgstr "%1. szám"
