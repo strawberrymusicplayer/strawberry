@@ -343,7 +343,7 @@ void OSDPretty::paintEvent(QPaintEvent *) {
 
 }
 
-void OSDPretty::SetMessage(const QString& summary, const QString& message, const QImage &image) {
+void OSDPretty::SetMessage(const QString &summary, const QString& message, const QImage &image) {
 
   if (!image.isNull()) {
     QImage scaled_image = image.scaled(kMaxIconSize, kMaxIconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);

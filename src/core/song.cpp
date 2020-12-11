@@ -1427,6 +1427,14 @@ QString Song::PrettyYear() const {
 
 }
 
+QString Song::PrettyOriginalYear() const {
+
+  if (effective_originalyear() == -1) return QString();
+
+  return QString::number(effective_originalyear());
+
+}
+
 QString Song::TitleWithCompilationArtist() const {
 
   QString title(d->title_);

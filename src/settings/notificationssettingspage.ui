@@ -482,14 +482,6 @@
     <string>Add song rating</string>
    </property>
   </action>
-  <action name="action_score">
-   <property name="text">
-    <string notr="true">%score%</string>
-   </property>
-   <property name="toolTip">
-    <string>Add song auto score</string>
-   </property>
-  </action>
   <action name="action_newline">
    <property name="text">
     <string notr="true">%newline%</string>
@@ -504,6 +496,22 @@
    </property>
    <property name="toolTip">
     <string>Add song filename</string>
+   </property>
+  </action>
+  <action name="action_url">
+   <property name="text">
+    <string>%url%</string>
+   </property>
+   <property name="toolTip">
+    <string>Add song URL</string>
+   </property>
+  </action>
+  <action name="action_originalyear">
+   <property name="text">
+    <string>%originalyear%</string>
+   </property>
+   <property name="toolTip">
+    <string>Add song original year tag</string>
    </property>
   </action>
  </widget>

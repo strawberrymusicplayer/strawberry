@@ -486,7 +486,7 @@ void ContextView::UpdateFonts() {
 void ContextView::SetSong() {
 
   label_top_->setStyleSheet(QString("font: %2pt \"%1\"; font-weight: regular;").arg(font_headline_).arg(font_size_headline_));
-  label_top_->setText(QString("<b>%1</b><br/>%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, "<br/>"), Utilities::ReplaceMessage(summary_fmt_, song_playing_, "<br/>")));
+  label_top_->setText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song_playing_, "<br />", true)));
 
   label_stop_summary_->clear();
 
@@ -644,7 +644,7 @@ void ContextView::SetSong() {
 
 void ContextView::UpdateSong(const Song &song) {
 
-  label_top_->setText(QString("<b>%1</b><br/>%2").arg(Utilities::ReplaceMessage(title_fmt_, song, "<br/>"), Utilities::ReplaceMessage(summary_fmt_, song, "<br/>")));
+  label_top_->setText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song, "<br />", true)));
 
   if (action_show_data_->isChecked()) {
     if (song.filetype() != song_playing_.filetype()) label_filetype_->setText(song.TextForFiletype());

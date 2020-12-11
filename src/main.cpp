@@ -279,10 +279,10 @@ int main(int argc, char* argv[]) {
 
   // Create the tray icon and OSD
   std::unique_ptr<SystemTrayIcon> tray_icon(SystemTrayIcon::CreateSystemTrayIcon());
-#ifdef HAVE_DBUS
-  OSDDBus osd(tray_icon.get(), &app);
-#elif defined(Q_OS_MACOS)
+#if defined(Q_OS_MACOS)
   OSDMac osd(tray_icon.get(), &app);
+#elif defined(HAVE_DBUS)
+  OSDDBus osd(tray_icon.get(), &app);
 #else
   OSDBase osd(tray_icon.get(), &app);
 #endif

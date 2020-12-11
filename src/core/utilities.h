@@ -147,8 +147,8 @@ QString UnicodeToAscii(const QString &unicode);
 
 QString MacAddress();
 
-QString ReplaceMessage(const QString &message, const Song &song, const QString &newline);
-QString ReplaceVariable(const QString &variable, const Song &song, const QString &newline);
+QString ReplaceMessage(const QString &message, const Song &song, const QString &newline, const bool html_escaped = false);
+QString ReplaceVariable(const QString &variable, const Song &song, const QString &newline, const bool html_escaped = false);
 
 bool IsColorDark(const QColor &color);
 
