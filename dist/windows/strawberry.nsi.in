@@ -98,13 +98,13 @@ Name "${PRODUCT_NAME}"
     !ifdef with_qt6
       OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-Debug-x86.exe"
     !else
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x86.exe"
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt5-Debug-x86.exe"
     !endif
   !else
     !ifdef with_qt6
       OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-x86.exe"
     !else
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x86.exe"
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt5-x86.exe"
     !endif
   !endif
 !endif
@@ -114,13 +114,13 @@ Name "${PRODUCT_NAME}"
     !ifdef with_qt6
       OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-Debug-x64.exe"
     !else
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x64.exe"
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt5-Debug-x64.exe"
     !endif
   !else
     !ifdef with_qt6
       OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-x64.exe"
     !else
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x64.exe"
+      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt5-x64.exe"
     !endif
   !endif
 !endif
@@ -267,7 +267,7 @@ Section "Strawberry" Strawberry
   File "Qt6Network.dll"
   File "Qt6Sql.dll"
   File "Qt6Widgets.dll"
-  File "Qt6WinExtras.dll"
+  ;File "Qt6WinExtras.dll"
   File "libqtsparkle-qt6.dll"
 !else
   File "Qt5Concurrent.dll"
