@@ -124,7 +124,7 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
 
   if (button_created_message_id_ == 0) {
     // Compute the value for the TaskbarButtonCreated message
-    button_created_message_id_ = RegisterWindowMessage("TaskbarButtonCreated");
+    button_created_message_id_ = RegisterWindowMessageA(LPCSTR("TaskbarButtonCreated"));
     qLog(Debug) << "TaskbarButtonCreated message ID registered" << button_created_message_id_;
   }
 
