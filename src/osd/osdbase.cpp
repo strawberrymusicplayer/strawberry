@@ -360,6 +360,10 @@ void OSDBase::RepeatModeChanged(PlaylistSequence::RepeatMode mode) {
 
 QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, const Song &song) {
 
+#ifndef HAVE_DBUS
+  Q_UNUSED(type)
+#endif
+
   bool html_escaped = false;
   QString newline = "";
 
