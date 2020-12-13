@@ -202,7 +202,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:467
+#: core/utilities.cpp:477
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4207,7 +4207,7 @@ msgstr "Показать в полный размер…"
 msgid "Show in collection..."
 msgstr "Показать в фонотеке…"
 
-#: core/utilities.cpp:461 core/utilities.cpp:467
+#: core/utilities.cpp:471 core/utilities.cpp:477
 msgid "Show in file browser"
 msgstr "Показать в файловом браузере"
 
@@ -4810,7 +4810,7 @@ msgstr "Переключить видимость OSD"
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: core/utilities.cpp:461
+#: core/utilities.cpp:471
 msgid "Too many songs selected."
 msgstr "Слишком много песен выбрано."
 

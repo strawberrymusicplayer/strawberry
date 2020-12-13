@@ -215,7 +215,7 @@ msgstr "%1 Lieder gefunden"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 Lieder gefunden (zeigt %2)"
 
-#: core/utilities.cpp:467
+#: core/utilities.cpp:477
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4274,7 +4274,7 @@ msgstr "In Originalgröße anzeigen …"
 msgid "Show in collection..."
 msgstr "In Bibliothek anzeigen …"
 
-#: core/utilities.cpp:461 core/utilities.cpp:467
+#: core/utilities.cpp:471 core/utilities.cpp:477
 msgid "Show in file browser"
 msgstr "Zeige im Dateimanager"
 
@@ -4889,7 +4889,7 @@ msgstr "Sichtbarkeit der Strawberry-Bildschirmanzeige anpassen"
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: core/utilities.cpp:461
+#: core/utilities.cpp:471
 msgid "Too many songs selected."
 msgstr "Zu viele Lieder ausgewählt."
 

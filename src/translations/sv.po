@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-08 03:00-0500\n"
+"PO-Revision-Date: 2020-12-12 02:22-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -192,7 +192,7 @@ msgstr "%1 låtar hittades"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 låtar hittades (visar %2)"
 
-#: core/utilities.cpp:467
+#: core/utilities.cpp:477
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -245,11 +245,11 @@ msgstr "%n återstår"
 #: ../build/src/ui_contextsettingspage.h:428
 #: ../build/src/ui_notificationssettingspage.h:466
 msgid "%originalyear%"
-msgstr ""
+msgstr "%originalyear%"
 
 #: ../build/src/ui_contextsettingspage.h:424
 msgid "%rating%"
-msgstr ""
+msgstr "%rating%"
 
 #: ../build/src/ui_contextsettingspage.h:433
 msgid "%title - %artist%"
@@ -258,7 +258,7 @@ msgstr "%title - %artist%"
 #: ../build/src/ui_contextsettingspage.h:420
 #: ../build/src/ui_notificationssettingspage.h:462
 msgid "%url%"
-msgstr ""
+msgstr "%url%"
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
@@ -603,7 +603,7 @@ msgstr "Lägg till sökterm"
 #: ../build/src/ui_contextsettingspage.h:422
 #: ../build/src/ui_notificationssettingspage.h:464
 msgid "Add song URL"
-msgstr ""
+msgstr "Lägg till låtens webbadress"
 
 #: ../build/src/ui_contextsettingspage.h:375
 #: ../build/src/ui_notificationssettingspage.h:414
@@ -653,7 +653,7 @@ msgstr "Lägg till tagg för låtens längd"
 #: ../build/src/ui_contextsettingspage.h:430
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "Add song original year tag"
-msgstr ""
+msgstr "Lägg till låtens originalårstagg"
 
 #: ../build/src/ui_contextsettingspage.h:390
 #: ../build/src/ui_notificationssettingspage.h:429
@@ -4217,7 +4217,7 @@ msgstr "Visa full storlek..."
 msgid "Show in collection..."
 msgstr "Visa i samlingen..."
 
-#: core/utilities.cpp:461 core/utilities.cpp:467
+#: core/utilities.cpp:471 core/utilities.cpp:477
 msgid "Show in file browser"
 msgstr "Visa i filhanteraren"
 
@@ -4474,7 +4474,7 @@ msgstr "Strawberry Music Player"
 
 #: ../build/src/ui_notificationssettingspage.h:496
 msgid "Strawberry Red"
-msgstr "Strawberry Red"
+msgstr "Jordgubbsröd"
 
 #: ../build/src/ui_deviceproperties.h:378
 msgid ""
@@ -4828,7 +4828,7 @@ msgstr "Växla synlighet för snygg avisering"
 msgid "Tomorrow"
 msgstr "Imorgon"
 
-#: core/utilities.cpp:461
+#: core/utilities.cpp:471
 msgid "Too many songs selected."
 msgstr "För många låtar valda."
 
