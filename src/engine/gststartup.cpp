@@ -61,6 +61,21 @@ void GstStartup::InitializeGStreamer() {
   gstfastspectrum_register_static();
 #endif
 
+#ifdef Q_OS_WIN32
+  // Use directsoundsink by default because of buggy wasapi plugin.
+  GstRegistry *reg = gst_registry_get();
+  if (reg) {
+    GstPluginFeature *directsoundsink = gst_registry_lookup_feature(reg, "directsoundsink");
+    GstPluginFeature *wasapisink = gst_registry_lookup_feature(reg, "wasapisink");
+    if (directsoundsink && wasapisink) {
+      gst_plugin_feature_set_rank(directsoundsink, GST_RANK_PRIMARY);
+      gst_plugin_feature_set_rank(wasapisink, GST_RANK_SECONDARY);
+    }
+    if (directsoundsink) gst_object_unref(directsoundsink);
+    if (wasapisink) gst_object_unref(wasapisink);
+  }
+#endif
+
 }
 
 void GstStartup::SetEnvironment() {
