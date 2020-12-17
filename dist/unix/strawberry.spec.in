@@ -1,12 +1,15 @@
 Name:           strawberry
 Version:        @STRAWBERRY_VERSION_RPM_V@
+%if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
+Release:        @STRAWBERRY_VERSION_RPM_R@%{?dist}
+%else
 Release:        @STRAWBERRY_VERSION_RPM_R@.@RPM_DISTRO@
+%endif
 Summary:        A music player and music collection organizer
-Group:          Applications/Multimedia
+Group:          Productivity/Multimedia/Sound/Players
 License:        GPL-3.0+
 URL:            https://www.strawberrymusicplayer.org/
 Source0:        %{name}-@STRAWBERRY_VERSION_PACKAGE@.tar.xz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?suse_version} && 0%{?suse_version} > 1325
 BuildRequires:  libboost_headers-devel
@@ -125,7 +128,7 @@ Features:
   export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
 %endif
 %{cmake} -DCMAKE_BUILD_TYPE:STRING=Release -DQT_MAJOR_VERSION=@QT_MAJOR_VERSION@
-%if 0%{?centos} || 0%{?mageia}
+%if 0%{?centos} || (0%{?mageia} && 0%{?mageia} <= 7)
   %make_build
 %else
   %cmake_build
