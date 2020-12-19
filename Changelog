@@ -6,7 +6,7 @@ ChangeLog
 
   Bugfixes:
     * Fix return type of SmartPlaylistQueryWizardPlugin::type().
-    * Fix comparsion between QChar and integer to use QChar::unicode().
+    * Fix comparison between QChar and integer to use QChar::unicode().
     * Fix return type of qHash with Qt 6 to use size_t instead of uint.
     * Fix tag edit dialog save process sometimes stuck.
     * Fix repeat and shuffle buttons greyed out when a dynamic playlist is open.
