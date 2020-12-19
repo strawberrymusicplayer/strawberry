@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+0.8.5:
 
   Bugfixes:
     * Fix return type of SmartPlaylistQueryWizardPlugin::type().
