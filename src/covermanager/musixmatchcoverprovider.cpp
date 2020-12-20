@@ -83,6 +83,7 @@ bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &
 #else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
+  req.setAttribute(QNetworkRequest::Http2AllowedAttribute, false);
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, album); });
