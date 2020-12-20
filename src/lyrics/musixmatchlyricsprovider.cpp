@@ -80,7 +80,7 @@ bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString 
 #else
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   req.setAttribute(QNetworkRequest::Http2AllowedAttribute, false);
 #endif
   QNetworkReply *reply = network_->get(req);
