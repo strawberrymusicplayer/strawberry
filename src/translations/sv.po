@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-12 02:22-0500\n"
+"PO-Revision-Date: 2020-12-19 06:59-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -494,7 +494,7 @@ msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:169
 msgid "A&utomatic"
-msgstr "A&utomatisk"
+msgstr "A&utomatiska"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "A-Z"
@@ -540,7 +540,7 @@ msgstr "Om Strawberry"
 
 #: ../build/src/ui_playlistsettingspage.h:170
 msgid "Absolu&te"
-msgstr "Absolu&te"
+msgstr "Absolu&ta"
 
 #: playlist/playlistsaveoptionsdialog.cpp:42
 msgid "Absolute"
@@ -717,7 +717,7 @@ msgstr "Lägg till låtar"
 #: ../build/src/ui_behavioursettingspage.h:317
 #: ../build/src/ui_behavioursettingspage.h:325
 msgid "Add to the queue"
-msgstr "Lägg till i kön"
+msgstr "Lägga till i kön"
 
 #: ../build/src/ui_transcodedialog.h:220
 msgid "Add..."
@@ -857,7 +857,7 @@ msgstr "Vid sidan av originalen"
 #: ../build/src/ui_behavioursettingspage.h:307
 #: ../build/src/ui_behavioursettingspage.h:321
 msgid "Always start playing"
-msgstr "Starta alltid uppspelning"
+msgstr "Alltid starta uppspelning"
 
 #: device/gpodloader.cpp:79
 msgid "An error occurred loading the iTunes database"
@@ -897,7 +897,7 @@ msgstr "Lägg till i den aktuella spellistan"
 
 #: ../build/src/ui_behavioursettingspage.h:314
 msgid "Append to the playlist"
-msgstr "Lägg till i spellistan"
+msgstr "Lägga till i spellistan"
 
 #: ../build/src/ui_backendsettingspage.h:507
 msgid "Apply compression to prevent clipping"
@@ -1161,7 +1161,7 @@ msgstr "Byt genväg..."
 
 #: ../build/src/ui_behavioursettingspage.h:324
 msgid "Change the currently playing song"
-msgstr "Byt låt som nu spelas"
+msgstr "Byta låt som nu spelas"
 
 #: core/commandlineoptions.cpp:188
 msgid "Change the language"
@@ -1185,7 +1185,7 @@ msgstr "Välj data att importera från last.fm"
 
 #: ../build/src/ui_notificationssettingspage.h:501
 msgid "Choose font..."
-msgstr "Välj typsnitt..."
+msgstr "Välj teckensnitt..."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:154
 msgid "Choose how the playlist is sorted and how many songs it will contain."
@@ -1863,7 +1863,7 @@ msgstr "Aktivera poster"
 #: ../build/src/ui_collectionsettingspage.h:432
 #: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable delete files in the right click context menu"
-msgstr "Aktivera ta bort filer i snabbmenyn till högerklick"
+msgstr "Aktivera att ta bort filer i högerklickssnabbmenyn"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Enable equalizer"
@@ -2209,11 +2209,11 @@ msgstr "Passa omslag till bredd"
 #: ../build/src/ui_contextsettingspage.h:448
 #: ../build/src/ui_contextsettingspage.h:453
 msgid "Font"
-msgstr "Typsnitt"
+msgstr "Teckensnitt"
 
 #: ../build/src/ui_contextsettingspage.h:452
 msgid "Font for data and lyrics"
-msgstr "Typsnitt för data och låttexter"
+msgstr "Teckensnitt för data och låttexter"
 
 #: ../build/src/ui_contextsettingspage.h:447
 msgid "Font for headline"
@@ -2222,7 +2222,7 @@ msgstr "Teckensnitt för rubrik"
 #: ../build/src/ui_contextsettingspage.h:449
 #: ../build/src/ui_contextsettingspage.h:454
 msgid "Font size"
-msgstr "Typsnittsstorlek"
+msgstr "Teckensnittsstorlek"
 
 #: dialogs/snapdialog.cpp:56
 #, qt-format
@@ -3615,7 +3615,7 @@ msgstr "Betyg"
 
 #: ../build/src/ui_playlistsettingspage.h:171
 msgid "Re&lative"
-msgstr "Re&lativ"
+msgstr "Re&lativa"
 
 #: covermanager/albumcovermanager.cpp:240
 msgid "Really cancel?"
@@ -3768,7 +3768,7 @@ msgstr "Ersätter mellanslag med understreck"
 
 #: ../build/src/ui_behavioursettingspage.h:315
 msgid "Replace the playlist"
-msgstr "Ersätt spellistan"
+msgstr "Ersätta spellistan"
 
 #: ../build/src/ui_backendsettingspage.h:500
 msgid "Replay Gain"
@@ -3890,7 +3890,7 @@ msgstr "Kör"
 
 #: ../build/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
-msgstr "B&landa spellistan"
+msgstr "B&landa spellista"
 
 #: ../build/src/ui_networkproxysettingspage.h:175
 msgid "SOCKS proxy"
@@ -4076,7 +4076,7 @@ msgstr "Väl förgrundsfärg:"
 
 #: ../build/src/ui_appearancesettingspage.h:558
 msgid "Select tabbar color:"
-msgstr "Välj tabbar-färg:"
+msgstr "Välj färg för flikfält:"
 
 #: ../build/src/ui_transcodedialog.h:234
 msgid "Select..."
@@ -4272,7 +4272,7 @@ msgstr "Visa låttekniska data"
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Show system tray icon"
-msgstr "Visa ikonen för systemfältet"
+msgstr "Visa ikon i systemfältet"
 
 #: ../build/src/ui_behavioursettingspage.h:296
 msgid "Show the main window"
@@ -4591,15 +4591,15 @@ msgstr "Systemfärger"
 
 #: ../build/src/ui_appearancesettingspage.h:554
 msgid "Tabbar colors"
-msgstr "Färger för Tabbar"
+msgstr "Färger för flikfält"
 
 #: ../build/src/ui_appearancesettingspage.h:587
 msgid "Tabbar large mode"
-msgstr "Stort läge för Tabbar"
+msgstr "Stort läge för flikfält"
 
 #: ../build/src/ui_appearancesettingspage.h:591
 msgid "Tabbar small mode"
-msgstr "Litet läge för Tabbar"
+msgstr "Litet läge för flikfält"
 
 #: widgets/fancytabwidget.cpp:712
 msgid "Tabs on top"
@@ -4955,7 +4955,7 @@ msgstr "Användning"
 
 #: ../build/src/ui_shortcutssettingspage.h:242
 msgid "Use Gnome (GSD) shortcuts when available"
-msgstr "Använd Gnome (GSD) genvägar när de är tillgängliga"
+msgstr "Använd Gnome (GSD)-genvägar när de är tillgängliga"
 
 #: ../build/src/ui_scrobblersettingspage.h:414
 msgid "Use HTTPS for local redirectserver"
@@ -5213,8 +5213,7 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 "Du är på väg att ta bort en spellista som inte är en av dina favoriserade "
-"spellistor: denna spellista kommer att tas bort (denna åtgärd kan inte "
-"ångras).\n"
+"spellistor: spellistan kommer att tas bort (denna åtgärd kan inte ångras).\n"
 "Är du säker på att du vill fortsätta?"
 
 #: ../build/src/ui_loginstatewidget.h:168
