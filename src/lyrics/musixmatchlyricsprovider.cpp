@@ -58,14 +58,14 @@ bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString 
   QString title_stripped = title;
 
   artist_stripped = artist_stripped.replace('/', '-');
-  artist_stripped = artist_stripped.remove(QRegularExpression("[^A-Za-z0-9\\- ]"));
+  artist_stripped = artist_stripped.remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption));
   artist_stripped = artist_stripped.simplified();
   artist_stripped = artist_stripped.replace(' ', '-');
   artist_stripped = artist_stripped.replace(QRegularExpression("(-)\\1+"), "-");
   artist_stripped = artist_stripped.toLower();
 
   title_stripped = title_stripped.replace('/', '-');
-  title_stripped = title_stripped.remove(QRegularExpression("[^a-zA-Z0-9\\- ]"));
+  title_stripped = title_stripped.remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption));
   title_stripped = title_stripped.simplified();
   title_stripped = title_stripped.replace(' ', '-').toLower();
   title_stripped = title_stripped.replace(QRegularExpression("(-)\\1+"), "-");
