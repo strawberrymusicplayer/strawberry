@@ -128,8 +128,7 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
     result.title = json_obj["title"].toString();
     if (result.artist.toLower() != artist.toLower() && result.title.toLower() != title.toLower()) continue;
     result.lyrics = json_obj["lyrics"].toString();
-    if (result.lyrics.length() > kMaxLength) continue;
-    if (result.lyrics == "error") continue;
+    if (result.lyrics.isEmpty() || result.lyrics.length() > kMaxLength || result.lyrics == "error") continue;
 
     //qLog(Debug) << "AudDLyrics:" << result.artist << result.title << result.lyrics.length();
 

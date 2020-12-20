@@ -102,9 +102,14 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id
   LyricsSearchResult result;
   result.lyrics = json_obj["lyrics"].toString();
 
-  qLog(Debug) << "OVHLyrics: Got lyrics for" << artist << title;
-
-  emit SearchFinished(id, LyricsSearchResults() << result);
+  if (result.lyrics.isEmpty()) {
+    qLog(Debug) << "OVHLyrics: No lyrics for" << artist << title;
+    emit SearchFinished(id, LyricsSearchResults());
+  }
+  else {
+    qLog(Debug) << "OVHLyrics: Got lyrics for" << artist << title;
+    emit SearchFinished(id, LyricsSearchResults() << result);
+ }
 
 }
 
