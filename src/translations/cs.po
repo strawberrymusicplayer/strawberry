@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-06-09 06:02-0400\n"
-"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
+"PO-Revision-Date: 2020-12-20 09:20-0500\n"
+"Last-Translator: Rostislav Medvěd <rostik.medved@gmail.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <="
@@ -33,7 +33,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Seznamy skladeb můžete označit jako oblíbené klepnutím na hvězdičku vedle "
+"Seznamy skladeb můžete označit jako oblíbený klepnutím na hvězdičku vedle "
 "názvu seznamu skladeb\n"
 "\n"
 "Oblíbené seznamy skladeb budou uloženy zde"
@@ -44,6 +44,8 @@ msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "cinnamon-settings-daemon instead."
 msgstr ""
+"Zkratky na %1 jsou většinou používány přes GSD a měly by se nastavovat přes "
+"cinnamon-settings-daemon."
 
 #: settings/shortcutssettingspage.cpp:320
 #, qt-format
@@ -51,11 +53,13 @@ msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "gnome-settings-daemon instead."
 msgstr ""
+"Zkratky na %1 jsou většinou používány přes GSD a měly by se nastavovat přes "
+"gnome-settings-daemon."
 
 #: settings/shortcutssettingspage.cpp:318
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
-msgstr ""
+msgstr "Zkratky na %1 jsou většinou používány přes MPRIS a KGlobalAccel."
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -81,7 +85,6 @@ msgstr " ms"
 
 #: ../build/src/ui_contextsettingspage.h:450
 #: ../build/src/ui_contextsettingspage.h:455
-#, fuzzy
 msgid " pt"
 msgstr " bodů"
 
@@ -95,10 +98,10 @@ msgstr " sekund"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
-msgstr ""
+msgstr "skladby"
 
 #: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
-#, fuzzy, qt-format
+#, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Ověření systému pro doporučování hudby (scrobbler)"
 
@@ -176,12 +179,12 @@ msgstr "%1 skladby"
 #: smartplaylists/smartplaylistsearchpreview.cpp:145
 #, qt-format
 msgid "%1 songs found"
-msgstr ""
+msgstr "%1 skladeb nalezeno"
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:142
 #, qt-format
 msgid "%1 songs found (showing %2)"
-msgstr ""
+msgstr "%1 skladeb nalezeno (%2 zobrazeno)"
 
 #: core/utilities.cpp:477
 #, qt-format
@@ -189,6 +192,8 @@ msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
 msgstr ""
+"Je vybráno %1 skladeb obsažených v %2 různých složkách, chcete je všechny "
+"otevřít?"
 
 #: playlist/playlistmanager.cpp:470 queue/queue.cpp:254
 #, qt-format
@@ -239,7 +244,7 @@ msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:424
 msgid "%rating%"
-msgstr ""
+msgstr "%hodnocení%"
 
 #: ../build/src/ui_contextsettingspage.h:433
 msgid "%title - %artist%"
@@ -248,7 +253,7 @@ msgstr "%title - %artist%"
 #: ../build/src/ui_contextsettingspage.h:420
 #: ../build/src/ui_notificationssettingspage.h:462
 msgid "%url%"
-msgstr ""
+msgstr "%adresa%"
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
@@ -415,7 +420,7 @@ msgid ""
 "immediately)."
 msgstr ""
 "(Toto je doba mezi přehráním skladby a odesláním seznamu přehraných skladeb "
-"na server. Nastavení 0 odešle přehrané skladby hned po jejich přehrání)."
+"na server. Nastavení na 0 odešle přehrané skladby hned po jejich přehrání)."
 
 #: dialogs/edittagdialog.cpp:95
 msgid "(different across multiple songs)"
@@ -448,7 +453,7 @@ msgstr "40%"
 
 #: smartplaylists/smartplaylistsmodel.cpp:76
 msgid "50 random tracks"
-msgstr ""
+msgstr "50 náhodných skladeb"
 
 #: ../build/src/ui_organizedialog.h:274
 msgid ""
@@ -464,7 +469,7 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:567
 msgid "A Taste of Strawbs"
-msgstr ""
+msgstr "Chuť Jahod"
 
 #: smartplaylists/smartplaylistwizard.cpp:81
 msgid ""
@@ -472,11 +477,13 @@ msgid ""
 "There are different types of smart playlist that offer different ways of "
 "selecting songs."
 msgstr ""
+"Chytrý playlist je dynamický seznam skladeb z vaší kolekce. Existuje několik "
+"různých typů chytrých playlistů. Každý nabízí jiný způsob výběru skladeb."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:152
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
-msgstr ""
+msgstr "Skladba bude zahrnuta v seznamu skladeb, pokud splňuje tyto podmínky."
 
 #: ../build/src/ui_playlistsettingspage.h:169
 msgid "A&utomatic"
@@ -484,7 +491,7 @@ msgstr "A&utomaticky"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: ../build/src/ui_transcodersettingspage.h:192
 msgid "AAC"
@@ -514,7 +521,7 @@ msgstr "Zrušit aktualizaci kolekce"
 
 #: ../build/src/ui_about.h:151
 msgid "About"
-msgstr ""
+msgstr "O programu"
 
 #: ../build/src/ui_mainwindow.h:694
 msgid "About &Qt"
@@ -584,12 +591,12 @@ msgstr "Přidat novou složku..."
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:430
 msgid "Add search term"
-msgstr ""
+msgstr "Přidat hledaný výraz"
 
 #: ../build/src/ui_contextsettingspage.h:422
 #: ../build/src/ui_notificationssettingspage.h:464
 msgid "Add song URL"
-msgstr ""
+msgstr "Přidat URL skladby"
 
 #: ../build/src/ui_contextsettingspage.h:375
 #: ../build/src/ui_notificationssettingspage.h:414
@@ -792,7 +799,6 @@ msgstr "Alba dle Umělce"
 
 #: ../build/src/ui_tidalsettingspage.h:327
 #: ../build/src/ui_qobuzsettingspage.h:284
-#, fuzzy
 msgid "Albums search limit"
 msgstr "Limit vyhledávaných alb"
 
@@ -827,7 +833,7 @@ msgstr "Všechny seznamy skladeb (%1)"
 
 #: smartplaylists/smartplaylistsmodel.cpp:119
 msgid "All tracks"
-msgstr ""
+msgstr "Všechny skladby"
 
 #: ../build/src/ui_organizedialog.h:282
 msgid "Allow extended ASCII characters"
@@ -861,11 +867,11 @@ msgstr "Naštvaný"
 
 #: ../build/src/ui_qobuzsettingspage.h:274
 msgid "App ID"
-msgstr ""
+msgstr "ID aplikace"
 
 #: ../build/src/ui_qobuzsettingspage.h:277
 msgid "App Secret"
-msgstr ""
+msgstr "Tajemství aplikace"
 
 #: ../build/src/ui_appearancesettingspage.h:542
 msgid "Appearance"
@@ -892,7 +898,7 @@ msgstr "Použít kompresi, aby se zabránilo ořezávání zvuku (clippingu)"
 
 #: dialogs/deleteconfirmationdialog.cpp:69
 msgid "Are you sure you want to continue?"
-msgstr ""
+msgstr "Opravdu chcete pokračovat?"
 
 #: equalizer/equalizer.cpp:227
 #, qt-format
@@ -922,7 +928,6 @@ msgstr "Umělci"
 
 #: ../build/src/ui_tidalsettingspage.h:326
 #: ../build/src/ui_qobuzsettingspage.h:283
-#, fuzzy
 msgid "Artists search limit"
 msgstr "Limit vyhledávaných umělců"
 
@@ -994,7 +999,7 @@ msgstr "Automaticky vybrat aktuálně přehrávanou skladbu"
 
 #: ../build/src/ui_playlistsettingspage.h:167
 msgid "Automatically sort playlist when inserting songs"
-msgstr ""
+msgstr "Automaticky seřadit seznam skladeb po vložení nových skladeb"
 
 #: widgets/freespacebar.cpp:68
 msgid "Available"
@@ -1052,7 +1057,6 @@ msgstr "Nejlepší"
 #: playlist/playlist.cpp:1280 organize/organizedialog.cpp:119
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:695
-#, fuzzy
 msgid "Bit depth"
 msgstr "Bitová hloubka"
 
@@ -1074,7 +1078,7 @@ msgstr "Datový tok"
 #: organize/organizedialog.cpp:117
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr ""
+msgstr "Datový tok"
 
 #: analyzer/blockanalyzer.cpp:45
 msgid "Block analyzer"
@@ -1126,7 +1130,6 @@ msgid "C&onsole"
 msgstr "&Konzola"
 
 #: core/songloader.cpp:192
-#, fuzzy
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Přehrávání disků CD je možné pouze za použití GStreamer enginu."
 
@@ -1136,7 +1139,7 @@ msgstr "CDDA"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: tidal/tidalstreamurlrequest.cpp:108 qobuz/qobuzstreamurlrequest.cpp:103
 msgid "Cancelled."
@@ -1164,7 +1167,7 @@ msgstr "Zkontrolovat aktualizace"
 
 #: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Choose a name for your smart playlist"
-msgstr ""
+msgstr "Zvolte jméno pro váš chytrý seznam skladeb"
 
 #: ../build/src/ui_notificationssettingspage.h:500
 msgid "Choose color..."
@@ -1172,7 +1175,7 @@ msgstr "Vybrat barvu..."
 
 #: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
-msgstr ""
+msgstr "Zvolte data pro import z last.fm"
 
 #: ../build/src/ui_notificationssettingspage.h:501
 msgid "Choose font..."
@@ -1181,6 +1184,7 @@ msgstr "Vybrat písmo..."
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:154
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
+"Zvolte jak bude seznam skladeb seřazen a kolik skladeb bude obsahovat."
 
 #: ../build/src/ui_coverssettingspage.h:167
 msgid "Choose the providers you want to use when searching for covers."
@@ -1275,7 +1279,7 @@ msgstr "Zpráva o prohledání sbírky"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:85
 msgid "Collection search"
-msgstr ""
+msgstr "Hledání v kolekci"
 
 #: ../build/src/ui_appearancesettingspage.h:547
 msgid "Colors"
@@ -1292,7 +1296,7 @@ msgstr "Poznámka"
 
 #: ../build/src/ui_edittagdialog.h:717
 msgid "Compilation"
-msgstr ""
+msgstr "Kompilace"
 
 #: ../build/src/ui_edittagdialog.h:703
 msgid "Complete tags automatically"
@@ -1328,7 +1332,7 @@ msgstr "Nastavit %1..."
 
 #: ../build/src/ui_appearancesettingspage.h:589
 msgid "Configure buttons"
-msgstr ""
+msgstr "Nastavit tlačítka"
 
 #: core/mainwindow.cpp:639
 msgid "Configure collection..."
@@ -1368,7 +1372,7 @@ msgstr "Převést veškerou hudbu, kterou zařízení nedokáže přehrát"
 
 #: core/mainwindow.cpp:703
 msgid "Copy URL(s)..."
-msgstr ""
+msgstr "Kopírovat odkaz(y)..."
 
 #: ../build/src/ui_organizedialog.h:286
 msgid "Copy album cover artwork"
@@ -1381,7 +1385,7 @@ msgstr "Zkopírovat do sbírky..."
 
 #: playlist/playlistlistcontainer.cpp:380
 msgid "Copy to device"
-msgstr ""
+msgstr "Zkopírovat na zařízení"
 
 #: core/mainwindow.cpp:710 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:105
@@ -1394,6 +1398,8 @@ msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
 "avoid losing configration before you uninstall the snap:"
 msgstr ""
+"Zkopírujte si svůj strawberry.conf a strawberry.db ze složky ~/snap, abyste "
+"předešli ztrátě vašich nastavení před odinstalací snap aplikace:"
 
 #: transcoder/transcoder.cpp:66
 #, qt-format
@@ -1600,7 +1606,7 @@ msgstr "Datum změny"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:434
 msgid "Days"
-msgstr ""
+msgstr "Dny"
 
 #: core/commandlineoptions.cpp:174
 msgid "Decrease the volume by 4 percent"
@@ -1616,7 +1622,7 @@ msgstr "Výchozí obrázek poza&dí"
 
 #: ../build/src/ui_backendsettingspage.h:499
 msgid "Defaults"
-msgstr ""
+msgstr "Výchozí nastavení"
 
 #: playlist/playlistlistcontainer.cpp:102
 #: ../build/src/ui_playlistlistcontainer.h:133
@@ -1643,7 +1649,7 @@ msgstr "Smazat předvolbu"
 #: smartplaylists/smartplaylistsviewcontainer.cpp:82
 #: ../build/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
-msgstr ""
+msgstr "Odstranit chytrý playlist"
 
 #: ../build/src/ui_organizedialog.h:270
 msgid "Delete the original files"
@@ -1742,7 +1748,7 @@ msgstr "Nepřepisovat"
 
 #: ../build/src/ui_snapdialog.h:120
 msgid "Do not show this message again."
-msgstr ""
+msgstr "Tuto zprávu již nezobrazovat."
 
 #: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
@@ -1788,19 +1794,19 @@ msgstr "Tažením přemístěte"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:105
 msgid "Dynamic mode is on"
-msgstr ""
+msgstr "Dynamický režim je zapnutý"
 
 #: smartplaylists/smartplaylistsmodel.cpp:120
 msgid "Dynamic random mix"
-msgstr ""
+msgstr "Dynamické míchání skladeb"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
-msgstr ""
+msgstr "Upravit chytrý playlist"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:81
 msgid "Edit smart playlist..."
-msgstr ""
+msgstr "Upravit chytrý playlist..."
 
 #: core/mainwindow.cpp:1890
 #, qt-format
@@ -1849,7 +1855,7 @@ msgstr "Povolit Položky"
 #: ../build/src/ui_collectionsettingspage.h:432
 #: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable delete files in the right click context menu"
-msgstr ""
+msgstr "Povolit mazání souborů v kontextové nabídce pravého kliknutí"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Enable equalizer"
@@ -1861,14 +1867,13 @@ msgstr "Zobrazit tlačítko pro vyčištění seznamu skladeb"
 
 #: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Enable scrobbling for the following sources:"
-msgstr ""
+msgstr "Zapnout scrobbling pro následující zdroje:"
 
 #: ../build/src/ui_playlistsettingspage.h:177
 msgid "Enable song metadata inline edition with click"
 msgstr "Povolit upravování popisných dat písně klepnutím v řádku"
 
 #: ../build/src/ui_equalizer.h:177
-#, fuzzy
 msgid "Enable stereo balancer"
 msgstr "Zapnout vyrovnávání sterea"
 
@@ -1931,7 +1936,7 @@ msgstr "Zadejte název složky"
 
 #: ../build/src/ui_userpassdialog.h:90
 msgid "Enter username and password"
-msgstr ""
+msgstr "Zadejte uživatelské jméno a heslo"
 
 #: settings/scrobblersettingspage.cpp:82
 msgid "Enter your user token from"
@@ -2006,7 +2011,7 @@ msgstr "Stávající obaly"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
-msgstr ""
+msgstr "Rozbalit"
 
 #: widgets/loginstatewidget.cpp:150
 #, qt-format
@@ -2091,7 +2096,7 @@ msgstr "Rychlý"
 
 #: smartplaylists/smartplaylistsmodel.cpp:106
 msgid "Favourite tracks"
-msgstr ""
+msgstr "Oblíbené skladby"
 
 #: ../build/src/ui_albumcovermanager.h:223
 msgid "Fetch Missing Covers"
@@ -2167,7 +2172,7 @@ msgstr "Soubory k překódování"
 
 #: ../build/src/ui_appearancesettingspage.h:590
 msgid "Files, playlists and queue buttons"
-msgstr ""
+msgstr "Soubory, playlisty a tlačítka fronty"
 
 #: context/contextview.cpp:214
 msgid "Filetype"
@@ -2176,6 +2181,7 @@ msgstr "Typ souboru"
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:88
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
+" Najít skladby z kolekce, které odpovídají kritériům, která specifikujete."
 
 #: musicbrainz/tagfetcher.cpp:63
 msgid "Fingerprinting song"
@@ -2183,7 +2189,7 @@ msgstr "Určení písně"
 
 #: smartplaylists/smartplaylistwizard.cpp:86
 msgid "Finish"
-msgstr ""
+msgstr "Dokončit"
 
 #: collection/savedgroupingmanager.cpp:56 ../build/src/ui_groupbydialog.h:182
 msgid "First level"
@@ -2214,11 +2220,11 @@ msgstr "Velikost fontu"
 #: dialogs/snapdialog.cpp:56
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr ""
+msgstr "Pro Ubuntu je na %1 dostupné oficiální PPA."
 
 #: dialogs/snapdialog.cpp:64
 msgid "For a better experience please consider the other options above."
-msgstr ""
+msgstr "Pro lepší zážitek, prosím zvažte ostatní dostupné možnosti."
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
@@ -2274,7 +2280,6 @@ msgid "Frames per buffer"
 msgstr "Snímků na vyrovnávací paměť"
 
 #: moodbar/moodbarrenderer.cpp:174
-#, fuzzy
 msgid "Frozen"
 msgstr "Zamrznutý"
 
@@ -2320,7 +2325,7 @@ msgstr "Jít na předchozí kartu seznamu skladeb"
 
 #: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr ""
+msgstr "Importovat!"
 
 #: covermanager/albumcovermanager.cpp:531
 #: covermanager/coversearchstatisticsdialog.cpp:69
@@ -2330,12 +2335,10 @@ msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "Získáno %1 obalů z %2 (%3 nezískáno)"
 
 #: ../build/src/ui_playlistsettingspage.h:162
-#, fuzzy
 msgid "Grey out unavailable songs in playlists on playback"
-msgstr "Zšednout nedostupné skladby v seznamu skladeb při přehrávání"
+msgstr "Zšednout nedostupné skladby v seznamu skladeb při jejich přehrání"
 
 #: ../build/src/ui_playlistsettingspage.h:163
-#, fuzzy
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "Zšednout nedostupné skladby v seznamu skladeb při startu"
 
@@ -2442,7 +2445,7 @@ msgstr "Pomoc"
 
 #: ../build/src/ui_behavioursettingspage.h:297
 msgid "Hide the main window"
-msgstr ""
+msgstr "Skrýt hlavní okno"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:201
 msgid "High"
@@ -2454,12 +2457,13 @@ msgid "High (%1 fps)"
 msgstr "Vysoký (%1 fps)"
 
 #: ../build/src/ui_backendsettingspage.h:497
+#, fuzzy
 msgid "High watermark"
-msgstr ""
+msgstr "Vysoký vodoznak"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "Hours"
-msgstr ""
+msgstr "Hodiny"
 
 #: ../build/src/ui_deviceproperties.h:372
 msgid "Icon"
@@ -2467,7 +2471,7 @@ msgstr "Ikona"
 
 #: ../build/src/ui_appearancesettingspage.h:585
 msgid "Icon sizes"
-msgstr ""
+msgstr "Velikosti ikon"
 
 #: widgets/fancytabwidget.cpp:713
 msgid "Icons on top"
@@ -2510,11 +2514,11 @@ msgstr "Obrázky (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
 #: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
-msgstr ""
+msgstr "Importovat data z last.fm"
 
 #: ../build/src/ui_mainwindow.h:714
 msgid "Import data from last.fm..."
-msgstr ""
+msgstr "Importovat data z last.fm..."
 
 #: ../build/src/ui_transcodedialog.h:225
 msgid "Import..."
@@ -2531,10 +2535,13 @@ msgid "In %1 weeks"
 msgstr "Za %1 týdny(ů)"
 
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:82
+#, fuzzy
 msgid ""
 "In dynamic mode new tracks will be chosen and added to the playlist every "
 "time a song finishes."
 msgstr ""
+"V dynamickém režimu se do playlistu přidají nové skladby pokaždé když jedna "
+"dohraje."
 
 #: ../build/src/ui_notificationssettingspage.h:484
 msgid "Include album art in the notification"
@@ -2542,7 +2549,7 @@ msgstr "Zahrnout obal alba do oznámení"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
-msgstr ""
+msgstr "Zahrnout všechny skladby"
 
 #: core/commandlineoptions.cpp:173
 msgid "Increase the volume by 4 percent"
@@ -2562,19 +2569,17 @@ msgstr "Vložit..."
 
 #: dialogs/snapdialog.cpp:79
 msgid "Install strawberry through PPA:<br />"
-msgstr ""
+msgstr "Nainstalujte Strawberry pomocí PPA:<br />"
 
 #: core/database.cpp:491
 msgid "Integrity check"
 msgstr "Ověření celistvosti"
 
 #: ../build/src/ui_internetsearchview.h:225
-#, fuzzy
 msgid "Internet Search View"
 msgstr "Zobrazení vyhledávání na internetu"
 
 #: ../build/src/ui_internettabsview.h:115
-#, fuzzy
 msgid "Internet Tabs View"
 msgstr "Zobrazení karet Internetu"
 
@@ -2583,7 +2588,6 @@ msgid "Intro tracks"
 msgstr "Skladby úvodu"
 
 #: scrobbler/scrobblingapi20.cpp:212
-#, fuzzy
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Špatná odpověď od prohlížeče. Token chybí."
 
@@ -2597,7 +2601,7 @@ msgstr ""
 
 #: dialogs/snapdialog.cpp:44
 msgid "It is detected that Strawberry is running as a Snap"
-msgstr ""
+msgstr "Bylo zjištěno, že Strawberry běží jako Snap"
 
 #: ../build/src/ui_behavioursettingspage.h:310
 msgid "Jump to previous song right away"
@@ -2648,7 +2652,7 @@ msgstr "Naposledy hráno"
 #: dialogs/lastfmimportdialog.cpp:155
 #, qt-format
 msgid "Last played for %1 songs received."
-msgstr ""
+msgstr "Hodnota \"Naposledy přehráno\" pro %1 skladeb bylo přijato."
 
 #: ../build/src/ui_scrobblersettingspage.h:412
 msgid "Last.fm"
@@ -2656,7 +2660,7 @@ msgstr "Last.fm"
 
 #: smartplaylists/smartplaylistsmodel.cpp:112
 msgid "Least favourite tracks"
-msgstr ""
+msgstr "Nejméně oblíbené skladby"
 
 #: ../build/src/ui_equalizer.h:178
 msgid "Left"
@@ -2673,7 +2677,7 @@ msgstr "Libre.fm"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:137
 msgid "Limits"
-msgstr ""
+msgstr "Omezení"
 
 #: scrobbler/listenbrainzscrobbler.cpp:178
 msgid "ListenBrainz Authentication"
@@ -2721,7 +2725,7 @@ msgstr "Nahrává se databáze iPod"
 
 #: smartplaylists/playlistgeneratorinserter.cpp:58
 msgid "Loading smart playlist"
-msgstr ""
+msgstr "Nahrávání chytrého playlistu"
 
 #: collection/collectionmodel.cpp:212
 msgid "Loading songs"
@@ -2747,7 +2751,7 @@ msgstr "Nahraje soubory/adresy (URL), nahradí současný seznam skladeb"
 
 #: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Local file"
-msgstr ""
+msgstr "Místní soubor"
 
 #: ../build/src/ui_scrobblersettingspage.h:415
 #: ../build/src/ui_scrobblersettingspage.h:418
@@ -2777,8 +2781,9 @@ msgid "Low complexity profile (LC)"
 msgstr "Nízkosložitostní profil"
 
 #: ../build/src/ui_backendsettingspage.h:498
+#, fuzzy
 msgid "Low watermark"
-msgstr ""
+msgstr "Nízký vodoznak"
 
 #: ../build/src/ui_collectionsettingspage.h:423
 msgid "Lowercase filename"
@@ -2834,7 +2839,7 @@ msgstr "Nejvyšší datový tok"
 
 #: qobuz/qobuzservice.cpp:467
 msgid "Maximum number of login attempts reached."
-msgstr ""
+msgstr "Byl dosažen maximální počet pokusů o přihlášení."
 
 #: analyzer/analyzercontainer.cpp:74
 #, qt-format
@@ -2855,25 +2860,25 @@ msgstr "Nejnižší datový tok"
 
 #: settings/tidalsettingspage.cpp:163
 msgid "Missing API token."
-msgstr ""
+msgstr "Chybějící API token."
 
 #: qobuz/qobuzservice.cpp:719 qobuz/qobuzstreamurlrequest.cpp:84
 msgid "Missing Qobuz app ID or secret."
-msgstr ""
+msgstr "Chybějící ID aplikace, nebo tajemství služby Qobuz."
 
 #: qobuz/qobuzservice.cpp:471 qobuz/qobuzservice.cpp:500
 #: qobuz/qobuzservice.cpp:555 qobuz/qobuzservice.cpp:608
 #: qobuz/qobuzservice.cpp:673
 msgid "Missing Qobuz app ID."
-msgstr ""
+msgstr "Chybějící ID aplikace Qobuz."
 
 #: qobuz/qobuzservice.cpp:479
 msgid "Missing Qobuz password."
-msgstr ""
+msgstr "Chybějící Qobuz heslo."
 
 #: qobuz/qobuzservice.cpp:475
 msgid "Missing Qobuz username."
-msgstr ""
+msgstr "Chybějící Qobuz uživatelské jméno."
 
 #: subsonic/subsonicurlhandler.cpp:45
 msgid "Missing Subsonic username or password."
@@ -2903,11 +2908,11 @@ msgstr "Chybějící uživatelské jméno k Tidal."
 
 #: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
-msgstr ""
+msgstr "Chybějící ID aplikace."
 
 #: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
-msgstr ""
+msgstr "Chybějící heslo."
 
 #: settings/subsonicsettingspage.cpp:106
 msgid "Missing server url, username or password."
@@ -2919,11 +2924,11 @@ msgstr "Chybějící uživatelské jméno nebo heslo."
 
 #: scrobbler/lastfmimport.cpp:218
 msgid "Missing username, please login to last.fm first!"
-msgstr ""
+msgstr "Chybějící jméno, prosím, nejdříve se přihlašte k last.fm!"
 
 #: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
-msgstr ""
+msgstr "Chybějící uživatelské jméno."
 
 #: device/deviceproperties.cpp:175
 msgid "Model"
@@ -2935,7 +2940,7 @@ msgstr "Sledovat změny ve sbírce"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:438
 msgid "Months"
-msgstr ""
+msgstr "Měsíce"
 
 #: playlist/playlist.cpp:1292
 msgid "Mood"
@@ -2952,7 +2957,7 @@ msgstr "Styl Ukazatele nálady"
 
 #: smartplaylists/smartplaylistsmodel.cpp:100
 msgid "Most played"
-msgstr ""
+msgstr "Nejčastěji přehrávané"
 
 #: device/giolister.cpp:188
 msgid "Mount point"
@@ -3008,7 +3013,7 @@ msgstr "Nikdy"
 
 #: smartplaylists/smartplaylistsmodel.cpp:88
 msgid "Never played"
-msgstr ""
+msgstr "Nikdy nepřehrané"
 
 #: ../build/src/ui_behavioursettingspage.h:305
 #: ../build/src/ui_behavioursettingspage.h:319
@@ -3027,11 +3032,11 @@ msgstr "Nový seznam skladeb"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
-msgstr ""
+msgstr "Nový chytrý playlist"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:68
 msgid "New smart playlist..."
-msgstr ""
+msgstr "Nový chytrý playlist..."
 
 #: widgets/freespacebar.cpp:69
 msgid "New songs"
@@ -3039,11 +3044,11 @@ msgstr "Nové písně"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
-msgstr ""
+msgstr "Nové skladby budou přidány automaticky."
 
 #: smartplaylists/smartplaylistsmodel.cpp:69
 msgid "Newest tracks"
-msgstr ""
+msgstr "Nejnovější skladby"
 
 #: dialogs/edittagdialog.cpp:210 dialogs/trackselectiondialog.cpp:73
 msgid "Next"
@@ -3109,7 +3114,7 @@ msgstr "Běžný typ bloku"
 #: qobuz/qobuzservice.cpp:505 qobuz/qobuzservice.cpp:560
 #: qobuz/qobuzservice.cpp:613
 msgid "Not authenticated with Qobuz."
-msgstr ""
+msgstr "Nejste přihlášeni ke službě Qobuz."
 
 #: tidal/tidalservice.cpp:710
 msgid ""
@@ -3161,6 +3166,8 @@ msgid ""
 "Official releases are available for Debian and Ubuntu which also work on "
 "most of their derivatives. See %1 for more information."
 msgstr ""
+"Jsou dostupná oficiální vydání pro Debian a Ubuntu. Tato vydání také fungují "
+"s většinou jejich derivátů. Navštivte %1 pro více informací."
 
 #: osd/osdbase.cpp:262
 msgid "On"
@@ -3172,7 +3179,7 @@ msgstr "Při startu"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:139
 msgid "Only show the first"
-msgstr ""
+msgstr "Zobrazit pouze první"
 
 #: ../build/src/ui_appearancesettingspage.h:583
 msgid "Opacity"
@@ -3225,16 +3232,16 @@ msgstr "Opus"
 
 #: ../build/src/ui_organizedialog.h:266
 msgid "Organize Files"
-msgstr ""
+msgstr "Uspořádat Soubory"
 
 #: core/mainwindow.cpp:706 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:350
 msgid "Organize files..."
-msgstr ""
+msgstr "Uspořádat soubory..."
 
 #: organize/organize.cpp:94
 msgid "Organizing files"
-msgstr ""
+msgstr "Organizace souborů"
 
 #: dialogs/trackselectiondialog.cpp:195
 msgid "Original tags"
@@ -3336,7 +3343,7 @@ msgstr "Přehrát"
 
 #: ../build/src/ui_appearancesettingspage.h:588
 msgid "Play control buttons"
-msgstr ""
+msgstr "Tlačítka pro ovládání přehrávání"
 
 #: playlist/playlist.cpp:1275 ../build/src/ui_edittagdialog.h:690
 msgid "Play count"
@@ -3361,7 +3368,7 @@ msgstr "Hrát, pokud se již něco nepřehrává"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:76
 msgid "Play next"
-msgstr ""
+msgstr "Přehrát další"
 
 #: core/commandlineoptions.cpp:184
 msgid "Play the <n>th track in the playlist"
@@ -3375,7 +3382,7 @@ msgstr ""
 #: dialogs/lastfmimportdialog.cpp:158
 #, qt-format
 msgid "Playcounts for %1 songs received."
-msgstr ""
+msgstr "Hodnota \"Počet přehrání\" pro %1 skladeb byla přijata."
 
 #: core/commandlineoptions.cpp:165
 msgid "Player options"
@@ -3390,7 +3397,7 @@ msgstr "Seznam skladeb"
 
 #: ../build/src/ui_appearancesettingspage.h:586
 msgid "Playlist buttons"
-msgstr ""
+msgstr "Tlačítka playlistů"
 
 #: osd/osdbase.cpp:270
 msgid "Playlist finished"
@@ -3407,7 +3414,7 @@ msgstr ""
 
 #: playlist/playlistlistcontainer.cpp:380
 msgid "Playlist must be open first."
-msgstr ""
+msgstr "Seznam skladeb musí být nejdřív otevřen."
 
 #: core/commandlineoptions.cpp:180
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
@@ -3416,7 +3423,7 @@ msgstr "Nastavení seznamu skladeb"
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
-msgstr ""
+msgstr "Typ seznamu skladeb"
 
 #: core/mainwindow.cpp:340
 msgid "Playlists"
@@ -3545,7 +3552,7 @@ msgstr ""
 #: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:410
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
-msgstr ""
+msgstr "Qobuz"
 
 #: ../build/src/ui_qobuzsettingspage.h:272
 msgid ""
@@ -3599,7 +3606,7 @@ msgstr "Rádio (shodná hlasitost pro všechny skladby)"
 
 #: playlist/playlist.cpp:1293
 msgid "Rating"
-msgstr ""
+msgstr "Hodnocení"
 
 #: ../build/src/ui_playlistsettingspage.h:171
 msgid "Re&lative"
@@ -3642,7 +3649,6 @@ msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
 #: lyrics/geniuslyricsprovider.cpp:207
-#, fuzzy
 msgid "Redirect from Genius is missing query items code or state."
 msgstr "Přesměrování z Genius chybí kód položek dotazu nebo stav."
 
@@ -4154,9 +4160,8 @@ msgid "Show a notification when I pause playback"
 msgstr "Ukazovat oznámení při pozastavení přehrávání"
 
 #: ../build/src/ui_notificationssettingspage.h:483
-#, fuzzy
 msgid "Show a notification when I resume playback"
-msgstr "Zobrazit upozornění při pokračování v přehrávání"
+msgstr "Zobrazit oznámení při pokračování v přehrávání"
 
 #: ../build/src/ui_notificationssettingspage.h:475
 #, fuzzy
@@ -4241,7 +4246,6 @@ msgid "Show only untagged"
 msgstr "Ukázat pouze neoznačené"
 
 #: ../build/src/ui_behavioursettingspage.h:292
-#, fuzzy
 msgid "Show playing widget"
 msgstr "Zobrazit widget s přehráváním"
 
@@ -4378,11 +4382,11 @@ msgid ""
 "(whichever occurs earlier)."
 msgstr ""
 "Přehrané skladby jsou odeslány pokud mají správná metadata, jsou delší než "
-"30 sekund a byly přehrávány alespoň do poloviny."
+"30 sekund. Také musí být přehrány alespoň do poloviny, nebo po dobu 4 minut "
+"(kterékoli se stane dříve)."
 
 #: ../build/src/ui_tidalsettingspage.h:328
 #: ../build/src/ui_qobuzsettingspage.h:285
-#, fuzzy
 msgid "Songs search limit"
 msgstr "Limit vyhledaných skladeb"
 
@@ -4521,7 +4525,6 @@ msgid "Stream"
 msgstr "Proud"
 
 #: ../build/src/ui_tidalsettingspage.h:332
-#, fuzzy
 msgid "Stream URL method"
 msgstr "Metoda URL streamu"
 
@@ -4808,7 +4811,6 @@ msgid "Toggle scrobbling"
 msgstr "Přepnout odesílání informací o přehrávání"
 
 #: core/mainwindow.cpp:684 core/mainwindow.cpp:1863
-#, fuzzy
 msgid "Toggle skip status"
 msgstr "Přepnout stav přeskakování"
 
@@ -5359,7 +5361,6 @@ msgid "greater than"
 msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:491
-#, fuzzy
 msgid "hw"
 msgstr "hardware"
 

@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-03 08:32-0500\n"
+"PO-Revision-Date: 2020-12-19 07:21-0500\n"
 "Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -251,11 +251,11 @@ msgstr "pozostało %n"
 #: ../build/src/ui_contextsettingspage.h:428
 #: ../build/src/ui_notificationssettingspage.h:466
 msgid "%originalyear%"
-msgstr ""
+msgstr "%originalyear%"
 
 #: ../build/src/ui_contextsettingspage.h:424
 msgid "%rating%"
-msgstr ""
+msgstr "%rating%"
 
 #: ../build/src/ui_contextsettingspage.h:433
 msgid "%title - %artist%"
@@ -264,7 +264,7 @@ msgstr "%title - %artist%"
 #: ../build/src/ui_contextsettingspage.h:420
 #: ../build/src/ui_notificationssettingspage.h:462
 msgid "%url%"
-msgstr ""
+msgstr "%url%"
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
@@ -609,7 +609,7 @@ msgstr "Dodaj warunek"
 #: ../build/src/ui_contextsettingspage.h:422
 #: ../build/src/ui_notificationssettingspage.h:464
 msgid "Add song URL"
-msgstr ""
+msgstr "Dodaj adres URL utworu"
 
 #: ../build/src/ui_contextsettingspage.h:375
 #: ../build/src/ui_notificationssettingspage.h:414
@@ -659,7 +659,7 @@ msgstr "Dodaj znacznik długości"
 #: ../build/src/ui_contextsettingspage.h:430
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "Add song original year tag"
-msgstr ""
+msgstr "Dodaj rok utworu"
 
 #: ../build/src/ui_contextsettingspage.h:390
 #: ../build/src/ui_notificationssettingspage.h:429
@@ -3374,7 +3374,7 @@ msgstr "Liczba odtworzeń"
 
 #: core/commandlineoptions.cpp:185
 msgid "Play given playlist"
-msgstr ""
+msgstr "Odtwórz listę odtwarzania"
 
 #: core/commandlineoptions.cpp:167
 msgid "Play if stopped, pause if playing"

@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-19 06:59-0500\n"
+"PO-Revision-Date: 2020-12-19 11:33-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -893,7 +893,7 @@ msgstr "Lägg till filer/webbadresser till spellistan"
 #: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:318
 #: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
-msgstr "Lägg till i den aktuella spellistan"
+msgstr "Lägg till i aktuell spellista"
 
 #: ../build/src/ui_behavioursettingspage.h:314
 msgid "Append to the playlist"
@@ -1006,7 +1006,7 @@ msgstr "Välj automatiskt spår som nu spelas"
 
 #: ../build/src/ui_playlistsettingspage.h:167
 msgid "Automatically sort playlist when inserting songs"
-msgstr "Sortera spellistan automatiskt när du sätter in låtar"
+msgstr "Sortera spellistan automatiskt när du lägger in låtar"
 
 #: widgets/freespacebar.cpp:68
 msgid "Available"
@@ -1388,11 +1388,11 @@ msgstr "Kopiera albumomslag"
 #: core/mainwindow.cpp:707 widgets/fileviewlist.cpp:48
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
-msgstr "Kopiera till samlingen..."
+msgstr "Kopiera till samling..."
 
 #: playlist/playlistlistcontainer.cpp:380
 msgid "Copy to device"
-msgstr "Kopiera till enheten"
+msgstr "Kopiera till enhet"
 
 #: core/mainwindow.cpp:710 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:105
@@ -2646,7 +2646,7 @@ msgstr "Stort sidofält"
 #: playlist/playlist.cpp:1277 smartplaylists/smartplaylistsmodel.cpp:94
 #: ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
-msgstr "Senast spelad"
+msgstr "Senast spelade"
 
 #: ../build/src/ui_edittagdialog.h:693
 msgctxt "A playlist's tag."
@@ -3209,7 +3209,7 @@ msgstr "Öppna enhet"
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:316
 msgid "Open in new playlist"
-msgstr "Öppna i en ny spellista"
+msgstr "Öppna i ny spellista"
 
 #: ../build/src/ui_shortcutssettingspage.h:243
 #: ../build/src/ui_shortcutssettingspage.h:250
@@ -3592,7 +3592,7 @@ msgstr "Lägg till valda spår i kön för att spela som nästa"
 #: core/mainwindow.cpp:1857 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
-msgstr "Kö för att spela nästa"
+msgstr "Lägg till i kön för att spela som nästa"
 
 #: core/mainwindow.cpp:1850 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
@@ -3693,11 +3693,11 @@ msgstr "Ta bort"
 
 #: ../build/src/ui_mainwindow.h:706
 msgid "Remove &duplicates from playlist"
-msgstr "Ta bort &dubbletter från spellistan"
+msgstr "Ta bort &dubbletter från spellista"
 
 #: ../build/src/ui_mainwindow.h:707
 msgid "Remove &unavailable tracks from playlist"
-msgstr "Ta bort &otillgängliga spår från spellistan"
+msgstr "Ta bort &otillgängliga spår från spellista"
 
 #: ../build/src/ui_collectionsettingspage.h:402
 msgid "Remove folder"
@@ -3709,7 +3709,7 @@ msgstr "Ta bort från favoriter"
 
 #: ../build/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
-msgstr "Ta bort från spellistan"
+msgstr "Ta bort från spellista"
 
 #: playlist/playlisttabbar.cpp:210
 msgid "Remove playlist"
@@ -4072,7 +4072,7 @@ msgstr "Välj bästa möjliga matchning"
 
 #: ../build/src/ui_appearancesettingspage.h:550
 msgid "Select foreground color:"
-msgstr "Väl förgrundsfärg:"
+msgstr "Välj förgrundsfärg:"
 
 #: ../build/src/ui_appearancesettingspage.h:558
 msgid "Select tabbar color:"
@@ -4296,7 +4296,7 @@ msgstr "Blanda album"
 
 #: osd/osdbase.cpp:335 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
-msgstr "Blanda allt"
+msgstr "Blanda alla"
 
 #: osd/osdbase.cpp:336 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
@@ -4325,7 +4325,7 @@ msgstr "Ska"
 
 #: core/commandlineoptions.cpp:170
 msgid "Skip backwards in playlist"
-msgstr "Gå bakåt i spellista"
+msgstr "Hoppa bakåt i spellista"
 
 #: playlist/playlist.cpp:1276 ../build/src/ui_edittagdialog.h:691
 msgid "Skip count"
@@ -4333,7 +4333,7 @@ msgstr "Antal överhoppningar"
 
 #: core/commandlineoptions.cpp:171
 msgid "Skip forwards in playlist"
-msgstr "Gå framåt i spellista"
+msgstr "Hoppa framåt i spellista"
 
 #: core/mainwindow.cpp:1862
 msgid "Skip selected tracks"
@@ -4420,7 +4420,7 @@ msgstr "Standard"
 
 #: core/commandlineoptions.cpp:166
 msgid "Start the playlist currently playing"
-msgstr "Starta spellista som nu spelas"
+msgstr "Starta spellistan som nu spelas"
 
 #: transcoder/transcodedialog.cpp:125
 msgid "Start transcoding"
@@ -4537,7 +4537,7 @@ msgstr "Strömmar"
 
 #: ../build/src/ui_appearancesettingspage.h:578
 msgid "Stretch image to fill playlist"
-msgstr "Sträck ut bilden för att fylla spellistan"
+msgstr "Sträck ut bilden för att fylla spellista"
 
 #: ../build/src/ui_appearancesettingspage.h:543
 #: ../build/src/ui_appearancesettingspage.h:544
