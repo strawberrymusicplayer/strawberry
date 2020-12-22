@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-19 11:33-0500\n"
+"PO-Revision-Date: 2020-12-21 01:16-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -286,7 +286,7 @@ msgstr "&Omslagshanterare"
 
 #: ../build/src/ui_shortcutssettingspage.h:257
 msgid "&Custom"
-msgstr "A&npassat"
+msgstr "A&npassad"
 
 #: ../build/src/ui_shortcutssettingspage.h:256
 msgid "&Default"
@@ -802,7 +802,7 @@ msgstr "Album av %1"
 
 #: ../build/src/ui_contextsettingspage.h:443
 msgid "Albums by Artist"
-msgstr "Album av Artist"
+msgstr "Album av artist"
 
 #: ../build/src/ui_tidalsettingspage.h:327
 #: ../build/src/ui_qobuzsettingspage.h:284
