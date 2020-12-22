@@ -1038,6 +1038,9 @@ jobs:
           create-dmg
           taglib
 
+      - name: Install Sparkle
+        run: brew install --cask sparkle
+
       - name: Delete conflicting taglib system headers
         shell: bash
         run: rm -rf /usr/local/include/taglib
@@ -1102,6 +1105,9 @@ jobs:
           libmtp
           create-dmg
           taglib
+
+      - name: Install Sparkle
+        run: brew install --cask sparkle
 
       - name: Delete conflicting taglib system headers
         shell: bash
