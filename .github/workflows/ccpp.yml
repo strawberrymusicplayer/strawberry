@@ -65,7 +65,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -133,7 +133,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -209,7 +209,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -287,7 +287,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WITH_QT5=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -367,7 +367,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WITH_QT6=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -444,7 +444,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -521,7 +521,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -598,7 +598,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -692,7 +692,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -815,7 +815,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
@@ -877,7 +877,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
@@ -939,7 +939,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
@@ -1001,7 +1001,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
@@ -1057,7 +1057,7 @@ jobs:
           GST_SCANNER_PATH: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DUSE_BUNDLE=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DUSE_BUNDLE=ON
       - name: Build
         working-directory: build
         shell: bash
@@ -1125,7 +1125,7 @@ jobs:
           GST_SCANNER_PATH: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DUSE_BUNDLE=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DUSE_BUNDLE=ON
       - name: Build
         working-directory: build
         shell: bash
@@ -1169,6 +1169,7 @@ jobs:
           cmake ..
           -DCMAKE_TOOLCHAIN_FILE=../cmake/Toolchain-x86_64-w64-mingw32-shared.cmake
           -DCMAKE_BUILD_TYPE=Release
+          -DBUILD_WERROR=ON
           -DARCH=x86_64
           -DENABLE_WIN32_CONSOLE=OFF
           -DENABLE_DBUS=OFF
