@@ -308,8 +308,6 @@ jobs:
       image: opensuse/tumbleweed
     steps:
       - uses: actions/checkout@v1.2.0
-      - name: Add Qt 6 repository
-        run: zypper -n ar -c -f -n 'repo-qt6' https://download.opensuse.org/repositories/home:/jonaski:/qt6/openSUSE_Tumbleweed/ repo-qt6
       - name: Update packages
         run: zypper --non-interactive --gpg-auto-import-keys ref
       - name: Upgrade packages
@@ -349,7 +347,6 @@ jobs:
             qt6-sql-devel
             qt6-dbus-devel
             qt6-test-devel
-            qt6-x11extras-devel
             qt6-base-common-devel
             qt6-sql-sqlite
             qt6-linguist-devel
