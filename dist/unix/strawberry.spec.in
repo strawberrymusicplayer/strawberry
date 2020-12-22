@@ -120,6 +120,10 @@ Features:
   - Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
   - Streaming support for Subsonic
 
+%if 0%{?suse_version}
+%debug_package
+%endif
+
 %prep
 %setup -qn %{name}-@STRAWBERRY_VERSION_PACKAGE@
 
