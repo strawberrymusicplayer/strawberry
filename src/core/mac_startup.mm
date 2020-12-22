@@ -216,19 +216,23 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
   [delegate_ setShortcutHandler:shortcut_handler_];
   [self setDelegate:delegate_];
 
+  // FIXME
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
   [ [NSUserNotificationCenter defaultUserNotificationCenter]setDelegate:delegate_];
+#pragma GCC diagnostic pop
 
 }
 
 - (void)sendEvent:(NSEvent*)event {
 
   if ([event type] == NSEventTypeSystemDefined && [event subtype] == 8) {
-	int keyCode = (([event data1] & 0xFFFF0000) >> 16);
-	int keyFlags = ([event data1] & 0x0000FFFF);
-	int keyIsReleased = (((keyFlags & 0xFF00) >> 8)) == 0xB;
-	if (keyIsReleased) {
-	  shortcut_handler_->MacMediaKeyPressed(keyCode);
-	}
+    int keyCode = (([event data1] & 0xFFFF0000) >> 16);
+    int keyFlags = ([event data1] & 0x0000FFFF);
+    int keyIsReleased = (((keyFlags & 0xFF00) >> 8)) == 0xB;
+    if (keyIsReleased) {
+      shortcut_handler_->MacMediaKeyPressed(keyCode);
+    }
   }
 
   [super sendEvent:event];
