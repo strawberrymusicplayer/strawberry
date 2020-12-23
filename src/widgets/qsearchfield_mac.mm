@@ -165,7 +165,7 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   [search setDelegate:(id<NSSearchFieldDelegate>)delegate];
 
   QVBoxLayout *layout = new QVBoxLayout(this);
-  layout->setMargin(0);
+  layout->setContentsMargins(0, 0, 0, 0);
   layout->addWidget(QWidget::createWindowContainer(QWindow::fromWinId(WId(search)), this));
 
   setAttribute(Qt::WA_NativeWindow);
