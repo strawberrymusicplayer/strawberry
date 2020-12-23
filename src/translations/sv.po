@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-21 01:16-0500\n"
+"PO-Revision-Date: 2020-12-22 02:41-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -3291,7 +3291,7 @@ msgstr "Skriv endast över m&indre"
 
 #: ../build/src/ui_mainwindow.h:717
 msgid "P&laylist"
-msgstr "S&pellista"
+msgstr "&Spellista"
 
 #: device/udisks2lister.cpp:116
 msgid "Partition label"
