@@ -99,10 +99,10 @@
 #include "settings/behavioursettingspage.h"
 #include "settings/appearancesettingspage.h"
 
-#ifdef HAVE_DBUS
-#  include "osd/osddbus.h"
-#elif defined(Q_OS_MACOS)
+#if defined(Q_OS_MACOS)
 #  include "osd/osdmac.h"
+#elif defined(HAVE_DBUS)
+#  include "osd/osddbus.h"
 #else
 #  include "osd/osdbase.h"
 #endif

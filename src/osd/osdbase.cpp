@@ -360,7 +360,7 @@ void OSDBase::RepeatModeChanged(PlaylistSequence::RepeatMode mode) {
 
 QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, const Song &song) {
 
-#ifndef HAVE_DBUS
+#if !defined(HAVE_DBUS) || defined(Q_OS_MACOS)
   Q_UNUSED(type)
 #endif
 
