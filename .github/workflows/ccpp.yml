@@ -1038,6 +1038,12 @@ jobs:
       - name: Install Sparkle
         run: brew install --cask sparkle
 
+      - name: Link Sparkle
+        shell: bash
+        run: |
+          sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework /Library/Frameworks/Sparkle.framework
+          sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework.dSYM /Library/Frameworks/Sparkle.framework.dSYM
+
       - name: Delete conflicting taglib system headers
         shell: bash
         run: rm -rf /usr/local/include/taglib
@@ -1105,6 +1111,12 @@ jobs:
 
       - name: Install Sparkle
         run: brew install --cask sparkle
+
+      - name: Link Sparkle
+        shell: bash
+        run: |
+          sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework /Library/Frameworks/Sparkle.framework
+          sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework.dSYM /Library/Frameworks/Sparkle.framework.dSYM
 
       - name: Delete conflicting taglib system headers
         shell: bash
