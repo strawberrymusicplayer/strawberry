@@ -100,6 +100,7 @@ void MergedProxyModel::DeleteAllMappings() {
 
 void MergedProxyModel::AddSubModel(const QModelIndex &source_parent, QAbstractItemModel *submodel) {
 
+  connect(submodel, SIGNAL(modelAboutToBeReset()), this, SLOT(SubModelAboutToBeReset()));
   connect(submodel, SIGNAL(modelReset()), this, SLOT(SubModelReset()));
   connect(submodel, SIGNAL(rowsAboutToBeInserted(QModelIndex, int, int)), this, SLOT(RowsAboutToBeInserted(QModelIndex, int, int)));
   connect(submodel, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), this, SLOT(RowsAboutToBeRemoved(QModelIndex, int, int)));
@@ -191,20 +192,15 @@ void MergedProxyModel::SourceModelReset() {
 
 }
 
-void MergedProxyModel::SubModelReset() {
+void MergedProxyModel::SubModelAboutToBeReset() {
 
   QAbstractItemModel *submodel = qobject_cast<QAbstractItemModel*>(sender());
 
-  // TODO: When we require Qt 4.6, use beginResetModel() and endResetModel() in CollectionModel and catch those here
-  // that will let us do away with this std::numeric_limits<int>::max() hack.
-
-  // Remove all the children of the item that got deleted
   QModelIndex source_parent = merge_points_.value(submodel);
   QModelIndex proxy_parent = mapFromSource(source_parent);
 
-  // We can't know how many children it had, since it's already disappeared...
   resetting_model_ = submodel;
-  beginRemoveRows(proxy_parent, 0, std::numeric_limits<int>::max() - 1);
+  beginRemoveRows(proxy_parent, 0, submodel->rowCount());
   endRemoveRows();
   resetting_model_ = nullptr;
 
@@ -220,6 +216,15 @@ void MergedProxyModel::SubModelReset() {
       ++it;
     }
   }
+
+}
+
+void MergedProxyModel::SubModelReset() {
+
+  QAbstractItemModel *submodel = static_cast<QAbstractItemModel*>(sender());
+
+  QModelIndex source_parent = merge_points_.value(submodel);
+  QModelIndex proxy_parent = mapFromSource(source_parent);
 
   // "Insert" items from the newly reset submodel
   int count = submodel->rowCount();
@@ -553,4 +558,3 @@ QModelIndexList MergedProxyModel::mapToSource(const QModelIndexList &proxy_index
   return ret;
 
 }
-

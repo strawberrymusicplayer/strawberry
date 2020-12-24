@@ -87,6 +87,7 @@ class MergedProxyModel : public QAbstractProxyModel {
 
  private slots:
   void SourceModelReset();
+  void SubModelAboutToBeReset();
   void SubModelReset();
 
   void RowsAboutToBeInserted(const QModelIndex &source_parent, int start, int end);
