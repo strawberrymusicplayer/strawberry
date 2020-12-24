@@ -240,8 +240,13 @@ void WorkerPool<HandlerType>::DoStart() {
     const QString executable_path = path_prefix + "/" + executable_name_;
     if (QFile::exists(executable_path)) {
       executable_path_ = executable_path;
+      qLog(Debug) << "Using worker" << executable_name_ << "from" << path_prefix;
       break;
     }
+  }
+
+  if (executable_path_ == executable_name_) {
+    qLog(Debug) << "Using worker" << executable_name_;
   }
 
   // Start all the workers
