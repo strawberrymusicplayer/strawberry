@@ -1076,7 +1076,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: upload-macos-catalina
-          path: build/strawberry-*-catalina.dmg
+          path: build/strawberry-*-catalina-*.dmg
 
   build-macos-bigsur:
     name: Build macOS Big Sur
@@ -1150,7 +1150,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: upload-macos-bigsur
-          path: build/strawberry-*-bigsur.dmg
+          path: build/strawberry-*-bigsur-*.dmg
 
 
   build-windows:
@@ -1316,7 +1316,7 @@ jobs:
       - name: rsync
         run: |
           set -x
-          for i in $(find uploads -type f -name 'strawberry-*-catalina.dmg'); do
+          for i in $(find uploads -type f -name 'strawberry-*-catalina-*.dmg'); do
             rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/macos/catalina/
           done
 
@@ -1339,6 +1339,6 @@ jobs:
       - name: rsync
         run: |
           set -x
-          for i in $(find uploads -type f -name 'strawberry-*-bigsur.dmg'); do
+          for i in $(find uploads -type f -name 'strawberry-*-bigsur-*.dmg'); do
             rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/macos/bigsur/
           done
