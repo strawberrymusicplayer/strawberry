@@ -123,8 +123,7 @@ GIO_MODULES_SEARCH_PATH = ['/usr/local/lib/gio/modules',]
 
 INSTALL_NAME_TOOL_APPLE = 'install_name_tool'
 INSTALL_NAME_TOOL_CROSS = 'x86_64-apple-darwin-%s' % INSTALL_NAME_TOOL_APPLE
-INSTALL_NAME_TOOL = INSTALL_NAME_TOOL_CROSS if spawn.find_executable(
-    INSTALL_NAME_TOOL_CROSS) else INSTALL_NAME_TOOL_APPLE
+INSTALL_NAME_TOOL = INSTALL_NAME_TOOL_CROSS if spawn.find_executable(INSTALL_NAME_TOOL_CROSS) else INSTALL_NAME_TOOL_APPLE
 
 OTOOL_APPLE = 'otool'
 OTOOL_CROSS = 'x86_64-apple-darwin-%s' % OTOOL_APPLE
@@ -169,6 +168,7 @@ resources_dir = os.path.join(bundle_dir, 'Contents', 'Resources')
 commands.append(['mkdir', '-p', resources_dir])
 plugins_dir = os.path.join(bundle_dir, 'Contents', 'PlugIns')
 binary = os.path.join(bundle_dir, 'Contents', 'MacOS', bundle_name)
+tagreader_binary = os.path.join(plugins_dir, bundle_name + "-tagreader")
 
 fixed_libraries = set()
 fixed_frameworks = set()
@@ -479,11 +479,13 @@ def main():
   logging.basicConfig(filename='macdeploy.log', level=logging.DEBUG, format='%(asctime)s %(levelname)-8s %(message)s')
 
   FixBinary(binary)
+  FixBinary(tagreader_binary)
 
-  try:
-    FixPlugin('strawberry-tagreader', '.')
-  except:
-    print('Failed to find blob: %s' % traceback.format_exc())
+  # macdeployqt needs to handle strawberry-tagreader for Qt deployment, so we can't use FixPlugin() here.
+  #try:
+  #  FixPlugin('strawberry-tagreader', '.')
+  #except:
+  #  print('Failed to find blob: %s' % traceback.format_exc())
 
   for plugin in GSTREAMER_PLUGINS:
     FixPlugin(FindGstreamerPlugin(plugin), 'gstreamer')
