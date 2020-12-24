@@ -160,6 +160,14 @@ void AlbumCoverSearcher::Init(AlbumCoverFetcher *fetcher) {
 
 QImage AlbumCoverSearcher::Exec(const QString &artist, const QString &album) {
 
+#ifdef Q_OS_MACOS
+  ui_->artist->clear();
+  ui_->album->clear();
+  model_->clear();
+  cover_loading_tasks_.clear();
+  show();
+#endif
+
   ui_->artist->setText(artist);
   ui_->album->setText(album);
   ui_->artist->setFocus();
