@@ -591,7 +591,11 @@ void MacOsDeviceLister::USBDeviceAddedCallback(void* refcon, io_iterator_t it) {
 
       // The device actually returned something. That's a good sign.
       // Because this was designed by MS, the characters are in UTF-16 (LE?).
+      // FIXME
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
       QString str = QString::fromUtf16(reinterpret_cast<ushort*>(data.data() + 2), (data.size() / 2) - 2);
+#pragma GCC diagnostic pop
 
       if (str.startsWith("MSFT100")) {
         // We got the OS descriptor!
