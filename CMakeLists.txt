@@ -26,9 +26,6 @@ if(LINUX)
   include(cmake/Rpm.cmake)
   include(cmake/Deb.cmake)
 endif()
-if(APPLE)
-  include(cmake/Dmg.cmake)
-endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
@@ -415,6 +412,12 @@ if(NOT CMAKE_CROSSCOMPILING)
     "
     SQLITE3_FTS5
   )
+endif()
+
+# make dmg
+# This needs to be included after the major Qt version is set.
+if(APPLE)
+  include(cmake/Dmg.cmake)
 endif()
 
 # Set up definitions
