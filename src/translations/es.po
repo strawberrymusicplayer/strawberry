@@ -533,7 +533,7 @@ msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
 #: covermanager/albumcovermanager.cpp:133
-#: covermanager/albumcoversearcher.cpp:191
+#: covermanager/albumcoversearcher.cpp:199
 #: ../build/src/ui_internetcollectionviewcontainer.h:141
 msgid "Abort"
 msgstr "Interrumpir"
@@ -4030,8 +4030,8 @@ msgstr "¡No se ha iniciado sesión en servicio de registro de reproducción %1!
 msgid "Scroll over icon to change track"
 msgstr "Desplazar la rueda del ratón sobre el icono para cambiar de pista"
 
-#: covermanager/albumcoversearcher.cpp:199
-#: covermanager/albumcoversearcher.cpp:218
+#: covermanager/albumcoversearcher.cpp:207
+#: covermanager/albumcoversearcher.cpp:226
 #: ../build/src/ui_albumcoversearcher.h:113
 #: ../build/src/ui_internettabsview.h:119
 msgid "Search"

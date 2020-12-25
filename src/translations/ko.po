@@ -504,7 +504,7 @@ msgid "ASF (WMA)"
 msgstr "ASF(WMA)"
 
 #: covermanager/albumcovermanager.cpp:133
-#: covermanager/albumcoversearcher.cpp:191
+#: covermanager/albumcoversearcher.cpp:199
 #: ../build/src/ui_internetcollectionviewcontainer.h:141
 msgid "Abort"
 msgstr "중지"
@@ -3945,8 +3945,8 @@ msgstr "스크로블러 %1이(가) 인증되지 않았습니다!"
 msgid "Scroll over icon to change track"
 msgstr "트랙을 변경하려면 아이콘  위에서 스크롤하십시오"
 
-#: covermanager/albumcoversearcher.cpp:199
-#: covermanager/albumcoversearcher.cpp:218
+#: covermanager/albumcoversearcher.cpp:207
+#: covermanager/albumcoversearcher.cpp:226
 #: ../build/src/ui_albumcoversearcher.h:113
 #: ../build/src/ui_internettabsview.h:119
 msgid "Search"

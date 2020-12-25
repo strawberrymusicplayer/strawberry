@@ -500,7 +500,7 @@ msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
 #: covermanager/albumcovermanager.cpp:133
-#: covermanager/albumcoversearcher.cpp:191
+#: covermanager/albumcoversearcher.cpp:199
 #: ../build/src/ui_internetcollectionviewcontainer.h:141
 msgid "Abort"
 msgstr "Interrompi"
@@ -3976,8 +3976,8 @@ msgstr "Lo Scrobbler %1 non è autenticato!"
 msgid "Scroll over icon to change track"
 msgstr "Scorri sull'icona per cambiare traccia"
 
-#: covermanager/albumcoversearcher.cpp:199
-#: covermanager/albumcoversearcher.cpp:218
+#: covermanager/albumcoversearcher.cpp:207
+#: covermanager/albumcoversearcher.cpp:226
 #: ../build/src/ui_albumcoversearcher.h:113
 #: ../build/src/ui_internettabsview.h:119
 msgid "Search"

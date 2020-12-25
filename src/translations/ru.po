@@ -522,7 +522,7 @@ msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
 #: covermanager/albumcovermanager.cpp:133
-#: covermanager/albumcoversearcher.cpp:191
+#: covermanager/albumcoversearcher.cpp:199
 #: ../build/src/ui_internetcollectionviewcontainer.h:141
 msgid "Abort"
 msgstr "Прервать"
@@ -3985,8 +3985,8 @@ msgstr "Скробблер %1 не аутентифицирован!"
 msgid "Scroll over icon to change track"
 msgstr "Скроллинг над значком переключает треки"
 
-#: covermanager/albumcoversearcher.cpp:199
-#: covermanager/albumcoversearcher.cpp:218
+#: covermanager/albumcoversearcher.cpp:207
+#: covermanager/albumcoversearcher.cpp:226
 #: ../build/src/ui_albumcoversearcher.h:113
 #: ../build/src/ui_internettabsview.h:119
 msgid "Search"

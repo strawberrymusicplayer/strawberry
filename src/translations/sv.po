@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-22 02:41-0500\n"
+"PO-Revision-Date: 2020-12-24 03:46-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -517,7 +517,7 @@ msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
 #: covermanager/albumcovermanager.cpp:133
-#: covermanager/albumcoversearcher.cpp:191
+#: covermanager/albumcoversearcher.cpp:199
 #: ../build/src/ui_internetcollectionviewcontainer.h:141
 msgid "Abort"
 msgstr "Avbryt"
@@ -1202,7 +1202,7 @@ msgstr "Välj de leverantörer du vill använda vid sökning efter låttexter."
 
 #: equalizer/equalizer.cpp:138
 msgid "Classical"
-msgstr "Klassisk"
+msgstr "Klassiskt"
 
 #: widgets/lineedit.cpp:61 transcoder/transcodedialog.cpp:99
 #: ../build/src/ui_queueview.h:142
@@ -2629,7 +2629,7 @@ msgstr "Språk"
 
 #: equalizer/equalizer.cpp:144
 msgid "Laptop/Headphones"
-msgstr "Laptop/hörlurar"
+msgstr "Bärbar dator/hörlurar"
 
 #: equalizer/equalizer.cpp:145
 msgid "Large Hall"
@@ -3299,7 +3299,7 @@ msgstr "Partitionsnamn"
 
 #: equalizer/equalizer.cpp:147
 msgid "Party"
-msgstr "Party"
+msgstr "Fest"
 
 #: ../build/src/ui_networkproxysettingspage.h:180
 #: ../build/src/ui_userpassdialog.h:92
@@ -3995,8 +3995,8 @@ msgstr "Skrobblare %1 är inte autentiserad!"
 msgid "Scroll over icon to change track"
 msgstr "Rulla över ikonen med muspekaren för att byta spår"
 
-#: covermanager/albumcoversearcher.cpp:199
-#: covermanager/albumcoversearcher.cpp:218
+#: covermanager/albumcoversearcher.cpp:207
+#: covermanager/albumcoversearcher.cpp:226
 #: ../build/src/ui_albumcoversearcher.h:113
 #: ../build/src/ui_internettabsview.h:119
 msgid "Search"
