@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-24 03:46-0500\n"
+"PO-Revision-Date: 2020-12-25 09:56-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -234,7 +234,7 @@ msgstr "%n misslyckades"
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n finished"
-msgstr "%n färdig"
+msgstr "%n är klar"
 
 #: transcoder/transcodedialog.cpp:305
 #, c-format, qt-plural-format
@@ -742,7 +742,7 @@ msgstr "Tillagda idag"
 #: ../build/src/ui_collectionfilterwidget.h:95
 #: ../build/src/ui_collectionfilterwidget.h:97
 msgid "Added within three months"
-msgstr "Tillagda senaste tre månaderna"
+msgstr "Tillagda senaste tre månader"
 
 #: collection/collectionfilterwidget.cpp:252
 msgid "Advanced grouping..."
@@ -1202,7 +1202,7 @@ msgstr "Välj de leverantörer du vill använda vid sökning efter låttexter."
 
 #: equalizer/equalizer.cpp:138
 msgid "Classical"
-msgstr "Klassiskt"
+msgstr "Klassisk"
 
 #: widgets/lineedit.cpp:61 transcoder/transcodedialog.cpp:99
 #: ../build/src/ui_queueview.h:142
@@ -1661,7 +1661,7 @@ msgstr "Ta bort smart spellista"
 
 #: ../build/src/ui_organizedialog.h:270
 msgid "Delete the original files"
-msgstr "Ta bort originalfilerna"
+msgstr "Ta bort originalfiler"
 
 #: core/deletefiles.cpp:56
 msgid "Deleting files"
@@ -2045,7 +2045,7 @@ msgstr "Exportera inbäddade omslag"
 #: covermanager/albumcovermanager.cpp:888
 #: covermanager/albumcovermanager.cpp:914
 msgid "Export finished"
-msgstr "Exporteringen är färdig"
+msgstr "Exporten är klar"
 
 #: covermanager/albumcovermanager.cpp:899
 #, qt-format
@@ -2200,7 +2200,7 @@ msgstr "Avsluta"
 
 #: collection/savedgroupingmanager.cpp:56 ../build/src/ui_groupbydialog.h:182
 msgid "First level"
-msgstr "Första nivån"
+msgstr "Första nivå"
 
 #: widgets/playingwidget.cpp:106
 msgid "Fit cover to width"
@@ -2235,7 +2235,7 @@ msgstr "För en bättre upplevelse, överväg de andra alternativen ovan."
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
-msgstr "Tvinga enkanalskodning"
+msgstr "Tvinga monokodning"
 
 #: device/deviceview.cpp:229 device/deviceview.cpp:336
 #: device/deviceview.cpp:339
@@ -2589,7 +2589,7 @@ msgstr "Internet-flikvy"
 
 #: osd/osdbase.cpp:354 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
-msgstr "Låtintroduktion"
+msgstr "Introduktionsspår"
 
 #: scrobbler/scrobblingapi20.cpp:212
 msgid "Invalid reply from web browser. Missing token."
@@ -2621,7 +2621,7 @@ msgstr "Fortsätt köra i bakgrunden när fönstret är stängt"
 
 #: ../build/src/ui_organizedialog.h:269
 msgid "Keep the original files"
-msgstr "Behåll originalfilerna"
+msgstr "Behåll originalfiler"
 
 #: ../build/src/ui_behavioursettingspage.h:300
 msgid "Language"
@@ -3403,7 +3403,7 @@ msgstr "Spellistknappar"
 
 #: osd/osdbase.cpp:270
 msgid "Playlist finished"
-msgstr "Spellistan slutförd"
+msgstr "Spellistan är klar"
 
 #: core/mainwindow.cpp:2214
 #, qt-format
@@ -4040,11 +4040,11 @@ msgstr "Söker..."
 
 #: collection/savedgroupingmanager.cpp:57
 msgid "Second Level"
-msgstr "Andra nivån"
+msgstr "Andra nivå"
 
 #: ../build/src/ui_groupbydialog.h:204
 msgid "Second level"
-msgstr "Andra nivån"
+msgstr "Andra nivå"
 
 #: core/commandlineoptions.cpp:178
 msgid "Seek the currently playing track by a relative amount"
@@ -4726,11 +4726,11 @@ msgstr ""
 
 #: collection/savedgroupingmanager.cpp:58
 msgid "Third Level"
-msgstr "Tredje nivån"
+msgstr "Tredje nivå"
 
 #: ../build/src/ui_groupbydialog.h:226
 msgid "Third level"
-msgstr "Tredje nivån"
+msgstr "Tredje nivå"
 
 #: ../build/src/ui_playlistsaveoptionsdialog.h:97
 msgid "This can be changed later through the preferences"
