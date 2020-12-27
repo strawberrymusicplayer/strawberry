@@ -153,7 +153,11 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
   key_tap_ = [ [SPMediaKeyTap alloc] initWithDelegate:self];
   if ([SPMediaKeyTap usesGlobalMediaKeyTap]) {
-    [key_tap_ startWatchingMediaKeys];
+    if ([key_tap_ startWatchingMediaKeys]) {
+        qLog(Debug) << "Media key monitoring started";
+    } else {
+        qLog(Warning) << "Failed to start media key monitoring";
+    }
   }
   else {
     qLog(Warning) << "Media key monitoring disabled";
