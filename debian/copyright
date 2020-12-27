@@ -359,6 +359,11 @@ Files: src/widgets/qsearchfield_nonmac.cpp
 Copyright: 2011, Mike McQuaid <mike@mikemcquaid.com>
 License: Expat
 
+Files: 3rdparty/SPMediaKeyTap/*
+Copyright: 2010, Spotify AB
+           2011, Joachim Bengtsson
+License: BSD-3-clause
+
 Files: 3rdparty/singleapplication/*
 Copyright: 2015-2018, Itay Grudev
 License: MIT
