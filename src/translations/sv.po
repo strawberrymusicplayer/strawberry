@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-25 09:56-0500\n"
+"PO-Revision-Date: 2020-12-25 07:11-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -742,7 +742,7 @@ msgstr "Tillagda idag"
 #: ../build/src/ui_collectionfilterwidget.h:95
 #: ../build/src/ui_collectionfilterwidget.h:97
 msgid "Added within three months"
-msgstr "Tillagda senaste tre månader"
+msgstr "Tillagda inom tre månader"
 
 #: collection/collectionfilterwidget.cpp:252
 msgid "Advanced grouping..."
