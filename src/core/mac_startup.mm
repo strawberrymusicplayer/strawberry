@@ -149,6 +149,7 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification {
+  Q_UNUSED(aNotification);
 
   key_tap_ = [ [SPMediaKeyTap alloc] initWithDelegate:self];
   if ([SPMediaKeyTap usesGlobalMediaKeyTap]) {
@@ -184,22 +185,22 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 }
 
 - (void) mediaKeyTap: (SPMediaKeyTap*)keyTap receivedMediaKeyEvent:(NSEvent*)event {
+  [self handleMediaEvent:event];
+}
 
-  NSAssert([event type] == NSSystemDefined && [event subtype] == SPSystemDefinedEventMediaKeys, @"Unexpected NSEvent in mediaKeyTap:receivedMediaKeyEvent:");
-
-  int key_code = (([event data1] & 0xFFFF0000) >> 16);
-  int key_flags = ([event data1] & 0x0000FFFF);
-  BOOL key_is_released = (((key_flags & 0xFF00) >> 8)) == 0xB;
-  // not used. keep just in case
-  //  int key_repeat = (key_flags & 0x1);
-
-  if (!shortcut_handler_) {
-    return;
+- (BOOL) handleMediaEvent:(NSEvent*)event {
+  // if it is not a media key event, then ignore
+  if ([event type] == NSEventTypeSystemDefined && [event subtype] == 8) {
+    int keyCode = (([event data1] & 0xFFFF0000) >> 16);
+    int keyFlags = ([event data1] & 0x0000FFFF);
+    int keyIsReleased = (((keyFlags & 0xFF00) >> 8)) == 0xB;
+    if (keyIsReleased) {
+      shortcut_handler_->MacMediaKeyPressed(keyCode);
+      return YES;
+    }
   }
-  if (key_is_released) {
-    shortcut_handler_->MacMediaKeyPressed(key_code);
-  }
 
+  return NO;
 }
 
 - (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication*) sender {
@@ -257,13 +258,7 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
 - (void)sendEvent:(NSEvent*)event {
 
-  // If event tap is not installed, handle events that reach the app instead
-  BOOL shouldHandleMediaKeyEventLocally = ![SPMediaKeyTap usesGlobalMediaKeyTap];
-
-  if(shouldHandleMediaKeyEventLocally && [event type] == NSSystemDefined && [event subtype] == SPSystemDefinedEventMediaKeys) {
-    [(id)[self delegate] mediaKeyTap:nil receivedMediaKeyEvent:event];
-  }
-
+  [delegate_ handleMediaEvent:event];
   [super sendEvent:event];
 
 }
