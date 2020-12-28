@@ -1,13 +1,7 @@
-if(BUILD_WITH_QT6)
-  set(MACDEPLOYQT_PATHS "/usr/local/opt/qt6/bin")
-elseif(BUILD_WITH_QT5)
-  set(MACDEPLOYQT_PATHS "/usr/local/opt/qt5/bin")
+find_program(MACDEPLOYQT_EXECUTABLE NAMES macdeployqt PATHS /usr/local/opt/qt6/bin /usr/local/opt/qt5/bin /usr/local/bin)
+if(MACDEPLOYQT_EXECUTABLE)
+  message(STATUS "Found: ${MACDEPLOYQT_EXECUTABLE}")
 else()
-  message(FATAL_ERROR "BUILD_WITH_QT6 or BUILD_WITH_QT5 must be set.")
-endif()
-
-find_program(MACDEPLOYQT_EXECUTABLE NAMES macdeployqt PATHS ${MACDEPLOYQT_PATHS} NO_DEFAULT_PATH)
-if(NOT MACDEPLOYQT_EXECUTABLE)
   message(WARNING "Missing macdeployqt executable.")
 endif()
 
