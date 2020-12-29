@@ -62,8 +62,6 @@ QString ColorToRgba(const QColor &color);
 quint64 FileSystemCapacity(const QString &path);
 quint64 FileSystemFreeSpace(const QString &path);
 
-QString MakeTempDir(const QString template_name = QString());
-
 bool MoveToTrashRecursive(const QString &path);
 bool RemoveRecursive(const QString &path);
 bool CopyRecursive(const QString &source, const QString &destination);
@@ -71,20 +69,16 @@ bool Copy(QIODevice *source, QIODevice *destination);
 
 void OpenInFileBrowser(const QList<QUrl> &urls);
 
-  enum HashFunction {
-    Md5_Algo,
-    Sha256_Algo,
-    Sha1_Algo,
-  };
+enum HashFunction {
+  Md5_Algo,
+  Sha256_Algo,
+  Sha1_Algo,
+};
 QByteArray Hmac(const QByteArray &key, const QByteArray &data, const HashFunction method);
 QByteArray HmacMd5(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha256(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha1(const QByteArray &key, const QByteArray &data);
-QByteArray Sha1File(QFile &file);
 QByteArray Sha1CoverHash(const QString &artist, const QString &album);
-
-// Picks an unused ephemeral port number.  Doesn't hold the port open so there's the obvious race condition
-quint16 PickUnusedPort();
 
 // Reads all children of the current element,
 // and returns with the stream reader either on the EndElement for the current element, or the end of the file - whichever came first.
@@ -132,9 +126,6 @@ static const int IOPRIO_CLASS_SHIFT = 13;
 
 int SetThreadIOPriority(IoPriority priority);
 int GetThreadId();
-
-// Returns true if this machine has a battery.
-bool IsLaptop();
 
 QString GetRandomStringWithChars(const int len);
 QString GetRandomStringWithCharsAndNumbers(const int len);

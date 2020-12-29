@@ -42,20 +42,13 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QProcess>
-#include <QHostAddress>
-#include <QSet>
 #include <QList>
 #include <QMap>
-#include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
-#include <QTcpServer>
-#include <QTemporaryFile>
-#include <QPoint>
-#include <QRect>
 #include <QSize>
 #include <QColor>
 #include <QMetaEnum>
@@ -246,24 +239,6 @@ quint64 FileSystemFreeSpace(const QString &path) {
 #endif
 
   return 0;
-
-}
-
-QString MakeTempDir(const QString template_name) {
-
-  QString path;
-  {
-    QTemporaryFile tempfile;
-    if (!template_name.isEmpty()) tempfile.setFileTemplate(template_name);
-
-    tempfile.open();
-    path = tempfile.fileName();
-  }
-
-  QDir d;
-  d.mkdir(path);
-
-  return path;
 
 }
 
@@ -536,25 +511,6 @@ QByteArray HmacSha1(const QByteArray &key, const QByteArray &data) {
   return Hmac(key, data, Sha1_Algo);
 }
 
-// File must not be open and will be closed afterwards!
-QByteArray Sha1File(QFile &file) {
-
-  file.open(QIODevice::ReadOnly);
-  QCryptographicHash hash(QCryptographicHash::Sha1);
-  QByteArray data;
-
-  while (!file.atEnd()) {
-    data = file.read(1000000);  // 1 mib
-    hash.addData(data.data(), data.length());
-    data.clear();
-  }
-
-  file.close();
-
-  return hash.result();
-
-}
-
 QByteArray Sha1CoverHash(const QString &artist, const QString &album) {
 
   QCryptographicHash hash(QCryptographicHash::Sha1);
@@ -567,23 +523,6 @@ QByteArray Sha1CoverHash(const QString &artist, const QString &album) {
 
 QString PrettySize(const QSize &size) {
   return QString::number(size.width()) + "x" + QString::number(size.height());
-}
-
-quint16 PickUnusedPort() {
-
-  forever {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-    const quint64 port = QRandomGenerator::global()->bounded(49152, 65535);
-#else
-    const quint16 port = 49152 + qrand() % 16384;
-#endif
-
-    QTcpServer server;
-    if (server.listen(QHostAddress::Any, port)) {
-      return port;
-    }
-  }
-
 }
 
 void ConsumeCurrentElement(QXmlStreamReader *reader) {
@@ -739,35 +678,6 @@ int GetThreadId() {
   return syscall(SYS_gettid);
 #else
   return 0;
-#endif
-
-}
-
-bool IsLaptop() {
-
-#ifdef Q_OS_WIN
-  SYSTEM_POWER_STATUS status;
-  if (!GetSystemPowerStatus(&status)) {
-    return false;
-  }
-
-  return !(status.BatteryFlag & 128);  // 128 = no system battery
-#elif defined(Q_OS_LINUX)
-  return !QDir("/proc/acpi/battery").entryList(QDir::Dirs | QDir::NoDotAndDotDot).isEmpty();
-#elif defined(Q_OS_MACOS)
-  ScopedCFTypeRef<CFTypeRef> power_sources(IOPSCopyPowerSourcesInfo());
-  ScopedCFTypeRef<CFArrayRef> power_source_list(IOPSCopyPowerSourcesList(power_sources.get()));
-  for (CFIndex i = 0; i < CFArrayGetCount(power_source_list.get()); ++i) {
-    CFTypeRef ps = CFArrayGetValueAtIndex(power_source_list.get(), i);
-    CFDictionaryRef description = IOPSGetPowerSourceDescription(power_sources.get(), ps);
-
-    if (CFDictionaryContainsKey(description, CFSTR(kIOPSBatteryHealthKey))) {
-      return true;
-    }
-  }
-  return false;
-#else
-  return false;
 #endif
 
 }
