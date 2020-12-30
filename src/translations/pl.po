@@ -142,12 +142,12 @@ msgstr "%1 artyści(ów)"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:151
+#: core/utilities.cpp:144
 #, qt-format
 msgid "%1 days"
 msgstr "%1 dni"
 
-#: core/utilities.cpp:171
+#: core/utilities.cpp:164
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 dni temu"
@@ -197,7 +197,7 @@ msgstr "znaleziono utworów: %1"
 msgid "%1 songs found (showing %2)"
 msgstr "znaleziono utworów: %1 (pokazanych: %2)"
 
-#: core/utilities.cpp:477
+#: core/utilities.cpp:452
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -449,7 +449,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0 px"
 
-#: core/utilities.cpp:151
+#: core/utilities.cpp:144
 msgid "1 day"
 msgstr "1 dzień"
 
@@ -2544,12 +2544,12 @@ msgstr "Zaimportuj dane z last.fm…"
 msgid "Import..."
 msgstr "Importuj…"
 
-#: core/utilities.cpp:185
+#: core/utilities.cpp:178
 #, qt-format
 msgid "In %1 days"
 msgstr "W ciągu %1 dni(a)"
 
-#: core/utilities.cpp:188
+#: core/utilities.cpp:181
 #, qt-format
 msgid "In %1 weeks"
 msgstr "W ciągu %1 tygodni(a)"
@@ -3072,7 +3072,7 @@ msgstr "Najnowsze ścieżki"
 msgid "Next"
 msgstr "Dalej"
 
-#: core/utilities.cpp:186
+#: core/utilities.cpp:179
 msgid "Next week"
 msgstr "W następnym tygodniu"
 
@@ -4240,7 +4240,7 @@ msgstr "Pokaż w pełnym rozmiarze…"
 msgid "Show in collection..."
 msgstr "Pokaż w kolekcji…"
 
-#: core/utilities.cpp:471 core/utilities.cpp:477
+#: core/utilities.cpp:446 core/utilities.cpp:452
 msgid "Show in file browser"
 msgstr "Pokaż w menedżerze plików"
 
@@ -4825,7 +4825,7 @@ msgstr "Odstęp czasu"
 msgid "Title"
 msgstr "Tytuł"
 
-#: core/utilities.cpp:169 core/utilities.cpp:183
+#: core/utilities.cpp:162 core/utilities.cpp:176
 msgid "Today"
 msgstr "Dzisiaj"
 
@@ -4845,11 +4845,11 @@ msgstr "Przełącz stan pominięcia"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Przełącz wyświetlanie ładnego menu ekranowego (OSD)"
 
-#: core/utilities.cpp:184
+#: core/utilities.cpp:177
 msgid "Tomorrow"
 msgstr "Jutro"
 
-#: core/utilities.cpp:471
+#: core/utilities.cpp:446
 msgid "Too many songs selected."
 msgstr "Zaznaczono za dużo utworów."
 
@@ -5215,7 +5215,7 @@ msgstr "Rok - Album - Płyta"
 msgid "Years"
 msgstr "Lat"
 
-#: core/utilities.cpp:170
+#: core/utilities.cpp:163
 msgid "Yesterday"
 msgstr "Wczoraj"
 

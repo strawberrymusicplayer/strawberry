@@ -147,12 +147,12 @@ msgstr ""
 msgid "%1 dB"
 msgstr "%1 дБ"
 
-#: core/utilities.cpp:151
+#: core/utilities.cpp:144
 #, qt-format
 msgid "%1 days"
 msgstr "%1 дней"
 
-#: core/utilities.cpp:171
+#: core/utilities.cpp:164
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 дней назад"
@@ -202,7 +202,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:477
+#: core/utilities.cpp:452
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -453,7 +453,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:151
+#: core/utilities.cpp:144
 msgid "1 day"
 msgstr "1 день"
 
@@ -2532,12 +2532,12 @@ msgstr ""
 msgid "Import..."
 msgstr "Импортировать..."
 
-#: core/utilities.cpp:185
+#: core/utilities.cpp:178
 #, qt-format
 msgid "In %1 days"
 msgstr "В течение %1 дней"
 
-#: core/utilities.cpp:188
+#: core/utilities.cpp:181
 #, qt-format
 msgid "In %1 weeks"
 msgstr "В течение %1 недель"
@@ -3056,7 +3056,7 @@ msgstr ""
 msgid "Next"
 msgstr "Дальше"
 
-#: core/utilities.cpp:186
+#: core/utilities.cpp:179
 msgid "Next week"
 msgstr "На следующей неделе"
 
@@ -4207,7 +4207,7 @@ msgstr "Показать в полный размер…"
 msgid "Show in collection..."
 msgstr "Показать в фонотеке…"
 
-#: core/utilities.cpp:471 core/utilities.cpp:477
+#: core/utilities.cpp:446 core/utilities.cpp:452
 msgid "Show in file browser"
 msgstr "Показать в файловом браузере"
 
@@ -4786,7 +4786,7 @@ msgstr "Шаг времени"
 msgid "Title"
 msgstr "Название"
 
-#: core/utilities.cpp:169 core/utilities.cpp:183
+#: core/utilities.cpp:162 core/utilities.cpp:176
 msgid "Today"
 msgstr "Сегодня"
 
@@ -4806,11 +4806,11 @@ msgstr "Переключить статус пропуска"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Переключить видимость OSD"
 
-#: core/utilities.cpp:184
+#: core/utilities.cpp:177
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: core/utilities.cpp:471
+#: core/utilities.cpp:446
 msgid "Too many songs selected."
 msgstr "Слишком много песен выбрано."
 
@@ -5171,7 +5171,7 @@ msgstr "Год - Альбом - Диск"
 msgid "Years"
 msgstr ""
 
-#: core/utilities.cpp:170
+#: core/utilities.cpp:163
 msgid "Yesterday"
 msgstr "Вчера"
 

@@ -122,12 +122,12 @@ msgstr "%1 artister"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:151
+#: core/utilities.cpp:144
 #, qt-format
 msgid "%1 days"
 msgstr "%1 dager"
 
-#: core/utilities.cpp:171
+#: core/utilities.cpp:164
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 dager siden"
@@ -177,7 +177,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:477
+#: core/utilities.cpp:452
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -427,7 +427,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:151
+#: core/utilities.cpp:144
 msgid "1 day"
 msgstr "1 dag"
 
@@ -2501,12 +2501,12 @@ msgstr ""
 msgid "Import..."
 msgstr "Importer..."
 
-#: core/utilities.cpp:185
+#: core/utilities.cpp:178
 #, qt-format
 msgid "In %1 days"
 msgstr "Om %1 dager"
 
-#: core/utilities.cpp:188
+#: core/utilities.cpp:181
 #, qt-format
 msgid "In %1 weeks"
 msgstr "Om %1 uker"
@@ -3025,7 +3025,7 @@ msgstr ""
 msgid "Next"
 msgstr "Neste"
 
-#: core/utilities.cpp:186
+#: core/utilities.cpp:179
 msgid "Next week"
 msgstr "Neste uke"
 
@@ -4172,7 +4172,7 @@ msgstr "Fullskjermvisning…"
 msgid "Show in collection..."
 msgstr "Vis i samling…"
 
-#: core/utilities.cpp:471 core/utilities.cpp:477
+#: core/utilities.cpp:446 core/utilities.cpp:452
 msgid "Show in file browser"
 msgstr "Vis i fil utforsker"
 
@@ -4749,7 +4749,7 @@ msgstr "Tidstrinn"
 msgid "Title"
 msgstr "Tittel"
 
-#: core/utilities.cpp:169 core/utilities.cpp:183
+#: core/utilities.cpp:162 core/utilities.cpp:176
 msgid "Today"
 msgstr "I dag"
 
@@ -4769,11 +4769,11 @@ msgstr "Slå av/på hopp over status"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Slå av/på synlighet for det pene skjermbilde overlegget"
 
-#: core/utilities.cpp:184
+#: core/utilities.cpp:177
 msgid "Tomorrow"
 msgstr "I morgen"
 
-#: core/utilities.cpp:471
+#: core/utilities.cpp:446
 msgid "Too many songs selected."
 msgstr "For mange sanger er valgt."
 
@@ -5132,7 +5132,7 @@ msgstr "År - album - disc"
 msgid "Years"
 msgstr ""
 
-#: core/utilities.cpp:170
+#: core/utilities.cpp:163
 msgid "Yesterday"
 msgstr "I går"
 

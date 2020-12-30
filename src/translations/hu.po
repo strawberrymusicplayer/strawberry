@@ -129,12 +129,12 @@ msgstr "%1 előadó"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:151
+#: core/utilities.cpp:144
 #, qt-format
 msgid "%1 days"
 msgstr "%1 nap"
 
-#: core/utilities.cpp:171
+#: core/utilities.cpp:164
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 nappal ezelőtt"
@@ -184,7 +184,7 @@ msgstr "%1 dal található"
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:477
+#: core/utilities.cpp:452
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -437,7 +437,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0 px"
 
-#: core/utilities.cpp:151
+#: core/utilities.cpp:144
 msgid "1 day"
 msgstr "1 nap"
 
@@ -2528,12 +2528,12 @@ msgstr "Adatok importálása last.fm-ből..."
 msgid "Import..."
 msgstr "Importálás..."
 
-#: core/utilities.cpp:185
+#: core/utilities.cpp:178
 #, qt-format
 msgid "In %1 days"
 msgstr "%1 napon belül"
 
-#: core/utilities.cpp:188
+#: core/utilities.cpp:181
 #, qt-format
 msgid "In %1 weeks"
 msgstr "%1 héten belül"
@@ -3054,7 +3054,7 @@ msgstr "Legújabb számok"
 msgid "Next"
 msgstr "Következő"
 
-#: core/utilities.cpp:186
+#: core/utilities.cpp:179
 msgid "Next week"
 msgstr "Következő héten"
 
@@ -4216,7 +4216,7 @@ msgstr "Megjelenítés teljes méretben..."
 msgid "Show in collection..."
 msgstr "Megjelenítés a gyűjteményben..."
 
-#: core/utilities.cpp:471 core/utilities.cpp:477
+#: core/utilities.cpp:446 core/utilities.cpp:452
 msgid "Show in file browser"
 msgstr "Megnyitás a fájlböngészőben"
 
@@ -4799,7 +4799,7 @@ msgstr "Léptetés ideje"
 msgid "Title"
 msgstr "Cím"
 
-#: core/utilities.cpp:169 core/utilities.cpp:183
+#: core/utilities.cpp:162 core/utilities.cpp:176
 msgid "Today"
 msgstr "Ma"
 
@@ -4820,11 +4820,11 @@ msgstr "Állapot átugrása"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "OSD láthatóság bekapcsolása"
 
-#: core/utilities.cpp:184
+#: core/utilities.cpp:177
 msgid "Tomorrow"
 msgstr "Holnap"
 
-#: core/utilities.cpp:471
+#: core/utilities.cpp:446
 msgid "Too many songs selected."
 msgstr "Túl sok dal van kiválasztva."
 
@@ -5184,7 +5184,7 @@ msgstr "Év - Album - Lemez"
 msgid "Years"
 msgstr ""
 
-#: core/utilities.cpp:170
+#: core/utilities.cpp:163
 msgid "Yesterday"
 msgstr "Tegnap"
 

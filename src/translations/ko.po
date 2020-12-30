@@ -130,12 +130,12 @@ msgstr "아티스트 %1명"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:151
+#: core/utilities.cpp:144
 #, qt-format
 msgid "%1 days"
 msgstr "%1일"
 
-#: core/utilities.cpp:171
+#: core/utilities.cpp:164
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1일 전"
@@ -185,7 +185,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:477
+#: core/utilities.cpp:452
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -434,7 +434,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:151
+#: core/utilities.cpp:144
 msgid "1 day"
 msgstr "1일"
 
@@ -2499,12 +2499,12 @@ msgstr "last.fm으로부터 데이터 가져오기"
 msgid "Import..."
 msgstr "가져오기..."
 
-#: core/utilities.cpp:185
+#: core/utilities.cpp:178
 #, qt-format
 msgid "In %1 days"
 msgstr "%1일 후"
 
-#: core/utilities.cpp:188
+#: core/utilities.cpp:181
 #, qt-format
 msgid "In %1 weeks"
 msgstr "%1주 후"
@@ -3023,7 +3023,7 @@ msgstr "새로 추가된 곡"
 msgid "Next"
 msgstr "다음"
 
-#: core/utilities.cpp:186
+#: core/utilities.cpp:179
 msgid "Next week"
 msgstr "다음 주"
 
@@ -4167,7 +4167,7 @@ msgstr "전체 크기 표시..."
 msgid "Show in collection..."
 msgstr "라이브러리에 표시..."
 
-#: core/utilities.cpp:471 core/utilities.cpp:477
+#: core/utilities.cpp:446 core/utilities.cpp:452
 msgid "Show in file browser"
 msgstr "파일 탐색기에 표시"
 
@@ -4726,7 +4726,7 @@ msgstr "시간 간격"
 msgid "Title"
 msgstr "제목"
 
-#: core/utilities.cpp:169 core/utilities.cpp:183
+#: core/utilities.cpp:162 core/utilities.cpp:176
 msgid "Today"
 msgstr "오늘"
 
@@ -4746,11 +4746,11 @@ msgstr "건너뛰기 상태 전환"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "예쁜 OSD 표시 여부 전환"
 
-#: core/utilities.cpp:184
+#: core/utilities.cpp:177
 msgid "Tomorrow"
 msgstr "내일"
 
-#: core/utilities.cpp:471
+#: core/utilities.cpp:446
 msgid "Too many songs selected."
 msgstr "너무 많은 곡을 선택했습니다."
 
@@ -5107,7 +5107,7 @@ msgstr "년도 - 앨범 - 디스크"
 msgid "Years"
 msgstr ""
 
-#: core/utilities.cpp:170
+#: core/utilities.cpp:163
 msgid "Yesterday"
 msgstr "어제"
 
