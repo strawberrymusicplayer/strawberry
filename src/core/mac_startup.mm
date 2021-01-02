@@ -113,8 +113,6 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
   application_handler_ = handler;
 
-  // Register defaults for the whitelist of apps that want to use media keys
-  [ [NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[SPMediaKeyTap defaultMediaKeyUserBundleIdentifiers], kMediaKeyUsingBundleIdentifiersDefaultsKey, nil] ];
   return self;
 
 }
