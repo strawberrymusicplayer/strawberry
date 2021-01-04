@@ -1380,24 +1380,15 @@ void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &a
   QSqlDatabase db(db_->Connect());
 
   for (const Song &song : songs) {
-    QSqlQuery q(db);
-    q.prepare(QString("SELECT lastplayed FROM %1 WHERE ROWID = :id").arg(songs_table_));
-    q.bindValue(":id", song.id());
-    q.exec();
-    if (db_->CheckErrors(q)) continue;
-    while (q.next()) {
-        if (q.value(0).toInt() >= lastplayed){
-            //qLog(Debug) << "Database data is more recent than submited one for" << artist << album << title;
-            return;
-        }
+    if (song.lastplayed() >= lastplayed) {
+      continue;
     }
-
+    QSqlQuery q(db);
     q.prepare(QString("UPDATE %1 SET lastplayed = :lastplayed WHERE ROWID = :id").arg(songs_table_));
     q.bindValue(":lastplayed", lastplayed);
     q.bindValue(":id", song.id());
     q.exec();
     if (db_->CheckErrors(q)) continue;
-    //qLog(Debug) << "Updated song: " << artist << album << title << lastplayed ;
   }
 
   emit SongsStatisticsChanged(SongList() << songs);
@@ -1467,3 +1458,4 @@ void CollectionBackend::UpdateSongRatingAsync(const int id, const float rating) 
 void CollectionBackend::UpdateSongsRatingAsync(const QList<int>& ids, const float rating) {
   metaObject()->invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(float, rating));
 }
+
