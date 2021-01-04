@@ -1380,6 +1380,9 @@ void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &a
   QSqlDatabase db(db_->Connect());
 
   for (const Song &song : songs) {
+    if (song.lastplayed() >= lastplayed) {
+      continue;
+    }
     QSqlQuery q(db);
     q.prepare(QString("UPDATE %1 SET lastplayed = :lastplayed WHERE ROWID = :id").arg(songs_table_));
     q.bindValue(":lastplayed", lastplayed);
