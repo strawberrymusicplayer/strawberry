@@ -72,6 +72,7 @@ static CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEv
 {
     [self stopWatchingMediaKeys];
     [self stopWatchingAppSwitching];
+    [super dealloc];
 }
 
 - (void)startWatchingAppSwitching
@@ -170,46 +171,42 @@ static CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEv
 
 + (NSArray*)mediaKeyUserBundleIdentifiers
 {
-    static NSArray *bundleIdentifiers;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        bundleIdentifiers = @[
-            [[NSBundle mainBundle] bundleIdentifier], // your app
-            @"com.spotify.client",
-            @"com.apple.iTunes",
-            @"com.apple.Music",
-            @"com.apple.QuickTimePlayerX",
-            @"com.apple.quicktimeplayer",
-            @"com.apple.iWork.Keynote",
-            @"com.apple.iPhoto",
-            @"org.videolan.vlc",
-            @"com.apple.Aperture",
-            @"com.plexsquared.Plex",
-            @"com.soundcloud.desktop",
-            @"org.niltsh.MPlayerX",
-            @"com.ilabs.PandorasHelper",
-            @"com.mahasoftware.pandabar",
-            @"com.bitcartel.pandorajam",
-            @"org.clementine-player.clementine",
-            @"fm.last.Last.fm",
-            @"fm.last.Scrobbler",
-            @"com.beatport.BeatportPro",
-            @"com.Timenut.SongKey",
-            @"com.macromedia.fireworks", // the tap messes up their mouse input
-            @"at.justp.Theremin",
-            @"ru.ya.themblsha.YandexMusic",
-            @"com.jriver.MediaCenter18",
-            @"com.jriver.MediaCenter19",
-            @"com.jriver.MediaCenter20",
-            @"co.rackit.mate",
-            @"com.ttitt.b-music",
-            @"com.beardedspice.BeardedSpice",
-            @"com.plug.Plug",
-            @"com.netease.163music",
-        ];
-    });
-
-    return bundleIdentifiers;
+    return [NSArray arrayWithObjects:
+        [[NSBundle mainBundle] bundleIdentifier], // your app
+        @"com.spotify.client",
+        @"com.apple.iTunes",
+        @"com.apple.QuickTimePlayerX",
+        @"com.apple.quicktimeplayer",
+        @"com.apple.iWork.Keynote",
+        @"com.apple.iPhoto",
+        @"org.videolan.vlc",
+        @"com.apple.Aperture",
+        @"com.plexsquared.Plex",
+        @"com.soundcloud.desktop",
+        @"org.niltsh.MPlayerX",
+        @"com.ilabs.PandorasHelper",
+        @"com.mahasoftware.pandabar",
+        @"com.bitcartel.pandorajam",
+        @"org.clementine-player.clementine",
+        @"fm.last.Last.fm",
+        @"fm.last.Scrobbler",
+        @"com.beatport.BeatportPro",
+        @"com.Timenut.SongKey",
+        @"com.macromedia.fireworks", // the tap messes up their mouse input
+        @"at.justp.Theremin",
+        @"ru.ya.themblsha.YandexMusic",
+        @"com.jriver.MediaCenter18",
+        @"com.jriver.MediaCenter19",
+        @"com.jriver.MediaCenter20",
+        @"co.rackit.mate",
+        @"com.ttitt.b-music",
+        @"com.beardedspice.BeardedSpice",
+        @"com.plug.Plug",
+        @"com.plug.Plug2",
+        @"com.netease.163music",
+        @"org.quodlibet.quodlibet",
+        nil
+    ];
 }
 
 
@@ -251,6 +248,7 @@ static CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEv
 
 static CGEventRef tapEventCallback2(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon)
 {
+    #pragma unused(proxy)
     SPMediaKeyTap *self = (__bridge SPMediaKeyTap *)refcon;
 
     if(type == kCGEventTapDisabledByTimeout) {
