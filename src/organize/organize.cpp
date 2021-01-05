@@ -238,7 +238,7 @@ void Organize::ProcessSomeFiles() {
       files_with_errors_ << task.song_info_.song_.basefilename();
     }
     else {
-      if (job.remove_original_) {
+      if (job.remove_original_ && song.source() == Song::Source_Device) {
         // Notify other aspects of system that song has been invalidated
         QString root = destination_->LocalPath();
         QFileInfo new_file = QFileInfo(root + "/" + task.song_info_.new_filename_);
