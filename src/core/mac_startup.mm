@@ -187,6 +187,7 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 }
 
 - (void) mediaKeyTap: (SPMediaKeyTap*)keyTap receivedMediaKeyEvent:(NSEvent*)event {
+  #pragma unused(keyTap)
   [self handleMediaEvent:event];
 }
 
