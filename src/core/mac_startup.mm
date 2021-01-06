@@ -40,6 +40,8 @@
 
 #import <QuartzCore/CALayer.h>
 
+#import "3rdparty/SPMediaKeyTap/SPMediaKeyTap.h"
+
 #include "config.h"
 
 #include "mac_delegate.h"
@@ -146,6 +148,19 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification {
   Q_UNUSED(aNotification);
+
+  key_tap_ = [ [SPMediaKeyTap alloc] initWithDelegate:self];
+  if ([SPMediaKeyTap usesGlobalMediaKeyTap]) {
+    if ([key_tap_ startWatchingMediaKeys]) {
+        qLog(Debug) << "Media key monitoring started";
+    } else {
+        qLog(Warning) << "Failed to start media key monitoring";
+    }
+  }
+  else {
+    qLog(Warning) << "Media key monitoring disabled";
+  }
+
 }
 
 - (BOOL)application:(NSApplication*)app openFile:(NSString*)filename {
@@ -169,6 +184,26 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
     [self application:app openFile:(NSString*)object];
   }];
 
+}
+
+- (void) mediaKeyTap: (SPMediaKeyTap*)keyTap receivedMediaKeyEvent:(NSEvent*)event {
+  #pragma unused(keyTap)
+  [self handleMediaEvent:event];
+}
+
+- (BOOL) handleMediaEvent:(NSEvent*)event {
+  // if it is not a media key event, then ignore
+  if ([event type] == NSEventTypeSystemDefined && [event subtype] == 8) {
+    int keyCode = (([event data1] & 0xFFFF0000) >> 16);
+    int keyFlags = ([event data1] & 0x0000FFFF);
+    int keyIsReleased = (((keyFlags & 0xFF00) >> 8)) == 0xB;
+    if (keyIsReleased) {
+      shortcut_handler_->MacMediaKeyPressed(keyCode);
+      return YES;
+    }
+  }
+
+  return NO;
 }
 
 - (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication*) sender {
@@ -226,15 +261,7 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
 - (void)sendEvent:(NSEvent*)event {
 
-  if ([event type] == NSEventTypeSystemDefined && [event subtype] == 8) {
-    int keyCode = (([event data1] & 0xFFFF0000) >> 16);
-    int keyFlags = ([event data1] & 0x0000FFFF);
-    int keyIsReleased = (((keyFlags & 0xFF00) >> 8)) == 0xB;
-    if (keyIsReleased) {
-      shortcut_handler_->MacMediaKeyPressed(keyCode);
-    }
-  }
-
+  [delegate_ handleMediaEvent:event];
   [super sendEvent:event];
 
 }

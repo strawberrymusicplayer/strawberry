@@ -1,0 +1,11 @@
+set(SPMEDIAKEY-SOURCES
+  SPMediaKeyTap.m
+)
+
+set(SPMEDIAKEY-HEADERS
+  SPMediaKeyTap.h
+)
+
+ADD_LIBRARY(SPMediaKeyTap STATIC
+  ${SPMEDIAKEY-SOURCES}
+)
