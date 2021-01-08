@@ -517,6 +517,26 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
     songs << song;
   }
 
+  // Albums with Album ID.
+  for (int album_id = 0; album_id <= 2 ; ++album_id) {
+    Song song(Song::Source_Collection);
+    song.set_url(QUrl(QString("file:///tmp/song-with-album-id-1")));
+    song.set_artist("Artist with Album ID");
+    song.set_album(QString("Album %1 with Album ID").arg(album_id));
+    song.set_album_id(QString("Album ID %1").arg(album_id));
+    song.set_mtime(1);
+    song.set_ctime(1);
+    song.set_directory_id(1);
+    song.set_filetype(Song::FileType_FLAC);
+    song.set_filesize(1);
+    song.set_year(1970);
+    for (int i = 0; i <= 3 ; ++i) {
+      song.set_title(QString("Title %1 %2").arg(album_id).arg(i));
+      song.set_track(i);
+      songs << song;
+    }
+  }
+
   for (int f = CollectionModel::GroupBy_None + 1 ; f < CollectionModel::GroupByCount ; ++f) {
     for (int s = CollectionModel::GroupBy_None ; s < CollectionModel::GroupByCount ; ++s) {
       for (int t = CollectionModel::GroupBy_None ; t < CollectionModel::GroupByCount ; ++t) {

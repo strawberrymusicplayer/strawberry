@@ -261,21 +261,27 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
             break;
           case GroupBy_Album:
             key.append(TextOrUnknown(song.album()));
+            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
             break;
           case GroupBy_AlbumDisc:
             key.append(PrettyAlbumDisc(song.album(), song.disc()));
+            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
             break;
           case GroupBy_YearAlbum:
             key.append(PrettyYearAlbum(song.year(), song.album()));
+            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
             break;
           case GroupBy_YearAlbumDisc:
             key.append(PrettyYearAlbumDisc(song.year(), song.album(), song.disc()));
+            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
             break;
           case GroupBy_OriginalYearAlbum:
             key.append(PrettyYearAlbum(song.effective_originalyear(), song.album()));
+            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
             break;
           case GroupBy_OriginalYearAlbumDisc:
             key.append(PrettyYearAlbumDisc(song.effective_originalyear(), song.album(), song.disc()));
+            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
             break;
           case GroupBy_Composer:
             key.append(TextOrUnknown(song.composer()));
@@ -1174,6 +1180,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album(row.value(0).toString());
       item->metadata.set_album_id(row.value(1).toString());
       item->key.append(TextOrUnknown(item->metadata.album()));
+      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
       item->display_text = TextOrUnknown(item->metadata.album());
       item->sort_text = SortTextForArtist(item->metadata.album());
       break;
@@ -1183,6 +1190,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album_id(row.value(1).toString());
       item->metadata.set_disc(row.value(2).toInt());
       item->key.append(PrettyAlbumDisc(item->metadata.album(), item->metadata.disc()));
+      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
       const int disc = qMax(0, item->metadata.disc());
       item->display_text = PrettyAlbumDisc(item->metadata.album(), item->metadata.disc());
       item->sort_text = item->metadata.album() + SortTextForNumber(disc);
@@ -1194,6 +1202,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album_id(row.value(2).toString());
       item->metadata.set_grouping(row.value(3).toString());
       item->key.append(PrettyYearAlbum(item->metadata.year(), item->metadata.album()));
+      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
       item->display_text = PrettyYearAlbum(item->metadata.year(), item->metadata.album());
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.year())) + item->metadata.grouping() + item->metadata.album();
       break;
@@ -1204,6 +1213,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album_id(row.value(2).toString());
       item->metadata.set_disc(row.value(3).toInt());
       item->key.append(PrettyYearAlbumDisc(item->metadata.year(), item->metadata.album(), item->metadata.disc()));
+      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
       item->display_text = PrettyYearAlbumDisc(item->metadata.year(), item->metadata.album(), item->metadata.disc());
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.year())) + item->metadata.album() + SortTextForNumber(qMax(0, item->metadata.disc()));
       break;
@@ -1215,6 +1225,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album_id(row.value(3).toString());
       item->metadata.set_grouping(row.value(4).toString());
       item->key.append(PrettyYearAlbum(item->metadata.effective_originalyear(), item->metadata.album()));
+      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
       item->display_text = PrettyYearAlbum(item->metadata.effective_originalyear(), item->metadata.album());
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.effective_originalyear())) + item->metadata.grouping() + item->metadata.album();
       break;
@@ -1226,6 +1237,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album_id(row.value(3).toString());
       item->metadata.set_disc(row.value(4).toInt());
       item->key.append(PrettyYearAlbumDisc(item->metadata.effective_originalyear(), item->metadata.album(), item->metadata.disc()));
+      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
       item->display_text = PrettyYearAlbumDisc(item->metadata.effective_originalyear(), item->metadata.album(), item->metadata.disc());
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.effective_originalyear())) + item->metadata.album() + SortTextForNumber(qMax(0, item->metadata.disc()));
       break;
@@ -1381,6 +1393,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
       item->key.append(TextOrUnknown(s.album()));
+      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
       item->display_text = TextOrUnknown(s.album());
       item->sort_text = SortTextForArtist(s.album());
       break;
@@ -1390,6 +1403,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_disc(s.disc());
       item->key.append(PrettyAlbumDisc(s.album(), s.disc()));
+      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
       item->display_text = PrettyAlbumDisc(s.album(), s.disc());
       item->sort_text = s.album() + SortTextForNumber(qMax(0, s.disc()));
       break;
@@ -1400,6 +1414,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_grouping(s.grouping());
       item->key.append(PrettyYearAlbum(s.year(), s.album()));
+      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
       item->display_text = PrettyYearAlbum(s.year(), s.album());
       item->sort_text = SortTextForNumber(qMax(0, s.year())) + s.grouping() + s.album();
       break;
@@ -1410,6 +1425,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_disc(s.disc());
       item->key.append(PrettyYearAlbumDisc(s.year(), s.album(), s.disc()));
+      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
       item->display_text = PrettyYearAlbumDisc(s.year(), s.album(), s.disc());
       item->sort_text = SortTextForNumber(qMax(0, s.year())) + s.album() + SortTextForNumber(qMax(0, s.disc()));
       break;
@@ -1421,6 +1437,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_grouping(s.grouping());
       item->key.append(PrettyYearAlbum(s.effective_originalyear(), s.album()));
+      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
       item->display_text = PrettyYearAlbum(s.effective_originalyear(), s.album());
       item->sort_text = SortTextForNumber(qMax(0, s.effective_originalyear())) + s.grouping() + s.album();
       break;
@@ -1433,6 +1450,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_disc(s.disc());
       item->metadata.set_grouping(s.grouping());
       item->key.append(PrettyYearAlbumDisc(s.effective_originalyear(), s.album(), s.disc()));
+      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
       item->display_text = PrettyYearAlbumDisc(s.effective_originalyear(), s.album(), s.disc());
       item->sort_text = SortTextForNumber(qMax(0, s.effective_originalyear())) + s.album() + SortTextForNumber(qMax(0, s.disc()));
       break;
@@ -1919,4 +1937,3 @@ QDataStream &operator>>(QDataStream &s, CollectionModel::Grouping &g) {
   return s;
 
 }
-
