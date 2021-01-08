@@ -930,15 +930,36 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
     bundle.bitrate = gst_discoverer_audio_info_get_bitrate(GST_DISCOVERER_AUDIO_INFO(stream_info)) / 1000;
 
     GstCaps *caps = gst_discoverer_stream_info_get_caps(stream_info);
-    gchar *codec_description = gst_pb_utils_get_codec_description(caps);
-    QString filetype_description = (codec_description ? QString(codec_description) : QString("Unknown"));
-    g_free(codec_description);
+
+    const guint caps_size = gst_caps_get_size(caps);
+    for (guint i = 0; i < caps_size; ++i) {
+      GstStructure *gst_structure = gst_caps_get_structure(caps, i);
+      if (!gst_structure) continue;
+      QString mimetype = gst_structure_get_name(gst_structure);
+      if (!mimetype.isEmpty() && mimetype != "audio/mpeg") {
+        bundle.filetype = Song::FiletypeByMimetype(mimetype);
+        if (bundle.filetype == Song::FileType_Unknown) {
+          qLog(Error) << "Unknown mimetype" << mimetype;
+        }
+      }
+    }
+
+    if (bundle.filetype == Song::FileType_Unknown) {
+      gchar *codec_description = gst_pb_utils_get_codec_description(caps);
+      QString filetype_description = (codec_description ? QString(codec_description) : QString());
+      g_free(codec_description);
+      if (!filetype_description.isEmpty()) {
+        bundle.filetype = Song::FiletypeByDescription(filetype_description);
+        if (bundle.filetype == Song::FileType_Unknown) {
+          qLog(Error) << "Unknown filetype" << filetype_description;
+        }
+      }
+    }
 
     gst_caps_unref(caps);
     gst_discoverer_stream_info_list_free(audio_streams);
 
-    bundle.filetype = Song::FiletypeByDescription(filetype_description);
-    qLog(Info) << "Got stream info for" << discovered_url + ":" << filetype_description;
+    qLog(Info) << "Got stream info for" << discovered_url + ":" << Song::TextForFiletype(bundle.filetype);
 
     emit instance->MetaData(bundle);
 
