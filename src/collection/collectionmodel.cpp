@@ -252,88 +252,7 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
       }
       else {
         // Otherwise find the proper container at this level based on the item's key
-        switch (type) {
-          case GroupBy_AlbumArtist:
-            key.append(TextOrUnknown(song.effective_albumartist()));
-            break;
-          case GroupBy_Artist:
-            key.append(TextOrUnknown(song.artist()));
-            break;
-          case GroupBy_Album:
-            key.append(TextOrUnknown(song.album()));
-            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
-            break;
-          case GroupBy_AlbumDisc:
-            key.append(PrettyAlbumDisc(song.album(), song.disc()));
-            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
-            break;
-          case GroupBy_YearAlbum:
-            key.append(PrettyYearAlbum(song.year(), song.album()));
-            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
-            break;
-          case GroupBy_YearAlbumDisc:
-            key.append(PrettyYearAlbumDisc(song.year(), song.album(), song.disc()));
-            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
-            break;
-          case GroupBy_OriginalYearAlbum:
-            key.append(PrettyYearAlbum(song.effective_originalyear(), song.album()));
-            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
-            break;
-          case GroupBy_OriginalYearAlbumDisc:
-            key.append(PrettyYearAlbumDisc(song.effective_originalyear(), song.album(), song.disc()));
-            if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
-            break;
-          case GroupBy_Composer:
-            key.append(TextOrUnknown(song.composer()));
-            break;
-          case GroupBy_Performer:
-            key.append(TextOrUnknown(song.performer()));
-            break;
-          case GroupBy_Grouping:
-            key.append(TextOrUnknown(song.grouping()));
-            break;
-          case GroupBy_Disc:
-            key.append(PrettyDisc(song.disc()));
-            break;
-          case GroupBy_Genre:
-            key.append(TextOrUnknown(song.genre()));
-            break;
-          case GroupBy_Year:
-            key.append(QString::number(qMax(0, song.year())));
-	    break;
-          case GroupBy_OriginalYear:
-            key.append(QString::number(qMax(0, song.effective_originalyear())));
-            break;
-          case GroupBy_FileType:
-            key.append(song.TextForFiletype());
-            break;
-          case GroupBy_Samplerate:
-            key.append(QString::number(qMax(0, song.samplerate())));
-            break;
-          case GroupBy_Bitdepth:
-            key.append(QString::number(qMax(0, song.bitdepth())));
-            break;
-          case GroupBy_Bitrate:
-            key.append(QString::number(qMax(0, song.bitrate())));
-            break;
-          case GroupBy_Format:
-            if (song.samplerate() <= 0) {
-              key.append(song.TextForFiletype());
-            }
-            else {
-              if (song.bitdepth() <= 0) {
-                key.append(QString("%1 (%2)").arg(song.TextForFiletype()).arg(QString::number(song.samplerate() / 1000.0, 'G', 5)));
-              }
-              else {
-                key.append(QString("%1 (%2/%3)").arg(song.TextForFiletype()).arg(QString::number(song.samplerate() / 1000.0, 'G', 5)).arg(song.bitdepth()));
-              }
-            }
-            break;
-          case GroupBy_None:
-          case GroupByCount:
-            qLog(Error) << "GroupBy_None";
-            break;
-        }
+        key.append(ContainerKey(type, song));
 
         // Does it exist already?
         if (!container_nodes_[i].contains(key)) {
@@ -384,6 +303,97 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(const bool signal, 
   if (signal) endInsertRows();
 
   return parent->compilation_artist_node_;
+
+}
+
+QString CollectionModel::ContainerKey(const GroupBy type, const Song &song) const {
+
+  QString key;
+
+  switch (type) {
+    case GroupBy_AlbumArtist:
+      key = TextOrUnknown(song.effective_albumartist());
+      break;
+    case GroupBy_Artist:
+      key = TextOrUnknown(song.artist());
+      break;
+    case GroupBy_Album:
+      key = TextOrUnknown(song.album());
+      if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      break;
+    case GroupBy_AlbumDisc:
+      key = PrettyAlbumDisc(song.album(), song.disc());
+      if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      break;
+    case GroupBy_YearAlbum:
+      key = PrettyYearAlbum(song.year(), song.album());
+      if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      break;
+    case GroupBy_YearAlbumDisc:
+      key = PrettyYearAlbumDisc(song.year(), song.album(), song.disc());
+      if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      break;
+    case GroupBy_OriginalYearAlbum:
+      key = PrettyYearAlbum(song.effective_originalyear(), song.album());
+      if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      break;
+    case GroupBy_OriginalYearAlbumDisc:
+      key = PrettyYearAlbumDisc(song.effective_originalyear(), song.album(), song.disc());
+      if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      break;
+    case GroupBy_Disc:
+      key = PrettyDisc(song.disc());
+      break;
+    case GroupBy_Year:
+      key = QString::number(qMax(0, song.year()));
+      break;
+    case GroupBy_OriginalYear:
+      key = QString::number(qMax(0, song.effective_originalyear()));
+      break;
+    case GroupBy_Genre:
+      key = TextOrUnknown(song.genre());
+      break;
+    case GroupBy_Composer:
+      key = TextOrUnknown(song.composer());
+      break;
+    case GroupBy_Performer:
+      key = TextOrUnknown(song.performer());
+      break;
+    case GroupBy_Grouping:
+      key = TextOrUnknown(song.grouping());
+      break;
+    case GroupBy_FileType:
+      key = song.TextForFiletype();
+      break;
+    case GroupBy_Samplerate:
+      key = QString::number(qMax(0, song.samplerate()));
+      break;
+    case GroupBy_Bitdepth:
+      key = QString::number(qMax(0, song.bitdepth()));
+      break;
+    case GroupBy_Bitrate:
+      key = QString::number(qMax(0, song.bitrate()));
+      break;
+    case GroupBy_Format:
+      if (song.samplerate() <= 0) {
+        key = song.TextForFiletype();
+      }
+      else {
+        if (song.bitdepth() <= 0) {
+          key = QString("%1 (%2)").arg(song.TextForFiletype()).arg(QString::number(song.samplerate() / 1000.0, 'G', 5));
+        }
+        else {
+          key = QString("%1 (%2/%3)").arg(song.TextForFiletype()).arg(QString::number(song.samplerate() / 1000.0, 'G', 5)).arg(song.bitdepth());
+        }
+      }
+      break;
+    case GroupBy_None:
+    case GroupByCount:
+      qLog(Error) << "GroupBy_None";
+      break;
+  }
+
+  return key;
 
 }
 
@@ -1164,14 +1174,14 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
   switch (type) {
     case GroupBy_AlbumArtist:{
       item->metadata.set_albumartist(row.value(0).toString());
-      item->key.append(TextOrUnknown(item->metadata.albumartist()));
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.albumartist());
       item->sort_text = SortTextForArtist(item->metadata.albumartist());
       break;
     }
     case GroupBy_Artist:{
       item->metadata.set_artist(row.value(0).toString());
-      item->key.append(TextOrUnknown(item->metadata.artist()));
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.artist());
       item->sort_text = SortTextForArtist(item->metadata.artist());
       break;
@@ -1179,8 +1189,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
     case GroupBy_Album:{
       item->metadata.set_album(row.value(0).toString());
       item->metadata.set_album_id(row.value(1).toString());
-      item->key.append(TextOrUnknown(item->metadata.album()));
-      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.album());
       item->sort_text = SortTextForArtist(item->metadata.album());
       break;
@@ -1189,11 +1198,9 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album(row.value(0).toString());
       item->metadata.set_album_id(row.value(1).toString());
       item->metadata.set_disc(row.value(2).toInt());
-      item->key.append(PrettyAlbumDisc(item->metadata.album(), item->metadata.disc()));
-      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
-      const int disc = qMax(0, item->metadata.disc());
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = PrettyAlbumDisc(item->metadata.album(), item->metadata.disc());
-      item->sort_text = item->metadata.album() + SortTextForNumber(disc);
+      item->sort_text = item->metadata.album() + SortTextForNumber(qMax(0, item->metadata.disc()));
       break;
     }
     case GroupBy_YearAlbum:{
@@ -1201,8 +1208,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album(row.value(1).toString());
       item->metadata.set_album_id(row.value(2).toString());
       item->metadata.set_grouping(row.value(3).toString());
-      item->key.append(PrettyYearAlbum(item->metadata.year(), item->metadata.album()));
-      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = PrettyYearAlbum(item->metadata.year(), item->metadata.album());
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.year())) + item->metadata.grouping() + item->metadata.album();
       break;
@@ -1212,8 +1218,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album(row.value(1).toString());
       item->metadata.set_album_id(row.value(2).toString());
       item->metadata.set_disc(row.value(3).toInt());
-      item->key.append(PrettyYearAlbumDisc(item->metadata.year(), item->metadata.album(), item->metadata.disc()));
-      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = PrettyYearAlbumDisc(item->metadata.year(), item->metadata.album(), item->metadata.disc());
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.year())) + item->metadata.album() + SortTextForNumber(qMax(0, item->metadata.disc()));
       break;
@@ -1224,8 +1229,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album(row.value(2).toString());
       item->metadata.set_album_id(row.value(3).toString());
       item->metadata.set_grouping(row.value(4).toString());
-      item->key.append(PrettyYearAlbum(item->metadata.effective_originalyear(), item->metadata.album()));
-      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = PrettyYearAlbum(item->metadata.effective_originalyear(), item->metadata.album());
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.effective_originalyear())) + item->metadata.grouping() + item->metadata.album();
       break;
@@ -1236,67 +1240,66 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album(row.value(2).toString());
       item->metadata.set_album_id(row.value(3).toString());
       item->metadata.set_disc(row.value(4).toInt());
-      item->key.append(PrettyYearAlbumDisc(item->metadata.effective_originalyear(), item->metadata.album(), item->metadata.disc()));
-      if (!item->metadata.album_id().isEmpty()) item->key.append("-" + item->metadata.album_id());
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = PrettyYearAlbumDisc(item->metadata.effective_originalyear(), item->metadata.album(), item->metadata.disc());
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.effective_originalyear())) + item->metadata.album() + SortTextForNumber(qMax(0, item->metadata.disc()));
       break;
     }
     case GroupBy_Disc:{
       item->metadata.set_disc(row.value(0).toInt());
+      item->key.append(ContainerKey(type, item->metadata));
       const int disc = qMax(0, row.value(0).toInt());
-      item->key.append(PrettyDisc(disc));
       item->display_text = PrettyDisc(disc);
       item->sort_text = SortTextForNumber(disc);
       break;
     }
     case GroupBy_Year:{
       item->metadata.set_year(row.value(0).toInt());
+      item->key.append(ContainerKey(type, item->metadata));
       const int year = qMax(0, item->metadata.year());
-      item->key.append(QString::number(year));
       item->display_text = QString::number(year);
       item->sort_text = SortTextForNumber(year) + " ";
       break;
     }
     case GroupBy_OriginalYear:{
       item->metadata.set_originalyear(row.value(0).toInt());
+      item->key.append(ContainerKey(type, item->metadata));
       const int year = qMax(0, item->metadata.originalyear());
-      item->key.append(QString::number(year));
       item->display_text = QString::number(year);
       item->sort_text = SortTextForNumber(year) + " ";
       break;
     }
     case GroupBy_Genre:{
       item->metadata.set_genre(row.value(0).toString());
-      item->key.append(TextOrUnknown(item->metadata.genre()));
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.genre());
       item->sort_text = SortTextForArtist(item->metadata.genre());
       break;
     }
     case GroupBy_Composer:{
       item->metadata.set_composer(row.value(0).toString());
-      item->key.append(TextOrUnknown(item->metadata.composer()));
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.composer());
       item->sort_text = SortTextForArtist(item->metadata.composer());
       break;
     }
     case GroupBy_Performer:{
       item->metadata.set_performer(row.value(0).toString());
-      item->key.append(TextOrUnknown(item->metadata.performer()));
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.performer());
       item->sort_text = SortTextForArtist(item->metadata.performer());
       break;
     }
     case GroupBy_Grouping:{
       item->metadata.set_grouping(row.value(0).toString());
-      item->key.append(TextOrUnknown(item->metadata.grouping()));
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.grouping());
       item->sort_text = SortTextForArtist(item->metadata.grouping());
       break;
     }
     case GroupBy_FileType:{
       item->metadata.set_filetype(Song::FileType(row.value(0).toInt()));
-      item->key.append(item->metadata.TextForFiletype());
+      item->key.append(ContainerKey(type, item->metadata));
       item->display_text = item->metadata.TextForFiletype();
       item->sort_text = item->metadata.TextForFiletype();
       break;
@@ -1305,43 +1308,32 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_filetype(Song::FileType(row.value(0).toInt()));
       item->metadata.set_samplerate(row.value(1).toInt());
       item->metadata.set_bitdepth(row.value(2).toInt());
-      QString key;
-      if (item->metadata.samplerate() <= 0) {
-        key = item->metadata.TextForFiletype();
-      }
-      else {
-        if (item->metadata.bitdepth() <= 0) {
-          key = QString("%1 (%2)").arg(item->metadata.TextForFiletype()).arg(QString::number(item->metadata.samplerate() / 1000.0, 'G', 5));
-        }
-        else {
-          key = QString("%1 (%2/%3)").arg(item->metadata.TextForFiletype()).arg(QString::number(item->metadata.samplerate() / 1000.0, 'G', 5)).arg(QString::number(item->metadata.bitdepth()));
-        }
-      }
+      QString key = ContainerKey(type, item->metadata);
+      item->key.append(key);
       item->display_text = key;
       item->sort_text = key;
-      item->key.append(key);
       break;
     }
     case GroupBy_Samplerate:{
       item->metadata.set_samplerate(row.value(0).toInt());
+      item->key.append(ContainerKey(type, item->metadata));
       const int samplerate = qMax(0, item->metadata.samplerate());
-      item->key.append(QString::number(samplerate));
       item->display_text = QString::number(samplerate);
       item->sort_text = SortTextForNumber(samplerate) + " ";
       break;
     }
     case GroupBy_Bitdepth:{
       item->metadata.set_bitdepth(row.value(0).toInt());
+      item->key.append(ContainerKey(type, item->metadata));
       const int bitdepth = qMax(0, item->metadata.bitdepth());
-      item->key.append(QString::number(bitdepth));
       item->display_text = QString::number(bitdepth);
       item->sort_text = SortTextForNumber(bitdepth) + " ";
       break;
     }
     case GroupBy_Bitrate:{
       item->metadata.set_bitrate(row.value(0).toInt());
+      item->key.append(ContainerKey(type, item->metadata));
       const int bitrate = qMax(0, item->metadata.bitrate());
-      item->key.append(QString::number(bitrate));
       item->display_text = QString::number(bitrate);
       item->sort_text = SortTextForNumber(bitrate) + " ";
       break;
@@ -1377,14 +1369,14 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
   switch (type) {
     case GroupBy_AlbumArtist:{
       item->metadata.set_albumartist(s.effective_albumartist());
-      item->key.append(TextOrUnknown(s.effective_albumartist()));
+      item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.effective_albumartist());
       item->sort_text = SortTextForArtist(s.effective_albumartist());
       break;
     }
     case GroupBy_Artist:{
       item->metadata.set_artist(s.artist());
-      item->key.append(TextOrUnknown(s.artist()));
+      item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.artist());
       item->sort_text = SortTextForArtist(s.artist());
       break;
@@ -1392,8 +1384,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
     case GroupBy_Album:{
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
-      item->key.append(TextOrUnknown(s.album()));
-      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
+      item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.album());
       item->sort_text = SortTextForArtist(s.album());
       break;
@@ -1402,8 +1393,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_disc(s.disc());
-      item->key.append(PrettyAlbumDisc(s.album(), s.disc()));
-      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
+      item->key.append(ContainerKey(type, s));
       item->display_text = PrettyAlbumDisc(s.album(), s.disc());
       item->sort_text = s.album() + SortTextForNumber(qMax(0, s.disc()));
       break;
@@ -1413,8 +1403,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_grouping(s.grouping());
-      item->key.append(PrettyYearAlbum(s.year(), s.album()));
-      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
+      item->key.append(ContainerKey(type, s));
       item->display_text = PrettyYearAlbum(s.year(), s.album());
       item->sort_text = SortTextForNumber(qMax(0, s.year())) + s.grouping() + s.album();
       break;
@@ -1424,8 +1413,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_disc(s.disc());
-      item->key.append(PrettyYearAlbumDisc(s.year(), s.album(), s.disc()));
-      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
+      item->key.append(ContainerKey(type, s));
       item->display_text = PrettyYearAlbumDisc(s.year(), s.album(), s.disc());
       item->sort_text = SortTextForNumber(qMax(0, s.year())) + s.album() + SortTextForNumber(qMax(0, s.disc()));
       break;
@@ -1436,8 +1424,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_grouping(s.grouping());
-      item->key.append(PrettyYearAlbum(s.effective_originalyear(), s.album()));
-      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
+      item->key.append(ContainerKey(type, s));
       item->display_text = PrettyYearAlbum(s.effective_originalyear(), s.album());
       item->sort_text = SortTextForNumber(qMax(0, s.effective_originalyear())) + s.grouping() + s.album();
       break;
@@ -1449,119 +1436,108 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_disc(s.disc());
       item->metadata.set_grouping(s.grouping());
-      item->key.append(PrettyYearAlbumDisc(s.effective_originalyear(), s.album(), s.disc()));
-      if (!s.album_id().isEmpty()) item->key.append("-" + s.album_id());
+      item->key.append(ContainerKey(type, s));
       item->display_text = PrettyYearAlbumDisc(s.effective_originalyear(), s.album(), s.disc());
       item->sort_text = SortTextForNumber(qMax(0, s.effective_originalyear())) + s.album() + SortTextForNumber(qMax(0, s.disc()));
       break;
     }
+    case GroupBy_Disc:{
+      item->metadata.set_disc(s.disc());
+      item->key.append(ContainerKey(type, s));
+      const int disc = qMax(0, s.disc());
+      item->display_text = PrettyDisc(disc);
+      item->sort_text = SortTextForNumber(disc);
+      break;
+    }
     case GroupBy_Year:{
       item->metadata.set_year(s.year());
+      item->key.append(ContainerKey(type, s));
       const int year = qMax(0, s.year());
-      item->key.append(QString::number(year));
       item->display_text = QString::number(year);
       item->sort_text = SortTextForNumber(year) + " ";
       break;
     }
     case GroupBy_OriginalYear:{
       item->metadata.set_originalyear(s.effective_originalyear());
+      item->key.append(ContainerKey(type, s));
       const int year = qMax(0, s.effective_originalyear());
-      item->key.append(QString::number(year));
       item->display_text = QString::number(year);
       item->sort_text = SortTextForNumber(year) + " ";
       break;
     }
+    case GroupBy_Genre:{
+      item->metadata.set_genre(s.genre());
+      item->key.append(ContainerKey(type, s));
+      item->display_text = TextOrUnknown(s.genre());
+      item->sort_text = SortTextForArtist(s.genre());
+      break;
+    }
     case GroupBy_Composer:{
       item->metadata.set_composer(s.composer());
-      item->key.append(TextOrUnknown(s.composer()));
+      item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.composer());
       item->sort_text = SortTextForArtist(s.composer());
       break;
     }
     case GroupBy_Performer:{
       item->metadata.set_performer(s.performer());
-      item->key.append(TextOrUnknown(s.performer()));
+      item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.performer());
       item->sort_text = SortTextForArtist(s.performer());
       break;
     }
     case GroupBy_Grouping:{
       item->metadata.set_grouping(s.grouping());
-      item->key.append(TextOrUnknown(s.grouping()));
+      item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.grouping());
       item->sort_text = SortTextForArtist(s.grouping());
       break;
     }
-    case GroupBy_Genre:{
-      item->metadata.set_genre(s.genre());
-      item->key.append(TextOrUnknown(s.genre()));
-      item->display_text = TextOrUnknown(s.genre());
-      item->sort_text = SortTextForArtist(s.genre());
-      break;
-    }
-    case GroupBy_Disc:{
-      item->metadata.set_disc(s.disc());
-      const int disc = qMax(0, s.disc());
-      item->key.append(PrettyDisc(disc));
-      item->display_text = PrettyDisc(disc);
-      item->sort_text = SortTextForNumber(disc);
-      break;
-    }
-    case GroupBy_FileType:
+    case GroupBy_FileType:{
       item->metadata.set_filetype(s.filetype());
-      item->key.append(s.TextForFiletype());
+      item->key.append(ContainerKey(type, s));
       item->display_text = s.TextForFiletype();
       item->sort_text = s.TextForFiletype();
-      break;
-    case GroupBy_Bitrate:{
-      item->metadata.set_bitrate(s.bitrate());
-      const int bitrate = qMax(0, s.bitrate());
-      item->key.append(QString::number(bitrate));
-      item->display_text = QString::number(bitrate);
-      item->sort_text = SortTextForNumber(bitrate) + " ";
-      break;
-    }
-    case GroupBy_Samplerate:{
-      item->metadata.set_samplerate(s.samplerate());
-      const int samplerate = qMax(0, s.samplerate());
-      item->key.append(QString::number(samplerate));
-      item->display_text = QString::number(samplerate);
-      item->sort_text = SortTextForNumber(samplerate) + " ";
-      break;
-    }
-    case GroupBy_Bitdepth:{
-      item->metadata.set_bitdepth(s.bitdepth());
-      const int bitdepth = qMax(0, s.bitdepth());
-      item->key.append(QString::number(bitdepth));
-      item->display_text = QString::number(bitdepth);
-      item->sort_text = SortTextForNumber(bitdepth) + " ";
       break;
     }
     case GroupBy_Format:{
       item->metadata.set_filetype(s.filetype());
       item->metadata.set_samplerate(s.samplerate());
       item->metadata.set_bitdepth(s.bitdepth());
-      QString key;
-      if (s.samplerate() <= 0) {
-        key = s.TextForFiletype();
-      }
-      else {
-        if (s.bitdepth() <= 0) {
-          key = QString("%1 (%2)").arg(s.TextForFiletype()).arg(QString::number(s.samplerate() / 1000.0, 'G', 5));
-        }
-        else {
-          key = QString("%1 (%2/%3)").arg(s.TextForFiletype()).arg(QString::number(s.samplerate() / 1000.0, 'G', 5)).arg(QString::number(s.bitdepth()));
-        }
-      }
+      QString key = ContainerKey(type, s);
       item->key.append(key);
       item->display_text = key;
       item->sort_text = key;
       break;
     }
+    case GroupBy_Samplerate:{
+      item->metadata.set_samplerate(s.samplerate());
+      item->key.append(ContainerKey(type, s));
+      const int samplerate = qMax(0, s.samplerate());
+      item->display_text = QString::number(samplerate);
+      item->sort_text = SortTextForNumber(samplerate) + " ";
+      break;
+    }
+    case GroupBy_Bitdepth:{
+      item->metadata.set_bitdepth(s.bitdepth());
+      item->key.append(ContainerKey(type, s));
+      const int bitdepth = qMax(0, s.bitdepth());
+      item->display_text = QString::number(bitdepth);
+      item->sort_text = SortTextForNumber(bitdepth) + " ";
+      break;
+    }
+    case GroupBy_Bitrate:{
+      item->metadata.set_bitrate(s.bitrate());
+      item->key.append(ContainerKey(type, s));
+      const int bitrate = qMax(0, s.bitrate());
+      item->display_text = QString::number(bitrate);
+      item->sort_text = SortTextForNumber(bitrate) + " ";
+      break;
+    }
     case GroupBy_None:
     case GroupByCount:{
       item->metadata = s;
-      item->key.append(s.title());
+      item->key.append(TextOrUnknown(s.title()));
       item->display_text = s.TitleWithCompilationArtist();
       if (item->container_level == 1 && !IsAlbumGroupBy(group_by_[0])) {
         item->sort_text = SortText(s.title());

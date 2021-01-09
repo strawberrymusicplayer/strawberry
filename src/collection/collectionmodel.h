@@ -258,6 +258,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   CollectionItem *InitItem(const GroupBy type, const bool signal, CollectionItem *parent, const int container_level);
   void FinishItem(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, CollectionItem *item);
 
+  QString ContainerKey(const GroupBy type, const Song &song) const;
   QString DividerKey(const GroupBy type, CollectionItem *item) const;
   QString DividerDisplayText(const GroupBy type, const QString &key) const;
 
