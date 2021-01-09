@@ -4976,9 +4976,9 @@ msgid "Uninstall the snap with:"
 msgstr "Désinstallez le snap avec :"
 
 #: core/song.cpp:547 context/contextalbumsmodel.cpp:358
-#: collection/collectionmodel.cpp:464 collection/collectionmodel.cpp:469
-#: collection/collectionmodel.cpp:473 collection/collectionmodel.cpp:477
-#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:1598
+#: collection/collectionmodel.cpp:470 collection/collectionmodel.cpp:475
+#: collection/collectionmodel.cpp:479 collection/collectionmodel.cpp:483
+#: collection/collectionmodel.cpp:487 collection/collectionmodel.cpp:1616
 #: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
 #: playlist/playlistmanager.cpp:565 playlist/playlistmanager.cpp:566
 #: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
@@ -5154,7 +5154,7 @@ msgstr "Utiliser le menu pour ajouter un morceau aura comme effet de..."
 msgid "Variable bit rate"
 msgstr "Débit variable"
 
-#: collection/collectionmodel.cpp:373 collection/collectionmodel.cpp:374
+#: collection/collectionmodel.cpp:379 collection/collectionmodel.cpp:380
 #: playlist/playlistmanager.cpp:577 covermanager/albumcovermanager.cpp:334
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
