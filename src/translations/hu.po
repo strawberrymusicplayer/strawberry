@@ -14,12 +14,13 @@
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
 # Ács Zoltán <acszoltan111@gmail.com>, 2020. #zanata
+# Ács Zoltán <acszoltan111@gmail.com>, 2021. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-10-10 03:42-0400\n"
+"PO-Revision-Date: 2021-01-10 04:14-0500\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -1626,7 +1627,7 @@ msgstr "A&lapértelmezett háttérkép"
 
 #: ../build/src/ui_backendsettingspage.h:499
 msgid "Defaults"
-msgstr ""
+msgstr "Alapértelmezett"
 
 #: playlist/playlistlistcontainer.cpp:102
 #: ../build/src/ui_playlistlistcontainer.h:133
@@ -1752,7 +1753,7 @@ msgstr "Ne írja felül"
 
 #: ../build/src/ui_snapdialog.h:120
 msgid "Do not show this message again."
-msgstr ""
+msgstr "Ne mutassa ezt az üzenetet újra."
 
 #: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
