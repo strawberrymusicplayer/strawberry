@@ -99,8 +99,10 @@ Files: src/core/main.cpp
        src/core/urlhandler.h
        src/core/utilities.cpp
        src/core/utilities.h
-       src/core/network.cpp
-       src/core/network.h
+       src/core/networkaccessmanager.cpp
+       src/core/networkaccessmanager.h
+       src/core/threadsafenetworkdiskcache.cpp
+       src/core/threadsafenetworkdiskcache.h
        src/core/filesystemmusicstorage.cpp
        src/core/filesystemmusicstorage.h
        src/core/stylesheetloader.cpp
