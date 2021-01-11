@@ -18,7 +18,7 @@ set(SOURCES
   core/mergedproxymodel.cpp
   core/multisortfilterproxy.cpp
   core/musicstorage.cpp
-  core/network.cpp
+  core/networkaccessmanager.cpp
   core/threadsafenetworkdiskcache.cpp
   core/networktimeouts.cpp
   core/networkproxyfactory.cpp
@@ -257,7 +257,7 @@ set(HEADERS
   core/deletefiles.h
   core/filesystemwatcherinterface.h
   core/mergedproxymodel.h
-  core/network.h
+  core/networkaccessmanager.h
   core/threadsafenetworkdiskcache.h
   core/networktimeouts.h
   core/qtfslistener.h

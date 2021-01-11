@@ -50,7 +50,7 @@
 
 #include "core/application.h"
 #include "core/logging.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/utilities.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"

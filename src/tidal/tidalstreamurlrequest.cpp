@@ -39,7 +39,7 @@
 #include <QtDebug>
 
 #include "core/logging.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "settings/tidalsettingspage.h"
 #include "tidalservice.h"

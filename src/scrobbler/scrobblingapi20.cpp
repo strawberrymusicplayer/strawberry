@@ -46,7 +46,7 @@
 #include <QtDebug>
 
 #include "core/application.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "core/logging.h"

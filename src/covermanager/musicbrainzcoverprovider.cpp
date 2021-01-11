@@ -40,7 +40,7 @@
 #include <QtDebug>
 
 #include "core/application.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/logging.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"

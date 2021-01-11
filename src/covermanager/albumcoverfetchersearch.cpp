@@ -40,7 +40,7 @@
 
 #include "core/logging.h"
 #include "core/utilities.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"

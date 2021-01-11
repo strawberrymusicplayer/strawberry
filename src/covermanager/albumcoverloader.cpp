@@ -42,7 +42,7 @@
 #include <QNetworkRequest>
 #include <QSettings>
 
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/tagreaderclient.h"
 #include "core/utilities.h"

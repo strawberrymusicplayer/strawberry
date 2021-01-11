@@ -39,7 +39,7 @@
 #include <QtDebug>
 
 #include "core/application.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/logging.h"
 #include "core/song.h"
 #include "internet/internetservices.h"

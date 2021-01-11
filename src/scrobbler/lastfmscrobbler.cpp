@@ -22,7 +22,7 @@
 #include <QObject>
 
 #include "core/application.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 
 #include "scrobblercache.h"
 #include "scrobblingapi20.h"

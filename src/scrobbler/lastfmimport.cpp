@@ -39,7 +39,7 @@
 #include <QJsonArray>
 #include <QJsonValue>
 
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/timeconstants.h"
 #include "core/logging.h"
 

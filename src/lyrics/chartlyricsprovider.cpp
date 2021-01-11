@@ -33,7 +33,7 @@
 #include <QXmlStreamReader>
 
 #include "core/logging.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/utilities.h"
 #include "lyricsprovider.h"
 #include "lyricsfetcher.h"

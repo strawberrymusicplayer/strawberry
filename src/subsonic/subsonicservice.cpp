@@ -46,7 +46,7 @@
 #include "core/application.h"
 #include "core/player.h"
 #include "core/logging.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/database.h"
 #include "core/song.h"
 #include "collection/collectionbackend.h"

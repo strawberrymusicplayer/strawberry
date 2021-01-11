@@ -38,7 +38,7 @@
 #include <QtDebug>
 
 #include "core/logging.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "qobuzservice.h"

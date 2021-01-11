@@ -36,7 +36,7 @@
 #include <QtDebug>
 
 #include "core/logging.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "tidalservice.h"
 #include "tidalbaserequest.h"
 

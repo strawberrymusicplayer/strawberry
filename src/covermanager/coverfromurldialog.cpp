@@ -31,7 +31,7 @@
 #include <QNetworkRequest>
 #include <QUrl>
 
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "widgets/busyindicator.h"
 #include "coverfromurldialog.h"
 #include "ui_coverfromurldialog.h"

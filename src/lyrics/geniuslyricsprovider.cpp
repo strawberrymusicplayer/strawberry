@@ -47,7 +47,7 @@
 
 #include "core/logging.h"
 #include "core/utilities.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "internet/localredirectserver.h"
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"

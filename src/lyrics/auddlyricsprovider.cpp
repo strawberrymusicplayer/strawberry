@@ -36,7 +36,7 @@
 #include <QtDebug>
 
 #include "core/logging.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/utilities.h"
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"

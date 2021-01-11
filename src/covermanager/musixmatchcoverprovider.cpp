@@ -35,7 +35,7 @@
 #include <QtDebug>
 
 #include "core/logging.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
 #include "musixmatchcoverprovider.h"

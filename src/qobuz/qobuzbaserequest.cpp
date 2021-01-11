@@ -37,7 +37,7 @@
 #include <QJsonValue>
 
 #include "core/logging.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 

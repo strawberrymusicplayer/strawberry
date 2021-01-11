@@ -31,7 +31,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-#include "network.h"
+#include "networkaccessmanager.h"
 #include "threadsafenetworkdiskcache.h"
 
 NetworkAccessManager::NetworkAccessManager(QObject *parent)

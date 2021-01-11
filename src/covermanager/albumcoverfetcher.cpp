@@ -27,7 +27,7 @@
 #include <QString>
 #include <QImage>
 
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"

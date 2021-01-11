@@ -72,7 +72,7 @@
 
 #include "core/logging.h"
 #include "core/closure.h"
-#include "core/network.h"
+#include "core/networkaccessmanager.h"
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"

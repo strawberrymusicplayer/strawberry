@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef NETWORK_H
-#define NETWORK_H
+#ifndef NETWORKACCESSMANAGER_H
+#define NETWORKACCESSMANAGER_H
 
 #include "config.h"
 
@@ -42,4 +42,4 @@ class NetworkAccessManager : public QNetworkAccessManager {
   QNetworkReply *createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) override;
 };
 
-#endif  // NETWORK_H
+#endif  // NETWORKACCESSMANAGER_H
