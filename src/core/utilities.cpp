@@ -650,11 +650,17 @@ QStringList Updateify(const QStringList &list) {
 QString DecodeHtmlEntities(const QString &text) {
 
   QString copy(text);
-  copy.replace("&amp;", "&");
-  copy.replace("&quot;", "\"");
-  copy.replace("&apos;", "'");
-  copy.replace("&lt;", "<");
-  copy.replace("&gt;", ">");
+  copy.replace("&amp;", "&")
+      .replace("&#38;", "&")
+      .replace("&quot;", "\"")
+      .replace("&#34;", "\"")
+      .replace("&apos;", "'")
+      .replace("&#39;", "'")
+      .replace("&lt;", "<")
+      .replace("&#60;", "<")
+      .replace("&gt;", ">")
+      .replace("&#62;", ">");
+
   return copy;
 
 }

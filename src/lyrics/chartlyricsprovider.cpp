@@ -127,6 +127,7 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 
     else if (type == QXmlStreamReader::EndElement) {
        if (name == "GetLyricResult") {
          if (!result.artist.isEmpty() && !result.title.isEmpty() && !result.lyrics.isEmpty() && (result.artist.toLower() == artist.toLower() || result.title.toLower() == title.toLower())) {
+           result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
            results << result;
          }
          result = LyricsSearchResult();

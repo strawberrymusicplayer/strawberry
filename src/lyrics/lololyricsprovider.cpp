@@ -35,6 +35,7 @@
 
 #include "core/logging.h"
 #include "core/network.h"
+#include "core/utilities.h"
 #include "lyricsprovider.h"
 #include "lyricsfetcher.h"
 #include "lololyricsprovider.h"
@@ -137,6 +138,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
       else if (type == QXmlStreamReader::EndElement) {
          if (name == "result") {
            if (!result.lyrics.isEmpty()) {
+             result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
              results << result;
            }
            result = LyricsSearchResult();

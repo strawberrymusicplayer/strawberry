@@ -37,6 +37,7 @@
 
 #include "core/logging.h"
 #include "core/network.h"
+#include "core/utilities.h"
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
 #include "lyricsprovider.h"
@@ -129,6 +130,7 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
     if (result.artist.toLower() != artist.toLower() && result.title.toLower() != title.toLower()) continue;
     result.lyrics = json_obj["lyrics"].toString();
     if (result.lyrics.isEmpty() || result.lyrics.length() > kMaxLength || result.lyrics == "error") continue;
+    result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
 
     //qLog(Debug) << "AudDLyrics:" << result.artist << result.title << result.lyrics.length();
 

@@ -34,6 +34,7 @@
 
 #include "core/logging.h"
 #include "core/network.h"
+#include "core/utilities.h"
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
 #include "lyricsprovider.h"
@@ -200,6 +201,7 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, const qui
   result.lyrics = obj_lyrics["body"].toString();
 
   if (!result.lyrics.isEmpty() && (artist.toLower() == result.artist.toLower() || title.toLower() == result.title.toLower())) {
+    result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
     results.append(result);
   }
 

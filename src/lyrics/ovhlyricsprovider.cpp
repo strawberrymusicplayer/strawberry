@@ -32,6 +32,7 @@
 
 #include "core/logging.h"
 #include "core/network.h"
+#include "core/utilities.h"
 #include "lyricsfetcher.h"
 #include "jsonlyricsprovider.h"
 #include "ovhlyricsprovider.h"
@@ -107,6 +108,7 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id
     emit SearchFinished(id, LyricsSearchResults());
   }
   else {
+    result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
     qLog(Debug) << "OVHLyrics: Got lyrics for" << artist << title;
     emit SearchFinished(id, LyricsSearchResults() << result);
  }

@@ -515,7 +515,7 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
     LyricsSearchResult result;
     result.artist = lyric.artist;
     result.title = lyric.title;
-    result.lyrics = lyrics;
+    result.lyrics = Utilities::DecodeHtmlEntities(lyrics);
     search->results.append(result);
   }
 
