@@ -73,12 +73,12 @@ class CollectionSettingsPage : public SettingsPage {
   void DiskCacheEnable(const int state);
   void CoverSaveInAlbumDirChanged();
   void ClearPixmapDiskCache();
+  void CacheSizeUnitChanged(int index);
+  void DiskCacheSizeUnitChanged(int index);
 
  private:
   Ui_CollectionSettingsPage *ui_;
   bool initialized_model_;
-
-  static const QStringList cacheUnitNames;
 };
 
 #endif  // COLLECTIONSETTINGSPAGE_H

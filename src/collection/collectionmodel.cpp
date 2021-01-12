@@ -1741,9 +1741,9 @@ bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem
 
 }
 
-int CollectionModel::MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const int cache_size_default) const {
+qint64 CollectionModel::MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default) const {
 
-  int size = s->value(size_id, cache_size_default).toInt();
+  qint64 size = s->value(size_id, cache_size_default).toInt();
   int unit = s->value(size_unit_id, CollectionSettingsPage::CacheSizeUnit::CacheSizeUnit_MB).toInt() + 1;
 
   do {

@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <limits>
+
 #include <QStandardPaths>
 #include <QAbstractItemModel>
 #include <QItemSelectionModel>
@@ -59,8 +61,6 @@ const char *CollectionSettingsPage::kSettingsDiskCacheSizeUnit = "disk_cache_siz
 const int CollectionSettingsPage::kSettingsCacheSizeDefault = 160;
 const int CollectionSettingsPage::kSettingsDiskCacheSizeDefault = 360;
 
-const QStringList CollectionSettingsPage::cacheUnitNames = { "KB", "MB", "GB", "TB" };
-
 CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
     : SettingsPage(dialog),
       ui_(new Ui_CollectionSettingsPage),
@@ -74,8 +74,8 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
   setWindowIcon(IconLoader::Load("library-music"));
   ui_->add->setIcon(IconLoader::Load("document-open-folder"));
 
-  ui_->combobox_cache_size->addItems(cacheUnitNames);
-  ui_->combobox_disk_cache_size->addItems(cacheUnitNames);
+  ui_->combobox_cache_size->addItems({"KB", "MB"});
+  ui_->combobox_disk_cache_size->addItems({"KB", "MB", "GB"});
 
   connect(ui_->add, SIGNAL(clicked()), SLOT(Add()));
   connect(ui_->remove, SIGNAL(clicked()), SLOT(Remove()));
@@ -87,6 +87,9 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
   connect(ui_->checkbox_disk_cache, SIGNAL(stateChanged(int)), SLOT(DiskCacheEnable(int)));
   connect(ui_->button_clear_disk_cache, SIGNAL(clicked()), dialog->app(), SIGNAL(ClearPixmapDiskCache()));
   connect(ui_->button_clear_disk_cache, SIGNAL(clicked()), SLOT(ClearPixmapDiskCache()));
+
+  connect(ui_->combobox_cache_size, SIGNAL(currentIndexChanged(int)), SLOT(CacheSizeUnitChanged(int)));
+  connect(ui_->combobox_disk_cache_size, SIGNAL(currentIndexChanged(int)), SLOT(DiskCacheSizeUnitChanged(int)));
 
 }
 
@@ -173,9 +176,11 @@ void CollectionSettingsPage::Load() {
 
   ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, kSettingsCacheSizeDefault).toInt());
   ui_->combobox_cache_size->setCurrentIndex(s.value(kSettingsCacheSizeUnit, static_cast<int>(CacheSizeUnit_MB)).toInt());
+  if (ui_->combobox_cache_size->currentIndex() == -1) ui_->combobox_cache_size->setCurrentIndex(static_cast<int>(CacheSizeUnit_MB));
   ui_->checkbox_disk_cache->setChecked(s.value(kSettingsDiskCacheEnable, false).toBool());
   ui_->spinbox_disk_cache_size->setValue(s.value(kSettingsDiskCacheSize, kSettingsDiskCacheSizeDefault).toInt());
   ui_->combobox_disk_cache_size->setCurrentIndex(s.value(kSettingsDiskCacheSizeUnit, static_cast<int>(CacheSizeUnit_MB)).toInt());
+  if (ui_->combobox_disk_cache_size->currentIndex() == -1) ui_->combobox_cache_size->setCurrentIndex(static_cast<int>(CacheSizeUnit_MB));
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   ui_->checkbox_delete_files->setChecked(s.value("delete_files", false).toBool());
@@ -269,5 +274,31 @@ void CollectionSettingsPage::CoverSaveInAlbumDirChanged() {
 void CollectionSettingsPage::ClearPixmapDiskCache() {
 
   ui_->disk_cache_in_use->setText("empty");
+
+}
+
+void CollectionSettingsPage::CacheSizeUnitChanged(int index) {
+
+  switch (static_cast<CacheSizeUnit>(index)) {
+    case CacheSizeUnit_MB:
+      ui_->spinbox_cache_size->setMaximum(std::numeric_limits<int>::max() / 1024);
+      break;
+    default:
+      ui_->spinbox_cache_size->setMaximum(std::numeric_limits<int>::max());
+      break;
+  }
+
+}
+
+void CollectionSettingsPage::DiskCacheSizeUnitChanged(int index) {
+
+  switch (static_cast<CacheSizeUnit>(index)) {
+    case CacheSizeUnit_GB:
+      ui_->spinbox_disk_cache_size->setMaximum(4);
+      break;
+    default:
+      ui_->spinbox_disk_cache_size->setMaximum(std::numeric_limits<int>::max());
+      break;
+  }
 
 }

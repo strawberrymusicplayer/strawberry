@@ -268,7 +268,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QVariant AlbumIcon(const QModelIndex &idx);
   QVariant data(const CollectionItem *item, const int role) const;
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
-  int MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const int cache_size_default) const;
+  qint64 MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default) const;
 
  private:
   CollectionBackend *backend_;
