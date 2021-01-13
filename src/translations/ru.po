@@ -573,7 +573,7 @@ msgstr "Добавить новую строку, если поддержива�
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Добавить все треки из папки и её подпапки"
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
 msgstr "Добавить каталог…"
 

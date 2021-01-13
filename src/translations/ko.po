@@ -555,7 +555,7 @@ msgstr "알림 형식이 지원한다면 새로운 줄 추가"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "디렉터리와 모든 하위 디렉터리의 트랙을 추가합니다"
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
 msgstr "디렉터리 추가..."
 

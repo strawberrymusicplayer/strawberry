@@ -584,7 +584,7 @@ msgstr "Añadir una línea nueva si el tipo de notificación lo permite"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Añadir todas las pistas de una carpeta y sus subcarpetas"
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
 msgstr "Añadir carpeta…"
 

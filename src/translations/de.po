@@ -596,7 +596,7 @@ msgid "Add all tracks from a directory and all its subdirectories"
 msgstr ""
 "Alle Titel aus einem Verzeichnis, inklusive Unterverzeichnisse, hinzufügen"
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
 msgstr "Verzeichnis hinzufügen …"
 

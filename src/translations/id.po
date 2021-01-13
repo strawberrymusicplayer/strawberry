@@ -555,7 +555,7 @@ msgstr "Tambah baris baru jika didukung oleh tipe notifikasi"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 

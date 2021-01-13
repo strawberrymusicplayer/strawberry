@@ -547,7 +547,7 @@ msgstr "Legg til en linje, hvis meddelelsestypen støtter det"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Legg til alle filer fra ei mappe og dens undermapper"
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
 msgstr "Legg til mappe…"
 

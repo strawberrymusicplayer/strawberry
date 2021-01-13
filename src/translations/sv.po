@@ -568,7 +568,7 @@ msgstr "Lägg till en ny rad om det stöds av aviseringstypen"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Lägg till alla låtar från en mapp och alla dess undermappar"
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
 msgstr "Lägg till mapp..."
 

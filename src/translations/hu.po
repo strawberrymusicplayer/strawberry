@@ -560,7 +560,7 @@ msgstr "Sortörés hozzáadása ha az értesítés támogatja"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Minden szám hozzáadása a mappából és almappáiból"
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
 msgstr "Mappa hozzáadása"
 

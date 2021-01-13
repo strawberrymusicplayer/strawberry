@@ -561,7 +561,7 @@ msgstr "Přidat nový řádek, je-li to podporováno typem oznámení"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Přidat všechny skladby z adresáři a všech jeho podadresářů"
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
 msgstr "Přidat složku..."
 

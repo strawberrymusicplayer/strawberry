@@ -574,7 +574,7 @@ msgid "Add all tracks from a directory and all its subdirectories"
 msgstr ""
 "Dodaj wszystkie ścieżki z podanego katalogu i wszystkich jego podkatalogów."
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
 msgstr "Dodaj katalog…"
 

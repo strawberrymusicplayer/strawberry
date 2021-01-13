@@ -552,7 +552,7 @@ msgid "Add all tracks from a directory and all its subdirectories"
 msgstr ""
 "Aggiungi tutte le tracce da una cartella e da tutte le sue sottocartelle"
 
-#: settings/collectionsettingspage.cpp:101
+#: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
 msgstr "Aggiungi cartella..."
 
