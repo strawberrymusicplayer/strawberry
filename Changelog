@@ -2,6 +2,21 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fix bug duplicating songs in the DB when organizing songs between 2 different collection directories.
+    * Fix bug overwriting existing newer last played when importing last played from last.fm.
+    * (macOS) Fix minor compile errors with Qt 6.
+    * (macOS) Fix exclusively grabbing global media shortcuts.
+
+  Enhancements:
+    * Improve Musixmatch cover and lyrics search.
+    * Decode any HTML entities in some rare cases they appear in the retrieved lyrics from the API's.
+    * Use mimetype instead of description from stream metadata by default when updating song filetype.
+    * Set limits for collection pixmap cache based on size units.
+    * (macOS) Update and improve build deployment/bundling for Qt 6.
+
 0.8.5:
 
   Bugfixes:
