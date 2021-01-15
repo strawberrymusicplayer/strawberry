@@ -253,7 +253,7 @@ void CollectionBackend::UpdateTotalArtistCount() {
   QSqlDatabase db(db_->Connect());
 
   QSqlQuery q(db);
-  q.prepare(QString("select COUNT(distinct artist) from %1 WHERE unavailable = 0").arg(songs_table_));
+  q.prepare(QString("SELECT COUNT(DISTINCT artist) FROM %1 WHERE unavailable = 0").arg(songs_table_));
   q.exec();
   if (db_->CheckErrors(q)) return;
   if (!q.next()) return;
@@ -268,7 +268,7 @@ void CollectionBackend::UpdateTotalAlbumCount() {
   QSqlDatabase db(db_->Connect());
 
   QSqlQuery q(db);
-  q.prepare(QString("select COUNT(distinct album) from %1 WHERE unavailable = 0").arg(songs_table_));
+  q.prepare(QString("SELECT COUNT(*) FROM (SELECT DISTINCT effective_albumartist, album FROM %1 WHERE unavailable = 0)").arg(songs_table_));
   q.exec();
   if (db_->CheckErrors(q)) return;
   if (!q.next()) return;
