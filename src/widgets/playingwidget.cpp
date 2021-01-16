@@ -115,6 +115,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
   connect(timeline_fade_, SIGNAL(valueChanged(qreal)), SLOT(FadePreviousTrack(qreal)));
   timeline_fade_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
 
+  details_->setUndoRedoEnabled(false);
   // add placeholder text to get the correct height
   if (mode_ == LargeSongDetails) {
     details_->setDefaultStyleSheet("p { font-size: small; font-weight: bold; }");
