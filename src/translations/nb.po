@@ -4128,7 +4128,7 @@ msgstr "Vis et oppsprettsvindu fra systemskuffa"
 msgid "Show a pretty OSD"
 msgstr "Vis et pent skjermbildeoverlegg"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Vis over statuslinja"
 

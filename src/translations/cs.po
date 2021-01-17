@@ -4172,7 +4172,7 @@ msgstr "Ukázat popup &ze systémové lišty"
 msgid "Show a pretty OSD"
 msgstr "Ukazovat OSD"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Ukazovat nad stavovým řádkem"
 

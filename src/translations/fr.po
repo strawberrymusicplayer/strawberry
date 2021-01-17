@@ -4246,7 +4246,7 @@ msgstr "Afficher une pop-up depuis la &barre de tâche"
 msgid "Show a pretty OSD"
 msgstr "Utiliser l'affichage à l'écran (OSD)"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Afficher au dessus de la barre d'état"
 

@@ -4208,7 +4208,7 @@ msgstr "Mostrar una notificación en la bandeja del siste&ma"
 msgid "Show a pretty OSD"
 msgstr "Mostrar panel de información en pantalla chulo"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Mostrar sobre la barra de estado"
 

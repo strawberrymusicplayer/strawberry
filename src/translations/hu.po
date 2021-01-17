@@ -4173,7 +4173,7 @@ msgstr "&Felugró értesítés megjelenítése a rendszertálcáról"
 msgid "Show a pretty OSD"
 msgstr "Saját OSD megjelenítése"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Megjelenítés az állapotsáv felett"
 

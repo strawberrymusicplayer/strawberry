@@ -4123,7 +4123,7 @@ msgstr "시스템 트레이에서 팝업 표시(&M)"
 msgid "Show a pretty OSD"
 msgstr "예쁜 OSD 표시"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "상태 표시줄 위에 표시"
 

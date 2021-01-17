@@ -4196,7 +4196,7 @@ msgstr "Pokazuj powiadomienia z ikony zaso&bnika"
 msgid "Show a pretty OSD"
 msgstr "Pokazuj ładne menu ekranowe (OSD)"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Pokazuj ponad paskiem stanu"
 

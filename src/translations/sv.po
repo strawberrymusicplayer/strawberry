@@ -17,12 +17,13 @@
 # Hoven1 <thomas.hofverberg@tavelsjo.se>, 2012
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>, 2020. #zanata
+# Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>, 2021. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-25 07:11-0500\n"
+"PO-Revision-Date: 2021-01-16 03:52-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -4173,7 +4174,7 @@ msgstr "Visa en popup fr&ån systemfältet"
 msgid "Show a pretty OSD"
 msgstr "Visa en snygg avisering"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Visa ovanför statusraden"
 
@@ -4211,7 +4212,7 @@ msgstr "Visa motor och enhet"
 
 #: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Show fullsize..."
-msgstr "Visa full storlek..."
+msgstr "Visa i full storlek..."
 
 #: core/mainwindow.cpp:704
 msgid "Show in collection..."

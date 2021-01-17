@@ -4163,7 +4163,7 @@ msgstr "&Показать всплывающее окно для панели з
 msgid "Show a pretty OSD"
 msgstr "Показывать OSD"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Показать над строкой состояния"
 

@@ -4157,7 +4157,7 @@ msgstr "Mostra una notifica d&alla barra notifiche"
 msgid "Show a pretty OSD"
 msgstr "Mostra un OSD gradevole"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Mostra la barra di stato superiore"
 

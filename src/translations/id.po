@@ -4139,7 +4139,7 @@ msgstr "Tampilkan popup dari baki siste&m"
 msgid "Show a pretty OSD"
 msgstr "Tampilkan OSD cantik"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Tampilkan di atas bilah status"
 

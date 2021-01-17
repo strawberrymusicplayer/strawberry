@@ -4230,7 +4230,7 @@ msgstr "Zeige ein Popup vo&n der Systemleiste"
 msgid "Show a pretty OSD"
 msgstr "Strawberry-Bildschirmanzeige anzeigen"
 
-#: widgets/playingwidget.cpp:139
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Oberhalb der Statusleiste anzeigen"
 
