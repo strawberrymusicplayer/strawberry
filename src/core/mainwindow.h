@@ -97,6 +97,7 @@ class Windows7ThumbBar;
 class AddStreamDialog;
 class LastFMImportDialog;
 class RadioViewContainer;
+class ArtistBioView;
 
 #ifdef HAVE_DISCORD_RPC
 namespace discord {
@@ -357,6 +358,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #endif
 
   RadioViewContainer *radio_view_;
+
+  ArtistBioView *artistbio_view_;
 
   LastFMImportDialog *lastfm_import_dialog_;
 
