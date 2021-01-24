@@ -808,6 +808,12 @@ set(SOURCES
   src/device/devicestatefiltermodel.cpp
   src/device/deviceviewcontainer.cpp
   src/device/deviceview.cpp
+
+  src/artistbio/artistbioview.cpp
+  src/artistbio/artistbiofetcher.cpp
+  src/artistbio/artistbioprovider.cpp
+  src/artistbio/lastfmartistbio.cpp
+  src/artistbio/wikipediaartistbio.cpp
 )
 
 set(HEADERS
@@ -1094,6 +1100,12 @@ set(HEADERS
   src/device/devicestatefiltermodel.h
   src/device/deviceviewcontainer.h
   src/device/deviceview.h
+
+  src/artistbio/artistbiofetcher.h
+  src/artistbio/artistbioprovider.h
+  src/artistbio/artistbioview.h
+  src/artistbio/lastfmartistbio.h
+  src/artistbio/wikipediaartistbio.h
 )
 
 set(UI
