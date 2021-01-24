@@ -52,4 +52,4 @@ class QobuzUrlHandler : public UrlHandler {
 
 };
 
-#endif
+#endif  // QOBUZURLHANDLER_H

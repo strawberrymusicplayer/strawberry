@@ -48,8 +48,8 @@ ObjectHelper* ClosureBase::helper() const {
 
 ObjectHelper::ObjectHelper(QObject *sender, const char *signal, ClosureBase *closure) : closure_(closure) {
 
-  connect(sender, signal, SLOT(Invoked()));
-  connect(sender, SIGNAL(destroyed()), SLOT(deleteLater()));
+  QObject::connect(sender, signal, SLOT(Invoked()));
+  QObject::connect(sender, &QObject::destroyed, this, &ObjectHelper::deleteLater);
 
 }
 

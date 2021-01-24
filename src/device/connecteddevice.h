@@ -70,13 +70,13 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
   virtual void Close();
 
  public slots:
-  void CloseFinished();
+  void BackendCloseFinished();
 
  signals:
   void TaskStarted(int id);
   void SongCountUpdated(int count);
-  void ConnectFinished(const QString& id, bool success);
-  void CloseFinished(const QString& id);
+  void DeviceConnectFinished(QString id, bool success);
+  void DeviceCloseFinished(QString id);
 
  protected:
   void InitBackendDirectory(const QString &mount_point, const bool first_time, const bool rewrite_path = true);
@@ -101,4 +101,3 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
 };
 
 #endif  // CONNECTEDDEVICE_H
-

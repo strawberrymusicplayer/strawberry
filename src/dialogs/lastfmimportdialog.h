@@ -39,7 +39,7 @@ class LastFMImportDialog : public QDialog {
   ~LastFMImportDialog() override;
 
  protected:
-  void closeEvent(QCloseEvent*) override;
+  void closeEvent(QCloseEvent *e) override;
 
  private:
   void ResetFinished();
@@ -51,10 +51,11 @@ class LastFMImportDialog : public QDialog {
   void Close();
   void UpdateGoButtonState();
 
-  void UpdateTotal(const int lastplayed_total, const int playcount_total);
-  void UpdateProgress(const int lastplayed_received, const int playcount_received);
+ public slots:
   void Finished();
   void FinishedWithError(const QString &error);
+  void UpdateTotal(const int lastplayed_total, const int playcount_total);
+  void UpdateProgress(const int lastplayed_received, const int playcount_received);
 
  private:
   Ui_LastFMImportDialog *ui_;

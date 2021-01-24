@@ -159,4 +159,3 @@ T *SimpleTreeItem<T>::ChildByKey(const QString &_key) const {
 }
 
 #endif  // SIMPLETREEITEM_H
-

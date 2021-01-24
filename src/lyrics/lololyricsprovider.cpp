@@ -48,7 +48,7 @@ LoloLyricsProvider::~LoloLyricsProvider() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -77,7 +77,7 @@ bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album
 #endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, title); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id, artist, title]() { HandleSearchReply(reply, id, artist, title); });
 
   //qLog(Debug) << "LoloLyrics: Sending request for" << url;
 
@@ -91,7 +91,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QString failure_reason;

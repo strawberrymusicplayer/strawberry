@@ -48,7 +48,7 @@ class GroupByDialog : public QDialog {
   void accept() override;
 
  signals:
-  void Accepted(const CollectionModel::Grouping &g);
+  void Accepted(CollectionModel::Grouping g);
 
  private slots:
   void Reset();

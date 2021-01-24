@@ -120,6 +120,7 @@ namespace PlaylistUndoCommands {
    public:
     explicit ShuffleItems(Playlist *playlist, const PlaylistItemList &new_items);
   };
-} //namespace
+
+}  // namespace
 
 #endif // PLAYLISTUNDOCOMMANDS_H

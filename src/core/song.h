@@ -388,4 +388,3 @@ uint qHash(const Song &song);
 uint HashSimilar(const Song &song);
 
 #endif  // SONG_H
-

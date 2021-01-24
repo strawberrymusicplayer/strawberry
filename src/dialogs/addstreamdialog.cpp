@@ -32,17 +32,19 @@ AddStreamDialog::AddStreamDialog(QWidget* parent) : QDialog(parent), ui_(new Ui_
 
   ui_->setupUi(this);
 
-  connect(ui_->url, SIGNAL(textChanged(QString)), SLOT(TextChanged(QString)));
+  QObject::connect(ui_->url, &QLineEdit::textChanged, this, &AddStreamDialog::TextChanged);
   TextChanged(QString());
 
 }
 
 AddStreamDialog::~AddStreamDialog() { delete ui_; }
 
-void AddStreamDialog::showEvent(QShowEvent*) {
+void AddStreamDialog::showEvent(QShowEvent *e) {
 
   ui_->url->setFocus();
   ui_->url->selectAll();
+
+  QDialog::showEvent(e);
 
 }
 

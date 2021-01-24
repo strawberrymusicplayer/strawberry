@@ -94,34 +94,34 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog)
   ui_->notifications_exp_chooser1->setPopupMode(QToolButton::InstantPopup);
   ui_->notifications_exp_chooser2->setPopupMode(QToolButton::InstantPopup);
   // We need this because by default menus don't show tooltips
-  connect(menu, SIGNAL(hovered(QAction*)), SLOT(ShowMenuTooltip(QAction*)));
+  QObject::connect(menu, &QMenu::hovered, this, &NotificationsSettingsPage::ShowMenuTooltip);
 
-  connect(ui_->notifications_none, SIGNAL(toggled(bool)), SLOT(NotificationTypeChanged()));
-  connect(ui_->notifications_native, SIGNAL(toggled(bool)), SLOT(NotificationTypeChanged()));
-  connect(ui_->notifications_tray, SIGNAL(toggled(bool)), SLOT(NotificationTypeChanged()));
-  connect(ui_->notifications_pretty, SIGNAL(toggled(bool)), SLOT(NotificationTypeChanged()));
-  connect(ui_->notifications_opacity, SIGNAL(valueChanged(int)), SLOT(PrettyOpacityChanged(int)));
-  connect(ui_->notifications_bg_preset, SIGNAL(activated(int)), SLOT(PrettyColorPresetChanged(int)));
-  connect(ui_->notifications_fg_choose, SIGNAL(clicked()), SLOT(ChooseFgColor()));
-  connect(ui_->notifications_font_choose, SIGNAL(clicked()), SLOT(ChooseFont()));
-  connect(ui_->notifications_exp_chooser1, SIGNAL(triggered(QAction*)), SLOT(InsertVariableFirstLine(QAction*)));
-  connect(ui_->notifications_exp_chooser2, SIGNAL(triggered(QAction*)), SLOT(InsertVariableSecondLine(QAction*)));
-  connect(ui_->notifications_disable_duration, SIGNAL(toggled(bool)), ui_->notifications_duration, SLOT(setDisabled(bool)));
+  QObject::connect(ui_->notifications_none, &QRadioButton::toggled, this, &NotificationsSettingsPage::NotificationTypeChanged);
+  QObject::connect(ui_->notifications_native, &QRadioButton::toggled, this, &NotificationsSettingsPage::NotificationTypeChanged);
+  QObject::connect(ui_->notifications_tray, &QRadioButton::toggled, this, &NotificationsSettingsPage::NotificationTypeChanged);
+  QObject::connect(ui_->notifications_pretty, &QRadioButton::toggled, this, &NotificationsSettingsPage::NotificationTypeChanged);
+  QObject::connect(ui_->notifications_opacity, &QSlider::valueChanged, this, &NotificationsSettingsPage::PrettyOpacityChanged);
+  QObject::connect(ui_->notifications_bg_preset, QOverload<int>::of(&QComboBox::activated), this, &NotificationsSettingsPage::PrettyColorPresetChanged);
+  QObject::connect(ui_->notifications_fg_choose, &QPushButton::clicked, this, &NotificationsSettingsPage::ChooseFgColor);
+  QObject::connect(ui_->notifications_font_choose, &QPushButton::clicked, this, &NotificationsSettingsPage::ChooseFont);
+  QObject::connect(ui_->notifications_exp_chooser1, &QToolButton::triggered, this, &NotificationsSettingsPage::InsertVariableFirstLine);
+  QObject::connect(ui_->notifications_exp_chooser2, &QToolButton::triggered, this, &NotificationsSettingsPage::InsertVariableSecondLine);
+  QObject::connect(ui_->notifications_disable_duration, &QCheckBox::toggled, ui_->notifications_duration, &NotificationsSettingsPage::setDisabled);
 
   if (!dialog->osd()->SupportsNativeNotifications())
     ui_->notifications_native->setEnabled(false);
   if (!dialog->osd()->SupportsTrayPopups()) ui_->notifications_tray->setEnabled(false);
 
-  connect(ui_->notifications_pretty, SIGNAL(toggled(bool)), SLOT(UpdatePopupVisible()));
+  QObject::connect(ui_->notifications_pretty, &QRadioButton::toggled, this, &NotificationsSettingsPage::UpdatePopupVisible);
 
-  connect(ui_->notifications_custom_text_enabled, SIGNAL(toggled(bool)), SLOT(NotificationCustomTextChanged(bool)));
-  connect(ui_->notifications_preview, SIGNAL(clicked()), SLOT(PrepareNotificationPreview()));
+  QObject::connect(ui_->notifications_custom_text_enabled, &QCheckBox::toggled, this, &NotificationsSettingsPage::NotificationCustomTextChanged);
+  QObject::connect(ui_->notifications_preview, &QPushButton::clicked, this, &NotificationsSettingsPage::PrepareNotificationPreview);
 
   // Icons
   ui_->notifications_exp_chooser1->setIcon(IconLoader::Load("list-add"));
   ui_->notifications_exp_chooser2->setIcon(IconLoader::Load("list-add"));
 
-  connect(pretty_popup_, SIGNAL(PositionChanged()), SLOT(PrettyOSDChanged()));
+  QObject::connect(pretty_popup_, &OSDPretty::PositionChanged, this, &NotificationsSettingsPage::PrettyOSDChanged);
 
 }
 

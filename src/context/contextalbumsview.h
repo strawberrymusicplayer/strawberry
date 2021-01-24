@@ -57,7 +57,7 @@ class ContextItemDelegate : public QStyledItemDelegate {
   explicit ContextItemDelegate(QObject *parent);
 
  public slots:
-  bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) override;
+  bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &idx) override;
 };
 
 class ContextAlbumsView : public AutoExpandingTreeView {
@@ -74,7 +74,7 @@ class ContextAlbumsView : public AutoExpandingTreeView {
   void Init(Application *app);
 
   // QTreeView
-  void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible) override;
+  void scrollTo(const QModelIndex &idx, ScrollHint hint = EnsureVisible) override;
 
   ContextAlbumsModel *albums_model() { return model_; }
 

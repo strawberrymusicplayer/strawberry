@@ -165,6 +165,7 @@ class PlaylistView : public QTreeView {
   void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
 
  private slots:
+  void Update() { update(); }
   void SetHeaderState();
   void InhibitAutoscrollTimeout();
   void MaybeAutoscroll(const Playlist::AutoScroll autoscroll);

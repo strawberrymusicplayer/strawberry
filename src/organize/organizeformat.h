@@ -103,4 +103,3 @@ class OrganizeFormat {
 };
 
 #endif  // ORGANISEFORMAT_H
-

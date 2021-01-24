@@ -56,14 +56,13 @@
 TrackSelectionDialog::TrackSelectionDialog(QWidget *parent)
   : QDialog(parent),
     ui_(new Ui_TrackSelectionDialog),
-    save_on_close_(false)
-{
+    save_on_close_(false) {
 
   // Setup dialog window
   ui_->setupUi(this);
 
-  connect(ui_->song_list, SIGNAL(currentRowChanged(int)), SLOT(UpdateStack()));
-  connect(ui_->results, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), SLOT(ResultSelected()));
+  QObject::connect(ui_->song_list, &QListWidget::currentRowChanged, this, &TrackSelectionDialog::UpdateStack);
+  QObject::connect(ui_->results, &QTreeWidget::currentItemChanged, this, &TrackSelectionDialog::ResultSelected);
 
   ui_->splitter->setSizes(QList<int>() << 200 << width() - 200);
   SetLoading(QString());
@@ -74,8 +73,8 @@ TrackSelectionDialog::TrackSelectionDialog(QWidget *parent)
   ui_->button_box->addButton(previous_button_, QDialogButtonBox::ResetRole);
   ui_->button_box->addButton(next_button_, QDialogButtonBox::ResetRole);
 
-  connect(previous_button_, SIGNAL(clicked()), SLOT(PreviousSong()));
-  connect(next_button_, SIGNAL(clicked()), SLOT(NextSong()));
+  QObject::connect(previous_button_, &QPushButton::clicked, this, &TrackSelectionDialog::PreviousSong);
+  QObject::connect(next_button_, &QPushButton::clicked, this, &TrackSelectionDialog::NextSong);
 
   // Set some shortcuts for the buttons
   new QShortcut(QKeySequence::Back, previous_button_, SLOT(click()));
@@ -294,7 +293,7 @@ void TrackSelectionDialog::accept() {
     QFuture<void> future = QtConcurrent::run(&TrackSelectionDialog::SaveData, data_);
     QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
     watcher->setFuture(future);
-    connect(watcher, SIGNAL(finished()), SLOT(AcceptFinished()));
+    QObject::connect(watcher, &QFutureWatcher<void>::finished, this, &TrackSelectionDialog::AcceptFinished);
 
     return;
   }

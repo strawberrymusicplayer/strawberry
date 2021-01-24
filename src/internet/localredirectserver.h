@@ -79,4 +79,4 @@ class LocalRedirectServer : public QTcpServer {
 
 };
 
-#endif
+#endif  // LOCALREDIRECTSERVER_H

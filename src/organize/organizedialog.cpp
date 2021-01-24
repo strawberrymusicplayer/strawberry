@@ -90,10 +90,10 @@ OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *bac
   setWindowFlags(windowFlags()|Qt::WindowMaximizeButtonHint);
 
   QPushButton *button_save = ui_->button_box->addButton("Save settings", QDialogButtonBox::ApplyRole);
-  connect(button_save, SIGNAL(clicked()), SLOT(SaveSettings()));
+  QObject::connect(button_save, &QPushButton::clicked, this, &OrganizeDialog::SaveSettings);
   button_save->setIcon(IconLoader::Load("document-save"));
   ui_->button_box->button(QDialogButtonBox::RestoreDefaults)->setIcon(IconLoader::Load("edit-undo"));
-  connect(ui_->button_box->button(QDialogButtonBox::RestoreDefaults), SIGNAL(clicked()), SLOT(RestoreDefaults()));
+  QObject::connect(ui_->button_box->button(QDialogButtonBox::RestoreDefaults), &QPushButton::clicked, this, &OrganizeDialog::RestoreDefaults);
 
   ui_->aftercopying->setItemIcon(1, IconLoader::Load("edit-delete"));
 
@@ -122,14 +122,14 @@ OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *bac
   // Naming scheme input field
   new OrganizeFormat::SyntaxHighlighter(ui_->naming);
 
-  connect(ui_->destination, SIGNAL(currentIndexChanged(int)), SLOT(UpdatePreviews()));
-  connect(ui_->naming, SIGNAL(textChanged()), SLOT(UpdatePreviews()));
-  connect(ui_->remove_problematic, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
-  connect(ui_->remove_non_fat, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
-  connect(ui_->remove_non_ascii, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
-  connect(ui_->allow_ascii_ext, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
-  connect(ui_->replace_spaces, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
-  connect(ui_->remove_non_ascii, SIGNAL(toggled(bool)), SLOT(AllowExtASCII(bool)));
+  QObject::connect(ui_->destination, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &OrganizeDialog::UpdatePreviews);
+  QObject::connect(ui_->naming, &LineTextEdit::textChanged, this, &OrganizeDialog::UpdatePreviews);
+  QObject::connect(ui_->remove_problematic, &QCheckBox::toggled, this, &OrganizeDialog::UpdatePreviews);
+  QObject::connect(ui_->remove_non_fat, &QCheckBox::toggled, this, &OrganizeDialog::UpdatePreviews);
+  QObject::connect(ui_->remove_non_ascii, &QCheckBox::toggled, this, &OrganizeDialog::UpdatePreviews);
+  QObject::connect(ui_->allow_ascii_ext, &QCheckBox::toggled, this, &OrganizeDialog::UpdatePreviews);
+  QObject::connect(ui_->replace_spaces, &QCheckBox::toggled, this, &OrganizeDialog::UpdatePreviews);
+  QObject::connect(ui_->remove_non_ascii, &QCheckBox::toggled, this, &OrganizeDialog::AllowExtASCII);
 
   // Get the titles of the tags to put in the insert menu
   QStringList tag_titles = tags.keys();
@@ -140,7 +140,7 @@ OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *bac
   for (const QString &title : tag_titles) {
     QAction *action = tag_menu->addAction(title);
     QString tag = tags[title];
-    connect(action, &QAction::triggered, [this, tag]() { InsertTag(tag); } );
+    QObject::connect(action, &QAction::triggered, [this, tag]() { InsertTag(tag); } );
   }
 
   ui_->insert->setMenu(tag_menu);
@@ -187,10 +187,11 @@ void OrganizeDialog::accept() {
   // It deletes itself when it's finished.
   const bool copy = ui_->aftercopying->currentIndex() == 0;
   Organize *organize = new Organize(task_manager_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->mark_as_listened->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, ui_->eject_after->isChecked(), playlist_);
-  connect(organize, SIGNAL(Finished(QStringList, QStringList)), SLOT(OrganizeFinished(QStringList, QStringList)));
-  connect(organize, SIGNAL(FileCopied(int)), this, SIGNAL(FileCopied(int)));
-  if (backend_)
-    connect(organize, SIGNAL(SongPathChanged(Song, QFileInfo)), backend_, SLOT(SongPathChanged(Song, QFileInfo)));
+  QObject::connect(organize, &Organize::Finished, this, &OrganizeDialog::OrganizeFinished);
+  QObject::connect(organize, &Organize::FileCopied, this, &OrganizeDialog::FileCopied);
+  if (backend_) {
+    QObject::connect(organize, &Organize::SongPathChanged, backend_, &CollectionBackend::SongPathChanged);
+  }
 
   organize->Start();
 
@@ -387,6 +388,7 @@ bool OrganizeDialog::SetUrls(const QList<QUrl> &urls) {
 }
 
 bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
+
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   songs_future_ = QtConcurrent::run(&OrganizeDialog::LoadSongsBlocking, this, filenames);
 #else

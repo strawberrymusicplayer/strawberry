@@ -58,4 +58,3 @@ class BusyIndicator : public QWidget {
 };
 
 #endif  // BUSYINDICATOR_H
-

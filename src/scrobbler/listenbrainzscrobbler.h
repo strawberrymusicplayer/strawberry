@@ -78,7 +78,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
  private slots:
   void RedirectArrived();
   void AuthenticateReplyFinished(QNetworkReply *reply);
-  void RequestAccessToken(const QUrl &redirect_url = QUrl(), const QString &code = QString());
+  void RequestNewAccessToken() { RequestAccessToken(); }
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
   void ScrobbleRequestFinished(QNetworkReply *reply, QList<quint64>);
 
@@ -88,6 +88,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
 
   void AuthError(const QString &error);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
+  void RequestAccessToken(const QUrl &redirect_url = QUrl(), const QString &code = QString());
   void DoSubmit() override;
   void CheckScrobblePrevSong();
 

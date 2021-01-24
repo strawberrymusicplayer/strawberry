@@ -55,7 +55,7 @@ MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *pa
 
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(false);
-  connect(timer_flush_requests_, SIGNAL(timeout()), this, SLOT(FlushRequests()));
+  QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &MusicbrainzCoverProvider::FlushRequests);
 
 }
 
@@ -63,7 +63,7 @@ MusicbrainzCoverProvider::~MusicbrainzCoverProvider() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -106,7 +106,7 @@ void MusicbrainzCoverProvider::SendSearchRequest(const SearchRequest &request) {
 #endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, request.id); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { HandleSearchReply(reply, request.id); });
 
 }
 
@@ -125,7 +125,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   CoverSearchResults results;

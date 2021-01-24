@@ -56,12 +56,12 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
   ui_->setupUi(this);
 
   ui_->search_view->Init(app, service);
-  connect(ui_->search_view, SIGNAL(AddArtistsSignal(SongList)), service_, SIGNAL(AddArtists(SongList)));
-  connect(ui_->search_view, SIGNAL(AddAlbumsSignal(SongList)), service_, SIGNAL(AddAlbums(SongList)));
-  connect(ui_->search_view, SIGNAL(AddSongsSignal(SongList)), service_, SIGNAL(AddSongs(SongList)));
+  QObject::connect(ui_->search_view, &InternetSearchView::AddArtistsSignal, service_, &InternetService::AddArtists);
+  QObject::connect(ui_->search_view, &InternetSearchView::AddAlbumsSignal, service_, &InternetService::AddAlbums);
+  QObject::connect(ui_->search_view, &InternetSearchView::AddSongsSignal, service_, &InternetService::AddSongs);
 
   QAction *action_configure = new QAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this);
-  connect(action_configure, SIGNAL(triggered()), SLOT(OpenSettingsDialog()));
+  QObject::connect(action_configure, &QAction::triggered, this, &InternetTabsView::OpenSettingsDialog);
 
   if (service_->artists_collection_model()) {
     ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->internetcollection_page());
@@ -73,22 +73,22 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
     ui_->artists_collection->filter()->SetCollectionModel(service_->artists_collection_model());
     ui_->artists_collection->filter()->AddMenuAction(action_configure);
 
-    connect(ui_->artists_collection->view(), SIGNAL(GetSongs()), SLOT(GetArtists()));
-    connect(ui_->artists_collection->view(), SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveArtists(SongList)));
+    QObject::connect(ui_->artists_collection->view(), &InternetCollectionView::GetSongs, this, &InternetTabsView::GetArtists);
+    QObject::connect(ui_->artists_collection->view(), &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveArtists);
 
-    connect(ui_->artists_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetArtists()));
-    connect(ui_->artists_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetArtists()));
-    connect(ui_->artists_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetArtists()));
-    connect(service_, SIGNAL(ArtistsResults(SongList, QString)), SLOT(ArtistsFinished(SongList, QString)));
-    connect(service_, SIGNAL(ArtistsUpdateStatus(QString)), ui_->artists_collection->status(), SLOT(setText(QString)));
-    connect(service_, SIGNAL(ArtistsProgressSetMaximum(int)), ui_->artists_collection->progressbar(), SLOT(setMaximum(int)));
-    connect(service_, SIGNAL(ArtistsUpdateProgress(int)), ui_->artists_collection->progressbar(), SLOT(setValue(int)));
+    QObject::connect(ui_->artists_collection->button_refresh(), &QPushButton::clicked, this, &InternetTabsView::GetArtists);
+    QObject::connect(ui_->artists_collection->button_close(), &QPushButton::clicked, this, &InternetTabsView::AbortGetArtists);
+    QObject::connect(ui_->artists_collection->button_abort(), &QPushButton::clicked, this, &InternetTabsView::AbortGetArtists);
+    QObject::connect(service_, &InternetService::ArtistsResults, this, &InternetTabsView::ArtistsFinished);
+    QObject::connect(service_, &InternetService::ArtistsUpdateStatus, ui_->artists_collection->status(), &QLabel::setText);
+    QObject::connect(service_, &InternetService::ArtistsProgressSetMaximum, ui_->artists_collection->progressbar(), &QProgressBar::setMaximum);
+    QObject::connect(service_, &InternetService::ArtistsUpdateProgress, ui_->artists_collection->progressbar(), &QProgressBar::setValue);
 
-    connect(service_->artists_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->artists_collection->view(), SLOT(TotalArtistCountUpdated(int)));
-    connect(service_->artists_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->artists_collection->view(), SLOT(TotalAlbumCountUpdated(int)));
-    connect(service_->artists_collection_model(), SIGNAL(TotalSongCountUpdated(int)), ui_->artists_collection->view(), SLOT(TotalSongCountUpdated(int)));
-    connect(service_->artists_collection_model(), SIGNAL(modelAboutToBeReset()), ui_->artists_collection->view(), SLOT(SaveFocus()));
-    connect(service_->artists_collection_model(), SIGNAL(modelReset()), ui_->artists_collection->view(), SLOT(RestoreFocus()));
+    QObject::connect(service_->artists_collection_model(), &CollectionModel::TotalArtistCountUpdated, ui_->artists_collection->view(), &InternetCollectionView::TotalArtistCountUpdated);
+    QObject::connect(service_->artists_collection_model(), &CollectionModel::TotalAlbumCountUpdated, ui_->artists_collection->view(), &InternetCollectionView::TotalAlbumCountUpdated);
+    QObject::connect(service_->artists_collection_model(), &CollectionModel::TotalSongCountUpdated, ui_->artists_collection->view(), &InternetCollectionView::TotalSongCountUpdated);
+    QObject::connect(service_->artists_collection_model(), &CollectionModel::modelAboutToBeReset, ui_->artists_collection->view(), &InternetCollectionView::SaveFocus);
+    QObject::connect(service_->artists_collection_model(), &CollectionModel::modelReset, ui_->artists_collection->view(), &InternetCollectionView::RestoreFocus);
 
   }
   else {
@@ -105,22 +105,22 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
     ui_->albums_collection->filter()->SetCollectionModel(service_->albums_collection_model());
     ui_->albums_collection->filter()->AddMenuAction(action_configure);
 
-    connect(ui_->albums_collection->view(), SIGNAL(GetSongs()), SLOT(GetAlbums()));
-    connect(ui_->albums_collection->view(), SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveAlbums(SongList)));
+    QObject::connect(ui_->albums_collection->view(), &InternetCollectionView::GetSongs, this, &InternetTabsView::GetAlbums);
+    QObject::connect(ui_->albums_collection->view(), &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveAlbums);
 
-    connect(ui_->albums_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetAlbums()));
-    connect(ui_->albums_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetAlbums()));
-    connect(ui_->albums_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetAlbums()));
-    connect(service_, SIGNAL(AlbumsResults(SongList, QString)), SLOT(AlbumsFinished(SongList, QString)));
-    connect(service_, SIGNAL(AlbumsUpdateStatus(QString)), ui_->albums_collection->status(), SLOT(setText(QString)));
-    connect(service_, SIGNAL(AlbumsProgressSetMaximum(int)), ui_->albums_collection->progressbar(), SLOT(setMaximum(int)));
-    connect(service_, SIGNAL(AlbumsUpdateProgress(int)), ui_->albums_collection->progressbar(), SLOT(setValue(int)));
+    QObject::connect(ui_->albums_collection->button_refresh(), &QPushButton::clicked, this, &InternetTabsView::GetAlbums);
+    QObject::connect(ui_->albums_collection->button_close(), &QPushButton::clicked, this, &InternetTabsView::AbortGetAlbums);
+    QObject::connect(ui_->albums_collection->button_abort(), &QPushButton::clicked, this, &InternetTabsView::AbortGetAlbums);
+    QObject::connect(service_, &InternetService::AlbumsResults, this, &InternetTabsView::AlbumsFinished);
+    QObject::connect(service_, &InternetService::AlbumsUpdateStatus, ui_->albums_collection->status(), &QLabel::setText);
+    QObject::connect(service_, &InternetService::AlbumsProgressSetMaximum, ui_->albums_collection->progressbar(), &QProgressBar::setMaximum);
+    QObject::connect(service_, &InternetService::AlbumsUpdateProgress, ui_->albums_collection->progressbar(), &QProgressBar::setValue);
 
-    connect(service_->albums_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->albums_collection->view(), SLOT(TotalArtistCountUpdated(int)));
-    connect(service_->albums_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->albums_collection->view(), SLOT(TotalAlbumCountUpdated(int)));
-    connect(service_->albums_collection_model(), SIGNAL(TotalSongCountUpdated(int)), ui_->albums_collection->view(), SLOT(TotalSongCountUpdated(int)));
-    connect(service_->albums_collection_model(), SIGNAL(modelAboutToBeReset()), ui_->albums_collection->view(), SLOT(SaveFocus()));
-    connect(service_->albums_collection_model(), SIGNAL(modelReset()), ui_->albums_collection->view(), SLOT(RestoreFocus()));
+    QObject::connect(service_->albums_collection_model(), &CollectionModel::TotalArtistCountUpdated, ui_->albums_collection->view(), &InternetCollectionView::TotalArtistCountUpdated);
+    QObject::connect(service_->albums_collection_model(), &CollectionModel::TotalAlbumCountUpdated, ui_->albums_collection->view(), &InternetCollectionView::TotalAlbumCountUpdated);
+    QObject::connect(service_->albums_collection_model(), &CollectionModel::TotalSongCountUpdated, ui_->albums_collection->view(), &InternetCollectionView::TotalSongCountUpdated);
+    QObject::connect(service_->albums_collection_model(), &CollectionModel::modelAboutToBeReset, ui_->albums_collection->view(), &InternetCollectionView::SaveFocus);
+    QObject::connect(service_->albums_collection_model(), &CollectionModel::modelReset, ui_->albums_collection->view(), &InternetCollectionView::RestoreFocus);
 
   }
   else {
@@ -137,22 +137,22 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
     ui_->songs_collection->filter()->SetCollectionModel(service_->songs_collection_model());
     ui_->songs_collection->filter()->AddMenuAction(action_configure);
 
-    connect(ui_->songs_collection->view(), SIGNAL(GetSongs()), SLOT(GetSongs()));
-    connect(ui_->songs_collection->view(), SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveSongs(SongList)));
+    QObject::connect(ui_->songs_collection->view(), &InternetCollectionView::GetSongs, this, &InternetTabsView::GetSongs);
+    QObject::connect(ui_->songs_collection->view(), &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveSongs);
 
-    connect(ui_->songs_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetSongs()));
-    connect(ui_->songs_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetSongs()));
-    connect(ui_->songs_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetSongs()));
-    connect(service_, SIGNAL(SongsResults(SongList, QString)), SLOT(SongsFinished(SongList, QString)));
-    connect(service_, SIGNAL(SongsUpdateStatus(QString)), ui_->songs_collection->status(), SLOT(setText(QString)));
-    connect(service_, SIGNAL(SongsProgressSetMaximum(int)), ui_->songs_collection->progressbar(), SLOT(setMaximum(int)));
-    connect(service_, SIGNAL(SongsUpdateProgress(int)), ui_->songs_collection->progressbar(), SLOT(setValue(int)));
+    QObject::connect(ui_->songs_collection->button_refresh(), &QPushButton::clicked, this, &InternetTabsView::GetSongs);
+    QObject::connect(ui_->songs_collection->button_close(), &QPushButton::clicked, this, &InternetTabsView::AbortGetSongs);
+    QObject::connect(ui_->songs_collection->button_abort(), &QPushButton::clicked, this, &InternetTabsView::AbortGetSongs);
+    QObject::connect(service_, &InternetService::SongsResults, this, &InternetTabsView::SongsFinished);
+    QObject::connect(service_, &InternetService::SongsUpdateStatus, ui_->songs_collection->status(), &QLabel::setText);
+    QObject::connect(service_, &InternetService::SongsProgressSetMaximum, ui_->songs_collection->progressbar(), &QProgressBar::setMaximum);
+    QObject::connect(service_, &InternetService::SongsUpdateProgress, ui_->songs_collection->progressbar(), &QProgressBar::setValue);
 
-    connect(service_->songs_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->songs_collection->view(), SLOT(TotalArtistCountUpdated(int)));
-    connect(service_->songs_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->songs_collection->view(), SLOT(TotalAlbumCountUpdated(int)));
-    connect(service_->songs_collection_model(), SIGNAL(TotalSongCountUpdated(int)), ui_->songs_collection->view(), SLOT(TotalSongCountUpdated(int)));
-    connect(service_->songs_collection_model(), SIGNAL(modelAboutToBeReset()), ui_->songs_collection->view(), SLOT(SaveFocus()));
-    connect(service_->songs_collection_model(), SIGNAL(modelReset()), ui_->songs_collection->view(), SLOT(RestoreFocus()));
+    QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalArtistCountUpdated, ui_->songs_collection->view(), &InternetCollectionView::TotalArtistCountUpdated);
+    QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalAlbumCountUpdated, ui_->songs_collection->view(), &InternetCollectionView::TotalAlbumCountUpdated);
+    QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalSongCountUpdated, ui_->songs_collection->view(), &InternetCollectionView::TotalSongCountUpdated);
+    QObject::connect(service_->songs_collection_model(), &CollectionModel::modelAboutToBeReset, ui_->songs_collection->view(), &InternetCollectionView::SaveFocus);
+    QObject::connect(service_->songs_collection_model(), &CollectionModel::modelReset, ui_->songs_collection->view(), &InternetCollectionView::RestoreFocus);
 
   }
   else {

@@ -41,4 +41,4 @@ QString EngineDescription(Engine::EngineType enginetype);
 }
 Q_DECLARE_METATYPE(Engine::EngineType)
 
-#endif
+#endif  // ENGINETYPE_H

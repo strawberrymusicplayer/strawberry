@@ -60,10 +60,10 @@ class QueuedItemDelegate : public QStyledItemDelegate {
  public:
   explicit QueuedItemDelegate(QObject *parent, int indicator_column = Playlist::Column_Title);
 
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-  void DrawBox(QPainter *painter, const QRect &line_rect, const QFont &font, const QString &text, int width = -1) const;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
+  void DrawBox(QPainter *painter, const QRect &line_rect, const QFont &font, const QString &idx, int width = -1) const;
 
-  int queue_indicator_size(const QModelIndex &index) const;
+  int queue_indicator_size(const QModelIndex &idx) const;
 
  private:
   static const int kQueueBoxBorder;
@@ -83,16 +83,16 @@ class PlaylistDelegateBase : public QueuedItemDelegate {
  public:
   explicit PlaylistDelegateBase(QObject *parent, const QString &suffix = QString());
 
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
   QString displayText(const QVariant &value, const QLocale &locale) const override;
-  QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+  QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
-  QStyleOptionViewItem Adjusted(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  QStyleOptionViewItem Adjusted(const QStyleOptionViewItem &option, const QModelIndex &idx) const;
 
   static const int kMinHeight;
 
  public slots:
-  bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) override;
+  bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &idx) override;
 
  protected:
   QTreeView *view_;
@@ -161,7 +161,7 @@ class TagCompletionItemDelegate : public PlaylistDelegateBase {
  public:
   explicit TagCompletionItemDelegate(QObject *parent, CollectionBackend *backend, Playlist::Column column) : PlaylistDelegateBase(parent), backend_(backend), column_(column) {};
 
-  QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+  QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
  private:
   CollectionBackend *backend_;
@@ -211,4 +211,4 @@ class RatingItemDelegate : public PlaylistDelegateBase {
   QModelIndexList selected_indexes_;
 };
 
-#endif // PLAYLISTDELEGATES_H
+#endif  // PLAYLISTDELEGATES_H

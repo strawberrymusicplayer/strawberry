@@ -61,8 +61,8 @@ void AlbumCoverExporter::AddJobsToPool() {
   while (!requests_.isEmpty() && thread_pool_->activeThreadCount() < thread_pool_->maxThreadCount()) {
     CoverExportRunnable *runnable = requests_.dequeue();
 
-    connect(runnable, SIGNAL(CoverExported()), SLOT(CoverExported()));
-    connect(runnable, SIGNAL(CoverSkipped()), SLOT(CoverSkipped()));
+    QObject::connect(runnable, &CoverExportRunnable::CoverExported, this, &AlbumCoverExporter::CoverExported);
+    QObject::connect(runnable, &CoverExportRunnable::CoverSkipped, this, &AlbumCoverExporter::CoverSkipped);
 
     thread_pool_->start(runnable);
   }
@@ -80,4 +80,3 @@ void AlbumCoverExporter::CoverSkipped() {
   emit AlbumCoversExportUpdate(exported_, skipped_, all_);
   AddJobsToPool();
 }
-

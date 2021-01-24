@@ -72,11 +72,11 @@ const int DeviceItemDelegate::kIconPadding = 6;
 
 DeviceItemDelegate::DeviceItemDelegate(QObject *parent) : CollectionItemDelegate(parent) {}
 
-void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
   // Is it a device or a collection item?
-  if (index.data(DeviceManager::Role::Role_State).isNull()) {
-    CollectionItemDelegate::paint(painter, option, index);
+  if (idx.data(DeviceManager::Role::Role_State).isNull()) {
+    CollectionItemDelegate::paint(painter, option, idx);
     return;
   }
 
@@ -111,14 +111,14 @@ void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   }
 
   // Draw the icon
-  painter->drawPixmap(option.rect.topLeft(), index.data(Qt::DecorationRole).value<QPixmap>());
+  painter->drawPixmap(option.rect.topLeft(), idx.data(Qt::DecorationRole).value<QPixmap>());
 
   // Draw the first line (device name)
-  painter->drawText(line1, Qt::AlignLeft | Qt::AlignTop, index.data().toString());
+  painter->drawText(line1, Qt::AlignLeft | Qt::AlignTop, idx.data().toString());
 
   // Draw the second line (status)
-  DeviceManager::State state = static_cast<DeviceManager::State>(index.data(DeviceManager::Role_State).toInt());
-  QVariant progress = index.data(DeviceManager::Role_UpdatingPercentage);
+  DeviceManager::State state = static_cast<DeviceManager::State>(idx.data(DeviceManager::Role_State).toInt());
+  QVariant progress = idx.data(DeviceManager::Role_UpdatingPercentage);
   QString status_text;
 
   if (progress.isValid()) {
@@ -139,13 +139,13 @@ void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         break;
 
       case DeviceManager::State_Connected: {
-        QVariant song_count = index.data(DeviceManager::Role_SongCount);
+        QVariant song_count = idx.data(DeviceManager::Role_SongCount);
         if (song_count.isValid()) {
           int count = song_count.toInt();
           status_text = tr("%1 song%2").arg(count).arg(count == 1 ? "" : "s");
         }
         else {
-          status_text = index.data(DeviceManager::Role_MountPath).toString();
+          status_text = idx.data(DeviceManager::Role_MountPath).toString();
         }
         break;
       }
@@ -196,8 +196,8 @@ void DeviceView::SetApplication(Application *app) {
   Q_ASSERT(app_ == nullptr);
   app_ = app;
 
-  connect(app_->device_manager(), SIGNAL(DeviceConnected(QModelIndex)), SLOT(DeviceConnected(QModelIndex)));
-  connect(app_->device_manager(), SIGNAL(DeviceDisconnected(QModelIndex)), SLOT(DeviceDisconnected(QModelIndex)));
+  QObject::connect(app_->device_manager(), &DeviceManager::DeviceConnected, this, &DeviceView::DeviceConnected);
+  QObject::connect(app_->device_manager(), &DeviceManager::DeviceDisconnected, this, &DeviceView::DeviceDisconnected);
 
   sort_model_ = new QSortFilterProxyModel(this);
   sort_model_->setSourceModel(app_->device_manager());
@@ -209,7 +209,7 @@ void DeviceView::SetApplication(Application *app) {
   merged_model_->setSourceModel(sort_model_);
   setModel(merged_model_);
 
-  connect(merged_model_, SIGNAL(SubModelReset(QModelIndex, QAbstractItemModel*)), SLOT(RecursivelyExpand(QModelIndex)));
+  QObject::connect(merged_model_, &MergedProxyModel::SubModelReset, this, &AutoExpandingTreeView::RecursivelyExpandSlot);
 
   properties_dialog_->SetDeviceManager(app_->device_manager());
 
@@ -225,19 +225,19 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
     collection_menu_ = new QMenu(this);
 
     // Device menu
-    eject_action_ = device_menu_->addAction(IconLoader::Load("media-eject"), tr("Safely remove device"), this, SLOT(Unmount()));
-    forget_action_ = device_menu_->addAction(IconLoader::Load("list-remove"), tr("Forget device"), this, SLOT(Forget()));
+    eject_action_ = device_menu_->addAction(IconLoader::Load("media-eject"), tr("Safely remove device"), this, &DeviceView::Unmount);
+    forget_action_ = device_menu_->addAction(IconLoader::Load("list-remove"), tr("Forget device"), this, &DeviceView::Forget);
     device_menu_->addSeparator();
-    properties_action_ = device_menu_->addAction(IconLoader::Load("configure"), tr("Device properties..."), this, SLOT(Properties()));
+    properties_action_ = device_menu_->addAction(IconLoader::Load("configure"), tr("Device properties..."), this, &DeviceView::Properties);
 
     // Collection menu
-    add_to_playlist_action_ = collection_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, SLOT(AddToPlaylist()));
-    load_action_ = collection_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, SLOT(Load()));
-    open_in_new_playlist_ = collection_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylist()));
+    add_to_playlist_action_ = collection_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &DeviceView::AddToPlaylist);
+    load_action_ = collection_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &DeviceView::Load);
+    open_in_new_playlist_ = collection_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &DeviceView::OpenInNewPlaylist);
 
     collection_menu_->addSeparator();
-    organize_action_ = collection_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, SLOT(Organize()));
-    delete_action_ = collection_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from device..."), this, SLOT(Delete()));
+    organize_action_ = collection_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, &DeviceView::Organize);
+    delete_action_ = collection_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from device..."), this, &DeviceView::Delete);
   }
 
   menu_index_ = currentIndex();
@@ -280,9 +280,9 @@ QModelIndex DeviceView::MapToDevice(const QModelIndex &merged_model_index) const
 
 QModelIndex DeviceView::FindParentDevice(const QModelIndex &merged_model_index) const {
 
-  QModelIndex index = merged_model_->FindSourceParent(merged_model_index);
-  if (index.model() != sort_model_) return QModelIndex();
-  return sort_model_->mapToSource(index);
+  QModelIndex idx = merged_model_->FindSourceParent(merged_model_index);
+  if (idx.model() != sort_model_) return QModelIndex();
+  return sort_model_->mapToSource(idx);
 
 }
 
@@ -350,11 +350,11 @@ void DeviceView::Properties() {
   properties_dialog_->ShowDevice(MapToDevice(menu_index_));
 }
 
-void DeviceView::mouseDoubleClickEvent(QMouseEvent *event) {
+void DeviceView::mouseDoubleClickEvent(QMouseEvent *e) {
 
-  AutoExpandingTreeView::mouseDoubleClickEvent(event);
+  AutoExpandingTreeView::mouseDoubleClickEvent(e);
 
-  QModelIndex merged_index = indexAt(event->pos());
+  QModelIndex merged_index = indexAt(e->pos());
   QModelIndex device_index = MapToDevice(merged_index);
   if (device_index.isValid()) {
     if (!app_->device_manager()->GetConnectedDevice(device_index)) {
@@ -422,7 +422,7 @@ void DeviceView::Delete() {
   std::shared_ptr<MusicStorage> storage = device_index.data(MusicStorage::Role_Storage).value<std::shared_ptr<MusicStorage>>();
 
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, false);
-  connect(delete_files, SIGNAL(Finished(SongList)), SLOT(DeleteFinished(SongList)));
+  QObject::connect(delete_files, &DeleteFiles::Finished, this, &DeviceView::DeleteFinished);
   delete_files->Start(GetSelectedSongs());
 
 }

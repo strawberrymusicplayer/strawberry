@@ -252,7 +252,7 @@ bool LocalRedirectServer::Listen() {
   url_.setHost("localhost");
   url_.setPort(serverPort());
   url_.setPath("/");
-  connect(this, SIGNAL(newConnection()), this, SLOT(NewConnection()));
+  QObject::connect(this, &QTcpServer::newConnection, this, &LocalRedirectServer::NewConnection);
 
   return true;
 
@@ -290,8 +290,8 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
     ssl_socket->setProtocol(QSsl::TlsV1_2);
     ssl_socket->startServerEncryption();
 
-    connect(ssl_socket, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(SSLErrors(QList<QSslError>)));
-    connect(ssl_socket, SIGNAL(encrypted()), this, SLOT(Encrypted()));
+    QObject::connect(ssl_socket, QOverload<const QList<QSslError>&>::of(&QSslSocket::sslErrors), this, &LocalRedirectServer::SSLErrors);
+    QObject::connect(ssl_socket, &QSslSocket::encrypted, this, &LocalRedirectServer::Encrypted);
 
     socket_ = ssl_socket;
   }
@@ -307,9 +307,9 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
     socket_ = tcp_socket;
   }
 
-  connect(socket_, SIGNAL(connected()), this, SLOT(Connected()));
-  connect(socket_, SIGNAL(disconnected()), this, SLOT(Disconnected()));
-  connect(socket_, SIGNAL(readyRead()), this, SLOT(ReadyRead()));
+  QObject::connect(socket_, &QAbstractSocket::connected, this, &LocalRedirectServer::Connected);
+  QObject::connect(socket_, &QAbstractSocket::disconnected, this, &LocalRedirectServer::Disconnected);
+  QObject::connect(socket_, &QAbstractSocket::readyRead, this, &LocalRedirectServer::ReadyRead);
 
 }
 
@@ -334,7 +334,7 @@ void LocalRedirectServer::ReadyRead() {
     emit Finished();
   }
   else {
-    connect(socket_, SIGNAL(readyRead()), this, SLOT(ReadyRead()));
+    QObject::connect(socket_, &QAbstractSocket::readyRead, this, &LocalRedirectServer::ReadyRead);
   }
 
 }

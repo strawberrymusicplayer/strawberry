@@ -70,19 +70,19 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent)
   setUsesScrollButtons(true);
   setTabsClosable(true);
 
-  close_ = menu_->addAction(IconLoader::Load("list-remove"), tr("Close playlist"), this, SLOT(Close()));
-  rename_ = menu_->addAction(IconLoader::Load("edit-rename"), tr("Rename playlist..."), this, SLOT(Rename()));
-  save_ = menu_->addAction(IconLoader::Load("document-save"), tr("Save playlist..."), this, SLOT(Save()));
+  close_ = menu_->addAction(IconLoader::Load("list-remove"), tr("Close playlist"), this, &PlaylistTabBar::Close);
+  rename_ = menu_->addAction(IconLoader::Load("edit-rename"), tr("Rename playlist..."), this, &PlaylistTabBar::RenameSlot);
+  save_ = menu_->addAction(IconLoader::Load("document-save"), tr("Save playlist..."), this, &PlaylistTabBar::Save);
   menu_->addSeparator();
 
   rename_editor_->setVisible(false);
-  connect(rename_editor_, SIGNAL(editingFinished()), SLOT(RenameInline()));
-  connect(rename_editor_, SIGNAL(EditingCanceled()), SLOT(HideEditor()));
+  QObject::connect(rename_editor_, &RenameTabLineEdit::editingFinished, this, &PlaylistTabBar::RenameInline);
+  QObject::connect(rename_editor_, &RenameTabLineEdit::EditingCanceled, this, &PlaylistTabBar::HideEditor);
 
-  connect(this, SIGNAL(currentChanged(int)), SLOT(CurrentIndexChanged(int)));
-  connect(this, SIGNAL(tabMoved(int, int)), SLOT(TabMoved()));
+  QObject::connect(this, &PlaylistTabBar::currentChanged, this, &PlaylistTabBar::CurrentIndexChanged);
+  QObject::connect(this, &PlaylistTabBar::tabMoved, this, &PlaylistTabBar::TabMoved);
   // We can't just emit Close signal, we need to extract the playlist id first
-  connect(this, SIGNAL(tabCloseRequested(int)), SLOT(CloseFromTabIndex(int)));
+  QObject::connect(this, &PlaylistTabBar::tabCloseRequested, this, &PlaylistTabBar::CloseFromTabIndex);
 
 }
 
@@ -98,8 +98,8 @@ void PlaylistTabBar::SetActions(QAction *new_playlist, QAction *load_playlist) {
 void PlaylistTabBar::SetManager(PlaylistManager *manager) {
 
   manager_ = manager;
-  connect(manager_, SIGNAL(PlaylistFavorited(int, bool)), SLOT(PlaylistFavoritedSlot(int, bool)));
-  connect(manager_, SIGNAL(PlaylistManagerInitialized()), this, SLOT(PlaylistManagerInitialized()));
+  QObject::connect(manager_, &PlaylistManager::PlaylistFavorited, this, &PlaylistTabBar::PlaylistFavoritedSlot);
+  QObject::connect(manager_, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistTabBar::PlaylistManagerInitialized);
 
 }
 
@@ -107,7 +107,7 @@ void PlaylistTabBar::PlaylistManagerInitialized() {
 
   // Signal that we are done loading and thus further changes should be committed to the db.
   initialized_ = true;
-  disconnect(manager_, SIGNAL(PlaylistManagerInitialized()), this, SLOT(PlaylistManagerInitialized()));
+  QObject::disconnect(manager_, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistTabBar::PlaylistManagerInitialized);
 
 }
 
@@ -133,7 +133,7 @@ void PlaylistTabBar::mouseReleaseEvent(QMouseEvent *e) {
   if (e->button() == Qt::MiddleButton) {
     // Update menu index
     menu_index_ = tabAt(e->pos());
-    Close();
+    CloseSlot();
   }
 
   QTabBar::mouseReleaseEvent(e);
@@ -165,7 +165,7 @@ void PlaylistTabBar::mouseDoubleClickEvent(QMouseEvent *e) {
 
 }
 
-void PlaylistTabBar::Rename() {
+void PlaylistTabBar::RenameSlot() {
 
   if (menu_index_ == -1) return;
 
@@ -193,7 +193,7 @@ void PlaylistTabBar::HideEditor() {
 
 }
 
-void PlaylistTabBar::Close() {
+void PlaylistTabBar::CloseSlot() {
 
   if (menu_index_ == -1) return;
 
@@ -260,15 +260,19 @@ void PlaylistTabBar::Close() {
 }
 
 void PlaylistTabBar::CloseFromTabIndex(int index) {
+
   // Update the global index
   menu_index_ = index;
-  Close();
+  CloseSlot();
+
 }
 
-void PlaylistTabBar::Save() {
+void PlaylistTabBar::SaveSlot() {
+
   if (menu_index_ == -1) return;
 
   emit Save(tabData(menu_index_).toInt());
+
 }
 
 int PlaylistTabBar::current_id() const {
@@ -276,7 +280,7 @@ int PlaylistTabBar::current_id() const {
   return tabData(currentIndex()).toInt();
 }
 
-int PlaylistTabBar::index_of(int id) const {
+int PlaylistTabBar::index_of(const int id) const {
 
   for (int i = 0; i < count(); ++i) {
     if (tabData(i).toInt() == id) {
@@ -287,9 +291,9 @@ int PlaylistTabBar::index_of(int id) const {
 
 }
 
-void PlaylistTabBar::set_current_id(int id) { setCurrentIndex(index_of(id)); }
+void PlaylistTabBar::set_current_id(const int id) { setCurrentIndex(index_of(id)); }
 
-int PlaylistTabBar::id_of(int index) const {
+int PlaylistTabBar::id_of(const int index) const {
 
   if (index < 0 || index >= count()) {
     qLog(Warning) << "Playlist tab index requested is out of bounds!";
@@ -299,34 +303,32 @@ int PlaylistTabBar::id_of(int index) const {
 
 }
 
-void PlaylistTabBar::set_icon_by_id(int id, const QIcon &icon) {
+void PlaylistTabBar::set_icon_by_id(const int id, const QIcon &icon) {
   setTabIcon(index_of(id), icon);
 }
 
-void PlaylistTabBar::RemoveTab(int id) {
+void PlaylistTabBar::RemoveTab(const int id) {
   removeTab(index_of(id));
 }
 
-void PlaylistTabBar::set_text_by_id(int id, const QString &text) {
+void PlaylistTabBar::set_text_by_id(const int id, const QString &text) {
   setTabText(index_of(id), text);
   setTabToolTip(index_of(id), text);
 }
 
-void PlaylistTabBar::CurrentIndexChanged(int index) {
+void PlaylistTabBar::CurrentIndexChanged(const int index) {
   if (!suppress_current_changed_) emit CurrentIdChanged(tabData(index).toInt());
 }
 
-void PlaylistTabBar::InsertTab(int id, int index, const QString &text, bool favorite) {
+void PlaylistTabBar::InsertTab(const int id, const int index, const QString &text, const bool favorite) {
 
   suppress_current_changed_ = true;
   insertTab(index, text);
   setTabData(index, id);
   setTabToolTip(index, text);
   FavoriteWidget *widget = new FavoriteWidget(id, favorite);
-  widget->setToolTip(
-      tr("Click here to favorite this playlist so it will be saved and remain accessible"
-         "through the \"Playlists\" panel on the left side bar"));
-  connect(widget, SIGNAL(FavoriteStateChanged(int, bool)), SIGNAL(PlaylistFavorited(int, bool)));
+  widget->setToolTip(tr("Click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"));
+  QObject::connect(widget, &FavoriteWidget::FavoriteStateChanged, this, &PlaylistTabBar::PlaylistFavorited);
   setTabButton(index, QTabBar::LeftSide, widget);
   suppress_current_changed_ = false;
 
@@ -337,6 +339,7 @@ void PlaylistTabBar::InsertTab(int id, int index, const QString &text, bool favo
     // Update playlist tab order/visibility
     TabMoved();
   }
+
 }
 
 void PlaylistTabBar::TabMoved() {
@@ -434,7 +437,7 @@ bool PlaylistTabBar::event(QEvent *e) {
 
 }
 
-void PlaylistTabBar::PlaylistFavoritedSlot(int id, bool favorite) {
+void PlaylistTabBar::PlaylistFavoritedSlot(const int id, const bool favorite) {
 
   const int index = index_of(id);
   FavoriteWidget *favorite_widget = qobject_cast<FavoriteWidget*>(tabButton(index, QTabBar::LeftSide));

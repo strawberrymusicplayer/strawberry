@@ -84,14 +84,14 @@ TidalRequest::~TidalRequest() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
 
   while (!album_cover_replies_.isEmpty()) {
     QNetworkReply *reply = album_cover_replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
@@ -190,7 +190,7 @@ void TidalRequest::FlushArtistsRequests() {
     }
     if (!reply) continue;
     replies_ << reply;
-    connect(reply, &QNetworkReply::finished, [=] { ArtistsReplyReceived(reply, request.limit, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { ArtistsReplyReceived(reply, request.limit, request.offset); });
 
   }
 
@@ -234,7 +234,7 @@ void TidalRequest::FlushAlbumsRequests() {
     }
     if (!reply) continue;
     replies_ << reply;
-    connect(reply, &QNetworkReply::finished, [=] { AlbumsReplyReceived(reply, request.limit, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumsReplyReceived(reply, request.limit, request.offset); });
 
   }
 
@@ -278,7 +278,7 @@ void TidalRequest::FlushSongsRequests() {
     }
     if (!reply) continue;
     replies_ << reply;
-    connect(reply, &QNetworkReply::finished, [=] { SongsReplyReceived(reply, request.limit, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { SongsReplyReceived(reply, request.limit, request.offset); });
 
   }
 
@@ -330,7 +330,7 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply, (offset_requested == 0));
@@ -501,7 +501,7 @@ void TidalRequest::FlushArtistAlbumsRequests() {
     ParamList parameters;
     if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("artists/%1/albums").arg(request.artist_id), parameters);
-    connect(reply, &QNetworkReply::finished, [=] { ArtistAlbumsReplyReceived(reply, request.artist_id, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist_id, request.offset); });
     replies_ << reply;
 
   }
@@ -522,7 +522,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply, auto_login);
@@ -768,7 +768,7 @@ void TidalRequest::FlushAlbumSongsRequests() {
     if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("albums/%1/tracks").arg(request.album_id), parameters);
     replies_ << reply;
-    connect(reply, &QNetworkReply::finished, [=] { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.offset, request.album_artist); });
+    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.offset, request.album_artist); });
 
   }
 
@@ -789,7 +789,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id,
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply, auto_login);
@@ -1125,7 +1125,7 @@ void TidalRequest::FlushAlbumCoverRequests() {
 #endif
     QNetworkReply *reply = network_->get(req);
     album_cover_replies_ << reply;
-    connect(reply, &QNetworkReply::finished, [=] { AlbumCoverReceived(reply, request.album_id, request.url, request.filename); });
+    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumCoverReceived(reply, request.album_id, request.url, request.filename); });
 
   }
 
@@ -1135,7 +1135,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
 
   if (album_cover_replies_.contains(reply)) {
     album_cover_replies_.removeAll(reply);
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->deleteLater();
   }
   else {

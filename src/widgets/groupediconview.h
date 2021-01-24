@@ -65,16 +65,16 @@ class GroupedIconView : public QListView {
     Role_Group = 1158300,
   };
 
-  void AddSortSpec(int role, Qt::SortOrder order = Qt::AscendingOrder);
+  void AddSortSpec(const int role, const Qt::SortOrder order = Qt::AscendingOrder);
 
   int header_spacing() const { return header_spacing_; }
   int header_indent() const { return header_indent_; }
   int item_indent() const { return item_indent_; }
   const QString &header_text() const { return header_text_;}
 
-  void set_header_spacing(int value) { header_spacing_ = value; }
-  void set_header_indent(int value) { header_indent_ = value; }
-  void set_item_indent(int value) { item_indent_ = value; }
+  void set_header_spacing(const int value) { header_spacing_ = value; }
+  void set_header_indent(const int value) { header_indent_ = value; }
+  void set_item_indent(const int value) { item_indent_ = value; }
   void set_header_text(const QString &value) { header_text_ = value; }
 
   // QAbstractItemView
@@ -95,7 +95,7 @@ class GroupedIconView : public QListView {
   QModelIndex indexAt(const QPoint &p) const override;
   void rowsInserted(const QModelIndex &parent, int start, int end) override;
   void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) override;
-  QRect visualRect(const QModelIndex &index) const override;
+  QRect visualRect(const QModelIndex &idx) const override;
   QRegion visualRegionForSelection(const QItemSelection &selection) const override;
 
  private slots:
@@ -115,7 +115,7 @@ class GroupedIconView : public QListView {
   QVector<QModelIndex> IntersectingItems(const QRect &rect) const;
 
   // Returns the index of the item above (d=-1) or below (d=+1) the given item.
-  int IndexAboveOrBelow(int index, int d) const;
+  int IndexAboveOrBelow(int index, const int d) const;
 
   MultiSortFilterProxy *proxy_model_;
   QVector<QRect> visual_rects_;

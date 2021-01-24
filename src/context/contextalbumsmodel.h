@@ -78,11 +78,11 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   };
 
   void GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const;
-  SongList GetChildSongs(const QModelIndex &index) const;
+  SongList GetChildSongs(const QModelIndex &idx) const;
   SongList GetChildSongs(const QModelIndexList &indexes) const;
 
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-  Qt::ItemFlags flags(const QModelIndex &index) const override;
+  QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
+  Qt::ItemFlags flags(const QModelIndex &idx) const override;
   QStringList mimeTypes() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
   bool canFetchMore(const QModelIndex &parent) const override;
@@ -107,8 +107,8 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   void PostQuery(CollectionItem *parent, const QueryResult &result, bool signal);
   CollectionItem *ItemFromSong(CollectionItem::Type item_type, bool signal, CollectionItem *parent, const Song &s, int container_level);
 
-  QString AlbumIconPixmapCacheKey(const QModelIndex &index) const;
-  QVariant AlbumIcon(const QModelIndex &index);
+  QString AlbumIconPixmapCacheKey(const QModelIndex &idx) const;
+  QVariant AlbumIcon(const QModelIndex &idx);
   QVariant data(const CollectionItem *item, int role) const;
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
 

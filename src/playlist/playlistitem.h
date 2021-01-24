@@ -69,7 +69,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   virtual QList<QAction*> actions() { return QList<QAction*>(); }
 
   virtual bool InitFromQuery(const SqlRow &query) = 0;
-  void BindToQuery(QSqlQuery* query) const;
+  void BindToQuery(QSqlQuery *query) const;
   virtual void Reload() {}
   QFuture<void> BackgroundReload();
 
@@ -135,4 +135,3 @@ Q_DECLARE_METATYPE(QList<PlaylistItemPtr>)
 Q_DECLARE_OPERATORS_FOR_FLAGS(PlaylistItem::Options)
 
 #endif  // PLAYLISTITEM_H
-

@@ -21,7 +21,7 @@ TEST(ConcurrentRunTest, ConcurrentRun0StartAndWait) {
   QFutureWatcher<int> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
-  QObject::connect(&watcher, SIGNAL(finished()), &loop, SLOT(quit()));
+  QObject::connect(&watcher, &QFutureWatcher<int>::finished, &loop, &QEventLoop::quit);
   loop.exec();
   EXPECT_EQ(1337, watcher.result());
 
@@ -40,7 +40,7 @@ TEST(ConcurrentRunTest, ConcurrentRun1StartAndWait) {
   QFutureWatcher<int> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
-  QObject::connect(&watcher, SIGNAL(finished()), &loop, SLOT(quit()));
+  QObject::connect(&watcher, &QFutureWatcher<int>::finished, &loop, &QEventLoop::quit);
   loop.exec();
   EXPECT_EQ(1337, watcher.result());
 
@@ -60,7 +60,7 @@ TEST(ConcurrentRunTest, ConcurrentRun2StartAndWait) {
   QFutureWatcher<int> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
-  QObject::connect(&watcher, SIGNAL(finished()), &loop, SLOT(quit()));
+  QObject::connect(&watcher, &QFutureWatcher<int>::finished, &loop, &QEventLoop::quit);
   loop.exec();
   EXPECT_EQ(42, watcher.result());
 
@@ -81,7 +81,7 @@ TEST(ConcurrentRunTest, ConcurrentRun3StartAndWait) {
   QFutureWatcher<int> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
-  QObject::connect(&watcher, SIGNAL(finished()), &loop, SLOT(quit()));
+  QObject::connect(&watcher, &QFutureWatcher<int>::finished, &loop, &QEventLoop::quit);
   loop.exec();
   EXPECT_EQ(102, watcher.result());
 
@@ -113,7 +113,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction1Start) {
   QFutureWatcher<void> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
-  QObject::connect(&watcher, SIGNAL(finished()), &loop, SLOT(quit()));
+  QObject::connect(&watcher, &QFutureWatcher<int>::finished, &loop, &QEventLoop::quit);
   loop.exec();
   EXPECT_EQ(1337, n);
 
@@ -128,7 +128,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction2Start) {
   QFutureWatcher<void> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
-  QObject::connect(&watcher, SIGNAL(finished()), &loop, SLOT(quit()));
+  QObject::connect(&watcher, &QFutureWatcher<int>::finished, &loop, &QEventLoop::quit);
   loop.exec();
   EXPECT_EQ(1337, n);
   EXPECT_EQ(1338, m);
@@ -144,7 +144,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction3Start) {
   QFutureWatcher<void> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
-  QObject::connect(&watcher, SIGNAL(finished()), &loop, SLOT(quit()));
+  QObject::connect(&watcher, &QFutureWatcher<int>::finished, &loop, &QEventLoop::quit);
   loop.exec();
   EXPECT_EQ(1337, n);
   EXPECT_EQ(1338, m);
@@ -169,7 +169,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidBindFunctionStart) {
   QFutureWatcher<void> watcher;
   watcher.setFuture(future);
   QEventLoop loop;
-  QObject::connect(&watcher, SIGNAL(finished()), &loop, SLOT(quit()));
+  QObject::connect(&watcher, &QFutureWatcher<int>::finished, &loop, &QEventLoop::quit);
   loop.exec();
   EXPECT_EQ(11, nb);
 

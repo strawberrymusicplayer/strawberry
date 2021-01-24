@@ -46,4 +46,3 @@ class DirectSoundDeviceFinder : public DeviceFinder {
 };
 
 #endif // DIRECTSOUNDDEVICEFINDER_H
-

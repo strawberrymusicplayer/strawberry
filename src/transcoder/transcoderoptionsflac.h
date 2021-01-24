@@ -37,7 +37,7 @@ class TranscoderOptionsFLAC : public TranscoderOptionsInterface {
   void Load() override;
   void Save() override;
 
-private:
+ private:
   static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsFLAC *ui_;

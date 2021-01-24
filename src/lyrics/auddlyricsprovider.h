@@ -62,4 +62,3 @@ class AuddLyricsProvider : public JsonLyricsProvider {
 };
 
 #endif  // AUDDLYRICSPROVIDER_H
-

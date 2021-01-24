@@ -83,7 +83,7 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
   AddAnalyzerType<Rainbow::NyanCatAnalyzer>();
   AddAnalyzerType<Rainbow::RainbowDashAnalyzer>();
 
-  disable_action_ = context_menu_->addAction(tr("No analyzer"), this, SLOT(DisableAnalyzer()));
+  disable_action_ = context_menu_->addAction(tr("No analyzer"), this, &AnalyzerContainer::DisableAnalyzer);
   disable_action_->setCheckable(true);
   group_->addAction(disable_action_);
 
@@ -91,7 +91,7 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
 
   double_click_timer_->setSingleShot(true);
   double_click_timer_->setInterval(250);
-  connect(double_click_timer_, SIGNAL(timeout()), SLOT(ShowPopupMenu()));
+  QObject::connect(double_click_timer_, &QTimer::timeout, this, &AnalyzerContainer::ShowPopupMenu);
 
   Load();
 
@@ -131,7 +131,7 @@ void AnalyzerContainer::DisableAnalyzer() {
   Save();
 }
 
-void AnalyzerContainer::ChangeAnalyzer(int id) {
+void AnalyzerContainer::ChangeAnalyzer(const int id) {
 
   QObject *instance = analyzer_types_[id]->newInstance(Q_ARG(QWidget*, this));
 
@@ -201,7 +201,7 @@ void AnalyzerContainer::Load() {
 
 }
 
-void AnalyzerContainer::SaveFramerate(int framerate) {
+void AnalyzerContainer::SaveFramerate(const int framerate) {
 
   // For now, framerate is common for all analyzers. Maybe each analyzer should have its own framerate?
   current_framerate_ = framerate;
@@ -221,12 +221,12 @@ void AnalyzerContainer::Save() {
 
 }
 
-void AnalyzerContainer::AddFramerate(const QString& name, int framerate) {
+void AnalyzerContainer::AddFramerate(const QString& name, const int framerate) {
 
   QAction *action = context_menu_framerate_->addAction(name);
   group_framerate_->addAction(action);
   framerate_list_ << framerate;
   action->setCheckable(true);
-  connect(action, &QAction::triggered, [this, framerate]() { ChangeFramerate(framerate); } );
+  QObject::connect(action, &QAction::triggered, [this, framerate]() { ChangeFramerate(framerate); } );
 
 }

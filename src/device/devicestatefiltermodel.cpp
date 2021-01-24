@@ -33,9 +33,9 @@ DeviceStateFilterModel::DeviceStateFilterModel(QObject *parent, DeviceManager::S
   : QSortFilterProxyModel(parent),
     state_(state) {
 
-  connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(ProxyRowCountChanged(QModelIndex, int, int)));
-  connect(this, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(ProxyRowCountChanged(QModelIndex, int, int)));
-  connect(this, SIGNAL(modelReset()), this, SLOT(ProxyRowCountChanged()));
+  QObject::connect(this, &DeviceStateFilterModel::rowsInserted, this, &DeviceStateFilterModel::ProxyRowCountChanged);
+  QObject::connect(this, &DeviceStateFilterModel::rowsRemoved, this, &DeviceStateFilterModel::ProxyRowCountChanged);
+  QObject::connect(this, &DeviceStateFilterModel::modelReset, this, &DeviceStateFilterModel::ProxyReset);
 
 }
 
@@ -43,15 +43,14 @@ bool DeviceStateFilterModel::filterAcceptsRow(int row, const QModelIndex&) const
   return sourceModel()->index(row, 0).data(DeviceManager::Role_State).toInt() != state_ && sourceModel()->index(row, 0).data(DeviceManager::Role_CopyMusic).toBool();
 }
 
-void DeviceStateFilterModel::ProxyRowCountChanged() {
+void DeviceStateFilterModel::ProxyRowCountChanged(QModelIndex, int, int) {
+
   emit IsEmptyChanged(rowCount() == 0);
+
 }
 
-void DeviceStateFilterModel::ProxyRowCountChanged(QModelIndex index, int first, int last) {
+void DeviceStateFilterModel::ProxyReset() {
 
-  Q_UNUSED(index);
-  Q_UNUSED(first);
-  Q_UNUSED(last);
   emit IsEmptyChanged(rowCount() == 0);
 
 }

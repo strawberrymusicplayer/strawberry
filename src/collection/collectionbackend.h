@@ -204,7 +204,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void DeleteSongs(const SongList &songs);
   void MarkSongsUnavailable(const SongList &songs, const bool unavailable = true);
   void AddOrUpdateSubdirs(const SubdirectoryList &subdirs);
-  void UpdateCompilations();
+  void CompilationsNeedUpdating();
   void UpdateManualAlbumArt(const QString &artist,  const QString &albumartist, const QString &album, const QUrl &cover_url);
   void ForceCompilation(const QString &album, const QList<QString> &artists, const bool on);
   void IncrementPlayCount(const int id);

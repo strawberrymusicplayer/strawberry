@@ -131,13 +131,13 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
   progress_bar_->hide();
   abort_progress_->hide();
   abort_progress_->setText(tr("Abort"));
-  connect(abort_progress_, SIGNAL(clicked()), this, SLOT(CancelRequests()));
+  QObject::connect(abort_progress_, &QPushButton::clicked, this, &AlbumCoverManager::CancelRequests);
 
   ui_->albums->setAttribute(Qt::WA_MacShowFocusRect, false);
   ui_->artists->setAttribute(Qt::WA_MacShowFocusRect, false);
 
   QShortcut *close = new QShortcut(QKeySequence::Close, this);
-  connect(close, SIGNAL(activated()), SLOT(close()));
+  QObject::connect(close, &QShortcut::activated, this, &AlbumCoverManager::close);
 
   EnableCoversButtons();
 
@@ -180,14 +180,14 @@ void AlbumCoverManager::Init() {
 
   QList<QAction*> actions = album_cover_choice_controller_->GetAllActions();
 
-  connect(album_cover_choice_controller_->cover_from_file_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromFile()));
-  connect(album_cover_choice_controller_->cover_to_file_action(), SIGNAL(triggered()), this, SLOT(SaveCoverToFile()));
-  connect(album_cover_choice_controller_->cover_from_url_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromURL()));
-  connect(album_cover_choice_controller_->search_for_cover_action(), SIGNAL(triggered()), this, SLOT(SearchForCover()));
-  connect(album_cover_choice_controller_->unset_cover_action(), SIGNAL(triggered()), this, SLOT(UnsetCover()));
-  connect(album_cover_choice_controller_->show_cover_action(), SIGNAL(triggered()), this, SLOT(ShowCover()));
+  QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &AlbumCoverManager::LoadCoverFromFile);
+  QObject::connect(album_cover_choice_controller_->cover_to_file_action(), &QAction::triggered, this, &AlbumCoverManager::SaveCoverToFile);
+  QObject::connect(album_cover_choice_controller_->cover_from_url_action(), &QAction::triggered, this, &AlbumCoverManager::LoadCoverFromURL);
+  QObject::connect(album_cover_choice_controller_->search_for_cover_action(), &QAction::triggered, this, &AlbumCoverManager::SearchForCover);
+  QObject::connect(album_cover_choice_controller_->unset_cover_action(), &QAction::triggered, this, &AlbumCoverManager::UnsetCover);
+  QObject::connect(album_cover_choice_controller_->show_cover_action(), &QAction::triggered, this, &AlbumCoverManager::ShowCover);
 
-  connect(cover_exporter_, SIGNAL(AlbumCoversExportUpdate(int, int, int)), SLOT(UpdateExportStatus(int, int, int)));
+  QObject::connect(cover_exporter_, &AlbumCoverExporter::AlbumCoversExportUpdate, this, &AlbumCoverManager::UpdateExportStatus);
 
   context_menu_->addActions(actions);
   context_menu_->addSeparator();
@@ -197,17 +197,17 @@ void AlbumCoverManager::Init() {
   ui_->albums->installEventFilter(this);
 
   // Connections
-  connect(ui_->artists, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), SLOT(ArtistChanged(QListWidgetItem*)));
-  connect(ui_->filter, SIGNAL(textChanged(QString)), SLOT(UpdateFilter()));
-  connect(filter_group, SIGNAL(triggered(QAction*)), SLOT(UpdateFilter()));
-  connect(ui_->view, SIGNAL(clicked()), ui_->view, SLOT(showMenu()));
-  connect(ui_->button_fetch, SIGNAL(clicked()), SLOT(FetchAlbumCovers()));
-  connect(ui_->export_covers, SIGNAL(clicked()), SLOT(ExportCovers()));
-  connect(cover_fetcher_, SIGNAL(AlbumCoverFetched(quint64, QUrl, QImage, CoverSearchStatistics)), SLOT(AlbumCoverFetched(quint64, QUrl, QImage, CoverSearchStatistics)));
-  connect(ui_->action_fetch, SIGNAL(triggered()), SLOT(FetchSingleCover()));
-  connect(ui_->albums, SIGNAL(doubleClicked(QModelIndex)), SLOT(AlbumDoubleClicked(QModelIndex)));
-  connect(ui_->action_add_to_playlist, SIGNAL(triggered()), SLOT(AddSelectedToPlaylist()));
-  connect(ui_->action_load, SIGNAL(triggered()), SLOT(LoadSelectedToPlaylist()));
+  QObject::connect(ui_->artists, &QListWidget::currentItemChanged, this, &AlbumCoverManager::ArtistChanged);
+  QObject::connect(ui_->filter, &QSearchField::textChanged, this, &AlbumCoverManager::UpdateFilter);
+  QObject::connect(filter_group, &QActionGroup::triggered, this, &AlbumCoverManager::UpdateFilter);
+  QObject::connect(ui_->view, &QToolButton::clicked, ui_->view, &QToolButton::showMenu);
+  QObject::connect(ui_->button_fetch, &QPushButton::clicked, this, &AlbumCoverManager::FetchAlbumCovers);
+  QObject::connect(ui_->export_covers, &QPushButton::clicked, this, &AlbumCoverManager::ExportCovers);
+  QObject::connect(cover_fetcher_, &AlbumCoverFetcher::AlbumCoverFetched, this, &AlbumCoverManager::AlbumCoverFetched);
+  QObject::connect(ui_->action_fetch, &QAction::triggered, this, &AlbumCoverManager::FetchSingleCover);
+  QObject::connect(ui_->albums, &QListWidget::doubleClicked, this, &AlbumCoverManager::AlbumDoubleClicked);
+  QObject::connect(ui_->action_add_to_playlist, &QAction::triggered, this, &AlbumCoverManager::AddSelectedToPlaylist);
+  QObject::connect(ui_->action_load, &QAction::triggered, this, &AlbumCoverManager::LoadSelectedToPlaylist);
 
   // Restore settings
   QSettings s;
@@ -219,7 +219,7 @@ void AlbumCoverManager::Init() {
     ui_->splitter->setSizes(QList<int>() << 200 << width() - 200);
   }
 
-  connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
+  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &AlbumCoverManager::AlbumCoverLoaded);
 
   cover_searcher_->Init(cover_fetcher_);
 
@@ -541,7 +541,7 @@ void AlbumCoverManager::UpdateStatusText() {
   progress_bar_->setValue(fetch_statistics_.chosen_images_ + fetch_statistics_.missing_images_);
 
   if (cover_fetching_tasks_.isEmpty()) {
-    QTimer::singleShot(2000, statusBar(), SLOT(clearMessage()));
+    QTimer::singleShot(2000, statusBar(), &QStatusBar::clearMessage);
     progress_bar_->hide();
     abort_progress_->hide();
 
@@ -757,17 +757,17 @@ void AlbumCoverManager::UnsetCover() {
 
 }
 
-SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &index) const {
+SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &idx) const {
 
   SongList ret;
 
   CollectionQuery q;
   q.SetColumnSpec("ROWID," + Song::kColumnSpec);
-  q.AddWhere("album", index.data(Role_AlbumName).toString());
+  q.AddWhere("album", idx.data(Role_AlbumName).toString());
   q.SetOrderBy("disc, track, title");
 
-  QString artist = index.data(Role_ArtistName).toString();
-  QString albumartist = index.data(Role_AlbumArtistName).toString();
+  QString artist = idx.data(Role_ArtistName).toString();
+  QString albumartist = idx.data(Role_AlbumArtistName).toString();
 
   if (!albumartist.isEmpty()) {
     q.AddWhere("albumartist", albumartist);
@@ -792,8 +792,8 @@ SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &index) const {
 SongList AlbumCoverManager::GetSongsInAlbums(const QModelIndexList &indexes) const {
 
   SongList ret;
-  for (const QModelIndex &index : indexes) {
-    ret << GetSongsInAlbum(index);
+  for (const QModelIndex &idx : indexes) {
+    ret << GetSongsInAlbum(idx);
   }
   return ret;
 
@@ -904,7 +904,7 @@ void AlbumCoverManager::UpdateExportStatus(const int exported, const int skipped
 
   // End of the current process
   if (exported + skipped >= max) {
-    QTimer::singleShot(2000, statusBar(), SLOT(clearMessage()));
+    QTimer::singleShot(2000, statusBar(), &QStatusBar::clearMessage);
 
     progress_bar_->hide();
     abort_progress_->hide();

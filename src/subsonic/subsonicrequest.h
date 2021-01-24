@@ -61,10 +61,10 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void Reset();
 
  signals:
-  void Results(const SongList &songs, const QString &error);
-  void UpdateStatus(const QString &text);
-  void ProgressSetMaximum(const int max);
-  void UpdateProgress(const int max);
+  void Results(SongList songs, QString error);
+  void UpdateStatus(QString text);
+  void ProgressSetMaximum(int max);
+  void UpdateProgress(int max);
 
  private slots:
   void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested);

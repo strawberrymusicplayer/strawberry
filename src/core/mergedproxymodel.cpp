@@ -56,7 +56,7 @@ using boost::multi_index::multi_index_container;
 using boost::multi_index::ordered_unique;
 using boost::multi_index::tag;
 
-std::size_t hash_value(const QModelIndex &index) { return qHash(index); }
+std::size_t hash_value(const QModelIndex &idx) { return qHash(idx); }
 
 namespace {
 
@@ -100,13 +100,13 @@ void MergedProxyModel::DeleteAllMappings() {
 
 void MergedProxyModel::AddSubModel(const QModelIndex &source_parent, QAbstractItemModel *submodel) {
 
-  connect(submodel, SIGNAL(modelAboutToBeReset()), this, SLOT(SubModelAboutToBeReset()));
-  connect(submodel, SIGNAL(modelReset()), this, SLOT(SubModelReset()));
-  connect(submodel, SIGNAL(rowsAboutToBeInserted(QModelIndex, int, int)), this, SLOT(RowsAboutToBeInserted(QModelIndex, int, int)));
-  connect(submodel, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), this, SLOT(RowsAboutToBeRemoved(QModelIndex, int, int)));
-  connect(submodel, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(RowsInserted(QModelIndex, int, int)));
-  connect(submodel, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(RowsRemoved(QModelIndex, int, int)));
-  connect(submodel, SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(DataChanged(QModelIndex, QModelIndex)));
+  QObject::connect(submodel, &QAbstractItemModel::modelAboutToBeReset, this, &MergedProxyModel::SubModelAboutToBeReset);
+  QObject::connect(submodel, &QAbstractItemModel::modelReset, this, &MergedProxyModel::SubModelResetSlot);
+  QObject::connect(submodel, &QAbstractItemModel::rowsAboutToBeInserted, this, &MergedProxyModel::RowsAboutToBeInserted);
+  QObject::connect(submodel, &QAbstractItemModel::rowsAboutToBeRemoved, this, &MergedProxyModel::RowsAboutToBeRemoved);
+  QObject::connect(submodel, &QAbstractItemModel::rowsInserted, this, &MergedProxyModel::RowsInserted);
+  QObject::connect(submodel, &QAbstractItemModel::rowsRemoved, this, &MergedProxyModel::RowsRemoved);
+  QObject::connect(submodel, &QAbstractItemModel::dataChanged, this, &MergedProxyModel::DataChanged);
 
   QModelIndex proxy_parent = mapFromSource(source_parent);
   const int rows = submodel->rowCount();
@@ -153,26 +153,26 @@ void MergedProxyModel::RemoveSubModel(const QModelIndex &source_parent) {
 void MergedProxyModel::setSourceModel(QAbstractItemModel *source_model) {
 
   if (sourceModel()) {
-    disconnect(sourceModel(), SIGNAL(modelReset()), this, SLOT(SourceModelReset()));
-    disconnect(sourceModel(), SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)), this, SLOT(RowsAboutToBeInserted(QModelIndex,int,int)));
-    disconnect(sourceModel(), SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), this, SLOT(RowsAboutToBeRemoved(QModelIndex,int,int)));
-    disconnect(sourceModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(RowsInserted(QModelIndex,int,int)));
-    disconnect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(RowsRemoved(QModelIndex,int,int)));
-    disconnect(sourceModel(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(DataChanged(QModelIndex, QModelIndex)));
-    disconnect(sourceModel(), SIGNAL(layoutAboutToBeChanged()), this, SLOT(LayoutAboutToBeChanged()));
-    disconnect(sourceModel(), SIGNAL(layoutChanged()), this, SLOT(LayoutChanged()));
+    QObject::disconnect(sourceModel(), &QAbstractItemModel::modelReset, this, &MergedProxyModel::SourceModelReset);
+    QObject::disconnect(sourceModel(), &QAbstractItemModel::rowsAboutToBeInserted, this, &MergedProxyModel::RowsAboutToBeInserted);
+    QObject::disconnect(sourceModel(), &QAbstractItemModel::rowsAboutToBeRemoved, this, &MergedProxyModel::RowsAboutToBeRemoved);
+    QObject::disconnect(sourceModel(), &QAbstractItemModel::rowsInserted, this, &MergedProxyModel::RowsInserted);
+    QObject::disconnect(sourceModel(), &QAbstractItemModel::rowsRemoved, this, &MergedProxyModel::RowsRemoved);
+    QObject::disconnect(sourceModel(), &QAbstractItemModel::dataChanged, this, &MergedProxyModel::DataChanged);
+    QObject::disconnect(sourceModel(), &QAbstractItemModel::layoutAboutToBeChanged, this, &MergedProxyModel::LayoutAboutToBeChanged);
+    QObject::disconnect(sourceModel(), &QAbstractItemModel::layoutChanged, this, &MergedProxyModel::LayoutChanged);
   }
 
   QAbstractProxyModel::setSourceModel(source_model);
 
-  connect(sourceModel(), SIGNAL(modelReset()), this, SLOT(SourceModelReset()));
-  connect(sourceModel(), SIGNAL(rowsAboutToBeInserted(QModelIndex, int, int)), this, SLOT(RowsAboutToBeInserted(QModelIndex, int, int)));
-  connect(sourceModel(), SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), this, SLOT(RowsAboutToBeRemoved(QModelIndex, int, int)));
-  connect(sourceModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(RowsInserted(QModelIndex,int,int)));
-  connect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(RowsRemoved(QModelIndex,int,int)));
-  connect(sourceModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(DataChanged(QModelIndex,QModelIndex)));
-  connect(sourceModel(), SIGNAL(layoutAboutToBeChanged()), this, SLOT(LayoutAboutToBeChanged()));
-  connect(sourceModel(), SIGNAL(layoutChanged()), this, SLOT(LayoutChanged()));
+  QObject::connect(sourceModel(), &QAbstractItemModel::modelReset, this, &MergedProxyModel::SourceModelReset);
+  QObject::connect(sourceModel(), &QAbstractItemModel::rowsAboutToBeInserted, this, &MergedProxyModel::RowsAboutToBeInserted);
+  QObject::connect(sourceModel(), &QAbstractItemModel::rowsAboutToBeRemoved, this, &MergedProxyModel::RowsAboutToBeRemoved);
+  QObject::connect(sourceModel(), &QAbstractItemModel::rowsInserted, this, &MergedProxyModel::RowsInserted);
+  QObject::connect(sourceModel(), &QAbstractItemModel::rowsRemoved, this, &MergedProxyModel::RowsRemoved);
+  QObject::connect(sourceModel(), &QAbstractItemModel::dataChanged, this, &MergedProxyModel::DataChanged);
+  QObject::connect(sourceModel(), &QAbstractItemModel::layoutAboutToBeChanged, this, &MergedProxyModel::LayoutAboutToBeChanged);
+  QObject::connect(sourceModel(), &QAbstractItemModel::layoutChanged, this, &MergedProxyModel::LayoutChanged);
 
 }
 
@@ -219,7 +219,7 @@ void MergedProxyModel::SubModelAboutToBeReset() {
 
 }
 
-void MergedProxyModel::SubModelReset() {
+void MergedProxyModel::SubModelResetSlot() {
 
   QAbstractItemModel *submodel = static_cast<QAbstractItemModel*>(sender());
 
@@ -393,22 +393,22 @@ QMap<int, QVariant> MergedProxyModel::itemData(const QModelIndex &proxy_index) c
 
 }
 
-Qt::ItemFlags MergedProxyModel::flags(const QModelIndex &index) const {
+Qt::ItemFlags MergedProxyModel::flags(const QModelIndex &idx) const {
 
-  QModelIndex source_index = mapToSource(index);
+  QModelIndex source_index = mapToSource(idx);
 
   if (!source_index.isValid()) return sourceModel()->flags(QModelIndex());
   return source_index.model()->flags(source_index);
 
 }
 
-bool MergedProxyModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+bool MergedProxyModel::setData(const QModelIndex &idx, const QVariant &value, int role) {
 
-  QModelIndex source_index = mapToSource(index);
+  QModelIndex source_index = mapToSource(idx);
 
   if (!source_index.isValid())
-    return sourceModel()->setData(index, value, role);
-  return GetModel(index)->setData(index, value, role);
+    return sourceModel()->setData(idx, value, role);
+  return GetModel(idx)->setData(idx, value, role);
 
 }
 
@@ -542,8 +542,8 @@ bool MergedProxyModel::IsKnownModel(const QAbstractItemModel *model) const {
 QModelIndexList MergedProxyModel::mapFromSource(const QModelIndexList &source_indexes) const {
 
   QModelIndexList ret;
-  for (const QModelIndex &index : source_indexes) {
-    ret << mapFromSource(index);
+  for (const QModelIndex &idx : source_indexes) {
+    ret << mapFromSource(idx);
   }
   return ret;
 
@@ -552,8 +552,8 @@ QModelIndexList MergedProxyModel::mapFromSource(const QModelIndexList &source_in
 QModelIndexList MergedProxyModel::mapToSource(const QModelIndexList &proxy_indexes) const {
 
   QModelIndexList ret;
-  for (const QModelIndex &index : proxy_indexes) {
-    ret << mapToSource(index);
+  for (const QModelIndex &idx : proxy_indexes) {
+    ret << mapToSource(idx);
   }
   return ret;
 

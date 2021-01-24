@@ -47,4 +47,3 @@ class MultiSortFilterProxy : public QSortFilterProxyModel {
 };
 
 #endif  // MULTISORTFILTERPROXY_H
-

@@ -38,7 +38,7 @@ class Mpris : public QObject {
  public:
   explicit Mpris(Application *app, QObject *parent = nullptr);
 
-signals:
+ signals:
   void RaiseMainWindow();
 
  private:
@@ -48,4 +48,3 @@ signals:
 }  // namespace mpris
 
 #endif  // MPRIS_H
-

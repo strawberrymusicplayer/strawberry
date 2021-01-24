@@ -59,7 +59,7 @@ LastFmCoverProvider::~LastFmCoverProvider() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -122,7 +122,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QNetworkReply *reply = network_->post(req, url_query.toString(QUrl::FullyEncoded).toUtf8());
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { QueryFinished(reply, id, type); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id, type]() { QueryFinished(reply, id, type); });
 
   return true;
 
@@ -132,7 +132,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   CoverSearchResults results;

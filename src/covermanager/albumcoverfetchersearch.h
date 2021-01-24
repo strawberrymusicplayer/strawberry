@@ -63,19 +63,19 @@ class AlbumCoverFetcherSearch : public QObject {
 
  signals:
   // It's the end of search (when there was no fetch-me-a-cover request).
-  void SearchFinished(const quint64, const CoverSearchResults &results);
+  void SearchFinished(quint64, CoverSearchResults results);
 
   // It's the end of search and we've fetched a cover.
   void AlbumCoverFetched(const quint64, const QUrl &cover_url, const QImage &cover);
 
  private slots:
   void ProviderSearchResults(const int id, const CoverSearchResults &results);
-  void ProviderSearchResults(CoverProvider *provider, const CoverSearchResults &results);
   void ProviderSearchFinished(const int id, const CoverSearchResults &results);
   void ProviderCoverFetchFinished(QNetworkReply *reply);
   void TerminateSearch();
 
  private:
+  void ProviderSearchResults(CoverProvider *provider, const CoverSearchResults &results);
   void AllProvidersFinished();
 
   void FetchMoreImages();

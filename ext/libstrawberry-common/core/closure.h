@@ -110,7 +110,7 @@ class Closure : public ClosureBase {
     const int index = meta_receiver->indexOfSlot(normalised_slot.constData());
     Q_ASSERT(index != -1);
     slot_ = meta_receiver->method(index);
-    QObject::connect(receiver_, SIGNAL(destroyed()), helper_, SLOT(deleteLater()));
+    QObject::connect(receiver_, &QObject::destroyed, helper_, &QObject::deleteLater);
   }
 
   void Invoke() override {
@@ -207,7 +207,7 @@ template <typename T, typename... Args>
 _detail::ClosureBase *NewClosure(QFuture<T> future, QObject *receiver, const char *slot, const Args&... args) {
   QFutureWatcher<T> *watcher = new QFutureWatcher<T>;
   watcher->setFuture(future);
-  QObject::connect(watcher, SIGNAL(finished()), watcher, SLOT(deleteLater()));
+  QObject::connect(watcher, &QFutureWatcher<T>::finished, watcher, &QFutureWatcher<T>::deleteLater);
   return NewClosure(watcher, SIGNAL(finished()), receiver, slot, args...);
 }
 
@@ -215,7 +215,7 @@ template <typename T, typename F, typename... Args>
 _detail::ClosureBase *NewClosure(QFuture<T> future, const F &callback, const Args&... args) {
   QFutureWatcher<T> *watcher = new QFutureWatcher<T>;
   watcher->setFuture(future);
-  QObject::connect(watcher, SIGNAL(finished()), watcher, SLOT(deleteLater()));
+  QObject::connect(watcher, &QFutureWatcher<T>::finished, watcher, &QFutureWatcher<T>::deleteLater);
   return NewClosure(watcher, SIGNAL(finished()), callback, args...);
 }
 
@@ -228,7 +228,7 @@ void DoAfter(std::function<void()> callback, std::chrono::duration<R, P> duratio
   QTimer *timer = new QTimer;
   timer->setSingleShot(true);
   NewClosure(timer, SIGNAL(timeout()), callback);
-  QObject::connect(timer, SIGNAL(timeout()), timer, SLOT(deleteLater()));
+  QObject::connect(timer, &QTimer::timeout, timer, &QTimer::deleteLater);
   std::chrono::milliseconds msec = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
   timer->start(msec.count());
 }

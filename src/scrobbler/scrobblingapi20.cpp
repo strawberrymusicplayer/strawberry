@@ -84,13 +84,13 @@ ScrobblingAPI20::~ScrobblingAPI20() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
 
   if (server_) {
-    disconnect(server_, nullptr, this, nullptr);
+    QObject::disconnect(server_, nullptr, this, nullptr);
     if (server_->isListening()) server_->close();
     server_->deleteLater();
   }
@@ -149,7 +149,7 @@ void ScrobblingAPI20::Authenticate(const bool https) {
       server_ = nullptr;
       return;
     }
-    connect(server_, SIGNAL(Finished()), this, SLOT(RedirectArrived()));
+    QObject::connect(server_, &LocalRedirectServer::Finished, this, &ScrobblingAPI20::RedirectArrived);
   }
 
   QUrlQuery redirect_url_query;
@@ -252,7 +252,7 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
 #endif
   QNetworkReply *reply = network()->get(req);
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { AuthenticateReplyFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { AuthenticateReplyFinished(reply); });
 
 }
 
@@ -260,7 +260,7 @@ void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data;
@@ -479,7 +479,7 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
     params << Param("albumArtist", song.albumartist());
 
   QNetworkReply *reply = CreateRequest(params);
-  connect(reply, &QNetworkReply::finished, [=] { UpdateNowPlayingRequestFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { UpdateNowPlayingRequestFinished(reply); });
 
 }
 
@@ -487,7 +487,7 @@ void ScrobblingAPI20::UpdateNowPlayingRequestFinished(QNetworkReply *reply) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);
@@ -601,7 +601,7 @@ void ScrobblingAPI20::Submit() {
   if (!batch_ || i <= 0) return;
 
   QNetworkReply *reply = CreateRequest(params);
-  connect(reply, &QNetworkReply::finished, [=] { ScrobbleRequestFinished(reply, list); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, list]() { ScrobbleRequestFinished(reply, list); });
 
 }
 
@@ -609,7 +609,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint6
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);
@@ -794,7 +794,7 @@ void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
     params << Param("trackNumber", QString::number(item->track_));
 
   QNetworkReply *reply = CreateRequest(params);
-  connect(reply, &QNetworkReply::finished, [=] { SingleScrobbleRequestFinished(reply, item->timestamp_); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, item]() { SingleScrobbleRequestFinished(reply, item->timestamp_); });
 
 }
 
@@ -802,7 +802,7 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   ScrobblerCacheItemPtr item = cache()->Get(timestamp);
@@ -945,7 +945,7 @@ void ScrobblingAPI20::Love() {
     params << Param("albumArtist", song_playing_.albumartist());
 
   QNetworkReply *reply = CreateRequest(params);
-  connect(reply, &QNetworkReply::finished, [=] { LoveRequestFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply] { LoveRequestFinished(reply); });
 
 }
 
@@ -953,7 +953,7 @@ void ScrobblingAPI20::LoveRequestFinished(QNetworkReply *reply) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);

@@ -18,6 +18,9 @@
  *
  */
 
+#ifndef FAVORITEWIDGET_H
+#define FAVORITEWIDGET_H
+
 #include "config.h"
 
 #include <QObject>
@@ -58,3 +61,5 @@ class FavoriteWidget : public QWidget {
   QPixmap off_;
   QRect rect_;
 };
+
+#endif  // FAVORITEWIDGET_H

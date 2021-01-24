@@ -57,4 +57,3 @@ class OVHLyricsProvider : public JsonLyricsProvider {
 };
 
 #endif  // OVHLYRICSPROVIDER_H
-

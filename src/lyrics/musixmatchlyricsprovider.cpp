@@ -46,7 +46,7 @@ MusixmatchLyricsProvider::~MusixmatchLyricsProvider() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -86,7 +86,7 @@ bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString 
 #endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, album, title); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id, artist, album, title]() { HandleSearchReply(reply, id, artist, album, title); });
 
   qLog(Debug) << "MusixmatchLyrics: Sending request for" << artist_stripped << title_stripped << url;
 
@@ -102,7 +102,7 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, const qui
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   LyricsSearchResults results;

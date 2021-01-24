@@ -44,15 +44,15 @@ class BoomAnalyzer : public Analyzer::Base {
 
   static const char* kName;
 
-  void transform(Analyzer::Scope& s) override;
-  void analyze(QPainter& p, const Analyzer::Scope&, bool new_frame) override;
+  void transform(Analyzer::Scope &s) override;
+  void analyze(QPainter &p, const Analyzer::Scope&, bool new_frame) override;
 
  public slots:
   void changeK_barHeight(int);
   void changeF_peakSpeed(int);
 
  protected:
-  void resizeEvent(QResizeEvent* e) override;
+  void resizeEvent(QResizeEvent *e) override;
 
   static const uint kColumnWidth;
   static const uint kMaxBandCount;

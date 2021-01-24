@@ -85,20 +85,21 @@ SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(CollectionBackend* 
       current_field_type_(SmartPlaylistSearchTerm::Type_Invalid) {
 
   ui_->setupUi(this);
-  connect(ui_->field, SIGNAL(currentIndexChanged(int)), SLOT(FieldChanged(int)));
-  connect(ui_->op, SIGNAL(currentIndexChanged(int)), SLOT(OpChanged(int)));
-  connect(ui_->remove, SIGNAL(clicked()), SIGNAL(RemoveClicked()));
 
-  connect(ui_->value_date, SIGNAL(dateChanged(QDate)), SIGNAL(Changed()));
-  connect(ui_->value_number, SIGNAL(valueChanged(int)), SIGNAL(Changed()));
-  connect(ui_->value_text, SIGNAL(textChanged(QString)), SIGNAL(Changed()));
-  connect(ui_->value_time, SIGNAL(timeChanged(QTime)), SIGNAL(Changed()));
-  connect(ui_->value_date_numeric, SIGNAL(valueChanged(int)), SIGNAL(Changed()));
-  connect(ui_->value_date_numeric1, SIGNAL(valueChanged(int)), SLOT(RelativeValueChanged()));
-  connect(ui_->value_date_numeric2, SIGNAL(valueChanged(int)), SLOT(RelativeValueChanged()));
-  connect(ui_->date_type, SIGNAL(currentIndexChanged(int)), SIGNAL(Changed()));
-  connect(ui_->date_type_relative, SIGNAL(currentIndexChanged(int)), SIGNAL(Changed()));
-  connect(ui_->value_rating, SIGNAL(RatingChanged(float)), SIGNAL(Changed()));
+  QObject::connect(ui_->field, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SmartPlaylistSearchTermWidget::FieldChanged);
+  QObject::connect(ui_->op, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SmartPlaylistSearchTermWidget::OpChanged);
+  QObject::connect(ui_->remove, &QToolButton::clicked, this, &SmartPlaylistSearchTermWidget::RemoveClicked);
+
+  QObject::connect(ui_->value_date, &QDateEdit::dateChanged, this, &SmartPlaylistSearchTermWidget::Changed);
+  QObject::connect(ui_->value_number, QOverload<int>::of(&QSpinBox::valueChanged), this, &SmartPlaylistSearchTermWidget::Changed);
+  QObject::connect(ui_->value_text, &QLineEdit::textChanged, this, &SmartPlaylistSearchTermWidget::Changed);
+  QObject::connect(ui_->value_time, &QTimeEdit::timeChanged, this, &SmartPlaylistSearchTermWidget::Changed);
+  QObject::connect(ui_->value_date_numeric, QOverload<int>::of(&QSpinBox::valueChanged), this, &SmartPlaylistSearchTermWidget::Changed);
+  QObject::connect(ui_->value_date_numeric1, QOverload<int>::of(&QSpinBox::valueChanged), this, &SmartPlaylistSearchTermWidget::RelativeValueChanged);
+  QObject::connect(ui_->value_date_numeric2, QOverload<int>::of(&QSpinBox::valueChanged), this, &SmartPlaylistSearchTermWidget::RelativeValueChanged);
+  QObject::connect(ui_->date_type, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SmartPlaylistSearchTermWidget::Changed);
+  QObject::connect(ui_->date_type_relative, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SmartPlaylistSearchTermWidget::Changed);
+  QObject::connect(ui_->value_rating, &RatingWidget::RatingChanged, this, &SmartPlaylistSearchTermWidget::Changed);
 
   ui_->value_date->setDate(QDate::currentDate());
 
@@ -292,7 +293,7 @@ void SmartPlaylistSearchTermWidget::resizeEvent(QResizeEvent* e) {
 
   QWidget::resizeEvent(e);
   if (overlay_ && overlay_->isVisible()) {
-    QTimer::singleShot(0, this, SLOT(Grab()));
+    QTimer::singleShot(0, this, &SmartPlaylistSearchTermWidget::Grab);
   }
 
 }
@@ -301,7 +302,7 @@ void SmartPlaylistSearchTermWidget::showEvent(QShowEvent* e) {
 
   QWidget::showEvent(e);
   if (overlay_) {
-    QTimer::singleShot(0, this, SLOT(Grab()));
+    QTimer::singleShot(0, this, &SmartPlaylistSearchTermWidget::Grab);
   }
 
 }

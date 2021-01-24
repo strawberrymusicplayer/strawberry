@@ -1,3 +1,4 @@
+
 /*
  * Strawberry Music Player
  * This file was part of Clementine.
@@ -61,7 +62,7 @@ class SizeOverlayDelegate : public QStyledItemDelegate {
 
   explicit SizeOverlayDelegate(QObject *parent = nullptr);
 
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 };
 
 // This is a dialog that lets the user search for album covers
@@ -92,7 +93,7 @@ class AlbumCoverSearcher : public QDialog {
   void SearchFinished(const quint64 id, const CoverSearchResults &results);
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 
-  void CoverDoubleClicked(const QModelIndex &index);
+  void CoverDoubleClicked(const QModelIndex &idx);
 
  private:
   Ui_AlbumCoverSearcher *ui_;

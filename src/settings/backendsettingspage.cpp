@@ -165,20 +165,20 @@ void BackendSettingsPage::Load() {
 
   configloaded_ = true;
 
-  connect(ui_->combobox_engine, SIGNAL(currentIndexChanged(int)), SLOT(EngineChanged(int)));
-  connect(ui_->combobox_output, SIGNAL(currentIndexChanged(int)), SLOT(OutputChanged(int)));
-  connect(ui_->combobox_device, SIGNAL(currentIndexChanged(int)), SLOT(DeviceSelectionChanged(int)));
-  connect(ui_->lineedit_device, SIGNAL(textChanged(QString)), SLOT(DeviceStringChanged()));
+  QObject::connect(ui_->combobox_engine, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &BackendSettingsPage::EngineChanged);
+  QObject::connect(ui_->combobox_output, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &BackendSettingsPage::OutputChanged);
+  QObject::connect(ui_->combobox_device, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &BackendSettingsPage::DeviceSelectionChanged);
+  QObject::connect(ui_->lineedit_device, &QLineEdit::textChanged, this, &BackendSettingsPage::DeviceStringChanged);
 #if defined(HAVE_ALSA)
-  connect(ui_->radiobutton_alsa_hw, SIGNAL(clicked(bool)), SLOT(radiobutton_alsa_hw_clicked(bool)));
-  connect(ui_->radiobutton_alsa_plughw, SIGNAL(clicked(bool)), SLOT(radiobutton_alsa_plughw_clicked(bool)));
+  QObject::connect(ui_->radiobutton_alsa_hw, &QRadioButton::clicked, this, &BackendSettingsPage::radiobutton_alsa_hw_clicked);
+  QObject::connect(ui_->radiobutton_alsa_plughw, &QRadioButton::clicked, this, &BackendSettingsPage::radiobutton_alsa_plughw_clicked);
 #endif
-  connect(ui_->stickslider_replaygainpreamp, SIGNAL(valueChanged(int)), SLOT(RgPreampChanged(int)));
-  connect(ui_->checkbox_fadeout_stop, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
-  connect(ui_->checkbox_fadeout_cross, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
-  connect(ui_->checkbox_fadeout_auto, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
-  connect(ui_->checkbox_volume_control, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
-  connect(ui_->button_buffer_defaults, SIGNAL(clicked()), SLOT(BufferDefaults()));
+  QObject::connect(ui_->stickslider_replaygainpreamp, &StickySlider::valueChanged, this, &BackendSettingsPage::RgPreampChanged);
+  QObject::connect(ui_->checkbox_fadeout_stop, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
+  QObject::connect(ui_->checkbox_fadeout_cross, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
+  QObject::connect(ui_->checkbox_fadeout_auto, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
+  QObject::connect(ui_->checkbox_volume_control, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
+  QObject::connect(ui_->button_buffer_defaults, &QPushButton::clicked, this, &BackendSettingsPage::BufferDefaults);
 
   FadingOptionsChanged();
   RgPreampChanged(ui_->stickslider_replaygainpreamp->value());

@@ -39,7 +39,7 @@ MacFSListener::MacFSListener(QObject* parent)
 
   update_timer_->setSingleShot(true);
   update_timer_->setInterval(2000);
-  connect(update_timer_, SIGNAL(timeout()), SLOT(UpdateStream()));
+  QObject::connect(update_timer_, &QTimer::timeout, this, &MacFSListener::UpdateStream);
 
 }
 

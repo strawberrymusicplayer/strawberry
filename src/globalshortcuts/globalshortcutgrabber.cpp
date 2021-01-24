@@ -40,8 +40,8 @@ GlobalShortcutGrabber::GlobalShortcutGrabber(QWidget *parent)
 
   modifier_keys_ << Qt::Key_Shift << Qt::Key_Control << Qt::Key_Meta << Qt::Key_Alt << Qt::Key_AltGr;
 
-  connect(ui_->buttonBox, SIGNAL(accepted()), this, SLOT(Accepted()));
-  connect(ui_->buttonBox, SIGNAL(rejected()), this, SLOT(Rejected()));
+  QObject::connect(ui_->buttonBox, &QDialogButtonBox::accepted, this, &GlobalShortcutGrabber::Accepted);
+  QObject::connect(ui_->buttonBox, &QDialogButtonBox::rejected, this, &GlobalShortcutGrabber::Rejected);
 
 }
 

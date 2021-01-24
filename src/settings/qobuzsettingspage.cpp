@@ -51,13 +51,13 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *parent)
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("qobuz"));
 
-  connect(ui_->button_login, SIGNAL(clicked()), SLOT(LoginClicked()));
-  connect(ui_->login_state, SIGNAL(LogoutClicked()), SLOT(LogoutClicked()));
+  QObject::connect(ui_->button_login, &QPushButton::clicked, this, &QobuzSettingsPage::LoginClicked);
+  QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &QobuzSettingsPage::LogoutClicked);
 
-  connect(this, SIGNAL(Login(QString, QString, QString)), service_, SLOT(SendLogin(QString, QString, QString)));
+  QObject::connect(this, &QobuzSettingsPage::Login, service_, &InternetService::LoginWithCredentials);
 
-  connect(service_, SIGNAL(LoginFailure(QString)), SLOT(LoginFailure(QString)));
-  connect(service_, SIGNAL(LoginSuccess()), SLOT(LoginSuccess()));
+  QObject::connect(service_, &InternetService::LoginFailure, this, &QobuzSettingsPage::LoginFailure);
+  QObject::connect(service_, &InternetService::LoginSuccess, this, &QobuzSettingsPage::LoginSuccess);
 
   dialog()->installEventFilter(this);
 

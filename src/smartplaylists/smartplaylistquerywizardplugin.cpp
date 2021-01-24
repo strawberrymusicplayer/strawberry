@@ -99,12 +99,12 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
 
   sort_ui_->limit_value->setValue(PlaylistGenerator::kDefaultLimit);
 
-  connect(search_page_->ui_->type, SIGNAL(currentIndexChanged(int)), SLOT(SearchTypeChanged()));
+  QObject::connect(search_page_->ui_->type, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SmartPlaylistQueryWizardPlugin::SearchTypeChanged);
 
   // Create the new search term widget
   search_page_->new_term_ = new SmartPlaylistSearchTermWidget(collection_, search_page_);
   search_page_->new_term_->SetActive(false);
-  connect(search_page_->new_term_, SIGNAL(Clicked()), SLOT(AddSearchTerm()));
+  QObject::connect(search_page_->new_term_, &SmartPlaylistSearchTermWidget::Clicked, this, &SmartPlaylistQueryWizardPlugin::AddSearchTerm);
 
   // Add an empty initial term
   search_page_->layout_ = static_cast<QVBoxLayout*>(search_page_->ui_->terms_scroll_area_content->layout());
@@ -112,7 +112,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
   AddSearchTerm();
 
   // Ensure that the terms are scrolled to the bottom when a new one is added
-  connect(search_page_->ui_->terms_scroll_area->verticalScrollBar(), SIGNAL(rangeChanged(int, int)), this, SLOT(MoveTermListToBottom(int, int)));
+  QObject::connect(search_page_->ui_->terms_scroll_area->verticalScrollBar(), &QScrollBar::rangeChanged, this, &SmartPlaylistQueryWizardPlugin::MoveTermListToBottom);
 
   // Add the preview widget at the bottom of the search terms page
   QVBoxLayout *terms_page_layout = static_cast<QVBoxLayout*>(search_page_->layout());
@@ -128,7 +128,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
     const QString field_name = SmartPlaylistSearchTerm::FieldName(field);
     sort_ui_->field_value->addItem(field_name);
   }
-  connect(sort_ui_->field_value, SIGNAL(currentIndexChanged(int)), SLOT(UpdateSortOrder()));
+  QObject::connect(sort_ui_->field_value, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SmartPlaylistQueryWizardPlugin::UpdateSortOrder);
   UpdateSortOrder();
 
   // Set the sort and limit radio buttons back to their defaults - they would
@@ -139,13 +139,13 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
   // Set up the preview widget that's already at the bottom of the sort page
   sort_ui_->preview->set_application(app_);
   sort_ui_->preview->set_collection(collection_);
-  connect(sort_ui_->field, SIGNAL(toggled(bool)), SLOT(UpdateSortPreview()));
-  connect(sort_ui_->field_value, SIGNAL(currentIndexChanged(int)), SLOT(UpdateSortPreview()));
-  connect(sort_ui_->limit_limit, SIGNAL(toggled(bool)), SLOT(UpdateSortPreview()));
-  connect(sort_ui_->limit_none, SIGNAL(toggled(bool)), SLOT(UpdateSortPreview()));
-  connect(sort_ui_->limit_value, SIGNAL(valueChanged(int)), SLOT(UpdateSortPreview()));
-  connect(sort_ui_->order, SIGNAL(currentIndexChanged(int)), SLOT(UpdateSortPreview()));
-  connect(sort_ui_->random, SIGNAL(toggled(bool)), SLOT(UpdateSortPreview()));
+  QObject::connect(sort_ui_->field, &QRadioButton::toggled, this, &SmartPlaylistQueryWizardPlugin::UpdateSortPreview);
+  QObject::connect(sort_ui_->field_value, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SmartPlaylistQueryWizardPlugin::UpdateSortPreview);
+  QObject::connect(sort_ui_->limit_limit, &QRadioButton::toggled, this, &SmartPlaylistQueryWizardPlugin::UpdateSortPreview);
+  QObject::connect(sort_ui_->limit_none, &QRadioButton::toggled, this, &SmartPlaylistQueryWizardPlugin::UpdateSortPreview);
+  QObject::connect(sort_ui_->limit_value, QOverload<int>::of(&QSpinBox::valueChanged), this, &SmartPlaylistQueryWizardPlugin::UpdateSortPreview);
+  QObject::connect(sort_ui_->order, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SmartPlaylistQueryWizardPlugin::UpdateSortPreview);
+  QObject::connect(sort_ui_->random, &QRadioButton::toggled, this, &SmartPlaylistQueryWizardPlugin::UpdateSortPreview);
 
   // Configure the page text
   search_page_->setTitle(tr("Search terms"));
@@ -227,8 +227,8 @@ void SmartPlaylistQueryWizardPlugin::UpdateSortOrder() {
 void SmartPlaylistQueryWizardPlugin::AddSearchTerm() {
 
   SmartPlaylistSearchTermWidget *widget = new SmartPlaylistSearchTermWidget(collection_, search_page_);
-  connect(widget, SIGNAL(RemoveClicked()), SLOT(RemoveSearchTerm()));
-  connect(widget, SIGNAL(Changed()), SLOT(UpdateTermPreview()));
+  QObject::connect(widget, &SmartPlaylistSearchTermWidget::RemoveClicked, this, &SmartPlaylistQueryWizardPlugin::RemoveSearchTerm);
+  QObject::connect(widget, &SmartPlaylistSearchTermWidget::Changed, this, &SmartPlaylistQueryWizardPlugin::UpdateTermPreview);
 
   search_page_->layout_->insertWidget(search_page_->terms_.count(), widget);
   search_page_->terms_ << widget;

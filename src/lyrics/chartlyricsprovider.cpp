@@ -47,7 +47,7 @@ ChartLyricsProvider::~ChartLyricsProvider() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -74,7 +74,7 @@ bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, con
 #endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, title); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id, artist, title]() { HandleSearchReply(reply, id, artist, title); });
 
   //qLog(Debug) << "ChartLyrics: Sending request for" << url;
 
@@ -88,7 +88,7 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError) {

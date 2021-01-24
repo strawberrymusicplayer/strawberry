@@ -45,7 +45,7 @@ StretchHeaderView::StretchHeaderView(const Qt::Orientation orientation, QWidget 
       stretch_enabled_(false),
     in_mouse_move_event_(false) {
 
-  connect(this, SIGNAL(sectionResized(int,int,int)), SLOT(SectionResized(int,int,int)));
+  QObject::connect(this, &StretchHeaderView::sectionResized, this, &StretchHeaderView::SectionResized);
   setMinimumSectionSize(kMinimumColumnWidth);
 
 }

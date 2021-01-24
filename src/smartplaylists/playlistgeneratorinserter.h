@@ -48,8 +48,8 @@ class PlaylistGeneratorInserter : public QObject {
   static PlaylistItemList Generate(PlaylistGeneratorPtr generator, const int dynamic_count);
 
  signals:
-  void Error(const QString &message);
-  void PlayRequested(const QModelIndex &idx);
+  void Error(QString message);
+  void PlayRequested(QModelIndex idx, Playlist::AutoScroll autoscroll);
 
  private slots:
   void Finished(QFuture<PlaylistItemList> future);

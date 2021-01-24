@@ -113,13 +113,13 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 
   cover_options_.default_output_image_ = AlbumCoverLoader::ScaleAndPad(cover_options_, QImage(":/pictures/cdcase.png")).first;
 
-  connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
+  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &EditTagDialog::AlbumCoverLoaded);
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
-  connect(tag_fetcher_, SIGNAL(ResultAvailable(Song, SongList)), results_dialog_, SLOT(FetchTagFinished(Song, SongList)), Qt::QueuedConnection);
-  connect(tag_fetcher_, SIGNAL(Progress(Song, QString)), results_dialog_, SLOT(FetchTagProgress(Song, QString)));
-  connect(results_dialog_, SIGNAL(SongChosen(Song, Song)), SLOT(FetchTagSongChosen(Song, Song)));
-  connect(results_dialog_, SIGNAL(finished(int)), tag_fetcher_, SLOT(Cancel()));
+  QObject::connect(tag_fetcher_, &TagFetcher::ResultAvailable, results_dialog_, &TrackSelectionDialog::FetchTagFinished, Qt::QueuedConnection);
+  QObject::connect(tag_fetcher_, &TagFetcher::Progress, results_dialog_, &TrackSelectionDialog::FetchTagProgress);
+  QObject::connect(results_dialog_, &TrackSelectionDialog::SongChosen, this, &EditTagDialog::FetchTagSongChosen);
+  QObject::connect(results_dialog_, &TrackSelectionDialog::finished, tag_fetcher_, &TagFetcher::Cancel);
 #endif
 
   album_cover_choice_controller_->Init(app_);
@@ -143,23 +143,22 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       // Store information about the field
       fields_ << FieldData(label, widget, widget->objectName());
 
-      // Connect the Reset signal
-      if (dynamic_cast<ExtendedEditor*>(widget)) {
-        connect(widget, SIGNAL(Reset()), SLOT(ResetField()));
-      }
-
       // Connect the edited signal
-      if (qobject_cast<QLineEdit*>(widget)) {
-        connect(widget, SIGNAL(textChanged(QString)), SLOT(FieldValueEdited()));
+      if (LineEdit *lineedit = qobject_cast<LineEdit*>(widget)) {
+        QObject::connect(lineedit, &LineEdit::textChanged, this, &EditTagDialog::FieldValueEdited);
+        QObject::connect(lineedit, &LineEdit::Reset, this, &EditTagDialog::ResetField);
       }
-      else if (qobject_cast<QPlainTextEdit*>(widget)) {
-        connect(widget, SIGNAL(textChanged()), SLOT(FieldValueEdited()));
+      else if (TextEdit *textedit = qobject_cast<TextEdit*>(widget)) {
+        QObject::connect(textedit, &TextEdit::textChanged, this, &EditTagDialog::FieldValueEdited);
+        QObject::connect(textedit, &TextEdit::Reset, this, &EditTagDialog::ResetField);
       }
-      else if (qobject_cast<QSpinBox*>(widget)) {
-        connect(widget, SIGNAL(valueChanged(int)), SLOT(FieldValueEdited()));
+      else if (SpinBox *spinbox = qobject_cast<SpinBox*>(widget)) {
+        QObject::connect(spinbox, QOverload<int>::of(&SpinBox::valueChanged), this, &EditTagDialog::FieldValueEdited);
+        QObject::connect(spinbox, &SpinBox::Reset, this, &EditTagDialog::ResetField);
       }
-      else if (qobject_cast<QCheckBox*>(widget)) {
-        connect(widget, SIGNAL(stateChanged(int)), SLOT(FieldValueEdited()));
+      else if (CheckBox *checkbox = qobject_cast<CheckBox*>(widget)) {
+        QObject::connect(checkbox, &QCheckBox::stateChanged, this, &EditTagDialog::FieldValueEdited);
+        QObject::connect(checkbox, &CheckBox::Reset, this, &EditTagDialog::ResetField);
       }
     }
   }
@@ -179,11 +178,11 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   // Pretend the summary text is just a label
   ui_->summary->setMaximumHeight(ui_->art->height() - ui_->summary_art_button->height() - 4);
 
-  connect(ui_->song_list->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), SLOT(SelectionChanged()));
-  connect(ui_->button_box, SIGNAL(clicked(QAbstractButton*)), SLOT(ButtonClicked(QAbstractButton*)));
-  connect(ui_->playcount_reset, SIGNAL(clicked()), SLOT(ResetPlayCounts()));
+  QObject::connect(ui_->song_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EditTagDialog::SelectionChanged);
+  QObject::connect(ui_->button_box, &QDialogButtonBox::clicked, this, &EditTagDialog::ButtonClicked);
+  QObject::connect(ui_->playcount_reset, &QPushButton::clicked, this, &EditTagDialog::ResetPlayCounts);
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
-  connect(ui_->fetch_tag, SIGNAL(clicked()), SLOT(FetchTag()));
+  QObject::connect(ui_->fetch_tag, &QPushButton::clicked, this, &EditTagDialog::FetchTag);
 #endif
 
   // Set up the album cover menu
@@ -191,12 +190,12 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 
   QList<QAction*> actions = album_cover_choice_controller_->GetAllActions();
 
-  connect(album_cover_choice_controller_->cover_from_file_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromFile()));
-  connect(album_cover_choice_controller_->cover_to_file_action(), SIGNAL(triggered()), this, SLOT(SaveCoverToFile()));
-  connect(album_cover_choice_controller_->cover_from_url_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromURL()));
-  connect(album_cover_choice_controller_->search_for_cover_action(), SIGNAL(triggered()), this, SLOT(SearchForCover()));
-  connect(album_cover_choice_controller_->unset_cover_action(), SIGNAL(triggered()), this, SLOT(UnsetCover()));
-  connect(album_cover_choice_controller_->show_cover_action(), SIGNAL(triggered()), this, SLOT(ShowCover()));
+  QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &EditTagDialog::LoadCoverFromFile);
+  QObject::connect(album_cover_choice_controller_->cover_to_file_action(), &QAction::triggered, this, &EditTagDialog::SaveCoverToFile);
+  QObject::connect(album_cover_choice_controller_->cover_from_url_action(), &QAction::triggered, this, &EditTagDialog::LoadCoverFromURL);
+  QObject::connect(album_cover_choice_controller_->search_for_cover_action(), &QAction::triggered, this, &EditTagDialog::SearchForCover);
+  QObject::connect(album_cover_choice_controller_->unset_cover_action(), &QAction::triggered, this, &EditTagDialog::UnsetCover);
+  QObject::connect(album_cover_choice_controller_->show_cover_action(), &QAction::triggered, this, &EditTagDialog::ShowCover);
 
   cover_menu_->addActions(actions);
 
@@ -211,8 +210,8 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   ui_->button_box->addButton(previous_button_, QDialogButtonBox::ResetRole);
   ui_->button_box->addButton(next_button_, QDialogButtonBox::ResetRole);
 
-  connect(previous_button_, SIGNAL(clicked()), SLOT(PreviousSong()));
-  connect(next_button_, SIGNAL(clicked()), SLOT(NextSong()));
+  QObject::connect(previous_button_, &QPushButton::clicked, this, &EditTagDialog::PreviousSong);
+  QObject::connect(next_button_, &QPushButton::clicked, this, &EditTagDialog::NextSong);
 
   // Set some shortcuts for the buttons
   new QShortcut(QKeySequence::Back, previous_button_, SLOT(click()));
@@ -775,7 +774,7 @@ void EditTagDialog::SaveData(const QList<Data> &tag_data) {
     const Data &ref = tag_data[i];
     if (ref.current_.IsMetadataEqual(ref.original_)) continue;
 
-    pending_++;
+    ++pending_;
     TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(ref.current_.url().toLocalFile(), ref.current_);
     NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QString, Song)), reply, ref.current_.url().toLocalFile(), ref.current_);
 
@@ -902,8 +901,8 @@ void EditTagDialog::FetchTag() {
 
   SongList songs;
 
-  for (const QModelIndex &index : sel) {
-    Song song = data_[index.row()].original_;
+  for (const QModelIndex &idx : sel) {
+    Song song = data_[idx.row()].original_;
     if (!song.is_valid()) {
       continue;
     }
@@ -960,7 +959,7 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
 
 void EditTagDialog::SongSaveComplete(TagReaderReply *reply, const QString &filename, const Song &song) {
 
-  pending_--;
+  --pending_;
 
   if (!reply->message().save_file_response().success()) {
     QString message = tr("An error occurred writing metadata to '%1'").arg(filename);

@@ -77,7 +77,6 @@ class SmartPlaylistsViewContainer : public QWidget {
 
  signals:
   void AddToPlaylist(QMimeData *data);
-  void ItemsSelectedChanged(bool);
 
  private:
   Ui_SmartPlaylistsViewContainer *ui_;

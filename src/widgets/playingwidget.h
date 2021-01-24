@@ -63,10 +63,10 @@ class PlayingWidget : public QWidget {
 
   void Init(Application *app, AlbumCoverChoiceController *album_cover_choice_controller);
   bool IsEnabled() { return enabled_; }
-  void SetEnabled(bool enabled);
+  void SetEnabled(const bool enabled);
   void SetEnabled();
   void SetDisabled();
-  void set_ideal_height(int height);
+  void set_ideal_height(const int height);
   QSize sizeHint() const override;
   bool show_above_status_bar() const { return above_statusbar_action_->isChecked(); }
 
@@ -79,6 +79,7 @@ class PlayingWidget : public QWidget {
   void Error();
   void SongChanged(const Song &song);
   void SearchCoverInProgress();
+  void AlbumCoverLoaded(const Song &song, const QImage &image);
 
  protected:
   void paintEvent(QPaintEvent *e) override;
@@ -89,15 +90,15 @@ class PlayingWidget : public QWidget {
   void dropEvent(QDropEvent *e) override;
 
  private slots:
-  void SetMode(int mode);
-  void ShowAboveStatusBar(bool above);
-  void FitCoverWidth(bool fit);
+  void Update() { update(); }
+  void SetMode(const int mode);
+  void ShowAboveStatusBar(const bool above);
+  void FitCoverWidth(const bool fit);
 
   void AutomaticCoverSearchDone();
 
-  void AlbumCoverLoaded(const Song &song, const QImage &image);
-  void SetHeight(int height);
-  void FadePreviousTrack(qreal value);
+  void SetHeight(const int height);
+  void FadePreviousTrack(const qreal value);
 
  private:
 
@@ -118,7 +119,7 @@ class PlayingWidget : public QWidget {
   AlbumCoverChoiceController *album_cover_choice_controller_;
   Mode mode_;
   QMenu *menu_;
-  QAction* above_statusbar_action_;
+  QAction *above_statusbar_action_;
   QAction *fit_cover_width_action_;
   bool enabled_;
   bool visible_;
@@ -142,8 +143,8 @@ class PlayingWidget : public QWidget {
   QPixmap pixmap_previous_track_;
   std::unique_ptr<QMovie> spinner_animation_;
 
-  void SetVisible(bool visible);
-  void CreateModeAction(Mode mode, const QString &text, QActionGroup *group);
+  void SetVisible(const bool visible);
+  void CreateModeAction(const Mode mode, const QString &text, QActionGroup *group);
   void UpdateDetailsText();
   void UpdateHeight();
   void SetImage(const QImage &image);

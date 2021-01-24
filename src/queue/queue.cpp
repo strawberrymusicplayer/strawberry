@@ -46,8 +46,8 @@ const char *Queue::kRowsMimetype = "application/x-strawberry-queue-rows";
 
 Queue::Queue(Playlist *parent) : QAbstractProxyModel(parent), playlist_(parent), total_length_ns_(0) {
 
-  signal_item_count_changed_ = connect(this, SIGNAL(ItemCountChanged(int)), SLOT(UpdateTotalLength()));
-  connect(this, SIGNAL(TotalLengthChanged(quint64)), SLOT(UpdateSummaryText()));
+  signal_item_count_changed_ = QObject::connect(this, &Queue::ItemCountChanged, this, &Queue::UpdateTotalLength);
+  QObject::connect(this, &Queue::TotalLengthChanged, this, &Queue::UpdateSummaryText);
 
   UpdateSummaryText();
 
@@ -86,16 +86,16 @@ QModelIndex Queue::mapToSource(const QModelIndex &proxy_index) const {
 void Queue::setSourceModel(QAbstractItemModel *source_model) {
 
   if (sourceModel()) {
-    disconnect(sourceModel(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(SourceDataChanged(QModelIndex, QModelIndex)));
-    disconnect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(SourceLayoutChanged()));
-    disconnect(sourceModel(), SIGNAL(layoutChanged()), this, SLOT(SourceLayoutChanged()));
+    QObject::disconnect(sourceModel(), &QAbstractItemModel::dataChanged, this, &Queue::SourceDataChanged);
+    QObject::disconnect(sourceModel(), &QAbstractItemModel::rowsRemoved, this, &Queue::SourceLayoutChanged);
+    QObject::disconnect(sourceModel(), &QAbstractItemModel::layoutChanged, this, &Queue::SourceLayoutChanged);
   }
 
   QAbstractProxyModel::setSourceModel(source_model);
 
-  connect(sourceModel(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(SourceDataChanged(QModelIndex, QModelIndex)));
-  connect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(SourceLayoutChanged()));
-  connect(sourceModel(), SIGNAL(layoutChanged()), this, SLOT(SourceLayoutChanged()));
+  QObject::connect(sourceModel(), &QAbstractItemModel::dataChanged, this, &Queue::SourceDataChanged);
+  QObject::connect(sourceModel(), &QAbstractItemModel::rowsRemoved, this, &Queue::SourceLayoutChanged);
+  QObject::connect(sourceModel(), &QAbstractItemModel::layoutChanged, this, &Queue::SourceLayoutChanged);
 
 }
 
@@ -113,7 +113,7 @@ void Queue::SourceDataChanged(const QModelIndex &top_left, const QModelIndex &bo
 
 void Queue::SourceLayoutChanged() {
 
-  disconnect(signal_item_count_changed_);
+  QObject::disconnect(signal_item_count_changed_);
 
   for (int i = 0; i < source_indexes_.count(); ++i) {
     if (!source_indexes_[i].isValid()) {
@@ -124,7 +124,7 @@ void Queue::SourceLayoutChanged() {
     }
   }
 
-  signal_item_count_changed_ = connect(this, SIGNAL(ItemCountChanged(int)), SLOT(UpdateTotalLength()));
+  signal_item_count_changed_ = QObject::connect(this, &Queue::ItemCountChanged, this, &Queue::UpdateTotalLength);
 
   emit ItemCountChanged(this->ItemCount());
 
@@ -332,10 +332,10 @@ QMimeData *Queue::mimeData(const QModelIndexList &indexes) const {
   QMimeData *data = new QMimeData;
 
   QList<int> rows;
-  for (const QModelIndex &index : indexes) {
-    if (index.column() != 0) continue;
+  for (const QModelIndex &idx : indexes) {
+    if (idx.column() != 0) continue;
 
-    rows << index.row();
+    rows << idx.row();
   }
 
   QBuffer buf;
@@ -402,11 +402,11 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, 
 
 }
 
-Qt::ItemFlags Queue::flags(const QModelIndex &index) const {
+Qt::ItemFlags Queue::flags(const QModelIndex &idx) const {
 
   Qt::ItemFlags flags = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
-  if (index.isValid())
+  if (idx.isValid())
     flags |= Qt::ItemIsDragEnabled;
   else
     flags |= Qt::ItemIsDropEnabled;

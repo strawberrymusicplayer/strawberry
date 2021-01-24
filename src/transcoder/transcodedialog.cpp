@@ -97,7 +97,7 @@ TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
 
   log_ui_->setupUi(log_dialog_);
   QPushButton *clear_button = log_ui_->buttonBox->addButton(tr("Clear"), QDialogButtonBox::ResetRole);
-  connect(clear_button, SIGNAL(clicked()), log_ui_->log, SLOT(clear()));
+  QObject::connect(clear_button, &QPushButton::clicked, log_ui_->log, &QPlainTextEdit::clear);
 
   // Get presets
   QList<TranscoderPreset> presets = Transcoder::GetAllPresets();
@@ -133,19 +133,19 @@ TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
   ui_->progress_group->hide();
 
   // Connect stuff
-  connect(ui_->add, SIGNAL(clicked()), SLOT(Add()));
-  connect(ui_->import, SIGNAL(clicked()), SLOT(Import()));
-  connect(ui_->remove, SIGNAL(clicked()), SLOT(Remove()));
-  connect(start_button_, SIGNAL(clicked()), SLOT(Start()));
-  connect(cancel_button_, SIGNAL(clicked()), SLOT(Cancel()));
-  connect(close_button_, SIGNAL(clicked()), SLOT(hide()));
-  connect(ui_->details, SIGNAL(clicked()), log_dialog_, SLOT(show()));
-  connect(ui_->options, SIGNAL(clicked()), SLOT(Options()));
-  connect(ui_->select, SIGNAL(clicked()), SLOT(AddDestination()));
+  QObject::connect(ui_->add, &QPushButton::clicked, this, &TranscodeDialog::Add);
+  QObject::connect(ui_->import, &QPushButton::clicked, this, &TranscodeDialog::Import);
+  QObject::connect(ui_->remove, &QPushButton::clicked, this, &TranscodeDialog::Remove);
+  QObject::connect(start_button_, &QPushButton::clicked, this, &TranscodeDialog::Start);
+  QObject::connect(cancel_button_, &QPushButton::clicked, this, &TranscodeDialog::Cancel);
+  QObject::connect(close_button_, &QPushButton::clicked, this, &TranscodeDialog::hide);
+  QObject::connect(ui_->details, &QPushButton::clicked, log_dialog_, &QDialog::show);
+  QObject::connect(ui_->options, &QPushButton::clicked, this, &TranscodeDialog::Options);
+  QObject::connect(ui_->select, &QPushButton::clicked, this, &TranscodeDialog::AddDestination);
 
-  connect(transcoder_, SIGNAL(JobComplete(QString, QString, bool)), SLOT(JobComplete(QString, QString, bool)));
-  connect(transcoder_, SIGNAL(LogLine(QString)), SLOT(LogLine(QString)));
-  connect(transcoder_, SIGNAL(AllJobsComplete()), SLOT(AllJobsComplete()));
+  QObject::connect(transcoder_, &Transcoder::JobComplete, this, &TranscodeDialog::JobComplete);
+  QObject::connect(transcoder_, &Transcoder::LogLine, this, &TranscodeDialog::LogLine);
+  QObject::connect(transcoder_, &Transcoder::AllJobsComplete, this, &TranscodeDialog::AllJobsComplete);
 
 }
 

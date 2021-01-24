@@ -123,23 +123,23 @@ class TidalService : public InternetService {
 
  public slots:
   void ShowConfig() override;
+  void StartAuthorization(const QString client_id);
   void TryLogin();
-  void SendLogin(const QString &api_token, const QString &username, const QString &password);
+  void SendLogin();
+  void SendLoginWithCredentials(const QString &api_token, const QString &username, const QString &password);
   void GetArtists() override;
   void GetAlbums() override;
   void GetSongs() override;
   void ResetArtistsRequest() override;
   void ResetAlbumsRequest() override;
   void ResetSongsRequest() override;
+  void AuthorizationUrlReceived(const QUrl &url);
 
  private slots:
   void ExitReceived();
-  void StartAuthorization(const QString client_id);
-  void AuthorizationUrlReceived(const QUrl &url);
-  void RequestAccessToken(const QString &code = QString());
+  void RequestNewAccessToken() { RequestAccessToken(); }
   void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
   void AccessTokenRequestFinished(QNetworkReply *reply);
-  void SendLogin();
   void HandleAuthReply(QNetworkReply *reply);
   void ResetLoginAttempts();
   void StartSearch();
@@ -163,6 +163,7 @@ class TidalService : public InternetService {
   typedef QList<Param> ParamList;
 
   void LoadSession();
+  void RequestAccessToken(const QString &code = QString());
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 

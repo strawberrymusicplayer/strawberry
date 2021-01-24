@@ -57,7 +57,7 @@ void DeleteFiles::Start(const SongList &songs) {
   task_manager_->SetTaskBlocksCollectionScans(true);
 
   thread_ = new QThread(this);
-  connect(thread_, SIGNAL(started()), SLOT(ProcessSomeFiles()));
+  QObject::connect(thread_, &QThread::started, this, &DeleteFiles::ProcessSomeFiles);
 
   moveToThread(thread_);
   thread_->start();
@@ -120,7 +120,7 @@ void DeleteFiles::ProcessSomeFiles() {
     }
   }
 
-  QTimer::singleShot(0, this, SLOT(ProcessSomeFiles()));
+  QTimer::singleShot(0, this, &DeleteFiles::ProcessSomeFiles);
 
 }
 

@@ -102,7 +102,7 @@ GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_Grou
   p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Bitdepth, 18));
   p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Bitrate, 19));
 
-  connect(ui_->buttonbox->button(QDialogButtonBox::Reset), SIGNAL(clicked()), SLOT(Reset()));
+  QObject::connect(ui_->buttonbox->button(QDialogButtonBox::Reset), &QPushButton::clicked, this, &GroupByDialog::Reset);
 
   resize(sizeHint());
 

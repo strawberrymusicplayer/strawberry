@@ -31,7 +31,6 @@ class Ui_EqualizerSlider;
 
 // Contains the slider and the label
 class EqualizerSlider : public QWidget {
-
   Q_OBJECT
 
  public:

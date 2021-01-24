@@ -75,7 +75,7 @@ class EditTagDialog : public QDialog {
   void accept() override;
 
  signals:
-  void Error(const QString &message);
+  void Error(QString message);
 
  protected:
   bool eventFilter(QObject *o, QEvent *e) override;

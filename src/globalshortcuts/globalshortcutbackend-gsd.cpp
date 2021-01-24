@@ -33,7 +33,6 @@
 #include <QAction>
 #include <QtDebug>
 
-#include "core/closure.h"
 #include "core/logging.h"
 #include "globalshortcuts.h"
 #include "globalshortcutbackend.h"
@@ -69,7 +68,7 @@ bool GlobalShortcutBackendGSD::DoRegister() {
   QDBusPendingReply<> reply = interface_->GrabMediaPlayerKeys(QCoreApplication::applicationName(), QDateTime::currentDateTime().toSecsSinceEpoch());
 
   QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
-  NewClosure(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), this, SLOT(RegisterFinished(QDBusPendingCallWatcher*)), watcher);
+  QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, &GlobalShortcutBackendGSD::RegisterFinished);
 
   return true;
 
@@ -85,7 +84,7 @@ void GlobalShortcutBackendGSD::RegisterFinished(QDBusPendingCallWatcher *watcher
     return;
   }
 
-  connect(interface_, SIGNAL(MediaPlayerKeyPressed(QString, QString)), this, SLOT(GnomeMediaKeyPressed(QString, QString)));
+  QObject::connect(interface_, &OrgGnomeSettingsDaemonMediaKeysInterface::MediaPlayerKeyPressed, this, &GlobalShortcutBackendGSD::GnomeMediaKeyPressed);
   is_connected_ = true;
 
   qLog(Debug) << "Registered";
@@ -104,7 +103,7 @@ void GlobalShortcutBackendGSD::DoUnregister() {
   is_connected_ = false;
 
   interface_->ReleaseMediaPlayerKeys(QCoreApplication::applicationName());
-  disconnect(interface_, SIGNAL(MediaPlayerKeyPressed(QString, QString)), this, SLOT(GnomeMediaKeyPressed(QString, QString)));
+  QObject::disconnect(interface_, &OrgGnomeSettingsDaemonMediaKeysInterface::MediaPlayerKeyPressed, this, &GlobalShortcutBackendGSD::GnomeMediaKeyPressed);
 
 }
 

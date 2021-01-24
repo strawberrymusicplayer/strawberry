@@ -35,10 +35,10 @@ class DeviceManager;
 CddaDevice::CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
     : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time), cdda_song_loader_(url) {
 
-  connect(&cdda_song_loader_, SIGNAL(SongsLoaded(SongList)), this, SLOT(SongsLoaded(SongList)));
-  connect(&cdda_song_loader_, SIGNAL(SongsDurationLoaded(SongList)), this, SLOT(SongsLoaded(SongList)));
-  connect(&cdda_song_loader_, SIGNAL(SongsMetadataLoaded(SongList)), this, SLOT(SongsLoaded(SongList)));
-  connect(this, SIGNAL(SongsDiscovered(SongList)), model_, SLOT(SongsDiscovered(SongList)));
+  QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsLoaded, this, &CddaDevice::SongsLoaded);
+  QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsDurationLoaded, this, &CddaDevice::SongsLoaded);
+  QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsMetadataLoaded, this, &CddaDevice::SongsLoaded);
+  QObject::connect(this, &CddaDevice::SongsDiscovered, model_, &CollectionModel::SongsDiscovered);
 
 }
 

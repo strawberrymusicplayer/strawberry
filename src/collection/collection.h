@@ -73,13 +73,10 @@ class SCollection : public QObject {
   void AbortScan();
   void Rescan(const SongList &songs);
 
- private slots:
-  void ExitReceived();
-
   void IncrementalScan();
 
-  void CurrentSongChanged(const Song &song);
-  void Stopped();
+ private slots:
+  void ExitReceived();
 
  signals:
   void ExitFinished();

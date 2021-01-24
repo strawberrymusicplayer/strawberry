@@ -88,7 +88,7 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
   QNetworkReply *reply = network_->get(req);
-  connect(reply, &QNetworkReply::finished, [=] { RequestFinished(reply, id); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id]() { RequestFinished(reply, id); });
   requests_[id] = reply;
 
   timeouts_->AddReply(reply);
@@ -126,7 +126,7 @@ struct IdSource {
 
 void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id) {
 
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
   requests_.remove(request_id);
 

@@ -185,30 +185,30 @@ void InternetSearchView::Init(Application *app, InternetService *service) {
   QMenu *settings_menu = new QMenu(this);
   settings_menu->addActions(group_by_actions_->actions());
   settings_menu->addSeparator();
-  settings_menu->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, SLOT(OpenSettingsDialog()));
+  settings_menu->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, &InternetSearchView::OpenSettingsDialog);
   ui_->settings->setMenu(settings_menu);
 
   swap_models_timer_->setSingleShot(true);
   swap_models_timer_->setInterval(kSwapModelsTimeoutMsec);
-  connect(swap_models_timer_, SIGNAL(timeout()), SLOT(SwapModels()));
+  QObject::connect(swap_models_timer_, &QTimer::timeout, this, &InternetSearchView::SwapModels);
 
-  connect(ui_->radiobutton_search_artists, SIGNAL(clicked(bool)), SLOT(SearchArtistsClicked(bool)));
-  connect(ui_->radiobutton_search_albums, SIGNAL(clicked(bool)), SLOT(SearchAlbumsClicked(bool)));
-  connect(ui_->radiobutton_search_songs, SIGNAL(clicked(bool)), SLOT(SearchSongsClicked(bool)));
-  connect(group_by_actions_, SIGNAL(triggered(QAction*)), SLOT(GroupByClicked(QAction*)));
-  connect(group_by_actions_, SIGNAL(triggered(QAction*)), SLOT(GroupByClicked(QAction*)));
+  QObject::connect(ui_->radiobutton_search_artists, &QRadioButton::clicked, this, &InternetSearchView::SearchArtistsClicked);
+  QObject::connect(ui_->radiobutton_search_albums, &QRadioButton::clicked, this, &InternetSearchView::SearchAlbumsClicked);
+  QObject::connect(ui_->radiobutton_search_songs, &QRadioButton::clicked, this, &InternetSearchView::SearchSongsClicked);
+  QObject::connect(group_by_actions_, &QActionGroup::triggered, this, &InternetSearchView::GroupByClicked);
+  QObject::connect(group_by_actions_, &QActionGroup::triggered, this, &InternetSearchView::GroupByClicked);
 
-  connect(ui_->search, SIGNAL(textChanged(QString)), SLOT(TextEdited(QString)));
-  connect(ui_->results, SIGNAL(AddToPlaylistSignal(QMimeData*)), SIGNAL(AddToPlaylist(QMimeData*)));
-  connect(ui_->results, SIGNAL(FocusOnFilterSignal(QKeyEvent*)), SLOT(FocusOnFilter(QKeyEvent*)));
+  QObject::connect(ui_->search, &QSearchField::textChanged, this, &InternetSearchView::TextEdited);
+  QObject::connect(ui_->results, &AutoExpandingTreeView::AddToPlaylistSignal, this, &InternetSearchView::AddToPlaylist);
+  QObject::connect(ui_->results, &AutoExpandingTreeView::FocusOnFilterSignal, this, &InternetSearchView::FocusOnFilter);
 
-  connect(service_, SIGNAL(SearchUpdateStatus(int, QString)), SLOT(UpdateStatus(int, QString)));
-  connect(service_, SIGNAL(SearchProgressSetMaximum(int, int)), SLOT(ProgressSetMaximum(int, int)));
-  connect(service_, SIGNAL(SearchUpdateProgress(int, int)), SLOT(UpdateProgress(int, int)));
-  connect(service_, SIGNAL(SearchResults(int, SongList, QString)), SLOT(SearchDone(int, SongList, QString)));
+  QObject::connect(service_, &InternetService::SearchUpdateStatus, this, &InternetSearchView::UpdateStatus);
+  QObject::connect(service_, &InternetService::SearchProgressSetMaximum, this, &InternetSearchView::ProgressSetMaximum);
+  QObject::connect(service_, &InternetService::SearchUpdateProgress, this, &InternetSearchView::UpdateProgress);
+  QObject::connect(service_, &InternetService::SearchResults, this, &InternetSearchView::SearchDone);
 
-  connect(app_, SIGNAL(SettingsChanged()), SLOT(ReloadSettings()));
-  connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
+  QObject::connect(app_, &Application::SettingsChanged, this, &InternetSearchView::ReloadSettings);
+  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &InternetSearchView::AlbumCoverLoaded);
 
   ReloadSettings();
 
@@ -315,36 +315,36 @@ bool InternetSearchView::SearchKeyEvent(QKeyEvent *e) {
 bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
 
   context_menu_ = new QMenu(this);
-  context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, SLOT(AddSelectedToPlaylist()));
-  context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, SLOT(LoadSelected()));
-  context_actions_ << context_menu_->addAction( IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenSelectedInNewPlaylist()));
+  context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &InternetSearchView::AddSelectedToPlaylist);
+  context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &InternetSearchView::LoadSelected);
+  context_actions_ << context_menu_->addAction( IconLoader::Load("document-new"), tr("Open in new playlist"), this, &InternetSearchView::OpenSelectedInNewPlaylist);
 
   context_menu_->addSeparator();
-  context_actions_ << context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, SLOT(AddSelectedToPlaylistEnqueue()));
+  context_actions_ << context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &InternetSearchView::AddSelectedToPlaylistEnqueue);
 
   context_menu_->addSeparator();
 
   if (service_->artists_collection_model() || service_->albums_collection_model() || service_->songs_collection_model()) {
     if (service_->artists_collection_model()) {
-      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to artists"), this, SLOT(AddArtists()));
+      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to artists"), this, &InternetSearchView::AddArtists);
     }
     if (service_->albums_collection_model()) {
-      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to albums"), this, SLOT(AddAlbums()));
+      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to albums"), this, &InternetSearchView::AddAlbums);
     }
     if (service_->songs_collection_model()) {
-      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to songs"), this, SLOT(AddSongs()));
+      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to songs"), this, &InternetSearchView::AddSongs);
     }
     context_menu_->addSeparator();
   }
 
   if (ui_->results->selectionModel() && ui_->results->selectionModel()->selectedRows().length() == 1) {
-    context_actions_ << context_menu_->addAction(IconLoader::Load("search"), tr("Search for this"), this, SLOT(SearchForThis()));
+    context_actions_ << context_menu_->addAction(IconLoader::Load("search"), tr("Search for this"), this, &InternetSearchView::SearchForThis);
   }
 
   context_menu_->addSeparator();
   context_menu_->addMenu(tr("Group by"))->addActions(group_by_actions_->actions());
 
-  context_menu_->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, SLOT(OpenSettingsDialog()));
+  context_menu_->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, &InternetSearchView::OpenSettingsDialog);
 
   const bool enable_context_actions = ui_->results->selectionModel() && ui_->results->selectionModel()->hasSelection();
 
@@ -589,10 +589,10 @@ MimeData *InternetSearchView::SelectedMimeData() {
   if (indexes.isEmpty()) {
     // There's nothing selected - take the first thing in the model that isn't a divider.
     for (int i = 0 ; i < front_proxy_->rowCount() ; ++i) {
-      QModelIndex index = front_proxy_->index(i, 0);
-      if (!index.data(CollectionModel::Role_IsDivider).toBool()) {
-        indexes << index;
-        ui_->results->setCurrentIndex(index);
+      QModelIndex idx = front_proxy_->index(i, 0);
+      if (!idx.data(CollectionModel::Role_IsDivider).toBool()) {
+        indexes << idx;
+        ui_->results->setCurrentIndex(idx);
         break;
       }
     }
@@ -605,8 +605,8 @@ MimeData *InternetSearchView::SelectedMimeData() {
 
   // Get items for these indexes
   QList<QStandardItem*> items;
-  for (const QModelIndex &index : indexes) {
-    items << (front_model_->itemFromIndex(front_proxy_->mapToSource(index)));
+  for (const QModelIndex &idx : indexes) {
+    items << (front_model_->itemFromIndex(front_proxy_->mapToSource(idx)));
   }
 
   // Get a MimeData for these items
@@ -675,7 +675,7 @@ void InternetSearchView::GroupByClicked(QAction *action) {
   if (action->property("group_by").isNull()) {
     if (!group_by_dialog_) {
       group_by_dialog_.reset(new GroupByDialog);
-      connect(group_by_dialog_.get(), SIGNAL(Accepted(CollectionModel::Grouping)), SLOT(SetGroupBy(CollectionModel::Grouping)));
+      QObject::connect(group_by_dialog_.get(), &GroupByDialog::Accepted, this, &InternetSearchView::SetGroupBy);
     }
 
     group_by_dialog_->show();

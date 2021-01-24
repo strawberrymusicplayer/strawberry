@@ -77,4 +77,3 @@ class AlbumCoverExport : public QDialog {
 };
 
 #endif  // ALBUMCOVEREXPORT_H
-

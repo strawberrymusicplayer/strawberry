@@ -99,19 +99,19 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog* dialog) : SettingsPage(
   ui_->context_exp_chooser1->setPopupMode(QToolButton::InstantPopup);
   ui_->context_exp_chooser2->setPopupMode(QToolButton::InstantPopup);
   // We need this because by default menus don't show tooltips
-  connect(menu, SIGNAL(hovered(QAction*)), SLOT(ShowMenuTooltip(QAction*)));
+  QObject::connect(menu, &QMenu::hovered, this, &ContextSettingsPage::ShowMenuTooltip);
 
-  connect(ui_->context_exp_chooser1, SIGNAL(triggered(QAction*)), SLOT(InsertVariableFirstLine(QAction*)));
-  connect(ui_->context_exp_chooser2, SIGNAL(triggered(QAction*)), SLOT(InsertVariableSecondLine(QAction*)));
+  QObject::connect(ui_->context_exp_chooser1, &QToolButton::triggered, this, &ContextSettingsPage::InsertVariableFirstLine);
+  QObject::connect(ui_->context_exp_chooser2, &QToolButton::triggered, this, &ContextSettingsPage::InsertVariableSecondLine);
 
   // Icons
   ui_->context_exp_chooser1->setIcon(IconLoader::Load("list-add"));
   ui_->context_exp_chooser2->setIcon(IconLoader::Load("list-add"));
 
-  connect(ui_->font_headline, SIGNAL(currentFontChanged(QFont)), SLOT(HeadlineFontChanged()));
-  connect(ui_->font_size_headline, SIGNAL(valueChanged(double)), SLOT(HeadlineFontChanged()));
-  connect(ui_->font_normal, SIGNAL(currentFontChanged(QFont)), SLOT(NormalFontChanged()));
-  connect(ui_->font_size_normal, SIGNAL(valueChanged(double)), SLOT(NormalFontChanged()));
+  QObject::connect(ui_->font_headline, &QFontComboBox::currentFontChanged, this, &ContextSettingsPage::HeadlineFontChanged);
+  QObject::connect(ui_->font_size_headline, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &ContextSettingsPage::HeadlineFontChanged);
+  QObject::connect(ui_->font_normal, &QFontComboBox::currentFontChanged, this, &ContextSettingsPage::NormalFontChanged);
+  QObject::connect(ui_->font_size_normal, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &ContextSettingsPage::NormalFontChanged);
 
   QFile file(":/text/ghosts.txt");
   if (file.open(QIODevice::ReadOnly)) {

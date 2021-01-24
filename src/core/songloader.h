@@ -88,7 +88,7 @@ class SongLoader : public QObject {
 
  signals:
   void AudioCDTracksLoadFinished();
-  void LoadAudioCDFinished(const bool success);
+  void LoadAudioCDFinished(bool success);
   void LoadRemoteFinished();
 
  private slots:
@@ -159,4 +159,3 @@ class SongLoader : public QObject {
 };
 
 #endif  // SONGLOADER_H
-

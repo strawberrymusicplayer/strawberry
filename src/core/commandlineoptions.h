@@ -128,4 +128,3 @@ QDataStream &operator<<(QDataStream &s, const CommandlineOptions &a);
 QDataStream &operator>>(QDataStream &s, CommandlineOptions &a);
 
 #endif  // COMMANDLINEOPTIONS_H
-

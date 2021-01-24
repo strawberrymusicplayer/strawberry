@@ -63,7 +63,7 @@ class PlaylistListModel : public QStandardItemModel {
   QString ItemPath(const QStandardItem *item) const;
 
   // Finds the playlist with the given ID, returns 0 if it doesn't exist.
-  QStandardItem *PlaylistById(int id) const;
+  QStandardItem *PlaylistById(const int id) const;
 
   // Finds the folder with the given path, creating it (and its parents) if they
   // do not exist.  Returns invisibleRootItem() if path is empty.
@@ -75,19 +75,19 @@ class PlaylistListModel : public QStandardItemModel {
 
   // Returns a new playlist item with the given name and ID.  The item isn't
   // added to the model yet.
-  QStandardItem *NewPlaylist(const QString &name, int id) const;
+  QStandardItem *NewPlaylist(const QString &name, const int id) const;
 
   // QStandardItemModel
-  bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+  bool setData(const QModelIndex &idx, const QVariant &value, int role) override;
 
-signals:
-  void PlaylistPathChanged(int id, const QString &new_path);
-  void PlaylistRenamed(int id, const QString &new_name);
+ signals:
+  void PlaylistPathChanged(int id, QString new_path);
+  void PlaylistRenamed(int id, QString new_name);
 
  private slots:
   void RowsChanged(const QModelIndex &begin, const QModelIndex &end);
-  void RowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
-  void RowsInserted(const QModelIndex &parent, int start, int end);
+  void RowsAboutToBeRemoved(const QModelIndex &parent, const int start, const int end);
+  void RowsInserted(const QModelIndex &parent, const int start, const int end);
 
  private:
   void AddRowMappings(const QModelIndex &begin, const QModelIndex &end);

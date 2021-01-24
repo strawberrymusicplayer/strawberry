@@ -46,7 +46,6 @@ class GlobalShortcutBackendSystem : public GlobalShortcutBackend {
   void DoUnregister() override;
 
  private:
-
   bool AddShortcut(QAction *action);
   bool RemoveShortcut(QAction *action);
 

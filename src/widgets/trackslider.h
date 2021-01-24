@@ -59,10 +59,10 @@ class TrackSlider : public QWidget {
   static const char *kSettingsGroup;
 
  public slots:
-  void SetValue(int elapsed, int total);
+  void SetValue(const int elapsed, const int total);
   void SetStopped();
-  void SetCanSeek(bool can_seek);
-  void Seek(int gap);
+  void SetCanSeek(const bool can_seek);
+  void Seek(const int gap);
 
  signals:
   void ValueChanged(int value);
@@ -74,19 +74,19 @@ class TrackSlider : public QWidget {
   void Previous();
 
  private slots:
-  void ValueMaybeChanged(int value);
+  void ValueMaybeChanged(const int value);
   void ToggleTimeDisplay();
 
  private:
-  void UpdateTimes(int elapsed);
+  void UpdateTimes(const int elapsed);
   void UpdateLabelWidth();
-  void UpdateLabelWidth(QLabel* label, const QString& text);
+  void UpdateLabelWidth(QLabel *label, const QString &text);
 
  private:
-  Ui_TrackSlider* ui_;
+  Ui_TrackSlider *ui_;
 
 #ifdef HAVE_MOODBAR
-  MoodbarProxyStyle* moodbar_style_;
+  MoodbarProxyStyle *moodbar_style_;
 #endif
 
   bool setting_value_;

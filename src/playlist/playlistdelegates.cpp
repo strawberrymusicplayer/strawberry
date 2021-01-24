@@ -90,13 +90,13 @@ const int PlaylistDelegateBase::kMinHeight = 19;
 QueuedItemDelegate::QueuedItemDelegate(QObject *parent, int indicator_column)
     : QStyledItemDelegate(parent), indicator_column_(indicator_column) {}
 
-void QueuedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void QueuedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
-  QStyledItemDelegate::paint(painter, option, index);
+  QStyledItemDelegate::paint(painter, option, idx);
 
-  if (index.column() == indicator_column_) {
+  if (idx.column() == indicator_column_) {
     bool ok = false;
-    const int queue_pos = index.data(Playlist::Role_QueuePosition).toInt(&ok);
+    const int queue_pos = idx.data(Playlist::Role_QueuePosition).toInt(&ok);
     if (ok && queue_pos != -1) {
       float opacity = kQueueOpacitySteps - qMin(kQueueOpacitySteps, queue_pos);
       opacity /= kQueueOpacitySteps;
@@ -155,10 +155,10 @@ void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect &line_rect, cons
 
 }
 
-int QueuedItemDelegate::queue_indicator_size(const QModelIndex &index) const {
+int QueuedItemDelegate::queue_indicator_size(const QModelIndex &idx) const {
 
-  if (index.column() == indicator_column_) {
-    const int queue_pos = index.data(Playlist::Role_QueuePosition).toInt();
+  if (idx.column() == indicator_column_) {
+    const int queue_pos = idx.data(Playlist::Role_QueuePosition).toInt();
     if (queue_pos != -1) {
       return kQueueBoxLength + kQueueBoxBorder * 2;
     }
@@ -205,23 +205,23 @@ QString PlaylistDelegateBase::displayText(const QVariant &value, const QLocale&)
 
 }
 
-QSize PlaylistDelegateBase::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QSize PlaylistDelegateBase::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
-  QSize size = QueuedItemDelegate::sizeHint(option, index);
+  QSize size = QueuedItemDelegate::sizeHint(option, idx);
   if (size.height() < kMinHeight) size.setHeight(kMinHeight);
   return size;
 
 }
 
-void PlaylistDelegateBase::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void PlaylistDelegateBase::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
-  QueuedItemDelegate::paint(painter, Adjusted(option, index), index);
+  QueuedItemDelegate::paint(painter, Adjusted(option, idx), idx);
 
   // Stop after indicator
-  if (index.column() == Playlist::Column_Title) {
-    if (index.data(Playlist::Role_StopAfter).toBool()) {
+  if (idx.column() == Playlist::Column_Title) {
+    if (idx.data(Playlist::Role_StopAfter).toBool()) {
       QRect rect(option.rect);
-      rect.setRight(rect.right() - queue_indicator_size(index));
+      rect.setRight(rect.right() - queue_indicator_size(idx));
 
       DrawBox(painter, rect, option.font, tr("stop"));
     }
@@ -229,18 +229,18 @@ void PlaylistDelegateBase::paint(QPainter *painter, const QStyleOptionViewItem &
 
 }
 
-QStyleOptionViewItem PlaylistDelegateBase::Adjusted(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QStyleOptionViewItem PlaylistDelegateBase::Adjusted(const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
   if (!view_) return option;
 
   QPoint top_left(-view_->horizontalScrollBar()->value(), -view_->verticalScrollBar()->value());
 
-  if (view_->header()->logicalIndexAt(top_left) != index.column())
+  if (view_->header()->logicalIndexAt(top_left) != idx.column())
     return option;
 
   QStyleOptionViewItem ret(option);
 
-  if (index.data(Playlist::Role_IsCurrent).toBool()) {
+  if (idx.data(Playlist::Role_IsCurrent).toBool()) {
     // Move the text in a bit on the first column for the song that's currently playing
     ret.rect.setLeft(ret.rect.left() + 20);
   }
@@ -249,7 +249,7 @@ QStyleOptionViewItem PlaylistDelegateBase::Adjusted(const QStyleOptionViewItem &
 
 }
 
-bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) {
+bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &idx) {
 
   // This function is copied from QAbstractItemDelegate, and changed to show displayText() in the tooltip, rather than the index's naked Qt::ToolTipRole text.
 
@@ -258,11 +258,11 @@ bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view,
   if (!event || !view) return false;
 
   QHelpEvent *he = static_cast<QHelpEvent*>(event);
-  QString text = displayText(index.data(), QLocale::system());
+  QString text = displayText(idx.data(), QLocale::system());
 
   // Special case: we want newlines in the comment tooltip
-  if (index.column() == Playlist::Column_Comment) {
-    text = index.data(Qt::ToolTipRole).toString().toHtmlEscaped();
+  if (idx.column() == Playlist::Column_Comment) {
+    text = idx.data(Qt::ToolTipRole).toString().toHtmlEscaped();
     text.replace("\\r\\n", "<br />");
     text.replace("\\n", "<br />");
     text.replace("\r\n", "<br />");
@@ -273,8 +273,8 @@ bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view,
 
   switch (event->type()) {
     case QEvent::ToolTip: {
-      QSize real_text = sizeHint(option, index);
-      QRect displayed_text = view->visualRect(index);
+      QSize real_text = sizeHint(option, idx);
+      QRect displayed_text = view->visualRect(idx);
       bool is_elided = displayed_text.width() < real_text.width();
       if (is_elided) {
         QToolTip::showText(he->globalPos(), text, view);

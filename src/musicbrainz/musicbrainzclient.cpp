@@ -66,7 +66,7 @@ MusicBrainzClient::MusicBrainzClient(QObject *parent, QNetworkAccessManager *net
 
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(true);
-  connect(timer_flush_requests_, SIGNAL(timeout()), this, SLOT(FlushRequests()));
+  QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &MusicBrainzClient::FlushRequests);
 
 }
 
@@ -121,7 +121,7 @@ void MusicBrainzClient::Cancel(int id) {
 
   while (!requests_.isEmpty() && requests_.contains(id)) {
     QNetworkReply *reply = requests_.take(id);
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
@@ -167,7 +167,7 @@ void MusicBrainzClient::StartDiscIdRequest(const QString &discid) {
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
   QNetworkReply *reply = network_->get(req);
-  connect(reply, &QNetworkReply::finished, [=] { DiscIdRequestFinished(discid, reply); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, discid, reply]() { DiscIdRequestFinished(discid, reply); });
 
   timeouts_->AddReply(reply);
 
@@ -193,7 +193,7 @@ void MusicBrainzClient::FlushRequests() {
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
   QNetworkReply *reply = network_->get(req);
-  connect(reply, &QNetworkReply::finished, [=] { RequestFinished(reply, request.id, request.number); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { RequestFinished(reply, request.id, request.number); });
   requests_.insert(request.id, reply);
 
   timeouts_->AddReply(reply);
@@ -202,7 +202,7 @@ void MusicBrainzClient::FlushRequests() {
 
 void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, const int request_number) {
 
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   const int nb_removed = requests_.remove(id, reply);
@@ -248,7 +248,7 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, cons
 
 void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkReply *reply) {
 
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   ResultList ret;
@@ -259,7 +259,7 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
   QString error;
   QByteArray data = GetReplyData(reply, error);
   if (data.isEmpty()) {
-    emit Finished(artist, album, ret, error);
+    emit DiscIdFinished(artist, album, ret, error);
     return;
   }
 
@@ -323,7 +323,7 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
     }
   }
 
-  emit Finished(artist, album, UniqueResults(ret, SortResults));
+  emit DiscIdFinished(artist, album, UniqueResults(ret, SortResults));
 
 }
 

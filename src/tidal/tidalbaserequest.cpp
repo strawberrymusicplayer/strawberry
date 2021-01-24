@@ -71,7 +71,7 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
   if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
 
   QNetworkReply *reply = network_->get(req);
-  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleSSLErrors(QList<QSslError>)));
+  QObject::connect(reply, &QNetworkReply::sslErrors, this, &TidalBaseRequest::HandleSSLErrors);
 
   //qLog(Debug) << "Tidal: Sending request" << url;
 

@@ -54,4 +54,4 @@ class TidalUrlHandler : public UrlHandler {
 
 };
 
-#endif
+#endif  // TIDALURLHANDLER_H

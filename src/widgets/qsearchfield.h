@@ -29,7 +29,7 @@ class QSearchField : public QWidget {
   void setFocus();
 
  signals:
-  void textChanged(const QString &text);
+  void textChanged(QString text);
   void editingFinished();
   void returnPressed();
 

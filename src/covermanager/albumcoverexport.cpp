@@ -38,7 +38,7 @@ AlbumCoverExport::AlbumCoverExport(QWidget *parent) : QDialog(parent), ui_(new U
 
   ui_->setupUi(this);
 
-  connect(ui_->forceSize, SIGNAL(stateChanged(int)), SLOT(ForceSizeToggled(int)));
+  QObject::connect(ui_->forceSize, &QCheckBox::stateChanged, this, &AlbumCoverExport::ForceSizeToggled);
 
 }
 

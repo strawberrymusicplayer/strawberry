@@ -68,4 +68,3 @@ class ScopedGObject {
 };
 
 #endif  // SCOPEDGOBJECT_H
-

@@ -85,4 +85,4 @@ private:
 
 };
 
-#endif // BEHAVIOURSETTINGSPAGE_H
+#endif  // BEHAVIOURSETTINGSPAGE_H

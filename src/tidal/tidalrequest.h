@@ -62,18 +62,16 @@ class TidalRequest : public TidalBaseRequest {
 
  signals:
   void Login();
-  void Login(const QString &username, const QString &password, const QString &token);
+  void Login(QString username, QString password, QString token);
   void LoginSuccess();
   void LoginFailure(QString failure_reason);
-  void Results(const int id, const SongList &songs, const QString &error);
-  void UpdateStatus(const int id, const QString &text);
-  void ProgressSetMaximum(const int id, const int max);
-  void UpdateProgress(const int id, const int max);
-  void StreamURLFinished(const QUrl original_url, const QUrl url, const Song::FileType, QString error = QString());
+  void Results(int id, SongList songs, QString error);
+  void UpdateStatus(int id, QString text);
+  void ProgressSetMaximum(int id, int max);
+  void UpdateProgress(int id, int max);
+  void StreamURLFinished(QUrl original_url, QUrl url, Song::FileType, QString error = QString());
 
  private slots:
-  void LoginComplete(const bool success, QString error = QString());
-
   void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
 
   void AlbumsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
@@ -85,6 +83,9 @@ class TidalRequest : public TidalBaseRequest {
   void ArtistAlbumsReplyReceived(QNetworkReply *reply, const QString &artist_id, const int offset_requested);
   void AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const int offset_requested, const QString &album_artist);
   void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
+
+ public slots:
+  void LoginComplete(const bool success, QString error = QString());
 
  private:
   struct Request {

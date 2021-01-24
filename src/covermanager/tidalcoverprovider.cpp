@@ -63,7 +63,7 @@ TidalCoverProvider::~TidalCoverProvider() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -117,7 +117,7 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
 
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id]() { HandleSearchReply(reply, id); });
 
   return true;
 
@@ -178,7 +178,7 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);

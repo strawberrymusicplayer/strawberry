@@ -42,7 +42,7 @@ class SmartPlaylistSearchPreview : public QWidget {
 
  public:
   explicit SmartPlaylistSearchPreview(QWidget *parent = nullptr);
-  ~SmartPlaylistSearchPreview();
+  ~SmartPlaylistSearchPreview() override;
 
   void set_application(Application *app);
   void set_collection(CollectionBackend *backend);
@@ -50,7 +50,7 @@ class SmartPlaylistSearchPreview : public QWidget {
   void Update(const SmartPlaylistSearch &search);
 
  protected:
-  void showEvent(QShowEvent*);
+  void showEvent(QShowEvent*) override;
 
  private:
   void RunSearch(const SmartPlaylistSearch &search);

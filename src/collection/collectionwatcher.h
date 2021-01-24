@@ -65,13 +65,13 @@ class CollectionWatcher : public QObject {
   void ExitAsync();
 
  signals:
-  void NewOrUpdatedSongs(const SongList &songs);
-  void SongsMTimeUpdated(const SongList &songs);
-  void SongsDeleted(const SongList &songs);
-  void SongsUnavailable(const SongList &songs);
-  void SongsReadded(const SongList &songs, bool unavailable = false);
-  void SubdirsDiscovered(const SubdirectoryList &subdirs);
-  void SubdirsMTimeUpdated(const SubdirectoryList &subdirs);
+  void NewOrUpdatedSongs(SongList);
+  void SongsMTimeUpdated(SongList);
+  void SongsDeleted(SongList);
+  void SongsUnavailable(SongList songs, bool unavailable = true);
+  void SongsReadded(SongList songs, bool unavailable = false);
+  void SubdirsDiscovered(SubdirectoryList subdirs);
+  void SubdirsMTimeUpdated(SubdirectoryList subdirs);
   void CompilationsNeedUpdating();
   void ExitFinished();
 

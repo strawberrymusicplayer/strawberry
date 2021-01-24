@@ -116,12 +116,12 @@ class PlaylistManagerInterface : public QObject {
   void PlaylistManagerInitialized();
   void AllPlaylistsLoaded();
 
-  void PlaylistAdded(const int id, QString name, const bool favorite);
-  void PlaylistDeleted(const int id);
-  void PlaylistClosed(const int id);
-  void PlaylistRenamed(const int id, QString new_name);
-  void PlaylistFavorited(const int id, const bool favorite);
-  void CurrentChanged(Playlist *new_playlist, const int scroll_position = 0);
+  void PlaylistAdded(int id, QString name, bool favorite);
+  void PlaylistDeleted(int id);
+  void PlaylistClosed(int id);
+  void PlaylistRenamed(int id, QString new_name);
+  void PlaylistFavorited(int id, bool favorite);
+  void CurrentChanged(Playlist *new_playlist, int scroll_position = 0);
   void ActiveChanged(Playlist *new_playlist);
 
   void Error(QString message);
@@ -161,7 +161,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   bool IsPlaylistOpen(const int id);
 
   // Returns a pretty automatic name for playlist created from the given list of songs.
-  static QString GetNameForNewPlaylist(const SongList& songs);
+  static QString GetNameForNewPlaylist(const SongList &songs);
 
   QItemSelection selection(const int id) const override;
   QItemSelection current_selection() const override { return selection(current_id()); }
@@ -189,7 +189,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   void Delete(const int id) override;
   bool Close(const int id) override;
   void Open(const int id) override;
-  void ChangePlaylistOrder(const QList<int>& ids) override;
+  void ChangePlaylistOrder(const QList<int> &ids) override;
 
   void SetCurrentPlaylist(const int id) override;
   void SetActivePlaylist(const int id) override;
@@ -208,8 +208,8 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   void SongChangeRequestProcessed(const QUrl& url, const bool valid) override;
 
-  void InsertUrls(const int id, const QList<QUrl>& urls, const int pos = -1, const bool play_now = false, const bool enqueue = false);
-  void InsertSongs(const int id, const SongList& songs, const int pos = -1, const bool play_now = false, const bool enqueue = false);
+  void InsertUrls(const int id, const QList<QUrl> &urls, const int pos = -1, const bool play_now = false, const bool enqueue = false);
+  void InsertSongs(const int id, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false);
   // Removes items with given indices from the playlist. This operation is not undoable.
   void RemoveItemsWithoutUndo(const int id, const QList<int>& indices);
   // Remove the current playing song

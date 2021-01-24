@@ -58,8 +58,7 @@ FileView::FileView(QWidget *parent)
       model_(nullptr),
       undo_stack_(new QUndoStack(this)),
       task_manager_(nullptr),
-      storage_(new FilesystemMusicStorage("/"))
-{
+      storage_(new FilesystemMusicStorage("/")) {
 
   ui_->setupUi(this);
 
@@ -69,23 +68,23 @@ FileView::FileView(QWidget *parent)
   ui_->home->setIcon(IconLoader::Load("go-home"));
   ui_->up->setIcon(IconLoader::Load("go-up"));
 
-  connect(ui_->back, SIGNAL(clicked()), undo_stack_, SLOT(undo()));
-  connect(ui_->forward, SIGNAL(clicked()), undo_stack_, SLOT(redo()));
-  connect(ui_->home, SIGNAL(clicked()), SLOT(FileHome()));
-  connect(ui_->up, SIGNAL(clicked()), SLOT(FileUp()));
-  connect(ui_->path, SIGNAL(textChanged(QString)), SLOT(ChangeFilePath(QString)));
+  QObject::connect(ui_->back, &QToolButton::clicked, undo_stack_, &QUndoStack::undo);
+  QObject::connect(ui_->forward, &QToolButton::clicked, undo_stack_, &QUndoStack::redo);
+  QObject::connect(ui_->home, &QToolButton::clicked, this, &FileView::FileHome);
+  QObject::connect(ui_->up, &QToolButton::clicked, this, &FileView::FileUp);
+  QObject::connect(ui_->path, &QLineEdit::textChanged, this, &FileView::ChangeFilePath);
 
-  connect(undo_stack_, SIGNAL(canUndoChanged(bool)), ui_->back, SLOT(setEnabled(bool)));
-  connect(undo_stack_, SIGNAL(canRedoChanged(bool)), ui_->forward, SLOT(setEnabled(bool)));
+  QObject::connect(undo_stack_, &QUndoStack::canUndoChanged, ui_->back, &FileView::setEnabled);
+  QObject::connect(undo_stack_, &QUndoStack::canRedoChanged, ui_->forward, &FileView::setEnabled);
 
-  connect(ui_->list, SIGNAL(activated(QModelIndex)), SLOT(ItemActivated(QModelIndex)));
-  connect(ui_->list, SIGNAL(doubleClicked(QModelIndex)), SLOT(ItemDoubleClick(QModelIndex)));
-  connect(ui_->list, SIGNAL(AddToPlaylist(QMimeData*)), SIGNAL(AddToPlaylist(QMimeData*)));
-  connect(ui_->list, SIGNAL(CopyToCollection(QList<QUrl>)), SIGNAL(CopyToCollection(QList<QUrl>)));
-  connect(ui_->list, SIGNAL(MoveToCollection(QList<QUrl>)), SIGNAL(MoveToCollection(QList<QUrl>)));
-  connect(ui_->list, SIGNAL(CopyToDevice(QList<QUrl>)), SIGNAL(CopyToDevice(QList<QUrl>)));
-  connect(ui_->list, SIGNAL(Delete(QStringList)), SLOT(Delete(QStringList)));
-  connect(ui_->list, SIGNAL(EditTags(QList<QUrl>)), SIGNAL(EditTags(QList<QUrl>)));
+  QObject::connect(ui_->list, &FileViewList::activated, this, &FileView::ItemActivated);
+  QObject::connect(ui_->list, &FileViewList::doubleClicked, this, &FileView::ItemDoubleClick);
+  QObject::connect(ui_->list, &FileViewList::AddToPlaylist, this, &FileView::AddToPlaylist);
+  QObject::connect(ui_->list, &FileViewList::CopyToCollection, this, &FileView::CopyToCollection);
+  QObject::connect(ui_->list, &FileViewList::MoveToCollection, this, &FileView::MoveToCollection);
+  QObject::connect(ui_->list, &FileViewList::CopyToDevice, this, &FileView::CopyToDevice);
+  QObject::connect(ui_->list, &FileViewList::Delete, this, &FileView::Delete);
+  QObject::connect(ui_->list, &FileViewList::EditTags, this, &FileView::EditTags);
 
   QString filter(FileView::kFileFilter);
   filter_list_ << filter.split(" ");
@@ -238,7 +237,7 @@ void FileView::Delete(const QStringList &filenames) {
 #endif
 
   DeleteFiles *delete_files = new DeleteFiles(task_manager_, storage_, use_trash);
-  connect(delete_files, SIGNAL(Finished(SongList)), SLOT(DeleteFinished(SongList)));
+  QObject::connect(delete_files, &DeleteFiles::Finished, this, &FileView::DeleteFinished);
   delete_files->Start(filenames);
 
 }

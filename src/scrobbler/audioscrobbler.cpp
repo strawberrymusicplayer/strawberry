@@ -64,7 +64,7 @@ AudioScrobbler::AudioScrobbler(Application *app, QObject *parent) :
   ReloadSettings();
 
   for (ScrobblerService *service : scrobbler_services_->List()) {
-    connect(service, SIGNAL(ErrorMessage(QString)), SLOT(ErrorReceived(QString)));
+    QObject::connect(service, &ScrobblerService::ErrorMessage, this, &AudioScrobbler::ErrorReceived);
   }
 
 }

@@ -119,7 +119,8 @@ class QobuzService : public InternetService {
  public slots:
   void ShowConfig() override;
   void TryLogin();
-  void SendLogin(const QString &app_id, const QString &username, const QString &password);
+  void SendLogin();
+  void SendLoginWithCredentials(const QString &app_id, const QString &username, const QString &password);
   void GetArtists() override;
   void GetAlbums() override;
   void GetSongs() override;
@@ -129,7 +130,6 @@ class QobuzService : public InternetService {
 
  private slots:
   void ExitReceived();
-  void SendLogin();
   void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
   void HandleAuthReply(QNetworkReply *reply);
   void ResetLoginAttempts();

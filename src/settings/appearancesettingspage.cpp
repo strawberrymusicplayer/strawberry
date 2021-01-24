@@ -104,31 +104,31 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
   ui_->combobox_backgroundimageposition->setItemData(3, BackgroundImagePosition_BottomLeft);
   ui_->combobox_backgroundimageposition->setItemData(4, BackgroundImagePosition_BottomRight);
 
-  connect(ui_->blur_slider, SIGNAL(valueChanged(int)), SLOT(BlurLevelChanged(int)));
-  connect(ui_->opacity_slider, SIGNAL(valueChanged(int)), SLOT(OpacityLevelChanged(int)));
+  QObject::connect(ui_->blur_slider, &QSlider::valueChanged, this, &AppearanceSettingsPage::BlurLevelChanged);
+  QObject::connect(ui_->opacity_slider, &QSlider::valueChanged, this, &AppearanceSettingsPage::OpacityLevelChanged);
 
-  connect(ui_->use_a_custom_color_set, SIGNAL(toggled(bool)), SLOT(UseCustomColorSetOptionChanged(bool)));
-  connect(ui_->select_foreground_color, SIGNAL(pressed()), SLOT(SelectForegroundColor()));
-  connect(ui_->select_background_color, SIGNAL(pressed()), SLOT(SelectBackgroundColor()));
+  QObject::connect(ui_->use_a_custom_color_set, &QRadioButton::toggled, this, &AppearanceSettingsPage::UseCustomColorSetOptionChanged);
+  QObject::connect(ui_->select_foreground_color, &QPushButton::pressed, this, &AppearanceSettingsPage::SelectForegroundColor);
+  QObject::connect(ui_->select_background_color, &QPushButton::pressed, this, &AppearanceSettingsPage::SelectBackgroundColor);
 
-  connect(ui_->use_default_background, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setDisabled(bool)));
-  connect(ui_->use_no_background, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setDisabled(bool)));
-  connect(ui_->use_album_cover_background, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setEnabled(bool)));
-  connect(ui_->use_strawbs_background, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setDisabled(bool)));
-  connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setEnabled(bool)));
+  QObject::connect(ui_->use_default_background, &QRadioButton::toggled, ui_->widget_custom_background_image_options, &AppearanceSettingsPage::setDisabled);
+  QObject::connect(ui_->use_no_background, &QRadioButton::toggled, ui_->widget_custom_background_image_options, &AppearanceSettingsPage::setDisabled);
+  QObject::connect(ui_->use_album_cover_background, &QRadioButton::toggled, ui_->widget_custom_background_image_options, &AppearanceSettingsPage::setEnabled);
+  QObject::connect(ui_->use_strawbs_background, &QRadioButton::toggled, ui_->widget_custom_background_image_options, &AppearanceSettingsPage::setDisabled);
+  QObject::connect(ui_->use_custom_background_image, &QRadioButton::toggled, ui_->widget_custom_background_image_options, &AppearanceSettingsPage::setEnabled);
 
-  connect(ui_->select_background_image_filename_button, SIGNAL(pressed()), SLOT(SelectBackgroundImage()));
-  connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->background_image_filename, SLOT(setEnabled(bool)));
-  connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->select_background_image_filename_button, SLOT(setEnabled(bool)));
+  QObject::connect(ui_->select_background_image_filename_button, &QPushButton::pressed, this, &AppearanceSettingsPage::SelectBackgroundImage);
+  QObject::connect(ui_->use_custom_background_image, &QRadioButton::toggled, ui_->background_image_filename, &AppearanceSettingsPage::setEnabled);
+  QObject::connect(ui_->use_custom_background_image, &QRadioButton::toggled, ui_->select_background_image_filename_button, &AppearanceSettingsPage::setEnabled);
 
-  connect(ui_->checkbox_background_image_stretch, SIGNAL(toggled(bool)), ui_->checkbox_background_image_do_not_cut, SLOT(setEnabled(bool)));
-  connect(ui_->checkbox_background_image_stretch, SIGNAL(toggled(bool)), ui_->checkbox_background_image_keep_aspect_ratio, SLOT(setEnabled(bool)));
-  connect(ui_->checkbox_background_image_stretch, SIGNAL(toggled(bool)), ui_->spinbox_background_image_maxsize, SLOT(setDisabled(bool)));
+  QObject::connect(ui_->checkbox_background_image_stretch, &QCheckBox::toggled, ui_->checkbox_background_image_do_not_cut, &AppearanceSettingsPage::setEnabled);
+  QObject::connect(ui_->checkbox_background_image_stretch, &QCheckBox::toggled, ui_->checkbox_background_image_keep_aspect_ratio, &AppearanceSettingsPage::setEnabled);
+  QObject::connect(ui_->checkbox_background_image_stretch, &QCheckBox::toggled, ui_->spinbox_background_image_maxsize, &AppearanceSettingsPage::setDisabled);
 
-  connect(ui_->checkbox_background_image_keep_aspect_ratio, SIGNAL(toggled(bool)), ui_->checkbox_background_image_do_not_cut, SLOT(setEnabled(bool)));
+  QObject::connect(ui_->checkbox_background_image_keep_aspect_ratio, &QCheckBox::toggled, ui_->checkbox_background_image_do_not_cut, &AppearanceSettingsPage::setEnabled);
 
-  connect(ui_->select_tabbar_color, SIGNAL(pressed()), SLOT(TabBarSelectBGColor()));
-  connect(ui_->tabbar_system_color, SIGNAL(toggled(bool)), SLOT(TabBarSystemColor(bool)));
+  QObject::connect(ui_->select_tabbar_color, &QPushButton::pressed, this, &AppearanceSettingsPage::TabBarSelectBGColor);
+  QObject::connect(ui_->tabbar_system_color, &QRadioButton::toggled, this, &AppearanceSettingsPage::TabBarSystemColor);
 
 #if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
   ui_->checkbox_system_icons->hide();

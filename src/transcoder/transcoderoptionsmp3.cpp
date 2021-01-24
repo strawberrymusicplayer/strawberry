@@ -40,8 +40,8 @@ TranscoderOptionsMP3::TranscoderOptionsMP3(QWidget *parent)
     : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsMP3) {
   ui_->setupUi(this);
 
-  connect(ui_->quality_slider, SIGNAL(valueChanged(int)), SLOT(QualitySliderChanged(int)));
-  connect(ui_->quality_spinbox, SIGNAL(valueChanged(double)), SLOT(QualitySpinboxChanged(double)));
+  QObject::connect(ui_->quality_slider, &QSlider::valueChanged, this, &TranscoderOptionsMP3::QualitySliderChanged);
+  QObject::connect(ui_->quality_spinbox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &TranscoderOptionsMP3::QualitySpinboxChanged);
 
 }
 

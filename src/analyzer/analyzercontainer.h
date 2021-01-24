@@ -60,7 +60,7 @@ class AnalyzerContainer : public QWidget {
   void wheelEvent(QWheelEvent *e) override;
 
  private slots:
-  void ChangeAnalyzer(int id);
+  void ChangeAnalyzer(const int id);
   void ChangeFramerate(int new_framerate);
   void DisableAnalyzer();
   void ShowPopupMenu();
@@ -73,10 +73,10 @@ class AnalyzerContainer : public QWidget {
 
   void Load();
   void Save();
-  void SaveFramerate(int framerate);
+  void SaveFramerate(const int framerate);
   template <typename T>
   void AddAnalyzerType();
-  void AddFramerate(const QString& name, int framerate);
+  void AddFramerate(const QString& name, const int framerate);
 
  private:
   int current_framerate_;  // fps
@@ -109,7 +109,7 @@ void AnalyzerContainer::AddAnalyzerType() {
   group_->addAction(action);
   action->setCheckable(true);
   actions_ << action;
-  connect(action, &QAction::triggered, [this, id]() { ChangeAnalyzer(id); } );
+  QObject::connect(action, &QAction::triggered, [this, id]() { ChangeAnalyzer(id); } );
 
 }
 

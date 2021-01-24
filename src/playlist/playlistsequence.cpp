@@ -81,8 +81,8 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
   shuffle_menu_->addActions(shuffle_group->actions());
   ui_->shuffle->setMenu(shuffle_menu_);
 
-  connect(repeat_group, SIGNAL(triggered(QAction*)), SLOT(RepeatActionTriggered(QAction*)));
-  connect(shuffle_group, SIGNAL(triggered(QAction*)), SLOT(ShuffleActionTriggered(QAction*)));
+  QObject::connect(repeat_group, &QActionGroup::triggered, this, &PlaylistSequence::RepeatActionTriggered);
+  QObject::connect(shuffle_group, &QActionGroup::triggered, this, &PlaylistSequence::ShuffleActionTriggered);
 
   Load();
 

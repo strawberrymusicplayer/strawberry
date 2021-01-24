@@ -72,20 +72,22 @@ GroupedIconView::GroupedIconView(QWidget *parent)
   proxy_model_->AddSortSpec(Role_Group);
   proxy_model_->setDynamicSortFilter(true);
 
-  connect(proxy_model_, SIGNAL(modelReset()), SLOT(LayoutItems()));
+  QObject::connect(proxy_model_, &MultiSortFilterProxy::modelReset, this, &GroupedIconView::LayoutItems);
 
 }
 
-void GroupedIconView::AddSortSpec(int role, Qt::SortOrder order) {
+void GroupedIconView::AddSortSpec(const int role, const Qt::SortOrder order) {
   proxy_model_->AddSortSpec(role, order);
 }
 
 void GroupedIconView::setModel(QAbstractItemModel *model) {
+
   proxy_model_->setSourceModel(model);
   proxy_model_->sort(0);
 
   QListView::setModel(proxy_model_);
   LayoutItems();
+
 }
 
 int GroupedIconView::header_height() const {
@@ -152,9 +154,9 @@ void GroupedIconView::LayoutItems() {
   headers_.clear();
 
   for (int i = 0; i < count; ++i) {
-    const QModelIndex index(model()->index(i, 0));
-    const QString group = index.data(Role_Group).toString();
-    const QSize size(rectForIndex(index).size());
+    const QModelIndex idx(model()->index(i, 0));
+    const QString group = idx.data(Role_Group).toString();
+    const QSize size(rectForIndex(idx).size());
 
     // Is this the first item in a new group?
     if (group != last_group) {
@@ -209,10 +211,12 @@ void GroupedIconView::LayoutItems() {
   update();
 }
 
-QRect GroupedIconView::visualRect(const QModelIndex &index) const {
-  if (index.row() < 0 || index.row() >= visual_rects_.count())
+QRect GroupedIconView::visualRect(const QModelIndex &idx) const {
+
+  if (idx.row() < 0 || idx.row() >= visual_rects_.count())
     return QRect();
-  return visual_rects_[index.row()].translated(-horizontalOffset(), -verticalOffset());
+  return visual_rects_[idx.row()].translated(-horizontalOffset(), -verticalOffset());
+
 }
 
 QModelIndex GroupedIconView::indexAt(const QPoint &p) const {
@@ -315,8 +319,8 @@ void GroupedIconView::setSelection(const QRect &rect, QItemSelectionModel::Selec
   QVector<QModelIndex> indexes(IntersectingItems(rect.translated(horizontalOffset(), verticalOffset())));
   QItemSelection selection;
 
-  for (const QModelIndex &index : indexes) {
-    selection << QItemSelectionRange(index);
+  for (const QModelIndex &idx : indexes) {
+    selection << QItemSelectionRange(idx);
   }
 
   selectionModel()->select(selection, command);
@@ -336,14 +340,17 @@ QVector<QModelIndex> GroupedIconView::IntersectingItems(const QRect &rect) const
 }
 
 QRegion GroupedIconView::visualRegionForSelection(const QItemSelection &selection) const {
+
   QRegion ret;
-  for (const QModelIndex &index : selection.indexes()) {
-    ret += visual_rects_[index.row()];
+  for (const QModelIndex &idx : selection.indexes()) {
+    ret += visual_rects_[idx.row()];
   }
   return ret;
+
 }
 
 QModelIndex GroupedIconView::moveCursor(CursorAction action, Qt::KeyboardModifiers) {
+
   if (model()->rowCount() == 0) {
     return QModelIndex();
   }
@@ -367,9 +374,11 @@ QModelIndex GroupedIconView::moveCursor(CursorAction action, Qt::KeyboardModifie
   }
 
   return model()->index(qBound(0, ret, model()->rowCount()), 0);
+
 }
 
-int GroupedIconView::IndexAboveOrBelow(int index, int d) const {
+int GroupedIconView::IndexAboveOrBelow(int index, const int d) const {
+
   const QRect orig_rect(visual_rects_[index]);
 
   while (index >= 0 && index < visual_rects_.count()) {
@@ -384,4 +393,5 @@ int GroupedIconView::IndexAboveOrBelow(int index, int d) const {
   }
 
   return index;
+
 }

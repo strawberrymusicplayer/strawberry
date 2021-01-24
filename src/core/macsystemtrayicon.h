@@ -46,17 +46,17 @@ class MacSystemTrayIcon : public SystemTrayIcon {
   void SetNowPlaying(const Song& song, const QUrl &cover_url);
   void ClearNowPlaying();
 
-private:
+ private:
   void SetupMenuItem(QAction *action);
 
-private slots:
+ private slots:
   void ActionChanged();
 
-protected:
+ protected:
   // SystemTrayIcon
   void UpdateIcon();
 
-private:
+ private:
   QPixmap normal_icon_;
   QPixmap grey_icon_;
   std::unique_ptr<MacSystemTrayIconPrivate> p_;

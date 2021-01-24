@@ -62,4 +62,3 @@ class GlobalShortcutBackendMacOS : public GlobalShortcutBackend {
 };
 
 #endif  // GLOBALSHORTCUTBACKEND_MACOS_H
-

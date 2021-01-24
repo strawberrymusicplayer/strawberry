@@ -66,7 +66,7 @@ const int SpotifyCoverProvider::kLimit = 10;
 SpotifyCoverProvider::SpotifyCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Spotify", true, true, 2.5, true, true, app, parent), network_(new NetworkAccessManager(this)), server_(nullptr), expires_in_(0), login_time_(0) {
 
   refresh_login_timer_.setSingleShot(true);
-  connect(&refresh_login_timer_, SIGNAL(timeout()), SLOT(RequestAccessToken()));
+  QObject::connect(&refresh_login_timer_, &QTimer::timeout, this, &SpotifyCoverProvider::RequestNewAccessToken);
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -89,7 +89,7 @@ SpotifyCoverProvider::~SpotifyCoverProvider() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -118,7 +118,7 @@ void SpotifyCoverProvider::Authenticate() {
       server_ = nullptr;
       return;
     }
-    connect(server_, SIGNAL(Finished()), this, SLOT(RedirectArrived()));
+    QObject::connect(server_, &LocalRedirectServer::Finished, this, &SpotifyCoverProvider::RedirectArrived);
   }
 
   code_verifier_ = Utilities::CryptographicRandomString(44);
@@ -246,8 +246,8 @@ void SpotifyCoverProvider::RequestAccessToken(const QString code, const QUrl red
 
   QNetworkReply *reply = network_->post(req, query);
   replies_ << reply;
-  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
-  connect(reply, &QNetworkReply::finished, [=] { AccessTokenRequestFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::sslErrors, this, &SpotifyCoverProvider::HandleLoginSSLErrors);
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { AccessTokenRequestFinished(reply); });
 
 }
 
@@ -263,7 +263,7 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
@@ -402,7 +402,7 @@ bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &alb
 
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, extract); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id, extract]() { HandleSearchReply(reply, id, extract); });
 
   return true;
 
@@ -461,7 +461,7 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);

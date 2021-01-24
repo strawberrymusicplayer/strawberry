@@ -65,33 +65,34 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(Application *app, QWidg
 
   model_->Init();
 
-  action_new_smart_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("New smart playlist..."), this, SLOT(NewSmartPlaylist()));
+  action_new_smart_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("New smart playlist..."), this, &SmartPlaylistsViewContainer::NewSmartPlaylist);
 
-  action_append_to_playlist_ = context_menu_selected_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, SLOT(AppendToPlaylist()));
-  action_replace_current_playlist_ = context_menu_selected_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, SLOT(ReplaceCurrentPlaylist()));
-  action_open_in_new_playlist_ = context_menu_selected_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylist()));
+  action_append_to_playlist_ = context_menu_selected_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &SmartPlaylistsViewContainer::AppendToPlaylist);
+  action_replace_current_playlist_ = context_menu_selected_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &SmartPlaylistsViewContainer::ReplaceCurrentPlaylist);
+  action_open_in_new_playlist_ = context_menu_selected_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &SmartPlaylistsViewContainer::OpenInNewPlaylist);
 
   context_menu_selected_->addSeparator();
-  action_add_to_playlist_enqueue_ = context_menu_selected_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, SLOT(AddToPlaylistEnqueue()));
-  action_add_to_playlist_enqueue_next_ = context_menu_selected_->addAction(IconLoader::Load("go-next"), tr("Play next"), this, SLOT(AddToPlaylistEnqueueNext()));
+  action_add_to_playlist_enqueue_ = context_menu_selected_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &SmartPlaylistsViewContainer::AddToPlaylistEnqueue);
+  action_add_to_playlist_enqueue_next_ = context_menu_selected_->addAction(IconLoader::Load("go-next"), tr("Play next"), this, &SmartPlaylistsViewContainer::AddToPlaylistEnqueueNext);
   context_menu_selected_->addSeparator();
 
   context_menu_selected_->addSeparator();
   context_menu_selected_->addActions(QList<QAction*>() << action_new_smart_playlist_);
-  action_edit_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load("edit-rename"), tr("Edit smart playlist..."), this, SLOT(EditSmartPlaylistFromContext()));
-  action_delete_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load("edit-delete"), tr("Delete smart playlist"), this, SLOT(DeleteSmartPlaylistFromContext()));
+  action_edit_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load("edit-rename"), tr("Edit smart playlist..."), this, &SmartPlaylistsViewContainer::EditSmartPlaylistFromContext);
+  action_delete_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load("edit-delete"), tr("Delete smart playlist"), this, &SmartPlaylistsViewContainer::DeleteSmartPlaylistFromContext);
 
   context_menu_selected_->addSeparator();
 
   ui_->new_->setDefaultAction(action_new_smart_playlist_);
   ui_->edit_->setIcon(IconLoader::Load("edit-rename"));
   ui_->delete_->setIcon(IconLoader::Load("edit-delete"));
-  connect(ui_->edit_, SIGNAL(clicked()), SLOT(EditSmartPlaylistFromButton()));
-  connect(ui_->delete_, SIGNAL(clicked()), SLOT(DeleteSmartPlaylistFromButton()));
 
-  connect(ui_->view, SIGNAL(ItemsSelectedChanged()), SLOT(ItemsSelectedChanged()));
-  connect(ui_->view, SIGNAL(doubleClicked(QModelIndex)), SLOT(ItemDoubleClicked(QModelIndex)));
-  connect(ui_->view, SIGNAL(RightClicked(QPoint, QModelIndex)), SLOT(RightClicked(QPoint, QModelIndex)));
+  QObject::connect(ui_->edit_, &QToolButton::clicked, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFromButton);
+  QObject::connect(ui_->delete_, &QToolButton::clicked, this, &SmartPlaylistsViewContainer::DeleteSmartPlaylistFromButton);
+
+  QObject::connect(ui_->view, &SmartPlaylistsView::ItemsSelectedChanged, this, &SmartPlaylistsViewContainer::ItemsSelectedChanged);
+  QObject::connect(ui_->view, &SmartPlaylistsView::doubleClicked, this, &SmartPlaylistsViewContainer::ItemDoubleClicked);
+  QObject::connect(ui_->view, &SmartPlaylistsView::RightClicked, this, &SmartPlaylistsViewContainer::RightClicked);
 
   ReloadSettings();
 
@@ -193,7 +194,7 @@ void SmartPlaylistsViewContainer::NewSmartPlaylist() {
 
   SmartPlaylistWizard *wizard = new SmartPlaylistWizard(app_, app_->collection_backend(), this);
   wizard->setAttribute(Qt::WA_DeleteOnClose);
-  connect(wizard, SIGNAL(accepted()), SLOT(NewSmartPlaylistFinished()));
+  QObject::connect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::NewSmartPlaylistFinished);
 
   wizard->show();
 
@@ -205,7 +206,7 @@ void SmartPlaylistsViewContainer::EditSmartPlaylist(const QModelIndex &idx) {
 
   SmartPlaylistWizard *wizard = new SmartPlaylistWizard(app_, app_->collection_backend(), this);
   wizard->setAttribute(Qt::WA_DeleteOnClose);
-  connect(wizard, SIGNAL(accepted()), SLOT(EditSmartPlaylistFinished()));
+  QObject::connect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFinished);
 
   wizard->show();
   wizard->SetGenerator(model_->CreateGenerator(idx));
@@ -254,7 +255,7 @@ void SmartPlaylistsViewContainer::NewSmartPlaylistFinished() {
 
   SmartPlaylistWizard *wizard = qobject_cast<SmartPlaylistWizard*>(sender());
   if (!wizard) return;
-  disconnect(wizard, SIGNAL(accepted()), this, SLOT(NewSmartPlaylistFinished()));
+  QObject::disconnect(wizard, &SmartPlaylistWizard::accepted, this,  &SmartPlaylistsViewContainer::NewSmartPlaylistFinished);
   model_->AddGenerator(wizard->CreateGenerator());
 
 }
@@ -266,7 +267,7 @@ void SmartPlaylistsViewContainer::EditSmartPlaylistFinished() {
   const SmartPlaylistWizard *wizard = qobject_cast<SmartPlaylistWizard*>(sender());
   if (!wizard) return;
 
-  disconnect(wizard, SIGNAL(accepted()), this, SLOT(EditSmartPlaylistFinished()));
+  QObject::disconnect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFinished);
 
   model_->UpdateGenerator(context_menu_index_, wizard->CreateGenerator());
 

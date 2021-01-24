@@ -65,7 +65,7 @@ ContextAlbum::ContextAlbum(QWidget *parent) :
   QPair<QImage, QImage> images = AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_strawberry_);
   pixmap_current_ = QPixmap::fromImage(images.first);
 
-  connect(timeline_fade_, SIGNAL(valueChanged(qreal)), SLOT(FadePreviousTrack(qreal)));
+  QObject::connect(timeline_fade_, &QTimeLine::valueChanged, this, &ContextAlbum::FadePreviousTrack);
   timeline_fade_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
 
 }
@@ -75,7 +75,7 @@ void ContextAlbum::Init(ContextView *context_view, AlbumCoverChoiceController *a
   context_view_ = context_view;
 
   album_cover_choice_controller_ = album_cover_choice_controller;
-  connect(album_cover_choice_controller_, SIGNAL(AutomaticCoverSearchDone()), this, SLOT(AutomaticCoverSearchDone()));
+  QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::AutomaticCoverSearchDone, this, &ContextAlbum::AutomaticCoverSearchDone);
 
   QList<QAction*> cover_actions = album_cover_choice_controller_->GetAllActions();
   cover_actions.append(album_cover_choice_controller_->search_cover_auto_action());
@@ -188,7 +188,7 @@ void ContextAlbum::SearchCoverInProgress() {
 
   // Show a spinner animation
   spinner_animation_.reset(new QMovie(":/pictures/spinner.gif", QByteArray(), this));
-  connect(spinner_animation_.get(), SIGNAL(updated(QRect)), SLOT(update()));
+  QObject::connect(spinner_animation_.get(), &QMovie::updated, this, &ContextAlbum::Update);
   spinner_animation_->start();
   update();
 

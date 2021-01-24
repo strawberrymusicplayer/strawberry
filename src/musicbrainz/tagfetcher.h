@@ -47,8 +47,8 @@ class TagFetcher : public QObject {
   void Cancel();
 
  signals:
-  void Progress(const Song &original_song, const QString &stage);
-  void ResultAvailable(const Song &original_song, const SongList &songs_guessed, const QString &error = QString());
+  void Progress(Song original_song, QString stage);
+  void ResultAvailable(Song original_song, SongList songs_guessed, QString error = QString());
 
  private slots:
   void FingerprintFound(const int index);

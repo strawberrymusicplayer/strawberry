@@ -196,10 +196,10 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void ExpandAll(CollectionItem *item = nullptr) const;
 
  signals:
-  void TotalSongCountUpdated(const int count);
-  void TotalArtistCountUpdated(const int count);
-  void TotalAlbumCountUpdated(const int count);
-  void GroupingChanged(const CollectionModel::Grouping &g);
+  void TotalSongCountUpdated(int count);
+  void TotalArtistCountUpdated(int count);
+  void TotalAlbumCountUpdated(int count);
+  void GroupingChanged(CollectionModel::Grouping g);
 
  public slots:
   void SetFilterAge(const int age);
@@ -212,13 +212,14 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void Reset();
   void ResetAsync();
 
+  void SongsDiscovered(const SongList &songs);
+
  protected:
   void LazyPopulate(CollectionItem *item) override { LazyPopulate(item, true); }
   void LazyPopulate(CollectionItem *parent, const bool signal);
 
  private slots:
   // From CollectionBackend
-  void SongsDiscovered(const SongList &songs);
   void SongsDeleted(const SongList &songs);
   void SongsSlightlyChanged(const SongList &songs);
   void TotalSongCountUpdatedSlot(const int count);

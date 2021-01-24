@@ -109,21 +109,21 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   ui_->remove->setDefaultAction(action_remove_);
   ui_->save_playlist->setDefaultAction(action_save_playlist_);
 
-  connect(action_new_folder_, SIGNAL(triggered()), SLOT(NewFolderClicked()));
-  connect(action_remove_, SIGNAL(triggered()), SLOT(Delete()));
-  connect(action_save_playlist_, SIGNAL(triggered()), SLOT(SavePlaylist()));
+  QObject::connect(action_new_folder_, &QAction::triggered, this, &PlaylistListContainer::NewFolderClicked);
+  QObject::connect(action_remove_, &QAction::triggered, this, &PlaylistListContainer::Delete);
+  QObject::connect(action_save_playlist_, &QAction::triggered, this, &PlaylistListContainer::SavePlaylist);
 #ifndef Q_OS_WIN
-  connect(action_copy_to_device_, SIGNAL(triggered()), SLOT(CopyToDevice()));
+  QObject::connect(action_copy_to_device_, &QAction::triggered, this, &PlaylistListContainer::CopyToDevice);
 #endif
-  connect(model_, SIGNAL(PlaylistPathChanged(int, QString)), SLOT(PlaylistPathChanged(int, QString)));
+  QObject::connect(model_, &PlaylistListModel::PlaylistPathChanged, this, &PlaylistListContainer::PlaylistPathChanged);
 
   proxy_->setSourceModel(model_);
   proxy_->setDynamicSortFilter(true);
   proxy_->sort(0);
   ui_->tree->setModel(proxy_);
 
-  connect(ui_->tree, SIGNAL(ItemsSelectedChanged(bool)), SLOT(ItemsSelectedChanged(bool)));
-  connect(ui_->tree, SIGNAL(doubleClicked(QModelIndex)), SLOT(ItemDoubleClicked(QModelIndex)));
+  QObject::connect(ui_->tree, &PlaylistListView::ItemsSelectedChanged, this, &PlaylistListContainer::ItemsSelectedChanged);
+  QObject::connect(ui_->tree, &PlaylistListView::doubleClicked, this, &PlaylistListContainer::ItemDoubleClicked);
 
   model_->invisibleRootItem()->setData(PlaylistListModel::Type_Folder, PlaylistListModel::Role_Type);
 
@@ -139,17 +139,17 @@ void PlaylistListContainer::SetApplication(Application *app) {
   PlaylistManager *manager = app_->playlist_manager();
   Player *player = app_->player();
 
-  connect(manager, SIGNAL(PlaylistAdded(int, QString, bool)), SLOT(AddPlaylist(int, QString, bool)));
-  connect(manager, SIGNAL(PlaylistFavorited(int, bool)), SLOT(PlaylistFavoriteStateChanged(int, bool)));
-  connect(manager, SIGNAL(PlaylistRenamed(int, QString)), SLOT(PlaylistRenamed(int, QString)));
-  connect(manager, SIGNAL(CurrentChanged(Playlist*)), SLOT(CurrentChanged(Playlist*)));
-  connect(manager, SIGNAL(ActiveChanged(Playlist*)), SLOT(ActiveChanged(Playlist*)));
+  QObject::connect(manager, &PlaylistManager::PlaylistAdded, this, &PlaylistListContainer::AddPlaylist);
+  QObject::connect(manager, &PlaylistManager::PlaylistFavorited, this, &PlaylistListContainer::PlaylistFavoriteStateChanged);
+  QObject::connect(manager, &PlaylistManager::PlaylistRenamed, this, &PlaylistListContainer::PlaylistRenamed);
+  QObject::connect(manager, &PlaylistManager::CurrentChanged, this, &PlaylistListContainer::CurrentChanged);
+  QObject::connect(manager, &PlaylistManager::ActiveChanged, this, &PlaylistListContainer::ActiveChanged);
 
-  connect(model_, SIGNAL(PlaylistRenamed(int, QString)), manager, SLOT(Rename(int, QString)));
+  QObject::connect(model_, &PlaylistListModel::PlaylistRenamed, manager, &PlaylistManager::Rename);
 
-  connect(player, SIGNAL(Paused()), SLOT(ActivePaused()));
-  connect(player, SIGNAL(Playing()), SLOT(ActivePlaying()));
-  connect(player, SIGNAL(Stopped()), SLOT(ActiveStopped()));
+  QObject::connect(player, &Player::Paused, this, &PlaylistListContainer::ActivePaused);
+  QObject::connect(player, &Player::Playing, this, &PlaylistListContainer::ActivePlaying);
+  QObject::connect(player, &Player::Stopped, this, &PlaylistListContainer::ActiveStopped);
 
   // Get all playlists, even ones that are hidden in the UI.
   for (const PlaylistBackend::Playlist &p : app->playlist_backend()->GetAllFavoritePlaylists()) {

@@ -60,7 +60,7 @@ QobuzCoverProvider::~QobuzCoverProvider() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -111,7 +111,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
   req.setRawHeader("X-User-Auth-Token", user_auth_token_.toUtf8());
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id]() { HandleSearchReply(reply, id); });
 
   return true;
 
@@ -167,7 +167,7 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   CoverSearchResults results;

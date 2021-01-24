@@ -106,13 +106,13 @@ PlayingWidget::PlayingWidget(QWidget *parent)
   fit_cover_width_action_ = menu_->addAction(tr("Fit cover to width"));
   fit_cover_width_action_->setCheckable(true);
   fit_cover_width_action_->setEnabled(true);
-  connect(fit_cover_width_action_, SIGNAL(toggled(bool)), SLOT(FitCoverWidth(bool)));
+  QObject::connect(fit_cover_width_action_, &QAction::toggled, this, &PlayingWidget::FitCoverWidth);
   fit_cover_width_action_->setChecked(fit_width_);
   menu_->addSeparator();
 
   // Animations
-  connect(timeline_show_hide_, SIGNAL(frameChanged(int)), SLOT(SetHeight(int)));
-  connect(timeline_fade_, SIGNAL(valueChanged(qreal)), SLOT(FadePreviousTrack(qreal)));
+  QObject::connect(timeline_show_hide_, &QTimeLine::frameChanged, this, &PlayingWidget::SetHeight);
+  QObject::connect(timeline_fade_, &QTimeLine::valueChanged, this, &PlayingWidget::FadePreviousTrack);
   timeline_fade_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
 
   details_->setUndoRedoEnabled(false);
@@ -143,13 +143,13 @@ void PlayingWidget::Init(Application *app, AlbumCoverChoiceController *album_cov
   s.beginGroup(kSettingsGroup);
   above_statusbar_action_->setChecked(s.value("above_status_bar", false).toBool());
   s.endGroup();
-  connect(above_statusbar_action_, SIGNAL(toggled(bool)), SLOT(ShowAboveStatusBar(bool)));
+  QObject::connect(above_statusbar_action_, &QAction::toggled, this, &PlayingWidget::ShowAboveStatusBar);
 
-  connect(album_cover_choice_controller_, SIGNAL(AutomaticCoverSearchDone()), this, SLOT(AutomaticCoverSearchDone()));
+  QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::AutomaticCoverSearchDone, this, &PlayingWidget::AutomaticCoverSearchDone);
 
 }
 
-void PlayingWidget::SetEnabled(bool enabled) {
+void PlayingWidget::SetEnabled(const bool enabled) {
 
   if (enabled == enabled_) return;
 
@@ -178,7 +178,7 @@ void PlayingWidget::SetDisabled() {
 
 }
 
-void PlayingWidget::SetVisible(bool visible) {
+void PlayingWidget::SetVisible(const bool visible) {
 
   if (timeline_show_hide_->state() == QTimeLine::Running) {
     if (timeline_show_hide_->direction() == QTimeLine::Backward && enabled_ && active_) {
@@ -198,7 +198,7 @@ void PlayingWidget::SetVisible(bool visible) {
 
 }
 
-void PlayingWidget::set_ideal_height(int height) {
+void PlayingWidget::set_ideal_height(const int height) {
 
   small_ideal_height_ = height;
   UpdateHeight();
@@ -209,17 +209,17 @@ QSize PlayingWidget::sizeHint() const {
   return QSize(cover_loader_options_.desired_height_, total_height_);
 }
 
-void PlayingWidget::CreateModeAction(Mode mode, const QString &text, QActionGroup *group) {
+void PlayingWidget::CreateModeAction(const Mode mode, const QString &text, QActionGroup *group) {
 
   QAction *action = new QAction(text, group);
   action->setCheckable(true);
-  connect(action, &QAction::triggered, [this, mode]() { SetMode(mode); } );
+  QObject::connect(action, &QAction::triggered, [this, mode]() { SetMode(mode); } );
 
   if (mode == mode_) action->setChecked(true);
 
 }
 
-void PlayingWidget::SetMode(int mode) {
+void PlayingWidget::SetMode(const int mode) {
 
   mode_ = Mode(mode);
 
@@ -236,7 +236,7 @@ void PlayingWidget::SetMode(int mode) {
 
 }
 
-void PlayingWidget::FitCoverWidth(bool fit) {
+void PlayingWidget::FitCoverWidth(const bool fit) {
 
   fit_width_ = fit;
   UpdateHeight();
@@ -249,7 +249,7 @@ void PlayingWidget::FitCoverWidth(bool fit) {
 
 }
 
-void PlayingWidget::ShowAboveStatusBar(bool above) {
+void PlayingWidget::ShowAboveStatusBar(const bool above) {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -467,7 +467,7 @@ void PlayingWidget::DrawContents(QPainter *p) {
 
 }
 
-void PlayingWidget::FadePreviousTrack(qreal value) {
+void PlayingWidget::FadePreviousTrack(const qreal value) {
 
   if (!visible_) return;
 
@@ -492,13 +492,13 @@ void PlayingWidget::resizeEvent(QResizeEvent* e) {
 
 }
 
-void PlayingWidget::contextMenuEvent(QContextMenuEvent* e) {
+void PlayingWidget::contextMenuEvent(QContextMenuEvent *e) {
 
   // show the menu
   menu_->popup(mapToGlobal(e->pos()));
 }
 
-void PlayingWidget::mouseDoubleClickEvent(QMouseEvent* e) {
+void PlayingWidget::mouseDoubleClickEvent(QMouseEvent *e) {
 
   // Same behaviour as right-click > Show Fullsize
   if (e->button() == Qt::LeftButton && song_.is_valid()) {
@@ -531,7 +531,7 @@ void PlayingWidget::SearchCoverInProgress() {
 
   // Show a spinner animation
   spinner_animation_.reset(new QMovie(":/pictures/spinner.gif", QByteArray(), this));
-  connect(spinner_animation_.get(), SIGNAL(updated(QRect)), SLOT(update()));
+  QObject::connect(spinner_animation_.get(), &QMovie::updated, this, &PlayingWidget::Update);
   spinner_animation_->start();
   update();
 

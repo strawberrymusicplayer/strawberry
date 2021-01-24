@@ -63,10 +63,10 @@ bool GPodDevice::Init() {
   loader_thread_ = new QThread();
   loader_->moveToThread(loader_thread_);
 
-  connect(loader_, SIGNAL(Error(QString)), SLOT(LoaderError(QString)));
-  connect(loader_, SIGNAL(TaskStarted(int)), SIGNAL(TaskStarted(int)));
-  connect(loader_, SIGNAL(LoadFinished(Itdb_iTunesDB*, bool)), SLOT(LoadFinished(Itdb_iTunesDB*, bool)));
-  connect(loader_thread_, SIGNAL(started()), loader_, SLOT(LoadDatabase()));
+  QObject::connect(loader_, &GPodLoader::Error, this, &GPodDevice::LoaderError);
+  QObject::connect(loader_, &GPodLoader::TaskStarted, this, &GPodDevice::TaskStarted);
+  QObject::connect(loader_, &GPodLoader::LoadFinished, this, &GPodDevice::LoadFinished);
+  QObject::connect(loader_thread_, &QThread::started, loader_, &GPodLoader::LoadDatabase);
 
   return true;
 
@@ -123,7 +123,7 @@ void GPodDevice::LoadFinished(Itdb_iTunesDB *db, bool success) {
     ConnectedDevice::Close();
   }
   else {
-    emit ConnectFinished(unique_id_, success);
+    emit DeviceConnectFinished(unique_id_, success);
   }
 
 }

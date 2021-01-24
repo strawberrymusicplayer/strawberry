@@ -54,15 +54,15 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
   watcher_->set_backend(backend_);
   watcher_->set_task_manager(app_->task_manager());
 
-  connect(backend_, SIGNAL(DirectoryDiscovered(Directory, SubdirectoryList)), watcher_, SLOT(AddDirectory(Directory, SubdirectoryList)));
-  connect(backend_, SIGNAL(DirectoryDeleted(Directory)), watcher_, SLOT(RemoveDirectory(Directory)));
-  connect(watcher_, SIGNAL(NewOrUpdatedSongs(SongList)), backend_, SLOT(AddOrUpdateSongs(SongList)));
-  connect(watcher_, SIGNAL(SongsMTimeUpdated(SongList)), backend_, SLOT(UpdateMTimesOnly(SongList)));
-  connect(watcher_, SIGNAL(SongsDeleted(SongList)), backend_, SLOT(DeleteSongs(SongList)));
-  connect(watcher_, SIGNAL(SubdirsDiscovered(SubdirectoryList)), backend_, SLOT(AddOrUpdateSubdirs(SubdirectoryList)));
-  connect(watcher_, SIGNAL(SubdirsMTimeUpdated(SubdirectoryList)), backend_, SLOT(AddOrUpdateSubdirs(SubdirectoryList)));
-  connect(watcher_, SIGNAL(CompilationsNeedUpdating()), backend_, SLOT(UpdateCompilations()));
-  connect(watcher_, SIGNAL(ScanStarted(int)), SIGNAL(TaskStarted(int)));
+  QObject::connect(backend_, &CollectionBackend::DirectoryDiscovered, watcher_, &CollectionWatcher::AddDirectory);
+  QObject::connect(backend_, &CollectionBackend::DirectoryDeleted, watcher_, &CollectionWatcher::RemoveDirectory);
+  QObject::connect(watcher_, &CollectionWatcher::NewOrUpdatedSongs, backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(watcher_, &CollectionWatcher::SongsMTimeUpdated, backend_, &CollectionBackend::UpdateMTimesOnly);
+  QObject::connect(watcher_, &CollectionWatcher::SongsDeleted, backend_, &CollectionBackend::DeleteSongs);
+  QObject::connect(watcher_, &CollectionWatcher::SubdirsDiscovered, backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(watcher_, &CollectionWatcher::SubdirsMTimeUpdated, backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(watcher_, &CollectionWatcher::CompilationsNeedUpdating, backend_, &CollectionBackend::CompilationsNeedUpdating);
+  QObject::connect(watcher_, &CollectionWatcher::ScanStarted, this, &FilesystemDevice::TaskStarted);
 
 }
 
@@ -93,11 +93,11 @@ void FilesystemDevice::Close() {
 
   wait_for_exit_ << backend_ << watcher_;
 
-  disconnect(backend_, nullptr, watcher_, nullptr);
-  disconnect(watcher_, nullptr, backend_, nullptr);
+  QObject::disconnect(backend_, nullptr, watcher_, nullptr);
+  QObject::disconnect(watcher_, nullptr, backend_, nullptr);
 
-  connect(backend_, SIGNAL(ExitFinished()), this, SLOT(ExitFinished()));
-  connect(watcher_, SIGNAL(ExitFinished()), this, SLOT(ExitFinished()));
+  QObject::connect(backend_, &CollectionBackend::ExitFinished, this, &FilesystemDevice::ExitFinished);
+  QObject::connect(watcher_, &CollectionWatcher::ExitFinished, this, &FilesystemDevice::ExitFinished);
   backend_->ExitAsync();
   watcher_->ExitAsync();
 
@@ -107,11 +107,11 @@ void FilesystemDevice::ExitFinished() {
 
   QObject *obj = qobject_cast<QObject*>(sender());
   if (!obj) return;
-  disconnect(obj, nullptr, this, nullptr);
+  QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) {
-    emit CloseFinished(unique_id());
+    emit DeviceCloseFinished(unique_id());
   }
 
 }

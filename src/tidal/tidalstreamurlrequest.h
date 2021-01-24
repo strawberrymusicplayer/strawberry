@@ -57,11 +57,13 @@ class TidalStreamURLRequest : public TidalBaseRequest {
 
  signals:
   void TryLogin();
-  void StreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error = QString());
+  void StreamURLFinished(QUrl original_url, QUrl stream_url, Song::FileType filetype, int samplerate, int bit_depth, qint64 duration, QString error = QString());
 
  private slots:
-  void LoginComplete(const bool success, QString error = QString());
   void StreamURLReceived();
+
+ public slots:
+  void LoginComplete(const bool success, QString error = QString());
 
  private:
   void Error(const QString &error, const QVariant &debug = QVariant()) override;

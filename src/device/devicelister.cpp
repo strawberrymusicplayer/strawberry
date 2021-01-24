@@ -59,7 +59,7 @@ DeviceLister::~DeviceLister() {
 void DeviceLister::Start() {
 
   thread_ = new QThread;
-  connect(thread_, SIGNAL(started()), SLOT(ThreadStarted()));
+  QObject::connect(thread_, &QThread::started, this, &DeviceLister::ThreadStarted);
 
   moveToThread(thread_);
   thread_->start();

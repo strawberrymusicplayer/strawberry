@@ -298,9 +298,9 @@ int main(int argc, char* argv[]) {
 #endif  // Q_OS_MACOS
 
 #ifdef HAVE_DBUS
-  QObject::connect(&mpris, SIGNAL(RaiseMainWindow()), &w, SLOT(Raise()));
+  QObject::connect(&mpris, &mpris::Mpris::RaiseMainWindow, &w, &MainWindow::Raise);
 #endif
-  QObject::connect(&a, SIGNAL(receivedMessage(quint32, QByteArray)), &w, SLOT(CommandlineOptionsReceived(quint32, QByteArray)));
+  QObject::connect(&a, &SingleApplication::receivedMessage, &w, QOverload<quint32, const QByteArray&>::of(&MainWindow::CommandlineOptionsReceived));
 
   int ret = a.exec();
 

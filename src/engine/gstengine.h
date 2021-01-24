@@ -209,4 +209,4 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
 };
 
-#endif  /* GSTENGINE_H */
+#endif  // GSTENGINE_H

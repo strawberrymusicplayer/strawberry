@@ -22,7 +22,6 @@
 #include <QUrl>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "core/player.h"
 #include "core/song.h"
 #include "engine/engine_fwd.h"
@@ -33,13 +32,13 @@
 #include "moodbarloader.h"
 #include "moodbarpipeline.h"
 
-MoodbarController::MoodbarController(Application* app, QObject* parent)
+MoodbarController::MoodbarController(Application *app, QObject *parent)
     : QObject(parent),
     app_(app),
     enabled_(false) {
 
-  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(CurrentSongChanged(Song)));
-  connect(app_->player(), SIGNAL(Stopped()), SLOT(PlaybackStopped()));
+  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &MoodbarController::CurrentSongChanged);
+  QObject::connect(app_->player(), &Player::Stopped, this, &MoodbarController::PlaybackStopped);
 
   ReloadSettings();
 
@@ -59,7 +58,7 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
   if (!enabled_) return;
 
   QByteArray data;
-  MoodbarPipeline* pipeline = nullptr;
+  MoodbarPipeline *pipeline = nullptr;
   const MoodbarLoader::Result result = app_->moodbar_loader()->Load(song.url(), &data, &pipeline);
 
   switch (result) {
@@ -76,7 +75,7 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
       // bar.  Our slot will be called when the data is actually loaded.
       emit CurrentMoodbarDataChanged(QByteArray());
 
-      NewClosure(pipeline, SIGNAL(Finished(bool)), this, SLOT(AsyncLoadComplete(MoodbarPipeline*, QUrl)), pipeline, song.url());
+      QObject::connect(pipeline, &MoodbarPipeline::Finished, [this, pipeline, song]() { AsyncLoadComplete(pipeline, song.url()); });
       break;
   }
 
@@ -88,7 +87,7 @@ void MoodbarController::PlaybackStopped() {
   }
 }
 
-void MoodbarController::AsyncLoadComplete(MoodbarPipeline* pipeline, const QUrl& url) {
+void MoodbarController::AsyncLoadComplete(MoodbarPipeline *pipeline, const QUrl &url) {
 
   // Is this song still playing?
   PlaylistItemPtr current_item = app_->player()->GetCurrentItem();

@@ -35,18 +35,17 @@ class QobuzSettingsPage : public SettingsPage {
 
  public:
   explicit QobuzSettingsPage(SettingsDialog* parent = nullptr);
-  ~QobuzSettingsPage();
+  ~QobuzSettingsPage() override;
 
   static const char *kSettingsGroup;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
-  bool eventFilter(QObject *object, QEvent *event);
+  bool eventFilter(QObject *object, QEvent *event) override;
 
  signals:
-  void Login();
-  void Login(const QString &username, const QString &password, const QString &token);
+  void Login(QString username, QString password, QString token);
 
  private slots:
   void LoginClicked();
@@ -59,4 +58,4 @@ class QobuzSettingsPage : public SettingsPage {
   QobuzService *service_;
 };
 
-#endif
+#endif  // QOBUZSETTINGSPAGE_H

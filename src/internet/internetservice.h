@@ -84,51 +84,51 @@ class InternetService : public QObject {
   void ExitFinished();
   void Login();
   void Logout();
-  void Login(const QString &api_token, const QString &username, const QString &password);
-  void Login(const QString &hostname, const int, const QString &username, const QString &password);
+  void LoginWithCredentials(QString api_token, QString username, QString password);
+  void LoginWithHostname(QString hostname, int, QString username, QString password);
   void LoginSuccess();
-  void LoginFailure(const QString &failure_reason);
-  void LoginComplete(const bool success, QString error = QString());
+  void LoginFailure(QString failure_reason);
+  void LoginComplete(bool success, QString error = QString());
 
   void TestSuccess();
-  void TestFailure(const QString &failure_reason);
-  void TestComplete(const bool success, QString error = QString());
+  void TestFailure(QString failure_reason);
+  void TestComplete(bool success, QString error = QString());
 
-  void Error(const QString &error);
-  void Results(const SongList &songs, const QString &error);
-  void UpdateStatus(const QString &text);
-  void ProgressSetMaximum(const int max);
-  void UpdateProgress(const int max);
+  void Error(QString error);
+  void Results(SongList songs, QString error);
+  void UpdateStatus(QString text);
+  void ProgressSetMaximum(int max);
+  void UpdateProgress(int max);
 
-  void ArtistsResults(const SongList &songs, const QString &error);
-  void ArtistsUpdateStatus(const QString &text);
-  void ArtistsProgressSetMaximum(const int max);
-  void ArtistsUpdateProgress(const int max);
+  void ArtistsResults(SongList songs, QString error);
+  void ArtistsUpdateStatus(QString text);
+  void ArtistsProgressSetMaximum(int max);
+  void ArtistsUpdateProgress(int max);
 
-  void AlbumsResults(const SongList &songs, const QString &error);
-  void AlbumsUpdateStatus(const QString &text);
-  void AlbumsProgressSetMaximum(const int max);
-  void AlbumsUpdateProgress(const int max);
+  void AlbumsResults(SongList songs, QString error);
+  void AlbumsUpdateStatus(QString text);
+  void AlbumsProgressSetMaximum(int max);
+  void AlbumsUpdateProgress(int max);
 
-  void SongsResults(const SongList &songs, const QString &error);
-  void SongsUpdateStatus(const QString &text);
-  void SongsProgressSetMaximum(const int max);
-  void SongsUpdateProgress(const int max);
+  void SongsResults(SongList songs, QString error);
+  void SongsUpdateStatus(QString text);
+  void SongsProgressSetMaximum(int max);
+  void SongsUpdateProgress(int max);
 
-  void SearchResults(const int id, const SongList &songs, const QString &error);
-  void SearchUpdateStatus(const int id, const QString &text);
-  void SearchProgressSetMaximum(const int id, const int max);
-  void SearchUpdateProgress(const int id, const int max);
+  void SearchResults(int id, SongList songs, QString error);
+  void SearchUpdateStatus(int id, QString text);
+  void SearchProgressSetMaximum(int id, int max);
+  void SearchUpdateProgress(int id, int max);
 
-  void AddArtists(const SongList& songs);
-  void AddAlbums(const SongList& songs);
-  void AddSongs(const SongList& songs);
+  void AddArtists(SongList);
+  void AddAlbums(SongList);
+  void AddSongs(SongList);
 
-  void RemoveArtists(const SongList& songs);
-  void RemoveAlbums(const SongList& songs);
-  void RemoveSongs(const SongList& songs);
+  void RemoveArtists(SongList);
+  void RemoveAlbums(SongList);
+  void RemoveSongs(SongList);
 
-  void StreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error = QString());
+  void StreamURLFinished(QUrl original_url, QUrl stream_url, Song::FileType filetype, int samplerate, int bit_depth, qint64 duration, QString error = QString());
 
  protected:
   Application *app_;
@@ -143,4 +143,4 @@ class InternetService : public QObject {
 };
 Q_DECLARE_METATYPE(InternetService*)
 
-#endif
+#endif  // INTERNETSERVICE_H

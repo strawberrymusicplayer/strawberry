@@ -63,7 +63,7 @@ class PlaylistContainer : public QWidget {
 
  signals:
   void TabChanged(int id);
-  void Rename(int id, const QString &new_name);
+  void Rename(int id, QString new_name);
 
   void UndoRedoActionsChanged(QAction *undo, QAction *redo);
   void ViewSelectionModelChanged();
@@ -75,27 +75,23 @@ class PlaylistContainer : public QWidget {
  private slots:
   void NewPlaylist();
   void LoadPlaylist();
-  void SavePlaylist() { SavePlaylist(-1); }
-  void SavePlaylist(int id);
+  void SaveCurrentPlaylist() { SavePlaylist(-1); }
+  void SavePlaylist(const int id);
   void ClearPlaylist();
   void GoToNextPlaylistTab();
   void GoToPreviousPlaylistTab();
 
   void SetViewModel(Playlist *playlist, const int scroll_position);
-  void PlaylistAdded(int id, const QString &name, bool favorite);
-  void PlaylistClosed(int id);
-  void PlaylistRenamed(int id, const QString &new_name);
+  void PlaylistAdded(const int id, const QString &name, bool favorite);
+  void PlaylistClosed(const int id);
+  void PlaylistRenamed(const int id, const QString &new_name);
 
   void Started();
 
-  void ActivePlaying();
-  void ActivePaused();
-  void ActiveStopped();
-
   void Save();
 
-  void SetTabBarVisible(bool visible);
-  void SetTabBarHeight(int height);
+  void SetTabBarVisible(const bool visible);
+  void SetTabBarHeight(const int height);
 
   void SelectionChanged();
   void MaybeUpdateFilter();
@@ -103,6 +99,11 @@ class PlaylistContainer : public QWidget {
   void FocusOnFilter(QKeyEvent *event);
 
   void UpdateNoMatchesLabel();
+
+ public slots:
+  void ActivePlaying();
+  void ActivePaused();
+  void ActiveStopped();
 
  private:
   void UpdateActiveIcon(const QIcon &icon);

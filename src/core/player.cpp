@@ -170,20 +170,20 @@ void Player::Init() {
 
   analyzer_->SetEngine(engine_.get());
 
-  connect(engine_.get(), SIGNAL(Error(QString)), SIGNAL(Error(QString)));
-  connect(engine_.get(), SIGNAL(FatalError()), SLOT(FatalError()));
-  connect(engine_.get(), SIGNAL(ValidSongRequested(QUrl)), SLOT(ValidSongRequested(QUrl)));
-  connect(engine_.get(), SIGNAL(InvalidSongRequested(QUrl)), SLOT(InvalidSongRequested(QUrl)));
-  connect(engine_.get(), SIGNAL(StateChanged(Engine::State)), SLOT(EngineStateChanged(Engine::State)));
-  connect(engine_.get(), SIGNAL(TrackAboutToEnd()), SLOT(TrackAboutToEnd()));
-  connect(engine_.get(), SIGNAL(TrackEnded()), SLOT(TrackEnded()));
-  connect(engine_.get(), SIGNAL(MetaData(Engine::SimpleMetaBundle)), SLOT(EngineMetadataReceived(Engine::SimpleMetaBundle)));
+  QObject::connect(engine_.get(), &EngineBase::Error, this, &Player::Error);
+  QObject::connect(engine_.get(), &EngineBase::FatalError, this, &Player::FatalError);
+  QObject::connect(engine_.get(), &EngineBase::ValidSongRequested, this, &Player::ValidSongRequested);
+  QObject::connect(engine_.get(), &EngineBase::InvalidSongRequested, this, &Player::InvalidSongRequested);
+  QObject::connect(engine_.get(), &EngineBase::StateChanged, this, &Player::EngineStateChanged);
+  QObject::connect(engine_.get(), &EngineBase::TrackAboutToEnd, this, &Player::TrackAboutToEnd);
+  QObject::connect(engine_.get(), &EngineBase::TrackEnded, this, &Player::TrackEnded);
+  QObject::connect(engine_.get(), &EngineBase::MetaData, this, &Player::EngineMetadataReceived);
 
   // Equalizer
-  connect(equalizer_, SIGNAL(StereoBalancerEnabledChanged(bool)), app_->player()->engine(), SLOT(SetStereoBalancerEnabled(bool)));
-  connect(equalizer_, SIGNAL(StereoBalanceChanged(float)), app_->player()->engine(), SLOT(SetStereoBalance(float)));
-  connect(equalizer_, SIGNAL(EqualizerEnabledChanged(bool)), app_->player()->engine(), SLOT(SetEqualizerEnabled(bool)));
-  connect(equalizer_, SIGNAL(EqualizerParametersChanged(int, QList<int>)), app_->player()->engine(), SLOT(SetEqualizerParameters(int, QList<int>)));
+  QObject::connect(equalizer_, &Equalizer::StereoBalancerEnabledChanged, app_->player()->engine(), &EngineBase::SetStereoBalancerEnabled);
+  QObject::connect(equalizer_, &Equalizer::StereoBalanceChanged, app_->player()->engine(), &EngineBase::SetStereoBalance);
+  QObject::connect(equalizer_, &Equalizer::EqualizerEnabledChanged, app_->player()->engine(), &EngineBase::SetEqualizerEnabled);
+  QObject::connect(equalizer_, &Equalizer::EqualizerParametersChanged, app_->player()->engine(), &EngineBase::SetEqualizerParameters);
 
   engine_->SetStereoBalancerEnabled(equalizer_->is_stereo_balancer_enabled());
   engine_->SetStereoBalance(equalizer_->stereo_balance());
@@ -828,8 +828,8 @@ void Player::RegisterUrlHandler(UrlHandler *handler) {
 
   qLog(Info) << "Registered URL handler for" << scheme;
   url_handlers_.insert(scheme, handler);
-  connect(handler, SIGNAL(destroyed(QObject*)), SLOT(UrlHandlerDestroyed(QObject*)));
-  connect(handler, SIGNAL(AsyncLoadComplete(UrlHandler::LoadResult)), SLOT(HandleLoadResult(UrlHandler::LoadResult)));
+  QObject::connect(handler, &UrlHandler::destroyed, this, &Player::UrlHandlerDestroyed);
+  QObject::connect(handler, &UrlHandler::AsyncLoadComplete, this, &Player::HandleLoadResult);
 
 }
 
@@ -843,8 +843,8 @@ void Player::UnregisterUrlHandler(UrlHandler *handler) {
 
   qLog(Info) << "Unregistered URL handler for" << scheme;
   url_handlers_.remove(scheme);
-  disconnect(handler, SIGNAL(destroyed(QObject*)), this, SLOT(UrlHandlerDestroyed(QObject*)));
-  disconnect(handler, SIGNAL(AsyncLoadComplete(UrlHandler::LoadResult)), this, SLOT(HandleLoadResult(UrlHandler::LoadResult)));
+  QObject::disconnect(handler, &UrlHandler::destroyed, this, &Player::UrlHandlerDestroyed);
+  QObject::disconnect(handler, &UrlHandler::AsyncLoadComplete, this, &Player::HandleLoadResult);
 
 }
 

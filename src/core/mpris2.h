@@ -185,7 +185,7 @@ class Mpris2 : public QObject {
   void ActivatePlaylist(const QDBusObjectPath &playlist_id);
   QList<MprisPlaylist> GetPlaylists(quint32 index, quint32 max_count, const QString &order, bool reverse_order);
 
-signals:
+ signals:
   // Player
   void Seeked(qlonglong position);
 
@@ -209,7 +209,7 @@ signals:
   void CurrentSongChanged(const Song &song);
   void ShuffleModeChanged();
   void RepeatModeChanged();
-  void PlaylistChanged(Playlist *playlist);
+  void PlaylistChangedSlot(Playlist *playlist);
   void PlaylistCollectionChanged(Playlist *playlist);
 
  private:

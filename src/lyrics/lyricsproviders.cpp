@@ -95,7 +95,7 @@ void LyricsProviders::AddProvider(LyricsProvider *provider) {
   {
     QMutexLocker locker(&mutex_);
     lyrics_providers_.insert(provider, provider->name());
-    connect(provider, SIGNAL(destroyed()), SLOT(ProviderDestroyed()));
+    QObject::connect(provider, &LyricsProvider::destroyed, this, &LyricsProviders::ProviderDestroyed);
   }
 
   provider->set_order(++NextOrderId);

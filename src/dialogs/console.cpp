@@ -45,7 +45,7 @@ Console::Console(Application *app, QWidget *parent) : QDialog(parent), app_(app)
 
   setWindowFlags(windowFlags()|Qt::WindowMaximizeButtonHint);
 
-  connect(ui_.run, SIGNAL(clicked()), SLOT(RunQuery()));
+  QObject::connect(ui_.run, &QPushButton::clicked, this, &Console::RunQuery);
 
   QFont font("Monospace");
   font.setStyleHint(QFont::TypeWriter);

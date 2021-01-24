@@ -97,7 +97,7 @@ void CoverProviders::AddProvider(CoverProvider *provider) {
   {
     QMutexLocker locker(&mutex_);
     cover_providers_.insert(provider, provider->name());
-    connect(provider, SIGNAL(destroyed()), SLOT(ProviderDestroyed()));
+    QObject::connect(provider, &CoverProvider::destroyed, this, &CoverProviders::ProviderDestroyed);
   }
 
   provider->set_order(++NextOrderId);

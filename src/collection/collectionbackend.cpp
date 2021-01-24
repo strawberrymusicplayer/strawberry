@@ -902,7 +902,7 @@ Song::Source CollectionBackend::Source() const {
   return source_;
 }
 
-void CollectionBackend::UpdateCompilations() {
+void CollectionBackend::CompilationsNeedUpdating() {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());

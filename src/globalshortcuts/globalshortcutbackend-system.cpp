@@ -56,7 +56,7 @@ bool GlobalShortcutBackendSystem::AddShortcut(QAction *action) {
   if (action->shortcut().isEmpty()) return false;
 
   GlobalShortcut *shortcut = new GlobalShortcut(action->shortcut(), this, this);
-  connect(shortcut, SIGNAL(activated()), action, SLOT(trigger()));
+  QObject::connect(shortcut, &GlobalShortcut::activated, action, &QAction::trigger);
   shortcuts_ << shortcut;
   return true;
 

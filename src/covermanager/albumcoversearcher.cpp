@@ -71,15 +71,15 @@ const int SizeOverlayDelegate::kBackgroundAlpha = 175;
 SizeOverlayDelegate::SizeOverlayDelegate(QObject *parent)
     : QStyledItemDelegate(parent) {}
 
-void SizeOverlayDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void SizeOverlayDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
-  QStyledItemDelegate::paint(painter, option, index);
+  QStyledItemDelegate::paint(painter, option, idx);
 
-  if (!index.data(AlbumCoverSearcher::Role_ImageFetchFinished).toBool()) {
+  if (!idx.data(AlbumCoverSearcher::Role_ImageFetchFinished).toBool()) {
     return;
   }
 
-  const QSize size = index.data(AlbumCoverSearcher::Role_ImageSize).toSize();
+  const QSize size = idx.data(AlbumCoverSearcher::Role_ImageSize).toSize();
   const QString text = Utilities::PrettySize(size);
 
   QFont font(option.font);
@@ -136,10 +136,9 @@ AlbumCoverSearcher::AlbumCoverSearcher(const QIcon &no_cover_icon, Application *
   options_.pad_thumbnail_image_ = true;
   options_.thumbnail_size_ = ui_->covers->iconSize();
 
-  connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
-
-  connect(ui_->search, SIGNAL(clicked()), SLOT(Search()));
-  connect(ui_->covers, SIGNAL(doubleClicked(QModelIndex)), SLOT(CoverDoubleClicked(QModelIndex)));
+  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &AlbumCoverSearcher::AlbumCoverLoaded);
+  QObject::connect(ui_->search, &QPushButton::clicked, this, &AlbumCoverSearcher::Search);
+  QObject::connect(ui_->covers, &GroupedIconView::doubleClicked, this, &AlbumCoverSearcher::CoverDoubleClicked);
 
   new ForceScrollPerPixel(ui_->covers, this);
 
@@ -154,7 +153,7 @@ AlbumCoverSearcher::~AlbumCoverSearcher() {
 void AlbumCoverSearcher::Init(AlbumCoverFetcher *fetcher) {
 
   fetcher_ = fetcher;
-  connect(fetcher_, SIGNAL(SearchFinished(quint64, CoverSearchResults, CoverSearchStatistics)), this, SLOT(SearchFinished(quint64, CoverSearchResults)), Qt::QueuedConnection);
+  QObject::connect(fetcher_, &AlbumCoverFetcher::SearchFinished, this, &AlbumCoverSearcher::SearchFinished, Qt::QueuedConnection);
 
 }
 
@@ -283,7 +282,7 @@ void AlbumCoverSearcher::keyPressEvent(QKeyEvent *e) {
 
 }
 
-void AlbumCoverSearcher::CoverDoubleClicked(const QModelIndex &index) {
-  if (index.isValid()) accept();
+void AlbumCoverSearcher::CoverDoubleClicked(const QModelIndex &idx) {
+  if (idx.isValid()) accept();
 }
 

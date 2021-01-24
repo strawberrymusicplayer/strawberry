@@ -57,7 +57,7 @@ QobuzStreamURLRequest::QobuzStreamURLRequest(QobuzService *service, NetworkAcces
 QobuzStreamURLRequest::~QobuzStreamURLRequest() {
 
   if (reply_) {
-    disconnect(reply_, 0, this, 0);
+    QObject::disconnect(reply_, nullptr, this, nullptr);
     if (reply_->isRunning()) reply_->abort();
     reply_->deleteLater();
   }
@@ -110,7 +110,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
   ++tries_;
 
   if (reply_) {
-    disconnect(reply_, 0, this, 0);
+    QObject::disconnect(reply_, nullptr, this, nullptr);
     if (reply_->isRunning()) reply_->abort();
     reply_->deleteLater();
   }
@@ -152,7 +152,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
   std::sort(params.begin(), params.end());
 
   reply_ = CreateRequest(QString("track/getFileUrl"), params);
-  connect(reply_, SIGNAL(finished()), this, SLOT(StreamURLReceived()));
+  QObject::connect(reply_, &QNetworkReply::finished, this, &QobuzStreamURLRequest::StreamURLReceived);
 
 }
 
@@ -162,7 +162,7 @@ void QobuzStreamURLRequest::StreamURLReceived() {
 
   QByteArray data = GetReplyData(reply_);
 
-  disconnect(reply_, 0, this, 0);
+  QObject::disconnect(reply_, nullptr, this, nullptr);
   reply_->deleteLater();
   reply_ = nullptr;
 

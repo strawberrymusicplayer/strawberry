@@ -73,4 +73,4 @@ public:
   QPixmap background_cache_;
 };
 
-#endif // TRACKSLIDERPOPUP_H
+#endif  // TRACKSLIDERPOPUP_H

@@ -65,15 +65,14 @@ DeviceProperties::DeviceProperties(QWidget *parent)
       ui_(new Ui_DeviceProperties),
       manager_(nullptr),
       updating_formats_(false) {
+
   ui_->setupUi(this);
 
-  connect(ui_->open_device, SIGNAL(clicked()), SLOT(OpenDevice()));
+  QObject::connect(ui_->open_device, &QPushButton::clicked, this, &DeviceProperties::OpenDevice);
 
   // Maximum height of the icon widget
-  ui_->icon->setMaximumHeight(
-      ui_->icon->iconSize().height() +
-      ui_->icon->horizontalScrollBar()->sizeHint().height() +
-      ui_->icon->spacing() * 2 + 5);
+  ui_->icon->setMaximumHeight(ui_->icon->iconSize().height() + ui_->icon->horizontalScrollBar()->sizeHint().height() + ui_->icon->spacing() * 2 + 5);
+
 }
 
 DeviceProperties::~DeviceProperties() { delete ui_; }
@@ -81,9 +80,9 @@ DeviceProperties::~DeviceProperties() { delete ui_; }
 void DeviceProperties::SetDeviceManager(DeviceManager *manager) {
 
   manager_ = manager;
-  connect(manager_, SIGNAL(dataChanged(QModelIndex,QModelIndex)), SLOT(ModelChanged()));
-  connect(manager_, SIGNAL(rowsInserted(QModelIndex,int,int)), SLOT(ModelChanged()));
-  connect(manager_, SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(ModelChanged()));
+  QObject::connect(manager_, &DeviceManager::dataChanged, this, &DeviceProperties::ModelChanged);
+  QObject::connect(manager_, &DeviceManager::rowsInserted, this, &DeviceProperties::ModelChanged);
+  QObject::connect(manager_, &DeviceManager::rowsRemoved, this, &DeviceProperties::ModelChanged);
 
 }
 
@@ -136,7 +135,7 @@ void DeviceProperties::ShowDevice(QModelIndex idx) {
 
 }
 
-void DeviceProperties::AddHardwareInfo(int row, const QString &key, const QString &value) {
+void DeviceProperties::AddHardwareInfo(const int row, const QString &key, const QString &value) {
   ui_->hardware_info->setItem(row, 0, new QTableWidgetItem(key));
   ui_->hardware_info->setItem(row, 1, new QTableWidgetItem(value));
 }
@@ -240,11 +239,14 @@ void DeviceProperties::UpdateFormats() {
   }
 
   if (!updating_formats_) {
-    // Get the device's supported formats list.  This takes a long time and it
-    // blocks, so do it in the background.
+    // Get the device's supported formats list.  This takes a long time and it blocks, so do it in the background.
     supported_formats_.clear();
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QFuture<bool> future = QtConcurrent::run(&ConnectedDevice::GetSupportedFiletypes, device, &supported_formats_);
+#else
     QFuture<bool> future = QtConcurrent::run(std::bind(&ConnectedDevice::GetSupportedFiletypes, device, &supported_formats_));
+#endif
     NewClosure(future, this, SLOT(UpdateFormatsFinished(QFuture<bool>)), future);
 
     ui_->formats_stack->setCurrentWidget(ui_->formats_page_loading);

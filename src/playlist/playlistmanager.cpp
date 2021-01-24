@@ -75,11 +75,12 @@ PlaylistManager::PlaylistManager(Application *app, QObject *parent)
       playlist_container_(nullptr),
       current_(-1),
       active_(-1),
-      playlists_loading_(0)
-{
-  connect(app_->player(), SIGNAL(Paused()), SLOT(SetActivePaused()));
-  connect(app_->player(), SIGNAL(Playing()), SLOT(SetActivePlaying()));
-  connect(app_->player(), SIGNAL(Stopped()), SLOT(SetActiveStopped()));
+      playlists_loading_(0) {
+
+  QObject::connect(app_->player(), &Player::Paused, this, &PlaylistManager::SetActivePaused);
+  QObject::connect(app_->player(), &Player::Playing, this, &PlaylistManager::SetActivePlaying);
+  QObject::connect(app_->player(), &Player::Stopped, this, &PlaylistManager::SetActiveStopped);
+
 }
 
 PlaylistManager::~PlaylistManager() {
@@ -96,14 +97,14 @@ void PlaylistManager::Init(CollectionBackend *collection_backend, PlaylistBacken
   parser_ = new PlaylistParser(collection_backend, this);
   playlist_container_ = playlist_container;
 
-  connect(collection_backend_, SIGNAL(SongsDiscovered(SongList)), SLOT(SongsDiscovered(SongList)));
-  connect(collection_backend_, SIGNAL(SongsStatisticsChanged(SongList)), SLOT(SongsDiscovered(SongList)));
-  connect(collection_backend_, SIGNAL(SongsRatingChanged(SongList)), SLOT(SongsDiscovered(SongList)));
+  QObject::connect(collection_backend_, &CollectionBackend::SongsDiscovered, this, &PlaylistManager::SongsDiscovered);
+  QObject::connect(collection_backend_, &CollectionBackend::SongsStatisticsChanged, this, &PlaylistManager::SongsDiscovered);
+  QObject::connect(collection_backend_, &CollectionBackend::SongsRatingChanged, this, &PlaylistManager::SongsDiscovered);
 
   for (const PlaylistBackend::Playlist &p : playlist_backend->GetAllOpenPlaylists()) {
     ++playlists_loading_;
     Playlist *ret = AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
-    connect(ret, SIGNAL(PlaylistLoaded()), SLOT(PlaylistLoaded()));
+    QObject::connect(ret, &Playlist::PlaylistLoaded, this, &PlaylistManager::PlaylistLoaded);
   }
 
   // If no playlist exists then make a new one
@@ -117,7 +118,7 @@ void PlaylistManager::PlaylistLoaded() {
 
   Playlist *playlist = qobject_cast<Playlist*>(sender());
   if (!playlist) return;
-  disconnect(playlist, SIGNAL(PlaylistLoaded()), this, SLOT(PlaylistLoaded()));
+  QObject::disconnect(playlist, &Playlist::PlaylistLoaded, this, &PlaylistManager::PlaylistLoaded);
   --playlists_loading_;
   if (playlists_loading_ == 0) {
     emit AllPlaylistsLoaded();
@@ -148,15 +149,15 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
   ret->set_sequence(sequence_);
   ret->set_ui_path(ui_path);
 
-  connect(ret, SIGNAL(CurrentSongChanged(Song)), SIGNAL(CurrentSongChanged(Song)));
-  connect(ret, SIGNAL(SongMetadataChanged(Song)), SIGNAL(SongMetadataChanged(Song)));
-  connect(ret, SIGNAL(PlaylistChanged()), SLOT(OneOfPlaylistsChanged()));
-  connect(ret, SIGNAL(PlaylistChanged()), SLOT(UpdateSummaryText()));
-  connect(ret, SIGNAL(EditingFinished(QModelIndex)), SIGNAL(EditingFinished(QModelIndex)));
-  connect(ret, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
-  connect(ret, SIGNAL(PlayRequested(QModelIndex, Playlist::AutoScroll)), SIGNAL(PlayRequested(QModelIndex, Playlist::AutoScroll)));
-  connect(playlist_container_->view(), SIGNAL(ColumnAlignmentChanged(ColumnAlignmentMap)), ret, SLOT(SetColumnAlignment(ColumnAlignmentMap)));
-  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)), ret, SLOT(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)));
+  QObject::connect(ret, &Playlist::CurrentSongChanged, this, &PlaylistManager::CurrentSongChanged);
+  QObject::connect(ret, &Playlist::SongMetadataChanged, this, &PlaylistManager::SongMetadataChanged);
+  QObject::connect(ret, &Playlist::PlaylistChanged, this, &PlaylistManager::OneOfPlaylistsChanged);
+  QObject::connect(ret, &Playlist::PlaylistChanged, this, &PlaylistManager::UpdateSummaryText);
+  QObject::connect(ret, &Playlist::EditingFinished, this, &PlaylistManager::EditingFinished);
+  QObject::connect(ret, &Playlist::Error, this, &PlaylistManager::Error);
+  QObject::connect(ret, &Playlist::PlayRequested, this, &PlaylistManager::PlayRequested);
+  QObject::connect(playlist_container_->view(), &PlaylistView::ColumnAlignmentChanged, ret, &Playlist::SetColumnAlignment);
+  QObject::connect(app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, ret, &Playlist::AlbumCoverLoaded);
 
   playlists_[id] = Data(ret, name);
 

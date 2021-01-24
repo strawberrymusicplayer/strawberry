@@ -63,4 +63,4 @@ class InternetServices : public QObject {
 
 };
 
-#endif
+#endif  // INTERNETSERVICES_H

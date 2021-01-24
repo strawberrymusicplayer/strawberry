@@ -65,20 +65,20 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
   ui_->list->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
   setWindowIcon(IconLoader::Load("keyboard"));
 
-  connect(ui_->list, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), SLOT(ItemClicked(QTreeWidgetItem*)));
-  connect(ui_->radio_none, SIGNAL(clicked()), SLOT(NoneClicked()));
-  connect(ui_->radio_default, SIGNAL(clicked()), SLOT(DefaultClicked()));
-  connect(ui_->radio_custom, SIGNAL(clicked()), SLOT(ChangeClicked()));
-  connect(ui_->button_change, SIGNAL(clicked()), SLOT(ChangeClicked()));
+  QObject::connect(ui_->list, &QTreeWidget::currentItemChanged, this, &GlobalShortcutsSettingsPage::ItemClicked);
+  QObject::connect(ui_->radio_none, &QRadioButton::clicked, this, &GlobalShortcutsSettingsPage::NoneClicked);
+  QObject::connect(ui_->radio_default, &QRadioButton::clicked, this, &GlobalShortcutsSettingsPage::DefaultClicked);
+  QObject::connect(ui_->radio_custom, &QRadioButton::clicked, this, &GlobalShortcutsSettingsPage::ChangeClicked);
+  QObject::connect(ui_->button_change, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::ChangeClicked);
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
 #  ifdef HAVE_DBUS
-  connect(ui_->checkbox_gsd, SIGNAL(clicked(bool)), SLOT(ShortcutOptionsChanged()));
-  connect(ui_->checkbox_kde, SIGNAL(clicked(bool)), SLOT(ShortcutOptionsChanged()));
-  connect(ui_->button_gsd_open, SIGNAL(clicked()), SLOT(OpenGnomeKeybindingProperties()));
+  QObject::connect(ui_->checkbox_gsd, &QCheckBox::clicked, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
+  QObject::connect(ui_->checkbox_kde, &QCheckBox::clicked, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
+  QObject::connect(ui_->button_gsd_open, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties);
 #  endif
 #  ifdef HAVE_X11EXTRAS
-  connect(ui_->checkbox_x11, SIGNAL(clicked(bool)), SLOT(ShortcutOptionsChanged()));
+  QObject::connect(ui_->checkbox_x11, &QCheckBox::clicked, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
 #  endif
 #else
   ui_->widget_gsd->hide();
@@ -116,7 +116,7 @@ void GlobalShortcutsSettingsPage::Load() {
     de_ = Utilities::DesktopEnvironment();
     ui_->widget_warning->hide();
 
-    connect(ui_->button_macos_open, SIGNAL(clicked()), manager, SLOT(ShowMacAccessibilityDialog()));
+    QObject::connect(ui_->button_macos_open, &QPushButton::clicked, manager, &GlobalShortcuts::ShowMacAccessibilityDialog);
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
     if (manager->IsGsdAvailable()) {

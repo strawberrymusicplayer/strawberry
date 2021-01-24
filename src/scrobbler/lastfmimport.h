@@ -73,8 +73,8 @@ class LastFMImport : public QObject {
 
   void Error(const QString &error, const QVariant &debug = QVariant());
 
-  void UpdateTotal();
-  void UpdateProgress();
+  void UpdateTotalCheck();
+  void UpdateProgressCheck();
 
   void FinishCheck();
 

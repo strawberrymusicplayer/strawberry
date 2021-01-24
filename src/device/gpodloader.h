@@ -73,4 +73,3 @@ class GPodLoader : public QObject {
 };
 
 #endif  // GPODLOADER_H
-
