@@ -95,6 +95,7 @@
         <file>icons/128x128/radio.png</file>
         <file>icons/128x128/somafm.png</file>
         <file>icons/128x128/radioparadise.png</file>
+        <file>icons/128x128/guitar.png</file>
         <file>icons/64x64/albums.png</file>
         <file>icons/64x64/alsa.png</file>
         <file>icons/64x64/application-exit.png</file>
@@ -191,6 +192,7 @@
         <file>icons/64x64/radio.png</file>
         <file>icons/64x64/somafm.png</file>
         <file>icons/64x64/radioparadise.png</file>
+        <file>icons/64x64/guitar.png</file>
         <file>icons/48x48/albums.png</file>
         <file>icons/48x48/alsa.png</file>
         <file>icons/48x48/application-exit.png</file>
@@ -291,6 +293,7 @@
         <file>icons/48x48/radio.png</file>
         <file>icons/48x48/somafm.png</file>
         <file>icons/48x48/radioparadise.png</file>
+        <file>icons/48x48/guitar.png</file>
         <file>icons/32x32/albums.png</file>
         <file>icons/32x32/alsa.png</file>
         <file>icons/32x32/application-exit.png</file>
@@ -391,6 +394,7 @@
         <file>icons/32x32/radio.png</file>
         <file>icons/32x32/somafm.png</file>
         <file>icons/32x32/radioparadise.png</file>
+        <file>icons/32x32/guitar.png</file>
         <file>icons/22x22/albums.png</file>
         <file>icons/22x22/alsa.png</file>
         <file>icons/22x22/application-exit.png</file>
@@ -491,5 +495,6 @@
         <file>icons/22x22/radio.png</file>
         <file>icons/22x22/somafm.png</file>
         <file>icons/22x22/radioparadise.png</file>
+        <file>icons/22x22/guitar.png</file>
     </qresource>
 </RCC>

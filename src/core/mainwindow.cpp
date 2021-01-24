@@ -210,6 +210,8 @@
 #  endif
 #endif  // HAVE_QTSPARKLE
 
+#include "artistbio/artistbioview.h"
+
 const char *MainWindow::kSettingsGroup = "MainWindow";
 const char *MainWindow::kAllFilesFilterSpec = QT_TR_NOOP("All Files (*)");
 
@@ -281,6 +283,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       qobuz_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source_Qobuz), QobuzSettingsPage::kSettingsGroup, SettingsDialog::Page_Qobuz, this)),
 #endif
       radio_view_(new RadioViewContainer(this)),
+      artistbio_view_(new ArtistBioView(this)),
       lastfm_import_dialog_(new LastFMImportDialog(app_->lastfm_import(), this)),
       collection_show_all_(nullptr),
       collection_show_duplicates_(nullptr),
@@ -359,6 +362,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 #ifdef HAVE_QOBUZ
   ui_->tabs->AddTab(qobuz_view_, "qobuz", IconLoader::Load("qobuz"), tr("Qobuz"));
 #endif
+  ui_->tabs->AddTab(artistbio_view_, "artistbio", IconLoader::Load("guitar"), tr("Artist biography"));
 
   // Add the playing widget to the fancy tab widget
   ui_->tabs->addBottomWidget(ui_->widget_playing);
@@ -881,6 +885,10 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(app_->lastfm_import(), &LastFMImport::UpdateTotal, lastfm_import_dialog_, &LastFMImportDialog::UpdateTotal);
   QObject::connect(app_->lastfm_import(), &LastFMImport::UpdateProgress, lastfm_import_dialog_, &LastFMImportDialog::UpdateProgress);
 
+  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), artistbio_view_, SLOT(SongChanged(Song)));
+  connect(app_->player(), SIGNAL(PlaylistFinished()), artistbio_view_, SLOT(SongFinished()));
+  connect(app_->player(), SIGNAL(Stopped()), artistbio_view_, SLOT(SongFinished()));
+
   // Load settings
   qLog(Debug) << "Loading settings";
   settings_.beginGroup(kSettingsGroup);
@@ -1082,6 +1090,16 @@ void MainWindow::ReloadSettings() {
   osd_->ReloadSettings();
 
   album_cover_choice_controller_->search_cover_auto_action()->setChecked(settings_.value("search_for_cover_auto", true).toBool());
+
+  s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+  bool artistbio = s.value("artistbio", false).toBool();
+  s.endGroup();
+  if (artistbio) {
+    ui_->tabs->EnableTab(artistbio_view_);
+  }
+  else {
+    ui_->tabs->DisableTab(artistbio_view_);
+  }
 
 #ifdef HAVE_SUBSONIC
   s.beginGroup(SubsonicSettingsPage::kSettingsGroup);

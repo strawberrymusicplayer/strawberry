@@ -18,6 +18,7 @@
         <file>schema/schema-15.sql</file>
         <file>schema/device-schema.sql</file>
         <file>style/strawberry.css</file>
+        <file>style/artistbio.css</file>
         <file>style/smartplaylistsearchterm.css</file>
         <file>html/oauthsuccess.html</file>
         <file>pictures/strawberry.png</file>

@@ -1,0 +1,7 @@
+QScrollArea {
+  background: qpalette(base);
+}
+
+QTextEdit {
+  border: 0px;
+}

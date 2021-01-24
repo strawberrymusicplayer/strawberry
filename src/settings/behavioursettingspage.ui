@@ -59,6 +59,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_artistbio">
+     <property name="text">
+      <string>Artist biography</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_startup">
      <property name="title">
       <string>On startup</string>

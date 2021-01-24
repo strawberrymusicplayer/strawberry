@@ -73,6 +73,7 @@
 #include "smartplaylists/playlistgenerator_fwd.h"
 
 #include "radios/radiochannel.h"
+#include "widgets/collapsibleinfopane.h"
 
 void RegisterMetaTypes() {
 
@@ -144,5 +145,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<PlaylistGeneratorPtr>("PlaylistGeneratorPtr");
 
   qRegisterMetaType<RadioChannelList>("RadioChannelList");
+
+  qRegisterMetaType<CollapsibleInfoPane::Data>("CollapsibleInfoPane::Data");
 
 }
