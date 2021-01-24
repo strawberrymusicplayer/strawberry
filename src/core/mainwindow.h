@@ -107,6 +107,8 @@ class QSessionManager;
 class DiscordRichPresence;
 #endif
 
+class ArtistBioView;
+
 class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
 
@@ -367,6 +369,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #endif
 
   RadioViewContainer *radio_view_;
+
+  ArtistBioView *artistbio_view_;
 
   QAction *collection_show_all_;
   QAction *collection_show_duplicates_;

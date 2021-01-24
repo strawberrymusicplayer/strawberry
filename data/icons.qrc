@@ -100,6 +100,7 @@
         <file>icons/128x128/radiobrowser.png</file>
         <file>icons/128x128/musicbrainz.png</file>
         <file>icons/128x128/waveform-config.png</file>
+        <file>icons/128x128/guitar.png</file>
         <file>icons/64x64/albums.png</file>
         <file>icons/64x64/alsa.png</file>
         <file>icons/64x64/application-exit.png</file>
@@ -201,6 +202,7 @@
         <file>icons/64x64/radiobrowser.png</file>
         <file>icons/64x64/musicbrainz.png</file>
         <file>icons/64x64/waveform-config.png</file>
+        <file>icons/64x64/guitar.png</file>
         <file>icons/48x48/albums.png</file>
         <file>icons/48x48/alsa.png</file>
         <file>icons/48x48/application-exit.png</file>
@@ -306,6 +308,7 @@
         <file>icons/48x48/radiobrowser.png</file>
         <file>icons/48x48/musicbrainz.png</file>
         <file>icons/48x48/waveform-config.png</file>
+        <file>icons/48x48/guitar.png</file>
         <file>icons/32x32/albums.png</file>
         <file>icons/32x32/alsa.png</file>
         <file>icons/32x32/application-exit.png</file>
@@ -411,6 +414,7 @@
         <file>icons/32x32/radiobrowser.png</file>
         <file>icons/32x32/musicbrainz.png</file>
         <file>icons/32x32/waveform-config.png</file>
+        <file>icons/32x32/guitar.png</file>
         <file>icons/22x22/albums.png</file>
         <file>icons/22x22/alsa.png</file>
         <file>icons/22x22/application-exit.png</file>
@@ -516,5 +520,6 @@
         <file>icons/22x22/radiobrowser.png</file>
         <file>icons/22x22/musicbrainz.png</file>
         <file>icons/22x22/waveform-config.png</file>
+        <file>icons/22x22/guitar.png</file>
     </qresource>
 </RCC>
