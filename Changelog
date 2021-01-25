@@ -5,8 +5,10 @@ ChangeLog
 Unreleased:
 
   Bugfixes:
-    * Fix bug duplicating songs in the DB when organizing songs between 2 different collection directories.
-    * Fix bug overwriting existing newer last played when importing last played from last.fm.
+    * Fix duplicating songs in the DB when organizing songs between 2 different collection directories.
+    * Fix overwriting existing newer last played when importing last played from last.fm.
+    * Fix memory leak on song change when moodbar is disabled.
+    * Fix playlist filter search for text with spaces with Qt 6.
     * (macOS) Fix minor compile errors with Qt 6.
     * (macOS) Fix exclusively grabbing global media shortcuts.
 
