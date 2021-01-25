@@ -33,6 +33,8 @@ class MoodbarController : public QObject {
  public:
   explicit MoodbarController(Application* app, QObject* parent = nullptr);
 
+  void ReloadSettings();
+
  signals:
   void CurrentMoodbarDataChanged(const QByteArray& data);
 
@@ -43,6 +45,7 @@ class MoodbarController : public QObject {
 
  private:
   Application* app_;
+  bool enabled_;
 };
 
 #endif  // MOODBARCONTROLLER_H

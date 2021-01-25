@@ -1109,6 +1109,7 @@ void MainWindow::ReloadAllSettings() {
   app_->ReloadSettings();
   app_->collection()->ReloadSettings();
   app_->player()->ReloadSettings();
+  app_->moodbar_controller()->ReloadSettings();
   collection_view_->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
   app_->playlist_manager()->playlist_container()->ReloadSettings();

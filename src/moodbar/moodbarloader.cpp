@@ -75,7 +75,6 @@ void MoodbarLoader::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
-  enabled_ = s.value("enabled", false).toBool();
   save_ = s.value("save", false).toBool();
   s.endGroup();
 
@@ -148,7 +147,7 @@ void MoodbarLoader::MaybeTakeNextRequest() {
 
   Q_ASSERT(QThread::currentThread() == qApp->thread());
 
-  if (active_requests_.count() >= kMaxActiveRequests || queued_requests_.isEmpty() || !enabled_) {
+  if (active_requests_.count() >= kMaxActiveRequests || queued_requests_.isEmpty()) {
     return;
   }
 

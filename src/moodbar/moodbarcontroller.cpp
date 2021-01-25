@@ -26,8 +26,8 @@
 #include "core/player.h"
 #include "core/song.h"
 #include "engine/engine_fwd.h"
+#include "settings/moodbarsettingspage.h"
 #include "playlist/playlistmanager.h"
-#include "playlist/playlistitem.h"
 
 #include "moodbarcontroller.h"
 #include "moodbarloader.h"
@@ -35,14 +35,28 @@
 
 MoodbarController::MoodbarController(Application* app, QObject* parent)
     : QObject(parent),
-    app_(app) {
+    app_(app),
+    enabled_(false) {
 
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(CurrentSongChanged(Song)));
   connect(app_->player(), SIGNAL(Stopped()), SLOT(PlaybackStopped()));
 
+  ReloadSettings();
+
 }
 
-void MoodbarController::CurrentSongChanged(const Song& song) {
+void MoodbarController::ReloadSettings() {
+
+  QSettings s;
+  s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
+  enabled_ = s.value("enabled", false).toBool();
+  s.endGroup();
+
+}
+
+void MoodbarController::CurrentSongChanged(const Song &song) {
+
+  if (!enabled_) return;
 
   QByteArray data;
   MoodbarPipeline* pipeline = nullptr;
@@ -69,7 +83,9 @@ void MoodbarController::CurrentSongChanged(const Song& song) {
 }
 
 void MoodbarController::PlaybackStopped() {
-  emit CurrentMoodbarDataChanged(QByteArray());
+  if (enabled_) {
+    emit CurrentMoodbarDataChanged(QByteArray());
+  }
 }
 
 void MoodbarController::AsyncLoadComplete(MoodbarPipeline* pipeline, const QUrl& url) {
