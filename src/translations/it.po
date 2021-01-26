@@ -556,7 +556,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Aggiungi cartella..."
 
-#: core/mainwindow.cpp:2124
+#: core/mainwindow.cpp:2125
 msgid "Add file"
 msgstr "Aggiungi file"
 
@@ -572,7 +572,7 @@ msgstr "Aggiungi file al transcodificatore"
 msgid "Add files to transcode"
 msgstr "Aggiungi file da transcodificare"
 
-#: core/mainwindow.cpp:2149 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2150 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Aggiungi cartella"
 
@@ -682,7 +682,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Aggiungi agli album"
 
-#: core/mainwindow.cpp:1932
+#: core/mainwindow.cpp:1933
 msgid "Add to another playlist"
 msgstr "Aggiungi a un'altra scaletta"
 
@@ -1198,7 +1198,7 @@ msgstr "Svuota"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:2214 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2215 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Svuota la scaletta"
 
@@ -1265,7 +1265,7 @@ msgstr "Filtro della Collezione"
 msgid "Collection advanced grouping"
 msgstr "Raggruppamento avanzato della raccolta"
 
-#: core/mainwindow.cpp:2734
+#: core/mainwindow.cpp:2735
 msgid "Collection rescan notice"
 msgstr "Notifica nuova scansione della raccolta"
 
@@ -1650,11 +1650,11 @@ msgstr "Elimina i file originali"
 msgid "Deleting files"
 msgstr "Eliminazione dei file"
 
-#: core/mainwindow.cpp:1849
+#: core/mainwindow.cpp:1850
 msgid "Dequeue selected tracks"
 msgstr "Rimuovi le tracce selezionate dalla coda"
 
-#: core/mainwindow.cpp:1848
+#: core/mainwindow.cpp:1849
 msgid "Dequeue track"
 msgstr "Rimuovi tracce dalla coda"
 
@@ -1799,7 +1799,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1890
+#: core/mainwindow.cpp:1891
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Modifica tag \"%1\"..."
@@ -1951,7 +1951,7 @@ msgstr "Equivalente a --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente a --log-levels *:3"
 
-#: core/mainwindow.cpp:2472 core/mainwindow.cpp:2617
+#: core/mainwindow.cpp:2473 core/mainwindow.cpp:2618
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Errore"
@@ -2968,7 +2968,7 @@ msgstr "Sposta nella raccolta..."
 msgid "Move up"
 msgstr "Sposta in alto"
 
-#: core/mainwindow.cpp:2124 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2125 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musica"
 
@@ -3013,7 +3013,7 @@ msgstr "Non iniziare mai la riproduzione"
 msgid "New folder"
 msgstr "Nuova cartella"
 
-#: core/mainwindow.cpp:1948
+#: core/mainwindow.cpp:1949
 msgid "New playlist"
 msgstr "Nuova scaletta"
 
@@ -3085,7 +3085,7 @@ msgstr "Nessuna canzone in riproduzione"
 msgid "None"
 msgstr "Nessuna"
 
-#: core/mainwindow.cpp:2472 core/mainwindow.cpp:2617
+#: core/mainwindow.cpp:2473 core/mainwindow.cpp:2618
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3294,7 +3294,7 @@ msgstr "Festa"
 msgid "Password"
 msgstr "Password"
 
-#: core/mainwindow.cpp:1263 core/mainwindow.cpp:1744
+#: core/mainwindow.cpp:1264 core/mainwindow.cpp:1745
 #: core/qtsystemtrayicon.cpp:193
 msgid "Pause"
 msgstr "Pausa"
@@ -3322,8 +3322,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Barra laterale semplice"
 
-#: core/mainwindow.cpp:675 core/mainwindow.cpp:1216 core/mainwindow.cpp:1245
-#: core/mainwindow.cpp:1748 core/qtsystemtrayicon.cpp:180
+#: core/mainwindow.cpp:675 core/mainwindow.cpp:1217 core/mainwindow.cpp:1246
+#: core/mainwindow.cpp:1749 core/qtsystemtrayicon.cpp:180
 #: core/qtsystemtrayicon.cpp:205
 msgid "Play"
 msgstr "Riproduci"
@@ -3390,7 +3390,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Scaletta terminata"
 
-#: core/mainwindow.cpp:2214
+#: core/mainwindow.cpp:2215
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3563,20 +3563,20 @@ msgstr "Interrogazione dispositivo..."
 msgid "Queue"
 msgstr "Coda"
 
-#: core/mainwindow.cpp:1851
+#: core/mainwindow.cpp:1852
 msgid "Queue selected tracks"
 msgstr "Accoda le tracce selezionate"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1855
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1856
 msgid "Queue selected tracks to play next"
 msgstr "Accoda i brani selezionati per riprodurli successivamente"
 
-#: core/mainwindow.cpp:1857 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1858 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Accoda cosa riprodurre dopo"
 
-#: core/mainwindow.cpp:1850 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1851 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -4081,7 +4081,7 @@ msgstr "L'URL del server non è valido."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:1890
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Imposta %1 a \"%2\"..."
@@ -4319,11 +4319,11 @@ msgstr "Salta il conteggio"
 msgid "Skip forwards in playlist"
 msgstr "Salta in avanti nella scaletta"
 
-#: core/mainwindow.cpp:1862
+#: core/mainwindow.cpp:1863
 msgid "Skip selected tracks"
 msgstr "Salta le tracce selezionate"
 
-#: core/mainwindow.cpp:1861
+#: core/mainwindow.cpp:1862
 msgid "Skip track"
 msgstr "Salta la traccia"
 
@@ -4655,7 +4655,7 @@ msgstr "Il sito richiesto non esiste!"
 msgid "The site you requested is not an image!"
 msgstr "Il sito richiesto non è un'immagine!"
 
-#: core/mainwindow.cpp:2729
+#: core/mainwindow.cpp:2730
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4791,7 +4791,7 @@ msgstr "Titolo"
 msgid "Today"
 msgstr "Oggi"
 
-#: core/mainwindow.cpp:678 core/mainwindow.cpp:1852
+#: core/mainwindow.cpp:678 core/mainwindow.cpp:1853
 msgid "Toggle queue status"
 msgstr "Cambia lo stato della coda"
 
@@ -4799,7 +4799,7 @@ msgstr "Cambia lo stato della coda"
 msgid "Toggle scrobbling"
 msgstr "Commuta lo scrobbling"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1863
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1864
 msgid "Toggle skip status"
 msgstr "Attiva / Disattiva lo status di ignoramento"
 
@@ -4898,11 +4898,11 @@ msgstr "Errore sconosciuto"
 msgid "Unset cover"
 msgstr "Rimuovi copertina"
 
-#: core/mainwindow.cpp:1860
+#: core/mainwindow.cpp:1861
 msgid "Unskip selected tracks"
 msgstr "Ripristina le tracce selezionate"
 
-#: core/mainwindow.cpp:1859
+#: core/mainwindow.cpp:1860
 msgid "Unskip track"
 msgstr "Ripristina la traccia"
 
@@ -5142,7 +5142,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2733
+#: core/mainwindow.cpp:2734
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vuoi eseguire subito una nuova scansione completa?"
 
