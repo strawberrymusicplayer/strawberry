@@ -19,7 +19,7 @@
 
 #include "config.h"
 
-#include "globalshortcutbackend-system.h"
+#include "globalshortcutsbackend-system.h"
 
 #include "core/logging.h"
 
@@ -29,21 +29,21 @@
 #include <QKeySequence>
 #include <QtAlgorithms>
 
-#include "globalshortcuts.h"
-#include "globalshortcutbackend.h"
+#include "globalshortcutsmanager.h"
+#include "globalshortcutsbackend.h"
 #include "globalshortcut.h"
 
-GlobalShortcutBackendSystem::GlobalShortcutBackendSystem(GlobalShortcuts *parent) : GlobalShortcutBackend(parent), gshortcut_init_(nullptr) {}
+GlobalShortcutsBackendSystem::GlobalShortcutsBackendSystem(GlobalShortcutsManager *parent) : GlobalShortcutsBackend(parent), gshortcut_init_(nullptr) {}
 
-GlobalShortcutBackendSystem::~GlobalShortcutBackendSystem() { DoUnregister(); }
+GlobalShortcutsBackendSystem::~GlobalShortcutsBackendSystem() { DoUnregister(); }
 
-bool GlobalShortcutBackendSystem::DoRegister() {
+bool GlobalShortcutsBackendSystem::DoRegister() {
 
   qLog(Debug) << "Registering";
 
   if (!gshortcut_init_) gshortcut_init_ = new GlobalShortcut(this);
 
-  for (const GlobalShortcuts::Shortcut &shortcut : manager_->shortcuts().values()) {
+  for (const GlobalShortcutsManager::Shortcut &shortcut : manager_->shortcuts().values()) {
     AddShortcut(shortcut.action);
   }
 
@@ -51,7 +51,7 @@ bool GlobalShortcutBackendSystem::DoRegister() {
 
 }
 
-bool GlobalShortcutBackendSystem::AddShortcut(QAction *action) {
+bool GlobalShortcutsBackendSystem::AddShortcut(QAction *action) {
 
   if (action->shortcut().isEmpty()) return false;
 
@@ -62,7 +62,7 @@ bool GlobalShortcutBackendSystem::AddShortcut(QAction *action) {
 
 }
 
-void GlobalShortcutBackendSystem::DoUnregister() {
+void GlobalShortcutsBackendSystem::DoUnregister() {
 
   qLog(Debug) << "Unregistering";
 
@@ -75,4 +75,3 @@ void GlobalShortcutBackendSystem::DoUnregister() {
   }
 
 }
-

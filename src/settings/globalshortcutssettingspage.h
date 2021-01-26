@@ -32,7 +32,7 @@
 #include <QString>
 #include <QKeySequence>
 
-#include "globalshortcuts/globalshortcuts.h"
+#include "globalshortcuts/globalshortcutsmanager.h"
 #include "settingspage.h"
 
 class QTreeWidgetItem;
@@ -65,7 +65,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
 
  private:
   struct Shortcut {
-    GlobalShortcuts::Shortcut s;
+    GlobalShortcutsManager::Shortcut s;
     QKeySequence key;
     QTreeWidgetItem *item;
   };

@@ -18,37 +18,23 @@
  *
  */
 
-#ifndef GLOBALSHORTCUTBACKEND_H
-#define GLOBALSHORTCUTBACKEND_H
-
 #include "config.h"
 
 #include <QObject>
-#include <QString>
 
-class GlobalShortcuts;
+#include "globalshortcutsbackend.h"
+#include "globalshortcutsmanager.h"
 
-class GlobalShortcutBackend : public QObject {
-  Q_OBJECT
+GlobalShortcutsBackend::GlobalShortcutsBackend(GlobalShortcutsManager *parent)
+    : QObject(parent), manager_(parent), active_(false) {}
 
- public:
-  explicit GlobalShortcutBackend(GlobalShortcuts *parent = nullptr);
+bool GlobalShortcutsBackend::Register() {
+  bool ret = DoRegister();
+  if (ret) active_ = true;
+  return ret;
+}
 
-  bool is_active() const { return active_; }
-
-  bool Register();
-  void Unregister();
-
- signals:
-  void RegisterFinished(bool success);
-
- protected:
-  virtual bool DoRegister() = 0;
-  virtual void DoUnregister() = 0;
-
-  GlobalShortcuts *manager_;
-  bool active_;
-
-};
-
-#endif  // GLOBALSHORTCUTBACKEND_H
+void GlobalShortcutsBackend::Unregister() {
+  DoUnregister();
+  active_ = false;
+}

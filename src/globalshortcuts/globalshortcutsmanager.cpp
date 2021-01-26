@@ -34,23 +34,23 @@
 #  include <QX11Info>
 #endif
 
-#include "globalshortcuts.h"
-#include "globalshortcutbackend.h"
+#include "globalshortcutsmanager.h"
+#include "globalshortcutsbackend.h"
 
 #ifdef HAVE_DBUS
-#  include "globalshortcutbackend-gsd.h"
-#  include "globalshortcutbackend-kde.h"
+#  include "globalshortcutsbackend-gsd.h"
+#  include "globalshortcutsbackend-kde.h"
 #endif
 #if defined(HAVE_X11EXTRAS) || defined(Q_OS_WIN)
-#  include "globalshortcutbackend-system.h"
+#  include "globalshortcutsbackend-system.h"
 #endif
 #ifdef Q_OS_MACOS
-#  include "globalshortcutbackend-macos.h"
+#  include "globalshortcutsbackend-macos.h"
 #endif
 
-#include "settings/shortcutssettingspage.h"
+#include "settings/globalshortcutssettingspage.h"
 
-GlobalShortcuts::GlobalShortcuts(QWidget *parent)
+GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
     : QWidget(parent),
       gsd_backend_(nullptr),
       kde_backend_(nullptr),
@@ -85,28 +85,28 @@ GlobalShortcuts::GlobalShortcuts(QWidget *parent)
 
   // Create backends - these do the actual shortcut registration
 #ifdef HAVE_DBUS
-  gsd_backend_ = new GlobalShortcutBackendGSD(this);
-  kde_backend_ = new GlobalShortcutBackendKDE(this);
+  gsd_backend_ = new GlobalShortcutsBackendGSD(this);
+  kde_backend_ = new GlobalShortcutsBackendKDE(this);
 #endif
 
 #ifdef Q_OS_MACOS
   if (!system_backend_)
-    system_backend_ = new GlobalShortcutBackendMacOS(this);
+    system_backend_ = new GlobalShortcutsBackendMacOS(this);
 #endif
 #if defined(Q_OS_WIN)
   if (!system_backend_)
-    system_backend_ = new GlobalShortcutBackendSystem(this);
+    system_backend_ = new GlobalShortcutsBackendSystem(this);
 #endif
 #if defined(HAVE_X11EXTRAS)
   if (!system_backend_ && IsX11Available())
-    system_backend_ = new GlobalShortcutBackendSystem(this);
+    system_backend_ = new GlobalShortcutsBackendSystem(this);
 #endif
 
   ReloadSettings();
 
 }
 
-void GlobalShortcuts::ReloadSettings() {
+void GlobalShortcutsManager::ReloadSettings() {
 
   // The actual shortcuts have been set in our actions for us by the config dialog already - we just need to reread the gnome settings.
   use_gsd_ = settings_.value("use_gsd", true).toBool();
@@ -118,14 +118,14 @@ void GlobalShortcuts::ReloadSettings() {
 
 }
 
-void GlobalShortcuts::AddShortcut(const QString &id, const QString &name, const char *signal, const QKeySequence &default_key) {
+void GlobalShortcutsManager::AddShortcut(const QString &id, const QString &name, const char *signal, const QKeySequence &default_key) {
 
   Shortcut shortcut = AddShortcut(id, name, default_key);
   QObject::connect(shortcut.action, SIGNAL(triggered()), this, signal);
 
 }
 
-GlobalShortcuts::Shortcut GlobalShortcuts::AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key) {
+GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key) {
 
   Shortcut shortcut;
   shortcut.action = new QAction(name, this);
@@ -144,27 +144,27 @@ GlobalShortcuts::Shortcut GlobalShortcuts::AddShortcut(const QString &id, const 
 
 }
 
-bool GlobalShortcuts::IsGsdAvailable() const {
+bool GlobalShortcutsManager::IsGsdAvailable() const {
 
 #ifdef HAVE_DBUS
-  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendGSD::kGsdService) || QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendGSD::kGsdService2);
+  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutsBackendGSD::kGsdService) || QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutsBackendGSD::kGsdService2);
 #else
   return false;
 #endif
 
 }
 
-bool GlobalShortcuts::IsKdeAvailable() const {
+bool GlobalShortcutsManager::IsKdeAvailable() const {
 
 #ifdef HAVE_DBUS
-  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendKDE::kKdeService);
+  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutsBackendKDE::kKdeService);
 #else
   return false;
 #endif
 
 }
 
-bool GlobalShortcuts::IsX11Available() const {
+bool GlobalShortcutsManager::IsX11Available() const {
 
 #ifdef HAVE_X11EXTRAS
   return QX11Info::isPlatformX11();
@@ -174,7 +174,7 @@ bool GlobalShortcuts::IsX11Available() const {
 
 }
 
-void GlobalShortcuts::Register() {
+void GlobalShortcutsManager::Register() {
 
   if (use_gsd_ && gsd_backend_ && gsd_backend_->Register()) return;
   if (use_kde_ && kde_backend_ && kde_backend_->Register()) return;
@@ -189,7 +189,7 @@ void GlobalShortcuts::Register() {
 
 }
 
-void GlobalShortcuts::Unregister() {
+void GlobalShortcutsManager::Unregister() {
 
   if (gsd_backend_ && gsd_backend_->is_active()) gsd_backend_->Unregister();
   if (kde_backend_ && kde_backend_->is_active()) kde_backend_->Unregister();
@@ -197,17 +197,17 @@ void GlobalShortcuts::Unregister() {
 
 }
 
-bool GlobalShortcuts::IsMacAccessibilityEnabled() const {
+bool GlobalShortcutsManager::IsMacAccessibilityEnabled() const {
 #ifdef Q_OS_MACOS
-  if (system_backend_) return qobject_cast<GlobalShortcutBackendMacOS*>(system_backend_)->IsAccessibilityEnabled();
+  if (system_backend_) return qobject_cast<GlobalShortcutsBackendMacOS*>(system_backend_)->IsAccessibilityEnabled();
   else return false;
 #else
   return true;
 #endif
 }
 
-void GlobalShortcuts::ShowMacAccessibilityDialog() {
+void GlobalShortcutsManager::ShowMacAccessibilityDialog() {
 #ifdef Q_OS_MACOS
-  if (system_backend_) qobject_cast<GlobalShortcutBackendMacOS*>(system_backend_)->ShowAccessibilityDialog();
+  if (system_backend_) qobject_cast<GlobalShortcutsBackendMacOS*>(system_backend_)->ShowAccessibilityDialog();
 #endif
 }

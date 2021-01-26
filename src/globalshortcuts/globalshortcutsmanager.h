@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef GLOBALSHORTCUTS_H
-#define GLOBALSHORTCUTS_H
+#ifndef GLOBALSHORTCUTSMANAGER_H
+#define GLOBALSHORTCUTSMANAGER_H
 
 #include "config.h"
 
@@ -33,13 +33,13 @@
 
 class QShortcut;
 class QAction;
-class GlobalShortcutBackend;
+class GlobalShortcutsBackend;
 
-class GlobalShortcuts : public QWidget {
+class GlobalShortcutsManager : public QWidget {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcuts(QWidget *parent = nullptr);
+  explicit GlobalShortcutsManager(QWidget *parent = nullptr);
 
   struct Shortcut {
     QString id;
@@ -88,9 +88,9 @@ class GlobalShortcuts : public QWidget {
   Shortcut AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key);
 
  private:
-  GlobalShortcutBackend *gsd_backend_;
-  GlobalShortcutBackend *kde_backend_;
-  GlobalShortcutBackend *system_backend_;
+  GlobalShortcutsBackend *gsd_backend_;
+  GlobalShortcutsBackend *kde_backend_;
+  GlobalShortcutsBackend *system_backend_;
 
   QMap<QString, Shortcut> shortcuts_;
   QSettings settings_;
@@ -100,4 +100,4 @@ class GlobalShortcuts : public QWidget {
   bool use_x11_;
 };
 
-#endif  // GLOBALSHORTCUTS_H
+#endif  // GLOBALSHORTCUTSMANAGER_H

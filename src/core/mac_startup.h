@@ -9,7 +9,7 @@
 class QObject;
 class QWidget;
 
-class GlobalShortcutBackendMacOS;
+class GlobalShortcutsBackendMacOS;
 
 class PlatformInterface {
  public:
@@ -23,7 +23,7 @@ class PlatformInterface {
 namespace mac {
 
 void MacMain();
-void SetShortcutHandler(GlobalShortcutBackendMacOS *handler);
+void SetShortcutHandler(GlobalShortcutsBackendMacOS *handler);
 void SetApplicationHandler(PlatformInterface *handler);
 void CheckForUpdates();
 

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Shortcuts</string>
+   <string>Global Shortcuts</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../data/icons.qrc">

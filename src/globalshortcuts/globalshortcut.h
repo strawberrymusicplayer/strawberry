@@ -32,17 +32,17 @@
 #include <QByteArray>
 #include <QString>
 
-class GlobalShortcutBackend;
+class GlobalShortcutsBackend;
 
 class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
   Q_OBJECT
 
  public:
   explicit GlobalShortcut(QObject *parent = nullptr);
-  explicit GlobalShortcut(QKeySequence shortcut, GlobalShortcutBackend *backend, QObject *parent = nullptr);
+  explicit GlobalShortcut(QKeySequence shortcut, GlobalShortcutsBackend *backend, QObject *parent = nullptr);
   ~GlobalShortcut() override;
 
-  GlobalShortcutBackend *backend() const { return backend_; }
+  GlobalShortcutsBackend *backend() const { return backend_; }
   QKeySequence shortcut() const { return shortcut_; }
 
   bool setShortcut(const QKeySequence &shortcut);
@@ -71,7 +71,7 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
   static QHash<QPair<quint32, quint32>, GlobalShortcut*> internal_shortcuts_;
   static const QVector<quint32> mask_modifiers_;
 
-  GlobalShortcutBackend *backend_;
+  GlobalShortcutsBackend *backend_;
   QKeySequence shortcut_;
   Qt::Key qt_key_;
   Qt::KeyboardModifiers qt_mods_;

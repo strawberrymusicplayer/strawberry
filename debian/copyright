@@ -69,8 +69,8 @@ Files: src/core/main.h
        src/covermanager/spotifycoverprovider.h
        src/covermanager/musixmatchcoverprovider.cpp
        src/covermanager/musixmatchcoverprovider.h
-       src/globalshortcuts/globalshortcutbackend-system.cpp
-       src/globalshortcuts/globalshortcutbackend-system.h
+       src/globalshortcuts/globalshortcutsbackend-system.cpp
+       src/globalshortcuts/globalshortcutsbackend-system.h
        src/globalshortcuts/globalshortcut.cpp
        src/globalshortcuts/globalshortcut.h
        src/globalshortcuts/globalshortcut-X11.cpp
@@ -172,8 +172,8 @@ Files: src/core/main.cpp
        src/device/mtpconnection.h
        src/device/mtpdevice.cpp
        src/device/mtpdevice.h
-       src/globalshortcuts/globalshortcuts.cpp
-       src/globalshortcuts/globalshortcuts.h
+       src/globalshortcuts/globalshortcutsmanager.cpp
+       src/globalshortcuts/globalshortcutsmanager.h
        src/settings/shortcutssettingspage.cpp
        src/settings/shortcutssettingspage.h
        src/settings/appearancesettingspage.cpp

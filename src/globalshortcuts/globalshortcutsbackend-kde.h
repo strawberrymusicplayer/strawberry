@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef GLOBALSHORTCUTBACKEND_KDE_H
-#define GLOBALSHORTCUTBACKEND_KDE_H
+#ifndef GLOBALSHORTCUTSBACKEND_KDE_H
+#define GLOBALSHORTCUTSBACKEND_KDE_H
 
 #include "config.h"
 
@@ -28,8 +28,8 @@
 #include <QStringList>
 #include <QKeySequence>
 
-#include "globalshortcutbackend.h"
-#include "globalshortcuts.h"
+#include "globalshortcutsbackend.h"
+#include "globalshortcutsmanager.h"
 
 class QDBusPendingCallWatcher;
 class QAction;
@@ -37,11 +37,11 @@ class QAction;
 class OrgKdeKGlobalAccelInterface;
 class OrgKdeKglobalaccelComponentInterface;
 
-class GlobalShortcutBackendKDE : public GlobalShortcutBackend {
+class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutBackendKDE(GlobalShortcuts *parent);
+  explicit GlobalShortcutsBackendKDE(GlobalShortcutsManager *parent);
 
   static const char *kKdeService;
 
@@ -50,7 +50,7 @@ class GlobalShortcutBackendKDE : public GlobalShortcutBackend {
   void DoUnregister() override;
 
  private:
-  bool RegisterShortcut(const GlobalShortcuts::Shortcut &shortcut);
+  bool RegisterShortcut(const GlobalShortcutsManager::Shortcut &shortcut);
   static QStringList GetActionId(const QString &id, const QAction *action);
   static QList<int> ToIntList(const QList<QKeySequence> &sequence_list);
   static QList<QKeySequence> ToKeySequenceList(const QList<int> &sequence_list);
@@ -67,4 +67,4 @@ class GlobalShortcutBackendKDE : public GlobalShortcutBackend {
   QMultiHash<QString, QAction*> actions_;
 };
 
-#endif  // GLOBALSHORTCUTBACKEND_KDE_H
+#endif  // GLOBALSHORTCUTSBACKEND_KDE_H

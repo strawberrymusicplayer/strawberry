@@ -546,23 +546,23 @@ endif()
 
 if(HAVE_GLOBALSHORTCUTS)
   optional_source(HAVE_GLOBALSHORTCUTS
-    SOURCES globalshortcuts/globalshortcuts.cpp globalshortcuts/globalshortcutbackend.cpp globalshortcuts/globalshortcutgrabber.cpp settings/shortcutssettingspage.cpp
-    HEADERS globalshortcuts/globalshortcuts.h globalshortcuts/globalshortcutbackend.h globalshortcuts/globalshortcutgrabber.h settings/shortcutssettingspage.h
-    UI globalshortcuts/globalshortcutgrabber.ui settings/shortcutssettingspage.ui
+    SOURCES globalshortcuts/globalshortcutsmanager.cpp globalshortcuts/globalshortcutsbackend.cpp globalshortcuts/globalshortcutgrabber.cpp settings/globalshortcutssettingspage.cpp
+    HEADERS globalshortcuts/globalshortcutsmanager.h globalshortcuts/globalshortcutsbackend.h globalshortcuts/globalshortcutgrabber.h settings/globalshortcutssettingspage.h
+    UI globalshortcuts/globalshortcutgrabber.ui settings/globalshortcutssettingspage.ui
   )
   if(HAVE_X11EXTRAS OR WIN32)
     set(X11_OR_WIN ON)
   endif()
   optional_source(X11_OR_WIN
-    SOURCES globalshortcuts/globalshortcutbackend-system.cpp globalshortcuts/globalshortcut.cpp
-    HEADERS globalshortcuts/globalshortcutbackend-system.h globalshortcuts/globalshortcut.h
+    SOURCES globalshortcuts/globalshortcutsbackend-system.cpp globalshortcuts/globalshortcut.cpp
+    HEADERS globalshortcuts/globalshortcutsbackend-system.h globalshortcuts/globalshortcut.h
   )
   optional_source(HAVE_X11EXTRAS
     SOURCES globalshortcuts/globalshortcut-x11.cpp
   )
   optional_source(HAVE_DBUS
-    SOURCES globalshortcuts/globalshortcutbackend-gsd.cpp globalshortcuts/globalshortcutbackend-kde.cpp
-    HEADERS globalshortcuts/globalshortcutbackend-gsd.h globalshortcuts/globalshortcutbackend-kde.h
+    SOURCES globalshortcuts/globalshortcutsbackend-gsd.cpp globalshortcuts/globalshortcutsbackend-kde.cpp
+    HEADERS globalshortcuts/globalshortcutsbackend-gsd.h globalshortcuts/globalshortcutsbackend-kde.h
   )
   optional_source(WIN32
     SOURCES globalshortcuts/globalshortcut-win.cpp
@@ -885,13 +885,13 @@ optional_source(APPLE
     osd/osdmac.mm
     widgets/qsearchfield_mac.mm
     engine/macosdevicefinder.cpp
-    globalshortcuts/globalshortcutbackend-macos.mm
+    globalshortcuts/globalshortcutsbackend-macos.mm
     globalshortcuts/globalshortcutgrabber.mm
   HEADERS
     core/macsystemtrayicon.h
     core/macfslistener.h
     osd/osdmac.h
-    globalshortcuts/globalshortcutbackend-macos.h
+    globalshortcuts/globalshortcutsbackend-macos.h
 )
 
 if (APPLE)

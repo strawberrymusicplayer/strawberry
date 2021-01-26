@@ -34,20 +34,20 @@
 #include <QtDebug>
 
 #include "core/logging.h"
-#include "globalshortcuts.h"
-#include "globalshortcutbackend.h"
-#include "globalshortcutbackend-gsd.h"
+#include "globalshortcutsmanager.h"
+#include "globalshortcutsbackend.h"
+#include "globalshortcutsbackend-gsd.h"
 
-const char *GlobalShortcutBackendGSD::kGsdService = "org.gnome.SettingsDaemon.MediaKeys";
-const char *GlobalShortcutBackendGSD::kGsdService2 = "org.gnome.SettingsDaemon";
-const char *GlobalShortcutBackendGSD::kGsdPath = "/org/gnome/SettingsDaemon/MediaKeys";
+const char *GlobalShortcutsBackendGSD::kGsdService = "org.gnome.SettingsDaemon.MediaKeys";
+const char *GlobalShortcutsBackendGSD::kGsdService2 = "org.gnome.SettingsDaemon";
+const char *GlobalShortcutsBackendGSD::kGsdPath = "/org/gnome/SettingsDaemon/MediaKeys";
 
-GlobalShortcutBackendGSD::GlobalShortcutBackendGSD(GlobalShortcuts *parent)
-    : GlobalShortcutBackend(parent),
+GlobalShortcutsBackendGSD::GlobalShortcutsBackendGSD(GlobalShortcutsManager *parent)
+    : GlobalShortcutsBackend(parent),
       interface_(nullptr),
       is_connected_(false) {}
 
-bool GlobalShortcutBackendGSD::DoRegister() {
+bool GlobalShortcutsBackendGSD::DoRegister() {
 
   qLog(Debug) << "Registering";
 
@@ -68,13 +68,13 @@ bool GlobalShortcutBackendGSD::DoRegister() {
   QDBusPendingReply<> reply = interface_->GrabMediaPlayerKeys(QCoreApplication::applicationName(), QDateTime::currentDateTime().toSecsSinceEpoch());
 
   QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
-  QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, &GlobalShortcutBackendGSD::RegisterFinished);
+  QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, &GlobalShortcutsBackendGSD::RegisterFinished);
 
   return true;
 
 }
 
-void GlobalShortcutBackendGSD::RegisterFinished(QDBusPendingCallWatcher *watcher) {
+void GlobalShortcutsBackendGSD::RegisterFinished(QDBusPendingCallWatcher *watcher) {
 
   QDBusMessage reply = watcher->reply();
   watcher->deleteLater();
@@ -84,14 +84,14 @@ void GlobalShortcutBackendGSD::RegisterFinished(QDBusPendingCallWatcher *watcher
     return;
   }
 
-  QObject::connect(interface_, &OrgGnomeSettingsDaemonMediaKeysInterface::MediaPlayerKeyPressed, this, &GlobalShortcutBackendGSD::GnomeMediaKeyPressed);
+  QObject::connect(interface_, &OrgGnomeSettingsDaemonMediaKeysInterface::MediaPlayerKeyPressed, this, &GlobalShortcutsBackendGSD::GnomeMediaKeyPressed);
   is_connected_ = true;
 
   qLog(Debug) << "Registered";
 
 }
 
-void GlobalShortcutBackendGSD::DoUnregister() {
+void GlobalShortcutsBackendGSD::DoUnregister() {
 
   qLog(Debug) << "Unregister";
 
@@ -103,11 +103,11 @@ void GlobalShortcutBackendGSD::DoUnregister() {
   is_connected_ = false;
 
   interface_->ReleaseMediaPlayerKeys(QCoreApplication::applicationName());
-  QObject::disconnect(interface_, &OrgGnomeSettingsDaemonMediaKeysInterface::MediaPlayerKeyPressed, this, &GlobalShortcutBackendGSD::GnomeMediaKeyPressed);
+  QObject::disconnect(interface_, &OrgGnomeSettingsDaemonMediaKeysInterface::MediaPlayerKeyPressed, this, &GlobalShortcutsBackendGSD::GnomeMediaKeyPressed);
 
 }
 
-void GlobalShortcutBackendGSD::GnomeMediaKeyPressed(const QString&, const QString& key) {
+void GlobalShortcutsBackendGSD::GnomeMediaKeyPressed(const QString&, const QString& key) {
   if (key == "Play") manager_->shortcuts()["play_pause"].action->trigger();
   if (key == "Stop") manager_->shortcuts()["stop"].action->trigger();
   if (key == "Next") manager_->shortcuts()["next_track"].action->trigger();

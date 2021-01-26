@@ -51,8 +51,8 @@
 #include "scoped_cftyperef.h"
 #include "core/logging.h"
 #include "core/scoped_nsautorelease_pool.h"
-#include "globalshortcuts/globalshortcuts.h"
-#include "globalshortcuts/globalshortcutbackend-macos.h"
+#include "globalshortcuts/globalshortcutsmanager.h"
+#include "globalshortcuts/globalshortcutsbackend-macos.h"
 
 #ifdef HAVE_SPARKLE
 #  import <SUUpdater.h>
@@ -84,12 +84,12 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
   PlatformInterface* application_handler_;
   AppDelegate* delegate_;
   // shortcut_handler_ only used to temporarily save it AppDelegate does all the heavy-shortcut-lifting
-  GlobalShortcutBackendMacOS* shortcut_handler_;
+  GlobalShortcutsBackendMacOS* shortcut_handler_;
 
 }
 
-- (GlobalShortcutBackendMacOS*)shortcut_handler;
-- (void)SetShortcutHandler:(GlobalShortcutBackendMacOS*)handler;
+- (GlobalShortcutsBackendMacOS*)shortcut_handler;
+- (void)SetShortcutHandler:(GlobalShortcutsBackendMacOS*)handler;
 
 - (PlatformInterface*)application_handler;
 - (void)SetApplicationHandler:(PlatformInterface*)handler;
@@ -138,11 +138,11 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
   return dock_menu_;
 }
 
-- (void)setShortcutHandler:(GlobalShortcutBackendMacOS*)backend {
+- (void)setShortcutHandler:(GlobalShortcutsBackendMacOS*)backend {
   shortcut_handler_ = backend;
 }
 
-- (GlobalShortcutBackendMacOS*)shortcut_handler {
+- (GlobalShortcutsBackendMacOS*)shortcut_handler {
   return shortcut_handler_;
 }
 
@@ -229,12 +229,12 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
   return self;
 }
 
-- (GlobalShortcutBackendMacOS*)shortcut_handler {
+- (GlobalShortcutsBackendMacOS*)shortcut_handler {
   // should be the same as delegate_'s shortcut handler
   return shortcut_handler_;
 }
 
-- (void)SetShortcutHandler:(GlobalShortcutBackendMacOS*)handler {
+- (void)SetShortcutHandler:(GlobalShortcutsBackendMacOS*)handler {
   shortcut_handler_ = handler;
   if (delegate_) [delegate_ setShortcutHandler:handler];
 }
@@ -282,7 +282,7 @@ void MacMain() {
 
 }
 
-void SetShortcutHandler(GlobalShortcutBackendMacOS* handler) {
+void SetShortcutHandler(GlobalShortcutsBackendMacOS* handler) {
   [NSApp SetShortcutHandler:handler];
 }
 
@@ -469,4 +469,3 @@ void EnableFullScreen(const QWidget& main_window) {
 }
 
 }  // namespace mac
-

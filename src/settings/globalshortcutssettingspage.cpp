@@ -46,11 +46,11 @@
 #  include "core/mac_utilities.h"
 #endif
 #include "globalshortcuts/globalshortcutgrabber.h"
-#include "globalshortcuts/globalshortcuts.h"
+#include "globalshortcuts/globalshortcutsmanager.h"
 #include "settingspage.h"
 #include "settingsdialog.h"
-#include "shortcutssettingspage.h"
-#include "ui_shortcutssettingspage.h"
+#include "globalshortcutssettingspage.h"
+#include "ui_globalshortcutssettingspage.h"
 
 const char *GlobalShortcutsSettingsPage::kSettingsGroup = "GlobalShortcuts";
 
@@ -108,7 +108,7 @@ void GlobalShortcutsSettingsPage::Load() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
 
-  GlobalShortcuts *manager = dialog()->global_shortcuts_manager();
+  GlobalShortcutsManager *manager = dialog()->global_shortcuts_manager();
 
   if (!initialized_) {
     initialized_ = true;
@@ -116,7 +116,7 @@ void GlobalShortcutsSettingsPage::Load() {
     de_ = Utilities::DesktopEnvironment();
     ui_->widget_warning->hide();
 
-    QObject::connect(ui_->button_macos_open, &QPushButton::clicked, manager, &GlobalShortcuts::ShowMacAccessibilityDialog);
+    QObject::connect(ui_->button_macos_open, &QPushButton::clicked, manager, &GlobalShortcutsManager::ShowMacAccessibilityDialog);
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
     if (manager->IsGsdAvailable()) {
@@ -147,7 +147,7 @@ void GlobalShortcutsSettingsPage::Load() {
     }
 #endif
 
-    for (const GlobalShortcuts::Shortcut &i : manager->shortcuts().values()) {
+    for (const GlobalShortcutsManager::Shortcut &i : manager->shortcuts().values()) {
       Shortcut shortcut;
       shortcut.s = i;
       shortcut.key = i.action->shortcut();
@@ -291,7 +291,7 @@ void GlobalShortcutsSettingsPage::DefaultClicked() {
 
 void GlobalShortcutsSettingsPage::ChangeClicked() {
 
-  GlobalShortcuts *manager = dialog()->global_shortcuts_manager();
+  GlobalShortcutsManager *manager = dialog()->global_shortcuts_manager();
   manager->Unregister();
   QKeySequence key = grabber_->GetKey(shortcuts_[current_id_].s.action->text());
   manager->Register();

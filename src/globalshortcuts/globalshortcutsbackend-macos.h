@@ -18,14 +18,14 @@
  *
  */
 
-#ifndef GLOBALSHORTCUTBACKEND_MACOS_H
-#define GLOBALSHORTCUTBACKEND_MACOS_H
+#ifndef GLOBALSHORTCUTSBACKEND_MACOS_H
+#define GLOBALSHORTCUTSBACKEND_MACOS_H
 
 #include "config.h"
 
 #include <memory>
 
-#include "globalshortcutbackend.h"
+#include "globalshortcutsbackend.h"
 
 #include <QObject>
 #include <QMap>
@@ -34,14 +34,14 @@
 
 class GlobalShortcut;
 
-class GlobalShortcutBackendMacOSPrivate;
+class GlobalShortcutsBackendMacOSPrivate;
 
-class GlobalShortcutBackendMacOS : public GlobalShortcutBackend {
+class GlobalShortcutsBackendMacOS : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutBackendMacOS(GlobalShortcuts* parent);
-  virtual ~GlobalShortcutBackendMacOS();
+  explicit GlobalShortcutsBackendMacOS(GlobalShortcutsManager* parent);
+  virtual ~GlobalShortcutsBackendMacOS();
 
   bool IsAccessibilityEnabled() const;
   void ShowAccessibilityDialog();
@@ -57,8 +57,8 @@ class GlobalShortcutBackendMacOS : public GlobalShortcutBackend {
 
   QMap<QKeySequence, QAction*> shortcuts_;
 
-  friend class GlobalShortcutBackendMacOSPrivate;
-  std::unique_ptr<GlobalShortcutBackendMacOSPrivate> p_;
+  friend class GlobalShortcutsBackendMacOSPrivate;
+  std::unique_ptr<GlobalShortcutsBackendMacOSPrivate> p_;
 };
 
-#endif  // GLOBALSHORTCUTBACKEND_MACOS_H
+#endif  // GLOBALSHORTCUTSBACKEND_MACOS_H

@@ -68,7 +68,7 @@
 #include "appearancesettingspage.h"
 #include "contextsettingspage.h"
 #include "notificationssettingspage.h"
-#include "shortcutssettingspage.h"
+#include "globalshortcutssettingspage.h"
 #ifdef HAVE_MOODBAR
 #  include "moodbarsettingspage.h"
 #endif

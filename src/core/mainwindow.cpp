@@ -136,7 +136,7 @@
 #include "analyzer/analyzercontainer.h"
 #include "equalizer/equalizer.h"
 #ifdef HAVE_GLOBALSHORTCUTS
-#  include "globalshortcuts/globalshortcuts.h"
+#  include "globalshortcuts/globalshortcutsmanager.h"
 #endif
 #include "covermanager/albumcovermanager.h"
 #include "covermanager/albumcoverchoicecontroller.h"
@@ -229,7 +229,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
       edit_tag_dialog_(std::bind(&MainWindow::CreateEditTagDialog, this)),
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
 #ifdef HAVE_GLOBALSHORTCUTS
-      global_shortcuts_(new GlobalShortcuts(this)),
+      globalshortcuts_manager_(new GlobalShortcutsManager(this)),
 #endif
       context_view_(new ContextView(this)),
       collection_view_(new CollectionViewContainer(this)),
@@ -763,23 +763,23 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
 
 #ifdef HAVE_GLOBALSHORTCUTS
   // Global shortcuts
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::Play, app_->player(), &Player::Play);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::Pause, app_->player(), &Player::Pause);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::PlayPause, ui_->action_play_pause, &QAction::trigger);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::Stop, ui_->action_stop, &QAction::trigger);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::StopAfter, ui_->action_stop_after_this_track, &QAction::trigger);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::Next, ui_->action_next_track, &QAction::trigger);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::Previous, ui_->action_previous_track, &QAction::trigger);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::IncVolume, app_->player(), &Player::VolumeUp);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::DecVolume, app_->player(), &Player::VolumeDown);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::Mute, app_->player(), &Player::Mute);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::SeekForward, app_->player(), &Player::SeekForward);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::SeekBackward, app_->player(), &Player::SeekBackward);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::ShowHide, this, &MainWindow::ToggleShowHide);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::ShowOSD, app_->player(), &Player::ShowOSD);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::TogglePrettyOSD, app_->player(), &Player::TogglePrettyOSD);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::ToggleScrobbling, app_->scrobbler(), &AudioScrobbler::ToggleScrobbling);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::Love, app_->scrobbler(), &AudioScrobbler::Love);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Play, app_->player(), &Player::Play);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Pause, app_->player(), &Player::Pause);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::PlayPause, ui_->action_play_pause, &QAction::trigger);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Stop, ui_->action_stop, &QAction::trigger);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::StopAfter, ui_->action_stop_after_this_track, &QAction::trigger);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Next, ui_->action_next_track, &QAction::trigger);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Previous, ui_->action_previous_track, &QAction::trigger);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::IncVolume, app_->player(), &Player::VolumeUp);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::DecVolume, app_->player(), &Player::VolumeDown);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Mute, app_->player(), &Player::Mute);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::SeekForward, app_->player(), &Player::SeekForward);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::SeekBackward, app_->player(), &Player::SeekBackward);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::ShowHide, this, &MainWindow::ToggleShowHide);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::ShowOSD, app_->player(), &Player::ShowOSD);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::TogglePrettyOSD, app_->player(), &Player::TogglePrettyOSD);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::ToggleScrobbling, app_->scrobbler(), &AudioScrobbler::ToggleScrobbling);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Love, app_->scrobbler(), &AudioScrobbler::Love);
 #endif
 
   // Fancy tabs
@@ -849,8 +849,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
 
   // We need to connect these global shortcuts here after the playlist have been initialized
 #ifdef HAVE_GLOBALSHORTCUTS
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::CycleShuffleMode, app_->playlist_manager()->sequence(), &PlaylistSequence::CycleShuffleMode);
-  QObject::connect(global_shortcuts_, &GlobalShortcuts::CycleRepeatMode, app_->playlist_manager()->sequence(), &PlaylistSequence::CycleRepeatMode);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::CycleShuffleMode, app_->playlist_manager()->sequence(), &PlaylistSequence::CycleShuffleMode);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::CycleRepeatMode, app_->playlist_manager()->sequence(), &PlaylistSequence::CycleRepeatMode);
 #endif
   QObject::connect(app_->playlist_manager()->sequence(), &PlaylistSequence::RepeatModeChanged, osd_, &OSDBase::RepeatModeChanged);
   QObject::connect(app_->playlist_manager()->sequence(), &PlaylistSequence::ShuffleModeChanged, osd_, &OSDBase::ShuffleModeChanged);
@@ -2658,7 +2658,7 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
 
   SettingsDialog *settings_dialog = new SettingsDialog(app_, osd_, this);
 #ifdef HAVE_GLOBALSHORTCUTS
-  settings_dialog->SetGlobalShortcutManager(global_shortcuts_);
+  settings_dialog->SetGlobalShortcutManager(globalshortcuts_manager_);
 #endif
 
   // Settings

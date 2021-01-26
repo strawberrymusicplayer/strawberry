@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
- * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
+ * This file was part of Clementine.
+ * Copyright 2010, David Sansome <me@davidsansome.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,41 +18,37 @@
  *
  */
 
-#ifndef GLOBALSHORTCUTBACKEND_SYSTEM_H
-#define GLOBALSHORTCUTBACKEND_SYSTEM_H
+#ifndef GLOBALSHORTCUTSBACKEND_H
+#define GLOBALSHORTCUTSBACKEND_H
 
 #include "config.h"
 
-#include "core/logging.h"
-
 #include <QObject>
-#include <QList>
 #include <QString>
 
-#include "globalshortcutbackend.h"
+class GlobalShortcutsManager;
 
-class QAction;
-class GlobalShortcuts;
-class GlobalShortcut;
-
-class GlobalShortcutBackendSystem : public GlobalShortcutBackend {
+class GlobalShortcutsBackend : public QObject {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutBackendSystem(GlobalShortcuts *parent = nullptr);
-  ~GlobalShortcutBackendSystem() override;
+  explicit GlobalShortcutsBackend(GlobalShortcutsManager *parent = nullptr);
+
+  bool is_active() const { return active_; }
+
+  bool Register();
+  void Unregister();
+
+ signals:
+  void RegisterFinished(bool success);
 
  protected:
-  bool DoRegister() override;
-  void DoUnregister() override;
+  virtual bool DoRegister() = 0;
+  virtual void DoUnregister() = 0;
 
- private:
-  bool AddShortcut(QAction *action);
-  bool RemoveShortcut(QAction *action);
-
-  QList<GlobalShortcut*> shortcuts_;
-  GlobalShortcut *gshortcut_init_;
+  GlobalShortcutsManager *manager_;
+  bool active_;
 
 };
 
-#endif  // GLOBALSHORTCUTBACKEND_SYSTEM_H
+#endif  // GLOBALSHORTCUTSBACKEND_H

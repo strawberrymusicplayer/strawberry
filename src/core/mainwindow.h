@@ -77,7 +77,7 @@ class EditTagDialog;
 class Equalizer;
 class ErrorDialog;
 class FileView;
-class GlobalShortcuts;
+class GlobalShortcutsManager;
 class MimeData;
 class OrganizeDialog;
 class PlaylistListContainer;
@@ -303,7 +303,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Lazy<EditTagDialog> edit_tag_dialog_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
 
-  GlobalShortcuts *global_shortcuts_;
+  GlobalShortcutsManager *globalshortcuts_manager_;
 
   ContextView *context_view_;
   CollectionViewContainer *collection_view_;

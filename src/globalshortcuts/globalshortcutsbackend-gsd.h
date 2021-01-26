@@ -18,25 +18,25 @@
  *
  */
 
-#ifndef GLOBALSHORTCUTBACKEND_GSD_H
-#define GLOBALSHORTCUTBACKEND_GSD_H
+#ifndef GLOBALSHORTCUTSBACKEND_GSD_H
+#define GLOBALSHORTCUTSBACKEND_GSD_H
 
 #include "config.h"
 
 #include <QObject>
 #include <QString>
 
-#include "globalshortcutbackend.h"
+#include "globalshortcutsbackend.h"
 
 class QDBusPendingCallWatcher;
-class GlobalShortcuts;
+class GlobalShortcutsManager;
 class OrgGnomeSettingsDaemonMediaKeysInterface;
 
-class GlobalShortcutBackendGSD : public GlobalShortcutBackend {
+class GlobalShortcutsBackendGSD : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutBackendGSD(GlobalShortcuts *parent);
+  explicit GlobalShortcutsBackendGSD(GlobalShortcutsManager *parent);
 
   static const char *kGsdService;
   static const char *kGsdService2;
@@ -58,4 +58,4 @@ class GlobalShortcutBackendGSD : public GlobalShortcutBackend {
 
 };
 
-#endif  // GLOBALSHORTCUTBACKEND_GSD_H
+#endif  // GLOBALSHORTCUTSBACKEND_GSD_H
