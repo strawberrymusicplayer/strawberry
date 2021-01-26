@@ -1109,7 +1109,6 @@ void MainWindow::ReloadAllSettings() {
   app_->ReloadSettings();
   app_->collection()->ReloadSettings();
   app_->player()->ReloadSettings();
-  app_->moodbar_controller()->ReloadSettings();
   collection_view_->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
   app_->playlist_manager()->playlist_container()->ReloadSettings();
@@ -1123,6 +1122,9 @@ void MainWindow::ReloadAllSettings() {
   smartplaylists_view_->ReloadSettings();
   app_->cover_providers()->ReloadSettings();
   app_->lyrics_providers()->ReloadSettings();
+#ifdef HAVE_MOODBAR
+  app_->moodbar_controller()->ReloadSettings();
+#endif
 #ifdef HAVE_SUBSONIC
   subsonic_view_->ReloadSettings();
 #endif
