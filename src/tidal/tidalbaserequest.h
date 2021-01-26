@@ -98,7 +98,6 @@ class TidalBaseRequest : public QObject {
   void HandleSSLErrors(QList<QSslError> ssl_errors);
 
  private:
-
   static const char *kApiUrl;
 
   TidalService *service_;

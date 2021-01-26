@@ -35,9 +35,9 @@
 
 PlaylistListModel::PlaylistListModel(QObject *parent) : QStandardItemModel(parent), dropping_rows_(false) {
 
-  connect(this, SIGNAL(dataChanged(QModelIndex, QModelIndex)), SLOT(RowsChanged(QModelIndex, QModelIndex)));
-  connect(this, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), SLOT(RowsAboutToBeRemoved(QModelIndex, int, int)));
-  connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(RowsInserted(QModelIndex, int, int)));
+  QObject::connect(this,&PlaylistListModel::dataChanged, this, &PlaylistListModel::RowsChanged);
+  QObject::connect(this,&PlaylistListModel::rowsAboutToBeRemoved, this, &PlaylistListModel::RowsAboutToBeRemoved);
+  QObject::connect(this,&PlaylistListModel::rowsInserted, this, &PlaylistListModel::RowsInserted);
 
 }
 
@@ -53,6 +53,7 @@ bool PlaylistListModel::dropMimeData(const QMimeData *data, Qt::DropAction actio
   dropping_rows_ = false;
 
   return ret;
+
 }
 
 QString PlaylistListModel::ItemPath(const QStandardItem *item) const {
@@ -75,7 +76,7 @@ void PlaylistListModel::RowsChanged(const QModelIndex &begin, const QModelIndex 
   AddRowMappings(begin, end);
 }
 
-void PlaylistListModel::RowsInserted(const QModelIndex &parent, int start, int end) {
+void PlaylistListModel::RowsInserted(const QModelIndex &parent, const int start, const int end) {
 
   // RowsChanged will take care of these when dropping.
   if (!dropping_rows_) {
@@ -120,7 +121,7 @@ void PlaylistListModel::AddRowItem(QStandardItem *item, const QString &parent_pa
 
 }
 
-void PlaylistListModel::RowsAboutToBeRemoved(const QModelIndex &parent, int start, int end) {
+void PlaylistListModel::RowsAboutToBeRemoved(const QModelIndex &parent, const int start, const int end) {
 
   for (int i = start; i <= end; ++i) {
     const QModelIndex idx = index(i, 0, parent);
@@ -143,7 +144,7 @@ void PlaylistListModel::RowsAboutToBeRemoved(const QModelIndex &parent, int star
 
 }
 
-QStandardItem *PlaylistListModel::PlaylistById(int id) const {
+QStandardItem *PlaylistListModel::PlaylistById(const int id) const {
   return playlists_by_id_[id];
 }
 
@@ -200,7 +201,7 @@ QStandardItem *PlaylistListModel::NewFolder(const QString &name) const {
 
 }
 
-QStandardItem *PlaylistListModel::NewPlaylist(const QString &name, int id) const {
+QStandardItem *PlaylistListModel::NewPlaylist(const QString &name, const int id) const {
 
   QStandardItem *ret = new QStandardItem;
   ret->setText(name);
@@ -212,20 +213,20 @@ QStandardItem *PlaylistListModel::NewPlaylist(const QString &name, int id) const
 
 }
 
-bool PlaylistListModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+bool PlaylistListModel::setData(const QModelIndex &idx, const QVariant &value, int role) {
 
-  if (!QStandardItemModel::setData(index, value, role)) {
+  if (!QStandardItemModel::setData(idx, value, role)) {
     return false;
   }
 
-  switch (index.data(Role_Type).toInt()) {
+  switch (idx.data(Role_Type).toInt()) {
     case Type_Playlist:
-      emit PlaylistRenamed(index.data(Role_PlaylistId).toInt(), value.toString());
+      emit PlaylistRenamed(idx.data(Role_PlaylistId).toInt(), value.toString());
       break;
 
     case Type_Folder:
       // Walk all the children and modify their paths.
-      UpdatePathsRecursive(index);
+      UpdatePathsRecursive(idx);
       break;
   }
 
@@ -248,4 +249,3 @@ void PlaylistListModel::UpdatePathsRecursive(const QModelIndex &parent) {
   }
 
 }
-

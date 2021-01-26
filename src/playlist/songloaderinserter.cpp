@@ -25,7 +25,6 @@
 #include <QList>
 #include <QUrl>
 
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/songloader.h"
 #include "core/taskmanager.h"
@@ -53,9 +52,9 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
   enqueue_ = enqueue;
   enqueue_next_ = enqueue_next;
 
-  connect(destination, SIGNAL(destroyed()), SLOT(DestinationDestroyed()));
-  connect(this, SIGNAL(PreloadFinished()), SLOT(InsertSongs()));
-  connect(this, SIGNAL(EffectiveLoadFinished(SongList)), destination, SLOT(UpdateItems(SongList)));
+  QObject::connect(destination, &Playlist::destroyed, this, &SongLoaderInserter::DestinationDestroyed);
+  QObject::connect(this, &SongLoaderInserter::PreloadFinished, this, &SongLoaderInserter::InsertSongs);
+  QObject::connect(this, &SongLoaderInserter::EffectiveLoadFinished, destination, &Playlist::UpdateItems);
 
   for (const QUrl &url : urls) {
     SongLoader *loader = new SongLoader(collection_, player_, this);
@@ -104,8 +103,8 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
   enqueue_next_ = enqueue_next;
 
   SongLoader *loader = new SongLoader(collection_, player_, this);
-  NewClosure(loader, SIGNAL(AudioCDTracksLoadFinished()), this, SLOT(AudioCDTracksLoadFinished(SongLoader*)), loader);
-  connect(loader, SIGNAL(LoadAudioCDFinished(bool)), SLOT(AudioCDTagsLoaded(bool)));
+  QObject::connect(loader, &SongLoader::AudioCDTracksLoadFinished, [this, loader]() { AudioCDTracksLoadFinished(loader); });
+  QObject::connect(loader, &SongLoader::LoadAudioCDFinished, this, &SongLoaderInserter::AudioCDTagsLoaded);
   qLog(Info) << "Loading audio CD...";
   SongLoader::Result ret = loader->LoadAudioCD();
   if (ret == SongLoader::Error) {

@@ -33,10 +33,10 @@ CollectionViewContainer::CollectionViewContainer(QWidget *parent) : QWidget(pare
   ui_->setupUi(this);
   view()->SetFilter(filter());
 
-  connect(filter(), SIGNAL(UpPressed()), view(), SLOT(UpAndFocus()));
-  connect(filter(), SIGNAL(DownPressed()), view(), SLOT(DownAndFocus()));
-  connect(filter(), SIGNAL(ReturnPressed()), view(), SLOT(FilterReturnPressed()));
-  connect(view(), SIGNAL(FocusOnFilterSignal(QKeyEvent*)), filter(), SLOT(FocusOnFilter(QKeyEvent*)));
+  QObject::connect(filter(), &CollectionFilterWidget::UpPressed, view(), &CollectionView::UpAndFocus);
+  QObject::connect(filter(), &CollectionFilterWidget::DownPressed, view(), &CollectionView::DownAndFocus);
+  QObject::connect(filter(), &CollectionFilterWidget::ReturnPressed, view(), &CollectionView::FilterReturnPressed);
+  QObject::connect(view(), &CollectionView::FocusOnFilterSignal, filter(), &CollectionFilterWidget::FocusOnFilter);
 
   ReloadSettings();
 

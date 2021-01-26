@@ -52,4 +52,3 @@ class CoverSearchStatisticsDialog : public QDialog {
 };
 
 #endif  // COVERSEARCHSTATISTICSDIALOG_H
-

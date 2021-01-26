@@ -79,7 +79,7 @@ class AlbumCoverManager : public QMainWindow {
   void EnableCoversButtons();
   void DisableCoversButtons();
 
-  SongList GetSongsInAlbum(const QModelIndex &index) const;
+  SongList GetSongsInAlbum(const QModelIndex &idx) const;
   SongList GetSongsInAlbums(const QModelIndexList &indexes) const;
   SongMimeData *GetMimeDataForAlbums(const QModelIndexList &indexes) const;
 

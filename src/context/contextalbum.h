@@ -65,9 +65,12 @@ class ContextAlbum : public QWidget {
   void FadeStopFinished();
 
  private slots:
-  void SearchCoverInProgress();
+  void Update() { update(); }
   void AutomaticCoverSearchDone();
   void FadePreviousTrack(const qreal value);
+
+ public slots:
+  void SearchCoverInProgress();
 
  private:
   static const int kWidgetSpacing;

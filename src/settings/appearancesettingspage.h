@@ -108,7 +108,6 @@ class AppearanceSettingsPage : public SettingsPage {
   void TabBarSelectBGColor();
 
  private:
-
   // Set the widget's background to new_color
   void UpdateColorSelectorColor(QWidget *color_selector, const QColor &new_color);
   // Init (or refresh) the colorSelectors colors

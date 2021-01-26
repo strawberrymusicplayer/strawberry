@@ -27,7 +27,7 @@ class DynamicPlaylistControls : public QWidget {
 
  public:
   DynamicPlaylistControls(QWidget *parent = nullptr);
-  ~DynamicPlaylistControls();
+  ~DynamicPlaylistControls() override;
 
  signals:
   void Expand();

@@ -69,7 +69,7 @@ class CollectionSettingsPage : public SettingsPage {
   void Add();
   void Remove();
 
-  void CurrentRowChanged(const QModelIndex &index);
+  void CurrentRowChanged(const QModelIndex &idx);
   void DiskCacheEnable(const int state);
   void CoverSaveInAlbumDirChanged();
   void ClearPixmapDiskCache();

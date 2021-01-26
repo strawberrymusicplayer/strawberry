@@ -67,7 +67,7 @@ DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent) :
 
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(false);
-  connect(timer_flush_requests_, SIGNAL(timeout()), this, SLOT(FlushRequests()));
+  QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &DiscogsCoverProvider::FlushRequests);
 
 }
 
@@ -75,7 +75,7 @@ DiscogsCoverProvider::~DiscogsCoverProvider() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -144,7 +144,7 @@ void DiscogsCoverProvider::SendSearchRequest(std::shared_ptr<DiscogsCoverSearchC
   }
 
   QNetworkReply *reply = CreateRequest(QUrl(kUrlSearch), params);
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, search->id); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, search]() { HandleSearchReply(reply, search->id); });
 
 }
 
@@ -234,7 +234,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (!requests_search_.contains(id)) return;
@@ -331,7 +331,7 @@ void DiscogsCoverProvider::StartReleaseRequest(std::shared_ptr<DiscogsCoverSearc
 void DiscogsCoverProvider::SendReleaseRequest(const DiscogsCoverReleaseContext release) {
 
   QNetworkReply *reply = CreateRequest(release.url);
-  connect(reply, &QNetworkReply::finished, [=] { HandleReleaseReply(reply, release.search_id, release.id); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, release]() { HandleReleaseReply(reply, release.search_id, release.id); } );
 
 }
 
@@ -339,7 +339,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (!requests_search_.contains(search_id)) return;

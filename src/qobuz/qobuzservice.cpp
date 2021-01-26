@@ -146,29 +146,29 @@ QobuzService::QobuzService(Application *app, QObject *parent)
   // Search
 
   timer_search_delay_->setSingleShot(true);
-  connect(timer_search_delay_, SIGNAL(timeout()), SLOT(StartSearch()));
+  QObject::connect(timer_search_delay_, &QTimer::timeout, this, &QobuzService::StartSearch);
 
   timer_login_attempt_->setSingleShot(true);
-  connect(timer_login_attempt_, SIGNAL(timeout()), SLOT(ResetLoginAttempts()));
+  QObject::connect(timer_login_attempt_, &QTimer::timeout, this, &QobuzService::ResetLoginAttempts);
 
-  connect(this, SIGNAL(Login()), SLOT(SendLogin()));
-  connect(this, SIGNAL(Login(QString, QString, QString)), SLOT(SendLogin(QString, QString, QString)));
+  QObject::connect(this, &QobuzService::Login, this, &QobuzService::SendLogin);
+  QObject::connect(this, &QobuzService::LoginWithCredentials, this, &QobuzService::SendLoginWithCredentials);
 
-  connect(this, SIGNAL(AddArtists(SongList)), favorite_request_, SLOT(AddArtists(SongList)));
-  connect(this, SIGNAL(AddAlbums(SongList)), favorite_request_, SLOT(AddAlbums(SongList)));
-  connect(this, SIGNAL(AddSongs(SongList)), favorite_request_, SLOT(AddSongs(SongList)));
+  QObject::connect(this, &QobuzService::AddArtists, favorite_request_, &QobuzFavoriteRequest::AddArtists);
+  QObject::connect(this, &QobuzService::AddAlbums, favorite_request_, &QobuzFavoriteRequest::AddAlbums);
+  QObject::connect(this, &QobuzService::AddSongs, favorite_request_, &QobuzFavoriteRequest::AddSongs);
 
-  connect(this, SIGNAL(RemoveArtists(SongList)), favorite_request_, SLOT(RemoveArtists(SongList)));
-  connect(this, SIGNAL(RemoveAlbums(SongList)), favorite_request_, SLOT(RemoveAlbums(SongList)));
-  connect(this, SIGNAL(RemoveSongs(SongList)), favorite_request_, SLOT(RemoveSongs(SongList)));
+  QObject::connect(this, &QobuzService::RemoveArtists, favorite_request_, &QobuzFavoriteRequest::RemoveArtists);
+  QObject::connect(this, &QobuzService::RemoveAlbums, favorite_request_, &QobuzFavoriteRequest::RemoveAlbums);
+  QObject::connect(this, &QobuzService::RemoveSongs, favorite_request_, &QobuzFavoriteRequest::RemoveSongs);
 
-  connect(favorite_request_, SIGNAL(ArtistsAdded(SongList)), artists_collection_backend_, SLOT(AddOrUpdateSongs(SongList)));
-  connect(favorite_request_, SIGNAL(AlbumsAdded(SongList)), albums_collection_backend_, SLOT(AddOrUpdateSongs(SongList)));
-  connect(favorite_request_, SIGNAL(SongsAdded(SongList)), songs_collection_backend_, SLOT(AddOrUpdateSongs(SongList)));
+  QObject::connect(favorite_request_, &QobuzFavoriteRequest::ArtistsAdded, artists_collection_backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(favorite_request_, &QobuzFavoriteRequest::AlbumsAdded, albums_collection_backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(favorite_request_, &QobuzFavoriteRequest::SongsAdded, songs_collection_backend_, &CollectionBackend::AddOrUpdateSongs);
 
-  connect(favorite_request_, SIGNAL(ArtistsRemoved(SongList)), artists_collection_backend_, SLOT(DeleteSongs(SongList)));
-  connect(favorite_request_, SIGNAL(AlbumsRemoved(SongList)), albums_collection_backend_, SLOT(DeleteSongs(SongList)));
-  connect(favorite_request_, SIGNAL(SongsRemoved(SongList)), songs_collection_backend_, SLOT(DeleteSongs(SongList)));
+  QObject::connect(favorite_request_, &QobuzFavoriteRequest::ArtistsRemoved, artists_collection_backend_, &CollectionBackend::DeleteSongs);
+  QObject::connect(favorite_request_, &QobuzFavoriteRequest::AlbumsRemoved, albums_collection_backend_, &CollectionBackend::DeleteSongs);
+  QObject::connect(favorite_request_, &QobuzFavoriteRequest::SongsRemoved, songs_collection_backend_, &CollectionBackend::DeleteSongs);
 
   ReloadSettings();
 
@@ -178,7 +178,7 @@ QobuzService::~QobuzService() {
 
   while (!stream_url_requests_.isEmpty()) {
     QobuzStreamURLRequest *stream_url_req = stream_url_requests_.takeFirst();
-    disconnect(stream_url_req, 0, this, 0);
+    QObject::disconnect(stream_url_req, nullptr, this, nullptr);
     stream_url_req->deleteLater();
   }
 
@@ -192,9 +192,9 @@ void QobuzService::Exit() {
 
   wait_for_exit_ << artists_collection_backend_ << albums_collection_backend_ << songs_collection_backend_;
 
-  connect(artists_collection_backend_, SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
-  connect(albums_collection_backend_, SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
-  connect(songs_collection_backend_, SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  QObject::connect(artists_collection_backend_, &CollectionBackend::ExitFinished, this, &QobuzService::ExitReceived);
+  QObject::connect(albums_collection_backend_, &CollectionBackend::ExitFinished, this, &QobuzService::ExitReceived);
+  QObject::connect(songs_collection_backend_, &CollectionBackend::ExitFinished, this, &QobuzService::ExitReceived);
 
   artists_collection_backend_->ExitAsync();
   albums_collection_backend_->ExitAsync();
@@ -205,7 +205,7 @@ void QobuzService::Exit() {
 void QobuzService::ExitReceived() {
 
   QObject *obj = qobject_cast<QObject*>(sender());
-  disconnect(obj, nullptr, this, nullptr);
+  QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
@@ -245,10 +245,10 @@ void QobuzService::ReloadSettings() {
 }
 
 void QobuzService::SendLogin() {
-  SendLogin(app_id_, username_, password_);
+  SendLoginWithCredentials(app_id_, username_, password_);
 }
 
-void QobuzService::SendLogin(const QString &app_id, const QString &username, const QString &password) {
+void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString &username, const QString &password) {
 
   emit UpdateStatus(tr("Authenticating..."));
   login_errors_.clear();
@@ -282,8 +282,8 @@ void QobuzService::SendLogin(const QString &app_id, const QString &username, con
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
   replies_ << reply;
-  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
-  connect(reply, &QNetworkReply::finished, [=] { HandleAuthReply(reply); });
+  QObject::connect(reply, &QNetworkReply::sslErrors, this, &QobuzService::HandleLoginSSLErrors);
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { HandleAuthReply(reply); });
 
   qLog(Debug) << "Qobuz: Sending request" << url << query;
 
@@ -487,8 +487,8 @@ void QobuzService::TryLogin() {
 void QobuzService::ResetArtistsRequest() {
 
   if (artists_request_.get()) {
-    disconnect(artists_request_.get(), 0, this, 0);
-    disconnect(this, 0, artists_request_.get(), 0);
+    QObject::disconnect(artists_request_.get(), nullptr, this, nullptr);
+    QObject::disconnect(this, nullptr, artists_request_.get(), nullptr);
     artists_request_.reset();
   }
 
@@ -510,10 +510,10 @@ void QobuzService::GetArtists() {
 
   artists_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Artists, this));
 
-  connect(artists_request_.get(), SIGNAL(Results(int, SongList, QString)), SLOT(ArtistsResultsReceived(int, SongList, QString)));
-  connect(artists_request_.get(), SIGNAL(UpdateStatus(int, QString)), SLOT(ArtistsUpdateStatusReceived(int, QString)));
-  connect(artists_request_.get(), SIGNAL(ProgressSetMaximum(int, int)), SLOT(ArtistsProgressSetMaximumReceived(int, int)));
-  connect(artists_request_.get(), SIGNAL(UpdateProgress(int, int)), SLOT(ArtistsUpdateProgressReceived(int, int)));
+  QObject::connect(artists_request_.get(), &QobuzRequest::Results, this, &QobuzService::ArtistsResultsReceived);
+  QObject::connect(artists_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::ArtistsUpdateStatusReceived);
+  QObject::connect(artists_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::ArtistsProgressSetMaximumReceived);
+  QObject::connect(artists_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::ArtistsUpdateProgressReceived);
 
   artists_request_->Process();
 
@@ -542,8 +542,8 @@ void QobuzService::ArtistsUpdateProgressReceived(const int id, const int progres
 void QobuzService::ResetAlbumsRequest() {
 
   if (albums_request_.get()) {
-    disconnect(albums_request_.get(), 0, this, 0);
-    disconnect(this, 0, albums_request_.get(), 0);
+    QObject::disconnect(albums_request_.get(), nullptr, this, nullptr);
+    QObject::disconnect(this, nullptr, albums_request_.get(), nullptr);
     albums_request_.reset();
   }
 
@@ -563,10 +563,10 @@ void QobuzService::GetAlbums() {
 
   ResetAlbumsRequest();
   albums_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Albums, this));
-  connect(albums_request_.get(), SIGNAL(Results(int, SongList, QString)), SLOT(AlbumsResultsReceived(int, SongList, QString)));
-  connect(albums_request_.get(), SIGNAL(UpdateStatus(int, QString)), SLOT(AlbumsUpdateStatusReceived(int, QString)));
-  connect(albums_request_.get(), SIGNAL(ProgressSetMaximum(int, int)), SLOT(AlbumsProgressSetMaximumReceived(int, int)));
-  connect(albums_request_.get(), SIGNAL(UpdateProgress(int, int)), SLOT(AlbumsUpdateProgressReceived(int, int)));
+  QObject::connect(albums_request_.get(), &QobuzRequest::Results, this, &QobuzService::AlbumsResultsReceived);
+  QObject::connect(albums_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::AlbumsUpdateStatusReceived);
+  QObject::connect(albums_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::AlbumsProgressSetMaximumReceived);
+  QObject::connect(albums_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::AlbumsUpdateProgressReceived);
 
   albums_request_->Process();
 
@@ -595,8 +595,8 @@ void QobuzService::AlbumsUpdateProgressReceived(const int id, const int progress
 void QobuzService::ResetSongsRequest() {
 
   if (songs_request_.get()) {
-    disconnect(songs_request_.get(), 0, this, 0);
-    disconnect(this, 0, songs_request_.get(), 0);
+    QObject::disconnect(songs_request_.get(), nullptr, this, nullptr);
+    QObject::disconnect(this, nullptr, songs_request_.get(), nullptr);
     songs_request_.reset();
   }
 
@@ -616,10 +616,10 @@ void QobuzService::GetSongs() {
 
   ResetSongsRequest();
   songs_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Songs, this));
-  connect(songs_request_.get(), SIGNAL(Results(int, SongList, QString)), SLOT(SongsResultsReceived(int, SongList, QString)));
-  connect(songs_request_.get(), SIGNAL(UpdateStatus(int, QString)), SLOT(SongsUpdateStatusReceived(int, QString)));
-  connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(int, int)), SLOT(SongsProgressSetMaximumReceived(int, int)));
-  connect(songs_request_.get(), SIGNAL(UpdateProgress(int, int)), SLOT(SongsUpdateProgressReceived(int, int)));
+  QObject::connect(songs_request_.get(), &QobuzRequest::Results, this, &QobuzService::SongsResultsReceived);
+  QObject::connect(songs_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::SongsUpdateStatusReceived);
+  QObject::connect(songs_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::SongsProgressSetMaximumReceived);
+  QObject::connect(songs_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::SongsUpdateProgressReceived);
 
   songs_request_->Process();
 
@@ -699,10 +699,10 @@ void QobuzService::SendSearch() {
 
   search_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, type, this));
 
-  connect(search_request_.get(), SIGNAL(Results(int, SongList, QString)), SLOT(SearchResultsReceived(int, SongList, QString)));
-  connect(search_request_.get(), SIGNAL(UpdateStatus(int, QString)), SIGNAL(SearchUpdateStatus(int, QString)));
-  connect(search_request_.get(), SIGNAL(ProgressSetMaximum(int, int)), SIGNAL(SearchProgressSetMaximum(int, int)));
-  connect(search_request_.get(), SIGNAL(UpdateProgress(int, int)), SIGNAL(SearchUpdateProgress(int, int)));
+  QObject::connect(search_request_.get(), &QobuzRequest::Results, this, &QobuzService::SearchResultsReceived);
+  QObject::connect(search_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::SearchUpdateStatus);
+  QObject::connect(search_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::SearchProgressSetMaximum);
+  QObject::connect(search_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::SearchUpdateProgress);
 
   search_request_->Search(search_id_, search_text_);
   search_request_->Process();
@@ -723,9 +723,9 @@ void QobuzService::GetStreamURL(const QUrl &url) {
   QobuzStreamURLRequest *stream_url_req = new QobuzStreamURLRequest(this, network_, url, this);
   stream_url_requests_ << stream_url_req;
 
-  connect(stream_url_req, SIGNAL(TryLogin()), this, SLOT(TryLogin()));
-  connect(stream_url_req, SIGNAL(StreamURLFinished(QUrl, QUrl, Song::FileType, int, int, qint64, QString)), this, SLOT(HandleStreamURLFinished(QUrl, QUrl, Song::FileType, int, int, qint64, QString)));
-  connect(this, SIGNAL(LoginComplete(bool, QString)), stream_url_req, SLOT(LoginComplete(bool, QString)));
+  QObject::connect(stream_url_req, &QobuzStreamURLRequest::TryLogin, this, &QobuzService::TryLogin);
+  QObject::connect(stream_url_req, &QobuzStreamURLRequest::StreamURLFinished, this, &QobuzService::HandleStreamURLFinished);
+  QObject::connect(this, &QobuzService::LoginComplete, stream_url_req, &QobuzStreamURLRequest::LoginComplete);
 
   stream_url_req->Process();
 

@@ -48,8 +48,7 @@ class SubsonicSettingsPage : public SettingsPage {
   bool eventFilter(QObject *object, QEvent *event) override;
 
  signals:
-  void Test();
-  void Test(QUrl url, const QString &username, const QString &password);
+  void Test(QUrl url, QString username, QString password, bool redirect = false);
 
  private slots:
   void TestClicked();

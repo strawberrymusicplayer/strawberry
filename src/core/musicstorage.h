@@ -97,4 +97,3 @@ Q_DECLARE_METATYPE(MusicStorage*)
 Q_DECLARE_METATYPE(std::shared_ptr<MusicStorage>)
 
 #endif  // MUSICSTORAGE_H
-

@@ -37,11 +37,10 @@
 CollectionDirectoryModel::CollectionDirectoryModel(CollectionBackend *backend, QObject *parent)
     : QStandardItemModel(parent),
       dir_icon_(IconLoader::Load("document-open-folder")),
-    backend_(backend)
-{
+      backend_(backend) {
 
-  connect(backend_, SIGNAL(DirectoryDiscovered(Directory, SubdirectoryList)), SLOT(DirectoryDiscovered(Directory)));
-  connect(backend_, SIGNAL(DirectoryDeleted(Directory)), SLOT(DirectoryDeleted(Directory)));
+  QObject::connect(backend_, &CollectionBackend::DirectoryDiscovered, this, &CollectionDirectoryModel::DirectoryDiscovered);
+  QObject::connect(backend_, &CollectionBackend::DirectoryDeleted, this, &CollectionDirectoryModel::DirectoryDeleted);
 
 }
 
@@ -77,34 +76,33 @@ void CollectionDirectoryModel::AddDirectory(const QString &path) {
 
 }
 
-void CollectionDirectoryModel::RemoveDirectory(const QModelIndex &index) {
+void CollectionDirectoryModel::RemoveDirectory(const QModelIndex &idx) {
 
-  if (!backend_ || !index.isValid()) return;
+  if (!backend_ || !idx.isValid()) return;
 
   Directory dir;
-  dir.path = index.data().toString();
-  dir.id = index.data(kIdRole).toInt();
+  dir.path = idx.data().toString();
+  dir.id = idx.data(kIdRole).toInt();
 
   backend_->RemoveDirectory(dir);
 
 }
 
-QVariant CollectionDirectoryModel::data(const QModelIndex &index, int role) const {
+QVariant CollectionDirectoryModel::data(const QModelIndex &idx, int role) const {
 
   switch (role) {
     case MusicStorage::Role_Storage:
     case MusicStorage::Role_StorageForceConnect:
-      return QVariant::fromValue(storage_[index.row()]);
+      return QVariant::fromValue(storage_[idx.row()]);
 
     case MusicStorage::Role_FreeSpace:
-    return Utilities::FileSystemFreeSpace(data(index, Qt::DisplayRole).toString());
+    return Utilities::FileSystemFreeSpace(data(idx, Qt::DisplayRole).toString());
 
     case MusicStorage::Role_Capacity:
-    return Utilities::FileSystemCapacity(data(index, Qt::DisplayRole).toString());
+    return Utilities::FileSystemCapacity(data(idx, Qt::DisplayRole).toString());
 
     default:
-      return QStandardItemModel::data(index, role);
+      return QStandardItemModel::data(idx, role);
   }
 
 }
-

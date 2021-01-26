@@ -51,14 +51,14 @@ LyricsSettingsPage::LyricsSettingsPage(SettingsDialog *parent) : SettingsPage(pa
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("view-media-lyrics"));
 
-  connect(ui_->providers_up, SIGNAL(clicked()), SLOT(ProvidersMoveUp()));
-  connect(ui_->providers_down, SIGNAL(clicked()), SLOT(ProvidersMoveDown()));
-  connect(ui_->providers, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), SLOT(CurrentItemChanged(QListWidgetItem*, QListWidgetItem*)));
-  connect(ui_->providers, SIGNAL(itemSelectionChanged()), SLOT(ItemSelectionChanged()));
-  connect(ui_->providers, SIGNAL(itemChanged(QListWidgetItem*)), SLOT(ItemChanged(QListWidgetItem*)));
+  QObject::connect(ui_->providers_up, &QPushButton::clicked, this, &LyricsSettingsPage::ProvidersMoveUp);
+  QObject::connect(ui_->providers_down, &QPushButton::clicked, this, &LyricsSettingsPage::ProvidersMoveDown);
+  QObject::connect(ui_->providers, &QListWidget::currentItemChanged, this, &LyricsSettingsPage::CurrentItemChanged);
+  QObject::connect(ui_->providers, &QListWidget::itemSelectionChanged, this, &LyricsSettingsPage::ItemSelectionChanged);
+  QObject::connect(ui_->providers, &QListWidget::itemChanged, this, &LyricsSettingsPage::ItemChanged);
 
-  connect(ui_->button_authenticate, SIGNAL(clicked()), SLOT(AuthenticateClicked()));
-  connect(ui_->login_state, SIGNAL(LogoutClicked()), SLOT(LogoutClicked()));
+  QObject::connect(ui_->button_authenticate, &QPushButton::clicked, this, &LyricsSettingsPage::AuthenticateClicked);
+  QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &LyricsSettingsPage::LogoutClicked);
 
   ui_->login_state->AddCredentialGroup(ui_->widget_authenticate);
 
@@ -196,8 +196,8 @@ void LyricsSettingsPage::DisableAuthentication() {
 
 void LyricsSettingsPage::DisconnectAuthentication(LyricsProvider *provider) {
 
-  disconnect(provider, SIGNAL(AuthenticationFailure(QStringList)), this, SLOT(AuthenticationFailure(QStringList)));
-  disconnect(provider, SIGNAL(AuthenticationSuccess()), this, SLOT(AuthenticationSuccess()));
+  QObject::disconnect(provider, &LyricsProvider::AuthenticationFailure, this, &LyricsSettingsPage::AuthenticationFailure);
+  QObject::disconnect(provider, &LyricsProvider::AuthenticationSuccess, this, &LyricsSettingsPage::AuthenticationSuccess);
 
 }
 
@@ -208,8 +208,8 @@ void LyricsSettingsPage::AuthenticateClicked() {
   if (!provider) return;
   ui_->button_authenticate->setEnabled(false);
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoginInProgress);
-  connect(provider, SIGNAL(AuthenticationFailure(QStringList)), this, SLOT(AuthenticationFailure(QStringList)));
-  connect(provider, SIGNAL(AuthenticationSuccess()), this, SLOT(AuthenticationSuccess()));
+  QObject::connect(provider, &LyricsProvider::AuthenticationFailure, this, &LyricsSettingsPage::AuthenticationFailure);
+  QObject::connect(provider, &LyricsProvider::AuthenticationSuccess, this, &LyricsSettingsPage::AuthenticationSuccess);
   provider->Authenticate();
 
 }

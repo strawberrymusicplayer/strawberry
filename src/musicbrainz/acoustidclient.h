@@ -58,7 +58,7 @@ class AcoustidClient : public QObject {
   void CancelAll();
 
  signals:
-  void Finished(const int id, const QStringList &mbid_list, const QString &error = QString());
+  void Finished(int id, QStringList mbid_list, QString error = QString());
 
  private slots:
   void RequestFinished(QNetworkReply *reply, const int id);
@@ -75,4 +75,3 @@ class AcoustidClient : public QObject {
 };
 
 #endif  // ACOUSTIDCLIENT_H
-

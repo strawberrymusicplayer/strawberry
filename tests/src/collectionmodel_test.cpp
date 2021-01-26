@@ -253,9 +253,9 @@ TEST_F(CollectionModelTest, RemoveSongsLazyLoaded) {
   ASSERT_EQ(3, model_->rowCount(album_index));
 
   // Remove the first two songs
-  QSignalSpy spy_preremove(model_.get(), SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)));
-  QSignalSpy spy_remove(model_.get(), SIGNAL(rowsRemoved(QModelIndex,int,int)));
-  QSignalSpy spy_reset(model_.get(), SIGNAL(modelReset()));
+  QSignalSpy spy_preremove(model_.get(), &CollectionModel::rowsAboutToBeRemoved);
+  QSignalSpy spy_remove(model_.get(), &CollectionModel::rowsRemoved);
+  QSignalSpy spy_reset(model_.get(), &CollectionModel::modelReset);
 
   backend_->DeleteSongs(SongList() << one << two);
 
@@ -278,9 +278,9 @@ TEST_F(CollectionModelTest, RemoveSongsNotLazyLoaded) {
   model_->Init(false);
 
   // Remove the first two songs
-  QSignalSpy spy_preremove(model_.get(), SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)));
-  QSignalSpy spy_remove(model_.get(), SIGNAL(rowsRemoved(QModelIndex,int,int)));
-  QSignalSpy spy_reset(model_.get(), SIGNAL(modelReset()));
+  QSignalSpy spy_preremove(model_.get(), &CollectionModel::rowsAboutToBeRemoved);
+  QSignalSpy spy_remove(model_.get(), &CollectionModel::rowsRemoved);
+  QSignalSpy spy_reset(model_.get(), &CollectionModel::modelReset);
 
   backend_->DeleteSongs(SongList() << one << two);
 
@@ -576,9 +576,9 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
 
         model3->set_use_lazy_loading(false);
 
-        QSignalSpy model1_update(model1.get(), SIGNAL(rowsInserted(QModelIndex, int, int)));
-        QSignalSpy model2_update(model2.get(), SIGNAL(rowsInserted(QModelIndex, int, int)));
-        QSignalSpy model3_update(model3.get(), SIGNAL(rowsInserted(QModelIndex, int, int)));
+        QSignalSpy model1_update(model1.get(), &CollectionModel::rowsInserted);
+        QSignalSpy model2_update(model2.get(), &CollectionModel::rowsInserted);
+        QSignalSpy model3_update(model3.get(), &CollectionModel::rowsInserted);
 
         backend1->AddOrUpdateSongs(songs);
         backend2->AddOrUpdateSongs(songs);
@@ -646,9 +646,9 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
           }
         }
 
-        QSignalSpy database_reset_1(backend1.get(), SIGNAL(DatabaseReset()));
-        QSignalSpy database_reset_2(backend2.get(), SIGNAL(DatabaseReset()));
-        QSignalSpy database_reset_3(backend3.get(), SIGNAL(DatabaseReset()));
+        QSignalSpy database_reset_1(backend1.get(), &CollectionBackend::DatabaseReset);
+        QSignalSpy database_reset_2(backend2.get(), &CollectionBackend::DatabaseReset);
+        QSignalSpy database_reset_3(backend3.get(), &CollectionBackend::DatabaseReset);
 
         backend1->DeleteAll();
         backend2->DeleteAll();

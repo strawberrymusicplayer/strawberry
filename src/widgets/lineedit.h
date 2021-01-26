@@ -118,12 +118,12 @@ class LineEdit : public QLineEdit, public ExtendedEditor {
 
   // ExtendedEditor
   void set_enabled(bool enabled) override { QLineEdit::setEnabled(enabled); }
-  void set_focus() override { QLineEdit::setFocus(); }
 
   QVariant value() const override { return QLineEdit::text(); }
   void set_value(const QVariant &value) override { QLineEdit::setText(value.toString()); }
 
  public slots:
+  void set_focus() override { QLineEdit::setFocus(); }
   void clear() override { QLineEdit::clear(); }
 
  protected:
@@ -152,12 +152,12 @@ class TextEdit : public QPlainTextEdit, public ExtendedEditor {
 
   // ExtendedEditor
   void set_enabled(bool enabled) override { QPlainTextEdit::setEnabled(enabled); }
-  void set_focus() override { QPlainTextEdit::setFocus(); }
 
   QVariant value() const override { return QPlainTextEdit::toPlainText(); }
   void set_value(const QVariant &value) override { QPlainTextEdit::setPlainText(value.toString()); }
 
  public slots:
+  void set_focus() override { QPlainTextEdit::setFocus(); }
   void clear() override { QPlainTextEdit::clear(); }
 
  protected:
@@ -182,13 +182,13 @@ class SpinBox : public QSpinBox, public ExtendedEditor {
 
   // ExtendedEditor
   void set_enabled(bool enabled) override { QSpinBox::setEnabled(enabled); }
-  void set_focus() override { QSpinBox::setFocus(); }
 
   QVariant value() const override { return QSpinBox::value(); }
   void set_value(const QVariant &value) override { QSpinBox::setValue(value.toInt()); }
   bool is_empty() const override { return text().isEmpty() || text() == "0"; }
 
  public slots:
+  void set_focus() override { QSpinBox::setFocus(); }
   void clear() override { QSpinBox::clear(); }
 
  protected:
@@ -210,7 +210,6 @@ class CheckBox : public QCheckBox, public ExtendedEditor {
 
   // ExtendedEditor
   void set_enabled(bool enabled) override { QCheckBox::setEnabled(enabled); }
-  void set_focus() override { QCheckBox::setFocus(); }
 
   bool is_empty() const override { return text().isEmpty() || text() == "0"; }
   QVariant value() const override { return QCheckBox::isChecked(); }
@@ -218,6 +217,7 @@ class CheckBox : public QCheckBox, public ExtendedEditor {
   void set_partially() override { QCheckBox::setCheckState(Qt::PartiallyChecked); }
 
  public slots:
+  void set_focus() override { QCheckBox::setFocus(); }
   void clear() override { QCheckBox::setChecked(false); }
 
  protected:

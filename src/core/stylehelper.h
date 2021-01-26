@@ -105,4 +105,3 @@ private:
 
 using Utils::StyleHelper;
 #endif // STYLEHELPER_H
-

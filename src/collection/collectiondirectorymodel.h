@@ -42,14 +42,14 @@ class CollectionDirectoryModel : public QStandardItemModel {
   Q_OBJECT
 
  public:
-  explicit CollectionDirectoryModel(CollectionBackend* backend, QObject *parent = nullptr);
+  explicit CollectionDirectoryModel(CollectionBackend *backend, QObject *parent = nullptr);
   ~CollectionDirectoryModel() override;
 
   // To be called by GUIs
   void AddDirectory(const QString &path);
-  void RemoveDirectory(const QModelIndex &index);
+  void RemoveDirectory(const QModelIndex &idx);
 
-  QVariant data(const QModelIndex &index, int role) const override;
+  QVariant data(const QModelIndex &idx, int role) const override;
 
  private slots:
   // To be called by the backend
@@ -61,7 +61,7 @@ class CollectionDirectoryModel : public QStandardItemModel {
 
   QIcon dir_icon_;
   CollectionBackend* backend_;
-  QList<std::shared_ptr<MusicStorage> > storage_;
+  QList<std::shared_ptr<MusicStorage>> storage_;
 };
 
 #endif  // COLLECTIONDIRECTORYMODEL_H

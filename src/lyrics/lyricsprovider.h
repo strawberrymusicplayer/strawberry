@@ -60,7 +60,7 @@ class LyricsProvider : public QObject {
   void AuthenticationComplete(bool, QStringList = QStringList());
   void AuthenticationSuccess();
   void AuthenticationFailure(QStringList);
-  void SearchFinished(const quint64 id, const LyricsSearchResults &results);
+  void SearchFinished(quint64 id, LyricsSearchResults results);
 
  private:
   QString name_;
@@ -69,4 +69,4 @@ class LyricsProvider : public QObject {
   bool authentication_required_;
 };
 
-#endif // LYRICSPROVIDER_H
+#endif  // LYRICSPROVIDER_H

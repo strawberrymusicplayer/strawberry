@@ -58,7 +58,7 @@ TidalStreamURLRequest::TidalStreamURLRequest(TidalService *service, NetworkAcces
 TidalStreamURLRequest::~TidalStreamURLRequest() {
 
   if (reply_) {
-    disconnect(reply_, nullptr, this, nullptr);
+    QObject::disconnect(reply_, nullptr, this, nullptr);
     if (reply_->isRunning()) reply_->abort();
     reply_->deleteLater();
   }
@@ -115,7 +115,7 @@ void TidalStreamURLRequest::GetStreamURL() {
   ++tries_;
 
   if (reply_) {
-    disconnect(reply_, nullptr, this, nullptr);
+    QObject::disconnect(reply_, nullptr, this, nullptr);
     if (reply_->isRunning()) reply_->abort();
     reply_->deleteLater();
   }
@@ -126,7 +126,7 @@ void TidalStreamURLRequest::GetStreamURL() {
     case TidalSettingsPage::StreamUrlMethod_StreamUrl:
       params << Param("soundQuality", quality());
       reply_ = CreateRequest(QString("tracks/%1/streamUrl").arg(song_id_), params);
-      connect(reply_, SIGNAL(finished()), this, SLOT(StreamURLReceived()));
+      QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
     case TidalSettingsPage::StreamUrlMethod_UrlPostPaywall:
       params << Param("audioquality", quality());
@@ -134,14 +134,14 @@ void TidalStreamURLRequest::GetStreamURL() {
       params << Param("assetpresentation", "FULL");
       params << Param("urlusagemode", "STREAM");
       reply_ = CreateRequest(QString("tracks/%1/urlpostpaywall").arg(song_id_), params);
-      connect(reply_, SIGNAL(finished()), this, SLOT(StreamURLReceived()));
+      QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
     case TidalSettingsPage::StreamUrlMethod_PlaybackInfoPostPaywall:
       params << Param("audioquality", quality());
       params << Param("playbackmode", "STREAM");
       params << Param("assetpresentation", "FULL");
       reply_ = CreateRequest(QString("tracks/%1/playbackinfopostpaywall").arg(song_id_), params);
-      connect(reply_, SIGNAL(finished()), this, SLOT(StreamURLReceived()));
+      QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
   }
 
@@ -150,7 +150,7 @@ void TidalStreamURLRequest::GetStreamURL() {
 void TidalStreamURLRequest::StreamURLReceived() {
 
   if (!reply_) return;
-  disconnect(reply_, nullptr, this, nullptr);
+  QObject::disconnect(reply_, nullptr, this, nullptr);
   reply_->deleteLater();
 
   QByteArray data = GetReplyData(reply_, true);

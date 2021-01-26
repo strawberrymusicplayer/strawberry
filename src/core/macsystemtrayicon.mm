@@ -191,7 +191,7 @@ void MacSystemTrayIcon::SetupMenu(QAction* previous, QAction* play, QAction* sto
 
 void MacSystemTrayIcon::SetupMenuItem(QAction* action) {
   p_->AddMenuItem(action);
-  connect(action, SIGNAL(changed()), SLOT(ActionChanged()));
+  QObject::connect(action, &QAction::changed, this, &MacSystemTrayIcon::ActionChanged);
 }
 
 void MacSystemTrayIcon::UpdateIcon() {

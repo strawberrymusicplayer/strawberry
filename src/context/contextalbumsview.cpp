@@ -63,7 +63,7 @@
 
 ContextItemDelegate::ContextItemDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
 
-bool ContextItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) {
+bool ContextItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &idx) {
 
   return true;
 
@@ -72,23 +72,23 @@ bool ContextItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, 
   if (!event || !view) return false;
 
   QHelpEvent *he = static_cast<QHelpEvent*>(event);
-  QString text = displayText(index.data(), QLocale::system());
+  QString text = displayText(idx.data(), QLocale::system());
 
   if (text.isEmpty() || !he) return false;
 
   switch (event->type()) {
     case QEvent::ToolTip: {
 
-      QSize real_text = sizeHint(option, index);
-      QRect displayed_text = view->visualRect(index);
+      QSize real_text = sizeHint(option, idx);
+      QRect displayed_text = view->visualRect(idx);
       bool is_elided = displayed_text.width() < real_text.width();
 
       if (is_elided) {
         QToolTip::showText(he->globalPos(), text, view);
       }
-      else if (index.data(Qt::ToolTipRole).isValid()) {
+      else if (idx.data(Qt::ToolTipRole).isValid()) {
         // If the item has a tooltip text, display it
-        QString tooltip_text = index.data(Qt::ToolTipRole).toString();
+        QString tooltip_text = idx.data(Qt::ToolTipRole).toString();
         QToolTip::showText(he->globalPos(), tooltip_text, view);
       }
       else {
@@ -231,8 +231,8 @@ void ContextAlbumsView::Init(Application *app) {
 
   setModel(model_);
 
-  connect(model_, SIGNAL(modelAboutToBeReset()), this, SLOT(SaveFocus()));
-  connect(model_, SIGNAL(modelReset()), this, SLOT(RestoreFocus()));
+  QObject::connect(model_, &ContextAlbumsModel::modelAboutToBeReset, this, &ContextAlbumsView::SaveFocus);
+  QObject::connect(model_, &ContextAlbumsModel::modelReset, this, &ContextAlbumsView::RestoreFocus);
 
 }
 
@@ -249,29 +249,29 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
 
-    add_to_playlist_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, SLOT(AddToPlaylist()));
-    load_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, SLOT(Load()));
-    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylist()));
+    add_to_playlist_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &ContextAlbumsView::AddToPlaylist);
+    load_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &ContextAlbumsView::Load);
+    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &ContextAlbumsView::OpenInNewPlaylist);
 
     context_menu_->addSeparator();
-    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, SLOT(AddToPlaylistEnqueue()));
+    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &ContextAlbumsView::AddToPlaylistEnqueue);
 
     context_menu_->addSeparator();
-    organize_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, SLOT(Organize()));
+    organize_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, &ContextAlbumsView::Organize);
 #ifndef Q_OS_WIN
-    copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(CopyToDevice()));
+    copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, &ContextAlbumsView::CopyToDevice);
 #endif
 
     context_menu_->addSeparator();
-    edit_track_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit track information..."), this, SLOT(EditTracks()));
-    edit_tracks_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit tracks information..."), this, SLOT(EditTracks()));
-    show_in_browser_ = context_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, SLOT(ShowInBrowser()));
+    edit_track_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit track information..."), this, &ContextAlbumsView::EditTracks);
+    edit_tracks_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit tracks information..."), this, &ContextAlbumsView::EditTracks);
+    show_in_browser_ = context_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, &ContextAlbumsView::ShowInBrowser);
 
     context_menu_->addSeparator();
 
 #ifndef Q_OS_WIN
     copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
-    connect(app_->device_manager()->connected_devices_model(), SIGNAL(IsEmptyChanged(bool)), copy_to_device_, SLOT(setDisabled(bool)));
+    QObject::connect(app_->device_manager()->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, copy_to_device_, &QAction::setDisabled);
 #endif
 
   }
@@ -283,9 +283,9 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
   int regular_elements = 0;
   int regular_editable = 0;
 
-  for (const QModelIndex &index : selected_indexes) {
+  for (const QModelIndex &idx : selected_indexes) {
     regular_elements++;
-    if(model_->data(index, ContextAlbumsModel::Role_Editable).toBool()) {
+    if (model_->data(idx, ContextAlbumsModel::Role_Editable).toBool()) {
       regular_editable++;
     }
   }
@@ -355,12 +355,12 @@ void ContextAlbumsView::OpenInNewPlaylist() {
 
 }
 
-void ContextAlbumsView::scrollTo(const QModelIndex &index, ScrollHint hint) {
+void ContextAlbumsView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
 
   if (is_in_keyboard_search_)
-    QTreeView::scrollTo(index, QAbstractItemView::PositionAtTop);
+    QTreeView::scrollTo(idx, QAbstractItemView::PositionAtTop);
   else
-    QTreeView::scrollTo(index, hint);
+    QTreeView::scrollTo(idx, hint);
 
 }
 
@@ -414,4 +414,5 @@ void ContextAlbumsView::ShowInBrowser() {
   }
 
   Utilities::OpenInFileBrowser(urls);
+
 }

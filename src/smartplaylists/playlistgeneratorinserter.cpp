@@ -64,7 +64,7 @@ void PlaylistGeneratorInserter::Load(Playlist *destination, const int row, const
   enqueue_next_ = enqueue_next;
   is_dynamic_ = generator->is_dynamic();
 
-  connect(generator.get(), SIGNAL(Error(QString)), SIGNAL(Error(QString)));
+  QObject::connect(generator.get(), &PlaylistGenerator::Error, this, &PlaylistGeneratorInserter::Error);
 
   QFuture<PlaylistItemList> future = QtConcurrent::run(PlaylistGeneratorInserter::Generate, generator, dynamic_count);
   NewClosure(future, this, SLOT(Finished(QFuture<PlaylistItemList>)), future);

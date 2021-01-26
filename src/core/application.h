@@ -117,7 +117,7 @@ class Application : public QObject {
   void OpenSettingsDialogAtPage(SettingsDialog::Page page);
 
  signals:
-  void ErrorAdded(const QString &message);
+  void ErrorAdded(QString message);
   void SettingsChanged();
   void SettingsDialogRequested(SettingsDialog::Page page);
   void ExitFinished();

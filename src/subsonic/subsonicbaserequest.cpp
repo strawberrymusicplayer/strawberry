@@ -101,7 +101,7 @@ QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_na
 #endif
 
   QNetworkReply *reply = network_->get(req);
-  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleSSLErrors(QList<QSslError>)));
+  QObject::connect(reply, &QNetworkReply::sslErrors, this, &SubsonicBaseRequest::HandleSSLErrors);
 
   //qLog(Debug) << "Subsonic: Sending request" << url;
 

@@ -32,16 +32,15 @@
 
 InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent) :
   QWidget(parent),
-  ui_(new Ui_InternetCollectionViewContainer)
-  {
+  ui_(new Ui_InternetCollectionViewContainer) {
 
   ui_->setupUi(this);
   view()->SetFilter(filter());
 
-  connect(filter(), SIGNAL(UpPressed()), view(), SLOT(UpAndFocus()));
-  connect(filter(), SIGNAL(DownPressed()), view(), SLOT(DownAndFocus()));
-  connect(filter(), SIGNAL(ReturnPressed()), view(), SLOT(FilterReturnPressed()));
-  connect(view(), SIGNAL(FocusOnFilterSignal(QKeyEvent*)), filter(), SLOT(FocusOnFilter(QKeyEvent*)));
+  QObject::connect(filter(), &CollectionFilterWidget::UpPressed, view(), &InternetCollectionView::UpAndFocus);
+  QObject::connect(filter(), &CollectionFilterWidget::DownPressed, view(), &InternetCollectionView::DownAndFocus);
+  QObject::connect(filter(), &CollectionFilterWidget::ReturnPressed, view(), &InternetCollectionView::FilterReturnPressed);
+  QObject::connect(view(), &InternetCollectionView::FocusOnFilterSignal, filter(), &CollectionFilterWidget::FocusOnFilter);
 
   ui_->progressbar->hide();
 

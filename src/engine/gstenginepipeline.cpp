@@ -1201,8 +1201,8 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
   }
 
   fader_.reset(new QTimeLine(duration_msec, this));
-  connect(fader_.get(), SIGNAL(valueChanged(qreal)), SLOT(SetVolumeModifier(qreal)));
-  connect(fader_.get(), SIGNAL(finished()), SLOT(FaderTimelineFinished()));
+  QObject::connect(fader_.get(), &QTimeLine::valueChanged, this, &GstEnginePipeline::SetVolumeModifier);
+  QObject::connect(fader_.get(), &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
   fader_->setDirection(direction);
   fader_->setEasingCurve(shape);
   fader_->setCurrentTime(start_time);

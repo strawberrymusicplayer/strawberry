@@ -459,7 +459,7 @@ FancyTabWidget::FancyTabWidget(QWidget *parent) : QTabWidget(parent),
     setStyle(style_);
   }
 
-  connect(tabBar, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged(int)));
+  QObject::connect(tabBar, &FancyTabBar::currentChanged, this, &FancyTabWidget::currentTabChanged);
 
 }
 
@@ -685,7 +685,7 @@ void FancyTabWidget::SetMode(FancyTabWidget::Mode mode) {
   updateGeometry();
 
   // There appears to be a bug in QTabBar which causes tabSizeHint to be ignored thus the need for this second shot repaint
-  QTimer::singleShot(1, this, SLOT(tabBarUpdateGeometry()));
+  QTimer::singleShot(1, this, &FancyTabWidget::tabBarUpdateGeometry);
 
   emit ModeChanged(mode);
 
@@ -695,7 +695,7 @@ void FancyTabWidget::addMenuItem(QActionGroup* group, const QString& text, Mode 
 
   QAction* action = group->addAction(text);
   action->setCheckable(true);
-  connect(action, &QAction::triggered, [this, mode]() { SetMode(mode); } );
+  QObject::connect(action, &QAction::triggered, [this, mode]() { SetMode(mode); } );
 
   if (mode == mode_) action->setChecked(true);
 

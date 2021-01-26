@@ -49,11 +49,11 @@ class FileViewList : public QListView {
 
  signals:
   void AddToPlaylist(QMimeData *data);
-  void CopyToCollection(const QList<QUrl>& urls);
-  void MoveToCollection(const QList<QUrl>& urls);
-  void CopyToDevice(const QList<QUrl>& urls);
-  void Delete(const QStringList& filenames);
-  void EditTags(const QList<QUrl>& urls);
+  void CopyToCollection(QList<QUrl> urls);
+  void MoveToCollection(QList<QUrl> urls);
+  void CopyToDevice(QList<QUrl> urls);
+  void Delete(QStringList filenames);
+  void EditTags(QList<QUrl> urls);
   void Back();
   void Forward();
 
@@ -81,4 +81,3 @@ class FileViewList : public QListView {
 };
 
 #endif  // FILEVIEWLIST_H
-

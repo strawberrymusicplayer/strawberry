@@ -43,4 +43,4 @@ class GstStartup : public QObject {
 
 };
 
-#endif  /* GSTSTARTUP_H */
+#endif  // GSTSTARTUP_H

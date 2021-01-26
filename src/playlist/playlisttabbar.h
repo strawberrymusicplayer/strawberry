@@ -58,24 +58,24 @@ class PlaylistTabBar : public QTabBar {
   void SetManager(PlaylistManager *manager);
 
   // We use IDs to refer to tabs so the tabs can be moved around (and their indexes change).
-  int index_of(int id) const;
+  int index_of(const int id) const;
   int current_id() const;
   int id_of(int index) const;
 
   // Utility functions that use IDs rather than indexes
-  void set_current_id(int id);
-  void set_icon_by_id(int id, const QIcon &icon);
-  void set_text_by_id(int id, const QString &text);
+  void set_current_id(const int id);
+  void set_icon_by_id(const int id, const QIcon &icon);
+  void set_text_by_id(const int id, const QString &text);
 
-  void RemoveTab(int id);
-  void InsertTab(int id, int index, const QString &text, bool favorite);
+  void RemoveTab(const int id);
+  void InsertTab(const int id, const int index, const QString &text, const bool favorite);
 
  signals:
   void CurrentIdChanged(int id);
-  void Rename(int id, const QString &name);
+  void Rename(int id, QString name);
   void Close(int id);
   void Save(int id);
-  void PlaylistOrderChanged(const QList<int> &ids);
+  void PlaylistOrderChanged(QList<int> ids);
   void PlaylistFavorited(int id, bool favorite);
 
  protected:
@@ -90,18 +90,18 @@ class PlaylistTabBar : public QTabBar {
   bool event(QEvent *e) override;
 
  private slots:
-  void CurrentIndexChanged(int index);
-  void Rename();
+  void CurrentIndexChanged(const int index);
+  void RenameSlot();
   void RenameInline();
   void HideEditor();
-  void Close();
-  void CloseFromTabIndex(int index);
+  void CloseSlot();
+  void CloseFromTabIndex(const int index);
   // Used when playlist's favorite flag isn't changed from the favorite widget (e.g. from the playlistlistcontainer): will update the favorite widget
-  void PlaylistFavoritedSlot(int id, bool favorite);
+  void PlaylistFavoritedSlot(const int id, const bool favorite);
   // Used to signal that the playlist manager is done starting up
   void PlaylistManagerInitialized();
   void TabMoved();
-  void Save();
+  void SaveSlot();
 
  private:
   PlaylistManager *manager_;

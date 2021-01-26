@@ -46,7 +46,7 @@ MusixmatchCoverProvider::~MusixmatchCoverProvider() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -88,7 +88,7 @@ bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &
 #endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, album); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id, artist, album]() { HandleSearchReply(reply, id, artist, album); });
 
   //qLog(Debug) << "Musixmatch: Sending request for" << artist_stripped << album_stripped << url;
 
@@ -102,7 +102,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   CoverSearchResults results;

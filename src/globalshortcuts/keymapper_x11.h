@@ -17,6 +17,9 @@
  *
  */
 
+#ifndef KEYMAPPER_X11_H
+#define KEYMAPPER_X11_H
+
 #include "config.h"
 
 #include <QtGlobal>
@@ -249,3 +252,4 @@ static const QMap<Qt::Key, quint32> keymapper_x11_ = {
 };
 }  // namespace
 
+#endif  // KEYMAPPER_X11_H

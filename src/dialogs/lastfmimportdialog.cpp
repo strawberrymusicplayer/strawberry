@@ -35,8 +35,7 @@ LastFMImportDialog::LastFMImportDialog(LastFMImport *lastfm_import, QWidget *par
   lastfm_import_(lastfm_import),
   finished_(false),
   playcount_total_(0),
-  lastplayed_total_(0)
-  {
+  lastplayed_total_(0) {
 
   ui_->setupUi(this);
 
@@ -46,20 +45,22 @@ LastFMImportDialog::LastFMImportDialog(LastFMImport *lastfm_import, QWidget *par
 
   Reset();
 
-  connect(ui_->button_close, SIGNAL(clicked()), SLOT(Close()));
-  connect(ui_->button_go, SIGNAL(clicked()), SLOT(Start()));
-  connect(ui_->button_cancel, SIGNAL(clicked()), SLOT(Cancel()));
+  QObject::connect(ui_->button_close, &QPushButton::clicked, this, &LastFMImportDialog::Close);
+  QObject::connect(ui_->button_go, &QPushButton::clicked, this, &LastFMImportDialog::Start);
+  QObject::connect(ui_->button_cancel, &QPushButton::clicked, this, &LastFMImportDialog::Cancel);
 
-  connect(ui_->checkbox_last_played, SIGNAL(stateChanged(int)), SLOT(UpdateGoButtonState()));
-  connect(ui_->checkbox_playcounts, SIGNAL(stateChanged(int)), SLOT(UpdateGoButtonState()));
+  QObject::connect(ui_->checkbox_last_played, &QCheckBox::stateChanged, this, &LastFMImportDialog::UpdateGoButtonState);
+  QObject::connect(ui_->checkbox_playcounts, &QCheckBox::stateChanged, this, &LastFMImportDialog::UpdateGoButtonState);
 
 }
 
 LastFMImportDialog::~LastFMImportDialog() { delete ui_; }
 
-void LastFMImportDialog::closeEvent(QCloseEvent*) {
+void LastFMImportDialog::closeEvent(QCloseEvent *e) {
 
   ResetFinished();
+
+  QDialog::closeEvent(e);
 
 }
 

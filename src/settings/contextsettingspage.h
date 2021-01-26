@@ -74,4 +74,4 @@ public:
   QCheckBox *checkboxes_[ContextSettingsOrder::NELEMS];
 };
 
-#endif // CONTEXTSETTINGSPAGE_H
+#endif  // CONTEXTSETTINGSPAGE_H

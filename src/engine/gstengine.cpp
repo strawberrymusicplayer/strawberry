@@ -99,7 +99,7 @@ GstEngine::GstEngine(TaskManager *task_manager)
   type_ = Engine::GStreamer;
   seek_timer_->setSingleShot(true);
   seek_timer_->setInterval(kSeekDelayNanosec / kNsecPerMsec);
-  connect(seek_timer_, SIGNAL(timeout()), SLOT(SeekNow()));
+  QObject::connect(seek_timer_, &QTimer::timeout, this, &GstEngine::SeekNow);
 
   ReloadSettings();
 
@@ -262,7 +262,7 @@ void GstEngine::Stop(const bool stop_after) {
 
   // Check if we started a fade out. If it isn't finished yet and the user pressed stop, we cancel the fader and just stop the playback.
   if (is_fading_out_to_pause_) {
-    disconnect(current_pipeline_.get(), SIGNAL(FaderFinished()), nullptr, nullptr);
+    QObject::disconnect(current_pipeline_.get(), &GstEnginePipeline::FaderFinished, nullptr, nullptr);
     is_fading_out_to_pause_ = false;
     has_faded_out_ = true;
 
@@ -284,7 +284,7 @@ void GstEngine::Pause() {
 
   // Check if we started a fade out. If it isn't finished yet and the user pressed play, we inverse the fader and resume the playback.
   if (is_fading_out_to_pause_) {
-    disconnect(current_pipeline_.get(), SIGNAL(FaderFinished()), nullptr, nullptr);
+    QObject::disconnect(current_pipeline_.get(), &GstEnginePipeline::FaderFinished, nullptr, nullptr);
     current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QEasingCurve::InOutQuad, false);
     is_fading_out_to_pause_ = false;
     has_faded_out_ = false;
@@ -315,7 +315,7 @@ void GstEngine::Unpause() {
     // Check if we faded out last time. If yes, fade in no matter what the settings say.
     // If we pause with fadeout, deactivate fadeout and resume playback, the player would be muted if not faded in.
     if (has_faded_out_) {
-      disconnect(current_pipeline_.get(), SIGNAL(FaderFinished()), nullptr, nullptr);
+      QObject::disconnect(current_pipeline_.get(), &GstEnginePipeline::FaderFinished, nullptr, nullptr);
       current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QEasingCurve::InOutQuad, false);
       has_faded_out_ = false;
     }
@@ -764,24 +764,24 @@ void GstEngine::StartFadeout() {
   if (is_fading_out_to_pause_) return;
 
   fadeout_pipeline_ = current_pipeline_;
-  disconnect(fadeout_pipeline_.get(), nullptr, nullptr, nullptr);
+  QObject::disconnect(fadeout_pipeline_.get(), nullptr, nullptr, nullptr);
   fadeout_pipeline_->RemoveAllBufferConsumers();
 
   fadeout_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward);
-  connect(fadeout_pipeline_.get(), SIGNAL(FaderFinished()), SLOT(FadeoutFinished()));
+  QObject::connect(fadeout_pipeline_.get(), &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutFinished);
 
 }
 
 void GstEngine::StartFadeoutPause() {
 
   fadeout_pause_pipeline_ = current_pipeline_;
-  disconnect(fadeout_pause_pipeline_.get(), SIGNAL(FaderFinished()), nullptr, nullptr);
+  QObject::disconnect(fadeout_pause_pipeline_.get(), &GstEnginePipeline::FaderFinished, nullptr, nullptr);
 
   fadeout_pause_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QEasingCurve::InOutQuad, false);
   if (fadeout_pipeline_ && fadeout_pipeline_->state() == GST_STATE_PLAYING) {
     fadeout_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QEasingCurve::Linear, false);
   }
-  connect(fadeout_pause_pipeline_.get(), SIGNAL(FaderFinished()), SLOT(FadeoutPauseFinished()));
+  QObject::connect(fadeout_pause_pipeline_.get(), &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutPauseFinished);
   is_fading_out_to_pause_ = true;
 
 }
@@ -818,12 +818,12 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
     ret->AddBufferConsumer(consumer);
   }
 
-  connect(ret.get(), SIGNAL(EndOfStreamReached(int, bool)), SLOT(EndOfStreamReached(int, bool)));
-  connect(ret.get(), SIGNAL(Error(int, QString, int, int)), SLOT(HandlePipelineError(int, QString, int, int)));
-  connect(ret.get(), SIGNAL(MetadataFound(int, Engine::SimpleMetaBundle)), SLOT(NewMetaData(int, Engine::SimpleMetaBundle)));
-  connect(ret.get(), SIGNAL(BufferingStarted()), SLOT(BufferingStarted()));
-  connect(ret.get(), SIGNAL(BufferingProgress(int)), SLOT(BufferingProgress(int)));
-  connect(ret.get(), SIGNAL(BufferingFinished()), SLOT(BufferingFinished()));
+  QObject::connect(ret.get(), &GstEnginePipeline::EndOfStreamReached, this, &GstEngine::EndOfStreamReached);
+  QObject::connect(ret.get(), &GstEnginePipeline::Error, this, &GstEngine::HandlePipelineError);
+  QObject::connect(ret.get(), &GstEnginePipeline::MetadataFound, this, &GstEngine::NewMetaData);
+  QObject::connect(ret.get(), &GstEnginePipeline::BufferingStarted, this, &GstEngine::BufferingStarted);
+  QObject::connect(ret.get(), &GstEnginePipeline::BufferingProgress, this, &GstEngine::BufferingProgress);
+  QObject::connect(ret.get(), &GstEnginePipeline::BufferingFinished, this, &GstEngine::BufferingFinished);
 
   return ret;
 

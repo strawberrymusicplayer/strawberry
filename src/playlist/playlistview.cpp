@@ -192,22 +192,22 @@ PlaylistView::PlaylistView(QWidget *parent)
   setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 #endif
 
-  connect(header_, SIGNAL(sectionResized(int, int, int)), SLOT(SetHeaderState()));
-  connect(header_, SIGNAL(sectionMoved(int, int, int)), SLOT(SetHeaderState()));
-  connect(header_, SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SLOT(SetHeaderState()));
-  connect(header_, SIGNAL(SectionVisibilityChanged(int, bool)), SLOT(SetHeaderState()));
+  QObject::connect(header_, &PlaylistHeader::sectionResized, this, &PlaylistView::SetHeaderState);
+  QObject::connect(header_, &PlaylistHeader::sectionMoved, this, &PlaylistView::SetHeaderState);
+  QObject::connect(header_, &PlaylistHeader::sortIndicatorChanged, this, &PlaylistView::SetHeaderState);
+  QObject::connect(header_, &PlaylistHeader::SectionVisibilityChanged, this, &PlaylistView::SetHeaderState);
 
-  connect(header_, SIGNAL(sectionResized(int, int, int)), SLOT(InvalidateCachedCurrentPixmap()));
-  connect(header_, SIGNAL(sectionMoved(int, int, int)), SLOT(InvalidateCachedCurrentPixmap()));
-  connect(header_, SIGNAL(SectionVisibilityChanged(int, bool)), SLOT(InvalidateCachedCurrentPixmap()));
-  connect(header_, SIGNAL(StretchEnabledChanged(bool)), SLOT(StretchChanged(bool)));
+  QObject::connect(header_, &PlaylistHeader::sectionResized, this, &PlaylistView::InvalidateCachedCurrentPixmap);
+  QObject::connect(header_, &PlaylistHeader::sectionMoved, this, &PlaylistView::InvalidateCachedCurrentPixmap);
+  QObject::connect(header_, &PlaylistHeader::SectionVisibilityChanged, this, &PlaylistView::InvalidateCachedCurrentPixmap);
+  QObject::connect(header_, &PlaylistHeader::StretchEnabledChanged, this, &PlaylistView::StretchChanged);
 
-  connect(header_, SIGNAL(SectionRatingLockStatusChanged(bool)), SLOT(SetRatingLockStatus(bool)));
-  connect(header_, SIGNAL(MouseEntered()), SLOT(RatingHoverOut()));
+  QObject::connect(header_, &PlaylistHeader::SectionRatingLockStatusChanged, this, &PlaylistView::SetRatingLockStatus);
+  QObject::connect(header_, &PlaylistHeader::MouseEntered, this, &PlaylistView::RatingHoverOut);
 
   inhibit_autoscroll_timer_->setInterval(kAutoscrollGraceTimeout * 1000);
   inhibit_autoscroll_timer_->setSingleShot(true);
-  connect(inhibit_autoscroll_timer_, SIGNAL(timeout()), SLOT(InhibitAutoscrollTimeout()));
+  QObject::connect(inhibit_autoscroll_timer_, &QTimer::timeout, this, &PlaylistView::InhibitAutoscrollTimeout);
 
   horizontalScrollBar()->installEventFilter(this);
   verticalScrollBar()->installEventFilter(this);
@@ -218,7 +218,7 @@ PlaylistView::PlaylistView(QWidget *parent)
   device_pixel_ratio_ = devicePixelRatioF();
 
   // For fading
-  connect(fade_animation_, SIGNAL(valueChanged(qreal)), SLOT(FadePreviousBackgroundImage(qreal)));
+  QObject::connect(fade_animation_, &QTimeLine::valueChanged, this, &PlaylistView::FadePreviousBackgroundImage);
   fade_animation_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
 
 }
@@ -234,11 +234,11 @@ void PlaylistView::Init(Application *app) {
 
   SetItemDelegates();
 
-  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), this, SLOT(SongChanged(Song)));
-  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)));
-  connect(app_->player(), SIGNAL(Playing()), SLOT(StartGlowing()));
-  connect(app_->player(), SIGNAL(Paused()), SLOT(StopGlowing()));
-  connect(app_->player(), SIGNAL(Stopped()), SLOT(Stopped()));
+  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &PlaylistView::SongChanged);
+  QObject::connect(app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &PlaylistView::AlbumCoverLoaded);
+  QObject::connect(app_->player(), &Player::Playing, this, &PlaylistView::StartGlowing);
+  QObject::connect(app_->player(), &Player::Paused, this, &PlaylistView::StopGlowing);
+  QObject::connect(app_->player(), &Player::Stopped, this, &PlaylistView::Stopped);
 
 }
 
@@ -281,8 +281,8 @@ void PlaylistView::SetItemDelegates() {
 void PlaylistView::setModel(QAbstractItemModel *m) {
 
   if (model()) {
-    disconnect(model(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(InvalidateCachedCurrentPixmap()));
-    disconnect(model(), SIGNAL(layoutAboutToBeChanged()), this, SLOT(RatingHoverOut()));
+    QObject::disconnect(model(), &QAbstractItemModel::dataChanged, this, &PlaylistView::InvalidateCachedCurrentPixmap);
+    QObject::disconnect(model(), &QAbstractItemModel::layoutAboutToBeChanged, this, &PlaylistView::RatingHoverOut);
 
     // When changing the model, always invalidate the current pixmap.
     // If a remote client uses "stop after", without invaliding the stop mark would not appear.
@@ -291,22 +291,22 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 
   QTreeView::setModel(m);
 
-  connect(model(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(InvalidateCachedCurrentPixmap()));
-  connect(model(), SIGNAL(layoutAboutToBeChanged()), this, SLOT(RatingHoverOut()));
+  QObject::connect(model(), &QAbstractItemModel::dataChanged, this, &PlaylistView::InvalidateCachedCurrentPixmap);
+  QObject::connect(model(), &QAbstractItemModel::layoutAboutToBeChanged, this, &PlaylistView::RatingHoverOut);
 
 }
 
 void PlaylistView::SetPlaylist(Playlist *playlist) {
 
   if (playlist_) {
-    disconnect(playlist_, SIGNAL(MaybeAutoscroll(Playlist::AutoScroll)), this, SLOT(MaybeAutoscroll(Playlist::AutoScroll)));
-    disconnect(playlist_, SIGNAL(destroyed()), this, SLOT(PlaylistDestroyed()));
-    disconnect(playlist_, SIGNAL(QueueChanged()), this, SLOT(update()));
+    QObject::disconnect(playlist_, &Playlist::MaybeAutoscroll, this, &PlaylistView::MaybeAutoscroll);
+    QObject::disconnect(playlist_, &Playlist::destroyed, this, &PlaylistView::PlaylistDestroyed);
+    QObject::disconnect(playlist_, &Playlist::QueueChanged, this, &PlaylistView::Update);
 
-    disconnect(playlist_, SIGNAL(DynamicModeChanged(bool)), this, SLOT(DynamicModeChanged(bool)));
-    disconnect(dynamic_controls_, SIGNAL(Expand()), playlist_, SLOT(ExpandDynamicPlaylist()));
-    disconnect(dynamic_controls_, SIGNAL(Repopulate()), playlist_, SLOT(RepopulateDynamicPlaylist()));
-    disconnect(dynamic_controls_, SIGNAL(TurnOff()), playlist_, SLOT(TurnOffDynamicPlaylist()));
+    QObject::disconnect(playlist_, &Playlist::DynamicModeChanged, this, &PlaylistView::DynamicModeChanged);
+    QObject::disconnect(dynamic_controls_, &DynamicPlaylistControls::Expand, playlist_, &Playlist::ExpandDynamicPlaylist);
+    QObject::disconnect(dynamic_controls_, &DynamicPlaylistControls::Repopulate, playlist_, &Playlist::RepopulateDynamicPlaylist);
+    QObject::disconnect(dynamic_controls_, &DynamicPlaylistControls::TurnOff, playlist_, &Playlist::TurnOffDynamicPlaylist);
   }
 
   playlist_ = playlist;
@@ -316,15 +316,15 @@ void PlaylistView::SetPlaylist(Playlist *playlist) {
   JumpToLastPlayedTrack();
   playlist->set_auto_sort(auto_sort_);
 
-  connect(playlist_, SIGNAL(RestoreFinished()), SLOT(JumpToLastPlayedTrack()));
-  connect(playlist_, SIGNAL(MaybeAutoscroll(Playlist::AutoScroll)), SLOT(MaybeAutoscroll(Playlist::AutoScroll)));
-  connect(playlist_, SIGNAL(destroyed()), SLOT(PlaylistDestroyed()));
-  connect(playlist_, SIGNAL(QueueChanged()), SLOT(update()));
+  QObject::connect(playlist_, &Playlist::RestoreFinished, this, &PlaylistView::JumpToLastPlayedTrack);
+  QObject::connect(playlist_, &Playlist::MaybeAutoscroll, this, &PlaylistView::MaybeAutoscroll);
+  QObject::connect(playlist_, &Playlist::destroyed, this, &PlaylistView::PlaylistDestroyed);
+  QObject::connect(playlist_, &Playlist::QueueChanged, this, &PlaylistView::Update);
 
-  connect(playlist_, SIGNAL(DynamicModeChanged(bool)), SLOT(DynamicModeChanged(bool)));
-  connect(dynamic_controls_, SIGNAL(Expand()), playlist_, SLOT(ExpandDynamicPlaylist()));
-  connect(dynamic_controls_, SIGNAL(Repopulate()), playlist_, SLOT(RepopulateDynamicPlaylist()));
-  connect(dynamic_controls_, SIGNAL(TurnOff()), playlist_, SLOT(TurnOffDynamicPlaylist()));
+  QObject::connect(playlist_, &Playlist::DynamicModeChanged, this, &PlaylistView::DynamicModeChanged);
+  QObject::connect(dynamic_controls_, &DynamicPlaylistControls::Expand, playlist_, &Playlist::ExpandDynamicPlaylist);
+  QObject::connect(dynamic_controls_, &DynamicPlaylistControls::Repopulate, playlist_, &Playlist::RepopulateDynamicPlaylist);
+  QObject::connect(dynamic_controls_, &DynamicPlaylistControls::TurnOff, playlist_, &Playlist::TurnOffDynamicPlaylist);
 
 }
 

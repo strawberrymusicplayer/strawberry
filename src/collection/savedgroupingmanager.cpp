@@ -61,9 +61,10 @@ SavedGroupingManager::SavedGroupingManager(QWidget *parent)
   ui_->remove->setEnabled(false);
 
   ui_->remove->setShortcut(QKeySequence::Delete);
-  connect(ui_->list->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), SLOT(UpdateButtonState()));
+  QObject::connect(ui_->list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &SavedGroupingManager::UpdateButtonState);
 
-  connect(ui_->remove, SIGNAL(clicked()), SLOT(Remove()));
+  QObject::connect(ui_->remove, &QPushButton::clicked, this, &SavedGroupingManager::Remove);
+
 }
 
 SavedGroupingManager::~SavedGroupingManager() {
@@ -184,10 +185,10 @@ void SavedGroupingManager::Remove() {
   if (ui_->list->selectionModel()->hasSelection()) {
     QSettings s;
     s.beginGroup(CollectionModel::kSavedGroupingsSettingsGroup);
-    for (const QModelIndex &index : ui_->list->selectionModel()->selectedRows()) {
-      if (index.isValid()) {
-        qLog(Debug) << "Remove saved grouping: " << model_->item(index.row(), 0)->text();
-        s.remove(model_->item(index.row(), 0)->text());
+    for (const QModelIndex &idx : ui_->list->selectionModel()->selectedRows()) {
+      if (idx.isValid()) {
+        qLog(Debug) << "Remove saved grouping: " << model_->item(idx.row(), 0)->text();
+        s.remove(model_->item(idx.row(), 0)->text());
       }
     }
     s.endGroup();

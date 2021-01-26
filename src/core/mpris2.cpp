@@ -120,16 +120,16 @@ Mpris2::Mpris2(Application *app, QObject *parent)
     return;
   }
 
-  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)));
+  QObject::connect(app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &Mpris2::AlbumCoverLoaded);
 
-  connect(app_->player()->engine(), SIGNAL(StateChanged(Engine::State)), SLOT(EngineStateChanged(Engine::State)));
-  connect(app_->player(), SIGNAL(VolumeChanged(int)), SLOT(VolumeChanged()));
-  connect(app_->player(), SIGNAL(Seeked(qlonglong)), SIGNAL(Seeked(qlonglong)));
+  QObject::connect(app_->player()->engine(), &EngineBase::StateChanged, this, &Mpris2::EngineStateChanged);
+  QObject::connect(app_->player(), &Player::VolumeChanged, this, &Mpris2::VolumeChanged);
+  QObject::connect(app_->player(), &Player::Seeked, this, &Mpris2::Seeked);
 
-  connect(app_->playlist_manager(), SIGNAL(PlaylistManagerInitialized()), SLOT(PlaylistManagerInitialized()));
-  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(CurrentSongChanged(Song)));
-  connect(app_->playlist_manager(), SIGNAL(PlaylistChanged(Playlist*)), SLOT(PlaylistChanged(Playlist*)));
-  connect(app_->playlist_manager(), SIGNAL(CurrentChanged(Playlist*)), SLOT(PlaylistCollectionChanged(Playlist*)));
+  QObject::connect(app_->playlist_manager(), &PlaylistManager::PlaylistManagerInitialized, this, &Mpris2::PlaylistManagerInitialized);
+  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &Mpris2::CurrentSongChanged);
+  QObject::connect(app_->playlist_manager(), &PlaylistManager::PlaylistChanged, this, &Mpris2::PlaylistChangedSlot);
+  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentChanged, this, &Mpris2::PlaylistCollectionChanged);
 
   app_name_[0] = app_name_[0].toUpper();
 
@@ -159,8 +159,8 @@ Mpris2::Mpris2(Application *app, QObject *parent)
 
 // when PlaylistManager gets it ready, we connect PlaylistSequence with this
 void Mpris2::PlaylistManagerInitialized() {
-  connect(app_->playlist_manager()->sequence(), SIGNAL(ShuffleModeChanged(PlaylistSequence::ShuffleMode)), SLOT(ShuffleModeChanged()));
-  connect(app_->playlist_manager()->sequence(), SIGNAL(RepeatModeChanged(PlaylistSequence::RepeatMode)), SLOT(RepeatModeChanged()));
+  QObject::connect(app_->playlist_manager()->sequence(), &PlaylistSequence::ShuffleModeChanged, this, &Mpris2::ShuffleModeChanged);
+  QObject::connect(app_->playlist_manager()->sequence(), &PlaylistSequence::RepeatModeChanged, this, &Mpris2::RepeatModeChanged);
 }
 
 void Mpris2::EngineStateChanged(Engine::State newState) {
@@ -605,11 +605,12 @@ MprisPlaylistList Mpris2::GetPlaylists(quint32 index, quint32 max_count, const Q
 
 }
 
-void Mpris2::PlaylistChanged(Playlist *playlist) {
+void Mpris2::PlaylistChangedSlot(Playlist *playlist) {
 
   MprisPlaylist mpris_playlist;
   mpris_playlist.id = MakePlaylistPath(playlist->id());
   mpris_playlist.name = app_->playlist_manager()->GetPlaylistName(playlist->id());
+
   emit PlaylistChanged(mpris_playlist);
 
 }

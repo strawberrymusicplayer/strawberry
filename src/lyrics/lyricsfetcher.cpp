@@ -34,11 +34,10 @@ LyricsFetcher::LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent)
     : QObject(parent),
       lyrics_providers_(lyrics_providers),
       next_id_(0),
-      request_starter_(new QTimer(this))
-  {
+      request_starter_(new QTimer(this)) {
 
   request_starter_->setInterval(500);
-  connect(request_starter_, SIGNAL(timeout()), SLOT(StartRequests()));
+  QObject::connect(request_starter_, &QTimer::timeout, this, &LyricsFetcher::StartRequests);
 
 }
 
@@ -93,8 +92,8 @@ void LyricsFetcher::StartRequests() {
     LyricsFetcherSearch *search = new LyricsFetcherSearch(request, this);
     active_requests_.insert(request.id, search);
 
-    connect(search, SIGNAL(SearchFinished(quint64, LyricsSearchResults)), SLOT(SingleSearchFinished(quint64, LyricsSearchResults)));
-    connect(search, SIGNAL(LyricsFetched(quint64, QString, QString)), SLOT(SingleLyricsFetched(quint64, QString, QString)));
+    QObject::connect(search, &LyricsFetcherSearch::SearchFinished, this, &LyricsFetcher::SingleSearchFinished);
+    QObject::connect(search, &LyricsFetcherSearch::LyricsFetched, this, &LyricsFetcher::SingleLyricsFetched);
 
     search->Start(lyrics_providers_);
   }

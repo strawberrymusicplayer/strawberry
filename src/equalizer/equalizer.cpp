@@ -74,17 +74,17 @@ Equalizer::Equalizer(QWidget *parent)
   // Must be done before the signals are connected
   ReloadSettings();
 
-  connect(ui_->enable_equalizer, SIGNAL(toggled(bool)), SLOT(EqualizerEnabledChangedSlot(bool)));
+  QObject::connect(ui_->enable_equalizer, &QCheckBox::toggled, this, &Equalizer::EqualizerEnabledChangedSlot);
 
-  connect(ui_->preset, SIGNAL(currentIndexChanged(int)), SLOT(PresetChanged(int)));
-  connect(ui_->preset_save, SIGNAL(clicked()), SLOT(SavePreset()));
-  connect(ui_->preset_del, SIGNAL(clicked()), SLOT(DelPreset()));
+  QObject::connect(ui_->preset, QOverload<int>::of(&QComboBox::currentIndexChanged), this, QOverload<int>::of(&Equalizer::PresetChanged));
+  QObject::connect(ui_->preset_save, &QToolButton::clicked, this, &Equalizer::SavePreset);
+  QObject::connect(ui_->preset_del, &QToolButton::clicked, this, &Equalizer::DelPreset);
 
-  connect(ui_->enable_stereo_balancer, SIGNAL(toggled(bool)), SLOT(StereoBalancerEnabledChangedSlot(bool)));
-  connect(ui_->stereo_balance_slider, SIGNAL(valueChanged(int)), SLOT(StereoBalanceSliderChanged(int)));
+  QObject::connect(ui_->enable_stereo_balancer, &QCheckBox::toggled, this, &Equalizer::StereoBalancerEnabledChangedSlot);
+  QObject::connect(ui_->stereo_balance_slider, &QSlider::valueChanged, this, &Equalizer::StereoBalanceSliderChanged);
 
   QShortcut *close = new QShortcut(QKeySequence::Close, this);
-  connect(close, SIGNAL(activated()), SLOT(close()));
+  QObject::connect(close, &QShortcut::activated, this, &Equalizer::close);
 
 }
 
@@ -239,7 +239,7 @@ EqualizerSlider *Equalizer::AddSlider(const QString &label) {
 
   EqualizerSlider *ret = new EqualizerSlider(label, ui_->slider_container);
   ui_->slider_container->layout()->addWidget(ret);
-  connect(ret, SIGNAL(ValueChanged(int)), SLOT(EqualizerParametersChangedSlot()));
+  QObject::connect(ret, &EqualizerSlider::ValueChanged, this, &Equalizer::EqualizerParametersChangedSlot);
 
   return ret;
 

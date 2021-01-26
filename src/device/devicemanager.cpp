@@ -92,14 +92,14 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
     not_connected_overlay_(IconLoader::Load("edit-delete")) {
 
   thread_pool_.setMaxThreadCount(1);
-  connect(app_->task_manager(), SIGNAL(TasksChanged()), SLOT(TasksChanged()));
+  QObject::connect(app_->task_manager(), &TaskManager::TasksChanged, this, &DeviceManager::TasksChanged);
 
   // Create the backend in the database thread
   backend_ = new DeviceDatabaseBackend;
   backend_->moveToThread(app_->database()->thread());
   backend_->Init(app_->database());
 
-  connect(this, SIGNAL(DeviceCreatedFromDB(DeviceInfo*)), SLOT(AddDeviceFromDB(DeviceInfo*)));
+  QObject::connect(this, &DeviceManager::DeviceCreatedFromDB, this, &DeviceManager::AddDeviceFromDB);
 
   // This reads from the database and contents on the database mutex, which can be very slow on startup.
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -168,7 +168,7 @@ void DeviceManager::CloseDevices() {
     if (!info->device_) continue;
     if (wait_for_exit_.contains(info->device_.get())) continue;
     wait_for_exit_ << info->device_.get();
-    connect(info->device_.get(), SIGNAL(destroyed()), SLOT(DeviceDestroyed()));
+    QObject::connect(info->device_.get(), &ConnectedDevice::destroyed, this, &DeviceManager::DeviceDestroyed);
     info->device_->Close();
   }
   if (wait_for_exit_.isEmpty()) CloseListers();
@@ -180,7 +180,7 @@ void DeviceManager::CloseListers() {
   for (DeviceLister *lister : listers_) {
     if (wait_for_exit_.contains(lister)) continue;
     wait_for_exit_ << lister;
-    connect(lister, SIGNAL(ExitFinished()), this, SLOT(ListerClosed()));
+    QObject::connect(lister, &DeviceLister::ExitFinished, this, &DeviceManager::ListerClosed);
     lister->ExitAsync();
   }
   if (wait_for_exit_.isEmpty()) CloseBackend();
@@ -191,7 +191,7 @@ void DeviceManager::CloseBackend() {
 
   if (!backend_ || wait_for_exit_.contains(backend_)) return;
   wait_for_exit_ << backend_;
-  connect(backend_, SIGNAL(ExitFinished()), this, SLOT(BackendClosed()));
+  QObject::connect(backend_, &DeviceDatabaseBackend::ExitFinished, this, &DeviceManager::BackendClosed);
   backend_->ExitAsync();
 
 }
@@ -199,7 +199,7 @@ void DeviceManager::CloseBackend() {
 void DeviceManager::BackendClosed() {
 
   QObject *obj = qobject_cast<QObject*>(sender());
-  disconnect(obj, nullptr, this, nullptr);
+  QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully closed.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
@@ -211,7 +211,7 @@ void DeviceManager::ListerClosed() {
   DeviceLister *lister = qobject_cast<DeviceLister*>(sender());
   if (!lister) return;
 
-  disconnect(lister, nullptr, this, nullptr);
+  QObject::disconnect(lister, nullptr, this, nullptr);
   qLog(Debug) << lister << "successfully closed.";
   wait_for_exit_.removeAll(lister);
 
@@ -389,9 +389,9 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
 void DeviceManager::AddLister(DeviceLister *lister) {
 
   listers_ << lister;
-  connect(lister, SIGNAL(DeviceAdded(QString)), SLOT(PhysicalDeviceAdded(QString)));
-  connect(lister, SIGNAL(DeviceRemoved(QString)), SLOT(PhysicalDeviceRemoved(QString)));
-  connect(lister, SIGNAL(DeviceChanged(QString)), SLOT(PhysicalDeviceChanged(QString)));
+  QObject::connect(lister, &DeviceLister::DeviceAdded, this, &DeviceManager::PhysicalDeviceAdded);
+  QObject::connect(lister, &DeviceLister::DeviceRemoved, this, &DeviceManager::PhysicalDeviceRemoved);
+  QObject::connect(lister, &DeviceLister::DeviceChanged, this, &DeviceManager::PhysicalDeviceChanged);
 
   lister->Start();
 
@@ -657,10 +657,10 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
 
   emit dataChanged(idx, idx);
 
-  connect(info->device_.get(), SIGNAL(TaskStarted(int)), SLOT(DeviceTaskStarted(int)));
-  connect(info->device_.get(), SIGNAL(SongCountUpdated(int)), SLOT(DeviceSongCountUpdated(int)));
-  connect(info->device_.get(), SIGNAL(ConnectFinished(QString, bool)), SLOT(DeviceConnectFinished(QString, bool)));
-  connect(info->device_.get(), SIGNAL(CloseFinished(QString)), SLOT(DeviceCloseFinished(QString)));
+  QObject::connect(info->device_.get(), &ConnectedDevice::TaskStarted, this, &DeviceManager::DeviceTaskStarted);
+  QObject::connect(info->device_.get(), &ConnectedDevice::SongCountUpdated, this, &DeviceManager::DeviceSongCountUpdated);
+  QObject::connect(info->device_.get(), &ConnectedDevice::DeviceConnectFinished, this, &DeviceManager::DeviceConnectFinished);
+  QObject::connect(info->device_.get(), &ConnectedDevice::DeviceCloseFinished, this, &DeviceManager::DeviceCloseFinished);
   ret->ConnectAsync();
   return ret;
 

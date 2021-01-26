@@ -35,11 +35,12 @@
 #include <QUrl>
 #include <QImage>
 
+#include "coversearchstatistics.h"
+
 class QTimer;
 class NetworkAccessManager;
 class CoverProviders;
 class AlbumCoverFetcherSearch;
-struct CoverSearchStatistics;
 
 // This class represents a single search-for-cover request. It identifies and describes the request.
 struct CoverSearchRequest {
@@ -115,8 +116,8 @@ class AlbumCoverFetcher : public QObject {
   void Clear();
 
  signals:
-  void AlbumCoverFetched(const quint64 request_id, const QUrl &cover_url, const QImage &cover, const CoverSearchStatistics &statistics);
-  void SearchFinished(const quint64 request_id, const CoverSearchResults &results, const CoverSearchStatistics &statistics);
+  void AlbumCoverFetched(quint64 request_id, QUrl cover_url, QImage cover, CoverSearchStatistics statistics);
+  void SearchFinished(quint64 request_id, CoverSearchResults results, CoverSearchStatistics statistics);
 
  private slots:
   void SingleSearchFinished(const quint64, const CoverSearchResults results);

@@ -168,7 +168,7 @@ void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, 
 
   QDBusPendingReply<uint> reply = interface_->Notify(app_name(), id, icon, summary_stripped, message, QStringList(), hints, timeout_msec());
   QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
-  connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), SLOT(CallFinished(QDBusPendingCallWatcher*)));
+  QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, &OSDDBus::CallFinished);
 
 }
 

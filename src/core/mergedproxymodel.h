@@ -36,7 +36,7 @@
 
 class QMimeData;
 
-std::size_t hash_value(const QModelIndex &index);
+std::size_t hash_value(const QModelIndex &idx);
 
 class MergedProxyModelPrivate;
 
@@ -63,8 +63,8 @@ class MergedProxyModel : public QAbstractProxyModel {
   QVariant data(const QModelIndex &proxy_index, int role = Qt::DisplayRole) const override;
   bool hasChildren(const QModelIndex &parent) const override;
   QMap<int, QVariant> itemData(const QModelIndex &proxy_index) const override;
-  Qt::ItemFlags flags(const QModelIndex &index) const override;
-  bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+  Qt::ItemFlags flags(const QModelIndex &idx) const override;
+  bool setData(const QModelIndex &idx, const QVariant &value, int role) override;
   QStringList mimeTypes() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
   bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
@@ -83,12 +83,12 @@ class MergedProxyModel : public QAbstractProxyModel {
   QModelIndexList mapToSource(const QModelIndexList &proxy_indexes) const;
 
  signals:
-  void SubModelReset(const QModelIndex &root, QAbstractItemModel *model);
+  void SubModelReset(QModelIndex root, QAbstractItemModel *model);
 
  private slots:
   void SourceModelReset();
   void SubModelAboutToBeReset();
-  void SubModelReset();
+  void SubModelResetSlot();
 
   void RowsAboutToBeInserted(const QModelIndex &source_parent, int start, int end);
   void RowsInserted(const QModelIndex &source_parent, int start, int end);

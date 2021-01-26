@@ -36,7 +36,7 @@ class MoodbarLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit MoodbarLoader(Application* app, QObject* parent = nullptr);
+  explicit MoodbarLoader(Application *app, QObject *parent = nullptr);
   ~MoodbarLoader() override;
 
   enum Result {
@@ -52,7 +52,7 @@ class MoodbarLoader : public QObject {
     WillLoadAsync
   };
 
-  Result Load(const QUrl& url, QByteArray* data, MoodbarPipeline** async_pipeline);
+  Result Load(const QUrl &url, QByteArray *data, MoodbarPipeline **async_pipeline);
 
  private slots:
   void ReloadSettings();
@@ -61,11 +61,11 @@ class MoodbarLoader : public QObject {
   void MaybeTakeNextRequest();
 
  private:
-  static QStringList MoodFilenames(const QString& song_filename);
+  static QStringList MoodFilenames(const QString &song_filename);
 
  private:
-  QNetworkDiskCache* cache_;
-  QThread* thread_;
+  QNetworkDiskCache *cache_;
+  QThread *thread_;
 
   const int kMaxActiveRequests;
 
@@ -73,7 +73,6 @@ class MoodbarLoader : public QObject {
   QList<QUrl> queued_requests_;
   QSet<QUrl> active_requests_;
 
-  bool enabled_;
   bool save_;
 };
 

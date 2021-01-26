@@ -122,8 +122,8 @@ void InternetCollectionView::SaveFocus() {
 
   switch (type.toInt()) {
     case CollectionItem::Type_Song: {
-      QModelIndex index = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
-      SongList songs = collection_model_->GetChildSongs(index);
+      QModelIndex idx = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
+      SongList songs = collection_model_->GetChildSongs(idx);
       if (!songs.isEmpty()) {
         last_selected_song_ = songs.last();
       }
@@ -180,8 +180,8 @@ bool InternetCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
     switch (type.toInt()) {
       case CollectionItem::Type_Song:
         if (!last_selected_song_.url().isEmpty()) {
-          QModelIndex index = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
-          SongList songs = collection_model_->GetChildSongs(index);
+          QModelIndex idx = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
+          SongList songs = collection_model_->GetChildSongs(idx);
           for (const Song &song : songs) {
             if (song == last_selected_song_) {
               setCurrentIndex(current);
@@ -308,18 +308,18 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    add_to_playlist_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, SLOT(AddToPlaylist()));
-    load_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, SLOT(Load()));
-    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylist()));
+    add_to_playlist_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &InternetCollectionView::AddToPlaylist);
+    load_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &InternetCollectionView::Load);
+    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &InternetCollectionView::OpenInNewPlaylist);
 
     context_menu_->addSeparator();
-    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, SLOT(AddToPlaylistEnqueue()));
-    add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, SLOT(AddToPlaylistEnqueueNext()));
+    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &InternetCollectionView::AddToPlaylistEnqueue);
+    add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, &InternetCollectionView::AddToPlaylistEnqueueNext);
 
     context_menu_->addSeparator();
 
     if (favorite_) {
-      remove_songs_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Remove from favorites"), this, SLOT(RemoveSongs()));
+      remove_songs_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Remove from favorites"), this, &InternetCollectionView::RemoveSelectedSongs);
       context_menu_->addSeparator();
     }
 
@@ -391,7 +391,7 @@ void InternetCollectionView::OpenInNewPlaylist() {
 
 }
 
-void InternetCollectionView::RemoveSongs() {
+void InternetCollectionView::RemoveSelectedSongs() {
 
   emit RemoveSongs(GetSelectedSongs());
 
@@ -405,12 +405,12 @@ void InternetCollectionView::keyboardSearch(const QString &search) {
 
 }
 
-void InternetCollectionView::scrollTo(const QModelIndex &index, ScrollHint hint) {
+void InternetCollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
 
   if (is_in_keyboard_search_)
-    QTreeView::scrollTo(index, QAbstractItemView::PositionAtTop);
+    QTreeView::scrollTo(idx, QAbstractItemView::PositionAtTop);
   else
-    QTreeView::scrollTo(index, hint);
+    QTreeView::scrollTo(idx, hint);
 
 }
 

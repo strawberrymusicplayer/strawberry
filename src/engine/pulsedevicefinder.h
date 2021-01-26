@@ -56,4 +56,4 @@ class PulseDeviceFinder : public DeviceFinder {
 
 };
 
-#endif // PULSEDEVICEFINDER_H
+#endif  // PULSEDEVICEFINDER_H

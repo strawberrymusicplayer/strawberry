@@ -95,10 +95,10 @@ void Organize::Start() {
   task_manager_->SetTaskBlocksCollectionScans(true);
 
   thread_ = new QThread;
-  connect(thread_, SIGNAL(started()), SLOT(ProcessSomeFiles()));
+  QObject::connect(thread_, &QThread::started, this, &Organize::ProcessSomeFiles);
 #ifdef HAVE_GSTREAMER
-  connect(transcoder_, SIGNAL(JobComplete(QString, QString, bool)), SLOT(FileTranscoded(QString, QString, bool)));
-  connect(transcoder_, SIGNAL(LogLine(QString)), SLOT(LogLine(QString)));
+  QObject::connect(transcoder_, &Transcoder::JobComplete, this, &Organize::FileTranscoded);
+  QObject::connect(transcoder_, &Transcoder::LogLine, this, &Organize::LogLine);
 #endif
 
   moveToThread(thread_);
@@ -257,7 +257,7 @@ void Organize::ProcessSomeFiles() {
   }
   SetSongProgress(0);
 
-  QTimer::singleShot(0, this, SLOT(ProcessSomeFiles()));
+  QTimer::singleShot(0, this, &Organize::ProcessSomeFiles);
 
 }
 
@@ -345,7 +345,7 @@ void Organize::FileTranscoded(const QString &input, const QString &output, bool 
   else {
     tasks_pending_ << task;
   }
-  QTimer::singleShot(0, this, SLOT(ProcessSomeFiles()));
+  QTimer::singleShot(0, this, &Organize::ProcessSomeFiles);
 
 }
 

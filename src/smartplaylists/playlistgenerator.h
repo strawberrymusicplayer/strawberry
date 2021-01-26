@@ -85,7 +85,7 @@ class PlaylistGenerator : public QObject, public std::enable_shared_from_this<Pl
   virtual int GetDynamicFuture() { return kDefaultDynamicFuture; }
 
  signals:
-  void Error(const QString& message);
+  void Error(QString message);
 
  protected:
   CollectionBackend *backend_;

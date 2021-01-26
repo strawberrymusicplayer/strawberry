@@ -63,7 +63,7 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("strawberry"));
 
-  connect(ui_->checkbox_showtrayicon, SIGNAL(toggled(bool)), SLOT(ShowTrayIconToggled(bool)));
+  QObject::connect(ui_->checkbox_showtrayicon, &QCheckBox::toggled, this, &BehaviourSettingsPage::ShowTrayIconToggled);
 
 #ifdef Q_OS_MACOS
   ui_->checkbox_showtrayicon->hide();

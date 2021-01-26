@@ -47,7 +47,7 @@ class AutoExpandingTreeView : public QTreeView {
   void SetAddOnDoubleClick(bool v) { add_on_double_click_ = v; }
 
  public slots:
-  void RecursivelyExpand(const QModelIndex &idx);
+  void RecursivelyExpandSlot(const QModelIndex &idx);
   void UpAndFocus();
   void DownAndFocus();
 
@@ -82,4 +82,3 @@ class AutoExpandingTreeView : public QTreeView {
 };
 
 #endif  // AUTOEXPANDINGTREEVIEW_H
-

@@ -118,4 +118,4 @@ inline bool operator==(const MacOsDeviceLister::MTPDevice& a, const MacOsDeviceL
   return (a.vendor_id == b.vendor_id) && (a.product_id == b.product_id);
 }
 
-#endif
+#endif  // MACDEVICELISTER_H

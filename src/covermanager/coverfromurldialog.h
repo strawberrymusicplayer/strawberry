@@ -56,4 +56,3 @@ class CoverFromURLDialog : public QDialog {
 };
 
 #endif  // COVERFROMURLDIALOG_H
-

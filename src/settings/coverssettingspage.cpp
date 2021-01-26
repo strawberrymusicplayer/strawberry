@@ -51,14 +51,14 @@ CoversSettingsPage::CoversSettingsPage(SettingsDialog *parent) : SettingsPage(pa
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("cdcase"));
 
-  connect(ui_->providers_up, SIGNAL(clicked()), SLOT(ProvidersMoveUp()));
-  connect(ui_->providers_down, SIGNAL(clicked()), SLOT(ProvidersMoveDown()));
-  connect(ui_->providers, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), SLOT(CurrentItemChanged(QListWidgetItem*, QListWidgetItem*)));
-  connect(ui_->providers, SIGNAL(itemSelectionChanged()), SLOT(ItemSelectionChanged()));
-  connect(ui_->providers, SIGNAL(itemChanged(QListWidgetItem*)), SLOT(ItemChanged(QListWidgetItem*)));
+  QObject::connect(ui_->providers_up, &QPushButton::clicked, this, &CoversSettingsPage::ProvidersMoveUp);
+  QObject::connect(ui_->providers_down, &QPushButton::clicked, this, &CoversSettingsPage::ProvidersMoveDown);
+  QObject::connect(ui_->providers, &QListWidget::currentItemChanged, this, &CoversSettingsPage::CurrentItemChanged);
+  QObject::connect(ui_->providers, &QListWidget::itemSelectionChanged, this, &CoversSettingsPage::ItemSelectionChanged);
+  QObject::connect(ui_->providers, &QListWidget::itemChanged, this, &CoversSettingsPage::ItemChanged);
 
-  connect(ui_->button_authenticate, SIGNAL(clicked()), SLOT(AuthenticateClicked()));
-  connect(ui_->login_state, SIGNAL(LogoutClicked()), SLOT(LogoutClicked()));
+  QObject::connect(ui_->button_authenticate, &QPushButton::clicked, this, &CoversSettingsPage::AuthenticateClicked);
+  QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &CoversSettingsPage::LogoutClicked);
 
   ui_->login_state->AddCredentialGroup(ui_->widget_authenticate);
 
@@ -206,8 +206,8 @@ void CoversSettingsPage::DisableAuthentication() {
 
 void CoversSettingsPage::DisconnectAuthentication(CoverProvider *provider) {
 
-  disconnect(provider, SIGNAL(AuthenticationFailure(QStringList)), this, SLOT(AuthenticationFailure(QStringList)));
-  disconnect(provider, SIGNAL(AuthenticationSuccess()), this, SLOT(AuthenticationSuccess()));
+  QObject::disconnect(provider, &CoverProvider::AuthenticationFailure, this, &CoversSettingsPage::AuthenticationFailure);
+  QObject::disconnect(provider, &CoverProvider::AuthenticationSuccess, this, &CoversSettingsPage::AuthenticationSuccess);
 
 }
 
@@ -218,8 +218,8 @@ void CoversSettingsPage::AuthenticateClicked() {
   if (!provider) return;
   ui_->button_authenticate->setEnabled(false);
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoginInProgress);
-  connect(provider, SIGNAL(AuthenticationFailure(QStringList)), this, SLOT(AuthenticationFailure(QStringList)));
-  connect(provider, SIGNAL(AuthenticationSuccess()), this, SLOT(AuthenticationSuccess()));
+  QObject::connect(provider, &CoverProvider::AuthenticationFailure, this, &CoversSettingsPage::AuthenticationFailure);
+  QObject::connect(provider, &CoverProvider::AuthenticationSuccess, this, &CoversSettingsPage::AuthenticationSuccess);
   provider->Authenticate();
 
 }

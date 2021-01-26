@@ -49,12 +49,12 @@ SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *parent)
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("subsonic"));
 
-  connect(ui_->button_test, SIGNAL(clicked()), SLOT(TestClicked()));
+  QObject::connect(ui_->button_test, &QPushButton::clicked, this, &SubsonicSettingsPage::TestClicked);
 
-  connect(this, SIGNAL(Test(QUrl, QString, QString)), service_, SLOT(SendPing(QUrl, QString, QString)));
+  QObject::connect(this, &SubsonicSettingsPage::Test, service_, &SubsonicService::SendPingWithCredentials);
 
-  connect(service_, SIGNAL(TestFailure(QString)), SLOT(TestFailure(QString)));
-  connect(service_, SIGNAL(TestSuccess()), SLOT(TestSuccess()));
+  QObject::connect(service_, &SubsonicService::TestFailure, this, &SubsonicSettingsPage::TestFailure);
+  QObject::connect(service_, &SubsonicService::TestSuccess, this, &SubsonicSettingsPage::TestSuccess);
 
   dialog()->installEventFilter(this);
 

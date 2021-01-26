@@ -86,7 +86,7 @@ class SubsonicService : public InternetService {
  public slots:
   void ShowConfig() override;
   void SendPing();
-  void SendPing(QUrl url, const QString &username, const QString &password, const bool redirect = false);
+  void SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const bool redirect = false);
   void GetSongs() override;
   void ResetSongsRequest() override;
 

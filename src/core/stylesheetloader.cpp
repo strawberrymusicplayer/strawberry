@@ -42,7 +42,7 @@ StyleSheetLoader::StyleSheetLoader(QObject *parent) : QObject(parent), timer_res
   timer_reset_counter_->setSingleShot(true);
   timer_reset_counter_->setInterval(1000);
 
-  connect(timer_reset_counter_, SIGNAL(timeout()), this, SLOT(ResetCounters()));
+  QObject::connect(timer_reset_counter_, &QTimer::timeout, this, &StyleSheetLoader::ResetCounters);
 
 }
 

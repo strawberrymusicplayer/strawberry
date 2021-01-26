@@ -121,7 +121,7 @@ void GlobalShortcuts::ReloadSettings() {
 void GlobalShortcuts::AddShortcut(const QString &id, const QString &name, const char *signal, const QKeySequence &default_key) {
 
   Shortcut shortcut = AddShortcut(id, name, default_key);
-  connect(shortcut.action, SIGNAL(triggered()), this, signal);
+  QObject::connect(shortcut.action, SIGNAL(triggered()), this, signal);
 
 }
 

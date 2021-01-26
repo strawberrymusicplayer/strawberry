@@ -48,7 +48,7 @@ EqualizerSlider::EqualizerSlider(const QString &label, QWidget *parent)
 
   ui_->slider->setValue(0);
 
-  connect(ui_->slider, SIGNAL(valueChanged(int)), this, SLOT(OnValueChanged(int)));
+  QObject::connect(ui_->slider, &QSlider::valueChanged, this, &EqualizerSlider::OnValueChanged);
 
 }
 

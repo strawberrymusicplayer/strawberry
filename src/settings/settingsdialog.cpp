@@ -89,10 +89,10 @@ const char *SettingsDialog::kSettingsGroup = "SettingsDialog";
 SettingsItemDelegate::SettingsItemDelegate(QObject *parent)
   : QStyledItemDelegate(parent) {}
 
-QSize SettingsItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QSize SettingsItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
-  const bool is_separator = index.data(SettingsDialog::Role_IsSeparator).toBool();
-  QSize ret = QStyledItemDelegate::sizeHint(option, index);
+  const bool is_separator = idx.data(SettingsDialog::Role_IsSeparator).toBool();
+  QSize ret = QStyledItemDelegate::sizeHint(option, idx);
 
   if (is_separator) {
     ret.setHeight(ret.height() * 2);
@@ -102,15 +102,15 @@ QSize SettingsItemDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
 
 }
 
-void SettingsItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void SettingsItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
-  const bool is_separator = index.data(SettingsDialog::Role_IsSeparator).toBool();
+  const bool is_separator = idx.data(SettingsDialog::Role_IsSeparator).toBool();
 
   if (is_separator) {
-    GroupedIconView::DrawHeader(painter, option.rect, option.font, option.palette, index.data().toString());
+    GroupedIconView::DrawHeader(painter, option.rect, option.font, option.palette, idx.data().toString());
   }
   else {
-    QStyledItemDelegate::paint(painter, option, index);
+    QStyledItemDelegate::paint(painter, option, idx);
   }
 
 }
@@ -171,7 +171,7 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
 #endif
 
   // List box
-  connect(ui_->list, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), SLOT(CurrentItemChanged(QTreeWidgetItem*)));
+  QObject::connect(ui_->list, &QTreeWidget::currentItemChanged, this, &SettingsDialog::CurrentItemChanged);
   ui_->list->setCurrentItem(pages_[Page_Behaviour].item_);
 
   // Make sure the list is big enough to show all the items
@@ -179,7 +179,7 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
 
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
 
-  connect(ui_->buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(DialogButtonClicked(QAbstractButton*)));
+  QObject::connect(ui_->buttonBox, &QDialogButtonBox::clicked, this, &SettingsDialog::DialogButtonClicked);
 
 }
 
@@ -285,7 +285,7 @@ void SettingsDialog::AddPage(Page id, SettingsPage *page, QTreeWidgetItem *paren
   if (!parent) parent = ui_->list->invisibleRootItem();
 
   // Connect page's signals to the settings dialog's signals
-  connect(page, SIGNAL(NotificationPreview(OSDBase::Behaviour, QString, QString)), SIGNAL(NotificationPreview(OSDBase::Behaviour, QString, QString)));
+  QObject::connect(page, &SettingsPage::NotificationPreview, this, &SettingsDialog::NotificationPreview);
 
   // Create the list item
   QTreeWidgetItem *item = new QTreeWidgetItem;

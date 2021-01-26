@@ -58,14 +58,15 @@ class SpotifyCoverProvider : public JsonCoverProvider {
  private slots:
   void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
   void RedirectArrived();
-  void RequestAccessToken(const QString code = QString(), const QUrl redirect_url = QUrl());
   void AccessTokenRequestFinished(QNetworkReply *reply);
   void HandleSearchReply(QNetworkReply *reply, const int id, const QString &extract);
+  void RequestNewAccessToken() { RequestAccessToken(); }
 
  private:
   QByteArray GetReplyData(QNetworkReply *reply);
   void AuthError(const QString &error = QString(), const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
+  void RequestAccessToken(const QString code = QString(), const QUrl redirect_url = QUrl());
 
  private:
   typedef QPair<QString, QString> Param;

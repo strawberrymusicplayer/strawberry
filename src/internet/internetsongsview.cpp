@@ -59,25 +59,25 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
   ui_->filter->SetCollectionModel(service_->songs_collection_model());
 
   QAction *action_configure = new QAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this);
-  connect(action_configure, SIGNAL(triggered()), SLOT(OpenSettingsDialog()));
+  QObject::connect(action_configure, &QAction::triggered, this, &InternetSongsView::OpenSettingsDialog);
   ui_->filter->AddMenuAction(action_configure);
 
-  connect(ui_->view, SIGNAL(GetSongs()), SLOT(GetSongs()));
-  connect(ui_->view, SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveSongs(SongList)));
+  QObject::connect(ui_->view, &InternetCollectionView::GetSongs, this, &InternetSongsView::GetSongs);
+  QObject::connect(ui_->view, &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveSongs);
 
-  connect(ui_->refresh, SIGNAL(clicked()), SLOT(GetSongs()));
-  connect(ui_->close, SIGNAL(clicked()), SLOT(AbortGetSongs()));
-  connect(ui_->abort, SIGNAL(clicked()), SLOT(AbortGetSongs()));
-  connect(service_, SIGNAL(SongsResults(SongList, QString)), SLOT(SongsFinished(SongList, QString)));
-  connect(service_, SIGNAL(SongsUpdateStatus(QString)), ui_->status, SLOT(setText(QString)));
-  connect(service_, SIGNAL(SongsProgressSetMaximum(int)), ui_->progressbar, SLOT(setMaximum(int)));
-  connect(service_, SIGNAL(SongsUpdateProgress(int)), ui_->progressbar, SLOT(setValue(int)));
+  QObject::connect(ui_->refresh, &QPushButton::clicked, this, &InternetSongsView::GetSongs);
+  QObject::connect(ui_->close, &QPushButton::clicked, this, &InternetSongsView::AbortGetSongs);
+  QObject::connect(ui_->abort, &QPushButton::clicked, this, &InternetSongsView::AbortGetSongs);
+  QObject::connect(service_, &InternetService::SongsResults, this, &InternetSongsView::SongsFinished);
+  QObject::connect(service_, &InternetService::SongsUpdateStatus, ui_->status, &QLabel::setText);
+  QObject::connect(service_, &InternetService::SongsProgressSetMaximum, ui_->progressbar, &QProgressBar::setMaximum);
+  QObject::connect(service_, &InternetService::SongsUpdateProgress, ui_->progressbar, &QProgressBar::setValue);
 
-  connect(service_->songs_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->view, SLOT(TotalArtistCountUpdated(int)));
-  connect(service_->songs_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->view, SLOT(TotalAlbumCountUpdated(int)));
-  connect(service_->songs_collection_model(), SIGNAL(TotalSongCountUpdated(int)), ui_->view, SLOT(TotalSongCountUpdated(int)));
-  connect(service_->songs_collection_model(), SIGNAL(modelAboutToBeReset()), ui_->view, SLOT(SaveFocus()));
-  connect(service_->songs_collection_model(), SIGNAL(modelReset()), ui_->view, SLOT(RestoreFocus()));
+  QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalArtistCountUpdated, ui_->view, &InternetCollectionView::TotalArtistCountUpdated);
+  QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalAlbumCountUpdated, ui_->view, &InternetCollectionView::TotalAlbumCountUpdated);
+  QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalSongCountUpdated, ui_->view, &InternetCollectionView::TotalSongCountUpdated);
+  QObject::connect(service_->songs_collection_model(), &CollectionModel::modelAboutToBeReset, ui_->view, &InternetCollectionView::SaveFocus);
+  QObject::connect(service_->songs_collection_model(), &CollectionModel::modelReset, ui_->view, &InternetCollectionView::RestoreFocus);
 
   ReloadSettings();
 

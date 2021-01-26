@@ -96,7 +96,7 @@ SongLoader::SongLoader(CollectionBackendInterface *collection, const Player *pla
 
   timeout_timer_->setSingleShot(true);
 
-  connect(timeout_timer_, SIGNAL(timeout()), SLOT(Timeout()));
+  QObject::connect(timeout_timer_, &QTimer::timeout, this, &SongLoader::Timeout);
 
 }
 
@@ -182,8 +182,8 @@ SongLoader::Result SongLoader::LoadAudioCD() {
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
   if (player_->engine()->type() == Engine::GStreamer) {
     CddaSongLoader *cdda_song_loader = new CddaSongLoader(QUrl(), this);
-    connect(cdda_song_loader, SIGNAL(SongsDurationLoaded(SongList, QString)), this, SLOT(AudioCDTracksLoadFinishedSlot(SongList, QString)));
-    connect(cdda_song_loader, SIGNAL(SongsMetadataLoaded(SongList)), this, SLOT(AudioCDTracksTagsLoaded(SongList)));
+    QObject::connect(cdda_song_loader, &CddaSongLoader::SongsDurationLoaded, this, &SongLoader::AudioCDTracksLoadFinishedSlot);
+    QObject::connect(cdda_song_loader, &CddaSongLoader::SongsMetadataLoaded, this, &SongLoader::AudioCDTracksTagsLoaded);
     cdda_song_loader->LoadSongs();
     return Success;
   }
@@ -460,7 +460,7 @@ SongLoader::Result SongLoader::LoadRemote() {
   gst_object_unref(pad);
 
   QEventLoop loop;
-  loop.connect(this, SIGNAL(LoadRemoteFinished()), SLOT(quit()));
+  loop.connect(this, &SongLoader::LoadRemoteFinished, &loop, &QEventLoop::quit);
 
   // Start "playing"
   gst_element_set_state(pipeline.get(), GST_STATE_PLAYING);

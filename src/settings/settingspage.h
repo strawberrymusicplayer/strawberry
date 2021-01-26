@@ -88,4 +88,4 @@ class SettingsPage : public QWidget {
   QList<QPair<QLineEdit*, QString>> lineedits_;
 };
 
-#endif // SETTINGSPAGE_H
+#endif  // SETTINGSPAGE_H

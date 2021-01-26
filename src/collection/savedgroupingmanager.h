@@ -43,7 +43,7 @@ class SavedGroupingManager : public QDialog {
   ~SavedGroupingManager() override;
 
   void UpdateModel();
-  void SetFilter(CollectionFilterWidget* filter) { filter_ = filter; }
+  void SetFilter(CollectionFilterWidget *filter) { filter_ = filter; }
 
   static QString GroupByToString(const CollectionModel::GroupBy &g);
 
@@ -52,7 +52,7 @@ class SavedGroupingManager : public QDialog {
   void Remove();
 
  private:
-  Ui_SavedGroupingManager* ui_;
+  Ui_SavedGroupingManager *ui_;
   QStandardItemModel *model_;
   CollectionFilterWidget *filter_;
 };

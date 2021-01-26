@@ -54,7 +54,7 @@ void InternetServices::RemoveService(InternetService *service) {
 
   if (!services_.contains(service->source())) return;
   services_.remove(service->source());
-  disconnect(service, nullptr, this, nullptr);
+  QObject::disconnect(service, nullptr, this, nullptr);
 
   qLog(Debug) << "Removed internet service" << service->name();
 
@@ -77,7 +77,7 @@ void InternetServices::Exit() {
 
   for (InternetService *service : services_.values()) {
     wait_for_exit_ << service;
-    connect(service, SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+    QObject::connect(service, &InternetService::ExitFinished, this, &InternetServices::ExitReceived);
     service->Exit();
   }
   if (wait_for_exit_.isEmpty()) emit ExitFinished();

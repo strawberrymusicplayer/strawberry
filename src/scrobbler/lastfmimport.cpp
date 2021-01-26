@@ -63,7 +63,7 @@ LastFMImport::LastFMImport(QObject *parent) :
 
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(false);
-  connect(timer_flush_requests_, SIGNAL(timeout()), this, SLOT(FlushRequests()));
+  QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &LastFMImport::FlushRequests);
 
 }
 
@@ -77,7 +77,7 @@ void LastFMImport::AbortAll() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -269,7 +269,7 @@ void LastFMImport::SendGetRecentTracksRequest(GetRecentTracksRequest request) {
   }
 
   QNetworkReply *reply = CreateRequest(params);
-  connect(reply, &QNetworkReply::finished, [=] { GetRecentTracksRequestFinished(reply, request.page); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { GetRecentTracksRequestFinished(reply, request.page); });
 
 }
 
@@ -277,7 +277,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);
@@ -349,7 +349,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
 
   if (page == 0) {
     lastplayed_total_ = total;
-    UpdateTotal();
+    UpdateTotalCheck();
     AddGetRecentTracksRequest(1);
   }
   else {
@@ -392,7 +392,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
         emit UpdateLastPlayed(artist, album, title, datetime.toSecsSinceEpoch());
       }
 
-      UpdateProgress();
+      UpdateProgressCheck();
 
     }
 
@@ -432,7 +432,7 @@ void LastFMImport::SendGetTopTracksRequest(GetTopTracksRequest request) {
   }
 
   QNetworkReply *reply = CreateRequest(params);
-  connect(reply, &QNetworkReply::finished, [=] { GetTopTracksRequestFinished(reply, request.page); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { GetTopTracksRequestFinished(reply, request.page); });
 
 }
 
@@ -440,7 +440,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);
@@ -512,7 +512,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
 
   if (page == 0) {
     playcount_total_ = total;
-    UpdateTotal();
+    UpdateTotalCheck();
     AddGetTopTracksRequest(1);
   }
   else {
@@ -547,7 +547,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
       if (playcount <= 0) continue;
 
       emit UpdatePlayCount(artist, title, playcount);
-      UpdateProgress();
+      UpdateProgressCheck();
 
     }
 
@@ -563,14 +563,14 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
 
 }
 
-void LastFMImport::UpdateTotal() {
+void LastFMImport::UpdateTotalCheck() {
 
   if ((!playcount_ || playcount_total_ > 0) && (!lastplayed_ || lastplayed_total_ > 0))
     emit UpdateTotal(lastplayed_total_, playcount_total_);
 
 }
 
-void LastFMImport::UpdateProgress() {
+void LastFMImport::UpdateProgressCheck() {
   emit UpdateProgress(lastplayed_received_, playcount_received_);
 }
 

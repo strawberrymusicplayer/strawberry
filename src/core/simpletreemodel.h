@@ -35,13 +35,13 @@ class SimpleTreeModel : public QAbstractItemModel {
   // QAbstractItemModel
   int columnCount(const QModelIndex &parent) const override;
   QModelIndex index(int row, int, const QModelIndex &parent = QModelIndex()) const override;
-  QModelIndex parent(const QModelIndex &index) const override;
+  QModelIndex parent(const QModelIndex &idx) const override;
   int rowCount(const QModelIndex &parent) const override;
   bool hasChildren(const QModelIndex &parent) const override;
   bool canFetchMore(const QModelIndex &parent) const override;
   void fetchMore(const QModelIndex &parent) override;
 
-  T *IndexToItem(const QModelIndex &index) const;
+  T *IndexToItem(const QModelIndex &idx) const;
   QModelIndex ItemToIndex(T *item) const;
 
   // Called by items
@@ -63,9 +63,9 @@ SimpleTreeModel<T>::SimpleTreeModel(T *root, QObject *parent)
     : QAbstractItemModel(parent), root_(root) {}
 
 template <typename T>
-T *SimpleTreeModel<T>::IndexToItem(const QModelIndex &index) const {
-  if (!index.isValid()) return root_;
-  return reinterpret_cast<T*>(index.internalPointer());
+T *SimpleTreeModel<T>::IndexToItem(const QModelIndex &idx) const {
+  if (!idx.isValid()) return root_;
+  return reinterpret_cast<T*>(idx.internalPointer());
 }
 
 template <typename T>
@@ -81,16 +81,18 @@ int SimpleTreeModel<T>::columnCount(const QModelIndex&) const {
 
 template <typename T>
 QModelIndex SimpleTreeModel<T>::index(int row, int, const QModelIndex &parent) const {
+
   T *parent_item = IndexToItem(parent);
   if (!parent_item || row < 0 || parent_item->children.count() <= row)
     return QModelIndex();
 
   return ItemToIndex(parent_item->children[row]);
+
 }
 
 template <typename T>
-QModelIndex SimpleTreeModel<T>::parent(const QModelIndex &index) const {
-  return ItemToIndex(IndexToItem(index)->parent);
+QModelIndex SimpleTreeModel<T>::parent(const QModelIndex &idx) const {
+  return ItemToIndex(IndexToItem(idx)->parent);
 }
 
 template <typename T>

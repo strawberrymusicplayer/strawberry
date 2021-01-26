@@ -107,7 +107,7 @@ SubsonicService::~SubsonicService() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
@@ -118,7 +118,7 @@ SubsonicService::~SubsonicService() {
 
 void SubsonicService::Exit() {
 
-  connect(collection_backend_, SIGNAL(ExitFinished()), this, SIGNAL(ExitFinished()));
+  QObject::connect(collection_backend_, &CollectionBackend::ExitFinished, this, &SubsonicService::ExitFinished);
   collection_backend_->ExitAsync();
 
 }
@@ -146,10 +146,10 @@ void SubsonicService::ReloadSettings() {
 }
 
 void SubsonicService::SendPing() {
-  SendPing(server_url_, username_, password_);
+  SendPingWithCredentials(server_url_, username_, password_, false);
 }
 
-void SubsonicService::SendPing(QUrl url, const QString &username, const QString &password, const bool redirect) {
+void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const bool redirect) {
 
   if (!redirect) {
     network_.reset(new QNetworkAccessManager);
@@ -199,8 +199,8 @@ void SubsonicService::SendPing(QUrl url, const QString &username, const QString 
   errors_.clear();
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandlePingSSLErrors(QList<QSslError>)));
-  connect(reply, &QNetworkReply::finished, [=] { HandlePingReply(reply, url, username, password); });
+  QObject::connect(reply, &QNetworkReply::sslErrors, this, &SubsonicService::HandlePingSSLErrors);
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, url, username, password]() { HandlePingReply(reply, url, username, password); });
 
   //qLog(Debug) << "Subsonic: Sending request" << url << query;
 
@@ -220,7 +220,7 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
@@ -246,7 +246,7 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
         if (!redirect_url.isEmpty()) {
           ++ping_redirects_;
           qLog(Debug) << "Redirecting ping request to" << redirect_url.toString(QUrl::RemoveQuery);
-          SendPing(redirect_url, username, password, true);
+          SendPingWithCredentials(redirect_url, username, password, true);
           return;
         }
       }
@@ -399,8 +399,8 @@ void SubsonicService::Scrobble(const QString &song_id, const bool submission, co
 void SubsonicService::ResetSongsRequest() {
 
   if (songs_request_.get()) {
-    disconnect(songs_request_.get(), nullptr, this, nullptr);
-    disconnect(this, nullptr, songs_request_.get(), nullptr);
+    QObject::disconnect(songs_request_.get(), nullptr, this, nullptr);
+    QObject::disconnect(this, nullptr, songs_request_.get(), nullptr);
     songs_request_.reset();
   }
 
@@ -420,10 +420,10 @@ void SubsonicService::GetSongs() {
 
   ResetSongsRequest();
   songs_request_.reset(new SubsonicRequest(this, url_handler_, app_, this));
-  connect(songs_request_.get(), SIGNAL(Results(SongList, QString)), SLOT(SongsResultsReceived(SongList, QString)));
-  connect(songs_request_.get(), SIGNAL(UpdateStatus(QString)), SIGNAL(SongsUpdateStatus(QString)));
-  connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(int)), SIGNAL(SongsProgressSetMaximum(int)));
-  connect(songs_request_.get(), SIGNAL(UpdateProgress(int)), SIGNAL(SongsUpdateProgress(int)));
+  QObject::connect(songs_request_.get(), &SubsonicRequest::Results, this, &SubsonicService::SongsResultsReceived);
+  QObject::connect(songs_request_.get(), &SubsonicRequest::UpdateStatus, this, &SubsonicService::SongsUpdateStatus);
+  QObject::connect(songs_request_.get(), &SubsonicRequest::ProgressSetMaximum, this, &SubsonicService::SongsProgressSetMaximum);
+  QObject::connect(songs_request_.get(), &SubsonicRequest::UpdateProgress, this, &SubsonicService::SongsUpdateProgress);
 
   songs_request_->GetAlbums();
 

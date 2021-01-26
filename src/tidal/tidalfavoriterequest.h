@@ -52,14 +52,18 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   void NeedLogin() override { need_login_ = true; }
 
  signals:
-  void ArtistsAdded(const SongList &songs);
-  void AlbumsAdded(const SongList &songs);
-  void SongsAdded(const SongList &songs);
-  void ArtistsRemoved(const SongList &songs);
-  void AlbumsRemoved(const SongList &songs);
-  void SongsRemoved(const SongList &songs);
+  void ArtistsAdded(SongList);
+  void AlbumsAdded(SongList);
+  void SongsAdded(SongList);
+  void ArtistsRemoved(SongList);
+  void AlbumsRemoved(SongList);
+  void SongsRemoved(SongList);
 
  private slots:
+  void AddFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs);
+  void RemoveFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs);
+
+ public slots:
   void AddArtists(const SongList &songs);
   void AddAlbums(const SongList &songs);
   void AddSongs(const SongList &songs);
@@ -67,9 +71,6 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   void RemoveArtists(const SongList &songs);
   void RemoveAlbums(const SongList &songs);
   void RemoveSongs(const SongList &songs);
-
-  void AddFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs);
-  void RemoveFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs);
 
  private:
   void Error(const QString &error, const QVariant &debug = QVariant()) override;

@@ -142,20 +142,20 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
 
   undo_stack_->setUndoLimit(kUndoStackSize);
 
-  connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), SIGNAL(PlaylistChanged()));
-  connect(this, SIGNAL(rowsRemoved(QModelIndex, int, int)), SIGNAL(PlaylistChanged()));
+  QObject::connect(this, &Playlist::rowsInserted, this, &Playlist::PlaylistChanged);
+  QObject::connect(this, &Playlist::rowsRemoved, this, &Playlist::PlaylistChanged);
 
   Restore();
 
   proxy_->setSourceModel(this);
   queue_->setSourceModel(this);
 
-  connect(queue_, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), SLOT(TracksAboutToBeDequeued(QModelIndex, int, int)));
-  connect(queue_, SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(TracksDequeued()));
+  QObject::connect(queue_, &Queue::rowsAboutToBeRemoved, this, &Playlist::TracksAboutToBeDequeued);
+  QObject::connect(queue_, &Queue::rowsRemoved, this, &Playlist::TracksDequeued);
 
-  connect(queue_, SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(TracksEnqueued(QModelIndex, int, int)));
+  QObject::connect(queue_, &Queue::rowsInserted, this, &Playlist::TracksEnqueued);
 
-  connect(queue_, SIGNAL(layoutChanged()), SLOT(QueueLayoutChanged()));
+  QObject::connect(queue_, &Queue::layoutChanged, this, &Playlist::QueueLayoutChanged);
 
   column_alignments_ = PlaylistView::DefaultColumnAlignment();
 
@@ -691,8 +691,8 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
 void Playlist::InsertDynamicItems(const int count) {
 
   PlaylistGeneratorInserter* inserter = new PlaylistGeneratorInserter(task_manager_, collection_, this);
-  connect(inserter, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
-  connect(inserter, SIGNAL(PlayRequested(QModelIndex)), SIGNAL(PlayRequested(QModelIndex)));
+  QObject::connect(inserter, &PlaylistGeneratorInserter::Error, this, &Playlist::Error);
+  QObject::connect(inserter, &PlaylistGeneratorInserter::PlayRequested, this, &Playlist::PlayRequested);
 
   inserter->Load(this, -1, false, false, false, dynamic_playlist_, count);
 
@@ -805,7 +805,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
   }
   else if (data->hasFormat(kCddaMimeType)) {
     SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_, backend_->app()->player());
-    connect(inserter, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
+    QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
     inserter->LoadAudioCD(this, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (data->hasUrls()) {
@@ -820,7 +820,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
 void Playlist::InsertUrls(const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
   SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_, backend_->app()->player());
-  connect(inserter, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
+  QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
 
   inserter->Load(this, pos, play_now, enqueue, enqueue_next, urls);
 
@@ -834,7 +834,7 @@ void Playlist::InsertSmartPlaylist(PlaylistGeneratorPtr generator, const int pos
   }
 
   PlaylistGeneratorInserter *inserter = new PlaylistGeneratorInserter(task_manager_, collection_, this);
-  connect(inserter, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
+  QObject::connect(inserter, &PlaylistGeneratorInserter::Error, this, &Playlist::Error);
 
   inserter->Load(this, pos, play_now, enqueue, enqueue_next, generator);
 
@@ -1759,11 +1759,11 @@ void Playlist::ReloadItems(const QList<int> &rows) {
 
 void Playlist::AddSongInsertVetoListener(SongInsertVetoListener *listener) {
   veto_listeners_.append(listener);
-  connect(listener, SIGNAL(destroyed()), this, SLOT(SongInsertVetoListenerDestroyed()));
+  QObject::connect(listener, &SongInsertVetoListener::destroyed, this, &Playlist::SongInsertVetoListenerDestroyed);
 }
 
 void Playlist::RemoveSongInsertVetoListener(SongInsertVetoListener *listener) {
-  disconnect(listener, SIGNAL(destroyed()), this, SLOT(SongInsertVetoListenerDestroyed()));
+  QObject::disconnect(listener, &SongInsertVetoListener::destroyed, this, &Playlist::SongInsertVetoListenerDestroyed);
   veto_listeners_.removeAll(listener);
 }
 
@@ -1885,7 +1885,7 @@ void Playlist::ReshuffleIndices() {
 void Playlist::set_sequence(PlaylistSequence *v) {
 
   playlist_sequence_ = v;
-  connect(v, SIGNAL(ShuffleModeChanged(PlaylistSequence::ShuffleMode)), SLOT(ShuffleModeChanged(PlaylistSequence::ShuffleMode)));
+  QObject::connect(v, &PlaylistSequence::ShuffleModeChanged, this, &Playlist::ShuffleModeChanged);
 
   ShuffleModeChanged(v->shuffle_mode());
 

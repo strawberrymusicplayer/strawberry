@@ -63,7 +63,7 @@ class InternetCollectionView : public AutoExpandingTreeView {
 
   // QTreeView
   void keyboardSearch(const QString &search) override;
-  void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible) override;
+  void scrollTo(const QModelIndex &idx, ScrollHint hint = EnsureVisible) override;
 
   int TotalSongs();
   int TotalArtists();
@@ -85,8 +85,8 @@ class InternetCollectionView : public AutoExpandingTreeView {
   void TotalSongCountUpdated_();
   void TotalArtistCountUpdated_();
   void TotalAlbumCountUpdated_();
-  void Error(const QString &message);
-  void RemoveSongs(const SongList &songs);
+  void Error(QString);
+  void RemoveSongs(SongList);
 
  protected:
   // QWidget
@@ -100,7 +100,7 @@ class InternetCollectionView : public AutoExpandingTreeView {
   void AddToPlaylistEnqueue();
   void AddToPlaylistEnqueueNext();
   void OpenInNewPlaylist();
-  void RemoveSongs();
+  void RemoveSelectedSongs();
 
  private:
   void RecheckIsEmpty();

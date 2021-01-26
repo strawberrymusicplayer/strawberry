@@ -42,7 +42,7 @@ AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *p
       request_starter_(new QTimer(this)) {
 
   request_starter_->setInterval(1000);
-  connect(request_starter_, SIGNAL(timeout()), SLOT(StartRequests()));
+  QObject::connect(request_starter_, &QTimer::timeout, this, &AlbumCoverFetcher::StartRequests);
 
 }
 
@@ -127,8 +127,8 @@ void AlbumCoverFetcher::StartRequests() {
     AlbumCoverFetcherSearch *search = new AlbumCoverFetcherSearch(request, network_, this);
     active_requests_.insert(request.id, search);
 
-    connect(search, SIGNAL(SearchFinished(quint64, CoverSearchResults)), SLOT(SingleSearchFinished(quint64, CoverSearchResults)));
-    connect(search, SIGNAL(AlbumCoverFetched(quint64, QUrl, QImage)), SLOT(SingleCoverFetched(quint64, QUrl, QImage)));
+    QObject::connect(search, &AlbumCoverFetcherSearch::SearchFinished, this, &AlbumCoverFetcher::SingleSearchFinished);
+    QObject::connect(search, &AlbumCoverFetcherSearch::AlbumCoverFetched, this, &AlbumCoverFetcher::SingleCoverFetched);
 
     search->Start(cover_providers_);
   }

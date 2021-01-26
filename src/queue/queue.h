@@ -76,15 +76,15 @@ class Queue : public QAbstractProxyModel {
   Qt::DropActions supportedDropActions() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
   bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
-  Qt::ItemFlags flags(const QModelIndex &index) const override;
+  Qt::ItemFlags flags(const QModelIndex &idx) const override;
 
  public slots:
   void UpdateSummaryText();
 
  signals:
-  void TotalLengthChanged(const quint64 length);
-  void ItemCountChanged(const int count);
-  void SummaryTextChanged(const QString& message);
+  void TotalLengthChanged(quint64 length);
+  void ItemCountChanged(int count);
+  void SummaryTextChanged(QString message);
 
  private slots:
   void SourceDataChanged(const QModelIndex &top_left, const QModelIndex &bottom_right);

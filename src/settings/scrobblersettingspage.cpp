@@ -59,24 +59,24 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *parent)
   setWindowIcon(IconLoader::Load("scrobble"));
 
   // Last.fm
-  connect(lastfmscrobbler_, SIGNAL(AuthenticationComplete(bool, QString)), SLOT(LastFM_AuthenticationComplete(bool, QString)));
-  connect(ui_->button_lastfm_login, SIGNAL(clicked()), SLOT(LastFM_Login()));
-  connect(ui_->widget_lastfm_login_state, SIGNAL(LoginClicked()), SLOT(LastFM_Login()));
-  connect(ui_->widget_lastfm_login_state, SIGNAL(LogoutClicked()), SLOT(LastFM_Logout()));
+  QObject::connect(lastfmscrobbler_, &LastFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LastFM_AuthenticationComplete);
+  QObject::connect(ui_->button_lastfm_login, &QPushButton::clicked, this, &ScrobblerSettingsPage::LastFM_Login);
+  QObject::connect(ui_->widget_lastfm_login_state, &LoginStateWidget::LoginClicked, this, &ScrobblerSettingsPage::LastFM_Login);
+  QObject::connect(ui_->widget_lastfm_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::LastFM_Logout);
   ui_->widget_lastfm_login_state->AddCredentialGroup(ui_->widget_lastfm_login);
 
   // Libre.fm
-  connect(librefmscrobbler_, SIGNAL(AuthenticationComplete(bool, QString)), SLOT(LibreFM_AuthenticationComplete(bool, QString)));
-  connect(ui_->button_librefm_login, SIGNAL(clicked()), SLOT(LibreFM_Login()));
-  connect(ui_->widget_librefm_login_state, SIGNAL(LoginClicked()), SLOT(LibreFM_Login()));
-  connect(ui_->widget_librefm_login_state, SIGNAL(LogoutClicked()), SLOT(LibreFM_Logout()));
+  QObject::connect(librefmscrobbler_, &LibreFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LibreFM_AuthenticationComplete);
+  QObject::connect(ui_->button_librefm_login, &QPushButton::clicked, this, &ScrobblerSettingsPage::LibreFM_Login);
+  QObject::connect(ui_->widget_librefm_login_state, &LoginStateWidget::LoginClicked, this, &ScrobblerSettingsPage::LibreFM_Login);
+  QObject::connect(ui_->widget_librefm_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::LibreFM_Logout);
   ui_->widget_librefm_login_state->AddCredentialGroup(ui_->widget_librefm_login);
 
   // ListenBrainz
-  connect(listenbrainzscrobbler_, SIGNAL(AuthenticationComplete(bool, QString)), SLOT(ListenBrainz_AuthenticationComplete(bool, QString)));
-  connect(ui_->button_listenbrainz_login, SIGNAL(clicked()), SLOT(ListenBrainz_Login()));
-  connect(ui_->widget_listenbrainz_login_state, SIGNAL(LoginClicked()), SLOT(ListenBrainz_Login()));
-  connect(ui_->widget_listenbrainz_login_state, SIGNAL(LogoutClicked()), SLOT(ListenBrainz_Logout()));
+  QObject::connect(listenbrainzscrobbler_, &ListenBrainzScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete);
+  QObject::connect(ui_->button_listenbrainz_login, &QPushButton::clicked, this, &ScrobblerSettingsPage::ListenBrainz_Login);
+  QObject::connect(ui_->widget_listenbrainz_login_state, &LoginStateWidget::LoginClicked, this, &ScrobblerSettingsPage::ListenBrainz_Login);
+  QObject::connect(ui_->widget_listenbrainz_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::ListenBrainz_Logout);
   ui_->widget_listenbrainz_login_state->AddCredentialGroup(ui_->widget_listenbrainz_login);
 
   ui_->label_listenbrainz_token->setText("<html><head/><body><p>" + tr("Enter your user token from") + " " + "<a href=\"https://listenbrainz.org/profile/\"><span style=\"text-decoration: underline; color:#0000ff;\">https://listenbrainz.org/profile/</span></a></p></body></html>");

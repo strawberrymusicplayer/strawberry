@@ -36,13 +36,13 @@ class MoodbarPipeline : public QObject {
   Q_OBJECT
 
  public:
-  explicit MoodbarPipeline(const QUrl& local_filename);
+  explicit MoodbarPipeline(const QUrl &local_filename);
   ~MoodbarPipeline() override;
 
   static bool IsAvailable();
 
   bool success() const { return success_; }
-  const QByteArray& data() const { return data_; }
+  const QByteArray &data() const { return data_; }
 
  public slots:
   void Start();
@@ -51,24 +51,24 @@ class MoodbarPipeline : public QObject {
   void Finished(bool success);
 
  private:
-  GstElement* CreateElement(const QString& factory_name);
+  GstElement *CreateElement(const QString &factory_name);
 
   void ReportError(GstMessage *msg);
-  void Stop(bool success);
+  void Stop(const bool success);
   void Cleanup();
 
-  static void NewPadCallback(GstElement*, GstPad* pad, gpointer data);
-  static GstFlowReturn NewBufferCallback(GstAppSink* app_sink, gpointer self);
-  static gboolean BusCallback(GstBus*, GstMessage* msg, gpointer data);
-  static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage* msg, gpointer data);
+  static void NewPadCallback(GstElement*, GstPad *pad, gpointer data);
+  static GstFlowReturn NewBufferCallback(GstAppSink *app_sink, gpointer self);
+  static gboolean BusCallback(GstBus*, GstMessage *msg, gpointer data);
+  static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage *msg, gpointer data);
 
  private:
   static bool sIsAvailable;
   static const int kBands;
 
   QUrl local_filename_;
-  GstElement* pipeline_;
-  GstElement* convert_element_;
+  GstElement *pipeline_;
+  GstElement *convert_element_;
 
   std::unique_ptr<MoodbarBuilder> builder_;
 

@@ -48,12 +48,12 @@
 
 CollectionItemDelegate::CollectionItemDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
 
-void CollectionItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt, const QModelIndex &index) const {
+void CollectionItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt, const QModelIndex &idx) const {
 
-  const bool is_divider = index.data(CollectionModel::Role_IsDivider).toBool();
+  const bool is_divider = idx.data(CollectionModel::Role_IsDivider).toBool();
 
   if (is_divider) {
-    QString text(index.data().toString());
+    QString text(idx.data().toString());
 
     painter->save();
 
@@ -61,7 +61,7 @@ void CollectionItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 
     // Does this item have an icon?
     QPixmap pixmap;
-    QVariant decoration = index.data(Qt::DecorationRole);
+    QVariant decoration = idx.data(Qt::DecorationRole);
     if (!decoration.isNull()) {
       if (decoration.canConvert<QPixmap>()) {
         pixmap = decoration.value<QPixmap>();
@@ -113,35 +113,35 @@ void CollectionItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     painter->restore();
   }
   else {
-    QStyledItemDelegate::paint(painter, opt, index);
+    QStyledItemDelegate::paint(painter, opt, idx);
   }
 
 }
 
-bool CollectionItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) {
+bool CollectionItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &idx) {
 
   Q_UNUSED(option);
 
   if (!event || !view) return false;
 
   QHelpEvent *he = static_cast<QHelpEvent*>(event);
-  QString text = displayText(index.data(), QLocale::system());
+  QString text = displayText(idx.data(), QLocale::system());
 
   if (text.isEmpty() || !he) return false;
 
   switch (event->type()) {
     case QEvent::ToolTip: {
 
-      QSize real_text = sizeHint(option, index);
-      QRect displayed_text = view->visualRect(index);
+      QSize real_text = sizeHint(option, idx);
+      QRect displayed_text = view->visualRect(idx);
       bool is_elided = displayed_text.width() < real_text.width();
 
       if (is_elided) {
         QToolTip::showText(he->globalPos(), text, view);
       }
-      else if (index.data(Qt::ToolTipRole).isValid()) {
+      else if (idx.data(Qt::ToolTipRole).isValid()) {
         // If the item has a tooltip text, display it
-        QString tooltip_text = index.data(Qt::ToolTipRole).toString();
+        QString tooltip_text = idx.data(Qt::ToolTipRole).toString();
         QToolTip::showText(he->globalPos(), tooltip_text, view);
       }
       else {

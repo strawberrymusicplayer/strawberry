@@ -69,7 +69,7 @@ DeleteConfirmationDialog::DeleteConfirmationDialog(const QStringList &files, QWi
   label_text_bottom->setText(tr("Are you sure you want to continue?"));
 
   button_box_->setStandardButtons(QDialogButtonBox::Yes|QDialogButtonBox::Cancel);
-  connect(button_box_, SIGNAL(clicked(QAbstractButton*)), this, SLOT(ButtonClicked(QAbstractButton*)));
+  QObject::connect(button_box_, &QDialogButtonBox::clicked, this, &DeleteConfirmationDialog::ButtonClicked);
 
   // Add layout
   QGridLayout *grid = new QGridLayout(this);

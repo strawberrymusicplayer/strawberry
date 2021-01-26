@@ -35,4 +35,4 @@ class MacOsDeviceFinder : public DeviceFinder {
   virtual QList<Device> ListDevices();
 };
 
-#endif // MACOSDEVICEFINDER_H
+#endif  // MACOSDEVICEFINDER_H

@@ -83,10 +83,10 @@ bool MtpDevice::Init() {
   loader_thread_ = new QThread();
   loader_->moveToThread(loader_thread_);
 
-  connect(loader_, SIGNAL(Error(QString)), SLOT(LoaderError(QString)));
-  connect(loader_, SIGNAL(TaskStarted(int)), SIGNAL(TaskStarted(int)));
-  connect(loader_, SIGNAL(LoadFinished(bool, MtpConnection*)), SLOT(LoadFinished(bool, MtpConnection*)));
-  connect(loader_thread_, SIGNAL(started()), loader_, SLOT(LoadDatabase()));
+  QObject::connect(loader_, &MtpLoader::Error, this, &MtpDevice::LoaderError);
+  QObject::connect(loader_, &MtpLoader::TaskStarted, this, &MtpDevice::TaskStarted);
+  QObject::connect(loader_, &MtpLoader::LoadFinished, this, &MtpDevice::LoadFinished);
+  QObject::connect(loader_thread_, &QThread::started, loader_, &MtpLoader::LoadDatabase);
 
   return true;
 
@@ -124,7 +124,7 @@ void MtpDevice::LoadFinished(bool success, MtpConnection *connection) {
     ConnectedDevice::Close();
   }
   else {
-    emit ConnectFinished(unique_id_, success);
+    emit DeviceConnectFinished(unique_id_, success);
   }
 
 }

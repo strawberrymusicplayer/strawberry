@@ -101,9 +101,9 @@ class MusicBrainzClient : public QObject {
 
  signals:
   // Finished signal emitted when fechting songs tags
-  void Finished(const int id, const MusicBrainzClient::ResultList &result, const QString &error = QString());
+  void Finished(int id, MusicBrainzClient::ResultList result, QString error = QString());
   // Finished signal emitted when fechting album's songs tags using DiscId
-  void Finished(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &result, const QString &error = QString());
+  void DiscIdFinished(QString artist, QString album, MusicBrainzClient::ResultList result, QString error = QString());
 
  private slots:
   void FlushRequests();

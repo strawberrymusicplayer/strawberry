@@ -130,12 +130,12 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   bool LoadUrl(const QString &url) override;
 
  signals:
-  void AlbumCoverReady(const Song &song, const QImage &image);
+  void AlbumCoverReady(Song song, QImage image);
   void SearchCoverInProgress();
   // Signals that stop playing after track was toggled.
   void StopAfterToggled(bool stop);
 
-  void AuthorizationUrlReceived(const QUrl &url);
+  void AuthorizationUrlReceived(QUrl url);
 
  private slots:
   void FilePathChanged(const QString &path);
@@ -148,7 +148,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ForceShowOSD(const Song &song, const bool toggle);
 
   void PlaylistMenuHidden();
-  void PlaylistRightClick(const QPoint &global_pos, const QModelIndex &index);
+  void PlaylistRightClick(const QPoint &global_pos, const QModelIndex &idx);
   void PlaylistCurrentChanged(const QModelIndex &current);
   void PlaylistViewSelectionModelChanged();
   void PlaylistPlay();
@@ -193,10 +193,11 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void EditFileTags(const QList<QUrl> &urls);
 
   void AddToPlaylist(QMimeData *q_mimedata);
-  void AddToPlaylist(QAction *action);
+  void AddToPlaylistFromAction(QAction *action);
 
   void VolumeWheelEvent(const int delta);
   void ToggleShowHide();
+  void ToggleHide();
 
   void Seeked(const qlonglong microseconds);
   void UpdateTrackPosition();
@@ -215,8 +216,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void AddCDTracks();
   void AddStream();
   void AddStreamAccepted();
-
-  void CommandlineOptionsReceived(const quint32 instanceId, const QByteArray &string_options);
 
   void CheckForUpdates();
 
@@ -244,8 +243,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ResumePlayback();
   void ResumePlaybackSeek(const int playback_position);
 
-  void Raise();
-
   void Exit();
   void DoExit();
 
@@ -271,6 +268,10 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ExitFinished();
 
   void PlaylistDelete();
+
+ public slots:
+  void CommandlineOptionsReceived(const quint32 instanceId, const QByteArray &string_options);
+  void Raise();
 
  private:
 

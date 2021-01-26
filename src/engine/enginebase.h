@@ -138,17 +138,17 @@ public:
 
   void FadeoutFinishedSignal();
 
-  void StatusText(const QString &text);
-  void Error(const QString &text);
+  void StatusText(QString text);
+  void Error(QString text);
 
   // Emitted when there was a fatal error
   void FatalError();
   // Emitted when Engine was unable to play a song with the given QUrl.
-  void InvalidSongRequested(const QUrl &url);
+  void InvalidSongRequested(QUrl url);
   // Emitted when Engine successfully started playing a song with the given QUrl.
-  void ValidSongRequested(const QUrl &url);
+  void ValidSongRequested(QUrl url);
 
-  void MetaData(const Engine::SimpleMetaBundle&);
+  void MetaData(Engine::SimpleMetaBundle);
 
   // Signals that the engine's state has changed (a stream was stopped for example).
   // Always use the state from event, because it's not guaranteed that immediate subsequent call to state() won't return a stale value.
@@ -235,4 +235,4 @@ struct SimpleMetaBundle {
 
 Q_DECLARE_METATYPE(EngineBase::OutputDetails)
 
-#endif
+#endif  // ENGINEBASE_H

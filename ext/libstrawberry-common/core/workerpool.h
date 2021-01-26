@@ -173,7 +173,7 @@ WorkerPool<HandlerType>::~WorkerPool() {
 
   for (const Worker &worker : workers_) {
     if (worker.local_socket_ && worker.process_) {
-      disconnect(worker.process_, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(ProcessError(QProcess::ProcessError)));
+      QObject::disconnect(worker.process_, &QProcess::errorOccurred, this, &WorkerPool::ProcessError);
 
       // The worker is connected.  Close his socket and wait for him to exit.
       qLog(Debug) << "Closing worker socket";
@@ -272,8 +272,8 @@ void WorkerPool<HandlerType>::StartOneWorker(Worker *worker) {
   worker->local_server_ = new QLocalServer(this);
   worker->process_ = new QProcess(this);
 
-  connect(worker->local_server_, SIGNAL(newConnection()), SLOT(NewConnection()));
-  connect(worker->process_, SIGNAL(errorOccurred(QProcess::ProcessError)), SLOT(ProcessError(QProcess::ProcessError)));
+  QObject::connect(worker->local_server_, &QLocalServer::newConnection, this, &WorkerPool::NewConnection);
+  QObject::connect(worker->process_, &QProcess::errorOccurred, this, &WorkerPool::ProcessError);
 
   // Create a server, find an unused name and start listening
   forever {

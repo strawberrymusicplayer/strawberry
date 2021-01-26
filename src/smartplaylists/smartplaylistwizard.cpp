@@ -46,7 +46,7 @@ class SmartPlaylistWizard::FinishPage : public QWizardPage {
  public:
   explicit FinishPage(QWidget *parent) : QWizardPage(parent), ui_(new Ui_SmartPlaylistWizardFinishPage) {
     ui_->setupUi(this);
-    connect(ui_->name, SIGNAL(textChanged(QString)), SIGNAL(completeChanged()));
+    QObject::connect(ui_->name, &QLineEdit::textChanged, this, &SmartPlaylistWizard::FinishPage::completeChanged);
   }
 
   ~FinishPage() { delete ui_; }
@@ -139,7 +139,7 @@ void SmartPlaylistWizard::AddPlugin(SmartPlaylistWizardPlugin *plugin) {
   type_page_->layout()->addWidget(radio_button);
   type_page_->layout()->addWidget(description);
 
-  connect(radio_button, &QRadioButton::clicked, [this, index]() { TypeChanged(index); } );
+  QObject::connect(radio_button, &QRadioButton::clicked, [this, index]() { TypeChanged(index); } );
 
   if (index == 0) {
     radio_button->setChecked(true);

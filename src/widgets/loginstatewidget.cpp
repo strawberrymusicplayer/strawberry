@@ -50,7 +50,7 @@ LoginStateWidget::LoginStateWidget(QWidget *parent)
   bold_font.setBold(true);
   ui_->signed_out_label->setFont(bold_font);
 
-  connect(ui_->sign_out, SIGNAL(clicked()), SLOT(Logout()));
+  QObject::connect(ui_->sign_out, &QPushButton::clicked, this, &LoginStateWidget::Logout);
 
 }
 
@@ -90,7 +90,7 @@ void LoginStateWidget::SetLoggedIn(const State state, const QString &account_nam
     // A login just failed - give focus back to the last crediental field (usually password).
     // We have to do this after control gets back to the
     // event loop because the user might have just closed a dialog and our widget might not be active yet.
-    QTimer::singleShot(0, this, SLOT(FocusLastCredentialField()));
+    QTimer::singleShot(0, this, &LoginStateWidget::FocusLastCredentialField);
   }
 
 }

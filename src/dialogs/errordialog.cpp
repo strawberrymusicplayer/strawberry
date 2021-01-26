@@ -58,6 +58,8 @@ ErrorDialog::~ErrorDialog() {
 
 void ErrorDialog::ShowMessage(const QString &message) {
 
+  if (message.isEmpty()) return;
+
   current_messages_ << message;
   UpdateContent();
 
@@ -83,4 +85,3 @@ void ErrorDialog::UpdateContent() {
   ui_->messages->setHtml(html);
 
 }
-

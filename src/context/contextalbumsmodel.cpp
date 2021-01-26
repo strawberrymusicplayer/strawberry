@@ -71,7 +71,7 @@ ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
 
-  connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
+  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &ContextAlbumsModel::AlbumCoverLoaded);
 
   QIcon nocover = IconLoader::Load("cdcase");
   no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -104,10 +104,10 @@ void ContextAlbumsModel::AddSongs(const SongList &songs) {
 
 }
 
-QString ContextAlbumsModel::AlbumIconPixmapCacheKey(const QModelIndex &index) const {
+QString ContextAlbumsModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
 
   QStringList path;
-  QModelIndex index_copy(index);
+  QModelIndex index_copy(idx);
   while (index_copy.isValid()) {
     path.prepend(index_copy.data().toString());
     index_copy = index_copy.parent();
@@ -116,13 +116,13 @@ QString ContextAlbumsModel::AlbumIconPixmapCacheKey(const QModelIndex &index) co
 
 }
 
-QVariant ContextAlbumsModel::AlbumIcon(const QModelIndex &index) {
+QVariant ContextAlbumsModel::AlbumIcon(const QModelIndex &idx) {
 
-  CollectionItem *item = IndexToItem(index);
+  CollectionItem *item = IndexToItem(idx);
   if (!item) return no_cover_icon_;
 
   // Check the cache for a pixmap we already loaded.
-  const QString cache_key = AlbumIconPixmapCacheKey(index);
+  const QString cache_key = AlbumIconPixmapCacheKey(idx);
 
   QPixmap cached_pixmap;
   if (QPixmapCache::find(cache_key, &cached_pixmap)) {
@@ -135,7 +135,7 @@ QVariant ContextAlbumsModel::AlbumIcon(const QModelIndex &index) {
   }
 
   // No art is cached and we're not loading it already.  Load art for the first song in the album.
-  SongList songs = GetChildSongs(index);
+  SongList songs = GetChildSongs(idx);
   if (!songs.isEmpty()) {
     const quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, songs.first());
     pending_art_[id] = ItemAndCacheKey(item, cache_key);
@@ -169,17 +169,17 @@ void ContextAlbumsModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoad
     QPixmapCache::insert(cache_key, image_pixmap);
   }
 
-  const QModelIndex index = ItemToIndex(item);
-  emit dataChanged(index, index);
+  const QModelIndex idx = ItemToIndex(item);
+  emit dataChanged(idx, idx);
 
 }
 
-QVariant ContextAlbumsModel::data(const QModelIndex &index, int role) const {
+QVariant ContextAlbumsModel::data(const QModelIndex &idx, int role) const {
 
-  const CollectionItem *item = IndexToItem(index);
+  const CollectionItem *item = IndexToItem(idx);
 
   if (role == Qt::DecorationRole && item->type == CollectionItem::Type_Container && item->container_level == 0) {
-    return const_cast<ContextAlbumsModel*>(this)->AlbumIcon(index);
+    return const_cast<ContextAlbumsModel*>(this)->AlbumIcon(idx);
   }
 
   return data(item, role);
@@ -401,9 +401,9 @@ QString ContextAlbumsModel::SortTextForSong(const Song &song) {
 
 }
 
-Qt::ItemFlags ContextAlbumsModel::flags(const QModelIndex &index) const {
+Qt::ItemFlags ContextAlbumsModel::flags(const QModelIndex &idx) const {
 
-  switch (IndexToItem(index)->type) {
+  switch (IndexToItem(idx)->type) {
     case CollectionItem::Type_Song:
     case CollectionItem::Type_Container:
       return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
@@ -429,8 +429,8 @@ QMimeData *ContextAlbumsModel::mimeData(const QModelIndexList &indexes) const {
 
   data->backend = backend_;
 
-  for (const QModelIndex &index : indexes) {
-    GetChildSongs(IndexToItem(index), &urls, &data->songs, &song_ids);
+  for (const QModelIndex &idx : indexes) {
+    GetChildSongs(IndexToItem(idx), &urls, &data->songs, &song_ids);
   }
 
   data->setUrls(urls);
@@ -489,15 +489,15 @@ SongList ContextAlbumsModel::GetChildSongs(const QModelIndexList &indexes) const
   SongList ret;
   QSet<int> song_ids;
 
-  for (const QModelIndex &index : indexes) {
-    GetChildSongs(IndexToItem(index), &dontcare, &ret, &song_ids);
+  for (const QModelIndex &idx : indexes) {
+    GetChildSongs(IndexToItem(idx), &dontcare, &ret, &song_ids);
   }
   return ret;
 
 }
 
-SongList ContextAlbumsModel::GetChildSongs(const QModelIndex &index) const {
-  return GetChildSongs(QModelIndexList() << index);
+SongList ContextAlbumsModel::GetChildSongs(const QModelIndex &idx) const {
+  return GetChildSongs(QModelIndexList() << idx);
 }
 
 bool ContextAlbumsModel::canFetchMore(const QModelIndex &parent) const {

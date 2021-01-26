@@ -66,7 +66,7 @@ public:
   void FadingOptionsChanged();
   void BufferDefaults();
 
-private:
+ private:
 #ifdef HAVE_ALSA
   enum alsa_plugin {
     alsa_hw = 1,
@@ -77,8 +77,6 @@ private:
   Ui_BackendSettingsPage *ui_;
 
   bool EngineInitialized();
-
-  void EngineChanged(Engine::EngineType enginetype);
 
   void Load_Engine(Engine::EngineType enginetype);
   void Load_Output(QString output, QVariant device);

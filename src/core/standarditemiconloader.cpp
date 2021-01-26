@@ -40,19 +40,20 @@ StandardItemIconLoader::StandardItemIconLoader(AlbumCoverLoader *cover_loader, Q
 
   cover_options_.desired_height_ = 16;
 
-  connect(cover_loader_, SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
+  QObject::connect(cover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &StandardItemIconLoader::AlbumCoverLoaded);
+
 }
 
 void StandardItemIconLoader::SetModel(QAbstractItemModel *model) {
 
   if (model_) {
-    disconnect(model_, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), this, SLOT(RowsAboutToBeRemoved(QModelIndex, int, int)));
+    QObject::disconnect(model_, &QAbstractItemModel::rowsAboutToBeRemoved, this, &StandardItemIconLoader::RowsAboutToBeRemoved);
   }
 
   model_ = model;
 
-  connect(model_, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), SLOT(RowsAboutToBeRemoved(QModelIndex,int,int)));
-  connect(model_, SIGNAL(modelAboutToBeReset()), SLOT(ModelReset()));
+  QObject::connect(model_, &QAbstractItemModel::rowsAboutToBeRemoved, this, &StandardItemIconLoader::RowsAboutToBeRemoved);
+  QObject::connect(model_, &QAbstractItemModel::modelAboutToBeReset, this, &StandardItemIconLoader::ModelReset);
 
 }
 

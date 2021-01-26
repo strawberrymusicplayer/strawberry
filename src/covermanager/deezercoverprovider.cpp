@@ -59,7 +59,7 @@ DeezerCoverProvider::~DeezerCoverProvider() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -107,7 +107,7 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
 #endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
+  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id]() { HandleSearchReply(reply, id); });
 
   return true;
 
@@ -200,7 +200,7 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);

@@ -37,7 +37,7 @@
 bool MoodbarPipeline::sIsAvailable = false;
 const int MoodbarPipeline::kBands = 128;
 
-MoodbarPipeline::MoodbarPipeline(const QUrl& local_filename)
+MoodbarPipeline::MoodbarPipeline(const QUrl &local_filename)
     : QObject(nullptr),
       local_filename_(local_filename),
       pipeline_(nullptr),
@@ -50,7 +50,7 @@ MoodbarPipeline::~MoodbarPipeline() { Cleanup(); }
 bool MoodbarPipeline::IsAvailable() {
 
   if (!sIsAvailable) {
-    GstElementFactory* factory = gst_element_factory_find("fftwspectrum");
+    GstElementFactory *factory = gst_element_factory_find("fftwspectrum");
     if (!factory) {
       return false;
     }
@@ -63,9 +63,9 @@ bool MoodbarPipeline::IsAvailable() {
 
 }
 
-GstElement* MoodbarPipeline::CreateElement(const QString& factory_name) {
+GstElement *MoodbarPipeline::CreateElement(const QString &factory_name) {
 
-  GstElement* ret = gst_element_factory_make(factory_name.toLatin1().constData(), nullptr);
+  GstElement *ret = gst_element_factory_make(factory_name.toLatin1().constData(), nullptr);
 
   if (ret) {
     gst_bin_add(GST_BIN(pipeline_), ret);
@@ -90,10 +90,10 @@ void MoodbarPipeline::Start() {
 
   pipeline_ = gst_pipeline_new("moodbar-pipeline");
 
-  GstElement* decodebin = CreateElement("uridecodebin");
+  GstElement *decodebin = CreateElement("uridecodebin");
   convert_element_ = CreateElement("audioconvert");
-  GstElement* spectrum = CreateElement("fastspectrum");
-  GstElement* fakesink = CreateElement("fakesink");
+  GstElement *spectrum = CreateElement("fastspectrum");
+  GstElement *fakesink = CreateElement("fakesink");
 
   if (!decodebin || !convert_element_ || !spectrum || !fakesink) {
     gst_object_unref(GST_OBJECT(pipeline_));
@@ -117,12 +117,12 @@ void MoodbarPipeline::Start() {
   g_object_set(decodebin, "uri", local_filename_.toEncoded().constData(), nullptr);
   g_object_set(spectrum, "bands", kBands, nullptr);
 
-  GstFastSpectrum* fast_spectrum = reinterpret_cast<GstFastSpectrum*>(spectrum);
-  fast_spectrum->output_callback = [this](double* magnitudes, int size) { builder_->AddFrame(magnitudes, size); };
+  GstFastSpectrum *fast_spectrum = reinterpret_cast<GstFastSpectrum*>(spectrum);
+  fast_spectrum->output_callback = [this](double *magnitudes, int size) { builder_->AddFrame(magnitudes, size); };
 
   // Connect signals
   CHECKED_GCONNECT(decodebin, "pad-added", &NewPadCallback, this);
-  GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
+  GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
   gst_bus_set_sync_handler(bus, BusCallbackSync, this, nullptr);
   gst_object_unref(bus);
 
@@ -134,8 +134,8 @@ void MoodbarPipeline::Start() {
 
 void MoodbarPipeline::ReportError(GstMessage *msg) {
 
-  GError* error;
-  gchar* debugs;
+  GError *error;
+  gchar *debugs;
 
   gst_message_parse_error(msg, &error, &debugs);
   QString message = QString::fromLocal8Bit(error->message);
@@ -147,16 +147,16 @@ void MoodbarPipeline::ReportError(GstMessage *msg) {
 
 }
 
-void MoodbarPipeline::NewPadCallback(GstElement*, GstPad* pad, gpointer data) {
+void MoodbarPipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
 
-  MoodbarPipeline* self = reinterpret_cast<MoodbarPipeline*>(data);
+  MoodbarPipeline *self = reinterpret_cast<MoodbarPipeline*>(data);
 
   if (!self->running_) {
     qLog(Warning) << "Received gstreamer callback after pipeline has stopped.";
     return;
   }
 
-  GstPad* const audiopad = gst_element_get_static_pad(self->convert_element_, "sink");
+  GstPad *const audiopad = gst_element_get_static_pad(self->convert_element_, "sink");
 
   if (GST_PAD_IS_LINKED(audiopad)) {
     qLog(Warning) << "audiopad is already linked, unlinking old pad";
@@ -167,8 +167,8 @@ void MoodbarPipeline::NewPadCallback(GstElement*, GstPad* pad, gpointer data) {
   gst_object_unref(audiopad);
 
   int rate = 0;
-  GstCaps* caps = gst_pad_get_current_caps(pad);
-  GstStructure* structure = gst_caps_get_structure(caps, 0);
+  GstCaps *caps = gst_pad_get_current_caps(pad);
+  GstStructure *structure = gst_caps_get_structure(caps, 0);
   gst_structure_get_int(structure, "rate", &rate);
   gst_caps_unref(caps);
 
@@ -179,9 +179,9 @@ void MoodbarPipeline::NewPadCallback(GstElement*, GstPad* pad, gpointer data) {
 
 }
 
-GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus*, GstMessage* msg, gpointer data) {
+GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus*, GstMessage *msg, gpointer data) {
 
-  MoodbarPipeline* self = reinterpret_cast<MoodbarPipeline*>(data);
+  MoodbarPipeline *self = reinterpret_cast<MoodbarPipeline*>(data);
 
   switch (GST_MESSAGE_TYPE(msg)) {
     case GST_MESSAGE_EOS:
@@ -200,7 +200,7 @@ GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus*, GstMessage* msg, gpoin
 
 }
 
-void MoodbarPipeline::Stop(bool success) {
+void MoodbarPipeline::Stop(const bool success) {
 
   success_ = success;
   running_ = false;
@@ -220,7 +220,7 @@ void MoodbarPipeline::Cleanup() {
 
   running_ = false;
   if (pipeline_) {
-    GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
+    GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
     gst_bus_set_sync_handler(bus, nullptr, nullptr, nullptr);
     gst_object_unref(bus);
     

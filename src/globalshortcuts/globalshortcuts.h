@@ -100,4 +100,4 @@ class GlobalShortcuts : public QWidget {
   bool use_x11_;
 };
 
-#endif
+#endif  // GLOBALSHORTCUTS_H

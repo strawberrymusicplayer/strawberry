@@ -51,7 +51,7 @@ SubsonicScrobbleRequest::~SubsonicScrobbleRequest() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, nullptr, this, nullptr);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
@@ -84,7 +84,7 @@ void SubsonicScrobbleRequest::FlushScrobbleRequests() {
     QNetworkReply *reply;
     reply = CreateGetRequest(QString("scrobble"), params);
     replies_ << reply;
-    connect(reply, &QNetworkReply::finished, [=] { ScrobbleReplyReceived(reply); });
+    QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { ScrobbleReplyReceived(reply); });
 
   }
 
@@ -94,7 +94,7 @@ void SubsonicScrobbleRequest::ScrobbleReplyReceived(QNetworkReply *reply) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   --scrobble_requests_active_;

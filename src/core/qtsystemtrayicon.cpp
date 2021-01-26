@@ -62,7 +62,7 @@ QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
   tray_->installEventFilter(this);
   ClearNowPlaying();
 
-  connect(tray_, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), SLOT(Clicked(QSystemTrayIcon::ActivationReason)));
+  QObject::connect(tray_, &QSystemTrayIcon::activated, this, &QtSystemTrayIcon::Clicked);
 
 }
 
@@ -122,23 +122,23 @@ void QtSystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop
 
   // Creating new actions and connecting them to old ones.
   // This allows us to use old actions without displaying shortcuts that can not be used when Strawberry's window is hidden
-  menu_->addAction(previous->icon(), previous->text(), previous, SLOT(trigger()));
-  action_play_pause_ = menu_->addAction(play->icon(), play->text(), play, SLOT(trigger()));
-  action_stop_ = menu_->addAction(stop->icon(), stop->text(), stop, SLOT(trigger()));
-  action_stop_after_this_track_ = menu_->addAction(stop_after->icon(), stop_after->text(), stop_after, SLOT(trigger()));
-  menu_->addAction(next->icon(), next->text(), next, SLOT(trigger()));
+  menu_->addAction(previous->icon(), previous->text(), previous, &QAction::trigger);
+  action_play_pause_ = menu_->addAction(play->icon(), play->text(), play, &QAction::trigger);
+  action_stop_ = menu_->addAction(stop->icon(), stop->text(), stop, &QAction::trigger);
+  action_stop_after_this_track_ = menu_->addAction(stop_after->icon(), stop_after->text(), stop_after, &QAction::trigger);
+  menu_->addAction(next->icon(), next->text(), next, &QAction::trigger);
 
   menu_->addSeparator();
-  action_mute_ = menu_->addAction(mute->icon(), mute->text(), mute, SLOT(trigger()));
+  action_mute_ = menu_->addAction(mute->icon(), mute->text(), mute, &QAction::trigger);
   action_mute_->setCheckable(true);
   action_mute_->setChecked(mute->isChecked());
 
   menu_->addSeparator();
-  action_love_ = menu_->addAction(love->icon(), love->text(), love, SLOT(trigger()));
+  action_love_ = menu_->addAction(love->icon(), love->text(), love, &QAction::trigger);
   action_love_->setVisible(love->isVisible());
   action_love_->setEnabled(love->isEnabled());
   menu_->addSeparator();
-  menu_->addAction(quit->icon(), quit->text(), quit, SLOT(trigger()));
+  menu_->addAction(quit->icon(), quit->text(), quit, &QAction::trigger);
 
   tray_->setContextMenu(menu_);
 

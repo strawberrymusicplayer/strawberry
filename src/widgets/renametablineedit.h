@@ -48,4 +48,3 @@ class RenameTabLineEdit : public QLineEdit {
 };
 
 #endif  // RENAMETABLINEEDIT_H
-

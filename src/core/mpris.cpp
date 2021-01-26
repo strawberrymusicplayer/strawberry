@@ -28,7 +28,7 @@
 namespace mpris {
 
 Mpris::Mpris(Application *app, QObject *parent) : QObject(parent), mpris2_(new mpris::Mpris2(app, this)) {
-  connect(mpris2_, SIGNAL(RaiseMainWindow()), SIGNAL(RaiseMainWindow()));
+  QObject::connect(mpris2_, &Mpris2::RaiseMainWindow, this, &Mpris::RaiseMainWindow);
 }
 
 } // namespace mpris

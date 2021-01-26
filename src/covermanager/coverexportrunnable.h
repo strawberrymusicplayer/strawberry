@@ -56,4 +56,3 @@ class CoverExportRunnable : public QObject, public QRunnable {
 };
 
 #endif  // COVEREXPORTRUNNABLE_H
-

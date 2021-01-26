@@ -76,7 +76,7 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
   if (authenticated()) req.setRawHeader("X-User-Auth-Token", user_auth_token().toUtf8());
 
   QNetworkReply *reply = network_->get(req);
-  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleSSLErrors(QList<QSslError>)));
+  QObject::connect(reply, &QNetworkReply::sslErrors, this, &QobuzBaseRequest::HandleSSLErrors);
 
   qLog(Debug) << "Qobuz: Sending request" << url;
 

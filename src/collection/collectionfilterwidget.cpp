@@ -85,8 +85,8 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   QString("</p></body></html>")
   );
 
-  connect(ui_->filter, SIGNAL(returnPressed()), SIGNAL(ReturnPressed()));
-  connect(filter_delay_, SIGNAL(timeout()), SLOT(FilterDelayTimeout()));
+  QObject::connect(ui_->filter, &QSearchField::returnPressed, this, &CollectionFilterWidget::ReturnPressed);
+  QObject::connect(filter_delay_, &QTimer::timeout, this, &CollectionFilterWidget::FilterDelayTimeout);
 
   filter_delay_->setInterval(kFilterDelay);
   filter_delay_->setSingleShot(true);
@@ -119,9 +119,9 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   group_by_menu_ = new QMenu(tr("Group by"), this);
   group_by_menu_->addActions(group_by_group_->actions());
 
-  connect(group_by_group_, SIGNAL(triggered(QAction*)), SLOT(GroupByClicked(QAction*)));
-  connect(ui_->save_grouping, SIGNAL(triggered()), this, SLOT(SaveGroupBy()));
-  connect(ui_->manage_groupings, SIGNAL(triggered()), this, SLOT(ShowGroupingManager()));
+  QObject::connect(group_by_group_, &QActionGroup::triggered, this, &CollectionFilterWidget::GroupByClicked);
+  QObject::connect(ui_->save_grouping, &QAction::triggered, this, &CollectionFilterWidget::SaveGroupBy);
+  QObject::connect(ui_->manage_groupings, &QAction::triggered, this, &CollectionFilterWidget::ShowGroupingManager);
 
   // Collection config menu
   collection_menu_ = new QMenu(tr("Display options"), this);
@@ -133,7 +133,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   collection_menu_->addSeparator();
   ui_->options->setMenu(collection_menu_);
 
-  connect(ui_->filter, SIGNAL(textChanged(QString)), SLOT(FilterTextChanged(QString)));
+  QObject::connect(ui_->filter, &QSearchField::textChanged, this, &CollectionFilterWidget::FilterTextChanged);
 
   ReloadSettings();
 
@@ -179,14 +179,14 @@ QString CollectionFilterWidget::group_by(const int number) { return group_by() +
 void CollectionFilterWidget::UpdateGroupByActions() {
 
   if (group_by_group_) {
-    disconnect(group_by_group_, nullptr, nullptr, nullptr);
+    QObject::disconnect(group_by_group_, nullptr, this, nullptr);
     delete group_by_group_;
   }
 
   group_by_group_ = CreateGroupByActions(this);
   group_by_menu_->clear();
   group_by_menu_->addActions(group_by_group_->actions());
-  connect(group_by_group_, SIGNAL(triggered(QAction*)), SLOT(GroupByClicked(QAction*)));
+  QObject::connect(group_by_group_, &QActionGroup::triggered, this, &CollectionFilterWidget::GroupByClicked);
   if (model_) {
     CheckCurrentGrouping(model_->GetGroupBy());
   }
@@ -300,24 +300,24 @@ void CollectionFilterWidget::FocusOnFilter(QKeyEvent *event) {
 void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
 
   if (model_) {
-    disconnect(model_, nullptr, this, nullptr);
-    disconnect(model_, nullptr, group_by_dialog_.get(), nullptr);
-    disconnect(group_by_dialog_.get(), nullptr, model_, nullptr);
+    QObject::disconnect(model_, nullptr, this, nullptr);
+    QObject::disconnect(model_, nullptr, group_by_dialog_.get(), nullptr);
+    QObject::disconnect(group_by_dialog_.get(), nullptr, model_, nullptr);
     for (QAction *action : filter_ages_.keys()) {
-      disconnect(action, &QAction::triggered, model_, nullptr);
+      QObject::disconnect(action, &QAction::triggered, model_, nullptr);
     }
   }
 
   model_ = model;
 
   // Connect signals
-  connect(model_, SIGNAL(GroupingChanged(CollectionModel::Grouping)), group_by_dialog_.get(), SLOT(CollectionGroupingChanged(CollectionModel::Grouping)));
-  connect(model_, SIGNAL(GroupingChanged(CollectionModel::Grouping)), SLOT(GroupingChanged(CollectionModel::Grouping)));
-  connect(group_by_dialog_.get(), SIGNAL(Accepted(CollectionModel::Grouping)), model_, SLOT(SetGroupBy(CollectionModel::Grouping)));
+  QObject::connect(model_, &CollectionModel::GroupingChanged, group_by_dialog_.get(), &GroupByDialog::CollectionGroupingChanged);
+  QObject::connect(model_, &CollectionModel::GroupingChanged, this, &CollectionFilterWidget::GroupingChanged);
+  QObject::connect(group_by_dialog_.get(), &GroupByDialog::Accepted, model_, &CollectionModel::SetGroupBy);
 
   for (QAction *action : filter_ages_.keys()) {
     int age = filter_ages_[action];
-    connect(action, &QAction::triggered, [this, age]() { model_->SetFilterAge(age); } );
+    QObject::connect(action, &QAction::triggered, [this, age]() { model_->SetFilterAge(age); } );
   }
 
   // Load settings

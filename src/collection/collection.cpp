@@ -97,21 +97,19 @@ void SCollection::Init() {
   watcher_->set_backend(backend_);
   watcher_->set_task_manager(app_->task_manager());
 
-  connect(backend_, SIGNAL(DirectoryDiscovered(Directory, SubdirectoryList)), watcher_, SLOT(AddDirectory(Directory, SubdirectoryList)));
-  connect(backend_, SIGNAL(DirectoryDeleted(Directory)), watcher_, SLOT(RemoveDirectory(Directory)));
-  connect(watcher_, SIGNAL(NewOrUpdatedSongs(SongList)), backend_, SLOT(AddOrUpdateSongs(SongList)));
-  connect(watcher_, SIGNAL(SongsMTimeUpdated(SongList)), backend_, SLOT(UpdateMTimesOnly(SongList)));
-  connect(watcher_, SIGNAL(SongsDeleted(SongList)), backend_, SLOT(DeleteSongs(SongList)));
-  connect(watcher_, SIGNAL(SongsUnavailable(SongList)), backend_, SLOT(MarkSongsUnavailable(SongList)));
-  connect(watcher_, SIGNAL(SongsReadded(SongList, bool)), backend_, SLOT(MarkSongsUnavailable(SongList, bool)));
-  connect(watcher_, SIGNAL(SubdirsDiscovered(SubdirectoryList)), backend_, SLOT(AddOrUpdateSubdirs(SubdirectoryList)));
-  connect(watcher_, SIGNAL(SubdirsMTimeUpdated(SubdirectoryList)), backend_, SLOT(AddOrUpdateSubdirs(SubdirectoryList)));
-  connect(watcher_, SIGNAL(CompilationsNeedUpdating()), backend_, SLOT(UpdateCompilations()));
-  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(CurrentSongChanged(Song)));
-  connect(app_->player(), SIGNAL(Stopped()), SLOT(Stopped()));
+  QObject::connect(backend_, &CollectionBackend::DirectoryDiscovered, watcher_, &CollectionWatcher::AddDirectory);
+  QObject::connect(backend_, &CollectionBackend::DirectoryDeleted, watcher_, &CollectionWatcher::RemoveDirectory);
+  QObject::connect(watcher_, &CollectionWatcher::NewOrUpdatedSongs, backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(watcher_, &CollectionWatcher::SongsMTimeUpdated, backend_, &CollectionBackend::UpdateMTimesOnly);
+  QObject::connect(watcher_, &CollectionWatcher::SongsDeleted, backend_, &CollectionBackend::DeleteSongs);
+  QObject::connect(watcher_, &CollectionWatcher::SongsUnavailable, backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(watcher_, &CollectionWatcher::SongsReadded, backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(watcher_, &CollectionWatcher::SubdirsDiscovered, backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(watcher_, &CollectionWatcher::SubdirsMTimeUpdated, backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(watcher_, &CollectionWatcher::CompilationsNeedUpdating, backend_, &CollectionBackend::CompilationsNeedUpdating);
 
-  connect(app_->lastfm_import(), SIGNAL(UpdateLastPlayed(QString, QString, QString, qint64)), backend_, SLOT(UpdateLastPlayed(QString, QString, QString, qint64)));
-  connect(app_->lastfm_import(), SIGNAL(UpdatePlayCount(QString, QString, int)), backend_, SLOT(UpdatePlayCount(QString, QString, int)));
+  QObject::connect(app_->lastfm_import(), &LastFMImport::UpdateLastPlayed, backend_, &CollectionBackend::UpdateLastPlayed);
+  QObject::connect(app_->lastfm_import(), &LastFMImport::UpdatePlayCount, backend_, &CollectionBackend::UpdatePlayCount);
 
   // This will start the watcher checking for updates
   backend_->LoadDirectoriesAsync();
@@ -122,11 +120,11 @@ void SCollection::Exit() {
 
   wait_for_exit_ << backend_ << watcher_;
 
-  disconnect(backend_, nullptr, watcher_, nullptr);
-  disconnect(watcher_, nullptr, backend_, nullptr);
+  QObject::disconnect(backend_, nullptr, watcher_, nullptr);
+  QObject::disconnect(watcher_, nullptr, backend_, nullptr);
 
-  connect(backend_, SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
-  connect(watcher_, SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  QObject::connect(backend_, &CollectionBackend::ExitFinished, this, &SCollection::ExitReceived);
+  QObject::connect(watcher_, &CollectionWatcher::ExitFinished, this, &SCollection::ExitReceived);
   backend_->ExitAsync();
   watcher_->ExitAsync();
 
@@ -135,7 +133,7 @@ void SCollection::Exit() {
 void SCollection::ExitReceived() {
 
   QObject *obj = qobject_cast<QObject*>(sender());
-  disconnect(obj, nullptr, this, nullptr);
+  QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
@@ -163,22 +161,5 @@ void SCollection::ReloadSettings() {
 
   watcher_->ReloadSettingsAsync();
   model_->ReloadSettings();
-
-}
-
-void SCollection::Stopped() {
-
-  CurrentSongChanged(Song());
-}
-
-void SCollection::CurrentSongChanged(const Song &song) {  // FIXME
-
-  Q_UNUSED(song);
-
-  TagReaderReply *reply = nullptr;
-
-  if (reply) {
-    connect(reply, SIGNAL(Finished(bool)), reply, SLOT(deleteLater()));
-  }
 
 }

@@ -86,7 +86,7 @@ class InternetSearchView : public QWidget {
 
   void Init(Application *app, InternetService *service);
 
-  void LazyLoadAlbumCover(const QModelIndex &index);
+  void LazyLoadAlbumCover(const QModelIndex &idx);
 
   protected:
   struct PendingState {

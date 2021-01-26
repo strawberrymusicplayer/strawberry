@@ -77,6 +77,7 @@ class PlayerInterface : public QObject {
 
   // If there's currently a song playing, pause it, otherwise play the track that was playing last, or the first one on the playlist
   virtual void PlayPause(Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) = 0;
+  virtual void PlayPauseHelper() = 0;
   virtual void RestartOrPrevious() = 0;
 
   // Skips this track.  Might load more of the current radio station.
@@ -106,11 +107,10 @@ class PlayerInterface : public QObject {
   // Emitted only when playback is manually resumed
   void Resumed();
   void Stopped();
-  void Error();
+  void Error(QString message = QString());
   void PlaylistFinished();
   void VolumeEnabled(bool);
   void VolumeChanged(int volume);
-  void Error(QString message);
   void TrackSkipped(PlaylistItemPtr old_track);
   // Emitted when there's a manual change to the current's track position.
   void Seeked(qlonglong microseconds);
@@ -160,6 +160,7 @@ class Player : public PlayerInterface {
 
   void PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
   void PlayPause(Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) override;
+  void PlayPauseHelper() override { PlayPause(); }
   void RestartOrPrevious() override;
   void Next() override;
   void Previous() override;

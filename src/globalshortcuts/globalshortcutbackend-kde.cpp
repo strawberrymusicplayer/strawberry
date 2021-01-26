@@ -35,7 +35,6 @@
 #endif
 
 #include "core/logging.h"
-#include "core/closure.h"
 
 #include "globalshortcutbackend-kde.h"
 
@@ -63,7 +62,7 @@ bool GlobalShortcutBackendKDE::DoRegister() {
 
   QDBusPendingReply<QDBusObjectPath> reply = interface_->getComponent(QCoreApplication::applicationName());
   QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
-  NewClosure(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), this, SLOT(RegisterFinished(QDBusPendingCallWatcher*)), watcher);
+  QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, &GlobalShortcutBackendKDE::RegisterFinished);
 
   return true;
 
@@ -90,7 +89,7 @@ void GlobalShortcutBackendKDE::RegisterFinished(QDBusPendingCallWatcher *watcher
     return;
   }
 
-  connect(component_, SIGNAL(globalShortcutPressed(QString, QString, qlonglong)), this, SLOT(GlobalShortcutPressed(QString, QString, qlonglong)), Qt::UniqueConnection);
+  QObject::connect(component_, &org::kde::kglobalaccel::Component::globalShortcutPressed, this, &GlobalShortcutBackendKDE::GlobalShortcutPressed, Qt::UniqueConnection);
 
   qLog(Debug) << "Registered";
 
@@ -110,7 +109,7 @@ void GlobalShortcutBackendKDE::DoUnregister() {
     }
   }
 
-  if (component_) disconnect(component_, nullptr, this, nullptr);
+  if (component_) QObject::disconnect(component_, nullptr, this, nullptr);
 
   qLog(Debug) << "Unregistered";
 

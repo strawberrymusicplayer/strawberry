@@ -41,7 +41,7 @@ LyricsFetcherSearch::LyricsFetcherSearch(const LyricsSearchRequest &request, QOb
       request_(request),
       cancel_requested_(false) {
 
-  QTimer::singleShot(kSearchTimeoutMs, this, SLOT(TerminateSearch()));
+  QTimer::singleShot(kSearchTimeoutMs, this, &LyricsFetcherSearch::TerminateSearch);
 
 }
 
@@ -67,7 +67,7 @@ void LyricsFetcherSearch::Start(LyricsProviders *lyrics_providers) {
 
   for (LyricsProvider *provider : lyrics_providers_sorted) {
     if (!provider->is_enabled() || !provider->IsAuthenticated()) continue;
-    connect(provider, SIGNAL(SearchFinished(quint64, LyricsSearchResults)), SLOT(ProviderSearchFinished(quint64, LyricsSearchResults)));
+    QObject::connect(provider, &LyricsProvider::SearchFinished, this, &LyricsFetcherSearch::ProviderSearchFinished);
     const int id = lyrics_providers->NextId();
     const bool success = provider->StartSearch(request_.artist, request_.album, request_.title, id);
     if (success) pending_requests_[id] = provider;
@@ -151,4 +151,3 @@ bool LyricsFetcherSearch::ProviderCompareOrder(LyricsProvider *a, LyricsProvider
 bool LyricsFetcherSearch::LyricsSearchResultCompareScore(const LyricsSearchResult &a, const LyricsSearchResult &b) {
   return a.score < b.score;
 }
-

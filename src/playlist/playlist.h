@@ -325,6 +325,8 @@ class Playlist : public QAbstractListModel {
   void RepopulateDynamicPlaylist();
   void TurnOffDynamicPlaylist();
 
+  void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
+
  signals:
   void RestoreFinished();
   void PlaylistLoaded();
@@ -373,11 +375,10 @@ class Playlist : public QAbstractListModel {
   void TracksDequeued();
   void TracksEnqueued(const QModelIndex&, const int begin, const int end);
   void QueueLayoutChanged();
-  void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &index);
-  void ItemReloadComplete(const QPersistentModelIndex &index);
+  void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx);
+  void ItemReloadComplete(const QPersistentModelIndex &idx);
   void ItemsLoaded(QFuture<PlaylistItemList> future);
   void SongInsertVetoListenerDestroyed();
-  void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
 
  private:
   bool is_loading_;

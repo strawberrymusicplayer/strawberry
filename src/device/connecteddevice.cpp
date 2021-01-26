@@ -59,7 +59,7 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
   qLog(Debug) << backend_ << "for device" << unique_id_ << "moved to thread" << app_->database()->thread();
 
   if (url_.scheme() != "cdda") {
-    connect(backend_, SIGNAL(TotalSongCountUpdated(int)), SLOT(BackendTotalSongCountUpdated(int)));
+    QObject::connect(backend_, &CollectionBackend::TotalSongCountUpdated, this, &ConnectedDevice::BackendTotalSongCountUpdated);
   }
 
   backend_->Init(app_->database(),
@@ -105,18 +105,18 @@ void ConnectedDevice::InitBackendDirectory(const QString &mount_point, const boo
 
 }
 
-void ConnectedDevice::ConnectAsync() { emit ConnectFinished(unique_id_, true); }
+void ConnectedDevice::ConnectAsync() { emit DeviceConnectFinished(unique_id_, true); }
 
 void ConnectedDevice::Close() {
 
-  connect(backend_, SIGNAL(ExitFinished()), this, SLOT(CloseFinished()));
+  QObject::connect(backend_, &CollectionBackend::ExitFinished, this, &ConnectedDevice::BackendCloseFinished);
   backend_->ExitAsync();
 
 }
 
-void ConnectedDevice::CloseFinished() {
+void ConnectedDevice::BackendCloseFinished() {
 
-  emit CloseFinished(unique_id_);
+  emit DeviceCloseFinished(unique_id_);
 
 }
 

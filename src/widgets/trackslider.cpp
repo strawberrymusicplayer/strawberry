@@ -43,7 +43,7 @@
 
 const char* TrackSlider::kSettingsGroup = "MainWindow";
 
-TrackSlider::TrackSlider(QWidget* parent)
+TrackSlider::TrackSlider(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_TrackSlider),
 #ifdef HAVE_MOODBAR
@@ -51,8 +51,8 @@ TrackSlider::TrackSlider(QWidget* parent)
 #endif
       setting_value_(false),
       show_remaining_time_(true),
-    slider_maximum_value_(0)
-{
+      slider_maximum_value_(0) {
+
   ui_->setupUi(this);
 
   UpdateLabelWidth();
@@ -61,14 +61,15 @@ TrackSlider::TrackSlider(QWidget* parent)
   QSettings s;
   s.beginGroup(kSettingsGroup);
   show_remaining_time_ = s.value("show_remaining_time").toBool();
+  s.endGroup();
 
-  connect(ui_->slider, SIGNAL(sliderMoved(int)), SIGNAL(ValueChanged(int)));
-  connect(ui_->slider, SIGNAL(valueChanged(int)), SLOT(ValueMaybeChanged(int)));
-  connect(ui_->remaining, SIGNAL(Clicked()), SLOT(ToggleTimeDisplay()));
-  connect(ui_->slider, SIGNAL(SeekForward()), SIGNAL(SeekForward()));
-  connect(ui_->slider, SIGNAL(SeekBackward()), SIGNAL(SeekBackward()));
-  connect(ui_->slider, SIGNAL(Previous()), SIGNAL(Previous()));
-  connect(ui_->slider, SIGNAL(Next()), SIGNAL(Next()));
+  QObject::connect(ui_->slider, &TrackSliderSlider::sliderMoved, this, &TrackSlider::ValueChanged);
+  QObject::connect(ui_->slider, &TrackSliderSlider::valueChanged, this, &TrackSlider::ValueMaybeChanged);
+  QObject::connect(ui_->remaining, &ClickableLabel::Clicked, this, &TrackSlider::ToggleTimeDisplay);
+  QObject::connect(ui_->slider, &TrackSliderSlider::SeekForward, this, &TrackSlider::SeekForward);
+  QObject::connect(ui_->slider, &TrackSliderSlider::SeekBackward, this, &TrackSlider::SeekBackward);
+  QObject::connect(ui_->slider, &TrackSliderSlider::Previous, this, &TrackSlider::Previous);
+  QObject::connect(ui_->slider, &TrackSliderSlider::Next, this, &TrackSlider::Next);
 
 }
 
@@ -79,7 +80,7 @@ TrackSlider::~TrackSlider() {
 #endif
 }
 
-void TrackSlider::SetApplication(Application* app) {
+void TrackSlider::SetApplication(Application *app) {
 #ifdef HAVE_MOODBAR
   if (!moodbar_style_) moodbar_style_ = new MoodbarProxyStyle(app, ui_->slider);
 #else
@@ -93,7 +94,7 @@ void TrackSlider::UpdateLabelWidth() {
   UpdateLabelWidth(ui_->remaining, "-0:00:00");
 }
 
-void TrackSlider::UpdateLabelWidth(QLabel* label, const QString& text) {
+void TrackSlider::UpdateLabelWidth(QLabel *label, const QString &text) {
 
   QString old_text = label->text();
   label->setText(text);
@@ -117,7 +118,7 @@ QSize TrackSlider::sizeHint() const {
 
 }
 
-void TrackSlider::SetValue(int elapsed, int total) {
+void TrackSlider::SetValue(const int elapsed, const int total) {
 
   setting_value_ = true; // This is so we don't emit from QAbstractSlider::valueChanged
   ui_->slider->setMaximum(total);
@@ -131,7 +132,7 @@ void TrackSlider::SetValue(int elapsed, int total) {
 
 }
 
-void TrackSlider::UpdateTimes(int elapsed) {
+void TrackSlider::UpdateTimes(const int elapsed) {
 
   ui_->elapsed->setText(Utilities::PrettyTime(elapsed));
   // Update normally if showing remaining time
@@ -162,23 +163,23 @@ void TrackSlider::SetStopped() {
 
 }
 
-void TrackSlider::SetCanSeek(bool can_seek) {
+void TrackSlider::SetCanSeek(const bool can_seek) {
   ui_->slider->setEnabled(can_seek);
 }
 
-void TrackSlider::Seek(int gap) {
+void TrackSlider::Seek(const int gap) {
   if (ui_->slider->isEnabled())
     ui_->slider->setValue(ui_->slider->value() + gap * kMsecPerSec);
 }
 
-void TrackSlider::ValueMaybeChanged(int value) {
+void TrackSlider::ValueMaybeChanged(const int value) {
   if (setting_value_) return;
 
   UpdateTimes(value / kMsecPerSec);
   emit ValueChangedSeconds(value / kMsecPerSec);
 }
 
-bool TrackSlider::event(QEvent* e) {
+bool TrackSlider::event(QEvent *e) {
 
   switch (e->type()) {
     case QEvent::ApplicationFontChange:

@@ -293,8 +293,8 @@ void InternetSearchModel::Clear() {
 InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QModelIndexList &indexes) const {
 
   QList<QStandardItem*> items;
-  for (const QModelIndex &index : indexes) {
-    items << itemFromIndex(index);
+  for (const QModelIndex &idx : indexes) {
+    items << itemFromIndex(idx);
   }
   return GetChildResults(items);
 
@@ -327,8 +327,8 @@ void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSea
     // Yes - visit all the children, but do so through the proxy so we get them in the right order.
     for (int i = 0 ; i < item->rowCount() ; ++i) {
       const QModelIndex proxy_index = parent_proxy_index.model()->index(i, 0, parent_proxy_index);
-      const QModelIndex index = proxy_->mapToSource(proxy_index);
-      GetChildResults(itemFromIndex(index), results, visited);
+      const QModelIndex idx = proxy_->mapToSource(proxy_index);
+      GetChildResults(itemFromIndex(idx), results, visited);
     }
   }
   else {

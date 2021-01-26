@@ -51,15 +51,15 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("tidal"));
 
-  connect(ui_->button_login, SIGNAL(clicked()), SLOT(LoginClicked()));
-  connect(ui_->login_state, SIGNAL(LogoutClicked()), SLOT(LogoutClicked()));
-  connect(ui_->oauth, SIGNAL(toggled(bool)), SLOT(OAuthClicked(bool)));
+  QObject::connect(ui_->button_login, &QPushButton::clicked, this, &TidalSettingsPage::LoginClicked);
+  QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &TidalSettingsPage::LogoutClicked);
+  QObject::connect(ui_->oauth, &QCheckBox::toggled, this, &TidalSettingsPage::OAuthClicked);
 
-  connect(this, SIGNAL(Authorize(QString)), service_, SLOT(StartAuthorization(QString)));
-  connect(this, SIGNAL(Login(QString, QString, QString)), service_, SLOT(SendLogin(QString, QString, QString)));
+  QObject::connect(this, &TidalSettingsPage::Authorize, service_, &TidalService::StartAuthorization);
+  QObject::connect(this, &TidalSettingsPage::Login, service_, &TidalService::SendLoginWithCredentials);
 
-  connect(service_, SIGNAL(LoginFailure(QString)), SLOT(LoginFailure(QString)));
-  connect(service_, SIGNAL(LoginSuccess()), SLOT(LoginSuccess()));
+  QObject::connect(service_, &InternetService::LoginFailure, this, &TidalSettingsPage::LoginFailure);
+  QObject::connect(service_, &InternetService::LoginSuccess, this, &TidalSettingsPage::LoginSuccess);
 
   dialog()->installEventFilter(this);
 

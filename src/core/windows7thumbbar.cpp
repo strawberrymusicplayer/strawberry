@@ -53,7 +53,7 @@ Windows7ThumbBar::Windows7ThumbBar(QWidget *widget)
 
   timer_->setSingleShot(true);
   timer_->setInterval(300);
-  connect(timer_, SIGNAL(timeout()), SLOT(ActionChanged()));
+  QObject::connect(timer_, &QTimer::timeout, this, &Windows7ThumbBar::ActionChanged);
 
 }
 
@@ -65,7 +65,7 @@ void Windows7ThumbBar::SetActions(const QList<QAction*> &actions) {
   actions_ = actions;
   for (QAction *action : actions) {
     if (action) {
-      connect(action, SIGNAL(changed()), SLOT(ActionChangedTriggered()));
+      QObject::connect(action, &QAction::changed, this, &Windows7ThumbBar::ActionChangedTriggered);
     }
   }
   qLog(Debug) << "Done";

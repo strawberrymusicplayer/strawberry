@@ -36,4 +36,4 @@ class InternetSongMimeData : public MimeData {
   SongList songs;
 };
 
-#endif
+#endif  // INTERNETSONGMIMEDATA_H

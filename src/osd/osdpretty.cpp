@@ -124,13 +124,13 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
   // Timeout
   timeout_->setSingleShot(true);
   timeout_->setInterval(5000);
-  connect(timeout_, SIGNAL(timeout()), SLOT(hide()));
+  QObject::connect(timeout_, &QTimer::timeout, this, &OSDPretty::hide);
 
   ui_->icon->setMaximumSize(kMaxIconSize, kMaxIconSize);
 
   // Fader
-  connect(fader_, SIGNAL(valueChanged(qreal)), SLOT(FaderValueChanged(qreal)));
-  connect(fader_, SIGNAL(finished()), SLOT(FaderFinished()));
+  QObject::connect(fader_, &QTimeLine::valueChanged, this, &OSDPretty::FaderValueChanged);
+  QObject::connect(fader_, &QTimeLine::finished, this, &OSDPretty::FaderFinished);
 
 #ifdef Q_OS_WIN
   set_fading_enabled(true);
@@ -155,8 +155,8 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
   margin.setRight(margin.right() + kDropShadowSize);
   l->setContentsMargins(margin);
 
-  connect(qApp, SIGNAL(screenAdded(QScreen*)), this, SLOT(ScreenAdded(QScreen*)));
-  connect(qApp, SIGNAL(screenRemoved(QScreen*)), this, SLOT(ScreenRemoved(QScreen*)));
+  QObject::connect(qApp, &QApplication::screenAdded, this, &OSDPretty::ScreenAdded);
+  QObject::connect(qApp, &QApplication::screenRemoved, this, &OSDPretty::ScreenRemoved);
 
 }
 
@@ -410,7 +410,7 @@ void OSDPretty::FaderFinished() {
 
 }
 
-void OSDPretty::FaderValueChanged(qreal value) {
+void OSDPretty::FaderValueChanged(const qreal value) {
   setWindowOpacity(value);
 }
 

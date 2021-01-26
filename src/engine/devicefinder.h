@@ -64,4 +64,3 @@ class DeviceFinder {
 };
 
 #endif // DEVICEFINDER_H
-

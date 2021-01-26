@@ -202,8 +202,8 @@ bool Udisks2Lister::Init() {
     emit DeviceAdded(id);
   }
 
-  connect(udisks2_interface_.get(), SIGNAL(InterfacesAdded(QDBusObjectPath, InterfacesAndProperties)), SLOT(DBusInterfaceAdded(QDBusObjectPath, InterfacesAndProperties)));
-  connect(udisks2_interface_.get(), SIGNAL(InterfacesRemoved(QDBusObjectPath, QStringList)), SLOT(DBusInterfaceRemoved(QDBusObjectPath, QStringList)));
+  QObject::connect(udisks2_interface_.get(), &OrgFreedesktopDBusObjectManagerInterface::InterfacesAdded, this, &Udisks2Lister::DBusInterfaceAdded);
+  QObject::connect(udisks2_interface_.get(), &OrgFreedesktopDBusObjectManagerInterface::InterfacesRemoved, this, &Udisks2Lister::DBusInterfaceRemoved);
 
   return true;
 
@@ -243,7 +243,7 @@ void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const Interf
       mounting_jobs_[path].dbus_interface = job;
       mounting_jobs_[path].is_mount = is_mount_job;
       mounting_jobs_[path].mounted_partitions = mounted_partitions;
-      connect(job.get(), SIGNAL(Completed(bool, QString)), SLOT(JobCompleted(bool, QString)));
+      QObject::connect(job.get(), &OrgFreedesktopUDisks2JobInterface::Completed, this, &Udisks2Lister::JobCompleted);
     }
   }
 }

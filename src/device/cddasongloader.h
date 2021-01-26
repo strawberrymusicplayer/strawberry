@@ -56,10 +56,10 @@ class CddaSongLoader : public QObject {
   QUrl GetUrlFromTrack(const int track_number) const;
 
  signals:
-  void SongsLoadError(const QString &error);
-  void SongsLoaded(const SongList &songs);
-  void SongsDurationLoaded(const SongList &songs, const QString &error = QString());
-  void SongsMetadataLoaded(const SongList &songs);
+  void SongsLoadError(QString error);
+  void SongsLoaded(SongList songs);
+  void SongsDurationLoaded(SongList songs, QString error = QString());
+  void SongsMetadataLoaded(SongList songs);
 
  private slots:
 #ifdef HAVE_CHROMAPRINT
@@ -73,4 +73,4 @@ class CddaSongLoader : public QObject {
   QMutex mutex_load_;
 };
 
-#endif // CDDASONGLOADER_H
+#endif  // CDDASONGLOADER_H

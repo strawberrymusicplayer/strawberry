@@ -63,7 +63,7 @@ class CollectionView : public AutoExpandingTreeView {
 
   // QTreeView
   void keyboardSearch(const QString &search) override;
-  void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible) override;
+  void scrollTo(const QModelIndex &idx, ScrollHint hint = EnsureVisible) override;
 
   int TotalSongs();
   int TotalArtists();
@@ -114,7 +114,7 @@ class CollectionView : public AutoExpandingTreeView {
 
  private:
   void RecheckIsEmpty();
-  void ShowInVarious(const bool on);
+  void SetShowInVarious(const bool on);
   bool RestoreLevelFocus(const QModelIndex &parent = QModelIndex());
   void SaveContainerPath(const QModelIndex &child);
 

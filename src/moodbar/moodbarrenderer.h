@@ -47,17 +47,17 @@ class MoodbarRenderer {
 
   static const int kNumHues;
 
-  static QString StyleName(MoodbarStyle style);
+  static QString StyleName(const MoodbarStyle style);
 
-  static ColorVector Colors(const QByteArray& data, MoodbarStyle style, const QPalette& palette);
-  static void Render(const ColorVector& colors, QPainter* p, const QRect& rect);
-  static QImage RenderToImage(const ColorVector& colors, const QSize& size);
+  static ColorVector Colors(const QByteArray &data, const MoodbarStyle style, const QPalette &palette);
+  static void Render(const ColorVector &colors, QPainter *p, const QRect &rect);
+  static QImage RenderToImage(const ColorVector &colors, const QSize &size);
 
  private:
   explicit MoodbarRenderer();
 
   struct StyleProperties {
-    explicit StyleProperties(int threshold = 0, int range_start = 0, int range_delta = 0, int sat = 0, int val = 0)
+    explicit StyleProperties(const int threshold = 0, const int range_start = 0, const int range_delta = 0, const int sat = 0, const int val = 0)
         : threshold_(threshold),
           range_start_(range_start),
           range_delta_(range_delta),

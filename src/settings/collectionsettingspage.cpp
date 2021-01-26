@@ -77,19 +77,19 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
   ui_->combobox_cache_size->addItems({"KB", "MB"});
   ui_->combobox_disk_cache_size->addItems({"KB", "MB", "GB"});
 
-  connect(ui_->add, SIGNAL(clicked()), SLOT(Add()));
-  connect(ui_->remove, SIGNAL(clicked()), SLOT(Remove()));
+  QObject::connect(ui_->add, &QPushButton::clicked, this, &CollectionSettingsPage::Add);
+  QObject::connect(ui_->remove, &QPushButton::clicked, this, &CollectionSettingsPage::Remove);
 
-  connect(ui_->checkbox_cover_album_dir, SIGNAL(toggled(bool)), SLOT(CoverSaveInAlbumDirChanged()));
-  connect(ui_->radiobutton_cover_hash, SIGNAL(toggled(bool)), SLOT(CoverSaveInAlbumDirChanged()));
-  connect(ui_->radiobutton_cover_pattern, SIGNAL(toggled(bool)), SLOT(CoverSaveInAlbumDirChanged()));
+  QObject::connect(ui_->checkbox_cover_album_dir, &QCheckBox::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
+  QObject::connect(ui_->radiobutton_cover_hash, &QRadioButton::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
+  QObject::connect(ui_->radiobutton_cover_pattern, &QRadioButton::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
 
-  connect(ui_->checkbox_disk_cache, SIGNAL(stateChanged(int)), SLOT(DiskCacheEnable(int)));
-  connect(ui_->button_clear_disk_cache, SIGNAL(clicked()), dialog->app(), SIGNAL(ClearPixmapDiskCache()));
-  connect(ui_->button_clear_disk_cache, SIGNAL(clicked()), SLOT(ClearPixmapDiskCache()));
+  QObject::connect(ui_->checkbox_disk_cache, &QCheckBox::stateChanged, this, &CollectionSettingsPage::DiskCacheEnable);
+  QObject::connect(ui_->button_clear_disk_cache, &QPushButton::clicked, dialog->app(), &Application::ClearPixmapDiskCache);
+  QObject::connect(ui_->button_clear_disk_cache, &QPushButton::clicked, this, &CollectionSettingsPage::ClearPixmapDiskCache);
 
-  connect(ui_->combobox_cache_size, SIGNAL(currentIndexChanged(int)), SLOT(CacheSizeUnitChanged(int)));
-  connect(ui_->combobox_disk_cache_size, SIGNAL(currentIndexChanged(int)), SLOT(DiskCacheSizeUnitChanged(int)));
+  QObject::connect(ui_->combobox_cache_size, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CollectionSettingsPage::CacheSizeUnitChanged);
+  QObject::connect(ui_->combobox_disk_cache_size, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CollectionSettingsPage::DiskCacheSizeUnitChanged);
 
 }
 
@@ -120,8 +120,8 @@ void CollectionSettingsPage::Remove() {
 
 }
 
-void CollectionSettingsPage::CurrentRowChanged(const QModelIndex& index) {
-  ui_->remove->setEnabled(index.isValid());
+void CollectionSettingsPage::CurrentRowChanged(const QModelIndex &idx) {
+  ui_->remove->setEnabled(idx.isValid());
 }
 
 void CollectionSettingsPage::DiskCacheEnable(const int state) {
@@ -140,13 +140,13 @@ void CollectionSettingsPage::Load() {
 
   if (!initialized_model_) {
     if (ui_->list->selectionModel()) {
-      disconnect(ui_->list->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this, SLOT(CurrentRowChanged(QModelIndex)));
+      QObject::disconnect(ui_->list->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &CollectionSettingsPage::CurrentRowChanged);
     }
 
     ui_->list->setModel(dialog()->collection_directory_model());
     initialized_model_ = true;
 
-    connect(ui_->list->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), SLOT(CurrentRowChanged(QModelIndex)));
+    QObject::connect(ui_->list->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &CollectionSettingsPage::CurrentRowChanged);
   }
 
   QSettings s;

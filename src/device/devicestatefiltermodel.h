@@ -47,12 +47,11 @@ class DeviceStateFilterModel : public QSortFilterProxyModel {
   bool filterAcceptsRow(int row, const QModelIndex &parent) const override;
 
  private slots:
-  void ProxyRowCountChanged();
-  void ProxyRowCountChanged(QModelIndex index, int first, int last);
+  void ProxyReset();
+  void ProxyRowCountChanged(QModelIndex idx, int first, int last);
 
  private:
   DeviceManager::State state_;
 };
 
 #endif // DEVICESTATEFILTERMODEL_H
-

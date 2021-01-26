@@ -67,9 +67,10 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application* app, QSlider* slider)
   slider->setStyle(this);
   slider->installEventFilter(this);
 
-  connect(fade_timeline_, SIGNAL(valueChanged(qreal)), SLOT(FaderValueChanged(qreal)));
+  QObject::connect(fade_timeline_, &QTimeLine::valueChanged, this, &MoodbarProxyStyle::FaderValueChanged);
 
-  connect(app, SIGNAL(SettingsChanged()), SLOT(ReloadSettings()));
+  QObject::connect(app, &Application::SettingsChanged, this, &MoodbarProxyStyle::ReloadSettings);
+
   ReloadSettings();
 
 }
@@ -96,7 +97,7 @@ void MoodbarProxyStyle::ReloadSettings() {
 
 }
 
-void MoodbarProxyStyle::SetMoodbarData(const QByteArray& data) {
+void MoodbarProxyStyle::SetMoodbarData(const QByteArray &data) {
 
   data_ = data;
   moodbar_colors_dirty_ = true;  // Redraw next time
@@ -104,7 +105,7 @@ void MoodbarProxyStyle::SetMoodbarData(const QByteArray& data) {
 
 }
 
-void MoodbarProxyStyle::SetMoodbarEnabled(bool enabled) {
+void MoodbarProxyStyle::SetMoodbarEnabled(const bool enabled) {
 
   enabled_ = enabled;
 
@@ -157,12 +158,12 @@ void MoodbarProxyStyle::NextState() {
 
 }
 
-void MoodbarProxyStyle::FaderValueChanged(qreal value) {
+void MoodbarProxyStyle::FaderValueChanged(const qreal value) {
   Q_UNUSED(value);
   slider_->update();
 }
 
-bool MoodbarProxyStyle::eventFilter(QObject* object, QEvent* event) {
+bool MoodbarProxyStyle::eventFilter(QObject *object, QEvent *event) {
 
   if (object == slider_) {
     switch (event->type()) {
@@ -184,7 +185,7 @@ bool MoodbarProxyStyle::eventFilter(QObject* object, QEvent* event) {
 
 }
 
-void MoodbarProxyStyle::drawComplexControl(ComplexControl control, const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget) const {
+void MoodbarProxyStyle::drawComplexControl(ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const {
 
   if (control != CC_Slider || widget != slider_) {
     QProxyStyle::drawComplexControl(control, option, painter, widget);
@@ -195,7 +196,7 @@ void MoodbarProxyStyle::drawComplexControl(ComplexControl control, const QStyleO
 
 }
 
-void MoodbarProxyStyle::Render(ComplexControl control, const QStyleOptionSlider* option, QPainter* painter, const QWidget* widget) {
+void MoodbarProxyStyle::Render(ComplexControl control, const QStyleOptionSlider *option, QPainter *painter, const QWidget *widget) {
 
   const qreal fade_value = fade_timeline_->currentValue();
 
@@ -256,7 +257,7 @@ void MoodbarProxyStyle::Render(ComplexControl control, const QStyleOptionSlider*
 
 }
 
-void MoodbarProxyStyle::EnsureMoodbarRendered(const QStyleOptionSlider* opt) {
+void MoodbarProxyStyle::EnsureMoodbarRendered(const QStyleOptionSlider *opt) {
 
   if (moodbar_colors_dirty_) {
     moodbar_colors_ = MoodbarRenderer::Colors(data_, moodbar_style_, slider_->palette());
@@ -271,7 +272,7 @@ void MoodbarProxyStyle::EnsureMoodbarRendered(const QStyleOptionSlider* opt) {
 
 }
 
-QRect MoodbarProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionComplex* opt, SubControl sc, const QWidget* widget) const {
+QRect MoodbarProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionComplex *opt, SubControl sc, const QWidget *widget) const {
 
   if (cc != QStyle::CC_Slider || widget != slider_) {
     return QProxyStyle::subControlRect(cc, opt, sc, widget);
@@ -289,7 +290,7 @@ QRect MoodbarProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionCom
           return opt->rect.adjusted(kMarginSize, kMarginSize, -kMarginSize, -kMarginSize);
 
         case SC_SliderHandle: {
-          const QStyleOptionSlider* slider_opt = qstyleoption_cast<const QStyleOptionSlider*>(opt);
+          const QStyleOptionSlider *slider_opt = qstyleoption_cast<const QStyleOptionSlider*>(opt);
           int x_offset = 0;
 
           /* slider_opt->{maximum,minimum} can have the value 0 (their default
@@ -314,7 +315,7 @@ QRect MoodbarProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionCom
   return QProxyStyle::subControlRect(cc, opt, sc, widget);
 }
 
-void MoodbarProxyStyle::DrawArrow(const QStyleOptionSlider* option, QPainter* painter) const {
+void MoodbarProxyStyle::DrawArrow(const QStyleOptionSlider *option, QPainter *painter) const {
 
   // Get the dimensions of the arrow
   const QRect rect = subControlRect(CC_Slider, option, SC_SliderHandle, slider_);
@@ -334,7 +335,7 @@ void MoodbarProxyStyle::DrawArrow(const QStyleOptionSlider* option, QPainter* pa
 
 }
 
-QPixmap MoodbarProxyStyle::MoodbarPixmap(const ColorVector& colors, const QSize& size, const QPalette& palette, const QStyleOptionSlider* opt) {
+QPixmap MoodbarProxyStyle::MoodbarPixmap(const ColorVector &colors, const QSize &size, const QPalette &palette, const QStyleOptionSlider *opt) {
 
   Q_UNUSED(opt);
 
@@ -366,33 +367,33 @@ QPixmap MoodbarProxyStyle::MoodbarPixmap(const ColorVector& colors, const QSize&
 
 }
 
-void MoodbarProxyStyle::ShowContextMenu(const QPoint& pos) {
+void MoodbarProxyStyle::ShowContextMenu(const QPoint &pos) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(slider_);
-    show_moodbar_action_ = context_menu_->addAction(tr("Show moodbar"), this, SLOT(SetMoodbarEnabled(bool)));
+    show_moodbar_action_ = context_menu_->addAction(tr("Show moodbar"), this, &MoodbarProxyStyle::SetMoodbarEnabled);
 
     show_moodbar_action_->setCheckable(true);
     show_moodbar_action_->setChecked(enabled_);
 
-    QMenu* styles_menu = context_menu_->addMenu(tr("Moodbar style"));
+    QMenu *styles_menu = context_menu_->addMenu(tr("Moodbar style"));
     style_action_group_ = new QActionGroup(styles_menu);
 
     for (int i = 0; i < MoodbarRenderer::StyleCount; ++i) {
       const MoodbarRenderer::MoodbarStyle style = MoodbarRenderer::MoodbarStyle(i);
 
-      QAction* action = style_action_group_->addAction(MoodbarRenderer::StyleName(style));
+      QAction *action = style_action_group_->addAction(MoodbarRenderer::StyleName(style));
       action->setCheckable(true);
       action->setData(i);
     }
 
     styles_menu->addActions(style_action_group_->actions());
 
-    connect(styles_menu, SIGNAL(triggered(QAction*)), SLOT(ChangeStyle(QAction*)));
+    QObject::connect(styles_menu, &QMenu::triggered, this, &MoodbarProxyStyle::ChangeStyle);
   }
 
   // Update the currently selected style
-  for (QAction* action : style_action_group_->actions()) {
+  for (QAction *action : style_action_group_->actions()) {
     if (MoodbarRenderer::MoodbarStyle(action->data().toInt()) == moodbar_style_) {
       action->setChecked(true);
       break;
@@ -403,7 +404,7 @@ void MoodbarProxyStyle::ShowContextMenu(const QPoint& pos) {
 
 }
 
-void MoodbarProxyStyle::ChangeStyle(QAction* action) {
+void MoodbarProxyStyle::ChangeStyle(QAction *action) {
 
   QSettings s;
   s.beginGroup(MoodbarSettingsPage::kSettingsGroup);

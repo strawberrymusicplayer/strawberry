@@ -285,7 +285,7 @@ ContextView::ContextView(QWidget *parent) :
 
   QFontDatabase::addApplicationFont(":/fonts/HumongousofEternitySt.ttf");
 
-  connect(widget_album_, SIGNAL(FadeStopFinished()), SLOT(FadeStopFinished()));
+  QObject::connect(widget_album_, &ContextAlbum::FadeStopFinished, this, &ContextView::FadeStopFinished);
 
 }
 
@@ -305,10 +305,10 @@ void ContextView::Init(Application *app, CollectionView *collectionview, AlbumCo
   widget_albums_->Init(app_);
   lyrics_fetcher_ = new LyricsFetcher(app_->lyrics_providers(), this);
 
-  connect(collectionview_, SIGNAL(TotalSongCountUpdated_()), this, SLOT(UpdateNoSong()));
-  connect(collectionview_, SIGNAL(TotalArtistCountUpdated_()), this, SLOT(UpdateNoSong()));
-  connect(collectionview_, SIGNAL(TotalAlbumCountUpdated_()), this, SLOT(UpdateNoSong()));
-  connect(lyrics_fetcher_, SIGNAL(LyricsFetched(quint64, QString, QString)), this, SLOT(UpdateLyrics(quint64, QString, QString)));
+  QObject::connect(collectionview_, &CollectionView::TotalSongCountUpdated_, this, &ContextView::UpdateNoSong);
+  QObject::connect(collectionview_, &CollectionView::TotalArtistCountUpdated_, this, &ContextView::UpdateNoSong);
+  QObject::connect(collectionview_, &CollectionView::TotalAlbumCountUpdated_, this, &ContextView::UpdateNoSong);
+  QObject::connect(lyrics_fetcher_, &LyricsFetcher::LyricsFetched, this, &ContextView::UpdateLyrics);
 
   AddActions();
 
@@ -350,12 +350,12 @@ void ContextView::AddActions() {
 
   ReloadSettings();
 
-  connect(action_show_album_, SIGNAL(triggered()), this, SLOT(ActionShowAlbums()));
-  connect(action_show_data_, SIGNAL(triggered()), this, SLOT(ActionShowData()));
-  connect(action_show_output_, SIGNAL(triggered()), this, SLOT(ActionShowOutput()));
-  connect(action_show_albums_, SIGNAL(triggered()), this, SLOT(ActionShowAlbums()));
-  connect(action_show_lyrics_, SIGNAL(triggered()), this, SLOT(ActionShowLyrics()));
-  connect(action_search_lyrics_, SIGNAL(triggered()), this, SLOT(ActionSearchLyrics()));
+  QObject::connect(action_show_album_, &QAction::triggered, this, &ContextView::ActionShowAlbums);
+  QObject::connect(action_show_data_, &QAction::triggered, this, &ContextView::ActionShowData);
+  QObject::connect(action_show_output_, &QAction::triggered, this, &ContextView::ActionShowOutput);
+  QObject::connect(action_show_albums_, &QAction::triggered, this, &ContextView::ActionShowAlbums);
+  QObject::connect(action_show_lyrics_, &QAction::triggered, this, &ContextView::ActionShowLyrics);
+  QObject::connect(action_search_lyrics_, &QAction::triggered, this, &ContextView::ActionSearchLyrics);
 
 }
 

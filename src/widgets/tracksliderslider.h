@@ -52,9 +52,9 @@ class TrackSliderSlider : public QSlider {
   void Next();
 
  protected:
-  void mousePressEvent(QMouseEvent* e) override;
-  void mouseReleaseEvent(QMouseEvent* e) override;
-  void mouseMoveEvent(QMouseEvent* e) override;
+  void mousePressEvent(QMouseEvent *e) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
+  void mouseMoveEvent(QMouseEvent *e) override;
   void wheelEvent(QWheelEvent *e) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   void enterEvent(QEnterEvent *e) override;
@@ -69,7 +69,7 @@ class TrackSliderSlider : public QSlider {
 
  private:
 #ifndef Q_OS_MACOS
-  TrackSliderPopup* popup_;
+  TrackSliderPopup *popup_;
 #endif
 
   int mouse_hover_seconds_;

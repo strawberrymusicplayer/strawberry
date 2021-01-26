@@ -90,7 +90,7 @@ class UrlHandler : public QObject {
   virtual LoadResult StartLoading(const QUrl &url) { return LoadResult(url); }
 
  signals:
-  void AsyncLoadComplete(const UrlHandler::LoadResult &result);
+  void AsyncLoadComplete(UrlHandler::LoadResult result);
 
 };
 

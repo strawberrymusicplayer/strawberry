@@ -50,8 +50,8 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *pare
   options_.default_output_image_ = QImage(":/pictures/cdcase.png");
   options_.default_thumbnail_image_ = options_.default_output_image_.scaledToHeight(120, Qt::SmoothTransformation);
 
-  connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(TempAlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
-  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(LoadAlbumCover(Song)));
+  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CurrentAlbumCoverLoader::TempAlbumCoverLoaded);
+  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &CurrentAlbumCoverLoader::LoadAlbumCover);
 
 }
 

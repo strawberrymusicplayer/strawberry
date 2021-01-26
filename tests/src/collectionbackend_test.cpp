@@ -75,7 +75,7 @@ TEST_F(CollectionBackendTest, EmptyDatabase) {
 
 TEST_F(CollectionBackendTest, AddDirectory) {
 
-  QSignalSpy spy(backend_.get(), SIGNAL(DirectoryDiscovered(Directory, SubdirectoryList)));
+  QSignalSpy spy(backend_.get(), &CollectionBackend::DirectoryDiscovered);
 
   backend_->AddDirectory("/tmp");
 
@@ -96,7 +96,7 @@ TEST_F(CollectionBackendTest, RemoveDirectory) {
   dir.path = "/tmp";
   backend_->AddDirectory(dir.path);
 
-  QSignalSpy spy(backend_.get(), SIGNAL(DirectoryDeleted(Directory)));
+  QSignalSpy spy(backend_.get(), &CollectionBackend::DirectoryDeleted);
 
   // Remove the directory again
   backend_->RemoveDirectory(dir);
@@ -117,7 +117,7 @@ TEST_F(CollectionBackendTest, AddInvalidSong) {
   //s.set_url(QUrl::fromLocalFile("foo.flac"));
   s.set_directory_id(1);
 
-  QSignalSpy spy(database_.get(), SIGNAL(Error(QString)));
+  QSignalSpy spy(database_.get(), &Database::Error);
 
   backend_->AddOrUpdateSongs(SongList() << s);
   //ASSERT_EQ(1, spy.count()); spy.takeFirst();
@@ -161,8 +161,8 @@ class SingleSong : public CollectionBackendTest {
   }
 
   void AddDummySong() {
-    QSignalSpy added_spy(backend_.get(), SIGNAL(SongsDiscovered(SongList)));
-    QSignalSpy deleted_spy(backend_.get(), SIGNAL(SongsDeleted(SongList)));
+    QSignalSpy added_spy(backend_.get(), &CollectionBackend::SongsDiscovered);
+    QSignalSpy deleted_spy(backend_.get(), &CollectionBackend::SongsDeleted);
 
     // Add the song
     backend_->AddOrUpdateSongs(SongList() << song_);
@@ -285,8 +285,8 @@ TEST_F(SingleSong, UpdateSong) {
   new_song.set_id(1);
   new_song.set_title("A different title");
 
-  QSignalSpy deleted_spy(backend_.get(), SIGNAL(SongsDeleted(SongList)));
-  QSignalSpy added_spy(backend_.get(), SIGNAL(SongsDiscovered(SongList)));
+  QSignalSpy deleted_spy(backend_.get(), &CollectionBackend::SongsDeleted);
+  QSignalSpy added_spy(backend_.get(), &CollectionBackend::SongsDiscovered);
 
   backend_->AddOrUpdateSongs(SongList() << new_song);
 
@@ -311,7 +311,7 @@ TEST_F(SingleSong, DeleteSongs) {
   Song new_song(song_);
   new_song.set_id(1);
 
-  QSignalSpy deleted_spy(backend_.get(), SIGNAL(SongsDeleted(SongList)));
+  QSignalSpy deleted_spy(backend_.get(), &CollectionBackend::SongsDeleted);
 
   backend_->DeleteSongs(SongList() << new_song);
 
@@ -343,7 +343,7 @@ TEST_F(SingleSong, MarkSongsUnavailable) {
   Song new_song(song_);
   new_song.set_id(1);
 
-  QSignalSpy deleted_spy(backend_.get(), SIGNAL(SongsDeleted(SongList)));
+  QSignalSpy deleted_spy(backend_.get(), &CollectionBackend::SongsDeleted);
 
   backend_->MarkSongsUnavailable(SongList() << new_song);
 

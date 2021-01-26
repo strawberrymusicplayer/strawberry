@@ -84,4 +84,4 @@ class VLCEngine : public Engine::Base {
 
 };
 
-#endif // VLCENGINE_H
+#endif  // VLCENGINE_H

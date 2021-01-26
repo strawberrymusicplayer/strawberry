@@ -44,16 +44,16 @@ class MoodbarItemDelegate : public QItemDelegate {
   Q_OBJECT
 
  public:
-  explicit MoodbarItemDelegate(Application* app, PlaylistView* view, QObject* parent = nullptr);
+  explicit MoodbarItemDelegate(Application *app, PlaylistView *view, QObject *parent = nullptr);
 
-  void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
  private slots:
   void ReloadSettings();
 
-  void DataLoaded(const QUrl& url, MoodbarPipeline* pipeline);
-  void ColorsLoaded(const QUrl& url, QFuture<ColorVector> future);
-  void ImageLoaded(const QUrl& url, QFuture<QImage> future);
+  void DataLoaded(const QUrl &url, MoodbarPipeline *pipeline);
+  void ColorsLoaded(const QUrl &url, QFuture<ColorVector> future);
+  void ImageLoaded(const QUrl &url, QFuture<QImage> future);
 
  private:
   struct Data {
@@ -77,18 +77,18 @@ class MoodbarItemDelegate : public QItemDelegate {
   };
 
  private:
-  QPixmap PixmapForIndex(const QModelIndex& index, const QSize& size);
-  void StartLoadingData(const QUrl& url, Data* data);
-  void StartLoadingColors(const QUrl& url, const QByteArray& bytes, Data* data);
-  void StartLoadingImage(const QUrl& url, Data* data);
+  QPixmap PixmapForIndex(const QModelIndex &idx, const QSize &size);
+  void StartLoadingData(const QUrl &url, Data *data);
+  void StartLoadingColors(const QUrl &url, const QByteArray &bytes, Data *data);
+  void StartLoadingImage(const QUrl &url, Data *data);
 
-  bool RemoveFromCacheIfIndexesInvalid(const QUrl& url, Data* data);
+  bool RemoveFromCacheIfIndexesInvalid(const QUrl &url, Data *data);
 
   void ReloadAllColors();
 
  private:
-  Application* app_;
-  PlaylistView* view_;
+  Application *app_;
+  PlaylistView *view_;
   QCache<QUrl, Data> data_;
 
   MoodbarRenderer::MoodbarStyle style_;

@@ -107,21 +107,21 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   ui_->tab_bar->setExpanding(false);
   ui_->tab_bar->setMovable(true);
 
-  connect(tab_bar_animation_, SIGNAL(frameChanged(int)), SLOT(SetTabBarHeight(int)));
+  QObject::connect(tab_bar_animation_, &QTimeLine::frameChanged, this, &PlaylistContainer::SetTabBarHeight);
   ui_->tab_bar->setMaximumHeight(0);
 
   // Connections
-  connect(ui_->tab_bar, SIGNAL(currentChanged(int)), SLOT(Save()));
-  connect(ui_->tab_bar, SIGNAL(Save(int)), SLOT(SavePlaylist(int)));
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::currentChanged, this, &PlaylistContainer::Save);
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::Save, this, &PlaylistContainer::SaveCurrentPlaylist);
 
   // set up timer for delayed filter updates
   filter_timer_->setSingleShot(true);
   filter_timer_->setInterval(kFilterDelayMs);
-  connect(filter_timer_, SIGNAL(timeout()), this, SLOT(UpdateFilter()));
+  QObject::connect(filter_timer_, &QTimer::timeout, this, &PlaylistContainer::UpdateFilter);
 
   // Replace playlist search filter with native search box.
-  connect(ui_->filter, SIGNAL(textChanged(QString)), SLOT(MaybeUpdateFilter()));
-  connect(ui_->playlist, SIGNAL(FocusOnFilterSignal(QKeyEvent*)), SLOT(FocusOnFilter(QKeyEvent*)));
+  QObject::connect(ui_->filter, &QSearchField::textChanged, this, &PlaylistContainer::MaybeUpdateFilter);
+  QObject::connect(ui_->playlist, &PlaylistView::FocusOnFilterSignal, this, &PlaylistContainer::FocusOnFilter);
   ui_->filter->installEventFilter(this);
 
   ReloadSettings();
@@ -141,13 +141,13 @@ void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist
 
   ui_->tab_bar->SetActions(new_playlist, load_playlist);
 
-  connect(new_playlist, SIGNAL(triggered()), SLOT(NewPlaylist()));
-  connect(save_playlist, SIGNAL(triggered()), SLOT(SavePlaylist()));
-  connect(load_playlist, SIGNAL(triggered()), SLOT(LoadPlaylist()));
-  connect(clear_playlist, SIGNAL(triggered()), SLOT(ClearPlaylist()));
-  connect(next_playlist, SIGNAL(triggered()), SLOT(GoToNextPlaylistTab()));
-  connect(previous_playlist, SIGNAL(triggered()), SLOT(GoToPreviousPlaylistTab()));
-  connect(clear_playlist, SIGNAL(triggered()), SLOT(ClearPlaylist()));
+  QObject::connect(new_playlist, &QAction::triggered, this, &PlaylistContainer::NewPlaylist);
+  QObject::connect(save_playlist, &QAction::triggered, this, &PlaylistContainer::SavePlaylist);
+  QObject::connect(load_playlist, &QAction::triggered, this, &PlaylistContainer::LoadPlaylist);
+  QObject::connect(clear_playlist, &QAction::triggered, this, &PlaylistContainer::ClearPlaylist);
+  QObject::connect(next_playlist, &QAction::triggered, this, &PlaylistContainer::GoToNextPlaylistTab);
+  QObject::connect(previous_playlist, &QAction::triggered, this, &PlaylistContainer::GoToPreviousPlaylistTab);
+  QObject::connect(clear_playlist, &QAction::triggered, this, &PlaylistContainer::ClearPlaylist);
 
 }
 
@@ -156,35 +156,35 @@ void PlaylistContainer::SetManager(PlaylistManager *manager) {
   manager_ = manager;
   ui_->tab_bar->SetManager(manager);
 
-  connect(ui_->tab_bar, SIGNAL(CurrentIdChanged(int)), manager, SLOT(SetCurrentPlaylist(int)));
-  connect(ui_->tab_bar, SIGNAL(Rename(int, QString)), manager, SLOT(Rename(int, QString)));
-  connect(ui_->tab_bar, SIGNAL(Close(int)), manager, SLOT(Close(int)));
-  connect(ui_->tab_bar, SIGNAL(PlaylistFavorited(int, bool)), manager, SLOT(Favorite(int, bool)));
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::CurrentIdChanged, manager, &PlaylistManager::SetCurrentPlaylist);
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::Rename, manager, &PlaylistManager::Rename);
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::Close, manager, &PlaylistManager::Close);
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::PlaylistFavorited, manager, &PlaylistManager::Favorite);
 
-  connect(ui_->tab_bar, SIGNAL(PlaylistOrderChanged(QList<int>)), manager, SLOT(ChangePlaylistOrder(QList<int>)));
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::PlaylistOrderChanged, manager, &PlaylistManager::ChangePlaylistOrder);
 
-  connect(manager, SIGNAL(CurrentChanged(Playlist*, int)), SLOT(SetViewModel(Playlist*, int)));
-  connect(manager, SIGNAL(PlaylistAdded(int, QString, bool)), SLOT(PlaylistAdded(int, QString, bool)));
-  connect(manager, SIGNAL(PlaylistManagerInitialized()), SLOT(Started()));
-  connect(manager, SIGNAL(PlaylistClosed(int)), SLOT(PlaylistClosed(int)));
-  connect(manager, SIGNAL(PlaylistRenamed(int, QString)), SLOT(PlaylistRenamed(int, QString)));
+  QObject::connect(manager, &PlaylistManager::CurrentChanged, this, &PlaylistContainer::SetViewModel);
+  QObject::connect(manager, &PlaylistManager::PlaylistAdded, this, &PlaylistContainer::PlaylistAdded);
+  QObject::connect(manager, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistContainer::Started);
+  QObject::connect(manager, &PlaylistManager::PlaylistClosed, this, &PlaylistContainer::PlaylistClosed);
+  QObject::connect(manager, &PlaylistManager::PlaylistRenamed, this, &PlaylistContainer::PlaylistRenamed);
 
 }
 
 void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_position) {
 
   if (view()->selectionModel()) {
-    disconnect(view()->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(SelectionChanged()));
+    QObject::disconnect(view()->selectionModel(), &QItemSelectionModel::selectionChanged, this, &PlaylistContainer::SelectionChanged);
   }
   if (playlist_ && playlist_->proxy()) {
-    disconnect(playlist_->proxy(), SIGNAL(modelReset()), this, SLOT(UpdateNoMatchesLabel()));
-    disconnect(playlist_->proxy(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(UpdateNoMatchesLabel()));
-    disconnect(playlist_->proxy(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(UpdateNoMatchesLabel()));
+    QObject::disconnect(playlist_->proxy(), &QSortFilterProxyModel::modelReset, this, &PlaylistContainer::UpdateNoMatchesLabel);
+    QObject::disconnect(playlist_->proxy(), &QSortFilterProxyModel::rowsInserted, this, &PlaylistContainer::UpdateNoMatchesLabel);
+    QObject::disconnect(playlist_->proxy(), &QSortFilterProxyModel::rowsRemoved, this, &PlaylistContainer::UpdateNoMatchesLabel);
   }
   if (playlist_) {
-    disconnect(playlist_, SIGNAL(modelReset()), this, SLOT(UpdateNoMatchesLabel()));
-    disconnect(playlist_, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(UpdateNoMatchesLabel()));
-    disconnect(playlist_, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(UpdateNoMatchesLabel()));
+    QObject::disconnect(playlist_, &Playlist::modelReset, this, &PlaylistContainer::UpdateNoMatchesLabel);
+    QObject::disconnect(playlist_, &Playlist::rowsInserted, this, &PlaylistContainer::UpdateNoMatchesLabel);
+    QObject::disconnect(playlist_, &Playlist::rowsRemoved, this, &PlaylistContainer::UpdateNoMatchesLabel);
   }
 
   playlist_ = playlist;
@@ -197,7 +197,7 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
   if (scroll_position != 0) view()->verticalScrollBar()->setValue(scroll_position);
   playlist->IgnoreSorting(false);
 
-  connect(view()->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(SelectionChanged()));
+  QObject::connect(view()->selectionModel(), &QItemSelectionModel::selectionChanged, this, &PlaylistContainer::SelectionChanged);
   emit ViewSelectionModelChanged();
 
   // Update filter
@@ -208,12 +208,12 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
 #endif
 
   // Update the no matches label
-  connect(playlist_->proxy(), SIGNAL(modelReset()), SLOT(UpdateNoMatchesLabel()));
-  connect(playlist_->proxy(), SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(UpdateNoMatchesLabel()));
-  connect(playlist_->proxy(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(UpdateNoMatchesLabel()));
-  connect(playlist_, SIGNAL(modelReset()), SLOT(UpdateNoMatchesLabel()));
-  connect(playlist_, SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(UpdateNoMatchesLabel()));
-  connect(playlist_, SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(UpdateNoMatchesLabel()));
+  QObject::connect(playlist_->proxy(), &QSortFilterProxyModel::modelReset, this, &PlaylistContainer::UpdateNoMatchesLabel);
+  QObject::connect(playlist_->proxy(), &QSortFilterProxyModel::rowsInserted, this, &PlaylistContainer::UpdateNoMatchesLabel);
+  QObject::connect(playlist_->proxy(), &QSortFilterProxyModel::rowsRemoved, this, &PlaylistContainer::UpdateNoMatchesLabel);
+  QObject::connect(playlist_, &Playlist::modelReset, this, &PlaylistContainer::UpdateNoMatchesLabel);
+  QObject::connect(playlist_, &Playlist::rowsInserted, this, &PlaylistContainer::UpdateNoMatchesLabel);
+  QObject::connect(playlist_, &Playlist::rowsRemoved, this, &PlaylistContainer::UpdateNoMatchesLabel);
   UpdateNoMatchesLabel();
 
   // Ensure that tab is current
@@ -284,7 +284,7 @@ void PlaylistContainer::UpdateActiveIcon(const QIcon &icon) {
 
 }
 
-void PlaylistContainer::PlaylistAdded(int id, const QString &name, bool favorite) {
+void PlaylistContainer::PlaylistAdded(const int id, const QString &name, const bool favorite) {
 
   const int index = ui_->tab_bar->count();
   ui_->tab_bar->InsertTab(id, index, name, favorite);
@@ -313,7 +313,7 @@ void PlaylistContainer::PlaylistAdded(int id, const QString &name, bool favorite
 
 void PlaylistContainer::Started() { starting_up_ = false; }
 
-void PlaylistContainer::PlaylistClosed(int id) {
+void PlaylistContainer::PlaylistClosed(const int id) {
 
   ui_->tab_bar->RemoveTab(id);
 
@@ -321,7 +321,7 @@ void PlaylistContainer::PlaylistClosed(int id) {
 
 }
 
-void PlaylistContainer::PlaylistRenamed(int id, const QString &new_name) {
+void PlaylistContainer::PlaylistRenamed(const int id, const QString &new_name) {
   ui_->tab_bar->set_text_by_id(id, new_name);
 }
 
@@ -340,7 +340,7 @@ void PlaylistContainer::LoadPlaylist() {
 
 }
 
-void PlaylistContainer::SavePlaylist(int id = -1) {
+void PlaylistContainer::SavePlaylist(const int id = -1) {
 
   // Use the tab name as the suggested name
   QString suggested_name = ui_->tab_bar->tabText(ui_->tab_bar->currentIndex());
@@ -377,7 +377,7 @@ void PlaylistContainer::Save() {
 
 }
 
-void PlaylistContainer::SetTabBarVisible(bool visible) {
+void PlaylistContainer::SetTabBarVisible(const bool visible) {
 
   if (tab_bar_visible_ == visible) return;
   tab_bar_visible_ = visible;
@@ -387,7 +387,7 @@ void PlaylistContainer::SetTabBarVisible(bool visible) {
 
 }
 
-void PlaylistContainer::SetTabBarHeight(int height) {
+void PlaylistContainer::SetTabBarHeight(const int height) {
   ui_->tab_bar->setMaximumHeight(height);
 }
 
@@ -457,7 +457,7 @@ void PlaylistContainer::FocusOnFilter(QKeyEvent *event) {
   }
 }
 
-void PlaylistContainer::RepositionNoMatchesLabel(bool force) {
+void PlaylistContainer::RepositionNoMatchesLabel(const bool force) {
 
   if (!force && !no_matches_label_->isVisible()) return;
 

@@ -265,24 +265,24 @@ void Application::Exit() {
 #endif
                  << internet_services();
 
-  connect(tag_reader_client(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  QObject::connect(tag_reader_client(), &TagReaderClient::ExitFinished, this, &Application::ExitReceived);
   tag_reader_client()->ExitAsync();
 
-  connect(collection(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  QObject::connect(collection(), &SCollection::ExitFinished, this, &Application::ExitReceived);
   collection()->Exit();
 
-  connect(playlist_backend(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  QObject::connect(playlist_backend(), &PlaylistBackend::ExitFinished, this, &Application::ExitReceived);
   playlist_backend()->ExitAsync();
 
-  connect(album_cover_loader(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  QObject::connect(album_cover_loader(), &AlbumCoverLoader::ExitFinished, this, &Application::ExitReceived);
   album_cover_loader()->ExitAsync();
 
 #ifndef Q_OS_WIN
-  connect(device_manager(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  QObject::connect(device_manager(), &DeviceManager::ExitFinished, this, &Application::ExitReceived);
   device_manager()->Exit();
 #endif
 
-  connect(internet_services(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  QObject::connect(internet_services(), &InternetServices::ExitFinished, this, &Application::ExitReceived);
   internet_services()->Exit();
 
 }
@@ -290,14 +290,14 @@ void Application::Exit() {
 void Application::ExitReceived() {
 
   QObject *obj = static_cast<QObject*>(sender());
-  disconnect(obj, nullptr, this, nullptr);
+  QObject::disconnect(obj, nullptr, this, nullptr);
 
   qLog(Debug) << obj << "successfully exited.";
 
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) {
     database()->Close();
-    connect(database(), SIGNAL(ExitFinished()), this, SIGNAL(ExitFinished()));
+    QObject::connect(database(), &Database::ExitFinished, this, &Application::ExitFinished);
     database()->ExitAsync();
   }
 

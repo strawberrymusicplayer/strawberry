@@ -56,16 +56,16 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
   void SongsRemoved(SongList);
 
  private slots:
+  void AddFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs);
+  void RemoveFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs);
+
+ public slots:
   void AddArtists(const SongList &songs);
   void AddAlbums(const SongList &songs);
   void AddSongs(const SongList &songs);
-
   void RemoveArtists(const SongList &songs);
   void RemoveAlbums(const SongList &songs);
   void RemoveSongs(const SongList &songs);
-
-  void AddFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs);
-  void RemoveFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs);
 
  private:
   void Error(const QString &error, const QVariant &debug = QVariant());

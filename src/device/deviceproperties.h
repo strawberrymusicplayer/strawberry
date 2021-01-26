@@ -53,7 +53,7 @@ class DeviceProperties : public QDialog {
 
  private:
   void UpdateHardwareInfo();
-  void AddHardwareInfo(int row, const QString &key, const QString &value);
+  void AddHardwareInfo(const int row, const QString &key, const QString &value);
   void UpdateFormats();
 
  private slots:

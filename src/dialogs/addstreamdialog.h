@@ -38,7 +38,7 @@ class AddStreamDialog : public QDialog {
   void set_url(const QUrl &url) { ui_->url->setText(url.toString());}
 
  protected:
-  void showEvent(QShowEvent*) override;
+  void showEvent(QShowEvent *e) override;
 
  private slots:
   void TextChanged(const QString &text);

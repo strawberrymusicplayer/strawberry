@@ -53,10 +53,10 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
       action_align_right_(nullptr)
       {
 
-  action_hide_ = menu_->addAction(tr("&Hide..."), this, SLOT(HideCurrent()));
-  action_stretch_ = menu_->addAction(tr("&Stretch columns to fit window"), this, SLOT(ToggleStretchEnabled()));
-  action_reset_ = menu_->addAction(tr("&Reset columns to default"), this, SLOT(ResetColumns()));
-  action_rating_lock_ = menu_->addAction(tr("&Lock rating"), this, SLOT(ToggleRatingEditStatus()));
+  action_hide_ = menu_->addAction(tr("&Hide..."), this, &PlaylistHeader::HideCurrent);
+  action_stretch_ = menu_->addAction(tr("&Stretch columns to fit window"), this, &PlaylistHeader::ToggleStretchEnabled);
+  action_reset_ = menu_->addAction(tr("&Reset columns to default"), this, &PlaylistHeader::ResetColumns);
+  action_rating_lock_ = menu_->addAction(tr("&Lock rating"), this, &PlaylistHeader::ToggleRatingEditStatus);
   action_rating_lock_->setCheckable(true);
   menu_->addSeparator();
 
@@ -71,7 +71,7 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
   action_align_right_->setCheckable(true);
   align_menu->addActions(align_group->actions());
 
-  connect(align_group, SIGNAL(triggered(QAction*)), SLOT(SetColumnAlignment(QAction*)));
+  QObject::connect(align_group, &QActionGroup::triggered, this, &PlaylistHeader::SetColumnAlignment);
 
   menu_->addMenu(align_menu);
   menu_->addSeparator();
@@ -79,7 +79,7 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
   action_stretch_->setCheckable(true);
   action_stretch_->setChecked(is_stretch_enabled());
 
-  connect(this, SIGNAL(StretchEnabledChanged(bool)), action_stretch_, SLOT(setChecked(bool)));
+  QObject::connect(this, &PlaylistHeader::StretchEnabledChanged, action_stretch_, &QAction::setChecked);
 
   QSettings s;
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
@@ -135,7 +135,7 @@ void PlaylistHeader::AddColumnAction(int index) {
   action->setChecked(!isSectionHidden(index));
   show_actions_ << action;
 
-  connect(action, &QAction::triggered, [this, index]() { ToggleVisible(index); } );
+  QObject::connect(action, &QAction::triggered, [this, index]() { ToggleVisible(index); } );
 
 }
 
@@ -157,7 +157,7 @@ void PlaylistHeader::SetColumnAlignment(QAction *action) {
 
 }
 
-void PlaylistHeader::ToggleVisible(int section) {
+void PlaylistHeader::ToggleVisible(const int section) {
   SetSectionHidden(section, !isSectionHidden(section));
   emit SectionVisibilityChanged(section, !isSectionHidden(section));
 }

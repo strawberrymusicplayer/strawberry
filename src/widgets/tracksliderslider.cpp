@@ -39,22 +39,22 @@
 #endif
 #include "tracksliderslider.h"
 
-TrackSliderSlider::TrackSliderSlider(QWidget* parent)
+TrackSliderSlider::TrackSliderSlider(QWidget *parent)
     : QSlider(parent),
 #ifndef Q_OS_MACOS
       popup_(new TrackSliderPopup(window())),
 #endif
-    mouse_hover_seconds_(0) {
+      mouse_hover_seconds_(0) {
 
   setMouseTracking(true);
 #ifndef Q_OS_MACOS
   popup_->hide();
-  connect(this, SIGNAL(valueChanged(int)), SLOT(UpdateDeltaTime()));
+  QObject::connect(this, &TrackSliderSlider::valueChanged, this, &TrackSliderSlider::UpdateDeltaTime);
 #endif
 
 }
 
-void TrackSliderSlider::mousePressEvent(QMouseEvent* e) {
+void TrackSliderSlider::mousePressEvent(QMouseEvent *e) {
   // QSlider asks QStyle which mouse button should do what (absolute move or page step).
   // We force our own behaviour here because it makes more sense for a music player IMO.
 
@@ -74,9 +74,11 @@ void TrackSliderSlider::mousePressEvent(QMouseEvent* e) {
 
   if (new_event.isAccepted())
     e->accept();
+
 }
 
-void TrackSliderSlider::mouseReleaseEvent(QMouseEvent* e) {
+void TrackSliderSlider::mouseReleaseEvent(QMouseEvent *e) {
+
   QSlider::mouseReleaseEvent(e);
   if (e->button() == Qt::XButton1) {
     emit Previous();
@@ -85,9 +87,11 @@ void TrackSliderSlider::mouseReleaseEvent(QMouseEvent* e) {
     emit Next();
   }
   e->accept();
+
 }
 
-void TrackSliderSlider::mouseMoveEvent(QMouseEvent* e) {
+void TrackSliderSlider::mouseMoveEvent(QMouseEvent *e) {
+
   QSlider::mouseMoveEvent(e);
 
   // Borrowed from QSliderPrivate::pixelPosToRangeValue
@@ -107,6 +111,7 @@ void TrackSliderSlider::mouseMoveEvent(QMouseEvent* e) {
   UpdateDeltaTime();
   popup_->SetPopupPosition(mapTo(window(), QPoint(e->pos().x(), rect().center().y())));
 #endif
+
 }
 
 void TrackSliderSlider::wheelEvent(QWheelEvent *e) {
@@ -126,24 +131,29 @@ void TrackSliderSlider::enterEvent(QEnterEvent *e) {
 #else
 void TrackSliderSlider::enterEvent(QEvent *e) {
 #endif
+
   QSlider::enterEvent(e);
 #ifndef Q_OS_MACOS
   if (isEnabled()) {
     popup_->show();
   }
 #endif
+
 }
 
 void TrackSliderSlider::leaveEvent(QEvent *e) {
+
   QSlider::leaveEvent(e);
 #ifndef Q_OS_MACOS
   if (popup_->isVisible()) {
     popup_->hide();
   }
 #endif
+
 }
 
 void TrackSliderSlider::keyPressEvent(QKeyEvent *event) {
+
   if (event->key() == Qt::Key_Left || event->key() == Qt::Key_Down) {
     emit SeekBackward();
     event->accept();
@@ -155,13 +165,16 @@ void TrackSliderSlider::keyPressEvent(QKeyEvent *event) {
   else {
     QSlider::keyPressEvent(event);
   }
+
 }
 
 void TrackSliderSlider::UpdateDeltaTime() {
+
 #ifndef Q_OS_MACOS
   if (popup_->isVisible()) {
     int delta_seconds = mouse_hover_seconds_ - (value() / kMsecPerSec);
     popup_->SetSmallText(Utilities::PrettyTimeDelta(delta_seconds));
   }
 #endif
+
 }

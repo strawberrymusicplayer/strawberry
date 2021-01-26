@@ -54,4 +54,3 @@ class ErrorDialog : public QDialog {
 };
 
 #endif  // ERRORDIALOG_H
-

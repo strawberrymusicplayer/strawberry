@@ -57,7 +57,7 @@ class DeviceItemDelegate : public CollectionItemDelegate {
 
   static const int kIconPadding;
 
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
 };
 
@@ -72,7 +72,7 @@ class DeviceView : public AutoExpandingTreeView {
 
  protected:
   void contextMenuEvent(QContextMenuEvent*) override;
-  void mouseDoubleClickEvent(QMouseEvent *event) override;
+  void mouseDoubleClickEvent(QMouseEvent *e) override;
 
  private slots:
   // Device menu actions

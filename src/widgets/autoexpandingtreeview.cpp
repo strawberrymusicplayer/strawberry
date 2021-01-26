@@ -43,9 +43,9 @@ AutoExpandingTreeView::AutoExpandingTreeView(QWidget *parent)
   setExpandsOnDoubleClick(true);
   setAnimated(true);
 
-  connect(this, SIGNAL(expanded(QModelIndex)), SLOT(ItemExpanded(QModelIndex)));
-  connect(this, SIGNAL(clicked(QModelIndex)), SLOT(ItemClicked(QModelIndex)));
-  connect(this, SIGNAL(doubleClicked(QModelIndex)), SLOT(ItemDoubleClicked(QModelIndex)));
+  QObject::connect(this, &AutoExpandingTreeView::expanded, this, &AutoExpandingTreeView::ItemExpanded);
+  QObject::connect(this, &AutoExpandingTreeView::clicked, this, &AutoExpandingTreeView::ItemClicked);
+  QObject::connect(this, &AutoExpandingTreeView::doubleClicked, this, &AutoExpandingTreeView::ItemDoubleClicked);
 
 }
 
@@ -54,11 +54,11 @@ void AutoExpandingTreeView::reset() {
 
   // Expand nodes in the tree until we have about 50 rows visible in the view
   if (auto_open_ && expand_on_reset_) {
-    RecursivelyExpand(rootIndex());
+    RecursivelyExpandSlot(rootIndex());
   }
 }
 
-void AutoExpandingTreeView::RecursivelyExpand(const QModelIndex &idx) {
+void AutoExpandingTreeView::RecursivelyExpandSlot(const QModelIndex &idx) {
   int rows = model()->rowCount(idx);
   RecursivelyExpand(idx, &rows);
 }

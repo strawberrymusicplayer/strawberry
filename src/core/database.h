@@ -85,7 +85,7 @@ class Database : public QObject {
 
  signals:
   void ExitFinished();
-  void Error(const QString &message);
+  void Error(QString message);
 
  private slots:
   void Exit();

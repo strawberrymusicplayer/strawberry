@@ -17,6 +17,9 @@
  *
  */
 
+#ifndef KEYMAPPER_WIN_H
+#define KEYMAPPER_WIN_H
+
 #include "config.h"
 
 #include <QtGlobal>
@@ -132,3 +135,5 @@ static const QMap<Qt::Key, quint32> keymapper_win_ = {
 
 };
 }  // namespace
+
+#endif  // KEYMAPPER_WIN_H

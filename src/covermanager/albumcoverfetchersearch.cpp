@@ -60,7 +60,7 @@ AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(const CoverSearchRequest &reque
       cancel_requested_(false) {
 
   // We will terminate the search after kSearchTimeoutMs milliseconds if we are not able to find all of the results before that point in time
-  QTimer::singleShot(kSearchTimeoutMs, this, SLOT(TerminateSearch()));
+  QTimer::singleShot(kSearchTimeoutMs, this, &AlbumCoverFetcherSearch::TerminateSearch);
 
 }
 
@@ -109,8 +109,8 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
       continue;
     }
 
-    connect(provider, SIGNAL(SearchResults(int, CoverSearchResults)), SLOT(ProviderSearchResults(int, CoverSearchResults)));
-    connect(provider, SIGNAL(SearchFinished(int, CoverSearchResults)), SLOT(ProviderSearchFinished(int, CoverSearchResults)));
+    QObject::connect(provider, &CoverProvider::SearchResults, this, QOverload<const int, const CoverSearchResults&>::of(&AlbumCoverFetcherSearch::ProviderSearchResults));
+    QObject::connect(provider, &CoverProvider::SearchFinished, this, &AlbumCoverFetcherSearch::ProviderSearchFinished);
     const int id = cover_providers->NextId();
     const bool success = provider->StartSearch(request_.artist, request_.album, request_.title, id);
 
@@ -286,7 +286,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
     req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
     QNetworkReply *image_reply = network_->get(req);
-    connect(image_reply, &QNetworkReply::finished, [=] { ProviderCoverFetchFinished(image_reply); });
+    QObject::connect(image_reply, &QNetworkReply::finished, [this, image_reply]() { ProviderCoverFetchFinished(image_reply); });
     pending_image_loads_[image_reply] = result;
     image_load_timeout_->AddReply(image_reply);
 
@@ -305,7 +305,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
 
 void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
 
-  disconnect(reply, nullptr, this, nullptr);
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (!pending_image_loads_.contains(reply)) return;
@@ -412,7 +412,7 @@ void AlbumCoverFetcherSearch::Cancel() {
   }
   else if (!pending_image_loads_.isEmpty()) {
     for (QNetworkReply *reply : pending_image_loads_.keys()) {
-      disconnect(reply, &QNetworkReply::finished, this, nullptr);
+      QObject::disconnect(reply, &QNetworkReply::finished, this, nullptr);
       reply->abort();
       reply->deleteLater();
     }

@@ -44,16 +44,16 @@ void _MessageHandlerBase::SetDevice(QIODevice *device) {
 
   buffer_.open(QIODevice::ReadWrite);
 
-  connect(device, SIGNAL(readyRead()), SLOT(DeviceReadyRead()));
+  QObject::connect(device, &QIODevice::readyRead, this, &_MessageHandlerBase::DeviceReadyRead);
 
   // Yeah I know.
   if (QAbstractSocket *abstractsocket = qobject_cast<QAbstractSocket*>(device)) {
     flush_abstract_socket_ = &QAbstractSocket::flush;
-    connect(abstractsocket, SIGNAL(disconnected()), SLOT(DeviceClosed()));
+    QObject::connect(abstractsocket, &QAbstractSocket::disconnected, this, &_MessageHandlerBase::DeviceClosed);
   }
   else if (QLocalSocket *localsocket = qobject_cast<QLocalSocket*>(device)) {
     flush_local_socket_ = &QLocalSocket::flush;
-    connect(localsocket, SIGNAL(disconnected()), SLOT(DeviceClosed()));
+    QObject::connect(localsocket, &QLocalSocket::disconnected, this, &_MessageHandlerBase::DeviceClosed);
   }
   else {
     qFatal("Unsupported device type passed to _MessageHandlerBase");

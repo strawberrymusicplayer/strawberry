@@ -59,7 +59,7 @@ class PlaylistHeader : public StretchHeaderView {
 
  private slots:
   void HideCurrent();
-  void ToggleVisible(int section);
+  void ToggleVisible(const int section);
   void ResetColumns();
   void SetColumnAlignment(QAction *action);
   void ToggleRatingEditStatus();
@@ -84,4 +84,3 @@ class PlaylistHeader : public StretchHeaderView {
 };
 
 #endif  // PLAYLISTHEADER_H
-

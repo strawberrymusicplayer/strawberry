@@ -55,7 +55,7 @@ class CddaDevice : public ConnectedDevice {
   static QStringList url_schemes() { return QStringList() << "cdda"; }
 
  signals:
-  void SongsDiscovered(const SongList &songs);
+  void SongsDiscovered(SongList songs);
 
  private slots:
   void SongsLoaded(const SongList &songs);
@@ -64,5 +64,4 @@ class CddaDevice : public ConnectedDevice {
   CddaSongLoader cdda_song_loader_;
 };
 
-#endif
-
+#endif  // CDDADEVICE_H

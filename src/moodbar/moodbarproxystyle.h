@@ -48,21 +48,21 @@ class MoodbarProxyStyle : public QProxyStyle {
   Q_OBJECT
 
  public:
-  explicit MoodbarProxyStyle(Application* app, QSlider* slider);
+  explicit MoodbarProxyStyle(Application *app, QSlider *slider);
 
   // QProxyStyle
-  void drawComplexControl(ComplexControl control, const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget) const override;
-  QRect subControlRect(ComplexControl cc, const QStyleOptionComplex* opt, SubControl sc, const QWidget* widget) const override;
+  void drawComplexControl(ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const override;
+  QRect subControlRect(ComplexControl cc, const QStyleOptionComplex *opt, SubControl sc, const QWidget *widget) const override;
 
   // QObject
-  bool eventFilter(QObject* object, QEvent* event) override;
+  bool eventFilter(QObject *object, QEvent *event) override;
 
  public slots:
   // An empty byte array means there's no moodbar, so just show a normal slider.
-  void SetMoodbarData(const QByteArray& data);
+  void SetMoodbarData(const QByteArray &data);
 
   // If the moodbar is disabled then a normal slider will always be shown.
-  void SetMoodbarEnabled(bool enabled);
+  void SetMoodbarEnabled(const bool enabled);
 
  private:
   static const int kMarginSize;
@@ -75,28 +75,28 @@ class MoodbarProxyStyle : public QProxyStyle {
  private:
   void NextState();
 
-  void Render(ComplexControl control, const QStyleOptionSlider* option, QPainter* painter, const QWidget* widget);
-  void EnsureMoodbarRendered(const QStyleOptionSlider* opt);
-  void DrawArrow(const QStyleOptionSlider* option, QPainter* painter) const;
-  void ShowContextMenu(const QPoint& pos);
+  void Render(ComplexControl control, const QStyleOptionSlider *option, QPainter *painter, const QWidget *widget);
+  void EnsureMoodbarRendered(const QStyleOptionSlider *opt);
+  void DrawArrow(const QStyleOptionSlider *option, QPainter *painter) const;
+  void ShowContextMenu(const QPoint &pos);
 
-  QPixmap MoodbarPixmap(const ColorVector& colors, const QSize& size, const QPalette& palette, const QStyleOptionSlider* opt);
+  QPixmap MoodbarPixmap(const ColorVector &colors, const QSize &size, const QPalette &palette, const QStyleOptionSlider *opt);
 
  private slots:
   void ReloadSettings();
   void FaderValueChanged(qreal value);
-  void ChangeStyle(QAction* action);
+  void ChangeStyle(QAction *action);
 
  private:
-  Application* app_;
-  QSlider* slider_;
+  Application *app_;
+  QSlider *slider_;
 
   bool enabled_;
   QByteArray data_;
   MoodbarRenderer::MoodbarStyle moodbar_style_;
 
   State state_;
-  QTimeLine* fade_timeline_;
+  QTimeLine *fade_timeline_;
 
   QPixmap fade_source_;
   QPixmap fade_target_;
@@ -106,9 +106,9 @@ class MoodbarProxyStyle : public QProxyStyle {
   ColorVector moodbar_colors_;
   QPixmap moodbar_pixmap_;
 
-  QMenu* context_menu_;
-  QAction* show_moodbar_action_;
-  QActionGroup* style_action_group_;
+  QMenu *context_menu_;
+  QAction *show_moodbar_action_;
+  QActionGroup *style_action_group_;
 };
 
 #endif  // MOODBARPROXYSTYLE_H

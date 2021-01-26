@@ -73,7 +73,7 @@ void CoverFromURLDialog::accept() {
 #endif
 
   QNetworkReply *reply = network_->get(req);
-  connect(reply, SIGNAL(finished()), SLOT(LoadCoverFromURLFinished()));
+  QObject::connect(reply, &QNetworkReply::finished, this, &CoverFromURLDialog::LoadCoverFromURLFinished);
 
 }
 

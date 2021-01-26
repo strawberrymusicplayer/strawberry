@@ -338,33 +338,33 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    action_add_to_playlist_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, SLOT(AddToPlaylist()));
-    action_load_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, SLOT(Load()));
-    action_open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylist()));
+    action_add_to_playlist_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &CollectionView::AddToPlaylist);
+    action_load_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &CollectionView::Load);
+    action_open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &CollectionView::OpenInNewPlaylist);
 
     context_menu_->addSeparator();
-    action_add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, SLOT(AddToPlaylistEnqueue()));
-    action_add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, SLOT(AddToPlaylistEnqueueNext()));
+    action_add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &CollectionView::AddToPlaylistEnqueue);
+    action_add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, &CollectionView::AddToPlaylistEnqueueNext);
 
     context_menu_->addSeparator();
-    action_organize_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, SLOT(Organize()));
+    action_organize_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, &CollectionView::Organize);
 #ifndef Q_OS_WIN
-    action_copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(CopyToDevice()));
+    action_copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, &CollectionView::CopyToDevice);
 #endif
-    action_delete_files_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from disk..."), this, SLOT(Delete()));
+    action_delete_files_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from disk..."), this, &CollectionView::Delete);
 
     context_menu_->addSeparator();
-    action_edit_track_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit track information..."), this, SLOT(EditTracks()));
-    action_edit_tracks_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit tracks information..."), this, SLOT(EditTracks()));
-    action_show_in_browser_ = context_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, SLOT(ShowInBrowser()));
+    action_edit_track_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit track information..."), this, &CollectionView::EditTracks);
+    action_edit_tracks_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit tracks information..."), this, &CollectionView::EditTracks);
+    action_show_in_browser_ = context_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, &CollectionView::ShowInBrowser);
 
     context_menu_->addSeparator();
 
-    action_rescan_songs_ = context_menu_->addAction(tr("Rescan song(s)"), this, SLOT(RescanSongs()));
+    action_rescan_songs_ = context_menu_->addAction(tr("Rescan song(s)"), this, &CollectionView::RescanSongs);
 
     context_menu_->addSeparator();
-    action_show_in_various_ = context_menu_->addAction( tr("Show in various artists"), this, SLOT(ShowInVarious()));
-    action_no_show_in_various_ = context_menu_->addAction( tr("Don't show in various artists"), this, SLOT(NoShowInVarious()));
+    action_show_in_various_ = context_menu_->addAction(tr("Show in various artists"), this, &CollectionView::ShowInVarious);
+    action_no_show_in_various_ = context_menu_->addAction(tr("Don't show in various artists"), this, &CollectionView::NoShowInVarious);
 
     context_menu_->addSeparator();
 
@@ -372,7 +372,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
 #ifndef Q_OS_WIN
     action_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
-    connect(app_->device_manager()->connected_devices_model(), SIGNAL(IsEmptyChanged(bool)), action_copy_to_device_, SLOT(setDisabled(bool)));
+    QObject::connect(app_->device_manager()->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, action_copy_to_device_, &QAction::setDisabled);
 #endif
 
   }
@@ -387,9 +387,9 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   int regular_elements = 0;
   int regular_editable = 0;
 
-  for (const QModelIndex &index : selected_indexes) {
+  for (const QModelIndex &idx : selected_indexes) {
     ++regular_elements;
-    if(app_->collection_model()->data(index, CollectionModel::Role_Editable).toBool()) {
+    if (app_->collection_model()->data(idx, CollectionModel::Role_Editable).toBool()) {
       ++regular_editable;
     }
   }
@@ -442,11 +442,11 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
 }
 
-void CollectionView::ShowInVarious() { ShowInVarious(true); }
+void CollectionView::ShowInVarious() { SetShowInVarious(true); }
 
-void CollectionView::NoShowInVarious() { ShowInVarious(false); }
+void CollectionView::NoShowInVarious() { SetShowInVarious(false); }
 
-void CollectionView::ShowInVarious(const bool on) {
+void CollectionView::SetShowInVarious(const bool on) {
 
   if (!context_menu_index_.isValid()) return;
 
@@ -547,12 +547,12 @@ void CollectionView::keyboardSearch(const QString &search) {
 
 }
 
-void CollectionView::scrollTo(const QModelIndex &index, ScrollHint hint) {
+void CollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
 
   if (is_in_keyboard_search_)
-    QTreeView::scrollTo(index, QAbstractItemView::PositionAtTop);
+    QTreeView::scrollTo(idx, QAbstractItemView::PositionAtTop);
   else
-    QTreeView::scrollTo(index, hint);
+    QTreeView::scrollTo(idx, hint);
 
 }
 
@@ -582,7 +582,7 @@ void CollectionView::EditTracks() {
 
   if (!edit_tag_dialog_) {
     edit_tag_dialog_.reset(new EditTagDialog(app_, this));
-    connect(edit_tag_dialog_.get(), SIGNAL(Error(QString)), SLOT(EditTagError(QString)));
+    QObject::connect(edit_tag_dialog_.get(), &EditTagDialog::Error, this, &CollectionView::EditTagError);
   }
   edit_tag_dialog_->SetSongs(GetSelectedSongs());
   edit_tag_dialog_->show();
@@ -668,7 +668,7 @@ void CollectionView::Delete() {
   std::shared_ptr<MusicStorage> storage = app_->collection_model()->directory_model()->index(0, 0).data(MusicStorage::Role_Storage).value<std::shared_ptr<MusicStorage>>();
 
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, true);
-  connect(delete_files, SIGNAL(Finished(SongList)), SLOT(DeleteFinished(SongList)));
+  QObject::connect(delete_files, &DeleteFiles::Finished, this, &CollectionView::DeleteFilesFinished);
   delete_files->Start(selected_songs);
 
 }

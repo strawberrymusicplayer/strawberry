@@ -34,7 +34,7 @@
 
 const int MoodbarRenderer::kNumHues = 12;
 
-ColorVector MoodbarRenderer::Colors(const QByteArray& data, MoodbarStyle style, const QPalette& palette) {
+ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle style, const QPalette &palette) {
 
   const int samples = data.size() / 3;
 
@@ -65,7 +65,7 @@ ColorVector MoodbarRenderer::Colors(const QByteArray& data, MoodbarStyle style, 
     }
   }
 
-  const unsigned char* data_p = reinterpret_cast<const unsigned char*>(data.constData());
+  const unsigned char *data_p = reinterpret_cast<const unsigned char*>(data.constData());
 
   int hue_distribution[360];
   int total = 0;
@@ -110,7 +110,7 @@ ColorVector MoodbarRenderer::Colors(const QByteArray& data, MoodbarStyle style, 
   return colors;
 }
 
-void MoodbarRenderer::Render(const ColorVector& colors, QPainter* p, const QRect& rect) {
+void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect &rect) {
 
   // Sample the colors and map them to screen pixels.
   ColorVector screen_colors;
@@ -153,7 +153,7 @@ void MoodbarRenderer::Render(const ColorVector& colors, QPainter* p, const QRect
   }
 }
 
-QImage MoodbarRenderer::RenderToImage(const ColorVector& colors, const QSize& size) {
+QImage MoodbarRenderer::RenderToImage(const ColorVector &colors, const QSize &size) {
 
   QImage image(size, QImage::Format_ARGB32_Premultiplied);
   QPainter p(&image);
@@ -163,7 +163,7 @@ QImage MoodbarRenderer::RenderToImage(const ColorVector& colors, const QSize& si
 
 }
 
-QString MoodbarRenderer::StyleName(MoodbarStyle style) {
+QString MoodbarRenderer::StyleName(const MoodbarStyle style) {
 
   switch (style) {
     case Style_Normal:

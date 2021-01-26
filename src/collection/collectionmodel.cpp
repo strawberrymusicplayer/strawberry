@@ -107,7 +107,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   cover_loader_options_.scale_output_image_ = true;
 
   if (app_) {
-    connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
+    QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CollectionModel::AlbumCoverLoaded);
   }
 
   QIcon nocover = IconLoader::Load("cdcase");
@@ -118,17 +118,17 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   if (app_ && !sIconCache) {
     sIconCache = new QNetworkDiskCache(this);
     sIconCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/" + kPixmapDiskCacheDir);
-    connect(app_, SIGNAL(ClearPixmapDiskCache()), SLOT(ClearDiskCache()));
+    QObject::connect(app_, &Application::ClearPixmapDiskCache, this, &CollectionModel::ClearDiskCache);
   }
 
-  connect(backend_, SIGNAL(SongsDiscovered(SongList)), SLOT(SongsDiscovered(SongList)));
-  connect(backend_, SIGNAL(SongsDeleted(SongList)), SLOT(SongsDeleted(SongList)));
-  connect(backend_, SIGNAL(DatabaseReset()), SLOT(Reset()));
-  connect(backend_, SIGNAL(TotalSongCountUpdated(int)), SLOT(TotalSongCountUpdatedSlot(int)));
-  connect(backend_, SIGNAL(TotalArtistCountUpdated(int)), SLOT(TotalArtistCountUpdatedSlot(int)));
-  connect(backend_, SIGNAL(TotalAlbumCountUpdated(int)), SLOT(TotalAlbumCountUpdatedSlot(int)));
-  connect(backend_, SIGNAL(SongsStatisticsChanged(SongList)), SLOT(SongsSlightlyChanged(SongList)));
-  connect(backend_, SIGNAL(SongsRatingChanged(SongList)), SLOT(SongsSlightlyChanged(SongList)));
+  QObject::connect(backend_, &CollectionBackend::SongsDiscovered, this, &CollectionModel::SongsDiscovered);
+  QObject::connect(backend_, &CollectionBackend::SongsDeleted, this, &CollectionModel::SongsDeleted);
+  QObject::connect(backend_, &CollectionBackend::DatabaseReset, this, &CollectionModel::Reset);
+  QObject::connect(backend_, &CollectionBackend::TotalSongCountUpdated, this, &CollectionModel::TotalSongCountUpdatedSlot);
+  QObject::connect(backend_, &CollectionBackend::TotalArtistCountUpdated, this, &CollectionModel::TotalArtistCountUpdatedSlot);
+  QObject::connect(backend_, &CollectionBackend::TotalAlbumCountUpdated, this, &CollectionModel::TotalAlbumCountUpdatedSlot);
+  QObject::connect(backend_, &CollectionBackend::SongsStatisticsChanged, this, &CollectionModel::SongsSlightlyChanged);
+  QObject::connect(backend_, &CollectionBackend::SongsRatingChanged, this, &CollectionModel::SongsSlightlyChanged);
 
   backend_->UpdateTotalSongCountAsync();
   backend_->UpdateTotalArtistCountAsync();
@@ -909,12 +909,14 @@ void CollectionModel::LazyPopulate(CollectionItem *parent, const bool signal) {
 }
 
 void CollectionModel::ResetAsync() {
+
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(&CollectionModel::RunQuery, this, root_);
 #else
   QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(this, &CollectionModel::RunQuery, root_);
 #endif
   NewClosure(future, this, SLOT(ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult>)), future);
+
 }
 
 void CollectionModel::ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult> future) {

@@ -92,16 +92,16 @@ class ContextView : public QWidget {
   void ActionShowLyrics();
   void ActionSearchLyrics();
   void UpdateNoSong();
-  void Playing();
-  void Stopped();
-  void Error();
-  void SongChanged(const Song &song);
-  void AlbumCoverLoaded(const Song &song, const QImage &image);
   void FadeStopFinished();
   void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
 
  public slots:
   void ReloadSettings();
+  void Playing();
+  void Stopped();
+  void Error();
+  void SongChanged(const Song &song);
+  void AlbumCoverLoaded(const Song &song, const QImage &image);
 
  private:
   Application *app_;

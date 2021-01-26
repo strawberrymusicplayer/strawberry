@@ -34,7 +34,7 @@ QobuzUrlHandler::QobuzUrlHandler(Application *app, QobuzService *service) :
   task_id_(-1)
   {
 
-  connect(service, SIGNAL(StreamURLFinished(QUrl, QUrl, Song::FileType, int, int, qint64, QString)), this, SLOT(GetStreamURLFinished(QUrl, QUrl, Song::FileType, int, int, qint64, QString)));
+  QObject::connect(service, &QobuzService::StreamURLFinished, this, &QobuzUrlHandler::GetStreamURLFinished);
 
 }
 

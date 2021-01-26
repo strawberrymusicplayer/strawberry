@@ -57,10 +57,9 @@ OSDBase::OSDBase(SystemTrayIcon *tray_icon, Application *app, QObject *parent)
       custom_text2_(QString()),
       force_show_next_(false),
       ignore_next_stopped_(false),
-      playing_(false)
-  {
+      playing_(false) {
 
-  connect(app_->current_albumcover_loader(), SIGNAL(ThumbnailLoaded(Song, QUrl, QImage)), SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
+  QObject::connect(app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::ThumbnailLoaded, this, &OSDBase::AlbumCoverLoaded);
 
   app_name_[0] = app_name_[0].toUpper();
 

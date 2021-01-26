@@ -91,7 +91,8 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
 
   ReloadSettings();
 
-  connect(rescan_timer_, SIGNAL(timeout()), SLOT(RescanPathsNow()));
+  QObject::connect(rescan_timer_, &QTimer::timeout, this, &CollectionWatcher::RescanPathsNow);
+
 }
 
 void CollectionWatcher::ExitAsync() {
@@ -644,7 +645,7 @@ void CollectionWatcher::AddWatch(const Directory &dir, const QString &path) {
 
   if (!QFile::exists(path)) return;
 
-  connect(fs_watcher_, SIGNAL(PathChanged(QString)), this, SLOT(DirectoryChanged(QString)), Qt::UniqueConnection);
+  QObject::connect(fs_watcher_, &FileSystemWatcherInterface::PathChanged, this, &CollectionWatcher::DirectoryChanged, Qt::UniqueConnection);
   fs_watcher_->AddPath(path);
   subdir_mapping_[path] = dir;
 

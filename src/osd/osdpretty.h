@@ -134,7 +134,7 @@ class OSDPretty : public QWidget {
   QRect BoxBorder() const;
 
  private slots:
-  void FaderValueChanged(qreal value);
+  void FaderValueChanged(const qreal value);
   void FaderFinished();
   void ScreenAdded(QScreen *screen);
   void ScreenRemoved(QScreen *screen);

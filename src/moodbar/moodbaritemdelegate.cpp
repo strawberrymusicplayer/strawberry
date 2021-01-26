@@ -47,13 +47,13 @@
 
 MoodbarItemDelegate::Data::Data() : state_(State_None) {}
 
-MoodbarItemDelegate::MoodbarItemDelegate(Application* app, PlaylistView* view, QObject* parent)
+MoodbarItemDelegate::MoodbarItemDelegate(Application *app, PlaylistView *view, QObject *parent)
     : QItemDelegate(parent),
       app_(app),
       view_(view),
       style_(MoodbarRenderer::Style_Normal) {
 
-  connect(app_, SIGNAL(SettingsChanged()), SLOT(ReloadSettings()));
+  QObject::connect(app_, &Application::SettingsChanged, this, &MoodbarItemDelegate::ReloadSettings);
   ReloadSettings();
 
 }
@@ -72,11 +72,11 @@ void MoodbarItemDelegate::ReloadSettings() {
 
 }
 
-void MoodbarItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
+void MoodbarItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
-  QPixmap pixmap = const_cast<MoodbarItemDelegate*>(this)->PixmapForIndex(index, option.rect.size());
+  QPixmap pixmap = const_cast<MoodbarItemDelegate*>(this)->PixmapForIndex(idx, option.rect.size());
 
-  drawBackground(painter, option, index);
+  drawBackground(painter, option, idx);
 
   if (!pixmap.isNull()) {
     // Make a little border for the moodbar
@@ -86,18 +86,18 @@ void MoodbarItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& o
 
 }
 
-QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex& index, const QSize& size) {
+QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize &size) {
 
   // Pixmaps are keyed off URL.
-  const QUrl url(index.sibling(index.row(), Playlist::Column_Filename).data().toUrl());
+  const QUrl url(idx.sibling(idx.row(), Playlist::Column_Filename).data().toUrl());
 
-  Data* data = data_[url];
+  Data *data = data_[url];
   if (!data) {
     data = new Data;
     data_.insert(url, data);
   }
 
-  data->indexes_.insert(index);
+  data->indexes_.insert(idx);
   data->desired_size_ = size;
 
   switch (data->state_) {
@@ -126,13 +126,13 @@ QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex& index, const QSiz
 
 }
 
-void MoodbarItemDelegate::StartLoadingData(const QUrl& url, Data* data) {
+void MoodbarItemDelegate::StartLoadingData(const QUrl &url, Data *data) {
 
   data->state_ = Data::State_LoadingData;
 
   // Load a mood file for this song and generate some colors from it
   QByteArray bytes;
-  MoodbarPipeline* pipeline = nullptr;
+  MoodbarPipeline *pipeline = nullptr;
   switch (app_->moodbar_loader()->Load(url, &bytes, &pipeline)) {
     case MoodbarLoader::CannotLoad:
       data->state_ = Data::State_CannotLoad;
@@ -145,16 +145,16 @@ void MoodbarItemDelegate::StartLoadingData(const QUrl& url, Data* data) {
 
     case MoodbarLoader::WillLoadAsync:
       // Maybe in a little while.
-      NewClosure(pipeline, SIGNAL(Finished(bool)), this, SLOT(DataLoaded(QUrl, MoodbarPipeline*)), url, pipeline);
+      QObject::connect(pipeline, &MoodbarPipeline::Finished, [this, url, pipeline]() { DataLoaded(url, pipeline); });
       break;
   }
 
 }
 
-bool MoodbarItemDelegate::RemoveFromCacheIfIndexesInvalid(const QUrl& url, Data* data) {
+bool MoodbarItemDelegate::RemoveFromCacheIfIndexesInvalid(const QUrl &url, Data *data) {
 
-  for (const QPersistentModelIndex& index : data->indexes_) {
-    if (index.isValid()) {
+  for (const QPersistentModelIndex &idx : data->indexes_) {
+    if (idx.isValid()) {
       return false;
     }
   }
@@ -166,8 +166,8 @@ bool MoodbarItemDelegate::RemoveFromCacheIfIndexesInvalid(const QUrl& url, Data*
 
 void MoodbarItemDelegate::ReloadAllColors() {
 
-  for (const QUrl& url : data_.keys()) {
-    Data* data = data_[url];
+  for (const QUrl &url : data_.keys()) {
+    Data *data = data_[url];
 
     if (data->state_ == Data::State_Loaded) {
       StartLoadingData(url, data);
@@ -176,9 +176,9 @@ void MoodbarItemDelegate::ReloadAllColors() {
 
 }
 
-void MoodbarItemDelegate::DataLoaded(const QUrl& url, MoodbarPipeline* pipeline) {
+void MoodbarItemDelegate::DataLoaded(const QUrl &url, MoodbarPipeline *pipeline) {
 
-  Data* data = data_[url];
+  Data *data = data_[url];
   if (!data) {
     return;
   }
@@ -197,7 +197,7 @@ void MoodbarItemDelegate::DataLoaded(const QUrl& url, MoodbarPipeline* pipeline)
 
 }
 
-void MoodbarItemDelegate::StartLoadingColors(const QUrl& url, const QByteArray& bytes, Data* data) {
+void MoodbarItemDelegate::StartLoadingColors(const QUrl &url, const QByteArray &bytes, Data *data) {
 
   data->state_ = Data::State_LoadingColors;
 
@@ -206,9 +206,9 @@ void MoodbarItemDelegate::StartLoadingColors(const QUrl& url, const QByteArray& 
 
 }
 
-void MoodbarItemDelegate::ColorsLoaded(const QUrl& url, QFuture<ColorVector> future) {
+void MoodbarItemDelegate::ColorsLoaded(const QUrl &url, QFuture<ColorVector> future) {
 
-  Data* data = data_[url];
+  Data *data = data_[url];
   if (!data) {
     return;
   }
@@ -224,7 +224,7 @@ void MoodbarItemDelegate::ColorsLoaded(const QUrl& url, QFuture<ColorVector> fut
 
 }
 
-void MoodbarItemDelegate::StartLoadingImage(const QUrl& url, Data* data) {
+void MoodbarItemDelegate::StartLoadingImage(const QUrl &url, Data *data) {
 
   data->state_ = Data::State_LoadingImage;
 
@@ -233,9 +233,9 @@ void MoodbarItemDelegate::StartLoadingImage(const QUrl& url, Data* data) {
 
 }
 
-void MoodbarItemDelegate::ImageLoaded(const QUrl& url, QFuture<QImage> future) {
+void MoodbarItemDelegate::ImageLoaded(const QUrl &url, QFuture<QImage> future) {
 
-  Data* data = data_[url];
+  Data *data = data_[url];
   if (!data) {
     return;
   }
@@ -256,14 +256,14 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl& url, QFuture<QImage> future) {
   data->pixmap_ = QPixmap::fromImage(image);
   data->state_ = Data::State_Loaded;
 
-  Playlist* playlist = view_->playlist();
-  const QSortFilterProxyModel* filter = playlist->proxy();
+  Playlist *playlist = view_->playlist();
+  const QSortFilterProxyModel *filter = playlist->proxy();
 
   // Update all the indices with the new pixmap.
-  for (const QPersistentModelIndex& index : data->indexes_) {
-    if (index.isValid() && index.sibling(index.row(), Playlist::Column_Filename).data().toUrl() == url) {
-      QModelIndex source_index = index;
-      if (index.model() == filter) {
+  for (const QPersistentModelIndex &idx : data->indexes_) {
+    if (idx.isValid() && idx.sibling(idx.row(), Playlist::Column_Filename).data().toUrl() == url) {
+      QModelIndex source_index = idx;
+      if (idx.model() == filter) {
         source_index = filter->mapToSource(source_index);
       }
 
