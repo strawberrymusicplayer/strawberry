@@ -58,21 +58,21 @@ msgstr ""
 "\n"
 "Избранные плейлисты хранятся тут"
 
-#: settings/shortcutssettingspage.cpp:322
+#: settings/globalshortcutssettingspage.cpp:322
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "cinnamon-settings-daemon instead."
 msgstr ""
 
-#: settings/shortcutssettingspage.cpp:320
+#: settings/globalshortcutssettingspage.cpp:320
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "gnome-settings-daemon instead."
 msgstr ""
 
-#: settings/shortcutssettingspage.cpp:318
+#: settings/globalshortcutssettingspage.cpp:318
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
@@ -172,7 +172,7 @@ msgstr ""
 msgid "%1 playlists (%2)"
 msgstr "%1 плейлистов (%2)"
 
-#: playlist/playlistmanager.cpp:463
+#: playlist/playlistmanager.cpp:464
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 выбрано из"
@@ -209,7 +209,7 @@ msgid ""
 "them all?"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:470 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:471 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 треков"
@@ -293,11 +293,11 @@ msgstr "&Очистить плейлист"
 msgid "&Cover Manager"
 msgstr "&Менеджер обложек"
 
-#: ../build/src/ui_shortcutssettingspage.h:257
+#: ../build/src/ui_globalshortcutssettingspage.h:257
 msgid "&Custom"
 msgstr "&Другое"
 
-#: ../build/src/ui_shortcutssettingspage.h:256
+#: ../build/src/ui_globalshortcutssettingspage.h:256
 msgid "&Default"
 msgstr "&По умолчанию"
 
@@ -358,7 +358,7 @@ msgstr "&Следующая дорожка"
 msgid "&No background image"
 msgstr "&Нет фонового изображения"
 
-#: ../build/src/ui_shortcutssettingspage.h:255
+#: ../build/src/ui_globalshortcutssettingspage.h:255
 msgid "&None"
 msgstr "&Нет"
 
@@ -457,7 +457,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 день"
 
-#: playlist/playlistmanager.cpp:470 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:471 queue/queue.cpp:254
 msgid "1 track"
 msgstr "1 трек"
 
@@ -522,7 +522,7 @@ msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
 #: covermanager/albumcovermanager.cpp:133
-#: covermanager/albumcoversearcher.cpp:199
+#: covermanager/albumcoversearcher.cpp:198
 #: ../build/src/ui_internetcollectionviewcontainer.h:141
 msgid "Abort"
 msgstr "Прервать"
@@ -551,7 +551,7 @@ msgstr "Абсолю&тные"
 msgid "Absolute"
 msgstr "Абсолютные"
 
-#: ../build/src/ui_shortcutssettingspage.h:253
+#: ../build/src/ui_globalshortcutssettingspage.h:253
 msgctxt "Category label"
 msgid "Action"
 msgstr "Действие"
@@ -577,7 +577,7 @@ msgstr "Добавить все треки из папки и её подпап�
 msgid "Add directory..."
 msgstr "Добавить каталог…"
 
-#: core/mainwindow.cpp:2125
+#: core/mainwindow.cpp:2131
 msgid "Add file"
 msgstr "Добавить файл"
 
@@ -593,7 +593,7 @@ msgstr "Добавить файл(ы) в конвертер"
 msgid "Add files to transcode"
 msgstr "Добавить файлы для конвертирования"
 
-#: core/mainwindow.cpp:2150 transcoder/transcodedialog.cpp:419
+#: core/mainwindow.cpp:2156 transcoder/transcodedialog.cpp:419
 msgid "Add folder"
 msgstr "Добавить папку"
 
@@ -601,7 +601,7 @@ msgstr "Добавить папку"
 msgid "Add new folder..."
 msgstr "Добавить новую папку..."
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:430
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
 msgstr ""
 
@@ -703,7 +703,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Добавить в альбомы"
 
-#: core/mainwindow.cpp:1933
+#: core/mainwindow.cpp:1939
 msgid "Add to another playlist"
 msgstr "Добавить в другой плейлист"
 
@@ -761,7 +761,7 @@ msgstr "После копирования…"
 msgid "Albu&m cover"
 msgstr "О&бложка альбома"
 
-#: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1263
+#: collection/savedgroupingmanager.cpp:89 playlist/playlist.cpp:1263
 #: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:186
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:110
@@ -776,12 +776,12 @@ msgstr "Альбом"
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Альбом (идеальная громкость всех треков)"
 
-#: collection/savedgroupingmanager.cpp:91 ../build/src/ui_groupbydialog.h:187
+#: collection/savedgroupingmanager.cpp:92 ../build/src/ui_groupbydialog.h:187
 #: ../build/src/ui_groupbydialog.h:209 ../build/src/ui_groupbydialog.h:231
 msgid "Album - Disc"
 msgstr "raАльбом - Диск"
 
-#: collection/savedgroupingmanager.cpp:82 playlist/playlist.cpp:1270
+#: collection/savedgroupingmanager.cpp:83 playlist/playlist.cpp:1270
 #: organize/organizedialog.cpp:106 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
 #: ../build/src/ui_edittagdialog.h:709
@@ -868,7 +868,7 @@ msgstr "Всегда начинать воспроизведение"
 msgid "An error occurred loading the iTunes database"
 msgstr "Произошла ошибка при загрузке данных iTunes"
 
-#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:966
+#: playlist/playlist.cpp:412 dialogs/edittagdialog.cpp:965
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Ошибка при записи мета-данных в '%1'"
@@ -895,7 +895,7 @@ msgstr "Добавить файлы/ссылки в плейлист"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:341
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:318
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:318
 #: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Добавить в текущий плейлист"
@@ -917,11 +917,11 @@ msgstr ""
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Вы действительно хотите удалить профиль \"%1\"?"
 
-#: dialogs/edittagdialog.cpp:882
+#: dialogs/edittagdialog.cpp:881
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Вы действительно хотите сбросить статистику этой песни?"
 
-#: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1262
+#: collection/savedgroupingmanager.cpp:86 playlist/playlist.cpp:1262
 #: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:106
@@ -1065,7 +1065,7 @@ msgstr "Поведение"
 msgid "Best"
 msgstr "Лучшее"
 
-#: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:136
+#: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:137
 #: playlist/playlist.cpp:1280 organize/organizedialog.cpp:119
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:695
@@ -1076,7 +1076,7 @@ msgstr "Разрядность"
 msgid "Bit rate"
 msgstr "Битрейт"
 
-#: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:139
+#: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:140
 #: playlist/playlist.cpp:1281 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:128
@@ -1160,7 +1160,7 @@ msgstr "Отменено."
 msgid "Change cover art"
 msgstr "Сменить обложку"
 
-#: ../build/src/ui_shortcutssettingspage.h:258
+#: ../build/src/ui_globalshortcutssettingspage.h:258
 msgid "Change shortcut..."
 msgstr "Изменить клавиши…"
 
@@ -1217,7 +1217,7 @@ msgstr "Очистить"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:2215 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2221 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Очистить плейлист"
 
@@ -1233,14 +1233,11 @@ msgstr ""
 msgid "Click here to add some music"
 msgstr "Нажмите сюда, чтобы добавить музыку"
 
-#: playlist/playlisttabbar.cpp:327
+#: playlist/playlisttabbar.cpp:330
 msgid ""
 "Click here to favorite this playlist so it will be saved and remain "
-"accessiblethrough the \"Playlists\" panel on the left side bar"
+"accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
-"Нажмите здесь, чтобы добавить этот плейлист в избранное, чтобы он был "
-"сохранен и оставался доступным через панель «Плейлисты» на левой боковой "
-"панели."
 
 #: internet/internetcollectionview.cpp:289
 msgid "Click here to retrieve music"
@@ -1284,7 +1281,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Расширенная группировка фонотеки"
 
-#: core/mainwindow.cpp:2735
+#: core/mainwindow.cpp:2742
 msgid "Collection rescan notice"
 msgstr "Уведомление о сканировании фонотеки"
 
@@ -1317,7 +1314,7 @@ msgstr "Заполнить поля автоматически"
 msgid "Complete tags automatically..."
 msgstr "Заполнить теги автоматически..."
 
-#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1271
+#: collection/savedgroupingmanager.cpp:119 playlist/playlist.cpp:1271
 #: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:710
@@ -1391,7 +1388,7 @@ msgstr ""
 msgid "Copy album cover artwork"
 msgstr "Копировать обложку альбома"
 
-#: core/mainwindow.cpp:707 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:707 widgets/fileviewlist.cpp:47
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Копировать в фонотеку…"
@@ -1402,7 +1399,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:710 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:352 playlist/playlistlistcontainer.cpp:105
-#: widgets/fileviewlist.cpp:50
+#: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "Копировать на устройство..."
 
@@ -1435,7 +1432,7 @@ msgstr "Не удалось открыть файл %1"
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Не удалось создать исходный элемент gstreamer для %1"
 
-#: playlist/playlistmanager.cpp:203
+#: playlist/playlistmanager.cpp:204
 msgid "Couldn't create playlist"
 msgstr "Невозможно создать плейлист"
 
@@ -1462,24 +1459,24 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "Менеджер обложек"
 
-#: dialogs/edittagdialog.cpp:541
+#: dialogs/edittagdialog.cpp:540
 msgid "Cover art from embedded image"
 msgstr "Обложка из встроенного изображения"
 
-#: dialogs/edittagdialog.cpp:544
+#: dialogs/edittagdialog.cpp:543
 #, qt-format
 msgid "Cover art loaded automatically from %1"
 msgstr "Обложка загружена автоматически с %1"
 
-#: dialogs/edittagdialog.cpp:534
+#: dialogs/edittagdialog.cpp:533
 msgid "Cover art manually unset"
 msgstr "Обложка вручную отключена"
 
-#: dialogs/edittagdialog.cpp:547
+#: dialogs/edittagdialog.cpp:546
 msgid "Cover art not set"
 msgstr "Обложка не задана"
 
-#: dialogs/edittagdialog.cpp:538
+#: dialogs/edittagdialog.cpp:537
 #, qt-format
 msgid "Cover art set from %1"
 msgstr "Обложка задана из %1"
@@ -1648,7 +1645,7 @@ msgid "Delete from device..."
 msgstr "Удалить с устройства..."
 
 #: core/mainwindow.cpp:712 collection/collectionview.cpp:354
-#: widgets/fileviewlist.cpp:51
+#: widgets/fileviewlist.cpp:50
 msgid "Delete from disk..."
 msgstr "Удалить с диска…"
 
@@ -1669,11 +1666,11 @@ msgstr "Удалить оригинальные файлы"
 msgid "Deleting files"
 msgstr "Удаление файлов"
 
-#: core/mainwindow.cpp:1850
+#: core/mainwindow.cpp:1856
 msgid "Dequeue selected tracks"
 msgstr "Убрать выбранные треки из очереди"
 
-#: core/mainwindow.cpp:1849
+#: core/mainwindow.cpp:1855
 msgid "Dequeue track"
 msgstr "Убрать трек из очереди"
 
@@ -1720,7 +1717,7 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Отключено"
 
-#: collection/savedgroupingmanager.cpp:106 playlist/playlist.cpp:1265
+#: collection/savedgroupingmanager.cpp:107 playlist/playlist.cpp:1265
 #: organize/organizedialog.cpp:111 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
 #: ../build/src/ui_edittagdialog.h:708
@@ -1760,7 +1757,7 @@ msgstr "Не перезаписывать"
 msgid "Do not show this message again."
 msgstr ""
 
-#: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:348 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Не повторять"
 
@@ -1768,7 +1765,7 @@ msgstr "Не повторять"
 msgid "Don't show in various artists"
 msgstr "Не показывать в «Различных исполнителях»"
 
-#: osd/osdbase.cpp:334 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:333 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Не перемешивать"
 
@@ -1794,7 +1791,7 @@ msgstr "Двойной щелчок по песне…"
 msgid "Download album covers"
 msgstr "Скачать обложки альбомов"
 
-#: musicbrainz/tagfetcher.cpp:116
+#: musicbrainz/tagfetcher.cpp:114
 msgid "Downloading metadata"
 msgstr "Загрузка метаданных"
 
@@ -1818,7 +1815,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1891
+#: core/mainwindow.cpp:1897
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Изменить тег \"%1\"…"
@@ -1836,7 +1833,7 @@ msgid "Edit track information"
 msgstr "Изменить информацию о треке"
 
 #: context/contextalbumsview.cpp:266 collection/collectionview.cpp:357
-#: widgets/fileviewlist.cpp:54 ../build/src/ui_mainwindow.h:639
+#: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:639
 msgid "Edit track information..."
 msgstr "Изменить информацию о треке"
 
@@ -1968,7 +1965,7 @@ msgstr "Аналогично --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
-#: core/mainwindow.cpp:2473 core/mainwindow.cpp:2618
+#: core/mainwindow.cpp:2479 core/mainwindow.cpp:2624
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "Error"
 msgstr "Ошибка"
@@ -1991,7 +1988,7 @@ msgstr "Ошибка удаления композиций"
 msgid "Error processing %1: %2"
 msgstr "Ошибка при обработке %1: %2"
 
-#: playlist/songloaderinserter.cpp:113
+#: playlist/songloaderinserter.cpp:112
 msgid "Error while loading audio CD."
 msgstr "Ошибка при загрузке аудио CD."
 
@@ -2158,7 +2155,7 @@ msgstr "Пути файлов"
 msgid "File size"
 msgstr "Размер файла"
 
-#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1286
+#: collection/savedgroupingmanager.cpp:128 playlist/playlist.cpp:1286
 #: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
 #: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:697
 msgid "File type"
@@ -2275,7 +2272,7 @@ msgstr ""
 msgid "Form"
 msgstr "Форма"
 
-#: collection/savedgroupingmanager.cpp:130 ../build/src/ui_groupbydialog.h:189
+#: collection/savedgroupingmanager.cpp:131 ../build/src/ui_groupbydialog.h:189
 #: ../build/src/ui_groupbydialog.h:211 ../build/src/ui_groupbydialog.h:233
 msgid "Format"
 msgstr "Формат"
@@ -2316,12 +2313,16 @@ msgstr "Общие настройки"
 msgid "Genius Authentication"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1269
+#: collection/savedgroupingmanager.cpp:116 playlist/playlist.cpp:1269
 #: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 #: ../build/src/ui_edittagdialog.h:704
 msgid "Genre"
 msgstr "Жанр"
+
+#: ../build/src/ui_globalshortcutssettingspage.h:241
+msgid "Global Shortcuts"
+msgstr ""
 
 #: ../build/src/ui_mainwindow.h:691
 msgid "Go to next playlist tab"
@@ -2416,7 +2417,7 @@ msgstr "Группировать по жанр/исполнитель альбо
 msgid "Group by Genre/Artist/Album"
 msgstr "Группировать по жанр/исполнитель/альбом"
 
-#: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1273
+#: collection/savedgroupingmanager.cpp:125 playlist/playlist.cpp:1273
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:706
@@ -2485,7 +2486,7 @@ msgstr ""
 msgid "Icons on top"
 msgstr "Значки сверху"
 
-#: musicbrainz/tagfetcher.cpp:98
+#: musicbrainz/tagfetcher.cpp:96
 msgid "Identifying song"
 msgstr "Определение песни"
 
@@ -2588,7 +2589,7 @@ msgstr ""
 msgid "Internet Tabs View"
 msgstr ""
 
-#: osd/osdbase.cpp:354 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:353 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Вступительные треки"
 
@@ -2652,7 +2653,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Последнее прослушивание"
 
-#: dialogs/lastfmimportdialog.cpp:155
+#: dialogs/lastfmimportdialog.cpp:156
 #, qt-format
 msgid "Last played for %1 songs received."
 msgstr ""
@@ -2734,11 +2735,11 @@ msgstr ""
 msgid "Loading songs"
 msgstr "Загрузка песен"
 
-#: playlist/songloaderinserter.cpp:168 dialogs/edittagdialog.cpp:289
+#: playlist/songloaderinserter.cpp:167 dialogs/edittagdialog.cpp:288
 msgid "Loading tracks"
 msgstr "Загрузка композиций"
 
-#: playlist/songloaderinserter.cpp:198
+#: playlist/songloaderinserter.cpp:197
 msgid "Loading tracks info"
 msgstr "Загрузка информации о треках"
 
@@ -2811,7 +2812,7 @@ msgstr "Основной профиль (MAIN)"
 msgid "Manage saved groupings"
 msgstr "Управление сохранёнными группами"
 
-#: device/deviceproperties.cpp:176
+#: device/deviceproperties.cpp:175
 msgid "Manufacturer"
 msgstr "Производитель"
 
@@ -2932,7 +2933,7 @@ msgstr ""
 msgid "Missing username."
 msgstr ""
 
-#: device/deviceproperties.cpp:175
+#: device/deviceproperties.cpp:174
 msgid "Model"
 msgstr "Модель"
 
@@ -2953,7 +2954,7 @@ msgstr "Mood"
 msgid "Moodbar"
 msgstr "Moodbar"
 
-#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:95
+#: moodbar/moodbarproxystyle.cpp:379 ../build/src/ui_moodbarsettingspage.h:95
 msgid "Moodbar style"
 msgstr "Стиль Moodbar"
 
@@ -2974,7 +2975,7 @@ msgstr "Точки монтирования"
 msgid "Move down"
 msgstr "Переместить вниз"
 
-#: core/mainwindow.cpp:708 widgets/fileviewlist.cpp:49
+#: core/mainwindow.cpp:708 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
 msgstr "Переместить в фонотеку…"
 
@@ -2983,11 +2984,11 @@ msgstr "Переместить в фонотеку…"
 msgid "Move up"
 msgstr "Переместить вверх"
 
-#: core/mainwindow.cpp:2125 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:2131 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Музыка"
 
-#: globalshortcuts/globalshortcuts.cpp:75
+#: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Mute"
 msgstr "Приглушить звук"
 
@@ -3009,7 +3010,7 @@ msgstr "Узкая полоса пропускания (NB)"
 msgid "Network Proxy"
 msgstr "Прокси-сервер"
 
-#: playlist/playlistdelegates.cpp:344 dialogs/edittagdialog.cpp:588
+#: playlist/playlistdelegates.cpp:344 dialogs/edittagdialog.cpp:587
 msgid "Never"
 msgstr "Никогда"
 
@@ -3028,7 +3029,7 @@ msgstr "Никогда не начинать воспроизведение"
 msgid "New folder"
 msgstr "Новая папка"
 
-#: core/mainwindow.cpp:1949
+#: core/mainwindow.cpp:1955
 msgid "New playlist"
 msgstr "Новый плейлист"
 
@@ -3052,7 +3053,7 @@ msgstr ""
 msgid "Newest tracks"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:210 dialogs/trackselectiondialog.cpp:73
+#: dialogs/edittagdialog.cpp:209 dialogs/trackselectiondialog.cpp:72
 msgid "Next"
 msgstr "Дальше"
 
@@ -3094,12 +3095,12 @@ msgstr "Без коротких блоков"
 msgid "No song playing"
 msgstr "Нет воспроизводимой песни"
 
-#: collection/savedgroupingmanager.cpp:79 ../build/src/ui_groupbydialog.h:183
+#: collection/savedgroupingmanager.cpp:80 ../build/src/ui_groupbydialog.h:183
 #: ../build/src/ui_groupbydialog.h:205 ../build/src/ui_groupbydialog.h:227
 msgid "None"
 msgstr "Ничего"
 
-#: core/mainwindow.cpp:2473 core/mainwindow.cpp:2618
+#: core/mainwindow.cpp:2479 core/mainwindow.cpp:2624
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:576
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ни одна из выбранных песен не была скопирована на устройство"
@@ -3158,7 +3159,7 @@ msgstr "&Перезаписать все"
 msgid "OSD Preview"
 msgstr "Предпросмотр OSD"
 
-#: osd/osdbase.cpp:262
+#: osd/osdbase.cpp:261
 msgid "Off"
 msgstr "Выкл."
 
@@ -3169,7 +3170,7 @@ msgid ""
 "most of their derivatives. See %1 for more information."
 msgstr ""
 
-#: osd/osdbase.cpp:262
+#: osd/osdbase.cpp:261
 msgid "On"
 msgstr "Вкл."
 
@@ -3203,14 +3204,14 @@ msgstr "Открыть устройство"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:343
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
-#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:320
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:320
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:316
 msgid "Open in new playlist"
 msgstr "Открыть в новом плейлисте"
 
-#: ../build/src/ui_shortcutssettingspage.h:243
-#: ../build/src/ui_shortcutssettingspage.h:250
+#: ../build/src/ui_globalshortcutssettingspage.h:243
+#: ../build/src/ui_globalshortcutssettingspage.h:250
 msgid "Open..."
 msgstr "Открыть…"
 
@@ -3243,22 +3244,22 @@ msgstr ""
 msgid "Organizing files"
 msgstr ""
 
-#: dialogs/trackselectiondialog.cpp:195
+#: dialogs/trackselectiondialog.cpp:194
 msgid "Original tags"
 msgstr "Исходные теги"
 
-#: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1268
+#: collection/savedgroupingmanager.cpp:113 playlist/playlist.cpp:1268
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Original year"
 msgstr "Год выхода оригинала"
 
-#: collection/savedgroupingmanager.cpp:100 ../build/src/ui_groupbydialog.h:195
+#: collection/savedgroupingmanager.cpp:101 ../build/src/ui_groupbydialog.h:195
 #: ../build/src/ui_groupbydialog.h:217 ../build/src/ui_groupbydialog.h:239
 msgid "Original year - Album"
 msgstr "Год выхода оригинала - Альбом"
 
-#: collection/savedgroupingmanager.cpp:103
+#: collection/savedgroupingmanager.cpp:104
 msgid "Original year - Album - Disc"
 msgstr ""
 
@@ -3307,7 +3308,7 @@ msgstr "Вечеринка"
 msgid "Password"
 msgstr "Пароль"
 
-#: core/mainwindow.cpp:1264 core/mainwindow.cpp:1745
+#: core/mainwindow.cpp:1266 core/mainwindow.cpp:1751
 #: core/qtsystemtrayicon.cpp:193
 msgid "Pause"
 msgstr "Пауза"
@@ -3316,11 +3317,11 @@ msgstr "Пауза"
 msgid "Pause playback"
 msgstr "Приостановить воспроизведение"
 
-#: osd/osdbase.cpp:203 osd/osdbase.cpp:206
+#: osd/osdbase.cpp:202 osd/osdbase.cpp:205
 msgid "Paused"
 msgstr "Приостановлен"
 
-#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1272
+#: collection/savedgroupingmanager.cpp:122 playlist/playlist.cpp:1272
 #: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:715
@@ -3335,8 +3336,8 @@ msgstr "Пиксель"
 msgid "Plain sidebar"
 msgstr "Нормальная боковая панель"
 
-#: core/mainwindow.cpp:675 core/mainwindow.cpp:1217 core/mainwindow.cpp:1246
-#: core/mainwindow.cpp:1749 core/qtsystemtrayicon.cpp:180
+#: core/mainwindow.cpp:675 core/mainwindow.cpp:1219 core/mainwindow.cpp:1248
+#: core/mainwindow.cpp:1755 core/qtsystemtrayicon.cpp:180
 #: core/qtsystemtrayicon.cpp:205
 msgid "Play"
 msgstr "Воспроизвести"
@@ -3374,12 +3375,12 @@ msgstr ""
 msgid "Play the <n>th track in the playlist"
 msgstr "Воспроизвести <n>-ную композицию в плейлисте"
 
-#: dialogs/lastfmimportdialog.cpp:152
+#: dialogs/lastfmimportdialog.cpp:153
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:158
+#: dialogs/lastfmimportdialog.cpp:159
 #, qt-format
 msgid "Playcounts for %1 songs received."
 msgstr ""
@@ -3389,9 +3390,9 @@ msgid "Player options"
 msgstr "Настройки проигрывателя"
 
 #: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
-#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:110
-#: playlist/playlistmanager.cpp:190 playlist/playlistmanager.cpp:558
-#: playlist/playlisttabbar.cpp:400 ../build/src/ui_playlistsettingspage.h:158
+#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:111
+#: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:559
+#: playlist/playlisttabbar.cpp:403 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Плейлист"
 
@@ -3399,11 +3400,11 @@ msgstr "Плейлист"
 msgid "Playlist buttons"
 msgstr ""
 
-#: osd/osdbase.cpp:270
+#: osd/osdbase.cpp:269
 msgid "Playlist finished"
 msgstr "Плейлист закончился"
 
-#: core/mainwindow.cpp:2215
+#: core/mainwindow.cpp:2221
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3521,7 +3522,7 @@ msgstr "Настройки OSD"
 msgid "Preview"
 msgstr "Предпросмотр"
 
-#: dialogs/edittagdialog.cpp:209 dialogs/trackselectiondialog.cpp:72
+#: dialogs/edittagdialog.cpp:208 dialogs/trackselectiondialog.cpp:71
 msgid "Previous"
 msgstr "Предыдущий"
 
@@ -3572,20 +3573,20 @@ msgstr "Опрашиваем устройство…"
 msgid "Queue"
 msgstr "Очередь"
 
-#: core/mainwindow.cpp:1852
+#: core/mainwindow.cpp:1858
 msgid "Queue selected tracks"
 msgstr "Выбранные треки в очередь"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1856
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1862
 msgid "Queue selected tracks to play next"
 msgstr "Очередь выбранных треков для последующего воспроизведения"
 
-#: core/mainwindow.cpp:1858 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1864 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Очередь воспроизведения"
 
-#: core/mainwindow.cpp:1851 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1857 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -3625,21 +3626,21 @@ msgstr ""
 "Получен неверный ответ от веб-браузера. Попробуйте опцию HTTPS или "
 "используйте другой браузер, такой как Chromium или Chrome."
 
-#: dialogs/lastfmimportdialog.cpp:72
+#: dialogs/lastfmimportdialog.cpp:73
 msgid "Receiving initial data from last.fm..."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:132
+#: dialogs/lastfmimportdialog.cpp:133
 #, qt-format
 msgid "Receiving last played for %1 songs."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:129
+#: dialogs/lastfmimportdialog.cpp:130
 #, qt-format
 msgid "Receiving playcount for %1 songs and last played for %2 songs."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:135
+#: dialogs/lastfmimportdialog.cpp:136
 #, qt-format
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
@@ -3729,21 +3730,21 @@ msgstr "Перенумеровать треки в данном порядке�
 msgid "Repeat"
 msgstr "Повтор"
 
-#: osd/osdbase.cpp:351 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:350 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Повторять альбом"
 
-#: osd/osdbase.cpp:352 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:351 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Повторять плейлист"
 
-#: osd/osdbase.cpp:350 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Повторять трек"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:342
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:319
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:319
 #: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Заменить текущий плейлист"
@@ -3788,7 +3789,7 @@ msgstr ""
 msgid "Reset"
 msgstr "Сброс"
 
-#: dialogs/edittagdialog.cpp:882 ../build/src/ui_edittagdialog.h:688
+#: dialogs/edittagdialog.cpp:881 ../build/src/ui_edittagdialog.h:688
 msgid "Reset play counts"
 msgstr "Сбросить счётчики воспроизведения"
 
@@ -3894,7 +3895,7 @@ msgstr "Безопасно извлечь устройство"
 msgid "Safely remove the device after copying"
 msgstr "Безопасно извлечь устройство после копирования"
 
-#: collection/savedgroupingmanager.cpp:133 playlist/playlist.cpp:1279
+#: collection/savedgroupingmanager.cpp:134 playlist/playlist.cpp:1279
 #: organize/organizedialog.cpp:118 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 #: ../build/src/ui_edittagdialog.h:694
@@ -3930,7 +3931,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Сохранить плейлист"
 
-#: playlist/playlistmanager.cpp:268
+#: playlist/playlistmanager.cpp:269
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Сохранить плейлист"
@@ -3955,7 +3956,7 @@ msgstr "Менеджер сохранённых групп"
 msgid "Saving album covers"
 msgstr "Сохранение обложек альбомов"
 
-#: dialogs/edittagdialog.cpp:791 dialogs/trackselectiondialog.cpp:291
+#: dialogs/edittagdialog.cpp:790 dialogs/trackselectiondialog.cpp:290
 msgid "Saving tracks"
 msgstr "Сохранение треков"
 
@@ -3985,8 +3986,8 @@ msgstr "Скробблер %1 не аутентифицирован!"
 msgid "Scroll over icon to change track"
 msgstr "Скроллинг над значком переключает треки"
 
-#: covermanager/albumcoversearcher.cpp:207
-#: covermanager/albumcoversearcher.cpp:226
+#: covermanager/albumcoversearcher.cpp:206
+#: covermanager/albumcoversearcher.cpp:225
 #: ../build/src/ui_albumcoversearcher.h:113
 #: ../build/src/ui_internettabsview.h:119
 msgid "Search"
@@ -4088,7 +4089,7 @@ msgstr "URL сервера недействителен."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1890
+#: core/mainwindow.cpp:1896
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Установить %1 в «%2»…"
@@ -4109,19 +4110,15 @@ msgstr "Настройки"
 msgid "Settings require restart."
 msgstr ""
 
-#: ../build/src/ui_shortcutssettingspage.h:252
+#: ../build/src/ui_globalshortcutssettingspage.h:252
 msgid "Shortcut"
 msgstr "Сочетание клавиш"
 
-#: settings/shortcutssettingspage.cpp:267
-#: ../build/src/ui_shortcutssettingspage.h:254
+#: settings/globalshortcutssettingspage.cpp:267
+#: ../build/src/ui_globalshortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "Сочетание клавиш «%1»"
-
-#: ../build/src/ui_shortcutssettingspage.h:241
-msgid "Shortcuts"
-msgstr "Горячие клавиши"
 
 #: collection/collectionfilterwidget.cpp:106
 msgid "Show"
@@ -4212,7 +4209,7 @@ msgid "Show in file browser"
 msgstr "Показать в файловом браузере"
 
 #: core/mainwindow.cpp:705 context/contextalbumsview.cpp:268
-#: collection/collectionview.cpp:359 widgets/fileviewlist.cpp:55
+#: collection/collectionview.cpp:359 widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "Открыть в диспетчере файлов"
 
@@ -4224,7 +4221,7 @@ msgstr "Показать в «Различных исполнителях»"
 msgid "Show love button"
 msgstr "Показать кнопку нравится"
 
-#: moodbar/moodbarproxystyle.cpp:373
+#: moodbar/moodbarproxystyle.cpp:374
 msgid "Show moodbar"
 msgstr "Показать moodbar"
 
@@ -4280,15 +4277,15 @@ msgstr ""
 msgid "Shuffle"
 msgstr "Перемешивание"
 
-#: osd/osdbase.cpp:337 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:336 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Перемешать альбомы"
 
-#: osd/osdbase.cpp:335 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:334 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Перемешать все"
 
-#: osd/osdbase.cpp:336 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:335 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Перемешать треки в этом альбоме"
 
@@ -4325,11 +4322,11 @@ msgstr "Пропустить подсчёт"
 msgid "Skip forwards in playlist"
 msgstr "Переместить вперед в плейлисте"
 
-#: core/mainwindow.cpp:1863
+#: core/mainwindow.cpp:1869
 msgid "Skip selected tracks"
 msgstr "Пропустить выбранные треки"
 
-#: core/mainwindow.cpp:1862
+#: core/mainwindow.cpp:1868
 msgid "Skip track"
 msgstr "Пропустить трек"
 
@@ -4426,7 +4423,7 @@ msgstr "Запуск %1"
 msgid "Stop after each track"
 msgstr "Останавливать после каждого трека"
 
-#: osd/osdbase.cpp:353
+#: osd/osdbase.cpp:352
 msgid "Stop after every track"
 msgstr "Останавливать после каждого трека"
 
@@ -4442,16 +4439,16 @@ msgstr "Остановить воспроизведение"
 msgid "Stop playback after current track"
 msgstr "Остановить после текущего трека"
 
-#: osd/osdbase.cpp:262
+#: osd/osdbase.cpp:261
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Остановить воспроизведение после трека: %1"
 
-#: osd/osdbase.cpp:249 osd/osdbase.cpp:252
+#: osd/osdbase.cpp:248 osd/osdbase.cpp:251
 msgid "Stopped"
 msgstr "Остановлено"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:419
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "Strawberry"
 msgstr ""
 
@@ -4552,7 +4549,7 @@ msgstr "Успешно завершено!"
 msgid "Successfully written %1"
 msgstr "Успешно записано %1"
 
-#: dialogs/trackselectiondialog.cpp:199
+#: dialogs/trackselectiondialog.cpp:198
 msgid "Suggested tags"
 msgstr "Предлагаемые теги"
 
@@ -4631,7 +4628,7 @@ msgstr ""
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
-#: settings/shortcutssettingspage.cpp:245
+#: settings/globalshortcutssettingspage.cpp:245
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Команда «%1» не может быть выполнена"
@@ -4648,7 +4645,7 @@ msgstr ""
 msgid "The internet collection is empty!"
 msgstr "Интернет коллекция пуста!"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:419
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
 msgstr ""
 
@@ -4660,7 +4657,7 @@ msgstr "Запрошенный сайт не существует!"
 msgid "The site you requested is not an image!"
 msgstr "Запрошенная ссылка не является изображением!"
 
-#: core/mainwindow.cpp:2730
+#: core/mainwindow.cpp:2737
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4790,7 +4787,7 @@ msgstr "Название"
 msgid "Today"
 msgstr "Сегодня"
 
-#: core/mainwindow.cpp:678 core/mainwindow.cpp:1853
+#: core/mainwindow.cpp:678 core/mainwindow.cpp:1859
 msgid "Toggle queue status"
 msgstr "Переключить состояние очереди"
 
@@ -4798,7 +4795,7 @@ msgstr "Переключить состояние очереди"
 msgid "Toggle scrobbling"
 msgstr "Вкл/выкл скробблинг"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1864
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1870
 msgid "Toggle skip status"
 msgstr "Переключить статус пропуска"
 
@@ -4880,10 +4877,10 @@ msgstr ""
 #: core/song.cpp:547 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:480 collection/collectionmodel.cpp:485
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
-#: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:1592
-#: collection/savedgroupingmanager.cpp:143 playlist/playlistdelegates.cpp:357
-#: playlist/playlistmanager.cpp:565 playlist/playlistmanager.cpp:566
-#: dialogs/edittagdialog.cpp:518 dialogs/edittagdialog.cpp:566
+#: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:1594
+#: collection/savedgroupingmanager.cpp:144 playlist/playlistdelegates.cpp:357
+#: playlist/playlistmanager.cpp:566 playlist/playlistmanager.cpp:567
+#: dialogs/edittagdialog.cpp:517 dialogs/edittagdialog.cpp:565
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "Неизвестный"
@@ -4897,11 +4894,11 @@ msgstr "Неизвестная ошибка"
 msgid "Unset cover"
 msgstr "Удалить обложку"
 
-#: core/mainwindow.cpp:1861
+#: core/mainwindow.cpp:1867
 msgid "Unskip selected tracks"
 msgstr "Не пропускать выбранные треки"
 
-#: core/mainwindow.cpp:1860
+#: core/mainwindow.cpp:1866
 msgid "Unskip track"
 msgstr "Не пропускать трек"
 
@@ -4909,7 +4906,7 @@ msgstr "Не пропускать трек"
 msgid "Update the collection when Strawberry starts"
 msgstr "Обновлять фонотеку при запуске Strawberry"
 
-#: collection/collectionwatcher.cpp:129
+#: collection/collectionwatcher.cpp:130
 #, qt-format
 msgid "Updating %1"
 msgstr "Идет обновление %1"
@@ -4919,7 +4916,7 @@ msgstr "Идет обновление %1"
 msgid "Updating %1%..."
 msgstr "Обновление %1%…"
 
-#: collection/collectionwatcher.cpp:127
+#: collection/collectionwatcher.cpp:128
 msgid "Updating collection"
 msgstr "Обновление фонотеки"
 
@@ -4935,7 +4932,7 @@ msgstr "Сверху справа"
 msgid "Usage"
 msgstr "Использование"
 
-#: ../build/src/ui_shortcutssettingspage.h:242
+#: ../build/src/ui_globalshortcutssettingspage.h:242
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr ""
 
@@ -4943,7 +4940,7 @@ msgstr ""
 msgid "Use HTTPS for local redirectserver"
 msgstr ""
 
-#: ../build/src/ui_shortcutssettingspage.h:244
+#: ../build/src/ui_globalshortcutssettingspage.h:244
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr ""
 
@@ -4963,7 +4960,7 @@ msgstr "Использовать значения из тегов по возм�
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_shortcutssettingspage.h:245
+#: ../build/src/ui_globalshortcutssettingspage.h:245
 msgid "Use X11 shortcuts when available"
 msgstr ""
 
@@ -5039,7 +5036,7 @@ msgstr "Пользовательский токен:"
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: settings/shortcutssettingspage.cpp:316
+#: settings/globalshortcutssettingspage.cpp:316
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5057,7 +5054,7 @@ msgid "Variable bit rate"
 msgstr "Переменный битрейт"
 
 #: collection/collectionmodel.cpp:298 collection/collectionmodel.cpp:299
-#: playlist/playlistmanager.cpp:577 covermanager/albumcovermanager.cpp:334
+#: playlist/playlistmanager.cpp:578 covermanager/albumcovermanager.cpp:334
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Различные исполнители"
@@ -5079,7 +5076,7 @@ msgstr "Просмотр"
 msgid "Voice activity detection"
 msgstr "Определение голоса"
 
-#: osd/osdbase.cpp:278
+#: osd/osdbase.cpp:277
 #, qt-format
 msgid "Volume %1%"
 msgstr "Громкость %1%"
@@ -5141,7 +5138,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2734
+#: core/mainwindow.cpp:2741
 msgid "Would you like to run a full rescan right now?"
 msgstr "Желаете запустить повторное сканирование?"
 
@@ -5149,7 +5146,7 @@ msgstr "Желаете запустить повторное сканирова�
 msgid "Write metadata when saving playlists"
 msgstr "Записывать метаданные при сохранении плейлистов"
 
-#: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1267
+#: collection/savedgroupingmanager.cpp:110 playlist/playlist.cpp:1267
 #: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:714
@@ -5157,12 +5154,12 @@ msgstr "Записывать метаданные при сохранении п
 msgid "Year"
 msgstr "Год"
 
-#: collection/savedgroupingmanager.cpp:94 ../build/src/ui_groupbydialog.h:192
+#: collection/savedgroupingmanager.cpp:95 ../build/src/ui_groupbydialog.h:192
 #: ../build/src/ui_groupbydialog.h:214 ../build/src/ui_groupbydialog.h:236
 msgid "Year - Album"
 msgstr "Год - Альбом"
 
-#: collection/savedgroupingmanager.cpp:97 ../build/src/ui_groupbydialog.h:193
+#: collection/savedgroupingmanager.cpp:98 ../build/src/ui_groupbydialog.h:193
 #: ../build/src/ui_groupbydialog.h:215 ../build/src/ui_groupbydialog.h:237
 msgid "Year - Album - Disc"
 msgstr "Год - Альбом - Диск"
@@ -5219,7 +5216,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Вам нужен GStreamer для этого URL."
 
-#: ../build/src/ui_shortcutssettingspage.h:249
+#: ../build/src/ui_globalshortcutssettingspage.h:249
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -5229,7 +5226,7 @@ msgstr ""
 "\" font-style:italic;\">управлять вашим компьютером</span>» для "
 "использования глобальных горячих клавиш в Strawberry."
 
-#: ../build/src/ui_shortcutssettingspage.h:248
+#: ../build/src/ui_globalshortcutssettingspage.h:248
 msgid ""
 "You need to launch System Preferences and turn on \"<span style=\" font-"
 "style:italic;\">Enable access for assistive devices</span>\" to use global "
@@ -5318,7 +5315,7 @@ msgstr ""
 msgid "disabled"
 msgstr "отключён"
 
-#: osd/osdbase.cpp:147
+#: osd/osdbase.cpp:146
 #, qt-format
 msgid "disc %1"
 msgstr "диск %1"
@@ -5352,7 +5349,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:545 context/contextview.cpp:696
-#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:561
+#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:560
 msgid "kbps"
 msgstr "кбит/с"
 
@@ -5449,7 +5446,7 @@ msgstr ""
 msgid "stop"
 msgstr "стоп"
 
-#: osd/osdbase.cpp:150
+#: osd/osdbase.cpp:149
 #, qt-format
 msgid "track %1"
 msgstr "трек %1"
