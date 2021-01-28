@@ -1078,6 +1078,80 @@ jobs:
           name: upload-macos-catalina
           path: build/strawberry-*-catalina-*.dmg
 
+  build-macos-bigsur:
+    name: Build macOS Big Sur
+    runs-on: macos-11.0
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install packages
+        run: >
+          brew install
+          glib
+          pkgconfig
+          boost
+          libffi
+          protobuf
+          protobuf-c
+          qt
+          gettext
+          gnutls
+          fftw
+          sqlite
+          chromaprint
+          gstreamer
+          gst-plugins-base
+          gst-plugins-good
+          gst-plugins-bad
+          gst-plugins-ugly
+          gst-libav
+          libcdio
+          libmtp
+          create-dmg
+          taglib
+
+      - name: Install Sparkle
+        run: brew install --cask sparkle
+
+      - name: Link Sparkle
+        shell: bash
+        run: |
+          sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework /Library/Frameworks/Sparkle.framework
+          sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework.dSYM /Library/Frameworks/Sparkle.framework.dSYM
+
+      - name: Delete conflicting taglib system headers
+        shell: bash
+        run: rm -rf /usr/local/include/taglib
+
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        env:
+          PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
+          Qt5_DIR: /usr/local/opt/qt5/lib/cmake
+          Qt5LinguistTools_DIR: /usr/local/opt/qt5/lib/cmake/Qt5LinguistTools
+          GST_SCANNER_PATH: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
+          GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DUSE_BUNDLE=ON
+      - name: Build
+        working-directory: build
+        shell: bash
+        run: cmake --build . --config $BUILD_TYPE
+      - name: Install
+        working-directory: build
+        shell: bash
+        run: make install
+      - name: Create DMG
+        working-directory: build
+        shell: bash
+        run: make dmg
+      - uses: actions/upload-artifact@v2
+        with:
+          name: upload-macos-bigsur
+          path: build/strawberry-*-bigsur-*.dmg
+
 
   build-windows:
     name: Build Windows
@@ -1244,4 +1318,27 @@ jobs:
           set -x
           for i in $(find uploads -type f -name 'strawberry-*-catalina-*.dmg'); do
             rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/macos/catalina/
+          done
+
+  upload-macos-bigsur:
+    name: Upload macOS Big Sur DMG
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/bigsur'
+    needs:
+      - build-macos-bigsur
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - uses: actions/download-artifact@v2
+        with:
+          path: uploads
+      - name: Install SSH keys
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{ secrets.KNOWN_HOSTS2 }}
+          key: ${{ secrets.SSH_KEY }}
+      - name: rsync
+        run: |
+          set -x
+          for i in $(find uploads -type f -name 'strawberry-*-bigsur-*.dmg'); do
+            rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/macos/bigsur/
           done
