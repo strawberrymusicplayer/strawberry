@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-01-16 03:52-0500\n"
+"PO-Revision-Date: 2021-01-27 05:59-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -1235,6 +1235,8 @@ msgid ""
 "Click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
+"Klicka här för att favorisera denna spellista så att den sparas och förblir "
+"tillgänglig från panelen \"Spellistor\" på det vänstra sidofältet"
 
 #: internet/internetcollectionview.cpp:289
 msgid "Click here to retrieve music"
@@ -2322,7 +2324,7 @@ msgstr "Genre"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:241
 msgid "Global Shortcuts"
-msgstr ""
+msgstr "Globala genvägar"
 
 #: ../build/src/ui_mainwindow.h:691
 msgid "Go to next playlist tab"
