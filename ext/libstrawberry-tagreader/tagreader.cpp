@@ -440,6 +440,7 @@ void TagReader::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString *disc,
   if (!map["COMPOSER"].isEmpty()) Decode(map["COMPOSER"].front(), song->mutable_composer());
   if (!map["PERFORMER"].isEmpty()) Decode(map["PERFORMER"].front(), song->mutable_performer());
   if (!map["CONTENT GROUP"].isEmpty()) Decode(map["CONTENT GROUP"].front(), song->mutable_grouping());
+  if (!map["GROUPING"].isEmpty()) Decode(map["GROUPING"].front(), song->mutable_grouping());
 
   if (!map["ALBUMARTIST"].isEmpty()) Decode(map["ALBUMARTIST"].front(), song->mutable_albumartist());
   else if (!map["ALBUM ARTIST"].isEmpty()) Decode(map["ALBUM ARTIST"].front(), song->mutable_albumartist());
@@ -507,7 +508,7 @@ void TagReader::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, con
 
   vorbis_comments->addField("COMPOSER", StdStringToTaglibString(song.composer()), true);
   vorbis_comments->addField("PERFORMER", StdStringToTaglibString(song.performer()), true);
-  vorbis_comments->addField("CONTENT GROUP", StdStringToTaglibString(song.grouping()), true);
+  vorbis_comments->addField("GROUPING", StdStringToTaglibString(song.grouping()), true);
   vorbis_comments->addField("DISCNUMBER", QStringToTaglibString(song.disc() <= 0 ? QString() : QString::number(song.disc())), true);
   vorbis_comments->addField("COMPILATION", QStringToTaglibString(song.compilation() ? "1" : QString()), true);
 
