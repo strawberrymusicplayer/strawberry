@@ -50,7 +50,6 @@ class TidalRequest : public TidalBaseRequest {
   Q_OBJECT
 
  public:
-
   explicit TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent);
   ~TidalRequest() override;
 
@@ -59,6 +58,25 @@ class TidalRequest : public TidalBaseRequest {
   void Process();
   void NeedLogin() override { need_login_ = true; }
   void Search(const int query_id, const QString &search_text);
+
+ private:
+  struct Request {
+    Request() : offset(0), limit(0), album_explicit(false) {}
+    QString artist_id;
+    QString album_id;
+    QString song_id;
+    int offset;
+    int limit;
+    QString album_artist;
+    QString album;
+    bool album_explicit;
+  };
+  struct AlbumCoverRequest {
+    QString artist_id;
+    QString album_id;
+    QUrl url;
+    QString filename;
+  };
 
  signals:
   void Login();
@@ -78,32 +96,16 @@ class TidalRequest : public TidalBaseRequest {
   void AlbumsReceived(QNetworkReply *reply, const QString &artist_id_requested, const int limit_requested, const int offset_requested, const bool auto_login);
 
   void SongsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
-  void SongsReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const int limit_requested, const int offset_requested, const bool auto_login = false, const QString &album_artist = QString());
+  void SongsReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const int limit_requested, const int offset_requested, const bool auto_login = false, const QString &album_artist = QString(), const QString &album = QString(), const bool album_explicit = false);
 
   void ArtistAlbumsReplyReceived(QNetworkReply *reply, const QString &artist_id, const int offset_requested);
-  void AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const int offset_requested, const QString &album_artist);
+  void AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const int offset_requested, const QString &album_artist, const QString &album, const bool album_explicit);
   void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
 
  public slots:
   void LoginComplete(const bool success, QString error = QString());
 
  private:
-  struct Request {
-    Request() : offset(0), limit(0) {}
-    QString artist_id;
-    QString album_id;
-    QString song_id;
-    int offset;
-    int limit;
-    QString album_artist;
-  };
-  struct AlbumCoverRequest {
-    QString artist_id;
-    QString album_id;
-    QUrl url;
-    QString filename;
-  };
-
   bool IsQuery() { return (type_ == QueryType_Artists || type_ == QueryType_Albums || type_ == QueryType_Songs); }
   bool IsSearch() { return (type_ == QueryType_SearchArtists || type_ == QueryType_SearchAlbums || type_ == QueryType_SearchSongs); }
 
@@ -127,15 +129,15 @@ class TidalRequest : public TidalBaseRequest {
 
   void ArtistsFinishCheck(const int limit = 0, const int offset = 0, const int artists_received = 0);
   void AlbumsFinishCheck(const QString &artist_id, const int limit = 0, const int offset = 0, const int albums_total = 0, const int albums_received = 0);
-  void SongsFinishCheck(const QString &artist_id, const QString &album_id, const int limit, const int offset, const int songs_total, const int songs_received, const QString &album_artist);
+  void SongsFinishCheck(const QString &artist_id, const QString &album_id, const int limit, const int offset, const int songs_total, const int songs_received, const QString &album_artist, const QString &album, const bool album_explicit);
 
   void AddArtistAlbumsRequest(const QString &artist_id, const int offset = 0);
   void FlushArtistAlbumsRequests();
 
-  void AddAlbumSongsRequest(const QString &artist_id, const QString &album_id, const QString &album_artist, const int offset = 0);
+  void AddAlbumSongsRequest(const QString &artist_id, const QString &album_id, const QString &album_artist, const QString &album, const bool album_explicit, const int offset = 0);
   void FlushAlbumSongsRequests();
 
-  QString ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested = QString(), const QString &album_id_requested = QString(), const QString &album_artist = QString());
+  QString ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested = QString(), const QString &album_id_requested = QString(), const QString &album_artist = QString(), const QString &album_album = QString(), const bool album_explicit = false);
 
   void GetAlbumCovers();
   void AddAlbumCoverRequest(Song &song);

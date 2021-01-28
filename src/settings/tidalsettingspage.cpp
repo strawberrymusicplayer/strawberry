@@ -111,6 +111,8 @@ void TidalSettingsPage::Load() {
   if (i == -1) i = ui_->streamurl->findData(StreamUrlMethod_StreamUrl);
   ui_->streamurl->setCurrentIndex(i);
 
+  ui_->checkbox_album_explicit->setChecked(s.value("album_explicit", false).toBool());
+
   s.endGroup();
 
   OAuthClicked(ui_->oauth->isChecked());
@@ -143,6 +145,7 @@ void TidalSettingsPage::Save() {
   s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
   s.setValue("coversize", ui_->coversize->itemData(ui_->coversize->currentIndex()));
   s.setValue("streamurl", ui_->streamurl->itemData(ui_->streamurl->currentIndex()));
+  s.setValue("album_explicit", ui_->checkbox_album_explicit->isChecked());
   s.endGroup();
 
   service_->ReloadSettings();

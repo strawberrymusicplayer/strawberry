@@ -104,6 +104,7 @@ TidalService::TidalService(Application *app, QObject *parent)
       songssearchlimit_(1),
       fetchalbums_(true),
       download_album_covers_(true),
+      album_explicit_(false),
       expires_in_(0),
       login_time_(0),
       pending_search_id_(0),
@@ -282,6 +283,7 @@ void TidalService::ReloadSettings() {
   coversize_ = s.value("coversize", "640x640").toString();
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
   stream_url_method_ = static_cast<TidalSettingsPage::StreamUrlMethod>(s.value("streamurl").toInt());
+  album_explicit_ = s.value("album_explicit").toBool();
 
   s.endGroup();
 

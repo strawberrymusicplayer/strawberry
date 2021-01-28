@@ -90,6 +90,7 @@ class TidalService : public InternetService {
   QString coversize() { return coversize_; }
   bool download_album_covers() { return download_album_covers_; }
   TidalSettingsPage::StreamUrlMethod stream_url_method() { return stream_url_method_; }
+  bool album_explicit() { return album_explicit_; }
 
   QString access_token() { return access_token_; }
   QString session_id() { return session_id_; }
@@ -224,6 +225,7 @@ class TidalService : public InternetService {
   QString coversize_;
   bool download_album_covers_;
   TidalSettingsPage::StreamUrlMethod stream_url_method_;
+  bool album_explicit_;
 
   QString access_token_;
   QString refresh_token_;
