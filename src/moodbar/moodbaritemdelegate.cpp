@@ -51,6 +51,7 @@ MoodbarItemDelegate::MoodbarItemDelegate(Application *app, PlaylistView *view, Q
     : QItemDelegate(parent),
       app_(app),
       view_(view),
+      enabled_(false),
       style_(MoodbarRenderer::Style_Normal) {
 
   QObject::connect(app_, &Application::SettingsChanged, this, &MoodbarItemDelegate::ReloadSettings);
@@ -62,8 +63,13 @@ void MoodbarItemDelegate::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
+  enabled_ = s.value("enabled", false).toBool();
   MoodbarRenderer::MoodbarStyle new_style = static_cast<MoodbarRenderer::MoodbarStyle>(s.value("style", MoodbarRenderer::Style_Normal).toInt());
   s.endGroup();
+
+  if (!enabled_) {
+    data_.clear();
+  }
 
   if (new_style != style_) {
     style_ = new_style;
@@ -74,7 +80,11 @@ void MoodbarItemDelegate::ReloadSettings() {
 
 void MoodbarItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
-  QPixmap pixmap = const_cast<MoodbarItemDelegate*>(this)->PixmapForIndex(idx, option.rect.size());
+  QPixmap pixmap;
+
+  if (enabled_) {
+    pixmap = const_cast<MoodbarItemDelegate*>(this)->PixmapForIndex(idx, option.rect.size());
+  }
 
   drawBackground(painter, option, idx);
 
