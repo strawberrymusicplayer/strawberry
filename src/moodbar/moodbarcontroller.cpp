@@ -24,6 +24,7 @@
 #include "core/application.h"
 #include "core/player.h"
 #include "core/song.h"
+#include "core/closure.h"
 #include "engine/engine_fwd.h"
 #include "settings/moodbarsettingspage.h"
 #include "playlist/playlistmanager.h"
@@ -75,7 +76,7 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
       // bar.  Our slot will be called when the data is actually loaded.
       emit CurrentMoodbarDataChanged(QByteArray());
 
-      QObject::connect(pipeline, &MoodbarPipeline::Finished, [this, pipeline, song]() { AsyncLoadComplete(pipeline, song.url()); });
+      NewClosure(pipeline, SIGNAL(Finished(bool)), this, SLOT(AsyncLoadComplete(MoodbarPipeline*, QUrl)), pipeline, song.url());
       break;
   }
 
