@@ -103,7 +103,7 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
   enqueue_next_ = enqueue_next;
 
   SongLoader *loader = new SongLoader(collection_, player_, this);
-  QObject::connect(loader, &SongLoader::AudioCDTracksLoadFinished, [this, loader]() { AudioCDTracksLoadFinished(loader); });
+  QObject::connect(loader, &SongLoader::AudioCDTracksLoadFinished, this, [this, loader]() { AudioCDTracksLoadFinished(loader); });
   QObject::connect(loader, &SongLoader::LoadAudioCDFinished, this, &SongLoaderInserter::AudioCDTagsLoaded);
   qLog(Info) << "Loading audio CD...";
   SongLoader::Result ret = loader->LoadAudioCD();
