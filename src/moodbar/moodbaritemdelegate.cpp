@@ -155,7 +155,7 @@ void MoodbarItemDelegate::StartLoadingData(const QUrl &url, Data *data) {
 
     case MoodbarLoader::WillLoadAsync:
       // Maybe in a little while.
-      NewClosure(pipeline, SIGNAL(Finished(bool)), this, SLOT(DataLoaded(QUrl, MoodbarPipeline*)), url, pipeline);
+      QObject::connect(pipeline, &MoodbarPipeline::Finished, this, [this, url, pipeline]() { DataLoaded(url, pipeline); });
       break;
   }
 

@@ -39,7 +39,6 @@
 #include <QtDebug>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "core/logging.h"
 
 #include "moodbarpipeline.h"
@@ -130,7 +129,7 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, QByteArray *data, Moo
   // There was no existing file, analyze the audio file and create one.
   MoodbarPipeline *pipeline = new MoodbarPipeline(url);
   pipeline->moveToThread(thread_);
-  NewClosure(pipeline, SIGNAL(Finished(bool)), this, SLOT(RequestFinished(MoodbarPipeline*, QUrl)), pipeline, url);
+  QObject::connect(pipeline, &MoodbarPipeline::Finished, this, [this, pipeline, url]() { RequestFinished(pipeline, url); });
 
   requests_[url] = pipeline;
   queued_requests_ << url;

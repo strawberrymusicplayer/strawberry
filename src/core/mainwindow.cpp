@@ -2064,7 +2064,8 @@ void MainWindow::RenumberTracks() {
     if (song.IsEditable()) {
       song.set_track(track);
       TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
-      NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QPersistentModelIndex)), reply, QPersistentModelIndex(source_index));
+      QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
+      connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); });
     }
     ++track;
   }
@@ -2094,7 +2095,8 @@ void MainWindow::SelectionSetValue() {
     if (!song.is_valid() || !song.url().isLocalFile()) continue;
     if (Playlist::set_column_value(song, column, column_value)) {
       TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
-      NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QPersistentModelIndex)), reply, QPersistentModelIndex(source_index));
+      QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
+      connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); });
     }
   }
 
