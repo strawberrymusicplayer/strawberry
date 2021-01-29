@@ -393,7 +393,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, int role) 
 
   TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
   QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
-  connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); });
+  QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); });
 
   return true;
 

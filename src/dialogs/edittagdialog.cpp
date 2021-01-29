@@ -776,7 +776,7 @@ void EditTagDialog::SaveData(const QList<Data> &tag_data) {
 
     ++pending_;
     TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(ref.current_.url().toLocalFile(), ref.current_);
-    connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() { SongSaveComplete(reply, ref.current_.url().toLocalFile(), ref.current_); });
+    QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() { SongSaveComplete(reply, ref.current_.url().toLocalFile(), ref.current_); });
 
   }
 
