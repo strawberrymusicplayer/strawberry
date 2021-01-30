@@ -214,7 +214,7 @@ void MoodbarItemDelegate::StartLoadingColors(const QUrl &url, const QByteArray &
   QFuture<ColorVector> future = QtConcurrent::run(MoodbarRenderer::Colors, bytes, style_, qApp->palette());
   QFutureWatcher<ColorVector> *watcher = new QFutureWatcher<ColorVector>();
   watcher->setFuture(future);
-  QObject::connect(watcher, &QFutureWatcher<ColorVector>::finished, [this, watcher, url]() {
+  QObject::connect(watcher, &QFutureWatcher<ColorVector>::finished, this, [this, watcher, url]() {
     ColorsLoaded(url, watcher->result());
     watcher->deleteLater();
   });
