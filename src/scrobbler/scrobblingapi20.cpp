@@ -33,6 +33,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QDateTime>
+#include <QTimer>
 #include <QCryptographicHash>
 #include <QMessageBox>
 #include <QSettings>
@@ -50,7 +51,6 @@
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "core/logging.h"
-#include "core/closure.h"
 #include "internet/localredirectserver.h"
 #include "settings/scrobblersettingspage.h"
 
@@ -78,7 +78,12 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
   subscriber_(false),
   submitted_(false),
   scrobbled_(false),
-  timestamp_(0) {}
+  timestamp_(0) {
+
+  timer_submit_.setSingleShot(true);
+  QObject::connect(&timer_submit_, &QTimer::timeout, this, &ScrobblingAPI20::Submit);
+
+}
 
 ScrobblingAPI20::~ScrobblingAPI20() {
 
@@ -545,9 +550,9 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
     if (!batch_ || app_->scrobbler()->SubmitDelay() <= 0) {
       Submit();
     }
-    else {
-      qint64 msec = (app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
-      DoAfter(this, SLOT(Submit()), msec);
+    else if (!timer_submit_.isActive()) {
+      timer_submit_.setInterval(app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
+      timer_submit_.start();
     }
   }
 
@@ -557,9 +562,10 @@ void ScrobblingAPI20::DoSubmit() {
 
   if (!submitted_ && cache()->Count() > 0) {
     submitted_ = true;
-    qint64 msec = 30000ll;
-    if (app_->scrobbler()->SubmitDelay() != 0) msec = (app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
-    DoAfter(this, SLOT(Submit()), msec);
+    if (!timer_submit_.isActive()) {
+      timer_submit_.setInterval(app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
+      timer_submit_.start();
+    }
   }
 
 }

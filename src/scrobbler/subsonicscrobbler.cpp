@@ -31,7 +31,6 @@
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "core/logging.h"
-#include "core/closure.h"
 #include "internet/internetservices.h"
 #include "settings/subsonicsettingspage.h"
 #include "subsonic/subsonicservice.h"
@@ -48,7 +47,8 @@ SubsonicScrobbler::SubsonicScrobbler(Application *app, QObject *parent) : Scrobb
   enabled_(false),
   submitted_(false) {
 
-  ReloadSettings();
+  timer_submit_.setSingleShot(true);
+  QObject::connect(&timer_submit_, &QTimer::timeout, this, &SubsonicScrobbler::Submit);
 
 }
 
@@ -83,9 +83,7 @@ void SubsonicScrobbler::ClearPlaying() {
 
 void SubsonicScrobbler::Scrobble(const Song &song) {
 
-  if (song.source() != Song::Source::Source_Subsonic) return;
-
-  if (song.id() != song_playing_.id() || song.url() != song_playing_.url() || !song.is_metadata_good()) return;
+  if (song.source() != Song::Source::Source_Subsonic || song.id() != song_playing_.id() || song.url() != song_playing_.url() || !song.is_metadata_good()) return;
 
   if (app_->scrobbler()->IsOffline()) return;
 
@@ -94,9 +92,9 @@ void SubsonicScrobbler::Scrobble(const Song &song) {
     if (app_->scrobbler()->SubmitDelay() <= 0) {
       Submit();
     }
-    else {
-      qint64 msec = (app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
-      DoAfter(this, SLOT(Submit()), msec);
+    else if (!timer_submit_.isActive()) {
+      timer_submit_.setInterval(app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
+      timer_submit_.start();
     }
   }
 

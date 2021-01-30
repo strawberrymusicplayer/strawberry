@@ -27,6 +27,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QDateTime>
+#include <QTimer>
 #include <QMessageBox>
 #include <QSettings>
 #include <QNetworkRequest>
@@ -35,7 +36,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
-#include <QTimer>
 #include <QtDebug>
 
 #include "core/application.h"
@@ -43,7 +43,6 @@
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "core/logging.h"
-#include "core/closure.h"
 #include "internet/localredirectserver.h"
 
 #include "audioscrobbler.h"
@@ -77,6 +76,9 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent) 
 
   refresh_login_timer_.setSingleShot(true);
   QObject::connect(&refresh_login_timer_, &QTimer::timeout, this, &ListenBrainzScrobbler::RequestNewAccessToken);
+
+  timer_submit_.setSingleShot(true);
+  QObject::connect(&timer_submit_, &QTimer::timeout, this, &ListenBrainzScrobbler::Submit);
 
   ReloadSettings();
   LoadSession();
@@ -519,9 +521,9 @@ void ListenBrainzScrobbler::Scrobble(const Song &song) {
     if (app_->scrobbler()->SubmitDelay() <= 0) {
       Submit();
     }
-    else {
-      qint64 msec = (app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
-      DoAfter(this, SLOT(Submit()), msec);
+    else if (!timer_submit_.isActive()) {
+      timer_submit_.setInterval(app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
+      timer_submit_.start();
     }
   }
 
@@ -531,9 +533,10 @@ void ListenBrainzScrobbler::DoSubmit() {
 
   if (!submitted_ && cache_->Count() > 0) {
     submitted_ = true;
-    qint64 msec = 30000ll;
-    if (app_->scrobbler()->SubmitDelay() != 0) msec = (app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
-    DoAfter(this, SLOT(Submit()), msec);
+    if (!timer_submit_.isActive()) {
+      timer_submit_.setInterval(app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
+      timer_submit_.start();
+    }
   }
 
 }

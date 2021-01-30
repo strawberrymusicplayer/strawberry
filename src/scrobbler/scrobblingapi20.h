@@ -28,6 +28,7 @@
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
+#include <QTimer>
 
 #include "core/song.h"
 #include "scrobblerservice.h"
@@ -154,6 +155,8 @@ class ScrobblingAPI20 : public ScrobblerService {
   Song song_playing_;
   bool scrobbled_;
   quint64 timestamp_;
+
+  QTimer timer_submit_;
 
   QList<QNetworkReply*> replies_;
 

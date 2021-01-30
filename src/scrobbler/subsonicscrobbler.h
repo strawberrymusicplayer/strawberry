@@ -28,6 +28,7 @@
 #include <QDateTime>
 #include <QVariant>
 #include <QString>
+#include <QTimer>
 
 #include "core/song.h"
 #include "scrobblerservice.h"
@@ -68,6 +69,7 @@ class SubsonicScrobbler : public ScrobblerService {
   bool submitted_;
   Song song_playing_;
   QDateTime time_;
+  QTimer timer_submit_;
 
 };
 
