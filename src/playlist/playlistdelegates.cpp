@@ -28,6 +28,7 @@
 #include <QThread>
 #include <QtConcurrentRun>
 #include <QFuture>
+#include <QFutureWatcher>
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QCompleter>
@@ -62,7 +63,6 @@
 #include <QtEvents>
 #include <QLinearGradient>
 
-#include "core/closure.h"
 #include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/player.h"
@@ -405,7 +405,9 @@ static TagCompletionModel *InitCompletionModel(CollectionBackend *backend, Playl
 TagCompleter::TagCompleter(CollectionBackend *backend, Playlist::Column column, QLineEdit *editor) : QCompleter(editor), editor_(editor) {
 
   QFuture<TagCompletionModel*> future = QtConcurrent::run(&InitCompletionModel, backend, column);
-  NewClosure(future, this, SLOT(ModelReady(QFuture<TagCompletionModel*>)), future);
+  QFutureWatcher<TagCompletionModel*> *watcher = new QFutureWatcher<TagCompletionModel*>();
+  watcher->setFuture(future);
+  QObject::connect(watcher, &QFutureWatcher<TagCompletionModel*>::finished, this, &TagCompleter::ModelReady);
 
 }
 
@@ -413,9 +415,11 @@ TagCompleter::~TagCompleter() {
   delete model();
 }
 
-void TagCompleter::ModelReady(QFuture<TagCompletionModel*> future) {
+void TagCompleter::ModelReady() {
 
-  TagCompletionModel *model = future.result();
+  QFutureWatcher<TagCompletionModel*> *watcher = static_cast<QFutureWatcher<TagCompletionModel*>*>(sender());
+  TagCompletionModel *model = watcher->result();
+  watcher->deleteLater();
   setModel(model);
   setCaseSensitivity(Qt::CaseInsensitive);
   editor_->setCompleter(this);

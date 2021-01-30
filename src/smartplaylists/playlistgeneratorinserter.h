@@ -24,7 +24,6 @@
 #include "config.h"
 
 #include <QObject>
-#include <QFuture>
 #include <QString>
 
 #include "playlist/playlist.h"
@@ -52,7 +51,7 @@ class PlaylistGeneratorInserter : public QObject {
   void PlayRequested(QModelIndex idx, Playlist::AutoScroll autoscroll);
 
  private slots:
-  void Finished(QFuture<PlaylistItemList> future);
+  void Finished();
 
  private:
   TaskManager *task_manager_;

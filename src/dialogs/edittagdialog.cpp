@@ -29,6 +29,7 @@
 #include <QtGlobal>
 #include <QtConcurrent>
 #include <QFuture>
+#include <QFutureWatcher>
 #include <QObject>
 #include <QWidget>
 #include <QDialog>
@@ -69,7 +70,6 @@
 #include <QtDebug>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/tagreaderclient.h"
@@ -297,15 +297,24 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
 #else
   QFuture<QList<Data>> future = QtConcurrent::run(this, &EditTagDialog::LoadData, s);
 #endif
-  NewClosure(future, this, SLOT(SetSongsFinished(QFuture<QList<EditTagDialog::Data>>)), future);
+  QFutureWatcher<QList<Data>> *watcher = new QFutureWatcher<QList<Data>>();
+  watcher->setFuture(future);
+  QObject::connect(watcher, &QFutureWatcher<QList<Data>>::finished, this, &EditTagDialog::SetSongsFinished);
 
 }
 
-void EditTagDialog::SetSongsFinished(QFuture<QList<Data>> future) {
+void EditTagDialog::SetSongsFinished() {
 
-  if (!SetLoading(QString())) return;
+  QFutureWatcher<QList<Data>> *watcher = static_cast<QFutureWatcher<QList<Data>>*>(sender());
+  QList<Data> result_data = watcher->result();
+  watcher->deleteLater();
 
-  data_ = future.result();
+  if (!SetLoading(QString())) {
+    return;
+  }
+
+  data_ = result_data;
+
   if (data_.count() == 0) {
     // If there were no valid songs, disable everything
     ui_->song_list->setEnabled(false);

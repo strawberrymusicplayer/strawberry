@@ -228,7 +228,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void ClearDiskCache();
 
   // Called after ResetAsync
-  void ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult> future);
+  void ResetAsyncQueryFinished();
 
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 

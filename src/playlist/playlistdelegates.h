@@ -30,7 +30,6 @@
 #include <QStyledItemDelegate>
 #include <QStyleOptionViewItem>
 #include <QTreeView>
-#include <QFuture>
 #include <QCompleter>
 #include <QLocale>
 #include <QVariant>
@@ -151,7 +150,7 @@ class TagCompleter : public QCompleter {
   ~TagCompleter() override;
 
  private slots:
-  void ModelReady(QFuture<TagCompletionModel*> future);
+  void ModelReady();
 
  private:
   QLineEdit *editor_;

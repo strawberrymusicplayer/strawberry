@@ -23,8 +23,9 @@
 #include <QObject>
 #include <QString>
 #include <QtConcurrentRun>
+#include <QFuture>
+#include <QFutureWatcher>
 
-#include "core/closure.h"
 #include "core/taskmanager.h"
 
 #include "playlist/playlist.h"
@@ -67,13 +68,17 @@ void PlaylistGeneratorInserter::Load(Playlist *destination, const int row, const
   QObject::connect(generator.get(), &PlaylistGenerator::Error, this, &PlaylistGeneratorInserter::Error);
 
   QFuture<PlaylistItemList> future = QtConcurrent::run(PlaylistGeneratorInserter::Generate, generator, dynamic_count);
-  NewClosure(future, this, SLOT(Finished(QFuture<PlaylistItemList>)), future);
+  QFutureWatcher<PlaylistItemList> *watcher = new QFutureWatcher<PlaylistItemList>();
+  watcher->setFuture(future);
+  QObject::connect(watcher, &QFutureWatcher<PlaylistItemList>::finished, this, &PlaylistGeneratorInserter::Finished);
 
 }
 
-void PlaylistGeneratorInserter::Finished(QFuture<PlaylistItemList> future) {
+void PlaylistGeneratorInserter::Finished() {
 
-  PlaylistItemList items = future.result();
+  QFutureWatcher<PlaylistItemList> *watcher = static_cast<QFutureWatcher<PlaylistItemList>*>(sender());
+  PlaylistItemList items = watcher->result();
+  watcher->deleteLater();
 
   if (items.isEmpty()) {
     if (is_dynamic_) {

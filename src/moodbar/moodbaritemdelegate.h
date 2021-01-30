@@ -23,7 +23,6 @@
 #include <QObject>
 #include <QItemDelegate>
 #include <QCache>
-#include <QFuture>
 #include <QSet>
 #include <QByteArray>
 #include <QString>
@@ -52,8 +51,8 @@ class MoodbarItemDelegate : public QItemDelegate {
   void ReloadSettings();
 
   void DataLoaded(const QUrl &url, MoodbarPipeline *pipeline);
-  void ColorsLoaded(const QUrl &url, QFuture<ColorVector> future);
-  void ImageLoaded(const QUrl &url, QFuture<QImage> future);
+  void ColorsLoaded(const QUrl &url, const ColorVector &colors);
+  void ImageLoaded(const QUrl &url, const QImage &image);
 
  private:
   struct Data {

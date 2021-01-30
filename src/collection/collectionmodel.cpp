@@ -31,6 +31,7 @@
 #include <QThread>
 #include <QMutex>
 #include <QFuture>
+#include <QFutureWatcher>
 #include <QDataStream>
 #include <QMimeData>
 #include <QIODevice>
@@ -53,7 +54,6 @@
 #include <QtDebug>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "core/database.h"
 #include "core/iconloader.h"
 #include "core/logging.h"
@@ -915,17 +915,21 @@ void CollectionModel::ResetAsync() {
 #else
   QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(this, &CollectionModel::RunQuery, root_);
 #endif
-  NewClosure(future, this, SLOT(ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult>)), future);
+  QFutureWatcher<CollectionModel::QueryResult> *watcher = new QFutureWatcher<CollectionModel::QueryResult>();
+  watcher->setFuture(future);
+  QObject::connect(watcher, &QFutureWatcher<CollectionModel::QueryResult>::finished, this, &CollectionModel::ResetAsyncQueryFinished);
 
 }
 
-void CollectionModel::ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult> future) {
+void CollectionModel::ResetAsyncQueryFinished() {
+
+  QFutureWatcher<CollectionModel::QueryResult> *watcher = static_cast<QFutureWatcher<CollectionModel::QueryResult>*>(sender());
+  const struct QueryResult result = watcher->result();
+  watcher->deleteLater();
 
   if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
     backend_->Close();
   }
-
-  const struct QueryResult result = future.result();
 
   BeginReset();
   root_->lazy_loaded = true;

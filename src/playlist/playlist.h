@@ -377,7 +377,7 @@ class Playlist : public QAbstractListModel {
   void QueueLayoutChanged();
   void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx);
   void ItemReloadComplete(const QPersistentModelIndex &idx);
-  void ItemsLoaded(QFuture<PlaylistItemList> future);
+  void ItemsLoaded();
   void SongInsertVetoListenerDestroyed();
 
  private:

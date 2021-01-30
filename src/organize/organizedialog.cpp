@@ -28,6 +28,8 @@
 #include <QtGlobal>
 #include <QGuiApplication>
 #include <QtConcurrent>
+#include <QFuture>
+#include <QFutureWatcher>
 #include <QAbstractItemModel>
 #include <QDialog>
 #include <QScreen>
@@ -56,7 +58,6 @@
 #include <QCloseEvent>
 #include <QSettings>
 
-#include "core/closure.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
 #include "core/tagreaderclient.h"
@@ -394,7 +395,12 @@ bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
 #else
   songs_future_ = QtConcurrent::run(this, &OrganizeDialog::LoadSongsBlocking, filenames);
 #endif
-  NewClosure(songs_future_, [=]() { SetSongs(songs_future_.result()); });
+  QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
+  watcher->setFuture(songs_future_);
+  QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [=]() {
+    SetSongs(watcher->result());
+    watcher->deleteLater();
+  });
 
   SetLoadingSongs(true);
   return true;

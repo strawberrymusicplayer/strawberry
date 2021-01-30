@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
 set(SOURCES
-  core/closure.cpp
   core/logging.cpp
   core/messagehandler.cpp
   core/messagereply.cpp
@@ -9,7 +8,6 @@ set(SOURCES
 )
 
 set(HEADERS
-  core/closure.h
   core/messagehandler.h
   core/messagereply.h
   core/workerpool.h

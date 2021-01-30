@@ -152,7 +152,6 @@ endmacro(add_test_file)
 
 add_test_file(src/utilities_test.cpp false)
 add_test_file(src/concurrentrun_test.cpp false)
-add_test_file(src/closure_test.cpp false)
 add_test_file(src/mergedproxymodel_test.cpp false)
 add_test_file(src/sqlite_test.cpp false)
 add_test_file(src/tagreader_test.cpp false)

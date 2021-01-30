@@ -29,6 +29,7 @@
 #include <QDialog>
 #include <QtConcurrent>
 #include <QFuture>
+#include <QFutureWatcher>
 #include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
@@ -45,7 +46,6 @@
 #include <QtDebug>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/player.h"
 #include "core/utilities.h"
@@ -220,18 +220,23 @@ void PlaylistManager::Save(const int id, const QString &filename, const Playlist
   else {
     // Playlist is not in the playlist manager: probably save action was triggered from the left side bar and the playlist isn't loaded.
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    QFuture<QList<Song>> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistSongs, playlist_backend_, id);
+    QFuture<SongList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistSongs, playlist_backend_, id);
 #else
-    QFuture<QList<Song>> future = QtConcurrent::run(playlist_backend_, &PlaylistBackend::GetPlaylistSongs, id);
+    QFuture<SongList> future = QtConcurrent::run(playlist_backend_, &PlaylistBackend::GetPlaylistSongs, id);
 #endif
-    NewClosure(future, this, SLOT(ItemsLoadedForSavePlaylist(QFuture<SongList>, QString, Playlist::Path)), future, filename, path_type);
+    QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
+    watcher->setFuture(future);
+    QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, filename, path_type]() {
+      ItemsLoadedForSavePlaylist(watcher->result(), filename, path_type);
+      watcher->deleteLater();
+    });
   }
 
 }
 
-void PlaylistManager::ItemsLoadedForSavePlaylist(QFuture<SongList> future, const QString &filename, const Playlist::Path path_type) {
+void PlaylistManager::ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const Playlist::Path path_type) {
 
-  parser_->Save(future.result(), filename, path_type);
+  parser_->Save(songs, filename, path_type);
 
 }
 

@@ -35,6 +35,7 @@
 
 #include <QtGlobal>
 #include <QFuture>
+#include <QFutureWatcher>
 #include <QTimer>
 #include <QList>
 #include <QByteArray>
@@ -50,7 +51,6 @@
 #include <QTimerEvent>
 #include <QtDebug>
 
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/taskmanager.h"
 #include "core/timeconstants.h"
@@ -242,7 +242,13 @@ bool GstEngine::Play(const quint64 offset_nanosec) {
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return false;
 
   QFuture<GstStateChangeReturn> future = current_pipeline_->SetState(GST_STATE_PLAYING);
-  NewClosure(future, this, SLOT(PlayDone(QFuture<GstStateChangeReturn>, quint64, int)), future, offset_nanosec, current_pipeline_->id());
+  QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>();
+  watcher->setFuture(future);
+  int pipeline_id = current_pipeline_->id();
+  QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, offset_nanosec, pipeline_id]() {
+    PlayDone(watcher->result(), offset_nanosec, pipeline_id);
+    watcher->deleteLater();
+  });
 
   if (is_fading_out_to_pause_) {
     current_pipeline_->SetState(GST_STATE_PAUSED);
@@ -634,9 +640,7 @@ void GstEngine::SeekNow() {
   }
 }
 
-void GstEngine::PlayDone(QFuture<GstStateChangeReturn> future, const quint64 offset_nanosec, const int pipeline_id) {
-
-  GstStateChangeReturn ret = future.result();
+void GstEngine::PlayDone(const GstStateChangeReturn ret, const quint64 offset_nanosec, const int pipeline_id) {
 
   if (!current_pipeline_ || pipeline_id != current_pipeline_->id()) {
     return;

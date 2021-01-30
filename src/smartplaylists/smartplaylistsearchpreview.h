@@ -24,7 +24,6 @@
 #include "config.h"
 
 #include <QWidget>
-#include <QFuture>
 #include <QList>
 
 #include "smartplaylistsearch.h"
@@ -56,7 +55,7 @@ class SmartPlaylistSearchPreview : public QWidget {
   void RunSearch(const SmartPlaylistSearch &search);
 
  private slots:
-  void SearchFinished(QFuture<PlaylistItemList> future);
+  void SearchFinished();
 
  private:
   Ui_SmartPlaylistSearchPreview *ui_;

@@ -18,6 +18,7 @@
 #include <QApplication>
 #include <QtConcurrentRun>
 #include <QFuture>
+#include <QFutureWatcher>
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
 #include <QSettings>
@@ -34,7 +35,6 @@
 #include <QRect>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistview.h"
 
@@ -212,11 +212,16 @@ void MoodbarItemDelegate::StartLoadingColors(const QUrl &url, const QByteArray &
   data->state_ = Data::State_LoadingColors;
 
   QFuture<ColorVector> future = QtConcurrent::run(MoodbarRenderer::Colors, bytes, style_, qApp->palette());
-  NewClosure(future, this, SLOT(ColorsLoaded(QUrl, QFuture<ColorVector>)), url, future);
+  QFutureWatcher<ColorVector> *watcher = new QFutureWatcher<ColorVector>();
+  watcher->setFuture(future);
+  QObject::connect(watcher, &QFutureWatcher<ColorVector>::finished, [this, watcher, url]() {
+    ColorsLoaded(url, watcher->result());
+    watcher->deleteLater();
+  });
 
 }
 
-void MoodbarItemDelegate::ColorsLoaded(const QUrl &url, QFuture<ColorVector> future) {
+void MoodbarItemDelegate::ColorsLoaded(const QUrl &url, const ColorVector &colors) {
 
   Data *data = data_[url];
   if (!data) {
@@ -227,7 +232,7 @@ void MoodbarItemDelegate::ColorsLoaded(const QUrl &url, QFuture<ColorVector> fut
     return;
   }
 
-  data->colors_ = future.result();
+  data->colors_ = colors;
 
   // Load the image next.
   StartLoadingImage(url, data);
@@ -239,11 +244,16 @@ void MoodbarItemDelegate::StartLoadingImage(const QUrl &url, Data *data) {
   data->state_ = Data::State_LoadingImage;
 
   QFuture<QImage> future = QtConcurrent::run(MoodbarRenderer::RenderToImage, data->colors_, data->desired_size_);
-  NewClosure(future, this, SLOT(ImageLoaded(QUrl, QFuture<QImage>)), url, future);
+  QFutureWatcher<QImage> *watcher = new QFutureWatcher<QImage>();
+  watcher->setFuture(future);
+  QObject::connect(watcher, &QFutureWatcher<QImage>::finished, this, [this, watcher, url]() {
+    ImageLoaded(url, watcher->result());
+    watcher->deleteLater();
+  });
 
 }
 
-void MoodbarItemDelegate::ImageLoaded(const QUrl &url, QFuture<QImage> future) {
+void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
 
   Data *data = data_[url];
   if (!data) {
@@ -253,8 +263,6 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, QFuture<QImage> future) {
   if (RemoveFromCacheIfIndexesInvalid(url, data)) {
     return;
   }
-
-  QImage image(future.result());
 
   // If the desired size changed then don't even bother converting the image
   // to a pixmap, just reload it at the new size.

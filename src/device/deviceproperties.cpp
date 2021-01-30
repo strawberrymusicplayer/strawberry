@@ -29,6 +29,7 @@
 #include <QDialog>
 #include <QtConcurrentRun>
 #include <QFuture>
+#include <QFutureWatcher>
 #include <QMap>
 #include <QSize>
 #include <QByteArray>
@@ -47,7 +48,6 @@
 #include <QStackedWidget>
 #include <QTableWidget>
 
-#include "core/closure.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
 #include "widgets/freespacebar.h"
@@ -247,7 +247,9 @@ void DeviceProperties::UpdateFormats() {
 #else
     QFuture<bool> future = QtConcurrent::run(std::bind(&ConnectedDevice::GetSupportedFiletypes, device, &supported_formats_));
 #endif
-    NewClosure(future, this, SLOT(UpdateFormatsFinished(QFuture<bool>)), future);
+    QFutureWatcher<bool> *watcher = new QFutureWatcher<bool>();
+    watcher->setFuture(future);
+    QObject::connect(watcher, &QFutureWatcher<bool>::finished, this, &DeviceProperties::UpdateFormatsFinished);
 
     ui_->formats_stack->setCurrentWidget(ui_->formats_page_loading);
     updating_formats_ = true;
@@ -283,11 +285,15 @@ void DeviceProperties::accept() {
 
 void DeviceProperties::OpenDevice() { manager_->Connect(index_); }
 
-void DeviceProperties::UpdateFormatsFinished(QFuture<bool> future) {
+void DeviceProperties::UpdateFormatsFinished() {
+
+  QFutureWatcher<bool> *watcher = static_cast<QFutureWatcher<bool>*>(sender());
+  bool result = watcher->result();
+  watcher->deleteLater();
 
   updating_formats_ = false;
 
-  if (!future.result()) {
+  if (!result) {
     supported_formats_.clear();
   }
 

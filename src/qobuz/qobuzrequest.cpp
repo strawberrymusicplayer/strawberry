@@ -757,7 +757,7 @@ void QobuzRequest::FlushAlbumSongsRequests() {
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("album/get"), params);
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request] { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.offset, request.album_artist, request.album); });
+    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.offset, request.album_artist, request.album); });
 
   }
 
