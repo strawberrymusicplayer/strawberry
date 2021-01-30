@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <functional>
+
 #include <QObject>
 #include <QWidget>
 #include <QMap>
@@ -84,7 +86,7 @@ class GlobalShortcutsManager : public QWidget {
   void Love();
 
  private:
-  void AddShortcut(const QString &id, const QString &name, const char *signal, const QKeySequence &default_key = QKeySequence(0));
+  void AddShortcut(const QString &id, const QString &name, std::function<void()> signal, const QKeySequence &default_key = QKeySequence(0));
   Shortcut AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key);
 
  private:
