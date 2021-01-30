@@ -31,7 +31,6 @@
 #include <QVariant>
 #include <QString>
 
-#include "core/closure.h"
 #include "core/lazy.h"
 #include "core/tagreaderclient.h"
 #include "core/song.h"
@@ -103,7 +102,7 @@ class ApplicationImpl {
         database_([=]() {
           Database *db = new Database(app, app);
           app->MoveToNewThread(db);
-          DoInAMinuteOrSo(db, SLOT(DoBackup()));
+          QTimer::singleShot(30000, db, &Database::DoBackup);
           return db;
         }),
         appearance_([=]() { return new Appearance(app); }),
