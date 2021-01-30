@@ -5,7 +5,6 @@ set(SOURCES
   core/logging.cpp
   core/messagehandler.cpp
   core/messagereply.cpp
-  core/waitforsignal.cpp
   core/workerpool.cpp
 )
 
