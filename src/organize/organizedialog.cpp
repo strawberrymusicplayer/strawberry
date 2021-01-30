@@ -397,7 +397,7 @@ bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
 #endif
   QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
   watcher->setFuture(songs_future_);
-  QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [=]() {
+  QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher]() {
     SetSongs(watcher->result());
     watcher->deleteLater();
   });
