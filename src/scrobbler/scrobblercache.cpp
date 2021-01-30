@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <memory>
+#include <functional>
 
 #include <QObject>
 #include <QStandardPaths>
@@ -29,6 +30,7 @@
 #include <QFile>
 #include <QIODevice>
 #include <QTextStream>
+#include <QTimer>
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QJsonObject>
@@ -37,17 +39,23 @@
 
 #include "core/song.h"
 #include "core/logging.h"
-#include "core/closure.h"
 
 #include "scrobblercache.h"
 #include "scrobblercacheitem.h"
 
 ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent) :
   QObject(parent),
+  timer_flush_(new QTimer(this)),
   filename_(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/" + filename),
   loaded_(false) {
+
   ReadCache();
   loaded_ = true;
+
+  timer_flush_->setSingleShot(true);
+  timer_flush_->setInterval(600000);
+  QObject::connect(timer_flush_, &QTimer::timeout, this, &ScrobblerCache::WriteCache);
+
 }
 
 ScrobblerCache::~ScrobblerCache() {
@@ -203,7 +211,9 @@ ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 &times
   ScrobblerCacheItemPtr item = std::make_shared<ScrobblerCacheItem>(song.artist(), album, title, song.albumartist(), song.track(), song.length_nanosec(), timestamp);
   scrobbler_cache_.insert(timestamp, item);
 
-  if (loaded_) DoInAMinuteOrSo(this, SLOT(WriteCache()));
+  if (loaded_ && !timer_flush_->isActive()) {
+    timer_flush_->start();
+  }
 
   return item;
 
@@ -247,6 +257,9 @@ void ScrobblerCache::Flush(const QList<quint64> &list) {
     if (!scrobbler_cache_.contains(timestamp)) continue;
     scrobbler_cache_.remove(timestamp);
   }
-  DoInAMinuteOrSo(this, SLOT(WriteCache()));
+
+  if (!timer_flush_->isActive()) {
+    timer_flush_->start();
+  }
 
 }

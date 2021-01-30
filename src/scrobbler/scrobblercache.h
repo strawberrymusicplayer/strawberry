@@ -32,6 +32,7 @@
 
 #include "scrobblercacheitem.h"
 
+class QTimer;
 class Song;
 
 class ScrobblerCache : public QObject {
@@ -56,6 +57,7 @@ class ScrobblerCache : public QObject {
   void WriteCache();
 
  private:
+  QTimer *timer_flush_;
   QString filename_;
   bool loaded_;
   QHash<quint64, ScrobblerCacheItemPtr> scrobbler_cache_;
