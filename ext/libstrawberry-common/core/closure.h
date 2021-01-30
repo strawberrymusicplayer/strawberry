@@ -227,7 +227,7 @@ template <typename R, typename P>
 void DoAfter(std::function<void()> callback, std::chrono::duration<R, P> duration) {
   QTimer *timer = new QTimer;
   timer->setSingleShot(true);
-  NewClosure(timer, SIGNAL(timeout()), callback);
+  QObject::connect(timer, &QTimer::timeout, callback);
   QObject::connect(timer, &QTimer::timeout, timer, &QTimer::deleteLater);
   std::chrono::milliseconds msec = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
   timer->start(msec.count());

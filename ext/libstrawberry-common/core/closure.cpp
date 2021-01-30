@@ -64,7 +64,7 @@ void Unpack(QList<QGenericArgument>*) {}
 
 }  // namespace _detail
 
-_detail::ClosureBase* NewClosure(QObject *sender, const char *signal, std::function<void()> callback) {
+_detail::ClosureBase *NewClosure(QObject *sender, const char *signal, std::function<void()> callback) {
   return new _detail::CallbackClosure(sender, signal, callback);
 }
 
