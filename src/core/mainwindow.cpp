@@ -31,6 +31,7 @@
 #include <QApplication>
 #include <QObject>
 #include <QWidget>
+#include <QMetaObject>
 #include <QThread>
 #include <QSystemTrayIcon>
 #include <QSortFilterProxyModel>
@@ -71,7 +72,6 @@
 #include <QClipboard>
 
 #include "core/logging.h"
-#include "core/closure.h"
 #include "core/networkaccessmanager.h"
 
 #include "mainwindow.h"
@@ -1424,10 +1424,18 @@ void MainWindow::ResumePlayback() {
     // Set active to current to resume playback on correct playlist.
     app_->playlist_manager()->SetActiveToCurrent();
     if (playback_state == Engine::Paused) {
-      NewClosure(app_->player(), SIGNAL(Playing()), app_->player(), SLOT(PlayPause()));
+      std::shared_ptr<QMetaObject::Connection> connection = std::make_shared<QMetaObject::Connection>();
+      *connection = QObject::connect(app_->player(), &Player::Playing, app_->player(), [this, connection]() {
+        QObject::disconnect(*connection);
+        app_->player()->PlayPause();
+      });
     }
     // Seek after we got song length.
-    NewClosure(track_position_timer_, SIGNAL(timeout()), this, SLOT(ResumePlaybackSeek(int)), playback_position);
+    std::shared_ptr<QMetaObject::Connection> connection = std::make_shared<QMetaObject::Connection>();
+    *connection = QObject::connect(track_position_timer_, &QTimer::timeout, this, [this, connection, playback_position]() {
+      QObject::disconnect(*connection);
+      ResumePlaybackSeek(playback_position);
+    });
     app_->player()->Play();
   }
 
