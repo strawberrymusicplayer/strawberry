@@ -39,8 +39,7 @@ SongLoaderInserter::SongLoaderInserter(TaskManager *task_manager, CollectionBack
       enqueue_(false),
       enqueue_next_(false),
       collection_(collection),
-      player_(player) {
-    }
+      player_(player) {}
 
 SongLoaderInserter::~SongLoaderInserter() { qDeleteAll(pending_); }
 
@@ -214,4 +213,3 @@ void SongLoaderInserter::AsyncLoad() {
   deleteLater();
 
 }
-

@@ -477,4 +477,3 @@ void PlaylistBackend::SetPlaylistUiPath(int id, const QString &path) {
   transaction.Commit();
 
 }
-

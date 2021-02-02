@@ -135,4 +135,3 @@ class ContextAlbumsView : public AutoExpandingTreeView {
 };
 
 #endif  // CONTEXTALBUMSVIEW_H
-

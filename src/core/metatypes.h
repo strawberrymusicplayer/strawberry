@@ -3,4 +3,4 @@
 
 void RegisterMetaTypes();
 
-#endif
+#endif  // METATYPES_H

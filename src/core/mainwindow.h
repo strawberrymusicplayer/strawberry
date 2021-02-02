@@ -393,4 +393,3 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 };
 
 #endif  // MAINWINDOW_H
-

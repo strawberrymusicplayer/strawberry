@@ -123,4 +123,3 @@ void DeleteFiles::ProcessSomeFiles() {
   QTimer::singleShot(0, this, &DeleteFiles::ProcessSomeFiles);
 
 }
-

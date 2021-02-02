@@ -192,4 +192,3 @@ void AutoExpandingTreeView::DownAndFocus() {
   setCurrentIndex(moveCursor(QAbstractItemView::MoveDown, Qt::NoModifier));
   setFocus();
 }
-

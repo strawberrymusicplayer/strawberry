@@ -75,4 +75,3 @@ class MimeData : public QMimeData {
 };
 
 #endif  // MIMEDATA_H
-

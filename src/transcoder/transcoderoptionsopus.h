@@ -38,9 +38,9 @@ class TranscoderOptionsOpus : public TranscoderOptionsInterface {
   void Save() override;
 
  private:
-  static const char* kSettingsGroup;
+  static const char *kSettingsGroup;
 
-  Ui_TranscoderOptionsOpus* ui_;
+  Ui_TranscoderOptionsOpus *ui_;
 };
 
 #endif  // TRANSCODEROPTIONSOPUS_H

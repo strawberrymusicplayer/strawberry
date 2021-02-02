@@ -447,11 +447,11 @@ SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) {
 }
 
 void OrganizeDialog::SetCopy(const bool copy) {
-    ui_->aftercopying->setCurrentIndex(copy ? 0 : 1);
+  ui_->aftercopying->setCurrentIndex(copy ? 0 : 1);
 }
 
 void OrganizeDialog::SetPlaylist(const QString &playlist) {
-    playlist_ = playlist;
+  playlist_ = playlist;
 }
 
 void OrganizeDialog::InsertTag(const QString &tag) {

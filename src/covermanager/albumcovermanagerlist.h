@@ -53,7 +53,7 @@ class AlbumCoverManagerList : public QListWidget {
   void dropEvent(QDropEvent *event) override;
 
  private:
-  AlbumCoverManager* manager_;
+  AlbumCoverManager *manager_;
 };
 
 #endif  // ALBUMCOVERMANAGERLIST_H

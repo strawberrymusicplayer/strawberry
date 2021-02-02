@@ -130,7 +130,7 @@ class VolumeSlider : public SliderSlider {
   void drawVolumeSliderHandle();
 
   VolumeSlider(const VolumeSlider&);             // undefined
-  VolumeSlider& operator=(const VolumeSlider&);  // undefined
+  VolumeSlider &operator=(const VolumeSlider&);  // undefined
 
   ////////////////////////////////////////////////////////////////
   static const int ANIM_INTERVAL = 18;
@@ -138,7 +138,7 @@ class VolumeSlider : public SliderSlider {
 
   bool m_animEnter;
   int m_animCount;
-  QTimer* m_animTimer;
+  QTimer *m_animTimer;
 
   QPixmap m_pixmapInset;
   QPixmap m_pixmapGradient;

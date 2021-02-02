@@ -59,4 +59,3 @@ void PlaylistSaveOptionsDialog::accept() {
 Playlist::Path PlaylistSaveOptionsDialog::path_type() const {
   return static_cast<Playlist::Path>(ui->filePaths->itemData(ui->filePaths->currentIndex()).toInt());
 }
-

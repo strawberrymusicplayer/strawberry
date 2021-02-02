@@ -100,4 +100,3 @@ void AlbumCoverExport::ForceSizeToggled(int state) {
   ui_->width->setEnabled(state == Qt::Checked);
   ui_->height->setEnabled(state == Qt::Checked);
 }
-

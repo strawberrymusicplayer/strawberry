@@ -91,4 +91,3 @@ void Appearance::ChangeBackgroundColor(const QColor &color) {
   background_color_ = color;
 
 }
-

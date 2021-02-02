@@ -46,4 +46,3 @@ void ScopedTransaction::Commit() {
   db_->commit();
   pending_ = false;
 }
-

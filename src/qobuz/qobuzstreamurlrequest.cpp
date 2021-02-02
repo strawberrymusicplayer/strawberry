@@ -246,4 +246,3 @@ void QobuzStreamURLRequest::Error(const QString &error, const QVariant &debug) {
   if (debug.isValid()) qLog(Debug) << debug;
 
 }
-

@@ -458,4 +458,3 @@ QString TranscodeDialog::GetOutputFileName(const QString &input, const Transcode
   }
 
 }
-

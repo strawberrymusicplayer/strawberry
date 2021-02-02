@@ -140,4 +140,3 @@ int TaskManager::GetTaskProgress(int id) {
   }
 
 }
-

@@ -398,4 +398,3 @@ QDataStream& operator>>(QDataStream &s, CommandlineOptions &a) {
   return s;
 
 }
-

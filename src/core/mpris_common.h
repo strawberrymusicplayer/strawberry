@@ -61,4 +61,4 @@ inline QString AsMPRISDateTimeType(const int time) {
 
 } // namespace mpris
 
-#endif // MPRIS_COMMON_H
+#endif  // MPRIS_COMMON_H

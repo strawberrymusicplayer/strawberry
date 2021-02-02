@@ -146,4 +146,3 @@ void SettingsPage::ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combo
   combobox->setCurrentIndex(i);
 
 }
-

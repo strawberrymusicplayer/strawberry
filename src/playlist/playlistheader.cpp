@@ -177,4 +177,3 @@ void PlaylistHeader::ResetColumns() {
 void PlaylistHeader::ToggleRatingEditStatus() {
   emit SectionRatingLockStatusChanged(action_rating_lock_->isChecked());
 }
-

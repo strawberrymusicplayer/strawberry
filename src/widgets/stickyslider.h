@@ -36,7 +36,7 @@ class StickySlider : public QSlider {
   Q_PROPERTY(int sticky_threshold READ sticky_threshold WRITE set_sticky_threshold)
 
  public:
-  explicit StickySlider(QWidget* parent = nullptr);
+  explicit StickySlider(QWidget *parent = nullptr);
 
   int sticky_center() const { return sticky_center_; }
   int sticky_threshold() const { return sticky_threshold_; }
@@ -44,7 +44,7 @@ class StickySlider : public QSlider {
   void set_sticky_threshold(int threshold) { sticky_threshold_ = threshold; }
 
  protected:
-  void mouseMoveEvent(QMouseEvent* e) override;
+  void mouseMoveEvent(QMouseEvent *e) override;
 
  private:
   int sticky_center_;

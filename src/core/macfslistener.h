@@ -61,5 +61,4 @@ class MacFSListener : public FileSystemWatcherInterface {
   QTimer *update_timer_;
 };
 
-#endif
-
+#endif  // MACFSLISTENER_H

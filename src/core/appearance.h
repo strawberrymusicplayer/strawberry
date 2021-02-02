@@ -44,4 +44,3 @@ class Appearance : public QObject {
 };
 
 #endif  // APPEARANCE_H
-

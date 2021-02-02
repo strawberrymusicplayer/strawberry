@@ -370,4 +370,3 @@ void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
   }
 
 }
-

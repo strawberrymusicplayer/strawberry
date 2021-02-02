@@ -199,4 +199,3 @@ void CoverExportRunnable::ExportCover() {
 void CoverExportRunnable::EmitCoverExported() { emit CoverExported(); }
 
 void CoverExportRunnable::EmitCoverSkipped() { emit CoverSkipped(); }
-

@@ -45,7 +45,7 @@ const int TrackSliderPopup::kPointWidth = 4;
 const int TrackSliderPopup::kBorderRadius = 4;
 const qreal TrackSliderPopup::kBlurRadius = 20.0;
 
-TrackSliderPopup::TrackSliderPopup(QWidget* parent)
+TrackSliderPopup::TrackSliderPopup(QWidget *parent)
     : QWidget(parent),
       font_metrics_(fontMetrics()),
     small_font_metrics_(fontMetrics()) {
@@ -61,17 +61,17 @@ TrackSliderPopup::TrackSliderPopup(QWidget* parent)
 
 }
 
-void TrackSliderPopup::SetText(const QString& text) {
+void TrackSliderPopup::SetText(const QString &text) {
   text_ = text;
   UpdatePixmap();
 }
 
-void TrackSliderPopup::SetSmallText(const QString& text) {
+void TrackSliderPopup::SetSmallText(const QString &text) {
   small_text_ = text;
   UpdatePixmap();
 }
 
-void TrackSliderPopup::SetPopupPosition(const QPoint& pos) {
+void TrackSliderPopup::SetPopupPosition(const QPoint &pos) {
   pos_ = pos;
   UpdatePosition();
 }

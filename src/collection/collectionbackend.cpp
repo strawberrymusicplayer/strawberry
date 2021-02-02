@@ -1458,4 +1458,3 @@ void CollectionBackend::UpdateSongRatingAsync(const int id, const float rating) 
 void CollectionBackend::UpdateSongsRatingAsync(const QList<int>& ids, const float rating) {
   metaObject()->invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(float, rating));
 }
-

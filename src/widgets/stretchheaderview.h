@@ -82,7 +82,7 @@ class StretchHeaderView : public QHeaderView {
  protected:
   // QWidget
   void mouseMoveEvent(QMouseEvent *e) override;
-  void resizeEvent(QResizeEvent *event) override;
+  void resizeEvent(QResizeEvent *e) override;
 
  private:
   // Scales column_widths_ values so the total is 1.0.

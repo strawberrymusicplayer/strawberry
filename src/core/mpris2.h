@@ -243,4 +243,4 @@ class Mpris2 : public QObject {
 }  // namespace mpris
 
 
-#endif
+#endif  // MPRIS2_H

@@ -164,4 +164,3 @@ bool CollectionItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *vie
   return false;
 
 }
-

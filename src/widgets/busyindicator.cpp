@@ -84,4 +84,3 @@ void BusyIndicator::set_text(const QString &text) {
 QString BusyIndicator::text() const {
   return label_->text();
 }
-

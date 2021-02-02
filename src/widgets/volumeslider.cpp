@@ -56,7 +56,7 @@ SliderSlider::SliderSlider(Qt::Orientation orientation, QWidget* parent, uint ma
   setRange(0, max);
 }
 
-void SliderSlider::wheelEvent(QWheelEvent* e) {
+void SliderSlider::wheelEvent(QWheelEvent *e) {
 
   if (orientation() == Qt::Vertical) {
     // Will be handled by the parent widget
@@ -95,7 +95,7 @@ void SliderSlider::mouseMoveEvent(QMouseEvent *e) {
 
 }
 
-void SliderSlider::slideEvent(QMouseEvent* e) {
+void SliderSlider::slideEvent(QMouseEvent *e) {
 
   QStyleOptionSlider option;
   initStyleOption(&option);
@@ -118,7 +118,7 @@ void SliderSlider::slideEvent(QMouseEvent* e) {
 
 }
 
-void SliderSlider::mousePressEvent(QMouseEvent* e) {
+void SliderSlider::mousePressEvent(QMouseEvent *e) {
 
   QStyleOptionSlider option;
   initStyleOption(&option);
@@ -157,20 +157,20 @@ void SliderSlider::setValue(int newValue) {
 #define THICKNESS 7
 #define MARGIN 3
 
-PrettySlider::PrettySlider(Qt::Orientation orientation, SliderMode mode, QWidget* parent, uint max)
+PrettySlider::PrettySlider(Qt::Orientation orientation, SliderMode mode, QWidget *parent, uint max)
     : SliderSlider(orientation, parent, max), m_mode(mode) {
   if (m_mode == Pretty) {
     setFocusPolicy(Qt::NoFocus);
   }
 }
 
-void PrettySlider::mousePressEvent(QMouseEvent* e) {
+void PrettySlider::mousePressEvent(QMouseEvent *e) {
   SliderSlider::mousePressEvent(e);
 
   slideEvent(e);
 }
 
-void PrettySlider::slideEvent(QMouseEvent* e) {
+void PrettySlider::slideEvent(QMouseEvent *e) {
   if (m_mode == Pretty)
     QSlider::setValue(
         orientation() == Qt::Horizontal
@@ -207,7 +207,7 @@ QSize PrettySlider::sizeHint() const {
 /// CLASS VolumeSlider
 //////////////////////////////////////////////////////////////////////////////////////////
 
-VolumeSlider::VolumeSlider(QWidget* parent, uint max)
+VolumeSlider::VolumeSlider(QWidget *parent, uint max)
     : SliderSlider(Qt::Horizontal, parent, max),
       m_animCount(0),
       m_animTimer(new QTimer(this)),
@@ -268,7 +268,7 @@ void VolumeSlider::slotAnimTimer() {
 
 }
 
-void VolumeSlider::mousePressEvent(QMouseEvent* e) {
+void VolumeSlider::mousePressEvent(QMouseEvent *e) {
 
   if (e->button() != Qt::RightButton) {
     SliderSlider::mousePressEvent(e);
@@ -277,7 +277,7 @@ void VolumeSlider::mousePressEvent(QMouseEvent* e) {
 
 }
 
-void VolumeSlider::contextMenuEvent(QContextMenuEvent* e) {
+void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
 
   QMap<QAction*, int> values;
   QMenu menu;
@@ -289,7 +289,7 @@ void VolumeSlider::contextMenuEvent(QContextMenuEvent* e) {
   values[menu.addAction("20%")] = 20;
   values[menu.addAction("0%")] = 0;
 
-  QAction* ret = menu.exec(mapToGlobal(e->pos()));
+  QAction *ret = menu.exec(mapToGlobal(e->pos()));
   if (ret) {
     QSlider::setValue(values[ret]);
     emit sliderReleased(values[ret]);
@@ -297,11 +297,11 @@ void VolumeSlider::contextMenuEvent(QContextMenuEvent* e) {
 
 }
 
-void VolumeSlider::slideEvent(QMouseEvent* e) {
+void VolumeSlider::slideEvent(QMouseEvent *e) {
   QSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2));
 }
 
-void VolumeSlider::wheelEvent(QWheelEvent* e) {
+void VolumeSlider::wheelEvent(QWheelEvent *e) {
 
   const uint step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
   QSlider::setValue(QSlider::value() + step);

@@ -52,4 +52,3 @@ void RenameTabLineEdit::focusOutEvent(QFocusEvent *e) {
   //we don't call the default event since it will trigger editingFished()
 
 }
-

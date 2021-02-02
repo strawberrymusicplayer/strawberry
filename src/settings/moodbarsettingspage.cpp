@@ -109,6 +109,7 @@ void MoodbarSettingsPage::InitMoodbarPreviews() {
     return;
   }
   QByteArray file_data = file.readAll();
+  file.close();
 
   // Render and set each preview
   for (int i = 0; i < MoodbarRenderer::StyleCount; ++i) {

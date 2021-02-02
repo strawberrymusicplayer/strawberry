@@ -144,4 +144,3 @@ class AlbumCoverLoader : public QObject {
 };
 
 #endif  // ALBUMCOVERLOADER_H
-

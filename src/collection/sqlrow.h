@@ -49,5 +49,4 @@ class SqlRow {
 
 typedef QList<SqlRow> SqlRowList;
 
-#endif
-
+#endif  // SQLROW_H

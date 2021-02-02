@@ -50,4 +50,3 @@ gulong CheckedGConnect(gpointer source, const char *signal, GCallback callback, 
   return g_signal_connect(source, signal, G_CALLBACK(callback), data);
 
 }
-

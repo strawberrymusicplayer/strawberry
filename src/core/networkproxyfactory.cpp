@@ -142,4 +142,3 @@ QList<QNetworkProxy> NetworkProxyFactory::queryProxy(const QNetworkProxyQuery &q
   return QList<QNetworkProxy>() << ret;
 
 }
-

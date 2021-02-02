@@ -277,5 +277,3 @@ void ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete(const bool succe
 void ScrobblerSettingsPage::ListenBrainz_RefreshControls(bool authenticated) {
   ui_->widget_listenbrainz_login_state->SetLoggedIn(authenticated ? LoginStateWidget::LoggedIn : LoginStateWidget::LoggedOut);
 }
-
-

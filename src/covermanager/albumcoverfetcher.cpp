@@ -154,4 +154,3 @@ void AlbumCoverFetcher::SingleCoverFetched(const quint64 request_id, const QUrl 
   emit AlbumCoverFetched(request_id, cover_url, image, search->statistics());
 
 }
-

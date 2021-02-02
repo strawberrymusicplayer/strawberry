@@ -176,4 +176,3 @@ QImage TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename) {
   return ret;
 
 }
-

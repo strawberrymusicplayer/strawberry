@@ -154,4 +154,3 @@ bool PlaylistItem::HasCurrentForegroundColor() const {
 }
 void PlaylistItem::SetShouldSkip(bool val) { should_skip_ = val; }
 bool PlaylistItem::GetShouldSkip() const { return should_skip_; }
-

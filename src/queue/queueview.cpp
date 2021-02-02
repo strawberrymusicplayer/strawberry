@@ -192,4 +192,3 @@ void QueueView::PlaylistDestroyed() {
   current_playlist_ = nullptr;
   // We'll get another CurrentPlaylistChanged() soon
 }
-

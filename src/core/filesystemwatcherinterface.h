@@ -44,4 +44,3 @@ class FileSystemWatcherInterface : public QObject {
 };
 
 #endif
-

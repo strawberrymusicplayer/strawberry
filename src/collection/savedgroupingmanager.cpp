@@ -209,4 +209,3 @@ void SavedGroupingManager::UpdateButtonState() {
   }
 
 }
-

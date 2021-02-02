@@ -641,4 +641,3 @@ void PlaylistManager::RateCurrentSong(const double rating) {
 void PlaylistManager::RateCurrentSong(const int rating) {
   RateCurrentSong(rating / 5.0);
 }
-

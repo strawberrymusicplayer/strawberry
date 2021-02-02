@@ -35,7 +35,7 @@ class SettingsDialog;
 
 const char *PlaylistSettingsPage::kSettingsGroup = "Playlist";
 
-PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog* dialog) : SettingsPage(dialog), ui_(new Ui_PlaylistSettingsPage) {
+PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog *dialog) : SettingsPage(dialog), ui_(new Ui_PlaylistSettingsPage) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("document-new"));
@@ -101,8 +101,6 @@ void PlaylistSettingsPage::Load() {
 
 void PlaylistSettingsPage::Save() {
 
-  QSettings s;
-
   Playlist::Path path = Playlist::Path_Automatic;
   if (ui_->radiobutton_automaticpath->isChecked()) {
     path = Playlist::Path_Automatic;
@@ -117,6 +115,7 @@ void PlaylistSettingsPage::Save() {
     path = Playlist::Path_Ask_User;
   }
 
+  QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("glow_effect", ui_->checkbox_glowcurrenttrack->isChecked());
   s.setValue("warn_close_playlist", ui_->checkbox_warncloseplaylist->isChecked());

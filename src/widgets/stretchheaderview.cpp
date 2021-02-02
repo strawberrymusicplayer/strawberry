@@ -168,9 +168,9 @@ void StretchHeaderView::SetSectionHidden(const int logical, const bool hidden) {
 
 }
 
-void StretchHeaderView::resizeEvent(QResizeEvent *event) {
+void StretchHeaderView::resizeEvent(QResizeEvent *e) {
 
-  QHeaderView::resizeEvent(event);
+  QHeaderView::resizeEvent(e);
 
   if (!stretch_enabled_) return;
 

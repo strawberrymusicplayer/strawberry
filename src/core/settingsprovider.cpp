@@ -53,4 +53,3 @@ void DefaultSettingsProvider::setArrayIndex(int i) {
 }
 
 void DefaultSettingsProvider::endArray() { backend_.endArray(); }
-

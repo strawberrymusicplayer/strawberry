@@ -114,4 +114,3 @@ class MergedProxyModel : public QAbstractProxyModel {
 };
 
 #endif  // MERGEDPROXYMODEL_H
-

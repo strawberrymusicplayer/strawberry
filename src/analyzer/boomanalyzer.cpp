@@ -171,4 +171,3 @@ void BoomAnalyzer::analyze(QPainter& p, const Scope& scope, bool new_frame) {
   p.drawPixmap(0, 0, canvas_);
 
 }
-

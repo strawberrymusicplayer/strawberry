@@ -71,4 +71,3 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
   return LoadResult(url, LoadResult::TrackAvailable, stream_url);
 
 }
-

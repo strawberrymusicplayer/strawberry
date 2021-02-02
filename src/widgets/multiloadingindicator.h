@@ -43,7 +43,7 @@ class MultiLoadingIndicator : public QWidget {
   static const int kHorizontalPadding;
   static const int kSpacing;
 
-  void SetTaskManager(TaskManager* task_manager);
+  void SetTaskManager(TaskManager *task_manager);
 
   QSize sizeHint() const override;
 

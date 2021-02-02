@@ -62,7 +62,7 @@ class TrackSliderSlider : public QSlider {
   void enterEvent(QEvent *e) override;
 #endif
   void leaveEvent(QEvent *e) override;
-  void keyPressEvent(QKeyEvent* event) override;
+  void keyPressEvent(QKeyEvent *event) override;
 
  private slots:
   void UpdateDeltaTime();

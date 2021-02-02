@@ -285,4 +285,3 @@ void AlbumCoverSearcher::keyPressEvent(QKeyEvent *e) {
 void AlbumCoverSearcher::CoverDoubleClicked(const QModelIndex &idx) {
   if (idx.isValid()) accept();
 }
-
