@@ -1105,7 +1105,7 @@ void Playlist::InsertInternetItems(InternetService *service, const SongList &son
 
   PlaylistItemList playlist_items;
   for (const Song &song : songs) {
-    playlist_items << std::shared_ptr<PlaylistItem>(new InternetPlaylistItem(service, song));
+    playlist_items << std::make_shared<InternetPlaylistItem>(service, song);
   }
 
   InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
