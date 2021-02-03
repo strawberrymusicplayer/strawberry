@@ -142,7 +142,7 @@ void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist
   ui_->tab_bar->SetActions(new_playlist, load_playlist);
 
   QObject::connect(new_playlist, &QAction::triggered, this, &PlaylistContainer::NewPlaylist);
-  QObject::connect(save_playlist, &QAction::triggered, this, &PlaylistContainer::SavePlaylist);
+  QObject::connect(save_playlist, &QAction::triggered, this, &PlaylistContainer::SaveCurrentPlaylist);
   QObject::connect(load_playlist, &QAction::triggered, this, &PlaylistContainer::LoadPlaylist);
   QObject::connect(clear_playlist, &QAction::triggered, this, &PlaylistContainer::ClearPlaylist);
   QObject::connect(next_playlist, &QAction::triggered, this, &PlaylistContainer::GoToNextPlaylistTab);
