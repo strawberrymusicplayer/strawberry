@@ -2011,7 +2011,7 @@ msgstr "Error al eliminar pistas"
 msgid "Error processing %1: %2"
 msgstr "Error al procesar %1: %2"
 
-#: playlist/songloaderinserter.cpp:112
+#: playlist/songloaderinserter.cpp:111
 msgid "Error while loading audio CD."
 msgstr "Error al cargar el CD."
 
@@ -2769,11 +2769,11 @@ msgstr "Cargando lista inteligente"
 msgid "Loading songs"
 msgstr "Cargando pistas"
 
-#: playlist/songloaderinserter.cpp:167 dialogs/edittagdialog.cpp:288
+#: playlist/songloaderinserter.cpp:166 dialogs/edittagdialog.cpp:288
 msgid "Loading tracks"
 msgstr "Cargando pistas"
 
-#: playlist/songloaderinserter.cpp:197
+#: playlist/songloaderinserter.cpp:196
 msgid "Loading tracks info"
 msgstr "Cargando información de pistas"
 

@@ -1973,7 +1973,7 @@ msgstr "Terjadi kesalahan saat menghapus lagu"
 msgid "Error processing %1: %2"
 msgstr "Terjadi kesalahan saat memproses %1: %2"
 
-#: playlist/songloaderinserter.cpp:112
+#: playlist/songloaderinserter.cpp:111
 msgid "Error while loading audio CD."
 msgstr "Terjadi kesalahan saat memuat CD audio."
 
@@ -2717,11 +2717,11 @@ msgstr ""
 msgid "Loading songs"
 msgstr "Memuat lagu"
 
-#: playlist/songloaderinserter.cpp:167 dialogs/edittagdialog.cpp:288
+#: playlist/songloaderinserter.cpp:166 dialogs/edittagdialog.cpp:288
 msgid "Loading tracks"
 msgstr "Memuat trek"
 
-#: playlist/songloaderinserter.cpp:197
+#: playlist/songloaderinserter.cpp:196
 msgid "Loading tracks info"
 msgstr "Memuat info trek"
 

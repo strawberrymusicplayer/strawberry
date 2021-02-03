@@ -1992,7 +1992,7 @@ msgstr "Ошибка удаления композиций"
 msgid "Error processing %1: %2"
 msgstr "Ошибка при обработке %1: %2"
 
-#: playlist/songloaderinserter.cpp:112
+#: playlist/songloaderinserter.cpp:111
 msgid "Error while loading audio CD."
 msgstr "Ошибка при загрузке аудио CD."
 
@@ -2739,11 +2739,11 @@ msgstr ""
 msgid "Loading songs"
 msgstr "Загрузка песен"
 
-#: playlist/songloaderinserter.cpp:167 dialogs/edittagdialog.cpp:288
+#: playlist/songloaderinserter.cpp:166 dialogs/edittagdialog.cpp:288
 msgid "Loading tracks"
 msgstr "Загрузка композиций"
 
-#: playlist/songloaderinserter.cpp:197
+#: playlist/songloaderinserter.cpp:196
 msgid "Loading tracks info"
 msgstr "Загрузка информации о треках"
 

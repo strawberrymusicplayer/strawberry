@@ -2027,7 +2027,7 @@ msgstr "Fehler beim Löschen der Titel"
 msgid "Error processing %1: %2"
 msgstr "Fehler bei %1: %2"
 
-#: playlist/songloaderinserter.cpp:112
+#: playlist/songloaderinserter.cpp:111
 msgid "Error while loading audio CD."
 msgstr "Fehler beim Laden der Audio-CD"
 
@@ -2784,11 +2784,11 @@ msgstr "Lade intelligente Wiedergabeliste"
 msgid "Loading songs"
 msgstr "Titel werden geladen"
 
-#: playlist/songloaderinserter.cpp:167 dialogs/edittagdialog.cpp:288
+#: playlist/songloaderinserter.cpp:166 dialogs/edittagdialog.cpp:288
 msgid "Loading tracks"
 msgstr "Titel werden geladen"
 
-#: playlist/songloaderinserter.cpp:197
+#: playlist/songloaderinserter.cpp:196
 msgid "Loading tracks info"
 msgstr "Titelinfo wird geladen"
 

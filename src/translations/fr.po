@@ -2037,7 +2037,7 @@ msgstr "Erreur lors de la suppression des morceaux"
 msgid "Error processing %1: %2"
 msgstr "Erreur lors du traitement de %1 : %2"
 
-#: playlist/songloaderinserter.cpp:112
+#: playlist/songloaderinserter.cpp:111
 msgid "Error while loading audio CD."
 msgstr "Erreur lors du chargement du CD audio."
 
@@ -2796,11 +2796,11 @@ msgstr "Chargement de la liste de lecture intelligente"
 msgid "Loading songs"
 msgstr "Chargement des morceaux"
 
-#: playlist/songloaderinserter.cpp:167 dialogs/edittagdialog.cpp:288
+#: playlist/songloaderinserter.cpp:166 dialogs/edittagdialog.cpp:288
 msgid "Loading tracks"
 msgstr "Chargement des pistes"
 
-#: playlist/songloaderinserter.cpp:197
+#: playlist/songloaderinserter.cpp:196
 msgid "Loading tracks info"
 msgstr "Chargement des info des pistes"
 

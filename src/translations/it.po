@@ -1975,7 +1975,7 @@ msgstr "Errore durante l'eliminazione dei brani"
 msgid "Error processing %1: %2"
 msgstr "Errore durante l'elaborazione di %1: %2"
 
-#: playlist/songloaderinserter.cpp:112
+#: playlist/songloaderinserter.cpp:111
 msgid "Error while loading audio CD."
 msgstr "Errore durante il caricamento del CD audio"
 
@@ -2724,11 +2724,11 @@ msgstr ""
 msgid "Loading songs"
 msgstr "Caricamento brani in corso"
 
-#: playlist/songloaderinserter.cpp:167 dialogs/edittagdialog.cpp:288
+#: playlist/songloaderinserter.cpp:166 dialogs/edittagdialog.cpp:288
 msgid "Loading tracks"
 msgstr "Caricamento delle tracce"
 
-#: playlist/songloaderinserter.cpp:197
+#: playlist/songloaderinserter.cpp:196
 msgid "Loading tracks info"
 msgstr "Caricamento informazioni della traccia"
 

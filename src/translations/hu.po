@@ -1989,7 +1989,7 @@ msgstr "Hiba történt a dalok törlése közben"
 msgid "Error processing %1: %2"
 msgstr "Hiba %1: %2 feldolgozásakor"
 
-#: playlist/songloaderinserter.cpp:112
+#: playlist/songloaderinserter.cpp:111
 msgid "Error while loading audio CD."
 msgstr "Hiba a CD betöltése közben."
 
@@ -2739,11 +2739,11 @@ msgstr "Okos lejátszólista betöltése"
 msgid "Loading songs"
 msgstr "Dalok betöltése"
 
-#: playlist/songloaderinserter.cpp:167 dialogs/edittagdialog.cpp:288
+#: playlist/songloaderinserter.cpp:166 dialogs/edittagdialog.cpp:288
 msgid "Loading tracks"
 msgstr "Számok betöltése"
 
-#: playlist/songloaderinserter.cpp:197
+#: playlist/songloaderinserter.cpp:196
 msgid "Loading tracks info"
 msgstr "Száminformációk betöltése"
 

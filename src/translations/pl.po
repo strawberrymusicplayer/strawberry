@@ -2000,7 +2000,7 @@ msgstr "Błąd przy usuwaniu utworów"
 msgid "Error processing %1: %2"
 msgstr "Błąd przetwarzania %1: %2"
 
-#: playlist/songloaderinserter.cpp:112
+#: playlist/songloaderinserter.cpp:111
 msgid "Error while loading audio CD."
 msgstr "Błąd odczytu płyty audio."
 
@@ -2755,11 +2755,11 @@ msgstr "Ładowanie smartlisty"
 msgid "Loading songs"
 msgstr "Wczytywanie utworów"
 
-#: playlist/songloaderinserter.cpp:167 dialogs/edittagdialog.cpp:288
+#: playlist/songloaderinserter.cpp:166 dialogs/edittagdialog.cpp:288
 msgid "Loading tracks"
 msgstr "Wczytywanie ścieżek"
 
-#: playlist/songloaderinserter.cpp:197
+#: playlist/songloaderinserter.cpp:196
 msgid "Loading tracks info"
 msgstr "Wczytywanie informacji o utworze"
 

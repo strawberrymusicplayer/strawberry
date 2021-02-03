@@ -1983,7 +1983,7 @@ msgstr "Chyba při mazání písní"
 msgid "Error processing %1: %2"
 msgstr "Chyba při zpracovávání %1: %2"
 
-#: playlist/songloaderinserter.cpp:112
+#: playlist/songloaderinserter.cpp:111
 msgid "Error while loading audio CD."
 msgstr "Chyba při načítání zvukového CD"
 
@@ -2737,11 +2737,11 @@ msgstr "Nahrávání chytrého playlistu"
 msgid "Loading songs"
 msgstr "Nahrávají se písně"
 
-#: playlist/songloaderinserter.cpp:167 dialogs/edittagdialog.cpp:288
+#: playlist/songloaderinserter.cpp:166 dialogs/edittagdialog.cpp:288
 msgid "Loading tracks"
 msgstr "Nahrávají se skladby"
 
-#: playlist/songloaderinserter.cpp:197
+#: playlist/songloaderinserter.cpp:196
 msgid "Loading tracks info"
 msgstr "Nahrávají se informace o skladbě"
 
