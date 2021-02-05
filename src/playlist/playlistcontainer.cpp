@@ -340,7 +340,7 @@ void PlaylistContainer::LoadPlaylist() {
 
 }
 
-void PlaylistContainer::SavePlaylist(const int id = -1) {
+void PlaylistContainer::SavePlaylist(const int id) {
 
   // Use the tab name as the suggested name
   QString suggested_name = ui_->tab_bar->tabText(ui_->tab_bar->currentIndex());
