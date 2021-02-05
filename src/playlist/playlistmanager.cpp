@@ -207,8 +207,7 @@ void PlaylistManager::Load(const QString &filename) {
 
   Playlist *playlist = AddPlaylist(id, info.completeBaseName(), QString(), QString(), false);
 
-  QList<QUrl> urls;
-  playlist->InsertUrls(urls << QUrl::fromLocalFile(filename));
+  playlist->InsertUrls(QList<QUrl>() << QUrl::fromLocalFile(filename));
 
 }
 
