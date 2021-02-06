@@ -77,14 +77,14 @@ msgstr ""
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsaac.h:129
+#: ../build/src/ui_transcoderoptionsaac.h:133
+#: ../build/src/ui_transcoderoptionsvorbis.h:201
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
 #: ../build/src/ui_transcoderoptionsvorbis.h:207
-#: ../build/src/ui_transcoderoptionsvorbis.h:210
-#: ../build/src/ui_transcoderoptionsopus.h:80
-#: ../build/src/ui_transcoderoptionsspeex.h:219
-#: ../build/src/ui_transcoderoptionsspeex.h:222
-#: ../build/src/ui_transcoderoptionsasf.h:79
+#: ../build/src/ui_transcoderoptionsopus.h:77
+#: ../build/src/ui_transcoderoptionsspeex.h:220
+#: ../build/src/ui_transcoderoptionsspeex.h:223
+#: ../build/src/ui_transcoderoptionsasf.h:76
 #: ../build/src/ui_transcoderoptionsmp3.h:194
 msgid " kbps"
 msgstr " кбит/с"
@@ -172,7 +172,7 @@ msgstr ""
 msgid "%1 playlists (%2)"
 msgstr "%1 плейлистов (%2)"
 
-#: playlist/playlistmanager.cpp:469
+#: playlist/playlistmanager.cpp:468
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 выбрано из"
@@ -209,7 +209,7 @@ msgid ""
 "them all?"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:476 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:475 queue/queue.cpp:254
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 треков"
@@ -440,12 +440,12 @@ msgstr ""
 msgid "(different across multiple songs)"
 msgstr "(различный через несколько композиций)"
 
+#: ../build/src/ui_albumcovermanager.h:220
 #: ../build/src/ui_albumcovermanager.h:221
-#: ../build/src/ui_albumcovermanager.h:222
 msgid "0"
 msgstr "0"
 
-#: ../build/src/ui_trackslider.h:69 ../build/src/ui_trackslider.h:73
+#: ../build/src/ui_trackslider.h:66 ../build/src/ui_trackslider.h:70
 msgid "0:00:00"
 msgstr "0:00:00"
 
@@ -457,7 +457,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 день"
 
-#: playlist/playlistmanager.cpp:476 queue/queue.cpp:254
+#: playlist/playlistmanager.cpp:475 queue/queue.cpp:254
 msgid "1 track"
 msgstr "1 трек"
 
@@ -523,7 +523,7 @@ msgstr "ASF (WMA)"
 
 #: covermanager/albumcovermanager.cpp:133
 #: covermanager/albumcoversearcher.cpp:198
-#: ../build/src/ui_internetcollectionviewcontainer.h:141
+#: ../build/src/ui_internetcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "Прервать"
 
@@ -560,7 +560,7 @@ msgstr "Действие"
 msgid "Add &folder..."
 msgstr "Добавить &папку..."
 
-#: ../build/src/ui_addstreamdialog.h:77
+#: ../build/src/ui_addstreamdialog.h:75
 msgid "Add Stream"
 msgstr ""
 
@@ -711,7 +711,7 @@ msgstr "Добавить в другой плейлист"
 msgid "Add to artists"
 msgstr "Добавить в исполнители"
 
-#: ../build/src/ui_albumcovermanager.h:216
+#: ../build/src/ui_albumcovermanager.h:215
 msgid "Add to playlist"
 msgstr "Добавить в плейлист"
 
@@ -728,24 +728,24 @@ msgstr "Добавить в очередь"
 msgid "Add..."
 msgstr "Добавить..."
 
-#: ../build/src/ui_collectionfilterwidget.h:100
+#: ../build/src/ui_collectionfilterwidget.h:98
 msgid "Added this month"
 msgstr "Добавлено за месяц"
 
-#: ../build/src/ui_collectionfilterwidget.h:94
+#: ../build/src/ui_collectionfilterwidget.h:92
 msgid "Added this week"
 msgstr "Добавлено за неделю"
 
-#: ../build/src/ui_collectionfilterwidget.h:99
+#: ../build/src/ui_collectionfilterwidget.h:97
 msgid "Added this year"
 msgstr "Добавлено за год"
 
-#: ../build/src/ui_collectionfilterwidget.h:93
+#: ../build/src/ui_collectionfilterwidget.h:91
 msgid "Added today"
 msgstr "Добавлено сегодня"
 
+#: ../build/src/ui_collectionfilterwidget.h:93
 #: ../build/src/ui_collectionfilterwidget.h:95
-#: ../build/src/ui_collectionfilterwidget.h:97
 msgid "Added within three months"
 msgstr "Добавлено за три месяца"
 
@@ -764,11 +764,11 @@ msgstr "О&бложка альбома"
 #: collection/savedgroupingmanager.cpp:89 playlist/playlist.cpp:1269
 #: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:186
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
-#: ../build/src/ui_albumcoversearcher.h:110
-#: ../build/src/ui_albumcoversearcher.h:112
+#: ../build/src/ui_albumcoversearcher.h:107
+#: ../build/src/ui_albumcoversearcher.h:109
 #: ../build/src/ui_contextsettingspage.h:440
 #: ../build/src/ui_edittagdialog.h:707
-#: ../build/src/ui_trackselectiondialog.h:208
+#: ../build/src/ui_trackselectiondialog.h:207
 msgid "Album"
 msgstr "Альбом"
 
@@ -796,7 +796,7 @@ msgstr ""
 msgid "Album cover size"
 msgstr "Размер обложки альбома"
 
-#: ../build/src/ui_internettabsview.h:117
+#: ../build/src/ui_internettabsview.h:114
 msgid "Albums"
 msgstr "Альбомы"
 
@@ -851,11 +851,11 @@ msgstr ""
 msgid "Allow extended ASCII characters"
 msgstr "Разрешить расширенные символы ASCII"
 
-#: ../build/src/ui_transcoderoptionsaac.h:139
+#: ../build/src/ui_transcoderoptionsaac.h:141
 msgid "Allow mid/side encoding"
 msgstr "Разрешить mid/side кодирование"
 
-#: ../build/src/ui_transcodedialog.h:232
+#: ../build/src/ui_transcodedialog.h:230
 msgid "Alongside the originals"
 msgstr "Вместе с оригиналами"
 
@@ -928,9 +928,9 @@ msgstr "Вы действительно хотите сбросить стати
 #: collection/savedgroupingmanager.cpp:86 playlist/playlist.cpp:1268
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
-#: ../build/src/ui_albumcoversearcher.h:106
-#: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:713
-#: ../build/src/ui_trackselectiondialog.h:209
+#: ../build/src/ui_albumcoversearcher.h:103
+#: ../build/src/ui_albumcoversearcher.h:105 ../build/src/ui_edittagdialog.h:713
+#: ../build/src/ui_trackselectiondialog.h:208
 msgid "Artist"
 msgstr "Исполнитель"
 
@@ -938,7 +938,7 @@ msgstr "Исполнитель"
 msgid "Artist's initial"
 msgstr "Инициалы исполнителя"
 
-#: ../build/src/ui_internettabsview.h:116
+#: ../build/src/ui_internettabsview.h:113
 msgid "Artists"
 msgstr "Исполнители"
 
@@ -968,8 +968,8 @@ msgstr "Качество звука"
 msgid "Authenticating..."
 msgstr "Аутентификация..."
 
-#: ../build/src/ui_coverssettingspage.h:170
-#: ../build/src/ui_lyricssettingspage.h:170
+#: ../build/src/ui_coverssettingspage.h:167
+#: ../build/src/ui_lyricssettingspage.h:167
 #: ../build/src/ui_subsonicsettingspage.h:191
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:273
@@ -985,7 +985,7 @@ msgstr "Ошибка аутентификации"
 msgid "Author and maintainer"
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsspeex.h:226
+#: ../build/src/ui_transcoderoptionsspeex.h:225
 msgid "Auto"
 msgstr "Авто"
 
@@ -1025,7 +1025,7 @@ msgstr "Доступно"
 msgid "Available fields"
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsspeex.h:220
+#: ../build/src/ui_transcoderoptionsspeex.h:221
 msgid "Average bitrate"
 msgstr "Средний битрейт"
 
@@ -1053,7 +1053,7 @@ msgstr "Прозрачность фона"
 msgid "Backing up database"
 msgstr "Резервное копирование базы данных"
 
-#: ../build/src/ui_equalizer.h:179
+#: ../build/src/ui_equalizer.h:177
 msgid "Balance"
 msgstr "Баланс"
 
@@ -1065,7 +1065,7 @@ msgstr "Стандартный голубой"
 msgid "Behavior"
 msgstr "Поведение"
 
-#: ../build/src/ui_transcoderoptionsflac.h:82
+#: ../build/src/ui_transcoderoptionsflac.h:79
 msgid "Best"
 msgstr "Лучшее"
 
@@ -1083,10 +1083,10 @@ msgstr "Битрейт"
 #: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:140
 #: playlist/playlist.cpp:1287 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
-#: ../build/src/ui_transcoderoptionsaac.h:128
-#: ../build/src/ui_transcoderoptionsopus.h:79
-#: ../build/src/ui_transcoderoptionsspeex.h:217
-#: ../build/src/ui_transcoderoptionsasf.h:78
+#: ../build/src/ui_transcoderoptionsaac.h:132
+#: ../build/src/ui_transcoderoptionsopus.h:76
+#: ../build/src/ui_transcoderoptionsspeex.h:218
+#: ../build/src/ui_transcoderoptionsasf.h:75
 #: ../build/src/ui_transcoderoptionsmp3.h:193
 msgid "Bitrate"
 msgstr "Битрейт"
@@ -1100,7 +1100,7 @@ msgstr ""
 msgid "Block analyzer"
 msgstr "Блоковый анализатор"
 
-#: ../build/src/ui_transcoderoptionsaac.h:140
+#: ../build/src/ui_transcoderoptionsaac.h:142
 msgid "Block type"
 msgstr "Тип блока"
 
@@ -1200,11 +1200,11 @@ msgstr "Выбрать шрифт…"
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
 
-#: ../build/src/ui_coverssettingspage.h:167
+#: ../build/src/ui_coverssettingspage.h:164
 msgid "Choose the providers you want to use when searching for covers."
 msgstr ""
 
-#: ../build/src/ui_lyricssettingspage.h:167
+#: ../build/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr ""
 
@@ -1213,7 +1213,7 @@ msgid "Classical"
 msgstr "Классический"
 
 #: widgets/lineedit.cpp:61 transcoder/transcodedialog.cpp:99
-#: ../build/src/ui_queueview.h:142
+#: ../build/src/ui_queueview.h:141
 msgid "Clear"
 msgstr "Очистить"
 
@@ -1247,7 +1247,7 @@ msgstr ""
 msgid "Click here to retrieve music"
 msgstr "Нажмите здесь, чтобы получить музыку"
 
-#: ../build/src/ui_trackslider.h:71
+#: ../build/src/ui_trackslider.h:68
 msgid "Click to toggle between remaining time and total time"
 msgstr "Нажмите для переключения между оставшимся и полным временем"
 
@@ -1256,7 +1256,7 @@ msgid "Client ID"
 msgstr "ID клиента"
 
 #: ../build/src/ui_lastfmimportdialog.h:156
-#: ../build/src/ui_internetcollectionviewcontainer.h:140
+#: ../build/src/ui_internetcollectionviewcontainer.h:138
 msgid "Close"
 msgstr "Закрыть"
 
@@ -1277,7 +1277,7 @@ msgstr "Клубный"
 msgid "Collection"
 msgstr "Фонотека"
 
-#: ../build/src/ui_collectionfilterwidget.h:91
+#: ../build/src/ui_collectionfilterwidget.h:89
 msgid "Collection Filter"
 msgstr ""
 
@@ -1354,7 +1354,7 @@ msgstr "Настроить фонотеку…"
 msgid "Connect device"
 msgstr "Подключить устройство"
 
-#: ../build/src/ui_console.h:79
+#: ../build/src/ui_console.h:76
 msgid "Console"
 msgstr "Консоль"
 
@@ -1376,11 +1376,11 @@ msgstr ""
 msgid "Contributors"
 msgstr ""
 
-#: ../build/src/ui_deviceproperties.h:381
+#: ../build/src/ui_deviceproperties.h:380
 msgid "Convert all music"
 msgstr "Конвертировать всю музыку"
 
-#: ../build/src/ui_deviceproperties.h:380
+#: ../build/src/ui_deviceproperties.h:379
 msgid "Convert any music that the device can't play"
 msgstr "Конвертировать всю музыку, не поддерживаемую устройством."
 
@@ -1458,8 +1458,8 @@ msgstr ""
 "Невозможно найти кодировщик для %1, проверьте, что установлены все "
 "необходимые модули GStreamer"
 
-#: ../build/src/ui_albumcovermanager.h:213
-#: ../build/src/ui_albumcoversearcher.h:104
+#: ../build/src/ui_albumcovermanager.h:212
+#: ../build/src/ui_albumcoversearcher.h:101
 msgid "Cover Manager"
 msgstr "Менеджер обложек"
 
@@ -1485,11 +1485,11 @@ msgstr "Обложка не задана"
 msgid "Cover art set from %1"
 msgstr "Обложка задана из %1"
 
-#: ../build/src/ui_coverssettingspage.h:166
+#: ../build/src/ui_coverssettingspage.h:163
 msgid "Cover providers"
 msgstr ""
 
-#: ../build/src/ui_coverssettingspage.h:165
+#: ../build/src/ui_coverssettingspage.h:162
 msgid "Covers"
 msgstr ""
 
@@ -1515,7 +1515,7 @@ msgstr "Перекрёстное затухание при ручной смен
 msgid "Ctrl+Alt+V"
 msgstr "Ctrl+Alt+V"
 
-#: ../build/src/ui_queueview.h:135
+#: ../build/src/ui_queueview.h:134
 msgid "Ctrl+Down"
 msgstr "Ctrl+Down"
 
@@ -1531,7 +1531,7 @@ msgstr "Ctrl+H"
 msgid "Ctrl+J"
 msgstr "Ctrl+J"
 
-#: ../build/src/ui_mainwindow.h:637 ../build/src/ui_queueview.h:145
+#: ../build/src/ui_mainwindow.h:637 ../build/src/ui_queueview.h:144
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
@@ -1567,7 +1567,7 @@ msgstr "Ctrl+Shift+O"
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: ../build/src/ui_savedgroupingmanager.h:106 ../build/src/ui_queueview.h:129
+#: ../build/src/ui_savedgroupingmanager.h:105 ../build/src/ui_queueview.h:128
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
@@ -1636,7 +1636,7 @@ msgid "Defaults"
 msgstr ""
 
 #: playlist/playlistlistcontainer.cpp:102
-#: ../build/src/ui_playlistlistcontainer.h:133
+#: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "Удалить"
 
@@ -1653,7 +1653,7 @@ msgstr "Удалить с устройства..."
 msgid "Delete from disk..."
 msgstr "Удалить с диска…"
 
-#: equalizer/equalizer.cpp:226 ../build/src/ui_equalizer.h:174
+#: equalizer/equalizer.cpp:226 ../build/src/ui_equalizer.h:172
 msgid "Delete preset"
 msgstr "Удалить профиль"
 
@@ -1682,7 +1682,7 @@ msgstr "Убрать трек из очереди"
 msgid "Destination"
 msgstr "Назначение"
 
-#: ../build/src/ui_transcodedialog.h:236
+#: ../build/src/ui_transcodedialog.h:234
 msgid "Details..."
 msgstr "Подробнее…"
 
@@ -1692,7 +1692,7 @@ msgstr "Подробнее…"
 msgid "Device"
 msgstr "Устройство"
 
-#: ../build/src/ui_deviceproperties.h:370
+#: ../build/src/ui_deviceproperties.h:369
 msgid "Device Properties"
 msgstr "Свойства устройства"
 
@@ -1728,7 +1728,7 @@ msgstr "Отключено"
 msgid "Disc"
 msgstr "Диск"
 
-#: ../build/src/ui_transcoderoptionsspeex.h:233
+#: ../build/src/ui_transcoderoptionsspeex.h:232
 msgid "Discontinuous transmission"
 msgstr "Непрерывная передача"
 
@@ -1745,7 +1745,7 @@ msgstr "Настройки вида"
 msgid "Display the on-screen-display"
 msgstr "Показывать экранное уведомление"
 
-#: ../build/src/ui_deviceproperties.h:379
+#: ../build/src/ui_deviceproperties.h:378
 msgid "Do not convert any music"
 msgstr "Не конвертировать какую-либо музыку"
 
@@ -1753,7 +1753,7 @@ msgstr "Не конвертировать какую-либо музыку"
 msgid "Do not cut image"
 msgstr "Не вырезать изображение"
 
-#: ../build/src/ui_albumcoverexport.h:208
+#: ../build/src/ui_albumcoverexport.h:206
 msgid "Do not overwrite"
 msgstr "Не перезаписывать"
 
@@ -1761,7 +1761,7 @@ msgstr "Не перезаписывать"
 msgid "Do not show this message again."
 msgstr ""
 
-#: osd/osdbase.cpp:348 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:348 ../build/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
 msgstr "Не повторять"
 
@@ -1769,7 +1769,7 @@ msgstr "Не повторять"
 msgid "Don't show in various artists"
 msgstr "Не показывать в «Различных исполнителях»"
 
-#: osd/osdbase.cpp:333 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:333 ../build/src/ui_playlistsequence.h:114
 msgid "Don't shuffle"
 msgstr "Не перемешивать"
 
@@ -1868,7 +1868,7 @@ msgstr ""
 msgid "Enable delete files in the right click context menu"
 msgstr ""
 
-#: ../build/src/ui_equalizer.h:176
+#: ../build/src/ui_equalizer.h:174
 msgid "Enable equalizer"
 msgstr "Включить эквалайзер"
 
@@ -1884,7 +1884,7 @@ msgstr ""
 msgid "Enable song metadata inline edition with click"
 msgstr "Включить редактирование метаданных песни по клику"
 
-#: ../build/src/ui_equalizer.h:177
+#: ../build/src/ui_equalizer.h:175
 msgid "Enable stereo balancer"
 msgstr ""
 
@@ -1896,7 +1896,7 @@ msgstr "Включить управление громкостью"
 msgid "Enabled"
 msgstr "Включено"
 
-#: ../build/src/ui_transcoderoptionsspeex.h:234
+#: ../build/src/ui_transcoderoptionsspeex.h:233
 msgid "Encoding complexity"
 msgstr "Сложность кодирования"
 
@@ -1904,7 +1904,7 @@ msgstr "Сложность кодирования"
 msgid "Encoding engine quality"
 msgstr "Качество кодирования"
 
-#: ../build/src/ui_transcoderoptionsspeex.h:223
+#: ../build/src/ui_transcoderoptionsspeex.h:224
 msgid "Encoding mode"
 msgstr "Режим кодирования"
 
@@ -1916,11 +1916,11 @@ msgstr "Движок"
 msgid "Engine and Device"
 msgstr ""
 
-#: ../build/src/ui_coverfromurldialog.h:102
+#: ../build/src/ui_coverfromurldialog.h:100
 msgid "Enter a URL to download a cover from the Internet:"
 msgstr "Введите ссылку для скачивания обложки из Интернета:"
 
-#: ../build/src/ui_albumcoverexport.h:204
+#: ../build/src/ui_albumcoverexport.h:202
 msgid "Enter a filename for exported covers (no extension):"
 msgstr "Введите имя файла для экспортируемых обложек (без расширения):"
 
@@ -1928,16 +1928,16 @@ msgstr "Введите имя файла для экспортируемых о�
 msgid "Enter a new name for this playlist"
 msgstr "Введите новое имя для этого плейлиста"
 
-#: internet/internetsearchview.cpp:404 ../build/src/ui_internetsearchview.h:231
+#: internet/internetsearchview.cpp:404 ../build/src/ui_internetsearchview.h:229
 msgid "Enter search terms above to find music"
 msgstr "Введите условия поиска выше, чтобы найти музыку"
 
-#: ../build/src/ui_collectionfilterwidget.h:103
-#: ../build/src/ui_albumcovermanager.h:217
+#: ../build/src/ui_collectionfilterwidget.h:101
+#: ../build/src/ui_albumcovermanager.h:216
 msgid "Enter search terms here"
 msgstr "Введите критерии поиска"
 
-#: ../build/src/ui_addstreamdialog.h:78
+#: ../build/src/ui_addstreamdialog.h:76
 msgid "Enter the URL of a stream:"
 msgstr ""
 
@@ -1953,11 +1953,11 @@ msgstr ""
 msgid "Enter your user token from"
 msgstr ""
 
-#: ../build/src/ui_collectionfilterwidget.h:92
+#: ../build/src/ui_collectionfilterwidget.h:90
 msgid "Entire collection"
 msgstr "Вся коллекция"
 
-#: ../build/src/ui_equalizer.h:168 ../build/src/ui_equalizerslider.h:98
+#: ../build/src/ui_equalizer.h:166 ../build/src/ui_equalizerslider.h:95
 msgid "Equalizer"
 msgstr "Эквалайзер"
 
@@ -2016,7 +2016,7 @@ msgstr ""
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Кроме треков с одного и того же альбома или CUE-файла"
 
-#: ../build/src/ui_albumcoverexport.h:207
+#: ../build/src/ui_albumcoverexport.h:205
 msgid "Existing covers"
 msgstr "Существующие обложки"
 
@@ -2029,19 +2029,19 @@ msgstr ""
 msgid "Expires on %1"
 msgstr "Истекает %1"
 
-#: ../build/src/ui_albumcovermanager.h:224
+#: ../build/src/ui_albumcovermanager.h:223
 msgid "Export Covers"
 msgstr "Экспорт обложек"
 
-#: ../build/src/ui_albumcoverexport.h:202
+#: ../build/src/ui_albumcoverexport.h:200
 msgid "Export covers"
 msgstr "Экспорт обложек"
 
-#: ../build/src/ui_albumcoverexport.h:205
+#: ../build/src/ui_albumcoverexport.h:203
 msgid "Export downloaded covers"
 msgstr "Экспорт загруженных обложек"
 
-#: ../build/src/ui_albumcoverexport.h:206
+#: ../build/src/ui_albumcoverexport.h:204
 msgid "Export embedded covers"
 msgstr "Экспорт встроенных обложек"
 
@@ -2100,8 +2100,8 @@ msgstr "Затухание звука"
 msgid "Fading duration"
 msgstr "Длительность затухания"
 
-#: ../build/src/ui_transcoderoptionsflac.h:81
-#: ../build/src/ui_transcoderoptionsmp3.h:199
+#: ../build/src/ui_transcoderoptionsflac.h:78
+#: ../build/src/ui_transcoderoptionsmp3.h:197
 msgid "Fast"
 msgstr "Быстрое"
 
@@ -2109,15 +2109,15 @@ msgstr "Быстрое"
 msgid "Favourite tracks"
 msgstr ""
 
-#: ../build/src/ui_albumcovermanager.h:223
+#: ../build/src/ui_albumcovermanager.h:222
 msgid "Fetch Missing Covers"
 msgstr "Получить недостающие обложки"
 
-#: ../build/src/ui_albumcovermanager.h:214
+#: ../build/src/ui_albumcovermanager.h:213
 msgid "Fetch automatically"
 msgstr "Получать автоматически"
 
-#: ../build/src/ui_coversearchstatisticsdialog.h:74
+#: ../build/src/ui_coversearchstatisticsdialog.h:71
 msgid "Fetch completed"
 msgstr "Получение завершено"
 
@@ -2139,7 +2139,7 @@ msgstr "Файл %1 не распознается как допустимый а
 msgid "File extension"
 msgstr "Расширение файла"
 
-#: ../build/src/ui_deviceproperties.h:386
+#: ../build/src/ui_deviceproperties.h:385
 msgid "File formats"
 msgstr "Форматы файлов"
 
@@ -2151,7 +2151,7 @@ msgstr "Полное имя файла"
 msgid "File name (without path)"
 msgstr "Имя файла"
 
-#: ../build/src/ui_playlistsaveoptionsdialog.h:95
+#: ../build/src/ui_playlistsaveoptionsdialog.h:92
 msgid "File paths"
 msgstr "Пути файлов"
 
@@ -2236,7 +2236,7 @@ msgstr ""
 msgid "For a better experience please consider the other options above."
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsmp3.h:203
+#: ../build/src/ui_transcoderoptionsmp3.h:201
 msgid "Force mono encoding"
 msgstr "Принудительное кодирование в моно"
 
@@ -2253,25 +2253,25 @@ msgstr ""
 "Команда \"Забыть устройство\", удалит носитель из этого списка и Strawberry "
 "пересканирует все песни на нём при следующем подключении."
 
-#: ../build/src/ui_collectionviewcontainer.h:58
-#: ../build/src/ui_playlistcontainer.h:150
-#: ../build/src/ui_playlistlistcontainer.h:128
+#: ../build/src/ui_collectionviewcontainer.h:55
+#: ../build/src/ui_playlistcontainer.h:148
+#: ../build/src/ui_playlistlistcontainer.h:126
 #: ../build/src/ui_smartplaylistquerysearchpage.h:108
 #: ../build/src/ui_smartplaylistquerysortpage.h:133
 #: ../build/src/ui_smartplaylistsearchpreview.h:101
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:271
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:79
-#: ../build/src/ui_trackslider.h:68 ../build/src/ui_fileview.h:106
-#: ../build/src/ui_loginstatewidget.h:167
-#: ../build/src/ui_internetcollectionviewcontainer.h:138
-#: ../build/src/ui_deviceviewcontainer.h:51
-#: ../build/src/ui_transcoderoptionsaac.h:127
-#: ../build/src/ui_transcoderoptionsflac.h:79
-#: ../build/src/ui_transcoderoptionswavpack.h:49
-#: ../build/src/ui_transcoderoptionsvorbis.h:200
-#: ../build/src/ui_transcoderoptionsopus.h:78
-#: ../build/src/ui_transcoderoptionsspeex.h:215
-#: ../build/src/ui_transcoderoptionsasf.h:77
+#: ../build/src/ui_trackslider.h:65 ../build/src/ui_fileview.h:103
+#: ../build/src/ui_loginstatewidget.h:164
+#: ../build/src/ui_internetcollectionviewcontainer.h:136
+#: ../build/src/ui_deviceviewcontainer.h:48
+#: ../build/src/ui_transcoderoptionsaac.h:131
+#: ../build/src/ui_transcoderoptionsflac.h:76
+#: ../build/src/ui_transcoderoptionswavpack.h:46
+#: ../build/src/ui_transcoderoptionsvorbis.h:197
+#: ../build/src/ui_transcoderoptionsopus.h:75
+#: ../build/src/ui_transcoderoptionsspeex.h:216
+#: ../build/src/ui_transcoderoptionsasf.h:74
 #: ../build/src/ui_transcoderoptionsmp3.h:189
 msgid "Form"
 msgstr "Форма"
@@ -2285,7 +2285,7 @@ msgstr "Формат"
 msgid "Framerate"
 msgstr "Частота кадров"
 
-#: ../build/src/ui_transcoderoptionsspeex.h:235
+#: ../build/src/ui_transcoderoptionsspeex.h:234
 msgid "Frames per buffer"
 msgstr "Фреймов на буфер"
 
@@ -2342,7 +2342,7 @@ msgstr ""
 
 #: covermanager/albumcovermanager.cpp:531
 #: covermanager/coversearchstatisticsdialog.cpp:69
-#: ../build/src/ui_coversearchstatisticsdialog.h:75
+#: ../build/src/ui_coversearchstatisticsdialog.h:72
 #, qt-format
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "Получено %1 обложек из %2 (%3 загрузить не удалось)"
@@ -2444,11 +2444,11 @@ msgstr "HTTP-прокси"
 msgid "Happy"
 msgstr "Счастливый"
 
-#: ../build/src/ui_deviceproperties.h:373
+#: ../build/src/ui_deviceproperties.h:372
 msgid "Hardware information"
 msgstr "Информация об оборудовании"
 
-#: ../build/src/ui_deviceproperties.h:374
+#: ../build/src/ui_deviceproperties.h:373
 msgid "Hardware information is only available while the device is connected."
 msgstr ""
 "Информация об оборудовании доступна только при подключении устройства."
@@ -2461,7 +2461,7 @@ msgstr "Помощь"
 msgid "Hide the main window"
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsmp3.h:201
+#: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "High"
 msgstr "Высокое"
 
@@ -2478,7 +2478,7 @@ msgstr ""
 msgid "Hours"
 msgstr ""
 
-#: ../build/src/ui_deviceproperties.h:372
+#: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
 msgstr "Значок"
 
@@ -2569,7 +2569,7 @@ msgstr "Увеличить громкость на 4 процента"
 msgid "Increase the volume by <value> percent"
 msgstr "Увеличить громкость на <value> процентов"
 
-#: ../build/src/ui_deviceproperties.h:375
+#: ../build/src/ui_deviceproperties.h:374
 msgid "Information"
 msgstr "Информация"
 
@@ -2585,15 +2585,15 @@ msgstr ""
 msgid "Integrity check"
 msgstr "Проверка целостности"
 
-#: ../build/src/ui_internetsearchview.h:225
+#: ../build/src/ui_internetsearchview.h:223
 msgid "Internet Search View"
 msgstr ""
 
-#: ../build/src/ui_internettabsview.h:115
+#: ../build/src/ui_internettabsview.h:112
 msgid "Internet Tabs View"
 msgstr ""
 
-#: osd/osdbase.cpp:353 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:353 ../build/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
 msgstr "Вступительные треки"
 
@@ -2670,7 +2670,7 @@ msgstr "Last.fm"
 msgid "Least favourite tracks"
 msgstr ""
 
-#: ../build/src/ui_equalizer.h:178
+#: ../build/src/ui_equalizer.h:176
 msgid "Left"
 msgstr "Левый канал"
 
@@ -2699,11 +2699,11 @@ msgstr "Listenbrainz"
 msgid "Live"
 msgstr "Лайв"
 
-#: ../build/src/ui_albumcovermanager.h:215
+#: ../build/src/ui_albumcovermanager.h:214
 msgid "Load"
 msgstr "Загрузить"
 
-#: ../build/src/ui_coverfromurldialog.h:101
+#: ../build/src/ui_coverfromurldialog.h:99
 msgid "Load cover from URL"
 msgstr "Загрузить обложку по ссылке"
 
@@ -2764,14 +2764,14 @@ msgstr ""
 #: ../build/src/ui_scrobblersettingspage.h:415
 #: ../build/src/ui_scrobblersettingspage.h:418
 #: ../build/src/ui_scrobblersettingspage.h:423
-#: ../build/src/ui_coverssettingspage.h:172
-#: ../build/src/ui_lyricssettingspage.h:172
+#: ../build/src/ui_coverssettingspage.h:169
+#: ../build/src/ui_lyricssettingspage.h:169
 #: ../build/src/ui_tidalsettingspage.h:327
 #: ../build/src/ui_qobuzsettingspage.h:278
 msgid "Login"
 msgstr "Вход"
 
-#: ../build/src/ui_transcoderoptionsaac.h:136
+#: ../build/src/ui_transcoderoptionsaac.h:138
 msgid "Long term prediction profile (LTP)"
 msgstr "Профиль Long term prediction (LTP)"
 
@@ -2784,7 +2784,7 @@ msgstr "Нравится"
 msgid "Low (%1 fps)"
 msgstr "Низкая (%1 fps)"
 
-#: ../build/src/ui_transcoderoptionsaac.h:134
+#: ../build/src/ui_transcoderoptionsaac.h:136
 msgid "Low complexity profile (LC)"
 msgstr "Профиль низкой сложности (LC)"
 
@@ -2796,11 +2796,11 @@ msgstr ""
 msgid "Lowercase filename"
 msgstr "Строчные имена файлов"
 
-#: ../build/src/ui_lyricssettingspage.h:165 ../build/src/ui_edittagdialog.h:716
+#: ../build/src/ui_lyricssettingspage.h:162 ../build/src/ui_edittagdialog.h:716
 msgid "Lyrics"
 msgstr "Текст песни"
 
-#: ../build/src/ui_lyricssettingspage.h:166
+#: ../build/src/ui_lyricssettingspage.h:163
 msgid "Lyrics providers"
 msgstr ""
 
@@ -2808,11 +2808,11 @@ msgstr ""
 msgid "MP3"
 msgstr "MP3"
 
-#: ../build/src/ui_transcoderoptionsaac.h:133
+#: ../build/src/ui_transcoderoptionsaac.h:135
 msgid "Main profile (MAIN)"
 msgstr "Основной профиль (MAIN)"
 
-#: ../build/src/ui_collectionfilterwidget.h:102
+#: ../build/src/ui_collectionfilterwidget.h:100
 msgid "Manage saved groupings"
 msgstr "Управление сохранёнными группами"
 
@@ -2840,7 +2840,7 @@ msgstr ""
 msgid "Max cover size"
 msgstr "Максимальный размер обложки"
 
-#: ../build/src/ui_transcoderoptionsvorbis.h:208
+#: ../build/src/ui_transcoderoptionsvorbis.h:205
 msgid "Maximum bitrate"
 msgstr "Максимальный битрейт"
 
@@ -2861,7 +2861,7 @@ msgstr "Метаданные"
 msgid "Middle"
 msgstr "Середина"
 
-#: ../build/src/ui_transcoderoptionsvorbis.h:205
+#: ../build/src/ui_transcoderoptionsvorbis.h:202
 msgid "Minimum bitrate"
 msgstr "Минимальный битрейт"
 
@@ -2974,8 +2974,8 @@ msgstr "Точка монтирования"
 msgid "Mount points"
 msgstr "Точки монтирования"
 
-#: ../build/src/ui_queueview.h:126 ../build/src/ui_coverssettingspage.h:169
-#: ../build/src/ui_lyricssettingspage.h:169
+#: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:166
+#: ../build/src/ui_lyricssettingspage.h:166
 msgid "Move down"
 msgstr "Переместить вниз"
 
@@ -2983,8 +2983,8 @@ msgstr "Переместить вниз"
 msgid "Move to collection..."
 msgstr "Переместить в фонотеку…"
 
-#: ../build/src/ui_queueview.h:132 ../build/src/ui_coverssettingspage.h:168
-#: ../build/src/ui_lyricssettingspage.h:168
+#: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:165
+#: ../build/src/ui_lyricssettingspage.h:165
 msgid "Move up"
 msgstr "Переместить вверх"
 
@@ -2998,7 +2998,7 @@ msgstr "Приглушить звук"
 
 #: equalizer/equalizer.cpp:209 collection/savedgroupingmanager.cpp:55
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:80
-#: ../build/src/ui_deviceproperties.h:371
+#: ../build/src/ui_deviceproperties.h:370
 msgid "Name"
 msgstr "Имя"
 
@@ -3006,7 +3006,7 @@ msgstr "Имя"
 msgid "Naming options"
 msgstr "Настройки названия"
 
-#: ../build/src/ui_transcoderoptionsspeex.h:229
+#: ../build/src/ui_transcoderoptionsspeex.h:228
 msgid "Narrow band (NB)"
 msgstr "Узкая полоса пропускания (NB)"
 
@@ -3029,7 +3029,7 @@ msgstr "Никогда не начинать воспроизведение"
 
 #: playlist/playlistlistcontainer.cpp:101
 #: playlist/playlistlistcontainer.cpp:223
-#: ../build/src/ui_playlistlistcontainer.h:130
+#: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "Новая папка"
 
@@ -3155,7 +3155,7 @@ msgstr "Уведомления"
 msgid "Now Playing"
 msgstr "Сейчас проигрывается"
 
-#: ../build/src/ui_albumcoverexport.h:209
+#: ../build/src/ui_albumcoverexport.h:207
 msgid "O&verwrite all"
 msgstr "&Перезаписать все"
 
@@ -3202,7 +3202,7 @@ msgstr "Открыть папку для импортирования музык
 msgid "Open audio &CD..."
 msgstr "Открыть аудио &CD..."
 
-#: ../build/src/ui_deviceproperties.h:384
+#: ../build/src/ui_deviceproperties.h:383
 msgid "Open device"
 msgstr "Открыть устройство"
 
@@ -3271,7 +3271,7 @@ msgstr ""
 msgid "Other options"
 msgstr "Другие настройки"
 
-#: ../build/src/ui_albumcoverexport.h:203
+#: ../build/src/ui_albumcoverexport.h:201
 #: ../build/src/ui_backendsettingspage.h:487
 msgid "Output"
 msgstr "Вывод"
@@ -3288,7 +3288,7 @@ msgstr "Перезаписать существующий файл"
 msgid "Overwrite existing files"
 msgstr "Перезаписать существующие файлы"
 
-#: ../build/src/ui_albumcoverexport.h:210
+#: ../build/src/ui_albumcoverexport.h:208
 msgid "Overwrite s&maller ones only"
 msgstr "Перезаписать только более маленькие"
 
@@ -3332,7 +3332,7 @@ msgstr "Приостановлен"
 msgid "Performer"
 msgstr "Исполнитель"
 
-#: ../build/src/ui_albumcoverexport.h:214
+#: ../build/src/ui_albumcoverexport.h:212
 msgid "Pixel"
 msgstr "Пиксель"
 
@@ -3395,7 +3395,7 @@ msgstr "Настройки проигрывателя"
 
 #: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
 #: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:111
-#: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:564
+#: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:563
 #: playlist/playlisttabbar.cpp:403 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Плейлист"
@@ -3420,7 +3420,7 @@ msgid "Playlist must be open first."
 msgstr ""
 
 #: core/commandlineoptions.cpp:180
-#: ../build/src/ui_playlistsaveoptionsdialog.h:94
+#: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Настройки плейлиста"
 
@@ -3475,7 +3475,7 @@ msgstr "Настройки"
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Приоритетные имена файлов обложек (через запятые)"
 
-#: ../build/src/ui_deviceproperties.h:382
+#: ../build/src/ui_deviceproperties.h:381
 msgid "Preferred format"
 msgstr "Предпочитаемый формат"
 
@@ -3490,7 +3490,7 @@ msgstr ""
 "Функция предварительной нагрузки не была установлена ​​для операции "
 "блокировки."
 
-#: ../build/src/ui_equalizer.h:169
+#: ../build/src/ui_equalizer.h:167
 msgid "Preset:"
 msgstr "Профиль:"
 
@@ -3500,12 +3500,12 @@ msgid ""
 "browser."
 msgstr ""
 
-#: ../build/src/ui_globalshortcutgrabber.h:70
+#: ../build/src/ui_globalshortcutgrabber.h:68
 msgid "Press a key"
 msgstr "Нажмите клавиши"
 
 #: globalshortcuts/globalshortcutgrabber.cpp:54
-#: ../build/src/ui_globalshortcutgrabber.h:71
+#: ../build/src/ui_globalshortcutgrabber.h:69
 #, qt-format
 msgid "Press a key combination to use for %1..."
 msgstr "Нажмите сочетание клавиш для: «%1»…"
@@ -3538,11 +3538,11 @@ msgstr "Предыдущий трек"
 msgid "Print out version information"
 msgstr "Вывести информацию о версии"
 
-#: ../build/src/ui_transcoderoptionsaac.h:130
+#: ../build/src/ui_transcoderoptionsaac.h:134
 msgid "Profile"
 msgstr "Профиль"
 
-#: ../build/src/ui_transcodedialog.h:235
+#: ../build/src/ui_transcodedialog.h:233
 msgid "Progress"
 msgstr "Ход выполнения"
 
@@ -3561,15 +3561,15 @@ msgid ""
 "registered application to work. We can't help you getting these."
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsflac.h:80
-#: ../build/src/ui_transcoderoptionsvorbis.h:201
-#: ../build/src/ui_transcoderoptionsspeex.h:216
+#: ../build/src/ui_transcoderoptionsflac.h:77
+#: ../build/src/ui_transcoderoptionsvorbis.h:198
+#: ../build/src/ui_transcoderoptionsspeex.h:217
 #: ../build/src/ui_transcoderoptionsmp3.h:191
 msgctxt "Sound quality"
 msgid "Quality"
 msgstr "Качество"
 
-#: ../build/src/ui_deviceproperties.h:385
+#: ../build/src/ui_deviceproperties.h:384
 msgid "Querying device..."
 msgstr "Опрашиваем устройство…"
 
@@ -3597,7 +3597,7 @@ msgstr "Очередь воспроизведения"
 msgid "Queue track"
 msgstr "Трек в очередь"
 
-#: ../build/src/ui_queueview.h:124
+#: ../build/src/ui_queueview.h:123
 msgid "QueueView"
 msgstr "Просмотр очереди"
 
@@ -3661,7 +3661,7 @@ msgstr ""
 msgid "Redirect missing token code!"
 msgstr ""
 
-#: ../build/src/ui_internetcollectionviewcontainer.h:142
+#: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
 msgstr "Обновить каталог"
 
@@ -3677,11 +3677,11 @@ msgstr "Относительные"
 msgid "Remember from &last time"
 msgstr "Вернуть преды&дущее состояние"
 
-#: ../build/src/ui_playlistsaveoptionsdialog.h:99
+#: ../build/src/ui_playlistsaveoptionsdialog.h:96
 msgid "Remember my choice"
 msgstr "Запомнить мой выбор"
 
-#: ../build/src/ui_savedgroupingmanager.h:103 ../build/src/ui_queueview.h:138
+#: ../build/src/ui_savedgroupingmanager.h:102 ../build/src/ui_queueview.h:137
 #: ../build/src/ui_transcodedialog.h:221
 msgid "Remove"
 msgstr "Удалить"
@@ -3730,19 +3730,19 @@ msgstr "Переименовать плейлист…"
 msgid "Renumber tracks in this order..."
 msgstr "Перенумеровать треки в данном порядке…"
 
-#: ../build/src/ui_playlistsequence.h:121
+#: ../build/src/ui_playlistsequence.h:119
 msgid "Repeat"
 msgstr "Повтор"
 
-#: osd/osdbase.cpp:350 ../build/src/ui_playlistsequence.h:112
+#: osd/osdbase.cpp:350 ../build/src/ui_playlistsequence.h:110
 msgid "Repeat album"
 msgstr "Повторять альбом"
 
-#: osd/osdbase.cpp:351 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:351 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat playlist"
 msgstr "Повторять плейлист"
 
-#: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:109
 msgid "Repeat track"
 msgstr "Повторять трек"
 
@@ -3871,7 +3871,7 @@ msgstr "Получение песен..."
 msgid "Return to Strawberry"
 msgstr "Вернуться в Strawberry"
 
-#: ../build/src/ui_equalizer.h:180
+#: ../build/src/ui_equalizer.h:178
 msgid "Right"
 msgstr "Правый канал"
 
@@ -3879,7 +3879,7 @@ msgstr "Правый канал"
 msgid "Rock"
 msgstr "Рок"
 
-#: ../build/src/ui_console.h:80
+#: ../build/src/ui_console.h:77
 msgid "Run"
 msgstr "Выполнить"
 
@@ -3926,7 +3926,7 @@ msgstr "Сохранять обложки альбомов в каталоге �
 msgid "Save cover to disk..."
 msgstr "Сохранить обложку на диск…"
 
-#: ../build/src/ui_collectionfilterwidget.h:101
+#: ../build/src/ui_collectionfilterwidget.h:99
 msgid "Save current grouping"
 msgstr "Сохранить текущую группу"
 
@@ -3935,7 +3935,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Сохранить плейлист"
 
-#: playlist/playlistmanager.cpp:274
+#: playlist/playlistmanager.cpp:273
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Сохранить плейлист"
@@ -3944,7 +3944,7 @@ msgstr "Сохранить плейлист"
 msgid "Save playlist..."
 msgstr "Сохранить плейлист…"
 
-#: equalizer/equalizer.cpp:209 ../build/src/ui_equalizer.h:171
+#: equalizer/equalizer.cpp:209 ../build/src/ui_equalizer.h:169
 msgid "Save preset"
 msgstr "Сохранить профиль"
 
@@ -3952,7 +3952,7 @@ msgstr "Сохранить профиль"
 msgid "Save the .mood files directly in the songs folders"
 msgstr "Сохранять файлы .mood в папках песен"
 
-#: ../build/src/ui_savedgroupingmanager.h:101
+#: ../build/src/ui_savedgroupingmanager.h:100
 msgid "Saved Grouping Manager"
 msgstr "Менеджер сохранённых групп"
 
@@ -3964,11 +3964,11 @@ msgstr "Сохранение обложек альбомов"
 msgid "Saving tracks"
 msgstr "Сохранение треков"
 
-#: ../build/src/ui_transcoderoptionsaac.h:135
+#: ../build/src/ui_transcoderoptionsaac.h:137
 msgid "Scalable sampling rate profile (SSR)"
 msgstr "Профиль Scalable sampling rate (SSR)"
 
-#: ../build/src/ui_albumcoverexport.h:212
+#: ../build/src/ui_albumcoverexport.h:210
 msgid "Scale size"
 msgstr "Размер масштабирования"
 
@@ -3992,8 +3992,8 @@ msgstr "Скроллинг над значком переключает трек
 
 #: covermanager/albumcoversearcher.cpp:206
 #: covermanager/albumcoversearcher.cpp:225
-#: ../build/src/ui_albumcoversearcher.h:113
-#: ../build/src/ui_internettabsview.h:119
+#: ../build/src/ui_albumcoversearcher.h:110
+#: ../build/src/ui_internettabsview.h:116
 msgid "Search"
 msgstr "Поиск"
 
@@ -4061,7 +4061,7 @@ msgstr "Выбрать цвет фона:"
 msgid "Select background image"
 msgstr "Выбрать фоновое изображение"
 
-#: ../build/src/ui_trackselectiondialog.h:206
+#: ../build/src/ui_trackselectiondialog.h:205
 msgid "Select best possible match"
 msgstr "Выбрать самые подходящие результаты"
 
@@ -4073,7 +4073,7 @@ msgstr "Выберать основной цвет:"
 msgid "Select tabbar color:"
 msgstr "Выберите цвет панели вкладок:"
 
-#: ../build/src/ui_transcodedialog.h:234
+#: ../build/src/ui_transcodedialog.h:232
 msgid "Select..."
 msgstr "Выбрать…"
 
@@ -4277,36 +4277,36 @@ msgstr ""
 msgid "Show the main window minimized"
 msgstr ""
 
-#: ../build/src/ui_playlistsequence.h:124
+#: ../build/src/ui_playlistsequence.h:122
 msgid "Shuffle"
 msgstr "Перемешивание"
 
-#: osd/osdbase.cpp:336 ../build/src/ui_playlistsequence.h:119
+#: osd/osdbase.cpp:336 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle albums"
 msgstr "Перемешать альбомы"
 
-#: osd/osdbase.cpp:334 ../build/src/ui_playlistsequence.h:118
+#: osd/osdbase.cpp:334 ../build/src/ui_playlistsequence.h:116
 msgid "Shuffle all"
 msgstr "Перемешать все"
 
-#: osd/osdbase.cpp:335 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:335 ../build/src/ui_playlistsequence.h:115
 msgid "Shuffle tracks in this album"
 msgstr "Перемешать треки в этом альбоме"
 
-#: ../build/src/ui_loginstatewidget.h:169
+#: ../build/src/ui_loginstatewidget.h:166
 msgid "Sign out"
 msgstr "Выйти"
 
-#: ../build/src/ui_loginstatewidget.h:171
+#: ../build/src/ui_loginstatewidget.h:168
 msgid "Signing in..."
 msgstr "Выполняется вход…"
 
-#: ../build/src/ui_albumcoverexport.h:211
+#: ../build/src/ui_albumcoverexport.h:209
 #: ../build/src/ui_collectionsettingspage.h:426
 msgid "Size"
 msgstr "Размер"
 
-#: ../build/src/ui_albumcoverexport.h:213
+#: ../build/src/ui_albumcoverexport.h:211
 msgid "Size:"
 msgstr "Размер:"
 
@@ -4362,7 +4362,7 @@ msgstr "Софт-рок"
 msgid "Song Lyrics"
 msgstr ""
 
-#: ../build/src/ui_internettabsview.h:118
+#: ../build/src/ui_internettabsview.h:115
 msgid "Songs"
 msgstr "Песни"
 
@@ -4382,7 +4382,7 @@ msgstr ""
 msgid "Songs search limit"
 msgstr "Лимит поиска песен"
 
-#: ../build/src/ui_trackselectiondialog.h:204
+#: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "Извините"
 
@@ -4406,7 +4406,7 @@ msgstr "Speex"
 msgid "Spotify Authentication"
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsmp3.h:200
+#: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Standard"
 msgstr "Стандартнoe"
 
@@ -4423,7 +4423,7 @@ msgstr "Конвертировать"
 msgid "Starting %1"
 msgstr "Запуск %1"
 
-#: ../build/src/ui_playlistsequence.h:114
+#: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
 msgstr "Останавливать после каждого трека"
 
@@ -4456,7 +4456,7 @@ msgstr "Остановлено"
 msgid "Strawberry"
 msgstr ""
 
-#: ../build/src/ui_errordialog.h:92
+#: ../build/src/ui_errordialog.h:90
 msgid "Strawberry Error"
 msgstr "Ошибка Strawberry"
 
@@ -4468,7 +4468,7 @@ msgstr "Музыкальный проигрыватель Strawberry"
 msgid "Strawberry Red"
 msgstr "Strawberry Red"
 
-#: ../build/src/ui_deviceproperties.h:378
+#: ../build/src/ui_deviceproperties.h:377
 msgid ""
 "Strawberry can automatically convert the music you copy to this device into "
 "a format that it can play."
@@ -4506,7 +4506,7 @@ msgid ""
 "restrictions such as accessing certain devices or network shares."
 msgstr ""
 
-#: ../build/src/ui_trackselectiondialog.h:205
+#: ../build/src/ui_trackselectiondialog.h:204
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry не смог найти результаты по запросу для этого файла"
 
@@ -4568,7 +4568,7 @@ msgstr "Сводка"
 msgid "Super high (%1 fps)"
 msgstr "Очень высокая (%1 fps)"
 
-#: ../build/src/ui_deviceproperties.h:376
+#: ../build/src/ui_deviceproperties.h:375
 msgid "Supported formats"
 msgstr "Поддерживаемые форматы"
 
@@ -4592,11 +4592,11 @@ msgstr ""
 msgid "Tabs on top"
 msgstr "Вкладки вверху"
 
-#: ../build/src/ui_trackselectiondialog.h:203
+#: ../build/src/ui_trackselectiondialog.h:202
 msgid "Tag fetcher"
 msgstr "Сборщик тегов"
 
-#: ../build/src/ui_transcoderoptionsvorbis.h:203
+#: ../build/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
 msgstr "Целевой битрейт"
 
@@ -4717,11 +4717,11 @@ msgstr "Третий уровень"
 msgid "Third level"
 msgstr "Третий уровень"
 
-#: ../build/src/ui_playlistsaveoptionsdialog.h:97
+#: ../build/src/ui_playlistsaveoptionsdialog.h:94
 msgid "This can be changed later through the preferences"
 msgstr "В дальнейшем это может быть изменено в настройках"
 
-#: ../build/src/ui_deviceproperties.h:383
+#: ../build/src/ui_deviceproperties.h:382
 msgid ""
 "This device must be connected and opened before Strawberry can see what file "
 "formats it supports."
@@ -4729,7 +4729,7 @@ msgstr ""
 "Устройство должно быть подключено и открыто перед тем, как Strawberry "
 "определит, какой формат оно поддерживает."
 
-#: ../build/src/ui_deviceproperties.h:377
+#: ../build/src/ui_deviceproperties.h:376
 msgid "This device supports the following file formats:"
 msgstr "Это устройство поддерживает следующие форматы:"
 
@@ -4783,7 +4783,7 @@ msgstr "Шаг времени"
 #: playlist/playlist.cpp:1267 organize/organizedialog.cpp:103
 #: ../build/src/ui_contextsettingspage.h:435
 #: ../build/src/ui_edittagdialog.h:705
-#: ../build/src/ui_trackselectiondialog.h:210
+#: ../build/src/ui_trackselectiondialog.h:209
 msgid "Title"
 msgstr "Название"
 
@@ -4815,7 +4815,7 @@ msgstr "Завтра"
 msgid "Too many songs selected."
 msgstr "Слишком много песен выбрано."
 
-#: ../build/src/ui_albumcovermanager.h:219
+#: ../build/src/ui_albumcovermanager.h:218
 msgid "Total albums:"
 msgstr "Всего альбомов:"
 
@@ -4829,7 +4829,7 @@ msgstr "Всего выполнено сетевых запросов"
 
 #: playlist/playlist.cpp:1270 organize/organizedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:712
-#: ../build/src/ui_trackselectiondialog.h:212
+#: ../build/src/ui_trackselectiondialog.h:211
 msgid "Track"
 msgstr "Трек"
 
@@ -4837,7 +4837,7 @@ msgstr "Трек"
 msgid "Transcode Music"
 msgstr "Конвертер музыки"
 
-#: ../build/src/ui_transcodelogdialog.h:62
+#: ../build/src/ui_transcodelogdialog.h:60
 msgid "Transcoder Log"
 msgstr "Журнал конвертера"
 
@@ -4850,7 +4850,7 @@ msgstr "Конвертер"
 msgid "Transcoding %1 files using %2 threads"
 msgstr "Конвертировано %1 файлов в %2 потока"
 
-#: ../build/src/ui_transcoderoptionsdialog.h:53
+#: ../build/src/ui_transcoderoptionsdialog.h:50
 msgid "Transcoding options"
 msgstr "Настройки конвертации"
 
@@ -4870,7 +4870,7 @@ msgstr "Ссылки"
 msgid "UUID"
 msgstr "UUID"
 
-#: ../build/src/ui_transcoderoptionsspeex.h:227
+#: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Ultra wide band (UWB)"
 msgstr "Ультраширокая полоса пропускания (UWB)"
 
@@ -4883,7 +4883,7 @@ msgstr ""
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
 #: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:1598
 #: collection/savedgroupingmanager.cpp:144 playlist/playlistdelegates.cpp:357
-#: playlist/playlistmanager.cpp:571 playlist/playlistmanager.cpp:572
+#: playlist/playlistmanager.cpp:570 playlist/playlistmanager.cpp:571
 #: dialogs/edittagdialog.cpp:526 dialogs/edittagdialog.cpp:574
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
@@ -4980,7 +4980,7 @@ msgstr "Использовать собственное сообщение дл�
 msgid "Use authentication"
 msgstr "Использовать аутентификацию"
 
-#: ../build/src/ui_transcoderoptionsvorbis.h:202
+#: ../build/src/ui_transcoderoptionsvorbis.h:199
 msgid "Use bitrate management engine"
 msgstr "Использовать движок управления битрейтом"
 
@@ -5012,7 +5012,7 @@ msgstr ""
 msgid "Use system theme icons"
 msgstr "Использовать системную тему иконок"
 
-#: ../build/src/ui_transcoderoptionsaac.h:138
+#: ../build/src/ui_transcoderoptionsaac.h:140
 msgid "Use temporal noise shaping"
 msgstr "Использовать временнóе сглаживание шумов"
 
@@ -5053,12 +5053,12 @@ msgstr ""
 msgid "Using the menu to add a song will..."
 msgstr "После добавления песни через меню…"
 
-#: ../build/src/ui_transcoderoptionsspeex.h:231
+#: ../build/src/ui_transcoderoptionsspeex.h:230
 msgid "Variable bit rate"
 msgstr "Переменный битрейт"
 
 #: collection/collectionmodel.cpp:298 collection/collectionmodel.cpp:299
-#: playlist/playlistmanager.cpp:583 covermanager/albumcovermanager.cpp:334
+#: playlist/playlistmanager.cpp:582 covermanager/albumcovermanager.cpp:334
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Различные исполнители"
@@ -5072,11 +5072,11 @@ msgstr "Проверить сертификат сервера"
 msgid "Version %1"
 msgstr ""
 
-#: ../build/src/ui_albumcovermanager.h:218
+#: ../build/src/ui_albumcovermanager.h:217
 msgid "View"
 msgstr "Просмотр"
 
-#: ../build/src/ui_transcoderoptionsspeex.h:232
+#: ../build/src/ui_transcoderoptionsspeex.h:231
 msgid "Voice activity detection"
 msgstr "Определение голоса"
 
@@ -5124,11 +5124,11 @@ msgstr ""
 msgid "When saving a playlist, file paths should be"
 msgstr "При сохранении плейлистов пути файлов должны быть"
 
-#: ../build/src/ui_transcoderoptionsspeex.h:228
+#: ../build/src/ui_transcoderoptionsspeex.h:227
 msgid "Wide band (WB)"
 msgstr "Шировая полоса пропускания (WB)"
 
-#: ../build/src/ui_albumcovermanager.h:220
+#: ../build/src/ui_albumcovermanager.h:219
 msgid "Without cover:"
 msgstr "Без обложек:"
 
@@ -5154,7 +5154,7 @@ msgstr "Записывать метаданные при сохранении п
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:714
-#: ../build/src/ui_trackselectiondialog.h:211
+#: ../build/src/ui_trackselectiondialog.h:210
 msgid "Year"
 msgstr "Год"
 
@@ -5192,7 +5192,7 @@ msgstr ""
 "будет удалён (действие не может быть отменено). \n"
 "Вы действительно хотите продолжить?"
 
-#: ../build/src/ui_loginstatewidget.h:168
+#: ../build/src/ui_loginstatewidget.h:165
 msgid "You are not signed in."
 msgstr "Вход не выполнен."
 
@@ -5277,7 +5277,7 @@ msgstr ""
 msgid "ago"
 msgstr ""
 
-#: ../build/src/ui_internetsearchview.h:228
+#: ../build/src/ui_internetsearchview.h:226
 msgid "albums"
 msgstr ""
 
@@ -5289,11 +5289,11 @@ msgstr ""
 msgid "artist"
 msgstr ""
 
-#: ../build/src/ui_internetsearchview.h:227
+#: ../build/src/ui_internetsearchview.h:225
 msgid "artists"
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsspeex.h:218
+#: ../build/src/ui_transcoderoptionsspeex.h:219
 msgid "automatic"
 msgstr "авто"
 
@@ -5313,9 +5313,9 @@ msgstr ""
 msgid "contains"
 msgstr ""
 
+#: ../build/src/ui_transcoderoptionsvorbis.h:203
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
-#: ../build/src/ui_transcoderoptionsvorbis.h:209
-#: ../build/src/ui_transcoderoptionsspeex.h:221
+#: ../build/src/ui_transcoderoptionsspeex.h:222
 msgid "disabled"
 msgstr "отключён"
 
@@ -5434,7 +5434,7 @@ msgstr "перемешать песни"
 msgid "smallest first"
 msgstr ""
 
-#: ../build/src/ui_internetsearchview.h:229
+#: ../build/src/ui_internetsearchview.h:227
 msgid "songs"
 msgstr ""
 
