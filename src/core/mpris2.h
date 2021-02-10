@@ -190,15 +190,15 @@ class Mpris2 : public QObject {
   void Seeked(qlonglong position);
 
   // TrackList
-  void TrackListReplaced(const Track_Ids &Tracks, QDBusObjectPath CurrentTrack);
-  void TrackAdded(const TrackMetadata &Metadata, QDBusObjectPath AfterTrack);
-  void TrackRemoved(const QDBusObjectPath &trackId);
-  void TrackMetadataChanged(const QDBusObjectPath &trackId, const TrackMetadata &metadata);
+  void TrackListReplaced(Track_Ids Tracks, QDBusObjectPath CurrentTrack);
+  void TrackAdded(TrackMetadata Metadata, QDBusObjectPath AfterTrack);
+  void TrackRemoved(QDBusObjectPath trackId);
+  void TrackMetadataChanged(QDBusObjectPath trackId, TrackMetadata metadata);
 
   void RaiseMainWindow();
 
   // Playlist
-  void PlaylistChanged(const MprisPlaylist &playlist);
+  void PlaylistChanged(MprisPlaylist playlist);
 
  private slots:
   void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result = AlbumCoverLoaderResult());
