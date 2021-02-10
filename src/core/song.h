@@ -230,7 +230,7 @@ class Song {
 
   int playcount() const;
   int skipcount() const;
-  int lastplayed() const;
+  qint64 lastplayed() const;
 
   bool compilation_detected() const;
   bool compilation_off() const;
@@ -337,7 +337,7 @@ class Song {
 
   void set_playcount(int v);
   void set_skipcount(int v);
-  void set_lastplayed(int v);
+  void set_lastplayed(qint64 v);
 
   void set_compilation_detected(bool v);
   void set_compilation_on(bool v);

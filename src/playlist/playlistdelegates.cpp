@@ -326,7 +326,7 @@ QString DateItemDelegate::displayText(const QVariant &value, const QLocale &loca
   Q_UNUSED(locale);
 
   bool ok = false;
-  int time = value.toInt(&ok);
+  qint64 time = value.toLongLong(&ok);
 
   if (!ok || time == -1)
     return QString();
@@ -338,7 +338,7 @@ QString DateItemDelegate::displayText(const QVariant &value, const QLocale &loca
 QString LastPlayedItemDelegate::displayText(const QVariant &value, const QLocale &locale) const {
 
   bool ok = false;
-  const int time = value.toInt(&ok);
+  const qint64 time = value.toLongLong(&ok);
 
   if (!ok || time == -1)
     return tr("Never");

@@ -332,7 +332,7 @@ qint64 Song::ctime() const { return d->ctime_; }
 
 int Song::playcount() const { return d->playcount_; }
 int Song::skipcount() const { return d->skipcount_; }
-int Song::lastplayed() const { return d->lastplayed_; }
+qint64 Song::lastplayed() const { return d->lastplayed_; }
 
 bool Song::compilation_detected() const { return d->compilation_detected_; }
 bool Song::compilation_off() const { return d->compilation_off_; }
@@ -441,7 +441,7 @@ void Song::set_unavailable(bool v) { d->unavailable_ = v; }
 
 void Song::set_playcount(int v) { d->playcount_ = v; }
 void Song::set_skipcount(int v) { d->skipcount_ = v; }
-void Song::set_lastplayed(int v) { d->lastplayed_ = v; }
+void Song::set_lastplayed(qint64 v) { d->lastplayed_ = v; }
 
 void Song::set_compilation_detected(bool v) { d->compilation_detected_ = v; }
 void Song::set_compilation_on(bool v) { d->compilation_on_ = v; }
@@ -958,7 +958,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
       d->skipcount_ = q.value(x).isNull() ? 0 : q.value(x).toInt();
     }
     else if (Song::kColumns.value(i) == "lastplayed") {
-      d->lastplayed_ = toint(x);
+      d->lastplayed_ = tolonglong(x);
     }
 
     else if (Song::kColumns.value(i) == "compilation_detected") {

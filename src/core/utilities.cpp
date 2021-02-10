@@ -152,11 +152,11 @@ QString WordyTimeNanosec(qint64 nanoseconds) {
   return WordyTime(nanoseconds / kNsecPerSec);
 }
 
-QString Ago(int seconds_since_epoch, const QLocale &locale) {
+QString Ago(qint64 seconds_since_epoch, const QLocale &locale) {
 
   const QDateTime now = QDateTime::currentDateTime();
   const QDateTime then = QDateTime::fromSecsSinceEpoch(seconds_since_epoch);
-  const int days_ago = then.date().daysTo(now.date());
+  const qint64 days_ago = then.date().daysTo(now.date());
   const QString time = then.time().toString(locale.timeFormat(QLocale::ShortFormat));
 
   if (days_ago == 0) return tr("Today") + " " + time;
@@ -170,7 +170,7 @@ QString Ago(int seconds_since_epoch, const QLocale &locale) {
 QString PrettyFutureDate(const QDate &date) {
 
   const QDate now = QDate::currentDate();
-  const int delta_days = now.daysTo(date);
+  const qint64 delta_days = now.daysTo(date);
 
   if (delta_days < 0) return QString();
   if (delta_days == 0) return tr("Today");

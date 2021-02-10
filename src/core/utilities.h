@@ -54,7 +54,7 @@ QString PrettySize(quint64 bytes);
 QString PrettySize(const QSize &size);
 QString WordyTime(quint64 seconds);
 QString WordyTimeNanosec(qint64 nanoseconds);
-QString Ago(int seconds_since_epoch, const QLocale &locale);
+QString Ago(qint64 seconds_since_epoch, const QLocale &locale);
 QString PrettyFutureDate(const QDate &date);
 
 QString ColorToRgba(const QColor &color);
