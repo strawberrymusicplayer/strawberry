@@ -89,7 +89,7 @@ class TAGLIB_EXPORT UniqueFileIdentifierFrame : public ID3v2::Frame {
 
   String toString() const override;
 
-  PropertyMap asProperties() const;
+  PropertyMap asProperties() const override;
 
   /*!
    * UFID frames each have a unique owner. This searches for a UFID frame with the owner \a o and returns a pointer to it.

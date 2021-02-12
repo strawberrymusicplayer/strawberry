@@ -68,7 +68,7 @@ class TAGLIB_EXPORT UrlLinkFrame : public Frame {
 
   void setText(const String &s) override;
   String toString() const override;
-  PropertyMap asProperties() const;
+  PropertyMap asProperties() const override;
 
  protected:
   void parseFields(const ByteVector &data) override;
@@ -155,7 +155,7 @@ class TAGLIB_EXPORT UserUrlLinkFrame : public UrlLinkFrame {
    *   characters), the returned map will contain an entry "WXXX/<description>"
    *   in its unsupportedData() list.
    */
-  PropertyMap asProperties() const;
+  PropertyMap asProperties() const override;
 
   /*!
    * Searches for the user defined url frame with the description \a description in \a tag.

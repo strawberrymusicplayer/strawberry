@@ -140,7 +140,7 @@ class TAGLIB_EXPORT CommentsFrame : public Frame {
    * - otherwise, the key will be "COMMENT:<description>"
    * - The single value will be the frame's text().
    */
-  PropertyMap asProperties() const;
+  PropertyMap asProperties() const override;
 
   /*!
    * Comments each have a unique description.

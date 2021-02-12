@@ -24,6 +24,7 @@
  ***************************************************************************/
 
 #include "unknownframe.h"
+#include "tpropertymap.h"
 
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
@@ -73,4 +74,12 @@ ByteVector UnknownFrame::renderFields() const {
 UnknownFrame::UnknownFrame(const ByteVector &data, Header *h) : Frame(h),
                                                                 d(new UnknownFramePrivate()) {
   parseFields(fieldData(data));
+}
+
+PropertyMap UnknownFrame::asProperties() const {
+
+  PropertyMap m;
+  m.unsupportedData().append("UNKNOWN/" + frameID());
+  return m;
+
 }

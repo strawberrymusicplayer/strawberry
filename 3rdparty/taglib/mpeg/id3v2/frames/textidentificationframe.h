@@ -185,7 +185,7 @@ class TAGLIB_EXPORT TextIdentificationFrame : public Frame {
    */
   static const KeyConversionMap &involvedPeopleMap();
 
-  PropertyMap asProperties() const;
+  PropertyMap asProperties() const override;
 
  protected:
   // Reimplementations.
@@ -270,7 +270,7 @@ class TAGLIB_EXPORT UserTextIdentificationFrame : public TextIdentificationFrame
    * - The values will be copies of the fieldList().
    * - If the description() appears as value in fieldList(), it will be omitted in the value list, in order to be compatible with TagLib which copies the description() into the fieldList().
    */
-  PropertyMap asProperties() const;
+  PropertyMap asProperties() const override;
 
   /*!
    * Searches for the user defined text frame with the description \a description in \a tag.

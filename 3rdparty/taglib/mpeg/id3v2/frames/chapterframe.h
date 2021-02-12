@@ -203,7 +203,7 @@ class TAGLIB_EXPORT ChapterFrame : public ID3v2::Frame {
 
   String toString() const override;
 
-  PropertyMap asProperties() const;
+  PropertyMap asProperties() const override;
 
   /*!
    * CHAP frames each have a unique element ID. This searches for a CHAP frame with the element ID \a eID and returns a pointer to it.

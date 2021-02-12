@@ -202,7 +202,7 @@ class TAGLIB_EXPORT TableOfContentsFrame : public ID3v2::Frame {
 
   String toString() const override;
 
-  PropertyMap asProperties() const;
+  PropertyMap asProperties() const override;
 
   /*!
    * CTOC frames each have a unique element ID.

@@ -233,9 +233,8 @@ class TAGLIB_EXPORT Frame {
   /*!
    * Parses the contents of this frame as PropertyMap.
    * If that fails, the returned PropertyMap will be empty, and its unsupportedData() will contain this frame's ID.
-   * BIC: Will be a virtual function in future releases.
    */
-  PropertyMap asProperties() const;
+  virtual PropertyMap asProperties() const;
 
   /*!
    * Returns an appropriate ID3 frame ID for the given free-form tag key. This method

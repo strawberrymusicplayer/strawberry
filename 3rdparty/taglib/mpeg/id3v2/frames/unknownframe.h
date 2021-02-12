@@ -59,6 +59,8 @@ class TAGLIB_EXPORT UnknownFrame : public Frame {
    */
   ByteVector data() const;
 
+  PropertyMap asProperties() const override;
+
  protected:
   void parseFields(const ByteVector &data) override;
   ByteVector renderFields() const override;

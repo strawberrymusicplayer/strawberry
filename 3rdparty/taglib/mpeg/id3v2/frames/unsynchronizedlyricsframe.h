@@ -140,7 +140,7 @@ class TAGLIB_EXPORT UnsynchronizedLyricsFrame : public Frame {
    * - The single value will be the frame's text().
    * Note that currently the language() field is not supported by the PropertyMap interface.
    */
-  PropertyMap asProperties() const;
+  PropertyMap asProperties() const override;
 
   /*!
    * LyricsFrames each have a unique description.
