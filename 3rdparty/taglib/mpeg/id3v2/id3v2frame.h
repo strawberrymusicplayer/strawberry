@@ -80,15 +80,6 @@ class TAGLIB_EXPORT Frame {
   unsigned int size() const;
 
   /*!
-   * Returns the size of the frame header
-   *
-   * \deprecated This is only accurate for ID3v2.3 or ID3v2.4.
-   * Please use the call below which accepts an ID3v2 version number.
-   * In the next non-binary compatible release this will be made into a non-static member that checks the internal ID3v2 version.
-   */
-  unsigned int headerSize();
-
-  /*!
    * Returns the size of the frame header for the given ID3v2 version.
    *
    * \deprecated Please see the explanation above.
@@ -212,16 +203,9 @@ class TAGLIB_EXPORT Frame {
 
   /*!
    * Checks a the list of string values to see if they can be used with the specified encoding and returns the recommended encoding.
-   */
-  // BIC: remove and make non-static
-  static String::Type checkEncoding(const StringList &fields, String::Type encoding);
-
-  /*!
-   * Checks a the list of string values to see if they can be used with the specified encoding and returns the recommended encoding.
    * This method also checks the ID3v2 version and makes sure the encoding can be used in the specified version.
    */
-  // BIC: remove and make non-static
-  static String::Type checkEncoding(const StringList &fields, String::Type encoding, unsigned int version);
+  String::Type checkEncoding(const StringList &fields, String::Type encoding, unsigned int version) const;
 
   /*!
    * Checks a the list of string values to see if they can be used with the specified encoding and returns the recommended encoding.
@@ -356,24 +340,11 @@ class TAGLIB_EXPORT Frame::Header {
   void setVersion(unsigned int version);
 
   /*!
-   * Returns the size of the frame header in bytes.
-   *
-   * \deprecated Please use the version of this method that accepts a
-   * version.  This is only accurate for ID3v2.3 and ID3v2.4.  This will be
-   * removed in the next binary incompatible release (2.0) and will be
-   * replaced with a non-static method that checks the frame version.
-   */
-  // BIC: make non-static
-  static unsigned int size();
-
-  /*!
    * Returns the size of the frame header in bytes for the ID3v2 version
    * that's given.
-   *
-   * \deprecated Please see the explanation in the version above.
    */
   // BIC: remove
-  static unsigned int size(unsigned int version);
+  static unsigned int size(unsigned int version = 4);
 
   /*!
    * Returns true if the flag for tag alter preservation is set.

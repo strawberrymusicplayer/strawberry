@@ -75,10 +75,6 @@ bool isValidFrameID(const ByteVector &frameID) {
 // static methods
 ////////////////////////////////////////////////////////////////////////////////
 
-unsigned int Frame::headerSize() {
-  return Header::size();
-}
-
 unsigned int Frame::headerSize(unsigned int version) {
   return Header::size(version);
 }
@@ -271,12 +267,7 @@ String Frame::readStringField(const ByteVector &data, String::Type encoding, siz
 
 }
 
-String::Type Frame::checkEncoding(const StringList &fields, String::Type encoding) {  // static
-
-  return checkEncoding(fields, encoding, 4);
-}
-
-String::Type Frame::checkEncoding(const StringList &fields, String::Type encoding, unsigned int version) {  // static
+String::Type Frame::checkEncoding(const StringList &fields, String::Type encoding, unsigned int version) const {
 
   if ((encoding == String::UTF8 || encoding == String::UTF16BE) && version != 4)
     return String::UTF16;
@@ -506,10 +497,6 @@ class Frame::Header::HeaderPrivate {
 ////////////////////////////////////////////////////////////////////////////////
 // static members (Frame::Header)
 ////////////////////////////////////////////////////////////////////////////////
-
-unsigned int Frame::Header::size() {
-  return size(4);
-}
 
 unsigned int Frame::Header::size(unsigned int version) {
   switch (version) {

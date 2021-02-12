@@ -131,12 +131,6 @@ bool MPEG::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::File::File(FileName fileName, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(fileName), d(new FilePrivate()) {
-
-  if (isOpen())
-    read(readProperties);
-
-}
 
 MPEG::File::File(FileName fileName, ID3v2::FrameFactory *frameFactory, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(fileName), d(new FilePrivate(frameFactory)) {
 
@@ -298,10 +292,6 @@ ID3v1::Tag *MPEG::File::ID3v1Tag(bool create) {
 
 APE::Tag *MPEG::File::APETag(bool create) {
   return d->tag.access<APE::Tag>(APEIndex, create);
-}
-
-bool MPEG::File::strip(int tags) {
-  return strip(tags, true);
 }
 
 bool MPEG::File::strip(int tags, bool freeMemory) {
