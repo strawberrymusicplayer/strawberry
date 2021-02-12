@@ -204,9 +204,7 @@ String TableOfContentsFrame::toString() const {
 
   if (!d->embeddedFrameList.isEmpty()) {
     StringList frameIDs;
-    for (FrameList::ConstIterator it = d->embeddedFrameList.begin();
-         it != d->embeddedFrameList.end();
-         ++it)
+    for (FrameList::ConstIterator it = d->embeddedFrameList.begin(); it != d->embeddedFrameList.end(); ++it)
       frameIDs.append((*it)->frameID());
     s += ", sub-frames: [ " + frameIDs.toString(", ") + " ]";
   }
@@ -245,9 +243,7 @@ TableOfContentsFrame *TableOfContentsFrame::findTopLevel(const ID3v2::Tag *tag) 
 
   ID3v2::FrameList tablesOfContents = tag->frameList("CTOC");
 
-  for (ID3v2::FrameList::ConstIterator it = tablesOfContents.begin();
-       it != tablesOfContents.end();
-       ++it) {
+  for (ID3v2::FrameList::ConstIterator it = tablesOfContents.begin(); it != tablesOfContents.end(); ++it) {
     TableOfContentsFrame *frame = dynamic_cast<TableOfContentsFrame *>(*it);
     if (frame && frame->isTopLevel() == true)
       return frame;
@@ -314,15 +310,14 @@ ByteVector TableOfContentsFrame::renderFields() const {
     flags += 1;
   data.append(flags);
   data.append(static_cast<char>(entryCount()));
-  ByteVectorList::ConstIterator it = d->childElements.begin();
-  while (it != d->childElements.end()) {
+
+  for (ByteVectorList::ConstIterator it = d->childElements.begin() ; it != d->childElements.end() ; ++it) {
     data.append(*it);
     data.append('\0');
-    it++;
   }
   FrameList l = d->embeddedFrameList;
-  for (FrameList::ConstIterator it2 = l.begin(); it2 != l.end(); ++it2)
-    data.append((*it2)->render());
+  for (FrameList::ConstIterator it = l.begin(); it != l.end(); ++it)
+    data.append((*it)->render());
 
   return data;
 
