@@ -1137,7 +1137,7 @@ msgstr "Bufor"
 msgid "Buffer duration"
 msgstr "Długość bufora"
 
-#: engine/gstengine.cpp:685
+#: engine/gstengine.cpp:692
 msgid "Buffering"
 msgstr "Buforowanie"
 

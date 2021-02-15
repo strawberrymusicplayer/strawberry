@@ -1116,7 +1116,7 @@ msgstr "Buffer"
 msgid "Buffer duration"
 msgstr "Durata del buffer"
 
-#: engine/gstengine.cpp:685
+#: engine/gstengine.cpp:692
 msgid "Buffering"
 msgstr "Riempimento buffer in corso"
 

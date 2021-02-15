@@ -1160,7 +1160,7 @@ msgstr "Puffer"
 msgid "Buffer duration"
 msgstr "Pufferdauer"
 
-#: engine/gstengine.cpp:685
+#: engine/gstengine.cpp:692
 msgid "Buffering"
 msgstr "Puffern"
 
