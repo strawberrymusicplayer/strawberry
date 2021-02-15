@@ -79,6 +79,17 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   };
 
   /*!
+   * Constructs an MPEG file from \a file.  If \a readProperties is true the
+   * file's audio properties will also be read.
+   *
+   * \note In the current implementation, \a propertiesStyle is ignored.
+   *
+   * \deprecated This constructor will be dropped in favor of the one below
+   * in a future version.
+   */
+  explicit File(FileName file, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
+
+  /*!
    * Constructs an MPEG file from \a file.
    * If \a readProperties is true the file's audio properties will also be read.
    *

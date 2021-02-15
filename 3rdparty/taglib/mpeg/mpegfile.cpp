@@ -132,6 +132,13 @@ bool MPEG::File::isSupported(IOStream *stream) {
 ////////////////////////////////////////////////////////////////////////////////
 
 
+MPEG::File::File(FileName fileName, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(fileName), d(new FilePrivate()) {
+
+  if (isOpen())
+    read(readProperties);
+
+}
+
 MPEG::File::File(FileName fileName, ID3v2::FrameFactory *frameFactory, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(fileName), d(new FilePrivate(frameFactory)) {
 
   if (isOpen())
