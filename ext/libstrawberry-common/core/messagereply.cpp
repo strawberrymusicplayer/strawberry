@@ -40,7 +40,7 @@ void _MessageReplyBase::Abort() {
   finished_ = true;
   success_ = false;
 
-  emit Finished(success_);
+  emit Finished();
   qLog(Debug) << "Releasing ID" << id() << "(aborted)";
   semaphore_.release();
 

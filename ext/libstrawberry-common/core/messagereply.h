@@ -20,9 +20,9 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QThread>
 #include <QSemaphore>
 #include <QString>
+#include <QTimer>
 
 #include "core/logging.h"
 
@@ -45,7 +45,7 @@ class _MessageReplyBase : public QObject {
   void Abort();
 
  signals:
-  void Finished(bool success);
+  void Finished();
 
  protected:
   bool finished_;
@@ -89,10 +89,8 @@ void MessageReply<MessageType>::SetReply(const MessageType &message) {
   qLog(Debug) << "Releasing ID" << id() << "(finished)";
   semaphore_.release();
 
-  // The signal is not always emitted without this.
-  QThread::usleep(10);
-
-  emit Finished(success_);
+  // Delay the signal as workaround to fix the signal periodically not emitted.
+  QTimer::singleShot(1, this, &_MessageReplyBase::Finished);
 
 }
 
