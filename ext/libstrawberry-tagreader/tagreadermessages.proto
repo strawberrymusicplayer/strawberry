@@ -100,6 +100,15 @@ message LoadEmbeddedArtResponse {
   optional bytes data = 1;
 }
 
+message SaveEmbeddedArtRequest {
+  optional string filename = 1;
+  optional bytes data = 2;
+}
+
+message SaveEmbeddedArtResponse {
+  optional bool success = 1;
+}
+
 message Message {
   optional int64 id = 1;
 
@@ -114,5 +123,8 @@ message Message {
 
   optional LoadEmbeddedArtRequest load_embedded_art_request = 8;
   optional LoadEmbeddedArtResponse load_embedded_art_response = 9;
+
+  optional SaveEmbeddedArtRequest save_embedded_art_request = 10;
+  optional SaveEmbeddedArtResponse save_embedded_art_response = 11;
 
 }

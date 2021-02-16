@@ -58,6 +58,7 @@ class TagReader {
 
   QByteArray LoadEmbeddedArt(const QString &filename) const;
   QByteArray LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const;
+  bool SaveEmbeddedArt(const QString &filename, const QByteArray &data);
 
   static void Decode(const TagLib::String &tag, std::string *output);
   static void Decode(const QString &tag, std::string *output);

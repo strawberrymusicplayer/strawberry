@@ -47,11 +47,13 @@ void TagReaderWorker::MessageArrived(const pb::tagreader::Message &message) {
     QByteArray data = tag_reader_.LoadEmbeddedArt(QStringFromStdString(message.load_embedded_art_request().filename()));
     reply.mutable_load_embedded_art_response()->set_data(data.constData(), data.size());
   }
+  else if (message.has_save_embedded_art_request()) {
+    reply.mutable_save_embedded_art_response()->set_success(tag_reader_.SaveEmbeddedArt(QStringFromStdString(message.save_embedded_art_request().filename()), QByteArray(message.save_embedded_art_request().data().data(), message.save_embedded_art_request().data().size())));
+  }
 
   SendReply(message, &reply);
 
 }
-
 
 void TagReaderWorker::DeviceClosed() {
   AbstractMessageHandler<pb::tagreader::Message>::DeviceClosed();

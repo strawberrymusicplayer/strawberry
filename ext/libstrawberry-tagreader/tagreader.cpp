@@ -79,12 +79,12 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QList>
+#include <QVector>
 #include <QByteArray>
 #include <QDateTime>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
-#include <QVector>
 #include <QtDebug>
 
 #include "core/logging.h"
@@ -540,8 +540,8 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
 
   bool result = false;
 
-  if (TagLib::FLAC::File *file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
-    TagLib::Ogg::XiphComment *tag = file->xiphComment();
+  if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
+    TagLib::Ogg::XiphComment *tag = file_flac->xiphComment();
     SetVorbisComments(tag, song);
   }
 
@@ -653,6 +653,38 @@ void TagReader::SetTextFrame(const char *id, const std::string &value, TagLib::I
 
 }
 
+void TagReader::SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3v2::Tag *tag) const {
+
+  TagLib::ByteVector id_vector("USLT");
+  QVector<TagLib::ByteVector> frames_buffer;
+
+  // Store and clear existing frames
+  while (tag->frameListMap().contains(id_vector) && tag->frameListMap()[id_vector].size() != 0) {
+    frames_buffer.push_back(tag->frameListMap()[id_vector].front()->render());
+    tag->removeFrame(tag->frameListMap()[id_vector].front());
+  }
+
+  if (value.empty()) return;
+
+  // If no frames stored create empty frame
+  if (frames_buffer.isEmpty()) {
+    TagLib::ID3v2::UnsynchronizedLyricsFrame frame(TagLib::String::UTF8);
+    frame.setDescription("Clementine editor");
+    frames_buffer.push_back(frame.render());
+  }
+
+  // Update and add the frames
+  for (int i = 0 ; i < frames_buffer.size() ; ++i) {
+    TagLib::ID3v2::UnsynchronizedLyricsFrame *frame = new TagLib::ID3v2::UnsynchronizedLyricsFrame(frames_buffer.at(i));
+    if (i == 0) {
+      frame->setText(StdStringToTaglibString(value));
+    }
+    // add frame takes ownership and clears the memory
+    tag->addFrame(frame);
+  }
+
+}
+
 QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
 
   if (filename.isEmpty()) return QByteArray();
@@ -668,43 +700,39 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
   if (ref.isNull() || !ref.file()) return QByteArray();
 
   // FLAC
-  TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(ref.file());
-  if (flac_file && flac_file->xiphComment()) {
-    TagLib::List<TagLib::FLAC::Picture*> pics = flac_file->pictureList();
-    if (!pics.isEmpty()) {
-      // Use the first picture in the file - this could be made cleverer and pick the front cover if it's present.
-
-      std::list<TagLib::FLAC::Picture*>::iterator it = pics.begin();
-      TagLib::FLAC::Picture *picture = *it;
-
-      return QByteArray(picture->data().data(), picture->data().size());
+  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(ref.file())) {
+    if (flac_file->xiphComment()) {
+      TagLib::List<TagLib::FLAC::Picture*> pics = flac_file->pictureList();
+      if (!pics.isEmpty()) {
+        TagLib::FLAC::Picture *picture = nullptr;
+        for (std::list<TagLib::FLAC::Picture*>::iterator it = pics.begin() ; it != pics.end() ; ++it) {
+          picture = *it;
+          if (picture->type() == TagLib::FLAC::Picture::FrontCover) {
+            break;
+          }
+        }
+        if (picture) return QByteArray(picture->data().data(), picture->data().size());
+      }
     }
   }
 
   // WavPack
-
-  TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(ref.file());
-  if (wavpack_file) {
+  if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(ref.file())) {
     return LoadEmbeddedAPEArt(wavpack_file->APETag()->itemListMap());
   }
 
   // APE
-
-  TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(ref.file());
-  if (ape_file) {
+  if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(ref.file())) {
     return LoadEmbeddedAPEArt(ape_file->APETag()->itemListMap());
   }
 
   // MPC
-
-  TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(ref.file());
-  if (mpc_file) {
+  if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(ref.file())) {
     return LoadEmbeddedAPEArt(mpc_file->APETag()->itemListMap());
   }
 
   // Ogg Vorbis / Speex
-  TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(ref.file()->tag());
-  if (xiph_comment) {
+  if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(ref.file()->tag())) {
     TagLib::Ogg::FieldListMap map = xiph_comment->fieldListMap();
 
     TagLib::List<TagLib::FLAC::Picture*> pics = xiph_comment->pictureList();
@@ -720,8 +748,7 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
       return QByteArray(picture->data().data(), picture->data().size());
     }
 
-    // Ogg lacks a definitive standard for embedding cover art, but it seems
-    // b64 encoding a field called COVERART is the general convention
+    // Ogg lacks a definitive standard for embedding cover art, but it seems b64 encoding a field called COVERART is the general convention
     if (map.contains("COVERART"))
       return QByteArray::fromBase64(map["COVERART"].toString().toCString());
 
@@ -729,20 +756,20 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
   }
 
   // MP3
-  TagLib::MPEG::File *file = dynamic_cast<TagLib::MPEG::File*>(ref.file());
-  if (file && file->ID3v2Tag()) {
-    TagLib::ID3v2::FrameList apic_frames = file->ID3v2Tag()->frameListMap()["APIC"];
-    if (apic_frames.isEmpty())
-      return QByteArray();
+  if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(ref.file())) {
+    if (file_mp3->ID3v2Tag()) {
+      TagLib::ID3v2::FrameList apic_frames = file_mp3->ID3v2Tag()->frameListMap()["APIC"];
+      if (apic_frames.isEmpty())
+        return QByteArray();
 
-    TagLib::ID3v2::AttachedPictureFrame *pic = static_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
+      TagLib::ID3v2::AttachedPictureFrame *pic = static_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
 
-    return QByteArray(reinterpret_cast<const char*>(pic->picture().data()), pic->picture().size());
+      return QByteArray(reinterpret_cast<const char*>(pic->picture().data()), pic->picture().size());
+    }
   }
 
   // MP4/AAC
-  TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(ref.file());
-  if (aac_file) {
+  if (TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(ref.file())) {
     TagLib::MP4::Tag *tag = aac_file->tag();
     if (tag->item("covr").isValid()) {
       const TagLib::MP4::CoverArtList &art_list = tag->item("covr").toCoverArtList();
@@ -777,34 +804,85 @@ QByteArray TagReader::LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) co
 
 }
 
-void TagReader::SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3v2::Tag *tag) const {
+bool TagReader::SaveEmbeddedArt(const QString &filename, const QByteArray &data) {
 
-  TagLib::ByteVector id_vector("USLT");
-  QVector<TagLib::ByteVector> frames_buffer;
+  if (filename.isEmpty()) return false;
 
-  // Store and clear existing frames
-  while (tag->frameListMap().contains(id_vector) && tag->frameListMap()[id_vector].size() != 0) {
-    frames_buffer.push_back(tag->frameListMap()[id_vector].front()->render());
-    tag->removeFrame(tag->frameListMap()[id_vector].front());
-  }
+  qLog(Debug) << "Saving art to" << filename;
 
-  if (value.empty()) return;
+#ifdef Q_OS_WIN32
+  TagLib::FileRef ref(filename.toStdWString().c_str());
+#else
+  TagLib::FileRef ref(QFile::encodeName(filename).constData());
+#endif
 
-  // If no frames stored create empty frame
-  if (frames_buffer.isEmpty()) {
-    TagLib::ID3v2::UnsynchronizedLyricsFrame frame(TagLib::String::UTF8);
-    frame.setDescription("Clementine editor");
-    frames_buffer.push_back(frame.render());
-  }
+  if (ref.isNull() || !ref.file()) return false;
 
-  // Update and add the frames
-  for (int i = 0 ; i < frames_buffer.size() ; ++i) {
-    TagLib::ID3v2::UnsynchronizedLyricsFrame *frame = new TagLib::ID3v2::UnsynchronizedLyricsFrame(frames_buffer.at(i));
-    if (i == 0) {
-      frame->setText(StdStringToTaglibString(value));
+  // FLAC
+  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(ref.file())) {
+    if (flac_file->xiphComment()) {
+      flac_file->removePictures();
+      if (!data.isEmpty()) {
+        TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
+        picture->setType(TagLib::FLAC::Picture::FrontCover);
+        picture->setMimeType("image/jpeg");
+        picture->setData(TagLib::ByteVector(data.constData(), data.size()));
+        flac_file->addPicture(picture);
+      }
     }
-    // add frame takes ownership and clears the memory
-    tag->addFrame(frame);
   }
+
+  // Ogg Vorbis / Speex
+  else if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(ref.file()->tag())) {
+    TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
+    picture->setType(TagLib::FLAC::Picture::FrontCover);
+    picture->setMimeType("image/jpeg");
+    picture->setData(TagLib::ByteVector(data.constData(), data.size()));
+    xiph_comment->addPicture(picture);
+  }
+
+  // MP3
+  else if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(ref.file())) {
+    if (file_mp3->ID3v2Tag()) {
+      TagLib::ID3v2::Tag *tag = file_mp3->ID3v2Tag();
+
+      // Remove existing covers
+      TagLib::ID3v2::FrameList apiclist = tag->frameListMap()["APIC"];
+      for (TagLib::ID3v2::FrameList::ConstIterator it = apiclist.begin() ; it != apiclist.end() ; ++it ) {
+        TagLib::ID3v2::AttachedPictureFrame *frame = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(*it);
+        tag->removeFrame(frame, false);
+      }
+
+      if (!data.isEmpty()) {
+        // Add new cover
+        TagLib::ID3v2::AttachedPictureFrame *frontcover = nullptr;
+        frontcover = new TagLib::ID3v2::AttachedPictureFrame("APIC");
+        frontcover->setType(TagLib::ID3v2::AttachedPictureFrame::FrontCover);
+        frontcover->setMimeType("image/jpeg");
+        frontcover->setPicture(TagLib::ByteVector(data.constData(), data.count()));
+        tag->addFrame(frontcover);
+      }
+    }
+  }
+
+  // MP4/AAC
+  else if (TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(ref.file())) {
+    TagLib::MP4::Tag *tag = aac_file->tag();
+    TagLib::MP4::CoverArtList covers;
+    if (tag) {
+      if (data.isEmpty()) {
+        if (tag->contains("covr")) tag->removeItem("covr");
+      }
+      else {
+        covers.append(TagLib::MP4::CoverArt(TagLib::MP4::CoverArt::JPEG, TagLib::ByteVector(data.constData(), data.count())));
+        tag->setItem("covr", covers);
+      }
+    }
+  }
+
+  // Not supported.
+  else return false;
+
+  return ref.file()->save();
 
 }
