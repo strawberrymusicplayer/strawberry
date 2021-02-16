@@ -87,10 +87,11 @@ void MessageReply<MessageType>::SetReply(const MessageType &message) {
   success_ = true;
 
   qLog(Debug) << "Releasing ID" << id() << "(finished)";
-  semaphore_.release();
 
   // Delay the signal as workaround to fix the signal periodically not emitted.
   QTimer::singleShot(1, this, &_MessageReplyBase::Finished);
+
+  semaphore_.release();
 
 }
 
