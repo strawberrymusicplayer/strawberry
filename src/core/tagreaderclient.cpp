@@ -71,8 +71,8 @@ void TagReaderClient::WorkerFailedToStart() {
 
 TagReaderReply *TagReaderClient::ReadFile(const QString &filename) {
 
-  pb::tagreader::Message message;
-  pb::tagreader::ReadFileRequest *req = message.mutable_read_file_request();
+  spb::tagreader::Message message;
+  spb::tagreader::ReadFileRequest *req = message.mutable_read_file_request();
 
   req->set_filename(DataCommaSizeFromQString(filename));
 
@@ -82,8 +82,8 @@ TagReaderReply *TagReaderClient::ReadFile(const QString &filename) {
 
 TagReaderReply *TagReaderClient::SaveFile(const QString &filename, const Song &metadata) {
 
-  pb::tagreader::Message message;
-  pb::tagreader::SaveFileRequest *req = message.mutable_save_file_request();
+  spb::tagreader::Message message;
+  spb::tagreader::SaveFileRequest *req = message.mutable_save_file_request();
 
   req->set_filename(DataCommaSizeFromQString(filename));
   metadata.ToProtobuf(req->mutable_metadata());
@@ -96,8 +96,8 @@ TagReaderReply *TagReaderClient::SaveFile(const QString &filename, const Song &m
 
 TagReaderReply *TagReaderClient::IsMediaFile(const QString &filename) {
 
-  pb::tagreader::Message message;
-  pb::tagreader::IsMediaFileRequest *req = message.mutable_is_media_file_request();
+  spb::tagreader::Message message;
+  spb::tagreader::IsMediaFileRequest *req = message.mutable_is_media_file_request();
 
   req->set_filename(DataCommaSizeFromQString(filename));
 
@@ -107,8 +107,8 @@ TagReaderReply *TagReaderClient::IsMediaFile(const QString &filename) {
 
 TagReaderReply *TagReaderClient::LoadEmbeddedArt(const QString &filename) {
 
-  pb::tagreader::Message message;
-  pb::tagreader::LoadEmbeddedArtRequest *req = message.mutable_load_embedded_art_request();
+  spb::tagreader::Message message;
+  spb::tagreader::LoadEmbeddedArtRequest *req = message.mutable_load_embedded_art_request();
 
   req->set_filename(DataCommaSizeFromQString(filename));
 
@@ -118,8 +118,8 @@ TagReaderReply *TagReaderClient::LoadEmbeddedArt(const QString &filename) {
 
 TagReaderReply *TagReaderClient::SaveEmbeddedArt(const QString &filename, const QByteArray &data) {
 
-  pb::tagreader::Message message;
-  pb::tagreader::SaveEmbeddedArtRequest *req = message.mutable_save_embedded_art_request();
+  spb::tagreader::Message message;
+  spb::tagreader::SaveEmbeddedArtRequest *req = message.mutable_save_embedded_art_request();
 
   req->set_filename(DataCommaSizeFromQString(filename));
   req->set_data(data.constData(), data.size());

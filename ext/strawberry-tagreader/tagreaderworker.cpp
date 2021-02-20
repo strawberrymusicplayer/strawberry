@@ -27,11 +27,11 @@
 #include "tagreaderworker.h"
 
 TagReaderWorker::TagReaderWorker(QIODevice *socket, QObject *parent)
-  : AbstractMessageHandler<pb::tagreader::Message>(socket, parent) {}
+  : AbstractMessageHandler<spb::tagreader::Message>(socket, parent) {}
 
-void TagReaderWorker::MessageArrived(const pb::tagreader::Message &message) {
+void TagReaderWorker::MessageArrived(const spb::tagreader::Message &message) {
 
-  pb::tagreader::Message reply;
+  spb::tagreader::Message reply;
 
   if (message.has_read_file_request()) {
     tag_reader_.ReadFile(QStringFromStdString(message.read_file_request().filename()), reply.mutable_read_file_response()->mutable_metadata());
@@ -56,7 +56,7 @@ void TagReaderWorker::MessageArrived(const pb::tagreader::Message &message) {
 }
 
 void TagReaderWorker::DeviceClosed() {
-  AbstractMessageHandler<pb::tagreader::Message>::DeviceClosed();
+  AbstractMessageHandler<spb::tagreader::Message>::DeviceClosed();
 
   qApp->exit();
 }

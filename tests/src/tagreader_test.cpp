@@ -44,7 +44,7 @@ class TagReaderTest : public ::testing::Test {
   static Song ReadSongFromFile(const QString& filename) {
     TagReader tag_reader;
     Song song;
-    ::pb::tagreader::SongMetadata pb_song;
+    ::spb::tagreader::SongMetadata pb_song;
 
     // We need to init protobuf object from a Song object, to have default values initialized correctly.
     song.ToProtobuf(&pb_song);
@@ -55,7 +55,7 @@ class TagReaderTest : public ::testing::Test {
 
   static void WriteSongToFile(const Song& song, const QString& filename) {
     TagReader tag_reader;
-    ::pb::tagreader::SongMetadata pb_song;
+    ::spb::tagreader::SongMetadata pb_song;
     song.ToProtobuf(&pb_song);
     tag_reader.SaveFile(filename, pb_song);
   }
