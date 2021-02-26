@@ -42,7 +42,6 @@
 #include <QSize>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QMimeDatabase>
 #include <QSettings>
 
 #include "core/networkaccessmanager.h"
