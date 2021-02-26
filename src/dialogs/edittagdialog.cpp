@@ -817,7 +817,7 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     ui_->tags_art->clear();
     if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset) {
       ui_->tags_art->setPixmap(QPixmap::fromImage(result.image_scaled));
-      for (const QModelIndex idx : ui_->song_list->selectionModel()->selectedIndexes()) {
+      for (const QModelIndex &idx : ui_->song_list->selectionModel()->selectedIndexes()) {
         data_[idx.row()].cover_result_ = result.album_cover;
       }
     }
