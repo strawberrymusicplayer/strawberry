@@ -74,6 +74,7 @@ To build Strawberry from source you need the following installed on your system 
 * [PulseAudio (linux optional)](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
 * [GStreamer](https://gstreamer.freedesktop.org/) or [VLC](https://www.videolan.org)
 * [GnuTLS](https://www.gnutls.org/)
+* [TagLib](https://www.taglib.org/)
 
 Optional dependencies:
 

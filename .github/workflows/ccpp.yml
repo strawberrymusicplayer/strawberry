@@ -39,6 +39,7 @@ jobs:
             gstreamer-devel
             gstreamer-plugins-base-devel
             vlc-devel
+            taglib-devel
             libQt5Core-devel
             libQt5Gui-devel
             libQt5Widgets-devel
@@ -107,6 +108,7 @@ jobs:
             gstreamer-devel
             gstreamer-plugins-base-devel
             vlc-devel
+            taglib-devel
             libQt5Core-devel
             libQt5Gui-devel
             libQt5Widgets-devel
@@ -183,6 +185,7 @@ jobs:
             gstreamer-devel
             gstreamer-plugins-base-devel
             vlc-devel
+            taglib-devel
             libQt5Core-devel
             libQt5Gui-devel
             libQt5Widgets-devel
@@ -260,6 +263,7 @@ jobs:
             gstreamer-devel
             gstreamer-plugins-base-devel
             vlc-devel
+            taglib-devel
             qt6-core-devel
             qt6-gui-devel
             qt6-widgets-devel
@@ -338,6 +342,7 @@ jobs:
             #gstreamer-devel
             #gstreamer-plugins-base-devel
             #vlc-devel
+            #taglib-devel
             #libQt5Core-devel
             #libQt5Gui-devel
             #libQt5Widgets-devel
@@ -418,6 +423,7 @@ jobs:
             #gstreamer-devel
             #gstreamer-plugins-base-devel
             #vlc-devel
+            #taglib-devel
             #qt6-core-devel
             #qt6-gui-devel
             #qt6-widgets-devel
@@ -675,6 +681,7 @@ jobs:
             libmtp-devel
             libjpeg-devel
             cairo-devel
+            taglib-devel
             dbus-x11
             xorg-x11-server-Xvfb
             xorg-x11-xauth
@@ -737,6 +744,7 @@ jobs:
             libgnutls28-dev
             libasound2-dev
             libpulse-dev
+            libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
@@ -794,6 +802,7 @@ jobs:
             libgnutls28-dev
             libasound2-dev
             libpulse-dev
+            libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
@@ -855,6 +864,7 @@ jobs:
             libgnutls28-dev
             libasound2-dev
             libpulse-dev
+            libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
@@ -917,6 +927,7 @@ jobs:
             libgnutls28-dev
             libasound2-dev
             libpulse-dev
+            libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
@@ -979,6 +990,7 @@ jobs:
             libgnutls28-dev
             libasound2-dev
             libpulse-dev
+            libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev

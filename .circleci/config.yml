@@ -80,6 +80,7 @@ commands:
             libpulse-devel
             gstreamer-devel
             gstreamer-plugins-base-devel
+            taglib-devel
             vlc-devel
             libQt5Core-devel
             libQt5Gui-devel
@@ -183,6 +184,7 @@ commands:
             libgnutls28-dev
             libasound2-dev
             libpulse-dev
+            libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
@@ -234,6 +236,7 @@ commands:
             libgnutls28-dev
             libasound2-dev
             libpulse-dev
+            libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
