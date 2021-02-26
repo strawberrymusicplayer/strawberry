@@ -31,8 +31,10 @@
 #include <QNetworkRequest>
 #include <QUrl>
 
+#include "core/utilities.h"
 #include "core/networkaccessmanager.h"
 #include "widgets/busyindicator.h"
+#include "albumcoverimageresult.h"
 #include "coverfromurldialog.h"
 #include "ui_coverfromurldialog.h"
 
@@ -47,17 +49,17 @@ CoverFromURLDialog::~CoverFromURLDialog() {
   delete ui_;
 }
 
-QImage CoverFromURLDialog::Exec() {
+AlbumCoverImageResult CoverFromURLDialog::Exec() {
 
   // reset state
   ui_->url->setText("");;
-  last_image_ = QImage();
+  last_album_cover_ = AlbumCoverImageResult();
 
   QClipboard *clipboard = QApplication::clipboard();
   ui_->url->setText(clipboard->text());
 
   exec();
-  return last_image_;
+  return last_album_cover_;
 
 }
 
@@ -89,11 +91,13 @@ void CoverFromURLDialog::LoadCoverFromURLFinished() {
     return;
   }
 
-  QImage image;
-  image.loadFromData(reply->readAll());
+  AlbumCoverImageResult result;
+  result.image_data = reply->readAll();
+  result.image.loadFromData(result.image_data);
+  result.mime_type = Utilities::MimeTypeFromData(result.image_data);
 
-  if (!image.isNull()) {
-    last_image_ = image;
+  if (!result.image.isNull()) {
+    last_album_cover_ = result;
     QDialog::accept();
   }
   else {

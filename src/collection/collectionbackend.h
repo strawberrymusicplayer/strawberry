@@ -50,25 +50,23 @@ class CollectionBackendInterface : public QObject {
 
   struct Album {
     Album() {}
-    Album(const QString &_artist, const QString &_album_artist, const QString &_album_name, const QUrl &_art_automatic, const QUrl &_art_manual, const QUrl &_first_url) :
-      artist(_artist),
+    Album(const QString &_album_artist, const QString &_album, const QUrl &_art_automatic, const QUrl &_art_manual, const QList<QUrl> &_urls, const Song::FileType _filetype, const QString &_cue_path) :
       album_artist(_album_artist),
-      album_name(_album_name),
+      album(_album),
       art_automatic(_art_automatic),
       art_manual(_art_manual),
-      first_url(_first_url) {}
+      urls(_urls),
+      filetype(_filetype),
+      cue_path(_cue_path) {}
 
-    const QString &effective_albumartist() const {
-      return album_artist.isEmpty() ? artist : album_artist;
-    }
-
-    QString artist;
     QString album_artist;
-    QString album_name;
+    QString album;
 
     QUrl art_automatic;
     QUrl art_manual;
-    QUrl first_url;
+    QList<QUrl> urls;
+    Song::FileType filetype;
+    QString cue_path;
   };
   typedef QList<Album> AlbumList;
 
@@ -88,8 +86,9 @@ class CollectionBackendInterface : public QObject {
 
   virtual QStringList GetAllArtists(const QueryOptions &opt = QueryOptions()) = 0;
   virtual QStringList GetAllArtistsWithAlbums(const QueryOptions &opt = QueryOptions()) = 0;
+  virtual SongList GetArtistSongs(const QString &effective_albumartist, const QueryOptions &opt = QueryOptions()) = 0;
+  virtual SongList GetAlbumSongs(const QString &effective_albumartist, const QString &album, const QueryOptions &opt = QueryOptions()) = 0;
   virtual SongList GetSongsByAlbum(const QString &album, const QueryOptions &opt = QueryOptions()) = 0;
-  virtual SongList GetSongs(const QString &artist, const QString &album, const QueryOptions &opt = QueryOptions()) = 0;
 
   virtual SongList GetCompilationSongs(const QString &album, const QueryOptions &opt = QueryOptions()) = 0;
 
@@ -97,8 +96,10 @@ class CollectionBackendInterface : public QObject {
   virtual AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions()) = 0;
   virtual AlbumList GetCompilationAlbums(const QueryOptions &opt = QueryOptions()) = 0;
 
-  virtual void UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url) = 0;
-  virtual Album GetAlbumArt(const QString &artist, const QString &albumartist, const QString &album) = 0;
+  virtual void UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false) = 0;
+  virtual void UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url) = 0;
+
+  virtual Album GetAlbumArt(const QString &effective_albumartist, const QString &album) = 0;
 
   virtual Song GetSongById(const int id) = 0;
 
@@ -118,7 +119,6 @@ class CollectionBackend : public CollectionBackendInterface {
   Q_OBJECT
 
  public:
-  static const char *kSettingsGroup;
 
   Q_INVOKABLE explicit CollectionBackend(QObject *parent = nullptr);
 
@@ -148,8 +148,9 @@ class CollectionBackend : public CollectionBackendInterface {
   QStringList GetAll(const QString &column, const QueryOptions &opt = QueryOptions());
   QStringList GetAllArtists(const QueryOptions &opt = QueryOptions()) override;
   QStringList GetAllArtistsWithAlbums(const QueryOptions &opt = QueryOptions()) override;
+  SongList GetArtistSongs(const QString &effective_albumartist, const QueryOptions &opt = QueryOptions()) override;
+  SongList GetAlbumSongs(const QString &effective_albumartist, const QString &album, const QueryOptions &opt = QueryOptions()) override;
   SongList GetSongsByAlbum(const QString &album, const QueryOptions &opt = QueryOptions()) override;
-  SongList GetSongs(const QString &artist, const QString &album, const QueryOptions &opt = QueryOptions()) override;
 
   SongList GetCompilationSongs(const QString &album, const QueryOptions &opt = QueryOptions()) override;
 
@@ -157,8 +158,10 @@ class CollectionBackend : public CollectionBackendInterface {
   AlbumList GetCompilationAlbums(const QueryOptions &opt = QueryOptions()) override;
   AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions()) override;
 
-  void UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url) override;
-  Album GetAlbumArt(const QString &artist, const QString &albumartist, const QString &album) override;
+  void UpdateManualAlbumArtAsync(const QString &album_artist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false) override;
+  void UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url) override;
+
+  Album GetAlbumArt(const QString &album_artist, const QString &album) override;
 
   Song GetSongById(const int id) override;
   SongList GetSongsById(const QList<int> &ids);
@@ -205,7 +208,8 @@ class CollectionBackend : public CollectionBackendInterface {
   void MarkSongsUnavailable(const SongList &songs, const bool unavailable = true);
   void AddOrUpdateSubdirs(const SubdirectoryList &subdirs);
   void CompilationsNeedUpdating();
-  void UpdateManualAlbumArt(const QString &artist,  const QString &albumartist, const QString &album, const QUrl &cover_url);
+  void UpdateManualAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false);
+  void UpdateAutomaticAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url);
   void ForceCompilation(const QString &album, const QList<QString> &artists, const bool on);
   void IncrementPlayCount(const int id);
   void IncrementSkipCount(const int id, const float progress);

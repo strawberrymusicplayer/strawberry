@@ -189,14 +189,15 @@ SettingsDialog::~SettingsDialog() {
 
 void SettingsDialog::showEvent(QShowEvent *e) {
 
-  LoadGeometry();
-
-  // Load settings
-  loading_settings_ = true;
-  for (const PageData &page : pages_.values()) {
-    page.page_->Load();
+  if (!e->spontaneous()) {
+    LoadGeometry();
+    // Load settings
+    loading_settings_ = true;
+    for (const PageData &page : pages_.values()) {
+      page.page_->Load();
+    }
+    loading_settings_ = false;
   }
-  loading_settings_ = false;
 
   QDialog::showEvent(e);
 

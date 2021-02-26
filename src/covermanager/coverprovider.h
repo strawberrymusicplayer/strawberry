@@ -40,14 +40,14 @@ class CoverProvider : public QObject {
   Q_OBJECT
 
  public:
-  explicit CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool fetchall, const bool allow_missing_album, Application *app, QObject *parent);
+  explicit CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, QObject *parent);
 
   // A name (very short description) of this provider, like "last.fm".
   QString name() const { return name_; }
   bool is_enabled() const { return enabled_; }
   int order() const { return order_; }
   bool quality() const { return quality_; }
-  bool fetchall() const { return fetchall_; }
+  bool batch() const { return batch_; }
   bool allow_missing_album() const { return allow_missing_album_; }
 
   void set_enabled(const bool enabled) { enabled_ = enabled; }
@@ -70,8 +70,8 @@ class CoverProvider : public QObject {
   void AuthenticationComplete(bool, QStringList = QStringList());
   void AuthenticationSuccess();
   void AuthenticationFailure(QStringList);
-  void SearchResults(int, CoverSearchResults);
-  void SearchFinished(int, CoverSearchResults);
+  void SearchResults(int, CoverProviderSearchResults);
+  void SearchFinished(int, CoverProviderSearchResults);
 
  private:
   Application *app_;
@@ -80,7 +80,7 @@ class CoverProvider : public QObject {
   int order_;
   bool authentication_required_;
   float quality_;
-  bool fetchall_;
+  bool batch_;
   bool allow_missing_album_;
 
 };

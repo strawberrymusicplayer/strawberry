@@ -89,7 +89,7 @@ void CoverExportRunnable::ProcessAndExportCover() {
 
   // load embedded cover if any
   if (song_.has_embedded_cover()) {
-    embedded_cover = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(song_.url().toLocalFile());
+    embedded_cover = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(song_.url().toLocalFile());
 
     if (embedded_cover.isNull()) {
       EmitCoverSkipped();
@@ -179,7 +179,7 @@ void CoverExportRunnable::ExportCover() {
 
   if (cover_path == Song::kEmbeddedCover) {
     // an embedded cover
-    QImage embedded = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(song_.url().toLocalFile());
+    QImage embedded = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(song_.url().toLocalFile());
     if (!embedded.save(new_file)) {
       EmitCoverSkipped();
       return;

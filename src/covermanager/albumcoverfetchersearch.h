@@ -29,12 +29,14 @@
 #include <QPair>
 #include <QMap>
 #include <QMultiMap>
+#include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QImage>
 
 #include "albumcoverfetcher.h"
 #include "coversearchstatistics.h"
+#include "albumcoverimageresult.h"
 
 class QNetworkReply;
 class CoverProvider;
@@ -59,23 +61,23 @@ class AlbumCoverFetcherSearch : public QObject {
 
   CoverSearchStatistics statistics() const { return statistics_; }
 
-  static bool CoverSearchResultCompareNumber(const CoverSearchResult &a, const CoverSearchResult &b);
+  static bool CoverProviderSearchResultCompareNumber(const CoverProviderSearchResult &a, const CoverProviderSearchResult &b);
 
  signals:
   // It's the end of search (when there was no fetch-me-a-cover request).
-  void SearchFinished(quint64, CoverSearchResults results);
+  void SearchFinished(quint64, CoverProviderSearchResults results);
 
   // It's the end of search and we've fetched a cover.
-  void AlbumCoverFetched(const quint64, const QUrl &cover_url, const QImage &cover);
+  void AlbumCoverFetched(const quint64, AlbumCoverImageResult result);
 
  private slots:
-  void ProviderSearchResults(const int id, const CoverSearchResults &results);
-  void ProviderSearchFinished(const int id, const CoverSearchResults &results);
+  void ProviderSearchResults(const int id, const CoverProviderSearchResults &results);
+  void ProviderSearchFinished(const int id, const CoverProviderSearchResults &results);
   void ProviderCoverFetchFinished(QNetworkReply *reply);
   void TerminateSearch();
 
  private:
-  void ProviderSearchResults(CoverProvider *provider, const CoverSearchResults &results);
+  void ProviderSearchResults(CoverProvider *provider, const CoverProviderSearchResults &results);
   void AllProvidersFinished();
 
   void FetchMoreImages();
@@ -83,7 +85,7 @@ class AlbumCoverFetcherSearch : public QObject {
   void SendBestImage();
 
   static bool ProviderCompareOrder(CoverProvider *a, CoverProvider *b);
-  static bool CoverSearchResultCompareScore(const CoverSearchResult &a, const CoverSearchResult &b);
+  static bool CoverProviderSearchResultCompareScore(const CoverProviderSearchResult &a, const CoverProviderSearchResult &b);
 
  private:
   static const int kSearchTimeoutMs;
@@ -97,14 +99,18 @@ class AlbumCoverFetcherSearch : public QObject {
   CoverSearchRequest request_;
 
   // Complete results (from all of the available providers).
-  CoverSearchResults results_;
+  CoverProviderSearchResults results_;
 
   QMap<int, CoverProvider*> pending_requests_;
-  QMap<QNetworkReply*, CoverSearchResult> pending_image_loads_;
+  QMap<QNetworkReply*, CoverProviderSearchResult> pending_image_loads_;
   NetworkTimeouts* image_load_timeout_;
 
-  // QMap is sorted by key (score).  Values are (result, image)
-  typedef QPair<CoverSearchResult, QImage> CandidateImage;
+  // QMap is sorted by key (score).
+  struct CandidateImage {
+    CandidateImage(const CoverProviderSearchResult &_result, const AlbumCoverImageResult &_album_cover) : result(_result), album_cover(_album_cover) {}
+    CoverProviderSearchResult result;
+    AlbumCoverImageResult album_cover;
+  };
   QMultiMap<float, CandidateImage> candidate_images_;
 
   NetworkAccessManager *network_;

@@ -172,7 +172,24 @@ bool TagReaderClient::IsMediaFileBlocking(const QString &filename) {
 
 }
 
-QImage TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename) {
+QByteArray TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename) {
+
+  Q_ASSERT(QThread::currentThread() != thread());
+
+  QByteArray ret;
+
+  TagReaderReply *reply = LoadEmbeddedArt(filename);
+  if (reply->WaitForFinished()) {
+    const std::string &data_str = reply->message().load_embedded_art_response().data();
+    ret = QByteArray(data_str.data(), data_str.size());
+  }
+  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+
+  return ret;
+
+}
+
+QImage TagReaderClient::LoadEmbeddedArtAsImageBlocking(const QString &filename) {
 
   Q_ASSERT(QThread::currentThread() != thread());
 

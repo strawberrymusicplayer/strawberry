@@ -115,10 +115,10 @@ void RegisterMetaTypes() {
   qRegisterMetaType<PlaylistSequence::ShuffleMode>("PlaylistSequence::ShuffleMode");
   qRegisterMetaType<AlbumCoverLoaderResult>("AlbumCoverLoaderResult");
   qRegisterMetaType<AlbumCoverLoaderResult::Type>("AlbumCoverLoaderResult::Type");
-  qRegisterMetaType<CoverSearchResult>("CoverSearchResult");
+  qRegisterMetaType<CoverProviderSearchResult>("CoverProviderSearchResult");
   qRegisterMetaType<CoverSearchStatistics>("CoverSearchStatistics");
-  qRegisterMetaType<QList<CoverSearchResult> >("QList<CoverSearchResult>");
-  qRegisterMetaType<CoverSearchResults>("CoverSearchResults");
+  qRegisterMetaType<QList<CoverProviderSearchResult> >("QList<CoverProviderSearchResult>");
+  qRegisterMetaType<CoverProviderSearchResults>("CoverProviderSearchResults");
   qRegisterMetaType<Equalizer::Params>("Equalizer::Params");
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   qRegisterMetaTypeStreamOperators<Equalizer::Params>("Equalizer::Params");

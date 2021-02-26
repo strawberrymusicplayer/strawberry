@@ -40,12 +40,14 @@
 
 #include "core/logging.h"
 #include "core/utilities.h"
+#include "core/imageutils.h"
 #include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"
 #include "coverprovider.h"
 #include "coverproviders.h"
+#include "albumcoverimageresult.h"
 
 const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 20000;
 const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 6000;
@@ -99,8 +101,8 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
       continue;
     }
 
-    // Skip provider if it does not have fetchall set and we are doing fetchall - "Fetch Missing Covers".
-    if (!provider->fetchall() && request_.fetchall) {
+    // Skip provider if it does not have batch set and we are doing a batch - "Fetch Missing Covers".
+    if (!provider->batch() && request_.batch) {
       continue;
     }
 
@@ -109,7 +111,7 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
       continue;
     }
 
-    QObject::connect(provider, &CoverProvider::SearchResults, this, QOverload<const int, const CoverSearchResults&>::of(&AlbumCoverFetcherSearch::ProviderSearchResults));
+    QObject::connect(provider, &CoverProvider::SearchResults, this, QOverload<const int, const CoverProviderSearchResults&>::of(&AlbumCoverFetcherSearch::ProviderSearchResults));
     QObject::connect(provider, &CoverProvider::SearchFinished, this, &AlbumCoverFetcherSearch::ProviderSearchFinished);
     const int id = cover_providers->NextId();
     const bool success = provider->StartSearch(request_.artist, request_.album, request_.title, id);
@@ -127,7 +129,7 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
 
 }
 
-void AlbumCoverFetcherSearch::ProviderSearchResults(const int id, const CoverSearchResults &results) {
+void AlbumCoverFetcherSearch::ProviderSearchResults(const int id, const CoverProviderSearchResults &results) {
 
   if (!pending_requests_.contains(id)) return;
   CoverProvider *provider = pending_requests_[id];
@@ -135,9 +137,9 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(const int id, const CoverSea
 
 }
 
-void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, const CoverSearchResults &results) {
+void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, const CoverProviderSearchResults &results) {
 
-  CoverSearchResults results_copy(results);
+  CoverProviderSearchResults results_copy(results);
   for (int i = 0 ; i < results_copy.count() ; ++i) {
 
     results_copy[i].provider = provider->name();
@@ -225,7 +227,7 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
 
 }
 
-void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverSearchResults &results) {
+void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverProviderSearchResults &results) {
 
   if (!pending_requests_.contains(id)) return;
 
@@ -256,7 +258,7 @@ void AlbumCoverFetcherSearch::AllProvidersFinished() {
   // No results?
   if (results_.isEmpty()) {
     statistics_.missing_images_++;
-    emit AlbumCoverFetched(request_.id, QUrl(), QImage());
+    emit AlbumCoverFetched(request_.id, AlbumCoverImageResult());
     return;
   }
 
@@ -264,7 +266,7 @@ void AlbumCoverFetcherSearch::AllProvidersFinished() {
   // We'll sort the list of results by current score, then load the first 3 images from each category and use some heuristics for additional score.
   // If no images are good enough we'll keep loading more images until we find one that is or we run out of results.
 
-  std::stable_sort(results_.begin(), results_.end(), CoverSearchResultCompareScore);
+  std::stable_sort(results_.begin(), results_.end(), CoverProviderSearchResultCompareScore);
 
   FetchMoreImages();
 
@@ -275,7 +277,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
   int i = 0;
   while (!results_.isEmpty()) {
     ++i;
-    CoverSearchResult result = results_.takeFirst();
+    CoverProviderSearchResult result = results_.takeFirst();
 
     qLog(Debug) << "Loading" << result.artist << result.album << result.image_url << "from" << result.provider << "with current score" << result.score();
 
@@ -309,13 +311,11 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
   reply->deleteLater();
 
   if (!pending_image_loads_.contains(reply)) return;
-  CoverSearchResult result = pending_image_loads_.take(reply);
+  CoverProviderSearchResult result = pending_image_loads_.take(reply);
 
   statistics_.bytes_transferred_ += reply->bytesAvailable();
 
-  if (cancel_requested_) {
-    return;
-  }
+  if (cancel_requested_) return;
 
   if (reply->error() != QNetworkReply::NoError) {
     qLog(Error) << "Error requesting" << reply->url() << reply->errorString();
@@ -325,15 +325,17 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
   }
   else {
     QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-    if (Utilities::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) || Utilities::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
+    if (ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) || ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
+      QByteArray image_data = reply->readAll();
+      QString mime_type = Utilities::MimeTypeFromData(image_data);
       QImage image;
-      if (image.loadFromData(reply->readAll())) {
-        if (result.image_size != QSize(0,0) && result.image_size != image.size()) {
+      if (image.loadFromData(image_data)) {
+        if (result.image_size != QSize(0, 0) && result.image_size != image.size()) {
           qLog(Debug) << "API size for image" << result.image_size << "for" << reply->url() << "from" << result.provider << "did not match retrieved size" << image.size();
         }
         result.image_size = image.size();
         result.score_quality = ScoreImage(image.size());
-        candidate_images_.insert(result.score(), CandidateImage(result, image));
+        candidate_images_.insert(result.score(), CandidateImage(result, AlbumCoverImageResult(result.image_url, mime_type, image_data, image)));
         qLog(Debug) << reply->url() << "from" << result.provider << "scored" << result.score();
       }
       else {
@@ -380,26 +382,24 @@ float AlbumCoverFetcherSearch::ScoreImage(const QSize size) const {
 
 void AlbumCoverFetcherSearch::SendBestImage() {
 
-  QUrl cover_url;
-  QImage image;
+  AlbumCoverImageResult result;
 
   if (!candidate_images_.isEmpty()) {
     const CandidateImage best_image = candidate_images_.values().back();
-    cover_url = best_image.first.image_url;
-    image = best_image.second;
+    result = best_image.album_cover;
 
-    qLog(Info) << "Using" << best_image.first.image_url << "from" << best_image.first.provider << "with score" << best_image.first.score();
+    qLog(Info) << "Using" << best_image.result.image_url << "from" << best_image.result.provider << "with score" << best_image.result.score();
 
-    statistics_.chosen_images_by_provider_[best_image.first.provider]++;
+    statistics_.chosen_images_by_provider_[best_image.result.provider]++;
     statistics_.chosen_images_++;
-    statistics_.chosen_width_ += image.width();
-    statistics_.chosen_height_ += image.height();
+    statistics_.chosen_width_ += result.image.width();
+    statistics_.chosen_height_ += result.image.height();
   }
   else {
     statistics_.missing_images_++;
   }
 
-  emit AlbumCoverFetched(request_.id, cover_url, image);
+  emit AlbumCoverFetched(request_.id, result);
 
 }
 
@@ -425,10 +425,10 @@ bool AlbumCoverFetcherSearch::ProviderCompareOrder(CoverProvider *a, CoverProvid
   return a->order() < b->order();
 }
 
-bool AlbumCoverFetcherSearch::CoverSearchResultCompareScore(const CoverSearchResult &a, const CoverSearchResult &b) {
+bool AlbumCoverFetcherSearch::CoverProviderSearchResultCompareScore(const CoverProviderSearchResult &a, const CoverProviderSearchResult &b) {
   return a.score() > b.score();
 }
 
-bool AlbumCoverFetcherSearch::CoverSearchResultCompareNumber(const CoverSearchResult &a, const CoverSearchResult &b) {
+bool AlbumCoverFetcherSearch::CoverProviderSearchResultCompareNumber(const CoverProviderSearchResult &a, const CoverProviderSearchResult &b) {
   return a.number < b.number;
 }

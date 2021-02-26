@@ -31,6 +31,7 @@
 #include <QList>
 #include <QListWidgetItem>
 #include <QMap>
+#include <QMultiMap>
 #include <QString>
 #include <QImage>
 #include <QIcon>
@@ -38,7 +39,9 @@
 #include "core/song.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
+#include "albumcoverchoicecontroller.h"
 #include "coversearchstatistics.h"
+#include "settings/collectionsettingspage.h"
 
 class QWidget;
 class QMimeData;
@@ -53,7 +56,6 @@ class QShowEvent;
 class Application;
 class CollectionBackend;
 class SongMimeData;
-class AlbumCoverChoiceController;
 class AlbumCoverExport;
 class AlbumCoverExporter;
 class AlbumCoverFetcher;
@@ -61,16 +63,20 @@ class AlbumCoverSearcher;
 
 class Ui_CoverManager;
 
+class AlbumItem : public QListWidgetItem {
+ public:
+  AlbumItem(const QIcon &icon, const QString &text, QListWidget *parent = nullptr, int type = Type) : QListWidgetItem(icon, text, parent, type) {};
+  QList<QUrl> urls;
+};
+
 class AlbumCoverManager : public QMainWindow {
   Q_OBJECT
+
  public:
   explicit AlbumCoverManager(Application *app, CollectionBackend *collection_backend, QMainWindow *mainwindow, QWidget *parent = nullptr);
   ~AlbumCoverManager() override;
 
   static const char *kSettingsGroup;
-
-  CollectionBackend *backend() const;
-  QIcon no_cover_icon() const { return no_cover_icon_; }
 
   void Reset();
   void Init();
@@ -80,15 +86,15 @@ class AlbumCoverManager : public QMainWindow {
   void DisableCoversButtons();
 
   SongList GetSongsInAlbum(const QModelIndex &idx) const;
-  SongList GetSongsInAlbums(const QModelIndexList &indexes) const;
-  SongMimeData *GetMimeDataForAlbums(const QModelIndexList &indexes) const;
+
+  CollectionBackend *backend() const { return collection_backend_; }
 
  protected:
-  void showEvent(QShowEvent*) override;
-  void closeEvent(QCloseEvent*) override;
+  void showEvent(QShowEvent *e) override;
+  void closeEvent(QCloseEvent *e) override;
 
   // For the album view context menu events
-  bool eventFilter(QObject *obj, QEvent *event) override;
+  bool eventFilter(QObject *obj, QEvent *e) override;
 
  private:
   enum ArtistItemType {
@@ -98,12 +104,14 @@ class AlbumCoverManager : public QMainWindow {
   };
 
   enum Role {
-    Role_ArtistName = Qt::UserRole + 1,
-    Role_AlbumArtistName,
-    Role_AlbumName,
+    Role_AlbumArtist = Qt::UserRole + 1,
+    Role_Album,
     Role_PathAutomatic,
     Role_PathManual,
-    Role_FirstUrl
+    Role_Filetype,
+    Role_CuePath,
+    Role_ImageData,
+    Role_Image
   };
 
   enum HideCovers {
@@ -113,21 +121,29 @@ class AlbumCoverManager : public QMainWindow {
   };
 
   void LoadGeometry();
-  void SaveGeometry();
+  void SaveSettings();
 
   QString InitialPathForOpenCoverDialog(const QString &path_automatic, const QString &first_file_name) const;
-  QString EffectiveAlbumArtistName(const QListWidgetItem &item) const;
 
   // Returns the selected element in form of a Song ready to be used by AlbumCoverChoiceController or invalid song if there's nothing or multiple elements selected.
   Song GetSingleSelectionAsSong();
   // Returns the first of the selected elements in form of a Song ready to be used by AlbumCoverChoiceController or invalid song if there's nothing selected.
   Song GetFirstSelectedAsSong();
 
-  Song ItemAsSong(QListWidgetItem *item);
+  Song ItemAsSong(QListWidgetItem *item) { return ItemAsSong(static_cast<AlbumItem*>(item)); }
+  Song ItemAsSong(AlbumItem *item);
 
   void UpdateStatusText();
-  bool ShouldHide(const QListWidgetItem &item, const QString &filter, HideCovers hide) const;
-  void SaveAndSetCover(QListWidgetItem *item, const QUrl &cover_url, const QImage &image);
+  bool ShouldHide(const AlbumItem &item, const QString &filter, HideCovers hide) const;
+  void SaveAndSetCover(AlbumItem *item, const AlbumCoverImageResult &result);
+
+  void SaveImageToAlbums(Song *song, const AlbumCoverImageResult &result);
+
+  SongList GetSongsInAlbums(const QModelIndexList &indexes) const;
+  SongMimeData *GetMimeDataForAlbums(const QModelIndexList &indexes) const;
+
+  QImage GenerateNoCoverImage(const QImage &image) const;
+  bool ItemHasCover(const AlbumItem &item) const;
 
  signals:
   void AddToPlaylist(QMimeData *data);
@@ -138,7 +154,7 @@ class AlbumCoverManager : public QMainWindow {
   void UpdateFilter();
   void FetchAlbumCovers();
   void ExportCovers();
-  void AlbumCoverFetched(const quint64 id, const QUrl &cover_url, const QImage &image, const CoverSearchStatistics &statistics);
+  void AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics);
   void CancelRequests();
 
   // On the context menu
@@ -149,6 +165,8 @@ class AlbumCoverManager : public QMainWindow {
   void LoadCoverFromURL();
   void SearchForCover();
   void UnsetCover();
+  void ClearCover();
+  void DeleteCover();
   void ShowCover();
 
   // For adding albums to the playlist
@@ -156,14 +174,16 @@ class AlbumCoverManager : public QMainWindow {
   void AddSelectedToPlaylist();
   void LoadSelectedToPlaylist();
 
-  void UpdateCoverInList(QListWidgetItem *item, const QUrl &cover);
+  void UpdateCoverInList(AlbumItem *item, const QUrl &cover);
   void UpdateExportStatus(const int exported, const int skipped, const int max);
+
+  void SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success);
 
  private:
   Ui_CoverManager *ui_;
   QMainWindow *mainwindow_;
   Application *app_;
-
+  CollectionBackend *collection_backend_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
 
   QAction *filter_all_;
@@ -171,24 +191,20 @@ class AlbumCoverManager : public QMainWindow {
   QAction *filter_without_covers_;
 
   AlbumCoverLoaderOptions cover_loader_options_;
-  QMap<quint64, QListWidgetItem*> cover_loading_tasks_;
+  QMap<quint64, AlbumItem*> cover_loading_tasks_;
 
   AlbumCoverFetcher *cover_fetcher_;
-  QMap<quint64, QListWidgetItem*> cover_fetching_tasks_;
+  QMap<quint64, AlbumItem*> cover_fetching_tasks_;
   CoverSearchStatistics fetch_statistics_;
 
   AlbumCoverSearcher *cover_searcher_;
   AlbumCoverExport *cover_export_;
   AlbumCoverExporter *cover_exporter_;
 
-  QImage GenerateNoCoverImage(const QIcon &no_cover_icon) const;
-  bool ItemHasCover(const QListWidgetItem &item) const;
-
   QIcon artist_icon_;
   QIcon all_artists_icon_;
-  const QIcon no_cover_icon_;
-  const QImage no_cover_image_;
-  const QIcon no_cover_item_icon_;
+  const QImage image_nocover_thumbnail_;
+  const QIcon icon_nocover_item_;
 
   QMenu *context_menu_;
   QList<QListWidgetItem*> context_menu_items_;
@@ -197,7 +213,10 @@ class AlbumCoverManager : public QMainWindow {
   QPushButton *abort_progress_;
   int jobs_;
 
-  CollectionBackend *collection_backend_;
+  QMultiMap<qint64, AlbumItem*> cover_save_tasks_;
+  QList<AlbumItem*> cover_save_tasks2_;
+
+  QListWidgetItem *all_artists_;
 
 };
 

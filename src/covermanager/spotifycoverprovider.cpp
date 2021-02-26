@@ -466,36 +466,36 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
   if (!json_obj.contains(extract) || !json_obj[extract].isObject()) {
     Error(QString("Json object is missing %1 object.").arg(extract), json_obj);
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
   json_obj = json_obj[extract].toObject();
 
   if (!json_obj.contains("items") || !json_obj["items"].isArray()) {
     Error(QString("%1 object is missing items array.").arg(extract), json_obj);
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
   QJsonArray array_items = json_obj["items"].toArray();
   if (array_items.isEmpty()) {
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
-  CoverSearchResults results;
+  CoverProviderSearchResults results;
   for (const QJsonValue value_item : array_items) {
 
     if (!value_item.isObject()) {
@@ -531,7 +531,7 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
       int height = obj_image["height"].toInt();
       if (width < 300 || height < 300) continue;
       QUrl url(obj_image["url"].toString());
-      CoverSearchResult result;
+      CoverProviderSearchResult result;
       result.album = album;
       result.image_url = url;
       result.image_size = QSize(width, height);

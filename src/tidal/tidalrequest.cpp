@@ -37,7 +37,7 @@
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "core/application.h"
-#include "core/utilities.h"
+#include "core/imageutils.h"
 #include "covermanager/albumcoverloader.h"
 #include "tidalservice.h"
 #include "tidalurlhandler.h"
@@ -1116,7 +1116,7 @@ void TidalRequest::AddAlbumCoverRequest(Song &song) {
 
   AlbumCoverRequest request;
   request.album_id = song.album_id();
-  request.url = QUrl(song.art_automatic());
+  request.url = song.art_automatic();
   request.filename = app_->album_cover_loader()->CoverFilePath(song.source(), song.effective_albumartist(), song.effective_album(), song.album_id(), QString(), request.url);
   if (request.filename.isEmpty()) return;
 
@@ -1187,7 +1187,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-  if (!Utilities::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !Utilities::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
+  if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
     Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype).arg(url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     AlbumCoverFinishCheck();
@@ -1202,7 +1202,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
     return;
   }
 
-  QList<QByteArray> format_list = Utilities::ImageFormatsForMimeType(mimetype.toUtf8());
+  QList<QByteArray> format_list = ImageUtils::ImageFormatsForMimeType(mimetype.toUtf8());
   char *format = nullptr;
   if (!format_list.isEmpty()) {
     format = format_list.first().data();

@@ -54,8 +54,8 @@ class TranscodeDialog : public QDialog {
   void SetFilenames(const QStringList &filenames);
 
  protected:
-  void showEvent(QShowEvent*) override;
-  void closeEvent(QCloseEvent*) override;
+  void showEvent(QShowEvent *e) override;
+  void closeEvent(QCloseEvent *e) override;
   void timerEvent(QTimerEvent *e) override;
 
  private:

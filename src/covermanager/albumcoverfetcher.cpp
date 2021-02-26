@@ -56,7 +56,7 @@ AlbumCoverFetcher::~AlbumCoverFetcher() {
 
 }
 
-quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString &album, const QString &title, bool fetchall) {
+quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString &album, const QString &title, const bool batch) {
 
   CoverSearchRequest request;
   request.id = next_id_++;
@@ -66,7 +66,7 @@ quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString 
   request.album = request.album.remove(Song::kAlbumRemoveMisc);
   request.title = title;
   request.search = false;
-  request.fetchall = fetchall;
+  request.batch = batch;
 
   AddRequest(request);
   return request.id;
@@ -83,7 +83,7 @@ quint64 AlbumCoverFetcher::SearchForCovers(const QString &artist, const QString 
   request.album = request.album.remove(Song::kAlbumRemoveMisc);
   request.title = title;
   request.search = true;
-  request.fetchall = false;
+  request.batch = false;
 
   AddRequest(request);
   return request.id;
@@ -135,7 +135,7 @@ void AlbumCoverFetcher::StartRequests() {
 
 }
 
-void AlbumCoverFetcher::SingleSearchFinished(const quint64 request_id, const CoverSearchResults results) {
+void AlbumCoverFetcher::SingleSearchFinished(const quint64 request_id, const CoverProviderSearchResults &results) {
 
   if (!active_requests_.contains(request_id)) return;
   AlbumCoverFetcherSearch *search = active_requests_.take(request_id);
@@ -145,12 +145,12 @@ void AlbumCoverFetcher::SingleSearchFinished(const quint64 request_id, const Cov
 
 }
 
-void AlbumCoverFetcher::SingleCoverFetched(const quint64 request_id, const QUrl &cover_url, const QImage &image) {
+void AlbumCoverFetcher::SingleCoverFetched(const quint64 request_id, const AlbumCoverImageResult &result) {
 
   if (!active_requests_.contains(request_id)) return;
   AlbumCoverFetcherSearch *search = active_requests_.take(request_id);
 
   search->deleteLater();
-  emit AlbumCoverFetched(request_id, cover_url, image, search->statistics());
+  emit AlbumCoverFetched(request_id, result, search->statistics());
 
 }

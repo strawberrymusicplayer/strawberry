@@ -534,7 +534,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file, const So
   // If a cue got deleted, we turn it's first section into the new 'raw' (cueless) song and we just remove the rest of the sections from the collection
   if (cue_deleted) {
     for (const Song &song : backend_->GetSongsByUrl(QUrl::fromLocalFile(file))) {
-      if (!song.IsMetadataEqual(matching_song)) {
+      if (!song.IsMetadataAndArtEqual(matching_song)) {
         t->deleted_songs << song;
       }
     }
@@ -611,7 +611,7 @@ void CollectionWatcher::PreserveUserSetData(const QString &file, const QUrl &ima
 
     t->new_songs << *out;
   }
-  else if (!matching_song.IsMetadataEqual(*out)) {
+  else if (!matching_song.IsMetadataAndArtEqual(*out)) {
     qLog(Debug) << file << "metadata changed";
 
     // Update the song in the DB

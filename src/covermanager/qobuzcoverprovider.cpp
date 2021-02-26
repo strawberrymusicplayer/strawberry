@@ -170,7 +170,7 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  CoverSearchResults results;
+  CoverProviderSearchResults results;
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
@@ -274,7 +274,7 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     album = album.remove(Song::kAlbumRemoveDisc);
     album = album.remove(Song::kAlbumRemoveMisc);
 
-    CoverSearchResult cover_result;
+    CoverProviderSearchResult cover_result;
     cover_result.artist = artist;
     cover_result.album = album;
     cover_result.image_url = cover_url;

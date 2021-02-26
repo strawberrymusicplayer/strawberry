@@ -205,23 +205,23 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
   QJsonValue value_data = ExtractData(data);
   if (!value_data.isArray()) {
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
   QJsonArray array_data = value_data.toArray();
   if (array_data.isEmpty()) {
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
-  QMap<QUrl, CoverSearchResult> results;
+  QMap<QUrl, CoverProviderSearchResult> results;
   int i = 0;
   for (const QJsonValue json_value : array_data) {
 
@@ -279,7 +279,7 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
     album = album.remove(Song::kAlbumRemoveDisc);
     album = album.remove(Song::kAlbumRemoveMisc);
 
-    CoverSearchResult cover_result;
+    CoverProviderSearchResult cover_result;
     cover_result.artist = artist;
     cover_result.album = album;
 
@@ -309,11 +309,11 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
   }
 
   if (results.isEmpty()) {
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
   }
   else {
-    CoverSearchResults cover_results = results.values();
-    std::stable_sort(cover_results.begin(), cover_results.end(), AlbumCoverFetcherSearch::CoverSearchResultCompareNumber);
+    CoverProviderSearchResults cover_results = results.values();
+    std::stable_sort(cover_results.begin(), cover_results.end(), AlbumCoverFetcherSearch::CoverProviderSearchResultCompareNumber);
     emit SearchFinished(id, cover_results);
   }
 

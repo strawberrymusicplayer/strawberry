@@ -37,7 +37,7 @@
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "core/application.h"
-#include "core/utilities.h"
+#include "core/imageutils.h"
 #include "covermanager/albumcoverloader.h"
 #include "qobuzservice.h"
 #include "qobuzurlhandler.h"
@@ -1154,7 +1154,7 @@ void QobuzRequest::GetAlbumCovers() {
 
 void QobuzRequest::AddAlbumCoverRequest(Song &song) {
 
-  QUrl cover_url(song.art_automatic());
+  QUrl cover_url = song.art_automatic();
   if (!cover_url.isValid()) return;
 
   if (album_covers_requests_sent_.contains(cover_url)) {
@@ -1233,7 +1233,7 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-  if (!Utilities::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !Utilities::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
+  if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
     Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype).arg(cover_url.toString()));
     if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     AlbumCoverFinishCheck();
@@ -1248,7 +1248,7 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
     return;
   }
 
-  QList<QByteArray> format_list = Utilities::ImageFormatsForMimeType(mimetype.toUtf8());
+  QList<QByteArray> format_list = ImageUtils::ImageFormatsForMimeType(mimetype.toUtf8());
   char *format = nullptr;
   if (!format_list.isEmpty()) {
     format = format_list.first().data();

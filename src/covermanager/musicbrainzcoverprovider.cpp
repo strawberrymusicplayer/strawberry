@@ -128,7 +128,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  CoverSearchResults results;
+  CoverProviderSearchResults results;
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
@@ -217,7 +217,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     QString id = obj_release["id"].toString();
     QString album = obj_release["title"].toString();
 
-    CoverSearchResult cover_result;
+    CoverProviderSearchResult cover_result;
     QUrl url(QString(kAlbumCoverUrl).arg(id));
     cover_result.artist = artist;
     cover_result.album = album;

@@ -44,8 +44,8 @@
 #include <QtEvents>
 
 #include "core/application.h"
+#include "core/imageutils.h"
 #include "covermanager/albumcoverchoicecontroller.h"
-#include "covermanager/albumcoverloader.h"
 #include "playingwidget.h"
 
 const char *PlayingWidget::kSettingsGroup = "PlayingWidget";
@@ -133,8 +133,9 @@ void PlayingWidget::Init(Application *app, AlbumCoverChoiceController *album_cov
   album_cover_choice_controller_ = album_cover_choice_controller;
   album_cover_choice_controller_->Init(app_);
   QList<QAction*> cover_actions = album_cover_choice_controller_->GetAllActions();
-  cover_actions.append(album_cover_choice_controller_->search_cover_auto_action());
   menu_->addActions(cover_actions);
+  menu_->addSeparator();
+  menu_->addAction(album_cover_choice_controller_->search_cover_auto_action());
   menu_->addSeparator();
 
   above_statusbar_action_ = menu_->addAction(tr("Show above status bar"));
@@ -333,7 +334,7 @@ void PlayingWidget::SetImage(const QImage &image) {
 }
 
 void PlayingWidget::ScaleCover() {
-  pixmap_cover_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_original_).first);
+  pixmap_cover_ = QPixmap::fromImage(ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_));
   update();
 }
 

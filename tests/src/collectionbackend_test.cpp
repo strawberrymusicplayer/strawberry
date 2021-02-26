@@ -193,7 +193,7 @@ TEST_F(SingleSong, GetSongWithNoAlbum) {
   CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
   //EXPECT_EQ(1, albums.size());
   //EXPECT_EQ("Artist", albums[0].artist);
-  //EXPECT_EQ("", albums[0].album_name);
+  //EXPECT_EQ("", albums[0].album);
 
 }
 
@@ -213,8 +213,8 @@ TEST_F(SingleSong, GetAllAlbums) {
 
   CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
   ASSERT_EQ(1, albums.size());
-  EXPECT_EQ(song_.album(), albums[0].album_name);
-  EXPECT_EQ(song_.artist(), albums[0].artist);
+  EXPECT_EQ(song_.album(), albums[0].album);
+  EXPECT_EQ(song_.artist(), albums[0].album_artist);
 
 }
 
@@ -224,8 +224,8 @@ TEST_F(SingleSong, GetAlbumsByArtist) {
 
   CollectionBackend::AlbumList albums = backend_->GetAlbumsByArtist("Artist");
   ASSERT_EQ(1, albums.size());
-  EXPECT_EQ(song_.album(), albums[0].album_name);
-  EXPECT_EQ(song_.artist(), albums[0].artist);
+  EXPECT_EQ(song_.album(), albums[0].album);
+  EXPECT_EQ(song_.artist(), albums[0].album_artist);
 
 }
 
@@ -233,9 +233,9 @@ TEST_F(SingleSong, GetAlbumArt) {
 
   AddDummySong();  if (HasFatalFailure()) return;
 
-  CollectionBackend::Album album = backend_->GetAlbumArt("Artist", "AlbumArtist", "Album");
-  EXPECT_EQ(song_.album(), album.album_name);
-  EXPECT_EQ(song_.artist(), album.artist);
+  CollectionBackend::Album album = backend_->GetAlbumArt("Artist", "Album");
+  EXPECT_EQ(song_.album(), album.album);
+  EXPECT_EQ(song_.effective_albumartist(), album.album_artist);
 
 }
 
@@ -243,7 +243,7 @@ TEST_F(SingleSong, GetSongs) {
 
   AddDummySong();  if (HasFatalFailure()) return;
 
-  SongList songs = backend_->GetSongs("Artist", "Album");
+  SongList songs = backend_->GetAlbumSongs("Artist", "Album");
   ASSERT_EQ(1, songs.size());
   EXPECT_EQ(song_.album(), songs[0].album());
   EXPECT_EQ(song_.artist(), songs[0].artist());

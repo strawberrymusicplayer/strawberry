@@ -441,7 +441,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
     if (width < 300 || height < 300) continue;
     const float aspect_score = 1.0 - float(std::max(width, height) - std::min(width, height)) / std::max(height, width);
     if (aspect_score < 0.85) continue;
-    CoverSearchResult result;
+    CoverProviderSearchResult result;
     result.artist = artist;
     result.album = album;
     result.image_url = QUrl(obj_image["resource_url"].toString());

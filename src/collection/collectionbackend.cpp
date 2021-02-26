@@ -52,8 +52,6 @@
 #include "collectionquery.h"
 #include "sqlrow.h"
 
-const char *CollectionBackend::kSettingsGroup = "Collection";
-
 CollectionBackend::CollectionBackend(QObject *parent) :
     CollectionBackendInterface(parent),
     db_(nullptr),
@@ -671,19 +669,32 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbumsByArtist(const QString 
   return GetAlbums(artist, false, opt);
 }
 
-SongList CollectionBackend::GetSongsByAlbum(const QString &album, const QueryOptions &opt) {
+SongList CollectionBackend::GetArtistSongs(const QString &effective_albumartist, const QueryOptions &opt) {
+
   CollectionQuery query(opt);
   query.AddCompilationRequirement(false);
-  query.AddWhere("album", album);
+  query.AddWhere("effective_albumartist", effective_albumartist);
   return ExecCollectionQuery(&query);
+
 }
 
-SongList CollectionBackend::GetSongs(const QString &artist, const QString &album, const QueryOptions &opt) {
+SongList CollectionBackend::GetAlbumSongs(const QString &effective_albumartist, const QString &album, const QueryOptions &opt) {
+
   CollectionQuery query(opt);
   query.AddCompilationRequirement(false);
-  query.AddWhere("artist", artist);
+  query.AddWhere("effective_albumartist", effective_albumartist);
   query.AddWhere("album", album);
   return ExecCollectionQuery(&query);
+
+}
+
+SongList CollectionBackend::GetSongsByAlbum(const QString &album, const QueryOptions &opt) {
+
+  CollectionQuery query(opt);
+  query.AddCompilationRequirement(false);
+  query.AddWhere("album", album);
+  return ExecCollectionQuery(&query);
+
 }
 
 SongList CollectionBackend::ExecCollectionQuery(CollectionQuery *query) {
@@ -1006,15 +1017,15 @@ void CollectionBackend::UpdateCompilations(QSqlQuery &find_song, QSqlQuery &upda
 CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist, const bool compilation_required, const QueryOptions &opt) {
 
   CollectionQuery query(opt);
-  query.SetColumnSpec("url, artist, albumartist, album, compilation_effective, art_automatic, art_manual");
-  query.SetOrderBy("album");
+  query.SetColumnSpec("url, effective_albumartist, album, compilation_effective, art_automatic, art_manual, filetype, cue_path");
+  query.SetOrderBy("effective_albumartist, album, url");
 
   if (compilation_required) {
     query.AddCompilationRequirement(true);
   }
   else if (!artist.isEmpty()) {
     query.AddCompilationRequirement(false);
-    query.AddWhereArtist(artist);
+    query.AddWhere("effective_albumartist", artist);
   }
 
   {
@@ -1024,17 +1035,16 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
 
   QMap<QString, Album> albums;
   while (query.Next()) {
-    bool is_compilation = query.Value(4).toBool();
+    bool is_compilation = query.Value(3).toBool();
 
     Album info;
-    info.first_url = QUrl::fromEncoded(query.Value(0).toByteArray());
+    QUrl url = QUrl::fromEncoded(query.Value(0).toByteArray());
     if (!is_compilation) {
-      info.artist = query.Value(1).toString();
-      info.album_artist = query.Value(2).toString();
+      info.album_artist = query.Value(1).toString();
     }
-    info.album_name = query.Value(3).toString();
+    info.album = query.Value(2).toString();
 
-    QString art_automatic = query.Value(5).toString();
+    QString art_automatic = query.Value(4).toString();
     if (art_automatic.contains(QRegularExpression("..+:.*"))) {
       info.art_automatic = QUrl::fromEncoded(art_automatic.toUtf8());
     }
@@ -1042,7 +1052,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
       info.art_automatic = QUrl::fromLocalFile(art_automatic);
     }
 
-    QString art_manual = query.Value(6).toString();
+    QString art_manual = query.Value(5).toString();
     if (art_manual.contains(QRegularExpression("..+:.*"))) {
       info.art_manual = QUrl::fromEncoded(art_manual.toUtf8());
     }
@@ -1050,19 +1060,31 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
       info.art_manual = QUrl::fromLocalFile(art_manual);
     }
 
-    QString effective_albumartist = info.album_artist.isEmpty() ? info.artist : info.album_artist;
+    info.filetype = Song::FileType(query.Value(6).toInt());
+    QString filetype = Song::TextForFiletype(info.filetype);
+    info.cue_path = query.Value(7).toString();
+
     QString key;
-    if (!effective_albumartist.isEmpty()) {
-      key.append(effective_albumartist);
+    if (!info.album_artist.isEmpty()) {
+      key.append(info.album_artist);
     }
-    if (!info.album_name.isEmpty()) {
+    if (!info.album.isEmpty()) {
       if (!key.isEmpty()) key.append("-");
-      key.append(info.album_name);
+      key.append(info.album);
+    }
+    if (!filetype.isEmpty()) {
+      key.append(filetype);
     }
 
     if (key.isEmpty()) continue;
 
-    if (!albums.contains(key)) albums.insert(key, info);
+    if (albums.contains(key)) {
+      albums[key].urls.append(url);
+    }
+    else {
+      info.urls << url;
+      albums.insert(key, info);
+    }
 
   }
 
@@ -1070,20 +1092,16 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
 
 }
 
-CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &artist, const QString &albumartist, const QString &album) {
+CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &effective_albumartist, const QString &album) {
 
   Album ret;
-  ret.album_name = album;
-  ret.artist = artist;
-  ret.album_artist = albumartist;
+  ret.album = album;
+  ret.album_artist = effective_albumartist;
 
   CollectionQuery query = CollectionQuery(QueryOptions());
   query.SetColumnSpec("art_automatic, art_manual, url");
-  if (!albumartist.isEmpty()) {
-    query.AddWhere("albumartist", albumartist);
-  }
-  else if (!artist.isEmpty()) {
-    query.AddWhere("artist", artist);
+  if (!effective_albumartist.isEmpty()) {
+    query.AddWhere("effective_albumartist", effective_albumartist);
   }
   query.AddWhere("album", album);
 
@@ -1093,20 +1111,20 @@ CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &artist, c
   if (query.Next()) {
     ret.art_automatic = QUrl::fromEncoded(query.Value(0).toByteArray());
     ret.art_manual = QUrl::fromEncoded(query.Value(1).toByteArray());
-    ret.first_url = QUrl::fromEncoded(query.Value(2).toByteArray());
+    ret.urls << QUrl::fromEncoded(query.Value(2).toByteArray());
   }
 
   return ret;
 
 }
 
-void CollectionBackend::UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url) {
+void CollectionBackend::UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic) {
 
-  metaObject()->invokeMethod(this, "UpdateManualAlbumArt", Qt::QueuedConnection, Q_ARG(QString, artist), Q_ARG(QString, albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url));
+  metaObject()->invokeMethod(this, "UpdateManualAlbumArt", Qt::QueuedConnection, Q_ARG(QString, effective_albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url), Q_ARG(bool, clear_art_automatic));
 
 }
 
-void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url) {
+void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -1114,14 +1132,8 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
   // Get the songs before they're updated
   CollectionQuery query;
   query.SetColumnSpec("ROWID, " + Song::kColumnSpec);
+  query.AddWhere("effective_albumartist", effective_albumartist);
   query.AddWhere("album", album);
-
-  if (!albumartist.isEmpty()) {
-    query.AddWhere("albumartist", albumartist);
-  }
-  else if (!artist.isEmpty()) {
-    query.AddWhere("artist", artist);
-  }
 
   if (!ExecQuery(&query)) return;
 
@@ -1133,25 +1145,72 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
   }
 
   // Update the songs
-  QString sql(QString("UPDATE %1 SET art_manual = :cover WHERE album = :album AND unavailable = 0").arg(songs_table_));
-
-  if (!albumartist.isEmpty()) {
-    sql += " AND albumartist = :albumartist";
+  QString sql(QString("UPDATE %1 SET art_manual = :cover ").arg(songs_table_));
+  if (clear_art_automatic) {
+    sql += "AND art_automatic = '' ";
   }
-  else if (!artist.isNull()) {
-    sql += " AND artist = :artist";
-  }
+  sql += "WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0";
 
   QSqlQuery q(db);
   q.prepare(sql);
-  q.bindValue(":cover", cover_url.toString(QUrl::FullyEncoded));
+  q.bindValue(":cover", cover_url.isValid() ? cover_url.toString(QUrl::FullyEncoded) : "");
+  q.bindValue(":effective_albumartist", effective_albumartist);
   q.bindValue(":album", album);
-  if (!albumartist.isEmpty()) {
-    q.bindValue(":albumartist", albumartist);
+
+  q.exec();
+  db_->CheckErrors(q);
+
+  // Now get the updated songs
+  if (!ExecQuery(&query)) return;
+
+  SongList added_songs;
+  while (query.Next()) {
+    Song song(source_);
+    song.InitFromQuery(query, true);
+    added_songs << song;
   }
-  else if (!artist.isEmpty()) {
-    q.bindValue(":artist", artist);
+
+  if (!added_songs.isEmpty() || !deleted_songs.isEmpty()) {
+    emit SongsDeleted(deleted_songs);
+    emit SongsDiscovered(added_songs);
   }
+
+}
+
+void CollectionBackend::UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url) {
+
+  metaObject()->invokeMethod(this, "UpdateAutomaticAlbumArt", Qt::QueuedConnection, Q_ARG(QString, effective_albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url));
+
+}
+
+void CollectionBackend::UpdateAutomaticAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url) {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  // Get the songs before they're updated
+  CollectionQuery query;
+  query.SetColumnSpec("ROWID, " + Song::kColumnSpec);
+  query.AddWhere("effective_albumartist", effective_albumartist);
+  query.AddWhere("album", album);
+
+  if (!ExecQuery(&query)) return;
+
+  SongList deleted_songs;
+  while (query.Next()) {
+    Song song(source_);
+    song.InitFromQuery(query, true);
+    deleted_songs << song;
+  }
+
+  // Update the songs
+  QString sql(QString("UPDATE %1 SET art_automatic = :cover WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+
+  QSqlQuery q(db);
+  q.prepare(sql);
+  q.bindValue(":cover", cover_url.isValid() ? cover_url.toString(QUrl::FullyEncoded) : "");
+  q.bindValue(":effective_albumartist", effective_albumartist);
+  q.bindValue(":album", album);
 
   q.exec();
   db_->CheckErrors(q);

@@ -73,7 +73,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
     QString album;
     DiscogsCoverType type;
     QMap<quint64, DiscogsCoverReleaseContext> requests_release_;
-    CoverSearchResults results;
+    CoverProviderSearchResults results;
   };
 
  private:

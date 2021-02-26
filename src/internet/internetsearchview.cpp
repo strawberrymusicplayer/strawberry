@@ -849,23 +849,22 @@ void InternetSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
 
 void InternetSearchView::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &albumcover_result) {
 
-  if (!cover_loader_tasks_.contains(id)) {
-    return;
-  }
+  if (!cover_loader_tasks_.contains(id)) return;
 
   QPair<QModelIndex, QString> cover_loader_task = cover_loader_tasks_.take(id);
   QModelIndex idx = cover_loader_task.first;
   QString key = cover_loader_task.second;
 
-  QPixmap pixmap = QPixmap::fromImage(albumcover_result.image_scaled);
-  if (!pixmap.isNull()) {
-    pixmap_cache_.insert(key, pixmap);
-  }
-
-  if (idx.isValid()) {
-    QStandardItem *item = front_model_->itemFromIndex(idx);
-    if (item) {
-      item->setData(albumcover_result.image_scaled, Qt::DecorationRole);
+  if (albumcover_result.success && !albumcover_result.image_scaled.isNull()) {
+    QPixmap pixmap = QPixmap::fromImage(albumcover_result.image_scaled);
+    if (!pixmap.isNull()) {
+      pixmap_cache_.insert(key, pixmap);
+    }
+    if (idx.isValid()) {
+      QStandardItem *item = front_model_->itemFromIndex(idx);
+      if (item) {
+        item->setData(albumcover_result.image_scaled, Qt::DecorationRole);
+      }
     }
   }
 

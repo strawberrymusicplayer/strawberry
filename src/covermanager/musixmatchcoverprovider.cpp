@@ -105,7 +105,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  CoverSearchResults results;
+  CoverProviderSearchResults results;
 
   if (reply->error() != QNetworkReply::NoError) {
     Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
@@ -195,7 +195,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  CoverSearchResult result;
+  CoverProviderSearchResult result;
   result.artist = obj_album["artistName"].toString();
   result.album = obj_album["name"].toString();
 

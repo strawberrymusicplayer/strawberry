@@ -63,7 +63,8 @@ class TagReaderClient : public QObject {
   void ReadFileBlocking(const QString &filename, Song *song);
   bool SaveFileBlocking(const QString &filename, const Song &metadata);
   bool IsMediaFileBlocking(const QString &filename);
-  QImage LoadEmbeddedArtBlocking(const QString &filename);
+  QByteArray LoadEmbeddedArtBlocking(const QString &filename);
+  QImage LoadEmbeddedArtAsImageBlocking(const QString &filename);
   bool SaveEmbeddedArtBlocking(const QString &filename, const QByteArray &data);
 
   // TODO: Make this not a singleton

@@ -600,14 +600,19 @@ void PlaylistView::StartGlowing() {
 
 }
 
-void PlaylistView::hideEvent(QHideEvent *) { glow_timer_.stop(); }
+void PlaylistView::hideEvent(QHideEvent *e) {
+  glow_timer_.stop();
+  QTreeView::hideEvent(e);
+}
 
-void PlaylistView::showEvent(QShowEvent *) {
+void PlaylistView::showEvent(QShowEvent *e) {
 
   if (currently_glowing_ && glow_enabled_)
     glow_timer_.start(1500 / kGlowIntensitySteps, this);
 
   MaybeAutoscroll(Playlist::AutoScroll_Maybe);
+
+  QTreeView::showEvent(e);
 
 }
 
@@ -1087,6 +1092,8 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
   p.setPen(line_pen);
   p.drawLine(QPoint(0, drop_pos), QPoint(width(), drop_pos));
 
+  QTreeView::paintEvent(event);
+
 }
 
 void PlaylistView::dragMoveEvent(QDragMoveEvent *event) {
@@ -1260,6 +1267,7 @@ void PlaylistView::StretchChanged(const bool stretch) {
 void PlaylistView::resizeEvent(QResizeEvent *e) {
 
   QTreeView::resizeEvent(e);
+
   if (dynamic_controls_->isVisible()) {
     RepositionDynamicControls();
   }
@@ -1379,9 +1387,9 @@ void PlaylistView::Stopped() {
 
 void PlaylistView::AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResult result) {
 
-  if ((song != Song() && song_playing_ == Song()) || result.image_original == current_song_cover_art_) return;
+  if ((song != Song() && song_playing_ == Song()) || result.album_cover.image == current_song_cover_art_) return;
 
-  current_song_cover_art_ = result.image_original;
+  current_song_cover_art_ = result.album_cover.image;
   if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Album) {
     if (song.art_automatic().isEmpty() && song.art_manual().isEmpty()) {
       set_background_image(QImage());

@@ -30,15 +30,19 @@
 #include <QPair>
 #include <QSet>
 #include <QMap>
+#include <QMultiMap>
 #include <QQueue>
+#include <QByteArray>
 #include <QString>
 #include <QImage>
 #include <QPixmap>
 
 #include "core/song.h"
+#include "core/tagreaderclient.h"
 #include "settings/collectionsettingspage.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
+#include "albumcoverimageresult.h"
 
 class QThread;
 class QNetworkReply;
@@ -70,22 +74,38 @@ class AlbumCoverLoader : public QObject {
   QString CoverFilePath(const Song::Source source, const QString &artist, QString album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());
 
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const Song &song);
-  virtual quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QUrl &art_automatic, const QUrl &art_manual, const QUrl &song_url = QUrl(), const Song song = Song(), const QImage &embedded_image = QImage());
+  quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QUrl &art_automatic, const QUrl &art_manual, const QUrl &song_url = QUrl(), const Song::Source song_source = Song::Source_Unknown);
+  quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const AlbumCoverImageResult &album_cover);
+  quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QImage &image);
 
   void CancelTask(const quint64 id);
   void CancelTasks(const QSet<quint64> &ids);
 
-  static QPixmap TryLoadPixmap(const QUrl &automatic, const QUrl &manual, const QUrl &url = QUrl());
-  static QPair<QImage, QImage> ScaleAndPad(const AlbumCoverLoaderOptions &options, const QImage &image);
+  qint64 SaveEmbeddedCoverAsync(const QString song_filename, const QString &cover_filename);
+  qint64 SaveEmbeddedCoverAsync(const QString song_filename, const QImage &image);
+  qint64 SaveEmbeddedCoverAsync(const QString song_filename, const QByteArray &image_data);
+  qint64 SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QString &cover_filename);
+  qint64 SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QImage &image);
+  qint64 SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QByteArray &image_data);
 
  signals:
   void ExitFinished();
   void AlbumCoverLoaded(quint64 id, AlbumCoverLoaderResult result);
+  void SaveEmbeddedCoverAsyncFinished(quint64 id, bool success);
 
  protected slots:
   void Exit();
   void ProcessTasks();
   void RemoteFetchFinished(QNetworkReply *reply, const QUrl &cover_url);
+
+  void SaveEmbeddedCover(const qint64 id, const QString song_filename, const QString &cover_filename);
+  void SaveEmbeddedCover(const qint64 id, const QString song_filename, const QImage &image);
+  void SaveEmbeddedCover(const qint64 id, const QString song_filename, const QByteArray &image_data);
+  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls, const QImage &image);
+  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls, const QString &cover_filename);
+  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls, const QByteArray &image_data);
+
+  void SaveEmbeddedArtFinished(const qint64 id, TagReaderReply *reply);
 
  protected:
 
@@ -95,11 +115,8 @@ class AlbumCoverLoader : public QObject {
     AlbumCoverLoaderOptions options;
 
     quint64 id;
-    QUrl art_manual;
-    QUrl art_automatic;
-    QUrl song_url;
     Song song;
-    QImage embedded_image;
+    AlbumCoverImageResult album_cover;
     State state;
     AlbumCoverLoaderResult::Type type;
     bool art_updated;
@@ -107,39 +124,50 @@ class AlbumCoverLoader : public QObject {
   };
 
   struct TryLoadResult {
-    explicit TryLoadResult(const bool _started_async = false, const bool _loaded_success = false, const AlbumCoverLoaderResult::Type _type = AlbumCoverLoaderResult::Type_None, const QUrl &_cover_url = QUrl(), const QImage &_image = QImage()) : started_async(_started_async), loaded_success(_loaded_success), type(_type), cover_url(_cover_url), image(_image) {}
+    explicit TryLoadResult(const bool _started_async = false,
+                           const bool _loaded_success = false,
+                           const AlbumCoverLoaderResult::Type _type = AlbumCoverLoaderResult::Type_None,
+                           const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult()) :
+                           started_async(_started_async),
+                           loaded_success(_loaded_success),
+                           type(_type),
+                           album_cover(_album_cover) {}
 
     bool started_async;
     bool loaded_success;
 
     AlbumCoverLoaderResult::Type type;
-    QUrl cover_url;
-    QImage image;
+    AlbumCoverImageResult album_cover;
   };
 
+  quint64 EnqueueTask(Task &task);
   void ProcessTask(Task *task);
   void NextState(Task *task);
   TryLoadResult TryLoadImage(Task *task);
 
   bool stop_requested_;
 
-  QMutex mutex_;
+  QMutex mutex_load_image_async_;
+  QMutex mutex_save_image_async_;
   QQueue<Task> tasks_;
   QMap<QNetworkReply*, Task> remote_tasks_;
-  quint64 next_id_;
+  quint64 load_image_async_id_;
+  quint64 save_image_async_id_;
 
   NetworkAccessManager *network_;
 
   static const int kMaxRedirects = 3;
 
-  bool cover_album_dir_;
-  CollectionSettingsPage::SaveCover cover_filename_;
+  CollectionSettingsPage::SaveCoverType save_cover_type_;
+  CollectionSettingsPage::SaveCoverFilename save_cover_filename_;
   QString cover_pattern_;
   bool cover_overwrite_;
   bool cover_lowercase_;
   bool cover_replace_spaces_;
 
   QThread *original_thread_;
+
+  QMultiMap<qint64, TagReaderReply*> tagreader_save_embedded_art_requests_;
 
 };
 

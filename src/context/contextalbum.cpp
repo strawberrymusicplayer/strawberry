@@ -37,8 +37,8 @@
 #include <QContextMenuEvent>
 #include <QPaintEvent>
 
+#include "core/imageutils.h"
 #include "covermanager/albumcoverchoicecontroller.h"
-#include "covermanager/albumcoverloader.h"
 
 #include "contextview.h"
 #include "contextalbum.h"
@@ -62,8 +62,8 @@ ContextAlbum::ContextAlbum(QWidget *parent) :
   cover_loader_options_.desired_height_ = 600;
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
-  QPair<QImage, QImage> images = AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_strawberry_);
-  pixmap_current_ = QPixmap::fromImage(images.first);
+  QImage image = ImageUtils::ScaleAndPad(image_strawberry_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
+  if (!image.isNull()) pixmap_current_ = QPixmap::fromImage(image);
 
   QObject::connect(timeline_fade_, &QTimeLine::valueChanged, this, &ContextAlbum::FadePreviousTrack);
   timeline_fade_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
@@ -78,8 +78,9 @@ void ContextAlbum::Init(ContextView *context_view, AlbumCoverChoiceController *a
   QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::AutomaticCoverSearchDone, this, &ContextAlbum::AutomaticCoverSearchDone);
 
   QList<QAction*> cover_actions = album_cover_choice_controller_->GetAllActions();
-  cover_actions.append(album_cover_choice_controller_->search_cover_auto_action());
   menu_->addActions(cover_actions);
+  menu_->addSeparator();
+  menu_->addAction(album_cover_choice_controller_->search_cover_auto_action());
   menu_->addSeparator();
 
 }
@@ -115,7 +116,9 @@ void ContextAlbum::DrawImage(QPainter *p) {
 
   if (width() != prev_width_) {
     cover_loader_options_.desired_height_ = width() - kWidgetSpacing;
-    pixmap_current_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_original_).first);
+    QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
+    if (image.isNull()) pixmap_current_ = QPixmap();
+    else pixmap_current_ = QPixmap::fromImage(image);
     prev_width_ = width();
   }
 
@@ -144,7 +147,9 @@ void ContextAlbum::FadePreviousTrack(const qreal value) {
 void ContextAlbum::ScaleCover() {
 
   cover_loader_options_.desired_height_ = width() - kWidgetSpacing;
-  pixmap_current_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_original_).first);
+  QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
+  if (image.isNull()) pixmap_current_ = QPixmap();
+  else pixmap_current_ = QPixmap::fromImage(image);
   prev_width_ = width();
   update();
 

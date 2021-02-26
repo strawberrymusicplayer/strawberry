@@ -31,11 +31,13 @@
 #include <QList>
 #include <QHash>
 #include <QQueue>
+#include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QImage>
 
 #include "coversearchstatistics.h"
+#include "albumcoverimageresult.h"
 
 class QTimer;
 class NetworkAccessManager;
@@ -44,7 +46,7 @@ class AlbumCoverFetcherSearch;
 
 // This class represents a single search-for-cover request. It identifies and describes the request.
 struct CoverSearchRequest {
-  explicit CoverSearchRequest() : id(-1), search(false), fetchall(false) {}
+  explicit CoverSearchRequest() : id(-1), search(false), batch(false) {}
 
   // An unique (for one AlbumCoverFetcher) request identifier
   quint64 id;
@@ -57,13 +59,13 @@ struct CoverSearchRequest {
   // Is this only a search request or should we also fetch the first cover that's found?
   bool search;
 
-  // Is the request part of fetchall (fetching all missing covers)
-  bool fetchall;
+  // Is the request part of a batch (fetching all missing covers)
+  bool batch;
 };
 
 // This structure represents a single result of some album's cover search request.
-struct CoverSearchResult {
-  explicit CoverSearchResult() : score_provider(0.0), score_match(0.0), score_quality(0.0), number(0) {}
+struct CoverProviderSearchResult {
+  explicit CoverProviderSearchResult() : score_provider(0.0), score_match(0.0), score_quality(0.0), number(0) {}
 
   // Used for grouping in the user interface.
   QString provider;
@@ -94,11 +96,11 @@ struct CoverSearchResult {
   float score() const { return score_provider + score_match + score_quality; }
 
 };
-Q_DECLARE_METATYPE(CoverSearchResult)
+Q_DECLARE_METATYPE(CoverProviderSearchResult)
 
 // This is a complete result of a single search request (a list of results, each describing one image, actually).
-typedef QList<CoverSearchResult> CoverSearchResults;
-Q_DECLARE_METATYPE(QList<CoverSearchResult>)
+typedef QList<CoverProviderSearchResult> CoverProviderSearchResults;
+Q_DECLARE_METATYPE(QList<CoverProviderSearchResult>)
 
 // This class searches for album covers for a given query or artist/album and returns URLs. It's NOT thread-safe.
 class AlbumCoverFetcher : public QObject {
@@ -111,17 +113,17 @@ class AlbumCoverFetcher : public QObject {
   static const int kMaxConcurrentRequests;
 
   quint64 SearchForCovers(const QString &artist, const QString &album, const QString &title = QString());
-  quint64 FetchAlbumCover(const QString &artist, const QString &album, const QString &title, const bool fetchall);
+  quint64 FetchAlbumCover(const QString &artist, const QString &album, const QString &title, const bool batch);
 
   void Clear();
 
  signals:
-  void AlbumCoverFetched(quint64 request_id, QUrl cover_url, QImage cover, CoverSearchStatistics statistics);
-  void SearchFinished(quint64 request_id, CoverSearchResults results, CoverSearchStatistics statistics);
+  void AlbumCoverFetched(quint64 request_id, AlbumCoverImageResult result, CoverSearchStatistics statistics);
+  void SearchFinished(quint64 request_id, CoverProviderSearchResults results, CoverSearchStatistics statistics);
 
  private slots:
-  void SingleSearchFinished(const quint64, const CoverSearchResults results);
-  void SingleCoverFetched(const quint64, const QUrl &cover_url, const QImage &image);
+  void SingleSearchFinished(const quint64, const CoverProviderSearchResults &results);
+  void SingleCoverFetched(const quint64, const AlbumCoverImageResult &result);
   void StartRequests();
 
  private:

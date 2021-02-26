@@ -32,12 +32,12 @@
 
 class SongPlaylistItem : public PlaylistItem {
  public:
-  explicit SongPlaylistItem(const Song::Source &source);
+  explicit SongPlaylistItem(const Song::Source source);
   explicit SongPlaylistItem(const Song &song);
 
   // Restores a stream- or file-related playlist item using query row.
   // If it's a file related playlist item, this will restore it's CUE attributes (if any) but won't parse the CUE!
-  bool InitFromQuery(const SqlRow& query) override;
+  bool InitFromQuery(const SqlRow &query) override;
   void Reload() override;
 
   Song Metadata() const override;

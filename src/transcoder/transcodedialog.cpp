@@ -154,15 +154,19 @@ TranscodeDialog::~TranscodeDialog() {
   delete ui_;
 }
 
-void TranscodeDialog::showEvent(QShowEvent*) {
+void TranscodeDialog::showEvent(QShowEvent *e) {
 
-  LoadGeometry();
+  if (!e->spontaneous()) LoadGeometry();
+
+  QDialog::showEvent(e);
 
 }
 
-void TranscodeDialog::closeEvent(QCloseEvent*) {
+void TranscodeDialog::closeEvent(QCloseEvent *e) {
 
   SaveGeometry();
+
+  QDialog::closeEvent(e);
 
 }
 

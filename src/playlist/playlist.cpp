@@ -393,7 +393,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, int role) 
 
   TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
   QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
-  QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); });
+  QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
 
   return true;
 
@@ -418,7 +418,8 @@ void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelInd
       emit Error(tr("An error occurred writing metadata to '%1'").arg(QString::fromStdString(reply->request_message().save_file_request().filename())));
     }
   }
-  reply->deleteLater();
+
+  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
 }
 
@@ -755,7 +756,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
   else if (const PlaylistItemMimeData *item_data = qobject_cast<const PlaylistItemMimeData*>(data)) {
     InsertItems(item_data->items_, row, play_now, enqueue_now, enqueue_next_now);
   }
-  else if (const InternetSongMimeData* internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
+  else if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
     InsertInternetItems(internet_song_data->service, internet_song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (const PlaylistGeneratorMimeData *generator_data = qobject_cast<const PlaylistGeneratorMimeData*>(data)) {
@@ -2186,11 +2187,11 @@ void Playlist::UpdateScrobblePoint(const qint64 seek_point_nanosec) {
 void Playlist::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
 
   // Update art_manual for local songs that are not in the collection.
-  if (((result.type == AlbumCoverLoaderResult::Type_Manual && result.cover_url.isLocalFile()) || result.type == AlbumCoverLoaderResult::Type_ManuallyUnset) && (song.source() == Song::Source_LocalFile || song.source() == Song::Source_CDDA || song.source() == Song::Source_Device)) {
+  if (((result.type == AlbumCoverLoaderResult::Type_Manual && result.album_cover.cover_url.isLocalFile()) || result.type == AlbumCoverLoaderResult::Type_ManuallyUnset) && (song.source() == Song::Source_LocalFile || song.source() == Song::Source_CDDA || song.source() == Song::Source_Device)) {
     PlaylistItemPtr item = current_item();
     if (item && item->Metadata() == song && (!item->Metadata().art_manual_is_valid() || (result.type == AlbumCoverLoaderResult::Type_ManuallyUnset && !item->Metadata().has_manually_unset_cover()))) {
-      qLog(Debug) << "Updating art manual for local song" << song.title() << song.album() << song.title() << "to" << result.cover_url << "in playlist.";
-      item->SetArtManual(result.cover_url);
+      qLog(Debug) << "Updating art manual for local song" << song.title() << song.album() << song.title() << "to" << result.album_cover.cover_url << "in playlist.";
+      item->SetArtManual(result.album_cover.cover_url);
       Save();
     }
   }

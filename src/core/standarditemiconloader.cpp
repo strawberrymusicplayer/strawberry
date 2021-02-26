@@ -102,7 +102,7 @@ void StandardItemIconLoader::AlbumCoverLoaded(const quint64 id, const AlbumCover
   QStandardItem *item = pending_covers_.take(id);
   if (!item) return;
 
-  if (!result.image_scaled.isNull()) {
+  if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset) {
     item->setIcon(QIcon(QPixmap::fromImage(result.image_scaled)));
   }
 

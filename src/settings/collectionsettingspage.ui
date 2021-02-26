@@ -157,10 +157,33 @@ If there are no matches then it will use the largest image in the directory.</st
        <number>0</number>
       </property>
       <item>
-       <widget class="QCheckBox" name="checkbox_cover_album_dir">
-        <property name="text">
-         <string>Save album covers in album directory</string>
+       <widget class="QGroupBox" name="groupbox_save_options">
+        <property name="title">
+         <string/>
         </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QRadioButton" name="radiobutton_save_albumcover_albumdir">
+           <property name="text">
+            <string>Save album covers in album directory</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radiobutton_save_albumcover_cache">
+           <property name="text">
+            <string>Save album covers in cache directory</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radiobutton_save_albumcover_embedded">
+           <property name="text">
+            <string>Save album covers as embedded cover</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
@@ -185,16 +208,16 @@ If there are no matches then it will use the largest image in the directory.</st
              <number>0</number>
             </property>
             <item>
-             <widget class="QRadioButton" name="radiobutton_cover_hash">
+             <widget class="QRadioButton" name="radiobutton_cover_pattern">
               <property name="text">
-               <string>Use hash</string>
+               <string>Pattern</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radiobutton_cover_pattern">
+             <widget class="QRadioButton" name="radiobutton_cover_hash">
               <property name="text">
-               <string>Use pattern</string>
+               <string>Random</string>
               </property>
              </widget>
             </item>
@@ -463,9 +486,7 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>auto_open</tabstop>
   <tabstop>pretty_covers</tabstop>
   <tabstop>show_dividers</tabstop>
-  <tabstop>checkbox_cover_album_dir</tabstop>
   <tabstop>radiobutton_cover_hash</tabstop>
-  <tabstop>radiobutton_cover_pattern</tabstop>
   <tabstop>lineedit_cover_pattern</tabstop>
   <tabstop>checkbox_cover_overwrite</tabstop>
   <tabstop>checkbox_cover_lowercase</tabstop>

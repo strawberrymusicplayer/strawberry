@@ -102,9 +102,10 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   group_by_[1] = GroupBy_AlbumDisc;
   group_by_[2] = GroupBy_None;
 
-  cover_loader_options_.desired_height_ = kPrettyCoverSize;
-  cover_loader_options_.pad_output_image_ = true;
+  cover_loader_options_.get_image_data_ = false;
   cover_loader_options_.scale_output_image_ = true;
+  cover_loader_options_.pad_output_image_ = true;
+  cover_loader_options_.desired_height_ = kPrettyCoverSize;
 
   if (app_) {
     QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CollectionModel::AlbumCoverLoaded);
@@ -677,7 +678,7 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
   pending_cache_keys_.remove(cache_key);
 
   // Insert this image in the cache.
-  if (result.image_scaled.isNull()) {
+  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type_ManuallyUnset) {
     // Set the no_cover image so we don't continually try to load art.
     QPixmapCache::insert(cache_key, no_cover_icon_);
   }
@@ -688,9 +689,9 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
   }
 
   // If we have a valid cover not already in the disk cache
-  if (use_disk_cache_ && sIconCache) {
+  if (use_disk_cache_ && sIconCache && result.success && !result.image_scaled.isNull()) {
     std::unique_ptr<QIODevice> cached_img(sIconCache->data(QUrl(cache_key)));
-    if (!cached_img && !result.image_scaled.isNull()) {
+    if (!cached_img) {
       QNetworkCacheMetaData item_metadata;
       item_metadata.setSaveToDisk(true);
       item_metadata.setUrl(QUrl(cache_key));

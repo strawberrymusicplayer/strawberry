@@ -183,34 +183,34 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
   if (!json_obj.contains("items")) {
     Error("Json object is missing items.", json_obj);
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
   QJsonValue value_items = json_obj["items"];
 
   if (!value_items.isArray()) {
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
   QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
-    emit SearchFinished(id, CoverSearchResults());
+    emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
-  CoverSearchResults results;
+  CoverProviderSearchResults results;
   int i = 0;
   for (const QJsonValue value_item : array_items) {
 
@@ -262,7 +262,7 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     album = album.remove(Song::kAlbumRemoveMisc);
     cover = cover.replace("-", "/");
 
-    CoverSearchResult cover_result;
+    CoverProviderSearchResult cover_result;
     cover_result.artist = artist;
     cover_result.album = album;
     cover_result.number = ++i;

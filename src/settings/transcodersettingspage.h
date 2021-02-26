@@ -28,6 +28,8 @@
 
 #include "settingspage.h"
 
+class QShowEvent;
+
 class SettingsDialog;
 class Ui_TranscoderSettingsPage;
 
@@ -35,7 +37,7 @@ class TranscoderSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit TranscoderSettingsPage(SettingsDialog* dialog);
+  explicit TranscoderSettingsPage(SettingsDialog *dialog);
   ~TranscoderSettingsPage() override;
 
   static const char *kSettingsGroup;
@@ -47,7 +49,7 @@ class TranscoderSettingsPage : public SettingsPage {
   void showEvent(QShowEvent *e) override;
 
  private:
-  Ui_TranscoderSettingsPage* ui_;
+  Ui_TranscoderSettingsPage *ui_;
 };
 
 #endif  // TRANSCODERSETTINGSPAGE_H

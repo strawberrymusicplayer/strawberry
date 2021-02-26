@@ -25,6 +25,8 @@
 #include <QImage>
 #include <QUrl>
 
+#include "albumcoverimageresult.h"
+
 struct AlbumCoverLoaderResult {
 
   enum Type {
@@ -36,11 +38,22 @@ struct AlbumCoverLoaderResult {
     Type_Remote,
   };
 
-  explicit AlbumCoverLoaderResult(const Type _type = Type_None, const QUrl &_cover_url = QUrl(), const QImage &_image_original = QImage(), const QImage &_image_scaled = QImage(), const QImage &_image_thumbnail = QImage(), const bool _updated = false) : type(_type), cover_url(_cover_url), image_original(_image_original), image_scaled(_image_scaled), image_thumbnail(_image_thumbnail), updated(_updated) {}
+  explicit AlbumCoverLoaderResult(const bool _success = false,
+                                  const Type _type = Type_None,
+                                  const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult(),
+                                  const QImage &_image_scaled = QImage(),
+                                  const QImage &_image_thumbnail = QImage(),
+                                  const bool _updated = false) :
+                                  success(_success),
+                                  type(_type),
+                                  album_cover(_album_cover),
+                                  image_scaled(_image_scaled),
+                                  image_thumbnail(_image_thumbnail),
+                                  updated(_updated) {}
 
+  bool success;
   Type type;
-  QUrl cover_url;
-  QImage image_original;
+  AlbumCoverImageResult album_cover;
   QImage image_scaled;
   QImage image_thumbnail;
   bool updated;

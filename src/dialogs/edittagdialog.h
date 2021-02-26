@@ -28,10 +28,11 @@
 #include <QObject>
 #include <QAbstractItemModel>
 #include <QDialog>
-#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
+#include <QList>
+#include <QMap>
 #include <QImage>
 
 #include "core/song.h"
@@ -39,6 +40,7 @@
 #include "playlist/playlistitem.h"
 #include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
+#include "covermanager/albumcoverimageresult.h"
 
 class QWidget;
 class QMenu;
@@ -51,9 +53,9 @@ class QHideEvent;
 
 class Application;
 class AlbumCoverChoiceController;
-class TrackSelectionDialog;
 class Ui_EditTagDialog;
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+class TrackSelectionDialog;
 class TagFetcher;
 #endif
 
@@ -64,8 +66,9 @@ class EditTagDialog : public QDialog {
   explicit EditTagDialog(Application *app, QWidget *parent = nullptr);
   ~EditTagDialog() override;
 
-  static const char *kHintText;
   static const char *kSettingsGroup;
+  static const char *kTagsDifferentHintText;
+  static const char *kArtDifferentHintText;
 
   void SetSongs(const SongList &songs, const PlaylistItemList &items = PlaylistItemList());
 
@@ -78,25 +81,30 @@ class EditTagDialog : public QDialog {
 
  protected:
   bool eventFilter(QObject *o, QEvent *e) override;
-  void showEvent(QShowEvent*) override;
-  void hideEvent(QHideEvent*) override;
+  void showEvent(QShowEvent *e) override;
+  void hideEvent(QHideEvent *e) override;
 
  private:
+  enum UpdateCoverAction {
+    UpdateCoverAction_None = 0,
+    UpdateCoverAction_Clear,
+    UpdateCoverAction_Unset,
+    UpdateCoverAction_Delete,
+    UpdateCoverAction_New,
+  };
   struct Data {
-    explicit Data(const Song &song = Song()) : original_(song), current_(song) {}
+    explicit Data(const Song &song = Song()) : original_(song), current_(song), cover_action_(UpdateCoverAction_None) {}
 
     static QVariant value(const Song &song, const QString &id);
-    QVariant original_value(const QString &id) const {
-      return value(original_, id);
-    }
-    QVariant current_value(const QString &id) const {
-      return value(current_, id);
-    }
+    QVariant original_value(const QString &id) const { return value(original_, id); }
+    QVariant current_value(const QString &id) const { return value(current_, id); }
 
     void set_value(const QString &id, const QVariant &value);
 
     Song original_;
     Song current_;
+    UpdateCoverAction cover_action_;
+    AlbumCoverImageResult cover_result_;
   };
 
  private slots:
@@ -118,12 +126,15 @@ class EditTagDialog : public QDialog {
   void LoadCoverFromURL();
   void SearchForCover();
   void UnsetCover();
+  void ClearCover();
+  void DeleteCover();
   void ShowCover();
 
   void PreviousSong();
   void NextSong();
 
-  void SongSaveComplete(TagReaderReply *reply, const QString &filename, const Song &song);
+  void SongSaveTagsComplete(TagReaderReply *reply, const QString &filename, Song song);
+  void SongSaveArtComplete(TagReaderReply *reply, const QString &filename, Song song, const UpdateCoverAction cover_action);
 
  private:
   struct FieldData {
@@ -136,7 +147,7 @@ class EditTagDialog : public QDialog {
   };
 
   Song *GetFirstSelected();
-  void UpdateCoverOf(const Song &selected, const QModelIndexList &sel, const QUrl &cover_url);
+  void UpdateCover(const UpdateCoverAction action, const AlbumCoverImageResult &result = AlbumCoverImageResult());
 
   bool DoesValueVary(const QModelIndexList &sel, const QString &id) const;
   bool IsValueModified(const QModelIndexList &sel, const QString &id) const;
@@ -146,23 +157,34 @@ class EditTagDialog : public QDialog {
   void UpdateModifiedField(const FieldData &field, const QModelIndexList &sel);
   void ResetFieldValue(const FieldData &field, const QModelIndexList &sel);
 
-  void UpdateSummaryTab(const Song &song);
+  void UpdateSummaryTab(const Song &song, const UpdateCoverAction cover_action);
   void UpdateStatisticsTab(const Song &song);
 
-  void UpdateUI(const QModelIndexList &sel);
+  QString GetArtSummary(const Song &song, const UpdateCoverAction cover_action);
+
+  void UpdateUI(const QModelIndexList &indexes);
 
   bool SetLoading(const QString &message);
   void SetSongListVisibility(bool visible);
 
   // Called by QtConcurrentRun
   QList<Data> LoadData(const SongList &songs) const;
-  void SaveData(const QList<Data> &tag_data);
+  void SaveData();
+
+  static void SetText(QLabel *label, const int value, const QString &suffix, const QString &def = QString());
+  static void SetDate(QLabel *label, const uint time);
 
  private:
   Ui_EditTagDialog *ui_;
 
   Application *app_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+  TagFetcher *tag_fetcher_;
+  TrackSelectionDialog *results_dialog_;
+#endif
+
+  const QImage image_no_cover_thumbnail_;
 
   bool loading_;
 
@@ -172,25 +194,20 @@ class EditTagDialog : public QDialog {
 
   bool ignore_edits_;
 
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
-  TagFetcher *tag_fetcher_;
-#endif
-
   AlbumCoverLoaderOptions cover_options_;
-  quint64 cover_art_id_;
+  quint64 summary_cover_art_id_;
+  quint64 tags_cover_art_id_;
   bool cover_art_is_set_;
-
-  // A copy of the original, unscaled album cover.
-  QImage original_;
 
   QMenu *cover_menu_;
 
   QPushButton *previous_button_;
   QPushButton *next_button_;
 
-  TrackSelectionDialog *results_dialog_;
+  int save_tag_pending_;
+  int save_art_pending_;
 
-  int pending_;
+  QMap<int, Song> collection_songs_;
 };
 
 #endif  // EDITTAGDIALOG_H

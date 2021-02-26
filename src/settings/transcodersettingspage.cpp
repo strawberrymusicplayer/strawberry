@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <QShowEvent>
+
 #include "core/iconloader.h"
 #include "settingspage.h"
 #include "transcoder/transcoderoptionsflac.h"
@@ -49,7 +51,7 @@ TranscoderSettingsPage::~TranscoderSettingsPage() {
 
 void TranscoderSettingsPage::showEvent(QShowEvent *e) {
 
-  set_changed();
+  if (!e->spontaneous()) set_changed();
 
   QWidget::showEvent(e);
 

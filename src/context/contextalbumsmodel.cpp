@@ -67,9 +67,10 @@ ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *
 
   root_->lazy_loaded = true;
 
-  cover_loader_options_.desired_height_ = kPrettyCoverSize;
-  cover_loader_options_.pad_output_image_ = true;
+  cover_loader_options_.get_image_data_ = false;
   cover_loader_options_.scale_output_image_ = true;
+  cover_loader_options_.pad_output_image_ = true;
+  cover_loader_options_.desired_height_ = kPrettyCoverSize;
 
   QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &ContextAlbumsModel::AlbumCoverLoaded);
 
@@ -159,7 +160,7 @@ void ContextAlbumsModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoad
   pending_cache_keys_.remove(cache_key);
 
   // Insert this image in the cache.
-  if (result.image_scaled.isNull()) {
+  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type_ManuallyUnset) {
     // Set the no_cover image so we don't continually try to load art.
     QPixmapCache::insert(cache_key, no_cover_icon_);
   }

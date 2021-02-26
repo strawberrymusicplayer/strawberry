@@ -35,7 +35,7 @@ class JsonCoverProvider : public CoverProvider {
   Q_OBJECT
 
  public:
-  explicit JsonCoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool fetchall, const bool allow_missing_album, Application *app, QObject *parent);
+  explicit JsonCoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, QObject *parent);
 
   QJsonObject ExtractJsonObj(const QByteArray &data);
 

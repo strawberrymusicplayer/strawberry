@@ -80,7 +80,7 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
   QObject::connect(ui_->add, &QPushButton::clicked, this, &CollectionSettingsPage::Add);
   QObject::connect(ui_->remove, &QPushButton::clicked, this, &CollectionSettingsPage::Remove);
 
-  QObject::connect(ui_->checkbox_cover_album_dir, &QCheckBox::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
+  QObject::connect(ui_->radiobutton_save_albumcover_albumdir, &QRadioButton::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
   QObject::connect(ui_->radiobutton_cover_hash, &QRadioButton::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
   QObject::connect(ui_->radiobutton_cover_pattern, &QRadioButton::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
 
@@ -162,11 +162,17 @@ void CollectionSettingsPage::Load() {
   QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
   ui_->cover_art_patterns->setText(filters.join(","));
 
-  ui_->checkbox_cover_album_dir->setChecked(s.value("cover_album_dir", false).toBool());
-  SaveCover save_cover = SaveCover(s.value("cover_filename", SaveCover_Hash).toInt());
-  switch (save_cover) {
-    case SaveCover_Hash: ui_->radiobutton_cover_hash->setChecked(true); break;
-    case SaveCover_Pattern: ui_->radiobutton_cover_pattern->setChecked(true); break;
+  SaveCoverType save_cover_type = SaveCoverType(s.value("save_cover_type", SaveCoverType_Cache).toInt());
+  switch (save_cover_type) {
+    case SaveCoverType_Cache: ui_->radiobutton_save_albumcover_cache->setChecked(true); break;
+    case SaveCoverType_Album: ui_->radiobutton_save_albumcover_albumdir->setChecked(true); break;
+    case SaveCoverType_Embedded: ui_->radiobutton_save_albumcover_embedded->setChecked(true); break;
+  }
+
+  SaveCoverFilename save_cover_filename = SaveCoverFilename(s.value("save_cover_filename", SaveCoverFilename_Hash).toInt());
+  switch (save_cover_filename) {
+    case SaveCoverFilename_Hash: ui_->radiobutton_cover_hash->setChecked(true); break;
+    case SaveCoverFilename_Pattern: ui_->radiobutton_cover_pattern->setChecked(true); break;
   }
   QString cover_pattern = s.value("cover_pattern").toString();
   if (!cover_pattern.isEmpty()) ui_->lineedit_cover_pattern->setText(cover_pattern);
@@ -222,11 +228,17 @@ void CollectionSettingsPage::Save() {
 
   s.setValue("cover_art_patterns", filters);
 
-  s.setValue("cover_album_dir", ui_->checkbox_cover_album_dir->isChecked());
-  SaveCover save_cover = SaveCover_Hash;
-  if (ui_->radiobutton_cover_hash->isChecked()) save_cover = SaveCover_Hash;
-  if (ui_->radiobutton_cover_pattern->isChecked()) save_cover = SaveCover_Pattern;
-  s.setValue("cover_filename", int(save_cover));
+  SaveCoverType save_cover_type = SaveCoverType_Cache;
+  if (ui_->radiobutton_save_albumcover_cache->isChecked()) save_cover_type = SaveCoverType_Cache;
+  else if (ui_->radiobutton_save_albumcover_albumdir->isChecked()) save_cover_type = SaveCoverType_Album;
+  else if (ui_->radiobutton_save_albumcover_embedded->isChecked()) save_cover_type = SaveCoverType_Embedded;
+  s.setValue("save_cover_type", int(save_cover_type));
+
+  SaveCoverFilename save_cover_filename = SaveCoverFilename_Hash;
+  if (ui_->radiobutton_cover_hash->isChecked()) save_cover_filename = SaveCoverFilename_Hash;
+  else if (ui_->radiobutton_cover_pattern->isChecked()) save_cover_filename = SaveCoverFilename_Pattern;
+  s.setValue("save_cover_filename", int(save_cover_filename));
+
   s.setValue("cover_pattern", ui_->lineedit_cover_pattern->text());
   s.setValue("cover_overwrite", ui_->checkbox_cover_overwrite->isChecked());
   s.setValue("cover_lowercase", ui_->checkbox_cover_lowercase->isChecked());
@@ -246,7 +258,7 @@ void CollectionSettingsPage::Save() {
 
 void CollectionSettingsPage::CoverSaveInAlbumDirChanged() {
 
-  if (ui_->checkbox_cover_album_dir->isChecked()) {
+  if (ui_->radiobutton_save_albumcover_albumdir->isChecked()) {
     if (!ui_->groupbox_cover_filename->isEnabled()) {
       ui_->groupbox_cover_filename->setEnabled(true);
     }

@@ -32,6 +32,7 @@
 #include <QStyledItemDelegate>
 #include <QStyleOptionViewItem>
 #include <QMap>
+#include <QByteArray>
 #include <QString>
 #include <QImage>
 #include <QIcon>
@@ -39,6 +40,7 @@
 #include "albumcoverfetcher.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
+#include "albumcoverimageresult.h"
 
 class QWidget;
 class QStandardItem;
@@ -77,20 +79,22 @@ class AlbumCoverSearcher : public QDialog {
     Role_ImageURL = Qt::UserRole + 1,
     Role_ImageRequestId,
     Role_ImageFetchFinished,
-    Role_ImageDimensions,  // width * height
+    Role_ImageData,
+    Role_Image,
+    Role_ImageDimensions,
     Role_ImageSize,
   };
 
   void Init(AlbumCoverFetcher *fetcher);
 
-  QImage Exec(const QString &artist, const QString &album);
+  AlbumCoverImageResult Exec(const QString &artist, const QString &album);
 
  protected:
   void keyPressEvent(QKeyEvent*) override;
 
  private slots:
   void Search();
-  void SearchFinished(const quint64 id, const CoverSearchResults &results);
+  void SearchFinished(const quint64 id, const CoverProviderSearchResults &results);
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 
   void CoverDoubleClicked(const QModelIndex &idx);

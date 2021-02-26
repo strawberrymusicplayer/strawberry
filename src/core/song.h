@@ -159,6 +159,7 @@ class Song {
   void InitFromQuery(const SqlRow &query, bool reliable_metadata, int col = 0);
   void InitFromFilePartial(const QString &filename);  // Just store the filename: incomplete but fast
   void InitArtManual();  // Check if there is already a art in the cache and store the filename in art_manual
+  void InitArtAutomatic();
 
   bool MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle);
 
@@ -255,6 +256,7 @@ class Song {
   bool is_metadata_good() const;
   bool art_automatic_is_valid() const;
   bool art_manual_is_valid() const;
+  bool has_valid_art() const;
   bool is_compilation() const;
 
   // Playlist views are special because you don't want to fill in album artists automatically for compilations, but you do for normal albums:
@@ -264,12 +266,18 @@ class Song {
   // Returns true if this Song had it's cover manually unset by user.
   bool has_manually_unset_cover() const;
   // This method represents an explicit request to unset this song's cover.
-  void manually_unset_cover();
+  void set_manually_unset_cover();
 
   // Returns true if this song (it's media file) has an embedded cover.
   bool has_embedded_cover() const;
   // Sets a flag saying that this song (it's media file) has an embedded cover.
   void set_embedded_cover();
+
+  void clear_art_automatic();
+  void clear_art_manual();
+
+  static bool save_embedded_cover_supported(const FileType filetype);
+  bool save_embedded_cover_supported() const { return url().isLocalFile() && save_embedded_cover_supported(filetype()) && !has_cue(); };
 
   const QUrl &stream_url() const;
   const QUrl &effective_stream_url() const;
@@ -355,6 +363,7 @@ class Song {
 
   // Comparison functions
   bool IsMetadataEqual(const Song &other) const;
+  bool IsMetadataAndArtEqual(const Song &other) const;
   bool IsOnSameAlbum(const Song &other) const;
   bool IsSimilar(const Song &other) const;
 

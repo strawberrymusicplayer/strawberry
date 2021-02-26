@@ -341,9 +341,21 @@ bool Song::compilation_on() const { return d->compilation_on_; }
 const QUrl &Song::art_automatic() const { return d->art_automatic_; }
 const QUrl &Song::art_manual() const { return d->art_manual_; }
 bool Song::has_manually_unset_cover() const { return d->art_manual_.path() == kManuallyUnsetCover; }
-void Song::manually_unset_cover() { d->art_manual_ = QUrl::fromLocalFile(kManuallyUnsetCover); }
+void Song::set_manually_unset_cover() { d->art_manual_ = QUrl::fromLocalFile(kManuallyUnsetCover); }
 bool Song::has_embedded_cover() const { return d->art_automatic_.path() == kEmbeddedCover; }
 void Song::set_embedded_cover() { d->art_automatic_ = QUrl::fromLocalFile(kEmbeddedCover); }
+
+void Song::clear_art_automatic() { d->art_automatic_.clear(); }
+void Song::clear_art_manual() { d->art_manual_.clear(); }
+
+bool Song::save_embedded_cover_supported(const FileType filetype) {
+
+  return filetype == FileType_FLAC ||
+         filetype == FileType_OggVorbis ||
+         filetype == FileType_MPEG ||
+         filetype == FileType_MP4;
+
+}
 
 const QUrl &Song::stream_url() const { return d->stream_url_; }
 const QUrl &Song::effective_stream_url() const { return !d->stream_url_.isEmpty() && d->stream_url_.isValid() ? d->stream_url_ : d->url_; }
@@ -381,6 +393,8 @@ bool Song::art_manual_is_valid() const {
          (d->art_manual_.scheme().isEmpty() && !d->art_manual_.path().isEmpty() && QFile::exists(d->art_manual_.path()))
          );
 }
+
+bool Song::has_valid_art() const { return art_automatic_is_valid() || art_manual_is_valid(); }
 
 const QString &Song::error() const { return d->error_; }
 
@@ -1054,13 +1068,19 @@ void Song::InitArtManual() {
     if (QFile::exists(path)) {
       d->art_manual_ = QUrl::fromLocalFile(path);
     }
-    else if (d->url_.isLocalFile()) { // Pick the first image file in the album directory.
-      QFileInfo file(d->url_.toLocalFile());
-      QDir dir(file.path());
-      QStringList files = dir.entryList(QStringList() << "*.jpg" << "*.png" << "*.gif" << "*.jpeg", QDir::Files|QDir::Readable, QDir::Name);
-      if (files.count() > 0) {
-        d->art_manual_ = QUrl::fromLocalFile(file.path() + QDir::separator() + files.first());
-      }
+  }
+
+}
+
+void Song::InitArtAutomatic() {
+
+  if (d->source_ == Source_LocalFile && d->url_.isLocalFile() && d->art_automatic_.isEmpty()) {
+    // Pick the first image file in the album directory.
+    QFileInfo file(d->url_.toLocalFile());
+    QDir dir(file.path());
+    QStringList files = dir.entryList(QStringList() << "*.jpg" << "*.png" << "*.gif" << "*.jpeg", QDir::Files|QDir::Readable, QDir::Name);
+    if (files.count() > 0) {
+      d->art_automatic_ = QUrl::fromLocalFile(file.path() + QDir::separator() + files.first());
     }
   }
 
@@ -1491,9 +1511,13 @@ bool Song::IsMetadataEqual(const Song &other) const {
          d->bitrate_ == other.d->bitrate_ &&
          d->samplerate_ == other.d->samplerate_ &&
          d->bitdepth_ == other.d->bitdepth_ &&
-         d->art_automatic_ == other.d->art_automatic_ &&
-         d->art_manual_ == other.d->art_manual_ &&
          d->cue_path_ == other.d->cue_path_;
+}
+
+bool Song::IsMetadataAndArtEqual(const Song &other) const {
+
+  return IsMetadataEqual(other) && d->art_automatic_ == other.d->art_automatic_ && d->art_manual_ == other.d->art_manual_;
+
 }
 
 bool Song::IsEditable() const {

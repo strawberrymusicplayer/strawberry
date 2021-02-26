@@ -30,6 +30,7 @@
 #include <QStandardItem>
 #include <QList>
 #include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QImage>
@@ -58,6 +59,7 @@
 #include "albumcoverloader.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
+#include "albumcoverimageresult.h"
 #include "ui_albumcoversearcher.h"
 
 const int SizeOverlayDelegate::kMargin = 4;
@@ -130,6 +132,8 @@ AlbumCoverSearcher::AlbumCoverSearcher(const QIcon &no_cover_icon, Application *
   ui_->covers->setItemDelegate(new SizeOverlayDelegate(this));
   ui_->covers->setModel(model_);
 
+  options_.get_image_data_ = true;
+  options_.get_image_ = true;
   options_.scale_output_image_ = false;
   options_.pad_output_image_ = false;
   options_.create_thumbnail_ = true;
@@ -157,7 +161,7 @@ void AlbumCoverSearcher::Init(AlbumCoverFetcher *fetcher) {
 
 }
 
-QImage AlbumCoverSearcher::Exec(const QString &artist, const QString &album) {
+AlbumCoverImageResult AlbumCoverSearcher::Exec(const QString &artist, const QString &album) {
 
 #ifdef Q_OS_MACOS
   ui_->artist->clear();
@@ -175,16 +179,18 @@ QImage AlbumCoverSearcher::Exec(const QString &artist, const QString &album) {
     Search();
   }
 
-  if (exec() == QDialog::Rejected) return QImage();
+  if (exec() == QDialog::Rejected) return AlbumCoverImageResult();
 
   QModelIndex selected = ui_->covers->currentIndex();
   if (!selected.isValid() || !selected.data(Role_ImageFetchFinished).toBool())
-    return QImage();
+    return AlbumCoverImageResult();
 
-  QIcon icon = selected.data(Qt::DecorationRole).value<QIcon>();
-  if (icon.cacheKey() == no_cover_icon_.cacheKey()) return QImage();
+  AlbumCoverImageResult result;
+  result.image_data = selected.data(Role_ImageData).value<QByteArray>();
+  result.image = selected.data(Role_Image).value<QImage>();
+  result.mime_type = Utilities::MimeTypeFromData(result.image_data);
 
-  return icon.pixmap(icon.availableSizes()[0]).toImage();
+  return result;
 
 }
 
@@ -213,10 +219,9 @@ void AlbumCoverSearcher::Search() {
 
 }
 
-void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverSearchResults &results) {
+void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverProviderSearchResults &results) {
 
-  if (id != id_)
-    return;
+  if (id != id_) return;
 
   ui_->search->setEnabled(true);
   ui_->artist->setEnabled(true);
@@ -225,7 +230,8 @@ void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverSearchResul
   ui_->search->setText(tr("Search"));
   id_ = 0;
 
-  for (const CoverSearchResult &result : results) {
+  for (const CoverProviderSearchResult &result : results) {
+
     if (result.image_url.isEmpty()) continue;
 
     quint64 new_id = app_->album_cover_loader()->LoadImageAsync(options_, result.image_url, QUrl());
@@ -255,19 +261,25 @@ void AlbumCoverSearcher::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoad
 
   if (cover_loading_tasks_.isEmpty()) ui_->busy->hide();
 
-  if (result.image_original.isNull()) {
+  if (!result.success || result.album_cover.image_data.isNull() || result.album_cover.image.isNull() || result.image_thumbnail.isNull()) {
     model_->removeRow(item->row());
     return;
   }
 
-  QIcon icon;
-  icon.addPixmap(QPixmap::fromImage(result.image_original));
-  icon.addPixmap(QPixmap::fromImage(result.image_thumbnail));
+  QPixmap pixmap = QPixmap::fromImage(result.image_thumbnail);
+  if (pixmap.isNull()) {
+    model_->removeRow(item->row());
+    return;
+  }
+
+  QIcon icon(pixmap);
 
   item->setData(true, Role_ImageFetchFinished);
-  item->setData(result.image_original.width() * result.image_original.height(), Role_ImageDimensions);
-  item->setData(result.image_original.size(), Role_ImageSize);
-  item->setIcon(icon);
+  item->setData(result.album_cover.image_data, Role_ImageData);
+  item->setData(result.album_cover.image, Role_Image);
+  item->setData(result.album_cover.image.width() * result.album_cover.image.height(), Role_ImageDimensions);
+  item->setData(result.album_cover.image.size(), Role_ImageSize);
+  if (!icon.isNull()) item->setIcon(icon);
 
 }
 

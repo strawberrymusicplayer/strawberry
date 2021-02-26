@@ -160,7 +160,7 @@ void Organize::ProcessSomeFiles() {
     if (!song.is_valid()) continue;
 
     // Get embedded album cover
-    QImage cover = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(task.song_info_.song_.url().toLocalFile());
+    QImage cover = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(task.song_info_.song_.url().toLocalFile());
     if (!cover.isNull()) song.set_image(cover);
 
 #ifdef HAVE_GSTREAMER
@@ -212,7 +212,7 @@ void Organize::ProcessSomeFiles() {
     job.remove_original_ = !copy_;
     job.playlist_ = playlist_;
 
-    if (task.song_info_.song_.art_manual_is_valid() && task.song_info_.song_.art_manual().path() != Song::kManuallyUnsetCover) {
+    if (task.song_info_.song_.art_manual_is_valid() && !task.song_info_.song_.has_manually_unset_cover()) {
       if (task.song_info_.song_.art_manual().isLocalFile() && QFile::exists(task.song_info_.song_.art_manual().toLocalFile())) {
         job.cover_source_ = task.song_info_.song_.art_manual().toLocalFile();
       }
@@ -220,7 +220,7 @@ void Organize::ProcessSomeFiles() {
         job.cover_source_ = task.song_info_.song_.art_manual().path();
       }
     }
-    else if (task.song_info_.song_.art_automatic_is_valid() && task.song_info_.song_.art_automatic().path() != Song::kEmbeddedCover) {
+    else if (task.song_info_.song_.art_automatic_is_valid() && !task.song_info_.song_.has_embedded_cover()) {
       if (task.song_info_.song_.art_automatic().isLocalFile() && QFile::exists(task.song_info_.song_.art_automatic().toLocalFile())) {
         job.cover_source_ = task.song_info_.song_.art_automatic().toLocalFile();
       }

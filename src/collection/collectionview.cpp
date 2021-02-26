@@ -471,11 +471,7 @@ void CollectionView::SetShowInVarious(const bool on) {
       }
     }
     if (other_artists.count() > 0) {
-      if (QMessageBox::question(this,
-              tr("There are other songs in this album"),
-              tr("Would you like to move the other songs on this album to Various Artists as well?"),
-                                QMessageBox::Yes | QMessageBox::No,
-                                QMessageBox::Yes) == QMessageBox::Yes) {
+      if (QMessageBox::question(this, tr("There are other songs in this album"), tr("Would you like to move the other songs on this album to Various Artists as well?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
         for (const QString &s : other_artists) {
           albums.insert(album, s);
         }

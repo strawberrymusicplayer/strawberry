@@ -46,7 +46,7 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
-#include "core/utilities.h"
+#include "core/imageutils.h"
 #include "covermanager/albumcoverloader.h"
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
@@ -788,7 +788,7 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl url, c
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-  if (!Utilities::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !Utilities::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
+  if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
     Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype).arg(url.toString()));
     if (album_covers_requests_sent_.contains(url)) album_covers_requests_sent_.remove(url);
     AlbumCoverFinishCheck();
@@ -803,7 +803,7 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl url, c
     return;
   }
 
-  QList<QByteArray> format_list = Utilities::ImageFormatsForMimeType(mimetype.toUtf8());
+  QList<QByteArray> format_list = ImageUtils::ImageFormatsForMimeType(mimetype.toUtf8());
   char *format = nullptr;
   if (!format_list.isEmpty()) {
     format = format_list.first().data();

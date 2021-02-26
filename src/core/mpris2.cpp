@@ -394,8 +394,8 @@ void Mpris2::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &re
   AddMetadata("mpris:trackid", current_track_id(), &last_metadata_);
 
   QUrl cover_url;
-  if (result.cover_url.isValid() && result.cover_url.isLocalFile() && QFile(result.cover_url.toLocalFile()).exists()) {
-    cover_url = result.cover_url;
+  if (result.album_cover.cover_url.isValid() && result.album_cover.cover_url.isLocalFile() && QFile(result.album_cover.cover_url.toLocalFile()).exists()) {
+    cover_url = result.album_cover.cover_url;
   }
   else if (result.temp_cover_url.isValid() && result.temp_cover_url.isLocalFile()) {
     cover_url = result.temp_cover_url;

@@ -603,13 +603,13 @@ void ContextView::SetSong() {
     const QueryOptions opt;
     CollectionBackend::AlbumList albumlist;
     widget_albums_->albums_model()->Reset();
-    albumlist = app_->collection_backend()->GetAlbumsByArtist(song_playing_.artist(), opt);
+    albumlist = app_->collection_backend()->GetAlbumsByArtist(song_playing_.effective_albumartist(), opt);
     if (albumlist.count() > 1) {
       label_play_albums_->show();
       widget_albums_->show();
-      label_play_albums_->setText("<b>" + tr("Albums by %1").arg( song_playing_.artist().toHtmlEscaped()) + "</b>");
-      for (CollectionBackend::Album album : albumlist) {
-        SongList songs = app_->collection_backend()->GetSongs(song_playing_.artist(), album.album_name, opt);
+      label_play_albums_->setText("<b>" + tr("Albums by %1").arg(song_playing_.effective_albumartist().toHtmlEscaped()) + "</b>");
+      for (const CollectionBackend::Album &album : albumlist) {
+        SongList songs = app_->collection_backend()->GetAlbumSongs(song_playing_.effective_albumartist(), album.album, opt);
         widget_albums_->albums_model()->AddSongs(songs);
       }
       spacer_play_albums_->changeSize(20, 10, QSizePolicy::Fixed);

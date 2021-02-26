@@ -29,7 +29,7 @@
 #include "playlistitem.h"
 #include "songplaylistitem.h"
 
-SongPlaylistItem::SongPlaylistItem(const Song::Source &source) : PlaylistItem(source) {}
+SongPlaylistItem::SongPlaylistItem(const Song::Source source) : PlaylistItem(source) {}
 SongPlaylistItem::SongPlaylistItem(const Song &song) : PlaylistItem(song.source()), song_(song) {}
 
 bool SongPlaylistItem::InitFromQuery(const SqlRow &query) {

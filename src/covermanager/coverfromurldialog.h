@@ -28,6 +28,8 @@
 #include <QString>
 #include <QImage>
 
+#include "albumcoverimageresult.h"
+
 class QWidget;
 
 class NetworkAccessManager;
@@ -42,7 +44,7 @@ class CoverFromURLDialog : public QDialog {
   ~CoverFromURLDialog() override;
 
   // Opens the dialog. This returns an image found at the URL chosen by user or null image if the dialog got rejected.
-  QImage Exec();
+  AlbumCoverImageResult Exec();
 
  private slots:
   void accept() override;
@@ -52,7 +54,7 @@ class CoverFromURLDialog : public QDialog {
   Ui_CoverFromURLDialog *ui_;
 
   NetworkAccessManager *network_;
-  QImage last_image_;
+  AlbumCoverImageResult last_album_cover_;
 };
 
 #endif  // COVERFROMURLDIALOG_H

@@ -61,6 +61,7 @@
 #include "settings/settingsdialog.h"
 #include "settings/behavioursettingspage.h"
 #include "covermanager/albumcoverloaderresult.h"
+#include "covermanager/albumcoverimageresult.h"
 
 class About;
 class Console;
@@ -255,6 +256,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void LoadCoverFromURL();
   void SearchForCover();
   void UnsetCover();
+  void ClearCover();
+  void DeleteCover();
   void ShowCover();
   void SearchCoverAutomatically();
   void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
@@ -386,7 +389,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   Song song_;
   Song song_playing_;
-  QImage image_original_;
+  AlbumCoverImageResult album_cover_;
   int exit_count_;
   bool delete_files_;
 

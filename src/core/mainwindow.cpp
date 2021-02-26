@@ -143,6 +143,7 @@
 #include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/currentalbumcoverloader.h"
 #include "covermanager/coverproviders.h"
+#include "covermanager/albumcoverimageresult.h"
 #include "lyrics/lyricsproviders.h"
 #ifndef Q_OS_WIN
 #  include "device/devicemanager.h"
@@ -613,6 +614,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   QObject::connect(album_cover_choice_controller_->cover_from_url_action(), &QAction::triggered, this, &MainWindow::LoadCoverFromURL);
   QObject::connect(album_cover_choice_controller_->search_for_cover_action(), &QAction::triggered, this, &MainWindow::SearchForCover);
   QObject::connect(album_cover_choice_controller_->unset_cover_action(), &QAction::triggered, this, &MainWindow::UnsetCover);
+  QObject::connect(album_cover_choice_controller_->clear_cover_action(), &QAction::triggered, this, &MainWindow::ClearCover);
+  QObject::connect(album_cover_choice_controller_->delete_cover_action(), &QAction::triggered, this, &MainWindow::DeleteCover);
   QObject::connect(album_cover_choice_controller_->show_cover_action(), &QAction::triggered, this, &MainWindow::ShowCover);
   QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::triggered, this, &MainWindow::SearchCoverAutomatically);
   QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::toggled, this, &MainWindow::ToggleSearchCoverAuto);
@@ -1234,7 +1237,7 @@ void MainWindow::MediaStopped() {
 
   song_playing_ = Song();
   song_ = Song();
-  image_original_ = QImage();
+  album_cover_ = AlbumCoverImageResult();
 
   app_->scrobbler()->ClearPlaying();
 
@@ -1311,6 +1314,14 @@ void MainWindow::SongChanged(const Song &song) {
   if (tray_icon_) tray_icon_->SetProgress(0);
 
   SendNowPlaying();
+
+  const bool enable_cover_options = song.url().isLocalFile() && !song.effective_albumartist().isEmpty() && !song.album().isEmpty();
+  album_cover_choice_controller_->cover_from_file_action()->setEnabled(enable_cover_options);
+  album_cover_choice_controller_->cover_from_url_action()->setEnabled(enable_cover_options);
+  album_cover_choice_controller_->search_for_cover_action()->setEnabled(enable_cover_options);
+  album_cover_choice_controller_->unset_cover_action()->setEnabled(enable_cover_options);
+  album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_cover_options);
+  album_cover_choice_controller_->clear_cover_action()->setEnabled(enable_cover_options);
 
 }
 
@@ -2073,7 +2084,7 @@ void MainWindow::RenumberTracks() {
       song.set_track(track);
       TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); });
+      QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
     }
     ++track;
   }
@@ -2085,7 +2096,7 @@ void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelI
   if (reply->is_successful() && idx.isValid()) {
     app_->playlist_manager()->current()->ReloadItems(QList<int>()<< idx.row());
   }
-  reply->deleteLater();
+  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
 }
 
@@ -2104,7 +2115,7 @@ void MainWindow::SelectionSetValue() {
     if (Playlist::set_column_value(song, column, column_value)) {
       TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); });
+      QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
     }
   }
 
@@ -2914,15 +2925,23 @@ void MainWindow::SearchForCover() {
 }
 
 void MainWindow::SaveCoverToFile() {
-  album_cover_choice_controller_->SaveCoverToFileManual(song_, image_original_);
+  album_cover_choice_controller_->SaveCoverToFileManual(song_, album_cover_);
 }
 
 void MainWindow::UnsetCover() {
   album_cover_choice_controller_->UnsetCover(&song_);
 }
 
+void MainWindow::ClearCover() {
+  album_cover_choice_controller_->ClearCover(&song_);
+}
+
+void MainWindow::DeleteCover() {
+  album_cover_choice_controller_->DeleteCover(&song_);
+}
+
 void MainWindow::ShowCover() {
-  album_cover_choice_controller_->ShowCover(song_, image_original_);
+  album_cover_choice_controller_->ShowCover(song_, album_cover_.image);
 }
 
 void MainWindow::SearchCoverAutomatically() {
@@ -2936,9 +2955,9 @@ void MainWindow::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult
   if (song != song_playing_) return;
 
   song_ = song;
-  image_original_ = result.image_original;
+  album_cover_ = result.album_cover;
 
-  emit AlbumCoverReady(song, result.image_original);
+  emit AlbumCoverReady(song, result.album_cover.image);
 
   GetCoverAutomatically();
 

@@ -30,6 +30,7 @@
 #include <QTemporaryFile>
 
 #include "core/application.h"
+#include "core/song.h"
 #include "playlist/playlistmanager.h"
 #include "albumcoverloader.h"
 #include "albumcoverloaderoptions.h"
@@ -43,6 +44,8 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *pare
       id_(0)
   {
 
+  options_.get_image_data_ = true;
+  options_.get_image_ = true;
   options_.scale_output_image_ = false;
   options_.pad_output_image_ = false;
   options_.create_thumbnail_ = true;
@@ -74,11 +77,11 @@ void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverL
   if (id != id_) return;
   id_ = 0;
 
-  if (!result.image_scaled.isNull()) {
+  if (!result.album_cover.image.isNull()) {
     temp_cover_.reset(new QTemporaryFile(temp_file_pattern_));
     temp_cover_->setAutoRemove(true);
     if (temp_cover_->open()) {
-      if (result.image_scaled.save(temp_cover_->fileName(), "JPEG")) {
+      if (result.album_cover.image.save(temp_cover_->fileName(), "JPEG")) {
         result.temp_cover_url = QUrl::fromLocalFile(temp_cover_->fileName());
       }
       else {
@@ -108,7 +111,7 @@ void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverL
   }
 
   if (result.updated) {
-    last_song_.set_art_manual(result.cover_url);
+    last_song_.set_art_manual(result.album_cover.cover_url);
   }
 
   emit AlbumCoverLoaded(last_song_, result);

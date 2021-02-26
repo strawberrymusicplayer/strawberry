@@ -135,7 +135,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  CoverSearchResults results;
+  CoverProviderSearchResults results;
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
@@ -275,7 +275,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
 
     if (!url.isValid()) continue;
 
-    CoverSearchResult cover_result;
+    CoverProviderSearchResult cover_result;
     cover_result.artist = artist;
     cover_result.album = album;
     cover_result.image_url = url;

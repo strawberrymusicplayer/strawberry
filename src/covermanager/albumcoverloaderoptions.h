@@ -29,19 +29,25 @@
 
 struct AlbumCoverLoaderOptions {
   explicit AlbumCoverLoaderOptions()
-      : desired_height_(120),
+      : get_image_data_(true),
+        get_image_(true),
         scale_output_image_(true),
         pad_output_image_(true),
         create_thumbnail_(false),
-        pad_thumbnail_image_(false) {}
+        pad_thumbnail_image_(false),
+        desired_height_(120),
+        thumbnail_size_(120, 120) {}
 
-  int desired_height_;
-  QSize thumbnail_size_;
+  bool get_image_data_;
+  bool get_image_;
   bool scale_output_image_;
   bool pad_output_image_;
   bool create_thumbnail_;
   bool pad_thumbnail_image_;
+  int desired_height_;
+  QSize thumbnail_size_;
   QImage default_output_image_;
+  QImage default_scaled_image_;
   QImage default_thumbnail_image_;
 };
 

@@ -41,8 +41,10 @@ AddStreamDialog::~AddStreamDialog() { delete ui_; }
 
 void AddStreamDialog::showEvent(QShowEvent *e) {
 
-  ui_->url->setFocus();
-  ui_->url->selectAll();
+  if (!e->spontaneous()) {
+    ui_->url->setFocus();
+    ui_->url->selectAll();
+  }
 
   QDialog::showEvent(e);
 
