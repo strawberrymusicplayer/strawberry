@@ -605,7 +605,9 @@ void EditTagDialog::SelectionChanged() {
       data_[idx.row()].cover_result_ = AlbumCoverImageResult();
     }
     const Song &song = data_[idx.row()].original_;
-    if (data_[idx.row()].cover_action_ != first_cover_action) action_different = true;
+    if (data_[idx.row()].cover_action_ != first_cover_action || (first_cover_action != UpdateCoverAction_None && data_[idx.row()].cover_result_.image_data != data_[indexes.first().row()].cover_result_.image_data)) {
+      action_different = true;
+    }
     if (data_[idx.row()].cover_action_ != first_cover_action ||
         song.art_manual() != first_song.art_manual() ||
         song.has_embedded_cover() != first_song.has_embedded_cover() ||
@@ -628,7 +630,7 @@ void EditTagDialog::SelectionChanged() {
     summary += "</b></p>";
   }
 
-  if (art_different && action_different) {
+  if (art_different || action_different) {
     tags_cover_art_id_ = -1; // Cancels any pending art load.
     ui_->tags_art->clear();
     ui_->tags_art->setText(kArtDifferentHintText);
@@ -1048,7 +1050,7 @@ void EditTagDialog::ButtonClicked(QAbstractButton *button) {
 
 void EditTagDialog::SaveData() {
 
-  QUrl new_cover_url;
+  QMap<QString, QUrl> cover_urls;
 
   for (int i = 0; i < data_.count(); ++i) {
     Data &ref = data_[i];
@@ -1080,10 +1082,19 @@ void EditTagDialog::SaveData() {
           case UpdateCoverAction_None:
             break;
           case UpdateCoverAction_New:{
-            if ((!ui_->checkbox_embedded_cover->isChecked() || !ref.original_.save_embedded_cover_supported()) && new_cover_url.isEmpty()) {
-              new_cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(&ref.current_, ref.cover_result_);
+            if ((!ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) &&
+                (!ui_->checkbox_embedded_cover->isChecked() || !ref.original_.save_embedded_cover_supported())) {
+              QUrl cover_url;
+              QString cover_hash = Utilities::Sha1CoverHash(ref.current_.effective_albumartist(), ref.current_.album()).toHex();
+              if (cover_urls.contains(cover_hash)) {
+                cover_url = cover_urls[cover_hash];
+              }
+              else {
+                cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(&ref.current_, ref.cover_result_);
+                cover_urls.insert(cover_hash, cover_url);
+              }
+              ref.current_.set_art_manual(cover_url);
             }
-            ref.current_.set_art_manual(new_cover_url);
             break;
           }
           case UpdateCoverAction_Unset:
@@ -1132,7 +1143,7 @@ void EditTagDialog::SaveData() {
           }
         }
       }
-      else {
+      else if (!ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) {
         if (ref.current_.is_collection_song()) {
           collection_songs_.insert(ref.current_.id(), ref.current_);
         }
