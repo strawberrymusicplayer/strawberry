@@ -245,7 +245,7 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
     fileinfo.setFile(save_filename);
   }
 
-  if (!QImageWriter::supportedImageFormats().contains(fileinfo.completeSuffix())) {
+  if (!QImageWriter::supportedImageFormats().contains(fileinfo.completeSuffix().toUtf8())) {
     save_filename = Utilities::PathWithoutFilenameExtension(save_filename) + ".jpg";
     fileinfo.setFile(save_filename);
   }
@@ -653,7 +653,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QFuture<SongList> future = QtConcurrent::run(&CollectionBackend::GetAlbumSongs, app_->collection_backend(), song.effective_albumartist(), song.effective_album(), QueryOptions());
 #else
-    QFuture<SongList> future = QtConcurrent::run(app_->collection_backend(), &CollectionBackend::GetAlbumSongs, song->effective_albumartist(), song->effective_album(), QueryOptions());
+    QFuture<SongList> future = QtConcurrent::run(app_->collection_backend(), &CollectionBackend::GetAlbumSongs, song.effective_albumartist(), song.effective_album(), QueryOptions());
 #endif
     QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
     watcher->setFuture(future);

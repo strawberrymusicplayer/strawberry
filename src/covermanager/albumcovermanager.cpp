@@ -368,7 +368,7 @@ void AlbumCoverManager::Reset() {
   }
 
   if (ui_->artists->selectedItems().isEmpty()) {
-    ui_->artists->selectionModel()->setCurrentIndex(ui_->artists->indexFromItem(all_artists_), QItemSelectionModel::Clear);
+    ui_->artists->setCurrentItem(all_artists_);
   }
 
 }
