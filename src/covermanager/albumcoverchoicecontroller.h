@@ -70,7 +70,7 @@ class AlbumCoverChoiceController : public QWidget {
   void ReloadSettings();
 
   CollectionSettingsPage::SaveCoverType get_save_album_cover_type() const { return (save_embedded_cover_override_ ? CollectionSettingsPage::SaveCoverType_Embedded : save_cover_type_); }
-  void set_save_embedded_cover_override(const bool value) { save_embedded_cover_override_ = value; }
+  CollectionSettingsPage::SaveCoverType get_collection_save_album_cover_type() const { return save_cover_type_; }
 
   // Getters for all QActions implemented by this controller.
 
@@ -149,15 +149,17 @@ class AlbumCoverChoiceController : public QWidget {
 
   static bool CanAcceptDrag(const QDragEnterEvent *e);
 
- signals:
-  void AutomaticCoverSearchDone();
+ public slots:
+  void set_save_embedded_cover_override(const bool value) { save_embedded_cover_override_ = value; }
 
  private slots:
   void AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics);
   void SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success);
 
- private:
+ signals:
+  void AutomaticCoverSearchDone();
 
+ private:
   QString GetInitialPathForFileDialog(const Song &song, const QString &filename);
 
   static bool IsKnownImageExtension(const QString &suffix);

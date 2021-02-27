@@ -202,6 +202,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   QObject::connect(album_cover_choice_controller_->clear_cover_action(), &QAction::triggered, this, &EditTagDialog::ClearCover);
   QObject::connect(album_cover_choice_controller_->delete_cover_action(), &QAction::triggered, this, &EditTagDialog::DeleteCover);
   QObject::connect(album_cover_choice_controller_->show_cover_action(), &QAction::triggered, this, &EditTagDialog::ShowCover);
+  QObject::connect(ui_->checkbox_embedded_cover, &QCheckBox::toggled, album_cover_choice_controller_, &AlbumCoverChoiceController::set_save_embedded_cover_override);
 
   cover_menu_->addActions(actions);
 
@@ -668,7 +669,7 @@ void EditTagDialog::SelectionChanged() {
 
   album_cover_choice_controller_->search_for_cover_action()->setEnabled(app_->cover_providers()->HasAnyProviders());
 
-  const bool embedded_cover = (first_song.save_embedded_cover_supported() && (first_song.has_embedded_cover() || album_cover_choice_controller_->get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType_Embedded));
+  const bool embedded_cover = (first_song.save_embedded_cover_supported() && (first_song.has_embedded_cover() || album_cover_choice_controller_->get_collection_save_album_cover_type() == CollectionSettingsPage::SaveCoverType_Embedded));
   ui_->checkbox_embedded_cover->setChecked(embedded_cover);
   album_cover_choice_controller_->set_save_embedded_cover_override(embedded_cover);
 
