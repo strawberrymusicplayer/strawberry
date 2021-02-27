@@ -1081,45 +1081,51 @@ void EditTagDialog::SaveData() {
 
     if (ref.cover_action_ != UpdateCoverAction_None) {
       switch (ref.cover_action_) {
-          case UpdateCoverAction_None:
-            break;
-          case UpdateCoverAction_New:{
-            if ((!ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) &&
-                (!ui_->checkbox_embedded_cover->isChecked() || !ref.original_.save_embedded_cover_supported())) {
-              QUrl cover_url;
-              QString cover_hash = Utilities::Sha1CoverHash(ref.current_.effective_albumartist(), ref.current_.album()).toHex();
-              if (cover_urls.contains(cover_hash)) {
-                cover_url = cover_urls[cover_hash];
-              }
-              else {
-                cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(&ref.current_, ref.cover_result_);
-                cover_urls.insert(cover_hash, cover_url);
-              }
-              ref.current_.set_art_manual(cover_url);
+        case UpdateCoverAction_None:
+          break;
+        case UpdateCoverAction_New:{
+          if ((!ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) &&
+              (!ui_->checkbox_embedded_cover->isChecked() || !ref.original_.save_embedded_cover_supported())) {
+            QUrl cover_url;
+            QString cover_hash = Utilities::Sha1CoverHash(ref.current_.effective_albumartist(), ref.current_.album()).toHex();
+            if (cover_urls.contains(cover_hash)) {
+              cover_url = cover_urls[cover_hash];
             }
-            break;
+            else {
+              cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(&ref.current_, ref.cover_result_);
+              cover_urls.insert(cover_hash, cover_url);
+            }
+            ref.current_.set_art_manual(cover_url);
           }
-          case UpdateCoverAction_Unset:
-            ref.current_.set_manually_unset_cover();
-            break;
-          case UpdateCoverAction_Clear:
+          break;
+        }
+        case UpdateCoverAction_Unset:
+          ref.current_.set_manually_unset_cover();
+          break;
+        case UpdateCoverAction_Clear:
+          ref.current_.clear_art_manual();
+          break;
+        case UpdateCoverAction_Delete:{
+          if (!ref.original_.art_automatic().isEmpty()) {
+            if (ref.original_.art_automatic().isValid() && !ref.original_.has_embedded_cover() && ref.original_.art_automatic().isLocalFile()) {
+              QString art_automatic = ref.original_.art_automatic().toLocalFile();
+              if (QFile::exists(art_automatic)) {
+                QFile::remove(art_automatic);
+              }
+            }
+            ref.current_.clear_art_automatic();
+          }
+          if (!ref.original_.art_manual().isEmpty() && !ref.original_.has_manually_unset_cover()) {
+            if (ref.original_.art_manual().isValid() && ref.original_.art_manual().isLocalFile()) {
+              QString art_manual = ref.original_.art_manual().toLocalFile();
+              if (QFile::exists(art_manual)) {
+                QFile::remove(art_manual);
+              }
+            }
             ref.current_.clear_art_manual();
-            break;
-          case UpdateCoverAction_Delete:{
-            if (ref.original_.art_automatic().isValid() &&
-                ref.original_.art_automatic().isLocalFile() &&
-                QFile::exists(ref.original_.art_automatic().toLocalFile())) {
-              QFile::remove(ref.original_.art_automatic().toLocalFile());
-              ref.current_.clear_art_manual();
-            }
-            if (ref.original_.art_manual().isValid() &&
-                ref.original_.art_manual().isLocalFile() &&
-                QFile::exists(ref.original_.art_manual().toLocalFile())) {
-              QFile::remove(ref.original_.art_manual().toLocalFile());
-              ref.current_.clear_art_manual();
-            }
-            break;
           }
+          break;
+        }
       }
       if (ui_->checkbox_embedded_cover->isChecked() && ref.original_.save_embedded_cover_supported()) {
         if (ref.cover_action_ != UpdateCoverAction_Clear && ref.cover_action_ != UpdateCoverAction_Unset) {
