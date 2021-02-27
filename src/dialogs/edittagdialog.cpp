@@ -39,6 +39,7 @@
 #include <QAction>
 #include <QDateTime>
 #include <QList>
+#include <QMap>
 #include <QVariant>
 #include <QString>
 #include <QStringBuilder>
