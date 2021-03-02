@@ -1023,6 +1023,10 @@ jobs:
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v1.2.0
+      - name: Update packages
+        run: brew update
+      - name: Upgrade packages
+        run: brew upgrade
       - name: Install packages
         run: >
           brew install
@@ -1058,24 +1062,23 @@ jobs:
           sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework /Library/Frameworks/Sparkle.framework
           sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework.dSYM /Library/Frameworks/Sparkle.framework.dSYM
 
-      - name: Delete conflicting taglib system headers
-        shell: bash
-        run: rm -rf /usr/local/include/taglib
-
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
       - name: Configure CMake
         shell: bash
         env:
+          BUILD_TYPE: Release
           PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
-          Qt5_DIR: /usr/local/opt/qt5/lib/cmake
-          Qt5LinguistTools_DIR: /usr/local/opt/qt5/lib/cmake/Qt5LinguistTools
+          Qt6_DIR: /usr/local/opt/qt6/lib/cmake
+          Qt5LinguistTools_DIR: /usr/local/opt/qt6/lib/cmake/Qt6LinguistTools
           GST_SCANNER_PATH: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DUSE_BUNDLE=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WITH_QT6=ON -DBUILD_WERROR=ON -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake
       - name: Build
+        env:
+          BUILD_TYPE: Release
         working-directory: build
         shell: bash
         run: cmake --build . --config $BUILD_TYPE
@@ -1097,6 +1100,10 @@ jobs:
     runs-on: macos-11.0
     steps:
       - uses: actions/checkout@v1.2.0
+      - name: Update packages
+        run: brew update
+      - name: Upgrade packages
+        run: brew upgrade
       - name: Install packages
         run: >
           brew install
@@ -1132,24 +1139,23 @@ jobs:
           sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework /Library/Frameworks/Sparkle.framework
           sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework.dSYM /Library/Frameworks/Sparkle.framework.dSYM
 
-      - name: Delete conflicting taglib system headers
-        shell: bash
-        run: rm -rf /usr/local/include/taglib
-
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
       - name: Configure CMake
         shell: bash
         env:
+          BUILD_TYPE: Release
           PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
-          Qt5_DIR: /usr/local/opt/qt5/lib/cmake
-          Qt5LinguistTools_DIR: /usr/local/opt/qt5/lib/cmake/Qt5LinguistTools
+          Qt5_DIR: /usr/local/opt/qt6/lib/cmake
+          Qt5LinguistTools_DIR: /usr/local/opt/qt6/lib/cmake/Qt6LinguistTools
           GST_SCANNER_PATH: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DUSE_BUNDLE=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WITH_QT6=ON -DBUILD_WERROR=ON -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake
       - name: Build
+        env:
+          BUILD_TYPE: Release
         working-directory: build
         shell: bash
         run: cmake --build . --config $BUILD_TYPE

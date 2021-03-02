@@ -21,13 +21,13 @@ before_install:
   - brew install --cask sparkle
   - sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework /Library/Frameworks/Sparkle.framework
   - sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework.dSYM /Library/Frameworks/Sparkle.framework.dSYM
-  - export Qt5_DIR=/usr/local/opt/qt5/lib/cmake
-  - export Qt5LinguistTools_DIR=/usr/local/opt/qt5/lib/cmake/Qt5LinguistTools
+  - export Qt6_DIR=/usr/local/opt/qt6/lib/cmake
+  - export Qt6LinguistTools_DIR=/usr/local/opt/qt6/lib/cmake/Qt6LinguistTools
   - ls /usr/local/lib/gstreamer-1.0
 before_script:
   - mkdir build
   - cd build
-  - cmake .. -DBUILD_WERROR=ON -DUSE_BUNDLE=ON
+  - cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=ON -DUSE_BUNDLE=ON
 script:
   - make -j8
   - make install
