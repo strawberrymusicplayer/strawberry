@@ -31,7 +31,7 @@ before_script:
 script:
   - make -j8
   - make install
-  - ln -s /usr/local/Cellar/qt/$(ls /usr/local/Cellar/qt/ | tail -n1)/share/qt/plugins /usr/local/plugins
+  - sudo ln -s /usr/local/Cellar/qt/$(ls /usr/local/Cellar/qt/ | tail -n1)/share/qt/plugins /usr/local/plugins
   - make dmg2
 after_success:
   - ls -lh strawberry*.dmg
