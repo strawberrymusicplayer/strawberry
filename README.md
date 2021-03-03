@@ -26,9 +26,13 @@ Resources:
 ### :moneybag:	Sponsoring:
 
 The program is free software, released under GPL. If you like this program and can make use of it, consider sponsoring or donating to help fund the project.
-To sponsor, visit [my GitHub sponsors profile](https://github.com/sponsors/jonaski).
-Funding developers through GitHub Sponsors is one more way to contribute to open source projects you appreciate, it helps developers get the resources they need, and recognize contributors working behind the scenes to make open source better for everyone.
-You can also make a one-time payment through [paypal.me/jonaskvinge](https://paypal.me/jonaskvinge)
+There are currently 3 options for sponsoring:
+
+1. [GitHub Sponsors](https://github.com/sponsors/jonaski)
+2. [Patreon](https://www.patreon.com/jonaskvinge)
+3. [PayPal](https://paypal.me/jonaskvinge)
+
+Funding developers is a way to contribute to open source projects you appreciate, it helps developers get the resources they need, and recognize contributors working behind the scenes to make open source better for everyone.
 
 ### :heavy_check_mark: Features:
 
@@ -64,12 +68,12 @@ To build Strawberry from source you need the following installed on your system 
 * [Boost](https://www.boost.org/)
 * [POSIX thread (pthread)](http://www.yolinux.com/TUTORIALS/LinuxTutorialPosixThreads.html)
 * [GLib](https://developer.gnome.org/glib/)
-* [Protobuf library and compiler](https://developers.google.com/protocol-buffers/)
+* [Protobuf](https://developers.google.com/protocol-buffers/)
 * [Qt 5.8 or higher (or Qt 6) with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
 * [Qt components X11Extras and D-Bus for Linux/BSD and WinExtras for Windows](https://www.qt.io/)
 * [SQLite 3.9 or newer with FTS5](https://www.sqlite.org)
-* [Chromaprint library](https://acoustid.org/chromaprint)
-* [ALSA library (linux)](https://www.alsa-project.org/)
+* [Chromaprint](https://acoustid.org/chromaprint)
+* [ALSA (linux)](https://www.alsa-project.org/)
 * [D-Bus (linux)](https://www.freedesktop.org/wiki/Software/dbus/)
 * [PulseAudio (linux optional)](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
 * [GStreamer](https://gstreamer.freedesktop.org/) or [VLC](https://www.videolan.org)
@@ -83,8 +87,8 @@ Optional dependencies:
 * iPod Classic devices: [libgpod](http://www.gtkpod.org/libgpod/)
 * Moodbar: [fftw3](http://www.fftw.org/)
 
-Either GStreamer or VLC engine is required, but only GStreamer is fully implemented so far.
-You should also install the gstreamer plugins base and good, and optionally bad and ugly.
+Either GStreamer or VLC engine is required, but only GStreamer is fully implemented, and works best, it is therefore recommended to use GStreamer.
+You should also install the gstreamer plugins base and good, and optionally bad, ugly and libav.
 
 ### :wrench:	Compiling from source
 
