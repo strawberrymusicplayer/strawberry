@@ -1086,6 +1086,9 @@ jobs:
         working-directory: build
         shell: bash
         run: make install
+      - name: Hack to make macdeployqt find plugins
+        shell: bash
+        run: ln -s /usr/local/Cellar/qt/$(ls /usr/local/Cellar/qt/ | tail -n1)/share/qt/plugins /usr/local/plugins
       - name: Create DMG
         working-directory: build
         shell: bash
@@ -1163,6 +1166,9 @@ jobs:
         working-directory: build
         shell: bash
         run: make install
+      - name: Hack to make macdeployqt find plugins
+        shell: bash
+        run: ln -s /usr/local/Cellar/qt/$(ls /usr/local/Cellar/qt/ | tail -n1)/share/qt/plugins /usr/local/plugins
       - name: Create DMG
         working-directory: build
         shell: bash
