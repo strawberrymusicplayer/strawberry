@@ -1,11 +1,11 @@
-find_program(MACDEPLOYQT_EXECUTABLE NAMES macdeployqt PATHS /usr/local/opt/qt6/bin /usr/local/opt/qt5/bin /usr/local/bin)
+find_program(MACDEPLOYQT_EXECUTABLE NAMES macdeployqt PATHS /usr/local/opt/qt6/bin /usr/local/opt/qt5/bin /usr/local/bin REQUIRED)
 if(MACDEPLOYQT_EXECUTABLE)
   message(STATUS "Found macdeployqt: ${MACDEPLOYQT_EXECUTABLE}")
 else()
   message(WARNING "Missing macdeployqt executable.")
 endif()
 
-find_program(CREATEDMG_EXECUTABLE NAMES create-dmg)
+find_program(CREATEDMG_EXECUTABLE NAMES create-dmg REQUIRED)
 if(CREATEDMG_EXECUTABLE)
   message(STATUS "Found create-dmg: ${CREATEDMG_EXECUTABLE}")
 else()
