@@ -1023,10 +1023,6 @@ jobs:
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v1.2.0
-      - name: Update packages
-        run: brew update
-      - name: Upgrade packages
-        run: brew upgrade
       - name: Install packages
         run: >
           brew install
@@ -1103,10 +1099,6 @@ jobs:
     runs-on: macos-11.0
     steps:
       - uses: actions/checkout@v1.2.0
-      - name: Update packages
-        run: brew update
-      - name: Upgrade packages
-        run: brew upgrade
       - name: Install packages
         run: >
           brew install
