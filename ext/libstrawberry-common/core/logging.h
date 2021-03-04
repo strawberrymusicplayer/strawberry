@@ -58,6 +58,7 @@ enum Level {
 
   void DumpStackTrace();
 
+QDebug CreateLoggerInfo(int line, const char *pretty_function, const char* category);
 QDebug CreateLoggerFatal(int line, const char *pretty_function, const char* category);
 QDebug CreateLoggerError(int line, const char *pretty_function, const char* category);
 
@@ -68,10 +69,8 @@ QDebug CreateLoggerError(int line, const char *pretty_function, const char* cate
 #endif // QT_NO_WARNING_OUTPUT
 
 #ifdef QT_NO_DEBUG_OUTPUT
-  QNoDebug CreateLoggerInfo(int, const char*, const char*);
   QNoDebug CreateLoggerDebug(int, const char*, const char*);
 #else
-  QDebug CreateLoggerInfo(int line, const char *pretty_function, const char* category);
   QDebug CreateLoggerDebug(int line, const char *pretty_function, const char* category);
 #endif  // QT_NO_DEBUG_OUTPUT
 

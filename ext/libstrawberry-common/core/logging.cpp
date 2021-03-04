@@ -349,6 +349,7 @@ void DumpStackTrace() {
 // doesn't override any behavior that should be needed after return.
 #define qCreateLogger(line, pretty_function, category, level) logging::CreateLogger<LoggedDebug>(logging::Level_##level, logging::ParsePrettyFunction(pretty_function), line, category)
 
+QDebug CreateLoggerInfo(int line, const char *pretty_function, const char* category) { return qCreateLogger(line, pretty_function, category, Info); }
 QDebug CreateLoggerFatal(int line, const char *pretty_function, const char* category) { return qCreateLogger(line, pretty_function, category, Fatal); }
 QDebug CreateLoggerError(int line, const char *pretty_function, const char* category) { return qCreateLogger(line, pretty_function, category, Error); }
 
@@ -359,10 +360,8 @@ QDebug CreateLoggerError(int line, const char *pretty_function, const char* cate
 #endif // QT_NO_WARNING_OUTPUT
 
 #ifdef QT_NO_DEBUG_OUTPUT
-  QNoDebug CreateLoggerInfo(int, const char*, const char*) { return QNoDebug(); }
   QNoDebug CreateLoggerDebug(int, const char*, const char*) { return QNoDebug(); }
 #else
-  QDebug CreateLoggerInfo(int line, const char *pretty_function, const char* category) { return qCreateLogger(line, pretty_function, category, Info); }
   QDebug CreateLoggerDebug(int line, const char *pretty_function, const char* category) { return qCreateLogger(line, pretty_function, category, Debug); }
 #endif // QT_NO_DEBUG_OUTPUT
 
