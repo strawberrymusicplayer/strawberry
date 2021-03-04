@@ -970,7 +970,7 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
     gst_caps_unref(caps);
     gst_discoverer_stream_info_list_free(audio_streams);
 
-    qLog(Info) << "Got stream info for" << discovered_url + ":" << Song::TextForFiletype(bundle.filetype);
+    qLog(Debug) << "Got stream info for" << discovered_url + ":" << Song::TextForFiletype(bundle.filetype);
 
     emit instance->MetaData(bundle);
 
