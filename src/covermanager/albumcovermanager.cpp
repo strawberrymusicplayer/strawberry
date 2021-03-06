@@ -153,21 +153,12 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
 
   EnableCoversButtons();
 
-  ReloadSettings();
-
 }
 
 AlbumCoverManager::~AlbumCoverManager() {
 
   CancelRequests();
   delete ui_;
-
-}
-
-void AlbumCoverManager::ReloadSettings() {
-
-  app_->album_cover_loader()->ReloadSettings();
-  album_cover_choice_controller_->ReloadSettings();
 
 }
 
@@ -252,6 +243,7 @@ void AlbumCoverManager::showEvent(QShowEvent *e) {
 
   if (!e->spontaneous()) {
     LoadGeometry();
+    album_cover_choice_controller_->ReloadSettings();
     Reset();
   }
 

@@ -1117,7 +1117,6 @@ void MainWindow::ReloadAllSettings() {
   app_->playlist_manager()->playlist_container()->ReloadSettings();
   app_->album_cover_loader()->ReloadSettings();
   album_cover_choice_controller_->ReloadSettings();
-  if (cover_manager_.get()) cover_manager_->ReloadSettings();
   context_view_->ReloadSettings();
   file_view_->ReloadSettings();
   queue_view_->ReloadSettings();
