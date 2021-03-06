@@ -245,7 +245,7 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
     fileinfo.setFile(save_filename);
   }
 
-  if (!QImageWriter::supportedImageFormats().contains(fileinfo.completeSuffix().toUtf8())) {
+  if (!QImageWriter::supportedImageFormats().contains(fileinfo.completeSuffix().toUtf8().toLower())) {
     save_filename = Utilities::PathWithoutFilenameExtension(save_filename) + ".jpg";
     fileinfo.setFile(save_filename);
   }
