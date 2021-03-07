@@ -632,29 +632,32 @@ void EditTagDialog::SelectionChanged() {
     summary += "</b></p>";
   }
 
+  const bool enable_change_art = first_song.is_collection_song();
+  ui_->tags_art_button->setEnabled(enable_change_art);
   if (art_different || action_different) {
     tags_cover_art_id_ = -1; // Cancels any pending art load.
     ui_->tags_art->clear();
     ui_->tags_art->setText(kArtDifferentHintText);
     album_cover_choice_controller_->show_cover_action()->setEnabled(false);
     album_cover_choice_controller_->cover_to_file_action()->setEnabled(false);
-    album_cover_choice_controller_->cover_from_file_action()->setEnabled(true);
-    album_cover_choice_controller_->cover_from_url_action()->setEnabled(true);
-    album_cover_choice_controller_->search_cover_auto_action()->setEnabled(true);
-    album_cover_choice_controller_->unset_cover_action()->setEnabled(true);
-    album_cover_choice_controller_->clear_cover_action()->setEnabled(true);
-    album_cover_choice_controller_->delete_cover_action()->setEnabled(true);
+    album_cover_choice_controller_->cover_from_file_action()->setEnabled(enable_change_art);
+    album_cover_choice_controller_->cover_from_url_action()->setEnabled(enable_change_art);
+    album_cover_choice_controller_->search_for_cover_action()->setEnabled(enable_change_art);
+    album_cover_choice_controller_->unset_cover_action()->setEnabled(enable_change_art);
+    album_cover_choice_controller_->clear_cover_action()->setEnabled(enable_change_art);
+    album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art);
+    album_cover_choice_controller_->search_for_cover_action()->setEnabled(enable_change_art);
   }
   else {
     ui_->tags_art->clear();
     album_cover_choice_controller_->show_cover_action()->setEnabled(first_song.has_valid_art() && !first_song.has_manually_unset_cover());
     album_cover_choice_controller_->cover_to_file_action()->setEnabled(first_song.has_valid_art() && !first_song.has_manually_unset_cover());
-    album_cover_choice_controller_->cover_from_file_action()->setEnabled(true);
-    album_cover_choice_controller_->cover_from_url_action()->setEnabled(true);
-    album_cover_choice_controller_->search_cover_auto_action()->setEnabled(true);
-    album_cover_choice_controller_->unset_cover_action()->setEnabled(!first_song.has_manually_unset_cover());
-    album_cover_choice_controller_->clear_cover_action()->setEnabled(!first_song.art_manual().isEmpty());
-    album_cover_choice_controller_->delete_cover_action()->setEnabled(!first_song.art_manual().isEmpty());
+    album_cover_choice_controller_->cover_from_file_action()->setEnabled(enable_change_art);
+    album_cover_choice_controller_->cover_from_url_action()->setEnabled(enable_change_art);
+    album_cover_choice_controller_->search_for_cover_action()->setEnabled(app_->cover_providers()->HasAnyProviders() && enable_change_art);
+    album_cover_choice_controller_->unset_cover_action()->setEnabled(enable_change_art && !first_song.has_manually_unset_cover());
+    album_cover_choice_controller_->clear_cover_action()->setEnabled(enable_change_art && !first_song.art_manual().isEmpty());
+    album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && !first_song.art_manual().isEmpty());
     if (data_[indexes.first().row()].cover_action_ == UpdateCoverAction_None) {
       tags_cover_art_id_ = app_->album_cover_loader()->LoadImageAsync(cover_options_, first_song);
     }
@@ -665,9 +668,6 @@ void EditTagDialog::SelectionChanged() {
   }
 
   ui_->tags_summary->setText(summary);
-  ui_->tags_art_button->setEnabled(first_song.id() != -1);
-
-  album_cover_choice_controller_->search_for_cover_action()->setEnabled(app_->cover_providers()->HasAnyProviders());
 
   const bool embedded_cover = (first_song.save_embedded_cover_supported() && (first_song.has_embedded_cover() || album_cover_choice_controller_->get_collection_save_album_cover_type() == CollectionSettingsPage::SaveCoverType_Embedded));
   ui_->checkbox_embedded_cover->setChecked(embedded_cover);
@@ -802,6 +802,11 @@ QString EditTagDialog::GetArtSummary(const Song &song, const UpdateCoverAction c
     summary = tr("Automatically cover art from %1 is missing").arg(song.art_automatic().toString()).toHtmlEscaped();
   }
 
+  if (!song.is_collection_song()) {
+    if (!summary.isEmpty()) summary += "<br />";
+    summary = tr("Album cover editing is only available for collection songs.");
+  }
+
   return summary;
 
 }
@@ -819,10 +824,12 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
 
   if (id == tags_cover_art_id_) {
     ui_->tags_art->clear();
+    bool enable_change_art = false;
     if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset) {
       ui_->tags_art->setPixmap(QPixmap::fromImage(result.image_scaled));
       for (const QModelIndex &idx : ui_->song_list->selectionModel()->selectedIndexes()) {
         data_[idx.row()].cover_result_ = result.album_cover;
+        enable_change_art = data_[idx.row()].original_.is_collection_song();
       }
     }
     else {
@@ -831,7 +838,8 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     tags_cover_art_id_ = -1;
     album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
     album_cover_choice_controller_->cover_to_file_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
-    album_cover_choice_controller_->delete_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
+    album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
+
   }
   else if (id == summary_cover_art_id_) {
     if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset) {

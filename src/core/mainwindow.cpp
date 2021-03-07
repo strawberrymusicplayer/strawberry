@@ -1314,7 +1314,7 @@ void MainWindow::SongChanged(const Song &song) {
 
   SendNowPlaying();
 
-  const bool enable_cover_options = song.url().isLocalFile() && !song.effective_albumartist().isEmpty() && !song.album().isEmpty();
+  const bool enable_cover_options = song.is_collection_song() && !song.effective_albumartist().isEmpty() && !song.album().isEmpty();
   album_cover_choice_controller_->cover_from_file_action()->setEnabled(enable_cover_options);
   album_cover_choice_controller_->cover_from_url_action()->setEnabled(enable_cover_options);
   album_cover_choice_controller_->search_for_cover_action()->setEnabled(enable_cover_options);
