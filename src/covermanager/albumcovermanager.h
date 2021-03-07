@@ -141,7 +141,6 @@ class AlbumCoverManager : public QMainWindow {
   SongList GetSongsInAlbums(const QModelIndexList &indexes) const;
   SongMimeData *GetMimeDataForAlbums(const QModelIndexList &indexes) const;
 
-  QImage GenerateNoCoverImage(const QImage &image) const;
   bool ItemHasCover(const AlbumItem &item) const;
 
  signals:

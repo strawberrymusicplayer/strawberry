@@ -1049,22 +1049,6 @@ void AlbumCoverManager::UpdateExportStatus(const int exported, const int skipped
 
 }
 
-QImage AlbumCoverManager::GenerateNoCoverImage(const QImage &image) const {
-
-  // Get a square version of the nocover image with some transparency:
-  QImage image_scaled = image.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-  QImage image_square(120, 120, QImage::Format_ARGB32);
-  image_square.fill(0);
-  QPainter p(&image_square);
-  p.setOpacity(0.4);
-  p.drawImage((120 - image_scaled.width()) / 2, (120 - image_scaled.height()) / 2, image_scaled);
-  p.end();
-
-  return image_square;
-
-}
-
 bool AlbumCoverManager::ItemHasCover(const AlbumItem &item) const {
   return item.icon().cacheKey() != icon_nocover_item_.cacheKey();
 }
