@@ -186,6 +186,7 @@ AlbumCoverImageResult AlbumCoverChoiceController::LoadImageFromFile(Song *song) 
     if (!result.image_data.isEmpty()) {
       result.mime_type = Utilities::MimeTypeFromData(result.image_data);
       result.image.loadFromData(result.image_data);
+      result.cover_url = QUrl::fromLocalFile(cover_file);
     }
   }
 

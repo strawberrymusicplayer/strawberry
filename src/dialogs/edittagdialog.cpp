@@ -634,7 +634,7 @@ void EditTagDialog::SelectionChanged() {
 
   const bool enable_change_art = first_song.is_collection_song();
   ui_->tags_art_button->setEnabled(enable_change_art);
-  if (art_different || action_different) {
+  if ((art_different && first_cover_action != UpdateCoverAction_New) || action_different) {
     tags_cover_art_id_ = -1; // Cancels any pending art load.
     ui_->tags_art->clear();
     ui_->tags_art->setText(kArtDifferentHintText);
@@ -657,7 +657,7 @@ void EditTagDialog::SelectionChanged() {
     album_cover_choice_controller_->search_for_cover_action()->setEnabled(app_->cover_providers()->HasAnyProviders() && enable_change_art);
     album_cover_choice_controller_->unset_cover_action()->setEnabled(enable_change_art && !first_song.has_manually_unset_cover());
     album_cover_choice_controller_->clear_cover_action()->setEnabled(enable_change_art && !first_song.art_manual().isEmpty());
-    album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && !first_song.art_manual().isEmpty());
+    album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && first_song.has_valid_art() && !first_song.has_manually_unset_cover());
     if (data_[indexes.first().row()].cover_action_ == UpdateCoverAction_None) {
       tags_cover_art_id_ = app_->album_cover_loader()->LoadImageAsync(cover_options_, first_song);
     }
@@ -1095,13 +1095,18 @@ void EditTagDialog::SaveData() {
           if ((!ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) &&
               (!ui_->checkbox_embedded_cover->isChecked() || !ref.original_.save_embedded_cover_supported())) {
             QUrl cover_url;
-            QString cover_hash = Utilities::Sha1CoverHash(ref.current_.effective_albumartist(), ref.current_.album()).toHex();
-            if (cover_urls.contains(cover_hash)) {
-              cover_url = cover_urls[cover_hash];
+            if (!ref.cover_result_.cover_url.isEmpty() && ref.cover_result_.cover_url.isLocalFile() && QFile::exists(ref.cover_result_.cover_url.toLocalFile())) {
+              cover_url = ref.cover_result_.cover_url;
             }
             else {
-              cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(&ref.current_, ref.cover_result_);
-              cover_urls.insert(cover_hash, cover_url);
+              QString cover_hash = Utilities::Sha1CoverHash(ref.current_.effective_albumartist(), ref.current_.album()).toHex();
+              if (cover_urls.contains(cover_hash)) {
+                cover_url = cover_urls[cover_hash];
+              }
+              else {
+                cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(&ref.current_, ref.cover_result_);
+                cover_urls.insert(cover_hash, cover_url);
+              }
             }
             ref.current_.set_art_manual(cover_url);
           }
