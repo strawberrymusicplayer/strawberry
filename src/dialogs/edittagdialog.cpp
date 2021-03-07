@@ -308,7 +308,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
           cover_menu_->popup(mouse_event->globalPosition().toPoint());
 #else
-          cover_menu_->popup(static_cast<QMouseEvent*>(e)->globalPos());
+          cover_menu_->popup(mouse_event->globalPos());
 #endif
         }
         break;
