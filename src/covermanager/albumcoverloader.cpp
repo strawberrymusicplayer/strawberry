@@ -595,7 +595,8 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString song_fil
 
   TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(song_filename, image_data);
   tagreader_save_embedded_art_requests_.insert(id, reply);
-  QObject::connect(reply, &TagReaderReply::Finished, this, [this, id, reply]() { SaveEmbeddedArtFinished(id, reply); }, Qt::QueuedConnection);
+  const bool clear = image_data.isEmpty();
+  QObject::connect(reply, &TagReaderReply::Finished, this, [this, id, reply, clear]() { SaveEmbeddedArtFinished(id, reply, clear); }, Qt::QueuedConnection);
 
 }
 
@@ -620,7 +621,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString song_fil
   QFile file(cover_filename);
 
   if (file.size() >= 209715200 || !file.open(QIODevice::ReadOnly)) { // Max 200 MB.
-    emit SaveEmbeddedCoverAsyncFinished(id, false);
+    emit SaveEmbeddedCoverAsyncFinished(id, false, false);
     return;
   }
 
@@ -652,7 +653,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls
     }
   }
 
-  emit SaveEmbeddedCoverAsyncFinished(id, false);
+  emit SaveEmbeddedCoverAsyncFinished(id, false, image.isNull());
 
 }
 
@@ -661,7 +662,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls
   QFile file(cover_filename);
 
   if (file.size() >= 209715200 || !file.open(QIODevice::ReadOnly)) { // Max 200 MB.
-    emit SaveEmbeddedCoverAsyncFinished(id, false);
+    emit SaveEmbeddedCoverAsyncFinished(id, false, false);
     return;
   }
 
@@ -679,14 +680,14 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls
 
 }
 
-void AlbumCoverLoader::SaveEmbeddedArtFinished(const qint64 id, TagReaderReply *reply) {
+void AlbumCoverLoader::SaveEmbeddedArtFinished(const qint64 id, TagReaderReply *reply, const bool cleared) {
 
   if (tagreader_save_embedded_art_requests_.contains(id)) {
     tagreader_save_embedded_art_requests_.remove(id, reply);
   }
 
   if (!tagreader_save_embedded_art_requests_.contains(id)) {
-    emit SaveEmbeddedCoverAsyncFinished(id, reply->is_successful());
+    emit SaveEmbeddedCoverAsyncFinished(id, reply->is_successful(), cleared);
   }
 
   metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);

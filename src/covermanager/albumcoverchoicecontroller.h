@@ -116,7 +116,7 @@ class AlbumCoverChoiceController : public QWidget {
   AlbumCoverImageResult SearchForImage(Song *song);
 
   // Returns a path which indicates that the cover has been unset manually.
-  QUrl UnsetCover(Song *song);
+  QUrl UnsetCover(Song *song, const bool clear_art_automatic = false);
 
   // Clears any album cover art associated with the song.
   void ClearCover(Song *song, const bool clear_art_automatic = false);
@@ -154,7 +154,7 @@ class AlbumCoverChoiceController : public QWidget {
 
  private slots:
   void AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics);
-  void SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success);
+  void SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success, const bool cleared);
 
  signals:
   void AutomaticCoverSearchDone();

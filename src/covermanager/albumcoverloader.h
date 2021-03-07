@@ -91,7 +91,7 @@ class AlbumCoverLoader : public QObject {
  signals:
   void ExitFinished();
   void AlbumCoverLoaded(quint64 id, AlbumCoverLoaderResult result);
-  void SaveEmbeddedCoverAsyncFinished(quint64 id, bool success);
+  void SaveEmbeddedCoverAsyncFinished(quint64 id, bool success, bool cleared);
 
  protected slots:
   void Exit();
@@ -105,7 +105,7 @@ class AlbumCoverLoader : public QObject {
   void SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls, const QString &cover_filename);
   void SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls, const QByteArray &image_data);
 
-  void SaveEmbeddedArtFinished(const qint64 id, TagReaderReply *reply);
+  void SaveEmbeddedArtFinished(const qint64 id, TagReaderReply *reply, const bool cleared);
 
  protected:
 

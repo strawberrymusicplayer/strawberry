@@ -336,12 +336,12 @@ AlbumCoverImageResult AlbumCoverChoiceController::SearchForImage(Song *song) {
 
 }
 
-QUrl AlbumCoverChoiceController::UnsetCover(Song *song) {
+QUrl AlbumCoverChoiceController::UnsetCover(Song *song, const bool clear_art_automatic) {
 
   if (!song->url().isLocalFile() || song->effective_albumartist().isEmpty() || song->album().isEmpty()) return QUrl();
 
   QUrl cover_url = QUrl::fromLocalFile(Song::kManuallyUnsetCover);
-  SaveArtManualToSong(song, cover_url);
+  SaveArtManualToSong(song, cover_url, clear_art_automatic);
 
   return cover_url;
 
@@ -352,6 +352,7 @@ void AlbumCoverChoiceController::ClearCover(Song *song, const bool clear_art_aut
   if (!song->url().isLocalFile() || song->effective_albumartist().isEmpty() || song->album().isEmpty()) return;
 
   song->clear_art_manual();
+  if (clear_art_automatic) song->clear_art_automatic();
   SaveArtManualToSong(song, QUrl(), clear_art_automatic);
 
 }
@@ -400,7 +401,7 @@ bool AlbumCoverChoiceController::DeleteCover(Song *song, const bool manually_uns
   else song->clear_art_manual();
 
   if (success) {
-    if (manually_unset) UnsetCover(song);
+    if (manually_unset) UnsetCover(song, true);
     else ClearCover(song, true);
   }
 
@@ -758,11 +759,14 @@ QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCover
 
 }
 
-void AlbumCoverChoiceController::SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success) {
+void AlbumCoverChoiceController::SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success, const bool cleared) {
 
   if (!cover_save_tasks_.contains(id)) return;
 
   Song song = cover_save_tasks_.take(id);
-  if (success) SaveArtAutomaticToSong(&song, QUrl::fromLocalFile(Song::kEmbeddedCover));
+  if (success) {
+    if (cleared) SaveArtAutomaticToSong(&song, QUrl());
+    else SaveArtAutomaticToSong(&song, QUrl::fromLocalFile(Song::kEmbeddedCover));
+  }
 
 }
