@@ -1142,8 +1142,8 @@ void EditTagDialog::SaveData() {
         }
       }
       if (ui_->checkbox_embedded_cover->isChecked() && ref.original_.save_embedded_cover_supported()) {
-        if (ref.cover_action_ == UpdateCoverAction_New) { // Save JPEG data directly.
-          if (ref.cover_result_.is_jpeg()) {
+        if (ref.cover_action_ == UpdateCoverAction_New) {
+          if (ref.cover_result_.is_jpeg()) { // Save JPEG data directly.
             ++save_art_pending_;
             TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(ref.current_.url().toLocalFile(), ref.cover_result_.image_data);
             QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() {
