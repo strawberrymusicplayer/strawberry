@@ -834,6 +834,10 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     }
     else {
       ui_->tags_art->setPixmap(QPixmap::fromImage(image_no_cover_thumbnail_));
+      for (const QModelIndex &idx : ui_->song_list->selectionModel()->selectedIndexes()) {
+        data_[idx.row()].cover_result_ = AlbumCoverImageResult();
+        enable_change_art = data_[idx.row()].original_.is_collection_song();
+      }
     }
     tags_cover_art_id_ = -1;
     album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
@@ -1071,20 +1075,17 @@ void EditTagDialog::SaveData() {
       QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() { SongSaveTagsComplete(reply, ref.current_.url().toLocalFile(), ref.current_); }, Qt::QueuedConnection);
     }
 
+    QString embedded_cover_from_file;
     // If embedded album cover is selected and it isn't saved to the tags, then save it even if no action was done.
-    if (ui_->checkbox_embedded_cover->isChecked() && ref.cover_action_ == UpdateCoverAction_None && !ref.original_.has_embedded_cover() && ref.original_.save_embedded_cover_supported() &&
-        (
-        (ref.original_.art_automatic().isValid() &&
-        ref.original_.art_automatic().isLocalFile() &&
-        QFile::exists(ref.original_.art_automatic().toLocalFile()))
-        ||
-        (ref.original_.art_manual().isValid() &&
-        ref.original_.art_manual().isLocalFile() &&
-        QFile::exists(ref.original_.art_manual().toLocalFile()))
-        )) {
-      ref.cover_action_ = UpdateCoverAction_New;
-      ref.current_.clear_art_automatic();
-      ref.current_.clear_art_manual();
+    if (ui_->checkbox_embedded_cover->isChecked() && ref.cover_action_ == UpdateCoverAction_None && !ref.original_.has_embedded_cover() && ref.original_.save_embedded_cover_supported()) {
+      if (ref.original_.art_manual().isValid() && ref.original_.art_manual().isLocalFile() && QFile::exists(ref.original_.art_manual().toLocalFile())) {
+        ref.cover_action_ = UpdateCoverAction_New;
+        embedded_cover_from_file = ref.original_.art_manual().toLocalFile();
+      }
+      else if (ref.original_.art_automatic().isValid() && ref.original_.art_automatic().isLocalFile() && QFile::exists(ref.original_.art_automatic().toLocalFile())) {
+        ref.cover_action_ = UpdateCoverAction_New;
+        embedded_cover_from_file = ref.original_.art_automatic().toLocalFile();
+      }
     }
 
     if (ref.cover_action_ != UpdateCoverAction_None) {
@@ -1141,16 +1142,16 @@ void EditTagDialog::SaveData() {
         }
       }
       if (ui_->checkbox_embedded_cover->isChecked() && ref.original_.save_embedded_cover_supported()) {
-        if (ref.cover_action_ != UpdateCoverAction_Clear && ref.cover_action_ != UpdateCoverAction_Unset) {
-          ++save_art_pending_;
-          if (ref.cover_action_ == UpdateCoverAction_Delete && ref.cover_result_.is_valid()) ref.cover_result_ = AlbumCoverImageResult();
-          if (ref.cover_result_.is_jpeg() || ref.cover_result_.image_data.isNull()) {
+        if (ref.cover_action_ == UpdateCoverAction_New) { // Save JPEG data directly.
+          if (ref.cover_result_.is_jpeg()) {
+            ++save_art_pending_;
             TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(ref.current_.url().toLocalFile(), ref.cover_result_.image_data);
             QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() {
               SongSaveArtComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_);
             }, Qt::QueuedConnection);
           }
-          else {
+          else if (!ref.cover_result_.image.isNull()) { // Convert image data to JPEG.
+            ++save_art_pending_;
             QFuture<QByteArray> future = QtConcurrent::run(&ImageUtils::SaveImageToJpegData, ref.cover_result_.image);
             QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>();
             watcher->setFuture(future);
@@ -1162,6 +1163,26 @@ void EditTagDialog::SaveData() {
               watcher->deleteLater();
             });
           }
+          else if (!embedded_cover_from_file.isEmpty()) { // Save existing file on disk as embedded cover.
+            ++save_art_pending_;
+            QFuture<QByteArray> future = QtConcurrent::run(&ImageUtils::FileToJpegData, embedded_cover_from_file);
+            QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>();
+            watcher->setFuture(future);
+            QObject::connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [=]() {
+              TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(ref.current_.url().toLocalFile(), watcher->result());
+              QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() {
+                SongSaveArtComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_);
+              }, Qt::QueuedConnection);
+              watcher->deleteLater();
+            });
+          }
+        }
+        else if (ref.cover_action_ == UpdateCoverAction_Delete) {
+          ++save_art_pending_;
+          TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(ref.current_.url().toLocalFile(), QByteArray());
+          QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() {
+            SongSaveArtComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_);
+          }, Qt::QueuedConnection);
         }
       }
       else if (!ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) {

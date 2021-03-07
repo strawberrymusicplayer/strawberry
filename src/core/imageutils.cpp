@@ -122,6 +122,25 @@ QByteArray ImageUtils::SaveImageToJpegData(const QImage &image) {
 
 }
 
+QByteArray ImageUtils::FileToJpegData(const QString &filename) {
+
+  if (filename.isEmpty()) return QByteArray();
+
+  QByteArray image_data = Utilities::ReadDataFromFile(filename);
+  if (Utilities::MimeTypeFromData(image_data) == "image/jpeg") return image_data;
+  else {
+    QImage image;
+    if (image.loadFromData(image_data)) {
+      if (!image.isNull()) {
+        image_data = SaveImageToJpegData(image);
+      }
+    }
+  }
+
+  return image_data;
+
+}
+
 QImage ImageUtils::ScaleAndPad(const QImage &image, const bool scale, const bool pad, const int desired_height) {
 
   if (image.isNull()) return image;
