@@ -119,10 +119,10 @@ class AlbumCoverChoiceController : public QWidget {
   QUrl UnsetCover(Song *song);
 
   // Clears any album cover art associated with the song.
-  void ClearCover(Song *song);
+  void ClearCover(Song *song, const bool clear_art_automatic = false);
 
   // Physically deletes associated album covers from disk.
-  bool DeleteCover(Song *song);
+  bool DeleteCover(Song *song, const bool manually_unset = false);
 
   // Shows the cover of given song in it's original size.
   void ShowCover(const Song &song, const QImage &image = QImage());

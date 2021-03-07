@@ -347,16 +347,16 @@ QUrl AlbumCoverChoiceController::UnsetCover(Song *song) {
 
 }
 
-void AlbumCoverChoiceController::ClearCover(Song *song) {
+void AlbumCoverChoiceController::ClearCover(Song *song, const bool clear_art_automatic) {
 
   if (!song->url().isLocalFile() || song->effective_albumartist().isEmpty() || song->album().isEmpty()) return;
 
   song->clear_art_manual();
-  SaveArtManualToSong(song, QUrl());
+  SaveArtManualToSong(song, QUrl(), clear_art_automatic);
 
 }
 
-bool AlbumCoverChoiceController::DeleteCover(Song *song) {
+bool AlbumCoverChoiceController::DeleteCover(Song *song, const bool manually_unset) {
 
   if (!song->url().isLocalFile() || song->effective_albumartist().isEmpty() || song->album().isEmpty()) return false;
 
@@ -399,7 +399,10 @@ bool AlbumCoverChoiceController::DeleteCover(Song *song) {
   }
   else song->clear_art_manual();
 
-  if (success) UnsetCover(song);
+  if (success) {
+    if (manually_unset) UnsetCover(song);
+    else ClearCover(song, true);
+  }
 
   return success;
 

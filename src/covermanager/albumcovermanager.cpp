@@ -595,10 +595,18 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
     if (context_menu_items_.isEmpty()) return false;
 
     bool some_with_covers = false;
+    bool some_unset = false;
+    bool some_clear = false;
 
     for (QListWidgetItem *item : context_menu_items_) {
       AlbumItem *album_item = static_cast<AlbumItem*>(item);
       if (ItemHasCover(*album_item)) some_with_covers = true;
+      if (album_item->data(Role_PathManual).toUrl().path() == Song::kManuallyUnsetCover) {
+        some_unset = true;
+      }
+      else if (album_item->data(Role_PathAutomatic).toUrl().isEmpty() && album_item->data(Role_PathManual).toUrl().isEmpty()) {
+        some_clear = true;
+      }
     }
 
     album_cover_choice_controller_->show_cover_action()->setEnabled(some_with_covers && context_menu_items_.size() == 1);
@@ -606,8 +614,8 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
     album_cover_choice_controller_->cover_from_file_action()->setEnabled(context_menu_items_.size() == 1);
     album_cover_choice_controller_->cover_from_url_action()->setEnabled(context_menu_items_.size() == 1);
     album_cover_choice_controller_->search_for_cover_action()->setEnabled(app_->cover_providers()->HasAnyProviders());
-    album_cover_choice_controller_->unset_cover_action()->setEnabled(some_with_covers);
-    album_cover_choice_controller_->clear_cover_action()->setEnabled(some_with_covers);
+    album_cover_choice_controller_->unset_cover_action()->setEnabled(some_with_covers || some_clear);
+    album_cover_choice_controller_->clear_cover_action()->setEnabled(some_with_covers || some_unset);
     album_cover_choice_controller_->delete_cover_action()->setEnabled(some_with_covers);
 
     QContextMenuEvent *context_menu_event = static_cast<QContextMenuEvent*>(e);
@@ -862,24 +870,13 @@ void AlbumCoverManager::ClearCover() {
 
 void AlbumCoverManager::DeleteCover() {
 
-  Song song = GetFirstSelectedAsSong();
-  if (!song.is_valid()) return;
-
-  AlbumItem *first_album_item = static_cast<AlbumItem*>(context_menu_items_[0]);
-
-  album_cover_choice_controller_->DeleteCover(&song);
-
-  // Force the 'none' cover on all of the selected items
   for (QListWidgetItem *item : context_menu_items_) {
     AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    Song song = ItemAsSong(album_item);
+    album_cover_choice_controller_->DeleteCover(&song);
     album_item->setIcon(icon_nocover_item_);
     album_item->setData(Role_PathManual, QUrl());
-
-    // Don't save the first one twice
-    if (album_item != first_album_item) {
-      Song current_song = ItemAsSong(album_item);
-      album_cover_choice_controller_->SaveArtManualToSong(&current_song, QUrl(), true);
-    }
+    album_item->setData(Role_PathAutomatic, QUrl());
   }
 
 }

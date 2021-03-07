@@ -2938,7 +2938,7 @@ void MainWindow::ClearCover() {
 }
 
 void MainWindow::DeleteCover() {
-  album_cover_choice_controller_->DeleteCover(&song_);
+  album_cover_choice_controller_->DeleteCover(&song_, true);
 }
 
 void MainWindow::ShowCover() {
