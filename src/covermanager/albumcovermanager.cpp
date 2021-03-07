@@ -43,6 +43,7 @@
 #include <QStringList>
 #include <QUrl>
 #include <QImage>
+#include <QImageWriter>
 #include <QPixmap>
 #include <QPainter>
 #include <QTimer>
@@ -965,13 +966,23 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, const AlbumCoverImageRe
       quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image_data);
       cover_save_tasks_.insert(id, item);
     }
-    else {
+    else if (!result.image.isNull()) {
       quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image);
+      cover_save_tasks_.insert(id, item);
+    }
+    else if (!result.cover_url.isEmpty() && result.cover_url.isLocalFile()) {
+      quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.cover_url.toLocalFile());
       cover_save_tasks_.insert(id, item);
     }
   }
   else {
-    QUrl cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(Song::Source_Collection, albumartist, album, QString(), urls.first().adjusted(QUrl::RemoveFilename).path(), result, false);
+    QUrl cover_url;
+    if (!result.image_data.isNull() || !result.image.isNull()) {
+      cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(Song::Source_Collection, albumartist, album, QString(), urls.first().adjusted(QUrl::RemoveFilename).path(), result, false);
+    }
+    else if (!result.cover_url.isEmpty() && !result.cover_url.isLocalFile()) {
+      cover_url = result.cover_url;
+    }
 
     if (cover_url.isEmpty()) return;
 
