@@ -1145,11 +1145,11 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartis
   }
 
   // Update the songs
-  QString sql(QString("UPDATE %1 SET art_manual = :cover ").arg(songs_table_));
+  QString sql(QString("UPDATE %1 SET art_manual = :cover").arg(songs_table_));
   if (clear_art_automatic) {
-    sql += "AND art_automatic = '' ";
+    sql += ", art_automatic = ''";
   }
-  sql += "WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0";
+  sql += " WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0";
 
   QSqlQuery q(db);
   q.prepare(sql);
