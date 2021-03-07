@@ -794,7 +794,8 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
   }
 
   if (pb.has_art_automatic()) {
-    set_art_automatic(QUrl::fromLocalFile(QByteArray(pb.art_automatic().data(), pb.art_automatic().size())));
+    QByteArray art_automatic(pb.art_automatic().data(), pb.art_automatic().size());
+    if (!art_automatic.isEmpty()) set_art_automatic(QUrl::fromLocalFile(art_automatic));
   }
 
   InitArtManual();
