@@ -211,6 +211,8 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   ui_->tags_art->installEventFilter(this);
   ui_->tags_art->setAcceptDrops(true);
 
+  ui_->summary_art->installEventFilter(this);
+
   // Add the next/previous buttons
   previous_button_ = new QPushButton(IconLoader::Load("go-previous"), tr("Previous"), this);
   next_button_ = new QPushButton(IconLoader::Load("go-next"), tr("Next"), this);
@@ -300,12 +302,20 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
 
   if (o == ui_->tags_art) {
     switch (e->type()) {
-      case QEvent::MouseButtonRelease:
+      case QEvent::MouseButtonRelease:{
+        QMouseEvent *mouse_event = static_cast<QMouseEvent*>(e);
+        if (mouse_event && mouse_event->button() == Qt::RightButton) {
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
-        cover_menu_->popup(static_cast<QMouseEvent*>(e)->globalPosition().toPoint());
+          cover_menu_->popup(mouse_event->globalPosition().toPoint());
 #else
-        cover_menu_->popup(static_cast<QMouseEvent*>(e)->globalPos());
+          cover_menu_->popup(static_cast<QMouseEvent*>(e)->globalPos());
 #endif
+        }
+        break;
+      }
+
+      case QEvent::MouseButtonDblClick:
+        ShowCover();
         break;
 
       case QEvent::DragEnter: {
@@ -327,6 +337,15 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
         break;
       }
 
+      default:
+        break;
+    }
+  }
+  if (o == ui_->summary_art) {
+    switch (e->type()) {
+      case QEvent::MouseButtonDblClick:
+        ShowCover();
+        break;
       default:
         break;
     }
