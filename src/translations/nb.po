@@ -184,7 +184,7 @@ msgid ""
 "them all?"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:631
+#: dialogs/edittagdialog.cpp:650
 #, qt-format
 msgid "%1 songs selected."
 msgstr ""
@@ -194,7 +194,7 @@ msgstr ""
 msgid "%1 tracks"
 msgstr "%1 spor"
 
-#: covermanager/albumcovermanager.cpp:579
+#: covermanager/albumcovermanager.cpp:572
 #, qt-format
 msgid "%1 transferred"
 msgstr "overført %1"
@@ -514,7 +514,7 @@ msgstr "API Token"
 msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
-#: covermanager/albumcovermanager.cpp:140
+#: covermanager/albumcovermanager.cpp:141
 #: covermanager/albumcoversearcher.cpp:204
 #: ../build/src/ui_internetcollectionviewcontainer.h:141
 msgid "Abort"
@@ -570,7 +570,7 @@ msgstr "Legg til alle filer fra ei mappe og dens undermapper"
 msgid "Add directory..."
 msgstr "Legg til mappe…"
 
-#: core/mainwindow.cpp:2152
+#: core/mainwindow.cpp:2153
 msgid "Add file"
 msgstr "Legg til fil"
 
@@ -586,7 +586,7 @@ msgstr "Legg fil(er) til omkoder"
 msgid "Add files to transcode"
 msgstr "Legg filer til for omkoding"
 
-#: core/mainwindow.cpp:2177 transcoder/transcodedialog.cpp:423
+#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:423
 msgid "Add folder"
 msgstr "Legg til mappe"
 
@@ -696,7 +696,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Legg til albumer"
 
-#: core/mainwindow.cpp:1958
+#: core/mainwindow.cpp:1959
 msgid "Add to another playlist"
 msgstr "Legg til i annen spilleliste"
 
@@ -781,6 +781,10 @@ msgstr "Album - Disc"
 msgid "Album artist"
 msgstr "Album artist"
 
+#: dialogs/edittagdialog.cpp:826
+msgid "Album cover editing is only available for collection songs."
+msgstr ""
+
 #: ../build/src/ui_collectionsettingspage.h:447
 msgid "Album cover pixmap cache"
 msgstr ""
@@ -807,11 +811,11 @@ msgstr "Albumer av artist"
 msgid "Albums search limit"
 msgstr "Album søke begrensning"
 
-#: covermanager/albumcovermanager.cpp:179
+#: covermanager/albumcovermanager.cpp:171
 msgid "Albums with covers"
 msgstr "Album med omslag"
 
-#: covermanager/albumcovermanager.cpp:180
+#: covermanager/albumcovermanager.cpp:172
 msgid "Albums without covers"
 msgstr "Album uten omslag"
 
@@ -819,11 +823,11 @@ msgstr "Album uten omslag"
 msgid "All Files (*)"
 msgstr "Alle filer (*)"
 
-#: covermanager/albumcovermanager.cpp:178
+#: covermanager/albumcovermanager.cpp:170
 msgid "All albums"
 msgstr "Alle album"
 
-#: covermanager/albumcovermanager.cpp:359
+#: covermanager/albumcovermanager.cpp:352
 msgid "All artists"
 msgstr "Alle artister"
 
@@ -861,12 +865,12 @@ msgstr "Alltid start avspilling"
 msgid "An error occurred loading the iTunes database"
 msgstr "En feil oppsto ved innlasting av iTunes-databasen"
 
-#: dialogs/edittagdialog.cpp:1297
+#: dialogs/edittagdialog.cpp:1350
 #, qt-format
 msgid "An error occurred writing cover art to '%1'"
 msgstr ""
 
-#: playlist/playlist.cpp:418 dialogs/edittagdialog.cpp:1274
+#: playlist/playlist.cpp:418 dialogs/edittagdialog.cpp:1327
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Det oppstod en feil når metadata skulle skrives til '%1'"
@@ -919,7 +923,7 @@ msgstr ""
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Er du sikker på at du vil slette \"%1\"-forhåndsinnstillingen?"
 
-#: dialogs/edittagdialog.cpp:1190
+#: dialogs/edittagdialog.cpp:1243
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr ""
 "Er du sikker på at du ønsker å nullstille statistikk for denne sangen?"
@@ -1004,7 +1008,7 @@ msgstr "Automatisk"
 msgid "Automatic updating"
 msgstr "Automatisk oppdatering"
 
-#: dialogs/edittagdialog.cpp:802
+#: dialogs/edittagdialog.cpp:821
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
 msgstr ""
@@ -1237,7 +1241,7 @@ msgstr ""
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2242 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2243 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Tøm spillelisten"
 
@@ -1280,7 +1284,7 @@ msgstr "Lukk"
 msgid "Close playlist"
 msgstr "Lukk spillelista"
 
-#: covermanager/albumcovermanager.cpp:263
+#: covermanager/albumcovermanager.cpp:256
 msgid "Closing this window will stop searching for album covers."
 msgstr "Lukking av dette vinduet vil medføre stopp i søk etter albumomslag."
 
@@ -1301,7 +1305,7 @@ msgstr "Collection Filter"
 msgid "Collection advanced grouping"
 msgstr "Avansert samlingsgruppering"
 
-#: core/mainwindow.cpp:2763
+#: core/mainwindow.cpp:2764
 msgid "Collection rescan notice"
 msgstr "Melding om gjennomsøk av samlingen"
 
@@ -1478,36 +1482,36 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "Behandling av plateomslag"
 
-#: dialogs/edittagdialog.cpp:796
+#: dialogs/edittagdialog.cpp:815
 #, qt-format
 msgid "Cover art automatically loaded from %1"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:793
+#: dialogs/edittagdialog.cpp:812
 msgid "Cover art from embedded image"
 msgstr "Omslaggrafikk fra innebygget bilde"
 
-#: dialogs/edittagdialog.cpp:787
+#: dialogs/edittagdialog.cpp:806
 msgid "Cover art manually unset"
 msgstr "Omslaggrafikk manuelt avskrudd"
 
-#: dialogs/edittagdialog.cpp:784
+#: dialogs/edittagdialog.cpp:803
 msgid "Cover art not set"
 msgstr "Har ikke omslaggrafikk"
 
-#: dialogs/edittagdialog.cpp:768
+#: dialogs/edittagdialog.cpp:787
 msgid "Cover changed: Will be cleared when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:774
+#: dialogs/edittagdialog.cpp:793
 msgid "Cover changed: Will be deleted when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:771
+#: dialogs/edittagdialog.cpp:790
 msgid "Cover changed: Will be unset when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:777
+#: dialogs/edittagdialog.cpp:796
 msgid "Cover changed: Will set new when saved."
 msgstr ""
 
@@ -1700,11 +1704,11 @@ msgstr "Slett de originale filene"
 msgid "Deleting files"
 msgstr "Sletter filer"
 
-#: core/mainwindow.cpp:1875
+#: core/mainwindow.cpp:1876
 msgid "Dequeue selected tracks"
 msgstr "Fjern valgte spor fra avspillingskøen"
 
-#: core/mainwindow.cpp:1874
+#: core/mainwindow.cpp:1875
 msgid "Dequeue track"
 msgstr "Fjern sporet fra avspillingskøen"
 
@@ -1807,7 +1811,7 @@ msgstr "Ikke vis under diverse artister"
 msgid "Don't shuffle"
 msgstr "Ikke stokk"
 
-#: covermanager/albumcovermanager.cpp:264
+#: covermanager/albumcovermanager.cpp:257
 msgid "Don't stop!"
 msgstr "Ikke stopp!"
 
@@ -1853,7 +1857,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1916
+#: core/mainwindow.cpp:1917
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Rediger etiketten \"%1\"…"
@@ -1875,7 +1879,7 @@ msgstr "Rediger spor informasjon…"
 msgid "Edit tracks information..."
 msgstr "Rediger spor informasjon…"
 
-#: dialogs/edittagdialog.cpp:753
+#: dialogs/edittagdialog.cpp:772
 msgid "Embedded"
 msgstr ""
 
@@ -2007,7 +2011,7 @@ msgstr "Tilsvarer --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Tilsvarer --log-levels *:3"
 
-#: core/mainwindow.cpp:2500 core/mainwindow.cpp:2645
+#: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:572
 msgid "Error"
 msgstr "Feil"
@@ -2168,7 +2172,7 @@ msgstr "Hent hele album når en søker etter sanger"
 msgid "Fetching cover error"
 msgstr "Kunne ikke hente albumgrafikk"
 
-#: core/song.cpp:1050
+#: core/song.cpp:1051
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Fil %1 er ikke gjenkjent som en lydfil"
@@ -2378,7 +2382,7 @@ msgstr "Gå til forrige fane på spillelista"
 msgid "Go!"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:573
+#: covermanager/albumcovermanager.cpp:566
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2746,7 +2750,7 @@ msgid "Load cover from URL..."
 msgstr "Hent omslag fra URL…"
 
 #: covermanager/albumcoverchoicecontroller.cpp:177
-#: covermanager/albumcoverchoicecontroller.cpp:200
+#: covermanager/albumcoverchoicecontroller.cpp:201
 msgid "Load cover from disk"
 msgstr "Hent omslag fra disk"
 
@@ -2774,7 +2778,7 @@ msgstr ""
 msgid "Loading songs"
 msgstr "Åpner sanger"
 
-#: playlist/songloaderinserter.cpp:166 dialogs/edittagdialog.cpp:380
+#: playlist/songloaderinserter.cpp:166 dialogs/edittagdialog.cpp:399
 msgid "Loading tracks"
 msgstr "Åpner spor"
 
@@ -2851,12 +2855,12 @@ msgstr "Hovedprofil (MAIN)"
 msgid "Manage saved groupings"
 msgstr "Behandle lagrede grupperinger"
 
-#: dialogs/edittagdialog.cpp:799
+#: dialogs/edittagdialog.cpp:818
 #, qt-format
 msgid "Manually cover art from %1 is missing"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:790
+#: dialogs/edittagdialog.cpp:809
 #, qt-format
 msgid "Manually set cover art from %1"
 msgstr ""
@@ -3033,7 +3037,7 @@ msgstr "Flytt til samling…"
 msgid "Move up"
 msgstr "Flytt oppover"
 
-#: core/mainwindow.cpp:2152 transcoder/transcodedialog.cpp:332
+#: core/mainwindow.cpp:2153 transcoder/transcodedialog.cpp:332
 msgid "Music"
 msgstr "Musikk"
 
@@ -3059,7 +3063,7 @@ msgstr "Smalbånd (SB)"
 msgid "Network Proxy"
 msgstr "Mellomtjener"
 
-#: playlist/playlistdelegates.cpp:344 dialogs/edittagdialog.cpp:814
+#: playlist/playlistdelegates.cpp:344 dialogs/edittagdialog.cpp:838
 msgid "Never"
 msgstr "Aldri"
 
@@ -3078,7 +3082,7 @@ msgstr "Aldri begynn avspilling"
 msgid "New folder"
 msgstr "Ny mappe"
 
-#: core/mainwindow.cpp:1974
+#: core/mainwindow.cpp:1975
 msgid "New playlist"
 msgstr "Ny spilleliste"
 
@@ -3102,7 +3106,7 @@ msgstr ""
 msgid "Newest tracks"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:216 dialogs/trackselectiondialog.cpp:72
+#: dialogs/edittagdialog.cpp:218 dialogs/trackselectiondialog.cpp:72
 msgid "Next"
 msgstr "Neste"
 
@@ -3143,13 +3147,13 @@ msgstr "Ikke korte blokker"
 msgid "No song playing"
 msgstr "Ingen sang spilles"
 
-#: collection/savedgroupingmanager.cpp:80 dialogs/edittagdialog.cpp:740
-#: dialogs/edittagdialog.cpp:750 ../build/src/ui_groupbydialog.h:183
+#: collection/savedgroupingmanager.cpp:80 dialogs/edittagdialog.cpp:759
+#: dialogs/edittagdialog.cpp:769 ../build/src/ui_groupbydialog.h:183
 #: ../build/src/ui_groupbydialog.h:205 ../build/src/ui_groupbydialog.h:227
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2500 core/mainwindow.cpp:2645
+#: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:572
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
@@ -3363,7 +3367,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1269 core/mainwindow.cpp:1770
+#: core/mainwindow.cpp:1268 core/mainwindow.cpp:1771
 #: core/qtsystemtrayicon.cpp:193
 msgid "Pause"
 msgstr "Pause"
@@ -3391,8 +3395,8 @@ msgstr "Piksel"
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
-#: core/mainwindow.cpp:678 core/mainwindow.cpp:1222 core/mainwindow.cpp:1251
-#: core/mainwindow.cpp:1774 core/qtsystemtrayicon.cpp:180
+#: core/mainwindow.cpp:678 core/mainwindow.cpp:1221 core/mainwindow.cpp:1250
+#: core/mainwindow.cpp:1775 core/qtsystemtrayicon.cpp:180
 #: core/qtsystemtrayicon.cpp:205
 msgid "Play"
 msgstr "Spill"
@@ -3459,7 +3463,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Spillelisten er ferdigspilt"
 
-#: core/mainwindow.cpp:2242
+#: core/mainwindow.cpp:2243
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3576,7 +3580,7 @@ msgstr "Pene skjermbildeoverleggsvalg"
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
-#: dialogs/edittagdialog.cpp:215 dialogs/trackselectiondialog.cpp:71
+#: dialogs/edittagdialog.cpp:217 dialogs/trackselectiondialog.cpp:71
 msgid "Previous"
 msgstr "Forrige"
 
@@ -3627,20 +3631,20 @@ msgstr "Spør enhet…"
 msgid "Queue"
 msgstr "Kø"
 
-#: core/mainwindow.cpp:1877
+#: core/mainwindow.cpp:1878
 msgid "Queue selected tracks"
 msgstr "Legg valgte spor i kø"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1881
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1882
 msgid "Queue selected tracks to play next"
 msgstr "Legg valgte spor i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1883 collection/collectionview.cpp:347
+#: core/mainwindow.cpp:1884 collection/collectionview.cpp:347
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Legg i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1876 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1877 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:346
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
@@ -3667,7 +3671,7 @@ msgstr ""
 msgid "Re&lative"
 msgstr "Relativ"
 
-#: covermanager/albumcovermanager.cpp:263
+#: covermanager/albumcovermanager.cpp:256
 msgid "Really cancel?"
 msgstr "Vil du virkelig avbryte?"
 
@@ -3847,7 +3851,7 @@ msgstr ""
 msgid "Reset"
 msgstr "Tilbakestill"
 
-#: dialogs/edittagdialog.cpp:1190 ../build/src/ui_edittagdialog.h:813
+#: dialogs/edittagdialog.cpp:1243 ../build/src/ui_edittagdialog.h:813
 msgid "Reset play counts"
 msgstr "Tilbakestill avspillingsteller"
 
@@ -3968,7 +3972,7 @@ msgstr "Samplingsrate"
 msgid "Save &playlist..."
 msgstr "Lagre &spilleliste..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:238
+#: covermanager/albumcoverchoicecontroller.cpp:239
 msgid "Save album cover"
 msgstr "Lagre albumomslag"
 
@@ -4022,7 +4026,7 @@ msgstr "Behandler for lagrede grupperinger"
 msgid "Saving album covers"
 msgstr "Lagrer album kover"
 
-#: dialogs/edittagdialog.cpp:293 dialogs/trackselectiondialog.cpp:290
+#: dialogs/edittagdialog.cpp:295 dialogs/trackselectiondialog.cpp:290
 msgid "Saving tracks"
 msgstr "Lagrer spor"
 
@@ -4155,7 +4159,7 @@ msgstr "Server URL er ugyldig."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1915
+#: core/mainwindow.cpp:1916
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Sett %1 til \"%2\"…"
@@ -4388,11 +4392,11 @@ msgstr "Antall ganger hoppet over"
 msgid "Skip forwards in playlist"
 msgstr "Gå fremover i spillelista"
 
-#: core/mainwindow.cpp:1888
+#: core/mainwindow.cpp:1889
 msgid "Skip selected tracks"
 msgstr "Hopp over valgte spor"
 
-#: core/mainwindow.cpp:1887
+#: core/mainwindow.cpp:1888
 msgid "Skip track"
 msgstr "Hopp over spor"
 
@@ -4726,7 +4730,7 @@ msgstr "Siden du forespurte finnes ikke!"
 msgid "The site you requested is not an image!"
 msgstr "Siden du forespurte er ikke et bilde!"
 
-#: core/mainwindow.cpp:2758
+#: core/mainwindow.cpp:2759
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4855,7 +4859,7 @@ msgstr "Tittel"
 msgid "Today"
 msgstr "I dag"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1878
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1879
 msgid "Toggle queue status"
 msgstr "Slå av/på køstatus"
 
@@ -4863,7 +4867,7 @@ msgstr "Slå av/på køstatus"
 msgid "Toggle scrobbling"
 msgstr "Slå av/på deling av lyttevaner"
 
-#: core/mainwindow.cpp:687 core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:687 core/mainwindow.cpp:1890
 msgid "Toggle skip status"
 msgstr "Slå av/på hopp over status"
 
@@ -4948,7 +4952,7 @@ msgstr ""
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1599
 #: collection/savedgroupingmanager.cpp:144 playlist/playlistdelegates.cpp:357
 #: playlist/playlistmanager.cpp:570 playlist/playlistmanager.cpp:571
-#: dialogs/edittagdialog.cpp:695 dialogs/edittagdialog.cpp:722
+#: dialogs/edittagdialog.cpp:714 dialogs/edittagdialog.cpp:741
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "Ukjent"
@@ -4958,7 +4962,7 @@ msgstr "Ukjent"
 msgid "Unknown error"
 msgstr "Ukjent feil"
 
-#: dialogs/edittagdialog.cpp:743
+#: dialogs/edittagdialog.cpp:762
 msgid "Unset"
 msgstr ""
 
@@ -4966,11 +4970,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Fjern omslagsvalg"
 
-#: core/mainwindow.cpp:1886
+#: core/mainwindow.cpp:1887
 msgid "Unskip selected tracks"
 msgstr "Ikke hopp over de valgte sporene"
 
-#: core/mainwindow.cpp:1885
+#: core/mainwindow.cpp:1886
 msgid "Unskip track"
 msgstr "Ikke hopp over sporet"
 
@@ -5118,7 +5122,7 @@ msgid "Variable bit rate"
 msgstr "Variabel bitrate"
 
 #: collection/collectionmodel.cpp:299 collection/collectionmodel.cpp:300
-#: playlist/playlistmanager.cpp:582 covermanager/albumcovermanager.cpp:360
+#: playlist/playlistmanager.cpp:582 covermanager/albumcovermanager.cpp:353
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Diverse artister"
@@ -5200,7 +5204,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2762
+#: core/mainwindow.cpp:2763
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 
@@ -5411,7 +5415,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:545 context/contextview.cpp:696
-#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:717
+#: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:736
 msgid "kbps"
 msgstr "kbps"
 
@@ -5513,6 +5517,6 @@ msgstr "stopp"
 msgid "track %1"
 msgstr "spor %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:233
+#: covermanager/albumcoverchoicecontroller.cpp:234
 msgid "unknown"
 msgstr "ukjent"
