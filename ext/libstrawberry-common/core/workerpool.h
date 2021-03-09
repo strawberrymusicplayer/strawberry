@@ -292,7 +292,11 @@ void WorkerPool<HandlerType>::StartOneWorker(Worker *worker) {
   qLog(Debug) << "Starting worker" << worker << executable_path_ << worker->local_server_->fullServerName();
 
   // Start the process
+#if defined(Q_OS_WIN32) && defined(QT_NO_DEBUG_OUTPUT) && !defined(ENABLE_WIN32_CONSOLE)
+  worker->process_->setProcessChannelMode(QProcess::SeparateChannels);
+#else
   worker->process_->setProcessChannelMode(QProcess::ForwardedChannels);
+#endif
   worker->process_->start(executable_path_, QStringList() << worker->local_server_->fullServerName());
 
 }

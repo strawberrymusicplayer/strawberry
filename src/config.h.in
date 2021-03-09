@@ -67,4 +67,6 @@
 #cmakedefine HAVE_WINEXTRAS
 #cmakedefine HAVE_QPA_QPLATFORMNATIVEINTERFACE_H
 
+#cmakedefine ENABLE_WIN32_CONSOLE
+
 #endif // CONFIG_H_IN
