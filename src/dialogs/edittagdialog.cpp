@@ -109,7 +109,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       tag_fetcher_(new TagFetcher(this)),
       results_dialog_(new TrackSelectionDialog(this)),
 #endif
-      image_no_cover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(120, 120))),
+      image_no_cover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(128, 128))),
       loading_(false),
       ignore_edits_(false),
       summary_cover_art_id_(-1),
@@ -245,6 +245,11 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   new TagCompleter(app_->collection_backend(), Playlist::Column_Composer, ui_->composer);
   new TagCompleter(app_->collection_backend(), Playlist::Column_Performer, ui_->performer);
   new TagCompleter(app_->collection_backend(), Playlist::Column_Grouping, ui_->grouping);
+
+  cover_options_.get_image_data_ = true;
+  cover_options_.get_image_ = true;
+  cover_options_.scale_output_image_ = true;
+  cover_options_.desired_height_ = 128;
 
 }
 
