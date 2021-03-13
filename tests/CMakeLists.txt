@@ -1,16 +1,5 @@
 enable_testing()
 
-if(BUILD_WITH_QT6)
-  find_package(Qt6 COMPONENTS Test REQUIRED)
-  set(QtTest_LIBRARIES Qt6::Test)
-else()
-  find_package(Qt5 ${QT_MIN_VERSION} COMPONENTS Test REQUIRED)
-  set(QtTest_LIBRARIES ${Qt5Test_LIBRARIES})
-endif()
-
-find_package(GTest REQUIRED)
-find_library(GMOCK_LIBRARY gmock REQUIRED)
-
 add_definitions(-DGTEST_USE_OWN_TR1_TUPLE=1)
 
 set(TESTUTILS-SOURCES
