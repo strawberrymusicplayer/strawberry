@@ -17,6 +17,7 @@ Unreleased:
     * Fix save album cover when album directory and no overwrite is used for saving covers.
     * Fix right click save cover action when album has embedded cover.
     * Fix temporary art saved to /tmp.
+    * Fix playlist bitrate sometimes stuck when changing track to previous.
     * (macOS) Fix minor compile errors with Qt 6.
     * (macOS) Fix exclusively grabbing global media shortcuts.
 
