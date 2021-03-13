@@ -9,7 +9,7 @@ ChangeLog
     * Fix overwriting existing newer last played when importing last played from last.fm.
     * Fix memory leak on song change when moodbar is disabled.
     * Fix playlist filter search for text with spaces with Qt 6.
-    * Fix 'Except between tracks on the same album' backend fade option always greyed out.
+    * Fix 'Except between tracks on the same album' backend fade option always grayed out.
     * Fix read and save vorbis comment grouping tag.
     * Fix QAtomicInteger compile error on armv.
     * Fix compile error with protobuf 3.15.0 and newer.
@@ -31,6 +31,7 @@ ChangeLog
     * Add right click actions to clear set cover, and option delete covers.
     * Show artist and album underneath the albums in the cover manager when all Artists is selected.
     * Disable unavailable right click cover actions.
+    * Remove 3rdparty TagLib now that TagLib 1.12 is available.
     * (macOS) Update and improve build deployment/bundling for Qt 6.
 
   New features:
