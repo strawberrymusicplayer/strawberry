@@ -73,10 +73,6 @@
 #include "playlist/playlist.h"
 #include "playlistdelegates.h"
 
-#ifdef Q_OS_MACOS
-#include "core/mac_utilities.h"
-#endif  // Q_OS_MACOS
-
 const int QueuedItemDelegate::kQueueBoxBorder = 1;
 const int QueuedItemDelegate::kQueueBoxCornerRadius = 3;
 const int QueuedItemDelegate::kQueueBoxLength = 30;
