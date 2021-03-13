@@ -207,7 +207,6 @@ if(Qt${QT_MAJOR_VERSION}WinExtras_FOUND)
 endif()
 if(Qt${QT_MAJOR_VERSION}Test_FOUND)
   set(QtTest_LIBRARIES Qt${QT_MAJOR_VERSION}::Test)
-  list(APPEND QT_LIBRARIES ${QtTest_LIBRARIES})
 endif()
 
 find_package(Qt${QT_MAJOR_VERSION} QUIET COMPONENTS LinguistTools CONFIG)
