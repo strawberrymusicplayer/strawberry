@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+0.9.1:
 
   Bugfixes:
     * Fix duplicating songs in the DB when organizing songs between 2 different collection directories.
