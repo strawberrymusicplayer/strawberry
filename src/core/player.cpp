@@ -666,24 +666,26 @@ void Player::SeekBackward() {
 
 void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
 
-  PlaylistItemPtr item = app_->playlist_manager()->active()->current_item();
-  if (!item) return;
-
-  if (bundle.url == item->Url()) {
-    Song song = item->Metadata();
-    bool minor = song.MergeFromSimpleMetaBundle(bundle);
-    app_->playlist_manager()->active()->SetStreamMetadata(item->Url(), song, minor);
-    return;
+  if (bundle.type == Engine::SimpleMetaBundle::Type_Any || bundle.type == Engine::SimpleMetaBundle::Type_Current) {
+    PlaylistItemPtr item = app_->playlist_manager()->active()->current_item();
+    if (item && bundle.url == item->Url()) {
+      Song song = item->Metadata();
+      bool minor = song.MergeFromSimpleMetaBundle(bundle);
+      app_->playlist_manager()->active()->SetStreamMetadata(item->Url(), song, minor);
+      return;
+    }
   }
 
-  int next_row = app_->playlist_manager()->active()->next_row();
-  if (next_row != -1) {
-    PlaylistItemPtr next_item = app_->playlist_manager()->active()->item_at(next_row);
-    if (bundle.url == next_item->Url()) {
-      Song song = next_item->Metadata();
-      song.MergeFromSimpleMetaBundle(bundle);
-      next_item->SetTemporaryMetadata(song);
-      app_->playlist_manager()->active()->ItemChanged(next_row);
+  if (bundle.type == Engine::SimpleMetaBundle::Type_Any || bundle.type == Engine::SimpleMetaBundle::Type_Next) {
+    int next_row = app_->playlist_manager()->active()->next_row();
+    if (next_row != -1) {
+      PlaylistItemPtr next_item = app_->playlist_manager()->active()->item_at(next_row);
+      if (bundle.url == next_item->Url()) {
+        Song song = next_item->Metadata();
+        song.MergeFromSimpleMetaBundle(bundle);
+        next_item->SetTemporaryMetadata(song);
+        app_->playlist_manager()->active()->ItemChanged(next_row);
+      }
     }
   }
 

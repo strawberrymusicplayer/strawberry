@@ -930,9 +930,11 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
 
     Engine::SimpleMetaBundle bundle;
     if (discovered_url == instance->current_pipeline_->stream_url()) {
+      bundle.type = Engine::SimpleMetaBundle::Type_Current;
       bundle.url = instance->current_pipeline_->original_url();
     }
     else if (discovered_url == instance->current_pipeline_->next_stream_url()) {
+      bundle.type = Engine::SimpleMetaBundle::Type_Next;
       bundle.url = instance->current_pipeline_->next_original_url();
     }
     bundle.stream_url = QUrl(discovered_url);

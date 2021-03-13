@@ -52,11 +52,10 @@ typedef std::vector<int16_t> Scope;
 class Base : public QObject {
   Q_OBJECT
 
-protected:
+ protected:
   Base();
 
-public:
-
+ public:
   ~Base() override;
 
   struct OutputDetails {
@@ -213,7 +212,13 @@ public:
 };
 
 struct SimpleMetaBundle {
-  SimpleMetaBundle() : length(-1), year(-1), track(-1), filetype(Song::FileType_Unknown), samplerate(-1), bitdepth(-1), bitrate(-1) {}
+  SimpleMetaBundle() : type(Type_Any), length(-1), year(-1), track(-1), filetype(Song::FileType_Unknown), samplerate(-1), bitdepth(-1), bitrate(-1) {}
+  enum Type {
+    Type_Any,
+    Type_Current,
+    Type_Next,
+  };
+  Type type;
   QUrl url;
   QUrl stream_url;
   QString title;
