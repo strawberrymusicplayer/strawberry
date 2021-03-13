@@ -189,8 +189,7 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, const qui
   }
   obj_lyrics = obj_lyrics["lyrics"].toObject();
 
-  if (!obj_lyrics.contains("body")) {
-    Error("Json lyrics is missing body.", obj_lyrics);
+  if (obj_lyrics.isEmpty() || !obj_lyrics.contains("body")) {
     emit SearchFinished(id, results);
   }
 
