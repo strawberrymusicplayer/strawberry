@@ -597,7 +597,13 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool u
   }
   transaction.Commit();
 
-  emit SongsDeleted(songs);
+  if (unavailable) {
+    emit SongsDeleted(songs);
+  }
+  else {
+    emit SongsDiscovered(songs);
+  }
+
   UpdateTotalSongCountAsync();
   UpdateTotalArtistCountAsync();
   UpdateTotalAlbumCountAsync();
