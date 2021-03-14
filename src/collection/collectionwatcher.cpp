@@ -110,6 +110,44 @@ void CollectionWatcher::Exit() {
 
 }
 
+void CollectionWatcher::ReloadSettingsAsync() {
+
+  QMetaObject::invokeMethod(this, "ReloadSettings", Qt::QueuedConnection);
+
+}
+
+void CollectionWatcher::ReloadSettings() {
+
+  const bool was_monitoring_before = monitor_;
+  QSettings s;
+  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
+  scan_on_startup_ = s.value("startup_scan", true).toBool();
+  monitor_ = s.value("monitor", true).toBool();
+  mark_songs_unavailable_ = s.value("mark_songs_unavailable", false).toBool();
+  QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
+  s.endGroup();
+
+  best_image_filters_.clear();
+  for (const QString &filter : filters) {
+    QString str = filter.trimmed();
+    if (!str.isEmpty()) best_image_filters_ << str;
+  }
+
+  if (!monitor_ && was_monitoring_before) {
+    fs_watcher_->Clear();
+  }
+  else if (monitor_ && !was_monitoring_before) {
+    // Add all directories to all QFileSystemWatchers again
+    for (const Directory &dir : watched_dirs_.values()) {
+      SubdirectoryList subdirs = backend_->SubdirsInDirectory(dir.id);
+      for (const Subdirectory &subdir : subdirs) {
+        AddWatch(dir, subdir.path);
+      }
+    }
+  }
+
+}
+
 CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, const int dir, const bool incremental, const bool ignores_mtime, const bool mark_songs_unavailable)
     : progress_(0),
       progress_max_(0),
@@ -119,15 +157,16 @@ CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, 
       mark_songs_unavailable_(mark_songs_unavailable),
       watcher_(watcher),
       cached_songs_dirty_(true),
-      known_subdirs_dirty_(true)
-      {
+      known_subdirs_dirty_(true) {
 
   QString description;
 
-  if (watcher_->device_name_.isEmpty())
+  if (watcher_->device_name_.isEmpty()) {
     description = tr("Updating collection");
-  else
+  }
+  else {
     description = tr("Updating %1").arg(watcher_->device_name_);
+  }
 
   task_id_ = watcher_->task_manager_->StartTask(description);
   emit watcher_->ScanStarted(task_id_);
@@ -347,6 +386,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   // First we "quickly" get a list of the files in the directory that we think might be music.  While we're here, we also look for new subdirectories and possible album artwork.
   QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
   while (it.hasNext()) {
+
     if (stop_requested_) return;
 
     QString child(it.next());
@@ -384,7 +424,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   for (const QString &file : files_on_disk) {
     if (stop_requested_) return;
 
-    // associated cue
+    // Associated cue
     QString matching_cue = NoExtensionPart(file) + ".cue";
 
     Song matching_song(source_);
@@ -401,14 +441,14 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
         continue;
       }
 
-      // cue sheet's path from collection (if any)
+      // CUE sheet's path from collection (if any)
       QString song_cue = matching_song.cue_path();
       qint64 song_cue_mtime = GetMtimeForCue(song_cue);
 
       bool cue_deleted = song_cue_mtime == 0 && matching_song.has_cue();
       bool cue_added = matching_cue_mtime != 0 && !matching_song.has_cue();
 
-      // watch out for cue songs which have their mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
+      // Watch out for CUE songs which have their mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
       bool changed = (matching_song.mtime() != qMax(file_info.lastModified().toSecsSinceEpoch(), song_cue_mtime)) || cue_deleted || cue_added;
 
       // Also want to look to see whether the album art has changed
@@ -417,16 +457,14 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
         changed = true;
       }
 
-      // the song's changed - reread the metadata from file
+      // The song's changed - reread the metadata from file
       if (t->ignores_mtime() || changed) {
         qLog(Debug) << file << "changed";
 
-        // if cue associated...
-        if (!cue_deleted && (matching_song.has_cue() || cue_added)) {
+        if (!cue_deleted && (matching_song.has_cue() || cue_added)) {  // If CUE associated.
           UpdateCueAssociatedSongs(file, path, matching_cue, image, t);
-          // if no cue or it's about to lose it...
         }
-        else {
+        else {  // If no CUE or it's about to lose it.
           UpdateNonCueAssociatedSong(file, matching_song, image, cue_deleted, t);
         }
       }
@@ -444,7 +482,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       }
 
       qLog(Debug) << file << "created";
-      // choose an image for the song(s)
+      // Choose an image for the song(s)
       QUrl image = ImageForSong(file, album_art);
 
       for (Song song : song_list) {
@@ -509,7 +547,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QStr
     cue_song.set_directory_id(t->dir());
 
     Song matching = sections_map[cue_song.beginning_nanosec()];
-    // a new section
+    // A new section
     if (!matching.is_valid()) {
       t->new_songs << cue_song;
       // changed section
@@ -520,7 +558,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QStr
     }
   }
 
-  // sections that are now missing
+  // Sections that are now missing
   for (const Song &matching : old_sections) {
     if (!used_ids.contains(matching.id())) {
       t->deleted_songs << matching;
@@ -531,7 +569,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QStr
 
 void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file, const Song &matching_song, const QUrl &image, bool cue_deleted, ScanTransaction *t) {
 
-  // If a cue got deleted, we turn it's first section into the new 'raw' (cueless) song and we just remove the rest of the sections from the collection
+  // If a CUE got deleted, we turn it's first section into the new 'raw' (cueless) song and we just remove the rest of the sections from the collection
   if (cue_deleted) {
     for (const Song &song : backend_->GetSongsByUrl(QUrl::fromLocalFile(file))) {
       if (!song.IsMetadataAndArtEqual(matching_song)) {
@@ -555,9 +593,8 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
   SongList song_list;
 
   quint64 matching_cue_mtime = GetMtimeForCue(matching_cue);
-  // If it's a cue - create virtual tracks
-  if (matching_cue_mtime) {
-    // don't process the same cue many times
+  if (matching_cue_mtime) {  // If it's a CUE - create virtual tracks
+    // Don't process the same cue many times
     if (cues_processed->contains(matching_cue)) return song_list;
 
     QFile cue(matching_cue);
@@ -580,9 +617,8 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
       *cues_processed << matching_cue;
     }
 
-    // it's a normal media file
   }
-  else {
+  else {  // It's a normal media file
     Song song(source_);
     TagReaderClient::Instance()->ReadFileBlocking(file, &song);
     if (song.is_valid()) {
@@ -790,44 +826,6 @@ QUrl CollectionWatcher::ImageForSong(const QString &path, QMap<QString, QStringL
     }
   }
   return QUrl();
-
-}
-
-void CollectionWatcher::ReloadSettingsAsync() {
-
-  QMetaObject::invokeMethod(this, "ReloadSettings", Qt::QueuedConnection);
-
-}
-
-void CollectionWatcher::ReloadSettings() {
-
-  const bool was_monitoring_before = monitor_;
-  QSettings s;
-  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  scan_on_startup_ = s.value("startup_scan", true).toBool();
-  monitor_ = s.value("monitor", true).toBool();
-  mark_songs_unavailable_ = s.value("mark_songs_unavailable", false).toBool();
-  QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
-  s.endGroup();
-
-  best_image_filters_.clear();
-  for (const QString &filter : filters) {
-    QString str = filter.trimmed();
-    if (!str.isEmpty()) best_image_filters_ << str;
-  }
-
-  if (!monitor_ && was_monitoring_before) {
-    fs_watcher_->Clear();
-  }
-  else if (monitor_ && !was_monitoring_before) {
-    // Add all directories to all QFileSystemWatchers again
-    for (const Directory &dir : watched_dirs_.values()) {
-      SubdirectoryList subdirs = backend_->SubdirsInDirectory(dir.id);
-      for (const Subdirectory &subdir : subdirs) {
-        AddWatch(dir, subdir.path);
-      }
-    }
-  }
 
 }
 

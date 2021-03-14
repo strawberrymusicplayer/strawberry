@@ -228,4 +228,3 @@ inline QString CollectionWatcher::DirectoryPart(const QString& fileName) {
 }
 
 #endif  // COLLECTIONWATCHER_H
-
