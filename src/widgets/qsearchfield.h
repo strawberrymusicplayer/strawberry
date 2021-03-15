@@ -5,6 +5,9 @@
 #include <QPointer>
 #include <QMenu>
 
+class QShowEvent;
+class QCloseEvent;
+
 class QSearchFieldPrivate;
 class QSearchField : public QWidget {
   Q_OBJECT
@@ -34,6 +37,7 @@ class QSearchField : public QWidget {
   void returnPressed();
 
  protected:
+  void showEvent(QShowEvent *e) override;
   void resizeEvent(QResizeEvent*) override;
   bool eventFilter(QObject*, QEvent*) override;
 

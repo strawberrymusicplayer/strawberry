@@ -248,6 +248,8 @@ void AlbumCoverManager::showEvent(QShowEvent *e) {
     Reset();
   }
 
+  QMainWindow::showEvent(e);
+
 }
 
 void AlbumCoverManager::closeEvent(QCloseEvent *e) {
@@ -269,6 +271,8 @@ void AlbumCoverManager::closeEvent(QCloseEvent *e) {
 
   ui_->artists->clear();
   ui_->albums->clear();
+
+  QMainWindow::closeEvent(e);
 
 }
 
