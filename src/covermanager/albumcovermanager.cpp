@@ -778,11 +778,13 @@ void AlbumCoverManager::SearchForCover() {
 
 void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResult &result) {
 
-  QUrl cover_url;
+  QUrl cover_url = result.cover_url;
   switch (album_cover_choice_controller_->get_save_album_cover_type()) {
     case CollectionSettingsPage::SaveCoverType_Cache:
     case CollectionSettingsPage::SaveCoverType_Album:
-      cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(song, result);
+      if (cover_url.isEmpty() || !cover_url.isValid() || !cover_url.isLocalFile()) {
+        cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(song, result);
+      }
       break;
     case CollectionSettingsPage::SaveCoverType_Embedded:
       cover_url = QUrl::fromLocalFile(Song::kEmbeddedCover);
@@ -981,11 +983,11 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, const AlbumCoverImageRe
   }
   else {
     QUrl cover_url;
-    if (!result.image_data.isNull() || !result.image.isNull()) {
-      cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(Song::Source_Collection, albumartist, album, QString(), urls.first().adjusted(QUrl::RemoveFilename).path(), result, false);
-    }
-    else if (!result.cover_url.isEmpty() && !result.cover_url.isLocalFile()) {
+    if (!result.cover_url.isEmpty() && result.cover_url.isValid() && result.cover_url.isLocalFile()) {
       cover_url = result.cover_url;
+    }
+    else if (!result.image_data.isEmpty() || !result.image.isNull()) {
+      cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(Song::Source_Collection, albumartist, album, QString(), urls.first().adjusted(QUrl::RemoveFilename).path(), result, false);
     }
 
     if (cover_url.isEmpty()) return;
