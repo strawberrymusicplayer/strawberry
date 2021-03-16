@@ -36,27 +36,20 @@ FRAMEWORK_SEARCH_PATH = [
 
 QT_PLUGINS = [
     'platforms/libqcocoa.dylib',
-    'platforminputcontexts/libqtvirtualkeyboardplugin.dylib',
     'styles/libqmacstyle.dylib',
     'sqldrivers/libqsqlite.dylib',
-    'bearer/libqgenericbearer.dylib',
     'iconengines/libqsvgicon.dylib',
     'imageformats/libqgif.dylib',
     'imageformats/libqicns.dylib',
     'imageformats/libqico.dylib',
     'imageformats/libqjpeg.dylib',
+    'imageformats/libqjp2.dylib',
     'imageformats/libqsvg.dylib',
     'imageformats/libqtiff.dylib',
-    'printsupport/libcocoaprintersupport.dylib',
-    'virtualkeyboard/libqtvirtualkeyboard_hangul.dylib',
-    'virtualkeyboard/libqtvirtualkeyboard_openwnn.dylib',
-    'virtualkeyboard/libqtvirtualkeyboard_pinyin.dylib',
-    'virtualkeyboard/libqtvirtualkeyboard_tcime.dylib',
-    'virtualkeyboard/libqtvirtualkeyboard_thai.dylib',
 ]
 
 QT_PLUGINS_SEARCH_PATH = [
-    '/usr/local/opt/qt/plugins',
+    '/usr/local/opt/qt6/share/qt/plugins',
 ]
 
 GSTREAMER_SEARCH_PATH = [
@@ -478,6 +471,12 @@ def FindGioModule(name):
 def main():
   logging.basicConfig(filename='macdeploy.log', level=logging.DEBUG, format='%(asctime)s %(levelname)-8s %(message)s')
 
+  fixed_frameworks.add('A/QtCore')
+  fixed_frameworks.add('A/QtSql')
+  fixed_frameworks.add('A/QtGui')
+  fixed_frameworks.add('A/QtWidgets')
+  fixed_frameworks.add('A/QtSvg')
+
   FixBinary(binary)
   FixBinary(tagreader_binary)
 
@@ -494,8 +493,8 @@ def main():
   FixPlugin(FindGioModule('libgiognutls.so'), 'gio-modules')
   #FixPlugin(FindGioModule('libgiognomeproxy.so'), 'gio-modules')
 
-  #for plugin in QT_PLUGINS:
-    #FixPlugin(FindQtPlugin(plugin), os.path.dirname(plugin))
+  for plugin in QT_PLUGINS:
+    FixPlugin(FindQtPlugin(plugin), os.path.dirname(plugin))
 
   if len(sys.argv) <= 2:
     print('Would run %d commands:' % len(commands))

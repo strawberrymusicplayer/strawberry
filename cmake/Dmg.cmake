@@ -19,13 +19,13 @@ endif()
 
 if(MACDEPLOYQT_EXECUTABLE AND CREATEDMG_EXECUTABLE AND MACOS_VERSION_PACKAGE)
   add_custom_target(dmg
-    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader
+    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader -verbose=3
     COMMAND ${CMAKE_SOURCE_DIR}/dist/macos/macdeploy.py strawberry.app
     COMMAND ${CREATEDMG_EXECUTABLE} --volname strawberry --background "${CMAKE_SOURCE_DIR}/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon strawberry.app 150 218 --window-size 600 450 strawberry-${STRAWBERRY_VERSION_PACKAGE}-${MACOS_VERSION_PACKAGE}-${CMAKE_HOST_SYSTEM_PROCESSOR}.dmg strawberry.app
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
   )
   add_custom_target(dmg2
-    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader
+    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader -verbose=3
     COMMAND ${CMAKE_SOURCE_DIR}/dist/macos/macdeploy.py strawberry.app
     COMMAND ${CREATEDMG_EXECUTABLE} --skip-jenkins --volname strawberry --background "${CMAKE_SOURCE_DIR}/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon strawberry.app 150 218 --window-size 600 450 strawberry-${STRAWBERRY_VERSION_PACKAGE}-${MACOS_VERSION_PACKAGE}-${CMAKE_HOST_SYSTEM_PROCESSOR}.dmg strawberry.app
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
