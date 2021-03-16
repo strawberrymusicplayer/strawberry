@@ -103,6 +103,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   group_by_[2] = GroupBy_None;
 
   cover_loader_options_.get_image_data_ = false;
+  cover_loader_options_.get_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.desired_height_ = kPrettyCoverSize;
