@@ -233,7 +233,7 @@ int main(int argc, char* argv[]) {
   Q_INIT_RESOURCE(translations);
 #endif
 
-#ifdef DEBUG
+#ifndef QT_NO_DEBUG_OUTPUT
   QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
 #endif
 

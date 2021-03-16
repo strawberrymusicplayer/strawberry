@@ -24,7 +24,6 @@
 #define CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}"
 #define CMAKE_EXECUTABLE_SUFFIX "${CMAKE_EXECUTABLE_SUFFIX}"
 
-#cmakedefine DEBUG
 #cmakedefine HAVE_BACKTRACE
 #cmakedefine HAVE_GIO
 #cmakedefine HAVE_DBUS
