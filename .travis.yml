@@ -19,8 +19,7 @@ before_install:
   - brew install libcdio libmtp
   - brew install create-dmg
   - brew install --cask sparkle
-  - sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework /Library/Frameworks/Sparkle.framework
-  - sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1)/Sparkle.framework.dSYM /Library/Frameworks/Sparkle.framework.dSYM
+  - sudo ln -s /usr/local/Caskroom/sparkle/$(ls /usr/local/Caskroom/sparkle | head -n1) /usr/local/opt/sparkle
   - export Qt6_DIR=/usr/local/opt/qt6/lib/cmake
   - export Qt6LinguistTools_DIR=/usr/local/opt/qt6/lib/cmake/Qt6LinguistTools
   - ls /usr/local/lib/gstreamer-1.0
@@ -31,7 +30,6 @@ before_script:
 script:
   - make -j8
   - make install
-  - sudo ln -s /usr/local/Cellar/qt/$(ls /usr/local/Cellar/qt/ | tail -n1)/share/qt/plugins /usr/local/plugins
   - make dmg2
 after_success:
   - ls -lh strawberry*.dmg

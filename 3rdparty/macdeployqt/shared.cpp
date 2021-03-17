@@ -856,6 +856,11 @@ void changeInstallName(const QString &bundlePath, const FrameworkInfo &framework
         if (!canonicalInstallName.isEmpty() && canonicalInstallName != framework.installName) {
             changeInstallName(canonicalInstallName, deployedInstallName, binary);
         }
+        // Homebrew workaround, resolve symlink /usr/local/opt/library to /usr/local/Cellar/library
+        if (framework.installName.startsWith("/usr/local/opt/") && framework.installName.count('/') >= 5) {
+            canonicalInstallName = QFileInfo(framework.installName.section('/', 0, 4)).canonicalFilePath() + "/" + framework.installName.section('/', 5);
+            changeInstallName(canonicalInstallName, deployedInstallName, binary);
+        }
     }
 }
 
@@ -1678,4 +1683,111 @@ void fixupFramework(const QString &frameworkName)
     // Set up @rpath structure.
     changeIdentification("@rpath/" + frameworkBinary, frameworkBinary);
     addRPath("@loader_path/../../Contents/Frameworks/", frameworkBinary);
+}
+
+bool FinalCheck(const QString &appBundlePath) {
+
+  bool success = true;
+
+  QDirIterator iter(appBundlePath, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
+  while (iter.hasNext()) {
+    iter.next();
+    QString filepath = iter.fileInfo().filePath();
+
+    if (filepath.endsWith(".plist") ||
+        filepath.endsWith(".icns") ||
+        filepath.endsWith(".prl") ||
+        filepath.endsWith(".conf") ||
+        filepath.endsWith(".h") ||
+        filepath.endsWith(".nib") ||
+        filepath.endsWith(".strings") ||
+        filepath.endsWith(".css") ||
+        filepath.endsWith("CodeResources") ||
+        filepath.endsWith("PkgInfo") ||
+        filepath.endsWith(".modulemap")) {
+      continue;
+    }
+
+    //qDebug() << "Final check on" << filepath;
+
+    QProcess otool;
+    otool.start("otool", QStringList() << "-L" << filepath);
+    otool.waitForFinished();
+    if (otool.exitStatus() != QProcess::NormalExit || otool.exitCode() != 0) {
+      LogError() << otool.readAllStandardError();
+      success = false;
+      continue;
+    }
+    QString output = otool.readAllStandardOutput();
+    QStringList output_lines = output.split("\n", Qt::SkipEmptyParts);
+    if (output_lines.size() < 2) {
+      LogError() << "Could not parse otool output:" << output;
+      success = false;
+      continue;
+    }
+    QString first_line = output_lines.first();
+    if (first_line.endsWith(':')) first_line.chop(1);
+    if (first_line == filepath) {
+      output_lines.removeFirst();
+    }
+    else {
+      LogError() << "First line" << first_line << "does not match" << filepath;
+      success = false;
+    }
+    static const QRegularExpression regexp(QStringLiteral("^\\t(.+) \\(compatibility version (\\d+\\.\\d+\\.\\d+), current version (\\d+\\.\\d+\\.\\d+)(, weak)?\\)$"));
+    for (const QString &output_line : output_lines) {
+
+      //qDebug() << "Final check on" << filepath << output_line;
+
+      const auto match = regexp.match(output_line);
+      if (match.hasMatch()) {
+        QString library = match.captured(1);
+        if (QFileInfo(library).fileName() == QFileInfo(filepath).fileName()) { // It's this.
+          continue;
+        }
+        else if (library.startsWith("@executable_path")) {
+          QString real_path = library;
+          real_path = real_path.replace("@executable_path", appBundlePath + "/Contents/MacOS");
+          if (!QFile(real_path).exists()) {
+            LogError() << real_path << "does not exist for" << filepath;
+            success = false;
+          }
+        }
+        else if (library.startsWith("@rpath")) {
+          QString real_path = library;
+          real_path = real_path.replace("@rpath", appBundlePath + "/Contents/Frameworks");
+          if (!QFile(real_path).exists() && !real_path.endsWith("QtSvg")) { // FIXME: Ignore broken svg image plugin.
+            LogError() << real_path << "does not exist for" << filepath;
+            success = false;
+          }
+        }
+        else if (library.startsWith("@loader_path")) {
+          QString loader_path = QFileInfo(filepath).path();
+          QString real_path = library;
+          real_path = real_path.replace("@loader_path", loader_path);
+          if (!QFile(real_path).exists()) {
+            LogError() << real_path << "does not exist for" << filepath;
+            success = false;
+          }
+        }
+        else if (library.startsWith("/System/Library/") || library.startsWith("/usr/lib/")) { // System library
+          continue;
+        }
+        else if (library.endsWith("libgcc_s.1.dylib")) {  // fftw points to it for some reason.
+          continue;
+        }
+        else {
+          LogError() << "File" << filepath << "points to" << library;
+          success = false;
+        }
+      }
+      else {
+        LogError() << "Could not parse otool output line:" << output_line;
+        success = false;
+      }
+    }
+  }
+
+  return success;
+
 }

@@ -251,7 +251,7 @@ set(SINGLEAPPLICATION_LIBRARIES singleapplication)
 set(SINGLECOREAPPLICATION_LIBRARIES singlecoreapplication)
 
 if(APPLE)
-  find_library(SPARKLE Sparkle)
+  find_library(SPARKLE Sparkle PATHS "/usr/local/opt/sparkle")
   add_subdirectory(3rdparty/macdeployqt)
   add_subdirectory(3rdparty/SPMediaKeyTap)
   set(SPMEDIAKEYTAP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/SPMediaKeyTap)
