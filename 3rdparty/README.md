@@ -14,6 +14,12 @@ URL: https://github.com/itay-grudev/SingleApplication
 
 SPMediaKeyTap
 -------------
+Used on macOS to exclusively enable strawberry to grab global media shortcuts.
+Can safely be deleted on other platforms.
 
-This is used for macOS only to enable strawberry to grab global shortcuts and can safely be deleted on other
-platforms.
+
+macdeployqt
+-----------
+A modified version of Qt's official macdeployqt utility that fixes some issues,
+this version also deploys gstreamer plugins.
+Can safely be deleted on other platforms.
