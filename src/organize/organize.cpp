@@ -27,6 +27,8 @@
 #include <QFileInfo>
 #include <QTimer>
 #include <QDateTime>
+#include <QList>
+#include <QVector>
 #include <QString>
 #include <QUrl>
 #include <QImage>
@@ -58,6 +60,7 @@ Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
 #ifdef HAVE_GSTREAMER
       transcoder_(new Transcoder(this)),
 #endif
+      process_files_timer_(new QTimer(this)),
       destination_(destination),
       format_(format),
       copy_(copy),
@@ -70,9 +73,14 @@ Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
       tasks_complete_(0),
       started_(false),
       task_id_(0),
-      current_copy_progress_(0){
+      current_copy_progress_(0),
+      finished_(false) {
 
   original_thread_ = thread();
+
+  process_files_timer_->setSingleShot(true);
+  process_files_timer_->setInterval(100);
+  QObject::connect(process_files_timer_, &QTimer::timeout, this, &Organize::ProcessSomeFiles);
 
   for (const NewSongInfo &song_info : songs_info) {
     tasks_pending_ << Task(song_info);
@@ -108,10 +116,14 @@ void Organize::Start() {
 
 void Organize::ProcessSomeFiles() {
 
+  if (finished_) return;
+
   if (!started_) {
     if (!destination_->StartCopy(&supported_filetypes_)) {
       // Failed to start - mark everything as failed :(
-      for (const Task &task : tasks_pending_) files_with_errors_ << task.song_info_.song_.url().toLocalFile();
+      for (const Task &task : tasks_pending_) {
+        files_with_errors_ << task.song_info_.song_.url().toLocalFile();
+      }
       tasks_pending_.clear();
     }
     started_ = true;
@@ -143,6 +155,7 @@ void Organize::ProcessSomeFiles() {
 
     // Stop this thread
     thread_->quit();
+    finished_ = true;
     return;
   }
 
@@ -257,7 +270,10 @@ void Organize::ProcessSomeFiles() {
   }
   SetSongProgress(0);
 
-  QTimer::singleShot(0, this, &Organize::ProcessSomeFiles);
+  if (!process_files_timer_->isActive()) {
+    process_files_timer_->start();
+  }
+
 
 }
 
@@ -305,7 +321,8 @@ void Organize::UpdateProgress() {
 #ifdef HAVE_GSTREAMER
   // Update transcoding progress
   QMap<QString, float> transcode_progress = transcoder_->GetProgress();
-  for (const QString &filename : transcode_progress.keys()) {
+  QStringList filenames = transcode_progress.keys();
+  for (const QString &filename : filenames) {
     if (!tasks_transcoding_.contains(filename)) continue;
     tasks_transcoding_[filename].transcode_progress_ = transcode_progress[filename];
   }
@@ -319,7 +336,8 @@ void Organize::UpdateProgress() {
     progress += qBound(0, static_cast<int>(task.transcode_progress_ * 50), 50);
   }
 #ifdef HAVE_GSTREAMER
-  for (const Task &task : tasks_transcoding_.values()) {
+  QList<Task> tasks_transcoding = tasks_transcoding_.values();
+  for (const Task &task : tasks_transcoding) {
     progress += qBound(0, static_cast<int>(task.transcode_progress_ * 50), 50);
   }
 #endif
@@ -345,7 +363,10 @@ void Organize::FileTranscoded(const QString &input, const QString &output, bool 
   else {
     tasks_pending_ << task;
   }
-  QTimer::singleShot(0, this, &Organize::ProcessSomeFiles);
+
+  if (!process_files_timer_->isActive()) {
+    process_files_timer_->start();
+  }
 
 }
 

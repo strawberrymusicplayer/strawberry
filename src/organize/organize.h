@@ -31,6 +31,7 @@
 #include <QFileInfo>
 #include <QSet>
 #include <QList>
+#include <QVector>
 #include <QMap>
 #include <QString>
 #include <QStringList>
@@ -39,6 +40,7 @@
 #include "organizeformat.h"
 
 class QThread;
+class QTimer;
 class QTimerEvent;
 
 class MusicStorage;
@@ -108,6 +110,7 @@ class Organize : public QObject {
 #ifdef HAVE_GSTREAMER
   Transcoder *transcoder_;
 #endif
+  QTimer *process_files_timer_;
   std::shared_ptr<MusicStorage> destination_;
   QList<Song::FileType> supported_filetypes_;
 
@@ -121,7 +124,7 @@ class Organize : public QObject {
   const QString playlist_;
 
   QBasicTimer transcode_progress_timer_;
-  QList<Task> tasks_pending_;
+  QVector<Task> tasks_pending_;
   QMap<QString, Task> tasks_transcoding_;
   int tasks_complete_;
 
@@ -129,6 +132,7 @@ class Organize : public QObject {
 
   int task_id_;
   int current_copy_progress_;
+  bool finished_;
 
   QStringList files_with_errors_;
   QStringList log_;
