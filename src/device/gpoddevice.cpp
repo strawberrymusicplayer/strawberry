@@ -200,6 +200,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
       std::shared_ptr<QTemporaryFile> cover_file = std::make_shared<QTemporaryFile>(temp_path + "/track-albumcover-XXXXXX.jpg");
       cover_file->setAutoRemove(true);
       if (cover_file->open()) {
+        cover_file->close();
         QImage image = job.metadata_.image();
         if (image.save(cover_file->fileName(), "JPG")) {
           result = itdb_track_set_thumbnails(track, QFile::encodeName(cover_file->fileName()));
