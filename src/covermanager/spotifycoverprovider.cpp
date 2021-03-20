@@ -247,7 +247,7 @@ void SpotifyCoverProvider::RequestAccessToken(const QString code, const QUrl red
   QNetworkReply *reply = network_->post(req, query);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &SpotifyCoverProvider::HandleLoginSSLErrors);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { AccessTokenRequestFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AccessTokenRequestFinished(reply); });
 
 }
 
@@ -402,7 +402,7 @@ bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &alb
 
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id, extract]() { HandleSearchReply(reply, id, extract); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, extract]() { HandleSearchReply(reply, id, extract); });
 
   return true;
 

@@ -144,7 +144,7 @@ void DiscogsCoverProvider::SendSearchRequest(std::shared_ptr<DiscogsCoverSearchC
   }
 
   QNetworkReply *reply = CreateRequest(QUrl(kUrlSearch), params);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, search]() { HandleSearchReply(reply, search->id); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, search]() { HandleSearchReply(reply, search->id); });
 
 }
 
@@ -331,7 +331,7 @@ void DiscogsCoverProvider::StartReleaseRequest(std::shared_ptr<DiscogsCoverSearc
 void DiscogsCoverProvider::SendReleaseRequest(const DiscogsCoverReleaseContext release) {
 
   QNetworkReply *reply = CreateRequest(release.url);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, release]() { HandleReleaseReply(reply, release.search_id, release.id); } );
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, release]() { HandleReleaseReply(reply, release.search_id, release.id); } );
 
 }
 

@@ -65,7 +65,7 @@ bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album,
 #endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id, artist, title]() { HandleSearchReply(reply, id, artist, title); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, artist, title]() { HandleSearchReply(reply, id, artist, title); });
 
   //qLog(Debug) << "OVHLyrics: Sending request for" << url;
 

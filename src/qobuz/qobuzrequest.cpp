@@ -169,7 +169,7 @@ void QobuzRequest::FlushArtistsRequests() {
     }
     if (!reply) continue;
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { ArtistsReplyReceived(reply, request.limit, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistsReplyReceived(reply, request.limit, request.offset); });
 
   }
 
@@ -217,7 +217,7 @@ void QobuzRequest::FlushAlbumsRequests() {
     }
     if (!reply) continue;
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumsReplyReceived(reply, request.limit, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumsReplyReceived(reply, request.limit, request.offset); });
 
   }
 
@@ -265,7 +265,7 @@ void QobuzRequest::FlushSongsRequests() {
     }
     if (!reply) continue;
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { SongsReplyReceived(reply, request.limit, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { SongsReplyReceived(reply, request.limit, request.offset); });
 
   }
 
@@ -503,7 +503,7 @@ void QobuzRequest::FlushArtistAlbumsRequests() {
 
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("artist/get"), params);
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist_id, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist_id, request.offset); });
     replies_ << reply;
 
   }
@@ -757,7 +757,7 @@ void QobuzRequest::FlushAlbumSongsRequests() {
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("album/get"), params);
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.offset, request.album_artist, request.album); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.offset, request.album_artist, request.album); });
 
   }
 
@@ -1189,7 +1189,7 @@ void QobuzRequest::FlushAlbumCoverRequests() {
 #endif
     QNetworkReply *reply = network_->get(req);
     album_cover_replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumCoverReceived(reply, request.url, request.filename); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumCoverReceived(reply, request.url, request.filename); });
 
   }
 

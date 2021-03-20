@@ -283,7 +283,7 @@ void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString
   QNetworkReply *reply = network_->post(req, query);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &QobuzService::HandleLoginSSLErrors);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { HandleAuthReply(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { HandleAuthReply(reply); });
 
   qLog(Debug) << "Qobuz: Sending request" << url << query;
 

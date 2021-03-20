@@ -106,7 +106,7 @@ void MusicbrainzCoverProvider::SendSearchRequest(const SearchRequest &request) {
 #endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { HandleSearchReply(reply, request.id); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { HandleSearchReply(reply, request.id); });
 
 }
 

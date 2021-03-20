@@ -288,7 +288,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
     req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
     QNetworkReply *image_reply = network_->get(req);
-    QObject::connect(image_reply, &QNetworkReply::finished, [this, image_reply]() { ProviderCoverFetchFinished(image_reply); });
+    QObject::connect(image_reply, &QNetworkReply::finished, this, [this, image_reply]() { ProviderCoverFetchFinished(image_reply); });
     pending_image_loads_[image_reply] = result;
     image_load_timeout_->AddReply(image_reply);
 

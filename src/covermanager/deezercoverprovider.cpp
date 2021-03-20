@@ -107,7 +107,7 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
 #endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id]() { HandleSearchReply(reply, id); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { HandleSearchReply(reply, id); });
 
   return true;
 

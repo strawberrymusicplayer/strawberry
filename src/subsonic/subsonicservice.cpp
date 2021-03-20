@@ -200,7 +200,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &SubsonicService::HandlePingSSLErrors);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, url, username, password]() { HandlePingReply(reply, url, username, password); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, url, username, password]() { HandlePingReply(reply, url, username, password); });
 
   //qLog(Debug) << "Subsonic: Sending request" << url << query;
 

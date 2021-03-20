@@ -111,7 +111,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
   req.setRawHeader("X-User-Auth-Token", user_auth_token_.toUtf8());
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id]() { HandleSearchReply(reply, id); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { HandleSearchReply(reply, id); });
 
   return true;
 

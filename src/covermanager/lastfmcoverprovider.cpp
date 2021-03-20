@@ -122,7 +122,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QNetworkReply *reply = network_->post(req, url_query.toString(QUrl::FullyEncoded).toUtf8());
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id, type]() { QueryFinished(reply, id, type); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, type]() { QueryFinished(reply, id, type); });
 
   return true;
 

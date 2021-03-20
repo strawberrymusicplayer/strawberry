@@ -74,7 +74,7 @@ bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, con
 #endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id, artist, title]() { HandleSearchReply(reply, id, artist, title); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, artist, title]() { HandleSearchReply(reply, id, artist, title); });
 
   //qLog(Debug) << "ChartLyrics: Sending request for" << url;
 

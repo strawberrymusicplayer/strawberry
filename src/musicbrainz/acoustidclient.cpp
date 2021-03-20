@@ -89,7 +89,7 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
   QNetworkReply *reply = network_->get(req);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id]() { RequestFinished(reply, id); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { RequestFinished(reply, id); });
   requests_[id] = reply;
 
   timeouts_->AddReply(reply);

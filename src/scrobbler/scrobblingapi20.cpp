@@ -257,7 +257,7 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
 #endif
   QNetworkReply *reply = network()->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { AuthenticateReplyFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AuthenticateReplyFinished(reply); });
 
 }
 
@@ -484,7 +484,7 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
     params << Param("albumArtist", song.albumartist());
 
   QNetworkReply *reply = CreateRequest(params);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { UpdateNowPlayingRequestFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { UpdateNowPlayingRequestFinished(reply); });
 
 }
 
@@ -607,7 +607,7 @@ void ScrobblingAPI20::Submit() {
   if (!batch_ || i <= 0) return;
 
   QNetworkReply *reply = CreateRequest(params);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, list]() { ScrobbleRequestFinished(reply, list); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, list]() { ScrobbleRequestFinished(reply, list); });
 
 }
 
@@ -800,7 +800,7 @@ void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
     params << Param("trackNumber", QString::number(item->track_));
 
   QNetworkReply *reply = CreateRequest(params);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, item]() { SingleScrobbleRequestFinished(reply, item->timestamp_); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, item]() { SingleScrobbleRequestFinished(reply, item->timestamp_); });
 
 }
 
@@ -951,7 +951,7 @@ void ScrobblingAPI20::Love() {
     params << Param("albumArtist", song_playing_.albumartist());
 
   QNetworkReply *reply = CreateRequest(params);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply] { LoveRequestFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply] { LoveRequestFinished(reply); });
 
 }
 

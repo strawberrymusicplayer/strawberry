@@ -269,7 +269,7 @@ void LastFMImport::SendGetRecentTracksRequest(GetRecentTracksRequest request) {
   }
 
   QNetworkReply *reply = CreateRequest(params);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { GetRecentTracksRequestFinished(reply, request.page); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { GetRecentTracksRequestFinished(reply, request.page); });
 
 }
 
@@ -432,7 +432,7 @@ void LastFMImport::SendGetTopTracksRequest(GetTopTracksRequest request) {
   }
 
   QNetworkReply *reply = CreateRequest(params);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { GetTopTracksRequestFinished(reply, request.page); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { GetTopTracksRequestFinished(reply, request.page); });
 
 }
 

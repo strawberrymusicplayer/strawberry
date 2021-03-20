@@ -86,7 +86,7 @@ bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString 
 #endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, id, artist, album, title]() { HandleSearchReply(reply, id, artist, album, title); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, artist, album, title]() { HandleSearchReply(reply, id, artist, album, title); });
 
   qLog(Debug) << "MusixmatchLyrics: Sending request for" << artist_stripped << title_stripped << url;
 

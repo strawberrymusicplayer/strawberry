@@ -253,7 +253,7 @@ void ListenBrainzScrobbler::RequestAccessToken(const QUrl &redirect_url, const Q
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { AuthenticateReplyFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AuthenticateReplyFinished(reply); });
 
 }
 
@@ -457,7 +457,7 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
   QUrl url(QString("%1/1/submit-listens").arg(kApiUrl));
   QNetworkReply *reply = CreateRequest(url, doc);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { UpdateNowPlayingRequestFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { UpdateNowPlayingRequestFinished(reply); });
 
 }
 
@@ -583,7 +583,7 @@ void ListenBrainzScrobbler::Submit() {
 
   QUrl url(QString("%1/1/submit-listens").arg(kApiUrl));
   QNetworkReply *reply = CreateRequest(url, doc);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, list]() { ScrobbleRequestFinished(reply, list); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, list]() { ScrobbleRequestFinished(reply, list); });
 
 }
 

@@ -190,7 +190,7 @@ void TidalRequest::FlushArtistsRequests() {
     }
     if (!reply) continue;
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { ArtistsReplyReceived(reply, request.limit, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistsReplyReceived(reply, request.limit, request.offset); });
 
   }
 
@@ -234,7 +234,7 @@ void TidalRequest::FlushAlbumsRequests() {
     }
     if (!reply) continue;
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumsReplyReceived(reply, request.limit, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumsReplyReceived(reply, request.limit, request.offset); });
 
   }
 
@@ -278,7 +278,7 @@ void TidalRequest::FlushSongsRequests() {
     }
     if (!reply) continue;
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { SongsReplyReceived(reply, request.limit, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { SongsReplyReceived(reply, request.limit, request.offset); });
 
   }
 
@@ -501,7 +501,7 @@ void TidalRequest::FlushArtistAlbumsRequests() {
     ParamList parameters;
     if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("artists/%1/albums").arg(request.artist_id), parameters);
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist_id, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist_id, request.offset); });
     replies_ << reply;
 
   }
@@ -784,7 +784,7 @@ void TidalRequest::FlushAlbumSongsRequests() {
     if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("albums/%1/tracks").arg(request.album_id), parameters);
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.offset, request.album_artist, request.album, request.album_explicit); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.offset, request.album_artist, request.album, request.album_explicit); });
 
   }
 
@@ -1142,7 +1142,7 @@ void TidalRequest::FlushAlbumCoverRequests() {
 #endif
     QNetworkReply *reply = network_->get(req);
     album_cover_replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumCoverReceived(reply, request.album_id, request.url, request.filename); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumCoverReceived(reply, request.album_id, request.url, request.filename); });
 
   }
 

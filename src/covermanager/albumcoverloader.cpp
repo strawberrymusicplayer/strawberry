@@ -468,7 +468,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
       request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
       QNetworkReply *reply = network_->get(request);
-      QObject::connect(reply, &QNetworkReply::finished, [this, reply, cover_url]() { RemoteFetchFinished(reply, cover_url); });
+      QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, cover_url]() { RemoteFetchFinished(reply, cover_url); });
 
       remote_tasks_.insert(reply, *task);
       return TryLoadResult(true, false, type, AlbumCoverImageResult(cover_url));
@@ -500,7 +500,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cov
 #endif
     request.setUrl(redirect.toUrl());
     QNetworkReply *redirected_reply = network_->get(request);
-    QObject::connect(redirected_reply, &QNetworkReply::finished, [this, redirected_reply, redirect]() { RemoteFetchFinished(redirected_reply, redirect.toUrl()); });
+    QObject::connect(redirected_reply, &QNetworkReply::finished, this, [this, redirected_reply, redirect]() { RemoteFetchFinished(redirected_reply, redirect.toUrl()); });
 
     remote_tasks_.insert(redirected_reply, task);
     return;

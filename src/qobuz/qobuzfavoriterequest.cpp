@@ -131,7 +131,7 @@ void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
   }
 
   QNetworkReply *reply = CreateRequest("favorite/create", params);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, type, songs]() { AddFavoritesReply(reply, type, songs); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { AddFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
 }
@@ -233,7 +233,7 @@ void QobuzFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
   }
 
   QNetworkReply *reply = CreateRequest("favorite/delete", params);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
 }

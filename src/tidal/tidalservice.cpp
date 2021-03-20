@@ -403,7 +403,7 @@ void TidalService::RequestAccessToken(const QString &code) {
   QNetworkReply *reply = network_->post(req, query);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &TidalService::HandleLoginSSLErrors);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { AccessTokenRequestFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AccessTokenRequestFinished(reply); });
 
 }
 
@@ -555,7 +555,7 @@ void TidalService::SendLoginWithCredentials(const QString &api_token, const QStr
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &TidalService::HandleLoginSSLErrors);
-  QObject::connect(reply, &QNetworkReply::finished, [this, reply]() { HandleAuthReply(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { HandleAuthReply(reply); });
   replies_ << reply;
 
   //qLog(Debug) << "Tidal: Sending request" << url << query;

@@ -156,7 +156,7 @@ void SubsonicRequest::FlushAlbumsRequests() {
     QNetworkReply *reply;
     reply = CreateGetRequest(QString("getAlbumList2"), params);
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumsReplyReceived(reply, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumsReplyReceived(reply, request.offset); });
 
   }
 
@@ -350,7 +350,7 @@ void SubsonicRequest::FlushAlbumSongsRequests() {
     ParamList params = ParamList() << Param("id", request.album_id);
     QNetworkReply *reply = CreateGetRequest(QString("getAlbum"), params);
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.album_artist); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.album_artist); });
 
   }
 
@@ -743,7 +743,7 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
 
     QNetworkReply *reply = network_->get(req);
     album_cover_replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, [this, reply, request]() { AlbumCoverReceived(reply, request.url, request.filename); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumCoverReceived(reply, request.url, request.filename); });
 
   }
 
