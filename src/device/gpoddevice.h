@@ -23,6 +23,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <gpod/itdb.h>
 
 #include <QObject>
@@ -32,6 +34,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QTemporaryFile>
 
 #include "core/song.h"
 #include "core/musicstorage.h"
@@ -76,10 +79,11 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   Itdb_Track *AddTrackToITunesDb(const Song &metadata);
   void AddTrackToModel(Itdb_Track *track, const QString &prefix);
   bool RemoveTrackFromITunesDb(const QString &path, const QString &relative_to = QString());
-  virtual void FinaliseDatabase() {}
 
  private:
-  void WriteDatabase(bool success);
+  void Start();
+  void Finish(const bool success);
+  bool WriteDatabase();
 
  protected:
   GPodLoader *loader_;
@@ -93,6 +97,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   QMutex db_busy_;
   SongList songs_to_add_;
   SongList songs_to_remove_;
+  QList<std::shared_ptr<QTemporaryFile>> cover_files_;
 };
 
 #endif // GPODDEVICE_H

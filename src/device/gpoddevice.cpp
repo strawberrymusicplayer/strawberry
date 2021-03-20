@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <glib.h>
 #include <gpod/itdb.h>
 
@@ -35,6 +37,7 @@
 #include <QImage>
 #include <QtDebug>
 #include <QTemporaryFile>
+#include <QStandardPaths>
 
 #include "core/logging.h"
 #include "core/application.h"
@@ -130,7 +133,7 @@ void GPodDevice::LoadFinished(Itdb_iTunesDB *db, bool success) {
 
 void GPodDevice::LoaderError(const QString &message) { app_->AddError(message); }
 
-bool GPodDevice::StartCopy(QList<Song::FileType> *supported_filetypes) {
+void GPodDevice::Start() {
 
   {
     // Wait for the database to be loaded
@@ -141,7 +144,14 @@ bool GPodDevice::StartCopy(QList<Song::FileType> *supported_filetypes) {
   // Ensure only one "organize files" can be active at any one time
   db_busy_.lock();
 
+}
+
+bool GPodDevice::StartCopy(QList<Song::FileType> *supported_filetypes) {
+
+  Start();
+
   if (supported_filetypes) GetSupportedFiletypes(supported_filetypes);
+
   return true;
 
 }
@@ -178,29 +188,31 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
 
   Itdb_Track *track = AddTrackToITunesDb(job.metadata_);
 
+  std::shared_ptr<QTemporaryFile> cover_file;
   if (job.albumcover_) {
     bool result = false;
     if (!job.metadata_.image().isNull()) {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
-      // Workaround, see issue: https://github.com/strawberrymusicplayer/strawberry/issues/519
-      // result = itdb_track_set_thumbnails_from_data(track, job.metadata_.image().constBits(), job.metadata_.image().sizeInBytes());
-      QTemporaryFile cover_file;
-      if (cover_file.open()) {
-        QImage image = job.metadata_.image();
-        if (image.save(cover_file.fileName(), "JPG")) {
-          result = itdb_track_set_thumbnails(track, cover_file.fileName().toUtf8().constData());
-          if (result) track->has_artwork = 1;
-        }
-        cover_file.close();
-        cover_file.remove();
-      }
+#ifdef Q_OS_LINUX
+      QString temp_path = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/organize";
 #else
-      result = itdb_track_set_thumbnails_from_data(track, job.metadata_.image().constBits(), job.metadata_.image().byteCount());
-      if (result) track->has_artwork = 1;
+      QString temp_path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 #endif
+      if (!QDir(temp_path).exists()) QDir().mkpath(temp_path);
+      cover_file = std::make_shared<QTemporaryFile>(temp_path + "/track-albumcover-XXXXXX.jpg");
+      cover_file->setAutoRemove(true);
+      if (cover_file->open()) {
+        QImage image = job.metadata_.image();
+        if (image.save(cover_file->fileName(), "JPG")) {
+          result = itdb_track_set_thumbnails(track, QFile::encodeName(cover_file->fileName()));
+          if (result) {
+            cover_files_ << cover_file;
+            track->has_artwork = 1;
+          }
+        }
+      }
     }
     else if (!job.cover_source_.isEmpty()) {
-      result = itdb_track_set_thumbnails(track, job.cover_source_.toUtf8().constData());
+      result = itdb_track_set_thumbnails(track, QFile::encodeName(job.cover_source_));
       if (result) track->has_artwork = 1;
     }
     else {
@@ -215,7 +227,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
   GError *error = nullptr;
   itdb_cp_track_to_ipod(track, QDir::toNativeSeparators(job.source_).toLocal8Bit().constData(), &error);
   if (error) {
-    qLog(Error) << "copying failed:" << error->message;
+    qLog(Error) << "Copying failed:" << error->message;
     app_->AddError(QString::fromUtf8(error->message));
     g_error_free(error);
 
@@ -248,24 +260,28 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
 
 }
 
-void GPodDevice::WriteDatabase(bool success) {
+bool GPodDevice::WriteDatabase() {
 
+  // Write the itunes database
+  GError *error = nullptr;
+  itdb_write(db_, &error);
+  cover_files_.clear();
+  if (error) {
+    qLog(Error) << "Writing database failed:" << error->message;
+    app_->AddError(QString::fromUtf8(error->message));
+    g_error_free(error);
+    return false;
+  }
+  else return true;
+
+}
+
+void GPodDevice::Finish(const bool success) {
+
+  // Update the collection model
   if (success) {
-    // Write the itunes database
-    GError *error = nullptr;
-    itdb_write(db_, &error);
-    if (error) {
-      qLog(Error) << "writing database failed:" << error->message;
-      app_->AddError(QString::fromUtf8(error->message));
-      g_error_free(error);
-    }
-    else {
-      FinaliseDatabase();
-
-      // Update the collection model
-      if (!songs_to_add_.isEmpty()) backend_->AddOrUpdateSongs(songs_to_add_);
-      if (!songs_to_remove_.isEmpty()) backend_->DeleteSongs(songs_to_remove_);
-    }
+    if (!songs_to_add_.isEmpty()) backend_->AddOrUpdateSongs(songs_to_add_);
+    if (!songs_to_remove_.isEmpty()) backend_->DeleteSongs(songs_to_remove_);
   }
 
   // This is done in the organize thread so close the unique DB connection.
@@ -273,16 +289,21 @@ void GPodDevice::WriteDatabase(bool success) {
 
   songs_to_add_.clear();
   songs_to_remove_.clear();
+  cover_files_.clear();
+
   db_busy_.unlock();
 
 }
 
 void GPodDevice::FinishCopy(bool success) {
-  WriteDatabase(success);
+
+  if (success) success = WriteDatabase();
+  Finish(success);
   ConnectedDevice::FinishCopy(success);
+
 }
 
-void GPodDevice::StartDelete() { StartCopy(nullptr); }
+void GPodDevice::StartDelete() { Start(); }
 
 bool GPodDevice::RemoveTrackFromITunesDb(const QString &path, const QString &relative_to) {
 
@@ -342,8 +363,11 @@ bool GPodDevice::DeleteFromStorage(const DeleteJob &job) {
 }
 
 void GPodDevice::FinishDelete(bool success) {
-  WriteDatabase(success);
+
+  if (success) success = WriteDatabase();
+  Finish(success);
   ConnectedDevice::FinishDelete(success);
+
 }
 
 bool GPodDevice::GetSupportedFiletypes(QList<Song::FileType> *ret) {
