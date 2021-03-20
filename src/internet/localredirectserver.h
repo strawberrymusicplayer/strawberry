@@ -2,7 +2,7 @@
  * This file was part of Clementine.
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
  * Copyright 2014, Krzysztof Sobiecki <sobkas@gmail.com>
- * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

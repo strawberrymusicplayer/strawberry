@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
- * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
- * Copyright 2020, Pascal Below <spezifisch@below.fr>
+ * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2021, Pascal Below <spezifisch@below.fr>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2011 by Mike McQuaid
+Copyright (C) 2018-2021 by Jonas Kvinge <jonas@jkvinge.net>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
