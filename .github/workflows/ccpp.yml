@@ -72,83 +72,6 @@ jobs:
         run: ../dist/scripts/maketarball.sh
 
 
-  build_opensuse_lp151:
-    name: Build openSUSE Leap 15.1
-    runs-on: ubuntu-latest
-    container:
-      image: opensuse/leap:15.1
-    steps:
-      - uses: actions/checkout@v1.2.0
-      - name: Update packages
-        run: zypper --non-interactive --gpg-auto-import-keys ref
-      - name: Install openSUSE dependencies
-        run: >
-            zypper --non-interactive --gpg-auto-import-keys install
-            lsb-release
-            rpm-build
-            git
-            tar
-            make
-            cmake
-            gcc
-            gcc-c++
-            gettext-tools
-            glibc-devel
-            libboost_headers-devel
-            boost-devel
-            glib2-devel
-            glib2-tools
-            dbus-1-devel
-            alsa-devel
-            libnotify-devel
-            libgnutls-devel
-            protobuf-devel
-            sqlite3-devel
-            libpulse-devel
-            gstreamer-devel
-            gstreamer-plugins-base-devel
-            vlc-devel
-            taglib-devel
-            libQt5Core-devel
-            libQt5Gui-devel
-            libQt5Widgets-devel
-            libQt5Concurrent-devel
-            libQt5Network-devel
-            libQt5Sql-devel
-            libQt5DBus-devel
-            libQt5Test-devel
-            libqt5-qtx11extras-devel
-            libqt5-qtbase-common-devel
-            libQt5Sql5-sqlite
-            libqt5-linguist-devel
-            libcdio-devel
-            libgpod-devel
-            libmtp-devel
-            libchromaprint-devel
-            desktop-file-utils
-            update-desktop-files
-            appstream-glib
-            hicolor-icon-theme
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
-      - name: Create source tarball
-        working-directory: build
-        run: ../dist/scripts/maketarball.sh
-      - name: Create RPM build sources directories
-        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
-      - name: Copy source tarball
-        working-directory: build
-        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
-      - name: Build RPM
-        working-directory: build
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
-
-
   build_opensuse_lp152_qt5:
     name: Build openSUSE Leap 15.2 Qt 5
     runs-on: ubuntu-latest
@@ -224,6 +147,7 @@ jobs:
       - name: Build RPM
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
+
 
   build_opensuse_lp152_qt6:
     name: Build openSUSE Leap 15.2 Qt 6
@@ -301,6 +225,162 @@ jobs:
       - name: Build RPM
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_opensuse_lp153_qt5:
+    name: Build openSUSE Leap 15.3 Qt 5
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/leap:15.3
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Update packages
+        run: zypper --non-interactive --gpg-auto-import-keys ref
+      - name: Install openSUSE dependencies
+        run: >
+            zypper --non-interactive --gpg-auto-import-keys install
+            lsb-release
+            rpm-build
+            git
+            tar
+            make
+            cmake
+            gcc
+            gcc-c++
+            gettext-tools
+            glibc-devel
+            libboost_headers-devel
+            boost-devel
+            glib2-devel
+            glib2-tools
+            dbus-1-devel
+            alsa-devel
+            libnotify-devel
+            libgnutls-devel
+            protobuf-devel
+            sqlite3-devel
+            libpulse-devel
+            gstreamer-devel
+            gstreamer-plugins-base-devel
+            vlc-devel
+            taglib-devel
+            libQt5Core-devel
+            libQt5Gui-devel
+            libQt5Widgets-devel
+            libQt5Concurrent-devel
+            libQt5Network-devel
+            libQt5Sql-devel
+            libQt5DBus-devel
+            libQt5Test-devel
+            libqt5-qtx11extras-devel
+            libqt5-qtbase-common-devel
+            libQt5Sql5-sqlite
+            libqt5-linguist-devel
+            libcdio-devel
+            libgpod-devel
+            libmtp-devel
+            libchromaprint-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_opensuse_lp153_qt6:
+    name: Build openSUSE Leap 15.3 Qt 6
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/leap:15.3
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Add Qt 6 repo
+        run: zypper -n ar -c -f -n 'repo-qt6' https://download.opensuse.org/repositories/home:/jonaski:/qt6/openSUSE_Leap_15.3/ repo-qt6
+      - name: Update packages
+        run: zypper --non-interactive --gpg-auto-import-keys ref
+      - name: Install openSUSE dependencies
+        run: >
+            zypper --non-interactive --gpg-auto-import-keys install
+            lsb-release
+            rpm-build
+            git
+            tar
+            make
+            cmake
+            gcc
+            gcc-c++
+            gettext-tools
+            glibc-devel
+            libboost_headers-devel
+            boost-devel
+            glib2-devel
+            glib2-tools
+            dbus-1-devel
+            alsa-devel
+            libnotify-devel
+            libgnutls-devel
+            protobuf-devel
+            sqlite3-devel
+            libpulse-devel
+            gstreamer-devel
+            gstreamer-plugins-base-devel
+            vlc-devel
+            taglib-devel
+            qt6-core-devel
+            qt6-gui-devel
+            qt6-widgets-devel
+            qt6-concurrent-devel
+            qt6-network-devel
+            qt6-sql-devel
+            qt6-dbus-devel
+            qt6-test-devel
+            qt6-base-common-devel
+            qt6-sql-sqlite
+            qt6-linguist-devel
+            libcdio-devel
+            libgpod-devel
+            libmtp-devel
+            libchromaprint-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
 
   build_opensuse_tumbleweed_qt5:
     name: Build openSUSE Tumbleweed Qt 5
@@ -542,6 +622,83 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: fedora:33
+    env:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - uses: actions/checkout@v1.2.0
+
+      - name: Update packages
+        run: yum update --assumeyes
+
+      - name: Upgrade packages
+        run: yum upgrade --assumeyes
+
+      - name: Install Fedora dependencies
+        run: >
+            dnf install --assumeyes
+            @development-tools
+            redhat-lsb-core
+            git
+            glibc
+            gcc-c++
+            rpmdevtools
+            make
+            cmake
+            pkgconfig
+            glib
+            man
+            tar
+            gettext
+            openssh
+            boost-devel
+            dbus-devel
+            protobuf-devel
+            protobuf-compiler
+            sqlite-devel
+            alsa-lib-devel
+            pulseaudio-libs-devel
+            libnotify-devel
+            gnutls-devel
+            qt5-qtbase-devel
+            qt5-qtx11extras-devel
+            qt5-qttools-devel
+            gstreamer1-devel
+            gstreamer1-plugins-base-devel
+            taglib-devel
+            libcdio-devel
+            libgpod-devel
+            libmtp-devel
+            libchromaprint-devel
+            fftw-devel
+            desktop-file-utils
+            libappstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        working-directory: build
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_fedora_34:
+    name: Build Fedora 34
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:34
     env:
       RPM_BUILD_NCPUS: "2"
     steps:
