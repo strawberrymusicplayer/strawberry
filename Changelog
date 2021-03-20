@@ -2,6 +2,15 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fix marking songs available.
+    * Fix crash when transcoding music, or copying music to devices with transcoding.
+    * Fix copying album covers to iPod.
+    * (macOS) Fix crash when opening cover manager.
+    * (macOS) Fix broken Qt plugins resulting in album covers not showing.
+
 0.9.1:
 
   Bugfixes:
