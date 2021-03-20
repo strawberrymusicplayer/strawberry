@@ -188,7 +188,6 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
 
   Itdb_Track *track = AddTrackToITunesDb(job.metadata_);
 
-  std::shared_ptr<QTemporaryFile> cover_file;
   if (job.albumcover_) {
     bool result = false;
     if (!job.metadata_.image().isNull()) {
@@ -198,7 +197,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
       QString temp_path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 #endif
       if (!QDir(temp_path).exists()) QDir().mkpath(temp_path);
-      cover_file = std::make_shared<QTemporaryFile>(temp_path + "/track-albumcover-XXXXXX.jpg");
+      std::shared_ptr<QTemporaryFile> cover_file = std::make_shared<QTemporaryFile>(temp_path + "/track-albumcover-XXXXXX.jpg");
       cover_file->setAutoRemove(true);
       if (cover_file->open()) {
         QImage image = job.metadata_.image();
@@ -219,7 +218,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
       result = true;
     }
     if (!result) {
-      qLog(Error) << "failed to set album cover image";
+      qLog(Error) << "Failed to set album cover image";
     }
   }
 
