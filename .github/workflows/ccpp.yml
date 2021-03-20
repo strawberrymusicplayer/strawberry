@@ -1063,7 +1063,8 @@ jobs:
           PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
           Qt6_DIR: /usr/local/opt/qt6/lib/cmake
           Qt5LinguistTools_DIR: /usr/local/opt/qt6/lib/cmake/Qt6LinguistTools
-          GST_SCANNER_PATH: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
+          GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
+          GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
         working-directory: build
         run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WITH_QT6=ON -DBUILD_WERROR=ON -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake
@@ -1135,7 +1136,8 @@ jobs:
           PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
           Qt5_DIR: /usr/local/opt/qt6/lib/cmake
           Qt5LinguistTools_DIR: /usr/local/opt/qt6/lib/cmake/Qt6LinguistTools
-          GST_SCANNER_PATH: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
+          GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
+          GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
         working-directory: build
         run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WITH_QT6=ON -DBUILD_WERROR=ON -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake

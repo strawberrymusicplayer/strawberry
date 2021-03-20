@@ -1196,7 +1196,13 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
 
     // GIO modules
     {
-      const QString sourcePath = "/usr/local/lib/gio/modules/libgiognutls.so";
+      QString sourcePath = qgetenv("GIO_EXTRA_MODULES");
+      if (sourcePath.isEmpty()) {
+        sourcePath = "/usr/local/lib/gio/modules/libgiognutls.so";
+      }
+      else {
+        sourcePath = sourcePath + "/libgiognutls.so";
+      }
       const QString destinationPath = appBundleInfo.path + "/Contents/PlugIns/gio-modules/libgiognutls.so";
       QDir dir;
       if (dir.mkpath(QFileInfo(destinationPath).path()) && copyFilePrintStatus(sourcePath, destinationPath)) {
@@ -1208,7 +1214,10 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
 
     // gst-plugin-scanner
     {
-      const QString sourcePath = "/usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner";
+      QString sourcePath = qgetenv("GST_PLUGIN_SCANNER");
+      if (sourcePath.isEmpty()) {
+        sourcePath = "/usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner";
+      }
       const QString destinationPath = appBundleInfo.path + "/" + "Contents/PlugIns/gst-plugin-scanner";
       QDir dir;
       if (dir.mkpath(QFileInfo(destinationPath).path()) && copyFilePrintStatus(sourcePath, destinationPath)) {
@@ -1269,7 +1278,11 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
                                                   << "libgstlame.dylib"
                                                   << "libgstmusepack.dylib";
 
-   QString gstreamer_plugins_dir = "/usr/local/lib/gstreamer-1.0";
+   QString gstreamer_plugins_dir = qgetenv("GST_PLUGIN_PATH");
+   if (gstreamer_plugins_dir.isEmpty()) {
+     gstreamer_plugins_dir = "/usr/local/lib/gstreamer-1.0";
+   }
+
     for (const QString &plugin : gstreamer_plugins) {
         const QString sourcePath = gstreamer_plugins_dir + "/" + plugin;
         const QString destinationPath = appBundleInfo.path + "/Contents/PlugIns/gstreamer/" + plugin;
