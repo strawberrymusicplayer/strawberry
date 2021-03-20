@@ -97,7 +97,7 @@ AlbumCoverChoiceController::AlbumCoverChoiceController(QWidget *parent) :
     show_cover_(nullptr),
     search_cover_auto_(nullptr),
     save_cover_type_(CollectionSettingsPage::SaveCoverType_Cache),
-    save_cover_filename_(CollectionSettingsPage::SaveCoverFilename_Hash),
+    save_cover_filename_(CollectionSettingsPage::SaveCoverFilename_Pattern),
     cover_overwrite_(false),
     cover_lowercase_(true),
     cover_replace_spaces_(true),
@@ -146,7 +146,7 @@ void AlbumCoverChoiceController::ReloadSettings() {
   QSettings s;
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
   save_cover_type_ = CollectionSettingsPage::SaveCoverType(s.value("save_cover_type", CollectionSettingsPage::SaveCoverType_Cache).toInt());
-  save_cover_filename_ = CollectionSettingsPage::SaveCoverFilename(s.value("save_cover_filename", CollectionSettingsPage::SaveCoverFilename_Hash).toInt());
+  save_cover_filename_ = CollectionSettingsPage::SaveCoverFilename(s.value("save_cover_filename", CollectionSettingsPage::SaveCoverFilename_Pattern).toInt());
   cover_pattern_ = s.value("cover_pattern", "%albumartist-%album").toString();
   cover_overwrite_ = s.value("cover_overwrite", false).toBool();
   cover_lowercase_ = s.value("cover_lowercase", false).toBool();

@@ -169,7 +169,7 @@ void CollectionSettingsPage::Load() {
     case SaveCoverType_Embedded: ui_->radiobutton_save_albumcover_embedded->setChecked(true); break;
   }
 
-  SaveCoverFilename save_cover_filename = SaveCoverFilename(s.value("save_cover_filename", SaveCoverFilename_Hash).toInt());
+  SaveCoverFilename save_cover_filename = SaveCoverFilename(s.value("save_cover_filename", SaveCoverFilename_Pattern).toInt());
   switch (save_cover_filename) {
     case SaveCoverFilename_Hash: ui_->radiobutton_cover_hash->setChecked(true); break;
     case SaveCoverFilename_Pattern: ui_->radiobutton_cover_pattern->setChecked(true); break;
