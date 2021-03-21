@@ -326,17 +326,17 @@ void SingleCoreApplicationPrivate::slotConnectionEstablished() {
   QLocalSocket *nextConnSocket = server_->nextPendingConnection();
   connectionMap_.insert(nextConnSocket, ConnectionInfo());
 
-  QObject::connect(nextConnSocket, &QLocalSocket::aboutToClose, [nextConnSocket, this]() {
+  QObject::connect(nextConnSocket, &QLocalSocket::aboutToClose, this, [nextConnSocket, this]() {
     auto &info = connectionMap_[nextConnSocket];
-    Q_EMIT this->slotClientConnectionClosed(nextConnSocket, info.instanceId);
+    slotClientConnectionClosed(nextConnSocket, info.instanceId);
   });
 
-  QObject::connect(nextConnSocket, &QLocalSocket::disconnected, [nextConnSocket, this]() {
+  QObject::connect(nextConnSocket, &QLocalSocket::disconnected, this, [nextConnSocket, this]() {
     connectionMap_.remove(nextConnSocket);
     nextConnSocket->deleteLater();
   });
 
-  QObject::connect(nextConnSocket, &QLocalSocket::readyRead, [nextConnSocket, this]() {
+  QObject::connect(nextConnSocket, &QLocalSocket::readyRead, this, [nextConnSocket, this]() {
     auto &info = connectionMap_[nextConnSocket];
     switch (info.stage) {
       case StageHeader:
@@ -346,7 +346,7 @@ void SingleCoreApplicationPrivate::slotConnectionEstablished() {
         readInitMessageBody(nextConnSocket);
         break;
       case StageConnected:
-        Q_EMIT this->slotDataAvailable(nextConnSocket, info.instanceId);
+        slotDataAvailable(nextConnSocket, info.instanceId);
         break;
       default:
         break;
@@ -438,7 +438,7 @@ void SingleCoreApplicationPrivate::readInitMessageBody(QLocalSocket *sock) {
   }
 
   if (sock->bytesAvailable() > 0) {
-    Q_EMIT this->slotDataAvailable(sock, instanceId);
+    slotDataAvailable(sock, instanceId);
   }
 
 }
@@ -453,7 +453,7 @@ void SingleCoreApplicationPrivate::slotDataAvailable(QLocalSocket *dataSocket, c
 void SingleCoreApplicationPrivate::slotClientConnectionClosed(QLocalSocket *closedSocket, const quint32 instanceId) {
 
   if (closedSocket->bytesAvailable() > 0) {
-    Q_EMIT slotDataAvailable(closedSocket, instanceId);
+    slotDataAvailable(closedSocket, instanceId);
   }
 
 }
