@@ -8,6 +8,7 @@ Unreleased:
     * Fix marking songs available.
     * Fix crash when transcoding music, or copying music to devices with transcoding.
     * Fix copying album covers to iPod.
+    * Fix playlist tabbar close and save right click actions.
     * (macOS) Fix crash when opening cover manager.
     * (macOS) Fix broken Qt plugins resulting in album covers not showing.
 
