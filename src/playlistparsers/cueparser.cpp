@@ -68,7 +68,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
   // read the first line already
   QString line = text_stream.readLine();
 
-  QVector<CueEntry> entries;
+  QList<CueEntry> entries;
   int files = 0;
 
   // -- whole file
