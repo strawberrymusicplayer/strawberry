@@ -152,6 +152,8 @@ const QString Song::kVariousArtists("various artists");
 
 const QStringList Song::kArticles = QStringList() << "the " << "a " << "an ";
 
+const QStringList Song::kAcceptedExtensions = QStringList() << "aac" << "ac3" << "dts";
+
 struct Song::Private : public QSharedData {
 
   explicit Private(Source source = Source_Unknown);
@@ -1043,6 +1045,13 @@ void Song::InitFromFilePartial(const QString &filename) {
   if (fileref.file()) {
     d->valid_ = true;
     d->source_ = Source_LocalFile;
+    if (d->art_manual_.isEmpty()) InitArtManual();
+  }
+  else if (kAcceptedExtensions.contains(info.suffix(), Qt::CaseInsensitive)) {
+    d->valid_ = true;
+    d->source_ = Source_LocalFile;
+    d->filetype_ = FiletypeByExtension(info.suffix());
+    d->title_ = info.fileName();
     if (d->art_manual_.isEmpty()) InitArtManual();
   }
   else {

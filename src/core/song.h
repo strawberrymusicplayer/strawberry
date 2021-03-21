@@ -127,6 +127,8 @@ class Song {
 
   static const QStringList kArticles;
 
+  static const QStringList kAcceptedExtensions;
+
   static QString JoinSpec(const QString &table);
 
   static Source SourceFromURL(const QUrl &url);
