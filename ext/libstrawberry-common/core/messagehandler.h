@@ -82,7 +82,7 @@ template <typename MT>
 class AbstractMessageHandler : public _MessageHandlerBase {
  public:
   AbstractMessageHandler(QIODevice *device, QObject *parent);
-  ~AbstractMessageHandler() override { AbortAll(); }
+  ~AbstractMessageHandler() override { AbstractMessageHandler::AbortAll(); }
 
   typedef MT MessageType;
   typedef MessageReply<MT> ReplyType;
