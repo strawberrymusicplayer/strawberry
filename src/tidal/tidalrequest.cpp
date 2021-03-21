@@ -671,8 +671,8 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
     }
     QString artist = obj_artist["name"].toString();
 
-    QString quality = obj_item["audioQuality"].toString();
-    QString copyright = obj_item["copyright"].toString();
+    //QString quality = obj_item["audioQuality"].toString();
+    //QString copyright = obj_item["copyright"].toString();
 
     //qLog(Debug) << "Tidal:" << artist << album << quality << copyright;
 
@@ -977,7 +977,7 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
   QJsonValue value_artist = json_obj["artist"];
   QJsonValue value_album = json_obj["album"];
   QJsonValue json_duration = json_obj["duration"];
-  QJsonArray array_artists = json_obj["artists"].toArray();
+  //QJsonArray array_artists = json_obj["artists"].toArray();
 
   QString song_id;
   if (json_obj["id"].isString()) {
@@ -988,7 +988,7 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
   }
 
   QString title = json_obj["title"].toString();
-  QString urlstr = json_obj["url"].toString();
+  //QString urlstr = json_obj["url"].toString();
   int track = json_obj["trackNumber"].toInt();
   int disc = json_obj["volumeNumber"].toInt();
   bool allow_streaming = json_obj["allowStreaming"].toBool();
@@ -1038,12 +1038,12 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
   QString cover = obj_album["cover"].toString();
 
   if (!allow_streaming) {
-    Warn(QString("Song %1 %2 %3 is not allowStreaming").arg(artist).arg(album).arg(title));
+    Warn(QString("Song %1 %2 %3 is not allowStreaming").arg(artist, album, title));
     return QString();
   }
 
   if (!stream_ready) {
-    Warn(QString("Song %1 %2 %3 is not streamReady").arg(artist).arg(album).arg(title));
+    Warn(QString("Song %1 %2 %3 is not streamReady").arg(artist, album, title));
     return QString();
   }
 
@@ -1062,7 +1062,7 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
   }
 
   cover = cover.replace("-", "/");
-  QUrl cover_url (QString("%1/images/%2/%3.jpg").arg(kResourcesUrl).arg(cover).arg(coversize_));
+  QUrl cover_url (QString("%1/images/%2/%3.jpg").arg(kResourcesUrl, cover, coversize_));
 
   title.remove(Song::kTitleRemoveMisc);
 
@@ -1188,7 +1188,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
-    Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype).arg(url.toString()));
+    Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype, url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     AlbumCoverFinishCheck();
     return;

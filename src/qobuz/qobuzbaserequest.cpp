@@ -113,7 +113,6 @@ QByteArray QobuzBaseRequest::GetReplyData(QNetworkReply *reply) {
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("code") && json_obj.contains("message")) {
-          QString status = json_obj["status"].toString();
           int code = json_obj["code"].toInt();
           QString message = json_obj["message"].toString();
           error = QString("%1 (%2)").arg(message).arg(code);

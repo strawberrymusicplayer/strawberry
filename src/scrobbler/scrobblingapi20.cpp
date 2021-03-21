@@ -239,7 +239,7 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
   session_url_query.addQueryItem("method", "auth.getSession");
   session_url_query.addQueryItem("token", token);
   QString data_to_sign;
-  for (QPair<QString, QString> param : session_url_query.queryItems()) {
+  for (const QPair<QString, QString> &param : session_url_query.queryItems()) {
     data_to_sign += param.first + param.second;
   }
   data_to_sign += kSecret;
@@ -764,14 +764,14 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint6
       continue;
     }
 
-    QString artist = obj_artist["#text"].toString();
-    QString album = obj_album["#text"].toString();
+    //QString artist = obj_artist["#text"].toString();
+    //QString album = obj_album["#text"].toString();
     QString song = obj_song["#text"].toString();
     bool ignoredmessage = obj_ignoredmessage["code"].toVariant().toBool();
     QString ignoredmessage_text = obj_ignoredmessage["#text"].toString();
 
     if (ignoredmessage) {
-      Error(QString("Scrobble for \"%1\" ignored: %2").arg(song).arg(ignoredmessage_text));
+      Error(QString("Scrobble for \"%1\" ignored: %2").arg(song, ignoredmessage_text));
     }
     else {
       qLog(Debug) << name_ << "Scrobble for" << song << "accepted";
@@ -917,8 +917,8 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
     return;
   }
 
-  QString artist = json_obj_artist["#text"].toString();
-  QString album = json_obj_album["#text"].toString();
+  //QString artist = json_obj_artist["#text"].toString();
+  //QString album = json_obj_album["#text"].toString();
   QString song = json_obj_song["#text"].toString();
 
   int accepted = obj_attr["accepted"].toVariant().toInt();
@@ -1015,7 +1015,7 @@ void ScrobblingAPI20::Error(const QString &error, const QVariant &debug) {
   qLog(Error) << name_ << error;
   if (debug.isValid()) qLog(Debug) << debug;
 
-  if (app_->scrobbler()->ShowErrorDialog()) { emit ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_).arg(error)); }
+  if (app_->scrobbler()->ShowErrorDialog()) { emit ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_, error)); }
 
 }
 

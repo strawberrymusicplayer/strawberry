@@ -173,7 +173,6 @@ void GeniusLyricsProvider::RequestAccessToken(const QUrl &url, const QUrl &redir
   if (url.hasQuery() && url_query.hasQueryItem("code") && url_query.hasQueryItem("state")) {
 
     QString code = url_query.queryItemValue("code");
-    QString state = url_query.queryItemValue("state");
 
     const ParamList params = ParamList() << Param("code", code)
                                          << Param("client_id", QByteArray::fromBase64(kClientIDB64))
@@ -241,7 +240,7 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
         if (!json_obj.isEmpty() && json_obj.contains("error") && json_obj.contains("error_description")) {
           QString error = json_obj["error"].toString();
           QString error_description = json_obj["error_description"].toString();
-          login_errors_ << QString("Authentication failure: %1 (%2)").arg(error).arg(error_description);
+          login_errors_ << QString("Authentication failure: %1 (%2)").arg(error, error_description);
         }
       }
       if (login_errors_.isEmpty()) {

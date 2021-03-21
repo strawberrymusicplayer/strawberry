@@ -142,7 +142,6 @@ QByteArray DeezerCoverProvider::GetReplyData(QNetworkReply *reply) {
             QJsonObject obj_error = value_error.toObject();
             int code = obj_error["code"].toInt();
             QString message = obj_error["message"].toString();
-            QString type = obj_error["type"].toString();
             error = QString("%1 (%2)").arg(message).arg(code);
           }
         }
@@ -178,7 +177,6 @@ QJsonValue DeezerCoverProvider::ExtractData(const QByteArray &data) {
     QJsonObject obj_error = value_error.toObject();
     const int code = obj_error["code"].toInt();
     QString message = obj_error["message"].toString();
-    QString type = obj_error["type"].toString();
     Error(QString("%1 (%2)").arg(message).arg(code));
     return QJsonValue();
   }

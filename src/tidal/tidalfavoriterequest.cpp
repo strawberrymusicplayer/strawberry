@@ -163,8 +163,7 @@ void TidalFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
     return;
   }
 
-  QString error;
-  QByteArray data = GetReplyData(reply, false);
+  GetReplyData(reply, false);
 
   if (reply->error() != QNetworkReply::NoError) {
     return;
@@ -270,8 +269,7 @@ void TidalFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
     return;
   }
 
-  QString error;
-  QByteArray data = GetReplyData(reply, false);
+  GetReplyData(reply, false);
   if (reply->error() != QNetworkReply::NoError) {
     return;
   }

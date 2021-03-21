@@ -138,7 +138,6 @@ return_song:
 
 void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
 
-  QFileInfo file;
   QXmlStreamWriter writer(device);
   writer.setAutoFormatting(true);
   writer.setAutoFormattingIndent(2);

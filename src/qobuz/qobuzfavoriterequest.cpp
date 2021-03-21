@@ -146,7 +146,7 @@ void QobuzFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
     return;
   }
 
-  QByteArray data = GetReplyData(reply);
+  GetReplyData(reply);
 
   if (reply->error() != QNetworkReply::NoError) {
     return;
@@ -248,7 +248,7 @@ void QobuzFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
     return;
   }
 
-  QByteArray data = GetReplyData(reply);
+  GetReplyData(reply);
   if (reply->error() != QNetworkReply::NoError) {
     return;
   }

@@ -80,7 +80,7 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent) 
   timer_submit_.setSingleShot(true);
   QObject::connect(&timer_submit_, &QTimer::timeout, this, &ListenBrainzScrobbler::Submit);
 
-  ReloadSettings();
+  ListenBrainzScrobbler::ReloadSettings();
   LoadSession();
 
 }
@@ -283,7 +283,6 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (json_obj.contains("error") && json_obj.contains("error_description")) {
-          QString error_code = json_obj["error"].toString();
           error = json_obj["error_description"].toString();
         }
       }
@@ -307,7 +306,6 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
   }
   
   if (json_obj.contains("error") && json_obj.contains("error_description")) {
-    QString error = json_obj["error"].toString();
     QString failure_reason = json_obj["error_description"].toString();
     AuthError(failure_reason);
     return;
@@ -479,7 +477,6 @@ void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply
   }
 
   if (json_obj.contains("code") && json_obj.contains("error_description")) {
-    QString error_code = json_obj["code"].toString();
     QString error_desc = json_obj["error_description"].toString();
     Error(error_desc);
     return;
@@ -609,7 +606,6 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, QList<
   }
 
   if (json_obj.contains("code") && json_obj.contains("error_description")) {
-    QString error_code = json_obj["code"].toString();
     QString error_desc = json_obj["error_description"].toString();
     Error(error_desc);
     cache_->ClearSent(list);
