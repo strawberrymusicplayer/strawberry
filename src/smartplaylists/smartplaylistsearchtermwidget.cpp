@@ -314,7 +314,7 @@ void SmartPlaylistSearchTermWidget::set_overlay_opacity(float opacity) {
 }
 
 float SmartPlaylistSearchTermWidget::overlay_opacity() const {
-  return overlay_ ? overlay_->opacity() : 0.0;
+  return overlay_ ? overlay_->opacity() : float(0.0);
 }
 
 void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term) {

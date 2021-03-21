@@ -43,7 +43,7 @@ class SmartPlaylistQueryWizardPlugin::SearchPage : public QWizardPage {
     ui_->setupUi(this);
   }
 
-  bool isComplete() const {
+  bool isComplete() const override {
     if (ui_->type->currentIndex() == 2)  // All songs
       return true;
 
@@ -67,9 +67,9 @@ class SmartPlaylistQueryWizardPlugin::SortPage : public QWizardPage {
   SortPage(SmartPlaylistQueryWizardPlugin *plugin, QWidget *parent, int next_id)
       : QWizardPage(parent), next_id_(next_id), plugin_(plugin) {}
 
-  void showEvent(QShowEvent*) { plugin_->UpdateSortPreview(); }
+  void showEvent(QShowEvent*) override { plugin_->UpdateSortPreview(); }
 
-  int nextId() const { return next_id_; }
+  int nextId() const override { return next_id_; }
   int next_id_;
 
   SmartPlaylistQueryWizardPlugin *plugin_;

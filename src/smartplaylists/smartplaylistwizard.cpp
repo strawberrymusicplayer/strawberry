@@ -38,7 +38,7 @@ class SmartPlaylistWizard::TypePage : public QWizardPage {
  public:
   explicit TypePage(QWidget *parent) : QWizardPage(parent), next_id_(-1) {}
 
-  int nextId() const { return next_id_; }
+  int nextId() const override { return next_id_; }
   int next_id_;
 };
 
@@ -51,8 +51,8 @@ class SmartPlaylistWizard::FinishPage : public QWizardPage {
 
   ~FinishPage() { delete ui_; }
 
-  int nextId() const { return -1; }
-  bool isComplete() const { return !ui_->name->text().isEmpty(); }
+  int nextId() const override { return -1; }
+  bool isComplete() const override { return !ui_->name->text().isEmpty(); }
 
   Ui_SmartPlaylistWizardFinishPage *ui_;
 
