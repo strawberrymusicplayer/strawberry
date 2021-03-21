@@ -128,7 +128,7 @@ void TrackSlider::SetValue(const int elapsed, const int total) {
 
   setting_value_ = false;
 
-  UpdateTimes(elapsed / kMsecPerSec);
+  UpdateTimes(static_cast<int>(elapsed / kMsecPerSec));
 
 }
 
@@ -137,13 +137,13 @@ void TrackSlider::UpdateTimes(const int elapsed) {
   ui_->elapsed->setText(Utilities::PrettyTime(elapsed));
   // Update normally if showing remaining time
   if (show_remaining_time_) {
-    ui_->remaining->setText("-" + Utilities::PrettyTime((ui_->slider->maximum() / kMsecPerSec) - elapsed));
+    ui_->remaining->setText("-" + Utilities::PrettyTime(static_cast<int>((ui_->slider->maximum() / kMsecPerSec) - elapsed)));
   }
   else {
     // Check if slider maximum value is changed before updating
     if (slider_maximum_value_ != ui_->slider->maximum() || !ui_->slider->isEnabled()) {
       slider_maximum_value_ = ui_->slider->maximum();
-      ui_->remaining->setText(Utilities::PrettyTime((ui_->slider->maximum() / kMsecPerSec)));
+      ui_->remaining->setText(Utilities::PrettyTime(static_cast<int>((ui_->slider->maximum() / kMsecPerSec))));
     }
   }
   setEnabled(true);
@@ -169,14 +169,14 @@ void TrackSlider::SetCanSeek(const bool can_seek) {
 
 void TrackSlider::Seek(const int gap) {
   if (ui_->slider->isEnabled())
-    ui_->slider->setValue(ui_->slider->value() + gap * kMsecPerSec);
+    ui_->slider->setValue(static_cast<int>(ui_->slider->value() + gap * kMsecPerSec));
 }
 
 void TrackSlider::ValueMaybeChanged(const int value) {
   if (setting_value_) return;
 
-  UpdateTimes(value / kMsecPerSec);
-  emit ValueChangedSeconds(value / kMsecPerSec);
+  UpdateTimes(static_cast<int>(value / kMsecPerSec));
+  emit ValueChangedSeconds(static_cast<int>(value / kMsecPerSec));
 }
 
 bool TrackSlider::event(QEvent *e) {
@@ -200,7 +200,7 @@ void TrackSlider::ToggleTimeDisplay() {
     // We set the value to -1 because the label must be updated
     slider_maximum_value_ = -1;
   }
-  UpdateTimes(ui_->slider->value() / kMsecPerSec);
+  UpdateTimes(static_cast<int>(ui_->slider->value() / kMsecPerSec));
 
   // Save this setting
   QSettings s;

@@ -376,7 +376,7 @@ float AlbumCoverFetcherSearch::ScoreImage(const QSize size) const {
   const float size_score = std::sqrt(float(size.width() * size.height())) / kTargetSize;
 
   // A 1:1 image scores 1.0, anything else scores less
-  const float aspect_score = 1.0 - float(std::max(size.width(), size.height()) - std::min(size.width(), size.height())) / std::max(size.height(), size.width());
+  const float aspect_score = float(1.0) - float(std::max(size.width(), size.height()) - std::min(size.width(), size.height())) / std::max(size.height(), size.width());
 
   return size_score + aspect_score;
 

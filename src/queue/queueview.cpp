@@ -146,7 +146,7 @@ void QueueView::MoveDown() {
   if (indexes.isEmpty() || indexes.last().row() == current_playlist_->queue()->rowCount()-1)
     return;
 
-  for (int i = indexes.count() - 1; i >= 0; --i) {
+  for (int i = static_cast<int>(indexes.count() - 1); i >= 0; --i) {
     current_playlist_->queue()->MoveDown(indexes[i].row());
   }
 

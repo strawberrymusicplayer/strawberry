@@ -265,7 +265,7 @@ void Queue::Clear() {
 
   if (source_indexes_.isEmpty()) return;
 
-  beginRemoveRows(QModelIndex(), 0, source_indexes_.count() - 1);
+  beginRemoveRows(QModelIndex(), 0, static_cast<int>(source_indexes_.count() - 1));
   source_indexes_.clear();
   endRemoveRows();
 
@@ -285,7 +285,7 @@ void Queue::Move(const QList<int> &proxy_rows, int pos) {
   }
 
   // Put the items back in
-  const int start = pos == -1 ? source_indexes_.count() : pos;
+  const int start = pos == -1 ? static_cast<int>(source_indexes_.count()) : pos;
   for (int i = start; i < start + moved_items.count(); ++i) {
     source_indexes_.insert(i, moved_items[i - start]);
   }
@@ -390,8 +390,8 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, 
     }
 
     if (!source_indexes.isEmpty()) {
-      const int insert_point = row == -1 ? source_indexes_.count() : row;
-      beginInsertRows(QModelIndex(), insert_point, insert_point + source_indexes.count() - 1);
+      const int insert_point = row == -1 ? static_cast<int>(source_indexes_.count()) : row;
+      beginInsertRows(QModelIndex(), insert_point, insert_point + static_cast<int>(source_indexes.count() - 1));
       for (int i = 0 ; i < source_indexes.count() ; ++i) {
         source_indexes_.insert(insert_point + i, source_indexes[i]);
       }

@@ -39,9 +39,9 @@
 
 using Analyzer::Scope;
 
-const uint BoomAnalyzer::kColumnWidth = 4;
-const uint BoomAnalyzer::kMaxBandCount = 256;
-const uint BoomAnalyzer::kMinBandCount = 32;
+const int BoomAnalyzer::kColumnWidth = 4;
+const int BoomAnalyzer::kMaxBandCount = 256;
+const int BoomAnalyzer::kMinBandCount = 32;
 
 const char* BoomAnalyzer::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Boom analyzer");
 
@@ -80,10 +80,10 @@ void BoomAnalyzer::resizeEvent(QResizeEvent* e) {
   const uint HEIGHT = height() - 2;
   const double h = 1.2 / HEIGHT;
 
-  bands_ = qMin(static_cast<uint>(static_cast<double>(width() + 1) / (kColumnWidth + 1)) + 1, kMaxBandCount);
+  bands_ = qMin(static_cast<int>(static_cast<double>(width() + 1) / (kColumnWidth + 1)) + 1, kMaxBandCount);
   scope_.resize(bands_);
 
-  F_ = static_cast<double>(HEIGHT) / (log10(256) * 1.1 /*<- max. amplitude*/);
+  F_ = double(HEIGHT) / (log10(256) * double(1.1) /*<- max. amplitude*/);
 
   barPixmap_ = QPixmap(kColumnWidth - 2, HEIGHT);
   canvas_ = QPixmap(size());
@@ -106,7 +106,7 @@ void BoomAnalyzer::transform(Scope& s) {
   fht_->spectrum(s.data());
   fht_->scale(s.data(), 1.0 / 50);
 
-  s.resize(scope_.size() <= kMaxBandCount / 2 ? kMaxBandCount / 2 : scope_.size());
+  s.resize(scope_.size() <= static_cast<quint64>(kMaxBandCount) / 2 ? kMaxBandCount / 2 : scope_.size());
 
 }
 
@@ -116,7 +116,7 @@ void BoomAnalyzer::analyze(QPainter& p, const Scope& scope, bool new_frame) {
     p.drawPixmap(0, 0, canvas_);
     return;
   }
-  float h;
+  double h;
   const uint MAX_HEIGHT = height() - 1;
 
   QPainter canvas_painter(&canvas_);
@@ -124,7 +124,7 @@ void BoomAnalyzer::analyze(QPainter& p, const Scope& scope, bool new_frame) {
 
   Analyzer::interpolate(scope, scope_);
 
-  for (uint i = 0, x = 0, y; i < bands_; ++i, x += kColumnWidth + 1) {
+  for (int i = 0, x = 0, y; i < bands_; ++i, x += kColumnWidth + 1) {
     h = log10(scope_[i] * 256.0) * F_;
 
     if (h > MAX_HEIGHT) h = MAX_HEIGHT;
@@ -157,13 +157,13 @@ void BoomAnalyzer::analyze(QPainter& p, const Scope& scope, bool new_frame) {
       }
     }
 
-    y = height() - uint(bar_height_[i]);
+    y = height() - static_cast<int>(bar_height_[i]);
     canvas_painter.drawPixmap(x + 1, y, barPixmap_, 0, y, -1, -1);
     canvas_painter.setPen(fg_);
     if (bar_height_[i] > 0)
       canvas_painter.drawRect(x, y, kColumnWidth - 1, height() - y - 1);
 
-    y = height() - uint(peak_height_[i]);
+    y = height() - static_cast<int>(peak_height_[i]);
     canvas_painter.setPen(palette().color(QPalette::Midlight));
     canvas_painter.drawLine(x, y, x + kColumnWidth - 1, y);
   }

@@ -353,9 +353,9 @@ bool GstEnginePipeline::InitAudioBin() {
         const int index_in_eq = i + 1;
         GstObject *band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), index_in_eq));
 
-        const float frequency = kEqBandFrequencies[i];
-        const float bandwidth = frequency - last_band_frequency;
-        last_band_frequency = frequency;
+        const float frequency = static_cast<float>(kEqBandFrequencies[i]);
+        const float bandwidth = frequency - static_cast<float>(last_band_frequency);
+        last_band_frequency = static_cast<int>(frequency);
 
         g_object_set(G_OBJECT(band), "freq", frequency, "bandwidth", bandwidth, "gain", 0.0f, nullptr);
         g_object_unref(G_OBJECT(band));
@@ -628,8 +628,8 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     gst_buffer_map(buf, &map_info, GST_MAP_READ);
 
     int32_t *s = reinterpret_cast<int32_t*>(map_info.data);
-    int samples = (map_info.size / sizeof(int32_t)) / channels;
-    int buf16_size = samples * sizeof(int16_t) * channels;
+    int samples = static_cast<int>((map_info.size / sizeof(int32_t)) / channels);
+    int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
     int16_t *d = static_cast<int16_t*>(g_malloc(buf16_size));
     memset(d, 0, buf16_size);
     for (int i = 0 ; i < (samples * channels) ; ++i) {
@@ -649,12 +649,12 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     gst_buffer_map(buf, &map_info, GST_MAP_READ);
 
     float *s = reinterpret_cast<float*>(map_info.data);
-    int samples = (map_info.size / sizeof(float)) / channels;
-    int buf16_size = samples * sizeof(int16_t) * channels;
+    int samples = static_cast<int>((map_info.size / sizeof(float)) / channels);
+    int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
     int16_t *d = static_cast<int16_t*>(g_malloc(buf16_size));
     memset(d, 0, buf16_size);
     for (int i = 0 ; i < (samples * channels) ; ++i) {
-      float sample_float = (s[i] * 32768.0);
+      float sample_float = (s[i] * float(32768.0));
       d[i] = static_cast<int16_t>(sample_float);
     }
     gst_buffer_unmap(buf, &map_info);
@@ -671,8 +671,8 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
 
     char *s24 = reinterpret_cast<char*>(map_info.data);
     char *s24e = s24 + map_info.size;
-    int samples = (map_info.size / sizeof(char)) / channels;
-    int buf16_size = samples * sizeof(int16_t) * channels;
+    int samples = static_cast<int>((map_info.size / sizeof(char)) / channels);
+    int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
     int16_t *s16 = static_cast<int16_t*>(g_malloc(buf16_size));
     memset(s16, 0, buf16_size);
     for (int i = 0 ; i < (samples * channels) ; ++i) {
@@ -1129,7 +1129,7 @@ void GstEnginePipeline::SetVolumeModifier(const qreal mod) {
 void GstEnginePipeline::UpdateVolume() {
 
   if (!volume_) return;
-  float vol = double(volume_percent_) * 0.01 * volume_modifier_;
+  double vol = double(volume_percent_) * double(0.01) * volume_modifier_;
   g_object_set(G_OBJECT(volume_), "volume", vol, nullptr);
 
 }
@@ -1163,7 +1163,7 @@ void GstEnginePipeline::UpdateEqualizer() {
 
   // Update band gains
   for (int i = 0; i < kEqBandCount; ++i) {
-    float gain = eq_enabled_ ? eq_band_gains_[i] : 0.0;
+    float gain = eq_enabled_ ? eq_band_gains_[i] : float(0.0);
     if (gain < 0)
       gain *= 0.24;
     else
@@ -1178,7 +1178,7 @@ void GstEnginePipeline::UpdateEqualizer() {
 
   // Update preamp
   float preamp = 1.0;
-  if (eq_enabled_) preamp = float(eq_preamp_ + 100) * 0.01;  // To scale from 0.0 to 2.0
+  if (eq_enabled_) preamp = float(eq_preamp_ + 100) * float(0.01);  // To scale from 0.0 to 2.0
 
   g_object_set(G_OBJECT(equalizer_preamp_), "volume", preamp, nullptr);
 
@@ -1186,10 +1186,10 @@ void GstEnginePipeline::UpdateEqualizer() {
 
 void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction, const QEasingCurve::Type shape, const bool use_fudge_timer) {
 
-  const int duration_msec = duration_nanosec / kNsecPerMsec;
+  const qint64 duration_msec = duration_nanosec / kNsecPerMsec;
 
   // If there's already another fader running then start from the same time that one was already at.
-  int start_time = direction == QTimeLine::Forward ? 0 : duration_msec;
+  qint64 start_time = direction == QTimeLine::Forward ? 0 : duration_msec;
   if (fader_ && fader_->state() == QTimeLine::Running) {
     if (duration_msec == fader_->duration()) {
       start_time = fader_->currentTime();

@@ -51,7 +51,7 @@ void InsertItems::redo() {
 }
 
 void InsertItems::undo() {
-  const int start = pos_ == -1 ? playlist_->rowCount() - items_.count() : pos_;
+  const int start = pos_ == -1 ? static_cast<int>(playlist_->rowCount() - items_.count()) : pos_;
   playlist_->RemoveItemsWithoutUndo(start, items_.count());
 }
 
@@ -79,7 +79,7 @@ void RemoveItems::redo() {
 }
 
 void RemoveItems::undo() {
-  for (int i = ranges_.count() - 1; i >= 0; --i)
+  for (int i = static_cast<int>(ranges_.count() - 1); i >= 0; --i)
     playlist_->InsertItemsWithoutUndo(ranges_[i].items_, ranges_[i].pos_);
 }
 

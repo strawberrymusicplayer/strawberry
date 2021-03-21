@@ -85,7 +85,7 @@ class SingleApplicationPrivate : public QObject {
   void initializeMemoryBlock();
   void startPrimary();
   void startSecondary();
-  bool connectToPrimary(const qint64 msecs, const ConnectionType connectionType);
+  bool connectToPrimary(const int timeout, const ConnectionType connectionType);
   quint16 blockChecksum();
   qint64 primaryPid();
   QString primaryUser();

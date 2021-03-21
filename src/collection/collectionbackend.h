@@ -193,8 +193,8 @@ class CollectionBackend : public CollectionBackendInterface {
 
   void AddOrUpdateSongsAsync(const SongList &songs);
 
-  void UpdateSongRatingAsync(const int id, const float rating);
-  void UpdateSongsRatingAsync(const QList<int> &ids, const float rating);
+  void UpdateSongRatingAsync(const int id, const double rating);
+  void UpdateSongsRatingAsync(const QList<int> &ids, const double rating);
 
  public slots:
   void Exit();
@@ -220,8 +220,8 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const qint64 lastplayed);
   void UpdatePlayCount(const QString &artist, const QString &title, const int playcount);
 
-  void UpdateSongRating(const int id, const float rating);
-  void UpdateSongsRating(const QList<int> &id_list, const float rating);
+  void UpdateSongRating(const int id, const double rating);
+  void UpdateSongsRating(const QList<int> &id_list, const double rating);
 
  signals:
   void DirectoryDiscovered(Directory, SubdirectoryList);

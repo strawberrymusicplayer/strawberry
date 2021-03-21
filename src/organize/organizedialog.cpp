@@ -259,7 +259,7 @@ void OrganizeDialog::AdjustSize() {
   int max_width = 0;
   int max_height = 0;
   if (screen) {
-    max_width = screen->geometry().size().width() / 0.5;
+    max_width = static_cast<int>(float(screen->geometry().size().width()) / float(0.5));
     max_height = static_cast<int>(float(screen->geometry().size().height()) / float(1.5));
   }
 

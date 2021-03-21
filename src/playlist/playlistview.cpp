@@ -560,7 +560,7 @@ void PlaylistView::UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, con
   cached_current_row_row_ = idx.row();
 
   option.rect.moveTo(0, 0);
-  cached_current_row_ = QPixmap(option.rect.width() * device_pixel_ratio_, option.rect.height() * device_pixel_ratio_);
+  cached_current_row_ = QPixmap(static_cast<int>(option.rect.width() * device_pixel_ratio_), static_cast<int>(option.rect.height() * device_pixel_ratio_));
   cached_current_row_.setDevicePixelRatio(device_pixel_ratio_);
   cached_current_row_.fill(Qt::transparent);
 
@@ -1032,7 +1032,7 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
 
   if (drop_indicator_row_ != -1) {
     if (cached_tree_.isNull()) {
-      cached_tree_ = QPixmap(size().width() * device_pixel_ratio_, size().height() * device_pixel_ratio_);
+      cached_tree_ = QPixmap(static_cast<int>(size().width() * device_pixel_ratio_), static_cast<int>(size().height() * device_pixel_ratio_));
       cached_tree_.setDevicePixelRatio(device_pixel_ratio_);
       cached_tree_.fill(Qt::transparent);
 
@@ -1279,7 +1279,7 @@ bool PlaylistView::eventFilter(QObject *object, QEvent *event) {
   if (event->type() == QEvent::Enter && (object == horizontalScrollBar() || object == verticalScrollBar())) {
     return false;
   }
-  return QObject::eventFilter(object, event);
+  return QAbstractItemView::eventFilter(object, event);
 
 }
 

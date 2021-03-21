@@ -758,7 +758,7 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
 
   QVector<Song> ret(ids.count());
   while (q.next()) {
-    const QString foreign_id = q.value(Song::kColumns.count() + 1).toString();
+    const QString foreign_id = q.value(static_cast<int>(Song::kColumns.count()) + 1).toString();
     const int index = ids.indexOf(foreign_id);
     if (index == -1) continue;
 
@@ -1484,7 +1484,7 @@ void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &ti
 
 }
 
-void CollectionBackend::UpdateSongRating(const int id, const float rating) {
+void CollectionBackend::UpdateSongRating(const int id, const double rating) {
 
   if (id == -1) return;
 
@@ -1494,7 +1494,7 @@ void CollectionBackend::UpdateSongRating(const int id, const float rating) {
 
 }
 
-void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const float rating) {
+void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const double rating) {
 
   if (id_list.isEmpty()) return;
 
@@ -1516,10 +1516,10 @@ void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const float
 
 }
 
-void CollectionBackend::UpdateSongRatingAsync(const int id, const float rating) {
-  metaObject()->invokeMethod(this, "UpdateSongRating", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(float, rating));
+void CollectionBackend::UpdateSongRatingAsync(const int id, const double rating) {
+  metaObject()->invokeMethod(this, "UpdateSongRating", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(double, rating));
 }
 
-void CollectionBackend::UpdateSongsRatingAsync(const QList<int>& ids, const float rating) {
-  metaObject()->invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(float, rating));
+void CollectionBackend::UpdateSongsRatingAsync(const QList<int>& ids, const double rating) {
+  metaObject()->invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(double, rating));
 }

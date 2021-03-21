@@ -92,7 +92,7 @@ CollectionQuery::CollectionQuery(const QueryOptions &options)
   }
 
   if (options.max_age() != -1) {
-    int cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - options.max_age();
+    qint64 cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - options.max_age();
 
     where_clauses_ << "ctime > ?";
     bound_values_ << cutoff;

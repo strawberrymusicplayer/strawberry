@@ -633,7 +633,7 @@ void Player::CurrentMetadataChanged(const Song &metadata) {
 
 }
 
-void Player::SeekTo(const int seconds) {
+void Player::SeekTo(const qint64 seconds) {
 
   const qint64 length_nanosec = engine_->length_nanosec();
 

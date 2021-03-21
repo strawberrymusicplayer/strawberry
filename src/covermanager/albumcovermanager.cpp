@@ -577,7 +577,7 @@ void AlbumCoverManager::UpdateStatusText() {
   }
 
   statusBar()->showMessage(message);
-  progress_bar_->setValue(fetch_statistics_.chosen_images_ + fetch_statistics_.missing_images_);
+  progress_bar_->setValue(static_cast<int>(fetch_statistics_.chosen_images_ + fetch_statistics_.missing_images_));
 
   if (cover_fetching_tasks_.isEmpty()) {
     QTimer::singleShot(2000, statusBar(), &QStatusBar::clearMessage);

@@ -112,7 +112,7 @@ void Rainbow::RainbowAnalyzer::resizeEvent(QResizeEvent* e) {
 void Rainbow::RainbowAnalyzer::analyze(QPainter& p, const Analyzer::Scope& s, bool new_frame) {
 
   // Discard the second half of the transform
-  const int scope_size = s.size() / 2;
+  const int scope_size = static_cast<int>(s.size() / 2);
 
   if ((new_frame && is_playing_) || (buffer_[0].isNull() && buffer_[1].isNull())) {
     // Transform the music into rainbows!

@@ -98,7 +98,7 @@ class Mpris2 : public QObject {
   Q_PROPERTY(bool Shuffle READ Shuffle WRITE SetShuffle)
   Q_PROPERTY(QVariantMap Metadata READ Metadata)
   Q_PROPERTY(double Volume READ Volume WRITE SetVolume)
-  Q_PROPERTY(qlonglong Position READ Position)
+  Q_PROPERTY(qint64 Position READ Position)
   Q_PROPERTY(double MinimumRate READ MinimumRate)
   Q_PROPERTY(double MaximumRate READ MaximumRate)
   Q_PROPERTY(bool CanGoNext READ CanGoNext)
@@ -146,7 +146,7 @@ class Mpris2 : public QObject {
   QVariantMap Metadata() const;
   double Volume() const;
   void SetVolume(double value);
-  qlonglong Position() const;
+  qint64 Position() const;
   double MaximumRate() const;
   double MinimumRate() const;
   bool CanGoNext() const;
@@ -163,8 +163,8 @@ class Mpris2 : public QObject {
   void PlayPause();
   void Stop();
   void Play();
-  void Seek(qlonglong offset);
-  void SetPosition(const QDBusObjectPath &trackId, qlonglong offset);
+  void Seek(qint64 offset);
+  void SetPosition(const QDBusObjectPath &trackId, qint64 offset);
   void OpenUri(const QString &uri);
 
   // TrackList Properties
@@ -188,7 +188,7 @@ class Mpris2 : public QObject {
 
  signals:
   // Player
-  void Seeked(qlonglong position);
+  void Seeked(qint64 position);
 
   // TrackList
   void TrackListReplaced(Track_Ids Tracks, QDBusObjectPath CurrentTrack);

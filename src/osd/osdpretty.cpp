@@ -244,7 +244,7 @@ void OSDPretty::Load() {
   s.beginGroup(kSettingsGroup);
   foreground_color_ = QColor(s.value("foreground_color", 0).toInt());
   background_color_ = QColor(s.value("background_color", kPresetBlue).toInt());
-  background_opacity_ = s.value("background_opacity", 0.85).toDouble();
+  background_opacity_ = s.value("background_opacity", 0.85).toFloat();
   font_.fromString(s.value("font", "Verdana,9,-1,5,50,0,0,0,0,0").toString());
   disable_duration_ = s.value("disable_duration", false).toBool();
 

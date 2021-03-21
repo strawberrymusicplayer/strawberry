@@ -347,7 +347,7 @@ qint64 CueParser::IndexToMarker(const QString &index) const {
   }
 
   QStringList splitted = re_match.capturedTexts().mid(1, -1);
-  qlonglong frames = splitted.at(0).toLongLong() * 60 * 75 + splitted.at(1).toLongLong() * 75 + splitted.at(2).toLongLong();
+  qint64 frames = splitted.at(0).toLongLong() * 60 * 75 + splitted.at(1).toLongLong() * 75 + splitted.at(2).toLongLong();
   return (frames * kNsecPerSec) / 75;
 
 }

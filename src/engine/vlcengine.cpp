@@ -177,7 +177,7 @@ void VLCEngine::Seek(const quint64 offset_nanosec) {
 
   if (!Initialized()) return;
 
-  int offset = (offset_nanosec / kNsecPerMsec);
+  int offset = static_cast<int>(offset_nanosec / kNsecPerMsec);
 
   uint len = length();
   if (len == 0) return;

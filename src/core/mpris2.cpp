@@ -412,9 +412,9 @@ void Mpris2::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &re
 
 double Mpris2::Volume() const { return app_->player()->GetVolume() / 100.0; }
 
-void Mpris2::SetVolume(double value) { app_->player()->SetVolume(value * 100); }
+void Mpris2::SetVolume(double value) { app_->player()->SetVolume(static_cast<int>(value * 100)); }
 
-qlonglong Mpris2::Position() const {
+qint64 Mpris2::Position() const {
   return app_->player()->engine()->position_nanosec() / kNsecPerUsec;
 }
 
@@ -479,13 +479,16 @@ void Mpris2::Play() {
   }
 }
 
-void Mpris2::Seek(qlonglong offset) {
+void Mpris2::Seek(qint64 offset) {
+
   if (CanSeek()) {
     app_->player()->SeekTo(app_->player()->engine()->position_nanosec() / kNsecPerSec + offset / kUsecPerSec);
   }
+
 }
 
-void Mpris2::SetPosition(const QDBusObjectPath &trackId, qlonglong offset) {
+void Mpris2::SetPosition(const QDBusObjectPath &trackId, qint64 offset) {
+
   if (CanSeek() && trackId.path() == current_track_id() && offset >= 0) {
     offset *= kNsecPerUsec;
 
@@ -493,6 +496,7 @@ void Mpris2::SetPosition(const QDBusObjectPath &trackId, qlonglong offset) {
       app_->player()->SeekTo(offset / kNsecPerSec);
     }
   }
+
 }
 
 void Mpris2::OpenUri(const QString &uri) {

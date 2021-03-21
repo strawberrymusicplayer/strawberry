@@ -130,7 +130,7 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
           qLog(Error) << "Tidal:" << error;
           qLog(Info) << "Tidal:" << "Attempting to login.";
           NeedLogin();
-          service_->Login();
+          emit service_->RequestLogin();
         }
         else {
           Error(error);

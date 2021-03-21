@@ -95,7 +95,7 @@ void TagFetcher::FingerprintFound(const int index) {
   }
 
   emit Progress(song, tr("Identifying song"));
-  acoustid_client_->Start(index, fingerprint, song.length_nanosec() / kNsecPerMsec);
+  acoustid_client_->Start(index, fingerprint, static_cast<int>(song.length_nanosec() / kNsecPerMsec));
 
 }
 

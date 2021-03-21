@@ -59,7 +59,7 @@ EqualizerSlider::~EqualizerSlider() {
 void EqualizerSlider::OnValueChanged(int value) {
 
   // Converting % to dB as per GstEnginePipeline::UpdateEqualizer():
-  float gain = (value < 0) ? value * 0.24 : value * 0.12;
+  float gain = (static_cast<int>(value) < 0) ? static_cast<float>(value) * float(0.24) : float(value) * float(0.12);
 
   ui_->gain->setText(tr("%1 dB").arg(gain));  // Gain [dB]
   emit ValueChanged(value);

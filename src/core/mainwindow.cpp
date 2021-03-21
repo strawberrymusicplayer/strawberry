@@ -1599,11 +1599,11 @@ void MainWindow::FilePathChanged(const QString &path) {
   settings_.setValue("file_path", path);
 }
 
-void MainWindow::Seeked(const qlonglong microseconds) {
+void MainWindow::Seeked(const qint64 microseconds) {
 
-  const int position = microseconds / kUsecPerSec;
-  const int length = app_->player()->GetCurrentItem()->Metadata().length_nanosec() / kNsecPerSec;
-  if (tray_icon_) tray_icon_->SetProgress(double(position) / length * 100);
+  const qint64 position = microseconds / kUsecPerSec;
+  const qint64 length = app_->player()->GetCurrentItem()->Metadata().length_nanosec() / kNsecPerSec;
+  if (tray_icon_) tray_icon_->SetProgress(static_cast<int>(double(position) / length * 100));
 
 }
 
@@ -1612,18 +1612,18 @@ void MainWindow::UpdateTrackPosition() {
   PlaylistItemPtr item(app_->player()->GetCurrentItem());
   if (!item) return;
 
-  const int length = (item->Metadata().length_nanosec() / kNsecPerSec);
+  const qint64 length = (item->Metadata().length_nanosec() / kNsecPerSec);
   if (length <= 0) return;
   const int position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerSec + 0.5);
 
   // Update the tray icon every 10 seconds
-  if (tray_icon_ && position % 10 == 0) tray_icon_->SetProgress(double(position) / length * 100);
+  if (tray_icon_ && position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(double(position) / length * 100));
 
   // Send Scrobble
   if (app_->scrobbler()->IsEnabled() && item->Metadata().is_metadata_good()) {
     Playlist *playlist = app_->playlist_manager()->active();
     if (playlist && !playlist->scrobbled()) {
-      const int scrobble_point = (playlist->scrobble_point_nanosec() / kNsecPerSec);
+      const qint64 scrobble_point = (playlist->scrobble_point_nanosec() / kNsecPerSec);
       if (position >= scrobble_point) {
         app_->scrobbler()->Scrobble(item->Metadata(), scrobble_point);
         playlist->set_scrobbled(true);
@@ -1637,8 +1637,8 @@ void MainWindow::UpdateTrackSliderPosition() {
 
   PlaylistItemPtr item(app_->player()->GetCurrentItem());
 
-  const int slider_position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerMsec);
-  const int slider_length = app_->player()->engine()->length_nanosec() / kNsecPerMsec;
+  const qint64 slider_position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerMsec);
+  const qint64 slider_length = app_->player()->engine()->length_nanosec() / kNsecPerMsec;
 
   // Update the slider
   ui_->track_slider->SetValue(slider_position, slider_length);

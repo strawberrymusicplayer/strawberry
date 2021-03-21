@@ -128,7 +128,7 @@ QString PrettyTime(int seconds) {
 }
 
 QString PrettyTimeNanosec(qint64 nanoseconds) {
-  return PrettyTime(nanoseconds / kNsecPerSec);
+  return PrettyTime(static_cast<int>(nanoseconds / kNsecPerSec));
 }
 
 QString WordyTime(quint64 seconds) {
@@ -139,7 +139,7 @@ QString WordyTime(quint64 seconds) {
   QStringList parts;
 
   if (days) parts << (days == 1 ? tr("1 day") : tr("%1 days").arg(days));
-  parts << PrettyTime(seconds - days * 60 * 60 * 24);
+  parts << PrettyTime(static_cast<int>(seconds - days * 60 * 60 * 24));
 
   return parts.join(" ");
 

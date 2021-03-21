@@ -126,7 +126,7 @@ void ListenBrainzScrobbler::LoadSession() {
   if (!refresh_token_.isEmpty()) {
     qint64 time = expires_in_ - (QDateTime::currentDateTime().toSecsSinceEpoch() - login_time_);
     if (time < 6) time = 6;
-    refresh_login_timer_.setInterval(time * kMsecPerSec);
+    refresh_login_timer_.setInterval(static_cast<int>(time * kMsecPerSec));
     refresh_login_timer_.start();
   }
 
@@ -334,7 +334,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
   s.endGroup();
 
   if (expires_in_ > 0) {
-    refresh_login_timer_.setInterval(expires_in_ * kMsecPerSec);
+    refresh_login_timer_.setInterval(static_cast<int>(expires_in_ * kMsecPerSec));
     refresh_login_timer_.start();
   }
 
@@ -519,7 +519,7 @@ void ListenBrainzScrobbler::Scrobble(const Song &song) {
       Submit();
     }
     else if (!timer_submit_.isActive()) {
-      timer_submit_.setInterval(app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
+      timer_submit_.setInterval(static_cast<int>(app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec));
       timer_submit_.start();
     }
   }
@@ -531,7 +531,7 @@ void ListenBrainzScrobbler::DoSubmit() {
   if (!submitted_ && cache_->Count() > 0) {
     submitted_ = true;
     if (!timer_submit_.isActive()) {
-      timer_submit_.setInterval(app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
+      timer_submit_.setInterval(static_cast<int>(app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec));
       timer_submit_.start();
     }
   }

@@ -186,7 +186,7 @@ void NotificationsSettingsPage::Load() {
 
   // Pretty OSD
   pretty_popup_->ReloadSettings();
-  ui_->notifications_opacity->setValue(pretty_popup_->background_opacity() * 100);
+  ui_->notifications_opacity->setValue(static_cast<int>(pretty_popup_->background_opacity() * 100));
 
   QRgb color = pretty_popup_->background_color();
   if (color == OSDPretty::kPresetBlue)

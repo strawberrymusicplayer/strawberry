@@ -36,7 +36,7 @@ const int MoodbarRenderer::kNumHues = 12;
 
 ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle style, const QPalette &palette) {
 
-  const int samples = data.size() / 3;
+  const int samples = static_cast<int>(data.size() / 3);
 
   // Set some parameters based on the moodbar style
   StyleProperties properties;
@@ -119,8 +119,8 @@ void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect
     int g = 0;
     int b = 0;
 
-    int start = x * colors.size() / rect.width();
-    int end = (x + 1) * colors.size() / rect.width();
+    int start = x * static_cast<int>(colors.size() / rect.width());
+    int end = (x + 1) * static_cast<int>(colors.size() / rect.width());
 
     if (start == end) end = qMin(start + 1, colors.size() - 1);
 

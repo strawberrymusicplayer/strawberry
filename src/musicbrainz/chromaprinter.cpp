@@ -157,7 +157,7 @@ QString Chromaprinter::CreateFingerprint() {
 
   ChromaprintContext *chromaprint = chromaprint_new(CHROMAPRINT_ALGORITHM_DEFAULT);
   chromaprint_start(chromaprint, kDecodeRate, kDecodeChannels);
-  chromaprint_feed(chromaprint, reinterpret_cast<int16_t *>(data.data()), data.size() / 2);
+  chromaprint_feed(chromaprint, reinterpret_cast<int16_t*>(data.data()), static_cast<int>(data.size() / 2));
   chromaprint_finish(chromaprint);
 
   int size = 0;

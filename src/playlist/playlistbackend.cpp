@@ -245,7 +245,7 @@ QList<Song> PlaylistBackend::GetPlaylistSongs(int playlist) {
 PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state) {
 
   // The song tables get joined first, plus one each for the song ROWIDs
-  const int playlist_row = (Song::kColumns.count() + 1) * kSongTableJoins;
+  const int playlist_row = static_cast<int>(Song::kColumns.count() + 1) * kSongTableJoins;
 
   PlaylistItemPtr item(PlaylistItem::NewFromSource(Song::Source(row.value(playlist_row).toInt())));
   if (item) {

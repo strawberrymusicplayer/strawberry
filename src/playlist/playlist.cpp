@@ -672,7 +672,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
       // Compute the number of new items that have to be inserted
       // This is not necessarily 1 because the user might have added or removed items manually.
       // Note that the future excludes the current item.
-      const int count = dynamic_history_length() + 1 + dynamic_playlist_->GetDynamicFuture() - items_.count();
+      const int count = static_cast<int>(dynamic_history_length() + 1 + dynamic_playlist_->GetDynamicFuture() - items_.count());
       if (count > 0) {
         InsertDynamicItems(count);
       }
@@ -925,7 +925,7 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
   }
 
   if (start < 0) {
-    start = items_.count() - dest_rows.count();
+    start = static_cast<int>(items_.count() - dest_rows.count());
   }
 
   // Take the items out of the list first
@@ -1009,7 +1009,7 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, const int pos, const
     }
   }
 
-  const int start = pos == -1 ? items_.count() : pos;
+  const int start = pos == -1 ? static_cast<int>(items_.count()) : pos;
 
   if (items.count() > kUndoItemLimit) {
     // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
@@ -1028,8 +1028,8 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, const int p
 
   if (items.isEmpty()) return;
 
-  const int start = pos == -1 ? items_.count() : pos;
-  const int end = start + items.count() - 1;
+  const int start = pos == -1 ? static_cast<int>(items_.count()) : pos;
+  const int end = start + static_cast<int>(items.count()) - 1;
 
   beginInsertRows(QModelIndex(), start, end);
   for (int i = start; i <= end; ++i) {

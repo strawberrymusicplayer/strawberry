@@ -92,5 +92,5 @@ void TranscoderOptionsMP3::QualitySliderChanged(int value) {
 }
 
 void TranscoderOptionsMP3::QualitySpinboxChanged(double value) {
-  ui_->quality_slider->setValue(value * 100);
+  ui_->quality_slider->setValue(static_cast<int>(value * 100));
 }

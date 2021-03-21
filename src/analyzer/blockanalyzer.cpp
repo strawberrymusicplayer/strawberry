@@ -35,12 +35,12 @@
 #include "analyzerbase.h"
 #include "fht.h"
 
-const uint BlockAnalyzer::kHeight = 2;
-const uint BlockAnalyzer::kWidth = 4;
-const uint BlockAnalyzer::kMinRows = 3;       // arbituary
-const uint BlockAnalyzer::kMinColumns = 32;   // arbituary
-const uint BlockAnalyzer::kMaxColumns = 256;  // must be 2**n
-const uint BlockAnalyzer::kFadeSize = 90;
+const int BlockAnalyzer::kHeight = 2;
+const int BlockAnalyzer::kWidth = 4;
+const int BlockAnalyzer::kMinRows = 3;       // arbituary
+const int BlockAnalyzer::kMinColumns = 32;   // arbituary
+const int BlockAnalyzer::kMaxColumns = 256;  // must be 2**n
+const int BlockAnalyzer::kFadeSize = 90;
 
 const char *BlockAnalyzer::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Block analyzer");
 
@@ -74,11 +74,11 @@ void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
   background_ = QPixmap(size());
   canvas_ = QPixmap(size());
 
-  const uint oldRows = rows_;
+  const int oldRows = rows_;
 
   // all is explained in analyze()..
   // +1 to counter -1 in maxSizes, trust me we need this!
-  columns_ = qMin(static_cast<uint>(static_cast<double>(width() + 1) / (kWidth + 1)) + 1, kMaxColumns);
+  columns_ = qMin(static_cast<int>(static_cast<double>(width() + 1) / (kWidth + 1)) + 1, kMaxColumns);
   rows_ = static_cast<uint>(static_cast<double>(height() + 1) / (kHeight + 1));
 
   // this is the y-offset for drawing from the top of the widget
@@ -94,9 +94,9 @@ void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
 
     yscale_.resize(rows_ + 1);
 
-    const uint PRE = 1, PRO = 1;  // PRE and PRO allow us to restrict the range somewhat
+    const int PRE = 1, PRO = 1;  // PRE and PRO allow us to restrict the range somewhat
 
-    for (uint z = 0; z < rows_; ++z)
+    for (int z = 0; z < rows_; ++z)
       yscale_[z] = 1 - (log10(PRE + z) / log10(PRE + rows_ + PRO));
 
     yscale_[rows_] = 0;
@@ -115,7 +115,7 @@ void BlockAnalyzer::determineStep() {
   // I calculated the value 30 based on some trial and error
 
   // the fall time of 30 is too slow on framerates above 50fps
-  const double fallTime = timeout() < 20 ? 20 * rows_ : 30 * rows_;
+  const double fallTime = static_cast<double>(timeout() < 20 ? 20 * rows_ : 30 * rows_);
 
   step_ = double(rows_ * timeout()) / fallTime;
 
@@ -164,12 +164,12 @@ void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_fram
   // Paint the background
   canvas_painter.drawPixmap(0, 0, background_);
 
-  for (uint y, x = 0; x < scope_.size(); ++x) {
+  for (int y, x = 0; x < static_cast<int>(scope_.size()); ++x) {
     // determine y
     for (y = 0; scope_[x] < yscale_[y]; ++y) continue;
 
     // This is opposite to what you'd think, higher than y means the bar is lower than y (physically)
-    if (static_cast<float>(y) > store_[x])
+    if (static_cast<double>(y) > store_[x])
       y = static_cast<int>(store_[x] += step_);
     else
       store_[x] = y;
@@ -182,8 +182,8 @@ void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_fram
     }
 
     if (fade_intensity_[x] > 0) {
-      const uint offset = --fade_intensity_[x];
-      const uint y2 = y_ + (fade_pos_[x] * (kHeight + 1));
+      const int offset = --fade_intensity_[x];
+      const int y2 = y_ + (fade_pos_[x] * (kHeight + 1));
       canvas_painter.drawPixmap(x * (kWidth + 1), y2, fade_bars_[offset], 0, 0, kWidth, height() - y2);
     }
 
@@ -200,7 +200,7 @@ void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_fram
 
 }
 
-static inline void adjustToLimits(int &b, int &f, uint &amount) {
+static inline void adjustToLimits(int &b, int &f, int &amount) {
 
   // with a range of 0-255 and maximum adjustment of amount, maximise the difference between f and b
 
@@ -235,8 +235,8 @@ static inline void adjustToLimits(int &b, int &f, uint &amount) {
  * It won't modify the hue of fg unless absolutely necessary
  * @return the adjusted form of fg
  */
-QColor ensureContrast(const QColor &bg, const QColor &fg, uint amount = 150);
-QColor ensureContrast(const QColor &bg, const QColor &fg, uint amount) {
+QColor ensureContrast(const QColor &bg, const QColor &fg, int amount = 150);
+QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
 
   class OutputOnExit {
    public:
@@ -278,9 +278,9 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, uint amount) {
 
     // check the saturation for the two colours is sufficient that hue alone can
     // provide sufficient contrast
-    if (ds > static_cast<int>(amount) / 2 && (bs > 125 && fs > 125))
+    if (ds > amount / 2 && (bs > 125 && fs > 125))
       return fg;
-    else if (dv > static_cast<int>(amount) / 2 && (bv > 125 && fv > 125))
+    else if (dv > amount / 2 && (bv > 125 && fv > 125))
       return fg;
   }
 
@@ -295,11 +295,11 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, uint amount) {
   }
 
   // test that there is available value to honor our contrast requirement
-  if (255 - dv < static_cast<int>(amount)) {
+  if (255 - dv < amount) {
     // we have to modify the value and saturation of fg
     // adjustToLimits( bv, fv, amount );
     // see if we need to adjust the saturation
-    if (static_cast<int>(amount) > 0) adjustToLimits(bs, fs, amount);
+    if (amount > 0) adjustToLimits(bs, fs, amount);
 
     // see if we need to adjust the hue
     if (static_cast<int>(amount) > 0)
@@ -312,13 +312,13 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, uint amount) {
     return QColor::fromHsv(fh, fs, bv - static_cast<int>(amount));
 
   if (fv < bv && fv > static_cast<int>(amount))
-    return QColor::fromHsv(fh, fs, fv - static_cast<int>(amount));
+    return QColor::fromHsv(fh, fs, fv - amount);
 
   if (fv > bv && (255 - fv > static_cast<int>(amount)))
-    return QColor::fromHsv(fh, fs, fv + static_cast<int>(amount));
+    return QColor::fromHsv(fh, fs, fv + amount);
 
   if (fv < bv && (255 - bv > static_cast<int>(amount)))
-    return QColor::fromHsv(fh, fs, bv + static_cast<int>(amount));
+    return QColor::fromHsv(fh, fs, bv + amount);
 
   return Qt::blue;
 }
@@ -338,7 +338,7 @@ void BlockAnalyzer::paletteChange(const QPalette&) {
   bar()->fill(bg);
 
   QPainter p(bar());
-  for (int y = 0; static_cast<uint>(y) < rows_; ++y)
+  for (int y = 0; y < rows_; ++y)
     // graduate the fg color
     p.fillRect(0, y * (kHeight + 1), kWidth, kHeight, QColor(r + static_cast<int>(dr * y), g + static_cast<int>(dg * y), b + static_cast<int>(db * y)));
 
@@ -360,7 +360,7 @@ void BlockAnalyzer::paletteChange(const QPalette&) {
     for (uint y = 0; y < kFadeSize; ++y) {
       fade_bars_[y].fill(palette().color(QPalette::Window));
       QPainter f(&fade_bars_[y]);
-      for (int z = 0; static_cast<uint>(z) < rows_; ++z) {
+      for (int z = 0; z < rows_; ++z) {
         const double Y = 1.0 - (log10(kFadeSize - y) / log10(kFadeSize));
         f.fillRect(0, z * (kHeight + 1), kWidth, kHeight, QColor(r2 + static_cast<int>(dr2 * Y), g2 + static_cast<int>(dg2 * Y), b2 + static_cast<int>(db2 * Y)));
       }
@@ -386,8 +386,8 @@ void BlockAnalyzer::drawBackground() {
 
   if (!p.paintEngine()) return;
 
-  for (int x = 0; static_cast<uint>(x) < columns_; ++x)
-    for (int y = 0; static_cast<uint>(y) < rows_; ++y)
+  for (int x = 0; x < columns_; ++x)
+    for (int y = 0; y < rows_; ++y)
       p.fillRect(x * (kWidth + 1), y * (kHeight + 1) + y_, kWidth, kHeight, bgdark);
 
 }

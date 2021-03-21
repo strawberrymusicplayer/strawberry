@@ -82,8 +82,8 @@ class InternetService : public QObject {
 
  signals:
   void ExitFinished();
-  void Login();
-  void Logout();
+  void RequestLogin();
+  void RequestLogout();
   void LoginWithCredentials(QString api_token, QString username, QString password);
   void LoginWithHostname(QString hostname, int, QString username, QString password);
   void LoginSuccess();

@@ -227,11 +227,11 @@ void QobuzStreamURLRequest::StreamURLReceived() {
   }
   int samplerate = -1;
   if (json_obj.contains("sampling_rate")) {
-    samplerate = json_obj["sampling_rate"].toDouble() * 1000;
+    samplerate = static_cast<int>(json_obj["sampling_rate"].toDouble()) * 1000;
   }
   int bit_depth = -1;
   if (json_obj.contains("bit_depth")) {
-    bit_depth = json_obj["bit_depth"].toDouble();
+    bit_depth = static_cast<int>(json_obj["bit_depth"].toDouble());
   }
 
   emit StreamURLFinished(original_url_, url, filetype, samplerate, bit_depth, duration);

@@ -42,7 +42,7 @@ RatingPainter::RatingPainter() {
 
   // Generate the 10 states, better to do it now than on the fly
   for (int i = 0 ; i < kStarCount * 2 + 1 ; ++i) {
-    const float rating = float(i) / 2.0;
+    const double rating = double(i) / double(2.0);
 
     // Clear the pixmap
     stars_[i] = QPixmap(kStarSize * kStarCount, kStarSize);
@@ -91,7 +91,7 @@ double RatingPainter::RatingForPos(const QPoint &pos, const QRect &rect) {
 
 }
 
-void RatingPainter::Paint(QPainter* painter, const QRect &rect, float rating) const {
+void RatingPainter::Paint(QPainter* painter, const QRect &rect, double rating) const {
 
   QSize size(qMin(kStarSize * kStarCount, rect.width()), qMin(kStarSize, rect.height()));
   QPoint pos(rect.center() - QPoint(size.width() / 2, size.height() / 2));
@@ -118,7 +118,7 @@ QSize RatingWidget::sizeHint() const {
 
 }
 
-void RatingWidget::set_rating(const float rating) {
+void RatingWidget::set_rating(const double rating) {
 
   rating_ = rating;
   update();

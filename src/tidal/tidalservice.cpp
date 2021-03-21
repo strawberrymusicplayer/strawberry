@@ -164,7 +164,7 @@ TidalService::TidalService(Application *app, QObject *parent)
   timer_refresh_login_->setSingleShot(true);
   QObject::connect(timer_refresh_login_, &QTimer::timeout, this, &TidalService::RequestNewAccessToken);
 
-  QObject::connect(this, &TidalService::Login, this, &TidalService::SendLogin);
+  QObject::connect(this, &TidalService::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(this, &TidalService::LoginWithCredentials, this, &TidalService::SendLoginWithCredentials);
 
   QObject::connect(this, &TidalService::AddArtists, favorite_request_, &TidalFavoriteRequest::AddArtists);
@@ -253,7 +253,7 @@ void TidalService::LoadSession() {
   if (!refresh_token_.isEmpty()) {
     qint64 time = expires_in_ - (QDateTime::currentDateTime().toSecsSinceEpoch() - login_time_);
     if (time < 6) time = 6;
-    timer_refresh_login_->setInterval(time * kMsecPerSec);
+    timer_refresh_login_->setInterval(static_cast<int>(time * kMsecPerSec));
     timer_refresh_login_->start();
   }
 
@@ -513,7 +513,7 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
   s.endGroup();
 
   if (expires_in_ > 0) {
-    timer_refresh_login_->setInterval(expires_in_ * kMsecPerSec);
+    timer_refresh_login_->setInterval(static_cast<int>(expires_in_ * kMsecPerSec));
     timer_refresh_login_->start();
   }
 
@@ -712,7 +712,7 @@ void TidalService::TryLogin() {
     return;
   }
 
-  emit Login();
+  emit RequestLogin();
 
 }
 

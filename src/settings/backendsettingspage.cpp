@@ -116,7 +116,7 @@ void BackendSettingsPage::Load() {
 
   ui_->checkbox_replaygain->setChecked(s.value("rgenabled", false).toBool());
   ui_->combobox_replaygainmode->setCurrentIndex(s.value("rgmode", 0).toInt());
-  ui_->stickslider_replaygainpreamp->setValue(s.value("rgpreamp", 0.0).toDouble() * 10 + 150);
+  ui_->stickslider_replaygainpreamp->setValue(static_cast<int>(s.value("rgpreamp", 0.0).toDouble() * 10 + 150));
   ui_->checkbox_replaygaincompression->setChecked(s.value("rgcompression", true).toBool());
 
 #if defined(HAVE_ALSA)

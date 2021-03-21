@@ -43,12 +43,12 @@ class BlockAnalyzer : public Analyzer::Base {
  public:
   Q_INVOKABLE explicit BlockAnalyzer(QWidget*);
 
-  static const uint kHeight;
-  static const uint kWidth;
-  static const uint kMinRows;
-  static const uint kMinColumns;
-  static const uint kMaxColumns;
-  static const uint kFadeSize;
+  static const int kHeight;
+  static const int kWidth;
+  static const int kMinRows;
+  static const int kMinColumns;
+  static const int kMaxColumns;
+  static const int kFadeSize;
 
   static const char *kName;
 
@@ -65,21 +65,21 @@ class BlockAnalyzer : public Analyzer::Base {
  private:
   QPixmap *bar() { return &barpixmap_; }
 
-  uint columns_, rows_;      // number of rows and columns of blocks
-  uint y_;                   // y-offset from top of widget
+  int columns_, rows_;      // number of rows and columns of blocks
+  int y_;                   // y-offset from top of widget
   QPixmap barpixmap_;
   QPixmap topbarpixmap_;
   QPixmap background_;
   QPixmap canvas_;
   Analyzer::Scope scope_;    // so we don't create a vector every frame
-  QVector<float> store_;     // current bar heights
-  QVector<float> yscale_;
+  QVector<double> store_;     // current bar heights
+  QVector<double> yscale_;
 
   QVector<QPixmap> fade_bars_;
-  QVector<uint> fade_pos_;
+  QVector<int> fade_pos_;
   QVector<int> fade_intensity_;
 
-  float step_;  // rows to fall per frame
+  double step_;  // rows to fall per frame
 };
 
 #endif  // BLOCKANALYZER_H

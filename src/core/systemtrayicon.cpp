@@ -61,7 +61,7 @@ QPixmap SystemTrayIcon::CreateIcon(const QPixmap &icon, const QPixmap &grey_icon
 
     QPolygon mask;
     mask << rect.topLeft();
-    mask << rect.topLeft() + QPoint(length * sin(angle), length * cos(angle));
+    mask << rect.topLeft() + QPoint(static_cast<int>(length * sin(angle)), static_cast<int>(length * cos(angle)));
 
     if (song_progress() > 50) mask << rect.bottomRight();
 

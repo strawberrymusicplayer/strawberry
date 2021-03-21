@@ -94,9 +94,9 @@ void QueuedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     bool ok = false;
     const int queue_pos = idx.data(Playlist::Role_QueuePosition).toInt(&ok);
     if (ok && queue_pos != -1) {
-      float opacity = kQueueOpacitySteps - qMin(kQueueOpacitySteps, queue_pos);
+      float opacity = static_cast<float>(kQueueOpacitySteps - qMin(kQueueOpacitySteps, queue_pos));
       opacity /= kQueueOpacitySteps;
-      opacity *= 1.0 - kQueueOpacityLowerBound;
+      opacity *= float(1.0) - float(kQueueOpacityLowerBound);
       opacity += kQueueOpacityLowerBound;
       painter->setOpacity(opacity);
 
@@ -533,7 +533,7 @@ QString RatingItemDelegate::displayText(const QVariant &value, const QLocale&) c
   if (value.isNull() || value.toDouble() <= 0) return QString();
 
   // Round to the nearest 0.5
-  const double rating = float(int(value.toDouble()  * RatingPainter::kStarCount * 2 + 0.5)) / 2;
+  const double rating = double(int(value.toDouble()  * RatingPainter::kStarCount * 2 + 0.5)) / 2;
 
   return QString::number(rating, 'f', 1);
 

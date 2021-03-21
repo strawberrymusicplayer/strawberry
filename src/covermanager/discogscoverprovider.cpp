@@ -439,7 +439,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
     int width = obj_image["width"].toInt();
     int height = obj_image["height"].toInt();
     if (width < 300 || height < 300) continue;
-    const float aspect_score = 1.0 - float(std::max(width, height) - std::min(width, height)) / std::max(height, width);
+    const float aspect_score = float(1.0) - float(std::max(width, height) - std::min(width, height)) / std::max(height, width);
     if (aspect_score < 0.85) continue;
     CoverProviderSearchResult result;
     result.artist = artist;

@@ -200,7 +200,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ToggleShowHide();
   void ToggleHide();
 
-  void Seeked(const qlonglong microseconds);
+  void Seeked(const qint64 microseconds);
   void UpdateTrackPosition();
   void UpdateTrackSliderPosition();
 

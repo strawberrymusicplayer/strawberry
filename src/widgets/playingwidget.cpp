@@ -367,7 +367,7 @@ void PlayingWidget::UpdateHeight() {
     case LargeSongDetails:
       if (fit_width_) cover_loader_options_.desired_height_ = width();
       else cover_loader_options_.desired_height_ = qMin(kMaxCoverSize, width());
-      total_height_ = kTopBorder + cover_loader_options_.desired_height_ + kBottomOffset + details_->size().height();
+      total_height_ = kTopBorder + cover_loader_options_.desired_height_ + kBottomOffset + static_cast<int>(details_->size().height());
       break;
   }
 

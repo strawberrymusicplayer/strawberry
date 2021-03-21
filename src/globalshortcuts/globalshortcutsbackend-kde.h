@@ -57,7 +57,7 @@ class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
 
  private slots:
   void RegisterFinished(QDBusPendingCallWatcher *watcher);
-  void GlobalShortcutPressed(const QString &component_unique, const QString &shortcut_unique, qlonglong);
+  void GlobalShortcutPressed(const QString &component_unique, const QString &shortcut_unique, qint64);
 
  private:
   static const char *kKdePath;

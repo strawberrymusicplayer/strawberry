@@ -220,7 +220,7 @@ void SingleCoreApplicationPrivate::startSecondary() {
 
 }
 
-bool SingleCoreApplicationPrivate::connectToPrimary(const qint64 timeout, const ConnectionType connectionType) {
+bool SingleCoreApplicationPrivate::connectToPrimary(const int timeout, const ConnectionType connectionType) {
 
   QElapsedTimer time;
   time.start();
@@ -241,7 +241,7 @@ bool SingleCoreApplicationPrivate::connectToPrimary(const qint64 timeout, const 
         socket_->connectToServer(blockServerName_);
 
       if (socket_->state() == QLocalSocket::ConnectingState) {
-        socket_->waitForConnected(timeout - time.elapsed());
+        socket_->waitForConnected(static_cast<int>(timeout - time.elapsed()));
       }
 
       // If connected break out of the loop
@@ -277,7 +277,7 @@ bool SingleCoreApplicationPrivate::connectToPrimary(const qint64 timeout, const 
 
   socket_->write(header);
   socket_->write(initMsg);
-  bool result = socket_->waitForBytesWritten(timeout - time.elapsed());
+  bool result = socket_->waitForBytesWritten(timeout - static_cast<int>(time.elapsed()));
   socket_->flush();
 
   return result;

@@ -126,7 +126,7 @@ void FreeSpaceBar::DrawBar(QPainter* p, const QRect &r) {
   p->setRenderHint(QPainter::Antialiasing, true);
 
   QRect bar_rect(r);
-  bar_rect.setWidth(float(bar_rect.width()) * (float(total_ - free_) / total_));
+  bar_rect.setWidth(static_cast<int>(float(bar_rect.width()) * (float(total_ - free_) / total_)));
 
   QLinearGradient background_gradient(r.topLeft(), r.bottomLeft());
   background_gradient.setColorAt(0, kColorBg1);
@@ -150,7 +150,7 @@ void FreeSpaceBar::DrawBar(QPainter* p, const QRect &r) {
   if (additional_) {
     QRect additional_rect(bar_rect);
     additional_rect.setLeft(bar_rect.right());
-    additional_rect.setWidth(float(r.width()) * (float(qMin(free_, additional_)) / total_) + 1);
+    additional_rect.setWidth(static_cast<int>(float(r.width()) * (float(qMin(free_, additional_)) / total_) + 1));
 
     QLinearGradient additional_gradient(additional_rect.topLeft(), additional_rect.bottomLeft());
     additional_gradient.setColorAt(0, kColorAdd1);

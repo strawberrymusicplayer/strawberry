@@ -243,7 +243,7 @@ class Song {
   const QString &cue_path() const;
   bool has_cue() const;
 
-  float rating() const;
+  double rating() const;
 
   const QString &effective_album() const;
   int effective_originalyear() const;
@@ -356,7 +356,7 @@ class Song {
 
   void set_cue_path(const QString &v);
 
-  void set_rating(const float v);
+  void set_rating(const double v);
 
   void set_stream_url(const QUrl &v);
   void set_image(const QImage &i);

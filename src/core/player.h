@@ -87,7 +87,7 @@ class PlayerInterface : public QObject {
   virtual void SetVolume(const int value) = 0;
   virtual void VolumeUp() = 0;
   virtual void VolumeDown() = 0;
-  virtual void SeekTo(const int seconds) = 0;
+  virtual void SeekTo(const qint64 seconds) = 0;
   // Moves the position of the currently playing song five seconds forward.
   virtual void SeekForward() = 0;
   // Moves the position of the currently playing song five seconds backwards.
@@ -113,7 +113,7 @@ class PlayerInterface : public QObject {
   void VolumeChanged(int volume);
   void TrackSkipped(PlaylistItemPtr old_track);
   // Emitted when there's a manual change to the current's track position.
-  void Seeked(qlonglong microseconds);
+  void Seeked(qint64 microseconds);
 
   // Emitted when Player has processed a request to play another song.
   // This contains the URL of the song and a flag saying whether it was able to play the song.
@@ -168,7 +168,7 @@ class Player : public PlayerInterface {
   void SetVolume(const int value) override;
   void VolumeUp() override { SetVolume(GetVolume() + 5); }
   void VolumeDown() override { SetVolume(GetVolume() - 5); }
-  void SeekTo(const int seconds) override;
+  void SeekTo(const qint64 seconds) override;
   void SeekForward() override;
   void SeekBackward() override;
 

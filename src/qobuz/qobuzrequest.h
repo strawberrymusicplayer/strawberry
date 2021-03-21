@@ -60,8 +60,6 @@ class QobuzRequest : public QobuzBaseRequest {
   void Search(const int search_id, const QString &search_text);
 
  signals:
-  void Login();
-  void Login(QString username, QString password, QString token);
   void LoginSuccess();
   void LoginFailure(QString failure_reason);
   void Results(int id, SongList songs, QString error);

@@ -169,7 +169,7 @@ void DeviceProperties::UpdateHardwareInfo() {
 
     ui_->hardware_info_stack->setCurrentWidget(ui_->hardware_info_page);
     ui_->hardware_info->clear();
-    ui_->hardware_info->setRowCount(2 + info.count());
+    ui_->hardware_info->setRowCount(2 + static_cast<int>(info.count()));
 
     int row = 0;
     AddHardwareInfo(row++, tr("Model"), lister->DeviceModel(id));

@@ -860,7 +860,7 @@ void GstEngine::UpdateScope(const int chunk_length) {
   gst_buffer_map(latest_buffer_, &map, GST_MAP_READ);
 
   // Determine where to split the buffer
-  int chunk_density = (map.size * kNsecPerMsec) / GST_BUFFER_DURATION(latest_buffer_);
+  int chunk_density = static_cast<int>((map.size * kNsecPerMsec) / GST_BUFFER_DURATION(latest_buffer_));
 
   int chunk_size = chunk_length * chunk_density;
 

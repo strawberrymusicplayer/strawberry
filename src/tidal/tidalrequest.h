@@ -79,8 +79,6 @@ class TidalRequest : public TidalBaseRequest {
   };
 
  signals:
-  void Login();
-  void Login(QString username, QString password, QString token);
   void LoginSuccess();
   void LoginFailure(QString failure_reason);
   void Results(int id, SongList songs, QString error);

@@ -171,8 +171,7 @@ class RatingComparatorDecorator : public SearchTermComparator {
  public:
   explicit RatingComparatorDecorator(SearchTermComparator *cmp) : cmp_(cmp) {}
   bool Matches(const QString &element) const override {
-    return cmp_->Matches(
-        QString::number(static_cast<int>(element.toDouble() * 10.0 + 0.5)));
+    return cmp_->Matches(QString::number(static_cast<int>(element.toDouble() * 10.0 + 0.5)));
   }
  private:
   QScopedPointer<SearchTermComparator> cmp_;

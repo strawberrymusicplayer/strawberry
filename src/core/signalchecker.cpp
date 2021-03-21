@@ -41,7 +41,7 @@ gulong CheckedGConnect(gpointer source, const char *signal, GCallback callback, 
   GSignalQuery query;
   g_signal_query(signal_id, &query);
   // The signature for a signal callback is always: return_type callback(gpointer data1, params..., gpointer data2);
-  int signal_params = query.n_params + 2;
+  int signal_params = static_cast<int>(query.n_params) + 2;
   if (signal_params != callback_param_count) {
     qFatal("Connecting callback to signal with different parameters counts");
     return 0;

@@ -151,7 +151,7 @@ QobuzService::QobuzService(Application *app, QObject *parent)
   timer_login_attempt_->setSingleShot(true);
   QObject::connect(timer_login_attempt_, &QTimer::timeout, this, &QobuzService::ResetLoginAttempts);
 
-  QObject::connect(this, &QobuzService::Login, this, &QobuzService::SendLogin);
+  QObject::connect(this, &QobuzService::RequestLogin, this, &QobuzService::SendLogin);
   QObject::connect(this, &QobuzService::LoginWithCredentials, this, &QobuzService::SendLoginWithCredentials);
 
   QObject::connect(this, &QobuzService::AddArtists, favorite_request_, &QobuzFavoriteRequest::AddArtists);
@@ -479,7 +479,7 @@ void QobuzService::TryLogin() {
     return;
   }
 
-  emit Login();
+  emit RequestLogin();
 
 }
 
