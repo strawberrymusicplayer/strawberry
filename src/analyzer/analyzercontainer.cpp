@@ -191,10 +191,10 @@ void AnalyzerContainer::Load() {
   }
 
   // Framerate
+  QList<QAction*> actions = group_framerate_->actions();
   for (int i = 0; i < framerate_list_.count(); ++i) {
     if (current_framerate_ == framerate_list_[i]) {
       ChangeFramerate(current_framerate_);
-      QList<QAction*> actions = group_framerate_->actions();
       actions[i]->setChecked(true);
       break;
     }
