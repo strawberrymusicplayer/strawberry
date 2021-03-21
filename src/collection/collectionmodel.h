@@ -195,6 +195,9 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   void ExpandAll(CollectionItem *item = nullptr) const;
 
+  const CollectionModel::Grouping &GetGroupBy() const { return group_by_; }
+  void SetGroupBy(const CollectionModel::Grouping &g);
+
  signals:
   void TotalSongCountUpdated(int count);
   void TotalArtistCountUpdated(int count);
@@ -206,8 +209,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void SetFilterText(const QString &text);
   void SetFilterQueryMode(QueryOptions::QueryMode query_mode);
 
-  void SetGroupBy(const CollectionModel::Grouping &g);
-  const CollectionModel::Grouping &GetGroupBy() const { return group_by_; }
   void Init(const bool async = true);
   void Reset();
   void ResetAsync();
