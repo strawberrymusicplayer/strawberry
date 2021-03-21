@@ -220,7 +220,7 @@ void SingleCoreApplicationPrivate::startSecondary() {
 
 }
 
-bool SingleCoreApplicationPrivate::connectToPrimary(int timeout, ConnectionType connectionType) {
+bool SingleCoreApplicationPrivate::connectToPrimary(const qint64 timeout, const ConnectionType connectionType) {
 
   QElapsedTimer time;
   time.start();
