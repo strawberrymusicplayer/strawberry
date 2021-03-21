@@ -112,7 +112,8 @@ QString PlaylistParser::FilterForParser(const ParserBase *parser, QStringList *a
 }
 
 QString PlaylistParser::default_extension() const {
-  return default_parser_->file_extensions()[0];
+  QStringList file_extensions = default_parser_->file_extensions();
+  return file_extensions[0];
 }
 
 QString PlaylistParser::default_filter() const {

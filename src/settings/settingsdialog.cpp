@@ -194,7 +194,8 @@ void SettingsDialog::showEvent(QShowEvent *e) {
     LoadGeometry();
     // Load settings
     loading_settings_ = true;
-    for (const PageData &page : pages_.values()) {
+    QList<PageData> pages = pages_.values();
+    for (const PageData &page : pages) {
       page.page_->Load();
     }
     loading_settings_ = false;
@@ -212,7 +213,8 @@ void SettingsDialog::closeEvent(QCloseEvent*) {
 
 void SettingsDialog::accept() {
 
-  for (const PageData &page : pages_.values()) {
+  QList<PageData> pages = pages_.values();
+  for (const PageData &page : pages) {
     page.page_->Accept();
   }
   emit ReloadSettings();
@@ -226,7 +228,8 @@ void SettingsDialog::accept() {
 void SettingsDialog::reject() {
 
   // Notify each page that user clicks on Cancel
-  for (const PageData &page : pages_.values()) {
+  QList<PageData> pages = pages_.values();
+  for (const PageData &page : pages) {
     page.page_->Reject();
   }
   SaveGeometry();
@@ -323,7 +326,8 @@ void SettingsDialog::AddPage(Page id, SettingsPage *page, QTreeWidgetItem *paren
 
 void SettingsDialog::Save() {
 
-  for (const PageData &page : pages_.values()) {
+  QList<PageData> pages = pages_.values();
+  for (const PageData &page : pages) {
     page.page_->Apply();
   }
   emit ReloadSettings();
@@ -335,7 +339,8 @@ void SettingsDialog::DialogButtonClicked(QAbstractButton *button) {
 
   // While we only connect Apply at the moment, this might change in the future
   if (ui_->buttonBox->button(QDialogButtonBox::Apply) == button) {
-    for (const PageData &page : pages_.values()) {
+    QList<PageData> pages = pages_.values();
+    for (const PageData &page : pages) {
       page.page_->Apply();
     }
     emit ReloadSettings();
@@ -364,7 +369,8 @@ void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
   ui_->title->setText("<b>" + item->text(0) + "</b>");
 
   // Display the right page
-  for (const PageData &page : pages_.values()) {
+  QList<PageData> pages = pages_.values();
+  for (const PageData &page : pages) {
     if (page.item_ == item) {
       ui_->stacked_widget->setCurrentWidget(page.scroll_area_);
       break;

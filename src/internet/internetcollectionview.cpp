@@ -195,15 +195,15 @@ bool InternetCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
       case CollectionItem::Type_Divider: {
         QString text = model()->data(current, CollectionModel::Role_SortText).toString();
         if (!last_selected_container_.isEmpty() && last_selected_container_ == text) {
-          emit expand(current);
+          expand(current);
           setCurrentIndex(current);
           return true;
         }
         else if (last_selected_path_.contains(text)) {
-          emit expand(current);
+          expand(current);
           // If a selected container or song were not found, we've got into a wrong subtree (happens with "unknown" all the time)
           if (!RestoreLevelFocus(current)) {
-            emit collapse(current);
+            collapse(current);
           }
           else {
             return true;

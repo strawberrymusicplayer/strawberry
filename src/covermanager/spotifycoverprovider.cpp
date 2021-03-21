@@ -183,7 +183,6 @@ void SpotifyCoverProvider::RedirectArrived() {
       else if (url_query.hasQueryItem("code") && url_query.hasQueryItem("state")) {
         qLog(Debug) << "Spotify: Authorization URL Received" << url;
         QString code = url_query.queryItemValue("code");
-        QString state = url_query.queryItemValue("state");
         QUrl redirect_url(kOAuthRedirectUrl);
         redirect_url.setPort(server_->url().port());
         RequestAccessToken(code, redirect_url);
@@ -282,7 +281,7 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
         if (!json_obj.isEmpty() && json_obj.contains("error") && json_obj.contains("error_description")) {
           QString error = json_obj["error"].toString();
           QString error_description = json_obj["error_description"].toString();
-          login_errors_ << QString("Authentication failure: %1 (%2)").arg(error).arg(error_description);
+          login_errors_ << QString("Authentication failure: %1 (%2)").arg(error, error_description);
         }
       }
       if (login_errors_.isEmpty()) {

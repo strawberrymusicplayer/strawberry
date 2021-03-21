@@ -68,14 +68,18 @@ InternetService *InternetServices::ServiceBySource(const Song::Source &source) {
 }
 
 void InternetServices::ReloadSettings() {
-  for (InternetService *service : services_.values()) {
+
+  QList<InternetService*> services = services_.values();
+  for (InternetService *service : services) {
     service->ReloadSettings();
   }
+
 }
 
 void InternetServices::Exit() {
 
-  for (InternetService *service : services_.values()) {
+  QList<InternetService*> services = services_.values();
+  for (InternetService *service : services) {
     wait_for_exit_ << service;
     QObject::connect(service, &InternetService::ExitFinished, this, &InternetServices::ExitReceived);
     service->Exit();

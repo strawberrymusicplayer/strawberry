@@ -793,7 +793,7 @@ void DeviceManager::RemoveFromDB(DeviceInfo *info, QModelIndex idx) {
 
     info->friendly_name_ = info->BestBackend()->lister_->MakeFriendlyName(id);
     info->LoadIcon(info->BestBackend()->lister_->DeviceIcons(id), info->friendly_name_);
-    dataChanged(idx, idx);
+    emit dataChanged(idx, idx);
   }
 
 }

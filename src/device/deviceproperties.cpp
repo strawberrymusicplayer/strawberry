@@ -161,7 +161,8 @@ void DeviceProperties::UpdateHardwareInfo() {
     QVariantMap info = lister->DeviceHardwareInfo(id);
 
     // Remove empty items
-    for (const QString &key : info.keys()) {
+    QStringList keys = info.keys();
+    for (const QString &key : keys) {
       if (info[key].isNull() || info[key].toString().isEmpty())
         info.remove(key);
     }
@@ -173,7 +174,8 @@ void DeviceProperties::UpdateHardwareInfo() {
     int row = 0;
     AddHardwareInfo(row++, tr("Model"), lister->DeviceModel(id));
     AddHardwareInfo(row++, tr("Manufacturer"), lister->DeviceManufacturer(id));
-    for (const QString &key : info.keys()) {
+    keys = info.keys();
+    for (const QString &key : keys) {
       AddHardwareInfo(row++, tr(key.toLatin1()), info[key].toString());
     }
 
@@ -202,7 +204,6 @@ void DeviceProperties::UpdateHardwareInfo() {
 
 void DeviceProperties::UpdateFormats() {
 
-  QString id = index_.data(DeviceManager::Role_UniqueId).toString();
   DeviceLister *lister = manager_->GetLister(index_);
   std::shared_ptr<ConnectedDevice> device = manager_->GetConnectedDevice(index_);
 

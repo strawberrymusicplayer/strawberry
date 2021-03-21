@@ -51,7 +51,8 @@ InternetSearchModel::InternetSearchModel(InternetService *service, QObject *pare
   group_by_[1] = CollectionModel::GroupBy_AlbumDisc;
   group_by_[2] = CollectionModel::GroupBy_None;
 
-  no_cover_icon_ = album_icon_.pixmap(album_icon_.availableSizes().last()).scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  QList<QSize> nocover_sizes = album_icon_.availableSizes();
+  no_cover_icon_ = album_icon_.pixmap(nocover_sizes.last()).scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
 }
 
@@ -222,10 +223,10 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       }
       else {
         if (s.bitdepth() <= 0) {
-          display_text = QString("%1 (%2)").arg(s.TextForFiletype()).arg(QString::number(s.samplerate() / 1000.0, 'G', 5));
+          display_text = QString("%1 (%2)").arg(s.TextForFiletype(), QString::number(s.samplerate() / 1000.0, 'G', 5));
         }
         else {
-          display_text = QString("%1 (%2/%3)").arg(s.TextForFiletype()).arg(QString::number(s.samplerate() / 1000.0, 'G', 5)).arg(QString::number(s.bitdepth()));
+          display_text = QString("%1 (%2/%3)").arg(s.TextForFiletype(), QString::number(s.samplerate() / 1000.0, 'G', 5), QString::number(s.bitdepth()));
         }
       }
       sort_text = display_text;

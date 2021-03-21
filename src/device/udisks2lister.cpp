@@ -166,7 +166,7 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
     }
 
     device_data_.remove(id);
-    DeviceRemoved(id);
+    emit DeviceRemoved(id);
   }
 
 }
@@ -190,7 +190,8 @@ bool Udisks2Lister::Init() {
     return false;
   }
 
-  for (const QDBusObjectPath &path : reply.value().keys()) {
+  QList<QDBusObjectPath> paths = reply.value().keys();
+  for (const QDBusObjectPath &path : paths) {
     auto partition_data = ReadPartitionData(path);
 
     if (!partition_data.dbus_path.isEmpty()) {
@@ -199,7 +200,8 @@ bool Udisks2Lister::Init() {
     }
   }
 
-  for (const auto &id : device_data_.keys()) {
+  QStringList ids = device_data_.keys();
+  for (const QString &id : ids) {
     emit DeviceAdded(id);
   }
 
@@ -269,7 +271,7 @@ void Udisks2Lister::RemoveDevice(const QDBusObjectPath &device_path) {
 
   QWriteLocker locker(&device_data_lock_);
   QString id;
-  for (const auto &data : device_data_) {
+  for (const auto &data : qAsConst(device_data_)) {
     if (data.dbus_path == device_path.path()) {
       id = data.unique_id();
       break;
@@ -280,7 +282,8 @@ void Udisks2Lister::RemoveDevice(const QDBusObjectPath &device_path) {
 
   qLog(Debug) << "UDisks2 device removed: " << device_path.path();
   device_data_.remove(id);
-  DeviceRemoved(id);
+
+  emit DeviceRemoved(id);
 
 }
 
@@ -325,7 +328,8 @@ void Udisks2Lister::HandleFinishedMountJob(const Udisks2Lister::PartitionData &p
   qLog(Debug) << "UDisks2 mount job finished: Drive = " << partition_data.dbus_drive_path << " | Partition = " << partition_data.dbus_path;
   QWriteLocker locker(&device_data_lock_);
   device_data_[partition_data.unique_id()] = partition_data;
-  DeviceAdded(partition_data.unique_id());
+
+  emit DeviceAdded(partition_data.unique_id());
 
 }
 
@@ -345,7 +349,7 @@ void Udisks2Lister::HandleFinishedUnmountJob(const Udisks2Lister::PartitionData 
   if (!id.isEmpty()) {
     qLog(Debug) << "Partition " << partition_data.dbus_path << " has no more mount points, removing it from device list";
     device_data_.remove(id);
-    DeviceRemoved(id);
+    emit DeviceRemoved(id);
   }
 
 }

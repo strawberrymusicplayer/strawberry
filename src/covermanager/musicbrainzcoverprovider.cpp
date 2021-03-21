@@ -89,7 +89,7 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
 
 void MusicbrainzCoverProvider::SendSearchRequest(const SearchRequest &request) {
 
-  QString query = QString("release:\"%1\" AND artist:\"%2\"").arg(request.album.trimmed().replace('"', "\\\"")).arg(request.artist.trimmed().replace('"', "\\\""));
+  QString query = QString("release:\"%1\" AND artist:\"%2\"").arg(request.album.trimmed().replace('"', "\\\""), request.artist.trimmed().replace('"', "\\\""));
 
   QUrlQuery url_query;
   url_query.addQueryItem("query", query);

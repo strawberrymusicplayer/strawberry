@@ -60,6 +60,11 @@ class FileViewList : public QListView {
  protected:
   void contextMenuEvent(QContextMenuEvent *e) override;
 
+ private:
+  QStringList FilenamesFromSelection() const;
+  QList<QUrl> UrlListFromSelection() const;
+  MimeData *MimeDataFromSelection() const;
+
  private slots:
   void LoadSlot();
   void AddToPlaylistSlot();
@@ -70,10 +75,6 @@ class FileViewList : public QListView {
   void DeleteSlot();
   void EditTagsSlot();
   void ShowInBrowser();
-
-  QStringList FilenamesFromSelection() const;
-  QList<QUrl> UrlListFromSelection() const;
-  MimeData *MimeDataFromSelection() const;
 
  private:
   QMenu *menu_;

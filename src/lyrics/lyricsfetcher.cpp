@@ -70,7 +70,8 @@ void LyricsFetcher::Clear() {
 
   queued_requests_.clear();
 
-  for (LyricsFetcherSearch *search : active_requests_.values()) {
+  QList<LyricsFetcherSearch*> searches = active_requests_.values();
+  for (LyricsFetcherSearch *search : searches) {
     search->Cancel();
     search->deleteLater();
   }

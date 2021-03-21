@@ -84,9 +84,10 @@ PlaylistManager::PlaylistManager(Application *app, QObject *parent)
 }
 
 PlaylistManager::~PlaylistManager() {
-  for (const Data &data : playlists_.values()) {
-    delete data.p;
-  }
+
+  QList<Data> datas = playlists_.values();
+  for (const Data &data : datas) delete data.p;
+
 }
 
 void PlaylistManager::Init(CollectionBackend *collection_backend, PlaylistBackend *playlist_backend, PlaylistSequence *sequence, PlaylistContainer *playlist_container) {
@@ -130,7 +131,8 @@ QList<Playlist*> PlaylistManager::GetAllPlaylists() const {
 
   QList<Playlist*> result;
 
-  for (const Data &data : playlists_.values()) {
+  QList<Data> datas = playlists_.values();
+  for (const Data &data : datas) {
     result.append(data.p);
   }
 
@@ -339,7 +341,8 @@ bool PlaylistManager::Close(const int id) {
   if (playlists_.count() <= 1 || !playlists_.contains(id)) return false;
 
   int next_id = -1;
-  for (int possible_next_id : playlists_.keys()) {
+  QList<int> playlist_ids = playlists_.keys();
+  for (const int possible_next_id : playlist_ids) {
     if (possible_next_id != id) {
       next_id = possible_next_id;
       break;
@@ -491,7 +494,7 @@ void PlaylistManager::SongsDiscovered(const SongList &songs) {
   // Some songs might've changed in the collection, let's update any playlist items we have that match those songs
 
   for (const Song &song : songs) {
-    for (const Data &data : playlists_) {
+    for (const Data &data : qAsConst(playlists_)) {
       PlaylistItemList items = data.p->collection_items_by_id(song.id());
       for (PlaylistItemPtr item : items) {
         if (item->Metadata().directory_id() != song.directory_id()) continue;
@@ -582,11 +585,13 @@ QString PlaylistManager::GetNameForNewPlaylist(const SongList &songs) {
     result = tr("Various artists");
   }
   else {
-    result = artists.values().first();
+    QStringList artist_names = artists.values();
+    result = artist_names.first();
   }
 
   if (!various_artists && albums.size() == 1) {
-    result += " - " + albums.values().first();
+    QStringList album_names = albums.values();
+    result += " - " + album_names.first();
   }
 
   return result;

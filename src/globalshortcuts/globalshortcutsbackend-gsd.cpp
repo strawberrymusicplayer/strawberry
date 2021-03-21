@@ -108,9 +108,12 @@ void GlobalShortcutsBackendGSD::DoUnregister() {
 
 }
 
-void GlobalShortcutsBackendGSD::GnomeMediaKeyPressed(const QString&, const QString& key) {
-  if (key == "Play") manager_->shortcuts()["play_pause"].action->trigger();
-  if (key == "Stop") manager_->shortcuts()["stop"].action->trigger();
-  if (key == "Next") manager_->shortcuts()["next_track"].action->trigger();
-  if (key == "Previous") manager_->shortcuts()["prev_track"].action->trigger();
+void GlobalShortcutsBackendGSD::GnomeMediaKeyPressed(const QString&, const QString &key) {
+
+  auto shortcuts = manager_->shortcuts();
+  if (key == "Play") shortcuts["play_pause"].action->trigger();
+  if (key == "Stop") shortcuts["stop"].action->trigger();
+  if (key == "Next") shortcuts["next_track"].action->trigger();
+  if (key == "Previous") shortcuts["prev_track"].action->trigger();
+
 }

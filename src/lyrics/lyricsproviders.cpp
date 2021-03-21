@@ -51,7 +51,8 @@ LyricsProviders::~LyricsProviders() {
 void LyricsProviders::ReloadSettings() {
 
   QMap<int, QString> all_providers;
-  for (LyricsProvider *provider : lyrics_providers_.keys()) {
+  QList<LyricsProvider*> old_providers = lyrics_providers_.keys();
+  for (LyricsProvider *provider : old_providers) {
     if (!provider->is_enabled()) continue;
     all_providers.insert(provider->order(), provider->name());
   }
@@ -62,18 +63,19 @@ void LyricsProviders::ReloadSettings() {
   s.endGroup();
 
   int i = 0;
-  QList<LyricsProvider*> providers;
+  QList<LyricsProvider*> new_providers;
   for (const QString &name : providers_enabled) {
     LyricsProvider *provider = ProviderByName(name);
     if (provider) {
       provider->set_enabled(true);
       provider->set_order(++i);
-      providers << provider;
+      new_providers << provider;
     }
   }
 
-  for (LyricsProvider *provider : lyrics_providers_.keys()) {
-    if (!providers.contains(provider)) {
+  old_providers = lyrics_providers_.keys();
+  for (LyricsProvider *provider : old_providers) {
+    if (!new_providers.contains(provider)) {
       provider->set_enabled(false);
       provider->set_order(++i);
     }
@@ -83,7 +85,8 @@ void LyricsProviders::ReloadSettings() {
 
 LyricsProvider *LyricsProviders::ProviderByName(const QString &name) const {
 
-  for (LyricsProvider *provider : lyrics_providers_.keys()) {
+  QList<LyricsProvider*> providers = lyrics_providers_.keys();
+  for (LyricsProvider *provider : providers) {
     if (provider->name() == name) return provider;
   }
   return nullptr;

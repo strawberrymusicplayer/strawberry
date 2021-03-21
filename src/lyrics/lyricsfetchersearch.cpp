@@ -47,7 +47,8 @@ LyricsFetcherSearch::LyricsFetcherSearch(const LyricsSearchRequest &request, QOb
 
 void LyricsFetcherSearch::TerminateSearch() {
 
-  for (int id : pending_requests_.keys()) {
+  QList<int> keys = pending_requests_.keys();
+  for (const int id : keys) {
     pending_requests_.take(id)->CancelSearch(id);
   }
   AllProvidersFinished();

@@ -348,7 +348,8 @@ void GioLister::MountAdded(GMount *mount) {
     QMutexLocker l(&mutex_);
 
     // The volume might already exist - either mounted or unmounted.
-    for (const QString &id : devices_.keys()) {
+    QStringList ids = devices_.keys();
+    for (const QString &id : ids) {
       if (devices_[id].volume_ptr == info.volume_ptr) {
         old_id = id;
         break;

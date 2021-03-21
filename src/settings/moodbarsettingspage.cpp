@@ -58,7 +58,7 @@ MoodbarSettingsPage::MoodbarSettingsPage(SettingsDialog* dialog)
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("moodbar"));
 
-  Load();
+  MoodbarSettingsPage::Load();
   
 }
 

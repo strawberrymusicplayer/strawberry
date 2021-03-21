@@ -34,9 +34,11 @@ RatingPainter::RatingPainter() {
 
   // Load the base pixmaps
   QIcon star_on(":/pictures/star-on.png");
-  QPixmap on(star_on.pixmap(star_on.availableSizes().last()));
+  QList<QSize> star_on_sizes = star_on.availableSizes();
+  QPixmap on(star_on.pixmap(star_on_sizes.last()));
   QIcon star_off(":/pictures/star-off.png");
-  QPixmap off(star_off.pixmap(star_off.availableSizes().last()));
+  QList<QSize> star_off_sizes = star_off.availableSizes();
+  QPixmap off(star_off.pixmap(star_off_sizes.last()));
 
   // Generate the 10 states, better to do it now than on the fly
   for (int i = 0 ; i < kStarCount * 2 + 1 ; ++i) {

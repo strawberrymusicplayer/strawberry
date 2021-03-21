@@ -73,7 +73,8 @@ AlbumCoverFetcherSearch::~AlbumCoverFetcherSearch() {
 
 void AlbumCoverFetcherSearch::TerminateSearch() {
 
-  for (quint64 id : pending_requests_.keys()) {
+  QList<int> ids = pending_requests_.keys();
+  for (const quint64 id : ids) {
     pending_requests_.take(id)->CancelSearch(id);
   }
 
@@ -352,7 +353,8 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
     float best_score = 0.0;
 
     if (!candidate_images_.isEmpty()) {
-      best_score = candidate_images_.keys().last();
+      QList<float> scores = candidate_images_.keys();
+      best_score = scores.last();
       qLog(Debug) << "Best image so far has a score of" << best_score;
     }
 
@@ -385,7 +387,8 @@ void AlbumCoverFetcherSearch::SendBestImage() {
   AlbumCoverImageResult result;
 
   if (!candidate_images_.isEmpty()) {
-    const CandidateImage best_image = candidate_images_.values().back();
+    QList<CandidateImage> candidate_images = candidate_images_.values();
+    const CandidateImage best_image = candidate_images.back();
     result = best_image.album_cover;
 
     qLog(Info) << "Using" << best_image.result.image_url << "from" << best_image.result.provider << "with score" << best_image.result.score();
@@ -411,7 +414,8 @@ void AlbumCoverFetcherSearch::Cancel() {
     TerminateSearch();
   }
   else if (!pending_image_loads_.isEmpty()) {
-    for (QNetworkReply *reply : pending_image_loads_.keys()) {
+    QList<QNetworkReply*> replies = pending_image_loads_.keys();
+    for (QNetworkReply *reply : replies) {
       QObject::disconnect(reply, &QNetworkReply::finished, this, nullptr);
       reply->abort();
       reply->deleteLater();

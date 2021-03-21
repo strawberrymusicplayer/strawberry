@@ -418,7 +418,8 @@ QStringList MergedProxyModel::mimeTypes() const {
   QStringList ret;
   ret << sourceModel()->mimeTypes();
 
-  for (const QAbstractItemModel *model : merge_points_.keys()) {
+  QList<QAbstractItemModel*> models = merge_points_.keys();
+  for (const QAbstractItemModel *model : models) {
     ret << model->mimeTypes();
   }
 
@@ -495,7 +496,8 @@ QAbstractItemModel *MergedProxyModel::GetModel(const QModelIndex &source_index) 
   // This is essentially const_cast<QAbstractItemModel*>(source_index.model()), but without the const_cast
   const QAbstractItemModel *const_model = source_index.model();
   if (const_model == sourceModel()) return sourceModel();
-  for (QAbstractItemModel *submodel : merge_points_.keys()) {
+  QList<QAbstractItemModel*> submodels = merge_points_.keys();
+  for (QAbstractItemModel *submodel : submodels) {
     if (submodel == const_model) return submodel;
   }
   return nullptr;
@@ -509,19 +511,21 @@ void MergedProxyModel::DataChanged(const QModelIndex &top_left, const QModelInde
 void MergedProxyModel::LayoutAboutToBeChanged() {
 
   old_merge_points_.clear();
-  for (QAbstractItemModel *key : merge_points_.keys()) {
-    old_merge_points_[key] = merge_points_.value(key);
+  QList<QAbstractItemModel*> models = merge_points_.keys();
+  for (QAbstractItemModel *model : models) {
+    old_merge_points_[model] = merge_points_.value(model);
   }
 
 }
 
 void MergedProxyModel::LayoutChanged() {
 
-  for (QAbstractItemModel *key : merge_points_.keys()) {
-    if (!old_merge_points_.contains(key)) continue;
+  QList<QAbstractItemModel*> models = merge_points_.keys();
+  for (QAbstractItemModel *model : models) {
+    if (!old_merge_points_.contains(model)) continue;
 
-    const int old_row = old_merge_points_[key].row();
-    const int new_row = merge_points_[key].row();
+    const int old_row = old_merge_points_[model].row();
+    const int new_row = merge_points_[model].row();
 
     if (old_row != new_row) {
       beginResetModel();

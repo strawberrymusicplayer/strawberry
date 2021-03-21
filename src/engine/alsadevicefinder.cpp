@@ -96,7 +96,7 @@ QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
       }
 
       Device device;
-      device.description = QString("%1 %2").arg(snd_ctl_card_info_get_name(cardinfo)).arg(snd_pcm_info_get_name(pcminfo));
+      device.description = QString("%1 %2").arg(snd_ctl_card_info_get_name(cardinfo), snd_pcm_info_get_name(pcminfo));
       device.iconname = GuessIconName(device.description);
       device.card = card;
       device.device = dev;

@@ -61,7 +61,7 @@ QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
   }
   tray_->setIcon(normal_icon_);
   tray_->installEventFilter(this);
-  ClearNowPlaying();
+  QtSystemTrayIcon::ClearNowPlaying();
 
   QObject::connect(tray_, &QSystemTrayIcon::activated, this, &QtSystemTrayIcon::Clicked);
 

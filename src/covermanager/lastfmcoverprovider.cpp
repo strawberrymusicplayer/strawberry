@@ -156,7 +156,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
   else if (json_obj.contains("error") && json_obj.contains("message")) {
     int error = json_obj["error"].toInt();
     QString message = json_obj["message"].toString();
-    Error(QString("Error: %1: %2").arg(QString::number(error)).arg(message));
+    Error(QString("Error: %1: %2").arg(QString::number(error), message));
     emit SearchFinished(id, results);
     return;
   }

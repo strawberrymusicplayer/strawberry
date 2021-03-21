@@ -134,7 +134,7 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
   ui_->checkbox_system_icons->hide();
 #endif
 
-  Load();
+  AppearanceSettingsPage::Load();
 
 }
 

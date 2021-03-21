@@ -155,7 +155,7 @@ class CollectionWatcher : public QObject {
   void FullScanNow();
   void RescanTracksNow();
   void RescanPathsNow();
-  void ScanSubdirectory(const QString &path, const Subdirectory &subdir, ScanTransaction *t, bool force_noincremental = false);
+  void ScanSubdirectory(const QString &path, const Subdirectory &subdir, CollectionWatcher::ScanTransaction *t, bool force_noincremental = false);
 
  private:
   static bool FindSongByPath(const SongList &list, const QString &path, Song *out);

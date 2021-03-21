@@ -118,26 +118,28 @@ void CoversSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QList
     ui_->providers_up->setEnabled(row != 0);
     ui_->providers_down->setEnabled(row != ui_->providers->count() - 1);
     CoverProvider *provider = dialog()->app()->cover_providers()->ProviderByName(item_current->text());
-    if (provider && provider->AuthenticationRequired()) {
-      if (provider->name() == "Tidal" && !provider->IsAuthenticated()) {
-        DisableAuthentication();
-        ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
-      }
-      else if (provider->name() == "Qobuz" && !provider->IsAuthenticated()) {
-        DisableAuthentication();
-        ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
+    if (provider) {
+      if (provider->AuthenticationRequired()) {
+        if (provider->name() == "Tidal" && !provider->IsAuthenticated()) {
+          DisableAuthentication();
+          ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
+        }
+        else if (provider->name() == "Qobuz" && !provider->IsAuthenticated()) {
+          DisableAuthentication();
+          ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
+        }
+        else {
+          ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::LoggedIn : LoginStateWidget::LoggedOut);
+          ui_->button_authenticate->setEnabled(true);
+          ui_->button_authenticate->show();
+          ui_->login_state->show();
+          ui_->label_auth_info->setText(tr("%1 needs authentication.").arg(provider->name()));
+        }
       }
       else {
-        ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::LoggedIn : LoginStateWidget::LoggedOut);
-        ui_->button_authenticate->setEnabled(true);
-        ui_->button_authenticate->show();
-        ui_->login_state->show();
-        ui_->label_auth_info->setText(tr("%1 needs authentication.").arg(provider->name()));
+        DisableAuthentication();
+        ui_->label_auth_info->setText(tr("%1 does not need authentication.").arg(provider->name()));
       }
-    }
-    else {
-      DisableAuthentication();
-      ui_->label_auth_info->setText(tr("%1 does not need authentication.").arg(provider->name()));
     }
     provider_selected_ = true;
   }

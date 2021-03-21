@@ -125,12 +125,12 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
         }
       }
       if (status == 401 && sub_status == 6001) {  // User does not have a valid session
-        emit service_->Logout();
+        service_->Logout();
         if (!oauth() && send_login && login_attempts() < max_login_attempts() && !api_token().isEmpty() && !username().isEmpty() && !password().isEmpty()) {
           qLog(Error) << "Tidal:" << error;
           qLog(Info) << "Tidal:" << "Attempting to login.";
           NeedLogin();
-          emit service_->Login();
+          service_->Login();
         }
         else {
           Error(error);

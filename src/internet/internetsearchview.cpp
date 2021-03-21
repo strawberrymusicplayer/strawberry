@@ -717,7 +717,8 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping &g) {
   }
 
   // Check the advanced action
-  group_by_actions_->actions().last()->setChecked(true);
+  QList<QAction*> actions = group_by_actions_->actions();
+  actions.last()->setChecked(true);
 
 }
 

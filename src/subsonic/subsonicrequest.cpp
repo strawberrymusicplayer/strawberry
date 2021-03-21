@@ -641,7 +641,8 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
   Song::FileType filetype(Song::FileType_Stream);
   if (!mimetype.isEmpty()) {
     QMimeDatabase mimedb;
-    for (QString suffix : mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes()) {
+    QStringList suffixes = mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes();
+    for (const QString &suffix : suffixes) {
       filetype = Song::FiletypeByExtension(suffix);
       if (filetype != Song::FileType_Unknown) break;
     }
@@ -789,7 +790,7 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl url, c
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
-    Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype).arg(url.toString()));
+    Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype, url.toString()));
     if (album_covers_requests_sent_.contains(url)) album_covers_requests_sent_.remove(url);
     AlbumCoverFinishCheck();
     return;

@@ -1038,7 +1038,6 @@ void Song::InitFromFilePartial(const QString &filename) {
   set_url(QUrl::fromLocalFile(filename));
   QFileInfo info(filename);
   d->basefilename_ = info.fileName();
-  QString suffix = info.suffix().toLower();
 
   TagLib::FileRef fileref(filename.toUtf8().constData());
   if (fileref.file()) {
@@ -1458,7 +1457,7 @@ QString Song::TitleWithCompilationArtist() const {
 
   if (title.isEmpty()) title = d->basefilename_;
 
-  if (is_compilation() && !d->artist_.isEmpty() && !d->artist_.toLower().contains("various")) title = d->artist_ + " - " + title;
+  if (is_compilation() && !d->artist_.isEmpty() && !d->artist_.contains("various", Qt::CaseInsensitive)) title = d->artist_ + " - " + title;
 
   return title;
 

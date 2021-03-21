@@ -198,15 +198,15 @@ bool CollectionView::RestoreLevelFocus(const QModelIndex &parent) {
       case CollectionItem::Type_Divider: {
         QString text = model()->data(current, CollectionModel::Role_SortText).toString();
         if (!last_selected_container_.isEmpty() && last_selected_container_ == text) {
-          emit expand(current);
+          expand(current);
           setCurrentIndex(current);
           return true;
         }
         else if (last_selected_path_.contains(text)) {
-          emit expand(current);
+          expand(current);
           // If a selected container or song were not found, we've got into a wrong subtree (happens with "unknown" all the time)
           if (!RestoreLevelFocus(current)) {
-            emit collapse(current);
+            collapse(current);
           }
           else {
             return true;
@@ -463,7 +463,8 @@ void CollectionView::SetShowInVarious(const bool on) {
   // If we have only one album and we are putting it into Various Artists, check to see
   // if there are other Artists in this album and prompt the user if they'd like them moved, too
   if (on && albums.keys().count() == 1) {
-    const QString album = albums.keys().first();
+    const QStringList albums_list = albums.keys();
+    const QString album = albums_list.first();
     QList<Song> all_of_album = app_->collection_backend()->GetSongsByAlbum(album);
     QSet<QString> other_artists;
     for (const Song &s : all_of_album) {
@@ -481,10 +482,11 @@ void CollectionView::SetShowInVarious(const bool on) {
   }
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-  for (const QString &album : QSet<QString>(albums.keyBegin(), albums.keyEnd())) {
+  QSet<QString> albums_set = QSet<QString>(albums.keyBegin(), albums.keyEnd());
 #else
-  for (const QString &album : QSet<QString>::fromList(albums.keys())) {
+  QSet<QString> albums_set = QSet<QString>::fromList(albums.keys());
 #endif
+  for (const QString &album : albums_set) {
     app_->collection_backend()->ForceCompilation(album, albums.values(album), on);
   }
 

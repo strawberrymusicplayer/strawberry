@@ -75,7 +75,7 @@ QIcon IconLoader::Load(const QString &name, const int fixed_size, const int min_
     if (icon_prop.allow_system_icon) {
       ret = QIcon::fromTheme(name);
       if (ret.isNull()) {
-        for (QString alt_name : icon_prop.names) {
+        for (const QString &alt_name : icon_prop.names) {
           ret = QIcon::fromTheme(alt_name);
           if (!ret.isNull()) break;
         }

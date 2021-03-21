@@ -1234,7 +1234,7 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
-    Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype).arg(cover_url.toString()));
+    Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype, cover_url.toString()));
     if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     AlbumCoverFinishCheck();
     return;

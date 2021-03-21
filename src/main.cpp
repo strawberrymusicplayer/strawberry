@@ -165,7 +165,7 @@ int main(int argc, char* argv[]) {
 
   // Output the version, so when people attach log output to bug reports they don't have to tell us which version they're using.
   qLog(Info) << "Strawberry" << STRAWBERRY_VERSION_DISPLAY;
-  qLog(Info) << QString("%1 %2 - (%3 %4) [%5]").arg(QSysInfo::prettyProductName()).arg(QSysInfo::productVersion()).arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion()).arg(QSysInfo::currentCpuArchitecture());
+  qLog(Info) << QString("%1 %2 - (%3 %4) [%5]").arg(QSysInfo::prettyProductName(), QSysInfo::productVersion(), QSysInfo::kernelType(), QSysInfo::kernelVersion(), QSysInfo::currentCpuArchitecture());
 
   // Seed the random number generators.
   time_t t = time(nullptr);

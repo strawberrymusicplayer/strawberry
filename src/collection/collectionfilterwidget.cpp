@@ -303,7 +303,8 @@ void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
     QObject::disconnect(model_, nullptr, this, nullptr);
     QObject::disconnect(model_, nullptr, group_by_dialog_.get(), nullptr);
     QObject::disconnect(group_by_dialog_.get(), nullptr, model_, nullptr);
-    for (QAction *action : filter_ages_.keys()) {
+    QList<QAction*> filter_ages = filter_ages_.keys();
+    for (QAction *action : filter_ages) {
       QObject::disconnect(action, &QAction::triggered, model_, nullptr);
     }
   }
@@ -315,7 +316,8 @@ void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
   QObject::connect(model_, &CollectionModel::GroupingChanged, this, &CollectionFilterWidget::GroupingChanged);
   QObject::connect(group_by_dialog_.get(), &GroupByDialog::Accepted, model_, &CollectionModel::SetGroupBy);
 
-  for (QAction *action : filter_ages_.keys()) {
+  QList<QAction*> filter_ages = filter_ages_.keys();
+  for (QAction *action : filter_ages) {
     int age = filter_ages_[action];
     QObject::connect(action, &QAction::triggered, [this, age]() { model_->SetFilterAge(age); } );
   }
@@ -382,7 +384,9 @@ void CollectionFilterWidget::CheckCurrentGrouping(const CollectionModel::Groupin
   }
 
   // Check the advanced action
-  group_by_group_->actions().last()->setChecked(true);
+  QList<QAction*> actions = group_by_group_->actions();
+  QAction *action = actions.last();
+  action->setChecked(true);
 
 }
 

@@ -163,7 +163,8 @@ void MoodbarItemDelegate::StartLoadingData(const QUrl &url, Data *data) {
 
 bool MoodbarItemDelegate::RemoveFromCacheIfIndexesInvalid(const QUrl &url, Data *data) {
 
-  for (const QPersistentModelIndex &idx : data->indexes_) {
+  QSet<QPersistentModelIndex> indexes = data->indexes_;
+  for (const QPersistentModelIndex &idx : indexes) {
     if (idx.isValid()) {
       return false;
     }
@@ -278,7 +279,7 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
   const QSortFilterProxyModel *filter = playlist->proxy();
 
   // Update all the indices with the new pixmap.
-  for (const QPersistentModelIndex &idx : data->indexes_) {
+  for (const QPersistentModelIndex &idx : qAsConst(data->indexes_)) {
     if (idx.isValid() && idx.sibling(idx.row(), Playlist::Column_Filename).data().toUrl() == url) {
       QModelIndex source_index = idx;
       if (idx.model() == filter) {

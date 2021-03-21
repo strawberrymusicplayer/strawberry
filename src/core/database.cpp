@@ -184,7 +184,8 @@ QSqlDatabase Database::Connect() {
   }
 
   // Attach external databases
-  for (const QString &key : attached_databases_.keys()) {
+  QStringList keys = attached_databases_.keys();
+  for (const QString &key : keys) {
     QString filename = attached_databases_[key].filename_;
 
     if (!injected_database_name_.isNull()) filename = injected_database_name_;
@@ -204,7 +205,8 @@ QSqlDatabase Database::Connect() {
   }
 
   // We might have to initialize the schema in some attached databases now, if they were deleted and don't match up with the main schema version.
-  for (const QString &key : attached_databases_.keys()) {
+  keys = attached_databases_.keys();
+  for (const QString &key : keys) {
     if (attached_databases_[key].is_temporary_ && attached_databases_[key].schema_.isEmpty())
       continue;
     // Find out if there are any tables in this database
@@ -453,7 +455,8 @@ QStringList Database::SongsTables(QSqlDatabase &db, int schema_version) const {
   }
 
   // look for the tables in attached dbs
-  for (const QString &key : attached_databases_.keys()) {
+  QStringList keys = attached_databases_.keys();
+  for (const QString &key : keys) {
     QSqlQuery q(db);
     q.prepare(QString("SELECT NAME FROM %1.sqlite_master WHERE type='table' AND name='songs' OR name LIKE '%songs'").arg(key));
     if (q.exec()) {

@@ -114,7 +114,8 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
 
   QIcon nocover = IconLoader::Load("cdcase");
   if (!nocover.isNull()) {
-    no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QList<QSize> nocover_sizes = nocover.availableSizes();
+    no_cover_icon_ = nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   }
 
   if (app_ && !sIconCache) {
@@ -382,10 +383,10 @@ QString CollectionModel::ContainerKey(const GroupBy type, const Song &song) cons
       }
       else {
         if (song.bitdepth() <= 0) {
-          key = QString("%1 (%2)").arg(song.TextForFiletype()).arg(QString::number(song.samplerate() / 1000.0, 'G', 5));
+          key = QString("%1 (%2)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5));
         }
         else {
-          key = QString("%1 (%2/%3)").arg(song.TextForFiletype()).arg(QString::number(song.samplerate() / 1000.0, 'G', 5)).arg(song.bitdepth());
+          key = QString("%1 (%2/%3)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5)).arg(song.bitdepth());
         }
       }
       break;
@@ -421,7 +422,8 @@ QString CollectionModel::DividerKey(const GroupBy type, CollectionItem *item) co
       if (c.isDigit()) return "0";
       if (c == ' ') return QString();
       if (c.decompositionTag() != QChar::NoDecomposition) {
-        return QChar(c.decomposition()[0]);
+        QString decomposition = c.decomposition();
+        return QChar(decomposition[0]);
       }
       return c;
     }
@@ -587,12 +589,13 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
   }
 
   // Delete empty dividers
-  for (const QString &divider_key : divider_keys) {
+  for (const QString &divider_key : qAsConst(divider_keys)) {
     if (!divider_nodes_.contains(divider_key)) continue;
 
     // Look to see if there are any other items still under this divider
     bool found = false;
-    for (CollectionItem *node : container_nodes_[0].values()) {
+    QList<CollectionItem*> container_nodes = container_nodes_[0].values();
+    for (CollectionItem *node : container_nodes) {
       if (DividerKey(group_by_[0], node) == divider_key) {
         found = true;
         break;

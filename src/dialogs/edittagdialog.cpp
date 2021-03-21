@@ -541,7 +541,7 @@ void EditTagDialog::InitFieldValue(const FieldData &field, const QModelIndexList
       editor->set_value(data_[sel[0].row()].current_value(field.id_));
     }
   }
-  else {
+  else if (field.editor_) {
     qLog(Error) << "Missing editor for" << field.editor_->objectName();
   }
 
@@ -557,7 +557,7 @@ void EditTagDialog::UpdateFieldValue(const FieldData &field, const QModelIndexLi
   if (ExtendedEditor *editor = dynamic_cast<ExtendedEditor*>(field.editor_)) {
     value = editor->value();
   }
-  else {
+  else if (field.editor_) {
     qLog(Error) << "Missing editor for" << field.editor_->objectName();
   }
 
@@ -583,7 +583,7 @@ void EditTagDialog::UpdateModifiedField(const FieldData &field, const QModelInde
   QFont new_font(font());
   new_font.setBold(modified);
   field.label_->setFont(new_font);
-  field.editor_->setFont(new_font);
+  if (field.editor_) field.editor_->setFont(new_font);
 
 }
 

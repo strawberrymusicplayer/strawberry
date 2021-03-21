@@ -152,7 +152,7 @@ class InternetSearchView : public QWidget {
   void UpdateStatus(const int service_id, const QString &text);
   void ProgressSetMaximum(const int service_id, const int max);
   void UpdateProgress(const int service_id, const int progress);
-  void AddResults(const int service_id, const ResultList &results);
+  void AddResults(const int service_id, const InternetSearchView::ResultList &results);
 
   void FocusOnFilter(QKeyEvent *e);
 

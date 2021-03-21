@@ -294,7 +294,8 @@ void TranscodeDialog::UpdateProgress() {
   int progress = (finished_success_ + finished_failed_) * 100;
 
   QMap<QString, float> current_jobs = transcoder_->GetProgress();
-  for (float value : current_jobs.values()) {
+  QList<float> values = current_jobs.values();
+  for (const float value : values) {
     progress += qBound(0, int(value * 100), 99);
   }
 

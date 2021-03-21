@@ -183,7 +183,7 @@ TidalService::TidalService(Application *app, QObject *parent)
   QObject::connect(favorite_request_, &TidalFavoriteRequest::AlbumsRemoved, albums_collection_backend_, &CollectionBackend::DeleteSongs);
   QObject::connect(favorite_request_, &TidalFavoriteRequest::SongsRemoved, songs_collection_backend_, &CollectionBackend::DeleteSongs);
 
-  ReloadSettings();
+  TidalService::ReloadSettings();
   LoadSession();
 
 }
@@ -351,7 +351,6 @@ void TidalService::AuthorizationUrlReceived(const QUrl &url) {
   else if (url_query.hasQueryItem("code") && url_query.hasQueryItem("state")) {
 
     QString code = url_query.queryItemValue("code");
-    QString state = url_query.queryItemValue("state");
 
     RequestAccessToken(code);
 

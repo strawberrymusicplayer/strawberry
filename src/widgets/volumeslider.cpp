@@ -171,6 +171,7 @@ void PrettySlider::mousePressEvent(QMouseEvent *e) {
 }
 
 void PrettySlider::slideEvent(QMouseEvent *e) {
+
   if (m_mode == Pretty)
     QSlider::setValue(
         orientation() == Qt::Horizontal
@@ -178,6 +179,7 @@ void PrettySlider::slideEvent(QMouseEvent *e) {
             : QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().y(), height() - 2));
   else
     SliderSlider::slideEvent(e);
+
 }
 
 namespace Amarok {

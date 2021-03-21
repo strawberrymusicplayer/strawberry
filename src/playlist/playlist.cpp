@@ -866,7 +866,7 @@ void Playlist::MoveItemWithoutUndo(const int source, const int dest) {
 
 void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
 
-  layoutAboutToBeChanged();
+  emit layoutAboutToBeChanged();
   PlaylistItemList moved_items;
 
   if (pos < 0) {
@@ -909,14 +909,14 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
   }
   current_virtual_index_ = virtual_items_.indexOf(current_row());
 
-  layoutChanged();
+  emit layoutChanged();
   Save();
 
 }
 
 void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
 
-  layoutAboutToBeChanged();
+  emit layoutAboutToBeChanged();
   PlaylistItemList moved_items;
 
   int pos = start;
@@ -959,7 +959,7 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
   }
   current_virtual_index_ = virtual_items_.indexOf(current_row());
 
-  layoutChanged();
+  emit layoutChanged();
   Save();
 
 }
@@ -1357,7 +1357,7 @@ void Playlist::sort(int column, Qt::SortOrder order) {
 
 void Playlist::ReOrderWithoutUndo(const PlaylistItemList &new_items) {
 
-  layoutAboutToBeChanged();
+  emit layoutAboutToBeChanged();
 
   PlaylistItemList old_items = items_;
   items_ = new_items;
@@ -1372,7 +1372,7 @@ void Playlist::ReOrderWithoutUndo(const PlaylistItemList &new_items) {
     changePersistentIndex(idx, index(new_rows[item], idx.column(), idx.parent()));
   }
 
-  layoutChanged();
+  emit layoutChanged();
 
   emit PlaylistChanged();
   Save();
@@ -1392,7 +1392,7 @@ void Playlist::SetCurrentIsPaused(const bool paused) {
   current_is_paused_ = paused;
 
   if (current_item_index_.isValid())
-    dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
+    emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
 }
 
 void Playlist::Save() const {

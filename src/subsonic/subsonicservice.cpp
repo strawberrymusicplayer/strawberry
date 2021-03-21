@@ -99,7 +99,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
   collection_sort_model_->setSortLocaleAware(true);
   collection_sort_model_->sort(0);
 
-  ReloadSettings();
+  SubsonicService::ReloadSettings();
 
 }
 

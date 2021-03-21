@@ -130,7 +130,7 @@ void PlaylistListModel::RowsAboutToBeRemoved(const QModelIndex &parent, const in
     switch (idx.data(Role_Type).toInt()) {
       case Type_Playlist: {
         const int id = idx.data(Role_PlaylistId).toInt();
-        QMap<int, QStandardItem*>::Iterator it = playlists_by_id_.find(id);
+        QMap<int, QStandardItem*>::iterator it = playlists_by_id_.find(id);
         if (it != playlists_by_id_.end() && it.value() == item) {
           playlists_by_id_.erase(it);
         }

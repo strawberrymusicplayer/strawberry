@@ -70,6 +70,9 @@ class DeviceView : public AutoExpandingTreeView {
 
   void SetApplication(Application *app);
 
+  // AutoExpandingTreeView
+  bool CanRecursivelyExpand(const QModelIndex &idx) const override;
+
  protected:
   void contextMenuEvent(QContextMenuEvent*) override;
   void mouseDoubleClickEvent(QMouseEvent *e) override;
@@ -92,9 +95,6 @@ class DeviceView : public AutoExpandingTreeView {
   void DeviceDisconnected(QModelIndex idx);
 
   void DeleteFinished(const SongList &songs_with_errors);
-
-  // AutoExpandingTreeView
-  bool CanRecursivelyExpand(const QModelIndex &idx) const override;
 
  private:
   QModelIndex MapToDevice(const QModelIndex &merged_model_index) const;

@@ -106,7 +106,7 @@ DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
     }
   }
 
-  for (Device dev : old_devices) {
+  for (const Device &dev : old_devices) {
     RemoveDevice(dev.id_);
   }
 

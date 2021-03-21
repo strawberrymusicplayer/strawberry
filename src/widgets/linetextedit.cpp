@@ -32,13 +32,14 @@
 #include "linetextedit.h"
 
 LineTextEdit::LineTextEdit(QWidget *parent)
-  : QTextEdit(parent)
-{
+  : QTextEdit(parent) {
+
   setWordWrapMode(QTextOption::NoWrap);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setTabChangesFocus(true);
-  sizePolicy().setVerticalPolicy(QSizePolicy::Fixed);
+  setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+
 }
 
 QSize LineTextEdit::sizeHint() const {

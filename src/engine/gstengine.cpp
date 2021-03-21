@@ -101,7 +101,7 @@ GstEngine::GstEngine(TaskManager *task_manager)
   seek_timer_->setInterval(kSeekDelayNanosec / kNsecPerMsec);
   QObject::connect(seek_timer_, &QTimer::timeout, this, &GstEngine::SeekNow);
 
-  ReloadSettings();
+  GstEngine::ReloadSettings();
 
 }
 
@@ -919,7 +919,7 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
   GstDiscovererResult result = gst_discoverer_info_get_result(info);
   if (result != GST_DISCOVERER_OK) {
     QString error_message = GSTdiscovererErrorMessage(result);
-    qLog(Error) << QString("Stream discovery for %1 failed: %2").arg(discovered_url).arg(error_message);
+    qLog(Error) << QString("Stream discovery for %1 failed: %2").arg(discovered_url, error_message);
     return;
   }
 

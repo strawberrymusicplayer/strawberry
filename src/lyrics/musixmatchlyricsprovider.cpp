@@ -74,7 +74,7 @@ bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString 
 
   if (artist_stripped.isEmpty() || title_stripped.isEmpty()) return false;
 
-  QUrl url(QString("https://www.musixmatch.com/lyrics/%1/%2").arg(artist_stripped).arg(title_stripped));
+  QUrl url(QString("https://www.musixmatch.com/lyrics/%1/%2").arg(artist_stripped, title_stripped));
   QNetworkRequest req(url);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);

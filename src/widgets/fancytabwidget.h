@@ -88,7 +88,7 @@ class FancyTabWidget : public QTabWidget {
 
  public slots:
   void setCurrentIndex(int idx);
-  void SetMode(Mode mode);
+  void SetMode(Core::Internal::FancyTabWidget::Mode mode);
   // Mapper mapped signal needs this convenience function
   void SetMode(int mode) { SetMode(Mode(mode)); }
 

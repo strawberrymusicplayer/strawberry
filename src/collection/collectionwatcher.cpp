@@ -138,7 +138,8 @@ void CollectionWatcher::ReloadSettings() {
   }
   else if (monitor_ && !was_monitoring_before) {
     // Add all directories to all QFileSystemWatchers again
-    for (const Directory &dir : watched_dirs_.values()) {
+    QList<Directory> dirs = watched_dirs_.values();
+    for (const Directory &dir : dirs) {
       SubdirectoryList subdirs = backend_->SubdirsInDirectory(dir.id);
       for (const Subdirectory &subdir : subdirs) {
         AddWatch(dir, subdir.path);
@@ -349,7 +350,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   // Do not scan symlinked dirs that are already in collection
   if (path_info.isSymLink()) {
     QString real_path = path_info.symLinkTarget();
-    for (const Directory &dir : watched_dirs_) {
+    for (const Directory &dir : qAsConst(watched_dirs_)) {
       if (real_path.startsWith(dir.path)) {
         t->AddToProgress(1);
         return;
@@ -689,7 +690,8 @@ void CollectionWatcher::AddWatch(const Directory &dir, const QString &path) {
 
 void CollectionWatcher::RemoveWatch(const Directory &dir, const Subdirectory &subdir) {
 
-  for (const QString &subdir_path : subdir_mapping_.keys(dir)) {
+  QStringList subdir_paths = subdir_mapping_.keys(dir);
+  for (const QString &subdir_path : subdir_paths) {
     if (subdir_path != subdir.path) continue;
     fs_watcher_->RemovePath(subdir_path);
     subdir_mapping_.remove(subdir_path);
@@ -704,7 +706,8 @@ void CollectionWatcher::RemoveDirectory(const Directory &dir) {
   watched_dirs_.remove(dir.id);
 
   // Stop watching the directory's subdirectories
-  for (const QString &subdir_path : subdir_mapping_.keys(dir)) {
+  QStringList subdir_paths = subdir_mapping_.keys(dir);
+  for (const QString &subdir_path : subdir_paths) {
     fs_watcher_->RemovePath(subdir_path);
     subdir_mapping_.remove(subdir_path);
   }
@@ -744,7 +747,8 @@ void CollectionWatcher::DirectoryChanged(const QString &subdir) {
 
 void CollectionWatcher::RescanPathsNow() {
 
-  for (int dir : rescan_queue_.keys()) {
+  QList<int> dirs = rescan_queue_.keys();
+  for (const int dir : dirs) {
     if (stop_requested_) break;
     ScanTransaction transaction(this, dir, false, false, mark_songs_unavailable_);
     transaction.AddToProgressMax(rescan_queue_[dir].count());
@@ -900,7 +904,8 @@ void CollectionWatcher::PerformScan(bool incremental, bool ignore_mtimes) {
 
   stop_requested_ = false;
 
-  for (const Directory &dir : watched_dirs_.values()) {
+  QList<Directory> dirs = watched_dirs_.values();
+  for (const Directory &dir : dirs) {
 
     if (stop_requested_) break;
     ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes, mark_songs_unavailable_);

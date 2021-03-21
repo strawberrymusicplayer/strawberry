@@ -123,9 +123,10 @@ QString About::MainHtml() const {
   ret += QString("<p>");
   ret += tr("If you like Strawberry and can make use of it, consider sponsoring or donating.");
   ret += QString("<br />");
-  ret += tr("You can sponsor the author on %1. You can also make a one-time payment through %2.")
-  .arg(QString("<a style=\"color:%1;\" href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>").arg(palette().text().color().name()))
-  .arg(QString("<a style=\"color:%1;\" href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>").arg(palette().text().color().name()));
+  ret += tr("You can sponsor the author on %1. You can also make a one-time payment through %2.").arg(
+    QString("<a style=\"color:%1;\" href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>").arg(palette().text().color().name()),
+    QString("<a style=\"color:%1;\" href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>").arg(palette().text().color().name())
+  );
 
   ret += QString("</p>");
 

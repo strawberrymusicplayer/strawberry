@@ -408,16 +408,17 @@ void DeviceView::OpenInNewPlaylist() {
 
 void DeviceView::Delete() {
 
-  if (selectedIndexes().isEmpty()) return;
+  QModelIndexList selected_indexes = selectedIndexes();
+
+  if (selected_indexes.isEmpty()) return;
 
   // Take the device of the first selected item
-  QModelIndex device_index = FindParentDevice(selectedIndexes()[0]);
+  QModelIndex device_index = FindParentDevice(selected_indexes[0]);
   if (!device_index.isValid()) return;
 
-  if (QMessageBox::question(this, tr("Delete files"),
-        tr("These files will be deleted from the device, are you sure you want to continue?"),
-        QMessageBox::Yes, QMessageBox::Cancel) != QMessageBox::Yes)
+  if (QMessageBox::question(this, tr("Delete files"), tr("These files will be deleted from the device, are you sure you want to continue?"), QMessageBox::Yes, QMessageBox::Cancel) != QMessageBox::Yes) {
     return;
+  }
 
   std::shared_ptr<MusicStorage> storage = device_index.data(MusicStorage::Role_Storage).value<std::shared_ptr<MusicStorage>>();
 

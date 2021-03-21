@@ -80,7 +80,7 @@ class OSDBase : public QObject {
 
   void ReshowCurrentSong();
 
-  void ShowPreview(const Behaviour type, const QString &line1, const QString &line2, const Song &song);
+  void ShowPreview(const OSDBase::Behaviour type, const QString &line1, const QString &line2, const Song &song);
 
  private:
   enum MessageType {

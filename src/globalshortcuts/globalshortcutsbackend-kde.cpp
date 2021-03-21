@@ -56,7 +56,8 @@ bool GlobalShortcutsBackendKDE::DoRegister() {
     interface_ = new OrgKdeKGlobalAccelInterface(kKdeService, kKdePath, QDBusConnection::sessionBus(), this);
   }
 
-  for (const GlobalShortcutsManager::Shortcut &shortcut : manager_->shortcuts().values()) {
+  QList<GlobalShortcutsManager::Shortcut> shortcuts = manager_->shortcuts().values();
+  for (const GlobalShortcutsManager::Shortcut &shortcut : shortcuts) {
     RegisterShortcut(shortcut);
   }
 
@@ -101,7 +102,8 @@ void GlobalShortcutsBackendKDE::DoUnregister() {
 
   qLog(Debug) << "Unregistering";
 
-  for (const GlobalShortcutsManager::Shortcut &shortcut : manager_->shortcuts()) {
+  QMap<QString, GlobalShortcutsManager::Shortcut> shortcuts = manager_->shortcuts();
+  for (const GlobalShortcutsManager::Shortcut &shortcut : shortcuts) {
     if (actions_.contains(shortcut.id)) {
       interface_->unRegister(GetActionId(shortcut.id, shortcut.action));
       actions_.remove(shortcut.id, shortcut.action);

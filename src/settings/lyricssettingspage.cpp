@@ -118,18 +118,20 @@ void LyricsSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QList
     ui_->providers_up->setEnabled(row != 0);
     ui_->providers_down->setEnabled(row != ui_->providers->count() - 1);
     LyricsProvider *provider = dialog()->app()->lyrics_providers()->ProviderByName(item_current->text());
-    if (provider && provider->AuthenticationRequired()) {
-      ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::LoggedIn : LoginStateWidget::LoggedOut);
-      ui_->button_authenticate->setEnabled(true);
-      ui_->button_authenticate->show();
-      ui_->login_state->show();
-      ui_->label_auth_info->setText(QString("%1 needs authentication.").arg(provider->name()));
+    if (provider) {
+      if (provider->AuthenticationRequired()) {
+        ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::LoggedIn : LoginStateWidget::LoggedOut);
+        ui_->button_authenticate->setEnabled(true);
+        ui_->button_authenticate->show();
+        ui_->login_state->show();
+        ui_->label_auth_info->setText(QString("%1 needs authentication.").arg(provider->name()));
+      }
+      else {
+        DisableAuthentication();
+        ui_->label_auth_info->setText(QString("%1 does not need authentication.").arg(provider->name()));
+      }
+      provider_selected_ = true;
     }
-    else {
-      DisableAuthentication();
-      ui_->label_auth_info->setText(QString("%1 does not need authentication.").arg(provider->name()));
-    }
-    provider_selected_ = true;
   }
   else {
     DisableAuthentication();

@@ -75,7 +75,8 @@ ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *
   QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &ContextAlbumsModel::AlbumCoverLoaded);
 
   QIcon nocover = IconLoader::Load("cdcase");
-  no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  QList<QSize> nocover_sizes = nocover.availableSizes();
+  no_cover_icon_ = nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
 }
 

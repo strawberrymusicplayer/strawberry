@@ -432,7 +432,7 @@ void PlaylistListContainer::Delete() {
   }
 
   // Unfavorite the playlists
-  for (int id : ids) {
+  for (const int id : qAsConst(ids)) {
     app_->playlist_manager()->Favorite(id, false);
   }
 

@@ -53,7 +53,8 @@ CoverProviders::~CoverProviders() {
 void CoverProviders::ReloadSettings() {
 
   QMap<int, QString> all_providers;
-  for (CoverProvider *provider : cover_providers_.keys()) {
+  QList<CoverProvider*> old_providers = cover_providers_.keys();
+  for (CoverProvider *provider : old_providers) {
     if (!provider->is_enabled()) continue;
     all_providers.insert(provider->order(), provider->name());
   }
@@ -64,18 +65,19 @@ void CoverProviders::ReloadSettings() {
   s.endGroup();
 
   int i = 0;
-  QList<CoverProvider*> providers;
+  QList<CoverProvider*> new_providers;
   for (const QString &name : providers_enabled) {
     CoverProvider *provider = ProviderByName(name);
     if (provider) {
       provider->set_enabled(true);
       provider->set_order(++i);
-      providers << provider;
+      new_providers << provider;
     }
   }
 
-  for (CoverProvider *provider : cover_providers_.keys()) {
-    if (!providers.contains(provider)) {
+  old_providers = cover_providers_.keys();
+  for (CoverProvider *provider : old_providers) {
+    if (!new_providers.contains(provider)) {
       provider->set_enabled(false);
       provider->set_order(++i);
     }
@@ -85,7 +87,8 @@ void CoverProviders::ReloadSettings() {
 
 CoverProvider *CoverProviders::ProviderByName(const QString &name) const {
 
-  for (CoverProvider *provider : cover_providers_.keys()) {
+  QList<CoverProvider*> cover_providers = cover_providers_.keys();
+  for (CoverProvider *provider : cover_providers) {
     if (provider->name() == name) return provider;
   }
   return nullptr;

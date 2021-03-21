@@ -298,7 +298,7 @@ class Playlist : public QAbstractListModel {
   void set_auto_sort(const bool auto_sort) { auto_sort_ = auto_sort; }
 
  public slots:
-  void set_current_row(const int i, const AutoScroll autoscroll = AutoScroll_Maybe, const bool is_stopping = false, const bool force_inform = false);
+  void set_current_row(const int i, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Maybe, const bool is_stopping = false, const bool force_inform = false);
   void Paused();
   void Playing();
   void Stopped();

@@ -141,7 +141,7 @@ OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *bac
   for (const QString &title : tag_titles) {
     QAction *action = tag_menu->addAction(title);
     QString tag = tags[title];
-    QObject::connect(action, &QAction::triggered, [this, tag]() { InsertTag(tag); } );
+    QObject::connect(action, &QAction::triggered, this, [this, tag]() { InsertTag(tag); } );
   }
 
   ui_->insert->setMenu(tag_menu);

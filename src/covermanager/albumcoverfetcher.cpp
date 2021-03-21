@@ -48,7 +48,8 @@ AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *p
 
 AlbumCoverFetcher::~AlbumCoverFetcher() {
 
-  for (AlbumCoverFetcherSearch *search : active_requests_.values()) {
+  QList<AlbumCoverFetcherSearch*> searches = active_requests_.values();
+  for (AlbumCoverFetcherSearch *search : searches) {
     search->disconnect();
     search->deleteLater();
   }
@@ -104,7 +105,8 @@ void AlbumCoverFetcher::Clear() {
 
   queued_requests_.clear();
 
-  for (AlbumCoverFetcherSearch *search : active_requests_.values()) {
+  QList<AlbumCoverFetcherSearch*> searches = active_requests_.values();
+  for (AlbumCoverFetcherSearch *search : searches) {
     search->Cancel();
     search->deleteLater();
   }

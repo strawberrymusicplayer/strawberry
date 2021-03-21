@@ -104,7 +104,8 @@ void AcoustidClient::Cancel(const int id) {
 
 void AcoustidClient::CancelAll() {
 
-  qDeleteAll(requests_.values());
+  QList<QNetworkReply*> replies = requests_.values();
+  qDeleteAll(replies);
   requests_.clear();
 
 }

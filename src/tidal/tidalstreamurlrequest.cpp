@@ -249,7 +249,8 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
       QString mimetype = json_obj["mimeType"].toString();
       QMimeDatabase mimedb;
-      for (QString suffix : mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes()) {
+      QStringList suffixes = mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes();
+      for (const QString &suffix : suffixes) {
         filetype = Song::FiletypeByExtension(suffix);
         if (filetype != Song::FileType_Unknown) break;
       }

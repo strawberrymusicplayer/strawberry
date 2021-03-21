@@ -116,7 +116,8 @@ void TaskManager::SetTaskFinished(const int id) {
 
     if (tasks_[id].blocks_collection_scans) {
       resume_collection_watchers = true;
-      for (const Task &task : tasks_.values()) {
+      QList<Task> tasks = tasks_.values();
+      for (const Task &task : tasks) {
         if (task.id != id && task.blocks_collection_scans) {
           resume_collection_watchers = false;
           break;

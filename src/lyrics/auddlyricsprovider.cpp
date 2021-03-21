@@ -164,8 +164,7 @@ QJsonArray AuddLyricsProvider::ExtractResult(QNetworkReply *reply, const QString
       Error("Json reply is missing error code or message.", json_error);
       return QJsonArray();
     }
-    QString error_code(json_error["error_code"].toString());
-    QString error_message(json_error["error_message"].toString());
+    QString error_message = json_error["error_message"].toString();
     Error(error_message);
     return QJsonArray();
   }
@@ -177,7 +176,7 @@ QJsonArray AuddLyricsProvider::ExtractResult(QNetworkReply *reply, const QString
 
   QJsonArray json_result = json_obj["result"].toArray();
   if (json_result.isEmpty()) {
-    Error(QString("No lyrics for %1 %2").arg(artist).arg(title));
+    Error(QString("No lyrics for %1 %2").arg(artist, title));
     return QJsonArray();
   }
 

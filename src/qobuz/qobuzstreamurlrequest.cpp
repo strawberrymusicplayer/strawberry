@@ -205,7 +205,7 @@ void QobuzStreamURLRequest::StreamURLReceived() {
 
   Song::FileType filetype(Song::FileType_Unknown);
   QMimeDatabase mimedb;
-  for (QString suffix : mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes()) {
+  for (const QString &suffix : mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes()) {
     filetype = Song::FiletypeByExtension(suffix);
     if (filetype != Song::FileType_Unknown) break;
   }

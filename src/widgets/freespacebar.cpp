@@ -69,7 +69,7 @@ FreeSpaceBar::FreeSpaceBar(QWidget *parent)
       additional_text_(tr("New songs")),
     used_text_(tr("Used"))
 {
-  setMinimumHeight(sizeHint().height());
+  setMinimumHeight(FreeSpaceBar::sizeHint().height());
 }
 
 QSize FreeSpaceBar::sizeHint() const {

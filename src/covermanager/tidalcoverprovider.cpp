@@ -271,7 +271,7 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
                                                                               << qMakePair(QString("750x750"), QSize(750, 750))
                                                                               << qMakePair(QString("640x640"), QSize(640, 640));
     for (const QPair<QString, QSize> &cover_size : cover_sizes) {
-      QUrl cover_url(QString("%1/images/%2/%3.jpg").arg(kResourcesUrl).arg(cover).arg(cover_size.first));
+      QUrl cover_url(QString("%1/images/%2/%3.jpg").arg(kResourcesUrl, cover, cover_size.first));
       cover_result.image_url = cover_url;
       cover_result.image_size = cover_size.second;
       results << cover_result;

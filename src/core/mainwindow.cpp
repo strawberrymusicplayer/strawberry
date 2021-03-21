@@ -1913,7 +1913,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
     QString column_value = app_->playlist_manager()->current()->data(source_index).toString();
     if (column_value.length() > 25) column_value = column_value.left(25) + "...";
 
-    ui_->action_selection_set_value->setText(tr("Set %1 to \"%2\"...").arg(column_name.toLower()).arg(column_value));
+    ui_->action_selection_set_value->setText(tr("Set %1 to \"%2\"...").arg(column_name.toLower(), column_value));
     ui_->action_edit_value->setText(tr("Edit tag \"%1\"...").arg(column_name));
 
     // Is it a collection item?

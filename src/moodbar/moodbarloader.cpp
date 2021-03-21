@@ -176,7 +176,8 @@ void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
 
     // Save the data alongside the original as well if we're configured to.
     if (save_) {
-      const QString mood_filename(MoodFilenames(url.toLocalFile())[0]);
+      QList<QString> mood_filenames = MoodFilenames(url.toLocalFile());
+      const QString mood_filename(mood_filenames[0]);
       QFile mood_file(mood_filename);
       if (mood_file.open(QIODevice::WriteOnly)) {
         mood_file.write(request->data());
