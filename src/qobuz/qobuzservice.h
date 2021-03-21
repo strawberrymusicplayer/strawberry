@@ -52,8 +52,6 @@ class QobuzStreamURLRequest;
 class CollectionBackend;
 class CollectionModel;
 
-using std::shared_ptr;
-
 class QobuzService : public InternetService {
   Q_OBJECT
 

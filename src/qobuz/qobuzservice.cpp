@@ -58,8 +58,6 @@
 #include "settings/settingsdialog.h"
 #include "settings/qobuzsettingspage.h"
 
-using std::shared_ptr;
-
 const Song::Source QobuzService::kSource = Song::Source_Qobuz;
 const char *QobuzService::kAuthUrl = "https://www.qobuz.com/api.json/0.2/user/login";
 const int QobuzService::kLoginAttempts = 2;
