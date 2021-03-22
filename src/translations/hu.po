@@ -41,21 +41,21 @@ msgstr ""
 "\n"
 "A kedvenc lejátszólisták ide lesznek elmentve"
 
-#: settings/globalshortcutssettingspage.cpp:322
+#: settings/globalshortcutssettingspage.cpp:326
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "cinnamon-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:320
+#: settings/globalshortcutssettingspage.cpp:324
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "gnome-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:318
+#: settings/globalshortcutssettingspage.cpp:322
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
@@ -140,12 +140,12 @@ msgstr "%1 nap"
 msgid "%1 days ago"
 msgstr "%1 nappal ezelőtt"
 
-#: settings/coverssettingspage.cpp:140
+#: settings/coverssettingspage.cpp:141
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr "A(z) %1 nem igényel hitelesítést."
 
-#: settings/coverssettingspage.cpp:135
+#: settings/coverssettingspage.cpp:136
 #, qt-format
 msgid "%1 needs authentication."
 msgstr "A(z) %1 hitelesítést igényel."
@@ -155,7 +155,7 @@ msgstr "A(z) %1 hitelesítést igényel."
 msgid "%1 playlists (%2)"
 msgstr "%1 lejátszólista (%2)"
 
-#: playlist/playlistmanager.cpp:468
+#: playlist/playlistmanager.cpp:471
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 kiválasztva"
@@ -199,7 +199,7 @@ msgstr ""
 msgid "%1 songs selected."
 msgstr ""
 
-#: playlist/playlistmanager.cpp:475 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:478 queue/queue.cpp:255
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 szám"
@@ -223,19 +223,19 @@ msgstr "%albumelőadó-%album"
 msgid "%filename%"
 msgstr "%filename%"
 
-#: transcoder/transcodedialog.cpp:318
+#: transcoder/transcodedialog.cpp:319
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n failed"
 msgstr "%n meghiúsult"
 
-#: transcoder/transcodedialog.cpp:314
+#: transcoder/transcodedialog.cpp:315
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n finished"
 msgstr "%n befejezve"
 
-#: transcoder/transcodedialog.cpp:310
+#: transcoder/transcodedialog.cpp:311
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n remaining"
@@ -447,7 +447,7 @@ msgstr "0 px"
 msgid "1 day"
 msgstr "1 nap"
 
-#: playlist/playlistmanager.cpp:475 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:478 queue/queue.cpp:255
 msgid "1 track"
 msgstr "1 szám"
 
@@ -595,11 +595,11 @@ msgstr "Fájl hozzáadása az átkódoláshoz"
 msgid "Add file(s) to transcoder"
 msgstr "Fájl(ok) hozzáadása az átkódoláshoz"
 
-#: transcoder/transcodedialog.cpp:332
+#: transcoder/transcodedialog.cpp:333
 msgid "Add files to transcode"
 msgstr "Fájlok felvétele átkódoláshoz"
 
-#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Mappa hozzáadása"
 
@@ -988,7 +988,7 @@ msgstr "Hang kimenet"
 msgid "Audio quality"
 msgstr "Hangminőség"
 
-#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:253
+#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:251
 msgid "Authenticating..."
 msgstr "Hitelesítés..."
 
@@ -1000,12 +1000,12 @@ msgstr "Hitelesítés..."
 msgid "Authentication"
 msgstr "Hitelesítés"
 
-#: settings/coverssettingspage.cpp:270 settings/lyricssettingspage.cpp:250
+#: settings/coverssettingspage.cpp:272 settings/lyricssettingspage.cpp:252
 #: settings/tidalsettingspage.cpp:217 settings/qobuzsettingspage.cpp:173
 msgid "Authentication failed"
 msgstr "A hitelesítés meghiúsult"
 
-#: dialogs/about.cpp:142
+#: dialogs/about.cpp:143
 msgid "Author and maintainer"
 msgstr "Szerző és karbantartó"
 
@@ -1078,7 +1078,7 @@ msgstr "Háttérkép"
 msgid "Background opacity"
 msgstr "Háttér áttetszősége"
 
-#: core/database.cpp:555
+#: core/database.cpp:558
 msgid "Backing up database"
 msgstr "Adatbázis biztonsági mentése"
 
@@ -1264,11 +1264,11 @@ msgstr ""
 msgid "Clear playlist"
 msgstr "Lejátszólista törlése"
 
-#: dialogs/about.cpp:160
+#: dialogs/about.cpp:161
 msgid "Clementine authors"
 msgstr "A Clementine szerzői"
 
-#: dialogs/about.cpp:169
+#: dialogs/about.cpp:170
 msgid "Clementine contributors"
 msgstr "A Clementine közreműködői"
 
@@ -1412,7 +1412,7 @@ msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Folytatás a következő elemtől a lejátszólistában, ha a dal nem elérhető"
 
-#: dialogs/about.cpp:151
+#: dialogs/about.cpp:152
 msgid "Contributors"
 msgstr "Közreműködők"
 
@@ -1476,7 +1476,7 @@ msgstr "Nem lehet megnyitni a fájlt: %1"
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Nem sikerült létrehozni a Gstreamer forráselemet a(z) %1 számára."
 
-#: playlist/playlistmanager.cpp:204
+#: playlist/playlistmanager.cpp:206
 msgid "Couldn't create playlist"
 msgstr "Nem lehet létrehozni a lejátszólistát"
 
@@ -1654,7 +1654,7 @@ msgstr "D-Bus útvonal"
 msgid "Dance"
 msgstr "Dance"
 
-#: core/database.cpp:506
+#: core/database.cpp:509
 msgid "Database corruption detected."
 msgstr "Sérült adatbázis."
 
@@ -1696,7 +1696,7 @@ msgstr "Törlés"
 msgid "Delete cover"
 msgstr ""
 
-#: dialogs/deleteconfirmationdialog.cpp:42 device/deviceview.cpp:417
+#: dialogs/deleteconfirmationdialog.cpp:42 device/deviceview.cpp:419
 msgid "Delete files"
 msgstr "Fájlok törlése"
 
@@ -2035,7 +2035,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Megegyezik a --log-levels *:3 kapcsolóval"
 
 #: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:573
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "Hiba"
 
@@ -2196,7 +2196,7 @@ msgstr "Dalok keresésénél teljes albumok letöltése"
 msgid "Fetching cover error"
 msgstr "Hiba a borító betöltése közben"
 
-#: core/song.cpp:1051
+#: core/song.cpp:1059
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "A (z)% 1 fájl nem ismerhető fel érvényes hangfájlként."
@@ -2551,7 +2551,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr "Ikonméretek"
 
-#: widgets/fancytabwidget.cpp:713
+#: widgets/fancytabwidget.cpp:714
 msgid "Icons on top"
 msgstr "Ikonok felül"
 
@@ -2647,7 +2647,7 @@ msgstr "Beszúrás..."
 msgid "Install strawberry through PPA:<br />"
 msgstr ""
 
-#: core/database.cpp:491
+#: core/database.cpp:494
 msgid "Integrity check"
 msgstr "Integritás ellenőrzése"
 
@@ -2711,7 +2711,7 @@ msgstr "Nagy terem"
 msgid "Large album cover"
 msgstr "Nagy albumborító"
 
-#: widgets/fancytabwidget.cpp:709
+#: widgets/fancytabwidget.cpp:710
 msgid "Large sidebar"
 msgstr "Nagy oldalsáv"
 
@@ -2804,7 +2804,7 @@ msgstr "iPod adatbázis betöltése"
 msgid "Loading smart playlist"
 msgstr "Okos lejátszólista betöltése"
 
-#: collection/collectionmodel.cpp:214
+#: collection/collectionmodel.cpp:215
 msgid "Loading songs"
 msgstr "Dalok betöltése"
 
@@ -2816,7 +2816,7 @@ msgstr "Számok betöltése"
 msgid "Loading tracks info"
 msgstr "Száminformációk betöltése"
 
-#: collection/collectionmodel.cpp:207
+#: collection/collectionmodel.cpp:208
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:288
 msgid "Loading..."
@@ -2895,7 +2895,7 @@ msgstr ""
 msgid "Manually set cover art from %1"
 msgstr ""
 
-#: device/deviceproperties.cpp:175
+#: device/deviceproperties.cpp:176
 msgid "Manufacturer"
 msgstr "Gyártó"
 
@@ -2923,7 +2923,7 @@ msgstr "Maximum méret"
 msgid "Maximum bitrate"
 msgstr "Maximális bitráta"
 
-#: qobuz/qobuzservice.cpp:467
+#: qobuz/qobuzservice.cpp:464
 msgid "Maximum number of login attempts reached."
 msgstr ""
 
@@ -2948,21 +2948,21 @@ msgstr "Minimális bitráta"
 msgid "Missing API token."
 msgstr "Hiányzó API token."
 
-#: qobuz/qobuzservice.cpp:719 qobuz/qobuzstreamurlrequest.cpp:84
+#: qobuz/qobuzservice.cpp:716 qobuz/qobuzstreamurlrequest.cpp:84
 msgid "Missing Qobuz app ID or secret."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:471 qobuz/qobuzservice.cpp:500
-#: qobuz/qobuzservice.cpp:555 qobuz/qobuzservice.cpp:608
-#: qobuz/qobuzservice.cpp:673
+#: qobuz/qobuzservice.cpp:468 qobuz/qobuzservice.cpp:497
+#: qobuz/qobuzservice.cpp:552 qobuz/qobuzservice.cpp:605
+#: qobuz/qobuzservice.cpp:670
 msgid "Missing Qobuz app ID."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:479
+#: qobuz/qobuzservice.cpp:476
 msgid "Missing Qobuz password."
 msgstr "Hiányzó Qobuz jelszó."
 
-#: qobuz/qobuzservice.cpp:475
+#: qobuz/qobuzservice.cpp:472
 msgid "Missing Qobuz username."
 msgstr "Hiányzó Qobuz felhasználónév."
 
@@ -2970,13 +2970,13 @@ msgstr "Hiányzó Qobuz felhasználónév."
 msgid "Missing Subsonic username or password."
 msgstr "Hiányzó Subsonic felhasználónév vagy jelszó."
 
-#: tidal/tidalservice.cpp:739 tidal/tidalservice.cpp:798
-#: tidal/tidalservice.cpp:855 tidal/tidalservice.cpp:920
-#: tidal/tidalservice.cpp:980 tidal/tidalstreamurlrequest.cpp:90
+#: tidal/tidalservice.cpp:738 tidal/tidalservice.cpp:797
+#: tidal/tidalservice.cpp:854 tidal/tidalservice.cpp:919
+#: tidal/tidalservice.cpp:979 tidal/tidalstreamurlrequest.cpp:90
 msgid "Missing Tidal API token, username or password."
 msgstr "Hiányzó Tidal API token, felhasználónév vagy jelszó."
 
-#: tidal/tidalservice.cpp:700
+#: tidal/tidalservice.cpp:699
 msgid "Missing Tidal API token."
 msgstr "Hiányzó Tidal API token."
 
@@ -2984,11 +2984,11 @@ msgstr "Hiányzó Tidal API token."
 msgid "Missing Tidal client ID."
 msgstr "Hiányzó Tidal kliens azonosító."
 
-#: tidal/tidalservice.cpp:708
+#: tidal/tidalservice.cpp:707
 msgid "Missing Tidal password."
 msgstr "Hiányzó Tidal jelszó."
 
-#: tidal/tidalservice.cpp:704
+#: tidal/tidalservice.cpp:703
 msgid "Missing Tidal username."
 msgstr "Hiányzó Tidal felhasználónév."
 
@@ -3016,7 +3016,7 @@ msgstr "Hiányzó felhasználónév, elsőnek jelentkezzen be a last.fm-be!"
 msgid "Missing username."
 msgstr "Hiányzó felhasználónév."
 
-#: device/deviceproperties.cpp:174
+#: device/deviceproperties.cpp:175
 msgid "Model"
 msgstr "Modell"
 
@@ -3067,7 +3067,7 @@ msgstr "Áthelyezés a gyűjteménybe..."
 msgid "Move up"
 msgstr "Mozgatás felfelé"
 
-#: core/mainwindow.cpp:2153 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2153 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Zene"
 
@@ -3167,7 +3167,7 @@ msgstr ""
 "Nincs egyezés. Törölje a keresési feltételeket, hogy újra lássa a teljes "
 "lejátszólistát."
 
-#: settings/coverssettingspage.cpp:195 settings/lyricssettingspage.cpp:185
+#: settings/coverssettingspage.cpp:197 settings/lyricssettingspage.cpp:187
 msgid "No provider selected."
 msgstr "Nincsenek szolgáltatók kiválasztva."
 
@@ -3186,7 +3186,7 @@ msgid "None"
 msgstr "Egyik sem"
 
 #: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:573
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Egy kiválasztott dal sem alkalmas az eszközre való másoláshoz"
 
@@ -3198,21 +3198,21 @@ msgstr "Normál"
 msgid "Normal block type"
 msgstr "Normál blokkok"
 
-#: qobuz/qobuzservice.cpp:505 qobuz/qobuzservice.cpp:560
-#: qobuz/qobuzservice.cpp:613
+#: qobuz/qobuzservice.cpp:502 qobuz/qobuzservice.cpp:557
+#: qobuz/qobuzservice.cpp:610
 msgid "Not authenticated with Qobuz."
 msgstr "Nincs hitelesítve a Qobuzzal."
 
-#: tidal/tidalservice.cpp:712
+#: tidal/tidalservice.cpp:711
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Nincs hitelesítve a Tidallal, és elérte a maximális bejelentkezési "
 "kísérletek számát."
 
-#: tidal/tidalservice.cpp:734 tidal/tidalservice.cpp:793
-#: tidal/tidalservice.cpp:850 tidal/tidalservice.cpp:915
-#: tidal/tidalservice.cpp:976 tidal/tidalstreamurlrequest.cpp:86
+#: tidal/tidalservice.cpp:733 tidal/tidalservice.cpp:792
+#: tidal/tidalservice.cpp:849 tidal/tidalservice.cpp:914
+#: tidal/tidalservice.cpp:975 tidal/tidalstreamurlrequest.cpp:86
 msgid "Not authenticated with Tidal."
 msgstr "Nincs hitelesítve Tidallal."
 
@@ -3275,7 +3275,7 @@ msgstr "Átlátszóság"
 msgid "Open URL in web browser?"
 msgstr "URL megnyitása böngészőben?"
 
-#: transcoder/transcodedialog.cpp:349
+#: transcoder/transcodedialog.cpp:350
 msgid "Open a directory to import music from"
 msgstr "Mappa megnyitása zene importáláshoz"
 
@@ -3425,7 +3425,7 @@ msgstr "Előadó"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:712
 msgid "Plain sidebar"
 msgstr "Egyszerű oldalsáv"
 
@@ -3483,8 +3483,8 @@ msgid "Player options"
 msgstr "Lejátszó beállítások"
 
 #: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
-#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:111
-#: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:563
+#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:112
+#: playlist/playlistmanager.cpp:193 playlist/playlistmanager.cpp:566
 #: playlist/playlisttabbar.cpp:404 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Lejátszólista"
@@ -3717,7 +3717,7 @@ msgstr "Re&latív"
 msgid "Really cancel?"
 msgstr "Tényleg kilép?"
 
-#: covermanager/spotifycoverprovider.cpp:196
+#: covermanager/spotifycoverprovider.cpp:195
 #: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:206
 msgid "Received invalid reply from web browser."
 msgstr "Érvénytelen válasz érkezett a böngészőből."
@@ -3749,14 +3749,14 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:207
+#: lyrics/geniuslyricsprovider.cpp:206
 #, fuzzy
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "A Genius-től való átirányításnál hiányzik a lekérdezett elemek kódja vagy "
 "állapota."
 
-#: covermanager/spotifycoverprovider.cpp:192
+#: covermanager/spotifycoverprovider.cpp:191
 #, fuzzy
 msgid "Redirect missing token code or state!"
 msgstr "A hiányzó token kód vagy állapot átirányítása!"
@@ -3877,7 +3877,7 @@ msgstr "Visszhangerősítés (Replay Gain)"
 msgid "Replay Gain mode"
 msgstr "Visszhangerősítés módja"
 
-#: tidal/tidalservice.cpp:361
+#: tidal/tidalservice.cpp:360
 msgid "Reply from Tidal is missing query items."
 msgstr "A Tidal válaszából hiányoznak a lekérdezett elemek."
 
@@ -3923,13 +3923,13 @@ msgstr "Csak a FAT fájlrendszerekben engedélyezett karakterek használata"
 msgid "Resume playback on start"
 msgstr "Lejátszás folytatása induláskor"
 
-#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1103
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1103
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Albumborító lekérése %1 albumhoz..."
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1104
+#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1104
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -4046,7 +4046,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Lejátszólista mentése"
 
-#: playlist/playlistmanager.cpp:273
+#: playlist/playlistmanager.cpp:275
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Lejátszólista mentése"
@@ -4229,7 +4229,7 @@ msgstr ""
 msgid "Shortcut"
 msgstr "Kombináció"
 
-#: settings/globalshortcutssettingspage.cpp:267
+#: settings/globalshortcutssettingspage.cpp:270
 #: ../build/src/ui_globalshortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
@@ -4449,7 +4449,7 @@ msgstr "Szám kihagyása"
 msgid "Small album cover"
 msgstr "Kis albumborító"
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:711
 msgid "Small sidebar"
 msgstr "Kis oldalsáv"
 
@@ -4700,7 +4700,7 @@ msgstr "Lapsáv nagy mód"
 msgid "Tabbar small mode"
 msgstr "Lapsáv kis mód"
 
-#: widgets/fancytabwidget.cpp:712
+#: widgets/fancytabwidget.cpp:713
 msgid "Tabs on top"
 msgstr "Fülek felül"
 
@@ -4740,15 +4740,15 @@ msgstr "Teszt sikeres!"
 msgid "Text options"
 msgstr "Szövegopciók"
 
-#: dialogs/about.cpp:178
+#: dialogs/about.cpp:179
 msgid "Thanks to"
 msgstr "Köszönet még"
 
-#: dialogs/about.cpp:186
+#: dialogs/about.cpp:187
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Köszönet az Amarok-hoz és a Clementine-hez hozzájárulóknak."
 
-#: settings/globalshortcutssettingspage.cpp:245
+#: settings/globalshortcutssettingspage.cpp:248
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "A \"%1\" parancs nem végrehajtható."
@@ -4785,7 +4785,7 @@ msgstr ""
 "A Strawberry most frissült verziójának szüksége van a teljes gyűjtemény "
 "újraolvasására az alább sorolt új funkciók használatához:"
 
-#: collection/collectionview.cpp:475
+#: collection/collectionview.cpp:476
 msgid "There are other songs in this album"
 msgstr "Vannak más dalok is ebben az albumban"
 
@@ -4805,7 +4805,7 @@ msgstr ""
 "Néhány dal törlése közben hiba lépett fel. Az alábbi fájlokat nem sikerült "
 "törölni:"
 
-#: device/deviceview.cpp:418
+#: device/deviceview.cpp:419
 msgid ""
 "These files will be deleted from the device, are you sure you want to "
 "continue?"
@@ -4998,18 +4998,18 @@ msgstr "Ultra szélessávú (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:557 context/contextalbumsmodel.cpp:359
-#: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:487
-#: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:1600
+#: core/song.cpp:559 context/contextalbumsmodel.cpp:360
+#: collection/collectionmodel.cpp:484 collection/collectionmodel.cpp:489
+#: collection/collectionmodel.cpp:493 collection/collectionmodel.cpp:497
+#: collection/collectionmodel.cpp:501 collection/collectionmodel.cpp:1603
 #: collection/savedgroupingmanager.cpp:145 playlist/playlistdelegates.cpp:353
-#: playlist/playlistmanager.cpp:570 playlist/playlistmanager.cpp:571
+#: playlist/playlistmanager.cpp:573 playlist/playlistmanager.cpp:574
 #: dialogs/edittagdialog.cpp:719 dialogs/edittagdialog.cpp:746
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: subsonic/subsonicrequest.cpp:864 tidal/tidalrequest.cpp:1276
+#: subsonic/subsonicrequest.cpp:865 tidal/tidalrequest.cpp:1276
 #: qobuz/qobuzrequest.cpp:1321
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
@@ -5034,7 +5034,7 @@ msgstr "Szám lejátszása"
 msgid "Update the collection when Strawberry starts"
 msgstr "Gyűjtemény frissítése a Strawberry indításakor"
 
-#: collection/collectionwatcher.cpp:168
+#: collection/collectionwatcher.cpp:169
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 frissítése"
@@ -5044,7 +5044,7 @@ msgstr "%1 frissítése"
 msgid "Updating %1%..."
 msgstr "%1 frissítése..."
 
-#: collection/collectionwatcher.cpp:165
+#: collection/collectionwatcher.cpp:166
 msgid "Updating collection"
 msgstr "Gyűjtemény frissítése"
 
@@ -5076,7 +5076,7 @@ msgstr ""
 msgid "Use OAuth"
 msgstr "OAuth használata"
 
-#: settings/coverssettingspage.cpp:128 settings/coverssettingspage.cpp:240
+#: settings/coverssettingspage.cpp:129 settings/coverssettingspage.cpp:242
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
@@ -5084,7 +5084,7 @@ msgstr ""
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Visszhangerősítés metaadatok használata, ha elérhetőek"
 
-#: settings/coverssettingspage.cpp:124 settings/coverssettingspage.cpp:236
+#: settings/coverssettingspage.cpp:125 settings/coverssettingspage.cpp:238
 msgid "Use Tidal settings to authenticate."
 msgstr "Tidal beállítások használata hitelesítéshez."
 
@@ -5156,7 +5156,7 @@ msgstr "Felhasználói token:"
 msgid "Username"
 msgstr "Felhasználónév"
 
-#: settings/globalshortcutssettingspage.cpp:316
+#: settings/globalshortcutssettingspage.cpp:320
 #, fuzzy, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5173,9 +5173,9 @@ msgstr "Dal felvételénél a menü használatával..."
 msgid "Variable bit rate"
 msgstr "Változó bitráta"
 
-#: collection/collectionmodel.cpp:300 collection/collectionmodel.cpp:301
-#: playlist/playlistmanager.cpp:582 covermanager/albumcovermanager.cpp:357
-#: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
+#: collection/collectionmodel.cpp:301 collection/collectionmodel.cpp:302
+#: playlist/playlistmanager.cpp:585 covermanager/albumcovermanager.cpp:357
+#: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "Egyes előadók"
 
@@ -5251,7 +5251,7 @@ msgstr "Borító nélkül:"
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Offline mód (mentés csak gyorsítótárba)"
 
-#: collection/collectionview.cpp:475
+#: collection/collectionview.cpp:476
 msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"

@@ -41,21 +41,21 @@ msgstr "\n"
 "\n"
 "즐겨찾는 재생 목록은 여기에 저장됩니다"
 
-#: settings/globalshortcutssettingspage.cpp:322
+#: settings/globalshortcutssettingspage.cpp:326
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "cinnamon-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:320
+#: settings/globalshortcutssettingspage.cpp:324
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "gnome-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:318
+#: settings/globalshortcutssettingspage.cpp:322
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
@@ -140,12 +140,12 @@ msgstr "%1일"
 msgid "%1 days ago"
 msgstr "%1일 전"
 
-#: settings/coverssettingspage.cpp:140
+#: settings/coverssettingspage.cpp:141
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:135
+#: settings/coverssettingspage.cpp:136
 #, qt-format
 msgid "%1 needs authentication."
 msgstr ""
@@ -155,7 +155,7 @@ msgstr ""
 msgid "%1 playlists (%2)"
 msgstr "재생 목록 %1개(%2)"
 
-#: playlist/playlistmanager.cpp:468
+#: playlist/playlistmanager.cpp:471
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1개 선택됨,"
@@ -197,7 +197,7 @@ msgstr ""
 msgid "%1 songs selected."
 msgstr ""
 
-#: playlist/playlistmanager.cpp:475 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:478 queue/queue.cpp:255
 #, qt-format
 msgid "%1 tracks"
 msgstr "트랙 %1개"
@@ -221,19 +221,19 @@ msgstr "%albumartist-%album"
 msgid "%filename%"
 msgstr "%filename%"
 
-#: transcoder/transcodedialog.cpp:318
+#: transcoder/transcodedialog.cpp:319
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n failed"
 msgstr "%n개 실패함"
 
-#: transcoder/transcodedialog.cpp:314
+#: transcoder/transcodedialog.cpp:315
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n finished"
 msgstr "%n개 완료됨"
 
-#: transcoder/transcodedialog.cpp:310
+#: transcoder/transcodedialog.cpp:311
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n remaining"
@@ -443,7 +443,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1일"
 
-#: playlist/playlistmanager.cpp:475 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:478 queue/queue.cpp:255
 msgid "1 track"
 msgstr "트랙 1개"
 
@@ -590,11 +590,11 @@ msgstr "변환할 파일 추가"
 msgid "Add file(s) to transcoder"
 msgstr "변환할 파일 추가"
 
-#: transcoder/transcodedialog.cpp:332
+#: transcoder/transcodedialog.cpp:333
 msgid "Add files to transcode"
 msgstr "변환할 파일 추가"
 
-#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "폴더 추가"
 
@@ -982,7 +982,7 @@ msgstr "오디오 출력"
 msgid "Audio quality"
 msgstr "오디오 품질"
 
-#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:253
+#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:251
 msgid "Authenticating..."
 msgstr "인증 중..."
 
@@ -994,12 +994,12 @@ msgstr "인증 중..."
 msgid "Authentication"
 msgstr "인증"
 
-#: settings/coverssettingspage.cpp:270 settings/lyricssettingspage.cpp:250
+#: settings/coverssettingspage.cpp:272 settings/lyricssettingspage.cpp:252
 #: settings/tidalsettingspage.cpp:217 settings/qobuzsettingspage.cpp:173
 msgid "Authentication failed"
 msgstr "인증 실패"
 
-#: dialogs/about.cpp:142
+#: dialogs/about.cpp:143
 msgid "Author and maintainer"
 msgstr "제작자 및 메인테이너"
 
@@ -1072,7 +1072,7 @@ msgstr "배경 그림"
 msgid "Background opacity"
 msgstr "배경 불투명도"
 
-#: core/database.cpp:555
+#: core/database.cpp:558
 msgid "Backing up database"
 msgstr "데이터베이스 백업 중"
 
@@ -1252,11 +1252,11 @@ msgstr ""
 msgid "Clear playlist"
 msgstr "재생 목록 비우기"
 
-#: dialogs/about.cpp:160
+#: dialogs/about.cpp:161
 msgid "Clementine authors"
 msgstr "Clementine 작성자"
 
-#: dialogs/about.cpp:169
+#: dialogs/about.cpp:170
 msgid "Clementine contributors"
 msgstr "Clementine 기여자"
 
@@ -1397,7 +1397,7 @@ msgstr "지금 재생"
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr "재생 목록에 있는 노래를 사용할 수 없을 때 다음 곡으로 진행"
 
-#: dialogs/about.cpp:151
+#: dialogs/about.cpp:152
 msgid "Contributors"
 msgstr "기여자"
 
@@ -1462,7 +1462,7 @@ msgstr "%1 파일을 열 수 없음"
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "%1의 GStreamer 소스 엘리먼트를 생성할 수 없음"
 
-#: playlist/playlistmanager.cpp:204
+#: playlist/playlistmanager.cpp:206
 msgid "Couldn't create playlist"
 msgstr "재생 목록을 생성할 수 없음"
 
@@ -1636,7 +1636,7 @@ msgstr "D-Bus 경로"
 msgid "Dance"
 msgstr "댄스"
 
-#: core/database.cpp:506
+#: core/database.cpp:509
 msgid "Database corruption detected."
 msgstr "데이터베이스가 손상되었습니다."
 
@@ -1677,7 +1677,7 @@ msgstr "삭제"
 msgid "Delete cover"
 msgstr ""
 
-#: dialogs/deleteconfirmationdialog.cpp:42 device/deviceview.cpp:417
+#: dialogs/deleteconfirmationdialog.cpp:42 device/deviceview.cpp:419
 msgid "Delete files"
 msgstr "파일 삭제"
 
@@ -2015,7 +2015,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "--log-levels *:3과 동일함"
 
 #: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:573
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "오류"
 
@@ -2175,7 +2175,7 @@ msgstr "곡을 검색할 때 전체 앨범 가져오기"
 msgid "Fetching cover error"
 msgstr "표지 가져오기 오류"
 
-#: core/song.cpp:1051
+#: core/song.cpp:1059
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "%1 파일은 올바른 오디오 파일이 아닌 것 같습니다."
@@ -2528,7 +2528,7 @@ msgstr "아이콘"
 msgid "Icon sizes"
 msgstr "아이콘 크기"
 
-#: widgets/fancytabwidget.cpp:713
+#: widgets/fancytabwidget.cpp:714
 msgid "Icons on top"
 msgstr "상단에 아이콘"
 
@@ -2618,7 +2618,7 @@ msgstr "삽입..."
 msgid "Install strawberry through PPA:<br />"
 msgstr "이 PPA로부터 설치됨:<br />"
 
-#: core/database.cpp:491
+#: core/database.cpp:494
 msgid "Integrity check"
 msgstr "무결성 검사"
 
@@ -2680,7 +2680,7 @@ msgstr "거대한 홀"
 msgid "Large album cover"
 msgstr "큰 앨범아트"
 
-#: widgets/fancytabwidget.cpp:709
+#: widgets/fancytabwidget.cpp:710
 msgid "Large sidebar"
 msgstr "큰 사이드바"
 
@@ -2773,7 +2773,7 @@ msgstr "iPod 데이터베이스 불러오는 중"
 msgid "Loading smart playlist"
 msgstr "스마트 재생 목록 로딩"
 
-#: collection/collectionmodel.cpp:214
+#: collection/collectionmodel.cpp:215
 msgid "Loading songs"
 msgstr "노래 불러오는 중"
 
@@ -2785,7 +2785,7 @@ msgstr "트랙 불러오는 중"
 msgid "Loading tracks info"
 msgstr "트랙 정보 불러오는 중"
 
-#: collection/collectionmodel.cpp:207
+#: collection/collectionmodel.cpp:208
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:288
 msgid "Loading..."
@@ -2864,7 +2864,7 @@ msgstr ""
 msgid "Manually set cover art from %1"
 msgstr ""
 
-#: device/deviceproperties.cpp:175
+#: device/deviceproperties.cpp:176
 msgid "Manufacturer"
 msgstr "제조사"
 
@@ -2892,7 +2892,7 @@ msgstr "최대 표지 크기"
 msgid "Maximum bitrate"
 msgstr "최대 비트 전송률"
 
-#: qobuz/qobuzservice.cpp:467
+#: qobuz/qobuzservice.cpp:464
 msgid "Maximum number of login attempts reached."
 msgstr "최대 로그인 시도 횟수에 도달했습니다."
 
@@ -2917,21 +2917,21 @@ msgstr "최소 비트 전송률"
 msgid "Missing API token."
 msgstr "API 토큰이 없습니다."
 
-#: qobuz/qobuzservice.cpp:719 qobuz/qobuzstreamurlrequest.cpp:84
+#: qobuz/qobuzservice.cpp:716 qobuz/qobuzstreamurlrequest.cpp:84
 msgid "Missing Qobuz app ID or secret."
 msgstr "Qobuz 앱 ID나 비밀 값이 없습니다."
 
-#: qobuz/qobuzservice.cpp:471 qobuz/qobuzservice.cpp:500
-#: qobuz/qobuzservice.cpp:555 qobuz/qobuzservice.cpp:608
-#: qobuz/qobuzservice.cpp:673
+#: qobuz/qobuzservice.cpp:468 qobuz/qobuzservice.cpp:497
+#: qobuz/qobuzservice.cpp:552 qobuz/qobuzservice.cpp:605
+#: qobuz/qobuzservice.cpp:670
 msgid "Missing Qobuz app ID."
 msgstr "Qobuz 앱 ID가 없습니다."
 
-#: qobuz/qobuzservice.cpp:479
+#: qobuz/qobuzservice.cpp:476
 msgid "Missing Qobuz password."
 msgstr "Qobuz 암호가 없습니다."
 
-#: qobuz/qobuzservice.cpp:475
+#: qobuz/qobuzservice.cpp:472
 msgid "Missing Qobuz username."
 msgstr "Qobuz 사용자 이름이 없습니다."
 
@@ -2939,13 +2939,13 @@ msgstr "Qobuz 사용자 이름이 없습니다."
 msgid "Missing Subsonic username or password."
 msgstr "Subsonic 사용자 이름이나 암호가 없습니다."
 
-#: tidal/tidalservice.cpp:739 tidal/tidalservice.cpp:798
-#: tidal/tidalservice.cpp:855 tidal/tidalservice.cpp:920
-#: tidal/tidalservice.cpp:980 tidal/tidalstreamurlrequest.cpp:90
+#: tidal/tidalservice.cpp:738 tidal/tidalservice.cpp:797
+#: tidal/tidalservice.cpp:854 tidal/tidalservice.cpp:919
+#: tidal/tidalservice.cpp:979 tidal/tidalstreamurlrequest.cpp:90
 msgid "Missing Tidal API token, username or password."
 msgstr "타이달 API토큰, 계정 혹은 비밀번호가 없습니다."
 
-#: tidal/tidalservice.cpp:700
+#: tidal/tidalservice.cpp:699
 msgid "Missing Tidal API token."
 msgstr "Tidal API 토큰이 없습니다."
 
@@ -2953,11 +2953,11 @@ msgstr "Tidal API 토큰이 없습니다."
 msgid "Missing Tidal client ID."
 msgstr "Tidal 클라이언트 ID가 없습니다."
 
-#: tidal/tidalservice.cpp:708
+#: tidal/tidalservice.cpp:707
 msgid "Missing Tidal password."
 msgstr "Tidal 암호가 없습니다."
 
-#: tidal/tidalservice.cpp:704
+#: tidal/tidalservice.cpp:703
 msgid "Missing Tidal username."
 msgstr "Tidal 사용자 이름이 없습니다."
 
@@ -2985,7 +2985,7 @@ msgstr "계정명이 없습니다. last.fm에 먼저 로그인해주세요."
 msgid "Missing username."
 msgstr "계정명이 없습니다."
 
-#: device/deviceproperties.cpp:174
+#: device/deviceproperties.cpp:175
 msgid "Model"
 msgstr "모델"
 
@@ -3036,7 +3036,7 @@ msgstr "라이브러리로 이동..."
 msgid "Move up"
 msgstr "위로 이동"
 
-#: core/mainwindow.cpp:2153 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2153 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "음악"
 
@@ -3134,7 +3134,7 @@ msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "일치하는 결과를 찾을 수 없습니다. 검색어를 비우면 전체 재생 목록을 볼 수 있습니다."
 
-#: settings/coverssettingspage.cpp:195 settings/lyricssettingspage.cpp:185
+#: settings/coverssettingspage.cpp:197 settings/lyricssettingspage.cpp:187
 msgid "No provider selected."
 msgstr "아무 곳도 선택되지 않았습니다."
 
@@ -3153,7 +3153,7 @@ msgid "None"
 msgstr "없음"
 
 #: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:573
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "선택한 음악을 장치에 복사하기에 적합하지 않음"
 
@@ -3165,19 +3165,19 @@ msgstr "일반"
 msgid "Normal block type"
 msgstr "일반 블록 형식"
 
-#: qobuz/qobuzservice.cpp:505 qobuz/qobuzservice.cpp:560
-#: qobuz/qobuzservice.cpp:613
+#: qobuz/qobuzservice.cpp:502 qobuz/qobuzservice.cpp:557
+#: qobuz/qobuzservice.cpp:610
 msgid "Not authenticated with Qobuz."
 msgstr "Qobuz에 인증되지 않았습니다."
 
-#: tidal/tidalservice.cpp:712
+#: tidal/tidalservice.cpp:711
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr "Tidal에 인증되지 않았으며 최대 로그인 시도 횟수에 도달했습니다."
 
-#: tidal/tidalservice.cpp:734 tidal/tidalservice.cpp:793
-#: tidal/tidalservice.cpp:850 tidal/tidalservice.cpp:915
-#: tidal/tidalservice.cpp:976 tidal/tidalstreamurlrequest.cpp:86
+#: tidal/tidalservice.cpp:733 tidal/tidalservice.cpp:792
+#: tidal/tidalservice.cpp:849 tidal/tidalservice.cpp:914
+#: tidal/tidalservice.cpp:975 tidal/tidalstreamurlrequest.cpp:86
 msgid "Not authenticated with Tidal."
 msgstr "Tidal에 인증되지 않았습니다."
 
@@ -3240,7 +3240,7 @@ msgstr "불투명도"
 msgid "Open URL in web browser?"
 msgstr "웹 브라우저에서 URL을 여시겠습니까?"
 
-#: transcoder/transcodedialog.cpp:349
+#: transcoder/transcodedialog.cpp:350
 msgid "Open a directory to import music from"
 msgstr "음악을 가져올 폴더 선택"
 
@@ -3390,7 +3390,7 @@ msgstr "연주가"
 msgid "Pixel"
 msgstr "픽셀"
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:712
 msgid "Plain sidebar"
 msgstr "일반 사이드바"
 
@@ -3448,8 +3448,8 @@ msgid "Player options"
 msgstr "재생기 옵션"
 
 #: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
-#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:111
-#: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:563
+#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:112
+#: playlist/playlistmanager.cpp:193 playlist/playlistmanager.cpp:566
 #: playlist/playlisttabbar.cpp:404 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "재생 목록"
@@ -3673,7 +3673,7 @@ msgstr "상대 경로(&L)"
 msgid "Really cancel?"
 msgstr "정말로 취소하시겠습니까?"
 
-#: covermanager/spotifycoverprovider.cpp:196
+#: covermanager/spotifycoverprovider.cpp:195
 #: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:206
 msgid "Received invalid reply from web browser."
 msgstr "웹 브라우저에서 잘못된 응답을 받았습니다."
@@ -3705,11 +3705,11 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:207
+#: lyrics/geniuslyricsprovider.cpp:206
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:192
+#: covermanager/spotifycoverprovider.cpp:191
 msgid "Redirect missing token code or state!"
 msgstr ""
 
@@ -3829,7 +3829,7 @@ msgstr "리플레이게인"
 msgid "Replay Gain mode"
 msgstr "리플레이게인 모드"
 
-#: tidal/tidalservice.cpp:361
+#: tidal/tidalservice.cpp:360
 msgid "Reply from Tidal is missing query items."
 msgstr "Tidal 응답에 쿼리 항목이 없습니다."
 
@@ -3874,13 +3874,13 @@ msgstr "FAT 파일 시스템에서 사용할 수 있는 글자로 제한"
 msgid "Resume playback on start"
 msgstr "시작할 때 재생 다시 시작"
 
-#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1103
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1103
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1104
+#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1104
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -3997,7 +3997,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
 
-#: playlist/playlistmanager.cpp:273
+#: playlist/playlistmanager.cpp:275
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
@@ -4180,7 +4180,7 @@ msgstr "설정을 적용하려면 재시작이 필요합니다."
 msgid "Shortcut"
 msgstr "단축키"
 
-#: settings/globalshortcutssettingspage.cpp:267
+#: settings/globalshortcutssettingspage.cpp:270
 #: ../build/src/ui_globalshortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
@@ -4400,7 +4400,7 @@ msgstr "트랙 건너뛰기"
 msgid "Small album cover"
 msgstr "작은 앨범아트"
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:711
 msgid "Small sidebar"
 msgstr "작은 사이드바"
 
@@ -4646,7 +4646,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:712
+#: widgets/fancytabwidget.cpp:713
 msgid "Tabs on top"
 msgstr "위쪽에 탭 표시"
 
@@ -4686,15 +4686,15 @@ msgstr "테스트 성공!"
 msgid "Text options"
 msgstr "텍스트 옵션"
 
-#: dialogs/about.cpp:178
+#: dialogs/about.cpp:179
 msgid "Thanks to"
 msgstr "감사"
 
-#: dialogs/about.cpp:186
+#: dialogs/about.cpp:187
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Amarok과 Clementine 기여자들에게 감사를 전합니다."
 
-#: settings/globalshortcutssettingspage.cpp:245
+#: settings/globalshortcutssettingspage.cpp:248
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "\"%1\" 명령을 시작할 수 없습니다."
@@ -4729,7 +4729,7 @@ msgid ""
 "rescan because of the new features listed below:"
 msgstr "Strawberry의 업데이트한 버전에 다음 기능이 추가되어 전체 라이브러리를 재검색해야 합니다:"
 
-#: collection/collectionview.cpp:475
+#: collection/collectionview.cpp:476
 msgid "There are other songs in this album"
 msgstr "이 앨범에 다른 곡이 있습니다"
 
@@ -4745,7 +4745,7 @@ msgid ""
 "deleted:"
 msgstr "일부 곡을 삭제하는 중 문제가 발생했습니다. 다음 파일을 삭제할 수 없습니다: "
 
-#: device/deviceview.cpp:418
+#: device/deviceview.cpp:419
 msgid ""
 "These files will be deleted from the device, are you sure you want to "
 "continue?"
@@ -4924,18 +4924,18 @@ msgstr "초광대역(UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:557 context/contextalbumsmodel.cpp:359
-#: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:487
-#: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:1600
+#: core/song.cpp:559 context/contextalbumsmodel.cpp:360
+#: collection/collectionmodel.cpp:484 collection/collectionmodel.cpp:489
+#: collection/collectionmodel.cpp:493 collection/collectionmodel.cpp:497
+#: collection/collectionmodel.cpp:501 collection/collectionmodel.cpp:1603
 #: collection/savedgroupingmanager.cpp:145 playlist/playlistdelegates.cpp:353
-#: playlist/playlistmanager.cpp:570 playlist/playlistmanager.cpp:571
+#: playlist/playlistmanager.cpp:573 playlist/playlistmanager.cpp:574
 #: dialogs/edittagdialog.cpp:719 dialogs/edittagdialog.cpp:746
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: subsonic/subsonicrequest.cpp:864 tidal/tidalrequest.cpp:1276
+#: subsonic/subsonicrequest.cpp:865 tidal/tidalrequest.cpp:1276
 #: qobuz/qobuzrequest.cpp:1321
 msgid "Unknown error"
 msgstr "알 수 없는 오류"
@@ -4960,7 +4960,7 @@ msgstr "트랙 건너뛰기 해제"
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry 시작 시 라이브러리 업데이트"
 
-#: collection/collectionwatcher.cpp:168
+#: collection/collectionwatcher.cpp:169
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 업데이트 중"
@@ -4970,7 +4970,7 @@ msgstr "%1 업데이트 중"
 msgid "Updating %1%..."
 msgstr "%1% 업데이트 중..."
 
-#: collection/collectionwatcher.cpp:165
+#: collection/collectionwatcher.cpp:166
 msgid "Updating collection"
 msgstr "라이브러리 업데이트 중"
 
@@ -5002,7 +5002,7 @@ msgstr ""
 msgid "Use OAuth"
 msgstr "OAuth 사용"
 
-#: settings/coverssettingspage.cpp:128 settings/coverssettingspage.cpp:240
+#: settings/coverssettingspage.cpp:129 settings/coverssettingspage.cpp:242
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
@@ -5010,7 +5010,7 @@ msgstr ""
 msgid "Use Replay Gain metadata if it is available"
 msgstr "사용 가능한 경우 리플레이게인 메타데이터 사용"
 
-#: settings/coverssettingspage.cpp:124 settings/coverssettingspage.cpp:236
+#: settings/coverssettingspage.cpp:125 settings/coverssettingspage.cpp:238
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
@@ -5082,7 +5082,7 @@ msgstr "사용자 토큰:"
 msgid "Username"
 msgstr "사용자 이름"
 
-#: settings/globalshortcutssettingspage.cpp:316
+#: settings/globalshortcutssettingspage.cpp:320
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5097,9 +5097,9 @@ msgstr "메뉴에서 음악을 추가했을 때..."
 msgid "Variable bit rate"
 msgstr "가변 비트 전송률"
 
-#: collection/collectionmodel.cpp:300 collection/collectionmodel.cpp:301
-#: playlist/playlistmanager.cpp:582 covermanager/albumcovermanager.cpp:357
-#: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
+#: collection/collectionmodel.cpp:301 collection/collectionmodel.cpp:302
+#: playlist/playlistmanager.cpp:585 covermanager/albumcovermanager.cpp:357
+#: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "편집 음반"
 
@@ -5174,7 +5174,7 @@ msgstr "표지 없음:"
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "오프라인 모드로 작업(스크로블을 캐시에만 추가)"
 
-#: collection/collectionview.cpp:475
+#: collection/collectionview.cpp:476
 msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"

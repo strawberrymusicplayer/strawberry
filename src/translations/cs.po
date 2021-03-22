@@ -38,7 +38,7 @@ msgstr ""
 "\n"
 "Oblíbené seznamy skladeb budou uloženy zde"
 
-#: settings/globalshortcutssettingspage.cpp:322
+#: settings/globalshortcutssettingspage.cpp:326
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
@@ -47,7 +47,7 @@ msgstr ""
 "Zkratky na %1 jsou většinou používány přes GSD a měly by se nastavovat přes "
 "cinnamon-settings-daemon."
 
-#: settings/globalshortcutssettingspage.cpp:320
+#: settings/globalshortcutssettingspage.cpp:324
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
@@ -56,7 +56,7 @@ msgstr ""
 "Zkratky na %1 jsou většinou používány přes GSD a měly by se nastavovat přes "
 "gnome-settings-daemon."
 
-#: settings/globalshortcutssettingspage.cpp:318
+#: settings/globalshortcutssettingspage.cpp:322
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr "Zkratky na %1 jsou většinou používány přes MPRIS a KGlobalAccel."
@@ -141,12 +141,12 @@ msgstr "%1 dnů"
 msgid "%1 days ago"
 msgstr "před %1 dny"
 
-#: settings/coverssettingspage.cpp:140
+#: settings/coverssettingspage.cpp:141
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr "%1 nevyžaduje ověření."
 
-#: settings/coverssettingspage.cpp:135
+#: settings/coverssettingspage.cpp:136
 #, qt-format
 msgid "%1 needs authentication."
 msgstr "%1 vyžaduje ověření."
@@ -156,7 +156,7 @@ msgstr "%1 vyžaduje ověření."
 msgid "%1 playlists (%2)"
 msgstr "%1 seznamů skladeb (%2)"
 
-#: playlist/playlistmanager.cpp:468
+#: playlist/playlistmanager.cpp:471
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 vybráno z"
@@ -200,7 +200,7 @@ msgstr ""
 msgid "%1 songs selected."
 msgstr ""
 
-#: playlist/playlistmanager.cpp:475 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:478 queue/queue.cpp:255
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 skladeb"
@@ -224,19 +224,19 @@ msgstr "%albumartist-%album"
 msgid "%filename%"
 msgstr "%filename%"
 
-#: transcoder/transcodedialog.cpp:318
+#: transcoder/transcodedialog.cpp:319
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n failed"
 msgstr "nepodařilo se %n"
 
-#: transcoder/transcodedialog.cpp:314
+#: transcoder/transcodedialog.cpp:315
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n finished"
 msgstr "dokončeno %n"
 
-#: transcoder/transcodedialog.cpp:310
+#: transcoder/transcodedialog.cpp:311
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n remaining"
@@ -448,7 +448,7 @@ msgstr "0 px"
 msgid "1 day"
 msgstr "1 den"
 
-#: playlist/playlistmanager.cpp:475 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:478 queue/queue.cpp:255
 msgid "1 track"
 msgstr "1 stopa"
 
@@ -596,11 +596,11 @@ msgstr "Přidat soubor k překódování"
 msgid "Add file(s) to transcoder"
 msgstr "Přidat soubor(y) k překódování"
 
-#: transcoder/transcodedialog.cpp:332
+#: transcoder/transcodedialog.cpp:333
 msgid "Add files to transcode"
 msgstr "Přidat soubory pro překódování"
 
-#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Přidat složku"
 
@@ -988,7 +988,7 @@ msgstr "Zvukový výstup"
 msgid "Audio quality"
 msgstr "Kvalita zvuku"
 
-#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:253
+#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:251
 msgid "Authenticating..."
 msgstr "Probíhá ověření..."
 
@@ -1000,12 +1000,12 @@ msgstr "Probíhá ověření..."
 msgid "Authentication"
 msgstr "Ověření"
 
-#: settings/coverssettingspage.cpp:270 settings/lyricssettingspage.cpp:250
+#: settings/coverssettingspage.cpp:272 settings/lyricssettingspage.cpp:252
 #: settings/tidalsettingspage.cpp:217 settings/qobuzsettingspage.cpp:173
 msgid "Authentication failed"
 msgstr "Ověření selhalo"
 
-#: dialogs/about.cpp:142
+#: dialogs/about.cpp:143
 msgid "Author and maintainer"
 msgstr "Autor a vedoucí"
 
@@ -1078,7 +1078,7 @@ msgstr "Obrázek na pozadí"
 msgid "Background opacity"
 msgstr "Neprůhlednost pozadí"
 
-#: core/database.cpp:555
+#: core/database.cpp:558
 msgid "Backing up database"
 msgstr "Záloha databáze"
 
@@ -1260,11 +1260,11 @@ msgstr ""
 msgid "Clear playlist"
 msgstr "Vyprázdnit seznam skladeb"
 
-#: dialogs/about.cpp:160
+#: dialogs/about.cpp:161
 msgid "Clementine authors"
 msgstr "Autoři Clementine"
 
-#: dialogs/about.cpp:169
+#: dialogs/about.cpp:170
 msgid "Clementine contributors"
 msgstr "Přispěvatelé Clementine"
 
@@ -1405,7 +1405,7 @@ msgstr "Kontext"
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr "Pokračovat na další položku když skladba v seznamu není dostupná"
 
-#: dialogs/about.cpp:151
+#: dialogs/about.cpp:152
 msgid "Contributors"
 msgstr "Přispěvatelé"
 
@@ -1472,7 +1472,7 @@ msgstr "Nelze otevřít soubor %1"
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Nelze vytvořit vstupní prvek GStreamer pro %1"
 
-#: playlist/playlistmanager.cpp:204
+#: playlist/playlistmanager.cpp:206
 msgid "Couldn't create playlist"
 msgstr "Nepodařilo se vytvořit seznam skladeb"
 
@@ -1650,7 +1650,7 @@ msgstr "Cesta k D-Bus"
 msgid "Dance"
 msgstr "Taneční hudba"
 
-#: core/database.cpp:506
+#: core/database.cpp:509
 msgid "Database corruption detected."
 msgstr "Databáze je poškozená."
 
@@ -1691,7 +1691,7 @@ msgstr "Smazat"
 msgid "Delete cover"
 msgstr ""
 
-#: dialogs/deleteconfirmationdialog.cpp:42 device/deviceview.cpp:417
+#: dialogs/deleteconfirmationdialog.cpp:42 device/deviceview.cpp:419
 msgid "Delete files"
 msgstr "Smazat soubory"
 
@@ -2029,7 +2029,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Rovnocenné s --log-levels *:3"
 
 #: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:573
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "Chyba"
 
@@ -2189,7 +2189,7 @@ msgstr "Načítat celá alba při vyhledávání"
 msgid "Fetching cover error"
 msgstr "Chyba při stahování obalu"
 
-#: core/song.cpp:1051
+#: core/song.cpp:1059
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Soubor %1 nebyl rozpoznán jako platný zvukový soubor."
@@ -2547,7 +2547,7 @@ msgstr "Ikona"
 msgid "Icon sizes"
 msgstr "Velikosti ikon"
 
-#: widgets/fancytabwidget.cpp:713
+#: widgets/fancytabwidget.cpp:714
 msgid "Icons on top"
 msgstr "Ikony nahoře"
 
@@ -2645,7 +2645,7 @@ msgstr "Vložit..."
 msgid "Install strawberry through PPA:<br />"
 msgstr "Nainstalujte Strawberry pomocí PPA:<br />"
 
-#: core/database.cpp:491
+#: core/database.cpp:494
 msgid "Integrity check"
 msgstr "Ověření celistvosti"
 
@@ -2709,7 +2709,7 @@ msgstr "Velký sál"
 msgid "Large album cover"
 msgstr "Velký obal alba"
 
-#: widgets/fancytabwidget.cpp:709
+#: widgets/fancytabwidget.cpp:710
 msgid "Large sidebar"
 msgstr "Velký postranní panel"
 
@@ -2802,7 +2802,7 @@ msgstr "Nahrává se databáze iPod"
 msgid "Loading smart playlist"
 msgstr "Nahrávání chytrého playlistu"
 
-#: collection/collectionmodel.cpp:214
+#: collection/collectionmodel.cpp:215
 msgid "Loading songs"
 msgstr "Nahrávají se písně"
 
@@ -2814,7 +2814,7 @@ msgstr "Nahrávají se skladby"
 msgid "Loading tracks info"
 msgstr "Nahrávají se informace o skladbě"
 
-#: collection/collectionmodel.cpp:207
+#: collection/collectionmodel.cpp:208
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:288
 msgid "Loading..."
@@ -2894,7 +2894,7 @@ msgstr ""
 msgid "Manually set cover art from %1"
 msgstr ""
 
-#: device/deviceproperties.cpp:175
+#: device/deviceproperties.cpp:176
 msgid "Manufacturer"
 msgstr "Výrobce"
 
@@ -2922,7 +2922,7 @@ msgstr "Maximální velikost obalu alba"
 msgid "Maximum bitrate"
 msgstr "Nejvyšší datový tok"
 
-#: qobuz/qobuzservice.cpp:467
+#: qobuz/qobuzservice.cpp:464
 msgid "Maximum number of login attempts reached."
 msgstr "Byl dosažen maximální počet pokusů o přihlášení."
 
@@ -2947,21 +2947,21 @@ msgstr "Nejnižší datový tok"
 msgid "Missing API token."
 msgstr "Chybějící API token."
 
-#: qobuz/qobuzservice.cpp:719 qobuz/qobuzstreamurlrequest.cpp:84
+#: qobuz/qobuzservice.cpp:716 qobuz/qobuzstreamurlrequest.cpp:84
 msgid "Missing Qobuz app ID or secret."
 msgstr "Chybějící ID aplikace, nebo tajemství služby Qobuz."
 
-#: qobuz/qobuzservice.cpp:471 qobuz/qobuzservice.cpp:500
-#: qobuz/qobuzservice.cpp:555 qobuz/qobuzservice.cpp:608
-#: qobuz/qobuzservice.cpp:673
+#: qobuz/qobuzservice.cpp:468 qobuz/qobuzservice.cpp:497
+#: qobuz/qobuzservice.cpp:552 qobuz/qobuzservice.cpp:605
+#: qobuz/qobuzservice.cpp:670
 msgid "Missing Qobuz app ID."
 msgstr "Chybějící ID aplikace Qobuz."
 
-#: qobuz/qobuzservice.cpp:479
+#: qobuz/qobuzservice.cpp:476
 msgid "Missing Qobuz password."
 msgstr "Chybějící Qobuz heslo."
 
-#: qobuz/qobuzservice.cpp:475
+#: qobuz/qobuzservice.cpp:472
 msgid "Missing Qobuz username."
 msgstr "Chybějící Qobuz uživatelské jméno."
 
@@ -2969,13 +2969,13 @@ msgstr "Chybějící Qobuz uživatelské jméno."
 msgid "Missing Subsonic username or password."
 msgstr "Chybějící uživatelské jméno nebo heslo pro Subsonic."
 
-#: tidal/tidalservice.cpp:739 tidal/tidalservice.cpp:798
-#: tidal/tidalservice.cpp:855 tidal/tidalservice.cpp:920
-#: tidal/tidalservice.cpp:980 tidal/tidalstreamurlrequest.cpp:90
+#: tidal/tidalservice.cpp:738 tidal/tidalservice.cpp:797
+#: tidal/tidalservice.cpp:854 tidal/tidalservice.cpp:919
+#: tidal/tidalservice.cpp:979 tidal/tidalstreamurlrequest.cpp:90
 msgid "Missing Tidal API token, username or password."
 msgstr "Chybějící API token, uživatelské jméno nebo heslo pro Tidal."
 
-#: tidal/tidalservice.cpp:700
+#: tidal/tidalservice.cpp:699
 msgid "Missing Tidal API token."
 msgstr "Chybějící API token pro Tidal."
 
@@ -2983,11 +2983,11 @@ msgstr "Chybějící API token pro Tidal."
 msgid "Missing Tidal client ID."
 msgstr "Chybějící ID klienta pro Tidal."
 
-#: tidal/tidalservice.cpp:708
+#: tidal/tidalservice.cpp:707
 msgid "Missing Tidal password."
 msgstr "Chybějící heslo k Tidal."
 
-#: tidal/tidalservice.cpp:704
+#: tidal/tidalservice.cpp:703
 msgid "Missing Tidal username."
 msgstr "Chybějící uživatelské jméno k Tidal."
 
@@ -3015,7 +3015,7 @@ msgstr "Chybějící jméno, prosím, nejdříve se přihlašte k last.fm!"
 msgid "Missing username."
 msgstr "Chybějící uživatelské jméno."
 
-#: device/deviceproperties.cpp:174
+#: device/deviceproperties.cpp:175
 msgid "Model"
 msgstr "Model"
 
@@ -3066,7 +3066,7 @@ msgstr "Přesunout do sbírky..."
 msgid "Move up"
 msgstr "Posunout nahoru"
 
-#: core/mainwindow.cpp:2153 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2153 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Hudba"
 
@@ -3166,7 +3166,7 @@ msgstr ""
 "Nebyly nalezeny žádné shody. Smažte obsah vyhledávacího pole, aby se znovu "
 "zobrazil celý seznam skladeb."
 
-#: settings/coverssettingspage.cpp:195 settings/lyricssettingspage.cpp:185
+#: settings/coverssettingspage.cpp:197 settings/lyricssettingspage.cpp:187
 msgid "No provider selected."
 msgstr "Žádný poskytovatel nebyl zvolen."
 
@@ -3185,7 +3185,7 @@ msgid "None"
 msgstr "Žádná"
 
 #: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:573
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Žádná z vybraných písní nebyla vhodná ke zkopírování do zařízení"
 
@@ -3197,20 +3197,20 @@ msgstr "Normální"
 msgid "Normal block type"
 msgstr "Běžný typ bloku"
 
-#: qobuz/qobuzservice.cpp:505 qobuz/qobuzservice.cpp:560
-#: qobuz/qobuzservice.cpp:613
+#: qobuz/qobuzservice.cpp:502 qobuz/qobuzservice.cpp:557
+#: qobuz/qobuzservice.cpp:610
 msgid "Not authenticated with Qobuz."
 msgstr "Nejste přihlášeni ke službě Qobuz."
 
-#: tidal/tidalservice.cpp:712
+#: tidal/tidalservice.cpp:711
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Nejste přihlášeni k Tidal a byl dosažen maximální počet pokusů o přihlášení."
 
-#: tidal/tidalservice.cpp:734 tidal/tidalservice.cpp:793
-#: tidal/tidalservice.cpp:850 tidal/tidalservice.cpp:915
-#: tidal/tidalservice.cpp:976 tidal/tidalstreamurlrequest.cpp:86
+#: tidal/tidalservice.cpp:733 tidal/tidalservice.cpp:792
+#: tidal/tidalservice.cpp:849 tidal/tidalservice.cpp:914
+#: tidal/tidalservice.cpp:975 tidal/tidalstreamurlrequest.cpp:86
 msgid "Not authenticated with Tidal."
 msgstr "Nejste přihlášeni k Tidal."
 
@@ -3275,7 +3275,7 @@ msgstr "Neprůhlednost"
 msgid "Open URL in web browser?"
 msgstr "Otevřít URL v prohlížeči?"
 
-#: transcoder/transcodedialog.cpp:349
+#: transcoder/transcodedialog.cpp:350
 msgid "Open a directory to import music from"
 msgstr "Otevřít adresář a zavést hudbu v něm"
 
@@ -3425,7 +3425,7 @@ msgstr "Účinkující"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:712
 msgid "Plain sidebar"
 msgstr "Prostý postranní panel"
 
@@ -3483,8 +3483,8 @@ msgid "Player options"
 msgstr "Nastavení přehrávače"
 
 #: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
-#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:111
-#: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:563
+#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:112
+#: playlist/playlistmanager.cpp:193 playlist/playlistmanager.cpp:566
 #: playlist/playlisttabbar.cpp:404 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Seznam skladeb"
@@ -3714,7 +3714,7 @@ msgstr "Re&lativní"
 msgid "Really cancel?"
 msgstr "Opravdu zrušit?"
 
-#: covermanager/spotifycoverprovider.cpp:196
+#: covermanager/spotifycoverprovider.cpp:195
 #: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:206
 msgid "Received invalid reply from web browser."
 msgstr "Obdržena špatná odpověď od prohlížeče."
@@ -3746,11 +3746,11 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:207
+#: lyrics/geniuslyricsprovider.cpp:206
 msgid "Redirect from Genius is missing query items code or state."
 msgstr "Přesměrování z Genius chybí kód položek dotazu nebo stav."
 
-#: covermanager/spotifycoverprovider.cpp:192
+#: covermanager/spotifycoverprovider.cpp:191
 msgid "Redirect missing token code or state!"
 msgstr "Přesměrování chybí kód tokenu nebo stav!"
 
@@ -3870,7 +3870,7 @@ msgstr "Zesílení přehrávaných skladeb"
 msgid "Replay Gain mode"
 msgstr "Režim zesílení přehrávaných skladeb"
 
-#: tidal/tidalservice.cpp:361
+#: tidal/tidalservice.cpp:360
 msgid "Reply from Tidal is missing query items."
 msgstr "Odpověď od Tidal neobsahuje dotazové položky."
 
@@ -3919,13 +3919,13 @@ msgstr "Omezit na znaky dostupné na FAT systémech souborů"
 msgid "Resume playback on start"
 msgstr "Obnovit přehrávání při spuštění"
 
-#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1103
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1103
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Načítání obalů alb pro %1 album..."
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1104
+#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1104
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -4042,7 +4042,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Uložit seznam skladeb"
 
-#: playlist/playlistmanager.cpp:273
+#: playlist/playlistmanager.cpp:275
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Uložit seznam skladeb"
@@ -4226,7 +4226,7 @@ msgstr ""
 msgid "Shortcut"
 msgstr "Klávesová zkratka"
 
-#: settings/globalshortcutssettingspage.cpp:267
+#: settings/globalshortcutssettingspage.cpp:270
 #: ../build/src/ui_globalshortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
@@ -4448,7 +4448,7 @@ msgstr "Přeskočit skladbu"
 msgid "Small album cover"
 msgstr "Malý obal alba"
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:711
 msgid "Small sidebar"
 msgstr "Malý postranní panel"
 
@@ -4701,7 +4701,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:712
+#: widgets/fancytabwidget.cpp:713
 msgid "Tabs on top"
 msgstr "Karty nahoře"
 
@@ -4741,15 +4741,15 @@ msgstr "Test uspěl!"
 msgid "Text options"
 msgstr "Volby pro text"
 
-#: dialogs/about.cpp:178
+#: dialogs/about.cpp:179
 msgid "Thanks to"
 msgstr "Díky"
 
-#: dialogs/about.cpp:186
+#: dialogs/about.cpp:187
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
 
-#: settings/globalshortcutssettingspage.cpp:245
+#: settings/globalshortcutssettingspage.cpp:248
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Příkaz \"%1\" se nepodařilo provést."
@@ -4786,7 +4786,7 @@ msgstr ""
 "Verze Strawberry, na kterou jste právě povýšili, vyžaduje z důvodu nových "
 "vlastností vypsaných níže úplné nové prohledání sbírky:"
 
-#: collection/collectionview.cpp:475
+#: collection/collectionview.cpp:476
 msgid "There are other songs in this album"
 msgstr "Na tomto albu jsou další písně"
 
@@ -4806,7 +4806,7 @@ msgstr ""
 "Při mazání některých písní nastaly potíže. Nepodařilo se smazat následující "
 "soubory:"
 
-#: device/deviceview.cpp:418
+#: device/deviceview.cpp:419
 msgid ""
 "These files will be deleted from the device, are you sure you want to "
 "continue?"
@@ -4995,18 +4995,18 @@ msgstr "Ultra široké pásmo"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:557 context/contextalbumsmodel.cpp:359
-#: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:487
-#: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:1600
+#: core/song.cpp:559 context/contextalbumsmodel.cpp:360
+#: collection/collectionmodel.cpp:484 collection/collectionmodel.cpp:489
+#: collection/collectionmodel.cpp:493 collection/collectionmodel.cpp:497
+#: collection/collectionmodel.cpp:501 collection/collectionmodel.cpp:1603
 #: collection/savedgroupingmanager.cpp:145 playlist/playlistdelegates.cpp:353
-#: playlist/playlistmanager.cpp:570 playlist/playlistmanager.cpp:571
+#: playlist/playlistmanager.cpp:573 playlist/playlistmanager.cpp:574
 #: dialogs/edittagdialog.cpp:719 dialogs/edittagdialog.cpp:746
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: subsonic/subsonicrequest.cpp:864 tidal/tidalrequest.cpp:1276
+#: subsonic/subsonicrequest.cpp:865 tidal/tidalrequest.cpp:1276
 #: qobuz/qobuzrequest.cpp:1321
 msgid "Unknown error"
 msgstr "Neznámá chyba"
@@ -5031,7 +5031,7 @@ msgstr "Zrušit přeskočení skladby"
 msgid "Update the collection when Strawberry starts"
 msgstr "Při spuštění Strawberry obnovit hudební sbírku"
 
-#: collection/collectionwatcher.cpp:168
+#: collection/collectionwatcher.cpp:169
 #, qt-format
 msgid "Updating %1"
 msgstr "Obnovuje se %1"
@@ -5041,7 +5041,7 @@ msgstr "Obnovuje se %1"
 msgid "Updating %1%..."
 msgstr "Obnovuje se %1%..."
 
-#: collection/collectionwatcher.cpp:165
+#: collection/collectionwatcher.cpp:166
 msgid "Updating collection"
 msgstr "Obnovuje se hudební sbírka"
 
@@ -5073,7 +5073,7 @@ msgstr ""
 msgid "Use OAuth"
 msgstr "Použijte OAuth"
 
-#: settings/coverssettingspage.cpp:128 settings/coverssettingspage.cpp:240
+#: settings/coverssettingspage.cpp:129 settings/coverssettingspage.cpp:242
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
@@ -5081,7 +5081,7 @@ msgstr ""
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Používat metadata pro zesílení přehrávaných skladeb, jsou-li dostupná"
 
-#: settings/coverssettingspage.cpp:124 settings/coverssettingspage.cpp:236
+#: settings/coverssettingspage.cpp:125 settings/coverssettingspage.cpp:238
 msgid "Use Tidal settings to authenticate."
 msgstr "Použijte nastavení Tidal pro přihlášení."
 
@@ -5153,7 +5153,7 @@ msgstr "Uživatelský token:"
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: settings/globalshortcutssettingspage.cpp:316
+#: settings/globalshortcutssettingspage.cpp:320
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5170,9 +5170,9 @@ msgstr "Použití nabídky pro přidání písně..."
 msgid "Variable bit rate"
 msgstr "Proměnlivý datový tok"
 
-#: collection/collectionmodel.cpp:300 collection/collectionmodel.cpp:301
-#: playlist/playlistmanager.cpp:582 covermanager/albumcovermanager.cpp:357
-#: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
+#: collection/collectionmodel.cpp:301 collection/collectionmodel.cpp:302
+#: playlist/playlistmanager.cpp:585 covermanager/albumcovermanager.cpp:357
+#: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "Různí umělci"
 
@@ -5249,7 +5249,7 @@ msgstr "Bez obalu:"
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Pracovat v režimu offline (pouze ukládat přehrané skladby)"
 
-#: collection/collectionview.cpp:475
+#: collection/collectionview.cpp:476
 msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"

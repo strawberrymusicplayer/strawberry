@@ -39,21 +39,21 @@ msgstr ""
 "\n"
 "Daftar putar yang difavoritkan akan disimpan di sini"
 
-#: settings/globalshortcutssettingspage.cpp:322
+#: settings/globalshortcutssettingspage.cpp:326
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "cinnamon-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:320
+#: settings/globalshortcutssettingspage.cpp:324
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "gnome-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:318
+#: settings/globalshortcutssettingspage.cpp:322
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
@@ -138,12 +138,12 @@ msgstr "%1 hari"
 msgid "%1 days ago"
 msgstr "%1 hari yang lalu"
 
-#: settings/coverssettingspage.cpp:140
+#: settings/coverssettingspage.cpp:141
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:135
+#: settings/coverssettingspage.cpp:136
 #, qt-format
 msgid "%1 needs authentication."
 msgstr ""
@@ -153,7 +153,7 @@ msgstr ""
 msgid "%1 playlists (%2)"
 msgstr "%1 daftar putar (%2)"
 
-#: playlist/playlistmanager.cpp:468
+#: playlist/playlistmanager.cpp:471
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 terpilih dari"
@@ -195,7 +195,7 @@ msgstr ""
 msgid "%1 songs selected."
 msgstr ""
 
-#: playlist/playlistmanager.cpp:475 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:478 queue/queue.cpp:255
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 trek"
@@ -219,19 +219,19 @@ msgstr "%albumartist-%album"
 msgid "%filename%"
 msgstr "%filename%"
 
-#: transcoder/transcodedialog.cpp:318
+#: transcoder/transcodedialog.cpp:319
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n failed"
 msgstr "%n gagal"
 
-#: transcoder/transcodedialog.cpp:314
+#: transcoder/transcodedialog.cpp:315
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n finished"
 msgstr "%n telah selesai"
 
-#: transcoder/transcodedialog.cpp:310
+#: transcoder/transcodedialog.cpp:311
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n remaining"
@@ -443,7 +443,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 hari"
 
-#: playlist/playlistmanager.cpp:475 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:478 queue/queue.cpp:255
 msgid "1 track"
 msgstr "1 trek"
 
@@ -590,11 +590,11 @@ msgstr "Tambah berkas ke transkoder"
 msgid "Add file(s) to transcoder"
 msgstr "Tambah berkas ke transkoder"
 
-#: transcoder/transcodedialog.cpp:332
+#: transcoder/transcodedialog.cpp:333
 msgid "Add files to transcode"
 msgstr "Tambah berkas untuk ditranskode"
 
-#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Tambah folder"
 
@@ -982,7 +982,7 @@ msgstr "Keluaran audio"
 msgid "Audio quality"
 msgstr "Kualitas audio"
 
-#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:253
+#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:251
 msgid "Authenticating..."
 msgstr "Mengautentikasi..."
 
@@ -994,12 +994,12 @@ msgstr "Mengautentikasi..."
 msgid "Authentication"
 msgstr "Otentikasi"
 
-#: settings/coverssettingspage.cpp:270 settings/lyricssettingspage.cpp:250
+#: settings/coverssettingspage.cpp:272 settings/lyricssettingspage.cpp:252
 #: settings/tidalsettingspage.cpp:217 settings/qobuzsettingspage.cpp:173
 msgid "Authentication failed"
 msgstr "Otentikasi gagal"
 
-#: dialogs/about.cpp:142
+#: dialogs/about.cpp:143
 msgid "Author and maintainer"
 msgstr ""
 
@@ -1072,7 +1072,7 @@ msgstr "Gambar latar belakang"
 msgid "Background opacity"
 msgstr "Kelegapan latar belakang"
 
-#: core/database.cpp:555
+#: core/database.cpp:558
 msgid "Backing up database"
 msgstr "Membuat cadangan basis data"
 
@@ -1252,11 +1252,11 @@ msgstr ""
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
-#: dialogs/about.cpp:160
+#: dialogs/about.cpp:161
 msgid "Clementine authors"
 msgstr ""
 
-#: dialogs/about.cpp:169
+#: dialogs/about.cpp:170
 msgid "Clementine contributors"
 msgstr ""
 
@@ -1398,7 +1398,7 @@ msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Lanjutkan ke lagu berikutnya jika suatu lagu di daftar putar tidak tersedia"
 
-#: dialogs/about.cpp:151
+#: dialogs/about.cpp:152
 msgid "Contributors"
 msgstr ""
 
@@ -1462,7 +1462,7 @@ msgstr "Tidak dapat membuka berkas %1"
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Tidak dapat membuat elemen sumber gstreamer untuk %1"
 
-#: playlist/playlistmanager.cpp:204
+#: playlist/playlistmanager.cpp:206
 msgid "Couldn't create playlist"
 msgstr "Tidak bisa membuat daftar putar"
 
@@ -1640,7 +1640,7 @@ msgstr "Lokasi D-Bus"
 msgid "Dance"
 msgstr "Dansa"
 
-#: core/database.cpp:506
+#: core/database.cpp:509
 msgid "Database corruption detected."
 msgstr "Kerusakan basis data terdeteksi."
 
@@ -1681,7 +1681,7 @@ msgstr "Hapus"
 msgid "Delete cover"
 msgstr ""
 
-#: dialogs/deleteconfirmationdialog.cpp:42 device/deviceview.cpp:417
+#: dialogs/deleteconfirmationdialog.cpp:42 device/deviceview.cpp:419
 msgid "Delete files"
 msgstr "Hapus berkas"
 
@@ -2019,7 +2019,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
 #: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:573
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "Kesalahan"
 
@@ -2179,7 +2179,7 @@ msgstr "Ambil seluruh album saat mencari lagu"
 msgid "Fetching cover error"
 msgstr "Terjadi kesalahan saat mengambil sampul"
 
-#: core/song.cpp:1051
+#: core/song.cpp:1059
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Berkas %1 bukanlah berkas audio yang benar."
@@ -2533,7 +2533,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:713
+#: widgets/fancytabwidget.cpp:714
 msgid "Icons on top"
 msgstr "Ikon di atas"
 
@@ -2627,7 +2627,7 @@ msgstr "Sisipkan..."
 msgid "Install strawberry through PPA:<br />"
 msgstr ""
 
-#: core/database.cpp:491
+#: core/database.cpp:494
 msgid "Integrity check"
 msgstr "Periksa integritas"
 
@@ -2689,7 +2689,7 @@ msgstr "Balai Besar"
 msgid "Large album cover"
 msgstr "Sampul album besar"
 
-#: widgets/fancytabwidget.cpp:709
+#: widgets/fancytabwidget.cpp:710
 msgid "Large sidebar"
 msgstr "Bilah sisi besar"
 
@@ -2782,7 +2782,7 @@ msgstr "Memuat basis data iPod"
 msgid "Loading smart playlist"
 msgstr ""
 
-#: collection/collectionmodel.cpp:214
+#: collection/collectionmodel.cpp:215
 msgid "Loading songs"
 msgstr "Memuat lagu"
 
@@ -2794,7 +2794,7 @@ msgstr "Memuat trek"
 msgid "Loading tracks info"
 msgstr "Memuat info trek"
 
-#: collection/collectionmodel.cpp:207
+#: collection/collectionmodel.cpp:208
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:288
 msgid "Loading..."
@@ -2873,7 +2873,7 @@ msgstr ""
 msgid "Manually set cover art from %1"
 msgstr ""
 
-#: device/deviceproperties.cpp:175
+#: device/deviceproperties.cpp:176
 msgid "Manufacturer"
 msgstr "Produsen"
 
@@ -2901,7 +2901,7 @@ msgstr "Ukuran sampul maksimum"
 msgid "Maximum bitrate"
 msgstr "Lajubit maksimum"
 
-#: qobuz/qobuzservice.cpp:467
+#: qobuz/qobuzservice.cpp:464
 msgid "Maximum number of login attempts reached."
 msgstr "Jumlah maksimum upaya masuk tercapai."
 
@@ -2926,21 +2926,21 @@ msgstr "Lajubit minimum"
 msgid "Missing API token."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:719 qobuz/qobuzstreamurlrequest.cpp:84
+#: qobuz/qobuzservice.cpp:716 qobuz/qobuzstreamurlrequest.cpp:84
 msgid "Missing Qobuz app ID or secret."
 msgstr "App ID atau secret Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:471 qobuz/qobuzservice.cpp:500
-#: qobuz/qobuzservice.cpp:555 qobuz/qobuzservice.cpp:608
-#: qobuz/qobuzservice.cpp:673
+#: qobuz/qobuzservice.cpp:468 qobuz/qobuzservice.cpp:497
+#: qobuz/qobuzservice.cpp:552 qobuz/qobuzservice.cpp:605
+#: qobuz/qobuzservice.cpp:670
 msgid "Missing Qobuz app ID."
 msgstr "App ID Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:479
+#: qobuz/qobuzservice.cpp:476
 msgid "Missing Qobuz password."
 msgstr "Kata sandi Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:475
+#: qobuz/qobuzservice.cpp:472
 msgid "Missing Qobuz username."
 msgstr "Nama pengguna Qobuz tidak tersedia."
 
@@ -2948,13 +2948,13 @@ msgstr "Nama pengguna Qobuz tidak tersedia."
 msgid "Missing Subsonic username or password."
 msgstr "Nama pengguna atau kata sandi Subsonic tidak tersedia."
 
-#: tidal/tidalservice.cpp:739 tidal/tidalservice.cpp:798
-#: tidal/tidalservice.cpp:855 tidal/tidalservice.cpp:920
-#: tidal/tidalservice.cpp:980 tidal/tidalstreamurlrequest.cpp:90
+#: tidal/tidalservice.cpp:738 tidal/tidalservice.cpp:797
+#: tidal/tidalservice.cpp:854 tidal/tidalservice.cpp:919
+#: tidal/tidalservice.cpp:979 tidal/tidalstreamurlrequest.cpp:90
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:700
+#: tidal/tidalservice.cpp:699
 msgid "Missing Tidal API token."
 msgstr "Token API Tidal tidak tersedia."
 
@@ -2962,11 +2962,11 @@ msgstr "Token API Tidal tidak tersedia."
 msgid "Missing Tidal client ID."
 msgstr "Client ID Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:708
+#: tidal/tidalservice.cpp:707
 msgid "Missing Tidal password."
 msgstr "Kata sandi Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:704
+#: tidal/tidalservice.cpp:703
 msgid "Missing Tidal username."
 msgstr "Nama pengguna Tidal tidak tersedia."
 
@@ -2994,7 +2994,7 @@ msgstr ""
 msgid "Missing username."
 msgstr ""
 
-#: device/deviceproperties.cpp:174
+#: device/deviceproperties.cpp:175
 msgid "Model"
 msgstr "Model"
 
@@ -3045,7 +3045,7 @@ msgstr "Pindah ke pustaka..."
 msgid "Move up"
 msgstr "Pindah naik"
 
-#: core/mainwindow.cpp:2153 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2153 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Musik"
 
@@ -3145,7 +3145,7 @@ msgstr ""
 "Tidak ada yang cocok.  Kosongkan kotak pencarian untuk menampilkan lagi "
 "seluruh daftar putar."
 
-#: settings/coverssettingspage.cpp:195 settings/lyricssettingspage.cpp:185
+#: settings/coverssettingspage.cpp:197 settings/lyricssettingspage.cpp:187
 msgid "No provider selected."
 msgstr ""
 
@@ -3164,7 +3164,7 @@ msgid "None"
 msgstr "Nihil"
 
 #: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
-#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:573
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
 "Tidak satu pun dari lagu yang dipilih cocok untuk disalin ke perangkat"
@@ -3177,20 +3177,20 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Tipe blok normal"
 
-#: qobuz/qobuzservice.cpp:505 qobuz/qobuzservice.cpp:560
-#: qobuz/qobuzservice.cpp:613
+#: qobuz/qobuzservice.cpp:502 qobuz/qobuzservice.cpp:557
+#: qobuz/qobuzservice.cpp:610
 msgid "Not authenticated with Qobuz."
 msgstr "Tidak terautentikasi dengan Qobuz."
 
-#: tidal/tidalservice.cpp:712
+#: tidal/tidalservice.cpp:711
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Tidak terautentikasi dengan Tidal dan jumlah maksimum upaya masuk tercapai."
 
-#: tidal/tidalservice.cpp:734 tidal/tidalservice.cpp:793
-#: tidal/tidalservice.cpp:850 tidal/tidalservice.cpp:915
-#: tidal/tidalservice.cpp:976 tidal/tidalstreamurlrequest.cpp:86
+#: tidal/tidalservice.cpp:733 tidal/tidalservice.cpp:792
+#: tidal/tidalservice.cpp:849 tidal/tidalservice.cpp:914
+#: tidal/tidalservice.cpp:975 tidal/tidalstreamurlrequest.cpp:86
 msgid "Not authenticated with Tidal."
 msgstr "Tidak terautentikasi dengan Tidal."
 
@@ -3253,7 +3253,7 @@ msgstr "Kelegapan"
 msgid "Open URL in web browser?"
 msgstr ""
 
-#: transcoder/transcodedialog.cpp:349
+#: transcoder/transcodedialog.cpp:350
 msgid "Open a directory to import music from"
 msgstr "Buka sebuah direktori untuk mengimpor musik dari"
 
@@ -3403,7 +3403,7 @@ msgstr "Penampil"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:712
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
@@ -3461,8 +3461,8 @@ msgid "Player options"
 msgstr "Opsi pemutar"
 
 #: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
-#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:111
-#: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:563
+#: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:112
+#: playlist/playlistmanager.cpp:193 playlist/playlistmanager.cpp:566
 #: playlist/playlisttabbar.cpp:404 ../build/src/ui_playlistsettingspage.h:158
 msgid "Playlist"
 msgstr "Daftar putar"
@@ -3686,7 +3686,7 @@ msgstr "Re&latif"
 msgid "Really cancel?"
 msgstr "Benar-benar membatalkan?"
 
-#: covermanager/spotifycoverprovider.cpp:196
+#: covermanager/spotifycoverprovider.cpp:195
 #: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:206
 msgid "Received invalid reply from web browser."
 msgstr "Balasan yang tidak benar diterima dari peramban web."
@@ -3718,11 +3718,11 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:207
+#: lyrics/geniuslyricsprovider.cpp:206
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:192
+#: covermanager/spotifycoverprovider.cpp:191
 msgid "Redirect missing token code or state!"
 msgstr ""
 
@@ -3842,7 +3842,7 @@ msgstr "Replay Gain"
 msgid "Replay Gain mode"
 msgstr "Mode Replay Gain"
 
-#: tidal/tidalservice.cpp:361
+#: tidal/tidalservice.cpp:360
 msgid "Reply from Tidal is missing query items."
 msgstr "Balasan dari Tidal tidak memiliki artikel yang diminta."
 
@@ -3889,13 +3889,13 @@ msgstr "Bataskan ke karakter yang diperbolehkan oleh sistem file FAT"
 msgid "Resume playback on start"
 msgstr "Lanjutkan pemutaran saat memulai Strawberry"
 
-#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1103
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1103
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1104
+#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1104
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -4012,7 +4012,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Simpan daftar putar"
 
-#: playlist/playlistmanager.cpp:273
+#: playlist/playlistmanager.cpp:275
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Simpan daftar putar"
@@ -4195,7 +4195,7 @@ msgstr ""
 msgid "Shortcut"
 msgstr "Pintasan"
 
-#: settings/globalshortcutssettingspage.cpp:267
+#: settings/globalshortcutssettingspage.cpp:270
 #: ../build/src/ui_globalshortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
@@ -4415,7 +4415,7 @@ msgstr "Lewati trek"
 msgid "Small album cover"
 msgstr "Sampul album kecil"
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:711
 msgid "Small sidebar"
 msgstr "Bilah sisi kecil"
 
@@ -4664,7 +4664,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:712
+#: widgets/fancytabwidget.cpp:713
 msgid "Tabs on top"
 msgstr "Tab di puncak"
 
@@ -4704,15 +4704,15 @@ msgstr "Tes berhasil!"
 msgid "Text options"
 msgstr "Opsi teks"
 
-#: dialogs/about.cpp:178
+#: dialogs/about.cpp:179
 msgid "Thanks to"
 msgstr ""
 
-#: dialogs/about.cpp:186
+#: dialogs/about.cpp:187
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:245
+#: settings/globalshortcutssettingspage.cpp:248
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Perintah \"%1\" tidak dapat dimulai."
@@ -4749,7 +4749,7 @@ msgstr ""
 "Versi Strawberry yang baru saja Anda perbarui membutuhkan pemindaian ulang "
 "pustaka menyeluruh karena fitur baru yang tercantum di bawah ini:"
 
-#: collection/collectionview.cpp:475
+#: collection/collectionview.cpp:476
 msgid "There are other songs in this album"
 msgstr "Ada lagu lainnya di dalam album ini"
 
@@ -4769,7 +4769,7 @@ msgstr ""
 "Ada masalah dalam menghapus beberapa lagu.  Berkas-berkas berikut tidak "
 "dapat dihapus:"
 
-#: device/deviceview.cpp:418
+#: device/deviceview.cpp:419
 msgid ""
 "These files will be deleted from the device, are you sure you want to "
 "continue?"
@@ -4960,18 +4960,18 @@ msgstr "Pita ultra lebar (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:557 context/contextalbumsmodel.cpp:359
-#: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:487
-#: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:1600
+#: core/song.cpp:559 context/contextalbumsmodel.cpp:360
+#: collection/collectionmodel.cpp:484 collection/collectionmodel.cpp:489
+#: collection/collectionmodel.cpp:493 collection/collectionmodel.cpp:497
+#: collection/collectionmodel.cpp:501 collection/collectionmodel.cpp:1603
 #: collection/savedgroupingmanager.cpp:145 playlist/playlistdelegates.cpp:353
-#: playlist/playlistmanager.cpp:570 playlist/playlistmanager.cpp:571
+#: playlist/playlistmanager.cpp:573 playlist/playlistmanager.cpp:574
 #: dialogs/edittagdialog.cpp:719 dialogs/edittagdialog.cpp:746
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: subsonic/subsonicrequest.cpp:864 tidal/tidalrequest.cpp:1276
+#: subsonic/subsonicrequest.cpp:865 tidal/tidalrequest.cpp:1276
 #: qobuz/qobuzrequest.cpp:1321
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
@@ -4996,7 +4996,7 @@ msgstr "Taklewati trek"
 msgid "Update the collection when Strawberry starts"
 msgstr "Perbarui pustaka ketika memulai Strawberry"
 
-#: collection/collectionwatcher.cpp:168
+#: collection/collectionwatcher.cpp:169
 #, qt-format
 msgid "Updating %1"
 msgstr "Memperbarui %1"
@@ -5006,7 +5006,7 @@ msgstr "Memperbarui %1"
 msgid "Updating %1%..."
 msgstr "Memperbarui %1%..."
 
-#: collection/collectionwatcher.cpp:165
+#: collection/collectionwatcher.cpp:166
 msgid "Updating collection"
 msgstr "Memperbarui pustaka"
 
@@ -5038,7 +5038,7 @@ msgstr ""
 msgid "Use OAuth"
 msgstr "Gunakan OAuth"
 
-#: settings/coverssettingspage.cpp:128 settings/coverssettingspage.cpp:240
+#: settings/coverssettingspage.cpp:129 settings/coverssettingspage.cpp:242
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
@@ -5046,7 +5046,7 @@ msgstr ""
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Gunakan metadata Replay Gain jika tersedia"
 
-#: settings/coverssettingspage.cpp:124 settings/coverssettingspage.cpp:236
+#: settings/coverssettingspage.cpp:125 settings/coverssettingspage.cpp:238
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
@@ -5118,7 +5118,7 @@ msgstr "Token pengguna:"
 msgid "Username"
 msgstr "Nama pengguna"
 
-#: settings/globalshortcutssettingspage.cpp:316
+#: settings/globalshortcutssettingspage.cpp:320
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5135,9 +5135,9 @@ msgstr "Menggunakan menu untuk menambah lagu akan..."
 msgid "Variable bit rate"
 msgstr "Laju bit beragam"
 
-#: collection/collectionmodel.cpp:300 collection/collectionmodel.cpp:301
-#: playlist/playlistmanager.cpp:582 covermanager/albumcovermanager.cpp:357
-#: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
+#: collection/collectionmodel.cpp:301 collection/collectionmodel.cpp:302
+#: playlist/playlistmanager.cpp:585 covermanager/albumcovermanager.cpp:357
+#: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "Artis beraga"
 
@@ -5214,7 +5214,7 @@ msgstr "Tanpa sampul:"
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Bekerja di modus offline (Hanya cache scrobble)"
 
-#: collection/collectionview.cpp:475
+#: collection/collectionview.cpp:476
 msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"
