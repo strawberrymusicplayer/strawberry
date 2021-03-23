@@ -175,7 +175,7 @@ QByteArray MoodbarBuilder::Finish(int width) {
 
   for (int i = 0; i < width; ++i) {
     Rgb rgb;
-    const int start = i * static_cast<int>(frames_.count()) / width;
+    const int start = static_cast<int>(i * frames_.count() / width);
     const int end = std::max((i + 1) * static_cast<int>(frames_.count()) / width, start + 1);
 
     for (int j = start; j < end; j++) {
@@ -187,9 +187,10 @@ QByteArray MoodbarBuilder::Finish(int width) {
 
     const int n = end - start;
 
-    *(data++) = char(rgb.r / n);
-    *(data++) = char(rgb.g / n);
-    *(data++) = char(rgb.b / n);
+    *(data++) = rgb.r / n;
+    *(data++) = rgb.g / n;
+    *(data++) = rgb.b / n;
+
   }
   return ret;
 

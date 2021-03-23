@@ -119,8 +119,8 @@ void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect
     int g = 0;
     int b = 0;
 
-    int start = x * static_cast<int>(colors.size() / rect.width());
-    int end = (x + 1) * static_cast<int>(colors.size() / rect.width());
+    int start = static_cast<int>(x * colors.size() / rect.width());
+    int end = static_cast<int>((x + 1) * colors.size() / rect.width());
 
     if (start == end) end = qMin(start + 1, colors.size() - 1);
 
