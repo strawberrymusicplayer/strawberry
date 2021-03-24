@@ -334,8 +334,12 @@ void PlayingWidget::SetImage(const QImage &image) {
 }
 
 void PlayingWidget::ScaleCover() {
-  pixmap_cover_ = QPixmap::fromImage(ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_));
+
+  QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
+  if (image.isNull()) pixmap_cover_ = QPixmap();
+  else pixmap_cover_ = QPixmap::fromImage(image);
   update();
+
 }
 
 void PlayingWidget::SetHeight(int height) {
