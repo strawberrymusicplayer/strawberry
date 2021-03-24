@@ -364,10 +364,6 @@ void AlbumCoverManager::Reset() {
     new QListWidgetItem(artist_icon_, artist, ui_->artists, Specific_Artist);
   }
 
-  if (ui_->artists->selectedItems().isEmpty()) {
-    ui_->artists->setCurrentItem(all_artists_);
-  }
-
 }
 
 void AlbumCoverManager::EnableCoversButtons() {
