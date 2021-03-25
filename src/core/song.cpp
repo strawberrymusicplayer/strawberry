@@ -204,7 +204,7 @@ struct Song::Private : public QSharedData {
 
   int playcount_;
   int skipcount_;
-  int lastplayed_;
+  qint64 lastplayed_;
 
   bool compilation_detected_;   // From the collection scanner
   bool compilation_on_;         // Set by the user
