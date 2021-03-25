@@ -196,7 +196,7 @@ msgstr ""
 msgid "%1 tracks"
 msgstr "%1 tracce"
 
-#: covermanager/albumcovermanager.cpp:576
+#: covermanager/albumcovermanager.cpp:572
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 trasferiti"
@@ -2096,12 +2096,12 @@ msgstr "Esporta le copertine scaricate"
 msgid "Export embedded covers"
 msgstr "Esporta le copertine integrate"
 
-#: covermanager/albumcovermanager.cpp:1036
-#: covermanager/albumcovermanager.cpp:1062
+#: covermanager/albumcovermanager.cpp:1032
+#: covermanager/albumcovermanager.cpp:1058
 msgid "Export finished"
 msgstr "Esporta completate"
 
-#: covermanager/albumcovermanager.cpp:1047
+#: covermanager/albumcovermanager.cpp:1043
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Esportate %1 copertine di %2 (%3 saltate)"
@@ -2392,7 +2392,7 @@ msgstr "Vai alla scheda della scaletta precedente"
 msgid "Go!"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:570
+#: covermanager/albumcovermanager.cpp:566
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:72
 #, qt-format
@@ -3133,7 +3133,7 @@ msgstr "Settimana prossima"
 msgid "No analyzer"
 msgstr "Nessun analizzatore"
 
-#: covermanager/albumcovermanager.cpp:1037
+#: covermanager/albumcovermanager.cpp:1033
 msgid "No covers to export."
 msgstr "Nessuna copertina da esportare."
 
