@@ -409,7 +409,7 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64
   }
   QJsonArray array_hits = obj_response["hits"].toArray();
 
-  for (QJsonValue value_hit : array_hits) {
+  for (const QJsonValueRef value_hit : array_hits) {
     if (!value_hit.isObject()) {
       continue;
     }
