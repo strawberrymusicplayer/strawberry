@@ -99,12 +99,15 @@ void MoodbarItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize &size) {
 
   // Pixmaps are keyed off URL.
-  const QUrl url(idx.sibling(idx.row(), Playlist::Column_Filename).data().toUrl());
+  const QUrl url = idx.sibling(idx.row(), Playlist::Column_Filename).data().toUrl();
 
-  Data *data = data_[url];
-  if (!data) {
+  Data *data = nullptr;
+  if (data_.contains(url)) {
+    data = data_[url];
+  }
+  else {
     data = new Data;
-    data_.insert(url, data);
+    if (!data_.insert(url, data)) return QPixmap();
   }
 
   data->indexes_.insert(idx);
@@ -189,10 +192,9 @@ void MoodbarItemDelegate::ReloadAllColors() {
 
 void MoodbarItemDelegate::DataLoaded(const QUrl &url, MoodbarPipeline *pipeline) {
 
+  if (!data_.contains(url)) return;
+
   Data *data = data_[url];
-  if (!data) {
-    return;
-  }
 
   if (RemoveFromCacheIfIndexesInvalid(url, data)) {
     return;
@@ -224,10 +226,9 @@ void MoodbarItemDelegate::StartLoadingColors(const QUrl &url, const QByteArray &
 
 void MoodbarItemDelegate::ColorsLoaded(const QUrl &url, const ColorVector &colors) {
 
+  if (!data_.contains(url)) return;
+
   Data *data = data_[url];
-  if (!data) {
-    return;
-  }
 
   if (RemoveFromCacheIfIndexesInvalid(url, data)) {
     return;
@@ -256,10 +257,9 @@ void MoodbarItemDelegate::StartLoadingImage(const QUrl &url, Data *data) {
 
 void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
 
+  if (!data_.contains(url)) return;
+
   Data *data = data_[url];
-  if (!data) {
-    return;
-  }
 
   if (RemoveFromCacheIfIndexesInvalid(url, data)) {
     return;
