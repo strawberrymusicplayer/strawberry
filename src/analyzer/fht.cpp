@@ -68,7 +68,7 @@ void FHT::ewma(float* d, float* s, float w) {
 
 void FHT::logSpectrum(float* out, float* p) {
 
-  int n = num_ / 2, i, j, k, *r;
+  int n = num_ / 2, i = 0, j = 0, k = 0, *r = nullptr;
   if (log_vector_.size() < n) {
     log_vector_.resize(n);
     float f = n / log10(static_cast<double>(n));
@@ -135,8 +135,8 @@ void FHT::transform(float* p) {
 
 void FHT::transform8(float* p) {
 
-  float a, b, c, d, e, f, g, h, b_f2, d_h2;
-  float a_c_eg, a_ce_g, ac_e_g, aceg, b_df_h, bdfh;
+  float a = 0.0, b = 0.0, c = 0.0, d = 0.0, e = 0.0, f = 0.0, g = 0.0, h = 0.0, b_f2 = 0.0, d_h2 = 0.0;
+  float a_c_eg = 0.0, a_ce_g = 0.0, ac_e_g = 0.0, aceg = 0.0, b_df_h = 0.0, bdfh = 0.0;
 
   a = *p++, b = *p++, c = *p++, d = *p++;
   e = *p++, f = *p++, g = *p++, h = *p;
@@ -169,8 +169,8 @@ void FHT::_transform(float* p, int n, int k) {
     return;
   }
 
-  int i, j, ndiv2 = n / 2;
-  float a, *t1, *t2, *t3, *t4, *ptab, *pp;
+  int i = 0, j = 0, ndiv2 = n / 2;
+  float a = 0.0, *t1 = nullptr, *t2 = nullptr, *t3 = nullptr, *t4 = nullptr, *ptab = nullptr, *pp = nullptr;
 
   for (i = 0, t1 = buf_(), t2 = buf_() + ndiv2, pp = &p[k]; i < ndiv2; i++)
     *t1++ = *pp++, *t2++ = *pp++;

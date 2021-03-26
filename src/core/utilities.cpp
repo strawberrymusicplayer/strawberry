@@ -315,7 +315,7 @@ bool Copy(QIODevice *source, QIODevice *destination) {
   std::unique_ptr<char[]> data(new char[bytes]);
   qint64 pos = 0;
 
-  qint64 bytes_read;
+  qint64 bytes_read = 0;
   do {
     bytes_read = source->read(data.get() + pos, bytes - pos);
     if (bytes_read == -1) return false;
@@ -324,7 +324,7 @@ bool Copy(QIODevice *source, QIODevice *destination) {
   } while (bytes_read > 0 && pos != bytes);
 
   pos = 0;
-  qint64 bytes_written;
+  qint64 bytes_written = 0;
   do {
     bytes_written = destination->write(data.get() + pos, bytes - pos);
     if (bytes_written == -1) return false;

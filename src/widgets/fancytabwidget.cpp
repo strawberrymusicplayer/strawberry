@@ -271,7 +271,7 @@ class FancyTabBar: public QTabBar {
       {
         p.save();
         QTransform m;
-        int textFlags;
+        int textFlags = 0;
         Qt::Alignment iconFlags;
 
         QRect tabrectText;

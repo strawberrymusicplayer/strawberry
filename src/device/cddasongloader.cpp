@@ -166,7 +166,7 @@ void CddaSongLoader::LoadSongs() {
 
   // Handle TOC message: get tracks duration
   if (msg_toc) {
-    GstToc *toc;
+    GstToc *toc = nullptr;
     gst_message_parse_toc (msg_toc, &toc, nullptr);
     if (toc) {
       GList *entries = gst_toc_get_entries(toc);
@@ -175,7 +175,7 @@ void CddaSongLoader::LoadSongs() {
         for (GList *node = entries; node != nullptr; node = node->next) {
           GstTocEntry *entry = static_cast<GstTocEntry*>(node->data);
           quint64 duration = 0;
-          gint64 start, stop;
+          gint64 start = 0, stop = 0;
           if (gst_toc_entry_get_start_stop_times (entry, &start, &stop)) duration = stop - start;
           songs[i++].set_length_nanosec(duration);
         }

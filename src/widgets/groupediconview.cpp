@@ -278,7 +278,7 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
     if (selections && selections->isSelected(*it))
       option.state |= QStyle::State_Selected;
     if (enabled) {
-      QPalette::ColorGroup cg;
+      QPalette::ColorGroup cg = QPalette::Active;
       if ((itemModel->flags(*it) & Qt::ItemIsEnabled) == 0) {
         option.state &= ~QStyle::State_Enabled;
         cg = QPalette::Disabled;

@@ -440,7 +440,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
   }
   else if (!col.isEmpty() && columns_.contains(col) && numerical_columns_.contains(columns_[col])) {
     // the length column contains the time in seconds (nano seconds, actually - the "nano" part is handled by the DropTailComparatorDecorator,  though).
-    int search_value;
+    int search_value = 0;
     if (columns_[col] == Playlist::Column_Length) {
       search_value = parseTime(search);
     }

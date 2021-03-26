@@ -282,7 +282,7 @@ QModelIndex MergedProxyModel::mapFromSource(const QModelIndex &source_index) con
 
   // Add a mapping if we don't have one already
   const auto &it = p_->mappings_.get<tag_by_source>().find(source_index);
-  Mapping *mapping;
+  Mapping *mapping = nullptr;
   if (it != p_->mappings_.get<tag_by_source>().end()) {
     mapping = *it;
   }

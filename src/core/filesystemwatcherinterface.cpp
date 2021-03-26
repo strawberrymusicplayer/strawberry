@@ -33,11 +33,11 @@ FileSystemWatcherInterface::FileSystemWatcherInterface(QObject *parent)
     : QObject(parent) {}
 
 FileSystemWatcherInterface *FileSystemWatcherInterface::Create(QObject *parent) {
-  FileSystemWatcherInterface *ret;
+
 #ifdef Q_OS_MACOS
-  ret = new MacFSListener(parent);
+  FileSystemWatcherInterface *ret = new MacFSListener(parent);
 #else
-  ret = new QtFSListener(parent);
+  FileSystemWatcherInterface *ret = new QtFSListener(parent);
 #endif
 
   ret->Init();

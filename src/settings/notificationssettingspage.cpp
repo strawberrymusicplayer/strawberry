@@ -303,7 +303,7 @@ void NotificationsSettingsPage::ChooseFgColor() {
 
 void NotificationsSettingsPage::ChooseFont() {
 
-  bool ok;
+  bool ok = false;
   QFont font = QFontDialog::getFont(&ok, pretty_popup_->font(), this);
   if (ok) {
     pretty_popup_->set_font(font);

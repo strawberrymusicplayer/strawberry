@@ -164,7 +164,7 @@ void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_fram
   // Paint the background
   canvas_painter.drawPixmap(0, 0, background_);
 
-  for (int y, x = 0; x < static_cast<int>(scope_.size()); ++x) {
+  for (int x = 0, y = 0; x < static_cast<int>(scope_.size()); ++x) {
     // determine y
     for (y = 0; scope_[x] < yscale_[y]; ++y) continue;
 
@@ -242,7 +242,7 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
    public:
     explicit OutputOnExit(const QColor &color) : c(color) {}
     ~OutputOnExit() {
-      int h, s, v;
+      int h = 0, s = 0, v = 0;
       c.getHsv(&h, &s, &v);
     }
 
@@ -252,8 +252,8 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
 
   OutputOnExit allocateOnTheStack(fg);
 
-  int bh, bs, bv;
-  int fh, fs, fv;
+  int bh = 0, bs = 0, bv = 0;
+  int fh = 0, fs = 0, fv = 0;
 
   bg.getHsv(&bh, &bs, &bv);
   fg.getHsv(&fh, &fs, &fv);
@@ -347,7 +347,7 @@ void BlockAnalyzer::paletteChange(const QPalette&) {
 
     // make a complimentary fadebar colour
     // TODO dark is not always correct, dumbo!
-    int h, s, v;
+    int h = 0, s = 0, v = 0;
     palette().color(QPalette::Window).darker(150).getHsv(&h, &s, &v);
     const QColor fg2(QColor::fromHsv(h + 120, s, v));
 

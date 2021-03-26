@@ -81,8 +81,7 @@ void SubsonicScrobbleRequest::FlushScrobbleRequests() {
       Param("submission", QVariant(request.submission).toString()) <<
       Param("time", QVariant(request.time_ms).toString());
 
-    QNetworkReply *reply;
-    reply = CreateGetRequest(QString("scrobble"), params);
+    QNetworkReply *reply = CreateGetRequest(QString("scrobble"), params);
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { ScrobbleReplyReceived(reply); });
 

@@ -215,7 +215,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl ori
 
   g_object_set(G_OBJECT(pipeline_), "uri", stream_url.constData(), nullptr);
 
-  gint flags;
+  gint flags = 0;
   g_object_get(G_OBJECT(pipeline_), "flags", &flags, nullptr);
   flags |= 0x00000002;
   flags &= ~0x00000001;
@@ -816,7 +816,7 @@ GstBusSyncReply GstEnginePipeline::BusCallbackSync(GstBus*, GstMessage *msg, gpo
 
 void GstEnginePipeline::StreamStatusMessageReceived(GstMessage *msg) {
 
-  GstStreamStatusType type;
+  GstStreamStatusType type = GST_STREAM_STATUS_TYPE_CREATE;
   GstElement *owner = nullptr;
   gst_message_parse_stream_status(msg, &type, &owner);
 
@@ -985,7 +985,7 @@ QString GstEnginePipeline::ParseStrTag(GstTagList *list, const char *tag) const 
 
 guint GstEnginePipeline::ParseUIntTag(GstTagList *list, const char *tag) const {
 
-  guint data;
+  guint data = 0;
   bool success = gst_tag_list_get_uint(list, tag, &data);
 
   guint ret = 0;
@@ -1001,7 +1001,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
     return;
   }
 
-  GstState old_state, new_state, pending;
+  GstState old_state = GST_STATE_NULL, new_state = GST_STATE_NULL, pending = GST_STATE_NULL;
   gst_message_parse_state_changed(msg, &old_state, &new_state, &pending);
 
   if (!pipeline_is_initialized_ && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
@@ -1074,7 +1074,7 @@ qint64 GstEnginePipeline::length() const {
 
 GstState GstEnginePipeline::state() const {
 
-  GstState s, sp;
+  GstState s = GST_STATE_NULL, sp = GST_STATE_NULL;
   if (!pipeline_ || gst_element_get_state(pipeline_, &s, &sp, kGstStateTimeoutNanosecs) == GST_STATE_CHANGE_FAILURE)
     return GST_STATE_NULL;
 

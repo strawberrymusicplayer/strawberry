@@ -456,7 +456,7 @@ QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearchTerm &term) {
 
 QDataStream &operator>>(QDataStream &s, SmartPlaylistSearchTerm &term) {
 
-  quint8 field, op, date;
+  quint8 field = 0, op = 0, date = 0;
   s >> field >> op >> term.value_ >> term.second_value_ >> date;
   term.field_ = SmartPlaylistSearchTerm::Field(field);
   term.operator_ = SmartPlaylistSearchTerm::Operator(op);

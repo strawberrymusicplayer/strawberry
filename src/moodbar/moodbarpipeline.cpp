@@ -134,8 +134,8 @@ void MoodbarPipeline::Start() {
 
 void MoodbarPipeline::ReportError(GstMessage *msg) {
 
-  GError *error;
-  gchar *debugs;
+  GError *error = nullptr;
+  gchar *debugs = nullptr;
 
   gst_message_parse_error(msg, &error, &debugs);
   QString message = QString::fromLocal8Bit(error->message);

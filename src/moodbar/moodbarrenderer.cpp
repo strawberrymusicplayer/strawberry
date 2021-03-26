@@ -136,7 +136,7 @@ void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect
 
   // Draw the actual moodbar.
   for (int x = 0; x < rect.width(); x++) {
-    int h, s, v;
+    int h = 0, s = 0, v = 0;
     screen_colors[x].getHsv(&h, &s, &v);
 
     for (int y = 0; y <= rect.height() / 2; y++) {

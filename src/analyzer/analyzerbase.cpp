@@ -141,7 +141,7 @@ int Analyzer::Base::resizeExponent(int exp) {
 
 int Analyzer::Base::resizeForBands(int bands) {
 
-  int exp;
+  int exp = 0;
   if (bands <= 8)
     exp = 4;
   else if (bands <= 16)

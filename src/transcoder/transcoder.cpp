@@ -396,8 +396,8 @@ GstBusSyncReply Transcoder::BusCallbackSync(GstBus*, GstMessage *msg, gpointer d
 
 void Transcoder::JobState::ReportError(GstMessage *msg) {
 
-  GError *error;
-  gchar *debugs;
+  GError *error = nullptr;
+  gchar *debugs = nullptr;
 
   gst_message_parse_error(msg, &error, &debugs);
   QString message = QString::fromLocal8Bit(error->message);

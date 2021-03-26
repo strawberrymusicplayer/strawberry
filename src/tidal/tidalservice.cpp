@@ -934,7 +934,7 @@ void TidalService::CancelSearch() {
 
 void TidalService::SendSearch() {
 
-  TidalBaseRequest::QueryType type;
+  TidalBaseRequest::QueryType type = TidalBaseRequest::QueryType_None;
 
   switch (pending_search_type_) {
     case InternetSearchView::SearchType_Artists:

@@ -71,7 +71,7 @@ bool LocalRedirectServer::GenerateCertificate() {
     return false;
   }
 
-  gnutls_x509_privkey_t key;
+  gnutls_x509_privkey_t key = nullptr;
   if (int result = gnutls_x509_privkey_init(&key) != GNUTLS_E_SUCCESS) {
     error_ = QString("Failed to initialize the private key structure: %1").arg(gnutls_strerror(result));
     gnutls_global_deinit();
@@ -104,7 +104,7 @@ bool LocalRedirectServer::GenerateCertificate() {
     return false;
   }
 
-  gnutls_x509_crt_t crt;
+  gnutls_x509_crt_t crt = nullptr;
   if (int result = gnutls_x509_crt_init(&crt) != GNUTLS_E_SUCCESS) {
     error_ = QString("Failed to initialize an X.509 certificate structure: %1").arg(gnutls_strerror(result));
     gnutls_x509_privkey_deinit(key);
@@ -173,7 +173,7 @@ bool LocalRedirectServer::GenerateCertificate() {
     return false;
   }
 
-  gnutls_privkey_t pkey;
+  gnutls_privkey_t pkey = nullptr;
   if (int result = gnutls_privkey_init(&pkey) != GNUTLS_E_SUCCESS) {
     error_ = QString("Failed to initialize a private key object: %1").arg(gnutls_strerror(result));
     gnutls_x509_privkey_deinit(key);

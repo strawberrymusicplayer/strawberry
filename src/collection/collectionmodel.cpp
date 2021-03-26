@@ -1914,7 +1914,7 @@ QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping &g) {
 
 QDataStream &operator>>(QDataStream &s, CollectionModel::Grouping &g) {
 
-  quint32 buf;
+  quint32 buf = 0;
   s >> buf;
   g.first = CollectionModel::GroupBy(buf);
   s >> buf;

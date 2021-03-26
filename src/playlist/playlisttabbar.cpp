@@ -226,7 +226,7 @@ void PlaylistTabBar::CloseSlot() {
     QDialogButtonBox *buttons = confirmation_box.findChild<QDialogButtonBox*>();
     if (grid && buttons) {
       const int index = grid->indexOf(buttons);
-      int row, column, row_span, column_span = 0;
+      int row = 0, column = 0, row_span = 0, column_span = 0;
       grid->getItemPosition(index, &row, &column, &row_span, &column_span);
       QLayoutItem *buttonsItem = grid->takeAt(index);
       grid->addWidget(&dont_prompt_again, row, column, row_span, column_span, Qt::AlignLeft | Qt::AlignTop);

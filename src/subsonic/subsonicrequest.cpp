@@ -153,8 +153,7 @@ void SubsonicRequest::FlushAlbumsRequests() {
     if (request.size > 0) params << Param("size", QString::number(request.size));
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
 
-    QNetworkReply *reply;
-    reply = CreateGetRequest(QString("getAlbumList2"), params);
+    QNetworkReply *reply = CreateGetRequest(QString("getAlbumList2"), params);
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumsReplyReceived(reply, request.offset); });
 

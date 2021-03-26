@@ -278,7 +278,7 @@ QString CXXDemangle(const QString &mangled_function);
 
 QString CXXDemangle(const QString &mangled_function) {
 
-  int status;
+  int status = 0;
   char* demangled_function = abi::__cxa_demangle(mangled_function.toLatin1().constData(), nullptr, nullptr, &status);
   if (status == 0) {
     QString ret = QString::fromLatin1(demangled_function);
