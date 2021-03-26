@@ -43,10 +43,6 @@
 #include "devicelister.h"
 #include "giolister.h"
 
-using std::placeholders::_1;
-using std::placeholders::_2;
-using std::placeholders::_3;
-
 QString GioLister::DeviceInfo::unique_id() const {
 
   if (!volume_root_uri.isEmpty()) return volume_root_uri;
@@ -86,7 +82,7 @@ void OperationFinished(F f, GObject *object, GAsyncResult *result) {
 }
 
 void GioLister::VolumeMountFinished(GObject *object, GAsyncResult *result, gpointer) {
-  OperationFinished<GVolume>(std::bind(g_volume_mount_finish, _1, _2, _3), object, result);
+  OperationFinished<GVolume>(std::bind(g_volume_mount_finish, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), object, result);
 }
 
 bool GioLister::Init() {
@@ -537,15 +533,15 @@ QString GioLister::FindUniqueIdByVolume(GVolume *volume) const {
 }
 
 void GioLister::VolumeEjectFinished(GObject *object, GAsyncResult *result, gpointer) {
-  OperationFinished<GVolume>(std::bind(g_volume_eject_with_operation_finish, _1, _2, _3), object, result);
+  OperationFinished<GVolume>(std::bind(g_volume_eject_with_operation_finish, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), object, result);
 }
 
 void GioLister::MountEjectFinished(GObject *object, GAsyncResult *result, gpointer) {
-  OperationFinished<GMount>(std::bind(g_mount_eject_with_operation_finish, _1, _2, _3), object, result);
+  OperationFinished<GMount>(std::bind(g_mount_eject_with_operation_finish, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), object, result);
 }
 
 void GioLister::MountUnmountFinished(GObject *object, GAsyncResult *result, gpointer) {
-  OperationFinished<GMount>(std::bind(g_mount_unmount_with_operation_finish, _1, _2, _3), object, result);
+  OperationFinished<GMount>(std::bind(g_mount_unmount_with_operation_finish, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), object, result);
 }
 
 void GioLister::UpdateDeviceFreeSpace(const QString &id) {

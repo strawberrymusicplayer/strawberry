@@ -34,10 +34,6 @@
 
 #include "mergedproxymodel.h"
 
-// boost::multi_index still relies on these being in the global namespace.
-using std::placeholders::_1;
-using std::placeholders::_2;
-
 #include <boost/multi_index/detail/bidir_node_iterator.hpp>
 #include <boost/multi_index/detail/hash_index_iterator.hpp>
 #include <boost/multi_index/hashed_index.hpp>

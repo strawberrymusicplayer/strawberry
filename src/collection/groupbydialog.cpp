@@ -33,10 +33,6 @@
 #include "groupbydialog.h"
 #include "ui_groupbydialog.h"
 
-// boost::multi_index still relies on these being in the global namespace.
-using std::placeholders::_1;
-using std::placeholders::_2;
-
 #include <boost/multi_index/indexed_by.hpp>
 #include <boost/multi_index/member.hpp>
 #include <boost/multi_index/ordered_index.hpp>

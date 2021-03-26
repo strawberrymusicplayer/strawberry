@@ -47,8 +47,6 @@
 
 class OrganizeFormat;
 
-using std::placeholders::_1;
-
 const int Organize::kBatchSize = 10;
 #ifdef HAVE_GSTREAMER
 const int Organize::kTranscodeProgressInterval = 500;
@@ -245,7 +243,7 @@ void Organize::ProcessSomeFiles() {
       job.cover_dest_ = QFileInfo(job.destination_).path() + "/" + QFileInfo(job.cover_source_).fileName();
     }
 
-    job.progress_ = std::bind(&Organize::SetSongProgress, this, _1, !task.transcoded_filename_.isEmpty());
+    job.progress_ = std::bind(&Organize::SetSongProgress, this, std::placeholders::_1, !task.transcoded_filename_.isEmpty());
 
     if (!destination_->CopyToStorage(job)) {
       files_with_errors_ << task.song_info_.song_.basefilename();

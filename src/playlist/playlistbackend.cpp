@@ -57,8 +57,6 @@
 #include "playlistparsers/cueparser.h"
 #include "smartplaylists/playlistgenerator.h"
 
-using std::placeholders::_1;
-
 const int PlaylistBackend::kSongTableJoins = 2;
 
 PlaylistBackend::PlaylistBackend(Application *app, QObject *parent)

@@ -70,9 +70,6 @@
 #include "covermanager/albumcoverloaderresult.h"
 #include "settings/collectionsettingspage.h"
 
-using std::placeholders::_1;
-using std::placeholders::_2;
-
 const char *CollectionModel::kSavedGroupingsSettingsGroup = "SavedGroupings";
 const int CollectionModel::kPrettyCoverSize = 32;
 const char *CollectionModel::kPixmapDiskCacheDir = "pixmapcache";
@@ -1773,7 +1770,7 @@ void CollectionModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, Son
       const_cast<CollectionModel*>(this)->LazyPopulate(item);
 
       QList<CollectionItem*> children = item->children;
-      std::sort(children.begin(), children.end(), std::bind(&CollectionModel::CompareItems, this, _1, _2));
+      std::sort(children.begin(), children.end(), std::bind(&CollectionModel::CompareItems, this, std::placeholders::_1, std::placeholders::_2));
 
       for (CollectionItem *child : children)
         GetChildSongs(child, urls, songs, song_ids);

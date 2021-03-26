@@ -87,9 +87,6 @@
 #include "ui_internetsearchview.h"
 #include "settings/appearancesettingspage.h"
 
-using std::placeholders::_1;
-using std::placeholders::_2;
-
 const int InternetSearchView::kSwapModelsTimeoutMsec = 250;
 const int InternetSearchView::kDelayedSearchTimeoutMs = 200;
 const int InternetSearchView::kArtHeight = 32;

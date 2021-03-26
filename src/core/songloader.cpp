@@ -65,8 +65,6 @@
 #  include "device/cddasongloader.h"
 #endif
 
-using std::placeholders::_1;
-
 QSet<QString> SongLoader::sRawUriSchemes;
 const int SongLoader::kDefaultTimeout = 5000;
 
@@ -431,7 +429,7 @@ SongLoader::Result SongLoader::LoadRemote() {
   timeout_timer_->start(timeout_);
 
   // Create the pipeline - it gets unreffed if it goes out of scope
-  std::shared_ptr<GstElement> pipeline(gst_pipeline_new(nullptr), std::bind(&gst_object_unref, _1));
+  std::shared_ptr<GstElement> pipeline(gst_pipeline_new(nullptr), std::bind(&gst_object_unref, std::placeholders::_1));
 
   // Create the source element automatically based on the URL
   GstElement *source = gst_element_make_from_uri(GST_URI_SRC, url_.toEncoded().constData(), nullptr, nullptr);

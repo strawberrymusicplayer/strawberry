@@ -90,9 +90,6 @@
 #include "internet/internetplaylistitem.h"
 #include "internet/internetsongmimedata.h"
 
-using std::placeholders::_1;
-using std::placeholders::_2;
-
 const char *Playlist::kCddaMimeType = "x-content/audio-cdda";
 const char *Playlist::kRowsMimetype = "application/x-strawberry-playlist-rows";
 const char *Playlist::kPlayNowMimetype = "application/x-strawberry-play-now";
@@ -1336,17 +1333,17 @@ void Playlist::sort(int column, Qt::SortOrder order) {
 
   if (column == Column_Album) {
     // When sorting by album, also take into account discs and tracks.
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column_Track, order, _1, _2));
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column_Disc, order, _1, _2));
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column_Album, order, _1, _2));
+    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column_Track, order, std::placeholders::_1, std::placeholders::_2));
+    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column_Disc, order, std::placeholders::_1, std::placeholders::_2));
+    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column_Album, order, std::placeholders::_1, std::placeholders::_2));
   }
   else if (column == Column_Filename) {
     // When sorting by full paths we also expect a hierarchical order. This returns a breath-first ordering of paths.
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column_Filename, order, _1, _2));
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::ComparePathDepths, order, _1, _2));
+    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column_Filename, order, std::placeholders::_1, std::placeholders::_2));
+    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::ComparePathDepths, order, std::placeholders::_1, std::placeholders::_2));
   }
   else {
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, column, order, _1, _2));
+    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, column, order, std::placeholders::_1, std::placeholders::_2));
   }
 
   undo_stack_->push(new PlaylistUndoCommands::SortItems(this, column, order, new_items));
@@ -1885,7 +1882,7 @@ void Playlist::ReshuffleIndices() {
       }
 
       // Sort the virtual items
-      std::stable_sort(begin, end, std::bind(AlbumShuffleComparator, album_key_positions, album_keys, _1, _2));
+      std::stable_sort(begin, end, std::bind(AlbumShuffleComparator, album_key_positions, album_keys, std::placeholders::_1, std::placeholders::_2));
 
       break;
     }

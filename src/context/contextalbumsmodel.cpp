@@ -54,9 +54,6 @@
 
 #include "contextalbumsmodel.h"
 
-using std::placeholders::_1;
-using std::placeholders::_2;
-
 const int ContextAlbumsModel::kPrettyCoverSize = 32;
 
 ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *app, QObject *parent) :
@@ -464,7 +461,7 @@ void ContextAlbumsModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, 
       const_cast<ContextAlbumsModel*>(this)->LazyPopulate(item);
 
       QList<CollectionItem*> children = item->children;
-      std::sort(children.begin(), children.end(), std::bind(&ContextAlbumsModel::CompareItems, this, _1, _2));
+      std::sort(children.begin(), children.end(), std::bind(&ContextAlbumsModel::CompareItems, this, std::placeholders::_1, std::placeholders::_2));
 
       for (CollectionItem *child : children)
         GetChildSongs(child, urls, songs, song_ids);
