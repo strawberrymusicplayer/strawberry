@@ -167,10 +167,10 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     return;
   }
 
-  for (const QJsonValue value_release : array_releases) {
+  for (const QJsonValueRef value_release : array_releases) {
 
     if (!value_release.isObject()) {
-      Error("Invalid Json reply, releases array value is not an object.", value_release);
+      Error("Invalid Json reply, releases array value is not an object.");
       continue;
     }
     QJsonObject obj_release = value_release.toObject();
@@ -187,9 +187,9 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     QJsonArray array_artists = json_artists.toArray();
     int i = 0;
     QString artist;
-    for (const QJsonValue value_artist : array_artists) {
+    for (const QJsonValueRef value_artist : array_artists) {
       if (!value_artist.isObject()) {
-        Error("Invalid Json reply, artist is not a object.", value_artist);
+        Error("Invalid Json reply, artist is not a object.");
         continue;
       }
       QJsonObject obj_artist = value_artist.toObject();

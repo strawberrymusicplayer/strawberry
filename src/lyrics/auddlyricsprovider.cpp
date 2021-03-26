@@ -106,7 +106,7 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
   }
 
   LyricsSearchResults results;
-  for (const QJsonValue value : json_result) {
+  for (const QJsonValueRef value : json_result) {
     if (!value.isObject()) {
       qLog(Error) << "AudDLyrics: Invalid Json reply, result is not an object.";
       qLog(Debug) << value;

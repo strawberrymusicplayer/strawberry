@@ -221,10 +221,10 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
 
   QMap<QUrl, CoverProviderSearchResult> results;
   int i = 0;
-  for (const QJsonValue json_value : array_data) {
+  for (const QJsonValueRef json_value : array_data) {
 
     if (!json_value.isObject()) {
-      Error("Invalid Json reply, data array value is not a object.", json_value);
+      Error("Invalid Json reply, data array value is not a object.");
       continue;
     }
     QJsonObject json_obj = json_value.toObject();

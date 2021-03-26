@@ -273,10 +273,10 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     array_results = value_results.toArray();
   }
 
-  for (const QJsonValue value_result : array_results) {
+  for (const QJsonValueRef value_result : array_results) {
 
     if (!value_result.isObject()) {
-      Error("Invalid Json reply, results value is not a object.", value_result);
+      Error("Invalid Json reply, results value is not a object.");
       continue;
     }
     QJsonObject obj_result = value_result.toObject();
@@ -380,9 +380,9 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
   QJsonArray array_artists = value_artists.toArray();
   int i = 0;
   QString artist;
-  for (const QJsonValue value_artist : array_artists) {
+  for (const QJsonValueRef value_artist : array_artists) {
     if (!value_artist.isObject()) {
-      Error("Invalid Json reply, atists array value is not a object.", value_artist);
+      Error("Invalid Json reply, atists array value is not a object.");
       continue;
     }
     QJsonObject obj_artist = value_artist.toObject();
@@ -421,10 +421,10 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
     return;
   }
 
-  for (const QJsonValue value_image : array_images) {
+  for (const QJsonValueRef value_image : array_images) {
 
     if (!value_image.isObject()) {
-      Error("Invalid Json reply, images array value is not an object.", value_image);
+      Error("Invalid Json reply, images array value is not an object.");
       continue;
     }
     QJsonObject obj_image = value_image.toObject();

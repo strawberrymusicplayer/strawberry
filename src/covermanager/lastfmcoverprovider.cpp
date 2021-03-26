@@ -230,10 +230,10 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
   }
   QJsonArray array_type = value_type.toArray();
 
-  for (const QJsonValue value : array_type) {
+  for (const QJsonValueRef value : array_type) {
 
     if (!value.isObject()) {
-      Error("Invalid Json reply, value in albummatches/trackmatches array is not a object.", value);
+      Error("Invalid Json reply, value in albummatches/trackmatches array is not a object.");
       continue;
     }
     QJsonObject obj = value.toObject();
@@ -255,9 +255,9 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
     QJsonArray array_image = json_image.toArray();
     QUrl url;
     LastFmImageSize size(LastFmImageSize::Unknown);
-    for (const QJsonValue value_image : array_image) {
+    for (const QJsonValueRef value_image : array_image) {
       if (!value_image.isObject()) {
-        Error("Invalid Json reply, album image value is not an object.", value_image);
+        Error("Invalid Json reply, album image value is not an object.");
         continue;
       }
       QJsonObject obj_image = value_image.toObject();

@@ -270,7 +270,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
       return;
     }
     QJsonArray json_array_urls = json_urls.toArray();
-    for (const QJsonValue value : json_array_urls) {
+    for (const QJsonValueRef value : json_array_urls) {
       urls << QUrl(value.toString());
     }
   }

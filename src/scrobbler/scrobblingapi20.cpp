@@ -717,10 +717,10 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint6
     return;
   }
 
-  for (const QJsonValue value : qAsConst(array_scrobble)) {
+  for (const QJsonValueRef value : array_scrobble) {
 
     if (!value.isObject()) {
-      Error("Json scrobbles scrobble array value is not an object.", value);
+      Error("Json scrobbles scrobble array value is not an object.");
       continue;
     }
     QJsonObject json_track = value.toObject();
