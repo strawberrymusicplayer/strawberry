@@ -706,7 +706,7 @@ msgstr "Přidat značku rok písně"
 msgid "Add stream..."
 msgstr "Přidat přenos..."
 
-#: internet/internetsearchview.cpp:332
+#: internet/internetsearchview.cpp:329
 msgid "Add to albums"
 msgstr "Přidat do alb"
 
@@ -714,7 +714,7 @@ msgstr "Přidat do alb"
 msgid "Add to another playlist"
 msgstr "Přidat do jiného seznamu skladeb"
 
-#: internet/internetsearchview.cpp:329
+#: internet/internetsearchview.cpp:326
 msgid "Add to artists"
 msgstr "Přidat k umělcům"
 
@@ -722,7 +722,7 @@ msgstr "Přidat k umělcům"
 msgid "Add to playlist"
 msgstr "Přidat do seznamu skladeb"
 
-#: internet/internetsearchview.cpp:335
+#: internet/internetsearchview.cpp:332
 msgid "Add to songs"
 msgstr "Přidat ke skladbám"
 
@@ -768,7 +768,7 @@ msgstr "Po zkopírování..."
 msgid "Albu&m cover"
 msgstr "Obal alb&a"
 
-#: collection/savedgroupingmanager.cpp:90 playlist/playlist.cpp:1270
+#: collection/savedgroupingmanager.cpp:90 playlist/playlist.cpp:1267
 #: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:186
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:107
@@ -788,7 +788,7 @@ msgstr "Album (ideální hlasitost pro všechny skladby)"
 msgid "Album - Disc"
 msgstr "Album - Disk"
 
-#: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1277
+#: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1274
 #: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
 #: ../build/src/ui_edittagdialog.h:827
@@ -884,7 +884,7 @@ msgstr "Při nahrávání databáze iTunes nastala chyba"
 msgid "An error occurred writing cover art to '%1'"
 msgstr ""
 
-#: playlist/playlist.cpp:418 dialogs/edittagdialog.cpp:1332
+#: playlist/playlist.cpp:415 dialogs/edittagdialog.cpp:1332
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Při zápisu údajů do '%1' se vyskytla chyba"
@@ -915,7 +915,7 @@ msgstr "Přidat soubory/adresy do seznamu skladeb"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:342
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:318
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:315
 #: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Přidat do současného seznamu skladeb"
@@ -949,7 +949,7 @@ msgstr ""
 msgid "Art Manual"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:87 playlist/playlist.cpp:1269
+#: collection/savedgroupingmanager.cpp:87 playlist/playlist.cpp:1266
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:103
@@ -1099,7 +1099,7 @@ msgid "Best"
 msgstr "Nejlepší"
 
 #: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:138
-#: playlist/playlist.cpp:1287 organize/organizedialog.cpp:120
+#: playlist/playlist.cpp:1284 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:800
 msgid "Bit depth"
@@ -1110,7 +1110,7 @@ msgid "Bit rate"
 msgstr "Datový tok"
 
 #: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:141
-#: playlist/playlist.cpp:1288 ../build/src/ui_groupbydialog.h:202
+#: playlist/playlist.cpp:1285 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:132
 #: ../build/src/ui_transcoderoptionsopus.h:76
@@ -1174,7 +1174,7 @@ msgstr "Ukládá se do vyrovnávací paměti"
 msgid "C&onsole"
 msgstr "&Konzola"
 
-#: core/songloader.cpp:192
+#: core/songloader.cpp:190
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Přehrávání disků CD je možné pouze za použití GStreamer enginu."
 
@@ -1336,7 +1336,7 @@ msgstr "Barvy"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Čárkou oddělený seznam class:level, level je 0-3"
 
-#: playlist/playlist.cpp:1297 smartplaylists/smartplaylistsearchterm.cpp:374
+#: playlist/playlist.cpp:1294 smartplaylists/smartplaylistsearchterm.cpp:374
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:831
 msgid "Comment"
 msgstr "Poznámka"
@@ -1353,7 +1353,7 @@ msgstr "Doplnit značky automaticky"
 msgid "Complete tags automatically..."
 msgstr "Doplnit značky automaticky..."
 
-#: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1278
+#: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1275
 #: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:832
@@ -1371,7 +1371,7 @@ msgstr "Konfigurace není hotová"
 msgid "Configuration incorrect"
 msgstr "Konfigurace není správná"
 
-#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:347
+#: internet/internetsearchview.cpp:185 internet/internetsearchview.cpp:344
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
@@ -1462,12 +1462,12 @@ msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 "Nelze otevřít adresu URL. Prosím otevřete tuto URL ve vašem prohlížeči"
 
-#: core/songloader.cpp:263
+#: core/songloader.cpp:261
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Nelze otevřít soubor %1"
 
-#: core/songloader.cpp:439
+#: core/songloader.cpp:437
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Nelze vytvořit vstupní prvek GStreamer pro %1"
@@ -1654,11 +1654,11 @@ msgstr "Taneční hudba"
 msgid "Database corruption detected."
 msgstr "Databáze je poškozená."
 
-#: playlist/playlist.cpp:1295 ../build/src/ui_edittagdialog.h:806
+#: playlist/playlist.cpp:1292 ../build/src/ui_edittagdialog.h:806
 msgid "Date created"
 msgstr "Datum vytvoření"
 
-#: playlist/playlist.cpp:1294 ../build/src/ui_edittagdialog.h:804
+#: playlist/playlist.cpp:1291 ../build/src/ui_edittagdialog.h:804
 msgid "Date modified"
 msgstr "Datum změny"
 
@@ -1737,7 +1737,7 @@ msgstr "Cíl"
 msgid "Details..."
 msgstr "Podrobnosti..."
 
-#: context/contextview.cpp:185 device/giolister.cpp:190
+#: context/contextview.cpp:185 device/giolister.cpp:186
 #: ../build/src/ui_backendsettingspage.h:488
 #: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Device"
@@ -1776,7 +1776,7 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Zakázáno"
 
-#: collection/savedgroupingmanager.cpp:108 playlist/playlist.cpp:1272
+#: collection/savedgroupingmanager.cpp:108 playlist/playlist.cpp:1269
 #: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
 #: ../build/src/ui_edittagdialog.h:826
@@ -1987,7 +1987,7 @@ msgstr "Zadejte souborový název pro uložené obaly (bez přípony):"
 msgid "Enter a new name for this playlist"
 msgstr "Zadejte název tohoto seznamu skladeb"
 
-#: internet/internetsearchview.cpp:404 ../build/src/ui_internetsearchview.h:229
+#: internet/internetsearchview.cpp:401 ../build/src/ui_internetsearchview.h:229
 msgid "Enter search terms above to find music"
 msgstr "Výše zadejte hledaný výraz pro vyhledání hudby"
 
@@ -2202,11 +2202,11 @@ msgstr "Přípona souboru"
 msgid "File formats"
 msgstr "Formáty souborů"
 
-#: playlist/playlist.cpp:1290
+#: playlist/playlist.cpp:1287
 msgid "File name"
 msgstr "Název souboru"
 
-#: playlist/playlist.cpp:1291
+#: playlist/playlist.cpp:1288
 msgid "File name (without path)"
 msgstr "Název souboru bez cesty"
 
@@ -2214,11 +2214,11 @@ msgstr "Název souboru bez cesty"
 msgid "File paths"
 msgstr "Souborové cesty"
 
-#: playlist/playlist.cpp:1292 ../build/src/ui_edittagdialog.h:812
+#: playlist/playlist.cpp:1289 ../build/src/ui_edittagdialog.h:812
 msgid "File size"
 msgstr "Velikost souboru"
 
-#: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1293
+#: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1290
 #: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
 #: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:799
 msgid "File type"
@@ -2378,7 +2378,7 @@ msgstr "Obecná nastavení"
 msgid "Genius Authentication"
 msgstr "Ověření Genius"
 
-#: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1276
+#: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1273
 #: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 #: ../build/src/ui_edittagdialog.h:825
@@ -2421,7 +2421,7 @@ msgid "Group Collection by..."
 msgstr "Seskupovat v hudební sbírce podle..."
 
 #: collection/collectionfilterwidget.cpp:119
-#: internet/internetsearchview.cpp:345
+#: internet/internetsearchview.cpp:342
 msgid "Group by"
 msgstr "Seskupovat podle"
 
@@ -2481,7 +2481,7 @@ msgstr "Seskupit jako Žánr/Autor alba/Album"
 msgid "Group by Genre/Artist/Album"
 msgstr "Seskupovat podle žánru/umělce/alba"
 
-#: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1280
+#: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1277
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:835
@@ -2713,7 +2713,7 @@ msgstr "Velký obal alba"
 msgid "Large sidebar"
 msgstr "Velký postranní panel"
 
-#: playlist/playlist.cpp:1284 smartplaylists/smartplaylistsmodel.cpp:94
+#: playlist/playlist.cpp:1281 smartplaylists/smartplaylistsmodel.cpp:94
 #: ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Naposledy hrané"
@@ -2740,7 +2740,7 @@ msgstr "Nejméně oblíbené skladby"
 msgid "Left"
 msgstr "Vlevo"
 
-#: context/contextview.cpp:215 playlist/playlist.cpp:1273
+#: context/contextview.cpp:215 playlist/playlist.cpp:1270
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:798
 msgid "Length"
 msgstr "Délka"
@@ -2802,7 +2802,7 @@ msgstr "Nahrává se databáze iPod"
 msgid "Loading smart playlist"
 msgstr "Nahrávání chytrého playlistu"
 
-#: collection/collectionmodel.cpp:215
+#: collection/collectionmodel.cpp:212
 msgid "Loading songs"
 msgstr "Nahrávají se písně"
 
@@ -2814,7 +2814,7 @@ msgstr "Nahrávají se skladby"
 msgid "Loading tracks info"
 msgstr "Nahrávají se informace o skladbě"
 
-#: collection/collectionmodel.cpp:208
+#: collection/collectionmodel.cpp:205
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:288
 msgid "Loading..."
@@ -3027,7 +3027,7 @@ msgstr "Sledovat změny ve sbírce"
 msgid "Months"
 msgstr "Měsíce"
 
-#: playlist/playlist.cpp:1299
+#: playlist/playlist.cpp:1296
 msgid "Mood"
 msgstr "Nálada"
 
@@ -3044,7 +3044,7 @@ msgstr "Styl Ukazatele nálady"
 msgid "Most played"
 msgstr "Nejčastěji přehrávané"
 
-#: device/giolister.cpp:189
+#: device/giolister.cpp:185
 msgid "Mount point"
 msgstr "Přípojný bod"
 
@@ -3289,7 +3289,7 @@ msgstr "Otevřít zařízení"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:344
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:320
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:316
 msgid "Open in new playlist"
@@ -3325,7 +3325,7 @@ msgstr "Uspořádat Soubory"
 msgid "Organize files..."
 msgstr "Uspořádat soubory..."
 
-#: organize/organize.cpp:102
+#: organize/organize.cpp:100
 msgid "Organizing files"
 msgstr "Organizace souborů"
 
@@ -3333,7 +3333,7 @@ msgstr "Organizace souborů"
 msgid "Original tags"
 msgstr "Původní značky"
 
-#: collection/savedgroupingmanager.cpp:114 playlist/playlist.cpp:1275
+#: collection/savedgroupingmanager.cpp:114 playlist/playlist.cpp:1272
 #: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Original year"
@@ -3414,7 +3414,7 @@ msgstr "Pozastavit přehrávání"
 msgid "Paused"
 msgstr "Pozastaveno"
 
-#: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1279
+#: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1276
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:834
@@ -3439,7 +3439,7 @@ msgstr "Přehrát"
 msgid "Play control buttons"
 msgstr "Tlačítka pro ovládání přehrávání"
 
-#: playlist/playlist.cpp:1282 ../build/src/ui_edittagdialog.h:805
+#: playlist/playlist.cpp:1279 ../build/src/ui_edittagdialog.h:805
 msgid "Play count"
 msgstr "Počet přehrání"
 
@@ -3577,7 +3577,7 @@ msgstr ""
 "Zadejte jméno pole před slovo abyste limitovali vyhledávání na zadané pole, "
 "např.:"
 
-#: core/songloader.cpp:153
+#: core/songloader.cpp:151
 msgid "Preload function was not set for blocking operation."
 msgstr "Funkce přednačítání nebyla nastavena pro operaci blokování."
 
@@ -3686,7 +3686,7 @@ msgstr "Do fronty jako další"
 #: core/mainwindow.cpp:1877 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
-#: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
+#: internet/internetsearchview.cpp:320 internet/internetcollectionview.cpp:316
 msgid "Queue track"
 msgstr "Přidat skladbu do řady"
 
@@ -3702,7 +3702,7 @@ msgstr "Rádio (shodná hlasitost pro všechny skladby)"
 msgid "Random"
 msgstr ""
 
-#: playlist/playlist.cpp:1300
+#: playlist/playlist.cpp:1297
 msgid "Rating"
 msgstr "Hodnocení"
 
@@ -3845,7 +3845,7 @@ msgstr "Opakovat skladbu"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:343
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:319
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:316
 #: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Nahradit současný seznam skladeb"
@@ -3919,13 +3919,13 @@ msgstr "Omezit na znaky dostupné na FAT systémech souborů"
 msgid "Resume playback on start"
 msgstr "Obnovit přehrávání při spuštění"
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1103
+#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1103
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Načítání obalů alb pro %1 album..."
 
-#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1104
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1104
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -3950,13 +3950,13 @@ msgstr "Načítání alb..."
 msgid "Retrieving artists..."
 msgstr "Načítání umělců..."
 
-#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:739
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Načítání skladeb z %1 alba..."
 
-#: subsonic/subsonicrequest.cpp:321 tidal/tidalrequest.cpp:740
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:740
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -3998,7 +3998,7 @@ msgstr "Bezpečně odebrat zařízení"
 msgid "Safely remove the device after copying"
 msgstr "Po dokončení kopírování bezpečně odebrat zařízení"
 
-#: collection/savedgroupingmanager.cpp:135 playlist/playlist.cpp:1286
+#: collection/savedgroupingmanager.cpp:135 playlist/playlist.cpp:1283
 #: organize/organizedialog.cpp:119 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 #: ../build/src/ui_edittagdialog.h:808
@@ -4117,7 +4117,7 @@ msgstr "Zpožděné vyhledávání"
 msgid "Search for album covers..."
 msgstr "Hledat obaly alb..."
 
-#: internet/internetsearchview.cpp:341
+#: internet/internetsearchview.cpp:338
 msgid "Search for this"
 msgstr "Hledat toto"
 
@@ -4428,7 +4428,7 @@ msgstr "Ska"
 msgid "Skip backwards in playlist"
 msgstr "Předchozí skladba v seznamu skladeb"
 
-#: playlist/playlist.cpp:1283 ../build/src/ui_edittagdialog.h:803
+#: playlist/playlist.cpp:1280 ../build/src/ui_edittagdialog.h:803
 msgid "Skip count"
 msgstr "Počet přeskočení"
 
@@ -4504,7 +4504,7 @@ msgstr ""
 msgid "Sorting"
 msgstr ""
 
-#: playlist/playlist.cpp:1298
+#: playlist/playlist.cpp:1295
 msgid "Source"
 msgstr "Zdroj"
 
@@ -4897,7 +4897,7 @@ msgstr ""
 msgid "Time step"
 msgstr "Časový krok"
 
-#: playlist/playlist.cpp:1268 organize/organizedialog.cpp:103
+#: playlist/playlist.cpp:1265 organize/organizedialog.cpp:103
 #: ../build/src/ui_contextsettingspage.h:435
 #: ../build/src/ui_edittagdialog.h:824
 #: ../build/src/ui_trackselectiondialog.h:209
@@ -4944,7 +4944,7 @@ msgstr "Celkem přeneseno bajtů"
 msgid "Total network requests made"
 msgstr "Celkem uskutečněno síťových požadavků"
 
-#: playlist/playlist.cpp:1271 organize/organizedialog.cpp:111
+#: playlist/playlist.cpp:1268 organize/organizedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:836
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Track"
@@ -4975,7 +4975,7 @@ msgstr "Volby překódování"
 msgid "Turn off"
 msgstr ""
 
-#: device/giolister.cpp:191
+#: device/giolister.cpp:187
 msgid "URI"
 msgstr "URI"
 
@@ -4995,10 +4995,10 @@ msgstr "Ultra široké pásmo"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:559 context/contextalbumsmodel.cpp:360
-#: collection/collectionmodel.cpp:484 collection/collectionmodel.cpp:489
-#: collection/collectionmodel.cpp:493 collection/collectionmodel.cpp:497
-#: collection/collectionmodel.cpp:501 collection/collectionmodel.cpp:1603
+#: core/song.cpp:559 context/contextalbumsmodel.cpp:357
+#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
+#: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
+#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1600
 #: collection/savedgroupingmanager.cpp:145 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:573 playlist/playlistmanager.cpp:574
 #: dialogs/edittagdialog.cpp:719 dialogs/edittagdialog.cpp:746
@@ -5006,7 +5006,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: subsonic/subsonicrequest.cpp:865 tidal/tidalrequest.cpp:1276
+#: subsonic/subsonicrequest.cpp:864 tidal/tidalrequest.cpp:1276
 #: qobuz/qobuzrequest.cpp:1321
 msgid "Unknown error"
 msgstr "Neznámá chyba"
@@ -5170,7 +5170,7 @@ msgstr "Použití nabídky pro přidání písně..."
 msgid "Variable bit rate"
 msgstr "Proměnlivý datový tok"
 
-#: collection/collectionmodel.cpp:301 collection/collectionmodel.cpp:302
+#: collection/collectionmodel.cpp:298 collection/collectionmodel.cpp:299
 #: playlist/playlistmanager.cpp:585 covermanager/albumcovermanager.cpp:357
 #: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
@@ -5263,7 +5263,7 @@ msgstr "Chcete spustit toto úplné nové prohledání hned teď?"
 msgid "Write metadata when saving playlists"
 msgstr "Zapisovat metadata při ukládání seznamů skladeb"
 
-#: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1274
+#: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1271
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:837
@@ -5332,7 +5332,7 @@ msgid ""
 msgstr ""
 "Můžete podpořit autora na %1. Také můžete jednorázově přispět pomocí %2."
 
-#: core/songloader.cpp:134 core/songloader.cpp:139
+#: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
 msgstr "Pro tento odkaz je potřeba GStreamer."
 

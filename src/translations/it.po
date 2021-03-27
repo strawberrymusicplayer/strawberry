@@ -697,7 +697,7 @@ msgstr "Aggiungi il tag anno al brano"
 msgid "Add stream..."
 msgstr ""
 
-#: internet/internetsearchview.cpp:332
+#: internet/internetsearchview.cpp:329
 msgid "Add to albums"
 msgstr "Aggiungi agli album"
 
@@ -705,7 +705,7 @@ msgstr "Aggiungi agli album"
 msgid "Add to another playlist"
 msgstr "Aggiungi a un'altra scaletta"
 
-#: internet/internetsearchview.cpp:329
+#: internet/internetsearchview.cpp:326
 msgid "Add to artists"
 msgstr "Aggiungi agli artisti"
 
@@ -713,7 +713,7 @@ msgstr "Aggiungi agli artisti"
 msgid "Add to playlist"
 msgstr "Aggiungi alla scaletta"
 
-#: internet/internetsearchview.cpp:335
+#: internet/internetsearchview.cpp:332
 msgid "Add to songs"
 msgstr "Aggiungi alle canzoni"
 
@@ -759,7 +759,7 @@ msgstr "Dopo la copia..."
 msgid "Albu&m cover"
 msgstr "Copertina dell'albu&m"
 
-#: collection/savedgroupingmanager.cpp:90 playlist/playlist.cpp:1270
+#: collection/savedgroupingmanager.cpp:90 playlist/playlist.cpp:1267
 #: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:186
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:107
@@ -779,7 +779,7 @@ msgstr "Album (volume ideale per tutte le tracce)"
 msgid "Album - Disc"
 msgstr "Album - Disco"
 
-#: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1277
+#: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1274
 #: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
 #: ../build/src/ui_edittagdialog.h:827
@@ -876,7 +876,7 @@ msgstr ""
 msgid "An error occurred writing cover art to '%1'"
 msgstr ""
 
-#: playlist/playlist.cpp:418 dialogs/edittagdialog.cpp:1332
+#: playlist/playlist.cpp:415 dialogs/edittagdialog.cpp:1332
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Si è verificato un errore durante la scrittura dei metadati su '%1'"
@@ -907,7 +907,7 @@ msgstr "Aggiungi file/URL alla scaletta"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:342
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:318
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:315
 #: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Aggiungi alla scaletta attuale"
@@ -941,7 +941,7 @@ msgstr ""
 msgid "Art Manual"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:87 playlist/playlist.cpp:1269
+#: collection/savedgroupingmanager.cpp:87 playlist/playlist.cpp:1266
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:103
@@ -1091,7 +1091,7 @@ msgid "Best"
 msgstr "Migliore"
 
 #: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:138
-#: playlist/playlist.cpp:1287 organize/organizedialog.cpp:120
+#: playlist/playlist.cpp:1284 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:800
 msgid "Bit depth"
@@ -1102,7 +1102,7 @@ msgid "Bit rate"
 msgstr "Bitrate"
 
 #: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:141
-#: playlist/playlist.cpp:1288 ../build/src/ui_groupbydialog.h:202
+#: playlist/playlist.cpp:1285 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:132
 #: ../build/src/ui_transcoderoptionsopus.h:76
@@ -1165,7 +1165,7 @@ msgstr "Riempimento buffer in corso"
 msgid "C&onsole"
 msgstr "C&onsole"
 
-#: core/songloader.cpp:192
+#: core/songloader.cpp:190
 msgid "CD playback is only available with the GStreamer engine."
 msgstr ""
 "La riproduzione CD è disponibile unicamente tramite l'engine GStreamer"
@@ -1327,7 +1327,7 @@ msgstr "Colori"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Elenco separato da virgole di classe:livello, livello è 0-3"
 
-#: playlist/playlist.cpp:1297 smartplaylists/smartplaylistsearchterm.cpp:374
+#: playlist/playlist.cpp:1294 smartplaylists/smartplaylistsearchterm.cpp:374
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:831
 msgid "Comment"
 msgstr "Commento"
@@ -1344,7 +1344,7 @@ msgstr "Completa automaticamente i tag"
 msgid "Complete tags automatically..."
 msgstr "Completa automaticamente i tag..."
 
-#: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1278
+#: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1275
 #: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:832
@@ -1362,7 +1362,7 @@ msgstr "Configurazione incompleta"
 msgid "Configuration incorrect"
 msgstr "Configurazione incorretta"
 
-#: internet/internetsearchview.cpp:188 internet/internetsearchview.cpp:347
+#: internet/internetsearchview.cpp:185 internet/internetsearchview.cpp:344
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
@@ -1452,12 +1452,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Impossibile aprire l'URL. Per favore apri questo URL nel tuo browser"
 
-#: core/songloader.cpp:263
+#: core/songloader.cpp:261
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Impossibile aprire il file %1"
 
-#: core/songloader.cpp:439
+#: core/songloader.cpp:437
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Impossibile creare un elemento sorgente di gstreamer per %1"
@@ -1644,11 +1644,11 @@ msgstr "Dance"
 msgid "Database corruption detected."
 msgstr "Corruzione del database rilevata."
 
-#: playlist/playlist.cpp:1295 ../build/src/ui_edittagdialog.h:806
+#: playlist/playlist.cpp:1292 ../build/src/ui_edittagdialog.h:806
 msgid "Date created"
 msgstr "Data di modifica"
 
-#: playlist/playlist.cpp:1294 ../build/src/ui_edittagdialog.h:804
+#: playlist/playlist.cpp:1291 ../build/src/ui_edittagdialog.h:804
 msgid "Date modified"
 msgstr "Data di creazione"
 
@@ -1727,7 +1727,7 @@ msgstr "Destinazione"
 msgid "Details..."
 msgstr "Dettagli..."
 
-#: context/contextview.cpp:185 device/giolister.cpp:190
+#: context/contextview.cpp:185 device/giolister.cpp:186
 #: ../build/src/ui_backendsettingspage.h:488
 #: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Device"
@@ -1766,7 +1766,7 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Disabilitata"
 
-#: collection/savedgroupingmanager.cpp:108 playlist/playlist.cpp:1272
+#: collection/savedgroupingmanager.cpp:108 playlist/playlist.cpp:1269
 #: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
 #: ../build/src/ui_edittagdialog.h:826
@@ -1977,7 +1977,7 @@ msgstr "Digita un nome file per le copertine esportate (nessuna estensione):"
 msgid "Enter a new name for this playlist"
 msgstr "Inserisci un nuovo nome per questa scaletta"
 
-#: internet/internetsearchview.cpp:404 ../build/src/ui_internetsearchview.h:229
+#: internet/internetsearchview.cpp:401 ../build/src/ui_internetsearchview.h:229
 msgid "Enter search terms above to find music"
 msgstr ""
 "Inserisci i termini per la ricerca qui sopra per trovare la musica che "
@@ -2194,11 +2194,11 @@ msgstr "Estensione file"
 msgid "File formats"
 msgstr "Formati dei file"
 
-#: playlist/playlist.cpp:1290
+#: playlist/playlist.cpp:1287
 msgid "File name"
 msgstr "Nome file"
 
-#: playlist/playlist.cpp:1291
+#: playlist/playlist.cpp:1288
 msgid "File name (without path)"
 msgstr "Nome file (senza percorso)"
 
@@ -2206,11 +2206,11 @@ msgstr "Nome file (senza percorso)"
 msgid "File paths"
 msgstr "Percorsi dei file"
 
-#: playlist/playlist.cpp:1292 ../build/src/ui_edittagdialog.h:812
+#: playlist/playlist.cpp:1289 ../build/src/ui_edittagdialog.h:812
 msgid "File size"
 msgstr "Dimensione file"
 
-#: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1293
+#: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1290
 #: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
 #: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:799
 msgid "File type"
@@ -2369,7 +2369,7 @@ msgstr "Impostazioni generali"
 msgid "Genius Authentication"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1276
+#: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1273
 #: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 #: ../build/src/ui_edittagdialog.h:825
@@ -2413,7 +2413,7 @@ msgid "Group Collection by..."
 msgstr "Raggruppa raccolta per..."
 
 #: collection/collectionfilterwidget.cpp:119
-#: internet/internetsearchview.cpp:345
+#: internet/internetsearchview.cpp:342
 msgid "Group by"
 msgstr "Raggruppa per"
 
@@ -2473,7 +2473,7 @@ msgstr "Raggruppa in base a Genere/Artista dell'Album/Album"
 msgid "Group by Genre/Artist/Album"
 msgstr "Raggruppa per genere/artista/album"
 
-#: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1280
+#: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1277
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:835
@@ -2700,7 +2700,7 @@ msgstr "Copertina grande"
 msgid "Large sidebar"
 msgstr "Pannello laterale grande"
 
-#: playlist/playlist.cpp:1284 smartplaylists/smartplaylistsmodel.cpp:94
+#: playlist/playlist.cpp:1281 smartplaylists/smartplaylistsmodel.cpp:94
 #: ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Ultima riproduzione"
@@ -2727,7 +2727,7 @@ msgstr ""
 msgid "Left"
 msgstr "Sinistra"
 
-#: context/contextview.cpp:215 playlist/playlist.cpp:1273
+#: context/contextview.cpp:215 playlist/playlist.cpp:1270
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:798
 msgid "Length"
 msgstr "Durata"
@@ -2789,7 +2789,7 @@ msgstr "Caricamento database dell'iPod"
 msgid "Loading smart playlist"
 msgstr ""
 
-#: collection/collectionmodel.cpp:215
+#: collection/collectionmodel.cpp:212
 msgid "Loading songs"
 msgstr "Caricamento brani in corso"
 
@@ -2801,7 +2801,7 @@ msgstr "Caricamento delle tracce"
 msgid "Loading tracks info"
 msgstr "Caricamento informazioni della traccia"
 
-#: collection/collectionmodel.cpp:208
+#: collection/collectionmodel.cpp:205
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:288
 msgid "Loading..."
@@ -3013,7 +3013,7 @@ msgstr "Controlla i cambiamenti alla raccolta"
 msgid "Months"
 msgstr ""
 
-#: playlist/playlist.cpp:1299
+#: playlist/playlist.cpp:1296
 msgid "Mood"
 msgstr "Umore"
 
@@ -3030,7 +3030,7 @@ msgstr "Stile della barra dell'umore"
 msgid "Most played"
 msgstr ""
 
-#: device/giolister.cpp:189
+#: device/giolister.cpp:185
 msgid "Mount point"
 msgstr "Punto di mount"
 
@@ -3275,7 +3275,7 @@ msgstr "Apri dispositivo"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:344
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:320
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:316
 msgid "Open in new playlist"
@@ -3311,7 +3311,7 @@ msgstr ""
 msgid "Organize files..."
 msgstr ""
 
-#: organize/organize.cpp:102
+#: organize/organize.cpp:100
 msgid "Organizing files"
 msgstr ""
 
@@ -3319,7 +3319,7 @@ msgstr ""
 msgid "Original tags"
 msgstr "Tag originali"
 
-#: collection/savedgroupingmanager.cpp:114 playlist/playlist.cpp:1275
+#: collection/savedgroupingmanager.cpp:114 playlist/playlist.cpp:1272
 #: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Original year"
@@ -3400,7 +3400,7 @@ msgstr "Sospendi riproduzione"
 msgid "Paused"
 msgstr "In pausa"
 
-#: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1279
+#: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1276
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:834
@@ -3425,7 +3425,7 @@ msgstr "Riproduci"
 msgid "Play control buttons"
 msgstr ""
 
-#: playlist/playlist.cpp:1282 ../build/src/ui_edittagdialog.h:805
+#: playlist/playlist.cpp:1279 ../build/src/ui_edittagdialog.h:805
 msgid "Play count"
 msgstr "Contatore di riproduzione"
 
@@ -3561,7 +3561,7 @@ msgstr ""
 "Inserisci un prefisso ad una parola con un campo di ricerca per limitare la "
 "ricerca a quel campo"
 
-#: core/songloader.cpp:153
+#: core/songloader.cpp:151
 msgid "Preload function was not set for blocking operation."
 msgstr ""
 "La funzione di pre-caricamento non è stata impostata per l'operazione di "
@@ -3672,7 +3672,7 @@ msgstr "Accoda cosa riprodurre dopo"
 #: core/mainwindow.cpp:1877 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
-#: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:316
+#: internet/internetsearchview.cpp:320 internet/internetcollectionview.cpp:316
 msgid "Queue track"
 msgstr "Accoda la traccia"
 
@@ -3688,7 +3688,7 @@ msgstr "Radio (volume uguale per tutte le tracce)"
 msgid "Random"
 msgstr ""
 
-#: playlist/playlist.cpp:1300
+#: playlist/playlist.cpp:1297
 msgid "Rating"
 msgstr ""
 
@@ -3831,7 +3831,7 @@ msgstr "Ripeti traccia"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:343
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:319
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:316
 #: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Sostituisci la scaletta attuale"
@@ -3903,13 +3903,13 @@ msgstr "Restringi i caratteri a quelli permessi dal filesystem FAT"
 msgid "Resume playback on start"
 msgstr "Riprendi la riproduzione all'avvio"
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1103
+#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1103
 #: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Recupero della copertina per l'album %1..."
 
-#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1104
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1104
 #: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -3934,13 +3934,13 @@ msgstr "Recupero degli album..."
 msgid "Retrieving artists..."
 msgstr "Recupero degli artisti..."
 
-#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:739
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Recupero delle canzoni per l'album %1..."
 
-#: subsonic/subsonicrequest.cpp:321 tidal/tidalrequest.cpp:740
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:740
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -3982,7 +3982,7 @@ msgstr "Rimuovi il dispositivo in sicurezza"
 msgid "Safely remove the device after copying"
 msgstr "Rimuovi il dispositivo in sicurezza al termine della copia"
 
-#: collection/savedgroupingmanager.cpp:135 playlist/playlist.cpp:1286
+#: collection/savedgroupingmanager.cpp:135 playlist/playlist.cpp:1283
 #: organize/organizedialog.cpp:119 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 #: ../build/src/ui_edittagdialog.h:808
@@ -4101,7 +4101,7 @@ msgstr "Ritardo nella ricerca"
 msgid "Search for album covers..."
 msgstr "Cerca copertine degli album..."
 
-#: internet/internetsearchview.cpp:341
+#: internet/internetsearchview.cpp:338
 msgid "Search for this"
 msgstr "Cerca questo"
 
@@ -4412,7 +4412,7 @@ msgstr "Ska"
 msgid "Skip backwards in playlist"
 msgstr "Salta indietro nella scaletta"
 
-#: playlist/playlist.cpp:1283 ../build/src/ui_edittagdialog.h:803
+#: playlist/playlist.cpp:1280 ../build/src/ui_edittagdialog.h:803
 msgid "Skip count"
 msgstr "Salta il conteggio"
 
@@ -4488,7 +4488,7 @@ msgstr ""
 msgid "Sorting"
 msgstr ""
 
-#: playlist/playlist.cpp:1298
+#: playlist/playlist.cpp:1295
 msgid "Source"
 msgstr "Fonte"
 
@@ -4885,7 +4885,7 @@ msgstr ""
 msgid "Time step"
 msgstr "Intervallo di tempo"
 
-#: playlist/playlist.cpp:1268 organize/organizedialog.cpp:103
+#: playlist/playlist.cpp:1265 organize/organizedialog.cpp:103
 #: ../build/src/ui_contextsettingspage.h:435
 #: ../build/src/ui_edittagdialog.h:824
 #: ../build/src/ui_trackselectiondialog.h:209
@@ -4932,7 +4932,7 @@ msgstr "Totale byte trasferiti"
 msgid "Total network requests made"
 msgstr "Totale richieste di rete effettuate"
 
-#: playlist/playlist.cpp:1271 organize/organizedialog.cpp:111
+#: playlist/playlist.cpp:1268 organize/organizedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:836
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Track"
@@ -4963,7 +4963,7 @@ msgstr "Opzioni di transcodifica"
 msgid "Turn off"
 msgstr ""
 
-#: device/giolister.cpp:191
+#: device/giolister.cpp:187
 msgid "URI"
 msgstr "URI"
 
@@ -4983,10 +4983,10 @@ msgstr "Banda ultra larga (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:559 context/contextalbumsmodel.cpp:360
-#: collection/collectionmodel.cpp:484 collection/collectionmodel.cpp:489
-#: collection/collectionmodel.cpp:493 collection/collectionmodel.cpp:497
-#: collection/collectionmodel.cpp:501 collection/collectionmodel.cpp:1603
+#: core/song.cpp:559 context/contextalbumsmodel.cpp:357
+#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
+#: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
+#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1600
 #: collection/savedgroupingmanager.cpp:145 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:573 playlist/playlistmanager.cpp:574
 #: dialogs/edittagdialog.cpp:719 dialogs/edittagdialog.cpp:746
@@ -4994,7 +4994,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: subsonic/subsonicrequest.cpp:865 tidal/tidalrequest.cpp:1276
+#: subsonic/subsonicrequest.cpp:864 tidal/tidalrequest.cpp:1276
 #: qobuz/qobuzrequest.cpp:1321
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
@@ -5158,7 +5158,7 @@ msgstr "L'utilizzo del menu per aggiungere un brano..."
 msgid "Variable bit rate"
 msgstr "Bitrate variabile"
 
-#: collection/collectionmodel.cpp:301 collection/collectionmodel.cpp:302
+#: collection/collectionmodel.cpp:298 collection/collectionmodel.cpp:299
 #: playlist/playlistmanager.cpp:585 covermanager/albumcovermanager.cpp:357
 #: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
@@ -5251,7 +5251,7 @@ msgstr "Vuoi eseguire subito una nuova scansione completa?"
 msgid "Write metadata when saving playlists"
 msgstr "Scrivi i metadata quando si salvano le playlist"
 
-#: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1274
+#: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1271
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:837
@@ -5318,7 +5318,7 @@ msgid ""
 "through %2."
 msgstr ""
 
-#: core/songloader.cpp:134 core/songloader.cpp:139
+#: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
 msgstr "Hai bisogno di GStreamer per questo URL"
 
