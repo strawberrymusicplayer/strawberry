@@ -45,7 +45,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-03-21 04:51-0400\n"
+"PO-Revision-Date: 2021-03-28 05:37-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -1582,11 +1582,11 @@ msgstr "Pochette non définie"
 
 #: dialogs/edittagdialog.cpp:792
 msgid "Cover changed: Will be cleared when saved."
-msgstr "Pochette modifiée : sera effacée une fois enregistrée. "
+msgstr "Pochette modifiée : sera effacée une fois enregistrée."
 
 #: dialogs/edittagdialog.cpp:798
 msgid "Cover changed: Will be deleted when saved."
-msgstr "Pochette modifiée : sera supprimée une fois enregistrée. "
+msgstr "Pochette modifiée : sera supprimée une fois enregistrée."
 
 #: dialogs/edittagdialog.cpp:795
 msgid "Cover changed: Will be unset when saved."
@@ -1821,7 +1821,7 @@ msgstr "Périphériques"
 
 #: dialogs/edittagdialog.cpp:100
 msgid "Different art across multiple songs."
-msgstr "Visuel différent d'un morceau à l'autre"
+msgstr "Visuel différent d'un morceau à l'autre."
 
 #: ../build/src/ui_networkproxysettingspage.h:172
 msgid "Direct internet connection"
