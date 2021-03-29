@@ -369,7 +369,11 @@ void OpenInFileManager(const QString path, const QUrl &url) {
       QString cmd = setting.value("Exec").toString();
       if (cmd.isEmpty()) break;
       cmd = cmd.remove(QRegularExpression("[%][a-z]*( |$)"));
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
       command_params = cmd.split(' ', Qt::SkipEmptyParts);
+#else
+      command_params = cmd.split(' ', QString::SkipEmptyParts);
+#endif
       command = command_params.first();
       command_params.removeFirst();
     }
