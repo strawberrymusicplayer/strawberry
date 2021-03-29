@@ -177,7 +177,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:447
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4274,7 +4274,7 @@ msgstr "Fullskjermvisning…"
 msgid "Show in collection..."
 msgstr "Vis i samling…"
 
-#: core/utilities.cpp:443 core/utilities.cpp:449
+#: core/utilities.cpp:441 core/utilities.cpp:447
 msgid "Show in file browser"
 msgstr "Vis i fil utforsker"
 
@@ -4879,7 +4879,7 @@ msgstr "Slå av/på synlighet for det pene skjermbilde overlegget"
 msgid "Tomorrow"
 msgstr "I morgen"
 
-#: core/utilities.cpp:443
+#: core/utilities.cpp:441
 msgid "Too many songs selected."
 msgstr "For mange sanger er valgt."
 

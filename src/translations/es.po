@@ -209,7 +209,7 @@ msgstr "%1 temas encontrados"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 temas encontrados (mostrando %2)"
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:447
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4356,7 +4356,7 @@ msgstr "Mostrar a tamaño completo…"
 msgid "Show in collection..."
 msgstr "Mostrar en la colección…"
 
-#: core/utilities.cpp:443 core/utilities.cpp:449
+#: core/utilities.cpp:441 core/utilities.cpp:447
 msgid "Show in file browser"
 msgstr "Mostrar en el navegador de archivos"
 
@@ -4969,7 +4969,7 @@ msgstr "Conmutar visibilidad del panel de información en pantalla chulo"
 msgid "Tomorrow"
 msgstr "Mañana"
 
-#: core/utilities.cpp:443
+#: core/utilities.cpp:441
 msgid "Too many songs selected."
 msgstr "Demasiadas pistas seleccionadas"
 

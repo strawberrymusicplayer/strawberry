@@ -185,7 +185,7 @@ msgstr "%1 dal található"
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:447
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4319,7 +4319,7 @@ msgstr "Megjelenítés teljes méretben..."
 msgid "Show in collection..."
 msgstr "Megjelenítés a gyűjteményben..."
 
-#: core/utilities.cpp:443 core/utilities.cpp:449
+#: core/utilities.cpp:441 core/utilities.cpp:447
 msgid "Show in file browser"
 msgstr "Megnyitás a fájlböngészőben"
 
@@ -4931,7 +4931,7 @@ msgstr "OSD láthatóság bekapcsolása"
 msgid "Tomorrow"
 msgstr "Holnap"
 
-#: core/utilities.cpp:443
+#: core/utilities.cpp:441
 msgid "Too many songs selected."
 msgstr "Túl sok dal van kiválasztva."
 

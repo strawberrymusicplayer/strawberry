@@ -186,7 +186,7 @@ msgstr "%1 skladeb nalezeno"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 skladeb nalezeno (%2 zobrazeno)"
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:447
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4318,7 +4318,7 @@ msgstr "Ukázat v plné velikosti..."
 msgid "Show in collection..."
 msgstr "Ukazovat ve sbírce..."
 
-#: core/utilities.cpp:443 core/utilities.cpp:449
+#: core/utilities.cpp:441 core/utilities.cpp:447
 msgid "Show in file browser"
 msgstr "Zobrazit v průzkumníku souborů"
 
@@ -4928,7 +4928,7 @@ msgstr "Přepnout viditelnost hezkých oznámení na obrazovce (OSD)"
 msgid "Tomorrow"
 msgstr "Zítra"
 
-#: core/utilities.cpp:443
+#: core/utilities.cpp:441
 msgid "Too many songs selected."
 msgstr "Je vybráno příliš mnoho skladeb."
 
