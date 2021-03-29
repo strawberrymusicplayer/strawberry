@@ -368,19 +368,13 @@ void OpenInFileManager(const QString path, const QUrl &url) {
     if (setting.contains("Exec")) {
       QString cmd = setting.value("Exec").toString();
       if (cmd.isEmpty()) break;
-      command_params = cmd.split(' ');
+      cmd = cmd.remove(QRegularExpression("[%][a-z]*( |$)"));
+      command_params = cmd.split(' ', Qt::SkipEmptyParts);
       command = command_params.first();
       command_params.removeFirst();
     }
     setting.endGroup();
     if (!command.isEmpty()) break;
-  }
-
-  if (command_params.contains("%u")) {
-    command_params.removeAt(command_params.indexOf("%u"));
-  }
-  if (command_params.contains("%U")) {
-    command_params.removeAt(command_params.indexOf("%U"));
   }
 
   if (command.startsWith("/usr/bin/")) {
