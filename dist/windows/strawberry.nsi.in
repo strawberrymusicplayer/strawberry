@@ -66,6 +66,8 @@
 !define CAPABILITIES_HIDE_ICONS "Command to hide icons"
 !define CAPABILITIES_SHOW_ICONS "Command to show icons"
 
+Unicode True
+
 SetCompressor /SOLID lzma
 
 !addplugindir nsisplugins
@@ -79,16 +81,9 @@ SetCompressor /SOLID lzma
 
 !define MUI_COMPONENTSPAGE_SMALLDESC
 
-; Installer pages
-!insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_DIRECTORY
-!insertmacro MUI_PAGE_INSTFILES
-!insertmacro MUI_PAGE_FINISH
-
-; Uninstaller pages
-!insertmacro MUI_UNPAGE_CONFIRM
-!insertmacro MUI_UNPAGE_INSTFILES
-!insertmacro MUI_UNPAGE_FINISH
+ReserveFile "${NSISDIR}/Plugins/x86-unicode/LockedList.dll"
+ReserveFile "${NSISDIR}/Plugins/LockedList64.dll"
+!define LockedListPATH	$InstallDir
 
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
 
@@ -130,10 +125,22 @@ InstallDir "${PRODUCT_INSTALL_DIR}"
 ; Get the path where Strawberry was installed previously and set it as default path
 InstallDirRegKey ${PRODUCT_UNINST_ROOT_KEY} ${PRODUCT_UNINST_KEY} "UninstallString"
 
+LicenseData "COPYING"
+
 ShowInstDetails show
 ShowUnInstDetails show
 RequestExecutionLevel admin
 ;RequestExecutionLevel user
+
+Page license
+Page directory
+Page Custom LockedListPageShow
+Page instfiles
+
+Function LockedListPageShow
+  LockedList::AddModule /NOUNLOAD \strawberry.exe
+  LockedList::Dialog /heading "Checking for running programs:" /noprograms "No programs need to close." /searching "Searching for running programs..."
+FunctionEnd
 
 ; Check for previous installation, and call the uninstaller if any
 Function CheckPreviousInstall
@@ -168,8 +175,6 @@ SectionEnd
 
 Section "Strawberry" Strawberry
   SetOutPath "$INSTDIR"
-
-  nsExec::Exec '"$INSTDIR\killproc.exe" strawberry.exe'
 
   File "strawberry.exe"
   File "strawberry-tagreader.exe"
@@ -289,8 +294,6 @@ Section "Strawberry" Strawberry
   File "libreadline8.dll"
   File "libtermcap.dll"
 !endif
-
-  File "killproc.exe"
 
   ; Register Strawberry with Default Programs
   Var /GLOBAL AppIcon
@@ -435,8 +438,6 @@ Section "Uninstaller"
 SectionEnd
 
 Section "Uninstall"
-
-  nsExec::Exec '"$INSTDIR\killproc.exe" strawberry.exe'
 
   ; Delete all the files
 
@@ -611,7 +612,6 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\libgstrtp.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstrtsp.dll"
 
-  Delete "$INSTDIR\killproc.exe"
   Delete "$INSTDIR\Uninstall.exe"
 
   ; Remove the installation folders.
