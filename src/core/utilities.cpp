@@ -397,7 +397,7 @@ void OpenInFileManager(const QString path, const QUrl &url) {
   else if (command.startsWith("caja")) {
     proc.startDetached(command, QStringList() << command_params << "--no-desktop" << path);
   }
-  else if (command.startsWith("pcmanfm")) {
+  else if (command.startsWith("pcmanfm") || command.startsWith("thunar")) {
     proc.startDetached(command, QStringList() << command_params << path);
   }
   else {
