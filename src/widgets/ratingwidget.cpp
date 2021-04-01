@@ -86,6 +86,10 @@ double RatingPainter::RatingForPos(const QPoint &pos, const QRect &rect) {
   const QRect contents = Contents(rect);
   const double raw = double(pos.x() - contents.left()) / contents.width();
 
+  // Check if the position was to the right or left of the rectangle.
+  if (raw < 0) return 0;
+  if (raw > 1) return 1;
+
   // Round to the nearest 0.1
   return double(int(raw * kStarCount * 2 + 0.5)) / (kStarCount * 2);
 
