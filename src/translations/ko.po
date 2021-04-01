@@ -342,7 +342,7 @@ msgstr "새 재생 목록(&N)"
 msgid "&Next track"
 msgstr "다음 트랙(&N)"
 
-#: ../build/src/ui_appearancesettingspage.h:562
+#: ../build/src/ui_appearancesettingspage.h:601
 msgid "&No background image"
 msgstr "배경 없음(&N)"
 
@@ -402,11 +402,11 @@ msgstr "음악 변환(&T)"
 msgid "&Update changed collection folders"
 msgstr "라이브러리 변경 사항 업데이트(&U)"
 
-#: ../build/src/ui_appearancesettingspage.h:555
+#: ../build/src/ui_appearancesettingspage.h:594
 msgid "&Use the system default color"
 msgstr "시스템 기본 색 사용(&U)"
 
-#: ../build/src/ui_appearancesettingspage.h:548
+#: ../build/src/ui_appearancesettingspage.h:587
 msgid "&Use the system default color set"
 msgstr "시스템 기본 색 배열 사용(&U)"
 
@@ -435,7 +435,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:582
+#: ../build/src/ui_appearancesettingspage.h:621
 msgid "0px"
 msgstr "0px"
 
@@ -447,7 +447,7 @@ msgstr "1일"
 msgid "1 track"
 msgstr "트랙 1개"
 
-#: ../build/src/ui_appearancesettingspage.h:584
+#: ../build/src/ui_appearancesettingspage.h:623
 msgid "40%"
 msgstr "40%"
 
@@ -480,7 +480,7 @@ msgstr ""
 "\n"
 "<p>토큰을 포함하는 텍스트를 중괄호로 둘러싸면 토큰이 비어 있을 때 해당 부분은 표시되지 않습니다.</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:567
+#: ../build/src/ui_appearancesettingspage.h:606
 msgid "A Taste of Strawbs"
 msgstr ""
 
@@ -758,7 +758,7 @@ msgstr "고급 그룹..."
 msgid "After copying..."
 msgstr "복사한 후..."
 
-#: ../build/src/ui_appearancesettingspage.h:566
+#: ../build/src/ui_appearancesettingspage.h:605
 msgid "Albu&m cover"
 msgstr "앨범아트(&M)"
 
@@ -895,7 +895,7 @@ msgstr "앱 ID"
 msgid "App Secret"
 msgstr "앱 비밀 값"
 
-#: ../build/src/ui_appearancesettingspage.h:542
+#: ../build/src/ui_appearancesettingspage.h:581
 msgid "Appearance"
 msgstr "모양"
 
@@ -1064,7 +1064,7 @@ msgstr "백엔드"
 msgid "Background color"
 msgstr "배경 색상"
 
-#: ../build/src/ui_appearancesettingspage.h:560
+#: ../build/src/ui_appearancesettingspage.h:599
 msgid "Background image"
 msgstr "배경 그림"
 
@@ -1127,7 +1127,7 @@ msgstr "블록 분석기"
 msgid "Block type"
 msgstr "블록 형식"
 
-#: ../build/src/ui_appearancesettingspage.h:581
+#: ../build/src/ui_appearancesettingspage.h:620
 msgid "Blur amount"
 msgstr "블러 정도"
 
@@ -1139,15 +1139,15 @@ msgstr "본문"
 msgid "Boom analyzer"
 msgstr "붐 분석기"
 
-#: ../build/src/ui_appearancesettingspage.h:574
+#: ../build/src/ui_appearancesettingspage.h:613
 msgid "Bottom Left"
 msgstr "왼쪽 아래"
 
-#: ../build/src/ui_appearancesettingspage.h:575
+#: ../build/src/ui_appearancesettingspage.h:614
 msgid "Bottom Right"
 msgstr "오른쪽 아래"
 
-#: ../build/src/ui_appearancesettingspage.h:569
+#: ../build/src/ui_appearancesettingspage.h:608
 msgid "Browse..."
 msgstr "찾아보기..."
 
@@ -1320,7 +1320,7 @@ msgstr "라이브러리 재탐색 알림"
 msgid "Collection search"
 msgstr "라이브러리 검색"
 
-#: ../build/src/ui_appearancesettingspage.h:547
+#: ../build/src/ui_appearancesettingspage.h:586
 msgid "Colors"
 msgstr "색상"
 
@@ -1369,7 +1369,7 @@ msgstr "설정이 잘못됨"
 msgid "Configure %1..."
 msgstr "%1 설정..."
 
-#: ../build/src/ui_appearancesettingspage.h:589
+#: ../build/src/ui_appearancesettingspage.h:628
 msgid "Configure buttons"
 msgstr ""
 
@@ -1612,7 +1612,11 @@ msgstr "현재 사용중인 디스크 캐시 :"
 msgid "Custom"
 msgstr "사용자 정의"
 
-#: ../build/src/ui_appearancesettingspage.h:568
+#: ../build/src/ui_appearancesettingspage.h:633
+msgid "Custom color"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:607
 msgid "Custom image:"
 msgstr "사용자 정의 이미지:"
 
@@ -1660,7 +1664,7 @@ msgstr "4퍼센트만큼 음량 내리기"
 msgid "Decrease the volume by <value> percent"
 msgstr "<value>%만큼 음량 내리기"
 
-#: ../build/src/ui_appearancesettingspage.h:561
+#: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
 msgstr "기본 배경 그림(&K)"
 
@@ -1790,7 +1794,7 @@ msgstr "OSD 표시"
 msgid "Do not convert any music"
 msgstr "어떤 곡도 변환하지 않기"
 
-#: ../build/src/ui_appearancesettingspage.h:580
+#: ../build/src/ui_appearancesettingspage.h:619
 msgid "Do not cut image"
 msgstr "이미지 자르지 않기"
 
@@ -2226,7 +2230,7 @@ msgstr "파일"
 msgid "Files to transcode"
 msgstr "변환할 파일"
 
-#: ../build/src/ui_appearancesettingspage.h:590
+#: ../build/src/ui_appearancesettingspage.h:629
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2524,7 +2528,7 @@ msgstr ""
 msgid "Icon"
 msgstr "아이콘"
 
-#: ../build/src/ui_appearancesettingspage.h:585
+#: ../build/src/ui_appearancesettingspage.h:624
 msgid "Icon sizes"
 msgstr "아이콘 크기"
 
@@ -2652,7 +2656,7 @@ msgstr "Strawberry가 Snap에서 실행되고 있는 것을 감지하였습니�
 msgid "Jump to previous song right away"
 msgstr "바로 이전 곡으로 이동"
 
-#: ../build/src/ui_appearancesettingspage.h:579
+#: ../build/src/ui_appearancesettingspage.h:618
 msgid "Keep aspect ratio"
 msgstr "종횡비 유지"
 
@@ -2884,7 +2888,7 @@ msgstr "모든 조건에 맞는 곡 (AND)"
 msgid "Match one or more search terms (OR)"
 msgstr "조건 중 하나라도 맞는 곡 (OR)"
 
-#: ../build/src/ui_appearancesettingspage.h:577
+#: ../build/src/ui_appearancesettingspage.h:616
 msgid "Max cover size"
 msgstr "최대 표지 크기"
 
@@ -2905,7 +2909,7 @@ msgstr "중간(%1 fps)"
 msgid "Metadata"
 msgstr "메타데이터"
 
-#: ../build/src/ui_appearancesettingspage.h:573
+#: ../build/src/ui_appearancesettingspage.h:612
 msgid "Middle"
 msgstr "중간"
 
@@ -3232,7 +3236,7 @@ msgstr "시작할 때"
 msgid "Only show the first"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:583
+#: ../build/src/ui_appearancesettingspage.h:622
 msgid "Opacity"
 msgstr "불투명도"
 
@@ -3400,7 +3404,7 @@ msgstr "일반 사이드바"
 msgid "Play"
 msgstr "재생"
 
-#: ../build/src/ui_appearancesettingspage.h:588
+#: ../build/src/ui_appearancesettingspage.h:627
 msgid "Play control buttons"
 msgstr ""
 
@@ -3454,7 +3458,7 @@ msgstr "재생기 옵션"
 msgid "Playlist"
 msgstr "재생 목록"
 
-#: ../build/src/ui_appearancesettingspage.h:586
+#: ../build/src/ui_appearancesettingspage.h:625
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3477,6 +3481,10 @@ msgstr ""
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "재생 목록 옵션"
+
+#: ../build/src/ui_appearancesettingspage.h:631
+msgid "Playlist playing song color"
+msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
@@ -3507,7 +3515,7 @@ msgstr "팝업 시간"
 msgid "Port"
 msgstr "포트"
 
-#: ../build/src/ui_appearancesettingspage.h:570
+#: ../build/src/ui_appearancesettingspage.h:609
 msgid "Position"
 msgstr "위치"
 
@@ -4115,11 +4123,11 @@ msgstr "현재 재생 중인 트랙의 절대적 위치로 이동"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "키보드 단축키 또는 마우스 휠을 사용하여 이동"
 
-#: ../build/src/ui_appearancesettingspage.h:552
+#: ../build/src/ui_appearancesettingspage.h:591
 msgid "Select background color:"
 msgstr "배경 색상 선택:"
 
-#: settings/appearancesettingspage.cpp:377
+#: settings/appearancesettingspage.cpp:400
 msgid "Select background image"
 msgstr "배경 그림 선택"
 
@@ -4127,11 +4135,15 @@ msgstr "배경 그림 선택"
 msgid "Select best possible match"
 msgstr "가장 유사한 일치 선택"
 
-#: ../build/src/ui_appearancesettingspage.h:550
+#: ../build/src/ui_appearancesettingspage.h:589
 msgid "Select foreground color:"
 msgstr "전경 색상 선택:"
 
-#: ../build/src/ui_appearancesettingspage.h:558
+#: ../build/src/ui_appearancesettingspage.h:634
+msgid "Select playlist playing song color:"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:597
 msgid "Select tabbar color:"
 msgstr "탭 표시줄 색상 선택:"
 
@@ -4172,7 +4184,7 @@ msgstr "선택한 모든 트랙의 값 설정..."
 msgid "Settings"
 msgstr "설정"
 
-#: ../build/src/ui_appearancesettingspage.h:546
+#: ../build/src/ui_appearancesettingspage.h:585
 msgid "Settings require restart."
 msgstr "설정을 적용하려면 재시작이 필요합니다."
 
@@ -4580,12 +4592,12 @@ msgstr "스트림 URL 메서드"
 msgid "Streaming"
 msgstr "스트리밍"
 
-#: ../build/src/ui_appearancesettingspage.h:578
+#: ../build/src/ui_appearancesettingspage.h:617
 msgid "Stretch image to fill playlist"
 msgstr "이미지를 재생 목록 크기로 늘려서 맞춤"
 
-#: ../build/src/ui_appearancesettingspage.h:543
-#: ../build/src/ui_appearancesettingspage.h:544
+#: ../build/src/ui_appearancesettingspage.h:582
+#: ../build/src/ui_appearancesettingspage.h:583
 msgid "Style"
 msgstr ""
 
@@ -4634,15 +4646,19 @@ msgstr "지원하는 형식"
 msgid "System colors"
 msgstr "시스템 색상"
 
-#: ../build/src/ui_appearancesettingspage.h:554
+#: ../build/src/ui_appearancesettingspage.h:632
+msgid "System highlight color"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:593
 msgid "Tabbar colors"
 msgstr "탭 표시줄 색상"
 
-#: ../build/src/ui_appearancesettingspage.h:587
+#: ../build/src/ui_appearancesettingspage.h:626
 msgid "Tabbar large mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:591
+#: ../build/src/ui_appearancesettingspage.h:630
 msgid "Tabbar small mode"
 msgstr ""
 
@@ -4699,7 +4715,7 @@ msgstr "Amarok과 Clementine 기여자들에게 감사를 전합니다."
 msgid "The \"%1\" command could not be started."
 msgstr "\"%1\" 명령을 시작할 수 없습니다."
 
-#: ../build/src/ui_appearancesettingspage.h:564
+#: ../build/src/ui_appearancesettingspage.h:603
 msgid "The album cover of the currently playing song"
 msgstr "재생 중인 음악의 앨범아트"
 
@@ -4974,11 +4990,11 @@ msgstr "%1% 업데이트 중..."
 msgid "Updating collection"
 msgstr "라이브러리 업데이트 중"
 
-#: ../build/src/ui_appearancesettingspage.h:571
+#: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
 msgstr "왼쪽 위"
 
-#: ../build/src/ui_appearancesettingspage.h:572
+#: ../build/src/ui_appearancesettingspage.h:611
 msgid "Upper Right"
 msgstr "오른쪽 위"
 
@@ -5018,7 +5034,7 @@ msgstr ""
 msgid "Use X11 shortcuts when available"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:549
+#: ../build/src/ui_appearancesettingspage.h:588
 msgid "Use a custom color set"
 msgstr "사용자 정의 색 배열 사용"
 
@@ -5034,7 +5050,7 @@ msgstr "인증 사용"
 msgid "Use bitrate management engine"
 msgstr "비트레이트 관리 엔진 사용"
 
-#: ../build/src/ui_appearancesettingspage.h:556
+#: ../build/src/ui_appearancesettingspage.h:595
 msgid "Use custom color"
 msgstr "사용자 정의 색상 사용"
 
@@ -5042,7 +5058,7 @@ msgstr "사용자 정의 색상 사용"
 msgid "Use dynamic mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:557
+#: ../build/src/ui_appearancesettingspage.h:596
 msgid "Use gradient background"
 msgstr "그라디언트 배경 사용"
 
@@ -5050,7 +5066,7 @@ msgstr "그라디언트 배경 사용"
 msgid "Use proxy settings for streaming"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:545
+#: ../build/src/ui_appearancesettingspage.h:584
 msgid "Use system theme icons"
 msgstr "시스템 테마 아이콘 사용"
 

@@ -340,7 +340,7 @@ msgstr "&Daftar putar baru"
 msgid "&Next track"
 msgstr "&Trek berikutnya"
 
-#: ../build/src/ui_appearancesettingspage.h:562
+#: ../build/src/ui_appearancesettingspage.h:601
 msgid "&No background image"
 msgstr "&Tidak ada gambar latar belakang"
 
@@ -400,11 +400,11 @@ msgstr "&Transkode Musik"
 msgid "&Update changed collection folders"
 msgstr "Perbar&ui folder pustaka yang telah diubah"
 
-#: ../build/src/ui_appearancesettingspage.h:555
+#: ../build/src/ui_appearancesettingspage.h:594
 msgid "&Use the system default color"
 msgstr "G&unakan warna standar sistem"
 
-#: ../build/src/ui_appearancesettingspage.h:548
+#: ../build/src/ui_appearancesettingspage.h:587
 msgid "&Use the system default color set"
 msgstr "G&unakan set warna standar sistem"
 
@@ -435,7 +435,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:582
+#: ../build/src/ui_appearancesettingspage.h:621
 msgid "0px"
 msgstr "0px"
 
@@ -447,7 +447,7 @@ msgstr "1 hari"
 msgid "1 track"
 msgstr "1 trek"
 
-#: ../build/src/ui_appearancesettingspage.h:584
+#: ../build/src/ui_appearancesettingspage.h:623
 msgid "40%"
 msgstr "40%"
 
@@ -482,7 +482,7 @@ msgstr ""
 "kurawal, maka bagian tersebut akan disembunyikan jika token tersebut kosong."
 "</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:567
+#: ../build/src/ui_appearancesettingspage.h:606
 msgid "A Taste of Strawbs"
 msgstr ""
 
@@ -758,7 +758,7 @@ msgstr "Pengelompokkan lanjut..."
 msgid "After copying..."
 msgstr "Setelah menyalin..."
 
-#: ../build/src/ui_appearancesettingspage.h:566
+#: ../build/src/ui_appearancesettingspage.h:605
 msgid "Albu&m cover"
 msgstr "Sa&mpul album"
 
@@ -895,7 +895,7 @@ msgstr "App ID"
 msgid "App Secret"
 msgstr "App Secret"
 
-#: ../build/src/ui_appearancesettingspage.h:542
+#: ../build/src/ui_appearancesettingspage.h:581
 msgid "Appearance"
 msgstr "Penampilan"
 
@@ -1064,7 +1064,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Warna latar belakang"
 
-#: ../build/src/ui_appearancesettingspage.h:560
+#: ../build/src/ui_appearancesettingspage.h:599
 msgid "Background image"
 msgstr "Gambar latar belakang"
 
@@ -1127,7 +1127,7 @@ msgstr "Penganalisis blok"
 msgid "Block type"
 msgstr "Tipe blok"
 
-#: ../build/src/ui_appearancesettingspage.h:581
+#: ../build/src/ui_appearancesettingspage.h:620
 msgid "Blur amount"
 msgstr "Besaran kekaburan"
 
@@ -1139,15 +1139,15 @@ msgstr "Badan"
 msgid "Boom analyzer"
 msgstr "Penganalisis dentuman"
 
-#: ../build/src/ui_appearancesettingspage.h:574
+#: ../build/src/ui_appearancesettingspage.h:613
 msgid "Bottom Left"
 msgstr "Kiri Bawah"
 
-#: ../build/src/ui_appearancesettingspage.h:575
+#: ../build/src/ui_appearancesettingspage.h:614
 msgid "Bottom Right"
 msgstr "Kanan Bawah"
 
-#: ../build/src/ui_appearancesettingspage.h:569
+#: ../build/src/ui_appearancesettingspage.h:608
 msgid "Browse..."
 msgstr "Ramban..."
 
@@ -1320,7 +1320,7 @@ msgstr "Pemberitahuan pemindaian ulang pustaka"
 msgid "Collection search"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:547
+#: ../build/src/ui_appearancesettingspage.h:586
 msgid "Colors"
 msgstr "Warna"
 
@@ -1369,7 +1369,7 @@ msgstr "Konfigurasi tidak benar"
 msgid "Configure %1..."
 msgstr "Konfigurasi %1..."
 
-#: ../build/src/ui_appearancesettingspage.h:589
+#: ../build/src/ui_appearancesettingspage.h:628
 msgid "Configure buttons"
 msgstr ""
 
@@ -1616,7 +1616,11 @@ msgstr ""
 msgid "Custom"
 msgstr "Ubahsuai"
 
-#: ../build/src/ui_appearancesettingspage.h:568
+#: ../build/src/ui_appearancesettingspage.h:633
+msgid "Custom color"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:607
 msgid "Custom image:"
 msgstr "Gambar ubahsuai:"
 
@@ -1664,7 +1668,7 @@ msgstr "Kurangi volume 4 persen"
 msgid "Decrease the volume by <value> percent"
 msgstr "Kurangi volume <value> persen"
 
-#: ../build/src/ui_appearancesettingspage.h:561
+#: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
 msgstr "Gambar latar bela&kang standar"
 
@@ -1794,7 +1798,7 @@ msgstr "Tampilkan tampilan-pada-layar"
 msgid "Do not convert any music"
 msgstr "Jangan konversi musik apapun"
 
-#: ../build/src/ui_appearancesettingspage.h:580
+#: ../build/src/ui_appearancesettingspage.h:619
 msgid "Do not cut image"
 msgstr "Jangan potong gambar"
 
@@ -2230,7 +2234,7 @@ msgstr "Berkas"
 msgid "Files to transcode"
 msgstr "Berkas untuk ditranskode"
 
-#: ../build/src/ui_appearancesettingspage.h:590
+#: ../build/src/ui_appearancesettingspage.h:629
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2529,7 +2533,7 @@ msgstr ""
 msgid "Icon"
 msgstr "Ikon"
 
-#: ../build/src/ui_appearancesettingspage.h:585
+#: ../build/src/ui_appearancesettingspage.h:624
 msgid "Icon sizes"
 msgstr ""
 
@@ -2661,7 +2665,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Lompat ke lagu sebelumnya sesegera"
 
-#: ../build/src/ui_appearancesettingspage.h:579
+#: ../build/src/ui_appearancesettingspage.h:618
 msgid "Keep aspect ratio"
 msgstr "Jaga aspek ratio"
 
@@ -2893,7 +2897,7 @@ msgstr ""
 msgid "Match one or more search terms (OR)"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:577
+#: ../build/src/ui_appearancesettingspage.h:616
 msgid "Max cover size"
 msgstr "Ukuran sampul maksimum"
 
@@ -2914,7 +2918,7 @@ msgstr "Sedang (%1 fps)"
 msgid "Metadata"
 msgstr "Metadata"
 
-#: ../build/src/ui_appearancesettingspage.h:573
+#: ../build/src/ui_appearancesettingspage.h:612
 msgid "Middle"
 msgstr "Tengah"
 
@@ -3245,7 +3249,7 @@ msgstr "Saat membuka"
 msgid "Only show the first"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:583
+#: ../build/src/ui_appearancesettingspage.h:622
 msgid "Opacity"
 msgstr "Kelegapan"
 
@@ -3413,7 +3417,7 @@ msgstr "Bilah sisi polos"
 msgid "Play"
 msgstr "Putar"
 
-#: ../build/src/ui_appearancesettingspage.h:588
+#: ../build/src/ui_appearancesettingspage.h:627
 msgid "Play control buttons"
 msgstr ""
 
@@ -3467,7 +3471,7 @@ msgstr "Opsi pemutar"
 msgid "Playlist"
 msgstr "Daftar putar"
 
-#: ../build/src/ui_appearancesettingspage.h:586
+#: ../build/src/ui_appearancesettingspage.h:625
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3490,6 +3494,10 @@ msgstr ""
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Opsi daftar putar"
+
+#: ../build/src/ui_appearancesettingspage.h:631
+msgid "Playlist playing song color"
+msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
@@ -3520,7 +3528,7 @@ msgstr "Durasi sembulan"
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:570
+#: ../build/src/ui_appearancesettingspage.h:609
 msgid "Position"
 msgstr "Posisi"
 
@@ -4130,11 +4138,11 @@ msgstr "Jangkau yang sedang diputar ke posisi mutlak"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Menjangkau menggunakan pintasan keyboard atau roda mouse"
 
-#: ../build/src/ui_appearancesettingspage.h:552
+#: ../build/src/ui_appearancesettingspage.h:591
 msgid "Select background color:"
 msgstr "Pilih warna latar belakang:"
 
-#: settings/appearancesettingspage.cpp:377
+#: settings/appearancesettingspage.cpp:400
 msgid "Select background image"
 msgstr "Pilih gambar latar belakang"
 
@@ -4142,11 +4150,15 @@ msgstr "Pilih gambar latar belakang"
 msgid "Select best possible match"
 msgstr "Pilih kecocokan yang terbaik"
 
-#: ../build/src/ui_appearancesettingspage.h:550
+#: ../build/src/ui_appearancesettingspage.h:589
 msgid "Select foreground color:"
 msgstr "Pilih warna latar depan:"
 
-#: ../build/src/ui_appearancesettingspage.h:558
+#: ../build/src/ui_appearancesettingspage.h:634
+msgid "Select playlist playing song color:"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:597
 msgid "Select tabbar color:"
 msgstr "Pilih warna tabbar:"
 
@@ -4187,7 +4199,7 @@ msgstr "Tetapkan nilai untuk semua trek terpilih..."
 msgid "Settings"
 msgstr "Setelan"
 
-#: ../build/src/ui_appearancesettingspage.h:546
+#: ../build/src/ui_appearancesettingspage.h:585
 msgid "Settings require restart."
 msgstr ""
 
@@ -4598,12 +4610,12 @@ msgstr "Metode URL Stream"
 msgid "Streaming"
 msgstr "Streaming"
 
-#: ../build/src/ui_appearancesettingspage.h:578
+#: ../build/src/ui_appearancesettingspage.h:617
 msgid "Stretch image to fill playlist"
 msgstr "Regangkan gambar hingga memenuhi daftar putar"
 
-#: ../build/src/ui_appearancesettingspage.h:543
-#: ../build/src/ui_appearancesettingspage.h:544
+#: ../build/src/ui_appearancesettingspage.h:582
+#: ../build/src/ui_appearancesettingspage.h:583
 msgid "Style"
 msgstr ""
 
@@ -4652,15 +4664,19 @@ msgstr "Format yang didukung"
 msgid "System colors"
 msgstr "Warna sistem"
 
-#: ../build/src/ui_appearancesettingspage.h:554
+#: ../build/src/ui_appearancesettingspage.h:632
+msgid "System highlight color"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:593
 msgid "Tabbar colors"
 msgstr "Warna tabbar"
 
-#: ../build/src/ui_appearancesettingspage.h:587
+#: ../build/src/ui_appearancesettingspage.h:626
 msgid "Tabbar large mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:591
+#: ../build/src/ui_appearancesettingspage.h:630
 msgid "Tabbar small mode"
 msgstr ""
 
@@ -4717,7 +4733,7 @@ msgstr ""
 msgid "The \"%1\" command could not be started."
 msgstr "Perintah \"%1\" tidak dapat dimulai."
 
-#: ../build/src/ui_appearancesettingspage.h:564
+#: ../build/src/ui_appearancesettingspage.h:603
 msgid "The album cover of the currently playing song"
 msgstr "Sampul album dari lagu yang diputar saat ini"
 
@@ -5010,11 +5026,11 @@ msgstr "Memperbarui %1%..."
 msgid "Updating collection"
 msgstr "Memperbarui pustaka"
 
-#: ../build/src/ui_appearancesettingspage.h:571
+#: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
 msgstr "Kiri Atas"
 
-#: ../build/src/ui_appearancesettingspage.h:572
+#: ../build/src/ui_appearancesettingspage.h:611
 msgid "Upper Right"
 msgstr "Kanan Atas"
 
@@ -5054,7 +5070,7 @@ msgstr ""
 msgid "Use X11 shortcuts when available"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:549
+#: ../build/src/ui_appearancesettingspage.h:588
 msgid "Use a custom color set"
 msgstr "Gunakan set warna ubahsuai"
 
@@ -5070,7 +5086,7 @@ msgstr "Gunakan otentikasi"
 msgid "Use bitrate management engine"
 msgstr "Gunakan mesin pengelolaan lajubit"
 
-#: ../build/src/ui_appearancesettingspage.h:556
+#: ../build/src/ui_appearancesettingspage.h:595
 msgid "Use custom color"
 msgstr "Gunakan warna kustom"
 
@@ -5078,7 +5094,7 @@ msgstr "Gunakan warna kustom"
 msgid "Use dynamic mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:557
+#: ../build/src/ui_appearancesettingspage.h:596
 msgid "Use gradient background"
 msgstr "Gunakan latar belakang gradien"
 
@@ -5086,7 +5102,7 @@ msgstr "Gunakan latar belakang gradien"
 msgid "Use proxy settings for streaming"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:545
+#: ../build/src/ui_appearancesettingspage.h:584
 msgid "Use system theme icons"
 msgstr "Gunakan ikon tema sistem"
 

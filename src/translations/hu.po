@@ -344,7 +344,7 @@ msgstr "Ú&j lejátszólista"
 msgid "&Next track"
 msgstr "Kö&vetkező szám"
 
-#: ../build/src/ui_appearancesettingspage.h:562
+#: ../build/src/ui_appearancesettingspage.h:601
 msgid "&No background image"
 msgstr "&Nincs háttérkép"
 
@@ -404,11 +404,11 @@ msgstr "&Zene átkódolása"
 msgid "&Update changed collection folders"
 msgstr "Gyű&jtemény megváltozott mappáinak frissítése"
 
-#: ../build/src/ui_appearancesettingspage.h:555
+#: ../build/src/ui_appearancesettingspage.h:594
 msgid "&Use the system default color"
 msgstr "R&endszer alapértelmezett"
 
-#: ../build/src/ui_appearancesettingspage.h:548
+#: ../build/src/ui_appearancesettingspage.h:587
 msgid "&Use the system default color set"
 msgstr "&Rendszer alapértelmezett színkészletének használata"
 
@@ -439,7 +439,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:582
+#: ../build/src/ui_appearancesettingspage.h:621
 msgid "0px"
 msgstr "0 px"
 
@@ -451,7 +451,7 @@ msgstr "1 nap"
 msgid "1 track"
 msgstr "1 szám"
 
-#: ../build/src/ui_appearancesettingspage.h:584
+#: ../build/src/ui_appearancesettingspage.h:623
 msgid "40%"
 msgstr "40%"
 
@@ -486,7 +486,7 @@ msgstr ""
 "<p>Ha egy szövegrészt kapcsos zárójelekkel fog közre, akkor az rejtve marad, "
 "ha a benne lévő címke helyére nem helyettesíthető semmi.</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:567
+#: ../build/src/ui_appearancesettingspage.h:606
 msgid "A Taste of Strawbs"
 msgstr "A Taste of Strawbs"
 
@@ -764,7 +764,7 @@ msgstr "Egyedi csoportosítás…"
 msgid "After copying..."
 msgstr "Másolás után…"
 
-#: ../build/src/ui_appearancesettingspage.h:566
+#: ../build/src/ui_appearancesettingspage.h:605
 msgid "Albu&m cover"
 msgstr "&Albumborító"
 
@@ -901,7 +901,7 @@ msgstr "Alkalmazás ID"
 msgid "App Secret"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:542
+#: ../build/src/ui_appearancesettingspage.h:581
 msgid "Appearance"
 msgstr "Megjelenés"
 
@@ -1070,7 +1070,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Háttérszín"
 
-#: ../build/src/ui_appearancesettingspage.h:560
+#: ../build/src/ui_appearancesettingspage.h:599
 msgid "Background image"
 msgstr "Háttérkép"
 
@@ -1133,7 +1133,7 @@ msgstr "Blokk"
 msgid "Block type"
 msgstr "Blokk típus"
 
-#: ../build/src/ui_appearancesettingspage.h:581
+#: ../build/src/ui_appearancesettingspage.h:620
 msgid "Blur amount"
 msgstr "Elmosás"
 
@@ -1145,15 +1145,15 @@ msgstr "Törzs"
 msgid "Boom analyzer"
 msgstr "Fellendülés"
 
-#: ../build/src/ui_appearancesettingspage.h:574
+#: ../build/src/ui_appearancesettingspage.h:613
 msgid "Bottom Left"
 msgstr "Balra lent"
 
-#: ../build/src/ui_appearancesettingspage.h:575
+#: ../build/src/ui_appearancesettingspage.h:614
 msgid "Bottom Right"
 msgstr "Jobbra lent"
 
-#: ../build/src/ui_appearancesettingspage.h:569
+#: ../build/src/ui_appearancesettingspage.h:608
 msgid "Browse..."
 msgstr "Tallózás…"
 
@@ -1332,7 +1332,7 @@ msgstr "Gyűjtemény újraolvasási figyelmeztetés"
 msgid "Collection search"
 msgstr "Keresés gyűjteményben"
 
-#: ../build/src/ui_appearancesettingspage.h:547
+#: ../build/src/ui_appearancesettingspage.h:586
 msgid "Colors"
 msgstr "Színek"
 
@@ -1383,7 +1383,7 @@ msgstr "A konfiguráció hibás"
 msgid "Configure %1..."
 msgstr "%1 beállítása..."
 
-#: ../build/src/ui_appearancesettingspage.h:589
+#: ../build/src/ui_appearancesettingspage.h:628
 msgid "Configure buttons"
 msgstr "Gombok beállítása"
 
@@ -1630,7 +1630,11 @@ msgstr "Jelenlegi gyorsítótár használatban:"
 msgid "Custom"
 msgstr "Egyéni"
 
-#: ../build/src/ui_appearancesettingspage.h:568
+#: ../build/src/ui_appearancesettingspage.h:633
+msgid "Custom color"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:607
 msgid "Custom image:"
 msgstr "Egyéni kép:"
 
@@ -1679,7 +1683,7 @@ msgstr "Hangerő csökkentése 4 százalékkal"
 msgid "Decrease the volume by <value> percent"
 msgstr "Hangerő csökkentése <value> százalékkal"
 
-#: ../build/src/ui_appearancesettingspage.h:561
+#: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
 msgstr "A&lapértelmezett háttérkép"
 
@@ -1809,7 +1813,7 @@ msgstr "OSD megjelenítése"
 msgid "Do not convert any music"
 msgstr "Ne konvertáljon egy zenét sem"
 
-#: ../build/src/ui_appearancesettingspage.h:580
+#: ../build/src/ui_appearancesettingspage.h:619
 msgid "Do not cut image"
 msgstr "Ne legyen levágva a képből"
 
@@ -2247,7 +2251,7 @@ msgstr "Fájlok"
 msgid "Files to transcode"
 msgstr "Átkódolandó fájlok"
 
-#: ../build/src/ui_appearancesettingspage.h:590
+#: ../build/src/ui_appearancesettingspage.h:629
 msgid "Files, playlists and queue buttons"
 msgstr "Fájl- , lejátszólista- és lejátszásisor gombok"
 
@@ -2547,7 +2551,7 @@ msgstr ""
 msgid "Icon"
 msgstr "Ikon"
 
-#: ../build/src/ui_appearancesettingspage.h:585
+#: ../build/src/ui_appearancesettingspage.h:624
 msgid "Icon sizes"
 msgstr "Ikonméretek"
 
@@ -2683,7 +2687,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "Ugrás az előző dalra"
 
-#: ../build/src/ui_appearancesettingspage.h:579
+#: ../build/src/ui_appearancesettingspage.h:618
 msgid "Keep aspect ratio"
 msgstr "Képarány megtartása"
 
@@ -2915,7 +2919,7 @@ msgstr ""
 msgid "Match one or more search terms (OR)"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:577
+#: ../build/src/ui_appearancesettingspage.h:616
 msgid "Max cover size"
 msgstr "Maximum méret"
 
@@ -2936,7 +2940,7 @@ msgstr "Közepes (%1 fps)"
 msgid "Metadata"
 msgstr "Metaadatok"
 
-#: ../build/src/ui_appearancesettingspage.h:573
+#: ../build/src/ui_appearancesettingspage.h:612
 msgid "Middle"
 msgstr "Középen"
 
@@ -3267,7 +3271,7 @@ msgstr "Indulásnál"
 msgid "Only show the first"
 msgstr "Csak az első megjelenítése"
 
-#: ../build/src/ui_appearancesettingspage.h:583
+#: ../build/src/ui_appearancesettingspage.h:622
 msgid "Opacity"
 msgstr "Átlátszóság"
 
@@ -3435,7 +3439,7 @@ msgstr "Egyszerű oldalsáv"
 msgid "Play"
 msgstr "Lejátszás"
 
-#: ../build/src/ui_appearancesettingspage.h:588
+#: ../build/src/ui_appearancesettingspage.h:627
 msgid "Play control buttons"
 msgstr "Lejátszásirányító gombok"
 
@@ -3489,7 +3493,7 @@ msgstr "Lejátszó beállítások"
 msgid "Playlist"
 msgstr "Lejátszólista"
 
-#: ../build/src/ui_appearancesettingspage.h:586
+#: ../build/src/ui_appearancesettingspage.h:625
 msgid "Playlist buttons"
 msgstr "Lejátszólista gombok"
 
@@ -3514,6 +3518,10 @@ msgstr ""
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Lejátszólista beállítások"
+
+#: ../build/src/ui_appearancesettingspage.h:631
+msgid "Playlist playing song color"
+msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
@@ -3544,7 +3552,7 @@ msgstr "Értesítés időtartama"
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:570
+#: ../build/src/ui_appearancesettingspage.h:609
 msgid "Position"
 msgstr "Helyzet"
 
@@ -4164,11 +4172,11 @@ msgstr "A lejátszott szám adott pozícióra tekerése"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Léptetés billentyűparanccsal, vagy egérgörgővel"
 
-#: ../build/src/ui_appearancesettingspage.h:552
+#: ../build/src/ui_appearancesettingspage.h:591
 msgid "Select background color:"
 msgstr "Háttérszín kiválasztása:"
 
-#: settings/appearancesettingspage.cpp:377
+#: settings/appearancesettingspage.cpp:400
 msgid "Select background image"
 msgstr "Háttérkép kiválasztása"
 
@@ -4176,11 +4184,15 @@ msgstr "Háttérkép kiválasztása"
 msgid "Select best possible match"
 msgstr "A legjobban illeszkedő találatot választja"
 
-#: ../build/src/ui_appearancesettingspage.h:550
+#: ../build/src/ui_appearancesettingspage.h:589
 msgid "Select foreground color:"
 msgstr "Előtérszín kiválasztása:"
 
-#: ../build/src/ui_appearancesettingspage.h:558
+#: ../build/src/ui_appearancesettingspage.h:634
+msgid "Select playlist playing song color:"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:597
 msgid "Select tabbar color:"
 msgstr "Lapsáv színének kiválasztása:"
 
@@ -4221,7 +4233,7 @@ msgstr "Érték beállítása minden kiválasztott számnak..."
 msgid "Settings"
 msgstr "Beállítások"
 
-#: ../build/src/ui_appearancesettingspage.h:546
+#: ../build/src/ui_appearancesettingspage.h:585
 msgid "Settings require restart."
 msgstr ""
 
@@ -4634,12 +4646,12 @@ msgstr "URL streamelése ezzel"
 msgid "Streaming"
 msgstr "Internet"
 
-#: ../build/src/ui_appearancesettingspage.h:578
+#: ../build/src/ui_appearancesettingspage.h:617
 msgid "Stretch image to fill playlist"
 msgstr "Kép nyújtása a lejátszólista kitöltéséhez"
 
-#: ../build/src/ui_appearancesettingspage.h:543
-#: ../build/src/ui_appearancesettingspage.h:544
+#: ../build/src/ui_appearancesettingspage.h:582
+#: ../build/src/ui_appearancesettingspage.h:583
 msgid "Style"
 msgstr ""
 
@@ -4688,15 +4700,19 @@ msgstr "Támogatott formátumok"
 msgid "System colors"
 msgstr "Rendszerszínek"
 
-#: ../build/src/ui_appearancesettingspage.h:554
+#: ../build/src/ui_appearancesettingspage.h:632
+msgid "System highlight color"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:593
 msgid "Tabbar colors"
 msgstr "Lapsáv színei"
 
-#: ../build/src/ui_appearancesettingspage.h:587
+#: ../build/src/ui_appearancesettingspage.h:626
 msgid "Tabbar large mode"
 msgstr "Lapsáv nagy mód"
 
-#: ../build/src/ui_appearancesettingspage.h:591
+#: ../build/src/ui_appearancesettingspage.h:630
 msgid "Tabbar small mode"
 msgstr "Lapsáv kis mód"
 
@@ -4753,7 +4769,7 @@ msgstr "Köszönet az Amarok-hoz és a Clementine-hez hozzájárulóknak."
 msgid "The \"%1\" command could not be started."
 msgstr "A \"%1\" parancs nem végrehajtható."
 
-#: ../build/src/ui_appearancesettingspage.h:564
+#: ../build/src/ui_appearancesettingspage.h:603
 msgid "The album cover of the currently playing song"
 msgstr "A jelenleg játszott dal albumborítója"
 
@@ -5048,11 +5064,11 @@ msgstr "%1 frissítése..."
 msgid "Updating collection"
 msgstr "Gyűjtemény frissítése"
 
-#: ../build/src/ui_appearancesettingspage.h:571
+#: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
 msgstr "Balra fent"
 
-#: ../build/src/ui_appearancesettingspage.h:572
+#: ../build/src/ui_appearancesettingspage.h:611
 msgid "Upper Right"
 msgstr "Jobbra fent"
 
@@ -5092,7 +5108,7 @@ msgstr "Tidal beállítások használata hitelesítéshez."
 msgid "Use X11 shortcuts when available"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:549
+#: ../build/src/ui_appearancesettingspage.h:588
 msgid "Use a custom color set"
 msgstr "Egyéni színkészlet használata"
 
@@ -5108,7 +5124,7 @@ msgstr "Hitelesítés használata"
 msgid "Use bitrate management engine"
 msgstr "Bitráta kezelés használata"
 
-#: ../build/src/ui_appearancesettingspage.h:556
+#: ../build/src/ui_appearancesettingspage.h:595
 msgid "Use custom color"
 msgstr "Egyéni szín"
 
@@ -5116,7 +5132,7 @@ msgstr "Egyéni szín"
 msgid "Use dynamic mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:557
+#: ../build/src/ui_appearancesettingspage.h:596
 msgid "Use gradient background"
 msgstr "Átmenetes háttérszín"
 
@@ -5124,7 +5140,7 @@ msgstr "Átmenetes háttérszín"
 msgid "Use proxy settings for streaming"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:545
+#: ../build/src/ui_appearancesettingspage.h:584
 msgid "Use system theme icons"
 msgstr "Rendszerikonok használata"
 

@@ -351,7 +351,7 @@ msgstr "&Ny spellista"
 msgid "&Next track"
 msgstr "&Nästa spår"
 
-#: ../build/src/ui_appearancesettingspage.h:562
+#: ../build/src/ui_appearancesettingspage.h:601
 msgid "&No background image"
 msgstr "&Ingen bakgrundsbild"
 
@@ -411,11 +411,11 @@ msgstr "&Omkoda musik"
 msgid "&Update changed collection folders"
 msgstr "&Uppdatera ändrade samlingsmappar"
 
-#: ../build/src/ui_appearancesettingspage.h:555
+#: ../build/src/ui_appearancesettingspage.h:594
 msgid "&Use the system default color"
 msgstr "& Använd systemets standardfärg"
 
-#: ../build/src/ui_appearancesettingspage.h:548
+#: ../build/src/ui_appearancesettingspage.h:587
 msgid "&Use the system default color set"
 msgstr "&Använd systemets standard färguppsättning"
 
@@ -446,7 +446,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:582
+#: ../build/src/ui_appearancesettingspage.h:621
 msgid "0px"
 msgstr "0px"
 
@@ -458,7 +458,7 @@ msgstr "1 dag"
 msgid "1 track"
 msgstr "1 spår"
 
-#: ../build/src/ui_appearancesettingspage.h:584
+#: ../build/src/ui_appearancesettingspage.h:623
 msgid "40%"
 msgstr "40%"
 
@@ -492,7 +492,7 @@ msgstr ""
 "<p>Om du omgärdar en variabel med klammerparenteser (måsvingar), så kommer "
 "den inte att visas om variabeln är tom.</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:567
+#: ../build/src/ui_appearancesettingspage.h:606
 msgid "A Taste of Strawbs"
 msgstr "A Taste of Strawbs"
 
@@ -772,7 +772,7 @@ msgstr "Avancerad gruppering..."
 msgid "After copying..."
 msgstr "Efter kopiering..."
 
-#: ../build/src/ui_appearancesettingspage.h:566
+#: ../build/src/ui_appearancesettingspage.h:605
 msgid "Albu&m cover"
 msgstr "Albu&momslag"
 
@@ -909,7 +909,7 @@ msgstr "App-ID"
 msgid "App Secret"
 msgstr "Apphemlighet"
 
-#: ../build/src/ui_appearancesettingspage.h:542
+#: ../build/src/ui_appearancesettingspage.h:581
 msgid "Appearance"
 msgstr "Utseende"
 
@@ -1078,7 +1078,7 @@ msgstr "Backend"
 msgid "Background color"
 msgstr "Bakgrundsfärg"
 
-#: ../build/src/ui_appearancesettingspage.h:560
+#: ../build/src/ui_appearancesettingspage.h:599
 msgid "Background image"
 msgstr "Bakgrundsbild"
 
@@ -1141,7 +1141,7 @@ msgstr "Blockanalysator"
 msgid "Block type"
 msgstr "Blocktyp"
 
-#: ../build/src/ui_appearancesettingspage.h:581
+#: ../build/src/ui_appearancesettingspage.h:620
 msgid "Blur amount"
 msgstr "Suddighet"
 
@@ -1153,15 +1153,15 @@ msgstr "Brödtext"
 msgid "Boom analyzer"
 msgstr "Boom-analysator"
 
-#: ../build/src/ui_appearancesettingspage.h:574
+#: ../build/src/ui_appearancesettingspage.h:613
 msgid "Bottom Left"
 msgstr "Nedre vänstra"
 
-#: ../build/src/ui_appearancesettingspage.h:575
+#: ../build/src/ui_appearancesettingspage.h:614
 msgid "Bottom Right"
 msgstr "Nedre högra"
 
-#: ../build/src/ui_appearancesettingspage.h:569
+#: ../build/src/ui_appearancesettingspage.h:608
 msgid "Browse..."
 msgstr "Bläddra..."
 
@@ -1338,7 +1338,7 @@ msgstr "Notis om omsökning av samling"
 msgid "Collection search"
 msgstr "Samlingssökning"
 
-#: ../build/src/ui_appearancesettingspage.h:547
+#: ../build/src/ui_appearancesettingspage.h:586
 msgid "Colors"
 msgstr "Färger"
 
@@ -1387,7 +1387,7 @@ msgstr "Konfiguration felaktig"
 msgid "Configure %1..."
 msgstr "Konfigurera %1..."
 
-#: ../build/src/ui_appearancesettingspage.h:589
+#: ../build/src/ui_appearancesettingspage.h:628
 msgid "Configure buttons"
 msgstr "Konfigurera knappar"
 
@@ -1637,7 +1637,11 @@ msgstr "Aktuell diskcache i användning:"
 msgid "Custom"
 msgstr "Anpassad"
 
-#: ../build/src/ui_appearancesettingspage.h:568
+#: ../build/src/ui_appearancesettingspage.h:633
+msgid "Custom color"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:607
 msgid "Custom image:"
 msgstr "Anpassad bild:"
 
@@ -1685,7 +1689,7 @@ msgstr "Minska volymen med 4 procent"
 msgid "Decrease the volume by <value> percent"
 msgstr "Minska volymen med <value> procent"
 
-#: ../build/src/ui_appearancesettingspage.h:561
+#: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
 msgstr "Standardba&kgrundsbild"
 
@@ -1815,7 +1819,7 @@ msgstr "Visa on-screen-display"
 msgid "Do not convert any music"
 msgstr "Konvertera inte någon musik"
 
-#: ../build/src/ui_appearancesettingspage.h:580
+#: ../build/src/ui_appearancesettingspage.h:619
 msgid "Do not cut image"
 msgstr "Klipp inte av bilden"
 
@@ -2251,7 +2255,7 @@ msgstr "Filer"
 msgid "Files to transcode"
 msgstr "Filer att omkoda"
 
-#: ../build/src/ui_appearancesettingspage.h:590
+#: ../build/src/ui_appearancesettingspage.h:629
 msgid "Files, playlists and queue buttons"
 msgstr "Filer, spellistor och köknappar"
 
@@ -2550,7 +2554,7 @@ msgstr "Timmar"
 msgid "Icon"
 msgstr "Ikon"
 
-#: ../build/src/ui_appearancesettingspage.h:585
+#: ../build/src/ui_appearancesettingspage.h:624
 msgid "Icon sizes"
 msgstr "Ikonstorlekar"
 
@@ -2688,7 +2692,7 @@ msgstr "Det upptäcktes att Strawberry körs som en Snap"
 msgid "Jump to previous song right away"
 msgstr "Hoppa till föregående låt direkt"
 
-#: ../build/src/ui_appearancesettingspage.h:579
+#: ../build/src/ui_appearancesettingspage.h:618
 msgid "Keep aspect ratio"
 msgstr "Bevara bildförhållandet"
 
@@ -2920,7 +2924,7 @@ msgstr "Matcha varje sökterm (OCH)"
 msgid "Match one or more search terms (OR)"
 msgstr "Matcha en eller flera söktermer (ELLER)"
 
-#: ../build/src/ui_appearancesettingspage.h:577
+#: ../build/src/ui_appearancesettingspage.h:616
 msgid "Max cover size"
 msgstr "Största omslagsstorleken"
 
@@ -2941,7 +2945,7 @@ msgstr "Mellan (%1 fps)"
 msgid "Metadata"
 msgstr "Metadata"
 
-#: ../build/src/ui_appearancesettingspage.h:573
+#: ../build/src/ui_appearancesettingspage.h:612
 msgid "Middle"
 msgstr "Mellan"
 
@@ -3272,7 +3276,7 @@ msgstr "Vid start"
 msgid "Only show the first"
 msgstr "Visa endast de första"
 
-#: ../build/src/ui_appearancesettingspage.h:583
+#: ../build/src/ui_appearancesettingspage.h:622
 msgid "Opacity"
 msgstr "Opacitet"
 
@@ -3440,7 +3444,7 @@ msgstr "Vanligt sidofält"
 msgid "Play"
 msgstr "Spela"
 
-#: ../build/src/ui_appearancesettingspage.h:588
+#: ../build/src/ui_appearancesettingspage.h:627
 msgid "Play control buttons"
 msgstr "Spela kontrollknappar"
 
@@ -3494,7 +3498,7 @@ msgstr "Spelaralternativ"
 msgid "Playlist"
 msgstr "Spellista"
 
-#: ../build/src/ui_appearancesettingspage.h:586
+#: ../build/src/ui_appearancesettingspage.h:625
 msgid "Playlist buttons"
 msgstr "Spellistknappar"
 
@@ -3519,6 +3523,10 @@ msgstr "Spellistan måste vara öppen först."
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Alternativ för spellista"
+
+#: ../build/src/ui_appearancesettingspage.h:631
+msgid "Playlist playing song color"
+msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
@@ -3549,7 +3557,7 @@ msgstr "Popup-varaktighet"
 msgid "Port"
 msgstr "Port"
 
-#: ../build/src/ui_appearancesettingspage.h:570
+#: ../build/src/ui_appearancesettingspage.h:609
 msgid "Position"
 msgstr "Position"
 
@@ -4167,11 +4175,11 @@ msgstr "Hoppa till en absolut position i spår som nu spelas"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Tidshopp vid sökning med tangentbordsgenväg eller mushjul"
 
-#: ../build/src/ui_appearancesettingspage.h:552
+#: ../build/src/ui_appearancesettingspage.h:591
 msgid "Select background color:"
 msgstr "Välj bakgrundsfärg:"
 
-#: settings/appearancesettingspage.cpp:377
+#: settings/appearancesettingspage.cpp:400
 msgid "Select background image"
 msgstr "Väl en bakgrundsbild"
 
@@ -4179,11 +4187,15 @@ msgstr "Väl en bakgrundsbild"
 msgid "Select best possible match"
 msgstr "Välj bästa möjliga matchning"
 
-#: ../build/src/ui_appearancesettingspage.h:550
+#: ../build/src/ui_appearancesettingspage.h:589
 msgid "Select foreground color:"
 msgstr "Välj förgrundsfärg:"
 
-#: ../build/src/ui_appearancesettingspage.h:558
+#: ../build/src/ui_appearancesettingspage.h:634
+msgid "Select playlist playing song color:"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:597
 msgid "Select tabbar color:"
 msgstr "Välj färg för flikfält:"
 
@@ -4224,7 +4236,7 @@ msgstr "Ställ in värde för alla valda spår..."
 msgid "Settings"
 msgstr "Inställningar"
 
-#: ../build/src/ui_appearancesettingspage.h:546
+#: ../build/src/ui_appearancesettingspage.h:585
 msgid "Settings require restart."
 msgstr "Inställningar kräver omstart."
 
@@ -4640,12 +4652,12 @@ msgstr "Metod för strömwebbadress"
 msgid "Streaming"
 msgstr "Strömmar"
 
-#: ../build/src/ui_appearancesettingspage.h:578
+#: ../build/src/ui_appearancesettingspage.h:617
 msgid "Stretch image to fill playlist"
 msgstr "Sträck ut bilden för att fylla spellista"
 
-#: ../build/src/ui_appearancesettingspage.h:543
-#: ../build/src/ui_appearancesettingspage.h:544
+#: ../build/src/ui_appearancesettingspage.h:582
+#: ../build/src/ui_appearancesettingspage.h:583
 msgid "Style"
 msgstr "Format"
 
@@ -4694,15 +4706,19 @@ msgstr "Stödda format"
 msgid "System colors"
 msgstr "Systemfärger"
 
-#: ../build/src/ui_appearancesettingspage.h:554
+#: ../build/src/ui_appearancesettingspage.h:632
+msgid "System highlight color"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:593
 msgid "Tabbar colors"
 msgstr "Färger för flikfält"
 
-#: ../build/src/ui_appearancesettingspage.h:587
+#: ../build/src/ui_appearancesettingspage.h:626
 msgid "Tabbar large mode"
 msgstr "Stort läge för flikfält"
 
-#: ../build/src/ui_appearancesettingspage.h:591
+#: ../build/src/ui_appearancesettingspage.h:630
 msgid "Tabbar small mode"
 msgstr "Litet läge för flikfält"
 
@@ -4759,7 +4775,7 @@ msgstr "Tack till alla andra Amarok- och Clementine-bidragsgivare."
 msgid "The \"%1\" command could not be started."
 msgstr "Kommandot \"%1\" kunde inte startas."
 
-#: ../build/src/ui_appearancesettingspage.h:564
+#: ../build/src/ui_appearancesettingspage.h:603
 msgid "The album cover of the currently playing song"
 msgstr "Albumomslaget för låt som nu spelas"
 
@@ -5054,11 +5070,11 @@ msgstr "Uppdaterar %1%..."
 msgid "Updating collection"
 msgstr "Uppdaterar samlingen"
 
-#: ../build/src/ui_appearancesettingspage.h:571
+#: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
 msgstr "Övre vänster"
 
-#: ../build/src/ui_appearancesettingspage.h:572
+#: ../build/src/ui_appearancesettingspage.h:611
 msgid "Upper Right"
 msgstr "Övre högra"
 
@@ -5098,7 +5114,7 @@ msgstr "Använd Tidal-inställningar för att autentisera."
 msgid "Use X11 shortcuts when available"
 msgstr "Använd X11-genvägar när de är tillgängliga"
 
-#: ../build/src/ui_appearancesettingspage.h:549
+#: ../build/src/ui_appearancesettingspage.h:588
 msgid "Use a custom color set"
 msgstr "Använd en anpassad färguppsättning"
 
@@ -5114,7 +5130,7 @@ msgstr "Använd autentisering"
 msgid "Use bitrate management engine"
 msgstr "Använd motor för hantering av bitfrekvens"
 
-#: ../build/src/ui_appearancesettingspage.h:556
+#: ../build/src/ui_appearancesettingspage.h:595
 msgid "Use custom color"
 msgstr "Använd anpassad färg"
 
@@ -5122,7 +5138,7 @@ msgstr "Använd anpassad färg"
 msgid "Use dynamic mode"
 msgstr "Aktivera dynamiskt läge"
 
-#: ../build/src/ui_appearancesettingspage.h:557
+#: ../build/src/ui_appearancesettingspage.h:596
 msgid "Use gradient background"
 msgstr "Använd tonad bakgrund"
 
@@ -5130,7 +5146,7 @@ msgstr "Använd tonad bakgrund"
 msgid "Use proxy settings for streaming"
 msgstr "Använd proxyinställningar för strömning"
 
-#: ../build/src/ui_appearancesettingspage.h:545
+#: ../build/src/ui_appearancesettingspage.h:584
 msgid "Use system theme icons"
 msgstr "Använd systemtemaikoner"
 

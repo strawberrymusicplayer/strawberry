@@ -368,7 +368,7 @@ msgstr "&Nueva lista de reproducción"
 msgid "&Next track"
 msgstr "Pista &siguiente"
 
-#: ../build/src/ui_appearancesettingspage.h:562
+#: ../build/src/ui_appearancesettingspage.h:601
 msgid "&No background image"
 msgstr "&Sin imagen de fondo"
 
@@ -428,11 +428,11 @@ msgstr "&Transcodificar pistas"
 msgid "&Update changed collection folders"
 msgstr "&Actualizar carpetas de la colección con cambios"
 
-#: ../build/src/ui_appearancesettingspage.h:555
+#: ../build/src/ui_appearancesettingspage.h:594
 msgid "&Use the system default color"
 msgstr "&Usar el color predeterminado del sistema"
 
-#: ../build/src/ui_appearancesettingspage.h:548
+#: ../build/src/ui_appearancesettingspage.h:587
 msgid "&Use the system default color set"
 msgstr "&Usar la combinación de colores del sistema"
 
@@ -463,7 +463,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:582
+#: ../build/src/ui_appearancesettingspage.h:621
 msgid "0px"
 msgstr "0px"
 
@@ -475,7 +475,7 @@ msgstr "1 día"
 msgid "1 track"
 msgstr "1 pista"
 
-#: ../build/src/ui_appearancesettingspage.h:584
+#: ../build/src/ui_appearancesettingspage.h:623
 msgid "40%"
 msgstr "40 %"
 
@@ -509,7 +509,7 @@ msgstr ""
 "<p>Si encierra una sección de texto que contenga un token entre llaves, esa "
 "sección no se mostrará si el token está vacío.</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:567
+#: ../build/src/ui_appearancesettingspage.h:606
 msgid "A Taste of Strawbs"
 msgstr "A Taste of Strawbs"
 
@@ -788,7 +788,7 @@ msgstr "Agrupamiento avanzado…"
 msgid "After copying..."
 msgstr "Después de copiar…"
 
-#: ../build/src/ui_appearancesettingspage.h:566
+#: ../build/src/ui_appearancesettingspage.h:605
 msgid "Albu&m cover"
 msgstr "&Portada del álbum"
 
@@ -925,7 +925,7 @@ msgstr "App ID"
 msgid "App Secret"
 msgstr "App Secreto"
 
-#: ../build/src/ui_appearancesettingspage.h:542
+#: ../build/src/ui_appearancesettingspage.h:581
 msgid "Appearance"
 msgstr "Apariencia"
 
@@ -1094,7 +1094,7 @@ msgstr "Sistema de audio"
 msgid "Background color"
 msgstr "Color de fondo"
 
-#: ../build/src/ui_appearancesettingspage.h:560
+#: ../build/src/ui_appearancesettingspage.h:599
 msgid "Background image"
 msgstr "Imagen de fondo"
 
@@ -1157,7 +1157,7 @@ msgstr "Analizador de bloques"
 msgid "Block type"
 msgstr "Tipo de bloque"
 
-#: ../build/src/ui_appearancesettingspage.h:581
+#: ../build/src/ui_appearancesettingspage.h:620
 msgid "Blur amount"
 msgstr "Cantidad de desenfoque"
 
@@ -1169,15 +1169,15 @@ msgstr "Cuerpo"
 msgid "Boom analyzer"
 msgstr "Analizador de resonancia"
 
-#: ../build/src/ui_appearancesettingspage.h:574
+#: ../build/src/ui_appearancesettingspage.h:613
 msgid "Bottom Left"
 msgstr "Abajo Izquierda"
 
-#: ../build/src/ui_appearancesettingspage.h:575
+#: ../build/src/ui_appearancesettingspage.h:614
 msgid "Bottom Right"
 msgstr "Abajo Derecha"
 
-#: ../build/src/ui_appearancesettingspage.h:569
+#: ../build/src/ui_appearancesettingspage.h:608
 msgid "Browse..."
 msgstr "Examinar…"
 
@@ -1354,7 +1354,7 @@ msgstr "Notificación de nuevo análisis de la colección"
 msgid "Collection search"
 msgstr "Búsqueda en la colección"
 
-#: ../build/src/ui_appearancesettingspage.h:547
+#: ../build/src/ui_appearancesettingspage.h:586
 msgid "Colors"
 msgstr "Colores"
 
@@ -1403,7 +1403,7 @@ msgstr "Configuración incorrecta"
 msgid "Configure %1..."
 msgstr "Configurar %1…"
 
-#: ../build/src/ui_appearancesettingspage.h:589
+#: ../build/src/ui_appearancesettingspage.h:628
 msgid "Configure buttons"
 msgstr "Configurar botones"
 
@@ -1653,7 +1653,11 @@ msgstr "Caché de disco en uso:"
 msgid "Custom"
 msgstr "Personalizado"
 
-#: ../build/src/ui_appearancesettingspage.h:568
+#: ../build/src/ui_appearancesettingspage.h:633
+msgid "Custom color"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:607
 msgid "Custom image:"
 msgstr "Imagen personalizada:"
 
@@ -1701,7 +1705,7 @@ msgstr "Reduce el volumen en un 4%"
 msgid "Decrease the volume by <value> percent"
 msgstr "Disminuir el volumen en <value>%"
 
-#: ../build/src/ui_appearancesettingspage.h:561
+#: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
 msgstr "Imagen de fondo por defecto"
 
@@ -1831,7 +1835,7 @@ msgstr "Mostrar indicadores en pantalla"
 msgid "Do not convert any music"
 msgstr "No convertir ninguna pista"
 
-#: ../build/src/ui_appearancesettingspage.h:580
+#: ../build/src/ui_appearancesettingspage.h:619
 msgid "Do not cut image"
 msgstr "No recortar la imagen"
 
@@ -2271,7 +2275,7 @@ msgstr "Archivos"
 msgid "Files to transcode"
 msgstr "Archivos para convertir"
 
-#: ../build/src/ui_appearancesettingspage.h:590
+#: ../build/src/ui_appearancesettingspage.h:629
 msgid "Files, playlists and queue buttons"
 msgstr "Archivos, listas y botones de cola"
 
@@ -2577,7 +2581,7 @@ msgstr "Horas"
 msgid "Icon"
 msgstr "Icono"
 
-#: ../build/src/ui_appearancesettingspage.h:585
+#: ../build/src/ui_appearancesettingspage.h:624
 msgid "Icon sizes"
 msgstr "Tamaños de icono"
 
@@ -2716,7 +2720,7 @@ msgstr "Se ha detectado que Strawbery está ejecutándose como un Snap"
 msgid "Jump to previous song right away"
 msgstr "Ir a la pista anterior inmediatamente"
 
-#: ../build/src/ui_appearancesettingspage.h:579
+#: ../build/src/ui_appearancesettingspage.h:618
 msgid "Keep aspect ratio"
 msgstr "Mantener proporción"
 
@@ -2948,7 +2952,7 @@ msgstr "Hacer coincidir todos los términos (Y)"
 msgid "Match one or more search terms (OR)"
 msgstr "Hacer coincidir algún término (O)"
 
-#: ../build/src/ui_appearancesettingspage.h:577
+#: ../build/src/ui_appearancesettingspage.h:616
 msgid "Max cover size"
 msgstr "Tamaño máximo de portada"
 
@@ -2969,7 +2973,7 @@ msgstr "Media (%1 fps)"
 msgid "Metadata"
 msgstr "Metadatos"
 
-#: ../build/src/ui_appearancesettingspage.h:573
+#: ../build/src/ui_appearancesettingspage.h:612
 msgid "Middle"
 msgstr "Medio"
 
@@ -3303,7 +3307,7 @@ msgstr "Al iniciar"
 msgid "Only show the first"
 msgstr "Mostrar solo el primero"
 
-#: ../build/src/ui_appearancesettingspage.h:583
+#: ../build/src/ui_appearancesettingspage.h:622
 msgid "Opacity"
 msgstr "Opacidad"
 
@@ -3471,7 +3475,7 @@ msgstr "Barra lateral simple"
 msgid "Play"
 msgstr "Reproducir"
 
-#: ../build/src/ui_appearancesettingspage.h:588
+#: ../build/src/ui_appearancesettingspage.h:627
 msgid "Play control buttons"
 msgstr "Botones de control de reproducción"
 
@@ -3526,7 +3530,7 @@ msgstr "Opciones del reproductor"
 msgid "Playlist"
 msgstr "Lista de reproducción"
 
-#: ../build/src/ui_appearancesettingspage.h:586
+#: ../build/src/ui_appearancesettingspage.h:625
 msgid "Playlist buttons"
 msgstr "Botones de lista de reproducción"
 
@@ -3551,6 +3555,10 @@ msgstr "La lista debe abrirse primero."
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Opciones de la lista de reproducción"
+
+#: ../build/src/ui_appearancesettingspage.h:631
+msgid "Playlist playing song color"
+msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
@@ -3581,7 +3589,7 @@ msgstr "Duración de la notificación emergente"
 msgid "Port"
 msgstr "Puerto"
 
-#: ../build/src/ui_appearancesettingspage.h:570
+#: ../build/src/ui_appearancesettingspage.h:609
 msgid "Position"
 msgstr "Posición"
 
@@ -4201,11 +4209,11 @@ msgstr "Moverse en la pista actual hacia una posición absoluta"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Moverse en la pista mediante un atajo de teclado o la rueda del ratón"
 
-#: ../build/src/ui_appearancesettingspage.h:552
+#: ../build/src/ui_appearancesettingspage.h:591
 msgid "Select background color:"
 msgstr "Elegir el color de fondo:"
 
-#: settings/appearancesettingspage.cpp:377
+#: settings/appearancesettingspage.cpp:400
 msgid "Select background image"
 msgstr "Elija la imagen de fondo"
 
@@ -4213,11 +4221,15 @@ msgstr "Elija la imagen de fondo"
 msgid "Select best possible match"
 msgstr "Seleccionar la mejor coincidencia"
 
-#: ../build/src/ui_appearancesettingspage.h:550
+#: ../build/src/ui_appearancesettingspage.h:589
 msgid "Select foreground color:"
 msgstr "Elegir el color de frente:"
 
-#: ../build/src/ui_appearancesettingspage.h:558
+#: ../build/src/ui_appearancesettingspage.h:634
+msgid "Select playlist playing song color:"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:597
 msgid "Select tabbar color:"
 msgstr "Seleccionar color barra pestañas:"
 
@@ -4258,7 +4270,7 @@ msgstr "Establecer valor para todas las pistas seleccionadas…"
 msgid "Settings"
 msgstr "Configuración"
 
-#: ../build/src/ui_appearancesettingspage.h:546
+#: ../build/src/ui_appearancesettingspage.h:585
 msgid "Settings require restart."
 msgstr "Los ajustes requieren reiniciar."
 
@@ -4671,12 +4683,12 @@ msgstr "Método de streaming de URL"
 msgid "Streaming"
 msgstr "Transmitiendo"
 
-#: ../build/src/ui_appearancesettingspage.h:578
+#: ../build/src/ui_appearancesettingspage.h:617
 msgid "Stretch image to fill playlist"
 msgstr "Ajustar la imagen a la lista de reproducción"
 
-#: ../build/src/ui_appearancesettingspage.h:543
-#: ../build/src/ui_appearancesettingspage.h:544
+#: ../build/src/ui_appearancesettingspage.h:582
+#: ../build/src/ui_appearancesettingspage.h:583
 msgid "Style"
 msgstr "Estilo"
 
@@ -4725,15 +4737,19 @@ msgstr "Formatos admitidos"
 msgid "System colors"
 msgstr "Colores del sistema"
 
-#: ../build/src/ui_appearancesettingspage.h:554
+#: ../build/src/ui_appearancesettingspage.h:632
+msgid "System highlight color"
+msgstr ""
+
+#: ../build/src/ui_appearancesettingspage.h:593
 msgid "Tabbar colors"
 msgstr "Colores barra pestañas"
 
-#: ../build/src/ui_appearancesettingspage.h:587
+#: ../build/src/ui_appearancesettingspage.h:626
 msgid "Tabbar large mode"
 msgstr "Barra pequeña"
 
-#: ../build/src/ui_appearancesettingspage.h:591
+#: ../build/src/ui_appearancesettingspage.h:630
 msgid "Tabbar small mode"
 msgstr "Barra grande"
 
@@ -4790,7 +4806,7 @@ msgstr "Gracias al resto de colaboradores de Amarok y Clementine"
 msgid "The \"%1\" command could not be started."
 msgstr "No se pudo iniciar la orden «%1»."
 
-#: ../build/src/ui_appearancesettingspage.h:564
+#: ../build/src/ui_appearancesettingspage.h:603
 msgid "The album cover of the currently playing song"
 msgstr "La portada del álbum de la canción en reproducción"
 
@@ -5086,11 +5102,11 @@ msgstr "Actualizando… (%1%)"
 msgid "Updating collection"
 msgstr "Actualizando la colección"
 
-#: ../build/src/ui_appearancesettingspage.h:571
+#: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
 msgstr "Arriba Izquierda"
 
-#: ../build/src/ui_appearancesettingspage.h:572
+#: ../build/src/ui_appearancesettingspage.h:611
 msgid "Upper Right"
 msgstr "Arriba Derecha"
 
@@ -5131,7 +5147,7 @@ msgstr "Usar ajustes de Tidal para iniciar sesión."
 msgid "Use X11 shortcuts when available"
 msgstr "Usar atajos de X11 cuando sea posible"
 
-#: ../build/src/ui_appearancesettingspage.h:549
+#: ../build/src/ui_appearancesettingspage.h:588
 msgid "Use a custom color set"
 msgstr "Usar un conjunto de colores personalizado"
 
@@ -5147,7 +5163,7 @@ msgstr "Usar autentificación"
 msgid "Use bitrate management engine"
 msgstr "Usar el motor de gestión de flujo de bits"
 
-#: ../build/src/ui_appearancesettingspage.h:556
+#: ../build/src/ui_appearancesettingspage.h:595
 msgid "Use custom color"
 msgstr "Usar color personalizado"
 
@@ -5155,7 +5171,7 @@ msgstr "Usar color personalizado"
 msgid "Use dynamic mode"
 msgstr "Usar modo dinámico"
 
-#: ../build/src/ui_appearancesettingspage.h:557
+#: ../build/src/ui_appearancesettingspage.h:596
 msgid "Use gradient background"
 msgstr "Usar fondo degradado"
 
@@ -5163,7 +5179,7 @@ msgstr "Usar fondo degradado"
 msgid "Use proxy settings for streaming"
 msgstr "Usar ajustes de proxy para transmisión"
 
-#: ../build/src/ui_appearancesettingspage.h:545
+#: ../build/src/ui_appearancesettingspage.h:584
 msgid "Use system theme icons"
 msgstr "Usar iconos del tema del sistema"
 
