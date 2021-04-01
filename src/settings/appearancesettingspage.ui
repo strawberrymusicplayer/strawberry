@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>612</width>
-    <height>1071</height>
+    <height>1166</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -608,6 +608,47 @@
          </size>
         </property>
        </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="playlist_playing_song_color">
+     <property name="title">
+      <string>Playlist playing song color</string>
+     </property>
+     <layout class="QVBoxLayout" name="layout_playlist_playing_song_color">
+      <item>
+       <widget class="QRadioButton" name="playlist_playing_song_color_system">
+        <property name="text">
+         <string>System highlight color</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="playlist_playing_song_color_custom">
+        <property name="text">
+         <string>Custom color</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_playlist_playing_song_color_custom">
+        <item>
+         <widget class="QLabel" name="label_select_playlist_playing_song_color">
+          <property name="text">
+           <string>Select playlist playing song color:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="select_playlist_playing_song_color">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>

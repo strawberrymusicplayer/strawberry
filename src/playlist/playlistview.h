@@ -38,6 +38,7 @@
 #include <QString>
 #include <QImage>
 #include <QPixmap>
+#include <QColor>
 #include <QRect>
 #include <QRegion>
 #include <QStyleOption>
@@ -296,6 +297,8 @@ class PlaylistView : public QTreeView {
 
   DynamicPlaylistControls *dynamic_controls_;
   RatingItemDelegate *rating_delegate_;
+
+  QColor playlist_playing_song_color_;
 
 };
 

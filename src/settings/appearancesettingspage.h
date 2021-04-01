@@ -77,6 +77,8 @@ class AppearanceSettingsPage : public SettingsPage {
   static const char *kIconSizeLeftPanelButtons;
   static const char *kIconSizeConfigureButtons;
 
+  static const char *kPlaylistPlayingSongColor;
+
   enum BackgroundImageType {
     BackgroundImageType_Default,
     BackgroundImageType_None,
@@ -106,6 +108,8 @@ class AppearanceSettingsPage : public SettingsPage {
   void OpacityLevelChanged(int);
   void TabBarSystemColor(bool checked);
   void TabBarSelectBGColor();
+  void PlaylistPlayingSongColorSystem(bool checked);
+  void PlaylistPlayingSongSelectColor();
 
  private:
   // Set the widget's background to new_color
@@ -123,6 +127,7 @@ class AppearanceSettingsPage : public SettingsPage {
   QColor current_tabbar_bg_color_;
   BackgroundImageType background_image_type_;
   QString background_image_filename_;
+  QColor current_playlist_playing_song_color_;
 
 };
 

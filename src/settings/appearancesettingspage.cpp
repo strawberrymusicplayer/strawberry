@@ -84,6 +84,8 @@ const char *AppearanceSettingsPage::kIconSizePlaylistButtons = "icon_size_playli
 const char *AppearanceSettingsPage::kIconSizeLeftPanelButtons = "icon_size_left_panel_buttons";
 const char *AppearanceSettingsPage::kIconSizeConfigureButtons = "icon_size_configure_buttons";
 
+const char *AppearanceSettingsPage::kPlaylistPlayingSongColor = "playlist_playing_song_color";
+
 AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
     : SettingsPage(dialog),
       ui_(new Ui_AppearanceSettingsPage),
@@ -129,6 +131,9 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
 
   QObject::connect(ui_->select_tabbar_color, &QPushButton::pressed, this, &AppearanceSettingsPage::TabBarSelectBGColor);
   QObject::connect(ui_->tabbar_system_color, &QRadioButton::toggled, this, &AppearanceSettingsPage::TabBarSystemColor);
+
+  QObject::connect(ui_->select_playlist_playing_song_color, &QPushButton::pressed, this, &AppearanceSettingsPage::PlaylistPlayingSongSelectColor);
+  QObject::connect(ui_->playlist_playing_song_color_system, &QRadioButton::toggled, this, &AppearanceSettingsPage::PlaylistPlayingSongColorSystem);
 
 #if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
   ui_->checkbox_system_icons->hide();
@@ -220,6 +225,17 @@ void AppearanceSettingsPage::Load() {
   ui_->spinbox_icon_size_left_panel_buttons->setValue(s.value(kIconSizeLeftPanelButtons, 22).toInt());
   ui_->spinbox_icon_size_configure_buttons->setValue(s.value(kIconSizeConfigureButtons, 16).toInt());
 
+  current_playlist_playing_song_color_ = s.value(kPlaylistPlayingSongColor).value<QColor>();
+  if (current_playlist_playing_song_color_.isValid()) {
+    ui_->playlist_playing_song_color_custom->setChecked(true);
+  }
+  else {
+    ui_->playlist_playing_song_color_system->setChecked(true);
+    current_playlist_playing_song_color_ = StyleHelper::highlightColor();
+  }
+  UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
+  PlaylistPlayingSongColorSystem(ui_->playlist_playing_song_color_system->isChecked());
+
   s.endGroup();
 
   Init(ui_->layout_appearancesettingspage->parentWidget());
@@ -296,6 +312,13 @@ void AppearanceSettingsPage::Save() {
   s.setValue(kIconSizePlaylistButtons, ui_->spinbox_icon_size_playlist_buttons->value());
   s.setValue(kIconSizeLeftPanelButtons, ui_->spinbox_icon_size_left_panel_buttons->value());
   s.setValue(kIconSizeConfigureButtons, ui_->spinbox_icon_size_configure_buttons->value());
+
+  if (ui_->playlist_playing_song_color_system->isChecked()) {
+    s.setValue(kPlaylistPlayingSongColor, QColor());
+  }
+  else {
+    s.setValue(kPlaylistPlayingSongColor, current_playlist_playing_song_color_);
+  }
 
   s.endGroup();
 
@@ -410,6 +433,32 @@ void AppearanceSettingsPage::TabBarSelectBGColor() {
   if (!color_selected.isValid()) return;
   current_tabbar_bg_color_ = color_selected;
   UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
+
+  set_changed();
+
+}
+
+void AppearanceSettingsPage::PlaylistPlayingSongColorSystem(bool checked) {
+
+  if (checked) {
+    current_playlist_playing_song_color_ = StyleHelper::highlightColor();
+    UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
+  }
+  ui_->layout_playlist_playing_song_color_custom->setEnabled(!checked);
+  ui_->select_playlist_playing_song_color->setEnabled(!checked);
+
+  set_changed();
+
+}
+
+void AppearanceSettingsPage::PlaylistPlayingSongSelectColor() {
+
+  if (ui_->playlist_playing_song_color_system->isChecked()) return;
+
+  QColor color_selected = QColorDialog::getColor(current_playlist_playing_song_color_);
+  if (!color_selected.isValid()) return;
+  current_playlist_playing_song_color_ = color_selected;
+  UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
 
   set_changed();
 

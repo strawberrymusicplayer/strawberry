@@ -455,7 +455,12 @@ QList<QPixmap> PlaylistView::LoadBarPixmap(const QString &filename) {
   QPainter p(&image);
   p.setCompositionMode(QPainter::CompositionMode_SourceAtop);
   p.setOpacity(0.7);
-  p.fillRect(image.rect(), QApplication::palette().color(QPalette::Highlight));
+  if (playlist_playing_song_color_.isValid()) {
+    p.fillRect(image.rect(), playlist_playing_song_color_);
+  }
+  else {
+    p.fillRect(image.rect(), QApplication::palette().color(QPalette::Highlight));
+  }
   p.end();
 
   // Animation steps
@@ -509,8 +514,9 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
     middle.setRight(middle.right() - currenttrack_bar_right_[0].width());
 
     // Selection
-    if (selectionModel()->isSelected(idx))
+    if (selectionModel()->isSelected(idx)) {
       painter->fillRect(opt.rect, opt.palette.color(QPalette::Highlight));
+    }
 
     // Draw the bar
     painter->drawPixmap(opt.rect.topLeft(), currenttrack_bar_left_[step]);
@@ -1162,6 +1168,11 @@ void PlaylistView::ReloadSettings() {
   bool background_image_keep_aspect_ratio = s.value(AppearanceSettingsPage::kBackgroundImageKeepAspectRatio, true).toBool();
   int blur_radius = s.value(AppearanceSettingsPage::kBlurRadius, AppearanceSettingsPage::kDefaultBlurRadius).toInt();
   int opacity_level = s.value(AppearanceSettingsPage::kOpacityLevel, AppearanceSettingsPage::kDefaultOpacityLevel).toInt();
+  QColor playlist_playing_song_color = s.value(AppearanceSettingsPage::kPlaylistPlayingSongColor).value<QColor>();
+  if (playlist_playing_song_color != playlist_playing_song_color_) {
+    row_height_ = -1;
+  }
+  playlist_playing_song_color_ = playlist_playing_song_color;
   s.endGroup();
 
   if (currently_glowing_ && glow_enabled_ && isVisible()) StartGlowing();
