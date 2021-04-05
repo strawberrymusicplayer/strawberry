@@ -1126,6 +1126,7 @@ target_include_directories(strawberry_lib SYSTEM PUBLIC
   ${GOBJECT_INCLUDE_DIRS}
   ${GNUTLS_INCLUDE_DIRS}
   ${SQLITE_INCLUDE_DIRS}
+  ${TAGLIB_INCLUDE_DIRS}
 )
 
 target_include_directories(strawberry_lib PUBLIC
@@ -1138,7 +1139,6 @@ target_include_directories(strawberry_lib PUBLIC
   ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
   ${SINGLEAPPLICATION_INCLUDE_DIRS}
   ${SINGLECOREAPPLICATION_INCLUDE_DIRS}
-  ${TAGLIB_INCLUDE_DIRS}
 )
 
 target_link_libraries(strawberry_lib PUBLIC
