@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-01-10 04:14-0500\n"
+"PO-Revision-Date: 2021-04-06 06:46-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -197,7 +197,7 @@ msgstr ""
 #: dialogs/edittagdialog.cpp:655
 #, qt-format
 msgid "%1 songs selected."
-msgstr ""
+msgstr "%1 dal kiválasztva."
 
 #: playlist/playlistmanager.cpp:478 queue/queue.cpp:255
 #, qt-format
@@ -609,12 +609,12 @@ msgstr "Új mappa hozzáadása…"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
-msgstr ""
+msgstr "Keresési kifejezés hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:422
 #: ../build/src/ui_notificationssettingspage.h:464
 msgid "Add song URL"
-msgstr ""
+msgstr "Dal URL huzzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:375
 #: ../build/src/ui_notificationssettingspage.h:414
@@ -943,11 +943,11 @@ msgstr "Biztos benne, hogy visszaállítja ennek a dalnak a statisztikáit?"
 
 #: ../build/src/ui_edittagdialog.h:813
 msgid "Art Automatic"
-msgstr ""
+msgstr "Automatikus albumborító"
 
 #: ../build/src/ui_edittagdialog.h:810
 msgid "Art Manual"
-msgstr ""
+msgstr "Kézi albumborító"
 
 #: collection/savedgroupingmanager.cpp:87 playlist/playlist.cpp:1266
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
@@ -1632,7 +1632,7 @@ msgstr "Egyéni"
 
 #: ../build/src/ui_appearancesettingspage.h:633
 msgid "Custom color"
-msgstr ""
+msgstr "Egyéni szín"
 
 #: ../build/src/ui_appearancesettingspage.h:607
 msgid "Custom image:"
@@ -1671,9 +1671,8 @@ msgid "Date modified"
 msgstr "Módosítás dátuma"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:434
-#, fuzzy
 msgid "Days"
-msgstr "Nap"
+msgstr "Napok"
 
 #: core/commandlineoptions.cpp:174
 msgid "Decrease the volume by 4 percent"
@@ -1698,7 +1697,7 @@ msgstr "Törlés"
 
 #: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Delete cover"
-msgstr ""
+msgstr "Albumborító törlése"
 
 #: dialogs/deleteconfirmationdialog.cpp:42 device/deviceview.cpp:419
 msgid "Delete files"
@@ -1907,11 +1906,11 @@ msgstr "Száminformációk szerkesztése"
 
 #: dialogs/edittagdialog.cpp:777
 msgid "Embedded"
-msgstr ""
+msgstr "Beágyazott"
 
 #: ../build/src/ui_edittagdialog.h:818
 msgid "Embedded cover"
-msgstr ""
+msgstr "Beágyazott albumborító"
 
 #: ../build/src/ui_scrobblersettingspage.h:391
 #: ../build/src/ui_scrobblersettingspage.h:413
@@ -2629,7 +2628,7 @@ msgstr "Albumborító megjelenítése az értesítésben"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
-msgstr ""
+msgstr "Tartalmazza az összes dalt"
 
 #: core/commandlineoptions.cpp:173
 msgid "Increase the volume by 4 percent"
@@ -2740,7 +2739,7 @@ msgstr "Last.fm"
 
 #: smartplaylists/smartplaylistsmodel.cpp:112
 msgid "Least favourite tracks"
-msgstr ""
+msgstr "Legkevésbé kedvelt dalok"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Left"
@@ -2913,11 +2912,11 @@ msgstr "Eltűnt dalok megjelölése nem elérhetőként"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:110
 msgid "Match every search term (AND)"
-msgstr ""
+msgstr "Összes keresési feltétellel egyezzen (ÉS)"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:111
 msgid "Match one or more search terms (OR)"
-msgstr ""
+msgstr "Legalább egy keresési feltétellel egyezzen (Vagy)"
 
 #: ../build/src/ui_appearancesettingspage.h:616
 msgid "Max cover size"
@@ -2998,7 +2997,7 @@ msgstr "Hiányzó Tidal felhasználónév."
 
 #: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
-msgstr ""
+msgstr "Hiányzó alkalmazás id."
 
 #: settings/tidalsettingspage.cpp:174 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
@@ -3030,7 +3029,7 @@ msgstr "Gyűjtemény figyelése változások után"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:438
 msgid "Months"
-msgstr ""
+msgstr "Hónapok"
 
 #: playlist/playlist.cpp:1296
 msgid "Mood"
@@ -3122,7 +3121,7 @@ msgstr "Új lejátszólista"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
-msgstr ""
+msgstr "Új okos lejátszólista"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:68
 msgid "New smart playlist..."
@@ -3399,11 +3398,11 @@ msgstr "Jelszó"
 
 #: ../build/src/ui_edittagdialog.h:807
 msgid "Path"
-msgstr ""
+msgstr "Útvonal"
 
 #: ../build/src/ui_collectionsettingspage.h:441
 msgid "Pattern"
-msgstr ""
+msgstr "Minta"
 
 #: core/mainwindow.cpp:1268 core/mainwindow.cpp:1771
 #: core/qtsystemtrayicon.cpp:194
@@ -3453,7 +3452,7 @@ msgstr "Lejátszások száma"
 
 #: core/commandlineoptions.cpp:185
 msgid "Play given playlist"
-msgstr ""
+msgstr "Adott lejátszólista lejátszása"
 
 #: core/commandlineoptions.cpp:167
 msgid "Play if stopped, pause if playing"
@@ -3466,7 +3465,7 @@ msgstr "Lejátszás, ha nincs lejátszás folyamatban"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:76
 msgid "Play next"
-msgstr ""
+msgstr "Lejátszás következőként"
 
 #: core/commandlineoptions.cpp:184
 msgid "Play the <n>th track in the playlist"
@@ -3711,7 +3710,7 @@ msgstr "Rádió (egyenlő hangerő minden számhoz)"
 
 #: ../build/src/ui_collectionsettingspage.h:442
 msgid "Random"
-msgstr ""
+msgstr "Véletlenszerű"
 
 #: playlist/playlist.cpp:1297
 msgid "Rating"
@@ -4135,16 +4134,16 @@ msgstr "Keresés erre"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
-msgstr ""
+msgstr "Keresési mód"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:153
 msgid "Search options"
-msgstr ""
+msgstr "Keresési beállítások"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:151
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
-msgstr ""
+msgstr "Keresési kifejezések"
 
 #: tidal/tidalrequest.cpp:289 tidal/tidalrequest.cpp:303
 #: tidal/tidalrequest.cpp:317 qobuz/qobuzrequest.cpp:276
@@ -4235,7 +4234,7 @@ msgstr "Beállítások"
 
 #: ../build/src/ui_appearancesettingspage.h:585
 msgid "Settings require restart."
-msgstr ""
+msgstr "A beállítások újraindítást igényelnek."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:252
 msgid "Shortcut"
@@ -4309,7 +4308,7 @@ msgstr "Összes dal megjelenítése"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
-msgstr ""
+msgstr "Összes dal megjelenítése"
 
 #: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Show dialog for errors"
@@ -4510,7 +4509,7 @@ msgstr "Elnézést"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:136
 msgid "Sort songs by"
-msgstr ""
+msgstr "Dalok rendezése eszerint"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:134
 msgid "Sorting"
@@ -4653,7 +4652,7 @@ msgstr "Kép nyújtása a lejátszólista kitöltéséhez"
 #: ../build/src/ui_appearancesettingspage.h:582
 #: ../build/src/ui_appearancesettingspage.h:583
 msgid "Style"
-msgstr ""
+msgstr "Stílus"
 
 #: ../build/src/ui_scrobblersettingspage.h:396
 msgid "Submit scrobbles every"
@@ -4702,7 +4701,7 @@ msgstr "Rendszerszínek"
 
 #: ../build/src/ui_appearancesettingspage.h:632
 msgid "System highlight color"
-msgstr ""
+msgstr "Rendszer kiemelőszíne"
 
 #: ../build/src/ui_appearancesettingspage.h:593
 msgid "Tabbar colors"
@@ -4726,7 +4725,7 @@ msgstr "Címke letöltő"
 
 #: ../build/src/ui_edittagdialog.h:838
 msgid "Tags"
-msgstr ""
+msgstr "Címkék"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
@@ -4783,7 +4782,7 @@ msgstr "Az internetes gyűjtemény üres!"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
-msgstr ""
+msgstr "A második értéknek nagyobbnak kell lennie, mint az elsőnek!"
 
 #: covermanager/coverfromurldialog.cpp:91
 msgid "The site you requested does not exist!"
@@ -4992,7 +4991,7 @@ msgstr "Kódolási opciók"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
-msgstr ""
+msgstr "Kikapcsolás"
 
 #: device/giolister.cpp:187
 msgid "URI"
@@ -5130,7 +5129,7 @@ msgstr "Egyéni szín"
 
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:81
 msgid "Use dynamic mode"
-msgstr ""
+msgstr "Dinamikus mód használata"
 
 #: ../build/src/ui_appearancesettingspage.h:596
 msgid "Use gradient background"
@@ -5138,7 +5137,7 @@ msgstr "Átmenetes háttérszín"
 
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
-msgstr ""
+msgstr "Proxybeállítások használata a streameléshez"
 
 #: ../build/src/ui_appearancesettingspage.h:584
 msgid "Use system theme icons"
@@ -5239,7 +5238,7 @@ msgstr "WavPack"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "Weeks"
-msgstr ""
+msgstr "Hetek"
 
 #: ../build/src/ui_collectionsettingspage.h:428
 msgid ""
@@ -5301,7 +5300,7 @@ msgstr "Év - Album - Lemez"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:440
 msgid "Years"
-msgstr ""
+msgstr "Évek"
 
 #: core/utilities.cpp:160
 msgid "Yesterday"
@@ -5408,11 +5407,11 @@ msgstr "%n dal felvétele"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:237
 msgid "after"
-msgstr ""
+msgstr "utána"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:273
 msgid "ago"
-msgstr ""
+msgstr "óta"
 
 #: ../build/src/ui_internetsearchview.h:226
 msgid "albums"
@@ -5420,7 +5419,7 @@ msgstr "albumok"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
-msgstr ""
+msgstr "és"
 
 #: collection/collectionfilterwidget.cpp:73
 msgid "artist"
@@ -5436,19 +5435,19 @@ msgstr "automatikus"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:239
 msgid "before"
-msgstr ""
+msgstr "előtte"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:249
 msgid "between"
-msgstr ""
+msgstr "között"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:419
 msgid "biggest first"
-msgstr ""
+msgstr "legnagyobb először"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "contains"
-msgstr ""
+msgstr "tartalmazza"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:203
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
@@ -5463,23 +5462,23 @@ msgstr "%1. lemez"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:259
 msgid "does not contain"
-msgstr ""
+msgstr "nem tartalmazza"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:273
 msgid "empty"
-msgstr ""
+msgstr "üres"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:263
 msgid "ends with"
-msgstr ""
+msgstr "ezzel végződik"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:269
 msgid "equals"
-msgstr ""
+msgstr "egyenlő"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:265
 msgid "greater than"
-msgstr ""
+msgstr "nagyobb mint"
 
 #: ../build/src/ui_backendsettingspage.h:491
 msgid "hw"
@@ -5487,7 +5486,7 @@ msgstr "hw"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:245
 msgid "in the last"
-msgstr ""
+msgstr "a végén"
 
 #: context/contextview.cpp:545 context/contextview.cpp:696
 #: playlist/playlistview.cpp:265 dialogs/edittagdialog.cpp:741
@@ -5496,11 +5495,11 @@ msgstr "kb/s"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:267
 msgid "less than"
-msgstr ""
+msgstr "kisebb mint"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:416
 msgid "longest first"
-msgstr ""
+msgstr "leghosszabb elöl"
 
 #: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
@@ -5515,31 +5514,31 @@ msgstr " ms"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:414
 msgid "newest first"
-msgstr ""
+msgstr "legújabb először"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:275
 msgid "not empty"
-msgstr ""
+msgstr "nem üres"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:271
 msgid "not equals"
-msgstr ""
+msgstr "nem egyenlő"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:247
 msgid "not in the last"
-msgstr ""
+msgstr "nincs a végén"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:243
 msgid "not on"
-msgstr ""
+msgstr "nincs rajta"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:414
 msgid "oldest first"
-msgstr ""
+msgstr "legrégebbi először"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:241
 msgid "on"
-msgstr ""
+msgstr "rajta van"
 
 #: core/commandlineoptions.cpp:164
 msgid "options"
@@ -5561,7 +5560,7 @@ msgstr "a szót tartalmazó előadók keresése a gyűjteményben"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:416
 msgid "shortest first"
-msgstr ""
+msgstr "legrövidebb először"
 
 #: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
@@ -5569,7 +5568,7 @@ msgstr "dalok keverése"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:419
 msgid "smallest first"
-msgstr ""
+msgstr "legkisebb először"
 
 #: ../build/src/ui_internetsearchview.h:227
 msgid "songs"
@@ -5581,7 +5580,7 @@ msgstr "dalok rendezése"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:261
 msgid "starts with"
-msgstr ""
+msgstr "ezzel kezdődik"
 
 #: playlist/playlistdelegates.cpp:222
 msgid "stop"
