@@ -160,8 +160,7 @@ QSqlDatabase Database::Connect() {
     if (v.isValid() && qstrcmp(v.typeName(), "sqlite3*") == 0) {
       sqlite3 *handle = *static_cast<sqlite3**>(v.data());
       if (handle) {
-        int result = sqlite3_db_config(handle, SQLITE_DBCONFIG_ENABLE_FTS3_TOKENIZER, 1, nullptr);
-        if (result != SQLITE_OK) qLog(Fatal) << "Unable to enable FTS3 tokenizer";
+        (void)sqlite3_db_config(handle, SQLITE_DBCONFIG_ENABLE_FTS3_TOKENIZER, 1, nullptr);
       }
       else qLog(Fatal) << "Unable to enable FTS3 tokenizer";
     }
