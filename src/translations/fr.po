@@ -45,7 +45,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-03-28 05:37-0400\n"
+"PO-Revision-Date: 2021-04-08 09:24-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -1131,7 +1131,7 @@ msgstr "Image d'arrière-plan"
 msgid "Background opacity"
 msgstr "Opacité de l'arrière-plan"
 
-#: core/database.cpp:558
+#: core/database.cpp:557
 msgid "Backing up database"
 msgstr "Sauvegarde de la base de données"
 
@@ -1692,7 +1692,7 @@ msgstr "Personnalisé"
 
 #: ../build/src/ui_appearancesettingspage.h:633
 msgid "Custom color"
-msgstr ""
+msgstr "Couleur personnalisée"
 
 #: ../build/src/ui_appearancesettingspage.h:607
 msgid "Custom image:"
@@ -1718,7 +1718,7 @@ msgstr "Chemin D-Bus"
 msgid "Dance"
 msgstr "Danse"
 
-#: core/database.cpp:509
+#: core/database.cpp:508
 msgid "Database corruption detected."
 msgstr "Corruption de la base de données détectée."
 
@@ -2723,7 +2723,7 @@ msgstr "Insérer..."
 msgid "Install strawberry through PPA:<br />"
 msgstr "Installez strawberry via PPA :<br />"
 
-#: core/database.cpp:494
+#: core/database.cpp:493
 msgid "Integrity check"
 msgstr "Vérification de l'intégrité"
 
@@ -4798,7 +4798,7 @@ msgstr "Couleurs du système"
 
 #: ../build/src/ui_appearancesettingspage.h:632
 msgid "System highlight color"
-msgstr ""
+msgstr "Couleur de surbrillance du système"
 
 #: ../build/src/ui_appearancesettingspage.h:593
 msgid "Tabbar colors"
@@ -4867,7 +4867,7 @@ msgstr "La commande « %1 » n'a pas pu être démarrée."
 
 #: ../build/src/ui_appearancesettingspage.h:603
 msgid "The album cover of the currently playing song"
-msgstr "La pochette d'album de la piste en cours de lecture"
+msgstr "La pochette d'album du morceau en cours de lecture"
 
 #: dialogs/deleteconfirmationdialog.cpp:56
 msgid "The following files will be deleted from disk:"
