@@ -252,6 +252,7 @@ void InternetSearchView::ReloadSettings() {
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   int iconsize = s.value(AppearanceSettingsPage::kIconSizeConfigureButtons, 20).toInt();
   s.endGroup();
+
   ui_->settings->setIconSize(QSize(iconsize, iconsize));
   ui_->search->setIconSize(iconsize);
 
@@ -260,7 +261,10 @@ void InternetSearchView::ReloadSettings() {
 void InternetSearchView::showEvent(QShowEvent *e) {
 
   QWidget::showEvent(e);
+
+#ifndef Q_OS_MACOS
   FocusSearchField();
+#endif
 
 }
 
