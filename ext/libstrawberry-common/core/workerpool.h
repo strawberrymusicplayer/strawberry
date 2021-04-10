@@ -278,9 +278,9 @@ void WorkerPool<HandlerType>::StartOneWorker(Worker *worker) {
   // Create a server, find an unused name and start listening
   forever {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-    const qint64 unique_number = QRandomGenerator::global()->bounded(quint64(this) & 0xFFFFFFFF);
+    const qint32 unique_number = QRandomGenerator::global()->bounded(static_cast<qint32>(quint64(this) & 0xFFFFFFFF));
 #else
-    const qint64 unique_number = qrand() ^ (quint64(this) & 0xFFFFFFFF);
+    const qint32 unique_number = qrand() ^ (static_cast<qint32>(quint64(this) & 0xFFFFFFFF));
 #endif
     const QString name = QString("%1_%2").arg(local_server_name_).arg(unique_number);
 
