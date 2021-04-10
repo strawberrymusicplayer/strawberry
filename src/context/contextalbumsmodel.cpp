@@ -249,8 +249,11 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
 
 ContextAlbumsModel::QueryResult ContextAlbumsModel::RunQuery(CollectionItem *parent) {
 
+  QMutexLocker l(backend_->db()->Mutex());
+  QSqlDatabase db(backend_->db()->Connect());
+
   QueryResult result;
-  CollectionQuery q(query_options_);
+  CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), query_options_);
   q.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
 
   // Walk up through the item's parents adding filters as necessary
@@ -263,9 +266,7 @@ ContextAlbumsModel::QueryResult ContextAlbumsModel::RunQuery(CollectionItem *par
   }
 
   // Execute the query
-  QMutexLocker l(backend_->db()->Mutex());
-
-  if (!backend_->ExecQuery(&q)) return result;
+  if (!q.Exec()) return result;
 
   while (q.Next()) {
     result.rows << SqlRow(q);

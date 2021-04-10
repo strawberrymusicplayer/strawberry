@@ -39,7 +39,7 @@ struct QueryOptions {
   // - use the all songs table
   // - use the duplicated songs view; by duplicated we mean those songs for which the (artist, album, title) tuple is found more than once in the songs table
   // - use the untagged songs view; by untagged we mean those for which at least one of the (artist, album, title) tags is empty
-  // Please note that additional filtering based on fts table (the filter attribute) won't work in Duplicates and Untagged modes.
+  // Please note that additional filtering based on FTS table (the filter attribute) won't work in Duplicates and Untagged modes.
   enum QueryMode {
     QueryMode_All,
     QueryMode_Duplicates,
@@ -71,12 +71,13 @@ struct QueryOptions {
   QueryMode query_mode_;
 };
 
-class CollectionQuery {
+class CollectionQuery : public QSqlQuery {
  public:
-  explicit CollectionQuery(const QueryOptions &options = QueryOptions());
+  explicit CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const QueryOptions &options = QueryOptions());
 
   // Sets contents of SELECT clause on the query (list of columns to get).
   void SetColumnSpec(const QString &spec) { column_spec_ = spec; }
+
   // Sets an ORDER BY clause on the query.
   void SetOrderBy(const QString &order_by) { order_by_ = order_by; }
 
@@ -85,29 +86,42 @@ class CollectionQuery {
   void AddWhere(const QString &column, const QVariant &value, const QString &op = "=");
   void AddWhereArtist(const QVariant &value);
 
-  void AddCompilationRequirement(bool compilation);
-  void SetLimit(int limit) { limit_ = limit; }
-  void SetIncludeUnavailable(bool include_unavailable) { include_unavailable_ = include_unavailable; }
+  void SetWhereClauses(const QStringList &where_clauses) { where_clauses_ = where_clauses; }
+  void SetBoundValues(const QVariantList &bound_values) { bound_values_ = bound_values; }
+  void SetDuplicatesOnly(const bool duplicates_only) { duplicates_only_ = duplicates_only; }
+  void SetIncludeUnavailable(const bool include_unavailable) { include_unavailable_ = include_unavailable; }
+  void SetLimit(const int limit) { limit_ = limit; }
+  void AddCompilationRequirement(const bool compilation);
 
-  QSqlQuery Exec(QSqlDatabase db, const QString &songs_table, const QString &fts_table);
+  bool Exec();
   bool Next();
-  QVariant Value(int column) const;
+  QVariant Value(const int column) const;
 
-  operator const QSqlQuery &() const { return query_; }
+  QString column_spec() const { return column_spec_; }
+  QString order_by() const { return order_by_; }
+  QStringList where_clauses() const { return where_clauses_; }
+  QVariantList bound_values() const { return bound_values_; }
+  bool include_unavailable() const { return include_unavailable_; }
+  bool join_with_fts() const { return join_with_fts_; }
+  bool duplicates_only() const { return duplicates_only_; }
+  int limit() const { return limit_; }
 
  private:
   QString GetInnerQuery();
 
-  bool include_unavailable_;
-  bool join_with_fts_;
+  QSqlDatabase db_;
+  QString songs_table_;
+  QString fts_table_;
+
   QString column_spec_;
   QString order_by_;
   QStringList where_clauses_;
   QVariantList bound_values_;
-  int limit_;
-  bool duplicates_only_;
 
-  QSqlQuery query_;
+  bool include_unavailable_;
+  bool join_with_fts_;
+  bool duplicates_only_;
+  int limit_;
 };
 
 #endif // COLLECTIONQUERY_H

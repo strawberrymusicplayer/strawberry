@@ -32,9 +32,7 @@ class CollectionQuery;
 class SqlRow {
 
  public:
-  // WARNING: Implicit construction from QSqlQuery and CollectionQuery.
   SqlRow(const QSqlQuery &query);
-  SqlRow(const CollectionQuery &query);
 
   const QVariant &value(int i) const { return columns_[i]; }
 

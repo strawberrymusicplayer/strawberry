@@ -31,14 +31,23 @@
 #include <QRegularExpression>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlError>
+
+#include "core/logging.h"
+#include "core/song.h"
 
 #include "collectionquery.h"
-#include "core/song.h"
 
 QueryOptions::QueryOptions() : max_age_(-1), query_mode_(QueryMode_All) {}
 
-CollectionQuery::CollectionQuery(const QueryOptions &options)
-    : include_unavailable_(false), join_with_fts_(false), limit_(-1) {
+CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const QueryOptions &options) :
+    QSqlQuery(db),
+    songs_table_(songs_table),
+    fts_table_(fts_table),
+    include_unavailable_(false),
+    join_with_fts_(false),
+    duplicates_only_(false),
+    limit_(-1) {
 
   if (!options.filter().isEmpty()) {
     // We need to munge the filter text a little bit to get it to work as expected with sqlite's FTS5:
@@ -98,7 +107,7 @@ CollectionQuery::CollectionQuery(const QueryOptions &options)
     bound_values_ << cutoff;
   }
 
-  // TODO: Currently you cannot use any QueryMode other than All and fts at the same time.
+  // TODO: Currently you cannot use any QueryMode other than All and FTS at the same time.
   // Joining songs, duplicated_songs and songs_fts all together takes a huge amount of time.
   // The query takes about 20 seconds on my machine then. Why?
   // Untagged mode could work with additional filtering but I'm disabling it just to be consistent
@@ -123,7 +132,7 @@ QString CollectionQuery::GetInnerQuery() {
 
 void CollectionQuery::AddWhere(const QString &column, const QVariant &value, const QString &op) {
 
-  // ignore 'literal' for IN
+  // Ignore 'literal' for IN
   if (!op.compare("IN", Qt::CaseInsensitive)) {
     QStringList final;
     for (const QString &single_value : value.toStringList()) {
@@ -168,7 +177,7 @@ void CollectionQuery::AddWhereArtist(const QVariant &value) {
 
 }
 
-void CollectionQuery::AddCompilationRequirement(bool compilation) {
+void CollectionQuery::AddCompilationRequirement(const bool compilation) {
   // The unary + is added to prevent sqlite from using the index idx_comp_artist.
   // When joining with fts, sqlite 3.8 has a tendency to use this index and thereby nesting the tables in an order which gives very poor performance
 
@@ -176,15 +185,15 @@ void CollectionQuery::AddCompilationRequirement(bool compilation) {
 
 }
 
-QSqlQuery CollectionQuery::Exec(QSqlDatabase db, const QString &songs_table, const QString &fts_table) {
+bool CollectionQuery::Exec() {
 
   QString sql;
 
   if (join_with_fts_) {
-    sql = QString("SELECT %1 FROM %2 INNER JOIN %3 AS fts ON %2.ROWID = fts.ROWID").arg(column_spec_, songs_table, fts_table);
+    sql = QString("SELECT %1 FROM %2 INNER JOIN %3 AS fts ON %2.ROWID = fts.ROWID").arg(column_spec_, songs_table_, fts_table_);
   }
   else {
-    sql = QString("SELECT %1 FROM %2 %3").arg(column_spec_, songs_table, GetInnerQuery());
+    sql = QString("SELECT %1 FROM %2 %3").arg(column_spec_, songs_table_, GetInnerQuery());
   }
 
   QStringList where_clauses(where_clauses_);
@@ -198,31 +207,40 @@ QSqlQuery CollectionQuery::Exec(QSqlDatabase db, const QString &songs_table, con
 
   if (limit_ != -1) sql += " LIMIT " + QString::number(limit_);
 
-  sql.replace("%songs_table", songs_table);
-  sql.replace("%fts_table_noprefix", fts_table.section('.', -1, -1));
-  sql.replace("%fts_table", fts_table);
+  sql.replace("%songs_table", songs_table_);
+  sql.replace("%fts_table_noprefix", fts_table_.section('.', -1, -1));
+  sql.replace("%fts_table", fts_table_);
 
-  query_ = QSqlQuery(db);
-  query_.prepare(sql);
+  prepare(sql);
 
   // Bind values
   for (const QVariant &value : bound_values_) {
-    query_.addBindValue(value);
+    addBindValue(value);
   }
 
-  query_.exec();
-  return query_;
+  const bool result = exec();
+
+  if (!result) {
+    QSqlError last_error = lastError();
+    if (last_error.isValid()) {
+      qLog(Error) << "DB error: " << last_error;
+      qLog(Error) << "Faulty query: " << lastQuery();
+      qLog(Error) << "Bound values: " << boundValues();
+    }
+  }
+
+  return result;
 
 }
 
-bool CollectionQuery::Next() { return query_.next(); }
+bool CollectionQuery::Next() { return next(); }
 
-QVariant CollectionQuery::Value(int column) const { return query_.value(column); }
+QVariant CollectionQuery::Value(const int column) const { return value(column); }
 
 bool QueryOptions::Matches(const Song &song) const {
 
   if (max_age_ != -1) {
-    const uint cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - max_age_;
+    const qint64 cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - max_age_;
     if (song.ctime() <= cutoff) return false;
   }
 

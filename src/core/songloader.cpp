@@ -52,6 +52,7 @@
 #include "song.h"
 #include "songloader.h"
 #include "tagreaderclient.h"
+#include "database.h"
 #include "engine/enginetype.h"
 #include "engine/enginebase.h"
 #include "collection/collectionbackend.h"
@@ -222,11 +223,14 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   // Search in the database.
   QUrl url = QUrl::fromLocalFile(filename);
 
-  CollectionQuery query;
+  QMutexLocker l(collection_->db()->Mutex());
+  QSqlDatabase db(collection_->db()->Connect());
+
+  CollectionQuery query(db, collection_->songs_table(), collection_->fts_table());
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
   query.AddWhere("url", url.toEncoded());
 
-  if (collection_->ExecQuery(&query) && query.Next()) {
+  if (query.Exec() && query.Next()) {
     // We may have many results when the file has many sections
     do {
       Song song(Song::Source_Collection);

@@ -815,14 +815,20 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
 
 }
 
-bool CollectionModel::HasCompilations(const CollectionQuery &query) {
+bool CollectionModel::HasCompilations(const QSqlDatabase &db, const CollectionQuery &query) {
 
-  CollectionQuery q = query;
+  CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), query_options_);
+
+  q.SetColumnSpec(query.column_spec());
+  q.SetOrderBy(query.order_by());
+  q.SetWhereClauses(query.where_clauses());
+  q.SetBoundValues(query.bound_values());
+  q.SetIncludeUnavailable(query.include_unavailable());
+  q.SetDuplicatesOnly(query.duplicates_only());
   q.AddCompilationRequirement(true);
   q.SetLimit(1);
 
-  QMutexLocker l(backend_->db()->Mutex());
-  if (!backend_->ExecQuery(&q)) return false;
+  if (!q.Exec()) return false;
 
   return q.Next();
 
@@ -837,33 +843,39 @@ CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
   GroupBy child_type = child_level >= 3 ? GroupBy_None : group_by_[child_level];
 
   // Initialize the query.  child_type says what type of thing we want (artists, songs, etc.)
-  CollectionQuery q(query_options_);
-  InitQuery(child_type, &q);
 
-  // Walk up through the item's parents adding filters as necessary
-  CollectionItem *p = parent;
-  while (p && p->type == CollectionItem::Type_Container) {
-    FilterQuery(group_by_[p->container_level], p, &q);
-    p = p->parent;
-  }
+  {
+    QMutexLocker l(backend_->db()->Mutex());
+    QSqlDatabase db(backend_->db()->Connect());
 
-  // Artists GroupBy is special - we don't want compilation albums appearing
-  if (IsArtistGroupBy(child_type)) {
-    // Add the special Various artists node
-    if (show_various_artists_ && HasCompilations(q)) {
-      result.create_va = true;
+    CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), query_options_);
+    InitQuery(child_type, &q);
+
+    // Walk up through the item's parents adding filters as necessary
+    CollectionItem *p = parent;
+    while (p && p->type == CollectionItem::Type_Container) {
+      FilterQuery(group_by_[p->container_level], p, &q);
+      p = p->parent;
     }
 
-    // Don't show compilations again outside the Various artists node
-    q.AddCompilationRequirement(false);
-  }
+    // Artists GroupBy is special - we don't want compilation albums appearing
+    if (IsArtistGroupBy(child_type)) {
+      // Add the special Various artists node
+      if (show_various_artists_ && HasCompilations(db, q)) {
+        result.create_va = true;
+      }
 
-  // Execute the query
-  QMutexLocker l(backend_->db()->Mutex());
-  if (backend_->ExecQuery(&q)) {
-    while (q.Next()) {
-      result.rows << SqlRow(q);
+      // Don't show compilations again outside the Various artists node
+      q.AddCompilationRequirement(false);
     }
+
+    // Execute the query
+    if (q.Exec()) {
+      while (q.Next()) {
+        result.rows << SqlRow(q);
+      }
+    }
+
   }
 
   if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {

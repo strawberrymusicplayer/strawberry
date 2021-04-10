@@ -239,7 +239,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QueryResult RunQuery(CollectionItem *parent);
   void PostQuery(CollectionItem *parent, const QueryResult &result, const bool signal);
 
-  bool HasCompilations(const CollectionQuery &query);
+  bool HasCompilations(const QSqlDatabase &db, const CollectionQuery &query);
 
   void BeginReset();
 

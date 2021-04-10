@@ -71,6 +71,9 @@ class CollectionBackendInterface : public QObject {
   typedef QList<Album> AlbumList;
 
   virtual QString songs_table() const = 0;
+  virtual QString fts_table() const = 0;
+
+  virtual Database *db() const = 0;
 
   // Get a list of directories in the collection.  Emits DirectoriesDiscovered.
   virtual void LoadDirectoriesAsync() = 0;
@@ -111,8 +114,6 @@ class CollectionBackendInterface : public QObject {
 
   virtual void AddDirectory(const QString &path) = 0;
   virtual void RemoveDirectory(const Directory &dir) = 0;
-
-  virtual bool ExecQuery(CollectionQuery *q) = 0;
 };
 
 class CollectionBackend : public CollectionBackendInterface {
@@ -127,9 +128,10 @@ class CollectionBackend : public CollectionBackendInterface {
 
   void ExitAsync();
 
-  Database *db() const { return db_; }
+  Database *db() const override { return db_; }
 
   QString songs_table() const override { return songs_table_; }
+  QString fts_table() const override { return fts_table_; }
   QString dirs_table() const { return dirs_table_; }
   QString subdirs_table() const { return subdirs_table_; }
 
@@ -174,7 +176,6 @@ class CollectionBackend : public CollectionBackendInterface {
   void AddDirectory(const QString &path) override;
   void RemoveDirectory(const Directory &dir) override;
 
-  bool ExecQuery(CollectionQuery *q) override;
   SongList ExecCollectionQuery(CollectionQuery *query);
 
   void IncrementPlayCountAsync(const int id);

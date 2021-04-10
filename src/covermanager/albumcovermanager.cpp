@@ -70,6 +70,7 @@
 #include "core/utilities.h"
 #include "core/imageutils.h"
 #include "core/tagreaderclient.h"
+#include "core/database.h"
 #include "widgets/forcescrollperpixel.h"
 #include "widgets/qsearchfield.h"
 #include "collection/sqlrow.h"
@@ -888,7 +889,10 @@ SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &idx) const {
 
   SongList ret;
 
-  CollectionQuery q;
+  QMutexLocker l(collection_backend_->db()->Mutex());
+  QSqlDatabase db(collection_backend_->db()->Connect());
+
+  CollectionQuery q(db, collection_backend_->songs_table(), collection_backend_->fts_table());
   q.SetColumnSpec("ROWID," + Song::kColumnSpec);
   q.AddWhere("album", idx.data(Role_Album).toString());
   q.SetOrderBy("disc, track, title");
@@ -900,7 +904,7 @@ SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &idx) const {
 
   q.AddCompilationRequirement(albumartist.isEmpty());
 
-  if (!collection_backend_->ExecQuery(&q)) return ret;
+  if (!q.Exec()) return ret;
 
   while (q.Next()) {
     Song song;
