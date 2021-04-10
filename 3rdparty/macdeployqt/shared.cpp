@@ -992,8 +992,13 @@ DeploymentInfo deployQtFrameworks(QList<FrameworkInfo> frameworks,
         if (framework.isDebugLibrary())
             deploymentInfo.isDebug = true;
 
-        if (deploymentInfo.qtPath.isNull())
+        if (deploymentInfo.qtPath.isNull()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
             deploymentInfo.qtPath = QLibraryInfo::path(QLibraryInfo::PrefixPath);
+#else
+            deploymentInfo.qtPath = QLibraryInfo::location(QLibraryInfo::PrefixPath);
+#endif
+        }
 
         if (framework.frameworkDirectory.startsWith(bundlePath)) {
             LogError()  << framework.frameworkName << "already deployed, skipping.";
@@ -1052,7 +1057,11 @@ DeploymentInfo deployQtFrameworks(const QString &appBundlePath, const QStringLis
    QStringList allBinaryPaths = QStringList() << applicationBundle.binaryPath << applicationBundle.libraryPaths
                                                  << additionalExecutables;
    QSet<QString> allLibraryPaths = getBinaryRPaths(applicationBundle.binaryPath, true);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
    allLibraryPaths.insert(QLibraryInfo::path(QLibraryInfo::LibrariesPath));
+#else
+   allLibraryPaths.insert(QLibraryInfo::location(QLibraryInfo::LibrariesPath));
+#endif
    QList<FrameworkInfo> frameworks = getQtFrameworksForPaths(allBinaryPaths, appBundlePath, allLibraryPaths, useDebugLibs);
    if (frameworks.isEmpty() && !alwaysOwerwriteEnabled) {
         LogWarning();
@@ -1376,7 +1385,11 @@ bool deployQmlImports(const QString &appBundlePath, DeploymentInfo deploymentInf
     LogNormal() << "QML module search path(s) is" << qmlImportPaths;
 
     // Use qmlimportscanner from QLibraryInfo::BinariesPath
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QString qmlImportScannerPath = QDir::cleanPath(QLibraryInfo::path(QLibraryInfo::BinariesPath) + "/qmlimportscanner");
+#else
+    QString qmlImportScannerPath = QDir::cleanPath(QLibraryInfo::location(QLibraryInfo::BinariesPath) + "/qmlimportscanner");
+#endif
 
     // Fallback: Look relative to the macdeployqt binary
     if (!QFile(qmlImportScannerPath).exists())
@@ -1398,7 +1411,11 @@ bool deployQmlImports(const QString &appBundlePath, DeploymentInfo deploymentInf
     }
     for (const QString &importPath : qmlImportPaths)
         argumentList << "-importPath" << importPath;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QString qmlImportsPath = QLibraryInfo::path(QLibraryInfo::Qml2ImportsPath);
+#else
+    QString qmlImportsPath = QLibraryInfo::location(QLibraryInfo::Qml2ImportsPath);
+#endif
     argumentList.append( "-importPath");
     argumentList.append(qmlImportsPath);
 

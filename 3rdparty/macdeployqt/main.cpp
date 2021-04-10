@@ -254,7 +254,11 @@ int main(int argc, char **argv)
 
     if (plugins) {
       if (plugin_dir.isEmpty()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         deploymentInfo.pluginPath = QLibraryInfo::path(QLibraryInfo::PluginsPath);
+#else
+        deploymentInfo.pluginPath = QLibraryInfo::location(QLibraryInfo::PluginsPath);
+#endif
       }
       else {
         deploymentInfo.pluginPath = plugin_dir;
