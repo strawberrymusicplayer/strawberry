@@ -60,7 +60,7 @@ class QueuedItemDelegate : public QStyledItemDelegate {
   explicit QueuedItemDelegate(QObject *parent, int indicator_column = Playlist::Column_Title);
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
-  void DrawBox(QPainter *painter, const QRect &line_rect, const QFont &font, const QString &idx, int width = -1) const;
+  void DrawBox(QPainter *painter, const QRect &line_rect, const QFont &font, const QString &idx, int width = -1, const float opacity = 1.0) const;
 
   int queue_indicator_size(const QModelIndex &idx) const;
 

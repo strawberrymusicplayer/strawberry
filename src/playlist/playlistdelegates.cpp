@@ -98,17 +98,13 @@ void QueuedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
       opacity /= kQueueOpacitySteps;
       opacity *= float(1.0) - float(kQueueOpacityLowerBound);
       opacity += kQueueOpacityLowerBound;
-      painter->setOpacity(opacity);
-
-      DrawBox(painter, option.rect, option.font, QString::number(queue_pos + 1), kQueueBoxLength);
-
-      painter->setOpacity(1.0);
+      DrawBox(painter, option.rect, option.font, QString::number(queue_pos + 1), kQueueBoxLength, opacity);
     }
   }
 
 }
 
-void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect &line_rect, const QFont &font, const QString &text, int width) const {
+void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect &line_rect, const QFont &font, const QString &text, int width, const float opacity) const {
 
   QFont smaller = font;
   smaller.setPointSize(smaller.pointSize() - 1);
@@ -135,6 +131,10 @@ void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect &line_rect, cons
   gradient.setColorAt(0.0, kQueueBoxGradientColor1);
   gradient.setColorAt(1.0, kQueueBoxGradientColor2);
 
+  painter->save();
+
+  painter->setOpacity(opacity);
+
   // Turn on antialiasing
   painter->setRenderHint(QPainter::Antialiasing);
 
@@ -148,6 +148,8 @@ void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect &line_rect, cons
   painter->setFont(smaller);
   painter->drawText(rect, Qt::AlignCenter, text);
   painter->translate(-0.5, -0.5);
+
+  painter->restore();
 
 }
 
