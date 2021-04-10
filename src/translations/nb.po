@@ -194,7 +194,7 @@ msgstr ""
 msgid "%1 tracks"
 msgstr "%1 spor"
 
-#: covermanager/albumcovermanager.cpp:572
+#: covermanager/albumcovermanager.cpp:573
 #, qt-format
 msgid "%1 transferred"
 msgstr "overført %1"
@@ -514,7 +514,7 @@ msgstr "API Token"
 msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
-#: covermanager/albumcovermanager.cpp:141
+#: covermanager/albumcovermanager.cpp:142
 #: covermanager/albumcoversearcher.cpp:196
 #: ../build/src/ui_internetcollectionviewcontainer.h:139
 msgid "Abort"
@@ -570,7 +570,7 @@ msgstr "Legg til alle filer fra ei mappe og dens undermapper"
 msgid "Add directory..."
 msgstr "Legg til mappe…"
 
-#: core/mainwindow.cpp:2153
+#: core/mainwindow.cpp:2149
 msgid "Add file"
 msgstr "Legg til fil"
 
@@ -586,7 +586,7 @@ msgstr "Legg fil(er) til omkoder"
 msgid "Add files to transcode"
 msgstr "Legg filer til for omkoding"
 
-#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2174 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Legg til mappe"
 
@@ -692,15 +692,15 @@ msgstr "Fest etikett for utgivelsesår på sporet"
 msgid "Add stream..."
 msgstr ""
 
-#: internet/internetsearchview.cpp:329
+#: internet/internetsearchview.cpp:333
 msgid "Add to albums"
 msgstr "Legg til albumer"
 
-#: core/mainwindow.cpp:1959
+#: core/mainwindow.cpp:1955
 msgid "Add to another playlist"
 msgstr "Legg til i annen spilleliste"
 
-#: internet/internetsearchview.cpp:326
+#: internet/internetsearchview.cpp:330
 msgid "Add to artists"
 msgstr "Legg til artister"
 
@@ -708,7 +708,7 @@ msgstr "Legg til artister"
 msgid "Add to playlist"
 msgstr "Legg til i spilleliste"
 
-#: internet/internetsearchview.cpp:332
+#: internet/internetsearchview.cpp:336
 msgid "Add to songs"
 msgstr "Legg til sanger"
 
@@ -811,11 +811,11 @@ msgstr "Albumer av artist"
 msgid "Albums search limit"
 msgstr "Album søke begrensning"
 
-#: covermanager/albumcovermanager.cpp:171
+#: covermanager/albumcovermanager.cpp:172
 msgid "Albums with covers"
 msgstr "Album med omslag"
 
-#: covermanager/albumcovermanager.cpp:172
+#: covermanager/albumcovermanager.cpp:173
 msgid "Albums without covers"
 msgstr "Album uten omslag"
 
@@ -823,11 +823,11 @@ msgstr "Album uten omslag"
 msgid "All Files (*)"
 msgstr "Alle filer (*)"
 
-#: covermanager/albumcovermanager.cpp:170
+#: covermanager/albumcovermanager.cpp:171
 msgid "All albums"
 msgstr "Alle album"
 
-#: covermanager/albumcovermanager.cpp:356
+#: covermanager/albumcovermanager.cpp:357
 msgid "All artists"
 msgstr "Alle artister"
 
@@ -901,7 +901,7 @@ msgstr "Tilføy filer/URLer til spillelista"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:342
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:315
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:319
 #: internet/internetcollectionview.cpp:311 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Legg til i gjeldende spilleliste"
@@ -1160,7 +1160,7 @@ msgstr "Mellomlagring"
 msgid "C&onsole"
 msgstr "K&onsoll"
 
-#: core/songloader.cpp:190
+#: core/songloader.cpp:191
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD avspilling er kun mulig med gstreamer"
 
@@ -1241,7 +1241,7 @@ msgstr ""
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2243 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2239 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Tøm spillelisten"
 
@@ -1284,7 +1284,7 @@ msgstr "Lukk"
 msgid "Close playlist"
 msgstr "Lukk spillelista"
 
-#: covermanager/albumcovermanager.cpp:258
+#: covermanager/albumcovermanager.cpp:259
 msgid "Closing this window will stop searching for album covers."
 msgstr "Lukking av dette vinduet vil medføre stopp i søk etter albumomslag."
 
@@ -1305,7 +1305,7 @@ msgstr "Collection Filter"
 msgid "Collection advanced grouping"
 msgstr "Avansert samlingsgruppering"
 
-#: core/mainwindow.cpp:2764
+#: core/mainwindow.cpp:2760
 msgid "Collection rescan notice"
 msgstr "Melding om gjennomsøk av samlingen"
 
@@ -1356,7 +1356,7 @@ msgstr "Oppsett ikke komplett"
 msgid "Configuration incorrect"
 msgstr "Uriktig oppsett"
 
-#: internet/internetsearchview.cpp:185 internet/internetsearchview.cpp:344
+#: internet/internetsearchview.cpp:185 internet/internetsearchview.cpp:348
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
@@ -1445,12 +1445,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Kunne ikke åpne URL. Prøv å åpne denne URLen  i din nettleser"
 
-#: core/songloader.cpp:261
+#: core/songloader.cpp:265
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Kan ikke åpne fil %1"
 
-#: core/songloader.cpp:437
+#: core/songloader.cpp:441
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Kunne ikke opprette gstreamer kilde for %1"
@@ -1708,11 +1708,11 @@ msgstr "Slett de originale filene"
 msgid "Deleting files"
 msgstr "Sletter filer"
 
-#: core/mainwindow.cpp:1876
+#: core/mainwindow.cpp:1872
 msgid "Dequeue selected tracks"
 msgstr "Fjern valgte spor fra avspillingskøen"
 
-#: core/mainwindow.cpp:1875
+#: core/mainwindow.cpp:1871
 msgid "Dequeue track"
 msgstr "Fjern sporet fra avspillingskøen"
 
@@ -1815,7 +1815,7 @@ msgstr "Ikke vis under diverse artister"
 msgid "Don't shuffle"
 msgstr "Ikke stokk"
 
-#: covermanager/albumcovermanager.cpp:259
+#: covermanager/albumcovermanager.cpp:260
 msgid "Don't stop!"
 msgstr "Ikke stopp!"
 
@@ -1861,7 +1861,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1917
+#: core/mainwindow.cpp:1913
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Rediger etiketten \"%1\"…"
@@ -1974,7 +1974,7 @@ msgstr "Skriv inn et filnavn for eksportert albumomslag (uten filendelse):"
 msgid "Enter a new name for this playlist"
 msgstr "Gi denne spillelista et nytt navn"
 
-#: internet/internetsearchview.cpp:401 ../build/src/ui_internetsearchview.h:229
+#: internet/internetsearchview.cpp:405 ../build/src/ui_internetsearchview.h:229
 msgid "Enter search terms above to find music"
 msgstr "Skriv inn søkeord ovenfor for å finne musikk"
 
@@ -2015,7 +2015,7 @@ msgstr "Tilsvarer --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Tilsvarer --log-levels *:3"
 
-#: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
+#: core/mainwindow.cpp:2497 core/mainwindow.cpp:2642
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "Feil"
@@ -2091,12 +2091,12 @@ msgstr "Eksporter nedlastede omslag"
 msgid "Export embedded covers"
 msgstr "Eksporter innebygde omslag"
 
-#: covermanager/albumcovermanager.cpp:1032
-#: covermanager/albumcovermanager.cpp:1058
+#: covermanager/albumcovermanager.cpp:1036
+#: covermanager/albumcovermanager.cpp:1062
 msgid "Export finished"
 msgstr "Eksport fullført"
 
-#: covermanager/albumcovermanager.cpp:1043
+#: covermanager/albumcovermanager.cpp:1047
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "%1 av %2 omslag eksportert (hoppet over %3)"
@@ -2386,7 +2386,7 @@ msgstr "Gå til forrige fane på spillelista"
 msgid "Go!"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:566
+#: covermanager/albumcovermanager.cpp:567
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:72
 #, qt-format
@@ -2406,7 +2406,7 @@ msgid "Group Collection by..."
 msgstr "Grupper samling etter…"
 
 #: collection/collectionfilterwidget.cpp:119
-#: internet/internetsearchview.cpp:342
+#: internet/internetsearchview.cpp:346
 msgid "Group by"
 msgstr "Grupper etter"
 
@@ -3041,7 +3041,7 @@ msgstr "Flytt til samling…"
 msgid "Move up"
 msgstr "Flytt oppover"
 
-#: core/mainwindow.cpp:2153 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2149 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Musikk"
 
@@ -3086,7 +3086,7 @@ msgstr "Aldri begynn avspilling"
 msgid "New folder"
 msgstr "Ny mappe"
 
-#: core/mainwindow.cpp:1975
+#: core/mainwindow.cpp:1971
 msgid "New playlist"
 msgstr "Ny spilleliste"
 
@@ -3122,7 +3122,7 @@ msgstr "Neste uke"
 msgid "No analyzer"
 msgstr "Ingen analyse"
 
-#: covermanager/albumcovermanager.cpp:1033
+#: covermanager/albumcovermanager.cpp:1037
 msgid "No covers to export."
 msgstr "Ingen omslag å eksportere."
 
@@ -3157,7 +3157,7 @@ msgstr "Ingen sang spilles"
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2501 core/mainwindow.cpp:2646
+#: core/mainwindow.cpp:2497 core/mainwindow.cpp:2642
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
@@ -3259,7 +3259,7 @@ msgstr "Åpne enhet"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:344
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:317
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:321
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:316
 msgid "Open in new playlist"
@@ -3371,7 +3371,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1268 core/mainwindow.cpp:1771
+#: core/mainwindow.cpp:1268 core/mainwindow.cpp:1767
 #: core/qtsystemtrayicon.cpp:194
 msgid "Pause"
 msgstr "Pause"
@@ -3400,7 +3400,7 @@ msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
 #: core/mainwindow.cpp:678 core/mainwindow.cpp:1221 core/mainwindow.cpp:1250
-#: core/mainwindow.cpp:1775 core/qtsystemtrayicon.cpp:181
+#: core/mainwindow.cpp:1771 core/qtsystemtrayicon.cpp:181
 #: core/qtsystemtrayicon.cpp:206
 msgid "Play"
 msgstr "Spill"
@@ -3467,7 +3467,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Spillelisten er ferdigspilt"
 
-#: core/mainwindow.cpp:2243
+#: core/mainwindow.cpp:2239
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3548,7 +3548,7 @@ msgid ""
 msgstr ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 
-#: core/songloader.cpp:151
+#: core/songloader.cpp:152
 msgid "Preload function was not set for blocking operation."
 msgstr "Preload function was not set for blocking operation."
 
@@ -3639,23 +3639,23 @@ msgstr "Spør enhet…"
 msgid "Queue"
 msgstr "Kø"
 
-#: core/mainwindow.cpp:1878
+#: core/mainwindow.cpp:1874
 msgid "Queue selected tracks"
 msgstr "Legg valgte spor i kø"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1882
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1878
 msgid "Queue selected tracks to play next"
 msgstr "Legg valgte spor i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1884 collection/collectionview.cpp:348
+#: core/mainwindow.cpp:1880 collection/collectionview.cpp:348
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Legg i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1877 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1873 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
-#: internet/internetsearchview.cpp:320 internet/internetcollectionview.cpp:316
+#: internet/internetsearchview.cpp:324 internet/internetcollectionview.cpp:316
 msgid "Queue track"
 msgstr "Legg spor i kø"
 
@@ -3679,7 +3679,7 @@ msgstr ""
 msgid "Re&lative"
 msgstr "Relativ"
 
-#: covermanager/albumcovermanager.cpp:258
+#: covermanager/albumcovermanager.cpp:259
 msgid "Really cancel?"
 msgstr "Vil du virkelig avbryte?"
 
@@ -3814,7 +3814,7 @@ msgstr "Gjenta spor"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:343
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:316
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:320
 #: internet/internetcollectionview.cpp:312 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Erstatt gjeldende spilleliste"
@@ -4084,7 +4084,7 @@ msgstr "Søke forsinkelse"
 msgid "Search for album covers..."
 msgstr "Søk etter albumomslag…"
 
-#: internet/internetsearchview.cpp:338
+#: internet/internetsearchview.cpp:342
 msgid "Search for this"
 msgstr "Søk etter dette"
 
@@ -4171,7 +4171,7 @@ msgstr "Server URL er ugyldig."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1916
+#: core/mainwindow.cpp:1912
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Sett %1 til \"%2\"…"
@@ -4404,11 +4404,11 @@ msgstr "Antall ganger hoppet over"
 msgid "Skip forwards in playlist"
 msgstr "Gå fremover i spillelista"
 
-#: core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:1885
 msgid "Skip selected tracks"
 msgstr "Hopp over valgte spor"
 
-#: core/mainwindow.cpp:1888
+#: core/mainwindow.cpp:1884
 msgid "Skip track"
 msgstr "Hopp over spor"
 
@@ -4746,7 +4746,7 @@ msgstr "Siden du forespurte finnes ikke!"
 msgid "The site you requested is not an image!"
 msgstr "Siden du forespurte er ikke et bilde!"
 
-#: core/mainwindow.cpp:2759
+#: core/mainwindow.cpp:2755
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4875,7 +4875,7 @@ msgstr "Tittel"
 msgid "Today"
 msgstr "I dag"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1879
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1875
 msgid "Toggle queue status"
 msgstr "Slå av/på køstatus"
 
@@ -4883,7 +4883,7 @@ msgstr "Slå av/på køstatus"
 msgid "Toggle scrobbling"
 msgstr "Slå av/på deling av lyttevaner"
 
-#: core/mainwindow.cpp:687 core/mainwindow.cpp:1890
+#: core/mainwindow.cpp:687 core/mainwindow.cpp:1886
 msgid "Toggle skip status"
 msgstr "Slå av/på hopp over status"
 
@@ -4962,10 +4962,10 @@ msgstr "Ultrabredt bånd (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:559 context/contextalbumsmodel.cpp:357
+#: core/song.cpp:559 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1600
+#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1612
 #: collection/savedgroupingmanager.cpp:145 playlist/playlistdelegates.cpp:353
 #: playlist/playlistmanager.cpp:573 playlist/playlistmanager.cpp:574
 #: dialogs/edittagdialog.cpp:719 dialogs/edittagdialog.cpp:746
@@ -4986,11 +4986,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Fjern omslagsvalg"
 
-#: core/mainwindow.cpp:1887
+#: core/mainwindow.cpp:1883
 msgid "Unskip selected tracks"
 msgstr "Ikke hopp over de valgte sporene"
 
-#: core/mainwindow.cpp:1886
+#: core/mainwindow.cpp:1882
 msgid "Unskip track"
 msgstr "Ikke hopp over sporet"
 
@@ -5138,7 +5138,7 @@ msgid "Variable bit rate"
 msgstr "Variabel bitrate"
 
 #: collection/collectionmodel.cpp:298 collection/collectionmodel.cpp:299
-#: playlist/playlistmanager.cpp:585 covermanager/albumcovermanager.cpp:357
+#: playlist/playlistmanager.cpp:585 covermanager/albumcovermanager.cpp:358
 #: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "Diverse artister"
@@ -5220,7 +5220,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2763
+#: core/mainwindow.cpp:2759
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 
@@ -5294,7 +5294,7 @@ msgid ""
 "through %2."
 msgstr ""
 
-#: core/songloader.cpp:132 core/songloader.cpp:137
+#: core/songloader.cpp:133 core/songloader.cpp:138
 msgid "You need GStreamer for this URL."
 msgstr "Du trenge gstreamer for denne URLen"
 
