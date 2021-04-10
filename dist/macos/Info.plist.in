@@ -38,6 +38,19 @@
   <string>https://www.strawberrymusicplayer.org/sparkle-macos</string>
   <key>SUPublicEDKey</key>
   <string>3IRScV8YtNVnx7zoeJAXvg28Kh1gN/Pyl2iPM467pG8=</string>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeRole</key>
+      <string>Viewer</string>
+      <key>CFBundleURLName</key>
+      <string>org.strawberrymusicplayer.strawberry</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>tidal</string>
+      </array>
+    </dict>
+  </array>
   <key>CFBundleDocumentTypes</key>
   <array>
     <dict>
