@@ -908,8 +908,18 @@ void CollectionWatcher::PerformScan(bool incremental, bool ignore_mtimes) {
   for (const Directory &dir : dirs) {
 
     if (stop_requested_) break;
+
     ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes, mark_songs_unavailable_);
     SubdirectoryList subdirs(transaction.GetAllSubdirs());
+
+    if (subdirs.isEmpty()) {
+      qLog(Debug) << "Collection directory wasn't in subdir list.";
+      Subdirectory subdir;
+      subdir.path = dir.path;
+      subdir.directory_id = dir.id;
+      subdirs << subdir;
+    }
+
     transaction.AddToProgressMax(subdirs.count());
 
     for (const Subdirectory &subdir : subdirs) {
