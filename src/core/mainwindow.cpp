@@ -1561,16 +1561,12 @@ void MainWindow::showEvent(QShowEvent *e) {
 
 void MainWindow::closeEvent(QCloseEvent *e) {
 
-#ifdef Q_OS_MACOS
-  Exit();
-#else
   if (!hidden_ && keep_running_ && e->spontaneous() && QSystemTrayIcon::isSystemTrayAvailable()) {
     SetHiddenInTray(true);
   }
   else {
     Exit();
   }
-#endif
 
   QMainWindow::closeEvent(e);
 

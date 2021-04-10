@@ -68,7 +68,6 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
 
 #ifdef Q_OS_MACOS
   ui_->checkbox_showtrayicon->hide();
-  ui_->checkbox_keeprunning->hide();
   ui_->checkbox_trayicon_progress->hide();
   ui_->checkbox_scrolltrayicon->hide();
   ui_->groupbox_startup->hide();
@@ -156,28 +155,33 @@ void BehaviourSettingsPage::Load() {
 #ifndef Q_OS_MACOS
   if (QSystemTrayIcon::isSystemTrayAvailable()) {
     ui_->checkbox_showtrayicon->setEnabled(true);
-    ui_->checkbox_keeprunning->setEnabled(true);
     ui_->checkbox_trayicon_progress->setEnabled(true);
     ui_->checkbox_scrolltrayicon->setEnabled(true);
     ui_->radiobutton_hide->setEnabled(true);
     ui_->checkbox_showtrayicon->setChecked(s.value("showtrayicon", true).toBool());
-    ui_->checkbox_keeprunning->setChecked(s.value("keeprunning", false).toBool());
     ui_->checkbox_trayicon_progress->setChecked(s.value("trayicon_progress", false).toBool());
     ui_->checkbox_scrolltrayicon->setChecked(s.value("scrolltrayicon", ui_->checkbox_showtrayicon->isChecked()).toBool());
   }
   else {
     ui_->checkbox_showtrayicon->setEnabled(false);
-    ui_->checkbox_keeprunning->setEnabled(false);
     ui_->checkbox_trayicon_progress->setEnabled(false);
     ui_->checkbox_scrolltrayicon->setEnabled(false);
     ui_->radiobutton_hide->setEnabled(false);
     ui_->checkbox_showtrayicon->setChecked(false);
-    ui_->checkbox_keeprunning->setChecked(false);
     ui_->checkbox_trayicon_progress->setChecked(false);
     ui_->checkbox_scrolltrayicon->setChecked(false);
     ui_->radiobutton_hide->setChecked(false);
   }
 #endif
+
+  if (QSystemTrayIcon::isSystemTrayAvailable()) {
+    ui_->checkbox_keeprunning->setEnabled(true);
+    ui_->checkbox_keeprunning->setChecked(s.value("keeprunning", false).toBool());
+  }
+  else {
+    ui_->checkbox_keeprunning->setEnabled(false);
+    ui_->checkbox_keeprunning->setChecked(false);
+  }
 
   ui_->checkbox_resumeplayback->setChecked(s.value("resumeplayback", false).toBool());
   ui_->checkbox_playingwidget->setChecked(s.value("playing_widget", true).toBool());
