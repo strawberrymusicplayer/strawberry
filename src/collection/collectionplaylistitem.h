@@ -42,7 +42,7 @@ class CollectionPlaylistItem : public PlaylistItem {
 
   Song Metadata() const override;
   Song OriginalMetadata() const override { return song_; }
-  void SetMetadata(const Song &song) { song_ = song; }
+  void SetMetadata(const Song &song) override { song_ = song; }
 
   QUrl Url() const override;
 

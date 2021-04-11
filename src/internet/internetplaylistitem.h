@@ -44,6 +44,8 @@ class InternetPlaylistItem : public PlaylistItem {
   Song Metadata() const override;
   Song OriginalMetadata() const override { return metadata_; }
   QUrl Url() const override;
+
+  void SetMetadata(const Song &metadata) override { metadata_ = metadata; }
   void SetArtManual(const QUrl &cover_url) override;
 
  protected:

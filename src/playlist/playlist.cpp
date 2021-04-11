@@ -388,9 +388,15 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, int role) 
 
   if (!set_column_value(song, static_cast<Column>(idx.column()), value)) return false;
 
-  TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
-  QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
-  QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
+  if (song.url().isLocalFile()) {
+    TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
+    QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
+    QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
+  }
+  else if (song.source() == Song::Source_Stream) {
+    item->SetMetadata(song);
+    Save();
+  }
 
   return true;
 

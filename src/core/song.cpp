@@ -1526,7 +1526,12 @@ bool Song::IsMetadataAndArtEqual(const Song &other) const {
 }
 
 bool Song::IsEditable() const {
-  return d->valid_ && !d->url_.isEmpty() && !is_stream() && d->source_ != Source_Unknown && d->filetype_ != FileType_Unknown && !has_cue();
+
+  return d->valid_ &&
+         !d->url_.isEmpty() &&
+         (d->url_.isLocalFile() || d->source_ == Source_Stream) &&
+         !has_cue();
+
 }
 
 bool Song::operator==(const Song &other) const {

@@ -1821,30 +1821,27 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   }
 
   // this is available when we have one or many files and at least one of those is not CUE related
-  ui_->action_edit_track->setEnabled(editable > 0);
-  ui_->action_edit_track->setVisible(editable > 0);
+  ui_->action_edit_track->setEnabled(local_songs > 0 && editable > 0);
+  ui_->action_edit_track->setVisible(local_songs > 0 && editable > 0);
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
-  ui_->action_auto_complete_tags->setEnabled(editable > 0);
-  ui_->action_auto_complete_tags->setVisible(editable > 0);
+  ui_->action_auto_complete_tags->setEnabled(local_songs > 0 && editable > 0);
+  ui_->action_auto_complete_tags->setVisible(local_songs > 0 && editable > 0);
 #endif
 
-  playlist_rescan_songs_->setEnabled(editable > 0);
-  playlist_rescan_songs_->setVisible(editable > 0);
+  playlist_rescan_songs_->setEnabled(local_songs > 0 && editable > 0);
+  playlist_rescan_songs_->setVisible(local_songs > 0 && editable > 0);
 
 #ifdef HAVE_GSTREAMER
-  ui_->action_add_files_to_transcoder->setEnabled(editable);
-  ui_->action_add_files_to_transcoder->setVisible(editable);
+  ui_->action_add_files_to_transcoder->setEnabled(local_songs > 0 && editable);
+  ui_->action_add_files_to_transcoder->setVisible(local_songs > 0 && editable);
 #endif
-
-  // the rest of the read / write actions work only when there are no CUEs involved
-  if (cue_selected) editable = 0;
 
   playlist_open_in_browser_->setVisible(selected > 0 && local_songs == selected);
 
   bool track_column = (index.column() == Playlist::Column_Track);
-  ui_->action_renumber_tracks->setVisible(editable >= 2 && track_column);
-  ui_->action_selection_set_value->setVisible(editable >= 2 && !track_column);
-  ui_->action_edit_value->setVisible(editable > 0);
+  ui_->action_renumber_tracks->setVisible(local_songs > 0 && !cue_selected && editable >= 2 && track_column);
+  ui_->action_selection_set_value->setVisible(editable >= 2 && !cue_selected && !track_column);
+  ui_->action_edit_value->setVisible(editable > 0 && !cue_selected);
   ui_->action_remove_from_playlist->setEnabled(selected > 0);
   ui_->action_remove_from_playlist->setVisible(selected > 0);
 
@@ -1900,7 +1897,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   else {
 
     Playlist::Column column = static_cast<Playlist::Column>(index.column());
-    bool column_is_editable = Playlist::column_is_editable(column) && editable > 0;
+    bool column_is_editable = (Playlist::column_is_editable(column) && editable > 0 && !cue_selected);
 
     ui_->action_selection_set_value->setVisible(ui_->action_selection_set_value->isVisible() && column_is_editable);
     ui_->action_edit_value->setVisible(ui_->action_edit_value->isVisible() && column_is_editable);
@@ -1915,21 +1912,21 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
     // Is it a collection item?
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
-      playlist_organize_->setVisible(editable > 0);
-      playlist_show_in_collection_->setVisible(editable > 0);
+      playlist_organize_->setVisible(local_songs > 0 && editable > 0 && !cue_selected);
+      playlist_show_in_collection_->setVisible(true);
       playlist_open_in_browser_->setVisible(true);
     }
     else {
-      playlist_copy_to_collection_->setVisible(editable > 0);
-      playlist_move_to_collection_->setVisible(editable > 0);
+      playlist_copy_to_collection_->setVisible(local_songs > 0);
+      playlist_move_to_collection_->setVisible(local_songs > 0);
     }
 
 #if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
-    playlist_copy_to_device_->setVisible(editable > 0);
+    playlist_copy_to_device_->setVisible(local_songs > 0);
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-    playlist_delete_->setVisible(delete_files_ && editable > 0);
+    playlist_delete_->setVisible(delete_files_ && local_songs > 0);
 #endif
 
     // Remove old item actions, if any.
@@ -2108,11 +2105,14 @@ void MainWindow::SelectionSetValue() {
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
     Song song = item->OriginalMetadata();
-    if (!song.is_valid() || !song.url().isLocalFile()) continue;
-    if (Playlist::set_column_value(song, column, column_value)) {
+    if (!song.is_valid()) continue;
+    if (song.url().isLocalFile() && Playlist::set_column_value(song, column, column_value)) {
       TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
       QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
+    }
+    else if (song.source() == Song::Source_Stream) {
+      app_->playlist_manager()->current()->setData(source_index, column_value, 0);
     }
   }
 

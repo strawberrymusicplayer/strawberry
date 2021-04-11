@@ -498,7 +498,7 @@ void PlaylistManager::SongsDiscovered(const SongList &songs) {
       PlaylistItemList items = data.p->collection_items_by_id(song.id());
       for (PlaylistItemPtr item : items) {
         if (item->Metadata().directory_id() != song.directory_id()) continue;
-        static_cast<CollectionPlaylistItem*>(item.get())->SetMetadata(song);
+        item->SetMetadata(song);
         if (item->HasTemporaryMetadata()) item->UpdateTemporaryMetadata(song);
         data.p->ItemChanged(item);
       }
