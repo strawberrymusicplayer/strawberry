@@ -192,6 +192,8 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
 - (void)handleURLEvent:(NSAppleEventDescriptor*)theEvent withReplyEvent:(NSAppleEventDescriptor*)replyEvent {
 
+  #pragma unused(replyEvent)
+
   NSString *url = [[theEvent paramDescriptorForKeyword:keyDirectObject] stringValue];
   application_handler_->LoadUrl(QString::fromNSString(url));
 
