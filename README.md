@@ -5,7 +5,7 @@
 
 Strawberry is a music player and music collection organizer. It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles. It's written in C++ using the Qt toolkit.
 
-![Browse](https://www.strawberrymusicplayer.org/pictures/screenshot-002-large.png)
+![Browse](https://raw.githubusercontent.com/strawberrymusicplayer/strawberry/master/data/screenshot/screenshot.png)
 
 Resources:
 
