@@ -2,6 +2,25 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fix "Show in file browser" to work with thunar.
+    * Check that the clicked rating position is to the right or left of the rectangle.
+    * Fix rescan when collection directory is removed and readded.
+    * (macOS) Fix intermittent abort on startup.
+    * (macOS) Fix Tidal and Qobuz search field not showing
+    * (macOS) Add tidal URL scheme to Info.plist.
+
+  Enhancements:
+    * Allow editing playlist metadata for radio streams.
+    * Make CollectionQuery subclass QSqlQuery, avoid copying QSqlQuery.
+    * Only enable FTS3 when schema needs upgrading, since FTS5 is used for search.
+    * Add setting for configuring the color for the currently playing song.
+    * (Windows) Show dialog with programs that needs to close in nsis installer.
+    * (macOS) Make macdeployqt work with Qt 5 too.
+    * (macOS) Show keep running option in behaviour settings.
+
 0.9.2:
 
   Bugfixes:
