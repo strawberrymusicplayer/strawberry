@@ -78,7 +78,7 @@ const char *CommandlineOptions::kHelpText =
 
 const char *CommandlineOptions::kVersionText = "Strawberry %1";
 
-CommandlineOptions::CommandlineOptions(int argc, char* *argv)
+CommandlineOptions::CommandlineOptions(int argc, char **argv)
     : argc_(argc),
       argv_(argv),
       url_list_action_(UrlList_None),

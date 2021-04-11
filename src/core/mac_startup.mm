@@ -148,7 +148,10 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification {
+
   Q_UNUSED(aNotification);
+
+  [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 
   key_tap_ = [ [SPMediaKeyTap alloc] initWithDelegate:self];
   if ([SPMediaKeyTap usesGlobalMediaKeyTap]) {
@@ -184,6 +187,13 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
   [filenames enumerateObjectsUsingBlock:^(id object, NSUInteger, BOOL*) {
     [self application:app openFile:(NSString*)object];
   }];
+
+}
+
+- (void)handleURLEvent:(NSAppleEventDescriptor*)theEvent withReplyEvent:(NSAppleEventDescriptor*)replyEvent {
+
+  NSString *url = [[theEvent paramDescriptorForKeyword:keyDirectObject] stringValue];
+  application_handler_->LoadUrl(QString::fromNSString(url));
 
 }
 

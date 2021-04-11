@@ -2391,13 +2391,23 @@ void MainWindow::Activate() {
 
 bool MainWindow::LoadUrl(const QString &url) {
 
-  if (!QFile::exists(url)) return false;
+  if (QFile::exists(url)) {
+    MimeData *mimedata = new MimeData;
+    mimedata->setUrls(QList<QUrl>() << QUrl::fromLocalFile(url));
+    AddToPlaylist(mimedata);
+    return true;
+  }
+#ifdef HAVE_TIDAL
+  else if (url.startsWith("tidal://login")) {
+    emit AuthorizationUrlReceived(QUrl(url));
+    return true;
+  }
+#endif
+  else {
+    qLog(Error) << "Can't open" << url;
+  }
 
-  MimeData *mimedata = new MimeData;
-  mimedata->setUrls(QList<QUrl>() << QUrl::fromLocalFile(url));
-  AddToPlaylist(mimedata);
-
-  return true;
+  return false;
 
 }
 
