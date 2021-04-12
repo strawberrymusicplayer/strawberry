@@ -273,7 +273,7 @@ Section "Strawberry" Strawberry
   File "Qt6Network.dll"
   File "Qt6Sql.dll"
   File "Qt6Widgets.dll"
-  ;File "Qt6WinExtras.dll"
+  File "Qt6WinExtras.dll"
   File "libqtsparkle-qt6.dll"
 !else
   File "Qt5Concurrent.dll"
