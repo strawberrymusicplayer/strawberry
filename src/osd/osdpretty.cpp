@@ -55,7 +55,7 @@
 #include <QtEvents>
 #ifdef HAVE_X11EXTRAS
 # include <QX11Info>
-#elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+#elif defined(Q_OS_UNIX) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
 #  include <qpa/qplatformnativeinterface.h>
 #endif
 #ifdef HAVE_WINEXTRAS
@@ -219,7 +219,7 @@ bool OSDPretty::IsTransparencyAvailable() {
 
 #if defined(HAVE_X11EXTRAS)
   return QX11Info::isCompositingManagerRunning();
-#elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+#elif defined(Q_OS_UNIX) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
   if (qApp) {
     QPlatformNativeInterface *native = qApp->platformNativeInterface();
     if (native) {
