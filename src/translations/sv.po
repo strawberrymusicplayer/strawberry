@@ -718,7 +718,7 @@ msgstr "Lägg till ström..."
 msgid "Add to albums"
 msgstr "Lägg till i album"
 
-#: core/mainwindow.cpp:1955
+#: core/mainwindow.cpp:1952
 msgid "Add to another playlist"
 msgstr "Lägg till i en annan spellista"
 
@@ -776,7 +776,7 @@ msgstr "Efter kopiering..."
 msgid "Albu&m cover"
 msgstr "Albu&momslag"
 
-#: collection/savedgroupingmanager.cpp:90 playlist/playlist.cpp:1267
+#: collection/savedgroupingmanager.cpp:90 playlist/playlist.cpp:1273
 #: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:186
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:107
@@ -796,7 +796,7 @@ msgstr "Album (lämplig ljudstyrka för alla spår)"
 msgid "Album - Disc"
 msgstr "Album - Skiva"
 
-#: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1274
+#: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1280
 #: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
 #: ../build/src/ui_edittagdialog.h:827
@@ -892,7 +892,7 @@ msgstr "Ett fel uppstod vid inläsning av iTunes-databasen"
 msgid "An error occurred writing cover art to '%1'"
 msgstr "Ett fel inträffade vid skrivning av omslag till \"%1\" "
 
-#: playlist/playlist.cpp:415 dialogs/edittagdialog.cpp:1332
+#: playlist/playlist.cpp:421 dialogs/edittagdialog.cpp:1332
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Ett fel uppstod när metadata skulle skrivas till \"%1\""
@@ -957,7 +957,7 @@ msgstr "Automatiska omslag"
 msgid "Art Manual"
 msgstr "Manuella omslag"
 
-#: collection/savedgroupingmanager.cpp:87 playlist/playlist.cpp:1266
+#: collection/savedgroupingmanager.cpp:87 playlist/playlist.cpp:1272
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:103
@@ -1107,7 +1107,7 @@ msgid "Best"
 msgstr "Bästa"
 
 #: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:138
-#: playlist/playlist.cpp:1284 organize/organizedialog.cpp:120
+#: playlist/playlist.cpp:1290 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:800
 msgid "Bit depth"
@@ -1118,7 +1118,7 @@ msgid "Bit rate"
 msgstr "Bithastighet"
 
 #: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:141
-#: playlist/playlist.cpp:1285 ../build/src/ui_groupbydialog.h:202
+#: playlist/playlist.cpp:1291 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:132
 #: ../build/src/ui_transcoderoptionsopus.h:76
@@ -1330,7 +1330,7 @@ msgstr "Samlingsfilter"
 msgid "Collection advanced grouping"
 msgstr "Samling avancerad gruppering"
 
-#: core/mainwindow.cpp:2760
+#: core/mainwindow.cpp:2770
 msgid "Collection rescan notice"
 msgstr "Notis om omsökning av samling"
 
@@ -1346,7 +1346,7 @@ msgstr "Färger"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Kommaseparerad lista över class:level; level är 0-3"
 
-#: playlist/playlist.cpp:1294 smartplaylists/smartplaylistsearchterm.cpp:374
+#: playlist/playlist.cpp:1300 smartplaylists/smartplaylistsearchterm.cpp:374
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:831
 msgid "Comment"
 msgstr "Kommentar"
@@ -1363,7 +1363,7 @@ msgstr "Fyll i taggar automatiskt"
 msgid "Complete tags automatically..."
 msgstr "Fyll i taggar automatiskt..."
 
-#: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1275
+#: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1281
 #: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:832
@@ -1669,11 +1669,11 @@ msgstr "Dans"
 msgid "Database corruption detected."
 msgstr "Databasskada upptäcktes."
 
-#: playlist/playlist.cpp:1292 ../build/src/ui_edittagdialog.h:806
+#: playlist/playlist.cpp:1298 ../build/src/ui_edittagdialog.h:806
 msgid "Date created"
 msgstr "Datum skapad"
 
-#: playlist/playlist.cpp:1291 ../build/src/ui_edittagdialog.h:804
+#: playlist/playlist.cpp:1297 ../build/src/ui_edittagdialog.h:804
 msgid "Date modified"
 msgstr "Datum ändrad"
 
@@ -1736,11 +1736,11 @@ msgstr "Ta bort originalfiler"
 msgid "Deleting files"
 msgstr "Tar bort filer"
 
-#: core/mainwindow.cpp:1872
+#: core/mainwindow.cpp:1869
 msgid "Dequeue selected tracks"
 msgstr "Ta bort valda spår från kön"
 
-#: core/mainwindow.cpp:1871
+#: core/mainwindow.cpp:1868
 msgid "Dequeue track"
 msgstr "Ta bort spår från kön"
 
@@ -1791,7 +1791,7 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Inaktiverad"
 
-#: collection/savedgroupingmanager.cpp:108 playlist/playlist.cpp:1269
+#: collection/savedgroupingmanager.cpp:108 playlist/playlist.cpp:1275
 #: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
 #: ../build/src/ui_edittagdialog.h:826
@@ -1889,7 +1889,7 @@ msgstr "Redigera smart spellista"
 msgid "Edit smart playlist..."
 msgstr "Redigera smart spellista..."
 
-#: core/mainwindow.cpp:1913
+#: core/mainwindow.cpp:1910
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Redigera taggen \"%1\"..."
@@ -2043,7 +2043,7 @@ msgstr "Motsvarar --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Motsvarar --log-levels *:3"
 
-#: core/mainwindow.cpp:2497 core/mainwindow.cpp:2642
+#: core/mainwindow.cpp:2507 core/mainwindow.cpp:2652
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "Fel"
@@ -2217,11 +2217,11 @@ msgstr "Filändelse"
 msgid "File formats"
 msgstr "Filformat"
 
-#: playlist/playlist.cpp:1287
+#: playlist/playlist.cpp:1293
 msgid "File name"
 msgstr "Filnamn"
 
-#: playlist/playlist.cpp:1288
+#: playlist/playlist.cpp:1294
 msgid "File name (without path)"
 msgstr "Filnamn (utan sökväg)"
 
@@ -2229,11 +2229,11 @@ msgstr "Filnamn (utan sökväg)"
 msgid "File paths"
 msgstr "Filsökvägar"
 
-#: playlist/playlist.cpp:1289 ../build/src/ui_edittagdialog.h:812
+#: playlist/playlist.cpp:1295 ../build/src/ui_edittagdialog.h:812
 msgid "File size"
 msgstr "Filstorlek"
 
-#: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1290
+#: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1296
 #: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
 #: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:799
 msgid "File type"
@@ -2391,7 +2391,7 @@ msgstr "Allmänna inställningar"
 msgid "Genius Authentication"
 msgstr "Genius-autentisering"
 
-#: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1273
+#: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1279
 #: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 #: ../build/src/ui_edittagdialog.h:825
@@ -2494,7 +2494,7 @@ msgstr "Gruppera efter genre/albumartist/album"
 msgid "Group by Genre/Artist/Album"
 msgstr "Gruppera efter genre/artist/album"
 
-#: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1277
+#: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1283
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:835
@@ -2724,7 +2724,7 @@ msgstr "Stort albumomslag"
 msgid "Large sidebar"
 msgstr "Stort sidofält"
 
-#: playlist/playlist.cpp:1281 smartplaylists/smartplaylistsmodel.cpp:94
+#: playlist/playlist.cpp:1287 smartplaylists/smartplaylistsmodel.cpp:94
 #: ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Senast spelade"
@@ -2751,7 +2751,7 @@ msgstr "Minst omtyckta spår"
 msgid "Left"
 msgstr "Vänster"
 
-#: context/contextview.cpp:215 playlist/playlist.cpp:1270
+#: context/contextview.cpp:215 playlist/playlist.cpp:1276
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:798
 msgid "Length"
 msgstr "Längd"
@@ -3037,7 +3037,7 @@ msgstr "Bevaka ändringar i samlingen"
 msgid "Months"
 msgstr "Månader"
 
-#: playlist/playlist.cpp:1296
+#: playlist/playlist.cpp:1302
 msgid "Mood"
 msgstr "Stämning"
 
@@ -3102,7 +3102,7 @@ msgstr "Snävt band (NB)"
 msgid "Network Proxy"
 msgstr "Nätverksproxy"
 
-#: playlist/playlistdelegates.cpp:340 dialogs/edittagdialog.cpp:843
+#: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:843
 msgid "Never"
 msgstr "Aldrig"
 
@@ -3121,7 +3121,7 @@ msgstr "Aldrig starta uppspelning"
 msgid "New folder"
 msgstr "Ny mapp"
 
-#: core/mainwindow.cpp:1971
+#: core/mainwindow.cpp:1968
 msgid "New playlist"
 msgstr "Ny spellista"
 
@@ -3193,7 +3193,7 @@ msgstr "Ingen låt spelas"
 msgid "None"
 msgstr "Inga"
 
-#: core/mainwindow.cpp:2497 core/mainwindow.cpp:2642
+#: core/mainwindow.cpp:2507 core/mainwindow.cpp:2652
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ingen av de valda låtarna lämpar sig för kopiering till en enhet"
@@ -3342,7 +3342,7 @@ msgstr "Organiserar filer"
 msgid "Original tags"
 msgstr "Ursprungliga taggar"
 
-#: collection/savedgroupingmanager.cpp:114 playlist/playlist.cpp:1272
+#: collection/savedgroupingmanager.cpp:114 playlist/playlist.cpp:1278
 #: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Original year"
@@ -3423,7 +3423,7 @@ msgstr "Pausa uppspelning"
 msgid "Paused"
 msgstr "Pausad"
 
-#: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1276
+#: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1282
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:834
@@ -3448,7 +3448,7 @@ msgstr "Spela"
 msgid "Play control buttons"
 msgstr "Spela kontrollknappar"
 
-#: playlist/playlist.cpp:1279 ../build/src/ui_edittagdialog.h:805
+#: playlist/playlist.cpp:1285 ../build/src/ui_edittagdialog.h:805
 msgid "Play count"
 msgstr "Antal spelningar"
 
@@ -3686,20 +3686,20 @@ msgstr "Kommunicerar med enhet..."
 msgid "Queue"
 msgstr "Kö"
 
-#: core/mainwindow.cpp:1874
+#: core/mainwindow.cpp:1871
 msgid "Queue selected tracks"
 msgstr "Lägg till valda spår i kön"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1878
+#: core/mainwindow.cpp:684 core/mainwindow.cpp:1875
 msgid "Queue selected tracks to play next"
 msgstr "Lägg till valda spår i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1880 collection/collectionview.cpp:348
+#: core/mainwindow.cpp:1877 collection/collectionview.cpp:348
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Lägg till i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1873 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1870 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:324 internet/internetcollectionview.cpp:316
@@ -3718,7 +3718,7 @@ msgstr "Radio (samma ljudstyrka för alla spår"
 msgid "Random"
 msgstr "Slumpat"
 
-#: playlist/playlist.cpp:1297
+#: playlist/playlist.cpp:1303
 msgid "Rating"
 msgstr "Betyg"
 
@@ -4013,7 +4013,7 @@ msgstr "Säker borttagning av enhet"
 msgid "Safely remove the device after copying"
 msgstr "Säker borttagning av enheten efter kopiering"
 
-#: collection/savedgroupingmanager.cpp:135 playlist/playlist.cpp:1283
+#: collection/savedgroupingmanager.cpp:135 playlist/playlist.cpp:1289
 #: organize/organizedialog.cpp:119 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 #: ../build/src/ui_edittagdialog.h:808
@@ -4219,7 +4219,7 @@ msgstr "Servernswebbadress är ogiltig."
 msgid "Server-side scrobbling"
 msgstr "Skrobbling på serversidan"
 
-#: core/mainwindow.cpp:1912
+#: core/mainwindow.cpp:1909
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Ställ in %1 till \"%2\"..."
@@ -4444,7 +4444,7 @@ msgstr "Ska"
 msgid "Skip backwards in playlist"
 msgstr "Hoppa bakåt i spellista"
 
-#: playlist/playlist.cpp:1280 ../build/src/ui_edittagdialog.h:803
+#: playlist/playlist.cpp:1286 ../build/src/ui_edittagdialog.h:803
 msgid "Skip count"
 msgstr "Antal överhoppningar"
 
@@ -4452,11 +4452,11 @@ msgstr "Antal överhoppningar"
 msgid "Skip forwards in playlist"
 msgstr "Hoppa framåt i spellista"
 
-#: core/mainwindow.cpp:1885
+#: core/mainwindow.cpp:1882
 msgid "Skip selected tracks"
 msgstr "Hoppa över valda spår"
 
-#: core/mainwindow.cpp:1884
+#: core/mainwindow.cpp:1881
 msgid "Skip track"
 msgstr "Hoppa över spår"
 
@@ -4519,7 +4519,7 @@ msgstr "Sortera låtar efter"
 msgid "Sorting"
 msgstr "Sortering"
 
-#: playlist/playlist.cpp:1295
+#: playlist/playlist.cpp:1301
 msgid "Source"
 msgstr "Källa"
 
@@ -4799,7 +4799,7 @@ msgstr "Webbplatsen du söker finns inte!"
 msgid "The site you requested is not an image!"
 msgstr "Webbplatsen du söker är inte en bild!"
 
-#: core/mainwindow.cpp:2755
+#: core/mainwindow.cpp:2765
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4922,7 +4922,7 @@ msgstr ""
 msgid "Time step"
 msgstr "Tidssteg"
 
-#: playlist/playlist.cpp:1265 organize/organizedialog.cpp:103
+#: playlist/playlist.cpp:1271 organize/organizedialog.cpp:103
 #: ../build/src/ui_contextsettingspage.h:435
 #: ../build/src/ui_edittagdialog.h:824
 #: ../build/src/ui_trackselectiondialog.h:209
@@ -4933,7 +4933,7 @@ msgstr "Titel"
 msgid "Today"
 msgstr "Idag"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1875
+#: core/mainwindow.cpp:681 core/mainwindow.cpp:1872
 msgid "Toggle queue status"
 msgstr "Växla köstatus"
 
@@ -4941,7 +4941,7 @@ msgstr "Växla köstatus"
 msgid "Toggle scrobbling"
 msgstr "Växla skrobbling"
 
-#: core/mainwindow.cpp:687 core/mainwindow.cpp:1886
+#: core/mainwindow.cpp:687 core/mainwindow.cpp:1883
 msgid "Toggle skip status"
 msgstr "Växla status för hoppa över"
 
@@ -4969,7 +4969,7 @@ msgstr "Totalt överförda byte"
 msgid "Total network requests made"
 msgstr "Totalt antal nätverksförfrågningar"
 
-#: playlist/playlist.cpp:1268 organize/organizedialog.cpp:111
+#: playlist/playlist.cpp:1274 organize/organizedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:836
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Track"
@@ -5024,7 +5024,7 @@ msgstr "Avinstallera snap med:"
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1612
-#: collection/savedgroupingmanager.cpp:145 playlist/playlistdelegates.cpp:353
+#: collection/savedgroupingmanager.cpp:145 playlist/playlistdelegates.cpp:355
 #: playlist/playlistmanager.cpp:573 playlist/playlistmanager.cpp:574
 #: dialogs/edittagdialog.cpp:719 dialogs/edittagdialog.cpp:746
 #: ../build/src/ui_scrobblersettingspage.h:411
@@ -5044,11 +5044,11 @@ msgstr "Inte inställt"
 msgid "Unset cover"
 msgstr "Ta bort omslag"
 
-#: core/mainwindow.cpp:1883
+#: core/mainwindow.cpp:1880
 msgid "Unskip selected tracks"
 msgstr "Hoppa inte över valda spår"
 
-#: core/mainwindow.cpp:1882
+#: core/mainwindow.cpp:1879
 msgid "Unskip track"
 msgstr "Hoppa inte över valt spår"
 
@@ -5286,7 +5286,7 @@ msgstr ""
 "Vill du flytta de andra låtarna i det här albumet till Diverse artister "
 "också?"
 
-#: core/mainwindow.cpp:2759
+#: core/mainwindow.cpp:2769
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vill du köra en fullständig omsökning nu?"
 
@@ -5294,7 +5294,7 @@ msgstr "Vill du köra en fullständig omsökning nu?"
 msgid "Write metadata when saving playlists"
 msgstr "Skriv metadata när spellistor sparas"
 
-#: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1271
+#: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1277
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:837
@@ -5595,7 +5595,7 @@ msgstr "sortera låtar"
 msgid "starts with"
 msgstr "som börjar med"
 
-#: playlist/playlistdelegates.cpp:222
+#: playlist/playlistdelegates.cpp:224
 msgid "stop"
 msgstr "stoppa"
 
