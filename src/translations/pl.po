@@ -103,7 +103,7 @@ msgstr " pkt"
 msgid " s"
 msgstr " s"
 
-#: ../build/src/ui_notificationssettingspage.h:478
+#: ../build/src/ui_notificationssettingspage.h:484
 msgid " seconds"
 msgstr " sek"
 
@@ -231,7 +231,7 @@ msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
 
 #: ../build/src/ui_contextsettingspage.h:416
-#: ../build/src/ui_notificationssettingspage.h:458
+#: ../build/src/ui_notificationssettingspage.h:464
 msgid "%filename%"
 msgstr "%filename%"
 
@@ -254,7 +254,7 @@ msgid "%n remaining"
 msgstr "pozostało %n"
 
 #: ../build/src/ui_contextsettingspage.h:428
-#: ../build/src/ui_notificationssettingspage.h:466
+#: ../build/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
 msgstr "%originalyear%"
 
@@ -267,7 +267,7 @@ msgid "%title - %artist%"
 msgstr "%title - %artist%"
 
 #: ../build/src/ui_contextsettingspage.h:420
-#: ../build/src/ui_notificationssettingspage.h:462
+#: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
 msgstr "%url%"
 
@@ -584,7 +584,7 @@ msgid "Add Stream"
 msgstr "Dodaj strumień"
 
 #: ../build/src/ui_contextsettingspage.h:414
-#: ../build/src/ui_notificationssettingspage.h:456
+#: ../build/src/ui_notificationssettingspage.h:462
 msgid "Add a new line if supported by the notification type"
 msgstr "Dodaj nową linię (jeśli dany rodzaj powiadomień pozwala)"
 
@@ -626,92 +626,92 @@ msgid "Add search term"
 msgstr "Dodaj warunek"
 
 #: ../build/src/ui_contextsettingspage.h:422
-#: ../build/src/ui_notificationssettingspage.h:464
+#: ../build/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
 msgstr "Dodaj adres URL utworu"
 
 #: ../build/src/ui_contextsettingspage.h:375
-#: ../build/src/ui_notificationssettingspage.h:414
+#: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song album tag"
 msgstr "Dodaj znacznik albumu"
 
 #: ../build/src/ui_contextsettingspage.h:381
-#: ../build/src/ui_notificationssettingspage.h:420
+#: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song albumartist tag"
 msgstr "Dodaj znacznik artysty na albumie"
 
 #: ../build/src/ui_contextsettingspage.h:372
-#: ../build/src/ui_notificationssettingspage.h:411
+#: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song artist tag"
 msgstr "Dodaj znacznik artysty"
 
 #: ../build/src/ui_contextsettingspage.h:387
-#: ../build/src/ui_notificationssettingspage.h:426
+#: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song composer tag"
 msgstr "Dodaj znacznik kompozytora"
 
 #: ../build/src/ui_contextsettingspage.h:396
-#: ../build/src/ui_notificationssettingspage.h:435
+#: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song disc tag"
 msgstr "Dodaj znacznik płyty"
 
 #: ../build/src/ui_contextsettingspage.h:418
-#: ../build/src/ui_notificationssettingspage.h:460
+#: ../build/src/ui_notificationssettingspage.h:466
 msgid "Add song filename"
 msgstr "Dodaj znacznik nazwy pliku"
 
 #: ../build/src/ui_contextsettingspage.h:402
-#: ../build/src/ui_notificationssettingspage.h:441
+#: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song genre tag"
 msgstr "Dodaj znacznik gatunku"
 
 #: ../build/src/ui_contextsettingspage.h:393
-#: ../build/src/ui_notificationssettingspage.h:432
+#: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song grouping tag"
 msgstr "Dodaj znacznik grupowania"
 
 #: ../build/src/ui_contextsettingspage.h:405
-#: ../build/src/ui_notificationssettingspage.h:444
+#: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song length tag"
 msgstr "Dodaj znacznik długości"
 
 #: ../build/src/ui_contextsettingspage.h:430
-#: ../build/src/ui_notificationssettingspage.h:468
+#: ../build/src/ui_notificationssettingspage.h:474
 msgid "Add song original year tag"
 msgstr "Dodaj rok utworu"
 
 #: ../build/src/ui_contextsettingspage.h:390
-#: ../build/src/ui_notificationssettingspage.h:429
+#: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
 msgstr "Dodaj znacznik wykonawcy"
 
 #: ../build/src/ui_contextsettingspage.h:408
-#: ../build/src/ui_notificationssettingspage.h:447
+#: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song play count"
 msgstr "Dodaj znacznik liczby odtworzeń"
 
 #: ../build/src/ui_contextsettingspage.h:426
-#: ../build/src/ui_notificationssettingspage.h:453
+#: ../build/src/ui_notificationssettingspage.h:459
 msgid "Add song rating"
 msgstr "Dodaj znacznik oceny"
 
 #: ../build/src/ui_contextsettingspage.h:411
-#: ../build/src/ui_notificationssettingspage.h:450
+#: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add song skip count"
 msgstr "Dodaj znacznik licznika pominięć"
 
 #: ../build/src/ui_contextsettingspage.h:378
-#: ../build/src/ui_notificationssettingspage.h:417
+#: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song title tag"
 msgstr "Dodaj znacznik tytułu"
 
 #: ../build/src/ui_contextsettingspage.h:399
-#: ../build/src/ui_notificationssettingspage.h:438
+#: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song track tag"
 msgstr "Dodaj znacznik numeru"
 
 #: ../build/src/ui_contextsettingspage.h:384
-#: ../build/src/ui_notificationssettingspage.h:423
+#: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song year tag"
 msgstr "Dodaj znacznik roku"
 
@@ -1079,7 +1079,7 @@ msgstr "Przeciętny rozmiar obrazu"
 msgid "Backend"
 msgstr "Dźwięk"
 
-#: ../build/src/ui_notificationssettingspage.h:494
+#: ../build/src/ui_notificationssettingspage.h:499
 msgid "Background color"
 msgstr "Kolor tła"
 
@@ -1087,7 +1087,7 @@ msgstr "Kolor tła"
 msgid "Background image"
 msgstr "Obraz tła"
 
-#: ../build/src/ui_notificationssettingspage.h:493
+#: ../build/src/ui_notificationssettingspage.h:503
 msgid "Background opacity"
 msgstr "Nieprzezroczystość tła"
 
@@ -1099,7 +1099,7 @@ msgstr "Tworzenie kopii zapasowej bazy danych"
 msgid "Balance"
 msgstr "Balans"
 
-#: ../build/src/ui_notificationssettingspage.h:495
+#: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
 msgstr "Prosty niebieski"
 
@@ -1150,7 +1150,7 @@ msgstr "Rodzaj bloku"
 msgid "Blur amount"
 msgstr "Stopień rozmycia"
 
-#: ../build/src/ui_notificationssettingspage.h:490
+#: ../build/src/ui_notificationssettingspage.h:496
 msgid "Body"
 msgstr "Treść"
 
@@ -1178,7 +1178,7 @@ msgstr "Bufor"
 msgid "Buffer duration"
 msgstr "Długość bufora"
 
-#: engine/gstengine.cpp:692
+#: engine/gstengine.cpp:686
 msgid "Buffering"
 msgstr "Buforowanie"
 
@@ -1226,7 +1226,7 @@ msgstr "Sprawdź dostępność aktualizacji…"
 msgid "Choose a name for your smart playlist"
 msgstr "Wybierz nazwę smartlisty"
 
-#: ../build/src/ui_notificationssettingspage.h:500
+#: ../build/src/ui_notificationssettingspage.h:502
 msgid "Choose color..."
 msgstr "Wybierz kolor…"
 
@@ -1649,7 +1649,7 @@ msgstr ""
 msgid "Custom image:"
 msgstr "Własny obraz:"
 
-#: ../build/src/ui_notificationssettingspage.h:485
+#: ../build/src/ui_notificationssettingspage.h:491
 msgid "Custom message settings"
 msgstr "Własne ustawienia wiadomości"
 
@@ -1657,7 +1657,7 @@ msgstr "Własne ustawienia wiadomości"
 msgid "Custom text settings"
 msgstr "Własne ustawienia tekstu"
 
-#: ../build/src/ui_notificationssettingspage.h:497
+#: ../build/src/ui_notificationssettingspage.h:506
 msgid "Custom..."
 msgstr "Własny…"
 
@@ -1786,11 +1786,11 @@ msgstr "Bezpośrednie połączenie z Internetem"
 msgid "Directory"
 msgstr "Katalog"
 
-#: ../build/src/ui_notificationssettingspage.h:479
+#: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
 msgstr "Wyłącz czas"
 
-#: ../build/src/ui_notificationssettingspage.h:472
+#: ../build/src/ui_notificationssettingspage.h:478
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Wyłączone"
@@ -1949,6 +1949,10 @@ msgstr "Włącz opcję usuwania plików w menu kontekstowym"
 #: ../build/src/ui_equalizer.h:174
 msgid "Enable equalizer"
 msgstr "Włącz korektor graficzny"
+
+#: ../build/src/ui_notificationssettingspage.h:508
+msgid "Enable fading"
+msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:165
 msgid "Enable playlist clear button"
@@ -2390,7 +2394,7 @@ msgstr "Pełne soprany"
 msgid "General"
 msgstr "Ogólne"
 
-#: ../build/src/ui_notificationssettingspage.h:476
+#: ../build/src/ui_notificationssettingspage.h:482
 msgid "General settings"
 msgstr "Ustawienia ogólne"
 
@@ -2639,7 +2643,7 @@ msgstr ""
 "W trybie dynamicznym nowe ścieżki będą wybierane i dodawane do listy "
 "odtwarzania po każdym zakończeniu utworu. "
 
-#: ../build/src/ui_notificationssettingspage.h:484
+#: ../build/src/ui_notificationssettingspage.h:490
 msgid "Include album art in the notification"
 msgstr "Dołącz okładkę albumu"
 
@@ -3244,11 +3248,11 @@ msgstr "Nie podłączono"
 msgid "Not mounted - double click to mount"
 msgstr "Nie zamontowano - kliknij dwukrotnie, aby zamontować"
 
-#: ../build/src/ui_notificationssettingspage.h:471
+#: ../build/src/ui_notificationssettingspage.h:477
 msgid "Notification type"
 msgstr "Rodzaj powiadomień"
 
-#: ../build/src/ui_notificationssettingspage.h:409
+#: ../build/src/ui_notificationssettingspage.h:415
 msgid "Notifications"
 msgstr "Powiadomienia"
 
@@ -3564,7 +3568,7 @@ msgstr "Proszę otworzyć ten adres URL w przeglądarce internetowej"
 msgid "Pop"
 msgstr "Pop"
 
-#: ../build/src/ui_notificationssettingspage.h:477
+#: ../build/src/ui_notificationssettingspage.h:483
 msgid "Popup duration"
 msgstr "Czas powiadomienia"
 
@@ -3637,14 +3641,14 @@ msgstr "Naciśnij kombinację klawiszy dla %1…"
 msgid "Pressing \"Previous\" in player will..."
 msgstr "Po wciśnięciu „Wstecz” na odtwarzaczu…"
 
-#: ../build/src/ui_notificationssettingspage.h:492
+#: ../build/src/ui_notificationssettingspage.h:498
 msgid "Pretty OSD options"
 msgstr "Opcje ładnego menu ekranowego (OSD)"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
 #: ../build/src/ui_contextsettingspage.h:451
 #: ../build/src/ui_contextsettingspage.h:456
-#: ../build/src/ui_notificationssettingspage.h:487
+#: ../build/src/ui_notificationssettingspage.h:493
 #: ../build/src/ui_organizedialog.h:287
 msgid "Preview"
 msgstr "Podgląd"
@@ -4273,7 +4277,7 @@ msgstr "Skrót do %1"
 msgid "Show"
 msgstr "Pokaż"
 
-#: ../build/src/ui_notificationssettingspage.h:473
+#: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
 msgstr "Pokazuj &natywne powiadomienia pulpitu"
 
@@ -4285,27 +4289,27 @@ msgstr "Pokazuj animację podświetlenia odtwarzanej ścieżki"
 msgid "Show a moodbar in the track progress bar"
 msgstr "Pokazuj pasek postępu ścieżki w formie paska nastroju"
 
-#: ../build/src/ui_notificationssettingspage.h:481
+#: ../build/src/ui_notificationssettingspage.h:487
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "Pokazuj powiadomienia o zmianie trybu powtarzania/losowania"
 
-#: ../build/src/ui_notificationssettingspage.h:480
+#: ../build/src/ui_notificationssettingspage.h:486
 msgid "Show a notification when I change the volume"
 msgstr "Pokazuj powiadomienia o zmianie poziomu głośności"
 
-#: ../build/src/ui_notificationssettingspage.h:482
+#: ../build/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I pause playback"
 msgstr "Pokazuj powiadomienia o wstrzymaniu odtwarzania"
 
-#: ../build/src/ui_notificationssettingspage.h:483
+#: ../build/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I resume playback"
 msgstr "Pokazuj powiadomienia o wznowieniu odtwarzania"
 
-#: ../build/src/ui_notificationssettingspage.h:475
+#: ../build/src/ui_notificationssettingspage.h:481
 msgid "Show a popup fro&m the system tray"
 msgstr "Pokazuj powiadomienia z ikony zaso&bnika"
 
-#: ../build/src/ui_notificationssettingspage.h:474
+#: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a pretty OSD"
 msgstr "Pokazuj ładne menu ekranowe (OSD)"
 
@@ -4608,7 +4612,7 @@ msgstr "Błąd Strawberry"
 msgid "Strawberry Music Player"
 msgstr "Odtwarzacz muzyki Strawberry"
 
-#: ../build/src/ui_notificationssettingspage.h:496
+#: ../build/src/ui_notificationssettingspage.h:505
 msgid "Strawberry Red"
 msgstr "Czerwony Strawberry"
 
@@ -4620,7 +4624,7 @@ msgstr ""
 "Strawberry potrafi automatycznie konwertować muzykę kopiowaną na to "
 "urządzenie do formatu, który potrafi ono odtwarzać."
 
-#: ../build/src/ui_notificationssettingspage.h:470
+#: ../build/src/ui_notificationssettingspage.h:476
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry może pokazywać powiadomienia, gdy zmienia się ścieżka."
 
@@ -4708,7 +4712,7 @@ msgid "Suggested tags"
 msgstr "Sugerowane znaczniki"
 
 #: ../build/src/ui_contextsettingspage.h:436
-#: ../build/src/ui_notificationssettingspage.h:489
+#: ../build/src/ui_notificationssettingspage.h:495
 #: ../build/src/ui_edittagdialog.h:815
 msgid "Summary"
 msgstr "Podsumowanie"
@@ -4778,7 +4782,7 @@ msgstr "Test zakończył się niepowodzeniem!"
 msgid "Test successful!"
 msgstr "Test zakończył się powodzeniem!"
 
-#: ../build/src/ui_notificationssettingspage.h:499
+#: ../build/src/ui_notificationssettingspage.h:500
 msgid "Text options"
 msgstr "Opcje tekstu"
 
@@ -5135,7 +5139,7 @@ msgstr "Używaj skrótów X11 jeśli możliwe"
 msgid "Use a custom color set"
 msgstr "Używaj własnego zestawu kolorów"
 
-#: ../build/src/ui_notificationssettingspage.h:486
+#: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
 msgstr "Używaj niestandardowej treści powiadomień"
 

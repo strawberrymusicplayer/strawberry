@@ -91,7 +91,7 @@ msgstr "pt"
 msgid " s"
 msgstr " mp"
 
-#: ../build/src/ui_notificationssettingspage.h:478
+#: ../build/src/ui_notificationssettingspage.h:484
 msgid " seconds"
 msgstr " másodperc"
 
@@ -219,7 +219,7 @@ msgid "%albumartist-%album"
 msgstr "%albumelőadó-%album"
 
 #: ../build/src/ui_contextsettingspage.h:416
-#: ../build/src/ui_notificationssettingspage.h:458
+#: ../build/src/ui_notificationssettingspage.h:464
 msgid "%filename%"
 msgstr "%filename%"
 
@@ -242,7 +242,7 @@ msgid "%n remaining"
 msgstr "%n hátralévő"
 
 #: ../build/src/ui_contextsettingspage.h:428
-#: ../build/src/ui_notificationssettingspage.h:466
+#: ../build/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
 msgstr ""
 
@@ -255,7 +255,7 @@ msgid "%title - %artist%"
 msgstr "%cím - %előadó%"
 
 #: ../build/src/ui_contextsettingspage.h:420
-#: ../build/src/ui_notificationssettingspage.h:462
+#: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
 msgstr ""
 
@@ -571,7 +571,7 @@ msgid "Add Stream"
 msgstr "Stream hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:414
-#: ../build/src/ui_notificationssettingspage.h:456
+#: ../build/src/ui_notificationssettingspage.h:462
 msgid "Add a new line if supported by the notification type"
 msgstr "Sortörés hozzáadása ha az értesítés támogatja"
 
@@ -612,92 +612,92 @@ msgid "Add search term"
 msgstr "Keresési kifejezés hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:422
-#: ../build/src/ui_notificationssettingspage.h:464
+#: ../build/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
 msgstr "Dal URL huzzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:375
-#: ../build/src/ui_notificationssettingspage.h:414
+#: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song album tag"
 msgstr "Album hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:381
-#: ../build/src/ui_notificationssettingspage.h:420
+#: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song albumartist tag"
 msgstr "Albumelőadó hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:372
-#: ../build/src/ui_notificationssettingspage.h:411
+#: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song artist tag"
 msgstr "Előadó hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:387
-#: ../build/src/ui_notificationssettingspage.h:426
+#: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song composer tag"
 msgstr "Zeneszerző hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:396
-#: ../build/src/ui_notificationssettingspage.h:435
+#: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song disc tag"
 msgstr "Lemez hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:418
-#: ../build/src/ui_notificationssettingspage.h:460
+#: ../build/src/ui_notificationssettingspage.h:466
 msgid "Add song filename"
 msgstr "A dal fájlnevének hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:402
-#: ../build/src/ui_notificationssettingspage.h:441
+#: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song genre tag"
 msgstr "Műfaj hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:393
-#: ../build/src/ui_notificationssettingspage.h:432
+#: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song grouping tag"
 msgstr "Dal csoportosítás hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:405
-#: ../build/src/ui_notificationssettingspage.h:444
+#: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song length tag"
 msgstr "Számhossz hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:430
-#: ../build/src/ui_notificationssettingspage.h:468
+#: ../build/src/ui_notificationssettingspage.h:474
 msgid "Add song original year tag"
 msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:390
-#: ../build/src/ui_notificationssettingspage.h:429
+#: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
 msgstr "A dalelőadó hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:408
-#: ../build/src/ui_notificationssettingspage.h:447
+#: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song play count"
 msgstr "Lejátszásszámláló hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:426
-#: ../build/src/ui_notificationssettingspage.h:453
+#: ../build/src/ui_notificationssettingspage.h:459
 msgid "Add song rating"
 msgstr "Dal értékelés hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:411
-#: ../build/src/ui_notificationssettingspage.h:450
+#: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add song skip count"
 msgstr "Számkihagyás számláló hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:378
-#: ../build/src/ui_notificationssettingspage.h:417
+#: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song title tag"
 msgstr "Cím hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:399
-#: ../build/src/ui_notificationssettingspage.h:438
+#: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song track tag"
 msgstr "Dal sorszámának hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:384
-#: ../build/src/ui_notificationssettingspage.h:423
+#: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song year tag"
 msgstr "Dal évének hozzáadása"
 
@@ -1066,7 +1066,7 @@ msgstr "Átlagos képméret"
 msgid "Backend"
 msgstr "Backend"
 
-#: ../build/src/ui_notificationssettingspage.h:494
+#: ../build/src/ui_notificationssettingspage.h:499
 msgid "Background color"
 msgstr "Háttérszín"
 
@@ -1074,7 +1074,7 @@ msgstr "Háttérszín"
 msgid "Background image"
 msgstr "Háttérkép"
 
-#: ../build/src/ui_notificationssettingspage.h:493
+#: ../build/src/ui_notificationssettingspage.h:503
 msgid "Background opacity"
 msgstr "Háttér áttetszősége"
 
@@ -1086,7 +1086,7 @@ msgstr "Adatbázis biztonsági mentése"
 msgid "Balance"
 msgstr "Bal - jobb egyensúly"
 
-#: ../build/src/ui_notificationssettingspage.h:495
+#: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
 msgstr "Egyszerű kék"
 
@@ -1137,7 +1137,7 @@ msgstr "Blokk típus"
 msgid "Blur amount"
 msgstr "Elmosás"
 
-#: ../build/src/ui_notificationssettingspage.h:490
+#: ../build/src/ui_notificationssettingspage.h:496
 msgid "Body"
 msgstr "Törzs"
 
@@ -1165,7 +1165,7 @@ msgstr "Puffer"
 msgid "Buffer duration"
 msgstr "Puffer hossza"
 
-#: engine/gstengine.cpp:692
+#: engine/gstengine.cpp:686
 msgid "Buffering"
 msgstr "Pufferelés"
 
@@ -1213,7 +1213,7 @@ msgstr "Frissítés keresése..."
 msgid "Choose a name for your smart playlist"
 msgstr "Válasszon nevet az okos lejátszólistának"
 
-#: ../build/src/ui_notificationssettingspage.h:500
+#: ../build/src/ui_notificationssettingspage.h:502
 msgid "Choose color..."
 msgstr "Szín kiválasztása..."
 
@@ -1638,7 +1638,7 @@ msgstr "Egyéni szín"
 msgid "Custom image:"
 msgstr "Egyéni kép:"
 
-#: ../build/src/ui_notificationssettingspage.h:485
+#: ../build/src/ui_notificationssettingspage.h:491
 msgid "Custom message settings"
 msgstr "Egyedi üzenetbeállítások"
 
@@ -1646,7 +1646,7 @@ msgstr "Egyedi üzenetbeállítások"
 msgid "Custom text settings"
 msgstr "Egyéni szövegbeállítások"
 
-#: ../build/src/ui_notificationssettingspage.h:497
+#: ../build/src/ui_notificationssettingspage.h:506
 msgid "Custom..."
 msgstr "Egyéni..."
 
@@ -1775,11 +1775,11 @@ msgstr "Közvetlen internetkapcsolat"
 msgid "Directory"
 msgstr "Mappa"
 
-#: ../build/src/ui_notificationssettingspage.h:479
+#: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
 msgstr "Időtartam letiltása"
 
-#: ../build/src/ui_notificationssettingspage.h:472
+#: ../build/src/ui_notificationssettingspage.h:478
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Letiltva"
@@ -1938,6 +1938,10 @@ msgstr "Fájlok törlésének engedélyezése a jobb-kattintásos menüből"
 #: ../build/src/ui_equalizer.h:174
 msgid "Enable equalizer"
 msgstr "Hangszínszabályzó engedélyezése"
+
+#: ../build/src/ui_notificationssettingspage.h:508
+msgid "Enable fading"
+msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:165
 msgid "Enable playlist clear button"
@@ -2378,7 +2382,7 @@ msgstr "Teljes magas"
 msgid "General"
 msgstr "Általános"
 
-#: ../build/src/ui_notificationssettingspage.h:476
+#: ../build/src/ui_notificationssettingspage.h:482
 msgid "General settings"
 msgstr "Általános beállítások"
 
@@ -2622,7 +2626,7 @@ msgid ""
 "time a song finishes."
 msgstr ""
 
-#: ../build/src/ui_notificationssettingspage.h:484
+#: ../build/src/ui_notificationssettingspage.h:490
 msgid "Include album art in the notification"
 msgstr "Albumborító megjelenítése az értesítésben"
 
@@ -3227,11 +3231,11 @@ msgstr "Nincs kapcsolat"
 msgid "Not mounted - double click to mount"
 msgstr "Nincs csatolva - kattintson duplán a csatoláshoz"
 
-#: ../build/src/ui_notificationssettingspage.h:471
+#: ../build/src/ui_notificationssettingspage.h:477
 msgid "Notification type"
 msgstr "Értesítés típusa"
 
-#: ../build/src/ui_notificationssettingspage.h:409
+#: ../build/src/ui_notificationssettingspage.h:415
 msgid "Notifications"
 msgstr "Értesítések"
 
@@ -3543,7 +3547,7 @@ msgstr "Nyissa meg ezt az URL-t a böngészőben"
 msgid "Pop"
 msgstr "Pop"
 
-#: ../build/src/ui_notificationssettingspage.h:477
+#: ../build/src/ui_notificationssettingspage.h:483
 msgid "Popup duration"
 msgstr "Értesítés időtartama"
 
@@ -3616,14 +3620,14 @@ msgstr "Nyomjon meg egy billentyű kombinációt a %1 használatához..."
 msgid "Pressing \"Previous\" in player will..."
 msgstr "Az \"Előző\" gomb megnyomásakor..."
 
-#: ../build/src/ui_notificationssettingspage.h:492
+#: ../build/src/ui_notificationssettingspage.h:498
 msgid "Pretty OSD options"
 msgstr "Saját OSD beállítások"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
 #: ../build/src/ui_contextsettingspage.h:451
 #: ../build/src/ui_contextsettingspage.h:456
-#: ../build/src/ui_notificationssettingspage.h:487
+#: ../build/src/ui_notificationssettingspage.h:493
 #: ../build/src/ui_organizedialog.h:287
 msgid "Preview"
 msgstr "Előnézet"
@@ -4250,7 +4254,7 @@ msgstr "%1 billentyűkombinációja"
 msgid "Show"
 msgstr "Megjelenítés"
 
-#: ../build/src/ui_notificationssettingspage.h:473
+#: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
 msgstr "&Alapértelmezett értesítés"
 
@@ -4262,27 +4266,27 @@ msgstr "Ragyogás animáció megjelenítése a játszott számon a lejátszólis
 msgid "Show a moodbar in the track progress bar"
 msgstr "Hangulatsáv megjelenítése folyamatjelző sávként"
 
-#: ../build/src/ui_notificationssettingspage.h:481
+#: ../build/src/ui_notificationssettingspage.h:487
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "Értesítés megjelenítése, ha megváltoztatom az ismétlést/keverést"
 
-#: ../build/src/ui_notificationssettingspage.h:480
+#: ../build/src/ui_notificationssettingspage.h:486
 msgid "Show a notification when I change the volume"
 msgstr "Hangerő változtatásakor értesítés megjelenítése"
 
-#: ../build/src/ui_notificationssettingspage.h:482
+#: ../build/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I pause playback"
 msgstr "Szünet megnyomásakor értesítés megjelenítése"
 
-#: ../build/src/ui_notificationssettingspage.h:483
+#: ../build/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I resume playback"
 msgstr "Értesítés megjelenítése, amikor folytatom a lejátszást"
 
-#: ../build/src/ui_notificationssettingspage.h:475
+#: ../build/src/ui_notificationssettingspage.h:481
 msgid "Show a popup fro&m the system tray"
 msgstr "&Felugró értesítés megjelenítése a rendszertálcáról"
 
-#: ../build/src/ui_notificationssettingspage.h:474
+#: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a pretty OSD"
 msgstr "Saját OSD megjelenítése"
 
@@ -4585,7 +4589,7 @@ msgstr "Strawberry hiba"
 msgid "Strawberry Music Player"
 msgstr "Strawberry Zenelejátszó"
 
-#: ../build/src/ui_notificationssettingspage.h:496
+#: ../build/src/ui_notificationssettingspage.h:505
 msgid "Strawberry Red"
 msgstr "Szamócavörös"
 
@@ -4597,7 +4601,7 @@ msgstr ""
 "Strawberry automatikusan az eszköz által is támogatott formátumba tudja "
 "konvertálni a számokat másolás előtt."
 
-#: ../build/src/ui_notificationssettingspage.h:470
+#: ../build/src/ui_notificationssettingspage.h:476
 msgid "Strawberry can show a message when the track changes."
 msgstr "A Strawberry felbukkanó üzenetben tudja jelezni, ha számot vált."
 
@@ -4681,7 +4685,7 @@ msgid "Suggested tags"
 msgstr "Javasolt címkék"
 
 #: ../build/src/ui_contextsettingspage.h:436
-#: ../build/src/ui_notificationssettingspage.h:489
+#: ../build/src/ui_notificationssettingspage.h:495
 #: ../build/src/ui_edittagdialog.h:815
 msgid "Summary"
 msgstr "Összegzés"
@@ -4751,7 +4755,7 @@ msgstr "Teszt sikertelen!"
 msgid "Test successful!"
 msgstr "Teszt sikeres!"
 
-#: ../build/src/ui_notificationssettingspage.h:499
+#: ../build/src/ui_notificationssettingspage.h:500
 msgid "Text options"
 msgstr "Szövegopciók"
 
@@ -5111,7 +5115,7 @@ msgstr ""
 msgid "Use a custom color set"
 msgstr "Egyéni színkészlet használata"
 
-#: ../build/src/ui_notificationssettingspage.h:486
+#: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
 msgstr "Egyéni üzenet használata értesítésnél"
 

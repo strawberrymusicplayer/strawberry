@@ -108,7 +108,7 @@ msgstr ""
 msgid " s"
 msgstr " с"
 
-#: ../build/src/ui_notificationssettingspage.h:478
+#: ../build/src/ui_notificationssettingspage.h:484
 msgid " seconds"
 msgstr " секунд"
 
@@ -234,7 +234,7 @@ msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
 
 #: ../build/src/ui_contextsettingspage.h:416
-#: ../build/src/ui_notificationssettingspage.h:458
+#: ../build/src/ui_notificationssettingspage.h:464
 msgid "%filename%"
 msgstr "%filename%"
 
@@ -257,7 +257,7 @@ msgid "%n remaining"
 msgstr "%n осталось"
 
 #: ../build/src/ui_contextsettingspage.h:428
-#: ../build/src/ui_notificationssettingspage.h:466
+#: ../build/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
 msgstr ""
 
@@ -270,7 +270,7 @@ msgid "%title - %artist%"
 msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:420
-#: ../build/src/ui_notificationssettingspage.h:462
+#: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
 msgstr ""
 
@@ -584,7 +584,7 @@ msgid "Add Stream"
 msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:414
-#: ../build/src/ui_notificationssettingspage.h:456
+#: ../build/src/ui_notificationssettingspage.h:462
 msgid "Add a new line if supported by the notification type"
 msgstr "Добавить новую строку, если поддерживается типом уведомления"
 
@@ -625,92 +625,92 @@ msgid "Add search term"
 msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:422
-#: ../build/src/ui_notificationssettingspage.h:464
+#: ../build/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
 msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:375
-#: ../build/src/ui_notificationssettingspage.h:414
+#: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song album tag"
 msgstr "Добавить тег \"Альбом\""
 
 #: ../build/src/ui_contextsettingspage.h:381
-#: ../build/src/ui_notificationssettingspage.h:420
+#: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song albumartist tag"
 msgstr "Добавить тег \"Исполнитель альбома\""
 
 #: ../build/src/ui_contextsettingspage.h:372
-#: ../build/src/ui_notificationssettingspage.h:411
+#: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song artist tag"
 msgstr "Добавить тег \"Исполнитель\""
 
 #: ../build/src/ui_contextsettingspage.h:387
-#: ../build/src/ui_notificationssettingspage.h:426
+#: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song composer tag"
 msgstr "Добавить тег \"Композитор\""
 
 #: ../build/src/ui_contextsettingspage.h:396
-#: ../build/src/ui_notificationssettingspage.h:435
+#: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song disc tag"
 msgstr "Добавить тег \"Диск\""
 
 #: ../build/src/ui_contextsettingspage.h:418
-#: ../build/src/ui_notificationssettingspage.h:460
+#: ../build/src/ui_notificationssettingspage.h:466
 msgid "Add song filename"
 msgstr "Добавить имя файла с композицией"
 
 #: ../build/src/ui_contextsettingspage.h:402
-#: ../build/src/ui_notificationssettingspage.h:441
+#: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song genre tag"
 msgstr "Добавить тег \"Жанр\""
 
 #: ../build/src/ui_contextsettingspage.h:393
-#: ../build/src/ui_notificationssettingspage.h:432
+#: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song grouping tag"
 msgstr "Добавить тег \"Группа\""
 
 #: ../build/src/ui_contextsettingspage.h:405
-#: ../build/src/ui_notificationssettingspage.h:444
+#: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song length tag"
 msgstr "Добавить тег \"Длина\""
 
 #: ../build/src/ui_contextsettingspage.h:430
-#: ../build/src/ui_notificationssettingspage.h:468
+#: ../build/src/ui_notificationssettingspage.h:474
 msgid "Add song original year tag"
 msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:390
-#: ../build/src/ui_notificationssettingspage.h:429
+#: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
 msgstr "Добавить тег \"Исполнитель\""
 
 #: ../build/src/ui_contextsettingspage.h:408
-#: ../build/src/ui_notificationssettingspage.h:447
+#: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song play count"
 msgstr "Добавить число воспроизведений"
 
 #: ../build/src/ui_contextsettingspage.h:426
-#: ../build/src/ui_notificationssettingspage.h:453
+#: ../build/src/ui_notificationssettingspage.h:459
 msgid "Add song rating"
 msgstr "Добавить рейтинг"
 
 #: ../build/src/ui_contextsettingspage.h:411
-#: ../build/src/ui_notificationssettingspage.h:450
+#: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add song skip count"
 msgstr "Добавить число пропусков"
 
 #: ../build/src/ui_contextsettingspage.h:378
-#: ../build/src/ui_notificationssettingspage.h:417
+#: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song title tag"
 msgstr "Добавить тег \"Название\""
 
 #: ../build/src/ui_contextsettingspage.h:399
-#: ../build/src/ui_notificationssettingspage.h:438
+#: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song track tag"
 msgstr "Добавить тег \"Номер дорожки\""
 
 #: ../build/src/ui_contextsettingspage.h:384
-#: ../build/src/ui_notificationssettingspage.h:423
+#: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song year tag"
 msgstr "Добавить тег \"Год\""
 
@@ -1078,7 +1078,7 @@ msgstr "Средний размер изображений"
 msgid "Backend"
 msgstr "Бэкенд"
 
-#: ../build/src/ui_notificationssettingspage.h:494
+#: ../build/src/ui_notificationssettingspage.h:499
 msgid "Background color"
 msgstr "Цвет фона"
 
@@ -1086,7 +1086,7 @@ msgstr "Цвет фона"
 msgid "Background image"
 msgstr "Фоновое изображение"
 
-#: ../build/src/ui_notificationssettingspage.h:493
+#: ../build/src/ui_notificationssettingspage.h:503
 msgid "Background opacity"
 msgstr "Прозрачность фона"
 
@@ -1098,7 +1098,7 @@ msgstr "Резервное копирование базы данных"
 msgid "Balance"
 msgstr "Баланс"
 
-#: ../build/src/ui_notificationssettingspage.h:495
+#: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
 msgstr "Стандартный голубой"
 
@@ -1149,7 +1149,7 @@ msgstr "Тип блока"
 msgid "Blur amount"
 msgstr "Степень размытости"
 
-#: ../build/src/ui_notificationssettingspage.h:490
+#: ../build/src/ui_notificationssettingspage.h:496
 msgid "Body"
 msgstr "Содержимое"
 
@@ -1177,7 +1177,7 @@ msgstr "Буфер"
 msgid "Buffer duration"
 msgstr "Размер буфера"
 
-#: engine/gstengine.cpp:692
+#: engine/gstengine.cpp:686
 msgid "Buffering"
 msgstr "Буферизация"
 
@@ -1225,7 +1225,7 @@ msgstr "Проверить обновления…"
 msgid "Choose a name for your smart playlist"
 msgstr ""
 
-#: ../build/src/ui_notificationssettingspage.h:500
+#: ../build/src/ui_notificationssettingspage.h:502
 msgid "Choose color..."
 msgstr "Выбрать цвет…"
 
@@ -1643,7 +1643,7 @@ msgstr ""
 msgid "Custom image:"
 msgstr "Собственное изображение:"
 
-#: ../build/src/ui_notificationssettingspage.h:485
+#: ../build/src/ui_notificationssettingspage.h:491
 msgid "Custom message settings"
 msgstr "Настройки сообщения"
 
@@ -1651,7 +1651,7 @@ msgstr "Настройки сообщения"
 msgid "Custom text settings"
 msgstr ""
 
-#: ../build/src/ui_notificationssettingspage.h:497
+#: ../build/src/ui_notificationssettingspage.h:506
 msgid "Custom..."
 msgstr "Пользовательский…"
 
@@ -1780,11 +1780,11 @@ msgstr "Прямое соединение с Интернетом"
 msgid "Directory"
 msgstr "Каталог"
 
-#: ../build/src/ui_notificationssettingspage.h:479
+#: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
 msgstr "Отключить длительность"
 
-#: ../build/src/ui_notificationssettingspage.h:472
+#: ../build/src/ui_notificationssettingspage.h:478
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Отключено"
@@ -1943,6 +1943,10 @@ msgstr ""
 #: ../build/src/ui_equalizer.h:174
 msgid "Enable equalizer"
 msgstr "Включить эквалайзер"
+
+#: ../build/src/ui_notificationssettingspage.h:508
+msgid "Enable fading"
+msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:165
 msgid "Enable playlist clear button"
@@ -2381,7 +2385,7 @@ msgstr "Высокие частоты"
 msgid "General"
 msgstr "Общие"
 
-#: ../build/src/ui_notificationssettingspage.h:476
+#: ../build/src/ui_notificationssettingspage.h:482
 msgid "General settings"
 msgstr "Общие настройки"
 
@@ -2625,7 +2629,7 @@ msgid ""
 "time a song finishes."
 msgstr ""
 
-#: ../build/src/ui_notificationssettingspage.h:484
+#: ../build/src/ui_notificationssettingspage.h:490
 msgid "Include album art in the notification"
 msgstr "Показывать обложку альбома в уведомлении"
 
@@ -3227,11 +3231,11 @@ msgstr "Не подключено"
 msgid "Not mounted - double click to mount"
 msgstr "Не подключено - щелкните дважды для подключения"
 
-#: ../build/src/ui_notificationssettingspage.h:471
+#: ../build/src/ui_notificationssettingspage.h:477
 msgid "Notification type"
 msgstr "Тип уведомления"
 
-#: ../build/src/ui_notificationssettingspage.h:409
+#: ../build/src/ui_notificationssettingspage.h:415
 msgid "Notifications"
 msgstr "Уведомления"
 
@@ -3541,7 +3545,7 @@ msgstr ""
 msgid "Pop"
 msgstr "Поп"
 
-#: ../build/src/ui_notificationssettingspage.h:477
+#: ../build/src/ui_notificationssettingspage.h:483
 msgid "Popup duration"
 msgstr "Длительность отображения"
 
@@ -3610,14 +3614,14 @@ msgstr "Нажмите сочетание клавиш для: «%1»…"
 msgid "Pressing \"Previous\" in player will..."
 msgstr "Нажатие кнопки «Предыдущий» осуществит…"
 
-#: ../build/src/ui_notificationssettingspage.h:492
+#: ../build/src/ui_notificationssettingspage.h:498
 msgid "Pretty OSD options"
 msgstr "Настройки OSD"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
 #: ../build/src/ui_contextsettingspage.h:451
 #: ../build/src/ui_contextsettingspage.h:456
-#: ../build/src/ui_notificationssettingspage.h:487
+#: ../build/src/ui_notificationssettingspage.h:493
 #: ../build/src/ui_organizedialog.h:287
 msgid "Preview"
 msgstr "Предпросмотр"
@@ -4240,7 +4244,7 @@ msgstr "Сочетание клавиш «%1»"
 msgid "Show"
 msgstr "Показать"
 
-#: ../build/src/ui_notificationssettingspage.h:473
+#: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
 msgstr "Показать системные уведомления на рабочем столе"
 
@@ -4252,27 +4256,27 @@ msgstr "Подсвечивать проигрываемый трек"
 msgid "Show a moodbar in the track progress bar"
 msgstr "Показать moodbar в индикаторе прогресса трека"
 
-#: ../build/src/ui_notificationssettingspage.h:481
+#: ../build/src/ui_notificationssettingspage.h:487
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "Уведомлять при изменении режима повтора/перемешивания"
 
-#: ../build/src/ui_notificationssettingspage.h:480
+#: ../build/src/ui_notificationssettingspage.h:486
 msgid "Show a notification when I change the volume"
 msgstr "Уведомлять при смене громкости"
 
-#: ../build/src/ui_notificationssettingspage.h:482
+#: ../build/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I pause playback"
 msgstr "Уведомлять о приостановке проигрывания"
 
-#: ../build/src/ui_notificationssettingspage.h:483
+#: ../build/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I resume playback"
 msgstr "Показывать уведомление при возобновлении воспроизведения"
 
-#: ../build/src/ui_notificationssettingspage.h:475
+#: ../build/src/ui_notificationssettingspage.h:481
 msgid "Show a popup fro&m the system tray"
 msgstr "&Показать всплывающее окно для панели задач"
 
-#: ../build/src/ui_notificationssettingspage.h:474
+#: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a pretty OSD"
 msgstr "Показывать OSD"
 
@@ -4576,7 +4580,7 @@ msgstr "Ошибка Strawberry"
 msgid "Strawberry Music Player"
 msgstr "Музыкальный проигрыватель Strawberry"
 
-#: ../build/src/ui_notificationssettingspage.h:496
+#: ../build/src/ui_notificationssettingspage.h:505
 msgid "Strawberry Red"
 msgstr "Strawberry Red"
 
@@ -4588,7 +4592,7 @@ msgstr ""
 "При копировании на носитель Strawberry может автоматически конвертировать "
 "музыку в формат, который оно поддерживает."
 
-#: ../build/src/ui_notificationssettingspage.h:470
+#: ../build/src/ui_notificationssettingspage.h:476
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry может показывать уведомление при смене трека."
 
@@ -4670,7 +4674,7 @@ msgid "Suggested tags"
 msgstr "Предлагаемые теги"
 
 #: ../build/src/ui_contextsettingspage.h:436
-#: ../build/src/ui_notificationssettingspage.h:489
+#: ../build/src/ui_notificationssettingspage.h:495
 #: ../build/src/ui_edittagdialog.h:815
 msgid "Summary"
 msgstr "Сводка"
@@ -4740,7 +4744,7 @@ msgstr "Тест не пройден!"
 msgid "Test successful!"
 msgstr "Тест пройден успешно!"
 
-#: ../build/src/ui_notificationssettingspage.h:499
+#: ../build/src/ui_notificationssettingspage.h:500
 msgid "Text options"
 msgstr "Свойства текста"
 
@@ -5096,7 +5100,7 @@ msgstr ""
 msgid "Use a custom color set"
 msgstr "Использовать собственный набор цветов"
 
-#: ../build/src/ui_notificationssettingspage.h:486
+#: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
 msgstr "Использовать собственное сообщение для уведомлений"
 

@@ -91,7 +91,7 @@ msgstr ""
 msgid " s"
 msgstr " s"
 
-#: ../build/src/ui_notificationssettingspage.h:478
+#: ../build/src/ui_notificationssettingspage.h:484
 msgid " seconds"
 msgstr " 초"
 
@@ -217,7 +217,7 @@ msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
 
 #: ../build/src/ui_contextsettingspage.h:416
-#: ../build/src/ui_notificationssettingspage.h:458
+#: ../build/src/ui_notificationssettingspage.h:464
 msgid "%filename%"
 msgstr "%filename%"
 
@@ -240,7 +240,7 @@ msgid "%n remaining"
 msgstr "%n개 남음"
 
 #: ../build/src/ui_contextsettingspage.h:428
-#: ../build/src/ui_notificationssettingspage.h:466
+#: ../build/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
 msgstr ""
 
@@ -253,7 +253,7 @@ msgid "%title - %artist%"
 msgstr "%title - %artist%"
 
 #: ../build/src/ui_contextsettingspage.h:420
-#: ../build/src/ui_notificationssettingspage.h:462
+#: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
 msgstr ""
 
@@ -566,7 +566,7 @@ msgid "Add Stream"
 msgstr "스트림 추가"
 
 #: ../build/src/ui_contextsettingspage.h:414
-#: ../build/src/ui_notificationssettingspage.h:456
+#: ../build/src/ui_notificationssettingspage.h:462
 msgid "Add a new line if supported by the notification type"
 msgstr "알림 형식이 지원한다면 새로운 줄 추가"
 
@@ -607,92 +607,92 @@ msgid "Add search term"
 msgstr "검색 조건 추가"
 
 #: ../build/src/ui_contextsettingspage.h:422
-#: ../build/src/ui_notificationssettingspage.h:464
+#: ../build/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
 msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:375
-#: ../build/src/ui_notificationssettingspage.h:414
+#: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song album tag"
 msgstr "앨범 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:381
-#: ../build/src/ui_notificationssettingspage.h:420
+#: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song albumartist tag"
 msgstr "앨범 아티스트 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:372
-#: ../build/src/ui_notificationssettingspage.h:411
+#: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song artist tag"
 msgstr "아티스트 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:387
-#: ../build/src/ui_notificationssettingspage.h:426
+#: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song composer tag"
 msgstr "작곡가 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:396
-#: ../build/src/ui_notificationssettingspage.h:435
+#: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song disc tag"
 msgstr "음악 디스크 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:418
-#: ../build/src/ui_notificationssettingspage.h:460
+#: ../build/src/ui_notificationssettingspage.h:466
 msgid "Add song filename"
 msgstr "음악 파일 이름 추가"
 
 #: ../build/src/ui_contextsettingspage.h:402
-#: ../build/src/ui_notificationssettingspage.h:441
+#: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song genre tag"
 msgstr "장르 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:393
-#: ../build/src/ui_notificationssettingspage.h:432
+#: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song grouping tag"
 msgstr "음악 그룹화 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:405
-#: ../build/src/ui_notificationssettingspage.h:444
+#: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song length tag"
 msgstr "음악 길이 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:430
-#: ../build/src/ui_notificationssettingspage.h:468
+#: ../build/src/ui_notificationssettingspage.h:474
 msgid "Add song original year tag"
 msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:390
-#: ../build/src/ui_notificationssettingspage.h:429
+#: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
 msgstr "음악 연주가 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:408
-#: ../build/src/ui_notificationssettingspage.h:447
+#: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song play count"
 msgstr "재생 횟수 추가"
 
 #: ../build/src/ui_contextsettingspage.h:426
-#: ../build/src/ui_notificationssettingspage.h:453
+#: ../build/src/ui_notificationssettingspage.h:459
 msgid "Add song rating"
 msgstr "음악 별점 추가"
 
 #: ../build/src/ui_contextsettingspage.h:411
-#: ../build/src/ui_notificationssettingspage.h:450
+#: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add song skip count"
 msgstr "건너뛴 횟수 추가"
 
 #: ../build/src/ui_contextsettingspage.h:378
-#: ../build/src/ui_notificationssettingspage.h:417
+#: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song title tag"
 msgstr "제목 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:399
-#: ../build/src/ui_notificationssettingspage.h:438
+#: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song track tag"
 msgstr "트랙 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:384
-#: ../build/src/ui_notificationssettingspage.h:423
+#: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song year tag"
 msgstr "년도 태그 추가"
 
@@ -1060,7 +1060,7 @@ msgstr "평균 그림 크기"
 msgid "Backend"
 msgstr "백엔드"
 
-#: ../build/src/ui_notificationssettingspage.h:494
+#: ../build/src/ui_notificationssettingspage.h:499
 msgid "Background color"
 msgstr "배경 색상"
 
@@ -1068,7 +1068,7 @@ msgstr "배경 색상"
 msgid "Background image"
 msgstr "배경 그림"
 
-#: ../build/src/ui_notificationssettingspage.h:493
+#: ../build/src/ui_notificationssettingspage.h:503
 msgid "Background opacity"
 msgstr "배경 불투명도"
 
@@ -1080,7 +1080,7 @@ msgstr "데이터베이스 백업 중"
 msgid "Balance"
 msgstr "균형"
 
-#: ../build/src/ui_notificationssettingspage.h:495
+#: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
 msgstr "기본 파랑"
 
@@ -1131,7 +1131,7 @@ msgstr "블록 형식"
 msgid "Blur amount"
 msgstr "블러 정도"
 
-#: ../build/src/ui_notificationssettingspage.h:490
+#: ../build/src/ui_notificationssettingspage.h:496
 msgid "Body"
 msgstr "본문"
 
@@ -1159,7 +1159,7 @@ msgstr "버퍼"
 msgid "Buffer duration"
 msgstr "버퍼 시간"
 
-#: engine/gstengine.cpp:692
+#: engine/gstengine.cpp:686
 msgid "Buffering"
 msgstr "버퍼링"
 
@@ -1207,7 +1207,7 @@ msgstr "업데이트 확인..."
 msgid "Choose a name for your smart playlist"
 msgstr "스마트 재생 목록 이름을 정하세요"
 
-#: ../build/src/ui_notificationssettingspage.h:500
+#: ../build/src/ui_notificationssettingspage.h:502
 msgid "Choose color..."
 msgstr "색상 선택..."
 
@@ -1620,7 +1620,7 @@ msgstr ""
 msgid "Custom image:"
 msgstr "사용자 정의 이미지:"
 
-#: ../build/src/ui_notificationssettingspage.h:485
+#: ../build/src/ui_notificationssettingspage.h:491
 msgid "Custom message settings"
 msgstr "사용자 정의 메시지 설정"
 
@@ -1628,7 +1628,7 @@ msgstr "사용자 정의 메시지 설정"
 msgid "Custom text settings"
 msgstr "사용자 정의 텍스트 설정"
 
-#: ../build/src/ui_notificationssettingspage.h:497
+#: ../build/src/ui_notificationssettingspage.h:506
 msgid "Custom..."
 msgstr "사용자 정의..."
 
@@ -1757,11 +1757,11 @@ msgstr "직접 인터넷 연결"
 msgid "Directory"
 msgstr "디렉터리"
 
-#: ../build/src/ui_notificationssettingspage.h:479
+#: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
 msgstr "비활성화 시간"
 
-#: ../build/src/ui_notificationssettingspage.h:472
+#: ../build/src/ui_notificationssettingspage.h:478
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "사용 안 함"
@@ -1920,6 +1920,10 @@ msgstr "마우스 우클릭 메뉴로부터 파일 제거 활성화"
 #: ../build/src/ui_equalizer.h:174
 msgid "Enable equalizer"
 msgstr "이퀄라이저 활성화"
+
+#: ../build/src/ui_notificationssettingspage.h:508
+msgid "Enable fading"
+msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:165
 msgid "Enable playlist clear button"
@@ -2357,7 +2361,7 @@ msgstr "고음 강화"
 msgid "General"
 msgstr "일반"
 
-#: ../build/src/ui_notificationssettingspage.h:476
+#: ../build/src/ui_notificationssettingspage.h:482
 msgid "General settings"
 msgstr "일반 설정"
 
@@ -2594,7 +2598,7 @@ msgid ""
 "time a song finishes."
 msgstr "다이나믹 모드일 때는 곡이 끝날 때마다 새 곡이 재생목록에 추가됩니다."
 
-#: ../build/src/ui_notificationssettingspage.h:484
+#: ../build/src/ui_notificationssettingspage.h:490
 msgid "Include album art in the notification"
 msgstr "알림에 앨범 커버 포함"
 
@@ -3193,11 +3197,11 @@ msgstr "연결되지 않음"
 msgid "Not mounted - double click to mount"
 msgstr "마운트되지 않음 - 마운트하려면 두 번 클릭"
 
-#: ../build/src/ui_notificationssettingspage.h:471
+#: ../build/src/ui_notificationssettingspage.h:477
 msgid "Notification type"
 msgstr "알림 종류"
 
-#: ../build/src/ui_notificationssettingspage.h:409
+#: ../build/src/ui_notificationssettingspage.h:415
 msgid "Notifications"
 msgstr "알림"
 
@@ -3507,7 +3511,7 @@ msgstr "웹 브라우저에서 다음 URL을 여십시오"
 msgid "Pop"
 msgstr "팝"
 
-#: ../build/src/ui_notificationssettingspage.h:477
+#: ../build/src/ui_notificationssettingspage.h:483
 msgid "Popup duration"
 msgstr "팝업 시간"
 
@@ -3574,14 +3578,14 @@ msgstr "%1에 사용할 단축키를 누르십시오..."
 msgid "Pressing \"Previous\" in player will..."
 msgstr "재생기에서 \"이전\"을 눌렀을 때..."
 
-#: ../build/src/ui_notificationssettingspage.h:492
+#: ../build/src/ui_notificationssettingspage.h:498
 msgid "Pretty OSD options"
 msgstr "예쁜 OSD 옵션"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
 #: ../build/src/ui_contextsettingspage.h:451
 #: ../build/src/ui_contextsettingspage.h:456
-#: ../build/src/ui_notificationssettingspage.h:487
+#: ../build/src/ui_notificationssettingspage.h:493
 #: ../build/src/ui_organizedialog.h:287
 msgid "Preview"
 msgstr "미리 보기"
@@ -4202,7 +4206,7 @@ msgstr "%1 단축키"
 msgid "Show"
 msgstr "표시"
 
-#: ../build/src/ui_notificationssettingspage.h:473
+#: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
 msgstr "네이티브 데스크톱 알림 표시(&N)"
 
@@ -4214,27 +4218,27 @@ msgstr "현재 트랙에 빛나는 애니메이션 표시"
 msgid "Show a moodbar in the track progress bar"
 msgstr "트랙 진행 표시줄에 무드바 표시"
 
-#: ../build/src/ui_notificationssettingspage.h:481
+#: ../build/src/ui_notificationssettingspage.h:487
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "반복/셔플 모드 변경 시 알림 표시"
 
-#: ../build/src/ui_notificationssettingspage.h:480
+#: ../build/src/ui_notificationssettingspage.h:486
 msgid "Show a notification when I change the volume"
 msgstr "음량을 변경할 때 알림 표시"
 
-#: ../build/src/ui_notificationssettingspage.h:482
+#: ../build/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I pause playback"
 msgstr "재생을 일시 정지할 때 알림 표시"
 
-#: ../build/src/ui_notificationssettingspage.h:483
+#: ../build/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I resume playback"
 msgstr "재생을 다시 시작할 때 알림 표시"
 
-#: ../build/src/ui_notificationssettingspage.h:475
+#: ../build/src/ui_notificationssettingspage.h:481
 msgid "Show a popup fro&m the system tray"
 msgstr "시스템 트레이에서 팝업 표시(&M)"
 
-#: ../build/src/ui_notificationssettingspage.h:474
+#: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a pretty OSD"
 msgstr "예쁜 OSD 표시"
 
@@ -4536,7 +4540,7 @@ msgstr "Strawberry 오류"
 msgid "Strawberry Music Player"
 msgstr "Strawberry 음악 재생기"
 
-#: ../build/src/ui_notificationssettingspage.h:496
+#: ../build/src/ui_notificationssettingspage.h:505
 msgid "Strawberry Red"
 msgstr "Strawberry Red"
 
@@ -4546,7 +4550,7 @@ msgid ""
 "a format that it can play."
 msgstr "Strawberry는 장치로 곡을 복사할 때 장치에서 재생 가능한 형식으로 자동 변환할 수 있습니다."
 
-#: ../build/src/ui_notificationssettingspage.h:470
+#: ../build/src/ui_notificationssettingspage.h:476
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry에서 재생 중인 곡을 전환할 때 메시지를 표시할 수 있습니다."
 
@@ -4628,7 +4632,7 @@ msgid "Suggested tags"
 msgstr "제안된 태그"
 
 #: ../build/src/ui_contextsettingspage.h:436
-#: ../build/src/ui_notificationssettingspage.h:489
+#: ../build/src/ui_notificationssettingspage.h:495
 #: ../build/src/ui_edittagdialog.h:815
 msgid "Summary"
 msgstr "요약"
@@ -4698,7 +4702,7 @@ msgstr "테스트 실패!"
 msgid "Test successful!"
 msgstr "테스트 성공!"
 
-#: ../build/src/ui_notificationssettingspage.h:499
+#: ../build/src/ui_notificationssettingspage.h:500
 msgid "Text options"
 msgstr "텍스트 옵션"
 
@@ -5038,7 +5042,7 @@ msgstr ""
 msgid "Use a custom color set"
 msgstr "사용자 정의 색 배열 사용"
 
-#: ../build/src/ui_notificationssettingspage.h:486
+#: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
 msgstr "알림에 표시할 사용자 정의 메시지 설정"
 

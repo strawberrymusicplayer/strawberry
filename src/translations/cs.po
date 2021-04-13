@@ -92,7 +92,7 @@ msgstr " bodů"
 msgid " s"
 msgstr " s"
 
-#: ../build/src/ui_notificationssettingspage.h:478
+#: ../build/src/ui_notificationssettingspage.h:484
 msgid " seconds"
 msgstr " sekund"
 
@@ -220,7 +220,7 @@ msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
 
 #: ../build/src/ui_contextsettingspage.h:416
-#: ../build/src/ui_notificationssettingspage.h:458
+#: ../build/src/ui_notificationssettingspage.h:464
 msgid "%filename%"
 msgstr "%filename%"
 
@@ -243,7 +243,7 @@ msgid "%n remaining"
 msgstr "zůstávají %n"
 
 #: ../build/src/ui_contextsettingspage.h:428
-#: ../build/src/ui_notificationssettingspage.h:466
+#: ../build/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
 msgstr ""
 
@@ -256,7 +256,7 @@ msgid "%title - %artist%"
 msgstr "%title - %artist%"
 
 #: ../build/src/ui_contextsettingspage.h:420
-#: ../build/src/ui_notificationssettingspage.h:462
+#: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
 msgstr "%adresa%"
 
@@ -572,7 +572,7 @@ msgid "Add Stream"
 msgstr "Přidat přenos"
 
 #: ../build/src/ui_contextsettingspage.h:414
-#: ../build/src/ui_notificationssettingspage.h:456
+#: ../build/src/ui_notificationssettingspage.h:462
 msgid "Add a new line if supported by the notification type"
 msgstr "Přidat nový řádek, je-li to podporováno typem oznámení"
 
@@ -613,92 +613,92 @@ msgid "Add search term"
 msgstr "Přidat hledaný výraz"
 
 #: ../build/src/ui_contextsettingspage.h:422
-#: ../build/src/ui_notificationssettingspage.h:464
+#: ../build/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
 msgstr "Přidat URL skladby"
 
 #: ../build/src/ui_contextsettingspage.h:375
-#: ../build/src/ui_notificationssettingspage.h:414
+#: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song album tag"
 msgstr "Přidat značku album písně"
 
 #: ../build/src/ui_contextsettingspage.h:381
-#: ../build/src/ui_notificationssettingspage.h:420
+#: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song albumartist tag"
 msgstr "Přidat značku umělec alba písně"
 
 #: ../build/src/ui_contextsettingspage.h:372
-#: ../build/src/ui_notificationssettingspage.h:411
+#: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song artist tag"
 msgstr "Přidat značku umělec písně"
 
 #: ../build/src/ui_contextsettingspage.h:387
-#: ../build/src/ui_notificationssettingspage.h:426
+#: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song composer tag"
 msgstr "Přidat značku skladatel písně"
 
 #: ../build/src/ui_contextsettingspage.h:396
-#: ../build/src/ui_notificationssettingspage.h:435
+#: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song disc tag"
 msgstr "Přidat značku disk písně"
 
 #: ../build/src/ui_contextsettingspage.h:418
-#: ../build/src/ui_notificationssettingspage.h:460
+#: ../build/src/ui_notificationssettingspage.h:466
 msgid "Add song filename"
 msgstr "Přidat název souboru písně"
 
 #: ../build/src/ui_contextsettingspage.h:402
-#: ../build/src/ui_notificationssettingspage.h:441
+#: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song genre tag"
 msgstr "Přidat značku žánr písně"
 
 #: ../build/src/ui_contextsettingspage.h:393
-#: ../build/src/ui_notificationssettingspage.h:432
+#: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song grouping tag"
 msgstr "Přidat značku seskupení písně"
 
 #: ../build/src/ui_contextsettingspage.h:405
-#: ../build/src/ui_notificationssettingspage.h:444
+#: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song length tag"
 msgstr "Přidat značku délka písně"
 
 #: ../build/src/ui_contextsettingspage.h:430
-#: ../build/src/ui_notificationssettingspage.h:468
+#: ../build/src/ui_notificationssettingspage.h:474
 msgid "Add song original year tag"
 msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:390
-#: ../build/src/ui_notificationssettingspage.h:429
+#: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
 msgstr "Přidat značku účinkující písně"
 
 #: ../build/src/ui_contextsettingspage.h:408
-#: ../build/src/ui_notificationssettingspage.h:447
+#: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song play count"
 msgstr "Přidat počet přehrání písně"
 
 #: ../build/src/ui_contextsettingspage.h:426
-#: ../build/src/ui_notificationssettingspage.h:453
+#: ../build/src/ui_notificationssettingspage.h:459
 msgid "Add song rating"
 msgstr "Přidat hodnocení písně"
 
 #: ../build/src/ui_contextsettingspage.h:411
-#: ../build/src/ui_notificationssettingspage.h:450
+#: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add song skip count"
 msgstr "Přidat počet přeskočení písně"
 
 #: ../build/src/ui_contextsettingspage.h:378
-#: ../build/src/ui_notificationssettingspage.h:417
+#: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song title tag"
 msgstr "Přidat značku název písně"
 
 #: ../build/src/ui_contextsettingspage.h:399
-#: ../build/src/ui_notificationssettingspage.h:438
+#: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song track tag"
 msgstr "Přidat značku pořadí písně"
 
 #: ../build/src/ui_contextsettingspage.h:384
-#: ../build/src/ui_notificationssettingspage.h:423
+#: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song year tag"
 msgstr "Přidat značku rok písně"
 
@@ -1066,7 +1066,7 @@ msgstr "Průměrná velikost obrázku"
 msgid "Backend"
 msgstr "Backend"
 
-#: ../build/src/ui_notificationssettingspage.h:494
+#: ../build/src/ui_notificationssettingspage.h:499
 msgid "Background color"
 msgstr "Barva pozadí"
 
@@ -1074,7 +1074,7 @@ msgstr "Barva pozadí"
 msgid "Background image"
 msgstr "Obrázek na pozadí"
 
-#: ../build/src/ui_notificationssettingspage.h:493
+#: ../build/src/ui_notificationssettingspage.h:503
 msgid "Background opacity"
 msgstr "Neprůhlednost pozadí"
 
@@ -1086,7 +1086,7 @@ msgstr "Záloha databáze"
 msgid "Balance"
 msgstr "Vyvážení"
 
-#: ../build/src/ui_notificationssettingspage.h:495
+#: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
 msgstr "Jednoduchá modrá"
 
@@ -1137,7 +1137,7 @@ msgstr "Typ bloku"
 msgid "Blur amount"
 msgstr "Velikost rozmazání"
 
-#: ../build/src/ui_notificationssettingspage.h:490
+#: ../build/src/ui_notificationssettingspage.h:496
 msgid "Body"
 msgstr "Tělo"
 
@@ -1165,7 +1165,7 @@ msgstr "Mezipaměť"
 msgid "Buffer duration"
 msgstr "Délka vyrovnávací paměti"
 
-#: engine/gstengine.cpp:692
+#: engine/gstengine.cpp:686
 msgid "Buffering"
 msgstr "Ukládá se do vyrovnávací paměti"
 
@@ -1214,7 +1214,7 @@ msgstr "Zkontrolovat aktualizace"
 msgid "Choose a name for your smart playlist"
 msgstr "Zvolte jméno pro váš chytrý seznam skladeb"
 
-#: ../build/src/ui_notificationssettingspage.h:500
+#: ../build/src/ui_notificationssettingspage.h:502
 msgid "Choose color..."
 msgstr "Vybrat barvu..."
 
@@ -1634,7 +1634,7 @@ msgstr ""
 msgid "Custom image:"
 msgstr "Vlastní obrázek:"
 
-#: ../build/src/ui_notificationssettingspage.h:485
+#: ../build/src/ui_notificationssettingspage.h:491
 msgid "Custom message settings"
 msgstr "Nastavení vlastní zprávy"
 
@@ -1642,7 +1642,7 @@ msgstr "Nastavení vlastní zprávy"
 msgid "Custom text settings"
 msgstr "Vlastní nastavení textu"
 
-#: ../build/src/ui_notificationssettingspage.h:497
+#: ../build/src/ui_notificationssettingspage.h:506
 msgid "Custom..."
 msgstr "Vlastní..."
 
@@ -1771,11 +1771,11 @@ msgstr "Přímé připojení k internetu"
 msgid "Directory"
 msgstr "Složka"
 
-#: ../build/src/ui_notificationssettingspage.h:479
+#: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
 msgstr "Zakázat délku"
 
-#: ../build/src/ui_notificationssettingspage.h:472
+#: ../build/src/ui_notificationssettingspage.h:478
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Zakázáno"
@@ -1934,6 +1934,10 @@ msgstr "Povolit mazání souborů v kontextové nabídce pravého kliknutí"
 #: ../build/src/ui_equalizer.h:174
 msgid "Enable equalizer"
 msgstr "Povolit ekvalizér"
+
+#: ../build/src/ui_notificationssettingspage.h:508
+msgid "Enable fading"
+msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:165
 msgid "Enable playlist clear button"
@@ -2373,7 +2377,7 @@ msgstr "Plné výšky"
 msgid "General"
 msgstr "Obecné"
 
-#: ../build/src/ui_notificationssettingspage.h:476
+#: ../build/src/ui_notificationssettingspage.h:482
 msgid "General settings"
 msgstr "Obecná nastavení"
 
@@ -2621,7 +2625,7 @@ msgstr ""
 "V dynamickém režimu se do playlistu přidají nové skladby pokaždé když jedna "
 "dohraje."
 
-#: ../build/src/ui_notificationssettingspage.h:484
+#: ../build/src/ui_notificationssettingspage.h:490
 msgid "Include album art in the notification"
 msgstr "Zahrnout obal alba do oznámení"
 
@@ -3226,11 +3230,11 @@ msgstr "Nepřipojeno"
 msgid "Not mounted - double click to mount"
 msgstr "Nepřipojeno - dvojitým klepnutím připojíte"
 
-#: ../build/src/ui_notificationssettingspage.h:471
+#: ../build/src/ui_notificationssettingspage.h:477
 msgid "Notification type"
 msgstr "Druh oznámení"
 
-#: ../build/src/ui_notificationssettingspage.h:409
+#: ../build/src/ui_notificationssettingspage.h:415
 msgid "Notifications"
 msgstr "Oznámení"
 
@@ -3544,7 +3548,7 @@ msgstr "Prosím navštivte tuto adresu URL ve vašem prohlížeči."
 msgid "Pop"
 msgstr "Pop"
 
-#: ../build/src/ui_notificationssettingspage.h:477
+#: ../build/src/ui_notificationssettingspage.h:483
 msgid "Popup duration"
 msgstr "Doba zobrazení oznámení"
 
@@ -3615,14 +3619,14 @@ msgstr "Stiskněte klávesovou zkratku, která se použije pro %1..."
 msgid "Pressing \"Previous\" in player will..."
 msgstr "Po stisknutí Předchozí v přehrávači nastane..."
 
-#: ../build/src/ui_notificationssettingspage.h:492
+#: ../build/src/ui_notificationssettingspage.h:498
 msgid "Pretty OSD options"
 msgstr "Možnosti vzhledu OSD"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
 #: ../build/src/ui_contextsettingspage.h:451
 #: ../build/src/ui_contextsettingspage.h:456
-#: ../build/src/ui_notificationssettingspage.h:487
+#: ../build/src/ui_notificationssettingspage.h:493
 #: ../build/src/ui_organizedialog.h:287
 msgid "Preview"
 msgstr "Náhled"
@@ -4248,7 +4252,7 @@ msgstr "Klávesová zkratka pro %1"
 msgid "Show"
 msgstr "Ukázat"
 
-#: ../build/src/ui_notificationssettingspage.h:473
+#: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
 msgstr "Zobrazit &nativní upozornění na ploše"
 
@@ -4261,28 +4265,28 @@ msgstr "Ukazovat zářící animaci nyní přehrávané skladby"
 msgid "Show a moodbar in the track progress bar"
 msgstr "Zobrazit Ukazatel nálady v progress baru"
 
-#: ../build/src/ui_notificationssettingspage.h:481
+#: ../build/src/ui_notificationssettingspage.h:487
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "Ukazovat oznámení při změně režimu opakování/míchání"
 
-#: ../build/src/ui_notificationssettingspage.h:480
+#: ../build/src/ui_notificationssettingspage.h:486
 msgid "Show a notification when I change the volume"
 msgstr "Zobrazovat oznámení při změně hlasitosti"
 
-#: ../build/src/ui_notificationssettingspage.h:482
+#: ../build/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I pause playback"
 msgstr "Ukazovat oznámení při pozastavení přehrávání"
 
-#: ../build/src/ui_notificationssettingspage.h:483
+#: ../build/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I resume playback"
 msgstr "Zobrazit oznámení při pokračování v přehrávání"
 
-#: ../build/src/ui_notificationssettingspage.h:475
+#: ../build/src/ui_notificationssettingspage.h:481
 #, fuzzy
 msgid "Show a popup fro&m the system tray"
 msgstr "Ukázat popup &ze systémové lišty"
 
-#: ../build/src/ui_notificationssettingspage.h:474
+#: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a pretty OSD"
 msgstr "Ukazovat OSD"
 
@@ -4586,7 +4590,7 @@ msgstr "Chyba Clemetine"
 msgid "Strawberry Music Player"
 msgstr "Přehrávač hudby Strawberry"
 
-#: ../build/src/ui_notificationssettingspage.h:496
+#: ../build/src/ui_notificationssettingspage.h:505
 msgid "Strawberry Red"
 msgstr "Jahodově Červená"
 
@@ -4598,7 +4602,7 @@ msgstr ""
 "Strawberry může automaticky převést hudbu kopírovanou do tohoto zařízení do "
 "formátu, který dokáže přehrát."
 
-#: ../build/src/ui_notificationssettingspage.h:470
+#: ../build/src/ui_notificationssettingspage.h:476
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry může při změně skladby ukázat zprávu."
 
@@ -4682,7 +4686,7 @@ msgid "Suggested tags"
 msgstr "Navrhované značky"
 
 #: ../build/src/ui_contextsettingspage.h:436
-#: ../build/src/ui_notificationssettingspage.h:489
+#: ../build/src/ui_notificationssettingspage.h:495
 #: ../build/src/ui_edittagdialog.h:815
 msgid "Summary"
 msgstr "Shrnutí"
@@ -4753,7 +4757,7 @@ msgstr "Test selhal!"
 msgid "Test successful!"
 msgstr "Test uspěl!"
 
-#: ../build/src/ui_notificationssettingspage.h:499
+#: ../build/src/ui_notificationssettingspage.h:500
 msgid "Text options"
 msgstr "Volby pro text"
 
@@ -5109,7 +5113,7 @@ msgstr ""
 msgid "Use a custom color set"
 msgstr "Použít vlastní sadu barev:"
 
-#: ../build/src/ui_notificationssettingspage.h:486
+#: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
 msgstr "Použít vlastní zprávu pro oznámení"
 
