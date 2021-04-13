@@ -19,10 +19,15 @@
 
 #include "config.h"
 
+#include <cstring>
+#include <glib.h>
+
 #include <gst/gst.h>
 #include <gst/pbutils/pbutils.h>
 
+#include <QtGlobal>
 #include <QObject>
+#include <QMetaObject>
 #include <QCoreApplication>
 #include <QStandardPaths>
 #include <QtConcurrent>
@@ -30,6 +35,7 @@
 #include <QString>
 #include <QDir>
 #include <QFile>
+#include <QAbstractEventDispatcher>
 
 #include "core/logging.h"
 #include "core/utilities.h"
@@ -40,15 +46,38 @@
 
 #include "gststartup.h"
 
+GThread *GstStartup::kGThread = nullptr;
+
+gpointer GstStartup::GLibMainLoopThreadFunc(gpointer) {
+
+  qLog(Info) << "Creating GLib main event loop.";
+
+  GMainLoop *gloop = g_main_loop_new(nullptr, false);
+  g_main_loop_run(gloop);
+  g_main_loop_unref(gloop);
+
+  return nullptr;
+
+}
+
 GstStartup::GstStartup(QObject *parent) : QObject(parent) {
+
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   initializing_ = QtConcurrent::run(&GstStartup::InitializeGStreamer, this);
 #else
   initializing_ = QtConcurrent::run(this, &GstStartup::InitializeGStreamer);
 #endif
+
+  const QMetaObject *mo = QAbstractEventDispatcher::instance(qApp->thread())->metaObject();
+  if (mo && strcmp(mo->className(), "QEventDispatcherGlib") != 0 && strcmp(mo->superClass()->className(), "QEventDispatcherGlib") != 0) {
+    kGThread = g_thread_new(nullptr, GstStartup::GLibMainLoopThreadFunc, nullptr);
+  }
+
 }
 
-GstStartup::~GstStartup() {}
+GstStartup::~GstStartup() {
+  if (kGThread) g_thread_unref(kGThread);
+}
 
 void GstStartup::InitializeGStreamer() {
 

@@ -22,8 +22,10 @@
 
 #include "config.h"
 
+#include <glib.h>
 #include <gst/gst.h>
 
+#include <QtGlobal>
 #include <QObject>
 #include <QFuture>
 
@@ -37,8 +39,12 @@ class GstStartup : public QObject {
   void EnsureInitialized() { initializing_.waitForFinished(); }
 
  private:
+  static GThread *kGThread;
+  static gpointer GLibMainLoopThreadFunc(gpointer);
+
   void InitializeGStreamer();
   void SetEnvironment();
+
   QFuture<void> initializing_;
 
 };
