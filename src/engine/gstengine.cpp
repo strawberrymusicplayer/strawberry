@@ -165,9 +165,9 @@ void GstEngine::StartPreloading(const QUrl &stream_url, const QUrl &original_url
   if (current_pipeline_) {
     current_pipeline_->SetNextUrl(gst_url, original_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
     // Add request to discover the stream
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
     if (discoverer_) {
-      if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.toStdString().c_str())) {
+      if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.constData())) {
         qLog(Error) << "Failed to start stream discovery for" << gst_url;
       }
     }
@@ -211,7 +211,7 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
     current_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Forward);
 
   // Setting up stream discoverer
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
   if (!discoverer_) {
     discoverer_ = gst_discoverer_new(kDiscoveryTimeoutS * GST_SECOND, nullptr);
     if (discoverer_) {
@@ -223,9 +223,9 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
 #endif
 
   // Add request to discover the stream
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
   if (discoverer_) {
-    if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.toStdString().c_str())) {
+    if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.constData())) {
       qLog(Error) << "Failed to start stream discovery for" << gst_url;
     }
   }
