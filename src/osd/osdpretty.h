@@ -76,9 +76,6 @@ class OSDPretty : public QWidget {
   void SetMessage(const QString &summary, const QString& message, const QImage &image);
   void ShowMessage(const QString &summary, const QString& message, const QImage &image);
 
-  // Controls the fader.  This is enabled by default on Windows.
-  void set_fading_enabled(bool enabled) { fading_enabled_ = enabled; }
-
   // Popup duration in seconds.  Only used in Mode_Popup.
   void set_popup_duration(int msec);
 
@@ -95,6 +92,7 @@ class OSDPretty : public QWidget {
   QPoint popup_pos() const { return popup_pos_; }
   QFont font() const { return font_; }
   bool disable_duration() const { return disable_duration_; }
+  bool fading() const { return fading_enabled_; }
 
   // When the user has been moving the popup, use these to get its current position and screen.
   // Note that these return invalid values if the popup is hidden.

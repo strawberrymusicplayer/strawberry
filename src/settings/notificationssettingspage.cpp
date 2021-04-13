@@ -197,6 +197,9 @@ void NotificationsSettingsPage::Load() {
     ui_->notifications_bg_preset->setCurrentIndex(2);
   ui_->notifications_bg_preset->setItemData(2, QColor(color), Qt::DecorationRole);
   ui_->notifications_disable_duration->setChecked(pretty_popup_->disable_duration());
+
+  ui_->notifications_fading->setChecked(pretty_popup_->fading());
+
   UpdatePopupVisible();
 
   Init(ui_->layout_notificationssettingspage->parentWidget());
@@ -236,6 +239,7 @@ void NotificationsSettingsPage::Save() {
   s.setValue("popup_pos", pretty_popup_->popup_pos());
   s.setValue("font", pretty_popup_->font().toString());
   s.setValue("disable_duration", ui_->notifications_disable_duration->isChecked());
+  s.setValue("fading", ui_->notifications_fading->isChecked());
   s.endGroup();
 
 }
