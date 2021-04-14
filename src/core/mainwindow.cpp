@@ -31,6 +31,8 @@
 #include <QApplication>
 #include <QObject>
 #include <QWidget>
+#include <QScreen>
+#include <QWindow>
 #include <QMetaObject>
 #include <QThread>
 #include <QSystemTrayIcon>
@@ -2312,8 +2314,46 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
       app_->player()->RestartOrPrevious();
       break;
 
+    case CommandlineOptions::Player_ResizeWindow:{
+      if (options.window_size().contains('x') && options.window_size().length() >= 4) {
+        QString str_w = options.window_size().left(options.window_size().indexOf('x'));
+        QString str_h = options.window_size().right(options.window_size().length() - options.window_size().indexOf('x') - 1);
+        bool w_ok = false;
+        bool h_ok = false;
+        int w = str_w.toInt(&w_ok);
+        int h = str_h.toInt(&h_ok);
+        if (w_ok && h_ok) {
+          QSize window_size(w, h);
+          if (window_size.isValid()) {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+            QScreen *screen = QWidget::screen();
+#else
+            QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : nullptr);
+#endif
+            if (screen) {
+              const QRect sr = screen->availableGeometry();
+              window_size = window_size.boundedTo(sr.size());
+              if (window_size.width() >= sr.width() && window_size.height() >= sr.height()) {
+                resize(window_size);
+                showMaximized();
+              }
+              else {
+                showNormal();
+                resize(window_size);
+                const QRect wr({}, size().boundedTo(sr.size()));
+                resize(wr.size());
+                move(sr.center() - wr.center());
+              }
+            }
+          }
+        }
+      }
+      break;
+    }
+
     case CommandlineOptions::Player_None:
       break;
+
   }
 
   if (!options.urls().empty()) {

@@ -71,10 +71,11 @@ const char *CommandlineOptions::kHelpText =
     "  -o, --show-osd             %27\n"
     "  -y, --toggle-pretty-osd    %28\n"
     "  -g, --language <lang>      %29\n"
-    "      --quiet                %30\n"
-    "      --verbose              %31\n"
-    "      --log-levels <levels>  %32\n"
-    "      --version              %33\n";
+    "  -w, --resize-window <WxH>  %30\n"
+    "      --quiet                %31\n"
+    "      --verbose              %32\n"
+    "      --log-levels <levels>  %33\n"
+    "      --version              %34\n";
 
 const char *CommandlineOptions::kVersionText = "Strawberry %1";
 
@@ -143,6 +144,7 @@ bool CommandlineOptions::Parse() {
       {"show-osd", no_argument, nullptr, 'o'},
       {"toggle-pretty-osd", no_argument, nullptr, 'y'},
       {"language", required_argument, nullptr, 'g'},
+      {"resize-window", required_argument, nullptr, 'w'},
       {"quiet", no_argument, nullptr, Quiet},
       {"verbose", no_argument, nullptr, Verbose},
       {"log-levels", required_argument, nullptr, LogLevels},
@@ -152,7 +154,7 @@ bool CommandlineOptions::Parse() {
   // Parse the arguments
   bool ok = false;
   forever {
-    int c = getopt_long(argc_, argv_, "hptusqrfv:c:alk:i:oyg:", kOptions, nullptr);
+    int c = getopt_long(argc_, argv_, "hptusqrfv:c:alk:i:oyg:w:", kOptions, nullptr);
 
     // End of the options
     if (c == -1) break;
@@ -186,6 +188,7 @@ bool CommandlineOptions::Parse() {
                 .arg(tr("Other options"), tr("Display the on-screen-display"),
                      tr("Toggle visibility for the pretty on-screen-display"),
                      tr("Change the language"),
+                     tr("Resize the window"),
                      tr("Equivalent to --log-levels *:1"),
                      tr("Equivalent to --log-levels *:3"),
                      tr("Comma separated list of class:level, level is 0-3"))
@@ -293,6 +296,11 @@ bool CommandlineOptions::Parse() {
         if (!ok) play_track_at_ = -1;
         break;
 
+      case 'w':
+        window_size_ = QString(optarg);
+        player_action_ = Player_ResizeWindow;
+        break;
+
       case '?':
       default:
         return false;
@@ -370,7 +378,8 @@ QDataStream& operator<<(QDataStream &s, const CommandlineOptions &a) {
     << a.urls_
     << a.log_levels_
     << a.toggle_pretty_osd_
-    << a.playlist_name_;
+    << a.playlist_name_
+    << a.window_size_;
 
   return s;
 
@@ -380,6 +389,7 @@ QDataStream& operator>>(QDataStream &s, CommandlineOptions &a) {
 
   quint32 player_action = 0;
   quint32 url_list_action = 0;
+
   s >> player_action
     >> url_list_action
     >> a.set_volume_
@@ -391,7 +401,9 @@ QDataStream& operator>>(QDataStream &s, CommandlineOptions &a) {
     >> a.urls_
     >> a.log_levels_
     >> a.toggle_pretty_osd_
-    >> a.playlist_name_;
+    >> a.playlist_name_
+    >> a.window_size_;
+
   a.player_action_ = CommandlineOptions::PlayerAction(player_action);
   a.url_list_action_ = CommandlineOptions::UrlListAction(url_list_action);
 

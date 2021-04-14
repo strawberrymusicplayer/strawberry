@@ -58,6 +58,7 @@ class CommandlineOptions {
     Player_RestartOrPrevious = 7,
     Player_StopAfterCurrent = 8,
     Player_PlayPlaylist = 9,
+    Player_ResizeWindow = 10
   };
 
   bool Parse();
@@ -78,13 +79,13 @@ class CommandlineOptions {
   QString language() const { return language_; }
   QString log_levels() const { return log_levels_; }
   QString playlist_name() const { return playlist_name_; }
+  QString window_size() const { return window_size_; }
 
   QByteArray Serialize() const;
   void Load(const QByteArray &serialized);
 
  private:
-  // These are "invalid" characters to pass to getopt_long for options that
-  // shouldn't have a short (single character) option.
+  // These are "invalid" characters to pass to getopt_long for options that shouldn't have a short (single character) option.
   enum LongOptions {
     VolumeUp = 256,
     VolumeDown,
@@ -120,6 +121,7 @@ class CommandlineOptions {
   QString language_;
   QString log_levels_;
   QString playlist_name_;
+  QString window_size_;
 
   QList<QUrl> urls_;
 };
