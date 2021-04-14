@@ -596,7 +596,7 @@ msgstr "Добавить все треки из папки и её подпап�
 msgid "Add directory..."
 msgstr "Добавить каталог…"
 
-#: core/mainwindow.cpp:2149
+#: core/mainwindow.cpp:2151
 msgid "Add file"
 msgstr "Добавить файл"
 
@@ -612,7 +612,7 @@ msgstr "Добавить файл(ы) в конвертер"
 msgid "Add files to transcode"
 msgstr "Добавить файлы для конвертирования"
 
-#: core/mainwindow.cpp:2174 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2176 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Добавить папку"
 
@@ -722,7 +722,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Добавить в альбомы"
 
-#: core/mainwindow.cpp:1952
+#: core/mainwindow.cpp:1954
 msgid "Add to another playlist"
 msgstr "Добавить в другой плейлист"
 
@@ -845,7 +845,7 @@ msgstr "Альбомы с обложками"
 msgid "Albums without covers"
 msgstr "Альбомы без обложек"
 
-#: core/mainwindow.cpp:210
+#: core/mainwindow.cpp:212
 msgid "All Files (*)"
 msgstr "Все файлы (*)"
 
@@ -921,7 +921,7 @@ msgstr "Внешний вид"
 msgid "Append explicit to album title for explicit albums"
 msgstr ""
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:184
 msgid "Append files/URLs to the playlist"
 msgstr "Добавить файлы/ссылки в плейлист"
 
@@ -1213,11 +1213,11 @@ msgstr "Изменить клавиши…"
 msgid "Change the currently playing song"
 msgstr "Сменить текущий трек"
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:190
 msgid "Change the language"
 msgstr "Изменить язык"
 
-#: core/mainwindow.cpp:762
+#: core/mainwindow.cpp:764
 msgid "Check for updates..."
 msgstr "Проверить обновления…"
 
@@ -1266,7 +1266,7 @@ msgstr ""
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2239 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2241 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Очистить плейлист"
 
@@ -1317,7 +1317,7 @@ msgstr "Закрытие этого окна остановит поиск об�
 msgid "Club"
 msgstr "Клубный"
 
-#: core/mainwindow.cpp:339 ../build/src/ui_collectionsettingspage.h:418
+#: core/mainwindow.cpp:341 ../build/src/ui_collectionsettingspage.h:418
 #: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Collection"
 msgstr "Фонотека"
@@ -1330,7 +1330,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Расширенная группировка фонотеки"
 
-#: core/mainwindow.cpp:2770
+#: core/mainwindow.cpp:2810
 msgid "Collection rescan notice"
 msgstr "Уведомление о сканировании фонотеки"
 
@@ -1342,7 +1342,7 @@ msgstr ""
 msgid "Colors"
 msgstr "Цвета"
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:194
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Разделённый запятыми список «класс:уровень», где уровень от 0 до 3"
 
@@ -1391,7 +1391,7 @@ msgstr "Настроить %1…"
 msgid "Configure buttons"
 msgstr ""
 
-#: core/mainwindow.cpp:642
+#: core/mainwindow.cpp:644
 msgid "Configure collection..."
 msgstr "Настроить фонотеку…"
 
@@ -1407,7 +1407,7 @@ msgstr "Консоль"
 msgid "Constant bitrate"
 msgstr "Постоянный битрейт"
 
-#: core/mainwindow.cpp:338 ../build/src/ui_contextsettingspage.h:370
+#: core/mainwindow.cpp:340 ../build/src/ui_contextsettingspage.h:370
 msgid "Context"
 msgstr "Контекст"
 
@@ -1429,7 +1429,7 @@ msgstr "Конвертировать всю музыку"
 msgid "Convert any music that the device can't play"
 msgstr "Конвертировать всю музыку, не поддерживаемую устройством."
 
-#: core/mainwindow.cpp:706
+#: core/mainwindow.cpp:708
 msgid "Copy URL(s)..."
 msgstr ""
 
@@ -1437,7 +1437,7 @@ msgstr ""
 msgid "Copy album cover artwork"
 msgstr "Копировать обложку альбома"
 
-#: core/mainwindow.cpp:710 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:712 widgets/fileviewlist.cpp:47
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Копировать в фонотеку…"
@@ -1446,7 +1446,7 @@ msgstr "Копировать в фонотеку…"
 msgid "Copy to device"
 msgstr ""
 
-#: core/mainwindow.cpp:713 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:715 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:353 playlist/playlistlistcontainer.cpp:105
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
@@ -1555,7 +1555,7 @@ msgstr ""
 msgid "Covers from %1"
 msgstr "Обложки из %1"
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:183
 msgid "Create a new playlist with files"
 msgstr "Создать новый плейлист с файлами"
 
@@ -1679,11 +1679,11 @@ msgstr "Дата изменения"
 msgid "Days"
 msgstr ""
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:176
 msgid "Decrease the volume by 4 percent"
 msgstr "Уменьшить громкость на 4 процента"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:178
 msgid "Decrease the volume by <value> percent"
 msgstr "Уменьшить громкость на <value> процентов"
 
@@ -1712,7 +1712,7 @@ msgstr "Удалить файлы"
 msgid "Delete from device..."
 msgstr "Удалить с устройства..."
 
-#: core/mainwindow.cpp:715 collection/collectionview.cpp:355
+#: core/mainwindow.cpp:717 collection/collectionview.cpp:355
 #: widgets/fileviewlist.cpp:50
 msgid "Delete from disk..."
 msgstr "Удалить с диска…"
@@ -1734,11 +1734,11 @@ msgstr "Удалить оригинальные файлы"
 msgid "Deleting files"
 msgstr "Удаление файлов"
 
-#: core/mainwindow.cpp:1869
+#: core/mainwindow.cpp:1871
 msgid "Dequeue selected tracks"
 msgstr "Убрать выбранные треки из очереди"
 
-#: core/mainwindow.cpp:1868
+#: core/mainwindow.cpp:1870
 msgid "Dequeue track"
 msgstr "Убрать трек из очереди"
 
@@ -1764,7 +1764,7 @@ msgstr "Свойства устройства"
 msgid "Device properties..."
 msgstr "Свойства устройства…"
 
-#: core/mainwindow.cpp:345
+#: core/mainwindow.cpp:347
 msgid "Devices"
 msgstr "Устройства"
 
@@ -1809,7 +1809,7 @@ msgstr ""
 msgid "Display options"
 msgstr "Настройки вида"
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:188
 msgid "Display the on-screen-display"
 msgstr "Показывать экранное уведомление"
 
@@ -1887,7 +1887,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1910
+#: core/mainwindow.cpp:1912
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Изменить тег \"%1\"…"
@@ -2037,15 +2037,15 @@ msgstr "Вся коллекция"
 msgid "Equalizer"
 msgstr "Эквалайзер"
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:192
 msgid "Equivalent to --log-levels *:1"
 msgstr "Аналогично --log-levels *:1"
 
-#: core/commandlineoptions.cpp:190
+#: core/commandlineoptions.cpp:193
 msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
-#: core/mainwindow.cpp:2507 core/mainwindow.cpp:2652
+#: core/mainwindow.cpp:2547 core/mainwindow.cpp:2692
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "Ошибка"
@@ -2249,7 +2249,7 @@ msgstr "Имя файла"
 msgid "Filename:"
 msgstr "Имя файла:"
 
-#: core/mainwindow.cpp:343
+#: core/mainwindow.cpp:345
 msgid "Files"
 msgstr "Файлы"
 
@@ -2637,11 +2637,11 @@ msgstr "Показывать обложку альбома в уведомлен
 msgid "Include all songs"
 msgstr ""
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:175
 msgid "Increase the volume by 4 percent"
 msgstr "Увеличить громкость на 4 процента"
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:177
 msgid "Increase the volume by <value> percent"
 msgstr "Увеличить громкость на <value> процентов"
 
@@ -2830,7 +2830,7 @@ msgstr "Загрузка информации о треках"
 msgid "Loading..."
 msgstr "Загрузка…"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:185
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Загрузка файлов/ссылок с заменой текущего плейлиста"
 
@@ -3066,7 +3066,7 @@ msgstr "Точки монтирования"
 msgid "Move down"
 msgstr "Переместить вниз"
 
-#: core/mainwindow.cpp:711 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:713 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
 msgstr "Переместить в фонотеку…"
 
@@ -3075,7 +3075,7 @@ msgstr "Переместить в фонотеку…"
 msgid "Move up"
 msgstr "Переместить вверх"
 
-#: core/mainwindow.cpp:2149 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2151 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Музыка"
 
@@ -3120,7 +3120,7 @@ msgstr "Никогда не начинать воспроизведение"
 msgid "New folder"
 msgstr "Новая папка"
 
-#: core/mainwindow.cpp:1968
+#: core/mainwindow.cpp:1970
 msgid "New playlist"
 msgstr "Новый плейлист"
 
@@ -3192,7 +3192,7 @@ msgstr "Нет воспроизводимой песни"
 msgid "None"
 msgstr "Ничего"
 
-#: core/mainwindow.cpp:2507 core/mainwindow.cpp:2652
+#: core/mainwindow.cpp:2547 core/mainwindow.cpp:2692
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ни одна из выбранных песен не была скопирована на устройство"
@@ -3327,7 +3327,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr ""
 
-#: core/mainwindow.cpp:709 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:711 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:351
 msgid "Organize files..."
 msgstr ""
@@ -3355,7 +3355,7 @@ msgstr "Год выхода оригинала - Альбом"
 msgid "Original year - Album - Disc"
 msgstr ""
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:188
 msgid "Other options"
 msgstr "Другие настройки"
 
@@ -3408,12 +3408,12 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1268 core/mainwindow.cpp:1767
+#: core/mainwindow.cpp:1270 core/mainwindow.cpp:1769
 #: core/qtsystemtrayicon.cpp:194
 msgid "Pause"
 msgstr "Пауза"
 
-#: core/commandlineoptions.cpp:168
+#: core/commandlineoptions.cpp:170
 msgid "Pause playback"
 msgstr "Приостановить воспроизведение"
 
@@ -3436,8 +3436,8 @@ msgstr "Пиксель"
 msgid "Plain sidebar"
 msgstr "Нормальная боковая панель"
 
-#: core/mainwindow.cpp:678 core/mainwindow.cpp:1221 core/mainwindow.cpp:1250
-#: core/mainwindow.cpp:1771 core/qtsystemtrayicon.cpp:181
+#: core/mainwindow.cpp:680 core/mainwindow.cpp:1223 core/mainwindow.cpp:1252
+#: core/mainwindow.cpp:1773 core/qtsystemtrayicon.cpp:181
 #: core/qtsystemtrayicon.cpp:206
 msgid "Play"
 msgstr "Воспроизвести"
@@ -3454,11 +3454,11 @@ msgstr "Количество проигрываний"
 msgid "Play counts"
 msgstr ""
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:187
 msgid "Play given playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:167
+#: core/commandlineoptions.cpp:169
 msgid "Play if stopped, pause if playing"
 msgstr "Воспроизвести если остановлено, приостановить если воспроизводится"
 
@@ -3471,7 +3471,7 @@ msgstr "Проиграть, если ничего не проигрываетс�
 msgid "Play next"
 msgstr ""
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:186
 msgid "Play the <n>th track in the playlist"
 msgstr "Воспроизвести <n>-ную композицию в плейлисте"
 
@@ -3485,7 +3485,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr ""
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:167
 msgid "Player options"
 msgstr "Настройки проигрывателя"
 
@@ -3504,7 +3504,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Плейлист закончился"
 
-#: core/mainwindow.cpp:2239
+#: core/mainwindow.cpp:2241
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3515,7 +3515,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr ""
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:182
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Настройки плейлиста"
@@ -3528,7 +3528,7 @@ msgstr ""
 msgid "Playlist type"
 msgstr ""
 
-#: core/mainwindow.cpp:341
+#: core/mainwindow.cpp:343
 msgid "Playlists"
 msgstr "Плейлисты"
 
@@ -3634,7 +3634,7 @@ msgstr "Предыдущий"
 msgid "Previous track"
 msgstr "Предыдущий трек"
 
-#: core/commandlineoptions.cpp:192
+#: core/commandlineoptions.cpp:195
 msgid "Print out version information"
 msgstr "Вывести информацию о версии"
 
@@ -3650,7 +3650,7 @@ msgstr "Ход выполнения"
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:354 ../build/src/ui_scrobblersettingspage.h:410
+#: core/mainwindow.cpp:356 ../build/src/ui_scrobblersettingspage.h:410
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3673,24 +3673,24 @@ msgstr "Качество"
 msgid "Querying device..."
 msgstr "Опрашиваем устройство…"
 
-#: core/mainwindow.cpp:340
+#: core/mainwindow.cpp:342
 msgid "Queue"
 msgstr "Очередь"
 
-#: core/mainwindow.cpp:1871
+#: core/mainwindow.cpp:1873
 msgid "Queue selected tracks"
 msgstr "Выбранные треки в очередь"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1875
+#: core/mainwindow.cpp:686 core/mainwindow.cpp:1877
 msgid "Queue selected tracks to play next"
 msgstr "Очередь выбранных треков для последующего воспроизведения"
 
-#: core/mainwindow.cpp:1877 collection/collectionview.cpp:348
+#: core/mainwindow.cpp:1879 collection/collectionview.cpp:348
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Очередь воспроизведения"
 
-#: core/mainwindow.cpp:1870 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1872 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:324 internet/internetcollectionview.cpp:316
@@ -3889,7 +3889,7 @@ msgstr ""
 msgid "Rescan song(s)"
 msgstr "Пересканировать песню(и)"
 
-#: core/mainwindow.cpp:700
+#: core/mainwindow.cpp:702
 msgid "Rescan song(s)..."
 msgstr ""
 
@@ -3901,11 +3901,15 @@ msgstr "Сброс"
 msgid "Reset play counts"
 msgstr "Сбросить счётчики воспроизведения"
 
+#: core/commandlineoptions.cpp:191
+msgid "Resize the window"
+msgstr ""
+
 #: ../build/src/ui_behavioursettingspage.h:311
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "Перезапустит песню при повторном переходе к предыдущей "
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:181
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
@@ -4153,11 +4157,11 @@ msgstr "Второй уровень"
 msgid "Second level"
 msgstr "Второй уровень"
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:180
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Перемотать текущий трек на относительную позицию"
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:179
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Перемотать текущую трек на абсолютную позицию"
 
@@ -4209,12 +4213,12 @@ msgstr "URL сервера недействителен."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1909
+#: core/mainwindow.cpp:1911
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Установить %1 в «%2»…"
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:174
 msgid "Set the volume to <value> percent"
 msgstr "Установить громкость в <value> процентов"
 
@@ -4296,7 +4300,7 @@ msgstr "Показать обложку альбома в коллекции"
 msgid "Show albums by artist"
 msgstr "Показать альбомы исполнителя"
 
-#: core/mainwindow.cpp:631
+#: core/mainwindow.cpp:633
 msgid "Show all songs"
 msgstr "Показать все композиции"
 
@@ -4320,7 +4324,7 @@ msgstr "Показать движок и устройство"
 msgid "Show fullsize..."
 msgstr "Показать в полный размер…"
 
-#: core/mainwindow.cpp:707
+#: core/mainwindow.cpp:709
 msgid "Show in collection..."
 msgstr "Показать в фонотеке…"
 
@@ -4328,7 +4332,7 @@ msgstr "Показать в фонотеке…"
 msgid "Show in file browser"
 msgstr "Показать в файловом браузере"
 
-#: core/mainwindow.cpp:708 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:710 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:360 widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "Открыть в диспетчере файлов"
@@ -4345,11 +4349,11 @@ msgstr "Показать кнопку нравится"
 msgid "Show moodbar"
 msgstr "Показать moodbar"
 
-#: core/mainwindow.cpp:632
+#: core/mainwindow.cpp:634
 msgid "Show only duplicates"
 msgstr "Показывать только повторяющиеся"
 
-#: core/mainwindow.cpp:633
+#: core/mainwindow.cpp:635
 msgid "Show only untagged"
 msgstr "Показывать только без тегов"
 
@@ -4430,7 +4434,7 @@ msgstr "Размер:"
 msgid "Ska"
 msgstr "Ска"
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:172
 msgid "Skip backwards in playlist"
 msgstr "Переместить назад в плейлисте"
 
@@ -4438,15 +4442,15 @@ msgstr "Переместить назад в плейлисте"
 msgid "Skip count"
 msgstr "Пропустить подсчёт"
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:173
 msgid "Skip forwards in playlist"
 msgstr "Переместить вперед в плейлисте"
 
-#: core/mainwindow.cpp:1882
+#: core/mainwindow.cpp:1884
 msgid "Skip selected tracks"
 msgstr "Пропустить выбранные треки"
 
-#: core/mainwindow.cpp:1881
+#: core/mainwindow.cpp:1883
 msgid "Skip track"
 msgstr "Пропустить трек"
 
@@ -4462,7 +4466,7 @@ msgstr "Узкая боковая панель"
 msgid "Smart playlist"
 msgstr ""
 
-#: core/mainwindow.cpp:342
+#: core/mainwindow.cpp:344
 msgid "Smart playlists"
 msgstr ""
 
@@ -4526,7 +4530,7 @@ msgstr ""
 msgid "Standard"
 msgstr "Стандартнoe"
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:168
 msgid "Start the playlist currently playing"
 msgstr "Запустить проигрываемый сейчас плейлист"
 
@@ -4547,15 +4551,15 @@ msgstr "Останавливать после каждого трека"
 msgid "Stop after every track"
 msgstr "Останавливать после каждого трека"
 
-#: core/mainwindow.cpp:680 ../build/src/ui_mainwindow.h:627
+#: core/mainwindow.cpp:682 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "Остановить после этого трека"
 
-#: core/commandlineoptions.cpp:168
+#: core/commandlineoptions.cpp:170
 msgid "Stop playback"
 msgstr "Остановить воспроизведение"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:171
 msgid "Stop playback after current track"
 msgstr "Остановить после текущего трека"
 
@@ -4651,7 +4655,7 @@ msgstr ""
 msgid "Submit scrobbles every"
 msgstr "Отправить скробблы каждые"
 
-#: core/mainwindow.cpp:348 ../build/src/ui_scrobblersettingspage.h:408
+#: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:408
 #: ../build/src/ui_subsonicsettingspage.h:188
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4785,7 +4789,7 @@ msgstr "Запрошенный сайт не существует!"
 msgid "The site you requested is not an image!"
 msgstr "Запрошенная ссылка не является изображением!"
 
-#: core/mainwindow.cpp:2765
+#: core/mainwindow.cpp:2805
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4889,7 +4893,7 @@ msgstr "Эта опция может быть изменена в настрой
 msgid "This type of device is not supported: %1"
 msgstr "Не поддерживаемый тип устройства: %1"
 
-#: core/mainwindow.cpp:351 ../build/src/ui_scrobblersettingspage.h:409
+#: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:409
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -4915,7 +4919,7 @@ msgstr "Название"
 msgid "Today"
 msgstr "Сегодня"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1872
+#: core/mainwindow.cpp:683 core/mainwindow.cpp:1874
 msgid "Toggle queue status"
 msgstr "Переключить состояние очереди"
 
@@ -4923,11 +4927,11 @@ msgstr "Переключить состояние очереди"
 msgid "Toggle scrobbling"
 msgstr "Вкл/выкл скробблинг"
 
-#: core/mainwindow.cpp:687 core/mainwindow.cpp:1883
+#: core/mainwindow.cpp:689 core/mainwindow.cpp:1885
 msgid "Toggle skip status"
 msgstr "Переключить статус пропуска"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:189
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Переключить видимость OSD"
 
@@ -4986,7 +4990,7 @@ msgstr ""
 msgid "URI"
 msgstr "URI"
 
-#: core/commandlineoptions.cpp:164
+#: core/commandlineoptions.cpp:166
 msgid "URL(s)"
 msgstr "Ссылки"
 
@@ -5026,11 +5030,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Удалить обложку"
 
-#: core/mainwindow.cpp:1880
+#: core/mainwindow.cpp:1882
 msgid "Unskip selected tracks"
 msgstr "Не пропускать выбранные треки"
 
-#: core/mainwindow.cpp:1879
+#: core/mainwindow.cpp:1881
 msgid "Unskip track"
 msgstr "Не пропускать трек"
 
@@ -5060,7 +5064,7 @@ msgstr "Сверху слева"
 msgid "Upper Right"
 msgstr "Сверху справа"
 
-#: core/commandlineoptions.cpp:164
+#: core/commandlineoptions.cpp:166
 msgid "Usage"
 msgstr "Использование"
 
@@ -5262,7 +5266,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2769
+#: core/mainwindow.cpp:2809
 msgid "Would you like to run a full rescan right now?"
 msgstr "Желаете запустить повторное сканирование?"
 
@@ -5524,7 +5528,7 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-#: core/commandlineoptions.cpp:164
+#: core/commandlineoptions.cpp:166
 msgid "options"
 msgstr "настройки"
 
