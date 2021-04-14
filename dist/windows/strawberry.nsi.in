@@ -70,7 +70,6 @@ Unicode True
 
 SetCompressor /SOLID lzma
 
-!addplugindir nsisplugins
 !include "MUI2.nsh"
 !include "FileAssociation.nsh"
 !include "Capabilities.nsh"
@@ -84,6 +83,20 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}/Plugins/x86-unicode/LockedList.dll"
 ReserveFile "${NSISDIR}/Plugins/LockedList64.dll"
 !define LockedListPATH	$InstallDir
+
+; Installer pages
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE COPYING
+Page Custom LockedListPageShow
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
+
+; Uninstaller pages
+!insertmacro MUI_UNPAGE_CONFIRM
+UninstPage custom un.LockedListPageShow
+!insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_UNPAGE_FINISH
 
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
 
@@ -125,19 +138,16 @@ InstallDir "${PRODUCT_INSTALL_DIR}"
 ; Get the path where Strawberry was installed previously and set it as default path
 InstallDirRegKey ${PRODUCT_UNINST_ROOT_KEY} ${PRODUCT_UNINST_KEY} "UninstallString"
 
-LicenseData "COPYING"
-
 ShowInstDetails show
 ShowUnInstDetails show
 RequestExecutionLevel admin
-;RequestExecutionLevel user
-
-Page license
-Page directory
-Page Custom LockedListPageShow
-Page instfiles
 
 Function LockedListPageShow
+  LockedList::AddModule /NOUNLOAD \strawberry.exe
+  LockedList::Dialog /heading "Checking for running programs:" /noprograms "No programs need to close." /searching "Searching for running programs..."
+FunctionEnd
+
+Function un.LockedListPageShow
   LockedList::AddModule /NOUNLOAD \strawberry.exe
   LockedList::Dialog /heading "Checking for running programs:" /noprograms "No programs need to close." /searching "Searching for running programs..."
 FunctionEnd
