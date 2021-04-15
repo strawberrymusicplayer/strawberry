@@ -8,15 +8,19 @@ Unreleased:
     * Fix "Show in file browser" to work with thunar.
     * Check that the clicked rating position is to the right or left of the rectangle.
     * Fix rescan when collection directory is removed and readded.
+    * Create GLib main event loop on non-glib systems to fix stream discoverer.
     * (macOS) Fix intermittent abort on startup.
-    * (macOS) Fix Tidal and Qobuz search field not showing
+    * (macOS) Fix Tidal and Qobuz search field not showing.
     * (macOS) Add tidal URL scheme to Info.plist.
+    * (macOS) Fix Tidal OAuth authentication.
 
   Enhancements:
     * Allow editing playlist metadata for radio streams.
     * Make CollectionQuery subclass QSqlQuery, avoid copying QSqlQuery.
     * Only enable FTS3 when schema needs upgrading, since FTS5 is used for search.
     * Add setting for configuring the color for the currently playing song.
+    * Add setting to turn on OSD Pretty fading.
+    * Add commandline option to resize window.
     * (Windows) Show dialog with programs that needs to close in nsis installer.
     * (macOS) Make macdeployqt work with Qt 5 too.
     * (macOS) Show keep running option in behaviour settings.
