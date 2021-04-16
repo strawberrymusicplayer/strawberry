@@ -1171,8 +1171,8 @@ void MainWindow::Exit() {
   settings_dialog_.reset();
 
   if (exit_count_ > 1) {
-    qApp->quit();
     exit_ = true;
+    qApp->quit();
   }
   else {
     if (app_->player()->engine()->is_fadeout_enabled()) {
@@ -1194,12 +1194,12 @@ void MainWindow::DoExit() {
 
   QObject::connect(app_, &Application::ExitFinished, this, &MainWindow::ExitFinished);
   app_->Exit();
-  exit_ = true;
 
 }
 
 void MainWindow::ExitFinished() {
 
+  exit_ = true;
   qApp->quit();
 
 }
