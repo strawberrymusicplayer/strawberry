@@ -315,6 +315,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
       was_maximized_(true),
       was_minimized_(false),
       hidden_(false),
+      exit_(false),
       exit_count_(0),
       delete_files_(false)
       {
@@ -1171,6 +1172,7 @@ void MainWindow::Exit() {
 
   if (exit_count_ > 1) {
     qApp->quit();
+    exit_ = true;
   }
   else {
     if (app_->player()->engine()->is_fadeout_enabled()) {
@@ -1192,6 +1194,7 @@ void MainWindow::DoExit() {
 
   QObject::connect(app_, &Application::ExitFinished, this, &MainWindow::ExitFinished);
   app_->Exit();
+  exit_ = true;
 
 }
 
@@ -1563,11 +1566,13 @@ void MainWindow::showEvent(QShowEvent *e) {
 
 void MainWindow::closeEvent(QCloseEvent *e) {
 
-  if (!hidden_ && keep_running_ && e->spontaneous() && QSystemTrayIcon::isSystemTrayAvailable()) {
-    SetHiddenInTray(true);
-  }
-  else {
-    Exit();
+  if (!exit_) {
+    if (!hidden_ && keep_running_ && e->spontaneous() && QSystemTrayIcon::isSystemTrayAvailable()) {
+      SetHiddenInTray(true);
+    }
+    else {
+      Exit();
+    }
   }
 
   QMainWindow::closeEvent(e);

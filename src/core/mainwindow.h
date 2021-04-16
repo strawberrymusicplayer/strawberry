@@ -390,6 +390,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Song song_;
   Song song_playing_;
   AlbumCoverImageResult album_cover_;
+  bool exit_;
   int exit_count_;
   bool delete_files_;
 
