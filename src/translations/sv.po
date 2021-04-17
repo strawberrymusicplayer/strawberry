@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-04-03 11:43-0400\n"
+"PO-Revision-Date: 2021-04-17 02:26-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -405,7 +405,7 @@ msgstr "&Verktyg"
 
 #: ../build/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
-msgstr "&Omkoda musik"
+msgstr "&Koda om musik"
 
 #: ../build/src/ui_mainwindow.h:693
 msgid "&Update changed collection folders"
@@ -2257,7 +2257,7 @@ msgstr "Filer"
 
 #: ../build/src/ui_transcodedialog.h:216
 msgid "Files to transcode"
-msgstr "Filer att omkoda"
+msgstr "Filer att koda om"
 
 #: ../build/src/ui_appearancesettingspage.h:629
 msgid "Files, playlists and queue buttons"
@@ -3917,7 +3917,7 @@ msgstr "Återställ spelningsantal"
 
 #: core/commandlineoptions.cpp:191
 msgid "Resize the window"
-msgstr ""
+msgstr "Ändra storlek på fönstret"
 
 #: ../build/src/ui_behavioursettingspage.h:311
 msgid "Restart song, then jump to previous if pressed again"
@@ -4854,7 +4854,7 @@ msgid ""
 "These settings are used in the \"Transcode Music\" dialog, and when "
 "converting music before copying it to a device."
 msgstr ""
-"Dessa inställningar används i dialogrutan \"Omkoda musik\" och vid "
+"Dessa inställningar används i dialogrutan \"Koda om musik\" och vid "
 "konvertering av musik innan den kopieras till en enhet."
 
 #: collection/savedgroupingmanager.cpp:59
@@ -4985,7 +4985,7 @@ msgstr "Spår"
 
 #: ../build/src/ui_transcodedialog.h:215
 msgid "Transcode Music"
-msgstr "Omkoda musik"
+msgstr "Koda om musik"
 
 #: ../build/src/ui_transcodelogdialog.h:60
 msgid "Transcoder Log"
