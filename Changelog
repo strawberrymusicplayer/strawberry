@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+0.9.3:
 
   Bugfixes:
     * Fix "Show in file browser" to work with thunar.
