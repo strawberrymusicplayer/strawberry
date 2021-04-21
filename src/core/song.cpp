@@ -1041,7 +1041,7 @@ void Song::InitFromFilePartial(const QString &filename) {
   QFileInfo info(filename);
   d->basefilename_ = info.fileName();
 
-  TagLib::FileRef fileref(filename.toUtf8().constData());
+  TagLib::FileRef fileref(QFile::encodeName(filename).constData());
   if (fileref.file()) {
     d->valid_ = true;
     d->source_ = Source_LocalFile;
