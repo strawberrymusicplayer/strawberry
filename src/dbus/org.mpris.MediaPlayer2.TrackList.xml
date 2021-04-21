@@ -24,16 +24,16 @@
 			<arg name='CurrentTrack' type='o' />
 		</signal>
 		<signal name='TrackAdded'>
-		    <arg name='Metadata' type='a{sv}' />
-		    <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="TrackMetadata" />
-		    <arg name='AfterTrack' type='o' />
+			<arg direction='in' name='Metadata' type='a{sv}' />
+			<annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="TrackMetadata" />
+			<arg name='AfterTrack' type='o' />
 		</signal>
 		<signal name='TrackRemoved'>
 			<arg name='TrackId' type='o' />
 		</signal>
 		<signal name='TrackMetadataChanged'>
 			<arg name='TrackId' type='o' />
-			<arg name='Metadata' type='a{sv}' />
+			<arg direction='in' name='Metadata' type='a{sv}' />
 			<annotation name="org.qtproject.QtDBus.QtTypeName.In1" value="TrackMetadata" />
 		</signal>
 		<property name='Tracks' type='ao' access='read' />
