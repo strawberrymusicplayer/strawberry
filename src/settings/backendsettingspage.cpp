@@ -69,8 +69,10 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog) : SettingsPage(
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
   ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).horizontalAdvance("-WW.W dB"));
+  ui_->label_replaygainfallbackgain->setMinimumWidth(QFontMetrics(ui_->label_replaygainfallbackgain->font()).horizontalAdvance("-WW.W dB"));
 #else
   ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).width("-WW.W dB"));
+  ui_->label_replaygainfallbackgain->setMinimumWidth(QFontMetrics(ui_->label_replaygainfallbackgain->font()).width("-WW.W dB"));
 #endif
 
 }
@@ -116,8 +118,9 @@ void BackendSettingsPage::Load() {
 
   ui_->checkbox_replaygain->setChecked(s.value("rgenabled", false).toBool());
   ui_->combobox_replaygainmode->setCurrentIndex(s.value("rgmode", 0).toInt());
-  ui_->stickslider_replaygainpreamp->setValue(static_cast<int>(s.value("rgpreamp", 0.0).toDouble() * 10 + 150));
+  ui_->stickyslider_replaygainpreamp->setValue(static_cast<int>(s.value("rgpreamp", 0.0).toDouble() * 10 + 600));
   ui_->checkbox_replaygaincompression->setChecked(s.value("rgcompression", true).toBool());
+  ui_->stickyslider_replaygainfallbackgain->setValue(static_cast<int>(s.value("rgfallbackgain", 0.0).toDouble() * 10 + 600));
 
 #if defined(HAVE_ALSA)
   bool fade_default = false;
@@ -173,7 +176,8 @@ void BackendSettingsPage::Load() {
   QObject::connect(ui_->radiobutton_alsa_hw, &QRadioButton::clicked, this, &BackendSettingsPage::radiobutton_alsa_hw_clicked);
   QObject::connect(ui_->radiobutton_alsa_plughw, &QRadioButton::clicked, this, &BackendSettingsPage::radiobutton_alsa_plughw_clicked);
 #endif
-  QObject::connect(ui_->stickslider_replaygainpreamp, &StickySlider::valueChanged, this, &BackendSettingsPage::RgPreampChanged);
+  QObject::connect(ui_->stickyslider_replaygainpreamp, &StickySlider::valueChanged, this, &BackendSettingsPage::RgPreampChanged);
+  QObject::connect(ui_->stickyslider_replaygainfallbackgain, &StickySlider::valueChanged, this, &BackendSettingsPage::RgFallbackGainChanged);
   QObject::connect(ui_->checkbox_fadeout_stop, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
   QObject::connect(ui_->checkbox_fadeout_cross, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
   QObject::connect(ui_->checkbox_fadeout_auto, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
@@ -181,7 +185,8 @@ void BackendSettingsPage::Load() {
   QObject::connect(ui_->button_buffer_defaults, &QPushButton::clicked, this, &BackendSettingsPage::BufferDefaults);
 
   FadingOptionsChanged();
-  RgPreampChanged(ui_->stickslider_replaygainpreamp->value());
+  RgPreampChanged(ui_->stickyslider_replaygainpreamp->value());
+  RgFallbackGainChanged(ui_->stickyslider_replaygainfallbackgain->value());
 
   Init(ui_->layout_backendsettingspage->parentWidget());
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
@@ -422,7 +427,8 @@ void BackendSettingsPage::Save() {
 
   s.setValue("rgenabled", ui_->checkbox_replaygain->isChecked());
   s.setValue("rgmode", ui_->combobox_replaygainmode->currentIndex());
-  s.setValue("rgpreamp", float(ui_->stickslider_replaygainpreamp->value()) / 10 - 15);
+  s.setValue("rgpreamp", double(ui_->stickyslider_replaygainpreamp->value()) / 10 - 60);
+  s.setValue("rgfallbackgain", double(ui_->stickyslider_replaygainfallbackgain->value()) / 10 - 60);
   s.setValue("rgcompression", ui_->checkbox_replaygaincompression->isChecked());
 
   s.setValue("FadeoutEnabled", ui_->checkbox_fadeout_stop->isChecked());
@@ -570,9 +576,17 @@ void BackendSettingsPage::DeviceStringChanged() {
 
 void BackendSettingsPage::RgPreampChanged(const int value) {
 
-  float db = float(value) / 10 - 15;
+  double db = double(value) / 10 - 60;
   QString db_str = QString::asprintf("%+.1f dB", db);
   ui_->label_replaygainpreamp->setText(db_str);
+
+}
+
+void BackendSettingsPage::RgFallbackGainChanged(const int value) {
+
+  double db = double(value) / 10 - 60;
+  QString db_str = QString::asprintf("%+.1f dB", db);
+  ui_->label_replaygainfallbackgain->setText(db_str);
 
 }
 

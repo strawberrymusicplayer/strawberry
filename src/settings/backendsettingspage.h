@@ -61,6 +61,7 @@ public:
   void DeviceSelectionChanged(const int index);
   void DeviceStringChanged();
   void RgPreampChanged(const int value);
+  void RgFallbackGainChanged(const int value);
   void radiobutton_alsa_hw_clicked(const bool checked);
   void radiobutton_alsa_plughw_clicked(const bool checked);
   void FadingOptionsChanged();

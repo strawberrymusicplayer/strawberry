@@ -69,7 +69,7 @@ class GstEnginePipeline : public QObject {
   void set_volume_enabled(const bool enabled);
   void set_stereo_balancer_enabled(const bool enabled);
   void set_equalizer_enabled(const bool enabled);
-  void set_replaygain(const bool enabled, const int mode, const float preamp, const bool compression);
+  void set_replaygain(const bool enabled, const int mode, const double preamp, const double fallbackgain, const bool compression);
   void set_buffer_duration_nanosec(const qint64 duration_nanosec);
   void set_buffer_low_watermark(const double value);
   void set_buffer_high_watermark(const double value);
@@ -205,7 +205,8 @@ class GstEnginePipeline : public QObject {
 
   // ReplayGain
   int rg_mode_;
-  float rg_preamp_;
+  double rg_preamp_;
+  double rg_fallbackgain_;
   bool rg_compression_;
 
   // Buffering

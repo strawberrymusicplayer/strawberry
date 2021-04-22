@@ -180,7 +180,8 @@ class Base : public QObject {
   // ReplayGain
   bool rg_enabled_;
   int rg_mode_;
-  float rg_preamp_;
+  double rg_preamp_;
+  double rg_fallbackgain_;
   bool rg_compression_;
 
   // Buffering

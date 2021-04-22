@@ -46,7 +46,8 @@ Engine::Base::Base()
       device_(QVariant()),
       rg_enabled_(false),
       rg_mode_(0),
-      rg_preamp_(0),
+      rg_preamp_(0.0),
+      rg_fallbackgain_(0.0),
       rg_compression_(true),
       buffer_duration_nanosec_(BackendSettingsPage::kDefaultBufferDuration * kNsecPerMsec),
       buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
@@ -115,7 +116,8 @@ void Engine::Base::ReloadSettings() {
 
   rg_enabled_ = s.value("rgenabled", false).toBool();
   rg_mode_ = s.value("rgmode", 0).toInt();
-  rg_preamp_ = s.value("rgpreamp", 0.0).toFloat();
+  rg_preamp_ = s.value("rgpreamp", 0.0).toDouble();
+  rg_fallbackgain_ = s.value("rgfallbackgain", 0.0).toDouble();
   rg_compression_ = s.value("rgcompression", true).toBool();
 
   fadeout_enabled_ = s.value("FadeoutEnabled", false).toBool();

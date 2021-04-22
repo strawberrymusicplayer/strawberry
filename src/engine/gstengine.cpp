@@ -812,7 +812,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   ret->set_volume_enabled(volume_control_);
   ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
   ret->set_equalizer_enabled(equalizer_enabled_);
-  ret->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_compression_);
+  ret->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_fallbackgain_, rg_compression_);
   ret->set_buffer_duration_nanosec(buffer_duration_nanosec_);
   ret->set_buffer_low_watermark(buffer_low_watermark_);
   ret->set_buffer_high_watermark(buffer_high_watermark_);

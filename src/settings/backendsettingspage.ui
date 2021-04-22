@@ -440,27 +440,60 @@
             <widget class="QLabel" name="label_replaygainpreamp"/>
            </item>
            <item>
-            <widget class="StickySlider" name="stickslider_replaygainpreamp">
+            <widget class="StickySlider" name="stickyslider_replaygainpreamp">
              <property name="maximum">
-              <number>300</number>
+              <number>1200</number>
              </property>
              <property name="value">
-              <number>150</number>
+              <number>600</number>
              </property>
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
              <property name="sticky_center" stdset="0">
-              <number>150</number>
+              <number>600</number>
              </property>
             </widget>
            </item>
           </layout>
          </item>
-         <item row="2" column="0" colspan="2">
+         <item row="4" column="0" colspan="2">
           <widget class="QCheckBox" name="checkbox_replaygaincompression">
            <property name="text">
             <string>Apply compression to prevent clipping</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <layout class="QHBoxLayout" name="layout_replaygainfallbackgain">
+           <item>
+            <widget class="QLabel" name="label_replaygainfallbackgain"/>
+           </item>
+           <item>
+            <widget class="StickySlider" name="stickyslider_replaygainfallbackgain">
+             <property name="minimum">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <number>1200</number>
+             </property>
+             <property name="value">
+              <number>600</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sticky_center" stdset="0">
+              <number>600</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_fallbackgain">
+           <property name="text">
+            <string>Fallback-gain</string>
            </property>
           </widget>
          </item>
@@ -663,7 +696,8 @@
   <tabstop>button_buffer_defaults</tabstop>
   <tabstop>checkbox_replaygain</tabstop>
   <tabstop>combobox_replaygainmode</tabstop>
-  <tabstop>stickslider_replaygainpreamp</tabstop>
+  <tabstop>stickyslider_replaygainpreamp</tabstop>
+  <tabstop>stickyslider_replaygainfallbackgain</tabstop>
   <tabstop>checkbox_replaygaincompression</tabstop>
   <tabstop>checkbox_fadeout_stop</tabstop>
   <tabstop>checkbox_fadeout_cross</tabstop>

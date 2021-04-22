@@ -79,6 +79,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       eq_preamp_(0),
       rg_mode_(0),
       rg_preamp_(0.0),
+      rg_fallbackgain_(0.0),
       rg_compression_(true),
       buffer_duration_nanosec_(BackendSettingsPage::kDefaultBufferDuration * kNsecPerMsec),
       buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
@@ -176,11 +177,12 @@ void GstEnginePipeline::set_equalizer_enabled(const bool enabled) {
   if (pipeline_) UpdateEqualizer();
 }
 
-void GstEnginePipeline::set_replaygain(const bool enabled, const int mode, const float preamp, const bool compression) {
+void GstEnginePipeline::set_replaygain(const bool enabled, const int mode, const double preamp, const double fallbackgain, const bool compression) {
 
   rg_enabled_ = enabled;
   rg_mode_ = mode;
   rg_preamp_ = preamp;
+  rg_fallbackgain_ = fallbackgain;
   rg_compression_ = compression;
 
 }
@@ -376,7 +378,8 @@ bool GstEnginePipeline::InitAudioBin() {
       eventprobe = rgconverter;
       // Set replaygain settings
       g_object_set(G_OBJECT(rgvolume), "album-mode", rg_mode_, nullptr);
-      g_object_set(G_OBJECT(rgvolume), "pre-amp", double(rg_preamp_), nullptr);
+      g_object_set(G_OBJECT(rgvolume), "pre-amp", rg_preamp_, nullptr);
+      g_object_set(G_OBJECT(rgvolume), "fallback-gain", rg_fallbackgain_, nullptr);
       g_object_set(G_OBJECT(rglimiter), "enabled", int(rg_compression_), nullptr);
     }
   }
