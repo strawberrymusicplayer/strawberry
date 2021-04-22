@@ -74,9 +74,9 @@ msgstr " kbps"
 msgid " minutes"
 msgstr "menit"
 
-#: ../build/src/ui_backendsettingspage.h:495
-#: ../build/src/ui_backendsettingspage.h:514
-#: ../build/src/ui_backendsettingspage.h:517
+#: ../build/src/ui_backendsettingspage.h:525
+#: ../build/src/ui_backendsettingspage.h:545
+#: ../build/src/ui_backendsettingspage.h:548
 msgid " ms"
 msgstr " md"
 
@@ -510,7 +510,7 @@ msgstr ""
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:490
+#: ../build/src/ui_backendsettingspage.h:520
 msgid "ALSA plugin"
 msgstr "Plugin ALSA"
 
@@ -773,7 +773,7 @@ msgstr "Sa&mpul album"
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:504
+#: ../build/src/ui_backendsettingspage.h:534
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (kenyaringan ideal untuk semua trek)"
 
@@ -918,7 +918,7 @@ msgstr "Tambahkan ke daftar putar saat ini"
 msgid "Append to the playlist"
 msgstr "Tambahkan ke daftar putar"
 
-#: ../build/src/ui_backendsettingspage.h:507
+#: ../build/src/ui_backendsettingspage.h:537
 msgid "Apply compression to prevent clipping"
 msgstr "Terapkan kompresi untuk mencegah clipping"
 
@@ -974,7 +974,7 @@ msgstr "Tanya&kan saat menyimpan"
 msgid "Audio format"
 msgstr "Format audio"
 
-#: ../build/src/ui_backendsettingspage.h:485
+#: ../build/src/ui_backendsettingspage.h:515
 msgid "Audio output"
 msgstr "Keluaran audio"
 
@@ -1056,7 +1056,7 @@ msgstr "Lajubit rerata"
 msgid "Average image size"
 msgstr "Ukuran gambar rerata"
 
-#: ../build/src/ui_backendsettingspage.h:484
+#: ../build/src/ui_backendsettingspage.h:514
 msgid "Backend"
 msgstr "Backend"
 
@@ -1151,11 +1151,11 @@ msgstr "Kanan Bawah"
 msgid "Browse..."
 msgstr "Ramban..."
 
-#: ../build/src/ui_backendsettingspage.h:494
+#: ../build/src/ui_backendsettingspage.h:524
 msgid "Buffer"
 msgstr "Buffer"
 
-#: ../build/src/ui_backendsettingspage.h:496
+#: ../build/src/ui_backendsettingspage.h:526
 msgid "Buffer duration"
 msgstr "Durasi Bufer"
 
@@ -1540,11 +1540,11 @@ msgstr "Sampul dari %1"
 msgid "Create a new playlist with files"
 msgstr "Buat daftar putar baru dengan berkas"
 
-#: ../build/src/ui_backendsettingspage.h:511
+#: ../build/src/ui_backendsettingspage.h:542
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Lesap-silang ketika mengubah trek secara otomatis"
 
-#: ../build/src/ui_backendsettingspage.h:510
+#: ../build/src/ui_backendsettingspage.h:541
 msgid "Cross-fade when changing tracks manually"
 msgstr "Lesap-silang ketika mengubah trek secara manual"
 
@@ -1672,7 +1672,7 @@ msgstr "Kurangi volume <value> persen"
 msgid "Default bac&kground image"
 msgstr "Gambar latar bela&kang standar"
 
-#: ../build/src/ui_backendsettingspage.h:499
+#: ../build/src/ui_backendsettingspage.h:529
 msgid "Defaults"
 msgstr ""
 
@@ -1732,7 +1732,7 @@ msgid "Details..."
 msgstr "Detail..."
 
 #: context/contextview.cpp:185 device/giolister.cpp:186
-#: ../build/src/ui_backendsettingspage.h:488
+#: ../build/src/ui_backendsettingspage.h:518
 #: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Device"
 msgstr "Perangkat"
@@ -1945,7 +1945,7 @@ msgstr "Fungsikan edisi metadata lagu sebaris dengan mengkliknya"
 msgid "Enable stereo balancer"
 msgstr "Fungsikan penyeimbang stereo"
 
-#: ../build/src/ui_backendsettingspage.h:493
+#: ../build/src/ui_backendsettingspage.h:523
 msgid "Enable volume control"
 msgstr "Fungsikan kontrol volume"
 
@@ -1965,7 +1965,7 @@ msgstr "Kualitas mesin enkode"
 msgid "Encoding mode"
 msgstr "Mode enkode"
 
-#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:486
+#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:516
 msgid "Engine"
 msgstr "Mesin"
 
@@ -2069,7 +2069,7 @@ msgstr ""
 msgid "Ever played"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:512
+#: ../build/src/ui_backendsettingspage.h:543
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Kecuali antara trek pada album yang sama atau di lembar CUE yang sama"
 
@@ -2140,22 +2140,26 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:515
+#: ../build/src/ui_backendsettingspage.h:546
 msgid "Fade out on pause / fade in on resume"
 msgstr "Lesap senyap saat jeda / lesap jelma saat melanjutkan"
 
-#: ../build/src/ui_backendsettingspage.h:509
+#: ../build/src/ui_backendsettingspage.h:540
 msgid "Fade out when stopping a track"
 msgstr "Lesap senyap saat menghentikan trek"
 
-#: ../build/src/ui_backendsettingspage.h:508
+#: ../build/src/ui_backendsettingspage.h:539
 msgid "Fading"
 msgstr "Melesap"
 
-#: ../build/src/ui_backendsettingspage.h:513
-#: ../build/src/ui_backendsettingspage.h:516
+#: ../build/src/ui_backendsettingspage.h:544
+#: ../build/src/ui_backendsettingspage.h:547
 msgid "Fading duration"
 msgstr "Durasi lesap"
+
+#: ../build/src/ui_backendsettingspage.h:538
+msgid "Fallback-gain"
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
 #: ../build/src/ui_transcoderoptionsmp3.h:197
@@ -2525,7 +2529,7 @@ msgstr "Tinggi"
 msgid "High (%1 fps)"
 msgstr "Tinggi (%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:497
+#: ../build/src/ui_backendsettingspage.h:527
 msgid "High watermark"
 msgstr ""
 
@@ -2843,7 +2847,7 @@ msgstr "Rendah (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Profil kompleksitas rendah (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:498
+#: ../build/src/ui_backendsettingspage.h:528
 msgid "Low watermark"
 msgstr ""
 
@@ -3339,7 +3343,7 @@ msgid "Other options"
 msgstr "Opsi lainnya"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:487
+#: ../build/src/ui_backendsettingspage.h:517
 msgid "Output"
 msgstr "Keluaran"
 
@@ -3536,7 +3540,7 @@ msgstr "Port"
 msgid "Position"
 msgstr "Posisi"
 
-#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:506
+#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:536
 msgid "Pre-amp"
 msgstr "Pre-amp"
 
@@ -3678,7 +3682,7 @@ msgstr "Antre trek"
 msgid "QueueView"
 msgstr "QueueView"
 
-#: ../build/src/ui_backendsettingspage.h:503
+#: ../build/src/ui_backendsettingspage.h:533
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Radio (kenyaringan sama untuk semua trek)"
 
@@ -3846,11 +3850,11 @@ msgstr "Ganti spasi dengan garis bawah"
 msgid "Replace the playlist"
 msgstr "Ganti daftar putar"
 
-#: ../build/src/ui_backendsettingspage.h:500
+#: ../build/src/ui_backendsettingspage.h:530
 msgid "Replay Gain"
 msgstr "Replay Gain"
 
-#: ../build/src/ui_backendsettingspage.h:502
+#: ../build/src/ui_backendsettingspage.h:532
 msgid "Replay Gain mode"
 msgstr "Mode Replay Gain"
 
@@ -5066,7 +5070,7 @@ msgstr "Gunakan OAuth"
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:501
+#: ../build/src/ui_backendsettingspage.h:531
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Gunakan metadata Replay Gain jika tersedia"
 
@@ -5447,7 +5451,7 @@ msgstr ""
 msgid "greater than"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:491
+#: ../build/src/ui_backendsettingspage.h:521
 msgid "hw"
 msgstr "hw"
 
@@ -5511,7 +5515,7 @@ msgstr ""
 msgid "options"
 msgstr "opsi"
 
-#: ../build/src/ui_backendsettingspage.h:492
+#: ../build/src/ui_backendsettingspage.h:522
 msgid "p&lughw"
 msgstr "p&lughw"
 

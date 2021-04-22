@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-04-06 06:46-0400\n"
+"PO-Revision-Date: 2021-04-22 03:45-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -47,6 +47,8 @@ msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "cinnamon-settings-daemon instead."
 msgstr ""
+" A billentyűparancsok ezen: %1 általában GSD-n keresztül vannak használva, "
+"és a cinnamon-settings-daemonban kéne konfigurálni."
 
 #: settings/globalshortcutssettingspage.cpp:324
 #, qt-format
@@ -54,11 +56,15 @@ msgid ""
 " Shortcuts on %1 are usually used through GSD and should be configured in "
 "gnome-settings-daemon instead."
 msgstr ""
+" A billentyűparancsok ezen: %1 általában GSD-n keresztül vannak használva, "
+"és a gnome-settings-daemonban kéne konfigurálni."
 
 #: settings/globalshortcutssettingspage.cpp:322
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
+" A billentyűparancsok ezen: %1 általában MPRIS-en és KGlobalAccel-en "
+"keresztül vannak használva."
 
 #: ../build/src/ui_transcoderoptionsaac.h:133
 #: ../build/src/ui_transcoderoptionsvorbis.h:201
@@ -76,16 +82,16 @@ msgstr " kbit/s"
 msgid " minutes"
 msgstr " percben"
 
-#: ../build/src/ui_backendsettingspage.h:495
-#: ../build/src/ui_backendsettingspage.h:514
-#: ../build/src/ui_backendsettingspage.h:517
+#: ../build/src/ui_backendsettingspage.h:525
+#: ../build/src/ui_backendsettingspage.h:545
+#: ../build/src/ui_backendsettingspage.h:548
 msgid " ms"
 msgstr " ms"
 
 #: ../build/src/ui_contextsettingspage.h:450
 #: ../build/src/ui_contextsettingspage.h:455
 msgid " pt"
-msgstr "pt"
+msgstr " pt"
 
 #: ../build/src/ui_behavioursettingspage.h:329
 msgid " s"
@@ -97,7 +103,7 @@ msgstr " másodperc"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
-msgstr "dalok"
+msgstr " dalok"
 
 #: scrobbler/scrobblingapi20.cpp:173 scrobbler/scrobblingapi20.cpp:182
 #, qt-format
@@ -158,7 +164,7 @@ msgstr "%1 lejátszólista (%2)"
 #: playlist/playlistmanager.cpp:471
 #, qt-format
 msgid "%1 selected of"
-msgstr "%1 kiválasztva"
+msgstr "%1 kiválasztva ebből:"
 
 #: context/contextview.cpp:460
 #, qt-format
@@ -183,7 +189,7 @@ msgstr "%1 dal található"
 #: smartplaylists/smartplaylistsearchpreview.cpp:148
 #, qt-format
 msgid "%1 songs found (showing %2)"
-msgstr ""
+msgstr "%1 dal található (%2 megjelenítése)"
 
 #: core/utilities.cpp:447
 #, qt-format
@@ -191,8 +197,8 @@ msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
 msgstr ""
-"%1 zene van %2 különböző könyvtárból kiválasztva, biztos meg szeretné nyitni "
-"az összeset?"
+"%1 dal van %2 különböző könyvtárból kiválasztva, biztos, hogy meg szeretné "
+"nyitni az összeset?"
 
 #: dialogs/edittagdialog.cpp:655
 #, qt-format
@@ -216,7 +222,7 @@ msgstr "%album%"
 #: ../build/src/ui_collectionsettingspage.h:443
 #, c-format
 msgid "%albumartist-%album"
-msgstr "%albumelőadó-%album"
+msgstr "%albumartist-%album"
 
 #: ../build/src/ui_contextsettingspage.h:416
 #: ../build/src/ui_notificationssettingspage.h:464
@@ -244,20 +250,20 @@ msgstr "%n hátralévő"
 #: ../build/src/ui_contextsettingspage.h:428
 #: ../build/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
-msgstr ""
+msgstr "%originalyear%"
 
 #: ../build/src/ui_contextsettingspage.h:424
 msgid "%rating%"
-msgstr ""
+msgstr "%rating%"
 
 #: ../build/src/ui_contextsettingspage.h:433
 msgid "%title - %artist%"
-msgstr "%cím - %előadó%"
+msgstr "%title - %artist%"
 
 #: ../build/src/ui_contextsettingspage.h:420
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
-msgstr ""
+msgstr "%url%"
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
@@ -322,7 +328,7 @@ msgstr "&Lejátszólista betöltése..."
 
 #: playlist/playlistheader.cpp:59
 msgid "&Lock rating"
-msgstr ""
+msgstr "É&rtékelés zárolása"
 
 #: ../build/src/ui_networkproxysettingspage.h:173
 msgid "&Manual proxy configuration"
@@ -390,7 +396,7 @@ msgstr "&Leállítás"
 
 #: playlist/playlistheader.cpp:57
 msgid "&Stretch columns to fit window"
-msgstr "&Oszlopszélesség igazítása az ablakhoz"
+msgstr "&Oszlop"
 
 #: ../build/src/ui_mainwindow.h:719
 msgid "&Tools"
@@ -472,6 +478,16 @@ msgid ""
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
 "family:'Noto Sans';\"><br /></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+"css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Verdana'; font-size:10pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Noto Sans';\"><br /></p></body></html>"
 
 #: ../build/src/ui_organizedialog.h:274
 msgid ""
@@ -496,11 +512,15 @@ msgid ""
 "There are different types of smart playlist that offer different ways of "
 "selecting songs."
 msgstr ""
+"Az okos lejátszólista a gyűjteményéből származó dalok dinamikus listája. "
+"Különböző típusú okos lejátszólisták léteznek, amelyek a dalok "
+"kiválasztásának különböző módjait kínálják."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:152
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr ""
+"A lejátszólista tartalmazni fogja a dalt, ha az megfelelnek a feltételeknek."
 
 #: ../build/src/ui_playlistsettingspage.h:169
 msgid "A&utomatic"
@@ -514,7 +534,7 @@ msgstr "A-Z"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:490
+#: ../build/src/ui_backendsettingspage.h:520
 msgid "ALSA plugin"
 msgstr "ALSA plugin"
 
@@ -530,7 +550,7 @@ msgstr "ASF (WMA)"
 #: covermanager/albumcoversearcher.cpp:196
 #: ../build/src/ui_internetcollectionviewcontainer.h:139
 msgid "Abort"
-msgstr "Megszakít"
+msgstr "Megszakítás"
 
 #: ../build/src/ui_mainwindow.h:700
 msgid "Abort collection scan"
@@ -563,7 +583,7 @@ msgstr "Művelet"
 
 #: ../build/src/ui_mainwindow.h:674
 msgid "Add &folder..."
-msgstr "&Mappa hozzáadása"
+msgstr "&Mappa hozzáadása..."
 
 #: ../build/src/ui_addstreamdialog.h:75
 #, fuzzy
@@ -581,7 +601,7 @@ msgstr "Minden szám hozzáadása a mappából és almappáiból"
 
 #: settings/collectionsettingspage.cpp:104
 msgid "Add directory..."
-msgstr "Mappa hozzáadása"
+msgstr "Mappa hozzáadása..."
 
 #: core/mainwindow.cpp:2156
 msgid "Add file"
@@ -664,12 +684,12 @@ msgstr "Számhossz hozzáadása"
 #: ../build/src/ui_contextsettingspage.h:430
 #: ../build/src/ui_notificationssettingspage.h:474
 msgid "Add song original year tag"
-msgstr ""
+msgstr "Eredeti év címke hozzáadása a dalhoz"
 
 #: ../build/src/ui_contextsettingspage.h:390
 #: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
-msgstr "A dalelőadó hozzáadása"
+msgstr "Dalelőadó hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:408
 #: ../build/src/ui_notificationssettingspage.h:453
@@ -779,7 +799,7 @@ msgstr "&Albumborító"
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:504
+#: ../build/src/ui_backendsettingspage.h:534
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (ideális hangerő minden számhoz)"
 
@@ -798,6 +818,7 @@ msgstr "Albumelőadó"
 #: dialogs/edittagdialog.cpp:831
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
+"Az albumborító szerkesztése csak a gyűjteményben lévő zenéknél elérhető."
 
 #: ../build/src/ui_collectionsettingspage.h:447
 msgid "Album cover pixmap cache"
@@ -882,7 +903,7 @@ msgstr "Hiba történt az iTunes adatbázis betöltése közben"
 #: dialogs/edittagdialog.cpp:1355
 #, qt-format
 msgid "An error occurred writing cover art to '%1'"
-msgstr ""
+msgstr "Hiba történt '%1' albumborítójának írása közben"
 
 #: playlist/playlist.cpp:421 dialogs/edittagdialog.cpp:1332
 #, qt-format
@@ -899,7 +920,7 @@ msgstr "Alkalmazás ID"
 
 #: ../build/src/ui_qobuzsettingspage.h:277
 msgid "App Secret"
-msgstr ""
+msgstr "App secret"
 
 #: ../build/src/ui_appearancesettingspage.h:581
 msgid "Appearance"
@@ -907,7 +928,7 @@ msgstr "Megjelenés"
 
 #: ../build/src/ui_tidalsettingspage.h:339
 msgid "Append explicit to album title for explicit albums"
-msgstr ""
+msgstr "Kifejező (explicit) címke hozzáadása a kifejező albumokhoz"
 
 #: core/commandlineoptions.cpp:184
 msgid "Append files/URLs to the playlist"
@@ -924,7 +945,7 @@ msgstr "Hozzáfűzés az aktuális lejátszólistához"
 msgid "Append to the playlist"
 msgstr "Hozzáadás a lejátszólistához"
 
-#: ../build/src/ui_backendsettingspage.h:507
+#: ../build/src/ui_backendsettingspage.h:537
 msgid "Apply compression to prevent clipping"
 msgstr "Tömörítés engedélyezése a túlvezérlés elkerülése érdekében"
 
@@ -947,7 +968,7 @@ msgstr "Automatikus albumborító"
 
 #: ../build/src/ui_edittagdialog.h:810
 msgid "Art Manual"
-msgstr "Kézi albumborító"
+msgstr "Manuális albumborító"
 
 #: collection/savedgroupingmanager.cpp:87 playlist/playlist.cpp:1272
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
@@ -980,7 +1001,7 @@ msgstr "&Rákérdezés mentéskor"
 msgid "Audio format"
 msgstr "Hangformátum"
 
-#: ../build/src/ui_backendsettingspage.h:485
+#: ../build/src/ui_backendsettingspage.h:515
 msgid "Audio output"
 msgstr "Hang kimenet"
 
@@ -1024,7 +1045,7 @@ msgstr "Automatikus frissítés"
 #: dialogs/edittagdialog.cpp:826
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
-msgstr ""
+msgstr "%1 automatikus albumborítója hiányzik"
 
 #: ../build/src/ui_collectionsettingspage.h:432
 msgid "Automatically open single categories in the collection tree"
@@ -1044,7 +1065,7 @@ msgstr "A legutóbbi szám automatikus kiválasztása"
 
 #: ../build/src/ui_playlistsettingspage.h:167
 msgid "Automatically sort playlist when inserting songs"
-msgstr ""
+msgstr "Lejátszólista automatikus rendezése dalok beillesztésénél"
 
 #: widgets/freespacebar.cpp:68
 msgid "Available"
@@ -1062,7 +1083,7 @@ msgstr "Átlagos bitráta"
 msgid "Average image size"
 msgstr "Átlagos képméret"
 
-#: ../build/src/ui_backendsettingspage.h:484
+#: ../build/src/ui_backendsettingspage.h:514
 msgid "Backend"
 msgstr "Backend"
 
@@ -1157,11 +1178,11 @@ msgstr "Jobbra lent"
 msgid "Browse..."
 msgstr "Tallózás…"
 
-#: ../build/src/ui_backendsettingspage.h:494
+#: ../build/src/ui_backendsettingspage.h:524
 msgid "Buffer"
 msgstr "Puffer"
 
-#: ../build/src/ui_backendsettingspage.h:496
+#: ../build/src/ui_backendsettingspage.h:526
 msgid "Buffer duration"
 msgstr "Puffer hossza"
 
@@ -1191,7 +1212,7 @@ msgstr "Bezárva."
 
 #: ../build/src/ui_edittagdialog.h:817
 msgid "Change art"
-msgstr ""
+msgstr "Borító"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:258
 msgid "Change shortcut..."
@@ -1258,7 +1279,7 @@ msgstr "Lemezgyorsítótár törlése"
 
 #: covermanager/albumcoverchoicecontroller.cpp:113
 msgid "Clear cover"
-msgstr ""
+msgstr "Borító törlése"
 
 #: core/mainwindow.cpp:2246 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
@@ -1349,7 +1370,7 @@ msgstr "Megjegyzés"
 
 #: ../build/src/ui_edittagdialog.h:828
 msgid "Compilation"
-msgstr ""
+msgstr "Összeállítás"
 
 #: ../build/src/ui_edittagdialog.h:833
 msgid "Complete tags automatically"
@@ -1357,7 +1378,7 @@ msgstr "Címkék automatikus kiegészítése"
 
 #: ../build/src/ui_mainwindow.h:701
 msgid "Complete tags automatically..."
-msgstr "Címkék automatikus kiegészítése"
+msgstr "Címkék automatikus kiegészítése..."
 
 #: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1281
 #: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:196
@@ -1426,7 +1447,7 @@ msgstr "Az eszköz által nem támogatott zenék konvertálása"
 
 #: core/mainwindow.cpp:709
 msgid "Copy URL(s)..."
-msgstr "URL(-ek) másolása"
+msgstr "URL(-ek) másolása..."
 
 #: ../build/src/ui_organizedialog.h:286
 msgid "Copy album cover artwork"
@@ -1452,6 +1473,9 @@ msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
 "avoid losing configration before you uninstall the snap:"
 msgstr ""
+"Másolja ki a strawberry.conf és a strawberry.db fájlokat a ~/snap "
+"könyvtárából, hogy elkerülje a konfiguráció elvesztését a snap eltávolítása "
+"előtt:"
 
 #: transcoder/transcoder.cpp:66
 #, qt-format
@@ -1459,8 +1483,8 @@ msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
 "required GStreamer plugins installed"
 msgstr ""
-"Nem hozható létre a \"%1\" GStreamer elem. Ellenőrizze, hogy telepített "
-"minden szükséges GStreamer modult."
+"Nem hozható létre a \"%1\" GStreamer elem - Ellenőrizze, hogy telepített "
+"minden szükséges GStreamer modult"
 
 #: scrobbler/scrobblingapi20.cpp:182
 msgid "Could not open URL. Please open this URL in your browser"
@@ -1469,12 +1493,12 @@ msgstr "Nem lehet megnyitni az URL-t. Próbálja meg böngészőben megnyitni"
 #: core/songloader.cpp:265
 #, qt-format
 msgid "Could not open file %1"
-msgstr "Nem lehet megnyitni a fájlt: %1"
+msgstr "Nem sikerült megnyitni a fájlt: %1"
 
 #: core/songloader.cpp:441
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
-msgstr "Nem sikerült létrehozni a Gstreamer forráselemet a(z) %1 számára."
+msgstr "Nem sikerült létrehozni a Gstreamer forráselemet a(z) %1 számára"
 
 #: playlist/playlistmanager.cpp:206
 msgid "Couldn't create playlist"
@@ -1486,8 +1510,8 @@ msgid ""
 "Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
 "installed"
 msgstr ""
-"%1 kódolásához nem található muxer, ellenőrizze, hogy telepítve van-e a "
-"megfelelő GStreamer beépülő"
+"%1-hez nem található muxer, ellenőrizze, hogy telepített minden szükséges "
+"GStreamer modult"
 
 #: transcoder/transcoder.cpp:435
 #, qt-format
@@ -1495,8 +1519,8 @@ msgid ""
 "Couldn't find an encoder for %1, check you have the correct GStreamer "
 "plugins installed"
 msgstr ""
-"Nem található megfelelő kódoló a %1 tömörítéséhez. Ellenőrizze, hogy a "
-"GStreamer beépülők megfelelően vannak-e telepítve"
+"%1-hez nem található encoder, ellenőrizze, hogy telepített minden szükséges "
+"GStreamer modult"
 
 #: ../build/src/ui_albumcovermanager.h:212
 #: ../build/src/ui_albumcoversearcher.h:101
@@ -1506,7 +1530,7 @@ msgstr "Borítókezelő"
 #: dialogs/edittagdialog.cpp:820
 #, qt-format
 msgid "Cover art automatically loaded from %1"
-msgstr ""
+msgstr "Albumborító automatikusan letöltve innen: %1"
 
 #: dialogs/edittagdialog.cpp:817
 msgid "Cover art from embedded image"
@@ -1522,19 +1546,19 @@ msgstr "Albumborító nincs beállítva"
 
 #: dialogs/edittagdialog.cpp:792
 msgid "Cover changed: Will be cleared when saved."
-msgstr ""
+msgstr "A borító megváltozott: Elmentéskor le lesz véve."
 
 #: dialogs/edittagdialog.cpp:798
 msgid "Cover changed: Will be deleted when saved."
-msgstr ""
+msgstr "A borító megváltozott: Elmentéskor törölve lesz."
 
 #: dialogs/edittagdialog.cpp:795
 msgid "Cover changed: Will be unset when saved."
-msgstr ""
+msgstr "A borító megváltozott: Elmentéskor nem lesz beállítva."
 
 #: dialogs/edittagdialog.cpp:801
 msgid "Cover changed: Will set new when saved."
-msgstr ""
+msgstr "A borító megváltozott: Elmentéskor az új lesz beállítva."
 
 #: ../build/src/ui_coverssettingspage.h:163
 msgid "Cover providers"
@@ -1554,11 +1578,11 @@ msgstr "Borítók %1 helyről"
 msgid "Create a new playlist with files"
 msgstr "Új lejátszólista létrehozása fájlokkal"
 
-#: ../build/src/ui_backendsettingspage.h:511
+#: ../build/src/ui_backendsettingspage.h:542
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Áttűnés használata számok automatikus váltásánál"
 
-#: ../build/src/ui_backendsettingspage.h:510
+#: ../build/src/ui_backendsettingspage.h:541
 msgid "Cross-fade when changing tracks manually"
 msgstr "Áttűnés használata számok kézi váltásánál"
 
@@ -1686,7 +1710,7 @@ msgstr "Hangerő csökkentése <value> százalékkal"
 msgid "Default bac&kground image"
 msgstr "A&lapértelmezett háttérkép"
 
-#: ../build/src/ui_backendsettingspage.h:499
+#: ../build/src/ui_backendsettingspage.h:529
 msgid "Defaults"
 msgstr "Alapértelmezett"
 
@@ -1746,7 +1770,7 @@ msgid "Details..."
 msgstr "Részletek…"
 
 #: context/contextview.cpp:185 device/giolister.cpp:186
-#: ../build/src/ui_backendsettingspage.h:488
+#: ../build/src/ui_backendsettingspage.h:518
 #: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Device"
 msgstr "Eszköz"
@@ -1902,7 +1926,7 @@ msgstr "Száminformációk szerkesztése..."
 
 #: context/contextalbumsview.cpp:267 collection/collectionview.cpp:359
 msgid "Edit tracks information..."
-msgstr "Száminformációk szerkesztése"
+msgstr "Száminformációk szerkesztése..."
 
 #: dialogs/edittagdialog.cpp:777
 msgid "Embedded"
@@ -1959,7 +1983,7 @@ msgstr "Dalok metaadatainak szerkesztése kattintásra"
 msgid "Enable stereo balancer"
 msgstr "Hangbalansz engedélyezése"
 
-#: ../build/src/ui_backendsettingspage.h:493
+#: ../build/src/ui_backendsettingspage.h:523
 msgid "Enable volume control"
 msgstr "Hangerőszabályzás engedélyezése"
 
@@ -1979,7 +2003,7 @@ msgstr "Átkódolás minősége"
 msgid "Encoding mode"
 msgstr "Kódolási mód"
 
-#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:486
+#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:516
 msgid "Engine"
 msgstr "Motor"
 
@@ -2049,7 +2073,7 @@ msgstr "Hiba"
 #: device/mtploader.cpp:67
 #, qt-format
 msgid "Error connecting MTP device %1"
-msgstr "Hiba az MTP eszközre való csatlakozáskor: %1"
+msgstr "Hiba az MTP eszköz csatlakoztatásakor: %1"
 
 #: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
@@ -2062,7 +2086,7 @@ msgstr "Hiba történt a dalok törlése közben"
 #: transcoder/transcoder.cpp:408
 #, qt-format
 msgid "Error processing %1: %2"
-msgstr "Hiba %1: %2 feldolgozásakor"
+msgstr "Hiba %2: %1 feldolgozásakor"
 
 #: playlist/songloaderinserter.cpp:112
 msgid "Error while loading audio CD."
@@ -2085,7 +2109,7 @@ msgstr "Hiba történt a CDDA eszköz készre állításakor."
 msgid "Ever played"
 msgstr "Bármikor lejátszva"
 
-#: ../build/src/ui_backendsettingspage.h:512
+#: ../build/src/ui_backendsettingspage.h:543
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Kivéve az azonos albumon vagy azonos CUE fájlban lévő számok között"
 
@@ -2156,22 +2180,26 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:515
+#: ../build/src/ui_backendsettingspage.h:546
 msgid "Fade out on pause / fade in on resume"
 msgstr "Áttűnés a szünet megnyomásakor és a folytatáskor"
 
-#: ../build/src/ui_backendsettingspage.h:509
+#: ../build/src/ui_backendsettingspage.h:540
 msgid "Fade out when stopping a track"
 msgstr "Elhalkulás szám megállításakor"
 
-#: ../build/src/ui_backendsettingspage.h:508
+#: ../build/src/ui_backendsettingspage.h:539
 msgid "Fading"
 msgstr "Elhalkulás"
 
-#: ../build/src/ui_backendsettingspage.h:513
-#: ../build/src/ui_backendsettingspage.h:516
+#: ../build/src/ui_backendsettingspage.h:544
+#: ../build/src/ui_backendsettingspage.h:547
 msgid "Fading duration"
 msgstr "Elhalkulás hossza"
+
+#: ../build/src/ui_backendsettingspage.h:538
+msgid "Fallback-gain"
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
 #: ../build/src/ui_transcoderoptionsmp3.h:197
@@ -2206,7 +2234,7 @@ msgstr "Hiba a borító betöltése közben"
 #: core/song.cpp:1059
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
-msgstr "A (z)% 1 fájl nem ismerhető fel érvényes hangfájlként."
+msgstr "A(z) %1 fájl nem ismerhető fel érvényes hangfájlként."
 
 #: organize/organizedialog.cpp:121
 msgid "File extension"
@@ -2265,6 +2293,7 @@ msgstr "Fájltípus"
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:88
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
+"Dalok keresése a gyűjteményében, amelyek egyeznek a megadott kritériumokkal."
 
 #: musicbrainz/tagfetcher.cpp:64
 msgid "Fingerprinting song"
@@ -2303,11 +2332,11 @@ msgstr "Betűméret"
 #: dialogs/snapdialog.cpp:56
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr ""
+msgstr "Ubuntuhoz elérhető egy hivatalos PPA tároló itt: %1."
 
 #: dialogs/snapdialog.cpp:64
 msgid "For a better experience please consider the other options above."
-msgstr ""
+msgstr "A jobb élményért fontolja meg a fenti opciókat."
 
 #: ../build/src/ui_transcoderoptionsmp3.h:201
 msgid "Force mono encoding"
@@ -2399,7 +2428,7 @@ msgstr "Műfaj"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:241
 msgid "Global Shortcuts"
-msgstr ""
+msgstr "Globális billentyűparancsok"
 
 #: ../build/src/ui_mainwindow.h:691
 msgid "Go to next playlist tab"
@@ -2542,13 +2571,13 @@ msgstr "Magas"
 msgid "High (%1 fps)"
 msgstr "Magas (%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:497
+#: ../build/src/ui_backendsettingspage.h:527
 msgid "High watermark"
-msgstr ""
+msgstr "Magas vízjel"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "Hours"
-msgstr ""
+msgstr "Óra"
 
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
@@ -2625,6 +2654,8 @@ msgid ""
 "In dynamic mode new tracks will be chosen and added to the playlist every "
 "time a song finishes."
 msgstr ""
+"A dinamikus módban az új számok ki lesznek választva és hozzá lesznek adva a "
+"lejátszólistához minden alkalommal, amikor egy dal befejeződik."
 
 #: ../build/src/ui_notificationssettingspage.h:490
 msgid "Include album art in the notification"
@@ -2652,7 +2683,7 @@ msgstr "Beszúrás..."
 
 #: dialogs/snapdialog.cpp:79
 msgid "Install strawberry through PPA:<br />"
-msgstr ""
+msgstr "Strawberry telepítése PPA-ból: <br />"
 
 #: core/database.cpp:493
 msgid "Integrity check"
@@ -2684,7 +2715,7 @@ msgstr ""
 
 #: dialogs/snapdialog.cpp:44
 msgid "It is detected that Strawberry is running as a Snap"
-msgstr ""
+msgstr "A Strawberry észlelte, hogy Snapként fut"
 
 #: ../build/src/ui_behavioursettingspage.h:310
 msgid "Jump to previous song right away"
@@ -2760,7 +2791,7 @@ msgstr "Libre.fm"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:137
 msgid "Limits"
-msgstr ""
+msgstr "Korlátok"
 
 #: scrobbler/listenbrainzscrobbler.cpp:180
 msgid "ListenBrainz Authentication"
@@ -2864,9 +2895,9 @@ msgstr "Alacsony (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Alacsony komplexitású profil (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:498
+#: ../build/src/ui_backendsettingspage.h:528
 msgid "Low watermark"
-msgstr ""
+msgstr "Alacsony vízjel"
 
 #: ../build/src/ui_collectionsettingspage.h:445
 msgid "Lowercase filename"
@@ -2895,12 +2926,12 @@ msgstr "Mentett csoportosítások kezelése"
 #: dialogs/edittagdialog.cpp:823
 #, qt-format
 msgid "Manually cover art from %1 is missing"
-msgstr ""
+msgstr "%1 manuális albumborítója hiányzik"
 
 #: dialogs/edittagdialog.cpp:814
 #, qt-format
 msgid "Manually set cover art from %1"
-msgstr ""
+msgstr "Albumborító manuális beállítása innen: %1"
 
 #: device/deviceproperties.cpp:176
 msgid "Manufacturer"
@@ -2932,7 +2963,7 @@ msgstr "Maximális bitráta"
 
 #: qobuz/qobuzservice.cpp:464
 msgid "Maximum number of login attempts reached."
-msgstr ""
+msgstr "A bejelentkezési próbálkozások maximális száma elérve."
 
 #: analyzer/analyzercontainer.cpp:74
 #, qt-format
@@ -2957,13 +2988,13 @@ msgstr "Hiányzó API token."
 
 #: qobuz/qobuzservice.cpp:716 qobuz/qobuzstreamurlrequest.cpp:84
 msgid "Missing Qobuz app ID or secret."
-msgstr ""
+msgstr "Hiányzó Qobuz alkalmazás ID vagy secret"
 
 #: qobuz/qobuzservice.cpp:468 qobuz/qobuzservice.cpp:497
 #: qobuz/qobuzservice.cpp:552 qobuz/qobuzservice.cpp:605
 #: qobuz/qobuzservice.cpp:670
 msgid "Missing Qobuz app ID."
-msgstr ""
+msgstr "Hiányzó Qoboz alkalmazás azonosító."
 
 #: qobuz/qobuzservice.cpp:476
 msgid "Missing Qobuz password."
@@ -3137,7 +3168,7 @@ msgstr "Új dalok"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
-msgstr ""
+msgstr "Az új számok automatikusan hozzá lesznek adva."
 
 #: smartplaylists/smartplaylistsmodel.cpp:69
 msgid "Newest tracks"
@@ -3157,7 +3188,7 @@ msgstr "Kikapcsolva"
 
 #: covermanager/albumcovermanager.cpp:1037
 msgid "No covers to export."
-msgstr "Nincsenek exportálandó borítók"
+msgstr "Nincsenek exportálandó borítók."
 
 #: ../build/src/ui_transcoderoptionsaac.h:145
 msgid "No long blocks"
@@ -3261,6 +3292,9 @@ msgid ""
 "Official releases are available for Debian and Ubuntu which also work on "
 "most of their derivatives. See %1 for more information."
 msgstr ""
+"Hivatalos kiadások elérhetőek a Debianhoz és az Ubuntuhoz, amelyek a legtöbb "
+"származtatott disztribúción is működnek. Látogassa meg ezt: %1 több "
+"információért."
 
 #: osd/osdbase.cpp:261
 msgid "On"
@@ -3276,7 +3310,7 @@ msgstr "Csak az első megjelenítése"
 
 #: ../build/src/ui_appearancesettingspage.h:622
 msgid "Opacity"
-msgstr "Átlátszóság"
+msgstr "Átlátszatlanság"
 
 #: scrobbler/scrobblingapi20.cpp:173
 msgid "Open URL in web browser?"
@@ -3288,7 +3322,7 @@ msgstr "Mappa megnyitása zene importáláshoz"
 
 #: ../build/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
-msgstr "Hang &CD megnyitása"
+msgstr "Hang &CD megnyitása..."
 
 #: ../build/src/ui_deviceproperties.h:383
 msgid "Open device"
@@ -3360,7 +3394,7 @@ msgid "Other options"
 msgstr "Egyéb beállítások"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:487
+#: ../build/src/ui_backendsettingspage.h:517
 msgid "Output"
 msgstr "Kimenet"
 
@@ -3515,7 +3549,7 @@ msgstr ""
 
 #: playlist/playlistlistcontainer.cpp:380
 msgid "Playlist must be open first."
-msgstr ""
+msgstr "A lejátszási lista először meg kell lennie nyitva."
 
 #: core/commandlineoptions.cpp:182
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
@@ -3524,7 +3558,7 @@ msgstr "Lejátszólista beállítások"
 
 #: ../build/src/ui_appearancesettingspage.h:631
 msgid "Playlist playing song color"
-msgstr ""
+msgstr "A lejátszott dal színe a lejátszólistában"
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
@@ -3559,7 +3593,7 @@ msgstr "Port"
 msgid "Position"
 msgstr "Helyzet"
 
-#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:506
+#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:536
 msgid "Pre-amp"
 msgstr "Előerősítő"
 
@@ -3608,13 +3642,13 @@ msgstr ""
 
 #: ../build/src/ui_globalshortcutgrabber.h:68
 msgid "Press a key"
-msgstr "Nyomjon meg egy billentyűt"
+msgstr "Nyomjon le egy billentyűt"
 
 #: globalshortcuts/globalshortcutgrabber.cpp:54
 #: ../build/src/ui_globalshortcutgrabber.h:69
 #, qt-format
 msgid "Press a key combination to use for %1..."
-msgstr "Nyomjon meg egy billentyű kombinációt a %1 használatához..."
+msgstr "Nyomjon meg egy billentyűkombinációt a %1 használatához..."
 
 #: ../build/src/ui_behavioursettingspage.h:309
 msgid "Pressing \"Previous\" in player will..."
@@ -3642,7 +3676,7 @@ msgstr "Előző szám"
 
 #: core/commandlineoptions.cpp:195
 msgid "Print out version information"
-msgstr "Verzióinformáció megjelenítése..."
+msgstr "Verzióinformáció megjelenítése"
 
 #: ../build/src/ui_transcoderoptionsaac.h:134
 msgid "Profile"
@@ -3654,7 +3688,7 @@ msgstr "Folyamat"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:135
 msgid "Put songs in a random order"
-msgstr ""
+msgstr "Zenék véletlenszerű sorrendbe helyezése"
 
 #: core/mainwindow.cpp:357 ../build/src/ui_scrobblersettingspage.h:410
 #: ../build/src/ui_qobuzsettingspage.h:270
@@ -3666,6 +3700,9 @@ msgid ""
 "Qobuz support is not official and requires an API app ID and secret from a "
 "registered application to work. We can't help you getting these."
 msgstr ""
+"A Qobuz-támogatás nem hivatalos, és ahhoz, hogy működjön, API-token és app "
+"secret szükséges a regisztrált alkalmazásból. Nem tudunk segíteni ezek "
+"beszerzésében."
 
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
@@ -3708,7 +3745,7 @@ msgstr "Szám hozzáadása a lejátszási sorhoz"
 msgid "QueueView"
 msgstr "Lejátszási sor nézet"
 
-#: ../build/src/ui_backendsettingspage.h:503
+#: ../build/src/ui_backendsettingspage.h:533
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Rádió (egyenlő hangerő minden számhoz)"
 
@@ -3743,7 +3780,7 @@ msgstr ""
 
 #: dialogs/lastfmimportdialog.cpp:73
 msgid "Receiving initial data from last.fm..."
-msgstr ""
+msgstr "Kezdeti adatok fogadása a last.fm-től ..."
 
 #: dialogs/lastfmimportdialog.cpp:133
 #, qt-format
@@ -3758,7 +3795,7 @@ msgstr ""
 #: dialogs/lastfmimportdialog.cpp:136
 #, qt-format
 msgid "Receiving playcounts for %1 songs."
-msgstr ""
+msgstr "Lejátszások számának fogadása %1 dalhoz."
 
 #: lyrics/geniuslyricsprovider.cpp:206
 #, fuzzy
@@ -3880,11 +3917,11 @@ msgstr "Szóközök lecserélése aláhúzásjelekkel"
 msgid "Replace the playlist"
 msgstr "Lejátszólista cseréje"
 
-#: ../build/src/ui_backendsettingspage.h:500
+#: ../build/src/ui_backendsettingspage.h:530
 msgid "Replay Gain"
 msgstr "Visszhangerősítés (Replay Gain)"
 
-#: ../build/src/ui_backendsettingspage.h:502
+#: ../build/src/ui_backendsettingspage.h:532
 msgid "Replay Gain mode"
 msgstr "Visszhangerősítés módja"
 
@@ -4030,7 +4067,7 @@ msgstr "Mintavétel"
 
 #: ../build/src/ui_mainwindow.h:683
 msgid "Save &playlist..."
-msgstr "Leját&szólista mentése"
+msgstr "Leját&szólista mentése..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:239
 msgid "Save album cover"
@@ -4038,7 +4075,7 @@ msgstr "Albumborító mentése"
 
 #: ../build/src/ui_collectionsettingspage.h:439
 msgid "Save album covers as embedded cover"
-msgstr ""
+msgstr "Albumborítók mentése beágyazott borítóként"
 
 #: ../build/src/ui_collectionsettingspage.h:437
 msgid "Save album covers in album directory"
@@ -4046,7 +4083,7 @@ msgstr "Albumborítók mentése az album könyvtárába"
 
 #: ../build/src/ui_collectionsettingspage.h:438
 msgid "Save album covers in cache directory"
-msgstr ""
+msgstr "Albumborítók mentése gyorsítótárba"
 
 #: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Save cover to disk..."
@@ -4110,7 +4147,7 @@ msgstr "Scrobbler %1 hiba: %2"
 #: scrobbler/scrobblingapi20.cpp:544
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
-msgstr "A %1 scrobbler nincs hitelesítve"
+msgstr "A %1 scrobbler nincs hitelesítve!"
 
 #: ../build/src/ui_behavioursettingspage.h:293
 msgid "Scroll over icon to change track"
@@ -4221,7 +4258,7 @@ msgstr "A szerver URL-je érvénytelen."
 
 #: ../build/src/ui_subsonicsettingspage.h:198
 msgid "Server-side scrobbling"
-msgstr ""
+msgstr "Szerveloldali scrobble"
 
 #: core/mainwindow.cpp:1916
 #, qt-format
@@ -4252,7 +4289,7 @@ msgstr "Kombináció"
 #: ../build/src/ui_globalshortcutssettingspage.h:254
 #, qt-format
 msgid "Shortcut for %1"
-msgstr "%1 billentyűkombinációja"
+msgstr "Billentyűparancs ehhez: %1"
 
 #: collection/collectionfilterwidget.cpp:106
 msgid "Show"
@@ -4385,7 +4422,7 @@ msgstr "Dalszöveg megjelenítése"
 
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show song progress on system tray icon"
-msgstr ""
+msgstr "Lejátszási folyamatjelző megjelenítése a rendszertálca ikonon"
 
 #: context/contextview.cpp:323
 msgid "Show song technical data"
@@ -4503,7 +4540,7 @@ msgid ""
 "(whichever occurs earlier)."
 msgstr ""
 "A dalok akkor lesznek scrobble-ozva, ha érvényes metaadataik vannak, és 30 \n"
-"másodpercnél hosszabbak, illetve félig, vagy 4 percig le vannak játszva "
+"másodpercnél hosszabbak, illetve félig, vagy 4 percig vannak lejátszva "
 "(amelyik korábban teljesül)."
 
 #: ../build/src/ui_tidalsettingspage.h:334
@@ -4624,11 +4661,11 @@ msgstr ""
 
 #: dialogs/snapdialog.cpp:40
 msgid "Strawberry is running as a Snap"
-msgstr ""
+msgstr "A Strawberry Snapként fut"
 
 #: ../build/src/ui_snapdialog.h:117
 msgid "Strawberry is running as a snap"
-msgstr ""
+msgstr "A Strawberry snapként fut"
 
 #: dialogs/snapdialog.cpp:48
 msgid ""
@@ -4636,6 +4673,9 @@ msgid ""
 "the root filesystem (/) will not work. There also might be other "
 "restrictions such as accessing certain devices or network shares."
 msgstr ""
+"A Strawberry lassabb, és korlátozott, ha Snapként fut. A root fájlrendszer (/"
+") elérése nem fog működni. Lehetnek egyéb korlátai is, minthogy nem tud "
+"elérni egyes eszközöket és hálózati megosztásokat."
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Strawberry was unable to find results for this file"
@@ -4774,7 +4814,7 @@ msgstr "Köszönet az Amarok-hoz és a Clementine-hez hozzájárulóknak."
 #: settings/globalshortcutssettingspage.cpp:248
 #, qt-format
 msgid "The \"%1\" command could not be started."
-msgstr "A \"%1\" parancs nem végrehajtható."
+msgstr "A \"%1\" parancsot nem lehetett elindítani."
 
 #: ../build/src/ui_appearancesettingspage.h:603
 msgid "The album cover of the currently playing song"
@@ -4914,9 +4954,8 @@ msgid ""
 "Tidal support is not official and requires a API token from a registered "
 "application to work. We can't help you getting these."
 msgstr ""
-"\n"
 "A Tidal-támogatás nem hivatalos, és ahhoz, hogy működjön, regisztrált "
-"alkalmazás API-tokenje szükséges. Nem tudunk segíteni, ezek beszerzésében."
+"alkalmazás API-tokenje szükséges. Nem tudunk segíteni ennek beszerzésében."
 
 #: ../build/src/ui_behavioursettingspage.h:328
 msgid "Time step"
@@ -5019,7 +5058,7 @@ msgstr "Ultra szélessávú (UWB)"
 
 #: dialogs/snapdialog.cpp:74
 msgid "Uninstall the snap with:"
-msgstr ""
+msgstr "Snap eltávolítása ezzel:"
 
 #: core/song.cpp:559 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
@@ -5065,7 +5104,7 @@ msgstr "%1 frissítése"
 #: device/deviceview.cpp:125
 #, qt-format
 msgid "Updating %1%..."
-msgstr "%1 frissítése..."
+msgstr "%1% frissítése..."
 
 #: collection/collectionwatcher.cpp:166
 msgid "Updating collection"
@@ -5085,7 +5124,7 @@ msgstr "Használat"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:242
 msgid "Use Gnome (GSD) shortcuts when available"
-msgstr ""
+msgstr "Gnome (GSD) billentyűparancsok használata, ha elérhető"
 
 #: ../build/src/ui_scrobblersettingspage.h:414
 msgid "Use HTTPS for local redirectserver"
@@ -5093,7 +5132,7 @@ msgstr "HTTPS használata a helyi átirányító szerverhez"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:244
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr ""
+msgstr "KDE (KGlobalAccel) billentyűparancsok használata, ha elérhető"
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
@@ -5101,9 +5140,9 @@ msgstr "OAuth használata"
 
 #: settings/coverssettingspage.cpp:129 settings/coverssettingspage.cpp:242
 msgid "Use Qobuz settings to authenticate."
-msgstr ""
+msgstr "Qobuz használata a hitelesítéshez."
 
-#: ../build/src/ui_backendsettingspage.h:501
+#: ../build/src/ui_backendsettingspage.h:531
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Visszhangerősítés metaadatok használata, ha elérhetőek"
 
@@ -5113,7 +5152,7 @@ msgstr "Tidal beállítások használata hitelesítéshez."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:245
 msgid "Use X11 shortcuts when available"
-msgstr ""
+msgstr "X11 billentyűparancsok használata, ha elérhető"
 
 #: ../build/src/ui_appearancesettingspage.h:588
 msgid "Use a custom color set"
@@ -5180,13 +5219,13 @@ msgid "Username"
 msgstr "Felhasználónév"
 
 #: settings/globalshortcutssettingspage.cpp:320
-#, fuzzy, qt-format
+#, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
 "become unresponsive!"
 msgstr ""
-"X11 gyorsbillentyűk használata %1 esetén nem ajánlott, és lehetséges, hogy "
-"nem fog válaszolni a billentyűzet."
+"X11 billentyűparancsok használata %1 esetén nem ajánlott, és lehetséges, "
+"hogy nem fog reagálni a billentyűzet!"
 
 #: ../build/src/ui_behavioursettingspage.h:304
 msgid "Using the menu to add a song will..."
@@ -5278,7 +5317,7 @@ msgstr "Offline mód (mentés csak gyorsítótárba)"
 msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"
-msgstr ""
+msgstr "Szeretné áthelyezni az album többi dalát is különböző előadókhoz?"
 
 #: core/mainwindow.cpp:2814
 msgid "Would you like to run a full rescan right now?"
@@ -5368,9 +5407,9 @@ msgid ""
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
 "in Strawberry."
 msgstr ""
-"A Rendszerbeállításokban engedélyeznie kell a \"<span style=\" font-style:"
+"A Rendszerbeállításokban engedélyeznie kell ezt: \"<span style=\" font-style:"
 "italic;\">számítógép irányítása</span>\" opciót a globális "
-"billentyűparancsok használatához a Strawberry-ben."
+"billentyűparancsok használatához a Strawberryben."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:248
 msgid ""
@@ -5378,9 +5417,9 @@ msgid ""
 "style:italic;\">Enable access for assistive devices</span>\" to use global "
 "shortcuts in Strawberry."
 msgstr ""
-"A Rendszerbeállításokban engedélyeznie kell a \"<span style=\" font-style:"
+"A Rendszerbeállításokban engedélyeznie kell ezt: \"<span style=\" font-style:"
 "italic;\">Hozzáférés a kisegítő lehetőségekhez</span>\" a globális "
-"gyorsbillentyűk használatához a Strawberry-ben."
+"billentyűparancsok használatához a Strawberryben."
 
 #: dialogs/about.cpp:120
 #, qt-format
@@ -5488,7 +5527,7 @@ msgstr "egyenlő"
 msgid "greater than"
 msgstr "nagyobb mint"
 
-#: ../build/src/ui_backendsettingspage.h:491
+#: ../build/src/ui_backendsettingspage.h:521
 msgid "hw"
 msgstr "hw"
 
@@ -5552,7 +5591,7 @@ msgstr "rajta van"
 msgid "options"
 msgstr "beállítások"
 
-#: ../build/src/ui_backendsettingspage.h:492
+#: ../build/src/ui_backendsettingspage.h:522
 msgid "p&lughw"
 msgstr "p&lughw"
 
