@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-04-17 02:26-0400\n"
+"PO-Revision-Date: 2021-04-23 05:28-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -413,7 +413,7 @@ msgstr "&Uppdatera ändrade samlingsmappar"
 
 #: ../build/src/ui_appearancesettingspage.h:594
 msgid "&Use the system default color"
-msgstr "& Använd systemets standardfärg"
+msgstr "&Använd systemets standardfärg"
 
 #: ../build/src/ui_appearancesettingspage.h:587
 msgid "&Use the system default color set"
@@ -831,7 +831,7 @@ msgstr "Album av artist"
 #: ../build/src/ui_tidalsettingspage.h:333
 #: ../build/src/ui_qobuzsettingspage.h:284
 msgid "Albums search limit"
-msgstr "Gräns för sökning av album"
+msgstr "Sökningsgräns för album"
 
 #: covermanager/albumcovermanager.cpp:172
 msgid "Albums with covers"
@@ -977,7 +977,7 @@ msgstr "Artister"
 #: ../build/src/ui_tidalsettingspage.h:332
 #: ../build/src/ui_qobuzsettingspage.h:283
 msgid "Artists search limit"
-msgstr "Gräns för sökning av artister"
+msgstr "Sökningsgräns för artister"
 
 #: ../build/src/ui_playlistsettingspage.h:172
 msgid "As&k when saving"
@@ -1853,11 +1853,11 @@ msgstr "Dubbelklicka för att öppna"
 
 #: ../build/src/ui_behavioursettingspage.h:323
 msgid "Double clicking a song in the playlist will..."
-msgstr "Att dubbelklicka på en låt i spellistan kommer att..."
+msgstr "Dubbelklicka på en låt i spellistan kommer att..."
 
 #: ../build/src/ui_behavioursettingspage.h:313
 msgid "Double clicking a song will..."
-msgstr "Att dubbelklicka på en låt kommer att..."
+msgstr "Dubbelklicka på en låt kommer att..."
 
 #: ../build/src/ui_subsonicsettingspage.h:197
 #: ../build/src/ui_tidalsettingspage.h:335
@@ -1948,7 +1948,7 @@ msgstr "Aktivera frekvenskorrigerare"
 
 #: ../build/src/ui_notificationssettingspage.h:508
 msgid "Enable fading"
-msgstr ""
+msgstr "Aktivera toning"
 
 #: ../build/src/ui_playlistsettingspage.h:165
 msgid "Enable playlist clear button"
@@ -3100,7 +3100,7 @@ msgstr "Namn"
 
 #: ../build/src/ui_organizedialog.h:272
 msgid "Naming options"
-msgstr "Namngivningsalternativ"
+msgstr "Alternativ för namngivning"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:228
 msgid "Narrow band (NB)"
@@ -3376,7 +3376,7 @@ msgstr "Utgång"
 
 #: ../build/src/ui_transcodedialog.h:226
 msgid "Output options"
-msgstr "Utdataalternativ"
+msgstr "Alternativ för utgång"
 
 #: ../build/src/ui_collectionsettingspage.h:444
 msgid "Overwrite existing file"
@@ -3626,7 +3626,7 @@ msgstr "Tryck en tangentkombination att använda för %1..."
 
 #: ../build/src/ui_behavioursettingspage.h:309
 msgid "Pressing \"Previous\" in player will..."
-msgstr "Att klicka på \"Föregående\" i spelaren kommer att..."
+msgstr "Klicka på \"Föregående\" i spelaren kommer att..."
 
 #: ../build/src/ui_notificationssettingspage.h:498
 msgid "Pretty OSD options"
@@ -4092,7 +4092,7 @@ msgstr "Sparad grupperingshanterare"
 
 #: ../build/src/ui_collectionsettingspage.h:435
 msgid "Saving album covers"
-msgstr "Sparar albumomslag"
+msgstr "Spara albumomslag"
 
 #: dialogs/edittagdialog.cpp:300 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
@@ -4221,11 +4221,11 @@ msgstr "Serienummer"
 
 #: ../build/src/ui_subsonicsettingspage.h:190
 msgid "Server URL"
-msgstr "Serverns webbadress"
+msgstr "Serverwebbadress"
 
 #: subsonic/subsonicservice.cpp:412 settings/subsonicsettingspage.cpp:112
 msgid "Server URL is invalid."
-msgstr "Servernswebbadress är ogiltig."
+msgstr "Serverwebbadressen är ogiltig."
 
 #: ../build/src/ui_subsonicsettingspage.h:198
 msgid "Server-side scrobbling"
@@ -4361,7 +4361,7 @@ msgstr "Visa i diverse artister"
 
 #: ../build/src/ui_scrobblersettingspage.h:395
 msgid "Show love button"
-msgstr "Visa knappen \"Älska\""
+msgstr "Visa knappen älska"
 
 #: moodbar/moodbarproxystyle.cpp:374
 msgid "Show moodbar"
@@ -4517,7 +4517,7 @@ msgstr ""
 #: ../build/src/ui_tidalsettingspage.h:334
 #: ../build/src/ui_qobuzsettingspage.h:285
 msgid "Songs search limit"
-msgstr "Gräns för sökning av låtar"
+msgstr "Sökningsgräns för låtar"
 
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
@@ -4684,7 +4684,7 @@ msgstr "Subsonic"
 
 #: subsonic/subsonicurlhandler.cpp:41
 msgid "Subsonic server URL is invalid."
-msgstr "Subsonic serverwebbadress är ogiltig."
+msgstr "Subsonic-serverwebbadress är ogiltig."
 
 #: ../data/html/oauthsuccess.html:36
 msgid "Success!"
@@ -5006,7 +5006,7 @@ msgstr "Omkodar %1 filer med %2 trådar"
 
 #: ../build/src/ui_transcoderoptionsdialog.h:50
 msgid "Transcoding options"
-msgstr "Omkodningsalternativ"
+msgstr "Alternativ för omkodning"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
@@ -5201,7 +5201,7 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:304
 msgid "Using the menu to add a song will..."
-msgstr "Att använda menyn för att lägga till en låt kommer att..."
+msgstr "Använda menyn för att lägga till en låt kommer att..."
 
 #: ../build/src/ui_transcoderoptionsspeex.h:230
 msgid "Variable bit rate"
