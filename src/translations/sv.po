@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-04-23 05:28-0400\n"
+"PO-Revision-Date: 2021-04-24 07:30-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -300,7 +300,7 @@ msgstr "&Standard"
 
 #: ../build/src/ui_mainwindow.h:699
 msgid "&Do a full collection rescan"
-msgstr "&Gör en fullständig omsökning av samling"
+msgstr "&Gör en fullständig omskanning av samling"
 
 #: ../build/src/ui_mainwindow.h:672
 msgid "&Equalizer"
@@ -544,7 +544,7 @@ msgstr "Avbryt"
 
 #: ../build/src/ui_mainwindow.h:700
 msgid "Abort collection scan"
-msgstr "Avbryt genomsökning av samling"
+msgstr "Avbryt skanning av samling"
 
 #: ../build/src/ui_about.h:151
 msgid "About"
@@ -1332,7 +1332,7 @@ msgstr "Samling avancerad gruppering"
 
 #: core/mainwindow.cpp:2815
 msgid "Collection rescan notice"
-msgstr "Notis om omsökning av samling"
+msgstr "Notis om omskanning av samling"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:85
 msgid "Collection search"
@@ -2333,7 +2333,7 @@ msgid ""
 "to rescan all the songs again next time you connect it."
 msgstr ""
 "Om en enhet glöms kommer den att tas bort från den här listan och Strawberry "
-"kommer att behöva söka igenom alla låtar igen nästa gång du ansluter den."
+"kommer att behöva skanna alla låtar igen nästa gång du ansluter den."
 
 #: ../build/src/ui_collectionviewcontainer.h:55
 #: ../build/src/ui_playlistcontainer.h:148
@@ -3100,7 +3100,7 @@ msgstr "Namn"
 
 #: ../build/src/ui_organizedialog.h:272
 msgid "Naming options"
-msgstr "Alternativ för namngivning"
+msgstr "Namngivningsalternativ"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:228
 msgid "Narrow band (NB)"
@@ -3905,11 +3905,11 @@ msgstr "Skapa en ny blandning"
 
 #: collection/collectionview.cpp:364
 msgid "Rescan song(s)"
-msgstr "Omsökning av låt(ar)..."
+msgstr "Skanna om av låt(ar)..."
 
 #: core/mainwindow.cpp:703
 msgid "Rescan song(s)..."
-msgstr "Omsökning av låt(ar)..."
+msgstr "Skanna om låt(ar)..."
 
 #: widgets/lineedit.cpp:71
 msgid "Reset"
@@ -4817,7 +4817,7 @@ msgid ""
 "rescan because of the new features listed below:"
 msgstr ""
 "Den version av Strawberry som du just har uppdaterat till kräver en "
-"fullständig omsökning av samlingen på grund av de nya funktionerna nedan:"
+"fullständig omskanning av samlingen på grund av de nya funktionerna nedan:"
 
 #: collection/collectionview.cpp:476
 msgid "There are other songs in this album"
@@ -4850,8 +4850,7 @@ msgstr ""
 #: ../build/src/ui_collectionsettingspage.h:419
 msgid "These folders will be scanned for music to make up your collection"
 msgstr ""
-"Dessa mappar kommer att sökas igenom efter musik för att fylla upp ditt "
-"bibliotek"
+"Dessa mappar kommer att skannas för musik för att fylla upp ditt bibliotek"
 
 #: ../build/src/ui_transcodersettingspage.h:186
 msgid ""
@@ -4906,7 +4905,7 @@ msgid ""
 "scan the device to find music files - this may take some time."
 msgstr ""
 "Det här är första gången du ansluter den här enheten.  Strawberry kommer nu "
-"att söka igenom enheten för att hitta musikfiler - det kan ta lite tid."
+"att skanna enheten för att hitta musikfiler - det kan ta lite tid."
 
 #: playlist/playlisttabbar.cpp:223
 msgid "This option can be changed in the \"Behavior\" preferences"
@@ -5300,7 +5299,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:2814
 msgid "Would you like to run a full rescan right now?"
-msgstr "Vill du köra en fullständig omsökning nu?"
+msgstr "Vill du köra en fullständig omskanning nu?"
 
 #: ../build/src/ui_playlistsettingspage.h:178
 msgid "Write metadata when saving playlists"
