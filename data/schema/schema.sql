@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (13);
+INSERT INTO schema_version (version) VALUES (14);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -55,9 +55,12 @@ CREATE TABLE IF NOT EXISTS songs (
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
+  fingerprint TEXT,
+
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
   lastplayed INTEGER NOT NULL DEFAULT -1,
+  lastseen INTEGER NOT NULL DEFAULT -1,
 
   compilation_detected INTEGER DEFAULT 0,
   compilation_on INTEGER NOT NULL DEFAULT 0,
@@ -114,9 +117,12 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
+  fingerprint TEXT,
+
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
   lastplayed INTEGER NOT NULL DEFAULT -1,
+  lastseen INTEGER NOT NULL DEFAULT -1,
 
   compilation_detected INTEGER DEFAULT 0,
   compilation_on INTEGER NOT NULL DEFAULT 0,
@@ -173,9 +179,12 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
+  fingerprint TEXT,
+
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
   lastplayed INTEGER NOT NULL DEFAULT -1,
+  lastseen INTEGER NOT NULL DEFAULT -1,
 
   compilation_detected INTEGER DEFAULT 0,
   compilation_on INTEGER NOT NULL DEFAULT 0,
@@ -232,9 +241,12 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
+  fingerprint TEXT,
+
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
   lastplayed INTEGER NOT NULL DEFAULT -1,
+  lastseen INTEGER NOT NULL DEFAULT -1,
 
   compilation_detected INTEGER DEFAULT 0,
   compilation_on INTEGER NOT NULL DEFAULT 0,
@@ -291,9 +303,12 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
+  fingerprint TEXT,
+
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
   lastplayed INTEGER NOT NULL DEFAULT -1,
+  lastseen INTEGER NOT NULL DEFAULT -1,
 
   compilation_detected INTEGER DEFAULT 0,
   compilation_on INTEGER NOT NULL DEFAULT 0,
@@ -350,9 +365,12 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
+  fingerprint TEXT,
+
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
   lastplayed INTEGER NOT NULL DEFAULT -1,
+  lastseen INTEGER NOT NULL DEFAULT -1,
 
   compilation_detected INTEGER DEFAULT 0,
   compilation_on INTEGER NOT NULL DEFAULT 0,
@@ -409,9 +427,12 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
+  fingerprint TEXT,
+
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
   lastplayed INTEGER NOT NULL DEFAULT -1,
+  lastseen INTEGER NOT NULL DEFAULT -1,
 
   compilation_detected INTEGER DEFAULT 0,
   compilation_on INTEGER NOT NULL DEFAULT 0,
@@ -468,9 +489,12 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
+  fingerprint TEXT,
+
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
   lastplayed INTEGER NOT NULL DEFAULT -1,
+  lastseen INTEGER NOT NULL DEFAULT -1,
 
   compilation_detected INTEGER DEFAULT 0,
   compilation_on INTEGER NOT NULL DEFAULT 0,
@@ -547,9 +571,12 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   ctime INTEGER,
   unavailable INTEGER DEFAULT 0,
 
+  fingerprint TEXT,
+
   playcount INTEGER DEFAULT 0,
   skipcount INTEGER DEFAULT 0,
-  lastplayed INTEGER DEFAULT 0,
+  lastplayed INTEGER DEFAULT -1,
+  lastseen INTEGER DEFAULT -1,
 
   compilation_detected INTEGER DEFAULT 0,
   compilation_on INTEGER DEFAULT 0,

@@ -47,9 +47,12 @@ CREATE TABLE device_%deviceid_songs (
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
+  fingerprint TEXT,
+
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
   lastplayed INTEGER NOT NULL DEFAULT -1,
+  lastseen INTEGER NOT NULL DEFAULT -1,
 
   compilation_detected INTEGER DEFAULT 0,
   compilation_on INTEGER NOT NULL DEFAULT 0,

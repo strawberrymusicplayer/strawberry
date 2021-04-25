@@ -42,7 +42,7 @@ class CollectionBackendInterface;
 XSPFParser::XSPFParser(CollectionBackendInterface *collection, QObject *parent)
     : XMLParser(collection, parent) {}
 
-SongList XSPFParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir) const {
+SongList XSPFParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
 
   Q_UNUSED(playlist_path);
 
@@ -54,7 +54,7 @@ SongList XSPFParser::Load(QIODevice *device, const QString &playlist_path, const
   }
 
   while (!reader.atEnd() && Utilities::ParseUntilElement(&reader, "track")) {
-    Song song = ParseTrack(&reader, dir);
+    Song song = ParseTrack(&reader, dir, collection_search);
     if (song.is_valid()) {
       ret << song;
     }
@@ -63,7 +63,7 @@ SongList XSPFParser::Load(QIODevice *device, const QString &playlist_path, const
 
 }
 
-Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir) const {
+Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_search) const {
 
   QString title, artist, album, location;
   qint64 nanosec = -1;
@@ -121,7 +121,7 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir) const {
   }
 
 return_song:
-  Song song = LoadSong(location, 0, dir);
+  Song song = LoadSong(location, 0, dir, collection_search);
 
   // Override metadata with what was in the playlist
   if (song.source() != Song::Source_Collection) {

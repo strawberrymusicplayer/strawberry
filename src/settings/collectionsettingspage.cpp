@@ -80,6 +80,10 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
   QObject::connect(ui_->add, &QPushButton::clicked, this, &CollectionSettingsPage::Add);
   QObject::connect(ui_->remove, &QPushButton::clicked, this, &CollectionSettingsPage::Remove);
 
+#ifdef HAVE_SONGFINGERPRINTING
+  QObject::connect(ui_->song_tracking, &QCheckBox::toggled, this, &CollectionSettingsPage::SongTrackingToggled);
+#endif
+
   QObject::connect(ui_->radiobutton_save_albumcover_albumdir, &QRadioButton::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
   QObject::connect(ui_->radiobutton_cover_hash, &QRadioButton::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
   QObject::connect(ui_->radiobutton_cover_pattern, &QRadioButton::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
@@ -90,6 +94,10 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
 
   QObject::connect(ui_->combobox_cache_size, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CollectionSettingsPage::CacheSizeUnitChanged);
   QObject::connect(ui_->combobox_disk_cache_size, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CollectionSettingsPage::DiskCacheSizeUnitChanged);
+
+#ifndef HAVE_SONGFINGERPRINTING
+  ui_->song_tracking->hide();
+#endif
 
 }
 
@@ -122,6 +130,15 @@ void CollectionSettingsPage::Remove() {
 
 void CollectionSettingsPage::CurrentRowChanged(const QModelIndex &idx) {
   ui_->remove->setEnabled(idx.isValid());
+}
+
+void CollectionSettingsPage::SongTrackingToggled() {
+
+  ui_->mark_songs_unavailable->setEnabled(!ui_->song_tracking->isChecked());
+  if (ui_->song_tracking->isChecked()) {
+    ui_->mark_songs_unavailable->setChecked(true);
+  }
+
 }
 
 void CollectionSettingsPage::DiskCacheEnable(const int state) {
@@ -157,7 +174,9 @@ void CollectionSettingsPage::Load() {
   ui_->show_dividers->setChecked(s.value("show_dividers", true).toBool());
   ui_->startup_scan->setChecked(s.value("startup_scan", true).toBool());
   ui_->monitor->setChecked(s.value("monitor", true).toBool());
-  ui_->mark_songs_unavailable->setChecked(s.value("mark_songs_unavailable", false).toBool());
+  ui_->song_tracking->setChecked(s.value("song_tracking", false).toBool());
+  ui_->mark_songs_unavailable->setChecked(ui_->song_tracking->isChecked() ? true : s.value("mark_songs_unavailable", true).toBool());
+  ui_->expire_unavailable_songs_days->setValue(s.value("expire_unavailable_songs", 60).toInt());
 
   QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
   ui_->cover_art_patterns->setText(filters.join(","));
@@ -216,7 +235,9 @@ void CollectionSettingsPage::Save() {
   s.setValue("show_dividers", ui_->show_dividers->isChecked());
   s.setValue("startup_scan", ui_->startup_scan->isChecked());
   s.setValue("monitor", ui_->monitor->isChecked());
-  s.setValue("mark_songs_unavailable", ui_->mark_songs_unavailable->isChecked());
+  s.setValue("song_tracking", ui_->song_tracking->isChecked());
+  s.setValue("mark_songs_unavailable", ui_->song_tracking->isChecked() ? true : ui_->mark_songs_unavailable->isChecked());
+  s.setValue("expire_unavailable_songs", ui_->expire_unavailable_songs_days->value());
 
   QString filter_text = ui_->cover_art_patterns->text();
 

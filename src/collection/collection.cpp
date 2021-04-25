@@ -107,6 +107,7 @@ void SCollection::Init() {
   QObject::connect(watcher_, &CollectionWatcher::SubdirsDiscovered, backend_, &CollectionBackend::AddOrUpdateSubdirs);
   QObject::connect(watcher_, &CollectionWatcher::SubdirsMTimeUpdated, backend_, &CollectionBackend::AddOrUpdateSubdirs);
   QObject::connect(watcher_, &CollectionWatcher::CompilationsNeedUpdating, backend_, &CollectionBackend::CompilationsNeedUpdating);
+  QObject::connect(watcher_, &CollectionWatcher::UpdateLastSeen, backend_, &CollectionBackend::UpdateLastSeen);
 
   QObject::connect(app_->lastfm_import(), &LastFMImport::UpdateLastPlayed, backend_, &CollectionBackend::UpdateLastPlayed);
   QObject::connect(app_->lastfm_import(), &LastFMImport::UpdatePlayCount, backend_, &CollectionBackend::UpdatePlayCount);

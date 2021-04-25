@@ -44,7 +44,7 @@ class CollectionBackendInterface;
 PLSParser::PLSParser(CollectionBackendInterface *collection, QObject *parent)
     : ParserBase(collection, parent) {}
 
-SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir) const {
+SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
 
   Q_UNUSED(playlist_path);
 
@@ -61,7 +61,7 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
     int n = re_match.captured(0).toInt();
 
     if (key.startsWith("file")) {
-      Song song = LoadSong(value, 0, dir);
+      Song song = LoadSong(value, 0, dir, collection_search);
 
       // Use the title and length we've already loaded if any
       if (!songs[n].title().isEmpty()) song.set_title(songs[n].title());

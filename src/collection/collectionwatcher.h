@@ -28,6 +28,7 @@
 #include <QObject>
 #include <QHash>
 #include <QMap>
+#include <QMultiMap>
 #include <QSet>
 #include <QString>
 #include <QStringList>
@@ -52,12 +53,12 @@ class CollectionWatcher : public QObject {
 
   void set_backend(CollectionBackend *backend) { backend_ = backend; }
   void set_task_manager(TaskManager *task_manager) { task_manager_ = task_manager; }
-  void set_device_name(const QString& device_name) { device_name_ = device_name; }
+  void set_device_name(const QString &device_name) { device_name_ = device_name; }
 
   void IncrementalScanAsync();
   void FullScanAsync();
   void RescanTracksAsync(const SongList &songs);
-  void SetRescanPausedAsync(bool pause);
+  void SetRescanPausedAsync(const bool pause);
   void ReloadSettingsAsync();
 
   void Stop() { stop_requested_ = true; }
@@ -73,12 +74,12 @@ class CollectionWatcher : public QObject {
   void SubdirsDiscovered(SubdirectoryList subdirs);
   void SubdirsMTimeUpdated(SubdirectoryList subdirs);
   void CompilationsNeedUpdating();
+  void UpdateLastSeen(int directory_id, int expire_unavailable_songs_days);
   void ExitFinished();
 
   void ScanStarted(int task_id);
 
  public slots:
-  void ReloadSettings();
   void AddDirectory(const Directory &dir, const SubdirectoryList &subdirs);
   void RemoveDirectory(const Directory &dir);
   void SetRescanPaused(bool pause);
@@ -96,13 +97,14 @@ class CollectionWatcher : public QObject {
     ~ScanTransaction();
 
     SongList FindSongsInSubdirectory(const QString &path);
+    bool HasSongsWithMissingFingerprint(const QString &path);
     bool HasSeenSubdir(const QString &path);
     void SetKnownSubdirs(const SubdirectoryList &subdirs);
     SubdirectoryList GetImmediateSubdirs(const QString &path);
     SubdirectoryList GetAllSubdirs();
 
-    void AddToProgress(int n = 1);
-    void AddToProgressMax(int n);
+    void AddToProgress(const quint64 n = 1);
+    void AddToProgressMax(const quint64 n);
 
     // Emits the signals for new & deleted songs etc and clears the lists. This causes the new stuff to be updated on UI.
     void CommitNewOrUpdatedSongs();
@@ -119,13 +121,15 @@ class CollectionWatcher : public QObject {
     SubdirectoryList touched_subdirs;
     SubdirectoryList deleted_subdirs;
 
+    QStringList files_changed_path_;
+
    private:
     ScanTransaction(const ScanTransaction&) {}
-    ScanTransaction& operator=(const ScanTransaction&) { return *this; }
+    ScanTransaction &operator=(const ScanTransaction&) { return *this; }
 
     int task_id_;
-    int progress_;
-    int progress_max_;
+    quint64 progress_;
+    quint64 progress_max_;
 
     int dir_;
     // Incremental scan enters a directory only if it has changed since the last scan.
@@ -138,27 +142,35 @@ class CollectionWatcher : public QObject {
     // Set this to true to prevent deleting missing files from database.
     // Useful for unstable network connections.
     bool mark_songs_unavailable_;
+    int expire_unavailable_songs_days_;
 
     CollectionWatcher *watcher_;
 
-    SongList cached_songs_;
+    QMultiMap<QString, Song> cached_songs_;
     bool cached_songs_dirty_;
+
+    QMultiMap<QString, Song> cached_songs_missing_fingerprint_;
+    bool cached_songs_missing_fingerprint_dirty_;
 
     SubdirectoryList known_subdirs_;
     bool known_subdirs_dirty_;
   };
 
  private slots:
+  void ReloadSettings();
   void Exit();
   void DirectoryChanged(const QString &subdir);
+  void IncrementalScanCheck();
   void IncrementalScanNow();
   void FullScanNow();
   void RescanTracksNow();
   void RescanPathsNow();
-  void ScanSubdirectory(const QString &path, const Subdirectory &subdir, CollectionWatcher::ScanTransaction *t, bool force_noincremental = false);
+  void ScanSubdirectory(const QString &path, const Subdirectory &subdir, const quint64 files_count, CollectionWatcher::ScanTransaction *t, const bool force_noincremental = false);
 
  private:
-  static bool FindSongByPath(const SongList &list, const QString &path, Song *out);
+  static bool FindSongsByPath(const SongList &list, const QString &path, SongList *out);
+  bool FindSongsByFingerprint(const QString &file, const QString &fingerprint, SongList *out);
+  static bool FindSongsByFingerprint(const QString &file, const SongList &songs, const QString &fingerprint, SongList *out);
   inline static QString NoExtensionPart(const QString &fileName);
   inline static QString ExtensionPart(const QString &fileName);
   inline static QString DirectoryPart(const QString &fileName);
@@ -167,17 +179,20 @@ class CollectionWatcher : public QObject {
   void AddWatch(const Directory &dir, const QString &path);
   void RemoveWatch(const Directory &dir, const Subdirectory &subdir);
   quint64 GetMtimeForCue(const QString &cue_path);
-  void PerformScan(bool incremental, bool ignore_mtimes);
+  void PerformScan(const bool incremental, const bool ignore_mtimes);
 
   // Updates the sections of a cue associated and altered (according to mtime) media file during a scan.
-  void UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &matching_cue, const QUrl &image, ScanTransaction *t);
+  void UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QUrl &image, const SongList &old_cue_songs, ScanTransaction *t);
   // Updates a single non-cue associated and altered (according to mtime) song during a scan.
-  void UpdateNonCueAssociatedSong(const QString &file, const Song &matching_song, const QUrl &image, bool cue_deleted, ScanTransaction *t);
-  // Updates a new song with some metadata taken from it's equivalent old song (for example rating and score).
-  void PreserveUserSetData(const QString &file, const QUrl &image, const Song &matching_song, Song *out, ScanTransaction *t);
+  void UpdateNonCueAssociatedSong(const QString &file, const QString &fingerprint, const SongList &matching_songs, const QUrl &image, const bool cue_deleted, ScanTransaction *t);
   // Scans a single media file that's present on the disk but not yet in the collection.
   // It may result in a multiple files added to the collection when the media file has many sections (like a CUE related media file).
-  SongList ScanNewFile(const QString &file, const QString &path, const QString &matching_cue, QSet<QString> *cues_processed);
+  SongList ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, QSet<QString> *cues_processed);
+
+  void AddChangedSong(const QString &file, const Song &matching_song, const Song &new_song, ScanTransaction *t);
+
+  quint64 FilesCountForPath(ScanTransaction *t, const QString &path);
+  quint64 FilesCountForSubdirs(ScanTransaction *t, const SubdirectoryList &subdirs, QMap<QString, quint64> &subdir_files_count);
 
  private:
   Song::Source source_;
@@ -186,6 +201,7 @@ class CollectionWatcher : public QObject {
   QString device_name_;
 
   FileSystemWatcherInterface *fs_watcher_;
+  QThread *original_thread_;
   QHash<QString, Directory> subdir_mapping_;
 
   // A list of words use to try to identify the (likely) best image found in an directory to use as cover artwork.
@@ -194,13 +210,16 @@ class CollectionWatcher : public QObject {
 
   bool scan_on_startup_;
   bool monitor_;
+  bool song_tracking_;
   bool mark_songs_unavailable_;
+  int expire_unavailable_songs_days_;
 
   bool stop_requested_;
   bool rescan_in_progress_; // True if RescanTracksNow() has been called and is working.
 
   QMap<int, Directory> watched_dirs_;
   QTimer *rescan_timer_;
+  QTimer *periodic_scan_timer_;
   QMap<int, QStringList> rescan_queue_; // dir id -> list of subdirs to be scanned
   bool rescan_paused_;
 
@@ -212,7 +231,7 @@ class CollectionWatcher : public QObject {
 
   SongList song_rescan_queue_; // Set by ui thread
 
-  QThread *original_thread_;
+  qint64 last_scan_time_;
 
 };
 

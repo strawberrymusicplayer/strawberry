@@ -123,7 +123,7 @@ pkg_check_modules(GSTREAMER_PBUTILS gstreamer-pbutils-1.0)
 pkg_check_modules(LIBVLC libvlc)
 pkg_check_modules(SQLITE REQUIRED sqlite3>=3.9)
 pkg_check_modules(LIBPULSE libpulse)
-pkg_check_modules(CHROMAPRINT libchromaprint)
+pkg_check_modules(CHROMAPRINT libchromaprint>=1.4)
 pkg_check_modules(LIBGPOD libgpod-1.0>=0.7.92)
 pkg_check_modules(LIBMTP libmtp>=1.0)
 pkg_check_modules(GDK_PIXBUF gdk-pixbuf-2.0)
@@ -294,6 +294,11 @@ optional_component(GSTREAMER ON "Engine: GStreamer backend"
 
 optional_component(VLC ON "Engine: VLC backend"
   DEPENDS "libvlc" LIBVLC_FOUND
+)
+
+optional_component(SONGFINGERPRINTING ON "Song fingerprinting and tracking"
+  DEPENDS "chromaprint" CHROMAPRINT_FOUND
+  DEPENDS "gstreamer" GSTREAMER_FOUND
 )
 
 optional_component(MUSICBRAINZ ON "MusicBrainz integration"

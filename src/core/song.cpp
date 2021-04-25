@@ -103,9 +103,12 @@ const QStringList Song::kColumns = QStringList() << "title"
                                                  << "ctime"
                                                  << "unavailable"
 
+                                                 << "fingerprint"
+
                                                  << "playcount"
                                                  << "skipcount"
                                                  << "lastplayed"
+                                                 << "lastseen"
 
                                                  << "compilation_detected"
                                                  << "compilation_on"
@@ -202,9 +205,12 @@ struct Song::Private : public QSharedData {
   qint64 ctime_;
   bool unavailable_;
 
+  QString fingerprint_;
+
   int playcount_;
   int skipcount_;
   qint64 lastplayed_;
+  qint64 lastseen_;
 
   bool compilation_detected_;   // From the collection scanner
   bool compilation_on_;         // Set by the user
@@ -255,6 +261,7 @@ Song::Private::Private(Song::Source source)
       playcount_(0),
       skipcount_(0),
       lastplayed_(-1),
+      lastseen_(-1),
 
       compilation_detected_(false),
       compilation_on_(false),
@@ -328,9 +335,12 @@ int Song::filesize() const { return d->filesize_; }
 qint64 Song::mtime() const { return d->mtime_; }
 qint64 Song::ctime() const { return d->ctime_; }
 
+QString Song::fingerprint() const { return d->fingerprint_; }
+
 int Song::playcount() const { return d->playcount_; }
 int Song::skipcount() const { return d->skipcount_; }
 qint64 Song::lastplayed() const { return d->lastplayed_; }
+qint64 Song::lastseen() const { return d->lastseen_; }
 
 bool Song::compilation_detected() const { return d->compilation_detected_; }
 bool Song::compilation_off() const { return d->compilation_off_; }
@@ -451,9 +461,12 @@ void Song::set_mtime(qint64 v) { d->mtime_ = v; }
 void Song::set_ctime(qint64 v) { d->ctime_ = v; }
 void Song::set_unavailable(bool v) { d->unavailable_ = v; }
 
+void Song::set_fingerprint(const QString &v) { d->fingerprint_ = v; }
+
 void Song::set_playcount(int v) { d->playcount_ = v; }
 void Song::set_skipcount(int v) { d->skipcount_ = v; }
 void Song::set_lastplayed(qint64 v) { d->lastplayed_ = v; }
+void Song::set_lastseen(qint64 v) { d->lastseen_ = v; }
 
 void Song::set_compilation_detected(bool v) { d->compilation_detected_ = v; }
 void Song::set_compilation_on(bool v) { d->compilation_on_ = v; }
@@ -789,6 +802,7 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
   d->ctime_ = pb.ctime();
   d->skipcount_ = pb.skipcount();
   d->lastplayed_ = pb.lastplayed();
+  d->lastseen_ = pb.lastseen();
   d->suspicious_tags_ = pb.suspicious_tags();
 
   if (pb.has_playcount()) {
@@ -828,6 +842,7 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
   pb->set_playcount(d->playcount_);
   pb->set_skipcount(d->skipcount_);
   pb->set_lastplayed(d->lastplayed_);
+  pb->set_lastseen(d->lastseen_);
   pb->set_length_nanosec(length_nanosec());
   pb->set_bitrate(d->bitrate_);
   pb->set_samplerate(d->samplerate_);
@@ -964,6 +979,10 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
       d->unavailable_ = q.value(x).toBool();
     }
 
+    else if (Song::kColumns.value(i) == "fingerprint") {
+      d->fingerprint_ = tostr(x);
+    }
+
     else if (Song::kColumns.value(i) == "playcount") {
       d->playcount_ = q.value(x).isNull() ? 0 : q.value(x).toInt();
     }
@@ -972,6 +991,9 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     }
     else if (Song::kColumns.value(i) == "lastplayed") {
       d->lastplayed_ = tolonglong(x);
+    }
+    else if (Song::kColumns.value(i) == "lastseen") {
+      d->lastseen_ = tolonglong(x);
     }
 
     else if (Song::kColumns.value(i) == "compilation_detected") {
@@ -1376,9 +1398,12 @@ void Song::BindToQuery(QSqlQuery *query) const {
   query->bindValue(":ctime", notnullintval(d->ctime_));
   query->bindValue(":unavailable", d->unavailable_ ? 1 : 0);
 
+  query->bindValue(":fingerprint", strval(d->fingerprint_));
+
   query->bindValue(":playcount", d->playcount_);
   query->bindValue(":skipcount", d->skipcount_);
   query->bindValue(":lastplayed", intval(d->lastplayed_));
+  query->bindValue(":lastseen", intval(d->lastseen_));
 
   query->bindValue(":compilation_detected", d->compilation_detected_ ? 1 : 0);
   query->bindValue(":compilation_on", d->compilation_on_ ? 1 : 0);
@@ -1519,9 +1544,12 @@ bool Song::IsMetadataEqual(const Song &other) const {
          d->cue_path_ == other.d->cue_path_;
 }
 
-bool Song::IsMetadataAndArtEqual(const Song &other) const {
+bool Song::IsMetadataAndMoreEqual(const Song &other) const {
 
-  return IsMetadataEqual(other) && d->art_automatic_ == other.d->art_automatic_ && d->art_manual_ == other.d->art_manual_;
+  return IsMetadataEqual(other) &&
+         d->fingerprint_ == other.d->fingerprint_ &&
+         d->art_automatic_ == other.d->art_automatic_ &&
+         d->art_manual_ == other.d->art_manual_;
 
 }
 

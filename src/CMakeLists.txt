@@ -214,9 +214,6 @@ set(SOURCES
   osd/osdbase.cpp
   osd/osdpretty.cpp
 
-  musicbrainz/acoustidclient.cpp
-  musicbrainz/musicbrainzclient.cpp
-
   internet/internetservices.cpp
   internet/internetservice.cpp
   internet/internetplaylistitem.cpp
@@ -428,9 +425,6 @@ set(HEADERS
 
   osd/osdbase.h
   osd/osdpretty.h
-
-  musicbrainz/acoustidclient.h
-  musicbrainz/musicbrainzclient.h
 
   internet/internetservices.h
   internet/internetservice.h
@@ -831,7 +825,7 @@ optional_source(HAVE_LIBPULSE
     engine/pulsedevicefinder.cpp
 )
 
-# MusicBrainz and transcoder require GStreamer
+# Transcoder require GStreamer
 optional_source(HAVE_GSTREAMER
 SOURCES
   transcoder/transcoder.cpp
@@ -867,12 +861,18 @@ UI
   settings/transcodersettingspage.ui
 )
 
+# CHROMAPRINT
+optional_source(CHROMAPRINT_FOUND SOURCES engine/chromaprinter.cpp)
+
 # MusicBrainz
 optional_source(HAVE_MUSICBRAINZ
   SOURCES
-    musicbrainz/chromaprinter.cpp
+    musicbrainz/acoustidclient.cpp
+    musicbrainz/musicbrainzclient.cpp
     musicbrainz/tagfetcher.cpp
   HEADERS
+    musicbrainz/acoustidclient.h
+    musicbrainz/musicbrainzclient.h
     musicbrainz/tagfetcher.h
 )
 
@@ -1093,9 +1093,9 @@ if(HAVE_VLC)
   link_directories(${LIBVLC_LIBRARY_DIRS})
 endif()
 
-if(HAVE_MUSICBRAINZ)
+if(CHROMAPRINT_FOUND)
   link_directories(${CHROMAPRINT_LIBRARY_DIRS})
-endif(HAVE_MUSICBRAINZ)
+endif(CHROMAPRINT_FOUND)
 
 if(X11_FOUND)
   link_directories(${X11_LIBRARY_DIRS})
@@ -1211,10 +1211,10 @@ if(HAVE_VLC)
   target_link_libraries(strawberry_lib PRIVATE ${LIBVLC_LIBRARIES})
 endif()
 
-if(HAVE_MUSICBRAINZ)
+if(CHROMAPRINT_FOUND)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${CHROMAPRINT_INCLUDE_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${CHROMAPRINT_LIBRARIES})
-endif(HAVE_MUSICBRAINZ)
+endif(CHROMAPRINT_FOUND)
 
 if(X11_FOUND)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${X11_INCLUDE_DIR})

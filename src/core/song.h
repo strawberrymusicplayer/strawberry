@@ -231,9 +231,12 @@ class Song {
   qint64 mtime() const;
   qint64 ctime() const;
 
+  QString fingerprint() const;
+
   int playcount() const;
   int skipcount() const;
   qint64 lastplayed() const;
+  qint64 lastseen() const;
 
   bool compilation_detected() const;
   bool compilation_off() const;
@@ -345,9 +348,12 @@ class Song {
   void set_ctime(qint64 v);
   void set_unavailable(bool v);
 
+  void set_fingerprint(const QString &v);
+
   void set_playcount(int v);
   void set_skipcount(int v);
   void set_lastplayed(qint64 v);
+  void set_lastseen(qint64 v);
 
   void set_compilation_detected(bool v);
   void set_compilation_on(bool v);
@@ -365,7 +371,7 @@ class Song {
 
   // Comparison functions
   bool IsMetadataEqual(const Song &other) const;
-  bool IsMetadataAndArtEqual(const Song &other) const;
+  bool IsMetadataAndMoreEqual(const Song &other) const;
   bool IsOnSameAlbum(const Song &other) const;
   bool IsSimilar(const Song &other) const;
 

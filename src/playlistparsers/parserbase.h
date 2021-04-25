@@ -54,7 +54,7 @@ class ParserBase : public QObject {
   // This method might not return all of the songs found in the playlist.
   // Any playlist parser may decide to leave out some entries if it finds them incomplete or invalid.
   // This means that the final resulting SongList should be considered valid (at least from the parser's point of view).
-  virtual SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir()) const = 0;
+  virtual SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir(), const bool collection_lookup = true) const = 0;
   virtual void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const = 0;
 
  protected:
@@ -62,8 +62,8 @@ class ParserBase : public QObject {
   // If it is a filename or a file:// URL then it is made absolute and canonical and set as a file:// url on the song.
   // Also sets the song's metadata by searching in the Collection, or loading from the file as a fallback.
   // This function should always be used when loading a playlist.
-  Song LoadSong(const QString &filename_or_url, qint64 beginning, const QDir &dir) const;
-  void LoadSong(const QString &filename_or_url, qint64 beginning, const QDir &dir, Song *song) const;
+  Song LoadSong(const QString &filename_or_url, const qint64 beginning, const QDir &dir, const bool collection_search) const;
+  void LoadSong(const QString &filename_or_url, const qint64 beginning, const QDir &dir, Song *song, const bool collection_search) const;
 
   // If the URL is a file:// URL then returns its path, absolute or relative to the directory depending on the path_type option.
   // Otherwise returns the URL as is. This function should always be used when saving a playlist.

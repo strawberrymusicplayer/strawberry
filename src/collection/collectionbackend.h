@@ -83,6 +83,7 @@ class CollectionBackendInterface : public QObject {
   virtual void UpdateTotalAlbumCountAsync() = 0;
 
   virtual SongList FindSongsInDirectory(const int id) = 0;
+  virtual SongList SongsWithMissingFingerprint(const int id) = 0;
   virtual SubdirectoryList SubdirsInDirectory(const int id) = 0;
   virtual DirectoryList GetAllDirectories() = 0;
   virtual void ChangeDirPath(const int id, const QString &old_path, const QString &new_path) = 0;
@@ -105,6 +106,8 @@ class CollectionBackendInterface : public QObject {
   virtual Album GetAlbumArt(const QString &effective_albumartist, const QString &album) = 0;
 
   virtual Song GetSongById(const int id) = 0;
+
+  virtual SongList GetSongsByFingerprint(const QString &fingerprint) = 0;
 
   // Returns all sections of a song with the given filename. If there's just one section the resulting list will have it's size equal to 1.
   virtual SongList GetSongsByUrl(const QUrl &url, const bool unavailable = false) = 0;
@@ -143,6 +146,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateTotalAlbumCountAsync() override;
 
   SongList FindSongsInDirectory(const int id) override;
+  SongList SongsWithMissingFingerprint(const int id) override;
   SubdirectoryList SubdirsInDirectory(const int id) override;
   DirectoryList GetAllDirectories() override;
   void ChangeDirPath(const int id, const QString &old_path, const QString &new_path) override;
@@ -187,6 +191,8 @@ class CollectionBackend : public CollectionBackendInterface {
   Song GetSongBySongId(const QString &song_id);
   SongList GetSongsBySongId(const QStringList &song_ids);
 
+  SongList GetSongsByFingerprint(const QString &fingerprint) override;
+
   SongList GetAllSongs();
   SongList FindSongs(const SmartPlaylistSearch &search);
 
@@ -223,6 +229,9 @@ class CollectionBackend : public CollectionBackendInterface {
 
   void UpdateSongRating(const int id, const double rating);
   void UpdateSongsRating(const QList<int> &id_list, const double rating);
+
+  void UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days);
+  void ExpireSongs(const int directory_id, const int expire_unavailable_songs_days);
 
  signals:
   void DirectoryDiscovered(Directory, SubdirectoryList);

@@ -272,11 +272,11 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::share
   CueParser cue_parser(app_->collection_backend());
 
   Song song = item->Metadata();
-  // we're only interested in .cue songs here
+  // We're only interested in .cue songs here
   if (!song.has_cue()) return item;
 
   QString cue_path = song.cue_path();
-  // if .cue was deleted - reload the song
+  // If .cue was deleted - reload the song
   if (!QFile::exists(cue_path)) {
     item->Reload();
     return item;
@@ -287,10 +287,10 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::share
     QMutexLocker locker(&state->mutex_);
 
     if (!state->cached_cues_.contains(cue_path)) {
-      QFile cue(cue_path);
-      cue.open(QIODevice::ReadOnly);
+      QFile cue_file(cue_path);
+      if (!cue_file.open(QIODevice::ReadOnly)) return item;
 
-      song_list = cue_parser.Load(&cue, cue_path, QDir(cue_path.section('/', 0, -2)));
+      song_list = cue_parser.Load(&cue_file, cue_path, QDir(cue_path.section('/', 0, -2)));
       state->cached_cues_[cue_path] = song_list;
     }
     else {
@@ -300,13 +300,14 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::share
 
   for (const Song &from_list : song_list) {
     if (from_list.url().toEncoded() == song.url().toEncoded() && from_list.beginning_nanosec() == song.beginning_nanosec()) {
-      // we found a matching section; replace the input item with a new one containing CUE metadata
+      // We found a matching section; replace the input item with a new one containing CUE metadata
       return PlaylistItemPtr(new SongPlaylistItem(from_list));
     }
   }
 
-  // there's no such section in the related .cue -> reload the song
+  // There's no such section in the related .cue -> reload the song
   item->Reload();
+
   return item;
 
 }

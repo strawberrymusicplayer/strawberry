@@ -60,10 +60,11 @@ message SongMetadata {
 
   optional int32 playcount = 27;
   optional int32 skipcount = 28;
-  optional int32 lastplayed = 29;
+  optional int64 lastplayed = 29;
+  optional int64 lastseen = 30;
 
-  optional bool suspicious_tags = 30;
-  optional string art_automatic = 31;
+  optional bool suspicious_tags = 31;
+  optional string art_automatic = 32;
 
 }
 

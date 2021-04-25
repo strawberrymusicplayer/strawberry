@@ -29,8 +29,8 @@
 #include <QUrl>
 
 #include "core/timeconstants.h"
+#include "engine/chromaprinter.h"
 #include "acoustidclient.h"
-#include "chromaprinter.h"
 #include "musicbrainzclient.h"
 #include "tagfetcher.h"
 

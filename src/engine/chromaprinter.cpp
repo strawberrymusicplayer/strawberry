@@ -160,20 +160,13 @@ QString Chromaprinter::CreateFingerprint() {
   chromaprint_feed(chromaprint, reinterpret_cast<int16_t*>(data.data()), static_cast<int>(data.size() / 2));
   chromaprint_finish(chromaprint);
 
-  int size = 0;
-
-#if CHROMAPRINT_VERSION_MAJOR >= 1 && CHROMAPRINT_VERSION_MINOR >= 4
   u_int32_t *fprint = nullptr;
-  char *encoded = nullptr;
-#else
-  void *fprint = nullptr;
-  void *encoded = nullptr;
-#endif
-
+  int size = 0;
   int ret = chromaprint_get_raw_fingerprint(chromaprint, &fprint, &size);
   QByteArray fingerprint;
   if (ret == 1) {
 
+    char *encoded = nullptr;
     int encoded_size = 0;
     chromaprint_encode_fingerprint(fprint, size, CHROMAPRINT_ALGORITHM_DEFAULT, &encoded, &encoded_size, 1);
 

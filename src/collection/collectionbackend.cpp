@@ -348,6 +348,27 @@ SongList CollectionBackend::FindSongsInDirectory(const int id) {
 
 }
 
+SongList CollectionBackend::SongsWithMissingFingerprint(const int id) {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  QSqlQuery q(db);
+  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE directory_id = :directory_id AND unavailable = 0 AND fingerprint = ''").arg(songs_table_));
+  q.bindValue(":directory_id", id);
+  q.exec();
+  if (db_->CheckErrors(q)) return SongList();
+
+  SongList ret;
+  while (q.next()) {
+    Song song(source_);
+    song.InitFromQuery(q, true);
+    ret << song;
+  }
+  return ret;
+
+}
+
 void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_file) {
 
   // Take a song and update its path
@@ -913,6 +934,30 @@ SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDa
   return ret;
 
 }
+
+SongList CollectionBackend::GetSongsByFingerprint(const QString &fingerprint) {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  QSqlQuery q(db);
+  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE fingerprint = :fingerprint").arg(songs_table_));
+  q.bindValue(":fingerprint", fingerprint);
+  q.exec();
+
+  if (db_->CheckErrors(q)) return SongList();
+
+  SongList songs;
+  while (q.next()) {
+    Song song(source_);
+    song.InitFromQuery(q, true);
+    songs << song;
+  }
+
+  return songs;
+
+}
+
 
 CollectionBackend::AlbumList CollectionBackend::GetCompilationAlbums(const QueryOptions &opt) {
   return GetAlbums(QString(), true, opt);
@@ -1545,4 +1590,45 @@ void CollectionBackend::UpdateSongRatingAsync(const int id, const double rating)
 
 void CollectionBackend::UpdateSongsRatingAsync(const QList<int>& ids, const double rating) {
   metaObject()->invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(double, rating));
+}
+
+void CollectionBackend::UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days) {
+
+  {
+    QMutexLocker l(db_->Mutex());
+    QSqlDatabase db(db_->Connect());
+
+    QSqlQuery q(db);
+    q.prepare(QString("UPDATE %1 SET lastseen = :lastseen WHERE directory_id = :directory_id AND unavailable = 0").arg(songs_table_));
+    q.bindValue(":lastseen", QDateTime::currentDateTime().toSecsSinceEpoch());
+    q.bindValue(":directory_id", directory_id);
+    q.exec();
+    db_->CheckErrors(q);
+  }
+
+  if (expire_unavailable_songs_days > 0) ExpireSongs(directory_id, expire_unavailable_songs_days);
+
+}
+
+void CollectionBackend::ExpireSongs(const int directory_id, const int expire_unavailable_songs_days) {
+
+  SongList songs;
+  {
+    QMutexLocker l(db_->Mutex());
+    QSqlDatabase db(db_->Connect());
+    QSqlQuery q(db);
+    q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE directory_id = :directory_id AND unavailable = 1 AND lastseen > 0 AND lastseen < :time").arg(songs_table_));
+    q.bindValue(":directory_id", directory_id);
+    q.bindValue(":time", QDateTime::currentDateTime().toSecsSinceEpoch() - (expire_unavailable_songs_days * 86400));
+    q.exec();
+    if (db_->CheckErrors(q)) return;
+    while (q.next()) {
+      Song song(source_);
+      song.InitFromQuery(q, true);
+      songs << song;
+    }
+  }
+
+  if (!songs.isEmpty()) DeleteSongs(songs);
+
 }

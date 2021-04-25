@@ -48,11 +48,11 @@ class XSPFParser : public XMLParser {
 
   bool TryMagic(const QByteArray &data) const override;
 
-  SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir()) const override;
+  SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir(), const bool collection_search = true) const override;
   void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const override;
 
  private:
-  Song ParseTrack(QXmlStreamReader *reader, const QDir &dir) const;
+  Song ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_search) const;
 };
 
 #endif
