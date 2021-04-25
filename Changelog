@@ -2,6 +2,14 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * (Windows) Fix adding songs with Japanese characters from the files tab.
+
+  Enhancements:
+    * Add replaygain fallback gain setting.
+
 0.9.3:
 
   Bugfixes:
