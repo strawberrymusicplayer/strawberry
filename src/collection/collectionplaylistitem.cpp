@@ -40,7 +40,10 @@ CollectionPlaylistItem::CollectionPlaylistItem(const Song &song) : PlaylistItem(
 QUrl CollectionPlaylistItem::Url() const { return song_.url(); }
 
 void CollectionPlaylistItem::Reload() {
+
   TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
+  UpdateTemporaryMetadata(song_);
+
 }
 
 bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
