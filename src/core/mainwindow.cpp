@@ -1640,8 +1640,8 @@ void MainWindow::UpdateTrackSliderPosition() {
 
   PlaylistItemPtr item(app_->player()->GetCurrentItem());
 
-  const qint64 slider_position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerMsec);
-  const qint64 slider_length = app_->player()->engine()->length_nanosec() / kNsecPerMsec;
+  const int slider_position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerMsec);
+  const int slider_length = static_cast<int>(app_->player()->engine()->length_nanosec() / kNsecPerMsec);
 
   // Update the slider
   ui_->track_slider->SetValue(slider_position, slider_length);
