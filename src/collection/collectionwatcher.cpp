@@ -879,7 +879,7 @@ void CollectionWatcher::RescanTracksNow() {
   Q_ASSERT(!rescan_in_progress_);
   stop_requested_ = false;
 
-  // Currently we are too stupid to rescan one file at a time, so we'll just scan the full directiories
+  // Currently we are too stupid to rescan one file at a time, so we'll just scan the full directories
   QStringList scanned_dirs; // To avoid double scans
   while (!song_rescan_queue_.isEmpty()) {
     if (stop_requested_) break;
