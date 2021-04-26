@@ -642,7 +642,7 @@ void Player::SeekTo(const qint64 seconds) {
     return;
   }
 
-  const qint64 nanosec = qBound(0ll, qint64(seconds) * kNsecPerSec, length_nanosec);
+  const qint64 nanosec = qBound(0ll, seconds * kNsecPerSec, length_nanosec);
   engine_->Seek(nanosec);
 
   qLog(Debug) << "Track seeked to" << nanosec << "ns - updating scrobble point";
