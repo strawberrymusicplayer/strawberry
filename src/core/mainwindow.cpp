@@ -2013,13 +2013,14 @@ void MainWindow::RescanSongs() {
       songs << item->Metadata();
     }
     else if (item->Metadata().source() == Song::Source_LocalFile) {
-      item->Reload();
+      QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
+      app_->playlist_manager()->current()->ItemReload(persistent_index, item->OriginalMetadata(), false);
     }
   }
 
-  if (songs.isEmpty()) return;
-
-  app_->collection()->Rescan(songs);
+  if (!songs.isEmpty()) {
+    app_->collection()->Rescan(songs);
+  }
 
 }
 
@@ -2057,7 +2058,7 @@ void MainWindow::EditTagDialogAccepted() {
   // FIXME: This is really lame but we don't know what rows have changed.
   ui_->playlist->view()->update();
 
-  app_->playlist_manager()->current()->Save();
+  app_->playlist_manager()->current()->ScheduleSave();
 
 }
 
@@ -2259,8 +2260,12 @@ void MainWindow::PlaylistClearCurrent() {
 
 }
 
-void MainWindow::PlaylistEditFinished(const QModelIndex &idx) {
-  if (idx == playlist_menu_index_) SelectionSetValue();
+void MainWindow::PlaylistEditFinished(const int playlist_id, const QModelIndex &idx) {
+
+  if (app_->playlist_manager()->current() && playlist_id == app_->playlist_manager()->current()->id() && idx == playlist_menu_index_) {
+    SelectionSetValue();
+  }
+
 }
 
 void MainWindow::CommandlineOptionsReceived(const quint32 instanceId, const QByteArray &string_options) {

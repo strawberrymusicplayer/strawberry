@@ -58,6 +58,7 @@
 #include <QFlags>
 #include <QSettings>
 #include <QtDebug>
+#include <QTimer>
 
 #include "core/application.h"
 #include "core/logging.h"
@@ -116,6 +117,7 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
       is_loading_(false),
       proxy_(new PlaylistFilter(this)),
       queue_(new Queue(this)),
+      timer_save_(new QTimer(this)),
       backend_(backend),
       task_manager_(task_manager),
       collection_(collection),
@@ -154,7 +156,12 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
 
   QObject::connect(queue_, &Queue::layoutChanged, this, &Playlist::QueueLayoutChanged);
 
+  QObject::connect(timer_save_, &QTimer::timeout, this, &Playlist::Save);
+
   column_alignments_ = PlaylistView::DefaultColumnAlignment();
+
+  timer_save_->setSingleShot(true);
+  timer_save_->setInterval(900);
 
 }
 
@@ -391,31 +398,22 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, int role) 
   if (song.url().isLocalFile()) {
     TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
     QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
-    QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
+    QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item]() { SongSaveComplete(reply, persistent_index, item->OriginalMetadata()); }, Qt::QueuedConnection);
   }
   else if (song.source() == Song::Source_Stream) {
     item->SetMetadata(song);
-    Save();
+    ScheduleSave();
   }
 
   return true;
 
 }
 
-void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx) {
+void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx, const Song &old_metadata) {
 
   if (reply->is_successful() && idx.isValid()) {
     if (reply->message().save_file_response().success()) {
-      PlaylistItemPtr item = item_at(idx.row());
-      if (item) {
-        QFuture<void> future = item->BackgroundReload();
-        QFutureWatcher<void> *watcher = new QFutureWatcher<void>();
-        watcher->setFuture(future);
-        QObject::connect(watcher, &QFutureWatcher<void>::finished, this, [this, watcher, idx]() {
-          ItemReloadComplete(idx);
-          watcher->deleteLater();
-        });
-      }
+      ItemReload(idx, old_metadata, true);
     }
     else {
       emit Error(tr("An error occurred writing metadata to '%1'").arg(QString::fromStdString(reply->request_message().save_file_request().filename())));
@@ -426,17 +424,43 @@ void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelInd
 
 }
 
-void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx) {
+void Playlist::ItemReload(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit) {
 
   if (idx.isValid()) {
-
     PlaylistItemPtr item = item_at(idx.row());
-    if (item && item->HasTemporaryMetadata()) {  // Update temporary metadata.
-      item->UpdateTemporaryMetadata(item->OriginalMetadata());
+    if (item) {
+      QFuture<void> future = item->BackgroundReload();
+      QFutureWatcher<void> *watcher = new QFutureWatcher<void>();
+      watcher->setFuture(future);
+      QObject::connect(watcher, &QFutureWatcher<void>::finished, this, [this, watcher, idx, old_metadata, metadata_edit]() {
+        ItemReloadComplete(idx, old_metadata, metadata_edit);
+        watcher->deleteLater();
+      });
     }
+  }
 
-    emit dataChanged(idx, idx);
-    emit EditingFinished(idx);
+}
+
+void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit) {
+
+  if (idx.isValid()) {
+    PlaylistItemPtr item = item_at(idx.row());
+    if (item) {
+      if (idx.row() == current_row()) {
+        const bool minor = old_metadata.title() == item->Metadata().title() &&
+                           old_metadata.albumartist() == item->Metadata().albumartist() &&
+                           old_metadata.artist() == item->Metadata().artist() &&
+                           old_metadata.album() == item->Metadata().album();
+        InformOfCurrentSongChange(AutoScroll_Never, minor);
+      }
+      else {
+        emit dataChanged(index(idx.row(), 0), index(idx.row(), ColumnCount - 1));
+      }
+      if (metadata_edit) {
+        emit EditingFinished(id_, idx);
+      }
+      ScheduleSave();
+    }
   }
 
 }
@@ -691,7 +715,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
 
   if (current_item_index_.isValid()) {
     last_played_item_index_ = current_item_index_;
-    Save();
+    ScheduleSave();
   }
 
   UpdateScrobblePoint();
@@ -859,7 +883,8 @@ void Playlist::TurnOnDynamicPlaylist(PlaylistGeneratorPtr gen) {
   dynamic_playlist_ = gen;
   ShuffleModeChanged(PlaylistSequence::Shuffle_Off);
   emit DynamicModeChanged(true);
-  Save();
+
+  ScheduleSave();
 
 }
 
@@ -913,7 +938,8 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
   current_virtual_index_ = virtual_items_.indexOf(current_row());
 
   emit layoutChanged();
-  Save();
+
+  ScheduleSave();
 
 }
 
@@ -963,7 +989,8 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
   current_virtual_index_ = virtual_items_.indexOf(current_row());
 
   emit layoutChanged();
-  Save();
+
+  ScheduleSave();
 
 }
 
@@ -1071,7 +1098,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, const int p
     queue_->InsertFirst(indexes);
   }
 
-  Save();
+  ScheduleSave();
 
   if (auto_sort_) {
     sort(sort_column_, sort_order_);
@@ -1158,7 +1185,8 @@ void Playlist::UpdateItems(SongList songs) {
       }
     }
   }
-  Save();
+
+  ScheduleSave();
 
 }
 
@@ -1378,7 +1406,8 @@ void Playlist::ReOrderWithoutUndo(const PlaylistItemList &new_items) {
   emit layoutChanged();
 
   emit PlaylistChanged();
-  Save();
+
+  ScheduleSave();
 
 }
 
@@ -1394,8 +1423,18 @@ void Playlist::SetCurrentIsPaused(const bool paused) {
 
   current_is_paused_ = paused;
 
-  if (current_item_index_.isValid())
+  if (current_item_index_.isValid()) {
     emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
+  }
+
+}
+
+void Playlist::ScheduleSave() const {
+
+  if (!backend_ || is_loading_) return;
+
+  timer_save_->start();
+
 }
 
 void Playlist::Save() const {
@@ -1604,7 +1643,8 @@ PlaylistItemList Playlist::RemoveItemsWithoutUndo(const int row, const int count
   else
     current_virtual_index_ = virtual_items_.indexOf(current_row());
 
-  Save();
+  ScheduleSave();
+
   return ret;
 
 }
@@ -1695,7 +1735,7 @@ void Playlist::Clear() {
 
   TurnOffDynamicPlaylist();
 
-  Save();
+  ScheduleSave();
 
 }
 
@@ -1750,24 +1790,23 @@ void Playlist::ReloadItems(const QList<int> &rows) {
 
   for (int row : rows) {
     PlaylistItemPtr item = item_at(row);
-
-    Song old_metadata = item->Metadata();
-
-    item->Reload();
-
-    if (row == current_row()) {
-      const bool minor = old_metadata.title() == item->Metadata().title() &&
-                         old_metadata.albumartist() == item->Metadata().albumartist() &&
-                         old_metadata.artist() == item->Metadata().artist() &&
-                         old_metadata.album() == item->Metadata().album();
-      InformOfCurrentSongChange(AutoScroll_Never, minor);
-    }
-    else {
-      emit dataChanged(index(row, 0), index(row, ColumnCount - 1));
+    QPersistentModelIndex idx = index(row, 0);
+    if (idx.isValid()) {
+      ItemReload(idx, item->Metadata(), false);
     }
   }
 
-  Save();
+}
+
+void Playlist::ReloadItemsBlocking(const QList<int> &rows) {
+
+  for (int row : rows) {
+    PlaylistItemPtr item = item_at(row);
+    Song old_metadata = item->Metadata();
+    item->Reload();
+    QPersistentModelIndex idx = index(row, 0);
+    ItemReloadComplete(idx, old_metadata, false);
+  }
 
 }
 
@@ -1990,7 +2029,7 @@ void Playlist::ItemChanged(PlaylistItemPtr item) {
 
 void Playlist::InformOfCurrentSongChange(const AutoScroll autoscroll, const bool minor) {
 
-  // if the song is invalid, we won't play it - there's no point in informing anybody about the change
+  // If the song is invalid, we won't play it - there's no point in informing anybody about the change
   const Song metadata(current_item_metadata());
   if (metadata.is_valid()) {
     if (minor) {
@@ -2031,8 +2070,14 @@ void Playlist::InvalidateDeletedSongs() {
     }
   }
 
-  if (!invalidated_rows.isEmpty())
-    ReloadItems(invalidated_rows);
+  if (!invalidated_rows.isEmpty()) {
+    if (QThread::currentThread() == thread()) {
+      ReloadItems(invalidated_rows);
+    }
+    else {
+      ReloadItemsBlocking(invalidated_rows);
+    }
+  }
 
 }
 
@@ -2195,7 +2240,7 @@ void Playlist::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &
     if (item && item->Metadata() == song && (!item->Metadata().art_manual_is_valid() || (result.type == AlbumCoverLoaderResult::Type_ManuallyUnset && !item->Metadata().has_manually_unset_cover()))) {
       qLog(Debug) << "Updating art manual for local song" << song.title() << song.album() << song.title() << "to" << result.album_cover.cover_url << "in playlist.";
       item->SetArtManual(result.album_cover.cover_url);
-      Save();
+      ScheduleSave();
     }
   }
 
@@ -2214,7 +2259,8 @@ void Playlist::TurnOffDynamicPlaylist() {
   }
 
   emit DynamicModeChanged(false);
-  Save();
+
+  ScheduleSave();
 
 }
 

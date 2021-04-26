@@ -158,7 +158,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void PlaylistQueuePlayNext();
   void PlaylistSkip();
   void PlaylistRemoveCurrent();
-  void PlaylistEditFinished(const QModelIndex &idx);
+  void PlaylistEditFinished(const int playlist_id, const QModelIndex &idx);
   void PlaylistClearCurrent();
   void RescanSongs();
   void EditTracks();

@@ -133,7 +133,7 @@ class PlaylistManagerInterface : public QObject {
 
   // Signals that one of manager's playlists has changed (new items, new ordering etc.) - the argument shows which.
   void PlaylistChanged(Playlist *playlist);
-  void EditingFinished(QModelIndex idx);
+  void EditingFinished(int playlist_id, QModelIndex idx);
   void PlayRequested(QModelIndex idx, Playlist::AutoScroll autoscroll);
 };
 

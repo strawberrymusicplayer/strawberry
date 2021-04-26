@@ -51,6 +51,7 @@
 class QMimeData;
 class QSortFilterProxyModel;
 class QUndoStack;
+class QTimer;
 
 class CollectionBackend;
 class PlaylistBackend;
@@ -184,7 +185,7 @@ class Playlist : public QAbstractListModel {
   static bool set_column_value(Song &song, Column column, const QVariant &value);
 
   // Persistence
-  void Save() const;
+  void ScheduleSave() const;
   void Restore();
 
   // Accessors
@@ -260,6 +261,7 @@ class Playlist : public QAbstractListModel {
 
   void StopAfter(const int row);
   void ReloadItems(const QList<int> &rows);
+  void ReloadItemsBlocking(const QList<int> &rows);
   void InformOfCurrentSongChange(const AutoScroll autoscroll, const bool minor);
 
   // Registers an object which will get notifications when new songs are about to be inserted into this playlist.
@@ -297,6 +299,8 @@ class Playlist : public QAbstractListModel {
 
   void set_auto_sort(const bool auto_sort) { auto_sort_ = auto_sort; }
 
+  void ItemReload(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit);
+
  public slots:
   void set_current_row(const int i, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Maybe, const bool is_stopping = false, const bool force_inform = false);
   void Paused();
@@ -332,7 +336,7 @@ class Playlist : public QAbstractListModel {
   void PlaylistLoaded();
   void CurrentSongChanged(Song metadata);
   void SongMetadataChanged(Song metadata);
-  void EditingFinished(QModelIndex idx);
+  void EditingFinished(const int playlist_id, QModelIndex idx);
   void PlayRequested(QModelIndex idx, Playlist::AutoScroll autoscroll);
   void MaybeAutoscroll(Playlist::AutoScroll autoscroll);
 
@@ -375,15 +379,17 @@ class Playlist : public QAbstractListModel {
   void TracksDequeued();
   void TracksEnqueued(const QModelIndex&, const int begin, const int end);
   void QueueLayoutChanged();
-  void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx);
-  void ItemReloadComplete(const QPersistentModelIndex &idx);
+  void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx, const Song &old_metadata);
+  void ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit);
   void ItemsLoaded();
   void SongInsertVetoListenerDestroyed();
+  void Save() const;
 
  private:
   bool is_loading_;
   PlaylistFilter *proxy_;
   Queue *queue_;
+  QTimer *timer_save_;
 
   QList<QModelIndex> temp_dequeue_change_indexes_;
 
