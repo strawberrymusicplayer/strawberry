@@ -864,8 +864,9 @@ void CollectionWatcher::RescanTracksAsync(const SongList &songs) {
   song_rescan_queue_.append(songs);
 
   // Call only if it's not already running
-  if (!rescan_in_progress_)
+  if (!rescan_in_progress_) {
     QMetaObject::invokeMethod(this, "RescanTracksNow", Qt::QueuedConnection);
+  }
 
 }
 
@@ -875,25 +876,25 @@ void CollectionWatcher::FullScanNow() { PerformScan(false, true); }
 
 void CollectionWatcher::RescanTracksNow() {
 
-    Q_ASSERT(!rescan_in_progress_);
-    stop_requested_ = false;
+  Q_ASSERT(!rescan_in_progress_);
+  stop_requested_ = false;
 
-    // Currently we are too stupid to rescan one file at a time, so we'll just scan the full directiories
-    QStringList scanned_dirs; // To avoid double scans
-    while (!song_rescan_queue_.isEmpty()) {
-      if (stop_requested_) break;
-      Song song = song_rescan_queue_.takeFirst();
-      QString songdir = song.url().toLocalFile().section('/', 0, -2);
-      if (!scanned_dirs.contains(songdir)) {
-        qLog(Debug) << "Song" << song.title() << "dir id" << song.directory_id() << "dir" << songdir;
-        ScanTransaction transaction(this, song.directory_id(), false, false, mark_songs_unavailable_);
-        ScanSubdirectory(songdir, Subdirectory(), &transaction);
-        scanned_dirs << songdir;
-        emit CompilationsNeedUpdating();
-      }
-      else {
-        qLog(Debug) << "Directory" << songdir << "already scanned - skipping.";
-      }
+  // Currently we are too stupid to rescan one file at a time, so we'll just scan the full directiories
+  QStringList scanned_dirs; // To avoid double scans
+  while (!song_rescan_queue_.isEmpty()) {
+    if (stop_requested_) break;
+    Song song = song_rescan_queue_.takeFirst();
+    QString songdir = song.url().toLocalFile().section('/', 0, -2);
+    if (!scanned_dirs.contains(songdir)) {
+      qLog(Debug) << "Song" << song.title() << "dir id" << song.directory_id() << "dir" << songdir;
+      ScanTransaction transaction(this, song.directory_id(), false, false, mark_songs_unavailable_);
+      ScanSubdirectory(songdir, Subdirectory(), &transaction);
+      scanned_dirs << songdir;
+      emit CompilationsNeedUpdating();
+    }
+    else {
+      qLog(Debug) << "Directory" << songdir << "already scanned - skipping.";
+    }
   }
   Q_ASSERT(song_rescan_queue_.isEmpty());
   rescan_in_progress_ = false;

@@ -148,8 +148,8 @@ void SCollection::AbortScan() { watcher_->Stop(); }
 
 void SCollection::Rescan(const SongList &songs) {
 
-    qLog(Debug) << "Rescan" << songs.size() << "songs";
-    if (!songs.isEmpty()) watcher_->RescanTracksAsync(songs);
+  qLog(Debug) << "Rescan" << songs.size() << "songs";
+  if (!songs.isEmpty()) watcher_->RescanTracksAsync(songs);
 
 }
 
