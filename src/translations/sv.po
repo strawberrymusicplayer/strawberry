@@ -4110,12 +4110,12 @@ msgstr "Skalningsstorlek"
 msgid "Scrobbler"
 msgstr "Skrobblare"
 
-#: scrobbler/scrobblingapi20.cpp:1018
+#: scrobbler/scrobblingapi20.cpp:1021
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Skrobblare %1 fel: %2"
 
-#: scrobbler/scrobblingapi20.cpp:544
+#: scrobbler/scrobblingapi20.cpp:547
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Skrobblare %1 är inte autentiserad!"

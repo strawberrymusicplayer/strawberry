@@ -4144,12 +4144,12 @@ msgstr "Tamaño de escala"
 msgid "Scrobbler"
 msgstr "Registro de reproducción"
 
-#: scrobbler/scrobblingapi20.cpp:1018
+#: scrobbler/scrobblingapi20.cpp:1021
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Registro de reproducción %1 error: %2\n"
 
-#: scrobbler/scrobblingapi20.cpp:544
+#: scrobbler/scrobblingapi20.cpp:547
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "¡No se ha iniciado sesión en servicio de registro de reproducción %1!"
