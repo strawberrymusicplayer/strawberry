@@ -469,13 +469,16 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
   if (!IsAuthenticated() || !song.is_metadata_good() || app_->scrobbler()->IsOffline()) return;
 
   QString album = song.album();
+  QString title = song.title();
+
   album = album.remove(Song::kAlbumRemoveDisc);
   album = album.remove(Song::kAlbumRemoveMisc);
+  title = title.remove(Song::kTitleRemoveMisc);
 
   ParamList params = ParamList()
     << Param("method", "track.updateNowPlaying")
     << Param("artist", prefer_albumartist_ && song.effective_albumartist() != Song::kVariousArtists ? song.effective_albumartist() : song.artist())
-    << Param("track", song.title());
+    << Param("track", title);
 
   if (!album.isEmpty())
     params << Param("album", album);

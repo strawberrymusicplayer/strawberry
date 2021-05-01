@@ -426,8 +426,11 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   if (!song.is_metadata_good() || !IsAuthenticated() || app_->scrobbler()->IsOffline()) return;
 
   QString album = song.album();
+  QString title = song.title();
+
   album = album.remove(Song::kAlbumRemoveDisc);
   album = album.remove(Song::kAlbumRemoveMisc);
+  title = title.remove(Song::kTitleRemoveMisc);
 
   QJsonObject object_track_metadata;
   if (song.albumartist().isEmpty() || song.albumartist().toLower() == Song::kVariousArtists) {
@@ -440,7 +443,7 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   if (!album.isEmpty())
     object_track_metadata.insert("release_name", QJsonValue::fromVariant(album));
 
-  object_track_metadata.insert("track_name", QJsonValue::fromVariant(song.title()));
+  object_track_metadata.insert("track_name", QJsonValue::fromVariant(title));
 
   QJsonObject object_listen;
   object_listen.insert("track_metadata", object_track_metadata);
