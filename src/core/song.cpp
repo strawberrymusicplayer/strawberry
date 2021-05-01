@@ -147,7 +147,7 @@ const QString Song::kEmbeddedCover = "(embedded)";
 
 const QRegularExpression Song::kAlbumRemoveDisc(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$");
 const QRegularExpression Song::kAlbumRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|([0-9]{1,4}) *Remaster|Explicit) ?((\\)|\\])?)$");
-const QRegularExpression Song::kTitleRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|Live|Remastered Version|([0-9]{1,4}) *Remaster) ?((\\)|\\])?)$");
+const QRegularExpression Song::kTitleRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|Remastered Version|([0-9]{1,4}) *Remaster) ?((\\)|\\])?)$");
 const QString Song::kVariousArtists("various artists");
 
 const QStringList Song::kArticles = QStringList() << "the " << "a " << "an ";
