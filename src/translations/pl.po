@@ -20,13 +20,14 @@
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
 # Piotr Orzechowski <piotr@orzechowski.tech>, 2020. #zanata
+# Janusz Kostorz <janusz.kostorz@gmail.com>, 2021. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-19 07:21-0500\n"
-"Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
+"PO-Revision-Date: 2021-05-02 11:11-0400\n"
+"Last-Translator: Janusz Kostorz <janusz.kostorz@gmail.com>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
@@ -209,7 +210,7 @@ msgstr ""
 #: dialogs/edittagdialog.cpp:655
 #, qt-format
 msgid "%1 songs selected."
-msgstr ""
+msgstr "Wybrane %1 utwory(ów)."
 
 #: playlist/playlistmanager.cpp:478 queue/queue.cpp:255
 #, qt-format
@@ -293,7 +294,7 @@ msgstr "&Wyczyść listę odtwarzania"
 
 #: ../build/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
-msgstr "M&enedżer zakładek"
+msgstr "M&enedżer okładek"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:257
 msgid "&Custom"
@@ -483,6 +484,16 @@ msgid ""
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
 "family:'Noto Sans';\"><br /></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+"css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Verdana'; font-size:10pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Noto Sans';\"><br /></p></body></html>"
 
 #: ../build/src/ui_organizedialog.h:274
 msgid ""
@@ -810,7 +821,7 @@ msgstr "Artysta albumu"
 
 #: dialogs/edittagdialog.cpp:831
 msgid "Album cover editing is only available for collection songs."
-msgstr ""
+msgstr "Edycja okładki dostępna jest tylko dla utworów z kolekcji."
 
 #: ../build/src/ui_collectionsettingspage.h:447
 msgid "Album cover pixmap cache"
@@ -895,7 +906,7 @@ msgstr "Wystąpił błąd podczas ładowania bazy danych iTunes"
 #: dialogs/edittagdialog.cpp:1355
 #, qt-format
 msgid "An error occurred writing cover art to '%1'"
-msgstr ""
+msgstr "Błąd zapisu okładki do '%1'"
 
 #: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1332
 #, qt-format
@@ -956,11 +967,11 @@ msgstr "Na pewno wyzerować statystyki tego utworu?"
 
 #: ../build/src/ui_edittagdialog.h:813
 msgid "Art Automatic"
-msgstr ""
+msgstr "Automatycznie"
 
 #: ../build/src/ui_edittagdialog.h:810
 msgid "Art Manual"
-msgstr ""
+msgstr "Manualnie"
 
 #: collection/savedgroupingmanager.cpp:87 playlist/playlist.cpp:1300
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
@@ -1037,7 +1048,7 @@ msgstr "Aktualizacja automatyczna"
 #: dialogs/edittagdialog.cpp:826
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
-msgstr ""
+msgstr "Automatyczna okładka z %1 jest niedostępna."
 
 #: ../build/src/ui_collectionsettingspage.h:432
 msgid "Automatically open single categories in the collection tree"
@@ -1204,7 +1215,7 @@ msgstr "Anulowano."
 
 #: ../build/src/ui_edittagdialog.h:817
 msgid "Change art"
-msgstr ""
+msgstr "Zmień okładkę"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:258
 msgid "Change shortcut..."
@@ -1265,7 +1276,7 @@ msgstr "Wyczyść pamięć podręczną na dysku"
 
 #: covermanager/albumcoverchoicecontroller.cpp:113
 msgid "Clear cover"
-msgstr ""
+msgstr "Odśwież okładkę"
 
 #: core/mainwindow.cpp:2247 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
@@ -1288,6 +1299,8 @@ msgid ""
 "Click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
+"Kliknij tutaj aby dodać tą listę do ulubionych, będzie ona dostępna w "
+"'Listach odtwarzania' paska bocznego "
 
 #: internet/internetcollectionview.cpp:289
 msgid "Click here to retrieve music"
@@ -1517,7 +1530,7 @@ msgstr "Menedżer okładek"
 #: dialogs/edittagdialog.cpp:820
 #, qt-format
 msgid "Cover art automatically loaded from %1"
-msgstr ""
+msgstr "Okładka załadowana automatycznie z %1"
 
 #: dialogs/edittagdialog.cpp:817
 msgid "Cover art from embedded image"
@@ -1533,19 +1546,19 @@ msgstr "Brak okładki"
 
 #: dialogs/edittagdialog.cpp:792
 msgid "Cover changed: Will be cleared when saved."
-msgstr ""
+msgstr "Okładka zmieniona: zostanie odświeżona przy zapisie."
 
 #: dialogs/edittagdialog.cpp:798
 msgid "Cover changed: Will be deleted when saved."
-msgstr ""
+msgstr "Okładka zmieniona: zostanie usunięta przy zapisie."
 
 #: dialogs/edittagdialog.cpp:795
 msgid "Cover changed: Will be unset when saved."
-msgstr ""
+msgstr "Okładka zmieniona: zostanie odłączona przy zapisie."
 
 #: dialogs/edittagdialog.cpp:801
 msgid "Cover changed: Will set new when saved."
-msgstr ""
+msgstr "Okładka zmieniona: zostanie ustawiona nowa przy zapisie."
 
 #: ../build/src/ui_coverssettingspage.h:163
 msgid "Cover providers"
@@ -1643,7 +1656,7 @@ msgstr "Własne"
 
 #: ../build/src/ui_appearancesettingspage.h:633
 msgid "Custom color"
-msgstr ""
+msgstr "Własny kolor"
 
 #: ../build/src/ui_appearancesettingspage.h:607
 msgid "Custom image:"
@@ -1708,7 +1721,7 @@ msgstr "Usuń"
 
 #: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Delete cover"
-msgstr ""
+msgstr "Usuń okładkę"
 
 #: dialogs/deleteconfirmationdialog.cpp:42 device/deviceview.cpp:419
 msgid "Delete files"
@@ -1776,7 +1789,7 @@ msgstr "Urządzenia"
 
 #: dialogs/edittagdialog.cpp:100
 msgid "Different art across multiple songs."
-msgstr ""
+msgstr "Różne okładki utworów albumu."
 
 #: ../build/src/ui_networkproxysettingspage.h:172
 msgid "Direct internet connection"
@@ -1917,11 +1930,11 @@ msgstr "Edytuj informacje o ścieżkach…"
 
 #: dialogs/edittagdialog.cpp:777
 msgid "Embedded"
-msgstr ""
+msgstr "Wbudowany"
 
 #: ../build/src/ui_edittagdialog.h:818
 msgid "Embedded cover"
-msgstr ""
+msgstr "Okładka wbudowana"
 
 #: ../build/src/ui_scrobblersettingspage.h:391
 #: ../build/src/ui_scrobblersettingspage.h:413
@@ -1952,7 +1965,7 @@ msgstr "Włącz korektor graficzny"
 
 #: ../build/src/ui_notificationssettingspage.h:508
 msgid "Enable fading"
-msgstr ""
+msgstr "Włącz zanikanie"
 
 #: ../build/src/ui_playlistsettingspage.h:165
 msgid "Enable playlist clear button"
@@ -2415,7 +2428,7 @@ msgstr "Gatunek"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:241
 msgid "Global Shortcuts"
-msgstr ""
+msgstr "Skróty globalne"
 
 #: ../build/src/ui_mainwindow.h:691
 msgid "Go to next playlist tab"
@@ -2916,12 +2929,12 @@ msgstr "Zarządzaj zapisanymi grupowaniami"
 #: dialogs/edittagdialog.cpp:823
 #, qt-format
 msgid "Manually cover art from %1 is missing"
-msgstr ""
+msgstr "enedOkładka ustawiona ręcznie z %1 jest niedostępna"
 
 #: dialogs/edittagdialog.cpp:814
 #, qt-format
 msgid "Manually set cover art from %1"
-msgstr ""
+msgstr "Okładka ustawiona ręcznie z %1"
 
 #: device/deviceproperties.cpp:176
 msgid "Manufacturer"
@@ -3425,11 +3438,11 @@ msgstr "Hasło"
 
 #: ../build/src/ui_edittagdialog.h:807
 msgid "Path"
-msgstr ""
+msgstr "Ścieżka"
 
 #: ../build/src/ui_collectionsettingspage.h:441
 msgid "Pattern"
-msgstr ""
+msgstr "Wzorzec"
 
 #: core/mainwindow.cpp:1273 core/mainwindow.cpp:1774
 #: core/qtsystemtrayicon.cpp:194
@@ -3549,7 +3562,7 @@ msgstr "Opcje listy odtwarzania"
 
 #: ../build/src/ui_appearancesettingspage.h:631
 msgid "Playlist playing song color"
-msgstr ""
+msgstr "Kolor podświetlenia odtwarzanego utworu"
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
@@ -3741,7 +3754,7 @@ msgstr "Radio (równa głośność wszystkich ścieżek)"
 
 #: ../build/src/ui_collectionsettingspage.h:442
 msgid "Random"
-msgstr ""
+msgstr "Losowo"
 
 #: playlist/playlist.cpp:1331
 msgid "Rating"
@@ -3940,7 +3953,7 @@ msgstr "Wyzeruj licznik odtworzeń"
 
 #: core/commandlineoptions.cpp:191
 msgid "Resize the window"
-msgstr ""
+msgstr "Zmień rozmiar okna"
 
 #: ../build/src/ui_behavioursettingspage.h:311
 msgid "Restart song, then jump to previous if pressed again"
@@ -4065,7 +4078,7 @@ msgstr "Zapisz okładkę albumu"
 
 #: ../build/src/ui_collectionsettingspage.h:439
 msgid "Save album covers as embedded cover"
-msgstr ""
+msgstr "Zapisuj okładki w plikach utworów"
 
 #: ../build/src/ui_collectionsettingspage.h:437
 msgid "Save album covers in album directory"
@@ -4073,7 +4086,7 @@ msgstr "Zapisuj okładki w katalogach albumów"
 
 #: ../build/src/ui_collectionsettingspage.h:438
 msgid "Save album covers in cache directory"
-msgstr ""
+msgstr "Zapisuj okładki w katalogu podręcznym"
 
 #: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Save cover to disk..."
@@ -4224,7 +4237,7 @@ msgstr "Wybierz kolor pierwszoplanowy:"
 
 #: ../build/src/ui_appearancesettingspage.h:634
 msgid "Select playlist playing song color:"
-msgstr ""
+msgstr "Wybierz kolor:"
 
 #: ../build/src/ui_appearancesettingspage.h:597
 msgid "Select tabbar color:"
@@ -4740,7 +4753,7 @@ msgstr "Kolory systemowe"
 
 #: ../build/src/ui_appearancesettingspage.h:632
 msgid "System highlight color"
-msgstr ""
+msgstr "Kolor systemowy"
 
 #: ../build/src/ui_appearancesettingspage.h:593
 msgid "Tabbar colors"
@@ -4764,7 +4777,7 @@ msgstr "Uzupełnianie znaczników"
 
 #: ../build/src/ui_edittagdialog.h:838
 msgid "Tags"
-msgstr ""
+msgstr "Tagi"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
@@ -5071,7 +5084,7 @@ msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Unset cover"
-msgstr "Usuń okładkę"
+msgstr "Odłącz okładkę"
 
 #: core/mainwindow.cpp:1887
 msgid "Unskip selected tracks"
