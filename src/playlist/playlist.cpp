@@ -1875,11 +1875,8 @@ void Playlist::ReshuffleIndices() {
     return;
   }
 
-  // If the user is already playing a song, advance the begin iterator to only shuffle items that haven't been played yet.
   QList<int>::iterator begin = virtual_items_.begin();
   QList<int>::iterator end = virtual_items_.end();
-  if (current_virtual_index_ != -1)
-    std::advance(begin, current_virtual_index_ + 1);
 
   std::random_device rd;
   std::mt19937 g(rd());
