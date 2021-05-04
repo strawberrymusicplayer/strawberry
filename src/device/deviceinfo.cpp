@@ -98,29 +98,41 @@ void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
 
   // Try to load the icon with that exact name first
   for (const QVariant &icon : icons) {
-    if (!icon.value<QPixmap>().isNull()) {
+    if (icon.isNull()) continue;
+    if (icon.userType() == QMetaType::QString) {
+      QString icon_name = icon.toString();
+      if (!icon_name.isEmpty()) {
+        icon_ = IconLoader::Load(icon_name);
+        if (!icon_.isNull()) {
+          icon_name_ = icon_name;
+          return;
+        }
+      }
+    }
+    else if (!icon.value<QPixmap>().isNull()) {
       icon_ = QIcon(icon.value<QPixmap>());
       return;
     }
-    else {
-      if (!icon.toString().isEmpty()) icon_ = IconLoader::Load(icon.toString());
-      if (!icon_.isNull()) {
-        icon_name_ = icon.toString();
-        return;
+  }
+
+  for (const QVariant &icon : icons) {
+    if (!icon.isNull() && icon.userType() == QMetaType::QString) {
+      QString icon_name = icon.toString();
+      if (!icon_name.isEmpty()) {
+        QString hint = QString(icons.first().toString() + name_hint).toLower();
+        if (hint.contains("phone")) icon_name_ = "device-phone";
+        else if (hint.contains("ipod") || hint.contains("apple")) icon_name_ = "device-ipod";
+        else if ((hint.contains("usb")) && (hint.contains("reader"))) icon_name_ = "device-usb-flash";
+        else if (hint.contains("usb")) icon_name_ = "device-usb-drive";
+        icon_ = IconLoader::Load(icon_name_);
+        if (!icon_.isNull()) {
+          return;
+        }
       }
     }
   }
 
-  QString hint = QString(icons.first().toString() + name_hint).toLower();
-
-  if (hint.contains("phone")) icon_name_ = "device-phone";
-  else if (hint.contains("ipod") || hint.contains("apple")) icon_name_ = "device-ipod";
-  else if ((hint.contains("usb")) && (hint.contains("reader"))) icon_name_ = "device-usb-flash";
-  else if (hint.contains("usb")) icon_name_ = "device-usb-drive";
-  else icon_name_ = "device";
-
+  icon_name_ = "device";
   icon_ = IconLoader::Load(icon_name_);
 
 }
-
-

@@ -30,8 +30,7 @@
 #include <QFile>
 #include <QByteArray>
 #include <QString>
-#include <QStringList>
-#include <QStringBuilder>
+#include <QVariantList>
 #include <QUrl>
 
 #include "devicelister.h"
@@ -228,15 +227,15 @@ bool DeviceLister::IsIpod(const QString &path) const {
          QFile::exists(path + "/iTunes/iTunes_Control");
 }
 
-QStringList DeviceLister::GuessIconForPath(const QString &path) {
+QVariantList DeviceLister::GuessIconForPath(const QString &path) {
 
-  QStringList ret;
+  QVariantList ret;
 
 #ifdef HAVE_LIBGPOD
   if (IsIpod(path)) {
-    Itdb_Device* device = itdb_device_new();
+    Itdb_Device *device = itdb_device_new();
     itdb_device_set_mountpoint(device, path.toLocal8Bit().constData());
-    const Itdb_IpodInfo* info = itdb_device_get_ipod_info(device);
+    const Itdb_IpodInfo *info = itdb_device_get_ipod_info(device);
 
     if (info->ipod_model == ITDB_IPOD_MODEL_INVALID) {
       ret << "device-ipod";
@@ -271,9 +270,9 @@ QStringList DeviceLister::GuessIconForPath(const QString &path) {
 
 }
 
-QStringList DeviceLister::GuessIconForModel(const QString &vendor, const QString &model) {
+QVariantList DeviceLister::GuessIconForModel(const QString &vendor, const QString &model) {
 
-  QStringList ret;
+  QVariantList ret;
   if (vendor.startsWith("Google") && model.contains("Nexus")) {
     ret << "phone-google-nexus-one";
   }
