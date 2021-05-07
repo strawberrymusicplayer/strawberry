@@ -1465,7 +1465,7 @@ jobs:
           -DCMAKE_TOOLCHAIN_FILE=../cmake/Toolchain-x86_64-w64-mingw32-shared.cmake
           -DCMAKE_BUILD_TYPE=Release
           -DBUILD_WITH_QT5=ON
-          -DBUILD_WERROR=ON
+          -DBUILD_WERROR=OFF
           -DARCH=x86_64
           -DENABLE_WIN32_CONSOLE=OFF
           -DENABLE_DBUS=OFF
@@ -1614,7 +1614,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_PREFIX_PATH=/usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6
           -DBUILD_WITH_QT6=ON
-          -DBUILD_WERROR=ON
+          -DBUILD_WERROR=OFF
           -DARCH=x86_64
           -DENABLE_WIN32_CONSOLE=OFF
           -DENABLE_DBUS=OFF
