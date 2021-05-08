@@ -39,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-05-07 08:06-0400\n"
+"PO-Revision-Date: 2021-05-08 06:01-0400\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -403,7 +403,7 @@ msgstr "&Derecha"
 
 #: ../build/src/ui_mainwindow.h:649
 msgid "&Settings..."
-msgstr "&Ajustes"
+msgstr "&Configuración…"
 
 #: ../build/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
@@ -423,7 +423,7 @@ msgstr "&Herramientas"
 
 #: ../build/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
-msgstr "&Transcodificar pistas"
+msgstr "Conver&tir música"
 
 #: ../build/src/ui_mainwindow.h:693
 msgid "&Update changed collection folders"
@@ -439,7 +439,7 @@ msgstr "&Usar la combinación de colores del sistema"
 
 #: ../build/src/ui_networkproxysettingspage.h:171
 msgid "&Use the system proxy settings"
-msgstr "&Usar los ajustes de proxy del sistema"
+msgstr "&Utilizar configuración de «proxy» del sistema"
 
 #: ../build/src/ui_scrobblersettingspage.h:399
 msgid ""
@@ -841,7 +841,7 @@ msgstr "Álbumes"
 #: context/contextview.cpp:610
 #, qt-format
 msgid "Albums by %1"
-msgstr "Álbumess de %1"
+msgstr "Álbumes de %1"
 
 #: ../build/src/ui_contextsettingspage.h:443
 msgid "Albums by Artist"
@@ -2888,7 +2888,7 @@ msgstr "Archivo local"
 #: ../build/src/ui_tidalsettingspage.h:327
 #: ../build/src/ui_qobuzsettingspage.h:278
 msgid "Login"
-msgstr "Inicio de sesión"
+msgstr "Acceder"
 
 #: ../build/src/ui_transcoderoptionsaac.h:138
 msgid "Long term prediction profile (LTP)"
@@ -4122,7 +4122,7 @@ msgstr "Guardar ajuste predefinido"
 
 #: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Save the .mood files directly in the songs folders"
-msgstr "Guarda los archivos .mood en las carpetas de pistas"
+msgstr "Guardar archivos .mood directamente en las carpetas de las pistas"
 
 #: ../build/src/ui_savedgroupingmanager.h:100
 msgid "Saved Grouping Manager"
@@ -4176,7 +4176,7 @@ msgstr "Buscar automáticamente"
 #: ../build/src/ui_tidalsettingspage.h:330
 #: ../build/src/ui_qobuzsettingspage.h:281
 msgid "Search delay"
-msgstr "Retardo de búsqueda"
+msgstr "Demora de búsqueda"
 
 #: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Search for album covers..."
@@ -5206,7 +5206,7 @@ msgstr "Usar conformación de ruido temporal"
 
 #: ../build/src/ui_behavioursettingspage.h:301
 msgid "Use the system default"
-msgstr "Usar los ajustes predeterminados del sistema"
+msgstr "Utilizar valor predeterminado del sistema"
 
 #: widgets/freespacebar.cpp:70
 msgid "Used"
