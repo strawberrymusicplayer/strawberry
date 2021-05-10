@@ -855,26 +855,26 @@ UI
   settings/transcodersettingspage.ui
 )
 
+# MusicBrainz
+optional_source(HAVE_MUSICBRAINZ
+  SOURCES
+    musicbrainz/chromaprinter.cpp
+    musicbrainz/tagfetcher.cpp
+  HEADERS
+    musicbrainz/tagfetcher.h
+)
+
 # CDIO backend and device
-if(HAVE_GSTREAMER)
-  optional_source(HAVE_CHROMAPRINT
-    SOURCES
-      musicbrainz/chromaprinter.cpp
-      musicbrainz/tagfetcher.cpp
-    HEADERS
-      musicbrainz/tagfetcher.h
-  )
-  optional_source(HAVE_AUDIOCD
-    SOURCES
-      device/cddadevice.cpp
-      device/cddalister.cpp
-      device/cddasongloader.cpp
-    HEADERS
-      device/cddadevice.h
-      device/cddalister.h
-      device/cddasongloader.h
-  )
-endif()
+optional_source(HAVE_AUDIOCD
+  SOURCES
+    device/cddadevice.cpp
+    device/cddalister.cpp
+    device/cddasongloader.cpp
+  HEADERS
+    device/cddadevice.h
+    device/cddalister.h
+    device/cddasongloader.h
+)
 
 # Platform specific - macOS
 optional_source(APPLE
@@ -1081,9 +1081,9 @@ if(HAVE_VLC)
   link_directories(${LIBVLC_LIBRARY_DIRS})
 endif()
 
-if(HAVE_CHROMAPRINT)
+if(HAVE_MUSICBRAINZ)
   link_directories(${CHROMAPRINT_LIBRARY_DIRS})
-endif(HAVE_CHROMAPRINT)
+endif(HAVE_MUSICBRAINZ)
 
 if(X11_FOUND)
   link_directories(${X11_LIBRARY_DIRS})
@@ -1195,10 +1195,10 @@ if(HAVE_VLC)
   target_link_libraries(strawberry_lib PRIVATE ${LIBVLC_LIBRARIES})
 endif()
 
-if(HAVE_CHROMAPRINT)
+if(HAVE_MUSICBRAINZ)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${CHROMAPRINT_INCLUDE_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${CHROMAPRINT_LIBRARIES})
-endif(HAVE_CHROMAPRINT)
+endif(HAVE_MUSICBRAINZ)
 
 if(X11_FOUND)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${X11_INCLUDE_DIR})

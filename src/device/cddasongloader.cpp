@@ -185,7 +185,7 @@ void CddaSongLoader::LoadSongs() {
   }
   emit SongsDurationLoaded(songs);
 
-#ifdef HAVE_CHROMAPRINT
+#ifdef HAVE_MUSICBRAINZ
   // Handle TAG message: generate MusicBrainz DiscId
   if (msg_tag) {
     GstTagList *tags = nullptr;
@@ -211,7 +211,7 @@ void CddaSongLoader::LoadSongs() {
 
 }
 
-#ifdef HAVE_CHROMAPRINT
+#ifdef HAVE_MUSICBRAINZ
 void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results) {
 
   MusicBrainzClient *musicbrainz_client = qobject_cast<MusicBrainzClient*>(sender());

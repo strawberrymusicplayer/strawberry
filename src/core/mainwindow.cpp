@@ -180,7 +180,7 @@
 #include "scrobbler/audioscrobbler.h"
 #include "scrobbler/lastfmimport.h"
 
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
 #  include "musicbrainz/tagfetcher.h"
 #endif
 
@@ -486,7 +486,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   QObject::connect(ui_->action_renumber_tracks, &QAction::triggered, this, &MainWindow::RenumberTracks);
   QObject::connect(ui_->action_selection_set_value, &QAction::triggered, this, &MainWindow::SelectionSetValue);
   QObject::connect(ui_->action_edit_value, &QAction::triggered, this, &MainWindow::EditValue);
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
   QObject::connect(ui_->action_auto_complete_tags, &QAction::triggered, this, &MainWindow::AutoCompleteTags);
 #endif
   QObject::connect(ui_->action_settings, &QAction::triggered, this, &MainWindow::OpenSettingsDialog);
@@ -697,7 +697,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   playlist_menu_->addAction(ui_->action_edit_value);
   playlist_menu_->addAction(ui_->action_renumber_tracks);
   playlist_menu_->addAction(ui_->action_selection_set_value);
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
   playlist_menu_->addAction(ui_->action_auto_complete_tags);
 #endif
   playlist_rescan_songs_ = playlist_menu_->addAction(IconLoader::Load("view-refresh"), tr("Rescan song(s)..."), this, &MainWindow::RescanSongs);
@@ -1830,7 +1830,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   // this is available when we have one or many files and at least one of those is not CUE related
   ui_->action_edit_track->setEnabled(local_songs > 0 && editable > 0);
   ui_->action_edit_track->setVisible(local_songs > 0 && editable > 0);
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
   ui_->action_auto_complete_tags->setEnabled(local_songs > 0 && editable > 0);
   ui_->action_auto_complete_tags->setVisible(local_songs > 0 && editable > 0);
 #endif
@@ -2865,7 +2865,7 @@ bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *r
 
 void MainWindow::AutoCompleteTags() {
 
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
 
   autocomplete_tag_items_.clear();
 

@@ -306,8 +306,9 @@ optional_component(VLC ON "Engine: VLC backend"
   DEPENDS "libvlc" LIBVLC_FOUND
 )
 
-optional_component(CHROMAPRINT ON "Chromaprint (Tag fetching from Musicbrainz)"
+optional_component(MUSICBRAINZ ON "MusicBrainz integration"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
+  DEPENDS "gstreamer" GSTREAMER_FOUND
 )
 
 if (X11_FOUND OR HAVE_DBUS OR APPLE OR WIN32)
@@ -324,6 +325,7 @@ optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
   DEPENDS "libcdio" LIBCDIO_FOUND
+  DEPENDS "gstreamer" GSTREAMER_FOUND
 )
 
 optional_component(UDISKS2 ON "Devices: UDisks2 backend"

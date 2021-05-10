@@ -84,7 +84,7 @@ class OrganizeDialog;
 class PlaylistListContainer;
 class QueueView;
 class SystemTrayIcon;
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
 class TagFetcher;
 #endif
 class TrackSelectionDialog;
@@ -327,7 +327,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #endif
   Lazy<AddStreamDialog> add_stream_dialog_;
 
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
   std::unique_ptr<TagFetcher> tag_fetcher_;
 #endif
   std::unique_ptr<TrackSelectionDialog> track_selection_dialog_;

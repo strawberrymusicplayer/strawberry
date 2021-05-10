@@ -81,7 +81,7 @@
 #include "collection/collectionbackend.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistdelegates.h"
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
 #  include "musicbrainz/tagfetcher.h"
 #  include "trackselectiondialog.h"
 #endif
@@ -105,7 +105,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       ui_(new Ui_EditTagDialog),
       app_(app),
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
       tag_fetcher_(new TagFetcher(this)),
       results_dialog_(new TrackSelectionDialog(this)),
 #endif
@@ -121,7 +121,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 
   QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &EditTagDialog::AlbumCoverLoaded);
 
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
   QObject::connect(tag_fetcher_, &TagFetcher::ResultAvailable, results_dialog_, &TrackSelectionDialog::FetchTagFinished, Qt::QueuedConnection);
   QObject::connect(tag_fetcher_, &TagFetcher::Progress, results_dialog_, &TrackSelectionDialog::FetchTagProgress);
   QObject::connect(results_dialog_, &TrackSelectionDialog::SongChosen, this, &EditTagDialog::FetchTagSongChosen);
@@ -136,7 +136,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   ui_->label_lyrics->hide();
 
   ui_->fetch_tag->setIcon(QPixmap::fromImage(QImage(":/pictures/musicbrainz.png")));
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
   ui_->fetch_tag->setEnabled(true);
 #else
   ui_->fetch_tag->setEnabled(false);
@@ -185,7 +185,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   QObject::connect(ui_->song_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EditTagDialog::SelectionChanged);
   QObject::connect(ui_->button_box, &QDialogButtonBox::clicked, this, &EditTagDialog::ButtonClicked);
   QObject::connect(ui_->playcount_reset, &QPushButton::clicked, this, &EditTagDialog::ResetPlayCounts);
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
   QObject::connect(ui_->fetch_tag, &QPushButton::clicked, this, &EditTagDialog::FetchTag);
 #endif
 
@@ -368,7 +368,7 @@ bool EditTagDialog::SetLoading(const QString &message) {
   ui_->button_box->setEnabled(!loading);
   ui_->tab_widget->setEnabled(!loading);
   ui_->song_list->setEnabled(!loading);
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
   ui_->fetch_tag->setEnabled(!loading);
 #endif
   ui_->loading_label->setVisible(loading);
@@ -1263,7 +1263,7 @@ void EditTagDialog::ResetPlayCounts() {
 
 void EditTagDialog::FetchTag() {
 
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
 
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
 
@@ -1290,7 +1290,7 @@ void EditTagDialog::FetchTag() {
 
 void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &new_metadata) {
 
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
 
   const QString filename = original_song.url().toLocalFile();
 

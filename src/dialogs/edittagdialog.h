@@ -54,7 +54,7 @@ class QHideEvent;
 class Application;
 class AlbumCoverChoiceController;
 class Ui_EditTagDialog;
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
 class TrackSelectionDialog;
 class TagFetcher;
 #endif
@@ -179,7 +179,7 @@ class EditTagDialog : public QDialog {
 
   Application *app_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#ifdef HAVE_MUSICBRAINZ
   TagFetcher *tag_fetcher_;
   TrackSelectionDialog *results_dialog_;
 #endif

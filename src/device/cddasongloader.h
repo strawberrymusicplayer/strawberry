@@ -36,7 +36,7 @@
 #include <gst/audio/gstaudiocdsrc.h>
 
 #include "core/song.h"
-#ifdef HAVE_CHROMAPRINT
+#ifdef HAVE_MUSICBRAINZ
 #  include "musicbrainz/musicbrainzclient.h"
 #endif
 
@@ -63,7 +63,7 @@ class CddaSongLoader : public QObject {
   void SongsMetadataLoaded(SongList songs);
 
  private slots:
-#ifdef HAVE_CHROMAPRINT
+#ifdef HAVE_MUSICBRAINZ
   void AudioCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results);
 #endif
 
