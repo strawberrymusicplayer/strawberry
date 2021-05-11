@@ -76,9 +76,9 @@ msgstr " kbps"
 msgid " minutes"
 msgstr " 분"
 
-#: ../build/src/ui_backendsettingspage.h:525
-#: ../build/src/ui_backendsettingspage.h:545
-#: ../build/src/ui_backendsettingspage.h:548
+#: ../build/src/ui_backendsettingspage.h:551
+#: ../build/src/ui_backendsettingspage.h:571
+#: ../build/src/ui_backendsettingspage.h:574
 msgid " ms"
 msgstr " ms"
 
@@ -185,7 +185,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:447
+#: core/utilities.cpp:439
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -498,7 +498,7 @@ msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr "이 조건에 맞는 곡들이 재생 목록에 들어갑니다."
 
-#: ../build/src/ui_playlistsettingspage.h:169
+#: ../build/src/ui_playlistsettingspage.h:176
 msgid "A&utomatic"
 msgstr "자동(&U)"
 
@@ -510,9 +510,9 @@ msgstr "A-Z"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:520
-msgid "ALSA plugin"
-msgstr "ALSA 플러그인"
+#: ../build/src/ui_backendsettingspage.h:543
+msgid "ALSA plugin:"
+msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
@@ -544,7 +544,7 @@ msgstr "Qt 정보(&Q)"
 msgid "About Strawberry"
 msgstr "Strawberry 정보"
 
-#: ../build/src/ui_playlistsettingspage.h:170
+#: ../build/src/ui_playlistsettingspage.h:177
 msgid "Absolu&te"
 msgstr "절대 경로(&T)"
 
@@ -773,7 +773,7 @@ msgstr "앨범아트(&M)"
 msgid "Album"
 msgstr "앨범"
 
-#: ../build/src/ui_backendsettingspage.h:534
+#: ../build/src/ui_backendsettingspage.h:560
 msgid "Album (ideal loudness for all tracks)"
 msgstr "앨범(모든 트랙에 이상적인 음량)"
 
@@ -918,7 +918,7 @@ msgstr "현재 재생 목록에 추가"
 msgid "Append to the playlist"
 msgstr "재생 목록에 추가"
 
-#: ../build/src/ui_backendsettingspage.h:537
+#: ../build/src/ui_backendsettingspage.h:563
 msgid "Apply compression to prevent clipping"
 msgstr "압축을 적용하여 클리핑 방지"
 
@@ -965,7 +965,7 @@ msgstr "아티스트"
 msgid "Artists search limit"
 msgstr "아티스트 검색 제한"
 
-#: ../build/src/ui_playlistsettingspage.h:172
+#: ../build/src/ui_playlistsettingspage.h:179
 msgid "As&k when saving"
 msgstr "저장할 때 묻기(&K)"
 
@@ -974,7 +974,7 @@ msgstr "저장할 때 묻기(&K)"
 msgid "Audio format"
 msgstr "오디오 형식"
 
-#: ../build/src/ui_backendsettingspage.h:515
+#: ../build/src/ui_backendsettingspage.h:538
 msgid "Audio output"
 msgstr "오디오 출력"
 
@@ -1032,11 +1032,11 @@ msgstr "자동으로 앨범아트 찾기"
 msgid "Automatically search for song lyrics"
 msgstr "자동으로 가사 찾기"
 
-#: ../build/src/ui_playlistsettingspage.h:164
+#: ../build/src/ui_playlistsettingspage.h:171
 msgid "Automatically select current playing track"
 msgstr "현재 재생 중인 트랙을 자동으로 선택"
 
-#: ../build/src/ui_playlistsettingspage.h:167
+#: ../build/src/ui_playlistsettingspage.h:174
 msgid "Automatically sort playlist when inserting songs"
 msgstr "곡을 추가하면 자동으로 재생목록 정렬"
 
@@ -1056,7 +1056,7 @@ msgstr "평균 비트 전송률"
 msgid "Average image size"
 msgstr "평균 그림 크기"
 
-#: ../build/src/ui_backendsettingspage.h:514
+#: ../build/src/ui_backendsettingspage.h:537
 msgid "Backend"
 msgstr "백엔드"
 
@@ -1151,11 +1151,11 @@ msgstr "오른쪽 아래"
 msgid "Browse..."
 msgstr "찾아보기..."
 
-#: ../build/src/ui_backendsettingspage.h:524
+#: ../build/src/ui_backendsettingspage.h:550
 msgid "Buffer"
 msgstr "버퍼"
 
-#: ../build/src/ui_backendsettingspage.h:526
+#: ../build/src/ui_backendsettingspage.h:552
 msgid "Buffer duration"
 msgstr "버퍼 시간"
 
@@ -1393,7 +1393,7 @@ msgstr "고정 비트 전송률"
 msgid "Context"
 msgstr "지금 재생"
 
-#: ../build/src/ui_playlistsettingspage.h:161
+#: ../build/src/ui_playlistsettingspage.h:168
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr "재생 목록에 있는 노래를 사용할 수 없을 때 다음 곡으로 진행"
 
@@ -1536,11 +1536,11 @@ msgstr "%1의 표지"
 msgid "Create a new playlist with files"
 msgstr "지정한 파일을 포함하는 새 재생 목록 만들기"
 
-#: ../build/src/ui_backendsettingspage.h:542
+#: ../build/src/ui_backendsettingspage.h:568
 msgid "Cross-fade when changing tracks automatically"
 msgstr "트랙을 자동으로 바꿀 때 크로스페이드"
 
-#: ../build/src/ui_backendsettingspage.h:541
+#: ../build/src/ui_backendsettingspage.h:567
 msgid "Cross-fade when changing tracks manually"
 msgstr "트랙을 직접 바꿀 때 크로스페이드"
 
@@ -1668,7 +1668,7 @@ msgstr "<value>%만큼 음량 내리기"
 msgid "Default bac&kground image"
 msgstr "기본 배경 그림(&K)"
 
-#: ../build/src/ui_backendsettingspage.h:529
+#: ../build/src/ui_backendsettingspage.h:555
 msgid "Defaults"
 msgstr "기본 설정"
 
@@ -1728,7 +1728,7 @@ msgid "Details..."
 msgstr "자세히..."
 
 #: context/contextview.cpp:185 device/giolister.cpp:186
-#: ../build/src/ui_backendsettingspage.h:518
+#: ../build/src/ui_backendsettingspage.h:539
 #: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Device"
 msgstr "장치"
@@ -1913,7 +1913,7 @@ msgid "Enable Items"
 msgstr "항목 활성화"
 
 #: ../build/src/ui_collectionsettingspage.h:454
-#: ../build/src/ui_playlistsettingspage.h:166
+#: ../build/src/ui_playlistsettingspage.h:173
 msgid "Enable delete files in the right click context menu"
 msgstr "마우스 우클릭 메뉴로부터 파일 제거 활성화"
 
@@ -1925,7 +1925,7 @@ msgstr "이퀄라이저 활성화"
 msgid "Enable fading"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:165
+#: ../build/src/ui_playlistsettingspage.h:172
 msgid "Enable playlist clear button"
 msgstr "재생 목록 비우기 단추 활성화"
 
@@ -1933,7 +1933,7 @@ msgstr "재생 목록 비우기 단추 활성화"
 msgid "Enable scrobbling for the following sources:"
 msgstr "이 소스로부터 스크로블링 켜기"
 
-#: ../build/src/ui_playlistsettingspage.h:177
+#: ../build/src/ui_playlistsettingspage.h:184
 msgid "Enable song metadata inline edition with click"
 msgstr "클릭하여 음악 메타데이터를 바로 편집하려면 활성화"
 
@@ -1941,7 +1941,7 @@ msgstr "클릭하여 음악 메타데이터를 바로 편집하려면 활성화"
 msgid "Enable stereo balancer"
 msgstr "스테레오 균형 맞추기 활성화"
 
-#: ../build/src/ui_backendsettingspage.h:523
+#: ../build/src/ui_backendsettingspage.h:547
 msgid "Enable volume control"
 msgstr "음량 제어 활성화"
 
@@ -1961,7 +1961,7 @@ msgstr "인코딩 엔진 품질"
 msgid "Encoding mode"
 msgstr "인코딩 모드"
 
-#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:516
+#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:542
 msgid "Engine"
 msgstr "엔진"
 
@@ -2065,7 +2065,7 @@ msgstr "CDDA 디바이스를 준비하는데 오류가 있습니다."
 msgid "Ever played"
 msgstr "재생된 적 있음"
 
-#: ../build/src/ui_backendsettingspage.h:543
+#: ../build/src/ui_backendsettingspage.h:569
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "같은 앨범이나 같은 CUE 시트의 트랙 사이에서는 제외"
 
@@ -2136,24 +2136,24 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:546
+#: ../build/src/ui_backendsettingspage.h:572
 msgid "Fade out on pause / fade in on resume"
 msgstr "일시 정지 시 페이드 아웃/다시 시작 시 페이드 인"
 
-#: ../build/src/ui_backendsettingspage.h:540
+#: ../build/src/ui_backendsettingspage.h:566
 msgid "Fade out when stopping a track"
 msgstr "트랙 정지 시 페이드 아웃"
 
-#: ../build/src/ui_backendsettingspage.h:539
+#: ../build/src/ui_backendsettingspage.h:565
 msgid "Fading"
 msgstr "페이드"
 
-#: ../build/src/ui_backendsettingspage.h:544
-#: ../build/src/ui_backendsettingspage.h:547
+#: ../build/src/ui_backendsettingspage.h:570
+#: ../build/src/ui_backendsettingspage.h:573
 msgid "Fading duration"
 msgstr "페이드 시간"
 
-#: ../build/src/ui_backendsettingspage.h:538
+#: ../build/src/ui_backendsettingspage.h:564
 msgid "Fallback-gain"
 msgstr ""
 
@@ -2403,11 +2403,11 @@ msgstr ""
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "앨범아트 %2개 중 %1개 가져옴(%3개 실패)"
 
-#: ../build/src/ui_playlistsettingspage.h:162
+#: ../build/src/ui_playlistsettingspage.h:169
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr "재생할 때 재생 목록에서 사용할 수 없는 곡을 회색으로 표시"
 
-#: ../build/src/ui_playlistsettingspage.h:163
+#: ../build/src/ui_playlistsettingspage.h:170
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "시작할 때 재생 목록에서 사용할 수 없는 곡을 회색으로 표시"
 
@@ -2524,7 +2524,7 @@ msgstr "높음"
 msgid "High (%1 fps)"
 msgstr "높음(%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:527
+#: ../build/src/ui_backendsettingspage.h:553
 msgid "High watermark"
 msgstr ""
 
@@ -2540,7 +2540,7 @@ msgstr "아이콘"
 msgid "Icon sizes"
 msgstr "아이콘 크기"
 
-#: widgets/fancytabwidget.cpp:714
+#: widgets/fancytabwidget.cpp:717
 msgid "Icons on top"
 msgstr "상단에 아이콘"
 
@@ -2548,7 +2548,7 @@ msgstr "상단에 아이콘"
 msgid "Identifying song"
 msgstr "음악 식별 중"
 
-#: ../build/src/ui_playlistsettingspage.h:175
+#: ../build/src/ui_playlistsettingspage.h:182
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
@@ -2692,7 +2692,7 @@ msgstr "거대한 홀"
 msgid "Large album cover"
 msgstr "큰 앨범아트"
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:713
 msgid "Large sidebar"
 msgstr "큰 사이드바"
 
@@ -2838,7 +2838,7 @@ msgstr "낮음(%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "낮은 복잡도 프로필(LC)"
 
-#: ../build/src/ui_backendsettingspage.h:528
+#: ../build/src/ui_backendsettingspage.h:554
 msgid "Low watermark"
 msgstr ""
 
@@ -2913,7 +2913,7 @@ msgstr "최대 로그인 시도 횟수에 도달했습니다."
 msgid "Medium (%1 fps)"
 msgstr "중간(%1 fps)"
 
-#: ../build/src/ui_playlistsettingspage.h:173
+#: ../build/src/ui_playlistsettingspage.h:180
 msgid "Metadata"
 msgstr "메타데이터"
 
@@ -3330,7 +3330,7 @@ msgid "Other options"
 msgstr "기타 옵션"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:517
+#: ../build/src/ui_backendsettingspage.h:541
 msgid "Output"
 msgstr "출력"
 
@@ -3402,7 +3402,7 @@ msgstr "연주가"
 msgid "Pixel"
 msgstr "픽셀"
 
-#: widgets/fancytabwidget.cpp:712
+#: widgets/fancytabwidget.cpp:715
 msgid "Plain sidebar"
 msgstr "일반 사이드바"
 
@@ -3462,7 +3462,7 @@ msgstr "재생기 옵션"
 #: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
 #: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:112
 #: playlist/playlistmanager.cpp:193 playlist/playlistmanager.cpp:566
-#: playlist/playlisttabbar.cpp:404 ../build/src/ui_playlistsettingspage.h:158
+#: playlist/playlisttabbar.cpp:404 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "재생 목록"
 
@@ -3527,7 +3527,7 @@ msgstr "포트"
 msgid "Position"
 msgstr "위치"
 
-#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:536
+#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:562
 msgid "Pre-amp"
 msgstr "프리앰프"
 
@@ -3669,7 +3669,7 @@ msgstr "대기열에 트랙 추가"
 msgid "QueueView"
 msgstr "대기열 보기"
 
-#: ../build/src/ui_backendsettingspage.h:533
+#: ../build/src/ui_backendsettingspage.h:559
 msgid "Radio (equal loudness for all tracks)"
 msgstr "라디오(모든 트랙을 같은 음량으로)"
 
@@ -3681,7 +3681,7 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:171
+#: ../build/src/ui_playlistsettingspage.h:178
 msgid "Re&lative"
 msgstr "상대 경로(&L)"
 
@@ -3837,11 +3837,11 @@ msgstr "공백을 밑줄로 대체"
 msgid "Replace the playlist"
 msgstr "재생 목록 대체"
 
-#: ../build/src/ui_backendsettingspage.h:530
+#: ../build/src/ui_backendsettingspage.h:556
 msgid "Replay Gain"
 msgstr "리플레이게인"
 
-#: ../build/src/ui_backendsettingspage.h:532
+#: ../build/src/ui_backendsettingspage.h:558
 msgid "Replay Gain mode"
 msgstr "리플레이게인 모드"
 
@@ -4139,7 +4139,7 @@ msgstr "키보드 단축키 또는 마우스 휠을 사용하여 이동"
 msgid "Select background color:"
 msgstr "배경 색상 선택:"
 
-#: settings/appearancesettingspage.cpp:400
+#: settings/appearancesettingspage.cpp:401
 msgid "Select background image"
 msgstr "배경 그림 선택"
 
@@ -4218,7 +4218,7 @@ msgstr "표시"
 msgid "Show a &native desktop notification"
 msgstr "네이티브 데스크톱 알림 표시(&N)"
 
-#: ../build/src/ui_playlistsettingspage.h:159
+#: ../build/src/ui_playlistsettingspage.h:166
 msgid "Show a glowing animation on the current track"
 msgstr "현재 트랙에 빛나는 애니메이션 표시"
 
@@ -4294,7 +4294,7 @@ msgstr "전체 크기 표시..."
 msgid "Show in collection..."
 msgstr "라이브러리에 표시..."
 
-#: core/utilities.cpp:441 core/utilities.cpp:447
+#: core/utilities.cpp:433 core/utilities.cpp:439
 msgid "Show in file browser"
 msgstr "파일 탐색기에 표시"
 
@@ -4424,7 +4424,7 @@ msgstr "트랙 건너뛰기"
 msgid "Small album cover"
 msgstr "작은 앨범아트"
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:714
 msgid "Small sidebar"
 msgstr "작은 사이드바"
 
@@ -4674,7 +4674,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:713
+#: widgets/fancytabwidget.cpp:716
 msgid "Tabs on top"
 msgstr "위쪽에 탭 표시"
 
@@ -4885,7 +4885,7 @@ msgstr "예쁜 OSD 표시 여부 전환"
 msgid "Tomorrow"
 msgstr "내일"
 
-#: core/utilities.cpp:441
+#: core/utilities.cpp:433
 msgid "Too many songs selected."
 msgstr "너무 많은 곡을 선택했습니다."
 
@@ -5002,6 +5002,10 @@ msgstr "%1% 업데이트 중..."
 msgid "Updating collection"
 msgstr "라이브러리 업데이트 중"
 
+#: ../build/src/ui_backendsettingspage.h:548
+msgid "Upmix / downmix to"
+msgstr ""
+
 #: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
 msgstr "왼쪽 위"
@@ -5034,7 +5038,7 @@ msgstr "OAuth 사용"
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:531
+#: ../build/src/ui_backendsettingspage.h:557
 msgid "Use Replay Gain metadata if it is available"
 msgstr "사용 가능한 경우 리플레이게인 메타데이터 사용"
 
@@ -5053,6 +5057,10 @@ msgstr "사용자 정의 색 배열 사용"
 #: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
 msgstr "알림에 표시할 사용자 정의 메시지 설정"
+
+#: ../build/src/ui_playlistsettingspage.h:165
+msgid "Use alternating row colors"
+msgstr ""
 
 #: ../build/src/ui_networkproxysettingspage.h:178
 msgid "Use authentication"
@@ -5157,7 +5165,7 @@ msgstr "음량 %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:220 ../build/src/ui_playlistsettingspage.h:160
+#: playlist/playlisttabbar.cpp:220 ../build/src/ui_playlistsettingspage.h:167
 msgid "Warn me when closing a playlist tab"
 msgstr "재생 목록 탭을 닫을 때 알리기"
 
@@ -5186,7 +5194,7 @@ msgstr ""
 "Strawberry에서 앨범 아트를 찾을 때 다음 단어를 포함하는 그림 파일을 먼저 찾습니다.\n"
 "일치하는 파일이 없으면 디렉터리에 있는 가장 큰 그림을 사용합니다."
 
-#: ../build/src/ui_playlistsettingspage.h:168
+#: ../build/src/ui_playlistsettingspage.h:175
 msgid "When saving a playlist, file paths should be"
 msgstr "재생 목록을 저장할 때 파일 경로 처리 방식"
 
@@ -5212,7 +5220,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "지금 전부 다시 검색하시겠습니까?"
 
-#: ../build/src/ui_playlistsettingspage.h:178
+#: ../build/src/ui_playlistsettingspage.h:185
 msgid "Write metadata when saving playlists"
 msgstr "재생 목록을 저장할 때 메타데이터 쓰기"
 
@@ -5371,6 +5379,10 @@ msgstr ""
 msgid "biggest first"
 msgstr ""
 
+#: ../build/src/ui_backendsettingspage.h:549
+msgid "channels"
+msgstr ""
+
 #: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "contains"
 msgstr ""
@@ -5406,7 +5418,7 @@ msgstr ""
 msgid "greater than"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:521
+#: ../build/src/ui_backendsettingspage.h:544
 msgid "hw"
 msgstr "hw"
 
@@ -5470,9 +5482,13 @@ msgstr ""
 msgid "options"
 msgstr "옵션"
 
-#: ../build/src/ui_backendsettingspage.h:522
+#: ../build/src/ui_backendsettingspage.h:545
 msgid "p&lughw"
 msgstr "plughw(&L)"
+
+#: ../build/src/ui_backendsettingspage.h:546
+msgid "pcm"
+msgstr ""
 
 #: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format

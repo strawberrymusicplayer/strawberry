@@ -68,9 +68,9 @@ msgstr "kbps"
 msgid " minutes"
 msgstr " minutter"
 
-#: ../build/src/ui_backendsettingspage.h:525
-#: ../build/src/ui_backendsettingspage.h:545
-#: ../build/src/ui_backendsettingspage.h:548
+#: ../build/src/ui_backendsettingspage.h:551
+#: ../build/src/ui_backendsettingspage.h:571
+#: ../build/src/ui_backendsettingspage.h:574
 msgid " ms"
 msgstr "ms"
 
@@ -177,7 +177,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:447
+#: core/utilities.cpp:439
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -490,7 +490,7 @@ msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:169
+#: ../build/src/ui_playlistsettingspage.h:176
 msgid "A&utomatic"
 msgstr "A&utomatisk"
 
@@ -502,9 +502,9 @@ msgstr ""
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:520
-msgid "ALSA plugin"
-msgstr "ALSA plugin"
+#: ../build/src/ui_backendsettingspage.h:543
+msgid "ALSA plugin:"
+msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
@@ -536,7 +536,7 @@ msgstr "Om &Qt"
 msgid "About Strawberry"
 msgstr "Om Strawberry"
 
-#: ../build/src/ui_playlistsettingspage.h:170
+#: ../build/src/ui_playlistsettingspage.h:177
 msgid "Absolu&te"
 msgstr "Absolu&tt"
 
@@ -765,7 +765,7 @@ msgstr "Albu&m kover"
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:534
+#: ../build/src/ui_backendsettingspage.h:560
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (ideell lydstyrkeutgjevning for alle spor)"
 
@@ -910,7 +910,7 @@ msgstr "Legg til i gjeldende spilleliste"
 msgid "Append to the playlist"
 msgstr "Legg til i spillelista"
 
-#: ../build/src/ui_backendsettingspage.h:537
+#: ../build/src/ui_backendsettingspage.h:563
 msgid "Apply compression to prevent clipping"
 msgstr "Legg til kompressor, for å unngå klipping"
 
@@ -958,7 +958,7 @@ msgstr "Artister"
 msgid "Artists search limit"
 msgstr "Artist søkebegrensning"
 
-#: ../build/src/ui_playlistsettingspage.h:172
+#: ../build/src/ui_playlistsettingspage.h:179
 msgid "As&k when saving"
 msgstr "Spør ved lagring"
 
@@ -967,7 +967,7 @@ msgstr "Spør ved lagring"
 msgid "Audio format"
 msgstr "Lydformat"
 
-#: ../build/src/ui_backendsettingspage.h:515
+#: ../build/src/ui_backendsettingspage.h:538
 msgid "Audio output"
 msgstr "Lyd-utenhet"
 
@@ -1025,11 +1025,11 @@ msgstr ""
 msgid "Automatically search for song lyrics"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:164
+#: ../build/src/ui_playlistsettingspage.h:171
 msgid "Automatically select current playing track"
 msgstr "Velg spor automatisk"
 
-#: ../build/src/ui_playlistsettingspage.h:167
+#: ../build/src/ui_playlistsettingspage.h:174
 msgid "Automatically sort playlist when inserting songs"
 msgstr ""
 
@@ -1049,7 +1049,7 @@ msgstr "Gjennomsnittlig bitrate"
 msgid "Average image size"
 msgstr "Gjennomsnittlig bildestørrelse"
 
-#: ../build/src/ui_backendsettingspage.h:514
+#: ../build/src/ui_backendsettingspage.h:537
 msgid "Backend"
 msgstr "Backend"
 
@@ -1144,11 +1144,11 @@ msgstr "Nede til høyre"
 msgid "Browse..."
 msgstr "Bla gjennom…"
 
-#: ../build/src/ui_backendsettingspage.h:524
+#: ../build/src/ui_backendsettingspage.h:550
 msgid "Buffer"
 msgstr "Buffer"
 
-#: ../build/src/ui_backendsettingspage.h:526
+#: ../build/src/ui_backendsettingspage.h:552
 msgid "Buffer duration"
 msgstr "Mellomlagringslengde"
 
@@ -1386,7 +1386,7 @@ msgstr "Konstant bitrate"
 msgid "Context"
 msgstr "Kontekst"
 
-#: ../build/src/ui_playlistsettingspage.h:161
+#: ../build/src/ui_playlistsettingspage.h:168
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Fortsett til neste sang i stillelisten dersom en sang ikke er tilgjengelig"
@@ -1533,11 +1533,11 @@ msgstr "Omslag fra %1"
 msgid "Create a new playlist with files"
 msgstr "Opprett ny spilleliste med filer"
 
-#: ../build/src/ui_backendsettingspage.h:542
+#: ../build/src/ui_backendsettingspage.h:568
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Miks overgang når spor skiftes automatisk"
 
-#: ../build/src/ui_backendsettingspage.h:541
+#: ../build/src/ui_backendsettingspage.h:567
 msgid "Cross-fade when changing tracks manually"
 msgstr "Mikse overgang når du skifter spor selv"
 
@@ -1665,7 +1665,7 @@ msgstr "Demp lydstyrken med <value> prosent"
 msgid "Default bac&kground image"
 msgstr "Forhåndsvalgt bak&grunnsbilde"
 
-#: ../build/src/ui_backendsettingspage.h:529
+#: ../build/src/ui_backendsettingspage.h:555
 msgid "Defaults"
 msgstr ""
 
@@ -1725,7 +1725,7 @@ msgid "Details..."
 msgstr "Detaljer…"
 
 #: context/contextview.cpp:185 device/giolister.cpp:186
-#: ../build/src/ui_backendsettingspage.h:518
+#: ../build/src/ui_backendsettingspage.h:539
 #: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Device"
 msgstr "Enhet"
@@ -1910,7 +1910,7 @@ msgid "Enable Items"
 msgstr "Aktiver items"
 
 #: ../build/src/ui_collectionsettingspage.h:454
-#: ../build/src/ui_playlistsettingspage.h:166
+#: ../build/src/ui_playlistsettingspage.h:173
 msgid "Enable delete files in the right click context menu"
 msgstr ""
 
@@ -1922,7 +1922,7 @@ msgstr "Slå på tonekontroll (EQ)"
 msgid "Enable fading"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:165
+#: ../build/src/ui_playlistsettingspage.h:172
 msgid "Enable playlist clear button"
 msgstr ""
 
@@ -1930,7 +1930,7 @@ msgstr ""
 msgid "Enable scrobbling for the following sources:"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:177
+#: ../build/src/ui_playlistsettingspage.h:184
 msgid "Enable song metadata inline edition with click"
 msgstr "Slå på direkteredigering med ett klikk"
 
@@ -1938,7 +1938,7 @@ msgstr "Slå på direkteredigering med ett klikk"
 msgid "Enable stereo balancer"
 msgstr "Aktiver stereo balanse"
 
-#: ../build/src/ui_backendsettingspage.h:523
+#: ../build/src/ui_backendsettingspage.h:547
 msgid "Enable volume control"
 msgstr "Aktiver volumkontroll"
 
@@ -1958,7 +1958,7 @@ msgstr "Koding motorens kvalitetsinnstilling"
 msgid "Encoding mode"
 msgstr "Kodingsmodus"
 
-#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:516
+#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:542
 msgid "Engine"
 msgstr "Motor"
 
@@ -2062,7 +2062,7 @@ msgstr ""
 msgid "Ever played"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:543
+#: ../build/src/ui_backendsettingspage.h:569
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Unntatt mellom spor fra samme album eller CUE-fil"
 
@@ -2133,24 +2133,24 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:546
+#: ../build/src/ui_backendsettingspage.h:572
 msgid "Fade out on pause / fade in on resume"
 msgstr "Ton ut/inn ved pause/start"
 
-#: ../build/src/ui_backendsettingspage.h:540
+#: ../build/src/ui_backendsettingspage.h:566
 msgid "Fade out when stopping a track"
 msgstr "Ton ut når sporet stoppes"
 
-#: ../build/src/ui_backendsettingspage.h:539
+#: ../build/src/ui_backendsettingspage.h:565
 msgid "Fading"
 msgstr "Ton inn/ut"
 
-#: ../build/src/ui_backendsettingspage.h:544
-#: ../build/src/ui_backendsettingspage.h:547
+#: ../build/src/ui_backendsettingspage.h:570
+#: ../build/src/ui_backendsettingspage.h:573
 msgid "Fading duration"
 msgstr "Tonings-varighet"
 
-#: ../build/src/ui_backendsettingspage.h:538
+#: ../build/src/ui_backendsettingspage.h:564
 msgid "Fallback-gain"
 msgstr ""
 
@@ -2401,11 +2401,11 @@ msgstr ""
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "Hentet %1 av %2 omslag (%3 feilet)"
 
-#: ../build/src/ui_playlistsettingspage.h:162
+#: ../build/src/ui_playlistsettingspage.h:169
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr "Merk ikke-eksisterende sanger med grått når de spilles"
 
-#: ../build/src/ui_playlistsettingspage.h:163
+#: ../build/src/ui_playlistsettingspage.h:170
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "Merk ikke-eksisterende sanger med grått på oppstart"
 
@@ -2523,7 +2523,7 @@ msgstr "Høy"
 msgid "High (%1 fps)"
 msgstr "Høy (%1 bilder/sekund)"
 
-#: ../build/src/ui_backendsettingspage.h:527
+#: ../build/src/ui_backendsettingspage.h:553
 msgid "High watermark"
 msgstr ""
 
@@ -2539,7 +2539,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:714
+#: widgets/fancytabwidget.cpp:717
 msgid "Icons on top"
 msgstr "Ikoner øverst"
 
@@ -2547,7 +2547,7 @@ msgstr "Ikoner øverst"
 msgid "Identifying song"
 msgstr "Identifiserer sangen"
 
-#: ../build/src/ui_playlistsettingspage.h:175
+#: ../build/src/ui_playlistsettingspage.h:182
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
@@ -2693,7 +2693,7 @@ msgstr "Storsal"
 msgid "Large album cover"
 msgstr "Stort omslag"
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:713
 msgid "Large sidebar"
 msgstr "Stort sidefelt"
 
@@ -2839,7 +2839,7 @@ msgstr "Lav (%1 bilder/sekund)"
 msgid "Low complexity profile (LC)"
 msgstr "Profil for lavkompleksitet (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:528
+#: ../build/src/ui_backendsettingspage.h:554
 msgid "Low watermark"
 msgstr ""
 
@@ -2914,7 +2914,7 @@ msgstr "Maks antall påloggingsforsøk nådd."
 msgid "Medium (%1 fps)"
 msgstr "Medium (%1 bilder/sekund)"
 
-#: ../build/src/ui_playlistsettingspage.h:173
+#: ../build/src/ui_playlistsettingspage.h:180
 msgid "Metadata"
 msgstr "Metadata"
 
@@ -3331,7 +3331,7 @@ msgid "Other options"
 msgstr "Andre innstillinger"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:517
+#: ../build/src/ui_backendsettingspage.h:541
 msgid "Output"
 msgstr "Utgang"
 
@@ -3403,7 +3403,7 @@ msgstr "Utøver"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:712
+#: widgets/fancytabwidget.cpp:715
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
@@ -3463,7 +3463,7 @@ msgstr "Innstillinger for avspiller"
 #: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
 #: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:112
 #: playlist/playlistmanager.cpp:193 playlist/playlistmanager.cpp:566
-#: playlist/playlisttabbar.cpp:404 ../build/src/ui_playlistsettingspage.h:158
+#: playlist/playlisttabbar.cpp:404 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "Spilleliste"
 
@@ -3528,7 +3528,7 @@ msgstr "Port"
 msgid "Position"
 msgstr "Posisjon"
 
-#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:536
+#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:562
 msgid "Pre-amp"
 msgstr "Forforsterker"
 
@@ -3671,7 +3671,7 @@ msgstr "Legg spor i kø"
 msgid "QueueView"
 msgstr "Køoversikt"
 
-#: ../build/src/ui_backendsettingspage.h:533
+#: ../build/src/ui_backendsettingspage.h:559
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Radio (lik lydstyrkeutgjevning for alle spor)"
 
@@ -3683,7 +3683,7 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:171
+#: ../build/src/ui_playlistsettingspage.h:178
 msgid "Re&lative"
 msgstr "Relativ"
 
@@ -3839,11 +3839,11 @@ msgstr "Erstatt mellomrom med understrek"
 msgid "Replace the playlist"
 msgstr "Erstatt spillelista"
 
-#: ../build/src/ui_backendsettingspage.h:530
+#: ../build/src/ui_backendsettingspage.h:556
 msgid "Replay Gain"
 msgstr "Normalisering"
 
-#: ../build/src/ui_backendsettingspage.h:532
+#: ../build/src/ui_backendsettingspage.h:558
 msgid "Replay Gain mode"
 msgstr "ReplayGain-modus"
 
@@ -4143,7 +4143,7 @@ msgstr "Gå frem-/bakover ved bruk av en tastatursnarvei eller musehjulet"
 msgid "Select background color:"
 msgstr "Velg bakgrunnsfarge:"
 
-#: settings/appearancesettingspage.cpp:400
+#: settings/appearancesettingspage.cpp:401
 msgid "Select background image"
 msgstr "Velg bakgrunnsbilde"
 
@@ -4222,7 +4222,7 @@ msgstr "Vis"
 msgid "Show a &native desktop notification"
 msgstr "Vis en skrivebordsmedledelse som passer inn i ditt operativsystem"
 
-#: ../build/src/ui_playlistsettingspage.h:159
+#: ../build/src/ui_playlistsettingspage.h:166
 msgid "Show a glowing animation on the current track"
 msgstr "Vis aura rundt gjeldende spor"
 
@@ -4298,7 +4298,7 @@ msgstr "Fullskjermvisning…"
 msgid "Show in collection..."
 msgstr "Vis i samling…"
 
-#: core/utilities.cpp:441 core/utilities.cpp:447
+#: core/utilities.cpp:433 core/utilities.cpp:439
 msgid "Show in file browser"
 msgstr "Vis i fil utforsker"
 
@@ -4428,7 +4428,7 @@ msgstr "Hopp over spor"
 msgid "Small album cover"
 msgstr "Lite albumomslag"
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:714
 msgid "Small sidebar"
 msgstr "Lite sidefelt"
 
@@ -4681,7 +4681,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:713
+#: widgets/fancytabwidget.cpp:716
 msgid "Tabs on top"
 msgstr "Faner på toppen"
 
@@ -4907,7 +4907,7 @@ msgstr "Slå av/på synlighet for det pene skjermbilde overlegget"
 msgid "Tomorrow"
 msgstr "I morgen"
 
-#: core/utilities.cpp:441
+#: core/utilities.cpp:433
 msgid "Too many songs selected."
 msgstr "For mange sanger er valgt."
 
@@ -5024,6 +5024,10 @@ msgstr "Oppdaterer %1% …"
 msgid "Updating collection"
 msgstr "Oppdaterer samling"
 
+#: ../build/src/ui_backendsettingspage.h:548
+msgid "Upmix / downmix to"
+msgstr ""
+
 #: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
 msgstr "Oppe til venstre"
@@ -5056,7 +5060,7 @@ msgstr "Bruk OAuth"
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:531
+#: ../build/src/ui_backendsettingspage.h:557
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Bruk normalisering-metadata hvis tilgjengelig"
 
@@ -5075,6 +5079,10 @@ msgstr "Bruk egendefinert fargedrakt"
 #: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
 msgstr "Bruk egendefinert melding for meddelelser"
+
+#: ../build/src/ui_playlistsettingspage.h:165
+msgid "Use alternating row colors"
+msgstr ""
 
 #: ../build/src/ui_networkproxysettingspage.h:178
 msgid "Use authentication"
@@ -5181,7 +5189,7 @@ msgstr "Volum %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:220 ../build/src/ui_playlistsettingspage.h:160
+#: playlist/playlisttabbar.cpp:220 ../build/src/ui_playlistsettingspage.h:167
 msgid "Warn me when closing a playlist tab"
 msgstr "Advarsel når jeg lukker en spilleliste-fane"
 
@@ -5210,7 +5218,7 @@ msgstr ""
 "Strawberry søker først etter bildefiler som inneholder ett av disse ordene.\n"
 "Hvis ingen ord passer, blir det største bildet i mappen brukt."
 
-#: ../build/src/ui_playlistsettingspage.h:168
+#: ../build/src/ui_playlistsettingspage.h:175
 msgid "When saving a playlist, file paths should be"
 msgstr "Når du lagrer spillelisten, skal fil plasseringen"
 
@@ -5236,7 +5244,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 
-#: ../build/src/ui_playlistsettingspage.h:178
+#: ../build/src/ui_playlistsettingspage.h:185
 msgid "Write metadata when saving playlists"
 msgstr "Skrev metadata når spilleliste lagres"
 
@@ -5399,6 +5407,10 @@ msgstr ""
 msgid "biggest first"
 msgstr ""
 
+#: ../build/src/ui_backendsettingspage.h:549
+msgid "channels"
+msgstr ""
+
 #: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "contains"
 msgstr ""
@@ -5434,7 +5446,7 @@ msgstr ""
 msgid "greater than"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:521
+#: ../build/src/ui_backendsettingspage.h:544
 msgid "hw"
 msgstr "hw"
 
@@ -5498,9 +5510,13 @@ msgstr ""
 msgid "options"
 msgstr "innstillinger"
 
-#: ../build/src/ui_backendsettingspage.h:522
+#: ../build/src/ui_backendsettingspage.h:545
 msgid "p&lughw"
 msgstr "p&lughw"
+
+#: ../build/src/ui_backendsettingspage.h:546
+msgid "pcm"
+msgstr ""
 
 #: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format

@@ -106,9 +106,9 @@ msgstr "kBit/s"
 msgid " minutes"
 msgstr " Minuten"
 
-#: ../build/src/ui_backendsettingspage.h:525
-#: ../build/src/ui_backendsettingspage.h:545
-#: ../build/src/ui_backendsettingspage.h:548
+#: ../build/src/ui_backendsettingspage.h:551
+#: ../build/src/ui_backendsettingspage.h:571
+#: ../build/src/ui_backendsettingspage.h:574
 msgid " ms"
 msgstr " ms"
 
@@ -215,7 +215,7 @@ msgstr "%1 Lieder gefunden"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 Lieder gefunden (zeigt %2)"
 
-#: core/utilities.cpp:447
+#: core/utilities.cpp:439
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -537,7 +537,7 @@ msgstr ""
 "Ein Lied wird in die Wiedergabeliste aufgenommen, wenn es diesen Bedingungen "
 "entspricht."
 
-#: ../build/src/ui_playlistsettingspage.h:169
+#: ../build/src/ui_playlistsettingspage.h:176
 msgid "A&utomatic"
 msgstr "A&utomatisch"
 
@@ -549,9 +549,9 @@ msgstr "A-Z"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:520
-msgid "ALSA plugin"
-msgstr "ALSA plugin"
+#: ../build/src/ui_backendsettingspage.h:543
+msgid "ALSA plugin:"
+msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
@@ -583,7 +583,7 @@ msgstr "Über &Qt"
 msgid "About Strawberry"
 msgstr "Über Strawberry"
 
-#: ../build/src/ui_playlistsettingspage.h:170
+#: ../build/src/ui_playlistsettingspage.h:177
 msgid "Absolu&te"
 msgstr "Absolu&t"
 
@@ -814,7 +814,7 @@ msgstr "Albu&m cover"
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:534
+#: ../build/src/ui_backendsettingspage.h:560
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (idealer Pegel für alle Titel)"
 
@@ -959,7 +959,7 @@ msgstr "Zur aktuellen Wiedergabeliste hinzufügen"
 msgid "Append to the playlist"
 msgstr "Zur Wiedergabeliste hinzufügen"
 
-#: ../build/src/ui_backendsettingspage.h:537
+#: ../build/src/ui_backendsettingspage.h:563
 msgid "Apply compression to prevent clipping"
 msgstr "Komprimieren um Übersteuerung zu vermeiden"
 
@@ -1007,7 +1007,7 @@ msgstr "Künstler"
 msgid "Artists search limit"
 msgstr "Künstler Suchlimit"
 
-#: ../build/src/ui_playlistsettingspage.h:172
+#: ../build/src/ui_playlistsettingspage.h:179
 msgid "As&k when saving"
 msgstr "Nachfragen beim speichern"
 
@@ -1016,7 +1016,7 @@ msgstr "Nachfragen beim speichern"
 msgid "Audio format"
 msgstr "Tonformat"
 
-#: ../build/src/ui_backendsettingspage.h:515
+#: ../build/src/ui_backendsettingspage.h:538
 msgid "Audio output"
 msgstr "Tonausgabe"
 
@@ -1074,11 +1074,11 @@ msgstr "Automatisch nach Titelbildern suchen"
 msgid "Automatically search for song lyrics"
 msgstr "Automatisch nach Liedtexten suchen"
 
-#: ../build/src/ui_playlistsettingspage.h:164
+#: ../build/src/ui_playlistsettingspage.h:171
 msgid "Automatically select current playing track"
 msgstr "Automatisch den aktuellen Song auswählen"
 
-#: ../build/src/ui_playlistsettingspage.h:167
+#: ../build/src/ui_playlistsettingspage.h:174
 msgid "Automatically sort playlist when inserting songs"
 msgstr "Sortierliste beim Einfügen von Songs automatisch sortieren"
 
@@ -1098,7 +1098,7 @@ msgstr "Durchschnittliche Bitrate"
 msgid "Average image size"
 msgstr "Durchschnittliche Bildgröße"
 
-#: ../build/src/ui_backendsettingspage.h:514
+#: ../build/src/ui_backendsettingspage.h:537
 msgid "Backend"
 msgstr "Backend"
 
@@ -1193,11 +1193,11 @@ msgstr "Unten rechts"
 msgid "Browse..."
 msgstr "Durchsuchen …"
 
-#: ../build/src/ui_backendsettingspage.h:524
+#: ../build/src/ui_backendsettingspage.h:550
 msgid "Buffer"
 msgstr "Puffer"
 
-#: ../build/src/ui_backendsettingspage.h:526
+#: ../build/src/ui_backendsettingspage.h:552
 msgid "Buffer duration"
 msgstr "Pufferdauer"
 
@@ -1438,7 +1438,7 @@ msgstr "Konstante Bitrate"
 msgid "Context"
 msgstr "Kontext"
 
-#: ../build/src/ui_playlistsettingspage.h:161
+#: ../build/src/ui_playlistsettingspage.h:168
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Zum nächsten Lied in der Wiedergabeliste weitergehen, wenn das Lied nicht "
@@ -1589,11 +1589,11 @@ msgstr "Titelbild von  %1"
 msgid "Create a new playlist with files"
 msgstr "Neue Wiedergabelist mit Dateien erstellen"
 
-#: ../build/src/ui_backendsettingspage.h:542
+#: ../build/src/ui_backendsettingspage.h:568
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Überblenden bei automatischem Titelwechsel"
 
-#: ../build/src/ui_backendsettingspage.h:541
+#: ../build/src/ui_backendsettingspage.h:567
 msgid "Cross-fade when changing tracks manually"
 msgstr "Überblenden bei manuellem Titelwechsel"
 
@@ -1721,7 +1721,7 @@ msgstr "Lautstärke um <value> Prozent verringern"
 msgid "Default bac&kground image"
 msgstr "Default Hintergrundbild"
 
-#: ../build/src/ui_backendsettingspage.h:529
+#: ../build/src/ui_backendsettingspage.h:555
 msgid "Defaults"
 msgstr "Voreinstellungen"
 
@@ -1781,7 +1781,7 @@ msgid "Details..."
 msgstr "Details …"
 
 #: context/contextview.cpp:185 device/giolister.cpp:186
-#: ../build/src/ui_backendsettingspage.h:518
+#: ../build/src/ui_backendsettingspage.h:539
 #: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Device"
 msgstr "Gerät"
@@ -1966,7 +1966,7 @@ msgid "Enable Items"
 msgstr "Elemente aktivieren"
 
 #: ../build/src/ui_collectionsettingspage.h:454
-#: ../build/src/ui_playlistsettingspage.h:166
+#: ../build/src/ui_playlistsettingspage.h:173
 msgid "Enable delete files in the right click context menu"
 msgstr ""
 "Aktivieren Sie das Löschen von Dateien im Kontextmenü mit der rechten "
@@ -1980,7 +1980,7 @@ msgstr "Equalizer aktivieren"
 msgid "Enable fading"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:165
+#: ../build/src/ui_playlistsettingspage.h:172
 msgid "Enable playlist clear button"
 msgstr "Wiedergabeliste löschen - Knopf aktivieren"
 
@@ -1988,7 +1988,7 @@ msgstr "Wiedergabeliste löschen - Knopf aktivieren"
 msgid "Enable scrobbling for the following sources:"
 msgstr "Aktivieren Sie das Scrobbeln für die folgenden Quellen:"
 
-#: ../build/src/ui_playlistsettingspage.h:177
+#: ../build/src/ui_playlistsettingspage.h:184
 msgid "Enable song metadata inline edition with click"
 msgstr "Direktausgabe der Titelmetadaten mit Klick aktivieren"
 
@@ -1996,7 +1996,7 @@ msgstr "Direktausgabe der Titelmetadaten mit Klick aktivieren"
 msgid "Enable stereo balancer"
 msgstr "Stereo Verteiler einschalten"
 
-#: ../build/src/ui_backendsettingspage.h:523
+#: ../build/src/ui_backendsettingspage.h:547
 msgid "Enable volume control"
 msgstr "Lautstärkeregler anschalten"
 
@@ -2016,7 +2016,7 @@ msgstr "Kodierungsqualität"
 msgid "Encoding mode"
 msgstr "Kodierungsmodus"
 
-#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:516
+#: context/contextview.cpp:184 ../build/src/ui_backendsettingspage.h:542
 msgid "Engine"
 msgstr "Engine"
 
@@ -2123,7 +2123,7 @@ msgstr "Fehler beim Einstellen des CDDA-Geräts in die Bereitschaft. "
 msgid "Ever played"
 msgstr "Jemals gespielt"
 
-#: ../build/src/ui_backendsettingspage.h:543
+#: ../build/src/ui_backendsettingspage.h:569
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Außer für Titel des gleichen Albums oder des gleichen Cuesheets."
 
@@ -2194,24 +2194,24 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:546
+#: ../build/src/ui_backendsettingspage.h:572
 msgid "Fade out on pause / fade in on resume"
 msgstr "Ausblenden bei Pause / Einblenden beim Fortsetzen"
 
-#: ../build/src/ui_backendsettingspage.h:540
+#: ../build/src/ui_backendsettingspage.h:566
 msgid "Fade out when stopping a track"
 msgstr "Ausblenden, wenn ein Titel angehalten wird"
 
-#: ../build/src/ui_backendsettingspage.h:539
+#: ../build/src/ui_backendsettingspage.h:565
 msgid "Fading"
 msgstr "Überblenden"
 
-#: ../build/src/ui_backendsettingspage.h:544
-#: ../build/src/ui_backendsettingspage.h:547
+#: ../build/src/ui_backendsettingspage.h:570
+#: ../build/src/ui_backendsettingspage.h:573
 msgid "Fading duration"
 msgstr "Dauer:"
 
-#: ../build/src/ui_backendsettingspage.h:538
+#: ../build/src/ui_backendsettingspage.h:564
 msgid "Fallback-gain"
 msgstr ""
 
@@ -2466,11 +2466,11 @@ msgstr "Los!"
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "%1 Titelbilder von %2 wurden gefunden (%3 fehlgeschlagen)"
 
-#: ../build/src/ui_playlistsettingspage.h:162
+#: ../build/src/ui_playlistsettingspage.h:169
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr "Ausgrauen von Lieder, die nicht verfügbar sind während des Abspielens"
 
-#: ../build/src/ui_playlistsettingspage.h:163
+#: ../build/src/ui_playlistsettingspage.h:170
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "Ausgrauen von Lieder, die nicht verfügbar sind während des Startens"
 
@@ -2589,7 +2589,7 @@ msgstr "Hoch"
 msgid "High (%1 fps)"
 msgstr "Hoch (%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:527
+#: ../build/src/ui_backendsettingspage.h:553
 msgid "High watermark"
 msgstr "Höchstwert"
 
@@ -2605,7 +2605,7 @@ msgstr "Symbol"
 msgid "Icon sizes"
 msgstr "Icon Größe"
 
-#: widgets/fancytabwidget.cpp:714
+#: widgets/fancytabwidget.cpp:717
 msgid "Icons on top"
 msgstr "Symbole oben"
 
@@ -2613,7 +2613,7 @@ msgstr "Symbole oben"
 msgid "Identifying song"
 msgstr "Titel werden erkannt"
 
-#: ../build/src/ui_playlistsettingspage.h:175
+#: ../build/src/ui_playlistsettingspage.h:182
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
@@ -2768,7 +2768,7 @@ msgstr "Großer Raum"
 msgid "Large album cover"
 msgstr "Großes Titelbild"
 
-#: widgets/fancytabwidget.cpp:710
+#: widgets/fancytabwidget.cpp:713
 msgid "Large sidebar"
 msgstr "Große Seitenleiste"
 
@@ -2914,7 +2914,7 @@ msgstr "Niedrig (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Geringes Komplexitätsprofil (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:528
+#: ../build/src/ui_backendsettingspage.h:554
 msgid "Low watermark"
 msgstr "Niedrigster Wert"
 
@@ -2989,7 +2989,7 @@ msgstr "Maximale Anzahl von Anmeldeversuchen erreicht."
 msgid "Medium (%1 fps)"
 msgstr "Mittel (%1 fps)"
 
-#: ../build/src/ui_playlistsettingspage.h:173
+#: ../build/src/ui_playlistsettingspage.h:180
 msgid "Metadata"
 msgstr "Metadaten"
 
@@ -3414,7 +3414,7 @@ msgid "Other options"
 msgstr "Weitere Optionen"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:517
+#: ../build/src/ui_backendsettingspage.h:541
 msgid "Output"
 msgstr "Ausgabe"
 
@@ -3486,7 +3486,7 @@ msgstr "Besetzung"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:712
+#: widgets/fancytabwidget.cpp:715
 msgid "Plain sidebar"
 msgstr "Einfache Seitenleiste"
 
@@ -3548,7 +3548,7 @@ msgstr "Spielereinstellungen"
 #: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:288
 #: playlist/playlistlistcontainer.cpp:385 playlist/playlistmanager.cpp:112
 #: playlist/playlistmanager.cpp:193 playlist/playlistmanager.cpp:566
-#: playlist/playlisttabbar.cpp:404 ../build/src/ui_playlistsettingspage.h:158
+#: playlist/playlisttabbar.cpp:404 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "Wiedergabeliste"
 
@@ -3615,7 +3615,7 @@ msgstr "Anschluss (Port)"
 msgid "Position"
 msgstr "Position"
 
-#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:536
+#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:562
 msgid "Pre-amp"
 msgstr "Vorverstärkung:"
 
@@ -3766,7 +3766,7 @@ msgstr "Titel in die Warteschlange einreihen"
 msgid "QueueView"
 msgstr "Ansicht Warteschlange"
 
-#: ../build/src/ui_backendsettingspage.h:533
+#: ../build/src/ui_backendsettingspage.h:559
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Radio (gleicher Pegel für alle Titel)"
 
@@ -3778,7 +3778,7 @@ msgstr ""
 msgid "Rating"
 msgstr "Bewertung"
 
-#: ../build/src/ui_playlistsettingspage.h:171
+#: ../build/src/ui_playlistsettingspage.h:178
 msgid "Re&lative"
 msgstr "Re&lativ"
 
@@ -3937,11 +3937,11 @@ msgstr "Leerzeichen mit Unterstrichen ersetzen"
 msgid "Replace the playlist"
 msgstr "Die Wiedergabeliste ersetzen lassen"
 
-#: ../build/src/ui_backendsettingspage.h:530
+#: ../build/src/ui_backendsettingspage.h:556
 msgid "Replay Gain"
 msgstr "Replay Gain"
 
-#: ../build/src/ui_backendsettingspage.h:532
+#: ../build/src/ui_backendsettingspage.h:558
 msgid "Replay Gain mode"
 msgstr "Replay Gain"
 
@@ -4242,7 +4242,7 @@ msgstr "Mit Tastaturkürzel oder Mausrad spulen"
 msgid "Select background color:"
 msgstr "Hintergrundfarbe:"
 
-#: settings/appearancesettingspage.cpp:400
+#: settings/appearancesettingspage.cpp:401
 msgid "Select background image"
 msgstr "Hintergrundbild wählen"
 
@@ -4321,7 +4321,7 @@ msgstr "Anzeigen"
 msgid "Show a &native desktop notification"
 msgstr "Zeige die &Desktop Benachrichtigungen an"
 
-#: ../build/src/ui_playlistsettingspage.h:159
+#: ../build/src/ui_playlistsettingspage.h:166
 msgid "Show a glowing animation on the current track"
 msgstr "Den aktuellen Titel mit einem animierten Glühen hervorheben"
 
@@ -4399,7 +4399,7 @@ msgstr "In Originalgröße anzeigen …"
 msgid "Show in collection..."
 msgstr "In Bibliothek anzeigen …"
 
-#: core/utilities.cpp:441 core/utilities.cpp:447
+#: core/utilities.cpp:433 core/utilities.cpp:439
 msgid "Show in file browser"
 msgstr "Zeige im Dateimanager"
 
@@ -4529,7 +4529,7 @@ msgstr "Titel überspringen"
 msgid "Small album cover"
 msgstr "Kleines Titelbild"
 
-#: widgets/fancytabwidget.cpp:711
+#: widgets/fancytabwidget.cpp:714
 msgid "Small sidebar"
 msgstr "Schmale Seitenleiste"
 
@@ -4788,7 +4788,7 @@ msgstr "Tab-Leiste großer Modus"
 msgid "Tabbar small mode"
 msgstr "Tab-Leiste kleiner Modus"
 
-#: widgets/fancytabwidget.cpp:713
+#: widgets/fancytabwidget.cpp:716
 msgid "Tabs on top"
 msgstr "Reiter oben"
 
@@ -5022,7 +5022,7 @@ msgstr "Sichtbarkeit der Strawberry-Bildschirmanzeige anpassen"
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: core/utilities.cpp:441
+#: core/utilities.cpp:433
 msgid "Too many songs selected."
 msgstr "Zu viele Lieder ausgewählt."
 
@@ -5139,6 +5139,10 @@ msgstr "%1% wird aktualisiert …"
 msgid "Updating collection"
 msgstr "Bibliothek wird aktualisiert"
 
+#: ../build/src/ui_backendsettingspage.h:548
+msgid "Upmix / downmix to"
+msgstr ""
+
 #: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
 msgstr "Oben links"
@@ -5171,7 +5175,7 @@ msgstr "Benutze OAuth"
 msgid "Use Qobuz settings to authenticate."
 msgstr "Verwenden Sie die Qobuz-Einstellungen zur Authentifizierung."
 
-#: ../build/src/ui_backendsettingspage.h:531
+#: ../build/src/ui_backendsettingspage.h:557
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Replay Gain Metadaten benutzen, wenn verfügbar"
 
@@ -5190,6 +5194,10 @@ msgstr "Ein benutzerdefiniertes Farbschema verwenden"
 #: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
 msgstr "Einen benutzerdefinierten Text für Benachrichtigungen benutzen"
+
+#: ../build/src/ui_playlistsettingspage.h:165
+msgid "Use alternating row colors"
+msgstr ""
 
 #: ../build/src/ui_networkproxysettingspage.h:178
 msgid "Use authentication"
@@ -5296,7 +5304,7 @@ msgstr "Lautstärke %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:220 ../build/src/ui_playlistsettingspage.h:160
+#: playlist/playlisttabbar.cpp:220 ../build/src/ui_playlistsettingspage.h:167
 msgid "Warn me when closing a playlist tab"
 msgstr "Hinweis beim Schließen eines Wiedergabelistenreiters anzeigen"
 
@@ -5332,7 +5340,7 @@ msgstr ""
 "Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis "
 "ausgewählt."
 
-#: ../build/src/ui_playlistsettingspage.h:168
+#: ../build/src/ui_playlistsettingspage.h:175
 msgid "When saving a playlist, file paths should be"
 msgstr ""
 "Beim Speichern einer Wiedergabeliste sollte der Dateipfad folgendes sein"
@@ -5361,7 +5369,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "Möchten Sie jetzt Ihre Musiksammlung erneut einlesen?"
 
-#: ../build/src/ui_playlistsettingspage.h:178
+#: ../build/src/ui_playlistsettingspage.h:185
 msgid "Write metadata when saving playlists"
 msgstr "Metadaten schreiben, wenn Wiedergabelisten gespeichert werden"
 
@@ -5528,6 +5536,10 @@ msgstr "dazwischen"
 msgid "biggest first"
 msgstr "Größte zuerst"
 
+#: ../build/src/ui_backendsettingspage.h:549
+msgid "channels"
+msgstr ""
+
 #: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "contains"
 msgstr "beinhaltet"
@@ -5563,7 +5575,7 @@ msgstr "ist gleich"
 msgid "greater than"
 msgstr "größer als"
 
-#: ../build/src/ui_backendsettingspage.h:521
+#: ../build/src/ui_backendsettingspage.h:544
 msgid "hw"
 msgstr "hw"
 
@@ -5627,9 +5639,13 @@ msgstr "an"
 msgid "options"
 msgstr "Einstellungen"
 
-#: ../build/src/ui_backendsettingspage.h:522
+#: ../build/src/ui_backendsettingspage.h:545
 msgid "p&lughw"
 msgstr "p&lughw Plugin"
+
+#: ../build/src/ui_backendsettingspage.h:546
+msgid "pcm"
+msgstr ""
 
 #: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format
