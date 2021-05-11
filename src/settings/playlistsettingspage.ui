@@ -15,6 +15,13 @@
   </property>
   <layout class="QVBoxLayout" name="layout_playlistsettingspage">
    <item>
+    <widget class="QCheckBox" name="checkbox_alternating_row_colors">
+     <property name="text">
+      <string>Use alternating row colors</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="checkbox_glowcurrenttrack">
      <property name="text">
       <string>Show a glowing animation on the current track</string>

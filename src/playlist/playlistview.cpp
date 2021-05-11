@@ -1155,6 +1155,7 @@ void PlaylistView::ReloadSettings() {
   bool editmetadatainline = s.value("editmetadatainline", false).toBool();
   select_track_ = s.value("select_track", false).toBool();
   auto_sort_ = s.value("auto_sort", false).toBool();
+  setAlternatingRowColors(s.value("alternating_row_colors", true).toBool());
   s.endGroup();
 
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);

@@ -52,6 +52,8 @@ void PlaylistSettingsPage::Load() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
 
+  ui_->checkbox_alternating_row_colors->setChecked(s.value("alternating_row_colors", true).toBool());
+
 #ifdef Q_OS_MACOS
   bool glow_effect = false;
 #else
@@ -118,6 +120,7 @@ void PlaylistSettingsPage::Save() {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
+  s.setValue("alternating_row_colors", ui_->checkbox_alternating_row_colors->isChecked());
   s.setValue("glow_effect", ui_->checkbox_glowcurrenttrack->isChecked());
   s.setValue("warn_close_playlist", ui_->checkbox_warncloseplaylist->isChecked());
   s.setValue("continue_on_error", ui_->checkbox_continueonerror->isChecked());
