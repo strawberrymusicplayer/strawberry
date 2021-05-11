@@ -99,6 +99,8 @@ class AppearanceSettingsPage : public SettingsPage {
   void Save() override;
   void Cancel() override;
 
+  static QColor DefaultTabbarBgColor();
+
  private slots:
   void SelectForegroundColor();
   void SelectBackgroundColor();

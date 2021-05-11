@@ -42,6 +42,7 @@
 #include <QSettings>
 
 #include "appearancesettingspage.h"
+#include "core/utilities.h"
 #include "core/appearance.h"
 #include "core/iconloader.h"
 #include "core/stylehelper.h"
@@ -176,7 +177,7 @@ void AppearanceSettingsPage::Load() {
   ui_->tabbar_system_color->setChecked(tabbar_system_color);
   ui_->tabbar_custom_color->setChecked(!tabbar_system_color);
 
-  current_tabbar_bg_color_ = s.value(kTabBarColor, StyleHelper::highlightColor()).value<QColor>();
+  current_tabbar_bg_color_ = s.value(kTabBarColor, DefaultTabbarBgColor()).value<QColor>();
 
   UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
   TabBarSystemColor(ui_->tabbar_system_color->isChecked());
@@ -415,7 +416,7 @@ void AppearanceSettingsPage::OpacityLevelChanged(int percent) {
 void AppearanceSettingsPage::TabBarSystemColor(bool checked) {
 
   if (checked) {
-    current_tabbar_bg_color_ = StyleHelper::highlightColor();
+    current_tabbar_bg_color_ = DefaultTabbarBgColor();
     UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
   }
   ui_->layout_tabbar_color->setEnabled(!checked);
@@ -461,5 +462,15 @@ void AppearanceSettingsPage::PlaylistPlayingSongSelectColor() {
   UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
 
   set_changed();
+
+}
+
+QColor AppearanceSettingsPage::DefaultTabbarBgColor() {
+
+  QColor color = StyleHelper::highlightColor();
+  if (Utilities::IsColorDark(color)) {
+    color = color.lighter(130);
+  }
+  return color;
 
 }

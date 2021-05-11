@@ -522,7 +522,10 @@ void FancyTabWidget::ReloadSettings() {
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   bg_color_system_ = s.value(AppearanceSettingsPage::kTabBarSystemColor, false).toBool();
   bg_gradient_ = s.value(AppearanceSettingsPage::kTabBarGradient, true).toBool();
-  bg_color_ = s.value(AppearanceSettingsPage::kTabBarColor, StyleHelper::highlightColor()).value<QColor>();
+  bg_color_ = AppearanceSettingsPage::DefaultTabbarBgColor();
+  if (!bg_color_system_) {
+    bg_color_ = s.value(AppearanceSettingsPage::kTabBarColor, bg_color_).value<QColor>();
+  }
   iconsize_smallsidebar_ = s.value(AppearanceSettingsPage::kIconSizeTabbarSmallMode, FancyTabWidget::IconSize_SmallSidebar).toInt();
   iconsize_largesidebar_ = s.value(AppearanceSettingsPage::kIconSizeTabbarLargeMode, FancyTabWidget::IconSize_LargeSidebar).toInt();
   s.endGroup();
