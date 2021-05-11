@@ -205,12 +205,8 @@ quint64 FileSystemCapacity(const QString &path) {
     return quint64(fs_info.f_blocks) * quint64(fs_info.f_bsize);
 #elif defined(Q_OS_WIN32)
   _ULARGE_INTEGER ret;
-#  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   ScopedWCharArray wchar(QDir::toNativeSeparators(path));
   if (GetDiskFreeSpaceEx(wchar.get(), nullptr, &ret, nullptr) != 0)
-#  else
-  if (GetDiskFreeSpaceEx(QDir::toNativeSeparators(path).toLocal8Bit().constData(), nullptr, &ret, nullptr) != 0)
-#  endif
     return ret.QuadPart;
 #endif
 
@@ -226,12 +222,8 @@ quint64 FileSystemFreeSpace(const QString &path) {
     return quint64(fs_info.f_bavail) * quint64(fs_info.f_bsize);
 #elif defined(Q_OS_WIN32)
   _ULARGE_INTEGER ret;
-#  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   ScopedWCharArray wchar(QDir::toNativeSeparators(path));
   if (GetDiskFreeSpaceEx(wchar.get(), &ret, nullptr, nullptr) != 0)
-#  else
-  if (GetDiskFreeSpaceEx(QDir::toNativeSeparators(path).toLocal8Bit().constData(), &ret, nullptr, nullptr) != 0)
-#  endif
     return ret.QuadPart;
 #endif
 

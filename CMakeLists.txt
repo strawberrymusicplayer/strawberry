@@ -419,6 +419,10 @@ add_definitions(-DQT_USE_QSTRINGBUILDER)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 add_definitions(-DQT_NO_CAST_TO_ASCII)
 
+if(WIN32 AND QT_MAJOR_VERSION EQUAL 5)
+  add_definitions(-DUNICODE)
+endif()
+
 # Subdirectories
 add_subdirectory(src)
 add_subdirectory(dist)
