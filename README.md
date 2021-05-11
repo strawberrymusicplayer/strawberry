@@ -44,14 +44,14 @@ Funding developers is a way to contribute to open source projects you appreciate
   * Playlist management
   * Smart and dynamic playlists
   * Advanced audio output and device configuration for bit-perfect playback on Linux
-  * Edit tags on music files
+  * Edit tags on audio files
   * Fetch tags from MusicBrainz
   * Album cover art from [Last.fm](https://www.last.fm/), [Musicbrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/), [Musixmatch](https://www.musixmatch.com/), [Deezer](https://www.deezer.com/), [Tidal](https://www.tidal.com/), [Qobuz](https://www.qobuz.com/) and [Spotify](https://www.spotify.com/)
   * Song lyrics from [AudD](https://audd.io/), [Genius](https://genius.com/), [Musixmatch](https://www.musixmatch.com/), [ChartLyrics](http://www.chartlyrics.com/), [lyrics.ovh](https://lyrics.ovh/) and [lololyrics.com](https://www.lololyrics.com/)
   * Support for multiple backends
   * Audio analyzer
   * Audio equalizer
-  * Transfer music to iPod, MTP or mass-storage USB player
+  * Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic
   * Scrobbler with support for [Last.fm](https://www.last.fm/), [Libre.fm](https://libre.fm/) and [ListenBrainz](https://listenbrainz.org/)
   * Subsonic, Tidal and Qobuz streaming support
 
@@ -79,7 +79,7 @@ To build Strawberry from source you need the following installed on your system 
 * [PulseAudio (linux optional)](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
 * [GStreamer](https://gstreamer.freedesktop.org/) or [VLC](https://www.videolan.org)
 * [GnuTLS](https://www.gnutls.org/)
-* [TagLib](https://www.taglib.org/)
+* [TagLib 1.11.1 or higher](https://www.taglib.org/)
 
 Optional dependencies:
 
