@@ -206,6 +206,10 @@ class Base : public QObject {
   QString proxy_user_;
   QString proxy_pass_;
 
+  // Channels
+  bool channels_enabled_;
+  int channels_;
+
  private:
   bool about_to_end_emitted_;
   Q_DISABLE_COPY(Base)

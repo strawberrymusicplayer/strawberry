@@ -74,6 +74,7 @@ class GstEnginePipeline : public QObject {
   void set_buffer_low_watermark(const double value);
   void set_buffer_high_watermark(const double value);
   void set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass);
+  void set_channels(const bool enabled, const int channels);
 
   // Creates the pipeline, returns false on error
   bool InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec);
@@ -220,6 +221,10 @@ class GstEnginePipeline : public QObject {
   bool proxy_authentication_;
   QString proxy_user_;
   QString proxy_pass_;
+
+  // Channels
+  bool channels_enabled_;
+  int channels_;
 
   // These get called when there is a new audio buffer available
   QList<GstBufferConsumer*> buffer_consumers_;

@@ -21,125 +21,23 @@
      </property>
      <layout class="QVBoxLayout" name="layout_audio_output">
       <item>
-       <layout class="QHBoxLayout" name="layout_engine">
-        <property name="spacing">
-         <number>10</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="label_engine">
-          <property name="text">
-           <string>Engine</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="combobox_engine">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>400</width>
-            <height>0</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="spacer_engine">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="layout_output">
-        <property name="spacing">
-         <number>10</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="label_output">
-          <property name="text">
-           <string>Output</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="combobox_output">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>400</width>
-            <height>0</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="spacer_output">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="layout_device">
-        <property name="spacing">
-         <number>10</number>
-        </property>
-        <item>
+       <layout class="QGridLayout" name="layout_engine_output_device">
+        <item row="4" column="0">
          <widget class="QLabel" name="label_device">
           <property name="text">
            <string>Device</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QComboBox" name="combobox_device">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>240</width>
-            <height>0</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
+        <item row="5" column="1">
          <widget class="LineEdit" name="lineedit_device" native="true">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="minimumSize">
            <size>
-            <width>90</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>160</width>
-            <height>16777215</height>
+            <width>0</width>
+            <height>20</height>
            </size>
           </property>
           <property name="hint" stdset="0">
@@ -147,23 +45,48 @@
           </property>
          </widget>
         </item>
-        <item>
-         <spacer name="spacer_device">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="combobox_output">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_output">
+          <property name="text">
+           <string>Output</string>
           </property>
-         </spacer>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QComboBox" name="combobox_device">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="combobox_engine">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_engine">
+          <property name="text">
+           <string>Engine</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
       <item>
        <widget class="QWidget" name="widget_alsa_plugin" native="true">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <layout class="QHBoxLayout" name="layout_alsa_plugin">
          <property name="leftMargin">
           <number>0</number>
@@ -180,7 +103,7 @@
          <item>
           <widget class="QLabel" name="label_alsaplugin">
            <property name="text">
-            <string>ALSA plugin</string>
+            <string>ALSA plugin:</string>
            </property>
           </widget>
          </item>
@@ -205,6 +128,16 @@
           </widget>
          </item>
          <item>
+          <widget class="QRadioButton" name="radiobutton_alsa_pcm">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>pcm</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="spacer_alsaplugin">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -225,6 +158,82 @@
         <property name="text">
          <string>Enable volume control</string>
         </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_channels_enabled" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="checkbox_channels">
+           <property name="text">
+            <string>Upmix / downmix to</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_channels" native="true">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QSpinBox" name="spinbox_channels">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>20</number>
+              </property>
+              <property name="value">
+               <number>2</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_channels">
+              <property name="text">
+               <string>channels</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacer_channels">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
@@ -689,7 +698,10 @@
   <tabstop>combobox_device</tabstop>
   <tabstop>radiobutton_alsa_hw</tabstop>
   <tabstop>radiobutton_alsa_plughw</tabstop>
+  <tabstop>radiobutton_alsa_pcm</tabstop>
   <tabstop>checkbox_volume_control</tabstop>
+  <tabstop>checkbox_channels</tabstop>
+  <tabstop>spinbox_channels</tabstop>
   <tabstop>spinbox_bufferduration</tabstop>
   <tabstop>spinbox_low_watermark</tabstop>
   <tabstop>spinbox_high_watermark</tabstop>
@@ -716,12 +728,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>89</x>
-     <y>259</y>
+     <x>110</x>
+     <y>465</y>
     </hint>
     <hint type="destinationlabel">
-     <x>143</x>
-     <y>285</y>
+     <x>164</x>
+     <y>573</y>
     </hint>
    </hints>
   </connection>

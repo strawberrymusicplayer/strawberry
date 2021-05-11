@@ -60,6 +60,8 @@ Engine::Base::Base()
       fadeout_duration_(2),
       fadeout_duration_nanosec_(2 * kNsecPerSec),
       proxy_authentication_(false),
+      channels_enabled_(false),
+      channels_(0),
       about_to_end_emitted_(false) {}
 
 Engine::Base::~Base() {}
@@ -110,6 +112,9 @@ void Engine::Base::ReloadSettings() {
 
   volume_control_ = s.value("volume_control", true).toBool();
 
+  channels_enabled_ = s.value("channels_enabled", false).toBool();
+  channels_ = s.value("channels", 0).toInt();
+
   buffer_duration_nanosec_ = s.value("bufferduration", BackendSettingsPage::kDefaultBufferDuration).toLongLong() * kNsecPerMsec;
   buffer_low_watermark_ = s.value("bufferlowwatermark", BackendSettingsPage::kDefaultBufferLowWatermark).toDouble();
   buffer_high_watermark_ = s.value("bufferhighwatermark", BackendSettingsPage::kDefaultBufferHighWatermark).toDouble();
@@ -156,6 +161,7 @@ void Engine::Base::ReloadSettings() {
     proxy_user_.clear();
     proxy_pass_.clear();
   }
+
   s.endGroup();
 
 }

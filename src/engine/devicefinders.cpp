@@ -30,6 +30,7 @@
 
 #ifdef HAVE_ALSA
 #  include "alsadevicefinder.h"
+#  include "alsapcmdevicefinder.h"
 #endif
 
 #ifdef HAVE_LIBPULSE
@@ -57,6 +58,7 @@ void DeviceFinders::Init() {
 
 #ifdef HAVE_ALSA
   device_finders.append(new AlsaDeviceFinder);
+  device_finders.append(new AlsaPCMDeviceFinder);
 #endif
 #ifdef HAVE_LIBPULSE
   device_finders.append(new PulseDeviceFinder);

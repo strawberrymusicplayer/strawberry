@@ -574,6 +574,7 @@ endif(HAVE_GLOBALSHORTCUTS)
 optional_source(HAVE_ALSA
   SOURCES
     engine/alsadevicefinder.cpp
+    engine/alsapcmdevicefinder.cpp
 )
 
 # DBUS

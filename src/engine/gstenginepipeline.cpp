@@ -86,6 +86,8 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       buffer_high_watermark_(BackendSettingsPage::kDefaultBufferHighWatermark),
       buffering_(false),
       proxy_authentication_(false),
+      channels_enabled_(false),
+      channels_(0),
       segment_start_(0),
       segment_start_received_(false),
       end_offset_nanosec_(-1),
@@ -204,6 +206,11 @@ void GstEnginePipeline::set_proxy_settings(const QString &address, const bool au
   proxy_authentication_ = authentication;
   proxy_user_ = user;
   proxy_pass_ = pass;
+}
+
+void GstEnginePipeline::set_channels(const bool enabled, const int channels) {
+  channels_enabled_ = enabled;
+  channels_ = channels;
 }
 
 bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec) {
@@ -440,6 +447,10 @@ bool GstEnginePipeline::InitAudioBin() {
   gst_element_link(next, audioconverter);
 
   GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
+  if (channels_enabled_ && channels_ > 0) {
+    qLog(Debug) << "Setting channels to" << channels_;
+    gst_caps_set_simple(caps, "channels", G_TYPE_INT, channels_, nullptr);
+  }
   gst_element_link_filtered(audioconverter, audiosink, caps);
   gst_caps_unref(caps);
 

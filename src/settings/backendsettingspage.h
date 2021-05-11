@@ -64,6 +64,7 @@ public:
   void RgFallbackGainChanged(const int value);
   void radiobutton_alsa_hw_clicked(const bool checked);
   void radiobutton_alsa_plughw_clicked(const bool checked);
+  void radiobutton_alsa_pcm_clicked(const bool checked);
   void FadingOptionsChanged();
   void BufferDefaults();
 
@@ -71,11 +72,10 @@ public:
 #ifdef HAVE_ALSA
   enum alsa_plugin {
     alsa_hw = 1,
-    alsa_plughw = 2
+    alsa_plughw = 2,
+    alsa_pcm = 3
   };
 #endif
-
-  Ui_BackendSettingsPage *ui_;
 
   bool EngineInitialized();
 
@@ -85,7 +85,13 @@ public:
 #ifdef HAVE_ALSA
   void SwitchALSADevices(const alsa_plugin alsaplugin);
 #endif
+  void SelectDevice(const QString &device_new);
 
+ private:
+  static const char *kOutputAutomaticallySelect;
+  static const char *kOutputCustom;
+
+  Ui_BackendSettingsPage *ui_;
   bool configloaded_;
   bool engineloaded_;
   ErrorDialog errordialog_;
