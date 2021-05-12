@@ -1400,6 +1400,10 @@ jobs:
           make -j8
           sudo make install
 
+      - name: Remove problematic files
+        shell: bash
+        run: sudo rm -rf /usr/local/opt/qt6/share/qt/plugins/virtualkeyboard /usr/local/opt/qt6/share/qt/plugins/platforminputcontexts
+
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1426,6 +1430,10 @@ jobs:
         working-directory: build
         shell: bash
         run: make install
+      - name: Copy sparkle
+        working-directory: build
+        shell: bash
+        run: make copy_sparkle
       - name: Create DMG
         working-directory: build
         shell: bash

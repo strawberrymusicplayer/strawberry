@@ -13,12 +13,29 @@ else()
   message(WARNING "Missing create-dmg executable.")
 endif()
 
-if(MACDEPLOYQT_EXECUTABLE AND CREATEDMG_EXECUTABLE)
-  add_custom_target(dmg
-    COMMAND mkdir -p ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/
-    COMMAND cp -r /usr/local/opt/sparkle/Sparkle.framework ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/
+# Workaround for Sparkle
+add_custom_target(copy_sparkle
+  COMMAND mkdir -p ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/
+  COMMAND cp -r /usr/local/opt/sparkle/Sparkle.framework ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+  DEPENDS strawberry strawberry-tagreader
+)
+
+if(MACDEPLOYQT_EXECUTABLE)
+  add_custom_target(deploy
+    COMMAND mkdir -p ${CMAKE_BINARY_DIR}/strawberry.app/Contents/{Frameworks,Resources}
+    COMMAND cp ${CMAKE_SOURCE_DIR}/dist/macos/Info.plist ${CMAKE_BINARY_DIR}/strawberry.app/Contents/
+    COMMAND cp ${CMAKE_SOURCE_DIR}/dist/macos/strawberry.icns ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources/
+    COMMAND cp /usr/local/lib/libbrotlicommon.1.dylib ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/
     COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader
-    COMMAND ${CREATEDMG_EXECUTABLE} --volname strawberry --background "${CMAKE_SOURCE_DIR}/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon strawberry.app 150 218 --window-size 600 450 strawberry-${STRAWBERRY_VERSION_PACKAGE}-${CMAKE_HOST_SYSTEM_PROCESSOR}.dmg strawberry.app
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    DEPENDS strawberry strawberry-tagreader
   )
+  if(CREATEDMG_EXECUTABLE)
+    add_custom_target(dmg
+      COMMAND ${CREATEDMG_EXECUTABLE} --volname strawberry --background "${CMAKE_SOURCE_DIR}/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon strawberry.app 150 218 --window-size 600 450 strawberry-${STRAWBERRY_VERSION_PACKAGE}-${CMAKE_HOST_SYSTEM_PROCESSOR}.dmg strawberry.app
+      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+      DEPENDS deploy macdeployqt
+    )
+  endif()
 endif()
