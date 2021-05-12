@@ -143,12 +143,12 @@ msgstr "%1 artyści(ów)"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:141
+#: core/utilities.cpp:144
 #, qt-format
 msgid "%1 days"
 msgstr "%1 dni"
 
-#: core/utilities.cpp:161
+#: core/utilities.cpp:164
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 dni temu"
@@ -198,7 +198,7 @@ msgstr "znaleziono utworów: %1"
 msgid "%1 songs found (showing %2)"
 msgstr "znaleziono utworów: %1 (pokazanych: %2)"
 
-#: core/utilities.cpp:439
+#: core/utilities.cpp:442
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -455,7 +455,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0 px"
 
-#: core/utilities.cpp:141
+#: core/utilities.cpp:144
 msgid "1 day"
 msgstr "1 dzień"
 
@@ -2642,12 +2642,12 @@ msgstr "Zaimportuj dane z last.fm…"
 msgid "Import..."
 msgstr "Importuj…"
 
-#: core/utilities.cpp:175
+#: core/utilities.cpp:178
 #, qt-format
 msgid "In %1 days"
 msgstr "W ciągu %1 dni(a)"
 
-#: core/utilities.cpp:178
+#: core/utilities.cpp:181
 #, qt-format
 msgid "In %1 weeks"
 msgstr "W ciągu %1 tygodni(a)"
@@ -3112,7 +3112,7 @@ msgstr "Przesuń w górę"
 msgid "Music"
 msgstr "Muzyka"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:77
+#: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Mute"
 msgstr "Wycisz"
 
@@ -3181,7 +3181,7 @@ msgstr "Najnowsze ścieżki"
 msgid "Next"
 msgstr "Dalej"
 
-#: core/utilities.cpp:176
+#: core/utilities.cpp:179
 msgid "Next week"
 msgstr "W następnym tygodniu"
 
@@ -4378,7 +4378,7 @@ msgstr "Pokaż w pełnym rozmiarze…"
 msgid "Show in collection..."
 msgstr "Pokaż w kolekcji…"
 
-#: core/utilities.cpp:433 core/utilities.cpp:439
+#: core/utilities.cpp:436 core/utilities.cpp:442
 msgid "Show in file browser"
 msgstr "Pokaż w menedżerze plików"
 
@@ -4971,7 +4971,7 @@ msgstr "Odstęp czasu"
 msgid "Title"
 msgstr "Tytuł"
 
-#: core/utilities.cpp:159 core/utilities.cpp:173
+#: core/utilities.cpp:162 core/utilities.cpp:176
 msgid "Today"
 msgstr "Dzisiaj"
 
@@ -4991,11 +4991,11 @@ msgstr "Przełącz stan pominięcia"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Przełącz wyświetlanie ładnego menu ekranowego (OSD)"
 
-#: core/utilities.cpp:174
+#: core/utilities.cpp:177
 msgid "Tomorrow"
 msgstr "Jutro"
 
-#: core/utilities.cpp:433
+#: core/utilities.cpp:436
 msgid "Too many songs selected."
 msgstr "Zaznaczono za dużo utworów."
 
@@ -5365,7 +5365,7 @@ msgstr "Rok - Album - Płyta"
 msgid "Years"
 msgstr "Lat"
 
-#: core/utilities.cpp:160
+#: core/utilities.cpp:163
 msgid "Yesterday"
 msgstr "Wczoraj"
 

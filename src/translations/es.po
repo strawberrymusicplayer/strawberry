@@ -39,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-05-08 06:01-0400\n"
+"PO-Revision-Date: 2021-05-12 08:03-0400\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -155,12 +155,12 @@ msgstr "%1 artistas"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:141
+#: core/utilities.cpp:144
 #, qt-format
 msgid "%1 days"
 msgstr "%1 días"
 
-#: core/utilities.cpp:161
+#: core/utilities.cpp:164
 #, qt-format
 msgid "%1 days ago"
 msgstr "hace %1 días"
@@ -210,7 +210,7 @@ msgstr "%1 canciones encontradas"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 canciones encontradas (se muestran %2)"
 
-#: core/utilities.cpp:439
+#: core/utilities.cpp:442
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -468,7 +468,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:141
+#: core/utilities.cpp:144
 msgid "1 day"
 msgstr "1 día"
 
@@ -543,7 +543,7 @@ msgstr "AAC"
 
 #: ../build/src/ui_backendsettingspage.h:543
 msgid "ALSA plugin:"
-msgstr ""
+msgstr "Complemento de ALSA:"
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
@@ -2651,12 +2651,12 @@ msgstr "Importar datos de Last.fm…"
 msgid "Import..."
 msgstr "Importar…"
 
-#: core/utilities.cpp:175
+#: core/utilities.cpp:178
 #, qt-format
 msgid "In %1 days"
 msgstr "En %1 días"
 
-#: core/utilities.cpp:178
+#: core/utilities.cpp:181
 #, qt-format
 msgid "In %1 weeks"
 msgstr "En %1 semanas"
@@ -3121,7 +3121,7 @@ msgstr "Subir"
 msgid "Music"
 msgstr "Música"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:77
+#: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Mute"
 msgstr "Silenciar"
 
@@ -3190,7 +3190,7 @@ msgstr "Pistas más nuevas"
 msgid "Next"
 msgstr "Siguiente"
 
-#: core/utilities.cpp:176
+#: core/utilities.cpp:179
 msgid "Next week"
 msgstr "Próxima semana"
 
@@ -4384,7 +4384,7 @@ msgstr "Mostrar a tamaño completo…"
 msgid "Show in collection..."
 msgstr "Mostrar en la colección…"
 
-#: core/utilities.cpp:433 core/utilities.cpp:439
+#: core/utilities.cpp:436 core/utilities.cpp:442
 msgid "Show in file browser"
 msgstr "Mostrar en el navegador de archivos"
 
@@ -4978,7 +4978,7 @@ msgstr "Salto en el tiempo"
 msgid "Title"
 msgstr "Título"
 
-#: core/utilities.cpp:159 core/utilities.cpp:173
+#: core/utilities.cpp:162 core/utilities.cpp:176
 msgid "Today"
 msgstr "Hoy"
 
@@ -4998,11 +4998,11 @@ msgstr "Alternar estado de avance"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Conmutar visibilidad del panel de información en pantalla estético"
 
-#: core/utilities.cpp:174
+#: core/utilities.cpp:177
 msgid "Tomorrow"
 msgstr "Mañana"
 
-#: core/utilities.cpp:433
+#: core/utilities.cpp:436
 msgid "Too many songs selected."
 msgstr "Demasiadas pistas seleccionadas"
 
@@ -5178,7 +5178,7 @@ msgstr "Usar un mensaje personalizado para las notificaciones"
 
 #: ../build/src/ui_playlistsettingspage.h:165
 msgid "Use alternating row colors"
-msgstr ""
+msgstr "Utilizar colores alternados en las filas"
 
 #: ../build/src/ui_networkproxysettingspage.h:178
 msgid "Use authentication"
@@ -5373,7 +5373,7 @@ msgstr "Año - álbum - disco"
 msgid "Years"
 msgstr "Años"
 
-#: core/utilities.cpp:160
+#: core/utilities.cpp:163
 msgid "Yesterday"
 msgstr "Ayer"
 
@@ -5517,7 +5517,7 @@ msgstr "primero el mayor"
 
 #: ../build/src/ui_backendsettingspage.h:549
 msgid "channels"
-msgstr ""
+msgstr "canales"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "contains"
