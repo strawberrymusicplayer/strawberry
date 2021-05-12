@@ -551,23 +551,24 @@ if(HAVE_GLOBALSHORTCUTS)
     HEADERS globalshortcuts/globalshortcutsmanager.h globalshortcuts/globalshortcutsbackend.h globalshortcuts/globalshortcutgrabber.h settings/globalshortcutssettingspage.h
     UI globalshortcuts/globalshortcutgrabber.ui settings/globalshortcutssettingspage.ui
   )
-  if(HAVE_X11EXTRAS OR WIN32)
-    set(X11_OR_WIN ON)
-  endif()
-  optional_source(X11_OR_WIN
-    SOURCES globalshortcuts/globalshortcutsbackend-system.cpp globalshortcuts/globalshortcut.cpp
-    HEADERS globalshortcuts/globalshortcutsbackend-system.h globalshortcuts/globalshortcut.h
-  )
-  optional_source(HAVE_X11EXTRAS
-    SOURCES globalshortcuts/globalshortcut-x11.cpp
-  )
   optional_source(HAVE_DBUS
     SOURCES globalshortcuts/globalshortcutsbackend-gsd.cpp globalshortcuts/globalshortcutsbackend-kde.cpp
     HEADERS globalshortcuts/globalshortcutsbackend-gsd.h globalshortcuts/globalshortcutsbackend-kde.h
   )
-  optional_source(WIN32
-    SOURCES globalshortcuts/globalshortcut-win.cpp
-  )
+  # Native shortcuts for X11 and Windows
+  if(HAVE_X11_GLOBALSHORTCUTS OR WIN32)
+    SET(X11_OR_WIN ON)
+    optional_source(X11_OR_WIN
+      SOURCES globalshortcuts/globalshortcutsbackend-system.cpp globalshortcuts/globalshortcut.cpp
+      HEADERS globalshortcuts/globalshortcutsbackend-system.h globalshortcuts/globalshortcut.h
+    )
+    optional_source(HAVE_X11_GLOBALSHORTCUTS
+      SOURCES globalshortcuts/globalshortcut-x11.cpp
+    )
+    optional_source(WIN32
+      SOURCES globalshortcuts/globalshortcut-win.cpp
+    )
+  endif()
 endif(HAVE_GLOBALSHORTCUTS)
 
 # ALSA
@@ -1250,7 +1251,7 @@ if(APPLE)
 endif(APPLE)
 
 if(WIN32)
-  target_link_libraries(strawberry_lib PRIVATE dsound)
+  target_link_libraries(strawberry_lib PRIVATE dsound dwmapi)
 endif(WIN32)
 
 if(X11_FOUND)
@@ -1305,4 +1306,4 @@ endif()
 
 if(APPLE)
   set_target_properties(strawberry PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/../dist/macos/Info.plist")
-endif (APPLE)
+endif(APPLE)

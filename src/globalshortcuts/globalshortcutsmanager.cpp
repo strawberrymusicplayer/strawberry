@@ -23,6 +23,7 @@
 
 #include <functional>
 
+#include <QApplication>
 #include <QWidget>
 #include <QVariant>
 #include <QString>
@@ -32,9 +33,6 @@
 #ifdef HAVE_DBUS
 # include <QDBusConnectionInterface>
 #endif
-#ifdef HAVE_X11EXTRAS
-#  include <QX11Info>
-#endif
 
 #include "globalshortcutsmanager.h"
 #include "globalshortcutsbackend.h"
@@ -43,7 +41,7 @@
 #  include "globalshortcutsbackend-gsd.h"
 #  include "globalshortcutsbackend-kde.h"
 #endif
-#if defined(HAVE_X11EXTRAS) || defined(Q_OS_WIN)
+#if (defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)) || defined(Q_OS_WIN)
 #  include "globalshortcutsbackend-system.h"
 #endif
 #ifdef Q_OS_MACOS
@@ -99,7 +97,7 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
   if (!system_backend_)
     system_backend_ = new GlobalShortcutsBackendSystem(this);
 #endif
-#if defined(HAVE_X11EXTRAS)
+#if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
   if (!system_backend_ && IsX11Available())
     system_backend_ = new GlobalShortcutsBackendSystem(this);
 #endif
@@ -168,11 +166,7 @@ bool GlobalShortcutsManager::IsKdeAvailable() const {
 
 bool GlobalShortcutsManager::IsX11Available() const {
 
-#ifdef HAVE_X11EXTRAS
-  return QX11Info::isPlatformX11();
-#else
-  return false;
-#endif
+  return QApplication::platformName() == "xcb";
 
 }
 
@@ -180,12 +174,12 @@ void GlobalShortcutsManager::Register() {
 
   if (use_gsd_ && gsd_backend_ && gsd_backend_->Register()) return;
   if (use_kde_ && kde_backend_ && kde_backend_->Register()) return;
-#ifdef HAVE_X11EXTRAS // If this system has X11, only use the system backend if X11 is enabled in the global shortcut settings
+#if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H) // If this system has X11, only use the system backend if X11 is enabled in the global shortcut settings
   if (use_x11_) {
 #endif
     if (system_backend_)
       system_backend_->Register();
-#ifdef HAVE_X11EXTRAS
+#if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
    }
 #endif
 

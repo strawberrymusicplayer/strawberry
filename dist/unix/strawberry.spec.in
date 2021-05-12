@@ -56,7 +56,6 @@ BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Widgets)
 BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Concurrent)
 BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Network)
 BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Sql)
-BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@X11Extras)
 BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@DBus)
 BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Test)
 %else

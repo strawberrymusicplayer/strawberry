@@ -20,13 +20,14 @@
 #include "config.h"
 
 #include <QtGlobal>
+#include <QApplication>
 #include <QMap>
 #include <QVector>
 #include <QByteArray>
 #include <QString>
-#include <QX11Info>
 #include <QKeySequence>
 #include <QFlags>
+#include <QScreen>
 
 #include "globalshortcut.h"
 #include "keymapper_x11.h"
@@ -36,7 +37,39 @@
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
 
+#include <qpa/qplatformnativeinterface.h>
+
 const QVector<quint32> GlobalShortcut::mask_modifiers_ = QVector<quint32>() << 0 << Mod2Mask << LockMask << (Mod2Mask | LockMask);
+
+namespace {
+
+Display *X11Display() {
+
+  if (!qApp) return nullptr;
+
+  QPlatformNativeInterface *native = qApp->platformNativeInterface();
+  if (!native) return nullptr;
+
+  void *display = native->nativeResourceForIntegration("display");
+  return reinterpret_cast<Display*>(display);
+
+}
+
+quint32 AppRootWindow() {
+
+  if (!qApp) return 0;
+
+  QPlatformNativeInterface *native = qApp->platformNativeInterface();
+  if (!native) return 0;
+
+  QScreen *screen = QGuiApplication::primaryScreen();
+  if (!screen) return 0;
+
+  return static_cast<xcb_window_t>(reinterpret_cast<quintptr>(native->nativeResourceForScreen("rootwindow", screen)));
+
+}
+
+}
 
 quint32 GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
 
@@ -51,7 +84,8 @@ quint32 GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
 
 quint32 GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
 
-  if (!QX11Info::display()) return 0;
+  Display *disp = X11Display();
+  if (!disp) return false;
 
   quint32 keysym = 0;
   if (KeyMapperX11::keymapper_x11_.contains(qt_key)) {
@@ -61,25 +95,32 @@ quint32 GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
     keysym = XStringToKeysym(QKeySequence(qt_key).toString().toLatin1().data());
     if (keysym == NoSymbol) return 0;
   }
-  return XKeysymToKeycode(QX11Info::display(), keysym);
+  return XKeysymToKeycode(disp, keysym);
 
 }
 
 bool GlobalShortcut::registerShortcut(quint32 native_key, quint32 native_mods) {
-  if (!QX11Info::display()) return false;
+
+  Display *disp = X11Display();
+  if (!disp) return false;
+
   for (quint32 mask_mods : mask_modifiers_) {
-    //xcb_grab_key(QX11Info::connection(), 1, QX11Info::appRootWindow(), (native_mods | mask_mods), native_key, XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);
-    XGrabKey(QX11Info::display(), native_key, (native_mods | mask_mods), QX11Info::appRootWindow(), True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(disp, native_key, (native_mods | mask_mods), AppRootWindow(), True, GrabModeAsync, GrabModeAsync);
   }
   return true;
+
 }
 
 bool GlobalShortcut::unregisterShortcut(quint32 native_key, quint32 native_mods) {
-  if (!QX11Info::display()) return false;
+
+  Display *disp = X11Display();
+  if (!disp) return false;
+
   for (quint32 mask_mods : mask_modifiers_) {
-    XUngrabKey(QX11Info::display(), native_key, native_mods | mask_mods, QX11Info::appRootWindow());
+    XUngrabKey(disp, native_key, native_mods | mask_mods, AppRootWindow());
   }
   return true;
+
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)

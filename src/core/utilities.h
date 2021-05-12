@@ -27,6 +27,7 @@
 #include <memory>
 
 #include <QtGlobal>
+#include <QWindow>
 #include <QByteArray>
 #include <QFile>
 #include <QSize>
@@ -38,6 +39,7 @@
 #include <QStringList>
 #include <QUrl>
 #include <QColor>
+#include <QRegion>
 #include <QtEvents>
 
 #include "core/song.h"
@@ -145,6 +147,10 @@ bool IsColorDark(const QColor &color);
 
 QByteArray ReadDataFromFile(const QString &filename);
 QString MimeTypeFromData(const QByteArray &data);
+
+#ifdef Q_OS_WIN
+void enableBlurBehindWindow(QWindow *window, const QRegion &region);
+#endif
 
 }  // namespace
 

@@ -54,7 +54,6 @@ bool GlobalShortcut::unregisterShortcut(quint32 native_key, quint32 native_mods)
   return UnregisterHotKey(0, native_mods ^ native_key);
 }
 
-
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 bool GlobalShortcut::nativeEventFilter(const QByteArray &eventtype, void *message, qintptr *result) {
 #else

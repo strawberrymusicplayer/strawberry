@@ -169,12 +169,6 @@ endif()
 if(DBUS_FOUND AND NOT WIN32)
   list(APPEND QT_COMPONENTS DBus)
 endif()
-if(X11_FOUND)
-  list(APPEND QT_OPTIONAL_COMPONENTS X11Extras)
-endif()
-if(WIN32)
-  list(APPEND QT_OPTIONAL_COMPONENTS WinExtras)
-endif()
 
 find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED COMPONENTS ${QT_COMPONENTS} OPTIONAL_COMPONENTS ${QT_OPTIONAL_COMPONENTS})
 
@@ -189,16 +183,6 @@ if(Qt${QT_MAJOR_VERSION}DBus_FOUND)
   set(QtDBus_LIBRARIES Qt${QT_MAJOR_VERSION}::DBus)
   list(APPEND QT_LIBRARIES Qt${QT_MAJOR_VERSION}::DBus)
   get_target_property(QT_DBUSXML2CPP_EXECUTABLE Qt${QT_MAJOR_VERSION}::qdbusxml2cpp LOCATION)
-endif()
-if(Qt${QT_MAJOR_VERSION}X11Extras_FOUND)
-  set(QtX11Extras_LIBRARIES Qt${QT_MAJOR_VERSION}::X11Extras)
-  list(APPEND QT_LIBRARIES Qt${QT_MAJOR_VERSION}::X11Extras)
-  set(HAVE_X11EXTRAS ON)
-endif()
-if(Qt${QT_MAJOR_VERSION}WinExtras_FOUND)
-  set(QtWinExtras_LIBRARIES Qt${QT_MAJOR_VERSION}::WinExtras)
-  list(APPEND QT_LIBRARIES Qt${QT_MAJOR_VERSION}::WinExtras)
-  set(HAVE_WINEXTRAS ON)
 endif()
 if(Qt${QT_MAJOR_VERSION}Test_FOUND)
   set(QtTest_LIBRARIES Qt${QT_MAJOR_VERSION}::Test)
@@ -320,7 +304,8 @@ optional_component(GLOBALSHORTCUTS ON "Global shortcuts"
 )
 
 optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
-  DEPENDS "X11Extras" Qt${QT_MAJOR_VERSION}X11Extras_FOUND
+  DEPENDS "X11" X11_FOUND
+  DEPENDS "qpa/qplatformnativeinterface.h" HAVE_QPA_QPLATFORMNATIVEINTERFACE_H
 )
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
@@ -419,7 +404,7 @@ add_definitions(-DQT_USE_QSTRINGBUILDER)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 add_definitions(-DQT_NO_CAST_TO_ASCII)
 
-if(WIN32 AND QT_MAJOR_VERSION EQUAL 5)
+if(WIN32)
   add_definitions(-DUNICODE)
 endif()
 

@@ -42,13 +42,13 @@ jobs:
             taglib-devel
             libQt5Core-devel
             libQt5Gui-devel
+            libQt5Gui-private-headers-devel
             libQt5Widgets-devel
             libQt5Concurrent-devel
             libQt5Network-devel
             libQt5Sql-devel
             libQt5DBus-devel
             libQt5Test-devel
-            libqt5-qtx11extras-devel
             libqt5-qtbase-common-devel
             libQt5Sql5-sqlite
             libqt5-linguist-devel
@@ -111,13 +111,13 @@ jobs:
             taglib-devel
             libQt5Core-devel
             libQt5Gui-devel
+            libQt5Gui-private-headers-devel
             libQt5Widgets-devel
             libQt5Concurrent-devel
             libQt5Network-devel
             libQt5Sql-devel
             libQt5DBus-devel
             libQt5Test-devel
-            libqt5-qtx11extras-devel
             libqt5-qtbase-common-devel
             libQt5Sql5-sqlite
             libqt5-linguist-devel
@@ -190,6 +190,7 @@ jobs:
             taglib-devel
             qt6-core-devel
             qt6-gui-devel
+            qt6-gui-private-devel
             qt6-widgets-devel
             qt6-concurrent-devel
             qt6-network-devel
@@ -266,13 +267,13 @@ jobs:
             taglib-devel
             libQt5Core-devel
             libQt5Gui-devel
+            libQt5Gui-private-headers-devel
             libQt5Widgets-devel
             libQt5Concurrent-devel
             libQt5Network-devel
             libQt5Sql-devel
             libQt5DBus-devel
             libQt5Test-devel
-            libqt5-qtx11extras-devel
             libqt5-qtbase-common-devel
             libQt5Sql5-sqlite
             libqt5-linguist-devel
@@ -345,6 +346,7 @@ jobs:
             taglib-devel
             qt6-core-devel
             qt6-gui-devel
+            qt6-gui-private-devel
             qt6-widgets-devel
             qt6-concurrent-devel
             qt6-network-devel
@@ -423,13 +425,13 @@ jobs:
             taglib-devel
             libQt5Core-devel
             libQt5Gui-devel
+            libQt5Gui-private-headers-devel
             libQt5Widgets-devel
             libQt5Concurrent-devel
             libQt5Network-devel
             libQt5Sql-devel
             libQt5DBus-devel
             libQt5Test-devel
-            libqt5-qtx11extras-devel
             libqt5-qtbase-common-devel
             libQt5Sql5-sqlite
             libqt5-linguist-devel
@@ -502,6 +504,7 @@ jobs:
             taglib-devel
             qt6-core-devel
             qt6-gui-devel
+            qt6-gui-private-devel
             qt6-widgets-devel
             qt6-concurrent-devel
             qt6-network-devel
@@ -583,7 +586,7 @@ jobs:
             gnutls-devel
             qt5-devel
             qt5-qtbase-devel
-            qt5-qtx11extras-devel
+            qt5-qtbase-private-devel
             qt5-qttools-devel
             gstreamer1-devel
             gstreamer1-plugins-base-devel
@@ -660,7 +663,7 @@ jobs:
             libnotify-devel
             gnutls-devel
             qt5-qtbase-devel
-            qt5-qtx11extras-devel
+            qt5-qtbase-private-devel
             qt5-qttools-devel
             gstreamer1-devel
             gstreamer1-plugins-base-devel
@@ -737,7 +740,7 @@ jobs:
             libnotify-devel
             gnutls-devel
             qt5-qtbase-devel
-            qt5-qtx11extras-devel
+            qt5-qtbase-private-devel
             qt5-qttools-devel
             gstreamer1-devel
             gstreamer1-plugins-base-devel
@@ -825,7 +828,7 @@ jobs:
             alsa-lib-devel
             pulseaudio-libs-devel
             qt5-qtbase-devel
-            qt5-qtx11extras-devel
+            qt5-qtbase-private-devel
             qt5-qttools-devel
             fftw-devel
             libchromaprint-devel
@@ -901,7 +904,6 @@ jobs:
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
-            libqt5x11extras5-dev
             qttools5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -959,7 +961,6 @@ jobs:
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
-            libqt5x11extras5-dev
             qttools5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -1021,7 +1022,6 @@ jobs:
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
-            libqt5x11extras5-dev
             qttools5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -1084,7 +1084,6 @@ jobs:
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
-            libqt5x11extras5-dev
             qttools5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -1147,7 +1146,6 @@ jobs:
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
-            libqt5x11extras5-dev
             qttools5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -1210,7 +1208,6 @@ jobs:
             qtbase5-dev
             qtbase5-dev-tools
             qtbase5-private-dev
-            libqt5x11extras5-dev
             qttools5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
