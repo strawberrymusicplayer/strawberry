@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-04-24 07:30-0400\n"
+"PO-Revision-Date: 2021-05-13 02:26-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -284,7 +284,7 @@ msgstr "&Centrera"
 
 #: ../build/src/ui_mainwindow.h:632
 msgid "&Clear playlist"
-msgstr "&Rensa spellista"
+msgstr "&Rensa spellistan"
 
 #: ../build/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
@@ -405,7 +405,7 @@ msgstr "&Verktyg"
 
 #: ../build/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
-msgstr "&Koda om musik"
+msgstr "&Omkoda musik"
 
 #: ../build/src/ui_mainwindow.h:693
 msgid "&Update changed collection folders"
@@ -526,7 +526,7 @@ msgstr "AAC"
 
 #: ../build/src/ui_backendsettingspage.h:543
 msgid "ALSA plugin:"
-msgstr ""
+msgstr "ALSA-insticksmodul:"
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
@@ -598,11 +598,11 @@ msgstr "Lägg till fil"
 
 #: ../build/src/ui_mainwindow.h:710
 msgid "Add file to transcoder"
-msgstr "Lägg till fil till omkodaren"
+msgstr "Lägg till fil i omkodaren"
 
 #: ../build/src/ui_mainwindow.h:708
 msgid "Add file(s) to transcoder"
-msgstr "Lägg till fil(er) till omkodaren"
+msgstr "Lägg till fil(er) i omkodaren"
 
 #: transcoder/transcodedialog.cpp:333
 msgid "Add files to transcode"
@@ -2261,7 +2261,7 @@ msgstr "Filer"
 
 #: ../build/src/ui_transcodedialog.h:216
 msgid "Files to transcode"
-msgstr "Filer att koda om"
+msgstr "Filer att omkoda"
 
 #: ../build/src/ui_appearancesettingspage.h:629
 msgid "Files, playlists and queue buttons"
@@ -3810,11 +3810,11 @@ msgstr "Ta bort"
 
 #: ../build/src/ui_mainwindow.h:706
 msgid "Remove &duplicates from playlist"
-msgstr "Ta bort &dubbletter från spellista"
+msgstr "Ta bort &dubbletter från spellistan"
 
 #: ../build/src/ui_mainwindow.h:707
 msgid "Remove &unavailable tracks from playlist"
-msgstr "Ta bort &otillgängliga spår från spellista"
+msgstr "Ta bort &otillgängliga spår från spellistan"
 
 #: ../build/src/ui_collectionsettingspage.h:421
 msgid "Remove folder"
@@ -3826,7 +3826,7 @@ msgstr "Ta bort från favoriter"
 
 #: ../build/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
-msgstr "Ta bort från spellista"
+msgstr "Ta bort från spellistan"
 
 #: playlist/playlisttabbar.cpp:211
 msgid "Remove playlist"
@@ -4011,7 +4011,7 @@ msgstr "Kör"
 
 #: ../build/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
-msgstr "B&landa spellista"
+msgstr "B&landa spellistan"
 
 #: ../build/src/ui_networkproxysettingspage.h:175
 msgid "SOCKS proxy"
@@ -4272,7 +4272,7 @@ msgstr "Visa en &naturlig skrivbordsavisering"
 
 #: ../build/src/ui_playlistsettingspage.h:166
 msgid "Show a glowing animation on the current track"
-msgstr "Visa en lysande animation på det nuvarande spåret"
+msgstr "Visa en lysande animation på det aktuella spåret"
 
 #: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
@@ -4857,7 +4857,7 @@ msgid ""
 "These settings are used in the \"Transcode Music\" dialog, and when "
 "converting music before copying it to a device."
 msgstr ""
-"Dessa inställningar används i dialogrutan \"Koda om musik\" och vid "
+"Dessa inställningar används i dialogrutan \"Omkoda musik\" och vid "
 "konvertering av musik innan den kopieras till en enhet."
 
 #: collection/savedgroupingmanager.cpp:59
@@ -4988,7 +4988,7 @@ msgstr "Spår"
 
 #: ../build/src/ui_transcodedialog.h:215
 msgid "Transcode Music"
-msgstr "Koda om musik"
+msgstr "Omkoda musik"
 
 #: ../build/src/ui_transcodelogdialog.h:60
 msgid "Transcoder Log"
@@ -5139,7 +5139,7 @@ msgstr "Använd ett eget meddelande för aviseringar"
 
 #: ../build/src/ui_playlistsettingspage.h:165
 msgid "Use alternating row colors"
-msgstr ""
+msgstr "Använd alternerande radfärger"
 
 #: ../build/src/ui_networkproxysettingspage.h:178
 msgid "Use authentication"
@@ -5479,7 +5479,7 @@ msgstr "största först"
 
 #: ../build/src/ui_backendsettingspage.h:549
 msgid "channels"
-msgstr ""
+msgstr "kanaler"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "contains"
@@ -5586,7 +5586,7 @@ msgstr "p&lughw"
 
 #: ../build/src/ui_backendsettingspage.h:546
 msgid "pcm"
-msgstr ""
+msgstr "pcm"
 
 #: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format
