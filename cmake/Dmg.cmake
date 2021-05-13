@@ -29,13 +29,13 @@ if(MACDEPLOYQT_EXECUTABLE)
     COMMAND cp /usr/local/lib/libbrotlicommon.1.dylib ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/
     COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS strawberry strawberry-tagreader
+    DEPENDS strawberry strawberry-tagreader macdeployqt
   )
   if(CREATEDMG_EXECUTABLE)
     add_custom_target(dmg
       COMMAND ${CREATEDMG_EXECUTABLE} --volname strawberry --background "${CMAKE_SOURCE_DIR}/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon strawberry.app 150 218 --window-size 600 450 strawberry-${STRAWBERRY_VERSION_PACKAGE}-${CMAKE_HOST_SYSTEM_PROCESSOR}.dmg strawberry.app
       WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-      DEPENDS deploy macdeployqt
+      DEPENDS deploy
     )
   endif()
 endif()
