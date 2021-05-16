@@ -49,27 +49,27 @@ BuildRequires:  pkgconfig(sqlite3) >= 3.9
 BuildRequires:  pkgconfig(taglib)
 %endif
 BuildRequires:  pkgconfig(fftw3)
-%if "@QT_MAJOR_VERSION@" == "5" && ( 0%{?fedora} || 0%{?rhel_version} || 0%{?centos} )
-BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Core)
-BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Gui)
-BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Widgets)
-BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Concurrent)
-BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Network)
-BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Sql)
-BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@DBus)
-BuildRequires:  pkgconfig(Qt@QT_MAJOR_VERSION@Test)
+%if "@QT_VERSION_MAJOR@" == "5" && ( 0%{?fedora} || 0%{?rhel_version} || 0%{?centos} )
+BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Core)
+BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Gui)
+BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Widgets)
+BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Concurrent)
+BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Network)
+BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Sql)
+BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@DBus)
+BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Test)
 %else
-BuildRequires:  cmake(Qt@QT_MAJOR_VERSION@Core)
-BuildRequires:  cmake(Qt@QT_MAJOR_VERSION@Gui)
-BuildRequires:  cmake(Qt@QT_MAJOR_VERSION@Widgets)
-BuildRequires:  cmake(Qt@QT_MAJOR_VERSION@Concurrent)
-BuildRequires:  cmake(Qt@QT_MAJOR_VERSION@Network)
-BuildRequires:  cmake(Qt@QT_MAJOR_VERSION@Sql)
-BuildRequires:  cmake(Qt@QT_MAJOR_VERSION@DBus)
-BuildRequires:  cmake(Qt@QT_MAJOR_VERSION@Test)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Core)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Gui)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Widgets)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Concurrent)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Network)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Sql)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@DBus)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Test)
 %endif
 %if 0%{?suse_version} || 0%{?fedora_version} || 0%{?mageia}
-BuildRequires:  cmake(Qt@QT_MAJOR_VERSION@LinguistTools)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@LinguistTools)
 %endif
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-app-1.0)
@@ -88,10 +88,10 @@ BuildRequires:  pkgconfig(libvlc)
 %endif
 
 %if 0%{?suse_version}
-  %if "@QT_MAJOR_VERSION@" == "6"
+  %if "@QT_VERSION_MAJOR@" == "6"
 Requires:  qt6-sql-sqlite
   %endif
-  %if "@QT_MAJOR_VERSION@" == "5"
+  %if "@QT_VERSION_MAJOR@" == "5"
 Requires:  libQt5Sql5-sqlite
   %endif
 %endif
@@ -130,7 +130,7 @@ Features:
 %if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
   export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
 %endif
-%{cmake} -DCMAKE_BUILD_TYPE:STRING=Release -DQT_MAJOR_VERSION=@QT_MAJOR_VERSION@
+%{cmake} -DCMAKE_BUILD_TYPE:STRING=Release -DQT_VERSION_MAJOR=@QT_VERSION_MAJOR@
 %if 0%{?centos} || (0%{?mageia} && 0%{?mageia} <= 7)
   %make_build
 %else
