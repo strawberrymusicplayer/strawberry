@@ -94,6 +94,7 @@ BuildRequires:  pkgconfig(libvlc)
 %if 0%{?suse_version}
   %if "@QT_VERSION_MAJOR@" == "6"
 Requires:  qt6-sql-sqlite
+Requires:  qt6-network-tls
   %endif
   %if "@QT_VERSION_MAJOR@" == "5"
 Requires:  libQt5Sql5-sqlite
