@@ -33,61 +33,70 @@
 #include <QAction>
 #include <QtEvents>
 
-#include "systemtrayicon.h"
+#include "song.h"
 
 class QMenu;
-class QEvent;
 
-class Song;
-
-class QtSystemTrayIcon : public SystemTrayIcon {
+class SystemTrayIcon : public QSystemTrayIcon {
   Q_OBJECT
 
  public:
-  explicit QtSystemTrayIcon(QObject *parent = nullptr);
-  ~QtSystemTrayIcon() override;
+  explicit SystemTrayIcon(QObject *parent = nullptr);
+  ~SystemTrayIcon() override;
 
-  void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) override;
-  bool IsVisible() const override;
-  void SetVisible(bool visible) override;
+  void SetTrayiconProgress(const bool enabled);
 
-  void ShowPopup(const QString &summary, const QString &message, int timeout) override;
+  void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit);
+  void ShowPopup(const QString &summary, const QString &message, const int timeout);
 
-  void SetNowPlaying(const Song &song, const QUrl&) override;
-  void ClearNowPlaying() override;
+  void SetPlaying(const bool enable_play_pause = false);
+  void SetPaused();
+  void SetStopped();
+  void SetProgress(const int percentage);
+  void MuteButtonStateChanged(const bool value);
+  void SetNowPlaying(const Song &song, const QUrl&);
+  void ClearNowPlaying();
+  void LoveVisibilityChanged(const bool value);
+  void LoveStateChanged(const bool value);
 
-  bool MuteEnabled() const override { return action_mute_->isVisible(); }
-  void SetMuteEnabled(bool enabled) override { action_mute_->setVisible(enabled); }
-
- protected:
-  // SystemTrayIcon
-  void UpdateIcon() override;
-  void SetPaused() override;
-  void SetPlaying(bool enable_play_pause = false) override;
-  void SetStopped() override;
-  void MuteButtonStateChanged(bool value) override;
-  void LoveVisibilityChanged(bool value) override;
-  void LoveStateChanged(bool value) override;
-
-  // QObject
-  bool eventFilter(QObject*, QEvent*) override;
-
- private slots:
-  void Clicked(QSystemTrayIcon::ActivationReason);
+  bool MuteEnabled() const { return action_mute_->isVisible(); }
+  void SetMuteEnabled(const bool enabled) { action_mute_->setVisible(enabled); }
 
  private:
-  QSystemTrayIcon *tray_;
+  QPixmap CreateIcon(const QPixmap &icon, const QPixmap &grey_icon);
+  void UpdateIcon();
+
+ signals:
+  void ChangeVolume(int delta);
+  void SeekForward();
+  void SeekBackward();
+  void NextTrack();
+  void PreviousTrack();
+  void ShowHide();
+  void PlayPause();
+
+ private slots:
+  void Clicked(const QSystemTrayIcon::ActivationReason);
+
+ private:
   QMenu *menu_;
   QString app_name_;
   QIcon icon_;
   QPixmap normal_icon_;
   QPixmap grey_icon_;
+  QPixmap playing_icon_;
+  QPixmap paused_icon_;
 
   QAction *action_play_pause_;
   QAction *action_stop_;
   QAction *action_stop_after_this_track_;
   QAction *action_mute_;
   QAction *action_love_;
+
+  bool trayicon_progress_;
+  int song_progress_;
+
+  QPixmap current_state_icon_;
 
 };
 

@@ -109,7 +109,7 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image) {
 
 }
 
-OSDDBus::OSDDBus(SystemTrayIcon *tray_icon, Application *app, QObject *parent) : OSDBase(tray_icon, app, parent), version_(1, 1), notification_id_(0) {
+OSDDBus::OSDDBus(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QObject *parent) : OSDBase(tray_icon, app, parent), version_(1, 1), notification_id_(0) {
   Init();
 }
 

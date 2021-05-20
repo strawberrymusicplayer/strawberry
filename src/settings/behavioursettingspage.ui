@@ -59,16 +59,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkbox_scrolltrayicon">
-     <property name="text">
-      <string>Scroll over icon to change track</string>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="groupbox_startup">
      <property name="title">
       <string>On startup</string>
@@ -350,7 +340,6 @@
   <tabstop>checkbox_trayicon_progress</tabstop>
   <tabstop>checkbox_resumeplayback</tabstop>
   <tabstop>checkbox_playingwidget</tabstop>
-  <tabstop>checkbox_scrolltrayicon</tabstop>
   <tabstop>radiobutton_remember</tabstop>
   <tabstop>radiobutton_show</tabstop>
   <tabstop>radiobutton_hide</tabstop>

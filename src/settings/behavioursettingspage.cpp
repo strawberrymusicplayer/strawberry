@@ -42,7 +42,6 @@
 
 #include "core/iconloader.h"
 #include "core/mainwindow.h"
-#include "core/utilities.h"
 #include "settings/settingspage.h"
 #include "behavioursettingspage.h"
 #include "ui_behavioursettingspage.h"
@@ -68,8 +67,6 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
 
 #ifdef Q_OS_MACOS
   ui_->checkbox_showtrayicon->hide();
-  ui_->checkbox_trayicon_progress->hide();
-  ui_->checkbox_scrolltrayicon->hide();
   ui_->groupbox_startup->hide();
 #endif
 
@@ -135,12 +132,6 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
   ui_->combobox_doubleclickplaylistaddmode->setItemData(0, PlaylistAddBehaviour_Play);
   ui_->combobox_doubleclickplaylistaddmode->setItemData(1, PlaylistAddBehaviour_Enqueue);
 
-#ifdef HAVE_X11
-  QString de = Utilities::DesktopEnvironment();
-  if (de.toLower() == "kde")
-#endif
-    ui_->checkbox_scrolltrayicon->hide();
-
 }
 
 BehaviourSettingsPage::~BehaviourSettingsPage() {
@@ -155,21 +146,13 @@ void BehaviourSettingsPage::Load() {
 #ifndef Q_OS_MACOS
   if (QSystemTrayIcon::isSystemTrayAvailable()) {
     ui_->checkbox_showtrayicon->setEnabled(true);
-    ui_->checkbox_trayicon_progress->setEnabled(true);
-    ui_->checkbox_scrolltrayicon->setEnabled(true);
-    ui_->radiobutton_hide->setEnabled(true);
     ui_->checkbox_showtrayicon->setChecked(s.value("showtrayicon", true).toBool());
-    ui_->checkbox_trayicon_progress->setChecked(s.value("trayicon_progress", false).toBool());
-    ui_->checkbox_scrolltrayicon->setChecked(s.value("scrolltrayicon", ui_->checkbox_showtrayicon->isChecked()).toBool());
+    ui_->radiobutton_hide->setEnabled(true);
   }
   else {
     ui_->checkbox_showtrayicon->setEnabled(false);
-    ui_->checkbox_trayicon_progress->setEnabled(false);
-    ui_->checkbox_scrolltrayicon->setEnabled(false);
-    ui_->radiobutton_hide->setEnabled(false);
     ui_->checkbox_showtrayicon->setChecked(false);
-    ui_->checkbox_trayicon_progress->setChecked(false);
-    ui_->checkbox_scrolltrayicon->setChecked(false);
+    ui_->radiobutton_hide->setEnabled(false);
     ui_->radiobutton_hide->setChecked(false);
   }
 #endif
@@ -177,10 +160,14 @@ void BehaviourSettingsPage::Load() {
   if (QSystemTrayIcon::isSystemTrayAvailable()) {
     ui_->checkbox_keeprunning->setEnabled(true);
     ui_->checkbox_keeprunning->setChecked(s.value("keeprunning", false).toBool());
+    ui_->checkbox_trayicon_progress->setEnabled(true);
+    ui_->checkbox_trayicon_progress->setChecked(s.value("trayicon_progress", false).toBool());
   }
   else {
     ui_->checkbox_keeprunning->setEnabled(false);
     ui_->checkbox_keeprunning->setChecked(false);
+    ui_->checkbox_trayicon_progress->setEnabled(false);
+    ui_->checkbox_trayicon_progress->setChecked(false);
   }
 
   ui_->checkbox_resumeplayback->setChecked(s.value("resumeplayback", false).toBool());
@@ -248,7 +235,6 @@ void BehaviourSettingsPage::Save() {
   s.setValue("trayicon_progress", ui_->checkbox_trayicon_progress->isChecked());
   s.setValue("resumeplayback", ui_->checkbox_resumeplayback->isChecked());
   s.setValue("playing_widget", ui_->checkbox_playingwidget->isChecked());
-  s.setValue("scrolltrayicon", ui_->checkbox_scrolltrayicon->isChecked());
 
   StartupBehaviour behaviour = Startup_Remember;
   if (ui_->radiobutton_remember->isChecked()) behaviour = Startup_Remember;
@@ -287,6 +273,5 @@ void BehaviourSettingsPage::ShowTrayIconToggled(bool on) {
   if (!on && ui_->radiobutton_hide->isChecked()) ui_->radiobutton_remember->setChecked(true);
   ui_->checkbox_keeprunning->setEnabled(on);
   ui_->checkbox_trayicon_progress->setEnabled(on);
-  ui_->checkbox_scrolltrayicon->setEnabled(on);
 
 }

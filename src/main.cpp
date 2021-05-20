@@ -90,9 +90,13 @@
 #include "core/iconloader.h"
 #include "core/mainwindow.h"
 #include "core/commandlineoptions.h"
-#include "core/systemtrayicon.h"
 #include "core/application.h"
 #include "core/networkproxyfactory.h"
+#ifdef Q_OS_MACOS
+#  include "core/macsystemtrayicon.h"
+#else
+#  include "core/qtsystemtrayicon.h"
+#endif
 #ifdef HAVE_TRANSLATIONS
 #  include "core/translations.h"
 #endif
@@ -278,13 +282,18 @@ int main(int argc, char* argv[]) {
   QNetworkProxyFactory::setApplicationProxyFactory(NetworkProxyFactory::Instance());
 
   // Create the tray icon and OSD
-  std::unique_ptr<SystemTrayIcon> tray_icon(SystemTrayIcon::CreateSystemTrayIcon());
-#if defined(Q_OS_MACOS)
-  OSDMac osd(tray_icon.get(), &app);
-#elif defined(HAVE_DBUS)
-  OSDDBus osd(tray_icon.get(), &app);
+#ifdef Q_OS_MACOS
+  std::shared_ptr<SystemTrayIcon> tray_icon(new SystemTrayIcon);
 #else
-  OSDBase osd(tray_icon.get(), &app);
+  std::shared_ptr<SystemTrayIcon> tray_icon(new SystemTrayIcon);
+#endif
+
+#if defined(Q_OS_MACOS)
+  OSDMac osd(tray_icon, &app);
+#elif defined(HAVE_DBUS)
+  OSDDBus osd(tray_icon, &app);
+#else
+  OSDBase osd(tray_icon, &app);
 #endif
 
 #ifdef HAVE_DBUS
@@ -292,7 +301,8 @@ int main(int argc, char* argv[]) {
 #endif
 
   // Window
-  MainWindow w(&app, tray_icon.get(), &osd, options);
+  MainWindow w(&app, tray_icon, &osd, options);
+
 #ifdef Q_OS_MACOS
   mac::EnableFullScreen(w);
 #endif  // Q_OS_MACOS

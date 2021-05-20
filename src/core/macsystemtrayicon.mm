@@ -21,19 +21,21 @@
 
 #include "config.h"
 
+#include <QApplication>
+#include <QMap>
+#include <QString>
+#include <QUrl>
+#include <QIcon>
+#include <QAction>
+
+#include <AppKit/NSMenu.h>
+#include <AppKit/NSMenuItem.h>
+
 #include "macsystemtrayicon.h"
 
 #include "mac_delegate.h"
 #include "song.h"
-
-#include <QApplication>
-#include <QAction>
-#include <QIcon>
-#include <QUrl>
-#include <QtDebug>
-
-#include <AppKit/NSMenu.h>
-#include <AppKit/NSMenuItem.h>
+#include "iconloader.h"
 
 @interface Target :NSObject {
   QAction* action_;
@@ -69,21 +71,10 @@ class MacSystemTrayIconPrivate {
     dock_menu_ = [[NSMenu alloc] initWithTitle:@"DockMenu"];
 
     QString title = QT_TR_NOOP("Now Playing");
-    NSString* t = [[NSString alloc] initWithUTF8String:title.toUtf8().constData()];
-    now_playing_ = [[NSMenuItem alloc]
-        initWithTitle:t
-        action:nullptr
-        keyEquivalent:@""];
-
-    now_playing_artist_ = [[NSMenuItem alloc]
-        initWithTitle:@"Nothing to see here"
-                                   action:nullptr
-                            keyEquivalent:@""];
-
-    now_playing_title_ = [[NSMenuItem alloc]
-        initWithTitle:@"Nothing to see here"
-                                   action:nullptr
-                            keyEquivalent:@""];
+    NSString *t = [[NSString alloc] initWithUTF8String:title.toUtf8().constData()];
+    now_playing_ = [[NSMenuItem alloc] initWithTitle:t action:nullptr keyEquivalent:@""];
+    now_playing_artist_ = [[NSMenuItem alloc] initWithTitle:@"Nothing to see here" action:nullptr keyEquivalent:@""];
+    now_playing_title_ = [[NSMenuItem alloc] initWithTitle:@"Nothing to see here" action:nullptr keyEquivalent:@""];
 
     [dock_menu_ insertItem:now_playing_title_ atIndex:0];
     [dock_menu_ insertItem:now_playing_artist_ atIndex:0];
@@ -96,39 +87,34 @@ class MacSystemTrayIconPrivate {
     ClearNowPlaying();
   }
 
-  void AddMenuItem(QAction* action) {
+  void AddMenuItem(QAction *action) {
     // Strip accelarators from name.
     QString text = action->text().remove("&");
-    NSString* title = [[NSString alloc] initWithUTF8String: text.toUtf8().constData()];
+    NSString *title = [[NSString alloc] initWithUTF8String: text.toUtf8().constData()];
     // Create an object that can receive user clicks and pass them on to the QAction.
-    Target* target = [[Target alloc] initWithQAction:action];
-    NSMenuItem* item = [[[NSMenuItem alloc]
-        initWithTitle:title
-                                                   action:@selector(clicked)
-                                            keyEquivalent:@""] autorelease];
+    Target *target = [[Target alloc] initWithQAction:action];
+    NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:title action:@selector(clicked) keyEquivalent:@""] autorelease];
     [item setEnabled:action->isEnabled()];
     [item setTarget:target];
     [dock_menu_ addItem:item];
     actions_[action] = item;
   }
 
-  void ActionChanged(QAction* action) {
-    NSMenuItem* item = actions_[action];
-    NSString* title = [[NSString alloc] initWithUTF8String: action->text().toUtf8().constData()];
+  void ActionChanged(QAction *action) {
+    NSMenuItem *item = actions_[action];
+    NSString *title = [[NSString alloc] initWithUTF8String: action->text().toUtf8().constData()];
     [item setTitle:title];
   }
 
   void AddSeparator() {
-    NSMenuItem* separator = [NSMenuItem separatorItem];
+    NSMenuItem *separator = [NSMenuItem separatorItem];
     [dock_menu_ addItem:separator];
   }
 
   void ShowNowPlaying(const QString& artist, const QString& title) {
     ClearNowPlaying();  // Makes sure the order is consistent.
-    [now_playing_artist_ setTitle:
-        [[NSString alloc] initWithUTF8String: artist.toUtf8().constData()]];
-    [now_playing_title_ setTitle:
-        [[NSString alloc] initWithUTF8String: title.toUtf8().constData()]];
+    [now_playing_artist_ setTitle: [[NSString alloc] initWithUTF8String: artist.toUtf8().constData()]];
+    [now_playing_title_ setTitle: [[NSString alloc] initWithUTF8String: title.toUtf8().constData()]];
     title.isEmpty() ? HideItem(now_playing_title_) : ShowItem(now_playing_title_);
     artist.isEmpty() ? HideItem(now_playing_artist_) : ShowItem(now_playing_artist_);
     artist.isEmpty() && title.isEmpty() ? HideItem(now_playing_) : ShowItem(now_playing_);
@@ -142,13 +128,13 @@ class MacSystemTrayIconPrivate {
   }
 
  private:
-  void HideItem(NSMenuItem* item) {
+  void HideItem(NSMenuItem *item) {
     if ([dock_menu_ indexOfItem:item] != -1) {
       [dock_menu_ removeItem:item];
     }
   }
 
-  void ShowItem(NSMenuItem* item, int index = 0) {
+  void ShowItem(NSMenuItem *item, int index = 0) {
     if ([dock_menu_ indexOfItem:item] == -1) {
       [dock_menu_ insertItem:item atIndex:index];
     }
@@ -156,25 +142,37 @@ class MacSystemTrayIconPrivate {
 
   QMap<QAction*, NSMenuItem*> actions_;
 
-  NSMenu* dock_menu_;
-  NSMenuItem* now_playing_;
-  NSMenuItem* now_playing_artist_;
-  NSMenuItem* now_playing_title_;
+  NSMenu *dock_menu_;
+  NSMenuItem *now_playing_;
+  NSMenuItem *now_playing_artist_;
+  NSMenuItem *now_playing_title_;
 
   Q_DISABLE_COPY(MacSystemTrayIconPrivate);
 };
 
-MacSystemTrayIcon::MacSystemTrayIcon(QObject* parent)
-    : SystemTrayIcon(parent),
+SystemTrayIcon::SystemTrayIcon(QObject *parent)
+    : QObject(parent),
       normal_icon_(QPixmap(":/pictures/strawberry.png").scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)),
-      grey_icon_(QPixmap(":/pictures/strawberry-grey.png").scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)) {
+      grey_icon_(QPixmap(":/pictures/strawberry-grey.png").scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)),
+      playing_icon_(":/pictures/tiny-play.png"),
+      paused_icon_(":/pictures/tiny-pause.png"),
+      trayicon_progress_(false),
+      song_progress_(0) {
+
   QApplication::setWindowIcon(normal_icon_);
+
 }
 
-MacSystemTrayIcon::~MacSystemTrayIcon() {
+SystemTrayIcon::~SystemTrayIcon() {}
+
+void SystemTrayIcon::SetTrayiconProgress(const bool enabled) {
+
+  trayicon_progress_ = enabled;
+  UpdateIcon();
+
 }
 
-void MacSystemTrayIcon::SetupMenu(QAction* previous, QAction* play, QAction* stop, QAction* stop_after, QAction* next, QAction* mute, QAction* love, QAction* quit) {
+void SystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) {
 
   p_.reset(new MacSystemTrayIconPrivate());
   SetupMenuItem(previous);
@@ -190,25 +188,58 @@ void MacSystemTrayIcon::SetupMenu(QAction* previous, QAction* play, QAction* sto
 
 }
 
-void MacSystemTrayIcon::SetupMenuItem(QAction* action) {
+void SystemTrayIcon::SetupMenuItem(QAction *action) {
   p_->AddMenuItem(action);
-  QObject::connect(action, &QAction::changed, this, &MacSystemTrayIcon::ActionChanged);
+  QObject::connect(action, &QAction::changed, this, &SystemTrayIcon::ActionChanged);
 }
 
-void MacSystemTrayIcon::UpdateIcon() {
-  QApplication::setWindowIcon(CreateIcon(normal_icon_, normal_icon_));
+void SystemTrayIcon::UpdateIcon() {
+
+  QApplication::setWindowIcon(CreateIcon(normal_icon_, grey_icon_));
+
 }
 
-void MacSystemTrayIcon::ActionChanged() {
-  QAction* action = qobject_cast<QAction*>(sender());
+void SystemTrayIcon::ActionChanged() {
+
+  QAction *action = qobject_cast<QAction*>(sender());
   p_->ActionChanged(action);
+
 }
 
-void MacSystemTrayIcon::ClearNowPlaying() {
+void SystemTrayIcon::SetPlaying(const bool enable_play_pause) {
+
+  Q_UNUSED(enable_play_pause);
+
+  current_state_icon_ = playing_icon_;
+  UpdateIcon();
+
+}
+
+void SystemTrayIcon::SetPaused() {
+
+  current_state_icon_ = paused_icon_;
+  UpdateIcon();
+
+}
+
+void SystemTrayIcon::SetStopped() {
+
+  current_state_icon_ = QPixmap();
+  UpdateIcon();
+
+}
+
+void SystemTrayIcon::SetProgress(const int percentage) {
+
+  song_progress_ = percentage;
+  if (trayicon_progress_) UpdateIcon();
+
+}
+
+void SystemTrayIcon::ClearNowPlaying() {
   p_->ClearNowPlaying();
 }
 
-void MacSystemTrayIcon::SetNowPlaying(const Song& song, const QUrl& cover_url) {
-  Q_UNUSED(cover_url);
+void SystemTrayIcon::SetNowPlaying(const Song &song, const QUrl&) {
   p_->ShowNowPlaying(song.artist(), song.PrettyTitle());
 }

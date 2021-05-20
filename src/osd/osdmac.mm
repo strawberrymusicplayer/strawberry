@@ -21,7 +21,7 @@
 
 #include "config.h"
 
-#include "osdmac.h"
+#include <memory>
 
 #include <QBuffer>
 #include <QByteArray>
@@ -29,6 +29,8 @@
 #include <QtDebug>
 
 #include "core/scoped_nsobject.h"
+
+#include "osdmac.h"
 
 namespace {
 
@@ -52,7 +54,7 @@ void SendNotificationCenterMessage(NSString *title, NSString *subtitle) {
 
 }  // namespace
 
-OSDMac::OSDMac(SystemTrayIcon *tray_icon, Application *app, QObject *parent) : OSDBase(tray_icon, app, parent) {}
+OSDMac::OSDMac(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QObject *parent) : OSDBase(tray_icon, app, parent) {}
 
 OSDMac::~OSDMac() = default;
 

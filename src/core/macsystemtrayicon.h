@@ -31,37 +31,69 @@
 #include <QPixmap>
 #include <QAction>
 
-#include "systemtrayicon.h"
+#include "song.h"
 
 class MacSystemTrayIconPrivate;
 
-class MacSystemTrayIcon : public SystemTrayIcon {
+class SystemTrayIcon : public QObject {
   Q_OBJECT
 
  public:
-  explicit MacSystemTrayIcon(QObject *parent = nullptr);
-  ~MacSystemTrayIcon();
+  explicit SystemTrayIcon(QObject *parent = nullptr);
+  ~SystemTrayIcon();
+
+  bool isSystemTrayAvailable() { return true; }
+  void setVisible(const bool) {}
+
+  void SetTrayiconProgress(const bool enabled);
 
   void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit);
+  void ShowPopup(const QString&, const QString&, const int) {}
 
-  void SetNowPlaying(const Song& song, const QUrl &cover_url);
+  bool MuteEnabled() const { return false; }
+  void SetMuteEnabled(const bool) {}
+  void MuteButtonStateChanged(const bool) {}
+
+  void SetPlaying(bool enable_play_pause = false);
+  void SetPaused();
+  void SetStopped();
+
+  void SetNowPlaying(const Song &song, const QUrl&);
   void ClearNowPlaying();
+
+  void SetProgress(const int percentage);
+
+  void LoveVisibilityChanged(const bool) {}
+  void LoveStateChanged(const bool) {}
 
  private:
   void SetupMenuItem(QAction *action);
+  QPixmap CreateIcon(const QPixmap &icon, const QPixmap &grey_icon);
+  void UpdateIcon();
 
  private slots:
   void ActionChanged();
 
- protected:
-  // SystemTrayIcon
-  void UpdateIcon();
+ signals:
+  void ChangeVolume(int delta);
+  void SeekForward();
+  void SeekBackward();
+  void NextTrack();
+  void PreviousTrack();
+  void ShowHide();
+  void PlayPause();
 
  private:
+  std::unique_ptr<MacSystemTrayIconPrivate> p_;
+
   QPixmap normal_icon_;
   QPixmap grey_icon_;
-  std::unique_ptr<MacSystemTrayIconPrivate> p_;
-  Q_DISABLE_COPY(MacSystemTrayIcon);
+  QPixmap playing_icon_;
+  QPixmap paused_icon_;
+  QPixmap current_state_icon_;
+  bool trayicon_progress_;
+  int song_progress_;
+  Q_DISABLE_COPY(SystemTrayIcon);
 };
 
 #endif  // MACSYSTEMTRAYICON_H

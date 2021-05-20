@@ -33,13 +33,17 @@
 
 #include "core/application.h"
 #include "core/logging.h"
-#include "core/systemtrayicon.h"
 #include "core/utilities.h"
+#ifdef Q_OS_MACOS
+#  include "core/macsystemtrayicon.h"
+#else
+#  include "core/qtsystemtrayicon.h"
+#endif
 #include "covermanager/currentalbumcoverloader.h"
 
 const char *OSDBase::kSettingsGroup = "OSD";
 
-OSDBase::OSDBase(SystemTrayIcon *tray_icon, Application *app, QObject *parent)
+OSDBase::OSDBase(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QObject *parent)
     : QObject(parent),
       app_(app),
       tray_icon_(tray_icon),
@@ -85,11 +89,13 @@ void OSDBase::ReloadSettings() {
   custom_text2_ = s.value("CustomText2").toString();
   s.endGroup();
 
-  if (!SupportsNativeNotifications() && behaviour_ == Native)
+  if (!SupportsNativeNotifications() && behaviour_ == Native) {
     behaviour_ = Pretty;
+  }
 
-  if (!SupportsTrayPopups() && behaviour_ == TrayPopup)
+  if (!SupportsTrayPopups() && behaviour_ == TrayPopup) {
     behaviour_ = Disabled;
+  }
 
   ReloadPrettyOSDSettings();
 
@@ -429,7 +435,7 @@ bool OSDBase::SupportsNativeNotifications() {
 }
 
 bool OSDBase::SupportsTrayPopups() {
-  return tray_icon_;
+  return tray_icon_->isSystemTrayAvailable();
 }
 
 void OSDBase::ShowMessageNative(const QString&, const QString&, const QString&, const QImage&) {

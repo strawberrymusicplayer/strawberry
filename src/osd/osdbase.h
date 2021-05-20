@@ -44,7 +44,7 @@ class OSDBase : public QObject {
   Q_OBJECT
 
  public:
-  explicit OSDBase(SystemTrayIcon *tray_icon, Application *app, QObject *parent = nullptr);
+  explicit OSDBase(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QObject *parent = nullptr);
   ~OSDBase() override;
 
   static const char *kSettingsGroup;
@@ -97,7 +97,7 @@ class OSDBase : public QObject {
 
  private:
   Application *app_;
-  SystemTrayIcon *tray_icon_;
+  std::shared_ptr<SystemTrayIcon> tray_icon_;
   OSDPretty *pretty_popup_;
 
   QString app_name_;

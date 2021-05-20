@@ -35,7 +35,6 @@
 #include <QWindow>
 #include <QMetaObject>
 #include <QThread>
-#include <QSystemTrayIcon>
 #include <QSortFilterProxyModel>
 #include <QByteArray>
 #include <QDir>
@@ -88,13 +87,17 @@
 #include "song.h"
 #include "stylehelper.h"
 #include "stylesheetloader.h"
-#include "systemtrayicon.h"
 #include "application.h"
 #include "database.h"
 #include "player.h"
 #include "appearance.h"
 #include "filesystemmusicstorage.h"
 #include "deletefiles.h"
+#ifdef Q_OS_MACOS
+#  include "macsystemtrayicon.h"
+#else
+#  include "qtsystemtrayicon.h"
+#endif
 #include "engine/enginetype.h"
 #include "engine/enginebase.h"
 #include "engine/engine_fwd.h"
@@ -184,10 +187,6 @@
 #  include "musicbrainz/tagfetcher.h"
 #endif
 
-#ifdef Q_OS_MACOS
-#  include "core/macsystemtrayicon.h"
-#endif
-
 #ifdef HAVE_MOODBAR
 #  include "moodbar/moodbarcontroller.h"
 #  include "moodbar/moodbarproxystyle.h"
@@ -216,7 +215,7 @@ const int kTrackSliderUpdateTimeMs = 200;
 const int kTrackPositionUpdateTimeMs = 1000;
 }
 
-MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent) :
+MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent) :
       QMainWindow(parent),
       ui_(new Ui_MainWindow),
 #ifdef Q_OS_WIN
@@ -745,15 +744,15 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
   mac::SetApplicationHandler(this);
 #endif
   // Tray icon
-  if (tray_icon_) {
+  if (tray_icon_->isSystemTrayAvailable()) {
     tray_icon_->SetupMenu(ui_->action_previous_track, ui_->action_play_pause, ui_->action_stop, ui_->action_stop_after_this_track, ui_->action_next_track, ui_->action_mute, ui_->action_love, ui_->action_quit);
-    QObject::connect(tray_icon_, &SystemTrayIcon::PlayPause, app_->player(), &Player::PlayPauseHelper);
-    QObject::connect(tray_icon_, &SystemTrayIcon::SeekForward, app_->player(), &Player::SeekForward);
-    QObject::connect(tray_icon_, &SystemTrayIcon::SeekBackward, app_->player(), &Player::SeekBackward);
-    QObject::connect(tray_icon_, &SystemTrayIcon::NextTrack, app_->player(), &Player::Next);
-    QObject::connect(tray_icon_, &SystemTrayIcon::PreviousTrack, app_->player(), &Player::Previous);
-    QObject::connect(tray_icon_, &SystemTrayIcon::ShowHide, this, &MainWindow::ToggleShowHide);
-    QObject::connect(tray_icon_, &SystemTrayIcon::ChangeVolume, this, &MainWindow::VolumeWheelEvent);
+    QObject::connect(tray_icon_.get(), &SystemTrayIcon::PlayPause, app_->player(), &Player::PlayPauseHelper);
+    QObject::connect(tray_icon_.get(), &SystemTrayIcon::SeekForward, app_->player(), &Player::SeekForward);
+    QObject::connect(tray_icon_.get(), &SystemTrayIcon::SeekBackward, app_->player(), &Player::SeekBackward);
+    QObject::connect(tray_icon_.get(), &SystemTrayIcon::NextTrack, app_->player(), &Player::Next);
+    QObject::connect(tray_icon_.get(), &SystemTrayIcon::PreviousTrack, app_->player(), &Player::Previous);
+    QObject::connect(tray_icon_.get(), &SystemTrayIcon::ShowHide, this, &MainWindow::ToggleShowHide);
+    QObject::connect(tray_icon_.get(), &SystemTrayIcon::ChangeVolume, this, &MainWindow::VolumeWheelEvent);
   }
 
   // Windows 7 thumbbar buttons
@@ -930,7 +929,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
       show();
       break;
     case BehaviourSettingsPage::Startup_Hide:
-      if (QSystemTrayIcon::isSystemTrayAvailable() && tray_icon_ && tray_icon_->IsVisible()) {
+      if (tray_icon_->isSystemTrayAvailable() && tray_icon_->isVisible()) {
         hide();
         break;
       }
@@ -944,7 +943,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd
       was_minimized_ = settings_.value("minimized", false).toBool();
       if (was_minimized_) setWindowState(windowState() | Qt::WindowMinimized);
 
-      if (!QSystemTrayIcon::isSystemTrayAvailable() || !tray_icon_ || !tray_icon_->IsVisible()) {
+      if (!tray_icon_->isSystemTrayAvailable() || !tray_icon_->isVisible()) {
         hidden_ = false;
         settings_.setValue("hidden", false);
         show();
@@ -1020,10 +1019,14 @@ void MainWindow::ReloadSettings() {
 
 #ifndef Q_OS_MACOS
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  bool showtrayicon = s.value("showtrayicon", QSystemTrayIcon::isSystemTrayAvailable()).toBool();
+  bool showtrayicon = s.value("showtrayicon", tray_icon_->isSystemTrayAvailable()).toBool();
   s.endGroup();
-  if (tray_icon_) tray_icon_->SetVisible(showtrayicon);
-  if ((!showtrayicon || !QSystemTrayIcon::isSystemTrayAvailable()) && !isVisible()) show();
+  if (tray_icon_->isSystemTrayAvailable()) {
+    tray_icon_->setVisible(showtrayicon);
+  }
+  if ((!showtrayicon || !tray_icon_->isSystemTrayAvailable()) && !isVisible()) {
+    show();
+  }
 #endif
 
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
@@ -1041,7 +1044,7 @@ void MainWindow::ReloadSettings() {
   int iconsize = s.value(AppearanceSettingsPage::kIconSizePlayControlButtons, 32).toInt();
   s.endGroup();
 
-  if (tray_icon_) tray_icon_->SetTrayiconProgress(trayicon_progress);
+  tray_icon_->SetTrayiconProgress(trayicon_progress);
 
   ui_->back_button->setIconSize(QSize(iconsize, iconsize));
   ui_->pause_play_button->setIconSize(QSize(iconsize, iconsize));
@@ -1056,11 +1059,11 @@ void MainWindow::ReloadSettings() {
     ui_->volume->SetEnabled(volume_control);
     if (volume_control) {
       if (!ui_->action_mute->isVisible()) ui_->action_mute->setVisible(true);
-      if (tray_icon_ && !tray_icon_->MuteEnabled()) tray_icon_->SetMuteEnabled(true);
+      if (!tray_icon_->MuteEnabled()) tray_icon_->SetMuteEnabled(true);
     }
     else {
       if (ui_->action_mute->isVisible()) ui_->action_mute->setVisible(false);
-      if (tray_icon_ && tray_icon_->MuteEnabled()) tray_icon_->SetMuteEnabled(false);
+      if (tray_icon_->MuteEnabled()) tray_icon_->SetMuteEnabled(false);
     }
   }
 
@@ -1181,7 +1184,9 @@ void MainWindow::Exit() {
       if (app_->player()->GetState() == Engine::Playing) {
         app_->player()->Stop();
         hide();
-        if (tray_icon_) tray_icon_->SetVisible(false);
+        if (tray_icon_->isSystemTrayAvailable()) {
+          tray_icon_->setVisible(false);
+        }
         return; // Don't quit the application now: wait for the fadeout finished signal
       }
     }
@@ -1229,15 +1234,13 @@ void MainWindow::MediaStopped() {
 
   ui_->action_love->setEnabled(false);
   ui_->button_love->setEnabled(false);
-  if (tray_icon_) tray_icon_->LoveStateChanged(false);
+  tray_icon_->LoveStateChanged(false);
 
   track_position_timer_->stop();
   track_slider_timer_->stop();
   ui_->track_slider->SetStopped();
-  if (tray_icon_) {
-    tray_icon_->SetProgress(0);
-    tray_icon_->SetStopped();
-  }
+  tray_icon_->SetProgress(0);
+  tray_icon_->SetStopped();
 
   song_playing_ = Song();
   song_ = Song();
@@ -1259,9 +1262,7 @@ void MainWindow::MediaPaused() {
   track_position_timer_->stop();
   track_slider_timer_->stop();
 
-  if (tray_icon_) {
-    tray_icon_->SetPaused();
-  }
+  tray_icon_->SetPaused();
 
 }
 
@@ -1282,7 +1283,7 @@ void MainWindow::MediaPlaying() {
   }
   ui_->action_play_pause->setEnabled(enable_play_pause);
   ui_->track_slider->SetCanSeek(can_seek);
-  if (tray_icon_) tray_icon_->SetPlaying(enable_play_pause);
+  tray_icon_->SetPlaying(enable_play_pause);
 
   track_position_timer_->start();
   track_slider_timer_->start();
@@ -1298,14 +1299,14 @@ void MainWindow::SendNowPlaying() {
     app_->scrobbler()->UpdateNowPlaying(playlist->current_item()->Metadata());
     ui_->action_love->setEnabled(true);
     ui_->button_love->setEnabled(true);
-    if (tray_icon_) tray_icon_->LoveStateChanged(true);
+    tray_icon_->LoveStateChanged(true);
   }
 
 }
 
 void MainWindow::VolumeChanged(const int volume) {
   ui_->action_mute->setChecked(!volume);
-  if (tray_icon_) tray_icon_->MuteButtonStateChanged(!volume);
+  tray_icon_->MuteButtonStateChanged(!volume);
 }
 
 void MainWindow::SongChanged(const Song &song) {
@@ -1315,7 +1316,7 @@ void MainWindow::SongChanged(const Song &song) {
   song_playing_ = song;
   song_ = song;
   setWindowTitle(song.PrettyTitleWithArtist());
-  if (tray_icon_) tray_icon_->SetProgress(0);
+  tray_icon_->SetProgress(0);
 
   SendNowPlaying();
 
@@ -1567,7 +1568,7 @@ void MainWindow::showEvent(QShowEvent *e) {
 void MainWindow::closeEvent(QCloseEvent *e) {
 
   if (!exit_) {
-    if (!hidden_ && keep_running_ && e->spontaneous() && QSystemTrayIcon::isSystemTrayAvailable()) {
+    if (!hidden_ && keep_running_ && e->spontaneous() && tray_icon_->isSystemTrayAvailable()) {
       SetHiddenInTray(true);
     }
     else {
@@ -1606,7 +1607,7 @@ void MainWindow::Seeked(const qint64 microseconds) {
 
   const qint64 position = microseconds / kUsecPerSec;
   const qint64 length = app_->player()->GetCurrentItem()->Metadata().length_nanosec() / kNsecPerSec;
-  if (tray_icon_) tray_icon_->SetProgress(static_cast<int>(double(position) / length * 100));
+  tray_icon_->SetProgress(static_cast<int>(double(position) / length * 100));
 
 }
 
@@ -1620,7 +1621,7 @@ void MainWindow::UpdateTrackPosition() {
   const int position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerSec + 0.5);
 
   // Update the tray icon every 10 seconds
-  if (tray_icon_ && position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(double(position) / length * 100));
+  if (position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(double(position) / length * 100));
 
   // Send Scrobble
   if (app_->scrobbler()->IsEnabled() && item->Metadata().is_metadata_good()) {
@@ -3067,7 +3068,7 @@ void MainWindow::LoveButtonVisibilityChanged(const bool value) {
   else
     ui_->widget_love->hide();
 
-  if (tray_icon_) tray_icon_->LoveVisibilityChanged(value);
+  tray_icon_->LoveVisibilityChanged(value);
 
 }
 
@@ -3090,7 +3091,7 @@ void MainWindow::Love() {
   app_->scrobbler()->Love();
   ui_->button_love->setEnabled(false);
   ui_->action_love->setEnabled(false);
-  if (tray_icon_) tray_icon_->LoveStateChanged(false);
+  tray_icon_->LoveStateChanged(false);
 
 }
 

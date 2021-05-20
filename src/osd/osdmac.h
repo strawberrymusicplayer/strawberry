@@ -24,8 +24,12 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QtGlobal>
 #include <QObject>
+#include <QString>
+#include <QImage>
 
 #include "osdbase.h"
 
@@ -33,7 +37,7 @@ class OSDMac : public OSDBase {
   Q_OBJECT
 
  public:
-  explicit OSDMac(SystemTrayIcon *tray_icon, Application *app, QObject *parent = nullptr);
+  explicit OSDMac(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QObject *parent = nullptr);
   ~OSDMac() override;
 
   bool SupportsNativeNotifications() override;

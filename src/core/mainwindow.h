@@ -105,7 +105,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
 
  public:
-  explicit MainWindow(Application *app, SystemTrayIcon *tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent = nullptr);
+  explicit MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent = nullptr);
   ~MainWindow() override;
 
   static const char *kSettingsGroup;
@@ -299,7 +299,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #endif
 
   Application *app_;
-  SystemTrayIcon *tray_icon_;
+  std::shared_ptr<SystemTrayIcon> tray_icon_;
   OSDBase *osd_;
   Lazy<About> about_dialog_;
   Lazy<Console> console_;

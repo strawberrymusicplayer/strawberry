@@ -29,97 +29,56 @@
 #include <QIcon>
 #include <QString>
 #include <QUrl>
-#include <QtEvents>
 #include <QSettings>
 
 #include "song.h"
 #include "iconloader.h"
-#include "utilities.h"
-
-#include "systemtrayicon.h"
 #include "qtsystemtrayicon.h"
-
 #include "settings/behavioursettingspage.h"
 
-QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
-    : SystemTrayIcon(parent),
-      tray_(new QSystemTrayIcon(this)),
+SystemTrayIcon::SystemTrayIcon(QObject *parent)
+    : QSystemTrayIcon(parent),
       menu_(new QMenu),
       app_name_(QCoreApplication::applicationName()),
       icon_(IconLoader::Load("strawberry")),
       normal_icon_(icon_.pixmap(48, QIcon::Normal)),
       grey_icon_(icon_.pixmap(48, QIcon::Disabled)),
+      playing_icon_(":/pictures/tiny-play.png"),
+      paused_icon_(":/pictures/tiny-pause.png"),
       action_play_pause_(nullptr),
       action_stop_(nullptr),
       action_stop_after_this_track_(nullptr),
-      action_mute_(nullptr) {
+      action_mute_(nullptr),
+      trayicon_progress_(false),
+      song_progress_(0) {
 
   app_name_[0] = app_name_[0].toUpper();
   QIcon theme_icon_grey = IconLoader::Load("strawberry-grey");
   if (!theme_icon_grey.isNull()) {
     grey_icon_ = theme_icon_grey.pixmap(48, QIcon::Disabled);
   }
-  tray_->setIcon(normal_icon_);
-  tray_->installEventFilter(this);
-  QtSystemTrayIcon::ClearNowPlaying();
 
-  QObject::connect(tray_, &QSystemTrayIcon::activated, this, &QtSystemTrayIcon::Clicked);
+  if (isSystemTrayAvailable()) {
+    setIcon(normal_icon_);
+    setToolTip(app_name_);
+  }
+
+  QObject::connect(this, &QSystemTrayIcon::activated, this, &SystemTrayIcon::Clicked);
 
 }
 
-QtSystemTrayIcon::~QtSystemTrayIcon() {
+SystemTrayIcon::~SystemTrayIcon() {
   delete menu_;
 }
 
-bool QtSystemTrayIcon::eventFilter(QObject *object, QEvent *event) {
+void SystemTrayIcon::SetTrayiconProgress(const bool enabled) {
 
-  if (QObject::eventFilter(object, event)) return true;
-
-  if (object != tray_) return false;
-
-  if (event->type() == QEvent::Wheel) {
-    QWheelEvent *e = static_cast<QWheelEvent*>(event);
-    if (e->modifiers() == Qt::ShiftModifier) {
-      if (e->angleDelta().y() > 0) {
-        emit SeekForward();
-      }
-      else {
-        emit SeekBackward();
-      }
-    }
-    else if (e->modifiers() == Qt::ControlModifier) {
-      if (e->angleDelta().y() < 0) {
-        emit NextTrack();
-      }
-      else {
-        emit PreviousTrack();
-      }
-    }
-    else {
-      QSettings s;
-      s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-      bool prev_next_track = s.value("scrolltrayicon").toBool();
-      s.endGroup();
-      if (prev_next_track) {
-        if (e->angleDelta().y() < 0) {
-          emit NextTrack();
-        }
-        else {
-          emit PreviousTrack();
-        }
-      }
-      else {
-        emit ChangeVolume(e->angleDelta().y());
-      }
-    }
-    return true;
-  }
-
-  return false;
+  trayicon_progress_ = enabled;
+  UpdateIcon();
 
 }
 
-void QtSystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) {
+void SystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) {
 
   // Creating new actions and connecting them to old ones.
   // This allows us to use old actions without displaying shortcuts that can not be used when Strawberry's window is hidden
@@ -141,11 +100,11 @@ void QtSystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop
   menu_->addSeparator();
   menu_->addAction(quit->icon(), quit->text(), quit, &QAction::trigger);
 
-  tray_->setContextMenu(menu_);
+  if (isSystemTrayAvailable()) setContextMenu(menu_);
 
 }
 
-void QtSystemTrayIcon::Clicked(QSystemTrayIcon::ActivationReason reason) {
+void SystemTrayIcon::Clicked(const QSystemTrayIcon::ActivationReason reason) {
 
   switch (reason) {
     case QSystemTrayIcon::DoubleClick:
@@ -163,17 +122,33 @@ void QtSystemTrayIcon::Clicked(QSystemTrayIcon::ActivationReason reason) {
 
 }
 
-void QtSystemTrayIcon::ShowPopup(const QString &summary, const QString &message, int timeout) {
-  tray_->showMessage(summary, message, QSystemTrayIcon::NoIcon, timeout);
+void SystemTrayIcon::ShowPopup(const QString &summary, const QString &message, const int timeout) {
+  if (isSystemTrayAvailable()) showMessage(summary, message, QSystemTrayIcon::NoIcon, timeout);
 }
 
-void QtSystemTrayIcon::UpdateIcon() {
-  tray_->setIcon(CreateIcon(normal_icon_, grey_icon_));
+void SystemTrayIcon::UpdateIcon() {
+
+  if (isSystemTrayAvailable()) setIcon(CreateIcon(normal_icon_, grey_icon_));
+
 }
 
-void QtSystemTrayIcon::SetPaused() {
+void SystemTrayIcon::SetPlaying(bool enable_play_pause) {
 
-  SystemTrayIcon::SetPaused();
+  current_state_icon_ = playing_icon_;
+  UpdateIcon();
+
+  action_stop_->setEnabled(true);
+  action_stop_after_this_track_->setEnabled(true);
+  action_play_pause_->setIcon(IconLoader::Load("media-playback-pause"));
+  action_play_pause_->setText(tr("Pause"));
+  action_play_pause_->setEnabled(enable_play_pause);
+
+}
+
+void SystemTrayIcon::SetPaused() {
+
+  current_state_icon_ = paused_icon_;
+  UpdateIcon();
 
   action_stop_->setEnabled(true);
   action_stop_after_this_track_->setEnabled(true);
@@ -184,21 +159,10 @@ void QtSystemTrayIcon::SetPaused() {
 
 }
 
-void QtSystemTrayIcon::SetPlaying(bool enable_play_pause) {
+void SystemTrayIcon::SetStopped() {
 
-  SystemTrayIcon::SetPlaying();
-
-  action_stop_->setEnabled(true);
-  action_stop_after_this_track_->setEnabled(true);
-  action_play_pause_->setIcon(IconLoader::Load("media-playback-pause"));
-  action_play_pause_->setText(tr("Pause"));
-  action_play_pause_->setEnabled(enable_play_pause);
-
-}
-
-void QtSystemTrayIcon::SetStopped() {
-
-  SystemTrayIcon::SetStopped();
+  current_state_icon_ = QPixmap();
+  UpdateIcon();
 
   action_stop_->setEnabled(false);
   action_stop_after_this_track_->setEnabled(false);
@@ -211,32 +175,29 @@ void QtSystemTrayIcon::SetStopped() {
 
 }
 
-void QtSystemTrayIcon::MuteButtonStateChanged(bool value) {
+void SystemTrayIcon::SetProgress(const int percentage) {
+
+  song_progress_ = percentage;
+  UpdateIcon();
+
+}
+
+void SystemTrayIcon::MuteButtonStateChanged(const bool value) {
   if (action_mute_) action_mute_->setChecked(value);
 }
 
-bool QtSystemTrayIcon::IsVisible() const {
-  return tray_->isVisible();
+void SystemTrayIcon::SetNowPlaying(const Song &song, const QUrl&) {
+  if (isSystemTrayAvailable()) setToolTip(song.PrettyTitleWithArtist());
 }
 
-void QtSystemTrayIcon::SetVisible(bool visible) {
-  tray_->setVisible(visible);
+void SystemTrayIcon::ClearNowPlaying() {
+  if (isSystemTrayAvailable()) setToolTip(app_name_);
 }
 
-void QtSystemTrayIcon::SetNowPlaying(const Song &song, const QUrl&) {
-
-  tray_->setToolTip(song.PrettyTitleWithArtist());
-
-}
-
-void QtSystemTrayIcon::ClearNowPlaying() {
-  tray_->setToolTip(app_name_);
-}
-
-void QtSystemTrayIcon::LoveVisibilityChanged(bool value) {
+void SystemTrayIcon::LoveVisibilityChanged(const bool value) {
   action_love_->setVisible(value);
 }
 
-void QtSystemTrayIcon::LoveStateChanged(bool value) {
+void SystemTrayIcon::LoveStateChanged(const bool value) {
   action_love_->setEnabled(value);
 }
