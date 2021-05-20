@@ -81,7 +81,7 @@ msgstr " ms"
 msgid " pt"
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:329
+#: ../build/src/ui_behavioursettingspage.h:320
 msgid " s"
 msgstr " s"
 
@@ -575,7 +575,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Aggiungi cartella..."
 
-#: core/mainwindow.cpp:2157
+#: core/mainwindow.cpp:2158
 msgid "Add file"
 msgstr "Aggiungi file"
 
@@ -591,7 +591,7 @@ msgstr "Aggiungi file al transcodificatore"
 msgid "Add files to transcode"
 msgstr "Aggiungi file da transcodificare"
 
-#: core/mainwindow.cpp:2182 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2183 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Aggiungi cartella"
 
@@ -701,7 +701,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Aggiungi agli album"
 
-#: core/mainwindow.cpp:1959
+#: core/mainwindow.cpp:1960
 msgid "Add to another playlist"
 msgstr "Aggiungi a un'altra scaletta"
 
@@ -717,8 +717,8 @@ msgstr "Aggiungi alla scaletta"
 msgid "Add to songs"
 msgstr "Aggiungi alle canzoni"
 
-#: ../build/src/ui_behavioursettingspage.h:317
-#: ../build/src/ui_behavioursettingspage.h:325
+#: ../build/src/ui_behavioursettingspage.h:308
+#: ../build/src/ui_behavioursettingspage.h:316
 msgid "Add to the queue"
 msgstr "Aggiungi alla coda"
 
@@ -824,7 +824,7 @@ msgstr "Album con copertina"
 msgid "Albums without covers"
 msgstr "Album senza copertina"
 
-#: core/mainwindow.cpp:212
+#: core/mainwindow.cpp:211
 msgid "All Files (*)"
 msgstr "Tutti i file (*)"
 
@@ -861,8 +861,8 @@ msgstr "Consenti codifica mid/side"
 msgid "Alongside the originals"
 msgstr "Insieme agli originali"
 
-#: ../build/src/ui_behavioursettingspage.h:307
-#: ../build/src/ui_behavioursettingspage.h:321
+#: ../build/src/ui_behavioursettingspage.h:298
+#: ../build/src/ui_behavioursettingspage.h:312
 msgid "Always start playing"
 msgstr "Inizia sempre la riproduzione"
 
@@ -912,7 +912,7 @@ msgstr "Aggiungi file/URL alla scaletta"
 msgid "Append to current playlist"
 msgstr "Aggiungi alla scaletta attuale"
 
-#: ../build/src/ui_behavioursettingspage.h:314
+#: ../build/src/ui_behavioursettingspage.h:305
 msgid "Append to the playlist"
 msgstr "Aggiungi alla scaletta"
 
@@ -1082,7 +1082,7 @@ msgstr "Bilanciamento"
 msgid "Basic Blue"
 msgstr "Blu di base"
 
-#: ../build/src/ui_behavioursettingspage.h:287
+#: ../build/src/ui_behavioursettingspage.h:279
 msgid "Behavior"
 msgstr "Comportamento"
 
@@ -1190,7 +1190,7 @@ msgstr ""
 msgid "Change shortcut..."
 msgstr "Cambia la scorciatoia..."
 
-#: ../build/src/ui_behavioursettingspage.h:324
+#: ../build/src/ui_behavioursettingspage.h:315
 msgid "Change the currently playing song"
 msgstr "Cambierà la traccia in riproduzione"
 
@@ -1198,7 +1198,7 @@ msgstr "Cambierà la traccia in riproduzione"
 msgid "Change the language"
 msgstr "Cambia la lingua"
 
-#: core/mainwindow.cpp:765
+#: core/mainwindow.cpp:764
 msgid "Check for updates..."
 msgstr "Controlla aggiornamenti..."
 
@@ -1247,7 +1247,7 @@ msgstr ""
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2247 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2248 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Svuota la scaletta"
 
@@ -1262,12 +1262,6 @@ msgstr "Contributori di Clementine"
 #: collection/collectionview.cpp:320
 msgid "Click here to add some music"
 msgstr "Fai clic qui per aggiungere della musica"
-
-#: playlist/playlisttabbar.cpp:331
-msgid ""
-"Click here to favorite this playlist so it will be saved and remain "
-"accessible through the \"Playlists\" panel on the left side bar"
-msgstr ""
 
 #: internet/internetcollectionview.cpp:289
 msgid "Click here to retrieve music"
@@ -1298,7 +1292,7 @@ msgstr "La chiusura di questa finestra fermerà la ricerca delle copertine."
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:342 ../build/src/ui_collectionsettingspage.h:418
+#: core/mainwindow.cpp:341 ../build/src/ui_collectionsettingspage.h:418
 #: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Collection"
 msgstr "Raccolta"
@@ -1311,7 +1305,7 @@ msgstr "Filtro della Collezione"
 msgid "Collection advanced grouping"
 msgstr "Raggruppamento avanzato della raccolta"
 
-#: core/mainwindow.cpp:2820
+#: core/mainwindow.cpp:2821
 msgid "Collection rescan notice"
 msgstr "Notifica nuova scansione della raccolta"
 
@@ -1372,7 +1366,7 @@ msgstr "Configura %1..."
 msgid "Configure buttons"
 msgstr ""
 
-#: core/mainwindow.cpp:645
+#: core/mainwindow.cpp:644
 msgid "Configure collection..."
 msgstr "Configura raccolta..."
 
@@ -1388,7 +1382,7 @@ msgstr "Console"
 msgid "Constant bitrate"
 msgstr "Bitrate costante"
 
-#: core/mainwindow.cpp:341 ../build/src/ui_contextsettingspage.h:370
+#: core/mainwindow.cpp:340 ../build/src/ui_contextsettingspage.h:370
 msgid "Context"
 msgstr "Contesto"
 
@@ -1410,7 +1404,7 @@ msgstr "Converti tutta la musica"
 msgid "Convert any music that the device can't play"
 msgstr "Converti qualsiasi musica che il dispositivo non può riprodurre"
 
-#: core/mainwindow.cpp:709
+#: core/mainwindow.cpp:708
 msgid "Copy URL(s)..."
 msgstr ""
 
@@ -1418,7 +1412,7 @@ msgstr ""
 msgid "Copy album cover artwork"
 msgstr "Copia la copertina dell'album"
 
-#: core/mainwindow.cpp:713 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:712 widgets/fileviewlist.cpp:47
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Copia nella raccolta..."
@@ -1427,7 +1421,7 @@ msgstr "Copia nella raccolta..."
 msgid "Copy to device"
 msgstr ""
 
-#: core/mainwindow.cpp:716 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:715 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:353 playlist/playlistlistcontainer.cpp:105
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
@@ -1693,7 +1687,7 @@ msgstr "Elimina i file"
 msgid "Delete from device..."
 msgstr "Elimina da dispositivo..."
 
-#: core/mainwindow.cpp:718 collection/collectionview.cpp:355
+#: core/mainwindow.cpp:717 collection/collectionview.cpp:355
 #: widgets/fileviewlist.cpp:50
 msgid "Delete from disk..."
 msgstr "Elimina dal disco..."
@@ -1715,11 +1709,11 @@ msgstr "Elimina i file originali"
 msgid "Deleting files"
 msgstr "Eliminazione dei file"
 
-#: core/mainwindow.cpp:1876
+#: core/mainwindow.cpp:1877
 msgid "Dequeue selected tracks"
 msgstr "Rimuovi le tracce selezionate dalla coda"
 
-#: core/mainwindow.cpp:1875
+#: core/mainwindow.cpp:1876
 msgid "Dequeue track"
 msgstr "Rimuovi tracce dalla coda"
 
@@ -1745,7 +1739,7 @@ msgstr "Proprietà del dispositivo"
 msgid "Device properties..."
 msgstr "Proprietà del dispositivo..."
 
-#: core/mainwindow.cpp:348
+#: core/mainwindow.cpp:347
 msgid "Devices"
 msgstr "Dispositivi"
 
@@ -1810,7 +1804,7 @@ msgstr "Non sovrascrivere"
 msgid "Do not show this message again."
 msgstr ""
 
-#: osd/osdbase.cpp:348 ../build/src/ui_playlistsequence.h:108
+#: osd/osdbase.cpp:354 ../build/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
 msgstr "Non ripetere"
 
@@ -1818,7 +1812,7 @@ msgstr "Non ripetere"
 msgid "Don't show in various artists"
 msgstr "Non mostrare in artisti vari"
 
-#: osd/osdbase.cpp:333 ../build/src/ui_playlistsequence.h:114
+#: osd/osdbase.cpp:339 ../build/src/ui_playlistsequence.h:114
 msgid "Don't shuffle"
 msgstr "Non mescolare"
 
@@ -1830,13 +1824,19 @@ msgstr "Non fermare!"
 msgid "Double click to open"
 msgstr "Doppio clic per aprire"
 
-#: ../build/src/ui_behavioursettingspage.h:323
+#: ../build/src/ui_behavioursettingspage.h:314
 msgid "Double clicking a song in the playlist will..."
 msgstr "Il doppio clic su un brano nella scaletta..."
 
-#: ../build/src/ui_behavioursettingspage.h:313
+#: ../build/src/ui_behavioursettingspage.h:304
 msgid "Double clicking a song will..."
 msgstr "Al doppio clic su un brano..."
+
+#: playlist/playlisttabbar.cpp:331
+msgid ""
+"Double-click here to favorite this playlist so it will be saved and remain "
+"accessible through the \"Playlists\" panel on the left side bar"
+msgstr ""
 
 #: ../build/src/ui_subsonicsettingspage.h:197
 #: ../build/src/ui_tidalsettingspage.h:335
@@ -1868,7 +1868,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1917
+#: core/mainwindow.cpp:1918
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Modifica tag \"%1\"..."
@@ -2028,7 +2028,7 @@ msgstr "Equivalente a --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente a --log-levels *:3"
 
-#: core/mainwindow.cpp:2557 core/mainwindow.cpp:2702
+#: core/mainwindow.cpp:2558 core/mainwindow.cpp:2703
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "Errore"
@@ -2236,7 +2236,7 @@ msgstr "Nome file"
 msgid "Filename:"
 msgstr "Nome del file:"
 
-#: core/mainwindow.cpp:346
+#: core/mainwindow.cpp:345
 msgid "Files"
 msgstr "File"
 
@@ -2522,7 +2522,7 @@ msgstr ""
 msgid "Help"
 msgstr "Aiuto"
 
-#: ../build/src/ui_behavioursettingspage.h:297
+#: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
 msgstr ""
 
@@ -2658,7 +2658,7 @@ msgstr ""
 msgid "Internet Tabs View"
 msgstr ""
 
-#: osd/osdbase.cpp:353 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:359 ../build/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
 msgstr "Tracce di introduzione"
 
@@ -2676,7 +2676,7 @@ msgstr ""
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:310
+#: ../build/src/ui_behavioursettingspage.h:301
 msgid "Jump to previous song right away"
 msgstr "Salta subito al brano precedente"
 
@@ -2684,7 +2684,7 @@ msgstr "Salta subito al brano precedente"
 msgid "Keep aspect ratio"
 msgstr "Mantieni le proporzioni"
 
-#: ../build/src/ui_behavioursettingspage.h:289
+#: ../build/src/ui_behavioursettingspage.h:281
 msgid "Keep running in the background when the window is closed"
 msgstr "Mantieni l'esecuzione sullo sfondo quando la finestra è chiusa"
 
@@ -2692,7 +2692,7 @@ msgstr "Mantieni l'esecuzione sullo sfondo quando la finestra è chiusa"
 msgid "Keep the original files"
 msgstr "Mantieni i file originali"
 
-#: ../build/src/ui_behavioursettingspage.h:300
+#: ../build/src/ui_behavioursettingspage.h:291
 msgid "Language"
 msgstr "Lingua"
 
@@ -3055,7 +3055,7 @@ msgstr "Punti di mount"
 msgid "Move down"
 msgstr "Sposta in basso"
 
-#: core/mainwindow.cpp:714 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:713 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
 msgstr "Sposta nella raccolta..."
 
@@ -3064,7 +3064,7 @@ msgstr "Sposta nella raccolta..."
 msgid "Move up"
 msgstr "Sposta in alto"
 
-#: core/mainwindow.cpp:2157 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2158 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Musica"
 
@@ -3098,8 +3098,8 @@ msgstr "Mai"
 msgid "Never played"
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:305
-#: ../build/src/ui_behavioursettingspage.h:319
+#: ../build/src/ui_behavioursettingspage.h:296
+#: ../build/src/ui_behavioursettingspage.h:310
 msgid "Never start playing"
 msgstr "Non iniziare mai la riproduzione"
 
@@ -3109,7 +3109,7 @@ msgstr "Non iniziare mai la riproduzione"
 msgid "New folder"
 msgstr "Nuova cartella"
 
-#: core/mainwindow.cpp:1975
+#: core/mainwindow.cpp:1976
 msgid "New playlist"
 msgstr "Nuova scaletta"
 
@@ -3182,7 +3182,7 @@ msgstr "Nessuna canzone in riproduzione"
 msgid "None"
 msgstr "Nessuna"
 
-#: core/mainwindow.cpp:2557 core/mainwindow.cpp:2702
+#: core/mainwindow.cpp:2558 core/mainwindow.cpp:2703
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3230,7 +3230,7 @@ msgstr "Tipo di notifica"
 msgid "Notifications"
 msgstr "Notifiche"
 
-#: core/macsystemtrayicon.mm:71
+#: core/macsystemtrayicon.mm:73
 msgid "Now Playing"
 msgstr "In riproduzione"
 
@@ -3242,7 +3242,7 @@ msgstr "Sov&rascrivi tutto"
 msgid "OSD Preview"
 msgstr "Anteprima OSD"
 
-#: osd/osdbase.cpp:261
+#: osd/osdbase.cpp:267
 msgid "Off"
 msgstr "Spento"
 
@@ -3253,11 +3253,11 @@ msgid ""
 "most of their derivatives. See %1 for more information."
 msgstr ""
 
-#: osd/osdbase.cpp:261
+#: osd/osdbase.cpp:267
 msgid "On"
 msgstr "Acceso"
 
-#: ../build/src/ui_behavioursettingspage.h:294
+#: ../build/src/ui_behavioursettingspage.h:285
 msgid "On startup"
 msgstr "All'avvio"
 
@@ -3289,7 +3289,7 @@ msgstr "Apri dispositivo"
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:321
 #: internet/internetcollectionview.cpp:313 device/deviceview.cpp:236
-#: ../build/src/ui_behavioursettingspage.h:316
+#: ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
 msgstr "Apri in nuova scaletta"
 
@@ -3318,7 +3318,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr ""
 
-#: core/mainwindow.cpp:712 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:711 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:351
 msgid "Organize files..."
 msgstr ""
@@ -3399,8 +3399,8 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1273 core/mainwindow.cpp:1774
-#: core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:1274 core/mainwindow.cpp:1775
+#: core/qtsystemtrayicon.cpp:143
 msgid "Pause"
 msgstr "Pausa"
 
@@ -3408,7 +3408,7 @@ msgstr "Pausa"
 msgid "Pause playback"
 msgstr "Sospendi riproduzione"
 
-#: osd/osdbase.cpp:202 osd/osdbase.cpp:205
+#: osd/osdbase.cpp:208 osd/osdbase.cpp:211
 msgid "Paused"
 msgstr "In pausa"
 
@@ -3427,9 +3427,9 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Barra laterale semplice"
 
-#: core/mainwindow.cpp:681 core/mainwindow.cpp:1226 core/mainwindow.cpp:1255
-#: core/mainwindow.cpp:1778 core/qtsystemtrayicon.cpp:181
-#: core/qtsystemtrayicon.cpp:206
+#: core/mainwindow.cpp:680 core/mainwindow.cpp:1231 core/mainwindow.cpp:1258
+#: core/mainwindow.cpp:1779 core/qtsystemtrayicon.cpp:156
+#: core/qtsystemtrayicon.cpp:170
 msgid "Play"
 msgstr "Riproduci"
 
@@ -3453,8 +3453,8 @@ msgstr ""
 msgid "Play if stopped, pause if playing"
 msgstr "Riproduci se fermata, sospendi se in riproduzione"
 
-#: ../build/src/ui_behavioursettingspage.h:306
-#: ../build/src/ui_behavioursettingspage.h:320
+#: ../build/src/ui_behavioursettingspage.h:297
+#: ../build/src/ui_behavioursettingspage.h:311
 msgid "Play if there is nothing already playing"
 msgstr "Riproduci se non c'è altro in riproduzione"
 
@@ -3491,11 +3491,11 @@ msgstr "Scaletta"
 msgid "Playlist buttons"
 msgstr ""
 
-#: osd/osdbase.cpp:269
+#: osd/osdbase.cpp:275
 msgid "Playlist finished"
 msgstr "Scaletta terminata"
 
-#: core/mainwindow.cpp:2247
+#: core/mainwindow.cpp:2248
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3519,7 +3519,7 @@ msgstr ""
 msgid "Playlist type"
 msgstr ""
 
-#: core/mainwindow.cpp:344
+#: core/mainwindow.cpp:343
 msgid "Playlists"
 msgstr "Playlist"
 
@@ -3605,7 +3605,7 @@ msgstr "Premi un tasto"
 msgid "Press a key combination to use for %1..."
 msgstr "Premi una combinazione di tasto da utilizzare per %1..."
 
-#: ../build/src/ui_behavioursettingspage.h:309
+#: ../build/src/ui_behavioursettingspage.h:300
 msgid "Pressing \"Previous\" in player will..."
 msgstr "La pressione di \"Precedente\" nel lettore..."
 
@@ -3645,7 +3645,7 @@ msgstr "Avanzamento"
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:357 ../build/src/ui_scrobblersettingspage.h:410
+#: core/mainwindow.cpp:356 ../build/src/ui_scrobblersettingspage.h:410
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3668,24 +3668,24 @@ msgstr "Qualità"
 msgid "Querying device..."
 msgstr "Interrogazione dispositivo..."
 
-#: core/mainwindow.cpp:343
+#: core/mainwindow.cpp:342
 msgid "Queue"
 msgstr "Coda"
 
-#: core/mainwindow.cpp:1878
+#: core/mainwindow.cpp:1879
 msgid "Queue selected tracks"
 msgstr "Accoda le tracce selezionate"
 
-#: core/mainwindow.cpp:687 core/mainwindow.cpp:1882
+#: core/mainwindow.cpp:686 core/mainwindow.cpp:1883
 msgid "Queue selected tracks to play next"
 msgstr "Accoda i brani selezionati per riprodurli successivamente"
 
-#: core/mainwindow.cpp:1884 collection/collectionview.cpp:348
+#: core/mainwindow.cpp:1885 collection/collectionview.cpp:348
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Accoda cosa riprodurre dopo"
 
-#: core/mainwindow.cpp:1877 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1878 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:324 internet/internetcollectionview.cpp:316
@@ -3772,7 +3772,7 @@ msgstr "Reggae"
 msgid "Relative"
 msgstr "Relativo"
 
-#: ../build/src/ui_behavioursettingspage.h:295
+#: ../build/src/ui_behavioursettingspage.h:286
 msgid "Remember from &last time"
 msgstr "Ricorda &l'ultima sessione"
 
@@ -3833,15 +3833,15 @@ msgstr "Ricorda l'ordine delle tracce..."
 msgid "Repeat"
 msgstr "Ripeti"
 
-#: osd/osdbase.cpp:350 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:356 ../build/src/ui_playlistsequence.h:110
 msgid "Repeat album"
 msgstr "Ripeti album"
 
-#: osd/osdbase.cpp:351 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:357 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat playlist"
 msgstr "Ripeti scaletta"
 
-#: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:109
+#: osd/osdbase.cpp:355 ../build/src/ui_playlistsequence.h:109
 msgid "Repeat track"
 msgstr "Ripeti traccia"
 
@@ -3860,7 +3860,7 @@ msgstr "Sostituisci gli spazi con dei trattini"
 msgid "Replace spaces with underscores"
 msgstr "Sostituisci gli spazzi con dei trattini bassi"
 
-#: ../build/src/ui_behavioursettingspage.h:315
+#: ../build/src/ui_behavioursettingspage.h:306
 msgid "Replace the playlist"
 msgstr "Sostituisci la scaletta"
 
@@ -3884,7 +3884,7 @@ msgstr ""
 msgid "Rescan song(s)"
 msgstr "Riscansiona canzone/i"
 
-#: core/mainwindow.cpp:703
+#: core/mainwindow.cpp:702
 msgid "Rescan song(s)..."
 msgstr ""
 
@@ -3900,7 +3900,7 @@ msgstr "Azzera i contatori"
 msgid "Resize the window"
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:311
+#: ../build/src/ui_behavioursettingspage.h:302
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "Riavvia il brano, poi salta alla precedente se premuto ancora"
 
@@ -3919,7 +3919,7 @@ msgstr "Restringi i caratteri ad ASCII"
 msgid "Restrict to characters allowed on FAT filesystems"
 msgstr "Restringi i caratteri a quelli permessi dal filesystem FAT"
 
-#: ../build/src/ui_behavioursettingspage.h:291
+#: ../build/src/ui_behavioursettingspage.h:283
 msgid "Resume playback on start"
 msgstr "Riprendi la riproduzione all'avvio"
 
@@ -4097,10 +4097,6 @@ msgstr ""
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Lo Scrobbler %1 non è autenticato!"
 
-#: ../build/src/ui_behavioursettingspage.h:293
-msgid "Scroll over icon to change track"
-msgstr "Scorri sull'icona per cambiare traccia"
-
 #: covermanager/albumcoversearcher.cpp:204
 #: covermanager/albumcoversearcher.cpp:222
 #: ../build/src/ui_albumcoversearcher.h:110
@@ -4160,7 +4156,7 @@ msgstr "Sposta la traccia in riproduzione di una quantità relativa"
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Sposta la traccia in riproduzione su una posizione assoluta"
 
-#: ../build/src/ui_behavioursettingspage.h:327
+#: ../build/src/ui_behavioursettingspage.h:318
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr ""
 "Posizionamento utilizzando una scorciatoia da tastiera o la rotella del "
@@ -4210,7 +4206,7 @@ msgstr "L'URL del server non è valido."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1916
+#: core/mainwindow.cpp:1917
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Imposta %1 a \"%2\"..."
@@ -4298,7 +4294,7 @@ msgstr "Mostra la copertina dell'album nella collezione"
 msgid "Show albums by artist"
 msgstr "Mostra gli album in base all'artista"
 
-#: core/mainwindow.cpp:634
+#: core/mainwindow.cpp:633
 msgid "Show all songs"
 msgstr "Mostra tutti i brani"
 
@@ -4322,7 +4318,7 @@ msgstr "Mostra l'engine ed il dispositivo"
 msgid "Show fullsize..."
 msgstr "Mostra a dimensioni originali..."
 
-#: core/mainwindow.cpp:710
+#: core/mainwindow.cpp:709
 msgid "Show in collection..."
 msgstr "Mostra nella raccolta..."
 
@@ -4330,7 +4326,7 @@ msgstr "Mostra nella raccolta..."
 msgid "Show in file browser"
 msgstr "Mostra nel browser di file"
 
-#: core/mainwindow.cpp:711 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:710 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:360 widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "Mostra nel navigatore file..."
@@ -4347,15 +4343,15 @@ msgstr "Mostra il pulsante love"
 msgid "Show moodbar"
 msgstr "Mostra la barra dell'umore"
 
-#: core/mainwindow.cpp:635
+#: core/mainwindow.cpp:634
 msgid "Show only duplicates"
 msgstr "Mostra solo i duplicati"
 
-#: core/mainwindow.cpp:636
+#: core/mainwindow.cpp:635
 msgid "Show only untagged"
 msgstr "Mostra solo i brani senza tag"
 
-#: ../build/src/ui_behavioursettingspage.h:292
+#: ../build/src/ui_behavioursettingspage.h:284
 msgid "Show playing widget"
 msgstr "Mostra il widget in riproduzione"
 
@@ -4371,7 +4367,7 @@ msgstr ""
 msgid "Show song lyrics"
 msgstr "Mostra il testo della canzone"
 
-#: ../build/src/ui_behavioursettingspage.h:290
+#: ../build/src/ui_behavioursettingspage.h:282
 msgid "Show song progress on system tray icon"
 msgstr ""
 
@@ -4379,19 +4375,19 @@ msgstr ""
 msgid "Show song technical data"
 msgstr "Mostra i dati tecnici della canzone"
 
-#: ../build/src/ui_behavioursettingspage.h:288
+#: ../build/src/ui_behavioursettingspage.h:280
 msgid "Show system tray icon"
 msgstr "Mostra l'icona nella barra di notifica"
 
-#: ../build/src/ui_behavioursettingspage.h:296
+#: ../build/src/ui_behavioursettingspage.h:287
 msgid "Show the main window"
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:298
+#: ../build/src/ui_behavioursettingspage.h:289
 msgid "Show the main window maximized"
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:299
+#: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show the main window minimized"
 msgstr ""
 
@@ -4399,15 +4395,15 @@ msgstr ""
 msgid "Shuffle"
 msgstr "Mescola"
 
-#: osd/osdbase.cpp:336 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:342 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle albums"
 msgstr "Mescola gli album"
 
-#: osd/osdbase.cpp:334 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:340 ../build/src/ui_playlistsequence.h:116
 msgid "Shuffle all"
 msgstr "Mescola tutto"
 
-#: osd/osdbase.cpp:335 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:341 ../build/src/ui_playlistsequence.h:115
 msgid "Shuffle tracks in this album"
 msgstr "Mescola le tracce di questo album"
 
@@ -4444,11 +4440,11 @@ msgstr "Salta il conteggio"
 msgid "Skip forwards in playlist"
 msgstr "Salta in avanti nella scaletta"
 
-#: core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:1890
 msgid "Skip selected tracks"
 msgstr "Salta le tracce selezionate"
 
-#: core/mainwindow.cpp:1888
+#: core/mainwindow.cpp:1889
 msgid "Skip track"
 msgstr "Salta la traccia"
 
@@ -4464,7 +4460,7 @@ msgstr "Pannello laterale piccolo"
 msgid "Smart playlist"
 msgstr ""
 
-#: core/mainwindow.cpp:345
+#: core/mainwindow.cpp:344
 msgid "Smart playlists"
 msgstr ""
 
@@ -4545,11 +4541,11 @@ msgstr "Avvio di %1"
 msgid "Stop after each track"
 msgstr "Ferma dopo ogni traccia"
 
-#: osd/osdbase.cpp:352
+#: osd/osdbase.cpp:358
 msgid "Stop after every track"
 msgstr "Ferma dopo tutte le tracce"
 
-#: core/mainwindow.cpp:683 ../build/src/ui_mainwindow.h:627
+#: core/mainwindow.cpp:682 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "Ferma dopo questa traccia"
 
@@ -4561,12 +4557,12 @@ msgstr "Ferma riproduzione"
 msgid "Stop playback after current track"
 msgstr "Ferma la riproduzione dopo la traccia corrente"
 
-#: osd/osdbase.cpp:261
+#: osd/osdbase.cpp:267
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Ferma la riproduzione dopo la traccia: %1"
 
-#: osd/osdbase.cpp:248 osd/osdbase.cpp:251
+#: osd/osdbase.cpp:254 osd/osdbase.cpp:257
 msgid "Stopped"
 msgstr "Fermato"
 
@@ -4654,7 +4650,7 @@ msgstr ""
 msgid "Submit scrobbles every"
 msgstr "Invia gli scrobbles ogni"
 
-#: core/mainwindow.cpp:351 ../build/src/ui_scrobblersettingspage.h:408
+#: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:408
 #: ../build/src/ui_subsonicsettingspage.h:188
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4788,7 +4784,7 @@ msgstr "Il sito richiesto non esiste!"
 msgid "The site you requested is not an image!"
 msgstr "Il sito richiesto non è un'immagine!"
 
-#: core/mainwindow.cpp:2815
+#: core/mainwindow.cpp:2816
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4898,7 +4894,7 @@ msgstr ""
 msgid "This type of device is not supported: %1"
 msgstr "Questi tipo di dispositivo non è supportato: %1"
 
-#: core/mainwindow.cpp:354 ../build/src/ui_scrobblersettingspage.h:409
+#: core/mainwindow.cpp:353 ../build/src/ui_scrobblersettingspage.h:409
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -4909,7 +4905,7 @@ msgid ""
 "application to work. We can't help you getting these."
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:328
+#: ../build/src/ui_behavioursettingspage.h:319
 msgid "Time step"
 msgstr "Intervallo di tempo"
 
@@ -4924,7 +4920,7 @@ msgstr "Titolo"
 msgid "Today"
 msgstr "Oggi"
 
-#: core/mainwindow.cpp:684 core/mainwindow.cpp:1879
+#: core/mainwindow.cpp:683 core/mainwindow.cpp:1880
 msgid "Toggle queue status"
 msgstr "Cambia lo stato della coda"
 
@@ -4932,7 +4928,7 @@ msgstr "Cambia lo stato della coda"
 msgid "Toggle scrobbling"
 msgstr "Commuta lo scrobbling"
 
-#: core/mainwindow.cpp:690 core/mainwindow.cpp:1890
+#: core/mainwindow.cpp:689 core/mainwindow.cpp:1891
 msgid "Toggle skip status"
 msgstr "Attiva / Disattiva lo status di ignoramento"
 
@@ -5035,11 +5031,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Rimuovi copertina"
 
-#: core/mainwindow.cpp:1887
+#: core/mainwindow.cpp:1888
 msgid "Unskip selected tracks"
 msgstr "Ripristina le tracce selezionate"
 
-#: core/mainwindow.cpp:1886
+#: core/mainwindow.cpp:1887
 msgid "Unskip track"
 msgstr "Ripristina la traccia"
 
@@ -5153,7 +5149,7 @@ msgstr "Usa le icone del tema di sistema"
 msgid "Use temporal noise shaping"
 msgstr "Usa modellazione temporale del rumore"
 
-#: ../build/src/ui_behavioursettingspage.h:301
+#: ../build/src/ui_behavioursettingspage.h:292
 msgid "Use the system default"
 msgstr "Usa i valori predefiniti di sistema"
 
@@ -5186,7 +5182,7 @@ msgstr ""
 "Usare le scorciatoie di sistema su %1 non è raccomandato e potrebbe rendere "
 "non reattiva la tastiera!"
 
-#: ../build/src/ui_behavioursettingspage.h:304
+#: ../build/src/ui_behavioursettingspage.h:295
 msgid "Using the menu to add a song will..."
 msgstr "L'utilizzo del menu per aggiungere un brano..."
 
@@ -5217,7 +5213,7 @@ msgstr "Visualizza"
 msgid "Voice activity detection"
 msgstr "Rilevazione attività vocale"
 
-#: osd/osdbase.cpp:277
+#: osd/osdbase.cpp:283
 #, qt-format
 msgid "Volume %1%"
 msgstr "Volume %1%"
@@ -5279,7 +5275,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2819
+#: core/mainwindow.cpp:2820
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vuoi eseguire subito una nuova scansione completa?"
 
@@ -5386,7 +5382,7 @@ msgid ""
 "this program.  If not, see %1"
 msgstr ""
 
-#: ../build/src/ui_behavioursettingspage.h:303
+#: ../build/src/ui_behavioursettingspage.h:294
 msgid "You will need to restart Strawberry if you change the language."
 msgstr "Dovrai riavviare Strawberry se cambi la lingua."
 
@@ -5462,7 +5458,7 @@ msgstr ""
 msgid "disabled"
 msgstr "disabilitata"
 
-#: osd/osdbase.cpp:146
+#: osd/osdbase.cpp:152
 #, qt-format
 msgid "disc %1"
 msgstr "disco %1"
@@ -5598,7 +5594,7 @@ msgstr ""
 msgid "stop"
 msgstr "ferma"
 
-#: osd/osdbase.cpp:149
+#: osd/osdbase.cpp:155
 #, qt-format
 msgid "track %1"
 msgstr "traccia %1"
