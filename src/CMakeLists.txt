@@ -1131,6 +1131,10 @@ target_include_directories(strawberry_lib SYSTEM PUBLIC
   ${TAGLIB_INCLUDE_DIRS}
 )
 
+if(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+  target_include_directories(strawberry_lib SYSTEM PUBLIC ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
+endif()
+
 target_include_directories(strawberry_lib PUBLIC
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
