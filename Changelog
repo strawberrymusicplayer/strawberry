@@ -5,10 +5,20 @@ ChangeLog
 Unreleased:
 
   Bugfixes:
+    * Fix updating temporary metadata when reloading songs outside of the collection.
+    * Don't strip off "Live" from song title when sending scrobbles.
     * (Windows) Fix adding songs with Japanese characters from the files tab.
 
   Enhancements:
     * Add replaygain fallback gain setting.
+    * Add option to turn off playlist alternating row colors.
+    * Make the default tabbbar background color lighter.
+    * Remove use of deprecated X11Extras and WinExtras Qt modules.
+    * Add CMake test for Qt sqlite support.
+    * Automatically detect Qt version if BUILD_WITH_QT5 or BUILD_WITH_QT6 is not specified.
+    * Correct playlist tabbar favorite tooltip from "click" to "double-click".
+    * Remove scroll over icon to change track option since it does not work reliable.
+    * (macOS) Build with libgpod.
 
 0.9.3:
 
