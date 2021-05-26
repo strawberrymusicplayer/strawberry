@@ -39,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-05-12 08:03-0400\n"
+"PO-Revision-Date: 2021-05-24 07:05-0400\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -1875,6 +1875,8 @@ msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
+"Pulse dos veces para convertir esta lista en favorita y que se guarde y "
+"quede accesible en el panel «Listas» de la barra izquierda"
 
 #: ../build/src/ui_subsonicsettingspage.h:197
 #: ../build/src/ui_tidalsettingspage.h:335
