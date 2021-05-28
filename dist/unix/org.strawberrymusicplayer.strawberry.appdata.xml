@@ -15,34 +15,36 @@
   ​<translation type="qt">strawberry</translation>
   <description>
     <p>
-      Strawberry is a music player and music collection organizer. It is a fork of Clementine released in 2018 aimed at music collectors, audio enthusiasts and audiophiles. The name is inspired by the band Strawbs. It's based on a heavily modified version of Clementine created in 2012-2013. It's written in C++ and Qt 5.
+      Strawberry is a music player and music collection organizer. It is aimed at music collectors and audiophiles. With Strawberry you can play and manage your digital music collection, or stream your favorite radios. It also has unofficial streaming support for Tidal and Qobuz. Strawberry is free software released under GPL. The source code is available on GitHub. It's written in C++ using the Qt toolkit and GStreamer. Strawberry is compatible with both Qt version 5 and 6.
     </p>
     <p>Features:</p>
     <ul>
       <li>Play and organize music</li>
       <li>Supports most popular audio formats and CD playback</li>
       <li>Native desktop notifications</li>
-      <li>Playlists in multiple formats</li>
+      <li>Playlist management and playlists in multiple formats</li>
+      <li>Smart and dynamic playlists</li>
       <li>Advanced audio output and device configuration for bit-perfect playback on Linux</li>
-      <li>Edit tags on music files</li>
-      <li>Fetch tags from MusicBrainz</li>
+      <li>Edit tags on audio files</li>
+      <li>FAutomatically retrieve tags from MusicBrainz</li>
       <li>Album cover art from Last.fm, Musicbrainz, Discogs, Musixmatch, Deezer, Tidal, Qobuz and Spotify</li>
       <li>Song lyrics from AudD, Genius, Musixmatch, ChartLyrics, lyrics.ovh and lololyrics.com</li>
       <li>Support for multiple backends</li>
       <li>Audio analyzer and equalizer</li>
-      <li>Transfer music to iPod, iPhone, MTP or mass-storage USB player</li>
+      <li>Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic</li>
       <li>Scrobbler with support for Last.fm, Libre.fm and ListenBrainz</li>
-      <li>Streaming support for Subsonic</li>
+      <li>Streaming support for Subsonic-compatible servers</li>
+      <li>Unofficial streaming support for Tidal and Qobuz</li>
     </ul>
   </description>
   <screenshots>
     <screenshot type="default">
       <caption>Song playing showing context</caption>
-      <image width="1600" height="874">https://www.strawberrymusicplayer.org/pictures/appdata-screenshot-001.png</image>
+      <image width="1432" height="834">https://www.strawberrymusicplayer.org/pictures/appdata-screenshot-003.png</image>
     </screenshot>
     <screenshot>
       <caption>Collection overview</caption>
-      <image width="1600" height="874">https://www.strawberrymusicplayer.org/pictures/appdata-screenshot-002.png</image>
+      <image width="1432" height="834">https://www.strawberrymusicplayer.org/pictures/appdata-screenshot-004.png</image>
     </screenshot>
   </screenshots>
   <update_contact>eclipseo@fedoraproject.org</update_contact>
