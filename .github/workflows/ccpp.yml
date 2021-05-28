@@ -739,9 +739,86 @@ jobs:
             pulseaudio-libs-devel
             libnotify-devel
             gnutls-devel
-            qt5-qtbase-devel
-            qt5-qtbase-private-devel
-            qt5-qttools-devel
+            qt6-qtbase-devel
+            qt6-qtbase-private-devel
+            qt6-qttools-devel
+            gstreamer1-devel
+            gstreamer1-plugins-base-devel
+            taglib-devel
+            libcdio-devel
+            libgpod-devel
+            libmtp-devel
+            libchromaprint-devel
+            fftw-devel
+            desktop-file-utils
+            libappstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        working-directory: build
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_fedora_35:
+    name: Build Fedora 35
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:35
+    env:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - uses: actions/checkout@v1.2.0
+
+      - name: Update packages
+        run: yum update --assumeyes
+
+      - name: Upgrade packages
+        run: yum upgrade --assumeyes
+
+      - name: Install Fedora dependencies
+        run: >
+            dnf install --assumeyes
+            @development-tools
+            redhat-lsb-core
+            git
+            glibc
+            gcc-c++
+            rpmdevtools
+            make
+            cmake
+            pkgconfig
+            glib
+            man
+            tar
+            gettext
+            openssh
+            boost-devel
+            dbus-devel
+            protobuf-devel
+            protobuf-compiler
+            sqlite-devel
+            alsa-lib-devel
+            pulseaudio-libs-devel
+            libnotify-devel
+            gnutls-devel
+            qt6-qtbase-devel
+            qt6-qtbase-private-devel
+            qt6-qttools-devel
             gstreamer1-devel
             gstreamer1-plugins-base-devel
             taglib-devel
