@@ -106,18 +106,20 @@ Features:
     MPC, TrueAudio, AIFF, MP4, MP3, ASF and Monkey's Audio.
   - Audio CD playback
   - Native desktop notifications
+  - Playlist management
   - Playlists in multiple formats
   - Advanced audio output and device configuration for bit-perfect playback on Linux
-  - Edit tags on music files
-  - Fetch tags from MusicBrainz
+  - Edit tags on audio files
+  - Automatically retrieve tags from MusicBrainz
   - Album cover art from Last.fm, Musicbrainz, Discogs, Musixmatch, Deezer, Tidal, Qobuz and Spotify
   - Song lyrics from AudD, Genius, Musixmatch, ChartLyrics, lyrics.ovh and lololyrics.com
   - Support for multiple backends
   - Audio analyzer
   - Audio equalizer
-  - Transfer music to iPod, MTP or mass-storage USB player
   - Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
-  - Streaming support for Subsonic
+  - Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic
+  - Streaming support for Subsonic-compatible servers
+  - Unofficial streaming support for Tidal and Qobuz
 
 %if 0%{?suse_version}
 %debug_package
