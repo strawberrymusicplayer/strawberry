@@ -39,6 +39,8 @@ class GlobalShortcutsBackend : public QObject {
   bool Register();
   void Unregister();
 
+  virtual bool IsAvailable() = 0;
+
  signals:
   void RegisterFinished(bool success);
 

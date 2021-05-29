@@ -43,9 +43,8 @@ class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
  public:
   explicit GlobalShortcutsBackendKDE(GlobalShortcutsManager *parent);
 
-  static const char *kKdeService;
-
  protected:
+  bool IsAvailable() override;
   bool DoRegister() override;
   void DoUnregister() override;
 
@@ -60,6 +59,7 @@ class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
   void GlobalShortcutPressed(const QString &component_unique, const QString &shortcut_unique, qint64);
 
  private:
+  static const char *kKdeService;
   static const char *kKdePath;
 
   OrgKdeKGlobalAccelInterface *interface_;

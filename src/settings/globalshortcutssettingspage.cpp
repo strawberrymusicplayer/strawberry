@@ -73,16 +73,19 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
 #  ifdef HAVE_DBUS
-  QObject::connect(ui_->checkbox_gsd, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
   QObject::connect(ui_->checkbox_kde, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
-  QObject::connect(ui_->button_gsd_open, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties);
+  QObject::connect(ui_->checkbox_gnome, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
+  QObject::connect(ui_->checkbox_mate, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
+  QObject::connect(ui_->button_gnome_open, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties);
+  QObject::connect(ui_->button_mate_open, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::OpenMateKeybindingProperties);
 #  endif
 #  if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
   QObject::connect(ui_->checkbox_x11, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
 #  endif
 #else
-  ui_->widget_gsd->hide();
   ui_->widget_kde->hide();
+  ui_->widget_gnome->hide();
+  ui_->widget_mate->hide();
   ui_->widget_x11->hide();
 #endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
 
@@ -119,15 +122,6 @@ void GlobalShortcutsSettingsPage::Load() {
     QObject::connect(ui_->button_macos_open, &QPushButton::clicked, manager, &GlobalShortcutsManager::ShowMacAccessibilityDialog);
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
-    if (manager->IsGsdAvailable()) {
-      qLog(Debug) << "Gnome (GSD) backend is available.";
-      ui_->widget_gsd->show();
-    }
-    else {
-      qLog(Debug) << "Gnome (GSD) backend is unavailable.";
-      ui_->widget_gsd->hide();
-    }
-
     if (manager->IsKdeAvailable()) {
       qLog(Debug) << "KDE (KGlobalAccel) backend is available.";
       ui_->widget_kde->show();
@@ -135,6 +129,24 @@ void GlobalShortcutsSettingsPage::Load() {
     else {
       qLog(Debug) << "KDE (KGlobalAccel) backend is unavailable.";
       ui_->widget_kde->hide();
+    }
+
+    if (manager->IsGnomeAvailable()) {
+      qLog(Debug) << "Gnome (GSD) backend is available.";
+      ui_->widget_gnome->show();
+    }
+    else {
+      qLog(Debug) << "Gnome (GSD) backend is unavailable.";
+      ui_->widget_gnome->hide();
+    }
+
+    if (manager->IsMateAvailable()) {
+      qLog(Debug) << "MATE backend is available.";
+      ui_->widget_mate->show();
+    }
+    else {
+      qLog(Debug) << "MATE backend is unavailable.";
+      ui_->widget_mate->hide();
     }
 
     if (manager->IsX11Available()) {
@@ -167,12 +179,17 @@ void GlobalShortcutsSettingsPage::Load() {
   }
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
-  if (ui_->widget_gsd->isVisibleTo(this)) {
-    ui_->checkbox_gsd->setChecked(s.value("use_gsd", true).toBool());
-  }
 
   if (ui_->widget_kde->isVisibleTo(this)) {
     ui_->checkbox_kde->setChecked(s.value("use_kde", true).toBool());
+  }
+
+  if (ui_->widget_gnome->isVisibleTo(this)) {
+    ui_->checkbox_gnome->setChecked(s.value("use_gnome", true).toBool());
+  }
+
+  if (ui_->widget_mate->isVisibleTo(this)) {
+    ui_->checkbox_mate->setChecked(s.value("use_mate", true).toBool());
   }
 
   if (ui_->widget_x11->isVisibleTo(this)) {
@@ -212,8 +229,9 @@ void GlobalShortcutsSettingsPage::Save() {
   }
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
-  s.setValue("use_gsd", ui_->checkbox_gsd->isChecked());
   s.setValue("use_kde", ui_->checkbox_kde->isChecked());
+  s.setValue("use_gnome", ui_->checkbox_gnome->isChecked());
+  s.setValue("use_mate", ui_->checkbox_mate->isChecked());
   s.setValue("use_x11", ui_->checkbox_x11->isChecked());
 #endif
 
@@ -246,6 +264,16 @@ void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
   if (!QProcess::startDetached("gnome-keybinding-properties", QStringList())) {
     if (!QProcess::startDetached("gnome-control-center", QStringList() << "keyboard")) {
       QMessageBox::warning(this, "Error", tr("The \"%1\" command could not be started.").arg("gnome-keybinding-properties"));
+    }
+  }
+
+}
+
+void GlobalShortcutsSettingsPage::OpenMateKeybindingProperties() {
+
+  if (!QProcess::startDetached("mate-keybinding-properties", QStringList())) {
+    if (!QProcess::startDetached("mate-control-center", QStringList() << "keyboard")) {
+      QMessageBox::warning(this, "Error", tr("The \"%1\" command could not be started.").arg("mate-keybinding-properties"));
     }
   }
 
@@ -316,14 +344,21 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
 
 void GlobalShortcutsSettingsPage::X11Warning() {
 
-  if (de_.toLower() == "kde" || de_.toLower() == "gnome" || de_.toLower() == "x-cinnamon") {
+  QString de = de_.toLower();
+  if (de == "kde" || de == "gnome" || de == "x-cinnamon" || de == "mate") {
     QString text(tr("Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!").arg(de_));
-    if (de_.toLower() == "kde")
+    if (de == "kde") {
       text += tr(" Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.").arg(de_);
-    else if (de_.toLower() == "gnome")
-      text += tr(" Shortcuts on %1 are usually used through GSD and should be configured in gnome-settings-daemon instead.").arg(de_);
-    else if (de_.toLower() == "x-cinnamon")
-      text += tr(" Shortcuts on %1 are usually used through GSD and should be configured in cinnamon-settings-daemon instead.").arg(de_);
+    }
+    else if (de == "gnome") {
+      text += tr(" Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.").arg(de_);
+    }
+    else if (de == "x-cinnamon") {
+      text += tr(" Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.").arg(de_);
+    }
+    else if (de == "mate") {
+      text += tr(" Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.").arg(de_);
+    }
     ui_->label_warn_text->setText(text);
     ui_->widget_warning->show();
   }

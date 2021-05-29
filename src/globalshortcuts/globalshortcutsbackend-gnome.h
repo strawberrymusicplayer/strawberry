@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef GLOBALSHORTCUTSBACKEND_GSD_H
-#define GLOBALSHORTCUTSBACKEND_GSD_H
+#ifndef GLOBALSHORTCUTSBACKEND_GNOME_H
+#define GLOBALSHORTCUTSBACKEND_GNOME_H
 
 #include "config.h"
 
@@ -33,18 +33,15 @@ class QDBusPendingCallWatcher;
 class GlobalShortcutsManager;
 class OrgGnomeSettingsDaemonMediaKeysInterface;
 
-class GlobalShortcutsBackendGSD : public GlobalShortcutsBackend {
+class GlobalShortcutsBackendGnome : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutsBackendGSD(GlobalShortcutsManager *parent);
+  explicit GlobalShortcutsBackendGnome(GlobalShortcutsManager *parent);
 
-  static const char *kGsdService;
-  static const char *kGsdService2;
-  static const char *kGsdPath;
+  bool IsAvailable() override;
 
  protected:
-  bool RegisterInNewThread() const { return true; }
   bool DoRegister() override;
   void DoUnregister() override;
 
@@ -54,9 +51,13 @@ class GlobalShortcutsBackendGSD : public GlobalShortcutsBackend {
   void GnomeMediaKeyPressed(const QString &application, const QString &key);
 
  private:
+  static const char *kService1;
+  static const char *kService2;
+  static const char *kPath;
+
   OrgGnomeSettingsDaemonMediaKeysInterface *interface_;
   bool is_connected_;
 
 };
 
-#endif  // GLOBALSHORTCUTSBACKEND_GSD_H
+#endif  // GLOBALSHORTCUTSBACKEND_GNOME_H

@@ -51,9 +51,10 @@ class GlobalShortcutsManager : public QWidget {
   };
 
   QMap<QString, Shortcut> shortcuts() const { return shortcuts_; }
-  bool IsGsdAvailable() const;
   bool IsKdeAvailable() const;
   bool IsX11Available() const;
+  bool IsGnomeAvailable() const;
+  bool IsMateAvailable() const;
   bool IsMacAccessibilityEnabled() const;
 
  public slots:
@@ -90,15 +91,17 @@ class GlobalShortcutsManager : public QWidget {
   Shortcut AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key);
 
  private:
-  GlobalShortcutsBackend *gsd_backend_;
   GlobalShortcutsBackend *kde_backend_;
+  GlobalShortcutsBackend *gnome_backend_;
+  GlobalShortcutsBackend *mate_backend_;
   GlobalShortcutsBackend *system_backend_;
 
   QMap<QString, Shortcut> shortcuts_;
   QSettings settings_;
 
-  bool use_gsd_;
   bool use_kde_;
+  bool use_gnome_;
+  bool use_mate_;
   bool use_x11_;
 };
 

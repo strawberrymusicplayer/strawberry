@@ -38,8 +38,9 @@
 #include "globalshortcutsbackend.h"
 
 #ifdef HAVE_DBUS
-#  include "globalshortcutsbackend-gsd.h"
 #  include "globalshortcutsbackend-kde.h"
+#  include "globalshortcutsbackend-gnome.h"
+#  include "globalshortcutsbackend-mate.h"
 #endif
 #if (defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)) || defined(Q_OS_WIN)
 #  include "globalshortcutsbackend-system.h"
@@ -52,11 +53,13 @@
 
 GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
     : QWidget(parent),
-      gsd_backend_(nullptr),
       kde_backend_(nullptr),
+      gnome_backend_(nullptr),
+      mate_backend_(nullptr),
       system_backend_(nullptr),
-      use_gsd_(true),
       use_kde_(true),
+      use_gnome_(true),
+      use_mate_(true),
       use_x11_(false)
   {
 
@@ -85,8 +88,9 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
 
   // Create backends - these do the actual shortcut registration
 #ifdef HAVE_DBUS
-  gsd_backend_ = new GlobalShortcutsBackendGSD(this);
   kde_backend_ = new GlobalShortcutsBackendKDE(this);
+  gnome_backend_ = new GlobalShortcutsBackendGnome(this);
+  mate_backend_ = new GlobalShortcutsBackendMate(this);
 #endif
 
 #ifdef Q_OS_MACOS
@@ -109,8 +113,9 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
 void GlobalShortcutsManager::ReloadSettings() {
 
   // The actual shortcuts have been set in our actions for us by the config dialog already - we just need to reread the gnome settings.
-  use_gsd_ = settings_.value("use_gsd", true).toBool();
   use_kde_ = settings_.value("use_kde", true).toBool();
+  use_gnome_ = settings_.value("use_gnome", true).toBool();
+  use_mate_ = settings_.value("use_mate", true).toBool();
   use_x11_ = settings_.value("use_x11", false).toBool();
 
   Unregister();
@@ -144,20 +149,30 @@ GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(const QStri
 
 }
 
-bool GlobalShortcutsManager::IsGsdAvailable() const {
+bool GlobalShortcutsManager::IsKdeAvailable() const {
 
 #ifdef HAVE_DBUS
-  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutsBackendGSD::kGsdService) || QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutsBackendGSD::kGsdService2);
+  return kde_backend_->IsAvailable();
 #else
   return false;
 #endif
 
 }
 
-bool GlobalShortcutsManager::IsKdeAvailable() const {
+bool GlobalShortcutsManager::IsGnomeAvailable() const {
 
 #ifdef HAVE_DBUS
-  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutsBackendKDE::kKdeService);
+  return gnome_backend_->IsAvailable();
+#else
+  return false;
+#endif
+
+}
+
+bool GlobalShortcutsManager::IsMateAvailable() const {
+
+#ifdef HAVE_DBUS
+  return mate_backend_->IsAvailable();
 #else
   return false;
 #endif
@@ -172,8 +187,9 @@ bool GlobalShortcutsManager::IsX11Available() const {
 
 void GlobalShortcutsManager::Register() {
 
-  if (use_gsd_ && gsd_backend_ && gsd_backend_->Register()) return;
   if (use_kde_ && kde_backend_ && kde_backend_->Register()) return;
+  if (use_gnome_ && gnome_backend_ && gnome_backend_->Register()) return;
+  if (use_mate_ && mate_backend_ && mate_backend_->Register()) return;
 #if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H) // If this system has X11, only use the system backend if X11 is enabled in the global shortcut settings
   if (use_x11_) {
 #endif
@@ -187,8 +203,9 @@ void GlobalShortcutsManager::Register() {
 
 void GlobalShortcutsManager::Unregister() {
 
-  if (gsd_backend_ && gsd_backend_->is_active()) gsd_backend_->Unregister();
   if (kde_backend_ && kde_backend_->is_active()) kde_backend_->Unregister();
+  if (gnome_backend_ && gnome_backend_->is_active()) gnome_backend_->Unregister();
+  if (mate_backend_ && mate_backend_->is_active()) mate_backend_->Unregister();
   if (system_backend_ && system_backend_->is_active()) system_backend_->Unregister();
 
 }

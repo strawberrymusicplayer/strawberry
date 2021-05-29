@@ -552,8 +552,8 @@ if(HAVE_GLOBALSHORTCUTS)
     UI globalshortcuts/globalshortcutgrabber.ui settings/globalshortcutssettingspage.ui
   )
   optional_source(HAVE_DBUS
-    SOURCES globalshortcuts/globalshortcutsbackend-gsd.cpp globalshortcuts/globalshortcutsbackend-kde.cpp
-    HEADERS globalshortcuts/globalshortcutsbackend-gsd.h globalshortcuts/globalshortcutsbackend-kde.h
+    SOURCES globalshortcuts/globalshortcutsbackend-kde.cpp globalshortcuts/globalshortcutsbackend-gnome.cpp globalshortcuts/globalshortcutsbackend-mate.cpp
+    HEADERS globalshortcuts/globalshortcutsbackend-kde.h globalshortcuts/globalshortcutsbackend-gnome.h globalshortcuts/globalshortcutsbackend-mate.h
   )
   # Native shortcuts for X11 and Windows
   if(HAVE_X11_GLOBALSHORTCUTS OR WIN32)
@@ -638,6 +638,11 @@ if(UNIX AND HAVE_DBUS)
     qt6_add_dbus_interface(SOURCES
         dbus/org.gnome.SettingsDaemon.MediaKeys.xml
         dbus/gnomesettingsdaemon)
+
+    # org.mate.SettingsDaemon interface
+    qt6_add_dbus_interface(SOURCES
+        dbus/org.mate.SettingsDaemon.MediaKeys.xml
+        dbus/matesettingsdaemon)
 
     # org.kde.KGlobalAccel interface
     qt6_add_dbus_interface(SOURCES

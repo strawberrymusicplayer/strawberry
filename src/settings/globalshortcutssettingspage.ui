@@ -19,7 +19,7 @@
   </property>
   <layout class="QVBoxLayout" name="layout_globalshortcutssettingspage">
    <item>
-    <widget class="QWidget" name="widget_gsd" native="true">
+    <widget class="QWidget" name="widget_gnome" native="true">
      <layout class="QHBoxLayout" name="layout_gsd">
       <property name="leftMargin">
        <number>0</number>
@@ -34,7 +34,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QCheckBox" name="checkbox_gsd">
+       <widget class="QCheckBox" name="checkbox_gnome">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -47,7 +47,45 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="button_gsd_open">
+       <widget class="QPushButton" name="button_gnome_open">
+        <property name="text">
+         <string>Open...</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_mate" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QCheckBox" name="checkbox_mate">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Use MATE shortcuts when available</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="button_mate_open">
         <property name="text">
          <string>Open...</string>
         </property>
@@ -319,8 +357,8 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>checkbox_gsd</tabstop>
-  <tabstop>button_gsd_open</tabstop>
+  <tabstop>checkbox_gnome</tabstop>
+  <tabstop>button_gnome_open</tabstop>
   <tabstop>checkbox_x11</tabstop>
   <tabstop>button_macos_open</tabstop>
   <tabstop>list</tabstop>

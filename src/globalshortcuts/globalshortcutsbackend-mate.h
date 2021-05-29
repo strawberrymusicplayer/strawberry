@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,43 +17,45 @@
  *
  */
 
-#ifndef GLOBALSHORTCUTSBACKEND_SYSTEM_H
-#define GLOBALSHORTCUTSBACKEND_SYSTEM_H
+#ifndef GLOBALSHORTCUTSBACKEND_MATE_H
+#define GLOBALSHORTCUTSBACKEND_MATE_H
 
 #include "config.h"
 
-#include "core/logging.h"
-
 #include <QObject>
-#include <QList>
 #include <QString>
 
 #include "globalshortcutsbackend.h"
 
-class QAction;
+class QDBusPendingCallWatcher;
 class GlobalShortcutsManager;
-class GlobalShortcut;
+class OrgMateSettingsDaemonMediaKeysInterface;
 
-class GlobalShortcutsBackendSystem : public GlobalShortcutsBackend {
+class GlobalShortcutsBackendMate : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutsBackendSystem(GlobalShortcutsManager *parent = nullptr);
-  ~GlobalShortcutsBackendSystem() override;
+  explicit GlobalShortcutsBackendMate(GlobalShortcutsManager *parent);
 
-  bool IsAvailable() override { return true; }
+  bool IsAvailable() override;
 
  protected:
   bool DoRegister() override;
   void DoUnregister() override;
 
- private:
-  bool AddShortcut(QAction *action);
-  bool RemoveShortcut(QAction *action);
+ private slots:
+  void RegisterFinished(QDBusPendingCallWatcher *watcher);
 
-  QList<GlobalShortcut*> shortcuts_;
-  GlobalShortcut *gshortcut_init_;
+  void MateMediaKeyPressed(const QString &application, const QString &key);
+
+ private:
+  static const char *kService1;
+  static const char *kService2;
+  static const char *kPath;
+
+  OrgMateSettingsDaemonMediaKeysInterface *interface_;
+  bool is_connected_;
 
 };
 
-#endif  // GLOBALSHORTCUTSBACKEND_SYSTEM_H
+#endif  // GLOBALSHORTCUTSBACKEND_Mate_H

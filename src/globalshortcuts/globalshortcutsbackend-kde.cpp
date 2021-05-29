@@ -43,6 +43,12 @@ const char *GlobalShortcutsBackendKDE::kKdePath = "/kglobalaccel";
 
 GlobalShortcutsBackendKDE::GlobalShortcutsBackendKDE(GlobalShortcutsManager *parent) : GlobalShortcutsBackend(parent), interface_(nullptr), component_(nullptr) {}
 
+bool GlobalShortcutsBackendKDE::IsAvailable() {
+
+  return QDBusConnection::sessionBus().interface()->isServiceRegistered(kKdeService);
+
+}
+
 bool GlobalShortcutsBackendKDE::DoRegister() {
 
   qLog(Debug) << "Registering";
@@ -92,7 +98,7 @@ void GlobalShortcutsBackendKDE::RegisterFinished(QDBusPendingCallWatcher *watche
 
   QObject::connect(component_, &org::kde::kglobalaccel::Component::globalShortcutPressed, this, &GlobalShortcutsBackendKDE::GlobalShortcutPressed, Qt::UniqueConnection);
 
-  qLog(Debug) << "Registered";
+  qLog(Debug) << "registered.";
 
 }
 
