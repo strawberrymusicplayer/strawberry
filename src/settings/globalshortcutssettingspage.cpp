@@ -73,12 +73,12 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
 #  ifdef HAVE_DBUS
-  QObject::connect(ui_->checkbox_gsd, &QCheckBox::clicked, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
-  QObject::connect(ui_->checkbox_kde, &QCheckBox::clicked, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
+  QObject::connect(ui_->checkbox_gsd, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
+  QObject::connect(ui_->checkbox_kde, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
   QObject::connect(ui_->button_gsd_open, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties);
 #  endif
-#  ifdef HAVE_X11EXTRAS
-  QObject::connect(ui_->checkbox_x11, &QCheckBox::clicked, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
+#  if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+  QObject::connect(ui_->checkbox_x11, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
 #  endif
 #else
   ui_->widget_gsd->hide();
