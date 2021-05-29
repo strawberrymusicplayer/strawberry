@@ -61,25 +61,28 @@ msgstr ""
 "\n"
 "Sus listas favoritas se guardarán aquí"
 
-#: settings/globalshortcutssettingspage.cpp:326
+#: settings/globalshortcutssettingspage.cpp:357
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD and should be configured in "
-"cinnamon-settings-daemon instead."
+" Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
+"be configured in cinnamon-settings-daemon instead."
 msgstr ""
-"Los atajos en %1 se usan normalmente a través de GSD y se deberían "
-"configurar en cinnamon-settings-daemon."
 
-#: settings/globalshortcutssettingspage.cpp:324
+#: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
 msgid ""
-" Shortcuts on %1 are usually used through GSD and should be configured in "
-"gnome-settings-daemon instead."
+" Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
+"be configured in gnome-settings-daemon instead."
 msgstr ""
-"Los atajos en %1 se usan normalmente a través de GDS y deberían configurarse "
-"en gnome-settings-daemon. "
 
-#: settings/globalshortcutssettingspage.cpp:322
+#: settings/globalshortcutssettingspage.cpp:360
+#, qt-format
+msgid ""
+" Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
+"configured there instead."
+msgstr ""
+
+#: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
@@ -308,11 +311,11 @@ msgstr "&Borrar lista de reproducción"
 msgid "&Cover Manager"
 msgstr "&Gestor de cubiertas"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:257
+#: ../build/src/ui_globalshortcutssettingspage.h:283
 msgid "&Custom"
 msgstr "&Personalizado"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:256
+#: ../build/src/ui_globalshortcutssettingspage.h:282
 msgid "&Default"
 msgstr "&Predeterminado"
 
@@ -373,7 +376,7 @@ msgstr "Pista &siguiente"
 msgid "&No background image"
 msgstr "&Sin imagen de fondo"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:255
+#: ../build/src/ui_globalshortcutssettingspage.h:281
 msgid "&None"
 msgstr "&Ninguno"
 
@@ -583,7 +586,7 @@ msgstr "Absolu&to"
 msgid "Absolute"
 msgstr "Absoluto"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:253
+#: ../build/src/ui_globalshortcutssettingspage.h:279
 msgctxt "Category label"
 msgid "Action"
 msgstr "Acción"
@@ -609,7 +612,7 @@ msgstr "Añadir todas las pistas de una carpeta y sus subcarpetas"
 msgid "Add directory..."
 msgstr "Añadir carpeta…"
 
-#: core/mainwindow.cpp:2158
+#: core/mainwindow.cpp:2156
 msgid "Add file"
 msgstr "Añadir archivo"
 
@@ -625,7 +628,7 @@ msgstr "Añadir archivo(s) que convertir"
 msgid "Add files to transcode"
 msgstr "Añadir archivos que convertir"
 
-#: core/mainwindow.cpp:2183 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2181 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Añadir carpeta"
 
@@ -735,7 +738,7 @@ msgstr "Añadir emisora…"
 msgid "Add to albums"
 msgstr "Añadir a álbumes"
 
-#: core/mainwindow.cpp:1960
+#: core/mainwindow.cpp:1958
 msgid "Add to another playlist"
 msgstr "Añadir a otra lista de reproducción"
 
@@ -1220,7 +1223,7 @@ msgstr "Cancelado."
 msgid "Change art"
 msgstr "Cambiar cubierta"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:258
+#: ../build/src/ui_globalshortcutssettingspage.h:284
 msgid "Change shortcut..."
 msgstr "Cambiar atajo…"
 
@@ -1232,7 +1235,7 @@ msgstr "Cambiar la pista actualmente en reproducción"
 msgid "Change the language"
 msgstr "Cambiar el idioma"
 
-#: core/mainwindow.cpp:764
+#: core/mainwindow.cpp:762
 msgid "Check for updates..."
 msgstr "Buscar actualizaciones…"
 
@@ -1281,7 +1284,7 @@ msgstr "Vaciar antememoria de disco"
 msgid "Clear cover"
 msgstr "Eliminar cubierta"
 
-#: core/mainwindow.cpp:2248 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2246 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Vaciar lista de reproducción"
 
@@ -1341,7 +1344,7 @@ msgstr "Filtro de colección"
 msgid "Collection advanced grouping"
 msgstr "Agrupamiento avanzado de la colección"
 
-#: core/mainwindow.cpp:2821
+#: core/mainwindow.cpp:2819
 msgid "Collection rescan notice"
 msgstr "Notificación de nuevo análisis de la colección"
 
@@ -1747,11 +1750,11 @@ msgstr "Eliminar los archivos originales"
 msgid "Deleting files"
 msgstr "Eliminando los archivos"
 
-#: core/mainwindow.cpp:1877
+#: core/mainwindow.cpp:1875
 msgid "Dequeue selected tracks"
 msgstr "Quitar las pistas seleccionadas de la cola"
 
-#: core/mainwindow.cpp:1876
+#: core/mainwindow.cpp:1874
 msgid "Dequeue track"
 msgstr "Quitar la pista de la cola"
 
@@ -1908,7 +1911,7 @@ msgstr "Editar lista inteligente"
 msgid "Edit smart playlist..."
 msgstr "Editar lista inteligente..."
 
-#: core/mainwindow.cpp:1918
+#: core/mainwindow.cpp:1916
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Editar etiqueta «%1»…"
@@ -2070,7 +2073,7 @@ msgstr "Equivalente a --log-levels*:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente a --log-levels*:3"
 
-#: core/mainwindow.cpp:2558 core/mainwindow.cpp:2703
+#: core/mainwindow.cpp:2556 core/mainwindow.cpp:2701
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "Error"
@@ -2432,7 +2435,7 @@ msgstr "Autenticación con Genius"
 msgid "Genre"
 msgstr "Género"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:241
+#: ../build/src/ui_globalshortcutssettingspage.h:265
 msgid "Global Shortcuts"
 msgstr "Atajos generales"
 
@@ -3117,11 +3120,11 @@ msgstr "Mover a la colección…"
 msgid "Move up"
 msgstr "Subir"
 
-#: core/mainwindow.cpp:2158 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2156 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Música"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:75
+#: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Mute"
 msgstr "Silenciar"
 
@@ -3162,7 +3165,7 @@ msgstr "Nunca comenzar la reproducción"
 msgid "New folder"
 msgstr "Carpeta nueva"
 
-#: core/mainwindow.cpp:1976
+#: core/mainwindow.cpp:1974
 msgid "New playlist"
 msgstr "Lista de reproducción nueva"
 
@@ -3206,7 +3209,7 @@ msgstr "No hay ninguna cubierta que exportar."
 msgid "No long blocks"
 msgstr "Sin bloques largos"
 
-#: tidal/tidalrequest.cpp:1270 qobuz/qobuzrequest.cpp:1315
+#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1318
 msgid "No match."
 msgstr "Sin coincidencias."
 
@@ -3235,7 +3238,7 @@ msgstr "Nada en reproducción"
 msgid "None"
 msgstr "Ninguno"
 
-#: core/mainwindow.cpp:2558 core/mainwindow.cpp:2703
+#: core/mainwindow.cpp:2556 core/mainwindow.cpp:2701
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3347,8 +3350,9 @@ msgstr "Abrir dispositivo"
 msgid "Open in new playlist"
 msgstr "Abrir en una lista nueva"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:243
-#: ../build/src/ui_globalshortcutssettingspage.h:250
+#: ../build/src/ui_globalshortcutssettingspage.h:267
+#: ../build/src/ui_globalshortcutssettingspage.h:269
+#: ../build/src/ui_globalshortcutssettingspage.h:276
 msgid "Open..."
 msgstr "Abrir…"
 
@@ -3453,7 +3457,7 @@ msgstr "Ruta"
 msgid "Pattern"
 msgstr "Pauta"
 
-#: core/mainwindow.cpp:1274 core/mainwindow.cpp:1775
+#: core/mainwindow.cpp:1272 core/mainwindow.cpp:1773
 #: core/qtsystemtrayicon.cpp:143
 msgid "Pause"
 msgstr "Pausar"
@@ -3481,8 +3485,8 @@ msgstr "Píxel"
 msgid "Plain sidebar"
 msgstr "Barra lateral simple"
 
-#: core/mainwindow.cpp:680 core/mainwindow.cpp:1231 core/mainwindow.cpp:1258
-#: core/mainwindow.cpp:1779 core/qtsystemtrayicon.cpp:156
+#: core/mainwindow.cpp:680 core/mainwindow.cpp:1229 core/mainwindow.cpp:1256
+#: core/mainwindow.cpp:1777 core/qtsystemtrayicon.cpp:156
 #: core/qtsystemtrayicon.cpp:170
 msgid "Play"
 msgstr "Reproducir"
@@ -3550,7 +3554,7 @@ msgstr "Botones de lista de reproducción"
 msgid "Playlist finished"
 msgstr "Lista de reproducción finalizada"
 
-#: core/mainwindow.cpp:2248
+#: core/mainwindow.cpp:2246
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3730,20 +3734,20 @@ msgstr "Consultando dispositivo…"
 msgid "Queue"
 msgstr "Cola"
 
-#: core/mainwindow.cpp:1879
+#: core/mainwindow.cpp:1877
 msgid "Queue selected tracks"
 msgstr "Poner en cola las pistas seleccionadas"
 
-#: core/mainwindow.cpp:686 core/mainwindow.cpp:1883
+#: core/mainwindow.cpp:686 core/mainwindow.cpp:1881
 msgid "Queue selected tracks to play next"
 msgstr "Poner en cola las pistas seleccionadas para reproducir a continuación"
 
-#: core/mainwindow.cpp:1885 collection/collectionview.cpp:348
+#: core/mainwindow.cpp:1883 collection/collectionview.cpp:348
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Poner en cola para reproducir a continuación"
 
-#: core/mainwindow.cpp:1878 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1876 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:324 internet/internetcollectionview.cpp:316
@@ -4265,7 +4269,7 @@ msgstr "La dirección URL del servidor es inválida."
 msgid "Server-side scrobbling"
 msgstr "Seguimiento de reproducción en el servidor"
 
-#: core/mainwindow.cpp:1917
+#: core/mainwindow.cpp:1915
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Establecer %1 a «%2»…"
@@ -4286,12 +4290,12 @@ msgstr "Configuración"
 msgid "Settings require restart."
 msgstr "Los ajustes requieren reiniciar."
 
-#: ../build/src/ui_globalshortcutssettingspage.h:252
+#: ../build/src/ui_globalshortcutssettingspage.h:278
 msgid "Shortcut"
 msgstr "Atajo"
 
-#: settings/globalshortcutssettingspage.cpp:270
-#: ../build/src/ui_globalshortcutssettingspage.h:254
+#: settings/globalshortcutssettingspage.cpp:298
+#: ../build/src/ui_globalshortcutssettingspage.h:280
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "Atajo para %1"
@@ -4498,11 +4502,11 @@ msgstr "Número de omisiones"
 msgid "Skip forwards in playlist"
 msgstr "Saltar hacia adelante en la lista de reproducción"
 
-#: core/mainwindow.cpp:1890
+#: core/mainwindow.cpp:1888
 msgid "Skip selected tracks"
 msgstr "Omitir pistas seleccionadas"
 
-#: core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:1887
 msgid "Skip track"
 msgstr "Omitir pista"
 
@@ -4813,7 +4817,8 @@ msgstr "Gracias a"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Gracias al resto de colaboradores de Amarok y Clementine"
 
-#: settings/globalshortcutssettingspage.cpp:248
+#: settings/globalshortcutssettingspage.cpp:266
+#: settings/globalshortcutssettingspage.cpp:276
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "No se pudo iniciar la orden «%1»."
@@ -4842,7 +4847,7 @@ msgstr "El sitio indicado no existe."
 msgid "The site you requested is not an image!"
 msgstr "El sitio indicado no es una imagen."
 
-#: core/mainwindow.cpp:2816
+#: core/mainwindow.cpp:2814
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4978,7 +4983,7 @@ msgstr "Título"
 msgid "Today"
 msgstr "Hoy"
 
-#: core/mainwindow.cpp:683 core/mainwindow.cpp:1880
+#: core/mainwindow.cpp:683 core/mainwindow.cpp:1878
 msgid "Toggle queue status"
 msgstr "Cambiar estado de la cola"
 
@@ -4986,7 +4991,7 @@ msgstr "Cambiar estado de la cola"
 msgid "Toggle scrobbling"
 msgstr "Alternar seguimiento de reproducción"
 
-#: core/mainwindow.cpp:689 core/mainwindow.cpp:1891
+#: core/mainwindow.cpp:689 core/mainwindow.cpp:1889
 msgid "Toggle skip status"
 msgstr "Alternar estado de avance"
 
@@ -5076,8 +5081,8 @@ msgstr "Desinstale el «snap» con:"
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: subsonic/subsonicrequest.cpp:864 tidal/tidalrequest.cpp:1276
-#: qobuz/qobuzrequest.cpp:1321
+#: subsonic/subsonicrequest.cpp:867 tidal/tidalrequest.cpp:1279
+#: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "Error desconocido"
 
@@ -5089,11 +5094,11 @@ msgstr "Quitar"
 msgid "Unset cover"
 msgstr "Quitar la cubierta"
 
-#: core/mainwindow.cpp:1888
+#: core/mainwindow.cpp:1886
 msgid "Unskip selected tracks"
 msgstr "No omitir pistas seleccionadas"
 
-#: core/mainwindow.cpp:1887
+#: core/mainwindow.cpp:1885
 msgid "Unskip track"
 msgstr "No omitir pista"
 
@@ -5131,7 +5136,7 @@ msgstr "Superior derecha"
 msgid "Usage"
 msgstr "Uso"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:242
+#: ../build/src/ui_globalshortcutssettingspage.h:266
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr "Utilizar atajos de Gnome (GSD) cuando sea posible"
 
@@ -5139,9 +5144,13 @@ msgstr "Utilizar atajos de Gnome (GSD) cuando sea posible"
 msgid "Use HTTPS for local redirectserver"
 msgstr "Usar HTTPS para redirección del servidor local"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:244
+#: ../build/src/ui_globalshortcutssettingspage.h:270
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr "Utilizar atajos de KDE (GSD) cuando sea posible"
+
+#: ../build/src/ui_globalshortcutssettingspage.h:268
+msgid "Use MATE shortcuts when available"
+msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
@@ -5160,7 +5169,7 @@ msgstr ""
 msgid "Use Tidal settings to authenticate."
 msgstr "Usar ajustes de Tidal para autenticarse."
 
-#: ../build/src/ui_globalshortcutssettingspage.h:245
+#: ../build/src/ui_globalshortcutssettingspage.h:271
 msgid "Use X11 shortcuts when available"
 msgstr "Usar atajos de X11 cuando sea posible"
 
@@ -5232,7 +5241,7 @@ msgstr "Ficha de usuario:"
 msgid "Username"
 msgstr "Usuario"
 
-#: settings/globalshortcutssettingspage.cpp:320
+#: settings/globalshortcutssettingspage.cpp:349
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5339,7 +5348,7 @@ msgid ""
 msgstr ""
 "¿Le gustaría mover también el resto de temas del álbum a Varios artistas?"
 
-#: core/mainwindow.cpp:2820
+#: core/mainwindow.cpp:2818
 msgid "Would you like to run a full rescan right now?"
 msgstr "¿Quiere ejecutar un nuevo análisis completo ahora?"
 
@@ -5420,7 +5429,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Necesita GStreamer para este URL"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:249
+#: ../build/src/ui_globalshortcutssettingspage.h:275
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -5430,7 +5439,7 @@ msgstr ""
 "style=\"font-style:italic\">controle el equipo</span>» para utilizar atajos "
 "globales en Strawberry."
 
-#: ../build/src/ui_globalshortcutssettingspage.h:248
+#: ../build/src/ui_globalshortcutssettingspage.h:274
 msgid ""
 "You need to launch System Preferences and turn on \"<span style=\" font-"
 "style:italic;\">Enable access for assistive devices</span>\" to use global "
