@@ -680,6 +680,11 @@ if(UNIX AND HAVE_DBUS)
         dbus/org.gnome.SettingsDaemon.MediaKeys.xml
         dbus/gnomesettingsdaemon)
 
+    # org.mate.SettingsDaemon interface
+    qt5_add_dbus_interface(SOURCES
+        dbus/org.mate.SettingsDaemon.MediaKeys.xml
+        dbus/matesettingsdaemon)
+
     # org.kde.KGlobalAccel interface
     qt5_add_dbus_interface(SOURCES
         dbus/org.kde.KGlobalAccel.xml
