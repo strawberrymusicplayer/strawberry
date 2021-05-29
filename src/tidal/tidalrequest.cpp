@@ -1187,6 +1187,9 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+  if (mimetype.contains(';')) {
+    mimetype = mimetype.left(mimetype.indexOf(';'));
+  }
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
     Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype, url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);

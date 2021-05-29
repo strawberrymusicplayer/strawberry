@@ -788,6 +788,9 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl url, c
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+  if (mimetype.contains(';')) {
+    mimetype = mimetype.left(mimetype.indexOf(';'));
+  }
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
     Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype, url.toString()));
     if (album_covers_requests_sent_.contains(url)) album_covers_requests_sent_.remove(url);
