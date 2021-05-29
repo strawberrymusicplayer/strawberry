@@ -19,6 +19,7 @@
 #cmakedefine HAVE_QTSPARKLE
 #cmakedefine HAVE_MUSICBRAINZ
 #cmakedefine HAVE_GLOBALSHORTCUTS
+#cmakedefine HAVE_X11_GLOBALSHORTCUTS
 #cmakedefine USE_INSTALL_PREFIX
 
 #cmakedefine HAVE_GSTREAMER

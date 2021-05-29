@@ -79,7 +79,7 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
   QObject::connect(ui_->button_gnome_open, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties);
   QObject::connect(ui_->button_mate_open, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::OpenMateKeybindingProperties);
 #  endif
-#  if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+#  ifdef HAVE_X11_GLOBALSHORTCUTS
   QObject::connect(ui_->checkbox_x11, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
 #  endif
 #else

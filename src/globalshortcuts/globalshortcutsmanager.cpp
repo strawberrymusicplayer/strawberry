@@ -42,7 +42,7 @@
 #  include "globalshortcutsbackend-gnome.h"
 #  include "globalshortcutsbackend-mate.h"
 #endif
-#if (defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)) || defined(Q_OS_WIN)
+#if defined(HAVE_X11_GLOBALSHORTCUTS) || defined(Q_OS_WIN)
 #  include "globalshortcutsbackend-system.h"
 #endif
 #ifdef Q_OS_MACOS
@@ -97,11 +97,11 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
   if (!system_backend_)
     system_backend_ = new GlobalShortcutsBackendMacOS(this);
 #endif
-#if defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
   if (!system_backend_)
     system_backend_ = new GlobalShortcutsBackendSystem(this);
 #endif
-#if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+#ifdef HAVE_X11_GLOBALSHORTCUTS
   if (!system_backend_ && IsX11Available())
     system_backend_ = new GlobalShortcutsBackendSystem(this);
 #endif
@@ -190,12 +190,14 @@ void GlobalShortcutsManager::Register() {
   if (use_kde_ && kde_backend_ && kde_backend_->Register()) return;
   if (use_gnome_ && gnome_backend_ && gnome_backend_->Register()) return;
   if (use_mate_ && mate_backend_ && mate_backend_->Register()) return;
-#if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H) // If this system has X11, only use the system backend if X11 is enabled in the global shortcut settings
+
+#ifdef HAVE_X11_GLOBALSHORTCUTS
   if (use_x11_) {
 #endif
-    if (system_backend_)
+    if (system_backend_) {
       system_backend_->Register();
-#if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+    }
+#ifdef HAVE_X11_GLOBALSHORTCUTS
    }
 #endif
 
