@@ -43,8 +43,9 @@ class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
  public:
   explicit GlobalShortcutsBackendKDE(GlobalShortcutsManager *parent);
 
- protected:
   bool IsAvailable() override;
+
+ protected:
   bool DoRegister() override;
   void DoUnregister() override;
 

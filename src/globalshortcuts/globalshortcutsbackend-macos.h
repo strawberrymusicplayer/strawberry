@@ -43,14 +43,16 @@ class GlobalShortcutsBackendMacOS : public GlobalShortcutsBackend {
   explicit GlobalShortcutsBackendMacOS(GlobalShortcutsManager* parent);
   virtual ~GlobalShortcutsBackendMacOS();
 
+  bool IsAvailable() override { return true; }
+
   bool IsAccessibilityEnabled() const;
   void ShowAccessibilityDialog();
 
   void MacMediaKeyPressed(int key);
 
  protected:
-  bool DoRegister();
-  void DoUnregister();
+  bool DoRegister() override;
+  void DoUnregister() override;
 
  private:
   bool KeyPressed(const QKeySequence &sequence);
