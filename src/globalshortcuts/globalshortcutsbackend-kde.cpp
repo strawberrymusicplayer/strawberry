@@ -98,7 +98,7 @@ void GlobalShortcutsBackendKDE::RegisterFinished(QDBusPendingCallWatcher *watche
 
   QObject::connect(component_, &org::kde::kglobalaccel::Component::globalShortcutPressed, this, &GlobalShortcutsBackendKDE::GlobalShortcutPressed, Qt::UniqueConnection);
 
-  qLog(Debug) << "registered.";
+  qLog(Debug) << "Registered.";
 
 }
 
