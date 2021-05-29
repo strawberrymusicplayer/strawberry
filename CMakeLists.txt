@@ -275,7 +275,7 @@ optional_component(ALSA ON "ALSA integration"
   DEPENDS "alsa" ALSA_FOUND
 )
 
-optional_component(LIBPULSE ON "Pulse audio integration"
+optional_component(LIBPULSE ON "PulseAudio integration"
   DEPENDS "libpulse" LIBPULSE_FOUND
 )
 
