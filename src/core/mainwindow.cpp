@@ -744,16 +744,14 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   mac::SetApplicationHandler(this);
 #endif
   // Tray icon
-  if (tray_icon_->isSystemTrayAvailable()) {
-    tray_icon_->SetupMenu(ui_->action_previous_track, ui_->action_play_pause, ui_->action_stop, ui_->action_stop_after_this_track, ui_->action_next_track, ui_->action_mute, ui_->action_love, ui_->action_quit);
-    QObject::connect(tray_icon_.get(), &SystemTrayIcon::PlayPause, app_->player(), &Player::PlayPauseHelper);
-    QObject::connect(tray_icon_.get(), &SystemTrayIcon::SeekForward, app_->player(), &Player::SeekForward);
-    QObject::connect(tray_icon_.get(), &SystemTrayIcon::SeekBackward, app_->player(), &Player::SeekBackward);
-    QObject::connect(tray_icon_.get(), &SystemTrayIcon::NextTrack, app_->player(), &Player::Next);
-    QObject::connect(tray_icon_.get(), &SystemTrayIcon::PreviousTrack, app_->player(), &Player::Previous);
-    QObject::connect(tray_icon_.get(), &SystemTrayIcon::ShowHide, this, &MainWindow::ToggleShowHide);
-    QObject::connect(tray_icon_.get(), &SystemTrayIcon::ChangeVolume, this, &MainWindow::VolumeWheelEvent);
-  }
+  tray_icon_->SetupMenu(ui_->action_previous_track, ui_->action_play_pause, ui_->action_stop, ui_->action_stop_after_this_track, ui_->action_next_track, ui_->action_mute, ui_->action_love, ui_->action_quit);
+  QObject::connect(tray_icon_.get(), &SystemTrayIcon::PlayPause, app_->player(), &Player::PlayPauseHelper);
+  QObject::connect(tray_icon_.get(), &SystemTrayIcon::SeekForward, app_->player(), &Player::SeekForward);
+  QObject::connect(tray_icon_.get(), &SystemTrayIcon::SeekBackward, app_->player(), &Player::SeekBackward);
+  QObject::connect(tray_icon_.get(), &SystemTrayIcon::NextTrack, app_->player(), &Player::Next);
+  QObject::connect(tray_icon_.get(), &SystemTrayIcon::PreviousTrack, app_->player(), &Player::Previous);
+  QObject::connect(tray_icon_.get(), &SystemTrayIcon::ShowHide, this, &MainWindow::ToggleShowHide);
+  QObject::connect(tray_icon_.get(), &SystemTrayIcon::ChangeVolume, this, &MainWindow::VolumeWheelEvent);
 
   // Windows 7 thumbbar buttons
 #ifdef Q_OS_WIN

@@ -195,9 +195,9 @@ void SystemTrayIcon::ClearNowPlaying() {
 }
 
 void SystemTrayIcon::LoveVisibilityChanged(const bool value) {
-  action_love_->setVisible(value);
+  if (action_love_) action_love_->setVisible(value);
 }
 
 void SystemTrayIcon::LoveStateChanged(const bool value) {
-  action_love_->setEnabled(value);
+  if (action_love_) action_love_->setEnabled(value);
 }
