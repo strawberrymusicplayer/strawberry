@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-05-22 03:36-0400\n"
+"PO-Revision-Date: 2021-05-30 08:24-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -51,6 +51,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in cinnamon-settings-daemon instead."
 msgstr ""
+" Genvägar till %1 används vanligtvis via Gnome-inställningsdemon och ska "
+"istället konfigureras i cinnamon-settings-daemon."
 
 #: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
@@ -58,6 +60,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in gnome-settings-daemon instead."
 msgstr ""
+" Genvägar till %1 används vanligtvis via Gnome-inställningsdemon och ska "
+"istället konfigureras i gnome-settings-daemon."
 
 #: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
@@ -65,6 +69,8 @@ msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
 "configured there instead."
 msgstr ""
+" Genvägar till %1 används vanligtvis via Mate-inställningsdemon och ska "
+"istället konfigureras där."
 
 #: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
@@ -287,7 +293,7 @@ msgstr "&Centrera"
 
 #: ../build/src/ui_mainwindow.h:632
 msgid "&Clear playlist"
-msgstr "&Rensa spellistan"
+msgstr "&Rensa spellista"
 
 #: ../build/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
@@ -2196,7 +2202,7 @@ msgstr "Favoritspår"
 
 #: ../build/src/ui_albumcovermanager.h:222
 msgid "Fetch Missing Covers"
-msgstr "Hämta saknade omslag"
+msgstr "Hämta omslag som saknas"
 
 #: ../build/src/ui_albumcovermanager.h:213
 msgid "Fetch automatically"
@@ -3814,11 +3820,11 @@ msgstr "Ta bort"
 
 #: ../build/src/ui_mainwindow.h:706
 msgid "Remove &duplicates from playlist"
-msgstr "Ta bort &dubbletter från spellistan"
+msgstr "Ta bort &dubbletter från spellista"
 
 #: ../build/src/ui_mainwindow.h:707
 msgid "Remove &unavailable tracks from playlist"
-msgstr "Ta bort &otillgängliga spår från spellistan"
+msgstr "Ta bort &otillgängliga spår från spellista"
 
 #: ../build/src/ui_collectionsettingspage.h:421
 msgid "Remove folder"
@@ -3830,7 +3836,7 @@ msgstr "Ta bort från favoriter"
 
 #: ../build/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
-msgstr "Ta bort från spellistan"
+msgstr "Ta bort från spellista"
 
 #: playlist/playlisttabbar.cpp:211
 msgid "Remove playlist"
@@ -4015,7 +4021,7 @@ msgstr "Kör"
 
 #: ../build/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
-msgstr "B&landa spellistan"
+msgstr "B&landa spellista"
 
 #: ../build/src/ui_networkproxysettingspage.h:175
 msgid "SOCKS proxy"
@@ -5112,7 +5118,7 @@ msgstr "Använd KDE (KGlobalAccel) genvägar när de är tillgängliga"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:268
 msgid "Use MATE shortcuts when available"
-msgstr ""
+msgstr "Använd MATE-genvägar när de är tillgängliga"
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
