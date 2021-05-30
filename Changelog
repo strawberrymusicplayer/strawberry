@@ -11,6 +11,7 @@ Unreleased:
 
   Enhancements:
     * Add replaygain fallback gain setting.
+    * Add ALSA PCM devices.
     * Add option to turn off playlist alternating row colors.
     * Make the default tabbbar background color lighter.
     * Remove use of deprecated X11Extras and WinExtras Qt modules.
@@ -18,6 +19,7 @@ Unreleased:
     * Automatically detect Qt version if BUILD_WITH_QT5 or BUILD_WITH_QT6 is not specified.
     * Correct playlist tabbar favorite tooltip from "click" to "double-click".
     * Remove scroll over icon to change track option since it does not work reliable.
+    * Add support for native global shortcuts on MATE.
     * (macOS) Build with libgpod.
 
 0.9.3:
