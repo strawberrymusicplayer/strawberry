@@ -414,6 +414,7 @@ void TagReader::ReadFile(const QString &filename, spb::tagreader::SongMetadata *
   SetDefault(track);
   SetDefault(disc);
   SetDefault(year);
+  SetDefault(originalyear);
   SetDefault(bitrate);
   SetDefault(samplerate);
   SetDefault(bitdepth);
