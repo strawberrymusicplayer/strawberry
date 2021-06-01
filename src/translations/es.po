@@ -39,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-05-24 07:05-0400\n"
+"PO-Revision-Date: 2021-05-31 09:52-0400\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -321,7 +321,7 @@ msgstr "&Predeterminado"
 
 #: ../build/src/ui_mainwindow.h:699
 msgid "&Do a full collection rescan"
-msgstr "&Escanear de nuevo toda la colección"
+msgstr "Anali&zar de nuevo toda la fonoteca"
 
 #: ../build/src/ui_mainwindow.h:672
 msgid "&Equalizer"
@@ -3167,7 +3167,7 @@ msgstr "Carpeta nueva"
 
 #: core/mainwindow.cpp:1974
 msgid "New playlist"
-msgstr "Lista de reproducción nueva"
+msgstr "Lista nueva"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
@@ -3230,7 +3230,7 @@ msgstr "Sin bloques cortos"
 
 #: context/contextview.cpp:457
 msgid "No song playing"
-msgstr "Nada en reproducción"
+msgstr "No suena nada"
 
 #: collection/savedgroupingmanager.cpp:81 dialogs/edittagdialog.cpp:764
 #: dialogs/edittagdialog.cpp:774 ../build/src/ui_groupbydialog.h:183
@@ -3505,7 +3505,7 @@ msgstr "Contadores de reproducción"
 
 #: core/commandlineoptions.cpp:187
 msgid "Play given playlist"
-msgstr "Reproducir lista de reproducción indicada"
+msgstr "Reproducir lista indicada"
 
 #: core/commandlineoptions.cpp:169
 msgid "Play if stopped, pause if playing"
@@ -3544,7 +3544,7 @@ msgstr "Opciones del reproductor"
 #: playlist/playlistmanager.cpp:193 playlist/playlistmanager.cpp:566
 #: playlist/playlisttabbar.cpp:404 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
-msgstr "Lista de reproducción"
+msgstr "Lista"
 
 #: ../build/src/ui_appearancesettingspage.h:625
 msgid "Playlist buttons"
@@ -5150,7 +5150,7 @@ msgstr "Utilizar atajos de KDE (GSD) cuando sea posible"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:268
 msgid "Use MATE shortcuts when available"
-msgstr ""
+msgstr "Utilizar atajos de MATE si están disponibles"
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
