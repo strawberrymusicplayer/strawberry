@@ -282,11 +282,7 @@ int main(int argc, char* argv[]) {
   QNetworkProxyFactory::setApplicationProxyFactory(NetworkProxyFactory::Instance());
 
   // Create the tray icon and OSD
-#ifdef Q_OS_MACOS
   std::shared_ptr<SystemTrayIcon> tray_icon(new SystemTrayIcon);
-#else
-  std::shared_ptr<SystemTrayIcon> tray_icon(new SystemTrayIcon);
-#endif
 
 #if defined(Q_OS_MACOS)
   OSDMac osd(tray_icon, &app);
