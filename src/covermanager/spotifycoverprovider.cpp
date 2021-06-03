@@ -348,7 +348,7 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
     refresh_login_timer_.start();
   }
 
-  qLog(Debug) << "Spotify: Authentication was successful, got access token" << access_token_ << "expires in" << expires_in_;
+  qLog(Debug) << "Spotify: Authentication was successful, login expires in" << expires_in_;
 
   emit AuthenticationComplete(true);
   emit AuthenticationSuccess();

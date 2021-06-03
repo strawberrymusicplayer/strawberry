@@ -517,7 +517,7 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
     timer_refresh_login_->start();
   }
 
-  qLog(Debug) << "Tidal: Login successful" << "user id" << user_id_ << "access token" << access_token_;
+  qLog(Debug) << "Tidal: Login successful" << "user id" << user_id_;
 
   emit LoginComplete(true);
   emit LoginSuccess();

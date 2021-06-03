@@ -294,7 +294,7 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
   s.setValue("access_token", access_token_);
   s.endGroup();
 
-  qLog(Debug) << "Genius: Authentication was successful, got access token" << access_token_;
+  qLog(Debug) << "Genius: Authentication was successful.";
 
   emit AuthenticationComplete(true);
   emit AuthenticationSuccess();

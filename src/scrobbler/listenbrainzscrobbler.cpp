@@ -340,7 +340,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
 
   emit AuthenticationComplete(true);
 
-  qLog(Debug) << "ListenBrainz: Authentication was successful, got access token" << access_token_ << "expires in" << expires_in_;
+  qLog(Debug) << "ListenBrainz: Authentication was successful, login expires in" << expires_in_;
 
   DoSubmit();
 
