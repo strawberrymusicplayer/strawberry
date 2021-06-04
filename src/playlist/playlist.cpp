@@ -459,7 +459,7 @@ void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &
       if (metadata_edit) {
         emit EditingFinished(id_, idx);
       }
-      ScheduleSave();
+      ScheduleSaveAsync();
     }
   }
 
@@ -1429,7 +1429,18 @@ void Playlist::SetCurrentIsPaused(const bool paused) {
 
 }
 
-void Playlist::ScheduleSave() const {
+void Playlist::ScheduleSaveAsync() {
+
+  if (QThread::currentThread() == thread()) {
+    ScheduleSave();
+  }
+  else {
+    metaObject()->invokeMethod(this, "ScheduleSave", Qt::QueuedConnection);
+  }
+
+}
+
+void Playlist::ScheduleSave() {
 
   if (!backend_ || is_loading_) return;
 
@@ -1437,7 +1448,7 @@ void Playlist::ScheduleSave() const {
 
 }
 
-void Playlist::Save() const {
+void Playlist::Save() {
 
   if (!backend_ || is_loading_) return;
 
@@ -2240,7 +2251,7 @@ void Playlist::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &
     if (item && item->Metadata() == song && (!item->Metadata().art_manual_is_valid() || (result.type == AlbumCoverLoaderResult::Type_ManuallyUnset && !item->Metadata().has_manually_unset_cover()))) {
       qLog(Debug) << "Updating art manual for local song" << song.title() << song.album() << song.title() << "to" << result.album_cover.cover_url << "in playlist.";
       item->SetArtManual(result.album_cover.cover_url);
-      ScheduleSave();
+      ScheduleSaveAsync();
     }
   }
 

@@ -2057,7 +2057,7 @@ void MainWindow::EditTagDialogAccepted() {
   // FIXME: This is really lame but we don't know what rows have changed.
   ui_->playlist->view()->update();
 
-  app_->playlist_manager()->current()->ScheduleSave();
+  app_->playlist_manager()->current()->ScheduleSaveAsync();
 
 }
 

@@ -185,8 +185,8 @@ class Playlist : public QAbstractListModel {
   static bool set_column_value(Song &song, Column column, const QVariant &value);
 
   // Persistence
-  void ScheduleSave() const;
   void Restore();
+  void ScheduleSaveAsync();
 
   // Accessors
   QSortFilterProxyModel *proxy() const;
@@ -383,7 +383,8 @@ class Playlist : public QAbstractListModel {
   void ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit);
   void ItemsLoaded();
   void SongInsertVetoListenerDestroyed();
-  void Save() const;
+  void ScheduleSave();
+  void Save();
 
  private:
   bool is_loading_;
