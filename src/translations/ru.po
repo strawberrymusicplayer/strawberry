@@ -235,7 +235,7 @@ msgstr "%1 передано"
 msgid "%album%"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:443
+#: ../build/src/ui_collectionsettingspage.h:501
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -599,7 +599,7 @@ msgstr "Добавить новую строку, если поддержива�
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Добавить все треки из папки и её подпапки"
 
-#: settings/collectionsettingspage.cpp:104
+#: settings/collectionsettingspage.cpp:112
 msgid "Add directory..."
 msgstr "Добавить каталог…"
 
@@ -623,7 +623,7 @@ msgstr "Добавить файлы для конвертирования"
 msgid "Add folder"
 msgstr "Добавить папку"
 
-#: ../build/src/ui_collectionsettingspage.h:420
+#: ../build/src/ui_collectionsettingspage.h:475
 msgid "Add new folder..."
 msgstr "Добавить новую папку..."
 
@@ -818,7 +818,7 @@ msgstr "Исполнитель альбома"
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:447
+#: ../build/src/ui_collectionsettingspage.h:505
 msgid "Album cover pixmap cache"
 msgstr ""
 
@@ -1036,7 +1036,7 @@ msgstr "Авто"
 msgid "Automatic"
 msgstr "Автоматические"
 
-#: ../build/src/ui_collectionsettingspage.h:422
+#: ../build/src/ui_collectionsettingspage.h:477
 msgid "Automatic updating"
 msgstr "Автоматическое обновление"
 
@@ -1045,7 +1045,7 @@ msgstr "Автоматическое обновление"
 msgid "Automatically cover art from %1 is missing"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:432
+#: ../build/src/ui_collectionsettingspage.h:490
 msgid "Automatically open single categories in the collection tree"
 msgstr "Автоматически раскрывать одиночные категории в дереве фонотеки"
 
@@ -1265,7 +1265,7 @@ msgstr "Классический"
 msgid "Clear"
 msgstr "Очистить"
 
-#: ../build/src/ui_collectionsettingspage.h:453
+#: ../build/src/ui_collectionsettingspage.h:511
 msgid "Clear Disk Cache"
 msgstr ""
 
@@ -1318,7 +1318,7 @@ msgstr "Закрытие этого окна остановит поиск об�
 msgid "Club"
 msgstr "Клубный"
 
-#: core/mainwindow.cpp:341 ../build/src/ui_collectionsettingspage.h:418
+#: core/mainwindow.cpp:341 ../build/src/ui_collectionsettingspage.h:473
 #: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Collection"
 msgstr "Фонотека"
@@ -1628,7 +1628,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
-#: ../build/src/ui_collectionsettingspage.h:451
+#: ../build/src/ui_collectionsettingspage.h:509
 msgid "Current disk cache in use:"
 msgstr ""
 
@@ -1801,12 +1801,12 @@ msgstr "Диск"
 msgid "Discontinuous transmission"
 msgstr "Непрерывная передача"
 
-#: ../build/src/ui_collectionsettingspage.h:450
+#: ../build/src/ui_collectionsettingspage.h:508
 msgid "Disk Cache Size"
 msgstr ""
 
 #: collection/collectionfilterwidget.cpp:127
-#: ../build/src/ui_collectionsettingspage.h:431
+#: ../build/src/ui_collectionsettingspage.h:489
 msgid "Display options"
 msgstr "Настройки вида"
 
@@ -1934,7 +1934,7 @@ msgstr ""
 msgid "Enable"
 msgstr "Включить"
 
-#: ../build/src/ui_collectionsettingspage.h:449
+#: ../build/src/ui_collectionsettingspage.h:507
 msgid "Enable Disk Cache"
 msgstr ""
 
@@ -1942,7 +1942,7 @@ msgstr ""
 msgid "Enable Items"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:454
+#: ../build/src/ui_collectionsettingspage.h:512
 #: ../build/src/ui_playlistsettingspage.h:173
 msgid "Enable delete files in the right click context menu"
 msgstr ""
@@ -2107,6 +2107,10 @@ msgstr "Существующие обложки"
 msgid "Expand"
 msgstr ""
 
+#: ../build/src/ui_collectionsettingspage.h:482
+msgid "Expire unavailable songs after"
+msgstr ""
+
 #: widgets/loginstatewidget.cpp:151
 #, qt-format
 msgid "Expires on %1"
@@ -2217,7 +2221,7 @@ msgstr "Получать весь альбом при поиске песен"
 msgid "Fetching cover error"
 msgstr "Ошибка получения обложки"
 
-#: core/song.cpp:1059
+#: core/song.cpp:1081
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Файл %1 не распознается как допустимый аудиофайл."
@@ -2256,7 +2260,7 @@ msgstr "Тип файла"
 msgid "Filename"
 msgstr "Имя файла"
 
-#: ../build/src/ui_collectionsettingspage.h:440
+#: ../build/src/ui_collectionsettingspage.h:498
 msgid "Filename:"
 msgstr "Имя файла:"
 
@@ -2880,7 +2884,7 @@ msgstr "Профиль низкой сложности (LC)"
 msgid "Low watermark"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:445
+#: ../build/src/ui_collectionsettingspage.h:503
 msgid "Lowercase filename"
 msgstr "Строчные имена файлов"
 
@@ -2922,7 +2926,7 @@ msgstr "Производитель"
 msgid "Mark as listened"
 msgstr "Пометить как прослушанное"
 
-#: ../build/src/ui_collectionsettingspage.h:425
+#: ../build/src/ui_collectionsettingspage.h:481
 msgid "Mark disappeared songs unavailable"
 msgstr "Помечать пропавшие песни недоступными "
 
@@ -3039,7 +3043,7 @@ msgstr ""
 msgid "Model"
 msgstr "Модель"
 
-#: ../build/src/ui_collectionsettingspage.h:424
+#: ../build/src/ui_collectionsettingspage.h:479
 msgid "Monitor the collection for changes"
 msgstr "Следить за изменениями фонотеки"
 
@@ -3380,7 +3384,7 @@ msgstr "Вывод"
 msgid "Output options"
 msgstr "Настройки вывода"
 
-#: ../build/src/ui_collectionsettingspage.h:444
+#: ../build/src/ui_collectionsettingspage.h:502
 msgid "Overwrite existing file"
 msgstr "Перезаписать существующий файл"
 
@@ -3416,7 +3420,7 @@ msgstr "Пароль"
 msgid "Path"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:441
+#: ../build/src/ui_collectionsettingspage.h:499
 msgid "Pattern"
 msgstr ""
 
@@ -3583,7 +3587,7 @@ msgstr ""
 msgid "Preferences"
 msgstr "Настройки"
 
-#: ../build/src/ui_collectionsettingspage.h:426
+#: ../build/src/ui_collectionsettingspage.h:484
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Приоритетные имена файлов обложек (через запятые)"
 
@@ -3717,7 +3721,7 @@ msgstr "Просмотр очереди"
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Радио (одинаковая громкость для всех треков)"
 
-#: ../build/src/ui_collectionsettingspage.h:442
+#: ../build/src/ui_collectionsettingspage.h:500
 msgid "Random"
 msgstr ""
 
@@ -3810,7 +3814,7 @@ msgstr "Удалить &дубликаты из плейлиста"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Удалить &недоступные треки из плейлиста"
 
-#: ../build/src/ui_collectionsettingspage.h:421
+#: ../build/src/ui_collectionsettingspage.h:476
 msgid "Remove folder"
 msgstr "Удалить папку"
 
@@ -3869,7 +3873,7 @@ msgstr "Повторять трек"
 msgid "Replace current playlist"
 msgstr "Заменить текущий плейлист"
 
-#: ../build/src/ui_collectionsettingspage.h:446
+#: ../build/src/ui_collectionsettingspage.h:504
 msgid "Replace spaces with dashes"
 msgstr "Заменить пробелы на тире"
 
@@ -4038,15 +4042,15 @@ msgstr "&Сохранить плейлист..."
 msgid "Save album cover"
 msgstr "Сохранить обложку альбома"
 
-#: ../build/src/ui_collectionsettingspage.h:439
+#: ../build/src/ui_collectionsettingspage.h:497
 msgid "Save album covers as embedded cover"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:437
+#: ../build/src/ui_collectionsettingspage.h:495
 msgid "Save album covers in album directory"
 msgstr "Сохранять обложки альбомов в каталоге альбомов"
 
-#: ../build/src/ui_collectionsettingspage.h:438
+#: ../build/src/ui_collectionsettingspage.h:496
 msgid "Save album covers in cache directory"
 msgstr ""
 
@@ -4084,7 +4088,7 @@ msgstr "Сохранять файлы .mood в папках песен"
 msgid "Saved Grouping Manager"
 msgstr "Менеджер сохранённых групп"
 
-#: ../build/src/ui_collectionsettingspage.h:435
+#: ../build/src/ui_collectionsettingspage.h:493
 msgid "Saving album covers"
 msgstr "Сохранение обложек альбомов"
 
@@ -4300,7 +4304,7 @@ msgstr "Показать над строкой состояния"
 msgid "Show album cover"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:433
+#: ../build/src/ui_collectionsettingspage.h:491
 msgid "Show album cover art in collection"
 msgstr "Показать обложку альбома в коллекции"
 
@@ -4320,7 +4324,7 @@ msgstr ""
 msgid "Show dialog for errors"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:434
+#: ../build/src/ui_collectionsettingspage.h:492
 msgid "Show dividers"
 msgstr "Показывать разделители"
 
@@ -4430,7 +4434,7 @@ msgid "Signing in..."
 msgstr "Выполняется вход…"
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:448
+#: ../build/src/ui_collectionsettingspage.h:506
 msgid "Size"
 msgstr "Размер"
 
@@ -4488,6 +4492,10 @@ msgstr "Софт-рок"
 
 #: ../build/src/ui_contextsettingspage.h:444
 msgid "Song Lyrics"
+msgstr ""
+
+#: ../build/src/ui_collectionsettingspage.h:480
+msgid "Song fingerprinting and tracking"
 msgstr ""
 
 #: ../build/src/ui_internettabsview.h:115
@@ -4833,7 +4841,7 @@ msgid ""
 msgstr ""
 "Эти файлы будут удалены с устройства. Вы действительно хотите продолжить?"
 
-#: ../build/src/ui_collectionsettingspage.h:419
+#: ../build/src/ui_collectionsettingspage.h:474
 msgid "These folders will be scanned for music to make up your collection"
 msgstr ""
 "В этих каталогах будет выполнен поиск музыки при создании вашей фонотеки"
@@ -5015,7 +5023,7 @@ msgstr "Ультраширокая полоса пропускания (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:559 context/contextalbumsmodel.cpp:358
+#: core/song.cpp:572 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1612
@@ -5047,11 +5055,11 @@ msgstr "Не пропускать выбранные треки"
 msgid "Unskip track"
 msgstr "Не пропускать трек"
 
-#: ../build/src/ui_collectionsettingspage.h:423
+#: ../build/src/ui_collectionsettingspage.h:478
 msgid "Update the collection when Strawberry starts"
 msgstr "Обновлять фонотеку при запуске Strawberry"
 
-#: collection/collectionwatcher.cpp:169
+#: collection/collectionwatcher.cpp:200
 #, qt-format
 msgid "Updating %1"
 msgstr "Идет обновление %1"
@@ -5061,7 +5069,7 @@ msgstr "Идет обновление %1"
 msgid "Updating %1%..."
 msgstr "Обновление %1%…"
 
-#: collection/collectionwatcher.cpp:166
+#: collection/collectionwatcher.cpp:197
 msgid "Updating collection"
 msgstr "Обновление фонотеки"
 
@@ -5254,7 +5262,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:428
+#: ../build/src/ui_collectionsettingspage.h:486
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5460,6 +5468,10 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "contains"
+msgstr ""
+
+#: ../build/src/ui_collectionsettingspage.h:483
+msgid "days"
 msgstr ""
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:203
