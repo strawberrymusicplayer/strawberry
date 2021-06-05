@@ -64,28 +64,28 @@ It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
 
 To build Strawberry from source you need the following installed on your system with the additional development packages/headers:
 
-* [CMake and Make tools](https://cmake.org/)
+* [CMake](https://cmake.org/)
+* [GNU Make](https://www.gnu.org/software/make/)
 * [GCC](https://gcc.gnu.org/) or [clang](https://clang.llvm.org/) compiler
 * [Boost](https://www.boost.org/)
-* [POSIX thread (pthread)](http://www.yolinux.com/TUTORIALS/LinuxTutorialPosixThreads.html)
 * [GLib](https://developer.gnome.org/glib/)
 * [Protobuf](https://developers.google.com/protocol-buffers/)
 * [Qt 5.8 or higher (or Qt 6) with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
 * [SQLite 3.9 or newer with FTS5](https://www.sqlite.org)
-* [Chromaprint](https://acoustid.org/chromaprint)
-* [ALSA (linux)](https://www.alsa-project.org/)
-* [D-Bus (linux)](https://www.freedesktop.org/wiki/Software/dbus/)
-* [PulseAudio (linux optional)](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
+* [ALSA (Linux required)](https://www.alsa-project.org/)
+* [D-Bus (Linux required)](https://www.freedesktop.org/wiki/Software/dbus/)
 * [GStreamer](https://gstreamer.freedesktop.org/) or [VLC](https://www.videolan.org)
 * [GnuTLS](https://www.gnutls.org/)
 * [TagLib 1.11.1 or higher](https://www.taglib.org/)
 
 Optional dependencies:
 
+* Song fingerprinting and MusicBrainz tagging: [Chromaprint](https://acoustid.org/chromaprint)
+* Moodbar: [fftw3](http://www.fftw.org/)
+* PulseAudio integration: [PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
 * Audio CD: [libcdio](https://www.gnu.org/software/libcdio/)
 * MTP devices: [libmtp](http://libmtp.sourceforge.net/)
 * iPod Classic devices: [libgpod](http://www.gtkpod.org/libgpod/)
-* Moodbar: [fftw3](http://www.fftw.org/)
 
 Either GStreamer or VLC engine is required, but only GStreamer is fully implemented, and works best, it is therefore recommended to use GStreamer.
 You should also install the gstreamer plugins base and good, and optionally bad, ugly and libav.

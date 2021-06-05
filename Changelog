@@ -20,6 +20,7 @@ Unreleased:
     * Correct playlist tabbar favorite tooltip from "click" to "double-click".
     * Remove scroll over icon to change track option since it does not work reliable.
     * Add support for native global shortcuts on MATE.
+    * Add support for song fingerprinting and tracking.
     * (macOS) Build with libgpod.
 
 0.9.3:
