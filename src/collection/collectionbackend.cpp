@@ -354,7 +354,7 @@ SongList CollectionBackend::SongsWithMissingFingerprint(const int id) {
   QSqlDatabase db(db_->Connect());
 
   QSqlQuery q(db);
-  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE directory_id = :directory_id AND unavailable = 0 AND fingerprint = ''").arg(songs_table_));
+  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE directory_id = :directory_id AND unavailable = 0 AND (fingerprint IS NULL OR fingerprint = '')").arg(songs_table_));
   q.bindValue(":directory_id", id);
   q.exec();
   if (db_->CheckErrors(q)) return SongList();
