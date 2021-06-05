@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>516</width>
-    <height>1012</height>
+    <height>1167</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -555,11 +555,17 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>remove</tabstop>
   <tabstop>startup_scan</tabstop>
   <tabstop>monitor</tabstop>
+  <tabstop>song_tracking</tabstop>
   <tabstop>mark_songs_unavailable</tabstop>
+  <tabstop>expire_unavailable_songs_days</tabstop>
   <tabstop>cover_art_patterns</tabstop>
   <tabstop>auto_open</tabstop>
   <tabstop>pretty_covers</tabstop>
   <tabstop>show_dividers</tabstop>
+  <tabstop>radiobutton_save_albumcover_albumdir</tabstop>
+  <tabstop>radiobutton_save_albumcover_cache</tabstop>
+  <tabstop>radiobutton_save_albumcover_embedded</tabstop>
+  <tabstop>radiobutton_cover_pattern</tabstop>
   <tabstop>radiobutton_cover_hash</tabstop>
   <tabstop>lineedit_cover_pattern</tabstop>
   <tabstop>checkbox_cover_overwrite</tabstop>
@@ -571,6 +577,7 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>spinbox_disk_cache_size</tabstop>
   <tabstop>combobox_disk_cache_size</tabstop>
   <tabstop>button_clear_disk_cache</tabstop>
+  <tabstop>checkbox_delete_files</tabstop>
  </tabstops>
  <resources/>
  <connections/>
