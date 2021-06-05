@@ -107,7 +107,7 @@ class CollectionBackendInterface : public QObject {
   virtual Song GetSongById(const int id) = 0;
 
   // Returns all sections of a song with the given filename. If there's just one section the resulting list will have it's size equal to 1.
-  virtual SongList GetSongsByUrl(const QUrl &url) = 0;
+  virtual SongList GetSongsByUrl(const QUrl &url, const bool unavailable = false) = 0;
   // Returns a section of a song with the given filename and beginning. If the section is not present in collection, returns invalid song.
   // Using default beginning value is suitable when searching for single-section songs.
   virtual Song GetSongByUrl(const QUrl &url, const qint64 beginning = 0) = 0;
@@ -170,7 +170,7 @@ class CollectionBackend : public CollectionBackendInterface {
   SongList GetSongsById(const QStringList &ids);
   SongList GetSongsByForeignId(const QStringList &ids, const QString &table, const QString &column);
 
-  SongList GetSongsByUrl(const QUrl &url) override;
+  SongList GetSongsByUrl(const QUrl &url, const bool unavailable = false) override;
   Song GetSongByUrl(const QUrl &url, qint64 beginning = 0) override;
 
   void AddDirectory(const QString &path) override;

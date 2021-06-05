@@ -838,18 +838,19 @@ Song CollectionBackend::GetSongByUrl(const QUrl &url, const qint64 beginning) {
 
 }
 
-SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
+SongList CollectionBackend::GetSongsByUrl(const QUrl &url, const bool unavailable) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
   QSqlQuery q(db);
-  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = 0").arg(songs_table_));
+  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = :unavailable").arg(songs_table_));
 
   q.bindValue(":url1", url);
   q.bindValue(":url2", url.toString());
   q.bindValue(":url3", url.toString(QUrl::FullyEncoded));
   q.bindValue(":url4", url.toEncoded());
+  q.bindValue(":unavailable", (unavailable ? 1 : 0));
 
   SongList songs;
   if (q.exec()) {

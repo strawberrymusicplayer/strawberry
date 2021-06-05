@@ -470,8 +470,15 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
         }
       }
 
-      // nothing has changed - mark the song available without re-scanning
-      if (matching_song.is_unavailable()) t->readded_songs << matching_song;
+      // Nothing has changed - mark the song available without re-scanning
+      if (matching_song.is_unavailable()) {
+        if (matching_song.has_cue()) {
+          t->readded_songs << backend_->GetSongsByUrl(QUrl::fromLocalFile(file), true);
+        }
+        else {
+          t->readded_songs << matching_song;
+        }
+      }
 
     }
     else {
