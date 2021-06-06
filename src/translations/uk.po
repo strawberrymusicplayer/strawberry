@@ -4,6 +4,7 @@
 # Sergii Galashyn <trovich@gmail.com>, 2011-2012
 # Yuri Chornoivan <yurchor@ukr.net>, 2011-2018
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
+# Jonas Kvinge <jonas@jkvinge.net>, 2021. #zanata
 # Pavlo Marianov <acid@jack.kiev.ua>, 2021. #zanata
 # Victor <victor.butko@gmail.com>, 2021. #zanata
 msgid ""
@@ -11,8 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-04-22 11:39-0400\n"
-"Last-Translator: Victor <victor.butko@gmail.com>\n"
+"PO-Revision-Date: 2021-06-05 07:32-0400\n"
+"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 "
@@ -42,6 +43,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in cinnamon-settings-daemon instead."
 msgstr ""
+"Ярлики на %1 зазвичай використовуються через GSD, і замість цього їх слід "
+"конфігурувати у gnome-settings-daemon."
 
 #: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
@@ -49,6 +52,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in gnome-settings-daemon instead."
 msgstr ""
+"Ярлики на %1 зазвичай використовуються через GSD, і замість цього їх слід "
+"конфігурувати у gnome-settings-daemon."
 
 #: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
@@ -56,6 +61,8 @@ msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
 "configured there instead."
 msgstr ""
+"Ярлики на %1 зазвичай використовуються через GSD, і замість цього їх слід "
+"конфігурувати у gnome-settings-daemon."
 
 #: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
@@ -244,11 +251,11 @@ msgstr "%n залишилось"
 #: ../build/src/ui_contextsettingspage.h:428
 #: ../build/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
-msgstr ""
+msgstr "%originalyear%"
 
 #: ../build/src/ui_contextsettingspage.h:424
 msgid "%rating%"
-msgstr ""
+msgstr "%rating%"
 
 #: ../build/src/ui_contextsettingspage.h:433
 msgid "%title - %artist%"
@@ -257,7 +264,7 @@ msgstr "%title - %artist%"
 #: ../build/src/ui_contextsettingspage.h:420
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
-msgstr ""
+msgstr "%url%"
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
@@ -334,7 +341,7 @@ msgstr "&Музика"
 
 #: ../build/src/ui_mainwindow.h:695
 msgid "&Mute"
-msgstr ""
+msgstr "Вимкнути звук"
 
 #: ../build/src/ui_mainwindow.h:679
 msgid "&New playlist"
@@ -529,7 +536,7 @@ msgstr "AAC"
 
 #: ../build/src/ui_backendsettingspage.h:543
 msgid "ALSA plugin:"
-msgstr ""
+msgstr "Плагін ALSA"
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
@@ -954,11 +961,11 @@ msgstr "Впевнені, що бажаєте скинути статистик�
 
 #: ../build/src/ui_edittagdialog.h:813
 msgid "Art Automatic"
-msgstr ""
+msgstr "Автоматично"
 
 #: ../build/src/ui_edittagdialog.h:810
 msgid "Art Manual"
-msgstr ""
+msgstr "Вручну"
 
 #: collection/savedgroupingmanager.cpp:87 playlist/playlist.cpp:1300
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
@@ -997,7 +1004,7 @@ msgstr "Виведення звуку"
 
 #: ../build/src/ui_tidalsettingspage.h:329
 msgid "Audio quality"
-msgstr ""
+msgstr "аудіо"
 
 #: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:251
 msgid "Authenticating..."
@@ -1009,7 +1016,7 @@ msgstr ""
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:273
 msgid "Authentication"
-msgstr ""
+msgstr "Автентифікація"
 
 #: settings/coverssettingspage.cpp:272 settings/lyricssettingspage.cpp:252
 #: settings/tidalsettingspage.cpp:217 settings/qobuzsettingspage.cpp:173
@@ -1018,7 +1025,7 @@ msgstr "Помилка автентификації"
 
 #: dialogs/about.cpp:143
 msgid "Author and maintainer"
-msgstr ""
+msgstr "Координатор"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:225
 msgid "Auto"
@@ -1035,7 +1042,7 @@ msgstr "Автоматичне оновлення"
 #: dialogs/edittagdialog.cpp:826
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
-msgstr ""
+msgstr "Обкладинку завантажено з %1"
 
 #: ../build/src/ui_collectionsettingspage.h:490
 msgid "Automatically open single categories in the collection tree"
