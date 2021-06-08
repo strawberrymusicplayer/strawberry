@@ -169,8 +169,8 @@ jobs:
             tar
             make
             cmake
-            gcc
-            gcc-c++
+            gcc9
+            gcc9-c++
             gettext-tools
             glibc-devel
             libboost_headers-devel
@@ -225,6 +225,9 @@ jobs:
         run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
       - name: Build RPM
         working-directory: build
+        env:
+          CC: gcc-9
+          CXX: g++-9
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
 
@@ -325,8 +328,8 @@ jobs:
             tar
             make
             cmake
-            gcc
-            gcc-c++
+            gcc10
+            gcc10-c++
             gettext-tools
             glibc-devel
             libboost_headers-devel
@@ -381,6 +384,9 @@ jobs:
         run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
       - name: Build RPM
         working-directory: build
+        env:
+          CC: gcc-10
+          CXX: g++-10
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
 
