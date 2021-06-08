@@ -55,13 +55,30 @@ void TagFetcher::StartFetch(const SongList &songs) {
 
   songs_ = songs;
 
-  QFuture<QString> future = QtConcurrent::mapped(songs_, GetFingerprint);
-  fingerprint_watcher_ = new QFutureWatcher<QString>(this);
-  fingerprint_watcher_->setFuture(future);
-  QObject::connect(fingerprint_watcher_, &QFutureWatcher<QString>::resultReadyAt, this, &TagFetcher::FingerprintFound);
+  bool have_fingerprints = true;
 
-  for (const Song &song : songs) {
-    emit Progress(song, tr("Fingerprinting song"));
+  for (const Song &song : songs_) {
+    if (song.fingerprint().isEmpty()) {
+      have_fingerprints = false;
+      break;
+    }
+  }
+
+  if (have_fingerprints) {
+    for (int i = 0 ; i < songs_.count() ; ++i) {
+      const Song &song = songs_[i];
+      emit Progress(song, tr("Identifying song"));
+      acoustid_client_->Start(i, song.fingerprint(), static_cast<int>(song.length_nanosec() / kNsecPerMsec));
+    }
+  }
+  else {
+    QFuture<QString> future = QtConcurrent::mapped(songs_, GetFingerprint);
+    fingerprint_watcher_ = new QFutureWatcher<QString>(this);
+    fingerprint_watcher_->setFuture(future);
+    QObject::connect(fingerprint_watcher_, &QFutureWatcher<QString>::resultReadyAt, this, &TagFetcher::FingerprintFound);
+    for (const Song &song : songs_) {
+      emit Progress(song, tr("Fingerprinting song"));
+    }
   }
 
 }
@@ -83,7 +100,7 @@ void TagFetcher::Cancel() {
 
 void TagFetcher::FingerprintFound(const int index) {
 
-  QFutureWatcher<QString>* watcher = reinterpret_cast<QFutureWatcher<QString>*>(sender());
+  QFutureWatcher<QString> *watcher = reinterpret_cast<QFutureWatcher<QString>*>(sender());
   if (!watcher || index >= songs_.count()) return;
 
   const QString fingerprint = watcher->resultAt(index);
