@@ -1842,7 +1842,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "アルバムカバーをダウンロード"
 
-#: musicbrainz/tagfetcher.cpp:115
+#: musicbrainz/tagfetcher.cpp:132
 msgid "Downloading metadata"
 msgstr "メタデータをダウンロード中"
 
@@ -2256,7 +2256,7 @@ msgstr ""
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:64
+#: musicbrainz/tagfetcher.cpp:80
 msgid "Fingerprinting song"
 msgstr "曲の特徴を検出しています"
 
@@ -2549,7 +2549,7 @@ msgstr ""
 msgid "Icons on top"
 msgstr "アイコンを上に配置"
 
-#: musicbrainz/tagfetcher.cpp:97
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
 msgid "Identifying song"
 msgstr "曲の識別中"
 

@@ -1920,7 +1920,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Télécharger des pochettes d'albums"
 
-#: musicbrainz/tagfetcher.cpp:115
+#: musicbrainz/tagfetcher.cpp:132
 msgid "Downloading metadata"
 msgstr "Téléchargement des métadonnées"
 
@@ -2341,7 +2341,7 @@ msgstr ""
 "Trouvez des morceaux dans votre bibliothèque qui correspondent aux critères "
 "que vous spécifiez."
 
-#: musicbrainz/tagfetcher.cpp:64
+#: musicbrainz/tagfetcher.cpp:80
 msgid "Fingerprinting song"
 msgstr "Génération de l'empreinte audio"
 
@@ -2641,7 +2641,7 @@ msgstr "Tailles des icônes"
 msgid "Icons on top"
 msgstr "Icônes au dessus"
 
-#: musicbrainz/tagfetcher.cpp:97
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
 msgid "Identifying song"
 msgstr "Identification du morceau"
 

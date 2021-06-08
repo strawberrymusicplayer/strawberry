@@ -1857,7 +1857,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Stahovat obaly alb"
 
-#: musicbrainz/tagfetcher.cpp:115
+#: musicbrainz/tagfetcher.cpp:132
 msgid "Downloading metadata"
 msgstr "Stahují se popisná data"
 
@@ -2272,7 +2272,7 @@ msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 " Najít skladby z kolekce, které odpovídají kritériům, která specifikujete."
 
-#: musicbrainz/tagfetcher.cpp:64
+#: musicbrainz/tagfetcher.cpp:80
 msgid "Fingerprinting song"
 msgstr "Určení písně"
 
@@ -2570,7 +2570,7 @@ msgstr "Velikosti ikon"
 msgid "Icons on top"
 msgstr "Ikony nahoře"
 
-#: musicbrainz/tagfetcher.cpp:97
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
 msgid "Identifying song"
 msgstr "Určuje se píseň"
 

@@ -1848,7 +1848,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:115
+#: musicbrainz/tagfetcher.cpp:132
 msgid "Downloading metadata"
 msgstr "S’estan baixant les metadades"
 
@@ -2263,7 +2263,7 @@ msgstr "Tipus de fitxer"
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:64
+#: musicbrainz/tagfetcher.cpp:80
 msgid "Fingerprinting song"
 msgstr "S’està identificant la cançó"
 
@@ -2560,7 +2560,7 @@ msgstr ""
 msgid "Icons on top"
 msgstr "Icones a la part superior"
 
-#: musicbrainz/tagfetcher.cpp:97
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
 msgid "Identifying song"
 msgstr "S’està identificant la cançó"
 

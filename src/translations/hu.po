@@ -1885,7 +1885,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Albumborítók letöltése"
 
-#: musicbrainz/tagfetcher.cpp:115
+#: musicbrainz/tagfetcher.cpp:132
 msgid "Downloading metadata"
 msgstr "Metaadatok letöltése"
 
@@ -2302,7 +2302,7 @@ msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 "Dalok keresése a gyűjteményében, amelyek egyeznek a megadott kritériumokkal."
 
-#: musicbrainz/tagfetcher.cpp:64
+#: musicbrainz/tagfetcher.cpp:80
 msgid "Fingerprinting song"
 msgstr "Ujjlenyomat készítése a dalhoz"
 
@@ -2598,7 +2598,7 @@ msgstr "Ikonméretek"
 msgid "Icons on top"
 msgstr "Ikonok felül"
 
-#: musicbrainz/tagfetcher.cpp:97
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
 msgid "Identifying song"
 msgstr "Dal azonosítása"
 

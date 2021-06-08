@@ -1847,7 +1847,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "앨범아트 다운로드 중"
 
-#: musicbrainz/tagfetcher.cpp:115
+#: musicbrainz/tagfetcher.cpp:132
 msgid "Downloading metadata"
 msgstr "메타데이터 다운로드 중"
 
@@ -2261,7 +2261,7 @@ msgstr "파일 형식"
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:64
+#: musicbrainz/tagfetcher.cpp:80
 msgid "Fingerprinting song"
 msgstr "노래 정보 추출 중"
 
@@ -2555,7 +2555,7 @@ msgstr "아이콘 크기"
 msgid "Icons on top"
 msgstr "상단에 아이콘"
 
-#: musicbrainz/tagfetcher.cpp:97
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
 msgid "Identifying song"
 msgstr "음악 식별 중"
 

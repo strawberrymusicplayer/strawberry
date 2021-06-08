@@ -1874,7 +1874,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Hämta albumomslag"
 
-#: musicbrainz/tagfetcher.cpp:115
+#: musicbrainz/tagfetcher.cpp:132
 msgid "Downloading metadata"
 msgstr "Hämtar metadata"
 
@@ -2288,7 +2288,7 @@ msgstr "Filtyp"
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr "Hitta låtar i ditt bibliotek som matchar de kriterier du anger."
 
-#: musicbrainz/tagfetcher.cpp:64
+#: musicbrainz/tagfetcher.cpp:80
 msgid "Fingerprinting song"
 msgstr "Sätter fingeravtryck på låten"
 
@@ -2583,7 +2583,7 @@ msgstr "Ikonstorlekar"
 msgid "Icons on top"
 msgstr "Ikoner längst upp"
 
-#: musicbrainz/tagfetcher.cpp:97
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
 msgid "Identifying song"
 msgstr "Identifierar låt"
 

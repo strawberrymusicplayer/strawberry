@@ -1896,7 +1896,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Titelbilder herunterladen"
 
-#: musicbrainz/tagfetcher.cpp:115
+#: musicbrainz/tagfetcher.cpp:132
 msgid "Downloading metadata"
 msgstr "Metadaten werden heruntergeladen "
 
@@ -2317,7 +2317,7 @@ msgstr ""
 "Suchen Sie nach Titeln in Ihrer Sammlung, die den von Ihnen angegebenen "
 "Kriterien entsprechen."
 
-#: musicbrainz/tagfetcher.cpp:64
+#: musicbrainz/tagfetcher.cpp:80
 msgid "Fingerprinting song"
 msgstr "Titel wird analysiert"
 
@@ -2616,7 +2616,7 @@ msgstr "Icon Größe"
 msgid "Icons on top"
 msgstr "Symbole oben"
 
-#: musicbrainz/tagfetcher.cpp:97
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
 msgid "Identifying song"
 msgstr "Titel werden erkannt"
 
