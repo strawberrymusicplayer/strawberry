@@ -766,7 +766,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 
 #ifdef HAVE_GLOBALSHORTCUTS
   // Global shortcuts
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Play, app_->player(), &Player::Play);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Play, app_->player(), &Player::PlayHelper);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Pause, app_->player(), &Player::Pause);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::PlayPause, ui_->action_play_pause, &QAction::trigger);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Stop, ui_->action_stop, &QAction::trigger);
@@ -1446,13 +1446,7 @@ void MainWindow::ResumePlayback() {
         app_->player()->PlayPause();
       });
     }
-    // Seek after we got song length.
-    std::shared_ptr<QMetaObject::Connection> connection = std::make_shared<QMetaObject::Connection>();
-    *connection = QObject::connect(track_position_timer_, &QTimer::timeout, this, [this, connection, playback_position]() {
-      QObject::disconnect(*connection);
-      ResumePlaybackSeek(playback_position);
-    });
-    app_->player()->Play();
+    app_->player()->Play(playback_position * kNsecPerSec);
   }
 
   // Reset saved playback status so we don't resume again from the same position.
@@ -1461,14 +1455,6 @@ void MainWindow::ResumePlayback() {
   s.setValue("playback_playlist", -1);
   s.setValue("playback_position", 0);
   s.endGroup();
-
-}
-
-void MainWindow::ResumePlaybackSeek(const int playback_position) {
-
-  if (app_->player()->engine()->length_nanosec() > 0) {
-    app_->player()->SeekTo(playback_position);
-  }
 
 }
 

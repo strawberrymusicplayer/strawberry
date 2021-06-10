@@ -64,7 +64,7 @@ class PlayerInterface : public QObject {
   virtual int GetVolume() const = 0;
 
   virtual PlaylistItemPtr GetCurrentItem() const = 0;
-  virtual PlaylistItemPtr GetItemAt(int pos) const = 0;
+  virtual PlaylistItemPtr GetItemAt(const int pos) const = 0;
 
   virtual void RegisterUrlHandler(UrlHandler *handler) = 0;
   virtual void UnregisterUrlHandler(UrlHandler *handler) = 0;
@@ -76,7 +76,7 @@ class PlayerInterface : public QObject {
   virtual void PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) = 0;
 
   // If there's currently a song playing, pause it, otherwise play the track that was playing last, or the first one on the playlist
-  virtual void PlayPause(Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) = 0;
+  virtual void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) = 0;
   virtual void PlayPauseHelper() = 0;
   virtual void RestartOrPrevious() = 0;
 
@@ -97,8 +97,9 @@ class PlayerInterface : public QObject {
 
   virtual void Mute() = 0;
   virtual void Pause() = 0;
-  virtual void Stop(bool stop_after = false) = 0;
-  virtual void Play() = 0;
+  virtual void Stop(const bool stop_after = false) = 0;
+  virtual void Play(const quint64 offset_nanosec = 0) = 0;
+  virtual void PlayHelper() = 0;
   virtual void ShowOSD() = 0;
 
  signals:
@@ -143,7 +144,7 @@ class Player : public PlayerInterface {
   int GetVolume() const override;
 
   PlaylistItemPtr GetCurrentItem() const override { return current_item_; }
-  PlaylistItemPtr GetItemAt(int pos) const override;
+  PlaylistItemPtr GetItemAt(const int pos) const override;
 
   void RegisterUrlHandler(UrlHandler *handler) override;
   void UnregisterUrlHandler(UrlHandler *handler) override;
@@ -159,8 +160,8 @@ class Player : public PlayerInterface {
   void ReloadSettings() override;
 
   void PlayAt(const int index, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
-  void PlayPause(Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) override;
-  void PlayPauseHelper() override { PlayPause(); }
+  void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) override;
+  void PlayPauseHelper() override { PlayPause(play_offset_nanosec_); }
   void RestartOrPrevious() override;
   void Next() override;
   void Previous() override;
@@ -176,9 +177,10 @@ class Player : public PlayerInterface {
 
   void Mute() override;
   void Pause() override;
-  void Stop(bool stop_after = false) override;
+  void Stop(const bool stop_after = false) override;
   void StopAfterCurrent();
-  void Play() override;
+  void Play(const quint64 offset_nanosec = 0) override;
+  void PlayHelper() override { Play(); }
   void ShowOSD() override;
   void TogglePrettyOSD();
 
@@ -197,7 +199,7 @@ class Player : public PlayerInterface {
   void PreviousItem(const Engine::TrackChangeFlags change);
 
   void NextInternal(const Engine::TrackChangeFlags, const Playlist::AutoScroll autoscroll);
-  void PlayPlaylistInternal(Engine::TrackChangeFlags, const Playlist::AutoScroll autoscroll, const QString &playlist_name);
+  void PlayPlaylistInternal(const Engine::TrackChangeFlags, const Playlist::AutoScroll autoscroll, const QString &playlist_name);
 
   void FatalError();
   void ValidSongRequested(const QUrl&);
@@ -209,6 +211,8 @@ class Player : public PlayerInterface {
  private:
   // Returns true if we were supposed to stop after this track.
   bool HandleStopAfter(const Playlist::AutoScroll autoscroll);
+
+  void UnPause();
 
  private:
   Application *app_;
@@ -240,6 +244,9 @@ class Player : public PlayerInterface {
   int seek_step_sec_;
 
   bool volume_control_;
+
+  QDateTime pause_time_;
+  quint64 play_offset_nanosec_;
 
 };
 

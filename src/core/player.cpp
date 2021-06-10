@@ -90,7 +90,8 @@ Player::Player(Application *app, QObject *parent)
     greyout_(true),
     menu_previousmode_(BehaviourSettingsPage::PreviousBehaviour_DontRestart),
     seek_step_sec_(10),
-    volume_control_(true)
+    volume_control_(true),
+    play_offset_nanosec_(0)
     {
 
   settings_.beginGroup(kSettingsGroup);
@@ -333,9 +334,10 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       }
 
       if (is_current) {
-        qLog(Debug) << "Playing song" << item->Metadata().title() << result.stream_url_;
-        engine_->Play(result.stream_url_, result.original_url_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec());
+        qLog(Debug) << "Playing song" << item->Metadata().title() << result.stream_url_ << "position" << play_offset_nanosec_;
+        engine_->Play(result.stream_url_, result.original_url_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec(), play_offset_nanosec_);
         current_item_ = item;
+        play_offset_nanosec_ = 0;
       }
       else if (is_next) {
         qLog(Debug) << "Preloading next song" << next_item->Metadata().title() << result.stream_url_;
@@ -359,6 +361,9 @@ void Player::Next() { NextInternal(Engine::Manual, Playlist::AutoScroll_Always);
 
 void Player::NextInternal(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll) {
 
+  pause_time_ = QDateTime();
+  play_offset_nanosec_ = 0;
+
   if (HandleStopAfter(autoscroll)) return;
 
   NextItem(change, autoscroll);
@@ -366,6 +371,9 @@ void Player::NextInternal(const Engine::TrackChangeFlags change, const Playlist:
 }
 
 void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll) {
+
+  pause_time_ = QDateTime();
+  play_offset_nanosec_ = 0;
 
   Playlist *active_playlist = app_->playlist_manager()->active();
 
@@ -402,7 +410,11 @@ void Player::PlayPlaylist(const QString &playlist_name) {
   PlayPlaylistInternal(Engine::Manual, Playlist::AutoScroll_Always, playlist_name);
 }
 
-void Player::PlayPlaylistInternal(Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const QString &playlist_name) {
+void Player::PlayPlaylistInternal(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const QString &playlist_name) {
+
+  pause_time_ = QDateTime();
+  play_offset_nanosec_ = 0;
+
   Playlist *playlist = nullptr;
   for (Playlist *p : app_->playlist_manager()->GetAllPlaylists()) {
     if (playlist_name == app_->playlist_manager()->GetPlaylistName(p->id())) {
@@ -425,6 +437,7 @@ void Player::PlayPlaylistInternal(Engine::TrackChangeFlags change, const Playlis
   if (i == -1) i = 0;
 
   PlayAt(i, change, autoscroll, true);
+
 }
 
 
@@ -442,6 +455,7 @@ bool Player::HandleStopAfter(const Playlist::AutoScroll autoscroll) {
     Stop(true);
     return true;
   }
+
   return false;
 
 }
@@ -458,11 +472,13 @@ void Player::TrackEnded() {
 
 }
 
-void Player::PlayPause(Playlist::AutoScroll autoscroll) {
+void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll autoscroll) {
+
+  play_offset_nanosec_ = offset_nanosec;
 
   switch (engine_->state()) {
     case Engine::Paused:
-      engine_->Unpause();
+      UnPause();
       emit Resumed();
       break;
 
@@ -471,6 +487,8 @@ void Player::PlayPause(Playlist::AutoScroll autoscroll) {
         Stop();
       }
       else {
+        pause_time_ = QDateTime::currentDateTime();
+        play_offset_nanosec_ = engine_->position_nanosec();
         engine_->Pause();
       }
       break;
@@ -479,6 +497,7 @@ void Player::PlayPause(Playlist::AutoScroll autoscroll) {
     case Engine::Empty:
     case Engine::Error:
     case Engine::Idle: {
+      pause_time_ = QDateTime();
       app_->playlist_manager()->SetActivePlaylist(app_->playlist_manager()->current_id());
       if (app_->playlist_manager()->active()->rowCount() == 0) break;
       int i = app_->playlist_manager()->active()->current_row();
@@ -491,7 +510,31 @@ void Player::PlayPause(Playlist::AutoScroll autoscroll) {
 
 }
 
+void Player::UnPause() {
+
+  if (current_item_ && pause_time_.isValid()) {
+    const Song &song = current_item_->Metadata();
+    if (url_handlers_.contains(song.url().scheme()) && song.stream_url_can_expire()) {
+      const quint64 time = QDateTime::currentDateTime().toSecsSinceEpoch() - pause_time_.toSecsSinceEpoch();
+      if (time >= 30) { // Stream URL might be expired.
+        qLog(Debug) << "Re-requesting stream URL for" << song.url();
+        HandleLoadResult(url_handlers_[song.url().scheme()]->StartLoading(song.url()));
+        return;
+      }
+    }
+  }
+
+  pause_time_ = QDateTime();
+  play_offset_nanosec_ = 0;
+
+  engine_->Unpause();
+
+}
+
 void Player::RestartOrPrevious() {
+
+  pause_time_ = QDateTime();
+  play_offset_nanosec_ = 0;
 
   if (engine_->position_nanosec() < 8 * kNsecPerSec) return Previous();
 
@@ -499,11 +542,13 @@ void Player::RestartOrPrevious() {
 
 }
 
-void Player::Stop(bool stop_after) {
+void Player::Stop(const bool stop_after) {
 
   engine_->Stop(stop_after);
   app_->playlist_manager()->active()->set_current_row(-1);
   current_item_.reset();
+  pause_time_ = QDateTime();
+  play_offset_nanosec_ = 0;
 
 }
 
@@ -515,11 +560,15 @@ bool Player::PreviousWouldRestartTrack() const {
 
   // Check if it has been over two seconds since previous button was pressed
   return menu_previousmode_ == BehaviourSettingsPage::PreviousBehaviour_Restart && last_pressed_previous_.isValid() && last_pressed_previous_.secsTo(QDateTime::currentDateTime()) >= 2;
+
 }
 
 void Player::Previous() { PreviousItem(Engine::Manual); }
 
 void Player::PreviousItem(const Engine::TrackChangeFlags change) {
+
+  pause_time_ = QDateTime();
+  play_offset_nanosec_ = 0;
 
   const bool ignore_repeat_track = change & Engine::Manual;
 
@@ -557,9 +606,13 @@ void Player::EngineStateChanged(const Engine::State state) {
 
   switch (state) {
     case Engine::Paused:
+      pause_time_ = QDateTime::currentDateTime();
+      play_offset_nanosec_ = engine_->position_nanosec();
       emit Paused();
       break;
     case Engine::Playing:
+      pause_time_ = QDateTime();
+      play_offset_nanosec_ = 0;
       emit Playing();
       break;
     case Engine::Error:
@@ -567,9 +620,12 @@ void Player::EngineStateChanged(const Engine::State state) {
       // fallthrough
     case Engine::Empty:
     case Engine::Idle:
+      pause_time_ = QDateTime();
+      play_offset_nanosec_ = 0;
       emit Stopped();
       break;
   }
+
   last_state_ = state;
 
 }
@@ -605,6 +661,8 @@ void Player::PlayAt(const int index, Engine::TrackChangeFlags change, const Play
   app_->playlist_manager()->active()->set_current_row(index, autoscroll, false, force_inform);
   if (app_->playlist_manager()->active()->current_row() == -1) {
     // Maybe index didn't exist in the playlist.
+    pause_time_ = QDateTime();
+    play_offset_nanosec_ = 0;
     return;
   }
 
@@ -613,15 +671,19 @@ void Player::PlayAt(const int index, Engine::TrackChangeFlags change, const Play
 
   if (url_handlers_.contains(url.scheme())) {
     // It's already loading
-    if (loading_async_.contains(url)) return;
+    if (loading_async_.contains(url)) {
+      return;
+    }
 
     stream_change_type_ = change;
     autoscroll_ = autoscroll;
     HandleLoadResult(url_handlers_[url.scheme()]->StartLoading(url));
   }
   else {
-    qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url;
-    engine_->Play(url, current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec());
+    qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url << "position" << play_offset_nanosec_;
+    engine_->Play(url, current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec(), play_offset_nanosec_);
+    pause_time_ = QDateTime();
+    play_offset_nanosec_ = 0;
   }
 
 }
@@ -717,17 +779,17 @@ void Player::Mute() {
 
 void Player::Pause() { engine_->Pause(); }
 
-void Player::Play() {
+void Player::Play(const quint64 offset_nanosec) {
 
   switch (GetState()) {
     case Engine::Playing:
-      SeekTo(0);
+      SeekTo(offset_nanosec);
       break;
     case Engine::Paused:
-      engine_->Unpause();
+      UnPause();
       break;
     default:
-      PlayPause();
+      PlayPause(offset_nanosec);
       break;
   }
 

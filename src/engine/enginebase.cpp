@@ -42,8 +42,6 @@ Engine::Base::Base()
       beginning_nanosec_(0),
       end_nanosec_(0),
       scope_(kScopeSize),
-      output_(""),
-      device_(QVariant()),
       rg_enabled_(false),
       rg_mode_(0),
       rg_preamp_(0.0),
@@ -66,7 +64,7 @@ Engine::Base::Base()
 
 Engine::Base::~Base() {}
 
-bool Engine::Base::Load(const QUrl &stream_url, const QUrl &original_url, TrackChangeFlags, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool Engine::Base::Load(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
 
   Q_UNUSED(force_stop_at_end);
 
@@ -76,16 +74,18 @@ bool Engine::Base::Load(const QUrl &stream_url, const QUrl &original_url, TrackC
   end_nanosec_ = end_nanosec;
 
   about_to_end_emitted_ = false;
+
   return true;
 
 }
 
-bool Engine::Base::Play(const QUrl &stream_url, const QUrl &original_url, TrackChangeFlags flags, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool Engine::Base::Play(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const quint64 offset_nanosec) {
 
-  if (!Load(stream_url, original_url, flags, force_stop_at_end, beginning_nanosec, end_nanosec))
+  if (!Load(stream_url, original_url, flags, force_stop_at_end, beginning_nanosec, end_nanosec)) {
     return false;
+  }
 
-  return Play(0);
+  return Play(offset_nanosec);
 
 }
 
@@ -96,7 +96,7 @@ void Engine::Base::SetVolume(const uint value) {
 
 }
 
-uint Engine::Base::MakeVolumeLogarithmic(uint volume) {
+uint Engine::Base::MakeVolumeLogarithmic(const uint volume) {
   // We're using a logarithmic function to make the volume ramp more natural.
   return static_cast<uint>( 100 - 100.0 * std::log10( ( 100 - volume ) * 0.09 + 1.0 ) );
 }
