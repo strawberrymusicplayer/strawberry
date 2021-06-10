@@ -601,7 +601,7 @@ msgstr "Lägg till alla låtar från en mapp och alla dess undermappar"
 msgid "Add directory..."
 msgstr "Lägg till mapp..."
 
-#: core/mainwindow.cpp:2156
+#: core/mainwindow.cpp:2142
 msgid "Add file"
 msgstr "Lägg till fil"
 
@@ -617,7 +617,7 @@ msgstr "Lägg till fil(er) i omkodaren"
 msgid "Add files to transcode"
 msgstr "Lägg till filer för omkodning"
 
-#: core/mainwindow.cpp:2181 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2167 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Lägg till mapp"
 
@@ -727,7 +727,7 @@ msgstr "Lägg till ström..."
 msgid "Add to albums"
 msgstr "Lägg till i album"
 
-#: core/mainwindow.cpp:1958
+#: core/mainwindow.cpp:1944
 msgid "Add to another playlist"
 msgstr "Lägg till i en annan spellista"
 
@@ -1272,7 +1272,7 @@ msgstr "Rensa diskcache"
 msgid "Clear cover"
 msgstr "Rensa omslag"
 
-#: core/mainwindow.cpp:2246 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2232 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Rensa spellista"
 
@@ -1331,7 +1331,7 @@ msgstr "Samlingsfilter"
 msgid "Collection advanced grouping"
 msgstr "Samling avancerad gruppering"
 
-#: core/mainwindow.cpp:2819
+#: core/mainwindow.cpp:2805
 msgid "Collection rescan notice"
 msgstr "Notis om omskanning av samling"
 
@@ -1737,11 +1737,11 @@ msgstr "Ta bort originalfiler"
 msgid "Deleting files"
 msgstr "Tar bort filer"
 
-#: core/mainwindow.cpp:1875
+#: core/mainwindow.cpp:1861
 msgid "Dequeue selected tracks"
 msgstr "Ta bort valda spår från kön"
 
-#: core/mainwindow.cpp:1874
+#: core/mainwindow.cpp:1860
 msgid "Dequeue track"
 msgstr "Ta bort spår från kön"
 
@@ -1898,7 +1898,7 @@ msgstr "Redigera smart spellista"
 msgid "Edit smart playlist..."
 msgstr "Redigera smart spellista..."
 
-#: core/mainwindow.cpp:1916
+#: core/mainwindow.cpp:1902
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Redigera taggen \"%1\"..."
@@ -2056,7 +2056,7 @@ msgstr "Motsvarar --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Motsvarar --log-levels *:3"
 
-#: core/mainwindow.cpp:2556 core/mainwindow.cpp:2701
+#: core/mainwindow.cpp:2542 core/mainwindow.cpp:2687
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "Fel"
@@ -2225,7 +2225,7 @@ msgstr "Hämta hela album vid sökning av låtar"
 msgid "Fetching cover error"
 msgstr "Fel vid hämtning av omslag"
 
-#: core/song.cpp:1081
+#: core/song.cpp:1082
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Filen %1 känns inte igen som en giltig ljudfil."
@@ -3097,7 +3097,7 @@ msgstr "Flytta till samling..."
 msgid "Move up"
 msgstr "Flytta uppåt"
 
-#: core/mainwindow.cpp:2156 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2142 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Musik"
 
@@ -3142,7 +3142,7 @@ msgstr "Aldrig starta uppspelning"
 msgid "New folder"
 msgstr "Ny mapp"
 
-#: core/mainwindow.cpp:1974
+#: core/mainwindow.cpp:1960
 msgid "New playlist"
 msgstr "Ny spellista"
 
@@ -3214,7 +3214,7 @@ msgstr "Ingen låt spelas"
 msgid "None"
 msgstr "Inga"
 
-#: core/mainwindow.cpp:2556 core/mainwindow.cpp:2701
+#: core/mainwindow.cpp:2542 core/mainwindow.cpp:2687
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ingen av de valda låtarna lämpar sig för kopiering till en enhet"
@@ -3432,7 +3432,7 @@ msgstr "Sökväg"
 msgid "Pattern"
 msgstr "Mönster"
 
-#: core/mainwindow.cpp:1272 core/mainwindow.cpp:1773
+#: core/mainwindow.cpp:1272 core/mainwindow.cpp:1759
 #: core/qtsystemtrayicon.cpp:143
 msgid "Pause"
 msgstr "Pausa"
@@ -3461,7 +3461,7 @@ msgid "Plain sidebar"
 msgstr "Vanligt sidofält"
 
 #: core/mainwindow.cpp:680 core/mainwindow.cpp:1229 core/mainwindow.cpp:1256
-#: core/mainwindow.cpp:1777 core/qtsystemtrayicon.cpp:156
+#: core/mainwindow.cpp:1763 core/qtsystemtrayicon.cpp:156
 #: core/qtsystemtrayicon.cpp:170
 msgid "Play"
 msgstr "Spela"
@@ -3528,7 +3528,7 @@ msgstr "Spellistknappar"
 msgid "Playlist finished"
 msgstr "Spellistan är klar"
 
-#: core/mainwindow.cpp:2246
+#: core/mainwindow.cpp:2232
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3708,20 +3708,20 @@ msgstr "Kommunicerar med enhet..."
 msgid "Queue"
 msgstr "Kö"
 
-#: core/mainwindow.cpp:1877
+#: core/mainwindow.cpp:1863
 msgid "Queue selected tracks"
 msgstr "Lägg till valda spår i kön"
 
-#: core/mainwindow.cpp:686 core/mainwindow.cpp:1881
+#: core/mainwindow.cpp:686 core/mainwindow.cpp:1867
 msgid "Queue selected tracks to play next"
 msgstr "Lägg till valda spår i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1883 collection/collectionview.cpp:348
+#: core/mainwindow.cpp:1869 collection/collectionview.cpp:348
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Lägg till i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1876 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1862 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:324 internet/internetcollectionview.cpp:316
@@ -4241,7 +4241,7 @@ msgstr "Serverwebbadressen är ogiltig."
 msgid "Server-side scrobbling"
 msgstr "Skrobbling på serversidan"
 
-#: core/mainwindow.cpp:1915
+#: core/mainwindow.cpp:1901
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Ställ in %1 till \"%2\"..."
@@ -4474,11 +4474,11 @@ msgstr "Antal överhoppningar"
 msgid "Skip forwards in playlist"
 msgstr "Hoppa framåt i spellista"
 
-#: core/mainwindow.cpp:1888
+#: core/mainwindow.cpp:1874
 msgid "Skip selected tracks"
 msgstr "Hoppa över valda spår"
 
-#: core/mainwindow.cpp:1887
+#: core/mainwindow.cpp:1873
 msgid "Skip track"
 msgstr "Hoppa över spår"
 
@@ -4826,7 +4826,7 @@ msgstr "Webbplatsen du söker finns inte!"
 msgid "The site you requested is not an image!"
 msgstr "Webbplatsen du söker är inte en bild!"
 
-#: core/mainwindow.cpp:2814
+#: core/mainwindow.cpp:2800
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4959,7 +4959,7 @@ msgstr "Titel"
 msgid "Today"
 msgstr "Idag"
 
-#: core/mainwindow.cpp:683 core/mainwindow.cpp:1878
+#: core/mainwindow.cpp:683 core/mainwindow.cpp:1864
 msgid "Toggle queue status"
 msgstr "Växla köstatus"
 
@@ -4967,7 +4967,7 @@ msgstr "Växla köstatus"
 msgid "Toggle scrobbling"
 msgstr "Växla skrobbling"
 
-#: core/mainwindow.cpp:689 core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:689 core/mainwindow.cpp:1875
 msgid "Toggle skip status"
 msgstr "Växla status för hoppa över"
 
@@ -5046,7 +5046,7 @@ msgstr "Ultrabredband (UWB)"
 msgid "Uninstall the snap with:"
 msgstr "Avinstallera snap med:"
 
-#: core/song.cpp:572 context/contextalbumsmodel.cpp:358
+#: core/song.cpp:573 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1612
@@ -5070,11 +5070,11 @@ msgstr "Inte inställt"
 msgid "Unset cover"
 msgstr "Ta bort omslag"
 
-#: core/mainwindow.cpp:1886
+#: core/mainwindow.cpp:1872
 msgid "Unskip selected tracks"
 msgstr "Hoppa inte över valda spår"
 
-#: core/mainwindow.cpp:1885
+#: core/mainwindow.cpp:1871
 msgid "Unskip track"
 msgstr "Hoppa inte över valt spår"
 
@@ -5324,7 +5324,7 @@ msgstr ""
 "Vill du flytta de andra låtarna i det här albumet till Diverse artister "
 "också?"
 
-#: core/mainwindow.cpp:2818
+#: core/mainwindow.cpp:2804
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vill du köra en fullständig omskanning nu?"
 

@@ -587,7 +587,7 @@ msgstr "Přidat všechny skladby z adresáři a všech jeho podadresářů"
 msgid "Add directory..."
 msgstr "Přidat složku..."
 
-#: core/mainwindow.cpp:2156
+#: core/mainwindow.cpp:2142
 msgid "Add file"
 msgstr "Přidat soubor"
 
@@ -603,7 +603,7 @@ msgstr "Přidat soubor(y) k překódování"
 msgid "Add files to transcode"
 msgstr "Přidat soubory pro překódování"
 
-#: core/mainwindow.cpp:2181 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2167 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Přidat složku"
 
@@ -713,7 +713,7 @@ msgstr "Přidat přenos..."
 msgid "Add to albums"
 msgstr "Přidat do alb"
 
-#: core/mainwindow.cpp:1958
+#: core/mainwindow.cpp:1944
 msgid "Add to another playlist"
 msgstr "Přidat do jiného seznamu skladeb"
 
@@ -1259,7 +1259,7 @@ msgstr "Vyčistit mezipaměť na disku"
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2246 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2232 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Vyprázdnit seznam skladeb"
 
@@ -1317,7 +1317,7 @@ msgstr "Filtr Kolekce"
 msgid "Collection advanced grouping"
 msgstr "Pokročilé seskupování sbírky"
 
-#: core/mainwindow.cpp:2819
+#: core/mainwindow.cpp:2805
 msgid "Collection rescan notice"
 msgstr "Zpráva o prohledání sbírky"
 
@@ -1722,11 +1722,11 @@ msgstr "Smazat původní soubory"
 msgid "Deleting files"
 msgstr "Probíhá mazání souborů"
 
-#: core/mainwindow.cpp:1875
+#: core/mainwindow.cpp:1861
 msgid "Dequeue selected tracks"
 msgstr "Odstranit vybrané skladby z řady"
 
-#: core/mainwindow.cpp:1874
+#: core/mainwindow.cpp:1860
 msgid "Dequeue track"
 msgstr "Odstranit skladbu z řady"
 
@@ -1881,7 +1881,7 @@ msgstr "Upravit chytrý playlist"
 msgid "Edit smart playlist..."
 msgstr "Upravit chytrý playlist..."
 
-#: core/mainwindow.cpp:1916
+#: core/mainwindow.cpp:1902
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Upravit značku \"%1\"..."
@@ -2039,7 +2039,7 @@ msgstr "Rovnocenné s --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Rovnocenné s --log-levels *:3"
 
-#: core/mainwindow.cpp:2556 core/mainwindow.cpp:2701
+#: core/mainwindow.cpp:2542 core/mainwindow.cpp:2687
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "Chyba"
@@ -2208,7 +2208,7 @@ msgstr "Načítat celá alba při vyhledávání"
 msgid "Fetching cover error"
 msgstr "Chyba při stahování obalu"
 
-#: core/song.cpp:1081
+#: core/song.cpp:1082
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Soubor %1 nebyl rozpoznán jako platný zvukový soubor."
@@ -3085,7 +3085,7 @@ msgstr "Přesunout do sbírky..."
 msgid "Move up"
 msgstr "Posunout nahoru"
 
-#: core/mainwindow.cpp:2156 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2142 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Hudba"
 
@@ -3130,7 +3130,7 @@ msgstr "Nikdy nezačít přehrávání"
 msgid "New folder"
 msgstr "Nová složka"
 
-#: core/mainwindow.cpp:1974
+#: core/mainwindow.cpp:1960
 msgid "New playlist"
 msgstr "Nový seznam skladeb"
 
@@ -3203,7 +3203,7 @@ msgstr "Žádná skladba se nepřehrává"
 msgid "None"
 msgstr "Žádná"
 
-#: core/mainwindow.cpp:2556 core/mainwindow.cpp:2701
+#: core/mainwindow.cpp:2542 core/mainwindow.cpp:2687
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Žádná z vybraných písní nebyla vhodná ke zkopírování do zařízení"
@@ -3421,7 +3421,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1272 core/mainwindow.cpp:1773
+#: core/mainwindow.cpp:1272 core/mainwindow.cpp:1759
 #: core/qtsystemtrayicon.cpp:143
 msgid "Pause"
 msgstr "Pozastavit"
@@ -3450,7 +3450,7 @@ msgid "Plain sidebar"
 msgstr "Prostý postranní panel"
 
 #: core/mainwindow.cpp:680 core/mainwindow.cpp:1229 core/mainwindow.cpp:1256
-#: core/mainwindow.cpp:1777 core/qtsystemtrayicon.cpp:156
+#: core/mainwindow.cpp:1763 core/qtsystemtrayicon.cpp:156
 #: core/qtsystemtrayicon.cpp:170
 msgid "Play"
 msgstr "Přehrát"
@@ -3517,7 +3517,7 @@ msgstr "Tlačítka playlistů"
 msgid "Playlist finished"
 msgstr "Seznam skladeb dokončen"
 
-#: core/mainwindow.cpp:2246
+#: core/mainwindow.cpp:2232
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3694,20 +3694,20 @@ msgstr "Dotazování se zařízení..."
 msgid "Queue"
 msgstr "Fronta"
 
-#: core/mainwindow.cpp:1877
+#: core/mainwindow.cpp:1863
 msgid "Queue selected tracks"
 msgstr "Přidat vybrané skladby do řady"
 
-#: core/mainwindow.cpp:686 core/mainwindow.cpp:1881
+#: core/mainwindow.cpp:686 core/mainwindow.cpp:1867
 msgid "Queue selected tracks to play next"
 msgstr "Přidat vybrané skladby do fronty"
 
-#: core/mainwindow.cpp:1883 collection/collectionview.cpp:348
+#: core/mainwindow.cpp:1869 collection/collectionview.cpp:348
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "Do fronty jako další"
 
-#: core/mainwindow.cpp:1876 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1862 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:324 internet/internetcollectionview.cpp:316
@@ -4229,7 +4229,7 @@ msgstr "Adresa serveru není správná."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1915
+#: core/mainwindow.cpp:1901
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Nastavit %1 na \"%2\"..."
@@ -4464,11 +4464,11 @@ msgstr "Počet přeskočení"
 msgid "Skip forwards in playlist"
 msgstr "Další skladba v seznamu skladeb"
 
-#: core/mainwindow.cpp:1888
+#: core/mainwindow.cpp:1874
 msgid "Skip selected tracks"
 msgstr "Přeskočit vybrané skladby"
 
-#: core/mainwindow.cpp:1887
+#: core/mainwindow.cpp:1873
 msgid "Skip track"
 msgstr "Přeskočit skladbu"
 
@@ -4815,7 +4815,7 @@ msgstr "Požadovaná stránka neexistuje!"
 msgid "The site you requested is not an image!"
 msgstr "Požadovaná stránka není obrázek!"
 
-#: core/mainwindow.cpp:2814
+#: core/mainwindow.cpp:2800
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4945,7 +4945,7 @@ msgstr "Název"
 msgid "Today"
 msgstr "Dnes"
 
-#: core/mainwindow.cpp:683 core/mainwindow.cpp:1878
+#: core/mainwindow.cpp:683 core/mainwindow.cpp:1864
 msgid "Toggle queue status"
 msgstr "Přepnout stav řady"
 
@@ -4953,7 +4953,7 @@ msgstr "Přepnout stav řady"
 msgid "Toggle scrobbling"
 msgstr "Přepnout odesílání informací o přehrávání"
 
-#: core/mainwindow.cpp:689 core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:689 core/mainwindow.cpp:1875
 msgid "Toggle skip status"
 msgstr "Přepnout stav přeskakování"
 
@@ -5032,7 +5032,7 @@ msgstr "Ultra široké pásmo"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:572 context/contextalbumsmodel.cpp:358
+#: core/song.cpp:573 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1612
@@ -5056,11 +5056,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Odebrat obal"
 
-#: core/mainwindow.cpp:1886
+#: core/mainwindow.cpp:1872
 msgid "Unskip selected tracks"
 msgstr "Zrušit přeskočení vybraných skladeb"
 
-#: core/mainwindow.cpp:1885
+#: core/mainwindow.cpp:1871
 msgid "Unskip track"
 msgstr "Zrušit přeskočení skladby"
 
@@ -5304,7 +5304,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2818
+#: core/mainwindow.cpp:2804
 msgid "Would you like to run a full rescan right now?"
 msgstr "Chcete spustit toto úplné nové prohledání hned teď?"
 

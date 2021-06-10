@@ -622,7 +622,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Verzeichnis hinzufügen …"
 
-#: core/mainwindow.cpp:2156
+#: core/mainwindow.cpp:2142
 msgid "Add file"
 msgstr "Datei hinzufügen"
 
@@ -638,7 +638,7 @@ msgstr "Datei(en) zum Umwandler hinzufügen"
 msgid "Add files to transcode"
 msgstr "Dateien zum Umwandeln hinzufügen"
 
-#: core/mainwindow.cpp:2181 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2167 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Ordner hinzufügen"
 
@@ -748,7 +748,7 @@ msgstr "Datenstrom hinzufügen..."
 msgid "Add to albums"
 msgstr "Zu Alben hinzufügen"
 
-#: core/mainwindow.cpp:1958
+#: core/mainwindow.cpp:1944
 msgid "Add to another playlist"
 msgstr "Zu anderer Wiedergabeliste hinzufügen"
 
@@ -1296,7 +1296,7 @@ msgstr "Lösche Plattenspeicher"
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2246 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2232 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Wiedergabeliste leeren"
 
@@ -1354,7 +1354,7 @@ msgstr "Sammlungsfilter"
 msgid "Collection advanced grouping"
 msgstr "Erweiterte Bibliothekssortierung"
 
-#: core/mainwindow.cpp:2819
+#: core/mainwindow.cpp:2805
 msgid "Collection rescan notice"
 msgstr "Hinweis beim erneuten durchsuchen der Bibliothek"
 
@@ -1761,11 +1761,11 @@ msgstr "Ursprüngliche Dateien löschen"
 msgid "Deleting files"
 msgstr "Dateien werden gelöscht"
 
-#: core/mainwindow.cpp:1875
+#: core/mainwindow.cpp:1861
 msgid "Dequeue selected tracks"
 msgstr "Titel aus der Warteschlange nehmen"
 
-#: core/mainwindow.cpp:1874
+#: core/mainwindow.cpp:1860
 msgid "Dequeue track"
 msgstr "Titel aus der Warteschlange nehmen"
 
@@ -1920,7 +1920,7 @@ msgstr "Bearbeiten Sie die intelligente Wiedergabeliste"
 msgid "Edit smart playlist..."
 msgstr "Bearbeiten Sie die intelligente Wiedergabeliste..."
 
-#: core/mainwindow.cpp:1916
+#: core/mainwindow.cpp:1902
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Schlagwort »%1« bearbeiten …"
@@ -2083,7 +2083,7 @@ msgstr "Äquivalent zu --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Äquivalent zu --log-levels *:3"
 
-#: core/mainwindow.cpp:2556 core/mainwindow.cpp:2701
+#: core/mainwindow.cpp:2542 core/mainwindow.cpp:2687
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "Error"
 msgstr "Fehler"
@@ -2252,7 +2252,7 @@ msgstr "Abrufen des ganzen Albums wenn nach Liedern gesucht wird"
 msgid "Fetching cover error"
 msgstr "Abrufen des Titelbildes ist fehlgeschlagen"
 
-#: core/song.cpp:1081
+#: core/song.cpp:1082
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Datei %1 kann nicht als korrekte Audiodatei erkannt werden."
@@ -3131,7 +3131,7 @@ msgstr "Zur Bibliothek verschieben …"
 msgid "Move up"
 msgstr "Nach oben"
 
-#: core/mainwindow.cpp:2156 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2142 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Musik"
 
@@ -3176,7 +3176,7 @@ msgstr "Nie mit der Wiedergabe beginnen"
 msgid "New folder"
 msgstr "Neuer Ordner"
 
-#: core/mainwindow.cpp:1974
+#: core/mainwindow.cpp:1960
 msgid "New playlist"
 msgstr "Neue Wiedergabeliste"
 
@@ -3249,7 +3249,7 @@ msgstr "Kein Lied wird gespielt"
 msgid "None"
 msgstr "Nichts"
 
-#: core/mainwindow.cpp:2556 core/mainwindow.cpp:2701
+#: core/mainwindow.cpp:2542 core/mainwindow.cpp:2687
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:575
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Keiner der gewählten Titel war zum Kopieren auf ein Gerät geeignet."
@@ -3470,7 +3470,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1272 core/mainwindow.cpp:1773
+#: core/mainwindow.cpp:1272 core/mainwindow.cpp:1759
 #: core/qtsystemtrayicon.cpp:143
 msgid "Pause"
 msgstr "Pause"
@@ -3499,7 +3499,7 @@ msgid "Plain sidebar"
 msgstr "Einfache Seitenleiste"
 
 #: core/mainwindow.cpp:680 core/mainwindow.cpp:1229 core/mainwindow.cpp:1256
-#: core/mainwindow.cpp:1777 core/qtsystemtrayicon.cpp:156
+#: core/mainwindow.cpp:1763 core/qtsystemtrayicon.cpp:156
 #: core/qtsystemtrayicon.cpp:170
 msgid "Play"
 msgstr "Wiedergabe"
@@ -3568,7 +3568,7 @@ msgstr "Steuerung der Playliste"
 msgid "Playlist finished"
 msgstr "Wiedergabeliste beendet"
 
-#: core/mainwindow.cpp:2246
+#: core/mainwindow.cpp:2232
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3748,22 +3748,22 @@ msgstr "Gerät wird abgefragt …"
 msgid "Queue"
 msgstr "Warteschlange"
 
-#: core/mainwindow.cpp:1877
+#: core/mainwindow.cpp:1863
 msgid "Queue selected tracks"
 msgstr "Titel in die Warteschlange einreihen"
 
-#: core/mainwindow.cpp:686 core/mainwindow.cpp:1881
+#: core/mainwindow.cpp:686 core/mainwindow.cpp:1867
 msgid "Queue selected tracks to play next"
 msgstr ""
 "Ausgewählte Titel in die Warteschlange stellen, um sie als nächstes "
 "abzuspielen"
 
-#: core/mainwindow.cpp:1883 collection/collectionview.cpp:348
+#: core/mainwindow.cpp:1869 collection/collectionview.cpp:348
 #: internet/internetcollectionview.cpp:317
 msgid "Queue to play next"
 msgstr "In die Warteschlange, um sie als nächstes abzuspielen"
 
-#: core/mainwindow.cpp:1876 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1862 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 #: internet/internetsearchview.cpp:324 internet/internetcollectionview.cpp:316
@@ -4286,7 +4286,7 @@ msgstr "Server URL ist ungültig."
 msgid "Server-side scrobbling"
 msgstr "Serverseitiges Scrobbling"
 
-#: core/mainwindow.cpp:1915
+#: core/mainwindow.cpp:1901
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 zu »%2« einstellen …"
@@ -4521,11 +4521,11 @@ msgstr "Übersprungzähler"
 msgid "Skip forwards in playlist"
 msgstr "Nächsten Titel in der Wiedergabeliste"
 
-#: core/mainwindow.cpp:1888
+#: core/mainwindow.cpp:1874
 msgid "Skip selected tracks"
 msgstr "Ausgewählte Titel überspringen"
 
-#: core/mainwindow.cpp:1887
+#: core/mainwindow.cpp:1873
 msgid "Skip track"
 msgstr "Titel überspringen"
 
@@ -4875,7 +4875,7 @@ msgstr "Die aufgerufene Seite existiert nicht!"
 msgid "The site you requested is not an image!"
 msgstr "Die angeforderte Seite ist kein Bild!"
 
-#: core/mainwindow.cpp:2814
+#: core/mainwindow.cpp:2800
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5011,7 +5011,7 @@ msgstr "Titel"
 msgid "Today"
 msgstr "Heute"
 
-#: core/mainwindow.cpp:683 core/mainwindow.cpp:1878
+#: core/mainwindow.cpp:683 core/mainwindow.cpp:1864
 msgid "Toggle queue status"
 msgstr "Einreihungsstatus ändern"
 
@@ -5019,7 +5019,7 @@ msgstr "Einreihungsstatus ändern"
 msgid "Toggle scrobbling"
 msgstr "Scrobbeln ein- oder ausschalten"
 
-#: core/mainwindow.cpp:689 core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:689 core/mainwindow.cpp:1875
 msgid "Toggle skip status"
 msgstr "Überspring-Status umschalten"
 
@@ -5098,7 +5098,7 @@ msgstr "Ulte Weit Band (UWB)"
 msgid "Uninstall the snap with:"
 msgstr "Deinstalliere den Snap mit:"
 
-#: core/song.cpp:572 context/contextalbumsmodel.cpp:358
+#: core/song.cpp:573 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1612
@@ -5122,11 +5122,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Titelbild entfernen"
 
-#: core/mainwindow.cpp:1886
+#: core/mainwindow.cpp:1872
 msgid "Unskip selected tracks"
 msgstr "Überspringen der ausgewählten Titel aufheben"
 
-#: core/mainwindow.cpp:1885
+#: core/mainwindow.cpp:1871
 msgid "Unskip track"
 msgstr "Titel nicht überspringen"
 
@@ -5378,7 +5378,7 @@ msgstr ""
 "Möchten Sie die anderen Songs auf diesem Album auch zu Various Artists "
 "verschieben?"
 
-#: core/mainwindow.cpp:2818
+#: core/mainwindow.cpp:2804
 msgid "Would you like to run a full rescan right now?"
 msgstr "Möchten Sie jetzt Ihre Musiksammlung erneut einlesen?"
 
