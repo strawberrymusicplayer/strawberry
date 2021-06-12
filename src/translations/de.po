@@ -1085,7 +1085,7 @@ msgstr "Automatisch den aktuellen Song auswählen"
 msgid "Automatically sort playlist when inserting songs"
 msgstr "Sortierliste beim Einfügen von Songs automatisch sortieren"
 
-#: widgets/freespacebar.cpp:68
+#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "Verfügbar"
 
@@ -3188,7 +3188,7 @@ msgstr "Neue intelligente Wiedergabeliste"
 msgid "New smart playlist..."
 msgstr "Neue intelligente Wiedergabeliste..."
 
-#: widgets/freespacebar.cpp:69
+#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "Neue Titel"
 
@@ -5248,7 +5248,7 @@ msgstr "Zeitliche Rauschformung verwenden"
 msgid "Use the system default"
 msgstr "Standardeinstellungen des Systems benutzen"
 
-#: widgets/freespacebar.cpp:70
+#: widgets/freespacebar.cpp:69
 msgid "Used"
 msgstr "Belegt"
 

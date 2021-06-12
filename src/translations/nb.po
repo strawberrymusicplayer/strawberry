@@ -1040,7 +1040,7 @@ msgstr "Velg spor automatisk"
 msgid "Automatically sort playlist when inserting songs"
 msgstr ""
 
-#: widgets/freespacebar.cpp:68
+#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "Tilgjengelig"
 
@@ -3117,7 +3117,7 @@ msgstr ""
 msgid "New smart playlist..."
 msgstr ""
 
-#: widgets/freespacebar.cpp:69
+#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "Nye sanger"
 
@@ -5137,7 +5137,7 @@ msgstr "Bruk midlertidig støyforming"
 msgid "Use the system default"
 msgstr "Bruk systemforevalg"
 
-#: widgets/freespacebar.cpp:70
+#: widgets/freespacebar.cpp:69
 msgid "Used"
 msgstr "Brukt"
 

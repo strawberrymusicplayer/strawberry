@@ -1041,7 +1041,7 @@ msgstr ""
 msgid "Automatically sort playlist when inserting songs"
 msgstr ""
 
-#: widgets/freespacebar.cpp:68
+#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "Käytettävissä"
 
@@ -3126,7 +3126,7 @@ msgstr "Uusi älykäs soittolista"
 msgid "New smart playlist..."
 msgstr "Uusi älykäs soittolista..."
 
-#: widgets/freespacebar.cpp:69
+#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "Uudet kappaleet"
 
@@ -5142,7 +5142,7 @@ msgstr "Käytä väliaikaista melun muokkausta"
 msgid "Use the system default"
 msgstr "Käytä järjestelmän oletusta"
 
-#: widgets/freespacebar.cpp:70
+#: widgets/freespacebar.cpp:69
 msgid "Used"
 msgstr "Käytetty"
 

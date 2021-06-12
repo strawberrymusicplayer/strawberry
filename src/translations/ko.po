@@ -1047,7 +1047,7 @@ msgstr "현재 재생 중인 트랙을 자동으로 선택"
 msgid "Automatically sort playlist when inserting songs"
 msgstr "곡을 추가하면 자동으로 재생목록 정렬"
 
-#: widgets/freespacebar.cpp:68
+#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "사용 가능"
 
@@ -3116,7 +3116,7 @@ msgstr "새 스마트 재생 목록"
 msgid "New smart playlist..."
 msgstr "새 스마트 재생 목록"
 
-#: widgets/freespacebar.cpp:69
+#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "새로운 음악"
 
@@ -5115,7 +5115,7 @@ msgstr "시계층 잡음 조절(TNS) 사용"
 msgid "Use the system default"
 msgstr "시스템 기본값 사용"
 
-#: widgets/freespacebar.cpp:70
+#: widgets/freespacebar.cpp:69
 msgid "Used"
 msgstr "사용됨"
 

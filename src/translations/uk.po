@@ -1064,7 +1064,7 @@ msgstr ""
 msgid "Automatically sort playlist when inserting songs"
 msgstr ""
 
-#: widgets/freespacebar.cpp:68
+#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "Доступне"
 
@@ -3144,7 +3144,7 @@ msgstr "Новий розумний список відтворення"
 msgid "New smart playlist..."
 msgstr "Новий розумний список відтворення..."
 
-#: widgets/freespacebar.cpp:69
+#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "Нові композиції"
 
@@ -5164,7 +5164,7 @@ msgstr "Використати тимчасове формування шуму"
 msgid "Use the system default"
 msgstr "Використовувати системну"
 
-#: widgets/freespacebar.cpp:70
+#: widgets/freespacebar.cpp:69
 msgid "Used"
 msgstr "Використано"
 

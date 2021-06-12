@@ -1049,7 +1049,7 @@ msgstr "Automaticky vybrat aktuálně přehrávanou skladbu"
 msgid "Automatically sort playlist when inserting songs"
 msgstr "Automaticky seřadit seznam skladeb po vložení nových skladeb"
 
-#: widgets/freespacebar.cpp:68
+#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "Dostupné"
 
@@ -3142,7 +3142,7 @@ msgstr "Nový chytrý playlist"
 msgid "New smart playlist..."
 msgstr "Nový chytrý playlist..."
 
-#: widgets/freespacebar.cpp:69
+#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "Nové písně"
 
@@ -5182,7 +5182,7 @@ msgstr "Použít časové tvarování šumu"
 msgid "Use the system default"
 msgstr "Použít výchozí nastavení systému"
 
-#: widgets/freespacebar.cpp:70
+#: widgets/freespacebar.cpp:69
 msgid "Used"
 msgstr "Použito"
 

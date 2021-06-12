@@ -1073,7 +1073,7 @@ msgstr "Automatycznie zaznaczaj odtwarzaną ścieżkę"
 msgid "Automatically sort playlist when inserting songs"
 msgstr "Automatycznie sortuj listę odtwarzania przy wstawianiu utworów"
 
-#: widgets/freespacebar.cpp:68
+#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "Dostępny"
 
@@ -3170,7 +3170,7 @@ msgstr "Nowa smartlista"
 msgid "New smart playlist..."
 msgstr "Nowa smartlista…"
 
-#: widgets/freespacebar.cpp:69
+#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "Nowe utwory"
 
@@ -5219,7 +5219,7 @@ msgstr "Użyj chwilowego kształtowania szumu"
 msgid "Use the system default"
 msgstr "Używaj domyślnych ustawień systemowych"
 
-#: widgets/freespacebar.cpp:70
+#: widgets/freespacebar.cpp:69
 msgid "Used"
 msgstr "Użyto"
 

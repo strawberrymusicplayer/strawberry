@@ -1063,7 +1063,7 @@ msgstr "Välj automatiskt spår som nu spelas"
 msgid "Automatically sort playlist when inserting songs"
 msgstr "Sortera spellistan automatiskt när du lägger in låtar"
 
-#: widgets/freespacebar.cpp:68
+#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "Tillgängligt"
 
@@ -3154,7 +3154,7 @@ msgstr "Ny smart spellista"
 msgid "New smart playlist..."
 msgstr "Ny smart spellista..."
 
-#: widgets/freespacebar.cpp:69
+#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "Nya låtar"
 
@@ -5196,7 +5196,7 @@ msgstr "Använd tidsbaserad brusformning"
 msgid "Use the system default"
 msgstr "Använd systemets standard"
 
-#: widgets/freespacebar.cpp:70
+#: widgets/freespacebar.cpp:69
 msgid "Used"
 msgstr "Använt"
 

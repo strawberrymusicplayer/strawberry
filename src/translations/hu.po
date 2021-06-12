@@ -1078,7 +1078,7 @@ msgstr "A legutóbbi szám automatikus kiválasztása"
 msgid "Automatically sort playlist when inserting songs"
 msgstr "Lejátszólista automatikus rendezése számok beillesztésekor"
 
-#: widgets/freespacebar.cpp:68
+#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "Elérhető"
 
@@ -3174,7 +3174,7 @@ msgstr "Új okos lejátszólista"
 msgid "New smart playlist..."
 msgstr "Új okos lejátszólista..."
 
-#: widgets/freespacebar.cpp:69
+#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "Új számok"
 
@@ -5217,7 +5217,7 @@ msgstr "Átmeneti zajszűrő alkalmazása"
 msgid "Use the system default"
 msgstr "Rendszer alapértelmezés használata"
 
-#: widgets/freespacebar.cpp:70
+#: widgets/freespacebar.cpp:69
 msgid "Used"
 msgstr "Használt"
 

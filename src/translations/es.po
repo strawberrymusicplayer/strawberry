@@ -1076,7 +1076,7 @@ msgstr "Seleccionar automáticamente la pista en reproducción"
 msgid "Automatically sort playlist when inserting songs"
 msgstr "Ordenar la lista automáticamente al insertar temas"
 
-#: widgets/freespacebar.cpp:68
+#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "Disponible"
 
@@ -3181,7 +3181,7 @@ msgstr "Lista inteligente nueva"
 msgid "New smart playlist..."
 msgstr "Lista inteligente nueva…"
 
-#: widgets/freespacebar.cpp:69
+#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "Canciones nuevas"
 
@@ -5229,7 +5229,7 @@ msgstr "Usar conformación de ruido temporal"
 msgid "Use the system default"
 msgstr "Utilizar valor predeterminado del sistema"
 
-#: widgets/freespacebar.cpp:70
+#: widgets/freespacebar.cpp:69
 msgid "Used"
 msgstr "En uso:"
 
