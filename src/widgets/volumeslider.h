@@ -44,7 +44,7 @@ class SliderSlider : public QSlider {
   Q_OBJECT
 
  public:
-  explicit SliderSlider(Qt::Orientation, QWidget*, uint max = 0);
+  explicit SliderSlider(Qt::Orientation, QWidget*, const uint max = 0);
 
   virtual void setValue(int);
 
@@ -62,7 +62,7 @@ class SliderSlider : public QSlider {
   void mousePressEvent(QMouseEvent*) override;
   virtual void slideEvent(QMouseEvent*);
 
-  bool m_sliding;
+  bool sliding_;
 
   /// we flip the value for vertical sliders
   int adjustValue(int v) const {
@@ -71,8 +71,8 @@ class SliderSlider : public QSlider {
   }
 
  private:
-  bool m_outside;
-  int m_prevValue;
+  bool outside_;
+  int prev_value_;
 
   SliderSlider(const SliderSlider&);             // undefined
   SliderSlider& operator=(const SliderSlider&);  // undefined
@@ -87,7 +87,7 @@ class PrettySlider : public SliderSlider {
     Pretty
   } SliderMode;
 
-  explicit PrettySlider(Qt::Orientation orientation, SliderMode mode, QWidget* parent, uint max = 0);
+  explicit PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget* parent, const uint max = 0);
 
  protected:
   void slideEvent(QMouseEvent*) override;
@@ -136,17 +136,17 @@ class VolumeSlider : public SliderSlider {
   static const int ANIM_INTERVAL = 18;
   static const int ANIM_MAX = 18;
 
-  bool m_animEnter;
-  int m_animCount;
-  QTimer *m_animTimer;
+  bool anim_enter_;
+  int anim_count_;
+  QTimer *timer_anim_;
 
-  QPixmap m_pixmapInset;
-  QPixmap m_pixmapGradient;
+  QPixmap pixmap_inset_;
+  QPixmap pixmap_gradient_;
 
-  QColor m_previous_theme_text_color;
-  QColor m_previous_theme_highlight_color;
+  QColor previous_theme_text_color_;
+  QColor previous_theme_highlight_color_;
 
-  QList<QPixmap> m_handlePixmaps;
+  QList<QPixmap> handle_pixmaps_;
 };
 
 #endif  // VOLUMESLIDER_H

@@ -58,7 +58,7 @@ Chromaprinter::Chromaprinter(const QString &filename)
 
 GstElement *Chromaprinter::CreateElement(const QString &factory_name, GstElement *bin) {
 
-  GstElement *ret = gst_element_factory_make( factory_name.toLatin1().constData(), factory_name.toLatin1().constData());
+  GstElement *ret = gst_element_factory_make(factory_name.toLatin1().constData(), factory_name.toLatin1().constData());
 
   if (ret && bin) gst_bin_add(GST_BIN(bin), ret);
 

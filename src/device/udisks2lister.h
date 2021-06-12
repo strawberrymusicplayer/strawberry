@@ -74,12 +74,12 @@ class Udisks2Lister : public DeviceLister {
  private slots:
   void DBusInterfaceAdded(const QDBusObjectPath &path, const InterfacesAndProperties &interfaces);
   void DBusInterfaceRemoved(const QDBusObjectPath &path, const QStringList &interfaces);
-  void JobCompleted(bool success, const QString &message);
+  void JobCompleted(const bool success, const QString &message);
 
  private:
   bool isPendingJob(const QDBusObjectPath &job_path);
   void RemoveDevice(const QDBusObjectPath &device_path);
-  QList<QDBusObjectPath> GetMountedPartitionsFromDBusArgument( const QDBusArgument &input);
+  QList<QDBusObjectPath> GetMountedPartitionsFromDBusArgument(const QDBusArgument &input);
 
   struct Udisks2Job {
     Udisks2Job();

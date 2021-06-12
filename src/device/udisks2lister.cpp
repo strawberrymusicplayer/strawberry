@@ -303,7 +303,7 @@ QList<QDBusObjectPath> Udisks2Lister::GetMountedPartitionsFromDBusArgument(const
 
 }
 
-void Udisks2Lister::JobCompleted(bool success, const QString &message) {
+void Udisks2Lister::JobCompleted(const bool success, const QString &message) {
 
   Q_UNUSED(message);
 

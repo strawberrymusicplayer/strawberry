@@ -50,9 +50,9 @@
 
 SliderSlider::SliderSlider(Qt::Orientation orientation, QWidget* parent, uint max)
     : QSlider(orientation, parent),
-      m_sliding(false),
-      m_outside(false),
-      m_prevValue(0) {
+      sliding_(false),
+      outside_(false),
+      prev_value_(0) {
   setRange(0, max);
 }
 
@@ -76,22 +76,23 @@ void SliderSlider::wheelEvent(QWheelEvent *e) {
 
 void SliderSlider::mouseMoveEvent(QMouseEvent *e) {
 
-  if (m_sliding) {
+  if (sliding_) {
     // feels better, but using set value of 20 is bad of course
     QRect rect(-20, -20, width() + 40, height() + 40);
 
     if (orientation() == Qt::Horizontal && !rect.contains(e->pos())) {
-      if (!m_outside) QSlider::setValue(m_prevValue);
-      m_outside = true;
+      if (!outside_) QSlider::setValue(prev_value_);
+      outside_ = true;
     }
     else {
-      m_outside = false;
+      outside_ = false;
       slideEvent(e);
       emit sliderMoved(value());
     }
   }
-  else
+  else {
     QSlider::mouseMoveEvent(e);
+  }
 
 }
 
@@ -124,8 +125,8 @@ void SliderSlider::mousePressEvent(QMouseEvent *e) {
   initStyleOption(&option);
   QRect sliderRect(style()->subControlRect(QStyle::CC_Slider, &option, QStyle::SC_SliderHandle, this));
 
-  m_sliding = true;
-  m_prevValue = QSlider::value();
+  sliding_ = true;
+  prev_value_ = QSlider::value();
 
   if (!sliderRect.contains(e->pos())) mouseMoveEvent(e);
 
@@ -133,21 +134,24 @@ void SliderSlider::mousePressEvent(QMouseEvent *e) {
 
 void SliderSlider::mouseReleaseEvent(QMouseEvent*) {
 
-  if (!m_outside && QSlider::value() != m_prevValue)
+  if (!outside_ && QSlider::value() != prev_value_)
     emit sliderReleased(value());
 
-  m_sliding = false;
-  m_outside = false;
+  sliding_ = false;
+  outside_ = false;
 
 }
 
 void SliderSlider::setValue(int newValue) {
   // don't adjust the slider while the user is dragging it!
 
-  if (!m_sliding || m_outside)
+  if (!sliding_ || outside_) {
     QSlider::setValue(adjustValue(newValue));
-  else
-    m_prevValue = newValue;
+  }
+  else {
+    prev_value_ = newValue;
+  }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -157,28 +161,31 @@ void SliderSlider::setValue(int newValue) {
 #define THICKNESS 7
 #define MARGIN 3
 
-PrettySlider::PrettySlider(Qt::Orientation orientation, SliderMode mode, QWidget *parent, uint max)
+PrettySlider::PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget *parent, const uint max)
     : SliderSlider(orientation, parent, max), m_mode(mode) {
+
   if (m_mode == Pretty) {
     setFocusPolicy(Qt::NoFocus);
   }
+
 }
 
 void PrettySlider::mousePressEvent(QMouseEvent *e) {
+
   SliderSlider::mousePressEvent(e);
 
   slideEvent(e);
+
 }
 
 void PrettySlider::slideEvent(QMouseEvent *e) {
 
-  if (m_mode == Pretty)
-    QSlider::setValue(
-        orientation() == Qt::Horizontal
-            ? QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2)
-            : QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().y(), height() - 2));
-  else
+  if (m_mode == Pretty) {
+    QSlider::setValue(orientation() == Qt::Horizontal ? QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2) : QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().y(), height() - 2));
+  }
+  else {
     SliderSlider::slideEvent(e);
+  }
 
 }
 
@@ -209,24 +216,25 @@ QSize PrettySlider::sizeHint() const {
 /// CLASS VolumeSlider
 //////////////////////////////////////////////////////////////////////////////////////////
 
-VolumeSlider::VolumeSlider(QWidget *parent, uint max)
+VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
     : SliderSlider(Qt::Horizontal, parent, max),
-      m_animCount(0),
-      m_animTimer(new QTimer(this)),
-      m_pixmapInset(QPixmap(drawVolumePixmap ())) {
+      anim_count_(0),
+      timer_anim_(new QTimer(this)),
+      pixmap_inset_(QPixmap(drawVolumePixmap())) {
+
   setFocusPolicy(Qt::NoFocus);
 
   // Store theme colors to check theme change at paintEvent
-  m_previous_theme_text_color = palette().color(QPalette::WindowText);
-  m_previous_theme_highlight_color = palette().color(QPalette::Highlight);
+  previous_theme_text_color_ = palette().color(QPalette::WindowText);
+  previous_theme_highlight_color_ = palette().color(QPalette::Highlight);
 
   drawVolumeSliderHandle();
   generateGradient();
 
-  setMinimumWidth(m_pixmapInset.width());
-  setMinimumHeight(m_pixmapInset.height());
+  setMinimumWidth(pixmap_inset_.width());
+  setMinimumHeight(pixmap_inset_.height());
 
-  QObject::connect(m_animTimer, &QTimer::timeout, this, &VolumeSlider::slotAnimTimer);
+  QObject::connect(timer_anim_, &QTimer::timeout, this, &VolumeSlider::slotAnimTimer);
 
 }
 
@@ -251,21 +259,21 @@ void VolumeSlider::generateGradient() {
   p.drawImage(0, 0, mask);
   p.end();
 
-  m_pixmapGradient = QPixmap::fromImage(gradient_image);
+  pixmap_gradient_ = QPixmap::fromImage(gradient_image);
 
 }
 
 void VolumeSlider::slotAnimTimer() {
 
-  if (m_animEnter) {
-    m_animCount++;
+  if (anim_enter_) {
+    ++anim_count_;
     update();
-    if (m_animCount == ANIM_MAX - 1) m_animTimer->stop();
+    if (anim_count_ == ANIM_MAX - 1) timer_anim_->stop();
   }
   else {
-    m_animCount--;
+    --anim_count_;
     update();
-    if (m_animCount == 0) m_animTimer->stop();
+    if (anim_count_ == 0) timer_anim_->stop();
   }
 
 }
@@ -319,19 +327,19 @@ void VolumeSlider::paintEvent(QPaintEvent*) {
   const int offset = int(double((width() - 2 * padding) * value()) / maximum());
 
   // If theme changed since last paintEvent, redraw the volume pixmap with new theme colors
-  if (m_previous_theme_text_color != palette().color(QPalette::WindowText)) {
-    m_pixmapInset = drawVolumePixmap();
-    m_previous_theme_text_color = palette().color(QPalette::WindowText);
+  if (previous_theme_text_color_ != palette().color(QPalette::WindowText)) {
+    pixmap_inset_ = drawVolumePixmap();
+    previous_theme_text_color_ = palette().color(QPalette::WindowText);
   }
 
-  if (m_previous_theme_highlight_color != palette().color(QPalette::Highlight)) {
+  if (previous_theme_highlight_color_ != palette().color(QPalette::Highlight)) {
     drawVolumeSliderHandle();
-    m_previous_theme_highlight_color = palette().color(QPalette::Highlight);
+    previous_theme_highlight_color_ = palette().color(QPalette::Highlight);
   }
 
-  p.drawPixmap(0, 0, m_pixmapGradient, 0, 0, offset + padding, 0);
-  p.drawPixmap(0, 0, m_pixmapInset);
-  p.drawPixmap(offset - m_handlePixmaps[0].width() / 2 + padding, 0, m_handlePixmaps[m_animCount]);
+  p.drawPixmap(0, 0, pixmap_gradient_, 0, 0, offset + padding, 0);
+  p.drawPixmap(0, 0, pixmap_inset_);
+  p.drawPixmap(offset - handle_pixmaps_[0].width() / 2 + padding, 0, handle_pixmaps_[anim_count_]);
 
   // Draw percentage number
   QStyleOptionViewItem opt;
@@ -350,20 +358,20 @@ void VolumeSlider::enterEvent(QEnterEvent*) {
 void VolumeSlider::enterEvent(QEvent*) {
 #endif
 
-  m_animEnter = true;
-  m_animCount = 0;
+  anim_enter_ = true;
+  anim_count_ = 0;
 
-  m_animTimer->start(ANIM_INTERVAL);
+  timer_anim_->start(ANIM_INTERVAL);
 
 }
 
 void VolumeSlider::leaveEvent(QEvent*) {
 
   // This can happen if you enter and leave the widget quickly
-  if (m_animCount == 0) m_animCount = 1;
+  if (anim_count_ == 0) anim_count_ = 1;
 
-  m_animEnter = false;
-  m_animTimer->start(ANIM_INTERVAL);
+  anim_enter_ = false;
+  timer_anim_->start(ANIM_INTERVAL);
 
 }
 
@@ -388,6 +396,7 @@ QPixmap VolumeSlider::drawVolumePixmap () const {
   path.addPolygon(poly);
   painter.drawPolygon(poly);
   painter.drawLine(6, 29, 104, 29);
+
   // Return QPixmap
   return pixmap;
 
@@ -404,7 +413,7 @@ void VolumeSlider::drawVolumeSliderHandle() {
   painter.setRenderHint(QPainter::Antialiasing);
   painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
-  // repaint volume slider handle glow image with theme highlight color
+  // Repaint volume slider handle glow image with theme highlight color
   painter.fillRect(pixmapHandleGlow_image.rect(), QBrush(palette().color(QPalette::Highlight)));
   painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
   painter.drawImage(0, 0, pixmapHandleGlow);
@@ -417,7 +426,7 @@ void VolumeSlider::drawVolumeSliderHandle() {
   float opacity = 0.0;
   const float step = 1.0 / ANIM_MAX;
   QImage dst;
-  m_handlePixmaps.clear();
+  handle_pixmaps_.clear();
   for (int i = 0; i < ANIM_MAX; ++i) {
     dst = pixmapHandle.copy();
 
@@ -426,7 +435,7 @@ void VolumeSlider::drawVolumeSliderHandle() {
     p.drawImage(0, 0, pixmapHandleGlow_image);
     p.end();
 
-    m_handlePixmaps.append(QPixmap::fromImage(dst));
+    handle_pixmaps_.append(QPixmap::fromImage(dst));
     opacity += step;
   }
   // END
