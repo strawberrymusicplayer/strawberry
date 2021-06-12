@@ -21,6 +21,9 @@ Unreleased:
     * Remove scroll over icon to change track option since it does not work reliable.
     * Add support for native global shortcuts on MATE.
     * Add support for song fingerprinting and tracking.
+    * Improve resume playback on startup.
+    * Re-request stream URL for Tidal and QObuz when resuming playback after pausing for more than 30 seconds.
+    * Add Finnish, Ukrainian, Dutch, Japanese, Chinese, Catalan and Portuguese (Brazil).
     * (macOS) Build with libgpod.
 
 0.9.3:
