@@ -384,7 +384,7 @@ void FancyTabWidget::addSpacer() {
 
 }
 
-void FancyTabWidget::setBackgroundPixmap(const QPixmap& pixmap) {
+void FancyTabWidget::setBackgroundPixmap(const QPixmap &pixmap) {
 
   background_pixmap_ = pixmap;
   update();
@@ -695,9 +695,9 @@ void FancyTabWidget::SetMode(FancyTabWidget::Mode mode) {
 
 }
 
-void FancyTabWidget::addMenuItem(QActionGroup* group, const QString& text, Mode mode) {
+void FancyTabWidget::addMenuItem(QActionGroup *group, const QString &text, Mode mode) {
 
-  QAction* action = group->addAction(text);
+  QAction *action = group->addAction(text);
   action->setCheckable(true);
   QObject::connect(action, &QAction::triggered, [this, mode]() { SetMode(mode); } );
 
@@ -705,11 +705,11 @@ void FancyTabWidget::addMenuItem(QActionGroup* group, const QString& text, Mode 
 
 }
 
-void FancyTabWidget::contextMenuEvent(QContextMenuEvent* e) {
+void FancyTabWidget::contextMenuEvent(QContextMenuEvent *e) {
 
   if (!menu_) {
     menu_ = new QMenu(this);
-    QActionGroup* group = new QActionGroup(this);
+    QActionGroup *group = new QActionGroup(this);
     addMenuItem(group, tr("Large sidebar"), Mode_LargeSidebar);
     addMenuItem(group, tr("Small sidebar"), Mode_SmallSidebar);
     addMenuItem(group, tr("Plain sidebar"), Mode_PlainSidebar);

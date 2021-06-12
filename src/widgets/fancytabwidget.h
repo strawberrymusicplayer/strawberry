@@ -54,10 +54,10 @@ class FancyTabWidget : public QTabWidget {
   bool EnableTab(QWidget *widget_view);
   bool DisableTab(QWidget *widget_view);
   int insertTab(const int idx, QWidget *page, const QIcon &icon, const QString &label);
-  void addBottomWidget(QWidget* widget_view);
+  void addBottomWidget(QWidget *widget_view);
   int IndexOfTab(QWidget *widget);
 
-  void setBackgroundPixmap(const QPixmap& pixmap);
+  void setBackgroundPixmap(const QPixmap &pixmap);
   void addSpacer();
 
   void Load(const QString &kSettingsGroup);
@@ -98,10 +98,10 @@ class FancyTabWidget : public QTabWidget {
 
  protected:
   void paintEvent(QPaintEvent*) override;
-  void contextMenuEvent(QContextMenuEvent* e) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
 
  private:
-  void addMenuItem(QActionGroup* group, const QString& text, Mode mode);
+  void addMenuItem(QActionGroup *group, const QString &text, Mode mode);
 
   QProxyStyle *style_;
   QPixmap background_pixmap_;
