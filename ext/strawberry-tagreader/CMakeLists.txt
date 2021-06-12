@@ -6,10 +6,8 @@ set(SOURCES main.cpp tagreaderworker.cpp)
 
 if(BUILD_WITH_QT6)
   qt6_wrap_cpp(MOC ${HEADERS})
-  qt6_add_resources(QRC data/data.qrc)
 else()
   qt5_wrap_cpp(MOC ${HEADERS})
-  qt5_add_resources(QRC data/data.qrc)
 endif()
 
 link_directories(

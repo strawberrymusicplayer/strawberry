@@ -24,12 +24,9 @@
 #include <QtGlobal>
 #include <QCoreApplication>
 #include <QList>
-#include <QLocalSocket>
-#include <QSsl>
-#include <QSslCertificate>
-#include <QSslSocket>
+#include <QString>
 #include <QStringList>
-#include <QtDebug>
+#include <QLocalSocket>
 
 #include "core/logging.h"
 #include "tagreaderworker.h"
@@ -63,10 +60,6 @@ int main(int argc, char **argv) {
     std::cerr << "Failed to connect to the parent process.\n";
     return 1;
   }
-
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-  QSslSocket::addDefaultCaCertificates(QSslCertificate::fromPath(":/certs/godaddy-root.pem", QSsl::Pem));
-#endif
 
   TagReaderWorker worker(&socket);
 
