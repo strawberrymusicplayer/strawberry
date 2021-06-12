@@ -59,7 +59,6 @@ const QRgb FreeSpaceBar::kColorBar1 = qRgb(250, 148, 76);
 const QRgb FreeSpaceBar::kColorBar2 = qRgb(214, 102, 24);
 const QRgb FreeSpaceBar::kColorBorder = qRgb(174, 168, 162);
 
-
 FreeSpaceBar::FreeSpaceBar(QWidget *parent)
     : QWidget(parent),
       free_(100),
@@ -121,7 +120,7 @@ void FreeSpaceBar::paintEvent(QPaintEvent*) {
 
 }
 
-void FreeSpaceBar::DrawBar(QPainter* p, const QRect &r) {
+void FreeSpaceBar::DrawBar(QPainter *p, const QRect &r) {
 
   p->setRenderHint(QPainter::Antialiasing, true);
 
@@ -180,7 +179,7 @@ void FreeSpaceBar::DrawBar(QPainter* p, const QRect &r) {
 
 }
 
-void FreeSpaceBar::DrawText(QPainter* p, const QRect &r) {
+void FreeSpaceBar::DrawText(QPainter *p, const QRect &r) {
 
   QFont small_font(font());
   small_font.setPointSize(small_font.pointSize() - 1);
@@ -232,17 +231,21 @@ void FreeSpaceBar::DrawText(QPainter* p, const QRect &r) {
 
 }
 
-QString FreeSpaceBar::TextForSize(const QString &prefix, qint64 size) const {
+QString FreeSpaceBar::TextForSize(const QString &prefix, const qint64 size) const {
 
   QString ret;
-  if (size > 0)
+  if (size > 0) {
     ret = Utilities::PrettySize(size);
-  else if (size < 0)
+  }
+  else if (size < 0) {
     ret = "-" + Utilities::PrettySize(-size);
-  else
+  }
+  else {
     ret = "0 MB";
+  }
 
   if (!prefix.isEmpty()) ret.prepend(prefix + " ");
+
   return ret;
 
 }

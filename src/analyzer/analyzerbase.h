@@ -72,7 +72,7 @@ class Base : public QWidget {
   virtual void framerateChanged() {}
 
  protected:
-  explicit Base(QWidget*, uint scopeSize = 7);
+  explicit Base(QWidget*, const uint scopeSize = 7);
 
   void hideEvent(QHideEvent*) override;
   void showEvent(QShowEvent*) override;
@@ -82,11 +82,11 @@ class Base : public QWidget {
   void polishEvent();
 
   int resizeExponent(int);
-  int resizeForBands(int);
+  int resizeForBands(const int);
   virtual void init() {}
   virtual void transform(Scope&);
-  virtual void analyze(QPainter& p, const Scope&, bool new_frame) = 0;
-  virtual void demo(QPainter& p);
+  virtual void analyze(QPainter &p, const Scope&, const bool new_frame) = 0;
+  virtual void demo(QPainter &p);
 
  protected:
   QBasicTimer timer_;

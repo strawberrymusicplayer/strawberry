@@ -222,7 +222,7 @@ void AnalyzerContainer::Save() {
 
 }
 
-void AnalyzerContainer::AddFramerate(const QString& name, const int framerate) {
+void AnalyzerContainer::AddFramerate(const QString &name, const int framerate) {
 
   QAction *action = context_menu_framerate_->addAction(name);
   group_framerate_->addAction(action);

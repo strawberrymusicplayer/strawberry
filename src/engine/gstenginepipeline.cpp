@@ -1163,7 +1163,7 @@ void GstEnginePipeline::UpdateStereoBalance() {
 
 }
 
-void GstEnginePipeline::SetEqualizerParams(const int preamp, const QList<int>& band_gains) {
+void GstEnginePipeline::SetEqualizerParams(const int preamp, const QList<int> &band_gains) {
 
   eq_preamp_ = preamp;
   eq_band_gains_ = band_gains;

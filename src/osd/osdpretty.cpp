@@ -334,7 +334,7 @@ void OSDPretty::paintEvent(QPaintEvent *) {
 
 }
 
-void OSDPretty::SetMessage(const QString &summary, const QString& message, const QImage &image) {
+void OSDPretty::SetMessage(const QString &summary, const QString &message, const QImage &image) {
 
   if (!image.isNull()) {
     QImage scaled_image = image.scaled(kMaxIconSize, kMaxIconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -557,17 +557,17 @@ QPoint OSDPretty::current_pos() const {
 
 }
 
-void OSDPretty::set_background_color(QRgb color) {
+void OSDPretty::set_background_color(const QRgb color) {
   background_color_ = color;
   if (isVisible()) update();
 }
 
-void OSDPretty::set_background_opacity(qreal opacity) {
+void OSDPretty::set_background_opacity(const qreal opacity) {
   background_opacity_ = opacity;
   if (isVisible()) update();
 }
 
-void OSDPretty::set_foreground_color(QRgb color) {
+void OSDPretty::set_foreground_color(const QRgb color) {
 
   foreground_color_ = QColor(color);
 
@@ -579,11 +579,11 @@ void OSDPretty::set_foreground_color(QRgb color) {
 
 }
 
-void OSDPretty::set_popup_duration(int msec) {
+void OSDPretty::set_popup_duration(const int msec) {
   timeout_->setInterval(msec);
 }
 
-void OSDPretty::set_font(QFont font) {
+void OSDPretty::set_font(const QFont font) {
 
   font_ = font;
 

@@ -47,7 +47,7 @@ class scoped_nsobject {
 
   NST* get() const { return object_; }
 
-  void swap(scoped_nsobject& that) {
+  void swap(scoped_nsobject &that) {
     NST* temp = that.object_;
     that.object_ = object_;
     object_ = temp;
@@ -70,17 +70,17 @@ class scoped_nsobject {
 
 // Free functions
 template <class C>
-void swap(scoped_nsobject<C>& p1, scoped_nsobject<C>& p2) {
+void swap(scoped_nsobject<C> &p1, scoped_nsobject<C> &p2) {
   p1.swap(p2);
 }
 
 template <class C>
-bool operator==(C* p1, const scoped_nsobject<C>& p2) {
+bool operator==(C* p1, const scoped_nsobject<C> &p2) {
   return p1 == p2.get();
 }
 
 template <class C>
-bool operator!=(C* p1, const scoped_nsobject<C>& p2) {
+bool operator!=(C* p1, const scoped_nsobject<C> &p2) {
   return p1 != p2.get();
 }
 
@@ -109,7 +109,7 @@ class scoped_nsobject<id> {
 
   id get() const { return object_; }
 
-  void swap(scoped_nsobject& that) {
+  void swap(scoped_nsobject &that) {
     id temp = that.object_;
     that.object_ = object_;
     object_ = temp;

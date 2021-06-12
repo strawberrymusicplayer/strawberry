@@ -56,7 +56,7 @@
 template class Analyzer::Base<QWidget>;
 #endif
 
-Analyzer::Base::Base(QWidget *parent, uint scopeSize)
+Analyzer::Base::Base(QWidget *parent, const uint scopeSize)
     : QWidget(parent),
       timeout_(40),
       fht_(new FHT(scopeSize)),
@@ -69,7 +69,7 @@ void Analyzer::Base::hideEvent(QHideEvent*) { timer_.stop(); }
 
 void Analyzer::Base::showEvent(QShowEvent*) { timer_.start(timeout(), this); }
 
-void Analyzer::Base::transform(Scope& scope) {
+void Analyzer::Base::transform(Scope &scope) {
 
   QVector<float> aux(fht_->size());
   if (static_cast<long unsigned int>(aux.size()) >= scope.size()) {
@@ -93,7 +93,7 @@ void Analyzer::Base::paintEvent(QPaintEvent *e) {
 
   switch (engine_->state()) {
     case Engine::Playing: {
-      const Engine::Scope& thescope = engine_->scope(timeout_);
+      const Engine::Scope &thescope = engine_->scope(timeout_);
       int i = 0;
 
       // convert to mono here - our built in analyzers need mono, but the engines provide interleaved pcm
@@ -139,7 +139,7 @@ int Analyzer::Base::resizeExponent(int exp) {
 
 }
 
-int Analyzer::Base::resizeForBands(int bands) {
+int Analyzer::Base::resizeForBands(const int bands) {
 
   int exp = 0;
   if (bands <= 8)
@@ -160,7 +160,7 @@ int Analyzer::Base::resizeForBands(int bands) {
 
 }
 
-void Analyzer::Base::demo(QPainter& p) {
+void Analyzer::Base::demo(QPainter &p) {
 
   static int t = 201;  // FIXME make static to namespace perhaps
 
@@ -185,7 +185,7 @@ void Analyzer::Base::polishEvent() {
   init();
 }
 
-void Analyzer::interpolate(const Scope& inVec, Scope& outVec) {
+void Analyzer::interpolate(const Scope &inVec, Scope &outVec) {
 
   double pos = 0.0;
   const double step = static_cast<double>(inVec.size()) / outVec.size();
@@ -207,7 +207,7 @@ void Analyzer::interpolate(const Scope& inVec, Scope& outVec) {
 
 }
 
-void Analyzer::initSin(Scope& v, const uint size) {
+void Analyzer::initSin(Scope &v, const uint size) {
 
   double step = (M_PI * 2) / size;
   double radian = 0;

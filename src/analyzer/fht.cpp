@@ -40,13 +40,13 @@ FHT::~FHT() {}
 int FHT::sizeExp() const { return exp2_; }
 int FHT::size() const { return num_; }
 
-float* FHT::buf_() { return buf_vector_.data(); }
-float* FHT::tab_() { return tab_vector_.data(); }
-int* FHT::log_() { return log_vector_.data(); }
+float *FHT::buf_() { return buf_vector_.data(); }
+float *FHT::tab_() { return tab_vector_.data(); }
+int *FHT::log_() { return log_vector_.data(); }
 
 void FHT::makeCasTable(void) {
-  float* costab = tab_();
-  float* sintab = tab_() + num_ / 2 + 1;
+  float *costab = tab_();
+  float *sintab = tab_() + num_ / 2 + 1;
 
   for (int ul = 0; ul < num_; ul++) {
     float d = M_PI * ul / (num_ / 2);
@@ -58,15 +58,15 @@ void FHT::makeCasTable(void) {
   }
 }
 
-void FHT::scale(float* p, float d) {
+void FHT::scale(float *p, float d) {
   for (int i = 0; i < (num_ / 2); i++) *p++ *= d;
 }
 
-void FHT::ewma(float* d, float* s, float w) {
+void FHT::ewma(float *d, float *s, float w) {
   for (int i = 0; i < (num_ / 2); i++, d++, s++) *d = *d * w + *s * (1 - w);
 }
 
-void FHT::logSpectrum(float* out, float* p) {
+void FHT::logSpectrum(float *out, float *p) {
 
   int n = num_ / 2, i = 0, j = 0, k = 0, *r = nullptr;
   if (log_vector_.size() < n) {
@@ -93,7 +93,7 @@ void FHT::logSpectrum(float* out, float* p) {
 
 }
 
-void FHT::semiLogSpectrum(float* p) {
+void FHT::semiLogSpectrum(float *p) {
   power2(p);
   for (int i = 0; i < (num_ / 2); i++, p++) {
     float e = 10.0 * log10(sqrt(*p / 2));
@@ -101,24 +101,24 @@ void FHT::semiLogSpectrum(float* p) {
   }
 }
 
-void FHT::spectrum(float* p) {
+void FHT::spectrum(float *p) {
   power2(p);
   for (int i = 0; i < (num_ / 2); i++, p++)
     *p = static_cast<float>(sqrt(*p / 2));
 }
 
-void FHT::power(float* p) {
+void FHT::power(float *p) {
   power2(p);
   for (int i = 0; i < (num_ / 2); i++) *p++ /= 2;
 }
 
-void FHT::power2(float* p) {
+void FHT::power2(float *p) {
   _transform(p, num_, 0);
 
   *p = static_cast<float>(2 * pow(*p, 2));
   p++;
 
-  float* q = p + num_ - 2;
+  float *q = p + num_ - 2;
   for (int i = 1; i < (num_ / 2); i++) {
     *p = static_cast<float>(pow(*p, 2) + pow(*q, 2));
     p++;
@@ -126,14 +126,14 @@ void FHT::power2(float* p) {
   }
 }
 
-void FHT::transform(float* p) {
+void FHT::transform(float *p) {
   if (num_ == 8)
     transform8(p);
   else
     _transform(p, num_, 0);
 }
 
-void FHT::transform8(float* p) {
+void FHT::transform8(float *p) {
 
   float a = 0.0, b = 0.0, c = 0.0, d = 0.0, e = 0.0, f = 0.0, g = 0.0, h = 0.0, b_f2 = 0.0, d_h2 = 0.0;
   float a_c_eg = 0.0, a_ce_g = 0.0, ac_e_g = 0.0, aceg = 0.0, b_df_h = 0.0, bdfh = 0.0;
@@ -162,7 +162,7 @@ void FHT::transform8(float* p) {
 
 }
 
-void FHT::_transform(float* p, int n, int k) {
+void FHT::_transform(float *p, int n, int k) {
 
   if (n == 8) {
     transform8(p + k);

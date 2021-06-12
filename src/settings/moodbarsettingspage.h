@@ -34,7 +34,7 @@ class MoodbarSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit MoodbarSettingsPage(SettingsDialog* dialog);
+  explicit MoodbarSettingsPage(SettingsDialog *dialog);
   ~MoodbarSettingsPage() override;
 
   static const char *kSettingsGroup;
@@ -49,7 +49,7 @@ class MoodbarSettingsPage : public SettingsPage {
 
   void InitMoodbarPreviews();
 
-  Ui_MoodbarSettingsPage* ui_;
+  Ui_MoodbarSettingsPage *ui_;
 
   bool initialized_;
 };

@@ -48,7 +48,7 @@ class MtpDevice : public ConnectedDevice {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time);
+  Q_INVOKABLE MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time);
   ~MtpDevice() override;
 
   static QStringList url_schemes() { return QStringList() << "mtp"; }
@@ -58,26 +58,26 @@ class MtpDevice : public ConnectedDevice {
   void Close() override;
   bool IsLoading() override { return loader_; }
 
-  bool GetSupportedFiletypes(QList<Song::FileType>* ret) override;
+  bool GetSupportedFiletypes(QList<Song::FileType> *ret) override;
   int GetFreeSpace();
   int GetCapacity();
 
-  bool StartCopy(QList<Song::FileType>* supported_types) override;
-  bool CopyToStorage(const CopyJob& job) override;
-  void FinishCopy(bool success) override;
+  bool StartCopy(QList<Song::FileType> *supported_types) override;
+  bool CopyToStorage(const CopyJob &job) override;
+  void FinishCopy(const bool success) override;
 
   void StartDelete() override;
-  bool DeleteFromStorage(const DeleteJob& job) override;
-  void FinishDelete(bool success) override;
+  bool DeleteFromStorage(const DeleteJob &job) override;
+  void FinishDelete(const bool success) override;
 
  private slots:
   void LoadFinished(bool success, MtpConnection *connection);
-  void LoaderError(const QString& message);
+  void LoaderError(const QString &message);
 
  private:
   bool GetSupportedFiletypes(QList<Song::FileType> *ret, LIBMTP_mtpdevice_struct *device);
-  int GetFreeSpace(LIBMTP_mtpdevice_struct* device);
-  int GetCapacity(LIBMTP_mtpdevice_struct* device);
+  int GetFreeSpace(LIBMTP_mtpdevice_struct *device);
+  int GetCapacity(LIBMTP_mtpdevice_struct *device);
 
  private:
   static bool sInitializedLibMTP;

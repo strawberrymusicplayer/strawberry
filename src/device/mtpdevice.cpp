@@ -49,7 +49,7 @@ class DeviceManager;
 
 bool MtpDevice::sInitializedLibMTP = false;
 
-MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
+MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time)
   : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time),
     loader_(nullptr),
     loader_thread_(nullptr),
@@ -112,7 +112,7 @@ void MtpDevice::Close() {
 
 }
 
-void MtpDevice::LoadFinished(bool success, MtpConnection *connection) {
+void MtpDevice::LoadFinished(const bool success, MtpConnection *connection) {
 
   connection_.reset(connection);
 
@@ -129,7 +129,7 @@ void MtpDevice::LoadFinished(bool success, MtpConnection *connection) {
 
 }
 
-void MtpDevice::LoaderError(const QString& message) {
+void MtpDevice::LoaderError(const QString &message) {
   app_->AddError(message);
 }
 
@@ -190,7 +190,7 @@ bool MtpDevice::CopyToStorage(const CopyJob &job) {
 
 }
 
-void MtpDevice::FinishCopy(bool success) {
+void MtpDevice::FinishCopy(const bool success) {
 
   if (success) {
     if (!songs_to_add_.isEmpty()) backend_->AddOrUpdateSongs(songs_to_add_);
@@ -234,7 +234,7 @@ bool MtpDevice::DeleteFromStorage(const DeleteJob &job) {
 
 }
 
-void MtpDevice::FinishDelete(bool success) { FinishCopy(success); }
+void MtpDevice::FinishDelete(const bool success) { FinishCopy(success); }
 
 bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret) {
 
@@ -286,4 +286,3 @@ bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret, LIBMTP_mtpdevi
   return true;
 
 }
-

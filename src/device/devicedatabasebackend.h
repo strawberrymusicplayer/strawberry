@@ -64,10 +64,10 @@ class DeviceDatabaseBackend : public QObject {
   Database *db() const { return db_; }
 
   DeviceList GetAllDevices();
-  int AddDevice(const Device& device);
-  void RemoveDevice(int id);
+  int AddDevice(const Device &device);
+  void RemoveDevice(const int id);
 
-  void SetDeviceOptions(int id, const QString &friendly_name, const QString &icon_name, MusicStorage::TranscodeMode mode, Song::FileType format);
+  void SetDeviceOptions(const int id, const QString &friendly_name, const QString &icon_name, const MusicStorage::TranscodeMode mode, const Song::FileType format);
 
  private slots:
   void Exit();

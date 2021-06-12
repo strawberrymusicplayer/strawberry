@@ -43,7 +43,7 @@ class StyleSheetLoader : public QObject {
   // Sets the given stylesheet on the given widget.
   // If the stylesheet contains strings like %palette-[role], these get replaced with actual palette colours.
   // The stylesheet is reloaded when the widget's palette changes.
-  void SetStyleSheet(QWidget *widget, const QString& filename);
+  void SetStyleSheet(QWidget *widget, const QString &filename);
 
  protected:
   bool eventFilter(QObject *obj, QEvent *event) override;

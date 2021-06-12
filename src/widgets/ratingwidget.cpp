@@ -95,7 +95,7 @@ double RatingPainter::RatingForPos(const QPoint &pos, const QRect &rect) {
 
 }
 
-void RatingPainter::Paint(QPainter* painter, const QRect &rect, double rating) const {
+void RatingPainter::Paint(QPainter *painter, const QRect &rect, double rating) const {
 
   QSize size(qMin(kStarSize * kStarCount, rect.width()), qMin(kStarSize, rect.height()));
   QPoint pos(rect.center() - QPoint(size.width() / 2, size.height() / 2));

@@ -51,7 +51,7 @@ class SmartPlaylistSearchTermWidget : public QWidget {
   float overlay_opacity() const;
   void set_overlay_opacity(const float opacity);
 
-  void SetTerm(const SmartPlaylistSearchTerm& term);
+  void SetTerm(const SmartPlaylistSearchTerm &term);
   SmartPlaylistSearchTerm Term() const;
 
  signals:

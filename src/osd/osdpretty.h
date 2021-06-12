@@ -73,17 +73,17 @@ class OSDPretty : public QWidget {
 
   bool IsTransparencyAvailable();
 
-  void SetMessage(const QString &summary, const QString& message, const QImage &image);
-  void ShowMessage(const QString &summary, const QString& message, const QImage &image);
+  void SetMessage(const QString &summary, const QString &message, const QImage &image);
+  void ShowMessage(const QString &summary, const QString &message, const QImage &image);
 
   // Popup duration in seconds.  Only used in Mode_Popup.
-  void set_popup_duration(int msec);
+  void set_popup_duration(const int msec);
 
   // These will get overwritten when ReloadSettings() is called
-  void set_foreground_color(QRgb color);
-  void set_background_color(QRgb color);
-  void set_background_opacity(qreal opacity);
-  void set_font(QFont font);
+  void set_foreground_color(const QRgb color);
+  void set_background_color(const QRgb color);
+  void set_background_opacity(const qreal opacity);
+  void set_font(const QFont font);
 
   QRgb foreground_color() const { return foreground_color_.rgb(); }
   QRgb background_color() const { return background_color_.rgb(); }
@@ -104,7 +104,7 @@ class OSDPretty : public QWidget {
   void setVisible(bool visible) override;
 
   bool toggle_mode() const { return toggle_mode_; }
-  void set_toggle_mode(bool toggle_mode) { toggle_mode_ = toggle_mode; }
+  void set_toggle_mode(const bool toggle_mode) { toggle_mode_ = toggle_mode; }
 
  signals:
   void PositionChanged();

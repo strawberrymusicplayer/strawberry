@@ -74,7 +74,7 @@ class SmartPlaylistSearchTermWidget::Overlay : public QWidget {
 const int SmartPlaylistSearchTermWidget::Overlay::kSpacing = 6;
 const int SmartPlaylistSearchTermWidget::Overlay::kIconSize = 22;
 
-SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(CollectionBackend* collection, QWidget* parent)
+SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(CollectionBackend *collection, QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_SmartPlaylistSearchTermWidget),
       collection_(collection),
@@ -154,7 +154,7 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   }
 
   // Show the correct value editor
-  QWidget* page = nullptr;
+  QWidget *page = nullptr;
   SmartPlaylistSearchTerm::Operator op = static_cast<SmartPlaylistSearchTerm::Operator>(
     ui_->op->itemData(ui_->op->currentIndex()).toInt()
   );
@@ -215,7 +215,7 @@ void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
 
   // We need to change the page only in the following case
   if ((ui_->value_stack->currentWidget() == ui_->page_text) || (ui_->value_stack->currentWidget() == ui_->page_empty)) {
-    QWidget* page = nullptr;
+    QWidget *page = nullptr;
     if (op == SmartPlaylistSearchTerm::Op_Empty || op == SmartPlaylistSearchTerm::Op_NotEmpty) {
       page = ui_->page_empty;
     }
@@ -229,7 +229,7 @@ void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
       (ui_->value_stack->currentWidget() == ui_->page_date_numeric) ||
       (ui_->value_stack->currentWidget() == ui_->page_date_relative)
       ) {
-    QWidget* page = nullptr;
+    QWidget *page = nullptr;
     if (op == SmartPlaylistSearchTerm::Op_NumericDate || op == SmartPlaylistSearchTerm::Op_NumericDateNot) {
       page = ui_->page_date_numeric;
     }
@@ -289,7 +289,7 @@ void SmartPlaylistSearchTermWidget::leaveEvent(QEvent*) {
 
 }
 
-void SmartPlaylistSearchTermWidget::resizeEvent(QResizeEvent* e) {
+void SmartPlaylistSearchTermWidget::resizeEvent(QResizeEvent *e) {
 
   QWidget::resizeEvent(e);
   if (overlay_ && overlay_->isVisible()) {
@@ -298,7 +298,7 @@ void SmartPlaylistSearchTermWidget::resizeEvent(QResizeEvent* e) {
 
 }
 
-void SmartPlaylistSearchTermWidget::showEvent(QShowEvent* e) {
+void SmartPlaylistSearchTermWidget::showEvent(QShowEvent *e) {
 
   QWidget::showEvent(e);
   if (overlay_) {

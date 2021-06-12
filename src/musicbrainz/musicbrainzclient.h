@@ -56,7 +56,7 @@ class MusicBrainzClient : public QObject {
   struct Result {
     Result() : duration_msec_(0), track_(0), year_(-1) {}
 
-    bool operator<(const Result& other) const {
+    bool operator<(const Result &other) const {
 #define cmp(field)                      \
   if ((field) < other.field) return true; \
   if ((field) > other.field) return false;
@@ -70,7 +70,7 @@ class MusicBrainzClient : public QObject {
 #undef cmp
     }
 
-    bool operator==(const Result& other) const {
+    bool operator==(const Result &other) const {
       return
              title_ == other.title_ &&
              artist_ == other.artist_ &&
@@ -108,8 +108,8 @@ class MusicBrainzClient : public QObject {
  private slots:
   void FlushRequests();
   // id identifies the track, and request_number means it's the 'request_number'th request for this track
-  void RequestFinished(QNetworkReply* reply, const int id, const int request_number);
-  void DiscIdRequestFinished(const QString &discid, QNetworkReply* reply);
+  void RequestFinished(QNetworkReply *reply, const int id, const int request_number);
+  void DiscIdRequestFinished(const QString &discid, QNetworkReply *reply);
 
  private:
   typedef QPair<QString, QString> Param;
@@ -141,7 +141,7 @@ class MusicBrainzClient : public QObject {
 
     Release() : track_(0), year_(0), status_(Status_Unknown) {}
 
-    Result CopyAndMergeInto(const Result& orig) const {
+    Result CopyAndMergeInto(const Result &orig) const {
       Result ret(orig);
       ret.album_ = album_;
       ret.track_ = track_;
@@ -149,7 +149,7 @@ class MusicBrainzClient : public QObject {
       return ret;
     }
 
-    void SetStatusFromString(const QString& s) {
+    void SetStatusFromString(const QString &s) {
       if (s.compare("Official", Qt::CaseInsensitive) == 0) {
         status_ = Status_Official;
       }
@@ -167,7 +167,7 @@ class MusicBrainzClient : public QObject {
       }
     }
 
-    bool operator<(const Release& other) const {
+    bool operator<(const Release &other) const {
       // Compare status so that "best" status (e.g. Official) will be first when sorting a list of releases.
       return status_ > other.status_;
     }
@@ -179,9 +179,9 @@ class MusicBrainzClient : public QObject {
   };
 
   struct PendingResults {
-    PendingResults(int sort_id, const ResultList& results) : sort_id_(sort_id), results_(results) {}
+    PendingResults(int sort_id, const ResultList &results) : sort_id_(sort_id), results_(results) {}
 
-    bool operator<(const PendingResults& other) const {
+    bool operator<(const PendingResults &other) const {
       return sort_id_ < other.sort_id_;
     }
 
@@ -190,13 +190,13 @@ class MusicBrainzClient : public QObject {
   };
 
   QByteArray GetReplyData(QNetworkReply *reply, QString &error);
-  static bool MediumHasDiscid(const QString& discid, QXmlStreamReader* reader);
-  static ResultList ParseMedium(QXmlStreamReader* reader);
-  static Result ParseTrackFromDisc(QXmlStreamReader* reader);
-  static ResultList ParseTrack(QXmlStreamReader* reader);
-  static void ParseArtist(QXmlStreamReader* reader, QString* artist);
-  static Release ParseRelease(QXmlStreamReader* reader);
-  static ResultList UniqueResults(const ResultList& results, UniqueResultsSortOption opt = SortResults);
+  static bool MediumHasDiscid(const QString &discid, QXmlStreamReader *reader);
+  static ResultList ParseMedium(QXmlStreamReader *reader);
+  static Result ParseTrackFromDisc(QXmlStreamReader *reader);
+  static ResultList ParseTrack(QXmlStreamReader *reader);
+  static void ParseArtist(QXmlStreamReader *reader, QString *artist);
+  static Release ParseRelease(QXmlStreamReader *reader);
+  static ResultList UniqueResults(const ResultList &results, UniqueResultsSortOption opt = SortResults);
   void Error(const QString &error, QVariant debug = QVariant());
 
  private:
@@ -208,8 +208,8 @@ class MusicBrainzClient : public QObject {
   static const int kDefaultTimeout;
   static const int kMaxRequestPerTrack;
 
-  QNetworkAccessManager* network_;
-  NetworkTimeouts* timeouts_;
+  QNetworkAccessManager *network_;
+  NetworkTimeouts *timeouts_;
   QMultiMap<int, Request> requests_pending_;
   QMultiMap<int, QNetworkReply*> requests_;
   // Results we received so far, kept here until all the replies are finished
@@ -219,9 +219,9 @@ class MusicBrainzClient : public QObject {
 };
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-inline size_t qHash(const MusicBrainzClient::Result& result) {
+inline size_t qHash(const MusicBrainzClient::Result &result) {
 #else
-inline uint qHash(const MusicBrainzClient::Result& result) {
+inline uint qHash(const MusicBrainzClient::Result &result) {
 #endif
   return qHash(result.album_) ^ qHash(result.artist_) ^ result.duration_msec_ ^ qHash(result.title_) ^ result.track_ ^ result.year_;
 }

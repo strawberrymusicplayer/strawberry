@@ -50,7 +50,7 @@ const int MoodbarProxyStyle::kBorderSize = 1;
 const int MoodbarProxyStyle::kArrowWidth = 17;
 const int MoodbarProxyStyle::kArrowHeight = 13;
 
-MoodbarProxyStyle::MoodbarProxyStyle(Application* app, QSlider* slider)
+MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider)
     : QProxyStyle(nullptr),
       app_(app),
       slider_(slider),

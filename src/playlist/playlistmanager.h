@@ -81,14 +81,14 @@ class PlaylistManagerInterface : public QObject {
   virtual void PlaySmartPlaylist(PlaylistGeneratorPtr generator, const bool as_new, const bool clear) = 0;
 
  public slots:
-  virtual void New(const QString &name, const SongList& songs = SongList(), const QString &special_type = QString()) = 0;
+  virtual void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) = 0;
   virtual void Load(const QString &filename) = 0;
   virtual void Save(const int id, const QString &filename, const Playlist::Path path_type) = 0;
   virtual void Rename(const int id, const QString &new_name) = 0;
   virtual void Delete(const int id) = 0;
   virtual bool Close(const int id) = 0;
   virtual void Open(const int id) = 0;
-  virtual void ChangePlaylistOrder(const QList<int>& ids) = 0;
+  virtual void ChangePlaylistOrder(const QList<int> &ids) = 0;
 
   virtual void SongChangeRequestProcessed(const QUrl &url, const bool valid) = 0;
 
@@ -206,12 +206,12 @@ class PlaylistManager : public PlaylistManagerInterface {
   void RemoveDuplicatesCurrent() override;
   void RemoveUnavailableCurrent() override;
 
-  void SongChangeRequestProcessed(const QUrl& url, const bool valid) override;
+  void SongChangeRequestProcessed(const QUrl &url, const bool valid) override;
 
   void InsertUrls(const int id, const QList<QUrl> &urls, const int pos = -1, const bool play_now = false, const bool enqueue = false);
   void InsertSongs(const int id, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false);
   // Removes items with given indices from the playlist. This operation is not undoable.
-  void RemoveItemsWithoutUndo(const int id, const QList<int>& indices);
+  void RemoveItemsWithoutUndo(const int id, const QList<int> &indices);
   // Remove the current playing song
   void RemoveCurrentSong();
 
@@ -229,8 +229,8 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   void OneOfPlaylistsChanged();
   void UpdateSummaryText();
-  void SongsDiscovered(const SongList& songs);
-  void ItemsLoadedForSavePlaylist(const SongList &songs, const QString& filename, const Playlist::Path path_type);
+  void SongsDiscovered(const SongList &songs);
+  void ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const Playlist::Path path_type);
   void PlaylistLoaded();
 
  private:

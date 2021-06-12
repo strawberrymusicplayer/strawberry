@@ -48,7 +48,7 @@ class PlaylistSaveOptionsDialog : public QDialog {
  private:
   static const char *kSettingsGroup;
 
-  Ui::PlaylistSaveOptionsDialog* ui;
+  Ui::PlaylistSaveOptionsDialog *ui;
 };
 
 #endif  // PLAYLISTSAVEOPTIONSDIALOG_H

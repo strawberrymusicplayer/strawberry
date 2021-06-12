@@ -107,7 +107,7 @@ void GPodDevice::Close() {
 
 }
 
-void GPodDevice::LoadFinished(Itdb_iTunesDB *db, bool success) {
+void GPodDevice::LoadFinished(Itdb_iTunesDB *db, const bool success) {
 
   QMutexLocker l(&db_mutex_);
   db_ = db;

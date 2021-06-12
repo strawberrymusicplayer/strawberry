@@ -34,7 +34,7 @@ class QobuzSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit QobuzSettingsPage(SettingsDialog* parent = nullptr);
+  explicit QobuzSettingsPage(SettingsDialog *parent = nullptr);
   ~QobuzSettingsPage() override;
 
   static const char *kSettingsGroup;
@@ -54,7 +54,7 @@ class QobuzSettingsPage : public SettingsPage {
   void LoginFailure(QString failure_reason);
 
  private:
-  Ui_QobuzSettingsPage* ui_;
+  Ui_QobuzSettingsPage *ui_;
   QobuzService *service_;
 };
 

@@ -34,7 +34,7 @@
 
 const char *TranscoderOptionsAAC::kSettingsGroup = "Transcoder/faac";
 
-TranscoderOptionsAAC::TranscoderOptionsAAC(QWidget* parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsAAC) {
+TranscoderOptionsAAC::TranscoderOptionsAAC(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsAAC) {
   ui_->setupUi(this);
 }
 

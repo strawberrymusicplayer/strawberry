@@ -235,14 +235,14 @@ class CollectionWatcher : public QObject {
 
 };
 
-inline QString CollectionWatcher::NoExtensionPart(const QString& fileName) {
+inline QString CollectionWatcher::NoExtensionPart(const QString &fileName) {
   return fileName.contains('.') ? fileName.section('.', 0, -2) : "";
 }
 // Thanks Amarok
-inline QString CollectionWatcher::ExtensionPart(const QString& fileName) {
+inline QString CollectionWatcher::ExtensionPart(const QString &fileName) {
   return fileName.contains( '.' ) ? fileName.mid( fileName.lastIndexOf('.') + 1 ).toLower() : "";
 }
-inline QString CollectionWatcher::DirectoryPart(const QString& fileName) {
+inline QString CollectionWatcher::DirectoryPart(const QString &fileName) {
   return fileName.section('/', 0, -2);
 }
 

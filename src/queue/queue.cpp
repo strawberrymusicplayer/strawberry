@@ -209,7 +209,7 @@ void Queue::InsertFirst(const QModelIndexList &source_indexes) {
   // Enqueue the tracks at the beginning
   beginInsertRows(QModelIndex(), 0, rows - 1);
   int offset = 0;
-  for (const QModelIndex& source_index : source_indexes) {
+  for (const QModelIndex &source_index : source_indexes) {
     source_indexes_.insert(offset, QPersistentModelIndex(source_index));
     offset++;
   }

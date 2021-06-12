@@ -112,7 +112,7 @@ void MoodbarBuilder::Normalize(QList<Rgb> *vals, double Rgb::*member) {
   double tb = 0;
   double avgu = 0;
   double avgb = 0;
-  for (const Rgb& rgb : *vals) {
+  for (const Rgb &rgb : *vals) {
     const double value = rgb.*member;
     if (value != mini && value != maxi) {
       if (value > avg) {
@@ -179,7 +179,7 @@ QByteArray MoodbarBuilder::Finish(int width) {
     const int end = std::max(static_cast<int>((i + 1) * frames_.count() / width), start + 1);
 
     for (int j = start; j < end; j++) {
-      const Rgb& frame = frames_[j];
+      const Rgb &frame = frames_[j];
       rgb.r += frame.r * 255;
       rgb.g += frame.g * 255;
       rgb.b += frame.b * 255;

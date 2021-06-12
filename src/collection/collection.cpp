@@ -78,7 +78,7 @@ SCollection::~SCollection() {
   }
   if (watcher_thread_) {
     watcher_thread_->exit();
-    watcher_thread_->wait(5000 /* five seconds */);
+    watcher_thread_->wait(5000);
   }
   backend_->deleteLater();
 

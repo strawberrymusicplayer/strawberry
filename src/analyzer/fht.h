@@ -41,9 +41,9 @@ class FHT {
   QVector<float> tab_vector_;
   QVector<int> log_vector_;
 
-  float* buf_();
-  float* tab_();
-  int* log_();
+  float *buf_();
+  float *tab_();
+  int *log_();
 
   /**
    * Create a table of "cas" (cosine and sine) values.
@@ -76,7 +76,7 @@ class FHT {
    * @param s is fresh input.
    * @param w is the weighting factor.
    */
-  void ewma(float* d, float* s, float w);
+  void ewma(float *d, float *s, float w);
 
   /**
    * Logarithmic audio spectrum. Maps semi-logarithmic spectrum
@@ -85,7 +85,7 @@ class FHT {
    * @param p is the input array.
    * @param out is the spectrum.
    */
-  void logSpectrum(float* out, float* p);
+  void logSpectrum(float *out, float *p);
 
   /**
    * Semi-logarithmic audio spectrum.

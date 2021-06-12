@@ -56,13 +56,13 @@ class FreeSpaceBar : public QWidget {
   static const QRgb kColorBar2;
   static const QRgb kColorBorder;
 
-  void set_free_bytes(qint64 bytes) { free_ = bytes; update(); }
-  void set_additional_bytes(qint64 bytes) { additional_ = bytes; update(); }
-  void set_total_bytes(qint64 bytes) { total_ = bytes; update(); }
+  void set_free_bytes(const qint64 bytes) { free_ = bytes; update(); }
+  void set_additional_bytes(const qint64 bytes) { additional_ = bytes; update(); }
+  void set_total_bytes(const qint64 bytes) { total_ = bytes; update(); }
 
-  void set_free_text(const QString& text) { free_text_ = text; update(); }
-  void set_additional_text(const QString& text) { additional_text_ = text; update(); }
-  void set_used_text(const QString& text) { used_text_ = text; update(); }
+  void set_free_text(const QString &text) { free_text_ = text; update(); }
+  void set_additional_text(const QString &text) { additional_text_ = text; update(); }
+  void set_used_text(const QString &text) { used_text_ = text; update(); }
 
   QSize sizeHint() const override;
 
@@ -77,7 +77,7 @@ class FreeSpaceBar : public QWidget {
     QColor color;
   };
 
-  QString TextForSize(const QString &prefix, qint64 size) const;
+  QString TextForSize(const QString &prefix, const qint64 size) const;
 
   void DrawBar(QPainter *p, const QRect &r);
   void DrawText(QPainter *p, const QRect &r);

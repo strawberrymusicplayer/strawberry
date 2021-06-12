@@ -39,7 +39,7 @@ class XMLParser : public ParserBase {
 
   class StreamElement {
    public:
-    StreamElement(const QString& name, QXmlStreamWriter *stream) : stream_(stream) {
+    StreamElement(const QString &name, QXmlStreamWriter *stream) : stream_(stream) {
       stream->writeStartElement(name);
     }
 

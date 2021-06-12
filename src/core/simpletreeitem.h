@@ -44,7 +44,7 @@ class SimpleTreeItem {
   void ChangedNotify();
 
   void Delete(int child_row);
-  T* ChildByKey(const QString &key) const;
+  T *ChildByKey(const QString &key) const;
 
   QString DisplayText() const { return display_text; }
   QString SortText() const { return sort_text; }
@@ -57,11 +57,11 @@ class SimpleTreeItem {
   int row;
   bool lazy_loaded;
 
-  T* parent;
+  T *parent;
   QList<T*> children;
-  QAbstractItemModel* child_model;
+  QAbstractItemModel *child_model;
 
-  SimpleTreeModel<T>* model;
+  SimpleTreeModel<T> *model;
 };
 
 template <typename T>

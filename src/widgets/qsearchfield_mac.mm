@@ -53,21 +53,21 @@ public:
   void returnPressed() {
     if (qSearchField) {
       emit qSearchField->returnPressed();
-      QKeyEvent* event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier);
+      QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier);
       QApplication::postEvent(qSearchField, event);
     }
   }
 
   void keyDownPressed() {
     if (qSearchField) {
-      QKeyEvent* event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier);
+      QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier);
       QApplication::postEvent(qSearchField, event);
     }
   }
 
   void keyUpPressed() {
     if (qSearchField) {
-      QKeyEvent* event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
+      QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
       QApplication::postEvent(qSearchField, event);
     }
   }
@@ -126,7 +126,7 @@ public:
 -(BOOL)performKeyEquivalent:(NSEvent*)event {
   // First, check if we have the focus.
   // If no, it probably means this event isn't for us.
-  NSResponder* firstResponder = [[NSApp keyWindow] firstResponder];
+  NSResponder *firstResponder = [[NSApp keyWindow] firstResponder];
   if ([firstResponder isKindOfClass:[NSText class]] && (NSSearchField*)([(NSText*)firstResponder delegate]) == self) {
 
     if ([event type] == NSEventTypeKeyDown && [event modifierFlags] & NSEventModifierFlagCommand) {

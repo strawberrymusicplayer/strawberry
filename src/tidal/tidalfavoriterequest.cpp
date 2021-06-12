@@ -129,7 +129,7 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
                                  << Param(text, id_list.join(','));
 
   QUrlQuery url_query;
-  for (const Param& param : params) {
+  for (const Param &param : params) {
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
@@ -235,7 +235,7 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const QStrin
   ParamList params = ParamList() << Param("countryCode", country_code());
 
   QUrlQuery url_query;
-  for (const Param& param : params) {
+  for (const Param &param : params) {
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 

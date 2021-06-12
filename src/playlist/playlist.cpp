@@ -724,7 +724,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
 
 void Playlist::InsertDynamicItems(const int count) {
 
-  PlaylistGeneratorInserter* inserter = new PlaylistGeneratorInserter(task_manager_, collection_, this);
+  PlaylistGeneratorInserter *inserter = new PlaylistGeneratorInserter(task_manager_, collection_, this);
   QObject::connect(inserter, &PlaylistGeneratorInserter::Error, this, &Playlist::Error);
   QObject::connect(inserter, &PlaylistGeneratorInserter::PlayRequested, this, &Playlist::PlayRequested);
 

@@ -511,7 +511,7 @@ void CollectionView::AddToPlaylist() {
 void CollectionView::AddToPlaylistEnqueue() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
-  if (MimeData* mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->enqueue_now_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
@@ -531,7 +531,7 @@ void CollectionView::AddToPlaylistEnqueueNext() {
 void CollectionView::OpenInNewPlaylist() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
-  if (MimeData* mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->open_in_new_playlist_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);

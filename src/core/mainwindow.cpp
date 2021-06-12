@@ -2640,7 +2640,7 @@ void MainWindow::PlaylistQueue() {
 void MainWindow::PlaylistQueuePlayNext() {
 
   QModelIndexList indexes;
-  for (const QModelIndex& proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
     indexes << app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
   }
 

@@ -50,13 +50,13 @@ const int Rainbow::RainbowAnalyzer::kRainbowHeight[] = {21, 16};
 const int Rainbow::RainbowAnalyzer::kRainbowOverlap[] = {13, 15};
 const int Rainbow::RainbowAnalyzer::kSleepingHeight[] = {24, 33};
 
-const char* Rainbow::NyanCatAnalyzer::kName = "Nyanalyzer Cat";
-const char* Rainbow::RainbowDashAnalyzer::kName = "Rainbow Dash";
+const char *Rainbow::NyanCatAnalyzer::kName = "Nyanalyzer Cat";
+const char *Rainbow::RainbowDashAnalyzer::kName = "Rainbow Dash";
 const float Rainbow::RainbowAnalyzer::kPixelScale = 0.02f;
 
 Rainbow::RainbowAnalyzer::RainbowType Rainbow::RainbowAnalyzer::rainbowtype;
 
-Rainbow::RainbowAnalyzer::RainbowAnalyzer(const RainbowType& rbtype, QWidget* parent)
+Rainbow::RainbowAnalyzer::RainbowAnalyzer(const RainbowType &rbtype, QWidget *parent)
     : Analyzer::Base(parent, 9),
       timer_id_(startTimer(kFrameIntervalMs)),
       frame_(0),
@@ -82,9 +82,9 @@ Rainbow::RainbowAnalyzer::RainbowAnalyzer(const RainbowType& rbtype, QWidget* pa
 
 }
 
-void Rainbow::RainbowAnalyzer::transform(Scope& s) { fht_->spectrum(s.data()); }
+void Rainbow::RainbowAnalyzer::transform(Scope &s) { fht_->spectrum(s.data()); }
 
-void Rainbow::RainbowAnalyzer::timerEvent(QTimerEvent* e) {
+void Rainbow::RainbowAnalyzer::timerEvent(QTimerEvent *e) {
 
   if (e->timerId() == timer_id_) {
     frame_ = (frame_ + 1) % kFrameCount[rainbowtype];
@@ -95,7 +95,7 @@ void Rainbow::RainbowAnalyzer::timerEvent(QTimerEvent* e) {
 
 }
 
-void Rainbow::RainbowAnalyzer::resizeEvent(QResizeEvent* e) {
+void Rainbow::RainbowAnalyzer::resizeEvent(QResizeEvent *e) {
 
   Q_UNUSED(e);
 
@@ -109,7 +109,7 @@ void Rainbow::RainbowAnalyzer::resizeEvent(QResizeEvent* e) {
 
 }
 
-void Rainbow::RainbowAnalyzer::analyze(QPainter& p, const Analyzer::Scope& s, bool new_frame) {
+void Rainbow::RainbowAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) {
 
   // Discard the second half of the transform
   const int scope_size = static_cast<int>(s.size() / 2);
@@ -117,7 +117,7 @@ void Rainbow::RainbowAnalyzer::analyze(QPainter& p, const Analyzer::Scope& s, bo
   if ((new_frame && is_playing_) || (buffer_[0].isNull() && buffer_[1].isNull())) {
     // Transform the music into rainbows!
     for (int band = 0; band < kRainbowBands; ++band) {
-      float* band_start = history_ + band * kHistorySize;
+      float *band_start = history_ + band * kHistorySize;
 
       // Move the history of each band across by 1 frame.
       memmove(band_start, band_start + 1, (kHistorySize - 1) * sizeof(float));
@@ -139,8 +139,8 @@ void Rainbow::RainbowAnalyzer::analyze(QPainter& p, const Analyzer::Scope& s, bo
 
     // Create polylines for the rainbows.
     QPointF polyline[kRainbowBands * kHistorySize];
-    QPointF* dest = polyline;
-    float* source = history_;
+    QPointF *dest = polyline;
+    float *source = history_;
 
     const float top_of = static_cast<float>(height()) / 2 - static_cast<float>(kRainbowHeight[rainbowtype]) / 2;
     for (int band = 0; band < kRainbowBands; ++band) {
@@ -204,8 +204,8 @@ void Rainbow::RainbowAnalyzer::analyze(QPainter& p, const Analyzer::Scope& s, bo
 
 }
 
-Rainbow::NyanCatAnalyzer::NyanCatAnalyzer(QWidget* parent)
+Rainbow::NyanCatAnalyzer::NyanCatAnalyzer(QWidget *parent)
     : RainbowAnalyzer(Rainbow::RainbowAnalyzer::Nyancat, parent) {}
 
-Rainbow::RainbowDashAnalyzer::RainbowDashAnalyzer(QWidget* parent)
+Rainbow::RainbowDashAnalyzer::RainbowDashAnalyzer(QWidget *parent)
     : RainbowAnalyzer(Rainbow::RainbowAnalyzer::Dash, parent) {}

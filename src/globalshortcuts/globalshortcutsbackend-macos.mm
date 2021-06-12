@@ -47,14 +47,14 @@
 
 class GlobalShortcutsBackendMacOSPrivate : boost::noncopyable {
  public:
-  explicit GlobalShortcutsBackendMacOSPrivate(GlobalShortcutsBackendMacOS* backend)
+  explicit GlobalShortcutsBackendMacOSPrivate(GlobalShortcutsBackendMacOS *backend)
       : global_monitor_(nil), local_monitor_(nil), backend_(backend) {}
 
   bool Register() {
-    global_monitor_ = [NSEvent addGlobalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^(NSEvent* event) {
+    global_monitor_ = [NSEvent addGlobalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^(NSEvent *event) {
       HandleKeyEvent(event);
     } ];
-    local_monitor_ = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^(NSEvent* event) {
+    local_monitor_ = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^(NSEvent *event) {
       // Filter event if we handle it as a global shortcut.
       return HandleKeyEvent(event) ? nil : event;
     } ];
@@ -67,17 +67,17 @@ class GlobalShortcutsBackendMacOSPrivate : boost::noncopyable {
   }
 
  private:
-  bool HandleKeyEvent(NSEvent* event) {
+  bool HandleKeyEvent(NSEvent *event) {
     QKeySequence sequence = mac::KeySequenceFromNSEvent(event);
     return backend_->KeyPressed(sequence);
   }
 
   id global_monitor_;
   id local_monitor_;
-  GlobalShortcutsBackendMacOS* backend_;
+  GlobalShortcutsBackendMacOS *backend_;
 };
 
-GlobalShortcutsBackendMacOS::GlobalShortcutsBackendMacOS(GlobalShortcutsManager* parent)
+GlobalShortcutsBackendMacOS::GlobalShortcutsBackendMacOS(GlobalShortcutsManager *parent)
     : GlobalShortcutsBackend(parent),
       p_(new GlobalShortcutsBackendMacOSPrivate(this)) {}
 
@@ -88,7 +88,8 @@ bool GlobalShortcutsBackendMacOS::DoRegister() {
   // Always enable media keys.
   mac::SetShortcutHandler(this);
 
-  for (const GlobalShortcutsManager::Shortcut& shortcut : manager_->shortcuts().values()) {
+  QList<GlobalShortcutsManager::Shortcut> shortcuts = manager_->shortcuts().values();
+  for (const GlobalShortcutsManager::Shortcut &shortcut : shortcuts) {
     shortcuts_[shortcut.action->shortcut()] = shortcut.action;
   }
 
@@ -119,12 +120,12 @@ void GlobalShortcutsBackendMacOS::MacMediaKeyPressed(int key) {
 
 }
 
-bool GlobalShortcutsBackendMacOS::KeyPressed(const QKeySequence& sequence) {
+bool GlobalShortcutsBackendMacOS::KeyPressed(const QKeySequence &sequence) {
 
   if (sequence.isEmpty()) {
     return false;
   }
-  QAction* action = shortcuts_[sequence];
+  QAction *action = shortcuts_[sequence];
   if (action) {
     action->trigger();
     return true;
@@ -144,12 +145,12 @@ void GlobalShortcutsBackendMacOS::ShowAccessibilityDialog() {
 
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSPreferencePanesDirectory, NSSystemDomainMask, YES);
   if ([paths count] == 1) {
-    SBSystemPreferencesApplication* system_prefs = [SBApplication applicationWithBundleIdentifier:@"com.apple.systempreferences"];
+    SBSystemPreferencesApplication *system_prefs = [SBApplication applicationWithBundleIdentifier:@"com.apple.systempreferences"];
     [system_prefs activate];
 
-    SBElementArray* panes = [system_prefs panes];
-    SBSystemPreferencesPane* security_pane = nil;
-    for (SBSystemPreferencesPane* pane : panes) {
+    SBElementArray *panes = [system_prefs panes];
+    SBSystemPreferencesPane *security_pane = nil;
+    for (SBSystemPreferencesPane *pane : panes) {
       if ([ [pane id] isEqualToString:@"com.apple.preference.security"]) {
         security_pane = pane;
         break;
@@ -157,8 +158,8 @@ void GlobalShortcutsBackendMacOS::ShowAccessibilityDialog() {
     }
     [system_prefs setCurrentPane:security_pane];
 
-    SBElementArray* anchors = [security_pane anchors];
-    for (SBSystemPreferencesAnchor* anchor : anchors) {
+    SBElementArray *anchors = [security_pane anchors];
+    for (SBSystemPreferencesAnchor *anchor : anchors) {
       if ([ [anchor name] isEqualToString:@"Privacy_Accessibility"]) {
         [anchor reveal];
       }

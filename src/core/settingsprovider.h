@@ -47,7 +47,7 @@ class DefaultSettingsProvider : public SettingsProvider {
  public:
   DefaultSettingsProvider();
 
-  void set_group(const char* group) override;
+  void set_group(const char *group) override;
 
   QVariant value(const QString &key, const QVariant &default_value = QVariant()) const override;
   void setValue(const QString &key, const QVariant &value) override;

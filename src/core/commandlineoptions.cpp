@@ -365,7 +365,7 @@ QString CommandlineOptions::tr(const char *source_text) {
   return QObject::tr(source_text);
 }
 
-QDataStream& operator<<(QDataStream &s, const CommandlineOptions &a) {
+QDataStream &operator<<(QDataStream &s, const CommandlineOptions &a) {
 
   s << qint32(a.player_action_)
     << qint32(a.url_list_action_)
@@ -385,7 +385,7 @@ QDataStream& operator<<(QDataStream &s, const CommandlineOptions &a) {
 
 }
 
-QDataStream& operator>>(QDataStream &s, CommandlineOptions &a) {
+QDataStream &operator>>(QDataStream &s, CommandlineOptions &a) {
 
   quint32 player_action = 0;
   quint32 url_list_action = 0;

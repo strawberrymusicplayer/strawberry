@@ -44,7 +44,7 @@ class TrackSlider : public QWidget {
   explicit TrackSlider(QWidget *parent = nullptr);
   ~TrackSlider() override;
 
-  void SetApplication(Application* app);
+  void SetApplication(Application *app);
 
   // QWidget
   QSize sizeHint() const override;

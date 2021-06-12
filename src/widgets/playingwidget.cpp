@@ -485,7 +485,7 @@ void PlayingWidget::FadePreviousTrack(const qreal value) {
 
 }
 
-void PlayingWidget::resizeEvent(QResizeEvent* e) {
+void PlayingWidget::resizeEvent(QResizeEvent *e) {
 
   //if (visible_ && e->oldSize() != e->size()) {
   if (e->oldSize() != e->size()) {

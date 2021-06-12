@@ -28,7 +28,7 @@
 #include <QDialogButtonBox>
 #include <QShowEvent>
 
-AddStreamDialog::AddStreamDialog(QWidget* parent) : QDialog(parent), ui_(new Ui_AddStreamDialog) {
+AddStreamDialog::AddStreamDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_AddStreamDialog) {
 
   ui_->setupUi(this);
 

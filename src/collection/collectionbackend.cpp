@@ -1588,7 +1588,7 @@ void CollectionBackend::UpdateSongRatingAsync(const int id, const double rating)
   metaObject()->invokeMethod(this, "UpdateSongRating", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(double, rating));
 }
 
-void CollectionBackend::UpdateSongsRatingAsync(const QList<int>& ids, const double rating) {
+void CollectionBackend::UpdateSongsRatingAsync(const QList<int> &ids, const double rating) {
   metaObject()->invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(double, rating));
 }
 

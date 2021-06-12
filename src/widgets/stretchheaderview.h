@@ -40,7 +40,7 @@ class StretchHeaderView : public QHeaderView {
   Q_OBJECT
 
  public:
-  explicit StretchHeaderView(const Qt::Orientation orientation, QWidget* parent = nullptr);
+  explicit StretchHeaderView(const Qt::Orientation orientation, QWidget *parent = nullptr);
 
   typedef double ColumnWidthType;
 
@@ -90,7 +90,7 @@ class StretchHeaderView : public QHeaderView {
   void NormaliseWidths(const QList<int> &sections = QList<int>());
 
   // Resizes the actual columns to make them match the proportional values in column_widths_.
-  void UpdateWidths(const QList<int>& sections = QList<int>());
+  void UpdateWidths(const QList<int> &sections = QList<int>());
 
  private slots:
   void SectionResized(const int logical, const int old_size, const int new_size);

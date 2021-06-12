@@ -173,7 +173,7 @@ void SmartPlaylistQueryWizardPlugin::SetGenerator(PlaylistGeneratorPtr g) {
   qDeleteAll(search_page_->terms_);
   search_page_->terms_.clear();
 
-  for (const SmartPlaylistSearchTerm& term : search.terms_) {
+  for (const SmartPlaylistSearchTerm &term : search.terms_) {
     AddSearchTerm();
     search_page_->terms_.last()->SetTerm(term);
   }

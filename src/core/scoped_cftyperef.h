@@ -41,7 +41,7 @@ class ScopedCFTypeRef {
 
   CFT get() const { return object_; }
 
-  void swap(ScopedCFTypeRef& that) {
+  void swap(ScopedCFTypeRef &that) {
     CFT temp = that.object_;
     that.object_ = object_;
     object_ = temp;

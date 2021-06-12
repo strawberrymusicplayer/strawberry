@@ -113,10 +113,10 @@ void AcoustidClient::CancelAll() {
 namespace {
 // Struct used when extracting results in RequestFinished
 struct IdSource {
-  IdSource(const QString& id, int source)
+  IdSource(const QString &id, const int source)
     : id_(id), nb_sources_(source) {}
 
-  bool operator<(const IdSource& other) const {
+  bool operator<(const IdSource &other) const {
     // We want the items with more sources to be at the beginning of the list
     return nb_sources_ > other.nb_sources_;
   }
@@ -185,7 +185,7 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   std::stable_sort(id_source_list.begin(), id_source_list.end());
 
   QList<QString> id_list;
-  for (const IdSource& is : id_source_list) {
+  for (const IdSource &is : id_source_list) {
     id_list << is.id_;
   }
 

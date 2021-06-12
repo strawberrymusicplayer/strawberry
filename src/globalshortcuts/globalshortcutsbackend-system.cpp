@@ -43,7 +43,8 @@ bool GlobalShortcutsBackendSystem::DoRegister() {
 
   if (!gshortcut_init_) gshortcut_init_ = new GlobalShortcut(this);
 
-  for (const GlobalShortcutsManager::Shortcut &shortcut : manager_->shortcuts().values()) {
+  QList<GlobalShortcutsManager::Shortcut> shortcuts = manager_->shortcuts().values();
+  for (const GlobalShortcutsManager::Shortcut &shortcut : shortcuts) {
     AddShortcut(shortcut.action);
   }
 

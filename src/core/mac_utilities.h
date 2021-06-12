@@ -34,7 +34,7 @@ class NSEvent;
 
 namespace mac {
 
-QKeySequence KeySequenceFromNSEvent(NSEvent* event);
+QKeySequence KeySequenceFromNSEvent(NSEvent *event);
 void DumpDictionary(CFDictionaryRef dict);
 }
 

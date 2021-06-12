@@ -53,7 +53,7 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
                                  << Param("id", url.path());
 
   QUrlQuery url_query;
-  for (const Param& param : params) {
+  for (const Param &param : params) {
     EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
     url_query.addQueryItem(encoded_param.first, encoded_param.second);
   }

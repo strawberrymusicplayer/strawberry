@@ -60,7 +60,7 @@ class CollectionDirectoryModel : public QStandardItemModel {
   static const int kIdRole = Qt::UserRole + 1;
 
   QIcon dir_icon_;
-  CollectionBackend* backend_;
+  CollectionBackend *backend_;
   QList<std::shared_ptr<MusicStorage>> storage_;
 };
 

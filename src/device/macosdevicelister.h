@@ -85,18 +85,18 @@ class MacOsDeviceLister : public DeviceLister {
 
   static void DiskAddedCallback(DADiskRef disk, void* context);
   static void DiskRemovedCallback(DADiskRef disk, void* context);
-  static void USBDeviceAddedCallback(void* refcon, io_iterator_t it);
-  static void USBDeviceRemovedCallback(void* refcon, io_iterator_t it);
+  static void USBDeviceAddedCallback(void *refcon, io_iterator_t it);
+  static void USBDeviceRemovedCallback(void *refcon, io_iterator_t it);
 
   static void DiskUnmountCallback(DADiskRef disk, DADissenterRef dissenter, void* context);
 
-  void FoundMTPDevice(const MTPDevice& device, const QString& serial);
-  void RemovedMTPDevice(const QString& serial);
+  void FoundMTPDevice(const MTPDevice &device, const QString &serial);
+  void RemovedMTPDevice(const QString &serial);
 
-  quint64 GetFreeSpace(const QUrl& url);
-  quint64 GetCapacity(const QUrl& url);
+  quint64 GetFreeSpace(const QUrl &url);
+  quint64 GetCapacity(const QUrl &url);
 
-  bool IsCDDevice(const QString& serial) const;
+  bool IsCDDevice(const QString &serial) const;
 
   DASessionRef loop_session_;
   CFRunLoopRef run_loop_;
@@ -111,11 +111,11 @@ class MacOsDeviceLister : public DeviceLister {
 };
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-size_t qHash(const MacOsDeviceLister::MTPDevice& device);
+size_t qHash(const MacOsDeviceLister::MTPDevice &device);
 #else
-uint qHash(const MacOsDeviceLister::MTPDevice& device);
+uint qHash(const MacOsDeviceLister::MTPDevice &device);
 #endif
-inline bool operator==(const MacOsDeviceLister::MTPDevice& a, const MacOsDeviceLister::MTPDevice& b) {
+inline bool operator==(const MacOsDeviceLister::MTPDevice &a, const MacOsDeviceLister::MTPDevice &b) {
   return (a.vendor_id == b.vendor_id) && (a.product_id == b.product_id);
 }
 

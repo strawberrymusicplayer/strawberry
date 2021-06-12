@@ -76,7 +76,7 @@ class AnalyzerContainer : public QWidget {
   void SaveFramerate(const int framerate);
   template <typename T>
   void AddAnalyzerType();
-  void AddFramerate(const QString& name, const int framerate);
+  void AddFramerate(const QString &name, const int framerate);
 
  private:
   int current_framerate_;  // fps
@@ -94,7 +94,7 @@ class AnalyzerContainer : public QWidget {
   QPoint last_click_pos_;
   bool ignore_next_click_;
 
-  Analyzer::Base* current_analyzer_;
+  Analyzer::Base *current_analyzer_;
   EngineBase *engine_;
 
 };

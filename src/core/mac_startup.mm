@@ -69,7 +69,7 @@
 
 #include <QtDebug>
 
-QDebug operator<<(QDebug dbg, NSObject* object) {
+QDebug operator<<(QDebug dbg, NSObject *object) {
 
   QString ns_format = [ [NSString stringWithFormat:@"%@", object] UTF8String];
   dbg.nospace() << ns_format;
@@ -82,10 +82,10 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
 @interface MacApplication : NSApplication {
 
-  PlatformInterface* application_handler_;
-  AppDelegate* delegate_;
+  PlatformInterface *application_handler_;
+  AppDelegate *delegate_;
   // shortcut_handler_ only used to temporarily save it AppDelegate does all the heavy-shortcut-lifting
-  GlobalShortcutsBackendMacOS* shortcut_handler_;
+  GlobalShortcutsBackendMacOS *shortcut_handler_;
 
 }
 
@@ -295,11 +295,11 @@ void MacMain() {
 
 }
 
-void SetShortcutHandler(GlobalShortcutsBackendMacOS* handler) {
+void SetShortcutHandler(GlobalShortcutsBackendMacOS *handler) {
   [NSApp SetShortcutHandler:handler];
 }
 
-void SetApplicationHandler(PlatformInterface* handler) {
+void SetApplicationHandler(PlatformInterface *handler) {
   [NSApp SetApplicationHandler:handler];
 }
 
@@ -313,7 +313,7 @@ QString GetBundlePath() {
 
   ScopedCFTypeRef<CFURLRef> app_url(CFBundleCopyBundleURL(CFBundleGetMainBundle()));
   ScopedCFTypeRef<CFStringRef> mac_path(CFURLCopyFileSystemPath(app_url.get(), kCFURLPOSIXPathStyle));
-  const char* path = CFStringGetCStringPtr(mac_path.get(), CFStringGetSystemEncoding());
+  const char *path = CFStringGetCStringPtr(mac_path.get(), CFStringGetSystemEncoding());
   QString bundle_path = QString::fromUtf8(path);
   return bundle_path;
 
@@ -329,10 +329,10 @@ QString GetResourcesPath() {
 QString GetApplicationSupportPath() {
 
   ScopedNSAutoreleasePool pool;
-  NSArray* paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
   QString ret;
   if ([paths count] > 0) {
-    NSString* user_path = [paths objectAtIndex:0];
+    NSString *user_path = [paths objectAtIndex:0];
     ret = QString::fromUtf8([user_path UTF8String]);
   }
   else {
@@ -345,10 +345,10 @@ QString GetApplicationSupportPath() {
 QString GetMusicDirectory() {
 
   ScopedNSAutoreleasePool pool;
-  NSArray* paths = NSSearchPathForDirectoriesInDomains(NSMusicDirectory, NSUserDomainMask, YES);
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSMusicDirectory, NSUserDomainMask, YES);
   QString ret;
   if ([paths count] > 0) {
-    NSString* user_path = [paths objectAtIndex:0];
+    NSString *user_path = [paths objectAtIndex:0];
     ret = QString::fromUtf8([user_path UTF8String]);
   }
   else {
@@ -418,11 +418,11 @@ static int MapFunctionKey(int keycode) {
   return 0;
 }
 
-QKeySequence KeySequenceFromNSEvent(NSEvent* event) {
+QKeySequence KeySequenceFromNSEvent(NSEvent *event) {
 
-  NSString* str = [event charactersIgnoringModifiers];
-  NSString* upper = [str uppercaseString];
-  const char* chars = [upper UTF8String];
+  NSString *str = [event charactersIgnoringModifiers];
+  NSString *upper = [str uppercaseString];
+  const char *chars = [upper UTF8String];
   NSUInteger modifiers = [event modifierFlags];
   int key = 0;
   unsigned char c = chars[0];
@@ -465,7 +465,7 @@ QKeySequence KeySequenceFromNSEvent(NSEvent* event) {
 
 void DumpDictionary(CFDictionaryRef dict) {
 
-  NSDictionary* d = (NSDictionary*)dict;
+  NSDictionary *d = (NSDictionary*)dict;
   NSLog(@"%@", d);
 
 }
@@ -473,10 +473,10 @@ void DumpDictionary(CFDictionaryRef dict) {
 // NSWindowCollectionBehaviorFullScreenPrimary
 static const NSUInteger kFullScreenPrimary = 1 << 7;
 
-void EnableFullScreen(const QWidget& main_window) {
+void EnableFullScreen(const QWidget &main_window) {
 
-  NSView* view = reinterpret_cast<NSView*>(main_window.winId());
-  NSWindow* window = [view window];
+  NSView *view = reinterpret_cast<NSView*>(main_window.winId());
+  NSWindow *window = [view window];
   [window setCollectionBehavior:kFullScreenPrimary];
 
 }

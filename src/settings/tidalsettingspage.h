@@ -36,7 +36,7 @@ class TidalSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit TidalSettingsPage(SettingsDialog* parent = nullptr);
+  explicit TidalSettingsPage(SettingsDialog *parent = nullptr);
   ~TidalSettingsPage() override;
 
   static const char *kSettingsGroup;
@@ -64,7 +64,7 @@ class TidalSettingsPage : public SettingsPage {
   void LoginFailure(const QString &failure_reason);
 
  private:
-  Ui_TidalSettingsPage* ui_;
+  Ui_TidalSettingsPage *ui_;
   TidalService *service_;
 };
 

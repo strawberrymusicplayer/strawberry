@@ -31,7 +31,7 @@ class Ui_TranscoderOptionsVorbis;
 
 class TranscoderOptionsVorbis : public TranscoderOptionsInterface {
  public:
-  explicit TranscoderOptionsVorbis(QWidget* parent = nullptr);
+  explicit TranscoderOptionsVorbis(QWidget *parent = nullptr);
   ~TranscoderOptionsVorbis() override;
 
   void Load() override;

@@ -71,7 +71,7 @@ void CoverSearchStatisticsDialog::Show(const CoverSearchStatistics &statistics) 
           .arg(statistics.chosen_images_ + statistics.missing_images_)
           .arg(statistics.missing_images_));
 
-  for (const QString& provider : providers) {
+  for (const QString &provider : providers) {
     AddLine(tr("Covers from %1").arg(provider), QString::number(statistics.chosen_images_by_provider_[provider]));
   }
 
@@ -97,7 +97,7 @@ void CoverSearchStatisticsDialog::AddLine(const QString &label, const QString &v
   label1->setProperty("type", "label");
   label2->setProperty("type", "value");
 
-  QHBoxLayout* layout = new QHBoxLayout;
+  QHBoxLayout *layout = new QHBoxLayout;
   layout->addWidget(label1);
   layout->addWidget(label2);
   details_layout_->addLayout(layout);

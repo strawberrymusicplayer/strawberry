@@ -81,7 +81,7 @@ class Equalizer : public QDialog {
   void EqualizerEnabledChangedSlot(const bool enabled);
   void EqualizerParametersChangedSlot();
   void PresetChanged(const QString &name);
-  void PresetChanged(int index);
+  void PresetChanged(const int index);
   void SavePreset();
   void DelPreset();
   void Save();

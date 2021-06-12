@@ -62,7 +62,7 @@ void StretchHeaderView::setModel(QAbstractItemModel *model) {
 
 }
 
-void StretchHeaderView::NormaliseWidths(const QList<int>& sections) {
+void StretchHeaderView::NormaliseWidths(const QList<int> &sections) {
 
   if (!stretch_enabled_) return;
 

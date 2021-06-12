@@ -50,7 +50,7 @@ DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent) :
 
 }
 
-void DeviceDatabaseBackend::Init(Database* db) { db_ = db; }
+void DeviceDatabaseBackend::Init(Database *db) { db_ = db; }
 
 void DeviceDatabaseBackend::Close() {
 
@@ -152,7 +152,7 @@ int DeviceDatabaseBackend::AddDevice(const Device &device) {
 
 }
 
-void DeviceDatabaseBackend::RemoveDevice(int id) {
+void DeviceDatabaseBackend::RemoveDevice(const int id) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -176,7 +176,7 @@ void DeviceDatabaseBackend::RemoveDevice(int id) {
 
 }
 
-void DeviceDatabaseBackend::SetDeviceOptions(int id, const QString &friendly_name, const QString &icon_name, MusicStorage::TranscodeMode mode, Song::FileType format) {
+void DeviceDatabaseBackend::SetDeviceOptions(const int id, const QString &friendly_name, const QString &icon_name, const MusicStorage::TranscodeMode mode, const Song::FileType format) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -198,4 +198,3 @@ void DeviceDatabaseBackend::SetDeviceOptions(int id, const QString &friendly_nam
   db_->CheckErrors(q);
 
 }
-

@@ -44,7 +44,7 @@ class SliderSlider : public QSlider {
   Q_OBJECT
 
  public:
-  explicit SliderSlider(Qt::Orientation, QWidget*, const uint max = 0);
+  explicit SliderSlider(const Qt::Orientation, QWidget*, const uint max = 0);
 
   virtual void setValue(int);
 
@@ -75,7 +75,7 @@ class SliderSlider : public QSlider {
   int prev_value_;
 
   SliderSlider(const SliderSlider&);             // undefined
-  SliderSlider& operator=(const SliderSlider&);  // undefined
+  SliderSlider &operator=(const SliderSlider&);  // undefined
 };
 
 class PrettySlider : public SliderSlider {
@@ -87,7 +87,7 @@ class PrettySlider : public SliderSlider {
     Pretty
   } SliderMode;
 
-  explicit PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget* parent, const uint max = 0);
+  explicit PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget *parent, const uint max = 0);
 
  protected:
   void slideEvent(QMouseEvent*) override;
@@ -95,7 +95,7 @@ class PrettySlider : public SliderSlider {
 
  private:
   PrettySlider(const PrettySlider&);             // undefined
-  PrettySlider& operator=(const PrettySlider&);  // undefined
+  PrettySlider &operator=(const PrettySlider&);  // undefined
 
   SliderMode m_mode;
 };
@@ -119,7 +119,7 @@ class VolumeSlider : public SliderSlider {
   void slideEvent(QMouseEvent*) override;
   void mousePressEvent(QMouseEvent*) override;
   void contextMenuEvent(QContextMenuEvent*) override;
-  void wheelEvent(QWheelEvent* e) override;
+  void wheelEvent(QWheelEvent *e) override;
 
  private slots:
   virtual void slotAnimTimer();

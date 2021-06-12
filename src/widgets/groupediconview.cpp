@@ -134,7 +134,7 @@ void GroupedIconView::rowsInserted(const QModelIndex &parent, int start, int end
   LayoutItems();
 }
 
-void GroupedIconView::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &) {
+void GroupedIconView::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>&) {
   QListView::dataChanged(topLeft, bottomRight);
   LayoutItems();
 }
@@ -298,7 +298,7 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
   }
 
   // Draw headers
-  for (const Header& header : headers_) {
+  for (const Header &header : headers_) {
     const QRect header_rect = QRect(header_indent_, header.y, viewport()->width() - header_indent_ * 2, header_height());
 
     // Is this header contained in the area we're drawing?

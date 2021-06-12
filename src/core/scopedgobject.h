@@ -32,39 +32,39 @@ class ScopedGObject {
  public:
   ScopedGObject() : object_(nullptr) {}
 
-  ScopedGObject(const ScopedGObject& other) : object_(nullptr) {
+  ScopedGObject(const ScopedGObject &other) : object_(nullptr) {
     reset(other.object_);
   }
 
   ~ScopedGObject() { reset(); }
 
-  ScopedGObject& operator=(const ScopedGObject& other) {
+  ScopedGObject &operator=(const ScopedGObject &other) {
     reset(other.object_);
     return *this;
   }
 
-  void reset(T* new_object = nullptr) {
+  void reset(T *new_object = nullptr) {
     if (new_object) g_object_ref(new_object);
     reset_without_add(new_object);
   }
 
-  void reset_without_add(T* new_object = nullptr) {
+  void reset_without_add(T *new_object = nullptr) {
     if (object_) g_object_unref(object_);
 
     object_ = new_object;
   }
 
-  T* get() const { return object_; }
+  T *get() const { return object_; }
   operator T*() const { return get(); }
-  T* operator*() const { return get(); }
+  T *operator*() const { return get(); }
   operator bool() const { return get(); }
 
-  bool operator==(const ScopedGObject& other) const {
+  bool operator==(const ScopedGObject &other) const {
     return object_ == other.object_;
   }
 
  private:
-  T* object_;
+  T *object_;
 };
 
 #endif  // SCOPEDGOBJECT_H

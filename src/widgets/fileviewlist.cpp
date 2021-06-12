@@ -69,7 +69,8 @@ void FileViewList::contextMenuEvent(QContextMenuEvent *e) {
 QList<QUrl> FileViewList::UrlListFromSelection() const {
 
   QList<QUrl> urls;
-  for (const QModelIndex& index : menu_selection_.indexes()) {
+  const QModelIndexList indexes = menu_selection_.indexes();
+  for (const QModelIndex &index : indexes) {
     if (index.column() == 0)
       urls << QUrl::fromLocalFile(qobject_cast<QFileSystemModel*>(model())->fileInfo(index).canonicalFilePath());
   }
@@ -119,7 +120,8 @@ MimeData *FileViewList::MimeDataFromSelection() const {
 QStringList FileViewList::FilenamesFromSelection() const {
 
   QStringList filenames;
-  for (const QModelIndex& index : menu_selection_.indexes()) {
+  const QModelIndexList indexes = menu_selection_.indexes();
+  for (const QModelIndex &index : indexes) {
     if (index.column() == 0)
       filenames << qobject_cast<QFileSystemModel*>(model())->filePath(index);
   }

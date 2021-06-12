@@ -38,7 +38,7 @@
 #include "iconloader.h"
 
 @interface Target :NSObject {
-  QAction* action_;
+  QAction *action_;
 }
 - (id) initWithQAction: (QAction*)action;
 - (void) clicked;
@@ -111,7 +111,7 @@ class MacSystemTrayIconPrivate {
     [dock_menu_ addItem:separator];
   }
 
-  void ShowNowPlaying(const QString& artist, const QString& title) {
+  void ShowNowPlaying(const QString &artist, const QString &title) {
     ClearNowPlaying();  // Makes sure the order is consistent.
     [now_playing_artist_ setTitle: [[NSString alloc] initWithUTF8String: artist.toUtf8().constData()]];
     [now_playing_title_ setTitle: [[NSString alloc] initWithUTF8String: title.toUtf8().constData()]];

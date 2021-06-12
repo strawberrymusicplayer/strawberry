@@ -60,7 +60,7 @@ class ScrobblerSettingsPage : public SettingsPage {
   LastFMScrobbler *lastfmscrobbler_;
   LibreFMScrobbler *librefmscrobbler_;
   ListenBrainzScrobbler *listenbrainzscrobbler_;
-  Ui_ScrobblerSettingsPage* ui_;
+  Ui_ScrobblerSettingsPage *ui_;
 
   bool lastfm_waiting_for_auth_;
   bool librefm_waiting_for_auth_;

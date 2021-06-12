@@ -40,7 +40,7 @@ class SettingsDialog;
 
 const char *NetworkProxySettingsPage::kSettingsGroup = "NetworkProxy";
 
-NetworkProxySettingsPage::NetworkProxySettingsPage(SettingsDialog* dialog)
+NetworkProxySettingsPage::NetworkProxySettingsPage(SettingsDialog *dialog)
     : SettingsPage(dialog), ui_(new Ui_NetworkProxySettingsPage) {
 
   ui_->setupUi(this);

@@ -39,7 +39,7 @@ AlbumCoverExporter::AlbumCoverExporter(QObject *parent)
   thread_pool_->setMaxThreadCount(kMaxConcurrentRequests);
 }
 
-void AlbumCoverExporter::SetDialogResult(const AlbumCoverExport::DialogResult& dialog_result) {
+void AlbumCoverExporter::SetDialogResult(const AlbumCoverExport::DialogResult &dialog_result) {
   dialog_result_ = dialog_result;
 }
 

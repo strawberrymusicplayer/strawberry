@@ -48,7 +48,7 @@
 #include <QFlags>
 #include <QtEvents>
 
-SliderSlider::SliderSlider(Qt::Orientation orientation, QWidget* parent, uint max)
+SliderSlider::SliderSlider(const Qt::Orientation orientation, QWidget *parent, const uint max)
     : QSlider(orientation, parent),
       sliding_(false),
       outside_(false),

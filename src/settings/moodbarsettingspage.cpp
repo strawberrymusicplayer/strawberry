@@ -49,7 +49,7 @@ const char *MoodbarSettingsPage::kSettingsGroup = "Moodbar";
 const int MoodbarSettingsPage::kMoodbarPreviewWidth = 150;
 const int MoodbarSettingsPage::kMoodbarPreviewHeight = 18;
 
-MoodbarSettingsPage::MoodbarSettingsPage(SettingsDialog* dialog)
+MoodbarSettingsPage::MoodbarSettingsPage(SettingsDialog *dialog)
     : SettingsPage(dialog),
       ui_(new Ui_MoodbarSettingsPage),
       initialized_(false)

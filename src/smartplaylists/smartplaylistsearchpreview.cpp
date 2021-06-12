@@ -35,7 +35,7 @@
 #include "playlist/playlist.h"
 #include "playlistquerygenerator.h"
 
-SmartPlaylistSearchPreview::SmartPlaylistSearchPreview(QWidget* parent)
+SmartPlaylistSearchPreview::SmartPlaylistSearchPreview(QWidget *parent)
     : QWidget(parent),
     ui_(new Ui_SmartPlaylistSearchPreview),
     model_(nullptr) {

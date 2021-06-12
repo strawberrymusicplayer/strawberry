@@ -156,7 +156,7 @@ void Equalizer::LoadDefaultPresets() {
 
 }
 
-void Equalizer::AddPreset(const QString& name, const Params& params) {
+void Equalizer::AddPreset(const QString &name, const Params &params) {
 
   QString name_displayed = tr(qPrintable(name));
   presets_[name] = params;
@@ -168,12 +168,12 @@ void Equalizer::AddPreset(const QString& name, const Params& params) {
   }
 }
 
-void Equalizer::PresetChanged(int index) {
+void Equalizer::PresetChanged(const int index) {
 
   PresetChanged(ui_->preset->itemData(index).toString());
 }
 
-void Equalizer::PresetChanged(const QString& name) {
+void Equalizer::PresetChanged(const QString &name) {
 
   if (presets_.contains(last_preset_)) {
     if (presets_[last_preset_] != current_params()) {
@@ -182,7 +182,7 @@ void Equalizer::PresetChanged(const QString& name) {
   }
   last_preset_ = name;
 
-  Params& p = presets_[name];
+  Params &p = presets_[name];
 
   loading_ = true;
   preamp_->set_value(p.preamp);
@@ -292,7 +292,7 @@ void Equalizer::StereoBalancerEnabledChangedSlot(const bool enabled) {
 
 }
 
-void Equalizer::StereoBalanceSliderChanged(int) {
+void Equalizer::StereoBalanceSliderChanged(const int) {
 
   emit StereoBalanceChanged(stereo_balance());
   Save();
@@ -369,7 +369,7 @@ Equalizer::Params::Params(int g0, int g1, int g2, int g3, int g4, int g5, int g6
   gain[9] = g9;
 }
 
-bool Equalizer::Params::operator ==(const Equalizer::Params& other) const {
+bool Equalizer::Params::operator ==(const Equalizer::Params &other) const {
   if (preamp != other.preamp) return false;
   for (int i = 0; i < Equalizer::kBands; ++i) {
     if (gain[i] != other.gain[i]) return false;
@@ -377,17 +377,17 @@ bool Equalizer::Params::operator ==(const Equalizer::Params& other) const {
   return true;
 }
 
-bool Equalizer::Params::operator !=(const Equalizer::Params& other) const {
+bool Equalizer::Params::operator !=(const Equalizer::Params &other) const {
   return ! (*this == other);
 }
 
-QDataStream &operator<<(QDataStream& s, const Equalizer::Params& p) {
+QDataStream &operator<<(QDataStream &s, const Equalizer::Params &p) {
   s << p.preamp;
   for (int i = 0; i < Equalizer::kBands; ++i) s << p.gain[i];
   return s;
 }
 
-QDataStream &operator>>(QDataStream& s, Equalizer::Params& p) {
+QDataStream &operator>>(QDataStream &s, Equalizer::Params &p) {
   s >> p.preamp;
   for (int i = 0; i < Equalizer::kBands; ++i) s >> p.gain[i];
   return s;

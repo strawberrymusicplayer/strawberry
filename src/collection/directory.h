@@ -31,7 +31,7 @@
 struct Directory {
   Directory() : id(-1) {}
 
-  bool operator ==(const Directory& other) const {
+  bool operator ==(const Directory &other) const {
     return path == other.path && id == other.id;
   }
 

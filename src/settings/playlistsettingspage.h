@@ -36,7 +36,7 @@ class PlaylistSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit PlaylistSettingsPage(SettingsDialog* dialog);
+  explicit PlaylistSettingsPage(SettingsDialog *dialog);
   ~PlaylistSettingsPage() override;
   static const char *kSettingsGroup;
 
@@ -44,7 +44,7 @@ class PlaylistSettingsPage : public SettingsPage {
   void Save() override;
 
  private:
-  Ui_PlaylistSettingsPage* ui_;
+  Ui_PlaylistSettingsPage *ui_;
 
 };
 

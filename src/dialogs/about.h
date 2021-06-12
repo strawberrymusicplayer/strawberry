@@ -49,7 +49,7 @@ class About : public QDialog {
 
   QString MainHtml() const;
   QString ContributorsHtml() const;
-  QString PersonToHtml(const Person& person) const;
+  QString PersonToHtml(const Person &person) const;
 
  private:
   Ui::About ui_;

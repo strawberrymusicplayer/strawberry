@@ -111,7 +111,7 @@
 #  include "osd/osdbase.h"
 #endif
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_MACOS
   // Do Mac specific startup to get media keys working.

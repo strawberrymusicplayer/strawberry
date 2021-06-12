@@ -43,9 +43,9 @@ const int BoomAnalyzer::kColumnWidth = 4;
 const int BoomAnalyzer::kMaxBandCount = 256;
 const int BoomAnalyzer::kMinBandCount = 32;
 
-const char* BoomAnalyzer::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Boom analyzer");
+const char *BoomAnalyzer::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Boom analyzer");
 
-BoomAnalyzer::BoomAnalyzer(QWidget* parent)
+BoomAnalyzer::BoomAnalyzer(QWidget *parent)
     : Analyzer::Base(parent, 9),
       bands_(0),
       scope_(kMinBandCount),
@@ -65,15 +65,15 @@ BoomAnalyzer::BoomAnalyzer(QWidget* parent)
 
 }
 
-void BoomAnalyzer::changeK_barHeight(int newValue) {
+void BoomAnalyzer::changeK_barHeight(const int newValue) {
   K_barHeight_ = static_cast<double>(newValue) / 1000;
 }
 
-void BoomAnalyzer::changeF_peakSpeed(int newValue) {
+void BoomAnalyzer::changeF_peakSpeed(const int newValue) {
   F_peakSpeed_ = static_cast<double>(newValue) / 1000;
 }
 
-void BoomAnalyzer::resizeEvent(QResizeEvent* e) {
+void BoomAnalyzer::resizeEvent(QResizeEvent *e) {
 
   QWidget::resizeEvent(e);
 
@@ -101,7 +101,7 @@ void BoomAnalyzer::resizeEvent(QResizeEvent* e) {
 
 }
 
-void BoomAnalyzer::transform(Scope& s) {
+void BoomAnalyzer::transform(Scope &s) {
 
   fht_->spectrum(s.data());
   fht_->scale(s.data(), 1.0 / 50);
@@ -110,7 +110,7 @@ void BoomAnalyzer::transform(Scope& s) {
 
 }
 
-void BoomAnalyzer::analyze(QPainter& p, const Scope& scope, bool new_frame) {
+void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame) {
 
   if (!new_frame || engine_->state() == Engine::Paused) {
     p.drawPixmap(0, 0, canvas_);

@@ -46,7 +46,7 @@ class TranscoderOptionsMP3 : public TranscoderOptionsInterface {
   void QualitySpinboxChanged(double value);
 
  private:
-  static const char* kSettingsGroup;
+  static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsMP3 *ui_;
 };

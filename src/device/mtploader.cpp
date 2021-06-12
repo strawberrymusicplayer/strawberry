@@ -70,7 +70,7 @@ bool MtpLoader::TryLoad() {
 
   // Load the list of songs on the device
   SongList songs;
-  LIBMTP_track_t* tracks = LIBMTP_Get_Tracklisting_With_Callback(connection_->device(), nullptr, nullptr);
+  LIBMTP_track_t *tracks = LIBMTP_Get_Tracklisting_With_Callback(connection_->device(), nullptr, nullptr);
   while (tracks) {
 
     if (abort_) break;

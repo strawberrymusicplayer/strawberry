@@ -81,14 +81,14 @@ class PlaylistSequence : public QWidget {
   void ShuffleModeChanged(PlaylistSequence::ShuffleMode mode);
 
  private slots:
-  void RepeatActionTriggered(QAction *);
-  void ShuffleActionTriggered(QAction *);
+  void RepeatActionTriggered(QAction *action);
+  void ShuffleActionTriggered(QAction *action);
 
  private:
   void Load();
   void Save();
-  static QIcon AddDesaturatedIcon(const QIcon& icon);
-  static QPixmap DesaturatedPixmap(const QPixmap& pixmap);
+  static QIcon AddDesaturatedIcon(const QIcon &icon);
+  static QPixmap DesaturatedPixmap(const QPixmap &pixmap);
 
  private:
   Ui_PlaylistSequence *ui_;

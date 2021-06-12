@@ -302,7 +302,7 @@ void Application::ExitReceived() {
 
 }
 
-void Application::AddError(const QString& message) { emit ErrorAdded(message); }
+void Application::AddError(const QString &message) { emit ErrorAdded(message); }
 void Application::ReloadSettings() { emit SettingsChanged(); }
 void Application::OpenSettingsDialogAtPage(SettingsDialog::Page page) { emit SettingsDialogRequested(page); }
 

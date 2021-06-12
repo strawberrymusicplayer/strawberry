@@ -144,7 +144,7 @@ class GstEnginePipeline : public QObject {
 
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
   static GstPadProbeReturn EventHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
-  static void SourceSetupCallback(GstPlayBin*, GParamSpec* pspec, gpointer);
+  static void SourceSetupCallback(GstPlayBin*, GParamSpec *pspec, gpointer);
   static void NewPadCallback(GstElement*, GstPad*, gpointer);
   static GstPadProbeReturn PlaybinProbe(GstPad*, GstPadProbeInfo*, gpointer);
   static GstPadProbeReturn HandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);

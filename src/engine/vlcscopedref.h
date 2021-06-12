@@ -28,38 +28,38 @@
 template <typename T>
 class VlcScopedRef {
  public:
-  explicit VlcScopedRef(T* ptr);
+  explicit VlcScopedRef(T *ptr);
   ~VlcScopedRef();
 
-  operator T* () const { return ptr_; }
+  operator T*() const { return ptr_; }
   operator bool () const { return ptr_; }
-  T* operator ->() const { return ptr_; }
+  T *operator->() const { return ptr_; }
 
  private:
   VlcScopedRef(VlcScopedRef&) {}
-  VlcScopedRef& operator =(const VlcScopedRef&) { return *this; }
+  VlcScopedRef &operator =(const VlcScopedRef&) { return *this; }
 
-  T* ptr_;
+  T *ptr_;
 };
 
 
 #define VLCSCOPEDREF_DEFINE2(type, dtor) \
-    template <> void VlcScopedRef_Release<libvlc_##type##_t>(libvlc_##type##_t* ptr) { \
+    template <> void VlcScopedRef_Release<libvlc_##type##_t>(libvlc_##type##_t *ptr) { \
       dtor(ptr); \
     }
 #define VLCSCOPEDREF_DEFINE(type) VLCSCOPEDREF_DEFINE2(type, libvlc_##type##_release)
 
 template <typename T>
-void VlcScopedRef_Release(T* ptr);
+void VlcScopedRef_Release(T *ptr);
 
 VLCSCOPEDREF_DEFINE2(instance, libvlc_release)
 VLCSCOPEDREF_DEFINE(media_player)
 VLCSCOPEDREF_DEFINE(media)
 
-template <> void VlcScopedRef_Release<char>(char* ptr) { free(ptr); }
+template <> void VlcScopedRef_Release<char>(char *ptr) { free(ptr); }
 
 template <typename T>
-VlcScopedRef<T>::VlcScopedRef(T* ptr)
+VlcScopedRef<T>::VlcScopedRef(T *ptr)
   : ptr_(ptr) {
 }
 

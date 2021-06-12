@@ -346,17 +346,17 @@ void NotificationsSettingsPage::PrepareNotificationPreview() {
 
 }
 
-void NotificationsSettingsPage::InsertVariableFirstLine(QAction* action) {
+void NotificationsSettingsPage::InsertVariableFirstLine(QAction *action) {
   // We use action name, therefore those shouldn't be translatable
   ui_->notifications_custom_text1->insert(action->text());
 }
 
-void NotificationsSettingsPage::InsertVariableSecondLine(QAction* action) {
+void NotificationsSettingsPage::InsertVariableSecondLine(QAction *action) {
   // We use action name, therefore those shouldn't be translatable
   ui_->notifications_custom_text2->insert(action->text());
 }
 
-void NotificationsSettingsPage::ShowMenuTooltip(QAction* action) {
+void NotificationsSettingsPage::ShowMenuTooltip(QAction *action) {
   QToolTip::showText(QCursor::pos(), action->toolTip());
 }
 

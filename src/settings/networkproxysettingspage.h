@@ -36,7 +36,7 @@ class NetworkProxySettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit NetworkProxySettingsPage(SettingsDialog* dialog);
+  explicit NetworkProxySettingsPage(SettingsDialog *dialog);
   ~NetworkProxySettingsPage() override;
 
   static const char *kSettingsGroup;
@@ -45,7 +45,7 @@ class NetworkProxySettingsPage : public SettingsPage {
   void Save() override;
 
  private:
-  Ui_NetworkProxySettingsPage* ui_;
+  Ui_NetworkProxySettingsPage *ui_;
 };
 
 #endif  // NETWORKPROXYSETTINGSPAGE_H

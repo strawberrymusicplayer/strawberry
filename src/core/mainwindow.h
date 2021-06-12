@@ -359,7 +359,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #endif
   QAction *playlist_delete_;
   QAction *playlist_queue_;
-  QAction* playlist_queue_play_next_;
+  QAction *playlist_queue_play_next_;
   QAction *playlist_skip_;
   QAction *playlist_add_to_another_;
   QList<QAction*> playlistitem_actions_;

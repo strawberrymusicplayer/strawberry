@@ -25,7 +25,7 @@
 #include "core/logging.h"
 #include "scopedtransaction.h"
 
-ScopedTransaction::ScopedTransaction(QSqlDatabase* db)
+ScopedTransaction::ScopedTransaction(QSqlDatabase *db)
     : db_(db), pending_(true) {
   db->transaction();
 }

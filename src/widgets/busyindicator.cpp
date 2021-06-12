@@ -32,12 +32,12 @@
 class QHideEvent;
 class QShowEvent;
 
-BusyIndicator::BusyIndicator(const QString &text, QWidget* parent)
+BusyIndicator::BusyIndicator(const QString &text, QWidget *parent)
   : QWidget(parent) {
   Init(text);
 }
 
-BusyIndicator::BusyIndicator(QWidget* parent)
+BusyIndicator::BusyIndicator(QWidget *parent)
   : QWidget(parent) {
   Init(QString());
 }

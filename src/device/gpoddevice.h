@@ -73,8 +73,8 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   void FinishDelete(bool success) override;
 
  protected slots:
-  void LoadFinished(Itdb_iTunesDB *db, bool success);
-  void LoaderError(const QString& message);
+  void LoadFinished(Itdb_iTunesDB *db, const bool success);
+  void LoaderError(const QString &message);
 
  protected:
   Itdb_Track *AddTrackToITunesDb(const Song &metadata);

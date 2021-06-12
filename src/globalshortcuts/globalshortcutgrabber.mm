@@ -42,7 +42,8 @@ class MacMonitorWrapper {
   Q_DISABLE_COPY(MacMonitorWrapper);
 };
 
-bool GlobalShortcutGrabber::HandleMacEvent(NSEvent* event) {
+bool GlobalShortcutGrabber::HandleMacEvent(NSEvent *event) {
+
   ret_ = mac::KeySequenceFromNSEvent(event);
   UpdateText();
   if ([[event charactersIgnoringModifiers] length] != 0) {
@@ -50,13 +51,16 @@ bool GlobalShortcutGrabber::HandleMacEvent(NSEvent* event) {
     return true;
   }
   return ret_ == QKeySequence(Qt::Key_Escape);
+
 }
 
 void GlobalShortcutGrabber::SetupMacEventHandler() {
-  id monitor = [NSEvent addLocalMonitorForEventsMatchingMask: NSEventMaskKeyDown handler:^(NSEvent* event) {
-        return HandleMacEvent(event) ? event : nil;
+
+  id monitor = [NSEvent addLocalMonitorForEventsMatchingMask: NSEventMaskKeyDown handler:^(NSEvent *event) {
+    return HandleMacEvent(event) ? event : nil;
   }];
   wrapper_ = new MacMonitorWrapper(monitor);
+
 }
 
 void GlobalShortcutGrabber::TeardownMacEventHandler() { delete wrapper_; }

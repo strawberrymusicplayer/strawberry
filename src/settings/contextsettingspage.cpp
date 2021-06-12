@@ -60,7 +60,7 @@ const char *ContextSettingsPage::kSettingsGroupEnable[ContextSettingsOrder::NELE
 
 const qreal ContextSettingsPage::kDefaultFontSizeHeadline = 11;
 
-ContextSettingsPage::ContextSettingsPage(SettingsDialog* dialog) : SettingsPage(dialog), ui_(new Ui_ContextSettingsPage) {
+ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog) : SettingsPage(dialog), ui_(new Ui_ContextSettingsPage) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("view-choose"));
@@ -184,17 +184,17 @@ void ContextSettingsPage::Save() {
 
 }
 
-void ContextSettingsPage::InsertVariableFirstLine(QAction* action) {
+void ContextSettingsPage::InsertVariableFirstLine(QAction *action) {
   // We use action name, therefore those shouldn't be translatable
   ui_->context_custom_text1->insert(action->text());
 }
 
-void ContextSettingsPage::InsertVariableSecondLine(QAction* action) {
+void ContextSettingsPage::InsertVariableSecondLine(QAction *action) {
   // We use action name, therefore those shouldn't be translatable
   ui_->context_custom_text2->insert(action->text());
 }
 
-void ContextSettingsPage::ShowMenuTooltip(QAction* action) {
+void ContextSettingsPage::ShowMenuTooltip(QAction *action) {
   QToolTip::showText(QCursor::pos(), action->toolTip());
 }
 
