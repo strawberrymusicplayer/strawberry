@@ -20,9 +20,8 @@
 
 #include "tagreader.h"
 
+#include <string>
 #include <memory>
-#include <list>
-#include <map>
 #include <sys/stat.h>
 
 #include <taglib/taglib.h>
@@ -78,13 +77,11 @@
 #include <QtGlobal>
 #include <QFile>
 #include <QFileInfo>
-#include <QList>
 #include <QVector>
 #include <QByteArray>
-#include <QDateTime>
-#include <QVariant>
 #include <QString>
 #include <QUrl>
+#include <QDateTime>
 #include <QtDebug>
 
 #include "core/logging.h"
