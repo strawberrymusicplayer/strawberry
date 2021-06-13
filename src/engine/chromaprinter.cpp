@@ -74,9 +74,14 @@ QString Chromaprinter::CreateFingerprint() {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
-  buffer_.open(QIODevice::WriteOnly);
+  if (!buffer_.open(QIODevice::WriteOnly)) return QString();
 
   GstElement *pipeline = gst_pipeline_new("pipeline");
+  if (!pipeline) {
+    buffer_.close();
+    return QString();
+  }
+
   GstElement *src = CreateElement("filesrc", pipeline);
   GstElement *decode = CreateElement("decodebin", pipeline);
   GstElement *convert = CreateElement("audioconvert", pipeline);
@@ -84,6 +89,8 @@ QString Chromaprinter::CreateFingerprint() {
   GstElement *sink = CreateElement("appsink", pipeline);
 
   if (!src || !decode || !convert || !resample || !sink) {
+    gst_object_unref(pipeline);
+    buffer_.close();
     return QString();
   }
 
@@ -94,12 +101,7 @@ QString Chromaprinter::CreateFingerprint() {
   gst_element_link_many(convert, resample, nullptr);
 
   // Chromaprint expects mono 16-bit ints at a sample rate of 11025Hz.
-  GstCaps *caps = gst_caps_new_simple(
-      "audio/x-raw",
-      "format", G_TYPE_STRING, "S16LE",
-      "channels", G_TYPE_INT, kDecodeChannels,
-      "rate", G_TYPE_INT, kDecodeRate,
-      nullptr);
+  GstCaps *caps = gst_caps_new_simple("audio/x-raw", "format", G_TYPE_STRING, "S16LE", "channels", G_TYPE_INT, kDecodeChannels, "rate", G_TYPE_INT, kDecodeRate, nullptr);
   gst_element_link_filtered(resample, sink, caps);
   gst_caps_unref(caps);
 
@@ -131,24 +133,23 @@ QString Chromaprinter::CreateFingerprint() {
 
   // Wait until EOS or error
   GstMessage *msg = gst_bus_timed_pop_filtered(bus, kTimeoutSecs * GST_SECOND, static_cast<GstMessageType>(GST_MESSAGE_EOS | GST_MESSAGE_ERROR));
-  if (msg != nullptr) {
+  if (msg) {
     if (msg->type == GST_MESSAGE_ERROR) {
       // Report error
       GError *error = nullptr;
       gchar *debugs = nullptr;
-
       gst_message_parse_error(msg, &error, &debugs);
-      QString message = QString::fromLocal8Bit(error->message);
-
-      g_error_free(error);
-      free(debugs);
-
-      qLog(Debug) << "Error processing" << filename_ << ":" << message;
+      if (error) {
+        QString message = QString::fromLocal8Bit(error->message);
+        g_error_free(error);
+        qLog(Debug) << "Error processing" << filename_ << ":" << message;
+      }
+      if (debugs) free(debugs);
     }
     gst_message_unref(msg);
   }
 
-  int decode_time = time.restart();
+  const int decode_time = time.restart();
 
   buffer_.close();
 
@@ -165,18 +166,18 @@ QString Chromaprinter::CreateFingerprint() {
   int ret = chromaprint_get_raw_fingerprint(chromaprint, &fprint, &size);
   QByteArray fingerprint;
   if (ret == 1) {
-
     char *encoded = nullptr;
     int encoded_size = 0;
-    chromaprint_encode_fingerprint(fprint, size, CHROMAPRINT_ALGORITHM_DEFAULT, &encoded, &encoded_size, 1);
-
-    fingerprint.append(reinterpret_cast<char*>(encoded), encoded_size);
-
+    ret = chromaprint_encode_fingerprint(fprint, size, CHROMAPRINT_ALGORITHM_DEFAULT, &encoded, &encoded_size, 1);
+    if (ret == 1) {
+      fingerprint.append(reinterpret_cast<char*>(encoded), encoded_size);
+      chromaprint_dealloc(encoded);
+    }
     chromaprint_dealloc(fprint);
-    chromaprint_dealloc(encoded);
   }
   chromaprint_free(chromaprint);
-  int codegen_time = time.elapsed();
+
+  const int codegen_time = time.elapsed();
 
   qLog(Debug) << "Decode time:" << decode_time << "Codegen time:" << codegen_time;
 
