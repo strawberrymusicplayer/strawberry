@@ -62,19 +62,20 @@ class SubsonicService : public InternetService {
   void ReloadSettings() override;
   void Exit() override;
 
-  Application *app() { return app_; }
+  Application *app() const { return app_; }
 
-  QString client_name() { return kClientName; }
-  QString api_version() { return kApiVersion; }
-  QUrl server_url() { return server_url_; }
-  QString username() { return username_; }
-  QString password() { return password_; }
-  bool verify_certificate() { return verify_certificate_; }
-  bool download_album_covers() { return download_album_covers_; }
+  QString client_name() const { return kClientName; }
+  QString api_version() const { return kApiVersion; }
+  QUrl server_url() const { return server_url_; }
+  QString username() const { return username_; }
+  QString password() const { return password_; }
+  bool http2() const { return http2_; }
+  bool verify_certificate() const { return verify_certificate_; }
+  bool download_album_covers() const { return download_album_covers_; }
 
-  CollectionBackend *collection_backend() { return collection_backend_; }
-  CollectionModel *collection_model() { return collection_model_; }
-  QSortFilterProxyModel *collection_sort_model() { return collection_sort_model_; }
+  CollectionBackend *collection_backend() const { return collection_backend_; }
+  CollectionModel *collection_model() const { return collection_model_; }
+  QSortFilterProxyModel *collection_sort_model() const { return collection_sort_model_; }
 
   CollectionBackend *songs_collection_backend() override { return collection_backend_; }
   CollectionModel *songs_collection_model() override { return collection_model_; }
@@ -124,6 +125,7 @@ class SubsonicService : public InternetService {
   QUrl server_url_;
   QString username_;
   QString password_;
+  bool http2_;
   bool verify_certificate_;
   bool download_album_covers_;
 

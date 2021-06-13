@@ -73,6 +73,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
       collection_backend_(nullptr),
       collection_model_(nullptr),
       collection_sort_model_(new QSortFilterProxyModel(this)),
+      http2_(true),
       verify_certificate_(false),
       download_album_covers_(true),
       ping_redirects_(0)
@@ -138,6 +139,7 @@ void SubsonicService::ReloadSettings() {
   if (password.isEmpty()) password_.clear();
   else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
 
+  http2_ = s.value("http2", true).toBool();
   verify_certificate_ = s.value("verifycertificate", false).toBool();
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
 
@@ -195,6 +197,10 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
 #endif
 
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+  req.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2_);
+#endif
 
   errors_.clear();
   QNetworkReply *reply = network_->get(req);

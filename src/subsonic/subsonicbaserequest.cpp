@@ -100,6 +100,10 @@ QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_na
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+  req.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2());
+#endif
+
   QNetworkReply *reply = network_->get(req);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &SubsonicBaseRequest::HandleSSLErrors);
 

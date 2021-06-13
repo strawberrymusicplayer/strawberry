@@ -61,13 +61,14 @@ class SubsonicBaseRequest : public QObject {
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
   QString ErrorsToHTML(const QStringList &errors);
 
-  QString client_name() { return service_->client_name(); }
-  QString api_version() { return service_->api_version(); }
-  QUrl server_url() { return service_->server_url(); }
-  QString username() { return service_->username(); }
-  QString password() { return service_->password(); }
-  bool verify_certificate() { return service_->verify_certificate(); }
-  bool download_album_covers() { return service_->download_album_covers(); }
+  QString client_name() const { return service_->client_name(); }
+  QString api_version() const { return service_->api_version(); }
+  QUrl server_url() const { return service_->server_url(); }
+  QString username() const { return service_->username(); }
+  QString password() const { return service_->password(); }
+  bool http2() const { return service_->http2(); }
+  bool verify_certificate() const { return service_->verify_certificate(); }
+  bool download_album_covers() const { return service_->download_album_covers(); }
 
  private slots:
   void HandleSSLErrors(QList<QSslError> ssl_errors);
