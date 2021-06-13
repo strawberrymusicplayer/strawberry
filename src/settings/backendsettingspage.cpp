@@ -131,6 +131,30 @@ void BackendSettingsPage::Load() {
   device_current_ = s.value("device", QVariant());
 
   ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(enginetype)));
+
+#ifdef HAVE_ALSA
+  ui_->lineedit_device->show();
+  ui_->widget_alsa_plugin->show();
+  int alsaplug_int = alsa_plugin(s.value("alsaplugin", 0).toInt());
+  if (alsa_plugin(alsaplug_int)) {
+    alsa_plugin alsaplugin = alsa_plugin(alsaplug_int);
+    switch (alsaplugin) {
+      case alsa_plugin::alsa_hw:
+        ui_->radiobutton_alsa_hw->setChecked(true);
+        break;
+      case alsa_plugin::alsa_plughw:
+        ui_->radiobutton_alsa_plughw->setChecked(true);
+        break;
+      case alsa_plugin::alsa_pcm:
+        ui_->radiobutton_alsa_pcm->setChecked(true);
+        break;
+    }
+  }
+#else
+  ui_->lineedit_device->hide();
+  ui_->widget_alsa_plugin->hide();
+#endif
+
   if (EngineInitialized()) Load_Engine(enginetype);
 
   ui_->checkbox_volume_control->setChecked(s.value("volume_control", true).toBool());
@@ -162,29 +186,6 @@ void BackendSettingsPage::Load() {
   ui_->checkbox_fadeout_pauseresume->setChecked(s.value("FadeoutPauseEnabled", false).toBool());
   ui_->spinbox_fadeduration->setValue(s.value("FadeoutDuration", 2000).toInt());
   ui_->spinbox_fadeduration_pauseresume->setValue(s.value("FadeoutPauseDuration", 250).toInt());
-
-#ifdef HAVE_ALSA
-  ui_->lineedit_device->show();
-  ui_->widget_alsa_plugin->show();
-  int alsaplug_int = alsa_plugin(s.value("alsaplugin", 0).toInt());
-  if (alsa_plugin(alsaplug_int)) {
-    alsa_plugin alsaplugin = alsa_plugin(alsaplug_int);
-    switch (alsaplugin) {
-      case alsa_plugin::alsa_hw:
-        ui_->radiobutton_alsa_hw->setChecked(true);
-        break;
-      case alsa_plugin::alsa_plughw:
-        ui_->radiobutton_alsa_plughw->setChecked(true);
-        break;
-      case alsa_plugin::alsa_pcm:
-        ui_->radiobutton_alsa_pcm->setChecked(true);
-        break;
-    }
-  }
-#else
-  ui_->lineedit_device->hide();
-  ui_->widget_alsa_plugin->hide();
-#endif
 
   if (!EngineInitialized()) return;
 
@@ -370,8 +371,19 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
       SwitchALSADevices(alsa_plugin::alsa_pcm);
     }
     else {
-      ui_->radiobutton_alsa_hw->setChecked(true);
-      SwitchALSADevices(alsa_plugin::alsa_hw);
+      if (ui_->radiobutton_alsa_hw->isChecked()) {
+        SwitchALSADevices(alsa_plugin::alsa_hw);
+      }
+      else if (ui_->radiobutton_alsa_plughw->isChecked()) {
+        SwitchALSADevices(alsa_plugin::alsa_plughw);
+      }
+      else if (ui_->radiobutton_alsa_pcm->isChecked()) {
+        SwitchALSADevices(alsa_plugin::alsa_pcm);
+      }
+      else {
+        ui_->radiobutton_alsa_hw->setChecked(true);
+        SwitchALSADevices(alsa_plugin::alsa_hw);
+      }
     }
   }
   else {
@@ -562,7 +574,7 @@ void BackendSettingsPage::DeviceStringChanged() {
     }
     else if ((ui_->lineedit_device->text().contains(QRegularExpression("^.*:.*CARD=.*")) || ui_->lineedit_device->text().contains(QRegularExpression("^.*:.*DEV=.*"))) && !ui_->radiobutton_alsa_pcm->isChecked()) {
       ui_->radiobutton_alsa_pcm->setChecked(true);
-      SwitchALSADevices(alsa_plugin::alsa_plughw);
+      SwitchALSADevices(alsa_plugin::alsa_pcm);
     }
   }
 #endif
