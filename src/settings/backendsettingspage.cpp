@@ -720,7 +720,7 @@ void BackendSettingsPage::radiobutton_alsa_pcm_clicked(const bool checked) {
 
   QString device_new = ui_->lineedit_device->text();
 
-  if (!device_new.contains(QRegularExpression("^.*:CARD=.*")) && device_new.contains(QRegularExpression("^.*DEV=.*"))) {
+  if (!device_new.contains(QRegularExpression("^.*:CARD=.*")) && !device_new.contains(QRegularExpression("^.*DEV=.*"))) {
     device_new.clear();
   }
 
