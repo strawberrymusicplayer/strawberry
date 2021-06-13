@@ -1026,7 +1026,7 @@ msgstr "Hitelesítés…"
 
 #: ../build/src/ui_coverssettingspage.h:167
 #: ../build/src/ui_lyricssettingspage.h:167
-#: ../build/src/ui_subsonicsettingspage.h:191
+#: ../build/src/ui_subsonicsettingspage.h:197
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:273
 msgid "Authentication"
@@ -1389,14 +1389,14 @@ msgstr "Címkék automatikus kiegészítése…"
 msgid "Composer"
 msgstr "Zeneszerző"
 
-#: settings/subsonicsettingspage.cpp:106 settings/tidalsettingspage.cpp:159
+#: settings/subsonicsettingspage.cpp:112 settings/tidalsettingspage.cpp:159
 #: settings/tidalsettingspage.cpp:166 settings/tidalsettingspage.cpp:170
 #: settings/tidalsettingspage.cpp:174 settings/qobuzsettingspage.cpp:131
 #: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
 msgid "Configuration incomplete"
 msgstr "A konfiguráció hiányos"
 
-#: settings/subsonicsettingspage.cpp:112
+#: settings/subsonicsettingspage.cpp:118
 msgid "Configuration incorrect"
 msgstr "A konfiguráció hibás"
 
@@ -1884,7 +1884,7 @@ msgid ""
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
 
-#: ../build/src/ui_subsonicsettingspage.h:197
+#: ../build/src/ui_subsonicsettingspage.h:204
 #: ../build/src/ui_tidalsettingspage.h:335
 #: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Download album covers"
@@ -1948,7 +1948,7 @@ msgstr "Beágyazott albumborító"
 #: ../build/src/ui_scrobblersettingspage.h:413
 #: ../build/src/ui_scrobblersettingspage.h:417
 #: ../build/src/ui_scrobblersettingspage.h:420
-#: ../build/src/ui_subsonicsettingspage.h:189
+#: ../build/src/ui_subsonicsettingspage.h:195
 #: ../build/src/ui_tidalsettingspage.h:319
 #: ../build/src/ui_qobuzsettingspage.h:271
 msgid "Enable"
@@ -3050,11 +3050,11 @@ msgstr "Hiányzó alkalmazás id."
 msgid "Missing password."
 msgstr "Hiányzó jelszó."
 
-#: settings/subsonicsettingspage.cpp:106
+#: settings/subsonicsettingspage.cpp:112
 msgid "Missing server url, username or password."
 msgstr "Hiányzó szerver URL, felhasználónév vagy jelszó."
 
-#: subsonic/subsonicservice.cpp:417
+#: subsonic/subsonicservice.cpp:423
 msgid "Missing username or password."
 msgstr "Hiányzó felhasználónév vagy jelszó."
 
@@ -3441,7 +3441,7 @@ msgstr "Party"
 
 #: ../build/src/ui_networkproxysettingspage.h:180
 #: ../build/src/ui_userpassdialog.h:92
-#: ../build/src/ui_subsonicsettingspage.h:193
+#: ../build/src/ui_subsonicsettingspage.h:199
 #: ../build/src/ui_tidalsettingspage.h:326
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Password"
@@ -3614,7 +3614,7 @@ msgstr "Előerősítő"
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Albumelőadó előnyben részesítése scrobble-ok beküldésénél"
 
-#: ../build/src/ui_subsonicsettingspage.h:195
+#: ../build/src/ui_subsonicsettingspage.h:201
 #: ../build/src/ui_tidalsettingspage.h:328
 #: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Preferences"
@@ -4251,15 +4251,15 @@ msgstr "Kiválasztás..."
 msgid "Serial number"
 msgstr "Sorozatszám"
 
-#: ../build/src/ui_subsonicsettingspage.h:190
+#: ../build/src/ui_subsonicsettingspage.h:196
 msgid "Server URL"
 msgstr "Szerver URL"
 
-#: subsonic/subsonicservice.cpp:412 settings/subsonicsettingspage.cpp:112
+#: subsonic/subsonicservice.cpp:418 settings/subsonicsettingspage.cpp:118
 msgid "Server URL is invalid."
 msgstr "A szerver URL-je érvénytelen."
 
-#: ../build/src/ui_subsonicsettingspage.h:198
+#: ../build/src/ui_subsonicsettingspage.h:205
 msgid "Server-side scrobbling"
 msgstr "Szerveloldali scrobble"
 
@@ -4714,7 +4714,7 @@ msgid "Submit scrobbles every"
 msgstr "Scrobble-ok beküldése minden"
 
 #: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:408
-#: ../build/src/ui_subsonicsettingspage.h:188
+#: ../build/src/ui_subsonicsettingspage.h:194
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4794,15 +4794,15 @@ msgstr "Technikai adatok"
 msgid "Techno"
 msgstr "Techno"
 
-#: ../build/src/ui_subsonicsettingspage.h:194
+#: ../build/src/ui_subsonicsettingspage.h:200
 msgid "Test"
 msgstr "Teszt"
 
-#: settings/subsonicsettingspage.cpp:146
+#: settings/subsonicsettingspage.cpp:152
 msgid "Test failed!"
 msgstr "Teszt sikertelen!"
 
-#: settings/subsonicsettingspage.cpp:137
+#: settings/subsonicsettingspage.cpp:143
 msgid "Test successful!"
 msgstr "Teszt sikeres!"
 
@@ -5078,7 +5078,7 @@ msgstr "Snap eltávolítása ezzel:"
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: subsonic/subsonicrequest.cpp:867 tidal/tidalrequest.cpp:1279
+#: subsonic/subsonicrequest.cpp:871 tidal/tidalrequest.cpp:1279
 #: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
@@ -5136,6 +5136,10 @@ msgstr "Használat"
 #: ../build/src/ui_globalshortcutssettingspage.h:266
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr "Gnome (GSD) gyorsbillentyűk használata, ha elérhető"
+
+#: ../build/src/ui_subsonicsettingspage.h:202
+msgid "Use HTTP2 when possible"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:414
 msgid "Use HTTPS for local redirectserver"
@@ -5231,7 +5235,7 @@ msgstr "Felhasználói token:"
 
 #: ../build/src/ui_networkproxysettingspage.h:179
 #: ../build/src/ui_userpassdialog.h:91
-#: ../build/src/ui_subsonicsettingspage.h:192
+#: ../build/src/ui_subsonicsettingspage.h:198
 #: ../build/src/ui_tidalsettingspage.h:325
 #: ../build/src/ui_qobuzsettingspage.h:275
 msgid "Username"
@@ -5260,7 +5264,7 @@ msgstr "Változó bitráta"
 msgid "Various artists"
 msgstr "Egyes előadók"
 
-#: ../build/src/ui_subsonicsettingspage.h:196
+#: ../build/src/ui_subsonicsettingspage.h:203
 msgid "Verify server certificate"
 msgstr "Szerver tanúsítványának ellenőrzése"
 

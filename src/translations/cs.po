@@ -997,7 +997,7 @@ msgstr "Probíhá ověření..."
 
 #: ../build/src/ui_coverssettingspage.h:167
 #: ../build/src/ui_lyricssettingspage.h:167
-#: ../build/src/ui_subsonicsettingspage.h:191
+#: ../build/src/ui_subsonicsettingspage.h:197
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:273
 msgid "Authentication"
@@ -1357,14 +1357,14 @@ msgstr "Doplnit značky automaticky..."
 msgid "Composer"
 msgstr "Skladatel"
 
-#: settings/subsonicsettingspage.cpp:106 settings/tidalsettingspage.cpp:159
+#: settings/subsonicsettingspage.cpp:112 settings/tidalsettingspage.cpp:159
 #: settings/tidalsettingspage.cpp:166 settings/tidalsettingspage.cpp:170
 #: settings/tidalsettingspage.cpp:174 settings/qobuzsettingspage.cpp:131
 #: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
 msgid "Configuration incomplete"
 msgstr "Konfigurace není hotová"
 
-#: settings/subsonicsettingspage.cpp:112
+#: settings/subsonicsettingspage.cpp:118
 msgid "Configuration incorrect"
 msgstr "Konfigurace není správná"
 
@@ -1851,7 +1851,7 @@ msgid ""
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
 
-#: ../build/src/ui_subsonicsettingspage.h:197
+#: ../build/src/ui_subsonicsettingspage.h:204
 #: ../build/src/ui_tidalsettingspage.h:335
 #: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Download album covers"
@@ -1915,7 +1915,7 @@ msgstr ""
 #: ../build/src/ui_scrobblersettingspage.h:413
 #: ../build/src/ui_scrobblersettingspage.h:417
 #: ../build/src/ui_scrobblersettingspage.h:420
-#: ../build/src/ui_subsonicsettingspage.h:189
+#: ../build/src/ui_subsonicsettingspage.h:195
 #: ../build/src/ui_tidalsettingspage.h:319
 #: ../build/src/ui_qobuzsettingspage.h:271
 msgid "Enable"
@@ -3018,11 +3018,11 @@ msgstr "Chybějící ID aplikace."
 msgid "Missing password."
 msgstr "Chybějící heslo."
 
-#: settings/subsonicsettingspage.cpp:106
+#: settings/subsonicsettingspage.cpp:112
 msgid "Missing server url, username or password."
 msgstr "Chybějící URL serveru, uživatelské jméno nebo heslo."
 
-#: subsonic/subsonicservice.cpp:417
+#: subsonic/subsonicservice.cpp:423
 msgid "Missing username or password."
 msgstr "Chybějící uživatelské jméno nebo heslo."
 
@@ -3407,7 +3407,7 @@ msgstr "Oslava"
 
 #: ../build/src/ui_networkproxysettingspage.h:180
 #: ../build/src/ui_userpassdialog.h:92
-#: ../build/src/ui_subsonicsettingspage.h:193
+#: ../build/src/ui_subsonicsettingspage.h:199
 #: ../build/src/ui_tidalsettingspage.h:326
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Password"
@@ -3580,7 +3580,7 @@ msgstr "Předzesílení"
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Preferovat autory alb při odesílání na server"
 
-#: ../build/src/ui_subsonicsettingspage.h:195
+#: ../build/src/ui_subsonicsettingspage.h:201
 #: ../build/src/ui_tidalsettingspage.h:328
 #: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Preferences"
@@ -4217,15 +4217,15 @@ msgstr "Vybrat..."
 msgid "Serial number"
 msgstr "Sériové číslo"
 
-#: ../build/src/ui_subsonicsettingspage.h:190
+#: ../build/src/ui_subsonicsettingspage.h:196
 msgid "Server URL"
 msgstr "URL serveru"
 
-#: subsonic/subsonicservice.cpp:412 settings/subsonicsettingspage.cpp:112
+#: subsonic/subsonicservice.cpp:418 settings/subsonicsettingspage.cpp:118
 msgid "Server URL is invalid."
 msgstr "Adresa serveru není správná."
 
-#: ../build/src/ui_subsonicsettingspage.h:198
+#: ../build/src/ui_subsonicsettingspage.h:205
 msgid "Server-side scrobbling"
 msgstr ""
 
@@ -4680,7 +4680,7 @@ msgid "Submit scrobbles every"
 msgstr "Odeslat přehrané skladby každých"
 
 #: core/mainwindow.cpp:350 ../build/src/ui_scrobblersettingspage.h:408
-#: ../build/src/ui_subsonicsettingspage.h:188
+#: ../build/src/ui_subsonicsettingspage.h:194
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4761,15 +4761,15 @@ msgstr "Technická data"
 msgid "Techno"
 msgstr "Techno"
 
-#: ../build/src/ui_subsonicsettingspage.h:194
+#: ../build/src/ui_subsonicsettingspage.h:200
 msgid "Test"
 msgstr "Test"
 
-#: settings/subsonicsettingspage.cpp:146
+#: settings/subsonicsettingspage.cpp:152
 msgid "Test failed!"
 msgstr "Test selhal!"
 
-#: settings/subsonicsettingspage.cpp:137
+#: settings/subsonicsettingspage.cpp:143
 msgid "Test successful!"
 msgstr "Test uspěl!"
 
@@ -5043,7 +5043,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: subsonic/subsonicrequest.cpp:867 tidal/tidalrequest.cpp:1279
+#: subsonic/subsonicrequest.cpp:871 tidal/tidalrequest.cpp:1279
 #: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "Neznámá chyba"
@@ -5100,6 +5100,10 @@ msgstr "Zacházení"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:266
 msgid "Use Gnome (GSD) shortcuts when available"
+msgstr ""
+
+#: ../build/src/ui_subsonicsettingspage.h:202
+msgid "Use HTTP2 when possible"
 msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:414
@@ -5196,7 +5200,7 @@ msgstr "Uživatelský token:"
 
 #: ../build/src/ui_networkproxysettingspage.h:179
 #: ../build/src/ui_userpassdialog.h:91
-#: ../build/src/ui_subsonicsettingspage.h:192
+#: ../build/src/ui_subsonicsettingspage.h:198
 #: ../build/src/ui_tidalsettingspage.h:325
 #: ../build/src/ui_qobuzsettingspage.h:275
 msgid "Username"
@@ -5225,7 +5229,7 @@ msgstr "Proměnlivý datový tok"
 msgid "Various artists"
 msgstr "Různí umělci"
 
-#: ../build/src/ui_subsonicsettingspage.h:196
+#: ../build/src/ui_subsonicsettingspage.h:203
 msgid "Verify server certificate"
 msgstr "Ověřovat certifikát serveru"
 
