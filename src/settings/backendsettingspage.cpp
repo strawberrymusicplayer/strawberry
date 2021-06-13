@@ -365,7 +365,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
       ui_->radiobutton_alsa_plughw->setChecked(true);
       SwitchALSADevices(alsa_plugin::alsa_plughw);
     }
-    else if (device.toString().contains(QRegularExpression("^.*:CARD=.*")) || device.toString().contains(QRegularExpression("^.*DEV=.*"))) {
+    else if (device.toString().contains(QRegularExpression("^.*:.*CARD=.*")) || device.toString().contains(QRegularExpression("^.*:.*DEV=.*"))) {
       ui_->radiobutton_alsa_pcm->setChecked(true);
       SwitchALSADevices(alsa_plugin::alsa_pcm);
     }
@@ -560,7 +560,7 @@ void BackendSettingsPage::DeviceStringChanged() {
       ui_->radiobutton_alsa_plughw->setChecked(true);
       SwitchALSADevices(alsa_plugin::alsa_plughw);
     }
-    else if ((ui_->lineedit_device->text().contains(QRegularExpression("^.*:CARD=.*")) || ui_->lineedit_device->text().contains(QRegularExpression("^.*DEV=.*"))) && !ui_->radiobutton_alsa_pcm->isChecked()) {
+    else if ((ui_->lineedit_device->text().contains(QRegularExpression("^.*:.*CARD=.*")) || ui_->lineedit_device->text().contains(QRegularExpression("^.*:.*DEV=.*"))) && !ui_->radiobutton_alsa_pcm->isChecked()) {
       ui_->radiobutton_alsa_pcm->setChecked(true);
       SwitchALSADevices(alsa_plugin::alsa_plughw);
     }
@@ -635,7 +635,7 @@ void BackendSettingsPage::SwitchALSADevices(const alsa_plugin alsaplugin) {
         ||
         (ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^plughw:.*")) && alsaplugin != alsa_plugin::alsa_plughw)
         ||
-        ((ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^.*:CARD=.*")) || ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^.*DEV=.*"))) && alsaplugin != alsa_plugin::alsa_pcm)
+        ((ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^.*:.*CARD=.*")) || ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^.*:.*DEV=.*"))) && alsaplugin != alsa_plugin::alsa_pcm)
     ) {
       view->setRowHidden(i, true);
     }
@@ -720,7 +720,7 @@ void BackendSettingsPage::radiobutton_alsa_pcm_clicked(const bool checked) {
 
   QString device_new = ui_->lineedit_device->text();
 
-  if (!device_new.contains(QRegularExpression("^.*:CARD=.*")) && !device_new.contains(QRegularExpression("^.*DEV=.*"))) {
+  if (!device_new.contains(QRegularExpression("^.*:.*CARD=.*")) && !device_new.contains(QRegularExpression("^.*:.*DEV=.*"))) {
     device_new.clear();
   }
 
