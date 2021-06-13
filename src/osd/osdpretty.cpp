@@ -286,7 +286,7 @@ QRect OSDPretty::BoxBorder() const {
   return rect().adjusted(kDropShadowSize, kDropShadowSize, -kDropShadowSize, -kDropShadowSize);
 }
 
-void OSDPretty::paintEvent(QPaintEvent *) {
+void OSDPretty::paintEvent(QPaintEvent*) {
 
   QPainter p(this);
   p.setRenderHint(QPainter::Antialiasing);

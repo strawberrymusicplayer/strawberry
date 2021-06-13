@@ -477,7 +477,7 @@ SongLoader::Result SongLoader::LoadRemote() {
 #endif
 
 #ifdef HAVE_GSTREAMER
-void SongLoader::TypeFound(GstElement *, uint, GstCaps *caps, void *self) {
+void SongLoader::TypeFound(GstElement*, uint, GstCaps *caps, void *self) {
 
   SongLoader *instance = static_cast<SongLoader*>(self);
 
@@ -525,7 +525,7 @@ GstPadProbeReturn SongLoader::DataReady(GstPad*, GstPadProbeInfo *info, gpointer
 #endif
 
 #ifdef HAVE_GSTREAMER
-gboolean SongLoader::BusCallback(GstBus *, GstMessage *msg, gpointer self) {
+gboolean SongLoader::BusCallback(GstBus*, GstMessage *msg, gpointer self) {
 
   SongLoader *instance = reinterpret_cast<SongLoader*>(self);
 
@@ -543,7 +543,7 @@ gboolean SongLoader::BusCallback(GstBus *, GstMessage *msg, gpointer self) {
 #endif
 
 #ifdef HAVE_GSTREAMER
-GstBusSyncReply SongLoader::BusCallbackSync(GstBus *, GstMessage *msg, gpointer self) {
+GstBusSyncReply SongLoader::BusCallbackSync(GstBus*, GstMessage *msg, gpointer self) {
 
   SongLoader *instance = reinterpret_cast<SongLoader*>(self);
 
