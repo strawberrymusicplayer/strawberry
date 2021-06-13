@@ -329,7 +329,7 @@ void OSDPretty::paintEvent(QPaintEvent*) {
 
   // Box border
   p.setBrush(QBrush());
-  p.setPen(QPen(background_color_.darker(150), 2));
+  p.setPen(QPen(background_color_.darker(150), 3));
   p.drawRoundedRect(box, kBorderRadius, kBorderRadius);
 
 }
