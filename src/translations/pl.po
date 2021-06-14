@@ -3451,7 +3451,7 @@ msgid "Pattern"
 msgstr "Wzorzec"
 
 #: core/mainwindow.cpp:1272 core/mainwindow.cpp:1759
-#: core/qtsystemtrayicon.cpp:143
+#: core/qtsystemtrayicon.cpp:145
 msgid "Pause"
 msgstr "Wstrzymaj"
 
@@ -3479,8 +3479,8 @@ msgid "Plain sidebar"
 msgstr "Pasek boczny bez efektów"
 
 #: core/mainwindow.cpp:680 core/mainwindow.cpp:1229 core/mainwindow.cpp:1256
-#: core/mainwindow.cpp:1763 core/qtsystemtrayicon.cpp:156
-#: core/qtsystemtrayicon.cpp:170
+#: core/mainwindow.cpp:1763 core/qtsystemtrayicon.cpp:158
+#: core/qtsystemtrayicon.cpp:172
 msgid "Play"
 msgstr "Odtwarzaj"
 

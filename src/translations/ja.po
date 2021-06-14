@@ -3385,7 +3385,7 @@ msgid "Pattern"
 msgstr ""
 
 #: core/mainwindow.cpp:1272 core/mainwindow.cpp:1759
-#: core/qtsystemtrayicon.cpp:143
+#: core/qtsystemtrayicon.cpp:145
 msgid "Pause"
 msgstr "一時停止"
 
@@ -3413,8 +3413,8 @@ msgid "Plain sidebar"
 msgstr "プレーンサイドバー"
 
 #: core/mainwindow.cpp:680 core/mainwindow.cpp:1229 core/mainwindow.cpp:1256
-#: core/mainwindow.cpp:1763 core/qtsystemtrayicon.cpp:156
-#: core/qtsystemtrayicon.cpp:170
+#: core/mainwindow.cpp:1763 core/qtsystemtrayicon.cpp:158
+#: core/qtsystemtrayicon.cpp:172
 msgid "Play"
 msgstr "再生"
 

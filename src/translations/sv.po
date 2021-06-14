@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-05-30 08:24-0400\n"
+"PO-Revision-Date: 2021-06-14 12:19-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -2113,7 +2113,7 @@ msgstr "Expandera"
 
 #: ../build/src/ui_collectionsettingspage.h:482
 msgid "Expire unavailable songs after"
-msgstr ""
+msgstr "Utgå otillgängliga låtar efter"
 
 #: widgets/loginstatewidget.cpp:151
 #, qt-format
@@ -3433,7 +3433,7 @@ msgid "Pattern"
 msgstr "Mönster"
 
 #: core/mainwindow.cpp:1272 core/mainwindow.cpp:1759
-#: core/qtsystemtrayicon.cpp:143
+#: core/qtsystemtrayicon.cpp:145
 msgid "Pause"
 msgstr "Pausa"
 
@@ -3461,8 +3461,8 @@ msgid "Plain sidebar"
 msgstr "Vanligt sidofält"
 
 #: core/mainwindow.cpp:680 core/mainwindow.cpp:1229 core/mainwindow.cpp:1256
-#: core/mainwindow.cpp:1763 core/qtsystemtrayicon.cpp:156
-#: core/qtsystemtrayicon.cpp:170
+#: core/mainwindow.cpp:1763 core/qtsystemtrayicon.cpp:158
+#: core/qtsystemtrayicon.cpp:172
 msgid "Play"
 msgstr "Spela"
 
@@ -4512,7 +4512,7 @@ msgstr "Låttexter"
 
 #: ../build/src/ui_collectionsettingspage.h:480
 msgid "Song fingerprinting and tracking"
-msgstr ""
+msgstr "Fingeravtryck och spårning av låtar"
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Songs"
@@ -5118,7 +5118,7 @@ msgstr "Använd Gnome (GSD)-genvägar när de är tillgängliga"
 
 #: ../build/src/ui_subsonicsettingspage.h:202
 msgid "Use HTTP2 when possible"
-msgstr ""
+msgstr "Använd HTTP2 när det är möjligt"
 
 #: ../build/src/ui_scrobblersettingspage.h:414
 msgid "Use HTTPS for local redirectserver"
@@ -5510,7 +5510,7 @@ msgstr "som innehåller"
 
 #: ../build/src/ui_collectionsettingspage.h:483
 msgid "days"
-msgstr ""
+msgstr "dagar"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:203
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
