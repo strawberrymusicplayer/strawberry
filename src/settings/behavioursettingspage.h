@@ -77,12 +77,13 @@ public:
   void Load() override;
   void Save() override;
 
-private slots:
+ private slots:
   void ShowTrayIconToggled(bool on);
 
-private:
+ private:
   Ui_BehaviourSettingsPage *ui_;
   QMap<QString, QString> language_map_;
+  bool systemtray_available_;
 
 };
 

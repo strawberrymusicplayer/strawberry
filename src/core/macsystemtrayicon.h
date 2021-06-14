@@ -43,6 +43,7 @@ class SystemTrayIcon : public QObject {
   ~SystemTrayIcon();
 
   bool isSystemTrayAvailable() { return true; }
+  bool IsSystemTrayAvailable() { return true; }
   void setVisible(const bool) {}
 
   void SetTrayiconProgress(const bool enabled);

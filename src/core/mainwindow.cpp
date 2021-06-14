@@ -927,7 +927,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       show();
       break;
     case BehaviourSettingsPage::Startup_Hide:
-      if (tray_icon_->isSystemTrayAvailable() && tray_icon_->isVisible()) {
+      if (tray_icon_->IsSystemTrayAvailable() && tray_icon_->isVisible()) {
         hide();
         break;
       }
@@ -941,7 +941,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       was_minimized_ = settings_.value("minimized", false).toBool();
       if (was_minimized_) setWindowState(windowState() | Qt::WindowMinimized);
 
-      if (!tray_icon_->isSystemTrayAvailable() || !tray_icon_->isVisible()) {
+      if (!tray_icon_->IsSystemTrayAvailable() || !tray_icon_->isVisible()) {
         hidden_ = false;
         settings_.setValue("hidden", false);
         show();
@@ -1017,12 +1017,12 @@ void MainWindow::ReloadSettings() {
 
 #ifndef Q_OS_MACOS
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  bool showtrayicon = s.value("showtrayicon", tray_icon_->isSystemTrayAvailable()).toBool();
+  bool showtrayicon = s.value("showtrayicon", tray_icon_->IsSystemTrayAvailable()).toBool();
   s.endGroup();
-  if (tray_icon_->isSystemTrayAvailable()) {
+  if (tray_icon_->IsSystemTrayAvailable()) {
     tray_icon_->setVisible(showtrayicon);
   }
-  if ((!showtrayicon || !tray_icon_->isSystemTrayAvailable()) && !isVisible()) {
+  if ((!showtrayicon || !tray_icon_->IsSystemTrayAvailable()) && !isVisible()) {
     show();
   }
 #endif
@@ -1182,7 +1182,7 @@ void MainWindow::Exit() {
       if (app_->player()->GetState() == Engine::Playing) {
         app_->player()->Stop();
         hide();
-        if (tray_icon_->isSystemTrayAvailable()) {
+        if (tray_icon_->IsSystemTrayAvailable()) {
           tray_icon_->setVisible(false);
         }
         return; // Don't quit the application now: wait for the fadeout finished signal
@@ -1552,7 +1552,7 @@ void MainWindow::showEvent(QShowEvent *e) {
 void MainWindow::closeEvent(QCloseEvent *e) {
 
   if (!exit_) {
-    if (!hidden_ && keep_running_ && e->spontaneous() && tray_icon_->isSystemTrayAvailable()) {
+    if (!hidden_ && keep_running_ && e->spontaneous() && tray_icon_->IsSystemTrayAvailable()) {
       SetHiddenInTray(true);
     }
     else {

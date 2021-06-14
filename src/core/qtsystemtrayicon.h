@@ -44,6 +44,8 @@ class SystemTrayIcon : public QSystemTrayIcon {
   explicit SystemTrayIcon(QObject *parent = nullptr);
   ~SystemTrayIcon() override;
 
+  bool IsSystemTrayAvailable() const { return available_; }
+
   void SetTrayiconProgress(const bool enabled);
 
   void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit);
@@ -93,6 +95,7 @@ class SystemTrayIcon : public QSystemTrayIcon {
   QAction *action_mute_;
   QAction *action_love_;
 
+  bool available_;
   bool trayicon_progress_;
   int song_progress_;
 

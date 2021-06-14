@@ -58,10 +58,12 @@ bool LocaleAwareCompare(const QString &a, const QString &b) {
 }  // namespace
 #endif
 
-BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsPage(dialog), ui_(new Ui_BehaviourSettingsPage) {
+BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsPage(dialog), ui_(new Ui_BehaviourSettingsPage), systemtray_available_(false) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("strawberry"));
+
+  systemtray_available_ = QSystemTrayIcon::isSystemTrayAvailable();
 
   QObject::connect(ui_->checkbox_showtrayicon, &QCheckBox::toggled, this, &BehaviourSettingsPage::ShowTrayIconToggled);
 
@@ -144,7 +146,7 @@ void BehaviourSettingsPage::Load() {
   s.beginGroup(kSettingsGroup);
 
 #ifndef Q_OS_MACOS
-  if (QSystemTrayIcon::isSystemTrayAvailable()) {
+  if (systemtray_available_) {
     ui_->checkbox_showtrayicon->setEnabled(true);
     ui_->checkbox_showtrayicon->setChecked(s.value("showtrayicon", true).toBool());
     ui_->radiobutton_hide->setEnabled(true);
@@ -157,7 +159,7 @@ void BehaviourSettingsPage::Load() {
   }
 #endif
 
-  if (QSystemTrayIcon::isSystemTrayAvailable()) {
+  if (systemtray_available_) {
     ui_->checkbox_keeprunning->setEnabled(true);
     ui_->checkbox_keeprunning->setChecked(s.value("keeprunning", false).toBool());
     ui_->checkbox_trayicon_progress->setEnabled(true);
@@ -186,7 +188,7 @@ void BehaviourSettingsPage::Load() {
       ui_->radiobutton_show_minimized->setChecked(true);
       break;
     case Startup_Hide:
-      if (QSystemTrayIcon::isSystemTrayAvailable()) {
+      if (systemtray_available_) {
         ui_->radiobutton_hide->setChecked(true);
         break;
       }

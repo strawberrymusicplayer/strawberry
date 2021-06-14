@@ -435,7 +435,7 @@ bool OSDBase::SupportsNativeNotifications() {
 }
 
 bool OSDBase::SupportsTrayPopups() {
-  return tray_icon_->isSystemTrayAvailable();
+  return tray_icon_->IsSystemTrayAvailable();
 }
 
 void OSDBase::ShowMessageNative(const QString&, const QString&, const QString&, const QImage&) {

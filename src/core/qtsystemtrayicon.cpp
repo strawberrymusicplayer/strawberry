@@ -49,6 +49,7 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
       action_stop_(nullptr),
       action_stop_after_this_track_(nullptr),
       action_mute_(nullptr),
+      available_(false),
       trayicon_progress_(false),
       song_progress_(0) {
 
@@ -59,6 +60,7 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
   }
 
   if (isSystemTrayAvailable()) {
+    available_ = true;
     setIcon(normal_icon_);
     setToolTip(app_name_);
   }
@@ -100,7 +102,7 @@ void SystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop, 
   menu_->addSeparator();
   menu_->addAction(quit->icon(), quit->text(), quit, &QAction::trigger);
 
-  if (isSystemTrayAvailable()) setContextMenu(menu_);
+  if (available_) setContextMenu(menu_);
 
 }
 
@@ -123,12 +125,12 @@ void SystemTrayIcon::Clicked(const QSystemTrayIcon::ActivationReason reason) {
 }
 
 void SystemTrayIcon::ShowPopup(const QString &summary, const QString &message, const int timeout) {
-  if (isSystemTrayAvailable()) showMessage(summary, message, QSystemTrayIcon::NoIcon, timeout);
+  if (available_) showMessage(summary, message, QSystemTrayIcon::NoIcon, timeout);
 }
 
 void SystemTrayIcon::UpdateIcon() {
 
-  if (isSystemTrayAvailable()) setIcon(CreateIcon(normal_icon_, grey_icon_));
+  if (available_) setIcon(CreateIcon(normal_icon_, grey_icon_));
 
 }
 
@@ -187,11 +189,11 @@ void SystemTrayIcon::MuteButtonStateChanged(const bool value) {
 }
 
 void SystemTrayIcon::SetNowPlaying(const Song &song, const QUrl&) {
-  if (isSystemTrayAvailable()) setToolTip(song.PrettyTitleWithArtist());
+  if (available_) setToolTip(song.PrettyTitleWithArtist());
 }
 
 void SystemTrayIcon::ClearNowPlaying() {
-  if (isSystemTrayAvailable()) setToolTip(app_name_);
+  if (available_) setToolTip(app_name_);
 }
 
 void SystemTrayIcon::LoveVisibilityChanged(const bool value) {
