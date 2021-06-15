@@ -930,8 +930,8 @@ void CollectionModel::ResetAsync() {
   QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(this, &CollectionModel::RunQuery, root_);
 #endif
   QFutureWatcher<CollectionModel::QueryResult> *watcher = new QFutureWatcher<CollectionModel::QueryResult>();
-  watcher->setFuture(future);
   QObject::connect(watcher, &QFutureWatcher<CollectionModel::QueryResult>::finished, this, &CollectionModel::ResetAsyncQueryFinished);
+  watcher->setFuture(future);
 
 }
 

@@ -431,11 +431,11 @@ void Playlist::ItemReload(const QPersistentModelIndex &idx, const Song &old_meta
     if (item) {
       QFuture<void> future = item->BackgroundReload();
       QFutureWatcher<void> *watcher = new QFutureWatcher<void>();
-      watcher->setFuture(future);
       QObject::connect(watcher, &QFutureWatcher<void>::finished, this, [this, watcher, idx, old_metadata, metadata_edit]() {
         ItemReloadComplete(idx, old_metadata, metadata_edit);
         watcher->deleteLater();
       });
+      watcher->setFuture(future);
     }
   }
 
@@ -1471,8 +1471,8 @@ void Playlist::Restore() {
   QFuture<PlaylistItemList> future = QtConcurrent::run(backend_, &PlaylistBackend::GetPlaylistItems, id_);
 #endif
   QFutureWatcher<PlaylistItemList> *watcher = new QFutureWatcher<PlaylistItemList>();
-  watcher->setFuture(future);
   QObject::connect(watcher, &QFutureWatcher<PlaylistItemList>::finished, this, &Playlist::ItemsLoaded);
+  watcher->setFuture(future);
 
 }
 

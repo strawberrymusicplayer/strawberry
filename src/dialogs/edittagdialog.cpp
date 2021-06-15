@@ -415,8 +415,8 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
   QFuture<QList<Data>> future = QtConcurrent::run(this, &EditTagDialog::LoadData, s);
 #endif
   QFutureWatcher<QList<Data>> *watcher = new QFutureWatcher<QList<Data>>();
-  watcher->setFuture(future);
   QObject::connect(watcher, &QFutureWatcher<QList<Data>>::finished, this, &EditTagDialog::SetSongsFinished);
+  watcher->setFuture(future);
 
 }
 
@@ -1178,7 +1178,6 @@ void EditTagDialog::SaveData() {
             ++save_art_pending_;
             QFuture<QByteArray> future = QtConcurrent::run(&ImageUtils::SaveImageToJpegData, ref.cover_result_.image);
             QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>();
-            watcher->setFuture(future);
             QObject::connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [=]() {
               TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(ref.current_.url().toLocalFile(), watcher->result());
               QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() {
@@ -1186,12 +1185,12 @@ void EditTagDialog::SaveData() {
               }, Qt::QueuedConnection);
               watcher->deleteLater();
             });
+            watcher->setFuture(future);
           }
           else if (!embedded_cover_from_file.isEmpty()) { // Save existing file on disk as embedded cover.
             ++save_art_pending_;
             QFuture<QByteArray> future = QtConcurrent::run(&ImageUtils::FileToJpegData, embedded_cover_from_file);
             QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>();
-            watcher->setFuture(future);
             QObject::connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [=]() {
               TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(ref.current_.url().toLocalFile(), watcher->result());
               QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() {
@@ -1199,6 +1198,7 @@ void EditTagDialog::SaveData() {
               }, Qt::QueuedConnection);
               watcher->deleteLater();
             });
+            watcher->setFuture(future);
           }
         }
         else if (ref.cover_action_ == UpdateCoverAction_Delete) {

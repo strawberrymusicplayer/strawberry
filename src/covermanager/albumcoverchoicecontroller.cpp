@@ -617,7 +617,6 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
     QFuture<SongList> future = QtConcurrent::run(app_->collection_backend(), &CollectionBackend::GetAlbumSongs, song.effective_albumartist(), song.effective_album(), QueryOptions());
 #endif
     QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
-    watcher->setFuture(future);
     QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [=]() {
       SongList songs = watcher->result();
       watcher->deleteLater();
@@ -634,6 +633,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
         cover_save_tasks_.insert(id, song);
       }
     });
+    watcher->setFuture(future);
   }
   else {
     if (result.is_jpeg()) {
@@ -661,7 +661,6 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
     QFuture<SongList> future = QtConcurrent::run(app_->collection_backend(), &CollectionBackend::GetAlbumSongs, song.effective_albumartist(), song.effective_album(), QueryOptions());
 #endif
     QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
-    watcher->setFuture(future);
     QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [=]() {
       SongList songs = watcher->result();
       watcher->deleteLater();
@@ -671,6 +670,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
       QMutexLocker l(&mutex_cover_save_tasks_);
       cover_save_tasks_.insert(id, song);
     });
+    watcher->setFuture(future);
   }
   else {
     app_->album_cover_loader()->SaveEmbeddedCoverAsync(song.url().toLocalFile(), cover_filename);

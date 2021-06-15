@@ -216,11 +216,11 @@ void MoodbarItemDelegate::StartLoadingColors(const QUrl &url, const QByteArray &
 
   QFuture<ColorVector> future = QtConcurrent::run(MoodbarRenderer::Colors, bytes, style_, qApp->palette());
   QFutureWatcher<ColorVector> *watcher = new QFutureWatcher<ColorVector>();
-  watcher->setFuture(future);
   QObject::connect(watcher, &QFutureWatcher<ColorVector>::finished, this, [this, watcher, url]() {
     ColorsLoaded(url, watcher->result());
     watcher->deleteLater();
   });
+  watcher->setFuture(future);
 
 }
 
@@ -247,11 +247,11 @@ void MoodbarItemDelegate::StartLoadingImage(const QUrl &url, Data *data) {
 
   QFuture<QImage> future = QtConcurrent::run(MoodbarRenderer::RenderToImage, data->colors_, data->desired_size_);
   QFutureWatcher<QImage> *watcher = new QFutureWatcher<QImage>();
-  watcher->setFuture(future);
   QObject::connect(watcher, &QFutureWatcher<QImage>::finished, this, [this, watcher, url]() {
     ImageLoaded(url, watcher->result());
     watcher->deleteLater();
   });
+  watcher->setFuture(future);
 
 }
 

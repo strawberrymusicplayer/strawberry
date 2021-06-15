@@ -404,8 +404,8 @@ TagCompleter::TagCompleter(CollectionBackend *backend, Playlist::Column column, 
 
   QFuture<TagCompletionModel*> future = QtConcurrent::run(&InitCompletionModel, backend, column);
   QFutureWatcher<TagCompletionModel*> *watcher = new QFutureWatcher<TagCompletionModel*>();
-  watcher->setFuture(future);
   QObject::connect(watcher, &QFutureWatcher<TagCompletionModel*>::finished, this, &TagCompleter::ModelReady);
+  watcher->setFuture(future);
 
 }
 

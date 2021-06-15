@@ -226,11 +226,11 @@ void PlaylistManager::Save(const int id, const QString &filename, const Playlist
     QFuture<SongList> future = QtConcurrent::run(playlist_backend_, &PlaylistBackend::GetPlaylistSongs, id);
 #endif
     QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
-    watcher->setFuture(future);
     QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, filename, path_type]() {
       ItemsLoadedForSavePlaylist(watcher->result(), filename, path_type);
       watcher->deleteLater();
     });
+    watcher->setFuture(future);
   }
 
 }

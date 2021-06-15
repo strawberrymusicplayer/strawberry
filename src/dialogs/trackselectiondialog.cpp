@@ -293,8 +293,8 @@ void TrackSelectionDialog::accept() {
     // Save tags in the background
     QFuture<void> future = QtConcurrent::run(&TrackSelectionDialog::SaveData, data_);
     QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
-    watcher->setFuture(future);
     QObject::connect(watcher, &QFutureWatcher<void>::finished, this, &TrackSelectionDialog::AcceptFinished);
+    watcher->setFuture(future);
 
     return;
   }

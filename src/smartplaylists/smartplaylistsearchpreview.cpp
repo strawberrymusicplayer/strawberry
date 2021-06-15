@@ -117,8 +117,8 @@ void SmartPlaylistSearchPreview::RunSearch(const SmartPlaylistSearch &search) {
   ui_->count_label->hide();
   QFuture<PlaylistItemList> future = QtConcurrent::run(DoRunSearch, generator_);
   QFutureWatcher<PlaylistItemList> *watcher = new QFutureWatcher<PlaylistItemList>();
-  watcher->setFuture(future);
   QObject::connect(watcher, &QFutureWatcher<PlaylistItemList>::finished, this, &SmartPlaylistSearchPreview::SearchFinished);
+  watcher->setFuture(future);
 
 }
 
