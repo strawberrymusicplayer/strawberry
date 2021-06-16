@@ -862,7 +862,9 @@ UI
 )
 
 # CHROMAPRINT
-optional_source(CHROMAPRINT_FOUND SOURCES engine/chromaprinter.cpp)
+if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
+  optional_source(CHROMAPRINT_FOUND SOURCES engine/chromaprinter.cpp)
+endif()
 
 # MusicBrainz
 optional_source(HAVE_MUSICBRAINZ
@@ -1093,9 +1095,9 @@ if(HAVE_VLC)
   link_directories(${LIBVLC_LIBRARY_DIRS})
 endif()
 
-if(CHROMAPRINT_FOUND)
+if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   link_directories(${CHROMAPRINT_LIBRARY_DIRS})
-endif(CHROMAPRINT_FOUND)
+endif()
 
 if(X11_FOUND)
   link_directories(${X11_LIBRARY_DIRS})
@@ -1211,10 +1213,10 @@ if(HAVE_VLC)
   target_link_libraries(strawberry_lib PRIVATE ${LIBVLC_LIBRARIES})
 endif()
 
-if(CHROMAPRINT_FOUND)
+if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${CHROMAPRINT_INCLUDE_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${CHROMAPRINT_LIBRARIES})
-endif(CHROMAPRINT_FOUND)
+endif()
 
 if(X11_FOUND)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${X11_INCLUDE_DIR})
