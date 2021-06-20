@@ -49,7 +49,7 @@ class SmartPlaylistWizard::FinishPage : public QWizardPage {  // clazy:exclude=m
     QObject::connect(ui_->name, &QLineEdit::textChanged, this, &SmartPlaylistWizard::FinishPage::completeChanged);
   }
 
-  ~FinishPage() { delete ui_; }
+  ~FinishPage() override { delete ui_; }
 
   int nextId() const override { return -1; }
   bool isComplete() const override { return !ui_->name->text().isEmpty(); }
