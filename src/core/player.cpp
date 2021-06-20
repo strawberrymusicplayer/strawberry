@@ -536,7 +536,10 @@ void Player::RestartOrPrevious() {
   pause_time_ = QDateTime();
   play_offset_nanosec_ = 0;
 
-  if (engine_->position_nanosec() < 8 * kNsecPerSec) return Previous();
+  if (engine_->position_nanosec() < 8 * kNsecPerSec) {
+    Previous();
+    return;
+  }
 
   SeekTo(0);
 
