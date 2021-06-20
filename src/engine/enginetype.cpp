@@ -51,4 +51,4 @@ QString EngineDescription(Engine::EngineType enginetype) {
   }
 }
 
-}
+}  // namespace Engine

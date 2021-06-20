@@ -71,7 +71,7 @@ using namespace std::chrono_literals;
 namespace {
 static const char *kNoMediaFile = ".nomedia";
 static const char *kNoMusicFile = ".nomusic";
-}
+}  // namespace
 
 QStringList CollectionWatcher::sValidImages = QStringList() << "jpg" << "png" << "gif" << "jpeg";
 

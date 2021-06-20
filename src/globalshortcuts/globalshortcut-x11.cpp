@@ -69,7 +69,7 @@ quint32 AppRootWindow() {
 
 }
 
-}
+}  // namespace
 
 quint32 GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
 

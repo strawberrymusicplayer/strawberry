@@ -1885,6 +1885,7 @@ void Playlist::Shuffle() {
 }
 
 namespace {
+
 bool AlbumShuffleComparator(const QMap<QString, int> &album_key_positions, const QMap<int, QString> &album_keys, const int left, const int right) {
 
   const int left_pos = album_key_positions[album_keys[left]];
@@ -1894,7 +1895,8 @@ bool AlbumShuffleComparator(const QMap<QString, int> &album_key_positions, const
   return left_pos < right_pos;
 
 }
-}
+
+}  // namespace
 
 void Playlist::ReshuffleIndices() {
 

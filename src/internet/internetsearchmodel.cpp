@@ -350,6 +350,7 @@ QMimeData *InternetSearchModel::mimeData(const QModelIndexList &indexes) const {
 }
 
 namespace {
+
 void GatherResults(const QStandardItem *parent, InternetSearchView::ResultList *results) {
 
   QVariant result_variant = parent->data(InternetSearchModel::Role_Result);
@@ -361,8 +362,10 @@ void GatherResults(const QStandardItem *parent, InternetSearchView::ResultList *
   for (int i = 0 ; i < parent->rowCount() ; ++i) {
     GatherResults(parent->child(i), results);
   }
+
 }
-}
+
+}  // namespace
 
 void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping grouping, const bool regroup_now) {
 

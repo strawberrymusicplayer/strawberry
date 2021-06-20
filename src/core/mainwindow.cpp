@@ -213,7 +213,7 @@ const char *MainWindow::kAllFilesFilterSpec = QT_TR_NOOP("All Files (*)");
 namespace {
 const int kTrackSliderUpdateTimeMs = 200;
 const int kTrackPositionUpdateTimeMs = 1000;
-}
+}  // namespace
 
 MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent) :
       QMainWindow(parent),

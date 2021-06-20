@@ -551,7 +551,7 @@ QDBusObjectPath MakePlaylistPath(int id) {
   return QDBusObjectPath(QString("/org/strawberrymusicplayer/strawberry/PlaylistId/%1").arg(id));
 }
 
-}
+}  // namespace
 
 MaybePlaylist Mpris2::ActivePlaylist() const {
 

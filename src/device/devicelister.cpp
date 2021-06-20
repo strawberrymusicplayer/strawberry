@@ -207,7 +207,7 @@ QString GetIpodModel(Itdb_IpodModel model) {
 }
 
 #endif
-}
+}  // namespace
 
 QUrl DeviceLister::MakeUrlFromLocalPath(const QString &path) const {
 

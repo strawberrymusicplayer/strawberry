@@ -124,7 +124,8 @@ struct IdSource {
   QString id_;
   int nb_sources_;
 };
-}
+
+}  // namespace
 
 void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id) {
 

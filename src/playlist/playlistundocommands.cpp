@@ -135,4 +135,4 @@ ShuffleItems::ShuffleItems(Playlist *playlist, const PlaylistItemList &new_items
   setText(tr("shuffle songs"));
 }
 
-}  // namespace
+}  // namespace PlaylistUndoCommands
