@@ -342,13 +342,17 @@ QString ColorToRgba(const QColor &c) {
 }
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
-void OpenInFileManager(const QString path, const QUrl &url);
-void OpenInFileManager(const QString path, const QUrl &url) {
+void OpenInFileManager(const QString &path, const QUrl &url);
+void OpenInFileManager(const QString &path, const QUrl &url) {
 
   if (!url.isLocalFile()) return;
 
   QProcess proc;
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+  proc.startCommand("xdg-mime query default inode/directory");
+#else
   proc.start("xdg-mime", QStringList() << "query" << "default" << "inode/directory");
+#endif
   proc.waitForFinished();
   QString desktop_file = proc.readLine().simplified();
   QStringList data_dirs = QString(getenv("XDG_DATA_DIRS")).split(":");
