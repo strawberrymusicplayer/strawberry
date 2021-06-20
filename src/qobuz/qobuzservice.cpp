@@ -98,6 +98,7 @@ QobuzService::QobuzService(Application *app, QObject *parent)
       credential_id_(-1),
       pending_search_id_(0),
       next_pending_search_id_(1),
+      pending_search_type_(InternetSearchView::SearchType_Artists),
       search_id_(0),
       login_sent_(false),
       login_attempts_(0)

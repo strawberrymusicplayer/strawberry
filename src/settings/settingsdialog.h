@@ -120,6 +120,7 @@ class SettingsDialog : public QDialog {
 
  private:
   struct PageData {
+    PageData() : item_(nullptr), scroll_area_(nullptr), page_(nullptr) {}
     QTreeWidgetItem *item_;
     QScrollArea *scroll_area_;
     SettingsPage *page_;

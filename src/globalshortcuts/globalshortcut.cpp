@@ -39,6 +39,7 @@ GlobalShortcut *GlobalShortcut::initialized_ = nullptr;
 QHash<QPair<quint32, quint32>, GlobalShortcut*> GlobalShortcut::internal_shortcuts_;
 
 GlobalShortcut::GlobalShortcut(QObject *parent) : QObject(parent),
+  backend_(nullptr),
   qt_key_(Qt::Key(0)),
   qt_mods_(Qt::NoModifier),
   native_key_(0),

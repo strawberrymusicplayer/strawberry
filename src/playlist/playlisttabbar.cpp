@@ -62,6 +62,11 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent)
       manager_(nullptr),
       menu_(new QMenu(this)),
       menu_index_(-1),
+      new_(nullptr),
+      rename_(nullptr),
+      close_(nullptr),
+      save_(nullptr),
+      drag_hover_tab_(0),
       suppress_current_changed_(false),
       initialized_(false),
       rename_editor_(new RenameTabLineEdit(this)) {

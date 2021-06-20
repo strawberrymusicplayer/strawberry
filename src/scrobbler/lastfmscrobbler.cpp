@@ -42,7 +42,8 @@ LastFMScrobbler::LastFMScrobbler(Application *app, QObject *parent) : Scrobbling
   cache_(new ScrobblerCache(kCacheFile, this)),
   enabled_(false),
   subscriber_(false),
-  submitted_(false) {
+  submitted_(false),
+  timestamp_(0) {
 
   ReloadSettings();
   LoadSession();

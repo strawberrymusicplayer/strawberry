@@ -115,6 +115,17 @@ ContextAlbumsView::ContextAlbumsView(QWidget *parent)
     : AutoExpandingTreeView(parent),
       app_(nullptr),
       context_menu_(nullptr),
+      load_(nullptr),
+      add_to_playlist_(nullptr),
+      add_to_playlist_enqueue_(nullptr),
+      open_in_new_playlist_(nullptr),
+      organize_(nullptr),
+#ifndef Q_OS_WIN
+      copy_to_device_(nullptr),
+#endif
+      edit_track_(nullptr),
+      edit_tracks_(nullptr),
+      show_in_browser_(nullptr),
       is_in_keyboard_search_(false),
       model_(nullptr)
   {

@@ -178,7 +178,16 @@ DeviceView::DeviceView(QWidget *parent)
       sort_model_(nullptr),
       properties_dialog_(new DeviceProperties),
       device_menu_(nullptr),
-      collection_menu_(nullptr) {
+      eject_action_(nullptr),
+      forget_action_(nullptr),
+      properties_action_(nullptr),
+      collection_menu_(nullptr),
+      load_action_(nullptr),
+      add_to_playlist_action_(nullptr),
+      open_in_new_playlist_(nullptr),
+      organize_action_(nullptr),
+      delete_action_(nullptr) {
+
   setItemDelegate(new DeviceItemDelegate(this));
   SetExpandOnReset(false);
   setAttribute(Qt::WA_MacShowFocusRect, false);

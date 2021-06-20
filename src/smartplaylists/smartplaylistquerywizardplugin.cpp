@@ -39,8 +39,14 @@ class SmartPlaylistQueryWizardPlugin::SearchPage : public QWizardPage {  // claz
 
  public:
   explicit SearchPage(QWidget *parent = nullptr)
-      : QWizardPage(parent), ui_(new Ui_SmartPlaylistQuerySearchPage) {
+      : QWizardPage(parent),
+        layout_(nullptr),
+        new_term_(nullptr),
+        preview_(nullptr),
+        ui_(new Ui_SmartPlaylistQuerySearchPage) {
+
     ui_->setupUi(this);
+
   }
 
   bool isComplete() const override {

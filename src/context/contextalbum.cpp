@@ -54,6 +54,7 @@ ContextAlbum::ContextAlbum(QWidget *parent) :
     timeline_fade_(new QTimeLine(1000, this)),
     image_strawberry_(":/pictures/strawberry.png"),
     image_original_(image_strawberry_),
+    pixmap_previous_opacity_(0),
     prev_width_(width()) {
 
   setObjectName("context-widget-album");

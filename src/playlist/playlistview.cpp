@@ -148,6 +148,7 @@ PlaylistView::PlaylistView(QWidget *parent)
       set_initial_header_layout_(false),
       header_state_loaded_(false),
       header_state_restored_(false),
+      read_only_settings_(false),
       previous_background_image_opacity_(0.0),
       fade_animation_(new QTimeLine(1000, this)),
       force_background_redraw_(false),
@@ -1256,7 +1257,7 @@ void PlaylistView::ReloadSettings() {
 
 void PlaylistView::SaveSettings() {
 
-  if (!header_state_loaded_) return;
+  if (!header_state_loaded_ || read_only_settings_) return;
 
   QSettings s;
   s.beginGroup(Playlist::kSettingsGroup);

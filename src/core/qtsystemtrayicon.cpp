@@ -49,6 +49,7 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
       action_stop_(nullptr),
       action_stop_after_this_track_(nullptr),
       action_mute_(nullptr),
+      action_love_(nullptr),
       available_(false),
       trayicon_progress_(false),
       song_progress_(0) {

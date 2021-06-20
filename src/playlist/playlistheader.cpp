@@ -43,6 +43,7 @@
 PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, QWidget *parent)
     : StretchHeaderView(orientation, parent),
       view_(view),
+      menu_section_(0),
       menu_(new QMenu(this)),
       action_hide_(nullptr),
       action_reset_(nullptr),

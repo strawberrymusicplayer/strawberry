@@ -71,8 +71,8 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
 
   SmartPlaylistSearch MakeSearch() const;
 
-  SearchPage *search_page_;
   std::unique_ptr<Ui_SmartPlaylistQuerySortPage> sort_ui_;
+  SearchPage *search_page_;
 
   int previous_scrollarea_max_;
 };

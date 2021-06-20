@@ -37,8 +37,9 @@
 
 SmartPlaylistSearchPreview::SmartPlaylistSearchPreview(QWidget *parent)
     : QWidget(parent),
-    ui_(new Ui_SmartPlaylistSearchPreview),
-    model_(nullptr) {
+      ui_(new Ui_SmartPlaylistSearchPreview),
+      backend_(nullptr),
+      model_(nullptr) {
 
   ui_->setupUi(this);
 

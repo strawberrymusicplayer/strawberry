@@ -40,6 +40,10 @@ PlaylistGeneratorInserter::PlaylistGeneratorInserter(TaskManager *task_manager, 
       collection_(collection),
       task_id_(-1),
       destination_(nullptr),
+      row_(0),
+      play_now_(false),
+      enqueue_(false),
+      enqueue_next_(false),
       is_dynamic_(false)
       {}
 

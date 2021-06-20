@@ -104,11 +104,13 @@ TidalService::TidalService(Application *app, QObject *parent)
       songssearchlimit_(1),
       fetchalbums_(true),
       download_album_covers_(true),
+      stream_url_method_(TidalSettingsPage::StreamUrlMethod_StreamUrl),
       album_explicit_(false),
       expires_in_(0),
       login_time_(0),
       pending_search_id_(0),
       next_pending_search_id_(1),
+      pending_search_type_(InternetSearchView::SearchType_Artists),
       search_id_(0),
       login_sent_(false),
       login_attempts_(0)

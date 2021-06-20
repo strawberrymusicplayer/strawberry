@@ -42,7 +42,8 @@ LibreFMScrobbler::LibreFMScrobbler(Application *app, QObject *parent) : Scrobbli
   cache_(new ScrobblerCache(kCacheFile, this)),
   enabled_(false),
   subscriber_(false),
-  submitted_(false) {
+  submitted_(false),
+  timestamp_(0) {
 
   ReloadSettings();
   LoadSession();

@@ -218,6 +218,7 @@ QSize PrettySlider::sizeHint() const {
 
 VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
     : SliderSlider(Qt::Horizontal, parent, max),
+      anim_enter_(false),
       anim_count_(0),
       timer_anim_(new QTimer(this)),
       pixmap_inset_(QPixmap(drawVolumePixmap())) {

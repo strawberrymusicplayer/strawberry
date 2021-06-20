@@ -293,7 +293,7 @@ class GstEnginePipeline : public QObject {
 
   QThreadPool set_state_threadpool_;
 
-  GstSegment last_playbin_segment_;
+  GstSegment last_playbin_segment_{};
 
   bool unsupported_analyzer_;
 

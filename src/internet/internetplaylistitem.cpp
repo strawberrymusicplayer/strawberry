@@ -36,7 +36,7 @@
 #include "playlist/playlistbackend.h"
 
 InternetPlaylistItem::InternetPlaylistItem(const Song::Source source)
-    : PlaylistItem(source) {}
+    : PlaylistItem(source), source_(source) {}
 
 InternetPlaylistItem::InternetPlaylistItem(const Song &metadata)
     : PlaylistItem(metadata.source()),

@@ -75,6 +75,8 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
   app_(app),
   server_(nullptr),
   enabled_(false),
+  https_(false),
+  prefer_albumartist_(false),
   subscriber_(false),
   submitted_(false),
   scrobbled_(false),

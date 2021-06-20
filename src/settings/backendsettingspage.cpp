@@ -68,7 +68,8 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent
   SettingsPage(dialog, parent),
   ui_(new Ui_BackendSettingsPage),
   configloaded_(false),
-  engineloaded_(false) {
+  engineloaded_(false),
+  enginetype_current_(Engine::None) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("soundcard"));

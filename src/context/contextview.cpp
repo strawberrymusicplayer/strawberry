@@ -128,6 +128,8 @@ ContextView::ContextView(QWidget *parent) :
     spacer_bottom_(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding)),
     lyrics_tried_(false),
     lyrics_id_(-1),
+    font_size_headline_(0),
+    font_size_normal_(0),
     prev_width_(0)
   {
 

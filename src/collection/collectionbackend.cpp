@@ -55,6 +55,7 @@
 CollectionBackend::CollectionBackend(QObject *parent) :
     CollectionBackendInterface(parent),
     db_(nullptr),
+    source_(Song::Source_Unknown),
     original_thread_(nullptr) {
 
   original_thread_ = thread();

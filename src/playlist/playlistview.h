@@ -108,7 +108,7 @@ class PlaylistView : public QTreeView {
   void SetPlaylist(Playlist *playlist);
   void RemoveSelected();
 
-  void SetReadOnlySettings(bool read_only) { read_only_settings_ = read_only; }
+  void SetReadOnlySettings(const bool read_only) { read_only_settings_ = read_only; }
 
   Playlist *playlist() const { return playlist_; }
   AppearanceSettingsPage::BackgroundImageType background_image_type() const { return background_image_type_; }
@@ -237,10 +237,9 @@ class PlaylistView : public QTreeView {
 
   bool background_initialized_;
   bool set_initial_header_layout_;
-  bool read_only_settings_;
   bool header_state_loaded_;
   bool header_state_restored_;
-  bool header_state_readonly_;
+  bool read_only_settings_;
 
   QImage background_image_;
   QImage current_song_cover_art_;

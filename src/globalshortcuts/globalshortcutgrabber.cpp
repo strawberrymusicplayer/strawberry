@@ -35,7 +35,8 @@
 #include "ui_globalshortcutgrabber.h"
 
 GlobalShortcutGrabber::GlobalShortcutGrabber(QWidget *parent)
-    : QDialog(parent), ui_(new Ui::GlobalShortcutGrabber) {
+    : QDialog(parent), ui_(new Ui::GlobalShortcutGrabber), wrapper_(nullptr) {
+
   ui_->setupUi(this);
 
   modifier_keys_ << Qt::Key_Shift << Qt::Key_Control << Qt::Key_Meta << Qt::Key_Alt << Qt::Key_AltGr;

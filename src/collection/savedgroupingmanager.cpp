@@ -49,7 +49,8 @@
 SavedGroupingManager::SavedGroupingManager(QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_SavedGroupingManager),
-      model_(new QStandardItemModel(0, 4, this)) {
+      model_(new QStandardItemModel(0, 4, this)),
+      filter_(nullptr) {
 
   ui_->setupUi(this);
 
