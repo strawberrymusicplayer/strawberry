@@ -280,7 +280,7 @@ Equalizer::Params Equalizer::current_params() const {
 }
 
 float Equalizer::stereo_balance() const {
-  return qBound(-1.0f, static_cast<float>(ui_->stereo_balance_slider->value()) / 100.0f, 1.0f);
+  return qBound(-1.0F, static_cast<float>(ui_->stereo_balance_slider->value()) / 100.0F, 1.0F);
 }
 
 void Equalizer::StereoBalancerEnabledChangedSlot(const bool enabled) {

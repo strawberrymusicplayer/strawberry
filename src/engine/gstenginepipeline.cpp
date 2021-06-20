@@ -75,7 +75,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine, QObject *parent)
       stereo_balancer_enabled_(false),
       eq_enabled_(false),
       rg_enabled_(false),
-      stereo_balance_(0.0f),
+      stereo_balance_(0.0F),
       eq_preamp_(0),
       rg_mode_(0),
       rg_preamp_(0.0),
@@ -101,7 +101,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine, QObject *parent)
       last_known_position_ns_(0),
       next_uri_set_(false),
       volume_percent_(100),
-      volume_modifier_(1.0f),
+      volume_modifier_(1.0F),
       use_fudge_timer_(false),
       pipeline_(nullptr),
       audiobin_(nullptr),
@@ -171,7 +171,7 @@ void GstEnginePipeline::set_volume_enabled(const bool enabled) {
 
 void GstEnginePipeline::set_stereo_balancer_enabled(const bool enabled) {
   stereo_balancer_enabled_ = enabled;
-  if (!enabled) stereo_balance_ = 0.0f;
+  if (!enabled) stereo_balance_ = 0.0F;
   if (pipeline_) UpdateStereoBalance();
 }
 
@@ -350,12 +350,12 @@ bool GstEnginePipeline::InitAudioBin() {
 
       // Dummy first band (bandwidth 0, cutting below 20Hz):
       GstObject *first_band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), 0));
-      g_object_set(G_OBJECT(first_band), "freq", 20.0, "bandwidth", 0, "gain", 0.0f, nullptr);
+      g_object_set(G_OBJECT(first_band), "freq", 20.0, "bandwidth", 0, "gain", 0.0F, nullptr);
       g_object_unref(G_OBJECT(first_band));
 
       // Dummy last band (bandwidth 0, cutting over 20KHz):
       GstObject *last_band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), kEqBandCount + 1));
-      g_object_set(G_OBJECT(last_band), "freq", 20000.0, "bandwidth", 0, "gain", 0.0f, nullptr);
+      g_object_set(G_OBJECT(last_band), "freq", 20000.0, "bandwidth", 0, "gain", 0.0F, nullptr);
       g_object_unref(G_OBJECT(last_band));
 
       int last_band_frequency = 0;
@@ -367,7 +367,7 @@ bool GstEnginePipeline::InitAudioBin() {
         const float bandwidth = frequency - static_cast<float>(last_band_frequency);
         last_band_frequency = static_cast<int>(frequency);
 
-        g_object_set(G_OBJECT(band), "freq", frequency, "bandwidth", bandwidth, "gain", 0.0f, nullptr);
+        g_object_set(G_OBJECT(band), "freq", frequency, "bandwidth", bandwidth, "gain", 0.0F, nullptr);
         g_object_unref(G_OBJECT(band));
       }
     }

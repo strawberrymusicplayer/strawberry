@@ -348,7 +348,7 @@ qint64 GstEngine::position_nanosec() const {
   if (!current_pipeline_) return 0;
 
   const qint64 result = current_pipeline_->position() - beginning_nanosec_;
-  return qint64(qMax(0ll, result));
+  return qint64(qMax(0LL, result));
 
 }
 

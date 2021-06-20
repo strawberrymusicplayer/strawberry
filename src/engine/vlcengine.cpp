@@ -197,7 +197,7 @@ void VLCEngine::SetVolumeSW(const uint percent) {
 qint64 VLCEngine::position_nanosec() const {
   if (state_ == Engine::Empty) return 0;
   const qint64 result = (position() * kNsecPerMsec);
-  return qint64(qMax(0ll, result));
+  return qint64(qMax(0LL, result));
 
 }
 

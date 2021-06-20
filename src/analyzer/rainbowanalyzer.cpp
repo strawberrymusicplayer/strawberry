@@ -52,7 +52,7 @@ const int Rainbow::RainbowAnalyzer::kSleepingHeight[] = {24, 33};
 
 const char *Rainbow::NyanCatAnalyzer::kName = "Nyanalyzer Cat";
 const char *Rainbow::RainbowDashAnalyzer::kName = "Rainbow Dash";
-const float Rainbow::RainbowAnalyzer::kPixelScale = 0.02f;
+const float Rainbow::RainbowAnalyzer::kPixelScale = 0.02F;
 
 Rainbow::RainbowAnalyzer::RainbowType Rainbow::RainbowAnalyzer::rainbowtype;
 

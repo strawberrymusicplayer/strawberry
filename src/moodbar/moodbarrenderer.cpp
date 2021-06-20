@@ -142,11 +142,11 @@ void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect
 
     for (int y = 0; y <= rect.height() / 2; ++y) {
       float coeff = float(y) / float(rect.height() / 2);  // NOLINT(bugprone-integer-division)
-      float coeff2 = 1.0f - ((1.0f - coeff) * (1.0f - coeff));
-      coeff = 1.0f - (1.0f - coeff) / 2.0f;
-      coeff2 = 1.f - (1.f - coeff2) / 2.0f;
+      float coeff2 = 1.0F - ((1.0F - coeff) * (1.0F - coeff));
+      coeff = 1.0F - (1.0F - coeff) / 2.0F;
+      coeff2 = 1.F - (1.F - coeff2) / 2.0F;
 
-      p->setPen(QColor::fromHsv(h, qBound(0, int(float(s) * coeff), 255), qBound(0, int(255.f - (255.f - float(v)) * coeff2), 255)));
+      p->setPen(QColor::fromHsv(h, qBound(0, int(float(s) * coeff), 255), qBound(0, int(255.F - (255.F - float(v)) * coeff2), 255)));
 
       p->drawPoint(rect.left() + x, rect.top() + y);
       p->drawPoint(rect.left() + x, rect.top() + rect.height() - 1 - y);

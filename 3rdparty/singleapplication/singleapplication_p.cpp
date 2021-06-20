@@ -461,7 +461,7 @@ void SingleApplicationPrivate::slotClientConnectionClosed(QLocalSocket *closedSo
 void SingleApplicationPrivate::randomSleep() {
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-  QThread::msleep(QRandomGenerator::global()->bounded(8u, 18u));
+  QThread::msleep(QRandomGenerator::global()->bounded(8U, 18U));
 #else
   qsrand(QDateTime::currentMSecsSinceEpoch() % std::numeric_limits<uint>::max());
   QThread::msleep(8 + static_cast<unsigned long>(static_cast<float>(qrand()) / RAND_MAX * 10));

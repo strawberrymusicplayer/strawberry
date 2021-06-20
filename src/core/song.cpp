@@ -444,7 +444,7 @@ void Song::set_grouping(const QString &v) { d->grouping_ = v; }
 void Song::set_comment(const QString &v) { d->comment_ = v; }
 void Song::set_lyrics(const QString &v) { d->lyrics_ = v; }
 
-void Song::set_beginning_nanosec(qint64 v) { d->beginning_ = qMax(0ll, v); }
+void Song::set_beginning_nanosec(qint64 v) { d->beginning_ = qMax(0LL, v); }
 void Song::set_end_nanosec(qint64 v) { d->end_ = v; }
 void Song::set_length_nanosec(qint64 v) { d->end_ = d->beginning_ + v; }
 
@@ -1511,7 +1511,7 @@ QString Song::PrettyRating() const {
 
   double rating = d->rating_;
 
-  if (rating == -1.0f) return "0";
+  if (rating == -1.0F) return "0";
 
   return QString::number(static_cast<int>(rating * 100));
 

@@ -154,7 +154,7 @@ QColor StyleHelper::borderColor(bool lightColored) {
 QColor StyleHelper::toolBarBorderColor() {
 
   const QColor base = baseColor();
-  return QColor::fromHsv(base.hue(), base.saturation(), clamp(base.value() * 0.80f));
+  return QColor::fromHsv(base.hue(), base.saturation(), clamp(base.value() * 0.80F));
 
 }
 
