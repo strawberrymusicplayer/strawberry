@@ -108,7 +108,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
 #endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   req.setRawHeader("X-App-Id", service_->app_id().toUtf8());
-  req.setRawHeader("X-User-Auth-Token", user_auth_token_.toUtf8());
+  req.setRawHeader("X-User-Auth-Token", service_->user_auth_token().toUtf8());
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { HandleSearchReply(reply, id); });

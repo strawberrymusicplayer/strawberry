@@ -68,14 +68,6 @@ class QobuzCoverProvider : public JsonCoverProvider {
   NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
-  QString username_;
-  QString password_;
-  qint64 user_id_;
-  QString user_auth_token_;
-  QString device_id_;
-  qint64 credential_id_;
-  QStringList login_errors_;
-
 };
 
 #endif  // QOBUZCOVERPROVIDER_H
