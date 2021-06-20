@@ -928,7 +928,7 @@ bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const SongLi
 
   for (const Song &song : songs) {
     QString filename = song.url().toLocalFile();
-    if (song.fingerprint() == fingerprint && (file == filename || !QFileInfo(filename).exists())) {
+    if (song.fingerprint() == fingerprint && (file == filename || !QFileInfo::exists(filename))) {
       *out << song;
       return true;
     }
