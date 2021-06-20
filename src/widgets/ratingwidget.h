@@ -32,10 +32,10 @@ class RatingPainter {
 
   static const int kStarCount = 5;
   static const int kStarSize = 16;
-  static QRect Contents(const QRect &rect);
-  static double RatingForPos(const QPoint &pos, const QRect &rect);
+  static QRect Contents(const QRect rect);
+  static double RatingForPos(const QPoint pos, const QRect rect);
 
-  void Paint(QPainter *painter, const QRect &rect, double rating) const;
+  void Paint(QPainter *painter, const QRect rect, double rating) const;
 
  private:
   QPixmap stars_[kStarCount * 2 + 1];
@@ -43,6 +43,7 @@ class RatingPainter {
 
 class RatingWidget : public QWidget {
   Q_OBJECT
+
   Q_PROPERTY(double rating READ rating WRITE set_rating)
 
  public:

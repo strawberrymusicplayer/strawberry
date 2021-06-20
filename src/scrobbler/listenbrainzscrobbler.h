@@ -80,7 +80,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void AuthenticateReplyFinished(QNetworkReply *reply);
   void RequestNewAccessToken() { RequestAccessToken(); }
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
-  void ScrobbleRequestFinished(QNetworkReply *reply, QList<quint64>);
+  void ScrobbleRequestFinished(QNetworkReply *reply, const QList<quint64> &list);
 
  private:
   QNetworkReply *CreateRequest(const QUrl &url, const QJsonDocument &json_doc);

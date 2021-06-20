@@ -66,8 +66,8 @@ const int GstEnginePipeline::kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3
 int GstEnginePipeline::sId = 1;
 GstElementDeleter *GstEnginePipeline::sElementDeleter = nullptr;
 
-GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
-    : QObject(nullptr),
+GstEnginePipeline::GstEnginePipeline(GstEngine *engine, QObject *parent)
+    : QObject(parent),
       engine_(engine),
       id_(sId++),
       valid_(false),
@@ -121,6 +121,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
     sElementDeleter = new GstElementDeleter(engine_);
   }
 
+  eq_band_gains_.reserve(kEqBandCount);
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
 
 }
@@ -213,7 +214,7 @@ void GstEnginePipeline::set_channels(const bool enabled, const int channels) {
   channels_ = channels;
 }
 
-bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec) {
+bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec) {
 
   stream_url_ = stream_url;
   original_url_ = original_url;

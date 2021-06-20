@@ -143,7 +143,7 @@ Mpris2::Mpris2(Application *app, QObject *parent)
   desktop_files_ << QCoreApplication::applicationName().toLower();
   desktop_file_ = desktop_files_.first();
 
-  data_dirs_ = QString(getenv("XDG_DATA_DIRS")).split(":");
+  data_dirs_ = QString(qgetenv("XDG_DATA_DIRS")).split(":");
   data_dirs_.append("/usr/local/share");
   data_dirs_.append("/usr/share");
 
@@ -208,17 +208,17 @@ void Mpris2::EmitNotification(const QString &name, const QVariant &val, const QS
 void Mpris2::EmitNotification(const QString &name) {
 
   QVariant value;
-  if (name == "PlaybackStatus") value = PlaybackStatus();
-  else if (name == "LoopStatus") value = LoopStatus();
-  else if (name == "Shuffle") value = Shuffle();
-  else if (name == "Metadata") value = Metadata();
-  else if (name == "Volume") value = Volume();
-  else if (name == "Position") value = Position();
-  else if (name == "CanPlay") value = CanPlay();
-  else if (name == "CanPause") value = CanPause();
-  else if (name == "CanSeek") value = CanSeek();
-  else if (name == "CanGoNext") value = CanGoNext();
-  else if (name == "CanGoPrevious") value = CanGoPrevious();
+  if (name == "PlaybackStatus") value = PlaybackStatus();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (name == "LoopStatus") value = LoopStatus();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (name == "Shuffle") value = Shuffle();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (name == "Metadata") value = Metadata();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (name == "Volume") value = Volume();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (name == "Position") value = Position();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (name == "CanPlay") value = CanPlay();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (name == "CanPause") value = CanPause();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (name == "CanSeek") value = CanSeek();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (name == "CanGoNext") value = CanGoNext();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (name == "CanGoPrevious") value = CanGoPrevious();  // clazy:exclude=qt6-deprecated-api-fixes
 
   if (value.isValid()) EmitNotification(name, value);
 
@@ -594,8 +594,10 @@ MprisPlaylistList Mpris2::GetPlaylists(quint32 index, quint32 max_count, const Q
 
   Q_UNUSED(order);
 
+  QList<Playlist*> playlists = app_->playlist_manager()->GetAllPlaylists();
   MprisPlaylistList ret;
-  for (Playlist *p : app_->playlist_manager()->GetAllPlaylists()) {
+  ret.reserve(playlists.count());
+  for (Playlist *p : playlists) {
     MprisPlaylist mpris_playlist;
     mpris_playlist.id = MakePlaylistPath(p->id());
     mpris_playlist.name = app_->playlist_manager()->GetPlaylistName(p->id());

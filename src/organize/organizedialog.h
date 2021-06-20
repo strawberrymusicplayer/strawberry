@@ -100,7 +100,7 @@ class OrganizeDialog : public QDialog {
   void InsertTag(const QString &tag);
   void UpdatePreviews();
 
-  void OrganizeFinished(const QStringList files_with_errors, const QStringList log);
+  void OrganizeFinished(const QStringList &files_with_errors, const QStringList &log);
 
   void AllowExtASCII(const bool checked);
 

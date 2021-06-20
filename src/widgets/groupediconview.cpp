@@ -94,7 +94,7 @@ int GroupedIconView::header_height() const {
   return default_header_height_;
 }
 
-void GroupedIconView::DrawHeader(QPainter *painter, const QRect &rect, const QFont &font, const QPalette &palette, const QString &text) {
+void GroupedIconView::DrawHeader(QPainter *painter, const QRect rect, const QFont &font, const QPalette &palette, const QString &text) {
 
   painter->save();
 
@@ -316,17 +316,22 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
 }
 
 void GroupedIconView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) {
+
   QVector<QModelIndex> indexes(IntersectingItems(rect.translated(horizontalOffset(), verticalOffset())));
+
   QItemSelection selection;
+  selection.reserve(indexes.count());
 
   for (const QModelIndex &idx : indexes) {
     selection << QItemSelectionRange(idx);
   }
 
   selectionModel()->select(selection, command);
+
 }
 
-QVector<QModelIndex> GroupedIconView::IntersectingItems(const QRect &rect) const {
+QVector<QModelIndex> GroupedIconView::IntersectingItems(const QRect rect) const {
+
   QVector<QModelIndex> ret;
 
   const int count = visual_rects_.count();
@@ -337,6 +342,7 @@ QVector<QModelIndex> GroupedIconView::IntersectingItems(const QRect &rect) const
   }
 
   return ret;
+
 }
 
 QRegion GroupedIconView::visualRegionForSelection(const QItemSelection &selection) const {

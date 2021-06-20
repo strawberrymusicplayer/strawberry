@@ -50,7 +50,7 @@ class RainbowAnalyzer : public Analyzer::Base {
     Dash = 1 
   };
 
-  RainbowAnalyzer(const RainbowType &rbtype, QWidget *parent);
+  RainbowAnalyzer(const RainbowType rbtype, QWidget *parent);
 
  protected:
   void transform(Analyzer::Scope&) override;

@@ -96,7 +96,7 @@ class CollectionFilterWidget : public QWidget {
   void keyReleaseEvent(QKeyEvent *e) override;
 
  private slots:
-  void GroupingChanged(const CollectionModel::Grouping &g);
+  void GroupingChanged(const CollectionModel::Grouping g);
   void GroupByClicked(QAction *action);
   void SaveGroupBy();
   void ShowGroupingManager();
@@ -105,8 +105,8 @@ class CollectionFilterWidget : public QWidget {
   void FilterDelayTimeout();
 
  private:
-  static QAction *CreateGroupByAction(const QString &text, QObject *parent, const CollectionModel::Grouping &grouping);
-  void CheckCurrentGrouping(const CollectionModel::Grouping &g);
+  static QAction *CreateGroupByAction(const QString &text, QObject *parent, const CollectionModel::Grouping grouping);
+  void CheckCurrentGrouping(CollectionModel::Grouping g);
 
  private:
   Ui_CollectionFilterWidget *ui_;

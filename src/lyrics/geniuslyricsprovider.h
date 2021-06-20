@@ -76,10 +76,10 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   void RequestAccessToken(const QUrl &url, const QUrl &redirect_url);
   void AuthError(const QString &error = QString(), const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
-  void EndSearch(std::shared_ptr<GeniusLyricsSearchContext> search, const GeniusLyricsLyricContext lyric = GeniusLyricsLyricContext());
+  void EndSearch(std::shared_ptr<GeniusLyricsSearchContext> search, const GeniusLyricsLyricContext &lyric = GeniusLyricsLyricContext());
 
  private slots:
-  void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
+  void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);
   void RedirectArrived();
   void AccessTokenRequestFinished(QNetworkReply *reply);
   void HandleSearchReply(QNetworkReply *reply, const quint64 id);

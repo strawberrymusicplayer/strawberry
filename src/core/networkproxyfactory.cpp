@@ -20,8 +20,6 @@
 
 #include "config.h"
 
-#include <cstdlib>
-
 #include <QtGlobal>
 #include <QMutex>
 #include <QVariant>
@@ -43,14 +41,15 @@ NetworkProxyFactory::NetworkProxyFactory()
       type_(QNetworkProxy::HttpProxy),
       port_(8080),
       use_authentication_(false) {
+
 #ifdef Q_OS_LINUX
   // Linux uses environment variables to pass proxy configuration information, which systemProxyForQuery doesn't support for some reason.
 
   QStringList urls;
-  urls << QString::fromLocal8Bit(getenv("HTTP_PROXY"));
-  urls << QString::fromLocal8Bit(getenv("http_proxy"));
-  urls << QString::fromLocal8Bit(getenv("ALL_PROXY"));
-  urls << QString::fromLocal8Bit(getenv("all_proxy"));
+  urls << QString::fromLocal8Bit(qgetenv("HTTP_PROXY"));
+  urls << QString::fromLocal8Bit(qgetenv("http_proxy"));
+  urls << QString::fromLocal8Bit(qgetenv("ALL_PROXY"));
+  urls << QString::fromLocal8Bit(qgetenv("all_proxy"));
 
   qLog(Debug) << "Detected system proxy URLs:" << urls;
 
@@ -91,6 +90,8 @@ void NetworkProxyFactory::ReloadSettings() {
   use_authentication_ = s.value("use_authentication", false).toBool();
   username_ = s.value("username").toString();
   password_ = s.value("password").toString();
+
+  s.endGroup();
 
 }
 

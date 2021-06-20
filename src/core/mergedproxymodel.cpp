@@ -53,7 +53,7 @@ using boost::multi_index::multi_index_container;
 using boost::multi_index::ordered_unique;
 using boost::multi_index::tag;
 
-std::size_t hash_value(const QModelIndex &idx) { return qHash(idx); }
+size_t hash_value(const QModelIndex &idx) { return qHash(idx); }
 
 namespace {
 
@@ -543,6 +543,7 @@ bool MergedProxyModel::IsKnownModel(const QAbstractItemModel *model) const {
 QModelIndexList MergedProxyModel::mapFromSource(const QModelIndexList &source_indexes) const {
 
   QModelIndexList ret;
+  ret.reserve(source_indexes.count());
   for (const QModelIndex &idx : source_indexes) {
     ret << mapFromSource(idx);
   }
@@ -553,6 +554,7 @@ QModelIndexList MergedProxyModel::mapFromSource(const QModelIndexList &source_in
 QModelIndexList MergedProxyModel::mapToSource(const QModelIndexList &proxy_indexes) const {
 
   QModelIndexList ret;
+  ret.reserve(proxy_indexes.count());
   for (const QModelIndex &idx : proxy_indexes) {
     ret << mapToSource(idx);
   }

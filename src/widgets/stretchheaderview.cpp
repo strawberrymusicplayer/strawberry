@@ -314,6 +314,9 @@ QByteArray StretchHeaderView::SaveState() const {
   QList<int> pixel_widths;
   QList<int> visual_indices;
 
+  pixel_widths.reserve(count());
+  visual_indices.reserve(count());
+
   for (int i = 0; i < count(); ++i) {
     pixel_widths << sectionSize(i);
     visual_indices << logicalIndex(i);
@@ -350,6 +353,10 @@ QByteArray StretchHeaderView::ResetState() {
 
   QList<int> visual_indices;
   QList<int> pixel_widths;
+
+  visual_indices.reserve(count());
+  pixel_widths.reserve(count());
+
   for (int i = 0 ; i < count() ; ++i) {
     pixel_widths << 10;
     visual_indices << count();

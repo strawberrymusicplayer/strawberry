@@ -27,6 +27,8 @@ class QObject;
 class QModelIndex;
 
 class InternetSearchSortModel : public QSortFilterProxyModel {
+  Q_OBJECT
+
  public:
   explicit InternetSearchSortModel(QObject *parent = nullptr);
 

@@ -43,12 +43,12 @@
 
 const char *ScrobblerSettingsPage::kSettingsGroup = "Scrobbler";
 
-ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *parent)
-    : SettingsPage(parent),
-      scrobbler_(dialog()->app()->scrobbler()),
-      lastfmscrobbler_(dialog()->app()->scrobbler()->Service<LastFMScrobbler>()),
-      librefmscrobbler_(dialog()->app()->scrobbler()->Service<LibreFMScrobbler>()),
-      listenbrainzscrobbler_(dialog()->app()->scrobbler()->Service<ListenBrainzScrobbler>()),
+ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
+      scrobbler_(dialog->app()->scrobbler()),
+      lastfmscrobbler_(dialog->app()->scrobbler()->Service<LastFMScrobbler>()),
+      librefmscrobbler_(dialog->app()->scrobbler()->Service<LibreFMScrobbler>()),
+      listenbrainzscrobbler_(dialog->app()->scrobbler()->Service<ListenBrainzScrobbler>()),
       ui_(new Ui_ScrobblerSettingsPage),
       lastfm_waiting_for_auth_(false),
       librefm_waiting_for_auth_(false),
@@ -188,7 +188,7 @@ void ScrobblerSettingsPage::LastFM_Logout() {
 
 }
 
-void ScrobblerSettingsPage::LastFM_AuthenticationComplete(const bool success, QString error) {
+void ScrobblerSettingsPage::LastFM_AuthenticationComplete(const bool success, const QString &error) {
 
   if (!lastfm_waiting_for_auth_) return;
   lastfm_waiting_for_auth_ = false;
@@ -204,7 +204,7 @@ void ScrobblerSettingsPage::LastFM_AuthenticationComplete(const bool success, QS
 
 }
 
-void ScrobblerSettingsPage::LastFM_RefreshControls(bool authenticated) {
+void ScrobblerSettingsPage::LastFM_RefreshControls(const bool authenticated) {
   ui_->widget_lastfm_login_state->SetLoggedIn(authenticated ? LoginStateWidget::LoggedIn : LoginStateWidget::LoggedOut, lastfmscrobbler_->username());
 }
 
@@ -223,7 +223,7 @@ void ScrobblerSettingsPage::LibreFM_Logout() {
 
 }
 
-void ScrobblerSettingsPage::LibreFM_AuthenticationComplete(const bool success, QString error) {
+void ScrobblerSettingsPage::LibreFM_AuthenticationComplete(const bool success, const QString &error) {
 
   if (!librefm_waiting_for_auth_) return;
   librefm_waiting_for_auth_ = false;
@@ -239,7 +239,7 @@ void ScrobblerSettingsPage::LibreFM_AuthenticationComplete(const bool success, Q
 
 }
 
-void ScrobblerSettingsPage::LibreFM_RefreshControls(bool authenticated) {
+void ScrobblerSettingsPage::LibreFM_RefreshControls(const bool authenticated) {
   ui_->widget_librefm_login_state->SetLoggedIn(authenticated ? LoginStateWidget::LoggedIn : LoginStateWidget::LoggedOut, librefmscrobbler_->username());
 }
 
@@ -258,7 +258,7 @@ void ScrobblerSettingsPage::ListenBrainz_Logout() {
 
 }
 
-void ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete(const bool success, QString error) {
+void ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete(const bool success, const QString &error) {
 
   if (!listenbrainz_waiting_for_auth_) return;
   listenbrainz_waiting_for_auth_ = false;
@@ -274,6 +274,6 @@ void ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete(const bool succe
 
 }
 
-void ScrobblerSettingsPage::ListenBrainz_RefreshControls(bool authenticated) {
+void ScrobblerSettingsPage::ListenBrainz_RefreshControls(const bool authenticated) {
   ui_->widget_listenbrainz_login_state->SetLoggedIn(authenticated ? LoginStateWidget::LoggedIn : LoginStateWidget::LoggedOut);
 }

@@ -62,7 +62,7 @@ class PlaylistListContainer : public QWidget {
  private slots:
   // From the UI
   void NewFolderClicked();
-  void ItemDoubleClicked(const QModelIndex proxy_idx);
+  void ItemDoubleClicked(const QModelIndex &proxy_idx);
 
   // From the model
   void PlaylistPathChanged(const int id, const QString &new_path);

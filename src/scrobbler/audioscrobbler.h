@@ -68,7 +68,7 @@ class AudioScrobbler : public QObject {
   void Submit();
   void Love();
   void WriteCache();
-  void ErrorReceived(QString);
+  void ErrorReceived(const QString &error);
 
  signals:
   void ErrorMessage(QString);
@@ -78,7 +78,6 @@ class AudioScrobbler : public QObject {
   void LoveButtonVisibilityChanged(bool value);
 
  private:
-
   Application *app_;
   ScrobblerServices *scrobbler_services_;
 

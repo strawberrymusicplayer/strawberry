@@ -44,7 +44,7 @@ class TrackSliderPopup : public QWidget {
  public slots:
   void SetText(const QString &text);
   void SetSmallText(const QString &small_text);
-  void SetPopupPosition(const QPoint &pos);
+  void SetPopupPosition(const QPoint pos);
 
  protected:
   void paintEvent(QPaintEvent*) override;

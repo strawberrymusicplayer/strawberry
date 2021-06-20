@@ -48,7 +48,7 @@ class MoodbarProxyStyle : public QProxyStyle {
   Q_OBJECT
 
  public:
-  explicit MoodbarProxyStyle(Application *app, QSlider *slider);
+  explicit MoodbarProxyStyle(Application *app, QSlider *slider, QObject *parent = nullptr);
 
   // QProxyStyle
   void drawComplexControl(ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const override;
@@ -78,9 +78,9 @@ class MoodbarProxyStyle : public QProxyStyle {
   void Render(ComplexControl control, const QStyleOptionSlider *option, QPainter *painter, const QWidget *widget);
   void EnsureMoodbarRendered(const QStyleOptionSlider *opt);
   void DrawArrow(const QStyleOptionSlider *option, QPainter *painter) const;
-  void ShowContextMenu(const QPoint &pos);
+  void ShowContextMenu(const QPoint pos);
 
-  QPixmap MoodbarPixmap(const ColorVector &colors, const QSize &size, const QPalette &palette, const QStyleOptionSlider *opt);
+  QPixmap MoodbarPixmap(const ColorVector &colors, const QSize size, const QPalette &palette, const QStyleOptionSlider *opt);
 
  private slots:
   void ReloadSettings();

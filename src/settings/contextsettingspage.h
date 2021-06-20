@@ -39,7 +39,7 @@ class ContextSettingsPage : public SettingsPage {
   Q_OBJECT
 
 public:
-  explicit ContextSettingsPage(SettingsDialog *dialog);
+  explicit ContextSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~ContextSettingsPage() override;
 
   enum ContextSettingsOrder {

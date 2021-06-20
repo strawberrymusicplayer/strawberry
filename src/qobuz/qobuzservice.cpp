@@ -202,7 +202,7 @@ void QobuzService::Exit() {
 
 void QobuzService::ExitReceived() {
 
-  QObject *obj = qobject_cast<QObject*>(sender());
+  QObject *obj = sender();
   QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
@@ -287,9 +287,9 @@ void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString
 
 }
 
-void QobuzService::HandleLoginSSLErrors(QList<QSslError> ssl_errors) {
+void QobuzService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
 
-  for (QSslError &ssl_error : ssl_errors) {
+  for (const QSslError &ssl_error : ssl_errors) {
     login_errors_ += ssl_error.errorString();
   }
 
@@ -728,7 +728,7 @@ void QobuzService::GetStreamURL(const QUrl &url) {
 
 }
 
-void QobuzService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error) {
+void QobuzService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error) {
 
   QobuzStreamURLRequest *stream_url_req = qobject_cast<QobuzStreamURLRequest*>(sender());
   if (!stream_url_req || !stream_url_requests_.contains(stream_url_req)) return;

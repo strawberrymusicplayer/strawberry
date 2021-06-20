@@ -31,6 +31,8 @@
 class QObject;
 
 class MultiSortFilterProxy : public QSortFilterProxyModel {
+  Q_OBJECT
+
  public:
   explicit MultiSortFilterProxy(QObject *parent = nullptr);
 

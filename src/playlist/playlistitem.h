@@ -45,7 +45,7 @@ class SqlRow;
 
 class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
  public:
-  explicit PlaylistItem(const Song::Source &source) : should_skip_(false), source_(source) {}
+  explicit PlaylistItem(const Song::Source source) : should_skip_(false), source_(source) {}
   virtual ~PlaylistItem();
 
   static PlaylistItem *NewFromSource(const Song::Source source);
@@ -93,23 +93,23 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   virtual void SetArtManual(const QUrl &cover_url) = 0;
 
   // Background colors.
-  void SetBackgroundColor(short priority, const QColor &color);
-  bool HasBackgroundColor(short priority) const;
-  void RemoveBackgroundColor(short priority);
+  void SetBackgroundColor(const short priority, const QColor &color);
+  bool HasBackgroundColor(const short priority) const;
+  void RemoveBackgroundColor(const short priority);
   QColor GetCurrentBackgroundColor() const;
   bool HasCurrentBackgroundColor() const;
 
   // Foreground colors.
-  void SetForegroundColor(short priority, const QColor &color);
-  bool HasForegroundColor(short priority) const;
-  void RemoveForegroundColor(short priority);
+  void SetForegroundColor(const short priority, const QColor &color);
+  bool HasForegroundColor(const short priority) const;
+  void RemoveForegroundColor(const short priority);
   QColor GetCurrentForegroundColor() const;
   bool HasCurrentForegroundColor() const;
 
   // Convenience function to find out whether this item is from the local collection, as opposed to a device, a file on disk, or a stream.
   // Remember that even if this returns true, the collection item might be invalid so you might want to check that its id is not equal to -1 before actually using it.
   virtual bool IsLocalCollectionItem() const { return false; }
-  void SetShouldSkip(bool val);
+  void SetShouldSkip(const bool val);
   bool GetShouldSkip() const;
 
  protected:
@@ -128,6 +128,8 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
 
   QMap<short, QColor> background_colors_;
   QMap<short, QColor> foreground_colors_;
+
+  Q_DISABLE_COPY(PlaylistItem)
 };
 typedef std::shared_ptr<PlaylistItem> PlaylistItemPtr;
 typedef QList<PlaylistItemPtr> PlaylistItemList;

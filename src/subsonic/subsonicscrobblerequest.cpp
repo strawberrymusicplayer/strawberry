@@ -58,7 +58,7 @@ SubsonicScrobbleRequest::~SubsonicScrobbleRequest() {
 
 }
 
-void SubsonicScrobbleRequest::CreateScrobbleRequest(const QString song_id, const bool submission, const QDateTime start_time) {
+void SubsonicScrobbleRequest::CreateScrobbleRequest(const QString &song_id, const bool submission, const QDateTime &start_time) {
 
   Request request;
   request.song_id = song_id;

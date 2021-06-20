@@ -31,7 +31,8 @@
 #include "collection/directory.h"
 
 class MetatypesEnvironment : public ::testing::Environment {
-public:
+ public:
+  MetatypesEnvironment() = default;
   void SetUp() override {
     qRegisterMetaType<Directory>("Directory");
     qRegisterMetaType<DirectoryList>("DirectoryList");
@@ -41,6 +42,8 @@ public:
     qRegisterMetaType<QModelIndex>("QModelIndex");
     qRegisterMetaType<SongLoader::Result>("SongLoader::Result");
   }
+ private:
+  Q_DISABLE_COPY(MetatypesEnvironment)
 };
 
 #endif  // RESOURCES_ENV_H

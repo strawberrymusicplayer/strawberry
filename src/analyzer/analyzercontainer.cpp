@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <chrono>
+
 #include <QObject>
 #include <QWidget>
 #include <QVariant>
@@ -43,6 +45,8 @@
 #include "core/logging.h"
 #include "engine/enginebase.h"
 #include "engine/enginetype.h"
+
+using namespace std::chrono_literals;
 
 const char *AnalyzerContainer::kSettingsGroup = "Analyzer";
 const char *AnalyzerContainer::kSettingsFramerate = "framerate";
@@ -90,7 +94,7 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
   context_menu_->addSeparator();
 
   double_click_timer_->setSingleShot(true);
-  double_click_timer_->setInterval(250);
+  double_click_timer_->setInterval(250ms);
   QObject::connect(double_click_timer_, &QTimer::timeout, this, &AnalyzerContainer::ShowPopupMenu);
 
   Load();

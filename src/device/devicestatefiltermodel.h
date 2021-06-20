@@ -42,14 +42,14 @@ class DeviceStateFilterModel : public QSortFilterProxyModel {
   void setSourceModel(QAbstractItemModel *sourceModel) override;
 
  signals:
-  void IsEmptyChanged(bool is_empty);
+  void IsEmptyChanged(const bool is_empty);
 
  protected:
   bool filterAcceptsRow(int row, const QModelIndex &parent) const override;
 
  private slots:
   void ProxyReset();
-  void ProxyRowCountChanged(QModelIndex idx, int first, int last);
+  void ProxyRowCountChanged(const QModelIndex &idx, const int first, const int last);
 
  private:
   DeviceManager::State state_;

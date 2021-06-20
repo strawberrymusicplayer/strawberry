@@ -71,7 +71,7 @@ class SubsonicBaseRequest : public QObject {
   bool download_album_covers() const { return service_->download_album_covers(); }
 
  private slots:
-  void HandleSSLErrors(QList<QSslError> ssl_errors);
+  void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 
  private:
   SubsonicService *service_;

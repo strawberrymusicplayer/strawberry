@@ -32,7 +32,8 @@
 #include "albumcoverexport.h"
 #include "coverexportrunnable.h"
 
-CoverExportRunnable::CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const Song &song) :
+CoverExportRunnable::CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const Song &song, QObject *parent) :
+    QObject(parent),
     dialog_result_(dialog_result),
     song_(song) {}
 

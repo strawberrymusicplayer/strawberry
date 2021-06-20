@@ -33,12 +33,12 @@
 #include "ui_smartplaylistquerysearchpage.h"
 #include "ui_smartplaylistquerysortpage.h"
 
-class SmartPlaylistQueryWizardPlugin::SearchPage : public QWizardPage {
+class SmartPlaylistQueryWizardPlugin::SearchPage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
 
   friend class SmartPlaylistQueryWizardPlugin;
 
  public:
-  SearchPage(QWidget *parent = 0)
+  explicit SearchPage(QWidget *parent = nullptr)
       : QWizardPage(parent), ui_(new Ui_SmartPlaylistQuerySearchPage) {
     ui_->setupUi(this);
   }
@@ -62,7 +62,7 @@ class SmartPlaylistQueryWizardPlugin::SearchPage : public QWizardPage {
   std::unique_ptr<Ui_SmartPlaylistQuerySearchPage> ui_;
 };
 
-class SmartPlaylistQueryWizardPlugin::SortPage : public QWizardPage {
+class SmartPlaylistQueryWizardPlugin::SortPage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
  public:
   SortPage(SmartPlaylistQueryWizardPlugin *plugin, QWidget *parent, int next_id)
       : QWizardPage(parent), next_id_(next_id), plugin_(plugin) {}

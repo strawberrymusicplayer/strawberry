@@ -26,7 +26,7 @@
 #include "translations.h"
 #include "core/potranslator.h"
 
-Translations::Translations() {}
+Translations::Translations(QObject *parent) : QObject(parent) {}
 Translations::~Translations() {
 
   for (QTranslator *t : translations_) {

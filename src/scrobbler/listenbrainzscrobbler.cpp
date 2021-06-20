@@ -552,7 +552,8 @@ void ListenBrainzScrobbler::Submit() {
   QJsonArray array;
   int i(0);
   QList<quint64> list;
-  for (ScrobblerCacheItemPtr item : cache_->List()) {
+  QList<ScrobblerCacheItemPtr> items = cache_->List();
+  for (ScrobblerCacheItemPtr item : items) {  // clazy:exclude=range-loop
     if (item->sent_) continue;
     item->sent_ = true;
     ++i;
@@ -587,7 +588,7 @@ void ListenBrainzScrobbler::Submit() {
 
 }
 
-void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint64> list) {
+void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, const QList<quint64> &list) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);

@@ -301,7 +301,7 @@ void DeviceView::Connect() {
   app_->device_manager()->data(device_idx, MusicStorage::Role_StorageForceConnect);
 }
 
-void DeviceView::DeviceConnected(QModelIndex idx) {
+void DeviceView::DeviceConnected(const QModelIndex &idx) {
 
   if (!idx.isValid()) return;
 
@@ -322,7 +322,7 @@ void DeviceView::DeviceConnected(QModelIndex idx) {
 
 }
 
-void DeviceView::DeviceDisconnected(QModelIndex idx) {
+void DeviceView::DeviceDisconnected(const QModelIndex &idx) {
   if (!idx.isValid()) return;
   merged_model_->RemoveSubModel(sort_model_->mapFromSource(idx));
 }
@@ -430,8 +430,9 @@ void DeviceView::Delete() {
 
 void DeviceView::Organize() {
 
-  SongList songs = GetSelectedSongs();
+  const SongList songs = GetSelectedSongs();
   QStringList filenames;
+  filenames.reserve(songs.count());
   for (const Song &song : songs) {
     filenames << song.url().toLocalFile();
   }

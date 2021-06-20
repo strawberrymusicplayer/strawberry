@@ -31,6 +31,8 @@ class QModelIndex;
 class InternetSearchView;
 
 class InternetSearchItemDelegate : public CollectionItemDelegate {
+  Q_OBJECT
+
  public:
   explicit InternetSearchItemDelegate(InternetSearchView *view);
 

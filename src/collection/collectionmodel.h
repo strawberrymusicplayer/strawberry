@@ -60,7 +60,7 @@ class CollectionDirectoryModel;
 class CollectionModel : public SimpleTreeModel<CollectionItem> {
   Q_OBJECT
 
-  Q_ENUMS(GroupBy)
+  Q_ENUMS(GroupBy) // clazy:exclude=qenums
 
  public:
   explicit CollectionModel(CollectionBackend *backend, Application *app, QObject *parent = nullptr);
@@ -118,10 +118,10 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
     const GroupBy &operator[](const int i) const;
     GroupBy &operator[](const int i);
-    bool operator==(const Grouping &other) const {
+    bool operator==(const Grouping other) const {
       return first == other.first && second == other.second && third == other.third;
     }
-    bool operator!=(const Grouping &other) const { return !(*this == other); }
+    bool operator!=(const Grouping other) const { return !(*this == other); }
   };
 
   struct QueryResult {
@@ -162,7 +162,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void set_show_dividers(const bool show_dividers);
 
   // Save the current grouping
-  void SaveGrouping(QString name);
+  void SaveGrouping(const QString &name);
 
   // Reload settings.
   void ReloadSettings();
@@ -195,8 +195,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   void ExpandAll(CollectionItem *item = nullptr) const;
 
-  const CollectionModel::Grouping &GetGroupBy() const { return group_by_; }
-  void SetGroupBy(const CollectionModel::Grouping &g);
+  const CollectionModel::Grouping GetGroupBy() const { return group_by_; }
+  void SetGroupBy(const CollectionModel::Grouping g);
 
  signals:
   void TotalSongCountUpdated(int count);
@@ -317,7 +317,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
 Q_DECLARE_METATYPE(CollectionModel::Grouping)
 
-QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping &g);
+QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping g);
 QDataStream &operator>>(QDataStream &s, CollectionModel::Grouping &g);
 
 #endif  // COLLECTIONMODEL_H

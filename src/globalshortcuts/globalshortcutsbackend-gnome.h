@@ -37,7 +37,7 @@ class GlobalShortcutsBackendGnome : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutsBackendGnome(GlobalShortcutsManager *parent);
+  explicit GlobalShortcutsBackendGnome(GlobalShortcutsManager *manager, QObject *parent = nullptr);
 
   bool IsAvailable() override;
 

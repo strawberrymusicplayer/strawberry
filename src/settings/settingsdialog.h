@@ -59,6 +59,8 @@ class Ui_SettingsDialog;
 
 
 class SettingsItemDelegate : public QStyledItemDelegate {
+  Q_OBJECT
+
  public:
   explicit SettingsItemDelegate(QObject *parent);
   QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
@@ -131,7 +133,7 @@ class SettingsDialog : public QDialog {
   void SaveGeometry();
 
   QTreeWidgetItem *AddCategory(const QString &name);
-  void AddPage(Page id, SettingsPage *page, QTreeWidgetItem *parent = nullptr);
+  void AddPage(const Page id, SettingsPage *page, QTreeWidgetItem *parent = nullptr);
 
   void Apply();
   void Save();

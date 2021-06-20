@@ -94,7 +94,7 @@ class QobuzBaseRequest : public QObject {
   int login_attempts() { return service_->login_attempts(); }
 
  private slots:
-  void HandleSSLErrors(QList<QSslError> ssl_errors);
+  void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 
  private:
   QobuzService *service_;

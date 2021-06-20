@@ -39,7 +39,7 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
 
  public:
   explicit GlobalShortcut(QObject *parent = nullptr);
-  explicit GlobalShortcut(QKeySequence shortcut, GlobalShortcutsBackend *backend, QObject *parent = nullptr);
+  explicit GlobalShortcut(const QKeySequence &shortcut, GlobalShortcutsBackend *backend, QObject *parent = nullptr);
   ~GlobalShortcut() override;
 
   GlobalShortcutsBackend *backend() const { return backend_; }

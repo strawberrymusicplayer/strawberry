@@ -61,7 +61,7 @@ void CoverProviders::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(CoversSettingsPage::kSettingsGroup);
-  QStringList providers_enabled = s.value("providers", QStringList() << all_providers.values()).toStringList();
+  QStringList providers_enabled = s.value("providers", QStringList() << all_providers.values()).toStringList();  // clazy:exclude=qt6-deprecated-api-fixes
   s.endGroup();
 
   int i = 0;
@@ -71,7 +71,7 @@ void CoverProviders::ReloadSettings() {
     if (provider) {
       provider->set_enabled(true);
       provider->set_order(++i);
-      new_providers << provider;
+      new_providers << provider;  // clazy:exclude=reserve-candidates
     }
   }
 

@@ -48,8 +48,8 @@
 
 int Transcoder::JobFinishedEvent::sEventType = -1;
 
-TranscoderPreset::TranscoderPreset(Song::FileType type, const QString &name, const QString &extension, const QString &codec_mimetype, const QString &muxer_mimetype)
-    : type_(type),
+TranscoderPreset::TranscoderPreset(const Song::FileType filetype, const QString &name, const QString &extension, const QString &codec_mimetype, const QString &muxer_mimetype)
+    : filetype_(filetype),
       name_(name),
       extension_(extension),
       codec_mimetype_(codec_mimetype),
@@ -187,7 +187,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
 Transcoder::JobFinishedEvent::JobFinishedEvent(JobState *state, bool success)
     : QEvent(QEvent::Type(sEventType)), state_(state), success_(success) {}
 
-void Transcoder::JobState::PostFinished(bool success) {
+void Transcoder::JobState::PostFinished(const bool success) {
 
   if (success) {
     emit parent_->LogLine(tr("Successfully written %1").arg(QDir::toNativeSeparators(job_.output)));
@@ -235,37 +235,37 @@ QList<TranscoderPreset> Transcoder::GetAllPresets() {
 
 }
 
-TranscoderPreset Transcoder::PresetForFileType(Song::FileType type) {
+TranscoderPreset Transcoder::PresetForFileType(const Song::FileType filetype) {
 
-  switch (type) {
+  switch (filetype) {
     case Song::FileType_WAV:
-      return TranscoderPreset(type, "Wav",                    "wav",  QString(), "audio/x-wav");
+      return TranscoderPreset(filetype, "Wav",                    "wav",  QString(), "audio/x-wav");
     case Song::FileType_FLAC:
-      return TranscoderPreset(type, "FLAC",                   "flac", "audio/x-flac");
+      return TranscoderPreset(filetype, "FLAC",                   "flac", "audio/x-flac");
     case Song::FileType_WavPack:
-      return TranscoderPreset(type, "WavPack",                "wv",   "audio/x-wavpack");
+      return TranscoderPreset(filetype, "WavPack",                "wv",   "audio/x-wavpack");
     case Song::FileType_OggFlac:
-      return TranscoderPreset(type, "Ogg FLAC",               "ogg",  "audio/x-flac", "application/ogg");
+      return TranscoderPreset(filetype, "Ogg FLAC",               "ogg",  "audio/x-flac", "application/ogg");
     case Song::FileType_OggVorbis:
-      return TranscoderPreset(type, "Ogg Vorbis",             "ogg",  "audio/x-vorbis", "application/ogg");
+      return TranscoderPreset(filetype, "Ogg Vorbis",             "ogg",  "audio/x-vorbis", "application/ogg");
     case Song::FileType_OggOpus:
-      return TranscoderPreset(type, "Ogg Opus",               "opus", "audio/x-opus", "application/ogg");
+      return TranscoderPreset(filetype, "Ogg Opus",               "opus", "audio/x-opus", "application/ogg");
     case Song::FileType_OggSpeex:
-      return TranscoderPreset(type, "Ogg Speex",              "spx",  "audio/x-speex", "application/ogg");
+      return TranscoderPreset(filetype, "Ogg Speex",              "spx",  "audio/x-speex", "application/ogg");
     case Song::FileType_MPEG:
-      return TranscoderPreset(type, "MP3",                    "mp3",  "audio/mpeg, mpegversion=(int)1, layer=(int)3");
+      return TranscoderPreset(filetype, "MP3",                    "mp3",  "audio/mpeg, mpegversion=(int)1, layer=(int)3");
     case Song::FileType_MP4:
-      return TranscoderPreset(type, "M4A AAC",                "mp4",  "audio/mpeg, mpegversion=(int)4", "audio/mp4");
+      return TranscoderPreset(filetype, "M4A AAC",                "mp4",  "audio/mpeg, mpegversion=(int)4", "audio/mp4");
     case Song::FileType_ASF:
-      return TranscoderPreset(type, "Windows Media audio",    "wma",  "audio/x-wma", "video/x-ms-asf");
+      return TranscoderPreset(filetype, "Windows Media audio",    "wma",  "audio/x-wma", "video/x-ms-asf");
     default:
-      qLog(Warning) << "Unsupported format in PresetForFileType:" << type;
+      qLog(Warning) << "Unsupported format in PresetForFileType:" << filetype;
       return TranscoderPreset();
   }
 
 }
 
-Song::FileType Transcoder::PickBestFormat(QList<Song::FileType> supported) {
+Song::FileType Transcoder::PickBestFormat(const QList<Song::FileType> &supported) {
 
   if (supported.isEmpty()) return Song::FileType_Unknown;
 
@@ -282,7 +282,7 @@ Song::FileType Transcoder::PickBestFormat(QList<Song::FileType> supported) {
 
 }
 
-QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset, const QString output) {
+QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset, const QString &output) {
 
   QFileInfo fileinfo_output;
 
@@ -500,7 +500,7 @@ bool Transcoder::event(QEvent *e) {
     gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(finished_event->state_->pipeline_)), nullptr, nullptr, nullptr);
 
     // Remove it from the list - this will also destroy the GStreamer pipeline
-    current_jobs_.erase(it);
+    current_jobs_.erase(it);  // clazy:exclude=strict-iterators
 
     // Emit the finished signal
     emit JobComplete(input, output, finished_event->success_);
@@ -535,7 +535,7 @@ void Transcoder::Cancel() {
     }
 
     // Remove the job, this destroys the GStreamer pipeline too
-    it = current_jobs_.erase(it);
+    it = current_jobs_.erase(it);  // clazy:exclude=strict-iterators
   }
 
 }

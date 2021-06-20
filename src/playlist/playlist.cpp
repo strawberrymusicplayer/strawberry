@@ -30,6 +30,7 @@
 #include <type_traits>
 #include <unordered_map>
 #include <random>
+#include <chrono>
 
 #include <QtGlobal>
 #include <QObject>
@@ -43,6 +44,7 @@
 #include <QFile>
 #include <QList>
 #include <QMap>
+#include <QHash>
 #include <QSet>
 #include <QMimeData>
 #include <QVariant>
@@ -90,6 +92,8 @@
 
 #include "internet/internetplaylistitem.h"
 #include "internet/internetsongmimedata.h"
+
+using namespace std::chrono_literals;
 
 const char *Playlist::kCddaMimeType = "x-content/audio-cdda";
 const char *Playlist::kRowsMimetype = "application/x-strawberry-playlist-rows";
@@ -161,7 +165,7 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
   column_alignments_ = PlaylistView::DefaultColumnAlignment();
 
   timer_save_->setSingleShot(true);
-  timer_save_->setInterval(900);
+  timer_save_->setInterval(900ms);
 
 }
 
@@ -174,7 +178,7 @@ template <typename T>
 void Playlist::InsertSongItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
   PlaylistItemList items;
-
+  items.reserve(songs.count());
   for (const Song &song : songs) {
     items << PlaylistItemPtr(new T(song));
   }
@@ -800,7 +804,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     qint64 own_pid = QCoreApplication::applicationPid();
 
     QDataStream stream(data->data(kRowsMimetype));
-    stream.readRawData(reinterpret_cast<char*>(&source_playlist), sizeof(source_playlist));
+    stream.readRawData(reinterpret_cast<char*>(&source_playlist), sizeof(source_playlist));  // NOLINT(bugprone-sizeof-expression)
     stream >> source_rows;
     if (!stream.atEnd()) {
       stream.readRawData(reinterpret_cast<char*>(&pid), sizeof(pid));
@@ -818,6 +822,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     else if (pid == own_pid) {
       // Drag from a different playlist
       PlaylistItemList items;
+      items.reserve(source_rows.count());
       for (const int i : source_rows) items << source_playlist->item_at(i);
 
       if (items.count() > kUndoItemLimit) {
@@ -896,6 +901,7 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
 
   emit layoutAboutToBeChanged();
   PlaylistItemList moved_items;
+  moved_items.reserve(source_rows.count());
 
   if (pos < 0) {
     pos = items_.count();
@@ -904,12 +910,12 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
   // Take the items out of the list first, keeping track of whether the insertion point changes
   int offset = 0;
   int start = pos;
-  for (int source_row : source_rows) {
+  for (const int source_row : source_rows) {
     moved_items << items_.takeAt(source_row - offset);
     if (pos > source_row) {
-      start--;
+      --start;
     }
-    offset++;
+    ++offset;
   }
 
   // Put the items back in
@@ -946,11 +952,13 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
 void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
 
   emit layoutAboutToBeChanged();
+
   PlaylistItemList moved_items;
+  moved_items.reserve(dest_rows.count());
 
   int pos = start;
-  for (int dest_row : dest_rows) {
-    if (dest_row < pos) start--;
+  for (const int dest_row : dest_rows) {
+    if (dest_row < pos) --start;
   }
 
   if (start < 0) {
@@ -958,8 +966,9 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
   }
 
   // Take the items out of the list first
-  for (int i = 0; i < dest_rows.count(); i++)
+  for (int i = 0; i < dest_rows.count(); ++i) {
     moved_items << items_.takeAt(start);
+  }
 
   // Put the items back in
   int offset = 0;
@@ -974,10 +983,12 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
       // This index was moved
       const int i = pidx.row() - start;
       changePersistentIndex(pidx, index(dest_rows[i], pidx.column(), QModelIndex()));
-    } else {
+    }
+    else {
       int d = 0;
-      if (pidx.row() >= start + dest_rows.count())
+      if (pidx.row() >= start + dest_rows.count()) {
         d -= dest_rows.count();
+      }
 
       for (int dest_row : dest_rows) {
         if (pidx.row() + d > dest_row) d++;
@@ -996,15 +1007,16 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
 
 void Playlist::InsertItems(const PlaylistItemList &itemsIn, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
-  if (itemsIn.isEmpty())
+  if (itemsIn.isEmpty()) {
     return;
+  }
 
   PlaylistItemList items = itemsIn;
 
-  // exercise vetoes
+  // Exercise vetoes
   SongList songs;
-
-  for (PlaylistItemPtr item : items) {
+  songs.reserve(items.count());
+  for (PlaylistItemPtr item : items) {  // clazy:exclude=range-loop
     songs << item->Metadata();
   }
 
@@ -1012,11 +1024,11 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, const int pos, const
   QSet<Song> vetoed;
   for (SongInsertVetoListener *listener : veto_listeners_) {
     for (const Song &song : listener->AboutToInsertSongs(GetAllSongs(), songs)) {
-      // avoid veto-ing a song multiple times
+      // Avoid veto-ing a song multiple times
       vetoed.insert(song);
     }
     if (vetoed.count() == song_count) {
-      // all songs were vetoed and there's nothing more to do (there's no need for an undo step)
+      // All songs were vetoed and there's nothing more to do (there's no need for an undo step)
       return;
     }
   }
@@ -1033,7 +1045,7 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, const int pos, const
       }
     }
 
-    // check for empty items once again after veto
+    // Check for empty items once again after veto
     if (items.isEmpty()) {
       return;
     }
@@ -1085,7 +1097,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, const int p
   if (enqueue) {
     QModelIndexList indexes;
     for (int i = start; i <= end; ++i) {
-      indexes << index(i, 0);
+      indexes << index(i, 0);  // clazy:exclude=reserve-candidates
     }
     queue_->ToggleTracks(indexes);
   }
@@ -1093,7 +1105,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, const int p
   if (enqueue_next) {
     QModelIndexList indexes;
     for (int i = start; i <= end; ++i) {
-      indexes << index(i, 0);
+      indexes << index(i, 0);  // clazy:exclude=reserve-candidates
     }
     queue_->InsertFirst(indexes);
   }
@@ -1135,6 +1147,7 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos
 void Playlist::InsertInternetItems(InternetService *service, const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
   PlaylistItemList playlist_items;
+  playlist_items.reserve(songs.count());
   for (const Song &song : songs) {
     playlist_items << std::make_shared<InternetPlaylistItem>(service, song);
   }
@@ -1215,7 +1228,7 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
   const Playlist *self = this;
   const qint64 pid = QCoreApplication::applicationPid();
 
-  stream.writeRawData(reinterpret_cast<char*>(&self), sizeof(self));
+  stream.writeRawData(reinterpret_cast<char*>(&self), sizeof(self));  // NOLINT(bugprone-sizeof-expression)
   stream << rows;
   stream.writeRawData(reinterpret_cast<const char*>(&pid), sizeof(pid));
   buf.close();
@@ -1393,7 +1406,7 @@ void Playlist::ReOrderWithoutUndo(const PlaylistItemList &new_items) {
   PlaylistItemList old_items = items_;
   items_ = new_items;
 
-  QMap<const PlaylistItem*, int> new_rows;
+  QHash<const PlaylistItem*, int> new_rows;
   for (int i = 0; i < new_items.length(); ++i) {
     new_rows[new_items[i].get()] = i;
   }
@@ -1621,6 +1634,7 @@ PlaylistItemList Playlist::RemoveItemsWithoutUndo(const int row, const int count
 
   // Remove items
   PlaylistItemList ret;
+  ret.reserve(count);
   for (int i = 0; i < count; ++i) {
     PlaylistItemPtr item(items_.takeAt(row));
     ret << item;
@@ -1637,22 +1651,26 @@ PlaylistItemList Playlist::RemoveItemsWithoutUndo(const int row, const int count
 
   QList<int>::iterator it = virtual_items_.begin();
   while (it != virtual_items_.end()) {
-    if (*it >= items_.count())
-      it = virtual_items_.erase(it);
-    else
+    if (*it >= items_.count()) {
+      it = virtual_items_.erase(it);  // clazy:exclude=strict-iterators
+    }
+    else {
       ++it;
+    }
   }
 
   // Reset current_virtual_index_
-  if (current_row() == -1)
+  if (current_row() == -1) {
     if (row - 1 > 0 && row - 1 < items_.size()) {
       current_virtual_index_ = virtual_items_.indexOf(row - 1);
     }
     else {
       current_virtual_index_ = -1;
     }
-  else
+  }
+  else {
     current_virtual_index_ = virtual_items_.indexOf(current_row());
+  }
 
   ScheduleSave();
 
@@ -1664,15 +1682,19 @@ void Playlist::StopAfter(const int row) {
 
   QModelIndex old_stop_after = stop_after_;
 
-  if ((stop_after_.isValid() && stop_after_.row() == row) || row == -1)
+  if ((stop_after_.isValid() && stop_after_.row() == row) || row == -1) {
     stop_after_ = QModelIndex();
-  else
+  }
+  else {
     stop_after_ = index(row, 0);
+  }
 
-  if (old_stop_after.isValid())
+  if (old_stop_after.isValid()) {
     emit dataChanged(old_stop_after, old_stop_after.sibling(old_stop_after.row(), ColumnCount - 1));
-  if (stop_after_.isValid())
+  }
+  if (stop_after_.isValid()) {
     emit dataChanged(stop_after_, stop_after_.sibling(stop_after_.row(), ColumnCount - 1));
+  }
 
 }
 
@@ -1712,8 +1734,10 @@ bool Playlist::stop_after_current() const {
 PlaylistItemPtr Playlist::current_item() const {
 
   // QList[] runs in constant time, so no need to cache current_item
-  if (current_item_index_.isValid() && current_item_index_.row() <= items_.length())
+  if (current_item_index_.isValid() && current_item_index_.row() <= items_.length()) {
     return items_[current_item_index_.row()];
+  }
+
   return PlaylistItemPtr();
 
 }
@@ -1960,7 +1984,8 @@ QSortFilterProxyModel *Playlist::proxy() const { return proxy_; }
 SongList Playlist::GetAllSongs() const {
 
   SongList ret;
-  for (PlaylistItemPtr item : items_) {
+  ret.reserve(items_.count());
+  for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop
     ret << item->Metadata();
   }
   return ret;
@@ -1972,7 +1997,7 @@ PlaylistItemList Playlist::GetAllItems() const { return items_; }
 quint64 Playlist::GetTotalLength() const {
 
   quint64 ret = 0;
-  for (PlaylistItemPtr item : items_) {
+  for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop
     quint64 length = item->Metadata().length_nanosec();
     if (length > 0) ret += length;
   }
@@ -2072,11 +2097,11 @@ void Playlist::InvalidateDeletedSongs() {
       if (!exists && !item->HasForegroundColor(kInvalidSongPriority)) {
         // gray out the song if it's not there
         item->SetForegroundColor(kInvalidSongPriority, kInvalidSongColor);
-        invalidated_rows.append(row);
+        invalidated_rows.append(row);  // clazy:exclude=reserve-candidates
       }
       else if (exists && item->HasForegroundColor(kInvalidSongPriority)) {
         item->RemoveForegroundColor(kInvalidSongPriority);
-        invalidated_rows.append(row);
+        invalidated_rows.append(row);  // clazy:exclude=reserve-candidates
       }
     }
   }
@@ -2101,7 +2126,7 @@ void Playlist::RemoveDeletedSongs() {
     Song song = item->Metadata();
 
     if (song.url().isLocalFile() && !QFile::exists(song.url().toLocalFile())) {
-      rows_to_remove.append(row);
+      rows_to_remove.append(row);  // clazy:exclude=reserve-candidates
     }
   }
 
@@ -2141,12 +2166,12 @@ void Playlist::RemoveDuplicateSongs() {
       const Song &uniq_song = uniq_song_it->first;
 
       if (song.bitrate() > uniq_song.bitrate()) {
-        rows_to_remove.append(unique_songs[uniq_song]);
+        rows_to_remove.append(unique_songs[uniq_song]);  // clazy:exclude=reserve-candidates
         unique_songs.erase(uniq_song);
         unique_songs.insert(std::make_pair(song, row));
       }
       else {
-        rows_to_remove.append(row);
+        rows_to_remove.append(row);  // clazy:exclude=reserve-candidates
       }
       found_duplicate = true;
     }
@@ -2169,7 +2194,7 @@ void Playlist::RemoveUnavailableSongs() {
 
     // Check only local files
     if (song.url().isLocalFile() && !QFile::exists(song.url().toLocalFile())) {
-      rows_to_remove.append(row);
+      rows_to_remove.append(row);  // clazy:exclude=reserve-candidates
     }
   }
 
@@ -2294,7 +2319,7 @@ void Playlist::RateSongs(const QModelIndexList &index_list, const double rating)
     if (has_item_at(row)) {
       PlaylistItemPtr item = item_at(row);
       if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
-        id_list << item->Metadata().id();
+        id_list << item->Metadata().id();  // clazy:exclude=reserve-candidates
       }
     }
   }

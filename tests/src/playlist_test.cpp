@@ -35,6 +35,8 @@
 
 using ::testing::Return;
 
+// clazy:excludeall=non-pod-global-static,returning-void-expression
+
 namespace {
 
 class PlaylistTest : public ::testing::Test {
@@ -45,11 +47,11 @@ class PlaylistTest : public ::testing::Test {
   {
   }
 
-  void SetUp() {
+  void SetUp() override {
     playlist_.set_sequence(&sequence_);
   }
 
-  MockPlaylistItem* MakeMockItem(const QString& title, const QString& artist = QString(), const QString& album = QString(), int length = 123) const {
+  MockPlaylistItem* MakeMockItem(const QString &title, const QString &artist = QString(), const QString &album = QString(), int length = 123) const {
     Song metadata;
     metadata.Init(title, artist, album, length);
 
@@ -59,12 +61,12 @@ class PlaylistTest : public ::testing::Test {
     return ret;
   }
 
-  PlaylistItemPtr MakeMockItemP(const QString& title, const QString& artist = QString(), const QString& album = QString(), int length = 123) const {
+  PlaylistItemPtr MakeMockItemP(const QString &title, const QString &artist = QString(), const QString &album = QString(), int length = 123) const {
     return PlaylistItemPtr(MakeMockItem(title, artist, album, length));
   }
 
-  Playlist playlist_;
-  PlaylistSequence sequence_;
+  Playlist playlist_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  PlaylistSequence sequence_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
 };
 
@@ -436,6 +438,7 @@ TEST_F(PlaylistTest, ShuffleThenNext) {
 
   // Add 100 items
   PlaylistItemList items;
+  items.reserve(100);
   for (int i=0 ; i<100 ; ++i)
     items << MakeMockItemP("Item " + QString::number(i));
   playlist_.InsertItems(items);
@@ -484,7 +487,7 @@ TEST_F(PlaylistTest, CollectionIdMapSingle) {
   EXPECT_EQ(0, playlist_.collection_items_by_id(0).count());
   EXPECT_EQ(0, playlist_.collection_items_by_id(2).count());
   ASSERT_EQ(1, playlist_.collection_items_by_id(1).count());
-  EXPECT_EQ(song.title(), playlist_.collection_items_by_id(1)[0]->Metadata().title());
+  EXPECT_EQ(song.title(), playlist_.collection_items_by_id(1)[0]->Metadata().title());  // clazy:exclude=detaching-temporary
 
   playlist_.Clear();
 

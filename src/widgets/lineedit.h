@@ -62,6 +62,9 @@ class LineEditInterface {
 
  protected:
   QWidget *widget_;
+
+ private:
+  Q_DISABLE_COPY(LineEditInterface)
 };
 
 class ExtendedEditor : public LineEditInterface {

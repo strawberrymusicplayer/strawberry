@@ -585,7 +585,8 @@ void ScrobblingAPI20::Submit() {
 
   int i = 0;
   QList<quint64> list;
-  for (ScrobblerCacheItemPtr item : cache()->List()) {
+  QList<ScrobblerCacheItemPtr> items = cache()->List();
+  for (ScrobblerCacheItemPtr item : items) {  // clazy:exclude=range-loop
     if (item->sent_) continue;
     item->sent_ = true;
     if (!batch_) {
@@ -614,7 +615,7 @@ void ScrobblingAPI20::Submit() {
 
 }
 
-void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint64> list) {
+void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<quint64> &list) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -720,7 +721,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint6
     return;
   }
 
-  for (const QJsonValueRef value : array_scrobble) {
+  for (const QJsonValueRef value : array_scrobble) {  // clazy:exclude=range-loop
 
     if (!value.isObject()) {
       Error("Json scrobbles scrobble array value is not an object.");
@@ -807,7 +808,7 @@ void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
 
 }
 
-void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint64 timestamp) {
+void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, const quint64 timestamp) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);

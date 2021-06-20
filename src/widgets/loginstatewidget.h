@@ -62,7 +62,7 @@ class LoginStateWidget : public QWidget {
   void SetAccountTypeText(const QString &text);
   void SetAccountTypeVisible(const bool visible);
 
-  void SetExpires(const QDate &expires);
+  void SetExpires(const QDate expires);
 
  signals:
   void LogoutClicked();

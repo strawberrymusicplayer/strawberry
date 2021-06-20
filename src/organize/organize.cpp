@@ -20,6 +20,7 @@
  */
 
 #include <functional>
+#include <chrono>
 
 #include <QtGlobal>
 #include <QThread>
@@ -45,6 +46,8 @@
 #  include "transcoder/transcoder.h"
 #endif
 
+using namespace std::chrono_literals;
+
 class OrganizeFormat;
 
 const int Organize::kBatchSize = 10;
@@ -52,8 +55,9 @@ const int Organize::kBatchSize = 10;
 const int Organize::kTranscodeProgressInterval = 500;
 #endif
 
-Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs_info, bool eject_after, const QString &playlist)
-    : thread_(nullptr),
+Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool mark_as_listened, const bool albumcover, const NewSongInfoList &songs_info, const bool eject_after, const QString &playlist, QObject *parent)
+    : QObject(parent),
+      thread_(nullptr),
       task_manager_(task_manager),
 #ifdef HAVE_GSTREAMER
       transcoder_(new Transcoder(this)),
@@ -77,9 +81,10 @@ Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
   original_thread_ = thread();
 
   process_files_timer_->setSingleShot(true);
-  process_files_timer_->setInterval(100);
+  process_files_timer_->setInterval(100ms);
   QObject::connect(process_files_timer_, &QTimer::timeout, this, &Organize::ProcessSomeFiles);
 
+  tasks_pending_.reserve(songs_info.count());
   for (const NewSongInfo &song_info : songs_info) {
     tasks_pending_ << Task(song_info);
   }
@@ -87,10 +92,12 @@ Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
 }
 
 Organize::~Organize() {
+
   if (thread_) {
     thread_->quit();
     thread_->deleteLater();
   }
+
 }
 
 void Organize::Start() {
@@ -380,7 +387,7 @@ void Organize::timerEvent(QTimerEvent *e) {
 
 }
 
-void Organize::LogLine(const QString message) {
+void Organize::LogLine(const QString &message) {
 
   QString date(QDateTime::currentDateTime().toString(Qt::TextDate));
   log_.append(QString("%1: %2").arg(date, message));

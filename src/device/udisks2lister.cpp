@@ -52,7 +52,7 @@
 
 constexpr char Udisks2Lister::udisks2_service_[];
 
-Udisks2Lister::Udisks2Lister() {}
+Udisks2Lister::Udisks2Lister(QObject *parent) : DeviceLister(parent) {}
 
 Udisks2Lister::~Udisks2Lister() {}
 
@@ -111,11 +111,11 @@ QVariantMap Udisks2Lister::DeviceHardwareInfo(const QString &id) {
   QVariantMap result;
 
   const auto &data = device_data_[id];
-  result[QT_TR_NOOP("D-Bus path")] = data.dbus_path;
-  result[QT_TR_NOOP("Serial number")] = data.serial;
-  result[QT_TR_NOOP("Mount points")] = data.mount_paths.join(", ");
-  result[QT_TR_NOOP("Partition label")] = data.label;
-  result[QT_TR_NOOP("UUID")] = data.uuid;
+  result[QT_TR_NOOP("D-Bus path")] = data.dbus_path;  // clazy:exclude=qt6-deprecated-api-fixes
+  result[QT_TR_NOOP("Serial number")] = data.serial;  // clazy:exclude=qt6-deprecated-api-fixes
+  result[QT_TR_NOOP("Mount points")] = data.mount_paths.join(", ");  // clazy:exclude=qt6-deprecated-api-fixes
+  result[QT_TR_NOOP("Partition label")] = data.label;  // clazy:exclude=qt6-deprecated-api-fixes
+  result[QT_TR_NOOP("UUID")] = data.uuid;  // clazy:exclude=qt6-deprecated-api-fixes
 
   return result;
 

@@ -109,7 +109,7 @@ static QString tr(const char *str) {
   return QCoreApplication::translate("", str);
 }
 
-QString PrettyTimeDelta(int seconds) {
+QString PrettyTimeDelta(const int seconds) {
   return (seconds >= 0 ? "+" : "-") + PrettyTime(seconds);
 }
 
@@ -130,11 +130,11 @@ QString PrettyTime(int seconds) {
 
 }
 
-QString PrettyTimeNanosec(qint64 nanoseconds) {
+QString PrettyTimeNanosec(const qint64 nanoseconds) {
   return PrettyTime(static_cast<int>(nanoseconds / kNsecPerSec));
 }
 
-QString WordyTime(quint64 seconds) {
+QString WordyTime(const quint64 seconds) {
 
   quint64 days = seconds / (60 * 60 * 24);
 
@@ -148,11 +148,11 @@ QString WordyTime(quint64 seconds) {
 
 }
 
-QString WordyTimeNanosec(qint64 nanoseconds) {
+QString WordyTimeNanosec(const qint64 nanoseconds) {
   return WordyTime(nanoseconds / kNsecPerSec);
 }
 
-QString Ago(qint64 seconds_since_epoch, const QLocale &locale) {
+QString Ago(const qint64 seconds_since_epoch, const QLocale &locale) {
 
   const QDateTime now = QDateTime::currentDateTime();
   const QDateTime then = QDateTime::fromSecsSinceEpoch(seconds_since_epoch);
@@ -167,7 +167,7 @@ QString Ago(qint64 seconds_since_epoch, const QLocale &locale) {
 
 }
 
-QString PrettyFutureDate(const QDate &date) {
+QString PrettyFutureDate(const QDate date) {
 
   const QDate now = QDate::currentDate();
   const qint64 delta_days = now.daysTo(date);
@@ -182,7 +182,7 @@ QString PrettyFutureDate(const QDate &date) {
 
 }
 
-QString PrettySize(quint64 bytes) {
+QString PrettySize(const quint64 bytes) {
 
   QString ret;
 
@@ -355,7 +355,7 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
 #endif
   proc.waitForFinished();
   QString desktop_file = proc.readLine().simplified();
-  QStringList data_dirs = QString(getenv("XDG_DATA_DIRS")).split(":");
+  QStringList data_dirs = QString(qgetenv("XDG_DATA_DIRS")).split(":");
 
   QString command;
   QStringList command_params;
@@ -384,23 +384,25 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
     command = command.split("/").last();
   }
 
+  // Three is no QProcess::startDetachedCommand function in Qt 6, so ignore the Clazy Qt 6 deprecated API fixes for QProcess::startDetached().
+
   if (command.isEmpty() || command == "exo-open") {
     QDesktopServices::openUrl(QUrl::fromLocalFile(path));
   }
   else if (command.startsWith("nautilus")) {
-    proc.startDetached(command, QStringList() << command_params << "--select" << url.toLocalFile());
+    proc.startDetached(command, QStringList() << command_params << "--select" << url.toLocalFile());  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else if (command.startsWith("dolphin") || command.startsWith("konqueror") || command.startsWith("kfmclient")) {
-    proc.startDetached(command, QStringList() << command_params << "--select" << "--new-window" << url.toLocalFile());
+    proc.startDetached(command, QStringList() << command_params << "--select" << "--new-window" << url.toLocalFile());  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else if (command.startsWith("caja")) {
-    proc.startDetached(command, QStringList() << command_params << "--no-desktop" << path);
+    proc.startDetached(command, QStringList() << command_params << "--no-desktop" << path);  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else if (command.startsWith("pcmanfm") || command.startsWith("thunar")) {
-    proc.startDetached(command, QStringList() << command_params << path);
+    proc.startDetached(command, QStringList() << command_params << path);  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else {
-    proc.startDetached(command, QStringList() << command_params << url.toLocalFile());
+    proc.startDetached(command, QStringList() << command_params << url.toLocalFile());  // clazy:exclude=qt6-deprecated-api-fixes
   }
 
 }
@@ -515,7 +517,7 @@ QByteArray Sha1CoverHash(const QString &artist, const QString &album) {
 
 }
 
-QString PrettySize(const QSize &size) {
+QString PrettySize(const QSize size) {
   return QString::number(size.width()) + "x" + QString::number(size.height());
 }
 
@@ -614,7 +616,7 @@ QDateTime ParseRFC822DateTime(const QString &text) {
 
 }
 
-const char *EnumToString(const QMetaObject &meta, const char *name, int value) {
+const char *EnumToString(const QMetaObject &meta, const char *name, const int value) {
 
   int index = meta.indexOfEnumerator(name);
   if (index == -1) return "[UnknownEnum]";
@@ -659,7 +661,7 @@ QString DecodeHtmlEntities(const QString &text) {
 
 }
 
-int SetThreadIOPriority(IoPriority priority) {
+int SetThreadIOPriority(const IoPriority priority) {
 
 #ifdef Q_OS_LINUX
   return syscall(SYS_ioprio_set, IOPRIO_WHO_PROCESS, GetThreadId(), 4 | priority << IOPRIO_CLASS_SHIFT);

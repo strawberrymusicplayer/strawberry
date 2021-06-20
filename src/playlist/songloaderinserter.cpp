@@ -32,8 +32,9 @@
 #include "playlist.h"
 #include "songloaderinserter.h"
 
-SongLoaderInserter::SongLoaderInserter(TaskManager *task_manager, CollectionBackendInterface *collection, const Player *player)
-    : task_manager_(task_manager),
+SongLoaderInserter::SongLoaderInserter(TaskManager *task_manager, CollectionBackendInterface *collection, const Player *player, QObject *parent)
+    : QObject(parent),
+      task_manager_(task_manager),
       destination_(nullptr),
       row_(-1),
       play_now_(true),

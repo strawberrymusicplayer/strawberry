@@ -64,8 +64,8 @@ const qint64 BackendSettingsPage::kDefaultBufferDuration = 4000;
 const double BackendSettingsPage::kDefaultBufferLowWatermark = 0.33;
 const double BackendSettingsPage::kDefaultBufferHighWatermark = 0.99;
 
-BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog) :
-  SettingsPage(dialog),
+BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent) :
+  SettingsPage(dialog, parent),
   ui_(new Ui_BackendSettingsPage),
   configloaded_(false),
   engineloaded_(false) {
@@ -216,9 +216,9 @@ void BackendSettingsPage::Load() {
     output_name = output.name;
   }
   QVariant device_value;
-  if (ui_->combobox_device->currentText().isEmpty()) device_value = QVariant();
-  else if (ui_->combobox_device->currentText() == kOutputCustom) device_value = ui_->lineedit_device->text();
-  else device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();
+  if (ui_->combobox_device->currentText().isEmpty()) device_value = QVariant();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (ui_->combobox_device->currentText() == kOutputCustom) device_value = ui_->lineedit_device->text();  // clazy:exclude=qt6-deprecated-api-fixes
+  else device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();  // clazy:exclude=qt6-deprecated-api-fixes
 
   if (enginetype_current_ != enginetype || output_name != output_current_ || device_value != device_current_) {
     set_changed();
@@ -295,7 +295,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   }
   if (!found) { // Output is invalid for this engine, reset to default output.
     output = engine()->DefaultOutput();
-    device = (engine()->CustomDeviceSupport(output) ? QString() : QVariant());
+    device = (engine()->CustomDeviceSupport(output) ? QString() : QVariant());  // clazy:exclude=qt6-deprecated-api-fixes
     for (int i = 0; i < ui_->combobox_output->count(); ++i) {
       EngineBase::OutputDetails o = ui_->combobox_output->itemData(i).value<EngineBase::OutputDetails>();
       if (o.name == output) {
@@ -444,9 +444,9 @@ void BackendSettingsPage::Save() {
     output_name = output.name;
   }
 
-  if (ui_->combobox_device->currentText().isEmpty()) device_value = QVariant();
-  else if (ui_->combobox_device->currentText() == kOutputCustom) device_value = ui_->lineedit_device->text();
-  else device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();
+  if (ui_->combobox_device->currentText().isEmpty()) device_value = QVariant();  // clazy:exclude=qt6-deprecated-api-fixes
+  else if (ui_->combobox_device->currentText() == kOutputCustom) device_value = ui_->lineedit_device->text();  // clazy:exclude=qt6-deprecated-api-fixes
+  else device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();  // clazy:exclude=qt6-deprecated-api-fixes
 
   QSettings s;
   s.beginGroup(kSettingsGroup);

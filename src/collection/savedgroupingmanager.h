@@ -46,7 +46,7 @@ class SavedGroupingManager : public QDialog {
   void UpdateModel();
   void SetFilter(CollectionFilterWidget *filter) { filter_ = filter; }
 
-  static QString GroupByToString(const CollectionModel::GroupBy &g);
+  static QString GroupByToString(const CollectionModel::GroupBy g);
 
  private slots:
   void UpdateButtonState();

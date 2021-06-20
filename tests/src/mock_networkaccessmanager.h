@@ -38,19 +38,20 @@
 
 class MockNetworkReply : public QNetworkReply {
   Q_OBJECT
+
  public:
-  MockNetworkReply();
-  explicit MockNetworkReply(const QByteArray& data);
+  MockNetworkReply(QObject *parent = nullptr);
+  explicit MockNetworkReply(const QByteArray &data, QObject *parent = nullptr);
 
   // Use these to set expectations.
-  void SetData(const QByteArray& data);
-  virtual void setAttribute(QNetworkRequest::Attribute code, const QVariant& value);
+  void SetData(const QByteArray &data);
+  virtual void setAttribute(QNetworkRequest::Attribute code, const QVariant &value);
 
   // Call this when you are ready for the finished() signal.
   void Done();
 
  protected:
-  MOCK_METHOD0(abort, void());
+  MOCK_METHOD0(abort, void());  // clazy:exclude=returning-void-expression,function-args-by-value
   qint64 readData(char* data, qint64) override;
   qint64 writeData(const char* data, qint64) override;
 
@@ -68,7 +69,7 @@ class MockNetworkAccessManager : public QNetworkAccessManager {
       int status,  // Returned HTTP status code.
       const QByteArray& ret_data);  // Returned data.
  protected:
-  MOCK_METHOD3(createRequest, QNetworkReply*(Operation, const QNetworkRequest&, QIODevice*));
+  MOCK_METHOD3(createRequest, QNetworkReply*(Operation, const QNetworkRequest&, QIODevice*));  // clazy:exclude=function-args-by-value
 };
 
 #endif  // MOCK_NETWORKACCESSMANAGER_H

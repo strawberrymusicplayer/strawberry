@@ -22,7 +22,4 @@
 
 #include "mock_playlistitem.h"
 
-using ::testing::_;
-using ::testing::Return;
-
 MockPlaylistItem::MockPlaylistItem() : PlaylistItem(Song::Source_LocalFile) {}

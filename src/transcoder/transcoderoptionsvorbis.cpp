@@ -50,7 +50,7 @@ void TranscoderOptionsVorbis::Load() {
 
 #define GET_BITRATE(variable, property)         \
   int variable = s.value(property, -1).toInt(); \
-  variable = variable == -1 ? 0 : variable / 1000
+  (variable) = ((variable) == -1 ? 0 : (variable) / 1000)
 
   GET_BITRATE(bitrate, "bitrate");
   GET_BITRATE(min_bitrate, "min-bitrate");
@@ -73,8 +73,8 @@ void TranscoderOptionsVorbis::Save() {
   s.beginGroup(kSettingsGroup + settings_postfix_);
 
 #define GET_BITRATE(variable, ui_slider) \
-  int variable = ui_slider->value();     \
-  variable = variable == 0 ? -1 : variable * 1000
+  int variable = (ui_slider)->value();     \
+  (variable) = ((variable) == 0 ? -1 : (variable) * 1000)
 
   GET_BITRATE(bitrate, ui_->bitrate_slider);
   GET_BITRATE(min_bitrate, ui_->min_bitrate_slider);

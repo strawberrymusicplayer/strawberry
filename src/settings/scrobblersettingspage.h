@@ -36,7 +36,7 @@ class ScrobblerSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit ScrobblerSettingsPage(SettingsDialog *parent);
+  explicit ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~ScrobblerSettingsPage() override;
 
   static const char *kSettingsGroup;
@@ -47,13 +47,13 @@ class ScrobblerSettingsPage : public SettingsPage {
  private slots:
   void LastFM_Login();
   void LastFM_Logout();
-  void LastFM_AuthenticationComplete(const bool success, QString error = QString());
+  void LastFM_AuthenticationComplete(const bool success, const QString &error = QString());
   void LibreFM_Login();
   void LibreFM_Logout();
-  void LibreFM_AuthenticationComplete(const bool success, QString error = QString());
+  void LibreFM_AuthenticationComplete(const bool success, const QString &error = QString());
   void ListenBrainz_Login();
   void ListenBrainz_Logout();
-  void ListenBrainz_AuthenticationComplete(const bool success, QString error = QString());
+  void ListenBrainz_AuthenticationComplete(const bool success, const QString &error = QString());
 
  private:
   AudioScrobbler *scrobbler_;
@@ -66,9 +66,9 @@ class ScrobblerSettingsPage : public SettingsPage {
   bool librefm_waiting_for_auth_;
   bool listenbrainz_waiting_for_auth_;
 
-  void LastFM_RefreshControls(bool authenticated);
-  void LibreFM_RefreshControls(bool authenticated);
-  void ListenBrainz_RefreshControls(bool authenticated);
+  void LastFM_RefreshControls(const bool authenticated);
+  void LibreFM_RefreshControls(const bool authenticated);
+  void ListenBrainz_RefreshControls(const bool authenticated);
 
 };
 

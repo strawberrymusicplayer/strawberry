@@ -61,8 +61,8 @@ const char *CollectionSettingsPage::kSettingsDiskCacheSizeUnit = "disk_cache_siz
 const int CollectionSettingsPage::kSettingsCacheSizeDefault = 160;
 const int CollectionSettingsPage::kSettingsDiskCacheSizeDefault = 360;
 
-CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
-    : SettingsPage(dialog),
+CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
       ui_(new Ui_CollectionSettingsPage),
       initialized_model_(false)
       {

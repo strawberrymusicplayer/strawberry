@@ -124,7 +124,7 @@ class TidalService : public InternetService {
 
  public slots:
   void ShowConfig() override;
-  void StartAuthorization(const QString client_id);
+  void StartAuthorization(const QString &client_id);
   void TryLogin();
   void SendLogin();
   void SendLoginWithCredentials(const QString &api_token, const QString &username, const QString &password);
@@ -139,7 +139,7 @@ class TidalService : public InternetService {
  private slots:
   void ExitReceived();
   void RequestNewAccessToken() { RequestAccessToken(); }
-  void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
+  void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);
   void AccessTokenRequestFinished(QNetworkReply *reply);
   void HandleAuthReply(QNetworkReply *reply);
   void ResetLoginAttempts();
@@ -157,7 +157,7 @@ class TidalService : public InternetService {
   void ArtistsUpdateProgressReceived(const int id, const int progress);
   void AlbumsUpdateProgressReceived(const int id, const int progress);
   void SongsUpdateProgressReceived(const int id, const int progress);
-  void HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error = QString());
+  void HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error = QString());
 
  private:
   typedef QPair<QString, QString> Param;

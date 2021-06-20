@@ -83,8 +83,8 @@ class ScrobblingAPI20 : public ScrobblerService {
   void RedirectArrived();
   void AuthenticateReplyFinished(QNetworkReply *reply);
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
-  void ScrobbleRequestFinished(QNetworkReply *reply, QList<quint64>);
-  void SingleScrobbleRequestFinished(QNetworkReply *reply, quint64 timestamp);
+  void ScrobbleRequestFinished(QNetworkReply *reply, const QList<quint64> &list);
+  void SingleScrobbleRequestFinished(QNetworkReply *reply, const quint64 timestamp);
   void LoveRequestFinished(QNetworkReply *reply);
 
  private:

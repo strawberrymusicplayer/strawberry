@@ -125,10 +125,9 @@ bool CollectionItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *vie
 
   if (!event || !view) return false;
 
-  QHelpEvent *he = static_cast<QHelpEvent*>(event);
   QString text = displayText(idx.data(), QLocale::system());
 
-  if (text.isEmpty() || !he) return false;
+  if (text.isEmpty() || !event) return false;
 
   switch (event->type()) {
     case QEvent::ToolTip: {
@@ -138,12 +137,12 @@ bool CollectionItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *vie
       bool is_elided = displayed_text.width() < real_text.width();
 
       if (is_elided) {
-        QToolTip::showText(he->globalPos(), text, view);
+        QToolTip::showText(event->globalPos(), text, view);
       }
       else if (idx.data(Qt::ToolTipRole).isValid()) {
         // If the item has a tooltip text, display it
         QString tooltip_text = idx.data(Qt::ToolTipRole).toString();
-        QToolTip::showText(he->globalPos(), tooltip_text, view);
+        QToolTip::showText(event->globalPos(), tooltip_text, view);
       }
       else {
         // in case that another text was previously displayed
@@ -156,7 +155,7 @@ bool CollectionItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *vie
       return true;
 
     case QEvent::WhatsThis:
-      QWhatsThis::showText(he->globalPos(), text, view);
+      QWhatsThis::showText(event->globalPos(), text, view);
       return true;
 
     default:

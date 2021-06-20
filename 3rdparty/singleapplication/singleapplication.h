@@ -45,7 +45,7 @@ class SingleApplicationPrivate;
  * @brief The SingleApplication class handles multipe instances of the same Application
  * @see QApplication
  */
-class SingleApplication : public QApplication {
+class SingleApplication : public QApplication {  // clazy:exclude=ctor-missing-parent-argument
   Q_OBJECT
 
   typedef QApplication app_t;
@@ -136,7 +136,7 @@ class SingleApplication : public QApplication {
    * @note sendMessage() will return false if invoked from the primary
    * instance.
    */
-  bool sendMessage(QByteArray message, int timeout = 1000);
+  bool sendMessage(const QByteArray &message, const int timeout = 1000);
 
  signals:
   void instanceStarted();

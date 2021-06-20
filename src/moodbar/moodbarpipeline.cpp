@@ -37,8 +37,8 @@
 bool MoodbarPipeline::sIsAvailable = false;
 const int MoodbarPipeline::kBands = 128;
 
-MoodbarPipeline::MoodbarPipeline(const QUrl &local_filename)
-    : QObject(nullptr),
+MoodbarPipeline::MoodbarPipeline(const QUrl &local_filename, QObject *parent)
+    : QObject(parent),
       local_filename_(local_filename),
       pipeline_(nullptr),
       convert_element_(nullptr),

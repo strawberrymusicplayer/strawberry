@@ -39,14 +39,14 @@ class Queue : public QAbstractProxyModel {
   Q_OBJECT
 
  public:
-  explicit Queue(Playlist *parent = nullptr);
+  explicit Queue(Playlist *playlist = nullptr, QObject *parent = nullptr);
 
   static const char *kRowsMimetype;
 
   // Query the queue
   bool is_empty() const;
   int PositionOf(const QModelIndex &source_index) const;
-  bool ContainsSourceRow(int source_row) const;
+  bool ContainsSourceRow(const int source_row) const;
   int PeekNext() const;
   int ItemCount() const;
   quint64 GetTotalLength() const;
@@ -57,8 +57,8 @@ class Queue : public QAbstractProxyModel {
   void InsertFirst(const QModelIndexList &source_indexes);
   void Clear();
   void Move(const QList<int> &proxy_rows, int pos);
-  void MoveUp(int row);
-  void MoveDown(int row);
+  void MoveUp(const int row);
+  void MoveDown(const int row);
   void Remove(QList<int> &proxy_rows);
 
   // QAbstractProxyModel

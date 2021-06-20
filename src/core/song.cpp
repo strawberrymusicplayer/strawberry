@@ -1586,7 +1586,7 @@ bool Song::IsSimilar(const Song &other) const {
          album().compare(other.album(), Qt::CaseInsensitive) == 0;
 }
 
-uint HashSimilar(const Song &song) {
+size_t HashSimilar(const Song &song) {
   // Should compare the same fields as function IsSimilar
   return qHash(song.title().toLower()) ^ qHash(song.artist().toLower()) ^ qHash(song.album().toLower());
 }

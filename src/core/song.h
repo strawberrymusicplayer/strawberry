@@ -403,6 +403,6 @@ size_t qHash(const Song &song);
 uint qHash(const Song &song);
 #endif
 // Hash function using field checked in IsSimilar function
-uint HashSimilar(const Song &song);
+size_t HashSimilar(const Song &song);
 
 #endif  // SONG_H

@@ -76,6 +76,7 @@ void MultiLoadingIndicator::UpdateText() {
   QList<TaskManager::Task> tasks = task_manager_->GetTasks();
 
   QStringList strings;
+  strings.reserve(tasks.count());
   for (const TaskManager::Task &task : tasks) {
     QString task_text(task.name);
     task_text[0] = task_text[0].toLower();
@@ -108,6 +109,6 @@ void MultiLoadingIndicator::paintEvent(QPaintEvent*) {
       kHorizontalPadding + spinner_->sizeHint().width() + kSpacing, kVerticalPadding,
       width() - kHorizontalPadding * 2 - spinner_->sizeHint().width() - kSpacing,
       height() - kVerticalPadding * 2);
-  p.drawText(text_rect, Qt::TextSingleLine | Qt::AlignLeft, fontMetrics().elidedText(text_, Qt::ElideRight, text_rect.width()));
+  p.drawText(text_rect, Qt::TextSingleLine | Qt::AlignLeft, fontMetrics().elidedText(text_, Qt::ElideRight, text_rect.width()));  // NOLINT(bugprone-suspicious-enum-usage)
 
 }

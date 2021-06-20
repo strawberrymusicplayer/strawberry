@@ -113,9 +113,9 @@ QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_na
 
 }
 
-void SubsonicBaseRequest::HandleSSLErrors(QList<QSslError> ssl_errors) {
+void SubsonicBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
 
-  for (QSslError &ssl_error : ssl_errors) {
+  for (const QSslError &ssl_error : ssl_errors) {
     Error(ssl_error.errorString());
   }
 

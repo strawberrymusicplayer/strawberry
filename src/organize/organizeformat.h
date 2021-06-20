@@ -68,13 +68,13 @@ class OrganizeFormat {
   bool IsValid() const;
   QString GetFilenameForSong(const Song &song, QString extension = QString()) const;
 
-  class Validator : public QValidator {
+  class Validator : public QValidator {  // clazy:exclude=missing-qobject-macro
    public:
     explicit Validator(QObject *parent = nullptr);
     QValidator::State validate(QString &input, int&) const override;
   };
 
-  class SyntaxHighlighter : public QSyntaxHighlighter {
+  class SyntaxHighlighter : public QSyntaxHighlighter {  // clazy:exclude=missing-qobject-macro
    public:
     static const QRgb kValidTagColorLight;
     static const QRgb kInvalidTagColorLight;

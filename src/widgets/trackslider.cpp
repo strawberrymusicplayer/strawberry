@@ -189,7 +189,8 @@ bool TrackSlider::event(QEvent *e) {
     default:
       break;
   }
-  return false;
+
+  return QWidget::event(e);
 
 }
 

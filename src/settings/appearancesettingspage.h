@@ -39,7 +39,7 @@ class AppearanceSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit AppearanceSettingsPage(SettingsDialog *dialog);
+  explicit AppearanceSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~AppearanceSettingsPage() override;
 
   static const char *kSettingsGroup;

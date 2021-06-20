@@ -39,6 +39,7 @@ class QXmlStreamWriter;
 class CollectionBackendInterface;
 
 class WplParser : public XMLParser {
+ Q_OBJECT
 
  public:
   explicit WplParser(CollectionBackendInterface *collection, QObject *parent = nullptr);

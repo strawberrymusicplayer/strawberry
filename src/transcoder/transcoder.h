@@ -40,10 +40,10 @@
 #include "core/song.h"
 
 struct TranscoderPreset {
-  explicit TranscoderPreset() : type_(Song::FileType_Unknown) {}
-  TranscoderPreset(Song::FileType type, const QString &name, const QString &extension, const QString &codec_mimetype, const QString &muxer_mimetype_ = QString());
+  explicit TranscoderPreset() : filetype_(Song::FileType_Unknown) {}
+  TranscoderPreset(const Song::FileType filetype, const QString &name, const QString &extension, const QString &codec_mimetype, const QString &muxer_mimetype_ = QString());
 
-  Song::FileType type_;
+  Song::FileType filetype_;
   QString name_;
   QString extension_;
   QString codec_mimetype_;
@@ -57,14 +57,14 @@ class Transcoder : public QObject {
  public:
   explicit Transcoder(QObject *parent = nullptr, const QString &settings_postfix = "");
 
-  static TranscoderPreset PresetForFileType(Song::FileType type);
+  static TranscoderPreset PresetForFileType(const Song::FileType filetype);
   static QList<TranscoderPreset> GetAllPresets();
-  static Song::FileType PickBestFormat(QList<Song::FileType> supported);
+  static Song::FileType PickBestFormat(const QList<Song::FileType> &supported);
 
   int max_threads() const { return max_threads_; }
   void set_max_threads(int count) { max_threads_ = count; }
 
-  QString GetFile(const QString &input, const TranscoderPreset &preset, const QString output = QString());
+  QString GetFile(const QString &input, const TranscoderPreset &preset, const QString &output = QString());
   void AddJob(const QString &input, const TranscoderPreset &preset, const QString &output);
 
   QMap<QString, float> GetProgress() const;
@@ -99,13 +99,15 @@ class Transcoder : public QObject {
           convert_element_(nullptr) {}
     ~JobState();
 
-    void PostFinished(bool success);
+    void PostFinished(const bool success);
     void ReportError(GstMessage *msg);
 
     Job job_;
     Transcoder *parent_;
     GstElement *pipeline_;
     GstElement *convert_element_;
+   private:
+    Q_DISABLE_COPY(JobState)
   };
 
   // Event passed from a GStreamer callback to the Transcoder when a job finishes.
@@ -116,6 +118,8 @@ class Transcoder : public QObject {
 
     JobState *state_;
     bool success_;
+   private:
+    Q_DISABLE_COPY(JobFinishedEvent)
   };
 
   enum StartJobStatus {

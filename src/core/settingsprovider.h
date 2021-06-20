@@ -41,6 +41,9 @@ class SettingsProvider {
   virtual void beginWriteArray(const QString &prefix, int size = -1) = 0;
   virtual void setArrayIndex(int i) = 0;
   virtual void endArray() = 0;
+
+ private:
+  Q_DISABLE_COPY(SettingsProvider)
 };
 
 class DefaultSettingsProvider : public SettingsProvider {
@@ -58,6 +61,8 @@ class DefaultSettingsProvider : public SettingsProvider {
 
  private:
   QSettings backend_;
+
+  Q_DISABLE_COPY(DefaultSettingsProvider)
 };
 
 #endif  // SETTINGSPROVIDER_H

@@ -36,8 +36,8 @@
 #include "core/taskmanager.h"
 #include "gpodloader.h"
 
-GPodLoader::GPodLoader(const QString &mount_point, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device)
-    : QObject(nullptr),
+GPodLoader::GPodLoader(const QString &mount_point, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device, QObject *parent)
+    : QObject(parent),
       device_(device),
       mount_point_(mount_point),
       type_(Song::FileType_Unknown),

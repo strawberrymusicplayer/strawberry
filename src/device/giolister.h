@@ -50,7 +50,7 @@ class GioLister : public DeviceLister {
   Q_OBJECT
 
  public:
-  explicit GioLister() {}
+  explicit GioLister(QObject *parent = nullptr) : DeviceLister(parent) {}
   ~GioLister() override;
 
   int priority() const override { return 50; }

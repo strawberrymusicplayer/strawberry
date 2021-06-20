@@ -30,6 +30,8 @@
 class Ui_TranscoderOptionsAAC;
 
 class TranscoderOptionsAAC : public TranscoderOptionsInterface {
+  Q_OBJECT
+
  public:
   explicit TranscoderOptionsAAC(QWidget *parent = nullptr);
   ~TranscoderOptionsAAC() override;

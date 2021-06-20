@@ -49,8 +49,8 @@ const char *MoodbarSettingsPage::kSettingsGroup = "Moodbar";
 const int MoodbarSettingsPage::kMoodbarPreviewWidth = 150;
 const int MoodbarSettingsPage::kMoodbarPreviewHeight = 18;
 
-MoodbarSettingsPage::MoodbarSettingsPage(SettingsDialog *dialog)
-    : SettingsPage(dialog),
+MoodbarSettingsPage::MoodbarSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
       ui_(new Ui_MoodbarSettingsPage),
       initialized_(false)
       {

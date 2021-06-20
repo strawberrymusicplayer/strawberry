@@ -73,7 +73,7 @@ SavedGroupingManager::~SavedGroupingManager() {
   delete model_;
 }
 
-QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g) {
+QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy g) {
 
   switch (g) {
     case CollectionModel::GroupBy_None:

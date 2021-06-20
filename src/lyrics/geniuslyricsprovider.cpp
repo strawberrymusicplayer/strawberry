@@ -209,7 +209,7 @@ void GeniusLyricsProvider::RequestAccessToken(const QUrl &url, const QUrl &redir
 
 }
 
-void GeniusLyricsProvider::HandleLoginSSLErrors(QList<QSslError> ssl_errors) {
+void GeniusLyricsProvider::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
 
   for (const QSslError &ssl_error : ssl_errors) {
     login_errors_ += ssl_error.errorString();
@@ -543,7 +543,7 @@ void GeniusLyricsProvider::Error(const QString &error, const QVariant &debug) {
 
 }
 
-void GeniusLyricsProvider::EndSearch(std::shared_ptr<GeniusLyricsSearchContext> search, const GeniusLyricsLyricContext lyric) {
+void GeniusLyricsProvider::EndSearch(std::shared_ptr<GeniusLyricsSearchContext> search, const GeniusLyricsLyricContext &lyric) {
 
   if (search->requests_lyric_.contains(lyric.url)) {
     search->requests_lyric_.remove(lyric.url);

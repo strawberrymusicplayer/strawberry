@@ -82,8 +82,10 @@ class RatingItemDelegate;
 // This proxy style uses QCommonStyle to paint the affected elements.
 // This class is used by internet search view as well.
 class PlaylistProxyStyle : public QProxyStyle {
+  Q_OBJECT
+
  public:
-  explicit PlaylistProxyStyle();
+  explicit PlaylistProxyStyle(QObject *parent = nullptr);
 
   void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const override;
   void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const override;
@@ -122,7 +124,7 @@ class PlaylistView : public QTreeView {
   void SaveSettings();
   void SetColumnAlignment(const int section, const Qt::Alignment alignment);
   void JumpToCurrentlyPlayingTrack();
-  void edit(const QModelIndex &idx) { return QAbstractItemView::edit(idx); }
+  void edit(const QModelIndex &idx) { QAbstractItemView::edit(idx); }
 
  signals:
   void PlayItem(QModelIndex idx, Playlist::AutoScroll autoscroll);
@@ -181,10 +183,10 @@ class PlaylistView : public QTreeView {
   void Playing();
   void Stopped();
   void SongChanged(const Song &song);
-  void AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResult result = AlbumCoverLoaderResult());
+  void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result = AlbumCoverLoaderResult());
   void DynamicModeChanged(const bool dynamic);
   void SetRatingLockStatus(const bool state);
-  void RatingHoverIn(const QModelIndex &idx, const QPoint &pos);
+  void RatingHoverIn(const QModelIndex &idx, const QPoint pos);
   void RatingHoverOut();
 
  private:
@@ -197,7 +199,7 @@ class PlaylistView : public QTreeView {
 
   void set_background_image_type(AppearanceSettingsPage::BackgroundImageType bg) {
     background_image_type_ = bg;
-    emit BackgroundPropertyChanged();
+    emit BackgroundPropertyChanged();  // clazy:exclude=incorrect-emit
   }
   // Save image as the background_image_ after applying some modifications (opacity, ...).
   // Should be used instead of modifying background_image_ directly

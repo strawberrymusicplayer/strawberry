@@ -125,7 +125,7 @@ void PulseDeviceFinder::GetSinkInfoCallback(pa_context *c, const pa_sink_info *i
   if (info) {
     Device dev;
     dev.description = QString::fromUtf8(info->description);
-    dev.value = QString::fromUtf8(info->name);
+    dev.value = QString::fromUtf8(info->name);  // clazy:exclude=qt6-deprecated-api-fixes
     dev.iconname = GuessIconName(dev.description);
 
     state->devices.append(dev);

@@ -76,7 +76,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   QString FavoriteText(const FavoriteType type);
   void AddFavorites(const FavoriteType type, const SongList &songs);
-  void RemoveFavorites(const FavoriteType type, const SongList songs);
+  void RemoveFavorites(const FavoriteType type, const SongList &songs);
   void RemoveFavorites(const FavoriteType type, const QString &id, const SongList &songs);
 
   TidalService *service_;

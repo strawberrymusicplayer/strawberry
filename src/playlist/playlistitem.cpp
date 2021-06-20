@@ -143,13 +143,13 @@ bool PlaylistItem::HasCurrentBackgroundColor() const {
   return !background_colors_.isEmpty();
 }
 
-void PlaylistItem::SetForegroundColor(short priority, const QColor &color) {
+void PlaylistItem::SetForegroundColor(const short priority, const QColor &color) {
   foreground_colors_[priority] = color;
 }
-bool PlaylistItem::HasForegroundColor(short priority) const {
+bool PlaylistItem::HasForegroundColor(const short priority) const {
   return foreground_colors_.contains(priority);
 }
-void PlaylistItem::RemoveForegroundColor(short priority) {
+void PlaylistItem::RemoveForegroundColor(const short priority) {
   foreground_colors_.remove(priority);
 }
 QColor PlaylistItem::GetCurrentForegroundColor() const {
@@ -164,5 +164,5 @@ QColor PlaylistItem::GetCurrentForegroundColor() const {
 bool PlaylistItem::HasCurrentForegroundColor() const {
   return !foreground_colors_.isEmpty();
 }
-void PlaylistItem::SetShouldSkip(bool val) { should_skip_ = val; }
+void PlaylistItem::SetShouldSkip(const bool val) { should_skip_ = val; }
 bool PlaylistItem::GetShouldSkip() const { return should_skip_; }

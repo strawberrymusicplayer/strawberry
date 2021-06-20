@@ -35,8 +35,9 @@
 
 const int DeleteFiles::kBatchSize = 50;
 
-DeleteFiles::DeleteFiles(TaskManager *task_manager, std::shared_ptr<MusicStorage> storage, const bool use_trash)
-    : thread_(nullptr),
+DeleteFiles::DeleteFiles(TaskManager *task_manager, std::shared_ptr<MusicStorage> storage, const bool use_trash, QObject *parent)
+    : QObject(parent),
+      thread_(nullptr),
       task_manager_(task_manager),
       storage_(storage),
       use_trash_(use_trash),
@@ -68,6 +69,7 @@ void DeleteFiles::Start(const SongList &songs) {
 void DeleteFiles::Start(const QStringList &filenames) {
 
   SongList songs;
+  songs.reserve(filenames.count());
   for (const QString &filename : filenames) {
     Song song;
     song.set_url(QUrl::fromLocalFile(filename));

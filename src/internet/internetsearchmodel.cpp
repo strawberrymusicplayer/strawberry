@@ -294,6 +294,7 @@ void InternetSearchModel::Clear() {
 InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QModelIndexList &indexes) const {
 
   QList<QStandardItem*> items;
+  items.reserve(indexes.count());
   for (const QModelIndex &idx : indexes) {
     items << itemFromIndex(idx);
   }
@@ -363,7 +364,7 @@ void GatherResults(const QStandardItem *parent, InternetSearchView::ResultList *
 }
 }
 
-void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping &grouping, const bool regroup_now) {
+void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping grouping, const bool regroup_now) {
 
   const CollectionModel::Grouping old_group_by = group_by_;
   group_by_ = grouping;
@@ -388,6 +389,8 @@ MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &
 
   SongList songs;
   QList<QUrl> urls;
+  songs.reserve(results.count());
+  urls.reserve(results.count());
   for (const InternetSearchView::Result &result : results) {
     songs << result.metadata_;
     urls << result.metadata_.url();

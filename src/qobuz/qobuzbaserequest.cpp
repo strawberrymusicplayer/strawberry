@@ -84,9 +84,9 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
 
 }
 
-void QobuzBaseRequest::HandleSSLErrors(QList<QSslError> ssl_errors) {
+void QobuzBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
 
-  for (QSslError &ssl_error : ssl_errors) {
+  for (const QSslError &ssl_error : ssl_errors) {
     Error(ssl_error.errorString());
   }
 

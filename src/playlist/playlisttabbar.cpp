@@ -346,6 +346,7 @@ void PlaylistTabBar::InsertTab(const int id, const int index, const QString &tex
 void PlaylistTabBar::TabMoved() {
 
   QList<int> ids;
+  ids.reserve(count());
   for (int i = 0; i < count(); ++i) {
     ids << tabData(i).toInt();
   }

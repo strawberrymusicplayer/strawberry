@@ -28,6 +28,8 @@
 #include <QPalette>
 
 class Appearance : public QObject {
+  Q_OBJECT
+
  public:
   explicit Appearance(QObject *parent = nullptr);
 

@@ -362,7 +362,7 @@ void CommandlineOptions::Load(const QByteArray &serialized) {
 }
 
 QString CommandlineOptions::tr(const char *source_text) {
-  return QObject::tr(source_text);
+  return QObject::tr(source_text);  // clazy:exclude=tr-non-literal
 }
 
 QDataStream &operator<<(QDataStream &s, const CommandlineOptions &a) {

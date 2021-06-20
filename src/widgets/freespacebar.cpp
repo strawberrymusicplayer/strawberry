@@ -120,7 +120,7 @@ void FreeSpaceBar::paintEvent(QPaintEvent*) {
 
 }
 
-void FreeSpaceBar::DrawBar(QPainter *p, const QRect &r) {
+void FreeSpaceBar::DrawBar(QPainter *p, const QRect r) {
 
   p->setRenderHint(QPainter::Antialiasing, true);
 
@@ -179,7 +179,7 @@ void FreeSpaceBar::DrawBar(QPainter *p, const QRect &r) {
 
 }
 
-void FreeSpaceBar::DrawText(QPainter *p, const QRect &r) {
+void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
 
   QFont small_font(font());
   small_font.setPointSize(small_font.pointSize() - 1);

@@ -327,7 +327,7 @@ void SingleCoreApplicationPrivate::slotConnectionEstablished() {
   connectionMap_.insert(nextConnSocket, ConnectionInfo());
 
   QObject::connect(nextConnSocket, &QLocalSocket::aboutToClose, this, [nextConnSocket, this]() {
-    auto &info = connectionMap_[nextConnSocket];
+    const ConnectionInfo info = connectionMap_[nextConnSocket];
     slotClientConnectionClosed(nextConnSocket, info.instanceId);
   });
 
@@ -337,7 +337,7 @@ void SingleCoreApplicationPrivate::slotConnectionEstablished() {
   });
 
   QObject::connect(nextConnSocket, &QLocalSocket::readyRead, this, [nextConnSocket, this]() {
-    auto &info = connectionMap_[nextConnSocket];
+    const ConnectionInfo info = connectionMap_[nextConnSocket];
     switch (info.stage) {
       case StageHeader:
         readInitMessageHeader(nextConnSocket);

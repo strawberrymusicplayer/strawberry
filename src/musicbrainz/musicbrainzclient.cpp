@@ -433,6 +433,7 @@ MusicBrainzClient::ResultList MusicBrainzClient::ParseTrack(QXmlStreamReader *re
   }
   else {
     std::stable_sort(releases.begin(), releases.end());
+    ret.reserve(releases.count());
     for (const Release &release : releases) {
       ret << release.CopyAndMergeInto(result);
     }
@@ -523,7 +524,7 @@ MusicBrainzClient::ResultList MusicBrainzClient::UniqueResults(const ResultList 
 
 }
 
-void MusicBrainzClient::Error(const QString &error, QVariant debug) {
+void MusicBrainzClient::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "MusicBrainz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;

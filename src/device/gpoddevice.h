@@ -51,7 +51,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time);
+  Q_INVOKABLE GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
   ~GPodDevice() override;
 
   bool Init() override;

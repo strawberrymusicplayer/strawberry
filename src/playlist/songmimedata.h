@@ -35,7 +35,7 @@ class SongMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  explicit SongMimeData() : backend(nullptr) {}
+  explicit SongMimeData(QObject* = nullptr) : MimeData(), backend(nullptr) {}
 
   CollectionBackendInterface *backend;
   SongList songs;

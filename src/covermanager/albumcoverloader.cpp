@@ -233,7 +233,7 @@ void AlbumCoverLoader::CancelTask(const quint64 id) {
   QMutexLocker l(&mutex_load_image_async_);
   for (QQueue<Task>::iterator it = tasks_.begin(); it != tasks_.end(); ++it) {
     if (it->id == id) {
-      tasks_.erase(it);
+      tasks_.erase(it);  // clazy:exclude=strict-iterators
       break;
     }
   }
@@ -245,7 +245,7 @@ void AlbumCoverLoader::CancelTasks(const QSet<quint64> &ids) {
   QMutexLocker l(&mutex_load_image_async_);
   for (QQueue<Task>::iterator it = tasks_.begin(); it != tasks_.end();) {
     if (ids.contains(it->id)) {
-      it = tasks_.erase(it);
+      it = tasks_.erase(it);  // clazy:exclude=strict-iterators
     }
     else {
       ++it;
@@ -531,7 +531,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cov
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString song_filename, const QString &cover_filename) {
+qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QString &cover_filename) {
 
   QMutexLocker l(&mutex_save_image_async_);
   qint64 id = ++save_image_async_id_;
@@ -540,7 +540,7 @@ qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString song_filename, con
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString song_filename, const QImage &image) {
+qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QImage &image) {
 
   QMutexLocker l(&mutex_save_image_async_);
   qint64 id = ++save_image_async_id_;
@@ -549,7 +549,7 @@ qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString song_filename, con
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString song_filename, const QByteArray &image_data) {
+qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QByteArray &image_data) {
 
   QMutexLocker l(&mutex_save_image_async_);
   qint64 id = ++save_image_async_id_;
@@ -558,7 +558,7 @@ qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString song_filename, con
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QString &cover_filename) {
+qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QString &cover_filename) {
 
   QMutexLocker l(&mutex_save_image_async_);
   qint64 id = ++save_image_async_id_;
@@ -567,7 +567,7 @@ qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QS
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QImage &image) {
+qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QImage &image) {
 
   QMutexLocker l(&mutex_save_image_async_);
   qint64 id = ++save_image_async_id_;
@@ -576,7 +576,7 @@ qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QI
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QByteArray &image_data) {
+qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QByteArray &image_data) {
 
   QMutexLocker l(&mutex_save_image_async_);
   qint64 id = ++save_image_async_id_;
@@ -585,7 +585,7 @@ qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QB
 
 }
 
-void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString song_filename, const QByteArray &image_data) {
+void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString &song_filename, const QByteArray &image_data) {
 
   TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(song_filename, image_data);
   tagreader_save_embedded_art_requests_.insert(id, reply);
@@ -594,7 +594,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString song_fil
 
 }
 
-void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString song_filename, const QImage &image) {
+void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString &song_filename, const QImage &image) {
 
   QByteArray image_data;
 
@@ -610,7 +610,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString song_fil
 
 }
 
-void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString song_filename, const QString &cover_filename) {
+void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString &song_filename, const QString &cover_filename) {
 
   QFile file(cover_filename);
 
@@ -626,7 +626,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString song_fil
 
 }
 
-void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls, const QImage &image) {
+void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> &urls, const QImage &image) {
 
   if (image.isNull()) {
     for (const QUrl &url : urls) {
@@ -651,7 +651,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls
 
 }
 
-void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls, const QString &cover_filename) {
+void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> &urls, const QString &cover_filename) {
 
   QFile file(cover_filename);
 
@@ -666,7 +666,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls
 
 }
 
-void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls, const QByteArray &image_data) {
+void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> &urls, const QByteArray &image_data) {
 
   for (const QUrl &url : urls) {
     SaveEmbeddedCover(id, url.toLocalFile(), image_data);

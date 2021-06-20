@@ -31,9 +31,11 @@
 #include "smartplaylistsearch.h"
 
 class PlaylistQueryGenerator : public PlaylistGenerator {
+  Q_OBJECT
+
  public:
-  explicit PlaylistQueryGenerator();
-  explicit PlaylistQueryGenerator(const QString &name, const SmartPlaylistSearch &search, const bool dynamic = false);
+  explicit PlaylistQueryGenerator(QObject *parent = nullptr);
+  explicit PlaylistQueryGenerator(const QString &name, const SmartPlaylistSearch &search, const bool dynamic = false, QObject *parent = nullptr);
 
   Type type() const { return Type_Query; }
 

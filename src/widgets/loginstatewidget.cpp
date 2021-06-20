@@ -142,7 +142,7 @@ bool LoginStateWidget::eventFilter(QObject *object, QEvent *event) {
   return QWidget::eventFilter(object, event);
 }
 
-void LoginStateWidget::SetExpires(const QDate &expires) {
+void LoginStateWidget::SetExpires(const QDate expires) {
 
   ui_->expires->setVisible(expires.isValid());
 

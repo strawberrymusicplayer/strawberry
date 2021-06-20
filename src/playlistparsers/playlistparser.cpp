@@ -88,6 +88,7 @@ QStringList PlaylistParser::mime_types() const {
 QString PlaylistParser::filters() const {
 
   QStringList filters;
+  filters.reserve(parsers_.count() + 1);
   QStringList all_extensions;
   for (ParserBase *parser : parsers_) {
     filters << FilterForParser(parser, &all_extensions);
@@ -101,9 +102,12 @@ QString PlaylistParser::filters() const {
 
 QString PlaylistParser::FilterForParser(const ParserBase *parser, QStringList *all_extensions) const {
 
+  const QStringList file_extensions = parser->file_extensions();
   QStringList extensions;
-  for (const QString &extension : parser->file_extensions())
+  extensions.reserve(file_extensions.count());
+  for (const QString &extension : file_extensions) {
     extensions << "*." + extension;
+  }
 
   if (all_extensions) *all_extensions << extensions;
 
@@ -181,7 +185,7 @@ SongList PlaylistParser::LoadFromDevice(QIODevice *device, const QString &path_h
 
 }
 
-void PlaylistParser::Save(const SongList &songs, const QString &filename, Playlist::Path path_type) const {
+void PlaylistParser::Save(const SongList &songs, const QString &filename, const Playlist::Path path_type) const {
 
   QFileInfo info(filename);
 
@@ -194,8 +198,10 @@ void PlaylistParser::Save(const SongList &songs, const QString &filename, Playli
 
   // Open the file
   QFile file(filename);
-  file.open(QIODevice::WriteOnly);
+  if (!file.open(QIODevice::WriteOnly)) return;
 
-  return parser->Save(songs, &file, info.absolutePath(), path_type);
+  parser->Save(songs, &file, info.absolutePath(), path_type);
+
+  file.close();
 
 }

@@ -51,7 +51,7 @@ GlobalShortcut::GlobalShortcut(QObject *parent) : QObject(parent),
 
 }
 
-GlobalShortcut::GlobalShortcut(QKeySequence shortcut, GlobalShortcutsBackend *backend, QObject *parent) : QObject(parent),
+GlobalShortcut::GlobalShortcut(const QKeySequence &shortcut, GlobalShortcutsBackend *backend, QObject *parent) : QObject(parent),
   backend_(backend),
   shortcut_(shortcut),
   qt_key_(Qt::Key(0)),

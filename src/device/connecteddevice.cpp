@@ -38,8 +38,8 @@
 #include "devicemanager.h"
 #include "deviceinfo.h"
 
-ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
-    : QObject(manager),
+ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent)
+    : QObject(parent),
       app_(app),
       url_(url),
       first_time_(first_time),

@@ -8,6 +8,7 @@ set(SOURCES
 )
 
 set(HEADERS
+  core/logging.h
   core/messagehandler.h
   core/messagereply.h
   core/workerpool.h

@@ -37,8 +37,11 @@
 #include "settings/backendsettingspage.h"
 #include "settings/networkproxysettingspage.h"
 
-Engine::Base::Base()
-    : volume_(100),
+Engine::Base::Base(const EngineType type, QObject *parent)
+    : QObject(parent),
+      type_(type),
+      volume_control_(true),
+      volume_(100),
       beginning_nanosec_(0),
       end_nanosec_(0),
       scope_(kScopeSize),

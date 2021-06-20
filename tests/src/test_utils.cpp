@@ -28,39 +28,39 @@
 #include <QString>
 #include <QUrl>
 
-std::ostream& operator<<(std::ostream& stream, const QString& str) {
+std::ostream &operator<<(std::ostream &stream, const QString &str) {
   stream << str.toStdString();
   return stream;
 }
 
-std::ostream& operator <<(std::ostream& stream, const QUrl& url) {
+std::ostream &operator <<(std::ostream &stream, const QUrl &url) {
   stream << url.toString().toStdString();
   return stream;
 }
 
-std::ostream& operator <<(std::ostream& stream, const QNetworkRequest& req) {
+std::ostream &operator <<(std::ostream &stream, const QNetworkRequest &req) {
   stream << req.url().toString().toStdString();
   return stream;
 }
 
-std::ostream& operator <<(std::ostream& stream, const QVariant& var) {
+std::ostream &operator <<(std::ostream &stream, const QVariant &var) {
   stream << var.toString().toStdString();
   return stream;
 }
 
-void PrintTo(const ::QString& str, std::ostream& os) {
+void PrintTo(const ::QString &str, std::ostream &os) {
   os << str.toStdString();
 }
 
-void PrintTo(const ::QVariant& var, std::ostream& os) {
+void PrintTo(const ::QVariant &var, std::ostream &os) {
   os << var.toString().toStdString();
 }
 
-void PrintTo(const ::QUrl& url, std::ostream& os) {
+void PrintTo(const ::QUrl &url, std::ostream &os) {
   os << url.toString().toStdString();
 }
 
-TemporaryResource::TemporaryResource(const QString& filename) {
+TemporaryResource::TemporaryResource(const QString &filename, QObject *parent) : QTemporaryFile(parent) {
 
   setFileTemplate(QDir::tempPath() + "/strawberry_test-XXXXXX." + filename.section('.', -1, -1));
   open();
@@ -73,7 +73,7 @@ TemporaryResource::TemporaryResource(const QString& filename) {
 
 }
 
-TestQObject::TestQObject(QObject* parent)
+TestQObject::TestQObject(QObject *parent)
   : QObject(parent),
     invoked_(0) {
 }

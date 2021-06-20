@@ -35,7 +35,7 @@ struct IconProperties {
   bool allow_system_icon;
 };
 
-static const QMap<QString, IconProperties> iconmapper_ = {
+static const QMap<QString, IconProperties> iconmapper_ = {  // clazy:exclude=non-pod-global-static
 
     { "albums",                        { {"media-optical"}} },
     { "alsa",                          { {}} },

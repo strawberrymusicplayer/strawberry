@@ -58,7 +58,7 @@ class GstEnginePipeline : public QObject {
   Q_OBJECT
 
  public:
-  explicit GstEnginePipeline(GstEngine *engine);
+  explicit GstEnginePipeline(GstEngine *engine, QObject *parent = nullptr);
   ~GstEnginePipeline() override;
 
   // Globally unique across all pipelines.
@@ -77,7 +77,7 @@ class GstEnginePipeline : public QObject {
   void set_channels(const bool enabled, const int channels);
 
   // Creates the pipeline, returns false on error
-  bool InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec);
+  bool InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec);
 
   // GstBufferConsumers get fed audio data.  Thread-safe.
   void AddBufferConsumer(GstBufferConsumer *consumer);
@@ -97,7 +97,7 @@ class GstEnginePipeline : public QObject {
   void SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, qint64 beginning_nanosec, qint64 end_nanosec);
   bool has_next_valid_url() const { return !next_stream_url_.isEmpty(); }
 
-  void SetSourceDevice(QString device) { source_device_ = device; }
+  void SetSourceDevice(const QString &device) { source_device_ = device; }
 
   // Get information about the music playback
   QByteArray stream_url() const { return stream_url_; }

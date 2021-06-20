@@ -78,16 +78,16 @@ public:
     static void drawArrow(QStyle::PrimitiveElement element, QPainter *painter, const QStyleOption *option);
 
     // Gradients used for panels
-    static void horizontalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect, bool lightColored = false);
-    static void verticalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect, bool lightColored = false);
-    static void menuGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect);
+    static void horizontalGradient(QPainter *painter, const QRect spanRect, const QRect clipRect, bool lightColored = false);
+    static void verticalGradient(QPainter *painter, const QRect spanRect, const QRect clipRect, bool lightColored = false);
+    static void menuGradient(QPainter *painter, const QRect spanRect, const QRect clipRect);
     static bool usePixmapCache() { return true; }
 
     static QPixmap disabledSideBarIcon(const QPixmap &enabledicon);
-    static void drawCornerImage(const QImage &img, QPainter *painter, const QRect &rect, int left = 0, int top = 0, int right = 0, int bottom = 0);
+    static void drawCornerImage(const QImage &img, QPainter *painter, const QRect rect, int left = 0, int top = 0, int right = 0, int bottom = 0);
 
     static void tintImage(QImage &img, const QColor &tintColor);
-    static QLinearGradient statusBarGradient(const QRect &statusBarRect);
+    static QLinearGradient statusBarGradient(const QRect statusBarRect);
 
     static QString dpiSpecificImageFile(const QString &fileName);
     static QString imageFileWithResolution(const QString &fileName, int dpr);

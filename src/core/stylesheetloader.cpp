@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <chrono>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -37,10 +39,12 @@
 #include "core/logging.h"
 #include "stylesheetloader.h"
 
+using namespace std::chrono_literals;
+
 StyleSheetLoader::StyleSheetLoader(QObject *parent) : QObject(parent), timer_reset_counter_(new QTimer(this)) {
 
   timer_reset_counter_->setSingleShot(true);
-  timer_reset_counter_->setInterval(1000);
+  timer_reset_counter_->setInterval(1s);
 
   QObject::connect(timer_reset_counter_, &QTimer::timeout, this, &StyleSheetLoader::ResetCounters);
 
@@ -122,7 +126,7 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, StyleSheetData styledat
 
 }
 
-void StyleSheetLoader::ReplaceColor(QString *css, const QString name, const QPalette &palette, QPalette::ColorRole role) const {
+void StyleSheetLoader::ReplaceColor(QString *css, const QString &name, const QPalette &palette, QPalette::ColorRole role) const {
 
   css->replace("%palette-" + name + "-lighter", palette.color(role).lighter().name(), Qt::CaseInsensitive);
   css->replace("%palette-" + name + "-darker", palette.color(role).darker().name(), Qt::CaseInsensitive);

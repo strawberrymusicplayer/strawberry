@@ -40,7 +40,8 @@ THE SOFTWARE.
 
 #include "core/iconloader.h"
 
-class QSearchFieldPrivate : public QObject {
+class QSearchFieldPrivate : public QObject {  // clazy:exclude=missing-qobject-macro
+
  public:
   QSearchFieldPrivate(QSearchField *searchField, QLineEdit *lineedit, QToolButton *clearbutton)
       : QObject(searchField), lineedit_(lineedit), clearbutton_(clearbutton) {}

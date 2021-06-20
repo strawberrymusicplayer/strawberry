@@ -41,6 +41,11 @@
 namespace logging {
 
 class NullDevice : public QIODevice {
+  Q_OBJECT
+
+ public:
+  NullDevice(QObject *parent = nullptr) : QIODevice(parent) {}
+
  protected:
   qint64 readData(char*, qint64) override { return -1; }
   qint64 writeData(const char*, qint64 len) override { return len; }

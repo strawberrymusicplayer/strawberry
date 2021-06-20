@@ -197,7 +197,7 @@ void TidalFavoriteRequest::RemoveSongs(const SongList &songs) {
   RemoveFavorites(FavoriteType_Songs, songs);
 }
 
-void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongList songs) {
+void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongList &songs) {
 
   if (songs.isEmpty()) return;
 

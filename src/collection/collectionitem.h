@@ -50,6 +50,9 @@ class CollectionItem : public SimpleTreeItem<CollectionItem> {
   int container_level;
   Song metadata;
   CollectionItem *compilation_artist_node_;
+
+ private:
+  Q_DISABLE_COPY(CollectionItem)
 };
 
 #endif  // COLLECTIONITEM_H

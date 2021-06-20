@@ -31,7 +31,7 @@
 #include <IOKit/storage/IOMedia.h>
 #include <IOKit/storage/IOCDMedia.h>
 
-#include <QtDebug>
+#include <QObject>
 #include <QMutex>
 #include <QString>
 #include <QStringList>
@@ -109,7 +109,7 @@ uint qHash(const MacOsDeviceLister::MTPDevice &d) {
   return qHash(d.vendor_id) ^ qHash(d.product_id);
 }
 
-MacOsDeviceLister::MacOsDeviceLister() {}
+MacOsDeviceLister::MacOsDeviceLister(QObject *parent) : DeviceLister(parent) {}
 
 MacOsDeviceLister::~MacOsDeviceLister() { CFRelease(loop_session_); }
 

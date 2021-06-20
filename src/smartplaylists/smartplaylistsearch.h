@@ -42,7 +42,7 @@ class SmartPlaylistSearch {
   enum SortType { Sort_Random = 0, Sort_FieldAsc, Sort_FieldDesc, };
 
   explicit SmartPlaylistSearch();
-  explicit SmartPlaylistSearch(const SearchType type, const TermList terms, const SortType sort_type, const SmartPlaylistSearchTerm::Field sort_field, const int limit = PlaylistGenerator::kDefaultLimit);
+  explicit SmartPlaylistSearch(const SearchType type, const TermList &terms, const SortType sort_type, const SmartPlaylistSearchTerm::Field sort_field, const int limit = PlaylistGenerator::kDefaultLimit);
 
   bool is_valid() const;
   bool operator==(const SmartPlaylistSearch &other) const;

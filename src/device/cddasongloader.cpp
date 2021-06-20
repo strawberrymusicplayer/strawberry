@@ -126,7 +126,8 @@ void CddaSongLoader::LoadSongs() {
   }
 
   SongList songs;
-  for (int track_number = 1; track_number <= num_tracks; track_number++) {
+  songs.reserve(num_tracks);
+  for (int track_number = 1; track_number <= num_tracks; ++track_number) {
     // Init song
     Song song(Song::Source_CDDA);
     song.set_id(track_number);
@@ -216,8 +217,9 @@ void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &alb
 
   MusicBrainzClient *musicbrainz_client = qobject_cast<MusicBrainzClient*>(sender());
   musicbrainz_client->deleteLater();
-  SongList songs;
   if (results.empty()) return;
+  SongList songs;
+  songs.reserve(results.count());
   int track_number = 1;
   for (const MusicBrainzClient::Result &ret : results) {
     Song song(Song::Source_CDDA);

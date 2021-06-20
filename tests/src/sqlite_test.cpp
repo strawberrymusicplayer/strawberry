@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <sqlite3.h>
 
+// clazy:excludeall=returning-void-expression
+
 TEST(SqliteTest, FTS5SupportEnabled) {
 
   sqlite3* db = nullptr;

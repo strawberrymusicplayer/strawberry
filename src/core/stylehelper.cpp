@@ -175,7 +175,7 @@ void StyleHelper::setBaseColor(const QColor &newcolor) {
 
 }
 
-static void verticalGradientHelper(QPainter *p, const QRect &spanRect, const QRect &rect, bool lightColored) {
+static void verticalGradientHelper(QPainter *p, const QRect spanRect, const QRect rect, bool lightColored) {
 
   QColor highlight = StyleHelper::highlightColor(lightColored);
   QColor shadow = StyleHelper::shadowColor(lightColored);
@@ -193,7 +193,7 @@ static void verticalGradientHelper(QPainter *p, const QRect &spanRect, const QRe
 
 }
 
-void StyleHelper::verticalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect, bool lightColored) {
+void StyleHelper::verticalGradient(QPainter *painter, const QRect spanRect, const QRect clipRect, bool lightColored) {
 
   if (StyleHelper::usePixmapCache()) {
     QColor keyColor = baseColor(lightColored);
@@ -216,7 +216,7 @@ void StyleHelper::verticalGradient(QPainter *painter, const QRect &spanRect, con
 
 }
 
-static void horizontalGradientHelper(QPainter *p, const QRect &spanRect, const QRect &rect, bool lightColored) {
+static void horizontalGradientHelper(QPainter *p, const QRect spanRect, const QRect rect, bool lightColored) {
 
   if (lightColored) {
     QLinearGradient shadowGradient(rect.topLeft(), rect.bottomLeft());
@@ -249,7 +249,7 @@ static void horizontalGradientHelper(QPainter *p, const QRect &spanRect, const Q
 
 }
 
-void StyleHelper::horizontalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect, bool lightColored) {
+void StyleHelper::horizontalGradient(QPainter *painter, const QRect spanRect, const QRect clipRect, bool lightColored) {
 
   if (StyleHelper::usePixmapCache()) {
     QColor keyColor = baseColor(lightColored);
@@ -272,7 +272,7 @@ void StyleHelper::horizontalGradient(QPainter *painter, const QRect &spanRect, c
 
 }
 
-static void menuGradientHelper(QPainter *p, const QRect &spanRect, const QRect &rect) {
+static void menuGradientHelper(QPainter *p, const QRect spanRect, const QRect rect) {
 
   QLinearGradient grad(spanRect.topLeft(), spanRect.bottomLeft());
   QColor menuColor = StyleHelper::mergedColors(StyleHelper::baseColor(), QColor(244, 244, 244), 25);
@@ -301,7 +301,7 @@ void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter,
     QStyleOption tweakedOption(*option);
     tweakedOption.state = QStyle::State_Enabled;
 
-    auto drawCommonStyleArrow = [&tweakedOption, element, &p](const QRect &rect, const QColor &color) -> void
+    auto drawCommonStyleArrow = [&tweakedOption, element, &p](const QRect rect, const QColor &color) -> void
     {
       static const QCommonStyle* const style = qobject_cast<QCommonStyle*>(QApplication::style());
       if (!style)
@@ -330,7 +330,7 @@ void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter,
 
 }
 
-void StyleHelper::menuGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect) {
+void StyleHelper::menuGradient(QPainter *painter, const QRect spanRect, const QRect clipRect) {
 
   if (StyleHelper::usePixmapCache()) {
     QString key = QString::asprintf("mh_menu %d %d %d %d %d", spanRect.width(), spanRect.height(), clipRect.width(), clipRect.height(), StyleHelper::baseColor().rgb());
@@ -371,7 +371,7 @@ QPixmap StyleHelper::disabledSideBarIcon(const QPixmap &enabledicon) {
 
 // Draws a CSS-like border image where the defined borders are not stretched
 // Unit for rect, left, top, right and bottom is user pixels
-void StyleHelper::drawCornerImage(const QImage &img, QPainter *painter, const QRect &rect, int left, int top, int right, int bottom) {
+void StyleHelper::drawCornerImage(const QImage &img, QPainter *painter, const QRect rect, int left, int top, int right, int bottom) {
 
   // source rect for drawImage() calls needs to be specified in DIP unit of the image
   const qreal imagePixelRatio = img.devicePixelRatio();
@@ -429,7 +429,7 @@ void StyleHelper::tintImage(QImage &img, const QColor &tintColor) {
 
 }
 
-QLinearGradient StyleHelper::statusBarGradient(const QRect &statusBarRect) {
+QLinearGradient StyleHelper::statusBarGradient(const QRect statusBarRect) {
 
   QLinearGradient grad(statusBarRect.topLeft(), QPoint(statusBarRect.center().x(), statusBarRect.bottom()));
   QColor startColor = shadowColor().darker(164);

@@ -33,7 +33,7 @@ class PlaylistGeneratorMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  PlaylistGeneratorMimeData(PlaylistGeneratorPtr generator) : generator_(generator) {}
+  PlaylistGeneratorMimeData(PlaylistGeneratorPtr generator, QObject* = nullptr) : generator_(generator) {}
 
   PlaylistGeneratorPtr generator_;
 };

@@ -37,7 +37,7 @@ class SubsonicSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit SubsonicSettingsPage(SettingsDialog *parent = nullptr);
+  explicit SubsonicSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~SubsonicSettingsPage() override;
 
   static const char *kSettingsGroup;
@@ -53,7 +53,7 @@ class SubsonicSettingsPage : public SettingsPage {
  private slots:
   void TestClicked();
   void TestSuccess();
-  void TestFailure(QString failure_reason);
+  void TestFailure(const QString &failure_reason);
 
  private:
   Ui_SubsonicSettingsPage *ui_;

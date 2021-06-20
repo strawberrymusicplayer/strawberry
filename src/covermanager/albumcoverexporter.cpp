@@ -43,7 +43,7 @@ void AlbumCoverExporter::SetDialogResult(const AlbumCoverExport::DialogResult &d
   dialog_result_ = dialog_result;
 }
 
-void AlbumCoverExporter::AddExportRequest(Song song) {
+void AlbumCoverExporter::AddExportRequest(const Song &song) {
   requests_.append(new CoverExportRunnable(dialog_result_, song));
   all_ = requests_.count();
 }

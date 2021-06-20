@@ -65,7 +65,7 @@ TidalStreamURLRequest::~TidalStreamURLRequest() {
 
 }
 
-void TidalStreamURLRequest::LoginComplete(const bool success, QString error) {
+void TidalStreamURLRequest::LoginComplete(const bool success, const QString &error) {
 
   if (!need_login_) return;
   need_login_ = false;
@@ -270,6 +270,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
       return;
     }
     QJsonArray json_array_urls = json_urls.toArray();
+    urls.reserve(json_array_urls.count());
     for (const QJsonValueRef value : json_array_urls) {
       urls << QUrl(value.toString());
     }

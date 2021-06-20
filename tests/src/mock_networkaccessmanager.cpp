@@ -41,7 +41,7 @@ using ::testing::Return;
 
 class RequestForUrlMatcher : public MatcherInterface<const QNetworkRequest&> {
  public:
-  RequestForUrlMatcher(const QString& contains, const QMap<QString, QString>& expected_params)
+  RequestForUrlMatcher(const QString& contains, const QMap<QString, QString> &expected_params)
       : contains_(contains), expected_params_(expected_params) {}
 
   ~RequestForUrlMatcher() override {}
@@ -75,13 +75,15 @@ class RequestForUrlMatcher : public MatcherInterface<const QNetworkRequest&> {
   QString contains_;
   QMap<QString, QString> expected_params_;
 
+  Q_DISABLE_COPY(RequestForUrlMatcher)
+
 };
 
-inline Matcher<const QNetworkRequest&> RequestForUrl(const QString& contains, const QMap<QString, QString>& params) {
+inline Matcher<const QNetworkRequest&> RequestForUrl(const QString &contains, const QMap<QString, QString> &params) {
   return MakeMatcher(new RequestForUrlMatcher(contains, params));
 }
 
-MockNetworkReply* MockNetworkAccessManager::ExpectGet(const QString& contains, const QMap<QString, QString>& expected_params, int status, const QByteArray& data) {
+MockNetworkReply* MockNetworkAccessManager::ExpectGet(const QString &contains, const QMap<QString, QString> &expected_params, int status, const QByteArray &data) {
 
   MockNetworkReply* reply = new MockNetworkReply(data);
   reply->setAttribute(QNetworkRequest::HttpStatusCodeAttribute, status);
@@ -92,21 +94,22 @@ MockNetworkReply* MockNetworkAccessManager::ExpectGet(const QString& contains, c
 
 }
 
-MockNetworkReply::MockNetworkReply()
-    : data_(nullptr) {
+MockNetworkReply::MockNetworkReply(QObject *parent)
+    : QNetworkReply(parent), data_(nullptr), pos_(0) {
 }
 
-MockNetworkReply::MockNetworkReply(const QByteArray& data)
-    : data_(data),
+MockNetworkReply::MockNetworkReply(const QByteArray &data, QObject *parent)
+    : QNetworkReply(parent),
+      data_(data),
       pos_(0) {
 }
 
-void MockNetworkReply::SetData(const QByteArray& data) {
+void MockNetworkReply::SetData(const QByteArray &data) {
   data_ = data;
   pos_ = 0;
 }
 
-qint64 MockNetworkReply::readData(char* data, qint64 size) {
+qint64 MockNetworkReply::readData(char *data, qint64 size) {
 
   if (data_.size() == pos_) {
     return -1;
@@ -132,6 +135,6 @@ void MockNetworkReply::Done() {
 
 }
 
-void MockNetworkReply::setAttribute(QNetworkRequest::Attribute code, const QVariant& value) {
+void MockNetworkReply::setAttribute(QNetworkRequest::Attribute code, const QVariant &value) {
   QNetworkReply::setAttribute(code, value);
 }

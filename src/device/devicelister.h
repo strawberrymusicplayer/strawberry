@@ -40,7 +40,7 @@ class DeviceLister : public QObject {
   Q_OBJECT
 
  public:
-  DeviceLister();
+  DeviceLister(QObject *parent = nullptr);
   ~DeviceLister() override;
 
   // Tries to start the thread and initialize the engine.  This object will be moved to the new thread.
@@ -103,6 +103,9 @@ class DeviceLister : public QObject {
 
  private slots:
   void ThreadStarted();
+
+ private:
+  Q_DISABLE_COPY(DeviceLister)
 };
 
 #endif  // DEVICELISTER_H

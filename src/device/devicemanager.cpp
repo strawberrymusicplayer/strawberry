@@ -198,7 +198,7 @@ void DeviceManager::CloseBackend() {
 
 void DeviceManager::BackendClosed() {
 
-  QObject *obj = qobject_cast<QObject*>(sender());
+  QObject *obj = sender();
   QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully closed.";
   wait_for_exit_.removeAll(obj);
@@ -248,6 +248,7 @@ void DeviceManager::AddDeviceFromDB(DeviceInfo *info) {
 
   QStringList icon_names = info->icon_name_.split(',');
   QVariantList icons;
+  icons.reserve(icon_names.count());
   for (const QString &icon_name : icon_names) {
     icons << icon_name;
   }
@@ -548,7 +549,7 @@ void DeviceManager::PhysicalDeviceChanged(const QString &id) {
 
 }
 
-std::shared_ptr<ConnectedDevice> DeviceManager::Connect(QModelIndex idx) {
+std::shared_ptr<ConnectedDevice> DeviceManager::Connect(const QModelIndex &idx) {
 
   std::shared_ptr<ConnectedDevice> ret;
 
@@ -620,6 +621,7 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
   if (device_url.isEmpty()) {
     // Munge the URL list into a string list
     QStringList url_strings;
+    url_strings.reserve(urls.count());
     for (const QUrl &url : urls) {
       url_strings << url.toString();
     }
@@ -666,7 +668,7 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
 
 }
 
-void DeviceManager::DeviceConnectFinished(const QString &id, bool success) {
+void DeviceManager::DeviceConnectFinished(const QString &id, const bool success) {
 
   DeviceInfo *info = FindDeviceById(id);
   if (!info) return;
@@ -706,14 +708,14 @@ void DeviceManager::DeviceCloseFinished(const QString &id) {
 
 }
 
-DeviceInfo *DeviceManager::GetDevice(QModelIndex idx) const {
+DeviceInfo *DeviceManager::GetDevice(const QModelIndex &idx) const {
 
   DeviceInfo *info = IndexToItem(idx);
   return info;
 
 }
 
-std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(QModelIndex idx) const {
+std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(const QModelIndex &idx) const {
 
   std::shared_ptr<ConnectedDevice> ret;
   DeviceInfo *info = IndexToItem(idx);
@@ -730,7 +732,7 @@ std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(DeviceInfo *i
 
 }
 
-int DeviceManager::GetDatabaseId(QModelIndex idx) const {
+int DeviceManager::GetDatabaseId(const QModelIndex &idx) const {
 
   if (!idx.isValid()) return -1;
 
@@ -740,7 +742,7 @@ int DeviceManager::GetDatabaseId(QModelIndex idx) const {
 
 }
 
-DeviceLister *DeviceManager::GetLister(QModelIndex idx) const {
+DeviceLister *DeviceManager::GetLister(const QModelIndex &idx) const {
 
   if (!idx.isValid()) return nullptr;
 
@@ -750,7 +752,7 @@ DeviceLister *DeviceManager::GetLister(QModelIndex idx) const {
 
 }
 
-void DeviceManager::Disconnect(DeviceInfo *info, QModelIndex idx) {
+void DeviceManager::Disconnect(DeviceInfo *info, const QModelIndex &idx) {
 
   Q_UNUSED(idx);
 
@@ -758,7 +760,7 @@ void DeviceManager::Disconnect(DeviceInfo *info, QModelIndex idx) {
 
 }
 
-void DeviceManager::Forget(QModelIndex idx) {
+void DeviceManager::Forget(const QModelIndex &idx) {
 
   if (!idx.isValid()) return;
 
@@ -777,7 +779,7 @@ void DeviceManager::Forget(QModelIndex idx) {
 
 }
 
-void DeviceManager::RemoveFromDB(DeviceInfo *info, QModelIndex idx) {
+void DeviceManager::RemoveFromDB(DeviceInfo *info, const QModelIndex &idx) {
 
   backend_->RemoveDevice(info->database_id_);
   info->database_id_ = -1;
@@ -798,7 +800,7 @@ void DeviceManager::RemoveFromDB(DeviceInfo *info, QModelIndex idx) {
 
 }
 
-void DeviceManager::SetDeviceOptions(QModelIndex idx, const QString &friendly_name, const QString &icon_name, MusicStorage::TranscodeMode mode, Song::FileType format) {
+void DeviceManager::SetDeviceOptions(const QModelIndex &idx, const QString &friendly_name, const QString &icon_name, const MusicStorage::TranscodeMode mode, const Song::FileType format) {
 
   if (!idx.isValid()) return;
 
@@ -817,7 +819,7 @@ void DeviceManager::SetDeviceOptions(QModelIndex idx, const QString &friendly_na
 
 }
 
-void DeviceManager::DeviceTaskStarted(int id) {
+void DeviceManager::DeviceTaskStarted(const int id) {
 
   ConnectedDevice *device = qobject_cast<ConnectedDevice*>(sender());
   if (!device) return;
@@ -873,11 +875,11 @@ void DeviceManager::TasksChanged() {
 
 }
 
-void DeviceManager::UnmountAsync(QModelIndex idx) {
+void DeviceManager::UnmountAsync(const QModelIndex &idx) {
   Q_ASSERT(QMetaObject::invokeMethod(this, "Unmount", Q_ARG(QModelIndex, idx)));
 }
 
-void DeviceManager::Unmount(QModelIndex idx) {
+void DeviceManager::Unmount(const QModelIndex &idx) {
 
   if (!idx.isValid()) return;
 
@@ -896,7 +898,7 @@ void DeviceManager::Unmount(QModelIndex idx) {
 
 }
 
-void DeviceManager::DeviceSongCountUpdated(int count) {
+void DeviceManager::DeviceSongCountUpdated(const int count) {
 
   Q_UNUSED(count);
 

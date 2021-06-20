@@ -41,7 +41,7 @@ class BackendSettingsPage : public SettingsPage {
   Q_OBJECT
 
 public:
-  explicit BackendSettingsPage(SettingsDialog *dialog);
+  explicit BackendSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~BackendSettingsPage() override;
 
   static const char *kSettingsGroup;

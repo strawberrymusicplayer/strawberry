@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <chrono>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QTimer>
@@ -32,6 +34,8 @@
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"
 
+using namespace std::chrono_literals;
+
 const int AlbumCoverFetcher::kMaxConcurrentRequests = 5;
 
 AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *parent, NetworkAccessManager *network)
@@ -41,7 +45,7 @@ AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *p
       next_id_(0),
       request_starter_(new QTimer(this)) {
 
-  request_starter_->setInterval(1000);
+  request_starter_->setInterval(1s);
   QObject::connect(request_starter_, &QTimer::timeout, this, &AlbumCoverFetcher::StartRequests);
 
 }

@@ -30,7 +30,7 @@ class InternetSongMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  explicit InternetSongMimeData(InternetService *_service) : service(_service) {}
+  explicit InternetSongMimeData(InternetService *_service, QObject* = nullptr) : service(_service) {}
 
   InternetService *service;
   SongList songs;

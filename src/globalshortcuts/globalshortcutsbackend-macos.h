@@ -40,7 +40,7 @@ class GlobalShortcutsBackendMacOS : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutsBackendMacOS(GlobalShortcutsManager* parent);
+  explicit GlobalShortcutsBackendMacOS(GlobalShortcutsManager *manager, QObject *parent = nullptr);
   virtual ~GlobalShortcutsBackendMacOS();
 
   bool IsAvailable() override { return true; }

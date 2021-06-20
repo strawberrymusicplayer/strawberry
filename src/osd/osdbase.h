@@ -88,7 +88,7 @@ class OSDBase : public QObject {
     Type_Message,
   };
   void ShowPlaying(const Song &song, const QUrl &cover_url, const QImage &image, const bool preview = false);
-  void ShowMessage(const QString &summary, const QString &message = QString(), const QString icon = QString("strawberry"), const QImage &image = QImage());
+  void ShowMessage(const QString &summary, const QString &message = QString(), const QString &icon = "strawberry", const QImage &image = QImage());
   QString ReplaceMessage(const MessageType type, const QString &message, const Song &song);
   virtual void ShowMessageNative(const QString &summary, const QString &message, const QString &icon = QString(), const QImage &image = QImage());
 

@@ -122,7 +122,7 @@ void GroupByDialog::accept() {
   QDialog::accept();
 }
 
-void GroupByDialog::CollectionGroupingChanged(const CollectionModel::Grouping &g) {
+void GroupByDialog::CollectionGroupingChanged(const CollectionModel::Grouping g) {
   ui_->combobox_first->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[0])->combo_box_index);
   ui_->combobox_second->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[1])->combo_box_index);
   ui_->combobox_third->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[2])->combo_box_index);

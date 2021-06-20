@@ -132,6 +132,7 @@ QList<Playlist*> PlaylistManager::GetAllPlaylists() const {
   QList<Playlist*> result;
 
   QList<Data> datas = playlists_.values();
+  result.reserve(datas.count());
   for (const Data &data : datas) {
     result.append(data.p);
   }
@@ -568,7 +569,8 @@ QString PlaylistManager::GetNameForNewPlaylist(const SongList &songs) {
 
   QSet<QString> artists;
   QSet<QString> albums;
-
+  artists.reserve(songs.count());
+  albums.reserve(songs.count());
   for (const Song &song : songs) {
     artists << (song.artist().isEmpty() ? tr("Unknown") : song.artist());
     albums << (song.album().isEmpty() ? tr("Unknown") : song.album());

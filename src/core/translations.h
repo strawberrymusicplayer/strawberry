@@ -28,8 +28,10 @@
 class QTranslator;
 
 class Translations : public QObject {
+  Q_OBJECT
+
  public:
-  explicit Translations();
+  explicit Translations(QObject *parent = nullptr);
   ~Translations() override;
   void LoadTranslation(const QString &prefix, const QString &path, const QString &language);
 

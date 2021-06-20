@@ -50,7 +50,7 @@ const int MoodbarProxyStyle::kBorderSize = 1;
 const int MoodbarProxyStyle::kArrowWidth = 17;
 const int MoodbarProxyStyle::kArrowHeight = 13;
 
-MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider)
+MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject*)
     : QProxyStyle(nullptr),
       app_(app),
       slider_(slider),
@@ -335,7 +335,7 @@ void MoodbarProxyStyle::DrawArrow(const QStyleOptionSlider *option, QPainter *pa
 
 }
 
-QPixmap MoodbarProxyStyle::MoodbarPixmap(const ColorVector &colors, const QSize &size, const QPalette &palette, const QStyleOptionSlider *opt) {
+QPixmap MoodbarProxyStyle::MoodbarPixmap(const ColorVector &colors, const QSize size, const QPalette &palette, const QStyleOptionSlider *opt) {
 
   Q_UNUSED(opt);
 
@@ -367,7 +367,7 @@ QPixmap MoodbarProxyStyle::MoodbarPixmap(const ColorVector &colors, const QSize 
 
 }
 
-void MoodbarProxyStyle::ShowContextMenu(const QPoint &pos) {
+void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(slider_);

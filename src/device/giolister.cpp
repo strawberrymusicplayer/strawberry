@@ -182,9 +182,9 @@ QVariantMap GioLister::DeviceHardwareInfo(const QString &id) {
   if (!devices_.contains(id)) return ret;
   const DeviceInfo &info = devices_[id];
 
-  ret[QT_TR_NOOP("Mount point")] = info.mount_path;
-  ret[QT_TR_NOOP("Device")] = info.volume_unix_device;
-  ret[QT_TR_NOOP("URI")] = info.mount_uri;
+  ret[QT_TR_NOOP("Mount point")] = info.mount_path;  // clazy:exclude=qt6-deprecated-api-fixes
+  ret[QT_TR_NOOP("Device")] = info.volume_unix_device;  // clazy:exclude=qt6-deprecated-api-fixes
+  ret[QT_TR_NOOP("URI")] = info.mount_uri;  // clazy:exclude=qt6-deprecated-api-fixes
   return ret;
 
 }
@@ -243,7 +243,7 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
         url.setQuery(url_query);
       }
 
-      ret << url;
+      ret << url;  // clazy:exclude=reserve-candidates
 
     }
   }

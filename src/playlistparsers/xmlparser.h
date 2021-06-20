@@ -33,6 +33,7 @@
 class CollectionBackendInterface;
 
 class XMLParser : public ParserBase {
+  Q_OBJECT
 
  protected:
   explicit XMLParser(CollectionBackendInterface *collection, QObject *parent);

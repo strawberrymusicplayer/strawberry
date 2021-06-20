@@ -39,14 +39,14 @@
 #include "vlcengine.h"
 #include "vlcscopedref.h"
 
-VLCEngine::VLCEngine(TaskManager *task_manager)
-  : instance_(nullptr),
+VLCEngine::VLCEngine(TaskManager *task_manager, QObject *parent)
+  : Engine::Base(Engine::VLC, parent),
+    instance_(nullptr),
     player_(nullptr),
     state_(Engine::Empty) {
 
   Q_UNUSED(task_manager);
 
-  type_ = Engine::VLC;
   ReloadSettings();
 
 }
@@ -215,9 +215,9 @@ qint64 VLCEngine::length_nanosec() const {
 
 EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
 
-  OutputDetailsList ret;
-
   PluginDetailsList plugins = GetPluginList();
+  OutputDetailsList ret;
+  ret.reserve(plugins.count());
   for (const PluginDetails &plugin : plugins) {
     OutputDetails output;
     output.name = plugin.name;

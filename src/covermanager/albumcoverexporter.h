@@ -42,7 +42,7 @@ class AlbumCoverExporter : public QObject {
   static const int kMaxConcurrentRequests;
 
   void SetDialogResult(const AlbumCoverExport::DialogResult &dialog_result);
-  void AddExportRequest(Song song);
+  void AddExportRequest(const Song &song);
   void StartExporting();
   void Cancel();
 

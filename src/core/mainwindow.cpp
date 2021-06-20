@@ -1745,7 +1745,7 @@ void MainWindow::PlaylistMenuHidden() {
 
 }
 
-void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex &index) {
+void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &index) {
 
   QModelIndex source_index = index;
   if (index.model() == app_->playlist_manager()->current()->proxy()) {
@@ -2148,6 +2148,7 @@ void MainWindow::AddFile() {
 
   // Convert to URLs
   QList<QUrl> urls;
+  urls.reserve(file_names.count());
   for (const QString &path : file_names) {
     urls << QUrl::fromLocalFile(QFileInfo(path).canonicalFilePath());
   }
@@ -2550,6 +2551,7 @@ void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
 void MainWindow::EditFileTags(const QList<QUrl> &urls) {
 
   SongList songs;
+  songs.reserve(urls.count());
   for (const QUrl &url : urls) {
     Song song;
     song.set_url(url);
@@ -2628,8 +2630,10 @@ void MainWindow::PlaylistCopyUrl() {
 
 void MainWindow::PlaylistQueue() {
 
+  const QModelIndexList selected_rows = ui_->playlist->view()->selectionModel()->selectedRows();
   QModelIndexList indexes;
-  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
+  indexes.reserve(selected_rows.count());
+  for (const QModelIndex &proxy_index : selected_rows) {
     indexes << app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
   }
 
@@ -2639,8 +2643,10 @@ void MainWindow::PlaylistQueue() {
 
 void MainWindow::PlaylistQueuePlayNext() {
 
+  QModelIndexList selected_rows = ui_->playlist->view()->selectionModel()->selectedRows();
   QModelIndexList indexes;
-  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
+  indexes.reserve(selected_rows.count());
+  for (const QModelIndex &proxy_index : selected_rows) {
     indexes << app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
   }
 
@@ -2650,9 +2656,10 @@ void MainWindow::PlaylistQueuePlayNext() {
 
 void MainWindow::PlaylistSkip() {
 
+  const QModelIndexList selected_rows = ui_->playlist->view()->selectionModel()->selectedRows();
   QModelIndexList indexes;
-
-  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
+  indexes.reserve(selected_rows.count());
+  for (const QModelIndex &proxy_index : selected_rows) {
     indexes << app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
   }
 
@@ -2904,7 +2911,7 @@ void MainWindow::AutoCompleteTagsAccepted() {
 
 }
 
-void MainWindow::HandleNotificationPreview(OSDBase::Behaviour type, QString line1, QString line2) {
+void MainWindow::HandleNotificationPreview(const OSDBase::Behaviour type, const QString &line1, const QString &line2) {
 
   if (!app_->playlist_manager()->current()->GetAllSongs().isEmpty()) {
     // Show a preview notification for the first song in the current playlist

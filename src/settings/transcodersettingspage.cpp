@@ -38,8 +38,8 @@
 
 class SettingsDialog;
 
-TranscoderSettingsPage::TranscoderSettingsPage(SettingsDialog *dialog)
-    : SettingsPage(dialog), ui_(new Ui_TranscoderSettingsPage) {
+TranscoderSettingsPage::TranscoderSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent), ui_(new Ui_TranscoderSettingsPage) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("tools-wizard"));

@@ -33,6 +33,7 @@ class DeviceFinder {
 
  public:
   struct Device {
+    Device() : card(0), device(0) {}
     QString description;
     QVariant value;
     QString iconname;
@@ -44,7 +45,7 @@ class DeviceFinder {
 
   QString name() const { return name_; }
   QStringList outputs() const { return outputs_; }
-  void add_output(const QString output) { outputs_.append(output); }
+  void add_output(const QString &output) { outputs_.append(output); }
 
   // Does any necessary setup, returning false if this DeviceFinder cannot be used.
   virtual bool Initialize() = 0;
@@ -61,6 +62,7 @@ class DeviceFinder {
   QString name_;
   QStringList outputs_;
 
+  Q_DISABLE_COPY(DeviceFinder)
 };
 
 #endif // DEVICEFINDER_H

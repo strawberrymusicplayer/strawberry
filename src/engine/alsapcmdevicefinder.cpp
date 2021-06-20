@@ -68,10 +68,10 @@ QList<DeviceFinder::Device> AlsaPCMDeviceFinder::ListDevices() {
       }
 
       Device device;
-      device.value = name;
+      device.value = name;  // clazy:exclude=qt6-deprecated-api-fixes
       device.description = description;
       device.iconname = GuessIconName(device.description);
-      ret << device;
+      ret << device;  // clazy:exclude=reserve-candidates
     }
     if (io) free(io);
     if (name) free(name);

@@ -37,7 +37,7 @@ class BehaviourSettingsPage : public SettingsPage {
   Q_OBJECT
 
 public:
-  explicit BehaviourSettingsPage(SettingsDialog *dialog);
+  explicit BehaviourSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~BehaviourSettingsPage() override;
 
   static const char *kSettingsGroup;

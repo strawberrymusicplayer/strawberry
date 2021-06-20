@@ -364,7 +364,7 @@ void InternetSearchView::timerEvent(QTimerEvent *e) {
   QMap<int, DelayedSearch>::iterator it = delayed_searches_.find(e->timerId());
   if (it != delayed_searches_.end()) {
     SearchAsync(it.value().id_, it.value().query_, it.value().type_);
-    delayed_searches_.erase(it);
+    delayed_searches_.erase(it);  // clazy:exclude=strict-iterators
     return;
   }
 
@@ -497,6 +497,7 @@ void InternetSearchView::SearchDone(const int service_id, const SongList &songs,
   }
 
   ResultList results;
+  results.reserve(songs.count());
   for (const Song &song : songs) {
     Result result;
     result.metadata_ = song;
@@ -518,7 +519,7 @@ void InternetSearchView::CancelSearch(const int id) {
   for (it = delayed_searches_.begin(); it != delayed_searches_.end(); ++it) {
     if (it.value().id_ == id) {
       killTimer(it.key());
-      delayed_searches_.erase(it);
+      delayed_searches_.erase(it);  // clazy:exclude=strict-iterators
       return;
     }
   }
@@ -592,7 +593,7 @@ MimeData *InternetSearchView::SelectedMimeData() {
     for (int i = 0 ; i < front_proxy_->rowCount() ; ++i) {
       QModelIndex idx = front_proxy_->index(i, 0);
       if (!idx.data(CollectionModel::Role_IsDivider).toBool()) {
-        indexes << idx;
+        indexes << idx;  // clazy:exclude=reserve-candidates
         ui_->results->setCurrentIndex(idx);
         break;
       }
@@ -607,7 +608,7 @@ MimeData *InternetSearchView::SelectedMimeData() {
   // Get items for these indexes
   QList<QStandardItem*> items;
   for (const QModelIndex &idx : indexes) {
-    items << (front_model_->itemFromIndex(front_proxy_->mapToSource(idx)));
+    items << (front_model_->itemFromIndex(front_proxy_->mapToSource(idx)));  // clazy:exclude=reserve-candidates
   }
 
   // Get a MimeData for these items
@@ -687,7 +688,7 @@ void InternetSearchView::GroupByClicked(QAction *action) {
 
 }
 
-void InternetSearchView::SetGroupBy(const CollectionModel::Grouping &g) {
+void InternetSearchView::SetGroupBy(const CollectionModel::Grouping g) {
 
   // Clear requests: changing "group by" on the models will cause all the items to be removed/added again,
   // so all the QModelIndex here will become invalid. New requests will be created for those

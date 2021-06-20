@@ -142,7 +142,7 @@ void TagFetcher::TagsFetched(const int index, const MusicBrainzClient::ResultLis
 
   const Song &original_song = songs_[index];
   SongList songs_guessed;
-
+  songs_guessed.reserve(results.count());
   for (const MusicBrainzClient::Result &result : results) {
     Song song;
     song.Init(result.title_, result.artist_, result.album_, result.duration_msec_ * kNsecPerMsec);

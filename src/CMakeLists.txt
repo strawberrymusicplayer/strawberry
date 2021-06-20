@@ -249,11 +249,13 @@ set(SOURCES
 set(HEADERS
   core/mainwindow.h
   core/application.h
+  core/appearance.h
   core/player.h
   core/database.h
   core/deletefiles.h
   core/filesystemwatcherinterface.h
   core/mergedproxymodel.h
+  core/multisortfilterproxy.h
   core/networkaccessmanager.h
   core/threadsafenetworkdiskcache.h
   core/networktimeouts.h
@@ -261,8 +263,11 @@ set(HEADERS
   core/songloader.h
   core/tagreaderclient.h
   core/taskmanager.h
+  core/thread.h
   core/urlhandler.h
   core/standarditemiconloader.h
+  core/translations.h
+  core/potranslator.h
   core/mimedata.h
   core/stylesheetloader.h
 
@@ -304,6 +309,7 @@ set(HEADERS
   playlist/playlistlistcontainer.h
   playlist/playlistlistmodel.h
   playlist/playlistlistview.h
+  playlist/playlistlistsortfiltermodel.h
   playlist/playlistmanager.h
   playlist/playlistsaveoptionsdialog.h
   playlist/playlistsequence.h
@@ -324,10 +330,13 @@ set(HEADERS
   playlistparsers/parserbase.h
   playlistparsers/playlistparser.h
   playlistparsers/plsparser.h
+  playlistparsers/wplparser.h
+  playlistparsers/xmlparser.h
   playlistparsers/xspfparser.h
 
   smartplaylists/playlistgenerator.h
   smartplaylists/playlistgeneratorinserter.h
+  smartplaylists/playlistquerygenerator.h
   smartplaylists/playlistgeneratormimedata.h
   smartplaylists/smartplaylistquerywizardplugin.h
   smartplaylists/smartplaylistsearchpreview.h
@@ -422,6 +431,7 @@ set(HEADERS
   widgets/loginstatewidget.h
   widgets/qsearchfield.h
   widgets/ratingwidget.h
+  widgets/forcescrollperpixel.h
 
   osd/osdbase.h
   osd/osdpretty.h
@@ -429,14 +439,15 @@ set(HEADERS
   internet/internetservices.h
   internet/internetservice.h
   internet/internetsongmimedata.h
-  internet/internetsearchview.h
   internet/internetsearchmodel.h
+  internet/internetsearchsortmodel.h
+  internet/internetsearchitemdelegate.h
+  internet/internetsearchview.h
   internet/localredirectserver.h
   internet/internetsongsview.h
   internet/internettabsview.h
   internet/internetcollectionview.h
   internet/internetcollectionviewcontainer.h
-  internet/internetsearchview.h
 
   scrobbler/audioscrobbler.h
   scrobbler/scrobblerservices.h
@@ -808,13 +819,14 @@ optional_source(HAVE_GIO
   HEADERS device/giolister.h
 )
 
-# mtp device
+# MTP device
 optional_source(HAVE_LIBMTP
   SOURCES
     device/mtpconnection.cpp
     device/mtpdevice.cpp
     device/mtploader.cpp
   HEADERS
+    device/mtpconnection.h
     device/mtpdevice.h
     device/mtploader.h
 )
@@ -844,6 +856,14 @@ HEADERS
   transcoder/transcoder.h
   transcoder/transcodedialog.h
   transcoder/transcoderoptionsdialog.h
+  transcoder/transcoderoptionsinterface.h
+  transcoder/transcoderoptionsflac.h
+  transcoder/transcoderoptionswavpack.h
+  transcoder/transcoderoptionsvorbis.h
+  transcoder/transcoderoptionsopus.h
+  transcoder/transcoderoptionsspeex.h
+  transcoder/transcoderoptionsaac.h
+  transcoder/transcoderoptionsasf.h
   transcoder/transcoderoptionsmp3.h
   settings/transcodersettingspage.h
 UI

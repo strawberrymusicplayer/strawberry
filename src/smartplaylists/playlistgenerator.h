@@ -37,7 +37,7 @@ class PlaylistGenerator : public QObject, public std::enable_shared_from_this<Pl
   Q_OBJECT
 
  public:
-  explicit PlaylistGenerator();
+  explicit PlaylistGenerator(QObject *parent = nullptr);
 
   static const int kDefaultLimit;
   static const int kDefaultDynamicHistory;

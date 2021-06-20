@@ -185,6 +185,7 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   std::stable_sort(id_source_list.begin(), id_source_list.end());
 
   QList<QString> id_list;
+  id_list.reserve(id_source_list.count());
   for (const IdSource &is : id_source_list) {
     id_list << is.id_;
   }

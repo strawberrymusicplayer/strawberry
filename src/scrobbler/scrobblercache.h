@@ -44,7 +44,7 @@ class ScrobblerCache : public QObject {
 
   void ReadCache();
 
-  ScrobblerCacheItemPtr Add(const Song &song, const quint64 &timestamp);
+  ScrobblerCacheItemPtr Add(const Song &song, const quint64 timestamp);
   ScrobblerCacheItemPtr Get(const quint64 hash);
   void Remove(const quint64 hash);
   void Remove(ScrobblerCacheItemPtr item);

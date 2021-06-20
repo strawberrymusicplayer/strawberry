@@ -48,7 +48,7 @@ class SubsonicScrobbleRequest : public SubsonicBaseRequest {
   explicit SubsonicScrobbleRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent);
   ~SubsonicScrobbleRequest() override;
 
-  void CreateScrobbleRequest(const QString song_id, const bool submission, const QDateTime start_time);
+  void CreateScrobbleRequest(const QString &song_id, const bool submission, const QDateTime &start_time);
 
  private slots:
   void ScrobbleReplyReceived(QNetworkReply *reply);

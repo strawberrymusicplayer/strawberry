@@ -72,7 +72,7 @@ RatingPainter::RatingPainter() {
   }
 }
 
-QRect RatingPainter::Contents(const QRect &rect) {
+QRect RatingPainter::Contents(const QRect rect) {
 
   const int width = kStarSize * kStarCount;
   const int x = rect.x() + (rect.width() - width) / 2;
@@ -81,7 +81,7 @@ QRect RatingPainter::Contents(const QRect &rect) {
 
 }
 
-double RatingPainter::RatingForPos(const QPoint &pos, const QRect &rect) {
+double RatingPainter::RatingForPos(const QPoint pos, const QRect rect) {
 
   const QRect contents = Contents(rect);
   const double raw = double(pos.x() - contents.left()) / contents.width();
@@ -95,7 +95,7 @@ double RatingPainter::RatingForPos(const QPoint &pos, const QRect &rect) {
 
 }
 
-void RatingPainter::Paint(QPainter *painter, const QRect &rect, double rating) const {
+void RatingPainter::Paint(QPainter *painter, const QRect rect, double rating) const {
 
   QSize size(qMin(kStarSize * kStarCount, rect.width()), qMin(kStarSize, rect.height()));
   QPoint pos(rect.center() - QPoint(size.width() / 2, size.height() / 2));

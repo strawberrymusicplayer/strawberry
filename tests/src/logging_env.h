@@ -26,11 +26,14 @@
 #include "core/logging.h"
 
 class LoggingEnvironment : public ::testing::Environment {
-public:
+ public:
+  LoggingEnvironment() = default;
   void SetUp() override {
     logging::Init();
     logging::SetLevels("*:4");
   }
+ private:
+  Q_DISABLE_COPY(LoggingEnvironment)
 };
 
 #endif  // LOGGING_ENV_H

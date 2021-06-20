@@ -135,7 +135,7 @@ class SingleCoreApplication : public QCoreApplication {
    * @note sendMessage() will return false if invoked from the primary
    * instance.
    */
-  bool sendMessage(QByteArray message, int timeout = 1000);
+  bool sendMessage(const QByteArray &message, const int timeout = 1000);
 
  signals:
   void instanceStarted();

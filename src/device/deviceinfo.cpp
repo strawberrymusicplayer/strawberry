@@ -45,6 +45,7 @@ DeviceDatabaseBackend::Device DeviceInfo::SaveToDb() const {
   ret.transcode_format_ = transcode_format_;
 
   QStringList unique_ids;
+  unique_ids.reserve(backends_.count());
   for (const Backend &backend : backends_) {
     unique_ids << backend.unique_id_;
   }

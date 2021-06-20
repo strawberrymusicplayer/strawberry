@@ -38,7 +38,7 @@ class GlobalShortcutsBackendSystem : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutsBackendSystem(GlobalShortcutsManager *parent = nullptr);
+  explicit GlobalShortcutsBackendSystem(GlobalShortcutsManager *manager, QObject *parent = nullptr);
   ~GlobalShortcutsBackendSystem() override;
 
   bool IsAvailable() override { return true; }

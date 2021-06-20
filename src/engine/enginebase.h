@@ -53,7 +53,7 @@ class Base : public QObject {
   Q_OBJECT
 
  protected:
-  Base();
+  Base(const EngineType type = EngineType::None, QObject *parent = nullptr);
 
  public:
   ~Base() override;

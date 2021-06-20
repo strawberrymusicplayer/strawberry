@@ -90,12 +90,17 @@
 
 class FileRefFactory {
  public:
+  FileRefFactory() = default;
   virtual ~FileRefFactory() {}
   virtual TagLib::FileRef *GetFileRef(const QString &filename) = 0;
+
+ private:
+  Q_DISABLE_COPY(FileRefFactory)
 };
 
 class TagLibFileRefFactory : public FileRefFactory {
  public:
+  TagLibFileRefFactory() = default;
   TagLib::FileRef *GetFileRef(const QString &filename) override {
 #ifdef Q_OS_WIN32
     return new TagLib::FileRef(filename.toStdWString().c_str());
@@ -103,6 +108,8 @@ class TagLibFileRefFactory : public FileRefFactory {
     return new TagLib::FileRef(QFile::encodeName(filename).constData());
 #endif
   }
+ private:
+  Q_DISABLE_COPY(TagLibFileRefFactory)
 };
 
 namespace {

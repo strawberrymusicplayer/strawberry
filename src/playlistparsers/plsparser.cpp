@@ -81,7 +81,7 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
     }
   }
 
-  return songs.values();
+  return songs.values();  // clazy:exclude=qt6-deprecated-api-fixes
 
 }
 

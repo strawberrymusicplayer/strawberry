@@ -58,6 +58,8 @@ class InternetPlaylistItem : public PlaylistItem {
  private:
   Song::Source source_;
   Song metadata_;
+
+  Q_DISABLE_COPY(InternetPlaylistItem)
 };
 
 #endif  // INTERNETPLAYLISTITEM_H

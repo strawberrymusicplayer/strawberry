@@ -18,6 +18,7 @@
 #include "moodbarloader.h"
 
 #include <memory>
+#include <chrono>
 
 #include <QtGlobal>
 #include <QObject>
@@ -44,6 +45,8 @@
 #include "moodbarpipeline.h"
 
 #include "settings/moodbarsettingspage.h"
+
+using namespace std::chrono_literals;
 
 #ifdef Q_OS_WIN32
 #  include <windows.h>
@@ -199,7 +202,7 @@ void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
   requests_.remove(url);
   active_requests_.remove(url);
 
-  QTimer::singleShot(1000, request, &MoodbarLoader::deleteLater);
+  QTimer::singleShot(1s, request, &MoodbarLoader::deleteLater);
 
   MaybeTakeNextRequest();
 

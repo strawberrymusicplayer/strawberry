@@ -621,6 +621,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
       SongList songs = watcher->result();
       watcher->deleteLater();
       QList<QUrl> urls;
+      urls.reserve(songs.count());
       for (const Song &s : songs) urls << s.url();
       if (result.is_jpeg()) {
         qint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image_data);
@@ -665,6 +666,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
       SongList songs = watcher->result();
       watcher->deleteLater();
       QList<QUrl> urls;
+      urls.reserve(songs.count());
       for (const Song &s : songs) urls << s.url();
       qint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, cover_filename);
       QMutexLocker l(&mutex_cover_save_tasks_);
@@ -678,7 +680,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
 
 }
 
-void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const QList<QUrl> urls, const QImage &image) {
+void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const QList<QUrl> &urls, const QImage &image) {
 
   app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, image);
 

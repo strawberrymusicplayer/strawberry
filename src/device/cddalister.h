@@ -38,7 +38,7 @@ class CddaLister : public DeviceLister {
   Q_OBJECT
 
  public:
-  explicit CddaLister() {}
+  explicit CddaLister(QObject *parent = nullptr) : DeviceLister(parent) {}
 
   QStringList DeviceUniqueIDs() override;
   QVariantList DeviceIcons(const QString &id) override;

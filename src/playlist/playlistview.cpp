@@ -90,7 +90,7 @@ const int PlaylistView::kAutoscrollGraceTimeout = 30;  // seconds
 const int PlaylistView::kDropIndicatorWidth = 2;
 const int PlaylistView::kDropIndicatorGradientWidth = 5;
 
-PlaylistProxyStyle::PlaylistProxyStyle() : QProxyStyle(nullptr), common_style_(new QCommonStyle) {}
+PlaylistProxyStyle::PlaylistProxyStyle(QObject*) : QProxyStyle(nullptr), common_style_(new QCommonStyle) {}
 
 void PlaylistProxyStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
 
@@ -465,6 +465,7 @@ QList<QPixmap> PlaylistView::LoadBarPixmap(const QString &filename) {
 
   // Animation steps
   QList<QPixmap> ret;
+  ret.reserve(kGlowIntensitySteps);
   for (int i = 0; i < kGlowIntensitySteps; ++i) {
     QImage step(image.copy());
     p.begin(&step);
@@ -560,7 +561,7 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
 
 }
 
-void PlaylistView::UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, const QModelIndex &idx) {
+void PlaylistView::UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, const QModelIndex &idx) {  // clazy:exclude=function-args-by-ref
 
   cached_current_row_rect_ = option.rect;
   cached_current_row_row_ = idx.row();
@@ -1289,7 +1290,7 @@ void PlaylistView::resizeEvent(QResizeEvent *e) {
 bool PlaylistView::eventFilter(QObject *object, QEvent *event) {
 
   if (event->type() == QEvent::Enter && (object == horizontalScrollBar() || object == verticalScrollBar())) {
-    return false;
+    return false;  // clazy:exclude=base-class-event
   }
   return QAbstractItemView::eventFilter(object, event);
 
@@ -1397,7 +1398,7 @@ void PlaylistView::Stopped() {
 
 }
 
-void PlaylistView::AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResult result) {
+void PlaylistView::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
 
   if ((song != Song() && song_playing_ == Song()) || result.album_cover.image == current_song_cover_art_) return;
 
@@ -1510,7 +1511,7 @@ void PlaylistView::SetRatingLockStatus(const bool state) {
 
 }
 
-void PlaylistView::RatingHoverIn(const QModelIndex &idx, const QPoint &pos) {
+void PlaylistView::RatingHoverIn(const QModelIndex &idx, const QPoint pos) {
 
   if (editTriggers() & QAbstractItemView::NoEditTriggers) {
     return;

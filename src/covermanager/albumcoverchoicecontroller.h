@@ -145,7 +145,7 @@ class AlbumCoverChoiceController : public QWidget {
   void SaveCoverEmbeddedAutomatic(const Song &song, const AlbumCoverImageResult &result);
   void SaveCoverEmbeddedAutomatic(const Song &song, const QUrl &cover_url);
   void SaveCoverEmbeddedAutomatic(const Song &song, const QString &cover_filename);
-  void SaveCoverEmbeddedAutomatic(const QList<QUrl> urls, const QImage &image);
+  void SaveCoverEmbeddedAutomatic(const QList<QUrl> &urls, const QImage &image);
 
   static bool CanAcceptDrag(const QDragEnterEvent *e);
 

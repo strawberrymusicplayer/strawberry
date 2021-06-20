@@ -258,11 +258,14 @@ int Equalizer::preamp_value() const {
 }
 
 QList<int> Equalizer::gain_values() const {
+
   QList<int> ret;
+  ret.reserve(kBands);
   for (int i = 0; i < kBands; ++i) {
     ret << gain_[i]->value();
   }
   return ret;
+
 }
 
 Equalizer::Params Equalizer::current_params() const {

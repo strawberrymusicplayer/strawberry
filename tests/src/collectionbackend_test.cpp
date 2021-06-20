@@ -37,6 +37,8 @@
 #include "collection/collectionbackend.h"
 #include "collection/collection.h"
 
+// clazy:excludeall=non-pod-global-static,returning-void-expression
+
 namespace {
 
 class CollectionBackendTest : public ::testing::Test {
@@ -58,8 +60,8 @@ class CollectionBackendTest : public ::testing::Test {
     return ret;
   }
 
-  std::shared_ptr<Database> database_;
-  std::unique_ptr<CollectionBackend> backend_;
+  std::shared_ptr<Database> database_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  std::unique_ptr<CollectionBackend> backend_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
 TEST_F(CollectionBackendTest, EmptyDatabase) {
@@ -180,7 +182,7 @@ class SingleSong : public CollectionBackendTest {
     EXPECT_EQ(1, list[0].directory_id());
   }
 
-  Song song_;
+  Song song_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
 };
 
@@ -190,7 +192,7 @@ TEST_F(SingleSong, GetSongWithNoAlbum) {
   AddDummySong(); if (HasFatalFailure()) return;
   
   EXPECT_EQ(1, backend_->GetAllArtists().size());
-  CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
+  //CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
   //EXPECT_EQ(1, albums.size());
   //EXPECT_EQ("Artist", albums[0].artist);
   //EXPECT_EQ("", albums[0].album);

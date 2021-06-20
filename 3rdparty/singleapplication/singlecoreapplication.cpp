@@ -236,7 +236,7 @@ QString SingleCoreApplication::currentUser() {
  * @param timeout the maximum timeout in milliseconds for blocking functions.
  * @return true if the message was sent successfuly, false otherwise.
  */
-bool SingleCoreApplication::sendMessage(QByteArray message, int timeout) {
+bool SingleCoreApplication::sendMessage(const QByteArray &message, const int timeout) {
 
   Q_D(SingleCoreApplication);
 

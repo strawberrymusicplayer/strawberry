@@ -32,8 +32,8 @@ class PlaylistItemMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  explicit PlaylistItemMimeData(const PlaylistItemPtr &item) : items_(PlaylistItemList() << item) {}
-  explicit PlaylistItemMimeData(const PlaylistItemList &items) : items_(items) {}
+  explicit PlaylistItemMimeData(const PlaylistItemPtr &item, QObject* = nullptr) : MimeData(), items_(PlaylistItemList() << item) {}
+  explicit PlaylistItemMimeData(const PlaylistItemList &items, QObject* = nullptr) : MimeData(), items_(items) {}
 
   PlaylistItemList items_;
 };

@@ -64,7 +64,7 @@ QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
       qLog(Error) << "Unable to open soundcard" << card << ":" << snd_strerror(result);
       continue;
     }
-    BOOST_SCOPE_EXIT(&handle) { snd_ctl_close(handle); }
+    BOOST_SCOPE_EXIT(&handle) { snd_ctl_close(handle); }  // clazy:exclude=rule-of-three NOLINT(google-explicit-constructor)
     BOOST_SCOPE_EXIT_END
 
     result = snd_ctl_card_info(handle, cardinfo);
@@ -101,9 +101,9 @@ QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
       device.card = card;
       device.device = dev;
 
-      device.value = QString("hw:%1,%2").arg(card).arg(dev);
+      device.value = QString("hw:%1,%2").arg(card).arg(dev);  // clazy:exclude=qt6-deprecated-api-fixes
       ret.append(device);
-      device.value = QString("plughw:%1,%2").arg(card).arg(dev);
+      device.value = QString("plughw:%1,%2").arg(card).arg(dev);  // clazy:exclude=qt6-deprecated-api-fixes
       ret.append(device);
 
     }

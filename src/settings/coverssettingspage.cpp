@@ -46,7 +46,7 @@
 
 const char *CoversSettingsPage::kSettingsGroup = "Covers";
 
-CoversSettingsPage::CoversSettingsPage(SettingsDialog *parent) : SettingsPage(parent), ui_(new Ui::CoversSettingsPage), provider_selected_(false) {
+CoversSettingsPage::CoversSettingsPage(SettingsDialog *dialog, QWidget *parent) : SettingsPage(dialog, parent), ui_(new Ui::CoversSettingsPage), provider_selected_(false) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("cdcase"));
@@ -65,7 +65,7 @@ CoversSettingsPage::CoversSettingsPage(SettingsDialog *parent) : SettingsPage(pa
   NoProviderSelected();
   DisableAuthentication();
 
-  dialog()->installEventFilter(this);
+  dialog->installEventFilter(this);
 
 }
 
@@ -96,7 +96,7 @@ void CoversSettingsPage::Save() {
   QStringList providers;
   for (int i = 0 ; i < ui_->providers->count() ; ++i) {
     const QListWidgetItem *item = ui_->providers->item(i);
-    if (item->checkState() == Qt::Checked) providers << item->text();
+    if (item->checkState() == Qt::Checked) providers << item->text();  // clazy:exclude=reserve-candidates
   }
 
   QSettings s;

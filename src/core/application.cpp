@@ -25,6 +25,7 @@
 #include "application.h"
 
 #include <functional>
+#include <chrono>
 
 #include <QObject>
 #include <QThread>
@@ -90,6 +91,8 @@
 #  include "moodbar/moodbarloader.h"
 #endif
 
+using namespace std::chrono_literals;
+
 class ApplicationImpl {
  public:
   explicit ApplicationImpl(Application *app) :
@@ -102,7 +105,7 @@ class ApplicationImpl {
         database_([=]() {
           Database *db = new Database(app, app);
           app->MoveToNewThread(db);
-          QTimer::singleShot(30000, db, &Database::DoBackup);
+          QTimer::singleShot(30s, db, &Database::DoBackup);
           return db;
         }),
         appearance_([=]() { return new Appearance(app); }),
@@ -288,7 +291,7 @@ void Application::Exit() {
 
 void Application::ExitReceived() {
 
-  QObject *obj = static_cast<QObject*>(sender());
+  QObject *obj = sender();
   QObject::disconnect(obj, nullptr, this, nullptr);
 
   qLog(Debug) << obj << "successfully exited.";

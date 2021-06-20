@@ -32,6 +32,8 @@
 #include "tagreader.h"
 #include "test_utils.h"
 
+// clazy:excludeall=non-pod-global-static
+
 namespace {
 
 class TagReaderTest : public ::testing::Test {

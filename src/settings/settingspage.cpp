@@ -34,7 +34,7 @@
 #include "settingsdialog.h"
 #include "settingspage.h"
 
-SettingsPage::SettingsPage(SettingsDialog *dialog) : QWidget(dialog), dialog_(dialog), ui_widget_(nullptr), changed_(false) {}
+SettingsPage::SettingsPage(SettingsDialog *dialog, QWidget *parent) : QWidget(parent), dialog_(dialog), ui_widget_(nullptr), changed_(false) {}
 
 void SettingsPage::Init(QWidget *ui_widget) {
 

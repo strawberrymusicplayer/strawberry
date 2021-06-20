@@ -49,7 +49,7 @@ class SettingsPage : public QWidget {
   Q_OBJECT
 
  public:
-  explicit SettingsPage(SettingsDialog *dialog);
+  explicit SettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
 
   void Init(QWidget *ui_widget);
 

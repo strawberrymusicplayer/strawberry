@@ -32,7 +32,7 @@ const int PlaylistGenerator::kDefaultLimit = 20;
 const int PlaylistGenerator::kDefaultDynamicHistory = 5;
 const int PlaylistGenerator::kDefaultDynamicFuture = 15;
 
-PlaylistGenerator::PlaylistGenerator() : QObject(nullptr), backend_(nullptr) {}
+PlaylistGenerator::PlaylistGenerator(QObject *parent) : QObject(parent), backend_(nullptr) {}
 
 PlaylistGeneratorPtr PlaylistGenerator::Create(const Type type) {
 

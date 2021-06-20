@@ -30,12 +30,16 @@
 class GstEnginePipeline;
 
 class GstBufferConsumer {
-public:
+ public:
+  GstBufferConsumer() {}
   virtual ~GstBufferConsumer() {}
 
   // This is called in some unspecified GStreamer thread.
   // Ownership of the buffer is transferred to the BufferConsumer and it should gst_buffer_unref it.
   virtual void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) = 0;
+
+ private:
+  Q_DISABLE_COPY(GstBufferConsumer)
 };
 
 #endif // GSTBUFFERCONSUMER_H

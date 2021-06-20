@@ -13,11 +13,15 @@ class GlobalShortcutsBackendMacOS;
 
 class PlatformInterface {
  public:
+  PlatformInterface() = default;
+  virtual ~PlatformInterface() {}
+
   // Called when the application should show itself.
   virtual void Activate() = 0;
   virtual bool LoadUrl(const QString &url) = 0;
 
-  virtual ~PlatformInterface() {}
+ private:
+  Q_DISABLE_COPY(PlatformInterface)
 };
 
 namespace mac {

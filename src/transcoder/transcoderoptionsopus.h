@@ -30,6 +30,8 @@
 class Ui_TranscoderOptionsOpus;
 
 class TranscoderOptionsOpus : public TranscoderOptionsInterface {
+  Q_OBJECT
+
  public:
   explicit TranscoderOptionsOpus(QWidget *parent = nullptr);
   ~TranscoderOptionsOpus() override;

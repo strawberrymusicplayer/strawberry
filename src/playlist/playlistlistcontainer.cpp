@@ -26,7 +26,6 @@
 #include <QStandardItemModel>
 #include <QAbstractItemModel>
 #include <QItemSelectionModel>
-#include <QSortFilterProxyModel>
 #include <QSet>
 #include <QList>
 #include <QVariant>
@@ -52,6 +51,7 @@
 #include "playlistlistview.h"
 #include "playlistlistcontainer.h"
 #include "playlistlistmodel.h"
+#include "playlistlistsortfiltermodel.h"
 #include "playlistmanager.h"
 #include "ui_playlistlistcontainer.h"
 #include "organize/organizedialog.h"
@@ -60,23 +60,6 @@
 #  include "device/devicemanager.h"
 #  include "device/devicestatefiltermodel.h"
 #endif
-
-class PlaylistListSortFilterModel : public QSortFilterProxyModel {
-public:
-  explicit PlaylistListSortFilterModel(QObject *parent)
-    : QSortFilterProxyModel(parent) {}
-
-  bool lessThan(const QModelIndex &left, const QModelIndex &right) const override {
-    // Compare the display text first.
-    const int ret = left.data().toString().localeAwareCompare(right.data().toString());
-    if (ret < 0) return true;
-    if (ret > 0) return false;
-
-    // Now use the source model row order to ensure we always get a deterministic sorting even when two items are named the same.
-    return left.row() < right.row();
-  }
-};
-
 
 PlaylistListContainer::PlaylistListContainer(QWidget *parent)
     : QWidget(parent),
@@ -350,7 +333,7 @@ void PlaylistListContainer::ItemsSelectedChanged(const bool selected) {
   ui_->save_playlist->setEnabled(selected);
 }
 
-void PlaylistListContainer::ItemDoubleClicked(const QModelIndex proxy_idx) {
+void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_idx) {
 
   const QModelIndex idx = proxy_->mapToSource(proxy_idx);
   if (!idx.isValid()) return;
@@ -411,7 +394,7 @@ void PlaylistListContainer::Delete() {
     // Is it a playlist?
     switch (idx.data(PlaylistListModel::Role_Type).toInt()) {
       case PlaylistListModel::Type_Playlist:
-        ids << idx.data(PlaylistListModel::Role_PlaylistId).toInt();
+        ids << idx.data(PlaylistListModel::Role_PlaylistId).toInt();  // clazy:exclude=reserve-candidates
         break;
 
       case PlaylistListModel::Type_Folder:

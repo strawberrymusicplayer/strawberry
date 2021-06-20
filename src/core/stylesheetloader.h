@@ -59,7 +59,7 @@ class StyleSheetLoader : public QObject {
 
  private:
   void UpdateStyleSheet(QWidget *widget, StyleSheetData styledata);
-  void ReplaceColor(QString *css, const QString name, const QPalette &palette, QPalette::ColorRole role) const;
+  void ReplaceColor(QString *css, const QString &name, const QPalette &palette, QPalette::ColorRole role) const;
 
  private slots:
   void ResetCounters();

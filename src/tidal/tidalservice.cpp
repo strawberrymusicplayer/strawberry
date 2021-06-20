@@ -225,7 +225,7 @@ void TidalService::Exit() {
 
 void TidalService::ExitReceived() {
 
-  QObject *obj = qobject_cast<QObject*>(sender());
+  QObject *obj = sender();
   QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
@@ -291,7 +291,7 @@ void TidalService::ReloadSettings() {
 
 }
 
-void TidalService::StartAuthorization(const QString client_id) {
+void TidalService::StartAuthorization(const QString &client_id) {
 
   client_id_ = client_id;
   code_verifier_ = Utilities::CryptographicRandomString(44);
@@ -406,9 +406,9 @@ void TidalService::RequestAccessToken(const QString &code) {
 
 }
 
-void TidalService::HandleLoginSSLErrors(QList<QSslError> ssl_errors) {
+void TidalService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
 
-  for (QSslError &ssl_error : ssl_errors) {
+  for (const QSslError &ssl_error : ssl_errors) {
     login_errors_ += ssl_error.errorString();
   }
 
@@ -992,7 +992,7 @@ void TidalService::GetStreamURL(const QUrl &url) {
 
 }
 
-void TidalService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error) {
+void TidalService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error) {
 
   TidalStreamURLRequest *stream_url_req = qobject_cast<TidalStreamURLRequest*>(sender());
   if (!stream_url_req || !stream_url_requests_.contains(stream_url_req)) return;

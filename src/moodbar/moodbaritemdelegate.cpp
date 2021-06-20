@@ -96,7 +96,7 @@ void MoodbarItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
 }
 
-QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize &size) {
+QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize size) {
 
   // Pixmaps are keyed off URL.
   const QUrl url = idx.sibling(idx.row(), Playlist::Column_Filename).data().toUrl();

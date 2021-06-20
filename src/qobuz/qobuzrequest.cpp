@@ -510,7 +510,7 @@ void QobuzRequest::FlushArtistAlbumsRequests() {
 
 }
 
-void QobuzRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const QString artist_id, const int offset_requested) {
+void QobuzRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const QString &artist_id, const int offset_requested) {
 
   --artist_albums_requests_active_;
   ++artist_albums_received_;

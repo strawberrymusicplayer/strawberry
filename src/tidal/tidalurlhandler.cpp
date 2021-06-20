@@ -51,7 +51,7 @@ UrlHandler::LoadResult TidalUrlHandler::StartLoading(const QUrl &url) {
 
 }
 
-void TidalUrlHandler::GetStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error) {
+void TidalUrlHandler::GetStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error) {
 
   if (task_id_ == -1) return;
   CancelTask();

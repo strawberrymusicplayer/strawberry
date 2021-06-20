@@ -148,7 +148,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
     QWidget *widget = label->buddy();
     if (widget) {
       // Store information about the field
-      fields_ << FieldData(label, widget, widget->objectName());
+      fields_ << FieldData(label, widget, widget->objectName());  // clazy:exclude=reserve-candidates
 
       // Connect the edited signal
       if (LineEdit *lineedit = qobject_cast<LineEdit*>(widget)) {
@@ -355,7 +355,8 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
         break;
     }
   }
-  return false;
+
+  return QDialog::eventFilter(o, e);
 
 }
 
@@ -555,7 +556,7 @@ void EditTagDialog::UpdateFieldValue(const FieldData &field, const QModelIndexLi
   QVariant value;
 
   if (ExtendedEditor *editor = dynamic_cast<ExtendedEditor*>(field.editor_)) {
-    value = editor->value();
+    value = editor->value();  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else if (field.editor_) {
     qLog(Error) << "Missing editor for" << field.editor_->objectName();

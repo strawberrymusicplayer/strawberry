@@ -369,7 +369,7 @@ bool OrganizeDialog::SetSongs(const SongList &songs) {
   }
   songs_future_ = QFuture<SongList>();
 
-  return songs_.count();
+  return !songs_.isEmpty();
 
 }
 
@@ -465,7 +465,7 @@ Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongLis
   // Better to rename them: e.g. foo.bar -> foo(2).bar
   QHash<QString, int> filenames;
   Organize::NewSongInfoList new_songs_info;
-
+  new_songs_info.reserve(songs.count());
   for (const Song &song : songs) {
     QString new_filename = format.GetFilenameForSong(song, extension);
     if (filenames.contains(new_filename)) {
@@ -552,11 +552,13 @@ void OrganizeDialog::UpdatePreviews() {
 
 }
 
-void OrganizeDialog::OrganizeFinished(const QStringList files_with_errors, const QStringList log) {
+void OrganizeDialog::OrganizeFinished(const QStringList &files_with_errors, const QStringList &log) {
+
   if (files_with_errors.isEmpty()) return;
 
   error_dialog_.reset(new OrganizeErrorDialog);
   error_dialog_->Show(OrganizeErrorDialog::Type_Copy, files_with_errors, log);
+
 }
 
 void OrganizeDialog::AllowExtASCII(const bool checked) {

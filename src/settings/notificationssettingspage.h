@@ -41,7 +41,7 @@ class NotificationsSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit NotificationsSettingsPage(SettingsDialog *dialog);
+  explicit NotificationsSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~NotificationsSettingsPage() override;
 
   void Load() override;

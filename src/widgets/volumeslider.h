@@ -53,7 +53,7 @@ class SliderSlider : public QSlider {
 
  signals:
   // we emit this when the user has specifically changed the slider so connect to it if valueChanged() is too generic Qt also emits valueChanged(int)
-  void sliderReleased(int);
+  void sliderReleased(int);  // clazy:exclude=overloaded-signal
 
  protected:
   void wheelEvent(QWheelEvent*) override;

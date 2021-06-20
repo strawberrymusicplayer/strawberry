@@ -25,14 +25,14 @@
 
 namespace Engine {
 
-Engine::EngineType EngineTypeFromName(QString enginename) {
+Engine::EngineType EngineTypeFromName(const QString &enginename) {
   QString lower = enginename.toLower();
   if (lower == "gstreamer")     return Engine::GStreamer;
   else if (lower == "vlc")      return Engine::VLC;
   else                          return Engine::None;
 }
 
-QString EngineName(Engine::EngineType enginetype) {
+QString EngineName(const Engine::EngineType enginetype) {
   switch (enginetype) {
     case Engine::GStreamer:     return QString("gstreamer");
     case Engine::VLC:           return QString("vlc");

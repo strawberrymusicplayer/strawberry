@@ -38,7 +38,7 @@ class CollectionSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit CollectionSettingsPage(SettingsDialog *dialog);
+  explicit CollectionSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~CollectionSettingsPage() override;
 
   static const char *kSettingsGroup;

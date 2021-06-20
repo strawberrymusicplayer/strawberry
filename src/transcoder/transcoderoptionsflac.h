@@ -30,6 +30,8 @@
 class Ui_TranscoderOptionsFLAC;
 
 class TranscoderOptionsFLAC : public TranscoderOptionsInterface {
+  Q_OBJECT
+
  public:
   explicit TranscoderOptionsFLAC(QWidget *parent = nullptr);
   ~TranscoderOptionsFLAC() override;

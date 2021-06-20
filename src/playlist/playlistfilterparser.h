@@ -30,9 +30,10 @@
 class QAbstractItemModel;
 class QModelIndex;
 
-// structure for filter parse tree
+// Structure for filter parse tree
 class FilterTree {
  public:
+  FilterTree() = default;
   virtual ~FilterTree() {}
   virtual bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const = 0;
   enum FilterType {
@@ -44,9 +45,11 @@ class FilterTree {
     Term
   };
   virtual FilterType type() = 0;
+ private:
+  Q_DISABLE_COPY(FilterTree)
 };
 
-// trivial filter that accepts *anything*
+// Trivial filter that accepts *anything*
 class NopFilter : public FilterTree {
  public:
   bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override { Q_UNUSED(row); Q_UNUSED(parent); Q_UNUSED(model); return true; }
@@ -77,9 +80,9 @@ class FilterParser {
   void advance();
   FilterTree *parseOrGroup();
   FilterTree *parseAndGroup();
-  // check if iter is at the start of 'AND' if so, step over it and return true if not, return false and leave iter where it was
+  // Check if iter is at the start of 'AND' if so, step over it and return true if not, return false and leave iter where it was
   bool checkAnd();
-  // check if iter is at the start of 'OR'
+  // Check if iter is at the start of 'OR'
   bool checkOr(bool step_over = true);
   FilterTree *parseSearchExpression();
   FilterTree *parseSearchTerm();

@@ -26,14 +26,16 @@
 #include <QStandardItemModel>
 #include <QSignalSpy>
 
+// clazy:excludeall=non-pod-global-static,returning-void-expression,function-args-by-value
+
 class MergedProxyModelTest : public ::testing::Test {
  protected:
   void SetUp() override {
     merged_.setSourceModel(&source_);
   }
 
-  QStandardItemModel source_;
-  MergedProxyModel merged_;
+  QStandardItemModel source_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  MergedProxyModel merged_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
 };
 
@@ -105,10 +107,10 @@ TEST_F(MergedProxyModelTest, SourceInsert) {
 
   ASSERT_EQ(1, before_spy.count());
   ASSERT_EQ(1, after_spy.count());
-  EXPECT_FALSE(before_spy[0][0].value<QModelIndex>().isValid());
+  EXPECT_FALSE(before_spy[0][0].toModelIndex().isValid());
   EXPECT_EQ(0, before_spy[0][1].toInt());
   EXPECT_EQ(0, before_spy[0][2].toInt());
-  EXPECT_FALSE(after_spy[0][0].value<QModelIndex>().isValid());
+  EXPECT_FALSE(after_spy[0][0].toModelIndex().isValid());
   EXPECT_EQ(0, after_spy[0][1].toInt());
   EXPECT_EQ(0, after_spy[0][2].toInt());
 
@@ -125,10 +127,10 @@ TEST_F(MergedProxyModelTest, SourceRemove) {
 
   ASSERT_EQ(1, before_spy.count());
   ASSERT_EQ(1, after_spy.count());
-  EXPECT_FALSE(before_spy[0][0].value<QModelIndex>().isValid());
+  EXPECT_FALSE(before_spy[0][0].toModelIndex().isValid());
   EXPECT_EQ(0, before_spy[0][1].toInt());
   EXPECT_EQ(0, before_spy[0][2].toInt());
-  EXPECT_FALSE(after_spy[0][0].value<QModelIndex>().isValid());
+  EXPECT_FALSE(after_spy[0][0].toModelIndex().isValid());
   EXPECT_EQ(0, after_spy[0][1].toInt());
   EXPECT_EQ(0, after_spy[0][2].toInt());
 
@@ -147,10 +149,10 @@ TEST_F(MergedProxyModelTest, SubInsert) {
 
   ASSERT_EQ(1, before_spy.count());
   ASSERT_EQ(1, after_spy.count());
-  EXPECT_EQ("one", before_spy[0][0].value<QModelIndex>().data());
+  EXPECT_EQ("one", before_spy[0][0].toModelIndex().data());
   EXPECT_EQ(0, before_spy[0][1].toInt());
   EXPECT_EQ(0, before_spy[0][2].toInt());
-  EXPECT_EQ("one", after_spy[0][0].value<QModelIndex>().data());
+  EXPECT_EQ("one", after_spy[0][0].toModelIndex().data());
   EXPECT_EQ(0, after_spy[0][1].toInt());
   EXPECT_EQ(0, after_spy[0][2].toInt());
 
@@ -171,10 +173,10 @@ TEST_F(MergedProxyModelTest, SubRemove) {
 
   ASSERT_EQ(1, before_spy.count());
   ASSERT_EQ(1, after_spy.count());
-  EXPECT_EQ("one", before_spy[0][0].value<QModelIndex>().data());
+  EXPECT_EQ("one", before_spy[0][0].toModelIndex().data());
   EXPECT_EQ(0, before_spy[0][1].toInt());
   EXPECT_EQ(0, before_spy[0][2].toInt());
-  EXPECT_EQ("one", after_spy[0][0].value<QModelIndex>().data());
+  EXPECT_EQ("one", after_spy[0][0].toModelIndex().data());
   EXPECT_EQ(0, after_spy[0][1].toInt());
   EXPECT_EQ(0, after_spy[0][2].toInt());
 

@@ -21,6 +21,7 @@
 
 #include <memory>
 #include <functional>
+#include <chrono>
 
 #include <QObject>
 #include <QStandardPaths>
@@ -43,6 +44,8 @@
 #include "scrobblercache.h"
 #include "scrobblercacheitem.h"
 
+using namespace std::chrono_literals;
+
 ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent) :
   QObject(parent),
   timer_flush_(new QTimer(this)),
@@ -53,7 +56,7 @@ ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent) :
   loaded_ = true;
 
   timer_flush_->setSingleShot(true);
-  timer_flush_->setInterval(600000);
+  timer_flush_->setInterval(10min);
   QObject::connect(timer_flush_, &QTimer::timeout, this, &ScrobblerCache::WriteCache);
 
 }
@@ -197,7 +200,7 @@ void ScrobblerCache::WriteCache() {
 
 }
 
-ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 &timestamp) {
+ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 timestamp) {
 
   if (scrobbler_cache_.contains(timestamp)) return nullptr;
 

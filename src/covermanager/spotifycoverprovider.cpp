@@ -205,7 +205,7 @@ void SpotifyCoverProvider::RedirectArrived() {
 
 }
 
-void SpotifyCoverProvider::RequestAccessToken(const QString code, const QUrl redirect_url) {
+void SpotifyCoverProvider::RequestAccessToken(const QString &code, const QUrl &redirect_url) {
 
   refresh_login_timer_.stop();
 
@@ -250,7 +250,7 @@ void SpotifyCoverProvider::RequestAccessToken(const QString code, const QUrl red
 
 }
 
-void SpotifyCoverProvider::HandleLoginSSLErrors(QList<QSslError> ssl_errors) {
+void SpotifyCoverProvider::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
 
   for (const QSslError &ssl_error : ssl_errors) {
     login_errors_ += ssl_error.errorString();

@@ -594,7 +594,7 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
 
   if (obj == ui_->albums && e->type() == QEvent::ContextMenu) {
     context_menu_items_ = ui_->albums->selectedItems();
-    if (context_menu_items_.isEmpty()) return false;
+    if (context_menu_items_.isEmpty()) return QMainWindow::eventFilter(obj, e);
 
     bool some_with_covers = false;
     bool some_unset = false;
@@ -624,6 +624,7 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
     context_menu_->popup(context_menu_event->globalPos());
     return true;
   }
+
   return QMainWindow::eventFilter(obj, e);
 
 }

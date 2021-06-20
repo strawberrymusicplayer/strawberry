@@ -101,7 +101,7 @@ class TidalRequest : public TidalBaseRequest {
   void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
 
  public slots:
-  void LoginComplete(const bool success, QString error = QString());
+  void LoginComplete(const bool success, const QString &error = QString());
 
  private:
   bool IsQuery() { return (type_ == QueryType_Artists || type_ == QueryType_Albums || type_ == QueryType_Songs); }

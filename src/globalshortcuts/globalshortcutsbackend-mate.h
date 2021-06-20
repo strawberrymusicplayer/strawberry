@@ -35,7 +35,7 @@ class GlobalShortcutsBackendMate : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutsBackendMate(GlobalShortcutsManager *parent);
+  explicit GlobalShortcutsBackendMate(GlobalShortcutsManager *manager, QObject *parent = nullptr);
 
   bool IsAvailable() override;
 

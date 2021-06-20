@@ -32,6 +32,8 @@
 
 #include "playlist/songplaylistitem.h"
 
+// clazy:excludeall=non-pod-global-static
+
 namespace {
 
 class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
@@ -53,13 +55,13 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
       absolute_file_name_.prepend('/');
   }
 
-  Song song_;
-  QTemporaryFile temp_file_;
-  QString absolute_file_name_;
-  std::unique_ptr<SongPlaylistItem> item_;
+  Song song_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  QTemporaryFile temp_file_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  QString absolute_file_name_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  std::unique_ptr<SongPlaylistItem> item_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
-INSTANTIATE_TEST_CASE_P(RealFiles, SongPlaylistItemTest, testing::Values(
+INSTANTIATE_TEST_CASE_P(RealFiles, SongPlaylistItemTest, testing::Values(  // clazy:exclude=function-args-by-value,clazy-non-pod-global-static
     "normalfile.flac",
     "file with spaces.flac",
     "file with # hash.flac",

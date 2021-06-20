@@ -134,8 +134,10 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
 
   // Ignore 'literal' for IN
   if (!op.compare("IN", Qt::CaseInsensitive)) {
+    QStringList values = value.toStringList();
     QStringList final;
-    for (const QString &single_value : value.toStringList()) {
+    final.reserve(values.count());
+    for (const QString &single_value : values) {
       final.append("?");
       bound_values_ << single_value;
     }

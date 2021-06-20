@@ -30,6 +30,8 @@
 class QIODevice;
 
 class TagReaderWorker : public AbstractMessageHandler<spb::tagreader::Message> {
+  Q_OBJECT
+
  public:
   explicit TagReaderWorker(QIODevice *socket, QObject *parent = nullptr);
 

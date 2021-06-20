@@ -43,11 +43,7 @@ class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicS
   Q_OBJECT
 
 public:
-  Q_INVOKABLE FilesystemDevice(
-      const QUrl &url, DeviceLister *lister,
-      const QString &unique_id, DeviceManager *manager,
-      Application *app,
-      int database_id, bool first_time);
+  Q_INVOKABLE FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
   ~FilesystemDevice() override;
 
   bool Init() override;

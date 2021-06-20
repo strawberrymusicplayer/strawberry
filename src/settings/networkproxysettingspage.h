@@ -36,7 +36,7 @@ class NetworkProxySettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit NetworkProxySettingsPage(SettingsDialog *dialog);
+  explicit NetworkProxySettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~NetworkProxySettingsPage() override;
 
   static const char *kSettingsGroup;

@@ -32,6 +32,9 @@ class AlsaPCMDeviceFinder : public DeviceFinder {
 
   bool Initialize() override { return true; }
   QList<Device> ListDevices() override;
+
+ private:
+  Q_DISABLE_COPY(AlsaPCMDeviceFinder)
 };
 
 #endif // ALSAPCMDEVICEFINDER_H

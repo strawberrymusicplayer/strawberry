@@ -58,7 +58,7 @@ bool LocaleAwareCompare(const QString &a, const QString &b) {
 }  // namespace
 #endif
 
-BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsPage(dialog), ui_(new Ui_BehaviourSettingsPage), systemtray_available_(false) {
+BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *parent) : SettingsPage(dialog, parent), ui_(new Ui_BehaviourSettingsPage), systemtray_available_(false) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("strawberry"));

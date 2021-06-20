@@ -121,6 +121,8 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
   bool unmount_;
   bool forget_;
 
+  Q_DISABLE_COPY(DeviceInfo)
+
 };
 
 #endif  // DEVICEINFO_H

@@ -30,6 +30,8 @@
 class Ui_TranscoderOptionsASF;
 
 class TranscoderOptionsASF : public TranscoderOptionsInterface {
+  Q_OBJECT
+
  public:
   explicit TranscoderOptionsASF(QWidget *parent = nullptr);
   ~TranscoderOptionsASF() override;

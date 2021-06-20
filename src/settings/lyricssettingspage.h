@@ -38,7 +38,7 @@ class LyricsSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit LyricsSettingsPage(SettingsDialog *parent = nullptr);
+  explicit LyricsSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~LyricsSettingsPage() override;
 
   static const char *kSettingsGroup;

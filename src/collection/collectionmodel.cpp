@@ -159,7 +159,7 @@ void CollectionModel::set_show_dividers(const bool show_dividers) {
 
 }
 
-void CollectionModel::SaveGrouping(QString name) {
+void CollectionModel::SaveGrouping(const QString &name) {
 
   qLog(Debug) << "Model, save to: " << name;
 
@@ -571,7 +571,7 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       QMap<quint64, ItemAndCacheKey>::iterator i = pending_art_.begin();
       while (i != pending_art_.end()) {
         if (i.value().first == node) {
-          i = pending_art_.erase(i);
+          i = pending_art_.erase(i);  // clazy:exclude=strict-iterators
         }
         else {
           ++i;
@@ -1846,7 +1846,7 @@ bool CollectionModel::canFetchMore(const QModelIndex &parent) const {
 
 }
 
-void CollectionModel::SetGroupBy(const Grouping &g) {
+void CollectionModel::SetGroupBy(const Grouping g) {
 
   group_by_ = g;
 
@@ -1916,7 +1916,7 @@ void CollectionModel::ExpandAll(CollectionItem *item) const {
 
 }
 
-QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping &g) {
+QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping g) {
   s << quint32(g.first) << quint32(g.second) << quint32(g.third);
   return s;
 }

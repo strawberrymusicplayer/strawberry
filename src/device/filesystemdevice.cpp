@@ -41,9 +41,9 @@
 
 class DeviceLister;
 
-FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
+FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent)
       : FilesystemMusicStorage(url.toLocalFile()),
-      ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time),
+      ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
       watcher_(new CollectionWatcher(Song::Source_Device)), watcher_thread_(new QThread(this))
   {
 
@@ -106,7 +106,7 @@ void FilesystemDevice::Close() {
 
 void FilesystemDevice::ExitFinished() {
 
-  QObject *obj = qobject_cast<QObject*>(sender());
+  QObject *obj = sender();
   if (!obj) return;
   QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";

@@ -79,9 +79,9 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
 
 }
 
-void TidalBaseRequest::HandleSSLErrors(QList<QSslError> ssl_errors) {
+void TidalBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
 
-  for (QSslError &ssl_error : ssl_errors) {
+  for (const QSslError &ssl_error : ssl_errors) {
     Error(ssl_error.errorString());
   }
 
@@ -130,7 +130,7 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
           qLog(Error) << "Tidal:" << error;
           qLog(Info) << "Tidal:" << "Attempting to login.";
           NeedLogin();
-          emit service_->RequestLogin();
+          emit service_->RequestLogin();  // clazy:exclude=incorrect-emit
         }
         else {
           Error(error);

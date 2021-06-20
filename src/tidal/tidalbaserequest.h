@@ -95,7 +95,7 @@ class TidalBaseRequest : public QObject {
   virtual void NeedLogin() = 0;
   
  private slots:
-  void HandleSSLErrors(QList<QSslError> ssl_errors);
+  void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 
  private:
   static const char *kApiUrl;

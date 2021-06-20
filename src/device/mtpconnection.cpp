@@ -36,7 +36,7 @@
 #include "core/logging.h"
 #include "mtpconnection.h"
 
-MtpConnection::MtpConnection(const QUrl &url) : device_(nullptr) {
+MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent), device_(nullptr) {
 
   QString hostname = url.host();
   // Parse the URL
@@ -72,7 +72,7 @@ MtpConnection::MtpConnection(const QUrl &url) : device_(nullptr) {
     raw_device->bus_location = bus_location;
     raw_device->devnum = device_num;
 
-    device_ = LIBMTP_Open_Raw_Device(raw_device);
+    device_ = LIBMTP_Open_Raw_Device(raw_device);  // NOLINT(clang-analyzer-unix.Malloc)
     return;
   }
 

@@ -294,7 +294,7 @@ void TranscodeDialog::UpdateProgress() {
   int progress = (finished_success_ + finished_failed_) * 100;
 
   QMap<QString, float> current_jobs = transcoder_->GetProgress();
-  QList<float> values = current_jobs.values();
+  QList<float> values = current_jobs.values();  // clazy:exclude=qt6-deprecated-api-fixes
   for (const float value : values) {
     progress += qBound(0, int(value * 100), 99);
   }
@@ -389,7 +389,7 @@ void TranscodeDialog::SetFilenames(const QStringList &filenames) {
 
 void TranscodeDialog::Remove() { qDeleteAll(ui_->files->selectedItems()); }
 
-void TranscodeDialog::LogLine(const QString message) {
+void TranscodeDialog::LogLine(const QString &message) {
 
   QString date(QDateTime::currentDateTime().toString(Qt::TextDate));
   log_ui_->log->appendPlainText(QString("%1: %2").arg(date, message));
@@ -410,7 +410,7 @@ void TranscodeDialog::Options() {
 
   TranscoderPreset preset = ui_->format->itemData(ui_->format->currentIndex()).value<TranscoderPreset>();
 
-  TranscoderOptionsDialog dialog(preset.type_, this);
+  TranscoderOptionsDialog dialog(preset.filetype_, this);
   if (dialog.is_valid()) {
     dialog.exec();
   }

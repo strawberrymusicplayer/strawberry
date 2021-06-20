@@ -92,10 +92,10 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   DeviceStateFilterModel *connected_devices_model() const { return connected_devices_model_; }
 
   // Get info about devices
-  int GetDatabaseId(QModelIndex idx) const;
-  DeviceLister *GetLister(QModelIndex idx) const;
-  DeviceInfo *GetDevice(QModelIndex idx) const;
-  std::shared_ptr<ConnectedDevice> GetConnectedDevice(QModelIndex idx) const;
+  int GetDatabaseId(const QModelIndex &idx) const;
+  DeviceLister *GetLister(const QModelIndex &idx) const;
+  DeviceInfo *GetDevice(const QModelIndex &idx) const;
+  std::shared_ptr<ConnectedDevice> GetConnectedDevice(const QModelIndex &idx) const;
   std::shared_ptr<ConnectedDevice> GetConnectedDevice(DeviceInfo *info) const;
 
   DeviceInfo *FindDeviceById(const QString &id) const;
@@ -105,18 +105,18 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
   // Actions on devices
   std::shared_ptr<ConnectedDevice> Connect(DeviceInfo *info);
-  std::shared_ptr<ConnectedDevice> Connect(QModelIndex idx);
-  void Disconnect(DeviceInfo *info, QModelIndex idx);
-  void Forget(QModelIndex idx);
-  void UnmountAsync(QModelIndex idx);
+  std::shared_ptr<ConnectedDevice> Connect(const QModelIndex &idx);
+  void Disconnect(DeviceInfo *info, const QModelIndex &idx);
+  void Forget(const QModelIndex &idx);
+  void UnmountAsync(const QModelIndex &idx);
 
-  void SetDeviceOptions(QModelIndex idx, const QString &friendly_name, const QString &icon_name, MusicStorage::TranscodeMode mode, Song::FileType format);
+  void SetDeviceOptions(const QModelIndex &idx, const QString &friendly_name, const QString &icon_name, const MusicStorage::TranscodeMode mode, const Song::FileType format);
 
   // QAbstractItemModel
   QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
 
  public slots:
-  void Unmount(QModelIndex idx);
+  void Unmount(const QModelIndex &idx);
 
  signals:
   void ExitFinished();
@@ -128,9 +128,9 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void PhysicalDeviceAdded(const QString &id);
   void PhysicalDeviceRemoved(const QString &id);
   void PhysicalDeviceChanged(const QString &id);
-  void DeviceTaskStarted(int id);
+  void DeviceTaskStarted(const int id);
   void TasksChanged();
-  void DeviceSongCountUpdated(int count);
+  void DeviceSongCountUpdated(const int count);
   void LoadAllDevices();
   void DeviceConnectFinished(const QString &id, bool success);
   void DeviceCloseFinished(const QString &id);
@@ -149,7 +149,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
   DeviceDatabaseBackend::Device InfoToDatabaseDevice(const DeviceInfo &info) const;
 
-  void RemoveFromDB(DeviceInfo *info, QModelIndex idx);
+  void RemoveFromDB(DeviceInfo *info, const QModelIndex &idx);
 
   void CloseDevices();
   void CloseListers();

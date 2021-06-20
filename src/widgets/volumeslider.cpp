@@ -23,7 +23,7 @@
 
 #include <QApplication>
 #include <QWidget>
-#include <QMap>
+#include <QHash>
 #include <QString>
 #include <QStringBuilder>
 #include <QImage>
@@ -181,7 +181,7 @@ void PrettySlider::mousePressEvent(QMouseEvent *e) {
 void PrettySlider::slideEvent(QMouseEvent *e) {
 
   if (m_mode == Pretty) {
-    QSlider::setValue(orientation() == Qt::Horizontal ? QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2) : QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().y(), height() - 2));
+    SliderSlider::setValue(orientation() == Qt::Horizontal ? QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2) : QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().y(), height() - 2));
   }
   else {
     SliderSlider::slideEvent(e);
@@ -289,7 +289,7 @@ void VolumeSlider::mousePressEvent(QMouseEvent *e) {
 
 void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
 
-  QMap<QAction*, int> values;
+  QHash<QAction*, int> values;
   QMenu menu;
   menu.setTitle("Volume");
   values[menu.addAction("100%")] = 100;
@@ -301,20 +301,20 @@ void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
 
   QAction *ret = menu.exec(mapToGlobal(e->pos()));
   if (ret) {
-    QSlider::setValue(values[ret]);
+    SliderSlider::setValue(values[ret]);
     emit sliderReleased(values[ret]);
   }
 
 }
 
 void VolumeSlider::slideEvent(QMouseEvent *e) {
-  QSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2));
+  SliderSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2));
 }
 
 void VolumeSlider::wheelEvent(QWheelEvent *e) {
 
   const uint step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
-  QSlider::setValue(QSlider::value() + step);
+  SliderSlider::setValue(SliderSlider::value() + step);
   emit sliderReleased(value());
 
 }

@@ -67,6 +67,9 @@ class AlbumItem : public QListWidgetItem {
  public:
   AlbumItem(const QIcon &icon, const QString &text, QListWidget *parent = nullptr, int type = Type) : QListWidgetItem(icon, text, parent, type) {};
   QList<QUrl> urls;
+
+ private:
+  Q_DISABLE_COPY(AlbumItem)
 };
 
 class AlbumCoverManager : public QMainWindow {

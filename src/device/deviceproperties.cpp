@@ -86,7 +86,7 @@ void DeviceProperties::SetDeviceManager(DeviceManager *manager) {
 
 }
 
-void DeviceProperties::ShowDevice(QModelIndex idx) {
+void DeviceProperties::ShowDevice(const QModelIndex &idx) {
 
   if (ui_->icon->count() == 0) {
     // Only load the icons the first time the dialog is shown
@@ -108,7 +108,7 @@ void DeviceProperties::ShowDevice(QModelIndex idx) {
 #ifdef HAVE_GSTREAMER
     // Load the transcode formats the first time the dialog is shown
     for (const TranscoderPreset &preset : Transcoder::GetAllPresets()) {
-      ui_->transcode_format->addItem(preset.name_, preset.type_);
+      ui_->transcode_format->addItem(preset.name_, preset.filetype_);
     }
     ui_->transcode_format->model()->sort(0);
 #endif
@@ -317,7 +317,7 @@ void DeviceProperties::UpdateFormatsFinished() {
 #ifdef HAVE_GSTREAMER
   // Set the format combobox item
   TranscoderPreset preset = Transcoder::PresetForFileType(Song::FileType(index_.data(DeviceManager::Role_TranscodeFormat).toInt()));
-  if (preset.type_ == Song::FileType_Unknown) {
+  if (preset.filetype_ == Song::FileType_Unknown) {
     // The user hasn't chosen a format for this device yet,
     // so work our way down a list of some preferred formats, picking the first one that is supported
     preset = Transcoder::PresetForFileType(Transcoder::PickBestFormat(supported_formats_));

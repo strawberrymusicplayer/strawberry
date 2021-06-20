@@ -29,6 +29,8 @@
 
 #include <QUrl>
 
+// clazy:excludeall=returning-void-expression
+
 class OrganizeFormatTest : public ::testing::Test {
 protected:
   OrganizeFormat format_;

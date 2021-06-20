@@ -68,7 +68,8 @@ void Console::RunQuery() {
 
   while (query.isValid()) {
     QSqlRecord record = query.record();
-    QStringList values;
+    QStringList values;  // clazy:exclude=container-inside-loop
+    values.reserve(record.count());
     for (int i = 0; i < record.count(); ++i) {
       values.append(record.value(i).toString());
     }

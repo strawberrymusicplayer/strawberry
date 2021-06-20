@@ -43,10 +43,10 @@
 
 const char *QobuzSettingsPage::kSettingsGroup = "Qobuz";
 
-QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *parent)
-    : SettingsPage(parent),
+QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
       ui_(new Ui::QobuzSettingsPage),
-      service_(dialog()->app()->internet_services()->Service<QobuzService>()) {
+      service_(dialog->app()->internet_services()->Service<QobuzService>()) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("qobuz"));
@@ -59,7 +59,7 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *parent)
   QObject::connect(service_, &InternetService::LoginFailure, this, &QobuzSettingsPage::LoginFailure);
   QObject::connect(service_, &InternetService::LoginSuccess, this, &QobuzSettingsPage::LoginSuccess);
 
-  dialog()->installEventFilter(this);
+  dialog->installEventFilter(this);
 
   ui_->format->addItem("MP3 320", 5);
   ui_->format->addItem("FLAC Lossless", 6);
@@ -149,7 +149,6 @@ bool QobuzSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
   if (object == dialog() && event->type() == QEvent::Enter) {
     ui_->button_login->setEnabled(true);
-    return false;
   }
 
   return SettingsPage::eventFilter(object, event);
@@ -168,7 +167,7 @@ void QobuzSettingsPage::LoginSuccess() {
   ui_->button_login->setEnabled(true);
 }
 
-void QobuzSettingsPage::LoginFailure(QString failure_reason) {
+void QobuzSettingsPage::LoginFailure(const QString &failure_reason) {
   if (!this->isVisible()) return;
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
 }

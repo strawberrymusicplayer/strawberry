@@ -50,8 +50,8 @@ class MoodbarRenderer {
   static QString StyleName(const MoodbarStyle style);
 
   static ColorVector Colors(const QByteArray &data, const MoodbarStyle style, const QPalette &palette);
-  static void Render(const ColorVector &colors, QPainter *p, const QRect &rect);
-  static QImage RenderToImage(const ColorVector &colors, const QSize &size);
+  static void Render(const ColorVector &colors, QPainter *p, const QRect rect);
+  static QImage RenderToImage(const ColorVector &colors, const QSize size);
 
  private:
   explicit MoodbarRenderer();

@@ -34,9 +34,9 @@ enum EngineType {
   Xine
 };
 
-Engine::EngineType EngineTypeFromName(QString enginename);
-QString EngineName(Engine::EngineType enginetype);
-QString EngineDescription(Engine::EngineType enginetype);
+Engine::EngineType EngineTypeFromName(const QString &enginename);
+QString EngineName(const Engine::EngineType enginetype);
+QString EngineDescription(const Engine::EngineType enginetype);
 
 }
 Q_DECLARE_METATYPE(Engine::EngineType)

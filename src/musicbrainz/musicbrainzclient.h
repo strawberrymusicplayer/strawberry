@@ -197,7 +197,7 @@ class MusicBrainzClient : public QObject {
   static void ParseArtist(QXmlStreamReader *reader, QString *artist);
   static Release ParseRelease(QXmlStreamReader *reader);
   static ResultList UniqueResults(const ResultList &results, UniqueResultsSortOption opt = SortResults);
-  void Error(const QString &error, QVariant debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant());
 
  private:
 

@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <chrono>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QTimer>
@@ -28,6 +30,8 @@
 #include "lyricsfetcher.h"
 #include "lyricsfetchersearch.h"
 
+using namespace std::chrono_literals;
+
 const int LyricsFetcher::kMaxConcurrentRequests = 5;
 
 LyricsFetcher::LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent)
@@ -36,7 +40,7 @@ LyricsFetcher::LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent)
       next_id_(0),
       request_starter_(new QTimer(this)) {
 
-  request_starter_->setInterval(500);
+  request_starter_->setInterval(500ms);
   QObject::connect(request_starter_, &QTimer::timeout, this, &LyricsFetcher::StartRequests);
 
 }

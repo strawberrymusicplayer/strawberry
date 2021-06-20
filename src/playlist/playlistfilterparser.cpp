@@ -35,8 +35,11 @@
 
 class SearchTermComparator {
  public:
+  SearchTermComparator() = default;
   virtual ~SearchTermComparator() {}
   virtual bool Matches(const QString &element) const = 0;
+ private:
+  Q_DISABLE_COPY(SearchTermComparator)
 };
 
 // "compares" by checking if the field contains the search term
@@ -48,6 +51,8 @@ class DefaultComparator : public SearchTermComparator {
   }
  private:
   QString search_term_;
+
+  Q_DISABLE_COPY(DefaultComparator)
 };
 
 class EqComparator : public SearchTermComparator {
@@ -112,7 +117,7 @@ class LexicalLeComparator : public SearchTermComparator {
 
 class GtComparator : public SearchTermComparator {
  public:
-  explicit GtComparator(int value) : search_term_(value) {}
+  explicit GtComparator(const int value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toInt() > search_term_;
   }
@@ -122,7 +127,7 @@ class GtComparator : public SearchTermComparator {
 
 class GeComparator : public SearchTermComparator {
  public:
-  explicit GeComparator(int value) : search_term_(value) {}
+  explicit GeComparator(const int value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toInt() >= search_term_;
   }
@@ -132,7 +137,7 @@ class GeComparator : public SearchTermComparator {
 
 class LtComparator : public SearchTermComparator {
  public:
-  explicit LtComparator(int value) : search_term_(value) {}
+  explicit LtComparator(const int value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toInt() < search_term_;
   }
@@ -142,7 +147,7 @@ class LtComparator : public SearchTermComparator {
 
 class LeComparator : public SearchTermComparator {
  public:
-  explicit LeComparator(int value) : search_term_(value) {}
+  explicit LeComparator(const int value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toInt() <= search_term_;
   }
@@ -198,7 +203,7 @@ class FilterTerm : public FilterTree {
 // filter that applies a SearchTermComparator to one specific field of a playlist entry
 class FilterColumnTerm : public FilterTree {
  public:
-  FilterColumnTerm(int column, SearchTermComparator *comparator) : col(column), cmp_(comparator) {}
+  FilterColumnTerm(const int column, SearchTermComparator *comparator) : col(column), cmp_(comparator) {}
 
   bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
     QModelIndex idx(model->index(row, col, parent));
@@ -261,12 +266,15 @@ FilterTree *FilterParser::parse() {
 }
 
 void FilterParser::advance() {
+
   while (iter_ != end_ && iter_->isSpace()) {
     ++iter_;
   }
+
 }
 
 FilterTree *FilterParser::parseOrGroup() {
+
   advance();
   if (iter_ == end_) return new NopFilter;
 
@@ -278,9 +286,11 @@ FilterTree *FilterParser::parseOrGroup() {
     advance();
   }
   return group;
+
 }
 
 FilterTree *FilterParser::parseAndGroup() {
+
   advance();
   if (iter_ == end_) return new NopFilter;
 
@@ -296,9 +306,11 @@ FilterTree *FilterParser::parseAndGroup() {
   }
   while (iter_ != end_);
   return group;
+
 }
 
 bool FilterParser::checkAnd() {
+
   if (iter_ != end_) {
     if (*iter_ == QChar('A')) {
       buf_ += *iter_;
@@ -319,9 +331,11 @@ bool FilterParser::checkAnd() {
     }
   }
   return false;
+
 }
 
-bool FilterParser::checkOr(bool step_over) {
+bool FilterParser::checkOr(const bool step_over) {
+
   if (!buf_.isEmpty()) {
     if (buf_ == "OR") {
       if (step_over) {
@@ -351,9 +365,11 @@ bool FilterParser::checkOr(bool step_over) {
     }
   }
   return false;
+
 }
 
 FilterTree *FilterParser::parseSearchExpression() {
+
   advance();
   if (iter_ == end_) return new NopFilter;
   if (*iter_ == '(') {
@@ -377,9 +393,11 @@ FilterTree *FilterParser::parseSearchExpression() {
   else {
     return parseSearchTerm();
   }
+
 }
 
 FilterTree *FilterParser::parseSearchTerm() {
+
   QString col;
   QString search;
   QString prefix;
@@ -425,6 +443,7 @@ FilterTree *FilterParser::parseSearchTerm() {
   buf_.clear();
 
   return createSearchTermTreeNode(col, prefix, search);
+
 }
 
 FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const {

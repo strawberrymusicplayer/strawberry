@@ -39,6 +39,8 @@
 #include "collection/collectionbackend.h"
 #include "collection/collection.h"
 
+// clazy:excludeall=non-pod-global-static,returning-void-expression
+
 namespace {
 
 class CollectionModelTest : public ::testing::Test {
@@ -83,12 +85,12 @@ class CollectionModelTest : public ::testing::Test {
     return AddSong(song);
   }
 
-  std::shared_ptr<Database> database_;
-  std::unique_ptr<CollectionBackend> backend_;
-  std::unique_ptr<CollectionModel> model_;
-  std::unique_ptr<QSortFilterProxyModel> model_sorted_;
+  std::shared_ptr<Database> database_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  std::unique_ptr<CollectionBackend> backend_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  std::unique_ptr<CollectionModel> model_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  std::unique_ptr<QSortFilterProxyModel> model_sorted_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
-  bool added_dir_;
+  bool added_dir_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
 TEST_F(CollectionModelTest, Initialization) {
@@ -209,7 +211,7 @@ TEST_F(CollectionModelTest, VariousArtistSongs) {
     song.Init("Title " + n, "Artist " + n, "Album", 0);
     song.set_mtime(0);
     song.set_ctime(0);
-    songs << song;
+    songs << song;  // clazy:exclude=reserve-candidates
   }
 
   // Different ways of putting songs in "Various Artist".  Make sure they all work
@@ -218,7 +220,7 @@ TEST_F(CollectionModelTest, VariousArtistSongs) {
   songs[2].set_compilation_on(true);
   songs[3].set_compilation_detected(true); songs[3].set_artist("Various Artists");
 
-  for (int i=0 ; i<4 ; ++i)
+  for (int i=0 ; i < 4 ; ++i)
     AddSong(songs[i]);
   model_->Init(false);
 

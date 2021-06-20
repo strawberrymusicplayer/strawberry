@@ -36,7 +36,7 @@ class TidalSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit TidalSettingsPage(SettingsDialog *parent = nullptr);
+  explicit TidalSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~TidalSettingsPage() override;
 
   static const char *kSettingsGroup;

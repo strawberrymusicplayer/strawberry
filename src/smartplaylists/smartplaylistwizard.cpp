@@ -34,7 +34,7 @@
 #include "smartplaylistwizardplugin.h"
 #include "ui_smartplaylistwizardfinishpage.h"
 
-class SmartPlaylistWizard::TypePage : public QWizardPage {
+class SmartPlaylistWizard::TypePage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
  public:
   explicit TypePage(QWidget *parent) : QWizardPage(parent), next_id_(-1) {}
 
@@ -42,7 +42,7 @@ class SmartPlaylistWizard::TypePage : public QWizardPage {
   int next_id_;
 };
 
-class SmartPlaylistWizard::FinishPage : public QWizardPage {
+class SmartPlaylistWizard::FinishPage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
  public:
   explicit FinishPage(QWidget *parent) : QWizardPage(parent), ui_(new Ui_SmartPlaylistWizardFinishPage) {
     ui_->setupUi(this);

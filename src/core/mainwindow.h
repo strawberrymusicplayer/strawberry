@@ -149,7 +149,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ForceShowOSD(const Song &song, const bool toggle);
 
   void PlaylistMenuHidden();
-  void PlaylistRightClick(const QPoint &global_pos, const QModelIndex &idx);
+  void PlaylistRightClick(const QPoint global_pos, const QModelIndex &idx);
   void PlaylistCurrentChanged(const QModelIndex &current);
   void PlaylistViewSelectionModelChanged();
   void PlaylistPlay();
@@ -246,7 +246,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void Exit();
   void DoExit();
 
-  void HandleNotificationPreview(const OSDBase::Behaviour type, QString line1, QString line2);
+  void HandleNotificationPreview(const OSDBase::Behaviour type, const QString &line1, const QString &line2);
 
   void ShowConsole();
 

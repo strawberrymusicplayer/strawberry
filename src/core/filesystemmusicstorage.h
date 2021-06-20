@@ -39,6 +39,8 @@ class FilesystemMusicStorage : public virtual MusicStorage {
 
  private:
   QString root_;
+
+  Q_DISABLE_COPY(FilesystemMusicStorage)
 };
 
 #endif // FILESYSTEMMUSICSTORAGE_H

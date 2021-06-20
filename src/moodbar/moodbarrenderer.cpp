@@ -73,7 +73,7 @@ ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle s
   memset(hue_distribution, 0, sizeof(hue_distribution));
 
   ColorVector colors;
-
+  colors.reserve(samples);
   // Read the colors, keeping track of some histograms
   for (int i = 0; i < samples; ++i) {
     QColor color;
@@ -110,10 +110,11 @@ ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle s
   return colors;
 }
 
-void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect &rect) {
+void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect rect) {
 
   // Sample the colors and map them to screen pixels.
   ColorVector screen_colors;
+  screen_colors.reserve(rect.width());
   for (int x = 0; x < rect.width(); ++x) {
     int r = 0;
     int g = 0;
@@ -139,8 +140,8 @@ void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect
     int h = 0, s = 0, v = 0;
     screen_colors[x].getHsv(&h, &s, &v);
 
-    for (int y = 0; y <= rect.height() / 2; y++) {
-      float coeff = float(y) / float(rect.height() / 2);
+    for (int y = 0; y <= rect.height() / 2; ++y) {
+      float coeff = float(y) / float(rect.height() / 2);  // NOLINT(bugprone-integer-division)
       float coeff2 = 1.0f - ((1.0f - coeff) * (1.0f - coeff));
       coeff = 1.0f - (1.0f - coeff) / 2.0f;
       coeff2 = 1.f - (1.f - coeff2) / 2.0f;
@@ -153,7 +154,7 @@ void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect
   }
 }
 
-QImage MoodbarRenderer::RenderToImage(const ColorVector &colors, const QSize &size) {
+QImage MoodbarRenderer::RenderToImage(const ColorVector &colors, const QSize size) {
 
   QImage image(size, QImage::Format_ARGB32_Premultiplied);
   QPainter p(&image);

@@ -29,10 +29,10 @@
 #include "playlistquerygenerator.h"
 #include "collection/collectionbackend.h"
 
-PlaylistQueryGenerator::PlaylistQueryGenerator() : dynamic_(false), current_pos_(0) {}
+PlaylistQueryGenerator::PlaylistQueryGenerator(QObject *parent) : PlaylistGenerator(parent), dynamic_(false), current_pos_(0) {}
 
-PlaylistQueryGenerator::PlaylistQueryGenerator(const QString &name, const SmartPlaylistSearch &search, const bool dynamic)
-    : search_(search), dynamic_(dynamic), current_pos_(0) {
+PlaylistQueryGenerator::PlaylistQueryGenerator(const QString &name, const SmartPlaylistSearch &search, const bool dynamic, QObject *parent)
+    : PlaylistGenerator(parent), search_(search), dynamic_(dynamic), current_pos_(0) {
 
   set_name(name);
 
@@ -88,6 +88,7 @@ PlaylistItemList PlaylistQueryGenerator::GenerateMore(const int count) {
 
   SongList songs = backend_->FindSongs(search_copy);
   PlaylistItemList items;
+  items.reserve(songs.count());
   for (const Song &song : songs) {
     items << PlaylistItemPtr(PlaylistItem::NewFromSong(song));
     previous_ids_ << song.id();

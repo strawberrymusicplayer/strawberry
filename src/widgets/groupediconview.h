@@ -81,7 +81,7 @@ class GroupedIconView : public QListView {
   QModelIndex moveCursor(CursorAction action, Qt::KeyboardModifiers modifiers) override;
   void setModel(QAbstractItemModel *model) override;
 
-  static void DrawHeader(QPainter *painter, const QRect &rect, const QFont &font, const QPalette &palette, const QString &text);
+  static void DrawHeader(QPainter *painter, const QRect rect, const QFont &font, const QPalette &palette, const QString &text);
 
  protected:
   virtual int header_height() const;
@@ -112,7 +112,7 @@ class GroupedIconView : public QListView {
   };
 
   // Returns the items that are wholly or partially inside the rect.
-  QVector<QModelIndex> IntersectingItems(const QRect &rect) const;
+  QVector<QModelIndex> IntersectingItems(const QRect rect) const;
 
   // Returns the index of the item above (d=-1) or below (d=+1) the given item.
   int IndexAboveOrBelow(int index, const int d) const;

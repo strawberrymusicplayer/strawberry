@@ -40,6 +40,8 @@ class SmartPlaylistsItem : public SimpleTreeItem<SmartPlaylistsItem> {
 
   PlaylistGenerator::Type smart_playlist_type;
   QByteArray smart_playlist_data;
+
+  Q_DISABLE_COPY(SmartPlaylistsItem)
 };
 
 #endif  // SMARTPLAYLISTSITEM_H

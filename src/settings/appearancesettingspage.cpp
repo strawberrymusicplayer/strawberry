@@ -87,8 +87,8 @@ const char *AppearanceSettingsPage::kIconSizeConfigureButtons = "icon_size_confi
 
 const char *AppearanceSettingsPage::kPlaylistPlayingSongColor = "playlist_playing_song_color";
 
-AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
-    : SettingsPage(dialog),
+AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
       ui_(new Ui_AppearanceSettingsPage),
       original_use_a_custom_color_set_(false),
       background_image_type_(BackgroundImageType_Default) {

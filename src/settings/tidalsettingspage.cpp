@@ -43,10 +43,10 @@
 
 const char *TidalSettingsPage::kSettingsGroup = "Tidal";
 
-TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
-    : SettingsPage(parent),
+TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
       ui_(new Ui::TidalSettingsPage),
-      service_(dialog()->app()->internet_services()->Service<TidalService>()) {
+      service_(dialog->app()->internet_services()->Service<TidalService>()) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("tidal"));
@@ -61,7 +61,7 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
   QObject::connect(service_, &InternetService::LoginFailure, this, &TidalSettingsPage::LoginFailure);
   QObject::connect(service_, &InternetService::LoginSuccess, this, &TidalSettingsPage::LoginSuccess);
 
-  dialog()->installEventFilter(this);
+  dialog->installEventFilter(this);
 
   ui_->quality->addItem("Low", "LOW");
   ui_->quality->addItem("High", "HIGH");
@@ -184,7 +184,6 @@ bool TidalSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
   if (object == dialog() && event->type() == QEvent::Enter) {
     ui_->button_login->setEnabled(true);
-    return false;
   }
 
   return SettingsPage::eventFilter(object, event);

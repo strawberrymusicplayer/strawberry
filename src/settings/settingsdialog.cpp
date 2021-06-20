@@ -132,29 +132,29 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
   ui_->list->setItemDelegate(new SettingsItemDelegate(this));
 
   QTreeWidgetItem *general = AddCategory(tr("General"));
-  AddPage(Page_Behaviour, new BehaviourSettingsPage(this), general);
-  AddPage(Page_Collection, new CollectionSettingsPage(this), general);
-  AddPage(Page_Backend, new BackendSettingsPage(this), general);
-  AddPage(Page_Playlist, new PlaylistSettingsPage(this), general);
-  AddPage(Page_Scrobbler, new ScrobblerSettingsPage(this), general);
-  AddPage(Page_Covers, new CoversSettingsPage(this), general);
-  AddPage(Page_Lyrics, new LyricsSettingsPage(this), general);
+  AddPage(Page_Behaviour, new BehaviourSettingsPage(this, this), general);
+  AddPage(Page_Collection, new CollectionSettingsPage(this, this), general);
+  AddPage(Page_Backend, new BackendSettingsPage(this, this), general);
+  AddPage(Page_Playlist, new PlaylistSettingsPage(this, this), general);
+  AddPage(Page_Scrobbler, new ScrobblerSettingsPage(this, this), general);
+  AddPage(Page_Covers, new CoversSettingsPage(this, this), general);
+  AddPage(Page_Lyrics, new LyricsSettingsPage(this, this), general);
 #ifdef HAVE_GSTREAMER
-  AddPage(Page_Transcoding, new TranscoderSettingsPage(this), general);
+  AddPage(Page_Transcoding, new TranscoderSettingsPage(this, this), general);
 #endif
-  AddPage(Page_Proxy, new NetworkProxySettingsPage(this), general);
+  AddPage(Page_Proxy, new NetworkProxySettingsPage(this, this), general);
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
-  AddPage(Page_Appearance, new AppearanceSettingsPage(this), iface);
-  AddPage(Page_Context, new ContextSettingsPage(this), iface);
-  AddPage(Page_Notifications, new NotificationsSettingsPage(this), iface);
+  AddPage(Page_Appearance, new AppearanceSettingsPage(this, this), iface);
+  AddPage(Page_Context, new ContextSettingsPage(this, this), iface);
+  AddPage(Page_Notifications, new NotificationsSettingsPage(this, this), iface);
 
 #ifdef HAVE_GLOBALSHORTCUTS
-  AddPage(Page_GlobalShortcuts, new GlobalShortcutsSettingsPage(this), iface);
+  AddPage(Page_GlobalShortcuts, new GlobalShortcutsSettingsPage(this, this), iface);
 #endif
 
 #ifdef HAVE_MOODBAR
-  AddPage(Page_Moodbar, new MoodbarSettingsPage(this), iface);
+  AddPage(Page_Moodbar, new MoodbarSettingsPage(this, this), iface);
 #endif
 
 #if defined(HAVE_SUBSONIC) || defined(HAVE_TIDAL) || defined(HAVE_QOBUZ)
@@ -162,13 +162,13 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
 #endif
 
 #ifdef HAVE_SUBSONIC
-  AddPage(Page_Subsonic, new SubsonicSettingsPage(this), streaming);
+  AddPage(Page_Subsonic, new SubsonicSettingsPage(this, this), streaming);
 #endif
 #ifdef HAVE_TIDAL
-  AddPage(Page_Tidal, new TidalSettingsPage(this), streaming);
+  AddPage(Page_Tidal, new TidalSettingsPage(this, this), streaming);
 #endif
 #ifdef HAVE_QOBUZ
-  AddPage(Page_Qobuz, new QobuzSettingsPage(this), streaming);
+  AddPage(Page_Qobuz, new QobuzSettingsPage(this, this), streaming);
 #endif
 
   // List box
@@ -176,7 +176,7 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
   ui_->list->setCurrentItem(pages_[Page_Behaviour].item_);
 
   // Make sure the list is big enough to show all the items
-  ui_->list->setMinimumWidth(qobject_cast<QAbstractItemView*>(ui_->list)->sizeHintForColumn(0));
+  ui_->list->setMinimumWidth(qobject_cast<QAbstractItemView*>(ui_->list)->sizeHintForColumn(0));  // clazy:exclude=unneeded-cast
 
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
 
@@ -285,7 +285,7 @@ QTreeWidgetItem *SettingsDialog::AddCategory(const QString &name) {
 
 }
 
-void SettingsDialog::AddPage(Page id, SettingsPage *page, QTreeWidgetItem *parent) {
+void SettingsDialog::AddPage(const Page id, SettingsPage *page, QTreeWidgetItem *parent) {
 
   if (!parent) parent = ui_->list->invisibleRootItem();
 

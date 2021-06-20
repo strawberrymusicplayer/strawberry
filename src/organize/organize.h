@@ -60,7 +60,7 @@ class Organize : public QObject {
   };
   typedef QList<NewSongInfo> NewSongInfoList;
 
-  explicit Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs, bool eject_after, const QString &playlist = QString());
+  explicit Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool mark_as_listened, const bool albumcover, const NewSongInfoList &songs, const bool eject_after, const QString &playlist = QString(), QObject *parent = nullptr);
   ~Organize() override;
 
   static const int kBatchSize;
@@ -81,7 +81,7 @@ class Organize : public QObject {
  private slots:
   void ProcessSomeFiles();
   void FileTranscoded(const QString &input, const QString &output, bool success);
-  void LogLine(const QString message);
+  void LogLine(const QString &message);
 
  private:
   void SetSongProgress(float progress, bool transcoded = false);

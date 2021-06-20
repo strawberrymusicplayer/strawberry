@@ -75,8 +75,9 @@ const char *GstEngine::kDirectSoundSink = "directsoundsink";
 const char *GstEngine::kOSXAudioSink = "osxaudiosink";
 const int GstEngine::kDiscoveryTimeoutS = 10;
 
-GstEngine::GstEngine(TaskManager *task_manager)
-    : task_manager_(task_manager),
+GstEngine::GstEngine(TaskManager *task_manager, QObject *parent)
+    : Engine::Base(Engine::GStreamer, parent),
+      task_manager_(task_manager),
       gst_startup_(nullptr),
       discoverer_(nullptr),
       buffering_task_id_(-1),
@@ -96,7 +97,6 @@ GstEngine::GstEngine(TaskManager *task_manager)
       discovery_discovered_cb_id_(-1)
       {
 
-  type_ = Engine::GStreamer;
   seek_timer_->setSingleShot(true);
   seek_timer_->setInterval(kSeekDelayNanosec / kNsecPerMsec);
   QObject::connect(seek_timer_, &QTimer::timeout, this, &GstEngine::SeekNow);
@@ -397,10 +397,9 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
 
   const_cast<GstEngine*>(this)->EnsureInitialized();
 
-  EngineBase::OutputDetailsList ret;
-
   PluginDetailsList plugins = GetPluginList("Sink/Audio");
-
+  EngineBase::OutputDetailsList ret;
+  ret.reserve(plugins.count());
   for (const PluginDetails &plugin : plugins) {
     OutputDetails output;
     output.name = plugin.name;

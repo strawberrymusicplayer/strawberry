@@ -39,7 +39,7 @@
 #endif
 
 namespace KeyMapperX11 {
-static const QMap<Qt::Key, quint32> keymapper_x11_ = {
+static const QMap<Qt::Key, quint32> keymapper_x11_ = {  // clazy:exclude=non-pod-global-static
 
 #ifdef HAVE_KEYSYMDEF_H
 

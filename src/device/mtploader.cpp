@@ -32,8 +32,8 @@
 #include "mtpconnection.h"
 #include "mtploader.h"
 
-MtpLoader::MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend)
-    : QObject(nullptr),
+MtpLoader::MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend, QObject *parent)
+    : QObject(parent),
       url_(url),
       task_manager_(task_manager),
       backend_(backend),

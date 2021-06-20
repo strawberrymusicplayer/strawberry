@@ -40,8 +40,8 @@ const char *GlobalShortcutsBackendMate::kService1 = "org.mate.SettingsDaemon.Med
 const char *GlobalShortcutsBackendMate::kService2 = "org.mate.SettingsDaemon";
 const char *GlobalShortcutsBackendMate::kPath = "/org/mate/SettingsDaemon/MediaKeys";
 
-GlobalShortcutsBackendMate::GlobalShortcutsBackendMate(GlobalShortcutsManager *parent)
-    : GlobalShortcutsBackend(parent),
+GlobalShortcutsBackendMate::GlobalShortcutsBackendMate(GlobalShortcutsManager *manager, QObject *parent)
+    : GlobalShortcutsBackend(manager, parent),
       interface_(nullptr),
       is_connected_(false) {}
 

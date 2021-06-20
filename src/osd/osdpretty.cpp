@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <chrono>
+
 #include <QtGlobal>
 #include <QApplication>
 #include <QGuiApplication>
@@ -65,6 +67,8 @@
 #endif
 
 #include "core/utilities.h"
+
+using namespace std::chrono_literals;
 
 const char *OSDPretty::kSettingsGroup = "OSDPretty";
 
@@ -120,7 +124,7 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
 
   // Timeout
   timeout_->setSingleShot(true);
-  timeout_->setInterval(5000);
+  timeout_->setInterval(5s);
   QObject::connect(timeout_, &QTimer::timeout, this, &OSDPretty::hide);
 
   ui_->icon->setMaximumSize(kMaxIconSize, kMaxIconSize);
@@ -525,7 +529,7 @@ void OSDPretty::mouseReleaseEvent(QMouseEvent *) {
 
 }
 
-QScreen *OSDPretty::current_screen(const QPoint &pos) const {
+QScreen *OSDPretty::current_screen(const QPoint pos) const {
 
   QScreen *screen(nullptr);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
@@ -583,7 +587,7 @@ void OSDPretty::set_popup_duration(const int msec) {
   timeout_->setInterval(msec);
 }
 
-void OSDPretty::set_font(const QFont font) {
+void OSDPretty::set_font(const QFont &font) {
 
   font_ = font;
 

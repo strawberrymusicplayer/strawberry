@@ -54,6 +54,7 @@ OrganizeErrorDialog::~OrganizeErrorDialog() {
 void OrganizeErrorDialog::Show(OperationType type, const SongList &songs_with_errors, const QStringList &log) {
 
   QStringList files;
+  files.reserve(songs_with_errors.count());
   for (const Song &song : songs_with_errors) {
     files << song.url().toLocalFile();
   }

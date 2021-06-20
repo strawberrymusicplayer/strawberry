@@ -46,7 +46,7 @@
 // Exported by QtGui
 void qt_blurImage(QPainter *p, QImage &blurImage, qreal radius, bool quality, bool alphaOnly, int transposed = 0);
 
-class SmartPlaylistSearchTermWidget::Overlay : public QWidget {
+class SmartPlaylistSearchTermWidget::Overlay : public QWidget {  // clazy:exclude=missing-qobject-macro
  public:
   explicit Overlay(SmartPlaylistSearchTermWidget *parent);
   void Grab();
@@ -377,31 +377,31 @@ SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
   // The value depends on the data type
   const QWidget *value_page = ui_->value_stack->currentWidget();
   if (value_page == ui_->page_text) {
-    ret.value_ = ui_->value_text->text();
+    ret.value_ = ui_->value_text->text();  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else if (value_page == ui_->page_empty) {
-    ret.value_ = "";
+    ret.value_ = "";  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else if (value_page == ui_->page_number) {
-    ret.value_ = ui_->value_number->value();
+    ret.value_ = ui_->value_number->value();  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else if (value_page == ui_->page_date) {
-    ret.value_ = ui_->value_date->dateTime().toSecsSinceEpoch();
+    ret.value_ = ui_->value_date->dateTime().toSecsSinceEpoch();  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else if (value_page == ui_->page_time) {
-    ret.value_ = QTime(0, 0).secsTo(ui_->value_time->time());
+    ret.value_ = QTime(0, 0).secsTo(ui_->value_time->time());  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else if (value_page == ui_->page_date_numeric) {
     ret.date_ = SmartPlaylistSearchTerm::DateType(ui_->date_type->currentIndex());
-    ret.value_ = ui_->value_date_numeric->value();
+    ret.value_ = ui_->value_date_numeric->value();  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else if (value_page == ui_->page_date_relative) {
     ret.date_ = SmartPlaylistSearchTerm::DateType(ui_->date_type_relative->currentIndex());
-    ret.value_ = ui_->value_date_numeric1->value();
-    ret.second_value_ = ui_->value_date_numeric2->value();
+    ret.value_ = ui_->value_date_numeric1->value();  // clazy:exclude=qt6-deprecated-api-fixes
+    ret.second_value_ = ui_->value_date_numeric2->value();  // clazy:exclude=qt6-deprecated-api-fixes
   }
   else if (value_page == ui_->page_rating) {
-    ret.value_ = ui_->value_rating->rating();
+    ret.value_ = ui_->value_rating->rating();  // clazy:exclude=qt6-deprecated-api-fixes
   }
 
   return ret;
@@ -499,7 +499,7 @@ void SmartPlaylistSearchTermWidget::Overlay::paintEvent(QPaintEvent*) {
   // Icon and text
   p.setPen(palette().color(QPalette::Text));
   p.drawPixmap(icon, icon_);
-  p.drawText(text, Qt::TextDontClip | Qt::AlignVCenter, text_);
+  p.drawText(text, Qt::TextDontClip | Qt::AlignVCenter, text_);  // NOLINT(bugprone-suspicious-enum-usage)
 
 }
 

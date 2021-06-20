@@ -294,7 +294,7 @@ void OSDBase::VolumeChanged(int value) {
 
 }
 
-void OSDBase::ShowMessage(const QString &summary, const QString &message, const QString icon, const QImage &image) {
+void OSDBase::ShowMessage(const QString &summary, const QString &message, const QString &icon, const QImage &image) {
 
   if (pretty_popup_->toggle_mode()) {
     pretty_popup_->ShowMessage(summary, message, image);

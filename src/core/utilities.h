@@ -50,14 +50,14 @@ class QXmlStreamReader;
 
 namespace Utilities {
 QString PrettyTime(int seconds);
-QString PrettyTimeDelta(int seconds);
-QString PrettyTimeNanosec(qint64 nanoseconds);
-QString PrettySize(quint64 bytes);
-QString PrettySize(const QSize &size);
-QString WordyTime(quint64 seconds);
-QString WordyTimeNanosec(qint64 nanoseconds);
-QString Ago(qint64 seconds_since_epoch, const QLocale &locale);
-QString PrettyFutureDate(const QDate &date);
+QString PrettyTimeDelta(const int seconds);
+QString PrettyTimeNanosec(const qint64 nanoseconds);
+QString PrettySize(const quint64 bytes);
+QString PrettySize(const QSize size);
+QString WordyTime(const quint64 seconds);
+QString WordyTimeNanosec(const qint64 nanoseconds);
+QString Ago(const qint64 seconds_since_epoch, const QLocale &locale);
+QString PrettyFutureDate(const QDate date);
 
 QString ColorToRgba(const QColor &color);
 
@@ -126,7 +126,7 @@ enum IoPriority {
   };
 static const int IOPRIO_CLASS_SHIFT = 13;
 
-int SetThreadIOPriority(IoPriority priority);
+int SetThreadIOPriority(const IoPriority priority);
 int GetThreadId();
 
 QString GetRandomStringWithChars(const int len);

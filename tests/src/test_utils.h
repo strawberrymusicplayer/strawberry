@@ -61,14 +61,17 @@ void PrintTo(const ::QUrl& url, std::ostream& os);
 Q_DECLARE_METATYPE(QModelIndex)
 
 class TemporaryResource : public QTemporaryFile {
-public:
-  explicit TemporaryResource(const QString& filename);
+  Q_OBJECT
+
+ public:
+  explicit TemporaryResource(const QString &filename, QObject *parent = nullptr);
 };
 
 class TestQObject : public QObject {
   Q_OBJECT
+
  public:
-  explicit TestQObject(QObject* parent = nullptr);
+  explicit TestQObject(QObject *parent = nullptr);
 
   void Emit();
 

@@ -35,8 +35,10 @@
 #include "core/song.h"
 
 class MtpConnection : public QObject, public std::enable_shared_from_this<MtpConnection> {
+  Q_OBJECT
+
  public:
-  explicit MtpConnection(const QUrl &url);
+  explicit MtpConnection(const QUrl &url, QObject *parent = nullptr);
   ~MtpConnection() override;
 
   bool is_valid() const { return device_; }

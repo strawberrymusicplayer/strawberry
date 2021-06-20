@@ -178,7 +178,7 @@ AlbumCoverImageResult AlbumCoverSearcher::Exec(const QString &artist, const QStr
     return AlbumCoverImageResult();
 
   AlbumCoverImageResult result;
-  result.image_data = selected.data(Role_ImageData).value<QByteArray>();
+  result.image_data = selected.data(Role_ImageData).toByteArray();
   result.image = selected.data(Role_Image).value<QImage>();
   result.mime_type = Utilities::MimeTypeFromData(result.image_data);
 

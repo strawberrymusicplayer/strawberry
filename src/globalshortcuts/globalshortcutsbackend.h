@@ -32,7 +32,7 @@ class GlobalShortcutsBackend : public QObject {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutsBackend(GlobalShortcutsManager *parent = nullptr);
+  explicit GlobalShortcutsBackend(GlobalShortcutsManager *manager, QObject *parent = nullptr);
 
   bool is_active() const { return active_; }
 

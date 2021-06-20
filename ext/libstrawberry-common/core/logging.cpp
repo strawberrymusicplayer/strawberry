@@ -54,10 +54,10 @@ static QMap<QString, Level>* sClassLevels = nullptr;
 static QIODevice *sNullDevice = nullptr;
 
 //const char* kDefaultLogLevels = "*:3";
-const char* kDefaultLogLevels = "GstEnginePipeline:2,*:3";
+const char *kDefaultLogLevels = "GstEnginePipeline:2,*:3";
 
 static const char *kMessageHandlerMagic = "__logging_message__";
-static const int kMessageHandlerMagicLength = strlen(kMessageHandlerMagic);
+static const size_t kMessageHandlerMagicLength = strlen(kMessageHandlerMagic);
 static QtMessageHandler sOriginalMessageHandler = nullptr;
 
 template <class T>
@@ -280,7 +280,7 @@ QString CXXDemangle(const QString &mangled_function);
 QString CXXDemangle(const QString &mangled_function) {
 
   int status = 0;
-  char* demangled_function = abi::__cxa_demangle(mangled_function.toLatin1().constData(), nullptr, nullptr, &status);
+  char *demangled_function = abi::__cxa_demangle(mangled_function.toLatin1().constData(), nullptr, nullptr, &status);
   if (status == 0) {
     QString ret = QString::fromLatin1(demangled_function);
     free(demangled_function);

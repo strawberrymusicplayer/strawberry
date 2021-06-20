@@ -248,6 +248,8 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
 
    private:
     const QColor &c;
+
+    Q_DISABLE_COPY(OutputOnExit)
   };
 
   OutputOnExit allocateOnTheStack(fg);

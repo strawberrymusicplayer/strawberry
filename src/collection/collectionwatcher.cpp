@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <chrono>
 #include <cassert>
 
 #include <QObject>
@@ -65,6 +66,8 @@
 #undef RemoveDirectory
 #endif
 
+using namespace std::chrono_literals;
+
 namespace {
 static const char *kNoMediaFile = ".nomedia";
 static const char *kNoMusicFile = ".nomusic";
@@ -95,7 +98,7 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
 
   original_thread_ = thread();
 
-  rescan_timer_->setInterval(2000);
+  rescan_timer_->setInterval(2s);
   rescan_timer_->setSingleShot(true);
 
   periodic_scan_timer_->setInterval(86400 * kMsecPerSec);
@@ -789,6 +792,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
     // Playlist parser for CUEs considers every entry in sheet valid and we don't want invalid media getting into collection!
     QString file_nfd = file.normalized(QString::NormalizationForm_D);
     SongList cue_congs = cue_parser_->Load(&cue_file, matching_cue, path, false);
+    songs.reserve(cue_congs.count());
     for (Song &cue_song : cue_congs) {
       cue_song.set_source(source_);
       cue_song.set_fingerprint(fingerprint);

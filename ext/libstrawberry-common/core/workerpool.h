@@ -164,8 +164,9 @@ WorkerPool<HandlerType>::WorkerPool(QObject *parent)
   worker_count_ = qBound(1, QThread::idealThreadCount() / 2, 4);
   local_server_name_ = qApp->applicationName().toLower();
 
-  if (local_server_name_.isEmpty())
+  if (local_server_name_.isEmpty()) {
     local_server_name_ = "workerpool";
+  }
 
 }
 

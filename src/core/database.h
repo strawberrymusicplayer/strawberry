@@ -103,7 +103,7 @@ class Database : public QObject {
   void UpdateDatabaseSchema(int version, QSqlDatabase &db);
   void UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db);
   QStringList SongsTables(QSqlDatabase &db, int schema_version) const;
-  bool IntegrityCheck(QSqlDatabase db);
+  bool IntegrityCheck(const QSqlDatabase &db);
   void BackupFile(const QString &filename);
   bool OpenDatabase(const QString &filename, sqlite3 **connection) const;
 
@@ -140,6 +140,8 @@ class Database : public QObject {
 };
 
 class MemoryDatabase : public Database {
+  Q_OBJECT
+
  public:
   explicit MemoryDatabase(Application *app, QObject *parent = nullptr)
       : Database(app, parent, ":memory:") {}

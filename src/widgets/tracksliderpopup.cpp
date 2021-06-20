@@ -71,7 +71,7 @@ void TrackSliderPopup::SetSmallText(const QString &text) {
   UpdatePixmap();
 }
 
-void TrackSliderPopup::SetPopupPosition(const QPoint &pos) {
+void TrackSliderPopup::SetPopupPosition(const QPoint pos) {
   pos_ = pos;
   UpdatePosition();
 }

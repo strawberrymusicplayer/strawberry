@@ -41,10 +41,10 @@
 
 const char *SubsonicSettingsPage::kSettingsGroup = "Subsonic";
 
-SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *parent)
-    : SettingsPage(parent),
+SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
       ui_(new Ui::SubsonicSettingsPage),
-      service_(dialog()->app()->internet_services()->Service<SubsonicService>()) {
+      service_(dialog->app()->internet_services()->Service<SubsonicService>()) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("subsonic"));
@@ -56,7 +56,7 @@ SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *parent)
   QObject::connect(service_, &SubsonicService::TestFailure, this, &SubsonicSettingsPage::TestFailure);
   QObject::connect(service_, &SubsonicService::TestSuccess, this, &SubsonicSettingsPage::TestSuccess);
 
-  dialog()->installEventFilter(this);
+  dialog->installEventFilter(this);
 
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
   ui_->checkbox_http2->hide();
@@ -128,7 +128,6 @@ bool SubsonicSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
   if (object == dialog() && event->type() == QEvent::Enter) {
     ui_->button_test->setEnabled(true);
-    return false;
   }
 
   return SettingsPage::eventFilter(object, event);
@@ -144,7 +143,7 @@ void SubsonicSettingsPage::TestSuccess() {
 
 }
 
-void SubsonicSettingsPage::TestFailure(QString failure_reason) {
+void SubsonicSettingsPage::TestFailure(const QString &failure_reason) {
 
   if (!this->isVisible()) return;
   ui_->button_test->setEnabled(true);

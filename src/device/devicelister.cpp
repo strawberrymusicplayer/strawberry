@@ -37,7 +37,8 @@
 
 #include "core/logging.h"
 
-DeviceLister::DeviceLister() :
+DeviceLister::DeviceLister(QObject *parent) :
+  QObject(parent),
   thread_(nullptr),
   original_thread_(nullptr),
   next_mount_request_id_(0) {

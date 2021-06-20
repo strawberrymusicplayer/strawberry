@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,33 +19,22 @@
  *
  */
 
-#ifndef PLAYLISTSETTINGSPAGE_H
-#define PLAYLISTSETTINGSPAGE_H
+#include <QSortFilterProxyModel>
 
-#include "config.h"
-
-#include <QObject>
-#include <QString>
-
-#include "settingspage.h"
-
-class SettingsDialog;
-class Ui_PlaylistSettingsPage;
-
-class PlaylistSettingsPage : public SettingsPage {
+class PlaylistListSortFilterModel : public QSortFilterProxyModel {
   Q_OBJECT
 
  public:
-  explicit PlaylistSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
-  ~PlaylistSettingsPage() override;
-  static const char *kSettingsGroup;
+  explicit PlaylistListSortFilterModel(QObject *parent)
+    : QSortFilterProxyModel(parent) {}
 
-  void Load() override;
-  void Save() override;
+  bool lessThan(const QModelIndex &left, const QModelIndex &right) const override {
+    // Compare the display text first.
+    const int ret = left.data().toString().localeAwareCompare(right.data().toString());
+    if (ret < 0) return true;
+    if (ret > 0) return false;
 
- private:
-  Ui_PlaylistSettingsPage *ui_;
-
+    // Now use the source model row order to ensure we always get a deterministic sorting even when two items are named the same.
+    return left.row() < right.row();
+  }
 };
-
-#endif  // PLAYLISTSETTINGSPAGE_H

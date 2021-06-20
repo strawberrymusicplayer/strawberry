@@ -57,6 +57,7 @@ QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem*> items) 
 
   // Get URLs from the songs
   QList<QUrl> urls;
+  urls.reserve(songs.count());
   for (const Song &song : songs) {
     urls << song.url();
   }

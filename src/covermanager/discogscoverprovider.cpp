@@ -268,12 +268,14 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     return;
   }
 
-  QJsonArray array_results;
-  if (value_results.isArray()) {
-    array_results = value_results.toArray();
+  if (!value_results.isArray()) {
+    Error("Missing results array.", value_results);
+    EndSearch(search);
+    return;
   }
 
-  for (const QJsonValueRef value_result : array_results) {
+  QJsonArray array_results = value_results.toArray();
+  for (QJsonValueRef value_result : array_results) {
 
     if (!value_result.isObject()) {
       Error("Invalid Json reply, results value is not a object.");
@@ -328,7 +330,7 @@ void DiscogsCoverProvider::StartReleaseRequest(std::shared_ptr<DiscogsCoverSearc
 
 }
 
-void DiscogsCoverProvider::SendReleaseRequest(const DiscogsCoverReleaseContext release) {
+void DiscogsCoverProvider::SendReleaseRequest(const DiscogsCoverReleaseContext &release) {
 
   QNetworkReply *reply = CreateRequest(release.url);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, release]() { HandleReleaseReply(reply, release.search_id, release.id); } );

@@ -46,7 +46,7 @@ class DeviceProperties : public QDialog {
   ~DeviceProperties() override;
 
   void SetDeviceManager(DeviceManager *manager);
-  void ShowDevice(QModelIndex idx);
+  void ShowDevice(const QModelIndex &idx);
 
  public slots:
   void accept() override;

@@ -81,12 +81,12 @@ class AlbumCoverLoader : public QObject {
   void CancelTask(const quint64 id);
   void CancelTasks(const QSet<quint64> &ids);
 
-  qint64 SaveEmbeddedCoverAsync(const QString song_filename, const QString &cover_filename);
-  qint64 SaveEmbeddedCoverAsync(const QString song_filename, const QImage &image);
-  qint64 SaveEmbeddedCoverAsync(const QString song_filename, const QByteArray &image_data);
-  qint64 SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QString &cover_filename);
-  qint64 SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QImage &image);
-  qint64 SaveEmbeddedCoverAsync(const QList<QUrl> urls, const QByteArray &image_data);
+  qint64 SaveEmbeddedCoverAsync(const QString &song_filename, const QString &cover_filename);
+  qint64 SaveEmbeddedCoverAsync(const QString &song_filename, const QImage &image);
+  qint64 SaveEmbeddedCoverAsync(const QString &song_filename, const QByteArray &image_data);
+  qint64 SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QString &cover_filename);
+  qint64 SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QImage &image);
+  qint64 SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QByteArray &image_data);
 
  signals:
   void ExitFinished();
@@ -98,12 +98,12 @@ class AlbumCoverLoader : public QObject {
   void ProcessTasks();
   void RemoteFetchFinished(QNetworkReply *reply, const QUrl &cover_url);
 
-  void SaveEmbeddedCover(const qint64 id, const QString song_filename, const QString &cover_filename);
-  void SaveEmbeddedCover(const qint64 id, const QString song_filename, const QImage &image);
-  void SaveEmbeddedCover(const qint64 id, const QString song_filename, const QByteArray &image_data);
-  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls, const QImage &image);
-  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls, const QString &cover_filename);
-  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> urls, const QByteArray &image_data);
+  void SaveEmbeddedCover(const qint64 id, const QString &song_filename, const QString &cover_filename);
+  void SaveEmbeddedCover(const qint64 id, const QString &song_filename, const QImage &image);
+  void SaveEmbeddedCover(const qint64 id, const QString &song_filename, const QByteArray &image_data);
+  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> &urls, const QImage &image);
+  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> &urls, const QString &cover_filename);
+  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> &urls, const QByteArray &image_data);
 
   void SaveEmbeddedArtFinished(const qint64 id, TagReaderReply *reply, const bool cleared);
 

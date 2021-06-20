@@ -768,7 +768,8 @@ SongList CollectionBackend::GetSongsById(const QList<int> &ids) {
   QSqlDatabase db(db_->Connect());
 
   QStringList str_ids;
-  for (int id : ids) {
+  str_ids.reserve(ids.count());
+  for (const int id : ids) {
     str_ids << QString::number(id);
   }
 
@@ -915,6 +916,7 @@ Song CollectionBackend::GetSongBySongId(const QString &song_id, QSqlDatabase &db
 SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDatabase &db) {
 
   QStringList song_ids2;
+  song_ids2.reserve(song_ids.count());
   for (const QString &song_id : song_ids) {
     song_ids2 << "'" + song_id + "'";
   }
@@ -1164,7 +1166,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
 
   }
 
-  return albums.values();
+  return albums.values();  // clazy:exclude=qt6-deprecated-api-fixes
 
 }
 
@@ -1570,6 +1572,7 @@ void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const doubl
   QSqlDatabase db(db_->Connect());
 
   QStringList id_str_list;
+  id_str_list.reserve(id_list.count());
   for (int i : id_list) {
     id_str_list << QString::number(i);
   }

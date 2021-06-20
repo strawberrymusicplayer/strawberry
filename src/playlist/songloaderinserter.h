@@ -41,7 +41,7 @@ class SongLoaderInserter : public QObject {
   Q_OBJECT
 
  public:
-  explicit SongLoaderInserter(TaskManager *task_manager, CollectionBackendInterface *collection, const Player *player);
+  explicit SongLoaderInserter(TaskManager *task_manager, CollectionBackendInterface *collection, const Player *player, QObject *parent = nullptr);
   ~SongLoaderInserter() override;
 
   void Load(Playlist *destination, int row, bool play_now, bool enqueue, bool enqueue_next, const QList<QUrl> &urls);

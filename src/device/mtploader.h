@@ -39,7 +39,7 @@ class MtpLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend);
+  explicit MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend, QObject *parent = nullptr);
   ~MtpLoader() override;
 
   bool Init();

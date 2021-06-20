@@ -52,6 +52,8 @@ class Application;
 class Ui_AlbumCoverSearcher;
 
 class SizeOverlayDelegate : public QStyledItemDelegate {
+ Q_OBJECT
+
  public:
   static const int kMargin;
   static const int kPaddingX;

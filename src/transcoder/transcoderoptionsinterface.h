@@ -27,6 +27,8 @@
 #include <QString>
 
 class TranscoderOptionsInterface : public QWidget {
+  Q_OBJECT
+
  public:
   explicit TranscoderOptionsInterface(QWidget *parent) : QWidget(parent) {}
   ~TranscoderOptionsInterface() override {}

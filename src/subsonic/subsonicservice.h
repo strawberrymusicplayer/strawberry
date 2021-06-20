@@ -82,7 +82,7 @@ class SubsonicService : public InternetService {
   QSortFilterProxyModel *songs_collection_sort_model() override { return collection_sort_model_; }
 
   void CheckConfiguration();
-  void Scrobble(const QString &song_id, const bool submission, const QDateTime time);
+  void Scrobble(const QString &song_id, const bool submission, const QDateTime &time);
 
  public slots:
   void ShowConfig() override;
@@ -92,7 +92,7 @@ class SubsonicService : public InternetService {
   void ResetSongsRequest() override;
 
  private slots:
-  void HandlePingSSLErrors(QList<QSslError> ssl_errors);
+  void HandlePingSSLErrors(const QList<QSslError> &ssl_errors);
   void HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password);
   void SongsResultsReceived(const SongList &songs, const QString &error);
 

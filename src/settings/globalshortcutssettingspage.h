@@ -44,7 +44,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutsSettingsPage(SettingsDialog *dialog);
+  explicit GlobalShortcutsSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~GlobalShortcutsSettingsPage() override;
 
   static const char *kSettingsGroup;

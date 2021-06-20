@@ -54,8 +54,8 @@
 
 const char *GlobalShortcutsSettingsPage::kSettingsGroup = "GlobalShortcuts";
 
-GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
-    : SettingsPage(dialog),
+GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
       ui_(new Ui_GlobalShortcutsSettingsPage),
       initialized_(false),
       grabber_(new GlobalShortcutGrabber) {

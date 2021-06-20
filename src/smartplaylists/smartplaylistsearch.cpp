@@ -32,7 +32,7 @@
 
 SmartPlaylistSearch::SmartPlaylistSearch() { Reset(); }
 
-SmartPlaylistSearch::SmartPlaylistSearch(const SearchType type, const TermList terms, const SortType sort_type, const SmartPlaylistSearchTerm::Field sort_field, const int limit)
+SmartPlaylistSearch::SmartPlaylistSearch(const SearchType type, const TermList &terms, const SortType sort_type, const SmartPlaylistSearchTerm::Field sort_field, const int limit)
     : search_type_(type),
       terms_(terms),
       sort_type_(sort_type),
@@ -58,6 +58,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   // Add search terms
   QStringList where_clauses;
   QStringList term_where_clauses;
+  term_where_clauses.reserve(terms_.count());
   for (const SmartPlaylistSearchTerm &term : terms_) {
     term_where_clauses << term.ToSql();
   }

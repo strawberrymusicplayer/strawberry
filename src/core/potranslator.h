@@ -27,7 +27,10 @@
 // This translator tries loading strings with an empty context if it can't find any others.
 
 class PoTranslator : public QTranslator {
+  Q_OBJECT
+
  public:
+  PoTranslator(QObject *parent = nullptr) : QTranslator(parent) {}
   QString translate(const char *context, const char *source_text, const char *disambiguation = nullptr, int n = -1) const override {
     Q_UNUSED(n);
     QString ret = QTranslator::translate(context, source_text, disambiguation);

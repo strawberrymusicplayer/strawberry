@@ -38,7 +38,7 @@ class CoversSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit CoversSettingsPage(SettingsDialog *parent = nullptr);
+  explicit CoversSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~CoversSettingsPage() override;
 
   static const char *kSettingsGroup;

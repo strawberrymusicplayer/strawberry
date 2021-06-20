@@ -132,7 +132,7 @@ void SmartPlaylistsViewContainer::ItemsSelectedChanged() {
 
 }
 
-void SmartPlaylistsViewContainer::RightClicked(const QPoint &global_pos, const QModelIndex &idx) {
+void SmartPlaylistsViewContainer::RightClicked(const QPoint global_pos, const QModelIndex &idx) {
 
   context_menu_index_ = idx;
   if (context_menu_index_.isValid()) {

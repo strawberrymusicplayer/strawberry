@@ -255,7 +255,7 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(QObject *parent) {
 
 }
 
-QAction *CollectionFilterWidget::CreateGroupByAction(const QString &text, QObject *parent, const CollectionModel::Grouping &grouping) {
+QAction *CollectionFilterWidget::CreateGroupByAction(const QString &text, QObject *parent, const CollectionModel::Grouping grouping) {
 
   QAction *ret = new QAction(text, parent);
   ret->setCheckable(true);
@@ -354,7 +354,7 @@ void CollectionFilterWidget::GroupByClicked(QAction *action) {
 
 }
 
-void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping &g) {
+void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping g) {
 
   if (!settings_group_.isEmpty()) {
     // Save the settings
@@ -372,7 +372,7 @@ void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping &g)
 
 }
 
-void CollectionFilterWidget::CheckCurrentGrouping(const CollectionModel::Grouping &g) {
+void CollectionFilterWidget::CheckCurrentGrouping(CollectionModel::Grouping g) {
 
   for (QAction *action : group_by_group_->actions()) {
     if (action->property("group_by").isNull()) continue;

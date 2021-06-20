@@ -41,7 +41,7 @@ class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutsBackendKDE(GlobalShortcutsManager *parent);
+  explicit GlobalShortcutsBackendKDE(GlobalShortcutsManager *manager, QObject *parent = nullptr);
 
   bool IsAvailable() override;
 

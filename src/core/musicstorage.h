@@ -92,6 +92,9 @@ class MusicStorage {
   virtual void FinishDelete(bool success) { Q_UNUSED(success); }
 
   virtual void Eject() {}
+
+ private:
+  Q_DISABLE_COPY(MusicStorage)
 };
 
 Q_DECLARE_METATYPE(MusicStorage*)

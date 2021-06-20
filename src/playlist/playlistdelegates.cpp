@@ -104,7 +104,7 @@ void QueuedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 }
 
-void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect &line_rect, const QFont &font, const QString &text, int width, const float opacity) const {
+void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect line_rect, const QFont &font, const QString &text, int width, const float opacity) const {
 
   QFont smaller = font;
   smaller.setPointSize(smaller.pointSize() - 1);
@@ -255,7 +255,6 @@ bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view,
 
   if (!event || !view) return false;
 
-  QHelpEvent *he = static_cast<QHelpEvent*>(event);
   QString text = displayText(idx.data(), QLocale::system());
 
   // Special case: we want newlines in the comment tooltip
@@ -267,7 +266,7 @@ bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view,
     text.replace("\n", "<br />");
   }
 
-  if (text.isEmpty() || !he) return false;
+  if (text.isEmpty() || !event) return false;
 
   switch (event->type()) {
     case QEvent::ToolTip: {
@@ -275,7 +274,7 @@ bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view,
       QRect displayed_text = view->visualRect(idx);
       bool is_elided = displayed_text.width() < real_text.width();
       if (is_elided) {
-        QToolTip::showText(he->globalPos(), text, view);
+        QToolTip::showText(event->globalPos(), text, view);
       }
       else {  // in case that another text was previously displayed
         QToolTip::hideText();
@@ -287,7 +286,7 @@ bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view,
       return true;
 
     case QEvent::WhatsThis:
-      QWhatsThis::showText(he->globalPos(), text, view);
+      QWhatsThis::showText(event->globalPos(), text, view);
       return true;
 
     default:
@@ -364,7 +363,7 @@ QWidget *TextItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
   return new QLineEdit(parent);
 }
 
-TagCompletionModel::TagCompletionModel(CollectionBackend *backend, Playlist::Column column) {
+TagCompletionModel::TagCompletionModel(CollectionBackend *backend, const Playlist::Column column, QObject *parent) : QStringListModel(parent) {
 
   QString col = database_column(column);
   if (!col.isEmpty()) {
@@ -466,7 +465,7 @@ QString SongSourceDelegate::displayText(const QVariant &value, const QLocale&) c
   return QString();
 }
 
-QPixmap SongSourceDelegate::LookupPixmap(const Song::Source &source, const QSize &size) const {
+QPixmap SongSourceDelegate::LookupPixmap(const Song::Source source, const QSize size) const {
 
   QPixmap pixmap;
   QString cache_key = QString("%1-%2x%3").arg(Song::TextForSource(source)).arg(size.width()).arg(size.height());

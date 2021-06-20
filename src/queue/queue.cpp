@@ -45,7 +45,7 @@
 
 const char *Queue::kRowsMimetype = "application/x-strawberry-queue-rows";
 
-Queue::Queue(Playlist *parent) : QAbstractProxyModel(parent), playlist_(parent), total_length_ns_(0) {
+Queue::Queue(Playlist *playlist, QObject *parent) : QAbstractProxyModel(parent), playlist_(playlist), total_length_ns_(0) {
 
   signal_item_count_changed_ = QObject::connect(this, &Queue::ItemCountChanged, this, &Queue::UpdateTotalLength);
   QObject::connect(this, &Queue::TotalLengthChanged, this, &Queue::UpdateSummaryText);
@@ -67,7 +67,7 @@ QModelIndex Queue::mapFromSource(const QModelIndex &source_index) const {
 
 }
 
-bool Queue::ContainsSourceRow(int source_row) const {
+bool Queue::ContainsSourceRow(const int source_row) const {
 
   for (int i = 0; i < source_indexes_.count(); ++i) {
     if (source_indexes_[i].row() == source_row) return true;
@@ -254,8 +254,9 @@ void Queue::UpdateSummaryText() {
 
   summary += tracks == 1 ? tr("1 track") : tr("%1 tracks").arg(tracks);
 
-  if (nanoseconds)
+  if (nanoseconds) {
     summary += " - [ " + Utilities::WordyTimeNanosec(nanoseconds) + " ]";
+  }
 
   emit SummaryTextChanged(summary);
 
@@ -278,10 +279,11 @@ void Queue::Move(const QList<int> &proxy_rows, int pos) {
 
   // Take the items out of the list first, keeping track of whether the insertion point changes
   int offset = 0;
-  for (int row : proxy_rows) {
+  moved_items.reserve(proxy_rows.count());
+  for (const int row : proxy_rows) {
     moved_items << source_indexes_.takeAt(row - offset);
-    if (pos != -1 && pos >= row) pos--;
-    offset++;
+    if (pos != -1 && pos >= row) --pos;
+    ++offset;
   }
 
   // Put the items back in
@@ -374,7 +376,7 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, 
     Playlist *playlist = nullptr;
     QList<int> source_rows;
     QDataStream stream(data->data(Playlist::kRowsMimetype));
-    stream.readRawData(reinterpret_cast<char*>(&playlist), sizeof(playlist));
+    stream.readRawData(reinterpret_cast<char*>(&playlist), sizeof(Playlist));
     stream >> source_rows;
 
     QModelIndexList source_indexes;
@@ -417,8 +419,10 @@ Qt::ItemFlags Queue::flags(const QModelIndex &idx) const {
 }
 
 int Queue::PeekNext() const {
+
   if (source_indexes_.isEmpty()) return -1;
   return source_indexes_.first().row();
+
 }
 
 int Queue::TakeNext() {

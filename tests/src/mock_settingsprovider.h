@@ -25,15 +25,17 @@
 
 #include <gmock/gmock.h>
 
+// clazy:excludeall=function-args-by-value
+
 class MockSettingsProvider : public SettingsProvider {
  public:
-  MOCK_METHOD1(set_group, void(const char* group));
-  MOCK_CONST_METHOD2(value, QVariant(const QString& key, const QVariant& default_value));
-  MOCK_METHOD2(setValue, void(const QString& key, const QVariant& value));
-  MOCK_METHOD1(beginReadArray, int(const QString& prefix));
-  MOCK_METHOD2(beginWriteArray, void(const QString& prefix, int size));
+  MOCK_METHOD1(set_group, void(const char *group));
+  MOCK_CONST_METHOD2(value, QVariant(const QString &key, const QVariant &default_value));
+  MOCK_METHOD2(setValue, void(const QString &key, const QVariant &value));
+  MOCK_METHOD1(beginReadArray, int(const QString &prefix));
+  MOCK_METHOD2(beginWriteArray, void(const QString &prefix, int size));
   MOCK_METHOD1(setArrayIndex, void(int i));
-  MOCK_METHOD0(endArray, void());
+  MOCK_METHOD0(endArray, void());  // clazy:exclude=returning-void-expression
 };
 
 class DummySettingsProvider : public SettingsProvider {

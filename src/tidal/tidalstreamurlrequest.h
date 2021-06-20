@@ -63,7 +63,7 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   void StreamURLReceived();
 
  public slots:
-  void LoginComplete(const bool success, QString error = QString());
+  void LoginComplete(const bool success, const QString &error = QString());
 
  private:
   void Error(const QString &error, const QVariant &debug = QVariant()) override;

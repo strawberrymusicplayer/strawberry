@@ -56,11 +56,13 @@ class CollectionBackend;
 class Player;
 
 class QueuedItemDelegate : public QStyledItemDelegate {
+ Q_OBJECT
+
  public:
   explicit QueuedItemDelegate(QObject *parent, int indicator_column = Playlist::Column_Title);
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
-  void DrawBox(QPainter *painter, const QRect &line_rect, const QFont &font, const QString &idx, int width = -1, const float opacity = 1.0) const;
+  void DrawBox(QPainter *painter, const QRect line_rect, const QFont &font, const QString &idx, int width = -1, const float opacity = 1.0) const;
 
   int queue_indicator_size(const QModelIndex &idx) const;
 
@@ -99,44 +101,58 @@ class PlaylistDelegateBase : public QueuedItemDelegate {
 };
 
 class LengthItemDelegate : public PlaylistDelegateBase {
+  Q_OBJECT
+
  public:
   explicit LengthItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
 };
 
 class SizeItemDelegate : public PlaylistDelegateBase {
+  Q_OBJECT
+
  public:
   explicit SizeItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
 };
 
 class DateItemDelegate : public PlaylistDelegateBase {
+  Q_OBJECT
+
  public:
   explicit DateItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
 };
 
 class LastPlayedItemDelegate : public PlaylistDelegateBase {
+ Q_OBJECT
+
  public:
   explicit LastPlayedItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
 };
 
 class FileTypeItemDelegate : public PlaylistDelegateBase {
+  Q_OBJECT
+
  public:
   explicit FileTypeItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
 };
 
 class TextItemDelegate : public PlaylistDelegateBase {
+  Q_OBJECT
+
  public:
   explicit TextItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 };
 
 class TagCompletionModel : public QStringListModel {
+  Q_OBJECT
+
  public:
-  explicit TagCompletionModel(CollectionBackend *backend, Playlist::Column column);
+  explicit TagCompletionModel(CollectionBackend *backend, const Playlist::Column column, QObject *parent = nullptr);
 
  private:
   static QString database_column(Playlist::Column column);
@@ -157,6 +173,8 @@ class TagCompleter : public QCompleter {
 };
 
 class TagCompletionItemDelegate : public PlaylistDelegateBase {
+  Q_OBJECT
+
  public:
   explicit TagCompletionItemDelegate(QObject *parent, CollectionBackend *backend, Playlist::Column column) : PlaylistDelegateBase(parent), backend_(backend), column_(column) {};
 
@@ -168,31 +186,37 @@ class TagCompletionItemDelegate : public PlaylistDelegateBase {
 };
 
 class NativeSeparatorsDelegate : public PlaylistDelegateBase {
+  Q_OBJECT
+
  public:
   explicit NativeSeparatorsDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
 };
 
 class SongSourceDelegate : public PlaylistDelegateBase {
+  Q_OBJECT
+
  public:
   explicit SongSourceDelegate(QObject *parent);
   QString displayText(const QVariant &value, const QLocale &locale) const override;
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
  private:
-  QPixmap LookupPixmap(const Song::Source &source, const QSize &size) const;
+  QPixmap LookupPixmap(const Song::Source source, const QSize size) const;
 
   mutable QPixmapCache pixmap_cache_;
 };
 
 class RatingItemDelegate : public PlaylistDelegateBase {
+  Q_OBJECT
+
  public:
   RatingItemDelegate(QObject *parent);
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
   QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
   QString displayText(const QVariant &value, const QLocale &locale) const override;
 
-  void set_mouse_over(const QModelIndex &idx, const QModelIndexList &selected_indexes, const QPoint &pos) {
+  void set_mouse_over(const QModelIndex &idx, const QModelIndexList &selected_indexes, const QPoint pos) {
     mouse_over_index_ = idx;
     selected_indexes_ = selected_indexes;
     mouse_over_pos_ = pos;

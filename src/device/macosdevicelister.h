@@ -29,6 +29,7 @@
 #include <IOKit/IOKitLib.h>
 
 #include <QtGlobal>
+#include <QObject>
 #include <QMutex>
 #include <QThread>
 #include <QList>
@@ -43,7 +44,7 @@ class MacOsDeviceLister : public DeviceLister {
   Q_OBJECT
 
  public:
-  explicit MacOsDeviceLister();
+  explicit MacOsDeviceLister(QObject *parent = nullptr);
   ~MacOsDeviceLister();
 
   QStringList DeviceUniqueIDs();

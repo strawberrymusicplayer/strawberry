@@ -64,7 +64,7 @@ class InternetSearchModel : public QStandardItemModel {
 
   void set_proxy(QSortFilterProxyModel *proxy) { proxy_ = proxy; }
   void set_use_pretty_covers(const bool pretty) { use_pretty_covers_ = pretty; }
-  void SetGroupBy(const CollectionModel::Grouping &grouping, const bool regroup_now);
+  void SetGroupBy(const CollectionModel::Grouping grouping, const bool regroup_now);
 
   void Clear();
 

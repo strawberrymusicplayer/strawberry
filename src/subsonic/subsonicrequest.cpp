@@ -355,7 +355,7 @@ void SubsonicRequest::FlushAlbumSongsRequests() {
 
 }
 
-void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QString artist_id, const QString album_id, const QString album_artist) {
+void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const QString &album_artist) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -753,7 +753,7 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
 
 }
 
-void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl url, const QString filename) {
+void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &url, const QString &filename) {
 
   if (album_cover_replies_.contains(reply)) {
     album_cover_replies_.removeAll(reply);

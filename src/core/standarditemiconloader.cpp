@@ -77,7 +77,7 @@ void StandardItemIconLoader::RowsAboutToBeRemoved(const QModelIndex &parent, int
 
     if (item_parent && item_parent->index() == parent && item->index().row() >= begin && item->index().row() <= end) {
       cover_loader_->CancelTask(it.key());
-      it = pending_covers_.erase(it);
+      it = pending_covers_.erase(it);  // clazy:exclude=strict-iterators
     }
     else {
       ++ it;
@@ -97,7 +97,7 @@ void StandardItemIconLoader::ModelReset() {
 
 }
 
-void StandardItemIconLoader::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult result) {
+void StandardItemIconLoader::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
 
   QStandardItem *item = pending_covers_.take(id);
   if (!item) return;

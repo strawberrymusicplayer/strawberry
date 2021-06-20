@@ -77,7 +77,7 @@ class QobuzRequest : public QobuzBaseRequest {
   void SongsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
   void SongsReceived(QNetworkReply *reply, const QString &artist_id_requested, const QString &album_id_requested, const int limit_requested, const int offset_requested, const QString &album_artist_requested = QString(), const QString &album_requested = QString());
 
-  void ArtistAlbumsReplyReceived(QNetworkReply *reply, const QString artist_id, const int offset_requested);
+  void ArtistAlbumsReplyReceived(QNetworkReply *reply, const QString &artist_id, const int offset_requested);
   void AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const int offset_requested, const QString &album_artist, const QString &album);
   void AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_url, const QString &filename);
 

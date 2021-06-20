@@ -49,7 +49,7 @@ void FHT::makeCasTable(void) {
   float *sintab = tab_() + num_ / 2 + 1;
 
   for (int ul = 0; ul < num_; ul++) {
-    float d = M_PI * ul / (num_ / 2);
+    float d = M_PI * ul / (num_ / 2);  // NOLINT(bugprone-integer-division)
     *costab = *sintab = cos(d);
 
     costab += 2;

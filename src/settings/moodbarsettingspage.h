@@ -34,7 +34,7 @@ class MoodbarSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit MoodbarSettingsPage(SettingsDialog *dialog);
+  explicit MoodbarSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~MoodbarSettingsPage() override;
 
   static const char *kSettingsGroup;

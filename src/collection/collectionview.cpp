@@ -564,13 +564,16 @@ SongList CollectionView::GetSelectedSongs() const {
 
 void CollectionView::Organize() {
 
-  if (!organize_dialog_)
+  if (!organize_dialog_) {
     organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), app_->collection_backend(), this));
+  }
 
   organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
   organize_dialog_->SetCopy(false);
-  if (organize_dialog_->SetSongs(GetSelectedSongs()))
+  const SongList songs = GetSelectedSongs();
+  if (organize_dialog_->SetSongs(songs)) {
     organize_dialog_->show();
+  }
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
@@ -583,7 +586,8 @@ void CollectionView::EditTracks() {
     edit_tag_dialog_.reset(new EditTagDialog(app_, this));
     QObject::connect(edit_tag_dialog_.get(), &EditTagDialog::Error, this, &CollectionView::EditTagError);
   }
-  edit_tag_dialog_->SetSongs(GetSelectedSongs());
+  const SongList songs = GetSelectedSongs();
+  edit_tag_dialog_->SetSongs(songs);
   edit_tag_dialog_->show();
 
 }
@@ -634,6 +638,7 @@ void CollectionView::ShowInBrowser() {
 
   SongList songs = GetSelectedSongs();
   QList<QUrl> urls;
+  urls.reserve(songs.count());
   for (const Song &song : songs) {
     urls << song.url();
   }
@@ -658,6 +663,7 @@ void CollectionView::Delete() {
 
   SongList selected_songs = GetSelectedSongs();
   QStringList files;
+  files.reserve(selected_songs.count());
   for (const Song &song : selected_songs) {
     files << song.url().toString();
   }

@@ -71,10 +71,9 @@ bool ContextItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, 
 
   if (!event || !view) return false;
 
-  QHelpEvent *he = static_cast<QHelpEvent*>(event);
   QString text = displayText(idx.data(), QLocale::system());
 
-  if (text.isEmpty() || !he) return false;
+  if (text.isEmpty() || !event) return false;
 
   switch (event->type()) {
     case QEvent::ToolTip: {
@@ -84,12 +83,12 @@ bool ContextItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, 
       bool is_elided = displayed_text.width() < real_text.width();
 
       if (is_elided) {
-        QToolTip::showText(he->globalPos(), text, view);
+        QToolTip::showText(event->globalPos(), text, view);
       }
       else if (idx.data(Qt::ToolTipRole).isValid()) {
         // If the item has a tooltip text, display it
         QString tooltip_text = idx.data(Qt::ToolTipRole).toString();
-        QToolTip::showText(he->globalPos(), tooltip_text, view);
+        QToolTip::showText(event->globalPos(), tooltip_text, view);
       }
       else {
         // in case that another text was previously displayed
@@ -102,7 +101,7 @@ bool ContextItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, 
       return true;
 
     case QEvent::WhatsThis:
-      QWhatsThis::showText(he->globalPos(), text, view);
+      QWhatsThis::showText(event->globalPos(), text, view);
       return true;
 
     default:
@@ -408,8 +407,10 @@ void ContextAlbumsView::CopyToDevice() {
 
 void ContextAlbumsView::ShowInBrowser() {
 
+  const SongList songs = GetSelectedSongs();
   QList<QUrl> urls;
-  for (const Song &song : GetSelectedSongs()) {
+  urls.reserve(songs.count());
+  for (const Song &song : songs) {
     urls << song.url();
   }
 

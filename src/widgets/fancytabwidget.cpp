@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <chrono>
 
 #include <QtGlobal>
 #include <QObject>
@@ -63,11 +64,13 @@
 #include "core/stylehelper.h"
 #include "settings/appearancesettingspage.h"
 
+using namespace std::chrono_literals;
+
 const int FancyTabWidget::IconSize_LargeSidebar = 40;
 const int FancyTabWidget::IconSize_SmallSidebar = 32;
 const int FancyTabWidget::TabSize_LargeSidebarMinWidth = 70;
 
-class FancyTabBar: public QTabBar {
+class FancyTabBar: public QTabBar {  // clazy:exclude=missing-qobject-macro
 
  private:
   int mouseHoverTabIndex = -1;
@@ -340,10 +343,9 @@ class FancyTabBar: public QTabBar {
 
 };
 
-class TabData : public QObject {
-
+class TabData : public QObject {  // clazy:exclude=missing-qobject-macro
  public:
-  TabData(QWidget *widget_view, const QString name, const QIcon icon, const QString label, const int idx, QWidget *parent) :
+  TabData(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label, const int idx, QWidget *parent) :
   QObject(parent),
   widget_view_(widget_view),
   name_(name), icon_(icon),
@@ -417,7 +419,8 @@ void FancyTabWidget::currentTabChanged(const int idx) {
 // The adwaita style is causing the contents of the tabbar to be stretched from top to bottom with space between icons and text.
 // You can see this on the default Fedora (Gnome) installation.
 
-class FancyTabWidgetProxyStyle : public QProxyStyle {
+class FancyTabWidgetProxyStyle : public QProxyStyle {  // clazy:exclude=missing-qobject-macro
+
  public:
   explicit FancyTabWidgetProxyStyle(QStyle *style) : QProxyStyle(style), common_style_(new QCommonStyle()) {}
   ~FancyTabWidgetProxyStyle() override { common_style_->deleteLater(); }
@@ -689,7 +692,7 @@ void FancyTabWidget::SetMode(FancyTabWidget::Mode mode) {
   updateGeometry();
 
   // There appears to be a bug in QTabBar which causes tabSizeHint to be ignored thus the need for this second shot repaint
-  QTimer::singleShot(1, this, &FancyTabWidget::tabBarUpdateGeometry);
+  QTimer::singleShot(1ms, this, &FancyTabWidget::tabBarUpdateGeometry);
 
   emit ModeChanged(mode);
 

@@ -41,7 +41,7 @@
 const char *GlobalShortcutsBackendKDE::kKdeService = "org.kde.kglobalaccel";
 const char *GlobalShortcutsBackendKDE::kKdePath = "/kglobalaccel";
 
-GlobalShortcutsBackendKDE::GlobalShortcutsBackendKDE(GlobalShortcutsManager *parent) : GlobalShortcutsBackend(parent), interface_(nullptr), component_(nullptr) {}
+GlobalShortcutsBackendKDE::GlobalShortcutsBackendKDE(GlobalShortcutsManager *manager, QObject *parent) : GlobalShortcutsBackend(manager, parent), interface_(nullptr), component_(nullptr) {}
 
 bool GlobalShortcutsBackendKDE::IsAvailable() {
 
@@ -174,6 +174,7 @@ QStringList GlobalShortcutsBackendKDE::GetActionId(const QString &id, const QAct
 QList<int> GlobalShortcutsBackendKDE::ToIntList(const QList<QKeySequence> &sequence_list) {
 
   QList<int> ret;
+  ret.reserve(sequence_list.count());
   for (const QKeySequence &sequence : sequence_list) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     ret.append(sequence[0].toCombined());
@@ -189,6 +190,7 @@ QList<int> GlobalShortcutsBackendKDE::ToIntList(const QList<QKeySequence> &seque
 QList<QKeySequence> GlobalShortcutsBackendKDE::ToKeySequenceList(const QList<int> &sequence_list) {
 
   QList<QKeySequence> ret;
+  ret.reserve(sequence_list.count());
   for (int sequence : sequence_list) {
     ret.append(sequence);
   }

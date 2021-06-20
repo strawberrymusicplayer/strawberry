@@ -28,7 +28,8 @@
 #include <QResource>
 
 class ResourcesEnvironment : public ::testing::Environment {
-public:
+ public:
+  ResourcesEnvironment() = default;
   void SetUp() override {
     Q_INIT_RESOURCE(data);
     Q_INIT_RESOURCE(testdata);
@@ -36,6 +37,8 @@ public:
     Q_INIT_RESOURCE(translations);
 #endif
   }
+ private:
+  Q_DISABLE_COPY(ResourcesEnvironment)
 };
 
 #endif  // RESOURCES_ENV_H

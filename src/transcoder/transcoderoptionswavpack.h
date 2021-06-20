@@ -29,6 +29,8 @@
 class Ui_TranscoderOptionsWavPack;
 
 class TranscoderOptionsWavPack : public TranscoderOptionsInterface {
+  Q_OBJECT
+
  public:
   explicit TranscoderOptionsWavPack(QWidget *parent = nullptr);
   ~TranscoderOptionsWavPack() override;

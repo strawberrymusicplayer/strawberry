@@ -56,7 +56,7 @@ const float Rainbow::RainbowAnalyzer::kPixelScale = 0.02f;
 
 Rainbow::RainbowAnalyzer::RainbowType Rainbow::RainbowAnalyzer::rainbowtype;
 
-Rainbow::RainbowAnalyzer::RainbowAnalyzer(const RainbowType &rbtype, QWidget *parent)
+Rainbow::RainbowAnalyzer::RainbowAnalyzer(const RainbowType rbtype, QWidget *parent)
     : Analyzer::Base(parent, 9),
       timer_id_(startTimer(kFrameIntervalMs)),
       frame_(0),
@@ -73,7 +73,7 @@ Rainbow::RainbowAnalyzer::RainbowAnalyzer(const RainbowType &rbtype, QWidget *pa
   memset(history_, 0, sizeof(history_));
 
   for (int i = 0; i < kRainbowBands; ++i) {
-    colors_[i] = QPen(QColor::fromHsv(i * 255 / kRainbowBands, 255, 255), kRainbowHeight[rainbowtype] / kRainbowBands, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
+    colors_[i] = QPen(QColor::fromHsv(i * 255 / kRainbowBands, 255, 255), kRainbowHeight[rainbowtype] / kRainbowBands, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);  // NOLINT(bugprone-integer-division)
 
     // pow constants computed so that
     // | band_scale(0) | ~= .5 and | band_scale(5) | ~= 32

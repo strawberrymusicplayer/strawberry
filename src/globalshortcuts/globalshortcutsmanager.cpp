@@ -123,7 +123,7 @@ void GlobalShortcutsManager::ReloadSettings() {
 
 }
 
-void GlobalShortcutsManager::AddShortcut(const QString &id, const QString &name, std::function<void()> signal, const QKeySequence &default_key) {
+void GlobalShortcutsManager::AddShortcut(const QString &id, const QString &name, std::function<void()> signal, const QKeySequence &default_key) {  // clazy:exclude=function-args-by-ref
 
   Shortcut shortcut = AddShortcut(id, name, default_key);
   QObject::connect(shortcut.action, &QAction::triggered, this, signal);
