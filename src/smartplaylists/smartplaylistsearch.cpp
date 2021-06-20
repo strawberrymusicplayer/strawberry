@@ -30,7 +30,7 @@
 
 #include "smartplaylistsearch.h"
 
-SmartPlaylistSearch::SmartPlaylistSearch() : search_type_(Type_And), terms_(0), sort_type_(Sort_Random), sort_field_(SmartPlaylistSearchTerm::Field_Title), limit_(-1), first_item_(0) { Reset(); }
+SmartPlaylistSearch::SmartPlaylistSearch() : search_type_(Type_And), sort_type_(Sort_Random), sort_field_(SmartPlaylistSearchTerm::Field_Title), limit_(-1), first_item_(0) { Reset(); }
 
 SmartPlaylistSearch::SmartPlaylistSearch(const SearchType type, const TermList &terms, const SortType sort_type, const SmartPlaylistSearchTerm::Field sort_field, const int limit)
     : search_type_(type),
