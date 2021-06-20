@@ -40,17 +40,17 @@ DeleteConfirmationDialog::DeleteConfirmationDialog(const QStringList &files, QWi
 
   setModal(true);
   setWindowTitle(tr("Delete files"));
-  setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxWarning, 0, this));
+  setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxWarning, nullptr, this));
 
   QLabel *label_icon = new QLabel(this);
-  label_icon->setPixmap(style()->standardIcon(QStyle::SP_MessageBoxWarning, 0, this).pixmap(style()->pixelMetric(QStyle::PM_MessageBoxIconSize, 0, this), style()->pixelMetric(QStyle::PM_MessageBoxIconSize, 0, this)));
+  label_icon->setPixmap(style()->standardIcon(QStyle::SP_MessageBoxWarning, nullptr, this).pixmap(style()->pixelMetric(QStyle::PM_MessageBoxIconSize, nullptr, this), style()->pixelMetric(QStyle::PM_MessageBoxIconSize, nullptr, this)));
   label_icon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
   QLabel *label_text_top = new QLabel(this);
   QFont label_text_top_font = label_text_top->font();
   label_text_top_font.setBold(true);
   label_text_top_font.setPointSize(label_text_top_font.pointSize() + 4);
-  label_text_top->setTextInteractionFlags(Qt::TextInteractionFlags(style()->styleHint(QStyle::SH_MessageBox_TextInteractionFlags, 0, this)));
+  label_text_top->setTextInteractionFlags(Qt::TextInteractionFlags(style()->styleHint(QStyle::SH_MessageBox_TextInteractionFlags, nullptr, this)));
   label_text_top->setContentsMargins(0, 0, 0, 0);
   label_text_top->setFont(label_text_top_font);
   label_text_top->setText(tr("The following files will be deleted from disk:"));
@@ -63,7 +63,7 @@ DeleteConfirmationDialog::DeleteConfirmationDialog(const QStringList &files, QWi
   QFont label_text_bottom_font = label_text_bottom->font();
   label_text_bottom_font.setBold(true);
   label_text_bottom_font.setPointSize(label_text_bottom_font.pointSize() + 4);
-  label_text_bottom->setTextInteractionFlags(Qt::TextInteractionFlags(style()->styleHint(QStyle::SH_MessageBox_TextInteractionFlags, 0, this)));
+  label_text_bottom->setTextInteractionFlags(Qt::TextInteractionFlags(style()->styleHint(QStyle::SH_MessageBox_TextInteractionFlags, nullptr, this)));
   label_text_bottom->setContentsMargins(0, 0, 0, 0);
   label_text_bottom->setFont(label_text_bottom_font);
   label_text_bottom->setText(tr("Are you sure you want to continue?"));
