@@ -492,7 +492,7 @@ msgid ""
 "selecting songs."
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:158
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr ""
@@ -749,7 +749,7 @@ msgstr "Lisätty tänään"
 msgid "Added within three months"
 msgstr "Lisätty kolmen kuukauden sisään"
 
-#: collection/collectionfilterwidget.cpp:252
+#: collection/collectionfilterwidget.cpp:254
 msgid "Advanced grouping..."
 msgstr "Kirjaston tarkempi järjestely..."
 
@@ -1045,7 +1045,7 @@ msgstr ""
 msgid "Available"
 msgstr "Käytettävissä"
 
-#: collection/collectionfilterwidget.cpp:80
+#: collection/collectionfilterwidget.cpp:82
 msgid "Available fields"
 msgstr "Käytettävissä olevat kentät"
 
@@ -1160,7 +1160,7 @@ msgstr "Puskuri"
 msgid "Buffer duration"
 msgstr "Puskurin kesto"
 
-#: engine/gstengine.cpp:690
+#: engine/gstengine.cpp:688
 msgid "Buffering"
 msgstr "Puskuroidaan"
 
@@ -1220,7 +1220,7 @@ msgstr "Valitse last.fm:stä tuotavat tiedot"
 msgid "Choose font..."
 msgstr "Valitse kirjasin..."
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:160
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:165
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
 "Valitse montako kappaletta soittolista sisältää ja missä järjestyksessä."
@@ -1312,7 +1312,7 @@ msgstr "Kirjaston tarkennettu ryhmittely"
 msgid "Collection rescan notice"
 msgstr "Ilmoitus kirjaston läpikäynnistä"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:91
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:96
 msgid "Collection search"
 msgstr ""
 
@@ -1419,12 +1419,12 @@ msgstr "Kopioi albumien kansikuvat"
 msgid "Copy to collection..."
 msgstr "Kopioi kirjastoon"
 
-#: playlist/playlistlistcontainer.cpp:363
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Copy to device"
 msgstr "Kopioi laitteeseen"
 
 #: core/mainwindow.cpp:715 context/contextalbumsview.cpp:272
-#: collection/collectionview.cpp:354 playlist/playlistlistcontainer.cpp:88
+#: collection/collectionview.cpp:354 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "Kopioi laitteelle..."
@@ -1633,7 +1633,7 @@ msgstr ""
 msgid "Custom..."
 msgstr "Mukautettu..."
 
-#: device/udisks2lister.cpp:114
+#: device/udisks2lister.cpp:116
 msgid "D-Bus path"
 msgstr "D-Bus-polku"
 
@@ -1673,7 +1673,7 @@ msgstr ""
 msgid "Defaults"
 msgstr "Oletusasetukset"
 
-#: playlist/playlistlistcontainer.cpp:85
+#: playlist/playlistlistcontainer.cpp:87
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "Poista"
@@ -1782,7 +1782,7 @@ msgstr "Keskeytyvä siirto"
 msgid "Disk Cache Size"
 msgstr "Levyvälimuistin koko"
 
-#: collection/collectionfilterwidget.cpp:127
+#: collection/collectionfilterwidget.cpp:129
 #: ../build/src/ui_collectionsettingspage.h:489
 msgid "Display options"
 msgstr "Näkymäasetukset"
@@ -1847,7 +1847,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Lataa albumien kansikuvat"
 
-#: musicbrainz/tagfetcher.cpp:132
+#: musicbrainz/tagfetcher.cpp:130
 msgid "Downloading metadata"
 msgstr "Noudetaan metatietoja"
 
@@ -2001,7 +2001,7 @@ msgstr "Etsi tästä"
 msgid "Enter the URL of a stream:"
 msgstr "Syötä virran URL:"
 
-#: playlist/playlistlistcontainer.cpp:206
+#: playlist/playlistlistcontainer.cpp:208
 msgid "Enter the name of the folder"
 msgstr "Anna kansion nimi"
 
@@ -2030,11 +2030,11 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Vastaa --log-levels *:3"
 
 #: core/mainwindow.cpp:2543 core/mainwindow.cpp:2694
-#: context/contextalbumsview.cpp:392 collection/collectionview.cpp:579
+#: context/contextalbumsview.cpp:393 collection/collectionview.cpp:579
 msgid "Error"
 msgstr "Virhe"
 
-#: device/mtploader.cpp:67
+#: device/mtploader.cpp:68
 #, qt-format
 msgid "Error connecting MTP device %1"
 msgstr "MTP-laitteen %1 yhdistämisessä tapahtui virhe"
@@ -2259,11 +2259,11 @@ msgstr ""
 msgid "Filetype"
 msgstr "Tiedoston tyyppi"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:94
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:99
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:80
+#: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
 msgstr "Luodaan sormenjälkeä kappaleesta..."
 
@@ -2275,7 +2275,7 @@ msgstr ""
 msgid "First level"
 msgstr "Ensimmäinen taso"
 
-#: widgets/playingwidget.cpp:106
+#: widgets/playingwidget.cpp:108
 msgid "Fit cover to width"
 msgstr "Sovita kansi leveyteen"
 
@@ -2429,64 +2429,64 @@ msgstr ""
 msgid "Group Collection by..."
 msgstr "Järjestä kirjasto..."
 
-#: collection/collectionfilterwidget.cpp:119
+#: collection/collectionfilterwidget.cpp:121
 #: internet/internetsearchview.cpp:346
 msgid "Group by"
 msgstr "Järjestä"
 
-#: collection/collectionfilterwidget.cpp:217
+#: collection/collectionfilterwidget.cpp:219
 msgid "Group by Album"
 msgstr "Järjestä albumin mukaan"
 
-#: collection/collectionfilterwidget.cpp:214
+#: collection/collectionfilterwidget.cpp:216
 msgid "Group by Album Artist"
 msgstr "Ryhmitä albumin esittäjän perusteella"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:203
 msgid "Group by Album artist/Album"
 msgstr "Ryhmitä albumin esittäjän/albumin mukaan"
 
-#: collection/collectionfilterwidget.cpp:202
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:205
 msgid "Group by Album artist/Year - Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:206
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:215
+#: collection/collectionfilterwidget.cpp:217
 msgid "Group by Artist"
 msgstr "Järjestä esittäjän mukaan"
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:208
 msgid "Group by Artist/Album"
 msgstr "Järjestä esittäjän/albumin mukaan"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:209
 msgid "Group by Artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:208
+#: collection/collectionfilterwidget.cpp:210
 msgid "Group by Artist/Year - Album"
 msgstr "Järjestä esittäjän/vuoden - albumin mukaan"
 
-#: collection/collectionfilterwidget.cpp:209
+#: collection/collectionfilterwidget.cpp:211
 msgid "Group by Artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:218
+#: collection/collectionfilterwidget.cpp:220
 msgid "Group by Genre/Album"
 msgstr "Järjestä tyylin/albumin mukaan"
 
-#: collection/collectionfilterwidget.cpp:211
+#: collection/collectionfilterwidget.cpp:213
 msgid "Group by Genre/Album artist/Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:212
+#: collection/collectionfilterwidget.cpp:214
 msgid "Group by Genre/Artist/Album"
 msgstr "Järjestä tyylin/esittäjän/albumin mukaan"
 
@@ -2497,11 +2497,11 @@ msgstr "Järjestä tyylin/esittäjän/albumin mukaan"
 msgid "Grouping"
 msgstr "Ryhmittely"
 
-#: collection/collectionfilterwidget.cpp:273
+#: collection/collectionfilterwidget.cpp:275
 msgid "Grouping Name"
 msgstr "Ryhmittelyn nimi"
 
-#: collection/collectionfilterwidget.cpp:273
+#: collection/collectionfilterwidget.cpp:275
 msgid "Grouping name:"
 msgstr "Ryhmittelyn nimi:"
 
@@ -2558,7 +2558,7 @@ msgstr "Kuvakkeen koot"
 msgid "Icons on top"
 msgstr "Kuvakkeet ylhäällä"
 
-#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
+#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
 msgstr "Tunnistetaan kappaletta"
 
@@ -2708,7 +2708,7 @@ msgstr "Kannettava/kuulokkeet"
 msgid "Large Hall"
 msgstr "Suuri halli"
 
-#: widgets/playingwidget.cpp:103
+#: widgets/playingwidget.cpp:105
 msgid "Large album cover"
 msgstr "Suuri kansikuva"
 
@@ -2793,7 +2793,7 @@ msgstr "Lataa kansikuva levyltä..."
 msgid "Load playlist"
 msgstr "Lataa soittolista"
 
-#: device/mtploader.cpp:50
+#: device/mtploader.cpp:51
 msgid "Loading MTP device"
 msgstr "Ladataan MTP-laitetta"
 
@@ -3051,7 +3051,7 @@ msgstr "Eniten toistetut"
 msgid "Mount point"
 msgstr "Liitoskohta"
 
-#: device/udisks2lister.cpp:116
+#: device/udisks2lister.cpp:118
 msgid "Mount points"
 msgstr "Liitoskohdat"
 
@@ -3108,7 +3108,7 @@ msgstr ""
 msgid "Never start playing"
 msgstr "Älä koskaan aloita toistoa"
 
-#: playlist/playlistlistcontainer.cpp:84 playlist/playlistlistcontainer.cpp:206
+#: playlist/playlistlistcontainer.cpp:86 playlist/playlistlistcontainer.cpp:208
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "Uusi kansio"
@@ -3187,7 +3187,7 @@ msgid "None"
 msgstr "Ei mitään"
 
 #: core/mainwindow.cpp:2543 core/mainwindow.cpp:2694
-#: context/contextalbumsview.cpp:392 collection/collectionview.cpp:579
+#: context/contextalbumsview.cpp:393 collection/collectionview.cpp:579
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
 "Yksikään valitsemistasi kappaleista ei sovellu kopioitavaksi laitteelle"
@@ -3378,7 +3378,7 @@ msgstr ""
 msgid "P&laylist"
 msgstr "Soitto&lista"
 
-#: device/udisks2lister.cpp:117
+#: device/udisks2lister.cpp:119
 msgid "Partition label"
 msgstr "Osion nimike"
 
@@ -3483,8 +3483,8 @@ msgstr ""
 msgid "Player options"
 msgstr "Soittimen asetukset"
 
-#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:271
-#: playlist/playlistlistcontainer.cpp:368 playlist/playlistmanager.cpp:112
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:112
 #: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:567
 #: playlist/playlisttabbar.cpp:410 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
@@ -3505,7 +3505,7 @@ msgid ""
 "playlist?"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:363
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
 msgstr "Soittolista täytyy avata ensin."
 
@@ -3573,7 +3573,7 @@ msgstr "Ensisijainen tiedostonimi albumikuvitukselle (pilkuin eroteltu)"
 msgid "Preferred format"
 msgstr "Ensisijainen muoto"
 
-#: collection/collectionfilterwidget.cpp:70
+#: collection/collectionfilterwidget.cpp:72
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -3804,7 +3804,7 @@ msgstr "Poista soittolistalta"
 msgid "Remove playlist"
 msgstr "Poista soittolista"
 
-#: playlist/playlistlistcontainer.cpp:410
+#: playlist/playlistlistcontainer.cpp:412
 msgid "Remove playlists"
 msgstr "Poista soittolistat"
 
@@ -4013,7 +4013,7 @@ msgstr "Näytteenottotaajuus"
 msgid "Save &playlist..."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:239
+#: covermanager/albumcoverchoicecontroller.cpp:238
 msgid "Save album cover"
 msgstr "Tallenna albumin kansikuva"
 
@@ -4037,7 +4037,7 @@ msgstr "Tallenna levyn kansikuva kiintolevylle..."
 msgid "Save current grouping"
 msgstr "Tallenna nykyinen ryhmittely"
 
-#: playlist/playlistlistcontainer.cpp:86
+#: playlist/playlistlistcontainer.cpp:88
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Tallenna soittolista"
@@ -4121,11 +4121,11 @@ msgstr "Hae tätä"
 msgid "Search mode"
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:159
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Search options"
 msgstr "Hakuasetukset"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:157
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:162
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
 msgstr "Hakusanat"
@@ -4184,7 +4184,7 @@ msgstr ""
 msgid "Select..."
 msgstr "Valitse..."
 
-#: device/udisks2lister.cpp:115
+#: device/udisks2lister.cpp:117
 msgid "Serial number"
 msgstr "Sarjanumero"
 
@@ -4231,7 +4231,7 @@ msgstr "Pikanäppäin"
 msgid "Shortcut for %1"
 msgstr "Pikanäppäin toiminnolle %1"
 
-#: collection/collectionfilterwidget.cpp:106
+#: collection/collectionfilterwidget.cpp:108
 msgid "Show"
 msgstr "Näytä"
 
@@ -4271,7 +4271,7 @@ msgstr ""
 msgid "Show a pretty OSD"
 msgstr "Näytä kuvaruutunäyttö"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:143
 msgid "Show above status bar"
 msgstr "Näytä tilapalkin yläpuolella"
 
@@ -4441,7 +4441,7 @@ msgstr "Ohita valitut kappaleet"
 msgid "Skip track"
 msgstr "Ohita kappale"
 
-#: widgets/playingwidget.cpp:102
+#: widgets/playingwidget.cpp:104
 msgid "Small album cover"
 msgstr "Pieni kansikuva"
 
@@ -4979,7 +4979,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "Osoite/osoitteet"
 
-#: device/udisks2lister.cpp:118
+#: device/udisks2lister.cpp:120
 msgid "UUID"
 msgstr "UUID"
 
@@ -4994,7 +4994,7 @@ msgstr ""
 #: core/song.cpp:573 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1612
+#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1605
 #: collection/savedgroupingmanager.cpp:146 playlist/playlistdelegates.cpp:354
 #: playlist/playlistmanager.cpp:575 playlist/playlistmanager.cpp:576
 #: dialogs/edittagdialog.cpp:720 dialogs/edittagdialog.cpp:747
@@ -5301,7 +5301,7 @@ msgstr "vuotta"
 msgid "Yesterday"
 msgstr "Eilen"
 
-#: playlist/playlistlistcontainer.cpp:410
+#: playlist/playlistlistcontainer.cpp:412
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
@@ -5411,7 +5411,7 @@ msgstr "albumit"
 msgid "and"
 msgstr "ja"
 
-#: collection/collectionfilterwidget.cpp:73
+#: collection/collectionfilterwidget.cpp:75
 msgid "artist"
 msgstr "esittäjä"
 
@@ -5556,7 +5556,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "poista %n kappaletta"
 
-#: collection/collectionfilterwidget.cpp:77
+#: collection/collectionfilterwidget.cpp:79
 msgid "searches the collection for all artists that contain the word"
 msgstr ""
 
@@ -5593,6 +5593,6 @@ msgstr "pysäytä"
 msgid "track %1"
 msgstr "kappale %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:234
+#: covermanager/albumcoverchoicecontroller.cpp:233
 msgid "unknown"
 msgstr "tuntematon"

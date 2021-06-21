@@ -518,7 +518,7 @@ msgid ""
 "selecting songs."
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:158
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr ""
@@ -775,7 +775,7 @@ msgstr "Добавлено сегодня"
 msgid "Added within three months"
 msgstr "Добавлено за три месяца"
 
-#: collection/collectionfilterwidget.cpp:252
+#: collection/collectionfilterwidget.cpp:254
 msgid "Advanced grouping..."
 msgstr "Расширенная сортировка…"
 
@@ -1069,7 +1069,7 @@ msgstr ""
 msgid "Available"
 msgstr "Доступно"
 
-#: collection/collectionfilterwidget.cpp:80
+#: collection/collectionfilterwidget.cpp:82
 msgid "Available fields"
 msgstr ""
 
@@ -1184,7 +1184,7 @@ msgstr "Буфер"
 msgid "Buffer duration"
 msgstr "Размер буфера"
 
-#: engine/gstengine.cpp:690
+#: engine/gstengine.cpp:688
 msgid "Buffering"
 msgstr "Буферизация"
 
@@ -1244,7 +1244,7 @@ msgstr ""
 msgid "Choose font..."
 msgstr "Выбрать шрифт…"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:160
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:165
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
 
@@ -1335,7 +1335,7 @@ msgstr "Расширенная группировка фонотеки"
 msgid "Collection rescan notice"
 msgstr "Уведомление о сканировании фонотеки"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:91
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:96
 msgid "Collection search"
 msgstr ""
 
@@ -1443,12 +1443,12 @@ msgstr "Копировать обложку альбома"
 msgid "Copy to collection..."
 msgstr "Копировать в фонотеку…"
 
-#: playlist/playlistlistcontainer.cpp:363
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Copy to device"
 msgstr ""
 
 #: core/mainwindow.cpp:715 context/contextalbumsview.cpp:272
-#: collection/collectionview.cpp:354 playlist/playlistlistcontainer.cpp:88
+#: collection/collectionview.cpp:354 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "Копировать на устройство..."
@@ -1656,7 +1656,7 @@ msgstr ""
 msgid "Custom..."
 msgstr "Пользовательский…"
 
-#: device/udisks2lister.cpp:114
+#: device/udisks2lister.cpp:116
 msgid "D-Bus path"
 msgstr "Путь D-Bus"
 
@@ -1696,7 +1696,7 @@ msgstr "&Фоновое изображение по умолчанию"
 msgid "Defaults"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:85
+#: playlist/playlistlistcontainer.cpp:87
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "Удалить"
@@ -1805,7 +1805,7 @@ msgstr "Непрерывная передача"
 msgid "Disk Cache Size"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:127
+#: collection/collectionfilterwidget.cpp:129
 #: ../build/src/ui_collectionsettingspage.h:489
 msgid "Display options"
 msgstr "Настройки вида"
@@ -1870,7 +1870,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Скачать обложки альбомов"
 
-#: musicbrainz/tagfetcher.cpp:132
+#: musicbrainz/tagfetcher.cpp:130
 msgid "Downloading metadata"
 msgstr "Загрузка метаданных"
 
@@ -2024,7 +2024,7 @@ msgstr "Введите критерии поиска"
 msgid "Enter the URL of a stream:"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:206
+#: playlist/playlistlistcontainer.cpp:208
 msgid "Enter the name of the folder"
 msgstr "Введите имя папки"
 
@@ -2053,11 +2053,11 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
 #: core/mainwindow.cpp:2543 core/mainwindow.cpp:2694
-#: context/contextalbumsview.cpp:392 collection/collectionview.cpp:579
+#: context/contextalbumsview.cpp:393 collection/collectionview.cpp:579
 msgid "Error"
 msgstr "Ошибка"
 
-#: device/mtploader.cpp:67
+#: device/mtploader.cpp:68
 #, qt-format
 msgid "Error connecting MTP device %1"
 msgstr "Ошибка подключения устройства MTP %1"
@@ -2280,11 +2280,11 @@ msgstr ""
 msgid "Filetype"
 msgstr "Тип файл"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:94
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:99
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:80
+#: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
 msgstr "Получение отпечатка песни"
 
@@ -2296,7 +2296,7 @@ msgstr ""
 msgid "First level"
 msgstr "Первый уровень"
 
-#: widgets/playingwidget.cpp:106
+#: widgets/playingwidget.cpp:108
 msgid "Fit cover to width"
 msgstr "Подогнать обложку по ширине"
 
@@ -2451,64 +2451,64 @@ msgstr "Помечать недоступные песни в пейлистах
 msgid "Group Collection by..."
 msgstr "Сгруппировать фонотеку по…"
 
-#: collection/collectionfilterwidget.cpp:119
+#: collection/collectionfilterwidget.cpp:121
 #: internet/internetsearchview.cpp:346
 msgid "Group by"
 msgstr "Сгруппировать по"
 
-#: collection/collectionfilterwidget.cpp:217
+#: collection/collectionfilterwidget.cpp:219
 msgid "Group by Album"
 msgstr "Группировать по альбомам"
 
-#: collection/collectionfilterwidget.cpp:214
+#: collection/collectionfilterwidget.cpp:216
 msgid "Group by Album Artist"
 msgstr "Группировать по исполнителю альбома"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:203
 msgid "Group by Album artist/Album"
 msgstr "Группировать по исполнитель альбома/альбом"
 
-#: collection/collectionfilterwidget.cpp:202
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album artist/Album - Disc"
 msgstr "Групповать по исполнитель альбома/альбом - диск"
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:205
 msgid "Group by Album artist/Year - Album"
 msgstr "Группировать по исполнитель альбома/год - альбом"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:206
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Группировать по исполнитель альбома/год - альбом - диск"
 
-#: collection/collectionfilterwidget.cpp:215
+#: collection/collectionfilterwidget.cpp:217
 msgid "Group by Artist"
 msgstr "Группировать по исполнителю"
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:208
 msgid "Group by Artist/Album"
 msgstr "Группировать по исполнителю/альбому"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:209
 msgid "Group by Artist/Album - Disc"
 msgstr "Группировать по исполнитель/альбом - диск"
 
-#: collection/collectionfilterwidget.cpp:208
+#: collection/collectionfilterwidget.cpp:210
 msgid "Group by Artist/Year - Album"
 msgstr "Группировать по исполнитель/год - альбом"
 
-#: collection/collectionfilterwidget.cpp:209
+#: collection/collectionfilterwidget.cpp:211
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Группировать по исполнитель/год - альбом - диск"
 
-#: collection/collectionfilterwidget.cpp:218
+#: collection/collectionfilterwidget.cpp:220
 msgid "Group by Genre/Album"
 msgstr "Группировать по жанр/альбом"
 
-#: collection/collectionfilterwidget.cpp:211
+#: collection/collectionfilterwidget.cpp:213
 msgid "Group by Genre/Album artist/Album"
 msgstr "Группировать по жанр/исполнитель альбома/альбом"
 
-#: collection/collectionfilterwidget.cpp:212
+#: collection/collectionfilterwidget.cpp:214
 msgid "Group by Genre/Artist/Album"
 msgstr "Группировать по жанр/исполнитель/альбом"
 
@@ -2519,11 +2519,11 @@ msgstr "Группировать по жанр/исполнитель/альбо
 msgid "Grouping"
 msgstr "Группа"
 
-#: collection/collectionfilterwidget.cpp:273
+#: collection/collectionfilterwidget.cpp:275
 msgid "Grouping Name"
 msgstr "Имя группы"
 
-#: collection/collectionfilterwidget.cpp:273
+#: collection/collectionfilterwidget.cpp:275
 msgid "Grouping name:"
 msgstr "Имя группы:"
 
@@ -2581,7 +2581,7 @@ msgstr ""
 msgid "Icons on top"
 msgstr "Значки сверху"
 
-#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
+#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
 msgstr "Определение песни"
 
@@ -2730,7 +2730,7 @@ msgstr "Наушники/ноутбук"
 msgid "Large Hall"
 msgstr "Большой зал"
 
-#: widgets/playingwidget.cpp:103
+#: widgets/playingwidget.cpp:105
 msgid "Large album cover"
 msgstr "Большая обложка альбома"
 
@@ -2815,7 +2815,7 @@ msgstr "Загрузить обложку с диска…"
 msgid "Load playlist"
 msgstr "Загрузить плейлист"
 
-#: device/mtploader.cpp:50
+#: device/mtploader.cpp:51
 msgid "Loading MTP device"
 msgstr "Загрузка устройства MTP"
 
@@ -3072,7 +3072,7 @@ msgstr ""
 msgid "Mount point"
 msgstr "Точка монтирования"
 
-#: device/udisks2lister.cpp:116
+#: device/udisks2lister.cpp:118
 msgid "Mount points"
 msgstr "Точки монтирования"
 
@@ -3129,7 +3129,7 @@ msgstr ""
 msgid "Never start playing"
 msgstr "Никогда не начинать воспроизведение"
 
-#: playlist/playlistlistcontainer.cpp:84 playlist/playlistlistcontainer.cpp:206
+#: playlist/playlistlistcontainer.cpp:86 playlist/playlistlistcontainer.cpp:208
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "Новая папка"
@@ -3207,7 +3207,7 @@ msgid "None"
 msgstr "Ничего"
 
 #: core/mainwindow.cpp:2543 core/mainwindow.cpp:2694
-#: context/contextalbumsview.cpp:392 collection/collectionview.cpp:579
+#: context/contextalbumsview.cpp:393 collection/collectionview.cpp:579
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ни одна из выбранных песен не была скопирована на устройство"
 
@@ -3399,7 +3399,7 @@ msgstr "Перезаписать только более маленькие"
 msgid "P&laylist"
 msgstr "&Плейлист"
 
-#: device/udisks2lister.cpp:117
+#: device/udisks2lister.cpp:119
 msgid "Partition label"
 msgstr "Метка раздела"
 
@@ -3504,8 +3504,8 @@ msgstr ""
 msgid "Player options"
 msgstr "Настройки проигрывателя"
 
-#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:271
-#: playlist/playlistlistcontainer.cpp:368 playlist/playlistmanager.cpp:112
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:112
 #: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:567
 #: playlist/playlisttabbar.cpp:410 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
@@ -3526,7 +3526,7 @@ msgid ""
 "playlist?"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:363
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
 msgstr ""
 
@@ -3594,7 +3594,7 @@ msgstr "Приоритетные имена файлов обложек (чер�
 msgid "Preferred format"
 msgstr "Предпочитаемый формат"
 
-#: collection/collectionfilterwidget.cpp:70
+#: collection/collectionfilterwidget.cpp:72
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -3829,7 +3829,7 @@ msgstr "Удалить из плейлиста"
 msgid "Remove playlist"
 msgstr "Удалить плейлист"
 
-#: playlist/playlistlistcontainer.cpp:410
+#: playlist/playlistlistcontainer.cpp:412
 msgid "Remove playlists"
 msgstr "Удалить плейлисты"
 
@@ -4037,7 +4037,7 @@ msgstr "Частота"
 msgid "Save &playlist..."
 msgstr "&Сохранить плейлист..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:239
+#: covermanager/albumcoverchoicecontroller.cpp:238
 msgid "Save album cover"
 msgstr "Сохранить обложку альбома"
 
@@ -4061,7 +4061,7 @@ msgstr "Сохранить обложку на диск…"
 msgid "Save current grouping"
 msgstr "Сохранить текущую группу"
 
-#: playlist/playlistlistcontainer.cpp:86
+#: playlist/playlistlistcontainer.cpp:88
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Сохранить плейлист"
@@ -4145,11 +4145,11 @@ msgstr "Поиск этого"
 msgid "Search mode"
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:159
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Search options"
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:157
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:162
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
 msgstr ""
@@ -4208,7 +4208,7 @@ msgstr "Выберите цвет панели вкладок:"
 msgid "Select..."
 msgstr "Выбрать…"
 
-#: device/udisks2lister.cpp:115
+#: device/udisks2lister.cpp:117
 msgid "Serial number"
 msgstr "Серийный номер"
 
@@ -4255,7 +4255,7 @@ msgstr "Сочетание клавиш"
 msgid "Shortcut for %1"
 msgstr "Сочетание клавиш «%1»"
 
-#: collection/collectionfilterwidget.cpp:106
+#: collection/collectionfilterwidget.cpp:108
 msgid "Show"
 msgstr "Показать"
 
@@ -4295,7 +4295,7 @@ msgstr "&Показать всплывающее окно для панели з
 msgid "Show a pretty OSD"
 msgstr "Показывать OSD"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:143
 msgid "Show above status bar"
 msgstr "Показать над строкой состояния"
 
@@ -4465,7 +4465,7 @@ msgstr "Пропустить выбранные треки"
 msgid "Skip track"
 msgstr "Пропустить трек"
 
-#: widgets/playingwidget.cpp:102
+#: widgets/playingwidget.cpp:104
 msgid "Small album cover"
 msgstr "Маленькая обложка альбома"
 
@@ -5010,7 +5010,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "Ссылки"
 
-#: device/udisks2lister.cpp:118
+#: device/udisks2lister.cpp:120
 msgid "UUID"
 msgstr "UUID"
 
@@ -5025,7 +5025,7 @@ msgstr ""
 #: core/song.cpp:573 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1612
+#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1605
 #: collection/savedgroupingmanager.cpp:146 playlist/playlistdelegates.cpp:354
 #: playlist/playlistmanager.cpp:575 playlist/playlistmanager.cpp:576
 #: dialogs/edittagdialog.cpp:720 dialogs/edittagdialog.cpp:747
@@ -5332,7 +5332,7 @@ msgstr ""
 msgid "Yesterday"
 msgstr "Вчера"
 
-#: playlist/playlistlistcontainer.cpp:410
+#: playlist/playlistlistcontainer.cpp:412
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
@@ -5441,7 +5441,7 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:73
+#: collection/collectionfilterwidget.cpp:75
 msgid "artist"
 msgstr ""
 
@@ -5586,7 +5586,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "удалить %n композиций"
 
-#: collection/collectionfilterwidget.cpp:77
+#: collection/collectionfilterwidget.cpp:79
 msgid "searches the collection for all artists that contain the word"
 msgstr ""
 
@@ -5623,6 +5623,6 @@ msgstr "стоп"
 msgid "track %1"
 msgstr "трек %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:234
+#: covermanager/albumcoverchoicecontroller.cpp:233
 msgid "unknown"
 msgstr "неизвестно"

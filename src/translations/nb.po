@@ -492,7 +492,7 @@ msgid ""
 "selecting songs."
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:158
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr ""
@@ -749,7 +749,7 @@ msgstr "Lagt til i dag"
 msgid "Added within three months"
 msgstr "Lagt til innen tre måneder"
 
-#: collection/collectionfilterwidget.cpp:252
+#: collection/collectionfilterwidget.cpp:254
 msgid "Advanced grouping..."
 msgstr "Avansert gruppering…"
 
@@ -1044,7 +1044,7 @@ msgstr ""
 msgid "Available"
 msgstr "Tilgjengelig"
 
-#: collection/collectionfilterwidget.cpp:80
+#: collection/collectionfilterwidget.cpp:82
 msgid "Available fields"
 msgstr ""
 
@@ -1159,7 +1159,7 @@ msgstr "Buffer"
 msgid "Buffer duration"
 msgstr "Mellomlagringslengde"
 
-#: engine/gstengine.cpp:690
+#: engine/gstengine.cpp:688
 msgid "Buffering"
 msgstr "Mellomlagring"
 
@@ -1219,7 +1219,7 @@ msgstr ""
 msgid "Choose font..."
 msgstr "Velg skrifttype…"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:160
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:165
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
 
@@ -1310,7 +1310,7 @@ msgstr "Avansert samlingsgruppering"
 msgid "Collection rescan notice"
 msgstr "Melding om gjennomsøk av samlingen"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:91
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:96
 msgid "Collection search"
 msgstr ""
 
@@ -1417,12 +1417,12 @@ msgstr "Kopier album omslaggrafikk"
 msgid "Copy to collection..."
 msgstr "Kopier til samling…"
 
-#: playlist/playlistlistcontainer.cpp:363
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Copy to device"
 msgstr ""
 
 #: core/mainwindow.cpp:715 context/contextalbumsview.cpp:272
-#: collection/collectionview.cpp:354 playlist/playlistlistcontainer.cpp:88
+#: collection/collectionview.cpp:354 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "Kopier til enhet…"
@@ -1630,7 +1630,7 @@ msgstr "Egendefinert tekst innstilling"
 msgid "Custom..."
 msgstr "Egendefinert…"
 
-#: device/udisks2lister.cpp:114
+#: device/udisks2lister.cpp:116
 msgid "D-Bus path"
 msgstr "D-Bus sti"
 
@@ -1670,7 +1670,7 @@ msgstr "Forhåndsvalgt bak&grunnsbilde"
 msgid "Defaults"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:85
+#: playlist/playlistlistcontainer.cpp:87
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "Slett"
@@ -1779,7 +1779,7 @@ msgstr "Uregelmessig overføring"
 msgid "Disk Cache Size"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:127
+#: collection/collectionfilterwidget.cpp:129
 #: ../build/src/ui_collectionsettingspage.h:489
 msgid "Display options"
 msgstr "Visningsalternativ"
@@ -1844,7 +1844,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Last ned album kover"
 
-#: musicbrainz/tagfetcher.cpp:132
+#: musicbrainz/tagfetcher.cpp:130
 msgid "Downloading metadata"
 msgstr "Laster ned metadata"
 
@@ -1998,7 +1998,7 @@ msgstr "Skriv inn søkeord her"
 msgid "Enter the URL of a stream:"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:206
+#: playlist/playlistlistcontainer.cpp:208
 msgid "Enter the name of the folder"
 msgstr "Skriv inn navn på mappa"
 
@@ -2027,11 +2027,11 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Tilsvarer --log-levels *:3"
 
 #: core/mainwindow.cpp:2543 core/mainwindow.cpp:2694
-#: context/contextalbumsview.cpp:392 collection/collectionview.cpp:579
+#: context/contextalbumsview.cpp:393 collection/collectionview.cpp:579
 msgid "Error"
 msgstr "Feil"
 
-#: device/mtploader.cpp:67
+#: device/mtploader.cpp:68
 #, qt-format
 msgid "Error connecting MTP device %1"
 msgstr "Feil ved tilkobling til MTP enhet %1"
@@ -2254,11 +2254,11 @@ msgstr ""
 msgid "Filetype"
 msgstr "Filtype"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:94
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:99
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:80
+#: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
 msgstr "Vannmerker sangen"
 
@@ -2270,7 +2270,7 @@ msgstr ""
 msgid "First level"
 msgstr "Første nivå"
 
-#: widgets/playingwidget.cpp:106
+#: widgets/playingwidget.cpp:108
 msgid "Fit cover to width"
 msgstr "Tilpass omslag til bredde"
 
@@ -2424,64 +2424,64 @@ msgstr "Merk ikke-eksisterende sanger med grått på oppstart"
 msgid "Group Collection by..."
 msgstr "Grupper samling etter…"
 
-#: collection/collectionfilterwidget.cpp:119
+#: collection/collectionfilterwidget.cpp:121
 #: internet/internetsearchview.cpp:346
 msgid "Group by"
 msgstr "Grupper etter"
 
-#: collection/collectionfilterwidget.cpp:217
+#: collection/collectionfilterwidget.cpp:219
 msgid "Group by Album"
 msgstr "Grupper etter album"
 
-#: collection/collectionfilterwidget.cpp:214
+#: collection/collectionfilterwidget.cpp:216
 msgid "Group by Album Artist"
 msgstr "Grupper etter album artist"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:203
 msgid "Group by Album artist/Album"
 msgstr "Grupper etter album artist/album"
 
-#: collection/collectionfilterwidget.cpp:202
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album artist/Album - Disc"
 msgstr "Grupper etter album artist/album - disc"
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:205
 msgid "Group by Album artist/Year - Album"
 msgstr "Grupper etter album artist/år - album"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:206
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Grupper etter album artist/år - album - disc"
 
-#: collection/collectionfilterwidget.cpp:215
+#: collection/collectionfilterwidget.cpp:217
 msgid "Group by Artist"
 msgstr "Grupper etter artist"
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:208
 msgid "Group by Artist/Album"
 msgstr "Grupper etter artist/album"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:209
 msgid "Group by Artist/Album - Disc"
 msgstr "Grupper etter artist/album - disc"
 
-#: collection/collectionfilterwidget.cpp:208
+#: collection/collectionfilterwidget.cpp:210
 msgid "Group by Artist/Year - Album"
 msgstr "Grupper etter artist/år - album"
 
-#: collection/collectionfilterwidget.cpp:209
+#: collection/collectionfilterwidget.cpp:211
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Grupper etter artist/år - album - disc"
 
-#: collection/collectionfilterwidget.cpp:218
+#: collection/collectionfilterwidget.cpp:220
 msgid "Group by Genre/Album"
 msgstr "Grupper etter sjanger/album"
 
-#: collection/collectionfilterwidget.cpp:211
+#: collection/collectionfilterwidget.cpp:213
 msgid "Group by Genre/Album artist/Album"
 msgstr "Grupper etter sjanger/album artist/album"
 
-#: collection/collectionfilterwidget.cpp:212
+#: collection/collectionfilterwidget.cpp:214
 msgid "Group by Genre/Artist/Album"
 msgstr "Grupper etter sjanger/artist/album"
 
@@ -2492,11 +2492,11 @@ msgstr "Grupper etter sjanger/artist/album"
 msgid "Grouping"
 msgstr "Gruppering"
 
-#: collection/collectionfilterwidget.cpp:273
+#: collection/collectionfilterwidget.cpp:275
 msgid "Grouping Name"
 msgstr "Grupperingsnavn"
 
-#: collection/collectionfilterwidget.cpp:273
+#: collection/collectionfilterwidget.cpp:275
 msgid "Grouping name:"
 msgstr "Grupperingsnavn:"
 
@@ -2554,7 +2554,7 @@ msgstr ""
 msgid "Icons on top"
 msgstr "Ikoner øverst"
 
-#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
+#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
 msgstr "Identifiserer sangen"
 
@@ -2700,7 +2700,7 @@ msgstr "Laptop/hodetelefoner"
 msgid "Large Hall"
 msgstr "Storsal"
 
-#: widgets/playingwidget.cpp:103
+#: widgets/playingwidget.cpp:105
 msgid "Large album cover"
 msgstr "Stort omslag"
 
@@ -2785,7 +2785,7 @@ msgstr "Hent omslag fra disk…"
 msgid "Load playlist"
 msgstr "Åpne spilleliste"
 
-#: device/mtploader.cpp:50
+#: device/mtploader.cpp:51
 msgid "Loading MTP device"
 msgstr "Åpner MTP-enhet"
 
@@ -3042,7 +3042,7 @@ msgstr ""
 msgid "Mount point"
 msgstr "Monteringspunkt"
 
-#: device/udisks2lister.cpp:116
+#: device/udisks2lister.cpp:118
 msgid "Mount points"
 msgstr "Monteringspunkter"
 
@@ -3099,7 +3099,7 @@ msgstr ""
 msgid "Never start playing"
 msgstr "Aldri begynn avspilling"
 
-#: playlist/playlistlistcontainer.cpp:84 playlist/playlistlistcontainer.cpp:206
+#: playlist/playlistlistcontainer.cpp:86 playlist/playlistlistcontainer.cpp:208
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "Ny mappe"
@@ -3176,7 +3176,7 @@ msgid "None"
 msgstr "Ingen"
 
 #: core/mainwindow.cpp:2543 core/mainwindow.cpp:2694
-#: context/contextalbumsview.cpp:392 collection/collectionview.cpp:579
+#: context/contextalbumsview.cpp:393 collection/collectionview.cpp:579
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
 
@@ -3366,7 +3366,7 @@ msgstr "Bare overskriv mindre"
 msgid "P&laylist"
 msgstr "Spilleliste"
 
-#: device/udisks2lister.cpp:117
+#: device/udisks2lister.cpp:119
 msgid "Partition label"
 msgstr "Partisjonsnavn"
 
@@ -3471,8 +3471,8 @@ msgstr ""
 msgid "Player options"
 msgstr "Innstillinger for avspiller"
 
-#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:271
-#: playlist/playlistlistcontainer.cpp:368 playlist/playlistmanager.cpp:112
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:112
 #: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:567
 #: playlist/playlisttabbar.cpp:410 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
@@ -3493,7 +3493,7 @@ msgid ""
 "playlist?"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:363
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
 msgstr ""
 
@@ -3561,7 +3561,7 @@ msgstr "Foretrukne filnavn for omslag (inndelt med komma)"
 msgid "Preferred format"
 msgstr "Foretrukket format"
 
-#: collection/collectionfilterwidget.cpp:70
+#: collection/collectionfilterwidget.cpp:72
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -3795,7 +3795,7 @@ msgstr "Fjern fra spillelisten"
 msgid "Remove playlist"
 msgstr "Fjern spilleliste"
 
-#: playlist/playlistlistcontainer.cpp:410
+#: playlist/playlistlistcontainer.cpp:412
 msgid "Remove playlists"
 msgstr "Fjern spillelister"
 
@@ -4003,7 +4003,7 @@ msgstr "Samplingsrate"
 msgid "Save &playlist..."
 msgstr "Lagre &spilleliste..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:239
+#: covermanager/albumcoverchoicecontroller.cpp:238
 msgid "Save album cover"
 msgstr "Lagre albumomslag"
 
@@ -4027,7 +4027,7 @@ msgstr "Lagre bilde til disk…"
 msgid "Save current grouping"
 msgstr "Lagre nåværende gruppering"
 
-#: playlist/playlistlistcontainer.cpp:86
+#: playlist/playlistlistcontainer.cpp:88
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Lagre spilleliste"
@@ -4111,11 +4111,11 @@ msgstr "Søk etter dette"
 msgid "Search mode"
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:159
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Search options"
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:157
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:162
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
 msgstr ""
@@ -4174,7 +4174,7 @@ msgstr "Velg tabbar farge:"
 msgid "Select..."
 msgstr "Velg…"
 
-#: device/udisks2lister.cpp:115
+#: device/udisks2lister.cpp:117
 msgid "Serial number"
 msgstr "Serienummer"
 
@@ -4221,7 +4221,7 @@ msgstr "Hurtigtast"
 msgid "Shortcut for %1"
 msgstr "Hurtigtast for %1"
 
-#: collection/collectionfilterwidget.cpp:106
+#: collection/collectionfilterwidget.cpp:108
 msgid "Show"
 msgstr "Vis"
 
@@ -4261,7 +4261,7 @@ msgstr "Vis et oppsprettsvindu fra systemskuffa"
 msgid "Show a pretty OSD"
 msgstr "Vis et pent skjermbildeoverlegg"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:143
 msgid "Show above status bar"
 msgstr "Vis over statuslinja"
 
@@ -4431,7 +4431,7 @@ msgstr "Hopp over valgte spor"
 msgid "Skip track"
 msgstr "Hopp over spor"
 
-#: widgets/playingwidget.cpp:102
+#: widgets/playingwidget.cpp:104
 msgid "Small album cover"
 msgstr "Lite albumomslag"
 
@@ -4974,7 +4974,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL(er)"
 
-#: device/udisks2lister.cpp:118
+#: device/udisks2lister.cpp:120
 msgid "UUID"
 msgstr "UUID"
 
@@ -4989,7 +4989,7 @@ msgstr ""
 #: core/song.cpp:573 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1612
+#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1605
 #: collection/savedgroupingmanager.cpp:146 playlist/playlistdelegates.cpp:354
 #: playlist/playlistmanager.cpp:575 playlist/playlistmanager.cpp:576
 #: dialogs/edittagdialog.cpp:720 dialogs/edittagdialog.cpp:747
@@ -5294,7 +5294,7 @@ msgstr ""
 msgid "Yesterday"
 msgstr "I går"
 
-#: playlist/playlistlistcontainer.cpp:410
+#: playlist/playlistlistcontainer.cpp:412
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
@@ -5403,7 +5403,7 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:73
+#: collection/collectionfilterwidget.cpp:75
 msgid "artist"
 msgstr "artist"
 
@@ -5548,7 +5548,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "fjern %n sanger"
 
-#: collection/collectionfilterwidget.cpp:77
+#: collection/collectionfilterwidget.cpp:79
 msgid "searches the collection for all artists that contain the word"
 msgstr "searches the collection for all artists that contain the word"
 
@@ -5585,6 +5585,6 @@ msgstr "stopp"
 msgid "track %1"
 msgstr "spor %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:234
+#: covermanager/albumcoverchoicecontroller.cpp:233
 msgid "unknown"
 msgstr "ukjent"

@@ -500,7 +500,7 @@ msgstr ""
 "스마트 재생 목록은 조건에 맞는 곡들을 라이브러리에서 찾아 자동으로 생성됩니다. 다양한 스마트 재생 목록과 스마트 재생 목록을 만드는 "
 "규칙들이 있습니다."
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:158
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr "이 조건에 맞는 곡들이 재생 목록에 들어갑니다."
@@ -757,7 +757,7 @@ msgstr "오늘 추가됨"
 msgid "Added within three months"
 msgstr "3개월 이내에 추가됨"
 
-#: collection/collectionfilterwidget.cpp:252
+#: collection/collectionfilterwidget.cpp:254
 msgid "Advanced grouping..."
 msgstr "고급 그룹..."
 
@@ -1051,7 +1051,7 @@ msgstr "곡을 추가하면 자동으로 재생목록 정렬"
 msgid "Available"
 msgstr "사용 가능"
 
-#: collection/collectionfilterwidget.cpp:80
+#: collection/collectionfilterwidget.cpp:82
 msgid "Available fields"
 msgstr "사용 가능한 필드"
 
@@ -1166,7 +1166,7 @@ msgstr "버퍼"
 msgid "Buffer duration"
 msgstr "버퍼 시간"
 
-#: engine/gstengine.cpp:690
+#: engine/gstengine.cpp:688
 msgid "Buffering"
 msgstr "버퍼링"
 
@@ -1226,7 +1226,7 @@ msgstr ""
 msgid "Choose font..."
 msgstr "글꼴 선택..."
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:160
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:165
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr "재생목록 정렬 조건과 최대로 들어갈 곡 수를 정하세요."
 
@@ -1317,7 +1317,7 @@ msgstr "라이브러리 고급 그룹"
 msgid "Collection rescan notice"
 msgstr "라이브러리 재탐색 알림"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:91
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:96
 msgid "Collection search"
 msgstr "라이브러리 검색"
 
@@ -1423,12 +1423,12 @@ msgstr "앨범아트 복사"
 msgid "Copy to collection..."
 msgstr "라이브러리로 복사..."
 
-#: playlist/playlistlistcontainer.cpp:363
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Copy to device"
 msgstr "디바이스에 복사"
 
 #: core/mainwindow.cpp:715 context/contextalbumsview.cpp:272
-#: collection/collectionview.cpp:354 playlist/playlistlistcontainer.cpp:88
+#: collection/collectionview.cpp:354 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "장치로 복사..."
@@ -1633,7 +1633,7 @@ msgstr "사용자 정의 텍스트 설정"
 msgid "Custom..."
 msgstr "사용자 정의..."
 
-#: device/udisks2lister.cpp:114
+#: device/udisks2lister.cpp:116
 msgid "D-Bus path"
 msgstr "D-Bus 경로"
 
@@ -1673,7 +1673,7 @@ msgstr "기본 배경 그림(&K)"
 msgid "Defaults"
 msgstr "기본 설정"
 
-#: playlist/playlistlistcontainer.cpp:85
+#: playlist/playlistlistcontainer.cpp:87
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "삭제"
@@ -1782,7 +1782,7 @@ msgstr "불연속적인 전송"
 msgid "Disk Cache Size"
 msgstr "디스크 캐시 크기"
 
-#: collection/collectionfilterwidget.cpp:127
+#: collection/collectionfilterwidget.cpp:129
 #: ../build/src/ui_collectionsettingspage.h:489
 msgid "Display options"
 msgstr "옵션 표시"
@@ -1847,7 +1847,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "앨범아트 다운로드 중"
 
-#: musicbrainz/tagfetcher.cpp:132
+#: musicbrainz/tagfetcher.cpp:130
 msgid "Downloading metadata"
 msgstr "메타데이터 다운로드 중"
 
@@ -2001,7 +2001,7 @@ msgstr "여기에 검색어 입력"
 msgid "Enter the URL of a stream:"
 msgstr "스트림 URL 입력"
 
-#: playlist/playlistlistcontainer.cpp:206
+#: playlist/playlistlistcontainer.cpp:208
 msgid "Enter the name of the folder"
 msgstr "폴더 이름 입력"
 
@@ -2030,11 +2030,11 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "--log-levels *:3과 동일함"
 
 #: core/mainwindow.cpp:2543 core/mainwindow.cpp:2694
-#: context/contextalbumsview.cpp:392 collection/collectionview.cpp:579
+#: context/contextalbumsview.cpp:393 collection/collectionview.cpp:579
 msgid "Error"
 msgstr "오류"
 
-#: device/mtploader.cpp:67
+#: device/mtploader.cpp:68
 #, qt-format
 msgid "Error connecting MTP device %1"
 msgstr "MTP 장치 %1 연결 오류"
@@ -2257,11 +2257,11 @@ msgstr ""
 msgid "Filetype"
 msgstr "파일 형식"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:94
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:99
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:80
+#: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
 msgstr "노래 정보 추출 중"
 
@@ -2273,7 +2273,7 @@ msgstr "완료"
 msgid "First level"
 msgstr "첫 단계"
 
-#: widgets/playingwidget.cpp:106
+#: widgets/playingwidget.cpp:108
 msgid "Fit cover to width"
 msgstr "앨범아트를 너비에 맞춤"
 
@@ -2426,64 +2426,64 @@ msgstr "시작할 때 재생 목록에서 사용할 수 없는 곡을 회색으�
 msgid "Group Collection by..."
 msgstr "라이브러리 그룹 방식..."
 
-#: collection/collectionfilterwidget.cpp:119
+#: collection/collectionfilterwidget.cpp:121
 #: internet/internetsearchview.cpp:346
 msgid "Group by"
 msgstr "그룹 방식"
 
-#: collection/collectionfilterwidget.cpp:217
+#: collection/collectionfilterwidget.cpp:219
 msgid "Group by Album"
 msgstr "앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:214
+#: collection/collectionfilterwidget.cpp:216
 msgid "Group by Album Artist"
 msgstr "앨범 아티스트로 그룹"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:203
 msgid "Group by Album artist/Album"
 msgstr "앨범 아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:202
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album artist/Album - Disc"
 msgstr "앨범 아티스트/앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:205
 msgid "Group by Album artist/Year - Album"
 msgstr "앨범 아티스트/년도 - 앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:206
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "앨범 아티스트/년도 - 앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:215
+#: collection/collectionfilterwidget.cpp:217
 msgid "Group by Artist"
 msgstr "아티스트로 그룹"
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:208
 msgid "Group by Artist/Album"
 msgstr "아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:209
 msgid "Group by Artist/Album - Disc"
 msgstr "아티스트/앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:208
+#: collection/collectionfilterwidget.cpp:210
 msgid "Group by Artist/Year - Album"
 msgstr "아티스트/년도 - 앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:209
+#: collection/collectionfilterwidget.cpp:211
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "아티스트/년도 - 앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:218
+#: collection/collectionfilterwidget.cpp:220
 msgid "Group by Genre/Album"
 msgstr "장르/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:211
+#: collection/collectionfilterwidget.cpp:213
 msgid "Group by Genre/Album artist/Album"
 msgstr "장르/앨범 아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:212
+#: collection/collectionfilterwidget.cpp:214
 msgid "Group by Genre/Artist/Album"
 msgstr "장르/아티스트/앨범으로 그룹"
 
@@ -2494,11 +2494,11 @@ msgstr "장르/아티스트/앨범으로 그룹"
 msgid "Grouping"
 msgstr "그룹"
 
-#: collection/collectionfilterwidget.cpp:273
+#: collection/collectionfilterwidget.cpp:275
 msgid "Grouping Name"
 msgstr "그룹 이름"
 
-#: collection/collectionfilterwidget.cpp:273
+#: collection/collectionfilterwidget.cpp:275
 msgid "Grouping name:"
 msgstr "그룹 이름:"
 
@@ -2555,7 +2555,7 @@ msgstr "아이콘 크기"
 msgid "Icons on top"
 msgstr "상단에 아이콘"
 
-#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
+#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
 msgstr "음악 식별 중"
 
@@ -2699,7 +2699,7 @@ msgstr "노트북/헤드폰"
 msgid "Large Hall"
 msgstr "거대한 홀"
 
-#: widgets/playingwidget.cpp:103
+#: widgets/playingwidget.cpp:105
 msgid "Large album cover"
 msgstr "큰 앨범아트"
 
@@ -2784,7 +2784,7 @@ msgstr "디스크에서 표지 불러오기..."
 msgid "Load playlist"
 msgstr "재생 목록 불러오기"
 
-#: device/mtploader.cpp:50
+#: device/mtploader.cpp:51
 msgid "Loading MTP device"
 msgstr "MTP 장치 불러오는 중"
 
@@ -3041,7 +3041,7 @@ msgstr "많이 재생된 곡"
 msgid "Mount point"
 msgstr "마운트 지점"
 
-#: device/udisks2lister.cpp:116
+#: device/udisks2lister.cpp:118
 msgid "Mount points"
 msgstr "마운트 지점"
 
@@ -3098,7 +3098,7 @@ msgstr "한번도 재생하지 않은 곡"
 msgid "Never start playing"
 msgstr "재생을 시작하지 않음"
 
-#: playlist/playlistlistcontainer.cpp:84 playlist/playlistlistcontainer.cpp:206
+#: playlist/playlistlistcontainer.cpp:86 playlist/playlistlistcontainer.cpp:208
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "새 폴더"
@@ -3175,7 +3175,7 @@ msgid "None"
 msgstr "없음"
 
 #: core/mainwindow.cpp:2543 core/mainwindow.cpp:2694
-#: context/contextalbumsview.cpp:392 collection/collectionview.cpp:579
+#: context/contextalbumsview.cpp:393 collection/collectionview.cpp:579
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "선택한 음악을 장치에 복사하기에 적합하지 않음"
 
@@ -3365,7 +3365,7 @@ msgstr "더 작은 것만 덮어쓰기(&M)"
 msgid "P&laylist"
 msgstr "재생 목록(&L)"
 
-#: device/udisks2lister.cpp:117
+#: device/udisks2lister.cpp:119
 msgid "Partition label"
 msgstr "파티션 레이블"
 
@@ -3470,8 +3470,8 @@ msgstr ""
 msgid "Player options"
 msgstr "재생기 옵션"
 
-#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:271
-#: playlist/playlistlistcontainer.cpp:368 playlist/playlistmanager.cpp:112
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:112
 #: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:567
 #: playlist/playlisttabbar.cpp:410 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
@@ -3492,7 +3492,7 @@ msgid ""
 "playlist?"
 msgstr "재생 목록에 %1곡이 있습니다. 실행 취소하기에는 너무 큽니다. 재생 목록을 비우시겠습니까?"
 
-#: playlist/playlistlistcontainer.cpp:363
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
 msgstr ""
 
@@ -3560,7 +3560,7 @@ msgstr "선호하는 앨범아트 파일 이름(쉼표로 구분)"
 msgid "Preferred format"
 msgstr "선호하는 형식"
 
-#: collection/collectionfilterwidget.cpp:70
+#: collection/collectionfilterwidget.cpp:72
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr "검색어 앞에 필드 이름을 입력하면 해당 필드에서만 검색합니다. 예:"
@@ -3793,7 +3793,7 @@ msgstr "재생 목록에서 제거"
 msgid "Remove playlist"
 msgstr "재생 목록 삭제"
 
-#: playlist/playlistlistcontainer.cpp:410
+#: playlist/playlistlistcontainer.cpp:412
 msgid "Remove playlists"
 msgstr "재생 목록 삭제"
 
@@ -3999,7 +3999,7 @@ msgstr "샘플링 레이트"
 msgid "Save &playlist..."
 msgstr "재생 목록 저장(&P)..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:239
+#: covermanager/albumcoverchoicecontroller.cpp:238
 msgid "Save album cover"
 msgstr "앨범아트 저장"
 
@@ -4023,7 +4023,7 @@ msgstr "디스크에 표지 저장..."
 msgid "Save current grouping"
 msgstr "현재 그룹 저장"
 
-#: playlist/playlistlistcontainer.cpp:86
+#: playlist/playlistlistcontainer.cpp:88
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
@@ -4107,11 +4107,11 @@ msgstr "다음 항목 검색"
 msgid "Search mode"
 msgstr "검색 모드"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:159
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Search options"
 msgstr "검색 옵션"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:157
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:162
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
 msgstr "검색 조건"
@@ -4170,7 +4170,7 @@ msgstr "탭 표시줄 색상 선택:"
 msgid "Select..."
 msgstr "선택..."
 
-#: device/udisks2lister.cpp:115
+#: device/udisks2lister.cpp:117
 msgid "Serial number"
 msgstr "일련 번호"
 
@@ -4217,7 +4217,7 @@ msgstr "단축키"
 msgid "Shortcut for %1"
 msgstr "%1 단축키"
 
-#: collection/collectionfilterwidget.cpp:106
+#: collection/collectionfilterwidget.cpp:108
 msgid "Show"
 msgstr "표시"
 
@@ -4257,7 +4257,7 @@ msgstr "시스템 트레이에서 팝업 표시(&M)"
 msgid "Show a pretty OSD"
 msgstr "예쁜 OSD 표시"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:143
 msgid "Show above status bar"
 msgstr "상태 표시줄 위에 표시"
 
@@ -4427,7 +4427,7 @@ msgstr "선택한 트랙 건너뛰기"
 msgid "Skip track"
 msgstr "트랙 건너뛰기"
 
-#: widgets/playingwidget.cpp:102
+#: widgets/playingwidget.cpp:104
 msgid "Small album cover"
 msgstr "작은 앨범아트"
 
@@ -4952,7 +4952,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL"
 
-#: device/udisks2lister.cpp:118
+#: device/udisks2lister.cpp:120
 msgid "UUID"
 msgstr "UUID"
 
@@ -4967,7 +4967,7 @@ msgstr ""
 #: core/song.cpp:573 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1612
+#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1605
 #: collection/savedgroupingmanager.cpp:146 playlist/playlistdelegates.cpp:354
 #: playlist/playlistmanager.cpp:575 playlist/playlistmanager.cpp:576
 #: dialogs/edittagdialog.cpp:720 dialogs/edittagdialog.cpp:747
@@ -5270,7 +5270,7 @@ msgstr ""
 msgid "Yesterday"
 msgstr "어제"
 
-#: playlist/playlistlistcontainer.cpp:410
+#: playlist/playlistlistcontainer.cpp:412
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
@@ -5375,7 +5375,7 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:73
+#: collection/collectionfilterwidget.cpp:75
 msgid "artist"
 msgstr "아티스트"
 
@@ -5520,7 +5520,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "%n곡 삭제"
 
-#: collection/collectionfilterwidget.cpp:77
+#: collection/collectionfilterwidget.cpp:79
 msgid "searches the collection for all artists that contain the word"
 msgstr "라이브러리에서 해당 단어를 포함하는 모든 아티스트 검색"
 
@@ -5557,6 +5557,6 @@ msgstr "정지"
 msgid "track %1"
 msgstr "트랙 %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:234
+#: covermanager/albumcoverchoicecontroller.cpp:233
 msgid "unknown"
 msgstr "알 수 없음"

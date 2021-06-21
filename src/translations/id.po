@@ -500,7 +500,7 @@ msgid ""
 "selecting songs."
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:158
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr ""
@@ -757,7 +757,7 @@ msgstr "Ditambahkan hari ini"
 msgid "Added within three months"
 msgstr "Ditambahkan pada tiga bulan terakhir"
 
-#: collection/collectionfilterwidget.cpp:252
+#: collection/collectionfilterwidget.cpp:254
 msgid "Advanced grouping..."
 msgstr "Pengelompokkan lanjut..."
 
@@ -1051,7 +1051,7 @@ msgstr ""
 msgid "Available"
 msgstr "Tersedia"
 
-#: collection/collectionfilterwidget.cpp:80
+#: collection/collectionfilterwidget.cpp:82
 msgid "Available fields"
 msgstr ""
 
@@ -1166,7 +1166,7 @@ msgstr "Buffer"
 msgid "Buffer duration"
 msgstr "Durasi Bufer"
 
-#: engine/gstengine.cpp:690
+#: engine/gstengine.cpp:688
 msgid "Buffering"
 msgstr "Membufer..."
 
@@ -1226,7 +1226,7 @@ msgstr ""
 msgid "Choose font..."
 msgstr "Pilih huruf..."
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:160
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:165
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
 
@@ -1317,7 +1317,7 @@ msgstr "Pengelompokan pustaka lanjutan"
 msgid "Collection rescan notice"
 msgstr "Pemberitahuan pemindaian ulang pustaka"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:91
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:96
 msgid "Collection search"
 msgstr ""
 
@@ -1424,12 +1424,12 @@ msgstr "Salin sampul album"
 msgid "Copy to collection..."
 msgstr "Salin ke pustaka..."
 
-#: playlist/playlistlistcontainer.cpp:363
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Copy to device"
 msgstr ""
 
 #: core/mainwindow.cpp:715 context/contextalbumsview.cpp:272
-#: collection/collectionview.cpp:354 playlist/playlistlistcontainer.cpp:88
+#: collection/collectionview.cpp:354 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "Salin ke perangkat..."
@@ -1637,7 +1637,7 @@ msgstr ""
 msgid "Custom..."
 msgstr "Ubahsuai..."
 
-#: device/udisks2lister.cpp:114
+#: device/udisks2lister.cpp:116
 msgid "D-Bus path"
 msgstr "Lokasi D-Bus"
 
@@ -1677,7 +1677,7 @@ msgstr "Gambar latar bela&kang standar"
 msgid "Defaults"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:85
+#: playlist/playlistlistcontainer.cpp:87
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "Hapus"
@@ -1786,7 +1786,7 @@ msgstr "Transmisi putus-putus"
 msgid "Disk Cache Size"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:127
+#: collection/collectionfilterwidget.cpp:129
 #: ../build/src/ui_collectionsettingspage.h:489
 msgid "Display options"
 msgstr "Opsi tampilan"
@@ -1851,7 +1851,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Unduh sampul album"
 
-#: musicbrainz/tagfetcher.cpp:132
+#: musicbrainz/tagfetcher.cpp:130
 msgid "Downloading metadata"
 msgstr "Mengunduh metadata"
 
@@ -2005,7 +2005,7 @@ msgstr "Masukkan lema pencarian di sini"
 msgid "Enter the URL of a stream:"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:206
+#: playlist/playlistlistcontainer.cpp:208
 msgid "Enter the name of the folder"
 msgstr "Masukkan nama folder"
 
@@ -2034,11 +2034,11 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
 #: core/mainwindow.cpp:2543 core/mainwindow.cpp:2694
-#: context/contextalbumsview.cpp:392 collection/collectionview.cpp:579
+#: context/contextalbumsview.cpp:393 collection/collectionview.cpp:579
 msgid "Error"
 msgstr "Kesalahan"
 
-#: device/mtploader.cpp:67
+#: device/mtploader.cpp:68
 #, qt-format
 msgid "Error connecting MTP device %1"
 msgstr "Terjadi kesalahan saat menyambungkan perangkat MTP %1"
@@ -2261,11 +2261,11 @@ msgstr ""
 msgid "Filetype"
 msgstr "Tipe berkas"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:94
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:99
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:80
+#: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
 msgstr "Sidik jari lagu"
 
@@ -2277,7 +2277,7 @@ msgstr ""
 msgid "First level"
 msgstr "Level pertama"
 
-#: widgets/playingwidget.cpp:106
+#: widgets/playingwidget.cpp:108
 msgid "Fit cover to width"
 msgstr "Paskan sampul ke lebar"
 
@@ -2431,64 +2431,64 @@ msgstr "Abu-abukan lagu yang tidak tersedia di daftar putar saat membuka"
 msgid "Group Collection by..."
 msgstr "Grup Pustaka berdasarkan..."
 
-#: collection/collectionfilterwidget.cpp:119
+#: collection/collectionfilterwidget.cpp:121
 #: internet/internetsearchview.cpp:346
 msgid "Group by"
 msgstr "Grup berdasarkan"
 
-#: collection/collectionfilterwidget.cpp:217
+#: collection/collectionfilterwidget.cpp:219
 msgid "Group by Album"
 msgstr "Grup berdasarkan Album"
 
-#: collection/collectionfilterwidget.cpp:214
+#: collection/collectionfilterwidget.cpp:216
 msgid "Group by Album Artist"
 msgstr "Grup berdasarkan Artis Album"
 
-#: collection/collectionfilterwidget.cpp:201
+#: collection/collectionfilterwidget.cpp:203
 msgid "Group by Album artist/Album"
 msgstr "Grup berdasarkan Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:202
+#: collection/collectionfilterwidget.cpp:204
 msgid "Group by Album artist/Album - Disc"
 msgstr "Grup berdasarkan Artis album/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:205
 msgid "Group by Album artist/Year - Album"
 msgstr "Grup berdasarkan Artis album/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:206
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis album/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:215
+#: collection/collectionfilterwidget.cpp:217
 msgid "Group by Artist"
 msgstr "Grup berdasarkan Artis"
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:208
 msgid "Group by Artist/Album"
 msgstr "Grup berdasarkan Artis/Album"
 
-#: collection/collectionfilterwidget.cpp:207
+#: collection/collectionfilterwidget.cpp:209
 msgid "Group by Artist/Album - Disc"
 msgstr "Grup berdasarkan Artis/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:208
+#: collection/collectionfilterwidget.cpp:210
 msgid "Group by Artist/Year - Album"
 msgstr "Grup berdasarkan Artis/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:209
+#: collection/collectionfilterwidget.cpp:211
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:218
+#: collection/collectionfilterwidget.cpp:220
 msgid "Group by Genre/Album"
 msgstr "Grup berdasarkan Genre/Album"
 
-#: collection/collectionfilterwidget.cpp:211
+#: collection/collectionfilterwidget.cpp:213
 msgid "Group by Genre/Album artist/Album"
 msgstr "Grup berdasarkan Genre/Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:212
+#: collection/collectionfilterwidget.cpp:214
 msgid "Group by Genre/Artist/Album"
 msgstr "Grup berdasarkan Genre/Artis/Album"
 
@@ -2499,11 +2499,11 @@ msgstr "Grup berdasarkan Genre/Artis/Album"
 msgid "Grouping"
 msgstr "Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:273
+#: collection/collectionfilterwidget.cpp:275
 msgid "Grouping Name"
 msgstr "Nama Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:273
+#: collection/collectionfilterwidget.cpp:275
 msgid "Grouping name:"
 msgstr "Nama pengelompokan:"
 
@@ -2560,7 +2560,7 @@ msgstr ""
 msgid "Icons on top"
 msgstr "Ikon di atas"
 
-#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
+#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
 msgstr "Mengidentifikasi lagu"
 
@@ -2708,7 +2708,7 @@ msgstr "Laptop/Fonkepala"
 msgid "Large Hall"
 msgstr "Balai Besar"
 
-#: widgets/playingwidget.cpp:103
+#: widgets/playingwidget.cpp:105
 msgid "Large album cover"
 msgstr "Sampul album besar"
 
@@ -2793,7 +2793,7 @@ msgstr "Muat sampul dari diska..."
 msgid "Load playlist"
 msgstr "Muat daftar putar"
 
-#: device/mtploader.cpp:50
+#: device/mtploader.cpp:51
 msgid "Loading MTP device"
 msgstr "Memuat perangkat MTP"
 
@@ -3050,7 +3050,7 @@ msgstr ""
 msgid "Mount point"
 msgstr "Titik kait"
 
-#: device/udisks2lister.cpp:116
+#: device/udisks2lister.cpp:118
 msgid "Mount points"
 msgstr "Titik kait"
 
@@ -3107,7 +3107,7 @@ msgstr ""
 msgid "Never start playing"
 msgstr "Jangan mulai memutar"
 
-#: playlist/playlistlistcontainer.cpp:84 playlist/playlistlistcontainer.cpp:206
+#: playlist/playlistlistcontainer.cpp:86 playlist/playlistlistcontainer.cpp:208
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "Folder baru"
@@ -3186,7 +3186,7 @@ msgid "None"
 msgstr "Nihil"
 
 #: core/mainwindow.cpp:2543 core/mainwindow.cpp:2694
-#: context/contextalbumsview.cpp:392 collection/collectionview.cpp:579
+#: context/contextalbumsview.cpp:393 collection/collectionview.cpp:579
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
 "Tidak satu pun dari lagu yang dipilih cocok untuk disalin ke perangkat"
@@ -3378,7 +3378,7 @@ msgstr "Hanya ti&mpa yang lebih kecil"
 msgid "P&laylist"
 msgstr "D&aftar putar"
 
-#: device/udisks2lister.cpp:117
+#: device/udisks2lister.cpp:119
 msgid "Partition label"
 msgstr "Label partisi"
 
@@ -3483,8 +3483,8 @@ msgstr ""
 msgid "Player options"
 msgstr "Opsi pemutar"
 
-#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:271
-#: playlist/playlistlistcontainer.cpp:368 playlist/playlistmanager.cpp:112
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:112
 #: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:567
 #: playlist/playlisttabbar.cpp:410 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
@@ -3505,7 +3505,7 @@ msgid ""
 "playlist?"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:363
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
 msgstr ""
 
@@ -3573,7 +3573,7 @@ msgstr "Nama berkas sampul album yang diinginkan (dipisahkan koma)"
 msgid "Preferred format"
 msgstr "Format yang diinginkan"
 
-#: collection/collectionfilterwidget.cpp:70
+#: collection/collectionfilterwidget.cpp:72
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -3806,7 +3806,7 @@ msgstr "Buang dari daftar putar"
 msgid "Remove playlist"
 msgstr "Buang daftar putar"
 
-#: playlist/playlistlistcontainer.cpp:410
+#: playlist/playlistlistcontainer.cpp:412
 msgid "Remove playlists"
 msgstr "Buang daftar putar"
 
@@ -4014,7 +4014,7 @@ msgstr "Lajusampel"
 msgid "Save &playlist..."
 msgstr "Simpan &daftar putar..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:239
+#: covermanager/albumcoverchoicecontroller.cpp:238
 msgid "Save album cover"
 msgstr "Simpan sampul album"
 
@@ -4038,7 +4038,7 @@ msgstr "Simpan sampul ke diska..."
 msgid "Save current grouping"
 msgstr "Simpan pengelompokan saat ini"
 
-#: playlist/playlistlistcontainer.cpp:86
+#: playlist/playlistlistcontainer.cpp:88
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Simpan daftar putar"
@@ -4122,11 +4122,11 @@ msgstr "Cari ini"
 msgid "Search mode"
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:159
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Search options"
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:157
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:162
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
 msgstr ""
@@ -4185,7 +4185,7 @@ msgstr "Pilih warna tabbar:"
 msgid "Select..."
 msgstr "Pilih..."
 
-#: device/udisks2lister.cpp:115
+#: device/udisks2lister.cpp:117
 msgid "Serial number"
 msgstr "Nomor seri"
 
@@ -4232,7 +4232,7 @@ msgstr "Pintasan"
 msgid "Shortcut for %1"
 msgstr "Pintasan untuk %1"
 
-#: collection/collectionfilterwidget.cpp:106
+#: collection/collectionfilterwidget.cpp:108
 msgid "Show"
 msgstr "Tampilkan"
 
@@ -4272,7 +4272,7 @@ msgstr "Tampilkan popup dari baki siste&m"
 msgid "Show a pretty OSD"
 msgstr "Tampilkan OSD cantik"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:143
 msgid "Show above status bar"
 msgstr "Tampilkan di atas bilah status"
 
@@ -4442,7 +4442,7 @@ msgstr "Lewati trek yang dipilih"
 msgid "Skip track"
 msgstr "Lewati trek"
 
-#: widgets/playingwidget.cpp:102
+#: widgets/playingwidget.cpp:104
 msgid "Small album cover"
 msgstr "Sampul album kecil"
 
@@ -4988,7 +4988,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL"
 
-#: device/udisks2lister.cpp:118
+#: device/udisks2lister.cpp:120
 msgid "UUID"
 msgstr "UUID"
 
@@ -5003,7 +5003,7 @@ msgstr ""
 #: core/song.cpp:573 context/contextalbumsmodel.cpp:358
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1612
+#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1605
 #: collection/savedgroupingmanager.cpp:146 playlist/playlistdelegates.cpp:354
 #: playlist/playlistmanager.cpp:575 playlist/playlistmanager.cpp:576
 #: dialogs/edittagdialog.cpp:720 dialogs/edittagdialog.cpp:747
@@ -5310,7 +5310,7 @@ msgstr ""
 msgid "Yesterday"
 msgstr "Kemarin"
 
-#: playlist/playlistlistcontainer.cpp:410
+#: playlist/playlistlistcontainer.cpp:412
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
@@ -5420,7 +5420,7 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:73
+#: collection/collectionfilterwidget.cpp:75
 msgid "artist"
 msgstr ""
 
@@ -5565,7 +5565,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "buang %n lagu"
 
-#: collection/collectionfilterwidget.cpp:77
+#: collection/collectionfilterwidget.cpp:79
 msgid "searches the collection for all artists that contain the word"
 msgstr ""
 
@@ -5602,6 +5602,6 @@ msgstr "berhenti"
 msgid "track %1"
 msgstr "trek %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:234
+#: covermanager/albumcoverchoicecontroller.cpp:233
 msgid "unknown"
 msgstr "tidak diketahui"
