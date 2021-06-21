@@ -136,9 +136,9 @@ ParserBase *PlaylistParser::ParserForExtension(const QString &suffix) const {
 ParserBase *PlaylistParser::ParserForMimeType(const QString &mime_type) const {
 
   for (ParserBase *p : parsers_) {
-    if (!p->mime_type().isEmpty() &&
-        (QString::compare(p->mime_type(), mime_type, Qt::CaseInsensitive) == 0))
+    if (!p->mime_type().isEmpty() && (QString::compare(p->mime_type(), mime_type, Qt::CaseInsensitive) == 0)) {
       return p;
+    }
   }
   return nullptr;
 
@@ -147,8 +147,9 @@ ParserBase *PlaylistParser::ParserForMimeType(const QString &mime_type) const {
 ParserBase *PlaylistParser::ParserForMagic(const QByteArray &data, const QString &mime_type) const {
 
   for (ParserBase *p : parsers_) {
-    if ((!mime_type.isEmpty() && mime_type == p->mime_type()) || p->TryMagic(data))
+    if ((!mime_type.isEmpty() && mime_type == p->mime_type()) || p->TryMagic(data)) {
       return p;
+    }
   }
   return nullptr;
 
