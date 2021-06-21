@@ -84,9 +84,9 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
     s.setValue("export_downloaded", ui_->export_downloaded->isChecked());
     s.setValue("export_embedded", ui_->export_embedded->isChecked());
 
-    result.fileName_ = fileName;
+    result.filename_ = fileName;
     result.overwrite_ = overwrite;
-    result.forceSize_ = forceSize;
+    result.forcesize_ = forceSize;
     result.width_ = width.toInt();
     result.height_ = height.toInt();
     result.export_downloaded_ = ui_->export_downloaded->isChecked();

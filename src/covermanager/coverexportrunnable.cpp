@@ -119,7 +119,7 @@ void CoverExportRunnable::ProcessAndExportCover() {
   QString dir = song_.url().toLocalFile().section('/', 0, -2);
   QString extension = cover_path.section('.', -1);
 
-  QString new_file = dir + '/' + dialog_result_.fileName_ + '.' + (cover_path == Song::kEmbeddedCover ? "jpg" : extension);
+  QString new_file = dir + '/' + dialog_result_.filename_ + '.' + (cover_path == Song::kEmbeddedCover ? "jpg" : extension);
 
   // If the file exists, do not override!
   if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode_None && QFile::exists(new_file)) {
@@ -163,7 +163,7 @@ void CoverExportRunnable::ExportCover() {
   QString dir = song_.url().toLocalFile().section('/', 0, -2);
   QString extension = cover_path.section('.', -1);
 
-  QString new_file = dir + '/' + dialog_result_.fileName_ + '.' + (cover_path == Song::kEmbeddedCover ? "jpg" : extension);
+  QString new_file = dir + '/' + dialog_result_.filename_ + '.' + (cover_path == Song::kEmbeddedCover ? "jpg" : extension);
 
   // If the file exists, do not override!
   if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode_None && QFile::exists(new_file)) {

@@ -46,19 +46,20 @@ class AlbumCoverExport : public QDialog {
   };
 
   struct DialogResult {
+    DialogResult() : cancelled_(false), export_downloaded_(false), export_embedded_(false), forcesize_(false), width_(0), height_(0) {}
     bool cancelled_;
 
     bool export_downloaded_;
     bool export_embedded_;
 
-    QString fileName_;
+    QString filename_;
     OverwriteMode overwrite_;
-    bool forceSize_;
+    bool forcesize_;
     int width_;
     int height_;
 
     bool IsSizeForced() const {
-      return forceSize_ && width_ > 0 && height_ > 0;
+      return forcesize_ && width_ > 0 && height_ > 0;
     }
 
     bool RequiresCoverProcessing() const {
