@@ -538,14 +538,8 @@ bool ParseUntilElement(QXmlStreamReader *reader, const QString &name) {
 
   while (!reader->atEnd()) {
     QXmlStreamReader::TokenType type = reader->readNext();
-    switch (type) {
-      case QXmlStreamReader::StartElement:
-        if (reader->name() == name) {
-          return true;
-        }
-        break;
-      default:
-        break;
+    if (type == QXmlStreamReader::StartElement && reader->name() == name) {
+      return true;
     }
   }
   return false;
@@ -556,18 +550,14 @@ bool ParseUntilElementCI(QXmlStreamReader *reader, const QString &name) {
 
   while (!reader->atEnd()) {
     QXmlStreamReader::TokenType type = reader->readNext();
-    switch (type) {
-      case QXmlStreamReader::StartElement:{
-        QString element = reader->name().toString().toLower();
-        if (element == name) {
-          return true;
-        }
-        break;
+    if (type == QXmlStreamReader::StartElement) {
+      QString element = reader->name().toString().toLower();
+      if (element == name) {
+        return true;
       }
-      default:
-        break;
     }
   }
+
   return false;
 
 }
