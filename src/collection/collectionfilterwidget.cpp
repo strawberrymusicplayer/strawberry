@@ -374,7 +374,7 @@ void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping g) 
 
 }
 
-void CollectionFilterWidget::CheckCurrentGrouping(CollectionModel::Grouping g) {
+void CollectionFilterWidget::CheckCurrentGrouping(const CollectionModel::Grouping g) {
 
   for (QAction *action : group_by_group_->actions()) {
     if (action->property("group_by").isNull()) continue;

@@ -200,7 +200,7 @@ void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_fram
 
 }
 
-static inline void adjustToLimits(int &b, int &f, int &amount) {
+static inline void adjustToLimits(const int &b, int &f, int &amount) {
 
   // with a range of 0-255 and maximum adjustment of amount, maximise the difference between f and b
 
