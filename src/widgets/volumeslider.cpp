@@ -181,7 +181,7 @@ void PrettySlider::mousePressEvent(QMouseEvent *e) {
 void PrettySlider::slideEvent(QMouseEvent *e) {
 
   if (m_mode == Pretty) {
-    SliderSlider::setValue(orientation() == Qt::Horizontal ? QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2) : QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().y(), height() - 2));
+    QSlider::setValue(orientation() == Qt::Horizontal ? QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2) : QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().y(), height() - 2));  // clazy:exclude=skipped-base-method
   }
   else {
     SliderSlider::slideEvent(e);
@@ -302,20 +302,20 @@ void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
 
   QAction *ret = menu.exec(mapToGlobal(e->pos()));
   if (ret) {
-    SliderSlider::setValue(values[ret]);
+    QSlider::setValue(values[ret]);  // clazy:exclude=skipped-base-method
     emit sliderReleased(values[ret]);
   }
 
 }
 
 void VolumeSlider::slideEvent(QMouseEvent *e) {
-  SliderSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2));
+  QSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2));  // clazy:exclude=skipped-base-method
 }
 
 void VolumeSlider::wheelEvent(QWheelEvent *e) {
 
   const uint step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
-  SliderSlider::setValue(SliderSlider::value() + step);
+  QSlider::setValue(SliderSlider::value() + step);  // clazy:exclude=skipped-base-method
   emit sliderReleased(value());
 
 }
