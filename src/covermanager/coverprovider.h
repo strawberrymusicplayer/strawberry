@@ -46,7 +46,7 @@ class CoverProvider : public QObject {
   QString name() const { return name_; }
   bool is_enabled() const { return enabled_; }
   int order() const { return order_; }
-  bool quality() const { return quality_; }
+  float quality() const { return quality_; }
   bool batch() const { return batch_; }
   bool allow_missing_album() const { return allow_missing_album_; }
 
