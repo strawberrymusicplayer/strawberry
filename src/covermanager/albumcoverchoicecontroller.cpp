@@ -216,7 +216,6 @@ QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
       QUrl cover_url = QUrl::fromLocalFile(cover_file);
       SaveArtManualToSong(song, cover_url);
       return cover_url;
-      break;
     }
   }
 
