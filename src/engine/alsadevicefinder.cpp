@@ -80,8 +80,8 @@ QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
 
       result = snd_ctl_pcm_next_device(handle, &dev);
       if (result < 0) {
-	qLog(Error) << "Unable to get PCM for card" << card << ":" << snd_strerror(result);
-	continue;
+        qLog(Error) << "Unable to get PCM for card" << card << ":" << snd_strerror(result);
+        continue;
       }
       if (dev < 0) break;
 
