@@ -120,7 +120,7 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
     : QAbstractListModel(parent),
       is_loading_(false),
       proxy_(new PlaylistFilter(this)),
-      queue_(new Queue(this)),
+      queue_(new Queue(this, this)),
       timer_save_(new QTimer(this)),
       backend_(backend),
       task_manager_(task_manager),
