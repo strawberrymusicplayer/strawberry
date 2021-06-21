@@ -591,7 +591,7 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
 
     // Look to see if there are any other items still under this divider
     QList<CollectionItem*> container_nodes = container_nodes_[0].values();
-    if (std::any_of(container_nodes.begin(), container_nodes.end(), [=](CollectionItem *node){ return DividerKey(group_by_[0], node) == divider_key; })) {
+    if (std::any_of(container_nodes.begin(), container_nodes.end(), [this, divider_key](CollectionItem *node){ return DividerKey(group_by_[0], node) == divider_key; })) {
       continue;
     }
 
@@ -786,7 +786,7 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
         if (item->children.isEmpty()) {
           return false;
         }
-        else if (std::any_of(item->children.begin(), item->children.end(), [=](CollectionItem *child) { return !data(child, role).toBool(); })) {
+        else if (std::any_of(item->children.begin(), item->children.end(), [this, role](CollectionItem *child) { return !data(child, role).toBool(); })) {
           return false;
         }
         else {
