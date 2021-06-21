@@ -127,7 +127,7 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
 #ifdef HAVE_VLC
       case Engine::VLC:
         use_enginetype=Engine::VLC;
-        engine_.reset(new VLCEngine(app_->task_manager()));
+        engine_ = std::make_unique<VLCEngine>(app_->task_manager());
         break;
 #endif
       default:

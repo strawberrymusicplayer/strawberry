@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QtGlobal>
 #include <QWidget>
 #include <QAbstractItemView>
@@ -566,7 +568,7 @@ SongList CollectionView::GetSelectedSongs() const {
 void CollectionView::Organize() {
 
   if (!organize_dialog_) {
-    organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), app_->collection_backend(), this));
+    organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), app_->collection_backend(), this);
   }
 
   organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
@@ -584,7 +586,7 @@ void CollectionView::Organize() {
 void CollectionView::EditTracks() {
 
   if (!edit_tag_dialog_) {
-    edit_tag_dialog_.reset(new EditTagDialog(app_, this));
+    edit_tag_dialog_ = std::make_unique<EditTagDialog>(app_, this);
     QObject::connect(edit_tag_dialog_.get(), &EditTagDialog::Error, this, &CollectionView::EditTagError);
   }
   const SongList songs = GetSelectedSongs();
@@ -606,8 +608,9 @@ void CollectionView::RescanSongs() {
 void CollectionView::CopyToDevice() {
 
 #ifndef Q_OS_WIN
-  if (!organize_dialog_)
-    organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), nullptr, this));
+  if (!organize_dialog_) {
+    organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
+  }
 
   organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organize_dialog_->SetCopy(true);

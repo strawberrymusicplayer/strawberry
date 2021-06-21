@@ -556,7 +556,7 @@ void OrganizeDialog::OrganizeFinished(const QStringList &files_with_errors, cons
 
   if (files_with_errors.isEmpty()) return;
 
-  error_dialog_.reset(new OrganizeErrorDialog);
+  error_dialog_ = std::make_unique<OrganizeErrorDialog>();
   error_dialog_->Show(OrganizeErrorDialog::Type_Copy, files_with_errors, log);
 
 }

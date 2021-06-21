@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QWizardPage>
 #include <QList>
 #include <QString>
@@ -100,7 +102,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
   search_page_ = new SearchPage(wizard);
 
   QWizardPage *sort_page = new SortPage(this, wizard, finish_page_id);
-  sort_ui_.reset(new Ui_SmartPlaylistQuerySortPage);
+  sort_ui_ = std::make_unique<Ui_SmartPlaylistQuerySortPage>();
   sort_ui_->setupUi(sort_page);
 
   sort_ui_->limit_value->setValue(PlaylistGenerator::kDefaultLimit);

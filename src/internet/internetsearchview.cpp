@@ -676,7 +676,7 @@ void InternetSearchView::GroupByClicked(QAction *action) {
 
   if (action->property("group_by").isNull()) {
     if (!group_by_dialog_) {
-      group_by_dialog_.reset(new GroupByDialog);
+      group_by_dialog_ = std::make_unique<GroupByDialog>();
       QObject::connect(group_by_dialog_.get(), &GroupByDialog::Accepted, this, &InternetSearchView::SetGroupBy);
     }
 

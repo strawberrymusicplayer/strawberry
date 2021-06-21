@@ -222,7 +222,7 @@ void DeviceView::SetApplication(Application *app) {
 
   properties_dialog_->SetDeviceManager(app_->device_manager());
 
-  organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), nullptr, this));
+  organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
   organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
 
 }

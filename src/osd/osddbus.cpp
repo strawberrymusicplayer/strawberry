@@ -117,7 +117,7 @@ OSDDBus::~OSDDBus() = default;
 
 void OSDDBus::Init() {
 
-  interface_.reset(new OrgFreedesktopNotificationsInterface(OrgFreedesktopNotificationsInterface::staticInterfaceName(), "/org/freedesktop/Notifications", QDBusConnection::sessionBus()));
+  interface_ = std::make_unique<OrgFreedesktopNotificationsInterface>(OrgFreedesktopNotificationsInterface::staticInterfaceName(), "/org/freedesktop/Notifications", QDBusConnection::sessionBus());
   if (!interface_->isValid()) {
     qLog(Warning) << "Error connecting to notifications service.";
   }

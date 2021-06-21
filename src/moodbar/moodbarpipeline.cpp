@@ -17,6 +17,7 @@
 
 #include "moodbarpipeline.h"
 
+#include <memory>
 #include <cstdlib>
 #include <glib-object.h>
 
@@ -111,7 +112,7 @@ void MoodbarPipeline::Start() {
     return;
   }
 
-  builder_.reset(new MoodbarBuilder);
+  builder_ = std::make_unique<MoodbarBuilder>();
 
   // Set properties
   g_object_set(decodebin, "uri", local_filename_.toEncoded().constData(), nullptr);

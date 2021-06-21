@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QObject>
 #include <QWidget>
 #include <QStandardItemModel>
@@ -369,7 +371,7 @@ void PlaylistListContainer::CopyToDevice() {
 
     // Reuse the organize dialog, but set the detail about the playlist name
     if (!organize_dialog_) {
-      organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), nullptr, this));
+      organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
     }
     organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
     organize_dialog_->SetCopy(true);

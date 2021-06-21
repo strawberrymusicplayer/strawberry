@@ -193,7 +193,7 @@ void ContextAlbum::SearchCoverInProgress() {
   downloading_covers_ = true;
 
   // Show a spinner animation
-  spinner_animation_.reset(new QMovie(":/pictures/spinner.gif", QByteArray(), this));
+  spinner_animation_ = std::make_unique<QMovie>(":/pictures/spinner.gif", QByteArray(), this);
   QObject::connect(spinner_animation_.get(), &QMovie::updated, this, &ContextAlbum::Update);
   spinner_animation_->start();
   update();

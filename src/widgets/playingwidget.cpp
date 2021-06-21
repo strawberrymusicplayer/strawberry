@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QtGlobal>
 #include <QWidget>
 #include <QList>
@@ -535,7 +537,7 @@ void PlayingWidget::SearchCoverInProgress() {
   downloading_covers_ = true;
 
   // Show a spinner animation
-  spinner_animation_.reset(new QMovie(":/pictures/spinner.gif", QByteArray(), this));
+  spinner_animation_ = std::make_unique<QMovie>(":/pictures/spinner.gif", QByteArray(), this);
   QObject::connect(spinner_animation_.get(), &QMovie::updated, this, &PlayingWidget::Update);
   spinner_animation_->start();
   update();

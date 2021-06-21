@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QDir>
@@ -78,7 +80,7 @@ void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverL
   id_ = 0;
 
   if (!result.album_cover.image.isNull()) {
-    temp_cover_.reset(new QTemporaryFile(temp_file_pattern_));
+    temp_cover_ = std::make_unique<QTemporaryFile>(temp_file_pattern_);
     temp_cover_->setAutoRemove(true);
     if (temp_cover_->open()) {
       if (result.album_cover.image.save(temp_cover_->fileName(), "JPEG")) {
@@ -95,7 +97,7 @@ void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverL
 
   QUrl thumbnail_url;
   if (!result.image_thumbnail.isNull()) {
-    temp_cover_thumbnail_.reset(new QTemporaryFile(temp_file_pattern_));
+    temp_cover_thumbnail_ = std::make_unique<QTemporaryFile>(temp_file_pattern_);
     temp_cover_thumbnail_->setAutoRemove(true);
     if (temp_cover_thumbnail_->open()) {
       if (result.image_thumbnail.save(temp_cover_thumbnail_->fileName(), "JPEG")) {

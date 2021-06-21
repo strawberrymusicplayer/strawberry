@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QApplication>
 #include <QWidget>
 #include <QObject>
@@ -281,7 +283,7 @@ void CollectionFilterWidget::SaveGroupBy() {
 void CollectionFilterWidget::ShowGroupingManager() {
 
   if (!groupings_manager_) {
-    groupings_manager_.reset(new SavedGroupingManager);
+    groupings_manager_ = std::make_unique<SavedGroupingManager>();
   }
   groupings_manager_->SetFilter(this);
   groupings_manager_->UpdateModel();

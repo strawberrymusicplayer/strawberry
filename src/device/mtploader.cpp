@@ -25,6 +25,7 @@
 
 #include <QObject>
 #include <QUrl>
+#include <memory>
 
 #include "core/taskmanager.h"
 #include "core/song.h"
@@ -61,7 +62,7 @@ void MtpLoader::LoadDatabase() {
 
 bool MtpLoader::TryLoad() {
 
-  connection_.reset(new MtpConnection(url_));
+  connection_ = std::make_unique<MtpConnection>(url_);
 
   if (!connection_ || !connection_->is_valid()) {
     emit Error(tr("Error connecting MTP device %1").arg(url_.toString()));

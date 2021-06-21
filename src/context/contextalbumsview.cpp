@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <qcoreevent.h>
 
 #include <QtGlobal>
@@ -381,8 +383,9 @@ SongList ContextAlbumsView::GetSelectedSongs() const {
 
 void ContextAlbumsView::Organize() {
 
-  if (!organize_dialog_)
-    organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), app_->collection_backend(), this));
+  if (!organize_dialog_) {
+    organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), app_->collection_backend(), this);
+  }
 
   organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
   organize_dialog_->SetCopy(false);
@@ -397,7 +400,7 @@ void ContextAlbumsView::Organize() {
 void ContextAlbumsView::EditTracks() {
 
   if (!edit_tag_dialog_) {
-    edit_tag_dialog_.reset(new EditTagDialog(app_, this));
+    edit_tag_dialog_ = std::make_unique<EditTagDialog>(app_, this);
   }
   edit_tag_dialog_->SetSongs(GetSelectedSongs());
   edit_tag_dialog_->show();
@@ -406,8 +409,9 @@ void ContextAlbumsView::EditTracks() {
 
 void ContextAlbumsView::CopyToDevice() {
 #ifndef Q_OS_WIN
-  if (!organize_dialog_)
-    organize_dialog_.reset(new OrganizeDialog(app_->task_manager(), nullptr, this));
+  if (!organize_dialog_) {
+    organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
+  }
 
   organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organize_dialog_->SetCopy(true);

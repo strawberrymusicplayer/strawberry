@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <dbus/objectmanager.h>
 #include <dbus/udisks2block.h>
 #include <dbus/udisks2drive.h>
@@ -179,7 +181,7 @@ void Udisks2Lister::UpdateDeviceFreeSpace(const QString &id) {
 
 bool Udisks2Lister::Init() {
 
-  udisks2_interface_.reset(new OrgFreedesktopDBusObjectManagerInterface(udisks2_service_, "/org/freedesktop/UDisks2", QDBusConnection::systemBus()));
+  udisks2_interface_ = std::make_unique<OrgFreedesktopDBusObjectManagerInterface>(udisks2_service_, "/org/freedesktop/UDisks2", QDBusConnection::systemBus());
 
   QDBusPendingReply<ManagedObjectList> reply = udisks2_interface_->GetManagedObjects();
   reply.waitForFinished();

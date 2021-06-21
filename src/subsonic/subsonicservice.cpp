@@ -154,7 +154,7 @@ void SubsonicService::SendPing() {
 void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const bool redirect) {
 
   if (!redirect) {
-    network_.reset(new QNetworkAccessManager);
+    network_ = std::make_unique<QNetworkAccessManager>();
     ping_redirects_ = 0;
   }
 

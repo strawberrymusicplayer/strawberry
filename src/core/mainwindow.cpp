@@ -2863,8 +2863,8 @@ void MainWindow::AutoCompleteTags() {
 
   // Create the tag fetching stuff if it hasn't been already
   if (!tag_fetcher_) {
-    tag_fetcher_.reset(new TagFetcher);
-    track_selection_dialog_.reset(new TrackSelectionDialog);
+    tag_fetcher_ = std::make_unique<TagFetcher>();
+    track_selection_dialog_ = std::make_unique<TrackSelectionDialog>();
     track_selection_dialog_->set_save_on_close(true);
 
     QObject::connect(tag_fetcher_.get(), &TagFetcher::ResultAvailable, track_selection_dialog_.get(), &TrackSelectionDialog::FetchTagFinished, Qt::QueuedConnection);

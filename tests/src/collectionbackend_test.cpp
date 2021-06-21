@@ -45,7 +45,7 @@ class CollectionBackendTest : public ::testing::Test {
  protected:
   void SetUp() override {
     database_.reset(new MemoryDatabase(nullptr));
-    backend_.reset(new CollectionBackend);
+    backend_ = std::make_unique<CollectionBackend>();
     backend_->Init(database_.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
   }
 

@@ -49,7 +49,7 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
     song_.Init("Title", "Artist", "Album", 123);
     song_.set_url(QUrl::fromLocalFile(absolute_file_name_));
 
-    item_.reset(new SongPlaylistItem(song_));
+    item_ = std::make_unique<SongPlaylistItem>(song_);
 
     if (!absolute_file_name_.startsWith('/'))
       absolute_file_name_.prepend('/');
