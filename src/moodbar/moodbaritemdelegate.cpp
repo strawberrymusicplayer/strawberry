@@ -15,6 +15,8 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <algorithm>
+
 #include <QApplication>
 #include <QtConcurrentRun>
 #include <QFuture>
@@ -167,11 +169,8 @@ void MoodbarItemDelegate::StartLoadingData(const QUrl &url, Data *data) {
 bool MoodbarItemDelegate::RemoveFromCacheIfIndexesInvalid(const QUrl &url, Data *data) {
 
   QSet<QPersistentModelIndex> indexes = data->indexes_;
-  for (const QPersistentModelIndex &idx : indexes) {
-    if (idx.isValid()) {
-      return false;
-    }
-  }
+
+  if (std::any_of(indexes.begin(), indexes.end(), [](const QPersistentModelIndex &idx) { return idx.isValid(); })) { return false; }
 
   data_.remove(url);
   return true;

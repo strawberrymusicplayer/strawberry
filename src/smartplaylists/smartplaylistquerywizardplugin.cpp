@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <memory>
+#include <algorithm>
 
 #include <QWizardPage>
 #include <QList>
@@ -52,12 +53,14 @@ class SmartPlaylistQueryWizardPlugin::SearchPage : public QWizardPage {  // claz
   }
 
   bool isComplete() const override {
-    if (ui_->type->currentIndex() == 2)  // All songs
+    if (ui_->type->currentIndex() == 2) {  // All songs
       return true;
-
-    for (SmartPlaylistSearchTermWidget *widget : terms_) {
-      if (!widget->Term().is_valid()) return false;
     }
+
+    if (std::any_of(terms_.begin(), terms_.end(), [](SmartPlaylistSearchTermWidget *widget){ return !widget->Term().is_valid(); })) {
+      return false;
+    }
+
     return true;
   }
 

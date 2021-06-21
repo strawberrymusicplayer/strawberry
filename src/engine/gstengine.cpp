@@ -26,6 +26,7 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 #include <memory>
+#include <algorithm>
 #include <vector>
 #include <cmath>
 #include <string>
@@ -427,10 +428,7 @@ bool GstEngine::ValidOutput(const QString &output) {
   EnsureInitialized();
 
   PluginDetailsList plugins = GetPluginList("Sink/Audio");
-  for (const PluginDetails &plugin : plugins) {
-    if (plugin.name == output) return(true);
-  }
-  return(false);
+  return std::any_of(plugins.begin(), plugins.end(), [output](const PluginDetails &plugin) { return plugin.name == output; });
 
 }
 

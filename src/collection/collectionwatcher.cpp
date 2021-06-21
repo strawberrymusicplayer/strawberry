@@ -335,13 +335,11 @@ void CollectionWatcher::ScanTransaction::SetKnownSubdirs(const SubdirectoryList 
 
 bool CollectionWatcher::ScanTransaction::HasSeenSubdir(const QString &path) {
 
-  if (known_subdirs_dirty_)
+  if (known_subdirs_dirty_) {
     SetKnownSubdirs(watcher_->backend_->SubdirsInDirectory(dir_));
-
-  for (const Subdirectory &subdir : known_subdirs_) {
-    if (subdir.path == path && subdir.mtime != 0) return true;
   }
-  return false;
+
+  return std::any_of(known_subdirs_.begin(), known_subdirs_.end(), [path](const Subdirectory &subdir) { return subdir.path == path && subdir.mtime != 0; });
 
 }
 

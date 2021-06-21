@@ -238,10 +238,7 @@ EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
 bool VLCEngine::ValidOutput(const QString &output) {
 
   PluginDetailsList plugins = GetPluginList();
-  for (const PluginDetails &plugin : plugins) {
-    if (plugin.name == output) return(true);
-  }
-  return(false);
+  return std::any_of(plugins.begin(), plugins.end(), [output](const PluginDetails &plugin) { return plugin.name == output; });
 
 }
 

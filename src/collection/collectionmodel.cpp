@@ -590,16 +590,10 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
     if (!divider_nodes_.contains(divider_key)) continue;
 
     // Look to see if there are any other items still under this divider
-    bool found = false;
     QList<CollectionItem*> container_nodes = container_nodes_[0].values();
-    for (CollectionItem *node : container_nodes) {
-      if (DividerKey(group_by_[0], node) == divider_key) {
-        found = true;
-        break;
-      }
+    if (std::any_of(container_nodes.begin(), container_nodes.end(), [=](CollectionItem *node){ return DividerKey(group_by_[0], node) == divider_key; })) {
+      continue;
     }
-
-    if (found) continue;
 
     // Remove the divider
     int row = divider_nodes_[divider_key]->row;
@@ -782,23 +776,21 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
     case Role_Artist:
       return item->metadata.artist();
 
-    case Role_Editable:
+    case Role_Editable:{
       if (!item->lazy_loaded) {
         const_cast<CollectionModel*>(this)->LazyPopulate(const_cast<CollectionItem*>(item), true);
       }
 
       if (item->type == CollectionItem::Type_Container) {
-        // if we have even one non editable item as a child, we ourselves are not available for edit
-        if (!item->children.isEmpty()) {
-          for (CollectionItem *child : item->children) {
-            if (!data(child, role).toBool()) {
-              return false;
-            }
-          }
-          return true;
+        // If we have even one non editable item as a child, we ourselves are not available for edit
+        if (item->children.isEmpty()) {
+          return false;
+        }
+        else if (std::any_of(item->children.begin(), item->children.end(), [=](CollectionItem *child) { return !data(child, role).toBool(); })) {
+          return false;
         }
         else {
-          return false;
+          return true;
         }
       }
       else if (item->type == CollectionItem::Type_Song) {
@@ -807,6 +799,7 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
       else {
         return false;
       }
+    }
 
     case Role_SortText:
       return item->SortText();

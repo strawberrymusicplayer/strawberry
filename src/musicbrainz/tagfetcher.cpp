@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QObject>
 #include <QtConcurrentMap>
 #include <QFuture>
@@ -56,12 +58,8 @@ void TagFetcher::StartFetch(const SongList &songs) {
   songs_ = songs;
 
   bool have_fingerprints = true;
-
-  for (const Song &song : songs_) {
-    if (song.fingerprint().isEmpty()) {
-      have_fingerprints = false;
-      break;
-    }
+  if (std::any_of(songs.begin(), songs.end(), [](const Song &song){ return song.fingerprint().isEmpty(); })) {
+    have_fingerprints = false;
   }
 
   if (have_fingerprints) {

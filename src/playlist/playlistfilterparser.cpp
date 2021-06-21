@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QList>
 #include <QMap>
 #include <QSet>
@@ -232,8 +234,8 @@ class OrFilter : public FilterTree {
   ~OrFilter() override { qDeleteAll(children_); }
   virtual void add(FilterTree *child) { children_.append(child); }
   bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
-    for (FilterTree *child : children_) {
-      if (child->accept(row, parent, model)) return true;
+    if (std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return child->accept(row, parent, model); })) {
+      return true;
     }
     return false;
   }
@@ -247,8 +249,8 @@ class AndFilter : public FilterTree {
   ~AndFilter() override { qDeleteAll(children_); }
   virtual void add(FilterTree *child) { children_.append(child); }
   bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
-    for (FilterTree *child : children_) {
-      if (!child->accept(row, parent, model)) return false;
+    if (std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return !child->accept(row, parent, model); })) {
+      return false;
     }
     return true;
   }

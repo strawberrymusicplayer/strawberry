@@ -219,12 +219,10 @@ bool ContextAlbumsView::RestoreLevelFocus(const QModelIndex &parent) {
       case CollectionItem::Type_Song:
         if (!last_selected_song_.url().isEmpty()) {
           QModelIndex index = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
-          SongList songs = model_->GetChildSongs(index);
-          for (const Song &song : songs) {
-            if (song == last_selected_song_) {
-              setCurrentIndex(current);
-              return true;
-            }
+          const SongList songs = model_->GetChildSongs(index);
+          if (std::any_of(songs.begin(), songs.end(), [this](const Song &song) { return song == last_selected_song_; })) {
+            setCurrentIndex(current);
+            return true;
           }
         }
         break;

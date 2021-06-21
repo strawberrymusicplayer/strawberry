@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QObject>
 #include <QMutex>
 #include <QList>
@@ -117,12 +119,11 @@ void TaskManager::SetTaskFinished(const int id) {
     if (tasks_[id].blocks_collection_scans) {
       resume_collection_watchers = true;
       QList<Task> tasks = tasks_.values();
-      for (const Task &task : tasks) {
-        if (task.id != id && task.blocks_collection_scans) {
-          resume_collection_watchers = false;
-          break;
-        }
+
+      if (std::any_of(tasks.begin(), tasks.end(), [id](const Task &task) { return task.id != id && task.blocks_collection_scans; })) {
+        resume_collection_watchers = false;
       }
+
     }
 
     tasks_.remove(id);
