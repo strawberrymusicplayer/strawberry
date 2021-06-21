@@ -35,7 +35,7 @@ FHT::FHT(int n) : num_((n < 3) ? 0 : 1 << n), exp2_((n < 3) ? -1 : n) {
   }
 }
 
-FHT::~FHT() {}
+FHT::~FHT() = default;
 
 int FHT::sizeExp() const { return exp2_; }
 int FHT::size() const { return num_; }

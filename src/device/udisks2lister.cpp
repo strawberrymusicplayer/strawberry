@@ -54,7 +54,7 @@ constexpr char Udisks2Lister::udisks2_service_[];
 
 Udisks2Lister::Udisks2Lister(QObject *parent) : DeviceLister(parent) {}
 
-Udisks2Lister::~Udisks2Lister() {}
+Udisks2Lister::~Udisks2Lister() = default;
 
 QStringList Udisks2Lister::DeviceUniqueIDs() {
   QReadLocker locker(&device_data_lock_);

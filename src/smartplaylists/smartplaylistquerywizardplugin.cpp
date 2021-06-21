@@ -86,7 +86,7 @@ SmartPlaylistQueryWizardPlugin::SmartPlaylistQueryWizardPlugin(Application *app,
       search_page_(nullptr),
       previous_scrollarea_max_(0) {}
 
-SmartPlaylistQueryWizardPlugin::~SmartPlaylistQueryWizardPlugin() {}
+SmartPlaylistQueryWizardPlugin::~SmartPlaylistQueryWizardPlugin() = default;
 
 QString SmartPlaylistQueryWizardPlugin::name() const { return tr("Collection search"); }
 

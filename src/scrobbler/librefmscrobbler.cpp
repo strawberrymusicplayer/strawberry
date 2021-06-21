@@ -50,4 +50,4 @@ LibreFMScrobbler::LibreFMScrobbler(Application *app, QObject *parent) : Scrobbli
 
 }
 
-LibreFMScrobbler::~LibreFMScrobbler() {}
+LibreFMScrobbler::~LibreFMScrobbler() = default;

@@ -126,7 +126,7 @@ AlbumCoverChoiceController::AlbumCoverChoiceController(QWidget *parent) :
 
 }
 
-AlbumCoverChoiceController::~AlbumCoverChoiceController() {}
+AlbumCoverChoiceController::~AlbumCoverChoiceController() = default;
 
 void AlbumCoverChoiceController::Init(Application *app) {
 

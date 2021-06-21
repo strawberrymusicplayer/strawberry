@@ -275,8 +275,8 @@ Song::Private::Private(Song::Source source)
       {}
 
 Song::Song(Song::Source source) : d(new Private(source)) {}
-Song::Song(const Song &other) : d(other.d) {}
-Song::~Song() {}
+Song::Song(const Song &other) = default;
+Song::~Song() = default;
 
 Song &Song::operator=(const Song &other) {
   d = other.d;

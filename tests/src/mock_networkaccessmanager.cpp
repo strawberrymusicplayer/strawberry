@@ -44,7 +44,7 @@ class RequestForUrlMatcher : public MatcherInterface<const QNetworkRequest&> {
   RequestForUrlMatcher(const QString& contains, const QMap<QString, QString> &expected_params)
       : contains_(contains), expected_params_(expected_params) {}
 
-  ~RequestForUrlMatcher() override {}
+  ~RequestForUrlMatcher() override = default;
 
   virtual bool Matches(const QNetworkRequest& req) const {
     const QUrl& url = req.url();

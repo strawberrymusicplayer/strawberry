@@ -36,7 +36,7 @@
 class SearchTermComparator {
  public:
   SearchTermComparator() = default;
-  virtual ~SearchTermComparator() {}
+  virtual ~SearchTermComparator() = default;
   virtual bool Matches(const QString &element) const = 0;
  private:
   Q_DISABLE_COPY(SearchTermComparator)

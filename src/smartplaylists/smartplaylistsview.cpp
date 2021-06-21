@@ -39,7 +39,7 @@ SmartPlaylistsView::SmartPlaylistsView(QWidget *_parent) : QListView(_parent) {
 
 }
 
-SmartPlaylistsView::~SmartPlaylistsView() {}
+SmartPlaylistsView::~SmartPlaylistsView() = default;
 
 void SmartPlaylistsView::selectionChanged(const QItemSelection&, const QItemSelection&) {
   emit ItemsSelectedChanged();

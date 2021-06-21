@@ -23,9 +23,9 @@
 
 #include "settingsprovider.h"
 
-SettingsProvider::SettingsProvider() {}
+SettingsProvider::SettingsProvider() = default;
 
-DefaultSettingsProvider::DefaultSettingsProvider() {}
+DefaultSettingsProvider::DefaultSettingsProvider() = default;
 
 void DefaultSettingsProvider::set_group(const char *group) {
   while (!backend_.group().isEmpty()) backend_.endGroup();

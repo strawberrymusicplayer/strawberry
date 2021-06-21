@@ -50,4 +50,4 @@ LastFMScrobbler::LastFMScrobbler(Application *app, QObject *parent) : Scrobbling
 
 }
 
-LastFMScrobbler::~LastFMScrobbler() {}
+LastFMScrobbler::~LastFMScrobbler() = default;

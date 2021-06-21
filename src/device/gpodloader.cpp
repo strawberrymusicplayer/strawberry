@@ -47,7 +47,7 @@ GPodLoader::GPodLoader(const QString &mount_point, TaskManager *task_manager, Co
   original_thread_ = thread();
 }
 
-GPodLoader::~GPodLoader() {}
+GPodLoader::~GPodLoader() = default;
 
 void GPodLoader::LoadDatabase() {
 

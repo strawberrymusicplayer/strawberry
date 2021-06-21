@@ -91,7 +91,7 @@
 class FileRefFactory {
  public:
   FileRefFactory() = default;
-  virtual ~FileRefFactory() {}
+  virtual ~FileRefFactory() = default;
   virtual TagLib::FileRef *GetFileRef(const QString &filename) = 0;
 
  private:

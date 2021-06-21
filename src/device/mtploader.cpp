@@ -41,7 +41,7 @@ MtpLoader::MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBacke
   original_thread_ = thread();
 }
 
-MtpLoader::~MtpLoader() {}
+MtpLoader::~MtpLoader() = default;
 
 bool MtpLoader::Init() { return true; }
 

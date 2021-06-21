@@ -49,7 +49,7 @@ QobuzBaseRequest::QobuzBaseRequest(QobuzService *service, NetworkAccessManager *
       network_(network)
       {}
 
-QobuzBaseRequest::~QobuzBaseRequest() {}
+QobuzBaseRequest::~QobuzBaseRequest() = default;
 
 QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, const QList<Param> &params_provided) {
 

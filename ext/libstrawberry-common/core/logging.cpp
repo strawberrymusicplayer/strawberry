@@ -99,7 +99,7 @@ class DebugBase : public QDebug {
 // Debug message will be stored in a buffer.
 class BufferedDebug : public DebugBase<BufferedDebug> {
  public:
-  BufferedDebug() {}
+  BufferedDebug() = default;
   explicit BufferedDebug(QtMsgType) : buf_(new QBuffer, later_deleter) {
     buf_->open(QIODevice::WriteOnly);
 
@@ -118,7 +118,7 @@ class BufferedDebug : public DebugBase<BufferedDebug> {
 // Debug message will be logged immediately.
 class LoggedDebug : public DebugBase<LoggedDebug> {
  public:
-  LoggedDebug() {}
+  LoggedDebug() = default;
   explicit LoggedDebug(QtMsgType t) : DebugBase(t) { nospace() << kMessageHandlerMagic; }
 };
 

@@ -69,8 +69,7 @@ PlaylistFilter::PlaylistFilter(QObject *parent)
                      << Playlist::Column_Bitrate;
 }
 
-PlaylistFilter::~PlaylistFilter() {
-}
+PlaylistFilter::~PlaylistFilter() = default;
 
 void PlaylistFilter::sort(int column, Qt::SortOrder order) {
   // Pass this through to the Playlist, it does sorting itself

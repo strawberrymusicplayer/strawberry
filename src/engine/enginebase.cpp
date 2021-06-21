@@ -69,7 +69,7 @@ Engine::Base::Base(const EngineType type, QObject *parent)
       channels_(0),
       about_to_end_emitted_(false) {}
 
-Engine::Base::~Base() {}
+Engine::Base::~Base() = default;
 
 bool Engine::Base::Load(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
 

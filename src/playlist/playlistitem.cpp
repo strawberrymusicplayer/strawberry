@@ -80,7 +80,7 @@ PlaylistItem *PlaylistItem::NewFromSong(const Song &song) {
 
 }
 
-PlaylistItem::~PlaylistItem() {}
+PlaylistItem::~PlaylistItem() = default;
 
 void PlaylistItem::BindToQuery(QSqlQuery *query) const {
 
