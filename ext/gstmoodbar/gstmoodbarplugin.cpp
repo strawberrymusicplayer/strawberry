@@ -23,7 +23,7 @@
 
 namespace {
 
-static gboolean gst_moodbar_plugin_init(GstPlugin* plugin) {
+static gboolean gst_moodbar_plugin_init(GstPlugin *plugin) {
 
   if (!gst_element_register(plugin, "fastspectrum", GST_RANK_NONE, GST_TYPE_FASTSPECTRUM)) {
     return FALSE;

@@ -107,7 +107,7 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   void PostQuery(CollectionItem *parent, const QueryResult &result, bool signal);
   CollectionItem *ItemFromSong(CollectionItem::Type item_type, bool signal, CollectionItem *parent, const Song &s, int container_level);
 
-  static QString AlbumIconPixmapCacheKey(const QModelIndex &idx) ;
+  static QString AlbumIconPixmapCacheKey(const QModelIndex &idx);
   QVariant AlbumIcon(const QModelIndex &idx);
   QVariant data(const CollectionItem *item, int role) const;
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;

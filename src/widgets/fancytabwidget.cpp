@@ -146,8 +146,8 @@ class FancyTabBar: public QTabBar {  // clazy:exclude=missing-qobject-macro
       int w = std::max(tabWidget->iconsize_smallsidebar(), rect.height()) + 15;
       int h = tabWidget->iconsize_smallsidebar() + rect.width() + 20;
       size = QSize(w, h);
-     }
-     else {
+    }
+    else {
       size = QTabBar::tabSizeHint(index);
     }
 
