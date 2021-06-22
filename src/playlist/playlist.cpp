@@ -810,7 +810,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
       stream.readRawData(reinterpret_cast<char*>(&pid), sizeof(pid));
     }
     else {
-      pid = !own_pid;
+      pid = own_pid;
     }
 
     std::stable_sort(source_rows.begin(), source_rows.end());  // Make sure we take them in order
