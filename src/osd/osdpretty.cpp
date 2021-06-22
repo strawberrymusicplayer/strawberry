@@ -528,7 +528,7 @@ void OSDPretty::mouseReleaseEvent(QMouseEvent *) {
 
 }
 
-QScreen *OSDPretty::current_screen(const QPoint pos) {
+QScreen *OSDPretty::current_screen(const QPoint pos) const {
 
   QScreen *screen(nullptr);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
