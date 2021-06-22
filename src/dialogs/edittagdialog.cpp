@@ -515,11 +515,7 @@ bool EditTagDialog::DoesValueVary(const QModelIndexList &sel, const QString &id)
 
 bool EditTagDialog::IsValueModified(const QModelIndexList &sel, const QString &id) const {
 
-  if (std::any_of(sel.begin(), sel.end(), [this, id](const QModelIndex &i){ return data_[i.row()].original_value(id) != data_[i.row()].current_value(id); })) {
-    return true;
-  }
-
-  return false;
+  return std::any_of(sel.begin(), sel.end(), [this, id](const QModelIndex &i){ return data_[i.row()].original_value(id) != data_[i.row()].current_value(id); });
 
 }
 
