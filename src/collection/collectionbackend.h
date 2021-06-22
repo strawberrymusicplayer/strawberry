@@ -164,10 +164,10 @@ class CollectionBackend : public CollectionBackendInterface {
   AlbumList GetCompilationAlbums(const QueryOptions &opt = QueryOptions()) override;
   AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions()) override;
 
-  void UpdateManualAlbumArtAsync(const QString &album_artist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false) override;
+  void UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false) override;
   void UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url) override;
 
-  Album GetAlbumArt(const QString &album_artist, const QString &album) override;
+  Album GetAlbumArt(const QString &effective_albumartist, const QString &album) override;
 
   Song GetSongById(const int id) override;
   SongList GetSongsById(const QList<int> &ids);

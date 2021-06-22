@@ -72,7 +72,7 @@ class SmartPlaylistSearchTermWidget : public QWidget {
 
  private slots:
   void FieldChanged(const int index);
-  void OpChanged(const int index);
+  void OpChanged(const int idx);
   void RelativeValueChanged();
   void Grab();
 

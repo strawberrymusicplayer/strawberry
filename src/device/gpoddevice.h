@@ -64,7 +64,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
 
   bool GetSupportedFiletypes(QList<Song::FileType> *ret) override;
 
-  bool StartCopy(QList<Song::FileType> *supported_types) override;
+  bool StartCopy(QList<Song::FileType> *supported_filetypes) override;
   bool CopyToStorage(const CopyJob &job) override;
   void FinishCopy(bool success) override;
 

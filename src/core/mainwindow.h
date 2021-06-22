@@ -149,7 +149,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ForceShowOSD(const Song &song, const bool toggle);
 
   void PlaylistMenuHidden();
-  void PlaylistRightClick(const QPoint global_pos, const QModelIndex &idx);
+  void PlaylistRightClick(const QPoint global_pos, const QModelIndex &index);
   void PlaylistCurrentChanged(const QModelIndex &current);
   void PlaylistViewSelectionModelChanged();
   void PlaylistPlay();

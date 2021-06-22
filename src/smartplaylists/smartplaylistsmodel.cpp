@@ -288,8 +288,8 @@ QVariant SmartPlaylistsModel::data(const QModelIndex &idx, const int role) const
 
 }
 
-void SmartPlaylistsModel::LazyPopulate(SmartPlaylistsItem *parent, const bool signal) {
-  Q_UNUSED(parent);
+void SmartPlaylistsModel::LazyPopulate(SmartPlaylistsItem *item, const bool signal) {
+  Q_UNUSED(item);
   Q_UNUSED(signal);
 }
 

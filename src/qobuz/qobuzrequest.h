@@ -57,7 +57,7 @@ class QobuzRequest : public QobuzBaseRequest {
   void ReloadSettings();
 
   void Process();
-  void Search(const int search_id, const QString &search_text);
+  void Search(const int query_id, const QString &search_text);
 
  signals:
   void LoginSuccess();
