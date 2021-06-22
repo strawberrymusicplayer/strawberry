@@ -89,7 +89,6 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
       background_color_(kPresetBlue),
       background_opacity_(0.85),
       popup_screen_(nullptr),
-      font_(QFont()),
       disable_duration_(false),
       timeout_(new QTimer(this)),
       fading_enabled_(false),
