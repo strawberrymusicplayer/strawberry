@@ -178,7 +178,7 @@ SingleApplication::~SingleApplication() {
  * Checks if the current application instance is primary.
  * @return Returns true if the instance is primary, false otherwise.
  */
-bool SingleApplication::isPrimary() const {
+bool SingleApplication::isPrimary() {
   Q_D(SingleApplication);
   return d->server_ != nullptr;
 }
@@ -187,7 +187,7 @@ bool SingleApplication::isPrimary() const {
  * Checks if the current application instance is secondary.
  * @return Returns true if the instance is secondary, false otherwise.
  */
-bool SingleApplication::isSecondary() const {
+bool SingleApplication::isSecondary() {
   Q_D(SingleApplication);
   return d->server_ == nullptr;
 }
@@ -197,7 +197,7 @@ bool SingleApplication::isSecondary() const {
  * It is reset when the first (primary) instance of your app starts and only incremented afterwards.
  * @return Returns a unique instance id.
  */
-quint32 SingleApplication::instanceId() const {
+quint32 SingleApplication::instanceId() {
   Q_D(SingleApplication);
   return d->instanceNumber_;
 }
@@ -207,7 +207,7 @@ quint32 SingleApplication::instanceId() const {
  * Especially useful when SingleApplication is coupled with OS. specific APIs.
  * @return Returns the primary instance PID.
  */
-qint64 SingleApplication::primaryPid() const {
+qint64 SingleApplication::primaryPid() {
   Q_D(SingleApplication);
   return d->primaryPid();
 }
@@ -216,7 +216,7 @@ qint64 SingleApplication::primaryPid() const {
  * Returns the username the primary instance is running as.
  * @return Returns the username the primary instance is running as.
  */
-QString SingleApplication::primaryUser() const {
+QString SingleApplication::primaryUser() {
   Q_D(SingleApplication);
   return d->primaryUser();
 }
@@ -225,7 +225,7 @@ QString SingleApplication::primaryUser() const {
  * Returns the username the current instance is running as.
  * @return Returns the username the current instance is running as.
  */
-QString SingleApplication::currentUser() const {
+QString SingleApplication::currentUser() {
   Q_D(SingleApplication);
   return d->getUsername();
 }

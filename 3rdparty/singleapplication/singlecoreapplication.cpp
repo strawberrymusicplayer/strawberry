@@ -178,7 +178,7 @@ SingleCoreApplication::~SingleCoreApplication() {
  * Checks if the current application instance is primary.
  * @return Returns true if the instance is primary, false otherwise.
  */
-bool SingleCoreApplication::isPrimary() const {
+bool SingleCoreApplication::isPrimary() {
   Q_D(SingleCoreApplication);
   return d->server_ != nullptr;
 }
@@ -187,7 +187,7 @@ bool SingleCoreApplication::isPrimary() const {
  * Checks if the current application instance is secondary.
  * @return Returns true if the instance is secondary, false otherwise.
  */
-bool SingleCoreApplication::isSecondary() const {
+bool SingleCoreApplication::isSecondary() {
   Q_D(SingleCoreApplication);
   return d->server_ == nullptr;
 }
@@ -197,7 +197,7 @@ bool SingleCoreApplication::isSecondary() const {
  * It is reset when the first (primary) instance of your app starts and only incremented afterwards.
  * @return Returns a unique instance id.
  */
-quint32 SingleCoreApplication::instanceId() const {
+quint32 SingleCoreApplication::instanceId() {
   Q_D(SingleCoreApplication);
   return d->instanceNumber_;
 }
@@ -207,7 +207,7 @@ quint32 SingleCoreApplication::instanceId() const {
  * Especially useful when SingleCoreApplication is coupled with OS. specific APIs.
  * @return Returns the primary instance PID.
  */
-qint64 SingleCoreApplication::primaryPid() const {
+qint64 SingleCoreApplication::primaryPid() {
   Q_D(SingleCoreApplication);
   return d->primaryPid();
 }
@@ -216,7 +216,7 @@ qint64 SingleCoreApplication::primaryPid() const {
  * Returns the username the primary instance is running as.
  * @return Returns the username the primary instance is running as.
  */
-QString SingleCoreApplication::primaryUser() const {
+QString SingleCoreApplication::primaryUser() {
   Q_D(SingleCoreApplication);
   return d->primaryUser();
 }
@@ -225,7 +225,7 @@ QString SingleCoreApplication::primaryUser() const {
  * Returns the username the current instance is running as.
  * @return Returns the username the current instance is running as.
  */
-QString SingleCoreApplication::currentUser() const {
+QString SingleCoreApplication::currentUser() {
   Q_D(SingleCoreApplication);
   return d->getUsername();
 }

@@ -97,37 +97,37 @@ class SingleApplication : public QApplication {  // clazy:exclude=ctor-missing-p
    * @brief Returns if the instance is the primary instance
    * @returns {bool}
    */
-  bool isPrimary() const;
+  bool isPrimary();
 
   /**
    * @brief Returns if the instance is a secondary instance
    * @returns {bool}
    */
-  bool isSecondary() const;
+  bool isSecondary();
 
   /**
    * @brief Returns a unique identifier for the current instance
    * @returns {qint32}
    */
-  quint32 instanceId() const;
+  quint32 instanceId();
 
   /**
    * @brief Returns the process ID (PID) of the primary instance
    * @returns {qint64}
    */
-  qint64 primaryPid() const;
+  qint64 primaryPid();
 
   /**
    * @brief Returns the username of the user running the primary instance
    * @returns {QString}
    */
-  QString primaryUser() const;
+  QString primaryUser();
 
   /**
    * @brief Returns the username of the current user
    * @returns {QString}
    */
-  QString currentUser() const;
+  QString currentUser();
 
   /**
    * @brief Sends a message to the primary instance. Returns true on success.
