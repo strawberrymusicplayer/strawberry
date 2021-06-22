@@ -58,7 +58,7 @@ ExtendedEditor::ExtendedEditor(QWidget *widget, int extra_right_padding, bool dr
   clear_button_->setIconSize(QSize(16, 16));
   clear_button_->setCursor(Qt::ArrowCursor);
   clear_button_->setStyleSheet("QToolButton { border: none; padding: 0px; }");
-  clear_button_->setToolTip(widget->tr("Clear"));
+  clear_button_->setToolTip(QWidget::tr("Clear"));
   clear_button_->setFocusPolicy(Qt::NoFocus);
 
   QStyleOption opt;
@@ -68,7 +68,7 @@ ExtendedEditor::ExtendedEditor(QWidget *widget, int extra_right_padding, bool dr
   reset_button_->setIconSize(QSize(16, 16));
   reset_button_->setCursor(Qt::ArrowCursor);
   reset_button_->setStyleSheet("QToolButton { border: none; padding: 0px; }");
-  reset_button_->setToolTip(widget->tr("Reset"));
+  reset_button_->setToolTip(QWidget::tr("Reset"));
   reset_button_->setFocusPolicy(Qt::NoFocus);
   reset_button_->hide();
 
