@@ -360,12 +360,12 @@ class TabData : public QObject {  // clazy:exclude=missing-qobject-macro
     page_->setLayout(layout);
   }
 
-  QWidget *widget_view() { return widget_view_; }
-  QString name() { return name_; }
-  QIcon icon() { return icon_; }
-  QString label() { return label_; }
-  QWidget *page() { return page_; }
-  int index() { return index_; }
+  QWidget *widget_view() const { return widget_view_; }
+  QString name() const { return name_; }
+  QIcon icon() const { return icon_; }
+  QString label() const { return label_; }
+  QWidget *page() const { return page_; }
+  int index() const { return index_; }
 
  private:
   QWidget *widget_view_;

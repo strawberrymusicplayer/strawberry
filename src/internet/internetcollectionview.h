@@ -65,9 +65,9 @@ class InternetCollectionView : public AutoExpandingTreeView {
   void keyboardSearch(const QString &search) override;
   void scrollTo(const QModelIndex &idx, ScrollHint hint = EnsureVisible) override;
 
-  int TotalSongs();
-  int TotalArtists();
-  int TotalAlbums();
+  int TotalSongs() const;
+  int TotalArtists() const;
+  int TotalAlbums() const;
 
  public slots:
   void TotalSongCountUpdated(int count);

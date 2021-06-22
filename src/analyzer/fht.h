@@ -68,7 +68,7 @@ class FHT {
   ~FHT();
   int sizeExp() const;
   int size() const;
-  void scale(float*, float);
+  void scale(float*, float) const;
 
   /**
    * Exponentially Weighted Moving Average (EWMA) filter.
@@ -76,7 +76,7 @@ class FHT {
    * @param s is fresh input.
    * @param w is the weighting factor.
    */
-  void ewma(float *d, float *s, float w);
+  void ewma(float *d, float *s, float w) const;
 
   /**
    * Logarithmic audio spectrum. Maps semi-logarithmic spectrum

@@ -50,7 +50,7 @@ class LyricsSettingsPage : public SettingsPage {
   void NoProviderSelected();
   void ProvidersMove(const int d);
   void DisableAuthentication();
-  void DisconnectAuthentication(LyricsProvider *provider);
+  void DisconnectAuthentication(LyricsProvider *provider) const;
   static bool ProviderCompareOrder(LyricsProvider *a, LyricsProvider *b);
 
  private slots:

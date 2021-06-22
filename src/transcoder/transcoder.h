@@ -100,7 +100,7 @@ class Transcoder : public QObject {
     ~JobState();
 
     void PostFinished(const bool success);
-    void ReportError(GstMessage *msg);
+    void ReportError(GstMessage *msg) const;
 
     Job job_;
     Transcoder *parent_;

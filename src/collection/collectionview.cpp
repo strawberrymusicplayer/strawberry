@@ -636,7 +636,7 @@ void CollectionView::FilterReturnPressed() {
   emit doubleClicked(currentIndex());
 }
 
-void CollectionView::ShowInBrowser() {
+void CollectionView::ShowInBrowser() const {
 
   SongList songs = GetSelectedSongs();
   QList<QUrl> urls;
@@ -649,13 +649,13 @@ void CollectionView::ShowInBrowser() {
 
 }
 
-int CollectionView::TotalSongs() {
+int CollectionView::TotalSongs() const {
   return total_song_count_;
 }
-int CollectionView::TotalArtists() {
+int CollectionView::TotalArtists() const {
   return total_artist_count_;
 }
-int CollectionView::TotalAlbums() {
+int CollectionView::TotalAlbums() const {
   return total_album_count_;
 }
 

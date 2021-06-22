@@ -107,7 +107,7 @@ class CollectionQuery : public QSqlQuery {
   int limit() const { return limit_; }
 
  private:
-  QString GetInnerQuery();
+  QString GetInnerQuery() const;
 
   QSqlDatabase db_;
   QString songs_table_;

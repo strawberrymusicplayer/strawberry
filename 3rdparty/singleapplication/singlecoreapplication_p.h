@@ -86,9 +86,9 @@ class SingleCoreApplicationPrivate : public QObject {
   void startPrimary();
   void startSecondary();
   bool connectToPrimary(const int timeout, const ConnectionType connectionType);
-  quint16 blockChecksum();
-  qint64 primaryPid();
-  QString primaryUser();
+  quint16 blockChecksum() const;
+  qint64 primaryPid() const;
+  QString primaryUser() const;
   void readInitMessageHeader(QLocalSocket *socket);
   void readInitMessageBody(QLocalSocket *socket);
   static void randomSleep();

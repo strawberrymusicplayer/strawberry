@@ -121,7 +121,7 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
 
 }
 
-QString CollectionQuery::GetInnerQuery() {
+QString CollectionQuery::GetInnerQuery() const {
   return duplicates_only_
              ? QString(" INNER JOIN (select * from duplicated_songs) dsongs        "
                    "ON (%songs_table.artist = dsongs.dup_artist       "

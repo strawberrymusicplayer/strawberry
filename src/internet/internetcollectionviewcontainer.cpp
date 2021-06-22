@@ -52,7 +52,7 @@ InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent
 
 InternetCollectionViewContainer::~InternetCollectionViewContainer() { delete ui_; }
 
-void InternetCollectionViewContainer::ReloadSettings() {
+void InternetCollectionViewContainer::ReloadSettings() const {
   filter()->ReloadSettings();
   view()->ReloadSettings();
 }

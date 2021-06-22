@@ -96,7 +96,7 @@ class ContextAlbumsView : public AutoExpandingTreeView {
   void Organize();
   void CopyToDevice();
   void EditTracks();
-  void ShowInBrowser();
+  void ShowInBrowser() const;
 
  private:
   void RecheckIsEmpty();

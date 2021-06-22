@@ -394,7 +394,7 @@ GstBusSyncReply Transcoder::BusCallbackSync(GstBus*, GstMessage *msg, gpointer d
 
 }
 
-void Transcoder::JobState::ReportError(GstMessage *msg) {
+void Transcoder::JobState::ReportError(GstMessage *msg) const {
 
   GError *error = nullptr;
   gchar *debugs = nullptr;

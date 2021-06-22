@@ -41,7 +41,7 @@ class CollectionViewContainer : public QWidget {
   CollectionFilterWidget *filter() const;
   CollectionView *view() const;
 
-  void ReloadSettings();
+  void ReloadSettings() const;
 
  private:
   Ui_CollectionViewContainer *ui_;

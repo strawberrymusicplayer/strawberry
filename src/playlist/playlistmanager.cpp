@@ -543,7 +543,7 @@ void PlaylistManager::RemoveItemsWithoutUndo(const int id, const QList<int> &ind
 
 }
 
-void PlaylistManager::RemoveCurrentSong() {
+void PlaylistManager::RemoveCurrentSong() const {
   active()->removeRows(active()->current_index().row(), 1);
 }
 

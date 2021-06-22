@@ -284,7 +284,7 @@ bool SingleCoreApplicationPrivate::connectToPrimary(const int timeout, const Con
 
 }
 
-quint16 SingleCoreApplicationPrivate::blockChecksum() {
+quint16 SingleCoreApplicationPrivate::blockChecksum() const {
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   quint16 checksum = qChecksum(QByteArray(static_cast<const char*>(memory_->constData()), offsetof(InstancesInfo, checksum)));
@@ -296,7 +296,7 @@ quint16 SingleCoreApplicationPrivate::blockChecksum() {
 
 }
 
-qint64 SingleCoreApplicationPrivate::primaryPid() {
+qint64 SingleCoreApplicationPrivate::primaryPid() const {
 
   memory_->lock();
   InstancesInfo *inst = static_cast<InstancesInfo*>(memory_->data());
@@ -307,7 +307,7 @@ qint64 SingleCoreApplicationPrivate::primaryPid() {
 
 }
 
-QString SingleCoreApplicationPrivate::primaryUser() {
+QString SingleCoreApplicationPrivate::primaryUser() const {
 
   memory_->lock();
   InstancesInfo *inst = static_cast<InstancesInfo*>(memory_->data());

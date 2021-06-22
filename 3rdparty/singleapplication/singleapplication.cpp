@@ -178,7 +178,7 @@ SingleApplication::~SingleApplication() {
  * Checks if the current application instance is primary.
  * @return Returns true if the instance is primary, false otherwise.
  */
-bool SingleApplication::isPrimary() {
+bool SingleApplication::isPrimary() const {
   Q_D(SingleApplication);
   return d->server_ != nullptr;
 }
@@ -187,7 +187,7 @@ bool SingleApplication::isPrimary() {
  * Checks if the current application instance is secondary.
  * @return Returns true if the instance is secondary, false otherwise.
  */
-bool SingleApplication::isSecondary() {
+bool SingleApplication::isSecondary() const {
   Q_D(SingleApplication);
   return d->server_ == nullptr;
 }
@@ -197,7 +197,7 @@ bool SingleApplication::isSecondary() {
  * It is reset when the first (primary) instance of your app starts and only incremented afterwards.
  * @return Returns a unique instance id.
  */
-quint32 SingleApplication::instanceId() {
+quint32 SingleApplication::instanceId() const {
   Q_D(SingleApplication);
   return d->instanceNumber_;
 }
@@ -207,7 +207,7 @@ quint32 SingleApplication::instanceId() {
  * Especially useful when SingleApplication is coupled with OS. specific APIs.
  * @return Returns the primary instance PID.
  */
-qint64 SingleApplication::primaryPid() {
+qint64 SingleApplication::primaryPid() const {
   Q_D(SingleApplication);
   return d->primaryPid();
 }
@@ -216,7 +216,7 @@ qint64 SingleApplication::primaryPid() {
  * Returns the username the primary instance is running as.
  * @return Returns the username the primary instance is running as.
  */
-QString SingleApplication::primaryUser() {
+QString SingleApplication::primaryUser() const {
   Q_D(SingleApplication);
   return d->primaryUser();
 }
@@ -225,7 +225,7 @@ QString SingleApplication::primaryUser() {
  * Returns the username the current instance is running as.
  * @return Returns the username the current instance is running as.
  */
-QString SingleApplication::currentUser() {
+QString SingleApplication::currentUser() const {
   Q_D(SingleApplication);
   return d->getUsername();
 }

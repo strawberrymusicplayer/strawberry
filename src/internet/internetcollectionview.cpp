@@ -440,12 +440,12 @@ void InternetCollectionView::FilterReturnPressed() {
 
 }
 
-int InternetCollectionView::TotalSongs() {
+int InternetCollectionView::TotalSongs() const {
   return total_song_count_;
 }
-int InternetCollectionView::TotalArtists() {
+int InternetCollectionView::TotalArtists() const {
   return total_artist_count_;
 }
-int InternetCollectionView::TotalAlbums() {
+int InternetCollectionView::TotalAlbums() const {
   return total_album_count_;
 }

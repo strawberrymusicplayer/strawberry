@@ -58,11 +58,11 @@ void FHT::makeCasTable(void) {
   }
 }
 
-void FHT::scale(float *p, float d) {
+void FHT::scale(float *p, float d) const {
   for (int i = 0; i < (num_ / 2); i++) *p++ *= d;
 }
 
-void FHT::ewma(float *d, float *s, float w) {
+void FHT::ewma(float *d, float *s, float w) const {
   for (int i = 0; i < (num_ / 2); i++, d++, s++) *d = *d * w + *s * (1 - w);
 }
 

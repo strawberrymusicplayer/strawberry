@@ -196,7 +196,7 @@ void LyricsSettingsPage::DisableAuthentication() {
 
 }
 
-void LyricsSettingsPage::DisconnectAuthentication(LyricsProvider *provider) {
+void LyricsSettingsPage::DisconnectAuthentication(LyricsProvider *provider) const {
 
   QObject::disconnect(provider, &LyricsProvider::AuthenticationFailure, this, &LyricsSettingsPage::AuthenticationFailure);
   QObject::disconnect(provider, &LyricsProvider::AuthenticationSuccess, this, &LyricsSettingsPage::AuthenticationSuccess);

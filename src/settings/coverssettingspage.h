@@ -50,7 +50,7 @@ class CoversSettingsPage : public SettingsPage {
   void NoProviderSelected();
   void ProvidersMove(const int d);
   void DisableAuthentication();
-  void DisconnectAuthentication(CoverProvider *provider);
+  void DisconnectAuthentication(CoverProvider *provider) const;
   static bool ProviderCompareOrder(CoverProvider *a, CoverProvider *b);
 
  private slots:

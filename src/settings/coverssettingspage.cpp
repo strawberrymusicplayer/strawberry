@@ -206,7 +206,7 @@ void CoversSettingsPage::DisableAuthentication() {
 
 }
 
-void CoversSettingsPage::DisconnectAuthentication(CoverProvider *provider) {
+void CoversSettingsPage::DisconnectAuthentication(CoverProvider *provider) const {
 
   QObject::disconnect(provider, &CoverProvider::AuthenticationFailure, this, &CoversSettingsPage::AuthenticationFailure);
   QObject::disconnect(provider, &CoverProvider::AuthenticationSuccess, this, &CoversSettingsPage::AuthenticationSuccess);

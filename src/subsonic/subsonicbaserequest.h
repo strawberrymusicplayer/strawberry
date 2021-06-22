@@ -53,7 +53,7 @@ class SubsonicBaseRequest : public QObject {
   typedef QPair<QByteArray, QByteArray> EncodedParam;
   typedef QList<EncodedParam> EncodedParamList;
 
-  QUrl CreateUrl(const QString &ressource_name, const QList<Param> &params_provided);
+  QUrl CreateUrl(const QString &ressource_name, const QList<Param> &params_provided) const;
   QNetworkReply *CreateGetRequest(const QString &ressource_name, const QList<Param> &params_provided);
   QByteArray GetReplyData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(QByteArray &data);

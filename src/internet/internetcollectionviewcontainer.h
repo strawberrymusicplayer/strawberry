@@ -45,7 +45,7 @@ class InternetCollectionViewContainer : public QWidget {
   explicit InternetCollectionViewContainer(QWidget *parent = nullptr);
   ~InternetCollectionViewContainer() override;
 
-  void ReloadSettings();
+  void ReloadSettings() const;
 
   QStackedWidget *stacked() const { return ui_->stacked; }
   QWidget *help_page() const { return ui_->help_page; }

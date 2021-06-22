@@ -418,7 +418,7 @@ void ContextAlbumsView::CopyToDevice() {
 #endif
 }
 
-void ContextAlbumsView::ShowInBrowser() {
+void ContextAlbumsView::ShowInBrowser() const {
 
   const SongList songs = GetSelectedSongs();
   QList<QUrl> urls;
