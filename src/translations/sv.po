@@ -210,7 +210,7 @@ msgid ""
 msgstr ""
 "%1 låtar i %2 olika valda mappar, är du säker på att du vill öppna dem alla?"
 
-#: dialogs/edittagdialog.cpp:656
+#: dialogs/edittagdialog.cpp:648
 #, qt-format
 msgid "%1 songs selected."
 msgstr "%1 låtar valda."
@@ -812,7 +812,7 @@ msgstr "Album - Skiva"
 msgid "Album artist"
 msgstr "Albumartist"
 
-#: dialogs/edittagdialog.cpp:832
+#: dialogs/edittagdialog.cpp:824
 msgid "Album cover editing is only available for collection songs."
 msgstr "Redigering av albumomslag är endast tillgänglig för samlingslåtar."
 
@@ -896,12 +896,12 @@ msgstr "Alltid starta uppspelning"
 msgid "An error occurred loading the iTunes database"
 msgstr "Ett fel uppstod vid inläsning av iTunes-databasen"
 
-#: dialogs/edittagdialog.cpp:1356
+#: dialogs/edittagdialog.cpp:1348
 #, qt-format
 msgid "An error occurred writing cover art to '%1'"
 msgstr "Ett fel inträffade vid skrivning av omslag till \"%1\" "
 
-#: playlist/playlist.cpp:423 dialogs/edittagdialog.cpp:1333
+#: playlist/playlist.cpp:423 dialogs/edittagdialog.cpp:1325
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Ett fel uppstod när metadata skulle skrivas till \"%1\""
@@ -954,7 +954,7 @@ msgstr "Är du säker på att du vill fortsätta?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Är du säker på att du vill ta bort förinställningen \"%1\"?"
 
-#: dialogs/edittagdialog.cpp:1249
+#: dialogs/edittagdialog.cpp:1241
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Är du säker på att du vill återställa den här låtens statistik?"
 
@@ -1038,7 +1038,7 @@ msgstr "Automatisk"
 msgid "Automatic updating"
 msgstr "Automatisk uppdatering"
 
-#: dialogs/edittagdialog.cpp:827
+#: dialogs/edittagdialog.cpp:819
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
 msgstr "Automatiskt omslag från %1 saknas "
@@ -1396,7 +1396,7 @@ msgstr "Konfigurera knappar"
 msgid "Configure collection..."
 msgstr "Konfigurera samling..."
 
-#: device/devicemanager.cpp:349 device/devicemanager.cpp:350
+#: device/devicemanager.cpp:352 device/devicemanager.cpp:353
 msgid "Connect device"
 msgstr "Anslut enhet"
 
@@ -1511,36 +1511,36 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "Omslagshanterare"
 
-#: dialogs/edittagdialog.cpp:821
+#: dialogs/edittagdialog.cpp:813
 #, qt-format
 msgid "Cover art automatically loaded from %1"
 msgstr "Omslag inläst automatiskt från %1 "
 
-#: dialogs/edittagdialog.cpp:818
+#: dialogs/edittagdialog.cpp:810
 msgid "Cover art from embedded image"
 msgstr "Omslagsbilder från inbäddad bild"
 
-#: dialogs/edittagdialog.cpp:812
+#: dialogs/edittagdialog.cpp:804
 msgid "Cover art manually unset"
 msgstr "Omslagsbild togs bort manuellt"
 
-#: dialogs/edittagdialog.cpp:809
+#: dialogs/edittagdialog.cpp:801
 msgid "Cover art not set"
 msgstr "Omslagsbild är inte inställd"
 
-#: dialogs/edittagdialog.cpp:793
+#: dialogs/edittagdialog.cpp:785
 msgid "Cover changed: Will be cleared when saved."
 msgstr "Omslaget bytt: kommer att rensas när det sparas. "
 
-#: dialogs/edittagdialog.cpp:799
+#: dialogs/edittagdialog.cpp:791
 msgid "Cover changed: Will be deleted when saved."
 msgstr "Omslaget bytt: kommer att tas bort när det sparas. "
 
-#: dialogs/edittagdialog.cpp:796
+#: dialogs/edittagdialog.cpp:788
 msgid "Cover changed: Will be unset when saved."
 msgstr "Omslaget bytt: återställer när det sparas. "
 
-#: dialogs/edittagdialog.cpp:802
+#: dialogs/edittagdialog.cpp:794
 msgid "Cover changed: Will set new when saved."
 msgstr "Omslaget bytt: ställer in nytt när det sparas. "
 
@@ -1920,7 +1920,7 @@ msgstr "Redigera spårinformation..."
 msgid "Edit tracks information..."
 msgstr "Redigera spårinformation..."
 
-#: dialogs/edittagdialog.cpp:778
+#: dialogs/edittagdialog.cpp:770
 msgid "Embedded"
 msgstr "Inbäddat"
 
@@ -2595,7 +2595,7 @@ msgstr ""
 "Om aktiverad så kan du klicka på en markerad sång i spellistan för att "
 "redigera taggvärdet direkt"
 
-#: device/devicemanager.cpp:607 device/devicemanager.cpp:615
+#: device/devicemanager.cpp:610 device/devicemanager.cpp:618
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
@@ -2915,12 +2915,12 @@ msgstr "Huvudprofil (MAIN)"
 msgid "Manage saved groupings"
 msgstr "Hantera sparade grupperingar"
 
-#: dialogs/edittagdialog.cpp:824
+#: dialogs/edittagdialog.cpp:816
 #, qt-format
 msgid "Manually cover art from %1 is missing"
 msgstr "Manuellt omslag från %1 saknas"
 
-#: dialogs/edittagdialog.cpp:815
+#: dialogs/edittagdialog.cpp:807
 #, qt-format
 msgid "Manually set cover art from %1"
 msgstr "Ställ in omslag manuellt från %1"
@@ -3123,7 +3123,7 @@ msgstr "Snävt band (NB)"
 msgid "Network Proxy"
 msgstr "Nätverksproxy"
 
-#: playlist/playlistdelegates.cpp:341 dialogs/edittagdialog.cpp:844
+#: playlist/playlistdelegates.cpp:341 dialogs/edittagdialog.cpp:836
 msgid "Never"
 msgstr "Aldrig"
 
@@ -3207,8 +3207,8 @@ msgstr "Inga korta block"
 msgid "No song playing"
 msgstr "Ingen låt spelas"
 
-#: collection/savedgroupingmanager.cpp:82 dialogs/edittagdialog.cpp:765
-#: dialogs/edittagdialog.cpp:775 ../build/src/ui_groupbydialog.h:183
+#: collection/savedgroupingmanager.cpp:82 dialogs/edittagdialog.cpp:757
+#: dialogs/edittagdialog.cpp:767 ../build/src/ui_groupbydialog.h:183
 #: ../build/src/ui_groupbydialog.h:205 ../build/src/ui_groupbydialog.h:227
 msgid "None"
 msgstr "Inga"
@@ -3514,7 +3514,7 @@ msgstr "Spelaralternativ"
 
 #: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:273
 #: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:112
-#: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:567
+#: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:568
 #: playlist/playlisttabbar.cpp:410 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "Spellista"
@@ -3928,7 +3928,7 @@ msgstr "Skanna om låt(ar)..."
 msgid "Reset"
 msgstr "Återställ"
 
-#: dialogs/edittagdialog.cpp:1249 ../build/src/ui_edittagdialog.h:814
+#: dialogs/edittagdialog.cpp:1241 ../build/src/ui_edittagdialog.h:814
 msgid "Reset play counts"
 msgstr "Återställ spelningsantal"
 
@@ -4898,22 +4898,22 @@ msgstr ""
 msgid "This device supports the following file formats:"
 msgstr "Denna enhet stöder följande filformat:"
 
-#: device/devicemanager.cpp:605 device/devicemanager.cpp:613
+#: device/devicemanager.cpp:608 device/devicemanager.cpp:616
 msgid "This device will not work properly"
 msgstr "Denna enhet kommer inte att fungera ordentligt"
 
-#: device/devicemanager.cpp:606
+#: device/devicemanager.cpp:609
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr ""
 "Detta är en MTP-enhet, men du kompilerade Strawberry utan stöd av libmtp."
 
-#: device/devicemanager.cpp:614
+#: device/devicemanager.cpp:617
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr ""
 "Det här är en iPod, men du har kompilerade Strawberry utan stöd av libgpod."
 
-#: device/devicemanager.cpp:349
+#: device/devicemanager.cpp:352
 msgid ""
 "This is the first time you have connected this device.  Strawberry will now "
 "scan the device to find music files - this may take some time."
@@ -4925,7 +4925,7 @@ msgstr ""
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "Detta alternativ kan ändras i inställningarna för \"Beteende\""
 
-#: device/devicemanager.cpp:629
+#: device/devicemanager.cpp:632
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Denna typ av enhet är inte stödd: %1"
@@ -5050,8 +5050,8 @@ msgstr "Avinstallera snap med:"
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1605
 #: collection/savedgroupingmanager.cpp:146 playlist/playlistdelegates.cpp:354
-#: playlist/playlistmanager.cpp:575 playlist/playlistmanager.cpp:576
-#: dialogs/edittagdialog.cpp:720 dialogs/edittagdialog.cpp:747
+#: playlist/playlistmanager.cpp:576 playlist/playlistmanager.cpp:577
+#: dialogs/edittagdialog.cpp:712 dialogs/edittagdialog.cpp:739
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "Okänt"
@@ -5061,7 +5061,7 @@ msgstr "Okänt"
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-#: dialogs/edittagdialog.cpp:768
+#: dialogs/edittagdialog.cpp:760
 msgid "Unset"
 msgstr "Inte inställt"
 
@@ -5237,7 +5237,7 @@ msgid "Variable bit rate"
 msgstr "Variabel bithastighet"
 
 #: collection/collectionmodel.cpp:298 collection/collectionmodel.cpp:299
-#: playlist/playlistmanager.cpp:587 covermanager/albumcovermanager.cpp:361
+#: playlist/playlistmanager.cpp:588 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "Diverse artister"
@@ -5551,7 +5551,7 @@ msgid "in the last"
 msgstr "de senaste"
 
 #: context/contextview.cpp:547 context/contextview.cpp:698
-#: playlist/playlistview.cpp:266 dialogs/edittagdialog.cpp:742
+#: playlist/playlistview.cpp:266 dialogs/edittagdialog.cpp:734
 msgid "kbps"
 msgstr "kbps"
 

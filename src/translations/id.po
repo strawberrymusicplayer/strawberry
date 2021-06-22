@@ -197,7 +197,7 @@ msgid ""
 "them all?"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:656
+#: dialogs/edittagdialog.cpp:648
 #, qt-format
 msgid "%1 songs selected."
 msgstr ""
@@ -796,7 +796,7 @@ msgstr "Album - Cakram"
 msgid "Album artist"
 msgstr "Album artis"
 
-#: dialogs/edittagdialog.cpp:832
+#: dialogs/edittagdialog.cpp:824
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
 
@@ -880,12 +880,12 @@ msgstr "Selalu mulai memutar"
 msgid "An error occurred loading the iTunes database"
 msgstr "Sebuah galat terjadi saat memuat basis data iTunes"
 
-#: dialogs/edittagdialog.cpp:1356
+#: dialogs/edittagdialog.cpp:1348
 #, qt-format
 msgid "An error occurred writing cover art to '%1'"
 msgstr ""
 
-#: playlist/playlist.cpp:423 dialogs/edittagdialog.cpp:1333
+#: playlist/playlist.cpp:423 dialogs/edittagdialog.cpp:1325
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Sebuah galat terjadi saat menulis metadata ke '%1'"
@@ -938,7 +938,7 @@ msgstr ""
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Apakah Anda yakin ingin menghapus prasetel \"%1\"?"
 
-#: dialogs/edittagdialog.cpp:1249
+#: dialogs/edittagdialog.cpp:1241
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Apakah Anda yakin ingin mengeset-ulang statistik lagu ini?"
 
@@ -1022,7 +1022,7 @@ msgstr "Otomatis"
 msgid "Automatic updating"
 msgstr "Pembaruan otomatis"
 
-#: dialogs/edittagdialog.cpp:827
+#: dialogs/edittagdialog.cpp:819
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
 msgstr ""
@@ -1378,7 +1378,7 @@ msgstr ""
 msgid "Configure collection..."
 msgstr "Konfigurasi pustaka..."
 
-#: device/devicemanager.cpp:349 device/devicemanager.cpp:350
+#: device/devicemanager.cpp:352 device/devicemanager.cpp:353
 msgid "Connect device"
 msgstr "Sambungkan perangkat"
 
@@ -1490,36 +1490,36 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "Pengelola Sampul"
 
-#: dialogs/edittagdialog.cpp:821
+#: dialogs/edittagdialog.cpp:813
 #, qt-format
 msgid "Cover art automatically loaded from %1"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:818
+#: dialogs/edittagdialog.cpp:810
 msgid "Cover art from embedded image"
 msgstr "Sampul dari gambar tertanam"
 
-#: dialogs/edittagdialog.cpp:812
+#: dialogs/edittagdialog.cpp:804
 msgid "Cover art manually unset"
 msgstr "Sampul tidak diset secara manual"
 
-#: dialogs/edittagdialog.cpp:809
+#: dialogs/edittagdialog.cpp:801
 msgid "Cover art not set"
 msgstr "Sampul tidak diset"
 
-#: dialogs/edittagdialog.cpp:793
+#: dialogs/edittagdialog.cpp:785
 msgid "Cover changed: Will be cleared when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:799
+#: dialogs/edittagdialog.cpp:791
 msgid "Cover changed: Will be deleted when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:796
+#: dialogs/edittagdialog.cpp:788
 msgid "Cover changed: Will be unset when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:802
+#: dialogs/edittagdialog.cpp:794
 msgid "Cover changed: Will set new when saved."
 msgstr ""
 
@@ -1897,7 +1897,7 @@ msgstr "Sunting informasi trek..."
 msgid "Edit tracks information..."
 msgstr "Sunting informasi trek..."
 
-#: dialogs/edittagdialog.cpp:778
+#: dialogs/edittagdialog.cpp:770
 msgid "Embedded"
 msgstr ""
 
@@ -2572,7 +2572,7 @@ msgstr ""
 "Jika diaktifkan, mengklik lagu yang dipilih di dalam tampilan daftar putar "
 "memperbolehkan Anda menyunting nilai tag secara langsung"
 
-#: device/devicemanager.cpp:607 device/devicemanager.cpp:615
+#: device/devicemanager.cpp:610 device/devicemanager.cpp:618
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
@@ -2886,12 +2886,12 @@ msgstr "Profil utama (MAIN)"
 msgid "Manage saved groupings"
 msgstr "Kelola pengelompokan tersimpan"
 
-#: dialogs/edittagdialog.cpp:824
+#: dialogs/edittagdialog.cpp:816
 #, qt-format
 msgid "Manually cover art from %1 is missing"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:815
+#: dialogs/edittagdialog.cpp:807
 #, qt-format
 msgid "Manually set cover art from %1"
 msgstr ""
@@ -3094,7 +3094,7 @@ msgstr "Pita sempit (NB)"
 msgid "Network Proxy"
 msgstr "Proxy Jaringan"
 
-#: playlist/playlistdelegates.cpp:341 dialogs/edittagdialog.cpp:844
+#: playlist/playlistdelegates.cpp:341 dialogs/edittagdialog.cpp:836
 msgid "Never"
 msgstr "Tidak Pernah"
 
@@ -3179,8 +3179,8 @@ msgstr "Tanpa blok pendek"
 msgid "No song playing"
 msgstr "Tidak ada lagu yang berputar"
 
-#: collection/savedgroupingmanager.cpp:82 dialogs/edittagdialog.cpp:765
-#: dialogs/edittagdialog.cpp:775 ../build/src/ui_groupbydialog.h:183
+#: collection/savedgroupingmanager.cpp:82 dialogs/edittagdialog.cpp:757
+#: dialogs/edittagdialog.cpp:767 ../build/src/ui_groupbydialog.h:183
 #: ../build/src/ui_groupbydialog.h:205 ../build/src/ui_groupbydialog.h:227
 msgid "None"
 msgstr "Nihil"
@@ -3485,7 +3485,7 @@ msgstr "Opsi pemutar"
 
 #: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:273
 #: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:112
-#: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:567
+#: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:568
 #: playlist/playlisttabbar.cpp:410 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "Daftar putar"
@@ -3889,7 +3889,7 @@ msgstr ""
 msgid "Reset"
 msgstr "Setel-ulang"
 
-#: dialogs/edittagdialog.cpp:1249 ../build/src/ui_edittagdialog.h:814
+#: dialogs/edittagdialog.cpp:1241 ../build/src/ui_edittagdialog.h:814
 msgid "Reset play counts"
 msgstr "Setel-ulang jumlah putar"
 
@@ -4853,23 +4853,23 @@ msgstr ""
 msgid "This device supports the following file formats:"
 msgstr "Perangkat ini mendukung format berkas berikut:"
 
-#: device/devicemanager.cpp:605 device/devicemanager.cpp:613
+#: device/devicemanager.cpp:608 device/devicemanager.cpp:616
 msgid "This device will not work properly"
 msgstr "Perangkat ini tidak akan bekerja dengan baik"
 
-#: device/devicemanager.cpp:606
+#: device/devicemanager.cpp:609
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr ""
 "Ini adalah perangkat MTP, tetapi Anda mengompilasi Strawberry tanpa dukungan "
 "libmtp."
 
-#: device/devicemanager.cpp:614
+#: device/devicemanager.cpp:617
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr ""
 "Ini adalah iPod, tetapi Anda mengompilasi Strawberry tanpa dukungan libgpod."
 
-#: device/devicemanager.cpp:349
+#: device/devicemanager.cpp:352
 msgid ""
 "This is the first time you have connected this device.  Strawberry will now "
 "scan the device to find music files - this may take some time."
@@ -4882,7 +4882,7 @@ msgstr ""
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "Opsi ini dapat diubah di pengaturan \"Perilaku\""
 
-#: device/devicemanager.cpp:629
+#: device/devicemanager.cpp:632
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Tipe perangkat ini tidak didukung: %1"
@@ -5005,8 +5005,8 @@ msgstr ""
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1605
 #: collection/savedgroupingmanager.cpp:146 playlist/playlistdelegates.cpp:354
-#: playlist/playlistmanager.cpp:575 playlist/playlistmanager.cpp:576
-#: dialogs/edittagdialog.cpp:720 dialogs/edittagdialog.cpp:747
+#: playlist/playlistmanager.cpp:576 playlist/playlistmanager.cpp:577
+#: dialogs/edittagdialog.cpp:712 dialogs/edittagdialog.cpp:739
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "Tidak diketahui"
@@ -5016,7 +5016,7 @@ msgstr "Tidak diketahui"
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
 
-#: dialogs/edittagdialog.cpp:768
+#: dialogs/edittagdialog.cpp:760
 msgid "Unset"
 msgstr ""
 
@@ -5192,7 +5192,7 @@ msgid "Variable bit rate"
 msgstr "Laju bit beragam"
 
 #: collection/collectionmodel.cpp:298 collection/collectionmodel.cpp:299
-#: playlist/playlistmanager.cpp:587 covermanager/albumcovermanager.cpp:361
+#: playlist/playlistmanager.cpp:588 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "Artis beraga"
@@ -5496,7 +5496,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:547 context/contextview.cpp:698
-#: playlist/playlistview.cpp:266 dialogs/edittagdialog.cpp:742
+#: playlist/playlistview.cpp:266 dialogs/edittagdialog.cpp:734
 msgid "kbps"
 msgstr "kbps"
 
