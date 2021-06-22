@@ -415,7 +415,7 @@ TEST_F(SingleSong, TestUrls) {
     EXPECT_TRUE(new_song.is_valid());
     EXPECT_EQ(new_song.url(), url);
 
-    QSqlDatabase db(database_.get()->Connect());
+    QSqlDatabase db(database_->Connect());
     QSqlQuery q(db);
     q.prepare(QString("SELECT url FROM %1 WHERE url = :url").arg(SCollection::kSongsTable));
 

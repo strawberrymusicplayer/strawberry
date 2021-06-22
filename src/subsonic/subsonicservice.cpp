@@ -393,7 +393,7 @@ void SubsonicService::Scrobble(const QString &song_id, const bool submission, co
     return;
   }
 
-  if (!scrobble_request_.get()) {
+  if (!scrobble_request_) {
     // we're doing requests every 30-240s the whole time, so keep reusing this instance
     scrobble_request_.reset(new SubsonicScrobbleRequest(this, url_handler_, app_, this));
   }
@@ -404,7 +404,7 @@ void SubsonicService::Scrobble(const QString &song_id, const bool submission, co
 
 void SubsonicService::ResetSongsRequest() {
 
-  if (songs_request_.get()) {
+  if (songs_request_) {
     QObject::disconnect(songs_request_.get(), nullptr, this, nullptr);
     QObject::disconnect(this, nullptr, songs_request_.get(), nullptr);
     songs_request_.reset();

@@ -484,7 +484,7 @@ void QobuzService::TryLogin() {
 
 void QobuzService::ResetArtistsRequest() {
 
-  if (artists_request_.get()) {
+  if (artists_request_) {
     QObject::disconnect(artists_request_.get(), nullptr, this, nullptr);
     QObject::disconnect(this, nullptr, artists_request_.get(), nullptr);
     artists_request_.reset();
@@ -539,7 +539,7 @@ void QobuzService::ArtistsUpdateProgressReceived(const int id, const int progres
 
 void QobuzService::ResetAlbumsRequest() {
 
-  if (albums_request_.get()) {
+  if (albums_request_) {
     QObject::disconnect(albums_request_.get(), nullptr, this, nullptr);
     QObject::disconnect(this, nullptr, albums_request_.get(), nullptr);
     albums_request_.reset();
@@ -592,7 +592,7 @@ void QobuzService::AlbumsUpdateProgressReceived(const int id, const int progress
 
 void QobuzService::ResetSongsRequest() {
 
-  if (songs_request_.get()) {
+  if (songs_request_) {
     QObject::disconnect(songs_request_.get(), nullptr, this, nullptr);
     QObject::disconnect(this, nullptr, songs_request_.get(), nullptr);
     songs_request_.reset();

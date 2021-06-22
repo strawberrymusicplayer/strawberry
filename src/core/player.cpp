@@ -160,7 +160,7 @@ void Player::Init() {
 
   QSettings s;
 
-  if (!engine_.get()) {
+  if (!engine_) {
     s.beginGroup(BackendSettingsPage::kSettingsGroup);
     Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::GStreamer)).toString().toLower());
     s.endGroup();

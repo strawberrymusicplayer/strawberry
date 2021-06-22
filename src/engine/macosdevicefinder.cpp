@@ -78,7 +78,7 @@ QList<DeviceFinder::Device> MacOsDeviceFinder::ListDevices() {
 
   UInt32 device_size_bytes = 0;
   std::unique_ptr<AudioDeviceID> devices = GetProperty<AudioDeviceID>(kAudioObjectSystemObject, address, &device_size_bytes);
-  if (!devices.get()) {
+  if (!devices) {
     return ret;
   }
   const UInt32 device_count = device_size_bytes / sizeof(AudioDeviceID);
@@ -91,7 +91,7 @@ QList<DeviceFinder::Device> MacOsDeviceFinder::ListDevices() {
     address.mSelector = kAudioDevicePropertyDeviceNameCFString;
     std::unique_ptr<CFStringRef> device_name = GetProperty<CFStringRef>(id, address);
     ScopedCFTypeRef<CFStringRef> scoped_device_name(*device_name.get());
-    if (!device_name.get()) {
+    if (!device_name) {
       continue;
     }
 

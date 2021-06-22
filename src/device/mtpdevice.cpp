@@ -213,7 +213,7 @@ void MtpDevice::StartDelete() { StartCopy(nullptr); }
 
 bool MtpDevice::DeleteFromStorage(const DeleteJob &job) {
 
-  if (!connection_.get() || !connection_->is_valid()) return false;
+  if (!connection_ || !connection_->is_valid()) return false;
 
   // Extract the ID from the song's URL
   QString filename = job.metadata_.url().path();
