@@ -64,7 +64,7 @@ class Transcoder : public QObject {
   int max_threads() const { return max_threads_; }
   void set_max_threads(int count) { max_threads_ = count; }
 
-  QString GetFile(const QString &input, const TranscoderPreset &preset, const QString &output = QString());
+  static QString GetFile(const QString &input, const TranscoderPreset &preset, const QString &output = QString());
   void AddJob(const QString &input, const TranscoderPreset &preset, const QString &output);
 
   QMap<QString, float> GetProgress() const;

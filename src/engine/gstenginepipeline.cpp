@@ -985,7 +985,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
 
 }
 
-QString GstEnginePipeline::ParseStrTag(GstTagList *list, const char *tag) const {
+QString GstEnginePipeline::ParseStrTag(GstTagList *list, const char *tag) {
 
   gchar *data = nullptr;
   bool success = gst_tag_list_get_string(list, tag, &data);
@@ -999,7 +999,7 @@ QString GstEnginePipeline::ParseStrTag(GstTagList *list, const char *tag) const 
 
 }
 
-guint GstEnginePipeline::ParseUIntTag(GstTagList *list, const char *tag) const {
+guint GstEnginePipeline::ParseUIntTag(GstTagList *list, const char *tag) {
 
   guint data = 0;
   bool success = gst_tag_list_get_uint(list, tag, &data);

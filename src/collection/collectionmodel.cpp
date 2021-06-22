@@ -306,7 +306,7 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(const bool signal, 
 
 }
 
-QString CollectionModel::ContainerKey(const GroupBy type, const Song &song) const {
+QString CollectionModel::ContainerKey(const GroupBy type, const Song &song) {
 
   QString key;
 
@@ -397,7 +397,7 @@ QString CollectionModel::ContainerKey(const GroupBy type, const Song &song) cons
 
 }
 
-QString CollectionModel::DividerKey(const GroupBy type, CollectionItem *item) const {
+QString CollectionModel::DividerKey(const GroupBy type, CollectionItem *item) {
 
   // Items which are to be grouped under the same divider must produce the same divider key.  This will only get called for top-level items.
 
@@ -455,7 +455,7 @@ QString CollectionModel::DividerKey(const GroupBy type, CollectionItem *item) co
 
 }
 
-QString CollectionModel::DividerDisplayText(const GroupBy type, const QString &key) const {
+QString CollectionModel::DividerDisplayText(const GroupBy type, const QString &key) {
 
   // Pretty display text for the dividers.
 
@@ -1754,7 +1754,7 @@ bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem
 
 }
 
-qint64 CollectionModel::MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default) const {
+qint64 CollectionModel::MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default) {
 
   qint64 size = s->value(size_id, cache_size_default).toInt();
   int unit = s->value(size_unit_id, CollectionSettingsPage::CacheSizeUnit::CacheSizeUnit_MB).toInt() + 1;

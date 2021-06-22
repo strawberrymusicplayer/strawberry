@@ -103,7 +103,7 @@ void ContextAlbumsModel::AddSongs(const SongList &songs) {
 
 }
 
-QString ContextAlbumsModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
+QString ContextAlbumsModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) {
 
   QStringList path;
   QModelIndex index_copy(idx);

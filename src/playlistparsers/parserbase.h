@@ -67,7 +67,7 @@ class ParserBase : public QObject {
 
   // If the URL is a file:// URL then returns its path, absolute or relative to the directory depending on the path_type option.
   // Otherwise returns the URL as is. This function should always be used when saving a playlist.
-  QString URLOrFilename(const QUrl &url, const QDir &dir, Playlist::Path path_type) const;
+  static QString URLOrFilename(const QUrl &url, const QDir &dir, Playlist::Path path_type) ;
 
  private:
   CollectionBackendInterface *collection_;

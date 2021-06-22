@@ -77,7 +77,7 @@ class FreeSpaceBar : public QWidget {
     QColor color;
   };
 
-  QString TextForSize(const QString &prefix, const qint64 size) const;
+  static QString TextForSize(const QString &prefix, const qint64 size);
 
   void DrawBar(QPainter *p, const QRect r);
   void DrawText(QPainter *p, const QRect r);

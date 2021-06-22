@@ -55,7 +55,7 @@ class WplParser : public XMLParser {
 
 private:
   void ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *songs, const bool collection_search = true) const;
-  void WriteMeta(const QString &name, const QString &content, QXmlStreamWriter *writer) const;
+  static void WriteMeta(const QString &name, const QString &content, QXmlStreamWriter *writer) ;
 };
 
 #endif  // WPLPARSER_H

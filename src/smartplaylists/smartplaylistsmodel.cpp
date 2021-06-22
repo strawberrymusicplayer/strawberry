@@ -243,7 +243,7 @@ void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
 
 }
 
-void SmartPlaylistsModel::SaveGenerator(QSettings *s, const int i, PlaylistGeneratorPtr generator) const {
+void SmartPlaylistsModel::SaveGenerator(QSettings *s, const int i, PlaylistGeneratorPtr generator) {
 
   s->setArrayIndex(i);
   s->setValue("name", generator->name());

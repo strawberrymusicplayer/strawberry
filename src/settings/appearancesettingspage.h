@@ -115,7 +115,7 @@ class AppearanceSettingsPage : public SettingsPage {
 
  private:
   // Set the widget's background to new_color
-  void UpdateColorSelectorColor(QWidget *color_selector, const QColor &new_color);
+  static void UpdateColorSelectorColor(QWidget *color_selector, const QColor &new_color);
   // Init (or refresh) the colorSelectors colors
   void InitColorSelectorsColors();
 

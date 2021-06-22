@@ -62,11 +62,7 @@ gpointer GstStartup::GLibMainLoopThreadFunc(gpointer) {
 
 GstStartup::GstStartup(QObject *parent) : QObject(parent) {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  initializing_ = QtConcurrent::run(&GstStartup::InitializeGStreamer, this);
-#else
-  initializing_ = QtConcurrent::run(this, &GstStartup::InitializeGStreamer);
-#endif
+  initializing_ = QtConcurrent::run(&GstStartup::InitializeGStreamer);
 
   const QMetaObject *mo = QAbstractEventDispatcher::instance(qApp->thread())->metaObject();
   if (mo && strcmp(mo->className(), "QEventDispatcherGlib") != 0 && strcmp(mo->superClass()->className(), "QEventDispatcherGlib") != 0) {

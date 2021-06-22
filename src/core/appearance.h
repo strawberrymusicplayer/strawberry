@@ -36,7 +36,7 @@ class Appearance : public QObject {
   static const QPalette kDefaultPalette;
 
   void LoadUserTheme();
-  void ResetToSystemDefaultTheme();
+  static void ResetToSystemDefaultTheme();
   void ChangeForegroundColor(const QColor &color);
   void ChangeBackgroundColor(const QColor &color);
 

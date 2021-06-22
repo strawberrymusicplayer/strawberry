@@ -371,7 +371,7 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
 
 }
 
-float AlbumCoverFetcherSearch::ScoreImage(const QSize size) const {
+float AlbumCoverFetcherSearch::ScoreImage(const QSize size) {
 
   if (size.width() == 0 || size.height() == 0) return 0.0;
 

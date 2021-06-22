@@ -72,7 +72,7 @@ class ContextView : public QWidget {
 
  private:
   void AddActions();
-  void SetLabelText(QLabel *label, int value, const QString &suffix, const QString &def = QString());
+  static void SetLabelText(QLabel *label, int value, const QString &suffix, const QString &def = QString());
   void NoSong();
   void SetSong();
   void UpdateSong(const Song &song);

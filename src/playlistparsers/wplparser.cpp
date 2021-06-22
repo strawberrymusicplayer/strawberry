@@ -121,7 +121,7 @@ void WplParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
   }
 }
 
-void WplParser::WriteMeta(const QString &name, const QString &content, QXmlStreamWriter *writer) const {
+void WplParser::WriteMeta(const QString &name, const QString &content, QXmlStreamWriter *writer) {
 
   writer->writeStartElement("meta");
   writer->writeAttribute("name", name);

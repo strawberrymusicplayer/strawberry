@@ -118,13 +118,13 @@ class Mpris2 : public QObject {
   Q_PROPERTY(MaybePlaylist ActivePlaylist READ ActivePlaylist)
 
   // Root Properties
-  bool CanQuit() const;
-  bool CanRaise() const;
-  bool HasTrackList() const;
+  static bool CanQuit();
+  static bool CanRaise();
+  static bool HasTrackList();
   QString Identity() const;
   QString DesktopEntry() const;
-  QStringList SupportedUriSchemes() const;
-  QStringList SupportedMimeTypes() const;
+  static QStringList SupportedUriSchemes();
+  static QStringList SupportedMimeTypes();
 
   // Root Properties added in MPRIS 2.2
   bool CanSetFullscreen() const { return false; }
@@ -133,13 +133,13 @@ class Mpris2 : public QObject {
 
   // Methods
   void Raise();
-  void Quit();
+  static void Quit();
 
   // Player Properties
   QString PlaybackStatus() const;
   QString LoopStatus() const;
   void SetLoopStatus(const QString &value);
-  double Rate() const;
+  static double Rate();
   void SetRate(double rate);
   bool Shuffle() const;
   void SetShuffle(bool enable);
@@ -147,14 +147,14 @@ class Mpris2 : public QObject {
   double Volume() const;
   void SetVolume(double value);
   qint64 Position() const;
-  double MaximumRate() const;
-  double MinimumRate() const;
+  static double MaximumRate();
+  static double MinimumRate();
   bool CanGoNext() const;
   bool CanGoPrevious() const;
   bool CanPlay() const;
   bool CanPause() const;
   bool CanSeek() const;
-  bool CanControl() const;
+  static bool CanControl();
 
   // Methods
   void Next();
@@ -168,18 +168,18 @@ class Mpris2 : public QObject {
   void OpenUri(const QString &uri);
 
   // TrackList Properties
-  Track_Ids Tracks() const;
-  bool CanEditTracks() const;
+  static Track_Ids Tracks();
+  static bool CanEditTracks();
 
   // Methods
-  TrackMetadata GetTracksMetadata(const Track_Ids &tracks) const;
-  void AddTrack(const QString &uri, const QDBusObjectPath &afterTrack, bool setAsCurrent);
-  void RemoveTrack(const QDBusObjectPath &trackId);
-  void GoTo(const QDBusObjectPath &trackId);
+  static TrackMetadata GetTracksMetadata(const Track_Ids &tracks) ;
+  static void AddTrack(const QString &uri, const QDBusObjectPath &afterTrack, bool setAsCurrent);
+  static void RemoveTrack(const QDBusObjectPath &trackId);
+  static void GoTo(const QDBusObjectPath &trackId);
 
   // Playlist Properties
   quint32 PlaylistCount() const;
-  QStringList Orderings() const;
+  static QStringList Orderings();
   MaybePlaylist ActivePlaylist() const;
 
   // Methods
@@ -215,10 +215,10 @@ class Mpris2 : public QObject {
 
  private:
   void EmitNotification(const QString &name);
-  void EmitNotification(const QString &name, const QVariant &val);
-  void EmitNotification(const QString &name, const QVariant &val, const QString &mprisEntity);
+  static void EmitNotification(const QString &name, const QVariant &val);
+  static void EmitNotification(const QString &name, const QVariant &val, const QString &mprisEntity);
 
-  QString PlaybackStatus(Engine::State state) const;
+  static QString PlaybackStatus(Engine::State state) ;
 
   QString current_track_id() const;
 

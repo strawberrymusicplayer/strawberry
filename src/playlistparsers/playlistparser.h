@@ -61,7 +61,7 @@ class PlaylistParser : public QObject {
   void Save(const SongList &songs, const QString &filename, const Playlist::Path) const;
 
 private:
-  QString FilterForParser(const ParserBase *parser, QStringList *all_extensions = nullptr) const;
+  static QString FilterForParser(const ParserBase *parser, QStringList *all_extensions = nullptr) ;
 
 private:
   QList<ParserBase*> parsers_;

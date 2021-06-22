@@ -161,8 +161,8 @@ class GstEnginePipeline : public QObject {
   void StreamStatusMessageReceived(GstMessage*);
   void StreamStartMessageReceived();
 
-  QString ParseStrTag(GstTagList *list, const char *tag) const;
-  guint ParseUIntTag(GstTagList *list, const char *tag) const;
+  static QString ParseStrTag(GstTagList *list, const char *tag);
+  static guint ParseUIntTag(GstTagList *list, const char *tag);
 
   void UpdateVolume();
   void UpdateStereoBalance();

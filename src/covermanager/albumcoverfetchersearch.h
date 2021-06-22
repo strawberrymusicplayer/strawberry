@@ -81,7 +81,7 @@ class AlbumCoverFetcherSearch : public QObject {
   void AllProvidersFinished();
 
   void FetchMoreImages();
-  float ScoreImage(const QSize size) const;
+  static float ScoreImage(const QSize size) ;
   void SendBestImage();
 
   static bool ProviderCompareOrder(CoverProvider *a, CoverProvider *b);

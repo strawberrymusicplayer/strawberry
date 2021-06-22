@@ -100,7 +100,7 @@ QString PlaylistParser::filters() const {
 
 }
 
-QString PlaylistParser::FilterForParser(const ParserBase *parser, QStringList *all_extensions) const {
+QString PlaylistParser::FilterForParser(const ParserBase *parser, QStringList *all_extensions) {
 
   const QStringList file_extensions = parser->file_extensions();
   QStringList extensions;

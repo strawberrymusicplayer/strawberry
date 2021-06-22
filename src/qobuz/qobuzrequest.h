@@ -139,7 +139,7 @@ class QobuzRequest : public QobuzBaseRequest {
   void AlbumCoverFinishCheck();
 
   void FinishCheck();
-  void Warn(const QString &error, const QVariant &debug = QVariant());
+  static void Warn(const QString &error, const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
   static const int kMaxConcurrentArtistsRequests;

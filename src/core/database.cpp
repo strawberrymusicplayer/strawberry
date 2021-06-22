@@ -533,7 +533,7 @@ void Database::DoBackup() {
 
 }
 
-bool Database::OpenDatabase(const QString &filename, sqlite3 **connection) const {
+bool Database::OpenDatabase(const QString &filename, sqlite3 **connection) {
 
   int ret = sqlite3_open(filename.toUtf8(), connection);
   if (ret != 0) {

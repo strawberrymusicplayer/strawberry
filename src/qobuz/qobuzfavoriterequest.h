@@ -69,7 +69,7 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
 
  private:
   void Error(const QString &error, const QVariant &debug = QVariant());
-  QString FavoriteText(const FavoriteType type);
+  static QString FavoriteText(const FavoriteType type);
   void AddFavorites(const FavoriteType type, const SongList &songs);
   void RemoveFavorites(const FavoriteType type, const SongList &songs);
 

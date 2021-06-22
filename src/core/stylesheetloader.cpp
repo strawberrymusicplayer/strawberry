@@ -126,7 +126,7 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, StyleSheetData styledat
 
 }
 
-void StyleSheetLoader::ReplaceColor(QString *css, const QString &name, const QPalette &palette, QPalette::ColorRole role) const {
+void StyleSheetLoader::ReplaceColor(QString *css, const QString &name, const QPalette &palette, QPalette::ColorRole role) {
 
   css->replace("%palette-" + name + "-lighter", palette.color(role).lighter().name(), Qt::CaseInsensitive);
   css->replace("%palette-" + name + "-darker", palette.color(role).darker().name(), Qt::CaseInsensitive);

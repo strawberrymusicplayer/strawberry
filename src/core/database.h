@@ -65,7 +65,7 @@ class Database : public QObject {
   void ExitAsync();
   QSqlDatabase Connect();
   void Close();
-  bool CheckErrors(const QSqlQuery &query);
+  static bool CheckErrors(const QSqlQuery &query);
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
   QRecursiveMutex *Mutex() { return &mutex_; }
@@ -94,18 +94,18 @@ class Database : public QObject {
   void DoBackup();
 
  private:
-  int SchemaVersion(QSqlDatabase *db);
+  static int SchemaVersion(QSqlDatabase *db);
   void UpdateMainSchema(QSqlDatabase *db);
 
   void ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, int schema_version, bool in_transaction = false);
-  void ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands);
+  static void ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands);
 
   void UpdateDatabaseSchema(int version, QSqlDatabase &db);
-  void UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db);
+  static void UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db);
   QStringList SongsTables(QSqlDatabase &db, int schema_version) const;
   bool IntegrityCheck(const QSqlDatabase &db);
   void BackupFile(const QString &filename);
-  bool OpenDatabase(const QString &filename, sqlite3 **connection) const;
+  static bool OpenDatabase(const QString &filename, sqlite3 **connection) ;
 
   Application *app_;
 

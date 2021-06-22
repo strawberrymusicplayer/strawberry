@@ -226,7 +226,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void TotalSongCountUpdatedSlot(const int count);
   void TotalArtistCountUpdatedSlot(const int count);
   void TotalAlbumCountUpdatedSlot(const int count);
-  void ClearDiskCache();
+  static void ClearDiskCache();
 
   // Called after ResetAsync
   void ResetAsyncQueryFinished();
@@ -247,7 +247,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   // When the model is reset or when a node is lazy-loaded the Collection constructs a database query to populate the items.
   // Filters are added for each parent item, restricting the songs returned to a particular album or artist for example.
   static void InitQuery(const GroupBy type, CollectionQuery *q);
-  void FilterQuery(const GroupBy type, CollectionItem *item, CollectionQuery *q);
+  static void FilterQuery(const GroupBy type, CollectionItem *item, CollectionQuery *q);
 
   // Items can be created either from a query that's been run to populate a node, or by a spontaneous SongsDiscovered emission from the backend.
   CollectionItem *ItemFromQuery(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, const SqlRow &row, const int container_level);
@@ -260,9 +260,9 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   CollectionItem *InitItem(const GroupBy type, const bool signal, CollectionItem *parent, const int container_level);
   void FinishItem(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, CollectionItem *item);
 
-  QString ContainerKey(const GroupBy type, const Song &song) const;
-  QString DividerKey(const GroupBy type, CollectionItem *item) const;
-  QString DividerDisplayText(const GroupBy type, const QString &key) const;
+  static QString ContainerKey(const GroupBy type, const Song &song) ;
+  static QString DividerKey(const GroupBy type, CollectionItem *item) ;
+  static QString DividerDisplayText(const GroupBy type, const QString &key) ;
 
   // Helpers
   static bool IsCompilationArtistNode(const CollectionItem *node) { return node == node->parent->compilation_artist_node_; }
@@ -270,7 +270,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QVariant AlbumIcon(const QModelIndex &idx);
   QVariant data(const CollectionItem *item, const int role) const;
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
-  qint64 MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default) const;
+  static qint64 MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default) ;
 
  private:
   CollectionBackend *backend_;

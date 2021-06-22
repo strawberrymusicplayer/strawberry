@@ -30,7 +30,7 @@ class TestObjectDecorators : public QObject {
   Q_OBJECT
 
  public slots:
-  void initStyleOption(QProgressBar *self, QStyleOptionProgressBar *opt);
+  static void initStyleOption(QProgressBar *self, QStyleOptionProgressBar *opt);
 };
 
 #endif  // TESTOBJECTDECORATORS_H

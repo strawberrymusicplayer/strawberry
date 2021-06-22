@@ -117,7 +117,7 @@ class FHT {
   /**
    * Discrete Hartley transform of data sets with 8 values.
    */
-  void transform8(float*);
+  static void transform8(float*);
 
   void transform(float*);
 };

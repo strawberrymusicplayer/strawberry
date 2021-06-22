@@ -133,7 +133,7 @@ class AlbumCoverManager : public QMainWindow {
   Song GetFirstSelectedAsSong();
 
   Song ItemAsSong(QListWidgetItem *item) { return ItemAsSong(static_cast<AlbumItem*>(item)); }
-  Song ItemAsSong(AlbumItem *item);
+  static Song ItemAsSong(AlbumItem *item);
 
   void UpdateStatusText();
   bool ShouldHide(const AlbumItem &item, const QString &filter, HideCovers hide) const;

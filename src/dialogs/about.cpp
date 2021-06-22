@@ -190,7 +190,7 @@ QString About::ContributorsHtml() const {
 
 }
 
-QString About::PersonToHtml(const Person &person) const {
+QString About::PersonToHtml(const Person &person) {
 
   if (person.email.isNull())
     return person.name;

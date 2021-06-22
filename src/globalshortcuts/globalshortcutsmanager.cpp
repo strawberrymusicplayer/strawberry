@@ -179,7 +179,7 @@ bool GlobalShortcutsManager::IsMateAvailable() const {
 
 }
 
-bool GlobalShortcutsManager::IsX11Available() const {
+bool GlobalShortcutsManager::IsX11Available() {
 
   return QApplication::platformName() == "xcb";
 
@@ -212,7 +212,7 @@ void GlobalShortcutsManager::Unregister() {
 
 }
 
-bool GlobalShortcutsManager::IsMacAccessibilityEnabled() const {
+bool GlobalShortcutsManager::IsMacAccessibilityEnabled() {
 #ifdef Q_OS_MACOS
   if (system_backend_) return qobject_cast<GlobalShortcutsBackendMacOS*>(system_backend_)->IsAccessibilityEnabled();
   else return false;

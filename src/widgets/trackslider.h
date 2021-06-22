@@ -80,7 +80,7 @@ class TrackSlider : public QWidget {
  private:
   void UpdateTimes(const int elapsed);
   void UpdateLabelWidth();
-  void UpdateLabelWidth(QLabel *label, const QString &text);
+  static void UpdateLabelWidth(QLabel *label, const QString &text);
 
  private:
   Ui_TrackSlider *ui_;

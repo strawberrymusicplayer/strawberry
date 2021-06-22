@@ -88,7 +88,7 @@ class FilterParser {
   FilterTree *parseSearchTerm();
 
   FilterTree *createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const;
-  int parseTime(const QString &time_str) const;
+  static int parseTime(const QString &time_str) ;
 
   QString::const_iterator iter_;
   QString::const_iterator end_;

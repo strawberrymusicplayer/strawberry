@@ -100,7 +100,7 @@ class CommandlineOptions {
     RestartOrPrevious
   };
 
-  QString tr(const char *source_text);
+  static QString tr(const char *source_text);
   void RemoveArg(const QString &starts_with, int count);
 
  private:

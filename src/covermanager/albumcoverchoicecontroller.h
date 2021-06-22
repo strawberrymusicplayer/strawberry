@@ -160,7 +160,7 @@ class AlbumCoverChoiceController : public QWidget {
   void AutomaticCoverSearchDone();
 
  private:
-  QString GetInitialPathForFileDialog(const Song &song, const QString &filename);
+  static QString GetInitialPathForFileDialog(const Song &song, const QString &filename);
 
   static bool IsKnownImageExtension(const QString &suffix);
   static QSet<QString> *sImageExtensions;

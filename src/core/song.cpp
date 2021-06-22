@@ -414,7 +414,7 @@ void Song::set_artist_id(const QString &v) { d->artist_id_ = v; }
 void Song::set_album_id(const QString &v) { d->album_id_ = v; }
 void Song::set_song_id(const QString &v) { d->song_id_ = v; }
 
-QString Song::sortable(const QString &v) const {
+QString Song::sortable(const QString &v) {
 
   QString copy = v.toLower();
 

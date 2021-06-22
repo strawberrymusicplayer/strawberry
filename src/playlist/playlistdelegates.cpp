@@ -104,7 +104,7 @@ void QueuedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 }
 
-void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect line_rect, const QFont &font, const QString &text, int width, const float opacity) const {
+void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect line_rect, const QFont &font, const QString &text, int width, const float opacity) {
 
   QFont smaller = font;
   smaller.setPointSize(smaller.pointSize() - 1);

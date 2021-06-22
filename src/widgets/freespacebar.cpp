@@ -231,7 +231,7 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
 
 }
 
-QString FreeSpaceBar::TextForSize(const QString &prefix, const qint64 size) const {
+QString FreeSpaceBar::TextForSize(const QString &prefix, const qint64 size) {
 
   QString ret;
   if (size > 0) {

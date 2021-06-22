@@ -160,7 +160,7 @@ class EditTagDialog : public QDialog {
   void UpdateSummaryTab(const Song &song, const UpdateCoverAction cover_action);
   void UpdateStatisticsTab(const Song &song);
 
-  QString GetArtSummary(const Song &song, const UpdateCoverAction cover_action);
+  static QString GetArtSummary(const Song &song, const UpdateCoverAction cover_action);
 
   void UpdateUI(const QModelIndexList &indexes);
 
@@ -168,7 +168,7 @@ class EditTagDialog : public QDialog {
   void SetSongListVisibility(bool visible);
 
   // Called by QtConcurrentRun
-  QList<Data> LoadData(const SongList &songs) const;
+  static QList<Data> LoadData(const SongList &songs);
   void SaveData();
 
   static void SetText(QLabel *label, const int value, const QString &suffix, const QString &def = QString());

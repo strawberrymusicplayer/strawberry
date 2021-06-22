@@ -56,7 +56,7 @@ bool PlaylistListModel::dropMimeData(const QMimeData *data, Qt::DropAction actio
 
 }
 
-QString PlaylistListModel::ItemPath(const QStandardItem *item) const {
+QString PlaylistListModel::ItemPath(const QStandardItem *item) {
 
   QStringList components;
 

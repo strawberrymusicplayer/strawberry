@@ -106,7 +106,7 @@ class Application : public QObject {
   void Exit();
 
   QThread *MoveToNewThread(QObject *object);
-  void MoveToThread(QObject *object, QThread *thread);
+  static void MoveToThread(QObject *object, QThread *thread);
 
  private slots:
   void ExitReceived();

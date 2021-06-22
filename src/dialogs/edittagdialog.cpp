@@ -379,7 +379,7 @@ bool EditTagDialog::SetLoading(const QString &message) {
 
 }
 
-QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const {
+QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) {
 
   QList<Data> ret;
 
@@ -410,11 +410,7 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
   collection_songs_.clear();
 
   // Reload tags in the background
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  QFuture<QList<Data>> future = QtConcurrent::run(&EditTagDialog::LoadData, this, s);
-#else
-  QFuture<QList<Data>> future = QtConcurrent::run(this, &EditTagDialog::LoadData, s);
-#endif
+  QFuture<QList<Data>> future = QtConcurrent::run(&EditTagDialog::LoadData, s);
   QFutureWatcher<QList<Data>> *watcher = new QFutureWatcher<QList<Data>>();
   QObject::connect(watcher, &QFutureWatcher<QList<Data>>::finished, this, &EditTagDialog::SetSongsFinished);
   watcher->setFuture(future);

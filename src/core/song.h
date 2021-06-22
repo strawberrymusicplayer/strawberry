@@ -388,7 +388,7 @@ class Song {
  private:
   struct Private;
 
-  QString sortable(const QString &v) const;
+  static QString sortable(const QString &v) ;
 
   QSharedDataPointer<Private> d;
 };

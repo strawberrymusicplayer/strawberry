@@ -59,7 +59,7 @@ class SubsonicBaseRequest : public QObject {
   QJsonObject ExtractJsonObj(QByteArray &data);
 
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
-  QString ErrorsToHTML(const QStringList &errors);
+  static QString ErrorsToHTML(const QStringList &errors);
 
   QString client_name() const { return service_->client_name(); }
   QString api_version() const { return service_->api_version(); }

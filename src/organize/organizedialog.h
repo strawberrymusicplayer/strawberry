@@ -83,7 +83,7 @@ class OrganizeDialog : public QDialog {
   void LoadSettings();
   void AdjustSize();
 
-  SongList LoadSongsBlocking(const QStringList &filenames);
+  static SongList LoadSongsBlocking(const QStringList &filenames);
   void SetLoadingSongs(const bool loading);
 
  signals:

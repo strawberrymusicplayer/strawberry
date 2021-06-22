@@ -80,7 +80,7 @@ class SmartPlaylistsModel : public SimpleTreeModel<SmartPlaylistsItem> {
   static const char *kSmartPlaylistsMimeType;
   static const int kSmartPlaylistsVersion;
 
-  void SaveGenerator(QSettings *s, const int i, PlaylistGeneratorPtr generator) const;
+  static void SaveGenerator(QSettings *s, const int i, PlaylistGeneratorPtr generator);
   void ItemFromSmartPlaylist(const QSettings &s, const bool notify);
 
  private:

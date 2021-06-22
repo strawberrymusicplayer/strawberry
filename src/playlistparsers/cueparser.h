@@ -96,11 +96,11 @@ class CueParser : public ParserBase {
     file(_file), index(_index), title(_title), artist(_artist), album_artist(_album_artist), album(_album), composer(_composer), album_composer(_album_composer), genre(_genre), date(_date), disc(_disc) {}
   };
 
-  bool UpdateSong(const CueEntry &entry, const QString &next_index, Song *song) const;
-  bool UpdateLastSong(const CueEntry &entry, Song *song) const;
+  static bool UpdateSong(const CueEntry &entry, const QString &next_index, Song *song) ;
+  static bool UpdateLastSong(const CueEntry &entry, Song *song) ;
 
-  QStringList SplitCueLine(const QString &line) const;
-  qint64 IndexToMarker(const QString &index) const;
+  static QStringList SplitCueLine(const QString &line);
+  static qint64 IndexToMarker(const QString &index);
 };
 
 #endif  // CUEPARSER_H

@@ -69,7 +69,7 @@ class TidalBaseRequest : public QObject {
   QJsonValue ExtractItems(const QJsonObject &json_obj);
 
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
-  QString ErrorsToHTML(const QStringList &errors);
+  static QString ErrorsToHTML(const QStringList &errors);
 
   QString api_url() { return QString(kApiUrl); }
   bool oauth() { return service_->oauth(); }

@@ -79,7 +79,7 @@ class Udisks2Lister : public DeviceLister {
  private:
   bool isPendingJob(const QDBusObjectPath &job_path);
   void RemoveDevice(const QDBusObjectPath &device_path);
-  QList<QDBusObjectPath> GetMountedPartitionsFromDBusArgument(const QDBusArgument &input);
+  static QList<QDBusObjectPath> GetMountedPartitionsFromDBusArgument(const QDBusArgument &input);
 
   struct Udisks2Job {
     Udisks2Job();
@@ -114,7 +114,7 @@ class Udisks2Lister : public DeviceLister {
     QStringList mount_paths;
   };
 
-  PartitionData ReadPartitionData(const QDBusObjectPath &path);
+  static PartitionData ReadPartitionData(const QDBusObjectPath &path);
   void HandleFinishedMountJob(const Udisks2Lister::PartitionData &partition_data);
   void HandleFinishedUnmountJob(const Udisks2Lister::PartitionData &partition_data, const QDBusObjectPath &mounted_object);
 

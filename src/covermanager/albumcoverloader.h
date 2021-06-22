@@ -67,7 +67,7 @@ class AlbumCoverLoader : public QObject {
 
   static QString AlbumCoverFilename(QString artist, QString album, const QString &extension);
 
-  QString CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id, const QString &extension);
+  static QString CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id, const QString &extension);
   QString CoverFilenameFromVariable(const QString &artist, const QString &album, const QString &extension = QString());
   QString CoverFilePath(const Song &song, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());
 

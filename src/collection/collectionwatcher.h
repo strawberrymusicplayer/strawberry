@@ -168,7 +168,7 @@ class CollectionWatcher : public QObject {
   void ScanSubdirectory(const QString &path, const Subdirectory &subdir, const quint64 files_count, CollectionWatcher::ScanTransaction *t, const bool force_noincremental = false);
 
  private:
-  static bool FindSongsByPath(const SongList &list, const QString &path, SongList *out);
+  static bool FindSongsByPath(const SongList &songs, const QString &path, SongList *out);
   bool FindSongsByFingerprint(const QString &file, const QString &fingerprint, SongList *out);
   static bool FindSongsByFingerprint(const QString &file, const SongList &songs, const QString &fingerprint, SongList *out);
   inline static QString NoExtensionPart(const QString &fileName);
@@ -178,7 +178,7 @@ class CollectionWatcher : public QObject {
   QUrl ImageForSong(const QString &path, QMap<QString, QStringList> &album_art);
   void AddWatch(const Directory &dir, const QString &path);
   void RemoveWatch(const Directory &dir, const Subdirectory &subdir);
-  quint64 GetMtimeForCue(const QString &cue_path);
+  static quint64 GetMtimeForCue(const QString &cue_path);
   void PerformScan(const bool incremental, const bool ignore_mtimes);
 
   // Updates the sections of a cue associated and altered (according to mtime) media file during a scan.
@@ -189,7 +189,7 @@ class CollectionWatcher : public QObject {
   // It may result in a multiple files added to the collection when the media file has many sections (like a CUE related media file).
   SongList ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, QSet<QString> *cues_processed);
 
-  void AddChangedSong(const QString &file, const Song &matching_song, const Song &new_song, ScanTransaction *t);
+  static void AddChangedSong(const QString &file, const Song &matching_song, const Song &new_song, ScanTransaction *t);
 
   quint64 FilesCountForPath(ScanTransaction *t, const QString &path);
   quint64 FilesCountForSubdirs(ScanTransaction *t, const SubdirectoryList &subdirs, QMap<QString, quint64> &subdir_files_count);

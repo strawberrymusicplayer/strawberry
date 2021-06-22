@@ -57,7 +57,7 @@ class LastFmCoverProvider : public JsonCoverProvider {
   };
 
   QByteArray GetReplyData(QNetworkReply *reply);
-  LastFmImageSize ImageSizeFromString(const QString &size);
+  static LastFmImageSize ImageSizeFromString(const QString &size);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:

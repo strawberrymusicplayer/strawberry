@@ -80,7 +80,7 @@ class SingleCoreApplicationPrivate : public QObject {
   explicit SingleCoreApplicationPrivate(SingleCoreApplication *ptr);
   ~SingleCoreApplicationPrivate() override;
 
-  QString getUsername();
+  static QString getUsername();
   void genBlockServerName();
   void initializeMemoryBlock();
   void startPrimary();
@@ -91,7 +91,7 @@ class SingleCoreApplicationPrivate : public QObject {
   QString primaryUser();
   void readInitMessageHeader(QLocalSocket *socket);
   void readInitMessageBody(QLocalSocket *socket);
-  void randomSleep();
+  static void randomSleep();
 
   SingleCoreApplication *q_ptr;
   QSharedMemory *memory_;

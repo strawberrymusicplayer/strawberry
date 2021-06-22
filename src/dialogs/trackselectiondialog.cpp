@@ -228,7 +228,7 @@ void TrackSelectionDialog::AddDivider(const QString &text, QTreeWidget *parent) 
 
 }
 
-void TrackSelectionDialog::AddSong(const Song &song, int result_index, QTreeWidget *parent) const {
+void TrackSelectionDialog::AddSong(const Song &song, int result_index, QTreeWidget *parent) {
 
   QStringList values;
   values << ((song.track() > 0) ? QString::number(song.track()) : QString()) << ((song.year() > 0) ? QString::number(song.year()) : QString()) << song.title() << song.artist() << song.album();

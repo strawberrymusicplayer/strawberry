@@ -75,7 +75,7 @@ class VLCEngine : public Engine::Base {
   bool Initialized() const { return (instance_ && player_); }
   uint position() const;
   uint length() const;
-  bool CanDecode(const QUrl &url);
+  static bool CanDecode(const QUrl &url);
   void AttachCallback(libvlc_event_manager_t *em, libvlc_event_type_t type, libvlc_callback_t callback);
   static void StateChangedCallback(const libvlc_event_t *e, void *data);
 

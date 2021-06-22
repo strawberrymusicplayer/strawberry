@@ -71,7 +71,7 @@ class QobuzBaseRequest : public QObject {
   QJsonValue ExtractItems(QJsonObject &json_obj);
 
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
-  QString ErrorsToHTML(const QStringList &errors);
+  static QString ErrorsToHTML(const QStringList &errors);
 
   QString api_url() { return QString(kApiUrl); }
   QString app_id() { return service_->app_id(); }

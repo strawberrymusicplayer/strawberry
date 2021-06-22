@@ -60,7 +60,7 @@ class PlaylistListModel : public QStandardItemModel {
 
   // Walks from the given item to the root, returning the / separated path of
   // all the parent folders.  The path includes this item if it is a folder.
-  QString ItemPath(const QStandardItem *item) const;
+  static QString ItemPath(const QStandardItem *item) ;
 
   // Finds the playlist with the given ID, returns 0 if it doesn't exist.
   QStandardItem *PlaylistById(const int id) const;

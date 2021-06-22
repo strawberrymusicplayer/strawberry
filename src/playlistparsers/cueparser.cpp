@@ -267,7 +267,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
 // This and the kFileLineRegExp do most of the "dirty" work, namely: splitting the raw .cue
 // line into logical parts and getting rid of all the unnecessary whitespaces and quoting.
-QStringList CueParser::SplitCueLine(const QString &line) const {
+QStringList CueParser::SplitCueLine(const QString &line) {
 
   QRegularExpression line_regexp(kFileLineRegExp);
   QRegularExpressionMatch re_match = line_regexp.match(line.trimmed());
@@ -281,7 +281,7 @@ QStringList CueParser::SplitCueLine(const QString &line) const {
 }
 
 // Updates the song with data from the .cue entry. This one mustn't be used for the last song in the .cue file.
-bool CueParser::UpdateSong(const CueEntry &entry, const QString &next_index, Song *song) const {
+bool CueParser::UpdateSong(const CueEntry &entry, const QString &next_index, Song *song) {
 
   qint64 beginning = IndexToMarker(entry.index);
   qint64 end = IndexToMarker(next_index);
@@ -307,7 +307,7 @@ bool CueParser::UpdateSong(const CueEntry &entry, const QString &next_index, Son
 }
 
 // Updates the song with data from the .cue entry. This one must be used only for the last song in the .cue file.
-bool CueParser::UpdateLastSong(const CueEntry &entry, Song *song) const {
+bool CueParser::UpdateLastSong(const CueEntry &entry, Song *song) {
 
   qint64 beginning = IndexToMarker(entry.index);
 
@@ -338,7 +338,7 @@ bool CueParser::UpdateLastSong(const CueEntry &entry, Song *song) const {
 
 }
 
-qint64 CueParser::IndexToMarker(const QString &index) const {
+qint64 CueParser::IndexToMarker(const QString &index) {
 
   QRegularExpression index_regexp(kIndexRegExp);
   QRegularExpressionMatch re_match = index_regexp.match(index);

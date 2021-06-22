@@ -189,7 +189,7 @@ class MusicBrainzClient : public QObject {
     ResultList results_;
   };
 
-  QByteArray GetReplyData(QNetworkReply *reply, QString &error);
+  static QByteArray GetReplyData(QNetworkReply *reply, QString &error);
   static bool MediumHasDiscid(const QString &discid, QXmlStreamReader *reader);
   static ResultList ParseMedium(QXmlStreamReader *reader);
   static Result ParseTrackFromDisc(QXmlStreamReader *reader);
@@ -197,7 +197,7 @@ class MusicBrainzClient : public QObject {
   static void ParseArtist(QXmlStreamReader *reader, QString *artist);
   static Release ParseRelease(QXmlStreamReader *reader);
   static ResultList UniqueResults(const ResultList &results, UniqueResultsSortOption opt = SortResults);
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  static void Error(const QString &error, const QVariant &debug = QVariant());
 
  private:
 

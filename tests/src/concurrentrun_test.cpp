@@ -154,7 +154,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction3Start) {
 
 class A {
  public:
-  void f(int* i) { 
+  static void f(int* i) {
     *i = *i + 1;
   }
 };

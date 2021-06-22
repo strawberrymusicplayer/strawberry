@@ -446,7 +446,7 @@ void TranscodeDialog::AddDestination() {
 }
 
 // Returns the rightmost non-empty part of 'path'.
-QString TranscodeDialog::TrimPath(const QString &path) const {
+QString TranscodeDialog::TrimPath(const QString &path) {
   return path.section('/', -1, -1, QString::SectionSkipEmpty);
 }
 

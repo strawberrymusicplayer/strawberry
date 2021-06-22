@@ -41,7 +41,7 @@ class GstElementDeleter : public QObject {
   void DeleteElementLater(GstElement *element);
 
  private slots:
-  void DeleteElement(GstElement *element);
+  static void DeleteElement(GstElement *element);
 };
 
 #endif  // GSTELEMENTDELETER_H

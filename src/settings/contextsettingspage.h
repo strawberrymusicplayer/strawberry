@@ -65,7 +65,7 @@ public:
  private slots:
   void InsertVariableFirstLine(QAction *action);
   void InsertVariableSecondLine(QAction *action);
-  void ShowMenuTooltip(QAction *action);
+  static void ShowMenuTooltip(QAction *action);
   void HeadlineFontChanged();
   void NormalFontChanged();
 

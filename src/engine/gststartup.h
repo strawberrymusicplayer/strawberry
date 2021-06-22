@@ -42,8 +42,8 @@ class GstStartup : public QObject {
   static GThread *kGThread;
   static gpointer GLibMainLoopThreadFunc(gpointer);
 
-  void InitializeGStreamer();
-  void SetEnvironment();
+  static void InitializeGStreamer();
+  static void SetEnvironment();
 
   QFuture<void> initializing_;
 

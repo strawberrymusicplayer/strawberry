@@ -49,7 +49,7 @@ class CollectionBackendTest : public ::testing::Test {
     backend_->Init(database_.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
   }
 
-  Song MakeDummySong(int directory_id) {
+  static Song MakeDummySong(int directory_id) {
     // Returns a valid song with all the required fields set
     Song ret;
     ret.set_directory_id(directory_id);

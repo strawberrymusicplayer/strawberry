@@ -99,7 +99,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
 
 }
 
-bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata) const {
+bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata) {
 
   // Extended info, eg.
   // #EXTINF:123,Sample Artist - Sample title

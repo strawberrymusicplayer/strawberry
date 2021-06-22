@@ -100,7 +100,7 @@ Song ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
 
 }
 
-QString ParserBase::URLOrFilename(const QUrl &url, const QDir &dir, Playlist::Path path_type) const {
+QString ParserBase::URLOrFilename(const QUrl &url, const QDir &dir, Playlist::Path path_type) {
 
   if (!url.isLocalFile()) return url.toString();
 

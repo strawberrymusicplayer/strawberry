@@ -530,7 +530,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
 //  "225"      is parsed to "225" (srsly! ^.^)
 //  "2:3:4:5"  is parsed to "2:3:4:5"
 //  "25m"      is parsed to "25m"
-int FilterParser::parseTime(const QString &time_str) const {
+int FilterParser::parseTime(const QString &time_str) {
 
   int seconds = 0;
   int accum = 0;
