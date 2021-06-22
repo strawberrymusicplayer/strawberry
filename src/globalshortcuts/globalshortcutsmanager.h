@@ -55,11 +55,11 @@ class GlobalShortcutsManager : public QWidget {
   static bool IsX11Available() ;
   bool IsGnomeAvailable() const;
   bool IsMateAvailable() const;
-  static bool IsMacAccessibilityEnabled() ;
+  bool IsMacAccessibilityEnabled() const;
 
  public slots:
   void ReloadSettings();
-  void ShowMacAccessibilityDialog();
+  void ShowMacAccessibilityDialog() const;
 
   void Unregister();
   void Register();
