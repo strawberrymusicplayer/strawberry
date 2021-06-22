@@ -105,7 +105,7 @@ void Organize::Start() {
   if (thread_) return;
 
   task_id_ = task_manager_->StartTask(tr("Organizing files"));
-  task_manager_->SetTaskBlocksCollectionScans(true);
+  task_manager_->SetTaskBlocksCollectionScans(task_id_);
 
   thread_ = new QThread;
   QObject::connect(thread_, &QThread::started, this, &Organize::ProcessSomeFiles);
