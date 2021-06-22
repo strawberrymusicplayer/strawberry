@@ -478,8 +478,9 @@ void PlaylistManager::UpdateSummaryText() {
   // TODO: Make the plurals translatable
   summary += tracks == 1 ? tr("1 track") : tr("%1 tracks").arg(tracks);
 
-  if (nanoseconds)
+  if (nanoseconds > 0) {
     summary += " - [ " + Utilities::WordyTimeNanosec(nanoseconds) + " ]";
+  }
 
   emit SummaryTextChanged(summary);
 

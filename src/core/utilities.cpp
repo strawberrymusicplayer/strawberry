@@ -123,7 +123,7 @@ QString PrettyTime(int seconds) {
   seconds %= 60;
 
   QString ret;
-  if (hours) ret = QString::asprintf("%d:%02d:%02d", hours, minutes, seconds);
+  if (hours > 0) ret = QString::asprintf("%d:%02d:%02d", hours, minutes, seconds);
   else ret = QString::asprintf("%d:%02d", minutes, seconds);
 
   return ret;
@@ -141,7 +141,7 @@ QString WordyTime(const quint64 seconds) {
   // TODO: Make the plural rules translatable
   QStringList parts;
 
-  if (days) parts << (days == 1 ? tr("1 day") : tr("%1 days").arg(days));
+  if (days > 0) parts << (days == 1 ? tr("1 day") : tr("%1 days").arg(days));
   parts << PrettyTime(static_cast<int>(seconds - days * 60 * 60 * 24));
 
   return parts.join(" ");

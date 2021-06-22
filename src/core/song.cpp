@@ -1127,7 +1127,7 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
   d->disc_ = track->cd_nr;
   d->year_ = track->year;
   d->genre_ = QString::fromUtf8(track->genre);
-  d->compilation_ = track->compilation;
+  d->compilation_ = track->compilation == 1;
   d->composer_ = QString::fromUtf8(track->composer);
   d->grouping_ = QString::fromUtf8(track->grouping);
   d->comment_ = QString::fromUtf8(track->comment);

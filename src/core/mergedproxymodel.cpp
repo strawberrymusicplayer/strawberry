@@ -108,11 +108,11 @@ void MergedProxyModel::AddSubModel(const QModelIndex &source_parent, QAbstractIt
   QModelIndex proxy_parent = mapFromSource(source_parent);
   const int rows = submodel->rowCount();
 
-  if (rows) beginInsertRows(proxy_parent, 0, rows - 1);
+  if (rows > 0) beginInsertRows(proxy_parent, 0, rows - 1);
 
   merge_points_.insert(submodel, source_parent);
 
-  if (rows) endInsertRows();
+  if (rows > 0) endInsertRows();
 }
 
 void MergedProxyModel::RemoveSubModel(const QModelIndex &source_parent) {
@@ -225,7 +225,7 @@ void MergedProxyModel::SubModelResetSlot() {
 
   // "Insert" items from the newly reset submodel
   int count = submodel->rowCount();
-  if (count) {
+  if (count > 0) {
     beginInsertRows(proxy_parent, 0, count - 1);
     endInsertRows();
   }

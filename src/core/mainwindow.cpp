@@ -1303,8 +1303,8 @@ void MainWindow::SendNowPlaying() {
 }
 
 void MainWindow::VolumeChanged(const int volume) {
-  ui_->action_mute->setChecked(!volume);
-  tray_icon_->MuteButtonStateChanged(!volume);
+  ui_->action_mute->setChecked(volume == 0);
+  tray_icon_->MuteButtonStateChanged(volume == 0);
 }
 
 void MainWindow::SongChanged(const Song &song) {
@@ -1824,8 +1824,8 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   playlist_rescan_songs_->setVisible(local_songs > 0 && editable > 0);
 
 #ifdef HAVE_GSTREAMER
-  ui_->action_add_files_to_transcoder->setEnabled(local_songs > 0 && editable);
-  ui_->action_add_files_to_transcoder->setVisible(local_songs > 0 && editable);
+  ui_->action_add_files_to_transcoder->setEnabled(local_songs > 0 && editable > 0);
+  ui_->action_add_files_to_transcoder->setVisible(local_songs > 0 && editable > 0);
 #endif
 
   playlist_open_in_browser_->setVisible(selected > 0 && local_songs == selected);

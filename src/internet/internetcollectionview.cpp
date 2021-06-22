@@ -335,11 +335,11 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
   int songs_selected = selected_indexes.count();;
 
   // In all modes
-  load_->setEnabled(songs_selected);
-  add_to_playlist_->setEnabled(songs_selected);
-  open_in_new_playlist_->setEnabled(songs_selected);
-  add_to_playlist_enqueue_->setEnabled(songs_selected);
-  if (remove_songs_) remove_songs_->setEnabled(songs_selected);
+  load_->setEnabled(songs_selected > 0);
+  add_to_playlist_->setEnabled(songs_selected > 0);
+  open_in_new_playlist_->setEnabled(songs_selected > 0);
+  add_to_playlist_enqueue_->setEnabled(songs_selected > 0);
+  if (remove_songs_) remove_songs_->setEnabled(songs_selected > 0);
 
   context_menu_->popup(e->globalPos());
 

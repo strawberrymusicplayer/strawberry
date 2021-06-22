@@ -133,7 +133,7 @@ QString CollectionQuery::GetInnerQuery() const {
 void CollectionQuery::AddWhere(const QString &column, const QVariant &value, const QString &op) {
 
   // Ignore 'literal' for IN
-  if (!op.compare("IN", Qt::CaseInsensitive)) {
+  if (op.compare("IN", Qt::CaseInsensitive) == 0) {
     QStringList values = value.toStringList();
     QStringList final;
     final.reserve(values.count());

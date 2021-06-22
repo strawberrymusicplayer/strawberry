@@ -496,13 +496,13 @@ void OrganizeDialog::UpdatePreviews() {
   quint64 capacity = destination.data(MusicStorage::Role_Capacity).toLongLong();
   quint64 free = destination.data(MusicStorage::Role_FreeSpace).toLongLong();
 
-  if (!capacity) {
-    ui_->free_space->hide();
-  }
-  else {
+  if (capacity > 0) {
     ui_->free_space->show();
     ui_->free_space->set_free_bytes(free);
     ui_->free_space->set_total_bytes(capacity);
+  }
+  else {
+    ui_->free_space->hide();
   }
 
   // Update the format object

@@ -572,7 +572,7 @@ void AlbumCoverManager::UpdateStatusText() {
                         .arg(jobs_)
                         .arg(fetch_statistics_.missing_images_);
 
-  if (fetch_statistics_.bytes_transferred_) {
+  if (fetch_statistics_.bytes_transferred_ > 0) {
     message += ", " + tr("%1 transferred").arg(Utilities::PrettySize(fetch_statistics_.bytes_transferred_));
   }
 

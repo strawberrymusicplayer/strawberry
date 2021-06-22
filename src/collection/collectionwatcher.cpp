@@ -777,7 +777,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
   SongList songs;
 
   quint64 matching_cue_mtime = GetMtimeForCue(matching_cue);
-  if (matching_cue_mtime) {  // If it's a CUE - create virtual tracks
+  if (matching_cue_mtime != 0) {  // If it's a CUE - create virtual tracks
 
     // Don't process the same CUE many times
     if (cues_processed->contains(matching_cue)) return songs;

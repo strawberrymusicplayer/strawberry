@@ -87,7 +87,7 @@ void TaskManager::SetTaskProgress(const int id, const qint64 progress, const qin
 
     Task &t = tasks_[id];
     t.progress = progress;
-    if (max) t.progress_max = max;
+    if (max > 0) t.progress_max = max;
   }
 
   emit TasksChanged();
@@ -101,7 +101,7 @@ void TaskManager::IncreaseTaskProgress(const int id, const qint64 progress, cons
 
     Task &t = tasks_[id];
     t.progress += progress;
-    if (max) t.progress_max = max;
+    if (max > 0) t.progress_max = max;
   }
 
   emit TasksChanged();

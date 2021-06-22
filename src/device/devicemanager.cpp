@@ -282,13 +282,16 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
   switch (role) {
     case Qt::DisplayRole: {
       QString text;
-      if (!info->friendly_name_.isEmpty())
+      if (!info->friendly_name_.isEmpty()) {
         text = info->friendly_name_;
-      else if (info->BestBackend())
+      }
+      else if (info->BestBackend()) {
         text = info->BestBackend()->unique_id_;
+      }
 
-      if (info->size_)
+      if (info->size_ > 0) {
         text = text + QString(" (%1)").arg(Utilities::PrettySize(info->size_));
+      }
       if (info->device_.get()) info->device_->Refresh();
       return text;
     }

@@ -134,7 +134,7 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
     }
   }
 
-  if (inst->primary == false) {
+  if (!inst->primary) {
     d->startPrimary();
     if (!d->memory_->unlock()) {
       qDebug() << "SingleCoreApplication: Unable to unlock memory after primary start.";

@@ -146,7 +146,7 @@ void FreeSpaceBar::DrawBar(QPainter *p, const QRect r) {
   p->setClipPath(clip_path);
 
   // Draw any additional space
-  if (additional_) {
+  if (additional_ > 0) {
     QRect additional_rect(bar_rect);
     additional_rect.setLeft(bar_rect.right());
     additional_rect.setWidth(static_cast<int>(float(r.width()) * (float(qMin(free_, additional_)) / total_) + 1));
@@ -190,8 +190,9 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
   // Work out the geometry for the text
   QList<Label> labels;
   labels << Label(TextForSize(used_text_, total_ - free_), kColorBar1);
-  if (additional_)
+  if (additional_ > 0) {
     labels << Label(TextForSize(additional_text_, additional_), kColorAdd1);
+  }
   labels << Label(TextForSize(free_text_, free_ - additional_), kColorBg2);
 
   int text_width = 0;

@@ -117,8 +117,9 @@ bool MtpConnection::GetSupportedFiletypes(QList<Song::FileType> *ret) {
   uint16_t *list = nullptr;
   uint16_t length = 0;
 
-  if (LIBMTP_Get_Supported_Filetypes(device_, &list, &length) || !list || !length)
+  if (LIBMTP_Get_Supported_Filetypes(device_, &list, &length) != 0 || !list || !length) {
     return false;
+  }
 
   for (int i = 0; i < length; ++i) {
     switch (LIBMTP_filetype_t(list[i])) {

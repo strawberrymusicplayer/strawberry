@@ -81,7 +81,7 @@ void CoverSearchStatisticsDialog::Show(const CoverSearchStatistics &statistics) 
 
   AddLine(tr("Total network requests made"), QString::number(statistics.network_requests_made_));
   AddLine(tr("Average image size"), statistics.AverageDimensions());
-  AddLine(tr("Total bytes transferred"), statistics.bytes_transferred_ ? Utilities::PrettySize(statistics.bytes_transferred_) : "0 bytes");
+  AddLine(tr("Total bytes transferred"), statistics.bytes_transferred_ > 0 ? Utilities::PrettySize(statistics.bytes_transferred_) : "0 bytes");
 
   details_layout_->addStretch();
 

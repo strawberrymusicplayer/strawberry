@@ -252,10 +252,7 @@ bool VLCEngine::ALSADeviceSupport(const QString &output) {
 
 uint VLCEngine::position() const {
 
-  if (!Initialized()) return (0);
-
-  bool is_playing = libvlc_media_player_is_playing(player_);
-  if (!is_playing) return 0;
+  if (!Initialized() || !libvlc_media_player_is_playing(player_)) return 0;
 
   float pos = libvlc_media_player_get_position(player_);
   return (pos * length());
@@ -264,10 +261,7 @@ uint VLCEngine::position() const {
 
 uint VLCEngine::length() const {
 
-  if (!Initialized()) return(0);
-
-  bool is_playing = libvlc_media_player_is_playing(player_);
-  if (!is_playing) return 0;
+  if (!Initialized() || !libvlc_media_player_is_playing(player_)) return 0;
 
   libvlc_time_t len = libvlc_media_player_get_length(player_);
 

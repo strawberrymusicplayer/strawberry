@@ -77,7 +77,7 @@ PlaylistItemList PlaylistQueryGenerator::GenerateMore(const int count) {
 
   SmartPlaylistSearch search_copy = search_;
   search_copy.id_not_in_ = previous_ids_;
-  if (count) {
+  if (count > 0) {
     search_copy.limit_ = count;
   }
 

@@ -94,7 +94,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   }
 
   // Add limit
-  if (first_item_) {
+  if (first_item_ > 0) {
     sql += QString(" LIMIT %1 OFFSET %2").arg(limit_).arg(first_item_);
   }
   else if (limit_ != -1) {

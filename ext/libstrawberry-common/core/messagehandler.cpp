@@ -64,7 +64,7 @@ void _MessageHandlerBase::SetDevice(QIODevice *device) {
 
 void _MessageHandlerBase::DeviceReadyRead() {
 
-  while (device_->bytesAvailable()) {
+  while (device_->bytesAvailable() > 0) {
     if (!reading_protobuf_) {
       // Read the length of the next message
       QDataStream s(device_);

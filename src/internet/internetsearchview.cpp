@@ -832,7 +832,7 @@ void InternetSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
 
   // Walk down the item's children until we find a track
   QStandardItem *item_song = item_album;
-  while (item_song->rowCount()) {
+  while (item_song->rowCount() > 0) {
     item_song = item_song->child(0);
   }
 

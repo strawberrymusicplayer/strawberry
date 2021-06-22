@@ -323,7 +323,7 @@ void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSea
   visited->insert(item);
 
   // Does this item have children?
-  if (item->rowCount()) {
+  if (item->rowCount() > 0) {
     const QModelIndex parent_proxy_index = proxy_->mapFromSource(item->index());
 
     // Yes - visit all the children, but do so through the proxy so we get them in the right order.

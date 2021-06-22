@@ -130,7 +130,7 @@ void SmartPlaylistsModel::Init() {
   }
 
   // Save the defaults if there are any unwritten ones
-  if (unwritten_defaults) {
+  if (unwritten_defaults > 0) {
     // How many items are stored already?
     int playlist_index = s.beginReadArray(backend_->songs_table());
     s.endArray();

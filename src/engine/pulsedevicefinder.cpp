@@ -131,7 +131,7 @@ void PulseDeviceFinder::GetSinkInfoCallback(pa_context *c, const pa_sink_info *i
     state->devices.append(dev);
   }
 
-  if (eol) {
+  if (eol > 0) {
     state->finished = true;
   }
 }

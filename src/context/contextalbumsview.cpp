@@ -305,10 +305,10 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
   const bool regular_elements_only = songs_selected == regular_elements && regular_elements > 0;
 
   // in all modes
-  load_->setEnabled(songs_selected);
-  add_to_playlist_->setEnabled(songs_selected);
-  open_in_new_playlist_->setEnabled(songs_selected);
-  add_to_playlist_enqueue_->setEnabled(songs_selected);
+  load_->setEnabled(songs_selected > 0);
+  add_to_playlist_->setEnabled(songs_selected > 0);
+  open_in_new_playlist_->setEnabled(songs_selected > 0);
+  add_to_playlist_enqueue_->setEnabled(songs_selected > 0);
 
   // if neither edit_track not edit_tracks are available, we show disabled edit_track element
   edit_track_->setVisible(regular_editable <= 1);

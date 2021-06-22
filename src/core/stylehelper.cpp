@@ -292,7 +292,7 @@ void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter,
   QRect r = option->rect;
   int size = qMin(r.height(), r.width());
   QPixmap pixmap;
-  QString pixmapName = QString::asprintf("StyleHelper::drawArrow-%d-%d-%d-%f", element, size, enabled, devicePixelRatio);
+  QString pixmapName = QString::asprintf("StyleHelper::drawArrow-%d-%d-%d-%f", element, size, (enabled ? 1 : 0), devicePixelRatio);
   if (!QPixmapCache::find(pixmapName, &pixmap)) {
     QImage image(size * devicePixelRatio, size * devicePixelRatio, QImage::Format_ARGB32_Premultiplied);
     image.fill(Qt::transparent);

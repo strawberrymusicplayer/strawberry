@@ -49,7 +49,7 @@ PlaylistGeneratorInserter::PlaylistGeneratorInserter(TaskManager *task_manager, 
 
 PlaylistItemList PlaylistGeneratorInserter::Generate(PlaylistGeneratorPtr generator, int dynamic_count) {
 
-  if (dynamic_count) {
+  if (dynamic_count > 0) {
     return generator->GenerateMore(dynamic_count);
   }
   else {
