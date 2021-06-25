@@ -49,7 +49,6 @@ class ScrobblingAPI20 : public ScrobblerService {
   ~ScrobblingAPI20() override;
 
   static const char *kApiKey;
-  static const char *kRedirectUrl;
 
   void ReloadSettings() override;
   void LoadSession();
