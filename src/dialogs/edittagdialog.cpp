@@ -548,7 +548,7 @@ void EditTagDialog::UpdateFieldValue(const FieldData &field, const QModelIndexLi
   QVariant value;
 
   if (ExtendedEditor *editor = dynamic_cast<ExtendedEditor*>(field.editor_)) {
-    value = editor->value();  // clazy:exclude=qt6-deprecated-api-fixes
+    value = editor->value();
   }
   else if (field.editor_) {
     qLog(Error) << "Missing editor for" << field.editor_->objectName();

@@ -384,25 +384,23 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
     command = command.split("/").last();
   }
 
-  // Three is no QProcess::startDetachedCommand function in Qt 6, so ignore the Clazy Qt 6 deprecated API fixes for QProcess::startDetached().
-
   if (command.isEmpty() || command == "exo-open") {
     QDesktopServices::openUrl(QUrl::fromLocalFile(path));
   }
   else if (command.startsWith("nautilus")) {
-    proc.startDetached(command, QStringList() << command_params << "--select" << url.toLocalFile());  // clazy:exclude=qt6-deprecated-api-fixes
+    proc.startDetached(command, QStringList() << command_params << "--select" << url.toLocalFile());
   }
   else if (command.startsWith("dolphin") || command.startsWith("konqueror") || command.startsWith("kfmclient")) {
-    proc.startDetached(command, QStringList() << command_params << "--select" << "--new-window" << url.toLocalFile());  // clazy:exclude=qt6-deprecated-api-fixes
+    proc.startDetached(command, QStringList() << command_params << "--select" << "--new-window" << url.toLocalFile());
   }
   else if (command.startsWith("caja")) {
-    proc.startDetached(command, QStringList() << command_params << "--no-desktop" << path);  // clazy:exclude=qt6-deprecated-api-fixes
+    proc.startDetached(command, QStringList() << command_params << "--no-desktop" << path);
   }
   else if (command.startsWith("pcmanfm") || command.startsWith("thunar")) {
-    proc.startDetached(command, QStringList() << command_params << path);  // clazy:exclude=qt6-deprecated-api-fixes
+    proc.startDetached(command, QStringList() << command_params << path);
   }
   else {
-    proc.startDetached(command, QStringList() << command_params << url.toLocalFile());  // clazy:exclude=qt6-deprecated-api-fixes
+    proc.startDetached(command, QStringList() << command_params << url.toLocalFile());
   }
 
 }

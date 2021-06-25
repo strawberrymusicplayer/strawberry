@@ -377,31 +377,31 @@ SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
   // The value depends on the data type
   const QWidget *value_page = ui_->value_stack->currentWidget();
   if (value_page == ui_->page_text) {
-    ret.value_ = ui_->value_text->text();  // clazy:exclude=qt6-deprecated-api-fixes
+    ret.value_ = ui_->value_text->text();
   }
   else if (value_page == ui_->page_empty) {
-    ret.value_ = "";  // clazy:exclude=qt6-deprecated-api-fixes
+    ret.value_ = "";
   }
   else if (value_page == ui_->page_number) {
-    ret.value_ = ui_->value_number->value();  // clazy:exclude=qt6-deprecated-api-fixes
+    ret.value_ = ui_->value_number->value();
   }
   else if (value_page == ui_->page_date) {
-    ret.value_ = ui_->value_date->dateTime().toSecsSinceEpoch();  // clazy:exclude=qt6-deprecated-api-fixes
+    ret.value_ = ui_->value_date->dateTime().toSecsSinceEpoch();
   }
   else if (value_page == ui_->page_time) {
-    ret.value_ = QTime(0, 0).secsTo(ui_->value_time->time());  // clazy:exclude=qt6-deprecated-api-fixes
+    ret.value_ = QTime(0, 0).secsTo(ui_->value_time->time());
   }
   else if (value_page == ui_->page_date_numeric) {
     ret.date_ = SmartPlaylistSearchTerm::DateType(ui_->date_type->currentIndex());
-    ret.value_ = ui_->value_date_numeric->value();  // clazy:exclude=qt6-deprecated-api-fixes
+    ret.value_ = ui_->value_date_numeric->value();
   }
   else if (value_page == ui_->page_date_relative) {
     ret.date_ = SmartPlaylistSearchTerm::DateType(ui_->date_type_relative->currentIndex());
-    ret.value_ = ui_->value_date_numeric1->value();  // clazy:exclude=qt6-deprecated-api-fixes
-    ret.second_value_ = ui_->value_date_numeric2->value();  // clazy:exclude=qt6-deprecated-api-fixes
+    ret.value_ = ui_->value_date_numeric1->value();
+    ret.second_value_ = ui_->value_date_numeric2->value();
   }
   else if (value_page == ui_->page_rating) {
-    ret.value_ = ui_->value_rating->rating();  // clazy:exclude=qt6-deprecated-api-fixes
+    ret.value_ = ui_->value_rating->rating();
   }
 
   return ret;

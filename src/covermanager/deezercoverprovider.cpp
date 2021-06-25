@@ -310,7 +310,7 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
     emit SearchFinished(id, CoverProviderSearchResults());
   }
   else {
-    CoverProviderSearchResults cover_results = results.values();  // clazy:exclude=qt6-deprecated-api-fixes
+    CoverProviderSearchResults cover_results = results.values();
     std::stable_sort(cover_results.begin(), cover_results.end(), AlbumCoverFetcherSearch::CoverProviderSearchResultCompareNumber);
     emit SearchFinished(id, cover_results);
   }

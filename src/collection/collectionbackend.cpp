@@ -1167,7 +1167,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
 
   }
 
-  return albums.values();  // clazy:exclude=qt6-deprecated-api-fixes
+  return albums.values();
 
 }
 

@@ -208,17 +208,17 @@ void Mpris2::EmitNotification(const QString &name, const QVariant &val, const QS
 void Mpris2::EmitNotification(const QString &name) {
 
   QVariant value;
-  if (name == "PlaybackStatus") value = PlaybackStatus();  // clazy:exclude=qt6-deprecated-api-fixes
-  else if (name == "LoopStatus") value = LoopStatus();  // clazy:exclude=qt6-deprecated-api-fixes
-  else if (name == "Shuffle") value = Shuffle();  // clazy:exclude=qt6-deprecated-api-fixes
-  else if (name == "Metadata") value = Metadata();  // clazy:exclude=qt6-deprecated-api-fixes
-  else if (name == "Volume") value = Volume();  // clazy:exclude=qt6-deprecated-api-fixes
-  else if (name == "Position") value = Position();  // clazy:exclude=qt6-deprecated-api-fixes
-  else if (name == "CanPlay") value = CanPlay();  // clazy:exclude=qt6-deprecated-api-fixes
-  else if (name == "CanPause") value = CanPause();  // clazy:exclude=qt6-deprecated-api-fixes
-  else if (name == "CanSeek") value = CanSeek();  // clazy:exclude=qt6-deprecated-api-fixes
-  else if (name == "CanGoNext") value = CanGoNext();  // clazy:exclude=qt6-deprecated-api-fixes
-  else if (name == "CanGoPrevious") value = CanGoPrevious();  // clazy:exclude=qt6-deprecated-api-fixes
+  if (name == "PlaybackStatus") value = PlaybackStatus();
+  else if (name == "LoopStatus") value = LoopStatus();
+  else if (name == "Shuffle") value = Shuffle();
+  else if (name == "Metadata") value = Metadata();
+  else if (name == "Volume") value = Volume();
+  else if (name == "Position") value = Position();
+  else if (name == "CanPlay") value = CanPlay();
+  else if (name == "CanPause") value = CanPause();
+  else if (name == "CanSeek") value = CanSeek();
+  else if (name == "CanGoNext") value = CanGoNext();
+  else if (name == "CanGoPrevious") value = CanGoPrevious();
 
   if (value.isValid()) EmitNotification(name, value);
 

@@ -101,9 +101,9 @@ QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
       device.card = card;
       device.device = dev;
 
-      device.value = QString("hw:%1,%2").arg(card).arg(dev);  // clazy:exclude=qt6-deprecated-api-fixes
+      device.value = QString("hw:%1,%2").arg(card).arg(dev);
       ret.append(device);
-      device.value = QString("plughw:%1,%2").arg(card).arg(dev);  // clazy:exclude=qt6-deprecated-api-fixes
+      device.value = QString("plughw:%1,%2").arg(card).arg(dev);
       ret.append(device);
 
     }

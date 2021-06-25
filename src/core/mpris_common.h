@@ -32,27 +32,27 @@
 namespace mpris {
 
 inline void AddMetadata(const QString &key, const QString &metadata, QVariantMap *map) {
-  if (!metadata.isEmpty()) (*map)[key] = metadata;  // clazy:exclude=qt6-deprecated-api-fixes
+  if (!metadata.isEmpty()) (*map)[key] = metadata;
 }
 
 inline void AddMetadataAsList(const QString &key, const QString &metadata, QVariantMap *map) {
-  if (!metadata.isEmpty()) (*map)[key] = QStringList() << metadata;  // clazy:exclude=qt6-deprecated-api-fixes
+  if (!metadata.isEmpty()) (*map)[key] = QStringList() << metadata;
 }
 
 inline void AddMetadata(const QString &key, int metadata, QVariantMap *map) {
-  if (metadata > 0) (*map)[key] = metadata;  // clazy:exclude=qt6-deprecated-api-fixes
+  if (metadata > 0) (*map)[key] = metadata;
 }
 
 inline void AddMetadata(const QString &key, qint64 metadata, QVariantMap *map) {
-  if (metadata > 0) (*map)[key] = metadata;  // clazy:exclude=qt6-deprecated-api-fixes
+  if (metadata > 0) (*map)[key] = metadata;
 }
 
 inline void AddMetadata(const QString &key, double metadata, QVariantMap *map) {
-  if (metadata != 0.0) (*map)[key] = metadata;  // clazy:exclude=qt6-deprecated-api-fixes
+  if (metadata != 0.0) (*map)[key] = metadata;
 }
 
 inline void AddMetadata(const QString &key, const QDateTime &metadata, QVariantMap *map) {
-  if (metadata.isValid()) (*map)[key] = metadata;  // clazy:exclude=qt6-deprecated-api-fixes
+  if (metadata.isValid()) (*map)[key] = metadata;
 }
 
 inline QString AsMPRISDateTimeType(const qint64 time) {

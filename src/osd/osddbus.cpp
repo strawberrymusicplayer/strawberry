@@ -147,17 +147,17 @@ void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, 
 
   if (!image.isNull()) {
     if (version_ >= QVersionNumber(1, 2)) {
-      hints["image-data"] = QVariant(image);  // clazy:exclude=qt6-deprecated-api-fixes
+      hints["image-data"] = QVariant(image);
     }
     else if (version_ >= QVersionNumber(1, 1)) {
-      hints["image_data"] = QVariant(image);  // clazy:exclude=qt6-deprecated-api-fixes
+      hints["image_data"] = QVariant(image);
     }
     else {
-      hints["icon_data"] = QVariant(image);  // clazy:exclude=qt6-deprecated-api-fixes
+      hints["icon_data"] = QVariant(image);
     }
   }
 
-  hints["transient"] = QVariant(true);  // clazy:exclude=qt6-deprecated-api-fixes
+  hints["transient"] = QVariant(true);
 
   int id = 0;
   if (last_notification_time_.secsTo(QDateTime::currentDateTime()) * 1000 < timeout_msec()) {

@@ -59,7 +59,7 @@ void LyricsProviders::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(LyricsSettingsPage::kSettingsGroup);
-  QStringList providers_enabled = s.value("providers", QStringList() << all_providers.values()).toStringList();  // clazy:exclude=qt6-deprecated-api-fixes
+  QStringList providers_enabled = s.value("providers", all_providers.values()).toStringList();
   s.endGroup();
 
   int i = 0;
