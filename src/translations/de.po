@@ -132,7 +132,7 @@ msgstr " Sekunden"
 msgid " songs"
 msgstr "Lieder"
 
-#: scrobbler/scrobblingapi20.cpp:175 scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler Authentifizierung"
@@ -218,7 +218,7 @@ msgstr "%1 Lieder gefunden"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 Lieder gefunden (zeigt %2)"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:446
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -1494,7 +1494,7 @@ msgstr ""
 "GStreamer-Element »%1« konnte nicht erstellt werden. Stellen Sie sicher, "
 "dass alle nötigen GStreamer-Erweiterungen installiert sind."
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Konnte die URL nicht öffnen. Bitte diese URL im Browser öffnen"
 
@@ -2726,7 +2726,7 @@ msgstr "Internet Registerkartenansicht"
 msgid "Intro tracks"
 msgstr "Einleitungstitel"
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Ungültige Wiedergabe vom Webbrowser. Zeichen fehlt. "
 
@@ -3338,7 +3338,7 @@ msgstr "Zeige nur die ersten"
 msgid "Opacity"
 msgstr "Deckkraft"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid "Open URL in web browser?"
 msgstr "Die URL im Webbrowser öffnen?"
 
@@ -3659,7 +3659,7 @@ msgstr "Preload Funktion war nicht gesetzt für Blockiervorgang."
 msgid "Preset:"
 msgstr "Voreinstellung:"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3798,7 +3798,7 @@ msgstr "Wirklich abbrechen?"
 msgid "Received invalid reply from web browser."
 msgstr "Empfange ungültige Antwort vom Webbrowser."
 
-#: scrobbler/scrobblingapi20.cpp:223
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4168,12 +4168,12 @@ msgstr "Bildgröße anpassen"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 Fehler: %2"
 
-#: scrobbler/scrobblingapi20.cpp:549
+#: scrobbler/scrobblingapi20.cpp:541
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 ist nicht authentifiziert!"
@@ -4402,7 +4402,7 @@ msgstr "In Originalgröße anzeigen …"
 msgid "Show in collection..."
 msgstr "In Bibliothek anzeigen …"
 
-#: core/utilities.cpp:442 core/utilities.cpp:448
+#: core/utilities.cpp:440 core/utilities.cpp:446
 msgid "Show in file browser"
 msgstr "Zeige im Dateimanager"
 
@@ -5030,7 +5030,7 @@ msgstr "Sichtbarkeit der Strawberry-Bildschirmanzeige anpassen"
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: core/utilities.cpp:442
+#: core/utilities.cpp:440
 msgid "Too many songs selected."
 msgstr "Zu viele Lieder ausgewählt."
 

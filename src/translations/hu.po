@@ -117,7 +117,7 @@ msgstr " másodperc"
 msgid " songs"
 msgstr " számok"
 
-#: scrobbler/scrobblingapi20.cpp:175 scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
 #, fuzzy, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 scrobbler hitelesítés"
@@ -203,7 +203,7 @@ msgstr "%1 szám található"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 szám található (%2 megjelenítése)"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:446
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -1488,7 +1488,7 @@ msgstr ""
 "Nem hozható létre a(z) „%1” GStreamer elem – győződjön meg róla, hogy "
 "telepített-e minden szükséges GStreamer bővítményt"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Nem lehet megnyitni az URL-t. Próbálja meg böngészőben megnyitni"
 
@@ -2713,7 +2713,7 @@ msgstr "Internet lap nézet"
 msgid "Intro tracks"
 msgstr "Bevezető számok"
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Érvénytelen válasz a böngészőből. Hiányzó token."
 
@@ -3323,7 +3323,7 @@ msgstr "Csak az első megjelenítése"
 msgid "Opacity"
 msgstr "Átlátszatlanság"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid "Open URL in web browser?"
 msgstr "URL megnyitása böngészőben?"
 
@@ -3642,7 +3642,7 @@ msgstr "Nem volt előtöltési függvény beállítva a blokkoló művelethez."
 msgid "Preset:"
 msgstr "Beállítás:"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3779,7 +3779,7 @@ msgstr "Biztos, hogy kilép?"
 msgid "Received invalid reply from web browser."
 msgstr "Érvénytelen válasz érkezett a böngészőből."
 
-#: scrobbler/scrobblingapi20.cpp:223
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4145,12 +4145,12 @@ msgstr "Skála méret"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 hiba: %2"
 
-#: scrobbler/scrobblingapi20.cpp:549
+#: scrobbler/scrobblingapi20.cpp:541
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "A %1 scrobbler nincs hitelesítve!"
@@ -4377,7 +4377,7 @@ msgstr "Megjelenítés teljes méretben..."
 msgid "Show in collection..."
 msgstr "Megjelenítés a gyűjteményben..."
 
-#: core/utilities.cpp:442 core/utilities.cpp:448
+#: core/utilities.cpp:440 core/utilities.cpp:446
 msgid "Show in file browser"
 msgstr "Megnyitás a fájlböngészőben"
 
@@ -4999,7 +4999,7 @@ msgstr "OSD láthatóság bekapcsolása"
 msgid "Tomorrow"
 msgstr "Holnap"
 
-#: core/utilities.cpp:442
+#: core/utilities.cpp:440
 msgid "Too many songs selected."
 msgstr "Túl sok szám van kiválasztva."
 

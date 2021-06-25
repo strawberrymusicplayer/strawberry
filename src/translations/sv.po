@@ -116,7 +116,7 @@ msgstr " sekunder"
 msgid " songs"
 msgstr " låtar"
 
-#: scrobbler/scrobblingapi20.cpp:175 scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Skrobblarautentisering"
@@ -202,7 +202,7 @@ msgstr "%1 låtar hittades"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 låtar hittades (visar %2)"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:446
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -1468,7 +1468,7 @@ msgstr ""
 "Kunde inte skapa GStreamer-elementet \"%1\" - kontrollera att du har alla "
 "GStreamer-insticksmoduler som krävs installerade"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 "Det gick inte att öppna webbadressen. Vänligen öppna den här webbadressen i "
@@ -2693,7 +2693,7 @@ msgstr "Internet-flikvy"
 msgid "Intro tracks"
 msgstr "Introduktionsspår"
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Ogiltigt svar från webbläsaren. Saknar token."
 
@@ -3300,7 +3300,7 @@ msgstr "Visa endast de första"
 msgid "Opacity"
 msgstr "Opacitet"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid "Open URL in web browser?"
 msgstr "Öppna webbadress i webbläsaren?"
 
@@ -3619,7 +3619,7 @@ msgstr "Förinläsningsfunktionen var inte inställd för blockering."
 msgid "Preset:"
 msgstr "Förval:"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3756,7 +3756,7 @@ msgstr "Verkligen avbryta?"
 msgid "Received invalid reply from web browser."
 msgstr "Tog emot ogiltigt svar från webbläsaren."
 
-#: scrobbler/scrobblingapi20.cpp:223
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4123,12 +4123,12 @@ msgstr "Skalningsstorlek"
 msgid "Scrobbler"
 msgstr "Skrobblare"
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Skrobblare %1 fel: %2"
 
-#: scrobbler/scrobblingapi20.cpp:549
+#: scrobbler/scrobblingapi20.cpp:541
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Skrobblare %1 är inte autentiserad!"
@@ -4355,7 +4355,7 @@ msgstr "Visa i full storlek..."
 msgid "Show in collection..."
 msgstr "Visa i samlingen..."
 
-#: core/utilities.cpp:442 core/utilities.cpp:448
+#: core/utilities.cpp:440 core/utilities.cpp:446
 msgid "Show in file browser"
 msgstr "Visa i filhanteraren"
 
@@ -4978,7 +4978,7 @@ msgstr "Växla synlighet för snygg avisering"
 msgid "Tomorrow"
 msgstr "Imorgon"
 
-#: core/utilities.cpp:442
+#: core/utilities.cpp:440
 msgid "Too many songs selected."
 msgstr "För många låtar valda."
 

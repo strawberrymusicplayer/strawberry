@@ -108,7 +108,7 @@ msgstr " секунд"
 msgid " songs"
 msgstr "композиції"
 
-#: scrobbler/scrobblingapi20.cpp:175 scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Аутентифікація скробблера"
@@ -194,7 +194,7 @@ msgstr "Знайдено %1 композицій"
 msgid "%1 songs found (showing %2)"
 msgstr "Знайдено %1 композицій (показано %2)"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:446
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -1466,7 +1466,7 @@ msgstr ""
 "Не вдалось створити елемент GStreamer \"%1\" - переконайтесь, що всі "
 "потрібні для GStreamer модулі встановлені"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
@@ -2685,7 +2685,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Вступні композиції"
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr ""
 
@@ -3288,7 +3288,7 @@ msgstr ""
 msgid "Opacity"
 msgstr "Непрозорість"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid "Open URL in web browser?"
 msgstr ""
 
@@ -3606,7 +3606,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "Шаблон:"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3738,7 +3738,7 @@ msgstr "Дійсно скасувати?"
 msgid "Received invalid reply from web browser."
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:223
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4104,12 +4104,12 @@ msgstr "Масштабований розмір"
 msgid "Scrobbler"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:549
+#: scrobbler/scrobblingapi20.cpp:541
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -4336,7 +4336,7 @@ msgstr "Показати на повний розмір…"
 msgid "Show in collection..."
 msgstr "Показати у фонотеці…"
 
-#: core/utilities.cpp:442 core/utilities.cpp:448
+#: core/utilities.cpp:440 core/utilities.cpp:446
 msgid "Show in file browser"
 msgstr ""
 
@@ -4946,7 +4946,7 @@ msgstr "Змінити режим видимості приємних OSD"
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: core/utilities.cpp:442
+#: core/utilities.cpp:440
 msgid "Too many songs selected."
 msgstr ""
 

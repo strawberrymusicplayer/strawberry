@@ -104,7 +104,7 @@ msgstr " detik"
 msgid " songs"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:175 scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autentikasi Scrobbler"
@@ -190,7 +190,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:446
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -1449,7 +1449,7 @@ msgstr ""
 "Tidak dapat membuat elemen GStreamer \"%1\" - pastikan Anda memiliki semua "
 "plugin GStreamer yang dibutuhkan terpasang"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
@@ -2666,7 +2666,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Trek intro"
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Balasan tidak benar dari peramban web. Token tidak tersedia."
 
@@ -3271,7 +3271,7 @@ msgstr ""
 msgid "Opacity"
 msgstr "Kelegapan"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid "Open URL in web browser?"
 msgstr ""
 
@@ -3586,7 +3586,7 @@ msgstr "Fungsi preload tidak diatur untuk operasi memblokir."
 msgid "Preset:"
 msgstr "Prasetel:"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3718,7 +3718,7 @@ msgstr "Benar-benar membatalkan?"
 msgid "Received invalid reply from web browser."
 msgstr "Balasan yang tidak benar diterima dari peramban web."
 
-#: scrobbler/scrobblingapi20.cpp:223
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4084,12 +4084,12 @@ msgstr "Ukuran skala"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:549
+#: scrobbler/scrobblingapi20.cpp:541
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 tidak terautentikasi!"
@@ -4316,7 +4316,7 @@ msgstr "Tampilkan ukuran penuh..."
 msgid "Show in collection..."
 msgstr "Tampilkan di pustaka..."
 
-#: core/utilities.cpp:442 core/utilities.cpp:448
+#: core/utilities.cpp:440 core/utilities.cpp:446
 msgid "Show in file browser"
 msgstr "Tampilkan di peramban berkas"
 
@@ -4933,7 +4933,7 @@ msgstr "Alihkan kenampakan tampilan-pada-layar cantik"
 msgid "Tomorrow"
 msgstr "Besok"
 
-#: core/utilities.cpp:442
+#: core/utilities.cpp:440
 msgid "Too many songs selected."
 msgstr "Terlalu banyak lagu yang terpilih."
 

@@ -102,7 +102,7 @@ msgstr " seconden"
 msgid " songs"
 msgstr "nummers"
 
-#: scrobbler/scrobblingapi20.cpp:175 scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr ""
@@ -188,7 +188,7 @@ msgstr "%1 nummer gevonden"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 nummer gevonden (%2 weergegeven)"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:446
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -1455,7 +1455,7 @@ msgstr ""
 "Kan GStreamer element ‘%1’ niet aanmaken - zorg ervoor dat u alle vereiste "
 "GStreamer plug-ins geïnstalleerd heeft"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
@@ -2677,7 +2677,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Intro nummers"
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr ""
 
@@ -3282,7 +3282,7 @@ msgstr ""
 msgid "Opacity"
 msgstr "Doorzichtigheid"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid "Open URL in web browser?"
 msgstr ""
 
@@ -3598,7 +3598,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "Voorinstelling:"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3730,7 +3730,7 @@ msgstr "Werkelijk annuleren?"
 msgid "Received invalid reply from web browser."
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:223
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4094,12 +4094,12 @@ msgstr "Groote schalen"
 msgid "Scrobbler"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:549
+#: scrobbler/scrobblingapi20.cpp:541
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -4326,7 +4326,7 @@ msgstr "Volledig weergeven..."
 msgid "Show in collection..."
 msgstr "Tonen in bibliotheek..."
 
-#: core/utilities.cpp:442 core/utilities.cpp:448
+#: core/utilities.cpp:440 core/utilities.cpp:446
 msgid "Show in file browser"
 msgstr "In bestandsbeheer tonen"
 
@@ -4946,7 +4946,7 @@ msgstr "Zichtbaarheid voor het mooie infoschermvenster aan/uit"
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: core/utilities.cpp:442
+#: core/utilities.cpp:440
 msgid "Too many songs selected."
 msgstr "Te veel nummers geselecteerd."
 

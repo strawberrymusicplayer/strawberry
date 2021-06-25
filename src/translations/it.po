@@ -100,7 +100,7 @@ msgstr " secondi"
 msgid " songs"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:175 scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autenticazione Scrobbler"
@@ -186,7 +186,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:446
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -1449,7 +1449,7 @@ msgstr ""
 "Impossibile creare l'elemento «%1» di GStreamer - assicurati che tutti i "
 "plugin necessari siano installati"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Impossibile aprire l'URL. Per favore apri questo URL nel tuo browser"
 
@@ -2673,7 +2673,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Tracce di introduzione"
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Risposta non valida dal browser web. Token mancante."
 
@@ -3279,7 +3279,7 @@ msgstr ""
 msgid "Opacity"
 msgstr "Opacità"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid "Open URL in web browser?"
 msgstr "Aprire l'URL nel browser web?"
 
@@ -3598,7 +3598,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "Preimpostazione:"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3732,7 +3732,7 @@ msgstr "Vuoi davvero annullare?"
 msgid "Received invalid reply from web browser."
 msgstr "Ricevuta una risposta non valida dal browser web."
 
-#: scrobbler/scrobblingapi20.cpp:223
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4098,12 +4098,12 @@ msgstr "Riscala le dimensioni"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:549
+#: scrobbler/scrobblingapi20.cpp:541
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Lo Scrobbler %1 non è autenticato!"
@@ -4333,7 +4333,7 @@ msgstr "Mostra a dimensioni originali..."
 msgid "Show in collection..."
 msgstr "Mostra nella raccolta..."
 
-#: core/utilities.cpp:442 core/utilities.cpp:448
+#: core/utilities.cpp:440 core/utilities.cpp:446
 msgid "Show in file browser"
 msgstr "Mostra nel browser di file"
 
@@ -4956,7 +4956,7 @@ msgstr "Commuta la visibilità di Pretty OSD"
 msgid "Tomorrow"
 msgstr "Domani"
 
-#: core/utilities.cpp:442
+#: core/utilities.cpp:440
 msgid "Too many songs selected."
 msgstr "Troppe canzoni selezionate."
 

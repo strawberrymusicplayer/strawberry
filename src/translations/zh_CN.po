@@ -104,7 +104,7 @@ msgstr " 秒"
 msgid " songs"
 msgstr "歌曲"
 
-#: scrobbler/scrobblingapi20.cpp:175 scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr ""
@@ -190,7 +190,7 @@ msgstr "%1的歌曲被找到"
 msgid "%1 songs found (showing %2)"
 msgstr "%1的歌曲被找到（正在展示2%）"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:446
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -1451,7 +1451,7 @@ msgid ""
 "required GStreamer plugins installed"
 msgstr "无法创建GStreamer元素 \"%1\" - 请确认您已安装了所需GStreamer插件"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
@@ -2658,7 +2658,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "代表曲目"
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr ""
 
@@ -3259,7 +3259,7 @@ msgstr ""
 msgid "Opacity"
 msgstr "不透明度"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid "Open URL in web browser?"
 msgstr ""
 
@@ -3574,7 +3574,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "预设："
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3706,7 +3706,7 @@ msgstr "确实取消？"
 msgid "Received invalid reply from web browser."
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:223
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4068,12 +4068,12 @@ msgstr "缩放"
 msgid "Scrobbler"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:549
+#: scrobbler/scrobblingapi20.cpp:541
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -4300,7 +4300,7 @@ msgstr "显示完整尺寸..."
 msgid "Show in collection..."
 msgstr "在媒体库中显示"
 
-#: core/utilities.cpp:442 core/utilities.cpp:448
+#: core/utilities.cpp:440 core/utilities.cpp:446
 msgid "Show in file browser"
 msgstr ""
 
@@ -4894,7 +4894,7 @@ msgstr "切换 OSD 可见性"
 msgid "Tomorrow"
 msgstr "明天"
 
-#: core/utilities.cpp:442
+#: core/utilities.cpp:440
 msgid "Too many songs selected."
 msgstr ""
 

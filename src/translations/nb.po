@@ -98,7 +98,7 @@ msgstr " sekunder"
 msgid " songs"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:175 scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler bruker autentisering"
@@ -184,7 +184,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:446
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -1442,7 +1442,7 @@ msgstr ""
 "Kunne ikke opprette GStreamer-elementet \"%1\" - sørg for at du har alle "
 "nødvendige GStreamer-programutvidelser installert"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Kunne ikke åpne URL. Prøv å åpne denne URLen  i din nettleser"
 
@@ -2658,7 +2658,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Introspor"
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Ugyldig svar fra nettleseren. Mangler token."
 
@@ -3259,7 +3259,7 @@ msgstr ""
 msgid "Opacity"
 msgstr "Dekkevne"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid "Open URL in web browser?"
 msgstr ""
 
@@ -3575,7 +3575,7 @@ msgstr "Preload function was not set for blocking operation."
 msgid "Preset:"
 msgstr "Forhåndsinnstilling:"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3707,7 +3707,7 @@ msgstr "Vil du virkelig avbryte?"
 msgid "Received invalid reply from web browser."
 msgstr "Mottok ugyldig svar fra nettleseren."
 
-#: scrobbler/scrobblingapi20.cpp:223
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4073,12 +4073,12 @@ msgstr "Skaler størrelse"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:549
+#: scrobbler/scrobblingapi20.cpp:541
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 er ikke autentisert!"
@@ -4305,7 +4305,7 @@ msgstr "Fullskjermvisning…"
 msgid "Show in collection..."
 msgstr "Vis i samling…"
 
-#: core/utilities.cpp:442 core/utilities.cpp:448
+#: core/utilities.cpp:440 core/utilities.cpp:446
 msgid "Show in file browser"
 msgstr "Vis i fil utforsker"
 
@@ -4919,7 +4919,7 @@ msgstr "Slå av/på synlighet for det pene skjermbilde overlegget"
 msgid "Tomorrow"
 msgstr "I morgen"
 
-#: core/utilities.cpp:442
+#: core/utilities.cpp:440
 msgid "Too many songs selected."
 msgstr "For mange sanger er valgt."
 

@@ -100,7 +100,7 @@ msgstr " sekuntia"
 msgid " songs"
 msgstr "kappaleet"
 
-#: scrobbler/scrobblingapi20.cpp:175 scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler-tunnistautuminen"
@@ -186,7 +186,7 @@ msgstr "%1 kappaletta löytyi"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 kappaletta löytyi (näytetään %2)"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:446
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -1444,7 +1444,7 @@ msgstr ""
 "GStreamer-elementin \"%1\" luonti epäonnistui - varmista, että kaikki "
 "vaaditut GStreamer-liitännäiset on asennettu"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 "URL-osoitetta ei voitu avata. Ole hyvä ja kokeile avata URL selaimessasi"
@@ -2666,7 +2666,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Intro-kappaleet"
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr ""
 
@@ -3271,7 +3271,7 @@ msgstr "Näytä pelkästään ensimmäinen"
 msgid "Opacity"
 msgstr "Läpinäkyvyys"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid "Open URL in web browser?"
 msgstr "Avataanko osoite verkkoselaimessa?"
 
@@ -3586,7 +3586,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "Asetus:"
 
-#: scrobbler/scrobblingapi20.cpp:175
+#: scrobbler/scrobblingapi20.cpp:167
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3718,7 +3718,7 @@ msgstr "Haluatko todella perua?"
 msgid "Received invalid reply from web browser."
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:223
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4083,12 +4083,12 @@ msgstr "Skaalaa koko"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 virhe: %2"
 
-#: scrobbler/scrobblingapi20.cpp:549
+#: scrobbler/scrobblingapi20.cpp:541
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -4315,7 +4315,7 @@ msgstr "Näytä oikeassa koossa..."
 msgid "Show in collection..."
 msgstr "Näytä kirjastossa..."
 
-#: core/utilities.cpp:442 core/utilities.cpp:448
+#: core/utilities.cpp:440 core/utilities.cpp:446
 msgid "Show in file browser"
 msgstr "Näytä tiedostonhallinnassa"
 
@@ -4924,7 +4924,7 @@ msgstr "Kuvaruutunäyttö päälle / pois"
 msgid "Tomorrow"
 msgstr "Huomenna"
 
-#: core/utilities.cpp:442
+#: core/utilities.cpp:440
 msgid "Too many songs selected."
 msgstr "Liian monta kappaletta valittu."
 
