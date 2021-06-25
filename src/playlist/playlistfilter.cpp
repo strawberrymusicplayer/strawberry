@@ -79,7 +79,7 @@ void PlaylistFilter::sort(int column, Qt::SortOrder order) {
 bool PlaylistFilter::filterAcceptsRow(int row, const QModelIndex &parent) const {
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  QString filter = filterRegularExpression().pattern().replace("\\ ", " ");
+  QString filter = filterRegularExpression().pattern().remove('\\');
 #else
   QString filter = filterRegExp().pattern();
 #endif
