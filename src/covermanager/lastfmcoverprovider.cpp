@@ -253,8 +253,8 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
       continue;
     }
     QJsonArray array_image = json_image.toArray();
-    QUrl url;
-    LastFmImageSize size(LastFmImageSize::Unknown);
+    QString image_url_use;
+    LastFmImageSize image_size_use(LastFmImageSize::Unknown);
     for (const QJsonValueRef value_image : array_image) {
       if (!value_image.isObject()) {
         Error("Invalid Json reply, album image value is not an object.");
@@ -266,20 +266,28 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
         continue;
       }
       QString image_url = obj_image["#text"].toString();
+      if (image_url.isEmpty()) continue;
       LastFmImageSize image_size = ImageSizeFromString(obj_image["size"].toString().toLower());
-      if (url.isEmpty() || image_size > size) {
-        url.setUrl(image_url);
-        size = image_size;
+      if (image_url_use.isEmpty() || image_size > image_size_use) {
+        image_url_use = image_url;
+        image_size_use = image_size;
       }
     }
 
+    if (image_url_use.isEmpty()) continue;
+
+    // Workaround for API limiting to 300x300 images.
+    if (image_url_use.contains("/300x300/")) {
+      image_url_use = image_url_use.replace("/300x300/", "/740x0/");
+    }
+    QUrl url(image_url_use);
     if (!url.isValid()) continue;
 
     CoverProviderSearchResult cover_result;
     cover_result.artist = artist;
     cover_result.album = album;
     cover_result.image_url = url;
-    cover_result.image_size = QSize(size, size);
+    cover_result.image_size = QSize(300, 300);
     results << cover_result;
   }
   emit SearchFinished(id, results);
