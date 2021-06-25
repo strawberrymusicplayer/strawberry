@@ -60,8 +60,6 @@ class CollectionDirectoryModel;
 class CollectionModel : public SimpleTreeModel<CollectionItem> {
   Q_OBJECT
 
-  Q_ENUMS(GroupBy) // clazy:exclude=qenums
-
  public:
   explicit CollectionModel(CollectionBackend *backend, Application *app, QObject *parent = nullptr);
   ~CollectionModel() override;
@@ -107,6 +105,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     GroupBy_Bitrate = 20,
     GroupByCount = 21,
   };
+  Q_ENUM(GroupBy)
 
   struct Grouping {
     explicit Grouping(GroupBy f = GroupBy_None, GroupBy s = GroupBy_None, GroupBy t = GroupBy_None)
