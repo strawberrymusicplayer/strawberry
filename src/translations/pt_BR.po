@@ -759,7 +759,7 @@ msgstr "Adicionado(s) hoje"
 msgid "Added within three months"
 msgstr "Adicionado(s) há três meses"
 
-#: collection/collectionfilterwidget.cpp:254
+#: collection/collectionfilterwidget.cpp:299
 msgid "Advanced grouping..."
 msgstr "Organização avançada..."
 
@@ -2440,59 +2440,59 @@ msgstr "Organizar Biblioteca por..."
 msgid "Group by"
 msgstr "Organizar por"
 
-#: collection/collectionfilterwidget.cpp:219
+#: collection/collectionfilterwidget.cpp:264
 msgid "Group by Album"
 msgstr "Organizar por Álbum"
 
-#: collection/collectionfilterwidget.cpp:216
+#: collection/collectionfilterwidget.cpp:261
 msgid "Group by Album Artist"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:203
+#: collection/collectionfilterwidget.cpp:248
 msgid "Group by Album artist/Album"
 msgstr "Organizar por Artista do álbum/Álbum"
 
-#: collection/collectionfilterwidget.cpp:204
+#: collection/collectionfilterwidget.cpp:249
 msgid "Group by Album artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:205
+#: collection/collectionfilterwidget.cpp:250
 msgid "Group by Album artist/Year - Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:206
+#: collection/collectionfilterwidget.cpp:251
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:217
+#: collection/collectionfilterwidget.cpp:262
 msgid "Group by Artist"
 msgstr "Organizar por Artista"
 
-#: collection/collectionfilterwidget.cpp:208
+#: collection/collectionfilterwidget.cpp:253
 msgid "Group by Artist/Album"
 msgstr "Organizar por Artista/Álbum"
 
-#: collection/collectionfilterwidget.cpp:209
+#: collection/collectionfilterwidget.cpp:254
 msgid "Group by Artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:210
+#: collection/collectionfilterwidget.cpp:255
 msgid "Group by Artist/Year - Album"
 msgstr "Organizar por Artista/Ano do Álbum"
 
-#: collection/collectionfilterwidget.cpp:211
+#: collection/collectionfilterwidget.cpp:256
 msgid "Group by Artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:220
+#: collection/collectionfilterwidget.cpp:265
 msgid "Group by Genre/Album"
 msgstr "Organizar por Gênero/Álbum"
 
-#: collection/collectionfilterwidget.cpp:213
+#: collection/collectionfilterwidget.cpp:258
 msgid "Group by Genre/Album artist/Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:214
+#: collection/collectionfilterwidget.cpp:259
 msgid "Group by Genre/Artist/Album"
 msgstr "Organizar por Gênero/Artista/Álbum"
 
@@ -2503,11 +2503,11 @@ msgstr "Organizar por Gênero/Artista/Álbum"
 msgid "Grouping"
 msgstr "Agrupamento"
 
-#: collection/collectionfilterwidget.cpp:275
+#: collection/collectionfilterwidget.cpp:320
 msgid "Grouping Name"
 msgstr "Nome do agrupamento"
 
-#: collection/collectionfilterwidget.cpp:275
+#: collection/collectionfilterwidget.cpp:320
 msgid "Grouping name:"
 msgstr "Nome do agrupamento:"
 
@@ -5003,14 +5003,13 @@ msgstr "Banda ultralarga (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:573 context/contextalbumsmodel.cpp:358
-#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
-#: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1605
-#: collection/savedgroupingmanager.cpp:146 playlist/playlistdelegates.cpp:354
-#: playlist/playlistmanager.cpp:576 playlist/playlistmanager.cpp:577
-#: dialogs/edittagdialog.cpp:712 dialogs/edittagdialog.cpp:739
-#: ../build/src/ui_scrobblersettingspage.h:411
+#: core/song.cpp:573 collection/collectionmodel.cpp:481
+#: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
+#: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
+#: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146
+#: playlist/playlistdelegates.cpp:354 playlist/playlistmanager.cpp:576
+#: playlist/playlistmanager.cpp:577 dialogs/edittagdialog.cpp:712
+#: dialogs/edittagdialog.cpp:739 ../build/src/ui_scrobblersettingspage.h:411
 msgid "Unknown"
 msgstr "Desconhecido"
 
