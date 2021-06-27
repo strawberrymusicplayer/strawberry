@@ -47,9 +47,9 @@ class SCollection : public QObject {
   ~SCollection() override;
 
   static const char *kSongsTable;
+  static const char *kFtsTable;
   static const char *kDirsTable;
   static const char *kSubdirsTable;
-  static const char *kFtsTable;
 
   void Init();
   void Exit();

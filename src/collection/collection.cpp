@@ -43,9 +43,9 @@
 #include "scrobbler/lastfmimport.h"
 
 const char *SCollection::kSongsTable = "songs";
+const char *SCollection::kFtsTable = "songs_fts";
 const char *SCollection::kDirsTable = "directories";
 const char *SCollection::kSubdirsTable = "subdirectories";
-const char *SCollection::kFtsTable = "songs_fts";
 
 SCollection::SCollection(Application *app, QObject *parent)
     : QObject(parent),
@@ -62,7 +62,7 @@ SCollection::SCollection(Application *app, QObject *parent)
   backend()->moveToThread(app->database()->thread());
   qLog(Debug) << backend_ << "moved to thread" << app->database()->thread();
 
-  backend_->Init(app->database(), Song::Source_Collection, kSongsTable, kDirsTable, kSubdirsTable, kFtsTable);
+  backend_->Init(app->database(), Song::Source_Collection, kSongsTable, kFtsTable, kDirsTable, kSubdirsTable);
 
   model_ = new CollectionModel(backend_, app_, this);
 

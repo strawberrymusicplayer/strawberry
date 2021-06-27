@@ -126,7 +126,7 @@ class CollectionBackend : public CollectionBackendInterface {
 
   Q_INVOKABLE explicit CollectionBackend(QObject *parent = nullptr);
 
-  void Init(Database *db, const Song::Source source, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table, const QString &fts_table);
+  void Init(Database *db, const Song::Source source, const QString &songs_table, const QString &fts_table, const QString &dirs_table = QString(), const QString &subdirs_table = QString());
   void Close();
 
   void ExitAsync();

@@ -65,9 +65,9 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
   backend_->Init(app_->database(),
                  Song::Source_Device,
                  QString("device_%1_songs").arg(database_id),
+                 QString("device_%1_fts").arg(database_id),
                  QString("device_%1_directories").arg(database_id),
-                 QString("device_%1_subdirectories").arg(database_id),
-                 QString("device_%1_fts").arg(database_id));
+                 QString("device_%1_subdirectories").arg(database_id));
 
   // Create the model
   model_ = new CollectionModel(backend_, app_, this);
