@@ -24,22 +24,19 @@
 
 namespace Utilities {
 
-/**
- * @brief Try and parse the string as '[[h:]m:]s' (ignoring all spaces),
- * and return the number of seconds if it parses correctly.
- * If not, the original string is returned.
- * The 'h', 'm' and 's' components can have any length (including 0).
- * A few examples:
- *  "::"       is parsed to "0"
- *  "1::"      is parsed to "3600"
- *  "3:45"     is parsed to "225"
- *  "1:165"    is parsed to "225"
- *  "225"      is parsed to "225" (srsly! ^.^)
- *  "2:3:4:5"  is parsed to "2:3:4:5"
- *  "25m"      is parsed to "25m"
- * @param time_str
- * @return
- */
+// Try and parse the string as '[[h:]m:]s' (ignoring all spaces),
+// and return the number of seconds if it parses correctly.
+// If not, the original string is returned.
+// The 'h', 'm' and 's' components can have any length (including 0).
+// A few examples:
+//  "::"       is parsed to "0"
+//  "1::"      is parsed to "3600"
+//  "3:45"     is parsed to "225"
+//  "1:165"    is parsed to "225"
+//  "225"      is parsed to "225" (srsly! ^.^)
+//  "2:3:4:5"  is parsed to "2:3:4:5"
+//  "25m"      is parsed to "25m"
+
 int ParseSearchTime(const QString &time_str) {
 
   int seconds = 0;
@@ -67,38 +64,48 @@ int ParseSearchTime(const QString &time_str) {
 
 }
 
-/**
- * @brief Parses a rating search term to float.
- *  If the rating is a number from 0-5, map it to 0-1
- *  To use float values directly, the search term can be prefixed with "f" (rating:>f0.2)
- *  If search str is 0, or by default, uses -1
- * @param rating_str: Rating search 0-5, or "f0.2"
- * @return float: rating from 0-1 or -1 if not rated.
- */
+// Parses a rating search term to float.
+//  If the rating is a number from 0-5, map it to 0-1
+//  To use float values directly, the search term can be prefixed with "f" (rating:>f0.2)
+//  If search string is 0, or by default, uses -1
+// @param rating_str: Rating search 0-5, or "f0.2"
+// @return float: rating from 0-1 or -1 if not rated.
+
 float ParseSearchRating(const QString &rating_str) {
 
   if (rating_str.isEmpty()) {
     return -1;
   }
+
   float rating = -1.0F;
-  bool ok = false;
-  float rating_input = rating_str.toFloat(&ok);
-  // is valid int from 0-5: convert to float
-  if (ok && rating_input >= 0 && rating_input <= 5) {
-    rating = rating_input / 5.0F;
-  }
 
-  // check if the search is a float
-  else if (rating_str.at(0) == QLatin1Char('f')) {
-    QString rating_float = rating_str;
-    rating_float = rating_float.remove(0, 1);
-
-    ok = false;
-    rating_float.toFloat(&ok);
+  // Check if the search is a float
+  if (rating_str.contains(QLatin1Char('f'), Qt::CaseInsensitive)) {
+    if (rating_str.count(QLatin1Char('f'), Qt::CaseInsensitive) > 1) {
+      return rating;
+    }
+    QString rating_float_str = rating_str;
+    if (rating_str.at(0) == QLatin1Char('f') || rating_str.at(0) == QLatin1Char('F')) {
+      rating_float_str = rating_float_str.remove(0, 1);
+    }
+    if (rating_str.right(1) == QLatin1Char('f') || rating_str.right(1) == QLatin1Char('F')) {
+      rating_float_str.chop(1);
+    }
+    bool ok = false;
+    const float rating_input = rating_float_str.toFloat(&ok);
     if (ok) {
-      rating = rating_float.toFloat(&ok);
+      rating = rating_input;
     }
   }
+  else {
+    bool ok = false;
+    const int rating_input = rating_str.toInt(&ok);
+    // Is valid int from 0-5: convert to float
+    if (ok && rating_input >= 0 && rating_input <= 5) {
+      rating = static_cast<float>(rating_input) / 5.0F;
+    }
+  }
+
   // Songs with zero rating have -1 in the DB
   if (rating == 0) {
     rating = -1;

@@ -233,7 +233,7 @@ void DeviceManager::LoadAllDevices() {
 
   DeviceDatabaseBackend::DeviceList devices = backend_->GetAllDevices();
   for (const DeviceDatabaseBackend::Device &device : devices) {
-    DeviceInfo *info = new DeviceInfo(DeviceInfo::Type_Device, root_);
+    DeviceInfo *info = new DeviceInfo(DeviceInfo::Type::Device, root_);
     info->InitFromDb(device);
     emit DeviceCreatedFromDB(info);
   }
@@ -479,7 +479,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
     }
     else {
       // It's a completely new device
-      info = new DeviceInfo(DeviceInfo::Type_Device, root_);
+      info = new DeviceInfo(DeviceInfo::Type::Device, root_);
       info->backends_ << DeviceInfo::Backend(lister, id);
       info->friendly_name_ = lister->MakeFriendlyName(id);
       info->size_ = lister->DeviceCapacity(id);

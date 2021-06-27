@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,36 +17,22 @@
  *
  */
 
-#ifndef RADIOITEM_H
-#define RADIOITEM_H
+#ifndef COLLECTIONMODELUPDATE_H
+#define COLLECTIONMODELUPDATE_H
 
-#include "config.h"
-
-#include "core/simpletreeitem.h"
 #include "core/song.h"
-#include "radiochannel.h"
 
-class RadioItem : public SimpleTreeItem<RadioItem> {
+class CollectionModelUpdate {
  public:
-
   enum class Type {
-    LoadingIndicator,
-    Root,
-    Service,
-    Channel
+    AddReAddOrUpdate,
+    Add,
+    Update,
+    Remove,
   };
-
-  explicit RadioItem(SimpleTreeModel<RadioItem> *_model) : SimpleTreeItem<RadioItem>(_model), type(Type::Root) {}
-  explicit RadioItem(const Type _type, RadioItem *_parent = nullptr) : SimpleTreeItem<RadioItem>(_parent), type(_type) {}
-
+  explicit CollectionModelUpdate(const Type &_type, const SongList &_songs);
   Type type;
-  Song::Source source;
-  RadioChannel channel;
-
- private:
-  Q_DISABLE_COPY(RadioItem)
+  SongList songs;
 };
 
-Q_DECLARE_METATYPE(RadioItem::Type)
-
-#endif  // RADIOITEM_H
+#endif  // COLLECTIONMODELUPDATE_H

@@ -28,16 +28,16 @@
 #include <QUrl>
 #include <QThread>
 #include <QSignalSpy>
-#include <QSortFilterProxyModel>
 #include <QtDebug>
 
 #include "core/logging.h"
 #include "core/scoped_ptr.h"
 #include "core/shared_ptr.h"
 #include "core/database.h"
-#include "collection/collectionmodel.h"
-#include "collection/collectionbackend.h"
 #include "collection/collection.h"
+#include "collection/collectionbackend.h"
+#include "collection/collectionmodel.h"
+#include "collection/collectionfilter.h"
 
 using std::make_unique;
 using std::make_shared;
@@ -48,22 +48,17 @@ namespace {
 
 class CollectionModelTest : public ::testing::Test {
  public:
-  CollectionModelTest() : added_dir_(false) {}
+  CollectionModelTest() : collection_filter_(nullptr), added_dir_(false) {}
 
  protected:
   void SetUp() override {
     database_ = make_shared<MemoryDatabase>(nullptr);
     backend_ = make_shared<CollectionBackend>();
-    backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(SCollection::kSongsTable), QLatin1String(SCollection::kFtsTable), QLatin1String(SCollection::kDirsTable), QLatin1String(SCollection::kSubdirsTable));
+    backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(SCollection::kSongsTable), QLatin1String(SCollection::kDirsTable), QLatin1String(SCollection::kSubdirsTable));
     model_ = make_unique<CollectionModel>(backend_, nullptr);
+    collection_filter_ = model_->filter();
 
     added_dir_ = false;
-
-    model_sorted_ =  make_unique<QSortFilterProxyModel>();
-    model_sorted_->setSourceModel(&*model_);
-    model_sorted_->setSortRole(CollectionModel::Role_SortText);
-    model_sorted_->setDynamicSortFilter(true);
-    model_sorted_->sort(0);
 
   }
 
@@ -79,7 +74,11 @@ class CollectionModelTest : public ::testing::Test {
       added_dir_ = true;
     }
 
+    QEventLoop loop;
+    QObject::connect(&*model_, &CollectionModel::rowsInserted, &loop, &QEventLoop::quit);
     backend_->AddOrUpdateSongs(SongList() << song);
+    loop.exec();
+
     return song;
   }
 
@@ -94,7 +93,7 @@ class CollectionModelTest : public ::testing::Test {
   SharedPtr<Database> database_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
   SharedPtr<CollectionBackend> backend_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
   ScopedPtr<CollectionModel> model_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-  ScopedPtr<QSortFilterProxyModel> model_sorted_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  CollectionFilter *collection_filter_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
   bool added_dir_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
@@ -108,14 +107,13 @@ TEST_F(CollectionModelTest, WithInitialArtists) {
   AddSong(QStringLiteral("Title"), QStringLiteral("Artist 1"), QStringLiteral("Album"), 123);
   AddSong(QStringLiteral("Title"), QStringLiteral("Artist 2"), QStringLiteral("Album"), 123);
   AddSong(QStringLiteral("Title"), QStringLiteral("Foo"), QStringLiteral("Album"), 123);
-  model_->Init(false);
 
-  ASSERT_EQ(5, model_sorted_->rowCount(QModelIndex()));
-  EXPECT_EQ(QStringLiteral("A"), model_sorted_->index(0, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("Artist 1"), model_sorted_->index(1, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("Artist 2"), model_sorted_->index(2, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("F"), model_sorted_->index(3, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("Foo"), model_sorted_->index(4, 0, QModelIndex()).data().toString());
+  ASSERT_EQ(5, collection_filter_->rowCount(QModelIndex()));
+  EXPECT_EQ(QStringLiteral("A"), collection_filter_->index(0, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(QStringLiteral("Artist 1"), collection_filter_->index(1, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(QStringLiteral("Artist 2"), collection_filter_->index(2, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(QStringLiteral("F"), collection_filter_->index(3, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(QStringLiteral("Foo"), collection_filter_->index(4, 0, QModelIndex()).data().toString());
 
 }
 
@@ -128,8 +126,6 @@ TEST_F(CollectionModelTest, CompilationAlbums) {
   song.set_ctime(0);
 
   AddSong(song);
-  model_->Init(false);
-  model_->fetchMore(model_->index(0, 0));
 
   ASSERT_EQ(1, model_->rowCount(QModelIndex()));
 
@@ -150,15 +146,14 @@ TEST_F(CollectionModelTest, NumericHeaders) {
   AddSong(QStringLiteral("Title"), QStringLiteral("2artist"), QStringLiteral("Album"), 123);
   AddSong(QStringLiteral("Title"), QStringLiteral("0artist"), QStringLiteral("Album"), 123);
   AddSong(QStringLiteral("Title"), QStringLiteral("zartist"), QStringLiteral("Album"), 123);
-  model_->Init(false);
 
-  ASSERT_EQ(6, model_sorted_->rowCount(QModelIndex()));
-  EXPECT_EQ(QStringLiteral("0-9"), model_sorted_->index(0, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("0artist"), model_sorted_->index(1, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("1artist"), model_sorted_->index(2, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("2artist"), model_sorted_->index(3, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("Z"), model_sorted_->index(4, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("zartist"), model_sorted_->index(5, 0, QModelIndex()).data().toString());
+  ASSERT_EQ(6, collection_filter_->rowCount(QModelIndex()));
+  EXPECT_EQ(QStringLiteral("0-9"), collection_filter_->index(0, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(QStringLiteral("0artist"), collection_filter_->index(1, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(QStringLiteral("1artist"), collection_filter_->index(2, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(QStringLiteral("2artist"), collection_filter_->index(3, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(QStringLiteral("Z"), collection_filter_->index(4, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(QStringLiteral("zartist"), collection_filter_->index(5, 0, QModelIndex()).data().toString());
 
 }
 
@@ -166,20 +161,17 @@ TEST_F(CollectionModelTest, MixedCaseHeaders) {
 
   AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
   AddSong(QStringLiteral("Title"), QStringLiteral("artist"), QStringLiteral("Album"), 123);
-  model_->Init(false);
 
-  ASSERT_EQ(3, model_sorted_->rowCount(QModelIndex()));
-  EXPECT_EQ(QStringLiteral("A"), model_sorted_->index(0, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("Artist"), model_sorted_->index(1, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("artist"), model_sorted_->index(2, 0, QModelIndex()).data().toString());
+  ASSERT_EQ(3, collection_filter_->rowCount(QModelIndex()));
+  EXPECT_EQ(QStringLiteral("A"), collection_filter_->index(0, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(QStringLiteral("Artist"), collection_filter_->index(1, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(QStringLiteral("artist"), collection_filter_->index(2, 0, QModelIndex()).data().toString());
 
 }
 
 TEST_F(CollectionModelTest, UnknownArtists) {
 
   AddSong(QStringLiteral("Title"), QLatin1String(""), QStringLiteral("Album"), 123);
-  model_->Init(false);
-  model_->fetchMore(model_->index(0, 0));
 
   ASSERT_EQ(1, model_->rowCount(QModelIndex()));
   QModelIndex unknown_index = model_->index(0, 0, QModelIndex());
@@ -194,10 +186,9 @@ TEST_F(CollectionModelTest, UnknownAlbums) {
 
   AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QLatin1String(""), 123);
   AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
-  model_->Init(false);
-  model_->fetchMore(model_->index(0, 0));
 
-  QModelIndex artist_index = model_->index(0, 0, QModelIndex());
+  QModelIndex artist_index = model_->index(1, 0, QModelIndex());
+  EXPECT_EQ(artist_index.isValid(), true);
   ASSERT_EQ(2, model_->rowCount(artist_index));
 
   QModelIndex unknown_album_index = model_->index(0, 0, artist_index);
@@ -228,14 +219,11 @@ TEST_F(CollectionModelTest, VariousArtistSongs) {
 
   for (int i=0 ; i < 4 ; ++i)
     AddSong(songs[i]);
-  model_->Init(false);
 
   QModelIndex artist_index = model_->index(0, 0, QModelIndex());
-  model_->fetchMore(artist_index);
   ASSERT_EQ(1, model_->rowCount(artist_index));
 
   QModelIndex album_index = model_->index(0, 0, artist_index);
-  model_->fetchMore(album_index);
   ASSERT_EQ(4, model_->rowCount(album_index));
 
   EXPECT_EQ(QStringLiteral("Artist 1 - Title 1"), model_->index(0, 0, album_index).data().toString());
@@ -245,19 +233,16 @@ TEST_F(CollectionModelTest, VariousArtistSongs) {
 
 }
 
-TEST_F(CollectionModelTest, RemoveSongsLazyLoaded) {
+TEST_F(CollectionModelTest, RemoveSongs) {
 
   Song one = AddSong(QStringLiteral("Title 1"), QStringLiteral("Artist"), QStringLiteral("Album"), 123); one.set_id(1);
   Song two = AddSong(QStringLiteral("Title 2"), QStringLiteral("Artist"), QStringLiteral("Album"), 123); two.set_id(2);
   AddSong(QStringLiteral("Title 3"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
-  model_->Init(false);
 
-  // Lazy load the items
-  QModelIndex artist_index = model_->index(0, 0, QModelIndex());
-  model_->fetchMore(artist_index);
+  QModelIndex artist_index = model_->index(1, 0, QModelIndex());
   ASSERT_EQ(1, model_->rowCount(artist_index));
+
   QModelIndex album_index = model_->index(0, 0, artist_index);
-  model_->fetchMore(album_index);
   ASSERT_EQ(3, model_->rowCount(album_index));
 
   // Remove the first two songs
@@ -265,36 +250,20 @@ TEST_F(CollectionModelTest, RemoveSongsLazyLoaded) {
   QSignalSpy spy_remove(&*model_, &CollectionModel::rowsRemoved);
   QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
 
+  QEventLoop loop;
+  QObject::connect(&*model_, &CollectionModel::rowsRemoved, &loop, &QEventLoop::quit);
   backend_->DeleteSongs(SongList() << one << two);
+  loop.exec();
 
   ASSERT_EQ(2, spy_preremove.count());
   ASSERT_EQ(2, spy_remove.count());
   ASSERT_EQ(0, spy_reset.count());
 
-  artist_index = model_->index(0, 0, QModelIndex());
+  artist_index = model_->index(1, 0, QModelIndex());
   ASSERT_EQ(1, model_->rowCount(artist_index));
   album_index = model_->index(0, 0, artist_index);
   ASSERT_EQ(1, model_->rowCount(album_index));
   EXPECT_EQ(QStringLiteral("Title 3"), model_->index(0, 0, album_index).data().toString());
-
-}
-
-TEST_F(CollectionModelTest, RemoveSongsNotLazyLoaded) {
-
-  Song one = AddSong(QStringLiteral("Title 1"), QStringLiteral("Artist"), QStringLiteral("Album"), 123); one.set_id(1);
-  Song two = AddSong(QStringLiteral("Title 2"), QStringLiteral("Artist"), QStringLiteral("Album"), 123); two.set_id(2);
-  model_->Init(false);
-
-  // Remove the first two songs
-  QSignalSpy spy_preremove(&*model_, &CollectionModel::rowsAboutToBeRemoved);
-  QSignalSpy spy_remove(&*model_, &CollectionModel::rowsRemoved);
-  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
-
-  backend_->DeleteSongs(SongList() << one << two);
-
-  ASSERT_EQ(0, spy_preremove.count());
-  ASSERT_EQ(0, spy_remove.count());
-  ASSERT_EQ(1, spy_reset.count());
 
 }
 
@@ -303,21 +272,21 @@ TEST_F(CollectionModelTest, RemoveEmptyAlbums) {
   Song one = AddSong(QStringLiteral("Title 1"), QStringLiteral("Artist"), QStringLiteral("Album 1"), 123); one.set_id(1);
   Song two = AddSong(QStringLiteral("Title 2"), QStringLiteral("Artist"), QStringLiteral("Album 2"), 123); two.set_id(2);
   Song three = AddSong(QStringLiteral("Title 3"), QStringLiteral("Artist"), QStringLiteral("Album 2"), 123); three.set_id(3);
-  model_->Init(false);
 
-  QModelIndex artist_index = model_->index(0, 0, QModelIndex());
-  model_->fetchMore(artist_index);
+  QModelIndex artist_index = model_->index(1, 0, QModelIndex());
   ASSERT_EQ(2, model_->rowCount(artist_index));
 
   // Remove one song from each album
+  QEventLoop loop;
+  QObject::connect(&*model_, &CollectionModel::rowsRemoved, &loop, &QEventLoop::quit);
   backend_->DeleteSongs(SongList() << one << two);
+  loop.exec();
 
   // Check the model
-  artist_index = model_->index(0, 0, QModelIndex());
-  model_->fetchMore(artist_index);
+  artist_index = model_->index(1, 0, QModelIndex());
   ASSERT_EQ(1, model_->rowCount(artist_index));
+
   QModelIndex album_index = model_->index(0, 0, artist_index);
-  model_->fetchMore(album_index);
   EXPECT_EQ(QStringLiteral("Album 2"), album_index.data().toString());
 
   ASSERT_EQ(1, model_->rowCount(album_index));
@@ -328,21 +297,21 @@ TEST_F(CollectionModelTest, RemoveEmptyAlbums) {
 TEST_F(CollectionModelTest, RemoveEmptyArtists) {
 
   Song one = AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123); one.set_id(1);
-  model_->Init(false);
 
-  // Lazy load the items
-  QModelIndex artist_index = model_->index(0, 0, QModelIndex());
-  model_->fetchMore(artist_index);
+  QModelIndex artist_index = model_->index(1, 0, QModelIndex());
   ASSERT_EQ(1, model_->rowCount(artist_index));
+
   QModelIndex album_index = model_->index(0, 0, artist_index);
-  model_->fetchMore(album_index);
   ASSERT_EQ(1, model_->rowCount(album_index));
 
   // The artist header is there too right?
   ASSERT_EQ(2, model_->rowCount(QModelIndex()));
 
   // Remove the song
+  QEventLoop loop;
+  QObject::connect(&*model_, &CollectionModel::rowsRemoved, &loop, &QEventLoop::quit);
   backend_->DeleteSongs(SongList() << one);
+  loop.exec();
 
   // Everything should be gone - even the artist header
   ASSERT_EQ(0, model_->rowCount(QModelIndex()));
@@ -351,8 +320,8 @@ TEST_F(CollectionModelTest, RemoveEmptyArtists) {
 
 // Test to check that the container nodes are created identical and unique all through the model with all possible collection groupings.
 // model1 - Nodes are created from a complete reset done through lazy-loading.
-// model2 - Initial container nodes are created in SongsDiscovered.
-// model3 - All container nodes are created in SongsDiscovered.
+// model2 - Initial container nodes are created in SongsAdded.
+// model3 - All container nodes are created in SongsAdded.
 
 // WARNING: This test can take up to 30 minutes to complete.
 #if 0
@@ -363,23 +332,23 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
   // Add some normal albums.
   for (int artist_number = 1; artist_number <= 3 ; ++artist_number) {
     Song song(Song::Source::Collection);
-    song.set_artist(QString("Artist %1").arg(artist_number));
-    song.set_composer(QString("Composer %1").arg(artist_number));
-    song.set_performer(QString("Performer %1").arg(artist_number));
+    song.set_artist(QStringLiteral("Artist %1").arg(artist_number));
+    song.set_composer(QStringLiteral("Composer %1").arg(artist_number));
+    song.set_performer(QStringLiteral("Performer %1").arg(artist_number));
     song.set_mtime(1);
     song.set_ctime(1);
     song.set_directory_id(1);
-    song.set_filetype(Song::FileType_FLAC);
+    song.set_filetype(Song::FileType::FLAC);
     song.set_filesize(1);
     for (int album_number = 1; album_number <= 3 ; ++album_number) {
       if (year > 2020) year = 1960;
-      song.set_album(QString("Artist %1 - Album %2").arg(artist_number).arg(album_number));
+      song.set_album(QStringLiteral("Artist %1 - Album %2").arg(artist_number).arg(album_number));
       song.set_album_id(QString::number(album_number));
       song.set_year(year++);
-      song.set_genre("Rock");
+      song.set_genre(QStringLiteral("Rock"));
       for (int song_number = 1; song_number <= 5 ; ++song_number) {
-        song.set_url(QUrl(QString("file:///mnt/music/Artist %1/Album %2/%3 - artist song-n-%3").arg(artist_number).arg(album_number).arg(song_number)));
-        song.set_title(QString("Title %1").arg(song_number));
+        song.set_url(QUrl(QStringLiteral("file:///mnt/music/Artist %1/Album %2/%3 - artist song-n-%3").arg(artist_number).arg(album_number).arg(song_number)));
+        song.set_title(QStringLiteral("Title %1").arg(song_number));
         song.set_track(song_number);
         songs << song;
       }
@@ -389,26 +358,26 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
   // Add some albums with 'album artist'.
   for (int album_artist_number = 1; album_artist_number <= 3 ; ++album_artist_number) {
     Song song(Song::Source::Collection);
-    song.set_albumartist(QString("Album Artist %1").arg(album_artist_number));
-    song.set_composer(QString("Composer %1").arg(album_artist_number));
-    song.set_performer(QString("Performer %1").arg(album_artist_number));
+    song.set_albumartist(QStringLiteral("Album Artist %1").arg(album_artist_number));
+    song.set_composer(QStringLiteral("Composer %1").arg(album_artist_number));
+    song.set_performer(QStringLiteral("Performer %1").arg(album_artist_number));
     song.set_mtime(1);
     song.set_ctime(1);
     song.set_directory_id(1);
-    song.set_filetype(Song::FileType_FLAC);
+    song.set_filetype(Song::FileType::FLAC);
     song.set_filesize(1);
     for (int album_number = 1; album_number <= 3 ; ++album_number) {
       if (year > 2020) year = 1960;
-      song.set_album(QString("Album Artist %1 - Album %2").arg(album_artist_number).arg(album_number));
+      song.set_album(QStringLiteral("Album Artist %1 - Album %2").arg(album_artist_number).arg(album_number));
       song.set_album_id(QString::number(album_number));
       song.set_year(year++);
-      song.set_genre("Rock");
+      song.set_genre(QStringLiteral("Rock"));
       int artist_number = 1;
       for (int song_number = 1; song_number <= 5 ; ++song_number) {
-        song.set_url(QUrl(QString("file:///mnt/music/Album Artist %1/Album %2/%3 - album artist song-n-%3").arg(album_artist_number).arg(album_number).arg(QString::number(song_number))));
-        song.set_title("Title " + QString::number(song_number));
+        song.set_url(QUrl(QStringLiteral("file:///mnt/music/Album Artist %1/Album %2/%3 - album artist song-n-%3").arg(album_artist_number).arg(album_number).arg(QString::number(song_number))));
+        song.set_title(QStringLiteral("Title ") + QString::number(song_number));
         song.set_track(song_number);
-        song.set_artist("Artist " + QString::number(artist_number));
+        song.set_artist(QStringLiteral("Artist ") + QString::number(artist_number));
         songs << song;
         ++artist_number;
       }
@@ -422,20 +391,20 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
     song.set_mtime(1);
     song.set_ctime(1);
     song.set_directory_id(1);
-    song.set_filetype(Song::FileType_FLAC);
+    song.set_filetype(Song::FileType::FLAC);
     song.set_filesize(1);
-    song.set_album(QString("Compilation Album %1").arg(album_number));
+    song.set_album(QStringLiteral("Compilation Album %1").arg(album_number));
     song.set_album_id(QString::number(album_number));
     song.set_year(year++);
-    song.set_genre("Pop");
+    song.set_genre(QStringLiteral("Pop"));
     song.set_compilation(true);
     int artist_number = 1;
     for (int song_number = 1; song_number <= 4 ; ++song_number) {
-      song.set_url(QUrl(QString("file:///mnt/music/Compilation Artist %1/Compilation Album %2/%3 - compilation song-n-%3").arg(artist_number).arg(album_number).arg(QString::number(song_number))));
-      song.set_artist(QString("Compilation Artist %1").arg(artist_number));
-      song.set_composer(QString("Composer %1").arg(artist_number));
-      song.set_performer(QString("Performer %1").arg(artist_number));
-      song.set_title(QString("Title %1").arg(song_number));
+      song.set_url(QUrl(QStringLiteral("file:///mnt/music/Compilation Artist %1/Compilation Album %2/%3 - compilation song-n-%3").arg(artist_number).arg(album_number).arg(QString::number(song_number))));
+      song.set_artist(QStringLiteral("Compilation Artist %1").arg(artist_number));
+      song.set_composer(QStringLiteral("Composer %1").arg(artist_number));
+      song.set_performer(QStringLiteral("Performer %1").arg(artist_number));
+      song.set_title(QStringLiteral("Title %1").arg(song_number));
       song.set_track(song_number);
       songs << song;
       ++artist_number;
@@ -448,27 +417,27 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
     song.set_mtime(1);
     song.set_ctime(1);
     song.set_directory_id(1);
-    song.set_filetype(Song::FileType_FLAC);
+    song.set_filetype(Song::FileType::FLAC);
     song.set_filesize(1);
-    song.set_url(QUrl(QString("file:///mnt/music/no album song 1/song-only-1")));
-    song.set_title("Only Title 1");
+    song.set_url(QUrl(QStringLiteral("file:///mnt/music/no album song 1/song-only-1")));
+    song.set_title(QStringLiteral("Only Title 1"));
     songs << song;
-    song.set_url(QUrl(QString("file:///mnt/music/no album song 2/song-only-2")));
-    song.set_title("Only Title 2");
+    song.set_url(QUrl(QStringLiteral("file:///mnt/music/no album song 2/song-only-2")));
+    song.set_title(QStringLiteral("Only Title 2"));
     songs << song;
   }
 
   // Song with only artist, album and title.
   {
     Song song(Song::Source::Collection);
-    song.set_url(QUrl(QString("file:///tmp/artist-album-title-song")));
-    song.set_artist("Not Only Artist");
-    song.set_album("Not Only Album");
-    song.set_title("Not Only Title");
+    song.set_url(QUrl(QStringLiteral("file:///tmp/artist-album-title-song")));
+    song.set_artist(QStringLiteral("Not Only Artist"));
+    song.set_album(QStringLiteral("Not Only Album"));
+    song.set_title(QStringLiteral("Not Only Title"));
     song.set_mtime(1);
     song.set_ctime(1);
     song.set_directory_id(1);
-    song.set_filetype(Song::FileType_FLAC);
+    song.set_filetype(Song::FileType::FLAC);
     song.set_filesize(1);
     song.set_year(1970);
     song.set_track(1);
@@ -478,14 +447,14 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
   // Add possible Various artists conflicting songs.
   {
     Song song(Song::Source::Collection);
-    song.set_url(QUrl(QString("file:///tmp/song-va-conflicting-1")));
-    song.set_artist("Various artists");
-    song.set_album("VA Album");
-    song.set_title("VA Title");
+    song.set_url(QUrl(QStringLiteral("file:///tmp/song-va-conflicting-1")));
+    song.set_artist(QStringLiteral("Various artists"));
+    song.set_album(QStringLiteral("VA Album"));
+    song.set_title(QStringLiteral("VA Title"));
     song.set_mtime(1);
     song.set_ctime(1);
     song.set_directory_id(1);
-    song.set_filetype(Song::FileType_FLAC);
+    song.set_filetype(Song::FileType::FLAC);
     song.set_filesize(1);
     song.set_year(1970);
     song.set_track(1);
@@ -494,15 +463,15 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
 
   {
     Song song(Song::Source::Collection);
-    song.set_url(QUrl(QString("file:///tmp/song-va-conflicting-2")));
-    song.set_artist("Various artists");
-    song.set_albumartist("Various artists");
-    song.set_album("VA Album");
-    song.set_title("VA Title");
+    song.set_url(QUrl(QStringLiteral("file:///tmp/song-va-conflicting-2")));
+    song.set_artist(QStringLiteral("Various artists"));
+    song.set_albumartist(QStringLiteral("Various artists"));
+    song.set_album(QStringLiteral("VA Album"));
+    song.set_title(QStringLiteral("VA Title"));
     song.set_mtime(1);
     song.set_ctime(1);
     song.set_directory_id(1);
-    song.set_filetype(Song::FileType_FLAC);
+    song.set_filetype(Song::FileType::FLAC);
     song.set_filesize(1);
     song.set_year(1970);
     song.set_track(1);
@@ -511,14 +480,14 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
 
   {
     Song song(Song::Source::Collection);
-    song.set_url(QUrl(QString("file:///tmp/song-va-conflicting-3")));
-    song.set_albumartist("Various artists");
-    song.set_album("VA Album");
-    song.set_title("VA Title");
+    song.set_url(QUrl(QStringLiteral("file:///tmp/song-va-conflicting-3")));
+    song.set_albumartist(QStringLiteral("Various artists"));
+    song.set_album(QStringLiteral("VA Album"));
+    song.set_title(QStringLiteral("VA Title"));
     song.set_mtime(1);
     song.set_ctime(1);
     song.set_directory_id(1);
-    song.set_filetype(Song::FileType_FLAC);
+    song.set_filetype(Song::FileType::FLAC);
     song.set_filesize(1);
     song.set_year(1970);
     song.set_track(1);
@@ -528,35 +497,35 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
   // Albums with Album ID.
   for (int album_id = 0; album_id <= 2 ; ++album_id) {
     Song song(Song::Source::Collection);
-    song.set_url(QUrl(QString("file:///tmp/song-with-album-id-1")));
-    song.set_artist("Artist with Album ID");
-    song.set_album(QString("Album %1 with Album ID").arg(album_id));
-    song.set_album_id(QString("Album ID %1").arg(album_id));
+    song.set_url(QUrl(QStringLiteral("file:///tmp/song-with-album-id-1")));
+    song.set_artist(QStringLiteral("Artist with Album ID"));
+    song.set_album(QStringLiteral("Album %1 with Album ID").arg(album_id));
+    song.set_album_id(QStringLiteral("Album ID %1").arg(album_id));
     song.set_mtime(1);
     song.set_ctime(1);
     song.set_directory_id(1);
-    song.set_filetype(Song::FileType_FLAC);
+    song.set_filetype(Song::FileType::FLAC);
     song.set_filesize(1);
     song.set_year(1970);
     for (int i = 0; i <= 3 ; ++i) {
-      song.set_title(QString("Title %1 %2").arg(album_id).arg(i));
+      song.set_title(QStringLiteral("Title %1 %2").arg(album_id).arg(i));
       song.set_track(i);
       songs << song;
     }
   }
 
-  for (int f = CollectionModel::GroupBy_None + 1 ; f < CollectionModel::GroupByCount ; ++f) {
-    for (int s = CollectionModel::GroupBy_None ; s < CollectionModel::GroupByCount ; ++s) {
-      for (int t = CollectionModel::GroupBy_None ; t < CollectionModel::GroupByCount ; ++t) {
+  for (int f = static_cast<int>(CollectionModel::GroupBy::None) + 1 ; f < static_cast<int>(CollectionModel::GroupBy::GroupByCount) ; ++f) {
+    for (int s = static_cast<int>(CollectionModel::GroupBy::None) ; s < static_cast<int>(CollectionModel::GroupBy::GroupByCount) ; ++s) {
+      for (int t = static_cast<int>(CollectionModel::GroupBy::None) ; t < static_cast<int>(CollectionModel::GroupBy::GroupByCount) ; ++t) {
 
         qLog(Debug) << "Testing collection model grouping: " << f << s << t;
 
-        ScopedPtr<Database> database1;
-        ScopedPtr<Database> database2;
-        ScopedPtr<Database> database3;
-        ScopedPtr<CollectionBackend> backend1;
-        ScopedPtr<CollectionBackend> backend2;
-        ScopedPtr<CollectionBackend> backend3;
+        SharedPtr<Database> database1;
+        SharedPtr<Database> database2;
+        SharedPtr<Database> database3;
+        SharedPtr<CollectionBackend> backend1;
+        SharedPtr<CollectionBackend> backend2;
+        SharedPtr<CollectionBackend> backend3;
         ScopedPtr<CollectionModel> model1;
         ScopedPtr<CollectionModel> model2;
         ScopedPtr<CollectionModel> model3;
@@ -564,39 +533,54 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
         database1 = make_unique<MemoryDatabase>(nullptr);
         database2 = make_unique<MemoryDatabase>(nullptr);
         database3 = make_unique<MemoryDatabase>(nullptr);
-        backend1 = make_unique<CollectionBackend>();
-        backend2= make_unique<CollectionBackend>();
-        backend3 = make_unique<CollectionBackend>();
-        backend1->Init(database1.get(), Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
-        backend2->Init(database2.get(), Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
-        backend3->Init(database3.get(), Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
-        model1 = make_unique<CollectionModel>(backend1.get(), nullptr);
-        model2 = make_unique<CollectionModel>(backend2.get(), nullptr);
-        model3 = make_unique<CollectionModel>(backend3.get(), nullptr);
+        backend1 = make_shared<CollectionBackend>();
+        backend2= make_shared<CollectionBackend>();
+        backend3 = make_shared<CollectionBackend>();
+        backend1->Init(database1, nullptr, Song::Source::Collection, QLatin1String(SCollection::kSongsTable), QLatin1String(SCollection::kDirsTable), QLatin1String(SCollection::kSubdirsTable));
+        backend2->Init(database2, nullptr, Song::Source::Collection, QLatin1String(SCollection::kSongsTable), QLatin1String(SCollection::kDirsTable), QLatin1String(SCollection::kSubdirsTable));
+        backend3->Init(database3, nullptr, Song::Source::Collection, QLatin1String(SCollection::kSongsTable), QLatin1String(SCollection::kDirsTable), QLatin1String(SCollection::kSubdirsTable));
+        model1 = make_unique<CollectionModel>(backend1, nullptr);
+        model2 = make_unique<CollectionModel>(backend2, nullptr);
+        model3 = make_unique<CollectionModel>(backend3, nullptr);
 
-        backend1->AddDirectory("/mnt/music");
-        backend2->AddDirectory("/mnt/music");
-        backend3->AddDirectory("/mut/music");
+        backend1->AddDirectory(QStringLiteral("/mnt/music"));
+        backend2->AddDirectory(QStringLiteral("/mnt/music"));
+        backend3->AddDirectory(QStringLiteral("/mut/music"));
 
         model1->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy(f), CollectionModel::GroupBy(s), CollectionModel::GroupBy(t)));
         model2->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy(f), CollectionModel::GroupBy(s), CollectionModel::GroupBy(t)));
         model3->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy(f), CollectionModel::GroupBy(s), CollectionModel::GroupBy(t)));
 
-        model3->set_use_lazy_loading(false);
+        QSignalSpy model1_update(&*model1, &CollectionModel::SongsAdded);
+        QSignalSpy model2_update(&*model2, &CollectionModel::SongsAdded);
+        QSignalSpy model3_update(&*model3, &CollectionModel::SongsAdded);
 
-        QSignalSpy model1_update(model1.get(), &CollectionModel::rowsInserted);
-        QSignalSpy model2_update(model2.get(), &CollectionModel::rowsInserted);
-        QSignalSpy model3_update(model3.get(), &CollectionModel::rowsInserted);
+        {
+          QEventLoop event_loop;
+          QObject::connect(&*model1, &CollectionModel::rowsInserted, &event_loop, &QEventLoop::quit);
+          backend1->AddOrUpdateSongs(songs);
+          event_loop.exec();
+        }
 
-        backend1->AddOrUpdateSongs(songs);
-        backend2->AddOrUpdateSongs(songs);
-        backend3->AddOrUpdateSongs(songs);
+        {
+          QEventLoop event_loop;
+          QObject::connect(&*model2, &CollectionModel::rowsInserted, &event_loop, &QEventLoop::quit);
+          backend2->AddOrUpdateSongs(songs);
+          event_loop.exec();
+        }
 
-        ASSERT_EQ(model1->song_nodes().count(), 0);
-        ASSERT_EQ(model2->song_nodes().count(), 0);
+        {
+          QEventLoop event_loop;
+          QObject::connect(&*model3, &CollectionModel::rowsInserted, &event_loop, &QEventLoop::quit);
+          backend3->AddOrUpdateSongs(songs);
+          event_loop.exec();
+        }
+
+        ASSERT_EQ(model1->song_nodes().count(), songs.count());
+        ASSERT_EQ(model2->song_nodes().count(), songs.count());
         ASSERT_EQ(model3->song_nodes().count(), songs.count());
 
-        model1->Init(false);
+        model1->Init();
 
         model1->ExpandAll();
         model2->ExpandAll();
@@ -654,13 +638,30 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
           }
         }
 
-        QSignalSpy database_reset_1(backend1.get(), &CollectionBackend::DatabaseReset);
-        QSignalSpy database_reset_2(backend2.get(), &CollectionBackend::DatabaseReset);
-        QSignalSpy database_reset_3(backend3.get(), &CollectionBackend::DatabaseReset);
+        QSignalSpy database_reset_1(&*backend1, &CollectionBackend::DatabaseReset);
+        QSignalSpy database_reset_2(&*backend2, &CollectionBackend::DatabaseReset);
+        QSignalSpy database_reset_3(&*backend3, &CollectionBackend::DatabaseReset);
 
-        backend1->DeleteAll();
-        backend2->DeleteAll();
-        backend3->DeleteAll();
+        {
+          QEventLoop event_loop;
+          QObject::connect(&*model1, &CollectionModel::modelReset, &event_loop, &QEventLoop::quit);
+          backend1->DeleteAll();
+          event_loop.exec();
+        }
+
+        {
+          QEventLoop event_loop;
+          QObject::connect(&*model2, &CollectionModel::modelReset, &event_loop, &QEventLoop::quit);
+          backend2->DeleteAll();
+          event_loop.exec();
+        }
+
+        {
+          QEventLoop event_loop;
+          QObject::connect(&*model3, &CollectionModel::modelReset, &event_loop, &QEventLoop::quit);
+          backend3->DeleteAll();
+          event_loop.exec();
+        }
 
         ASSERT_EQ(database_reset_1.count(), 1);
         ASSERT_EQ(database_reset_2.count(), 1);

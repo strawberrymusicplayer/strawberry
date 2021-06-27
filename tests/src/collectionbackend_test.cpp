@@ -47,7 +47,7 @@ class CollectionBackendTest : public ::testing::Test {
   void SetUp() override {
     database_.reset(new MemoryDatabase(nullptr));
     backend_ = make_unique<CollectionBackend>();
-    backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(SCollection::kSongsTable), QLatin1String(SCollection::kFtsTable), QLatin1String(SCollection::kDirsTable), QLatin1String(SCollection::kSubdirsTable));
+    backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(SCollection::kSongsTable), QLatin1String(SCollection::kDirsTable), QLatin1String(SCollection::kSubdirsTable));
   }
 
   static Song MakeDummySong(int directory_id) {
@@ -132,7 +132,7 @@ class SingleSong : public CollectionBackendTest {
   }
 
   void AddDummySong() {
-    QSignalSpy added_spy(&*backend_, &CollectionBackend::SongsDiscovered);
+    QSignalSpy added_spy(&*backend_, &CollectionBackend::SongsAdded);
     QSignalSpy deleted_spy(&*backend_, &CollectionBackend::SongsDeleted);
 
     // Add the song
@@ -265,22 +265,20 @@ TEST_F(SingleSong, UpdateSong) {
   new_song.set_id(1);
   new_song.set_title(QStringLiteral("A different title"));
 
+  QSignalSpy added_spy(&*backend_, &CollectionBackend::SongsAdded);
+  QSignalSpy changed_spy(&*backend_, &CollectionBackend::SongsChanged);
   QSignalSpy deleted_spy(&*backend_, &CollectionBackend::SongsDeleted);
-  QSignalSpy added_spy(&*backend_, &CollectionBackend::SongsDiscovered);
 
   backend_->AddOrUpdateSongs(SongList() << new_song);
 
-  ASSERT_EQ(1, added_spy.size());
-  ASSERT_EQ(1, deleted_spy.size());
+  ASSERT_EQ(0, added_spy.size());
+  ASSERT_EQ(1, changed_spy.size());
+  ASSERT_EQ(0, deleted_spy.size());
 
-  SongList songs_added = *(reinterpret_cast<SongList*>(added_spy[0][0].data()));
-  SongList songs_deleted = *(reinterpret_cast<SongList*>(deleted_spy[0][0].data()));
-  ASSERT_EQ(1, songs_added.size());
-  ASSERT_EQ(1, songs_deleted.size());
-  EXPECT_EQ(QStringLiteral("Title"), songs_deleted[0].title());
-  EXPECT_EQ(QStringLiteral("A different title"), songs_added[0].title());
-  EXPECT_EQ(1, songs_deleted[0].id());
-  EXPECT_EQ(1, songs_added[0].id());
+  SongList songs_changed = *(reinterpret_cast<SongList*>(changed_spy[0][0].data()));
+  ASSERT_EQ(1, songs_changed.size());
+  EXPECT_EQ(QStringLiteral("A different title"), songs_changed[0].title());
+  EXPECT_EQ(1, songs_changed[0].id());
 
 }
 
@@ -389,7 +387,7 @@ TEST_F(TestUrls, TestUrls) {
 
   }
 
-  QSignalSpy spy(&*backend_, &CollectionBackend::SongsDiscovered);
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsAdded);
 
   backend_->AddOrUpdateSongs(songs);
   if (HasFatalFailure()) return;
@@ -474,7 +472,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
     }
 
-    QSignalSpy spy(&*backend_, &CollectionBackend::SongsDiscovered);
+    QSignalSpy spy(&*backend_, &CollectionBackend::SongsAdded);
 
     backend_->UpdateSongsBySongID(songs);
 
@@ -495,7 +493,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
     SongMap songs;
     {
       QSqlDatabase db(database_->Connect());
-      CollectionQuery query(db, QLatin1String(SCollection::kSongsTable), QLatin1String(SCollection::kFtsTable));
+      CollectionQuery query(db, QLatin1String(SCollection::kSongsTable));
       EXPECT_TRUE(backend_->ExecCollectionQuery(&query, songs));
     }
 
@@ -512,7 +510,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
   }
 
   {  // Remove some songs
-    QSignalSpy spy1(&*backend_, &CollectionBackend::SongsDiscovered);
+    QSignalSpy spy1(&*backend_, &CollectionBackend::SongsAdded);
     QSignalSpy spy2(&*backend_, &CollectionBackend::SongsDeleted);
 
     SongMap songs;
@@ -558,7 +556,8 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
   {  // Update some songs
     QSignalSpy spy1(&*backend_, &CollectionBackend::SongsDeleted);
-    QSignalSpy spy2(&*backend_, &CollectionBackend::SongsDiscovered);
+    QSignalSpy spy2(&*backend_, &CollectionBackend::SongsAdded);
+    QSignalSpy spy3(&*backend_, &CollectionBackend::SongsChanged);
 
     SongMap songs;
 
@@ -595,16 +594,14 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
     backend_->UpdateSongsBySongID(songs);
 
-    ASSERT_EQ(1, spy1.count());
-    ASSERT_EQ(1, spy2.count());
-    SongList deleted_songs = spy1[0][0].value<SongList>();
-    SongList added_songs = spy2[0][0].value<SongList>();
-    EXPECT_EQ(deleted_songs.count(), 2);
-    EXPECT_EQ(added_songs.count(), 2);
-    EXPECT_EQ(deleted_songs[0].song_id(), QStringLiteral("song1"));
-    EXPECT_EQ(deleted_songs[1].song_id(), QStringLiteral("song6"));
-    EXPECT_EQ(added_songs[0].song_id(), QStringLiteral("song1"));
-    EXPECT_EQ(added_songs[1].song_id(), QStringLiteral("song6"));
+    ASSERT_EQ(0, spy1.count());
+    ASSERT_EQ(0, spy2.count());
+    ASSERT_EQ(1, spy3.count());
+
+    SongList changed_songs = spy3[0][0].value<SongList>();
+    EXPECT_EQ(changed_songs.count(), 2);
+    EXPECT_EQ(changed_songs[0].song_id(), QStringLiteral("song1"));
+    EXPECT_EQ(changed_songs[1].song_id(), QStringLiteral("song6"));
 
   }
 

@@ -233,7 +233,7 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   void OneOfPlaylistsChanged();
   void UpdateSummaryText();
-  void SongsDiscovered(const SongList &songs);
+  void UpdateSongs(const SongList &songs);
   void ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const PlaylistSettingsPage::PathType path_type);
   void PlaylistLoaded();
 

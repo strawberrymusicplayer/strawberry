@@ -51,11 +51,7 @@ const int SmartPlaylistsModel::kSmartPlaylistsVersion = 1;
 SmartPlaylistsModel::SmartPlaylistsModel(SharedPtr<CollectionBackend> collection_backend, QObject *parent)
     : SimpleTreeModel<SmartPlaylistsItem>(new SmartPlaylistsItem(this), parent),
       collection_backend_(collection_backend),
-      icon_(IconLoader::Load(QStringLiteral("view-media-playlist"))) {
-
-  root_->lazy_loaded = true;
-
-}
+      icon_(IconLoader::Load(QStringLiteral("view-media-playlist"))) {}
 
 SmartPlaylistsModel::~SmartPlaylistsModel() { delete root_; }
 
@@ -159,12 +155,11 @@ void SmartPlaylistsModel::Init() {
 
 void SmartPlaylistsModel::ItemFromSmartPlaylist(const Settings &s, const bool notify) {
 
-  SmartPlaylistsItem *item = new SmartPlaylistsItem(SmartPlaylistsItem::Type_SmartPlaylist, notify ? nullptr : root_);
+  SmartPlaylistsItem *item = new SmartPlaylistsItem(SmartPlaylistsItem::Type::SmartPlaylist, notify ? nullptr : root_);
   item->display_text = tr(qUtf8Printable(s.value("name").toString()));
   item->sort_text = item->display_text;
   item->smart_playlist_type = PlaylistGenerator::Type(s.value("type").toInt());
   item->smart_playlist_data = s.value("data").toByteArray();
-  item->lazy_loaded = true;
 
   if (notify) item->InsertNotify(root_);
 
@@ -259,7 +254,7 @@ PlaylistGeneratorPtr SmartPlaylistsModel::CreateGenerator(const QModelIndex &idx
   PlaylistGeneratorPtr ret;
 
   const SmartPlaylistsItem *item = IndexToItem(idx);
-  if (!item || item->type != SmartPlaylistsItem::Type_SmartPlaylist) return ret;
+  if (!item || item->type != SmartPlaylistsItem::Type::SmartPlaylist) return ret;
 
   ret = PlaylistGenerator::Create(item->smart_playlist_type);
   if (!ret) return ret;

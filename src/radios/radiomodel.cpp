@@ -45,8 +45,6 @@ RadioModel::RadioModel(Application *app, QObject *parent)
     : SimpleTreeModel<RadioItem>(new RadioItem(this), parent),
       app_(app) {
 
-  root_->lazy_loaded = true;
-
   if (app_) {
     QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &RadioModel::AlbumCoverLoaded);
   }
@@ -60,11 +58,11 @@ RadioModel::~RadioModel() {
 Qt::ItemFlags RadioModel::flags(const QModelIndex &idx) const {
 
   switch (IndexToItem(idx)->type) {
-    case RadioItem::Type_Service:
-    case RadioItem::Type_Channel:
+    case RadioItem::Type::Service:
+    case RadioItem::Type::Channel:
       return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
-    case RadioItem::Type_Root:
-    case RadioItem::Type_LoadingIndicator:
+    case RadioItem::Type::Root:
+    case RadioItem::Type::LoadingIndicator:
     default:
       return Qt::ItemIsEnabled;
   }
@@ -78,7 +76,7 @@ QVariant RadioModel::data(const QModelIndex &idx, int role) const {
   const RadioItem *item = IndexToItem(idx);
   if (!item) return QVariant();
 
-  if (role == Qt::DecorationRole && item->type == RadioItem::Type_Channel) {
+  if (role == Qt::DecorationRole && item->type == RadioItem::Type::Channel) {
     return const_cast<RadioModel*>(this)->ChannelIcon(idx);
   }
 
@@ -90,7 +88,7 @@ QVariant RadioModel::data(const RadioItem *item, int role) const {
 
   switch (role) {
     case Qt::DecorationRole:
-      if (item->type == RadioItem::Type_Service) {
+      if (item->type == RadioItem::Type::Service) {
         return Song::IconForSource(item->source);
       }
       break;
@@ -98,7 +96,7 @@ QVariant RadioModel::data(const RadioItem *item, int role) const {
       return item->DisplayText();
       break;
     case Role_Type:
-      return item->type;
+      return QVariant::fromValue(item->type);
       break;
     case Role_SortText:
       return item->SortText();
@@ -154,7 +152,6 @@ void RadioModel::Reset() {
   pending_cache_keys_.clear();
   delete root_;
   root_ = new RadioItem(this);
-  root_->lazy_loaded = true;
   endResetModel();
 
 }
@@ -168,22 +165,20 @@ void RadioModel::AddChannels(const RadioChannelList &channels) {
     }
     else {
       beginInsertRows(ItemToIndex(root_), static_cast<int>(root_->children.count()), static_cast<int>(root_->children.count()));
-      RadioItem *item = new RadioItem(RadioItem::Type_Service, root_);
+      RadioItem *item = new RadioItem(RadioItem::Type::Service, root_);
       item->source = channel.source;
       item->display_text = Song::DescriptionForSource(channel.source);
       item->sort_text = SortText(Song::TextForSource(channel.source));
-      item->lazy_loaded = true;
       container_nodes_.insert(channel.source, item);
       endInsertRows();
       container = item;
     }
     beginInsertRows(ItemToIndex(container), static_cast<int>(container->children.count()), static_cast<int>(container->children.count()));
-    RadioItem *item = new RadioItem(RadioItem::Type_Channel, container);
+    RadioItem *item = new RadioItem(RadioItem::Type::Channel, container);
     item->source = channel.source;
     item->display_text = channel.name;
     item->sort_text = SortText(Song::TextForSource(channel.source) + QStringLiteral(" - ") + channel.name);
     item->channel = channel;
-    item->lazy_loaded = true;
     items_ << item;
     endInsertRows();
   }
@@ -192,7 +187,7 @@ void RadioModel::AddChannels(const RadioChannelList &channels) {
 
 bool RadioModel::IsPlayable(const QModelIndex &idx) const {
 
-  return idx.data(Role_Type) == RadioItem::Type_Channel;
+  return idx.data(Role_Type).value<RadioItem::Type>() == RadioItem::Type::Channel;
 
 }
 
@@ -214,7 +209,7 @@ bool RadioModel::CompareItems(const RadioItem *a, const RadioItem *b) const {
 void RadioModel::GetChildSongs(RadioItem *item, QList<QUrl> *urls, SongList *songs) const {
 
   switch (item->type) {
-    case RadioItem::Type_Service:{
+    case RadioItem::Type::Service:{
       QList<RadioItem*> children = item->children;
       std::sort(children.begin(), children.end(), std::bind(&RadioModel::CompareItems, this, std::placeholders::_1, std::placeholders::_2));
       for (RadioItem *child : children) {
@@ -222,7 +217,7 @@ void RadioModel::GetChildSongs(RadioItem *item, QList<QUrl> *urls, SongList *son
       }
       break;
     }
-    case RadioItem::Type_Channel:
+    case RadioItem::Type::Channel:
       if (!urls->contains(item->channel.url)) {
         urls->append(item->channel.url);
         songs->append(item->channel.ToSong());

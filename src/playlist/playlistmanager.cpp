@@ -96,9 +96,9 @@ void PlaylistManager::Init(SharedPtr<CollectionBackend> collection_backend, Shar
   parser_ = new PlaylistParser(collection_backend, this);
   playlist_container_ = playlist_container;
 
-  QObject::connect(&*collection_backend_, &CollectionBackend::SongsDiscovered, this, &PlaylistManager::SongsDiscovered);
-  QObject::connect(&*collection_backend_, &CollectionBackend::SongsStatisticsChanged, this, &PlaylistManager::SongsDiscovered);
-  QObject::connect(&*collection_backend_, &CollectionBackend::SongsRatingChanged, this, &PlaylistManager::SongsDiscovered);
+  QObject::connect(&*collection_backend_, &CollectionBackend::SongsChanged, this, &PlaylistManager::UpdateSongs);
+  QObject::connect(&*collection_backend_, &CollectionBackend::SongsStatisticsChanged, this, &PlaylistManager::UpdateSongs);
+  QObject::connect(&*collection_backend_, &CollectionBackend::SongsRatingChanged, this, &PlaylistManager::UpdateSongs);
 
   for (const PlaylistBackend::Playlist &p : playlist_backend->GetAllOpenPlaylists()) {
     ++playlists_loading_;
@@ -463,7 +463,7 @@ void PlaylistManager::SelectionChanged(const QItemSelection &selection) {
   UpdateSummaryText();
 }
 
-void PlaylistManager::SongsDiscovered(const SongList &songs) {
+void PlaylistManager::UpdateSongs(const SongList &songs) {
 
   // Some songs might've changed in the collection, let's update any playlist items we have that match those songs
 

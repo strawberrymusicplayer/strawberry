@@ -35,12 +35,10 @@ class SimpleTreeModel : public QAbstractItemModel {
 
   // QAbstractItemModel
   int columnCount(const QModelIndex &parent) const override;
-  QModelIndex index(int row, int, const QModelIndex &parent = QModelIndex()) const override;
+  QModelIndex index(const int row, const int column, const QModelIndex &parent = QModelIndex()) const override;
   QModelIndex parent(const QModelIndex &idx) const override;
   int rowCount(const QModelIndex &parent) const override;
   bool hasChildren(const QModelIndex &parent) const override;
-  bool canFetchMore(const QModelIndex &parent) const override;
-  void fetchMore(const QModelIndex &parent) override;
 
   T *IndexToItem(const QModelIndex &idx) const;
   QModelIndex ItemToIndex(T *item) const;
@@ -51,9 +49,6 @@ class SimpleTreeModel : public QAbstractItemModel {
   void BeginDelete(T *parent, int start, int end = -1);
   void EndDelete();
   void EmitDataChanged(T *item);
-
- protected:
-  virtual void LazyPopulate(T *item) { item->lazy_loaded = true; }
 
  protected:
   T *root_;
@@ -81,7 +76,9 @@ int SimpleTreeModel<T>::columnCount(const QModelIndex&) const {
 }
 
 template<typename T>
-QModelIndex SimpleTreeModel<T>::index(int row, int, const QModelIndex &parent) const {
+QModelIndex SimpleTreeModel<T>::index(const int row, const int column, const QModelIndex &parent) const {
+
+  Q_UNUSED(column);
 
   T *parent_item = IndexToItem(parent);
   if (!parent_item || row < 0 || parent_item->children.count() <= row)
@@ -106,25 +103,8 @@ int SimpleTreeModel<T>::rowCount(const QModelIndex &parent) const {
 template<typename T>
 bool SimpleTreeModel<T>::hasChildren(const QModelIndex &parent) const {
   T *item = IndexToItem(parent);
-  if (!item) return false;
-  if (item->lazy_loaded)
-    return !item->children.isEmpty();
-  else
-    return true;
-}
-
-template<typename T>
-bool SimpleTreeModel<T>::canFetchMore(const QModelIndex &parent) const {
-  T *item = IndexToItem(parent);
-  return item && !item->lazy_loaded;
-}
-
-template<typename T>
-void SimpleTreeModel<T>::fetchMore(const QModelIndex &parent) {
-  T *item = IndexToItem(parent);
-  if (item && !item->lazy_loaded) {
-    LazyPopulate(item);
-  }
+  if (!item) return 0;
+  return !item->children.isEmpty();
 }
 
 template<typename T>

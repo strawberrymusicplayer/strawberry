@@ -119,12 +119,13 @@ class Song {
   static const QString kBindSpec;
   static const QString kUpdateSpec;
 
-  static const QStringList kNumericalColumns;
-
-  static const QStringList kFtsColumns;
-  static const QString kFtsColumnSpec;
-  static const QString kFtsBindSpec;
-  static const QString kFtsUpdateSpec;
+  static const QStringList kTextSearchColumns;
+  static const QStringList kIntSearchColumns;
+  static const QStringList kUIntSearchColumns;
+  static const QStringList kInt64SearchColumns;
+  static const QStringList kFloatSearchColumns;
+  static const QStringList kNumericalSearchColumns;
+  static const QStringList kSearchColumns;
 
   using RegularExpressionList = QList<QRegularExpression>;
   static const RegularExpressionList kAlbumDisc;
@@ -439,7 +440,6 @@ class Song {
 
   // Save
   void BindToQuery(SqlQuery *query) const;
-  void BindToFtsQuery(SqlQuery *query) const;
 #ifdef HAVE_DBUS
   void ToXesam(QVariantMap *map) const;
 #endif

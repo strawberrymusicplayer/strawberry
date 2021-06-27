@@ -55,13 +55,14 @@ class ConnectedDevice;
 class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
 
  public:
-  enum Type {
-    Type_Root,
-    Type_Device,
+  enum class Type {
+    Root,
+    Device,
   };
 
   explicit DeviceInfo(SimpleTreeModel<DeviceInfo> *_model)
-      : SimpleTreeItem<DeviceInfo>(Type_Root, _model),
+      : SimpleTreeItem<DeviceInfo>(_model),
+        type_(Type::Root),
         database_id_(-1),
         size_(0),
         transcode_mode_(MusicStorage::TranscodeMode::Transcode_Unsupported),
@@ -71,7 +72,8 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
         forget_(false) {}
 
   explicit DeviceInfo(const Type _type, DeviceInfo *_parent = nullptr)
-      : SimpleTreeItem<DeviceInfo>(_type, _parent),
+      : SimpleTreeItem<DeviceInfo>(_parent),
+        type_(_type),
         database_id_(-1),
         size_(0),
         transcode_mode_(MusicStorage::TranscodeMode::Transcode_Unsupported),
@@ -101,6 +103,7 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
   // Gets the best backend available (the one with the highest priority)
   const Backend *BestBackend() const;
 
+  Type type_;
   int database_id_;  // -1 if not remembered in the database
   SharedPtr<ConnectedDevice> device_;  // nullptr if not connected
   QList<Backend> backends_;
@@ -121,5 +124,7 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
 
   Q_DISABLE_COPY(DeviceInfo)
 };
+
+Q_DECLARE_METATYPE(DeviceInfo::Type)
 
 #endif  // DEVICEINFO_H

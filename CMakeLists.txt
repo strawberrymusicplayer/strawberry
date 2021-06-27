@@ -467,25 +467,6 @@ if(NOT CMAKE_CROSSCOMPILING)
     "
     QT_SQLITE_TEST
   )
-  if(QT_SQLITE_TEST)
-    # Check that we have sqlite3 with FTS5
-    check_cxx_source_runs("
-      #include <QSqlDatabase>
-      #include <QSqlQuery>
-      int main() {
-        QSqlDatabase db = QSqlDatabase::addDatabase(\"QSQLITE\");
-        db.setDatabaseName(\":memory:\");
-        if (!db.open()) { return 1; }
-        QSqlQuery q(db);
-        q.prepare(\"CREATE VIRTUAL TABLE test_fts USING fts5(test, tokenize = 'unicode61 remove_diacritics 0');\");
-        if (!q.exec()) return 1;
-      }
-      "
-      SQLITE_FTS5_TEST
-    )
-  endif()
-  unset(CMAKE_REQUIRED_FLAGS)
-  unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
 # Set up definitions
@@ -546,11 +527,7 @@ if(QT_VERSION_MAJOR EQUAL 5)
 endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
-  if(QT_SQLITE_TEST)
-    if(NOT SQLITE_FTS5_TEST)
-      message(WARNING "sqlite must be enabled with FTS5. See: https://www.sqlite.org/fts5.html")
-    endif()
-  else()
+  if(NOT QT_SQLITE_TEST)
     message(WARNING "The Qt sqlite driver test failed.")
   endif()
 endif()

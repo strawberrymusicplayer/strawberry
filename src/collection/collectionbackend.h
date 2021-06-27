@@ -80,11 +80,12 @@ class CollectionBackendInterface : public QObject {
   using AlbumList = QList<Album>;
 
   virtual QString songs_table() const = 0;
-  virtual QString fts_table() const = 0;
 
   virtual Song::Source source() const = 0;
 
   virtual SharedPtr<Database> db() const = 0;
+
+  virtual void GetAllSongsAsync(const int id = 0) = 0;
 
   // Get a list of directories in the collection.  Emits DirectoriesDiscovered.
   virtual void LoadDirectoriesAsync() = 0;
@@ -145,7 +146,8 @@ class CollectionBackend : public CollectionBackendInterface {
 
   ~CollectionBackend();
 
-  void Init(SharedPtr<Database> db, SharedPtr<TaskManager> task_manager, const Song::Source source, const QString &songs_table, const QString &fts_table, const QString &dirs_table = QString(), const QString &subdirs_table = QString());
+  void Init(SharedPtr<Database> db, SharedPtr<TaskManager> task_manager, const Song::Source source, const QString &songs_table, const QString &dirs_table = QString(), const QString &subdirs_table = QString());
+
   void Close();
 
   void ExitAsync();
@@ -157,9 +159,10 @@ class CollectionBackend : public CollectionBackendInterface {
   SharedPtr<Database> db() const override { return db_; }
 
   QString songs_table() const override { return songs_table_; }
-  QString fts_table() const override { return fts_table_; }
   QString dirs_table() const { return dirs_table_; }
   QString subdirs_table() const { return subdirs_table_; }
+
+  void GetAllSongsAsync(const int id = 0) override;
 
   // Get a list of directories in the collection.  Emits DirectoriesDiscovered.
   void LoadDirectoriesAsync() override;
@@ -235,6 +238,7 @@ class CollectionBackend : public CollectionBackendInterface {
 
  public slots:
   void Exit();
+  void GetAllSongs(const int id);
   void LoadDirectories();
   void UpdateTotalSongCount();
   void UpdateTotalArtistCount();
@@ -275,8 +279,10 @@ class CollectionBackend : public CollectionBackendInterface {
   void DirectoryAdded(const CollectionDirectory &dir, const CollectionSubdirectoryList &subdir);
   void DirectoryDeleted(const CollectionDirectory &dir);
 
-  void SongsDiscovered(const SongList &songs);
+  void GotSongs(const SongList &songs, const int id);
+  void SongsAdded(const SongList &songs);
   void SongsDeleted(const SongList &songs);
+  void SongsChanged(const SongList &songs);
   void SongsStatisticsChanged(const SongList &songs, const bool save_tags = false);
 
   void DatabaseReset();
@@ -301,7 +307,7 @@ class CollectionBackend : public CollectionBackendInterface {
     int has_not_compilation_detected;
   };
 
-  bool UpdateCompilations(const QSqlDatabase &db, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected);
+  bool UpdateCompilations(const QSqlDatabase &db, SongList &changed_songs, const QUrl &url, const bool compilation_detected);
   AlbumList GetAlbums(const QString &artist, const QString &album_artist, const bool compilation_required = false, const CollectionFilterOptions &opt = CollectionFilterOptions());
   AlbumList GetAlbums(const QString &artist, const bool compilation_required, const CollectionFilterOptions &opt = CollectionFilterOptions());
   CollectionSubdirectoryList SubdirsInDirectory(const int id, QSqlDatabase &db);
@@ -319,7 +325,6 @@ class CollectionBackend : public CollectionBackendInterface {
   QString songs_table_;
   QString dirs_table_;
   QString subdirs_table_;
-  QString fts_table_;
   QThread *original_thread_;
 };
 

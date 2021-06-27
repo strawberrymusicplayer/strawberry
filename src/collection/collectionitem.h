@@ -29,24 +29,27 @@
 
 class CollectionItem : public SimpleTreeItem<CollectionItem> {
  public:
-  enum Type {
-    Type_Root,
-    Type_Divider,
-    Type_Container,
-    Type_Song,
-    Type_LoadingIndicator,
+  enum class Type {
+    Root,
+    Divider,
+    Container,
+    Song,
+    LoadingIndicator,
   };
 
   explicit CollectionItem(SimpleTreeModel<CollectionItem> *_model)
-      : SimpleTreeItem<CollectionItem>(Type_Root, _model),
+      : SimpleTreeItem<CollectionItem>(_model),
+        type(Type::Root),
         container_level(-1),
         compilation_artist_node_(nullptr) {}
 
-  explicit CollectionItem(Type _type, CollectionItem *_parent = nullptr)
-      : SimpleTreeItem<CollectionItem>(_type, _parent),
+  explicit CollectionItem(const Type _type, CollectionItem *_parent = nullptr)
+      : SimpleTreeItem<CollectionItem>(_parent),
+        type(_type),
         container_level(-1),
         compilation_artist_node_(nullptr) {}
 
+  Type type;
   int container_level;
   Song metadata;
   CollectionItem *compilation_artist_node_;
@@ -54,5 +57,7 @@ class CollectionItem : public SimpleTreeItem<CollectionItem> {
  private:
   Q_DISABLE_COPY(CollectionItem)
 };
+
+Q_DECLARE_METATYPE(CollectionItem::Type)
 
 #endif  // COLLECTIONITEM_H

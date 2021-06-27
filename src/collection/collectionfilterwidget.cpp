@@ -50,6 +50,8 @@
 #include "core/settings.h"
 #include "collectionfilteroptions.h"
 #include "collectionmodel.h"
+#include "collectionfilter.h"
+#include "collectionquery.h"
 #include "savedgroupingmanager.h"
 #include "collectionfilterwidget.h"
 #include "groupbydialog.h"
@@ -62,6 +64,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_CollectionFilterWidget),
       model_(nullptr),
+      filter_(nullptr),
       group_by_dialog_(new GroupByDialog(this)),
       groupings_manager_(nullptr),
       filter_age_menu_(nullptr),
@@ -74,8 +77,8 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
   ui_->setupUi(this);
 
-  QString available_fields = Song::kFtsColumns.join(QStringLiteral(", ")).replace(QRegularExpression(QStringLiteral("\\bfts")), QLatin1String(""));
-  available_fields += QStringLiteral(", ") + Song::kNumericalColumns.join(QStringLiteral(", "));
+  QString available_fields = Song::kTextSearchColumns.join(QStringLiteral(", "));
+  available_fields += QStringLiteral(", ") + Song::kNumericalSearchColumns.join(QStringLiteral(", "));
 
   ui_->search_field->setToolTip(
     QStringLiteral("<html><head/><body><p>") +
@@ -125,12 +128,12 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   filter_age_menu_ = new QMenu(tr("Show"), this);
   filter_age_menu_->addActions(filter_age_group->actions());
 
-  filter_ages_[ui_->filter_age_all] = -1;
-  filter_ages_[ui_->filter_age_today] = 60 * 60 * 24;
-  filter_ages_[ui_->filter_age_week] = 60 * 60 * 24 * 7;
-  filter_ages_[ui_->filter_age_month] = 60 * 60 * 24 * 30;
-  filter_ages_[ui_->filter_age_three_months] = 60 * 60 * 24 * 30 * 3;
-  filter_ages_[ui_->filter_age_year] = 60 * 60 * 24 * 365;
+  filter_max_ages_[ui_->filter_age_all] = -1;
+  filter_max_ages_[ui_->filter_age_today] = 60 * 60 * 24;
+  filter_max_ages_[ui_->filter_age_week] = 60 * 60 * 24 * 7;
+  filter_max_ages_[ui_->filter_age_month] = 60 * 60 * 24 * 30;
+  filter_max_ages_[ui_->filter_age_three_months] = 60 * 60 * 24 * 30 * 3;
+  filter_max_ages_[ui_->filter_age_year] = 60 * 60 * 24 * 365;
 
   group_by_menu_ = new QMenu(tr("Group by"), this);
 
@@ -156,29 +159,30 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
 CollectionFilterWidget::~CollectionFilterWidget() { delete ui_; }
 
-void CollectionFilterWidget::Init(CollectionModel *model) {
+void CollectionFilterWidget::Init(CollectionModel *model, CollectionFilter *filter) {
 
   if (model_) {
     QObject::disconnect(model_, nullptr, this, nullptr);
     QObject::disconnect(model_, nullptr, group_by_dialog_, nullptr);
     QObject::disconnect(group_by_dialog_, nullptr, model_, nullptr);
-    const QList<QAction*> filter_ages = filter_ages_.keys();
-    for (QAction *action : filter_ages) {
+    const QList<QAction*> actions = filter_max_ages_.keys();
+    for (QAction *action : actions) {
       QObject::disconnect(action, &QAction::triggered, model_, nullptr);
     }
   }
 
   model_ = model;
+  filter_ = filter;
 
   // Connect signals
   QObject::connect(model_, &CollectionModel::GroupingChanged, group_by_dialog_, &GroupByDialog::CollectionGroupingChanged);
   QObject::connect(model_, &CollectionModel::GroupingChanged, this, &CollectionFilterWidget::GroupingChanged);
   QObject::connect(group_by_dialog_, &GroupByDialog::Accepted, model_, &CollectionModel::SetGroupBy);
 
-  const QList<QAction*> filter_ages = filter_ages_.keys();
-  for (QAction *action : filter_ages) {
-    int age = filter_ages_[action];
-    QObject::connect(action, &QAction::triggered, this, [this, age]() { model_->SetFilterAge(age); } );
+  const QList<QAction*> actions = filter_max_ages_.keys();
+  for (QAction *action : actions) {
+    int filter_max_age = filter_max_ages_[action];
+    QObject::connect(action, &QAction::triggered, this, [this, filter_max_age]() { model_->SetFilterMaxAge(filter_max_age); } );
   }
 
   // Load settings
@@ -215,6 +219,10 @@ void CollectionFilterWidget::SetSettingsPrefix(const QString &prefix) {
 
   settings_prefix_ = prefix;
 
+}
+
+void CollectionFilterWidget::setFilter(CollectionFilter *filter) {
+  filter_ = filter;
 }
 
 void CollectionFilterWidget::ReloadSettings() {
@@ -518,9 +526,6 @@ void CollectionFilterWidget::keyReleaseEvent(QKeyEvent *e) {
 
 void CollectionFilterWidget::FilterTextChanged(const QString &text) {
 
-  // Searching with one or two characters can be very expensive on the database even with FTS,
-  // so if there are a large number of songs in the database introduce a small delay before actually filtering the model,
-  // so if the user is typing the first few characters of something it will be quicker.
   const bool delay = (delay_behaviour_ == DelayBehaviour::AlwaysDelayed) || (delay_behaviour_ == DelayBehaviour::DelayedOnLargeLibraries && !text.isEmpty() && text.length() < 3 && model_->total_song_count() >= 100000);
 
   if (delay) {
@@ -535,9 +540,8 @@ void CollectionFilterWidget::FilterTextChanged(const QString &text) {
 
 void CollectionFilterWidget::FilterDelayTimeout() {
 
-  emit Filter(ui_->search_field->text());
   if (filter_applies_to_model_) {
-    model_->SetFilterText(ui_->search_field->text());
+    filter_->setFilterFixedString(ui_->search_field->text());
   }
 
 }

@@ -120,9 +120,14 @@ CollectionView::~CollectionView() = default;
 
 void CollectionView::SaveFocus() {
 
-  QModelIndex current = currentIndex();
-  QVariant type = model()->data(current, CollectionModel::Role_Type);
-  if (!type.isValid() || (type.toInt() != CollectionItem::Type_Song && type.toInt() != CollectionItem::Type_Container && type.toInt() != CollectionItem::Type_Divider)) {
+  const QModelIndex current = currentIndex();
+  const QVariant role_type = model()->data(current, CollectionModel::Role_Type);
+  if (!role_type.isValid()) {
+    return;
+  }
+
+  const CollectionItem::Type item_type = role_type.value<CollectionItem::Type>();
+  if (item_type != CollectionItem::Type::Song && item_type != CollectionItem::Type::Container && item_type != CollectionItem::Type::Divider) {
     return;
   }
 
@@ -130,8 +135,8 @@ void CollectionView::SaveFocus() {
   last_selected_song_ = Song();
   last_selected_container_ = QString();
 
-  switch (type.toInt()) {
-    case CollectionItem::Type_Song:{
+  switch (item_type) {
+    case CollectionItem::Type::Song:{
       QModelIndex index = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
       SongList songs = app_->collection_model()->GetChildSongs(index);
       if (!songs.isEmpty()) {
@@ -140,8 +145,8 @@ void CollectionView::SaveFocus() {
       break;
     }
 
-    case CollectionItem::Type_Container:
-    case CollectionItem::Type_Divider:{
+    case CollectionItem::Type::Container:
+    case CollectionItem::Type::Divider:{
       QString text = model()->data(current, CollectionModel::Role_SortText).toString();
       last_selected_container_ = text;
       break;
@@ -157,9 +162,14 @@ void CollectionView::SaveFocus() {
 
 void CollectionView::SaveContainerPath(const QModelIndex &child) {
 
-  QModelIndex current = model()->parent(child);
-  QVariant type = model()->data(current, CollectionModel::Role_Type);
-  if (!type.isValid() || (type.toInt() != CollectionItem::Type_Container && type.toInt() != CollectionItem::Type_Divider)) {
+  const QModelIndex current = model()->parent(child);
+  const QVariant role_type = model()->data(current, CollectionModel::Role_Type);
+  if (!role_type.isValid()) {
+    return;
+  }
+
+  const CollectionItem::Type item_type = role_type.value<CollectionItem::Type>();
+  if (item_type != CollectionItem::Type::Container && item_type != CollectionItem::Type::Divider) {
     return;
   }
 
@@ -183,12 +193,17 @@ bool CollectionView::RestoreLevelFocus(const QModelIndex &parent) {
   if (model()->canFetchMore(parent)) {
     model()->fetchMore(parent);
   }
-  int rows = model()->rowCount(parent);
+  const int rows = model()->rowCount(parent);
   for (int i = 0; i < rows; i++) {
     QModelIndex current = model()->index(i, 0, parent);
-    QVariant type = model()->data(current, CollectionModel::Role_Type);
-    switch (type.toInt()) {
-      case CollectionItem::Type_Song:
+    const QVariant role_type = model()->data(current, CollectionModel::Role_Type);
+    if (!role_type.isValid()) return false;
+    const CollectionItem::Type item_type = role_type.value<CollectionItem::Type>();
+    switch (item_type) {
+      case CollectionItem::Type::Root:
+      case CollectionItem::Type::LoadingIndicator:
+        break;
+      case CollectionItem::Type::Song:
         if (!last_selected_song_.url().isEmpty()) {
           QModelIndex index = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
           const SongList songs = app_->collection_model()->GetChildSongs(index);
@@ -199,8 +214,8 @@ bool CollectionView::RestoreLevelFocus(const QModelIndex &parent) {
         }
         break;
 
-      case CollectionItem::Type_Container:
-      case CollectionItem::Type_Divider:{
+      case CollectionItem::Type::Container:
+      case CollectionItem::Type::Divider:{
         QString text = model()->data(current, CollectionModel::Role_SortText).toString();
         if (!last_selected_container_.isEmpty() && last_selected_container_ == text) {
           expand(current);
@@ -228,18 +243,9 @@ bool CollectionView::RestoreLevelFocus(const QModelIndex &parent) {
 void CollectionView::ReloadSettings() {
 
   Settings settings;
-
   settings.beginGroup(CollectionSettingsPage::kSettingsGroup);
   SetAutoOpen(settings.value("auto_open", false).toBool());
-
-  if (app_) {
-    app_->collection_model()->set_pretty_covers(settings.value("pretty_covers", true).toBool());
-    app_->collection_model()->set_show_dividers(settings.value("show_dividers", true).toBool());
-    app_->collection_model()->set_sort_skips_articles(settings.value("sort_skips_articles", true).toBool());
-  }
-
   delete_files_ = settings.value("delete_files", false).toBool();
-
   settings.endGroup();
 
 }
@@ -573,15 +579,20 @@ void CollectionView::OpenInNewPlaylist() {
 void CollectionView::SearchForThis() {
 
   QModelIndex current = currentIndex();
-  QVariant type = model()->data(current, CollectionModel::Role_Type);
-  if (!type.isValid() || (type.toInt() != CollectionItem::Type_Song && type.toInt() != CollectionItem::Type_Container && type.toInt() != CollectionItem::Type_Divider)) {
+  const QVariant role_type = model()->data(current, CollectionModel::Role_Type);
+  if (!role_type.isValid()) {
+    return;
+  }
+
+  const CollectionItem::Type item_type = role_type.value<CollectionItem::Type>();
+  if (item_type != CollectionItem::Type::Song && item_type != CollectionItem::Type::Container && item_type != CollectionItem::Type::Divider) {
     return;
   }
   QString search;
   QModelIndex index = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
 
-  switch (type.toInt()) {
-    case CollectionItem::Type_Song:{
+  switch (item_type) {
+    case CollectionItem::Type::Song:{
       SongList songs = app_->collection_model()->GetChildSongs(index);
       if (!songs.isEmpty()) {
         last_selected_song_ = songs.last();
@@ -590,11 +601,11 @@ void CollectionView::SearchForThis() {
       break;
     }
 
-    case CollectionItem::Type_Divider:{
+    case CollectionItem::Type::Divider:{
       break;
     }
 
-    case CollectionItem::Type_Container:{
+    case CollectionItem::Type::Container:{
       CollectionItem *item = app_->collection_model()->IndexToItem(index);
 
       int container_level = item->container_level;
@@ -750,8 +761,11 @@ void CollectionView::FilterReturnPressed() {
   if (!currentIndex().isValid()) {
     // Pick the first thing that isn't a divider
     for (int row = 0; row < model()->rowCount(); ++row) {
-      QModelIndex idx(model()->index(row, 0));
-      if (idx.data(CollectionModel::Role_Type) != CollectionItem::Type_Divider) {
+      const QModelIndex idx = model()->index(row, 0);
+      const QVariant role_type = idx.data(CollectionModel::Role_Type);
+      if (!role_type.isValid()) continue;
+      const CollectionItem::Type item_type = role_type.value<CollectionItem::Type>();
+      if (item_type != CollectionItem::Type::Divider) {
         setCurrentIndex(idx);
         break;
       }

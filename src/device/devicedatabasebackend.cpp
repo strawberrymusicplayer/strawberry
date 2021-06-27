@@ -186,7 +186,7 @@ void DeviceDatabaseBackend::RemoveDevice(const int id) {
 
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("DROP TABLE device_%1_fts").arg(id));
+    q.prepare(QStringLiteral("DROP TABLE IF EXISTS device_%1_fts").arg(id));
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return;

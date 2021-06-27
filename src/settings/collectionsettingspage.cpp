@@ -144,8 +144,9 @@ void CollectionSettingsPage::Load() {
 
   s.beginGroup(kSettingsGroup);
   ui_->auto_open->setChecked(s.value("auto_open", true).toBool());
-  ui_->pretty_covers->setChecked(s.value("pretty_covers", true).toBool());
   ui_->show_dividers->setChecked(s.value("show_dividers", true).toBool());
+  ui_->pretty_covers->setChecked(s.value("pretty_covers", true).toBool());
+  ui_->various_artists->setChecked(s.value("various_artists", true).toBool());
   ui_->sort_skips_articles->setChecked(s.value("sort_skips_articles", true).toBool());
   ui_->startup_scan->setChecked(s.value("startup_scan", true).toBool());
   ui_->monitor->setChecked(s.value("monitor", true).toBool());
@@ -192,8 +193,9 @@ void CollectionSettingsPage::Save() {
 
   s.beginGroup(kSettingsGroup);
   s.setValue("auto_open", ui_->auto_open->isChecked());
-  s.setValue("pretty_covers", ui_->pretty_covers->isChecked());
   s.setValue("show_dividers", ui_->show_dividers->isChecked());
+  s.setValue("pretty_covers", ui_->pretty_covers->isChecked());
+  s.setValue("various_artists", ui_->various_artists->isChecked());
   s.setValue("sort_skips_articles", ui_->sort_skips_articles->isChecked());
   s.setValue("startup_scan", ui_->startup_scan->isChecked());
   s.setValue("monitor", ui_->monitor->isChecked());

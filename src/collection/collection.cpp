@@ -49,7 +49,6 @@
 using std::make_shared;
 
 const char *SCollection::kSongsTable = "songs";
-const char *SCollection::kFtsTable = "songs_fts";
 const char *SCollection::kDirsTable = "directories";
 const char *SCollection::kSubdirsTable = "subdirectories";
 
@@ -70,7 +69,7 @@ SCollection::SCollection(Application *app, QObject *parent)
   backend()->moveToThread(app->database()->thread());
   qLog(Debug) << &*backend_ << "moved to thread" << app->database()->thread();
 
-  backend_->Init(app->database(), app->task_manager(), Song::Source::Collection, QLatin1String(kSongsTable), QLatin1String(kFtsTable), QLatin1String(kDirsTable), QLatin1String(kSubdirsTable));
+  backend_->Init(app->database(), app->task_manager(), Song::Source::Collection, QLatin1String(kSongsTable), QLatin1String(kDirsTable), QLatin1String(kSubdirsTable));
 
   model_ = new CollectionModel(backend_, app_, this);
 

@@ -236,7 +236,7 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   QMutexLocker l(collection_backend_->db()->Mutex());
   QSqlDatabase db(collection_backend_->db()->Connect());
 
-  CollectionQuery query(db, collection_backend_->songs_table(), collection_backend_->fts_table());
+  CollectionQuery query(db, collection_backend_->songs_table());
   query.SetColumnSpec(QStringLiteral("%songs_table.ROWID, ") + Song::kColumnSpec);
   query.AddWhere(QStringLiteral("url"), url.toEncoded());
 

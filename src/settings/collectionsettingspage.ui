@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>565</width>
-    <height>973</height>
+    <height>1003</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -212,6 +212,13 @@ If there are no matches then it will use the largest image in the directory.</st
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="show_dividers">
+        <property name="text">
+         <string>Show dividers</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="pretty_covers">
         <property name="text">
          <string>Show album cover art in collection</string>
@@ -219,9 +226,9 @@ If there are no matches then it will use the largest image in the directory.</st
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="show_dividers">
+       <widget class="QCheckBox" name="various_artists">
         <property name="text">
-         <string>Show dividers</string>
+         <string>Use various artists for compilation albums</string>
         </property>
        </widget>
       </item>
@@ -508,11 +515,13 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>monitor</tabstop>
   <tabstop>song_tracking</tabstop>
   <tabstop>mark_songs_unavailable</tabstop>
+  <tabstop>song_ebur128_loudness_analysis</tabstop>
   <tabstop>expire_unavailable_songs_days</tabstop>
   <tabstop>cover_art_patterns</tabstop>
   <tabstop>auto_open</tabstop>
-  <tabstop>pretty_covers</tabstop>
   <tabstop>show_dividers</tabstop>
+  <tabstop>pretty_covers</tabstop>
+  <tabstop>various_artists</tabstop>
   <tabstop>sort_skips_articles</tabstop>
   <tabstop>spinbox_cache_size</tabstop>
   <tabstop>combobox_cache_size</tabstop>
@@ -520,6 +529,11 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>spinbox_disk_cache_size</tabstop>
   <tabstop>combobox_disk_cache_size</tabstop>
   <tabstop>button_clear_disk_cache</tabstop>
+  <tabstop>checkbox_save_playcounts</tabstop>
+  <tabstop>checkbox_save_ratings</tabstop>
+  <tabstop>checkbox_overwrite_playcount</tabstop>
+  <tabstop>checkbox_overwrite_rating</tabstop>
+  <tabstop>button_save_stats</tabstop>
   <tabstop>checkbox_delete_files</tabstop>
  </tabstops>
  <resources/>
