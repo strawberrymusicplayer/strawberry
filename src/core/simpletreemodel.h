@@ -53,7 +53,7 @@ class SimpleTreeModel : public QAbstractItemModel {
   void EmitDataChanged(T *item);
 
  protected:
-  virtual void LazyPopulate(T *item) = 0;
+  virtual void LazyPopulate(T *item) { item->lazy_loaded = true; }
 
  protected:
   T *root_;

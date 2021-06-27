@@ -918,14 +918,6 @@ void DeviceManager::DeviceSongCountUpdated(const int count) {
 
 }
 
-void DeviceManager::LazyPopulate(DeviceInfo *parent, const bool signal) {
-
-  Q_UNUSED(signal);
-  if (parent->lazy_loaded) return;
-  parent->lazy_loaded = true;
-
-}
-
 QString DeviceManager::DeviceNameByID(const QString &unique_id) {
 
   DeviceInfo *info = FindDeviceById(unique_id);

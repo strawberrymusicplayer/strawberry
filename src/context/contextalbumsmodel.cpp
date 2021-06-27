@@ -44,6 +44,7 @@
 #include "core/iconloader.h"
 #include "collection/collectionquery.h"
 #include "collection/collectionbackend.h"
+#include "collection/collectionmodel.h"
 #include "collection/collectionitem.h"
 #include "collection/sqlrow.h"
 #include "playlist/playlistmanager.h"
@@ -95,7 +96,6 @@ void ContextAlbumsModel::AddSongs(const SongList &songs) {
       container_nodes_[song.album()] = ItemFromSong(CollectionItem::Type_Container, true, container, song, 0);
     }
     container = container_nodes_[song.album()];
-    if (!container->lazy_loaded) continue;
 
     // We've gone all the way down to the deepest level and everything was already lazy loaded, so now we have to create the song in the container.
     song_nodes_[song.id()] = ItemFromSong(CollectionItem::Type_Song, true, container, song, -1);
@@ -169,6 +169,7 @@ void ContextAlbumsModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoad
   }
 
   const QModelIndex idx = ItemToIndex(item);
+
   emit dataChanged(idx, idx);
 
 }
@@ -215,10 +216,6 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
       return item->metadata.artist();
 
     case Role_Editable:
-      if (!item->lazy_loaded) {
-        const_cast<ContextAlbumsModel*>(this)->LazyPopulate(const_cast<CollectionItem*>(item), true);
-      }
-
       if (item->type == CollectionItem::Type_Container) {
         // if we have even one non editable item as a child, we ourselves are not available for edit
         if (!item->children.isEmpty()) {
@@ -247,71 +244,6 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
 
 }
 
-ContextAlbumsModel::QueryResult ContextAlbumsModel::RunQuery(CollectionItem *parent) {
-
-  QMutexLocker l(backend_->db()->Mutex());
-  QSqlDatabase db(backend_->db()->Connect());
-
-  QueryResult result;
-  CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), query_options_);
-  q.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-
-  // Walk up through the item's parents adding filters as necessary
-  CollectionItem *p = parent;
-  while (p && p->type == CollectionItem::Type_Container) {
-    if (p->container_level == 0) {
-      q.AddWhere("album", p->key);
-    }
-    p = p->parent;
-  }
-
-  // Execute the query
-  if (!q.Exec()) return result;
-
-  while (q.Next()) {
-    result.rows << SqlRow(q);
-  }
-  return result;
-
-}
-
-void ContextAlbumsModel::PostQuery(CollectionItem *parent, const ContextAlbumsModel::QueryResult &result, bool signal) {
-
-  int child_level = (parent == root_ ? 0 : parent->container_level + 1);
-
-  for (const SqlRow &row : result.rows) {
-
-    CollectionItem::Type item_type = (parent == root_ ? CollectionItem::Type_Container : CollectionItem::Type_Song);
-
-    if (signal) beginInsertRows(ItemToIndex(parent), parent->children.count(), parent->children.count());
-
-    CollectionItem *item = new CollectionItem(item_type, parent);
-    item->container_level = child_level;
-    item->metadata.InitFromQuery(row, true);
-    item->key = item->metadata.title();
-    item->display_text = item->metadata.TitleWithCompilationArtist();
-    item->sort_text = SortTextForSong(item->metadata);
-    if (parent != root_) item->lazy_loaded = true;
-
-    if (signal) endInsertRows();
-
-    if (parent == root_) container_nodes_[item->key] = item;
-    else song_nodes_[item->metadata.id()] = item;
-
-  }
-
-}
-
-void ContextAlbumsModel::LazyPopulate(CollectionItem *parent, const bool signal) {
-
-  if (parent->lazy_loaded) return;
-  parent->lazy_loaded = true;
-
-  QueryResult result = RunQuery(parent);
-  PostQuery(parent, result, signal);
-
-}
-
 void ContextAlbumsModel::Reset() {
 
   for (QMap<QString, CollectionItem*>::const_iterator it = container_nodes_.begin() ; it != container_nodes_.end(); ++it) {
@@ -327,75 +259,26 @@ void ContextAlbumsModel::Reset() {
   pending_cache_keys_.clear();
 
   root_ = new CollectionItem(this);
-  root_->lazy_loaded = false;
+  root_->lazy_loaded = true;
   endResetModel();
 
 }
 
-CollectionItem *ContextAlbumsModel::ItemFromSong(CollectionItem::Type item_type, bool signal, CollectionItem *parent, const Song &s, int container_level) {
+CollectionItem *ContextAlbumsModel::ItemFromSong(CollectionItem::Type item_type, const bool signal, CollectionItem *parent, const Song &s, const int container_level) {
 
   if (signal) beginInsertRows(ItemToIndex(parent), parent->children.count(), parent->children.count());
 
   CollectionItem *item = new CollectionItem(item_type, parent);
   item->container_level = container_level;
+  item->lazy_loaded = true;
 
-  if (item->key.isNull()) item->key = s.album();
-  //if (item->key.isNull()) item->key = s.effective_albumartist();
-  item->display_text = TextOrUnknown(item->key);
-  item->sort_text = SortTextForArtist(item->key);
+  if (item->key.isEmpty()) item->key = s.album();
+  item->display_text = CollectionModel::TextOrUnknown(item->key);
+  item->sort_text = CollectionModel::SortTextForArtist(item->key);
 
-  if (item_type == CollectionItem::Type_Song) item->lazy_loaded = true;
   if (signal) endInsertRows();
 
   return item;
-
-}
-
-QString ContextAlbumsModel::TextOrUnknown(const QString &text) {
-
-  if (text.isEmpty()) return tr("Unknown");
-  return text;
-
-}
-
-QString ContextAlbumsModel::SortText(QString text) {
-
-  if (text.isEmpty()) {
-    text = " unknown";
-  }
-  else {
-    text = text.toLower();
-  }
-  text = text.remove(QRegularExpression("[^\\w ]", QRegularExpression::UseUnicodePropertiesOption));
-
-  return text;
-
-}
-
-QString ContextAlbumsModel::SortTextForArtist(QString artist) {
-
-  artist = SortText(artist);
-
-  if (artist.startsWith("the ")) {
-    artist = artist.right(artist.length() - 4) + ", the";
-  }
-  else if (artist.startsWith("a ")) {
-    artist = artist.right(artist.length() - 2) + ", a";
-  }
-  else if (artist.startsWith("an ")) {
-    artist = artist.right(artist.length() - 3) + ", an";
-  }
-
-  return artist;
-
-}
-
-QString ContextAlbumsModel::SortTextForSong(const Song &song) {
-
-  QString ret = QString::number(qMax(0, song.disc()) * 1000 + qMax(0, song.track()));
-  ret.prepend(QString("0").repeated(6 - ret.length()));
-  ret.append(song.url().toString());
-  return ret;
 
 }
 
@@ -457,7 +340,6 @@ void ContextAlbumsModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, 
 
   switch (item->type) {
     case CollectionItem::Type_Container: {
-      const_cast<ContextAlbumsModel*>(this)->LazyPopulate(item);
 
       QList<CollectionItem*> children = item->children;
       std::sort(children.begin(), children.end(), std::bind(&ContextAlbumsModel::CompareItems, this, std::placeholders::_1, std::placeholders::_2));
@@ -498,11 +380,3 @@ SongList ContextAlbumsModel::GetChildSongs(const QModelIndex &idx) const {
   return GetChildSongs(QModelIndexList() << idx);
 }
 
-bool ContextAlbumsModel::canFetchMore(const QModelIndex &parent) const {
-
-  if (!parent.isValid()) return false;
-
-  CollectionItem *item = IndexToItem(parent);
-  return !item->lazy_loaded;
-
-}

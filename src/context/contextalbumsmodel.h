@@ -85,27 +85,15 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   Qt::ItemFlags flags(const QModelIndex &idx) const override;
   QStringList mimeTypes() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
-  bool canFetchMore(const QModelIndex &parent) const override;
-
-  static QString TextOrUnknown(const QString &text);
-  static QString SortText(QString text);
-  static QString SortTextForArtist(QString artist);
-  static QString SortTextForSong(const Song &song);
 
   void Reset();
   void AddSongs(const SongList &songs);
-
- protected:
-  void LazyPopulate(CollectionItem *item) override { LazyPopulate(item, true); }
-  void LazyPopulate(CollectionItem *parent, const bool signal);
 
  private slots:
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 
  private:
-  QueryResult RunQuery(CollectionItem *parent);
-  void PostQuery(CollectionItem *parent, const QueryResult &result, bool signal);
-  CollectionItem *ItemFromSong(CollectionItem::Type item_type, bool signal, CollectionItem *parent, const Song &s, int container_level);
+  CollectionItem *ItemFromSong(CollectionItem::Type item_type, const bool signal, CollectionItem *parent, const Song &s, const int container_level);
 
   static QString AlbumIconPixmapCacheKey(const QModelIndex &idx);
   QVariant AlbumIcon(const QModelIndex &idx);

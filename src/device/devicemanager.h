@@ -139,10 +139,6 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void ListerClosed();
   void DeviceDestroyed();
 
- protected:
-  void LazyPopulate(DeviceInfo *item) override { LazyPopulate(item, true); }
-  void LazyPopulate(DeviceInfo *parent, const bool signal);
-
  private:
   void AddLister(DeviceLister *lister);
   template <typename T> void AddDeviceClass();

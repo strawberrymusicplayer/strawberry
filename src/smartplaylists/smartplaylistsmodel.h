@@ -71,10 +71,6 @@ class SmartPlaylistsModel : public SimpleTreeModel<SmartPlaylistsItem> {
   QStringList mimeTypes() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
- protected:
-  void LazyPopulate(SmartPlaylistsItem *item) override { LazyPopulate(item, true); }
-  void LazyPopulate(SmartPlaylistsItem *item, bool signal);
-
  private:
   static const char *kSettingsGroup;
   static const char *kSmartPlaylistsMimeType;
