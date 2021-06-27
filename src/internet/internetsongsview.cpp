@@ -54,13 +54,13 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
   ui_->stacked->setCurrentWidget(ui_->internetcollection_page);
   ui_->view->Init(app_, service_->songs_collection_backend(), service_->songs_collection_model(), false);
   ui_->view->setModel(service_->songs_collection_sort_model());
-  ui_->view->SetFilter(ui_->filter);
-  ui_->filter->SetSettingsGroup(settings_group);
-  ui_->filter->SetCollectionModel(service_->songs_collection_model());
+  ui_->view->SetFilter(ui_->filter_widget);
+  ui_->filter_widget->SetSettingsGroup(settings_group);
+  ui_->filter_widget->Init(service_->songs_collection_model());
 
   QAction *action_configure = new QAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this);
   QObject::connect(action_configure, &QAction::triggered, this, &InternetSongsView::OpenSettingsDialog);
-  ui_->filter->AddMenuAction(action_configure);
+  ui_->filter_widget->AddMenuAction(action_configure);
 
   QObject::connect(ui_->view, &InternetCollectionView::GetSongs, this, &InternetSongsView::GetSongs);
   QObject::connect(ui_->view, &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveSongs);
@@ -87,7 +87,7 @@ InternetSongsView::~InternetSongsView() { delete ui_; }
 
 void InternetSongsView::ReloadSettings() {
 
-  ui_->filter->ReloadSettings();
+  ui_->filter_widget->ReloadSettings();
   ui_->view->ReloadSettings();
 
 }

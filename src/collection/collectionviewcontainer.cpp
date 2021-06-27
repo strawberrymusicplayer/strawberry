@@ -32,12 +32,12 @@
 CollectionViewContainer::CollectionViewContainer(QWidget *parent) : QWidget(parent), ui_(new Ui_CollectionViewContainer) {
 
   ui_->setupUi(this);
-  view()->SetFilter(filter());
+  view()->SetFilter(filter_widget());
 
-  QObject::connect(filter(), &CollectionFilterWidget::UpPressed, view(), &CollectionView::UpAndFocus);
-  QObject::connect(filter(), &CollectionFilterWidget::DownPressed, view(), &CollectionView::DownAndFocus);
-  QObject::connect(filter(), &CollectionFilterWidget::ReturnPressed, view(), &CollectionView::FilterReturnPressed);
-  QObject::connect(view(), &CollectionView::FocusOnFilterSignal, filter(), &CollectionFilterWidget::FocusOnFilter);
+  QObject::connect(filter_widget(), &CollectionFilterWidget::UpPressed, view(), &CollectionView::UpAndFocus);
+  QObject::connect(filter_widget(), &CollectionFilterWidget::DownPressed, view(), &CollectionView::DownAndFocus);
+  QObject::connect(filter_widget(), &CollectionFilterWidget::ReturnPressed, view(), &CollectionView::FilterReturnPressed);
+  QObject::connect(view(), &CollectionView::FocusOnFilterSignal, filter_widget(), &CollectionFilterWidget::FocusOnFilter);
 
   ReloadSettings();
 
@@ -45,8 +45,8 @@ CollectionViewContainer::CollectionViewContainer(QWidget *parent) : QWidget(pare
 
 CollectionViewContainer::~CollectionViewContainer() { delete ui_; }
 CollectionView *CollectionViewContainer::view() const { return ui_->view; }
-CollectionFilterWidget *CollectionViewContainer::filter() const { return ui_->filter; }
+CollectionFilterWidget *CollectionViewContainer::filter_widget() const { return ui_->filter; }
 void CollectionViewContainer::ReloadSettings() const {
-  filter()->ReloadSettings();
+  filter_widget()->ReloadSettings();
   view()->ReloadSettings();
 }

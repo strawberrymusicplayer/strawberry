@@ -51,7 +51,7 @@ class InternetCollectionViewContainer : public QWidget {
   QWidget *help_page() const { return ui_->help_page; }
   QWidget *internetcollection_page() const { return ui_->internetcollection_page; }
   InternetCollectionView *view() const { return ui_->view; }
-  CollectionFilterWidget *filter() const { return ui_->filter; }
+  CollectionFilterWidget *filter_widget() const { return ui_->filter_widget; }
   QPushButton *button_refresh() const { return ui_->refresh; }
   QPushButton *button_close() const { return ui_->close; }
   QPushButton *button_abort() const { return ui_->abort; }

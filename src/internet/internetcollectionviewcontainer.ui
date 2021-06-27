@@ -129,7 +129,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="CollectionFilterWidget" name="filter" native="true"/>
+        <widget class="CollectionFilterWidget" name="filter_widget" native="true"/>
        </item>
        <item>
         <widget class="QPushButton" name="refresh">

@@ -67,11 +67,11 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
     ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->internetcollection_page());
     ui_->artists_collection->view()->Init(app_, service_->artists_collection_backend(), service_->artists_collection_model(), true);
     ui_->artists_collection->view()->setModel(service_->artists_collection_sort_model());
-    ui_->artists_collection->view()->SetFilter(ui_->artists_collection->filter());
-    ui_->artists_collection->filter()->SetSettingsGroup(settings_group);
-    ui_->artists_collection->filter()->SetSettingsPrefix("artists");
-    ui_->artists_collection->filter()->SetCollectionModel(service_->artists_collection_model());
-    ui_->artists_collection->filter()->AddMenuAction(action_configure);
+    ui_->artists_collection->view()->SetFilter(ui_->artists_collection->filter_widget());
+    ui_->artists_collection->filter_widget()->SetSettingsGroup(settings_group);
+    ui_->artists_collection->filter_widget()->SetSettingsPrefix("artists");
+    ui_->artists_collection->filter_widget()->Init(service_->artists_collection_model());
+    ui_->artists_collection->filter_widget()->AddMenuAction(action_configure);
 
     QObject::connect(ui_->artists_collection->view(), &InternetCollectionView::GetSongs, this, &InternetTabsView::GetArtists);
     QObject::connect(ui_->artists_collection->view(), &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveArtists);
@@ -99,11 +99,11 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
     ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->internetcollection_page());
     ui_->albums_collection->view()->Init(app_, service_->albums_collection_backend(), service_->albums_collection_model(), true);
     ui_->albums_collection->view()->setModel(service_->albums_collection_sort_model());
-    ui_->albums_collection->view()->SetFilter(ui_->albums_collection->filter());
-    ui_->albums_collection->filter()->SetSettingsGroup(settings_group);
-    ui_->albums_collection->filter()->SetSettingsPrefix("albums");
-    ui_->albums_collection->filter()->SetCollectionModel(service_->albums_collection_model());
-    ui_->albums_collection->filter()->AddMenuAction(action_configure);
+    ui_->albums_collection->view()->SetFilter(ui_->albums_collection->filter_widget());
+    ui_->albums_collection->filter_widget()->SetSettingsGroup(settings_group);
+    ui_->albums_collection->filter_widget()->SetSettingsPrefix("albums");
+    ui_->albums_collection->filter_widget()->Init(service_->albums_collection_model());
+    ui_->albums_collection->filter_widget()->AddMenuAction(action_configure);
 
     QObject::connect(ui_->albums_collection->view(), &InternetCollectionView::GetSongs, this, &InternetTabsView::GetAlbums);
     QObject::connect(ui_->albums_collection->view(), &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveAlbums);
@@ -131,11 +131,11 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
     ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->internetcollection_page());
     ui_->songs_collection->view()->Init(app_, service_->songs_collection_backend(), service_->songs_collection_model(), true);
     ui_->songs_collection->view()->setModel(service_->songs_collection_sort_model());
-    ui_->songs_collection->view()->SetFilter(ui_->songs_collection->filter());
-    ui_->songs_collection->filter()->SetSettingsGroup(settings_group);
-    ui_->songs_collection->filter()->SetSettingsPrefix("songs");
-    ui_->songs_collection->filter()->SetCollectionModel(service_->songs_collection_model());
-    ui_->songs_collection->filter()->AddMenuAction(action_configure);
+    ui_->songs_collection->view()->SetFilter(ui_->songs_collection->filter_widget());
+    ui_->songs_collection->filter_widget()->SetSettingsGroup(settings_group);
+    ui_->songs_collection->filter_widget()->SetSettingsPrefix("songs");
+    ui_->songs_collection->filter_widget()->Init(service_->songs_collection_model());
+    ui_->songs_collection->filter_widget()->AddMenuAction(action_configure);
 
     QObject::connect(ui_->songs_collection->view(), &InternetCollectionView::GetSongs, this, &InternetTabsView::GetSongs);
     QObject::connect(ui_->songs_collection->view(), &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveSongs);

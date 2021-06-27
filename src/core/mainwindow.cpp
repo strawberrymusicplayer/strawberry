@@ -643,17 +643,17 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 
   QAction *collection_config_action = new QAction(IconLoader::Load("configure"), tr("Configure collection..."), this);
   QObject::connect(collection_config_action, &QAction::triggered, this, &MainWindow::ShowCollectionConfig);
-  collection_view_->filter()->SetSettingsGroup(CollectionSettingsPage::kSettingsGroup);
-  collection_view_->filter()->SetCollectionModel(app_->collection()->model());
+  collection_view_->filter_widget()->SetSettingsGroup(CollectionSettingsPage::kSettingsGroup);
+  collection_view_->filter_widget()->Init(app_->collection()->model());
 
   QAction *separator = new QAction(this);
   separator->setSeparator(true);
 
-  collection_view_->filter()->AddMenuAction(collection_show_all_);
-  collection_view_->filter()->AddMenuAction(collection_show_duplicates_);
-  collection_view_->filter()->AddMenuAction(collection_show_untagged_);
-  collection_view_->filter()->AddMenuAction(separator);
-  collection_view_->filter()->AddMenuAction(collection_config_action);
+  collection_view_->filter_widget()->AddMenuAction(collection_show_all_);
+  collection_view_->filter_widget()->AddMenuAction(collection_show_duplicates_);
+  collection_view_->filter_widget()->AddMenuAction(collection_show_untagged_);
+  collection_view_->filter_widget()->AddMenuAction(separator);
+  collection_view_->filter_widget()->AddMenuAction(collection_config_action);
 
 #ifdef HAVE_SUBSONIC
   QObject::connect(subsonic_view_->view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
@@ -2219,7 +2219,7 @@ void MainWindow::ShowInCollection() {
   if (!songs.isEmpty()) {
     search = "artist:" + songs.first().artist() + " album:" + songs.first().album();
   }
-  collection_view_->filter()->ShowInCollection(search);
+  collection_view_->filter_widget()->ShowInCollection(search);
 
 }
 
@@ -2701,13 +2701,13 @@ void MainWindow::PlaylistCopyToDevice() {
 void MainWindow::ChangeCollectionQueryMode(QAction *action) {
 
   if (action == collection_show_duplicates_) {
-    collection_view_->filter()->SetQueryMode(QueryOptions::QueryMode_Duplicates);
+    collection_view_->filter_widget()->SetQueryMode(QueryOptions::QueryMode_Duplicates);
   }
   else if (action == collection_show_untagged_) {
-    collection_view_->filter()->SetQueryMode(QueryOptions::QueryMode_Untagged);
+    collection_view_->filter_widget()->SetQueryMode(QueryOptions::QueryMode_Untagged);
   }
   else {
-    collection_view_->filter()->SetQueryMode(QueryOptions::QueryMode_All);
+    collection_view_->filter_widget()->SetQueryMode(QueryOptions::QueryMode_All);
   }
 
 }

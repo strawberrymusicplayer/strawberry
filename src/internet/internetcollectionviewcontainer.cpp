@@ -37,12 +37,12 @@ InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent
   service_(nullptr) {
 
   ui_->setupUi(this);
-  view()->SetFilter(filter());
+  view()->SetFilter(filter_widget());
 
-  QObject::connect(filter(), &CollectionFilterWidget::UpPressed, view(), &InternetCollectionView::UpAndFocus);
-  QObject::connect(filter(), &CollectionFilterWidget::DownPressed, view(), &InternetCollectionView::DownAndFocus);
-  QObject::connect(filter(), &CollectionFilterWidget::ReturnPressed, view(), &InternetCollectionView::FilterReturnPressed);
-  QObject::connect(view(), &InternetCollectionView::FocusOnFilterSignal, filter(), &CollectionFilterWidget::FocusOnFilter);
+  QObject::connect(filter_widget(), &CollectionFilterWidget::UpPressed, view(), &InternetCollectionView::UpAndFocus);
+  QObject::connect(filter_widget(), &CollectionFilterWidget::DownPressed, view(), &InternetCollectionView::DownAndFocus);
+  QObject::connect(filter_widget(), &CollectionFilterWidget::ReturnPressed, view(), &InternetCollectionView::FilterReturnPressed);
+  QObject::connect(view(), &InternetCollectionView::FocusOnFilterSignal, filter_widget(), &CollectionFilterWidget::FocusOnFilter);
 
   ui_->progressbar->hide();
 
@@ -53,7 +53,7 @@ InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent
 InternetCollectionViewContainer::~InternetCollectionViewContainer() { delete ui_; }
 
 void InternetCollectionViewContainer::ReloadSettings() const {
-  filter()->ReloadSettings();
+  filter_widget()->ReloadSettings();
   view()->ReloadSettings();
 }
 
