@@ -67,7 +67,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
   QString available_fields = Song::kFtsColumns.join(", ").replace(QRegularExpression("\\bfts"), "");
 
-  ui_->filter->setToolTip(
+  ui_->search_field->setToolTip(
   QString("<html><head/><body><p>") +
   tr("Prefix a word with a field name to limit the search to that field, e.g.:") +
   QString(" ") +
@@ -87,7 +87,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   QString("</p></body></html>")
   );
 
-  QObject::connect(ui_->filter, &QSearchField::returnPressed, this, &CollectionFilterWidget::ReturnPressed);
+  QObject::connect(ui_->search_field, &QSearchField::returnPressed, this, &CollectionFilterWidget::ReturnPressed);
   QObject::connect(filter_delay_, &QTimer::timeout, this, &CollectionFilterWidget::FilterDelayTimeout);
 
   filter_delay_->setInterval(kFilterDelay);
@@ -135,7 +135,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   collection_menu_->addSeparator();
   ui_->options->setMenu(collection_menu_);
 
-  QObject::connect(ui_->filter, &QSearchField::textChanged, this, &CollectionFilterWidget::FilterTextChanged);
+  QObject::connect(ui_->search_field, &QSearchField::textChanged, this, &CollectionFilterWidget::FilterTextChanged);
 
   ReloadSettings();
 
@@ -150,7 +150,7 @@ void CollectionFilterWidget::ReloadSettings() {
   int iconsize = s.value(AppearanceSettingsPage::kIconSizeConfigureButtons, 20).toInt();
   s.endGroup();
   ui_->options->setIconSize(QSize(iconsize, iconsize));
-  ui_->filter->setIconSize(iconsize);
+  ui_->search_field->setIconSize(iconsize);
 
 }
 
@@ -294,8 +294,8 @@ void CollectionFilterWidget::ShowGroupingManager() {
 
 void CollectionFilterWidget::FocusOnFilter(QKeyEvent *event) {
 
-  ui_->filter->setFocus();
-  QApplication::sendEvent(ui_->filter, event);
+  ui_->search_field->setFocus();
+  QApplication::sendEvent(ui_->search_field, event);
 
 }
 
@@ -393,20 +393,20 @@ void CollectionFilterWidget::CheckCurrentGrouping(const CollectionModel::Groupin
 }
 
 void CollectionFilterWidget::SetFilterHint(const QString &hint) {
-  ui_->filter->setPlaceholderText(hint);
+  ui_->search_field->setPlaceholderText(hint);
 }
 
 void CollectionFilterWidget::SetQueryMode(QueryOptions::QueryMode query_mode) {
 
-  ui_->filter->clear();
-  ui_->filter->setEnabled(query_mode == QueryOptions::QueryMode_All);
+  ui_->search_field->clear();
+  ui_->search_field->setEnabled(query_mode == QueryOptions::QueryMode_All);
 
   model_->SetFilterQueryMode(query_mode);
 
 }
 
 void CollectionFilterWidget::ShowInCollection(const QString &search) {
-  ui_->filter->setText(search);
+  ui_->search_field->setText(search);
 }
 
 void CollectionFilterWidget::SetAgeFilterEnabled(bool enabled) {
@@ -435,7 +435,7 @@ void CollectionFilterWidget::keyReleaseEvent(QKeyEvent *e) {
       break;
 
     case Qt::Key_Escape:
-      ui_->filter->clear();
+      ui_->search_field->clear();
       e->accept();
       break;
   }
@@ -463,9 +463,9 @@ void CollectionFilterWidget::FilterTextChanged(const QString &text) {
 
 void CollectionFilterWidget::FilterDelayTimeout() {
 
-  emit Filter(ui_->filter->text());
+  emit Filter(ui_->search_field->text());
   if (filter_applies_to_model_) {
-    model_->SetFilterText(ui_->filter->text());
+    model_->SetFilterText(ui_->search_field->text());
   }
 
 }
