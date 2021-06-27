@@ -568,13 +568,12 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       }
 
       // Remove from pending art loading
-      QMap<quint64, ItemAndCacheKey>::iterator i = pending_art_.begin();
-      while (i != pending_art_.end()) {
-        if (i.value().first == node) {
-          i = pending_art_.erase(i);  // clazy:exclude=strict-iterators
+      for (QMap<quint64, ItemAndCacheKey>::iterator it = pending_art_.begin() ; it != pending_art_.end();) {
+        if (it.value().first == node) {
+          it = pending_art_.erase(it);  // clazy:exclude=strict-iterators
         }
         else {
-          ++i;
+          ++it;
         }
       }
 

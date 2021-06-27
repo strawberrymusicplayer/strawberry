@@ -314,11 +314,9 @@ void ContextAlbumsModel::LazyPopulate(CollectionItem *parent, const bool signal)
 
 void ContextAlbumsModel::Reset() {
 
-  QMap<QString, CollectionItem*>::iterator i = container_nodes_.begin();
-  while (i != container_nodes_.end()) {
-    const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(i.value()));
+  for (QMap<QString, CollectionItem*>::const_iterator it = container_nodes_.begin() ; it != container_nodes_.end(); ++it) {
+    const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(it.value()));
     QPixmapCache::remove(cache_key);
-    ++i;
   }
 
   beginResetModel();
