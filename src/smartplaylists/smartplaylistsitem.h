@@ -31,14 +31,15 @@
 
 class SmartPlaylistsItem : public SimpleTreeItem<SmartPlaylistsItem> {
  public:
-  enum Type {
-    Type_Root,
-    Type_SmartPlaylist
+  enum class Type {
+    Root,
+    SmartPlaylist
   };
 
-  SmartPlaylistsItem(SimpleTreeModel<SmartPlaylistsItem> *_model) : SimpleTreeItem<SmartPlaylistsItem>(Type_Root, _model) {}
-  SmartPlaylistsItem(const Type _type, SmartPlaylistsItem *_parent = nullptr) : SimpleTreeItem<SmartPlaylistsItem>(_type, _parent) {}
+  SmartPlaylistsItem(SimpleTreeModel<SmartPlaylistsItem> *_model) : SimpleTreeItem<SmartPlaylistsItem>(_model), type(Type::Root) {}
+  SmartPlaylistsItem(const Type _type, SmartPlaylistsItem *_parent = nullptr) : SimpleTreeItem<SmartPlaylistsItem>(_parent), type(_type) {}
 
+  Type type;
   PlaylistGenerator::Type smart_playlist_type;
   QByteArray smart_playlist_data;
 

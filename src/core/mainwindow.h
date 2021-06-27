@@ -68,6 +68,7 @@ class AlbumCoverManager;
 class Application;
 class ContextView;
 class CollectionViewContainer;
+class CollectionFilter;
 class AlbumCoverChoiceController;
 class CommandlineOptions;
 #ifndef Q_OS_WIN
@@ -375,8 +376,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlist_rescan_songs_;
 
   QModelIndex playlist_menu_index_;
-
-  QSortFilterProxyModel *collection_sort_model_;
 
   QTimer *track_position_timer_;
   QTimer *track_slider_timer_;

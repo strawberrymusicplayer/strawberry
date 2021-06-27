@@ -144,35 +144,41 @@ const QStringList Song::kColumns = QStringList() << QStringLiteral("title")
 
 const QStringList Song::kRowIdColumns = QStringList() << QStringLiteral("ROWID") << kColumns;
 
-const QString Song::kColumnSpec = Song::kColumns.join(QStringLiteral(", "));
-const QString Song::kRowIdColumnSpec = Song::kRowIdColumns.join(QStringLiteral(", "));
-const QString Song::kBindSpec = Utilities::Prepend(QStringLiteral(":"), Song::kColumns).join(QStringLiteral(", "));
-const QString Song::kUpdateSpec = Utilities::Updateify(Song::kColumns).join(QStringLiteral(", "));
+const QString Song::kColumnSpec = kColumns.join(QStringLiteral(", "));
+const QString Song::kRowIdColumnSpec = kRowIdColumns.join(QStringLiteral(", "));
+const QString Song::kBindSpec = Utilities::Prepend(QStringLiteral(":"), kColumns).join(QStringLiteral(", "));
+const QString Song::kUpdateSpec = Utilities::Updateify(kColumns).join(QStringLiteral(", "));
 
-// used to indicate, what columns can be filtered numerically. Used by the CollectionQuery.
-const QStringList Song::kNumericalColumns = QStringList() << QStringLiteral("year")
-                                                          << QStringLiteral("length")
-                                                          << QStringLiteral("samplerate")
-                                                          << QStringLiteral("bitdepth")
-                                                          << QStringLiteral("bitrate")
-                                                          << QStringLiteral("rating")
-                                                          << QStringLiteral("playcount")
-                                                          << QStringLiteral("skipcount");
+const QStringList Song::kTextSearchColumns = QStringList()      << QStringLiteral("title")
+                                                                << QStringLiteral("album")
+                                                                << QStringLiteral("artist")
+                                                                << QStringLiteral("albumartist")
+                                                                << QStringLiteral("composer")
+                                                                << QStringLiteral("performer")
+                                                                << QStringLiteral("grouping")
+                                                                << QStringLiteral("genre")
+                                                                << QStringLiteral("comment");
 
+const QStringList Song::kIntSearchColumns = QStringList()       << QStringLiteral("track")
+                                                                << QStringLiteral("year")
+                                                                << QStringLiteral("samplerate")
+                                                                << QStringLiteral("bitdepth")
+                                                                << QStringLiteral("bitrate");
 
-const QStringList Song::kFtsColumns = QStringList() << QStringLiteral("ftstitle")
-                                                    << QStringLiteral("ftsalbum")
-                                                    << QStringLiteral("ftsartist")
-                                                    << QStringLiteral("ftsalbumartist")
-                                                    << QStringLiteral("ftscomposer")
-                                                    << QStringLiteral("ftsperformer")
-                                                    << QStringLiteral("ftsgrouping")
-                                                    << QStringLiteral("ftsgenre")
-                                                    << QStringLiteral("ftscomment");
+const QStringList Song::kUIntSearchColumns = QStringList()      << QStringLiteral("playcount")
+                                                                << QStringLiteral("skipcount");
 
-const QString Song::kFtsColumnSpec = Song::kFtsColumns.join(QStringLiteral(", "));
-const QString Song::kFtsBindSpec = Utilities::Prepend(QStringLiteral(":"), Song::kFtsColumns).join(QStringLiteral(", "));
-const QString Song::kFtsUpdateSpec = Utilities::Updateify(Song::kFtsColumns).join(QStringLiteral(", "));
+const QStringList Song::kInt64SearchColumns = QStringList()     << QStringLiteral("length");
+
+const QStringList Song::kFloatSearchColumns = QStringList()     << QStringLiteral("rating");
+
+const QStringList Song::kNumericalSearchColumns = QStringList() << kIntSearchColumns
+                                                                << kUIntSearchColumns
+                                                                << kInt64SearchColumns
+                                                                << kFloatSearchColumns;
+
+const QStringList Song::kSearchColumns = QStringList() << kTextSearchColumns
+                                                       << kNumericalSearchColumns;
 
 const Song::RegularExpressionList Song::kAlbumDisc = Song::RegularExpressionList()
     << QRegularExpression(QStringLiteral("\\s+-*\\s*(Disc|CD)\\s*([0-9]{1,2})$"), QRegularExpression::CaseInsensitiveOption)
@@ -199,10 +205,33 @@ const Song::RegularExpressionList Song::kTitleMisc = Song::RegularExpressionList
 
 const QStringList Song::kArticles = QStringList() << QStringLiteral("the ") << QStringLiteral("a ") << QStringLiteral("an ");
 
-const QStringList Song::kAcceptedExtensions = QStringList() << QStringLiteral("wav") << QStringLiteral("flac") << QStringLiteral("wv") << QStringLiteral("ogg") << QStringLiteral("oga") << QStringLiteral("opus") << QStringLiteral("spx") << QStringLiteral("ape") << QStringLiteral("mpc")
-                                                            << QStringLiteral("mp2") << QStringLiteral("mp3") <<  QStringLiteral("m4a") << QStringLiteral("mp4") << QStringLiteral("aac") << QStringLiteral("asf") << QStringLiteral("asx") << QStringLiteral("wma")
-                                                            << QStringLiteral("aif << aiff") << QStringLiteral("mka") << QStringLiteral("tta") << QStringLiteral("dsf") << QStringLiteral("dsd")
-                                                            << QStringLiteral("ac3") << QStringLiteral("dts") << QStringLiteral("spc") << QStringLiteral("vgm");
+const QStringList Song::kAcceptedExtensions = QStringList() << QStringLiteral("wav")
+                                                            << QStringLiteral("flac")
+                                                            << QStringLiteral("wv")
+                                                            << QStringLiteral("ogg")
+                                                            << QStringLiteral("oga")
+                                                            << QStringLiteral("opus")
+                                                            << QStringLiteral("spx")
+                                                            << QStringLiteral("ape")
+                                                            << QStringLiteral("mpc")
+                                                            << QStringLiteral("mp2")
+                                                            << QStringLiteral("mp3")
+                                                            << QStringLiteral("m4a")
+                                                            << QStringLiteral("mp4")
+                                                            << QStringLiteral("aac")
+                                                            << QStringLiteral("asf")
+                                                            << QStringLiteral("asx")
+                                                            << QStringLiteral("wma")
+                                                            << QStringLiteral("aif")
+                                                            << QStringLiteral("aiff")
+                                                            << QStringLiteral("mka")
+                                                            << QStringLiteral("tta")
+                                                            << QStringLiteral("dsf")
+                                                            << QStringLiteral("dsd")
+                                                            << QStringLiteral("ac3")
+                                                            << QStringLiteral("dts")
+                                                            << QStringLiteral("spc")
+                                                            << QStringLiteral("vgm");
 
 struct Song::Private : public QSharedData {
 
@@ -1778,20 +1807,6 @@ void Song::BindToQuery(SqlQuery *query) const {
 
   query->BindDoubleOrNullValue(QStringLiteral(":ebur128_integrated_loudness_lufs"), d->ebur128_integrated_loudness_lufs_);
   query->BindDoubleOrNullValue(QStringLiteral(":ebur128_loudness_range_lu"), d->ebur128_loudness_range_lu_);
-
-}
-
-void Song::BindToFtsQuery(SqlQuery *query) const {
-
-  query->BindValue(QStringLiteral(":ftstitle"), d->title_);
-  query->BindValue(QStringLiteral(":ftsalbum"), d->album_);
-  query->BindValue(QStringLiteral(":ftsartist"), d->artist_);
-  query->BindValue(QStringLiteral(":ftsalbumartist"), d->albumartist_);
-  query->BindValue(QStringLiteral(":ftscomposer"), d->composer_);
-  query->BindValue(QStringLiteral(":ftsperformer"), d->performer_);
-  query->BindValue(QStringLiteral(":ftsgrouping"), d->grouping_);
-  query->BindValue(QStringLiteral(":ftsgenre"), d->genre_);
-  query->BindValue(QStringLiteral(":ftscomment"), d->comment_);
 
 }
 

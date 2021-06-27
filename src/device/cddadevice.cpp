@@ -41,7 +41,7 @@ CddaDevice::CddaDevice(const QUrl &url, DeviceLister *lister, const QString &uni
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsLoaded, this, &CddaDevice::SongsLoaded);
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsDurationLoaded, this, &CddaDevice::SongsLoaded);
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsMetadataLoaded, this, &CddaDevice::SongsLoaded);
-  QObject::connect(this, &CddaDevice::SongsDiscovered, model_, &CollectionModel::SongsDiscovered);
+  QObject::connect(this, &CddaDevice::SongsDiscovered, model_, &CollectionModel::AddReAddOrUpdate);
 
 }
 

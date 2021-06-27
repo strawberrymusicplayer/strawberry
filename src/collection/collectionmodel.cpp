@@ -1,7 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -52,6 +50,7 @@
 #include <QNetworkDiskCache>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QTimer>
 
 #include "core/scoped_ptr.h"
 #include "core/shared_ptr.h"
@@ -59,16 +58,16 @@
 #include "core/database.h"
 #include "core/iconloader.h"
 #include "core/logging.h"
-#include "core/taskmanager.h"
 #include "core/sqlrow.h"
 #include "core/settings.h"
 #include "collectionfilteroptions.h"
 #include "collectionquery.h"
-#include "collectionqueryoptions.h"
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
 #include "collectionitem.h"
 #include "collectionmodel.h"
+#include "collectionmodelupdate.h"
+#include "collectionfilter.h"
 #include "playlist/playlistmanager.h"
 #include "playlist/songmimedata.h"
 #include "covermanager/albumcoverloaderoptions.h"
@@ -77,7 +76,10 @@
 #include "settings/collectionsettingspage.h"
 
 const int CollectionModel::kPrettyCoverSize = 32;
-const char *CollectionModel::kPixmapDiskCacheDir = "pixmapcache";
+namespace {
+constexpr char kPixmapDiskCacheDir[] = "pixmapcache";
+constexpr char kVariousArtists[] = QT_TR_NOOP("Various artists");
+}  // namespace
 
 QNetworkDiskCache *CollectionModel::sIconCache = nullptr;
 
@@ -86,25 +88,20 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
       backend_(backend),
       app_(app),
       dir_model_(new CollectionDirectoryModel(backend, this)),
-      show_various_artists_(true),
-      sort_skips_articles_(true),
+      filter_(new CollectionFilter(this)),
+      timer_reload_(new QTimer(this)),
+      timer_update_(new QTimer(this)),
+      icon_artist_(IconLoader::Load(QStringLiteral("folder-sound"))),
+      use_disk_cache_(false),
       total_song_count_(0),
       total_artist_count_(0),
-      total_album_count_(0),
-      separate_albums_by_grouping_(false),
-      artist_icon_(IconLoader::Load(QStringLiteral("folder-sound"))),
-      album_icon_(IconLoader::Load(QStringLiteral("cdcase"))),
-      init_task_id_(-1),
-      use_pretty_covers_(true),
-      show_dividers_(true),
-      use_disk_cache_(false),
-      use_lazy_loading_(true) {
+      total_album_count_(0) {
 
-  root_->lazy_loaded = true;
-
-  group_by_[0] = GroupBy::AlbumArtist;
-  group_by_[1] = GroupBy::AlbumDisc;
-  group_by_[2] = GroupBy::None;
+  filter_->setSourceModel(this);
+  filter_->setSortRole(Role_SortText);
+  filter_->setDynamicSortFilter(true);
+  filter_->setSortLocaleAware(true);
+  filter_->sort(0);
 
   if (app_) {
     QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CollectionModel::AlbumCoverLoaded);
@@ -113,7 +110,7 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
   QIcon nocover = IconLoader::Load(QStringLiteral("cdcase"));
   if (!nocover.isNull()) {
     QList<QSize> nocover_sizes = nocover.availableSizes();
-    no_cover_icon_ = nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    pixmap_no_cover_ = nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   }
 
   if (app_ && !sIconCache) {
@@ -122,18 +119,27 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
     QObject::connect(app_, &Application::ClearPixmapDiskCache, this, &CollectionModel::ClearDiskCache);
   }
 
-  QObject::connect(&*backend_, &CollectionBackend::SongsDiscovered, this, &CollectionModel::SongsDiscovered);
-  QObject::connect(&*backend_, &CollectionBackend::SongsDeleted, this, &CollectionModel::SongsDeleted);
-  QObject::connect(&*backend_, &CollectionBackend::DatabaseReset, this, &CollectionModel::Reset);
+  QObject::connect(&*backend_, &CollectionBackend::SongsAdded, this, &CollectionModel::AddReAddOrUpdate);
+  QObject::connect(&*backend_, &CollectionBackend::SongsChanged, this, &CollectionModel::AddReAddOrUpdate);
+  QObject::connect(&*backend_, &CollectionBackend::SongsDeleted, this, &CollectionModel::RemoveSongs);
+  QObject::connect(&*backend_, &CollectionBackend::DatabaseReset, this, &CollectionModel::ScheduleReset);
   QObject::connect(&*backend_, &CollectionBackend::TotalSongCountUpdated, this, &CollectionModel::TotalSongCountUpdatedSlot);
   QObject::connect(&*backend_, &CollectionBackend::TotalArtistCountUpdated, this, &CollectionModel::TotalArtistCountUpdatedSlot);
   QObject::connect(&*backend_, &CollectionBackend::TotalAlbumCountUpdated, this, &CollectionModel::TotalAlbumCountUpdatedSlot);
-  QObject::connect(&*backend_, &CollectionBackend::SongsStatisticsChanged, this, &CollectionModel::SongsSlightlyChanged);
-  QObject::connect(&*backend_, &CollectionBackend::SongsRatingChanged, this, &CollectionModel::SongsSlightlyChanged);
+  QObject::connect(&*backend_, &CollectionBackend::SongsStatisticsChanged, this, &CollectionModel::AddReAddOrUpdate);
+  QObject::connect(&*backend_, &CollectionBackend::SongsRatingChanged, this, &CollectionModel::AddReAddOrUpdate);
 
   backend_->UpdateTotalSongCountAsync();
   backend_->UpdateTotalArtistCountAsync();
   backend_->UpdateTotalAlbumCountAsync();
+
+  timer_reload_->setSingleShot(true);
+  timer_reload_->setInterval(300);
+  QObject::connect(timer_reload_, &QTimer::timeout, this, &CollectionModel::Reload);
+
+  timer_update_->setSingleShot(false);
+  timer_update_->setInterval(20);
+  QObject::connect(timer_update_, &QTimer::timeout, this, &CollectionModel::ProcessUpdate);
 
   ReloadSettings();
 
@@ -149,50 +155,96 @@ CollectionModel::~CollectionModel() {
 
 }
 
-void CollectionModel::set_pretty_covers(const bool use_pretty_covers) {
+void CollectionModel::Init() {
+  ScheduleReset();
+}
 
-  if (use_pretty_covers != use_pretty_covers_) {
-    use_pretty_covers_ = use_pretty_covers;
-    Reset();
+void CollectionModel::Reset() {
+  ScheduleReset();
+}
+
+void CollectionModel::Clear() {
+
+  if (root_) {
+    delete root_;
+    root_ = nullptr;
   }
+  song_nodes_.clear();
+  container_nodes_[0].clear();
+  container_nodes_[1].clear();
+  container_nodes_[2].clear();
+  divider_nodes_.clear();
+  pending_art_.clear();
+  pending_cache_keys_.clear();
 
 }
 
-void CollectionModel::set_show_dividers(const bool show_dividers) {
+void CollectionModel::BeginReset() {
 
-  if (show_dividers != show_dividers_) {
-    show_dividers_ = show_dividers;
-    Reset();
-  }
+  beginResetModel();
+  Clear();
+  Q_ASSERT(root_ == nullptr);
+  root_ = new CollectionItem(this);
 
 }
 
-void CollectionModel::set_sort_skips_articles(const bool sort_skips_articles) {
+void CollectionModel::EndReset() {
 
-  if (sort_skips_articles != sort_skips_articles_) {
-    sort_skips_articles_ = sort_skips_articles;
-    Reset();
+  endResetModel();
+
+}
+
+void CollectionModel::Reload() {
+
+  options_active_ = options_current_;
+
+  BeginReset();
+  // Show a loading indicator in the model.
+  CollectionItem *loading = new CollectionItem(CollectionItem::Type::LoadingIndicator, root_);
+  loading->display_text = tr("Loading...");
+  EndReset();
+
+  LoadSongsFromSqlAsync();
+
+}
+
+void CollectionModel::ScheduleReset() {
+
+  if (!timer_reload_->isActive()) {
+    timer_reload_->start();
   }
 
 }
 
 void CollectionModel::ReloadSettings() {
 
-  Settings s;
+  Settings settings;
+  settings.beginGroup(CollectionSettingsPage::kSettingsGroup);
+  const bool show_pretty_covers = settings.value("pretty_covers", true).toBool();
+  const bool show_dividers= settings.value("show_dividers", true).toBool();
+  const bool show_various_artists = settings.value("various_artists", true).toBool();
+  const bool sort_skips_articles = settings.value("sort_skips_articles", true).toBool();
 
-  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-
-  use_disk_cache_ = s.value(CollectionSettingsPage::kSettingsDiskCacheEnable, false).toBool();
-
-  QPixmapCache::setCacheLimit(static_cast<int>(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsCacheSize, CollectionSettingsPage::kSettingsCacheSizeUnit, CollectionSettingsPage::kSettingsCacheSizeDefault) / 1024));
-
+  use_disk_cache_ = settings.value(CollectionSettingsPage::kSettingsDiskCacheEnable, false).toBool();
+  QPixmapCache::setCacheLimit(static_cast<int>(MaximumCacheSize(&settings, CollectionSettingsPage::kSettingsCacheSize, CollectionSettingsPage::kSettingsCacheSizeUnit, CollectionSettingsPage::kSettingsCacheSizeDefault) / 1024));
   if (sIconCache) {
-    sIconCache->setMaximumCacheSize(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsDiskCacheSize, CollectionSettingsPage::kSettingsDiskCacheSizeUnit, CollectionSettingsPage::kSettingsDiskCacheSizeDefault));
+    sIconCache->setMaximumCacheSize(MaximumCacheSize(&settings, CollectionSettingsPage::kSettingsDiskCacheSize, CollectionSettingsPage::kSettingsDiskCacheSizeUnit, CollectionSettingsPage::kSettingsDiskCacheSizeDefault));
   }
 
-  s.endGroup();
+  settings.endGroup();
 
   cover_types_ = AlbumCoverLoaderOptions::LoadTypes();
+
+  if (show_pretty_covers != options_current_.show_pretty_covers ||
+      show_dividers != options_current_.show_dividers ||
+      show_various_artists != options_current_.show_various_artists ||
+      sort_skips_articles != options_current_.sort_skips_articles) {
+    options_current_.show_pretty_covers = show_pretty_covers;
+    options_current_.show_dividers = show_dividers;
+    options_current_.show_various_artists = show_various_artists;
+    options_current_.sort_skips_articles = sort_skips_articles;
+    ScheduleReset();
+  }
 
   if (!use_disk_cache_) {
     ClearDiskCache();
@@ -200,333 +252,375 @@ void CollectionModel::ReloadSettings() {
 
 }
 
-void CollectionModel::Init(const bool async) {
+void CollectionModel::SetGroupBy(const Grouping g, const std::optional<bool> separate_albums_by_grouping) {
 
-  if (!root_) return;
-
-  if (async) {
-    // Show a loading indicator in the model.
-    CollectionItem *loading = new CollectionItem(CollectionItem::Type_LoadingIndicator, root_);
-    loading->display_text = tr("Loading...");
-    loading->lazy_loaded = true;
-    beginResetModel();
-    endResetModel();
-
-    // Show a loading indicator in the status bar too.
-    if (app_) {
-      init_task_id_ = app_->task_manager()->StartTask(tr("Loading songs"));
-    }
-
-    ResetAsync();
+  options_current_.group_by = g;
+  if (separate_albums_by_grouping) {
+    options_current_.separate_albums_by_grouping = separate_albums_by_grouping.value();
   }
-  else {
-    Reset();
+
+  ScheduleReset();
+
+  emit GroupingChanged(g, options_current_.separate_albums_by_grouping);
+
+}
+
+void CollectionModel::SetFilterMode(const CollectionFilterOptions::FilterMode filter_mode) {
+
+  if (options_current_.filter_options.filter_mode() != filter_mode) {
+    options_current_.filter_options.set_filter_mode(filter_mode);
+    ScheduleReset();
   }
 
 }
 
-void CollectionModel::SongsDiscovered(const SongList &songs) {
+void CollectionModel::SetFilterMaxAge(const int filter_max_age) {
 
-  if (!root_) return;
+  if (options_current_.filter_options.max_age() != filter_max_age) {
+    options_current_.filter_options.set_max_age(filter_max_age);
+    ScheduleReset();
+  }
+
+}
+
+QVariant CollectionModel::data(const QModelIndex &idx, const int role) const {
+
+  const CollectionItem *item = IndexToItem(idx);
+
+  // Handle a special case for returning album artwork instead of a generic CD icon.
+  // this is here instead of in the other data() function to let us use the
+  // QModelIndex& version of GetChildSongs, which satisfies const-ness, instead
+  // of the CollectionItem *version, which doesn't.
+  if (options_active_.show_pretty_covers) {
+    bool is_album_node = false;
+    if (role == Qt::DecorationRole && item->type == CollectionItem::Type::Container) {
+      GroupBy container_group_by = options_active_.group_by[item->container_level];
+      is_album_node = IsAlbumGroupBy(container_group_by);
+    }
+    if (is_album_node) {
+      // It has const behaviour some of the time - that's ok right?
+      return const_cast<CollectionModel*>(this)->AlbumIcon(idx);
+    }
+  }
+
+  return data(item, role);
+
+}
+
+QVariant CollectionModel::data(const CollectionItem *item, const int role) const {
+
+  GroupBy container_group_by = item->type == CollectionItem::Type::Container ? options_active_.group_by[item->container_level] : GroupBy::None;
+
+  switch (role) {
+    case Qt::DisplayRole:
+    case Qt::ToolTipRole:
+      return item->DisplayText();
+
+    case Qt::DecorationRole:
+      switch (item->type) {
+        case CollectionItem::Type::Container:
+          switch (container_group_by) {
+            case GroupBy::Album:
+            case GroupBy::AlbumDisc:
+            case GroupBy::YearAlbum:
+            case GroupBy::YearAlbumDisc:
+            case GroupBy::OriginalYearAlbum:
+            case GroupBy::OriginalYearAlbumDisc:
+              return QVariant();
+            case GroupBy::Artist:
+            case GroupBy::AlbumArtist:
+              return icon_artist_;
+            default:
+              break;
+          }
+          break;
+        default:
+          break;
+      }
+      break;
+
+    case Role_Type:
+      return QVariant::fromValue(item->type);
+
+    case Role_IsDivider:
+      return item->type == CollectionItem::Type::Divider;
+
+    case Role_ContainerType:
+      return static_cast<int>(container_group_by);
+
+    case Role_ContainerKey:
+      return item->container_key;
+
+    case Role_Artist:
+      return item->metadata.artist();
+
+    case Role_Editable:{
+      if (item->type == CollectionItem::Type::Container) {
+        // If we have even one non editable item as a child, we ourselves are not available for edit
+        if (item->children.isEmpty()) {
+          return false;
+        }
+        else if (std::any_of(item->children.begin(), item->children.end(), [this, role](CollectionItem *child) { return !data(child, role).toBool(); })) {
+          return false;
+        }
+        else {
+          return true;
+        }
+      }
+      else if (item->type == CollectionItem::Type::Song) {
+        return item->metadata.IsEditable();
+      }
+      else {
+        return false;
+      }
+    }
+
+    case Role_SortText:
+      return item->SortText();
+    default:
+      return QVariant();
+  }
+
+  return QVariant();
+
+}
+
+Qt::ItemFlags CollectionModel::flags(const QModelIndex &idx) const {
+
+  switch (IndexToItem(idx)->type) {
+    case CollectionItem::Type::Song:
+    case CollectionItem::Type::Container:
+      return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
+    case CollectionItem::Type::Divider:
+    case CollectionItem::Type::Root:
+    case CollectionItem::Type::LoadingIndicator:
+    default:
+      return Qt::ItemIsEnabled;
+  }
+
+}
+
+QStringList CollectionModel::mimeTypes() const {
+  return QStringList() << QStringLiteral("text/uri-list");
+}
+
+QMimeData *CollectionModel::mimeData(const QModelIndexList &indexes) const {
+
+  if (indexes.isEmpty()) return nullptr;
+
+  SongMimeData *data = new SongMimeData;
+  QList<QUrl> urls;
+  QSet<int> song_ids;
+
+  data->backend = backend_;
+
+  for (const QModelIndex &idx : indexes) {
+    GetChildSongs(IndexToItem(idx), &urls, &data->songs, &song_ids);
+  }
+
+  data->setUrls(urls);
+  data->name_for_new_playlist_ = PlaylistManager::GetNameForNewPlaylist(data->songs);
+
+  return data;
+
+}
+
+void CollectionModel::AddReAddOrUpdate(const SongList &songs) {
+
+  ScheduleUpdate(CollectionModelUpdate::Type::AddReAddOrUpdate, songs);
+
+}
+
+void CollectionModel::RemoveSongs(const SongList &songs) {
+
+  ScheduleRemoveSongs(songs);
+
+}
+
+void CollectionModel::ScheduleUpdate(const CollectionModelUpdate::Type type, const SongList &songs) {
+
+  for (qint64 i = 0; i < songs.count(); i += 400LL) {
+    const qint64 number = std::min(songs.count() - i, 400LL);
+    const SongList songs_to_queue = songs.mid(i, number);
+    updates_.enqueue(CollectionModelUpdate(type, songs_to_queue));
+  }
+
+  if (!timer_update_->isActive()) {
+    timer_update_->start();
+  }
+
+}
+
+void CollectionModel::ScheduleAddSongs(const SongList &songs) {
+
+  ScheduleUpdate(CollectionModelUpdate::Type::Add, songs);
+
+}
+
+void CollectionModel::ScheduleUpdateSongs(const SongList &songs) {
+
+  ScheduleUpdate(CollectionModelUpdate::Type::Update, songs);
+
+}
+
+void CollectionModel::ScheduleRemoveSongs(const SongList &songs) {
+
+  ScheduleUpdate(CollectionModelUpdate::Type::Remove, songs);
+
+}
+
+void CollectionModel::ProcessUpdate() {
+
+  if (updates_.isEmpty()) {
+    timer_update_->stop();
+    return;
+  }
+
+  const CollectionModelUpdate update = updates_.dequeue();
+
+  if (updates_.isEmpty()) {
+    timer_update_->stop();
+  }
+
+  switch (update.type) {
+    case CollectionModelUpdate::Type::AddReAddOrUpdate:
+      AddReAddOrUpdateSongsInternal(update.songs);
+      break;
+    case CollectionModelUpdate::Type::Add:
+      AddSongsInternal(update.songs);
+      break;
+    case CollectionModelUpdate::Type::Update:
+      UpdateSongsInternal(update.songs);
+      break;
+    case CollectionModelUpdate::Type::Remove:
+      RemoveSongsInternal(update.songs);
+      break;
+  }
+
+}
+
+void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
+
+  SongList songs_added;
+  SongList songs_removed;
+  SongList songs_updated;
+
+  for (const Song &new_song : songs) {
+    if (!song_nodes_.contains(new_song.id())) {
+      songs_added << new_song;
+      continue;
+    }
+    const Song &old_song = song_nodes_[new_song.id()]->metadata;
+    bool container_key_changed = false;
+    for (int i = 0; i < 3; ++i) {
+      if (IsArtistGroupBy(options_active_.group_by[i]) && new_song.is_compilation() != old_song.is_compilation()) {
+        container_key_changed = true;
+      }
+      if (options_active_.group_by[i] != GroupBy::None && ContainerKey(options_active_.group_by[i], new_song) != ContainerKey(options_active_.group_by[i], old_song)) {
+        container_key_changed = true;
+      }
+    }
+    if (container_key_changed) {
+      qLog(Debug) << "Container key for" << new_song.id() << new_song.PrettyTitleWithArtist() << "was changed, re-adding song.";
+      songs_removed << old_song;
+      songs_added << new_song;
+    }
+    else {
+      qLog(Debug) << "Container key for" << new_song.id() << new_song.PrettyTitleWithArtist() << "was not changed, only updating song metadata.";
+      songs_updated << new_song;
+    }
+  }
+
+  ScheduleRemoveSongs(songs_removed);
+  ScheduleUpdateSongs(songs_updated);
+  ScheduleAddSongs(songs_added);
+
+}
+
+void CollectionModel::AddSongsInternal(const SongList &songs) {
 
   for (const Song &song : songs) {
 
     // Sanity check to make sure we don't add songs that are outside the user's filter
-    if (!filter_options_.Matches(song)) continue;
+    if (!options_active_.filter_options.Matches(song)) continue;
 
-    // Hey, we've already got that one!
     if (song_nodes_.contains(song.id())) continue;
 
     // Before we can add each song we need to make sure the required container items already exist in the tree.
     // These depend on which "group by" settings the user has on the collection.
     // Eg. if the user grouped by artist and album, we would need to make sure nodes for the song's artist and album were already in the tree.
 
-    // Find parent containers in the tree
     CollectionItem *container = root_;
-    QString key;
+    QString container_key;
     for (int i = 0; i < 3; ++i) {
-      GroupBy group_by = group_by_[i];
+      const GroupBy group_by = options_active_.group_by[i];
       if (group_by == GroupBy::None) break;
-
-      if (!key.isEmpty()) key.append(QLatin1Char('-'));
-
-      // Special case: if the song is a compilation and the current GroupBy level is Artists, then we want the Various Artists node :(
-      if (IsArtistGroupBy(group_by) && song.is_compilation()) {
+      if (!container_key.isEmpty()) container_key.append(QLatin1Char('-'));
+      if (IsArtistGroupBy(group_by) && song.is_compilation() && options_active_.show_various_artists) {
         if (container->compilation_artist_node_ == nullptr) {
-          CreateCompilationArtistNode(true, container);
+          CreateCompilationArtistNode(container);
         }
         container = container->compilation_artist_node_;
-        key = container->key;
+        container_key = container->container_key;
       }
       else {
-        // Otherwise find the proper container at this level based on the item's key
-        key.append(ContainerKey(group_by, separate_albums_by_grouping_, song));
-
-        // Does it exist already?
-        if (container_nodes_[i].contains(key)) {
-          container = container_nodes_[i][key];
+        container_key.append(ContainerKey(group_by, song));
+        if (container_nodes_[i].contains(container_key)) {
+          container = container_nodes_[i][container_key];
         }
         else {
-          // Create the container
-          container = ItemFromSong(group_by, separate_albums_by_grouping_, true, i == 0, container, song, i);
-          container_nodes_[i].insert(key, container);
-        }
-
-      }
-
-      // If we just created the damn thing then we don't need to continue into it any further because it'll get lazy-loaded properly later.
-      if (!container->lazy_loaded && use_lazy_loading_) break;
-    }
-    if (!container->lazy_loaded && use_lazy_loading_) continue;
-
-    // We've gone all the way down to the deepest level and everything was already lazy loaded, so now we have to create the song in the container.
-    song_nodes_.insert(song.id(), ItemFromSong(GroupBy::None, separate_albums_by_grouping_, true, false, container, song, -1));
-  }
-
-}
-
-void CollectionModel::SongsSlightlyChanged(const SongList &songs) {
-
-  // This is called if there was a minor change to the songs that will not normally require the collection to be restructured.
-  // We can just update our internal cache of Song objects without worrying about resetting the model.
-  for (const Song &song : songs) {
-    if (song_nodes_.contains(song.id())) {
-      song_nodes_[song.id()]->metadata = song;
-    }
-  }
-
-}
-
-CollectionItem *CollectionModel::CreateCompilationArtistNode(const bool signal, CollectionItem *parent) {
-
-  Q_ASSERT(parent->compilation_artist_node_ == nullptr);
-
-  if (signal) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
-
-  parent->compilation_artist_node_ = new CollectionItem(CollectionItem::Type_Container, parent);
-  parent->compilation_artist_node_->compilation_artist_node_ = nullptr;
-  if (parent != root_ && !parent->key.isEmpty()) parent->compilation_artist_node_->key.append(parent->key);
-  parent->compilation_artist_node_->key.append(tr("Various artists"));
-  parent->compilation_artist_node_->display_text = tr("Various artists");
-  parent->compilation_artist_node_->sort_text = QStringLiteral(" various");
-  parent->compilation_artist_node_->container_level = parent->container_level + 1;
-
-  if (signal) endInsertRows();
-
-  return parent->compilation_artist_node_;
-
-}
-
-QString CollectionModel::ContainerKey(const GroupBy group_by, const bool separate_albums_by_grouping, const Song &song) {
-
-  QString key;
-
-  switch (group_by) {
-    case GroupBy::AlbumArtist:
-      key = TextOrUnknown(song.effective_albumartist());
-      break;
-    case GroupBy::Artist:
-      key = TextOrUnknown(song.artist());
-      break;
-    case GroupBy::Album:
-      key = TextOrUnknown(song.album());
-      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
-      if (separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
-      break;
-    case GroupBy::AlbumDisc:
-      key = PrettyAlbumDisc(song.album(), song.disc());
-      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
-      if (separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
-      break;
-    case GroupBy::YearAlbum:
-      key = PrettyYearAlbum(song.year(), song.album());
-      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
-      if (separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
-      break;
-    case GroupBy::YearAlbumDisc:
-      key = PrettyYearAlbumDisc(song.year(), song.album(), song.disc());
-      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
-      if (separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
-      break;
-    case GroupBy::OriginalYearAlbum:
-      key = PrettyYearAlbum(song.effective_originalyear(), song.album());
-      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
-      if (separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
-      break;
-    case GroupBy::OriginalYearAlbumDisc:
-      key = PrettyYearAlbumDisc(song.effective_originalyear(), song.album(), song.disc());
-      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
-      if (separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
-      break;
-    case GroupBy::Disc:
-      key = PrettyDisc(song.disc());
-      break;
-    case GroupBy::Year:
-      key = QString::number(std::max(0, song.year()));
-      break;
-    case GroupBy::OriginalYear:
-      key = QString::number(std::max(0, song.effective_originalyear()));
-      break;
-    case GroupBy::Genre:
-      key = TextOrUnknown(song.genre());
-      break;
-    case GroupBy::Composer:
-      key = TextOrUnknown(song.composer());
-      break;
-    case GroupBy::Performer:
-      key = TextOrUnknown(song.performer());
-      break;
-    case GroupBy::Grouping:
-      key = TextOrUnknown(song.grouping());
-      break;
-    case GroupBy::FileType:
-      key = song.TextForFiletype();
-      break;
-    case GroupBy::Samplerate:
-      key = QString::number(std::max(0, song.samplerate()));
-      break;
-    case GroupBy::Bitdepth:
-      key = QString::number(std::max(0, song.bitdepth()));
-      break;
-    case GroupBy::Bitrate:
-      key = QString::number(std::max(0, song.bitrate()));
-      break;
-    case GroupBy::Format:
-      if (song.samplerate() <= 0) {
-        key = song.TextForFiletype();
-      }
-      else {
-        if (song.bitdepth() <= 0) {
-          key = QStringLiteral("%1 (%2)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5));
-        }
-        else {
-          key = QStringLiteral("%1 (%2/%3)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5)).arg(song.bitdepth());
+          container = CreateContainerItem(group_by, i, container_key, song, container);
         }
       }
-      break;
-    case GroupBy::None:
-    case GroupBy::GroupByCount:
-      qLog(Error) << "GroupBy::None";
-      break;
-  }
-
-  return key;
-
-}
-
-QString CollectionModel::DividerKey(const GroupBy group_by, CollectionItem *item) {
-
-  // Items which are to be grouped under the same divider must produce the same divider key.  This will only get called for top-level items.
-
-  if (item->sort_text.isEmpty()) return QString();
-
-  switch (group_by) {
-    case GroupBy::AlbumArtist:
-    case GroupBy::Artist:
-    case GroupBy::Album:
-    case GroupBy::AlbumDisc:
-    case GroupBy::Composer:
-    case GroupBy::Performer:
-    case GroupBy::Grouping:
-    case GroupBy::Disc:
-    case GroupBy::Genre:
-    case GroupBy::Format:
-    case GroupBy::FileType:{
-      QChar c = item->sort_text[0];
-      if (c.isDigit()) return QStringLiteral("0");
-      if (c == QLatin1Char(' ')) return QString();
-      if (c.decompositionTag() != QChar::NoDecomposition) {
-        QString decomposition = c.decomposition();
-        return QChar(decomposition[0]);
-      }
-      return c;
     }
-
-    case GroupBy::Year:
-    case GroupBy::OriginalYear:
-      return SortTextForNumber(item->sort_text.toInt() / 10 * 10);
-
-    case GroupBy::YearAlbum:
-    case GroupBy::YearAlbumDisc:
-      return SortTextForNumber(item->metadata.year());
-
-    case GroupBy::OriginalYearAlbum:
-    case GroupBy::OriginalYearAlbumDisc:
-      return SortTextForNumber(item->metadata.effective_originalyear());
-
-    case GroupBy::Samplerate:
-      return SortTextForNumber(item->metadata.samplerate());
-
-    case GroupBy::Bitdepth:
-      return SortTextForNumber(item->metadata.bitdepth());
-
-    case GroupBy::Bitrate:
-      return SortTextForNumber(item->metadata.bitrate());
-
-    case GroupBy::None:
-    case GroupBy::GroupByCount:
-      return QString();
+    CreateSongItem(song, container);
   }
-  qLog(Error) << "Unknown GroupBy" << group_by << "for item" << item->display_text;
-  return QString();
 
 }
 
-QString CollectionModel::DividerDisplayText(const GroupBy group_by, const QString &key) {
+void CollectionModel::UpdateSongsInternal(const SongList &songs) {
 
-  // Pretty display text for the dividers.
+  QList<CollectionItem*> album_parents;
 
-  switch (group_by) {
-    case GroupBy::AlbumArtist:
-    case GroupBy::Artist:
-    case GroupBy::Album:
-    case GroupBy::AlbumDisc:
-    case GroupBy::Composer:
-    case GroupBy::Performer:
-    case GroupBy::Disc:
-    case GroupBy::Grouping:
-    case GroupBy::Genre:
-    case GroupBy::FileType:
-    case GroupBy::Format:
-      if (key == QLatin1String("0")) return QStringLiteral("0-9");
-      return key.toUpper();
-
-    case GroupBy::YearAlbum:
-    case GroupBy::YearAlbumDisc:
-    case GroupBy::OriginalYearAlbum:
-    case GroupBy::OriginalYearAlbumDisc:
-      if (key == QStringLiteral("0000")) return tr("Unknown");
-      return key.toUpper();
-
-    case GroupBy::Year:
-    case GroupBy::OriginalYear:
-      if (key == QStringLiteral("0000")) return tr("Unknown");
-      return QString::number(key.toInt());  // To remove leading 0s
-
-    case GroupBy::Samplerate:
-      if (key == QStringLiteral("000")) return tr("Unknown");
-      return QString::number(key.toInt());  // To remove leading 0s
-
-    case GroupBy::Bitdepth:
-      if (key == QStringLiteral("000")) return tr("Unknown");
-      return QString::number(key.toInt());  // To remove leading 0s
-
-    case GroupBy::Bitrate:
-      if (key == QStringLiteral("000")) return tr("Unknown");
-      return QString::number(key.toInt());  // To remove leading 0s
-
-    case GroupBy::None:
-    case GroupBy::GroupByCount:
-      break;
+  for (const Song &new_song : songs) {
+    if (!song_nodes_.contains(new_song.id())) {
+      qLog(Error) << "Song does not exist in model" << new_song.id() << new_song.PrettyTitleWithArtist();
+      continue;
+    }
+    CollectionItem *item = song_nodes_[new_song.id()];
+    const Song &old_song = item->metadata;
+    const bool song_title_data_changed = IsSongTitleDataChanged(old_song, new_song);
+    const bool art_changed = !old_song.IsArtEqual(new_song);
+    SetSongItemData(item, new_song);
+    if (art_changed) {
+      for (CollectionItem *parent = item->parent; parent != root_; parent = parent->parent) {
+        if (IsAlbumGroupBy(options_active_.group_by[parent->container_level])) {
+          album_parents << parent;
+        }
+      }
+    }
+    if (song_title_data_changed) {
+      qLog(Debug) << "Song metadata and title for" << new_song.id() << new_song.PrettyTitleWithArtist() << "changed, informing model";
+      const QModelIndex idx = ItemToIndex(item);
+      if (!idx.isValid()) continue;
+      emit dataChanged(idx, idx);
+    }
+    else {
+      qLog(Debug) << "Song metadata for" << new_song.id() << new_song.PrettyTitleWithArtist() << "changed";
+    }
   }
-  qLog(Error) << "Unknown GroupBy" << group_by << "for divider key" << key;
-  return QString();
+
+  for (CollectionItem *item : album_parents) {
+    ClearItemPixmapCache(item);
+    const QModelIndex idx = ItemToIndex(item);
+    if (idx.isValid()) {
+      emit dataChanged(idx, idx);
+    }
+  }
 
 }
 
-void CollectionModel::SongsDeleted(const SongList &songs) {
-
-  if (!root_) return;
+void CollectionModel::RemoveSongsInternal(const SongList &songs) {
 
   // Delete the actual song nodes first, keeping track of each parent so we might check to see if they're empty later.
   QSet<CollectionItem*> parents;
@@ -542,13 +636,6 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       song_nodes_.remove(song.id());
       endRemoveRows();
 
-    }
-    else {
-      // If we get here it means some of the songs we want to delete haven't been lazy-loaded yet.
-      // This is bad, because it would mean that to clean up empty parents we would need to lazy-load them all individually to see if they're empty.
-      // This can take a very long time, so better to just reset the model and be done with it.
-      Reset();
-      return;
     }
   }
 
@@ -567,34 +654,18 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
 
       // Maybe consider its divider node
       if (node->container_level == 0) {
-        divider_keys << DividerKey(group_by_[0], node);
+        divider_keys << DividerKey(options_active_.group_by[0], node->metadata, node->sort_text);
       }
 
       // Special case the Various Artists node
       if (IsCompilationArtistNode(node)) {
         node->parent->compilation_artist_node_ = nullptr;
       }
-      else if (container_nodes_[node->container_level].contains(node->key)) {
-        container_nodes_[node->container_level].remove(node->key);
+      else if (container_nodes_[node->container_level].contains(node->container_key)) {
+        container_nodes_[node->container_level].remove(node->container_key);
       }
 
-      // Remove from pixmap cache
-      const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(node));
-      QPixmapCache::remove(cache_key);
-      if (use_disk_cache_ && sIconCache) sIconCache->remove(AlbumIconPixmapDiskCacheKey(cache_key));
-      if (pending_cache_keys_.contains(cache_key)) {
-        pending_cache_keys_.remove(cache_key);
-      }
-
-      // Remove from pending art loading
-      for (QMap<quint64, ItemAndCacheKey>::iterator it = pending_art_.begin(); it != pending_art_.end();) {
-        if (it.value().first == node) {
-          it = pending_art_.erase(it);  // clazy:exclude=strict-iterators
-        }
-        else {
-          ++it;
-        }
-      }
+      ClearItemPixmapCache(node);
 
       // It was empty - delete it
       beginRemoveRows(ItemToIndex(node->parent), node->row, node->row);
@@ -609,7 +680,7 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
 
     // Look to see if there are any other items still under this divider
     QList<CollectionItem*> container_nodes = container_nodes_[0].values();
-    if (std::any_of(container_nodes.begin(), container_nodes.end(), [this, divider_key](CollectionItem *node){ return DividerKey(group_by_[0], node) == divider_key; })) {
+    if (std::any_of(container_nodes.begin(), container_nodes.end(), [this, divider_key](CollectionItem *node){ return DividerKey(options_active_.group_by[0], node->metadata, node->sort_text) == divider_key; })) {
       continue;
     }
 
@@ -620,6 +691,151 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
     endRemoveRows();
     divider_nodes_.remove(divider_key);
   }
+
+}
+
+CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, const int container_level, const QString &container_key, const Song &song, CollectionItem *parent) {
+
+  QString divider_key;
+  if (options_active_.show_dividers && container_level == 0) {
+    divider_key = DividerKey(group_by, song, SortText(group_by, container_level, song, options_active_.sort_skips_articles));
+    if (!divider_key.isEmpty()) {
+      if (!divider_nodes_.contains(divider_key)) {
+        CreateDividerItem(divider_key, DividerDisplayText(group_by, divider_key), parent);
+      }
+    }
+  }
+
+  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+
+  CollectionItem *item = new CollectionItem(CollectionItem::Type::Container, parent);
+  item->container_level = container_level;
+  item->container_key = container_key;
+  item->display_text = DisplayText(group_by, song);
+  item->sort_text = SortText(group_by, container_level, song, options_active_.sort_skips_articles);
+  if (!divider_key.isEmpty()) {
+    item->sort_text.prepend(divider_key + QLatin1Char(' '));
+  }
+
+  container_nodes_[container_level].insert(item->container_key, item);
+
+  endInsertRows();
+
+  return item;
+
+}
+
+void CollectionModel::CreateDividerItem(const QString &divider_key, const QString &display_text, CollectionItem *parent) {
+
+  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+
+  CollectionItem *divider = new CollectionItem(CollectionItem::Type::Divider, root_);
+  divider->container_key = divider_key;
+  divider->display_text = display_text;
+  divider->sort_text = divider_key + QStringLiteral("  ");
+  divider_nodes_[divider_key] = divider;
+
+  endInsertRows();
+
+}
+
+void CollectionModel::CreateSongItem(const Song &song, CollectionItem *parent) {
+
+  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+
+  CollectionItem *item = new CollectionItem(CollectionItem::Type::Song, parent);
+  SetSongItemData(item, song);
+  song_nodes_.insert(song.id(), item);
+
+  endInsertRows();
+
+}
+
+void CollectionModel::SetSongItemData(CollectionItem *item, const Song &song) {
+
+  item->display_text = song.TitleWithCompilationArtist();
+  if (item->container_level == 1 && !IsAlbumGroupBy(options_active_.group_by[0])) {
+    item->sort_text = SortText(song.title());
+  }
+  else {
+    item->sort_text = SortTextForSong(song);
+  }
+
+  item->metadata = song;
+
+}
+
+CollectionItem *CollectionModel::CreateCompilationArtistNode(CollectionItem *parent) {
+
+  Q_ASSERT(parent->compilation_artist_node_ == nullptr);
+
+  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+
+  parent->compilation_artist_node_ = new CollectionItem(CollectionItem::Type::Container, parent);
+  parent->compilation_artist_node_->compilation_artist_node_ = nullptr;
+  if (parent != root_ && !parent->container_key.isEmpty()) parent->compilation_artist_node_->container_key.append(parent->container_key);
+  parent->compilation_artist_node_->container_key.append(QLatin1String(kVariousArtists));
+  parent->compilation_artist_node_->display_text = QLatin1String(kVariousArtists);
+  parent->compilation_artist_node_->sort_text = QStringLiteral(" various");
+  parent->compilation_artist_node_->container_level = parent->container_level + 1;
+
+  endInsertRows();
+
+  return parent->compilation_artist_node_;
+
+}
+
+void CollectionModel::LoadSongsFromSqlAsync() {
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  QFuture<SongList> future = QtConcurrent::run(&CollectionModel::LoadSongsFromSql, this, options_active_.filter_options);
+#else
+  QFuture<SongList> future = QtConcurrent::run(this, &CollectionModel::LoadSongsFromSql, options_active_.filter_options);
+#endif
+  QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
+  QObject::connect(watcher, &QFutureWatcher<void>::finished, this, &CollectionModel::LoadSongsFromSqlAsyncFinished);
+  watcher->setFuture(future);
+
+}
+
+SongList CollectionModel::LoadSongsFromSql(const CollectionFilterOptions &filter_options) {
+
+  SongList songs;
+
+  {
+    QMutexLocker l(backend_->db()->Mutex());
+    QSqlDatabase db(backend_->db()->Connect());
+    CollectionQuery q(db, backend_->songs_table(), filter_options);
+    q.SetColumnSpec(QStringLiteral("%songs_table.ROWID, ") + Song::kColumnSpec);
+    if (q.Exec()) {
+      while (q.Next()) {
+        Song song;
+        song.InitFromQuery(q, true);
+        songs << song;
+      }
+    }
+    else {
+      backend_->ReportErrors(q);
+    }
+  }
+
+  if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
+    backend_->db()->Close();
+  }
+
+  return songs;
+
+}
+
+void CollectionModel::LoadSongsFromSqlAsyncFinished() {
+
+  QFutureWatcher<SongList> *watcher = static_cast<QFutureWatcher<SongList>*>(sender());
+  const SongList songs = watcher->result();
+  watcher->deleteLater();
+
+  BeginReset();
+  ScheduleAddSongs(songs);
+  EndReset();
 
 }
 
@@ -642,10 +858,32 @@ QUrl CollectionModel::AlbumIconPixmapDiskCacheKey(const QString &cache_key) cons
 
 }
 
+void CollectionModel::ClearItemPixmapCache(CollectionItem *item) {
+
+  // Remove from pixmap cache
+  const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(item));
+  QPixmapCache::remove(cache_key);
+  if (use_disk_cache_ && sIconCache) sIconCache->remove(AlbumIconPixmapDiskCacheKey(cache_key));
+  if (pending_cache_keys_.contains(cache_key)) {
+    pending_cache_keys_.remove(cache_key);
+  }
+
+  // Remove from pending art loading
+  for (QMap<quint64, ItemAndCacheKey>::iterator it = pending_art_.begin(); it != pending_art_.end();) {
+    if (it.value().first == item) {
+      it = pending_art_.erase(it);
+    }
+    else {
+      ++it;
+    }
+  }
+
+}
+
 QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
 
   CollectionItem *item = IndexToItem(idx);
-  if (!item) return no_cover_icon_;
+  if (!item) return pixmap_no_cover_;
 
   // Check the cache for a pixmap we already loaded.
   const QString cache_key = AlbumIconPixmapCacheKey(idx);
@@ -669,7 +907,7 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
 
   // Maybe we're loading a pixmap already?
   if (pending_cache_keys_.contains(cache_key)) {
-    return no_cover_icon_;
+    return pixmap_no_cover_;
   }
 
   // No art is cached and we're not loading it already.  Load art for the first song in the album.
@@ -683,7 +921,7 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
     pending_cache_keys_.insert(cache_key);
   }
 
-  return no_cover_icon_;
+  return pixmap_no_cover_;
 
 }
 
@@ -702,7 +940,7 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
   // Insert this image in the cache.
   if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::Unset) {
     // Set the no_cover image so we don't continually try to load art.
-    QPixmapCache::insert(cache_key, no_cover_icon_);
+    QPixmapCache::insert(cache_key, pixmap_no_cover_);
   }
   else {
     QPixmap image_pixmap;
@@ -735,971 +973,55 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
 
 }
 
-QVariant CollectionModel::data(const QModelIndex &idx, const int role) const {
-
-  const CollectionItem *item = IndexToItem(idx);
-
-  // Handle a special case for returning album artwork instead of a generic CD icon.
-  // this is here instead of in the other data() function to let us use the
-  // QModelIndex& version of GetChildSongs, which satisfies const-ness, instead
-  // of the CollectionItem *version, which doesn't.
-  if (use_pretty_covers_) {
-    bool is_album_node = false;
-    if (role == Qt::DecorationRole && item->type == CollectionItem::Type_Container) {
-      GroupBy container_group_by = group_by_[item->container_level];
-      is_album_node = IsAlbumGroupBy(container_group_by);
-    }
-    if (is_album_node) {
-      // It has const behaviour some of the time - that's ok right?
-      return const_cast<CollectionModel*>(this)->AlbumIcon(idx);
-    }
-  }
-
-  return data(item, role);
-
-}
-
-QVariant CollectionModel::data(const CollectionItem *item, const int role) const {
-
-  GroupBy container_group_by = item->type == CollectionItem::Type_Container ? group_by_[item->container_level] : GroupBy::None;
-
-  switch (role) {
-    case Qt::DisplayRole:
-    case Qt::ToolTipRole:
-      return item->DisplayText();
-
-    case Qt::DecorationRole:
-      switch (item->type) {
-        case CollectionItem::Type_Container:
-          switch (container_group_by) {
-            case GroupBy::Album:
-            case GroupBy::AlbumDisc:
-            case GroupBy::YearAlbum:
-            case GroupBy::YearAlbumDisc:
-            case GroupBy::OriginalYearAlbum:
-            case GroupBy::OriginalYearAlbumDisc:
-              return album_icon_;
-            case GroupBy::Artist:
-            case GroupBy::AlbumArtist:
-              return artist_icon_;
-            default:
-              break;
-          }
-          break;
-        default:
-          break;
-      }
-      break;
-
-    case Role_Type:
-      return item->type;
-
-    case Role_IsDivider:
-      return item->type == CollectionItem::Type_Divider;
-
-    case Role_ContainerType:
-      return static_cast<int>(container_group_by);
-
-    case Role_Key:
-      return item->key;
-
-    case Role_Artist:
-      return item->metadata.artist();
-
-    case Role_Editable:{
-      if (!item->lazy_loaded) {
-        const_cast<CollectionModel*>(this)->LazyPopulate(const_cast<CollectionItem*>(item), true);
-      }
-
-      if (item->type == CollectionItem::Type_Container) {
-        // If we have even one non editable item as a child, we ourselves are not available for edit
-        if (item->children.isEmpty()) {
-          return false;
-        }
-        else if (std::any_of(item->children.begin(), item->children.end(), [this, role](CollectionItem *child) { return !data(child, role).toBool(); })) {
-          return false;
-        }
-        else {
-          return true;
-        }
-      }
-      else if (item->type == CollectionItem::Type_Song) {
-        return item->metadata.IsEditable();
-      }
-      else {
-        return false;
-      }
-    }
-
-    case Role_SortText:
-      return item->SortText();
-    default:
-      return QVariant();
-  }
-
-  return QVariant();
-
-}
-
-bool CollectionModel::HasCompilations(const QSqlDatabase &db, const CollectionFilterOptions &filter_options, const CollectionQueryOptions &query_options) {
-
-  CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), filter_options);
-  q.SetColumnSpec(query_options.column_spec());
-  for (const CollectionQueryOptions::Where &where_clauses : query_options.where_clauses()) {
-    q.AddWhere(where_clauses.column, where_clauses.value, where_clauses.op);
-  }
-  q.AddCompilationRequirement(true);
-  q.SetLimit(1);
-
-  if (!q.Exec()) {
-    backend_->ReportErrors(q);
-    return false;
-  }
-
-  return q.Next();
-
-}
-
-CollectionQueryOptions CollectionModel::PrepareQuery(CollectionItem *parent) {
-
-  // Information about what we want the children to be
-  const int child_level = parent == root_ ? 0 : parent->container_level + 1;
-  const GroupBy child_group_by = child_level >= 3 ? GroupBy::None : group_by_[child_level];
-
-  CollectionQueryOptions query_options;
-
-  // Initialize the query.  child_group_by says what type of thing we want (artists, songs, etc.)
-  SetQueryColumnSpec(child_group_by, separate_albums_by_grouping_, &query_options);
-
-  // Walk up through the item's parents adding filters as necessary
-  for (CollectionItem *p = parent; p && p->type == CollectionItem::Type_Container; p = p->parent) {
-    AddQueryWhere(group_by_[p->container_level], separate_albums_by_grouping_, p, &query_options);
-  }
-
-  // Artists GroupBy is special - we don't want compilation albums appearing
-  if (show_various_artists_ && IsArtistGroupBy(child_group_by)) {
-    query_options.set_query_have_compilations(true);
-  }
-
-  return query_options;
-
-}
-
-CollectionModel::QueryResult CollectionModel::RunQuery(const CollectionFilterOptions &filter_options, const CollectionQueryOptions &query_options) {
-
-  QMutexLocker l(backend_->db()->Mutex());
-
-  QueryResult result;
-  {
-
-    QSqlDatabase db(backend_->db()->Connect());
-    // Add the special Various artists node
-    if (query_options.query_have_compilations() && HasCompilations(db, filter_options, query_options)) {
-      result.create_va = true;
-    }
-
-    CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), filter_options);
-    q.SetColumnSpec(query_options.column_spec());
-    for (const CollectionQueryOptions::Where &where_clauses : query_options.where_clauses()) {
-      q.AddWhere(where_clauses.column, where_clauses.value, where_clauses.op);
-    }
-
-    if (result.create_va) {
-      q.AddCompilationRequirement(false);
-    }
-    else if (query_options.compilation_requirement() != CollectionQueryOptions::CompilationRequirement::None) {
-      q.AddCompilationRequirement(query_options.compilation_requirement() == CollectionQueryOptions::CompilationRequirement::On);
-    }
-
-    if (q.Exec()) {
-      while (q.Next()) {
-        result.rows << SqlRow(q);
-      }
-    }
-    else {
-      backend_->ReportErrors(q);
-    }
-
-  }
-
-  if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
-    backend_->db()->Close();
-  }
-
-  return result;
-
-}
-
-void CollectionModel::PostQuery(CollectionItem *parent, const CollectionModel::QueryResult &result, const bool signal) {
-
-  if (!root_) return;
-
-  // Information about what we want the children to be
-  int child_level = parent == root_ ? 0 : parent->container_level + 1;
-  GroupBy child_group_by = child_level >= 3 ? GroupBy::None : group_by_[child_level];
-
-  if (result.create_va && parent->compilation_artist_node_ == nullptr) {
-    CreateCompilationArtistNode(signal, parent);
-  }
-
-  // Step through the results
-  for (const SqlRow &row : result.rows) {
-    // Create the item - it will get inserted into the model here
-    CollectionItem *item = ItemFromQuery(child_group_by, separate_albums_by_grouping_, signal, child_level == 0, parent, row, child_level);
-
-    // Save a pointer to it for later
-    if (child_group_by == GroupBy::None) {
-      song_nodes_.insert(item->metadata.id(), item);
-    }
-    else {
-      container_nodes_[child_level].insert(item->key, item);
-    }
-  }
-
-}
-
-void CollectionModel::LazyPopulate(CollectionItem *parent, const bool signal) {
-
-  if (!root_) return;
-
-  if (parent->lazy_loaded) return;
-  parent->lazy_loaded = true;
-
-  CollectionQueryOptions query_options = PrepareQuery(parent);
-  QueryResult result = RunQuery(filter_options_, query_options);
-  PostQuery(parent, result, signal);
-
-}
-
-void CollectionModel::ResetAsync() {
-
-  if (!root_) return;
-
-  CollectionQueryOptions query_options = PrepareQuery(root_);
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(&CollectionModel::RunQuery, this, filter_options_, query_options);
-#else
-  QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(this, &CollectionModel::RunQuery, filter_options_, query_options);
-#endif
-  QFutureWatcher<CollectionModel::QueryResult> *watcher = new QFutureWatcher<CollectionModel::QueryResult>();
-  QObject::connect(watcher, &QFutureWatcher<CollectionModel::QueryResult>::finished, this, &CollectionModel::ResetAsyncQueryFinished);
-  watcher->setFuture(future);
-
-}
-
-void CollectionModel::ResetAsyncQueryFinished() {
-
-  if (!root_) return;
-
-  QFutureWatcher<CollectionModel::QueryResult> *watcher = static_cast<QFutureWatcher<CollectionModel::QueryResult>*>(sender());
-  const struct QueryResult result = watcher->result();
-  watcher->deleteLater();
-
-  BeginReset();
-  root_->lazy_loaded = true;
-
-  PostQuery(root_, result, false);
-
-  if (init_task_id_ != -1) {
-    if (app_) {
-      app_->task_manager()->SetTaskFinished(init_task_id_);
-    }
-    init_task_id_ = -1;
-  }
-
-  endResetModel();
-
-}
-
-void CollectionModel::Clear() {
-
-  if (root_) {
-    delete root_;
-    root_ = nullptr;
-  }
-  song_nodes_.clear();
-  container_nodes_[0].clear();
-  container_nodes_[1].clear();
-  container_nodes_[2].clear();
-  divider_nodes_.clear();
-  pending_art_.clear();
-  pending_cache_keys_.clear();
-
-}
-
-void CollectionModel::BeginReset() {
-
-  beginResetModel();
-  Clear();
-
-  root_ = new CollectionItem(this);
-  root_->compilation_artist_node_ = nullptr;
-  root_->lazy_loaded = false;
-
-}
-
-void CollectionModel::Reset() {
-
-  BeginReset();
-
-  // Populate top level
-  LazyPopulate(root_, false);
-
-  endResetModel();
-
-}
-
-void CollectionModel::SetQueryColumnSpec(const GroupBy group_by, const bool separate_albums_by_grouping, CollectionQueryOptions *query_options) {
-
-  // Say what group_by of thing we want to get back from the database.
-  switch (group_by) {
-    case GroupBy::AlbumArtist:
-      query_options->set_column_spec(QStringLiteral("DISTINCT effective_albumartist"));
-      break;
-    case GroupBy::Artist:
-      query_options->set_column_spec(QStringLiteral("DISTINCT artist"));
-      break;
-    case GroupBy::Album:{
-      QString query(QStringLiteral("DISTINCT album, album_id"));
-      if (separate_albums_by_grouping) query.append(QStringLiteral(", grouping"));
-      query_options->set_column_spec(query);
-      break;
-    }
-    case GroupBy::AlbumDisc:{
-      QString query(QStringLiteral("DISTINCT album, album_id, disc"));
-      if (separate_albums_by_grouping) query.append(QStringLiteral(", grouping"));
-      query_options->set_column_spec(query);
-      break;
-    }
-    case GroupBy::YearAlbum:{
-      QString query(QStringLiteral("DISTINCT year, album, album_id"));
-      if (separate_albums_by_grouping) query.append(QStringLiteral(", grouping"));
-      query_options->set_column_spec(query);
-      break;
-    }
-    case GroupBy::YearAlbumDisc:{
-      QString query(QStringLiteral("DISTINCT year, album, album_id, disc"));
-      if (separate_albums_by_grouping) query.append(QStringLiteral(", grouping"));
-      query_options->set_column_spec(query);
-      break;
-    }
-    case GroupBy::OriginalYearAlbum:{
-      QString query(QStringLiteral("DISTINCT year, originalyear, album, album_id"));
-      if (separate_albums_by_grouping) query.append(QStringLiteral(", grouping"));
-      query_options->set_column_spec(query);
-      break;
-    }
-    case GroupBy::OriginalYearAlbumDisc:{
-      QString query(QStringLiteral("DISTINCT year, originalyear, album, album_id, disc"));
-      if (separate_albums_by_grouping) query.append(QStringLiteral(", grouping"));
-      query_options->set_column_spec(query);
-      break;
-    }
-    case GroupBy::Disc:
-      query_options->set_column_spec(QStringLiteral("DISTINCT disc"));
-      break;
-    case GroupBy::Year:
-      query_options->set_column_spec(QStringLiteral("DISTINCT year"));
-      break;
-    case GroupBy::OriginalYear:
-      query_options->set_column_spec(QStringLiteral("DISTINCT effective_originalyear"));
-      break;
-    case GroupBy::Genre:
-      query_options->set_column_spec(QStringLiteral("DISTINCT genre"));
-      break;
-    case GroupBy::Composer:
-      query_options->set_column_spec(QStringLiteral("DISTINCT composer"));
-      break;
-    case GroupBy::Performer:
-      query_options->set_column_spec(QStringLiteral("DISTINCT performer"));
-      break;
-    case GroupBy::Grouping:
-      query_options->set_column_spec(QStringLiteral("DISTINCT grouping"));
-      break;
-    case GroupBy::FileType:
-      query_options->set_column_spec(QStringLiteral("DISTINCT filetype"));
-      break;
-    case GroupBy::Format:
-      query_options->set_column_spec(QStringLiteral("DISTINCT filetype, samplerate, bitdepth"));
-      break;
-    case GroupBy::Samplerate:
-      query_options->set_column_spec(QStringLiteral("DISTINCT samplerate"));
-      break;
-    case GroupBy::Bitdepth:
-      query_options->set_column_spec(QStringLiteral("DISTINCT bitdepth"));
-      break;
-    case GroupBy::Bitrate:
-      query_options->set_column_spec(QStringLiteral("DISTINCT bitrate"));
-      break;
-    case GroupBy::None:
-    case GroupBy::GroupByCount:
-      query_options->set_column_spec(QStringLiteral("%songs_table.ROWID, ") + Song::kColumnSpec);
-      break;
-  }
-
-}
-
-void CollectionModel::AddQueryWhere(const GroupBy group_by, const bool separate_albums_by_grouping, CollectionItem *item, CollectionQueryOptions *query_options) {
-
-  // Say how we want the query to be filtered.  This is done once for each parent going up the tree.
+QString CollectionModel::DisplayText(const GroupBy group_by, const Song &song) {
 
   switch (group_by) {
     case GroupBy::AlbumArtist:
-      if (IsCompilationArtistNode(item)) {
-        query_options->set_compilation_requirement(CollectionQueryOptions::CompilationRequirement::On);
-      }
-      else {
-        // Don't duplicate compilations outside the Various artists node
-        query_options->set_compilation_requirement(CollectionQueryOptions::CompilationRequirement::Off);
-        query_options->AddWhere(QStringLiteral("effective_albumartist"), item->metadata.effective_albumartist());
-      }
-      break;
+      return TextOrUnknown(song.effective_albumartist());
     case GroupBy::Artist:
-      if (IsCompilationArtistNode(item)) {
-        query_options->set_compilation_requirement(CollectionQueryOptions::CompilationRequirement::On);
-      }
-      else {
-        // Don't duplicate compilations outside the Various artists node
-        query_options->set_compilation_requirement(CollectionQueryOptions::CompilationRequirement::Off);
-        query_options->AddWhere(QStringLiteral("artist"), item->metadata.artist());
-      }
-      break;
+      return TextOrUnknown(song.artist());
     case GroupBy::Album:
-      query_options->AddWhere(QStringLiteral("album"), item->metadata.album());
-      query_options->AddWhere(QStringLiteral("album_id"), item->metadata.album_id());
-      if (separate_albums_by_grouping) query_options->AddWhere(QStringLiteral("grouping"), item->metadata.grouping());
-      break;
+      return TextOrUnknown(song.album());
     case GroupBy::AlbumDisc:
-      query_options->AddWhere(QStringLiteral("album"), item->metadata.album());
-      query_options->AddWhere(QStringLiteral("album_id"), item->metadata.album_id());
-      query_options->AddWhere(QStringLiteral("disc"), item->metadata.disc());
-      if (separate_albums_by_grouping) query_options->AddWhere(QStringLiteral("grouping"), item->metadata.grouping());
-      break;
+      return PrettyAlbumDisc(song.album(), song.disc());
     case GroupBy::YearAlbum:
-      query_options->AddWhere(QStringLiteral("year"), item->metadata.year());
-      query_options->AddWhere(QStringLiteral("album"), item->metadata.album());
-      query_options->AddWhere(QStringLiteral("album_id"), item->metadata.album_id());
-      if (separate_albums_by_grouping) query_options->AddWhere(QStringLiteral("grouping"), item->metadata.grouping());
-      break;
+      return PrettyYearAlbum(song.year(), song.album());
     case GroupBy::YearAlbumDisc:
-      query_options->AddWhere(QStringLiteral("year"), item->metadata.year());
-      query_options->AddWhere(QStringLiteral("album"), item->metadata.album());
-      query_options->AddWhere(QStringLiteral("album_id"), item->metadata.album_id());
-      query_options->AddWhere(QStringLiteral("disc"), item->metadata.disc());
-      if (separate_albums_by_grouping) query_options->AddWhere(QStringLiteral("grouping"), item->metadata.grouping());
-      break;
+      return PrettyYearAlbumDisc(song.year(), song.album(), song.disc());
     case GroupBy::OriginalYearAlbum:
-      query_options->AddWhere(QStringLiteral("year"), item->metadata.year());
-      query_options->AddWhere(QStringLiteral("originalyear"), item->metadata.originalyear());
-      query_options->AddWhere(QStringLiteral("album"), item->metadata.album());
-      query_options->AddWhere(QStringLiteral("album_id"), item->metadata.album_id());
-      if (separate_albums_by_grouping) query_options->AddWhere(QStringLiteral("grouping"), item->metadata.grouping());
-      break;
+      return PrettyYearAlbum(song.effective_originalyear(), song.album());
     case GroupBy::OriginalYearAlbumDisc:
-      query_options->AddWhere(QStringLiteral("year"), item->metadata.year());
-      query_options->AddWhere(QStringLiteral("originalyear"), item->metadata.originalyear());
-      query_options->AddWhere(QStringLiteral("album"), item->metadata.album());
-      query_options->AddWhere(QStringLiteral("album_id"), item->metadata.album_id());
-      query_options->AddWhere(QStringLiteral("disc"), item->metadata.disc());
-      if (separate_albums_by_grouping) query_options->AddWhere(QStringLiteral("grouping"), item->metadata.grouping());
-      break;
+      return PrettyYearAlbumDisc(song.effective_originalyear(), song.album(), song.disc());
     case GroupBy::Disc:
-      query_options->AddWhere(QStringLiteral("disc"), item->metadata.disc());
-      break;
+      return PrettyDisc(std::max(0, song.disc()));
     case GroupBy::Year:
-      query_options->AddWhere(QStringLiteral("year"), item->metadata.year());
-      break;
+      return QString::number(std::max(0, song.year()));
     case GroupBy::OriginalYear:
-      query_options->AddWhere(QStringLiteral("effective_originalyear"), item->metadata.effective_originalyear());
-      break;
+      return QString::number(std::max(0, song.effective_originalyear()));
     case GroupBy::Genre:
-      query_options->AddWhere(QStringLiteral("genre"), item->metadata.genre());
-      break;
+      return TextOrUnknown(song.genre());
     case GroupBy::Composer:
-      query_options->AddWhere(QStringLiteral("composer"), item->metadata.composer());
-      break;
+      return TextOrUnknown(song.composer());
     case GroupBy::Performer:
-      query_options->AddWhere(QStringLiteral("performer"), item->metadata.performer());
-      break;
+      return TextOrUnknown(song.performer());
     case GroupBy::Grouping:
-      query_options->AddWhere(QStringLiteral("grouping"), item->metadata.grouping());
-      break;
+      return TextOrUnknown(song.grouping());
     case GroupBy::FileType:
-      query_options->AddWhere(QStringLiteral("filetype"), static_cast<int>(item->metadata.filetype()));
-      break;
+      return song.TextForFiletype();
     case GroupBy::Format:
-      query_options->AddWhere(QStringLiteral("filetype"), static_cast<int>(item->metadata.filetype()));
-      query_options->AddWhere(QStringLiteral("samplerate"), item->metadata.samplerate());
-      query_options->AddWhere(QStringLiteral("bitdepth"), item->metadata.bitdepth());
-      break;
+      return PrettyFormat(song);
     case GroupBy::Samplerate:
-      query_options->AddWhere(QStringLiteral("samplerate"), item->metadata.samplerate());
-      break;
+      return QString::number(std::max(0, song.samplerate()));
     case GroupBy::Bitdepth:
-      query_options->AddWhere(QStringLiteral("bitdepth"), item->metadata.bitdepth());
-      break;
+      return QString::number(std::max(0, song.bitdepth()));
     case GroupBy::Bitrate:
-      query_options->AddWhere(QStringLiteral("bitrate"), item->metadata.bitrate());
-      break;
+      return QString::number(std::max(0, song.bitrate()));
     case GroupBy::None:
     case GroupBy::GroupByCount:
-      qLog(Error) << "Unknown GroupBy" << group_by << "used in filter";
-      break;
+      return song.TitleWithCompilationArtist();
   }
 
-}
-
-CollectionItem *CollectionModel::InitItem(const GroupBy group_by, const bool signal, CollectionItem *parent, const int container_level) {
-
-  CollectionItem::Type item_type = group_by == GroupBy::None ? CollectionItem::Type_Song : CollectionItem::Type_Container;
-
-  if (signal) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
-
-  // Initialize the item depending on what type it's meant to be
-  CollectionItem *item = new CollectionItem(item_type, parent);
-  item->compilation_artist_node_ = nullptr;
-  item->container_level = container_level;
-
-  return item;
-
-}
-
-CollectionItem *CollectionModel::ItemFromQuery(const GroupBy group_by, const bool separate_albums_by_grouping, const bool signal, const bool create_divider, CollectionItem *parent, const SqlRow &row, const int container_level) {
-
-  CollectionItem *item = InitItem(group_by, signal, parent, container_level);
-
-  if (parent != root_ && !parent->key.isEmpty()) {
-    item->key = parent->key + QLatin1Char('-');
-  }
-
-  switch (group_by) {
-    case GroupBy::AlbumArtist:{
-      item->metadata.set_albumartist(row.value(0).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = TextOrUnknown(item->metadata.albumartist());
-      item->sort_text = SortTextForArtist(item->metadata.albumartist(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::Artist:{
-      item->metadata.set_artist(row.value(0).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = TextOrUnknown(item->metadata.artist());
-      item->sort_text = SortTextForArtist(item->metadata.artist(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::Album:{
-      item->metadata.set_album(row.value(0).toString());
-      item->metadata.set_album_id(row.value(1).toString());
-      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(2).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = TextOrUnknown(item->metadata.album());
-      item->sort_text = SortTextForArtist(item->metadata.album(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::AlbumDisc:{
-      item->metadata.set_album(row.value(0).toString());
-      item->metadata.set_album_id(row.value(1).toString());
-      item->metadata.set_disc(row.value(2).toInt());
-      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(3).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = PrettyAlbumDisc(item->metadata.album(), item->metadata.disc());
-      item->sort_text = item->metadata.album() + SortTextForNumber(std::max(0, item->metadata.disc()));
-      break;
-    }
-    case GroupBy::YearAlbum:{
-      item->metadata.set_year(row.value(0).toInt());
-      item->metadata.set_album(row.value(1).toString());
-      item->metadata.set_album_id(row.value(2).toString());
-      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(3).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = PrettyYearAlbum(item->metadata.year(), item->metadata.album());
-      item->sort_text = SortTextForNumber(std::max(0, item->metadata.year())) + item->metadata.grouping() + item->metadata.album();
-      break;
-    }
-    case GroupBy::YearAlbumDisc:{
-      item->metadata.set_year(row.value(0).toInt());
-      item->metadata.set_album(row.value(1).toString());
-      item->metadata.set_album_id(row.value(2).toString());
-      item->metadata.set_disc(row.value(3).toInt());
-      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(4).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = PrettyYearAlbumDisc(item->metadata.year(), item->metadata.album(), item->metadata.disc());
-      item->sort_text = SortTextForNumber(std::max(0, item->metadata.year())) + item->metadata.album() + SortTextForNumber(std::max(0, item->metadata.disc()));
-      break;
-    }
-    case GroupBy::OriginalYearAlbum:{
-      item->metadata.set_year(row.value(0).toInt());
-      item->metadata.set_originalyear(row.value(1).toInt());
-      item->metadata.set_album(row.value(2).toString());
-      item->metadata.set_album_id(row.value(3).toString());
-      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(4).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = PrettyYearAlbum(item->metadata.effective_originalyear(), item->metadata.album());
-      item->sort_text = SortTextForNumber(std::max(0, item->metadata.effective_originalyear())) + item->metadata.grouping() + item->metadata.album();
-      break;
-    }
-    case GroupBy::OriginalYearAlbumDisc:{
-      item->metadata.set_year(row.value(0).toInt());
-      item->metadata.set_originalyear(row.value(1).toInt());
-      item->metadata.set_album(row.value(2).toString());
-      item->metadata.set_album_id(row.value(3).toString());
-      item->metadata.set_disc(row.value(4).toInt());
-      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(5).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = PrettyYearAlbumDisc(item->metadata.effective_originalyear(), item->metadata.album(), item->metadata.disc());
-      item->sort_text = SortTextForNumber(std::max(0, item->metadata.effective_originalyear())) + item->metadata.album() + SortTextForNumber(std::max(0, item->metadata.disc()));
-      break;
-    }
-    case GroupBy::Disc:{
-      item->metadata.set_disc(row.value(0).toInt());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      const int disc = std::max(0, row.value(0).toInt());
-      item->display_text = PrettyDisc(disc);
-      item->sort_text = SortTextForNumber(disc);
-      break;
-    }
-    case GroupBy::Year:{
-      item->metadata.set_year(row.value(0).toInt());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      const int year = std::max(0, item->metadata.year());
-      item->display_text = QString::number(year);
-      item->sort_text = SortTextForNumber(year) + QLatin1Char(' ');
-      break;
-    }
-    case GroupBy::OriginalYear:{
-      item->metadata.set_originalyear(row.value(0).toInt());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      const int year = std::max(0, item->metadata.originalyear());
-      item->display_text = QString::number(year);
-      item->sort_text = SortTextForNumber(year) + QLatin1Char(' ');
-      break;
-    }
-    case GroupBy::Genre:{
-      item->metadata.set_genre(row.value(0).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = TextOrUnknown(item->metadata.genre());
-      item->sort_text = SortTextForArtist(item->metadata.genre(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::Composer:{
-      item->metadata.set_composer(row.value(0).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = TextOrUnknown(item->metadata.composer());
-      item->sort_text = SortTextForArtist(item->metadata.composer(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::Performer:{
-      item->metadata.set_performer(row.value(0).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = TextOrUnknown(item->metadata.performer());
-      item->sort_text = SortTextForArtist(item->metadata.performer(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::Grouping:{
-      item->metadata.set_grouping(row.value(0).toString());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = TextOrUnknown(item->metadata.grouping());
-      item->sort_text = SortTextForArtist(item->metadata.grouping(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::FileType:{
-      item->metadata.set_filetype(static_cast<Song::FileType>(row.value(0).toInt()));
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      item->display_text = item->metadata.TextForFiletype();
-      item->sort_text = item->metadata.TextForFiletype();
-      break;
-    }
-    case GroupBy::Format:{
-      item->metadata.set_filetype(static_cast<Song::FileType>(row.value(0).toInt()));
-      item->metadata.set_samplerate(row.value(1).toInt());
-      item->metadata.set_bitdepth(row.value(2).toInt());
-      QString key = ContainerKey(group_by, separate_albums_by_grouping, item->metadata);
-      item->key.append(key);
-      item->display_text = key;
-      item->sort_text = key;
-      break;
-    }
-    case GroupBy::Samplerate:{
-      item->metadata.set_samplerate(row.value(0).toInt());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      const int samplerate = std::max(0, item->metadata.samplerate());
-      item->display_text = QString::number(samplerate);
-      item->sort_text = SortTextForNumber(samplerate) + QLatin1Char(' ');
-      break;
-    }
-    case GroupBy::Bitdepth:{
-      item->metadata.set_bitdepth(row.value(0).toInt());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      const int bitdepth = std::max(0, item->metadata.bitdepth());
-      item->display_text = QString::number(bitdepth);
-      item->sort_text = SortTextForNumber(bitdepth) + QLatin1Char(' ');
-      break;
-    }
-    case GroupBy::Bitrate:{
-      item->metadata.set_bitrate(row.value(0).toInt());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
-      const int bitrate = std::max(0, item->metadata.bitrate());
-      item->display_text = QString::number(bitrate);
-      item->sort_text = SortTextForNumber(bitrate) + QLatin1Char(' ');
-      break;
-    }
-    case GroupBy::None:
-    case GroupBy::GroupByCount:
-      item->metadata.InitFromQuery(row, true);
-      item->key.append(TextOrUnknown(item->metadata.title()));
-      item->display_text = item->metadata.TitleWithCompilationArtist();
-      if (item->container_level == 1 && !IsAlbumGroupBy(group_by_[0])) {
-        item->sort_text = SortText(item->metadata.title());
-      }
-      else {
-        item->sort_text = SortTextForSong(item->metadata);
-      }
-      break;
-  }
-
-  FinishItem(group_by, signal, create_divider, parent, item);
-
-  return item;
-
-}
-
-CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool separate_albums_by_grouping, const bool signal, const bool create_divider, CollectionItem *parent, const Song &s, const int container_level) {
-
-  CollectionItem *item = InitItem(group_by, signal, parent, container_level);
-
-  if (parent != root_ && !parent->key.isEmpty()) {
-    item->key = parent->key + QLatin1Char('-');
-  }
-
-  switch (group_by) {
-    case GroupBy::AlbumArtist:{
-      item->metadata.set_albumartist(s.effective_albumartist());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = TextOrUnknown(s.effective_albumartist());
-      item->sort_text = SortTextForArtist(s.effective_albumartist(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::Artist:{
-      item->metadata.set_artist(s.artist());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = TextOrUnknown(s.artist());
-      item->sort_text = SortTextForArtist(s.artist(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::Album:{
-      item->metadata.set_album(s.album());
-      item->metadata.set_album_id(s.album_id());
-      item->metadata.set_grouping(s.grouping());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = TextOrUnknown(s.album());
-      item->sort_text = SortTextForArtist(s.album(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::AlbumDisc:{
-      item->metadata.set_album(s.album());
-      item->metadata.set_album_id(s.album_id());
-      item->metadata.set_disc(s.disc() <= 0 ? -1 : s.disc());
-      item->metadata.set_grouping(s.grouping());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = PrettyAlbumDisc(s.album(), s.disc());
-      item->sort_text = s.album() + SortTextForNumber(std::max(0, s.disc()));
-      break;
-    }
-    case GroupBy::YearAlbum:{
-      item->metadata.set_year(s.year() <= 0 ? -1 : s.year());
-      item->metadata.set_album(s.album());
-      item->metadata.set_album_id(s.album_id());
-      item->metadata.set_grouping(s.grouping());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = PrettyYearAlbum(s.year(), s.album());
-      item->sort_text = SortTextForNumber(std::max(0, s.year())) + s.grouping() + s.album();
-      break;
-    }
-    case GroupBy::YearAlbumDisc:{
-      item->metadata.set_year(s.year() <= 0 ? -1 : s.year());
-      item->metadata.set_album(s.album());
-      item->metadata.set_album_id(s.album_id());
-      item->metadata.set_disc(s.disc() <= 0 ? -1 : s.disc());
-      item->metadata.set_grouping(s.grouping());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = PrettyYearAlbumDisc(s.year(), s.album(), s.disc());
-      item->sort_text = SortTextForNumber(std::max(0, s.year())) + s.album() + SortTextForNumber(std::max(0, s.disc()));
-      break;
-    }
-    case GroupBy::OriginalYearAlbum:{
-      item->metadata.set_year(s.year() <= 0 ? -1 : s.year());
-      item->metadata.set_originalyear(s.originalyear() <= 0 ? -1 : s.originalyear());
-      item->metadata.set_album(s.album());
-      item->metadata.set_album_id(s.album_id());
-      item->metadata.set_grouping(s.grouping());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = PrettyYearAlbum(s.effective_originalyear(), s.album());
-      item->sort_text = SortTextForNumber(std::max(0, s.effective_originalyear())) + s.grouping() + s.album();
-      break;
-    }
-    case GroupBy::OriginalYearAlbumDisc:{
-      item->metadata.set_year(s.year() <= 0 ? -1 : s.year());
-      item->metadata.set_originalyear(s.originalyear() <= 0 ? -1 : s.originalyear());
-      item->metadata.set_album(s.album());
-      item->metadata.set_album_id(s.album_id());
-      item->metadata.set_disc(s.disc() <= 0 ? -1 : s.disc());
-      item->metadata.set_grouping(s.grouping());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = PrettyYearAlbumDisc(s.effective_originalyear(), s.album(), s.disc());
-      item->sort_text = SortTextForNumber(std::max(0, s.effective_originalyear())) + s.album() + SortTextForNumber(std::max(0, s.disc()));
-      break;
-    }
-    case GroupBy::Disc:{
-      item->metadata.set_disc(s.disc() <= 0 ? -1 : s.disc());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      const int disc = std::max(0, s.disc());
-      item->display_text = PrettyDisc(disc);
-      item->sort_text = SortTextForNumber(disc);
-      break;
-    }
-    case GroupBy::Year:{
-      item->metadata.set_year(s.year() <= 0 ? -1 : s.year());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      const int year = std::max(0, s.year());
-      item->display_text = QString::number(year);
-      item->sort_text = SortTextForNumber(year) + QLatin1Char(' ');
-      break;
-    }
-    case GroupBy::OriginalYear:{
-      item->metadata.set_originalyear(s.effective_originalyear() <= 0 ? -1 : s.effective_originalyear());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      const int year = std::max(0, s.effective_originalyear());
-      item->display_text = QString::number(year);
-      item->sort_text = SortTextForNumber(year) + QLatin1Char(' ');
-      break;
-    }
-    case GroupBy::Genre:{
-      item->metadata.set_genre(s.genre());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = TextOrUnknown(s.genre());
-      item->sort_text = SortTextForArtist(s.genre(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::Composer:{
-      item->metadata.set_composer(s.composer());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = TextOrUnknown(s.composer());
-      item->sort_text = SortTextForArtist(s.composer(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::Performer:{
-      item->metadata.set_performer(s.performer());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = TextOrUnknown(s.performer());
-      item->sort_text = SortTextForArtist(s.performer(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::Grouping:{
-      item->metadata.set_grouping(s.grouping());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = TextOrUnknown(s.grouping());
-      item->sort_text = SortTextForArtist(s.grouping(), sort_skips_articles_);
-      break;
-    }
-    case GroupBy::FileType:{
-      item->metadata.set_filetype(s.filetype());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      item->display_text = s.TextForFiletype();
-      item->sort_text = s.TextForFiletype();
-      break;
-    }
-    case GroupBy::Format:{
-      item->metadata.set_filetype(s.filetype());
-      item->metadata.set_samplerate(s.samplerate());
-      item->metadata.set_bitdepth(s.bitdepth());
-      QString key = ContainerKey(group_by, separate_albums_by_grouping, s);
-      item->key.append(key);
-      item->display_text = key;
-      item->sort_text = key;
-      break;
-    }
-    case GroupBy::Samplerate:{
-      item->metadata.set_samplerate(s.samplerate());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      const int samplerate = std::max(0, s.samplerate());
-      item->display_text = QString::number(samplerate);
-      item->sort_text = SortTextForNumber(samplerate) + QLatin1Char(' ');
-      break;
-    }
-    case GroupBy::Bitdepth:{
-      item->metadata.set_bitdepth(s.bitdepth());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      const int bitdepth = std::max(0, s.bitdepth());
-      item->display_text = QString::number(bitdepth);
-      item->sort_text = SortTextForNumber(bitdepth) + QLatin1Char(' ');
-      break;
-    }
-    case GroupBy::Bitrate:{
-      item->metadata.set_bitrate(s.bitrate());
-      item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
-      const int bitrate = std::max(0, s.bitrate());
-      item->display_text = QString::number(bitrate);
-      item->sort_text = SortTextForNumber(bitrate) + QLatin1Char(' ');
-      break;
-    }
-    case GroupBy::None:
-    case GroupBy::GroupByCount:{
-      item->metadata = s;
-      item->key.append(TextOrUnknown(s.title()));
-      item->display_text = s.TitleWithCompilationArtist();
-      if (item->container_level == 1 && !IsAlbumGroupBy(group_by_[0])) {
-        item->sort_text = SortText(s.title());
-      }
-      else {
-        item->sort_text = SortTextForSong(s);
-      }
-      break;
-    }
-  }
-
-  FinishItem(group_by, signal, create_divider, parent, item);
-  if (s.url().scheme() == QStringLiteral("cdda")) item->lazy_loaded = true;
-
-  return item;
-
-}
-
-void CollectionModel::FinishItem(const GroupBy group_by, const bool signal, const bool create_divider, CollectionItem *parent, CollectionItem *item) {
-
-  if (!root_) return;
-
-  if (group_by == GroupBy::None) item->lazy_loaded = true;
-
-  if (signal) {
-    endInsertRows();
-  }
-
-  // Create the divider entry if we're supposed to
-  if (create_divider && show_dividers_) {
-    QString divider_key = DividerKey(group_by, item);
-    if (!divider_key.isEmpty()) {
-      item->sort_text.prepend(divider_key + QLatin1Char(' '));
-    }
-
-    if (!divider_key.isEmpty() && !divider_nodes_.contains(divider_key)) {
-      if (signal) {
-        beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
-      }
-
-      CollectionItem *divider = new CollectionItem(CollectionItem::Type_Divider, root_);
-      divider->key = divider_key;
-      divider->display_text = DividerDisplayText(group_by, divider_key);
-      divider->sort_text = divider_key + QStringLiteral("  ");
-      divider->lazy_loaded = true;
-
-      divider_nodes_[divider_key] = divider;
-
-      if (signal) {
-        endInsertRows();
-      }
-    }
-  }
+  return QString();
 
 }
 
@@ -1743,6 +1065,81 @@ QString CollectionModel::PrettyDisc(const int disc) {
 
 }
 
+QString CollectionModel::PrettyFormat(const Song &song) {
+
+  if (song.samplerate() <= 0) {
+    return song.TextForFiletype();
+  }
+  else {
+    if (song.bitdepth() <= 0) {
+      return QStringLiteral("%1 (%2)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5));
+    }
+    else {
+      return QStringLiteral("%1 (%2/%3)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5)).arg(song.bitdepth());
+    }
+  }
+
+}
+
+QString CollectionModel::SortText(const GroupBy group_by, const int container_level, const Song &song, const bool sort_skips_articles) {
+
+  switch (group_by) {
+    case GroupBy::AlbumArtist:
+      return SortTextForArtist(song.effective_albumartist(), sort_skips_articles);
+    case GroupBy::Artist:
+      return SortTextForArtist(song.artist(), sort_skips_articles);
+    case GroupBy::Album:
+      return SortTextForArtist(song.album(), sort_skips_articles);
+    case GroupBy::AlbumDisc:
+      return song.album() + SortTextForNumber(std::max(0, song.disc()));
+    case GroupBy::YearAlbum:
+      return SortTextForNumber(std::max(0, song.year())) + song.grouping() + song.album();
+    case GroupBy::YearAlbumDisc:
+      return SortTextForNumber(std::max(0, song.year())) + song.album() + SortTextForNumber(std::max(0, song.disc()));
+    case GroupBy::OriginalYearAlbum:
+      return SortTextForNumber(std::max(0, song.effective_originalyear())) + song.grouping() + song.album();
+    case GroupBy::OriginalYearAlbumDisc:
+      return SortTextForNumber(std::max(0, song.effective_originalyear())) + song.album() + SortTextForNumber(std::max(0, song.disc()));
+    case GroupBy::Disc:
+      return SortTextForNumber(std::max(0, song.disc()));
+    case GroupBy::Year:
+      return SortTextForNumber(std::max(0, song.year())) + QLatin1Char(' ');
+    case GroupBy::OriginalYear:
+      return SortTextForNumber(std::max(0, song.effective_originalyear())) + QLatin1Char(' ');
+    case GroupBy::Genre:
+      return SortTextForArtist(song.genre(), sort_skips_articles);
+    case GroupBy::Composer:
+      return SortTextForArtist(song.composer(), sort_skips_articles);
+    case GroupBy::Performer:
+      return SortTextForArtist(song.performer(), sort_skips_articles);
+    case GroupBy::Grouping:
+      return SortTextForArtist(song.grouping(), sort_skips_articles);
+    case GroupBy::FileType:
+      return song.TextForFiletype();
+    case GroupBy::Format:
+      return PrettyFormat(song);
+    case GroupBy::Samplerate:
+      return SortTextForNumber(std::max(0, song.samplerate())) + QLatin1Char(' ');
+    case GroupBy::Bitdepth:
+      return SortTextForNumber(std::max(0, song.bitdepth())) + QLatin1Char(' ');
+    case GroupBy::Bitrate:
+      return SortTextForNumber(std::max(0, song.bitrate())) + QLatin1Char(' ');
+    case GroupBy::None:
+    case GroupBy::GroupByCount:{
+      if (container_level == 1 && !IsAlbumGroupBy(options_active_.group_by[0])) {
+        return SortText(song.title());
+      }
+      else {
+        return SortTextForSong(song);
+      }
+      break;
+    }
+  }
+
+  return QString();
+
+}
+
 QString CollectionModel::SortText(QString text) {
 
   if (text.isEmpty()) {
@@ -1780,6 +1177,15 @@ QString CollectionModel::SortTextForNumber(const int number) {
   return QStringLiteral("%1").arg(number, 4, 10, QLatin1Char('0'));
 }
 
+QString CollectionModel::SortTextForSong(const Song &song) {
+
+  QString ret = QString::number(std::max(0, song.disc()) * 1000 + std::max(0, song.track()));
+  ret.prepend(QStringLiteral("0").repeated(6 - ret.length()));
+  ret.append(song.url().toString());
+  return ret;
+
+}
+
 QString CollectionModel::SortTextForYear(const int year) {
 
   QString str = QString::number(year);
@@ -1794,52 +1200,208 @@ QString CollectionModel::SortTextForBitrate(const int bitrate) {
 
 }
 
-QString CollectionModel::SortTextForSong(const Song &song) {
+bool CollectionModel::IsSongTitleDataChanged(const Song &song1, const Song &song2) {
 
-  QString ret = QString::number(std::max(0, song.disc()) * 1000 + std::max(0, song.track()));
-  ret.prepend(QStringLiteral("0").repeated(6 - ret.length()));
-  ret.append(song.url().toString());
-  return ret;
+  return song1.url() != song2.url() ||
+         song1.track() != song2.track() ||
+         song1.title() != song2.title() ||
+         song1.compilation() != song2.compilation() ||
+         (song1.compilation() && song1.artist() != song2.artist());
 
 }
 
-Qt::ItemFlags CollectionModel::flags(const QModelIndex &idx) const {
+QString CollectionModel::ContainerKey(const GroupBy group_by, const Song &song) const {
 
-  switch (IndexToItem(idx)->type) {
-    case CollectionItem::Type_Song:
-    case CollectionItem::Type_Container:
-      return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
-    case CollectionItem::Type_Divider:
-    case CollectionItem::Type_Root:
-    case CollectionItem::Type_LoadingIndicator:
-    default:
-      return Qt::ItemIsEnabled;
+  QString key;
+
+  switch (group_by) {
+    case GroupBy::AlbumArtist:
+      key = TextOrUnknown(song.effective_albumartist());
+      break;
+    case GroupBy::Artist:
+      key = TextOrUnknown(song.artist());
+      break;
+    case GroupBy::Album:
+      key = TextOrUnknown(song.album());
+      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
+      if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
+      break;
+    case GroupBy::AlbumDisc:
+      key = PrettyAlbumDisc(song.album(), song.disc());
+      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
+      if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
+      break;
+    case GroupBy::YearAlbum:
+      key = PrettyYearAlbum(song.year(), song.album());
+      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
+      if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
+      break;
+    case GroupBy::YearAlbumDisc:
+      key = PrettyYearAlbumDisc(song.year(), song.album(), song.disc());
+      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
+      if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
+      break;
+    case GroupBy::OriginalYearAlbum:
+      key = PrettyYearAlbum(song.effective_originalyear(), song.album());
+      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
+      if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
+      break;
+    case GroupBy::OriginalYearAlbumDisc:
+      key = PrettyYearAlbumDisc(song.effective_originalyear(), song.album(), song.disc());
+      if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
+      if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
+      break;
+    case GroupBy::Disc:
+      key = PrettyDisc(song.disc());
+      break;
+    case GroupBy::Year:
+      key = QString::number(std::max(0, song.year()));
+      break;
+    case GroupBy::OriginalYear:
+      key = QString::number(std::max(0, song.effective_originalyear()));
+      break;
+    case GroupBy::Genre:
+      key = TextOrUnknown(song.genre());
+      break;
+    case GroupBy::Composer:
+      key = TextOrUnknown(song.composer());
+      break;
+    case GroupBy::Performer:
+      key = TextOrUnknown(song.performer());
+      break;
+    case GroupBy::Grouping:
+      key = TextOrUnknown(song.grouping());
+      break;
+    case GroupBy::FileType:
+      key = song.TextForFiletype();
+      break;
+    case GroupBy::Samplerate:
+      key = QString::number(std::max(0, song.samplerate()));
+      break;
+    case GroupBy::Bitdepth:
+      key = QString::number(std::max(0, song.bitdepth()));
+      break;
+    case GroupBy::Bitrate:
+      key = QString::number(std::max(0, song.bitrate()));
+      break;
+    case GroupBy::Format:
+      key = PrettyFormat(song);
+      break;
+    case GroupBy::None:
+    case GroupBy::GroupByCount:
+      qLog(Error) << "GroupBy::None";
+      break;
   }
 
+  return key;
+
 }
 
-QStringList CollectionModel::mimeTypes() const {
-  return QStringList() << QStringLiteral("text/uri-list");
-}
+QString CollectionModel::DividerKey(const GroupBy group_by, const Song &song, const QString &sort_text) {
 
-QMimeData *CollectionModel::mimeData(const QModelIndexList &indexes) const {
+  // Items which are to be grouped under the same divider must produce the same divider key.
+  // This will only get called for top-level items.
 
-  if (indexes.isEmpty()) return nullptr;
+  if (sort_text.isEmpty()) return QString();
 
-  SongMimeData *data = new SongMimeData;
-  QList<QUrl> urls;
-  QSet<int> song_ids;
-
-  data->backend = backend_;
-
-  for (const QModelIndex &idx : indexes) {
-    GetChildSongs(IndexToItem(idx), &urls, &data->songs, &song_ids);
+  switch (group_by) {
+    case GroupBy::AlbumArtist:
+    case GroupBy::Artist:
+    case GroupBy::Album:
+    case GroupBy::AlbumDisc:
+    case GroupBy::Composer:
+    case GroupBy::Performer:
+    case GroupBy::Grouping:
+    case GroupBy::Disc:
+    case GroupBy::Genre:
+    case GroupBy::Format:
+    case GroupBy::FileType: {
+      QChar c = sort_text[0];
+      if (c.isDigit()) return QStringLiteral("0");
+      if (c == QLatin1Char(' ')) return QString();
+      if (c.decompositionTag() != QChar::NoDecomposition) {
+        QString decomposition = c.decomposition();
+        return QChar(decomposition[0]);
+      }
+      return c;
+    }
+    case GroupBy::Year:
+    case GroupBy::OriginalYear:
+      return SortTextForNumber(sort_text.toInt() / 10 * 10);
+    case GroupBy::YearAlbum:
+    case GroupBy::YearAlbumDisc:
+      return SortTextForNumber(song.year());
+    case GroupBy::OriginalYearAlbum:
+    case GroupBy::OriginalYearAlbumDisc:
+      return SortTextForNumber(song.effective_originalyear());
+    case GroupBy::Samplerate:
+      return SortTextForNumber(song.samplerate());
+    case GroupBy::Bitdepth:
+      return SortTextForNumber(song.bitdepth());
+    case GroupBy::Bitrate:
+      return SortTextForNumber(song.bitrate());
+    case GroupBy::None:
+    case GroupBy::GroupByCount:
+      return QString();
   }
 
-  data->setUrls(urls);
-  data->name_for_new_playlist_ = PlaylistManager::GetNameForNewPlaylist(data->songs);
+  qLog(Error) << "Unknown GroupBy" << group_by << "for item" << sort_text;
 
-  return data;
+  return QString();
+
+}
+
+QString CollectionModel::DividerDisplayText(const GroupBy group_by, const QString &key) {
+
+  // Pretty display text for the dividers.
+
+  switch (group_by) {
+    case GroupBy::AlbumArtist:
+    case GroupBy::Artist:
+    case GroupBy::Album:
+    case GroupBy::AlbumDisc:
+    case GroupBy::Composer:
+    case GroupBy::Performer:
+    case GroupBy::Disc:
+    case GroupBy::Grouping:
+    case GroupBy::Genre:
+    case GroupBy::FileType:
+    case GroupBy::Format:
+      if (key == QStringLiteral("0")) return QStringLiteral("0-9");
+      return key.toUpper();
+
+    case GroupBy::YearAlbum:
+    case GroupBy::YearAlbumDisc:
+    case GroupBy::OriginalYearAlbum:
+    case GroupBy::OriginalYearAlbumDisc:
+      if (key == QStringLiteral("0000")) return tr("Unknown");
+      return key.toUpper();
+
+    case GroupBy::Year:
+    case GroupBy::OriginalYear:
+      if (key == QStringLiteral("0000")) return tr("Unknown");
+      return QString::number(key.toInt());  // To remove leading 0s
+
+    case GroupBy::Samplerate:
+      if (key == QStringLiteral("000")) return tr("Unknown");
+      return QString::number(key.toInt());  // To remove leading 0s
+
+    case GroupBy::Bitdepth:
+      if (key == QStringLiteral("000")) return tr("Unknown");
+      return QString::number(key.toInt());  // To remove leading 0s
+
+    case GroupBy::Bitrate:
+      if (key == QStringLiteral("000")) return tr("Unknown");
+      return QString::number(key.toInt());  // To remove leading 0s
+
+    case GroupBy::None:
+    case GroupBy::GroupByCount:
+      break;
+  }
+
+  qLog(Error) << "Unknown GroupBy" << group_by << "for divider key" << key;
+
+  return QString();
 
 }
 
@@ -1861,8 +1423,8 @@ bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem
 
 qint64 CollectionModel::MaximumCacheSize(Settings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default) {
 
-  qint64 size = s->value(QLatin1String(size_id), cache_size_default).toInt();
-  int unit = s->value(QLatin1String(size_unit_id), static_cast<int>(CollectionSettingsPage::CacheSizeUnit::MB)).toInt() + 1;
+  qint64 size = s->value(size_id, cache_size_default).toInt();
+  int unit = s->value(size_unit_id, static_cast<int>(CollectionSettingsPage::CacheSizeUnit::MB)).toInt() + 1;
 
   do {
     size *= 1024;
@@ -1876,9 +1438,7 @@ qint64 CollectionModel::MaximumCacheSize(Settings *s, const char *size_id, const
 void CollectionModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const {
 
   switch (item->type) {
-    case CollectionItem::Type_Container:{
-      const_cast<CollectionModel*>(this)->LazyPopulate(item);
-
+    case CollectionItem::Type::Container: {
       QList<CollectionItem*> children = item->children;
       std::sort(children.begin(), children.end(), std::bind(&CollectionModel::CompareItems, this, std::placeholders::_1, std::placeholders::_2));
 
@@ -1888,7 +1448,7 @@ void CollectionModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, Son
       break;
     }
 
-    case CollectionItem::Type_Song:
+    case CollectionItem::Type::Song:
       urls->append(item->metadata.url());
       if (!song_ids->contains(item->metadata.id())) {
         songs->append(item->metadata);
@@ -1919,42 +1479,6 @@ SongList CollectionModel::GetChildSongs(const QModelIndex &idx) const {
   return GetChildSongs(QModelIndexList() << idx);
 }
 
-void CollectionModel::SetFilterMode(CollectionFilterOptions::FilterMode filter_mode) {
-  filter_options_.set_filter_mode(filter_mode);
-  ResetAsync();
-}
-
-void CollectionModel::SetFilterAge(const int filter_age) {
-  filter_options_.set_max_age(filter_age);
-  ResetAsync();
-}
-
-void CollectionModel::SetFilterText(const QString &filter_text) {
-  filter_options_.set_filter_text(filter_text);
-  ResetAsync();
-}
-
-bool CollectionModel::canFetchMore(const QModelIndex &parent) const {
-
-  if (!parent.isValid()) return false;
-
-  CollectionItem *item = IndexToItem(parent);
-  return !item->lazy_loaded;
-
-}
-
-void CollectionModel::SetGroupBy(const Grouping g, const std::optional<bool> separate_albums_by_grouping) {
-
-  group_by_ = g;
-  if (separate_albums_by_grouping) {
-    separate_albums_by_grouping_ = separate_albums_by_grouping.value();
-  }
-
-  ResetAsync();
-  emit GroupingChanged(g, separate_albums_by_grouping_);
-
-}
-
 const CollectionModel::GroupBy &CollectionModel::Grouping::operator[](const int i) const {
 
   switch (i) {
@@ -1981,7 +1505,6 @@ CollectionModel::GroupBy &CollectionModel::Grouping::operator[](const int i) {
   return first;
 
 }
-
 
 void CollectionModel::TotalSongCountUpdatedSlot(const int count) {
 
@@ -2013,10 +1536,42 @@ void CollectionModel::ExpandAll(CollectionItem *item) const {
   if (!root_) return;
 
   if (!item) item = root_;
-  const_cast<CollectionModel*>(this)->LazyPopulate(item, false);
+
   for (CollectionItem *child : item->children) {
     ExpandAll(child);
   }
+
+}
+
+void CollectionModel::RowsInserted(const QModelIndex &parent, const int first, const int last) {
+
+  SongList songs;
+  for (int i = first; i <= last; i++) {
+    const QModelIndex idx = index(i, 0, parent);
+    if (!idx.isValid()) continue;
+    CollectionItem *item = IndexToItem(idx);
+    if (!item || item->type != CollectionItem::Type::Song) continue;
+    songs << item->metadata;
+  }
+
+  if (!songs.isEmpty()) {
+    emit SongsAdded(songs);
+  }
+
+}
+
+void CollectionModel::RowsRemoved(const QModelIndex &parent, const int first, const int last) {
+
+  SongList songs;
+  for (int i = first; i <= last; i++) {
+    const QModelIndex idx = index(i, 0, parent);
+    if (!idx.isValid()) continue;
+    CollectionItem *item = IndexToItem(idx);
+    if (!item || item->type != CollectionItem::Type::Song) continue;
+    songs << item->metadata;
+  }
+
+  emit SongsRemoved(songs);
 
 }
 
