@@ -63,8 +63,6 @@ ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *
       app_(app),
       album_icon_(IconLoader::Load("cdcase")) {
 
-  root_->lazy_loaded = true;
-
   cover_loader_options_.get_image_data_ = false;
   cover_loader_options_.scale_output_image_ = true;
   cover_loader_options_.pad_output_image_ = true;

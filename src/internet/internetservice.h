@@ -31,10 +31,10 @@
 #include "settings/settingsdialog.h"
 #include "internetsearchview.h"
 
-class QSortFilterProxyModel;
 class Application;
 class CollectionBackend;
 class CollectionModel;
+class CollectionFilter;
 
 class InternetService : public QObject {
   Q_OBJECT
@@ -67,9 +67,9 @@ class InternetService : public QObject {
   virtual CollectionModel *albums_collection_model() { return nullptr; }
   virtual CollectionModel *songs_collection_model() { return nullptr; }
 
-  virtual QSortFilterProxyModel *artists_collection_sort_model() { return nullptr; }
-  virtual QSortFilterProxyModel *albums_collection_sort_model() { return nullptr; }
-  virtual QSortFilterProxyModel *songs_collection_sort_model() { return nullptr; }
+  virtual CollectionFilter *artists_collection_filter_model() { return nullptr; }
+  virtual CollectionFilter *albums_collection_filter_model() { return nullptr; }
+  virtual CollectionFilter *songs_collection_filter_model() { return nullptr; }
 
  public slots:
   virtual void ShowConfig() {}

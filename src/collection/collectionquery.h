@@ -39,7 +39,6 @@ struct QueryOptions {
   // - use the all songs table
   // - use the duplicated songs view; by duplicated we mean those songs for which the (artist, album, title) tuple is found more than once in the songs table
   // - use the untagged songs view; by untagged we mean those for which at least one of the (artist, album, title) tags is empty
-  // Please note that additional filtering based on FTS table (the filter attribute) won't work in Duplicates and Untagged modes.
   enum QueryMode {
     QueryMode_All,
     QueryMode_Duplicates,
@@ -49,12 +48,6 @@ struct QueryOptions {
   QueryOptions();
 
   bool Matches(const Song &song) const;
-
-  QString filter() const { return filter_; }
-  void set_filter(const QString &filter) {
-    this->filter_ = filter;
-    this->query_mode_ = QueryMode_All;
-  }
 
   int max_age() const { return max_age_; }
   void set_max_age(int max_age) { this->max_age_ = max_age; }
@@ -73,7 +66,7 @@ struct QueryOptions {
 
 class CollectionQuery : public QSqlQuery {
  public:
-  explicit CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const QueryOptions &options = QueryOptions());
+  explicit CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QueryOptions &options = QueryOptions());
 
   // Sets contents of SELECT clause on the query (list of columns to get).
   void SetColumnSpec(const QString &spec) { column_spec_ = spec; }
@@ -102,7 +95,6 @@ class CollectionQuery : public QSqlQuery {
   QStringList where_clauses() const { return where_clauses_; }
   QVariantList bound_values() const { return bound_values_; }
   bool include_unavailable() const { return include_unavailable_; }
-  bool join_with_fts() const { return join_with_fts_; }
   bool duplicates_only() const { return duplicates_only_; }
   int limit() const { return limit_; }
 
@@ -111,7 +103,6 @@ class CollectionQuery : public QSqlQuery {
 
   QSqlDatabase db_;
   QString songs_table_;
-  QString fts_table_;
 
   QString column_spec_;
   QString order_by_;
@@ -119,7 +110,6 @@ class CollectionQuery : public QSqlQuery {
   QVariantList bound_values_;
 
   bool include_unavailable_;
-  bool join_with_fts_;
   bool duplicates_only_;
   int limit_;
 };

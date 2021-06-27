@@ -35,7 +35,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QSettings>
-#include <QSortFilterProxyModel>
 #include <QSslError>
 #include <QtDebug>
 
@@ -49,6 +48,7 @@
 #include "internet/internetsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
+#include "collection/collectionfilter.h"
 #include "qobuzservice.h"
 #include "qobuzurlhandler.h"
 #include "qobuzbaserequest.h"
@@ -68,10 +68,6 @@ const char *QobuzService::kArtistsSongsTable = "qobuz_artists_songs";
 const char *QobuzService::kAlbumsSongsTable = "qobuz_albums_songs";
 const char *QobuzService::kSongsTable = "qobuz_songs";
 
-const char *QobuzService::kArtistsSongsFtsTable = "qobuz_artists_songs_fts";
-const char *QobuzService::kAlbumsSongsFtsTable = "qobuz_albums_songs_fts";
-const char *QobuzService::kSongsFtsTable = "qobuz_songs_fts";
-
 QobuzService::QobuzService(Application *app, QObject *parent)
     : InternetService(Song::Source_Qobuz, "Qobuz", "qobuz", QobuzSettingsPage::kSettingsGroup, SettingsDialog::Page_Qobuz, app, parent),
       app_(app),
@@ -83,9 +79,9 @@ QobuzService::QobuzService(Application *app, QObject *parent)
       artists_collection_model_(nullptr),
       albums_collection_model_(nullptr),
       songs_collection_model_(nullptr),
-      artists_collection_sort_model_(new QSortFilterProxyModel(this)),
-      albums_collection_sort_model_(new QSortFilterProxyModel(this)),
-      songs_collection_sort_model_(new QSortFilterProxyModel(this)),
+      artists_collection_filter_model_(new CollectionFilter(this)),
+      albums_collection_filter_model_(new CollectionFilter(this)),
+      songs_collection_filter_model_(new CollectionFilter(this)),
       timer_search_delay_(new QTimer(this)),
       timer_login_attempt_(new QTimer(this)),
       favorite_request_(new QobuzFavoriteRequest(this, network_, this)),
@@ -111,37 +107,37 @@ QobuzService::QobuzService(Application *app, QObject *parent)
 
   artists_collection_backend_ = new CollectionBackend();
   artists_collection_backend_->moveToThread(app_->database()->thread());
-  artists_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kArtistsSongsTable, kArtistsSongsFtsTable);
+  artists_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kArtistsSongsTable);
 
   albums_collection_backend_ = new CollectionBackend();
   albums_collection_backend_->moveToThread(app_->database()->thread());
-  albums_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kAlbumsSongsTable, kAlbumsSongsFtsTable);
+  albums_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kAlbumsSongsTable);
 
   songs_collection_backend_ = new CollectionBackend();
   songs_collection_backend_->moveToThread(app_->database()->thread());
-  songs_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kSongsTable, kSongsFtsTable);
+  songs_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kSongsTable);
 
   artists_collection_model_ = new CollectionModel(artists_collection_backend_, app_, this);
   albums_collection_model_ = new CollectionModel(albums_collection_backend_, app_, this);
   songs_collection_model_ = new CollectionModel(songs_collection_backend_, app_, this);
 
-  artists_collection_sort_model_->setSourceModel(artists_collection_model_);
-  artists_collection_sort_model_->setSortRole(CollectionModel::Role_SortText);
-  artists_collection_sort_model_->setDynamicSortFilter(true);
-  artists_collection_sort_model_->setSortLocaleAware(true);
-  artists_collection_sort_model_->sort(0);
+  artists_collection_filter_model_->setSourceModel(artists_collection_model_);
+  artists_collection_filter_model_->setSortRole(CollectionModel::Role_SortText);
+  artists_collection_filter_model_->setDynamicSortFilter(true);
+  artists_collection_filter_model_->setSortLocaleAware(true);
+  artists_collection_filter_model_->sort(0);
 
-  albums_collection_sort_model_->setSourceModel(albums_collection_model_);
-  albums_collection_sort_model_->setSortRole(CollectionModel::Role_SortText);
-  albums_collection_sort_model_->setDynamicSortFilter(true);
-  albums_collection_sort_model_->setSortLocaleAware(true);
-  albums_collection_sort_model_->sort(0);
+  albums_collection_filter_model_->setSourceModel(albums_collection_model_);
+  albums_collection_filter_model_->setSortRole(CollectionModel::Role_SortText);
+  albums_collection_filter_model_->setDynamicSortFilter(true);
+  albums_collection_filter_model_->setSortLocaleAware(true);
+  albums_collection_filter_model_->sort(0);
 
-  songs_collection_sort_model_->setSourceModel(songs_collection_model_);
-  songs_collection_sort_model_->setSortRole(CollectionModel::Role_SortText);
-  songs_collection_sort_model_->setDynamicSortFilter(true);
-  songs_collection_sort_model_->setSortLocaleAware(true);
-  songs_collection_sort_model_->sort(0);
+  songs_collection_filter_model_->setSourceModel(songs_collection_model_);
+  songs_collection_filter_model_->setSortRole(CollectionModel::Role_SortText);
+  songs_collection_filter_model_->setDynamicSortFilter(true);
+  songs_collection_filter_model_->setSortLocaleAware(true);
+  songs_collection_filter_model_->sort(0);
 
   // Search
 

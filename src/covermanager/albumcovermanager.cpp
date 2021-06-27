@@ -896,7 +896,7 @@ SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &idx) const {
   QMutexLocker l(collection_backend_->db()->Mutex());
   QSqlDatabase db(collection_backend_->db()->Connect());
 
-  CollectionQuery q(db, collection_backend_->songs_table(), collection_backend_->fts_table());
+  CollectionQuery q(db, collection_backend_->songs_table());
   q.SetColumnSpec("ROWID," + Song::kColumnSpec);
   q.AddWhere("album", idx.data(Role_Album).toString());
   q.SetOrderBy("disc, track, title");

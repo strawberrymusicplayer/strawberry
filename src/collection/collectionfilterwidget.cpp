@@ -46,6 +46,7 @@
 #include "core/song.h"
 #include "core/logging.h"
 #include "collectionmodel.h"
+#include "collectionfilter.h"
 #include "collectionquery.h"
 #include "savedgroupingmanager.h"
 #include "collectionfilterwidget.h"
@@ -58,6 +59,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_CollectionFilterWidget),
       model_(nullptr),
+      filter_(nullptr),
       group_by_dialog_(new GroupByDialog),
       filter_delay_(new QTimer(this)),
       filter_applies_to_model_(true),
@@ -65,7 +67,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
   ui_->setupUi(this);
 
-  QString available_fields = Song::kFtsColumns.join(", ").replace(QRegularExpression("\\bfts"), "");
+  QString available_fields = Song::kSearchColumns.join(", ");
 
   ui_->search_field->setToolTip(
   QString("<html><head/><body><p>") +
@@ -143,7 +145,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
 CollectionFilterWidget::~CollectionFilterWidget() { delete ui_; }
 
-void CollectionFilterWidget::Init(CollectionModel *model) {
+void CollectionFilterWidget::Init(CollectionModel *model, CollectionFilter *filter) {
 
   if (model_) {
     QObject::disconnect(model_, nullptr, this, nullptr);
@@ -156,6 +158,7 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
   }
 
   model_ = model;
+  filter_ = filter;
 
   // Connect signals
   QObject::connect(model_, &CollectionModel::GroupingChanged, group_by_dialog_.get(), &GroupByDialog::CollectionGroupingChanged);
@@ -186,6 +189,10 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
     s.endGroup();
   }
 
+}
+
+void CollectionFilterWidget::setFilter(CollectionFilter *filter) {
+  filter_ = filter;
 }
 
 void CollectionFilterWidget::ReloadSettings() {
@@ -446,9 +453,6 @@ void CollectionFilterWidget::keyReleaseEvent(QKeyEvent *e) {
 
 void CollectionFilterWidget::FilterTextChanged(const QString &text) {
 
-  // Searching with one or two characters can be very expensive on the database even with FTS,
-  // so if there are a large number of songs in the database introduce a small delay before actually filtering the model,
-  // so if the user is typing the first few characters of something it will be quicker.
   const bool delay = (delay_behaviour_ == AlwaysDelayed) || (delay_behaviour_ == DelayedOnLargeLibraries && !text.isEmpty() && text.length() < 3 && model_->total_song_count() >= 100000);
 
   if (delay) {
@@ -463,9 +467,8 @@ void CollectionFilterWidget::FilterTextChanged(const QString &text) {
 
 void CollectionFilterWidget::FilterDelayTimeout() {
 
-  emit Filter(ui_->search_field->text());
   if (filter_applies_to_model_) {
-    model_->SetFilterText(ui_->search_field->text());
+    filter_->setFilterFixedString(ui_->search_field->text());
   }
 
 }

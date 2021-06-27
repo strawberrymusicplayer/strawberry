@@ -40,65 +40,12 @@
 
 QueryOptions::QueryOptions() : max_age_(-1), query_mode_(QueryMode_All) {}
 
-CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const QueryOptions &options)
+CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QueryOptions &options)
     : QSqlQuery(db),
       songs_table_(songs_table),
-      fts_table_(fts_table),
       include_unavailable_(false),
-      join_with_fts_(false),
       duplicates_only_(false),
       limit_(-1) {
-
-  if (!options.filter().isEmpty()) {
-    // We need to munge the filter text a little bit to get it to work as expected with sqlite's FTS5:
-    //  1) Append * to all tokens.
-    //  2) Prefix "fts" to column names.
-    //  3) Remove colons which don't correspond to column names.
-
-    // Split on whitespace
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-    QStringList tokens(options.filter().split(QRegularExpression("\\s+"), Qt::SkipEmptyParts));
-#else
-    QStringList tokens(options.filter().split(QRegularExpression("\\s+"), QString::SkipEmptyParts));
-#endif
-    QString query;
-    for (QString token : tokens) {
-      token.remove('(');
-      token.remove(')');
-      token.remove('"');
-      token.replace('-', ' ');
-
-      if (token.contains(':')) {
-        // Only prefix fts if the token is a valid column name.
-        if (Song::kFtsColumns.contains("fts" + token.section(':', 0, 0), Qt::CaseInsensitive)) {
-          // Account for multiple colons.
-          QString columntoken = token.section(':', 0, 0, QString::SectionIncludeTrailingSep);
-          QString subtoken = token.section(':', 1, -1);
-          subtoken.replace(":", " ");
-          subtoken = subtoken.trimmed();
-          if (!subtoken.isEmpty()) {
-            if (!query.isEmpty()) query.append(" ");
-            query += "fts" + columntoken + "\"" + subtoken + "\"*";
-          }
-        }
-        else {
-          token.replace(":", " ");
-          token = token.trimmed();
-          if (!query.isEmpty()) query.append(" ");
-          query += "\"" + token + "\"*";
-        }
-      }
-      else {
-        if (!query.isEmpty()) query.append(" ");
-        query += "\"" + token + "\"*";
-      }
-    }
-    if (!query.isEmpty()) {
-      where_clauses_ << "fts.%fts_table_noprefix MATCH ?";
-      bound_values_ << query;
-      join_with_fts_ = true;
-    }
-  }
 
   if (options.max_age() != -1) {
     qint64 cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - options.max_age();
@@ -107,12 +54,6 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
     bound_values_ << cutoff;
   }
 
-  // TODO: Currently you cannot use any QueryMode other than All and FTS at the same time.
-  // Joining songs, duplicated_songs and songs_fts all together takes a huge amount of time.
-  // The query takes about 20 seconds on my machine then. Why?
-  // Untagged mode could work with additional filtering but I'm disabling it just to be consistent
-  // this way filtering is available only in the All mode.
-  // Remember though that when you fix the Duplicates + FTS cooperation, enable the filtering in both Duplicates and Untagged modes.
   duplicates_only_ = options.query_mode() == QueryOptions::QueryMode_Duplicates;
 
   if (options.query_mode() == QueryOptions::QueryMode_Untagged) {
@@ -181,22 +122,13 @@ void CollectionQuery::AddWhereArtist(const QVariant &value) {
 
 void CollectionQuery::AddCompilationRequirement(const bool compilation) {
   // The unary + is added to prevent sqlite from using the index idx_comp_artist.
-  // When joining with fts, sqlite 3.8 has a tendency to use this index and thereby nesting the tables in an order which gives very poor performance
-
   where_clauses_ << QString("+compilation_effective = %1").arg(compilation ? 1 : 0);
 
 }
 
 bool CollectionQuery::Exec() {
 
-  QString sql;
-
-  if (join_with_fts_) {
-    sql = QString("SELECT %1 FROM %2 INNER JOIN %3 AS fts ON %2.ROWID = fts.ROWID").arg(column_spec_, songs_table_, fts_table_);
-  }
-  else {
-    sql = QString("SELECT %1 FROM %2 %3").arg(column_spec_, songs_table_, GetInnerQuery());
-  }
+  QString sql = QString("SELECT %1 FROM %2 %3").arg(column_spec_, songs_table_, GetInnerQuery());
 
   QStringList where_clauses(where_clauses_);
   if (!include_unavailable_) {
@@ -210,8 +142,6 @@ bool CollectionQuery::Exec() {
   if (limit_ != -1) sql += " LIMIT " + QString::number(limit_);
 
   sql.replace("%songs_table", songs_table_);
-  sql.replace("%fts_table_noprefix", fts_table_.section('.', -1, -1));
-  sql.replace("%fts_table", fts_table_);
 
   prepare(sql);
 
