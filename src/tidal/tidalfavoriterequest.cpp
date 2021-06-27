@@ -133,7 +133,7 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(api_url() + QString("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type));
+  QUrl url(kApiUrl + QString("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type));
   QNetworkRequest req(url);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -239,7 +239,7 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const QStrin
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(api_url() + QString("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type) + QString("/") + id);
+  QUrl url(kApiUrl + QString("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type) + QString("/") + id);
   url.setQuery(url_query);
   QNetworkRequest req(url);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)

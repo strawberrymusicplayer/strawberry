@@ -71,7 +71,6 @@ class TidalBaseRequest : public QObject {
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
   static QString ErrorsToHTML(const QStringList &errors);
 
-  QString api_url() { return QString(kApiUrl); }
   bool oauth() { return service_->oauth(); }
   QString client_id() { return service_->client_id(); }
   QString api_token() { return service_->api_token(); }
@@ -97,9 +96,10 @@ class TidalBaseRequest : public QObject {
  private slots:
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 
- private:
+ protected:
   static const char *kApiUrl;
 
+ private:
   TidalService *service_;
   NetworkAccessManager *network_;
 
