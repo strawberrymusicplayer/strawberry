@@ -34,9 +34,7 @@ class QPushButton;
 class QLabel;
 class QProgressBar;
 class QContextMenuEvent;
-class Application;
 class CollectionFilterWidget;
-class InternetService;
 
 class InternetCollectionViewContainer : public QWidget {
   Q_OBJECT
@@ -63,8 +61,6 @@ class InternetCollectionViewContainer : public QWidget {
 
  private:
   Ui_InternetCollectionViewContainer *ui_;
-  Application *app_;
-  InternetService *service_;
 
 };
 

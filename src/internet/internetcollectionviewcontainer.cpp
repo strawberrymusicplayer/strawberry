@@ -32,9 +32,7 @@
 
 InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent) :
   QWidget(parent),
-  ui_(new Ui_InternetCollectionViewContainer),
-  app_(nullptr),
-  service_(nullptr) {
+  ui_(new Ui_InternetCollectionViewContainer) {
 
   ui_->setupUi(this);
   view()->SetFilter(filter_widget());
