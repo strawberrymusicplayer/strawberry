@@ -1444,7 +1444,7 @@ void CollectionBackend::DeleteAll() {
 
 }
 
-SongList CollectionBackend::FindSongs(const SmartPlaylistSearch &search) {
+SongList CollectionBackend::SmartPlaylistsFindSongs(const SmartPlaylistSearch &search) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -1469,10 +1469,10 @@ SongList CollectionBackend::FindSongs(const SmartPlaylistSearch &search) {
 
 }
 
-SongList CollectionBackend::GetAllSongs() {
+SongList CollectionBackend::SmartPlaylistsGetAllSongs() {
 
   // Get all the songs!
-  return FindSongs(SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::Sort_FieldAsc, SmartPlaylistSearchTerm::Field_Artist, -1));
+  return SmartPlaylistsFindSongs(SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::Sort_FieldAsc, SmartPlaylistSearchTerm::Field_Artist, -1));
 
 }
 

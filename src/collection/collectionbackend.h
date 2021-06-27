@@ -193,8 +193,8 @@ class CollectionBackend : public CollectionBackendInterface {
 
   SongList GetSongsByFingerprint(const QString &fingerprint) override;
 
-  SongList GetAllSongs();
-  SongList FindSongs(const SmartPlaylistSearch &search);
+  SongList SmartPlaylistsGetAllSongs();
+  SongList SmartPlaylistsFindSongs(const SmartPlaylistSearch &search);
 
   Song::Source Source() const;
 
