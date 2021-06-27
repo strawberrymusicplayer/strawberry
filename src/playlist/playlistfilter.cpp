@@ -34,9 +34,8 @@
 PlaylistFilter::PlaylistFilter(QObject *parent)
     : QSortFilterProxyModel(parent),
       filter_tree_(new NopFilter),
-    query_hash_(0)
+      query_hash_(0) {
 
-{
   setDynamicSortFilter(true);
 
   column_names_["title"] = Playlist::Column_Title;

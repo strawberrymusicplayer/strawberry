@@ -548,8 +548,9 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       if (node->parent != root_) parents << node->parent;
 
       // Maybe consider its divider node
-      if (node->container_level == 0)
+      if (node->container_level == 0) {
         divider_keys << DividerKey(group_by_[0], node);
+      }
 
       // Special case the Various Artists node
       if (IsCompilationArtistNode(node)) {
@@ -1572,7 +1573,9 @@ void CollectionModel::FinishItem(const GroupBy type, const bool signal, const bo
 
   if (type == GroupBy_None) item->lazy_loaded = true;
 
-  if (signal) endInsertRows();
+  if (signal) {
+    endInsertRows();
+  }
 
   // Create the divider entry if we're supposed to
   if (create_divider && show_dividers_) {
@@ -1582,8 +1585,9 @@ void CollectionModel::FinishItem(const GroupBy type, const bool signal, const bo
     }
 
     if (!divider_key.isEmpty() && !divider_nodes_.contains(divider_key)) {
-      if (signal)
+      if (signal) {
         beginInsertRows(ItemToIndex(parent), parent->children.count(), parent->children.count());
+      }
 
       CollectionItem *divider = new CollectionItem(CollectionItem::Type_Divider, root_);
       divider->key = divider_key;
@@ -1593,7 +1597,9 @@ void CollectionModel::FinishItem(const GroupBy type, const bool signal, const bo
 
       divider_nodes_[divider_key] = divider;
 
-      if (signal) endInsertRows();
+      if (signal) {
+        endInsertRows();
+      }
     }
   }
 
@@ -1776,8 +1782,9 @@ void CollectionModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, Son
       QList<CollectionItem*> children = item->children;
       std::sort(children.begin(), children.end(), std::bind(&CollectionModel::CompareItems, this, std::placeholders::_1, std::placeholders::_2));
 
-      for (CollectionItem *child : children)
+      for (CollectionItem *child : children) {
         GetChildSongs(child, urls, songs, song_ids);
+      }
       break;
     }
 
