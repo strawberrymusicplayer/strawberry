@@ -46,13 +46,14 @@ class TidalStreamURLRequest : public TidalBaseRequest {
 
   void GetStreamURL();
   void Process();
-  void NeedLogin() override { need_login_ = true; }
   void Cancel();
 
   bool oauth() { return service_->oauth(); }
   TidalSettingsPage::StreamUrlMethod stream_url_method() { return service_->stream_url_method(); }
   QUrl original_url() { return original_url_; }
   int song_id() { return song_id_; }
+
+  void set_need_login() override { need_login_ = true; }
   bool need_login() { return need_login_; }
 
  signals:

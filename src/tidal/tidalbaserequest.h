@@ -92,8 +92,8 @@ class TidalBaseRequest : public QObject {
   int max_login_attempts() { return service_->max_login_attempts(); }
   int login_attempts() { return service_->login_attempts(); }
 
-  virtual void NeedLogin() = 0;
-  
+  virtual void set_need_login() = 0;
+
  private slots:
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 

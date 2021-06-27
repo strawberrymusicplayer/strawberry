@@ -48,8 +48,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   };
 
   bool need_login() { return need_login_; }
-
-  void NeedLogin() override { need_login_ = true; }
+  void set_need_login() override { need_login_ = true; }
 
  signals:
   void ArtistsAdded(SongList);

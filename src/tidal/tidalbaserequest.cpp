@@ -129,7 +129,7 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
         if (!oauth() && send_login && login_attempts() < max_login_attempts() && !api_token().isEmpty() && !username().isEmpty() && !password().isEmpty()) {
           qLog(Error) << "Tidal:" << error;
           qLog(Info) << "Tidal:" << "Attempting to login.";
-          NeedLogin();
+          set_need_login();
           emit service_->RequestLogin();  // clazy:exclude=incorrect-emit
         }
         else {

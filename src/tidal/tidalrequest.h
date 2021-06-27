@@ -56,7 +56,7 @@ class TidalRequest : public TidalBaseRequest {
   void ReloadSettings();
 
   void Process();
-  void NeedLogin() override { need_login_ = true; }
+  void set_need_login() override { need_login_ = true; }
   void Search(const int query_id, const QString &search_text);
 
  private:
