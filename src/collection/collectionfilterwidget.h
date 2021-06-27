@@ -58,6 +58,8 @@ class CollectionFilterWidget : public QWidget {
     AlwaysDelayed,
   };
 
+  void Init(CollectionModel *model);
+
   static QActionGroup *CreateGroupByActions(QObject *parent);
 
   void UpdateGroupByActions();
@@ -73,7 +75,6 @@ class CollectionFilterWidget : public QWidget {
 
   void SetSettingsGroup(const QString &group) { settings_group_ = group; }
   void SetSettingsPrefix(const QString &prefix) { settings_prefix_ = prefix; }
-  void SetCollectionModel(CollectionModel *model);
 
   QString group_by();
   QString group_by_version();

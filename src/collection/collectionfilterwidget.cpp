@@ -143,6 +143,51 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
 CollectionFilterWidget::~CollectionFilterWidget() { delete ui_; }
 
+void CollectionFilterWidget::Init(CollectionModel *model) {
+
+  if (model_) {
+    QObject::disconnect(model_, nullptr, this, nullptr);
+    QObject::disconnect(model_, nullptr, group_by_dialog_.get(), nullptr);
+    QObject::disconnect(group_by_dialog_.get(), nullptr, model_, nullptr);
+    QList<QAction*> filter_ages = filter_ages_.keys();
+    for (QAction *action : filter_ages) {
+      QObject::disconnect(action, &QAction::triggered, model_, nullptr);
+    }
+  }
+
+  model_ = model;
+
+  // Connect signals
+  QObject::connect(model_, &CollectionModel::GroupingChanged, group_by_dialog_.get(), &GroupByDialog::CollectionGroupingChanged);
+  QObject::connect(model_, &CollectionModel::GroupingChanged, this, &CollectionFilterWidget::GroupingChanged);
+  QObject::connect(group_by_dialog_.get(), &GroupByDialog::Accepted, model_, &CollectionModel::SetGroupBy);
+
+  QList<QAction*> filter_ages = filter_ages_.keys();
+  for (QAction *action : filter_ages) {
+    int age = filter_ages_[action];
+    QObject::connect(action, &QAction::triggered, [this, age]() { model_->SetFilterAge(age); } );
+  }
+
+  // Load settings
+  if (!settings_group_.isEmpty()) {
+    QSettings s;
+    s.beginGroup(settings_group_);
+    int version = 0;
+    if (s.contains(group_by_version())) version = s.value(group_by_version(), 0).toInt();
+    if (version == 1) {
+      model_->SetGroupBy(CollectionModel::Grouping(
+          CollectionModel::GroupBy(s.value(group_by(1), int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
+          CollectionModel::GroupBy(s.value(group_by(2), int(CollectionModel::GroupBy_AlbumDisc)).toInt()),
+          CollectionModel::GroupBy(s.value(group_by(3), int(CollectionModel::GroupBy_None)).toInt())));
+    }
+    else {
+      model_->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc, CollectionModel::GroupBy_None));
+    }
+    s.endGroup();
+  }
+
+}
+
 void CollectionFilterWidget::ReloadSettings() {
 
   QSettings s;
@@ -296,51 +341,6 @@ void CollectionFilterWidget::FocusOnFilter(QKeyEvent *event) {
 
   ui_->search_field->setFocus();
   QApplication::sendEvent(ui_->search_field, event);
-
-}
-
-void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
-
-  if (model_) {
-    QObject::disconnect(model_, nullptr, this, nullptr);
-    QObject::disconnect(model_, nullptr, group_by_dialog_.get(), nullptr);
-    QObject::disconnect(group_by_dialog_.get(), nullptr, model_, nullptr);
-    QList<QAction*> filter_ages = filter_ages_.keys();
-    for (QAction *action : filter_ages) {
-      QObject::disconnect(action, &QAction::triggered, model_, nullptr);
-    }
-  }
-
-  model_ = model;
-
-  // Connect signals
-  QObject::connect(model_, &CollectionModel::GroupingChanged, group_by_dialog_.get(), &GroupByDialog::CollectionGroupingChanged);
-  QObject::connect(model_, &CollectionModel::GroupingChanged, this, &CollectionFilterWidget::GroupingChanged);
-  QObject::connect(group_by_dialog_.get(), &GroupByDialog::Accepted, model_, &CollectionModel::SetGroupBy);
-
-  QList<QAction*> filter_ages = filter_ages_.keys();
-  for (QAction *action : filter_ages) {
-    int age = filter_ages_[action];
-    QObject::connect(action, &QAction::triggered, [this, age]() { model_->SetFilterAge(age); } );
-  }
-
-  // Load settings
-  if (!settings_group_.isEmpty()) {
-    QSettings s;
-    s.beginGroup(settings_group_);
-    int version = 0;
-    if (s.contains(group_by_version())) version = s.value(group_by_version(), 0).toInt();
-    if (version == 1) {
-      model_->SetGroupBy(CollectionModel::Grouping(
-          CollectionModel::GroupBy(s.value(group_by(1), int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-          CollectionModel::GroupBy(s.value(group_by(2), int(CollectionModel::GroupBy_AlbumDisc)).toInt()),
-          CollectionModel::GroupBy(s.value(group_by(3), int(CollectionModel::GroupBy_None)).toInt())));
-    }
-    else {
-      model_->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc, CollectionModel::GroupBy_None));
-    }
-    s.endGroup();
-  }
 
 }
 
