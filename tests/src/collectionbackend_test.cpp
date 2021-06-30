@@ -46,7 +46,7 @@ class CollectionBackendTest : public ::testing::Test {
   void SetUp() override {
     database_.reset(new MemoryDatabase(nullptr));
     backend_ = std::make_unique<CollectionBackend>();
-    backend_->Init(database_.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
+    backend_->Init(database_.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
   }
 
   static Song MakeDummySong(int directory_id) {

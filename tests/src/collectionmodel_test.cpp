@@ -49,14 +49,14 @@ class CollectionModelTest : public ::testing::Test {
 
  protected:
   void SetUp() override {
-    database_.reset(new MemoryDatabase(nullptr));
-    backend_.reset(new CollectionBackend);
-    backend_->Init(database_.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
-    model_.reset(new CollectionModel(backend_.get(), nullptr));
+    database_ = std::make_shared<MemoryDatabase>(nullptr);
+    backend_ = std::make_unique<CollectionBackend>();
+    backend_->Init(database_.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+    model_ = std::make_unique<CollectionModel>(backend_.get(), nullptr);
 
     added_dir_ = false;
 
-    model_sorted_.reset(new QSortFilterProxyModel);
+    model_sorted_ =  std::make_unique<QSortFilterProxyModel>();
     model_sorted_->setSourceModel(model_.get());
     model_sorted_->setSortRole(CollectionModel::Role_SortText);
     model_sorted_->setDynamicSortFilter(true);
@@ -558,18 +558,18 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
         std::unique_ptr<CollectionModel> model2;
         std::unique_ptr<CollectionModel> model3;
 
-        database1.reset(new MemoryDatabase(nullptr));
-        database2.reset(new MemoryDatabase(nullptr));
-        database3.reset(new MemoryDatabase(nullptr));
-        backend1.reset(new CollectionBackend);
-        backend2.reset(new CollectionBackend);
-        backend3.reset(new CollectionBackend);
-        backend1->Init(database1.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
-        backend2->Init(database2.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
-        backend3->Init(database3.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
-        model1.reset(new CollectionModel(backend1.get(), nullptr));
-        model2.reset(new CollectionModel(backend2.get(), nullptr));
-        model3.reset(new CollectionModel(backend3.get(), nullptr));
+        database1 = std::make_unique<MemoryDatabase>(nullptr);
+        database2 = std::make_unique<MemoryDatabase>(nullptr);
+        database3 = std::make_unique<MemoryDatabase>(nullptr);
+        backend1 = std::make_unique<CollectionBackend>();
+        backend2= std::make_unique<CollectionBackend>();
+        backend3 = std::make_unique<CollectionBackend>();
+        backend1->Init(database1.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+        backend2->Init(database2.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+        backend3->Init(database3.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+        model1 = std::make_unique<CollectionModel>(backend1.get(), nullptr);
+        model2 = std::make_unique<CollectionModel>(backend2.get(), nullptr);
+        model3 = std::make_unique<CollectionModel>(backend3.get(), nullptr);
 
         backend1->AddDirectory("/mnt/music");
         backend2->AddDirectory("/mnt/music");

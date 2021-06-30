@@ -174,7 +174,8 @@ void SystemTrayIcon::SetTrayiconProgress(const bool enabled) {
 
 void SystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) {
 
-  p_.reset(new MacSystemTrayIconPrivate());
+  p_ = std::make_unique<MacSystemTrayIconPrivate>();
+
   SetupMenuItem(previous);
   SetupMenuItem(play);
   SetupMenuItem(stop);

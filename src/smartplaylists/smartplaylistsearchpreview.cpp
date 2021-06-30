@@ -110,7 +110,7 @@ PlaylistItemList DoRunSearch(PlaylistGeneratorPtr gen) { return gen->Generate();
 
 void SmartPlaylistSearchPreview::RunSearch(const SmartPlaylistSearch &search) {
 
-  generator_.reset(new PlaylistQueryGenerator);
+  generator_ = std::make_shared<PlaylistQueryGenerator>();
   generator_->set_collection(backend_);
   std::dynamic_pointer_cast<PlaylistQueryGenerator>(generator_)->Load(search);
 
