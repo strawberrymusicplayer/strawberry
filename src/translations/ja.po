@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-06-20 05:04-0400\n"
+"PO-Revision-Date: 2021-06-30 12:55-0400\n"
 "Last-Translator: Miyazawa Satoshi <miyazawa.satoshi@gmail.com>\n"
 "Language-Team: Japanese\n"
 "Language: ja\n"
@@ -177,7 +177,7 @@ msgstr "%1 曲"
 #: device/deviceview.cpp:145
 #, qt-format
 msgid "%1 song%2"
-msgstr ""
+msgstr "%1 曲"
 
 #: context/contextview.cpp:463
 #, qt-format
@@ -199,12 +199,12 @@ msgstr "%1 曲が見つかりました( %2 を表示中)"
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
-msgstr ""
+msgstr "%2 個の異なるディレクトリにある %1 曲が選択されていますが、それらをすべて開いてもよろしいですか？"
 
 #: dialogs/edittagdialog.cpp:648
 #, qt-format
 msgid "%1 songs selected."
-msgstr "%1 曲が選択されました。"
+msgstr "%1 曲が選択されました"
 
 #: playlist/playlistmanager.cpp:479 queue/queue.cpp:255
 #, qt-format
@@ -337,7 +337,7 @@ msgstr "プロキシの手動構成(&M)"
 
 #: ../build/src/ui_mainwindow.h:716
 msgid "&Music"
-msgstr "ミュージック(&M)"
+msgstr "音楽(&M)"
 
 #: ../build/src/ui_mainwindow.h:695
 msgid "&Mute"
@@ -361,11 +361,11 @@ msgstr "なし(&N)"
 
 #: ../build/src/ui_mainwindow.h:665
 msgid "&Open file..."
-msgstr ""
+msgstr "ファイルを開く"
 
 #: ../build/src/ui_mainwindow.h:611
 msgid "&Play"
-msgstr ""
+msgstr "再生"
 
 #: ../build/src/ui_mainwindow.h:623
 msgid "&Quit"
@@ -377,7 +377,7 @@ msgstr "リピートモード(&R)"
 
 #: playlist/playlistheader.cpp:59
 msgid "&Reset columns to default"
-msgstr ""
+msgstr "列を既定値にリセット"
 
 #: playlist/playlistheader.cpp:68
 msgid "&Right"
@@ -385,7 +385,7 @@ msgstr "右揃え(&R)"
 
 #: ../build/src/ui_mainwindow.h:649
 msgid "&Settings..."
-msgstr ""
+msgstr "設定"
 
 #: ../build/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
@@ -393,7 +393,7 @@ msgstr "シャッフルモード(&S)"
 
 #: ../build/src/ui_mainwindow.h:615
 msgid "&Stop"
-msgstr ""
+msgstr "停止"
 
 #: playlist/playlistheader.cpp:58
 msgid "&Stretch columns to fit window"
@@ -405,23 +405,23 @@ msgstr "ツール(&T)"
 
 #: ../build/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
-msgstr ""
+msgstr "音楽を変換"
 
 #: ../build/src/ui_mainwindow.h:693
 msgid "&Update changed collection folders"
-msgstr ""
+msgstr "変更されたコレクションフォルダーの更新(&U)"
 
 #: ../build/src/ui_appearancesettingspage.h:594
 msgid "&Use the system default color"
-msgstr ""
+msgstr "システムの既定の色を使用する"
 
 #: ../build/src/ui_appearancesettingspage.h:587
 msgid "&Use the system default color set"
-msgstr ""
+msgstr "システムの既定の色設定を使用する"
 
 #: ../build/src/ui_networkproxysettingspage.h:171
 msgid "&Use the system proxy settings"
-msgstr ""
+msgstr "システムのプロキシー設定を使用する"
 
 #: ../build/src/ui_scrobblersettingspage.h:399
 msgid ""
@@ -461,7 +461,7 @@ msgstr "40%"
 
 #: smartplaylists/smartplaylistsmodel.cpp:76
 msgid "50 random tracks"
-msgstr ""
+msgstr "ランダムな 50 トラック"
 
 #: ../build/src/ui_edittagdialog.h:793 ../build/src/ui_edittagdialog.h:819
 msgid ""
@@ -498,19 +498,20 @@ msgid ""
 "There are different types of smart playlist that offer different ways of "
 "selecting songs."
 msgstr ""
+"スマートプレイリストは、コレクションから一定の作成される動的なプレイリストです。さまざまな選曲方法を提供する異なるタイプのスマートプレイリストがあります。"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
-msgstr ""
+msgstr "これらの条件に一致する曲がプレイリストに含まれます"
 
 #: ../build/src/ui_playlistsettingspage.h:176
 msgid "A&utomatic"
-msgstr ""
+msgstr "自動"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: ../build/src/ui_transcodersettingspage.h:192
 msgid "AAC"
@@ -518,15 +519,15 @@ msgstr "AAC"
 
 #: ../build/src/ui_backendsettingspage.h:543
 msgid "ALSA plugin:"
-msgstr ""
+msgstr "ALSA プラグイン"
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
-msgstr ""
+msgstr "API トークン"
 
 #: ../build/src/ui_transcodersettingspage.h:193
 msgid "ASF (WMA)"
-msgstr ""
+msgstr "ASF (WMA)"
 
 #: covermanager/albumcovermanager.cpp:145
 #: covermanager/albumcoversearcher.cpp:196
@@ -536,7 +537,7 @@ msgstr "中止"
 
 #: ../build/src/ui_mainwindow.h:700
 msgid "Abort collection scan"
-msgstr ""
+msgstr "コレクションのスキャンの中止"
 
 #: ../build/src/ui_about.h:151
 msgid "About"
@@ -930,7 +931,7 @@ msgstr "クリップ防止のために音量を制限する"
 
 #: dialogs/deleteconfirmationdialog.cpp:69
 msgid "Are you sure you want to continue?"
-msgstr ""
+msgstr "本当に続行しますか?"
 
 #: equalizer/equalizer.cpp:227
 #, qt-format
@@ -943,11 +944,11 @@ msgstr "この曲の統計をリセットしてもよろしいですか?"
 
 #: ../build/src/ui_edittagdialog.h:813
 msgid "Art Automatic"
-msgstr ""
+msgstr "自動アート"
 
 #: ../build/src/ui_edittagdialog.h:810
 msgid "Art Manual"
-msgstr ""
+msgstr "手動アート"
 
 #: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1313
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
@@ -964,16 +965,16 @@ msgstr "アーティストの頭文字"
 
 #: ../build/src/ui_internettabsview.h:113
 msgid "Artists"
-msgstr ""
+msgstr "アーティスト"
 
 #: ../build/src/ui_tidalsettingspage.h:332
 #: ../build/src/ui_qobuzsettingspage.h:283
 msgid "Artists search limit"
-msgstr ""
+msgstr "アーティスト検索の制限"
 
 #: ../build/src/ui_playlistsettingspage.h:179
 msgid "As&k when saving"
-msgstr ""
+msgstr "保存時に確認する(&K)"
 
 #: ../build/src/ui_transcodedialog.h:227
 #: ../build/src/ui_qobuzsettingspage.h:280
@@ -986,11 +987,11 @@ msgstr "オーディオ出力"
 
 #: ../build/src/ui_tidalsettingspage.h:329
 msgid "Audio quality"
-msgstr ""
+msgstr "音質"
 
 #: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:252
 msgid "Authenticating..."
-msgstr ""
+msgstr "認証中..."
 
 #: ../build/src/ui_coverssettingspage.h:167
 #: ../build/src/ui_lyricssettingspage.h:167
@@ -998,7 +999,7 @@ msgstr ""
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:273
 msgid "Authentication"
-msgstr ""
+msgstr "認証"
 
 #: settings/coverssettingspage.cpp:272 settings/lyricssettingspage.cpp:252
 #: settings/tidalsettingspage.cpp:216 settings/qobuzsettingspage.cpp:172
@@ -1007,7 +1008,7 @@ msgstr "認証に失敗しました"
 
 #: dialogs/about.cpp:143
 msgid "Author and maintainer"
-msgstr ""
+msgstr "作者とメンテナー"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:225
 msgid "Auto"
@@ -1032,19 +1033,19 @@ msgstr "下位カテゴリが 1 つしかないときは、ライブラリツリ
 
 #: ../build/src/ui_contextsettingspage.h:445
 msgid "Automatically search for album cover"
-msgstr ""
+msgstr "アルバムカバーの自動検索"
 
 #: context/contextview.cpp:341 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
-msgstr ""
+msgstr "歌詞の自動検索"
 
 #: ../build/src/ui_playlistsettingspage.h:171
 msgid "Automatically select current playing track"
-msgstr ""
+msgstr "再生中の曲の自動選択"
 
 #: ../build/src/ui_playlistsettingspage.h:174
 msgid "Automatically sort playlist when inserting songs"
-msgstr ""
+msgstr "曲を挿入時にプレイリストを自動的に並べ替える"
 
 #: widgets/freespacebar.cpp:67
 msgid "Available"
@@ -1052,7 +1053,7 @@ msgstr "空き"
 
 #: collection/collectionfilterwidget.cpp:82
 msgid "Available fields"
-msgstr ""
+msgstr "利用可能なフィールド"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:221
 msgid "Average bitrate"
@@ -1064,7 +1065,7 @@ msgstr "平均画像サイズ"
 
 #: ../build/src/ui_backendsettingspage.h:537
 msgid "Backend"
-msgstr ""
+msgstr "バックエンド"
 
 #: ../build/src/ui_notificationssettingspage.h:499
 msgid "Background color"
@@ -1159,7 +1160,7 @@ msgstr "参照..."
 
 #: ../build/src/ui_backendsettingspage.h:550
 msgid "Buffer"
-msgstr ""
+msgstr "バッファ"
 
 #: ../build/src/ui_backendsettingspage.h:552
 msgid "Buffer duration"
@@ -1171,11 +1172,11 @@ msgstr "バッファ中"
 
 #: ../build/src/ui_mainwindow.h:668
 msgid "C&onsole"
-msgstr ""
+msgstr "コンソール"
 
 #: core/songloader.cpp:191
 msgid "CD playback is only available with the GStreamer engine."
-msgstr ""
+msgstr "CD の再生は GStreamer エンジンでのみ使用できます"
 
 #: ../build/src/ui_scrobblersettingspage.h:406
 msgid "CDDA"
@@ -1183,15 +1184,15 @@ msgstr "オーディオ CD"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: tidal/tidalstreamurlrequest.cpp:108 qobuz/qobuzstreamurlrequest.cpp:103
 msgid "Cancelled."
-msgstr ""
+msgstr "キャンセルされました。"
 
 #: ../build/src/ui_edittagdialog.h:817
 msgid "Change art"
-msgstr ""
+msgstr "アートの変更"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:284
 msgid "Change shortcut..."
@@ -1211,7 +1212,7 @@ msgstr "更新のチェック..."
 
 #: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Choose a name for your smart playlist"
-msgstr ""
+msgstr "スマートプレイリスト名の変更"
 
 #: ../build/src/ui_notificationssettingspage.h:502
 msgid "Choose color..."
@@ -1260,11 +1261,11 @@ msgstr "プレイリストをクリア"
 
 #: dialogs/about.cpp:161
 msgid "Clementine authors"
-msgstr ""
+msgstr "Clementine の作者"
 
 #: dialogs/about.cpp:170
 msgid "Clementine contributors"
-msgstr ""
+msgstr "Clementine への貢献者"
 
 #: collection/collectionview.cpp:321
 msgid "Click here to add some music"
@@ -1280,7 +1281,7 @@ msgstr "ここをクリックすると、残り時間と合計時間の表示を
 
 #: ../build/src/ui_tidalsettingspage.h:323
 msgid "Client ID"
-msgstr ""
+msgstr "クライアント ID"
 
 #: ../build/src/ui_lastfmimportdialog.h:156
 #: ../build/src/ui_internetcollectionviewcontainer.h:138
@@ -1399,7 +1400,7 @@ msgstr "曲が見つからない場合にプレイリストの次のアイテム
 
 #: dialogs/about.cpp:152
 msgid "Contributors"
-msgstr "コントリビューター"
+msgstr "貢献者"
 
 #: ../build/src/ui_deviceproperties.h:380
 msgid "Convert all music"
@@ -1520,11 +1521,11 @@ msgstr ""
 
 #: ../build/src/ui_coverssettingspage.h:163
 msgid "Cover providers"
-msgstr ""
+msgstr "カバー提供者"
 
 #: ../build/src/ui_coverssettingspage.h:162
 msgid "Covers"
-msgstr ""
+msgstr "カバー"
 
 #: covermanager/albumcoversearcher.cpp:130
 #: covermanager/coversearchstatisticsdialog.cpp:75
@@ -1614,7 +1615,7 @@ msgstr "カスタム"
 
 #: ../build/src/ui_appearancesettingspage.h:633
 msgid "Custom color"
-msgstr ""
+msgstr "カスタム色"
 
 #: ../build/src/ui_appearancesettingspage.h:607
 msgid "Custom image:"
@@ -1626,7 +1627,7 @@ msgstr "カスタムメッセージの設定"
 
 #: ../build/src/ui_contextsettingspage.h:432
 msgid "Custom text settings"
-msgstr ""
+msgstr "カスタムテキスト設定"
 
 #: ../build/src/ui_notificationssettingspage.h:506
 msgid "Custom..."
@@ -1634,7 +1635,7 @@ msgstr "カスタム..."
 
 #: device/udisks2lister.cpp:116
 msgid "D-Bus path"
-msgstr ""
+msgstr "D-Bus パス"
 
 #: equalizer/equalizer.cpp:140
 msgid "Dance"
@@ -1642,7 +1643,7 @@ msgstr "ダンス"
 
 #: core/database.cpp:508
 msgid "Database corruption detected."
-msgstr ""
+msgstr "データベースの不整合が検出されました。"
 
 #: playlist/playlist.cpp:1339 ../build/src/ui_edittagdialog.h:806
 msgid "Date created"
@@ -1654,11 +1655,11 @@ msgstr "更新日時"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:434
 msgid "Days"
-msgstr ""
+msgstr "日"
 
 #: core/commandlineoptions.cpp:176
 msgid "Decrease the volume by 4 percent"
-msgstr ""
+msgstr "音量を 4% 下げる"
 
 #: core/commandlineoptions.cpp:178
 msgid "Decrease the volume by <value> percent"
@@ -1666,11 +1667,11 @@ msgstr "音量を <value> % 下げる"
 
 #: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
-msgstr ""
+msgstr "既定の背景(&K)"
 
 #: ../build/src/ui_backendsettingspage.h:555
 msgid "Defaults"
-msgstr ""
+msgstr "デフォルト"
 
 #: playlist/playlistlistcontainer.cpp:87
 #: ../build/src/ui_playlistlistcontainer.h:131
@@ -1679,7 +1680,7 @@ msgstr "削除"
 
 #: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Delete cover"
-msgstr ""
+msgstr "カバーを削除"
 
 #: dialogs/deleteconfirmationdialog.cpp:42 device/deviceview.cpp:428
 msgid "Delete files"
@@ -1701,7 +1702,7 @@ msgstr "プリセットの削除"
 #: smartplaylists/smartplaylistsviewcontainer.cpp:82
 #: ../build/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
-msgstr ""
+msgstr "スマートプレイリストを削除"
 
 #: ../build/src/ui_organizedialog.h:270
 msgid "Delete the original files"
@@ -1743,7 +1744,7 @@ msgstr "デバイスのプロパティ..."
 
 #: core/mainwindow.cpp:347
 msgid "Devices"
-msgstr ""
+msgstr "デバイス"
 
 #: dialogs/edittagdialog.cpp:100
 msgid "Different art across multiple songs."
@@ -1838,7 +1839,7 @@ msgstr "曲をダブルクリックした場合..."
 msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
-msgstr ""
+msgstr "このプレイリストを左側のサイドバーの\"プレイリスト\"からアクセスできるようにするにはここをダブルクリックします。"
 
 #: ../build/src/ui_subsonicsettingspage.h:204
 #: ../build/src/ui_tidalsettingspage.h:335
@@ -1929,7 +1930,7 @@ msgstr "イコライザーを有効にする"
 
 #: ../build/src/ui_notificationssettingspage.h:508
 msgid "Enable fading"
-msgstr ""
+msgstr "フェーディングを有効にする"
 
 #: ../build/src/ui_playlistsettingspage.h:172
 msgid "Enable playlist clear button"
@@ -2036,7 +2037,7 @@ msgstr "エラー"
 #: device/mtploader.cpp:68
 #, qt-format
 msgid "Error connecting MTP device %1"
-msgstr ""
+msgstr "MTP デバイス %1 の接続エラー"
 
 #: organize/organizeerrordialog.cpp:72
 msgid "Error copying songs"
@@ -2053,23 +2054,23 @@ msgstr "%1 の処理エラー: %2"
 
 #: playlist/songloaderinserter.cpp:113
 msgid "Error while loading audio CD."
-msgstr ""
+msgstr "音楽 CD を読み込み中にエラーが発生しました"
 
 #: device/cddasongloader.cpp:115 device/cddasongloader.cpp:124
 msgid "Error while querying CDDA tracks."
-msgstr ""
+msgstr "CDDAトラック取得中にエラーが発生しました"
 
 #: device/cddasongloader.cpp:103
 msgid "Error while setting CDDA device to pause state."
-msgstr ""
+msgstr "CDDA デバイスを一時停止中にエラーが発生しました"
 
 #: device/cddasongloader.cpp:95
 msgid "Error while setting CDDA device to ready state."
-msgstr ""
+msgstr "CDDA デバイスを準備中にエラーが発生しました"
 
 #: smartplaylists/smartplaylistsmodel.cpp:82
 msgid "Ever played"
-msgstr ""
+msgstr "再生済み"
 
 #: ../build/src/ui_backendsettingspage.h:569
 msgid "Except between tracks on the same album or in the same CUE sheet"
@@ -2081,7 +2082,7 @@ msgstr "既存のカバー"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
-msgstr ""
+msgstr "展開"
 
 #: ../build/src/ui_collectionsettingspage.h:482
 msgid "Expire unavailable songs after"
@@ -2174,7 +2175,7 @@ msgstr "速"
 
 #: smartplaylists/smartplaylistsmodel.cpp:106
 msgid "Favourite tracks"
-msgstr ""
+msgstr "お気に入りのトラック"
 
 #: ../build/src/ui_albumcovermanager.h:222
 msgid "Fetch Missing Covers"
@@ -2190,7 +2191,7 @@ msgstr "取得完了"
 
 #: ../build/src/ui_tidalsettingspage.h:336
 msgid "Fetch entire albums when searching songs"
-msgstr ""
+msgstr "曲検索時にアルバム全体を取得する"
 
 #: covermanager/coverfromurldialog.cpp:91
 #: covermanager/coverfromurldialog.cpp:105
@@ -2200,7 +2201,7 @@ msgstr "カバーの取得エラー"
 #: core/song.cpp:1082
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
-msgstr ""
+msgstr "ファイル %1 は正常な音声ファイルではありません"
 
 #: organize/organizedialog.cpp:121
 msgid "File extension"
@@ -2242,7 +2243,7 @@ msgstr "ファイル名:"
 
 #: core/mainwindow.cpp:345
 msgid "Files"
-msgstr ""
+msgstr "ファイル"
 
 #: ../build/src/ui_transcodedialog.h:216
 msgid "Files to transcode"
@@ -2254,11 +2255,11 @@ msgstr ""
 
 #: context/contextview.cpp:216
 msgid "Filetype"
-msgstr ""
+msgstr "ファイルタイプ"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:99
 msgid "Find songs in your collection that match the criteria you specify."
-msgstr ""
+msgstr "指定した条件でコレクションを検索します"
 
 #: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
@@ -2266,7 +2267,7 @@ msgstr "曲の特徴を検出しています"
 
 #: smartplaylists/smartplaylistwizard.cpp:86
 msgid "Finish"
-msgstr ""
+msgstr "終了"
 
 #: collection/savedgroupingmanager.cpp:58 ../build/src/ui_groupbydialog.h:182
 msgid "First level"
@@ -2279,20 +2280,20 @@ msgstr "カバーの大きさを幅に合わせる"
 #: ../build/src/ui_contextsettingspage.h:448
 #: ../build/src/ui_contextsettingspage.h:453
 msgid "Font"
-msgstr ""
+msgstr "フォント"
 
 #: ../build/src/ui_contextsettingspage.h:452
 msgid "Font for data and lyrics"
-msgstr ""
+msgstr "データと歌詞のフォント"
 
 #: ../build/src/ui_contextsettingspage.h:447
 msgid "Font for headline"
-msgstr ""
+msgstr "ヘッドラインのフォント"
 
 #: ../build/src/ui_contextsettingspage.h:449
 #: ../build/src/ui_contextsettingspage.h:454
 msgid "Font size"
-msgstr ""
+msgstr "フォントサイズ"
 
 #: dialogs/snapdialog.cpp:56
 #, qt-format
@@ -2301,7 +2302,7 @@ msgstr ""
 
 #: dialogs/snapdialog.cpp:64
 msgid "For a better experience please consider the other options above."
-msgstr ""
+msgstr "より良い体験のために、上記の他のオプションを検討してください"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:201
 msgid "Force mono encoding"
@@ -2344,7 +2345,7 @@ msgstr "フォーム"
 #: collection/savedgroupingmanager.cpp:133 ../build/src/ui_groupbydialog.h:189
 #: ../build/src/ui_groupbydialog.h:211 ../build/src/ui_groupbydialog.h:233
 msgid "Format"
-msgstr ""
+msgstr "形式"
 
 #: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
@@ -2356,7 +2357,7 @@ msgstr "バッファーあたりのフレーム数"
 
 #: moodbar/moodbarrenderer.cpp:175
 msgid "Frozen"
-msgstr ""
+msgstr "凍結"
 
 #: equalizer/equalizer.cpp:141
 msgid "Full Bass"
@@ -2380,7 +2381,7 @@ msgstr "全般設定"
 
 #: lyrics/geniuslyricsprovider.cpp:126
 msgid "Genius Authentication"
-msgstr ""
+msgstr "Genius 認証"
 
 #: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1320
 #: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:190
@@ -2391,7 +2392,7 @@ msgstr "ジャンル"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:265
 msgid "Global Shortcuts"
-msgstr ""
+msgstr "グローバルショートカット"
 
 #: ../build/src/ui_mainwindow.h:691
 msgid "Go to next playlist tab"
@@ -2403,7 +2404,7 @@ msgstr "前のプレイリストタブへ"
 
 #: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr ""
+msgstr "Go!"
 
 #: covermanager/albumcovermanager.cpp:570
 #: covermanager/coversearchstatisticsdialog.cpp:69
@@ -2414,11 +2415,11 @@ msgstr "%2 個中 %1 個のカバーを取得しました (%3 個失敗しまし
 
 #: ../build/src/ui_playlistsettingspage.h:169
 msgid "Grey out unavailable songs in playlists on playback"
-msgstr ""
+msgstr "再生時にプレイリスト内の利用できない曲をグレーアウトする"
 
 #: ../build/src/ui_playlistsettingspage.h:170
 msgid "Grey out unavailable songs in playlists on startup"
-msgstr ""
+msgstr "起動時にプレイリストで利用できない曲をグレーアウトする"
 
 #: ../build/src/ui_groupbydialog.h:181
 msgid "Group Collection by..."
@@ -2435,23 +2436,23 @@ msgstr "アルバムでグループ化"
 
 #: collection/collectionfilterwidget.cpp:261
 msgid "Group by Album Artist"
-msgstr ""
+msgstr "アーティストでアルバムをグループ化"
 
 #: collection/collectionfilterwidget.cpp:248
 msgid "Group by Album artist/Album"
-msgstr "アーティスト/アルバムでグループ化"
+msgstr "アーティスト/アルバムでアルバムをグループ化"
 
 #: collection/collectionfilterwidget.cpp:249
 msgid "Group by Album artist/Album - Disc"
-msgstr ""
+msgstr "アーティスト/アルバム - ディスクでアルバムをグループ化"
 
 #: collection/collectionfilterwidget.cpp:250
 msgid "Group by Album artist/Year - Album"
-msgstr ""
+msgstr "アーティスト/年 - アルバムでアルバムをグループ化"
 
 #: collection/collectionfilterwidget.cpp:251
 msgid "Group by Album artist/Year - Album - Disc"
-msgstr ""
+msgstr "アーティスト/年 - アルバム - ディスクでアルバムをグループ化"
 
 #: collection/collectionfilterwidget.cpp:262
 msgid "Group by Artist"
@@ -2463,7 +2464,7 @@ msgstr "アーティスト/アルバムでグループ化"
 
 #: collection/collectionfilterwidget.cpp:254
 msgid "Group by Artist/Album - Disc"
-msgstr ""
+msgstr "アーティスト/アルバム - ディスクでグループ化"
 
 #: collection/collectionfilterwidget.cpp:255
 msgid "Group by Artist/Year - Album"
@@ -2471,7 +2472,7 @@ msgstr "アーティスト/年 - アルバムでグループ化"
 
 #: collection/collectionfilterwidget.cpp:256
 msgid "Group by Artist/Year - Album - Disc"
-msgstr ""
+msgstr "アーティスト/年 - アルバム - ディスクでグループ化"
 
 #: collection/collectionfilterwidget.cpp:265
 msgid "Group by Genre/Album"
@@ -2479,7 +2480,7 @@ msgstr "ジャンル/アルバムでグループ化"
 
 #: collection/collectionfilterwidget.cpp:258
 msgid "Group by Genre/Album artist/Album"
-msgstr ""
+msgstr "ジャンル/アルバム、アーティスト/アルバムでグループ化"
 
 #: collection/collectionfilterwidget.cpp:259
 msgid "Group by Genre/Artist/Album"
@@ -2506,7 +2507,7 @@ msgstr "HTTP プロキシ"
 
 #: moodbar/moodbarrenderer.cpp:177
 msgid "Happy"
-msgstr ""
+msgstr "Happy"
 
 #: ../build/src/ui_deviceproperties.h:372
 msgid "Hardware information"
@@ -2522,7 +2523,7 @@ msgstr "ヘルプ"
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
-msgstr ""
+msgstr "メインウィンドウを隠す"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "High"
@@ -2539,7 +2540,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "Hours"
-msgstr ""
+msgstr "時間"
 
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
@@ -2547,7 +2548,7 @@ msgstr "アイコン"
 
 #: ../build/src/ui_appearancesettingspage.h:624
 msgid "Icon sizes"
-msgstr ""
+msgstr "アイコンサイズ"
 
 #: widgets/fancytabwidget.cpp:720
 msgid "Icons on top"
@@ -2573,7 +2574,7 @@ msgstr "続行すると、このデバイスは低速で動作しコピーされ
 msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
-msgstr ""
+msgstr "もし Strawberry が気に入って利用する場合は、後援または寄付を検討してください"
 
 #: covermanager/albumcoverchoicecontroller.cpp:75
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2585,15 +2586,15 @@ msgstr "画像 (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
 #: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
-msgstr ""
+msgstr "last.fm からデータをインポート"
 
 #: ../build/src/ui_mainwindow.h:714
 msgid "Import data from last.fm..."
-msgstr ""
+msgstr "last.fm からデータをインポート中..."
 
 #: ../build/src/ui_transcodedialog.h:225
 msgid "Import..."
-msgstr ""
+msgstr "インポート中..."
 
 #: core/utilities.cpp:178
 #, qt-format
@@ -2609,7 +2610,7 @@ msgstr "%1 週以内"
 msgid ""
 "In dynamic mode new tracks will be chosen and added to the playlist every "
 "time a song finishes."
-msgstr ""
+msgstr "ダイナミックモードでは曲が終了するたびに新しいトラックが選択され、プレイリストに追加されます"
 
 #: ../build/src/ui_notificationssettingspage.h:490
 msgid "Include album art in the notification"
@@ -2617,11 +2618,11 @@ msgstr "通知にアルバムアートを含める"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
-msgstr ""
+msgstr "すべての曲を含む"
 
 #: core/commandlineoptions.cpp:175
 msgid "Increase the volume by 4 percent"
-msgstr ""
+msgstr "音量を 4% 上げる"
 
 #: core/commandlineoptions.cpp:177
 msgid "Increase the volume by <value> percent"
@@ -2645,7 +2646,7 @@ msgstr "整合性の検査"
 
 #: ../build/src/ui_internetsearchview.h:223
 msgid "Internet Search View"
-msgstr ""
+msgstr "インターネット検索ビュー"
 
 #: ../build/src/ui_internettabsview.h:112
 msgid "Internet Tabs View"
@@ -2657,7 +2658,7 @@ msgstr "イントロ再生"
 
 #: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
-msgstr ""
+msgstr "ブラウザからの不正な応答 トークンがありません"
 
 #: dialogs/about.cpp:114
 msgid ""
@@ -2675,7 +2676,7 @@ msgstr "すぐに、前の曲にジャンプする"
 
 #: ../build/src/ui_appearancesettingspage.h:618
 msgid "Keep aspect ratio"
-msgstr ""
+msgstr "縦横比を維持"
 
 #: ../build/src/ui_behavioursettingspage.h:281
 msgid "Keep running in the background when the window is closed"
@@ -2718,7 +2719,7 @@ msgstr "最後に再生"
 #: dialogs/lastfmimportdialog.cpp:156
 #, qt-format
 msgid "Last played for %1 songs received."
-msgstr ""
+msgstr "最近再生した %1 曲を受信しました"
 
 #: ../build/src/ui_scrobblersettingspage.h:412
 msgid "Last.fm"
@@ -2743,11 +2744,11 @@ msgstr "Libre.fm"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:137
 msgid "Limits"
-msgstr ""
+msgstr "制限"
 
 #: scrobbler/listenbrainzscrobbler.cpp:180
 msgid "ListenBrainz Authentication"
-msgstr ""
+msgstr "ListenBrainz 認証"
 
 #: ../build/src/ui_scrobblersettingspage.h:419
 msgid "Listenbrainz"
@@ -2818,7 +2819,7 @@ msgstr "ファイル・URL を読み込んで、現在のプレイリストを�
 
 #: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Local file"
-msgstr ""
+msgstr "ローカルファイル"
 
 #: ../build/src/ui_scrobblersettingspage.h:415
 #: ../build/src/ui_scrobblersettingspage.h:418
@@ -2836,7 +2837,7 @@ msgstr "Long Term Prediction プロファイル (LTP)"
 
 #: ../build/src/ui_mainwindow.h:631
 msgid "Love"
-msgstr ""
+msgstr "Love"
 
 #: analyzer/analyzercontainer.cpp:77
 #, qt-format
@@ -2907,7 +2908,7 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:616
 msgid "Max cover size"
-msgstr ""
+msgstr "最大カバーサイズ"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:205
 msgid "Maximum bitrate"
@@ -2915,7 +2916,7 @@ msgstr "最高ビットレート"
 
 #: qobuz/qobuzservice.cpp:465
 msgid "Maximum number of login attempts reached."
-msgstr ""
+msgstr "ログイン試行数が最大数に達しました"
 
 #: analyzer/analyzercontainer.cpp:78
 #, qt-format
@@ -2928,7 +2929,7 @@ msgstr "メタデータ"
 
 #: ../build/src/ui_appearancesettingspage.h:612
 msgid "Middle"
-msgstr ""
+msgstr "中央"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:202
 msgid "Minimum bitrate"
@@ -2936,67 +2937,67 @@ msgstr "最低ビットレート"
 
 #: settings/tidalsettingspage.cpp:166
 msgid "Missing API token."
-msgstr ""
+msgstr "API トークンがありません"
 
 #: qobuz/qobuzservice.cpp:717 qobuz/qobuzstreamurlrequest.cpp:84
 msgid "Missing Qobuz app ID or secret."
-msgstr ""
+msgstr "Qobuz app ID またはシークレットがありません"
 
 #: qobuz/qobuzservice.cpp:469 qobuz/qobuzservice.cpp:498
 #: qobuz/qobuzservice.cpp:553 qobuz/qobuzservice.cpp:606
 #: qobuz/qobuzservice.cpp:671
 msgid "Missing Qobuz app ID."
-msgstr ""
+msgstr "Qobuz app ID がありません"
 
 #: qobuz/qobuzservice.cpp:477
 msgid "Missing Qobuz password."
-msgstr ""
+msgstr "Qobuz パスワードがありません"
 
 #: qobuz/qobuzservice.cpp:473
 msgid "Missing Qobuz username."
-msgstr ""
+msgstr "Qobuz ユーザー名がありません"
 
 #: subsonic/subsonicurlhandler.cpp:45
 msgid "Missing Subsonic username or password."
-msgstr ""
+msgstr "Subsonic ユーザー名またはシークレットがありません"
 
 #: tidal/tidalservice.cpp:740 tidal/tidalservice.cpp:799
 #: tidal/tidalservice.cpp:856 tidal/tidalservice.cpp:921
 #: tidal/tidalservice.cpp:981 tidal/tidalstreamurlrequest.cpp:90
 msgid "Missing Tidal API token, username or password."
-msgstr ""
+msgstr "Tidal API トークン、ユーザー名またはパスワードがありません"
 
 #: tidal/tidalservice.cpp:701
 msgid "Missing Tidal API token."
-msgstr ""
+msgstr "Tidal API トークンがありません"
 
 #: settings/tidalsettingspage.cpp:159
 msgid "Missing Tidal client ID."
-msgstr ""
+msgstr "Tidal Client ID がありません"
 
 #: tidal/tidalservice.cpp:709
 msgid "Missing Tidal password."
-msgstr ""
+msgstr "Tidal パスワードがありません"
 
 #: tidal/tidalservice.cpp:705
 msgid "Missing Tidal username."
-msgstr ""
+msgstr "Tidal ユーザー名がありません"
 
 #: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
-msgstr ""
+msgstr "app id がありません"
 
 #: settings/tidalsettingspage.cpp:174 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
-msgstr ""
+msgstr "パスワードがありません"
 
 #: settings/subsonicsettingspage.cpp:112
 msgid "Missing server url, username or password."
-msgstr ""
+msgstr "サーバーの URL、ユーザー名またはパスワードがありません"
 
 #: subsonic/subsonicservice.cpp:423
 msgid "Missing username or password."
-msgstr ""
+msgstr "ユーザー名またはパスワードがありません"
 
 #: scrobbler/lastfmimport.cpp:218
 msgid "Missing username, please login to last.fm first!"
@@ -3004,7 +3005,7 @@ msgstr ""
 
 #: settings/tidalsettingspage.cpp:170 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
-msgstr ""
+msgstr "ユーザー名がありません"
 
 #: device/deviceproperties.cpp:175
 msgid "Model"
@@ -3016,20 +3017,20 @@ msgstr "ライブラリの変更を監視する"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:438
 msgid "Months"
-msgstr ""
+msgstr "月"
 
 #: playlist/playlist.cpp:1343
 msgid "Mood"
-msgstr ""
+msgstr "ムード"
 
 #: ../build/src/ui_moodbarsettingspage.h:92
 #: ../build/src/ui_moodbarsettingspage.h:93
 msgid "Moodbar"
-msgstr ""
+msgstr "ムードバー"
 
 #: moodbar/moodbarproxystyle.cpp:379 ../build/src/ui_moodbarsettingspage.h:95
 msgid "Moodbar style"
-msgstr ""
+msgstr "ムードバーのスタイル"
 
 #: smartplaylists/smartplaylistsmodel.cpp:100
 msgid "Most played"
@@ -3089,7 +3090,7 @@ msgstr "なし"
 
 #: smartplaylists/smartplaylistsmodel.cpp:88
 msgid "Never played"
-msgstr ""
+msgstr "未再生"
 
 #: ../build/src/ui_behavioursettingspage.h:296
 #: ../build/src/ui_behavioursettingspage.h:310
@@ -3107,11 +3108,11 @@ msgstr "新しいプレイリスト"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
-msgstr ""
+msgstr "新しいスマートプレイリスト"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:68
 msgid "New smart playlist..."
-msgstr ""
+msgstr "新しいスマートプレイリスト..."
 
 #: widgets/freespacebar.cpp:68
 msgid "New songs"
@@ -3119,11 +3120,11 @@ msgstr "新しい曲"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
-msgstr ""
+msgstr "新しいトラックは自動的に追加されます"
 
 #: smartplaylists/smartplaylistsmodel.cpp:69
 msgid "Newest tracks"
-msgstr ""
+msgstr "新しい順"
 
 #: dialogs/edittagdialog.cpp:218 dialogs/trackselectiondialog.cpp:73
 msgid "Next"
@@ -3147,7 +3148,7 @@ msgstr "長いブロックなし"
 
 #: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1318
 msgid "No match."
-msgstr ""
+msgstr "見つかりません"
 
 #: playlist/playlistcontainer.cpp:423
 msgid ""
@@ -3156,7 +3157,7 @@ msgstr "見つかりません。再びプレイリスト全体を表示するに
 
 #: settings/coverssettingspage.cpp:197 settings/lyricssettingspage.cpp:187
 msgid "No provider selected."
-msgstr ""
+msgstr "プロバイダーが選択されていません"
 
 #: ../build/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
@@ -3164,7 +3165,7 @@ msgstr "短いブロックなし"
 
 #: context/contextview.cpp:459
 msgid "No song playing"
-msgstr ""
+msgstr "曲が再生されていません"
 
 #: collection/savedgroupingmanager.cpp:82 dialogs/edittagdialog.cpp:757
 #: dialogs/edittagdialog.cpp:767 ../build/src/ui_groupbydialog.h:183
@@ -3188,7 +3189,7 @@ msgstr "通常ブロックタイプ"
 #: qobuz/qobuzservice.cpp:503 qobuz/qobuzservice.cpp:558
 #: qobuz/qobuzservice.cpp:611
 msgid "Not authenticated with Qobuz."
-msgstr ""
+msgstr "Qobuz で認証されませんでした"
 
 #: tidal/tidalservice.cpp:713
 msgid ""
@@ -3199,7 +3200,7 @@ msgstr ""
 #: tidal/tidalservice.cpp:851 tidal/tidalservice.cpp:916
 #: tidal/tidalservice.cpp:977 tidal/tidalstreamurlrequest.cpp:86
 msgid "Not authenticated with Tidal."
-msgstr ""
+msgstr "Tidal で認証されませんでした"
 
 #: device/deviceview.cpp:130
 msgid "Not connected"
@@ -3246,11 +3247,11 @@ msgstr "オン"
 
 #: ../build/src/ui_behavioursettingspage.h:285
 msgid "On startup"
-msgstr ""
+msgstr "起動時"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:139
 msgid "Only show the first"
-msgstr ""
+msgstr "最初だけ表示"
 
 #: ../build/src/ui_appearancesettingspage.h:622
 msgid "Opacity"
@@ -3258,7 +3259,7 @@ msgstr "不透明度"
 
 #: scrobbler/scrobblingapi20.cpp:167
 msgid "Open URL in web browser?"
-msgstr ""
+msgstr "ブラウザで開きますか?"
 
 #: transcoder/transcodedialog.cpp:350
 msgid "Open a directory to import music from"
@@ -3266,7 +3267,7 @@ msgstr "音楽を取り込むディレクトリを開く"
 
 #: ../build/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
-msgstr ""
+msgstr "音楽CDを開く(&C)"
 
 #: ../build/src/ui_deviceproperties.h:383
 msgid "Open device"
@@ -3288,11 +3289,11 @@ msgstr "開く..."
 
 #: ../build/src/ui_transcoderoptionsmp3.h:192
 msgid "Opti&mize for bitrate"
-msgstr ""
+msgstr "ビットレートで最適化(&m)"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Optimize for &quality"
-msgstr ""
+msgstr "音質で最適化(&q)"
 
 #: ../build/src/ui_transcodedialog.h:228
 msgid "Options..."
@@ -3304,16 +3305,16 @@ msgstr "Opus"
 
 #: ../build/src/ui_organizedialog.h:266
 msgid "Organize Files"
-msgstr ""
+msgstr "ファイルを管理"
 
 #: core/mainwindow.cpp:711 context/contextalbumsview.cpp:270
 #: collection/collectionview.cpp:352
 msgid "Organize files..."
-msgstr ""
+msgstr "ファイルを管理..."
 
 #: organize/organize.cpp:107
 msgid "Organizing files"
-msgstr ""
+msgstr "ファイルを管理中"
 
 #: dialogs/trackselectiondialog.cpp:195
 msgid "Original tags"
@@ -3332,7 +3333,7 @@ msgstr "元の年 - アルバム"
 
 #: collection/savedgroupingmanager.cpp:106
 msgid "Original year - Album - Disc"
-msgstr ""
+msgstr "元の年 - アルバム - ディスク"
 
 #: core/commandlineoptions.cpp:188
 msgid "Other options"
@@ -3349,7 +3350,7 @@ msgstr "出力のオプション"
 
 #: ../build/src/ui_collectionsettingspage.h:502
 msgid "Overwrite existing file"
-msgstr ""
+msgstr "既存ファイルを上書きする"
 
 #: ../build/src/ui_organizedialog.h:284
 msgid "Overwrite existing files"
@@ -3361,7 +3362,7 @@ msgstr ""
 
 #: ../build/src/ui_mainwindow.h:717
 msgid "P&laylist"
-msgstr ""
+msgstr "プレイリスト(&l)"
 
 #: device/udisks2lister.cpp:119
 msgid "Partition label"
@@ -3381,11 +3382,11 @@ msgstr "パスワード"
 
 #: ../build/src/ui_edittagdialog.h:807
 msgid "Path"
-msgstr ""
+msgstr "パス"
 
 #: ../build/src/ui_collectionsettingspage.h:499
 msgid "Pattern"
-msgstr ""
+msgstr "パターン"
 
 #: core/mainwindow.cpp:1272 core/mainwindow.cpp:1759
 #: core/qtsystemtrayicon.cpp:146
@@ -3435,7 +3436,7 @@ msgstr "再生回数"
 
 #: core/commandlineoptions.cpp:187
 msgid "Play given playlist"
-msgstr ""
+msgstr "プレイリストを再生する"
 
 #: core/commandlineoptions.cpp:169
 msgid "Play if stopped, pause if playing"
@@ -3448,7 +3449,7 @@ msgstr "再生中の曲がない場合は再生する"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:76
 msgid "Play next"
-msgstr ""
+msgstr "次を再生"
 
 #: core/commandlineoptions.cpp:186
 msgid "Play the <n>th track in the playlist"
@@ -3462,7 +3463,7 @@ msgstr ""
 #: dialogs/lastfmimportdialog.cpp:159
 #, qt-format
 msgid "Playcounts for %1 songs received."
-msgstr "％1曲の再生回数を受信しました。"
+msgstr "%1 曲の再生回数を受信しました。"
 
 #: core/commandlineoptions.cpp:167
 msgid "Player options"
@@ -3565,7 +3566,7 @@ msgstr ""
 
 #: core/songloader.cpp:152
 msgid "Preload function was not set for blocking operation."
-msgstr ""
+msgstr "ブロッキング操作にプリロード機能が設定されていません"
 
 #: ../build/src/ui_equalizer.h:167
 msgid "Preset:"
@@ -3575,7 +3576,7 @@ msgstr "プリセット:"
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
-msgstr ""
+msgstr "\"保存\"を押してURLをクリップボードにコピーし、Webブラウザで手動で開きます"
 
 #: ../build/src/ui_globalshortcutgrabber.h:68
 msgid "Press a key"
@@ -3637,6 +3638,8 @@ msgid ""
 "Qobuz support is not official and requires an API app ID and secret from a "
 "registered application to work. We can't help you getting these."
 msgstr ""
+"Qobuz のサポートは公式ではなく、利用するには API app ID "
+"と登録済みアプリケーションのシークレットが必要です。私たちはあなたがこれらを手に入れるのを手伝うことはできません。"
 
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
@@ -3676,7 +3679,7 @@ msgstr "トラックをキューに追加"
 
 #: ../build/src/ui_queueview.h:123
 msgid "QueueView"
-msgstr ""
+msgstr "キュービュー"
 
 #: ../build/src/ui_backendsettingspage.h:559
 msgid "Radio (equal loudness for all tracks)"
@@ -3708,6 +3711,8 @@ msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
 msgstr ""
+"Web ブラウザから無効な返信を受け取りました。 HTTPS オプションを試すか、Chromium や Chrome "
+"などの別のブラウザを使用してください。"
 
 #: dialogs/lastfmimportdialog.cpp:73
 msgid "Receiving initial data from last.fm..."
@@ -3730,15 +3735,15 @@ msgstr ""
 
 #: lyrics/geniuslyricsprovider.cpp:206
 msgid "Redirect from Genius is missing query items code or state."
-msgstr ""
+msgstr "Genius からのリダイレクトにクエリアイテムのコードまたは状態がありません。"
 
 #: covermanager/spotifycoverprovider.cpp:191
 msgid "Redirect missing token code or state!"
-msgstr ""
+msgstr "不足しているトークンコードまたは状態をリダイレクトしてください！"
 
 #: lyrics/geniuslyricsprovider.cpp:150 scrobbler/listenbrainzscrobbler.cpp:202
 msgid "Redirect missing token code!"
-msgstr ""
+msgstr "不足しているトークンコードをリダイレクトしてください！"
 
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
@@ -3854,7 +3859,7 @@ msgstr "再生ゲインモード"
 
 #: tidal/tidalservice.cpp:362
 msgid "Reply from Tidal is missing query items."
-msgstr ""
+msgstr "Tidal からの返信にクエリアイテムがありません。"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:108
 msgid "Repopulate"
@@ -3878,7 +3883,7 @@ msgstr "再生回数のリセット"
 
 #: core/commandlineoptions.cpp:191
 msgid "Resize the window"
-msgstr ""
+msgstr "このウィンドウの大きさを変える"
 
 #: ../build/src/ui_behavioursettingspage.h:302
 msgid "Restart song, then jump to previous if pressed again"
@@ -3946,7 +3951,7 @@ msgstr "アルバム %1 から曲を取得..."
 
 #: tidal/tidalrequest.cpp:245 qobuz/qobuzrequest.cpp:228
 msgid "Retrieving songs..."
-msgstr ""
+msgstr "曲を取得..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
@@ -4068,7 +4073,7 @@ msgstr "Scrobbler"
 #: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
-msgstr ""
+msgstr "Scrobbler %1 のエラー: %2"
 
 #: scrobbler/scrobblingapi20.cpp:541
 #, qt-format
@@ -4180,7 +4185,7 @@ msgstr "サーバーURLが不正です。"
 
 #: ../build/src/ui_subsonicsettingspage.h:205
 msgid "Server-side scrobbling"
-msgstr ""
+msgstr "サーバーサイドの scrobbling"
 
 #: core/mainwindow.cpp:1901
 #, qt-format
@@ -4201,7 +4206,7 @@ msgstr "設定"
 
 #: ../build/src/ui_appearancesettingspage.h:585
 msgid "Settings require restart."
-msgstr ""
+msgstr "設定には再起動が必要です"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:278
 msgid "Shortcut"
@@ -4227,7 +4232,7 @@ msgstr "現在のトラックを光らせるアニメーションを表示する
 
 #: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
-msgstr ""
+msgstr "プログレスバー内にムードバーを表示"
 
 #: ../build/src/ui_notificationssettingspage.h:487
 msgid "Show a notification when I change the repeat/shuffle mode"
@@ -4243,7 +4248,7 @@ msgstr "ポーズした際に通知を表示する"
 
 #: ../build/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I resume playback"
-msgstr ""
+msgstr "再生再開時に通知を表示する"
 
 #: ../build/src/ui_notificationssettingspage.h:481
 msgid "Show a popup fro&m the system tray"
@@ -4464,7 +4469,7 @@ msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
 "(whichever occurs earlier)."
-msgstr ""
+msgstr "有効なメタデータで30秒以上ある曲で、再生時間が少なくとも半分または4分間（どちらか早い方）になると、曲は Scrobble されます。"
 
 #: ../build/src/ui_tidalsettingspage.h:334
 #: ../build/src/ui_qobuzsettingspage.h:285
@@ -4481,7 +4486,7 @@ msgstr "曲を並べ替え"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:134
 msgid "Sorting"
-msgstr ""
+msgstr "整列"
 
 #: playlist/playlist.cpp:1342
 msgid "Source"
@@ -4493,7 +4498,7 @@ msgstr "Speex"
 
 #: covermanager/spotifycoverprovider.cpp:146
 msgid "Spotify Authentication"
-msgstr ""
+msgstr "Spotify 認証"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Standard"
@@ -4530,12 +4535,12 @@ msgstr "再生の停止"
 
 #: core/commandlineoptions.cpp:171
 msgid "Stop playback after current track"
-msgstr ""
+msgstr "現在のトラック後に停止"
 
 #: osd/osdbase.cpp:267
 #, qt-format
 msgid "Stop playing after track: %1"
-msgstr "現在のトラック後に停止: %1"
+msgstr "このトラック後に停止: %1"
 
 #: osd/osdbase.cpp:254 osd/osdbase.cpp:257
 msgid "Stopped"
@@ -4569,22 +4574,22 @@ msgstr "Strawberry はトラックの変更時にメッセージを表示でき�
 
 #: dialogs/about.cpp:112
 msgid "Strawberry is a music player and music collection organizer."
-msgstr ""
+msgstr "Strawberry は、音楽プレーヤーおよび音楽コレクションのオーガナイザーです。"
 
 #: dialogs/about.cpp:118
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
 "on %1"
-msgstr ""
+msgstr "Strawberry は、GPL の下でリリースされた自由ソフトウェアです。ソースコードは %1 で入手できます。"
 
 #: dialogs/snapdialog.cpp:40
 msgid "Strawberry is running as a Snap"
-msgstr ""
+msgstr "Strawberry は Snap として実行されています"
 
 #: ../build/src/ui_snapdialog.h:117
 msgid "Strawberry is running as a snap"
-msgstr ""
+msgstr "Strawberry は Snap として実行されています"
 
 #: dialogs/snapdialog.cpp:48
 msgid ""
@@ -4592,6 +4597,8 @@ msgid ""
 "the root filesystem (/) will not work. There also might be other "
 "restrictions such as accessing certain devices or network shares."
 msgstr ""
+"Strawberry はスナップとして実行する場合、遅く、制限があります。ルートファイルシステム ( /) "
+"へのアクセスはできません。特定のデバイスやネットワーク共有へのアクセスなど、他の制限もある場合があります。"
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Strawberry was unable to find results for this file"
@@ -4616,7 +4623,7 @@ msgstr ""
 #: ../build/src/ui_appearancesettingspage.h:582
 #: ../build/src/ui_appearancesettingspage.h:583
 msgid "Style"
-msgstr ""
+msgstr "スタイル"
 
 #: ../build/src/ui_scrobblersettingspage.h:396
 msgid "Submit scrobbles every"
@@ -4629,7 +4636,7 @@ msgstr "Subsonic"
 
 #: subsonic/subsonicurlhandler.cpp:41
 msgid "Subsonic server URL is invalid."
-msgstr ""
+msgstr "Subsonic サーバーの URL が不正です"
 
 #: ../data/html/oauthsuccess.html:36
 msgid "Success!"
@@ -4661,15 +4668,15 @@ msgstr "サポートされている形式"
 
 #: moodbar/moodbarrenderer.cpp:179
 msgid "System colors"
-msgstr ""
+msgstr "システムの色"
 
 #: ../build/src/ui_appearancesettingspage.h:632
 msgid "System highlight color"
-msgstr ""
+msgstr "システムのハイライト色"
 
 #: ../build/src/ui_appearancesettingspage.h:593
 msgid "Tabbar colors"
-msgstr ""
+msgstr "Tabbar の色"
 
 #: ../build/src/ui_appearancesettingspage.h:626
 msgid "Tabbar large mode"
@@ -4689,7 +4696,7 @@ msgstr "タグ取得ツール"
 
 #: ../build/src/ui_edittagdialog.h:838
 msgid "Tags"
-msgstr ""
+msgstr "タグ"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
@@ -4697,7 +4704,7 @@ msgstr "目標ビットレート"
 
 #: ../build/src/ui_contextsettingspage.h:441
 msgid "Technical Data"
-msgstr ""
+msgstr "技術データ"
 
 #: equalizer/equalizer.cpp:154
 msgid "Techno"
@@ -4705,15 +4712,15 @@ msgstr "テクノ"
 
 #: ../build/src/ui_subsonicsettingspage.h:200
 msgid "Test"
-msgstr ""
+msgstr "テスト"
 
 #: settings/subsonicsettingspage.cpp:151
 msgid "Test failed!"
-msgstr ""
+msgstr "テスト失敗!"
 
 #: settings/subsonicsettingspage.cpp:142
 msgid "Test successful!"
-msgstr ""
+msgstr "テスト成功!"
 
 #: ../build/src/ui_notificationssettingspage.h:500
 msgid "Text options"
@@ -4721,7 +4728,7 @@ msgstr "文字のオプション"
 
 #: dialogs/about.cpp:179
 msgid "Thanks to"
-msgstr ""
+msgstr "ありがとうございます"
 
 #: dialogs/about.cpp:187
 msgid "Thanks to all the other Amarok and Clementine contributors."
@@ -4936,7 +4943,7 @@ msgstr "トランスコードのオプション"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
-msgstr ""
+msgstr "オフにする"
 
 #: device/giolister.cpp:187
 msgid "URI"
@@ -5025,11 +5032,11 @@ msgstr "使用量"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:266
 msgid "Use Gnome (GSD) shortcuts when available"
-msgstr ""
+msgstr "可能なら Gnome (GSD) のショートカットを使用する"
 
 #: ../build/src/ui_subsonicsettingspage.h:202
 msgid "Use HTTP2 when possible"
-msgstr ""
+msgstr "可能なら HTTP2 を使用する"
 
 #: ../build/src/ui_scrobblersettingspage.h:414
 msgid "Use HTTPS for local redirectserver"
@@ -5037,11 +5044,11 @@ msgstr ""
 
 #: ../build/src/ui_globalshortcutssettingspage.h:270
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr ""
+msgstr "可能なら KDE (KGlobalAccel) のショートカットを使用する"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:268
 msgid "Use MATE shortcuts when available"
-msgstr ""
+msgstr "可能なら MATE のショートカットを使用する"
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
@@ -5061,7 +5068,7 @@ msgstr ""
 
 #: ../build/src/ui_globalshortcutssettingspage.h:271
 msgid "Use X11 shortcuts when available"
-msgstr ""
+msgstr "可能なら X11 のショートカットを使用する"
 
 #: ../build/src/ui_appearancesettingspage.h:588
 msgid "Use a custom color set"
@@ -5085,23 +5092,23 @@ msgstr "ビットレート管理エンジンを使用する"
 
 #: ../build/src/ui_appearancesettingspage.h:595
 msgid "Use custom color"
-msgstr ""
+msgstr "カスタム色"
 
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:81
 msgid "Use dynamic mode"
-msgstr ""
+msgstr "ダイナミックモード"
 
 #: ../build/src/ui_appearancesettingspage.h:596
 msgid "Use gradient background"
-msgstr ""
+msgstr "背景"
 
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
-msgstr ""
+msgstr "ストリーミングプロキシ設定"
 
 #: ../build/src/ui_appearancesettingspage.h:584
 msgid "Use system theme icons"
-msgstr ""
+msgstr "システムのテーマアイコンを使用する"
 
 #: ../build/src/ui_transcoderoptionsaac.h:140
 msgid "Use temporal noise shaping"
@@ -5121,7 +5128,7 @@ msgstr "ユーザーインターフェース"
 
 #: ../build/src/ui_scrobblersettingspage.h:421
 msgid "User token:"
-msgstr ""
+msgstr "ユーザートークン:"
 
 #: ../build/src/ui_networkproxysettingspage.h:179
 #: ../build/src/ui_userpassdialog.h:91
@@ -5154,7 +5161,7 @@ msgstr "さまざまなアーティスト"
 
 #: ../build/src/ui_subsonicsettingspage.h:203
 msgid "Verify server certificate"
-msgstr ""
+msgstr "サーバー証明書の検証"
 
 #: dialogs/about.cpp:108
 #, qt-format
@@ -5192,11 +5199,11 @@ msgstr ""
 
 #: ../build/src/ui_transcodersettingspage.h:188
 msgid "WavPack"
-msgstr ""
+msgstr "WavPack"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "Weeks"
-msgstr ""
+msgstr "週"
 
 #: ../build/src/ui_collectionsettingspage.h:486
 msgid ""
@@ -5253,11 +5260,11 @@ msgstr "年 - アルバム"
 #: collection/savedgroupingmanager.cpp:100 ../build/src/ui_groupbydialog.h:193
 #: ../build/src/ui_groupbydialog.h:215 ../build/src/ui_groupbydialog.h:237
 msgid "Year - Album - Disc"
-msgstr ""
+msgstr "年 - アルバム - ディスク"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:440
 msgid "Years"
-msgstr ""
+msgstr "年"
 
 #: core/utilities.cpp:163
 msgid "Yesterday"
@@ -5337,7 +5344,7 @@ msgstr "ライブラリは空です!"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:412
 msgid "Z-A"
-msgstr ""
+msgstr "Z-A"
 
 #: equalizer/equalizer.cpp:155
 msgid "Zero"
@@ -5351,27 +5358,27 @@ msgstr "%n 曲の追加"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:237
 msgid "after"
-msgstr ""
+msgstr "の後"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:273
 msgid "ago"
-msgstr ""
+msgstr "前"
 
 #: ../build/src/ui_internetsearchview.h:226
 msgid "albums"
-msgstr ""
+msgstr "アルバム"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
-msgstr ""
+msgstr "かつ"
 
 #: collection/collectionfilterwidget.cpp:75
 msgid "artist"
-msgstr ""
+msgstr "アーティスト"
 
 #: ../build/src/ui_internetsearchview.h:225
 msgid "artists"
-msgstr ""
+msgstr "アーティスト"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:219
 msgid "automatic"
@@ -5379,27 +5386,27 @@ msgstr "自動"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:239
 msgid "before"
-msgstr ""
+msgstr "以前"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:249
 msgid "between"
-msgstr ""
+msgstr "の間"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:419
 msgid "biggest first"
-msgstr ""
+msgstr "降順"
 
 #: ../build/src/ui_backendsettingspage.h:549
 msgid "channels"
-msgstr ""
+msgstr "チャネル"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "contains"
-msgstr ""
+msgstr "含む"
 
 #: ../build/src/ui_collectionsettingspage.h:483
 msgid "days"
-msgstr ""
+msgstr "日"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:203
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
@@ -5414,31 +5421,31 @@ msgstr "ディスク %1"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:259
 msgid "does not contain"
-msgstr ""
+msgstr "含まない"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:273
 msgid "empty"
-msgstr ""
+msgstr "空"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:263
 msgid "ends with"
-msgstr ""
+msgstr "で終わる"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:269
 msgid "equals"
-msgstr ""
+msgstr "等しい"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:265
 msgid "greater than"
-msgstr ""
+msgstr "より大きい"
 
 #: ../build/src/ui_backendsettingspage.h:544
 msgid "hw"
-msgstr ""
+msgstr "hw"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:245
 msgid "in the last"
-msgstr ""
+msgstr "最後の時間"
 
 #: context/contextview.cpp:547 context/contextview.cpp:698
 #: playlist/playlistview.cpp:266 dialogs/edittagdialog.cpp:734
@@ -5447,11 +5454,11 @@ msgstr "kbps"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:267
 msgid "less than"
-msgstr ""
+msgstr "より小さい"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:416
 msgid "longest first"
-msgstr ""
+msgstr "最長優先"
 
 #: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
@@ -5498,7 +5505,7 @@ msgstr "オプション"
 
 #: ../build/src/ui_backendsettingspage.h:545
 msgid "p&lughw"
-msgstr ""
+msgstr "p&lughw"
 
 #: ../build/src/ui_backendsettingspage.h:546
 msgid "pcm"
