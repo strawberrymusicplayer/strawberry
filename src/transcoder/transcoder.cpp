@@ -411,7 +411,7 @@ void Transcoder::JobState::ReportError(GstMessage *msg) const {
 
 bool Transcoder::StartJob(const Job &job) {
 
-  std::shared_ptr<JobState> state(new JobState(job, this));
+  std::shared_ptr<JobState> state = std::make_shared<JobState>(job, this);
 
   emit LogLine(tr("Starting %1").arg(QDir::toNativeSeparators(job.input)));
 

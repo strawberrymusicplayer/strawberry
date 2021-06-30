@@ -212,7 +212,7 @@ void SmartPlaylistQueryWizardPlugin::SetGenerator(PlaylistGeneratorPtr g) {
 
 PlaylistGeneratorPtr SmartPlaylistQueryWizardPlugin::CreateGenerator() const {
 
-  std::shared_ptr<PlaylistQueryGenerator> gen(new PlaylistQueryGenerator);
+  std::shared_ptr<PlaylistQueryGenerator> gen = std::make_shared<PlaylistQueryGenerator>();
   gen->Load(MakeSearch());
 
   return std::static_pointer_cast<PlaylistGenerator>(gen);

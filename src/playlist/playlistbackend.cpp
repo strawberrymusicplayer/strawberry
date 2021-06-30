@@ -199,7 +199,7 @@ QList<PlaylistItemPtr> PlaylistBackend::GetPlaylistItems(int playlist) {
     if (db_->CheckErrors(q)) return QList<PlaylistItemPtr>();
 
     // it's probable that we'll have a few songs associated with the same CUE so we're caching results of parsing CUEs
-    std::shared_ptr<NewSongFromQueryState> state_ptr(new NewSongFromQueryState());
+    std::shared_ptr<NewSongFromQueryState> state_ptr = std::make_shared<NewSongFromQueryState>();
     while (q.next()) {
       playlistitems << NewPlaylistItemFromQuery(SqlRow(q), state_ptr);
     }
@@ -225,7 +225,7 @@ QList<Song> PlaylistBackend::GetPlaylistSongs(int playlist) {
     if (db_->CheckErrors(q)) return QList<Song>();
 
     // it's probable that we'll have a few songs associated with the same CUE so we're caching results of parsing CUEs
-    std::shared_ptr<NewSongFromQueryState> state_ptr(new NewSongFromQueryState());
+    std::shared_ptr<NewSongFromQueryState> state_ptr = std::make_shared<NewSongFromQueryState>();
     while (q.next()) {
       songs << NewSongFromQuery(SqlRow(q), state_ptr);
     }

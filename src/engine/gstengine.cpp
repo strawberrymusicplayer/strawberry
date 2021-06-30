@@ -809,7 +809,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
   EnsureInitialized();
 
-  std::shared_ptr<GstEnginePipeline> ret(new GstEnginePipeline(this));
+  std::shared_ptr<GstEnginePipeline> ret = std::make_shared<GstEnginePipeline>(this);
   ret->set_output_device(output_, device_);
   ret->set_volume_enabled(volume_control_);
   ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
