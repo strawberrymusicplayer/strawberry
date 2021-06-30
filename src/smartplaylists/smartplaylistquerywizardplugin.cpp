@@ -195,8 +195,7 @@ void SmartPlaylistQueryWizardPlugin::SetGenerator(PlaylistGeneratorPtr g) {
   }
   else {
     sort_ui_->field->setChecked(true);
-    sort_ui_->order->setCurrentIndex(
-        search.sort_type_ == SmartPlaylistSearch::Sort_FieldAsc ? 0 : 1);
+    sort_ui_->order->setCurrentIndex(search.sort_type_ == SmartPlaylistSearch::Sort_FieldAsc ? 0 : 1);
     sort_ui_->field_value->setCurrentIndex(search.sort_field_);
   }
 
@@ -308,10 +307,12 @@ SmartPlaylistSearch SmartPlaylistQueryWizardPlugin::MakeSearch() const {
   }
 
   // Limit
-  if (sort_ui_->limit_none->isChecked())
+  if (sort_ui_->limit_none->isChecked()) {
     ret.limit_ = -1;
-  else
+  }
+  else {
     ret.limit_ = sort_ui_->limit_value->value();
+  }
 
   return ret;
 
