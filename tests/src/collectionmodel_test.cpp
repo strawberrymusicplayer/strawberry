@@ -44,7 +44,9 @@
 namespace {
 
 class CollectionModelTest : public ::testing::Test {
- CollectionModelTest() : added_dir_(false) {}
+ public:
+  CollectionModelTest() : added_dir_(false) {}
+
  protected:
   void SetUp() override {
     database_.reset(new MemoryDatabase(nullptr));
