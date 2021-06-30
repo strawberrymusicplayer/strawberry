@@ -608,8 +608,8 @@ if(UNIX AND HAVE_DBUS)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
 
   optional_source(HAVE_DBUS
-    SOURCES core/mpris.cpp core/mpris2.cpp
-    HEADERS core/mpris.h core/mpris2.h
+    SOURCES core/mpris2.cpp
+    HEADERS core/mpris2.h
   )
   optional_source(HAVE_UDISKS2
     SOURCES device/udisks2lister.cpp

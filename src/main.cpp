@@ -83,7 +83,7 @@
 #endif  // HAVE_QTSPARKLE
 
 #ifdef HAVE_DBUS
-#  include "core/mpris.h"
+#  include "core/mpris2.h"
 #endif
 #include "core/utilities.h"
 #include "core/metatypes.h"
@@ -293,7 +293,7 @@ int main(int argc, char *argv[]) {
 #endif
 
 #ifdef HAVE_DBUS
-  mpris::Mpris mpris(&app);
+  mpris::Mpris2 mpris2(&app);
 #endif
 
   // Window
@@ -304,7 +304,7 @@ int main(int argc, char *argv[]) {
 #endif  // Q_OS_MACOS
 
 #ifdef HAVE_DBUS
-  QObject::connect(&mpris, &mpris::Mpris::RaiseMainWindow, &w, &MainWindow::Raise);
+  QObject::connect(&mpris2, &mpris::Mpris2::RaiseMainWindow, &w, &MainWindow::Raise);
 #endif
   QObject::connect(&a, &SingleApplication::receivedMessage, &w, QOverload<quint32, const QByteArray&>::of(&MainWindow::CommandlineOptionsReceived));
 
