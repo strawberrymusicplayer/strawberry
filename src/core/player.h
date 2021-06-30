@@ -216,7 +216,7 @@ class Player : public PlayerInterface {
 
  private:
   Application *app_;
-  std::unique_ptr<EngineBase> engine_;
+  std::shared_ptr<EngineBase> engine_;
 #ifdef HAVE_GSTREAMER
   GstStartup *gst_startup_;
 #endif
