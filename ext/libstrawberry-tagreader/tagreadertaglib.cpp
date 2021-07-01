@@ -132,9 +132,9 @@ const char *kASF_OriginalYear_ID = "WM/OriginalReleaseYear";
 }  // namespace
 
 
-TagReaderTagLib::TagReaderTaglib() : factory_(new TagLibFileRefFactory) {}
+TagReaderTagLib::TagReaderTagLib() : factory_(new TagLibFileRefFactory) {}
 
-TagReaderTagLib::~TagReaderTaglib() {
+TagReaderTagLib::~TagReaderTagLib() {
   delete factory_;
 }
 
