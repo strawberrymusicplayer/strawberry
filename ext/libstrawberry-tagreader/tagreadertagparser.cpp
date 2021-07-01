@@ -29,7 +29,6 @@
 #include <tagparser/progressfeedback.h>
 #include <tagparser/tag.h>
 #include <tagparser/abstracttrack.h>
-#include <tagparser/abstractattachment.h>
 
 #include <QtGlobal>
 #include <QFile>
