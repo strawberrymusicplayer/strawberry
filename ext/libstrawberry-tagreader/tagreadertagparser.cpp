@@ -80,7 +80,10 @@ bool TagReaderTagParser::IsMediaFile(const QString &filename) const {
 
     const auto tracks = taginfo.tracks();
     for (const auto track : tracks) {
-      if (track->mediaType() == TagParser::MediaType::Audio) return true;
+      if (track->mediaType() == TagParser::MediaType::Audio) {
+        taginfo.close();
+        return true;
+      }
     }
     taginfo.close();
   }
