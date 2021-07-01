@@ -97,7 +97,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(QobuzBaseRequest::kApiUrl + QString("/") + resource);
+  QUrl url(QobuzService::kApiUrl + QString("/") + resource);
   url.setQuery(url_query);
 
   QNetworkRequest req(url);

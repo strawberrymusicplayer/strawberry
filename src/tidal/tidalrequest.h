@@ -178,7 +178,7 @@ class TidalRequest : public TidalBaseRequest {
 
   QList<QString> artist_albums_requests_pending_;
   QHash<QString, Request> album_songs_requests_pending_;
-  QMultiMap<QString, Song*> album_covers_requests_sent_;
+  QMultiMap<QString, QString> album_covers_requests_sent_;
 
   int artists_requests_active_;
   int artists_total_;
@@ -199,7 +199,7 @@ class TidalRequest : public TidalBaseRequest {
   int album_covers_requested_;
   int album_covers_received_;
 
-  SongList songs_;
+  QMap<QString, Song> songs_;
   QStringList errors_;
   bool need_login_;
   bool no_results_;

@@ -456,12 +456,12 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
     songs << song;
   }
 
-  for (Song &song : songs) {
+  for (Song song : songs) {
     if (compilation) song.set_compilation_detected(true);
     if (!multidisc) {
       song.set_disc(0);
     }
-    songs_ << song;
+    songs_.insert(song.song_id(), song);
   }
 
   SongsFinishCheck();
@@ -680,7 +680,7 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
 
 void SubsonicRequest::GetAlbumCovers() {
 
-  for (Song &song : songs_) {
+  for (const Song &song : songs_) {
     if (!song.art_automatic().isEmpty()) AddAlbumCoverRequest(song);
   }
   FlushAlbumCoverRequests();
@@ -692,15 +692,17 @@ void SubsonicRequest::GetAlbumCovers() {
 
 }
 
-void SubsonicRequest::AddAlbumCoverRequest(Song &song) {
+void SubsonicRequest::AddAlbumCoverRequest(const Song &song) {
 
   QUrl cover_url(song.art_automatic());
   QUrlQuery cover_url_query(cover_url);
 
-  if (!cover_url.isValid()) return;
+  if (!cover_url.isValid()) {
+    return;
+  }
 
-  if (album_covers_requests_sent_.contains(cover_url)) {
-    album_covers_requests_sent_.insert(cover_url, &song);
+  if (album_covers_requests_sent_.contains(song.art_automatic())) {
+    album_covers_requests_sent_.insert(song.art_automatic(), song.song_id());
     return;
   }
 
@@ -714,7 +716,7 @@ void SubsonicRequest::AddAlbumCoverRequest(Song &song) {
   request.filename = cover_path + "/" + cover_url_query.queryItemValue("id") + ".jpg";
   if (request.filename.isEmpty()) return;
 
-  album_covers_requests_sent_.insert(cover_url, &song);
+  album_covers_requests_sent_.insert(song.art_automatic(), song.song_id());
   ++album_covers_requested_;
 
   album_cover_requests_queue_.enqueue(request);
@@ -820,8 +822,10 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &url, 
   if (image.loadFromData(data, format)) {
     if (image.save(filename, format)) {
       while (album_covers_requests_sent_.contains(url)) {
-        Song *song = album_covers_requests_sent_.take(url);
-        song->set_art_automatic(QUrl::fromLocalFile(filename));
+        const QString song_id = album_covers_requests_sent_.take(url);
+        if (songs_.contains(song_id)) {
+          songs_[song_id].set_art_automatic(QUrl::fromLocalFile(filename));
+        }
       }
     }
     else {
@@ -840,8 +844,9 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &url, 
 
 void SubsonicRequest::AlbumCoverFinishCheck() {
 
-  if (!album_cover_requests_queue_.isEmpty() && album_covers_requests_active_ < kMaxConcurrentAlbumCoverRequests)
+  if (!album_cover_requests_queue_.isEmpty() && album_covers_requests_active_ < kMaxConcurrentAlbumCoverRequests) {
     FlushAlbumCoverRequests();
+  }
 
   FinishCheck();
 
@@ -868,9 +873,9 @@ void SubsonicRequest::FinishCheck() {
     }
     else {
       if (songs_.isEmpty() && errors_.isEmpty())
-        emit Results(songs_, tr("Unknown error"));
+        emit Results(songs_.values(), tr("Unknown error"));
       else
-        emit Results(songs_, ErrorsToHTML(errors_));
+        emit Results(songs_.values(), ErrorsToHTML(errors_));
     }
 
   }

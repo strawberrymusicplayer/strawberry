@@ -64,8 +64,7 @@ QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const QList<P
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    url_query.addQueryItem(encoded_param.first, encoded_param.second);
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
   QUrl url(server_url());

@@ -41,8 +41,6 @@
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 
-const char *QobuzBaseRequest::kApiUrl = "https://www.qobuz.com/api.json/0.2";
-
 QobuzBaseRequest::QobuzBaseRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent) :
       QObject(parent),
       service_(service),
@@ -63,7 +61,7 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(kApiUrl + QString("/") + ressource_name);
+  QUrl url(QobuzService::kApiUrl + QString("/") + ressource_name);
   url.setQuery(url_query);
   QNetworkRequest req(url);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)

@@ -40,8 +40,6 @@
 #include "tidalservice.h"
 #include "tidalbaserequest.h"
 
-const char *TidalBaseRequest::kApiUrl = "https://api.tidalhifi.com/v1";
-
 TidalBaseRequest::TidalBaseRequest(TidalService *service, NetworkAccessManager *network, QObject *parent) :
       QObject(parent),
       service_(service),
@@ -58,7 +56,7 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(kApiUrl + QString("/") + ressource_name);
+  QUrl url(TidalService::kApiUrl + QString("/") + ressource_name);
   url.setQuery(url_query);
   QNetworkRequest req(url);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
@@ -128,9 +126,14 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
         service_->Logout();
         if (!oauth() && send_login && login_attempts() < max_login_attempts() && !api_token().isEmpty() && !username().isEmpty() && !password().isEmpty()) {
           qLog(Error) << "Tidal:" << error;
-          qLog(Info) << "Tidal:" << "Attempting to login.";
           set_need_login();
-          emit service_->RequestLogin();  // clazy:exclude=incorrect-emit
+          if (login_sent()) {
+            qLog(Info) << "Tidal:" << "Waiting for login.";
+          }
+          else {
+            qLog(Info) << "Tidal:" << "Attempting to login.";
+            emit RequestLogin();
+          }
         }
         else {
           Error(error);

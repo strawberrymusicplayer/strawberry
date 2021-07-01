@@ -45,6 +45,7 @@ class TidalBaseRequest : public QObject {
   Q_OBJECT
 
  public:
+  explicit TidalBaseRequest(TidalService *service, NetworkAccessManager *network, QObject *parent = nullptr);
 
   enum QueryType {
     QueryType_None,
@@ -57,8 +58,7 @@ class TidalBaseRequest : public QObject {
     QueryType_StreamURL,
   };
 
-  explicit TidalBaseRequest(TidalService *service, NetworkAccessManager *network, QObject *parent);
-
+ protected:
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
@@ -93,11 +93,11 @@ class TidalBaseRequest : public QObject {
 
   virtual void set_need_login() = 0;
 
+ signals:
+  void RequestLogin();
+
  private slots:
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);
-
- protected:
-  static const char *kApiUrl;
 
  private:
   TidalService *service_;

@@ -29,6 +29,7 @@
 #include <QPair>
 #include <QSet>
 #include <QList>
+#include <QMap>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -60,6 +61,7 @@ class QobuzService : public InternetService {
   ~QobuzService();
 
   static const Song::Source kSource;
+  static const char *kApiUrl;
 
   void Exit() override;
   void ReloadSettings() override;
@@ -105,15 +107,6 @@ class QobuzService : public InternetService {
   QSortFilterProxyModel *albums_collection_sort_model() override { return albums_collection_sort_model_; }
   QSortFilterProxyModel *songs_collection_sort_model() override { return songs_collection_sort_model_; }
 
-  enum QueryType {
-    QueryType_Artists,
-    QueryType_Albums,
-    QueryType_Songs,
-    QueryType_SearchArtists,
-    QueryType_SearchAlbums,
-    QueryType_SearchSongs,
-  };
-
  public slots:
   void ShowConfig() override;
   void TryLogin();
@@ -145,7 +138,7 @@ class QobuzService : public InternetService {
   void ArtistsUpdateProgressReceived(const int id, const int progress);
   void AlbumsUpdateProgressReceived(const int id, const int progress);
   void SongsUpdateProgressReceived(const int id, const int progress);
-  void HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error);
+  void HandleStreamURLFinished(const int id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error);
 
  private:
   typedef QPair<QString, QString> Param;
@@ -155,6 +148,7 @@ class QobuzService : public InternetService {
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
   static const char *kAuthUrl;
+
   static const int kLoginAttempts;
   static const int kTimeResetLoginAttempts;
 
@@ -217,7 +211,8 @@ class QobuzService : public InternetService {
   bool login_sent_;
   int login_attempts_;
 
-  QList<QobuzStreamURLRequest*> stream_url_requests_;
+  int next_stream_url_request_id_;
+  QMap<int, std::shared_ptr<QobuzStreamURLRequest>> stream_url_requests_;
 
   QStringList login_errors_;
 

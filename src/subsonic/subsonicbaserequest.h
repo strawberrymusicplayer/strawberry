@@ -45,13 +45,11 @@ class SubsonicBaseRequest : public QObject {
   Q_OBJECT
 
  public:
-  explicit SubsonicBaseRequest(SubsonicService *service, QObject *parent);
+  explicit SubsonicBaseRequest(SubsonicService *service, QObject *parent = nullptr);
 
+ protected:
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
-
-  typedef QPair<QByteArray, QByteArray> EncodedParam;
-  typedef QList<EncodedParam> EncodedParamList;
 
   QUrl CreateUrl(const QString &ressource_name, const QList<Param> &params_provided) const;
   QNetworkReply *CreateGetRequest(const QString &ressource_name, const QList<Param> &params_provided);

@@ -38,7 +38,7 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
   Q_OBJECT
 
  public:
-  explicit QobuzFavoriteRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent);
+  explicit QobuzFavoriteRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent = nullptr);
   ~QobuzFavoriteRequest();
 
   enum FavoriteType {

@@ -45,7 +45,7 @@ class SubsonicScrobbleRequest : public SubsonicBaseRequest {
   Q_OBJECT
 
  public:
-  explicit SubsonicScrobbleRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent);
+  explicit SubsonicScrobbleRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent = nullptr);
   ~SubsonicScrobbleRequest() override;
 
   void CreateScrobbleRequest(const QString &song_id, const bool submission, const QDateTime &start_time);
@@ -54,8 +54,6 @@ class SubsonicScrobbleRequest : public SubsonicBaseRequest {
   void ScrobbleReplyReceived(QNetworkReply *reply);
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
 
   struct Request {
     explicit Request() : submission(false) {}

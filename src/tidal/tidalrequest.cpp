@@ -887,12 +887,10 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id,
     songs << song;
   }
 
-  for (Song &song : songs) {
+  for (Song song : songs) {
     if (compilation) song.set_compilation_detected(true);
-    if (!multidisc) {
-      song.set_disc(0);
-    }
-    songs_ << song;
+    if (!multidisc) song.set_disc(0);
+    songs_.insert(song.song_id(), song);
   }
 
   SongsFinishCheck(artist_id, album_id, limit_requested, offset_requested, songs_total, songs_received, album_artist, album, album_explicit);
@@ -1110,7 +1108,7 @@ void TidalRequest::GetAlbumCovers() {
 void TidalRequest::AddAlbumCoverRequest(Song &song) {
 
   if (album_covers_requests_sent_.contains(song.album_id())) {
-    album_covers_requests_sent_.insert(song.album_id(), &song);
+    album_covers_requests_sent_.insert(song.album_id(), song.song_id());
     return;
   }
 
@@ -1120,7 +1118,7 @@ void TidalRequest::AddAlbumCoverRequest(Song &song) {
   request.filename = app_->album_cover_loader()->CoverFilePath(song.source(), song.effective_albumartist(), song.effective_album(), song.album_id(), QString(), request.url);
   if (request.filename.isEmpty()) return;
 
-  album_covers_requests_sent_.insert(song.album_id(), &song);
+  album_covers_requests_sent_.insert(song.album_id(), song.song_id());
   ++album_covers_requested_;
 
   album_cover_requests_queue_.enqueue(request);
@@ -1215,8 +1213,10 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
   if (image.loadFromData(data, format)) {
     if (image.save(filename, format)) {
       while (album_covers_requests_sent_.contains(album_id)) {
-        Song *song = album_covers_requests_sent_.take(album_id);
-        song->set_art_automatic(QUrl::fromLocalFile(filename));
+        const QString song_id = album_covers_requests_sent_.take(album_id);
+        if (songs_.contains(song_id)) {
+          songs_[song_id].set_art_automatic(QUrl::fromLocalFile(filename));
+        }
       }
     }
     else {
@@ -1276,9 +1276,9 @@ void TidalRequest::FinishCheck() {
     }
     else {
       if (songs_.isEmpty() && errors_.isEmpty())
-        emit Results(query_id_, songs_, tr("Unknown error"));
+        emit Results(query_id_, songs_.values(), tr("Unknown error"));
       else
-        emit Results(query_id_, songs_, ErrorsToHTML(errors_));
+        emit Results(query_id_, songs_.values(), ErrorsToHTML(errors_));
     }
   }
 

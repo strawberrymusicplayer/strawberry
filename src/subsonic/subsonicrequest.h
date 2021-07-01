@@ -52,7 +52,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   Q_OBJECT
 
  public:
-  explicit SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent);
+  explicit SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent = nullptr);
   ~SubsonicRequest() override;
 
   void ReloadSettings();
@@ -72,8 +72,6 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void AlbumCoverReceived(QNetworkReply *reply, const QUrl &url, const QString &filename);
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
 
   struct Request {
     explicit Request() : offset(0), size(0) {}
@@ -103,7 +101,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   QString ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested = QString(), const QString &album_id_requested = QString(), const QString &album_artist = QString(), const qint64 album_created = 0);
 
   void GetAlbumCovers();
-  void AddAlbumCoverRequest(Song &song);
+  void AddAlbumCoverRequest(const Song &song);
   void FlushAlbumCoverRequests();
   void AlbumCoverFinishCheck();
 
@@ -128,7 +126,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   QQueue<AlbumCoverRequest> album_cover_requests_queue_;
 
   QHash<QString, Request> album_songs_requests_pending_;
-  QMultiMap<QUrl, Song*> album_covers_requests_sent_;
+  QMultiMap<QUrl, QString> album_covers_requests_sent_;
 
   int albums_requests_active_;
 
@@ -140,7 +138,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   int album_covers_requested_;
   int album_covers_received_;
 
-  SongList songs_;
+  QMap<QString, Song> songs_;
   QStringList errors_;
   bool no_results_;
   QList<QNetworkReply*> replies_;

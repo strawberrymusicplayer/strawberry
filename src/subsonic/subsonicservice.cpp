@@ -68,7 +68,6 @@ const int SubsonicService::kMaxRedirects = 3;
 SubsonicService::SubsonicService(Application *app, QObject *parent)
     : InternetService(Song::Source_Subsonic, "Subsonic", "subsonic", SubsonicSettingsPage::kSettingsGroup, SettingsDialog::Page_Subsonic, app, parent),
       app_(app),
-      network_(new QNetworkAccessManager),
       url_handler_(new SubsonicUrlHandler(app, this)),
       collection_backend_(nullptr),
       collection_model_(nullptr),
@@ -76,12 +75,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
       http2_(true),
       verify_certificate_(false),
       download_album_covers_(true),
-      ping_redirects_(0)
-  {
-
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
-  network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
-#endif
+      ping_redirects_(0) {
 
   app->player()->RegisterUrlHandler(url_handler_);
 
@@ -153,8 +147,11 @@ void SubsonicService::SendPing() {
 
 void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const bool redirect) {
 
-  if (!redirect) {
+  if (!network_ || !redirect) {
     network_ = std::make_unique<QNetworkAccessManager>();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
+    network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
+#endif
     ping_redirects_ = 0;
   }
 
@@ -166,10 +163,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
 
   QUrlQuery url_query(url.query());
   for (const Param &param : params) {
-    EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    if (!url_query.hasQueryItem(encoded_param.first)) {
-      url_query.addQueryItem(encoded_param.first, encoded_param.second);
-    }
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
   if (!redirect) {
@@ -394,8 +388,8 @@ void SubsonicService::Scrobble(const QString &song_id, const bool submission, co
   }
 
   if (!scrobble_request_) {
-    // we're doing requests every 30-240s the whole time, so keep reusing this instance
-    scrobble_request_.reset(new SubsonicScrobbleRequest(this, url_handler_, app_, this));
+    // We're doing requests every 30-240s the whole time, so keep reusing this instance
+    scrobble_request_ = std::make_shared<SubsonicScrobbleRequest>(this, url_handler_, app_);
   }
 
   scrobble_request_->CreateScrobbleRequest(song_id, submission, time);
@@ -425,7 +419,7 @@ void SubsonicService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new SubsonicRequest(this, url_handler_, app_, this));
+  songs_request_ = std::make_shared<SubsonicRequest>(this, url_handler_, app_);
   QObject::connect(songs_request_.get(), &SubsonicRequest::Results, this, &SubsonicService::SongsResultsReceived);
   QObject::connect(songs_request_.get(), &SubsonicRequest::UpdateStatus, this, &SubsonicService::SongsUpdateStatus);
   QObject::connect(songs_request_.get(), &SubsonicRequest::ProgressSetMaximum, this, &SubsonicService::SongsProgressSetMaximum);

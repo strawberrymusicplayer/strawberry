@@ -51,7 +51,7 @@ class QobuzRequest : public QobuzBaseRequest {
 
  public:
 
-  explicit QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent);
+  explicit QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent = nullptr);
   ~QobuzRequest();
 
   void ReloadSettings();
@@ -134,7 +134,7 @@ class QobuzRequest : public QobuzBaseRequest {
   QString AlbumCoverFileName(const Song &song);
 
   void GetAlbumCovers();
-  void AddAlbumCoverRequest(Song &song);
+  void AddAlbumCoverRequest(const Song &song);
   void FlushAlbumCoverRequests();
   void AlbumCoverFinishCheck();
 
@@ -170,7 +170,7 @@ class QobuzRequest : public QobuzBaseRequest {
 
   QList<QString> artist_albums_requests_pending_;
   QHash<QString, Request> album_songs_requests_pending_;
-  QMultiMap<QUrl, Song*> album_covers_requests_sent_;
+  QMultiMap<QUrl, QString> album_covers_requests_sent_;
 
   int artists_requests_active_;
   int artists_total_;
@@ -191,7 +191,7 @@ class QobuzRequest : public QobuzBaseRequest {
   int album_covers_requested_;
   int album_covers_received_;
 
-  SongList songs_;
+  QMap<QString, Song> songs_;
   QStringList errors_;
   bool no_results_;
   QList<QNetworkReply*> replies_;

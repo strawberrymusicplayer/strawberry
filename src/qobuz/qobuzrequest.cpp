@@ -904,7 +904,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id_
   }
 
   bool compilation = false;
-  //bool multidisc = false;
+  bool multidisc = false;
   SongList songs;
   int songs_received = 0;
   for (const QJsonValueRef value_item : array_items) {
@@ -919,18 +919,15 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id_
     Song song(Song::Source_Qobuz);
     ParseSong(song, obj_item, artist_id, album_id, album_artist, album, cover_url);
     if (!song.is_valid()) continue;
-    //if (song.disc() >= 2) multidisc = true;
+    if (song.disc() >= 2) multidisc = true;
     if (song.is_compilation()) compilation = true;
     songs << song;
   }
 
-  for (Song &song : songs) {
+  for (Song song : songs) {
     if (compilation) song.set_compilation_detected(true);
-    //if (multidisc) {
-      //QString album_full(QString("%1 - (Disc %2)").arg(song.album()).arg(song.disc()));
-      //song.set_album(album_full);
-    //}
-    songs_ << song;
+    if (!multidisc) song.set_disc(0);
+    songs_.insert(song.song_id(), song);
   }
 
   SongsFinishCheck(artist_id, album_id, limit_requested, offset_requested, songs_total, songs_received, album_artist, album);
@@ -1140,7 +1137,7 @@ QString QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, QString
 
 void QobuzRequest::GetAlbumCovers() {
 
-  for (Song &song : songs_) {
+  for (const Song &song : songs_) {
     AddAlbumCoverRequest(song);
   }
   FlushAlbumCoverRequests();
@@ -1152,13 +1149,13 @@ void QobuzRequest::GetAlbumCovers() {
 
 }
 
-void QobuzRequest::AddAlbumCoverRequest(Song &song) {
+void QobuzRequest::AddAlbumCoverRequest(const Song &song) {
 
   QUrl cover_url = song.art_automatic();
   if (!cover_url.isValid()) return;
 
   if (album_covers_requests_sent_.contains(cover_url)) {
-    album_covers_requests_sent_.insert(cover_url, &song);
+    album_covers_requests_sent_.insert(cover_url, song.song_id());
     return;
   }
 
@@ -1167,7 +1164,7 @@ void QobuzRequest::AddAlbumCoverRequest(Song &song) {
   request.filename = app_->album_cover_loader()->CoverFilePath(song.source(), song.effective_albumartist(), song.effective_album(), song.album_id(), QString(), cover_url);
   if (request.filename.isEmpty()) return;
 
-  album_covers_requests_sent_.insert(cover_url, &song);
+  album_covers_requests_sent_.insert(cover_url, song.song_id());
   ++album_covers_requested_;
 
   album_cover_requests_queue_.enqueue(request);
@@ -1261,8 +1258,10 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
   if (image.loadFromData(data, format)) {
     if (image.save(filename, format)) {
       while (album_covers_requests_sent_.contains(cover_url)) {
-        Song *song = album_covers_requests_sent_.take(cover_url);
-        song->set_art_automatic(QUrl::fromLocalFile(filename));
+        const QString song_id = album_covers_requests_sent_.take(cover_url);
+        if (songs_.contains(song_id)) {
+          songs_[song_id].set_art_automatic(QUrl::fromLocalFile(filename));
+        }
       }
     }
     else {
@@ -1321,9 +1320,9 @@ void QobuzRequest::FinishCheck() {
     }
     else {
       if (songs_.isEmpty() && errors_.isEmpty())
-        emit Results(query_id_, songs_, tr("Unknown error"));
+        emit Results(query_id_, songs_.values(), tr("Unknown error"));
       else
-        emit Results(query_id_, songs_, ErrorsToHTML(errors_));
+        emit Results(query_id_, songs_.values(), ErrorsToHTML(errors_));
     }
   }
 

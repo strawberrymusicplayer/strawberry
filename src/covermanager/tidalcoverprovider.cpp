@@ -48,8 +48,6 @@
 #include "jsoncoverprovider.h"
 #include "tidalcoverprovider.h"
 
-const char *TidalCoverProvider::kApiUrl = "https://api.tidalhifi.com/v1";
-const char *TidalCoverProvider::kResourcesUrl = "https://resources.tidal.com";
 const int TidalCoverProvider::kLimit = 10;
 
 TidalCoverProvider::TidalCoverProvider(Application *app, QObject *parent) : 
@@ -103,7 +101,7 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(kApiUrl + QString("/") + resource);
+  QUrl url(TidalService::kApiUrl + QString("/") + resource);
   url.setQuery(url_query);
   QNetworkRequest req(url);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
@@ -271,7 +269,7 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
                                                                               << qMakePair(QString("750x750"), QSize(750, 750))
                                                                               << qMakePair(QString("640x640"), QSize(640, 640));
     for (const QPair<QString, QSize> &cover_size : cover_sizes) {
-      QUrl cover_url(QString("%1/images/%2/%3.jpg").arg(kResourcesUrl, cover, cover_size.first));
+      QUrl cover_url(QString("%1/images/%2/%3.jpg").arg(TidalService::kResourcesUrl, cover, cover_size.first));
       cover_result.image_url = cover_url;
       cover_result.image_size = cover_size.second;
       results << cover_result;

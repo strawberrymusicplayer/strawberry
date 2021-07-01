@@ -100,9 +100,6 @@ class SubsonicService : public InternetService {
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
-  typedef QPair<QByteArray, QByteArray> EncodedParam;
-  typedef QList<EncodedParam> EncodedParamList;
-
   void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
 
   static const char *kClientName;

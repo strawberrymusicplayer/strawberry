@@ -67,6 +67,8 @@ const char *TidalService::kOAuthUrl = "https://login.tidal.com/authorize";
 const char *TidalService::kOAuthAccessTokenUrl = "https://login.tidal.com/oauth2/token";
 const char *TidalService::kOAuthRedirectUrl = "tidal://login/auth";
 const char *TidalService::kAuthUrl = "https://api.tidalhifi.com/v1/login/username";
+const char *TidalService::kApiUrl = "https://api.tidalhifi.com/v1";
+const char *TidalService::kResourcesUrl = "https://resources.tidal.com";
 const int TidalService::kLoginAttempts = 2;
 const int TidalService::kTimeResetLoginAttempts = 60000;
 
@@ -113,8 +115,8 @@ TidalService::TidalService(Application *app, QObject *parent)
       pending_search_type_(InternetSearchView::SearchType_Artists),
       search_id_(0),
       login_sent_(false),
-      login_attempts_(0)
-  {
+      login_attempts_(0),
+      next_stream_url_request_id_(0) {
 
   app->player()->RegisterUrlHandler(url_handler_);
 
@@ -177,6 +179,8 @@ TidalService::TidalService(Application *app, QObject *parent)
   QObject::connect(this, &TidalService::RemoveAlbums, favorite_request_, &TidalFavoriteRequest::RemoveAlbums);
   QObject::connect(this, &TidalService::RemoveSongs, favorite_request_, &TidalFavoriteRequest::RemoveSongs);
 
+  QObject::connect(favorite_request_, &TidalFavoriteRequest::RequestLogin, this, &TidalService::SendLogin);
+
   QObject::connect(favorite_request_, &TidalFavoriteRequest::ArtistsAdded, artists_collection_backend_, &CollectionBackend::AddOrUpdateSongs);
   QObject::connect(favorite_request_, &TidalFavoriteRequest::AlbumsAdded, albums_collection_backend_, &CollectionBackend::AddOrUpdateSongs);
   QObject::connect(favorite_request_, &TidalFavoriteRequest::SongsAdded, songs_collection_backend_, &CollectionBackend::AddOrUpdateSongs);
@@ -200,8 +204,8 @@ TidalService::~TidalService() {
   }
 
   while (!stream_url_requests_.isEmpty()) {
-    TidalStreamURLRequest *stream_url_req = stream_url_requests_.takeFirst();
-    QObject::disconnect(stream_url_req, nullptr, this, nullptr);
+    std::shared_ptr<TidalStreamURLRequest> stream_url_req = stream_url_requests_.take(stream_url_requests_.firstKey());
+    QObject::disconnect(stream_url_req.get(), nullptr, this, nullptr);
     stream_url_req->deleteLater();
   }
 
@@ -745,8 +749,9 @@ void TidalService::GetArtists() {
 
   ResetArtistsRequest();
 
-  artists_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Artists, this));
+  artists_request_ = std::make_shared<TidalRequest>(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Artists, this);
 
+  QObject::connect(artists_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(artists_request_.get(), &TidalRequest::Results, this, &TidalService::ArtistsResultsReceived);
   QObject::connect(artists_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::ArtistsUpdateStatusReceived);
   QObject::connect(artists_request_.get(), &TidalRequest::ProgressSetMaximum, this, &TidalService::ArtistsProgressSetMaximumReceived);
@@ -803,7 +808,8 @@ void TidalService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Albums, this));
+  albums_request_ = std::make_shared<TidalRequest>(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Albums, this);
+  QObject::connect(albums_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(albums_request_.get(), &TidalRequest::Results, this, &TidalService::AlbumsResultsReceived);
   QObject::connect(albums_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::AlbumsUpdateStatusReceived);
   QObject::connect(albums_request_.get(), &TidalRequest::ProgressSetMaximum, this, &TidalService::AlbumsProgressSetMaximumReceived);
@@ -860,7 +866,8 @@ void TidalService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Songs, this));
+  songs_request_ = std::make_shared<TidalRequest>(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Songs, this);
+  QObject::connect(songs_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(songs_request_.get(), &TidalRequest::Results, this, &TidalService::SongsResultsReceived);
   QObject::connect(songs_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::SongsUpdateStatusReceived);
   QObject::connect(songs_request_.get(), &TidalRequest::ProgressSetMaximum, this, &TidalService::SongsProgressSetMaximumReceived);
@@ -953,8 +960,9 @@ void TidalService::SendSearch() {
       return;
   }
 
-  search_request_.reset(new TidalRequest(this, url_handler_, app_, network_, type, this));
+  search_request_ = std::make_shared<TidalRequest>(this, url_handler_, app_, network_, type, this);
 
+  QObject::connect(search_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(search_request_.get(), &TidalRequest::Results, this, &TidalService::SearchResultsReceived);
   QObject::connect(search_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::SearchUpdateStatus);
   QObject::connect(search_request_.get(), &TidalRequest::ProgressSetMaximum, this, &TidalService::SearchProgressSetMaximum);
@@ -983,23 +991,22 @@ void TidalService::GetStreamURL(const QUrl &url) {
     }
   }
 
-  TidalStreamURLRequest *stream_url_req = new TidalStreamURLRequest(this, network_, url, this);
-  stream_url_requests_ << stream_url_req;
+  const int id = ++next_stream_url_request_id_;
+  std::shared_ptr<TidalStreamURLRequest> stream_url_req = std::make_shared<TidalStreamURLRequest>(this, network_, url, id);
+  stream_url_requests_.insert(id, stream_url_req);
 
-  QObject::connect(stream_url_req, &TidalStreamURLRequest::TryLogin, this, &TidalService::TryLogin);
-  QObject::connect(stream_url_req, &TidalStreamURLRequest::StreamURLFinished, this, &TidalService::HandleStreamURLFinished);
-  QObject::connect(this, &TidalService::LoginComplete, stream_url_req, &TidalStreamURLRequest::LoginComplete);
+  QObject::connect(stream_url_req.get(), &TidalStreamURLRequest::TryLogin, this, &TidalService::TryLogin);
+  QObject::connect(stream_url_req.get(), &TidalStreamURLRequest::StreamURLFinished, this, &TidalService::HandleStreamURLFinished);
+  QObject::connect(this, &TidalService::LoginComplete, stream_url_req.get(), &TidalStreamURLRequest::LoginComplete);
 
   stream_url_req->Process();
 
 }
 
-void TidalService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error) {
+void TidalService::HandleStreamURLFinished(const int id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error) {
 
-  TidalStreamURLRequest *stream_url_req = qobject_cast<TidalStreamURLRequest*>(sender());
-  if (!stream_url_req || !stream_url_requests_.contains(stream_url_req)) return;
-  stream_url_req->deleteLater();
-  stream_url_requests_.removeAll(stream_url_req);
+  if (!stream_url_requests_.contains(id)) return;
+  std::shared_ptr<TidalStreamURLRequest> stream_url_req = stream_url_requests_.take(id);
 
   emit StreamURLFinished(original_url, stream_url, filetype, samplerate, bit_depth, duration, error);
 

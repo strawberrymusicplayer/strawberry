@@ -29,6 +29,7 @@
 #include <QPair>
 #include <QSet>
 #include <QList>
+#include <QMap>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -63,6 +64,8 @@ class TidalService : public InternetService {
   ~TidalService() override;
 
   static const Song::Source kSource;
+  static const char *kApiUrl;
+  static const char *kResourcesUrl;
 
   void Exit() override;
   void ReloadSettings() override;
@@ -113,15 +116,6 @@ class TidalService : public InternetService {
   QSortFilterProxyModel *albums_collection_sort_model() override { return albums_collection_sort_model_; }
   QSortFilterProxyModel *songs_collection_sort_model() override { return songs_collection_sort_model_; }
 
-  enum QueryType {
-    QueryType_Artists,
-    QueryType_Albums,
-    QueryType_Songs,
-    QueryType_SearchArtists,
-    QueryType_SearchAlbums,
-    QueryType_SearchSongs,
-  };
-
  public slots:
   void ShowConfig() override;
   void StartAuthorization(const QString &client_id);
@@ -157,7 +151,7 @@ class TidalService : public InternetService {
   void ArtistsUpdateProgressReceived(const int id, const int progress);
   void AlbumsUpdateProgressReceived(const int id, const int progress);
   void SongsUpdateProgressReceived(const int id, const int progress);
-  void HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error = QString());
+  void HandleStreamURLFinished(const int id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error = QString());
 
  private:
   typedef QPair<QString, QString> Param;
@@ -172,6 +166,7 @@ class TidalService : public InternetService {
   static const char *kOAuthAccessTokenUrl;
   static const char *kOAuthRedirectUrl;
   static const char *kAuthUrl;
+
   static const int kLoginAttempts;
   static const int kTimeResetLoginAttempts;
 
@@ -246,7 +241,8 @@ class TidalService : public InternetService {
   QString code_verifier_;
   QString code_challenge_;
 
-  QList<TidalStreamURLRequest*> stream_url_requests_;
+  int next_stream_url_request_id_;
+  QMap<int, std::shared_ptr<TidalStreamURLRequest>> stream_url_requests_;
 
   QStringList login_errors_;
 

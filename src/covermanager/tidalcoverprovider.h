@@ -60,8 +60,6 @@ class TidalCoverProvider : public JsonCoverProvider {
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
-  static const char *kApiUrl;
-  static const char *kResourcesUrl;
   static const int kLimit;
 
   TidalService *service_;

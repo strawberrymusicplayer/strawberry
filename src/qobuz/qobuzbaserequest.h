@@ -44,6 +44,8 @@ class QobuzBaseRequest : public QObject {
   Q_OBJECT
 
  public:
+  explicit QobuzBaseRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent = nullptr);
+  ~QobuzBaseRequest();
 
   enum QueryType {
     QueryType_None,
@@ -56,13 +58,9 @@ class QobuzBaseRequest : public QObject {
     QueryType_StreamURL,
   };
 
-  explicit QobuzBaseRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent);
-  ~QobuzBaseRequest();
-
+ protected:
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
-
-  static const char *kApiUrl;
 
   QNetworkReply *CreateRequest(const QString &ressource_name, const QList<Param> &params_provided);
   QByteArray GetReplyData(QNetworkReply *reply);
@@ -73,7 +71,6 @@ class QobuzBaseRequest : public QObject {
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
   static QString ErrorsToHTML(const QStringList &errors);
 
-  QString api_url() { return QString(kApiUrl); }
   QString app_id() { return service_->app_id(); }
   QString app_secret() { return service_->app_secret(); }
   QString username() { return service_->username(); }

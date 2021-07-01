@@ -60,6 +60,7 @@
 
 const Song::Source QobuzService::kSource = Song::Source_Qobuz;
 const char *QobuzService::kAuthUrl = "https://www.qobuz.com/api.json/0.2/user/login";
+const char *QobuzService::kApiUrl = "https://www.qobuz.com/api.json/0.2";
 const int QobuzService::kLoginAttempts = 2;
 const int QobuzService::kTimeResetLoginAttempts = 60000;
 
@@ -101,8 +102,8 @@ QobuzService::QobuzService(Application *app, QObject *parent)
       pending_search_type_(InternetSearchView::SearchType_Artists),
       search_id_(0),
       login_sent_(false),
-      login_attempts_(0)
-  {
+      login_attempts_(0),
+      next_stream_url_request_id_(0) {
 
   app->player()->RegisterUrlHandler(url_handler_);
 
@@ -176,8 +177,8 @@ QobuzService::QobuzService(Application *app, QObject *parent)
 QobuzService::~QobuzService() {
 
   while (!stream_url_requests_.isEmpty()) {
-    QobuzStreamURLRequest *stream_url_req = stream_url_requests_.takeFirst();
-    QObject::disconnect(stream_url_req, nullptr, this, nullptr);
+    std::shared_ptr<QobuzStreamURLRequest> stream_url_req = stream_url_requests_.take(stream_url_requests_.firstKey());
+    QObject::disconnect(stream_url_req.get(), nullptr, this, nullptr);
     stream_url_req->deleteLater();
   }
 
@@ -506,7 +507,7 @@ void QobuzService::GetArtists() {
 
   ResetArtistsRequest();
 
-  artists_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Artists, this));
+  artists_request_ = std::make_shared<QobuzRequest>(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Artists);
 
   QObject::connect(artists_request_.get(), &QobuzRequest::Results, this, &QobuzService::ArtistsResultsReceived);
   QObject::connect(artists_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::ArtistsUpdateStatusReceived);
@@ -560,7 +561,7 @@ void QobuzService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Albums, this));
+  albums_request_ = std::make_shared<QobuzRequest>(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Albums);
   QObject::connect(albums_request_.get(), &QobuzRequest::Results, this, &QobuzService::AlbumsResultsReceived);
   QObject::connect(albums_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::AlbumsUpdateStatusReceived);
   QObject::connect(albums_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::AlbumsProgressSetMaximumReceived);
@@ -613,7 +614,7 @@ void QobuzService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Songs, this));
+  songs_request_ = std::make_shared<QobuzRequest>(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Songs);
   QObject::connect(songs_request_.get(), &QobuzRequest::Results, this, &QobuzService::SongsResultsReceived);
   QObject::connect(songs_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::SongsUpdateStatusReceived);
   QObject::connect(songs_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::SongsProgressSetMaximumReceived);
@@ -695,7 +696,7 @@ void QobuzService::SendSearch() {
       break;
   }
 
-  search_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, type, this));
+  search_request_ = std::make_shared<QobuzRequest>(this, url_handler_, app_, network_, type);
 
   QObject::connect(search_request_.get(), &QobuzRequest::Results, this, &QobuzService::SearchResultsReceived);
   QObject::connect(search_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::SearchUpdateStatus);
@@ -718,23 +719,22 @@ void QobuzService::GetStreamURL(const QUrl &url) {
     return;
   }
 
-  QobuzStreamURLRequest *stream_url_req = new QobuzStreamURLRequest(this, network_, url, this);
-  stream_url_requests_ << stream_url_req;
+  const int id = ++next_stream_url_request_id_;
+  std::shared_ptr<QobuzStreamURLRequest> stream_url_req = std::make_shared<QobuzStreamURLRequest>(this, network_, url, id);
+  stream_url_requests_.insert(id, stream_url_req);
 
-  QObject::connect(stream_url_req, &QobuzStreamURLRequest::TryLogin, this, &QobuzService::TryLogin);
-  QObject::connect(stream_url_req, &QobuzStreamURLRequest::StreamURLFinished, this, &QobuzService::HandleStreamURLFinished);
-  QObject::connect(this, &QobuzService::LoginComplete, stream_url_req, &QobuzStreamURLRequest::LoginComplete);
+  QObject::connect(stream_url_req.get(), &QobuzStreamURLRequest::TryLogin, this, &QobuzService::TryLogin);
+  QObject::connect(stream_url_req.get(), &QobuzStreamURLRequest::StreamURLFinished, this, &QobuzService::HandleStreamURLFinished);
+  QObject::connect(this, &QobuzService::LoginComplete, stream_url_req.get(), &QobuzStreamURLRequest::LoginComplete);
 
   stream_url_req->Process();
 
 }
 
-void QobuzService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error) {
+void QobuzService::HandleStreamURLFinished(const int id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error) {
 
-  QobuzStreamURLRequest *stream_url_req = qobject_cast<QobuzStreamURLRequest*>(sender());
-  if (!stream_url_req || !stream_url_requests_.contains(stream_url_req)) return;
-  stream_url_req->deleteLater();
-  stream_url_requests_.removeAll(stream_url_req);
+  if (!stream_url_requests_.contains(id)) return;
+  std::shared_ptr<QobuzStreamURLRequest> stream_url_req = stream_url_requests_.take(id);
 
   emit StreamURLFinished(original_url, stream_url, filetype, samplerate, bit_depth, duration, error);
 
