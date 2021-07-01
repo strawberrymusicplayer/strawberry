@@ -989,7 +989,7 @@ msgstr "オーディオ出力"
 msgid "Audio quality"
 msgstr "音質"
 
-#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:252
+#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:253
 msgid "Authenticating..."
 msgstr "認証中..."
 
@@ -1186,7 +1186,7 @@ msgstr "オーディオ CD"
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: tidal/tidalstreamurlrequest.cpp:108 qobuz/qobuzstreamurlrequest.cpp:103
+#: tidal/tidalstreamurlrequest.cpp:109 qobuz/qobuzstreamurlrequest.cpp:104
 msgid "Cancelled."
 msgstr "キャンセルされました。"
 
@@ -2914,7 +2914,7 @@ msgstr "最大カバーサイズ"
 msgid "Maximum bitrate"
 msgstr "最高ビットレート"
 
-#: qobuz/qobuzservice.cpp:465
+#: qobuz/qobuzservice.cpp:466
 msgid "Maximum number of login attempts reached."
 msgstr "ログイン試行数が最大数に達しました"
 
@@ -2939,21 +2939,21 @@ msgstr "最低ビットレート"
 msgid "Missing API token."
 msgstr "API トークンがありません"
 
-#: qobuz/qobuzservice.cpp:717 qobuz/qobuzstreamurlrequest.cpp:84
+#: qobuz/qobuzservice.cpp:718 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr "Qobuz app ID またはシークレットがありません"
 
-#: qobuz/qobuzservice.cpp:469 qobuz/qobuzservice.cpp:498
-#: qobuz/qobuzservice.cpp:553 qobuz/qobuzservice.cpp:606
-#: qobuz/qobuzservice.cpp:671
+#: qobuz/qobuzservice.cpp:470 qobuz/qobuzservice.cpp:499
+#: qobuz/qobuzservice.cpp:554 qobuz/qobuzservice.cpp:607
+#: qobuz/qobuzservice.cpp:672
 msgid "Missing Qobuz app ID."
 msgstr "Qobuz app ID がありません"
 
-#: qobuz/qobuzservice.cpp:477
+#: qobuz/qobuzservice.cpp:478
 msgid "Missing Qobuz password."
 msgstr "Qobuz パスワードがありません"
 
-#: qobuz/qobuzservice.cpp:473
+#: qobuz/qobuzservice.cpp:474
 msgid "Missing Qobuz username."
 msgstr "Qobuz ユーザー名がありません"
 
@@ -2961,13 +2961,13 @@ msgstr "Qobuz ユーザー名がありません"
 msgid "Missing Subsonic username or password."
 msgstr "Subsonic ユーザー名またはシークレットがありません"
 
-#: tidal/tidalservice.cpp:740 tidal/tidalservice.cpp:799
-#: tidal/tidalservice.cpp:856 tidal/tidalservice.cpp:921
-#: tidal/tidalservice.cpp:981 tidal/tidalstreamurlrequest.cpp:90
+#: tidal/tidalservice.cpp:744 tidal/tidalservice.cpp:804
+#: tidal/tidalservice.cpp:862 tidal/tidalservice.cpp:928
+#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr "Tidal API トークン、ユーザー名またはパスワードがありません"
 
-#: tidal/tidalservice.cpp:701
+#: tidal/tidalservice.cpp:705
 msgid "Missing Tidal API token."
 msgstr "Tidal API トークンがありません"
 
@@ -2975,11 +2975,11 @@ msgstr "Tidal API トークンがありません"
 msgid "Missing Tidal client ID."
 msgstr "Tidal Client ID がありません"
 
-#: tidal/tidalservice.cpp:709
+#: tidal/tidalservice.cpp:713
 msgid "Missing Tidal password."
 msgstr "Tidal パスワードがありません"
 
-#: tidal/tidalservice.cpp:705
+#: tidal/tidalservice.cpp:709
 msgid "Missing Tidal username."
 msgstr "Tidal ユーザー名がありません"
 
@@ -2995,7 +2995,7 @@ msgstr "パスワードがありません"
 msgid "Missing server url, username or password."
 msgstr "サーバーの URL、ユーザー名またはパスワードがありません"
 
-#: subsonic/subsonicservice.cpp:423
+#: subsonic/subsonicservice.cpp:417
 msgid "Missing username or password."
 msgstr "ユーザー名またはパスワードがありません"
 
@@ -3146,7 +3146,7 @@ msgstr "エクスポートしたカバーはありません"
 msgid "No long blocks"
 msgstr "長いブロックなし"
 
-#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1317
 msgid "No match."
 msgstr "見つかりません"
 
@@ -3186,19 +3186,19 @@ msgstr "ノーマル"
 msgid "Normal block type"
 msgstr "通常ブロックタイプ"
 
-#: qobuz/qobuzservice.cpp:503 qobuz/qobuzservice.cpp:558
-#: qobuz/qobuzservice.cpp:611
+#: qobuz/qobuzservice.cpp:504 qobuz/qobuzservice.cpp:559
+#: qobuz/qobuzservice.cpp:612
 msgid "Not authenticated with Qobuz."
 msgstr "Qobuz で認証されませんでした"
 
-#: tidal/tidalservice.cpp:713
+#: tidal/tidalservice.cpp:717
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 
-#: tidal/tidalservice.cpp:735 tidal/tidalservice.cpp:794
-#: tidal/tidalservice.cpp:851 tidal/tidalservice.cpp:916
-#: tidal/tidalservice.cpp:977 tidal/tidalstreamurlrequest.cpp:86
+#: tidal/tidalservice.cpp:739 tidal/tidalservice.cpp:799
+#: tidal/tidalservice.cpp:857 tidal/tidalservice.cpp:923
+#: tidal/tidalservice.cpp:985 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr "Tidal で認証されませんでした"
 
@@ -3857,7 +3857,7 @@ msgstr "再生ゲイン"
 msgid "Replay Gain mode"
 msgstr "再生ゲインモード"
 
-#: tidal/tidalservice.cpp:362
+#: tidal/tidalservice.cpp:366
 msgid "Reply from Tidal is missing query items."
 msgstr "Tidal からの返信にクエリアイテムがありません。"
 
@@ -3906,14 +3906,14 @@ msgstr "FATファイルシステムで許可されている文字に制限"
 msgid "Resume playback on start"
 msgstr "起動時に再生を再開する"
 
-#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1103
-#: qobuz/qobuzrequest.cpp:1148
+#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1101
+#: qobuz/qobuzrequest.cpp:1145
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "アルバム %1 からアルバムカバーを取得..."
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1104
-#: qobuz/qobuzrequest.cpp:1149
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1102
+#: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "アルバム %1 からアルバムカバーを取得..."
@@ -4179,7 +4179,7 @@ msgstr "シリアル番号"
 msgid "Server URL"
 msgstr "サーバーURL"
 
-#: subsonic/subsonicservice.cpp:418 settings/subsonicsettingspage.cpp:118
+#: subsonic/subsonicservice.cpp:412 settings/subsonicsettingspage.cpp:118
 msgid "Server URL is invalid."
 msgstr "サーバーURLが不正です。"
 
@@ -4975,8 +4975,8 @@ msgstr ""
 msgid "Unknown"
 msgstr "不明"
 
-#: subsonic/subsonicrequest.cpp:871 tidal/tidalrequest.cpp:1279
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:876 tidal/tidalrequest.cpp:1279
+#: qobuz/qobuzrequest.cpp:1323
 msgid "Unknown error"
 msgstr "不明なエラー"
 

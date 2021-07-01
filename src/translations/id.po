@@ -989,7 +989,7 @@ msgstr "Keluaran audio"
 msgid "Audio quality"
 msgstr "Kualitas audio"
 
-#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:252
+#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:253
 msgid "Authenticating..."
 msgstr "Mengautentikasi..."
 
@@ -1186,7 +1186,7 @@ msgstr "CDDA"
 msgid "Cancel"
 msgstr ""
 
-#: tidal/tidalstreamurlrequest.cpp:108 qobuz/qobuzstreamurlrequest.cpp:103
+#: tidal/tidalstreamurlrequest.cpp:109 qobuz/qobuzstreamurlrequest.cpp:104
 msgid "Cancelled."
 msgstr "Dibatalkan."
 
@@ -2924,7 +2924,7 @@ msgstr "Ukuran sampul maksimum"
 msgid "Maximum bitrate"
 msgstr "Lajubit maksimum"
 
-#: qobuz/qobuzservice.cpp:465
+#: qobuz/qobuzservice.cpp:466
 msgid "Maximum number of login attempts reached."
 msgstr "Jumlah maksimum upaya masuk tercapai."
 
@@ -2949,21 +2949,21 @@ msgstr "Lajubit minimum"
 msgid "Missing API token."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:717 qobuz/qobuzstreamurlrequest.cpp:84
+#: qobuz/qobuzservice.cpp:718 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr "App ID atau secret Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:469 qobuz/qobuzservice.cpp:498
-#: qobuz/qobuzservice.cpp:553 qobuz/qobuzservice.cpp:606
-#: qobuz/qobuzservice.cpp:671
+#: qobuz/qobuzservice.cpp:470 qobuz/qobuzservice.cpp:499
+#: qobuz/qobuzservice.cpp:554 qobuz/qobuzservice.cpp:607
+#: qobuz/qobuzservice.cpp:672
 msgid "Missing Qobuz app ID."
 msgstr "App ID Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:477
+#: qobuz/qobuzservice.cpp:478
 msgid "Missing Qobuz password."
 msgstr "Kata sandi Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:473
+#: qobuz/qobuzservice.cpp:474
 msgid "Missing Qobuz username."
 msgstr "Nama pengguna Qobuz tidak tersedia."
 
@@ -2971,13 +2971,13 @@ msgstr "Nama pengguna Qobuz tidak tersedia."
 msgid "Missing Subsonic username or password."
 msgstr "Nama pengguna atau kata sandi Subsonic tidak tersedia."
 
-#: tidal/tidalservice.cpp:740 tidal/tidalservice.cpp:799
-#: tidal/tidalservice.cpp:856 tidal/tidalservice.cpp:921
-#: tidal/tidalservice.cpp:981 tidal/tidalstreamurlrequest.cpp:90
+#: tidal/tidalservice.cpp:744 tidal/tidalservice.cpp:804
+#: tidal/tidalservice.cpp:862 tidal/tidalservice.cpp:928
+#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:701
+#: tidal/tidalservice.cpp:705
 msgid "Missing Tidal API token."
 msgstr "Token API Tidal tidak tersedia."
 
@@ -2985,11 +2985,11 @@ msgstr "Token API Tidal tidak tersedia."
 msgid "Missing Tidal client ID."
 msgstr "Client ID Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:709
+#: tidal/tidalservice.cpp:713
 msgid "Missing Tidal password."
 msgstr "Kata sandi Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:705
+#: tidal/tidalservice.cpp:709
 msgid "Missing Tidal username."
 msgstr "Nama pengguna Tidal tidak tersedia."
 
@@ -3005,7 +3005,7 @@ msgstr ""
 msgid "Missing server url, username or password."
 msgstr "URL server, nama pengguna atau kata sandi tidak tersedia."
 
-#: subsonic/subsonicservice.cpp:423
+#: subsonic/subsonicservice.cpp:417
 msgid "Missing username or password."
 msgstr "Nama pengguna atau kata sandi tidak tersedia."
 
@@ -3156,7 +3156,7 @@ msgstr "Tidak ada sampul untuk diekspor."
 msgid "No long blocks"
 msgstr "Tanpa blok panjang"
 
-#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1317
 msgid "No match."
 msgstr "Tidak ada yang cocok."
 
@@ -3199,20 +3199,20 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Tipe blok normal"
 
-#: qobuz/qobuzservice.cpp:503 qobuz/qobuzservice.cpp:558
-#: qobuz/qobuzservice.cpp:611
+#: qobuz/qobuzservice.cpp:504 qobuz/qobuzservice.cpp:559
+#: qobuz/qobuzservice.cpp:612
 msgid "Not authenticated with Qobuz."
 msgstr "Tidak terautentikasi dengan Qobuz."
 
-#: tidal/tidalservice.cpp:713
+#: tidal/tidalservice.cpp:717
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Tidak terautentikasi dengan Tidal dan jumlah maksimum upaya masuk tercapai."
 
-#: tidal/tidalservice.cpp:735 tidal/tidalservice.cpp:794
-#: tidal/tidalservice.cpp:851 tidal/tidalservice.cpp:916
-#: tidal/tidalservice.cpp:977 tidal/tidalstreamurlrequest.cpp:86
+#: tidal/tidalservice.cpp:739 tidal/tidalservice.cpp:799
+#: tidal/tidalservice.cpp:857 tidal/tidalservice.cpp:923
+#: tidal/tidalservice.cpp:985 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr "Tidak terautentikasi dengan Tidal."
 
@@ -3869,7 +3869,7 @@ msgstr "Replay Gain"
 msgid "Replay Gain mode"
 msgstr "Mode Replay Gain"
 
-#: tidal/tidalservice.cpp:362
+#: tidal/tidalservice.cpp:366
 msgid "Reply from Tidal is missing query items."
 msgstr "Balasan dari Tidal tidak memiliki artikel yang diminta."
 
@@ -3920,14 +3920,14 @@ msgstr "Bataskan ke karakter yang diperbolehkan oleh sistem file FAT"
 msgid "Resume playback on start"
 msgstr "Lanjutkan pemutaran saat memulai Strawberry"
 
-#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1103
-#: qobuz/qobuzrequest.cpp:1148
+#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1101
+#: qobuz/qobuzrequest.cpp:1145
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1104
-#: qobuz/qobuzrequest.cpp:1149
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1102
+#: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Mengambil sampul album untuk %1 album..."
@@ -4193,7 +4193,7 @@ msgstr "Nomor seri"
 msgid "Server URL"
 msgstr "URL server"
 
-#: subsonic/subsonicservice.cpp:418 settings/subsonicsettingspage.cpp:118
+#: subsonic/subsonicservice.cpp:412 settings/subsonicsettingspage.cpp:118
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 
@@ -5010,8 +5010,8 @@ msgstr ""
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: subsonic/subsonicrequest.cpp:871 tidal/tidalrequest.cpp:1279
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:876 tidal/tidalrequest.cpp:1279
+#: qobuz/qobuzrequest.cpp:1323
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
 

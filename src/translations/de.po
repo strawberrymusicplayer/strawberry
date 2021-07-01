@@ -1027,7 +1027,7 @@ msgstr "Tonausgabe"
 msgid "Audio quality"
 msgstr "Tonqualität"
 
-#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:252
+#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:253
 msgid "Authenticating..."
 msgstr "Authentifiziere..."
 
@@ -1224,7 +1224,7 @@ msgstr "CDDA"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: tidal/tidalstreamurlrequest.cpp:108 qobuz/qobuzstreamurlrequest.cpp:103
+#: tidal/tidalstreamurlrequest.cpp:109 qobuz/qobuzstreamurlrequest.cpp:104
 msgid "Cancelled."
 msgstr "Abgebrochen."
 
@@ -2987,7 +2987,7 @@ msgstr "Maximale Cover Größe"
 msgid "Maximum bitrate"
 msgstr "Maximale Bitrate"
 
-#: qobuz/qobuzservice.cpp:465
+#: qobuz/qobuzservice.cpp:466
 msgid "Maximum number of login attempts reached."
 msgstr "Maximale Anzahl von Anmeldeversuchen erreicht."
 
@@ -3012,21 +3012,21 @@ msgstr "Minimale Bitrate"
 msgid "Missing API token."
 msgstr "API Zeichen fehlt."
 
-#: qobuz/qobuzservice.cpp:717 qobuz/qobuzstreamurlrequest.cpp:84
+#: qobuz/qobuzservice.cpp:718 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr "Fehlende Qobuz-App-ID oder geheim."
 
-#: qobuz/qobuzservice.cpp:469 qobuz/qobuzservice.cpp:498
-#: qobuz/qobuzservice.cpp:553 qobuz/qobuzservice.cpp:606
-#: qobuz/qobuzservice.cpp:671
+#: qobuz/qobuzservice.cpp:470 qobuz/qobuzservice.cpp:499
+#: qobuz/qobuzservice.cpp:554 qobuz/qobuzservice.cpp:607
+#: qobuz/qobuzservice.cpp:672
 msgid "Missing Qobuz app ID."
 msgstr "Fehlende Qobuz-App-ID."
 
-#: qobuz/qobuzservice.cpp:477
+#: qobuz/qobuzservice.cpp:478
 msgid "Missing Qobuz password."
 msgstr "Fehlendes Qobuz Passwort."
 
-#: qobuz/qobuzservice.cpp:473
+#: qobuz/qobuzservice.cpp:474
 msgid "Missing Qobuz username."
 msgstr "Fehlender Qobuz Username."
 
@@ -3034,13 +3034,13 @@ msgstr "Fehlender Qobuz Username."
 msgid "Missing Subsonic username or password."
 msgstr "Subsonic Benutzername oder Passwort fehlt"
 
-#: tidal/tidalservice.cpp:740 tidal/tidalservice.cpp:799
-#: tidal/tidalservice.cpp:856 tidal/tidalservice.cpp:921
-#: tidal/tidalservice.cpp:981 tidal/tidalstreamurlrequest.cpp:90
+#: tidal/tidalservice.cpp:744 tidal/tidalservice.cpp:804
+#: tidal/tidalservice.cpp:862 tidal/tidalservice.cpp:928
+#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr "Tidal API Zeichen fehlt, Nutzername oder Passwort."
 
-#: tidal/tidalservice.cpp:701
+#: tidal/tidalservice.cpp:705
 msgid "Missing Tidal API token."
 msgstr "Tidal API Zeichen fehlt."
 
@@ -3048,11 +3048,11 @@ msgstr "Tidal API Zeichen fehlt."
 msgid "Missing Tidal client ID."
 msgstr "Tidal Kunden ID fehlt."
 
-#: tidal/tidalservice.cpp:709
+#: tidal/tidalservice.cpp:713
 msgid "Missing Tidal password."
 msgstr "Tidal Passwort fehlt. "
 
-#: tidal/tidalservice.cpp:705
+#: tidal/tidalservice.cpp:709
 msgid "Missing Tidal username."
 msgstr "Tidal Benutzername fehlt."
 
@@ -3068,7 +3068,7 @@ msgstr "Fehlendes Passwort."
 msgid "Missing server url, username or password."
 msgstr "Server URL, Nutzername oder Passwort fehlt"
 
-#: subsonic/subsonicservice.cpp:423
+#: subsonic/subsonicservice.cpp:417
 msgid "Missing username or password."
 msgstr "Nutzername oder Passwort fehlt"
 
@@ -3219,7 +3219,7 @@ msgstr "Keine Titelbilder zum Exportieren."
 msgid "No long blocks"
 msgstr "Keine langen Blöcke"
 
-#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1317
 msgid "No match."
 msgstr "Keine Übereinstimmung."
 
@@ -3261,21 +3261,21 @@ msgstr "normal"
 msgid "Normal block type"
 msgstr "Normaler Blocktyp"
 
-#: qobuz/qobuzservice.cpp:503 qobuz/qobuzservice.cpp:558
-#: qobuz/qobuzservice.cpp:611
+#: qobuz/qobuzservice.cpp:504 qobuz/qobuzservice.cpp:559
+#: qobuz/qobuzservice.cpp:612
 msgid "Not authenticated with Qobuz."
 msgstr "Nicht mit Qobuz authentifiziert."
 
-#: tidal/tidalservice.cpp:713
+#: tidal/tidalservice.cpp:717
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Nicht bei Tidal authentifiziert und maximale Anzahl von Anmeldeversuchen "
 "erreicht."
 
-#: tidal/tidalservice.cpp:735 tidal/tidalservice.cpp:794
-#: tidal/tidalservice.cpp:851 tidal/tidalservice.cpp:916
-#: tidal/tidalservice.cpp:977 tidal/tidalstreamurlrequest.cpp:86
+#: tidal/tidalservice.cpp:739 tidal/tidalservice.cpp:799
+#: tidal/tidalservice.cpp:857 tidal/tidalservice.cpp:923
+#: tidal/tidalservice.cpp:985 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr "Nicht bei Tidal authentifiziert."
 
@@ -3952,7 +3952,7 @@ msgstr "Replay Gain"
 msgid "Replay Gain mode"
 msgstr "Replay Gain"
 
-#: tidal/tidalservice.cpp:362
+#: tidal/tidalservice.cpp:366
 msgid "Reply from Tidal is missing query items."
 msgstr "Bei der Antwort von Tidal fehlen Abfrageelemente."
 
@@ -4004,14 +4004,14 @@ msgstr "Beschränkung auf die in FAT-Dateisystemen erlaubten Zeichen"
 msgid "Resume playback on start"
 msgstr "Wiedergabe beim Start fortsetzten"
 
-#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1103
-#: qobuz/qobuzrequest.cpp:1148
+#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1101
+#: qobuz/qobuzrequest.cpp:1145
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Empfange Albumcover für %1 Album... "
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1104
-#: qobuz/qobuzrequest.cpp:1149
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1102
+#: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Empfange Albencover für %1 Alben..."
@@ -4277,7 +4277,7 @@ msgstr "Seriennummer"
 msgid "Server URL"
 msgstr "Server URL"
 
-#: subsonic/subsonicservice.cpp:418 settings/subsonicsettingspage.cpp:118
+#: subsonic/subsonicservice.cpp:412 settings/subsonicsettingspage.cpp:118
 msgid "Server URL is invalid."
 msgstr "Server URL ist ungültig."
 
@@ -5107,8 +5107,8 @@ msgstr "Deinstalliere den Snap mit:"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: subsonic/subsonicrequest.cpp:871 tidal/tidalrequest.cpp:1279
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:876 tidal/tidalrequest.cpp:1279
+#: qobuz/qobuzrequest.cpp:1323
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 

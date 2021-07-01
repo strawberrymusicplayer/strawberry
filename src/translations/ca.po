@@ -983,7 +983,7 @@ msgstr "Sortida d’àudio"
 msgid "Audio quality"
 msgstr "Qualitat d’àudio"
 
-#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:252
+#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:253
 msgid "Authenticating..."
 msgstr "S’està autenticant…"
 
@@ -1181,7 +1181,7 @@ msgstr "CDDA"
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: tidal/tidalstreamurlrequest.cpp:108 qobuz/qobuzstreamurlrequest.cpp:103
+#: tidal/tidalstreamurlrequest.cpp:109 qobuz/qobuzstreamurlrequest.cpp:104
 msgid "Cancelled."
 msgstr "S’ha cancel·lat."
 
@@ -2926,7 +2926,7 @@ msgstr ""
 msgid "Maximum bitrate"
 msgstr "Màxima taxa de bits"
 
-#: qobuz/qobuzservice.cpp:465
+#: qobuz/qobuzservice.cpp:466
 msgid "Maximum number of login attempts reached."
 msgstr ""
 
@@ -2951,21 +2951,21 @@ msgstr "Taxa de bits mínima"
 msgid "Missing API token."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:717 qobuz/qobuzstreamurlrequest.cpp:84
+#: qobuz/qobuzservice.cpp:718 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:469 qobuz/qobuzservice.cpp:498
-#: qobuz/qobuzservice.cpp:553 qobuz/qobuzservice.cpp:606
-#: qobuz/qobuzservice.cpp:671
+#: qobuz/qobuzservice.cpp:470 qobuz/qobuzservice.cpp:499
+#: qobuz/qobuzservice.cpp:554 qobuz/qobuzservice.cpp:607
+#: qobuz/qobuzservice.cpp:672
 msgid "Missing Qobuz app ID."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:477
+#: qobuz/qobuzservice.cpp:478
 msgid "Missing Qobuz password."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:473
+#: qobuz/qobuzservice.cpp:474
 msgid "Missing Qobuz username."
 msgstr ""
 
@@ -2973,13 +2973,13 @@ msgstr ""
 msgid "Missing Subsonic username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:740 tidal/tidalservice.cpp:799
-#: tidal/tidalservice.cpp:856 tidal/tidalservice.cpp:921
-#: tidal/tidalservice.cpp:981 tidal/tidalstreamurlrequest.cpp:90
+#: tidal/tidalservice.cpp:744 tidal/tidalservice.cpp:804
+#: tidal/tidalservice.cpp:862 tidal/tidalservice.cpp:928
+#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:701
+#: tidal/tidalservice.cpp:705
 msgid "Missing Tidal API token."
 msgstr ""
 
@@ -2987,11 +2987,11 @@ msgstr ""
 msgid "Missing Tidal client ID."
 msgstr ""
 
-#: tidal/tidalservice.cpp:709
+#: tidal/tidalservice.cpp:713
 msgid "Missing Tidal password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:705
+#: tidal/tidalservice.cpp:709
 msgid "Missing Tidal username."
 msgstr ""
 
@@ -3007,7 +3007,7 @@ msgstr ""
 msgid "Missing server url, username or password."
 msgstr ""
 
-#: subsonic/subsonicservice.cpp:423
+#: subsonic/subsonicservice.cpp:417
 msgid "Missing username or password."
 msgstr ""
 
@@ -3158,7 +3158,7 @@ msgstr "No hi ha cap coberta que exportar."
 msgid "No long blocks"
 msgstr "No utilitzis blocs llargs"
 
-#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1317
 msgid "No match."
 msgstr ""
 
@@ -3202,19 +3202,19 @@ msgstr ""
 msgid "Normal block type"
 msgstr "Tipus de bloc normal"
 
-#: qobuz/qobuzservice.cpp:503 qobuz/qobuzservice.cpp:558
-#: qobuz/qobuzservice.cpp:611
+#: qobuz/qobuzservice.cpp:504 qobuz/qobuzservice.cpp:559
+#: qobuz/qobuzservice.cpp:612
 msgid "Not authenticated with Qobuz."
 msgstr ""
 
-#: tidal/tidalservice.cpp:713
+#: tidal/tidalservice.cpp:717
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 
-#: tidal/tidalservice.cpp:735 tidal/tidalservice.cpp:794
-#: tidal/tidalservice.cpp:851 tidal/tidalservice.cpp:916
-#: tidal/tidalservice.cpp:977 tidal/tidalstreamurlrequest.cpp:86
+#: tidal/tidalservice.cpp:739 tidal/tidalservice.cpp:799
+#: tidal/tidalservice.cpp:857 tidal/tidalservice.cpp:923
+#: tidal/tidalservice.cpp:985 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr ""
 
@@ -3873,7 +3873,7 @@ msgstr "Replay Gain"
 msgid "Replay Gain mode"
 msgstr "Mode de l’Replay Gain"
 
-#: tidal/tidalservice.cpp:362
+#: tidal/tidalservice.cpp:366
 msgid "Reply from Tidal is missing query items."
 msgstr ""
 
@@ -3924,14 +3924,14 @@ msgstr ""
 msgid "Resume playback on start"
 msgstr "Reprèn la reproducció en l’inici"
 
-#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1103
-#: qobuz/qobuzrequest.cpp:1148
+#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1101
+#: qobuz/qobuzrequest.cpp:1145
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr ""
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1104
-#: qobuz/qobuzrequest.cpp:1149
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1102
+#: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr ""
@@ -4197,7 +4197,7 @@ msgstr "Número de sèrie"
 msgid "Server URL"
 msgstr ""
 
-#: subsonic/subsonicservice.cpp:418 settings/subsonicsettingspage.cpp:118
+#: subsonic/subsonicservice.cpp:412 settings/subsonicsettingspage.cpp:118
 msgid "Server URL is invalid."
 msgstr ""
 
@@ -5018,8 +5018,8 @@ msgstr ""
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: subsonic/subsonicrequest.cpp:871 tidal/tidalrequest.cpp:1279
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:876 tidal/tidalrequest.cpp:1279
+#: qobuz/qobuzrequest.cpp:1323
 msgid "Unknown error"
 msgstr ""
 
