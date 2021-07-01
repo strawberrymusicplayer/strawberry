@@ -223,16 +223,36 @@ if(X11_FOUND)
   endif()
 endif(X11_FOUND)
 
+option(USE_TAGLIB "Build with TagLib" OFF)
+option(USE_TAGPARSER "Build with TagParser" OFF)
+
+if(NOT USE_TAGLIB AND NOT USE_TAGPARSER)
+  set(USE_TAGLIB ON)
+endif()
+
 # TAGLIB
-pkg_check_modules(TAGLIB REQUIRED taglib>=1.11.1)
-find_path(HAVE_TAGLIB_DSFFILE_H taglib/dsffile.h)
-find_path(HAVE_TAGLIB_DSDIFFFILE_H taglib/dsdifffile.h)
-if(HAVE_TAGLIB_DSFFILE_H)
-  set(HAVE_TAGLIB_DSFFILE ON)
-endif(HAVE_TAGLIB_DSFFILE_H)
-if(HAVE_TAGLIB_DSDIFFFILE_H)
-  set(HAVE_TAGLIB_DSDIFFFILE ON)
-endif(HAVE_TAGLIB_DSDIFFFILE_H)
+if(USE_TAGLIB)
+  pkg_check_modules(TAGLIB REQUIRED taglib>=1.11.1)
+  if(TAGLIB_FOUND)
+    find_path(HAVE_TAGLIB_DSFFILE_H taglib/dsffile.h)
+    find_path(HAVE_TAGLIB_DSDIFFFILE_H taglib/dsdifffile.h)
+    if(HAVE_TAGLIB_DSFFILE_H)
+      set(HAVE_TAGLIB_DSFFILE ON)
+    endif(HAVE_TAGLIB_DSFFILE_H)
+    if(HAVE_TAGLIB_DSDIFFFILE_H)
+      set(HAVE_TAGLIB_DSDIFFFILE ON)
+    endif(HAVE_TAGLIB_DSDIFFFILE_H)
+  endif()
+endif()
+
+# TAGPARSER
+if(USE_TAGPARSER)
+  pkg_check_modules(TAGPARSER REQUIRED tagparser)
+endif()
+
+if(NOT TAGLIB_FOUND AND NOT TAGPARSER_FOUND)
+  message(FATAL_ERROR "You need either TagLib or TagParser!")
+endif()
 
 # SingleApplication
 add_subdirectory(3rdparty/singleapplication)
@@ -476,6 +496,6 @@ if(NOT CMAKE_CROSSCOMPILING)
   endif()
 endif()
 
-if(NOT TAGLIB_VERSION VERSION_GREATER_EQUAL 1.12)
+if(USE_TAGLIB AND TAGLIB_FOUND AND NOT TAGLIB_VERSION VERSION_GREATER_EQUAL 1.12)
   message(WARNING "There is a critical bug in TagLib (1.11.1) that can result in corrupt Ogg files, see: https://github.com/taglib/taglib/issues/864, please consider updating TagLib to the newest version.")
 endif()

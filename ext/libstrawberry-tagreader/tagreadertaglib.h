@@ -16,8 +16,8 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TAGREADER_H
-#define TAGREADER_H
+#ifndef TAGREADERTAGLIB_H
+#define TAGREADERTAGLIB_H
 
 #include "config.h"
 
@@ -33,28 +33,30 @@
 #include <taglib/apefile.h>
 #include <taglib/id3v2tag.h>
 
+#include "tagreaderbase.h"
 #include "tagreadermessages.pb.h"
 
 class FileRefFactory;
 
-/**
+/*
  * This class holds all useful methods to read and write tags from/to files.
  * You should not use it directly in the main process but rather use a TagReaderWorker process (using TagReaderClient)
  */
-class TagReader {
+class TagReaderTagLib : public TagReaderBase {
  public:
-  explicit TagReader();
-  ~TagReader();
+  explicit TagReaderTagLib();
+  ~TagReaderTagLib();
 
-  bool IsMediaFile(const QString &filename) const;
+  bool IsMediaFile(const QString &filename) const override;
+
+  void ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
+  bool SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+
+  QByteArray LoadEmbeddedArt(const QString &filename) const override;
+  bool SaveEmbeddedArt(const QString &filename, const QByteArray &data) override;
+
+ private:
   spb::tagreader::SongMetadata_FileType GuessFileType(TagLib::FileRef *fileref) const;
-
-  void ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const;
-  bool SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const;
-
-  QByteArray LoadEmbeddedArt(const QString &filename) const;
-  QByteArray LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const;
-  bool SaveEmbeddedArt(const QString &filename, const QByteArray &data);
 
   static void Decode(const TagLib::String &tag, std::string *output);
   static void Decode(const QString &tag, std::string *output);
@@ -69,10 +71,10 @@ class TagReader {
   void SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const;
   void SetUnsyncLyricsFrame(const std::string& value, TagLib::ID3v2::Tag* tag) const;
 
+  QByteArray LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const;
+
  private:
   FileRefFactory *factory_;
-
-  const std::string kEmbeddedCover;
 };
 
-#endif  // TAGREADER_H
+#endif  // TAGREADERTAGLIB_H

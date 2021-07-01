@@ -18,7 +18,7 @@
 
 #include "config.h"
 
-#include "tagreader.h"
+#include "tagreadertaglib.h"
 
 #include <string>
 #include <memory>
@@ -132,25 +132,22 @@ const char *kASF_OriginalYear_ID = "WM/OriginalReleaseYear";
 }  // namespace
 
 
-TagReader::TagReader() :
-  factory_(new TagLibFileRefFactory),
-  kEmbeddedCover("(embedded)") {
-}
+TagReaderTagLib::TagReaderTaglib() : factory_(new TagLibFileRefFactory) {}
 
-TagReader::~TagReader() {
+TagReaderTagLib::~TagReaderTaglib() {
   delete factory_;
 }
 
-bool TagReader::IsMediaFile(const QString &filename) const {
+bool TagReaderTagLib::IsMediaFile(const QString &filename) const {
 
   qLog(Debug) << "Checking for valid file" << filename;
 
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
-  return !fileref->isNull() && fileref->tag();
+  return fileref && !fileref->isNull() && fileref->file() && fileref->tag();
 
 }
 
-spb::tagreader::SongMetadata_FileType TagReader::GuessFileType(TagLib::FileRef *fileref) const {
+spb::tagreader::SongMetadata_FileType TagReaderTagLib::GuessFileType(TagLib::FileRef *fileref) const {
 
   if (dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) return spb::tagreader::SongMetadata_FileType_WAV;
   if (dynamic_cast<TagLib::FLAC::File*>(fileref->file())) return spb::tagreader::SongMetadata_FileType_FLAC;
@@ -177,7 +174,7 @@ spb::tagreader::SongMetadata_FileType TagReader::GuessFileType(TagLib::FileRef *
 
 }
 
-void TagReader::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
+void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
 
   const QByteArray url(QUrl::fromLocalFile(filename).toEncoded());
   const QFileInfo info(filename);
@@ -428,20 +425,20 @@ void TagReader::ReadFile(const QString &filename, spb::tagreader::SongMetadata *
 
 }
 
-void TagReader::Decode(const TagLib::String &tag, std::string *output) {
+void TagReaderTagLib::Decode(const TagLib::String &tag, std::string *output) {
 
   QString tmp = TStringToQString(tag).trimmed();
   output->assign(DataCommaSizeFromQString(tmp));
 
 }
 
-void TagReader::Decode(const QString &tag, std::string *output) {
+void TagReaderTagLib::Decode(const QString &tag, std::string *output) {
 
   output->assign(DataCommaSizeFromQString(tag));
 
 }
 
-void TagReader::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const {
+void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const {
 
   if (!map["COMPOSER"].isEmpty()) Decode(map["COMPOSER"].front(), song->mutable_composer());
   if (!map["PERFORMER"].isEmpty()) Decode(map["PERFORMER"].front(), song->mutable_performer());
@@ -466,7 +463,7 @@ void TagReader::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString *disc,
 
 }
 
-void TagReader::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const {
+void TagReaderTagLib::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const {
 
   TagLib::APE::ItemListMap::ConstIterator it = map.find("ALBUM ARTIST");
   if (it != map.end()) {
@@ -510,7 +507,7 @@ void TagReader::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *disc, 
 
 }
 
-void TagReader::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, const spb::tagreader::SongMetadata &song) const {
+void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, const spb::tagreader::SongMetadata &song) const {
 
   vorbis_comments->addField("COMPOSER", StdStringToTaglibString(song.composer()), true);
   vorbis_comments->addField("PERFORMER", StdStringToTaglibString(song.performer()), true);
@@ -528,7 +525,7 @@ void TagReader::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, con
 
 }
 
-bool TagReader::SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
+bool TagReaderTagLib::SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
 
   if (filename.isEmpty()) return false;
 
@@ -609,7 +606,7 @@ bool TagReader::SaveFile(const QString &filename, const spb::tagreader::SongMeta
   return result;
 }
 
-void TagReader::SaveAPETag(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const {
+void TagReaderTagLib::SaveAPETag(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const {
 
   tag->setItem("album artist", TagLib::APE::Item("album artist", TagLib::StringList(song.albumartist().c_str())));
   tag->addValue("disc", QStringToTaglibString(song.disc() <= 0 ? QString() : QString::number(song.disc())), true);
@@ -621,14 +618,14 @@ void TagReader::SaveAPETag(TagLib::APE::Tag *tag, const spb::tagreader::SongMeta
 
 }
 
-void TagReader::SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const {
+void TagReaderTagLib::SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const {
 
   const QByteArray utf8(value.toUtf8());
   SetTextFrame(id, std::string(utf8.constData(), utf8.length()), tag);
 
 }
 
-void TagReader::SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const {
+void TagReaderTagLib::SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const {
 
   TagLib::ByteVector id_vector(id);
   QVector<TagLib::ByteVector> frames_buffer;
@@ -659,7 +656,7 @@ void TagReader::SetTextFrame(const char *id, const std::string &value, TagLib::I
 
 }
 
-void TagReader::SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3v2::Tag *tag) const {
+void TagReaderTagLib::SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3v2::Tag *tag) const {
 
   TagLib::ByteVector id_vector("USLT");
   QVector<TagLib::ByteVector> frames_buffer;
@@ -691,7 +688,7 @@ void TagReader::SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3v2::Ta
 
 }
 
-QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
+QByteArray TagReaderTagLib::LoadEmbeddedArt(const QString &filename) const {
 
   if (filename.isEmpty()) return QByteArray();
 
@@ -792,7 +789,7 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
 
 }
 
-QByteArray TagReader::LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const {
+QByteArray TagReaderTagLib::LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const {
 
   QByteArray ret;
 
@@ -810,7 +807,7 @@ QByteArray TagReader::LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) co
 
 }
 
-bool TagReader::SaveEmbeddedArt(const QString &filename, const QByteArray &data) {
+bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray &data) {
 
   if (filename.isEmpty()) return false;
 

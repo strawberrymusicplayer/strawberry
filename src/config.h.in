@@ -49,4 +49,7 @@
 
 #cmakedefine ENABLE_WIN32_CONSOLE
 
+#cmakedefine USE_TAGLIB
+#cmakedefine USE_TAGPARSER
+
 #endif // CONFIG_H_IN

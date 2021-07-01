@@ -24,7 +24,11 @@
 #include <QObject>
 
 #include "core/messagehandler.h"
-#include "tagreader.h"
+#if defined(USE_TAGLIB)
+#  include "tagreadertaglib.h"
+#elif defined(USE_TAGPARSER)
+#  include "tagreadertagparser.h"
+#endif
 #include "tagreadermessages.pb.h"
 
 class QIODevice;
@@ -40,7 +44,11 @@ class TagReaderWorker : public AbstractMessageHandler<spb::tagreader::Message> {
   void DeviceClosed() override;
 
  private:
-  TagReader tag_reader_;
+#if defined(USE_TAGLIB)
+  TagReaderTagLib tag_reader_;
+#elif defined(USE_TAGPARSER)
+  TagReaderTagParser tag_reader_;
+#endif
 };
 
 #endif  // TAGREADERWORKER_H

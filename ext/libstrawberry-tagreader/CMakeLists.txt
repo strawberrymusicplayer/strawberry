@@ -1,7 +1,15 @@
 cmake_minimum_required(VERSION 3.0)
 
 set(MESSAGES tagreadermessages.proto)
-set(SOURCES tagreader.cpp)
+set(SOURCES tagreaderbase.cpp)
+
+if(USE_TAGLIB AND TAGLIB_FOUND)
+  list(APPEND SOURCES tagreadertaglib.cpp)
+endif()
+
+if(USE_TAGPARSER AND TAGPARSER_FOUND)
+  list(APPEND SOURCES tagreadertagparser.cpp)
+endif()
 
 protobuf_generate_cpp(PROTO_SOURCES PROTO_HEADERS ${MESSAGES})
 
@@ -11,12 +19,19 @@ link_directories(
   ${TAGLIB_LIBRARY_DIRS}
 )
 
+if(USE_TAGLIB AND TAGLIB_FOUND)
+  link_directories(${TAGLIB_LIBRARY_DIRS})
+endif()
+
+if(USE_TAGPARSER AND TAGPARSER_FOUND)
+  link_directories(${TAGPARSER_LIBRARY_DIRS})
+endif()
+
 add_library(libstrawberry-tagreader STATIC ${PROTO_SOURCES} ${SOURCES})
 
 target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE
   ${GLIB_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
-  ${TAGLIB_INCLUDE_DIRS}
 )
 
 target_include_directories(libstrawberry-tagreader PRIVATE
@@ -30,8 +45,17 @@ target_include_directories(libstrawberry-tagreader PRIVATE
 target_link_libraries(libstrawberry-tagreader PRIVATE
   ${GLIB_LIBRARIES}
   ${PROTOBUF_LIBRARY}
-  ${TAGLIB_LIBRARIES}
   ${QtCore_LIBRARIES}
   ${QtNetwork_LIBRARIES}
   libstrawberry-common
 )
+
+if(USE_TAGLIB AND TAGLIB_FOUND)
+  target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE ${TAGLIB_INCLUDE_DIRS})
+  target_link_libraries(libstrawberry-tagreader PRIVATE ${TAGLIB_LIBRARIES})
+endif()
+
+if(USE_TAGPARSER AND TAGPARSER_FOUND)
+  target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE ${TAGPARSER_INCLUDE_DIRS})
+  target_link_libraries(libstrawberry-tagreader PRIVATE ${TAGPARSER_LIBRARIES})
+endif()

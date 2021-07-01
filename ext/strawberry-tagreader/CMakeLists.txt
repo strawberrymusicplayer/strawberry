@@ -11,17 +11,21 @@ else()
   qt5_wrap_cpp(MOC ${HEADERS})
 endif()
 
-link_directories(
-  ${GLIB_LIBRARY_DIRS}
-  ${TAGLIB_LIBRARY_DIRS}
-)
+link_directories(${GLIB_LIBRARY_DIRS})
+
+if(USE_TAGLIB AND TAGLIB_FOUND)
+  link_directories(${TAGLIB_LIBRARY_DIRS})
+endif()
+
+if(USE_TAGPARSER AND TAGPARSER_FOUND)
+  link_directories(${TAGPARSER_LIBRARY_DIRS})
+endif()
 
 add_executable(strawberry-tagreader ${SOURCES} ${MOC} ${QRC})
 
 target_include_directories(strawberry-tagreader SYSTEM PRIVATE
   ${GLIB_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
-  ${TAGLIB_INCLUDE_DIRS}
 )
 
 target_include_directories(strawberry-tagreader PRIVATE
@@ -33,12 +37,21 @@ target_include_directories(strawberry-tagreader PRIVATE
 
 target_link_libraries(strawberry-tagreader PRIVATE
   ${GLIB_LIBRARIES}
-  ${TAGLIB_LIBRARIES}
   ${QtCore_LIBRARIES}
   ${QtNetwork_LIBRARIES}
   libstrawberry-common
   libstrawberry-tagreader
 )
+
+if(USE_TAGLIB AND TAGLIB_FOUND)
+  target_include_directories(strawberry-tagreader SYSTEM PRIVATE ${TAGLIB_INCLUDE_DIRS})
+  target_link_libraries(strawberry-tagreader PRIVATE ${TAGLIB_LIBRARIES})
+endif()
+
+if(USE_TAGPARSER AND TAGPARSER_FOUND)
+  target_include_directories(strawberry-tagreader SYSTEM PRIVATE ${TAGPARSER_INCLUDE_DIRS})
+  target_link_libraries(strawberry-tagreader PRIVATE ${TAGPARSER_LIBRARIES})
+endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
   target_link_libraries(strawberry-tagreader PRIVATE execinfo)
