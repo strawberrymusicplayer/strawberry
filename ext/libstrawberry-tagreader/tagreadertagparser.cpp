@@ -34,7 +34,6 @@
 #include <QtGlobal>
 #include <QFile>
 #include <QFileInfo>
-#include <QVector>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
