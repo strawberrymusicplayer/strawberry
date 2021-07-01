@@ -35,6 +35,7 @@
 #include <QStringList>
 #include <QRegularExpression>
 #include <QUrl>
+#include <QFileInfo>
 #include <QImage>
 #include <QIcon>
 
@@ -159,8 +160,8 @@ class Song {
   void Init(const QString &title, const QString &artist, const QString &album, qint64 beginning, qint64 end);
   void InitFromProtobuf(const spb::tagreader::SongMetadata &pb);
   void InitFromQuery(const SqlRow &query, bool reliable_metadata, int col = 0);
-  void InitFromFilePartial(const QString &filename);  // Just store the filename: incomplete but fast
-  void InitArtManual();  // Check if there is already a art in the cache and store the filename in art_manual
+  void InitFromFilePartial(const QString &filename, const QFileInfo &fileinfo);
+  void InitArtManual();
   void InitArtAutomatic();
 
   bool MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle);
@@ -289,8 +290,6 @@ class Song {
   const QUrl &effective_stream_url() const;
   const QImage &image() const;
 
-  const QString &error() const;
-
   // Pretty accessors
   QString PrettyTitle() const;
   QString PrettyTitleWithArtist() const;
@@ -319,7 +318,6 @@ class Song {
   void set_year(int v);
   void set_originalyear(int v);
   void set_genre(const QString &v);
-  void set_genre_id3(int id);
   void set_compilation(bool v);
   void set_composer(const QString &v);
   void set_performer(const QString &v);

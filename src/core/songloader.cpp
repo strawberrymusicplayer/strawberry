@@ -158,21 +158,32 @@ SongLoader::Result SongLoader::LoadFilenamesBlocking() {
 SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
 
   qLog(Debug) << "Fast Loading local file" << filename;
+
+  QFileInfo fileinfo(filename);
+
+  if (!fileinfo.exists()) {
+    errors_ << tr("File %1 does not exist.").arg(filename);
+    return Error;
+  }
+
   // First check to see if it's a directory - if so we can load all the songs inside right away.
-  if (QFileInfo(filename).isDir()) {
+  if (fileinfo.isDir()) {
     LoadLocalDirectory(filename);
     return Success;
   }
-  Song song(Song::Source_LocalFile);
-  song.InitFromFilePartial(filename);
-  if (song.is_valid()) {
-    songs_ << song;
-    return Success;
+
+  // Assume it's just a normal file
+  if (TagReaderClient::Instance()->IsMediaFileBlocking(filename) || Song::kAcceptedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive)) {
+    Song song(Song::Source_LocalFile);
+    song.InitFromFilePartial(filename, fileinfo);
+    if (song.is_valid()) {
+      songs_ << song;
+      return Success;
+    }
   }
-  else {
-    errors_ << song.error();
-    return Error;
-  }
+
+  errors_ << QObject::tr("File %1 is not recognized as a valid audio file.").arg(filename);
+  return Error;
 
 }
 
@@ -253,8 +264,15 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
 
 SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
 
+  QFileInfo fileinfo(filename);
+
+  if (!fileinfo.exists()) {
+    errors_ << tr("File %1 does not exist.").arg(filename);
+    return Error;
+  }
+
   // First check to see if it's a directory - if so we will load all the songs inside right away.
-  if (QFileInfo(filename).isDir()) {
+  if (fileinfo.isDir()) {
     LoadLocalDirectory(filename);
     return Success;
   }
@@ -270,7 +288,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
   ParserBase *parser = playlist_parser_->ParserForMagic(data);
   if (!parser) {
     // Check the file extension as well, maybe the magic failed, or it was a basic M3U file which is just a plain list of filenames.
-    parser = playlist_parser_->ParserForExtension(QFileInfo(filename).suffix().toLower());
+    parser = playlist_parser_->ParserForExtension(fileinfo.suffix().toLower());
   }
 
   if (parser) { // It's a playlist!
@@ -279,31 +297,32 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
     return Success;
   }
 
-  // Check if it's a cue file
+  // Check if it's a CUE file
   QString matching_cue = filename.section('.', 0, -2) + ".cue";
   if (QFile::exists(matching_cue)) {
-    // it's a cue - create virtual tracks
+    // It's a CUE - create virtual tracks
     QFile cue(matching_cue);
-    cue.open(QIODevice::ReadOnly);
-
-    SongList song_list = cue_parser_->Load(&cue, matching_cue, QDir(filename.section('/', 0, -2)));
-    for (const Song &song : song_list) {
-      if (song.is_valid()) songs_ << song;
+    if (cue.open(QIODevice::ReadOnly)) {
+      const SongList songs = cue_parser_->Load(&cue, matching_cue, QDir(filename.section('/', 0, -2)));
+      for (const Song &song : songs) {
+        if (song.is_valid()) songs_ << song;
+      }
+      return Success;
     }
-    return Success;
   }
 
   // Assume it's just a normal file
-  Song song(Song::Source_LocalFile);
-  song.InitFromFilePartial(filename);
-  if (song.is_valid()) {
-    songs_ << song;
-    return Success;
+  if (TagReaderClient::Instance()->IsMediaFileBlocking(filename) || Song::kAcceptedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive)) {
+    Song song(Song::Source_LocalFile);
+    song.InitFromFilePartial(filename, fileinfo);
+    if (song.is_valid()) {
+      songs_ << song;
+      return Success;
+    }
   }
-  else {
-    errors_ << song.error();
-    return Error;
-  }
+
+  errors_ << QObject::tr("File %1 is not recognized as a valid audio file.").arg(filename);
+  return Error;
 
 }
 

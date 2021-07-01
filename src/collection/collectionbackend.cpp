@@ -374,11 +374,12 @@ void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_f
 
   // Take a song and update its path
   Song updated_song = song;
-  updated_song.InitFromFilePartial(new_file.absoluteFilePath());
   updated_song.set_source(source_);
-  SongList updated_songs;
-  updated_songs << updated_song;
-  AddOrUpdateSongs(updated_songs);
+  updated_song.set_url(QUrl::fromLocalFile(new_file.absoluteFilePath()));
+  updated_song.set_basefilename(new_file.fileName());
+  updated_song.InitArtManual();
+
+  AddOrUpdateSongs(SongList() << updated_song);
 
 }
 

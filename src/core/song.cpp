@@ -23,9 +23,6 @@
 
 #include <algorithm>
 
-#include <taglib/fileref.h>
-#include <taglib/id3v1genres.h>
-
 #ifdef HAVE_LIBGPOD
 #  include <gdk-pixbuf/gdk-pixbuf.h>
 #  include <gpod/itdb.h>
@@ -155,7 +152,11 @@ const QString Song::kVariousArtists("various artists");
 
 const QStringList Song::kArticles = QStringList() << "the " << "a " << "an ";
 
-const QStringList Song::kAcceptedExtensions = QStringList() << "aac" << "ac3" << "dts";
+const QStringList Song::kAcceptedExtensions = QStringList() << "wav" << "flac" << "wv" << "ogg" << "oga" << "opus" << "spx" << "ape" << "mpc"
+                                                            << "mp2" << "mp3" <<  "m4a" << "mp4" << "aac" << "asf" << "asx" << "wma"
+                                                            << "aif << aiff" << "mka" << "tta" << "dsf" << "dsd"
+                                                            << "cue" << "m3u" << "m3u8" << "pls" << "xspf" << "asxini"
+                                                            << "ac3" << "dts";
 
 struct Song::Private : public QSharedData {
 
@@ -228,8 +229,6 @@ struct Song::Private : public QSharedData {
   QImage image_;                // Album Cover image set by album cover loader.
   bool init_from_file_;         // Whether this song was loaded from a file using taglib.
   bool suspicious_tags_;        // Whether our encoding guesser thinks these tags might be incorrectly encoded.
-
-  QString error_;               // Song load error set by song loader.
 
 };
 
@@ -404,8 +403,6 @@ bool Song::art_manual_is_valid() const {
 }
 
 bool Song::has_valid_art() const { return art_automatic_is_valid() || art_manual_is_valid(); }
-
-const QString &Song::error() const { return d->error_; }
 
 void Song::set_id(int id) { d->id_ = id; }
 void Song::set_valid(bool v) { d->valid_ = v; }
@@ -766,10 +763,6 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
 
 }
 
-void Song::set_genre_id3(int id) {
-  set_genre(TStringToQString(TagLib::ID3v1::genre(id)));
-}
-
 void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
 
   if (d->source_ == Source_Unknown) d->source_ = Source_LocalFile;
@@ -1058,29 +1051,15 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
 
 }
 
-void Song::InitFromFilePartial(const QString &filename) {
+void Song::InitFromFilePartial(const QString &filename, const QFileInfo &fileinfo) {
 
   set_url(QUrl::fromLocalFile(filename));
-  QFileInfo info(filename);
-  d->basefilename_ = info.fileName();
-
-  TagLib::FileRef fileref(QFile::encodeName(filename).constData());
-  if (fileref.file()) {
-    d->valid_ = true;
-    d->source_ = Source_LocalFile;
-    if (d->art_manual_.isEmpty()) InitArtManual();
-  }
-  else if (kAcceptedExtensions.contains(info.suffix(), Qt::CaseInsensitive)) {
-    d->valid_ = true;
-    d->source_ = Source_LocalFile;
-    d->filetype_ = FiletypeByExtension(info.suffix());
-    d->title_ = info.fileName();
-    if (d->art_manual_.isEmpty()) InitArtManual();
-  }
-  else {
-    d->valid_ = false;
-    d->error_ = QObject::tr("File %1 is not recognized as a valid audio file.").arg(filename);
-  }
+  d->valid_ = true;
+  d->source_ = Source_LocalFile;
+  d->filetype_ = FiletypeByExtension(fileinfo.suffix());
+  d->basefilename_ = fileinfo.fileName();
+  d->title_ = fileinfo.fileName();
+  if (d->art_manual_.isEmpty()) InitArtManual();
 
 }
 
