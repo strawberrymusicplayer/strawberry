@@ -7,6 +7,7 @@ Unreleased:
   Bugfixes:
     * Fix updating temporary metadata when reloading songs outside of the collection.
     * Don't strip off "Live" from song title when sending scrobbles.
+    * Fix incorrect use of QFutureWatcher.
     * (Windows) Fix adding songs with Japanese characters from the files tab.
 
   Enhancements:
@@ -24,6 +25,10 @@ Unreleased:
     * Improve resume playback on startup.
     * Re-request stream URL for Tidal and QObuz when resuming playback after pausing for more than 30 seconds.
     * Add Finnish, Ukrainian, Dutch, Japanese, Chinese, Catalan and Portuguese (Brazil).
+    * Add support for TagParser (https://github.com/Martchus/tagparser) as an alternative to TagLib.
+    * Add Subsonic option to turn off HTTP2.
+    * Fix minor Clang-Tidy and Clazy warnings.
+    * Use higher resolution images from last.fm API
     * (macOS) Build with libgpod.
 
 0.9.3:
