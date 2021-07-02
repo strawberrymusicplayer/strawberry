@@ -752,7 +752,7 @@ QString copyDylib(const FrameworkInfo &framework, const QString path)
         return QString();
     }
 
-    // Retrun if the dylib has aleardy been deployed
+    // Return if the dylib has aleardy been deployed
     if (QFileInfo(dylibDestinationBinaryPath).exists() && !alwaysOwerwriteEnabled)
         return dylibDestinationBinaryPath;
 
@@ -786,13 +786,13 @@ QString copyFramework(const FrameworkInfo &framework, const QString path)
 
     // Now copy the framework. Some parts should be left out (headers/, .prl files).
     // Some parts should be included (Resources/, symlink structure). We want this
-    // function to make as few assumtions about the framework as possible while at
+    // function to make as few assumptions about the framework as possible while at
     // the same time producing a codesign-compatible framework.
 
     // Copy framework binary
     copyFilePrintStatus(framework.sourceFilePath, frameworkDestinationBinaryPath);
 
-    // Copy Resouces/, Libraries/ and Helpers/
+    // Copy Resources/, Libraries/ and Helpers/
     const QString resourcesSourcePath = framework.frameworkPath + "/Resources";
     const QString resourcesDestianationPath = frameworkDestinationDirectory + "/Versions/" + framework.version + "/Resources";
     recursiveCopy(resourcesSourcePath, resourcesDestianationPath);

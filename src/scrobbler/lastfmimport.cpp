@@ -304,7 +304,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
   }
 
   if (!json_obj["recenttracks"].isObject()) {
-    Error("Failed to pase JSON: recenttracks is not an object!", json_obj);
+    Error("Failed to parse JSON: recenttracks is not an object!", json_obj);
     return;
   }
   json_obj = json_obj["recenttracks"].toObject();
@@ -320,27 +320,27 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
   }
 
   if (!json_obj["@attr"].isObject()) {
-    Error("Failed to pase JSON: @attr is not an object.", json_obj);
+    Error("Failed to parse JSON: @attr is not an object.", json_obj);
     return;
   }
 
   if (!json_obj["track"].isArray()) {
-    Error("Failed to pase JSON: track is not an object.", json_obj);
+    Error("Failed to parse JSON: track is not an object.", json_obj);
     return;
   }
 
   QJsonObject obj_attr = json_obj["@attr"].toObject();
 
   if (!obj_attr.contains("page")) {
-    Error("Failed to pase JSON: attr object is missing page.", json_obj);
+    Error("Failed to parse JSON: attr object is missing page.", json_obj);
     return;
   }
   if (!obj_attr.contains("totalPages")) {
-    Error("Failed to pase JSON: attr object is missing totalPages.", json_obj);
+    Error("Failed to parse JSON: attr object is missing totalPages.", json_obj);
     return;
   }
   if (!obj_attr.contains("total")) {
-    Error("Failed to pase JSON: attr object is missing total.", json_obj);
+    Error("Failed to parse JSON: attr object is missing total.", json_obj);
     return;
   }
 
@@ -467,7 +467,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
   }
 
   if (!json_obj["toptracks"].isObject()) {
-    Error("Failed to pase JSON: toptracks is not an object!", json_obj);
+    Error("Failed to parse JSON: toptracks is not an object!", json_obj);
     return;
   }
   json_obj = json_obj["toptracks"].toObject();
@@ -483,27 +483,27 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
   }
 
   if (!json_obj["@attr"].isObject()) {
-    Error("Failed to pase JSON: @attr is not an object.", json_obj);
+    Error("Failed to parse JSON: @attr is not an object.", json_obj);
     return;
   }
 
   if (!json_obj["track"].isArray()) {
-    Error("Failed to pase JSON: track is not an object.", json_obj);
+    Error("Failed to parse JSON: track is not an object.", json_obj);
     return;
   }
 
   QJsonObject obj_attr = json_obj["@attr"].toObject();
 
   if (!obj_attr.contains("page")) {
-    Error("Failed to pase JSON: attr object is missing page.", json_obj);
+    Error("Failed to parse JSON: attr object is missing page.", json_obj);
     return;
   }
   if (!obj_attr.contains("totalPages")) {
-    Error("Failed to pase JSON: attr object is missing page.", json_obj);
+    Error("Failed to parse JSON: attr object is missing page.", json_obj);
     return;
   }
   if (!obj_attr.contains("total")) {
-    Error("Failed to pase JSON: attr object is missing total.", json_obj);
+    Error("Failed to parse JSON: attr object is missing total.", json_obj);
     return;
   }
 

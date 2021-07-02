@@ -65,7 +65,7 @@ SnapDialog::SnapDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_SnapDialog
   text += QString("</p>");
 
   text += QString("<p>");
-  text += tr("Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configration before you uninstall the snap:");
+  text += tr("Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:");
   text += QString("<br />");
   text += QString("cp ~/snap/strawberry/current/.config/strawberry/strawberry.conf ~/.config/strawberry/strawberry.conf<br />");
   text += QString("cp ~/snap/strawberry/current/.local/share/strawberry/strawberry/strawberry.db ~/.local/share/strawberry/strawberry/strawberry.db<br />");

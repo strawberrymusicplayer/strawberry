@@ -37,8 +37,8 @@
 
 const int BlockAnalyzer::kHeight = 2;
 const int BlockAnalyzer::kWidth = 4;
-const int BlockAnalyzer::kMinRows = 3;       // arbituary
-const int BlockAnalyzer::kMinColumns = 32;   // arbituary
+const int BlockAnalyzer::kMinRows = 3;       // arbitrary
+const int BlockAnalyzer::kMinColumns = 32;   // arbitrary
 const int BlockAnalyzer::kMaxColumns = 256;  // must be 2**n
 const int BlockAnalyzer::kFadeSize = 90;
 

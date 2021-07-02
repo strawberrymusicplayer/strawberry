@@ -217,7 +217,7 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
       results_copy[i].score_match -= 0.5;
     }
 
-    // Set the initial image quality score besed on the size returned by the API, this is recalculated when the image is received.
+    // Set the initial image quality score based on the size returned by the API, this is recalculated when the image is received.
     results_copy[i].score_quality += ScoreImage(results_copy[i].image_size);
 
   }

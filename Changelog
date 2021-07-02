@@ -137,8 +137,8 @@ Unreleased:
     * Add support for native global shortcuts on KDE.
     * Add track progress in system tray icon as an option.
     * Only strip problematic characters in suggested filename when saving a playlist to file.
-    * Change star/unstar playlist to doubleclick instead of singleclick.
-    * Don't edit playlist name on doubleclick in playlists view.
+    * Change star/unstar playlist to double-click instead of singleclick.
+    * Don't edit playlist name on double-click in playlists view.
     * Make context view top label text selectable.
     * Add setting to change Qt style.
     * Clear ID3v3 tags that are empty, and clear ID3v1 tags when setting ID3v3 tags.
@@ -333,7 +333,7 @@ Unreleased:
 0.6.10:
 
   Bugfixes:
-    * Fixed Subsonic album covers not working for albums with non ASCII charcters.
+    * Fixed Subsonic album covers not working for albums with non ASCII characters.
     * Fixed reading date and genre from individual tracks in CUE sheets.
     * Fixed resume playback on startup for CUE songs.
     * Fixed album cover manager not showing complete album titles in the list of album covers.
@@ -342,7 +342,7 @@ Unreleased:
     * Fixed engine and device in context using too large icons when icons were loaded from the system theme.
     * Fixed "Secure connection setup failed" problem on Windows when playing streams.
     * Fixed margin for song title text in context.
-    * Fixed UNC paths with non ASCII charcters not working.
+    * Fixed UNC paths with non ASCII characters not working.
 
   Enhancements:
     * Allowing all characters except slash and backslash when organising music unless options to strip characters is checked.
@@ -357,9 +357,9 @@ Unreleased:
     * Only showing song length in context when available.
     * Sort album cover search results by score and pick the best 3 first before trying others to improve album cover search speed.
     * Make scrobbler work for streams.
-    * Added search for lyrics as a seperate option in context.
+    * Added search for lyrics as a separate option in context.
     * Made font and font sizes in context configurable.
-    * Splitting artist and song title to the relevant metadata when artist and song title is sent as title seperated by a dash in streams.
+    * Splitting artist and song title to the relevant metadata when artist and song title is sent as title separated by a dash in streams.
     * Added label to show collection pixmap disk cache used in settings.
     * Icreased default collection pixmap disk cache to 360.
 

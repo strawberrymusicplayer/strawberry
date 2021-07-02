@@ -42,7 +42,7 @@
 class SingleCoreApplicationPrivate;
 
 /**
- * @brief The SingleCoreApplication class handles multipe instances of the same Application
+ * @brief The SingleCoreApplication class handles multiple instances of the same Application
  * @see QCoreApplication
  */
 class SingleCoreApplication : public QCoreApplication {

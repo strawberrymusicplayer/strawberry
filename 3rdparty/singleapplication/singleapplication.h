@@ -42,7 +42,7 @@
 class SingleApplicationPrivate;
 
 /**
- * @brief The SingleApplication class handles multipe instances of the same Application
+ * @brief The SingleApplication class handles multiple instances of the same Application
  * @see QApplication
  */
 class SingleApplication : public QApplication {  // clazy:exclude=ctor-missing-parent-argument

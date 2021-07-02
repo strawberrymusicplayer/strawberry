@@ -1236,7 +1236,7 @@ void GstEnginePipeline::FaderTimelineFinished() {
 
   fader_.reset();
 
-  // Wait a little while longer before emitting the finished signal (and probably distroying the pipeline) to account for delays in the audio server/driver.
+  // Wait a little while longer before emitting the finished signal (and probably destroying the pipeline) to account for delays in the audio server/driver.
   if (use_fudge_timer_) {
     fader_fudge_timer_.start(kFaderFudgeMsec, this);
   }

@@ -198,7 +198,7 @@ int main(int argc, char **argv)
             LogDebug() << "Argument found:" << argument;
             appstoreCompliant = true;
 
-        // Undocumented option, may not work as intented
+        // Undocumented option, may not work as intended
         } else if (argument == QByteArray("-deploy-framework")) {
             LogDebug() << "Argument found:" << argument;
             deployFramework = true;
@@ -231,7 +231,7 @@ int main(int argc, char **argv)
     if (deployFramework && deploymentInfo.isFramework)
         fixupFramework(appBundlePath);
 
-    // Convenience: Look for .qml files in the current directoty if no -qmldir specified.
+    // Convenience: Look for .qml files in the current directory if no -qmldir specified.
     if (qmlDirs.isEmpty()) {
         QDir dir;
         if (!dir.entryList(QStringList() << QStringLiteral("*.qml")).isEmpty()) {

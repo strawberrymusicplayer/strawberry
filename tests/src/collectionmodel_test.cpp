@@ -603,7 +603,7 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
         ASSERT_EQ(model2->song_nodes().count(), songs.count());
         ASSERT_EQ(model3->song_nodes().count(), songs.count());
 
-        // Container nodes for all models should now be indentical.
+        // Container nodes for all models should now be identical.
         for (int i = 0 ; i < 3 ; ++i) {
           for (CollectionItem *node : model1->container_nodes(i).values()) {
             ASSERT_TRUE(model2->container_nodes(i).keys().contains(node->key));
