@@ -1174,7 +1174,7 @@ msgstr "버퍼링"
 msgid "C&onsole"
 msgstr "콘솔(&O)"
 
-#: core/songloader.cpp:191
+#: core/songloader.cpp:202
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD 재생은 GStreamer 엔진에서만 지원합니다."
 
@@ -1436,10 +1436,8 @@ msgstr "장치로 복사..."
 #: dialogs/snapdialog.cpp:68
 msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
-"avoid losing configration before you uninstall the snap:"
+"avoid losing configuration before you uninstall the snap:"
 msgstr ""
-"Snap 제거 시 설정이 날아가는 것을 원치 않으신다면 strawberry.conf와 strawberry.db 파일을 ~/snap에서 "
-"백업하십시오."
 
 #: transcoder/transcoder.cpp:66
 #, qt-format
@@ -1453,12 +1451,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "URL을 열 수 없습니다. 웹 브라우저에서 여십시오"
 
-#: core/songloader.cpp:265
+#: core/songloader.cpp:283
 #, qt-format
 msgid "Could not open file %1"
 msgstr "%1 파일을 열 수 없음"
 
-#: core/songloader.cpp:441
+#: core/songloader.cpp:460
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "%1의 GStreamer 소스 엘리먼트를 생성할 수 없음"
@@ -2198,7 +2196,12 @@ msgstr "곡을 검색할 때 전체 앨범 가져오기"
 msgid "Fetching cover error"
 msgstr "표지 가져오기 오류"
 
-#: core/song.cpp:1082
+#: core/songloader.cpp:165 core/songloader.cpp:270
+#, qt-format
+msgid "File %1 does not exist."
+msgstr ""
+
+#: core/songloader.cpp:185 core/songloader.cpp:324
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "%1 파일은 올바른 오디오 파일이 아닌 것 같습니다."
@@ -4964,7 +4967,7 @@ msgstr "초광대역(UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:573 collection/collectionmodel.cpp:481
+#: core/song.cpp:570 collection/collectionmodel.cpp:481
 #: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
 #: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
 #: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146

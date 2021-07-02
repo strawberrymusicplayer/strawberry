@@ -1192,7 +1192,7 @@ msgstr "Буферизация"
 msgid "C&onsole"
 msgstr "&Консоль"
 
-#: core/songloader.cpp:191
+#: core/songloader.cpp:202
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Воспроизведение CD доступно только с движком GStreamer."
 
@@ -1456,7 +1456,7 @@ msgstr "Копировать на устройство..."
 #: dialogs/snapdialog.cpp:68
 msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
-"avoid losing configration before you uninstall the snap:"
+"avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
 #: transcoder/transcoder.cpp:66
@@ -1472,12 +1472,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
-#: core/songloader.cpp:265
+#: core/songloader.cpp:283
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Не удалось открыть файл %1"
 
-#: core/songloader.cpp:441
+#: core/songloader.cpp:460
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Не удалось создать исходный элемент gstreamer для %1"
@@ -2221,7 +2221,12 @@ msgstr "Получать весь альбом при поиске песен"
 msgid "Fetching cover error"
 msgstr "Ошибка получения обложки"
 
-#: core/song.cpp:1082
+#: core/songloader.cpp:165 core/songloader.cpp:270
+#, qt-format
+msgid "File %1 does not exist."
+msgstr ""
+
+#: core/songloader.cpp:185 core/songloader.cpp:324
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Файл %1 не распознается как допустимый аудиофайл."
@@ -5022,7 +5027,7 @@ msgstr "Ультраширокая полоса пропускания (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:573 collection/collectionmodel.cpp:481
+#: core/song.cpp:570 collection/collectionmodel.cpp:481
 #: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
 #: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
 #: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146

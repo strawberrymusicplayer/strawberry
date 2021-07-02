@@ -1212,7 +1212,7 @@ msgstr "Puffern"
 msgid "C&onsole"
 msgstr "Konsole"
 
-#: core/songloader.cpp:191
+#: core/songloader.cpp:202
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD Wiedergabe ist nur mit de GStreamer Implemetierung verfügbar"
 
@@ -1479,11 +1479,8 @@ msgstr "Auf das Gerät kopieren …"
 #: dialogs/snapdialog.cpp:68
 msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
-"avoid losing configration before you uninstall the snap:"
+"avoid losing configuration before you uninstall the snap:"
 msgstr ""
-"Kopieren Sie Ihre Strawberry.conf und Ihre Strawberry.db aus Ihrem ~ / snap-"
-"Verzeichnis, um zu vermeiden, dass die Konfiguration verloren geht, bevor "
-"Sie den Snap deinstallieren:"
 
 #: transcoder/transcoder.cpp:66
 #, qt-format
@@ -1498,12 +1495,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Konnte die URL nicht öffnen. Bitte diese URL im Browser öffnen"
 
-#: core/songloader.cpp:265
+#: core/songloader.cpp:283
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Konnte file %1 nicht öffnen"
 
-#: core/songloader.cpp:441
+#: core/songloader.cpp:460
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Konnte gstreamer quellelement für %1 nicht erzeugen"
@@ -2252,7 +2249,12 @@ msgstr "Abrufen des ganzen Albums wenn nach Liedern gesucht wird"
 msgid "Fetching cover error"
 msgstr "Abrufen des Titelbildes ist fehlgeschlagen"
 
-#: core/song.cpp:1082
+#: core/songloader.cpp:165 core/songloader.cpp:270
+#, qt-format
+msgid "File %1 does not exist."
+msgstr ""
+
+#: core/songloader.cpp:185 core/songloader.cpp:324
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Datei %1 kann nicht als korrekte Audiodatei erkannt werden."
@@ -5097,7 +5099,7 @@ msgstr "Ulte Weit Band (UWB)"
 msgid "Uninstall the snap with:"
 msgstr "Deinstalliere den Snap mit:"
 
-#: core/song.cpp:573 collection/collectionmodel.cpp:481
+#: core/song.cpp:570 collection/collectionmodel.cpp:481
 #: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
 #: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
 #: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146

@@ -1174,7 +1174,7 @@ msgstr "バッファ中"
 msgid "C&onsole"
 msgstr "コンソール"
 
-#: core/songloader.cpp:191
+#: core/songloader.cpp:202
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD の再生は GStreamer エンジンでのみ使用できます"
 
@@ -1436,7 +1436,7 @@ msgstr "デバイスへコピー..."
 #: dialogs/snapdialog.cpp:68
 msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
-"avoid losing configration before you uninstall the snap:"
+"avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
 #: transcoder/transcoder.cpp:66
@@ -1451,12 +1451,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "URLを開けません。ブラウザで開いてください。"
 
-#: core/songloader.cpp:265
+#: core/songloader.cpp:283
 #, qt-format
 msgid "Could not open file %1"
 msgstr "ファイル %1 が開けません "
 
-#: core/songloader.cpp:441
+#: core/songloader.cpp:460
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr ""
@@ -2198,7 +2198,12 @@ msgstr "曲検索時にアルバム全体を取得する"
 msgid "Fetching cover error"
 msgstr "カバーの取得エラー"
 
-#: core/song.cpp:1082
+#: core/songloader.cpp:165 core/songloader.cpp:270
+#, qt-format
+msgid "File %1 does not exist."
+msgstr ""
+
+#: core/songloader.cpp:185 core/songloader.cpp:324
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "ファイル %1 は正常な音声ファイルではありません"
@@ -4965,7 +4970,7 @@ msgstr "超高速回線 (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:573 collection/collectionmodel.cpp:481
+#: core/song.cpp:570 collection/collectionmodel.cpp:481
 #: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
 #: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
 #: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146

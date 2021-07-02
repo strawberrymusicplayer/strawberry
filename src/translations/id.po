@@ -1174,7 +1174,7 @@ msgstr "Membufer..."
 msgid "C&onsole"
 msgstr "K&onsol"
 
-#: core/songloader.cpp:191
+#: core/songloader.cpp:202
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Pemutaran CD hanya tersedia dengan mesin GStreamer."
 
@@ -1437,7 +1437,7 @@ msgstr "Salin ke perangkat..."
 #: dialogs/snapdialog.cpp:68
 msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
-"avoid losing configration before you uninstall the snap:"
+"avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
 #: transcoder/transcoder.cpp:66
@@ -1453,12 +1453,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
-#: core/songloader.cpp:265
+#: core/songloader.cpp:283
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Tidak dapat membuka berkas %1"
 
-#: core/songloader.cpp:441
+#: core/songloader.cpp:460
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Tidak dapat membuat elemen sumber gstreamer untuk %1"
@@ -2202,7 +2202,12 @@ msgstr "Ambil seluruh album saat mencari lagu"
 msgid "Fetching cover error"
 msgstr "Terjadi kesalahan saat mengambil sampul"
 
-#: core/song.cpp:1082
+#: core/songloader.cpp:165 core/songloader.cpp:270
+#, qt-format
+msgid "File %1 does not exist."
+msgstr ""
+
+#: core/songloader.cpp:185 core/songloader.cpp:324
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Berkas %1 bukanlah berkas audio yang benar."
@@ -5000,7 +5005,7 @@ msgstr "Pita ultra lebar (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:573 collection/collectionmodel.cpp:481
+#: core/song.cpp:570 collection/collectionmodel.cpp:481
 #: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
 #: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
 #: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146

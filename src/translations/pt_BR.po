@@ -1176,7 +1176,7 @@ msgstr "Armazenando em buffer"
 msgid "C&onsole"
 msgstr ""
 
-#: core/songloader.cpp:191
+#: core/songloader.cpp:202
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "A reprodução de CDs só está disponível com o mecanismo GStreamer."
 
@@ -1439,7 +1439,7 @@ msgstr "Copiar para o dispositivo..."
 #: dialogs/snapdialog.cpp:68
 msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
-"avoid losing configration before you uninstall the snap:"
+"avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
 #: transcoder/transcoder.cpp:66
@@ -1455,12 +1455,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
-#: core/songloader.cpp:265
+#: core/songloader.cpp:283
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Não foi possível abrir o arquivo %1"
 
-#: core/songloader.cpp:441
+#: core/songloader.cpp:460
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Não foi possível criar um elemento fonte do Gstreamer para %1"
@@ -2204,7 +2204,12 @@ msgstr "Buscar álbuns inteiros ao pesquisar músicas"
 msgid "Fetching cover error"
 msgstr "Erro ao buscar a capa"
 
-#: core/song.cpp:1082
+#: core/songloader.cpp:165 core/songloader.cpp:270
+#, qt-format
+msgid "File %1 does not exist."
+msgstr ""
+
+#: core/songloader.cpp:185 core/songloader.cpp:324
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr ""
@@ -5003,7 +5008,7 @@ msgstr "Banda ultralarga (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:573 collection/collectionmodel.cpp:481
+#: core/song.cpp:570 collection/collectionmodel.cpp:481
 #: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
 #: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
 #: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146

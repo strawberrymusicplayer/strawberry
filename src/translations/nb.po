@@ -1167,7 +1167,7 @@ msgstr "Mellomlagring"
 msgid "C&onsole"
 msgstr "K&onsoll"
 
-#: core/songloader.cpp:191
+#: core/songloader.cpp:202
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD avspilling er kun mulig med gstreamer"
 
@@ -1430,7 +1430,7 @@ msgstr "Kopier til enhet…"
 #: dialogs/snapdialog.cpp:68
 msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
-"avoid losing configration before you uninstall the snap:"
+"avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
 #: transcoder/transcoder.cpp:66
@@ -1446,12 +1446,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Kunne ikke åpne URL. Prøv å åpne denne URLen  i din nettleser"
 
-#: core/songloader.cpp:265
+#: core/songloader.cpp:283
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Kan ikke åpne fil %1"
 
-#: core/songloader.cpp:441
+#: core/songloader.cpp:460
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Kunne ikke opprette gstreamer kilde for %1"
@@ -2195,7 +2195,12 @@ msgstr "Hent hele album når en søker etter sanger"
 msgid "Fetching cover error"
 msgstr "Kunne ikke hente albumgrafikk"
 
-#: core/song.cpp:1082
+#: core/songloader.cpp:165 core/songloader.cpp:270
+#, qt-format
+msgid "File %1 does not exist."
+msgstr ""
+
+#: core/songloader.cpp:185 core/songloader.cpp:324
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Fil %1 er ikke gjenkjent som en lydfil"
@@ -4986,7 +4991,7 @@ msgstr "Ultrabredt bånd (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:573 collection/collectionmodel.cpp:481
+#: core/song.cpp:570 collection/collectionmodel.cpp:481
 #: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
 #: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
 #: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146
