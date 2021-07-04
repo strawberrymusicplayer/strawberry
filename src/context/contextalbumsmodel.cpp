@@ -84,20 +84,12 @@ void ContextAlbumsModel::AddSongs(const SongList &songs) {
 
   for (const Song &song : songs) {
     if (song_nodes_.contains(song.id())) continue;
-
-    // Before we can add each song we need to make sure the required container items already exist in the tree.
-
-    // Find parent containers in the tree
     CollectionItem *container = root_;
-
-    // Does it exist already?
-    if (!container_nodes_.contains(song.album())) {
-      // Create the container
-      container_nodes_[song.album()] = ItemFromSong(CollectionItem::Type_Container, true, container, song, 0);
+    QString key = CollectionModel::ContainerKey(CollectionModel::GroupBy_Album, song);
+    if (!container_nodes_.contains(key)) {
+      container_nodes_.insert(key, ItemFromSong(CollectionItem::Type_Container, true, container, song, 0));
     }
-    container = container_nodes_[song.album()];
-
-    // We've gone all the way down to the deepest level and everything was already lazy loaded, so now we have to create the song in the container.
+    container = container_nodes_[key];
     song_nodes_[song.id()] = ItemFromSong(CollectionItem::Type_Song, true, container, song, -1);
   }
 
@@ -137,7 +129,7 @@ QVariant ContextAlbumsModel::AlbumIcon(const QModelIndex &idx) {
   SongList songs = GetChildSongs(idx);
   if (!songs.isEmpty()) {
     const quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, songs.first());
-    pending_art_[id] = ItemAndCacheKey(item, cache_key);
+    pending_art_.insert(id, ItemAndCacheKey(item, cache_key));
     pending_cache_keys_.insert(cache_key);
   }
 
@@ -155,7 +147,9 @@ void ContextAlbumsModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoad
   if (!item) return;
 
   const QString &cache_key = item_and_cache_key.second;
-  pending_cache_keys_.remove(cache_key);
+  if (pending_cache_keys_.contains(cache_key)) {
+    pending_cache_keys_.remove(cache_key);
+  }
 
   // Insert this image in the cache.
   if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type_ManuallyUnset) {
@@ -272,9 +266,17 @@ CollectionItem *ContextAlbumsModel::ItemFromSong(CollectionItem::Type item_type,
   item->container_level = container_level;
   item->lazy_loaded = true;
 
-  if (item->key.isEmpty()) item->key = s.album();
-  item->display_text = CollectionModel::TextOrUnknown(item->key);
-  item->sort_text = CollectionModel::SortTextForArtist(item->key);
+  if (item_type == CollectionItem::Type_Container) {
+    item->key = CollectionModel::ContainerKey(CollectionModel::GroupBy_Album, s);
+    item->display_text = CollectionModel::TextOrUnknown(s.album());
+    item->sort_text = CollectionModel::SortTextForArtist(s.album());
+  }
+  else {
+    item->key = s.album() + " " + s.title();
+    item->display_text = CollectionModel::TextOrUnknown(s.title());
+    item->sort_text = CollectionModel::SortTextForSong(s);
+    item->metadata = s;
+  }
 
   if (signal) endInsertRows();
 
@@ -339,13 +341,14 @@ bool ContextAlbumsModel::CompareItems(const CollectionItem *a, const CollectionI
 void ContextAlbumsModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const {
 
   switch (item->type) {
-    case CollectionItem::Type_Container: {
+    case CollectionItem::Type_Container:{
 
       QList<CollectionItem*> children = item->children;
       std::sort(children.begin(), children.end(), std::bind(&ContextAlbumsModel::CompareItems, this, std::placeholders::_1, std::placeholders::_2));
 
-      for (CollectionItem *child : children)
+      for (CollectionItem *child : children) {
         GetChildSongs(child, urls, songs, song_ids);
+      }
       break;
     }
 

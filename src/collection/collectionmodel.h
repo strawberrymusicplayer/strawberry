@@ -197,6 +197,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   const CollectionModel::Grouping GetGroupBy() const { return group_by_; }
   void SetGroupBy(const CollectionModel::Grouping g);
 
+  static QString ContainerKey(const GroupBy type, const Song &song);
+
  signals:
   void TotalSongCountUpdated(int count);
   void TotalArtistCountUpdated(int count);
@@ -259,9 +261,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   CollectionItem *InitItem(const GroupBy type, const bool signal, CollectionItem *parent, const int container_level);
   void FinishItem(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, CollectionItem *item);
 
-  static QString ContainerKey(const GroupBy type, const Song &song) ;
-  static QString DividerKey(const GroupBy type, CollectionItem *item) ;
-  static QString DividerDisplayText(const GroupBy type, const QString &key) ;
+  static QString DividerKey(const GroupBy type, CollectionItem *item);
+  static QString DividerDisplayText(const GroupBy type, const QString &key);
 
   // Helpers
   static bool IsCompilationArtistNode(const CollectionItem *node) { return node == node->parent->compilation_artist_node_; }
