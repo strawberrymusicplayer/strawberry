@@ -469,7 +469,7 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
 
 }
 
-QByteArray Hmac(const QByteArray &key, const QByteArray &data, const HashFunction method) {
+QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptographicHash::Algorithm method) {
 
   const int kBlockSize = 64;  // bytes
   Q_ASSERT(key.length() <= kBlockSize);
@@ -481,28 +481,29 @@ QByteArray Hmac(const QByteArray &key, const QByteArray &data, const HashFunctio
     inner_padding[i] = inner_padding[i] ^ key[i];
     outer_padding[i] = outer_padding[i] ^ key[i];
   }
-  if (Md5_Algo == method) {
-    return QCryptographicHash::hash(outer_padding + QCryptographicHash::hash(inner_padding + data, QCryptographicHash::Md5), QCryptographicHash::Md5);
-  }
-  else if (Sha1_Algo == method) {
-    return QCryptographicHash::hash(outer_padding + QCryptographicHash::hash(inner_padding + data, QCryptographicHash::Sha1), QCryptographicHash::Sha1);
-  }
-  else {  // Sha256_Algo, currently default
-    return QCryptographicHash::hash(outer_padding + QCryptographicHash::hash(inner_padding + data, QCryptographicHash::Sha256), QCryptographicHash::Sha256);
-  }
+
+  QByteArray part;
+  part.append(inner_padding);
+  part.append(data);
+
+  QByteArray total;
+  total.append(outer_padding);
+  total.append(QCryptographicHash::hash(part, method));
+
+  return QCryptographicHash::hash(total, method);
 
 }
 
 QByteArray HmacSha256(const QByteArray &key, const QByteArray &data) {
-  return Hmac(key, data, Sha256_Algo);
+  return Hmac(key, data, QCryptographicHash::Sha256);
 }
 
 QByteArray HmacMd5(const QByteArray &key, const QByteArray &data) {
-  return Hmac(key, data, Md5_Algo);
+  return Hmac(key, data, QCryptographicHash::Md5);
 }
 
 QByteArray HmacSha1(const QByteArray &key, const QByteArray &data) {
-  return Hmac(key, data, Sha1_Algo);
+  return Hmac(key, data, QCryptographicHash::Sha1);
 }
 
 QByteArray Sha1CoverHash(const QString &artist, const QString &album) {

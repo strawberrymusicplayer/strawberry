@@ -41,6 +41,7 @@
 #include <QColor>
 #include <QRegion>
 #include <QtEvents>
+#include <QCryptographicHash>
 
 #include "core/song.h"
 
@@ -71,12 +72,7 @@ bool Copy(QIODevice *source, QIODevice *destination);
 
 void OpenInFileBrowser(const QList<QUrl> &urls);
 
-enum HashFunction {
-  Md5_Algo,
-  Sha256_Algo,
-  Sha1_Algo,
-};
-QByteArray Hmac(const QByteArray &key, const QByteArray &data, const HashFunction method);
+QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptographicHash::Algorithm method);
 QByteArray HmacMd5(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha256(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha1(const QByteArray &key, const QByteArray &data);
