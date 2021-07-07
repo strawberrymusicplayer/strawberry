@@ -29,7 +29,12 @@
 
 #include "core/song.h"
 
-#include "tagreader.h"
+#if defined(USE_TAGLIB)
+#  include "tagreadertaglib.h"
+#elif defined(USE_TAGPARSER)
+#  include "tagreadertagparser.h"
+#endif
+
 #include "test_utils.h"
 
 // clazy:excludeall=non-pod-global-static
@@ -44,7 +49,11 @@ class TagReaderTest : public ::testing::Test {
   }
 
   static Song ReadSongFromFile(const QString& filename) {
-    TagReader tag_reader;
+#if defined(USE_TAGLIB)
+    TagReaderTagLib tag_reader;
+#elif defined(USE_TAGPARSER)
+    TagReaderTagParser tag_reader;
+#endif
     Song song;
     ::spb::tagreader::SongMetadata pb_song;
 
@@ -56,7 +65,11 @@ class TagReaderTest : public ::testing::Test {
   }
 
   static void WriteSongToFile(const Song& song, const QString& filename) {
-    TagReader tag_reader;
+#if defined(USE_TAGLIB)
+    TagReaderTagLib tag_reader;
+#elif defined(USE_TAGPARSER)
+    TagReaderTagParser tag_reader;
+#endif
     ::spb::tagreader::SongMetadata pb_song;
     song.ToProtobuf(&pb_song);
     tag_reader.SaveFile(filename, pb_song);
