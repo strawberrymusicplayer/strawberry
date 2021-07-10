@@ -45,6 +45,7 @@
 #include <QUrl>
 #include <QIcon>
 #include <QPixmap>
+#include <QPixmapCache>
 #include <QPainter>
 #include <QColor>
 #include <QPen>
@@ -469,13 +470,13 @@ QPixmap SongSourceDelegate::LookupPixmap(const Song::Source source, const QSize 
 
   QPixmap pixmap;
   QString cache_key = QString("%1-%2x%3").arg(Song::TextForSource(source)).arg(size.width()).arg(size.height());
-  if (pixmap_cache_.find(cache_key, &pixmap)) {
+  if (QPixmapCache::find(cache_key, &pixmap)) {
     return pixmap;
   }
 
   QIcon icon(Song::IconForSource(source));
   pixmap = icon.pixmap(size.height());
-  pixmap_cache_.insert(cache_key, pixmap);
+  QPixmapCache::insert(cache_key, pixmap);
 
   return pixmap;
 

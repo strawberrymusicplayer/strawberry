@@ -35,7 +35,6 @@
 #include <QVariant>
 #include <QUrl>
 #include <QPixmap>
-#include <QPixmapCache>
 #include <QPainter>
 #include <QRect>
 #include <QColor>
@@ -203,8 +202,6 @@ class SongSourceDelegate : public PlaylistDelegateBase {
 
  private:
   QPixmap LookupPixmap(const Song::Source source, const QSize size) const;
-
-  mutable QPixmapCache pixmap_cache_;
 };
 
 class RatingItemDelegate : public PlaylistDelegateBase {

@@ -43,6 +43,7 @@
 #include <QUrl>
 #include <QImage>
 #include <QPixmap>
+#include <QPixmapCache>
 #include <QPainter>
 #include <QPalette>
 #include <QColor>
@@ -794,7 +795,7 @@ QString InternetSearchView::PixmapCacheKey(const InternetSearchView::Result &res
 }
 
 bool InternetSearchView::FindCachedPixmap(const InternetSearchView::Result &result, QPixmap *pixmap) const {
-  return pixmap_cache_.find(result.pixmap_cache_key_, pixmap);
+  return QPixmapCache::find(result.pixmap_cache_key_, pixmap);
 }
 
 void InternetSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
@@ -840,7 +841,7 @@ void InternetSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
   const InternetSearchView::Result result = item_song->data(InternetSearchModel::Role_Result).value<InternetSearchView::Result>();
 
   QPixmap cached_pixmap;
-  if (pixmap_cache_.find(result.pixmap_cache_key_, &cached_pixmap)) {
+  if (QPixmapCache::find(result.pixmap_cache_key_, &cached_pixmap)) {
     item_album->setData(cached_pixmap, Qt::DecorationRole);
   }
   else {
@@ -861,7 +862,7 @@ void InternetSearchView::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoad
   if (albumcover_result.success && !albumcover_result.image_scaled.isNull()) {
     QPixmap pixmap = QPixmap::fromImage(albumcover_result.image_scaled);
     if (!pixmap.isNull()) {
-      pixmap_cache_.insert(key, pixmap);
+      QPixmapCache::insert(key, pixmap);
     }
     if (idx.isValid()) {
       QStandardItem *item = front_model_->itemFromIndex(idx);

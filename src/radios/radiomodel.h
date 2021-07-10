@@ -30,7 +30,6 @@
 #include <QString>
 #include <QStringList>
 #include <QPixmap>
-#include <QPixmapCache>
 
 #include "core/song.h"
 #include "core/simpletreemodel.h"

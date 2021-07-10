@@ -38,7 +38,6 @@
 #include <QUrl>
 #include <QImage>
 #include <QPixmap>
-#include <QPixmapCache>
 #include <QMetaType>
 
 #include "core/song.h"
@@ -216,7 +215,6 @@ class InternetSearchView : public QWidget {
 
   AlbumCoverLoaderOptions cover_loader_options_;
   QMap<quint64, QPair<QModelIndex, QString>> cover_loader_tasks_;
-  QPixmapCache pixmap_cache_;
 
 };
 Q_DECLARE_METATYPE(InternetSearchView::Result)
