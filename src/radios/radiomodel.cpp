@@ -151,7 +151,6 @@ void RadioModel::Reset() {
   beginResetModel();
   container_nodes_.clear();
   items_.clear();
-  pixmap_cache_.clear();
   pending_art_.clear();
   pending_cache_keys_.clear();
   delete root_;
@@ -282,7 +281,7 @@ QPixmap RadioModel::ChannelIcon(const QModelIndex &idx) {
   const QString cache_key = ChannelIconPixmapCacheKey(idx);
 
   QPixmap cached_pixmap;
-  if (pixmap_cache_.find(cache_key, &cached_pixmap)) {
+  if (QPixmapCache::find(cache_key, &cached_pixmap)) {
     return cached_pixmap;
   }
 
@@ -316,10 +315,10 @@ void RadioModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult
   pending_cache_keys_.remove(cache_key);
 
   if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type_ManuallyUnset) {
-    pixmap_cache_.insert(cache_key, ServiceIcon(item));
+    QPixmapCache::insert(cache_key, ServiceIcon(item));
   }
   else {
-    pixmap_cache_.insert(cache_key, QPixmap::fromImage(result.image_scaled));
+    QPixmapCache::insert(cache_key, QPixmap::fromImage(result.image_scaled));
   }
 
   const QModelIndex idx = ItemToIndex(item);

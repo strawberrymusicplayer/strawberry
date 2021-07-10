@@ -94,7 +94,6 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
   AlbumCoverLoaderOptions cover_loader_options_;
   QMap<Song::Source, RadioItem*> container_nodes_;
   QList<RadioItem*> items_;
-  QPixmapCache pixmap_cache_;
   QMap<quint64, ItemAndCacheKey> pending_art_;
   QSet<QString> pending_cache_keys_;
 };
