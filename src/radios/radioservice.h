@@ -23,23 +23,19 @@
 #include <QObject>
 #include <QList>
 #include <QByteArray>
+#include <QVariant>
 #include <QString>
 #include <QUrl>
 #include <QIcon>
 #include <QJsonObject>
 
 #include "core/song.h"
-#include "playlist/playlistitem.h"
-#include "settings/settingsdialog.h"
-#include "widgets/multiloadingindicator.h"
 #include "radiochannel.h"
 
 class QNetworkReply;
-class QStandardItem;
 
 class Application;
 class NetworkAccessManager;
-class RadioModel;
 
 class RadioService : public QObject {
   Q_OBJECT
@@ -56,57 +52,20 @@ class RadioService : public QObject {
   virtual QUrl Donate() = 0;
 
  signals:
-  void StreamError(const QString& message);
-  void StreamMetadataFound(const QUrl& original_url, const Song& song);
-
   void NewChannels(RadioChannelList channels = RadioChannelList());
 
  public slots:
-  virtual void ShowConfig() {}
   virtual void GetChannels() = 0;
 
- private slots:
-
  protected:
-  // Called once when context menu is created
-  virtual void PopulateContextMenu(){};
-  // Called every time context menu is shown
-  virtual void UpdateContextMenu(){};
-
-  // Returns all the playlist insertion related QActions (see below).
-  QList<QAction*> GetPlaylistActions();
-
-  // Returns the 'append to playlist' QAction.
-  QAction *GetAppendToPlaylistAction();
-  // Returns the 'replace playlist' QAction.
-  QAction *GetReplacePlaylistAction();
-  // Returns the 'open in new playlist' QAction.
-  QAction *GetOpenInNewPlaylistAction();
-
   QByteArray ExtractData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(const QByteArray &data);
   QJsonObject ExtractJsonObj(QNetworkReply *reply);
   void Error(const QString &error, const QVariant &debug = QVariant());
 
-  // Describes how songs should be added to playlist.
-  enum AddMode {
-    // appends songs to the current playlist
-    AddMode_Append,
-    // clears the current playlist and then appends all songs to it
-    AddMode_Replace,
-    // creates a new, empty playlist and then adds all songs to it
-    AddMode_OpenInNew
-  };
-
-  // Adds the 'index' element to playlist using the 'add_mode' mode.
-  void AddItemToPlaylist(const QModelIndex& index, AddMode add_mode);
-  // Adds the 'indexes' elements to playlist using the 'add_mode' mode.
-  void AddItemsToPlaylist(const QModelIndexList& indexes, AddMode add_mode);
-
  protected:
   Application *app_;
   NetworkAccessManager *network_;
-  RadioModel *model_;
   Song::Source source_;
   QString name_;
   QIcon icon_;
