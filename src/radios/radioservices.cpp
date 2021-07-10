@@ -38,7 +38,7 @@ RadioServices::RadioServices(Application *app, QObject *parent)
       model_(new RadioModel(app, this)),
       channels_refresh_(false) {
 
-  backend_ = new RadioBackend(app, app->database());
+  backend_ = new RadioBackend(app->database());
   app->MoveToThread(backend_, app->database()->thread());
 
   QObject::connect(backend_, &RadioBackend::NewChannels, this, &RadioServices::GotChannelsFromBackend);

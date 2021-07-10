@@ -22,15 +22,13 @@
 #include <QMutexLocker>
 
 #include "core/logging.h"
-#include "core/application.h"
 #include "core/database.h"
 #include "core/song.h"
 #include "radiobackend.h"
 #include "radiochannel.h"
 
-RadioBackend::RadioBackend(Application *app, Database *db, QObject *parent)
+RadioBackend::RadioBackend(Database *db, QObject *parent)
     : QObject(parent),
-      app_(app),
       db_(db),
       original_thread_(thread()) {}
 

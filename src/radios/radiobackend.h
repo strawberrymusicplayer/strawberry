@@ -24,14 +24,13 @@
 
 #include "radiochannel.h"
 
-class Application;
 class Database;
 
 class RadioBackend : public QObject {
   Q_OBJECT
 
  public:
-  explicit RadioBackend(Application *app, Database *db, QObject *parent = nullptr);
+  explicit RadioBackend(Database *db, QObject *parent = nullptr);
 
   void Close();
   void ExitAsync();
@@ -53,7 +52,6 @@ class RadioBackend : public QObject {
   void Exit();
 
  private:
-  Application *app_;
   Database *db_;
   QThread *original_thread_;
 };
