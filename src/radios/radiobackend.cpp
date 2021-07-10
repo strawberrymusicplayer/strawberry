@@ -68,7 +68,6 @@ void RadioBackend::AddChannels(const RadioChannelList &channels) {
   QSqlQuery q(db);
   q.prepare(QString("INSERT INTO radio_channels (source, name, url, thumbnail_url) VALUES (:source, :name, :url, :thumbnail_url)"));
 
-  RadioChannelList streams;
   for (const RadioChannel &channel : channels) {
     q.bindValue(":source", channel.source);
     q.bindValue(":name", channel.name);
