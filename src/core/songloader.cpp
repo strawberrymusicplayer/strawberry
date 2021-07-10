@@ -112,6 +112,8 @@ SongLoader::~SongLoader() {
 
 SongLoader::Result SongLoader::Load(const QUrl &url) {
 
+  if (url.isEmpty()) return Error;
+
   url_ = url;
 
   if (url_.isLocalFile()) {
@@ -425,6 +427,7 @@ void SongLoader::StopTypefind() {
     QBuffer buf(&buffer_);
     buf.open(QIODevice::ReadOnly);
     songs_ = parser_->Load(&buf);
+    buf.close();
 
   }
   else if (success_) {
@@ -449,7 +452,7 @@ SongLoader::Result SongLoader::LoadRemote() {
   // Otherwise wait to get 512 bytes of data and do magic on it - if the magic fails then we don't know what it is so return failure.
   // If the magic succeeds then we know for sure it's a playlist - so read the rest of the file, parse the playlist and return success.
 
-  timeout_timer_->start(timeout_);
+  ScheduleTimeoutAsync();
 
   // Create the pipeline - it gets unreffed if it goes out of scope
   std::shared_ptr<GstElement> pipeline(gst_pipeline_new(nullptr), std::bind(&gst_object_unref, std::placeholders::_1));
@@ -696,3 +699,21 @@ void SongLoader::StopTypefindAsync(bool success) {
 
 }
 #endif
+
+
+void SongLoader::ScheduleTimeoutAsync() {
+
+  if (QThread::currentThread() == thread()) {
+    ScheduleTimeout();
+  }
+  else {
+    metaObject()->invokeMethod(this, "ScheduleTimeout", Qt::QueuedConnection);
+  }
+
+}
+
+void SongLoader::ScheduleTimeout() {
+
+  timeout_timer_->start(timeout_);
+
+}

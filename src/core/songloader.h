@@ -92,6 +92,7 @@ class SongLoader : public QObject {
   void LoadRemoteFinished();
 
  private slots:
+  void ScheduleTimeout();
   void Timeout();
   void StopTypefind();
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
@@ -126,6 +127,8 @@ class SongLoader : public QObject {
   void MagicReady();
   bool IsPipelinePlaying();
 #endif
+
+  void ScheduleTimeoutAsync();
 
  private:
   static QSet<QString> sRawUriSchemes;
