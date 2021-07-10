@@ -286,6 +286,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
     return Error;
   }
   QByteArray data(file.read(PlaylistParser::kMagicSize));
+  file.close();
 
   ParserBase *parser = playlist_parser_->ParserForMagic(data);
   if (!parser) {
@@ -306,6 +307,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
     QFile cue(matching_cue);
     if (cue.open(QIODevice::ReadOnly)) {
       const SongList songs = cue_parser_->Load(&cue, matching_cue, QDir(filename.section('/', 0, -2)));
+      cue.close();
       for (const Song &song : songs) {
         if (song.is_valid()) songs_ << song;
       }
@@ -360,6 +362,7 @@ void SongLoader::LoadPlaylist(ParserBase *parser, const QString &filename) {
   QFile file(filename);
   file.open(QIODevice::ReadOnly);
   songs_ = parser->Load(&file, filename, QFileInfo(filename).path());
+  file.close();
 }
 
 static bool CompareSongs(const Song &left, const Song &right) {
