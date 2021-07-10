@@ -50,7 +50,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     if (song->source() == Song::Source_LocalFile) {
       filename = url.toLocalFile();
     }
-    else if (song->source() == Song::Source_Stream || song->source() == Song::Source_Tidal) {
+    else if (song->is_stream()) {
       song->set_url(QUrl::fromUserInput(filename_or_url));
       song->set_filetype(Song::FileType_Stream);
       song->set_valid(true);
@@ -58,6 +58,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     }
     else {
       qLog(Error) << "Don't know how to handle" << url;
+      return;
     }
   }
 
