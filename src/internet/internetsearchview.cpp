@@ -316,37 +316,40 @@ bool InternetSearchView::SearchKeyEvent(QKeyEvent *e) {
 
 bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
 
-  context_menu_ = new QMenu(this);
-  context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &InternetSearchView::AddSelectedToPlaylist);
-  context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &InternetSearchView::LoadSelected);
-  context_actions_ << context_menu_->addAction( IconLoader::Load("document-new"), tr("Open in new playlist"), this, &InternetSearchView::OpenSelectedInNewPlaylist);
+  if (!context_menu_) {
+    context_menu_ = new QMenu(this);
+    context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &InternetSearchView::AddSelectedToPlaylist);
+    context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &InternetSearchView::LoadSelected);
+    context_actions_ << context_menu_->addAction( IconLoader::Load("document-new"), tr("Open in new playlist"), this, &InternetSearchView::OpenSelectedInNewPlaylist);
 
-  context_menu_->addSeparator();
-  context_actions_ << context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &InternetSearchView::AddSelectedToPlaylistEnqueue);
-
-  context_menu_->addSeparator();
-
-  if (service_->artists_collection_model() || service_->albums_collection_model() || service_->songs_collection_model()) {
-    if (service_->artists_collection_model()) {
-      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to artists"), this, &InternetSearchView::AddArtists);
-    }
-    if (service_->albums_collection_model()) {
-      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to albums"), this, &InternetSearchView::AddAlbums);
-    }
-    if (service_->songs_collection_model()) {
-      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to songs"), this, &InternetSearchView::AddSongs);
-    }
     context_menu_->addSeparator();
+    context_actions_ << context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &InternetSearchView::AddSelectedToPlaylistEnqueue);
+
+    context_menu_->addSeparator();
+
+    if (service_->artists_collection_model() || service_->albums_collection_model() || service_->songs_collection_model()) {
+      if (service_->artists_collection_model()) {
+        context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to artists"), this, &InternetSearchView::AddArtists);
+      }
+      if (service_->albums_collection_model()) {
+        context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to albums"), this, &InternetSearchView::AddAlbums);
+      }
+      if (service_->songs_collection_model()) {
+        context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to songs"), this, &InternetSearchView::AddSongs);
+      }
+      context_menu_->addSeparator();
+    }
+
+    if (ui_->results->selectionModel() && ui_->results->selectionModel()->selectedRows().length() == 1) {
+      context_actions_ << context_menu_->addAction(IconLoader::Load("search"), tr("Search for this"), this, &InternetSearchView::SearchForThis);
+    }
+
+    context_menu_->addSeparator();
+    context_menu_->addMenu(tr("Group by"))->addActions(group_by_actions_->actions());
+
+    context_menu_->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, &InternetSearchView::OpenSettingsDialog);
+
   }
-
-  if (ui_->results->selectionModel() && ui_->results->selectionModel()->selectedRows().length() == 1) {
-    context_actions_ << context_menu_->addAction(IconLoader::Load("search"), tr("Search for this"), this, &InternetSearchView::SearchForThis);
-  }
-
-  context_menu_->addSeparator();
-  context_menu_->addMenu(tr("Group by"))->addActions(group_by_actions_->actions());
-
-  context_menu_->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, &InternetSearchView::OpenSettingsDialog);
 
   const bool enable_context_actions = ui_->results->selectionModel() && ui_->results->selectionModel()->hasSelection();
 
