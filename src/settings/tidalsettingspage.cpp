@@ -148,8 +148,6 @@ void TidalSettingsPage::Save() {
   s.setValue("album_explicit", ui_->checkbox_album_explicit->isChecked());
   s.endGroup();
 
-  service_->ReloadSettings();
-
 }
 
 void TidalSettingsPage::LoginClicked() {

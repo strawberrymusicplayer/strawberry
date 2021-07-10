@@ -91,6 +91,9 @@
 #  include "moodbar/moodbarloader.h"
 #endif
 
+#include "radios/radioservices.h"
+#include "radios/radiobackend.h"
+
 using namespace std::chrono_literals;
 
 class ApplicationImpl {
@@ -171,15 +174,13 @@ class ApplicationImpl {
 #endif
           return internet_services;
         }),
+        radio_services_([=]() { return new RadioServices(app, app); }),
         scrobbler_([=]() { return new AudioScrobbler(app, app); }),
-        lastfm_import_([=]() { return new LastFMImport(app); }),
-
 #ifdef HAVE_MOODBAR
         moodbar_loader_([=]() { return new MoodbarLoader(app, app); }),
         moodbar_controller_([=]() { return new MoodbarController(app, app); }),
 #endif
-       dummy_([=]() { return nullptr; })
-
+        lastfm_import_([=]() { return new LastFMImport(app); })
   {}
 
   Lazy<TagReaderClient> tag_reader_client_;
@@ -199,13 +200,13 @@ class ApplicationImpl {
   Lazy<CurrentAlbumCoverLoader> current_albumcover_loader_;
   Lazy<LyricsProviders> lyrics_providers_;
   Lazy<InternetServices> internet_services_;
+  Lazy<RadioServices> radio_services_;
   Lazy<AudioScrobbler> scrobbler_;
-  Lazy<LastFMImport> lastfm_import_;
 #ifdef HAVE_MOODBAR
   Lazy<MoodbarLoader> moodbar_loader_;
   Lazy<MoodbarController> moodbar_controller_;
 #endif
-  Lazy<QVariant> dummy_;
+  Lazy<LastFMImport> lastfm_import_;
 
 };
 
@@ -265,7 +266,8 @@ void Application::Exit() {
 #ifndef Q_OS_WIN
                  << device_manager()
 #endif
-                 << internet_services();
+                 << internet_services()
+                 << radio_services()->radio_backend();
 
   QObject::connect(tag_reader_client(), &TagReaderClient::ExitFinished, this, &Application::ExitReceived);
   tag_reader_client()->ExitAsync();
@@ -286,6 +288,9 @@ void Application::Exit() {
 
   QObject::connect(internet_services(), &InternetServices::ExitFinished, this, &Application::ExitReceived);
   internet_services()->Exit();
+
+  QObject::connect(radio_services()->radio_backend(), &RadioBackend::ExitFinished, this, &Application::ExitReceived);
+  radio_services()->radio_backend()->ExitAsync();
 
 }
 
@@ -328,6 +333,7 @@ LyricsProviders *Application::lyrics_providers() const { return p_->lyrics_provi
 PlaylistBackend *Application::playlist_backend() const { return p_->playlist_backend_.get(); }
 PlaylistManager *Application::playlist_manager() const { return p_->playlist_manager_.get(); }
 InternetServices *Application::internet_services() const { return p_->internet_services_.get(); }
+RadioServices *Application::radio_services() const { return p_->radio_services_.get(); }
 AudioScrobbler *Application::scrobbler() const { return p_->scrobbler_.get(); }
 LastFMImport *Application::lastfm_import() const { return p_->lastfm_import_.get(); }
 #ifdef HAVE_MOODBAR

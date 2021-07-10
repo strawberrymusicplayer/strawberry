@@ -75,6 +75,8 @@ class Song {
     Source_Tidal = 6,
     Source_Subsonic = 7,
     Source_Qobuz = 8,
+    Source_SomaFM = 9,
+    Source_RadioParadise = 10
   };
 
   // Don't change these values - they're stored in the database, and defined in the tag reader protobuf.
@@ -134,6 +136,7 @@ class Song {
 
   static Source SourceFromURL(const QUrl &url);
   static QString TextForSource(Source source);
+  static QString DescriptionForSource(Source source);
   static Song::Source SourceFromText(const QString &source);
   static QIcon IconForSource(Source source);
   static QString TextForFiletype(FileType filetype);
@@ -141,6 +144,7 @@ class Song {
   static QIcon IconForFiletype(FileType filetype);
 
   QString TextForSource() const { return TextForSource(source()); }
+  QString DescriptionForSource() const { return DescriptionForSource(source()); }
   QIcon IconForSource() const { return IconForSource(source()); }
   QString TextForFiletype() const { return TextForFiletype(filetype()); }
   QIcon IconForFiletype() const { return IconForFiletype(filetype()); }

@@ -382,4 +382,3 @@ SongList ContextAlbumsModel::GetChildSongs(const QModelIndexList &indexes) const
 SongList ContextAlbumsModel::GetChildSongs(const QModelIndex &idx) const {
   return GetChildSongs(QModelIndexList() << idx);
 }
-

@@ -102,8 +102,6 @@ void SubsonicSettingsPage::Save() {
   s.setValue("serversidescrobbling", ui_->checkbox_server_scrobbling->isChecked());
   s.endGroup();
 
-  service_->ReloadSettings();
-
 }
 
 void SubsonicSettingsPage::TestClicked() {

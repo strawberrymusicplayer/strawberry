@@ -180,6 +180,9 @@
 #include "internet/internetcollectionview.h"
 #include "internet/internetsearchview.h"
 
+#include "radios/radioservices.h"
+#include "radios/radioviewcontainer.h"
+
 #include "scrobbler/audioscrobbler.h"
 #include "scrobbler/lastfmimport.h"
 
@@ -277,6 +280,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 #ifdef HAVE_QOBUZ
       qobuz_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source_Qobuz), QobuzSettingsPage::kSettingsGroup, SettingsDialog::Page_Qobuz, this)),
 #endif
+      radio_view_(new RadioViewContainer(this)),
       lastfm_import_dialog_(new LastFMImportDialog(app_->lastfm_import(), this)),
       collection_show_all_(nullptr),
       collection_show_duplicates_(nullptr),
@@ -316,8 +320,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       hidden_(false),
       exit_(false),
       exit_count_(0),
-      delete_files_(false)
-      {
+      delete_files_(false) {
 
   qLog(Debug) << "Starting";
 
@@ -343,6 +346,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   ui_->tabs->AddTab(playlist_list_, "playlists", IconLoader::Load("view-media-playlist"), tr("Playlists"));
   ui_->tabs->AddTab(smartplaylists_view_, "smartplaylists", IconLoader::Load("view-media-playlist"), tr("Smart playlists"));
   ui_->tabs->AddTab(file_view_, "files", IconLoader::Load("document-open"), tr("Files"));
+  ui_->tabs->AddTab(radio_view_, "radios", IconLoader::Load("radio"), tr("Radios"));
 #ifndef Q_OS_WIN
   ui_->tabs->AddTab(device_view_, "devices", IconLoader::Load("device"), tr("Devices"));
 #endif
@@ -400,6 +404,8 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   playlist_list_->SetApplication(app_);
 
   organize_dialog_->SetDestinationModel(app_->collection()->model()->directory_model());
+
+  radio_view_->view()->setModel(app_->radio_services()->radio_model());
 
   // Icons
   qLog(Debug) << "Creating UI";
@@ -674,6 +680,10 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(qobuz_view_->songs_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(qobuz_view_->search_view(), &InternetSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
 #endif
+
+  QObject::connect(radio_view_, &RadioViewContainer::Refresh, app_->radio_services(), &RadioServices::RefreshChannels);
+  QObject::connect(radio_view_->view(), &RadioView::GetChannels, app_->radio_services(), &RadioServices::GetChannels);
+  QObject::connect(radio_view_->view(), &RadioView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
 
   // Playlist menu
   QObject::connect(playlist_menu_, &QMenu::aboutToHide, this, &MainWindow::PlaylistMenuHidden);
@@ -1126,6 +1136,9 @@ void MainWindow::ReloadAllSettings() {
   queue_view_->ReloadSettings();
   playlist_list_->ReloadSettings();
   smartplaylists_view_->ReloadSettings();
+  radio_view_->ReloadSettings();
+  app_->internet_services()->ReloadSettings();
+  app_->radio_services()->ReloadSettings();
   app_->cover_providers()->ReloadSettings();
   app_->lyrics_providers()->ReloadSettings();
 #ifdef HAVE_MOODBAR

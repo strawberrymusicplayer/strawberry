@@ -534,6 +534,8 @@ void AlbumCoverChoiceController::SaveArtManualToSong(Song *song, const QUrl &art
     case Song::Source_CDDA:
     case Song::Source_Device:
     case Song::Source_Stream:
+    case Song::Source_RadioParadise:
+    case Song::Source_SomaFM:
     case Song::Source_Unknown:
       break;
     case Song::Source_Tidal:

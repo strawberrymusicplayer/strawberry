@@ -40,7 +40,7 @@ class InternetServices : public QObject {
   explicit InternetServices(QObject *parent = nullptr);
   ~InternetServices() override;
 
-  InternetService *ServiceBySource(const Song::Source source);
+  InternetService *ServiceBySource(const Song::Source source) const;
   template <typename T>
   T *Service() {
     return static_cast<T*>(this->ServiceBySource(T::kSource));

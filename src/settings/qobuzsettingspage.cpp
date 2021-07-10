@@ -121,8 +121,6 @@ void QobuzSettingsPage::Save() {
   s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
   s.endGroup();
 
-  service_->ReloadSettings();
-
 }
 
 void QobuzSettingsPage::LoginClicked() {

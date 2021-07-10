@@ -228,6 +228,17 @@ set(SOURCES
   internet/internetcollectionviewcontainer.cpp
   internet/internetsearchview.cpp
 
+  radios/radioservices.cpp
+  radios/radiobackend.cpp
+  radios/radiomodel.cpp
+  radios/radioview.cpp
+  radios/radioviewcontainer.cpp
+  radios/radioservice.cpp
+  radios/radioplaylistitem.cpp
+  radios/radiochannel.cpp
+  radios/somafmservice.cpp
+  radios/radioparadiseservice.cpp
+
   scrobbler/audioscrobbler.cpp
   scrobbler/scrobblerservices.cpp
   scrobbler/scrobblerservice.cpp
@@ -449,6 +460,16 @@ set(HEADERS
   internet/internetcollectionview.h
   internet/internetcollectionviewcontainer.h
 
+  radios/radioservices.h
+  radios/radiobackend.h
+  radios/radiomodel.h
+  radios/radioview.h
+  radios/radioviewcontainer.h
+  radios/radioservice.h
+  radios/radiomimedata.h
+  radios/somafmservice.h
+  radios/radioparadiseservice.h
+
   scrobbler/audioscrobbler.h
   scrobbler/scrobblerservices.h
   scrobbler/scrobblerservice.h
@@ -531,6 +552,8 @@ set(UI
   internet/internettabsview.ui
   internet/internetcollectionviewcontainer.ui
   internet/internetsearchview.ui
+
+  radios/radioviewcontainer.ui
 
   organize/organizedialog.ui
   organize/organizeerrordialog.ui

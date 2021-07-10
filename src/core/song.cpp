@@ -375,7 +375,13 @@ double Song::rating() const { return d->rating_; }
 
 bool Song::is_collection_song() const { return d->source_ == Source_Collection; }
 bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.isEmpty() && !d->title_.isEmpty(); }
-bool Song::is_stream() const { return d->source_ == Source_Stream || d->source_ == Source_Tidal || d->source_ == Source_Subsonic || d->source_ == Source_Qobuz; }
+bool Song::is_stream() const { return d->source_ == Source_Stream ||
+                                      d->source_ == Source_Tidal ||
+                                      d->source_ == Source_Subsonic ||
+                                      d->source_ == Source_Qobuz ||
+                                      d->source_ == Source_SomaFM ||
+                                      d->source_ == Source_RadioParadise;
+}
 bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
 bool Song::is_compilation() const { return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && !d->compilation_off_; }
 bool Song::stream_url_can_expire() const { return d->source_ == Song::Source_Tidal || d->source_ == Song::Source_Qobuz; }
@@ -490,7 +496,13 @@ Song::Source Song::SourceFromURL(const QUrl &url) {
   else if (url.scheme() == "tidal") return Source_Tidal;
   else if (url.scheme() == "subsonic") return Source_Subsonic;
   else if (url.scheme() == "qobuz") return Source_Qobuz;
-  else if (url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "rtsp") return Source_Stream;
+  else if (url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "rtsp") {
+    if (url.host().endsWith("tidal.com", Qt::CaseInsensitive)) { return Source_Tidal; }
+    if (url.host().endsWith("qobuz.com", Qt::CaseInsensitive)) { return Source_Qobuz; }
+    if (url.host().endsWith("somafm.com", Qt::CaseInsensitive)) { return Source_SomaFM; }
+    if (url.host().endsWith("radioparadise.com", Qt::CaseInsensitive)) { return Source_RadioParadise; }
+    return Source_Stream;
+  }
   else return Source_Unknown;
 
 }
@@ -498,15 +510,36 @@ Song::Source Song::SourceFromURL(const QUrl &url) {
 QString Song::TextForSource(Source source) {
 
   switch (source) {
-    case Song::Source_LocalFile:   return "file";
-    case Song::Source_Collection:  return "collection";
-    case Song::Source_CDDA:        return "cd";
-    case Song::Source_Device:      return "device";
-    case Song::Source_Stream:      return "stream";
-    case Song::Source_Tidal:       return "tidal";
-    case Song::Source_Subsonic:    return "subsonic";
-    case Song::Source_Qobuz:       return "qobuz";
-    case Song::Source_Unknown:     return "unknown";
+    case Song::Source_LocalFile:     return "file";
+    case Song::Source_Collection:    return "collection";
+    case Song::Source_CDDA:          return "cd";
+    case Song::Source_Device:        return "device";
+    case Song::Source_Stream:        return "stream";
+    case Song::Source_Tidal:         return "tidal";
+    case Song::Source_Subsonic:      return "subsonic";
+    case Song::Source_Qobuz:         return "qobuz";
+    case Song::Source_SomaFM:        return "somafm";
+    case Song::Source_RadioParadise: return "radioparadise";
+    case Song::Source_Unknown:       return "unknown";
+  }
+  return "unknown";
+
+}
+
+QString Song::DescriptionForSource(Source source) {
+
+  switch (source) {
+    case Song::Source_LocalFile:     return "File";
+    case Song::Source_Collection:    return "Collection";
+    case Song::Source_CDDA:          return "CD";
+    case Song::Source_Device:        return "Device";
+    case Song::Source_Stream:        return "Stream";
+    case Song::Source_Tidal:         return "Tidal";
+    case Song::Source_Subsonic:      return "Subsonic";
+    case Song::Source_Qobuz:         return "Qobuz";
+    case Song::Source_SomaFM:        return "SomaFM";
+    case Song::Source_RadioParadise: return "Radio Paradise";
+    case Song::Source_Unknown:       return "Unknown";
   }
   return "unknown";
 
@@ -522,6 +555,8 @@ Song::Source Song::SourceFromText(const QString &source) {
   if (source == "tidal") return Source_Tidal;
   if (source == "subsonic") return Source_Subsonic;
   if (source == "qobuz") return Source_Qobuz;
+  if (source == "somafm") return Source_SomaFM;
+  if (source == "radioparadise") return Source_RadioParadise;
 
   return Source_Unknown;
 
@@ -530,15 +565,17 @@ Song::Source Song::SourceFromText(const QString &source) {
 QIcon Song::IconForSource(Source source) {
 
   switch (source) {
-    case Song::Source_LocalFile:   return IconLoader::Load("folder-sound");
-    case Song::Source_Collection:  return IconLoader::Load("library-music");
-    case Song::Source_CDDA:        return IconLoader::Load("media-optical");
-    case Song::Source_Device:      return IconLoader::Load("device");
-    case Song::Source_Stream:      return IconLoader::Load("applications-internet");
-    case Song::Source_Tidal:       return IconLoader::Load("tidal");
-    case Song::Source_Subsonic:    return IconLoader::Load("subsonic");
-    case Song::Source_Qobuz:       return IconLoader::Load("qobuz");
-    case Song::Source_Unknown:     return IconLoader::Load("edit-delete");
+    case Song::Source_LocalFile:     return IconLoader::Load("folder-sound");
+    case Song::Source_Collection:    return IconLoader::Load("library-music");
+    case Song::Source_CDDA:          return IconLoader::Load("media-optical");
+    case Song::Source_Device:        return IconLoader::Load("device");
+    case Song::Source_Stream:        return IconLoader::Load("applications-internet");
+    case Song::Source_Tidal:         return IconLoader::Load("tidal");
+    case Song::Source_Subsonic:      return IconLoader::Load("subsonic");
+    case Song::Source_Qobuz:         return IconLoader::Load("qobuz");
+    case Song::Source_SomaFM:        return IconLoader::Load("somafm");
+    case Song::Source_RadioParadise: return IconLoader::Load("radioparadise");
+    case Song::Source_Unknown:       return IconLoader::Load("edit-delete");
   }
   return IconLoader::Load("edit-delete");
 
@@ -721,6 +758,8 @@ QString Song::ImageCacheDir(const Song::Source source) {
     case Song::Source_LocalFile:
     case Song::Source_CDDA:
     case Song::Source_Stream:
+    case Song::Source_SomaFM:
+    case Song::Source_RadioParadise:
     case Song::Source_Unknown:
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/albumcovers";
   }

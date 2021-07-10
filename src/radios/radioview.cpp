@@ -1,0 +1,192 @@
+/*
+ * Strawberry Music Player
+ * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+#include <QWidget>
+#include <QMimeData>
+#include <QDesktopServices>
+#include <QMenu>
+#include <QAction>
+#include <QShowEvent>
+#include <QContextMenuEvent>
+
+#include "core/mimedata.h"
+#include "core/iconloader.h"
+#include "radiomodel.h"
+#include "radioview.h"
+#include "radioservice.h"
+#include "radiomimedata.h"
+#include "collection/collectionitemdelegate.h"
+
+RadioView::RadioView(QWidget *parent)
+    : AutoExpandingTreeView(parent),
+      menu_(nullptr),
+      action_playlist_append_(nullptr),
+      action_playlist_replace_(nullptr),
+      action_playlist_new_(nullptr),
+      action_homepage_(nullptr),
+      action_donate_(nullptr),
+      initialized_(false) {
+
+  setItemDelegate(new CollectionItemDelegate(this));
+  SetExpandOnReset(false);
+  setAttribute(Qt::WA_MacShowFocusRect, false);
+  setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+  QObject::connect(this, &RadioView::doubleClicked, this, &RadioView::DoubleClicked);
+
+}
+
+RadioView::~RadioView() { delete menu_; }
+
+void RadioView::setModel(RadioModel *model) {
+
+  AutoExpandingTreeView::setModel(model);
+
+}
+
+void RadioView::showEvent(QShowEvent*) {
+
+  if (!initialized_) {
+    emit GetChannels();
+    initialized_ = true;
+  }
+
+}
+
+void RadioView::contextMenuEvent(QContextMenuEvent *e) {
+
+  if (!menu_) {
+    menu_ = new QMenu;
+
+    action_playlist_append_ = new QAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this);
+    QObject::connect(action_playlist_append_, &QAction::triggered, this, &RadioView::AddToPlaylist);
+    menu_->addAction(action_playlist_append_);
+
+    action_playlist_replace_ = new QAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this);
+    QObject::connect(action_playlist_replace_, &QAction::triggered, this, &RadioView::ReplacePlaylist);
+    menu_->addAction(action_playlist_replace_);
+
+    action_playlist_new_ = new QAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this);
+    QObject::connect(action_playlist_new_, &QAction::triggered, this, &RadioView::OpenInNewPlaylist);
+    menu_->addAction(action_playlist_new_);
+
+    action_homepage_ = new QAction(IconLoader::Load("download"), tr("Open homepage"), this);
+    QObject::connect(action_homepage_, &QAction::triggered, this, &RadioView::Homepage);
+    menu_->addAction(action_homepage_);
+
+    action_donate_ = new QAction(IconLoader::Load("download"), tr("Donate"), this);
+    QObject::connect(action_donate_, &QAction::triggered, this, &RadioView::Donate);
+    menu_->addAction(action_donate_);
+
+    menu_->addAction(IconLoader::Load("view-refresh"), tr("Refresh channels"), this, &RadioView::GetChannels);
+  }
+
+  const bool channels_selected = !selectedIndexes().isEmpty();
+
+  action_playlist_append_->setVisible(channels_selected);
+  action_playlist_replace_->setVisible(channels_selected);
+  action_playlist_new_->setVisible(channels_selected);
+  action_homepage_->setVisible(channels_selected);
+  action_donate_->setVisible(channels_selected);
+
+  menu_->popup(e->globalPos());
+
+}
+
+void RadioView::AddToPlaylist() {
+
+  emit AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
+
+}
+
+void RadioView::ReplacePlaylist() {
+
+  QMimeData *qmimedata = model()->mimeData(selectedIndexes());
+  if (MimeData *mimedata = qobject_cast<MimeData*>(qmimedata)) {
+    mimedata->clear_first_ = true;
+  }
+
+  emit AddToPlaylistSignal(qmimedata);
+
+}
+
+void RadioView::OpenInNewPlaylist() {
+
+  QMimeData *qmimedata = model()->mimeData(selectedIndexes());
+  if (RadioMimeData *mimedata = qobject_cast<RadioMimeData*>(qmimedata)) {
+    mimedata->open_in_new_playlist_ = true;
+    if (!mimedata->songs.isEmpty()) {
+      mimedata->name_for_new_playlist_ = mimedata->songs.first().title();
+    }
+  }
+
+  emit AddToPlaylistSignal(qmimedata);
+
+}
+
+void RadioView::Homepage() {
+
+  const QModelIndexList indexes = selectedIndexes();
+
+  QList<QUrl> urls;
+  for (const QModelIndex &idx : indexes) {
+    QUrl url = idx.data(RadioModel::Role_Homepage).toUrl();
+    if (!urls.contains(url)) {
+      urls << url;
+    }
+  }
+
+  for (const QUrl &url : urls) {
+    QDesktopServices::openUrl(url);
+  }
+
+}
+
+void RadioView::Donate() {
+
+  const QModelIndexList indexes = selectedIndexes();
+
+  QList<QUrl> urls;
+  for (const QModelIndex &idx : indexes) {
+    QUrl url = idx.data(RadioModel::Role_Donate).toUrl();
+    if (!urls.contains(url)) {
+      urls << url;
+    }
+  }
+
+  for (const QUrl &url : urls) {
+    QDesktopServices::openUrl(url);
+  }
+
+}
+
+void RadioView::DoubleClicked() {
+
+  const QModelIndexList indexes = selectedIndexes();
+  if (indexes.isEmpty()) return;
+
+  for (const QModelIndex &idx : indexes) {
+    if (idx.data(RadioModel::Role_Type).toInt() != RadioItem::Type_Channel) {
+      return;
+    }
+  }
+
+  AddToPlaylist();
+
+}

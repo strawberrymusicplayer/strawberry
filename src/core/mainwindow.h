@@ -100,6 +100,7 @@ class Windows7ThumbBar;
 #endif
 class AddStreamDialog;
 class LastFMImportDialog;
+class RadioViewContainer;
 
 class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
@@ -337,6 +338,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   InternetSongsView *subsonic_view_;
   InternetTabsView *tidal_view_;
   InternetTabsView *qobuz_view_;
+
+  RadioViewContainer *radio_view_;
 
   LastFMImportDialog *lastfm_import_dialog_;
 

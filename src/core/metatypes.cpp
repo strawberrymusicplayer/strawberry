@@ -72,6 +72,8 @@
 
 #include "smartplaylists/playlistgenerator_fwd.h"
 
+#include "radios/radiochannel.h"
+
 void RegisterMetaTypes() {
 
   qRegisterMetaType<const char*>("const char*");
@@ -140,5 +142,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<InternetSearchView::Result>("InternetSearchView::Result");
 
   qRegisterMetaType<PlaylistGeneratorPtr>("PlaylistGeneratorPtr");
+
+  qRegisterMetaType<RadioChannelList>("RadioChannelList");
 
 }

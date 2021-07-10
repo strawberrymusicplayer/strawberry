@@ -58,8 +58,8 @@ class PlaylistBackend;
 class PlaylistFilter;
 class Queue;
 class TaskManager;
-class InternetServices;
 class InternetService;
+class RadioService;
 
 namespace PlaylistUndoCommands {
 class InsertItems;
@@ -243,8 +243,9 @@ class Playlist : public QAbstractListModel {
   void InsertCollectionItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertSongs(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertSongsOrCollectionItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
-  void InsertInternetItems(InternetService *service, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertSmartPlaylist(PlaylistGeneratorPtr gen, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertInternetItems(InternetService *service, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertRadioItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
 
   void ReshuffleIndices();
 

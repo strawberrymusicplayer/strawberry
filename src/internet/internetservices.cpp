@@ -60,7 +60,7 @@ void InternetServices::RemoveService(InternetService *service) {
 
 }
 
-InternetService *InternetServices::ServiceBySource(const Song::Source source) {
+InternetService *InternetServices::ServiceBySource(const Song::Source source) const {
 
   if (services_.contains(source)) return services_.value(source);
   return nullptr;

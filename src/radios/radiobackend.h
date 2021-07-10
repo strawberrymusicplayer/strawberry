@@ -1,0 +1,61 @@
+/*
+ * Strawberry Music Player
+ * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+#ifndef RADIOBACKEND_H
+#define RADIOBACKEND_H
+
+#include <QObject>
+
+#include "radiochannel.h"
+
+class Application;
+class Database;
+
+class RadioBackend : public QObject {
+  Q_OBJECT
+
+ public:
+  explicit RadioBackend(Application *app, Database *db, QObject *parent = nullptr);
+
+  void Close();
+  void ExitAsync();
+
+  void AddChannelsAsync(const RadioChannelList &channels);
+  void GetChannelsAsync();
+  void DeleteChannelsAsync();
+
+ private slots:
+  void AddChannels(const RadioChannelList &channels);
+  void GetChannels();
+  void DeleteChannels();
+
+ signals:
+  void NewChannels(RadioChannelList);
+  void ExitFinished();
+
+ private slots:
+  void Exit();
+
+ private:
+  Application *app_;
+  Database *db_;
+  QThread *original_thread_;
+};
+
+#endif  // RADIOBACKEND_H

@@ -58,6 +58,7 @@ class LyricsProviders;
 class AudioScrobbler;
 class LastFMImport;
 class InternetServices;
+class RadioServices;
 #ifdef HAVE_MOODBAR
 class MoodbarController;
 class MoodbarLoader;
@@ -94,14 +95,16 @@ class Application : public QObject {
   LyricsProviders *lyrics_providers() const;
 
   AudioScrobbler *scrobbler() const;
-  LastFMImport *lastfm_import() const;
 
   InternetServices *internet_services() const;
+  RadioServices *radio_services() const;
 
 #ifdef HAVE_MOODBAR
   MoodbarController *moodbar_controller() const;
   MoodbarLoader *moodbar_loader() const;
 #endif
+
+  LastFMImport *lastfm_import() const;
 
   void Exit();
 

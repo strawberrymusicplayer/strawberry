@@ -93,6 +93,10 @@
 #include "internet/internetplaylistitem.h"
 #include "internet/internetsongmimedata.h"
 
+#include "radios/radioservice.h"
+#include "radios/radiomimedata.h"
+#include "radios/radioplaylistitem.h"
+
 using namespace std::chrono_literals;
 
 const char *Playlist::kCddaMimeType = "x-content/audio-cdda";
@@ -787,11 +791,14 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
   else if (const PlaylistItemMimeData *item_data = qobject_cast<const PlaylistItemMimeData*>(data)) {
     InsertItems(item_data->items_, row, play_now, enqueue_now, enqueue_next_now);
   }
+  else if (const PlaylistGeneratorMimeData *generator_data = qobject_cast<const PlaylistGeneratorMimeData*>(data)) {
+    InsertSmartPlaylist(generator_data->generator_, row, play_now, enqueue_now, enqueue_next_now);
+  }
   else if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
     InsertInternetItems(internet_song_data->service, internet_song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
   }
-  else if (const PlaylistGeneratorMimeData *generator_data = qobject_cast<const PlaylistGeneratorMimeData*>(data)) {
-    InsertSmartPlaylist(generator_data->generator_, row, play_now, enqueue_now, enqueue_next_now);
+  else if (const RadioMimeData *radio_data = qobject_cast<const RadioMimeData*>(data)) {
+    InsertRadioItems(radio_data->songs, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (data->hasFormat(kRowsMimetype)) {
     // Dragged from the playlist
@@ -1150,6 +1157,20 @@ void Playlist::InsertInternetItems(InternetService *service, const SongList &son
   playlist_items.reserve(songs.count());
   for (const Song &song : songs) {
     playlist_items << std::make_shared<InternetPlaylistItem>(service, song);
+  }
+
+  InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
+
+}
+
+void Playlist::InsertRadioItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
+
+  PlaylistItemList playlist_items;
+  QList<QUrl> song_urls;
+  playlist_items.reserve(songs.count());
+  for (const Song &song : songs) {
+    playlist_items << std::make_shared<RadioPlaylistItem>(song);
+    song_urls << song.url();
   }
 
   InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
