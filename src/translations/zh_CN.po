@@ -155,7 +155,7 @@ msgstr "%1 不再需要授权"
 msgid "%1 needs authentication."
 msgstr "%1 需要授权"
 
-#: playlistparsers/playlistparser.cpp:114
+#: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "%1 playlists (%2)"
 msgstr "%1 播放列表 (%2)"
@@ -855,7 +855,7 @@ msgstr "全部艺人"
 msgid "All files (*)"
 msgstr "全部文件 (*)"
 
-#: playlistparsers/playlistparser.cpp:97
+#: playlistparsers/playlistparser.cpp:96
 #, qt-format
 msgid "All playlists (%1)"
 msgstr "全部播放列表 (%1)"
@@ -1179,7 +1179,7 @@ msgstr "缓冲中"
 msgid "C&onsole"
 msgstr ""
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr ""
 
@@ -1455,12 +1455,12 @@ msgstr "无法创建GStreamer元素 \"%1\" - 请确认您已安装了所需GStre
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
-#: core/songloader.cpp:283
+#: core/songloader.cpp:285
 #, qt-format
 msgid "Could not open file %1"
 msgstr ""
 
-#: core/songloader.cpp:460
+#: core/songloader.cpp:466
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr ""
@@ -2200,12 +2200,12 @@ msgstr ""
 msgid "Fetching cover error"
 msgstr "获取封面出错"
 
-#: core/songloader.cpp:165 core/songloader.cpp:270
+#: core/songloader.cpp:167 core/songloader.cpp:272
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:324
+#: core/songloader.cpp:187 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr ""
@@ -3571,7 +3571,7 @@ msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr ""
 
@@ -5308,7 +5308,7 @@ msgid ""
 "through %2."
 msgstr ""
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr ""
 

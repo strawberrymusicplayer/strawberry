@@ -155,7 +155,7 @@ msgstr ""
 msgid "%1 needs authentication."
 msgstr ""
 
-#: playlistparsers/playlistparser.cpp:114
+#: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "%1 playlists (%2)"
 msgstr "%1 daftar putar (%2)"
@@ -850,7 +850,7 @@ msgstr "Semua artis"
 msgid "All files (*)"
 msgstr "Semua berkas (*)"
 
-#: playlistparsers/playlistparser.cpp:97
+#: playlistparsers/playlistparser.cpp:96
 #, qt-format
 msgid "All playlists (%1)"
 msgstr "Semua daftar putar (%1)"
@@ -1174,7 +1174,7 @@ msgstr "Membufer..."
 msgid "C&onsole"
 msgstr "K&onsol"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Pemutaran CD hanya tersedia dengan mesin GStreamer."
 
@@ -1453,12 +1453,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
-#: core/songloader.cpp:283
+#: core/songloader.cpp:285
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Tidak dapat membuka berkas %1"
 
-#: core/songloader.cpp:460
+#: core/songloader.cpp:466
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Tidak dapat membuat elemen sumber gstreamer untuk %1"
@@ -2202,12 +2202,12 @@ msgstr "Ambil seluruh album saat mencari lagu"
 msgid "Fetching cover error"
 msgstr "Terjadi kesalahan saat mengambil sampul"
 
-#: core/songloader.cpp:165 core/songloader.cpp:270
+#: core/songloader.cpp:167 core/songloader.cpp:272
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:324
+#: core/songloader.cpp:187 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Berkas %1 bukanlah berkas audio yang benar."
@@ -3583,7 +3583,7 @@ msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr "Fungsi preload tidak diatur untuk operasi memblokir."
 
@@ -5355,7 +5355,7 @@ msgid ""
 "through %2."
 msgstr ""
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "Anda memerlukan GStreamer untuk URL ini."
 

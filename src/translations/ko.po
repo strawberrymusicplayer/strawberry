@@ -157,7 +157,7 @@ msgstr ""
 msgid "%1 needs authentication."
 msgstr ""
 
-#: playlistparsers/playlistparser.cpp:114
+#: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "%1 playlists (%2)"
 msgstr "재생 목록 %1개(%2)"
@@ -850,7 +850,7 @@ msgstr "모든 아티스트"
 msgid "All files (*)"
 msgstr "모든 파일 (*)"
 
-#: playlistparsers/playlistparser.cpp:97
+#: playlistparsers/playlistparser.cpp:96
 #, qt-format
 msgid "All playlists (%1)"
 msgstr "모든 재생 목록(%1)"
@@ -1174,7 +1174,7 @@ msgstr "버퍼링"
 msgid "C&onsole"
 msgstr "콘솔(&O)"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD 재생은 GStreamer 엔진에서만 지원합니다."
 
@@ -1451,12 +1451,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "URL을 열 수 없습니다. 웹 브라우저에서 여십시오"
 
-#: core/songloader.cpp:283
+#: core/songloader.cpp:285
 #, qt-format
 msgid "Could not open file %1"
 msgstr "%1 파일을 열 수 없음"
 
-#: core/songloader.cpp:460
+#: core/songloader.cpp:466
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "%1의 GStreamer 소스 엘리먼트를 생성할 수 없음"
@@ -2196,12 +2196,12 @@ msgstr "곡을 검색할 때 전체 앨범 가져오기"
 msgid "Fetching cover error"
 msgstr "표지 가져오기 오류"
 
-#: core/songloader.cpp:165 core/songloader.cpp:270
+#: core/songloader.cpp:167 core/songloader.cpp:272
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:324
+#: core/songloader.cpp:187 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "%1 파일은 올바른 오디오 파일이 아닌 것 같습니다."
@@ -3568,7 +3568,7 @@ msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr "검색어 앞에 필드 이름을 입력하면 해당 필드에서만 검색합니다. 예:"
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr "차단하는 작업의 프리로드 함수를 설정하지 않았습니다."
 
@@ -5310,7 +5310,7 @@ msgid ""
 "through %2."
 msgstr ""
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "이 URL에 접근하려면 GStreamer가 필요합니다."
 

@@ -184,7 +184,7 @@ msgstr "%1 ne nécessite pas une authentification."
 msgid "%1 needs authentication."
 msgstr "%1 nécessite une authentification."
 
-#: playlistparsers/playlistparser.cpp:114
+#: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "%1 playlists (%2)"
 msgstr "%1 listes de lecture (%2)"
@@ -901,7 +901,7 @@ msgstr "Tous les artistes"
 msgid "All files (*)"
 msgstr "Tous les fichiers (*)"
 
-#: playlistparsers/playlistparser.cpp:97
+#: playlistparsers/playlistparser.cpp:96
 #, qt-format
 msgid "All playlists (%1)"
 msgstr "Toutes les listes de lecture (%1)"
@@ -1229,7 +1229,7 @@ msgstr "Mise en mémoire tampon"
 msgid "C&onsole"
 msgstr "C&onsole"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Lecture de CD disponible uniquement avec le moteur GStreamer."
 
@@ -1518,12 +1518,12 @@ msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 "Impossible d'ouvrir le lien. Veuillez ouvrir ce lien dans votre navigateur"
 
-#: core/songloader.cpp:283
+#: core/songloader.cpp:285
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Impossible d'ouvrir le fichier %1"
 
-#: core/songloader.cpp:460
+#: core/songloader.cpp:466
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Impossible de créer l'élément source gstreamer pour %1"
@@ -2274,12 +2274,12 @@ msgstr "Récupérer les albums entiers lors d'une recherche de morceau"
 msgid "Fetching cover error"
 msgstr "Erreur lors de la récupération de la pochette"
 
-#: core/songloader.cpp:165 core/songloader.cpp:270
+#: core/songloader.cpp:167 core/songloader.cpp:272
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:324
+#: core/songloader.cpp:187 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Le fichier %1 n'est pas un fichier audio valide."
@@ -3685,7 +3685,7 @@ msgstr ""
 "Préfixer un mot avec le nom d'un champs pour limiter la recherche à ce "
 "champs, ex. :"
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr ""
 "La fonction de préchargement n'a pas été définie pour l'opération bloquante."
@@ -5499,7 +5499,7 @@ msgstr ""
 "Vous pouvez sponsoriser l'auteur sur %1. Vous pouvez également effectuer un "
 "paiement unique via %2."
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "GStreamer est nécessaire pour ce lien."
 

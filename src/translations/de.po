@@ -183,7 +183,7 @@ msgstr "%1 braucht keine Authentifizierung."
 msgid "%1 needs authentication."
 msgstr "%1 muss sich authentifizieren."
 
-#: playlistparsers/playlistparser.cpp:114
+#: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "%1 playlists (%2)"
 msgstr "%1 Wiedergabelisten (%2)"
@@ -887,7 +887,7 @@ msgstr "Alle Interpreten"
 msgid "All files (*)"
 msgstr "Alle Dateien (*)"
 
-#: playlistparsers/playlistparser.cpp:97
+#: playlistparsers/playlistparser.cpp:96
 #, qt-format
 msgid "All playlists (%1)"
 msgstr "Alle Wiedergabelisten (%1)"
@@ -1212,7 +1212,7 @@ msgstr "Puffern"
 msgid "C&onsole"
 msgstr "Konsole"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD Wiedergabe ist nur mit de GStreamer Implemetierung verfügbar"
 
@@ -1495,12 +1495,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Konnte die URL nicht öffnen. Bitte diese URL im Browser öffnen"
 
-#: core/songloader.cpp:283
+#: core/songloader.cpp:285
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Konnte file %1 nicht öffnen"
 
-#: core/songloader.cpp:460
+#: core/songloader.cpp:466
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Konnte gstreamer quellelement für %1 nicht erzeugen"
@@ -2249,12 +2249,12 @@ msgstr "Abrufen des ganzen Albums wenn nach Liedern gesucht wird"
 msgid "Fetching cover error"
 msgstr "Abrufen des Titelbildes ist fehlgeschlagen"
 
-#: core/songloader.cpp:165 core/songloader.cpp:270
+#: core/songloader.cpp:167 core/songloader.cpp:272
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:324
+#: core/songloader.cpp:187 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Datei %1 kann nicht als korrekte Audiodatei erkannt werden."
@@ -3653,7 +3653,7 @@ msgstr ""
 "Fügen Sie einem Wort einen Feldnamen vor, um die Suche auf dieses Feld zu "
 "beschränken, z.B:\n"
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr "Preload Funktion war nicht gesetzt für Blockiervorgang."
 
@@ -5458,7 +5458,7 @@ msgstr ""
 "Sie können den Autor auf %1 sponsern. Sie können auch eine einmalige Zahlung "
 "über %2 vornehmen."
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "Du brauchst GStreamer für diese URL."
 

@@ -178,7 +178,7 @@ msgstr "%1 no necesita autenticación."
 msgid "%1 needs authentication."
 msgstr "%1 necesita autenticación."
 
-#: playlistparsers/playlistparser.cpp:114
+#: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "%1 playlists (%2)"
 msgstr "%1 listas de reproducción (%2)"
@@ -879,7 +879,7 @@ msgstr "Todos los artistas"
 msgid "All files (*)"
 msgstr "Todos los archivos (*)"
 
-#: playlistparsers/playlistparser.cpp:97
+#: playlistparsers/playlistparser.cpp:96
 #, qt-format
 msgid "All playlists (%1)"
 msgstr "Todas las listas de reproducción (%1)"
@@ -1203,7 +1203,7 @@ msgstr "Guardando en búfer"
 msgid "C&onsole"
 msgstr "C&onsola"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "La reproducción de CD solo es posible con el motor GStreamer."
 
@@ -1485,12 +1485,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "No se ha podido abrir URL. Por favor, ábrela en tu navegador"
 
-#: core/songloader.cpp:283
+#: core/songloader.cpp:285
 #, qt-format
 msgid "Could not open file %1"
 msgstr "No se ha podido abrir el archivo %1"
 
-#: core/songloader.cpp:460
+#: core/songloader.cpp:466
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "No se ha podido crear el elemento de origen gstreamer para %1"
@@ -2240,12 +2240,12 @@ msgstr "Devolver el álbum completo al buscar pistas"
 msgid "Fetching cover error"
 msgstr "Error al obtener la cubierta"
 
-#: core/songloader.cpp:165 core/songloader.cpp:270
+#: core/songloader.cpp:167 core/songloader.cpp:272
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:324
+#: core/songloader.cpp:187 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "El archivo de audio %1 no parece válido."
@@ -3644,7 +3644,7 @@ msgstr ""
 "Utilice un nombre de campo como prefijo de palabra para limitar la búsqueda "
 "a ese campo, p. ej.:"
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr ""
 "La función de precarga no se ajustó para un funcionamiento con bloqueo."
@@ -5438,7 +5438,7 @@ msgstr ""
 "Puede patrocinar al autor en %1. También puede realizar una aportación "
 "económica a través de %2."
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "Necesita GStreamer para este URL"
 

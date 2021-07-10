@@ -159,7 +159,7 @@ msgstr "%1 には認証は不要です。"
 msgid "%1 needs authentication."
 msgstr "%1 には認証が必要です。"
 
-#: playlistparsers/playlistparser.cpp:114
+#: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "%1 playlists (%2)"
 msgstr "%1 プレイリスト (%2)"
@@ -850,7 +850,7 @@ msgstr "すべてのアーティスト"
 msgid "All files (*)"
 msgstr "すべてのファイル (*)"
 
-#: playlistparsers/playlistparser.cpp:97
+#: playlistparsers/playlistparser.cpp:96
 #, qt-format
 msgid "All playlists (%1)"
 msgstr "すべてのプレイリスト (%1)"
@@ -1174,7 +1174,7 @@ msgstr "バッファ中"
 msgid "C&onsole"
 msgstr "コンソール"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD の再生は GStreamer エンジンでのみ使用できます"
 
@@ -1451,12 +1451,12 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "URLを開けません。ブラウザで開いてください。"
 
-#: core/songloader.cpp:283
+#: core/songloader.cpp:285
 #, qt-format
 msgid "Could not open file %1"
 msgstr "ファイル %1 が開けません "
 
-#: core/songloader.cpp:460
+#: core/songloader.cpp:466
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr ""
@@ -2198,12 +2198,12 @@ msgstr "曲検索時にアルバム全体を取得する"
 msgid "Fetching cover error"
 msgstr "カバーの取得エラー"
 
-#: core/songloader.cpp:165 core/songloader.cpp:270
+#: core/songloader.cpp:167 core/songloader.cpp:272
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:324
+#: core/songloader.cpp:187 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "ファイル %1 は正常な音声ファイルではありません"
@@ -3569,7 +3569,7 @@ msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr "ブロッキング操作にプリロード機能が設定されていません"
 
@@ -5314,7 +5314,7 @@ msgid ""
 "through %2."
 msgstr ""
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr ""
 

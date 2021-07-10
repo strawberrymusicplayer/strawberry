@@ -154,7 +154,7 @@ msgstr "%1 nevyžaduje ověření."
 msgid "%1 needs authentication."
 msgstr "%1 vyžaduje ověření."
 
-#: playlistparsers/playlistparser.cpp:114
+#: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "%1 playlists (%2)"
 msgstr "%1 seznamů skladeb (%2)"
@@ -852,7 +852,7 @@ msgstr "Všichni umělci"
 msgid "All files (*)"
 msgstr "Všechny soubory (*)"
 
-#: playlistparsers/playlistparser.cpp:97
+#: playlistparsers/playlistparser.cpp:96
 #, qt-format
 msgid "All playlists (%1)"
 msgstr "Všechny seznamy skladeb (%1)"
@@ -1177,7 +1177,7 @@ msgstr "Ukládá se do vyrovnávací paměti"
 msgid "C&onsole"
 msgstr "&Konzola"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Přehrávání disků CD je možné pouze za použití GStreamer enginu."
 
@@ -1457,12 +1457,12 @@ msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 "Nelze otevřít adresu URL. Prosím otevřete tuto URL ve vašem prohlížeči"
 
-#: core/songloader.cpp:283
+#: core/songloader.cpp:285
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Nelze otevřít soubor %1"
 
-#: core/songloader.cpp:460
+#: core/songloader.cpp:466
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Nelze vytvořit vstupní prvek GStreamer pro %1"
@@ -2206,12 +2206,12 @@ msgstr "Načítat celá alba při vyhledávání"
 msgid "Fetching cover error"
 msgstr "Chyba při stahování obalu"
 
-#: core/songloader.cpp:165 core/songloader.cpp:270
+#: core/songloader.cpp:167 core/songloader.cpp:272
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:324
+#: core/songloader.cpp:187 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Soubor %1 nebyl rozpoznán jako platný zvukový soubor."
@@ -3603,7 +3603,7 @@ msgstr ""
 "Zadejte jméno pole před slovo abyste limitovali vyhledávání na zadané pole, "
 "např.:"
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr "Funkce přednačítání nebyla nastavena pro operaci blokování."
 
@@ -5386,7 +5386,7 @@ msgid ""
 msgstr ""
 "Můžete podpořit autora na %1. Také můžete jednorázově přispět pomocí %2."
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "Pro tento odkaz je potřeba GStreamer."
 
