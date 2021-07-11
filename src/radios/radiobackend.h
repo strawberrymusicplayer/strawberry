@@ -24,6 +24,7 @@
 
 #include "radiochannel.h"
 
+class QThread;
 class Database;
 
 class RadioBackend : public QObject {

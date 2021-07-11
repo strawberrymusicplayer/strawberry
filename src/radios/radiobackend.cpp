@@ -21,6 +21,8 @@
 #include <QObject>
 #include <QThread>
 #include <QMutexLocker>
+#include <QSqlDatabase>
+#include <QSqlQuery>
 
 #include "core/logging.h"
 #include "core/database.h"
