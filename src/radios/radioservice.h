@@ -22,8 +22,8 @@
 
 #include <QObject>
 #include <QList>
-#include <QByteArray>
 #include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QIcon>

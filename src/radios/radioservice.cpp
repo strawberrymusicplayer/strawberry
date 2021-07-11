@@ -17,8 +17,8 @@
  *
  */
 
-#include <QApplication>
-#include <QClipboard>
+#include <QObject>
+#include <QVariant>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
@@ -38,9 +38,7 @@ RadioService::RadioService(const Song::Source source, const QString &name, const
       network_(network),
       source_(source),
       name_(name),
-      icon_(icon) {
-
-}
+      icon_(icon) {}
 
 QByteArray RadioService::ExtractData(QNetworkReply *reply) {
 
