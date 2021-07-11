@@ -54,7 +54,7 @@ RadioView::RadioView(QWidget *parent)
 
 RadioView::~RadioView() { delete menu_; }
 
-void RadioView::setModel(RadioModel *model) {
+void RadioView::SetModel(RadioModel *model) {
 
   AutoExpandingTreeView::setModel(model);
 
