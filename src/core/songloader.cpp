@@ -398,12 +398,14 @@ void SongLoader::LoadLocalDirectory(const QString &filename) {
 }
 
 void SongLoader::AddAsRawStream() {
-  Song song(Song::Source_Stream);
+
+  Song song(Song::SourceFromURL(url_));
   song.set_valid(true);
   song.set_filetype(Song::FileType_Stream);
   song.set_url(url_);
   song.set_title(url_.toString());
   songs_ << song;
+
 }
 
 void SongLoader::Timeout() {
