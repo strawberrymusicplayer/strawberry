@@ -465,7 +465,7 @@ SongLoader::Result SongLoader::LoadRemote() {
   // Create the source element automatically based on the URL
   GstElement *source = gst_element_make_from_uri(GST_URI_SRC, url_.toEncoded().constData(), nullptr, nullptr);
   if (!source) {
-    errors_ << tr("Couldn't create gstreamer source element for %1").arg(url_.toString());
+    errors_ << tr("Couldn't create GStreamer source element for %1").arg(url_.toString());
     return Error;
   }
   g_object_set(source, "ssl-strict", FALSE, nullptr);
