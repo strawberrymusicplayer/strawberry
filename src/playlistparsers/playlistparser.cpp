@@ -44,8 +44,7 @@
 
 const int PlaylistParser::kMagicSize = 512;
 
-PlaylistParser::PlaylistParser(CollectionBackendInterface *collection, QObject *parent)
-  : QObject(parent) {
+PlaylistParser::PlaylistParser(CollectionBackendInterface *collection, QObject *parent) : QObject(parent) {
 
   default_parser_ = new XSPFParser(collection, this);
   parsers_ << new M3UParser(collection, this);

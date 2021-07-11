@@ -34,7 +34,9 @@
 #include <QKeyEvent>
 
 LoginStateWidget::LoginStateWidget(QWidget *parent)
-    : QWidget(parent), ui_(new Ui_LoginStateWidget), state_(LoggedOut) {
+    : QWidget(parent),
+      ui_(new Ui_LoginStateWidget),
+      state_(LoggedOut) {
 
   ui_->setupUi(this);
   ui_->signed_in->hide();

@@ -42,8 +42,8 @@
 #include "subsonicservice.h"
 #include "subsonicbaserequest.h"
 
-SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *parent) :
-      QObject(parent),
+SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *parent)
+    : QObject(parent),
       service_(service),
       network_(new QNetworkAccessManager) {
 

@@ -50,12 +50,10 @@
 
 const int TidalCoverProvider::kLimit = 10;
 
-TidalCoverProvider::TidalCoverProvider(Application *app, QObject *parent) : 
-  JsonCoverProvider("Tidal", true, true, 2.5, true, true, app, parent),
-  service_(app->internet_services()->Service<TidalService>()),
-  network_(new NetworkAccessManager(this)) {
-
-}
+TidalCoverProvider::TidalCoverProvider(Application *app, QObject *parent)
+    : JsonCoverProvider("Tidal", true, true, 2.5, true, true, app, parent),
+      service_(app->internet_services()->Service<TidalService>()),
+      network_(new NetworkAccessManager(this)) {}
 
 TidalCoverProvider::~TidalCoverProvider() {
 

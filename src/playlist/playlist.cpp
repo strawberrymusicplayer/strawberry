@@ -144,8 +144,7 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
       editing_(-1),
       auto_sort_(false),
       sort_column_(Column_Title),
-      sort_order_(Qt::AscendingOrder)
-      {
+      sort_order_(Qt::AscendingOrder) {
 
   undo_stack_->setUndoLimit(kUndoStackSize);
 

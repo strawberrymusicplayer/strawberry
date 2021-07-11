@@ -46,8 +46,7 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
       service_(service),
       settings_group_(settings_group),
       settings_page_(settings_page),
-      ui_(new Ui_InternetCollectionViewContainer)
-      {
+      ui_(new Ui_InternetCollectionViewContainer) {
 
   ui_->setupUi(this);
 

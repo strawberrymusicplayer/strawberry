@@ -29,8 +29,7 @@
 
 const char *TranscoderOptionsWavPack::kSettingsGroup = "Transcoder/wavpackenc";
 
-TranscoderOptionsWavPack::TranscoderOptionsWavPack(QWidget *parent)
-    : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsWavPack) {
+TranscoderOptionsWavPack::TranscoderOptionsWavPack(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsWavPack) {
   ui_->setupUi(this);
 }
 

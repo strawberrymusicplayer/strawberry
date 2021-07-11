@@ -32,7 +32,7 @@
 
 class ImageUtils {
 
- private:    
+ private:
   static QStringList kSupportedImageMimeTypes;
   static QStringList kSupportedImageFormats;
 

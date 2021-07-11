@@ -24,13 +24,13 @@
 
 #include "scrobblercacheitem.h"
 
-ScrobblerCacheItem::ScrobblerCacheItem(const QString &artist, const QString &album, const QString &song, const QString &albumartist, const int track, const qint64 duration, const quint64 timestamp, QObject *parent) :
-  QObject(parent),
-  artist_(artist),
-  album_(album),
-  song_(song),
-  albumartist_(albumartist),
-  track_(track),
-  duration_(duration),
-  timestamp_(timestamp),
-  sent_(false) {}
+ScrobblerCacheItem::ScrobblerCacheItem(const QString &artist, const QString &album, const QString &song, const QString &albumartist, const int track, const qint64 duration, const quint64 timestamp, QObject *parent)
+    : QObject(parent),
+      artist_(artist),
+      album_(album),
+      song_(song),
+      albumartist_(albumartist),
+      track_(track),
+      duration_(duration),
+      timestamp_(timestamp),
+      sent_(false) {}

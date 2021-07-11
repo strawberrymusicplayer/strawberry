@@ -50,16 +50,16 @@
 
 const int LastFMImport::kRequestsDelay = 2000;
 
-LastFMImport::LastFMImport(QObject *parent) :
-  QObject(parent),
-  network_(new NetworkAccessManager(this)),
-  timer_flush_requests_(new QTimer(this)),
-  lastplayed_(false),
-  playcount_(false),
-  playcount_total_(0),
-  lastplayed_total_(0),
-  playcount_received_(0),
-  lastplayed_received_(0) {
+LastFMImport::LastFMImport(QObject *parent)
+    : QObject(parent),
+      network_(new NetworkAccessManager(this)),
+      timer_flush_requests_(new QTimer(this)),
+      lastplayed_(false),
+      playcount_(false),
+      playcount_total_(0),
+      lastplayed_total_(0),
+      playcount_received_(0),
+      lastplayed_received_(0) {
 
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(false);

@@ -33,9 +33,9 @@ class QHideEvent;
 class QShowEvent;
 
 BusyIndicator::BusyIndicator(const QString &text, QWidget *parent)
-  : QWidget(parent),
-    movie_(nullptr),
-    label_(nullptr) {
+    : QWidget(parent),
+      movie_(nullptr),
+      label_(nullptr) {
 
   Init(text);
 

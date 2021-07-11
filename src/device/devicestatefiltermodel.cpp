@@ -31,8 +31,8 @@
 #include "devicestatefiltermodel.h"
 
 DeviceStateFilterModel::DeviceStateFilterModel(QObject *parent, DeviceManager::State state)
-  : QSortFilterProxyModel(parent),
-    state_(state) {
+    : QSortFilterProxyModel(parent),
+      state_(state) {
 
   QObject::connect(this, &DeviceStateFilterModel::rowsInserted, this, &DeviceStateFilterModel::ProxyRowCountChanged);
   QObject::connect(this, &DeviceStateFilterModel::rowsRemoved, this, &DeviceStateFilterModel::ProxyRowCountChanged);

@@ -46,7 +46,10 @@
 
 const char *CoversSettingsPage::kSettingsGroup = "Covers";
 
-CoversSettingsPage::CoversSettingsPage(SettingsDialog *dialog, QWidget *parent) : SettingsPage(dialog, parent), ui_(new Ui::CoversSettingsPage), provider_selected_(false) {
+CoversSettingsPage::CoversSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
+      ui_(new Ui::CoversSettingsPage),
+      provider_selected_(false) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("cdcase"));

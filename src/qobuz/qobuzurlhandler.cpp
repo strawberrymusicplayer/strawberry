@@ -27,12 +27,11 @@
 #include "qobuz/qobuzservice.h"
 #include "qobuzurlhandler.h"
 
-QobuzUrlHandler::QobuzUrlHandler(Application *app, QobuzService *service) :
-  UrlHandler(service),
-  app_(app),
-  service_(service),
-  task_id_(-1)
-  {
+QobuzUrlHandler::QobuzUrlHandler(Application *app, QobuzService *service)
+    : UrlHandler(service),
+      app_(app),
+      service_(service),
+      task_id_(-1) {
 
   QObject::connect(service, &QobuzService::StreamURLFinished, this, &QobuzUrlHandler::GetStreamURLFinished);
 

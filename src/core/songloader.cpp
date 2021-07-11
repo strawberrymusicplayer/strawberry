@@ -69,8 +69,8 @@
 QSet<QString> SongLoader::sRawUriSchemes;
 const int SongLoader::kDefaultTimeout = 5000;
 
-SongLoader::SongLoader(CollectionBackendInterface *collection, const Player *player, QObject *parent) :
-      QObject(parent),
+SongLoader::SongLoader(CollectionBackendInterface *collection, const Player *player, QObject *parent)
+    : QObject(parent),
       timeout_timer_(new QTimer(this)),
       playlist_parser_(new PlaylistParser(collection, this)),
       cue_parser_(new CueParser(collection, this)),

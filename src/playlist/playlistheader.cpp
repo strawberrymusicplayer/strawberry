@@ -51,8 +51,7 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
       action_rating_lock_(nullptr),
       action_align_left_(nullptr),
       action_align_center_(nullptr),
-      action_align_right_(nullptr)
-      {
+      action_align_right_(nullptr) {
 
   action_hide_ = menu_->addAction(tr("&Hide..."), this, &PlaylistHeader::HideCurrent);
   action_stretch_ = menu_->addAction(tr("&Stretch columns to fit window"), this, &PlaylistHeader::ToggleStretchEnabled);

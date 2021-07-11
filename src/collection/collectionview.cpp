@@ -97,8 +97,7 @@ CollectionView::CollectionView(QWidget *parent)
       action_no_show_in_various_(nullptr),
       action_delete_files_(nullptr),
       is_in_keyboard_search_(false),
-      delete_files_(false)
-  {
+      delete_files_(false) {
 
   setItemDelegate(new CollectionItemDelegate(this));
   setAttribute(Qt::WA_MacShowFocusRect, false);

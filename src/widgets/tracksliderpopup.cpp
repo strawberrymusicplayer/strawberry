@@ -48,7 +48,7 @@ const qreal TrackSliderPopup::kBlurRadius = 20.0;
 TrackSliderPopup::TrackSliderPopup(QWidget *parent)
     : QWidget(parent),
       font_metrics_(fontMetrics()),
-    small_font_metrics_(fontMetrics()) {
+      small_font_metrics_(fontMetrics()) {
 
   setAttribute(Qt::WA_TransparentForMouseEvents);
   setMouseTracking(true);

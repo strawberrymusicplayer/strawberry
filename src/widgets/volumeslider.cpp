@@ -53,7 +53,9 @@ SliderSlider::SliderSlider(const Qt::Orientation orientation, QWidget *parent, c
       sliding_(false),
       outside_(false),
       prev_value_(0) {
+
   setRange(0, max);
+
 }
 
 void SliderSlider::wheelEvent(QWheelEvent *e) {

@@ -49,8 +49,7 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
       loading_(false),
       repeat_mode_(Repeat_Off),
       shuffle_mode_(Shuffle_Off),
-      dynamic_(false)
-{
+      dynamic_(false) {
 
   ui_->setupUi(this);
 

@@ -61,9 +61,10 @@ const char *DiscogsCoverProvider::kAccessKeyB64 = "dGh6ZnljUGJlZ1NEeXBuSFFxSVk="
 const char *DiscogsCoverProvider::kSecretKeyB64 = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZVmdxeXFLWUl0UXI=";
 const int DiscogsCoverProvider::kRequestsDelay = 1000;
 
-DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent) :
-  JsonCoverProvider("Discogs", false, false, 0.0, false, false, app, parent),
-  network_(new NetworkAccessManager(this)), timer_flush_requests_(new QTimer(this)) {
+DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent)
+    : JsonCoverProvider("Discogs", false, false, 0.0, false, false, app, parent),
+      network_(new NetworkAccessManager(this)),
+      timer_flush_requests_(new QTimer(this)) {
 
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(false);

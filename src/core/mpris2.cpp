@@ -102,9 +102,8 @@ const char *Mpris2::kFreedesktopPath = "org.freedesktop.DBus.Properties";
 
 Mpris2::Mpris2(Application *app, QObject *parent)
   : QObject(parent),
-  app_(app),
-  app_name_(QCoreApplication::applicationName())
-  {
+    app_(app),
+    app_name_(QCoreApplication::applicationName()) {
 
   new Mpris2Root(this);
   new Mpris2TrackList(this);

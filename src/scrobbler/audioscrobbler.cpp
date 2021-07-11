@@ -41,18 +41,17 @@
 #  include "subsonicscrobbler.h"
 #endif
 
-AudioScrobbler::AudioScrobbler(Application *app, QObject *parent) :
-  QObject(parent),
-  app_(app),
-  scrobbler_services_(new ScrobblerServices(this)),
-  enabled_(false),
-  offline_(false),
-  scrobble_button_(false),
-  love_button_(false),
-  submit_delay_(0),
-  prefer_albumartist_(false),
-  show_error_dialog_(false)
-  {
+AudioScrobbler::AudioScrobbler(Application *app, QObject *parent)
+    : QObject(parent),
+      app_(app),
+      scrobbler_services_(new ScrobblerServices(this)),
+      enabled_(false),
+      offline_(false),
+      scrobble_button_(false),
+      love_button_(false),
+      submit_delay_(0),
+      prefer_albumartist_(false),
+      show_error_dialog_(false) {
 
   scrobbler_services_->AddService(new LastFMScrobbler(app_, scrobbler_services_));
   scrobbler_services_->AddService(new LibreFMScrobbler(app_, scrobbler_services_));

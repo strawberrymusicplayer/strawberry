@@ -41,7 +41,8 @@ class SettingsDialog;
 const char *NetworkProxySettingsPage::kSettingsGroup = "NetworkProxy";
 
 NetworkProxySettingsPage::NetworkProxySettingsPage(SettingsDialog *dialog, QWidget *parent)
-    : SettingsPage(dialog, parent), ui_(new Ui_NetworkProxySettingsPage) {
+    : SettingsPage(dialog, parent),
+      ui_(new Ui_NetworkProxySettingsPage) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("applications-internet"));

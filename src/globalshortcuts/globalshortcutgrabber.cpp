@@ -35,7 +35,9 @@
 #include "ui_globalshortcutgrabber.h"
 
 GlobalShortcutGrabber::GlobalShortcutGrabber(QWidget *parent)
-    : QDialog(parent), ui_(new Ui::GlobalShortcutGrabber), wrapper_(nullptr) {
+    : QDialog(parent),
+      ui_(new Ui::GlobalShortcutGrabber),
+      wrapper_(nullptr) {
 
   ui_->setupUi(this);
 

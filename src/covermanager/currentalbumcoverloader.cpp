@@ -43,8 +43,7 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *pare
     : QObject(parent),
       app_(app),
       temp_file_pattern_(QDir::tempPath() + "/strawberry-cover-XXXXXX.jpg"),
-      id_(0)
-  {
+      id_(0) {
 
   options_.get_image_data_ = true;
   options_.get_image_ = true;

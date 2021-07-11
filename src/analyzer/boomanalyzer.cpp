@@ -50,10 +50,8 @@ BoomAnalyzer::BoomAnalyzer(QWidget *parent)
       bands_(0),
       scope_(kMinBandCount),
       fg_(palette().color(QPalette::Highlight)),
-      K_barHeight_(1.271)  // 1.471
-      ,
-      F_peakSpeed_(1.103)  // 1.122
-      ,
+      K_barHeight_(1.271),  // 1.471
+      F_peakSpeed_(1.103),  // 1.122
       F_(1.0),
       bar_height_(kMaxBandCount, 0),
       peak_height_(kMaxBandCount, 0),

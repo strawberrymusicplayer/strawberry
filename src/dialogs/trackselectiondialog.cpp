@@ -55,9 +55,9 @@
 #include "ui_trackselectiondialog.h"
 
 TrackSelectionDialog::TrackSelectionDialog(QWidget *parent)
-  : QDialog(parent),
-    ui_(new Ui_TrackSelectionDialog),
-    save_on_close_(false) {
+    : QDialog(parent),
+      ui_(new Ui_TrackSelectionDialog),
+      save_on_close_(false) {
 
   // Setup dialog window
   ui_->setupUi(this);

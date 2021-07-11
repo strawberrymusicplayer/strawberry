@@ -62,17 +62,18 @@ const char *ListenBrainzScrobbler::kClientSecretB64 = "Uk9GZ2hrZVEzRjNvUHlFaHFpe
 const char *ListenBrainzScrobbler::kCacheFile = "listenbrainzscrobbler.cache";
 const int ListenBrainzScrobbler::kScrobblesPerRequest = 10;
 
-ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent) : ScrobblerService(kName, app, parent),
-  app_(app),
-  network_(new NetworkAccessManager(this)),
-  cache_(new ScrobblerCache(kCacheFile, this)),
-  server_(nullptr),
-  enabled_(false),
-  expires_in_(-1),
-  login_time_(0),
-  submitted_(false),
-  scrobbled_(false),
-  timestamp_(0) {
+ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent)
+    : ScrobblerService(kName, app, parent),
+      app_(app),
+      network_(new NetworkAccessManager(this)),
+      cache_(new ScrobblerCache(kCacheFile, this)),
+      server_(nullptr),
+      enabled_(false),
+      expires_in_(-1),
+      login_time_(0),
+      submitted_(false),
+      scrobbled_(false),
+      timestamp_(0) {
 
   refresh_login_timer_.setSingleShot(true);
   QObject::connect(&refresh_login_timer_, &QTimer::timeout, this, &ListenBrainzScrobbler::RequestNewAccessToken);
@@ -304,7 +305,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
     AuthError("Json document from server was empty.");
     return;
   }
-  
+
   if (json_obj.contains("error") && json_obj.contains("error_description")) {
     QString failure_reason = json_obj["error_description"].toString();
     AuthError(failure_reason);
@@ -412,7 +413,7 @@ QByteArray ListenBrainzScrobbler::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
-  
+
 }
 
 void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {

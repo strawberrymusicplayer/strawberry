@@ -40,11 +40,10 @@
 
 const int DeviceDatabaseBackend::kDeviceSchemaVersion = 2;
 
-DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent) :
-    QObject(parent),
-    db_(nullptr),
-    original_thread_(nullptr)
-    {
+DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent)
+    : QObject(parent),
+      db_(nullptr),
+      original_thread_(nullptr) {
 
   original_thread_ = thread();
 

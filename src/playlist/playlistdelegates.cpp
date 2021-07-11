@@ -85,7 +85,8 @@ const float QueuedItemDelegate::kQueueOpacityLowerBound = 0.4;
 const int PlaylistDelegateBase::kMinHeight = 19;
 
 QueuedItemDelegate::QueuedItemDelegate(QObject *parent, int indicator_column)
-    : QStyledItemDelegate(parent), indicator_column_(indicator_column) {}
+    : QStyledItemDelegate(parent),
+      indicator_column_(indicator_column) {}
 
 void QueuedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 

@@ -61,8 +61,8 @@ GroupedIconView::GroupedIconView(QWidget *parent)
       header_spacing_(10),
       header_indent_(5),
       item_indent_(10),
-    header_text_("%1")
-{
+      header_text_("%1") {
+
   setFlow(LeftToRight);
   setViewMode(IconMode);
   setResizeMode(Adjust);

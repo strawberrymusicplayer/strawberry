@@ -60,7 +60,10 @@
 const int PlaylistBackend::kSongTableJoins = 2;
 
 PlaylistBackend::PlaylistBackend(Application *app, QObject *parent)
-    : QObject(parent), app_(app), db_(app_->database()), original_thread_(nullptr) {
+    : QObject(parent),
+      app_(app),
+      db_(app_->database()),
+      original_thread_(nullptr) {
 
   original_thread_ = thread();
 

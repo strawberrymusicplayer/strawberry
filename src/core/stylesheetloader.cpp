@@ -41,7 +41,9 @@
 
 using namespace std::chrono_literals;
 
-StyleSheetLoader::StyleSheetLoader(QObject *parent) : QObject(parent), timer_reset_counter_(new QTimer(this)) {
+StyleSheetLoader::StyleSheetLoader(QObject *parent)
+    : QObject(parent),
+      timer_reset_counter_(new QTimer(this)) {
 
   timer_reset_counter_->setSingleShot(true);
   timer_reset_counter_->setInterval(1s);

@@ -64,8 +64,7 @@ Rainbow::RainbowAnalyzer::RainbowAnalyzer(const RainbowType rbtype, QWidget *par
       available_rainbow_width_(0),
       px_per_frame_(0),
       x_offset_(0),
-      background_brush_(QColor(0x0f, 0x43, 0x73))
-      {
+      background_brush_(QColor(0x0f, 0x43, 0x73)) {
 
   rainbowtype = rbtype;
   cat_dash_[0] = QPixmap(":/pictures/nyancat.png");

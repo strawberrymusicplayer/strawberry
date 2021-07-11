@@ -35,9 +35,7 @@
 #include "directsounddevicefinder.h"
 #include "core/logging.h"
 
-DirectSoundDeviceFinder::DirectSoundDeviceFinder()
-    : DeviceFinder("directsound", { "directsound", "dsound", "directsoundsink", "directx", "directx2" }) {
-}
+DirectSoundDeviceFinder::DirectSoundDeviceFinder() : DeviceFinder("directsound", { "directsound", "dsound", "directsoundsink", "directx", "directx2" }) {}
 
 QList<DeviceFinder::Device> DirectSoundDeviceFinder::ListDevices() {
   State state;

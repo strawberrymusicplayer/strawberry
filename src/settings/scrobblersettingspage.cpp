@@ -52,8 +52,7 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *pa
       ui_(new Ui_ScrobblerSettingsPage),
       lastfm_waiting_for_auth_(false),
       librefm_waiting_for_auth_(false),
-      listenbrainz_waiting_for_auth_(false)
-      {
+      listenbrainz_waiting_for_auth_(false) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("scrobble"));

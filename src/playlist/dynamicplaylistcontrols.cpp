@@ -19,7 +19,8 @@
 #include "ui_dynamicplaylistcontrols.h"
 
 DynamicPlaylistControls::DynamicPlaylistControls(QWidget *parent)
-    : QWidget(parent), ui_(new Ui_DynamicPlaylistControls) {
+    : QWidget(parent),
+      ui_(new Ui_DynamicPlaylistControls) {
 
   ui_->setupUi(this);
 

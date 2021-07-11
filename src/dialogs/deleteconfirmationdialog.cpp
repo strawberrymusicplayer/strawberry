@@ -36,7 +36,9 @@
 
 #include "deleteconfirmationdialog.h"
 
-DeleteConfirmationDialog::DeleteConfirmationDialog(const QStringList &files, QWidget *parent) : QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint), button_box_(new QDialogButtonBox(this)) {
+DeleteConfirmationDialog::DeleteConfirmationDialog(const QStringList &files, QWidget *parent)
+    : QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint),
+      button_box_(new QDialogButtonBox(this)) {
 
   setModal(true);
   setWindowTitle(tr("Delete files"));

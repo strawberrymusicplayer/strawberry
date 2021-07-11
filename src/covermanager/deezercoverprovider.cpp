@@ -53,7 +53,9 @@
 const char *DeezerCoverProvider::kApiUrl = "https://api.deezer.com";
 const int DeezerCoverProvider::kLimit = 10;
 
-DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent): JsonCoverProvider("Deezer", true, false, 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {}
+DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent)
+    : JsonCoverProvider("Deezer", true, false, 2.0, true, true, app, parent),
+      network_(new NetworkAccessManager(this)) {}
 
 DeezerCoverProvider::~DeezerCoverProvider() {
 
@@ -160,7 +162,7 @@ QByteArray DeezerCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
-  
+
 }
 
 QJsonValue DeezerCoverProvider::ExtractData(const QByteArray &data) {

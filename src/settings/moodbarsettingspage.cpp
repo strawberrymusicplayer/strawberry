@@ -52,14 +52,13 @@ const int MoodbarSettingsPage::kMoodbarPreviewHeight = 18;
 MoodbarSettingsPage::MoodbarSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_MoodbarSettingsPage),
-      initialized_(false)
-      {
+      initialized_(false) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("moodbar"));
 
   MoodbarSettingsPage::Load();
-  
+
 }
 
 MoodbarSettingsPage::~MoodbarSettingsPage() { delete ui_; }

@@ -43,10 +43,10 @@
 #include "core/timeconstants.h"
 
 CddaSongLoader::CddaSongLoader(const QUrl &url, QObject *parent)
-  : QObject(parent),
-    url_(url),
-    cdda_(nullptr),
-    cdio_(nullptr) {}
+    : QObject(parent),
+      url_(url),
+      cdda_(nullptr),
+      cdio_(nullptr) {}
 
 CddaSongLoader::~CddaSongLoader() {
   if (cdio_) cdio_destroy(cdio_);

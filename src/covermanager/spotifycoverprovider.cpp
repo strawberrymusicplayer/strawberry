@@ -63,7 +63,12 @@ const char *SpotifyCoverProvider::kClientSecretB64 = "N2ZlMDMxODk1NTBlNDE3ZGI1ZW
 const char *SpotifyCoverProvider::kApiUrl = "https://api.spotify.com/v1";
 const int SpotifyCoverProvider::kLimit = 10;
 
-SpotifyCoverProvider::SpotifyCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Spotify", true, true, 2.5, true, true, app, parent), network_(new NetworkAccessManager(this)), server_(nullptr), expires_in_(0), login_time_(0) {
+SpotifyCoverProvider::SpotifyCoverProvider(Application *app, QObject *parent)
+    : JsonCoverProvider("Spotify", true, true, 2.5, true, true, app, parent),
+      network_(new NetworkAccessManager(this)),
+      server_(nullptr),
+      expires_in_(0),
+      login_time_(0) {
 
   refresh_login_timer_.setSingleShot(true);
   QObject::connect(&refresh_login_timer_, &QTimer::timeout, this, &SpotifyCoverProvider::RequestNewAccessToken);
@@ -128,10 +133,9 @@ void SpotifyCoverProvider::Authenticate() {
   }
 
   const ParamList params = ParamList() << Param("client_id", QByteArray::fromBase64(kClientIDB64))
-                                       << Param("response_type", "code") 
+                                       << Param("response_type", "code")
                                        << Param("redirect_uri", redirect_url.toString())
                                        << Param("state", code_challenge_);
-                                       
 
   QUrlQuery url_query;
   for (const Param &param : params) {

@@ -60,8 +60,7 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
       use_kde_(true),
       use_gnome_(true),
       use_mate_(true),
-      use_x11_(false)
-  {
+      use_x11_(false) {
 
   settings_.beginGroup(GlobalShortcutsSettingsPage::kSettingsGroup);
 

@@ -44,8 +44,7 @@ PlaylistGeneratorInserter::PlaylistGeneratorInserter(TaskManager *task_manager, 
       play_now_(false),
       enqueue_(false),
       enqueue_next_(false),
-      is_dynamic_(false)
-      {}
+      is_dynamic_(false) {}
 
 PlaylistItemList PlaylistGeneratorInserter::Generate(PlaylistGeneratorPtr generator, int dynamic_count) {
 

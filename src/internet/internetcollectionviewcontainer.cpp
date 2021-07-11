@@ -30,9 +30,9 @@
 #include "internetcollectionviewcontainer.h"
 #include "ui_internetcollectionviewcontainer.h"
 
-InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent) :
-  QWidget(parent),
-  ui_(new Ui_InternetCollectionViewContainer) {
+InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent)
+    : QWidget(parent),
+      ui_(new Ui_InternetCollectionViewContainer) {
 
   ui_->setupUi(this);
   view()->SetFilter(filter_widget());

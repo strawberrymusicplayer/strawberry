@@ -218,8 +218,8 @@ const int kTrackSliderUpdateTimeMs = 200;
 const int kTrackPositionUpdateTimeMs = 1000;
 }  // namespace
 
-MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent) :
-      QMainWindow(parent),
+MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent)
+    : QMainWindow(parent),
       ui_(new Ui_MainWindow),
 #ifdef Q_OS_WIN
       thumbbar_(new Windows7ThumbBar(this)),

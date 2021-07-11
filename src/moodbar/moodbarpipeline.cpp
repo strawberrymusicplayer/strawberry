@@ -224,7 +224,7 @@ void MoodbarPipeline::Cleanup() {
     GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
     gst_bus_set_sync_handler(bus, nullptr, nullptr, nullptr);
     gst_object_unref(bus);
-    
+
     gst_element_set_state(pipeline_, GST_STATE_NULL);
     gst_object_unref(pipeline_);
     pipeline_ = nullptr;

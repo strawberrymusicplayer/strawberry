@@ -100,8 +100,7 @@ GstEngine::GstEngine(TaskManager *task_manager, QObject *parent)
       have_new_buffer_(false),
       scope_chunks_(0),
       discovery_finished_cb_id_(-1),
-      discovery_discovered_cb_id_(-1)
-      {
+      discovery_discovered_cb_id_(-1) {
 
   seek_timer_->setSingleShot(true);
   seek_timer_->setInterval(kSeekDelayNanosec / kNsecPerMsec);

@@ -40,7 +40,9 @@
 #include "jsoncoverprovider.h"
 #include "musixmatchcoverprovider.h"
 
-MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, QObject *parent): JsonCoverProvider("Musixmatch", true, false, 1.0, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
+MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, QObject *parent)
+    : JsonCoverProvider("Musixmatch", true, false, 1.0, true, false, app, parent),
+      network_(new NetworkAccessManager(this)) {}
 
 MusixmatchCoverProvider::~MusixmatchCoverProvider() {
 

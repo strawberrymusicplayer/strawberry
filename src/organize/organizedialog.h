@@ -70,7 +70,7 @@ class OrganizeDialog : public QDialog {
   void SetCopy(const bool copy);
 
   static Organize::NewSongInfoList ComputeNewSongsFilenames(const SongList &songs, const OrganizeFormat &format, const QString &extension = QString());
-  
+
   void SetPlaylist(const QString &playlist);
 
  protected:

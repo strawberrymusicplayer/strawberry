@@ -38,7 +38,8 @@
 
 const char *SomaFMService::kApiChannelsUrl = "https://somafm.com/channels.json";
 
-SomaFMService::SomaFMService(Application *app, NetworkAccessManager *network, QObject *parent) : RadioService(Song::Source_SomaFM, "SomaFM", IconLoader::Load("somafm"), app, network, parent) {}
+SomaFMService::SomaFMService(Application *app, NetworkAccessManager *network, QObject *parent)
+    : RadioService(Song::Source_SomaFM, "SomaFM", IconLoader::Load("somafm"), app, network, parent) {}
 
 SomaFMService::~SomaFMService() {
   Abort();

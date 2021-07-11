@@ -116,8 +116,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       tags_cover_art_id_(-1),
       cover_art_is_set_(false),
       save_tag_pending_(0),
-      save_art_pending_(0)
-  {
+      save_art_pending_(0) {
 
   QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &EditTagDialog::AlbumCoverLoaded);
 

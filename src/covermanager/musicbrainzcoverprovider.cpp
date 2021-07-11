@@ -51,7 +51,10 @@ const char *MusicbrainzCoverProvider::kAlbumCoverUrl = "https://coverartarchive.
 const int MusicbrainzCoverProvider::kLimit = 8;
 const int MusicbrainzCoverProvider::kRequestsDelay = 1000;
 
-MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): JsonCoverProvider("MusicBrainz", true, false, 1.5, true, false, app, parent), network_(new NetworkAccessManager(this)), timer_flush_requests_(new QTimer(this)) {
+MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent)
+    : JsonCoverProvider("MusicBrainz", true, false, 1.5, true, false, app, parent),
+      network_(new NetworkAccessManager(this)),
+      timer_flush_requests_(new QTimer(this)) {
 
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(false);

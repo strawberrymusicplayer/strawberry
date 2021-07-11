@@ -57,8 +57,7 @@ LocalRedirectServer::LocalRedirectServer(QObject *parent)
     : QTcpServer(parent),
       https_(false),
       port_(0),
-      socket_(nullptr)
-      {}
+      socket_(nullptr) {}
 
 LocalRedirectServer::~LocalRedirectServer() {
   if (isListening()) close();

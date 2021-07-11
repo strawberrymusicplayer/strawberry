@@ -129,8 +129,7 @@ ContextAlbumsView::ContextAlbumsView(QWidget *parent)
       edit_tracks_(nullptr),
       show_in_browser_(nullptr),
       is_in_keyboard_search_(false),
-      model_(nullptr)
-  {
+      model_(nullptr) {
 
   setStyleSheet("border: none;");
 

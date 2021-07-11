@@ -66,8 +66,7 @@ InternetCollectionView::InternetCollectionView(QWidget *parent)
       add_to_playlist_enqueue_next_(nullptr),
       open_in_new_playlist_(nullptr),
       remove_songs_(nullptr),
-      is_in_keyboard_search_(false)
-  {
+      is_in_keyboard_search_(false) {
 
   setItemDelegate(new CollectionItemDelegate(this));
   setAttribute(Qt::WA_MacShowFocusRect, false);

@@ -27,11 +27,9 @@
 #include "stickyslider.h"
 
 StickySlider::StickySlider(QWidget *parent)
-  : QSlider(parent),
-    sticky_center_(-1),
-    sticky_threshold_(10)
-{
-}
+    : QSlider(parent),
+      sticky_center_(-1),
+      sticky_threshold_(10) {}
 
 void StickySlider::mouseMoveEvent(QMouseEvent *e) {
 

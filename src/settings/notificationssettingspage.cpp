@@ -58,7 +58,9 @@ class QHideEvent;
 class QShowEvent;
 
 NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, QWidget *parent)
-    : SettingsPage(dialog, parent), ui_(new Ui_NotificationsSettingsPage), pretty_popup_(new OSDPretty(OSDPretty::Mode_Draggable)) {
+    : SettingsPage(dialog, parent),
+      ui_(new Ui_NotificationsSettingsPage),
+      pretty_popup_(new OSDPretty(OSDPretty::Mode_Draggable)) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("help-hint"));

@@ -36,7 +36,9 @@ class SettingsDialog;
 
 const char *PlaylistSettingsPage::kSettingsGroup = "Playlist";
 
-PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog *dialog, QWidget *parent) : SettingsPage(dialog, parent), ui_(new Ui_PlaylistSettingsPage) {
+PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
+      ui_(new Ui_PlaylistSettingsPage) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("document-new"));

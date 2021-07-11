@@ -35,9 +35,8 @@
 class QHideEvent;
 
 ErrorDialog::ErrorDialog(QWidget *parent)
-  : QDialog(parent),
-    ui_(new Ui_ErrorDialog)
-{
+    : QDialog(parent),
+      ui_(new Ui_ErrorDialog) {
 
   ui_->setupUi(this);
 

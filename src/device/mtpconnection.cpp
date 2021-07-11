@@ -149,4 +149,3 @@ bool MtpConnection::GetSupportedFiletypes(QList<Song::FileType> *ret) {
   return true;
 
 }
-

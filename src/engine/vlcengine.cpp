@@ -40,10 +40,10 @@
 #include "vlcscopedref.h"
 
 VLCEngine::VLCEngine(TaskManager *task_manager, QObject *parent)
-  : Engine::Base(Engine::VLC, parent),
-    instance_(nullptr),
-    player_(nullptr),
-    state_(Engine::Empty) {
+    : Engine::Base(Engine::VLC, parent),
+      instance_(nullptr),
+      player_(nullptr),
+      state_(Engine::Empty) {
 
   Q_UNUSED(task_manager);
 

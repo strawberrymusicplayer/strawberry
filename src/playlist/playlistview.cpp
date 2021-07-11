@@ -114,19 +114,23 @@ void PlaylistProxyStyle::drawControl(ControlElement element, const QStyleOption 
     }
   }
 
-  if (element == CE_ItemViewItem)
+  if (element == CE_ItemViewItem) {
     common_style_->drawControl(element, option, painter, widget);
-  else
+  }
+  else {
     QProxyStyle::drawControl(element, option, painter, widget);
+  }
 
 }
 
 void PlaylistProxyStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
 
-  if (element == QStyle::PE_PanelItemViewRow || element == QStyle::PE_PanelItemViewItem)
+  if (element == QStyle::PE_PanelItemViewRow || element == QStyle::PE_PanelItemViewItem) {
     common_style_->drawPrimitive(element, option, painter, widget);
-  else
+  }
+  else {
     QProxyStyle::drawPrimitive(element, option, painter, widget);
+  }
 
 }
 

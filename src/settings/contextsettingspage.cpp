@@ -60,7 +60,9 @@ const char *ContextSettingsPage::kSettingsGroupEnable[ContextSettingsOrder::NELE
 
 const qreal ContextSettingsPage::kDefaultFontSizeHeadline = 11;
 
-ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent) : SettingsPage(dialog, parent), ui_(new Ui_ContextSettingsPage) {
+ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
+      ui_(new Ui_ContextSettingsPage) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("view-choose"));

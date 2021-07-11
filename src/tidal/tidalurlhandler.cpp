@@ -29,12 +29,11 @@
 #include "tidal/tidalservice.h"
 #include "tidalurlhandler.h"
 
-TidalUrlHandler::TidalUrlHandler(Application *app, TidalService *service) :
-  UrlHandler(service),
-  app_(app),
-  service_(service),
-  task_id_(-1)
-  {
+TidalUrlHandler::TidalUrlHandler(Application *app, TidalService *service)
+    : UrlHandler(service),
+      app_(app),
+      service_(service),
+      task_id_(-1) {
 
   QObject::connect(service, &TidalService::StreamURLFinished, this, &TidalUrlHandler::GetStreamURLFinished);
 

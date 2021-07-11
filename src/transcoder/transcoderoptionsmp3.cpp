@@ -36,8 +36,8 @@
 
 const char *TranscoderOptionsMP3::kSettingsGroup = "Transcoder/lamemp3enc";
 
-TranscoderOptionsMP3::TranscoderOptionsMP3(QWidget *parent)
-    : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsMP3) {
+TranscoderOptionsMP3::TranscoderOptionsMP3(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsMP3) {
+
   ui_->setupUi(this);
 
   QObject::connect(ui_->quality_slider, &QSlider::valueChanged, this, &TranscoderOptionsMP3::QualitySliderChanged);

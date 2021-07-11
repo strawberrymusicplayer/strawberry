@@ -28,7 +28,8 @@
 #include "networktimeouts.h"
 
 NetworkTimeouts::NetworkTimeouts(const int timeout_msec, QObject *parent)
-    : QObject(parent), timeout_msec_(timeout_msec) {}
+    : QObject(parent),
+      timeout_msec_(timeout_msec) {}
 
 void NetworkTimeouts::AddReply(QNetworkReply *reply) {
 

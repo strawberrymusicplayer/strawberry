@@ -41,11 +41,12 @@
 
 const char *SubsonicScrobbler::kName = "Subsonic";
 
-SubsonicScrobbler::SubsonicScrobbler(Application *app, QObject *parent) : ScrobblerService(kName, app, parent),
-  app_(app),
-  service_(app->internet_services()->Service<SubsonicService>()),
-  enabled_(false),
-  submitted_(false) {
+SubsonicScrobbler::SubsonicScrobbler(Application *app, QObject *parent)
+    : ScrobblerService(kName, app, parent),
+      app_(app),
+      service_(app->internet_services()->Service<SubsonicService>()),
+      enabled_(false),
+      submitted_(false) {
 
   timer_submit_.setSingleShot(true);
   QObject::connect(&timer_submit_, &QTimer::timeout, this, &SubsonicScrobbler::Submit);

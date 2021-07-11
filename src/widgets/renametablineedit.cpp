@@ -28,8 +28,7 @@
 
 #include "renametablineedit.h"
 
-RenameTabLineEdit::RenameTabLineEdit(QWidget *parent) :
-    QLineEdit(parent) {}
+RenameTabLineEdit::RenameTabLineEdit(QWidget *parent) : QLineEdit(parent) {}
 
 void RenameTabLineEdit::keyPressEvent(QKeyEvent *e) {
 

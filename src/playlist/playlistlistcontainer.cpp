@@ -77,8 +77,7 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
       model_(new PlaylistListModel(this)),
       proxy_(new PlaylistListSortFilterModel(this)),
       loaded_icons_(false),
-      active_playlist_id_(-1)
-{
+      active_playlist_id_(-1) {
 
   ui_->setupUi(this);
   ui_->tree->setAttribute(Qt::WA_MacShowFocusRect, false);

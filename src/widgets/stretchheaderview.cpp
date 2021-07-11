@@ -44,7 +44,7 @@ const int StretchHeaderView::kMagicNumber = 0x502c950f;
 StretchHeaderView::StretchHeaderView(const Qt::Orientation orientation, QWidget *parent)
     : QHeaderView(orientation, parent),
       stretch_enabled_(false),
-    in_mouse_move_event_(false) {
+      in_mouse_move_event_(false) {
 
   QObject::connect(this, &StretchHeaderView::sectionResized, this, &StretchHeaderView::SectionResized);
   setMinimumSectionSize(kMinimumColumnWidth);

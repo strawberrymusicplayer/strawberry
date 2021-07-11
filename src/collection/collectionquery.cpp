@@ -40,14 +40,14 @@
 
 QueryOptions::QueryOptions() : max_age_(-1), query_mode_(QueryMode_All) {}
 
-CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const QueryOptions &options) :
-    QSqlQuery(db),
-    songs_table_(songs_table),
-    fts_table_(fts_table),
-    include_unavailable_(false),
-    join_with_fts_(false),
-    duplicates_only_(false),
-    limit_(-1) {
+CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const QueryOptions &options)
+    : QSqlQuery(db),
+      songs_table_(songs_table),
+      fts_table_(fts_table),
+      include_unavailable_(false),
+      join_with_fts_(false),
+      duplicates_only_(false),
+      limit_(-1) {
 
   if (!options.filter().isEmpty()) {
     // We need to munge the filter text a little bit to get it to work as expected with sqlite's FTS5:

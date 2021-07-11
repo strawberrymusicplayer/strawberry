@@ -32,8 +32,7 @@
 
 #include "playlistlistview.h"
 
-PlaylistListView::PlaylistListView(QWidget *parent)
-    : AutoExpandingTreeView(parent) {}
+PlaylistListView::PlaylistListView(QWidget *parent) : AutoExpandingTreeView(parent) {}
 
 void PlaylistListView::paintEvent(QPaintEvent *event) {
 

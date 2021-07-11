@@ -32,8 +32,8 @@
 
 EqualizerSlider::EqualizerSlider(const QString &label, QWidget *parent)
   : QWidget(parent),
-    ui_(new Ui_EqualizerSlider)
-{
+    ui_(new Ui_EqualizerSlider) {
+
   ui_->setupUi(this);
   ui_->band->setText(label);
 

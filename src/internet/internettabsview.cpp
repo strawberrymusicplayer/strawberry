@@ -50,8 +50,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
       service_(service),
       settings_group_(settings_group),
       settings_page_(settings_page),
-      ui_(new Ui_InternetTabsView)
-      {
+      ui_(new Ui_InternetTabsView) {
 
   ui_->setupUi(this);
 

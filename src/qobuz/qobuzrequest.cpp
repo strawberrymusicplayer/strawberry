@@ -630,7 +630,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
     }
     else {
       album_id = QString::number(obj_item["id"].toInt());
-    }  
+    }
 
     if (album_songs_requests_pending_.contains(album_id)) continue;
 
@@ -813,7 +813,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id_
     }
     else {
       album_id = QString::number(json_obj["id"].toInt());
-    }  
+    }
   }
 
   if (json_obj.contains("title")) {
@@ -1027,7 +1027,7 @@ QString QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, QString
       }
       else {
         album_id = QString::number(obj_album["id"].toInt());
-      }  
+      }
     }
 
     if (obj_album.contains("title")) {

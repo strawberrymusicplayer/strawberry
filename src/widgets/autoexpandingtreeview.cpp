@@ -34,12 +34,11 @@
 const int AutoExpandingTreeView::kRowsToShow = 50;
 
 AutoExpandingTreeView::AutoExpandingTreeView(QWidget *parent)
-  : QTreeView(parent),
-    auto_open_(false),
-    expand_on_reset_(false),
-    add_on_double_click_(true),
-    ignore_next_click_(false)
-  {
+    : QTreeView(parent),
+      auto_open_(false),
+      expand_on_reset_(false),
+      add_on_double_click_(true),
+      ignore_next_click_(false) {
 
   setExpandsOnDoubleClick(true);
   setAnimated(true);

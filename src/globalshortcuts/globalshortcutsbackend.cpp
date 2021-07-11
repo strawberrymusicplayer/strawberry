@@ -26,7 +26,9 @@
 #include "globalshortcutsmanager.h"
 
 GlobalShortcutsBackend::GlobalShortcutsBackend(GlobalShortcutsManager *manager, QObject *parent)
-    : QObject(parent), manager_(manager), active_(false) {}
+    : QObject(parent),
+      manager_(manager),
+      active_(false) {}
 
 bool GlobalShortcutsBackend::Register() {
   bool ret = DoRegister();

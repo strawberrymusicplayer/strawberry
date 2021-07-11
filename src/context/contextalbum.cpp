@@ -45,17 +45,17 @@
 
 const int ContextAlbum::kWidgetSpacing = 40;
 
-ContextAlbum::ContextAlbum(QWidget *parent) :
-    QWidget(parent),
-    menu_(new QMenu(this)),
-    context_view_(nullptr),
-    album_cover_choice_controller_(nullptr),
-    downloading_covers_(false),
-    timeline_fade_(new QTimeLine(1000, this)),
-    image_strawberry_(":/pictures/strawberry.png"),
-    image_original_(image_strawberry_),
-    pixmap_previous_opacity_(0),
-    prev_width_(width()) {
+ContextAlbum::ContextAlbum(QWidget *parent)
+    : QWidget(parent),
+      menu_(new QMenu(this)),
+      context_view_(nullptr),
+      album_cover_choice_controller_(nullptr),
+      downloading_covers_(false),
+      timeline_fade_(new QTimeLine(1000, this)),
+      image_strawberry_(":/pictures/strawberry.png"),
+      image_original_(image_strawberry_),
+      pixmap_previous_opacity_(0),
+      prev_width_(width()) {
 
   setObjectName("context-widget-album");
   setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);

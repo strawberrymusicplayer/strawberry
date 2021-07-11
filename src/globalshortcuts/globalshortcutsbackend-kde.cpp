@@ -41,7 +41,10 @@
 const char *GlobalShortcutsBackendKDE::kKdeService = "org.kde.kglobalaccel";
 const char *GlobalShortcutsBackendKDE::kKdePath = "/kglobalaccel";
 
-GlobalShortcutsBackendKDE::GlobalShortcutsBackendKDE(GlobalShortcutsManager *manager, QObject *parent) : GlobalShortcutsBackend(manager, parent), interface_(nullptr), component_(nullptr) {}
+GlobalShortcutsBackendKDE::GlobalShortcutsBackendKDE(GlobalShortcutsManager *manager, QObject *parent)
+    : GlobalShortcutsBackend(manager, parent),
+      interface_(nullptr),
+      component_(nullptr) {}
 
 bool GlobalShortcutsBackendKDE::IsAvailable() {
 

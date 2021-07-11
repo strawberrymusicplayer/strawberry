@@ -73,26 +73,25 @@ const char *Player::kSettingsGroup = "Player";
 
 Player::Player(Application *app, QObject *parent)
     : PlayerInterface(parent),
-    app_(app),
-    engine_(nullptr),
+      app_(app),
+      engine_(nullptr),
 #ifdef HAVE_GSTREAMER
-    gst_startup_(new GstStartup(this)),
+      gst_startup_(new GstStartup(this)),
 #endif
-    analyzer_(nullptr),
-    equalizer_(nullptr),
-    stream_change_type_(Engine::First),
-    autoscroll_(Playlist::AutoScroll_Maybe),
-    last_state_(Engine::Empty),
-    nb_errors_received_(0),
-    volume_before_mute_(100),
-    last_pressed_previous_(QDateTime::currentDateTime()),
-    continue_on_error_(false),
-    greyout_(true),
-    menu_previousmode_(BehaviourSettingsPage::PreviousBehaviour_DontRestart),
-    seek_step_sec_(10),
-    volume_control_(true),
-    play_offset_nanosec_(0)
-    {
+      analyzer_(nullptr),
+      equalizer_(nullptr),
+      stream_change_type_(Engine::First),
+      autoscroll_(Playlist::AutoScroll_Maybe),
+      last_state_(Engine::Empty),
+      nb_errors_received_(0),
+      volume_before_mute_(100),
+      last_pressed_previous_(QDateTime::currentDateTime()),
+      continue_on_error_(false),
+      greyout_(true),
+      menu_previousmode_(BehaviourSettingsPage::PreviousBehaviour_DontRestart),
+      seek_step_sec_(10),
+      volume_control_(true),
+      play_offset_nanosec_(0) {
 
   settings_.beginGroup(kSettingsGroup);
 

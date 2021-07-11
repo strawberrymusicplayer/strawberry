@@ -34,16 +34,17 @@ const char *LibreFMScrobbler::kAuthUrl = "https://www.libre.fm/api/auth/";
 const char *LibreFMScrobbler::kApiUrl = "https://libre.fm/2.0/";
 const char *LibreFMScrobbler::kCacheFile = "librefmscrobbler.cache";
 
-LibreFMScrobbler::LibreFMScrobbler(Application *app, QObject *parent) : ScrobblingAPI20(kName, kSettingsGroup, kAuthUrl, kApiUrl, false, app, parent),
-  auth_url_(kAuthUrl),
-  api_url_(kApiUrl),
-  app_(app),
-  network_(new NetworkAccessManager(this)),
-  cache_(new ScrobblerCache(kCacheFile, this)),
-  enabled_(false),
-  subscriber_(false),
-  submitted_(false),
-  timestamp_(0) {
+LibreFMScrobbler::LibreFMScrobbler(Application *app, QObject *parent)
+    : ScrobblingAPI20(kName, kSettingsGroup, kAuthUrl, kApiUrl, false, app, parent),
+      auth_url_(kAuthUrl),
+      api_url_(kApiUrl),
+      app_(app),
+      network_(new NetworkAccessManager(this)),
+      cache_(new ScrobblerCache(kCacheFile, this)),
+      enabled_(false),
+      subscriber_(false),
+      submitted_(false),
+      timestamp_(0) {
 
   ReloadSettings();
   LoadSession();

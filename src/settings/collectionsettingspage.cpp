@@ -64,8 +64,7 @@ const int CollectionSettingsPage::kSettingsDiskCacheSizeDefault = 360;
 CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_CollectionSettingsPage),
-      initialized_model_(false)
-      {
+      initialized_model_(false) {
 
   ui_->setupUi(this);
   ui_->list->setItemDelegate(new NativeSeparatorsDelegate(this));

@@ -26,11 +26,11 @@
 
 class Application;
 
-InternetService::InternetService(Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, SettingsDialog::Page settings_page, Application *app, QObject *parent) :
-    QObject(parent),
-    app_(app),
-    source_(source),
-    name_(name),
-    url_scheme_(url_scheme),
-    settings_group_(settings_group),
-    settings_page_(settings_page) {}
+InternetService::InternetService(Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, SettingsDialog::Page settings_page, Application *app, QObject *parent)
+    : QObject(parent),
+      app_(app),
+      source_(source),
+      name_(name),
+      url_scheme_(url_scheme),
+      settings_group_(settings_group),
+      settings_page_(settings_page) {}

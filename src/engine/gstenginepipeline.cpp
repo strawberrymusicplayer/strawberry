@@ -115,8 +115,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine, QObject *parent)
       notify_source_cb_id_(-1),
       about_to_finish_cb_id_(-1),
       bus_cb_id_(-1),
-      unsupported_analyzer_(false)
-      {
+      unsupported_analyzer_(false) {
 
   if (!sElementDeleter) {
     sElementDeleter = new GstElementDeleter(engine_);

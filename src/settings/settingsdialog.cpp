@@ -87,8 +87,7 @@
 
 const char *SettingsDialog::kSettingsGroup = "SettingsDialog";
 
-SettingsItemDelegate::SettingsItemDelegate(QObject *parent)
-  : QStyledItemDelegate(parent) {}
+SettingsItemDelegate::SettingsItemDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
 
 QSize SettingsItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 

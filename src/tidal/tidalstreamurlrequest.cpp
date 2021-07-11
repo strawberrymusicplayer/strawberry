@@ -48,13 +48,13 @@
 
 TidalStreamURLRequest::TidalStreamURLRequest(TidalService *service, NetworkAccessManager *network, const QUrl &original_url, const int id, QObject *parent)
     : TidalBaseRequest(service, network, parent),
-    service_(service),
-    reply_(nullptr),
-    original_url_(original_url),
-    id_(id),
-    song_id_(original_url.path().toInt()),
-    tries_(0),
-    need_login_(false) {}
+      service_(service),
+      reply_(nullptr),
+      original_url_(original_url),
+      id_(id),
+      song_id_(original_url.path().toInt()),
+      tries_(0),
+      need_login_(false) {}
 
 TidalStreamURLRequest::~TidalStreamURLRequest() {
 

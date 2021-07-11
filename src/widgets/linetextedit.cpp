@@ -31,8 +31,7 @@
 
 #include "linetextedit.h"
 
-LineTextEdit::LineTextEdit(QWidget *parent)
-  : QTextEdit(parent) {
+LineTextEdit::LineTextEdit(QWidget *parent) : QTextEdit(parent) {
 
   setWordWrapMode(QTextOption::NoWrap);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

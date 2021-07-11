@@ -52,7 +52,7 @@ class ScrobblingAPI20 : public ScrobblerService {
 
   void ReloadSettings() override;
   void LoadSession();
-  
+
   virtual NetworkAccessManager *network() const = 0;
   virtual ScrobblerCache *cache() const = 0;
 

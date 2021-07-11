@@ -34,16 +34,17 @@ const char *LastFMScrobbler::kAuthUrl = "https://www.last.fm/api/auth/";
 const char *LastFMScrobbler::kApiUrl = "https://ws.audioscrobbler.com/2.0/";
 const char *LastFMScrobbler::kCacheFile = "lastfmscrobbler.cache";
 
-LastFMScrobbler::LastFMScrobbler(Application *app, QObject *parent) : ScrobblingAPI20(kName, kSettingsGroup, kAuthUrl, kApiUrl, true, app, parent),
-  auth_url_(kAuthUrl),
-  api_url_(kApiUrl),
-  app_(app),
-  network_(new NetworkAccessManager(this)),
-  cache_(new ScrobblerCache(kCacheFile, this)),
-  enabled_(false),
-  subscriber_(false),
-  submitted_(false),
-  timestamp_(0) {
+LastFMScrobbler::LastFMScrobbler(Application *app, QObject *parent)
+    : ScrobblingAPI20(kName, kSettingsGroup, kAuthUrl, kApiUrl, true, app, parent),
+      auth_url_(kAuthUrl),
+      api_url_(kApiUrl),
+      app_(app),
+      network_(new NetworkAccessManager(this)),
+      cache_(new ScrobblerCache(kCacheFile, this)),
+      enabled_(false),
+      subscriber_(false),
+      submitted_(false),
+      timestamp_(0) {
 
   ReloadSettings();
   LoadSession();

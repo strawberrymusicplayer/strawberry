@@ -78,31 +78,30 @@ const char *AlbumCoverChoiceController::kAllFilesFilter = QT_TR_NOOP("All files 
 
 QSet<QString> *AlbumCoverChoiceController::sImageExtensions = nullptr;
 
-AlbumCoverChoiceController::AlbumCoverChoiceController(QWidget *parent) :
-    QWidget(parent),
-    app_(nullptr),
-    cover_searcher_(nullptr),
-    cover_fetcher_(nullptr),
-    save_file_dialog_(nullptr),
-    cover_from_url_dialog_(nullptr),
-    cover_from_file_(nullptr),
-    cover_to_file_(nullptr),
-    cover_from_url_(nullptr),
-    search_for_cover_(nullptr),
-    separator1_(nullptr),
-    unset_cover_(nullptr),
-    delete_cover_(nullptr),
-    clear_cover_(nullptr),
-    separator2_(nullptr),
-    show_cover_(nullptr),
-    search_cover_auto_(nullptr),
-    save_cover_type_(CollectionSettingsPage::SaveCoverType_Cache),
-    save_cover_filename_(CollectionSettingsPage::SaveCoverFilename_Pattern),
-    cover_overwrite_(false),
-    cover_lowercase_(true),
-    cover_replace_spaces_(true),
-    save_embedded_cover_override_(false)
-    {
+AlbumCoverChoiceController::AlbumCoverChoiceController(QWidget *parent)
+    : QWidget(parent),
+      app_(nullptr),
+      cover_searcher_(nullptr),
+      cover_fetcher_(nullptr),
+      save_file_dialog_(nullptr),
+      cover_from_url_dialog_(nullptr),
+      cover_from_file_(nullptr),
+      cover_to_file_(nullptr),
+      cover_from_url_(nullptr),
+      search_for_cover_(nullptr),
+      separator1_(nullptr),
+      unset_cover_(nullptr),
+      delete_cover_(nullptr),
+      clear_cover_(nullptr),
+      separator2_(nullptr),
+      show_cover_(nullptr),
+      search_cover_auto_(nullptr),
+      save_cover_type_(CollectionSettingsPage::SaveCoverType_Cache),
+      save_cover_filename_(CollectionSettingsPage::SaveCoverFilename_Pattern),
+      cover_overwrite_(false),
+      cover_lowercase_(true),
+      cover_replace_spaces_(true),
+      save_embedded_cover_override_(false) {
 
   cover_from_file_ = new QAction(IconLoader::Load("document-open"), tr("Load cover from disk..."), this);
   cover_to_file_ = new QAction(IconLoader::Load("document-save"), tr("Save cover to disk..."), this);

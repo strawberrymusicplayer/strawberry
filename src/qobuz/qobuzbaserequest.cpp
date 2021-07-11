@@ -41,11 +41,10 @@
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 
-QobuzBaseRequest::QobuzBaseRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent) :
-      QObject(parent),
+QobuzBaseRequest::QobuzBaseRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent)
+    : QObject(parent),
       service_(service),
-      network_(network)
-      {}
+      network_(network) {}
 
 QobuzBaseRequest::~QobuzBaseRequest() = default;
 

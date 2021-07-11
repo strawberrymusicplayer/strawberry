@@ -43,8 +43,7 @@
 TidalBaseRequest::TidalBaseRequest(TidalService *service, NetworkAccessManager *network, QObject *parent) :
       QObject(parent),
       service_(service),
-      network_(network)
-      {}
+      network_(network) {}
 
 QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, const QList<Param> &params_provided) {
 

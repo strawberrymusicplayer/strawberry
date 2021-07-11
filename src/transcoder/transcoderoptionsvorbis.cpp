@@ -34,8 +34,7 @@
 
 const char *TranscoderOptionsVorbis::kSettingsGroup = "Transcoder/vorbisenc";
 
-TranscoderOptionsVorbis::TranscoderOptionsVorbis(QWidget *parent)
-    : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsVorbis) {
+TranscoderOptionsVorbis::TranscoderOptionsVorbis(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsVorbis) {
   ui_->setupUi(this);
 }
 

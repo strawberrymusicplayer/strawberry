@@ -33,7 +33,9 @@
 #include "globalshortcutsbackend.h"
 #include "globalshortcut.h"
 
-GlobalShortcutsBackendSystem::GlobalShortcutsBackendSystem(GlobalShortcutsManager *manager, QObject *parent) : GlobalShortcutsBackend(manager, parent), gshortcut_init_(nullptr) {}
+GlobalShortcutsBackendSystem::GlobalShortcutsBackendSystem(GlobalShortcutsManager *manager, QObject *parent)
+    : GlobalShortcutsBackend(manager, parent),
+      gshortcut_init_(nullptr) {}
 
 GlobalShortcutsBackendSystem::~GlobalShortcutsBackendSystem() { GlobalShortcutsBackendSystem::DoUnregister(); }
 

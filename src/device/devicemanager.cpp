@@ -88,8 +88,8 @@ const int DeviceManager::kDeviceIconOverlaySize = 16;
 
 DeviceManager::DeviceManager(Application *app, QObject *parent)
     : SimpleTreeModel<DeviceInfo>(new DeviceInfo(this), parent),
-    app_(app),
-    not_connected_overlay_(IconLoader::Load("edit-delete")) {
+      app_(app),
+      not_connected_overlay_(IconLoader::Load("edit-delete")) {
 
   thread_pool_.setMaxThreadCount(1);
   QObject::connect(app_->task_manager(), &TaskManager::TasksChanged, this, &DeviceManager::TasksChanged);

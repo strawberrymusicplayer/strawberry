@@ -64,22 +64,22 @@ const char *ScrobblingAPI20::kApiKey = "211990b4c96782c05d1536e7219eb56e";
 const char *ScrobblingAPI20::kSecret = "80fd738f49596e9709b1bf9319c444a8";
 const int ScrobblingAPI20::kScrobblesPerRequest = 50;
 
-ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, Application *app, QObject *parent) :
-  ScrobblerService(name, app, parent),
-  name_(name),
-  settings_group_(settings_group),
-  auth_url_(auth_url),
-  api_url_(api_url),
-  batch_(batch),
-  app_(app),
-  server_(nullptr),
-  enabled_(false),
-  https_(false),
-  prefer_albumartist_(false),
-  subscriber_(false),
-  submitted_(false),
-  scrobbled_(false),
-  timestamp_(0) {
+ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, Application *app, QObject *parent)
+    : ScrobblerService(name, app, parent),
+      name_(name),
+      settings_group_(settings_group),
+      auth_url_(auth_url),
+      api_url_(api_url),
+      batch_(batch),
+      app_(app),
+      server_(nullptr),
+      enabled_(false),
+      https_(false),
+      prefer_albumartist_(false),
+      subscriber_(false),
+      submitted_(false),
+      scrobbled_(false),
+      timestamp_(0) {
 
   timer_submit_.setSingleShot(true);
   QObject::connect(&timer_submit_, &QTimer::timeout, this, &ScrobblingAPI20::Submit);
@@ -301,13 +301,13 @@ void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
     }
     return;
   }
-  
+
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     AuthError("Json document from server was empty.");
     return;
   }
-  
+
   if (json_obj.contains("error") && json_obj.contains("message")) {
     int error = json_obj["error"].toInt();
     QString message = json_obj["message"].toString();
@@ -339,7 +339,7 @@ void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
   subscriber_ = json_obj["subscriber"].toBool();
   username_ = json_obj["name"].toString();
   session_key_ = json_obj["key"].toString();
-  
+
   QSettings s;
   s.beginGroup(settings_group_);
   s.setValue("subscriber", subscriber_);

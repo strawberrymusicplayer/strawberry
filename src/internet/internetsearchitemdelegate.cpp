@@ -25,7 +25,8 @@
 #include "internetsearchview.h"
 
 InternetSearchItemDelegate::InternetSearchItemDelegate(InternetSearchView *view)
-    : CollectionItemDelegate(view), view_(view) {}
+    : CollectionItemDelegate(view),
+      view_(view) {}
 
 void InternetSearchItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 

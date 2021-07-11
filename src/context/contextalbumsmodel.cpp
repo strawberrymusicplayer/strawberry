@@ -57,8 +57,8 @@
 
 const int ContextAlbumsModel::kPrettyCoverSize = 32;
 
-ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *app, QObject *parent) :
-      SimpleTreeModel<CollectionItem>(new CollectionItem(this), parent),
+ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *app, QObject *parent)
+    : SimpleTreeModel<CollectionItem>(new CollectionItem(this), parent),
       backend_(backend),
       app_(app),
       album_icon_(IconLoader::Load("cdcase")) {

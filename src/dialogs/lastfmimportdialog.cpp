@@ -30,12 +30,13 @@
 #include "core/iconloader.h"
 #include "scrobbler/lastfmimport.h"
 
-LastFMImportDialog::LastFMImportDialog(LastFMImport *lastfm_import, QWidget *parent) : QDialog(parent),
-  ui_(new Ui_LastFMImportDialog),
-  lastfm_import_(lastfm_import),
-  finished_(false),
-  playcount_total_(0),
-  lastplayed_total_(0) {
+LastFMImportDialog::LastFMImportDialog(LastFMImport *lastfm_import, QWidget *parent)
+    : QDialog(parent),
+      ui_(new Ui_LastFMImportDialog),
+      lastfm_import_(lastfm_import),
+      finished_(false),
+      playcount_total_(0),
+      lastplayed_total_(0) {
 
   ui_->setupUi(this);
 

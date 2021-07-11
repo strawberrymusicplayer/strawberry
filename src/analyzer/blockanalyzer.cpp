@@ -56,8 +56,7 @@ BlockAnalyzer::BlockAnalyzer(QWidget *parent)
       fade_bars_(kFadeSize),
       fade_pos_(1 << 8, 50),
       fade_intensity_(1 << 8, 32),
-      step_(0)
-      {
+      step_(0) {
 
   setMinimumSize(kMinColumns * (kWidth + 1) - 1, kMinRows * (kHeight + 1) - 1);  //-1 is padding, no drawing takes place there
   setMaximumWidth(kMaxColumns * (kWidth + 1) - 1);

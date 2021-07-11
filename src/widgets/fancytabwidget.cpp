@@ -441,7 +441,8 @@ class FancyTabWidgetProxyStyle : public QProxyStyle {  // clazy:exclude=missing-
   QCommonStyle *common_style_;
 };
 
-FancyTabWidget::FancyTabWidget(QWidget *parent) : QTabWidget(parent),
+FancyTabWidget::FancyTabWidget(QWidget *parent)
+    : QTabWidget(parent),
       style_(nullptr),
       menu_(nullptr),
       mode_(Mode_None),
@@ -449,8 +450,7 @@ FancyTabWidget::FancyTabWidget(QWidget *parent) : QTabWidget(parent),
       bg_color_system_(true),
       bg_gradient_(true),
       iconsize_smallsidebar_(FancyTabWidget::IconSize_SmallSidebar),
-      iconsize_largesidebar_(FancyTabWidget::IconSize_LargeSidebar)
-  {
+      iconsize_largesidebar_(FancyTabWidget::IconSize_LargeSidebar) {
 
   FancyTabBar *tabBar = new FancyTabBar(this);
   setTabBar(tabBar);

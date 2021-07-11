@@ -43,9 +43,9 @@
 
 TidalFavoriteRequest::TidalFavoriteRequest(TidalService *service, NetworkAccessManager *network, QObject *parent)
     : TidalBaseRequest(service, network, parent),
-    service_(service),
-    network_(network),
-    need_login_(false) {}
+      service_(service),
+      network_(network),
+      need_login_(false) {}
 
 TidalFavoriteRequest::~TidalFavoriteRequest() {
 

@@ -46,7 +46,10 @@
 
 const char *LyricsSettingsPage::kSettingsGroup = "Lyrics";
 
-LyricsSettingsPage::LyricsSettingsPage(SettingsDialog *dialog, QWidget *parent) : SettingsPage(dialog, parent), ui_(new Ui::LyricsSettingsPage), provider_selected_(false) {
+LyricsSettingsPage::LyricsSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
+      ui_(new Ui::LyricsSettingsPage),
+      provider_selected_(false) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("view-media-lyrics"));

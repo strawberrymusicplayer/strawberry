@@ -68,8 +68,7 @@ AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
       cover_overwrite_(false),
       cover_lowercase_(true),
       cover_replace_spaces_(true),
-      original_thread_(nullptr)
-      {
+      original_thread_(nullptr) {
 
   original_thread_ = thread();
   ReloadSettings();

@@ -62,9 +62,7 @@ std::unique_ptr<T> GetProperty(const AudioDeviceID &device_id, const AudioObject
 }  // namespace
 
 
-MacOsDeviceFinder::MacOsDeviceFinder()
-    : DeviceFinder("osxaudio", { "osxaudio", "osx", "osxaudiosink"} ) {
-}
+MacOsDeviceFinder::MacOsDeviceFinder() : DeviceFinder("osxaudio", { "osxaudio", "osx", "osxaudiosink"} ) {}
 
 QList<DeviceFinder::Device> MacOsDeviceFinder::ListDevices() {
 

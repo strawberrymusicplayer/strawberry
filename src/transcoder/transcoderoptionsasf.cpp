@@ -33,8 +33,7 @@
 
 const char *TranscoderOptionsASF::kSettingsGroup = "Transcoder/ffenc_wmav2";
 
-TranscoderOptionsASF::TranscoderOptionsASF(QWidget *parent)
-    : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsASF) {
+TranscoderOptionsASF::TranscoderOptionsASF(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsASF) {
   ui_->setupUi(this);
 }
 

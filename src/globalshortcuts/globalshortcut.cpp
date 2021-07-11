@@ -38,12 +38,13 @@
 GlobalShortcut *GlobalShortcut::initialized_ = nullptr;
 QHash<QPair<quint32, quint32>, GlobalShortcut*> GlobalShortcut::internal_shortcuts_;
 
-GlobalShortcut::GlobalShortcut(QObject *parent) : QObject(parent),
-  backend_(nullptr),
-  qt_key_(Qt::Key(0)),
-  qt_mods_(Qt::NoModifier),
-  native_key_(0),
-  native_mods_(0) {
+GlobalShortcut::GlobalShortcut(QObject *parent)
+    : QObject(parent),
+      backend_(nullptr),
+      qt_key_(Qt::Key(0)),
+      qt_mods_(Qt::NoModifier),
+      native_key_(0),
+      native_mods_(0) {
 
   Q_ASSERT(!initialized_);
 
@@ -52,13 +53,14 @@ GlobalShortcut::GlobalShortcut(QObject *parent) : QObject(parent),
 
 }
 
-GlobalShortcut::GlobalShortcut(const QKeySequence &shortcut, GlobalShortcutsBackend *backend, QObject *parent) : QObject(parent),
-  backend_(backend),
-  shortcut_(shortcut),
-  qt_key_(Qt::Key(0)),
-  qt_mods_(Qt::NoModifier),
-  native_key_(0),
-  native_mods_(0) {
+GlobalShortcut::GlobalShortcut(const QKeySequence &shortcut, GlobalShortcutsBackend *backend, QObject *parent)
+    : QObject(parent),
+      backend_(backend),
+      shortcut_(shortcut),
+      qt_key_(Qt::Key(0)),
+      qt_mods_(Qt::NoModifier),
+      native_key_(0),
+      native_mods_(0) {
 
   Q_ASSERT(initialized_);
   setShortcut(shortcut);

@@ -24,7 +24,8 @@
 #include "radioparadiseservice.h"
 #include "radiochannel.h"
 
-RadioParadiseService::RadioParadiseService(Application *app, NetworkAccessManager *network, QObject *parent) : RadioService(Song::Source_RadioParadise, "Radio Paradise", IconLoader::Load("radioparadise"), app, network, parent) {}
+RadioParadiseService::RadioParadiseService(Application *app, NetworkAccessManager *network, QObject *parent)
+    : RadioService(Song::Source_RadioParadise, "Radio Paradise", IconLoader::Load("radioparadise"), app, network, parent) {}
 
 QUrl RadioParadiseService::Homepage() { return QUrl("https://radioparadise.com/"); }
 QUrl RadioParadiseService::Donate() { return QUrl("https://payments.radioparadise.com/rp2s-content.php?name=Support&file=support"); }

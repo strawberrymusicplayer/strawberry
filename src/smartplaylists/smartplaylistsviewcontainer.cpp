@@ -44,19 +44,18 @@
 
 SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(Application *app, QWidget *parent)
     : QWidget(parent),
-    ui_(new Ui_SmartPlaylistsViewContainer),
-    app_(app),
-    context_menu_(new QMenu(this)),
-    context_menu_selected_(new QMenu(this)),
-    action_new_smart_playlist_(nullptr),
-    action_edit_smart_playlist_(nullptr),
-    action_delete_smart_playlist_(nullptr),
-    action_append_to_playlist_(nullptr),
-    action_replace_current_playlist_(nullptr),
-    action_open_in_new_playlist_(nullptr),
-    action_add_to_playlist_enqueue_(nullptr),
-    action_add_to_playlist_enqueue_next_(nullptr)
-    {
+      ui_(new Ui_SmartPlaylistsViewContainer),
+      app_(app),
+      context_menu_(new QMenu(this)),
+      context_menu_selected_(new QMenu(this)),
+      action_new_smart_playlist_(nullptr),
+      action_edit_smart_playlist_(nullptr),
+      action_delete_smart_playlist_(nullptr),
+      action_append_to_playlist_(nullptr),
+      action_replace_current_playlist_(nullptr),
+      action_open_in_new_playlist_(nullptr),
+      action_add_to_playlist_enqueue_(nullptr),
+      action_add_to_playlist_enqueue_next_(nullptr) {
 
   ui_->setupUi(this);
 
@@ -244,7 +243,7 @@ void SmartPlaylistsViewContainer::DeleteSmartPlaylistFromContext() {
 }
 
 void SmartPlaylistsViewContainer::DeleteSmartPlaylistFromButton() {
-    
+
   if (ui_->view->selectionModel()->selectedIndexes().count() == 0) return;
 
   DeleteSmartPlaylist(ui_->view->selectionModel()->selectedIndexes().first());

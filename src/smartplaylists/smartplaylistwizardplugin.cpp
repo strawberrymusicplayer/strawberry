@@ -25,7 +25,11 @@
 
 #include "smartplaylistwizardplugin.h"
 
-SmartPlaylistWizardPlugin::SmartPlaylistWizardPlugin(Application *app, CollectionBackend *collection, QObject *parent) : QObject(parent), app_(app), collection_(collection), start_page_(-1) {}
+SmartPlaylistWizardPlugin::SmartPlaylistWizardPlugin(Application *app, CollectionBackend *collection, QObject *parent)
+    : QObject(parent),
+      app_(app),
+      collection_(collection),
+      start_page_(-1) {}
 
 void SmartPlaylistWizardPlugin::Init(QWizard *wizard, const int finish_page_id) {
   start_page_ = CreatePages(wizard, finish_page_id);

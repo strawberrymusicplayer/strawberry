@@ -54,7 +54,9 @@ const char *Equalizer::kGainText[] = { "60", "170", "310", "600", "1k", "3k", "6
 const char *Equalizer::kSettingsGroup = "Equalizer";
 
 Equalizer::Equalizer(QWidget *parent)
-    : QDialog(parent), ui_(new Ui_Equalizer), loading_(false) {
+    : QDialog(parent),
+      ui_(new Ui_Equalizer),
+      loading_(false) {
 
   ui_->setupUi(this);
 
