@@ -17,6 +17,7 @@
  *
  */
 
+#include <QtGlobal>
 #include <QObject>
 #include <QThread>
 #include <QMutexLocker>
@@ -47,7 +48,7 @@ void RadioBackend::ExitAsync() {
 
 void RadioBackend::Exit() {
 
-  assert(QThread::currentThread() == thread());
+  Q_ASSERT(QThread::currentThread() == thread());
 
   moveToThread(original_thread_);
   emit ExitFinished();
