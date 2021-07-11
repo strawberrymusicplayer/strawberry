@@ -48,7 +48,7 @@ bool RadioPlaylistItem::InitFromQuery(const SqlRow &query) {
 }
 
 QVariant RadioPlaylistItem::DatabaseValue(DatabaseColumn column) const {
-   return PlaylistItem::DatabaseValue(column);
+  return PlaylistItem::DatabaseValue(column);
 }
 
 void RadioPlaylistItem::InitMetadata() {

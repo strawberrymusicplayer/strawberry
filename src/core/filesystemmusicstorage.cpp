@@ -35,8 +35,7 @@
 
 #include "filesystemmusicstorage.h"
 
-FilesystemMusicStorage::FilesystemMusicStorage(const QString &root)
-    : root_(root) {}
+FilesystemMusicStorage::FilesystemMusicStorage(const QString &root) : root_(root) {}
 
 bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
 

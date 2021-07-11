@@ -52,7 +52,7 @@ class GlobalShortcutsManager : public QWidget {
 
   QMap<QString, Shortcut> shortcuts() const { return shortcuts_; }
   bool IsKdeAvailable() const;
-  static bool IsX11Available() ;
+  static bool IsX11Available();
   bool IsGnomeAvailable() const;
   bool IsMateAvailable() const;
   bool IsMacAccessibilityEnabled() const;

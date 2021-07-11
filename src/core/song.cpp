@@ -988,8 +988,8 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
       d->directory_id_ = toint(x);
     }
     else if (Song::kColumns.value(i) == "url") {
-     set_url(QUrl::fromEncoded(tostr(x).toUtf8()));
-     d->basefilename_ = QFileInfo(d->url_.toLocalFile()).fileName();
+      set_url(QUrl::fromEncoded(tostr(x).toUtf8()));
+      d->basefilename_ = QFileInfo(d->url_.toLocalFile()).fileName();
     }
     else if (Song::kColumns.value(i) == "filetype") {
       d->filetype_ = FileType(q.value(x).toInt());

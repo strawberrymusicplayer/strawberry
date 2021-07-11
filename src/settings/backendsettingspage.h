@@ -40,7 +40,7 @@ class Ui_BackendSettingsPage;
 class BackendSettingsPage : public SettingsPage {
   Q_OBJECT
 
-public:
+ public:
   explicit BackendSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~BackendSettingsPage() override;
 

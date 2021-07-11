@@ -68,7 +68,7 @@
 
 // winspool.h defines this :(
 #ifdef AddJob
-#undef AddJob
+#  undef AddJob
 #endif
 
 const char *TranscodeDialog::kSettingsGroup = "Transcoder";

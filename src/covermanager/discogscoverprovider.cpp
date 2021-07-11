@@ -334,7 +334,7 @@ void DiscogsCoverProvider::StartReleaseRequest(std::shared_ptr<DiscogsCoverSearc
 void DiscogsCoverProvider::SendReleaseRequest(const DiscogsCoverReleaseContext &release) {
 
   QNetworkReply *reply = CreateRequest(release.url);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, release]() { HandleReleaseReply(reply, release.search_id, release.id); } );
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, release]() { HandleReleaseReply(reply, release.search_id, release.id); });
 
 }
 
@@ -431,7 +431,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
       continue;
     }
     QJsonObject obj_image = value_image.toObject();
-    if (!obj_image.contains("type") || !obj_image.contains("resource_url") || !obj_image.contains("width") || !obj_image.contains("height") ) {
+    if (!obj_image.contains("type") || !obj_image.contains("resource_url") || !obj_image.contains("width") || !obj_image.contains("height")) {
       Error("Invalid Json reply, images array value object is missing type, resource_url, width or height.", obj_image);
       continue;
     }

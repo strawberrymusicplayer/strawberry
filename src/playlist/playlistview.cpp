@@ -668,7 +668,7 @@ void PlaylistView::keyPressEvent(QKeyEvent *event) {
     emit SeekForward();
     event->accept();
   }
-  else if (event->modifiers() == Qt::NoModifier &&  ((event->key() >= Qt::Key_Exclam && event->key() <= Qt::Key_Z) || event->key() == Qt::Key_Backspace || event->key() == Qt::Key_Escape)) {
+  else if (event->modifiers() == Qt::NoModifier && ((event->key() >= Qt::Key_Exclam && event->key() <= Qt::Key_Z) || event->key() == Qt::Key_Backspace || event->key() == Qt::Key_Escape)) {
     emit FocusOnFilterSignal(event);
     event->accept();
   }
@@ -974,11 +974,11 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
         else {
           if (background_image_stretch_) {
             if (background_image_keep_aspect_ratio_) {
-              if (background_image_do_not_cut_){
+              if (background_image_do_not_cut_) {
                 cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(pb_width, pb_height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
               }
               else {
-                if (pb_height >= pb_width){
+                if (pb_height >= pb_width) {
                   cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaledToHeight(pb_height, Qt::SmoothTransformation));
                 }
                 else {

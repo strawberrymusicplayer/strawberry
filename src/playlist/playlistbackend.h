@@ -92,7 +92,7 @@ class PlaylistBackend : public QObject {
   void Exit();
   void SavePlaylist(int playlist, const PlaylistItemList &items, int last_played, PlaylistGeneratorPtr dynamic);
 
-signals:
+ signals:
   void ExitFinished();
 
  private:

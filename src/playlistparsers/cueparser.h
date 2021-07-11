@@ -96,8 +96,8 @@ class CueParser : public ParserBase {
     file(_file), index(_index), title(_title), artist(_artist), album_artist(_album_artist), album(_album), composer(_composer), album_composer(_album_composer), genre(_genre), date(_date), disc(_disc) {}
   };
 
-  static bool UpdateSong(const CueEntry &entry, const QString &next_index, Song *song) ;
-  static bool UpdateLastSong(const CueEntry &entry, Song *song) ;
+  static bool UpdateSong(const CueEntry &entry, const QString &next_index, Song *song);
+  static bool UpdateLastSong(const CueEntry &entry, Song *song);
 
   static QStringList SplitCueLine(const QString &line);
   static qint64 IndexToMarker(const QString &index);

@@ -94,13 +94,10 @@ QVariant CollectionDirectoryModel::data(const QModelIndex &idx, int role) const 
     case MusicStorage::Role_Storage:
     case MusicStorage::Role_StorageForceConnect:
       return QVariant::fromValue(storage_[idx.row()]);
-
     case MusicStorage::Role_FreeSpace:
-    return Utilities::FileSystemFreeSpace(data(idx, Qt::DisplayRole).toString());
-
+      return Utilities::FileSystemFreeSpace(data(idx, Qt::DisplayRole).toString());
     case MusicStorage::Role_Capacity:
-    return Utilities::FileSystemCapacity(data(idx, Qt::DisplayRole).toString());
-
+      return Utilities::FileSystemCapacity(data(idx, Qt::DisplayRole).toString());
     default:
       return QStandardItemModel::data(idx, role);
   }

@@ -363,7 +363,7 @@ void PlaylistContainer::GoToNextPlaylistTab() {
 void PlaylistContainer::GoToPreviousPlaylistTab() {
 
   // Get the next tab' id
-  int id_previous = ui_->tab_bar->id_of((ui_->tab_bar->currentIndex()+ui_->tab_bar->count()-1) % ui_->tab_bar->count());
+  int id_previous = ui_->tab_bar->id_of((ui_->tab_bar->currentIndex() + ui_->tab_bar->count() - 1) % ui_->tab_bar->count());
   // Switch to next tab
   manager_->SetCurrentPlaylist(id_previous);
 

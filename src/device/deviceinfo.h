@@ -84,10 +84,8 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
   // Sometimes the same device is discovered more than once.  In this case the device will have multiple "backends".
   struct Backend {
     explicit Backend(DeviceLister *lister = nullptr, const QString &id = QString())
-        :
-        lister_(lister),
-        unique_id_(id)
-        {}
+        : lister_(lister),
+          unique_id_(id) {}
 
     DeviceLister *lister_;  // nullptr if not physically connected
     QString unique_id_;

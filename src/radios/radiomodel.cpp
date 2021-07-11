@@ -91,7 +91,7 @@ QVariant RadioModel::data(const QModelIndex &idx, int role) const {
 
 QVariant RadioModel::data(const RadioItem *item, int role) const {
 
-  switch(role) {
+  switch (role) {
     case Qt::DecorationRole:
       if (item->type == RadioItem::Type_Service) {
         return Song::IconForSource(item->source);

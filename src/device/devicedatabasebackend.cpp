@@ -96,7 +96,7 @@ DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
       int schema_version = q.value(5).toInt();
       dev.transcode_mode_ = MusicStorage::TranscodeMode(q.value(6).toInt());
       dev.transcode_format_ = Song::FileType(q.value(7).toInt());
-      if (schema_version < kDeviceSchemaVersion) { // Device is using old schema, drop it.
+      if (schema_version < kDeviceSchemaVersion) {  // Device is using old schema, drop it.
         old_devices << dev;
       }
       else {

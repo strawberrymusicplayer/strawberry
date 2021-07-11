@@ -77,7 +77,7 @@ void MoodbarBuilder::AddFrame(const double *magnitudes, int size) {
   }
 
   // Now divide the bark bands into thirds and compute their total amplitudes.
-  double rgb[] = {0, 0, 0};
+  double rgb[] = { 0, 0, 0 };
   for (int i = 0; i < sBarkBandCount; ++i) {
     rgb[(i * 3) / sBarkBandCount] += bands[i] * bands[i];
   }

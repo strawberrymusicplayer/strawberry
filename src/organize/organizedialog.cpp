@@ -141,7 +141,7 @@ OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *bac
   for (const QString &title : tag_titles) {
     QAction *action = tag_menu->addAction(title);
     QString tag = tags[title];
-    QObject::connect(action, &QAction::triggered, this, [this, tag]() { InsertTag(tag); } );
+    QObject::connect(action, &QAction::triggered, this, [this, tag]() { InsertTag(tag); });
   }
 
   ui_->insert->setMenu(tag_menu);
@@ -222,7 +222,7 @@ void OrganizeDialog::LoadGeometry() {
   }
 
   if (parentwindow_) {
-  // Center the window on the same screen as the parentwindow.
+    // Center the window on the same screen as the parentwindow.
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     QScreen *screen = parentwindow_->screen();
 #else

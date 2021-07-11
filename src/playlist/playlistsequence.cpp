@@ -166,7 +166,7 @@ void PlaylistSequence::SetRepeatMode(const RepeatMode mode) {
 
   ui_->repeat->setChecked(mode != Repeat_Off);
 
-  switch(mode) {
+  switch (mode) {
     case Repeat_Off:      ui_->action_repeat_off->setChecked(true);      break;
     case Repeat_Track:    ui_->action_repeat_track->setChecked(true);    break;
     case Repeat_Album:    ui_->action_repeat_album->setChecked(true);    break;

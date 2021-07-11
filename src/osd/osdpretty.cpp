@@ -63,7 +63,7 @@
 #include "ui_osdpretty.h"
 
 #ifdef Q_OS_WIN
-# include <windows.h>
+#  include <windows.h>
 #endif
 
 #include "core/utilities.h"
@@ -216,7 +216,7 @@ bool OSDPretty::IsTransparencyAvailable() {
 #if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
   if (qApp) {
     QPlatformNativeInterface *native = qApp->platformNativeInterface();
-    QScreen *screen = popup_screen_ == nullptr ?  QGuiApplication::primaryScreen() : popup_screen_;
+    QScreen *screen = popup_screen_ == nullptr ? QGuiApplication::primaryScreen() : popup_screen_;
     if (native && screen) {
       return native->nativeResourceForScreen(QByteArray("compositingEnabled"), screen);
     }
@@ -371,7 +371,7 @@ void OSDPretty::ShowMessage(const QString &summary, const QString &message, cons
     }
     else {
       if (!disable_duration())
-        timeout_->start(); // Restart the timer
+        timeout_->start();  // Restart the timer
     }
   }
   else {

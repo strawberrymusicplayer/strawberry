@@ -305,8 +305,8 @@ FilterTree *FilterParser::parseAndGroup() {
       break;
     }
     checkAnd();  // if there's no 'AND', we'll add the term anyway...
-  }
-  while (iter_ != end_);
+  } while (iter_ != end_);
+
   return group;
 
 }

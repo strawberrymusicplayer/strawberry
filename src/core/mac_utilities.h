@@ -36,7 +36,8 @@ namespace mac {
 
 QKeySequence KeySequenceFromNSEvent(NSEvent *event);
 void DumpDictionary(CFDictionaryRef dict);
-}
+
+}  // namespace mac
 
 namespace Utilities {
 qint32 GetMacOsVersion();

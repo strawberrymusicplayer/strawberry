@@ -91,7 +91,7 @@ class TrackSlider : public QWidget {
 
   bool setting_value_;
   bool show_remaining_time_;
-  int slider_maximum_value_; //we cache it to avoid unnecessary updates
+  int slider_maximum_value_;  // We cache it to avoid unnecessary updates
 };
 
 #endif  // TRACKSLIDER_H

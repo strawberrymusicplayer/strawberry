@@ -143,7 +143,7 @@ void QueueView::MoveDown() {
   QModelIndexList indexes = ui_->list->selectionModel()->selectedRows();
   std::stable_sort(indexes.begin(), indexes.end());
 
-  if (indexes.isEmpty() || indexes.last().row() == current_playlist_->queue()->rowCount()-1)
+  if (indexes.isEmpty() || indexes.last().row() == current_playlist_->queue()->rowCount() - 1)
     return;
 
   for (int i = static_cast<int>(indexes.count() - 1); i >= 0; --i) {

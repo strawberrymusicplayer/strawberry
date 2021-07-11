@@ -120,7 +120,7 @@ QSize TrackSlider::sizeHint() const {
 
 void TrackSlider::SetValue(const int elapsed, const int total) {
 
-  setting_value_ = true; // This is so we don't emit from QAbstractSlider::valueChanged
+  setting_value_ = true;  // This is so we don't emit from QAbstractSlider::valueChanged
   ui_->slider->setMaximum(total);
   if (!ui_->slider->isSliderDown()) {
     ui_->slider->setValue(elapsed);

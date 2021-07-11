@@ -728,9 +728,8 @@ void TidalRequest::AlbumsFinishCheck(const QString &artist_id, const int limit, 
 
     // Get songs for all the albums.
 
-    QHash<QString, Request> ::iterator i;
-    for (i = album_songs_requests_pending_.begin() ; i != album_songs_requests_pending_.end() ; ++i) {
-      Request request = i.value();
+    for (QHash<QString, Request> ::iterator it = album_songs_requests_pending_.begin() ; it != album_songs_requests_pending_.end() ; ++it) {
+      Request request = it.value();
       AddAlbumSongsRequest(request.artist_id, request.album_id, request.album_artist, request.album, request.album_explicit);
     }
     album_songs_requests_pending_.clear();
@@ -1060,7 +1059,7 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
   }
 
   cover = cover.replace("-", "/");
-  QUrl cover_url (QString("%1/images/%2/%3.jpg").arg(kResourcesUrl, cover, coversize_));
+  QUrl cover_url(QString("%1/images/%2/%3.jpg").arg(kResourcesUrl, cover, coversize_));
 
   title.remove(Song::kTitleRemoveMisc);
 
@@ -1171,7 +1170,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
   }
 
   if (reply->error() != QNetworkReply::NoError) {
-     Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     album_covers_requests_sent_.remove(album_id);
     AlbumCoverFinishCheck();
     return;

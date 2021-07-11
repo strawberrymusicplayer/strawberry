@@ -38,7 +38,7 @@ class Ui_ContextSettingsPage;
 class ContextSettingsPage : public SettingsPage {
   Q_OBJECT
 
-public:
+ public:
   explicit ContextSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~ContextSettingsPage() override;
 

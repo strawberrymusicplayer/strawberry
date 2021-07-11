@@ -668,7 +668,7 @@ void QobuzService::StartSearch() {
   search_id_ = pending_search_id_;
   search_text_ = pending_search_text_;
 
-  if (app_id_.isEmpty()) { // App ID is the only thing needed to search.
+  if (app_id_.isEmpty()) {  // App ID is the only thing needed to search.
     emit SearchResults(search_id_, SongList(), tr("Missing Qobuz app ID."));
     return;
   }

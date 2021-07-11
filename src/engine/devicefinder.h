@@ -65,4 +65,4 @@ class DeviceFinder {
   Q_DISABLE_COPY(DeviceFinder)
 };
 
-#endif // DEVICEFINDER_H
+#endif  // DEVICEFINDER_H

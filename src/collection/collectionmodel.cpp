@@ -76,8 +76,8 @@ const char *CollectionModel::kPixmapDiskCacheDir = "pixmapcache";
 
 QNetworkDiskCache *CollectionModel::sIconCache = nullptr;
 
-CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, QObject *parent) :
-      SimpleTreeModel<CollectionItem>(new CollectionItem(this), parent),
+CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, QObject *parent)
+    : SimpleTreeModel<CollectionItem>(new CollectionItem(this), parent),
       backend_(backend),
       app_(app),
       dir_model_(new CollectionDirectoryModel(backend, this)),

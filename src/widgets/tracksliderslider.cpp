@@ -30,7 +30,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QWheelEvent>
-#  include <QEnterEvent>
+#include <QEnterEvent>
 
 #include "core/timeconstants.h"
 #include "core/utilities.h"

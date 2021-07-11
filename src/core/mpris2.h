@@ -65,10 +65,10 @@ struct MaybePlaylist {
 Q_DECLARE_METATYPE(MaybePlaylist)
 
 QDBusArgument &operator<<(QDBusArgument &arg, const MprisPlaylist &playlist);
-const QDBusArgument &operator>> (const QDBusArgument &arg, MprisPlaylist &playlist);
+const QDBusArgument &operator>>(const QDBusArgument &arg, MprisPlaylist &playlist);
 
 QDBusArgument &operator<<(QDBusArgument &arg, const MaybePlaylist &playlist);
-const QDBusArgument &operator>> (const QDBusArgument &arg, MaybePlaylist &playlist);
+const QDBusArgument &operator>>(const QDBusArgument &arg, MaybePlaylist &playlist);
 
 namespace mpris {
 
@@ -172,7 +172,7 @@ class Mpris2 : public QObject {
   static bool CanEditTracks();
 
   // Methods
-  static TrackMetadata GetTracksMetadata(const Track_Ids &tracks) ;
+  static TrackMetadata GetTracksMetadata(const Track_Ids &tracks);
   static void AddTrack(const QString &uri, const QDBusObjectPath &afterTrack, bool setAsCurrent);
   static void RemoveTrack(const QDBusObjectPath &trackId);
   static void GoTo(const QDBusObjectPath &trackId);
@@ -218,7 +218,7 @@ class Mpris2 : public QObject {
   static void EmitNotification(const QString &name, const QVariant &val);
   static void EmitNotification(const QString &name, const QVariant &val, const QString &mprisEntity);
 
-  static QString PlaybackStatus(Engine::State state) ;
+  static QString PlaybackStatus(Engine::State state);
 
   QString current_track_id() const;
 

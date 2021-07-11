@@ -70,7 +70,7 @@ const int FancyTabWidget::IconSize_LargeSidebar = 40;
 const int FancyTabWidget::IconSize_SmallSidebar = 32;
 const int FancyTabWidget::TabSize_LargeSidebarMinWidth = 70;
 
-class FancyTabBar: public QTabBar {  // clazy:exclude=missing-qobject-macro
+class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
 
  private:
   int mouseHoverTabIndex = -1;
@@ -345,13 +345,13 @@ class FancyTabBar: public QTabBar {  // clazy:exclude=missing-qobject-macro
 
 class TabData : public QObject {  // clazy:exclude=missing-qobject-macro
  public:
-  TabData(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label, const int idx, QWidget *parent) :
-  QObject(parent),
-  widget_view_(widget_view),
-  name_(name), icon_(icon),
-  label_(label),
-  index_(idx),
-  page_(new QWidget()) {
+  TabData(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label, const int idx, QWidget *parent)
+    : QObject(parent),
+      widget_view_(widget_view),
+      name_(name), icon_(icon),
+      label_(label),
+      index_(idx),
+      page_(new QWidget()) {
     // In order to achieve the same effect as the "Bottom Widget" of the old Nokia based FancyTabWidget a VBoxLayout is used on each page
     QVBoxLayout *layout = new QVBoxLayout(page_);
     layout->setSpacing(0);
@@ -646,7 +646,7 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
     // Shadow effect of the background
     QColor light(255, 255, 255, 80);
     p.setPen(light);
-    p.drawLine(backgroundRect.topRight() - QPoint(1, 0),  backgroundRect.bottomRight() - QPoint(1, 0));
+    p.drawLine(backgroundRect.topRight() - QPoint(1, 0), backgroundRect.bottomRight() - QPoint(1, 0));
     QColor dark(0, 0, 0, 90);
     p.setPen(dark);
     p.drawLine(backgroundRect.topLeft(), backgroundRect.bottomLeft());
@@ -672,7 +672,7 @@ void FancyTabWidget::SetMode(FancyTabWidget::Mode mode) {
 
   mode_ = mode;
 
-  if (mode == FancyTabWidget::Mode_Tabs ||  mode == FancyTabWidget::Mode_IconOnlyTabs) {
+  if (mode == FancyTabWidget::Mode_Tabs || mode == FancyTabWidget::Mode_IconOnlyTabs) {
     setTabPosition(QTabWidget::North);
   }
   else {
@@ -702,7 +702,7 @@ void FancyTabWidget::addMenuItem(QActionGroup *group, const QString &text, Mode 
 
   QAction *action = group->addAction(text);
   action->setCheckable(true);
-  QObject::connect(action, &QAction::triggered, [this, mode]() { SetMode(mode); } );
+  QObject::connect(action, &QAction::triggered, [this, mode]() { SetMode(mode); });
 
   if (mode == mode_) action->setChecked(true);
 

@@ -177,7 +177,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
       continue;
     }
     QJsonObject obj_release = value_release.toObject();
-    if (!obj_release.contains("id") || !obj_release.contains("artist-credit") ||  !obj_release.contains("title")) {
+    if (!obj_release.contains("id") || !obj_release.contains("artist-credit") || !obj_release.contains("title")) {
       Error("Invalid Json reply, releases array object is missing id, artist-credit or title.", obj_release);
       continue;
     }
@@ -197,7 +197,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
       }
       QJsonObject obj_artist = value_artist.toObject();
 
-      if (!obj_artist.contains("artist") ) {
+      if (!obj_artist.contains("artist")) {
         Error("Invalid Json reply, artist is missing.", obj_artist);
         continue;
       }
@@ -208,7 +208,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
       }
       QJsonObject obj_artist2 = value_artist2.toObject();
 
-      if (!obj_artist2.contains("name") ) {
+      if (!obj_artist2.contains("name")) {
         Error("Invalid Json reply, artist is missing name.", value_artist2);
         continue;
       }

@@ -31,7 +31,7 @@
 struct Directory {
   Directory() : id(-1) {}
 
-  bool operator ==(const Directory &other) const {
+  bool operator==(const Directory &other) const {
     return path == other.path && id == other.id;
   }
 
@@ -56,5 +56,5 @@ Q_DECLARE_METATYPE(Subdirectory)
 typedef QList<Subdirectory> SubdirectoryList;
 Q_DECLARE_METATYPE(SubdirectoryList)
 
-#endif // DIRECTORY_H
+#endif  // DIRECTORY_H
 

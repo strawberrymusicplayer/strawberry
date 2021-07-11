@@ -105,7 +105,7 @@ class Database : public QObject {
   QStringList SongsTables(QSqlDatabase &db, int schema_version) const;
   bool IntegrityCheck(const QSqlDatabase &db);
   void BackupFile(const QString &filename);
-  static bool OpenDatabase(const QString &filename, sqlite3 **connection) ;
+  static bool OpenDatabase(const QString &filename, sqlite3 **connection);
 
   Application *app_;
 

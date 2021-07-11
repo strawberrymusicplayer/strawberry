@@ -35,7 +35,7 @@ class QTimer;
 class QEvent;
 
 class StyleSheetLoader : public QObject {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit StyleSheetLoader(QObject *parent = nullptr);

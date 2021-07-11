@@ -144,7 +144,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  if (content_json.contains(QRegularExpression("<[^>]*>"))) { // Make sure it's not HTML code.
+  if (content_json.contains(QRegularExpression("<[^>]*>"))) {  // Make sure it's not HTML code.
     emit SearchFinished(id, results);
     return;
   }

@@ -40,8 +40,8 @@
 #include "tidalservice.h"
 #include "tidalbaserequest.h"
 
-TidalBaseRequest::TidalBaseRequest(TidalService *service, NetworkAccessManager *network, QObject *parent) :
-      QObject(parent),
+TidalBaseRequest::TidalBaseRequest(TidalService *service, NetworkAccessManager *network, QObject *parent)
+    : QObject(parent),
       service_(service),
       network_(network) {}
 
@@ -171,7 +171,7 @@ QJsonObject TidalBaseRequest::ExtractJsonObj(const QByteArray &data) {
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-     Error("Received empty Json object.", json_doc);
+    Error("Received empty Json object.", json_doc);
     return QJsonObject();
   }
 

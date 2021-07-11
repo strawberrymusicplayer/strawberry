@@ -136,13 +136,13 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
         }
       }
       else if (type == QXmlStreamReader::EndElement) {
-         if (name == "result") {
-           if (!result.lyrics.isEmpty()) {
-             result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
-             results << result;
-           }
-           result = LyricsSearchResult();
-         }
+        if (name == "result") {
+          if (!result.lyrics.isEmpty()) {
+            result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
+            results << result;
+          }
+          result = LyricsSearchResult();
+        }
       }
     }
   }

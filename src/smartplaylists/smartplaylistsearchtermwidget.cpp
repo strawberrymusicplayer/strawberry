@@ -155,9 +155,7 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
 
   // Show the correct value editor
   QWidget *page = nullptr;
-  SmartPlaylistSearchTerm::Operator op = static_cast<SmartPlaylistSearchTerm::Operator>(
-    ui_->op->itemData(ui_->op->currentIndex()).toInt()
-  );
+  SmartPlaylistSearchTerm::Operator op = static_cast<SmartPlaylistSearchTerm::Operator>(ui_->op->itemData(ui_->op->currentIndex()).toInt());
   switch (type) {
     case SmartPlaylistSearchTerm::Type_Time:
       page = ui_->page_time;
@@ -210,8 +208,7 @@ void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
   // Determine the currently selected operator
   SmartPlaylistSearchTerm::Operator op = static_cast<SmartPlaylistSearchTerm::Operator>(
     // This uses the operators’s index in the combobox to get its enum value
-    ui_->op->itemData(ui_->op->currentIndex()).toInt()
-  );
+    ui_->op->itemData(ui_->op->currentIndex()).toInt());
 
   // We need to change the page only in the following case
   if ((ui_->value_stack->currentWidget() == ui_->page_text) || (ui_->value_stack->currentWidget() == ui_->page_empty)) {
@@ -327,7 +324,8 @@ void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term)
     case SmartPlaylistSearchTerm::Type_Text:
       if (ui_->value_stack->currentWidget() == ui_->page_empty) {
         ui_->value_text->setText("");
-      } else {
+      }
+      else {
         ui_->value_text->setText(term.value_.toString());
       }
       break;

@@ -134,4 +134,4 @@ static const QMap<QString, IconProperties> iconmapper_ = {  // clazy:exclude=non
 
 };
 
-}  // namespace
+}  // namespace IconMapper

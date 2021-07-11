@@ -53,7 +53,7 @@ CoverFromURLDialog::~CoverFromURLDialog() {
 AlbumCoverImageResult CoverFromURLDialog::Exec() {
 
   // reset state
-  ui_->url->setText("");;
+  ui_->url->setText("");
   last_album_cover_ = AlbumCoverImageResult();
 
   QClipboard *clipboard = QApplication::clipboard();

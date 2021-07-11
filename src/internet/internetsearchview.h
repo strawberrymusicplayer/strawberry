@@ -87,7 +87,7 @@ class InternetSearchView : public QWidget {
 
   void LazyLoadAlbumCover(const QModelIndex &proxy_index);
 
-  protected:
+ protected:
   struct PendingState {
     PendingState() : orig_id_(-1) {}
     PendingState(int orig_id, const QStringList &tokens) : orig_id_(orig_id), tokens_(tokens) {}

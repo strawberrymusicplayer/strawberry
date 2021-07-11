@@ -220,7 +220,7 @@ quint64 FileSystemCapacity(const QString &path) {
 quint64 FileSystemFreeSpace(const QString &path) {
 
 #if defined(Q_OS_UNIX)
-  struct statvfs fs_info{};
+  struct statvfs fs_info {};
   if (statvfs(path.toLocal8Bit().constData(), &fs_info) == 0)
     return quint64(fs_info.f_bavail) * quint64(fs_info.f_bsize);
 #elif defined(Q_OS_WIN32)
@@ -447,11 +447,11 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
     messagebox.setTextFormat(Qt::RichText);
     int result = messagebox.exec();
     switch (result) {
-    case QMessageBox::Open:
-      break;
-    case QMessageBox::Cancel:
-    default:
-      return;
+      case QMessageBox::Open:
+        break;
+      case QMessageBox::Cancel:
+      default:
+        return;
     }
   }
 
@@ -526,7 +526,7 @@ void ConsumeCurrentElement(QXmlStreamReader *reader) {
   while (level != 0 && !reader->atEnd()) {
     switch (reader->readNext()) {
       case QXmlStreamReader::StartElement: ++level; break;
-      case QXmlStreamReader::EndElement:   --level; break;
+      case QXmlStreamReader::EndElement: --level; break;
       default: break;
     }
   }
@@ -735,17 +735,18 @@ QString CryptographicRandomString(const int len) {
 
 QString GetRandomString(const int len, const QString &UseCharacters) {
 
-   QString randstr;
-   for(int i = 0 ; i < len ; ++i) {
+  QString randstr;
+  for (int i = 0 ; i < len ; ++i) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-     const int index = QRandomGenerator::global()->bounded(0, UseCharacters.length());
+    const int index = QRandomGenerator::global()->bounded(0, UseCharacters.length());
 #else
-     const int index = qrand() % UseCharacters.length();
+    const int index = qrand() % UseCharacters.length();
 #endif
-     QChar nextchar = UseCharacters.at(index);
-     randstr.append(nextchar);
-   }
-   return randstr;
+    QChar nextchar = UseCharacters.at(index);
+    randstr.append(nextchar);
+  }
+
+  return randstr;
 
 }
 
@@ -916,7 +917,7 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
     value = song.PrettyRating();
   }
   else if (variable == "%newline%") {
-    return QString(newline); // No HTML escaping, return immediately.
+    return QString(newline);  // No HTML escaping, return immediately.
   }
 
   if (html_escaped) {

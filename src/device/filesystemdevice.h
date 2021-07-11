@@ -42,7 +42,7 @@ class DeviceManager;
 class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicStorage {
   Q_OBJECT
 
-public:
+ public:
   Q_INVOKABLE FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
   ~FilesystemDevice() override;
 
@@ -55,10 +55,10 @@ public:
   void Close() override;
   void ExitFinished();
 
-private:
+ private:
   CollectionWatcher *watcher_;
   QThread *watcher_thread_;
   QList<QObject*> wait_for_exit_;
 };
 
-#endif // FILESYSTEMDEVICE_H
+#endif  // FILESYSTEMDEVICE_H

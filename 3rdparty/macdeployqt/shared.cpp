@@ -293,7 +293,7 @@ FrameworkInfo parseOtoolLibraryLine(const QString &line, const QString &appBundl
     // Split the line into [Qt-path]/lib/qt[Module].framework/Versions/[Version]/
     QStringList parts = trimmed.split("/");
     while (part < parts.count()) {
-        const QString currentPart = parts.at(part).simplified() ;
+        const QString currentPart = parts.at(part).simplified();
         ++part;
         if (currentPart == "")
             continue;

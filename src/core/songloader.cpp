@@ -252,8 +252,7 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
       if (song.is_valid()) {
         songs_ << song;
       }
-    }
-    while (query.Next());
+    } while (query.Next());
 
     return Success;
   }
@@ -294,7 +293,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
     parser = playlist_parser_->ParserForExtension(fileinfo.suffix().toLower());
   }
 
-  if (parser) { // It's a playlist!
+  if (parser) {  // It's a playlist!
     qLog(Debug) << "Parsing using" << parser->name();
     LoadPlaylist(parser, filename);
     return Success;

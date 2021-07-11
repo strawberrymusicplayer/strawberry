@@ -35,9 +35,9 @@
 
 PlaylistListModel::PlaylistListModel(QObject *parent) : QStandardItemModel(parent), dropping_rows_(false) {
 
-  QObject::connect(this,&PlaylistListModel::dataChanged, this, &PlaylistListModel::RowsChanged);
-  QObject::connect(this,&PlaylistListModel::rowsAboutToBeRemoved, this, &PlaylistListModel::RowsAboutToBeRemoved);
-  QObject::connect(this,&PlaylistListModel::rowsInserted, this, &PlaylistListModel::RowsInserted);
+  QObject::connect(this, &PlaylistListModel::dataChanged, this, &PlaylistListModel::RowsChanged);
+  QObject::connect(this, &PlaylistListModel::rowsAboutToBeRemoved, this, &PlaylistListModel::RowsAboutToBeRemoved);
+  QObject::connect(this, &PlaylistListModel::rowsInserted, this, &PlaylistListModel::RowsInserted);
 
 }
 

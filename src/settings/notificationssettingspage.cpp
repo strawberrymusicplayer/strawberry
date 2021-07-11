@@ -153,7 +153,7 @@ void NotificationsSettingsPage::Load() {
         ui_->notifications_native->setChecked(true);
         break;
       }
-    // Fallthrough
+      // Fallthrough
 
     case OSDBase::Pretty:
       ui_->notifications_pretty->setChecked(true);
@@ -164,7 +164,7 @@ void NotificationsSettingsPage::Load() {
         ui_->notifications_tray->setChecked(true);
         break;
       }
-    // Fallthrough
+      // Fallthrough
 
     case OSDBase::Disabled:
     default:

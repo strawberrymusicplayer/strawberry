@@ -93,10 +93,10 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
     case FavoriteType_Artists:
       text = "artistIds";
       break;
-  case FavoriteType_Albums:
+    case FavoriteType_Albums:
       text = "albumIds";
       break;
-  case FavoriteType_Songs:
+    case FavoriteType_Songs:
       text = "trackIds";
       break;
   }
@@ -109,11 +109,11 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
         if (song.artist_id().isEmpty()) continue;
         id = song.artist_id();
         break;
-    case FavoriteType_Albums:
+      case FavoriteType_Albums:
         if (song.album_id().isEmpty()) continue;
         id = song.album_id();
         break;
-    case FavoriteType_Songs:
+      case FavoriteType_Songs:
         if (song.song_id().isEmpty()) continue;
         id = song.song_id();
         break;
@@ -175,10 +175,10 @@ void TidalFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
     case FavoriteType_Artists:
       emit ArtistsAdded(songs);
       break;
-  case FavoriteType_Albums:
+    case FavoriteType_Albums:
       emit AlbumsAdded(songs);
       break;
-  case FavoriteType_Songs:
+    case FavoriteType_Songs:
       emit SongsAdded(songs);
       break;
   }
@@ -210,11 +210,11 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
         if (song.artist_id().isEmpty()) continue;
         id = song.artist_id();
         break;
-    case FavoriteType_Albums:
+      case FavoriteType_Albums:
         if (song.album_id().isEmpty()) continue;
         id = song.album_id();
         break;
-    case FavoriteType_Songs:
+      case FavoriteType_Songs:
         if (song.song_id().isEmpty()) continue;
         id = song.song_id();
         break;
@@ -280,10 +280,10 @@ void TidalFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
     case FavoriteType_Artists:
       emit ArtistsRemoved(songs);
       break;
-  case FavoriteType_Albums:
+    case FavoriteType_Albums:
       emit AlbumsRemoved(songs);
       break;
-  case FavoriteType_Songs:
+    case FavoriteType_Songs:
       emit SongsRemoved(songs);
       break;
   }

@@ -638,7 +638,7 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
     return;
   }
 
-  if (!json_obj.contains("userId") || !json_obj.contains("sessionId") || !json_obj.contains("countryCode") ) {
+  if (!json_obj.contains("userId") || !json_obj.contains("sessionId") || !json_obj.contains("countryCode")) {
     LoginError("Authentication reply from server is missing userId, sessionId or countryCode", json_obj);
     return;
   }

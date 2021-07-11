@@ -62,7 +62,7 @@ bool InternetPlaylistItem::InitFromQuery(const SqlRow &query) {
 }
 
 QVariant InternetPlaylistItem::DatabaseValue(DatabaseColumn column) const {
-   return PlaylistItem::DatabaseValue(column);
+  return PlaylistItem::DatabaseValue(column);
 }
 
 void InternetPlaylistItem::InitMetadata() {

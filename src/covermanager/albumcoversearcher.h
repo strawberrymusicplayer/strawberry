@@ -52,7 +52,7 @@ class Application;
 class Ui_AlbumCoverSearcher;
 
 class SizeOverlayDelegate : public QStyledItemDelegate {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   static const int kMargin;

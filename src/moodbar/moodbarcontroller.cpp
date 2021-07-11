@@ -95,7 +95,7 @@ void MoodbarController::AsyncLoadComplete(MoodbarPipeline *pipeline, const QUrl 
     return;
   }
   // Did we stop the song?
-  switch(app_->player()->GetState()) {
+  switch (app_->player()->GetState()) {
     case Engine::Error:
     case Engine::Empty:
     case Engine::Idle:

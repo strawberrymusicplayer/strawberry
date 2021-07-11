@@ -57,7 +57,7 @@
 const char *GeniusLyricsProvider::kSettingsGroup = "GeniusLyrics";
 const char *GeniusLyricsProvider::kOAuthAuthorizeUrl = "https://api.genius.com/oauth/authorize";
 const char *GeniusLyricsProvider::kOAuthAccessTokenUrl = "https://api.genius.com/oauth/token";
-const char *GeniusLyricsProvider::kOAuthRedirectUrl = "http://localhost:63111/"; // Genius does not accept a random port number. This port must match the the URL of the ClientID.
+const char *GeniusLyricsProvider::kOAuthRedirectUrl = "http://localhost:63111/";  // Genius does not accept a random port number. This port must match the the URL of the ClientID.
 const char *GeniusLyricsProvider::kUrlSearch = "https://api.genius.com/search/";
 const char *GeniusLyricsProvider::kClientIDB64 = "RUNTNXU4U1VyMU1KUU5hdTZySEZteUxXY2hkanFiY3lfc2JjdXBpNG5WMU9SNUg4dTBZelEtZTZCdFg2dl91SQ==";
 const char *GeniusLyricsProvider::kClientSecretB64 = "VE9pMU9vUjNtTXZ3eFR3YVN0QVRyUjVoUlhVWDI1Ylp5X240eEt1M0ZkYlNwRG5JUnd0LXFFbHdGZkZkRWY2VzJ1S011UnQzM3c2Y3hqY0tVZ3NGN2c=";

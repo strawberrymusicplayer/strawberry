@@ -55,13 +55,13 @@ class CollectionBackend;
 class Player;
 
 class QueuedItemDelegate : public QStyledItemDelegate {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit QueuedItemDelegate(QObject *parent, int indicator_column = Playlist::Column_Title);
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
-  static void DrawBox(QPainter *painter, const QRect line_rect, const QFont &font, const QString &text, int width = -1, const float opacity = 1.0) ;
+  static void DrawBox(QPainter *painter, const QRect line_rect, const QFont &font, const QString &text, int width = -1, const float opacity = 1.0);
 
   int queue_indicator_size(const QModelIndex &idx) const;
 
@@ -124,7 +124,7 @@ class DateItemDelegate : public PlaylistDelegateBase {
 };
 
 class LastPlayedItemDelegate : public PlaylistDelegateBase {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit LastPlayedItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}

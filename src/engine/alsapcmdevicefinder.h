@@ -37,4 +37,4 @@ class AlsaPCMDeviceFinder : public DeviceFinder {
   Q_DISABLE_COPY(AlsaPCMDeviceFinder)
 };
 
-#endif // ALSAPCMDEVICEFINDER_H
+#endif  // ALSAPCMDEVICEFINDER_H

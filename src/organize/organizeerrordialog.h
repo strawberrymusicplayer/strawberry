@@ -49,7 +49,7 @@ class OrganizeErrorDialog : public QDialog {
   void Show(OperationType type, const SongList &songs_with_errors, const QStringList &log = QStringList());
   void Show(OperationType type, const QStringList &files_with_errors, const QStringList &log = QStringList());
 
-private:
+ private:
   Ui_OrganizeErrorDialog *ui_;
 };
 

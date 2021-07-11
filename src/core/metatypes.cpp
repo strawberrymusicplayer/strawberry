@@ -84,7 +84,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<QAbstractSocket::SocketState>();
   qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
   qRegisterMetaType<QNetworkCookie>("QNetworkCookie");
-  qRegisterMetaType<QList<QNetworkCookie> >("QList<QNetworkCookie>");
+  qRegisterMetaType<QList<QNetworkCookie>>("QList<QNetworkCookie>");
   qRegisterMetaType<QNetworkReply*>("QNetworkReply*");
   qRegisterMetaType<QNetworkReply**>("QNetworkReply**");
   qRegisterMetaType<QItemSelection>("QItemSelection");
@@ -99,7 +99,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<Subdirectory>("Subdirectory");
   qRegisterMetaType<SubdirectoryList>("SubdirectoryList");
   qRegisterMetaType<Song>("Song");
-  qRegisterMetaType<QList<Song> >("QList<Song>");
+  qRegisterMetaType<QList<Song>>("QList<Song>");
   qRegisterMetaType<SongList>("SongList");
   qRegisterMetaType<Engine::EngineType>("EngineType");
   qRegisterMetaType<Engine::SimpleMetaBundle>("Engine::SimpleMetaBundle");
@@ -113,14 +113,14 @@ void RegisterMetaTypes() {
 #endif
   qRegisterMetaType<PlaylistItemList>("PlaylistItemList");
   qRegisterMetaType<PlaylistItemPtr>("PlaylistItemPtr");
-  qRegisterMetaType<QList<PlaylistItemPtr> >("QList<PlaylistItemPtr>");
+  qRegisterMetaType<QList<PlaylistItemPtr>>("QList<PlaylistItemPtr>");
   qRegisterMetaType<PlaylistSequence::RepeatMode>("PlaylistSequence::RepeatMode");
   qRegisterMetaType<PlaylistSequence::ShuffleMode>("PlaylistSequence::ShuffleMode");
   qRegisterMetaType<AlbumCoverLoaderResult>("AlbumCoverLoaderResult");
   qRegisterMetaType<AlbumCoverLoaderResult::Type>("AlbumCoverLoaderResult::Type");
   qRegisterMetaType<CoverProviderSearchResult>("CoverProviderSearchResult");
   qRegisterMetaType<CoverSearchStatistics>("CoverSearchStatistics");
-  qRegisterMetaType<QList<CoverProviderSearchResult> >("QList<CoverProviderSearchResult>");
+  qRegisterMetaType<QList<CoverProviderSearchResult>>("QList<CoverProviderSearchResult>");
   qRegisterMetaType<CoverProviderSearchResults>("CoverProviderSearchResults");
   qRegisterMetaType<Equalizer::Params>("Equalizer::Params");
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)

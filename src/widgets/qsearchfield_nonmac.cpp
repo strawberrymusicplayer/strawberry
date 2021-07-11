@@ -180,7 +180,7 @@ void QSearchField::resizeEvent(QResizeEvent *resizeEvent) {
 
   QWidget::resizeEvent(resizeEvent);
   const int x = pimpl->lineEditFrameWidth();
-  const int y = (height() - pimpl->clearbutton_->height())/2;
+  const int y = (height() - pimpl->clearbutton_->height()) / 2;
   pimpl->clearbutton_->move(x, y);
 
 }

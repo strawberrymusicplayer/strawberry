@@ -35,7 +35,7 @@ class QIODevice;
 class QNetworkDiskCache;
 
 class ThreadSafeNetworkDiskCache : public QAbstractNetworkCache {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit ThreadSafeNetworkDiskCache(QObject *parent);

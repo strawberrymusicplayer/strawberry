@@ -185,7 +185,8 @@ void GroupedIconView::LayoutItems() {
     QPoint this_position(next_position);
     if (this_position.x() == 0) {
       this_position.setX(this_position.x() + item_indent_);
-    } else {
+    }
+    else {
       this_position.setX(this_position.x() + spacing());
     }
 

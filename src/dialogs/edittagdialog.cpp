@@ -514,7 +514,7 @@ bool EditTagDialog::DoesValueVary(const QModelIndexList &sel, const QString &id)
 
 bool EditTagDialog::IsValueModified(const QModelIndexList &sel, const QString &id) const {
 
-  return std::any_of(sel.begin(), sel.end(), [this, id](const QModelIndex &i){ return data_[i.row()].original_value(id) != data_[i.row()].current_value(id); });
+  return std::any_of(sel.begin(), sel.end(), [this, id](const QModelIndex &i) { return data_[i.row()].original_value(id) != data_[i.row()].current_value(id); });
 
 }
 
@@ -651,7 +651,7 @@ void EditTagDialog::SelectionChanged() {
   const bool enable_change_art = first_song.is_collection_song();
   ui_->tags_art_button->setEnabled(enable_change_art);
   if ((art_different && first_cover_action != UpdateCoverAction_New) || action_different) {
-    tags_cover_art_id_ = -1; // Cancels any pending art load.
+    tags_cover_art_id_ = -1;  // Cancels any pending art load.
     ui_->tags_art->clear();
     ui_->tags_art->setText(kArtDifferentHintText);
     album_cover_choice_controller_->show_cover_action()->setEnabled(false);

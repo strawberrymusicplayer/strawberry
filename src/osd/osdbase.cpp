@@ -183,8 +183,8 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
 }
 
 void OSDBase::SongChanged(const Song &song) {
-   playing_ = true;
-   song_playing_ = song;
+  playing_ = true;
+  song_playing_ = song;
 }
 
 void OSDBase::Paused() {

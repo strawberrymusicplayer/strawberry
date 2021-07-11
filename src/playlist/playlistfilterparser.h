@@ -72,7 +72,7 @@ class NopFilter : public FilterTree {
 //     col       ::= "title" | "artist" | ...
 class FilterParser {
  public:
-   explicit FilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols);
+  explicit FilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols);
 
   FilterTree *parse();
 
@@ -88,7 +88,7 @@ class FilterParser {
   FilterTree *parseSearchTerm();
 
   FilterTree *createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const;
-  static int parseTime(const QString &time_str) ;
+  static int parseTime(const QString &time_str);
 
   QString::const_iterator iter_;
   QString::const_iterator end_;

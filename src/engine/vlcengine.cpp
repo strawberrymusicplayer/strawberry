@@ -313,7 +313,7 @@ void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
     case libvlc_MediaPlayerEndReached:
       engine->state_ = Engine::Idle;
       emit engine->TrackEnded();
-      return; // Don't emit state changed here
+      return;  // Don't emit state changed here
   }
 
 }

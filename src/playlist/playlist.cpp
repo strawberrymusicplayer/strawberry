@@ -611,7 +611,7 @@ int Playlist::next_row(const bool ignore_repeat_track) const {
 
 int Playlist::previous_row(const bool ignore_repeat_track) const {
 
-  int prev_virtual_index = PreviousVirtualIndex(current_virtual_index_,ignore_repeat_track);
+  int prev_virtual_index = PreviousVirtualIndex(current_virtual_index_, ignore_repeat_track);
 
   if (prev_virtual_index < 0) {
     // We've gone off the beginning of the playlist.
@@ -624,7 +624,7 @@ int Playlist::previous_row(const bool ignore_repeat_track) const {
         break;
 
       default:
-        prev_virtual_index = PreviousVirtualIndex(virtual_items_.count(),ignore_repeat_track);
+        prev_virtual_index = PreviousVirtualIndex(virtual_items_.count(), ignore_repeat_track);
         break;
     }
   }
@@ -1736,7 +1736,7 @@ void Playlist::ClearStreamMetadata() {
   current_item()->ClearTemporaryMetadata();
   UpdateScrobblePoint();
 
-  emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount-1));
+  emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
 
 }
 

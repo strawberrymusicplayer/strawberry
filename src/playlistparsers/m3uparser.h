@@ -66,7 +66,7 @@ class M3UParser : public ParserBase {
     qint64 length;
   };
 
-  static bool ParseMetadata(const QString &line, Metadata *metadata) ;
+  static bool ParseMetadata(const QString &line, Metadata *metadata);
 
 };
 

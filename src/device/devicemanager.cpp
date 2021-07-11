@@ -80,7 +80,7 @@
 #  include "gpoddevice.h"
 #endif
 #ifdef HAVE_GIO
-#  include "giolister.h" // Needs to be last because of #undef signals.
+#  include "giolister.h"  // Needs to be last because of #undef signals.
 #endif
 
 const int DeviceManager::kDeviceIconSize = 32;

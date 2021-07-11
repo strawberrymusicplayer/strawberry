@@ -71,11 +71,11 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
-  const ParamList params = ParamList () << Param("format", "json")
-                                        << Param("client", kClientId)
-                                        << Param("duration", QString::number(duration_msec / kMsecPerSec))
-                                        << Param("meta", "recordingids+sources")
-                                        << Param("fingerprint", fingerprint);
+  const ParamList params = ParamList() << Param("format", "json")
+                                       << Param("client", kClientId)
+                                       << Param("duration", QString::number(duration_msec / kMsecPerSec))
+                                       << Param("meta", "recordingids+sources")
+                                       << Param("fingerprint", fingerprint);
 
   QUrlQuery url_query;
   url_query.setQueryItems(params);
@@ -113,8 +113,7 @@ void AcoustidClient::CancelAll() {
 namespace {
 // Struct used when extracting results in RequestFinished
 struct IdSource {
-  IdSource(const QString &id, const int source)
-    : id_(id), nb_sources_(source) {}
+  IdSource(const QString &id, const int source) : id_(id), nb_sources_(source) {}
 
   bool operator<(const IdSource &other) const {
     // We want the items with more sources to be at the beginning of the list

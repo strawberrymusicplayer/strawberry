@@ -80,7 +80,7 @@ void StandardItemIconLoader::RowsAboutToBeRemoved(const QModelIndex &parent, int
       it = pending_covers_.erase(it);  // clazy:exclude=strict-iterators
     }
     else {
-      ++ it;
+      ++it;
     }
   }
 

@@ -178,7 +178,7 @@ void SetLevels(const QString &levels) {
 
   if (!sClassLevels) return;
 
-  for (const QString& item : levels.split(',')) {
+  for (const QString &item : levels.split(',')) {
     const QStringList class_level = item.split(':');
 
     QString class_name;
@@ -224,7 +224,7 @@ static QString ParsePrettyFunction(const char *pretty_function) {
 
   const int space = class_name.lastIndexOf(' ');
   if (space != -1) {
-    class_name = class_name.mid(space+1);
+    class_name = class_name.mid(space + 1);
   }
 
   return class_name;
@@ -332,9 +332,9 @@ QString DemangleSymbol(const QString &symbol) {
 
 void DumpStackTrace() {
 #ifdef HAVE_BACKTRACE
-  void* callstack[128];
+  void *callstack[128];
   int callstack_size = backtrace(reinterpret_cast<void**>(&callstack), sizeof(callstack));
-  char** symbols = backtrace_symbols(reinterpret_cast<void**>(&callstack), callstack_size);
+  char **symbols = backtrace_symbols(reinterpret_cast<void**>(&callstack), callstack_size);
   // Start from 1 to skip ourself.
   for (int i = 1; i < callstack_size; ++i) {
     std::cerr << DemangleSymbol(QString::fromLatin1(symbols[i])).toStdString() << std::endl;
@@ -350,9 +350,9 @@ void DumpStackTrace() {
 // doesn't override any behavior that should be needed after return.
 #define qCreateLogger(line, pretty_function, category, level) logging::CreateLogger<LoggedDebug>(logging::Level_##level, logging::ParsePrettyFunction(pretty_function), line, category)
 
-QDebug CreateLoggerInfo(int line, const char *pretty_function, const char* category) { return qCreateLogger(line, pretty_function, category, Info); }
-QDebug CreateLoggerFatal(int line, const char *pretty_function, const char* category) { return qCreateLogger(line, pretty_function, category, Fatal); }
-QDebug CreateLoggerError(int line, const char *pretty_function, const char* category) { return qCreateLogger(line, pretty_function, category, Error); }
+QDebug CreateLoggerInfo(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Info); }
+QDebug CreateLoggerFatal(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Fatal); }
+QDebug CreateLoggerError(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Error); }
 
 #ifdef QT_NO_WARNING_OUTPUT
   QNoDebug CreateLoggerWarning(int, const char*, const char*) { return QNoDebug(); }
@@ -371,7 +371,7 @@ QDebug CreateLoggerError(int line, const char *pretty_function, const char* cate
 namespace {
 
 template <typename T>
-QString print_duration(T duration, const std::string& unit) {
+QString print_duration(T duration, const std::string &unit) {
   return QString("%1%2").arg(duration.count()).arg(unit.c_str());
 }
 

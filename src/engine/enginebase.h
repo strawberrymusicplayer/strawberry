@@ -241,7 +241,7 @@ struct SimpleMetaBundle {
   QString lyrics;
 };
 
-}  // namespace
+}  // namespace Engine
 
 Q_DECLARE_METATYPE(EngineBase::OutputDetails)
 

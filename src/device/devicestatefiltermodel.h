@@ -55,4 +55,4 @@ class DeviceStateFilterModel : public QSortFilterProxyModel {
   DeviceManager::State state_;
 };
 
-#endif // DEVICESTATEFILTERMODEL_H
+#endif  // DEVICESTATEFILTERMODEL_H

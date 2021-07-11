@@ -294,7 +294,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
       break;
     }
   }
-  if (!found) { // Output is invalid for this engine, reset to default output.
+  if (!found) {  // Output is invalid for this engine, reset to default output.
     output = engine()->DefaultOutput();
     device = (engine()->CustomDeviceSupport(output) ? QString() : QVariant());
     for (int i = 0; i < ui_->combobox_output->count(); ++i) {
@@ -492,7 +492,7 @@ void BackendSettingsPage::Save() {
 
 void BackendSettingsPage::Cancel() {
 
-  if (engine() && engine()->type() != enginetype_current_) { // Reset engine back to the original because user cancelled.
+  if (engine() && engine()->type() != enginetype_current_) {  // Reset engine back to the original because user cancelled.
     dialog()->app()->player()->CreateEngine(enginetype_current_);
     dialog()->app()->player()->Init();
   }

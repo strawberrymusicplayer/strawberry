@@ -139,7 +139,7 @@ void SmartPlaylistWizard::AddPlugin(SmartPlaylistWizardPlugin *plugin) {
   type_page_->layout()->addWidget(radio_button);
   type_page_->layout()->addWidget(description);
 
-  QObject::connect(radio_button, &QRadioButton::clicked, [this, index]() { TypeChanged(index); } );
+  QObject::connect(radio_button, &QRadioButton::clicked, [this, index]() { TypeChanged(index); });
 
   if (index == 0) {
     radio_button->setChecked(true);

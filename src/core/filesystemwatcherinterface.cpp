@@ -26,7 +26,7 @@
 #include "qtfslistener.h"
 
 #ifdef Q_OS_MACOS
-#include "macfslistener.h"
+#  include "macfslistener.h"
 #endif
 
 FileSystemWatcherInterface::FileSystemWatcherInterface(QObject *parent)

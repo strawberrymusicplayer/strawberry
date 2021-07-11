@@ -39,7 +39,7 @@ class QXmlStreamWriter;
 class CollectionBackendInterface;
 
 class WplParser : public XMLParser {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit WplParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
@@ -55,7 +55,7 @@ class WplParser : public XMLParser {
 
 private:
   void ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *songs, const bool collection_search = true) const;
-  static void WriteMeta(const QString &name, const QString &content, QXmlStreamWriter *writer) ;
+  static void WriteMeta(const QString &name, const QString &content, QXmlStreamWriter *writer);
 };
 
 #endif  // WPLPARSER_H

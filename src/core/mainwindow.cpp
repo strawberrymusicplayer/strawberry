@@ -609,8 +609,8 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(collection_view_->view(), &CollectionView::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(app_->collection_model(), &CollectionModel::TotalSongCountUpdated, collection_view_->view(), &CollectionView::TotalSongCountUpdated);
   QObject::connect(app_->collection_model(), &CollectionModel::TotalArtistCountUpdated, collection_view_->view(), &CollectionView::TotalArtistCountUpdated);
-  QObject::connect(app_->collection_model(), &CollectionModel::TotalAlbumCountUpdated, collection_view_->view(),  &CollectionView::TotalAlbumCountUpdated);
-  QObject::connect(app_->collection_model(), &CollectionModel::modelAboutToBeReset, collection_view_->view(),  &CollectionView::SaveFocus);
+  QObject::connect(app_->collection_model(), &CollectionModel::TotalAlbumCountUpdated, collection_view_->view(), &CollectionView::TotalAlbumCountUpdated);
+  QObject::connect(app_->collection_model(), &CollectionModel::modelAboutToBeReset, collection_view_->view(), &CollectionView::SaveFocus);
   QObject::connect(app_->collection_model(), &CollectionModel::modelReset, collection_view_->view(), &CollectionView::RestoreFocus);
 
   QObject::connect(app_->task_manager(), &TaskManager::PauseCollectionWatchers, app_->collection(), &SCollection::PauseWatcher);
@@ -917,7 +917,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   // Reload playlist settings, for BG and glowing
   ui_->playlist->view()->ReloadSettings();
 
-#ifdef Q_OS_MACOS // Always show the mainwindow on startup for macOS
+#ifdef Q_OS_MACOS  // Always show the mainwindow on startup for macOS
   show();
 #else
   QSettings s;
@@ -1198,7 +1198,7 @@ void MainWindow::Exit() {
         if (tray_icon_->IsSystemTrayAvailable()) {
           tray_icon_->setVisible(false);
         }
-        return; // Don't quit the application now: wait for the fadeout finished signal
+        return;  // Don't quit the application now: wait for the fadeout finished signal
       }
     }
     DoExit();
@@ -1427,7 +1427,7 @@ void MainWindow::LoadPlaybackStatus() {
   s.endGroup();
 
   s.beginGroup(Player::kSettingsGroup);
-  Engine::State playback_state = static_cast<Engine::State> (s.value("playback_state", Engine::Empty).toInt());
+  Engine::State playback_state = static_cast<Engine::State>(s.value("playback_state", Engine::Empty).toInt());
   s.endGroup();
 
   if (resume_playback && playback_state != Engine::Empty && playback_state != Engine::Idle) {
@@ -1444,7 +1444,7 @@ void MainWindow::ResumePlayback() {
 
   QSettings s;
   s.beginGroup(Player::kSettingsGroup);
-  Engine::State playback_state = static_cast<Engine::State> (s.value("playback_state", Engine::Empty).toInt());
+  Engine::State playback_state = static_cast<Engine::State>(s.value("playback_state", Engine::Empty).toInt());
   int playback_playlist = s.value("playback_playlist", -1).toInt();
   int playback_position = s.value("playback_position", 0).toInt();
   s.endGroup();
@@ -1589,9 +1589,15 @@ void MainWindow::SetHiddenInTray(const bool hidden) {
     hide();
   }
   else {
-    if (was_minimized_) { showMinimized(); }
-    else if (was_maximized_) showMaximized();
-    else show();
+    if (was_minimized_) {
+      showMinimized();
+    }
+    else if (was_maximized_) {
+      showMaximized();
+    }
+    else {
+      show();
+    }
   }
 
 }
@@ -1649,7 +1655,7 @@ void MainWindow::UpdateTrackSliderPosition() {
 void MainWindow::ApplyAddBehaviour(const BehaviourSettingsPage::AddBehaviour b, MimeData *mimedata) {
 
   switch (b) {
-      case BehaviourSettingsPage::AddBehaviour_Append:
+    case BehaviourSettingsPage::AddBehaviour_Append:
       mimedata->clear_first_ = false;
       mimedata->enqueue_now_ = false;
       break;
@@ -1942,7 +1948,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
     // Get the new item actions, and add them
     playlistitem_actions_ = item->actions();
     playlistitem_actions_separator_->setVisible(!playlistitem_actions_.isEmpty());
-    playlist_menu_->insertActions(playlistitem_actions_separator_,playlistitem_actions_);
+    playlist_menu_->insertActions(playlistitem_actions_separator_, playlistitem_actions_);
   }
 
   //if it isn't the first time we right click, we need to remove the menu previously created
@@ -2094,7 +2100,7 @@ void MainWindow::RenumberTracks() {
 void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx) {
 
   if (reply->is_successful() && idx.isValid()) {
-    app_->playlist_manager()->current()->ReloadItems(QList<int>()<< idx.row());
+    app_->playlist_manager()->current()->ReloadItems(QList<int>() << idx.row());
   }
   metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
@@ -2247,11 +2253,11 @@ void MainWindow::PlaylistClearCurrent() {
     messagebox.setTextFormat(Qt::RichText);
     int result = messagebox.exec();
     switch (result) {
-    case QMessageBox::Ok:
-      break;
-    case QMessageBox::Cancel:
-    default:
-      return;
+      case QMessageBox::Ok:
+        break;
+      case QMessageBox::Cancel:
+      default:
+        return;
     }
   }
 
@@ -2818,7 +2824,7 @@ void MainWindow::CheckFullRescanRevisions() {
   // if we have any...
   if (!reasons.isEmpty()) {
     QString message = tr("The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:") + "<ul>";
-    for(const QString &reason : reasons) {
+    for (const QString &reason : reasons) {
       message += ("<li>" + reason + "</li>");
     }
     message += "</ul>" + tr("Would you like to run a full rescan right now?");
@@ -3082,7 +3088,7 @@ void MainWindow::SetToggleScrobblingIcon(const bool value) {
     if (app_->playlist_manager()->active() && app_->playlist_manager()->active()->scrobbled())
       ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", 22));
     else
-      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", 22)); // TODO: Create a faint version of the icon
+      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", 22));  // TODO: Create a faint version of the icon
   }
   else {
     ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled", 22));

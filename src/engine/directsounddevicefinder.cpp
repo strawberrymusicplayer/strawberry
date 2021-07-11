@@ -20,7 +20,7 @@
  */
 
 #ifdef INTERFACE
-#undef INTERFACE
+#  undef INTERFACE
 #endif
 
 #include "config.h"

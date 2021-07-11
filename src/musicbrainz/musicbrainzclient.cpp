@@ -81,7 +81,7 @@ QByteArray MusicBrainzClient::GetReplyData(QNetworkReply *reply, QString &error)
   QByteArray data;
 
   if (reply->error() == QNetworkReply::NoError && reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-      data = reply->readAll();
+    data = reply->readAll();
   }
   else {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
@@ -220,7 +220,7 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, cons
     QXmlStreamReader reader(data);
     ResultList res;
     while (!reader.atEnd()) {
-    if (reader.readNext() == QXmlStreamReader::StartElement && reader.name().toString() == "recording") {
+      if (reader.readNext() == QXmlStreamReader::StartElement && reader.name().toString() == "recording") {
         ResultList tracks = ParseTrack(&reader);
         for (const Result &track : tracks) {
           if (!track.title_.isEmpty()) {

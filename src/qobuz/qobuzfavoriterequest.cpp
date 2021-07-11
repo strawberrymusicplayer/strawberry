@@ -38,8 +38,8 @@
 
 QobuzFavoriteRequest::QobuzFavoriteRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
-    service_(service),
-    network_(network) {}
+      service_(service),
+      network_(network) {}
 
 QobuzFavoriteRequest::~QobuzFavoriteRequest() {
 
@@ -87,10 +87,10 @@ void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
     case FavoriteType_Artists:
       text = "artist_ids";
       break;
-  case FavoriteType_Albums:
+    case FavoriteType_Albums:
       text = "album_ids";
       break;
-  case FavoriteType_Songs:
+    case FavoriteType_Songs:
       text = "track_ids";
       break;
   }
@@ -103,11 +103,11 @@ void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
         if (song.artist_id().isEmpty()) continue;
         id = song.artist_id();
         break;
-    case FavoriteType_Albums:
+      case FavoriteType_Albums:
         if (song.album_id().isEmpty()) continue;
         id = song.album_id();
         break;
-    case FavoriteType_Songs:
+      case FavoriteType_Songs:
         if (song.song_id().isEmpty()) continue;
         id = song.song_id();
         break;
@@ -158,10 +158,10 @@ void QobuzFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
     case FavoriteType_Artists:
       emit ArtistsAdded(songs);
       break;
-  case FavoriteType_Albums:
+    case FavoriteType_Albums:
       emit AlbumsAdded(songs);
       break;
-  case FavoriteType_Songs:
+    case FavoriteType_Songs:
       emit SongsAdded(songs);
       break;
   }
@@ -189,10 +189,10 @@ void QobuzFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
     case FavoriteType_Artists:
       text = "artist_ids";
       break;
-  case FavoriteType_Albums:
+    case FavoriteType_Albums:
       text = "album_ids";
       break;
-  case FavoriteType_Songs:
+    case FavoriteType_Songs:
       text = "track_ids";
       break;
   }
@@ -205,11 +205,11 @@ void QobuzFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
         if (song.artist_id().isEmpty()) continue;
         id = song.artist_id();
         break;
-    case FavoriteType_Albums:
+      case FavoriteType_Albums:
         if (song.album_id().isEmpty()) continue;
         id = song.album_id();
         break;
-    case FavoriteType_Songs:
+      case FavoriteType_Songs:
         if (song.song_id().isEmpty()) continue;
         id = song.song_id();
         break;
@@ -259,10 +259,10 @@ void QobuzFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
     case FavoriteType_Artists:
       emit ArtistsRemoved(songs);
       break;
-  case FavoriteType_Albums:
+    case FavoriteType_Albums:
       emit AlbumsRemoved(songs);
       break;
-  case FavoriteType_Songs:
+    case FavoriteType_Songs:
       emit SongsRemoved(songs);
       break;
   }

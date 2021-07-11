@@ -133,4 +133,4 @@ class AppearanceSettingsPage : public SettingsPage {
 
 };
 
-#endif // APPEARANCESETTINGSPAGE_H
+#endif  // APPEARANCESETTINGSPAGE_H

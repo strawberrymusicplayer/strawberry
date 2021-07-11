@@ -33,7 +33,7 @@
 #include "devicefinder.h"
 #include "alsapcmdevicefinder.h"
 
-AlsaPCMDeviceFinder::AlsaPCMDeviceFinder() : DeviceFinder("alsa", {"alsa","alsasink"}) {}
+AlsaPCMDeviceFinder::AlsaPCMDeviceFinder() : DeviceFinder("alsa", { "alsa","alsasink" }) {}
 
 QList<DeviceFinder::Device> AlsaPCMDeviceFinder::ListDevices() {
 

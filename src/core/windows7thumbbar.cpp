@@ -150,7 +150,7 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
 
     for (int i = 0 ; i < actions_.count() ; ++i) {
       if (buttons[i].hIcon) {
-        DestroyIcon (buttons[i].hIcon);
+        DestroyIcon(buttons[i].hIcon);
       }
     }
 

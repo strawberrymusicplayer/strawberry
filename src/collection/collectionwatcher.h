@@ -215,12 +215,12 @@ class CollectionWatcher : public QObject {
   int expire_unavailable_songs_days_;
 
   bool stop_requested_;
-  bool rescan_in_progress_; // True if RescanTracksNow() has been called and is working.
+  bool rescan_in_progress_;  // True if RescanTracksNow() has been called and is working.
 
   QMap<int, Directory> watched_dirs_;
   QTimer *rescan_timer_;
   QTimer *periodic_scan_timer_;
-  QMap<int, QStringList> rescan_queue_; // dir id -> list of subdirs to be scanned
+  QMap<int, QStringList> rescan_queue_;  // dir id -> list of subdirs to be scanned
   bool rescan_paused_;
 
   int total_watches_;
@@ -229,7 +229,7 @@ class CollectionWatcher : public QObject {
 
   static QStringList sValidImages;
 
-  SongList song_rescan_queue_; // Set by ui thread
+  SongList song_rescan_queue_;  // Set by UI thread
 
   qint64 last_scan_time_;
 

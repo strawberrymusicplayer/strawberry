@@ -85,4 +85,4 @@ class CoverProvider : public QObject {
 
 };
 
-#endif // COVERPROVIDER_H
+#endif  // COVERPROVIDER_H

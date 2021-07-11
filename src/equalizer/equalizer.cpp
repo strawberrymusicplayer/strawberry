@@ -208,7 +208,7 @@ void Equalizer::SavePreset() {
 
 QString Equalizer::SaveCurrentPreset() {
 
-  QString name = QInputDialog::getText(this, tr("Save preset"), tr("Name"), QLineEdit::Normal, tr(qPrintable(last_preset_)));;
+  QString name = QInputDialog::getText(this, tr("Save preset"), tr("Name"), QLineEdit::Normal, tr(qPrintable(last_preset_)));
   if (name.isEmpty())
     return QString();
 
@@ -374,7 +374,7 @@ Equalizer::Params::Params(int g0, int g1, int g2, int g3, int g4, int g5, int g6
   gain[9] = g9;
 }
 
-bool Equalizer::Params::operator ==(const Equalizer::Params &other) const {
+bool Equalizer::Params::operator==(const Equalizer::Params &other) const {
   if (preamp != other.preamp) return false;
   for (int i = 0; i < Equalizer::kBands; ++i) {
     if (gain[i] != other.gain[i]) return false;
@@ -382,7 +382,7 @@ bool Equalizer::Params::operator ==(const Equalizer::Params &other) const {
   return true;
 }
 
-bool Equalizer::Params::operator !=(const Equalizer::Params &other) const {
+bool Equalizer::Params::operator!=(const Equalizer::Params &other) const {
   return ! (*this == other);
 }
 

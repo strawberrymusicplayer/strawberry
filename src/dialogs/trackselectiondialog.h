@@ -80,7 +80,7 @@ class TrackSelectionDialog : public QDialog {
   };
 
   void AddDivider(const QString &text, QTreeWidget *parent) const;
-  static void AddSong(const Song &song, int result_index, QTreeWidget *parent) ;
+  static void AddSong(const Song &song, int result_index, QTreeWidget *parent);
 
   void SetLoading(const QString &message);
   static void SaveData(const QList<Data> &data);

@@ -477,7 +477,7 @@ void ContextView::NoSong() {
 
 void ContextView::UpdateFonts() {
 
-  for (QLabel *l: labels_play_all_) {
+  for (QLabel *l : labels_play_all_) {
     l->setStyleSheet(QString("font: %2pt \"%1\"; font-weight: regular;").arg(font_normal_).arg(font_size_normal_));
   }
   label_play_albums_->setStyleSheet(QString("background-color: #3DADE8; color: rgb(255, 255, 255); font: %1pt \"%2\"; font-weight: regular;").arg(font_size_normal_).arg(font_normal_));
@@ -649,7 +649,7 @@ void ContextView::UpdateSong(const Song &song) {
 
   if (action_show_data_->isChecked()) {
     if (song.filetype() != song_playing_.filetype()) label_filetype_->setText(song.TextForFiletype());
-    if (song.length_nanosec() != song_playing_.length_nanosec()){
+    if (song.length_nanosec() != song_playing_.length_nanosec()) {
       if (song.length_nanosec() <= 0) {
         label_length_title_->hide();
         label_length_->hide();
@@ -705,7 +705,7 @@ void ContextView::UpdateSong(const Song &song) {
 
 void ContextView::ResetSong() {
 
-  for (QLabel *l: labels_play_data_) {
+  for (QLabel *l : labels_play_data_) {
     l->clear();
   }
 

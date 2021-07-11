@@ -231,7 +231,7 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
     }
     QJsonObject json_obj = json_value.toObject();
     QJsonObject obj_album;
-    if (json_obj.contains("album") && json_obj["album"].isObject()) { // Song search, so extract the album.
+    if (json_obj.contains("album") && json_obj["album"].isObject()) {  // Song search, so extract the album.
       obj_album = json_obj["album"].toObject();
     }
     else {

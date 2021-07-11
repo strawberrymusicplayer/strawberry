@@ -1174,7 +1174,7 @@ void GstEnginePipeline::SetEqualizerParams(const int preamp, const QList<int> &b
 
 void GstEnginePipeline::UpdateEqualizer() {
 
- if (!equalizer_ || !equalizer_preamp_) return;
+  if (!equalizer_ || !equalizer_preamp_) return;
 
   // Update band gains
   for (int i = 0; i < kEqBandCount; ++i) {

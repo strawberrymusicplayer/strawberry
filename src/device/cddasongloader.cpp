@@ -83,7 +83,7 @@ void CddaSongLoader::LoadSongs() {
   if (!url_.isEmpty()) {
     g_object_set(cdda_, "device", g_strdup(url_.path().toLocal8Bit().constData()), nullptr);
   }
-  if (g_object_class_find_property (G_OBJECT_GET_CLASS (cdda_), "paranoia-mode")) {
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(cdda_), "paranoia-mode")) {
     g_object_set(cdda_, "paranoia-mode", 0, nullptr);
   }
 
@@ -144,9 +144,9 @@ void CddaSongLoader::LoadSongs() {
   gst_tag_register_musicbrainz_tags();
 
   GstElement *pipeline = gst_pipeline_new("pipeline");
-  GstElement *sink = gst_element_factory_make ("fakesink", nullptr);
-  gst_bin_add_many (GST_BIN (pipeline), cdda_, sink, nullptr);
-  gst_element_link (cdda_, sink);
+  GstElement *sink = gst_element_factory_make("fakesink", nullptr);
+  gst_bin_add_many(GST_BIN(pipeline), cdda_, sink, nullptr);
+  gst_element_link(cdda_, sink);
   gst_element_set_state(pipeline, GST_STATE_READY);
   gst_element_set_state(pipeline, GST_STATE_PAUSED);
 
@@ -168,7 +168,7 @@ void CddaSongLoader::LoadSongs() {
   // Handle TOC message: get tracks duration
   if (msg_toc) {
     GstToc *toc = nullptr;
-    gst_message_parse_toc (msg_toc, &toc, nullptr);
+    gst_message_parse_toc(msg_toc, &toc, nullptr);
     if (toc) {
       GList *entries = gst_toc_get_entries(toc);
       if (entries && static_cast<guint>(songs.size()) <= g_list_length(entries)) {
@@ -177,7 +177,7 @@ void CddaSongLoader::LoadSongs() {
           GstTocEntry *entry = static_cast<GstTocEntry*>(node->data);
           quint64 duration = 0;
           gint64 start = 0, stop = 0;
-          if (gst_toc_entry_get_start_stop_times (entry, &start, &stop)) duration = stop - start;
+          if (gst_toc_entry_get_start_stop_times(entry, &start, &stop)) duration = stop - start;
           songs[i++].set_length_nanosec(duration);
         }
       }

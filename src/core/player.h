@@ -140,7 +140,7 @@ class Player : public PlayerInterface {
   void Init();
 
   EngineBase *engine() const override { return engine_.get(); }
-  Engine::State GetState() const override{ return last_state_; }
+  Engine::State GetState() const override { return last_state_; }
   int GetVolume() const override;
 
   PlaylistItemPtr GetCurrentItem() const override { return current_item_; }

@@ -49,4 +49,4 @@ struct CoverSearchStatistics {
 
 };
 
-#endif // COVERSEARCHSTATISTICS_H
+#endif  // COVERSEARCHSTATISTICS_H

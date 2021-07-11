@@ -35,7 +35,7 @@ enum TrackChangeType {
 
 Q_DECLARE_FLAGS(TrackChangeFlags, TrackChangeType)
 
-}
+}  // namespace Engine
 
 typedef Engine::Base EngineBase;
 

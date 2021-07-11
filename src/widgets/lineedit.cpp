@@ -140,7 +140,7 @@ void ExtendedEditor::Paint(QPaintDevice *device) {
       p.setPen(widget_->palette().color(QPalette::Disabled, QPalette::Text));
       p.setFont(font);
 
-      QRect r(5, kBorder, device->width() - 10, device->height() - kBorder*2);
+      QRect r(5, kBorder, device->width() - 10, device->height() - kBorder * 2);
       p.drawText(r, Qt::AlignLeft | Qt::AlignVCenter, m.elidedText(hint_, Qt::ElideRight, r.width()));
     }
   }
@@ -219,9 +219,10 @@ void TextEdit::resizeEvent(QResizeEvent *e) {
 
 SpinBox::SpinBox(QWidget *parent)
   : QSpinBox(parent),
-    ExtendedEditor(this, 14, false)
-{
+    ExtendedEditor(this, 14, false) {
+
   QObject::connect(reset_button_, &QToolButton::clicked, this, &SpinBox::Reset);
+
 }
 
 void SpinBox::paintEvent(QPaintEvent *e) {

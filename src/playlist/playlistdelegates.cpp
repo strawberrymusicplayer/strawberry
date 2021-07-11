@@ -178,7 +178,7 @@ QString PlaylistDelegateBase::displayText(const QVariant &value, const QLocale&)
   QString text;
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  switch(value.metaType().id()) {
+  switch (value.metaType().id()) {
 #else
   switch (static_cast<QMetaType::Type>(value.type())) {
 #endif
@@ -536,7 +536,7 @@ QString RatingItemDelegate::displayText(const QVariant &value, const QLocale&) c
   if (value.isNull() || value.toDouble() <= 0) return QString();
 
   // Round to the nearest 0.5
-  const double rating = double(int(value.toDouble()  * RatingPainter::kStarCount * 2 + 0.5)) / 2;
+  const double rating = double(int(value.toDouble() * RatingPainter::kStarCount * 2 + 0.5)) / 2;
 
   return QString::number(rating, 'f', 1);
 

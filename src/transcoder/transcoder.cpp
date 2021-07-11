@@ -199,8 +199,8 @@ void Transcoder::JobState::PostFinished(const bool success) {
 
 Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
     : QObject(parent),
-    max_threads_(QThread::idealThreadCount()),
-    settings_postfix_(settings_postfix) {
+      max_threads_(QThread::idealThreadCount()),
+      settings_postfix_(settings_postfix) {
 
   if (JobFinishedEvent::sEventType == -1)
     JobFinishedEvent::sEventType = QEvent::registerEventType();
@@ -295,7 +295,7 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
     QString temp_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/transcoder";
     if (!QDir(temp_dir).exists()) QDir().mkpath(temp_dir);
     QString filename = fileinfo_input.completeBaseName() + "." + preset.extension_;
-    fileinfo_output.setFile(temp_dir + "/"  + filename);
+    fileinfo_output.setFile(temp_dir + "/" + filename);
   }
 
   // Never overwrite existing files

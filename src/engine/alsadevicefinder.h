@@ -37,4 +37,4 @@ class AlsaDeviceFinder : public DeviceFinder {
   Q_DISABLE_COPY(AlsaDeviceFinder)
 };
 
-#endif // ALSADEVICEFINDER_H
+#endif  // ALSADEVICEFINDER_H

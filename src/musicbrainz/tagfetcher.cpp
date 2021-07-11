@@ -58,7 +58,7 @@ void TagFetcher::StartFetch(const SongList &songs) {
   songs_ = songs;
 
   bool have_fingerprints = true;
-  if (std::any_of(songs.begin(), songs.end(), [](const Song &song){ return song.fingerprint().isEmpty(); })) {
+  if (std::any_of(songs.begin(), songs.end(), [](const Song &song) { return song.fingerprint().isEmpty(); })) {
     have_fingerprints = false;
   }
 

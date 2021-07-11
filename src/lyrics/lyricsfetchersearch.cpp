@@ -108,7 +108,7 @@ void LyricsFetcherSearch::ProviderSearchFinished(const quint64 id, const LyricsS
   std::stable_sort(results_.begin(), results_.end(), LyricsSearchResultCompareScore);
 
   if (!pending_requests_.isEmpty()) {
-    if (!results_.isEmpty() && higest_score >= kHighScore) { // Highest score, no need to wait for other providers.
+    if (!results_.isEmpty() && higest_score >= kHighScore) {  // Highest score, no need to wait for other providers.
       qLog(Debug) << "Got lyrics with high score from" << results_.last().provider << "for" << request_.artist << request_.title << "score" << results_.last().score << "finishing search.";
       TerminateSearch();
     }

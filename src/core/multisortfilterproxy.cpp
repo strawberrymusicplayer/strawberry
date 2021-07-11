@@ -56,7 +56,7 @@ bool MultiSortFilterProxy::lessThan(const QModelIndex &left, const QModelIndex &
 
 }
 
-template <typename T>
+template<typename T>
 static inline int DoCompare(T left, T right) {
 
   if (left < right) return -1;

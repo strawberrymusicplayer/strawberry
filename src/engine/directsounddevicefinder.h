@@ -46,4 +46,4 @@ class DirectSoundDeviceFinder : public DeviceFinder {
                                 LPVOID state_voidptr) __attribute__((stdcall));
 };
 
-#endif // DIRECTSOUNDDEVICEFINDER_H
+#endif  // DIRECTSOUNDDEVICEFINDER_H

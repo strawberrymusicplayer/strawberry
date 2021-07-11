@@ -59,6 +59,6 @@ inline QString AsMPRISDateTimeType(const qint64 time) {
   return time != -1 ? QDateTime::fromSecsSinceEpoch(time).toString(Qt::ISODate) : "";
 }
 
-} // namespace mpris
+}  // namespace mpris
 
 #endif  // MPRIS_COMMON_H

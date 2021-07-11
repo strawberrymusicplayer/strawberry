@@ -63,7 +63,7 @@
 
 // This is defined by one of the windows headers that is included by taglib.
 #ifdef RemoveDirectory
-#undef RemoveDirectory
+#  undef RemoveDirectory
 #endif
 
 using namespace std::chrono_literals;
@@ -580,7 +580,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       }
 
     }
-    else { // Search the DB by fingerprint.
+    else {  // Search the DB by fingerprint.
       QString fingerprint;
 #ifdef HAVE_SONGFINGERPRINTING
       if (song_tracking_) {
@@ -681,7 +681,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
     t->touched_subdirs << updated_subdir;
   }
 
-  if (updated_subdir.mtime == 0) { // Subdirectory deleted, mark it for removal from the watcher.
+  if (updated_subdir.mtime == 0) {  // Subdirectory deleted, mark it for removal from the watcher.
     t->deleted_subdirs << updated_subdir;
   }
 
@@ -1109,7 +1109,7 @@ void CollectionWatcher::RescanTracksNow() {
   stop_requested_ = false;
 
   // Currently we are too stupid to rescan one file at a time, so we'll just scan the full directories
-  QStringList scanned_dirs; // To avoid double scans
+  QStringList scanned_dirs;  // To avoid double scans
   while (!song_rescan_queue_.isEmpty()) {
     if (stop_requested_) break;
     Song song = song_rescan_queue_.takeFirst();

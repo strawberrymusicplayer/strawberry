@@ -43,4 +43,4 @@ class FilesystemMusicStorage : public virtual MusicStorage {
   Q_DISABLE_COPY(FilesystemMusicStorage)
 };
 
-#endif // FILESYSTEMMUSICSTORAGE_H
+#endif  // FILESYSTEMMUSICSTORAGE_H

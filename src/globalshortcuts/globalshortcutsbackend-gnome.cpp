@@ -86,7 +86,7 @@ void GlobalShortcutsBackendGnome::RegisterFinished(QDBusPendingCallWatcher *watc
   watcher->deleteLater();
 
   if (reply.type() == QDBusMessage::ErrorMessage) {
-    qLog(Warning) << "Failed to grab media keys" << reply.errorName() <<reply.errorMessage();
+    qLog(Warning) << "Failed to grab media keys" << reply.errorName() << reply.errorMessage();
     return;
   }
 

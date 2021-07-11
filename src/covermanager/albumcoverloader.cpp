@@ -516,7 +516,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cov
       QImage image_scaled;
       QImage image_thumbnail;
       if (task.options.scale_output_image_) image_scaled = ImageUtils::ScaleAndPad(image, task.options.scale_output_image_, task.options.pad_output_image_, task.options.desired_height_);
-      if (task.options.create_thumbnail_) image_thumbnail =  ImageUtils::CreateThumbnail(image, task.options.pad_thumbnail_image_, task.options.thumbnail_size_);
+      if (task.options.create_thumbnail_) image_thumbnail = ImageUtils::CreateThumbnail(image, task.options.pad_thumbnail_image_, task.options.thumbnail_size_);
       emit AlbumCoverLoaded(task.id, AlbumCoverLoaderResult(true, task.type, AlbumCoverImageResult(cover_url, mime_type, (task.options.get_image_data_ ? image_data : QByteArray()), image), image_scaled, image_thumbnail, task.art_updated));
       return;
     }
@@ -615,7 +615,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString &song_fi
 
   QFile file(cover_filename);
 
-  if (file.size() >= 209715200 || !file.open(QIODevice::ReadOnly)) { // Max 200 MB.
+  if (file.size() >= 209715200 || !file.open(QIODevice::ReadOnly)) {  // Max 200 MB.
     emit SaveEmbeddedCoverAsyncFinished(id, false, false);
     return;
   }
@@ -656,7 +656,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> &url
 
   QFile file(cover_filename);
 
-  if (file.size() >= 209715200 || !file.open(QIODevice::ReadOnly)) { // Max 200 MB.
+  if (file.size() >= 209715200 || !file.open(QIODevice::ReadOnly)) {  // Max 200 MB.
     emit SaveEmbeddedCoverAsyncFinished(id, false, false);
     return;
   }

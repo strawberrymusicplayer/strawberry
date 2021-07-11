@@ -149,7 +149,7 @@ void StretchHeaderView::ShowSection(int logical) {
   int visible_count = 0;
   for (int i = 0 ; i < count() ; ++i) {
     if (!isSectionHidden(i))
-      visible_count ++;
+      ++visible_count;
   }
 
   column_widths_[logical] = visible_count == 0 ? 1.0 : 1.0 / visible_count;

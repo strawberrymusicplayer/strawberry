@@ -77,7 +77,7 @@ class GioLister : public DeviceLister {
 
  private:
   struct DeviceInfo {
-    DeviceInfo() : drive_removable(false), filesystem_size(0),filesystem_free(0), invalid_enclosing_mount(false) {}
+    DeviceInfo() : drive_removable(false), filesystem_size(0), filesystem_free(0), invalid_enclosing_mount(false) {}
 
     QString unique_id() const;
     bool is_suitable() const;

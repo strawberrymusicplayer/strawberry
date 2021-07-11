@@ -68,7 +68,7 @@ class ReOrderItems;
 class RemoveItems;
 class ShuffleItems;
 class SortItems;
-}
+}  // namespace PlaylistUndoCommands
 
 typedef QMap<int, Qt::Alignment> ColumnAlignmentMap;
 Q_DECLARE_METATYPE(Qt::Alignment)

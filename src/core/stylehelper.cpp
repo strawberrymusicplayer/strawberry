@@ -52,8 +52,8 @@ namespace Utils {
 
 QColor StyleHelper::m_baseColor;
 QColor StyleHelper::m_requestedBaseColor;
-QColor StyleHelper::m_IconsBaseColor=0xffdcdcdc;
-QColor StyleHelper::m_IconsDisabledColor=0x88a0a0a0;
+QColor StyleHelper::m_IconsBaseColor = 0xffdcdcdc;
+QColor StyleHelper::m_IconsDisabledColor = 0x88a0a0a0;
 QColor StyleHelper::m_ProgressBarTitleColor = 0xffffffff;
 
 QColor StyleHelper::mergedColors(const QColor &colorA, const QColor &colorB, int factor) {
@@ -168,7 +168,7 @@ void StyleHelper::setBaseColor(const QColor &newcolor) {
 
   if (color.isValid() && color != m_baseColor) {
     m_baseColor = color;
-    for (QWidget* w : QApplication::topLevelWidgets()) {
+    for (QWidget *w : QApplication::topLevelWidgets()) {
       w->update();
     }
   }
@@ -324,8 +324,8 @@ void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter,
     pixmap.setDevicePixelRatio(devicePixelRatio);
     QPixmapCache::insert(pixmapName, pixmap);
   }
-  int xOffset = r.x() + (r.width() - size)/2;
-  int yOffset = r.y() + (r.height() - size)/2;
+  int xOffset = r.x() + (r.width() - size) / 2;
+  int yOffset = r.y() + (r.height() - size) / 2;
   painter->drawPixmap(xOffset, yOffset, pixmap);
 
 }
@@ -356,7 +356,7 @@ QPixmap StyleHelper::disabledSideBarIcon(const QPixmap &enabledicon) {
 
   QImage im = enabledicon.toImage().convertToFormat(QImage::Format_ARGB32);
 
-  for (int y=0; y<im.height(); ++y) {
+  for (int y = 0; y < im.height(); ++y) {
     auto scanLine = reinterpret_cast<QRgb*>(im.scanLine(y));
     for (int x=0; x<im.width(); ++x) {
       QRgb pixel = *scanLine;

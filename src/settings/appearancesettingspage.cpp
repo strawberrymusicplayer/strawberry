@@ -74,7 +74,7 @@ const char *AppearanceSettingsPage::kOpacityLevel = "opacity_level";
 const int AppearanceSettingsPage::kDefaultBlurRadius = 0;
 const int AppearanceSettingsPage::kDefaultOpacityLevel = 40;
 
-const char *AppearanceSettingsPage::kTabBarSystemColor= "tab_system_color";
+const char *AppearanceSettingsPage::kTabBarSystemColor = "tab_system_color";
 const char *AppearanceSettingsPage::kTabBarGradient = "tab_gradient";
 const char *AppearanceSettingsPage::kTabBarColor = "tab_color";
 
@@ -164,9 +164,9 @@ void AppearanceSettingsPage::Load() {
   // Keep in mind originals colors, in case the user clicks on Cancel, to be able to restore colors
   original_use_a_custom_color_set_ = s.value(kUseCustomColorSet, false).toBool();
 
-  original_foreground_color_  = s.value(kForegroundColor, p.color(QPalette::WindowText)).value<QColor>();
+  original_foreground_color_ = s.value(kForegroundColor, p.color(QPalette::WindowText)).value<QColor>();
   current_foreground_color_ = original_foreground_color_;
-  original_background_color_  = s.value(kBackgroundColor, p.color(QPalette::Window)).value<QColor>();
+  original_background_color_ = s.value(kBackgroundColor, p.color(QPalette::Window)).value<QColor>();
   current_background_color_ = original_background_color_;
 
   InitColorSelectorsColors();
@@ -289,7 +289,7 @@ void AppearanceSettingsPage::Save() {
   s.setValue(kBackgroundImageType, background_image_type_);
 
   if (background_image_type_ == BackgroundImageType_Custom)
-      s.setValue(kBackgroundImageFilename, background_image_filename_);
+    s.setValue(kBackgroundImageFilename, background_image_filename_);
   else
     s.remove(kBackgroundImageFilename);
 

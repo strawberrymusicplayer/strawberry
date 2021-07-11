@@ -212,7 +212,7 @@ void Organize::ProcessSomeFiles() {
         qLog(Debug) << "Transcoding to" << task.transcoded_filename_;
 
         // Start the transcoding - this will happen in the background and FileTranscoded() will get called when it's done.
-	// At that point the task will get re-added to the pending queue with the new filename.
+        // At that point the task will get re-added to the pending queue with the new filename.
         transcoder_->AddJob(task.song_info_.song_.url().toLocalFile(), preset, task.transcoded_filename_);
         transcoder_->Start();
         continue;

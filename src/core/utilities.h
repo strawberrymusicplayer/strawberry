@@ -148,7 +148,7 @@ QString MimeTypeFromData(const QByteArray &data);
 void enableBlurBehindWindow(QWindow *window, const QRegion &region);
 #endif
 
-}  // namespace
+}  // namespace Utilities
 
 class ScopedWCharArray {
  public:

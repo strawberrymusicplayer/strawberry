@@ -50,14 +50,14 @@ class CollectionBackendInterface : public QObject {
 
   struct Album {
     Album() {}
-    Album(const QString &_album_artist, const QString &_album, const QUrl &_art_automatic, const QUrl &_art_manual, const QList<QUrl> &_urls, const Song::FileType _filetype, const QString &_cue_path) :
-      album_artist(_album_artist),
-      album(_album),
-      art_automatic(_art_automatic),
-      art_manual(_art_manual),
-      urls(_urls),
-      filetype(_filetype),
-      cue_path(_cue_path) {}
+    Album(const QString &_album_artist, const QString &_album, const QUrl &_art_automatic, const QUrl &_art_manual, const QList<QUrl> &_urls, const Song::FileType _filetype, const QString &_cue_path)
+        : album_artist(_album_artist),
+          album(_album),
+          art_automatic(_art_automatic),
+          art_manual(_art_manual),
+          urls(_urls),
+          filetype(_filetype),
+          cue_path(_cue_path) {}
 
     QString album_artist;
     QString album;

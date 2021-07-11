@@ -101,9 +101,9 @@ const char *Mpris2::kServiceName = "org.mpris.MediaPlayer2.strawberry";
 const char *Mpris2::kFreedesktopPath = "org.freedesktop.DBus.Properties";
 
 Mpris2::Mpris2(Application *app, QObject *parent)
-  : QObject(parent),
-    app_(app),
-    app_name_(QCoreApplication::applicationName()) {
+    : QObject(parent),
+      app_(app),
+      app_name_(QCoreApplication::applicationName()) {
 
   new Mpris2Root(this);
   new Mpris2TrackList(this);
@@ -491,7 +491,7 @@ void Mpris2::SetPosition(const QDBusObjectPath &trackId, qint64 offset) {
   if (CanSeek() && trackId.path() == current_track_id() && offset >= 0) {
     offset *= kNsecPerUsec;
 
-    if(offset < app_->player()->GetCurrentItem()->Metadata().length_nanosec()) {
+    if (offset < app_->player()->GetCurrentItem()->Metadata().length_nanosec()) {
       app_->player()->SeekTo(offset / kNsecPerSec);
     }
   }

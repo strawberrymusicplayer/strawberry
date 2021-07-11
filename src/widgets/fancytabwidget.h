@@ -64,7 +64,7 @@ class FancyTabWidget : public QTabWidget {
   void SaveSettings(const QString &kSettingsGroup);
   void ReloadSettings();
 
-   // Values are persisted - only add to the end
+  //  Values are persisted - only add to the end
   enum Mode {
     Mode_None = 0,
     Mode_LargeSidebar,

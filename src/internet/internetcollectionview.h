@@ -110,7 +110,7 @@ class InternetCollectionView : public AutoExpandingTreeView {
  private:
   Application *app_;
   CollectionBackend *collection_backend_;
-  CollectionModel*collection_model_;
+  CollectionModel *collection_model_;
   CollectionFilterWidget *filter_;
   bool favorite_;
 

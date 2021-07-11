@@ -129,10 +129,9 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
         break;
       }
       // just ignore the rest of possible field types for now...
-    }
-    while (!(line = text_stream.readLine()).isNull());
+    } while (!(line = text_stream.readLine()).isNull());
 
-    if(line.isNull()) {
+    if (line.isNull()) {
       qLog(Warning) << "the .cue file from " << dir_path << " defines no tracks!";
       return ret;
     }
@@ -215,8 +214,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
       }
 
       // Just ignore the rest of possible field types for now...
-    }
-    while (!(line = text_stream.readLine()).isNull());
+    } while (!(line = text_stream.readLine()).isNull());
 
     // We didn't add the last song yet...
     if (valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type == kAudioTrackType)) {
@@ -246,7 +244,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
     }
 
     // The last TRACK for every FILE gets it's 'end' marker from the media file's length
-    if(i + 1 < entries.size() && entries.at(i).file == entries.at(i + 1).file) {
+    if (i + 1 < entries.size() && entries.at(i).file == entries.at(i + 1).file) {
       // incorrect indices?
       if (!UpdateSong(entry, entries.at(i + 1).index, &song)) {
         continue;
