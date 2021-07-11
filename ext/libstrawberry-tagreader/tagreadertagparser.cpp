@@ -60,7 +60,7 @@ bool TagReaderTagParser::IsMediaFile(const QString &filename) const {
     TagParser::AbortableProgressFeedback progress;
 
     taginfo.setPath(QFile::encodeName(filename).toStdString());
-    taginfo.open();
+    taginfo.open(true);
 
     taginfo.parseContainerFormat(diag, progress);
     if (progress.isAborted()) {
@@ -125,7 +125,7 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
     taginfo.setPath(QFile::encodeName(filename).toStdString());
 #endif
 
-    taginfo.open();
+    taginfo.open(true);
 
     taginfo.parseContainerFormat(diag, progress);
     if (progress.isAborted()) {
@@ -259,7 +259,7 @@ bool TagReaderTagParser::SaveFile(const QString &filename, const spb::tagreader:
 #else
     taginfo.setPath(QFile::encodeName(filename).toStdString());
 #endif
-    taginfo.open();
+    taginfo.open(false);
     taginfo.parseContainerFormat(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
