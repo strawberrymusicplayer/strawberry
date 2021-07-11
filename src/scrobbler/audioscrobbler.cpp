@@ -94,7 +94,9 @@ void AudioScrobbler::ReloadSettings() {
              << Song::Source_Stream
              << Song::Source_Tidal
              << Song::Source_Subsonic
-             << Song::Source_Qobuz;
+             << Song::Source_Qobuz
+             << Song::Source_SomaFM
+             << Song::Source_RadioParadise;
   }
   else {
     for (const QString &source : sources) {
