@@ -40,7 +40,7 @@ class RadioView : public AutoExpandingTreeView {
   ~RadioView();
 
   void setModel(RadioModel *model);
-  void showEvent(QShowEvent *e);
+  void showEvent(QShowEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
 
  signals:
