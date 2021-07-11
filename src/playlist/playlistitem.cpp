@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QtConcurrentRun>
 #include <QFuture>
 #include <QString>
@@ -39,19 +41,19 @@
 #include "internet/internetplaylistitem.h"
 #include "radios/radioplaylistitem.h"
 
-PlaylistItem *PlaylistItem::NewFromSource(const Song::Source source) {
+PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
 
   switch (source) {
     case Song::Source_Collection:
-      return new CollectionPlaylistItem();
+      return std::make_shared<CollectionPlaylistItem>();
     case Song::Source_Subsonic:
     case Song::Source_Tidal:
     case Song::Source_Qobuz:
+      return std::make_shared<InternetPlaylistItem>(source);
     case Song::Source_Stream:
-      return new InternetPlaylistItem(source);
     case Song::Source_RadioParadise:
     case Song::Source_SomaFM:
-      return new RadioPlaylistItem(source);
+      return std::make_shared<RadioPlaylistItem>(source);
     case Song::Source_LocalFile:
     case Song::Source_CDDA:
     case Song::Source_Device:
@@ -59,23 +61,23 @@ PlaylistItem *PlaylistItem::NewFromSource(const Song::Source source) {
       break;
   }
 
-  return new SongPlaylistItem(source);
+  return std::make_shared<SongPlaylistItem>(source);
 
 }
 
-PlaylistItem *PlaylistItem::NewFromSong(const Song &song) {
+PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
 
   switch (song.source()) {
     case Song::Source_Collection:
-      return new CollectionPlaylistItem(song);
+      return std::make_shared<CollectionPlaylistItem>(song);
     case Song::Source_Subsonic:
     case Song::Source_Tidal:
     case Song::Source_Qobuz:
+      return std::make_shared<InternetPlaylistItem>(song);
     case Song::Source_Stream:
-      return new InternetPlaylistItem(song);
     case Song::Source_RadioParadise:
     case Song::Source_SomaFM:
-      return new RadioPlaylistItem(song);
+      return std::make_shared<RadioPlaylistItem>(song);
     case Song::Source_LocalFile:
     case Song::Source_CDDA:
     case Song::Source_Device:
@@ -83,7 +85,7 @@ PlaylistItem *PlaylistItem::NewFromSong(const Song &song) {
       break;
   }
 
-  return new SongPlaylistItem(song);
+  return std::make_shared<SongPlaylistItem>(song);
 
 }
 

@@ -183,7 +183,7 @@ void Playlist::InsertSongItems(const SongList &songs, const int pos, const bool 
   PlaylistItemList items;
   items.reserve(songs.count());
   for (const Song &song : songs) {
-    items << PlaylistItemPtr(new T(song));
+    items << std::make_shared<T>(song);
   }
 
   InsertItems(items, pos, play_now, enqueue, enqueue_next);
@@ -1140,10 +1140,10 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos
   PlaylistItemList items;
   for (const Song &song : songs) {
     if (song.is_collection_song()) {
-      items << PlaylistItemPtr(new CollectionPlaylistItem(song));
+      items << std::make_shared<CollectionPlaylistItem>(song);
     }
     else {
-      items << PlaylistItemPtr(new SongPlaylistItem(song));
+      items << std::make_shared<SongPlaylistItem>(song);
     }
   }
   InsertItems(items, pos, play_now, enqueue, enqueue_next);
@@ -1195,12 +1195,12 @@ void Playlist::UpdateItems(SongList songs) {
       if (item->Metadata().url() == song.url() && (item->Metadata().filetype() == Song::FileType_Unknown || item->Metadata().filetype() == Song::FileType_Stream || item->Metadata().filetype() == Song::FileType_CDDA)) {
         PlaylistItemPtr new_item;
         if (song.is_collection_song()) {
-          new_item = PlaylistItemPtr(new CollectionPlaylistItem(song));
+          new_item = std::make_shared<CollectionPlaylistItem>(song);
           if (collection_items_by_id_.contains(song.id(), item)) collection_items_by_id_.remove(song.id(), item);
           collection_items_by_id_.insert(song.id(), new_item);
         }
         else {
-          new_item = PlaylistItemPtr(new SongPlaylistItem(song));
+          new_item = std::make_shared<SongPlaylistItem>(song);
         }
         items_[i] = new_item;
         emit dataChanged(index(i, 0), index(i, ColumnCount - 1));

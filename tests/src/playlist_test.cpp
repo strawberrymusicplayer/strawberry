@@ -480,7 +480,7 @@ TEST_F(PlaylistTest, CollectionIdMapSingle) {
   song.Init("title", "artist", "album", 123);
   song.set_id(1);
 
-  PlaylistItemPtr item(new CollectionPlaylistItem(song));
+  PlaylistItemPtr item(std::make_shared<CollectionPlaylistItem>(song));
   playlist_.InsertItems(PlaylistItemList() << item);
 
   EXPECT_EQ(0, playlist_.collection_items_by_id(-1).count());
@@ -501,7 +501,7 @@ TEST_F(PlaylistTest, CollectionIdMapInvalid) {
   invalid.Init("title", "artist", "album", 123);
   ASSERT_EQ(-1, invalid.id());
 
-  PlaylistItemPtr item(new CollectionPlaylistItem(invalid));
+  PlaylistItemPtr item(std::make_shared<CollectionPlaylistItem>(invalid));
   playlist_.InsertItems(PlaylistItemList() << item);
 
   EXPECT_EQ(0, playlist_.collection_items_by_id(-1).count());
@@ -521,9 +521,9 @@ TEST_F(PlaylistTest, CollectionIdMapMulti) {
   two.Init("title 2", "artist 2", "album 2", 123);
   two.set_id(2);
 
-  PlaylistItemPtr item_one(new CollectionPlaylistItem(one));
-  PlaylistItemPtr item_two(new CollectionPlaylistItem(two));
-  PlaylistItemPtr item_three(new CollectionPlaylistItem(one));
+  PlaylistItemPtr item_one(std::make_shared<CollectionPlaylistItem>(one));
+  PlaylistItemPtr item_two(std::make_shared<CollectionPlaylistItem>(two));
+  PlaylistItemPtr item_three(std::make_shared<CollectionPlaylistItem>(one));
   playlist_.InsertItems(PlaylistItemList() << item_one << item_two << item_three);
 
   EXPECT_EQ(2, playlist_.collection_items_by_id(1).count());

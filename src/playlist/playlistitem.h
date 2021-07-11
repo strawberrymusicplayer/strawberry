@@ -48,8 +48,8 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   explicit PlaylistItem(const Song::Source source) : should_skip_(false), source_(source) {}
   virtual ~PlaylistItem();
 
-  static PlaylistItem *NewFromSource(const Song::Source source);
-  static PlaylistItem *NewFromSong(const Song &song);
+  static std::shared_ptr<PlaylistItem> NewFromSource(const Song::Source source);
+  static std::shared_ptr<PlaylistItem> NewFromSong(const Song &song);
 
   enum Option {
     Default = 0x00,

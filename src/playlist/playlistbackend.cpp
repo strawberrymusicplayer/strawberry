@@ -304,7 +304,7 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::share
   for (const Song &from_list : song_list) {
     if (from_list.url().toEncoded() == song.url().toEncoded() && from_list.beginning_nanosec() == song.beginning_nanosec()) {
       // We found a matching section; replace the input item with a new one containing CUE metadata
-      return PlaylistItemPtr(new SongPlaylistItem(from_list));
+      return std::make_shared<SongPlaylistItem>(from_list);
     }
   }
 
