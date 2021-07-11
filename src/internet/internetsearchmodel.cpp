@@ -44,8 +44,7 @@ InternetSearchModel::InternetSearchModel(InternetService *service, QObject *pare
       proxy_(nullptr),
       use_pretty_covers_(true),
       artist_icon_(IconLoader::Load("folder-sound")),
-      album_icon_(IconLoader::Load("cdcase"))
-      {
+      album_icon_(IconLoader::Load("cdcase")) {
 
   group_by_[0] = CollectionModel::GroupBy_AlbumArtist;
   group_by_[1] = CollectionModel::GroupBy_AlbumDisc;
@@ -257,8 +256,11 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
 
   // Find a container for this level
   key->group_[level] = display_text + unique_tag;
-  QStandardItem *container = containers_[*key];
-  if (!container) {
+  QStandardItem *container = nullptr;
+  if (containers_.contains(*key)) {
+    container = containers_[*key];
+  }
+  else {
     container = new QStandardItem(display_text);
     container->setData(sort_text, CollectionModel::Role_SortText);
     container->setData(group_by_[level], CollectionModel::Role_ContainerType);
@@ -408,4 +410,3 @@ MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &
   return mime_data;
 
 }
-

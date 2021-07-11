@@ -318,9 +318,9 @@ bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &InternetSearchView::AddSelectedToPlaylist);
-    context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &InternetSearchView::LoadSelected);
-    context_actions_ << context_menu_->addAction( IconLoader::Load("document-new"), tr("Open in new playlist"), this, &InternetSearchView::OpenSelectedInNewPlaylist);
+    context_actions_ << context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &InternetSearchView::AddSelectedToPlaylist);
+    context_actions_ << context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &InternetSearchView::LoadSelected);
+    context_actions_ << context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &InternetSearchView::OpenSelectedInNewPlaylist);
 
     context_menu_->addSeparator();
     context_actions_ << context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &InternetSearchView::AddSelectedToPlaylistEnqueue);
