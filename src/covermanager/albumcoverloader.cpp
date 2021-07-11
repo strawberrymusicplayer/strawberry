@@ -381,7 +381,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
   }
 
   // For local files and streams initialize art if found.
-  if ((task->song.source() == Song::Source_LocalFile || task->song.source() == Song::Source_Stream) && !task->song.art_manual_is_valid() && !task->song.art_automatic_is_valid()) {
+  if ((task->song.source() == Song::Source_LocalFile || task->song.is_radio()) && !task->song.art_manual_is_valid() && !task->song.art_automatic_is_valid()) {
     switch (task->state) {
       case State_None:
         break;

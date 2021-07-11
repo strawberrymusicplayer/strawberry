@@ -375,13 +375,8 @@ double Song::rating() const { return d->rating_; }
 
 bool Song::is_collection_song() const { return d->source_ == Source_Collection; }
 bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.isEmpty() && !d->title_.isEmpty(); }
-bool Song::is_stream() const { return d->source_ == Source_Stream ||
-                                      d->source_ == Source_Tidal ||
-                                      d->source_ == Source_Subsonic ||
-                                      d->source_ == Source_Qobuz ||
-                                      d->source_ == Source_SomaFM ||
-                                      d->source_ == Source_RadioParadise;
-}
+bool Song::is_stream() const { return is_radio() || d->source_ == Source_Tidal || d->source_ == Source_Subsonic || d->source_ == Source_Qobuz; }
+bool Song::is_radio() const { return d->source_ == Source_Stream || d->source_ == Source_SomaFM || d->source_ == Source_RadioParadise; }
 bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
 bool Song::is_compilation() const { return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && !d->compilation_off_; }
 bool Song::stream_url_can_expire() const { return d->source_ == Song::Source_Tidal || d->source_ == Song::Source_Qobuz; }

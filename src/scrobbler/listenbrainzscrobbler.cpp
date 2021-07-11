@@ -642,7 +642,7 @@ void ListenBrainzScrobbler::CheckScrobblePrevSong() {
 
   quint64 duration = QDateTime::currentDateTime().toSecsSinceEpoch() - timestamp_;
 
-  if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.source() == Song::Source_Stream && duration > 30) {
+  if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.is_radio() && duration > 30) {
     Song song(song_playing_);
     song.set_length_nanosec(duration * kNsecPerSec);
     Scrobble(song);

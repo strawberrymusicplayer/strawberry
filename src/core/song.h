@@ -262,6 +262,7 @@ class Song {
 
   bool is_collection_song() const;
   bool is_stream() const;
+  bool is_radio() const;
   bool is_cdda() const;
   bool is_metadata_good() const;
   bool art_automatic_is_valid() const;
