@@ -426,9 +426,14 @@
   <tabstop>checkbox_source_collection</tabstop>
   <tabstop>checkbox_source_local</tabstop>
   <tabstop>checkbox_source_device</tabstop>
+  <tabstop>checkbox_source_cdda</tabstop>
+  <tabstop>checkbox_source_stream</tabstop>
+  <tabstop>checkbox_source_unknown</tabstop>
   <tabstop>checkbox_source_subsonic</tabstop>
   <tabstop>checkbox_source_tidal</tabstop>
   <tabstop>checkbox_source_qobuz</tabstop>
+  <tabstop>checkbox_source_somafm</tabstop>
+  <tabstop>checkbox_source_radioparadise</tabstop>
   <tabstop>checkbox_lastfm_enable</tabstop>
   <tabstop>checkbox_lastfm_https</tabstop>
   <tabstop>button_lastfm_login</tabstop>
