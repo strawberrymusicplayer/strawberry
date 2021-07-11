@@ -45,7 +45,9 @@ class TagReaderTest : public ::testing::Test {
  protected:
   static void SetUpTestCase() {
     // Return something from uninteresting mock functions.
+#if defined(USE_TAGLIB)
     testing::DefaultValue<TagLib::String>::Set("foobarbaz");
+#endif
   }
 
   static Song ReadSongFromFile(const QString& filename) {
