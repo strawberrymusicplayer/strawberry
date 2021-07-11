@@ -37,6 +37,7 @@
 #include "songplaylistitem.h"
 
 #include "internet/internetplaylistitem.h"
+#include "radios/radioplaylistitem.h"
 
 PlaylistItem *PlaylistItem::NewFromSource(const Song::Source source) {
 
@@ -46,10 +47,11 @@ PlaylistItem *PlaylistItem::NewFromSource(const Song::Source source) {
     case Song::Source_Subsonic:
     case Song::Source_Tidal:
     case Song::Source_Qobuz:
-    case Song::Source_RadioParadise:
-    case Song::Source_SomaFM:
     case Song::Source_Stream:
       return new InternetPlaylistItem(source);
+    case Song::Source_RadioParadise:
+    case Song::Source_SomaFM:
+      return new RadioPlaylistItem(source);
     case Song::Source_LocalFile:
     case Song::Source_CDDA:
     case Song::Source_Device:
@@ -69,10 +71,11 @@ PlaylistItem *PlaylistItem::NewFromSong(const Song &song) {
     case Song::Source_Subsonic:
     case Song::Source_Tidal:
     case Song::Source_Qobuz:
-    case Song::Source_RadioParadise:
-    case Song::Source_SomaFM:
     case Song::Source_Stream:
       return new InternetPlaylistItem(song);
+    case Song::Source_RadioParadise:
+    case Song::Source_SomaFM:
+      return new RadioPlaylistItem(song);
     case Song::Source_LocalFile:
     case Song::Source_CDDA:
     case Song::Source_Device:
