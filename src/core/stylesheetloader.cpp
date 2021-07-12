@@ -26,6 +26,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
+#include <QHash>
 #include <QTimer>
 #include <QIODevice>
 #include <QTextStream>
@@ -156,8 +157,8 @@ bool StyleSheetLoader::eventFilter(QObject *obj, QEvent *event) {
 
 void StyleSheetLoader::ResetCounters() {
 
-  for (QMap<QWidget*, StyleSheetData>::iterator i = styledata_.begin() ; i != styledata_.end() ; ++i) {
-    i.value().count_ = 0;
+  for (QHash<QWidget*, StyleSheetData>::iterator it = styledata_.begin(); it != styledata_.end(); ++it) {
+    it.value().count_ = 0;
   }
 
 }

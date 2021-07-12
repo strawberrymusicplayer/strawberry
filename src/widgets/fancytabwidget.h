@@ -26,7 +26,7 @@
 
 #include <QObject>
 #include <QTabWidget>
-#include <QMap>
+#include <QHash>
 #include <QString>
 #include <QIcon>
 #include <QPixmap>
@@ -109,7 +109,7 @@ class FancyTabWidget : public QTabWidget {
   Mode mode_;
   QWidget *bottom_widget_;
 
-  QMap<QWidget*, TabData*> tabs_;
+  QHash<QWidget*, TabData*> tabs_;
 
   bool bg_color_system_;
   bool bg_gradient_;

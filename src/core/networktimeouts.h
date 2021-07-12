@@ -25,7 +25,7 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QMap>
+#include <QHash>
 
 class QNetworkReply;
 class QTimerEvent;
@@ -47,7 +47,7 @@ class NetworkTimeouts : public QObject {
 
  private:
   int timeout_msec_;
-  QMap<QNetworkReply*, int> timers_;
+  QHash<QNetworkReply*, int> timers_;
 
 };
 

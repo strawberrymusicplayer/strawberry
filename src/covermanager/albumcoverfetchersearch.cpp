@@ -30,6 +30,7 @@
 #include <QList>
 #include <QMap>
 #include <QMultiMap>
+#include <QHash>
 #include <QString>
 #include <QUrl>
 #include <QImage>

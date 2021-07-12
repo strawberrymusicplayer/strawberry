@@ -37,7 +37,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QString>
-#include <QMap>
+#include <QHash>
 
 #include "singlecoreapplication.h"
 
@@ -100,7 +100,7 @@ class SingleCoreApplicationPrivate : public QObject {
   quint32 instanceNumber_;
   QString blockServerName_;
   SingleCoreApplication::Options options_;
-  QMap<QLocalSocket*, ConnectionInfo> connectionMap_;
+  QHash<QLocalSocket*, ConnectionInfo> connectionMap_;
 
  public slots:
   void slotConnectionEstablished();

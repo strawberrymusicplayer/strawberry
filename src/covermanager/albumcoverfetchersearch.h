@@ -29,6 +29,7 @@
 #include <QPair>
 #include <QMap>
 #include <QMultiMap>
+#include <QHash>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
@@ -102,7 +103,7 @@ class AlbumCoverFetcherSearch : public QObject {
   CoverProviderSearchResults results_;
 
   QMap<int, CoverProvider*> pending_requests_;
-  QMap<QNetworkReply*, CoverProviderSearchResult> pending_image_loads_;
+  QHash<QNetworkReply*, CoverProviderSearchResult> pending_image_loads_;
   NetworkTimeouts *image_load_timeout_;
 
   // QMap is sorted by key (score).

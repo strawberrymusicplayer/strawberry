@@ -26,7 +26,7 @@
 
 #include <QObject>
 #include <QPair>
-#include <QMap>
+#include <QHash>
 #include <QPalette>
 #include <QString>
 
@@ -65,7 +65,7 @@ class StyleSheetLoader : public QObject {
   void ResetCounters();
 
  private:
-  QMap<QWidget*, StyleSheetData> styledata_;
+  QHash<QWidget*, StyleSheetData> styledata_;
   QTimer *timer_reset_counter_;
 };
 

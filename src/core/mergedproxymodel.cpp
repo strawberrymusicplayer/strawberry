@@ -28,6 +28,7 @@
 #include <QMimeData>
 #include <QList>
 #include <QStringList>
+#include <QMap>
 #include <QtAlgorithms>
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>

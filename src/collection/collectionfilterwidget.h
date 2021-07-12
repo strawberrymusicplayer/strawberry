@@ -27,7 +27,7 @@
 
 #include <QWidget>
 #include <QObject>
-#include <QMap>
+#include <QHash>
 #include <QString>
 
 #include "collectionquery.h"
@@ -119,7 +119,7 @@ class CollectionFilterWidget : public QWidget {
   QMenu *group_by_menu_;
   QMenu *collection_menu_;
   QActionGroup *group_by_group_;
-  QMap<QAction*, int> filter_ages_;
+  QHash<QAction*, int> filter_ages_;
 
   QTimer *filter_delay_;
 

@@ -22,7 +22,7 @@
 #include "config.h"
 
 #include <QApplication>
-#include <QMap>
+#include <QHash>
 #include <QString>
 #include <QUrl>
 #include <QIcon>
@@ -140,7 +140,7 @@ class MacSystemTrayIconPrivate {
     }
   }
 
-  QMap<QAction*, NSMenuItem*> actions_;
+  QHash<QAction*, NSMenuItem*> actions_;
 
   NSMenu *dock_menu_;
   NSMenuItem *now_playing_;

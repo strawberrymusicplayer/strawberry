@@ -32,6 +32,7 @@
 #include <QTimer>
 #include <QList>
 #include <QMap>
+#include <QHash>
 #include <QVariant>
 #include <QString>
 #include <QIcon>
@@ -74,7 +75,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
 
  private:
   int mouseHoverTabIndex = -1;
-  QMap<QWidget*, QString> labelCache;
+  QHash<QWidget*, QString> labelCache;
   QMap<int, QWidget*> spacers;
 
  public:

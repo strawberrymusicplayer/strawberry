@@ -29,7 +29,7 @@
 #include <QMutex>
 #include <QPair>
 #include <QSet>
-#include <QMap>
+#include <QHash>
 #include <QMultiMap>
 #include <QQueue>
 #include <QByteArray>
@@ -150,7 +150,7 @@ class AlbumCoverLoader : public QObject {
   QMutex mutex_load_image_async_;
   QMutex mutex_save_image_async_;
   QQueue<Task> tasks_;
-  QMap<QNetworkReply*, Task> remote_tasks_;
+  QHash<QNetworkReply*, Task> remote_tasks_;
   quint64 load_image_async_id_;
   quint64 save_image_async_id_;
 
