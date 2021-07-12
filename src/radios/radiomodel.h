@@ -60,7 +60,7 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
   };
 
   // QAbstractItemModel
-  Qt::ItemFlags flags(const QModelIndex &index) const override;
+  Qt::ItemFlags flags(const QModelIndex &idx) const override;
   QVariant data(const QModelIndex &idx, int role) const override;
   QStringList mimeTypes() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
