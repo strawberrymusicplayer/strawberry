@@ -43,7 +43,7 @@ RadioService::RadioService(const Song::Source source, const QString &name, const
 QByteArray RadioService::ExtractData(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QString("Failed to retrieve data from %1: %2 (%3)").arg(name_).arg(reply->errorString()).arg(reply->error()));
+    Error(QString("Failed to retrieve data from %1: %2 (%3)").arg(name_, reply->errorString()).arg(reply->error()));
     if (reply->error() < 200) {
       return QByteArray();
     }
@@ -66,7 +66,7 @@ QJsonObject RadioService::ExtractJsonObj(const QByteArray &data) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    Error(QString("Failed to parse Json data from %1: %2").arg(name_).arg(json_error.errorString()));
+    Error(QString("Failed to parse Json data from %1: %2").arg(name_, json_error.errorString()));
     return QJsonObject();
   }
 
