@@ -61,7 +61,7 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
   std::unique_ptr<SongPlaylistItem> item_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
-INSTANTIATE_TEST_CASE_P(RealFiles, SongPlaylistItemTest, testing::Values(  // clazy:exclude=function-args-by-value,clazy-non-pod-global-static
+INSTANTIATE_TEST_SUITE_P(RealFiles, SongPlaylistItemTest, testing::Values(  // clazy:exclude=function-args-by-value,clazy-non-pod-global-static
     "normalfile.flac",
     "file with spaces.flac",
     "file with # hash.flac",
