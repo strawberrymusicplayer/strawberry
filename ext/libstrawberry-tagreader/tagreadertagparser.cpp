@@ -260,11 +260,19 @@ bool TagReaderTagParser::SaveFile(const QString &filename, const spb::tagreader:
     taginfo.setPath(QFile::encodeName(filename).toStdString());
 #endif
     taginfo.open(false);
+
     taginfo.parseContainerFormat(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
       return false;
     }
+
+    taginfo.parseTracks(diag, progress);
+    if (progress.isAborted()) {
+      taginfo.close();
+      return false;
+    }
+
     taginfo.parseTags(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
