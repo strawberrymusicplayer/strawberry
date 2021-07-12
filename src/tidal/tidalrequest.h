@@ -138,7 +138,7 @@ class TidalRequest : public TidalBaseRequest {
   QString ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested = QString(), const QString &album_id_requested = QString(), const QString &album_artist = QString(), const QString &album_album = QString(), const bool album_explicit = false);
 
   void GetAlbumCovers();
-  void AddAlbumCoverRequest(Song &song);
+  void AddAlbumCoverRequest(const Song &song);
   void FlushAlbumCoverRequests();
   void AlbumCoverFinishCheck();
 

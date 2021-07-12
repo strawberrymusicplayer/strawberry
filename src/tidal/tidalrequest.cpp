@@ -1092,7 +1092,8 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
 
 void TidalRequest::GetAlbumCovers() {
 
-  for (Song &song : songs_) {
+  const SongList songs = songs_.values();
+  for (const Song &song : songs) {
     AddAlbumCoverRequest(song);
   }
   FlushAlbumCoverRequests();
@@ -1104,7 +1105,7 @@ void TidalRequest::GetAlbumCovers() {
 
 }
 
-void TidalRequest::AddAlbumCoverRequest(Song &song) {
+void TidalRequest::AddAlbumCoverRequest(const Song &song) {
 
   if (album_covers_requests_sent_.contains(song.album_id())) {
     album_covers_requests_sent_.insert(song.album_id(), song.song_id());
