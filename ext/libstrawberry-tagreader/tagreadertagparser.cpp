@@ -296,6 +296,8 @@ bool TagReaderTagParser::SaveFile(const QString &filename, const spb::tagreader:
       tag->setValue(TagParser::KnownField::Lyrics, TagParser::TagValue(song.lyrics(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
       tag->setValue(TagParser::KnownField::TrackPosition, TagParser::TagValue(song.track()));
       tag->setValue(TagParser::KnownField::DiskPosition, TagParser::TagValue(song.disc()));
+      tag->setValue(TagParser::KnownField::ReleaseDate, TagParser::TagValue(song.year()));
+      tag->setValue(TagParser::KnownField::RecordDate, TagParser::TagValue(song.originalyear()));
     }
     taginfo.applyChanges(diag, progress);
     taginfo.close();
