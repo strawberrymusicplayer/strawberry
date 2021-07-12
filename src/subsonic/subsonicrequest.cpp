@@ -678,7 +678,8 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
 
 void SubsonicRequest::GetAlbumCovers() {
 
-  for (const Song &song : songs_) {
+  const SongList songs = songs_.values();
+  for (const Song &song : songs) {
     if (!song.art_automatic().isEmpty()) AddAlbumCoverRequest(song);
   }
   FlushAlbumCoverRequests();

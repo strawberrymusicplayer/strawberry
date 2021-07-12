@@ -109,7 +109,8 @@ void RadioServices::RefreshChannels() {
   model_->Reset();
   backend_->DeleteChannelsAsync();
 
-  for (RadioService *service : services_) {
+  QList<RadioService*> services = services_.values();
+  for (RadioService *service : services) {
     service->GetChannels();
   }
 
