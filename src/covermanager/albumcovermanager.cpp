@@ -228,7 +228,7 @@ void AlbumCoverManager::Init() {
     restoreGeometry(s.value("geometry").toByteArray());
   }
 
-  if (!s.contains("splitter_state") || (s.contains("splitter_state") && !ui_->splitter->restoreState(s.value("splitter_state").toByteArray()))) {
+  if (!s.contains("splitter_state") || !ui_->splitter->restoreState(s.value("splitter_state").toByteArray())) {
     // Sensible default size for the artists view
     ui_->splitter->setSizes(QList<int>() << 200 << width() - 200);
   }
