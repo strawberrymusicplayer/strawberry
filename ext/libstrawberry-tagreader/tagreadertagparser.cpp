@@ -215,8 +215,8 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
       song->set_grouping(tag->value(TagParser::KnownField::Grouping).toString(TagParser::TagTextEncoding::Utf8));
       song->set_comment(tag->value(TagParser::KnownField::Comment).toString(TagParser::TagTextEncoding::Utf8));
       song->set_lyrics(tag->value(TagParser::KnownField::Lyrics).toString(TagParser::TagTextEncoding::Utf8));
-      song->set_year(tag->value(TagParser::KnownField::ReleaseDate).toInteger());
-      song->set_originalyear(tag->value(TagParser::KnownField::RecordDate).toInteger());
+      song->set_year(tag->value(TagParser::KnownField::RecordDate).toInteger());
+      song->set_originalyear(tag->value(TagParser::KnownField::ReleaseDate).toInteger());
       song->set_track(tag->value(TagParser::KnownField::TrackPosition).toInteger());
       song->set_disc(tag->value(TagParser::KnownField::DiskPosition).toInteger());
       if (!tag->value(TagParser::KnownField::Cover).empty() && tag->value(TagParser::KnownField::Cover).dataSize() > 0) {
@@ -296,8 +296,8 @@ bool TagReaderTagParser::SaveFile(const QString &filename, const spb::tagreader:
       tag->setValue(TagParser::KnownField::Lyrics, TagParser::TagValue(song.lyrics(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
       tag->setValue(TagParser::KnownField::TrackPosition, TagParser::TagValue(song.track()));
       tag->setValue(TagParser::KnownField::DiskPosition, TagParser::TagValue(song.disc()));
-      tag->setValue(TagParser::KnownField::ReleaseDate, TagParser::TagValue(song.year()));
-      tag->setValue(TagParser::KnownField::RecordDate, TagParser::TagValue(song.originalyear()));
+      tag->setValue(TagParser::KnownField::RecordDate, TagParser::TagValue(song.year()));
+      tag->setValue(TagParser::KnownField::ReleaseDate, TagParser::TagValue(song.originalyear()));
     }
     taginfo.applyChanges(diag, progress);
     taginfo.close();
