@@ -163,7 +163,7 @@ void RadioModel::Reset() {
 void RadioModel::AddChannels(const RadioChannelList &channels) {
 
   for (const RadioChannel &channel : channels) {
-    RadioItem *container = root_;
+    RadioItem *container = nullptr;
     if (container_nodes_.contains(channel.source)) {
       container = container_nodes_[channel.source];
     }
