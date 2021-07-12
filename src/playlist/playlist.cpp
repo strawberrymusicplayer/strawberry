@@ -1165,11 +1165,9 @@ void Playlist::InsertInternetItems(InternetService *service, const SongList &son
 void Playlist::InsertRadioItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
   PlaylistItemList playlist_items;
-  QList<QUrl> song_urls;
   playlist_items.reserve(songs.count());
   for (const Song &song : songs) {
     playlist_items << std::make_shared<RadioPlaylistItem>(song);
-    song_urls << song.url();
   }
 
   InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
