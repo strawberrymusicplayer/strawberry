@@ -127,7 +127,7 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
     LyricsSearchResult result;
     result.artist = json_obj["artist"].toString();
     result.title = json_obj["title"].toString();
-    if (result.artist.toLower() != artist.toLower() && result.title.toLower() != title.toLower()) continue;
+    if (result.artist.compare(artist, Qt::CaseInsensitive) != 0 && result.title.compare(title, Qt::CaseInsensitive) != 0) continue;
     result.lyrics = json_obj["lyrics"].toString();
     if (result.lyrics.isEmpty() || result.lyrics.length() > kMaxLength || result.lyrics == "error") continue;
     result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);

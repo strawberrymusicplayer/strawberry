@@ -249,7 +249,7 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
     fileinfo.setFile(save_filename);
   }
 
-  if (result.is_jpeg() && fileinfo.completeSuffix().toLower() == "jpg") {
+  if (result.is_jpeg() && fileinfo.completeSuffix().compare("jpg") == 0) {
     QFile file(save_filename);
     if (file.open(QIODevice::WriteOnly)) {
       file.write(result.image_data);

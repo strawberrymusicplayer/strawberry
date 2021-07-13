@@ -296,7 +296,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
       if (title_splitted.count() == 2) {
         QString artist = title_splitted.first();
         title = title_splitted.last();
-        if (artist.toLower() != search->artist.toLower() && title.toLower() != search->album.toLower()) continue;
+        if (artist.compare(search->artist, Qt::CaseInsensitive) != 0 && title.compare(search->album, Qt::CaseInsensitive) != 0) continue;
       }
     }
 

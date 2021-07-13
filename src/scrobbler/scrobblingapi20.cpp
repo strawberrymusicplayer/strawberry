@@ -474,11 +474,13 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
     << Param("artist", prefer_albumartist_ && song.effective_albumartist() != Song::kVariousArtists ? song.effective_albumartist() : song.artist())
     << Param("track", title);
 
-  if (!album.isEmpty())
+  if (!album.isEmpty()) {
     params << Param("album", album);
+  }
 
-  if (!prefer_albumartist_ && !song.albumartist().isEmpty() && song.albumartist().toLower() != Song::kVariousArtists)
+  if (!prefer_albumartist_ && !song.albumartist().isEmpty() && song.albumartist().compare(Song::kVariousArtists, Qt::CaseInsensitive) != 0) {
     params << Param("albumArtist", song.albumartist());
+  }
 
   QNetworkReply *reply = CreateRequest(params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { UpdateNowPlayingRequestFinished(reply); });
@@ -592,12 +594,15 @@ void ScrobblingAPI20::Submit() {
     params << Param(QString("%1[%2]").arg("track").arg(i), item->song_);
     params << Param(QString("%1[%2]").arg("timestamp").arg(i), QString::number(item->timestamp_));
     params << Param(QString("%1[%2]").arg("duration").arg(i), QString::number(item->duration_ / kNsecPerSec));
-    if (!item->album_.isEmpty())
+    if (!item->album_.isEmpty()) {
       params << Param(QString("%1[%2]").arg("album").arg(i), item->album_);
-    if (!prefer_albumartist_ && !item->albumartist_.isEmpty() && item->albumartist_.toLower() != Song::kVariousArtists)
+    }
+    if (!prefer_albumartist_ && !item->albumartist_.isEmpty() && item->albumartist_.compare(Song::kVariousArtists, Qt::CaseInsensitive) != 0) {
       params << Param(QString("%1[%2]").arg("albumArtist").arg(i), item->albumartist_);
-    if (item->track_ > 0)
+    }
+    if (item->track_ > 0) {
       params << Param(QString("%1[%2]").arg("trackNumber").arg(i), QString::number(item->track_));
+    }
     ++i;
     if (i >= kScrobblesPerRequest) break;
   }
@@ -790,12 +795,15 @@ void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
     << Param("timestamp", QString::number(item->timestamp_))
     << Param("duration", QString::number(item->duration_ / kNsecPerSec));
 
-  if (!item->album_.isEmpty())
+  if (!item->album_.isEmpty()) {
     params << Param("album", item->album_);
-  if (!prefer_albumartist_ && !item->albumartist_.isEmpty() && item->albumartist_.toLower() != Song::kVariousArtists)
+  }
+  if (!prefer_albumartist_ && !item->albumartist_.isEmpty() && item->albumartist_.compare(Song::kVariousArtists, Qt::CaseInsensitive) != 0) {
     params << Param("albumArtist", item->albumartist_);
-  if (item->track_ > 0)
+  }
+  if (item->track_ > 0) {
     params << Param("trackNumber", QString::number(item->track_));
+  }
 
   QNetworkReply *reply = CreateRequest(params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, item]() { SingleScrobbleRequestFinished(reply, item->timestamp_); });
@@ -945,7 +953,7 @@ void ScrobblingAPI20::Love() {
   if (!song_playing_.album().isEmpty())
     params << Param("album", song_playing_.album());
 
-  if (!prefer_albumartist_ && !song_playing_.albumartist().isEmpty() && song_playing_.albumartist().toLower() != Song::kVariousArtists)
+  if (!prefer_albumartist_ && !song_playing_.albumartist().isEmpty() && song_playing_.albumartist().compare(Song::kVariousArtists, Qt::CaseInsensitive) != 0)
     params << Param("albumArtist", song_playing_.albumartist());
 
   QNetworkReply *reply = CreateRequest(params);

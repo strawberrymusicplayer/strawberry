@@ -58,7 +58,7 @@ void LyricsFetcherSearch::TerminateSearch() {
 void LyricsFetcherSearch::Start(LyricsProviders *lyrics_providers) {
 
   // Ignore Radio Paradise "commercial" break.
-  if (request_.artist.toLower() == "commercial-free" && request_.title.toLower() == "listener-supported") {
+  if (request_.artist.compare("commercial-free", Qt::CaseInsensitive) == 0 && request_.title.compare("listener-supported", Qt::CaseInsensitive) == 0) {
     TerminateSearch();
     return;
   }
@@ -88,16 +88,16 @@ void LyricsFetcherSearch::ProviderSearchFinished(const quint64 id, const LyricsS
   for (int i = 0 ; i < results_copy.count() ; ++i) {
     results_copy[i].provider = provider->name();
     results_copy[i].score = 0.0;
-    if (results_copy[i].artist.toLower() == request_.artist.toLower()) {
+    if (results_copy[i].artist.compare(request_.artist, Qt::CaseInsensitive) == 0) {
       results_copy[i].score += 0.5;
     }
-    if (results_copy[i].album.toLower() == request_.album.toLower()) {
+    if (results_copy[i].album.compare(request_.album, Qt::CaseInsensitive) == 0) {
       results_copy[i].score += 0.5;
     }
-    if (results_copy[i].title.toLower() == request_.title.toLower()) {
+    if (results_copy[i].title.compare(request_.title, Qt::CaseInsensitive) == 0) {
       results_copy[i].score += 0.5;
     }
-    if (results_copy[i].artist.toLower() != request_.artist.toLower() && results_copy[i].title.toLower() != request_.title.toLower()) {
+    if (results_copy[i].artist.compare(request_.artist, Qt::CaseInsensitive) != 0 && results_copy[i].title.compare(request_.title, Qt::CaseInsensitive) != 0) {
       results_copy[i].score -= 1.5;
     }
     if (results_copy[i].lyrics.length() > kGoodLyricsLength) results_copy[i].score += 1.0;

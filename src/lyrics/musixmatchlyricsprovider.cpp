@@ -58,19 +58,19 @@ bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString 
   QString artist_stripped = artist;
   QString title_stripped = title;
 
-  artist_stripped = artist_stripped.replace('/', '-');
-  artist_stripped = artist_stripped.remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption));
-  artist_stripped = artist_stripped.simplified();
-  artist_stripped = artist_stripped.replace(' ', '-');
-  artist_stripped = artist_stripped.replace(QRegularExpression("(-)\\1+"), "-");
-  artist_stripped = artist_stripped.toLower();
+  artist_stripped = artist_stripped.replace('/', '-')
+                                   .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
+                                   .simplified()
+                                   .replace(' ', '-')
+                                   .replace(QRegularExpression("(-)\\1+"), "-")
+                                   .toLower();
 
-  title_stripped = title_stripped.replace('/', '-');
-  title_stripped = title_stripped.remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption));
-  title_stripped = title_stripped.simplified();
-  title_stripped = title_stripped.replace(' ', '-').toLower();
-  title_stripped = title_stripped.replace(QRegularExpression("(-)\\1+"), "-");
-  title_stripped = title_stripped.toLower();
+  title_stripped = title_stripped.replace('/', '-')
+                                 .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
+                                 .simplified()
+                                 .replace(' ', '-')
+                                 .replace(QRegularExpression("(-)\\1+"), "-")
+                                 .toLower();
 
   if (artist_stripped.isEmpty() || title_stripped.isEmpty()) return false;
 
@@ -199,7 +199,7 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, const qui
   result.title = obj_track["name"].toString();
   result.lyrics = obj_lyrics["body"].toString();
 
-  if (!result.lyrics.isEmpty() && (artist.toLower() == result.artist.toLower() || title.toLower() == result.title.toLower())) {
+  if (!result.lyrics.isEmpty() && (result.artist.compare(artist, Qt::CaseInsensitive) == 0 || result.title.compare(title, Qt::CaseInsensitive) == 0)) {
     result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
     results.append(result);
   }

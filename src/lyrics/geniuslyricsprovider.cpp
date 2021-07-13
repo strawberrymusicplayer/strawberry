@@ -432,7 +432,7 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64
     QString title = obj_result["title"].toString();
 
     // Ignore results where both the artist and title don't match.
-    if (artist.toLower() != search->artist.toLower() && title.toLower() != search->title.toLower()) continue;
+    if (artist.compare(search->artist, Qt::CaseInsensitive) != 0 && title.compare(search->title, Qt::CaseInsensitive) != 0) continue;
 
     QUrl url(obj_result["url"].toString());
     if (!url.isValid()) continue;

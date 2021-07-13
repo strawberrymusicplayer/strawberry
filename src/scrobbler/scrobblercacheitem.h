@@ -36,7 +36,7 @@ class ScrobblerCacheItem : public QObject {
  public:
   explicit ScrobblerCacheItem(const QString &artist, const QString &album, const QString &song, const QString &albumartist, const int track, const qint64 duration, const quint64 timestamp, QObject *parent = nullptr);
 
-  QString effective_albumartist() const { return albumartist_.isEmpty() || albumartist_.toLower() == Song::kVariousArtists ? artist_ : albumartist_; }
+  QString effective_albumartist() const { return albumartist_.isEmpty() || albumartist_.compare(Song::kVariousArtists, Qt::CaseInsensitive) == 0 ? artist_ : albumartist_; }
 
  public:
   QString artist_;

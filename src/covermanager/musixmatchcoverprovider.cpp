@@ -62,19 +62,19 @@ bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &
   QString artist_stripped = artist;
   QString album_stripped = album;
 
-  artist_stripped = artist_stripped.replace('/', '-');
-  artist_stripped = artist_stripped.remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption));
-  artist_stripped = artist_stripped.simplified();
-  artist_stripped = artist_stripped.replace(' ', '-');
-  artist_stripped = artist_stripped.replace(QRegularExpression("(-)\\1+"), "-");
-  artist_stripped = artist_stripped.toLower();
+  artist_stripped = artist_stripped.replace('/', '-')
+                                   .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
+                                   .simplified()
+                                   .replace(' ', '-')
+                                   .replace(QRegularExpression("(-)\\1+"), "-")
+                                   .toLower();
 
-  album_stripped = album_stripped.replace('/', '-');
-  album_stripped = album_stripped.remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption));
-  album_stripped = album_stripped.simplified();
-  album_stripped = album_stripped.replace(' ', '-').toLower();
-  album_stripped = album_stripped.replace(QRegularExpression("(-)\\1+"), "-");
-  album_stripped = album_stripped.toLower();
+  album_stripped = album_stripped.replace('/', '-')
+                                 .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
+                                 .simplified()
+                                 .replace(' ', '-')
+                                 .replace(QRegularExpression("(-)\\1+"), "-")
+                                 .toLower();
 
   if (artist_stripped.isEmpty() || album_stripped.isEmpty()) return false;
 
@@ -201,7 +201,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
   result.artist = obj_album["artistName"].toString();
   result.album = obj_album["name"].toString();
 
-  if (artist.toLower() != result.artist.toLower() && album.toLower() != result.album.toLower()) {
+  if (result.artist.compare(artist, Qt::CaseInsensitive) != 0 && result.album.compare(album, Qt::CaseInsensitive) != 0) {
     emit SearchFinished(id, results);
     return;
   }

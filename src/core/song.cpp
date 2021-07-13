@@ -542,16 +542,16 @@ QString Song::DescriptionForSource(Source source) {
 
 Song::Source Song::SourceFromText(const QString &source) {
 
-  if (source == "file") return Source_LocalFile;
-  if (source == "collection") return Source_Collection;
-  if (source == "cd") return Source_CDDA;
-  if (source == "device") return Source_Device;
-  if (source == "stream") return Source_Stream;
-  if (source == "tidal") return Source_Tidal;
-  if (source == "subsonic") return Source_Subsonic;
-  if (source == "qobuz") return Source_Qobuz;
-  if (source == "somafm") return Source_SomaFM;
-  if (source == "radioparadise") return Source_RadioParadise;
+  if (source.compare("file", Qt::CaseInsensitive) == 0) return Source_LocalFile;
+  if (source.compare("collection", Qt::CaseInsensitive) == 0) return Source_Collection;
+  if (source.compare("cd", Qt::CaseInsensitive) == 0) return Source_CDDA;
+  if (source.compare("device", Qt::CaseInsensitive) == 0) return Source_Device;
+  if (source.compare("stream", Qt::CaseInsensitive) == 0) return Source_Stream;
+  if (source.compare("tidal", Qt::CaseInsensitive) == 0) return Source_Tidal;
+  if (source.compare("subsonic", Qt::CaseInsensitive) == 0) return Source_Subsonic;
+  if (source.compare("qobuz", Qt::CaseInsensitive) == 0) return Source_Qobuz;
+  if (source.compare("somafm", Qt::CaseInsensitive) == 0) return Source_SomaFM;
+  if (source.compare("radioparadise", Qt::CaseInsensitive) == 0) return Source_RadioParadise;
 
   return Source_Unknown;
 
@@ -678,61 +678,61 @@ bool Song::IsFileLossless() const {
 
 Song::FileType Song::FiletypeByMimetype(const QString &mimetype) {
 
-  if (mimetype.toLower() == "audio/wav" || mimetype.toLower() == "audio/x-wav") return Song::FileType_WAV;
-  else if (mimetype.toLower() == "audio/x-flac") return Song::FileType_FLAC;
-  else if (mimetype.toLower() == "audio/x-wavpack") return Song::FileType_WavPack;
-  else if (mimetype.toLower() == "audio/x-vorbis") return Song::FileType_OggVorbis;
-  else if (mimetype.toLower() == "audio/x-opus") return Song::FileType_OggOpus;
-  else if (mimetype.toLower() == "audio/x-speex")  return Song::FileType_OggSpeex;
+  if (mimetype.compare("audio/wav", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-wav", Qt::CaseInsensitive) == 0) return Song::FileType_WAV;
+  else if (mimetype.compare("audio/x-flac", Qt::CaseInsensitive) == 0) return Song::FileType_FLAC;
+  else if (mimetype.compare("audio/x-wavpack", Qt::CaseInsensitive) == 0) return Song::FileType_WavPack;
+  else if (mimetype.compare("audio/x-vorbis", Qt::CaseInsensitive) == 0) return Song::FileType_OggVorbis;
+  else if (mimetype.compare("audio/x-opus", Qt::CaseInsensitive) == 0) return Song::FileType_OggOpus;
+  else if (mimetype.compare("audio/x-speex", Qt::CaseInsensitive) == 0)  return Song::FileType_OggSpeex;
   // Gstreamer returns audio/mpeg for both MP3 and MP4/AAC.
-  // else if (mimetype.toLower() == "audio/mpeg") return Song::FileType_MPEG;
-  else if (mimetype.toLower() == "audio/aac") return Song::FileType_MP4;
-  else if (mimetype.toLower() == "audio/x-wma") return Song::FileType_ASF;
-  else if (mimetype.toLower() == "audio/aiff" || mimetype.toLower() == "audio/x-aiff") return Song::FileType_AIFF;
-  else if (mimetype.toLower() == "application/x-project") return Song::FileType_MPC;
-  else if (mimetype.toLower() == "audio/x-dsf") return Song::FileType_DSF;
-  else if (mimetype.toLower() == "audio/x-dsd") return Song::FileType_DSDIFF;
-  else if (mimetype.toLower() == "audio/x-ape" || mimetype.toLower() == "application/x-ape" || mimetype.toLower() == "audio/x-ffmpeg-parsed-ape") return Song::FileType_APE;
+  // else if (mimetype.compare("audio/mpeg", Qt::CaseInsensitive) == 0) return Song::FileType_MPEG;
+  else if (mimetype.compare("audio/aac", Qt::CaseInsensitive) == 0) return Song::FileType_MP4;
+  else if (mimetype.compare("audio/x-wma", Qt::CaseInsensitive) == 0) return Song::FileType_ASF;
+  else if (mimetype.compare("audio/aiff", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-aiff", Qt::CaseInsensitive) == 0) return Song::FileType_AIFF;
+  else if (mimetype.compare("application/x-project", Qt::CaseInsensitive) == 0) return Song::FileType_MPC;
+  else if (mimetype.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return Song::FileType_DSF;
+  else if (mimetype.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return Song::FileType_DSDIFF;
+  else if (mimetype.compare("audio/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("application/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return Song::FileType_APE;
   else return Song::FileType_Unknown;
 
 }
 
 Song::FileType Song::FiletypeByDescription(const QString &text) {
 
-  if (text == "WAV") return Song::FileType_WAV;
-  else if (text == "Free Lossless Audio Codec (FLAC)") return Song::FileType_FLAC;
-  else if (text == "Wavpack") return Song::FileType_WavPack;
-  else if (text == "Vorbis") return Song::FileType_OggVorbis;
-  else if (text == "Opus") return Song::FileType_OggOpus;
-  else if (text == "Speex") return Song::FileType_OggSpeex;
-  else if (text == "MPEG-1 Layer 3 (MP3)") return Song::FileType_MPEG;
-  else if (text == "MPEG-4 AAC") return Song::FileType_MP4;
-  else if (text == "WMA") return Song::FileType_ASF;
-  else if (text == "Audio Interchange File Format") return Song::FileType_AIFF;
-  else if (text == "MPC") return Song::FileType_MPC;
-  else if (text == "audio/x-dsf") return Song::FileType_DSF;
-  else if (text == "audio/x-dsd") return Song::FileType_DSDIFF;
-  else if (text == "audio/x-ffmpeg-parsed-ape") return Song::FileType_APE;
+  if (text.compare("WAV", Qt::CaseInsensitive) == 0) return Song::FileType_WAV;
+  else if (text.compare("Free Lossless Audio Codec (FLAC)", Qt::CaseInsensitive) == 0) return Song::FileType_FLAC;
+  else if (text.compare("Wavpack", Qt::CaseInsensitive) == 0) return Song::FileType_WavPack;
+  else if (text.compare("Vorbis", Qt::CaseInsensitive) == 0) return Song::FileType_OggVorbis;
+  else if (text.compare("Opus", Qt::CaseInsensitive) == 0) return Song::FileType_OggOpus;
+  else if (text.compare("Speex", Qt::CaseInsensitive) == 0) return Song::FileType_OggSpeex;
+  else if (text.compare("MPEG-1 Layer 3 (MP3)", Qt::CaseInsensitive) == 0) return Song::FileType_MPEG;
+  else if (text.compare("MPEG-4 AAC", Qt::CaseInsensitive) == 0) return Song::FileType_MP4;
+  else if (text.compare("WMA", Qt::CaseInsensitive) == 0) return Song::FileType_ASF;
+  else if (text.compare("Audio Interchange File Format", Qt::CaseInsensitive) == 0) return Song::FileType_AIFF;
+  else if (text.compare("MPC", Qt::CaseInsensitive) == 0) return Song::FileType_MPC;
+  else if (text.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return Song::FileType_DSF;
+  else if (text.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return Song::FileType_DSDIFF;
+  else if (text.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return Song::FileType_APE;
   else return Song::FileType_Unknown;
 
 }
 
 Song::FileType Song::FiletypeByExtension(const QString &ext) {
 
-  if (ext.toLower() == "wav" || ext.toLower() == "wave") return Song::FileType_WAV;
-  else if (ext.toLower() == "flac") return Song::FileType_FLAC;
-  else if (ext.toLower() == "wavpack" || ext.toLower() == "wv") return Song::FileType_WavPack;
-  else if (ext.toLower() == "ogg" || ext.toLower() == "oga") return Song::FileType_OggVorbis;
-  else if (ext.toLower() == "opus") return Song::FileType_OggOpus;
-  else if (ext.toLower() == "speex" || ext.toLower() == "spx") return Song::FileType_OggSpeex;
-  else if (ext.toLower() == "mp3") return Song::FileType_MPEG;
-  else if (ext.toLower() == "mp4" || ext.toLower() == "m4a" || ext.toLower() == "aac") return Song::FileType_MP4;
-  else if (ext.toLower() == "asf" || ext.toLower() == "wma") return Song::FileType_ASF;
-  else if (ext.toLower() == "aiff" || ext.toLower() == "aif" || ext.toLower() == "aifc") return Song::FileType_AIFF;
-  else if (ext.toLower() == "mpc" || ext.toLower() == "mp+" || ext.toLower() == "mpp") return Song::FileType_MPC;
-  else if (ext.toLower() == "dsf") return Song::FileType_DSF;
-  else if (ext.toLower() == "dsd" || ext.toLower() == "dff") return Song::FileType_DSDIFF;
-  else if (ext.toLower() == "ape") return Song::FileType_APE;
+  if (ext.compare("wav", Qt::CaseInsensitive) == 0 || ext.compare("wave", Qt::CaseInsensitive) == 0) return Song::FileType_WAV;
+  else if (ext.compare("flac", Qt::CaseInsensitive) == 0) return Song::FileType_FLAC;
+  else if (ext.compare("wavpack", Qt::CaseInsensitive) == 0 || ext.compare("wv", Qt::CaseInsensitive) == 0) return Song::FileType_WavPack;
+  else if (ext.compare("ogg", Qt::CaseInsensitive) == 0 || ext.compare("oga", Qt::CaseInsensitive) == 0) return Song::FileType_OggVorbis;
+  else if (ext.compare("opus", Qt::CaseInsensitive) == 0) return Song::FileType_OggOpus;
+  else if (ext.compare("speex", Qt::CaseInsensitive) == 0 || ext.compare("spx", Qt::CaseInsensitive) == 0) return Song::FileType_OggSpeex;
+  else if (ext.compare("mp3", Qt::CaseInsensitive) == 0) return Song::FileType_MPEG;
+  else if (ext.compare("mp4", Qt::CaseInsensitive) == 0 || ext.compare("m4a", Qt::CaseInsensitive) == 0 || ext.compare("aac", Qt::CaseInsensitive) == 0) return Song::FileType_MP4;
+  else if (ext.compare("asf", Qt::CaseInsensitive) == 0 || ext.compare("wma", Qt::CaseInsensitive) == 0) return Song::FileType_ASF;
+  else if (ext.compare("aiff", Qt::CaseInsensitive) == 0 || ext.compare("aif", Qt::CaseInsensitive) == 0 || ext.compare("aifc", Qt::CaseInsensitive) == 0) return Song::FileType_AIFF;
+  else if (ext.compare("mpc", Qt::CaseInsensitive) == 0 || ext.compare("mp+", Qt::CaseInsensitive) == 0 || ext.compare("mpp", Qt::CaseInsensitive) == 0) return Song::FileType_MPC;
+  else if (ext.compare("dsf", Qt::CaseInsensitive) == 0) return Song::FileType_DSF;
+  else if (ext.compare("dsd", Qt::CaseInsensitive) == 0 || ext.compare("dff", Qt::CaseInsensitive) == 0) return Song::FileType_DSDIFF;
+  else if (ext.compare("ape", Qt::CaseInsensitive) == 0) return Song::FileType_APE;
   else return Song::FileType_Unknown;
 
 }

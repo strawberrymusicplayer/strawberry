@@ -459,7 +459,7 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
   setMovable(true);
   setElideMode(Qt::ElideNone);
   setUsesScrollButtons(true);
-  if (QApplication::style() && QApplication::style()->objectName().toLower().contains(QRegularExpression("^adwaita.*$"))) {
+  if (QApplication::style() && QApplication::style()->objectName().contains(QRegularExpression("^adwaita.*$", QRegularExpression::CaseInsensitiveOption))) {
     style_ = new FancyTabWidgetProxyStyle(style());
     setStyle(style_);
   }

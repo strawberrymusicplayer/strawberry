@@ -91,40 +91,40 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
       if (splitted.size() < 2) {
         continue;
       }
-      QString line_name = splitted[0].toLower();
-      QString line_value = splitted[1];
+      QString &line_name = splitted[0];
+      QString &line_value = splitted[1];
 
-      if (line_name == kPerformer) {
+      if (line_name.compare(kPerformer, Qt::CaseInsensitive) == 0) {
         album_artist = line_value;
       }
-      else if (line_name == kTitle) {
+      else if (line_name.compare(kTitle, Qt::CaseInsensitive) == 0) {
         album = line_value;
       }
-      else if (line_name == kSongWriter) {
+      else if (line_name.compare(kSongWriter, Qt::CaseInsensitive) == 0) {
         album_composer = line_value;
       }
-      else if (line_name == kFile) {
+      else if (line_name.compare(kFile, Qt::CaseInsensitive) == 0) {
         file = QDir::isAbsolutePath(line_value) ? line_value : dir.absoluteFilePath(line_value);
         if (splitted.size() > 2) {
           file_type = splitted[2];
         }
       }
-      else if (line_name == kRem) {
+      else if (line_name.compare(kRem, Qt::CaseInsensitive) == 0) {
         if (splitted.size() < 3) {
           break;
         }
-        if (line_value.toLower() == kGenre) {
+        if (line_value.compare(kGenre, Qt::CaseInsensitive) == 0) {
           album_genre = splitted[2];
         }
-        else if (line_value.toLower() == kDate) {
+        else if (line_value.compare(kDate, Qt::CaseInsensitive) == 0) {
           album_date = splitted[2];
         }
-        else if (line_value.toLower() == kDisc) {
+        else if (line_value.compare(kDisc, Qt::CaseInsensitive) == 0) {
           disc = splitted[2];
         }
       }
       // end of the header -> go into the track mode
-      else if (line_name == kTrack) {
+      else if (line_name.compare(kTrack, Qt::CaseInsensitive) == 0) {
         files++;
         break;
       }
@@ -156,15 +156,15 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
         continue;
       }
 
-      QString line_name = splitted[0].toLower();
-      QString line_value = splitted[1];
+      QString &line_name = splitted[0];
+      QString &line_value = splitted[1];
       QString line_additional = splitted.size() > 2 ? splitted[2].toLower() : "";
 
-      if (line_name == kTrack) {
+      if (line_name.compare(kTrack, Qt::CaseInsensitive) == 0) {
 
         // the beginning of another track's definition - we're saving the current one for later (if it's valid of course)
         // please note that the same code is repeated just after this 'do-while' loop
-        if (valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type == kAudioTrackType)) {
+        if (valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type.compare(kAudioTrackType, Qt::CaseInsensitive) == 0)) {
           entries.append(CueEntry(file, index, title, artist, album_artist, album, composer, album_composer, (genre.isEmpty() ? album_genre : genre), (date.isEmpty() ? album_date : date), disc));
         }
 
@@ -176,7 +176,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
         }
 
       }
-      else if (line_name == kIndex) {
+      else if (line_name.compare(kIndex, Qt::CaseInsensitive) == 0) {
 
         // We need the index's position field
         if (!line_additional.isEmpty()) {
@@ -188,28 +188,28 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
           }
         }
       }
-      else if (line_name == kTitle) {
+      else if (line_name.compare(kTitle, Qt::CaseInsensitive) == 0) {
         title = line_value;
       }
-      else if (line_name == kDate) {
+      else if (line_name.compare(kDate, Qt::CaseInsensitive) == 0) {
         date = line_value;
       }
-      else if (line_name == kPerformer) {
+      else if (line_name.compare(kPerformer, Qt::CaseInsensitive) == 0) {
         artist = line_value;
       }
-      else if (line_name == kSongWriter) {
+      else if (line_name.compare(kSongWriter, Qt::CaseInsensitive) == 0) {
         composer = line_value;
         // End of track's for the current file -> parse next one
       }
-      else if (line_name == kRem && splitted.size() >= 3) {
-        if (line_value.toLower() == kGenre) {
+      else if (line_name.compare(kRem, Qt::CaseInsensitive) == 0 && splitted.size() >= 3) {
+        if (line_value.compare(kGenre, Qt::CaseInsensitive) == 0) {
           genre = splitted[2];
         }
-        else if (line_value.toLower() == kDate) {
+        else if (line_value.compare(kDate, Qt::CaseInsensitive) == 0) {
           date = splitted[2];
         }
       }
-      else if (line_name == kFile) {
+      else if (line_name.compare(kFile, Qt::CaseInsensitive) == 0) {
         break;
       }
 
@@ -217,7 +217,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
     } while (!(line = text_stream.readLine()).isNull());
 
     // We didn't add the last song yet...
-    if (valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type == kAudioTrackType)) {
+    if (valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type.compare(kAudioTrackType, Qt::CaseInsensitive) == 0)) {
       entries.append(CueEntry(file, index, title, artist, album_artist, album, composer, album_composer, (genre.isEmpty() ? album_genre : genre), (date.isEmpty() ? album_date : date), disc));
     }
   }

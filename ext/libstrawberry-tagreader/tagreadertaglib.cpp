@@ -401,7 +401,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
   if (compilation.isEmpty()) {
     // well, it wasn't set, but if the artist is VA assume it's a compilation
-    if (QStringFromStdString(song->artist()).toLower() == "various artists" || QStringFromStdString(song->albumartist()).toLower() == "various artists") {
+    if (QStringFromStdString(song->artist()).compare("various artists") == 0 || QStringFromStdString(song->albumartist()).compare("various artists") == 0) {
       song->set_compilation(true);
     }
   }
