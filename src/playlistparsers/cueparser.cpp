@@ -91,8 +91,8 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
       if (splitted.size() < 2) {
         continue;
       }
-      QString &line_name = splitted[0];
-      QString &line_value = splitted[1];
+      const QString &line_name = splitted[0];
+      const QString &line_value = splitted[1];
 
       if (line_name.compare(kPerformer, Qt::CaseInsensitive) == 0) {
         album_artist = line_value;
@@ -156,8 +156,8 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
         continue;
       }
 
-      QString &line_name = splitted[0];
-      QString &line_value = splitted[1];
+      const QString &line_name = splitted[0];
+      const QString &line_value = splitted[1];
       QString line_additional = splitted.size() > 2 ? splitted[2].toLower() : "";
 
       if (line_name.compare(kTrack, Qt::CaseInsensitive) == 0) {
