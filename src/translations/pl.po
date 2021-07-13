@@ -4178,12 +4178,12 @@ msgstr "Wielkość po przeskalowaniu"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1016
+#: scrobbler/scrobblingapi20.cpp:1024
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Błąd scrobblera %1: %2"
 
-#: scrobbler/scrobblingapi20.cpp:541
+#: scrobbler/scrobblingapi20.cpp:543
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobblerowi %1 brakuje uwierzytelnienia."
