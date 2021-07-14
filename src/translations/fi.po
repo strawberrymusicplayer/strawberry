@@ -577,7 +577,7 @@ msgstr "Lisää kaikki kappaleet kansiosta ja sen alakansioista"
 msgid "Add directory..."
 msgstr "Lisää kansio..."
 
-#: core/mainwindow.cpp:2161
+#: core/mainwindow.cpp:2163
 msgid "Add file"
 msgstr "Lisää tiedosto"
 
@@ -593,7 +593,7 @@ msgstr "Lisää tiedosto(ja) muuntajaan"
 msgid "Add files to transcode"
 msgstr "Lisää tiedostoja muunnettavaksi"
 
-#: core/mainwindow.cpp:2187 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2189 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Lisää kansio"
 
@@ -601,7 +601,7 @@ msgstr "Lisää kansio"
 msgid "Add new folder..."
 msgstr "Lisää uusi kansio..."
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:429
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
 msgstr "Lisää hakusana"
 
@@ -703,7 +703,7 @@ msgstr "Lisää virta..."
 msgid "Add to albums"
 msgstr "Lisää albumeihin"
 
-#: core/mainwindow.cpp:1963
+#: core/mainwindow.cpp:1965
 msgid "Add to another playlist"
 msgstr "Lisää toiseen soittolistaan"
 
@@ -909,7 +909,7 @@ msgstr "Lisää tiedostoja/verkko-osoitteita soittolistalle"
 #: context/contextalbumsview.cpp:261 collection/collectionview.cpp:342
 #: smartplaylists/smartplaylistsviewcontainer.cpp:69
 #: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:321
-#: internet/internetcollectionview.cpp:310 radios/radioview.cpp:77
+#: internet/internetcollectionview.cpp:310 radios/radioview.cpp:71
 #: device/deviceview.cpp:243
 msgid "Append to current playlist"
 msgstr "Lisää nykyiselle soittolistalle"
@@ -1074,7 +1074,7 @@ msgstr "Taustakuva"
 msgid "Background opacity"
 msgstr "Taustan läpinäkyvyys"
 
-#: core/database.cpp:557
+#: core/database.cpp:560
 msgid "Backing up database"
 msgstr "Varmuuskopioidaan tietokantaa"
 
@@ -1251,7 +1251,7 @@ msgstr "Tyhjennä levyvälimuisti"
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2252 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2254 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Tyhjennä soittolista"
 
@@ -1309,7 +1309,7 @@ msgstr "Kokoelmasuodatin"
 msgid "Collection advanced grouping"
 msgstr "Kirjaston tarkennettu ryhmittely"
 
-#: core/mainwindow.cpp:2831
+#: core/mainwindow.cpp:2833
 msgid "Collection rescan notice"
 msgstr "Ilmoitus kirjaston läpikäynnistä"
 
@@ -1455,7 +1455,7 @@ msgstr ""
 msgid "Could not open file %1"
 msgstr "Tiedostoa %1 ei voitu avata"
 
-#: core/songloader.cpp:467
+#: core/songloader.cpp:471
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
@@ -1642,7 +1642,7 @@ msgstr "D-Bus-polku"
 msgid "Dance"
 msgstr "Dance"
 
-#: core/database.cpp:508
+#: core/database.cpp:511
 msgid "Database corruption detected."
 msgstr "Tietokanta on vioittunut."
 
@@ -1713,11 +1713,11 @@ msgstr "Poista alkuperäiset tiedostot"
 msgid "Deleting files"
 msgstr "Poistetaan tiedostoja"
 
-#: core/mainwindow.cpp:1880
+#: core/mainwindow.cpp:1882
 msgid "Dequeue selected tracks"
 msgstr "Poista valitut kappaleet jonosta"
 
-#: core/mainwindow.cpp:1879
+#: core/mainwindow.cpp:1881
 msgid "Dequeue track"
 msgstr "Poista kappale jonosta"
 
@@ -1824,7 +1824,7 @@ msgstr "Älä sekoita"
 msgid "Don't stop!"
 msgstr "Älä lopeta!"
 
-#: radios/radioview.cpp:93
+#: radios/radioview.cpp:87
 msgid "Donate"
 msgstr ""
 
@@ -1876,7 +1876,7 @@ msgstr "Muokkaa älykästä soittolistaa"
 msgid "Edit smart playlist..."
 msgstr "Muokkaa älykästä soittolistaa..."
 
-#: core/mainwindow.cpp:1921
+#: core/mainwindow.cpp:1923
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Muokkaa tunnistetta \"%1\"..."
@@ -2034,7 +2034,7 @@ msgstr "Vastaa --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Vastaa --log-levels *:3"
 
-#: core/mainwindow.cpp:2562 core/mainwindow.cpp:2713
+#: core/mainwindow.cpp:2564 core/mainwindow.cpp:2715
 #: context/contextalbumsview.cpp:392 collection/collectionview.cpp:578
 msgid "Error"
 msgstr "Virhe"
@@ -2666,7 +2666,7 @@ msgstr "Lisää..."
 msgid "Install strawberry through PPA:<br />"
 msgstr "Asenna strawberry PPA:sta:"
 
-#: core/database.cpp:493
+#: core/database.cpp:496
 msgid "Integrity check"
 msgstr "Eheystarkistus"
 
@@ -2988,13 +2988,13 @@ msgstr "Gobuz-käyttäjätunnus puuttuu."
 msgid "Missing Subsonic username or password."
 msgstr "Subsonic-käyttäjätunnus tai -salasana puuttuu."
 
-#: tidal/tidalservice.cpp:744 tidal/tidalservice.cpp:804
-#: tidal/tidalservice.cpp:862 tidal/tidalservice.cpp:928
-#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:91
+#: tidal/tidalservice.cpp:751 tidal/tidalservice.cpp:811
+#: tidal/tidalservice.cpp:869 tidal/tidalservice.cpp:935
+#: tidal/tidalservice.cpp:996 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr "Tidalin API-avain, käyttäjätunnus tai salasana puuttuu."
 
-#: tidal/tidalservice.cpp:705
+#: tidal/tidalservice.cpp:712
 msgid "Missing Tidal API token."
 msgstr "Tidalin API-avain puuttuu."
 
@@ -3002,11 +3002,11 @@ msgstr "Tidalin API-avain puuttuu."
 msgid "Missing Tidal client ID."
 msgstr "Puuttuva Tidal-asiakas-ID"
 
-#: tidal/tidalservice.cpp:713
+#: tidal/tidalservice.cpp:720
 msgid "Missing Tidal password."
 msgstr "Puuttuva Tidal-salasana"
 
-#: tidal/tidalservice.cpp:709
+#: tidal/tidalservice.cpp:716
 msgid "Missing Tidal username."
 msgstr "Puuttuva Tidal-käyttäjätunnus"
 
@@ -3085,7 +3085,7 @@ msgstr "Siirrä kirjastoon..."
 msgid "Move up"
 msgstr "Siirrä ylös"
 
-#: core/mainwindow.cpp:2161 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2163 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Musiikki"
 
@@ -3129,7 +3129,7 @@ msgstr "Älä koskaan aloita toistoa"
 msgid "New folder"
 msgstr "Uusi kansio"
 
-#: core/mainwindow.cpp:1979
+#: core/mainwindow.cpp:1981
 msgid "New playlist"
 msgstr "Uusi soittolista"
 
@@ -3202,7 +3202,7 @@ msgstr ""
 msgid "None"
 msgstr "Ei mitään"
 
-#: core/mainwindow.cpp:2562 core/mainwindow.cpp:2713
+#: core/mainwindow.cpp:2564 core/mainwindow.cpp:2715
 #: context/contextalbumsview.cpp:392 collection/collectionview.cpp:578
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3221,14 +3221,14 @@ msgstr "Normaalilohkotyyppi"
 msgid "Not authenticated with Qobuz."
 msgstr ""
 
-#: tidal/tidalservice.cpp:717
+#: tidal/tidalservice.cpp:724
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 
-#: tidal/tidalservice.cpp:739 tidal/tidalservice.cpp:799
-#: tidal/tidalservice.cpp:857 tidal/tidalservice.cpp:923
-#: tidal/tidalservice.cpp:985 tidal/tidalstreamurlrequest.cpp:87
+#: tidal/tidalservice.cpp:746 tidal/tidalservice.cpp:806
+#: tidal/tidalservice.cpp:864 tidal/tidalservice.cpp:930
+#: tidal/tidalservice.cpp:992 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr ""
 
@@ -3303,14 +3303,14 @@ msgstr "Avaa audio-&CD"
 msgid "Open device"
 msgstr "Avaa laite"
 
-#: radios/radioview.cpp:89
+#: radios/radioview.cpp:83
 msgid "Open homepage"
 msgstr ""
 
 #: context/contextalbumsview.cpp:263 collection/collectionview.cpp:344
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
 #: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:323
-#: internet/internetcollectionview.cpp:312 radios/radioview.cpp:85
+#: internet/internetcollectionview.cpp:312 radios/radioview.cpp:79
 #: device/deviceview.cpp:245 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
 msgstr "Avaa uudessa soittolistassa"
@@ -3422,7 +3422,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1285 core/mainwindow.cpp:1778
+#: core/mainwindow.cpp:1285 core/mainwindow.cpp:1780
 #: core/qtsystemtrayicon.cpp:146
 msgid "Pause"
 msgstr "Keskeytä"
@@ -3451,7 +3451,7 @@ msgid "Plain sidebar"
 msgstr "Pelkistetty sivupalkki"
 
 #: core/mainwindow.cpp:690 core/mainwindow.cpp:1242 core/mainwindow.cpp:1269
-#: core/mainwindow.cpp:1782 core/qtsystemtrayicon.cpp:159
+#: core/mainwindow.cpp:1784 core/qtsystemtrayicon.cpp:159
 #: core/qtsystemtrayicon.cpp:173
 msgid "Play"
 msgstr "Toista"
@@ -3518,7 +3518,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Soittolista soitettiin loppuun"
 
-#: core/mainwindow.cpp:2252
+#: core/mainwindow.cpp:2254
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3689,20 +3689,20 @@ msgstr "Kysytään tietoja laitteelta..."
 msgid "Queue"
 msgstr "Jono"
 
-#: core/mainwindow.cpp:1882
+#: core/mainwindow.cpp:1884
 msgid "Queue selected tracks"
 msgstr "Aseta valitut kappaleet jonoon"
 
-#: core/mainwindow.cpp:696 core/mainwindow.cpp:1886
+#: core/mainwindow.cpp:696 core/mainwindow.cpp:1888
 msgid "Queue selected tracks to play next"
 msgstr "Lisää valitut kappaleet jonoon"
 
-#: core/mainwindow.cpp:1888 collection/collectionview.cpp:348
+#: core/mainwindow.cpp:1890 collection/collectionview.cpp:348
 #: internet/internetcollectionview.cpp:316
 msgid "Queue to play next"
 msgstr "Toistojonoon"
 
-#: core/mainwindow.cpp:1881 context/contextalbumsview.cpp:266
+#: core/mainwindow.cpp:1883 context/contextalbumsview.cpp:266
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
 #: internet/internetsearchview.cpp:326 internet/internetcollectionview.cpp:315
@@ -3787,7 +3787,7 @@ msgstr ""
 msgid "Refresh catalogue"
 msgstr ""
 
-#: radios/radioview.cpp:97
+#: radios/radioview.cpp:91
 msgid "Refresh channels"
 msgstr ""
 
@@ -3875,7 +3875,7 @@ msgstr "Kertaa kappale"
 #: context/contextalbumsview.cpp:262 collection/collectionview.cpp:343
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
 #: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:322
-#: internet/internetcollectionview.cpp:311 radios/radioview.cpp:81
+#: internet/internetcollectionview.cpp:311 radios/radioview.cpp:75
 #: device/deviceview.cpp:244
 msgid "Replace current playlist"
 msgstr "Korvaa nykyinen soittolista"
@@ -3900,7 +3900,7 @@ msgstr "Replay Gain"
 msgid "Replay Gain mode"
 msgstr "Replay Gain -tila"
 
-#: tidal/tidalservice.cpp:366
+#: tidal/tidalservice.cpp:373
 msgid "Reply from Tidal is missing query items."
 msgstr ""
 
@@ -4233,7 +4233,7 @@ msgstr "Palvelimen osoite ei kelpaa"
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1920
+#: core/mainwindow.cpp:1922
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Aseta %1 %2:een"
@@ -4466,11 +4466,11 @@ msgstr "Ohituskerrat"
 msgid "Skip forwards in playlist"
 msgstr "Siirry soittolistan seuraavaan kappaleeseen"
 
-#: core/mainwindow.cpp:1893
+#: core/mainwindow.cpp:1895
 msgid "Skip selected tracks"
 msgstr "Ohita valitut kappaleet"
 
-#: core/mainwindow.cpp:1892
+#: core/mainwindow.cpp:1894
 msgid "Skip track"
 msgstr "Ohita kappale"
 
@@ -4596,7 +4596,7 @@ msgstr "Lopeta toisto kappaleen jälkeen: %1"
 msgid "Stopped"
 msgstr "Pysäytetty"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:418
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "Strawberry"
 msgstr ""
 
@@ -4802,7 +4802,7 @@ msgstr ""
 msgid "The internet collection is empty!"
 msgstr "Verkkokokoelmasi on tyhjä!"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:418
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
 msgstr ""
 
@@ -4814,7 +4814,7 @@ msgstr "Hakemaasi sivua ei ole olemassa!"
 msgid "The site you requested is not an image!"
 msgstr "Hakemasi sivu ei ole kuva!"
 
-#: core/mainwindow.cpp:2826
+#: core/mainwindow.cpp:2828
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4941,7 +4941,7 @@ msgstr "Nimi"
 msgid "Today"
 msgstr "Tänään"
 
-#: core/mainwindow.cpp:693 core/mainwindow.cpp:1883
+#: core/mainwindow.cpp:693 core/mainwindow.cpp:1885
 msgid "Toggle queue status"
 msgstr "Vaihda jonon tila"
 
@@ -4949,7 +4949,7 @@ msgstr "Vaihda jonon tila"
 msgid "Toggle scrobbling"
 msgstr "Valitse scrobbling"
 
-#: core/mainwindow.cpp:699 core/mainwindow.cpp:1894
+#: core/mainwindow.cpp:699 core/mainwindow.cpp:1896
 msgid "Toggle skip status"
 msgstr ""
 
@@ -5051,11 +5051,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Poista kansikuva"
 
-#: core/mainwindow.cpp:1891
+#: core/mainwindow.cpp:1893
 msgid "Unskip selected tracks"
 msgstr ""
 
-#: core/mainwindow.cpp:1890
+#: core/mainwindow.cpp:1892
 msgid "Unskip track"
 msgstr ""
 
@@ -5303,7 +5303,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2830
+#: core/mainwindow.cpp:2832
 msgid "Would you like to run a full rescan right now?"
 msgstr "Haluatko suorittaa kirjaston läpikäynnin nyt?"
 

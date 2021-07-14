@@ -591,7 +591,7 @@ msgstr "Voeg alle nummers van een pad en alle onderliggende paden toe"
 msgid "Add directory..."
 msgstr "Map toevoegen…"
 
-#: core/mainwindow.cpp:2161
+#: core/mainwindow.cpp:2163
 msgid "Add file"
 msgstr "Bestand toevoegen"
 
@@ -607,7 +607,7 @@ msgstr "Bestand(en) toevoegen voor conversie."
 msgid "Add files to transcode"
 msgstr "Te converteren bestanden toevoegen"
 
-#: core/mainwindow.cpp:2187 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2189 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Map toevoegen"
 
@@ -615,7 +615,7 @@ msgstr "Map toevoegen"
 msgid "Add new folder..."
 msgstr "Nieuwe map toevoegen…"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:429
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
 msgstr ""
 
@@ -717,7 +717,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr ""
 
-#: core/mainwindow.cpp:1963
+#: core/mainwindow.cpp:1965
 msgid "Add to another playlist"
 msgstr "Aan een andere afspeellijst toevoegen"
 
@@ -923,7 +923,7 @@ msgstr "Bestanden/URLs aan afspeellijst toevoegen"
 #: context/contextalbumsview.cpp:261 collection/collectionview.cpp:342
 #: smartplaylists/smartplaylistsviewcontainer.cpp:69
 #: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:321
-#: internet/internetcollectionview.cpp:310 radios/radioview.cpp:77
+#: internet/internetcollectionview.cpp:310 radios/radioview.cpp:71
 #: device/deviceview.cpp:243
 msgid "Append to current playlist"
 msgstr "Aan huidige afspeellijst toevoegen"
@@ -1086,7 +1086,7 @@ msgstr "Achtergrondafbeelding"
 msgid "Background opacity"
 msgstr "Achtergrond-doorzichtigheid"
 
-#: core/database.cpp:557
+#: core/database.cpp:560
 msgid "Backing up database"
 msgstr "Bezig met het maken van een backup van de database"
 
@@ -1262,7 +1262,7 @@ msgstr ""
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2252 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2254 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Afspeellijst wissen"
 
@@ -1320,7 +1320,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Bibliotheek geavanceerd groeperen"
 
-#: core/mainwindow.cpp:2831
+#: core/mainwindow.cpp:2833
 msgid "Collection rescan notice"
 msgstr "Database herscan-melding"
 
@@ -1465,7 +1465,7 @@ msgstr ""
 msgid "Could not open file %1"
 msgstr ""
 
-#: core/songloader.cpp:467
+#: core/songloader.cpp:471
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
@@ -1652,7 +1652,7 @@ msgstr "DBus-pad"
 msgid "Dance"
 msgstr "Dance"
 
-#: core/database.cpp:508
+#: core/database.cpp:511
 msgid "Database corruption detected."
 msgstr ""
 
@@ -1723,11 +1723,11 @@ msgstr "Oorspronkelijke bestanden verwijderen"
 msgid "Deleting files"
 msgstr "Bestanden worden verwijderd"
 
-#: core/mainwindow.cpp:1880
+#: core/mainwindow.cpp:1882
 msgid "Dequeue selected tracks"
 msgstr "Geselecteerde nummers uit wachtrij verwijderen"
 
-#: core/mainwindow.cpp:1879
+#: core/mainwindow.cpp:1881
 msgid "Dequeue track"
 msgstr "Nummer uit wachtrij verwijderen"
 
@@ -1834,7 +1834,7 @@ msgstr "Niet willekeurig afspelen"
 msgid "Don't stop!"
 msgstr "Niet stoppen!"
 
-#: radios/radioview.cpp:93
+#: radios/radioview.cpp:87
 msgid "Donate"
 msgstr ""
 
@@ -1886,7 +1886,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1921
+#: core/mainwindow.cpp:1923
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Label ‘%1’ bewerken…"
@@ -2045,7 +2045,7 @@ msgstr "Gelijkwaardig aan --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Gelijkwaardig aan --log-levels *:3"
 
-#: core/mainwindow.cpp:2562 core/mainwindow.cpp:2713
+#: core/mainwindow.cpp:2564 core/mainwindow.cpp:2715
 #: context/contextalbumsview.cpp:392 collection/collectionview.cpp:578
 msgid "Error"
 msgstr "Fout"
@@ -2677,7 +2677,7 @@ msgstr "Invoegen…"
 msgid "Install strawberry through PPA:<br />"
 msgstr ""
 
-#: core/database.cpp:493
+#: core/database.cpp:496
 msgid "Integrity check"
 msgstr "Integriteits check"
 
@@ -2998,13 +2998,13 @@ msgstr ""
 msgid "Missing Subsonic username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:744 tidal/tidalservice.cpp:804
-#: tidal/tidalservice.cpp:862 tidal/tidalservice.cpp:928
-#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:91
+#: tidal/tidalservice.cpp:751 tidal/tidalservice.cpp:811
+#: tidal/tidalservice.cpp:869 tidal/tidalservice.cpp:935
+#: tidal/tidalservice.cpp:996 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:705
+#: tidal/tidalservice.cpp:712
 msgid "Missing Tidal API token."
 msgstr ""
 
@@ -3012,11 +3012,11 @@ msgstr ""
 msgid "Missing Tidal client ID."
 msgstr ""
 
-#: tidal/tidalservice.cpp:713
+#: tidal/tidalservice.cpp:720
 msgid "Missing Tidal password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:709
+#: tidal/tidalservice.cpp:716
 msgid "Missing Tidal username."
 msgstr ""
 
@@ -3095,7 +3095,7 @@ msgstr "Naar bibliotheek verplaatsen…"
 msgid "Move up"
 msgstr "Omhoog verplaatsen"
 
-#: core/mainwindow.cpp:2161 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2163 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Muziek"
 
@@ -3139,7 +3139,7 @@ msgstr "Nooit afspelen"
 msgid "New folder"
 msgstr "Nieuwe map"
 
-#: core/mainwindow.cpp:1979
+#: core/mainwindow.cpp:1981
 msgid "New playlist"
 msgstr "Nieuwe afspeellijst"
 
@@ -3212,7 +3212,7 @@ msgstr ""
 msgid "None"
 msgstr "Geen"
 
-#: core/mainwindow.cpp:2562 core/mainwindow.cpp:2713
+#: core/mainwindow.cpp:2564 core/mainwindow.cpp:2715
 #: context/contextalbumsview.cpp:392 collection/collectionview.cpp:578
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3232,14 +3232,14 @@ msgstr "Normaal blok type"
 msgid "Not authenticated with Qobuz."
 msgstr ""
 
-#: tidal/tidalservice.cpp:717
+#: tidal/tidalservice.cpp:724
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 
-#: tidal/tidalservice.cpp:739 tidal/tidalservice.cpp:799
-#: tidal/tidalservice.cpp:857 tidal/tidalservice.cpp:923
-#: tidal/tidalservice.cpp:985 tidal/tidalstreamurlrequest.cpp:87
+#: tidal/tidalservice.cpp:746 tidal/tidalservice.cpp:806
+#: tidal/tidalservice.cpp:864 tidal/tidalservice.cpp:930
+#: tidal/tidalservice.cpp:992 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr ""
 
@@ -3314,14 +3314,14 @@ msgstr ""
 msgid "Open device"
 msgstr "Apparaat openen"
 
-#: radios/radioview.cpp:89
+#: radios/radioview.cpp:83
 msgid "Open homepage"
 msgstr ""
 
 #: context/contextalbumsview.cpp:263 collection/collectionview.cpp:344
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
 #: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:323
-#: internet/internetcollectionview.cpp:312 radios/radioview.cpp:85
+#: internet/internetcollectionview.cpp:312 radios/radioview.cpp:79
 #: device/deviceview.cpp:245 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
 msgstr "In een nieuwe afspeellijst openen"
@@ -3433,7 +3433,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1285 core/mainwindow.cpp:1778
+#: core/mainwindow.cpp:1285 core/mainwindow.cpp:1780
 #: core/qtsystemtrayicon.cpp:146
 msgid "Pause"
 msgstr "Pauze"
@@ -3462,7 +3462,7 @@ msgid "Plain sidebar"
 msgstr "Normale zijbalk"
 
 #: core/mainwindow.cpp:690 core/mainwindow.cpp:1242 core/mainwindow.cpp:1269
-#: core/mainwindow.cpp:1782 core/qtsystemtrayicon.cpp:159
+#: core/mainwindow.cpp:1784 core/qtsystemtrayicon.cpp:159
 #: core/qtsystemtrayicon.cpp:173
 msgid "Play"
 msgstr "Afspelen"
@@ -3529,7 +3529,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Afspeellijst voltooid"
 
-#: core/mainwindow.cpp:2252
+#: core/mainwindow.cpp:2254
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3701,20 +3701,20 @@ msgstr "apparaat afzoeken..."
 msgid "Queue"
 msgstr ""
 
-#: core/mainwindow.cpp:1882
+#: core/mainwindow.cpp:1884
 msgid "Queue selected tracks"
 msgstr "Geselecteerde nummers in de wachtrij plaatsen"
 
-#: core/mainwindow.cpp:696 core/mainwindow.cpp:1886
+#: core/mainwindow.cpp:696 core/mainwindow.cpp:1888
 msgid "Queue selected tracks to play next"
 msgstr ""
 
-#: core/mainwindow.cpp:1888 collection/collectionview.cpp:348
+#: core/mainwindow.cpp:1890 collection/collectionview.cpp:348
 #: internet/internetcollectionview.cpp:316
 msgid "Queue to play next"
 msgstr ""
 
-#: core/mainwindow.cpp:1881 context/contextalbumsview.cpp:266
+#: core/mainwindow.cpp:1883 context/contextalbumsview.cpp:266
 #: collection/collectionview.cpp:347
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
 #: internet/internetsearchview.cpp:326 internet/internetcollectionview.cpp:315
@@ -3799,7 +3799,7 @@ msgstr ""
 msgid "Refresh catalogue"
 msgstr ""
 
-#: radios/radioview.cpp:97
+#: radios/radioview.cpp:91
 msgid "Refresh channels"
 msgstr ""
 
@@ -3887,7 +3887,7 @@ msgstr "Nummer herhalen"
 #: context/contextalbumsview.cpp:262 collection/collectionview.cpp:343
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
 #: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:322
-#: internet/internetcollectionview.cpp:311 radios/radioview.cpp:81
+#: internet/internetcollectionview.cpp:311 radios/radioview.cpp:75
 #: device/deviceview.cpp:244
 msgid "Replace current playlist"
 msgstr "Huidige afspeellijst vervangen"
@@ -3912,7 +3912,7 @@ msgstr "Replay Gain"
 msgid "Replay Gain mode"
 msgstr "Replay Gain modus"
 
-#: tidal/tidalservice.cpp:366
+#: tidal/tidalservice.cpp:373
 msgid "Reply from Tidal is missing query items."
 msgstr ""
 
@@ -4244,7 +4244,7 @@ msgstr ""
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1920
+#: core/mainwindow.cpp:1922
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Stel %1 in op \"%2\"..."
@@ -4477,11 +4477,11 @@ msgstr "Aantal maal overgeslagen"
 msgid "Skip forwards in playlist"
 msgstr "Vooruit in afspeellijst"
 
-#: core/mainwindow.cpp:1893
+#: core/mainwindow.cpp:1895
 msgid "Skip selected tracks"
 msgstr "Geselecteerde nummers overslaan"
 
-#: core/mainwindow.cpp:1892
+#: core/mainwindow.cpp:1894
 msgid "Skip track"
 msgstr "Nummer overslaan"
 
@@ -4607,7 +4607,7 @@ msgstr "Stoppen met afspelen na nummer: %1"
 msgid "Stopped"
 msgstr "Gestopt"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:418
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "Strawberry"
 msgstr "Strawberry"
 
@@ -4815,7 +4815,7 @@ msgstr "De volgende bestanden worden van schijf verwijderd:"
 msgid "The internet collection is empty!"
 msgstr "De internetcollectie is leeg!"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:418
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
 msgstr "De tweede waarde moet groter zijn dan de eerste!"
 
@@ -4827,7 +4827,7 @@ msgstr "De site die u aanvroeg bestaat niet!"
 msgid "The site you requested is not an image!"
 msgstr "De site die u aanvroeg is geen afbeelding!"
 
-#: core/mainwindow.cpp:2826
+#: core/mainwindow.cpp:2828
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4963,7 +4963,7 @@ msgstr "Titel"
 msgid "Today"
 msgstr "Vandaag"
 
-#: core/mainwindow.cpp:693 core/mainwindow.cpp:1883
+#: core/mainwindow.cpp:693 core/mainwindow.cpp:1885
 msgid "Toggle queue status"
 msgstr "Wachtrijstatus aan/uit"
 
@@ -4971,7 +4971,7 @@ msgstr "Wachtrijstatus aan/uit"
 msgid "Toggle scrobbling"
 msgstr "Zet scrobbling aan/uit"
 
-#: core/mainwindow.cpp:699 core/mainwindow.cpp:1894
+#: core/mainwindow.cpp:699 core/mainwindow.cpp:1896
 msgid "Toggle skip status"
 msgstr ""
 
@@ -5073,11 +5073,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Albumhoes wissen"
 
-#: core/mainwindow.cpp:1891
+#: core/mainwindow.cpp:1893
 msgid "Unskip selected tracks"
 msgstr "Geselecteerde nummers niet overslaan"
 
-#: core/mainwindow.cpp:1890
+#: core/mainwindow.cpp:1892
 msgid "Unskip track"
 msgstr "Nummer niet overslaan"
 
@@ -5324,7 +5324,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2830
+#: core/mainwindow.cpp:2832
 msgid "Would you like to run a full rescan right now?"
 msgstr "Wilt u op dit moment een volledige herscan laten uitvoeren?"
 
