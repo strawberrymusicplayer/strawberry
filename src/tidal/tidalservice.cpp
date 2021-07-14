@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <memory>
+#include <chrono>
 
 #include <QObject>
 #include <QDesktopServices>
@@ -79,6 +80,8 @@ const char *TidalService::kSongsTable = "tidal_songs";
 const char *TidalService::kArtistsSongsFtsTable = "tidal_artists_songs_fts";
 const char *TidalService::kAlbumsSongsFtsTable = "tidal_albums_songs_fts";
 const char *TidalService::kSongsFtsTable = "tidal_songs_fts";
+
+using namespace std::chrono_literals;
 
 TidalService::TidalService(Application *app, QObject *parent)
     : InternetService(Song::Source_Tidal, "Tidal", "tidal", TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, app, parent),
@@ -258,8 +261,12 @@ void TidalService::LoadSession() {
 
   if (!refresh_token_.isEmpty()) {
     qint64 time = expires_in_ - (QDateTime::currentDateTime().toSecsSinceEpoch() - login_time_);
-    if (time < 6) time = 6;
-    timer_refresh_login_->setInterval(static_cast<int>(time * kMsecPerSec));
+    if (time <= 0) {
+      timer_refresh_login_->setInterval(200ms);
+    }
+    else {
+      timer_refresh_login_->setInterval(static_cast<int>(time * kMsecPerSec));
+    }
     timer_refresh_login_->start();
   }
 

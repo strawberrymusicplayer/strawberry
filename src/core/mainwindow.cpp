@@ -1431,7 +1431,9 @@ void MainWindow::LoadPlaybackStatus() {
   s.endGroup();
 
   if (resume_playback && playback_state != Engine::Empty && playback_state != Engine::Idle) {
-    QObject::connect(app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, &MainWindow::ResumePlayback);
+    QObject::connect(app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, [this]() {
+      QTimer::singleShot(400, this, &MainWindow::ResumePlayback);
+    });
   }
 
 }
