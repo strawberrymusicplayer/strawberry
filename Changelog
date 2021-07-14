@@ -8,6 +8,9 @@ Unreleased:
     * Fix updating temporary metadata when reloading songs outside of the collection.
     * Don't strip off "Live" from song title when sending scrobbles.
     * Fix incorrect use of QFutureWatcher.
+    * Fix compile of Utilities::Hmac with Qt 6.3.
+    * Fix a memory leak when using right click context menu in internet search.
+    * Fix a gstreamer bus leak when adding streams and remote playlists.
     * (Windows) Fix adding songs with Japanese characters from the files tab.
 
   Enhancements:
@@ -29,6 +32,7 @@ Unreleased:
     * Add Subsonic option to turn off HTTP2.
     * Fix minor Clang-Tidy and Clazy warnings.
     * Use higher resolution images from last.fm API
+    * Add radios view with channels from Radio Paradise and SomaFM.
     * (macOS) Build with libgpod.
 
 0.9.3:
