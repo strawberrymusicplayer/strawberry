@@ -358,10 +358,13 @@ void SongLoader::EffectiveSongLoad(Song *song) {
 }
 
 void SongLoader::LoadPlaylist(ParserBase *parser, const QString &filename) {
+
   QFile file(filename);
-  file.open(QIODevice::ReadOnly);
-  songs_ = parser->Load(&file, filename, QFileInfo(filename).path());
-  file.close();
+  if (file.open(QIODevice::ReadOnly)) {
+    songs_ = parser->Load(&file, filename, QFileInfo(filename).path());
+    file.close();
+  }
+
 }
 
 static bool CompareSongs(const Song &left, const Song &right) {
@@ -429,9 +432,10 @@ void SongLoader::StopTypefind() {
 
     // Parse the playlist
     QBuffer buf(&buffer_);
-    buf.open(QIODevice::ReadOnly);
-    songs_ = parser_->Load(&buf);
-    buf.close();
+    if (buf.open(QIODevice::ReadOnly)) {
+      songs_ = parser_->Load(&buf);
+      buf.close();
+    }
 
   }
   else if (success_) {

@@ -342,12 +342,12 @@ QMimeData *Queue::mimeData(const QModelIndexList &indexes) const {
   }
 
   QBuffer buf;
-  buf.open(QIODevice::WriteOnly);
-  QDataStream stream(&buf);
-  stream << rows;
-  buf.close();
-
-  data->setData(kRowsMimetype, buf.data());
+  if (buf.open(QIODevice::WriteOnly)) {
+    QDataStream stream(&buf);
+    stream << rows;
+    buf.close();
+    data->setData(kRowsMimetype, buf.data());
+  }
 
   return data;
 

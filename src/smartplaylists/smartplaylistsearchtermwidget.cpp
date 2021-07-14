@@ -124,14 +124,16 @@ SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(CollectionBackend *
 
   // Set stylesheet
   QFile stylesheet_file(":/style/smartplaylistsearchterm.css");
-  stylesheet_file.open(QIODevice::ReadOnly);
-  QString stylesheet = QString::fromLatin1(stylesheet_file.readAll());
-  const QColor base(222, 97, 97, 128);
-  stylesheet.replace("%light2", Utilities::ColorToRgba(base.lighter(140)));
-  stylesheet.replace("%light", Utilities::ColorToRgba(base.lighter(120)));
-  stylesheet.replace("%dark", Utilities::ColorToRgba(base.darker(120)));
-  stylesheet.replace("%base", Utilities::ColorToRgba(base));
-  setStyleSheet(stylesheet);
+  if (stylesheet_file.open(QIODevice::ReadOnly)) {
+    QString stylesheet = QString::fromLatin1(stylesheet_file.readAll());
+    stylesheet_file.close();
+    const QColor base(222, 97, 97, 128);
+    stylesheet.replace("%light2", Utilities::ColorToRgba(base.lighter(140)));
+    stylesheet.replace("%light", Utilities::ColorToRgba(base.lighter(120)));
+    stylesheet.replace("%dark", Utilities::ColorToRgba(base.darker(120)));
+    stylesheet.replace("%base", Utilities::ColorToRgba(base));
+    setStyleSheet(stylesheet);
+  }
 
 }
 

@@ -294,6 +294,7 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::share
       if (!cue_file.open(QIODevice::ReadOnly)) return item;
 
       song_list = cue_parser.Load(&cue_file, cue_path, QDir(cue_path.section('/', 0, -2)));
+      cue_file.close();
       state->cached_cues_[cue_path] = song_list;
     }
     else {

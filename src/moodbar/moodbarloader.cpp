@@ -113,6 +113,7 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, QByteArray *data, Moo
     if (f.open(QIODevice::ReadOnly)) {
       qLog(Info) << "Loading moodbar data from" << possible_mood_file;
       *data = f.readAll();
+      f.close();
       return Loaded;
     }
   }
@@ -184,6 +185,7 @@ void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
       QFile mood_file(mood_filename);
       if (mood_file.open(QIODevice::WriteOnly)) {
         mood_file.write(request->data());
+        mood_file.close();
 
 #ifdef Q_OS_WIN32
         if (!SetFileAttributes((LPCTSTR)mood_filename.utf16(), FILE_ATTRIBUTE_HIDDEN)) {

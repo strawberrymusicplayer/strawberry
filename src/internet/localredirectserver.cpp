@@ -341,8 +341,9 @@ void LocalRedirectServer::ReadyRead() {
 void LocalRedirectServer::WriteTemplate() const {
 
   QFile page_file(":/html/oauthsuccess.html");
-  page_file.open(QIODevice::ReadOnly);
+  if (!page_file.open(QIODevice::ReadOnly)) return;
   QString page_data = QString::fromUtf8(page_file.readAll());
+  page_file.close();
 
   QRegularExpression tr_regexp("tr\\(\"([^\"]+)\"\\)");
   int offset = 0;
@@ -359,13 +360,15 @@ void LocalRedirectServer::WriteTemplate() const {
   }
 
   QBuffer image_buffer;
-  image_buffer.open(QIODevice::ReadWrite);
-  QApplication::style()
-      ->standardIcon(QStyle::SP_DialogOkButton)
-      .pixmap(16)
-      .toImage()
-      .save(&image_buffer, "PNG");
-  page_data.replace("@IMAGE_DATA@", image_buffer.data().toBase64());
+  if (image_buffer.open(QIODevice::ReadWrite)) {
+    QApplication::style()
+        ->standardIcon(QStyle::SP_DialogOkButton)
+        .pixmap(16)
+        .toImage()
+        .save(&image_buffer, "PNG");
+    page_data.replace("@IMAGE_DATA@", image_buffer.data().toBase64());
+    image_buffer.close();
+  }
 
   socket_->write("HTTP/1.0 200 OK\r\n");
   socket_->write("Content-type: text/html;charset=UTF-8\r\n");

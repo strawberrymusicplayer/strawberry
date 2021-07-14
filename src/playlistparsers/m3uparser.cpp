@@ -46,8 +46,6 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
 
   Q_UNUSED(playlist_path);
 
-  SongList ret;
-
   M3UType type = STANDARD;
   Metadata current_metadata;
 
@@ -56,7 +54,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
   data.replace("\n\n", "\n");
   QByteArray bytes = data.toUtf8();
   QBuffer buffer(&bytes);
-  buffer.open(QIODevice::ReadOnly);
+  if (!buffer.open(QIODevice::ReadOnly)) return SongList();
 
   QString line = QString::fromUtf8(buffer.readLine()).trimmed();
   if (line.startsWith("#EXTM3U")) {
@@ -65,6 +63,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
     line = QString::fromUtf8(buffer.readLine()).trimmed();
   }
 
+  SongList ret;
   forever {
     if (line.startsWith('#')) {
       // Extended info or comment.
@@ -94,6 +93,8 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
     }
     line = QString::fromUtf8(buffer.readLine()).trimmed();
   }
+
+  buffer.close();
 
   return ret;
 

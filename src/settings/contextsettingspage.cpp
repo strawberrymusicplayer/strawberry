@@ -120,6 +120,7 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
     QString text = file.readAll();
     ui_->preview_headline->setText(text);
     ui_->preview_normal->setText(text);
+    file.close();
   }
 
 }

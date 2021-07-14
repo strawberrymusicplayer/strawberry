@@ -790,6 +790,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
     // Playlist parser for CUEs considers every entry in sheet valid and we don't want invalid media getting into collection!
     QString file_nfd = file.normalized(QString::NormalizationForm_D);
     SongList cue_congs = cue_parser_->Load(&cue_file, matching_cue, path, false);
+    cue_file.close();
     songs.reserve(cue_congs.count());
     for (Song &cue_song : cue_congs) {
       cue_song.set_source(source_);

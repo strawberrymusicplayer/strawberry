@@ -63,21 +63,23 @@ SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const 
   }
 
   QBuffer buffer(&data);
-  buffer.open(QIODevice::ReadOnly);
-
-  SongList ret;
+  if (!buffer.open(QIODevice::ReadOnly)) return SongList();
 
   QXmlStreamReader reader(&buffer);
   if (!Utilities::ParseUntilElementCI(&reader, "asx")) {
-    return ret;
+    buffer.close();
+    return SongList();
   }
 
+  SongList ret;
   while (!reader.atEnd() && Utilities::ParseUntilElementCI(&reader, "entry")) {
     Song song = ParseTrack(&reader, dir, collection_search);
     if (song.is_valid()) {
       ret << song;
     }
   }
+
+  buffer.close();
 
   return ret;
 

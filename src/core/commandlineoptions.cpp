@@ -340,11 +340,11 @@ bool CommandlineOptions::contains_play_options() const {
 QByteArray CommandlineOptions::Serialize() const {
 
   QBuffer buf;
-  buf.open(QIODevice::WriteOnly);
-
-  QDataStream s(&buf);
-  s << *this;
-  buf.close();
+  if (buf.open(QIODevice::WriteOnly)) {
+    QDataStream s(&buf);
+    s << *this;
+    buf.close();
+  }
 
   return buf.data().toBase64();
 
@@ -354,10 +354,10 @@ void CommandlineOptions::Load(const QByteArray &serialized) {
 
   QByteArray copy = QByteArray::fromBase64(serialized);
   QBuffer buf(&copy);
-  buf.open(QIODevice::ReadOnly);
-
-  QDataStream s(&buf);
-  s >> *this;
+  if (buf.open(QIODevice::ReadOnly)) {
+    QDataStream s(&buf);
+    s >> *this;
+  }
 
 }
 
