@@ -26,6 +26,8 @@
 #include "core/song.h"
 #include "radiochannel.h"
 
+class QSortFilterProxyModel;
+
 class Application;
 class NetworkAccessManager;
 class RadioBackend;
@@ -53,6 +55,7 @@ class RadioServices : public QObject {
 
   RadioBackend *radio_backend() const { return backend_; }
   RadioModel *radio_model() const { return model_; }
+  QSortFilterProxyModel *sort_model() const { return sort_model_; }
 
  private slots:
   void ServiceDeleted();
@@ -67,6 +70,7 @@ class RadioServices : public QObject {
   NetworkAccessManager *network_;
   RadioBackend *backend_;
   RadioModel *model_;
+  QSortFilterProxyModel *sort_model_;
   QMap<Song::Source, RadioService*> services_;
   bool channels_refresh_;
 };

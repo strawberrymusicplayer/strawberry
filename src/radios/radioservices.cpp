@@ -18,6 +18,7 @@
  */
 
 #include <QObject>
+#include <QSortFilterProxyModel>
 
 #include "core/logging.h"
 #include "core/application.h"
@@ -36,12 +37,19 @@ RadioServices::RadioServices(Application *app, QObject *parent)
       network_(new NetworkAccessManager(this)),
       backend_(nullptr),
       model_(new RadioModel(app, this)),
+      sort_model_(new QSortFilterProxyModel(this)),
       channels_refresh_(false) {
 
   backend_ = new RadioBackend(app->database());
   app->MoveToThread(backend_, app->database()->thread());
 
   QObject::connect(backend_, &RadioBackend::NewChannels, this, &RadioServices::GotChannelsFromBackend);
+
+  sort_model_->setSourceModel(model_);
+  sort_model_->setSortRole(RadioModel::Role_SortText);
+  sort_model_->setDynamicSortFilter(true);
+  sort_model_->setSortLocaleAware(true);
+  sort_model_->sort(0);
 
   AddService(new SomaFMService(app, network_, this));
   AddService(new RadioParadiseService(app, network_, this));

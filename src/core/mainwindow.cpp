@@ -405,7 +405,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 
   organize_dialog_->SetDestinationModel(app_->collection()->model()->directory_model());
 
-  radio_view_->view()->SetModel(app_->radio_services()->radio_model());
+  radio_view_->view()->setModel(app_->radio_services()->sort_model());
 
   // Icons
   qLog(Debug) << "Creating UI";

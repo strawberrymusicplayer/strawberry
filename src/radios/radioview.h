@@ -39,7 +39,6 @@ class RadioView : public AutoExpandingTreeView {
   explicit RadioView(QWidget *parent = nullptr);
   ~RadioView();
 
-  void SetModel(RadioModel *model);
   void showEvent(QShowEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
 
