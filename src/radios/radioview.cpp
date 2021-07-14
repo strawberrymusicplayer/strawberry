@@ -105,13 +105,19 @@ void RadioView::contextMenuEvent(QContextMenuEvent *e) {
 
 void RadioView::AddToPlaylist() {
 
-  emit AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
+  const QModelIndexList selected_indexes = selectedIndexes();
+  if (selected_indexes.isEmpty()) return;
+
+  emit AddToPlaylistSignal(model()->mimeData(selected_indexes));
 
 }
 
 void RadioView::ReplacePlaylist() {
 
-  QMimeData *qmimedata = model()->mimeData(selectedIndexes());
+  const QModelIndexList selected_indexes = selectedIndexes();
+  if (selected_indexes.isEmpty()) return;
+
+  QMimeData *qmimedata = model()->mimeData(selected_indexes);
   if (MimeData *mimedata = qobject_cast<MimeData*>(qmimedata)) {
     mimedata->clear_first_ = true;
   }
@@ -122,7 +128,10 @@ void RadioView::ReplacePlaylist() {
 
 void RadioView::OpenInNewPlaylist() {
 
-  QMimeData *qmimedata = model()->mimeData(selectedIndexes());
+  const QModelIndexList selected_indexes = selectedIndexes();
+  if (selected_indexes.isEmpty()) return;
+
+  QMimeData *qmimedata = model()->mimeData(selected_indexes);
   if (RadioMimeData *mimedata = qobject_cast<RadioMimeData*>(qmimedata)) {
     mimedata->open_in_new_playlist_ = true;
     if (!mimedata->songs.isEmpty()) {
@@ -136,10 +145,11 @@ void RadioView::OpenInNewPlaylist() {
 
 void RadioView::Homepage() {
 
-  const QModelIndexList indexes = selectedIndexes();
+  const QModelIndexList selected_indexes = selectedIndexes();
+  if (selected_indexes.isEmpty()) return;
 
   QList<QUrl> urls;
-  for (const QModelIndex &idx : indexes) {
+  for (const QModelIndex &idx : selected_indexes) {
     QUrl url = idx.data(RadioModel::Role_Homepage).toUrl();
     if (!urls.contains(url)) {
       urls << url;
@@ -154,10 +164,11 @@ void RadioView::Homepage() {
 
 void RadioView::Donate() {
 
-  const QModelIndexList indexes = selectedIndexes();
+  const QModelIndexList selected_indexes = selectedIndexes();
+  if (selected_indexes.isEmpty()) return;
 
   QList<QUrl> urls;
-  for (const QModelIndex &idx : indexes) {
+  for (const QModelIndex &idx : selected_indexes) {
     QUrl url = idx.data(RadioModel::Role_Donate).toUrl();
     if (!urls.contains(url)) {
       urls << url;
@@ -172,10 +183,10 @@ void RadioView::Donate() {
 
 void RadioView::DoubleClicked() {
 
-  const QModelIndexList indexes = selectedIndexes();
-  if (indexes.isEmpty()) return;
+  const QModelIndexList selected_indexes = selectedIndexes();
+  if (selected_indexes.isEmpty()) return;
 
-  for (const QModelIndex &idx : indexes) {
+  for (const QModelIndex &idx : selected_indexes) {
     if (idx.data(RadioModel::Role_Type).toInt() != RadioItem::Type_Channel) {
       return;
     }
