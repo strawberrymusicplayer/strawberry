@@ -168,23 +168,23 @@ void RadioModel::AddChannels(const RadioChannelList &channels) {
       container = container_nodes_[channel.source];
     }
     else {
+      beginInsertRows(ItemToIndex(root_), root_->children.count(), root_->children.count());
       RadioItem *item = new RadioItem(RadioItem::Type_Service, root_);
       item->source = channel.source;
       item->display_text = Song::DescriptionForSource(channel.source);
       item->sort_text = SortText(Song::TextForSource(channel.source));
       item->lazy_loaded = true;
-      beginInsertRows(ItemToIndex(root_), root_->children.count(), root_->children.count());
       container_nodes_.insert(channel.source, item);
       endInsertRows();
       container = item;
     }
+    beginInsertRows(ItemToIndex(container), container->children.count(), container->children.count());
     RadioItem *item = new RadioItem(RadioItem::Type_Channel, container);
     item->source = channel.source;
     item->display_text = channel.name;
     item->sort_text = SortText(Song::TextForSource(channel.source) + " - " + channel.name);
     item->channel = channel;
     item->lazy_loaded = true;
-    beginInsertRows(ItemToIndex(container), container->children.count(), container->children.count());
     items_ << item;
     endInsertRows();
   }
