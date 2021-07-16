@@ -1059,6 +1059,69 @@ optional_source(HAVE_MOODBAR
     settings/moodbarsettingspage.ui
 )
 
+optional_source(HAVE_PODCASTS
+  SOURCES
+    podcasts/gpoddersync.cpp
+    podcasts/gpoddertoptagsmodel.cpp
+    podcasts/gpoddertoptagspage.cpp
+    podcasts/itunessearchpage.cpp
+    podcasts/podcastbackend.cpp
+    podcasts/podcastservice.cpp
+    podcasts/podcast.cpp
+    podcasts/podcastdownloader.cpp
+    podcasts/podcastupdater.cpp
+    podcasts/podcastdeleter.cpp
+    podcasts/podcastdiscoverymodel.cpp
+    podcasts/podcastepisode.cpp
+    podcasts/podcastinfodialog.cpp
+    podcasts/podcastinfowidget.cpp
+    podcasts/podcastparser.cpp
+    podcasts/podcastservicemodel.cpp
+    podcasts/podcasturlloader.cpp
+    podcasts/gpoddersearchpage.cpp
+    podcasts/addpodcastbyurl.cpp
+    podcasts/addpodcastdialog.cpp
+    podcasts/addpodcastpage.cpp
+    podcasts/episodeinfowidget.cpp
+    podcasts/fixedopmlpage.cpp
+    settings/podcastsettingspage.cpp
+  HEADERS
+    podcasts/addpodcastbyurl.h
+    podcasts/addpodcastdialog.h
+    podcasts/addpodcastpage.h
+    podcasts/episodeinfowidget.h
+    podcasts/fixedopmlpage.h
+    podcasts/gpoddersync.h
+    podcasts/gpoddertoptagsmodel.h
+    podcasts/gpoddertoptagspage.h
+    podcasts/itunessearchpage.h
+    podcasts/opmlcontainer.h
+    podcasts/podcastbackend.h
+    podcasts/podcastdeleter.h
+    podcasts/podcastdiscoverymodel.h
+    podcasts/podcastdownloader.h
+    podcasts/podcastepisode.h
+    podcasts/podcast.h
+    podcasts/podcastinfodialog.h
+    podcasts/podcastinfowidget.h
+    podcasts/podcastparser.h
+    podcasts/podcastservice.h
+    podcasts/podcastservicemodel.h
+    podcasts/podcastupdater.h
+    podcasts/podcasturlloader.h
+    podcasts/gpoddersearchpage.h
+    settings/podcastsettingspage.h
+  UI
+    podcasts/addpodcastbyurl.ui
+    podcasts/addpodcastdialog.ui
+    podcasts/episodeinfowidget.ui
+    podcasts/itunessearchpage.ui
+    podcasts/podcastinfodialog.ui
+    podcasts/podcastinfowidget.ui
+    podcasts/gpoddersearchpage.ui
+    settings/podcastsettingspage.ui
+)
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
@@ -1166,6 +1229,10 @@ endif(HAVE_LIBGPOD)
 if(HAVE_LIBMTP)
   link_directories(${LIBMTP_LIBRARY_DIRS})
 endif(HAVE_LIBMTP)
+
+if(HAVE_PODCASTS)
+  link_directories(${LIBMYGPO_LIBRARY_DIRS})
+endif()
 
 add_library(strawberry_lib STATIC
   ${SOURCES}
@@ -1289,6 +1356,10 @@ if(HAVE_LIBMTP)
   target_link_libraries(strawberry_lib PRIVATE ${LIBMTP_LIBRARIES})
 endif(HAVE_LIBMTP)
 
+if(HAVE_PODCASTS)
+  target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBMYGPO_INCLUDE_DIRS})
+  target_link_libraries(strawberry_lib PRIVATE ${LIBMYGPO_LIBRARIES})
+endif(HAVE_PODCASTS)
 
 if(APPLE)
   target_link_libraries(strawberry_lib PRIVATE

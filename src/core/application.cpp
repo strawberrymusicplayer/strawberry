@@ -94,6 +94,14 @@
 #include "radios/radioservices.h"
 #include "radios/radiobackend.h"
 
+#ifdef HAVE_PODCASTS
+#  include "podcasts/podcastbackend.h"
+#  include "podcasts/gpoddersync.h"
+#  include "podcasts/podcastdownloader.h"
+#  include "podcasts/podcastupdater.h"
+#  include "podcasts/podcastdeleter.h"
+#endif
+
 using namespace std::chrono_literals;
 
 class ApplicationImpl {
@@ -180,6 +188,21 @@ class ApplicationImpl {
         moodbar_loader_([=]() { return new MoodbarLoader(app, app); }),
         moodbar_controller_([=]() { return new MoodbarController(app, app); }),
 #endif
+#ifdef HAVE_PODCASTS
+        podcast_backend_([=]() {
+          PodcastBackend* backend = new PodcastBackend(app, app);
+          app->MoveToThread(backend, database_->thread());
+          return backend;
+        }),
+        gpodder_sync_([=]() { return new GPodderSync(app, app); }),
+        podcast_downloader_([=]() { return new PodcastDownloader(app, app); }),
+        podcast_updater_([=]() { return new PodcastUpdater(app, app); }),
+        podcast_deleter_([=]() {
+          PodcastDeleter* deleter = new PodcastDeleter(app, app);
+          app->MoveToNewThread(deleter);
+          return deleter;
+        }),
+#endif
         lastfm_import_([=]() { return new LastFMImport(app); })
   {}
 
@@ -205,6 +228,13 @@ class ApplicationImpl {
 #ifdef HAVE_MOODBAR
   Lazy<MoodbarLoader> moodbar_loader_;
   Lazy<MoodbarController> moodbar_controller_;
+#endif
+#ifdef HAVE_PODCASTS
+  Lazy<PodcastBackend> podcast_backend_;
+  Lazy<GPodderSync> gpodder_sync_;
+  Lazy<PodcastDownloader> podcast_downloader_;
+  Lazy<PodcastUpdater> podcast_updater_;
+  Lazy<PodcastDeleter> podcast_deleter_;
 #endif
   Lazy<LastFMImport> lastfm_import_;
 
@@ -339,4 +369,11 @@ LastFMImport *Application::lastfm_import() const { return p_->lastfm_import_.get
 #ifdef HAVE_MOODBAR
 MoodbarController *Application::moodbar_controller() const { return p_->moodbar_controller_.get(); }
 MoodbarLoader *Application::moodbar_loader() const { return p_->moodbar_loader_.get(); }
+#endif
+#ifdef HAVE_PODCASTS
+PodcastBackend *Application::podcast_backend() const { return p_->podcast_backend_.get(); }
+GPodderSync *Application::gpodder_sync() const { return p_->gpodder_sync_.get(); }
+PodcastDownloader *Application::podcast_downloader() const { return p_->podcast_downloader_.get(); }
+PodcastUpdater *Application::podcast_updater() const { return p_->podcast_updater_.get(); }
+PodcastDeleter *Application::podcast_deleter() const { return p_->podcast_deleter_.get(); }
 #endif

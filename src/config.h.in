@@ -31,6 +31,7 @@
 #cmakedefine HAVE_QOBUZ
 
 #cmakedefine HAVE_MOODBAR
+#cmakedefine HAVE_PODCASTS
 
 #cmakedefine HAVE_KEYSYMDEF_H
 #cmakedefine HAVE_XF86KEYSYM_H
