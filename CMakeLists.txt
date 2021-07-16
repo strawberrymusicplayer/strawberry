@@ -208,6 +208,8 @@ else()
   pkg_check_modules(TAGLIB REQUIRED IMPORTED_TARGET taglib>=1.12)
 endif()
 
+pkg_check_modules(LIBMYGPO libmygpo-qt6)
+
 find_package(GTest)
 
 pkg_check_modules(LIBSPARSEHASH IMPORTED_TARGET libsparsehash)
@@ -380,6 +382,8 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
 optional_component(DISCORD_RPC ON "Discord Rich Presence"
   DEPENDS "RapidJSON" RapidJSON_FOUND
 )
+
+optional_component(PODCASTS ON "Podcasts support" DEPENDS "libmygpo" LIBMYGPO_FOUND)
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   set(HAVE_CHROMAPRINT ON)
@@ -1478,6 +1482,69 @@ optional_source(HAVE_QOBUZ
     src/covermanager/qobuzcoverprovider.h
   UI
     src/settings/qobuzsettingspage.ui
+)
+
+optional_source(HAVE_PODCASTS
+  SOURCES
+    podcasts/gpoddersync.cpp
+    podcasts/gpoddertoptagsmodel.cpp
+    podcasts/gpoddertoptagspage.cpp
+    podcasts/itunessearchpage.cpp
+    podcasts/podcastbackend.cpp
+    podcasts/podcastservice.cpp
+    podcasts/podcast.cpp
+    podcasts/podcastdownloader.cpp
+    podcasts/podcastupdater.cpp
+    podcasts/podcastdeleter.cpp
+    podcasts/podcastdiscoverymodel.cpp
+    podcasts/podcastepisode.cpp
+    podcasts/podcastinfodialog.cpp
+    podcasts/podcastinfowidget.cpp
+    podcasts/podcastparser.cpp
+    podcasts/podcastservicemodel.cpp
+    podcasts/podcasturlloader.cpp
+    podcasts/gpoddersearchpage.cpp
+    podcasts/addpodcastbyurl.cpp
+    podcasts/addpodcastdialog.cpp
+    podcasts/addpodcastpage.cpp
+    podcasts/episodeinfowidget.cpp
+    podcasts/fixedopmlpage.cpp
+    settings/podcastsettingspage.cpp
+  HEADERS
+    podcasts/addpodcastbyurl.h
+    podcasts/addpodcastdialog.h
+    podcasts/addpodcastpage.h
+    podcasts/episodeinfowidget.h
+    podcasts/fixedopmlpage.h
+    podcasts/gpoddersync.h
+    podcasts/gpoddertoptagsmodel.h
+    podcasts/gpoddertoptagspage.h
+    podcasts/itunessearchpage.h
+    podcasts/opmlcontainer.h
+    podcasts/podcastbackend.h
+    podcasts/podcastdeleter.h
+    podcasts/podcastdiscoverymodel.h
+    podcasts/podcastdownloader.h
+    podcasts/podcastepisode.h
+    podcasts/podcast.h
+    podcasts/podcastinfodialog.h
+    podcasts/podcastinfowidget.h
+    podcasts/podcastparser.h
+    podcasts/podcastservice.h
+    podcasts/podcastservicemodel.h
+    podcasts/podcastupdater.h
+    podcasts/podcasturlloader.h
+    podcasts/gpoddersearchpage.h
+    settings/podcastsettingspage.h
+  UI
+    podcasts/addpodcastbyurl.ui
+    podcasts/addpodcastdialog.ui
+    podcasts/episodeinfowidget.ui
+    podcasts/itunessearchpage.ui
+    podcasts/podcastinfodialog.ui
+    podcasts/podcastinfowidget.ui
+    podcasts/gpoddersearchpage.ui
+    settings/podcastsettingspage.ui
 )
 
 qt_wrap_cpp(SOURCES ${HEADERS})
