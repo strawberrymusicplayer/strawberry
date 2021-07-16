@@ -65,6 +65,13 @@ class MoodbarLoader;
 class WaveformController;
 class WaveformLoader;
 #endif
+#ifdef HAVE_PODCASTS
+class PodcastBackend;
+class GPodderSync;
+class PodcastDownloader;
+class PodcastUpdater;
+class PodcastDeleter;
+#endif
 class AudioScrobbler;
 
 class Application : public QObject {
@@ -102,6 +109,13 @@ class Application : public QObject {
 #ifdef HAVE_MOODBAR
   SharedPtr<MoodbarController> moodbar_controller() const;
   SharedPtr<MoodbarLoader> moodbar_loader() const;
+#endif
+#ifdef HAVE_PODCASTS
+  PodcastBackend *podcast_backend() const;
+  GPodderSync *gpodder_sync() const;
+  PodcastDownloader *podcast_downloader() const;
+  PodcastUpdater *podcast_updater() const;
+  PodcastDeleter *podcast_deleter() const;
 #endif
 
 #ifdef HAVE_WAVEFORM
