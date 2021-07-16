@@ -112,7 +112,16 @@
 #include "radios/radioservices.h"
 #include "radios/radiobackend.h"
 
+#ifdef HAVE_PODCASTS
+#  include "podcasts/podcastbackend.h"
+#  include "podcasts/gpoddersync.h"
+#  include "podcasts/podcastdownloader.h"
+#  include "podcasts/podcastupdater.h"
+#  include "podcasts/podcastdeleter.h"
+#endif
+
 using std::make_shared;
+
 using namespace std::chrono_literals;
 
 class ApplicationImpl {
@@ -216,6 +225,21 @@ class ApplicationImpl {
         moodbar_loader_([app]() { return new MoodbarLoader(app); }),
         moodbar_controller_([app]() { return new MoodbarController(app->player(), app->moodbar_loader()); }),
 #endif
+#ifdef HAVE_PODCASTS
+        podcast_backend_([app]() {
+          PodcastBackend* backend = new PodcastBackend(app, app);
+          app->MoveToThread(backend, database_->thread());
+          return backend;
+        }),
+        gpodder_sync_([app]() { return new GPodderSync(app, app); }),
+        podcast_downloader_([app]() { return new PodcastDownloader(app, app); }),
+        podcast_updater_([app]() { return new PodcastUpdater(app, app); }),
+        podcast_deleter_([app]() {
+          PodcastDeleter* deleter = new PodcastDeleter(app, app);
+          app->MoveToNewThread(deleter);
+          return deleter;
+        }),
+#endif
         lastfm_import_([app]() { return new LastFMImport(app->network()); })
   {}
 
@@ -240,6 +264,13 @@ class ApplicationImpl {
 #ifdef HAVE_MOODBAR
   Lazy<MoodbarLoader> moodbar_loader_;
   Lazy<MoodbarController> moodbar_controller_;
+#endif
+#ifdef HAVE_PODCASTS
+  Lazy<PodcastBackend> podcast_backend_;
+  Lazy<GPodderSync> gpodder_sync_;
+  Lazy<PodcastDownloader> podcast_downloader_;
+  Lazy<PodcastUpdater> podcast_updater_;
+  Lazy<PodcastDeleter> podcast_deleter_;
 #endif
   Lazy<LastFMImport> lastfm_import_;
 
@@ -388,4 +419,11 @@ SharedPtr<LastFMImport> Application::lastfm_import() const { return p_->lastfm_i
 #ifdef HAVE_MOODBAR
 SharedPtr<MoodbarController> Application::moodbar_controller() const { return p_->moodbar_controller_.ptr(); }
 SharedPtr<MoodbarLoader> Application::moodbar_loader() const { return p_->moodbar_loader_.ptr(); }
+#endif
+#ifdef HAVE_PODCASTS
+PodcastBackend *Application::podcast_backend() const { return p_->podcast_backend_.get(); }
+GPodderSync *Application::gpodder_sync() const { return p_->gpodder_sync_.get(); }
+PodcastDownloader *Application::podcast_downloader() const { return p_->podcast_downloader_.get(); }
+PodcastUpdater *Application::podcast_updater() const { return p_->podcast_updater_.get(); }
+PodcastDeleter *Application::podcast_deleter() const { return p_->podcast_deleter_.get(); }
 #endif
