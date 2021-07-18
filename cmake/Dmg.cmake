@@ -26,7 +26,6 @@ if(MACDEPLOYQT_EXECUTABLE)
     COMMAND mkdir -p ${CMAKE_BINARY_DIR}/strawberry.app/Contents/{Frameworks,Resources}
     COMMAND cp ${CMAKE_SOURCE_DIR}/dist/macos/Info.plist ${CMAKE_BINARY_DIR}/strawberry.app/Contents/
     COMMAND cp ${CMAKE_SOURCE_DIR}/dist/macos/strawberry.icns ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources/
-    COMMAND cp /usr/local/lib/libbrotlicommon.1.dylib ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/
     COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     DEPENDS strawberry strawberry-tagreader macdeployqt

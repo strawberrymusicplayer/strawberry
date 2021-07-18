@@ -1216,7 +1216,15 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
     {
       QString sourcePath = qgetenv("GIO_EXTRA_MODULES");
       if (sourcePath.isEmpty()) {
-        sourcePath = "/usr/local/lib/gio/modules/libgiognutls.so";
+        if (QFileInfo::exists("/usr/local/lib/gio/modules/libgiognutls.so")) {
+          sourcePath = "/usr/local/lib/gio/modules/libgiognutls.so";
+        }
+        else if (QFileInfo::exists("/opt/local/lib/gio/modules/libgiognutls.so")) {
+          sourcePath = "/opt/local/lib/gio/modules/libgiognutls.so";
+        }
+        else {
+          qFatal("Missing GIO_EXTRA_MODULES");
+        }
       }
       else {
         sourcePath = sourcePath + "/libgiognutls.so";
@@ -1234,7 +1242,15 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
     {
       QString sourcePath = qgetenv("GST_PLUGIN_SCANNER");
       if (sourcePath.isEmpty()) {
-        sourcePath = "/usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner";
+        if (QFileInfo::exists("/usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner")) {
+          sourcePath = "/usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner";
+        }
+        else if (QFileInfo::exists("/opt/local/libexec/gstreamer-1.0/gst-plugin-scanner")) {
+          sourcePath = "/opt/local/libexec/gstreamer-1.0/gst-plugin-scanner";
+        }
+        else {
+          qFatal("Missing GST_PLUGIN_SCANNER.");
+        }
       }
       const QString destinationPath = appBundleInfo.path + "/" + "Contents/PlugIns/gst-plugin-scanner";
       QDir dir;
@@ -1281,11 +1297,9 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
                                                   << "libgstrtsp.dylib"
                                                   << "libgstflac.dylib"
                                                   << "libgstwavparse.dylib"
-                                                  << "libgstfaac.dylib"
                                                   << "libgstfaad.dylib"
                                                   << "libgstogg.dylib"
                                                   << "libgstopus.dylib"
-                                                  << "libgstopusparse.dylib"
                                                   << "libgstasf.dylib"
                                                   << "libgstspeex.dylib"
                                                   << "libgsttaglib.dylib"
@@ -1293,22 +1307,59 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
                                                   << "libgstisomp4.dylib"
                                                   << "libgstlibav.dylib"
                                                   << "libgstaiff.dylib"
-                                                  << "libgstlame.dylib"
-                                                  << "libgstmusepack.dylib";
+                                                  << "libgstlame.dylib";
 
-   QString gstreamer_plugins_dir = qgetenv("GST_PLUGIN_PATH");
-   if (gstreamer_plugins_dir.isEmpty()) {
-     gstreamer_plugins_dir = "/usr/local/lib/gstreamer-1.0";
-   }
+    // macports does not have these.
+    QStringList gstreamer_plugins_optional = QStringList() << "libgstopusparse.dylib"
+                                                           << "libgstfaac.dylib"
+                                                           << "libgstmusepack.dylib";
+
+    QString gstreamer_plugins_dir = qgetenv("GST_PLUGIN_PATH");
+    if (gstreamer_plugins_dir.isEmpty()) {
+      if (QDir().exists("/usr/local/lib/gstreamer-1.0")) {
+        gstreamer_plugins_dir = "/usr/local/lib/gstreamer-1.0";
+      }
+      else if (QDir().exists("/opt/local/lib/gstreamer-1.0")) {
+        gstreamer_plugins_dir = "/opt/local/lib/gstreamer-1.0";
+      }
+      else {
+        qFatal("Missing GST_PLUGIN_PATH.");
+      }
+    }
 
     for (const QString &plugin : gstreamer_plugins) {
-        const QString sourcePath = gstreamer_plugins_dir + "/" + plugin;
-        const QString destinationPath = appBundleInfo.path + "/Contents/PlugIns/gstreamer/" + plugin;
-        QDir dir;
-        if (dir.mkpath(QFileInfo(destinationPath).path()) && copyFilePrintStatus(sourcePath, destinationPath)) {
-          runStrip(destinationPath);
-          QList<FrameworkInfo> frameworks = getQtFrameworks(destinationPath, appBundleInfo.path, deploymentInfo.rpathsUsed, useDebugLibs);
-          deployQtFrameworks(frameworks, appBundleInfo.path, QStringList() << destinationPath, useDebugLibs, deploymentInfo.useLoaderPath);
+        QFileInfo info(gstreamer_plugins_dir + "/" + plugin);
+        if (!info.exists()) {
+            info.setFile(gstreamer_plugins_dir + "/" + info.baseName() + QString(".so"));
+            if (!info.exists()) {
+                LogError() << "Missing gstreamer plugin" << info.baseName();
+                qFatal("Missing %s", info.baseName().toUtf8().constData());
+            }
+        }
+        const QString &sourcePath = info.filePath();
+        const QString destinationPath = appBundleInfo.path + "/Contents/PlugIns/gstreamer/" + info.fileName();
+        if (QDir().mkpath(QFileInfo(destinationPath).path()) && copyFilePrintStatus(sourcePath, destinationPath)) {
+            runStrip(destinationPath);
+            QList<FrameworkInfo> frameworks = getQtFrameworks(destinationPath, appBundleInfo.path, deploymentInfo.rpathsUsed, useDebugLibs);
+            deployQtFrameworks(frameworks, appBundleInfo.path, QStringList() << destinationPath, useDebugLibs, deploymentInfo.useLoaderPath);
+        }
+    }
+
+    for (const QString &plugin : gstreamer_plugins_optional) {
+        QFileInfo info(gstreamer_plugins_dir + "/" + plugin);
+        if (!info.exists()) {
+            info.setFile(gstreamer_plugins_dir + "/" + info.baseName() + QString(".so"));
+            if (!info.exists()) {
+                LogWarning() << "Skip missing gstreamer plugin" << info.baseName();
+                continue;
+            }
+        }
+        const QString &sourcePath = info.filePath();
+        const QString destinationPath = appBundleInfo.path + "/Contents/PlugIns/gstreamer/" + info.fileName();
+        if (QDir().mkpath(QFileInfo(destinationPath).path()) && copyFilePrintStatus(sourcePath, destinationPath)) {
+            runStrip(destinationPath);
+            QList<FrameworkInfo> frameworks = getQtFrameworks(destinationPath, appBundleInfo.path, deploymentInfo.rpathsUsed, useDebugLibs);
+            deployQtFrameworks(frameworks, appBundleInfo.path, QStringList() << destinationPath, useDebugLibs, deploymentInfo.useLoaderPath);
         }
     }
 

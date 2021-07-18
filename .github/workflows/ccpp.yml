@@ -1239,8 +1239,6 @@ jobs:
           BUILD_TYPE: Release
           MACOSX_DEPLOYMENT_TARGET: 10.15
           PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
-          Qt5_DIR: /usr/local/opt/qt5/lib/cmake
-          Qt5LinguistTools_DIR: /usr/local/opt/qt5/lib/cmake/Qt5LinguistTools
           GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
           GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
@@ -1341,8 +1339,6 @@ jobs:
           BUILD_TYPE: Release
           MACOSX_DEPLOYMENT_TARGET: 10.15
           PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
-          Qt6_DIR: /usr/local/opt/qt6/lib/cmake
-          Qt5LinguistTools_DIR: /usr/local/opt/qt6/lib/cmake/Qt6LinguistTools
           GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
           GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
@@ -1358,6 +1354,12 @@ jobs:
         working-directory: build
         shell: bash
         run: make install
+      - name: Manually copy libbrotlicommon.1.dylib
+        working-directory: build
+        shell: bash
+        run: |
+          mkdir -p strawberry.app/Contents/Frameworks/
+          cp /usr/local/lib/libbrotlicommon.1.dylib strawberry.app/Contents/Frameworks/
       - name: Copy sparkle
         working-directory: build
         shell: bash
