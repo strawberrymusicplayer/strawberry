@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-07-05 12:56-0400\n"
+"PO-Revision-Date: 2021-07-18 06:06-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -1483,7 +1483,7 @@ msgstr "Det gick inte att öppna filen %1"
 #: core/songloader.cpp:471
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
-msgstr ""
+msgstr "Det gick inte att skapa GStreamer-källelementet för %1"
 
 #: playlist/playlistmanager.cpp:207
 msgid "Couldn't create playlist"
@@ -1851,7 +1851,7 @@ msgstr "Stoppa inte!"
 
 #: radios/radioview.cpp:87
 msgid "Donate"
-msgstr ""
+msgstr "Donera"
 
 #: device/deviceview.cpp:138
 msgid "Double click to open"
@@ -2433,7 +2433,7 @@ msgstr "Genre"
 #: radios/somafmservice.cpp:72
 #, qt-format
 msgid "Getting %1 channels"
-msgstr ""
+msgstr "Hämtar %1 kanaler"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:265
 msgid "Global Shortcuts"
@@ -3334,7 +3334,7 @@ msgstr "Öppna enhet"
 
 #: radios/radioview.cpp:83
 msgid "Open homepage"
-msgstr ""
+msgstr "Öppna webbplats"
 
 #: context/contextalbumsview.cpp:263 collection/collectionview.cpp:344
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
@@ -3757,11 +3757,11 @@ msgstr "Radio (samma ljudstyrka för alla spår"
 
 #: ../build/src/ui_scrobblersettingspage.h:426
 msgid "Radio Paradise"
-msgstr ""
+msgstr "Radio Paradise"
 
 #: core/mainwindow.cpp:349
 msgid "Radios"
-msgstr ""
+msgstr "Radiokanaler"
 
 #: ../build/src/ui_collectionsettingspage.h:500
 msgid "Random"
@@ -3830,7 +3830,7 @@ msgstr "Uppdatera katalog"
 
 #: radios/radioview.cpp:91
 msgid "Refresh channels"
-msgstr ""
+msgstr "Uppdatera kanaler"
 
 #: equalizer/equalizer.cpp:151
 msgid "Reggae"
@@ -4540,7 +4540,7 @@ msgstr "Soft Rock"
 
 #: ../build/src/ui_scrobblersettingspage.h:424
 msgid "SomaFM"
-msgstr ""
+msgstr "SomaFM"
 
 #: ../build/src/ui_contextsettingspage.h:444
 msgid "Song Lyrics"
