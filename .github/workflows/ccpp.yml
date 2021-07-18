@@ -1358,8 +1358,8 @@ jobs:
         working-directory: build
         shell: bash
         run: |
-          sudo mkdir -p strawberry.app/Contents/Frameworks/
-          sudo cp /usr/local/lib/libbrotlicommon.1.dylib strawberry.app/Contents/Frameworks/
+          mkdir -p strawberry.app/Contents/Frameworks/
+          cp /usr/local/lib/libbrotlicommon.1.dylib strawberry.app/Contents/Frameworks/
       - name: Copy sparkle
         working-directory: build
         shell: bash
