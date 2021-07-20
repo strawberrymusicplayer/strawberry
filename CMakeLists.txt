@@ -390,10 +390,10 @@ optional_component(MOODBAR ON "Moodbar"
   DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
-if(LINUX OR APPLE)
-  option(USE_BUNDLE "Bundle dependencies" OFF)
-elseif(WIN32)
+if(APPLE OR WIN32)
   option(USE_BUNDLE "Bundle dependencies" ON)
+else()
+  option(USE_BUNDLE "Bundle dependencies" OFF)
 endif()
 
 if (USE_BUNDLE AND NOT USE_BUNDLE_DIR)
