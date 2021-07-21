@@ -936,6 +936,7 @@ optional_source(HAVE_AUDIOCD
 # Platform specific - macOS
 optional_source(APPLE
   SOURCES
+    core/scoped_nsautorelease_pool.mm
     core/mac_utilities.mm
     core/mac_startup.mm
     core/macsystemtrayicon.mm

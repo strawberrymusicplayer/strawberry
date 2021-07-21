@@ -14,10 +14,6 @@ set(HEADERS
   core/workerpool.h
 )
 
-if(APPLE)
-  list(APPEND SOURCES core/scoped_nsautorelease_pool.mm)
-endif(APPLE)
-
 if(BUILD_WITH_QT6)
   qt6_wrap_cpp(MOC ${HEADERS})
 else()
