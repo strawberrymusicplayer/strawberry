@@ -396,13 +396,13 @@ else()
   option(USE_BUNDLE "Bundle dependencies" OFF)
 endif()
 
-if (USE_BUNDLE AND NOT USE_BUNDLE_DIR)
-if(LINUX)
-  set(USE_BUNDLE_DIR "../plugins")
-endif(LINUX)
-if(APPLE)
-  set(USE_BUNDLE_DIR "../PlugIns")
-endif(APPLE)
+if(USE_BUNDLE AND NOT USE_BUNDLE_DIR)
+  if(LINUX)
+    set(USE_BUNDLE_DIR "../plugins")
+  endif(LINUX)
+  if(APPLE)
+    set(USE_BUNDLE_DIR "../PlugIns")
+  endif(APPLE)
 endif(USE_BUNDLE AND NOT USE_BUNDLE_DIR)
 
 if(NOT CMAKE_CROSSCOMPILING)
@@ -470,13 +470,9 @@ if(GTest_FOUND AND GMOCK_LIBRARY AND QtTest_LIBRARIES)
 endif()
 
 # Uninstall support
-configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-  IMMEDIATE @ONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
 
-add_custom_target(uninstall
-  "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
 # Show a summary of what we have enabled
 summary_show()

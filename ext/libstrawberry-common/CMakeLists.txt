@@ -20,22 +20,20 @@ else()
   qt5_wrap_cpp(MOC ${HEADERS})
 endif()
 
-link_directories(
-  ${GLIB_LIBRARY_DIRS}
-)
+link_directories(${GLIB_LIBRARY_DIRS})
 
 add_library(libstrawberry-common STATIC ${SOURCES} ${MOC})
 
-target_include_directories(libstrawberry-common SYSTEM PRIVATE
-  ${GLIB_INCLUDE_DIRS}
-)
-
+target_include_directories(libstrawberry-common SYSTEM PRIVATE ${GLIB_INCLUDE_DIRS})
 target_include_directories(libstrawberry-common PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_SOURCE_DIR}
-  ${CMAKE_SOURCE_DIR}/src
   ${CMAKE_BINARY_DIR}/src
 )
+
+if(Backtrace_FOUND)
+  target_include_directories(libstrawberry-common SYSTEM PRIVATE ${Backtrace_INCLUDE_DIRS})
+endif(Backtrace_FOUND)
 
 target_link_libraries(libstrawberry-common PRIVATE
   ${CMAKE_THREAD_LIBS_INIT}
@@ -45,6 +43,5 @@ target_link_libraries(libstrawberry-common PRIVATE
 )
 
 if(Backtrace_FOUND)
-  target_include_directories(libstrawberry-common PRIVATE ${Backtrace_INCLUDE_DIRS})
   target_link_libraries(libstrawberry-common PRIVATE ${Backtrace_LIBRARIES})
 endif(Backtrace_FOUND)
