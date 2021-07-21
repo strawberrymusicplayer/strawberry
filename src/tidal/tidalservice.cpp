@@ -54,6 +54,7 @@
 #include "internet/internetsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
+#include "collection/collectionfilter.h"
 #include "tidalservice.h"
 #include "tidalurlhandler.h"
 #include "tidalbaserequest.h"
@@ -77,10 +78,6 @@ const char *TidalService::kArtistsSongsTable = "tidal_artists_songs";
 const char *TidalService::kAlbumsSongsTable = "tidal_albums_songs";
 const char *TidalService::kSongsTable = "tidal_songs";
 
-const char *TidalService::kArtistsSongsFtsTable = "tidal_artists_songs_fts";
-const char *TidalService::kAlbumsSongsFtsTable = "tidal_albums_songs_fts";
-const char *TidalService::kSongsFtsTable = "tidal_songs_fts";
-
 using namespace std::chrono_literals;
 
 TidalService::TidalService(Application *app, QObject *parent)
@@ -94,9 +91,9 @@ TidalService::TidalService(Application *app, QObject *parent)
       artists_collection_model_(nullptr),
       albums_collection_model_(nullptr),
       songs_collection_model_(nullptr),
-      artists_collection_sort_model_(new QSortFilterProxyModel(this)),
-      albums_collection_sort_model_(new QSortFilterProxyModel(this)),
-      songs_collection_sort_model_(new QSortFilterProxyModel(this)),
+      artists_collection_filter_model_(new CollectionFilter(this)),
+      albums_collection_filter_model_(new CollectionFilter(this)),
+      songs_collection_filter_model_(new CollectionFilter(this)),
       timer_search_delay_(new QTimer(this)),
       timer_login_attempt_(new QTimer(this)),
       timer_refresh_login_(new QTimer(this)),
@@ -127,37 +124,37 @@ TidalService::TidalService(Application *app, QObject *parent)
 
   artists_collection_backend_ = new CollectionBackend();
   artists_collection_backend_->moveToThread(app_->database()->thread());
-  artists_collection_backend_->Init(app_->database(), Song::Source_Tidal, kArtistsSongsTable, kArtistsSongsFtsTable);
+  artists_collection_backend_->Init(app_->database(), Song::Source_Tidal, kArtistsSongsTable);
 
   albums_collection_backend_ = new CollectionBackend();
   albums_collection_backend_->moveToThread(app_->database()->thread());
-  albums_collection_backend_->Init(app_->database(), Song::Source_Tidal, kAlbumsSongsTable, kAlbumsSongsFtsTable);
+  albums_collection_backend_->Init(app_->database(), Song::Source_Tidal, kAlbumsSongsTable);
 
   songs_collection_backend_ = new CollectionBackend();
   songs_collection_backend_->moveToThread(app_->database()->thread());
-  songs_collection_backend_->Init(app_->database(), Song::Source_Tidal, kSongsTable, kSongsFtsTable);
+  songs_collection_backend_->Init(app_->database(), Song::Source_Tidal, kSongsTable);
 
   artists_collection_model_ = new CollectionModel(artists_collection_backend_, app_, this);
   albums_collection_model_ = new CollectionModel(albums_collection_backend_, app_, this);
   songs_collection_model_ = new CollectionModel(songs_collection_backend_, app_, this);
 
-  artists_collection_sort_model_->setSourceModel(artists_collection_model_);
-  artists_collection_sort_model_->setSortRole(CollectionModel::Role_SortText);
-  artists_collection_sort_model_->setDynamicSortFilter(true);
-  artists_collection_sort_model_->setSortLocaleAware(true);
-  artists_collection_sort_model_->sort(0);
+  artists_collection_filter_model_->setSourceModel(artists_collection_model_);
+  artists_collection_filter_model_->setSortRole(CollectionModel::Role_SortText);
+  artists_collection_filter_model_->setDynamicSortFilter(true);
+  artists_collection_filter_model_->setSortLocaleAware(true);
+  artists_collection_filter_model_->sort(0);
 
-  albums_collection_sort_model_->setSourceModel(albums_collection_model_);
-  albums_collection_sort_model_->setSortRole(CollectionModel::Role_SortText);
-  albums_collection_sort_model_->setDynamicSortFilter(true);
-  albums_collection_sort_model_->setSortLocaleAware(true);
-  albums_collection_sort_model_->sort(0);
+  albums_collection_filter_model_->setSourceModel(albums_collection_model_);
+  albums_collection_filter_model_->setSortRole(CollectionModel::Role_SortText);
+  albums_collection_filter_model_->setDynamicSortFilter(true);
+  albums_collection_filter_model_->setSortLocaleAware(true);
+  albums_collection_filter_model_->sort(0);
 
-  songs_collection_sort_model_->setSourceModel(songs_collection_model_);
-  songs_collection_sort_model_->setSortRole(CollectionModel::Role_SortText);
-  songs_collection_sort_model_->setDynamicSortFilter(true);
-  songs_collection_sort_model_->setSortLocaleAware(true);
-  songs_collection_sort_model_->sort(0);
+  songs_collection_filter_model_->setSourceModel(songs_collection_model_);
+  songs_collection_filter_model_->setSortRole(CollectionModel::Role_SortText);
+  songs_collection_filter_model_->setDynamicSortFilter(true);
+  songs_collection_filter_model_->setSortLocaleAware(true);
+  songs_collection_filter_model_->sort(0);
 
   // Search
 

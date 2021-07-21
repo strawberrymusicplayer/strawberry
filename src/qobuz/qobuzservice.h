@@ -43,7 +43,6 @@
 
 class QTimer;
 class QNetworkReply;
-class QSortFilterProxyModel;
 class Application;
 class NetworkAccessManager;
 class QobuzUrlHandler;
@@ -52,6 +51,7 @@ class QobuzFavoriteRequest;
 class QobuzStreamURLRequest;
 class CollectionBackend;
 class CollectionModel;
+class CollectionFilter;
 
 class QobuzService : public InternetService {
   Q_OBJECT
@@ -103,9 +103,9 @@ class QobuzService : public InternetService {
   CollectionModel *albums_collection_model() override { return albums_collection_model_; }
   CollectionModel *songs_collection_model() override { return songs_collection_model_; }
 
-  QSortFilterProxyModel *artists_collection_sort_model() override { return artists_collection_sort_model_; }
-  QSortFilterProxyModel *albums_collection_sort_model() override { return albums_collection_sort_model_; }
-  QSortFilterProxyModel *songs_collection_sort_model() override { return songs_collection_sort_model_; }
+  CollectionFilter *artists_collection_filter_model() override { return artists_collection_filter_model_; }
+  CollectionFilter *albums_collection_filter_model() override { return albums_collection_filter_model_; }
+  CollectionFilter *songs_collection_filter_model() override { return songs_collection_filter_model_; }
 
  public slots:
   void ShowConfig() override;
@@ -156,10 +156,6 @@ class QobuzService : public InternetService {
   static const char *kAlbumsSongsTable;
   static const char *kSongsTable;
 
-  static const char *kArtistsSongsFtsTable;
-  static const char *kAlbumsSongsFtsTable;
-  static const char *kSongsFtsTable;
-
   Application *app_;
   NetworkAccessManager *network_;
   QobuzUrlHandler *url_handler_;
@@ -172,9 +168,9 @@ class QobuzService : public InternetService {
   CollectionModel *albums_collection_model_;
   CollectionModel *songs_collection_model_;
 
-  QSortFilterProxyModel *artists_collection_sort_model_;
-  QSortFilterProxyModel *albums_collection_sort_model_;
-  QSortFilterProxyModel *songs_collection_sort_model_;
+  CollectionFilter *artists_collection_filter_model_;
+  CollectionFilter *albums_collection_filter_model_;
+  CollectionFilter *songs_collection_filter_model_;
 
   QTimer *timer_search_delay_;
   QTimer *timer_login_attempt_;

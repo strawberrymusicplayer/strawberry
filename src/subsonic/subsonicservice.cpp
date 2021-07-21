@@ -40,7 +40,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QSettings>
-#include <QSortFilterProxyModel>
 #include <QtDebug>
 
 #include "core/application.h"
@@ -51,6 +50,7 @@
 #include "core/song.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
+#include "collection/collectionfilter.h"
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
 #include "subsonicrequest.h"
@@ -62,7 +62,6 @@ const Song::Source SubsonicService::kSource = Song::Source_Subsonic;
 const char *SubsonicService::kClientName = "Strawberry";
 const char *SubsonicService::kApiVersion = "1.11.0";
 const char *SubsonicService::kSongsTable = "subsonic_songs";
-const char *SubsonicService::kSongsFtsTable = "subsonic_songs_fts";
 const int SubsonicService::kMaxRedirects = 3;
 
 SubsonicService::SubsonicService(Application *app, QObject *parent)
@@ -71,7 +70,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
       url_handler_(new SubsonicUrlHandler(app, this)),
       collection_backend_(nullptr),
       collection_model_(nullptr),
-      collection_sort_model_(new QSortFilterProxyModel(this)),
+      collection_filter_model_(new CollectionFilter(this)),
       http2_(true),
       verify_certificate_(false),
       download_album_covers_(true),
@@ -83,16 +82,16 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
 
   collection_backend_ = new CollectionBackend();
   collection_backend_->moveToThread(app_->database()->thread());
-  collection_backend_->Init(app_->database(), Song::Source_Subsonic, kSongsTable, kSongsFtsTable);
+  collection_backend_->Init(app_->database(), Song::Source_Subsonic, kSongsTable);
 
   // Model
 
   collection_model_ = new CollectionModel(collection_backend_, app_, this);
-  collection_sort_model_->setSourceModel(collection_model_);
-  collection_sort_model_->setSortRole(CollectionModel::Role_SortText);
-  collection_sort_model_->setDynamicSortFilter(true);
-  collection_sort_model_->setSortLocaleAware(true);
-  collection_sort_model_->sort(0);
+  collection_filter_model_->setSourceModel(collection_model_);
+  collection_filter_model_->setSortRole(CollectionModel::Role_SortText);
+  collection_filter_model_->setDynamicSortFilter(true);
+  collection_filter_model_->setSortLocaleAware(true);
+  collection_filter_model_->sort(0);
 
   SubsonicService::ReloadSettings();
 

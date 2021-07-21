@@ -123,11 +123,12 @@
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectiondirectorymodel.h"
+#include "collection/collectionviewcontainer.h"
 #include "collection/collectionfilterwidget.h"
+#include "collection/collectionfilter.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionquery.h"
 #include "collection/collectionview.h"
-#include "collection/collectionviewcontainer.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistbackend.h"
 #include "playlist/playlistcontainer.h"
@@ -305,7 +306,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       playlist_add_to_another_(nullptr),
       playlistitem_actions_separator_(nullptr),
       playlist_rescan_songs_(nullptr),
-      collection_sort_model_(new QSortFilterProxyModel(this)),
+      collection_filter_(new CollectionFilter(this)),
       track_position_timer_(new QTimer(this)),
       track_slider_timer_(new QTimer(this)),
       keep_running_(false),
@@ -382,11 +383,11 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 
   // Models
   qLog(Debug) << "Creating models";
-  collection_sort_model_->setSourceModel(app_->collection()->model());
-  collection_sort_model_->setSortRole(CollectionModel::Role_SortText);
-  collection_sort_model_->setDynamicSortFilter(true);
-  collection_sort_model_->setSortLocaleAware(true);
-  collection_sort_model_->sort(0);
+  collection_filter_->setSourceModel(app_->collection()->model());
+  collection_filter_->setSortRole(CollectionModel::Role_SortText);
+  collection_filter_->setDynamicSortFilter(true);
+  collection_filter_->setSortLocaleAware(true);
+  collection_filter_->sort(0);
 
   qLog(Debug) << "Creating models finished";
 
@@ -396,7 +397,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 
   ui_->playlist->view()->Init(app_);
 
-  collection_view_->view()->setModel(collection_sort_model_);
+  collection_view_->view()->setModel(collection_filter_);
   collection_view_->view()->SetApplication(app_);
 #ifndef Q_OS_WIN
   device_view_->view()->SetApplication(app_);
@@ -650,7 +651,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QAction *collection_config_action = new QAction(IconLoader::Load("configure"), tr("Configure collection..."), this);
   QObject::connect(collection_config_action, &QAction::triggered, this, &MainWindow::ShowCollectionConfig);
   collection_view_->filter_widget()->SetSettingsGroup(CollectionSettingsPage::kSettingsGroup);
-  collection_view_->filter_widget()->Init(app_->collection()->model());
+  collection_view_->filter_widget()->Init(app_->collection()->model(), collection_filter_);
 
   QAction *separator = new QAction(this);
   separator->setSeparator(true);

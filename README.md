@@ -71,7 +71,7 @@ To build Strawberry from source you need the following installed on your system 
 * [GLib](https://developer.gnome.org/glib/)
 * [Protobuf](https://developers.google.com/protocol-buffers/)
 * [Qt 5.8 or higher (or Qt 6) with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
-* [SQLite 3.9 or newer with FTS5](https://www.sqlite.org)
+* [SQLite 3.9 or newer](https://www.sqlite.org)
 * [ALSA (Linux required)](https://www.alsa-project.org/)
 * [D-Bus (Linux required)](https://www.freedesktop.org/wiki/Software/dbus/)
 * [GStreamer](https://gstreamer.freedesktop.org/) or [VLC](https://www.videolan.org)

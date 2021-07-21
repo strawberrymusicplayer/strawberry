@@ -35,6 +35,7 @@
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilterwidget.h"
+#include "collection/collectionfilter.h"
 #include "internetservice.h"
 #include "internetsongsview.h"
 #include "internetcollectionview.h"
@@ -52,10 +53,10 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
 
   ui_->stacked->setCurrentWidget(ui_->internetcollection_page);
   ui_->view->Init(app_, service_->songs_collection_backend(), service_->songs_collection_model(), false);
-  ui_->view->setModel(service_->songs_collection_sort_model());
+  ui_->view->setModel(service_->songs_collection_filter_model());
   ui_->view->SetFilter(ui_->filter_widget);
   ui_->filter_widget->SetSettingsGroup(settings_group);
-  ui_->filter_widget->Init(service_->songs_collection_model());
+  ui_->filter_widget->Init(service_->songs_collection_model(), service_->songs_collection_filter_model());
 
   QAction *action_configure = new QAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this);
   QObject::connect(action_configure, &QAction::triggered, this, &InternetSongsView::OpenSettingsDialog);

@@ -128,19 +128,15 @@ const QString Song::kColumnSpec = Song::kColumns.join(", ");
 const QString Song::kBindSpec = Utilities::Prepend(":", Song::kColumns).join(", ");
 const QString Song::kUpdateSpec = Utilities::Updateify(Song::kColumns).join(", ");
 
-const QStringList Song::kFtsColumns = QStringList() << "ftstitle"
-                                                    << "ftsalbum"
-                                                    << "ftsartist"
-                                                    << "ftsalbumartist"
-                                                    << "ftscomposer"
-                                                    << "ftsperformer"
-                                                    << "ftsgrouping"
-                                                    << "ftsgenre"
-                                                    << "ftscomment";
-
-const QString Song::kFtsColumnSpec = Song::kFtsColumns.join(", ");
-const QString Song::kFtsBindSpec = Utilities::Prepend(":", Song::kFtsColumns).join(", ");
-const QString Song::kFtsUpdateSpec = Utilities::Updateify(Song::kFtsColumns).join(", ");
+const QStringList Song::kSearchColumns = QStringList() << "title"
+                                                       << "album"
+                                                       << "artist"
+                                                       << "albumartist"
+                                                       << "composer"
+                                                       << "performer"
+                                                       << "grouping"
+                                                       << "genre"
+                                                       << "comment";
 
 const QString Song::kManuallyUnsetCover = "(unset)";
 const QString Song::kEmbeddedCover = "(embedded)";
@@ -1437,20 +1433,6 @@ void Song::BindToQuery(QSqlQuery *query) const {
 #undef intval
 #undef notnullintval
 #undef strval
-
-}
-
-void Song::BindToFtsQuery(QSqlQuery *query) const {
-
-  query->bindValue(":ftstitle", d->title_);
-  query->bindValue(":ftsalbum", d->album_);
-  query->bindValue(":ftsartist", d->artist_);
-  query->bindValue(":ftsalbumartist", d->albumartist_);
-  query->bindValue(":ftscomposer", d->composer_);
-  query->bindValue(":ftsperformer", d->performer_);
-  query->bindValue(":ftsgrouping", d->grouping_);
-  query->bindValue(":ftsgenre", d->genre_);
-  query->bindValue(":ftscomment", d->comment_);
 
 }
 
