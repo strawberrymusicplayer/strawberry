@@ -1431,8 +1431,9 @@ void MainWindow::LoadPlaybackStatus() {
   s.endGroup();
 
   if (resume_playback && playback_state != Engine::Empty && playback_state != Engine::Idle) {
-    QObject::connect(app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, [this]() {
-      QObject::disconnect(app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, &MainWindow::ResumePlayback);
+    std::shared_ptr<QMetaObject::Connection> connection = std::make_shared<QMetaObject::Connection>();
+    *connection = QObject::connect(app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, [this, connection]() {
+      QObject::disconnect(*connection);
       QTimer::singleShot(400, this, &MainWindow::ResumePlayback);
     });
   }
