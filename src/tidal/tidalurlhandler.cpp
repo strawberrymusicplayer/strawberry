@@ -54,10 +54,12 @@ void TidalUrlHandler::GetStreamURLFinished(const QUrl &original_url, const QUrl 
 
   if (task_id_ == -1) return;
   CancelTask();
-  if (error.isEmpty())
+  if (error.isEmpty()) {
     emit AsyncLoadComplete(LoadResult(original_url, LoadResult::TrackAvailable, stream_url, filetype, samplerate, bit_depth, duration));
-  else
-    emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Error, stream_url, filetype, -1, -1, -1, error));
+  }
+  else {
+    emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Error, error));
+  }
 
 }
 

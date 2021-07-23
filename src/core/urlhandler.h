@@ -65,6 +65,7 @@ class UrlHandler : public QObject {
     // Might be something unplayable like lastfm://...
     QUrl original_url_;
 
+    // Result type
     Type type_;
 
     // The actual url to something that gstreamer can play.

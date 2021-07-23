@@ -28,6 +28,8 @@
 #include "song.h"
 #include "urlhandler.h"
 
+UrlHandler::UrlHandler(QObject *parent) : QObject(parent) {}
+
 UrlHandler::LoadResult::LoadResult(const QUrl &original_url, const Type type, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 length_nanosec, const QString &error) :
   original_url_(original_url),
   type_(type),
@@ -48,5 +50,3 @@ UrlHandler::LoadResult::LoadResult(const QUrl &original_url, const Type type, co
   length_nanosec_(-1),
   error_(error)
   {}
-
-UrlHandler::UrlHandler(QObject *parent) : QObject(parent) {}

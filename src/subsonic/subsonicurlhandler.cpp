@@ -38,11 +38,11 @@ SubsonicUrlHandler::SubsonicUrlHandler(Application *app, SubsonicService *servic
 UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
 
   if (!server_url().isValid()) {
-    return LoadResult(url, LoadResult::Error, url, Song::FileType_Stream, -1, -1, -1, tr("Subsonic server URL is invalid."));
+    return LoadResult(url, LoadResult::Error, tr("Subsonic server URL is invalid."));
   }
 
   if (username().isEmpty() || password().isEmpty()) {
-    return LoadResult(url, LoadResult::Error, url, Song::FileType_Stream, -1, -1, -1, tr("Missing Subsonic username or password."));
+    return LoadResult(url, LoadResult::Error, tr("Missing Subsonic username or password."));
   }
 
   ParamList params = ParamList() << Param("c", service_->client_name())
@@ -62,8 +62,9 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
   if (!stream_url.path().isEmpty() && stream_url.path().right(1) == "/") {
     stream_url.setPath(stream_url.path() + QString("rest/stream.view"));
   }
-  else
+  else {
     stream_url.setPath(stream_url.path() + QString("/rest/stream.view"));
+  }
 
   stream_url.setQuery(url_query);
 
