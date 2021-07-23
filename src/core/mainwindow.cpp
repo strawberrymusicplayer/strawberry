@@ -1432,6 +1432,7 @@ void MainWindow::LoadPlaybackStatus() {
 
   if (resume_playback && playback_state != Engine::Empty && playback_state != Engine::Idle) {
     QObject::connect(app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, [this]() {
+      QObject::disconnect(app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, &MainWindow::ResumePlayback);
       QTimer::singleShot(400, this, &MainWindow::ResumePlayback);
     });
   }
@@ -1441,8 +1442,6 @@ void MainWindow::LoadPlaybackStatus() {
 void MainWindow::ResumePlayback() {
 
   qLog(Debug) << "Resuming playback";
-
-  QObject::disconnect(app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, &MainWindow::ResumePlayback);
 
   QSettings s;
   s.beginGroup(Player::kSettingsGroup);
@@ -1484,7 +1483,7 @@ void MainWindow::PlayIndex(const QModelIndex &idx, Playlist::AutoScroll autoscro
   }
 
   app_->playlist_manager()->SetActiveToCurrent();
-  app_->player()->PlayAt(row, Engine::Manual, autoscroll, true);
+  app_->player()->PlayAt(row, 0, Engine::Manual, autoscroll, true);
 
 }
 
@@ -1501,14 +1500,14 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &idx) {
   switch (doubleclick_playlist_addmode_) {
     case BehaviourSettingsPage::PlaylistAddBehaviour_Play:
       app_->playlist_manager()->SetActiveToCurrent();
-      app_->player()->PlayAt(source_idx.row(), Engine::Manual, Playlist::AutoScroll_Never, true, true);
+      app_->player()->PlayAt(source_idx.row(), 0, Engine::Manual, Playlist::AutoScroll_Never, true, true);
       break;
 
     case BehaviourSettingsPage::PlaylistAddBehaviour_Enqueue:
       app_->playlist_manager()->current()->queue()->ToggleTracks(QModelIndexList() << source_idx);
       if (app_->player()->GetState() != Engine::Playing) {
         app_->playlist_manager()->SetActiveToCurrent();
-        app_->player()->PlayAt(app_->playlist_manager()->current()->queue()->TakeNext(), Engine::Manual, Playlist::AutoScroll_Never, true);
+        app_->player()->PlayAt(app_->playlist_manager()->current()->queue()->TakeNext(), 0, Engine::Manual, Playlist::AutoScroll_Never, true);
       }
       break;
   }
@@ -2423,7 +2422,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
     app_->player()->SeekTo(app_->player()->engine()->position_nanosec() / kNsecPerSec + options.seek_by());
   }
 
-  if (options.play_track_at() != -1) app_->player()->PlayAt(options.play_track_at(), Engine::Manual, Playlist::AutoScroll_Maybe, true);
+  if (options.play_track_at() != -1) app_->player()->PlayAt(options.play_track_at(), 0, Engine::Manual, Playlist::AutoScroll_Maybe, true);
 
   if (options.show_osd()) app_->player()->ShowOSD();
 
