@@ -1458,7 +1458,7 @@ void MainWindow::ResumePlayback() {
       std::shared_ptr<QMetaObject::Connection> connection = std::make_shared<QMetaObject::Connection>();
       *connection = QObject::connect(app_->player(), &Player::Playing, app_->player(), [this, connection]() {
         QObject::disconnect(*connection);
-        app_->player()->PlayPause();
+        QTimer::singleShot(300, app_->player(), &Player::PlayPauseHelper);
       });
     }
     app_->player()->Play(playback_position * kNsecPerSec);
