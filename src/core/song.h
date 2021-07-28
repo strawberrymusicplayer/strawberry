@@ -294,6 +294,7 @@ class Song {
   const QUrl &stream_url() const;
   const QUrl &effective_stream_url() const;
   const QImage &image() const;
+  bool init_from_file() const;
 
   // Pretty accessors
   QString PrettyTitle() const;

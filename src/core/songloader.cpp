@@ -339,7 +339,7 @@ void SongLoader::EffectiveSongLoad(Song *song) {
 
   if (!song) return;
 
-  if (song->filetype() != Song::FileType_Unknown) {
+  if (song->init_from_file() && song->filetype() != Song::FileType_Unknown) {
     // Maybe we loaded the metadata already, for example from a cuesheet.
     return;
   }

@@ -1190,7 +1190,7 @@ void Playlist::UpdateItems(SongList songs) {
     while (it.hasNext()) {
       const Song &song = it.next();
       const PlaylistItemPtr &item = items_[i];
-      if (item->Metadata().url() == song.url() && (item->Metadata().filetype() == Song::FileType_Unknown || item->Metadata().filetype() == Song::FileType_Stream || item->Metadata().filetype() == Song::FileType_CDDA)) {
+      if (item->Metadata().url() == song.url() && (item->Metadata().filetype() == Song::FileType_Unknown || item->Metadata().filetype() == Song::FileType_Stream || item->Metadata().filetype() == Song::FileType_CDDA || !item->Metadata().init_from_file())) {
         PlaylistItemPtr new_item;
         if (song.is_collection_song()) {
           new_item = std::make_shared<CollectionPlaylistItem>(song);

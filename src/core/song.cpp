@@ -367,6 +367,7 @@ bool Song::save_embedded_cover_supported(const FileType filetype) {
 const QUrl &Song::stream_url() const { return d->stream_url_; }
 const QUrl &Song::effective_stream_url() const { return !d->stream_url_.isEmpty() && d->stream_url_.isValid() ? d->stream_url_ : d->url_; }
 const QImage &Song::image() const { return d->image_; }
+bool Song::init_from_file() const { return d->init_from_file_; }
 
 const QString &Song::cue_path() const { return d->cue_path_; }
 bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
