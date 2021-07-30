@@ -567,10 +567,7 @@ option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
 
 if(NOT APPLE)
   set(NOT_APPLE ON)
-  optional_source(NOT_APPLE
-    SOURCES widgets/qsearchfield_nonmac.cpp core/qtsystemtrayicon.cpp
-    HEADERS core/qtsystemtrayicon.h
-  )
+  optional_source(NOT_APPLE SOURCES widgets/qsearchfield_nonmac.cpp core/qtsystemtrayicon.cpp HEADERS core/qtsystemtrayicon.h)
 endif()
 
 if(HAVE_GLOBALSHORTCUTS)
@@ -590,29 +587,16 @@ if(HAVE_GLOBALSHORTCUTS)
       SOURCES globalshortcuts/globalshortcutsbackend-system.cpp globalshortcuts/globalshortcut.cpp
       HEADERS globalshortcuts/globalshortcutsbackend-system.h globalshortcuts/globalshortcut.h
     )
-    optional_source(HAVE_X11_GLOBALSHORTCUTS
-      SOURCES globalshortcuts/globalshortcut-x11.cpp
-    )
-    optional_source(WIN32
-      SOURCES globalshortcuts/globalshortcut-win.cpp
-    )
+    optional_source(HAVE_X11_GLOBALSHORTCUTS SOURCES globalshortcuts/globalshortcut-x11.cpp)
+    optional_source(WIN32 SOURCES globalshortcuts/globalshortcut-win.cpp)
   endif()
 endif(HAVE_GLOBALSHORTCUTS)
 
 # ALSA
-optional_source(HAVE_ALSA
-  SOURCES
-    engine/alsadevicefinder.cpp
-    engine/alsapcmdevicefinder.cpp
-)
+optional_source(HAVE_ALSA SOURCES engine/alsadevicefinder.cpp engine/alsapcmdevicefinder.cpp)
 
 # DBUS
-optional_source(HAVE_DBUS
- SOURCES
-   osd/osddbus.cpp
- HEADERS
-   osd/osddbus.h
-)
+optional_source(HAVE_DBUS SOURCES osd/osddbus.cpp HEADERS osd/osddbus.h)
 
 # GStreamer
 optional_source(HAVE_GSTREAMER
@@ -621,107 +605,35 @@ optional_source(HAVE_GSTREAMER
 )
 
 # VLC
-optional_source(HAVE_VLC
-  SOURCES engine/vlcengine.cpp
-  HEADERS engine/vlcengine.h
-)
+optional_source(HAVE_VLC SOURCES engine/vlcengine.cpp HEADERS engine/vlcengine.h)
 
 # DBUS and MPRIS - Unix specific
 if(UNIX AND HAVE_DBUS)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
 
-  optional_source(HAVE_DBUS
-    SOURCES core/mpris2.cpp
-    HEADERS core/mpris2.h
-  )
-  optional_source(HAVE_UDISKS2
-    SOURCES device/udisks2lister.cpp
-    HEADERS device/udisks2lister.h
-  )
+  optional_source(HAVE_DBUS SOURCES core/mpris2.cpp HEADERS core/mpris2.h)
+  optional_source(HAVE_UDISKS2 SOURCES device/udisks2lister.cpp HEADERS device/udisks2lister.h)
 
-  if (BUILD_WITH_QT6)
+  # MPRIS 2.0 DBUS interfaces
+  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.Player.xml core/mpris2.h mpris::Mpris2 core/mpris2_player Mpris2Player)
+  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.xml core/mpris2.h mpris::Mpris2 core/mpris2_root Mpris2Root)
+  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.TrackList.xml core/mpris2.h mpris::Mpris2 core/mpris2_tracklist Mpris2TrackList)
 
-    # MPRIS 2.0 DBUS interfaces
-    qt6_add_dbus_adaptor(SOURCES
-        dbus/org.mpris.MediaPlayer2.Player.xml
-        core/mpris2.h mpris::Mpris2 core/mpris2_player Mpris2Player)
-    qt6_add_dbus_adaptor(SOURCES
-        dbus/org.mpris.MediaPlayer2.xml
-        core/mpris2.h mpris::Mpris2 core/mpris2_root Mpris2Root)
-    qt6_add_dbus_adaptor(SOURCES
-        dbus/org.mpris.MediaPlayer2.TrackList.xml
-        core/mpris2.h mpris::Mpris2 core/mpris2_tracklist Mpris2TrackList)
+  # MPRIS 2.1 DBUS interfaces
+  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.Playlists.xml core/mpris2.h mpris::Mpris2 core/mpris2_playlists Mpris2Playlists)
 
-    # MPRIS 2.1 DBUS interfaces
-    qt6_add_dbus_adaptor(SOURCES
-        dbus/org.mpris.MediaPlayer2.Playlists.xml
-        core/mpris2.h mpris::Mpris2 core/mpris2_playlists Mpris2Playlists)
+  # org.freedesktop.Notifications DBUS interface
+  qt_add_dbus_interface(SOURCES dbus/org.freedesktop.Notifications.xml dbus/notification)
 
-    # org.freedesktop.Notifications DBUS interface
-    qt6_add_dbus_interface(SOURCES
-        dbus/org.freedesktop.Notifications.xml
-        dbus/notification)
+  # org.gnome.SettingsDaemon interface
+  qt_add_dbus_interface(SOURCES dbus/org.gnome.SettingsDaemon.MediaKeys.xml dbus/gnomesettingsdaemon)
 
-    # org.gnome.SettingsDaemon interface
-    qt6_add_dbus_interface(SOURCES
-        dbus/org.gnome.SettingsDaemon.MediaKeys.xml
-        dbus/gnomesettingsdaemon)
+  # org.mate.SettingsDaemon interface
+  qt_add_dbus_interface(SOURCES dbus/org.mate.SettingsDaemon.MediaKeys.xml dbus/matesettingsdaemon)
 
-    # org.mate.SettingsDaemon interface
-    qt6_add_dbus_interface(SOURCES
-        dbus/org.mate.SettingsDaemon.MediaKeys.xml
-        dbus/matesettingsdaemon)
-
-    # org.kde.KGlobalAccel interface
-    qt6_add_dbus_interface(SOURCES
-        dbus/org.kde.KGlobalAccel.xml
-        dbus/kglobalaccel)
-    qt6_add_dbus_interface(SOURCES
-        dbus/org.kde.KGlobalAccel.Component.xml
-        dbus/kglobalaccelcomponent)
-
-  else()
-
-    # MPRIS 2.0 DBUS interfaces
-    qt5_add_dbus_adaptor(SOURCES
-        dbus/org.mpris.MediaPlayer2.Player.xml
-        core/mpris2.h mpris::Mpris2 core/mpris2_player Mpris2Player)
-    qt5_add_dbus_adaptor(SOURCES
-        dbus/org.mpris.MediaPlayer2.xml
-        core/mpris2.h mpris::Mpris2 core/mpris2_root Mpris2Root)
-    qt5_add_dbus_adaptor(SOURCES
-        dbus/org.mpris.MediaPlayer2.TrackList.xml
-        core/mpris2.h mpris::Mpris2 core/mpris2_tracklist Mpris2TrackList)
-
-    # MPRIS 2.1 DBUS interfaces
-    qt5_add_dbus_adaptor(SOURCES
-        dbus/org.mpris.MediaPlayer2.Playlists.xml
-        core/mpris2.h mpris::Mpris2 core/mpris2_playlists Mpris2Playlists)
-
-    # org.freedesktop.Notifications DBUS interface
-    qt5_add_dbus_interface(SOURCES
-        dbus/org.freedesktop.Notifications.xml
-        dbus/notification)
-
-    # org.gnome.SettingsDaemon interface
-    qt5_add_dbus_interface(SOURCES
-        dbus/org.gnome.SettingsDaemon.MediaKeys.xml
-        dbus/gnomesettingsdaemon)
-
-    # org.mate.SettingsDaemon interface
-    qt5_add_dbus_interface(SOURCES
-        dbus/org.mate.SettingsDaemon.MediaKeys.xml
-        dbus/matesettingsdaemon)
-
-    # org.kde.KGlobalAccel interface
-    qt5_add_dbus_interface(SOURCES
-        dbus/org.kde.KGlobalAccel.xml
-        dbus/kglobalaccel)
-    qt5_add_dbus_interface(SOURCES
-        dbus/org.kde.KGlobalAccel.Component.xml
-        dbus/kglobalaccelcomponent)
-
-  endif()
+  # org.kde.KGlobalAccel interface
+  qt_add_dbus_interface(SOURCES dbus/org.kde.KGlobalAccel.xml dbus/kglobalaccel)
+  qt_add_dbus_interface(SOURCES dbus/org.kde.KGlobalAccel.Component.xml dbus/kglobalaccelcomponent)
 
   # org.freedesktop.Avahi.Server interface
   add_custom_command(
@@ -752,50 +664,17 @@ if(UNIX AND HAVE_DBUS)
   list(APPEND SOURCES ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahientrygroup.cpp)
 
   if(HAVE_UDISKS2)
-       set_source_files_properties(dbus/org.freedesktop.DBus.ObjectManager.xml
-           PROPERTIES NO_NAMESPACE dbus/objectmanager INCLUDE dbus/metatypes.h)
-       set_source_files_properties(dbus/org.freedesktop.UDisks2.Filesystem.xml
-           PROPERTIES NO_NAMESPACE dbus/udisks2filesystem INCLUDE dbus/metatypes.h)
-       set_source_files_properties(dbus/org.freedesktop.UDisks2.Block.xml
-           PROPERTIES NO_NAMESPACE dbus/udisks2block INCLUDE dbus/metatypes.h)
-       set_source_files_properties(dbus/org.freedesktop.UDisks2.Drive.xml
-           PROPERTIES NO_NAMESPACE dbus/udisks2drive INCLUDE dbus/metatypes.h)
-       set_source_files_properties(dbus/org.freedesktop.UDisks2.Job.xml
-           PROPERTIES NO_NAMESPACE dbus/udisks2job INCLUDE dbus/metatypes.h)
-       if(BUILD_WITH_QT6)
-         qt6_add_dbus_interface(SOURCES
-             dbus/org.freedesktop.DBus.ObjectManager.xml
-             dbus/objectmanager)
-         qt6_add_dbus_interface(SOURCES
-             dbus/org.freedesktop.UDisks2.Filesystem.xml
-             dbus/udisks2filesystem)
-         qt6_add_dbus_interface(SOURCES
-             dbus/org.freedesktop.UDisks2.Block.xml
-             dbus/udisks2block)
-         qt6_add_dbus_interface(SOURCES
-             dbus/org.freedesktop.UDisks2.Drive.xml
-             dbus/udisks2drive)
-         qt6_add_dbus_interface(SOURCES
-             dbus/org.freedesktop.UDisks2.Job.xml
-             dbus/udisks2job)
-       else()
-         qt5_add_dbus_interface(SOURCES
-             dbus/org.freedesktop.DBus.ObjectManager.xml
-             dbus/objectmanager)
-         qt5_add_dbus_interface(SOURCES
-             dbus/org.freedesktop.UDisks2.Filesystem.xml
-             dbus/udisks2filesystem)
-         qt5_add_dbus_interface(SOURCES
-             dbus/org.freedesktop.UDisks2.Block.xml
-             dbus/udisks2block)
-         qt5_add_dbus_interface(SOURCES
-             dbus/org.freedesktop.UDisks2.Drive.xml
-             dbus/udisks2drive)
-         qt5_add_dbus_interface(SOURCES
-             dbus/org.freedesktop.UDisks2.Job.xml
-             dbus/udisks2job)
-         endif()
-   endif(HAVE_UDISKS2)
+    set_source_files_properties(dbus/org.freedesktop.DBus.ObjectManager.xml PROPERTIES NO_NAMESPACE dbus/objectmanager INCLUDE dbus/metatypes.h)
+    set_source_files_properties(dbus/org.freedesktop.UDisks2.Filesystem.xml PROPERTIES NO_NAMESPACE dbus/udisks2filesystem INCLUDE dbus/metatypes.h)
+    set_source_files_properties(dbus/org.freedesktop.UDisks2.Block.xml PROPERTIES NO_NAMESPACE dbus/udisks2block INCLUDE dbus/metatypes.h)
+    set_source_files_properties(dbus/org.freedesktop.UDisks2.Drive.xml PROPERTIES NO_NAMESPACE dbus/udisks2drive INCLUDE dbus/metatypes.h)
+    set_source_files_properties(dbus/org.freedesktop.UDisks2.Job.xml PROPERTIES NO_NAMESPACE dbus/udisks2job INCLUDE dbus/metatypes.h)
+    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.DBus.ObjectManager.xml dbus/objectmanager)
+    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Filesystem.xml dbus/udisks2filesystem)
+    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Block.xml dbus/udisks2block)
+    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Drive.xml dbus/udisks2drive)
+    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Job.xml dbus/udisks2job)
+  endif(HAVE_UDISKS2)
 
 endif(UNIX AND HAVE_DBUS)
 
@@ -837,10 +716,7 @@ optional_source(HAVE_LIBGPOD
 )
 
 # GIO device backend
-optional_source(HAVE_GIO
-  SOURCES device/giolister.cpp
-  HEADERS device/giolister.h
-)
+optional_source(HAVE_GIO SOURCES device/giolister.cpp HEADERS device/giolister.h)
 
 # MTP device
 optional_source(HAVE_LIBMTP
@@ -855,10 +731,7 @@ optional_source(HAVE_LIBMTP
 )
 
 # Pulse audio integration
-optional_source(HAVE_LIBPULSE
-  SOURCES
-    engine/pulsedevicefinder.cpp
-)
+optional_source(HAVE_LIBPULSE SOURCES engine/pulsedevicefinder.cpp)
 
 # Transcoder require GStreamer
 optional_source(HAVE_GSTREAMER
@@ -946,21 +819,14 @@ optional_source(APPLE
     engine/macosdevicefinder.cpp
     globalshortcuts/globalshortcutsbackend-macos.mm
     globalshortcuts/globalshortcutgrabber.mm
+    device/macosdevicelister.mm
   HEADERS
     core/macsystemtrayicon.h
     core/macfslistener.h
     osd/osdmac.h
     globalshortcuts/globalshortcutsbackend-macos.h
+    device/macosdevicelister.h
 )
-
-if (APPLE)
-  optional_source(HAVE_LIBMTP
-   SOURCES
-      device/macosdevicelister.mm
-    HEADERS
-      device/macosdevicelister.h
-  )
-endif()
 
 # Platform specific - Windows
 optional_source(WIN32
@@ -1062,15 +928,9 @@ optional_source(HAVE_MOODBAR
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
-if(BUILD_WITH_QT6)
-  qt6_wrap_cpp(MOC ${HEADERS})
-  qt6_wrap_ui(UIC ${UI})
-  qt6_add_resources(QRC ${RESOURCES})
-else()
-  qt5_wrap_cpp(MOC ${HEADERS})
-  qt5_wrap_ui(UIC ${UI})
-  qt5_add_resources(QRC ${RESOURCES})
-endif()
+qt_wrap_cpp(MOC ${HEADERS})
+qt_wrap_ui(UIC ${UI})
+qt_add_resources(QRC ${RESOURCES})
 
 if(HAVE_TRANSLATIONS)
 

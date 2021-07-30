@@ -5,11 +5,7 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(SOURCES main.cpp tagreaderworker.cpp)
 set(HEADERS tagreaderworker.h)
 
-if(BUILD_WITH_QT6)
-  qt6_wrap_cpp(MOC ${HEADERS})
-else()
-  qt5_wrap_cpp(MOC ${HEADERS})
-endif()
+qt_wrap_cpp(MOC ${HEADERS})
 
 link_directories(${GLIB_LIBRARY_DIRS})
 
