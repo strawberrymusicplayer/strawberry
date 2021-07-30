@@ -998,7 +998,7 @@ msgstr "Autenticando..."
 
 #: ../build/src/ui_coverssettingspage.h:167
 #: ../build/src/ui_lyricssettingspage.h:167
-#: ../build/src/ui_subsonicsettingspage.h:197
+#: ../build/src/ui_subsonicsettingspage.h:226
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:273
 msgid "Authentication"
@@ -1008,6 +1008,10 @@ msgstr "Autenticação"
 #: settings/tidalsettingspage.cpp:214 settings/qobuzsettingspage.cpp:170
 msgid "Authentication failed"
 msgstr "Falha na autenticação"
+
+#: ../build/src/ui_subsonicsettingspage.h:229
+msgid "Authentication method:"
+msgstr ""
 
 #: dialogs/about.cpp:143
 msgid "Author and maintainer"
@@ -1356,14 +1360,14 @@ msgstr "Preencher tags automaticamente..."
 msgid "Composer"
 msgstr "Compositor"
 
-#: settings/subsonicsettingspage.cpp:110 settings/tidalsettingspage.cpp:157
+#: settings/subsonicsettingspage.cpp:127 settings/tidalsettingspage.cpp:157
 #: settings/tidalsettingspage.cpp:164 settings/tidalsettingspage.cpp:168
 #: settings/tidalsettingspage.cpp:172 settings/qobuzsettingspage.cpp:129
 #: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
 msgid "Configuration incomplete"
 msgstr "Configuração incompleta"
 
-#: settings/subsonicsettingspage.cpp:116
+#: settings/subsonicsettingspage.cpp:133
 msgid "Configuration incorrect"
 msgstr "Configuração incorreta"
 
@@ -1852,7 +1856,7 @@ msgid ""
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
 
-#: ../build/src/ui_subsonicsettingspage.h:204
+#: ../build/src/ui_subsonicsettingspage.h:236
 #: ../build/src/ui_tidalsettingspage.h:335
 #: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Download album covers"
@@ -1916,7 +1920,7 @@ msgstr ""
 #: ../build/src/ui_scrobblersettingspage.h:429
 #: ../build/src/ui_scrobblersettingspage.h:433
 #: ../build/src/ui_scrobblersettingspage.h:436
-#: ../build/src/ui_subsonicsettingspage.h:195
+#: ../build/src/ui_subsonicsettingspage.h:224
 #: ../build/src/ui_tidalsettingspage.h:319
 #: ../build/src/ui_qobuzsettingspage.h:271
 msgid "Enable"
@@ -2549,6 +2553,10 @@ msgstr ""
 msgid "Help"
 msgstr "Ajuda"
 
+#: ../build/src/ui_subsonicsettingspage.h:230
+msgid "Hex (insecure)"
+msgstr ""
+
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
 msgstr ""
@@ -2897,6 +2905,10 @@ msgstr "Letras"
 msgid "Lyrics providers"
 msgstr ""
 
+#: ../build/src/ui_subsonicsettingspage.h:231
+msgid "MD5 token"
+msgstr ""
+
 #: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
 msgstr "MP3"
@@ -3024,11 +3036,11 @@ msgstr ""
 msgid "Missing password."
 msgstr ""
 
-#: settings/subsonicsettingspage.cpp:110
+#: settings/subsonicsettingspage.cpp:127
 msgid "Missing server url, username or password."
 msgstr ""
 
-#: subsonic/subsonicservice.cpp:417
+#: subsonic/subsonicservice.cpp:433
 msgid "Missing username or password."
 msgstr ""
 
@@ -3415,7 +3427,7 @@ msgstr "Festa"
 
 #: ../build/src/ui_networkproxysettingspage.h:180
 #: ../build/src/ui_userpassdialog.h:92
-#: ../build/src/ui_subsonicsettingspage.h:199
+#: ../build/src/ui_subsonicsettingspage.h:228
 #: ../build/src/ui_tidalsettingspage.h:326
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Password"
@@ -3586,7 +3598,7 @@ msgstr "Pré-amplificação"
 msgid "Prefer album artist when sending scrobbles"
 msgstr ""
 
-#: ../build/src/ui_subsonicsettingspage.h:201
+#: ../build/src/ui_subsonicsettingspage.h:233
 #: ../build/src/ui_tidalsettingspage.h:328
 #: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Preferences"
@@ -4229,15 +4241,15 @@ msgstr "Selecionar..."
 msgid "Serial number"
 msgstr "Número de série"
 
-#: ../build/src/ui_subsonicsettingspage.h:196
+#: ../build/src/ui_subsonicsettingspage.h:225
 msgid "Server URL"
 msgstr ""
 
-#: subsonic/subsonicservice.cpp:412 settings/subsonicsettingspage.cpp:116
+#: subsonic/subsonicservice.cpp:428 settings/subsonicsettingspage.cpp:133
 msgid "Server URL is invalid."
 msgstr ""
 
-#: ../build/src/ui_subsonicsettingspage.h:205
+#: ../build/src/ui_subsonicsettingspage.h:237
 msgid "Server-side scrobbling"
 msgstr ""
 
@@ -4688,7 +4700,7 @@ msgid "Submit scrobbles every"
 msgstr ""
 
 #: core/mainwindow.cpp:354 ../build/src/ui_scrobblersettingspage.h:418
-#: ../build/src/ui_subsonicsettingspage.h:194
+#: ../build/src/ui_subsonicsettingspage.h:223
 msgid "Subsonic"
 msgstr ""
 
@@ -4768,15 +4780,15 @@ msgstr ""
 msgid "Techno"
 msgstr "Techno"
 
-#: ../build/src/ui_subsonicsettingspage.h:200
+#: ../build/src/ui_subsonicsettingspage.h:232
 msgid "Test"
 msgstr ""
 
-#: settings/subsonicsettingspage.cpp:149
+#: settings/subsonicsettingspage.cpp:166
 msgid "Test failed!"
 msgstr ""
 
-#: settings/subsonicsettingspage.cpp:140
+#: settings/subsonicsettingspage.cpp:157
 msgid "Test successful!"
 msgstr ""
 
@@ -5109,7 +5121,7 @@ msgstr "Utilização"
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr ""
 
-#: ../build/src/ui_subsonicsettingspage.h:202
+#: ../build/src/ui_subsonicsettingspage.h:234
 msgid "Use HTTP2 when possible"
 msgstr ""
 
@@ -5207,7 +5219,7 @@ msgstr ""
 
 #: ../build/src/ui_networkproxysettingspage.h:179
 #: ../build/src/ui_userpassdialog.h:91
-#: ../build/src/ui_subsonicsettingspage.h:198
+#: ../build/src/ui_subsonicsettingspage.h:227
 #: ../build/src/ui_tidalsettingspage.h:325
 #: ../build/src/ui_qobuzsettingspage.h:275
 msgid "Username"
@@ -5234,7 +5246,7 @@ msgstr "Taxa de bits variável"
 msgid "Various artists"
 msgstr "Vários artistas"
 
-#: ../build/src/ui_subsonicsettingspage.h:203
+#: ../build/src/ui_subsonicsettingspage.h:235
 msgid "Verify server certificate"
 msgstr ""
 
