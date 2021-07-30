@@ -1171,16 +1171,6 @@ if(WIN32)
   target_link_libraries(strawberry_lib PRIVATE dsound dwmapi)
 endif(WIN32)
 
-if(X11_FOUND)
-  # Hack: the Gold linker pays attention to the order that libraries are specified on the link line.
-  # -lX11 and -ldl are provided earlier in the link command but they're actually used by libraries that appear after them, so they end up getting ignored.
-  # This appends them to the very end of the link line, ensuring they're always used.
-  if(FREEBSD)
-    target_link_libraries(strawberry_lib PRIVATE ${X11_X11_LIB})
-  else()
-    target_link_libraries(strawberry_lib PRIVATE ${X11_X11_LIB} ${CMAKE_DL_LIBS})
-  endif()
-endif()
 
 ###############################################################################
 
