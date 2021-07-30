@@ -32,6 +32,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QCryptographicHash>
 #include <QSslConfiguration>
 #include <QSslSocket>
 #include <QSslError>
@@ -39,8 +40,11 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
+#include "core/utilities.h"
 #include "subsonicservice.h"
 #include "subsonicbaserequest.h"
+
+#include "settings/subsonicsettingspage.h"
 
 SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *parent)
     : QObject(parent),
@@ -59,8 +63,19 @@ QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const QList<P
                                  << Param("c", client_name())
                                  << Param("v", api_version())
                                  << Param("f", "json")
-                                 << Param("u", username())
-                                 << Param("p", QString("enc:" + password().toUtf8().toHex()));
+                                 << Param("u", username());
+
+  if (service_->auth_method() == SubsonicSettingsPage::AuthMethod_Hex) {
+    params << Param("p", QString("enc:" + password().toUtf8().toHex()));
+  }
+  else {
+    const QString salt = Utilities::CryptographicRandomString(20);
+    QCryptographicHash md5(QCryptographicHash::Md5);
+    md5.addData(password().toUtf8());
+    md5.addData(salt.toUtf8());
+    params << Param("s", salt);
+    params << Param("t", md5.result().toHex());
+  }
 
   QUrlQuery url_query;
   for (const Param &param : params) {

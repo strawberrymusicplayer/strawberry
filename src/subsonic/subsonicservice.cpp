@@ -36,6 +36,7 @@
 #include <QSslConfiguration>
 #include <QSslSocket>
 #include <QSslError>
+#include <QCryptographicHash>
 #include <QJsonValue>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -43,6 +44,7 @@
 #include <QSortFilterProxyModel>
 #include <QtDebug>
 
+#include "core/utilities.h"
 #include "core/application.h"
 #include "core/player.h"
 #include "core/logging.h"
@@ -75,6 +77,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
       http2_(true),
       verify_certificate_(false),
       download_album_covers_(true),
+      auth_method_(SubsonicSettingsPage::AuthMethod_MD5),
       ping_redirects_(0) {
 
   app->player()->RegisterUrlHandler(url_handler_);
@@ -136,16 +139,17 @@ void SubsonicService::ReloadSettings() {
   http2_ = s.value("http2", true).toBool();
   verify_certificate_ = s.value("verifycertificate", false).toBool();
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
+  auth_method_ = static_cast<SubsonicSettingsPage::AuthMethod>(s.value("authmethod", SubsonicSettingsPage::AuthMethod_MD5).toInt());
 
   s.endGroup();
 
 }
 
 void SubsonicService::SendPing() {
-  SendPingWithCredentials(server_url_, username_, password_, false);
+  SendPingWithCredentials(server_url_, username_, password_, auth_method_, false);
 }
 
-void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const bool redirect) {
+void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method, const bool redirect) {
 
   if (!network_ || !redirect) {
     network_ = std::make_unique<QNetworkAccessManager>();
@@ -155,11 +159,22 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
     ping_redirects_ = 0;
   }
 
-  const ParamList params = ParamList() << Param("c", kClientName)
-                                       << Param("v", kApiVersion)
-                                       << Param("f", "json")
-                                       << Param("u", username)
-                                       << Param("p", QString("enc:" + password.toUtf8().toHex()));
+  ParamList params = ParamList() << Param("c", kClientName)
+                                 << Param("v", kApiVersion)
+                                 << Param("f", "json")
+                                 << Param("u", username);
+
+  if (auth_method == SubsonicSettingsPage::AuthMethod_Hex) {
+    params << Param("p", QString("enc:" + password.toUtf8().toHex()));
+  }
+  else {
+    const QString salt = Utilities::CryptographicRandomString(20);
+    QCryptographicHash md5(QCryptographicHash::Md5);
+    md5.addData(password_.toUtf8());
+    md5.addData(salt.toUtf8());
+    params << Param("s", salt);
+    params << Param("t", md5.result().toHex());
+  }
 
   QUrlQuery url_query(url.query());
   for (const Param &param : params) {
@@ -170,8 +185,9 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
     if (!url.path().isEmpty() && url.path().right(1) == "/") {
       url.setPath(url.path() + QString("rest/ping.view"));
     }
-    else
+    else {
       url.setPath(url.path() + QString("/rest/ping.view"));
+    }
   }
 
   url.setQuery(url_query);
@@ -200,9 +216,9 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &SubsonicService::HandlePingSSLErrors);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, url, username, password]() { HandlePingReply(reply, url, username, password); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, url, username, password, auth_method]() { HandlePingReply(reply, url, username, password, auth_method); });
 
-  //qLog(Debug) << "Subsonic: Sending request" << url << query;
+  //qLog(Debug) << "Subsonic: Sending request" << url << url.query();
 
 }
 
@@ -214,7 +230,7 @@ void SubsonicService::HandlePingSSLErrors(const QList<QSslError> &ssl_errors) {
 
 }
 
-void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password) {
+void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method) {
 
   Q_UNUSED(url);
 
@@ -246,7 +262,7 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
         if (!redirect_url.isEmpty()) {
           ++ping_redirects_;
           qLog(Debug) << "Redirecting ping request to" << redirect_url.toString(QUrl::RemoveQuery);
-          SendPingWithCredentials(redirect_url, username, password, true);
+          SendPingWithCredentials(redirect_url, username, password, auth_method, true);
           return;
         }
       }

@@ -42,13 +42,18 @@ class SubsonicSettingsPage : public SettingsPage {
 
   static const char *kSettingsGroup;
 
+  enum AuthMethod {
+    AuthMethod_Hex,
+    AuthMethod_MD5
+  };
+
   void Load() override;
   void Save() override;
 
   bool eventFilter(QObject *object, QEvent *event) override;
 
  signals:
-  void Test(QUrl url, QString username, QString password, bool redirect = false);
+  void Test(QUrl url, QString username, QString password, AuthMethod auth_method, bool redirect = false);
 
  private slots:
   void TestClicked();

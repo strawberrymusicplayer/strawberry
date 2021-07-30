@@ -39,6 +39,7 @@
 
 #include "core/song.h"
 #include "internet/internetservice.h"
+#include "settings/subsonicsettingspage.h"
 
 class QSortFilterProxyModel;
 class QNetworkReply;
@@ -72,6 +73,7 @@ class SubsonicService : public InternetService {
   bool http2() const { return http2_; }
   bool verify_certificate() const { return verify_certificate_; }
   bool download_album_covers() const { return download_album_covers_; }
+  SubsonicSettingsPage::AuthMethod auth_method() const { return auth_method_; }
 
   CollectionBackend *collection_backend() const { return collection_backend_; }
   CollectionModel *collection_model() const { return collection_model_; }
@@ -87,13 +89,13 @@ class SubsonicService : public InternetService {
  public slots:
   void ShowConfig() override;
   void SendPing();
-  void SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const bool redirect = false);
+  void SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method, const bool redirect = false);
   void GetSongs() override;
   void ResetSongsRequest() override;
 
  private slots:
   void HandlePingSSLErrors(const QList<QSslError> &ssl_errors);
-  void HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password);
+  void HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method);
   void SongsResultsReceived(const SongList &songs, const QString &error);
 
  private:
@@ -125,6 +127,7 @@ class SubsonicService : public InternetService {
   bool http2_;
   bool verify_certificate_;
   bool download_album_covers_;
+  SubsonicSettingsPage::AuthMethod auth_method_;
 
   QStringList errors_;
   int ping_redirects_;
