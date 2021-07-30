@@ -1071,7 +1071,7 @@ target_link_libraries(strawberry_lib PUBLIC
   ${SINGLEAPPLICATION_LIBRARIES}
   ${SINGLECOREAPPLICATION_LIBRARIES}
   ${QTSPARKLE_LIBRARIES}
-  ${Iconv_LIBRARY}
+  ${Iconv_LIBRARIES}
   libstrawberry-common
   libstrawberry-tagreader
 )
