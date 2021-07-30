@@ -15,7 +15,6 @@ Unreleased:
 
   Enhancements:
     * Add replaygain fallback gain setting.
-    * Add ALSA PCM devices.
     * Add option to turn off playlist alternating row colors.
     * Make the default tabbbar background color lighter.
     * Remove use of deprecated X11Extras and WinExtras Qt modules.
@@ -23,17 +22,22 @@ Unreleased:
     * Automatically detect Qt version if BUILD_WITH_QT5 or BUILD_WITH_QT6 is not specified.
     * Correct playlist tabbar favorite tooltip from "click" to "double-click".
     * Remove scroll over icon to change track option since it does not work reliable.
-    * Add support for native global shortcuts on MATE.
-    * Add support for song fingerprinting and tracking.
     * Improve resume playback on startup.
     * Re-request stream URL for Tidal and QObuz when resuming playback after pausing for more than 30 seconds.
     * Add Finnish, Ukrainian, Dutch, Japanese, Chinese, Catalan and Portuguese (Brazil).
     * Add support for TagParser (https://github.com/Martchus/tagparser) as an alternative to TagLib.
     * Add Subsonic option to turn off HTTP2.
     * Fix minor Clang-Tidy and Clazy warnings.
-    * Use higher resolution images from last.fm API
-    * Add radios view with channels from Radio Paradise and SomaFM.
+    * Use higher resolution images from last.fm API.
+    * Add MD5 token authentication for Subsonic.
+    * Use 500 albums per request when receiving albums from Subsonic.
     * (macOS) Build with libgpod.
+
+  New features:
+    * Add ALSA PCM devices.
+    * Add song fingerprinting and tracking.
+    * Add support for native global shortcuts on MATE.
+    * Add radios view with channels from Radio Paradise and SomaFM.
 
 0.9.3:
 
