@@ -1149,6 +1149,9 @@ if(HAVE_LIBMTP)
   target_link_libraries(strawberry_lib PRIVATE ${LIBMTP_LIBRARIES})
 endif(HAVE_LIBMTP)
 
+if(FREEBSD)
+  target_link_libraries(strawberry_lib PRIVATE iconv)
+endif(FREEBSD)
 
 if(APPLE)
   target_link_libraries(strawberry_lib PRIVATE
