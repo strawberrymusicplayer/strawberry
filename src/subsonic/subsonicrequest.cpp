@@ -154,13 +154,13 @@ void SubsonicRequest::FlushAlbumsRequests() {
 
     QNetworkReply *reply = CreateGetRequest(QString("getAlbumList2"), params);
     replies_ << reply;
-    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumsReplyReceived(reply, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumsReplyReceived(reply, request.offset, request.size); });
 
   }
 
 }
 
-void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested) {
+void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested, const int size_requested) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -174,13 +174,13 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
   if (finished_) return;
 
   if (data.isEmpty()) {
-    AlbumsFinishCheck(offset_requested);
+    AlbumsFinishCheck(offset_requested, size_requested);
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    AlbumsFinishCheck(offset_requested);
+    AlbumsFinishCheck(offset_requested, size_requested);
     return;
   }
 
@@ -188,7 +188,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     QJsonValue json_error = json_obj["error"];
     if (!json_error.isObject()) {
       Error("Json error is not an object.", json_obj);
-      AlbumsFinishCheck(offset_requested);
+      AlbumsFinishCheck(offset_requested, size_requested);
       return;
     }
     json_obj = json_error.toObject();
@@ -196,11 +196,11 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
       int code = json_obj["code"].toInt();
       QString message = json_obj["message"].toString();
       Error(QString("%1 (%2)").arg(message).arg(code));
-      AlbumsFinishCheck(offset_requested);
+      AlbumsFinishCheck(offset_requested, size_requested);
     }
     else {
       Error("Json error object is missing code or message.", json_obj);
-      AlbumsFinishCheck(offset_requested);
+      AlbumsFinishCheck(offset_requested, size_requested);
       return;
     }
     return;
@@ -208,7 +208,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
 
   if (!json_obj.contains("albumList") && !json_obj.contains("albumList2")) {
     Error("Json reply is missing albumList.", json_obj);
-    AlbumsFinishCheck(offset_requested);
+    AlbumsFinishCheck(offset_requested, size_requested);
     return;
   }
   QJsonValue value_albumlist;
@@ -217,34 +217,34 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
 
   if (!value_albumlist.isObject()) {
     Error("Json album list is not an object.", value_albumlist);
-    AlbumsFinishCheck(offset_requested);
+    AlbumsFinishCheck(offset_requested, size_requested);
   }
   json_obj = value_albumlist.toObject();
   if (json_obj.isEmpty()) {
     if (offset_requested == 0) no_results_ = true;
-    AlbumsFinishCheck(offset_requested);
+    AlbumsFinishCheck(offset_requested, size_requested);
     return;
   }
 
   if (!json_obj.contains("album")) {
     Error("Json album list does not contain album array.", json_obj);
-    AlbumsFinishCheck(offset_requested);
+    AlbumsFinishCheck(offset_requested, size_requested);
   }
   QJsonValue json_album = json_obj["album"];
   if (json_album.isNull()) {
     if (offset_requested == 0) no_results_ = true;
-    AlbumsFinishCheck(offset_requested);
+    AlbumsFinishCheck(offset_requested, size_requested);
     return;
   }
   if (!json_album.isArray()) {
     Error("Json album is not an array.", json_album);
-    AlbumsFinishCheck(offset_requested);
+    AlbumsFinishCheck(offset_requested, size_requested);
   }
   QJsonArray array_albums = json_album.toArray();
 
   if (array_albums.isEmpty()) {
     if (offset_requested == 0) no_results_ = true;
-    AlbumsFinishCheck(offset_requested);
+    AlbumsFinishCheck(offset_requested, size_requested);
     return;
   }
 
@@ -288,15 +288,15 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
 
   }
 
-  AlbumsFinishCheck(offset_requested, albums_received);
+  AlbumsFinishCheck(offset_requested, size_requested, albums_received);
 
 }
 
-void SubsonicRequest::AlbumsFinishCheck(const int offset, const int albums_received) {
+void SubsonicRequest::AlbumsFinishCheck(const int offset, const int size, const int albums_received) {
 
   if (finished_) return;
 
-  if (albums_received > 0) {
+  if (albums_received > 0 && albums_received >= size) {
     int offset_next = offset + albums_received;
     if (offset_next > 0) {
       AddAlbumsRequest(offset_next);

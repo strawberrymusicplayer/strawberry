@@ -67,7 +67,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void UpdateProgress(int max);
 
  private slots:
-  void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested);
+  void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested, const int size_requested);
   void AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const QString &album_artist);
   void AlbumCoverReceived(QNetworkReply *reply, const QUrl &url, const QString &filename);
 
@@ -89,10 +89,10 @@ class SubsonicRequest : public SubsonicBaseRequest {
     QString filename;
   };
 
-  void AddAlbumsRequest(const int offset = 0, const int size = 0);
+  void AddAlbumsRequest(const int offset = 0, const int size = 500);
   void FlushAlbumsRequests();
 
-  void AlbumsFinishCheck(const int offset = 0, const int albums_received = 0);
+  void AlbumsFinishCheck(const int offset = 0, const int size = 0, const int albums_received = 0);
   void SongsFinishCheck();
 
   void AddAlbumSongsRequest(const QString &artist_id, const QString &album_id, const QString &album_artist, const int offset = 0);
