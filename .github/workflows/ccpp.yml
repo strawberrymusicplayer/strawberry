@@ -66,7 +66,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -138,7 +138,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -220,7 +220,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -303,7 +303,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -385,7 +385,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -470,7 +470,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -552,7 +552,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -628,7 +628,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -705,7 +705,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -771,7 +771,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
@@ -828,7 +828,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
@@ -890,7 +890,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
@@ -952,7 +952,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
@@ -1014,7 +1014,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
@@ -1076,7 +1076,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
@@ -1150,7 +1150,7 @@ jobs:
                       --disable-udev \
                       --disable-pygobject \
                       --with-python=no
-          make -j8
+          make -j 4
           sudo make install
 
       - name: Create Build Environment
@@ -1159,20 +1159,17 @@ jobs:
       - name: Configure CMake
         shell: bash
         env:
-          BUILD_TYPE: Release
           MACOSX_DEPLOYMENT_TARGET: 10.15
           PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
           GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
           GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WITH_QT5=ON -DBUILD_WERROR=ON -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt5/lib/cmake
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WITH_QT5=ON -DBUILD_WERROR=ON -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt5/lib/cmake
       - name: Build
-        env:
-          BUILD_TYPE: Release
         working-directory: build
         shell: bash
-        run: cmake --build . --config $BUILD_TYPE
+        run: cmake --build . --config Debug --parallel 4
       - name: Install
         working-directory: build
         shell: bash
@@ -1246,7 +1243,7 @@ jobs:
                       --disable-udev \
                       --disable-pygobject \
                       --with-python=no
-          make -j8
+          make -j 4
           sudo make install
 
       - name: Remove problematic files
@@ -1259,20 +1256,17 @@ jobs:
       - name: Configure CMake
         shell: bash
         env:
-          BUILD_TYPE: Release
           MACOSX_DEPLOYMENT_TARGET: 10.15
           PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
           GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
           GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WITH_QT6=ON -DBUILD_WERROR=ON -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake
+        run: cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=ON -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake
       - name: Build
-        env:
-          BUILD_TYPE: Release
         working-directory: build
         shell: bash
-        run: cmake --build . --config $BUILD_TYPE
+        run: cmake --build . --config Release --parallel 4
       - name: Install
         working-directory: build
         shell: bash
@@ -1333,7 +1327,7 @@ jobs:
 
       - name: Run Make
         working-directory: build
-        run: make -j2
+        run: cmake --build . --config Release --parallel $(nproc)
 
       - name: Create directories
         working-directory: build
@@ -1482,7 +1476,7 @@ jobs:
 
       - name: Run Make
         working-directory: build
-        run: make -j2
+        run: cmake --build . --config Release --parallel $(nproc)
 
       - name: Create directories
         working-directory: build
