@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-07-18 06:06-0400\n"
+"PO-Revision-Date: 2021-08-06 01:44-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -1025,7 +1025,7 @@ msgstr "Autentisering misslyckades"
 
 #: ../build/src/ui_subsonicsettingspage.h:229
 msgid "Authentication method:"
-msgstr ""
+msgstr "Autentiseringsmetod:"
 
 #: dialogs/about.cpp:143
 msgid "Author and maintainer"
@@ -2572,7 +2572,7 @@ msgstr "Hjälp"
 
 #: ../build/src/ui_subsonicsettingspage.h:230
 msgid "Hex (insecure)"
-msgstr ""
+msgstr "Hex (osäker)"
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
@@ -2929,7 +2929,7 @@ msgstr "Låttextleverantörer"
 
 #: ../build/src/ui_subsonicsettingspage.h:231
 msgid "MD5 token"
-msgstr ""
+msgstr "MD5-token"
 
 #: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
