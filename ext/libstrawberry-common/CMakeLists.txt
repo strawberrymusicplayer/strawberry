@@ -29,7 +29,7 @@ target_include_directories(libstrawberry-common PRIVATE
 
 if(Backtrace_FOUND)
   target_include_directories(libstrawberry-common SYSTEM PRIVATE ${Backtrace_INCLUDE_DIRS})
-endif(Backtrace_FOUND)
+endif()
 
 target_link_libraries(libstrawberry-common PRIVATE
   ${CMAKE_THREAD_LIBS_INIT}
@@ -40,4 +40,4 @@ target_link_libraries(libstrawberry-common PRIVATE
 
 if(Backtrace_FOUND)
   target_link_libraries(libstrawberry-common PRIVATE ${Backtrace_LIBRARIES})
-endif(Backtrace_FOUND)
+endif()

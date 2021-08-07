@@ -51,11 +51,11 @@ endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
   target_link_libraries(strawberry-tagreader PRIVATE execinfo)
-endif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+endif()
 
 if(APPLE)
   target_link_libraries(strawberry-tagreader PRIVATE /System/Library/Frameworks/Foundation.framework)
-endif(APPLE)
+endif()
 
 if(APPLE)
   install(TARGETS strawberry-tagreader DESTINATION ${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns)

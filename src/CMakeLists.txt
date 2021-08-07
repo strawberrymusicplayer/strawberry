@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 if(HAVE_TRANSLATIONS)
   include(../cmake/Translations.cmake)
-endif(HAVE_TRANSLATIONS)
+endif()
 
 set(SOURCES
   core/mainwindow.cpp
@@ -935,20 +935,20 @@ qt_add_resources(QRC ${RESOURCES})
 if(HAVE_TRANSLATIONS)
 
   set(LINGUAS "All" CACHE STRING "A space-seperated list of translations to compile in to Strawberry, or \"None\".")
-  if (LINGUAS STREQUAL "All")
+  if(LINGUAS STREQUAL "All")
     # build LANGUAGES from all existing .po files
     file(GLOB pofiles translations/*.po)
     foreach(pofile ${pofiles})
       get_filename_component(lang ${pofile} NAME_WE)
       list(APPEND LANGUAGES ${lang})
     endforeach(pofile)
-  else (LINGUAS STREQUAL "All")
-    if (NOT LINGUAS OR LINGUAS STREQUAL "None")
-      set (LANGUAGES "")
-    else (NOT LINGUAS OR LINGUAS STREQUAL "None")
+  else(LINGUAS STREQUAL "All")
+    if(NOT LINGUAS OR LINGUAS STREQUAL "None")
+      set(LANGUAGES "")
+    else(NOT LINGUAS OR LINGUAS STREQUAL "None")
       string(REGEX MATCHALL [a-zA-Z_@]+ LANGUAGES ${LINGUAS})
-    endif (NOT LINGUAS OR LINGUAS STREQUAL "None")
-  endif (LINGUAS STREQUAL "All")
+    endif(NOT LINGUAS OR LINGUAS STREQUAL "None")
+  endif(LINGUAS STREQUAL "All")
 
   add_pot(POT
     ${CMAKE_CURRENT_SOURCE_DIR}/translations/header
@@ -977,7 +977,7 @@ link_directories(
 
 if(HAVE_ALSA)
   link_directories(${ALSA_LIBRARY_DIRS})
-endif(HAVE_ALSA)
+endif()
 
 if(HAVE_LIBPULSE)
   link_directories(${LIBPULSE_LIBRARY_DIRS})
@@ -992,7 +992,7 @@ if(HAVE_GSTREAMER)
     ${GSTREAMER_TAG_LIBRARY_DIRS}
     ${GSTREAMER_PBUTILS_LIBRARY_DIRS}
   )
-endif(HAVE_GSTREAMER)
+endif()
 
 if(HAVE_VLC)
   link_directories(${LIBVLC_LIBRARY_DIRS})
@@ -1004,28 +1004,28 @@ endif()
 
 if(X11_FOUND)
   link_directories(${X11_LIBRARY_DIRS})
-endif(X11_FOUND)
+endif()
 
 if(XCB_FOUND)
   link_directories(${XCB_LIBRARY_DIRS})
-endif(XCB_FOUND)
+endif()
 
 if(HAVE_GIO)
   link_directories(${GIO_LIBRARY_DIRS})
-endif(HAVE_GIO)
+endif()
 
 if(HAVE_AUDIOCD)
   link_directories(${LIBCDIO_LIBRARY_DIRS})
-endif(HAVE_AUDIOCD)
+endif()
 
 if(HAVE_LIBGPOD)
   link_directories(${LIBGPOD_LIBRARY_DIRS})
   link_directories(${GDK_PIXBUF_LIBRARY_DIRS})
-endif(HAVE_LIBGPOD)
+endif()
 
 if(HAVE_LIBMTP)
   link_directories(${LIBMTP_LIBRARY_DIRS})
-endif(HAVE_LIBMTP)
+endif()
 
 add_library(strawberry_lib STATIC
   ${SOURCES}
@@ -1079,7 +1079,7 @@ target_link_libraries(strawberry_lib PUBLIC
 if(HAVE_ALSA)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${ALSA_INCLUDE_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${ALSA_LIBRARIES})
-endif(HAVE_ALSA)
+endif()
 
 if(HAVE_LIBPULSE)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBPULSE_INCLUDE_DIRS})
@@ -1103,7 +1103,7 @@ if(HAVE_GSTREAMER)
     ${GSTREAMER_TAG_LIBRARIES}
     ${GSTREAMER_PBUTILS_LIBRARIES}
   )
-endif(HAVE_GSTREAMER)
+endif()
 
 if(HAVE_MOODBAR)
   target_link_libraries(strawberry_lib PRIVATE gstmoodbar)
@@ -1122,36 +1122,36 @@ endif()
 if(X11_FOUND)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${X11_INCLUDE_DIR})
   target_link_libraries(strawberry_lib PRIVATE ${X11_LIBRARIES})
-endif(X11_FOUND)
+endif()
 
 if(XCB_FOUND)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${XCB_INCLUDE_DIR})
   target_link_libraries(strawberry_lib PRIVATE ${XCB_LIBRARIES})
-endif(XCB_FOUND)
+endif()
 
 if(HAVE_GIO)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${GIO_INCLUDE_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${GIO_LIBRARIES})
-endif(HAVE_GIO)
+endif()
 
 if(HAVE_AUDIOCD)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBCDIO_INCLUDE_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${LIBCDIO_LIBRARIES})
-endif(HAVE_AUDIOCD)
+endif()
 
 if(HAVE_LIBGPOD)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBGPOD_INCLUDE_DIRS} ${GDK_PIXBUF_INCLUDE_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${LIBGPOD_LIBRARIES} ${GDK_PIXBUF_LIBRARIES})
-endif(HAVE_LIBGPOD)
+endif()
 
 if(HAVE_LIBMTP)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBMTP_INCLUDE_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${LIBMTP_LIBRARIES})
-endif(HAVE_LIBMTP)
+endif()
 
 if(FREEBSD)
   target_link_libraries(strawberry_lib PRIVATE iconv)
-endif(FREEBSD)
+endif()
 
 if(APPLE)
   target_link_libraries(strawberry_lib PRIVATE
@@ -1167,12 +1167,12 @@ if(APPLE)
   if(HAVE_SPARKLE)
     target_include_directories(strawberry_lib SYSTEM PRIVATE ${SPARKLE}/Headers)
     target_link_libraries(strawberry_lib PRIVATE ${SPARKLE})
-  endif(HAVE_SPARKLE)
-endif(APPLE)
+  endif()
+endif()
 
 if(WIN32)
   target_link_libraries(strawberry_lib PRIVATE dsound dwmapi)
-endif(WIN32)
+endif()
 
 
 ###############################################################################
@@ -1182,13 +1182,13 @@ set(EXECUTABLE_OUTPUT_PATH ..)
 # Show the console window in debug mode on Windows
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug" AND NOT ENABLE_WIN32_CONSOLE)
   set(STRAWBERRY-WIN32-FLAG WIN32)
-endif(NOT CMAKE_BUILD_TYPE STREQUAL "Debug" AND NOT ENABLE_WIN32_CONSOLE)
+endif()
 
 # Resource file for windows
 if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../dist/windows/windres.rc.in ${CMAKE_CURRENT_BINARY_DIR}/windres.rc)
   set(STRAWBERRY-WIN32-RESOURCES windres.rc)
-endif(WIN32)
+endif()
 
 add_executable(strawberry
   MACOSX_BUNDLE
@@ -1216,4 +1216,4 @@ endif()
 
 if(APPLE)
   set_target_properties(strawberry PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/../dist/macos/Info.plist")
-endif(APPLE)
+endif()

@@ -27,19 +27,19 @@ if(HAVE_GSTREAMER)
     ${GSTREAMER_TAG_LIBRARY_DIRS}
     ${GSTREAMER_PBUTILS_LIBRARY_DIRS}
   )
-endif(HAVE_GSTREAMER)
+endif()
 
 if(HAVE_CHROMAPRINT)
   link_directories(${CHROMAPRINT_LIBRARY_DIRS})
-endif(HAVE_CHROMAPRINT)
+endif()
 
 if(HAVE_AUDIOCD)
   link_directories(${LIBCDIO_LIBRARY_DIRS})
-endif(HAVE_AUDIOCD)
+endif()
 
 if(HAVE_LIBMTP)
   link_directories(${LIBMTP_LIBRARY_DIRS})
-endif(HAVE_LIBMTP)
+endif()
 
 add_library(test_utils STATIC EXCLUDE_FROM_ALL ${TESTUTILS-SOURCES} ${TESTUTILS-SOURCES-MOC})
 target_include_directories(test_utils SYSTEM PRIVATE
@@ -77,7 +77,7 @@ target_include_directories(test_gui_main PRIVATE
 )
 if(HAVE_GSTREAMER)
   target_include_directories(test_gui_main SYSTEM PRIVATE ${GSTREAMER_INCLUDE_DIRS})
-endif(HAVE_GSTREAMER)
+endif()
 target_link_libraries(test_gui_main PRIVATE strawberry_lib)
 set_target_properties(test_gui_main PROPERTIES COMPILE_DEFINITIONS GUI)
 
@@ -91,7 +91,7 @@ target_include_directories(test_main PRIVATE
 )
 if(HAVE_GSTREAMER)
   target_include_directories(test_main SYSTEM PRIVATE ${GSTREAMER_INCLUDE_DIRS})
-endif(HAVE_GSTREAMER)
+endif()
 target_link_libraries(test_main PRIVATE strawberry_lib)
 
 # Given a file foo_test.cpp, creates a target foo_test and adds it to the test target.
@@ -122,9 +122,9 @@ macro(add_test_file test_source gui_required)
     set(GUI_REQUIRED ${gui_required})
     if(GUI_REQUIRED)
       target_link_libraries(${TEST_NAME} PRIVATE test_gui_main)
-    else(GUI_REQUIRED)
+    else()
       target_link_libraries(${TEST_NAME} PRIVATE test_main)
-    endif(GUI_REQUIRED)
+    endif()
 
     add_test(strawberry_tests ${TEST_NAME})
     add_custom_command(TARGET strawberry_tests POST_BUILD COMMAND ./${TEST_NAME}${CMAKE_EXECUTABLE_SUFFIX})
