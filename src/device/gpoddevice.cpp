@@ -210,6 +210,12 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
             track->has_artwork = 1;
           }
         }
+        else {
+          qLog(Error) << "Failed to save" << cover_file->fileName() << cover_file->errorString();
+        }
+      }
+      else {
+        qLog(Error) << "Failed to open" << cover_file->fileName() << cover_file->errorString();
       }
     }
     else if (!job.cover_source_.isEmpty()) {

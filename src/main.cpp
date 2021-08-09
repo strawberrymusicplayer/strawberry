@@ -225,6 +225,9 @@ int main(int argc, char *argv[]) {
       if (file.open(QIODevice::WriteOnly)) {
         file.close();
       }
+      else {
+        qLog(Error) << "Could not open settings file" << file.fileName() << "for writing:" << file.errorString();
+      }
     }
 
     // Set -rw-------

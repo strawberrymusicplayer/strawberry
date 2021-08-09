@@ -939,6 +939,9 @@ QByteArray ReadDataFromFile(const QString &filename) {
     data = file.readAll();
     file.close();
   }
+  else {
+    qLog(Error) << "Failed to open file" << filename << "for reading:" << file.errorString();
+  }
   return data;
 
 }

@@ -105,7 +105,7 @@ void MoodbarSettingsPage::InitMoodbarPreviews() {
   // Read the sample data
   QFile file(":/mood/sample.mood");
   if (!file.open(QIODevice::ReadOnly)) {
-    qLog(Warning) << "Unable to open moodbar sample file";
+    qLog(Warning) << "Failed to open moodbar sample file" << file.fileName() << "for reading:" << file.errorString();
     return;
   }
   QByteArray file_data = file.readAll();

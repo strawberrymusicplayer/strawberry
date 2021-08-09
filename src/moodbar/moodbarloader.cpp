@@ -110,11 +110,16 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, QByteArray *data, Moo
 
   for (const QString &possible_mood_file : MoodFilenames(filename)) {
     QFile f(possible_mood_file);
-    if (f.open(QIODevice::ReadOnly)) {
-      qLog(Info) << "Loading moodbar data from" << possible_mood_file;
-      *data = f.readAll();
-      f.close();
-      return Loaded;
+    if (f.exists()) {
+      if (f.open(QIODevice::ReadOnly)) {
+        qLog(Info) << "Loading moodbar data from" << possible_mood_file;
+        *data = f.readAll();
+        f.close();
+        return Loaded;
+      }
+      else {
+        qLog(Error) << "Failed to load moodbar data from" << possible_mood_file << f.errorString();
+      }
     }
   }
 
@@ -174,8 +179,9 @@ void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
 
     QIODevice *cache_file = cache_->prepare(metadata);
     if (cache_file) {
-      cache_file->write(request->data());
-      cache_->insert(cache_file);
+      if (cache_file->write(request->data()) > 0) {
+        cache_->insert(cache_file);
+      }
     }
 
     // Save the data alongside the original as well if we're configured to.
@@ -184,18 +190,18 @@ void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
       const QString mood_filename(mood_filenames[0]);
       QFile mood_file(mood_filename);
       if (mood_file.open(QIODevice::WriteOnly)) {
-        mood_file.write(request->data());
+        if (mood_file.write(request->data()) <= 0) {
+          qLog(Error) << "Error writing to mood file" << mood_filename << mood_file.errorString();
+        }
         mood_file.close();
-
 #ifdef Q_OS_WIN32
         if (!SetFileAttributes(reinterpret_cast<LPCTSTR>(mood_filename.utf16()), FILE_ATTRIBUTE_HIDDEN)) {
           qLog(Warning) << "Error setting hidden attribute for file" << mood_filename;
         }
 #endif
-
       }
       else {
-        qLog(Warning) << "Error opening mood file for writing" << mood_filename;
+        qLog(Error) << "Error opening mood file" << mood_filename << "for writing:" << mood_file.errorString();
       }
     }
   }

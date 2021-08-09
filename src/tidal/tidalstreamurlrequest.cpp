@@ -224,7 +224,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
         file.remove();
       }
       if (!file.open(QIODevice::WriteOnly)) {
-        Error(QString("Failed to open file %1 for writing.").arg(url.toLocalFile()), json_obj);
+        Error(QString("Failed to open file %1 for writing: %2.").arg(url.toLocalFile(), file.errorString()), json_obj);
         emit StreamURLFinished(id_, original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, errors_.first());
         return;
       }

@@ -86,11 +86,11 @@ void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverL
         result.temp_cover_url = QUrl::fromLocalFile(temp_cover_->fileName());
       }
       else {
-        qLog(Error) << "Unable to save cover image to" << temp_cover_->fileName();
+        qLog(Error) << "Failed to save cover image to" << temp_cover_->fileName() << temp_cover_->errorString();
       }
     }
     else {
-      qLog(Error) << "Unable to open" << temp_cover_->fileName();
+      qLog(Error) << "Failed to open" << temp_cover_->fileName() << temp_cover_->errorString();
     }
   }
 

@@ -708,7 +708,11 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
 
   // Load new CUE songs
   QFile cue_file(matching_cue);
-  if (!cue_file.exists() || !cue_file.open(QIODevice::ReadOnly)) return;
+  if (!cue_file.exists()) return;
+  if (!cue_file.open(QIODevice::ReadOnly)) {
+    qLog(Error) << "Could not open CUE file" << matching_cue << "for reading:" << cue_file.errorString();
+    return;
+  }
   const SongList songs = cue_parser_->Load(&cue_file, matching_cue, path, false);
   cue_file.close();
 
@@ -783,7 +787,12 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
     if (cues_processed->contains(matching_cue)) return songs;
 
     QFile cue_file(matching_cue);
-    if (!cue_file.exists() || !cue_file.open(QIODevice::ReadOnly)) return songs;
+    if (!cue_file.exists()) return songs;
+
+    if (!cue_file.open(QIODevice::ReadOnly)) {
+      qLog(Error) << "Could not open CUE file" << matching_cue << "for reading:" << cue_file.errorString();
+      return songs;
+    }
 
     // Ignore FILEs pointing to other media files.
     // Also, watch out for incorrect media files.

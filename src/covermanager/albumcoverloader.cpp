@@ -431,33 +431,46 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
 
     if (cover_url.isLocalFile()) {
       QFile file(cover_url.toLocalFile());
-      if (file.exists() && file.open(QIODevice::ReadOnly)) {
-        QByteArray image_data = file.readAll();
-        file.close();
-        QImage image;
-        if (!image_data.isEmpty() && task->options.get_image_ && image.loadFromData(image_data)) {
-          return TryLoadResult(false, !image.isNull(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+      if (file.exists()) {
+        if (file.open(QIODevice::ReadOnly)) {
+          QByteArray image_data = file.readAll();
+          file.close();
+          QImage image;
+          if (!image_data.isEmpty() && task->options.get_image_ && image.loadFromData(image_data)) {
+            return TryLoadResult(false, !image.isNull(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+          }
+          else {
+            return TryLoadResult(false, !image_data.isEmpty(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+          }
         }
         else {
-          return TryLoadResult(false, !image_data.isEmpty(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+          qLog(Error) << "Failed to open cover file" << cover_url << "for reading" << file.errorString();
         }
       }
       else {
-        qLog(Error) << "Failed to open album cover file" << cover_url;
+        qLog(Error) << "Cover file" << cover_url << "does not exist";
       }
     }
     else if (cover_url.scheme().isEmpty()) {  // Assume a local file with no scheme.
       QFile file(cover_url.path());
-      if (file.exists() && file.open(QIODevice::ReadOnly)) {
-        QByteArray image_data = file.readAll();
-        file.close();
-        QImage image;
-        if (!image_data.isEmpty() && task->options.get_image_ && image.loadFromData(image_data)) {
-          return TryLoadResult(false, !image.isNull(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+      if (file.exists()) {
+        if (file.open(QIODevice::ReadOnly)) {
+          QByteArray image_data = file.readAll();
+          file.close();
+          QImage image;
+          if (!image_data.isEmpty() && task->options.get_image_ && image.loadFromData(image_data)) {
+            return TryLoadResult(false, !image.isNull(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+          }
+          else {
+            return TryLoadResult(false, !image_data.isEmpty(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+          }
         }
         else {
-          return TryLoadResult(false, !image_data.isEmpty(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+          qLog(Error) << "Failed to open cover file" << cover_url << "for reading" << file.errorString();
         }
+      }
+      else {
+        qLog(Error) << "Cover file" << cover_url << "does not exist";
       }
     }
     else if (network_->supportedSchemes().contains(cover_url.scheme())) {  // Remote URL
@@ -615,7 +628,13 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QString &song_fi
 
   QFile file(cover_filename);
 
-  if (file.size() >= 209715200 || !file.open(QIODevice::ReadOnly)) {  // Max 200 MB.
+  if (file.size() >= 209715200) {  // Max 200 MB.
+    emit SaveEmbeddedCoverAsyncFinished(id, false, false);
+    return;
+  }
+
+  if (!file.open(QIODevice::ReadOnly)) {
+    qLog(Error) << "Failed to open cover file" << cover_filename << "for reading:" << file.errorString();
     emit SaveEmbeddedCoverAsyncFinished(id, false, false);
     return;
   }
@@ -656,7 +675,13 @@ void AlbumCoverLoader::SaveEmbeddedCover(const qint64 id, const QList<QUrl> &url
 
   QFile file(cover_filename);
 
-  if (file.size() >= 209715200 || !file.open(QIODevice::ReadOnly)) {  // Max 200 MB.
+  if (file.size() >= 209715200) {  // Max 200 MB.
+    emit SaveEmbeddedCoverAsyncFinished(id, false, false);
+    return;
+  }
+
+  if (!file.open(QIODevice::ReadOnly)) {
+    qLog(Error) << "Failed to open cover file" << cover_filename  << "for reading:" << file.errorString();
     emit SaveEmbeddedCoverAsyncFinished(id, false, false);
     return;
   }

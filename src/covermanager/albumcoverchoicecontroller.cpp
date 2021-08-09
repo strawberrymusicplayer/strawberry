@@ -188,6 +188,9 @@ AlbumCoverImageResult AlbumCoverChoiceController::LoadImageFromFile(Song *song) 
       result.cover_url = QUrl::fromLocalFile(cover_file);
     }
   }
+  else {
+    qLog(Error) << "Failed to open cover file" << cover_file << "for reading:" << file.errorString();
+  }
 
   return result;
 
@@ -252,8 +255,13 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
   if (result.is_jpeg() && fileinfo.completeSuffix().compare("jpg", Qt::CaseInsensitive) == 0) {
     QFile file(save_filename);
     if (file.open(QIODevice::WriteOnly)) {
-      file.write(result.image_data);
+      if (file.write(result.image_data) <= 0) {
+        qLog(Error) << "Failed writing cover to file" << save_filename << file.errorString();
+      }
       file.close();
+    }
+    else {
+      qLog(Error) << "Failed to open cover file" << save_filename << "for writing:" << file.errorString();
     }
   }
   else {
@@ -596,8 +604,16 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
   QUrl cover_url;
   if (result.is_jpeg()) {
     if (file.open(QIODevice::WriteOnly)) {
-      if (file.write(result.image_data) > 0) cover_url = QUrl::fromLocalFile(filepath);
+      if (file.write(result.image_data) > 0) {
+        cover_url = QUrl::fromLocalFile(filepath);
+      }
+      else {
+        qLog(Error) << "Failed to write cover to file" << file.fileName() << file.errorString();
+      }
       file.close();
+    }
+    else {
+      qLog(Error) << "Failed to open cover file" << file.fileName() << "for writing:" << file.errorString();
     }
   }
   else {

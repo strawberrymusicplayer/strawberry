@@ -122,6 +122,9 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
     ui_->preview_normal->setText(text);
     file.close();
   }
+  else {
+    qLog(Error) << "Could not open" << file.fileName() << "for reading:" << file.errorString();
+  }
 
 }
 

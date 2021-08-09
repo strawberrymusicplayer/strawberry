@@ -58,7 +58,7 @@ void StyleSheetLoader::SetStyleSheet(QWidget *widget, const QString &filename) {
   // Load the file
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly)) {
-    qLog(Error) << "Unable to open" << filename;
+    qLog(Error) << "Could not open stylesheet file" << filename << "for reading:" << file.errorString();
     return;
   }
   QTextStream stream(&file);
