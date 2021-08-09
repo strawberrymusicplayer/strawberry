@@ -1449,6 +1449,11 @@ msgstr ""
 "GStreamer-elementin \"%1\" luonti epäonnistui - varmista, että kaikki "
 "vaaditut GStreamer-liitännäiset on asennettu"
 
+#: core/songloader.cpp:316
+#, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
 #: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
@@ -1456,10 +1461,15 @@ msgstr ""
 
 #: core/songloader.cpp:284
 #, qt-format
-msgid "Could not open file %1"
-msgstr "Tiedostoa %1 ei voitu avata"
+msgid "Could not open file %1 for reading: %2"
+msgstr ""
 
-#: core/songloader.cpp:471
+#: core/songloader.cpp:372
+#, qt-format
+msgid "Could not open playlist file %1 for reading: %2"
+msgstr ""
+
+#: core/songloader.cpp:478
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
@@ -2214,7 +2224,7 @@ msgstr "Virhe kansikuvan noudossa"
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:187 core/songloader.cpp:327
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Tiedostoa %1 ei tunnistettu äänitiedostoksi."
@@ -2805,7 +2815,7 @@ msgid "Load cover from URL..."
 msgstr "Lataa kansikuva osoitteesta..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:176
-#: covermanager/albumcoverchoicecontroller.cpp:200
+#: covermanager/albumcoverchoicecontroller.cpp:203
 msgid "Load cover from disk"
 msgstr "Lataa kansikuva levyltä"
 
@@ -4058,7 +4068,7 @@ msgstr "Näytteenottotaajuus"
 msgid "Save &playlist..."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:237
+#: covermanager/albumcoverchoicecontroller.cpp:240
 msgid "Save album cover"
 msgstr "Tallenna albumin kansikuva"
 
@@ -5641,6 +5651,6 @@ msgstr "pysäytä"
 msgid "track %1"
 msgstr "kappale %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:232
+#: covermanager/albumcoverchoicecontroller.cpp:235
 msgid "unknown"
 msgstr "tuntematon"

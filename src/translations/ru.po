@@ -1473,16 +1473,26 @@ msgstr ""
 "Невозможно создать элемент GStreamer «%1» - убедитесь, что у вас установлены "
 "все необходимые дополнения GStreamer"
 
+#: core/songloader.cpp:316
+#, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
 #: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
 #: core/songloader.cpp:284
 #, qt-format
-msgid "Could not open file %1"
-msgstr "Не удалось открыть файл %1"
+msgid "Could not open file %1 for reading: %2"
+msgstr ""
 
-#: core/songloader.cpp:471
+#: core/songloader.cpp:372
+#, qt-format
+msgid "Could not open playlist file %1 for reading: %2"
+msgstr ""
+
+#: core/songloader.cpp:478
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
@@ -2235,7 +2245,7 @@ msgstr "Ошибка получения обложки"
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:187 core/songloader.cpp:327
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Файл %1 не распознается как допустимый аудиофайл."
@@ -2827,7 +2837,7 @@ msgid "Load cover from URL..."
 msgstr "Загрузить обложку по ссылке…"
 
 #: covermanager/albumcoverchoicecontroller.cpp:176
-#: covermanager/albumcoverchoicecontroller.cpp:200
+#: covermanager/albumcoverchoicecontroller.cpp:203
 msgid "Load cover from disk"
 msgstr "Загрузить обложку с диска"
 
@@ -4082,7 +4092,7 @@ msgstr "Частота"
 msgid "Save &playlist..."
 msgstr "&Сохранить плейлист..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:237
+#: covermanager/albumcoverchoicecontroller.cpp:240
 msgid "Save album cover"
 msgstr "Сохранить обложку альбома"
 
@@ -5671,6 +5681,6 @@ msgstr "стоп"
 msgid "track %1"
 msgstr "трек %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:232
+#: covermanager/albumcoverchoicecontroller.cpp:235
 msgid "unknown"
 msgstr "неизвестно"

@@ -1452,16 +1452,26 @@ msgid ""
 msgstr ""
 "GStreamer 要素「%1」を作成できませんでした。必要な GStreamer プラグインがすべてインストールされていることを確認してください"
 
+#: core/songloader.cpp:316
+#, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
 #: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "URLを開けません。ブラウザで開いてください。"
 
 #: core/songloader.cpp:284
 #, qt-format
-msgid "Could not open file %1"
-msgstr "ファイル %1 が開けません "
+msgid "Could not open file %1 for reading: %2"
+msgstr ""
 
-#: core/songloader.cpp:471
+#: core/songloader.cpp:372
+#, qt-format
+msgid "Could not open playlist file %1 for reading: %2"
+msgstr ""
+
+#: core/songloader.cpp:478
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
@@ -2212,7 +2222,7 @@ msgstr "カバーの取得エラー"
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:187 core/songloader.cpp:327
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "ファイル %1 は正常な音声ファイルではありません"
@@ -2795,7 +2805,7 @@ msgid "Load cover from URL..."
 msgstr "URL からカバーの読み込み..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:176
-#: covermanager/albumcoverchoicecontroller.cpp:200
+#: covermanager/albumcoverchoicecontroller.cpp:203
 msgid "Load cover from disk"
 msgstr "ディスクからカバーの読み込み"
 
@@ -4045,7 +4055,7 @@ msgstr "サンプルレート"
 msgid "Save &playlist..."
 msgstr "プレイリストを保存(&s)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:237
+#: covermanager/albumcoverchoicecontroller.cpp:240
 msgid "Save album cover"
 msgstr "カバーアートの保存"
 
@@ -5603,6 +5613,6 @@ msgstr "停止"
 msgid "track %1"
 msgstr "トラック %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:232
+#: covermanager/albumcoverchoicecontroller.cpp:235
 msgid "unknown"
 msgstr "不明"

@@ -1454,16 +1454,26 @@ msgstr ""
 "Impossibile creare l'elemento «%1» di GStreamer - assicurati che tutti i "
 "plugin necessari siano installati"
 
+#: core/songloader.cpp:316
+#, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
 #: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Impossibile aprire l'URL. Per favore apri questo URL nel tuo browser"
 
 #: core/songloader.cpp:284
 #, qt-format
-msgid "Could not open file %1"
-msgstr "Impossibile aprire il file %1"
+msgid "Could not open file %1 for reading: %2"
+msgstr ""
 
-#: core/songloader.cpp:471
+#: core/songloader.cpp:372
+#, qt-format
+msgid "Could not open playlist file %1 for reading: %2"
+msgstr ""
+
+#: core/songloader.cpp:478
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
@@ -2218,7 +2228,7 @@ msgstr "Errore di scaricamento della copertina"
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:187 core/songloader.cpp:327
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Il file %1 non è stato riconosciuto come un file audio valido."
@@ -2812,7 +2822,7 @@ msgid "Load cover from URL..."
 msgstr "Carica copertina da URL..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:176
-#: covermanager/albumcoverchoicecontroller.cpp:200
+#: covermanager/albumcoverchoicecontroller.cpp:203
 msgid "Load cover from disk"
 msgstr "Carica copertina dal disco"
 
@@ -4073,7 +4083,7 @@ msgstr "Campionamento"
 msgid "Save &playlist..."
 msgstr "Salva la &playlist"
 
-#: covermanager/albumcoverchoicecontroller.cpp:237
+#: covermanager/albumcoverchoicecontroller.cpp:240
 msgid "Save album cover"
 msgstr "Salva la copertina dell'album"
 
@@ -5675,6 +5685,6 @@ msgstr "ferma"
 msgid "track %1"
 msgstr "traccia %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:232
+#: covermanager/albumcoverchoicecontroller.cpp:235
 msgid "unknown"
 msgstr "sconosciuto"

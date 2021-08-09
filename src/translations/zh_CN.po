@@ -1456,16 +1456,26 @@ msgid ""
 "required GStreamer plugins installed"
 msgstr "无法创建GStreamer元素 \"%1\" - 请确认您已安装了所需GStreamer插件"
 
+#: core/songloader.cpp:316
+#, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
 #: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
 #: core/songloader.cpp:284
 #, qt-format
-msgid "Could not open file %1"
+msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:471
+#: core/songloader.cpp:372
+#, qt-format
+msgid "Could not open playlist file %1 for reading: %2"
+msgstr ""
+
+#: core/songloader.cpp:478
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
@@ -2214,7 +2224,7 @@ msgstr "获取封面出错"
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:187 core/songloader.cpp:327
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr ""
@@ -2797,7 +2807,7 @@ msgid "Load cover from URL..."
 msgstr "从 URL 载入封面..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:176
-#: covermanager/albumcoverchoicecontroller.cpp:200
+#: covermanager/albumcoverchoicecontroller.cpp:203
 msgid "Load cover from disk"
 msgstr "从磁盘读取封面"
 
@@ -4043,7 +4053,7 @@ msgstr "采样率"
 msgid "Save &playlist..."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:237
+#: covermanager/albumcoverchoicecontroller.cpp:240
 msgid "Save album cover"
 msgstr "保存转接封面"
 
@@ -5599,6 +5609,6 @@ msgstr "停止"
 msgid "track %1"
 msgstr "曲目 %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:232
+#: covermanager/albumcoverchoicecontroller.cpp:235
 msgid "unknown"
 msgstr ""

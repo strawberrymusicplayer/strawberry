@@ -1454,16 +1454,26 @@ msgstr ""
 "Tidak dapat membuat elemen GStreamer \"%1\" - pastikan Anda memiliki semua "
 "plugin GStreamer yang dibutuhkan terpasang"
 
+#: core/songloader.cpp:316
+#, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
 #: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
 #: core/songloader.cpp:284
 #, qt-format
-msgid "Could not open file %1"
-msgstr "Tidak dapat membuka berkas %1"
+msgid "Could not open file %1 for reading: %2"
+msgstr ""
 
-#: core/songloader.cpp:471
+#: core/songloader.cpp:372
+#, qt-format
+msgid "Could not open playlist file %1 for reading: %2"
+msgstr ""
+
+#: core/songloader.cpp:478
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
@@ -2216,7 +2226,7 @@ msgstr "Terjadi kesalahan saat mengambil sampul"
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:187 core/songloader.cpp:327
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Berkas %1 bukanlah berkas audio yang benar."
@@ -2805,7 +2815,7 @@ msgid "Load cover from URL..."
 msgstr "Muat sampul dari URL..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:176
-#: covermanager/albumcoverchoicecontroller.cpp:200
+#: covermanager/albumcoverchoicecontroller.cpp:203
 msgid "Load cover from disk"
 msgstr "Muat sampul dari diska"
 
@@ -4059,7 +4069,7 @@ msgstr "Lajusampel"
 msgid "Save &playlist..."
 msgstr "Simpan &daftar putar..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:237
+#: covermanager/albumcoverchoicecontroller.cpp:240
 msgid "Save album cover"
 msgstr "Simpan sampul album"
 
@@ -5650,6 +5660,6 @@ msgstr "berhenti"
 msgid "track %1"
 msgstr "trek %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:232
+#: covermanager/albumcoverchoicecontroller.cpp:235
 msgid "unknown"
 msgstr "tidak diketahui"

@@ -1457,6 +1457,11 @@ msgstr ""
 "Nepodařilo se vytvořit prvek GStreamer \"%1\" - ujistěte se, že máte "
 "nainstalovány všechny požadované přídavné moduly GStreamer"
 
+#: core/songloader.cpp:316
+#, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
 #: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
@@ -1464,10 +1469,15 @@ msgstr ""
 
 #: core/songloader.cpp:284
 #, qt-format
-msgid "Could not open file %1"
-msgstr "Nelze otevřít soubor %1"
+msgid "Could not open file %1 for reading: %2"
+msgstr ""
 
-#: core/songloader.cpp:471
+#: core/songloader.cpp:372
+#, qt-format
+msgid "Could not open playlist file %1 for reading: %2"
+msgstr ""
+
+#: core/songloader.cpp:478
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
@@ -2220,7 +2230,7 @@ msgstr "Chyba při stahování obalu"
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:187 core/songloader.cpp:327
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Soubor %1 nebyl rozpoznán jako platný zvukový soubor."
@@ -2819,7 +2829,7 @@ msgid "Load cover from URL..."
 msgstr "Nahrát obal z adresy (URL)..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:176
-#: covermanager/albumcoverchoicecontroller.cpp:200
+#: covermanager/albumcoverchoicecontroller.cpp:203
 msgid "Load cover from disk"
 msgstr "Nahrát obal z disku"
 
@@ -4083,7 +4093,7 @@ msgstr "Vzorkovací frekvence"
 msgid "Save &playlist..."
 msgstr "Uložit seznam skladeb..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:237
+#: covermanager/albumcoverchoicecontroller.cpp:240
 msgid "Save album cover"
 msgstr "Uložit obal alba"
 
@@ -5684,6 +5694,6 @@ msgstr "zastavit"
 msgid "track %1"
 msgstr "skladba %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:232
+#: covermanager/albumcoverchoicecontroller.cpp:235
 msgid "unknown"
 msgstr "neznámý"

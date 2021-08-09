@@ -1447,16 +1447,26 @@ msgstr ""
 "Kunne ikke opprette GStreamer-elementet \"%1\" - sørg for at du har alle "
 "nødvendige GStreamer-programutvidelser installert"
 
+#: core/songloader.cpp:316
+#, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
 #: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Kunne ikke åpne URL. Prøv å åpne denne URLen  i din nettleser"
 
 #: core/songloader.cpp:284
 #, qt-format
-msgid "Could not open file %1"
-msgstr "Kan ikke åpne fil %1"
+msgid "Could not open file %1 for reading: %2"
+msgstr ""
 
-#: core/songloader.cpp:471
+#: core/songloader.cpp:372
+#, qt-format
+msgid "Could not open playlist file %1 for reading: %2"
+msgstr ""
+
+#: core/songloader.cpp:478
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
@@ -2209,7 +2219,7 @@ msgstr "Kunne ikke hente albumgrafikk"
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:187 core/songloader.cpp:327
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Fil %1 er ikke gjenkjent som en lydfil"
@@ -2797,7 +2807,7 @@ msgid "Load cover from URL..."
 msgstr "Hent omslag fra URL…"
 
 #: covermanager/albumcoverchoicecontroller.cpp:176
-#: covermanager/albumcoverchoicecontroller.cpp:200
+#: covermanager/albumcoverchoicecontroller.cpp:203
 msgid "Load cover from disk"
 msgstr "Hent omslag fra disk"
 
@@ -4048,7 +4058,7 @@ msgstr "Samplingsrate"
 msgid "Save &playlist..."
 msgstr "Lagre &spilleliste..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:237
+#: covermanager/albumcoverchoicecontroller.cpp:240
 msgid "Save album cover"
 msgstr "Lagre albumomslag"
 
@@ -5633,6 +5643,6 @@ msgstr "stopp"
 msgid "track %1"
 msgstr "spor %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:232
+#: covermanager/albumcoverchoicecontroller.cpp:235
 msgid "unknown"
 msgstr "ukjent"

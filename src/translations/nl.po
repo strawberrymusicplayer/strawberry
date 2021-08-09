@@ -1460,16 +1460,26 @@ msgstr ""
 "Kan GStreamer element ‘%1’ niet aanmaken - zorg ervoor dat u alle vereiste "
 "GStreamer plug-ins geïnstalleerd heeft"
 
+#: core/songloader.cpp:316
+#, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
 #: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
 #: core/songloader.cpp:284
 #, qt-format
-msgid "Could not open file %1"
+msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:471
+#: core/songloader.cpp:372
+#, qt-format
+msgid "Could not open playlist file %1 for reading: %2"
+msgstr ""
+
+#: core/songloader.cpp:478
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
@@ -2223,7 +2233,7 @@ msgstr "Fout bij ophalen albumhoes"
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:187 core/songloader.cpp:327
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr ""
@@ -2816,7 +2826,7 @@ msgid "Load cover from URL..."
 msgstr "Albumhoes van URL laden…"
 
 #: covermanager/albumcoverchoicecontroller.cpp:176
-#: covermanager/albumcoverchoicecontroller.cpp:200
+#: covermanager/albumcoverchoicecontroller.cpp:203
 msgid "Load cover from disk"
 msgstr "Albumhoes van schijf laden"
 
@@ -4069,7 +4079,7 @@ msgstr "Samplerate"
 msgid "Save &playlist..."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:237
+#: covermanager/albumcoverchoicecontroller.cpp:240
 msgid "Save album cover"
 msgstr "Albumhoes opslaan"
 
@@ -5663,6 +5673,6 @@ msgstr "stoppen"
 msgid "track %1"
 msgstr "nummer %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:232
+#: covermanager/albumcoverchoicecontroller.cpp:235
 msgid "unknown"
 msgstr "onbekend"
