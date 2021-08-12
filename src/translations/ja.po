@@ -2404,7 +2404,7 @@ msgstr "全般"
 msgid "General settings"
 msgstr "全般設定"
 
-#: lyrics/geniuslyricsprovider.cpp:126
+#: lyrics/geniuslyricsprovider.cpp:125
 msgid "Genius Authentication"
 msgstr "Genius 認証"
 
@@ -3558,8 +3558,8 @@ msgstr "プレイリスト"
 msgid "Please close your browser and return to Strawberry."
 msgstr "ブラウザーを閉じて Strawberry に戻ってください。"
 
-#: covermanager/spotifycoverprovider.cpp:150
-#: lyrics/geniuslyricsprovider.cpp:126 scrobbler/listenbrainzscrobbler.cpp:181
+#: covermanager/spotifycoverprovider.cpp:148
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:181
 msgid "Please open this URL in your browser"
 msgstr "このURLをブラウザで開いてください"
 
@@ -3751,8 +3751,8 @@ msgstr "相対パス(&L)"
 msgid "Really cancel?"
 msgstr "本当に取り消しますか?"
 
-#: covermanager/spotifycoverprovider.cpp:199
-#: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:207
+#: covermanager/spotifycoverprovider.cpp:197
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:207
 msgid "Received invalid reply from web browser."
 msgstr "Webブラウザから無効な返信を受け取りました。"
 
@@ -3783,15 +3783,15 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:206
+#: lyrics/geniuslyricsprovider.cpp:205
 msgid "Redirect from Genius is missing query items code or state."
 msgstr "Genius からのリダイレクトにクエリアイテムのコードまたは状態がありません。"
 
-#: covermanager/spotifycoverprovider.cpp:195
+#: covermanager/spotifycoverprovider.cpp:193
 msgid "Redirect missing token code or state!"
 msgstr "不足しているトークンコードまたは状態をリダイレクトしてください！"
 
-#: lyrics/geniuslyricsprovider.cpp:150 scrobbler/listenbrainzscrobbler.cpp:203
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:203
 msgid "Redirect missing token code!"
 msgstr "不足しているトークンコードをリダイレクトしてください！"
 
@@ -4555,7 +4555,7 @@ msgstr "ソース"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:150
+#: covermanager/spotifycoverprovider.cpp:148
 msgid "Spotify Authentication"
 msgstr "Spotify 認証"
 

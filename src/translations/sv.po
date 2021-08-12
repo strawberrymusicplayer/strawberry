@@ -2433,7 +2433,7 @@ msgstr "Allmänt"
 msgid "General settings"
 msgstr "Allmänna inställningar"
 
-#: lyrics/geniuslyricsprovider.cpp:126
+#: lyrics/geniuslyricsprovider.cpp:125
 msgid "Genius Authentication"
 msgstr "Genius-autentisering"
 
@@ -3603,8 +3603,8 @@ msgstr "Spellistor"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Vänligen stäng din webbläsare och återgå till Strawberry."
 
-#: covermanager/spotifycoverprovider.cpp:150
-#: lyrics/geniuslyricsprovider.cpp:126 scrobbler/listenbrainzscrobbler.cpp:181
+#: covermanager/spotifycoverprovider.cpp:148
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:181
 msgid "Please open this URL in your browser"
 msgstr "Vänligen öppna den här webbadressen i din webbläsare"
 
@@ -3801,8 +3801,8 @@ msgstr "Re&lativa"
 msgid "Really cancel?"
 msgstr "Verkligen avbryta?"
 
-#: covermanager/spotifycoverprovider.cpp:199
-#: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:207
+#: covermanager/spotifycoverprovider.cpp:197
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:207
 msgid "Received invalid reply from web browser."
 msgstr "Tog emot ogiltigt svar från webbläsaren."
 
@@ -3833,16 +3833,16 @@ msgstr "Tar emot spelantal för %1 låtar och spelades senast för %2 låtar."
 msgid "Receiving playcounts for %1 songs."
 msgstr "Tar emot spelantal för %1 låtar."
 
-#: lyrics/geniuslyricsprovider.cpp:206
+#: lyrics/geniuslyricsprovider.cpp:205
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "Omdirigering från Genius saknar förfrågningsobjektkod eller tillstånd."
 
-#: covermanager/spotifycoverprovider.cpp:195
+#: covermanager/spotifycoverprovider.cpp:193
 msgid "Redirect missing token code or state!"
 msgstr "Omdirigering saknar tokenkod eller tillstånd!"
 
-#: lyrics/geniuslyricsprovider.cpp:150 scrobbler/listenbrainzscrobbler.cpp:203
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:203
 msgid "Redirect missing token code!"
 msgstr "Omdirigering saknar token-kod!"
 
@@ -4611,7 +4611,7 @@ msgstr "Källa"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:150
+#: covermanager/spotifycoverprovider.cpp:148
 msgid "Spotify Authentication"
 msgstr "Spotify-autentisering"
 

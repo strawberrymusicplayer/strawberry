@@ -2487,7 +2487,7 @@ msgstr "Général"
 msgid "General settings"
 msgstr "Configuration générale"
 
-#: lyrics/geniuslyricsprovider.cpp:126
+#: lyrics/geniuslyricsprovider.cpp:125
 msgid "Genius Authentication"
 msgstr "Authentification Genius"
 
@@ -3672,8 +3672,8 @@ msgstr "Listes de lecture"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Merci de fermer votre navigateur et de retourner dans Strawberry."
 
-#: covermanager/spotifycoverprovider.cpp:150
-#: lyrics/geniuslyricsprovider.cpp:126 scrobbler/listenbrainzscrobbler.cpp:181
+#: covermanager/spotifycoverprovider.cpp:148
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:181
 msgid "Please open this URL in your browser"
 msgstr "Veuillez ouvrir ce lien dans votre navigateur"
 
@@ -3873,8 +3873,8 @@ msgstr "Re&latif"
 msgid "Really cancel?"
 msgstr "Êtes-vous sûr(e) de vouloir annuler ?"
 
-#: covermanager/spotifycoverprovider.cpp:199
-#: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:207
+#: covermanager/spotifycoverprovider.cpp:197
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:207
 msgid "Received invalid reply from web browser."
 msgstr "Réponse invalide du navigateur internet."
 
@@ -3907,17 +3907,17 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr "Réception du compteur d'écoutes pour %1 morceaux."
 
-#: lyrics/geniuslyricsprovider.cpp:206
+#: lyrics/geniuslyricsprovider.cpp:205
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "Rediriger depuis Genius ne contient pas de code ou d'état des éléments de "
 "requête."
 
-#: covermanager/spotifycoverprovider.cpp:195
+#: covermanager/spotifycoverprovider.cpp:193
 msgid "Redirect missing token code or state!"
 msgstr "Redirigé le code ou l'état du jeton manquant !"
 
-#: lyrics/geniuslyricsprovider.cpp:150 scrobbler/listenbrainzscrobbler.cpp:203
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:203
 msgid "Redirect missing token code!"
 msgstr "Redirigé le code du jeton manquant !"
 
@@ -4687,7 +4687,7 @@ msgstr "Source"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:150
+#: covermanager/spotifycoverprovider.cpp:148
 msgid "Spotify Authentication"
 msgstr "Authentification Spotify"
 

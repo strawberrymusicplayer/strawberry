@@ -2443,7 +2443,7 @@ msgstr "Ogólne"
 msgid "General settings"
 msgstr "Ustawienia ogólne"
 
-#: lyrics/geniuslyricsprovider.cpp:126
+#: lyrics/geniuslyricsprovider.cpp:125
 msgid "Genius Authentication"
 msgstr "Uwierzytelnianie Geniusa"
 
@@ -3621,8 +3621,8 @@ msgstr "Listy odtw."
 msgid "Please close your browser and return to Strawberry."
 msgstr "Proszę zamknąć przeglądarkę i powrócić do Strawberry."
 
-#: covermanager/spotifycoverprovider.cpp:150
-#: lyrics/geniuslyricsprovider.cpp:126 scrobbler/listenbrainzscrobbler.cpp:181
+#: covermanager/spotifycoverprovider.cpp:148
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:181
 msgid "Please open this URL in your browser"
 msgstr "Proszę otworzyć ten adres URL w przeglądarce internetowej"
 
@@ -3821,8 +3821,8 @@ msgstr "Wzg&lędne"
 msgid "Really cancel?"
 msgstr "Na pewno anulować?"
 
-#: covermanager/spotifycoverprovider.cpp:199
-#: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:207
+#: covermanager/spotifycoverprovider.cpp:197
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:207
 msgid "Received invalid reply from web browser."
 msgstr "Otrzymano niepoprawną odpowiedź z przeglądarki internetowej."
 
@@ -3855,16 +3855,16 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr "Pobieranie liczby odtworzeń dla %1 utworu(ów)…"
 
-#: lyrics/geniuslyricsprovider.cpp:206
+#: lyrics/geniuslyricsprovider.cpp:205
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "W przekierowaniu z Geniusa brakuje kodu lub statusu elementów zapytania."
 
-#: covermanager/spotifycoverprovider.cpp:195
+#: covermanager/spotifycoverprovider.cpp:193
 msgid "Redirect missing token code or state!"
 msgstr "W przekierowaniu brakuje kodu lub statusu tokenu."
 
-#: lyrics/geniuslyricsprovider.cpp:150 scrobbler/listenbrainzscrobbler.cpp:203
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:203
 msgid "Redirect missing token code!"
 msgstr "Przekieruj brakujący kod tokenu!"
 
@@ -4633,7 +4633,7 @@ msgstr "Źródło"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:150
+#: covermanager/spotifycoverprovider.cpp:148
 msgid "Spotify Authentication"
 msgstr "Uwierzytelnianie Spotify"
 
