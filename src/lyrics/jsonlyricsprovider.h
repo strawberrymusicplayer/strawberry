@@ -31,14 +31,16 @@
 
 #include "lyricsprovider.h"
 
+class NetworkAccessManager;
 class QNetworkReply;
 
 class JsonLyricsProvider : public LyricsProvider {
   Q_OBJECT
 
  public:
-  explicit JsonLyricsProvider(const QString &name, const bool enabled = true, const bool authentication_required = false, QObject *parent = nullptr);
+  explicit JsonLyricsProvider(const QString &name, const bool enabled, const bool authentication_required, NetworkAccessManager *network, QObject *parent = nullptr);
 
+ protected:
   QByteArray ExtractData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(const QByteArray &data);
   QJsonObject ExtractJsonObj(QNetworkReply *reply);

@@ -31,11 +31,13 @@
 
 #include "lyricsfetcher.h"
 
+class NetworkAccessManager;
+
 class LyricsProvider : public QObject {
   Q_OBJECT
 
  public:
-  explicit LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, QObject *parent);
+  explicit LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, NetworkAccessManager *network, QObject *parent);
 
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
@@ -62,7 +64,8 @@ class LyricsProvider : public QObject {
   void AuthenticationFailure(QStringList);
   void SearchFinished(quint64 id, LyricsSearchResults results);
 
- private:
+ protected:
+  NetworkAccessManager *network_;
   QString name_;
   bool enabled_;
   int order_;

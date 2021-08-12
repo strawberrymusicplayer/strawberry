@@ -27,7 +27,6 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonObject>
@@ -47,7 +46,7 @@ const char *AuddLyricsProvider::kUrlSearch = "https://api.audd.io/findLyrics/";
 const char *AuddLyricsProvider::kAPITokenB64 = "ZjA0NjQ4YjgyNDM3ZTc1MjY3YjJlZDI5ZDBlMzQxZjk=";
 const int AuddLyricsProvider::kMaxLength = 6000;
 
-AuddLyricsProvider::AuddLyricsProvider(QObject *parent) : JsonLyricsProvider("AudD", true, false, parent), network_(new NetworkAccessManager(this)) {}
+AuddLyricsProvider::AuddLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("AudD", true, false, network, parent) {}
 
 AuddLyricsProvider::~AuddLyricsProvider() {
 

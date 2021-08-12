@@ -33,6 +33,7 @@
 #include "albumcoverfetcher.h"
 
 class Application;
+class NetworkAccessManager;
 
 // Each implementation of this interface downloads covers from one online service.
 // There are no limitations on what this service might be - last.fm, Amazon, Google Images - you name it.
@@ -40,7 +41,7 @@ class CoverProvider : public QObject {
   Q_OBJECT
 
  public:
-  explicit CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, QObject *parent);
+  explicit CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, NetworkAccessManager *network, QObject *parent);
 
   // A name (very short description) of this provider, like "last.fm".
   QString name() const { return name_; }
@@ -73,8 +74,9 @@ class CoverProvider : public QObject {
   void SearchResults(int, CoverProviderSearchResults);
   void SearchFinished(int, CoverProviderSearchResults);
 
- private:
+ protected:
   Application *app_;
+  NetworkAccessManager *network_;
   QString name_;
   bool enabled_;
   int order_;

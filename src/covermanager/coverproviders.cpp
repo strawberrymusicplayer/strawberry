@@ -33,6 +33,7 @@
 #include <QtDebug>
 
 #include "core/logging.h"
+#include "core/networkaccessmanager.h"
 #include "coverprovider.h"
 #include "coverproviders.h"
 
@@ -40,7 +41,7 @@
 
 int CoverProviders::NextOrderId = 0;
 
-CoverProviders::CoverProviders(QObject *parent) : QObject(parent) {}
+CoverProviders::CoverProviders(QObject *parent) : QObject(parent), network_(new NetworkAccessManager(this)) {}
 
 CoverProviders::~CoverProviders() {
 

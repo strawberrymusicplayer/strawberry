@@ -27,7 +27,6 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QXmlStreamReader>
@@ -42,7 +41,7 @@
 
 const char *LoloLyricsProvider::kUrlSearch = "http://api.lololyrics.com/0.5/getLyric";
 
-LoloLyricsProvider::LoloLyricsProvider(QObject *parent) : LyricsProvider("LoloLyrics", true, false, parent), network_(new NetworkAccessManager(this)) {}
+LoloLyricsProvider::LoloLyricsProvider(NetworkAccessManager *network, QObject *parent) : LyricsProvider("LoloLyrics", true, false, network, parent) {}
 
 LoloLyricsProvider::~LoloLyricsProvider() {
 

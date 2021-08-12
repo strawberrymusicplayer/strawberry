@@ -30,7 +30,6 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
@@ -52,10 +51,9 @@
 
 const int QobuzCoverProvider::kLimit = 10;
 
-QobuzCoverProvider::QobuzCoverProvider(Application *app, QObject *parent)
-    : JsonCoverProvider("Qobuz", true, true, 2.0, true, true, app, parent),
-      service_(app->internet_services()->Service<QobuzService>()),
-      network_(new NetworkAccessManager(this)) {}
+QobuzCoverProvider::QobuzCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+    : JsonCoverProvider("Qobuz", true, true, 2.0, true, true, app, network, parent),
+      service_(app->internet_services()->Service<QobuzService>()) {}
 
 QobuzCoverProvider::~QobuzCoverProvider() {
 

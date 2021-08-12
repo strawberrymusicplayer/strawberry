@@ -49,7 +49,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit DiscogsCoverProvider(Application *app, QObject *parent = nullptr);
+  explicit DiscogsCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
   ~DiscogsCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
@@ -99,7 +99,6 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   static const char *kSecretKeyB64;
   static const int kRequestsDelay;
 
-  NetworkAccessManager *network_;
   QTimer *timer_flush_requests_;
   QQueue<std::shared_ptr<DiscogsCoverSearchContext>> queue_search_requests_;
   QQueue<DiscogsCoverReleaseContext> queue_release_requests_;

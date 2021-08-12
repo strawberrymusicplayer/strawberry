@@ -37,7 +37,7 @@ class ChartLyricsProvider : public LyricsProvider {
   Q_OBJECT
 
  public:
-  explicit ChartLyricsProvider(QObject *parent = nullptr);
+  explicit ChartLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
   ~ChartLyricsProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) override;
@@ -51,8 +51,6 @@ class ChartLyricsProvider : public LyricsProvider {
 
  private:
   static const char *kUrlSearch;
-
-  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

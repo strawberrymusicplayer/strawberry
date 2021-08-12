@@ -28,11 +28,12 @@
 #include <QJsonObject>
 
 #include "core/application.h"
+#include "core/networkaccessmanager.h"
 #include "coverprovider.h"
 #include "jsoncoverprovider.h"
 
-JsonCoverProvider::JsonCoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, QObject *parent)
-    : CoverProvider(name, enabled, authentication_required, quality, batch, allow_missing_album, app, parent) {}
+JsonCoverProvider::JsonCoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, NetworkAccessManager *network, QObject *parent)
+    : CoverProvider(name, enabled, authentication_required, quality, batch, allow_missing_album, app, network, parent) {}
 
 QJsonObject JsonCoverProvider::ExtractJsonObj(const QByteArray &data) {
 

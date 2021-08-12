@@ -27,7 +27,6 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QXmlStreamReader>
@@ -41,7 +40,7 @@
 
 const char *ChartLyricsProvider::kUrlSearch = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect";
 
-ChartLyricsProvider::ChartLyricsProvider(QObject *parent) : LyricsProvider("ChartLyrics", false, false, parent), network_(new NetworkAccessManager(this)) {}
+ChartLyricsProvider::ChartLyricsProvider(NetworkAccessManager *network, QObject *parent) : LyricsProvider("ChartLyrics", false, false, network, parent) {}
 
 ChartLyricsProvider::~ChartLyricsProvider() {
 

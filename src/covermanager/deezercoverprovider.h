@@ -40,7 +40,7 @@ class DeezerCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit DeezerCoverProvider(Application *app, QObject *parent = nullptr);
+  explicit DeezerCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
   ~DeezerCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
@@ -58,7 +58,6 @@ class DeezerCoverProvider : public JsonCoverProvider {
   static const char *kApiUrl;
   static const int kLimit;
 
-  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

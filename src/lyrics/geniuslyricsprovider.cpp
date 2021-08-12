@@ -29,7 +29,6 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSslError>
@@ -62,7 +61,7 @@ const char *GeniusLyricsProvider::kUrlSearch = "https://api.genius.com/search/";
 const char *GeniusLyricsProvider::kClientIDB64 = "RUNTNXU4U1VyMU1KUU5hdTZySEZteUxXY2hkanFiY3lfc2JjdXBpNG5WMU9SNUg4dTBZelEtZTZCdFg2dl91SQ==";
 const char *GeniusLyricsProvider::kClientSecretB64 = "VE9pMU9vUjNtTXZ3eFR3YVN0QVRyUjVoUlhVWDI1Ylp5X240eEt1M0ZkYlNwRG5JUnd0LXFFbHdGZkZkRWY2VzJ1S011UnQzM3c2Y3hqY0tVZ3NGN2c=";
 
-GeniusLyricsProvider::GeniusLyricsProvider(QObject *parent) : JsonLyricsProvider("Genius", true, true, parent), network_(new NetworkAccessManager(this)), server_(nullptr) {
+GeniusLyricsProvider::GeniusLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Genius", true, true, network, parent), server_(nullptr) {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);

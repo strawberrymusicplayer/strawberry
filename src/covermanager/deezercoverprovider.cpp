@@ -32,7 +32,6 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
@@ -53,9 +52,8 @@
 const char *DeezerCoverProvider::kApiUrl = "https://api.deezer.com";
 const int DeezerCoverProvider::kLimit = 10;
 
-DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent)
-    : JsonCoverProvider("Deezer", true, false, 2.0, true, true, app, parent),
-      network_(new NetworkAccessManager(this)) {}
+DeezerCoverProvider::DeezerCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+    : JsonCoverProvider("Deezer", true, false, 2.0, true, true, app, network, parent) {}
 
 DeezerCoverProvider::~DeezerCoverProvider() {
 

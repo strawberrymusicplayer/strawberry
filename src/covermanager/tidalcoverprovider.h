@@ -43,7 +43,7 @@ class TidalCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit TidalCoverProvider(Application *app, QObject *parent = nullptr);
+  explicit TidalCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
   ~TidalCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
@@ -63,7 +63,6 @@ class TidalCoverProvider : public JsonCoverProvider {
   static const int kLimit;
 
   TidalService *service_;
-  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

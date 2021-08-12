@@ -23,7 +23,6 @@
 #include <QVariant>
 #include <QString>
 #include <QUrl>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonObject>
@@ -39,7 +38,7 @@
 
 const char *OVHLyricsProvider::kUrlSearch = "https://api.lyrics.ovh/v1/";
 
-OVHLyricsProvider::OVHLyricsProvider(QObject *parent) : JsonLyricsProvider("Lyrics.ovh", true, false, parent), network_(new NetworkAccessManager(this)) {}
+OVHLyricsProvider::OVHLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Lyrics.ovh", true, false, network, parent) {}
 
 OVHLyricsProvider::~OVHLyricsProvider() {
 

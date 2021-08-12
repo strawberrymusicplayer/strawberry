@@ -39,7 +39,7 @@ class LastFmCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit LastFmCoverProvider(Application *app, QObject *parent = nullptr);
+  explicit LastFmCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
   ~LastFmCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
@@ -65,7 +65,6 @@ class LastFmCoverProvider : public JsonCoverProvider {
   static const char *kApiKey;
   static const char *kSecret;
 
-  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

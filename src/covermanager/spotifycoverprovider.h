@@ -45,7 +45,7 @@ class SpotifyCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit SpotifyCoverProvider(Application *app, QObject *parent = nullptr);
+  explicit SpotifyCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
   ~SpotifyCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
@@ -81,7 +81,6 @@ class SpotifyCoverProvider : public JsonCoverProvider {
   static const char *kApiUrl;
   static const int kLimit;
 
-  NetworkAccessManager *network_;
   LocalRedirectServer *server_;
   QStringList login_errors_;
   QString code_verifier_;

@@ -37,7 +37,7 @@ class OVHLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit OVHLyricsProvider(QObject *parent = nullptr);
+  explicit OVHLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
   ~OVHLyricsProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) override;
@@ -51,7 +51,6 @@ class OVHLyricsProvider : public JsonLyricsProvider {
 
  private:
   static const char *kUrlSearch;
-  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

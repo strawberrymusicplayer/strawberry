@@ -30,7 +30,6 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QTimer>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
@@ -51,9 +50,8 @@ const char *MusicbrainzCoverProvider::kAlbumCoverUrl = "https://coverartarchive.
 const int MusicbrainzCoverProvider::kLimit = 8;
 const int MusicbrainzCoverProvider::kRequestsDelay = 1000;
 
-MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent)
-    : JsonCoverProvider("MusicBrainz", true, false, 1.5, true, false, app, parent),
-      network_(new NetworkAccessManager(this)),
+MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+    : JsonCoverProvider("MusicBrainz", true, false, 1.5, true, false, app, network, parent),
       timer_flush_requests_(new QTimer(this)) {
 
   timer_flush_requests_->setInterval(kRequestsDelay);

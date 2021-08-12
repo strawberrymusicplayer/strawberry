@@ -26,7 +26,6 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QRegularExpression>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
@@ -40,9 +39,8 @@
 #include "jsoncoverprovider.h"
 #include "musixmatchcoverprovider.h"
 
-MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, QObject *parent)
-    : JsonCoverProvider("Musixmatch", true, false, 1.0, true, false, app, parent),
-      network_(new NetworkAccessManager(this)) {}
+MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+    : JsonCoverProvider("Musixmatch", true, false, 1.0, true, false, app, network, parent) {}
 
 MusixmatchCoverProvider::~MusixmatchCoverProvider() {
 

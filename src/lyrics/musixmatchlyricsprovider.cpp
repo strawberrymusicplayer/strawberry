@@ -26,7 +26,6 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QRegularExpression>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonObject>
@@ -40,7 +39,7 @@
 #include "lyricsprovider.h"
 #include "musixmatchlyricsprovider.h"
 
-MusixmatchLyricsProvider::MusixmatchLyricsProvider(QObject *parent) : JsonLyricsProvider("Musixmatch", true, false, parent), network_(new NetworkAccessManager(this)) {}
+MusixmatchLyricsProvider::MusixmatchLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Musixmatch", true, false, network, parent) {}
 
 MusixmatchLyricsProvider::~MusixmatchLyricsProvider() {
 

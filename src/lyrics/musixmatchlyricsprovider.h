@@ -38,7 +38,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit MusixmatchLyricsProvider(QObject *parent = nullptr);
+  explicit MusixmatchLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
   ~MusixmatchLyricsProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) override;
@@ -51,7 +51,6 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
   void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &album, const QString &title);
 
  private:
-  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

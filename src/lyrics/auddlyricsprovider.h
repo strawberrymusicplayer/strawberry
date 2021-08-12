@@ -39,7 +39,7 @@ class AuddLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit AuddLyricsProvider(QObject *parent = nullptr);
+  explicit AuddLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
   ~AuddLyricsProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id) override;
@@ -56,7 +56,6 @@ class AuddLyricsProvider : public JsonLyricsProvider {
   static const char *kUrlSearch;
   static const char *kAPITokenB64;
   static const int kMaxLength;
-  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

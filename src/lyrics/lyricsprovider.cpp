@@ -22,7 +22,8 @@
 #include <QObject>
 #include <QString>
 
+#include "core/networkaccessmanager.h"
 #include "lyricsprovider.h"
 
-LyricsProvider::LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, QObject *parent)
-    : QObject(parent), name_(name), enabled_(enabled), order_(0), authentication_required_(authentication_required) {}
+LyricsProvider::LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, NetworkAccessManager *network, QObject *parent)
+    : QObject(parent), network_(network), name_(name), enabled_(enabled), order_(0), authentication_required_(authentication_required) {}

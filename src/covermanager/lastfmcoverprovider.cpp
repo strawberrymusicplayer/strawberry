@@ -31,7 +31,6 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QCryptographicHash>
@@ -53,9 +52,8 @@ const char *LastFmCoverProvider::kUrl = "https://ws.audioscrobbler.com/2.0/";
 const char *LastFmCoverProvider::kApiKey = "211990b4c96782c05d1536e7219eb56e";
 const char *LastFmCoverProvider::kSecret = "80fd738f49596e9709b1bf9319c444a8";
 
-LastFmCoverProvider::LastFmCoverProvider(Application *app, QObject *parent)
-    : JsonCoverProvider("Last.fm", true, false, 1.0, true, false, app, parent),
-      network_(new NetworkAccessManager(this)) {}
+LastFmCoverProvider::LastFmCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+    : JsonCoverProvider("Last.fm", true, false, 1.0, true, false, app, network, parent) {}
 
 LastFmCoverProvider::~LastFmCoverProvider() {
 

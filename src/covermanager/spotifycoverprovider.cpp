@@ -30,7 +30,6 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QDateTime>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSslError>
@@ -63,9 +62,8 @@ const char *SpotifyCoverProvider::kClientSecretB64 = "N2ZlMDMxODk1NTBlNDE3ZGI1ZW
 const char *SpotifyCoverProvider::kApiUrl = "https://api.spotify.com/v1";
 const int SpotifyCoverProvider::kLimit = 10;
 
-SpotifyCoverProvider::SpotifyCoverProvider(Application *app, QObject *parent)
-    : JsonCoverProvider("Spotify", true, true, 2.5, true, true, app, parent),
-      network_(new NetworkAccessManager(this)),
+SpotifyCoverProvider::SpotifyCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+    : JsonCoverProvider("Spotify", true, true, 2.5, true, true, app, network, parent),
       server_(nullptr),
       expires_in_(0),
       login_time_(0) {

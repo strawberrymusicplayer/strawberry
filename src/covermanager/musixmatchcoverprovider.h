@@ -37,7 +37,7 @@ class MusixmatchCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit MusixmatchCoverProvider(Application *app, QObject *parent = nullptr);
+  explicit MusixmatchCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
   ~MusixmatchCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
@@ -50,7 +50,6 @@ class MusixmatchCoverProvider : public JsonCoverProvider {
   void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album);
 
  private:
-  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

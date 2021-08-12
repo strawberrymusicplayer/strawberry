@@ -46,7 +46,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit GeniusLyricsProvider(QObject *parent = nullptr);
+  explicit GeniusLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
   ~GeniusLyricsProvider() override;
 
   bool IsAuthenticated() const override { return !access_token_.isEmpty(); }
@@ -95,7 +95,6 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   static const char *kUrlSearch;
 
  private:
-  NetworkAccessManager *network_;
   LocalRedirectServer *server_;
   QString code_verifier_;
   QString code_challenge_;

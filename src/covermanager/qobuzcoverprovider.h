@@ -42,7 +42,7 @@ class QobuzCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit QobuzCoverProvider(Application *app, QObject *parent = nullptr);
+  explicit QobuzCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
   ~QobuzCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
@@ -65,7 +65,6 @@ class QobuzCoverProvider : public JsonCoverProvider {
   static const int kLimit;
 
   QobuzService *service_;
-  NetworkAccessManager *network_;
   QList<QNetworkReply*> replies_;
 
 };

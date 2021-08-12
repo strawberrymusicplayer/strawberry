@@ -128,17 +128,17 @@ class ApplicationImpl {
         cover_providers_([=]() {
           CoverProviders *cover_providers = new CoverProviders(app);
           // Initialize the repository of cover providers.
-          cover_providers->AddProvider(new LastFmCoverProvider(app, app));
-          cover_providers->AddProvider(new MusicbrainzCoverProvider(app, app));
-          cover_providers->AddProvider(new DiscogsCoverProvider(app, app));
-          cover_providers->AddProvider(new DeezerCoverProvider(app, app));
-          cover_providers->AddProvider(new MusixmatchCoverProvider(app, app));
-          cover_providers->AddProvider(new SpotifyCoverProvider(app, app));
+          cover_providers->AddProvider(new LastFmCoverProvider(app, cover_providers->network(), app));
+          cover_providers->AddProvider(new MusicbrainzCoverProvider(app, cover_providers->network(), app));
+          cover_providers->AddProvider(new DiscogsCoverProvider(app, cover_providers->network(), app));
+          cover_providers->AddProvider(new DeezerCoverProvider(app, cover_providers->network(), app));
+          cover_providers->AddProvider(new MusixmatchCoverProvider(app, cover_providers->network(), app));
+          cover_providers->AddProvider(new SpotifyCoverProvider(app, cover_providers->network(), app));
 #ifdef HAVE_TIDAL
-          cover_providers->AddProvider(new TidalCoverProvider(app, app));
+          cover_providers->AddProvider(new TidalCoverProvider(app, cover_providers->network(), app));
 #endif
 #ifdef HAVE_QOBUZ
-          cover_providers->AddProvider(new QobuzCoverProvider(app, app));
+          cover_providers->AddProvider(new QobuzCoverProvider(app, cover_providers->network(), app));
 #endif
           cover_providers->ReloadSettings();
           return cover_providers;
@@ -152,12 +152,12 @@ class ApplicationImpl {
         lyrics_providers_([=]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           // Initialize the repository of lyrics providers.
-          lyrics_providers->AddProvider(new AuddLyricsProvider(app));
-          lyrics_providers->AddProvider(new GeniusLyricsProvider(app));
-          lyrics_providers->AddProvider(new OVHLyricsProvider(app));
-          lyrics_providers->AddProvider(new LoloLyricsProvider(app));
-          lyrics_providers->AddProvider(new MusixmatchLyricsProvider(app));
-          lyrics_providers->AddProvider(new ChartLyricsProvider(app));
+          lyrics_providers->AddProvider(new AuddLyricsProvider(lyrics_providers->network(), app));
+          lyrics_providers->AddProvider(new GeniusLyricsProvider(lyrics_providers->network(), app));
+          lyrics_providers->AddProvider(new OVHLyricsProvider(lyrics_providers->network(), app));
+          lyrics_providers->AddProvider(new LoloLyricsProvider(lyrics_providers->network(), app));
+          lyrics_providers->AddProvider(new MusixmatchLyricsProvider(lyrics_providers->network(), app));
+          lyrics_providers->AddProvider(new ChartLyricsProvider(lyrics_providers->network(), app));
           lyrics_providers->ReloadSettings();
           return lyrics_providers;
         }),
