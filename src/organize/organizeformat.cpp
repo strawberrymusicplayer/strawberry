@@ -73,7 +73,7 @@ const QStringList OrganizeFormat::kKnownTags = QStringList() << "title"
 const QRegularExpression OrganizeFormat::kInvalidDirCharacters("[/\\\\]");
 const QRegularExpression OrganizeFormat::kProblematicCharacters("[:?*\"<>|]");
 // From http://en.wikipedia.org/wiki/8.3_filename#Directory_table
-const QRegularExpression OrganizeFormat::kInvalidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]");
+const QRegularExpression OrganizeFormat::kInvalidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]", QRegularExpression::CaseInsensitiveOption);
 
 const char OrganizeFormat::kInvalidPrefixCharacters[] = ".";
 const int OrganizeFormat::kInvalidPrefixCharactersCount = arraysize(OrganizeFormat::kInvalidPrefixCharacters) - 1;
