@@ -789,8 +789,10 @@ void BackendSettingsPage::FadingOptionsChanged() {
   if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
-  if (engine()->type() == Engine::GStreamer && !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty()) && ui_->checkbox_volume_control->isChecked()) {
-    ui_->groupbox_fading->setDisabled(false);
+  if (engine()->type() == Engine::GStreamer &&
+      !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty() && (ui_->lineedit_device->text().contains(QRegularExpression("^hw:.*")) || ui_->lineedit_device->text().contains(QRegularExpression("^plughw:.*")))) &&
+      ui_->checkbox_volume_control->isChecked()) {
+    ui_->groupbox_fading->setEnabled(true);
   }
   else {
     ui_->groupbox_fading->setDisabled(true);
