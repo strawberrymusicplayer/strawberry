@@ -58,6 +58,7 @@ BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Network)
 BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Sql)
 BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@DBus)
 BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Test)
+BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@X11Extras)
 %else
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Core)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Gui)
@@ -67,6 +68,9 @@ BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Network)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Sql)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@DBus)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Test)
+%if "@QT_VERSION_MAJOR@" == "5"
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@X11Extras)
+%endif
 %endif
 %if 0%{?suse_version} || 0%{?fedora_version} || 0%{?mageia}
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@LinguistTools)

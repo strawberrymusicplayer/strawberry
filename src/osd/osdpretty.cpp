@@ -55,7 +55,10 @@
 #include <QSettings>
 #include <QFlags>
 #include <QtEvents>
-#if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+
+#ifdef HAVE_X11EXTRAS
+#  include <QX11Info>
+#elif defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
 #  include <qpa/qplatformnativeinterface.h>
 #endif
 
@@ -213,7 +216,9 @@ void OSDPretty::ScreenRemoved(QScreen *screen) {
 
 bool OSDPretty::IsTransparencyAvailable() {
 
-#if defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+#ifdef HAVE_X11EXTRAS
+  return QX11Info::isCompositingManagerRunning();
+#elif defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
   if (qApp) {
     QPlatformNativeInterface *native = qApp->platformNativeInterface();
     QScreen *screen = popup_screen_ == nullptr ? QGuiApplication::primaryScreen() : popup_screen_;

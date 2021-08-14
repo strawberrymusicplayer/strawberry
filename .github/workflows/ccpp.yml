@@ -52,6 +52,7 @@ jobs:
             libqt5-qtbase-common-devel
             libQt5Sql5-sqlite
             libqt5-linguist-devel
+            libqt5-qtx11extras-devel
             libcdio-devel
             libgpod-devel
             libmtp-devel
@@ -124,6 +125,7 @@ jobs:
             libqt5-qtbase-common-devel
             libQt5Sql5-sqlite
             libqt5-linguist-devel
+            libqt5-qtx11extras-devel
             libcdio-devel
             libgpod-devel
             libmtp-devel
@@ -289,6 +291,7 @@ jobs:
             libqt5-qtbase-common-devel
             libQt5Sql5-sqlite
             libqt5-linguist-devel
+            libqt5-qtx11extras-devel
             libcdio-devel
             libgpod-devel
             libmtp-devel
@@ -456,6 +459,7 @@ jobs:
             libqt5-qtbase-common-devel
             libQt5Sql5-sqlite
             libqt5-linguist-devel
+            libqt5-qtx11extras-devel
             libcdio-devel
             libgpod-devel
             libmtp-devel
@@ -611,6 +615,7 @@ jobs:
             qt5-qtbase-devel
             qt5-qtbase-private-devel
             qt5-qttools-devel
+            qt5-qtx11extras-devel
             gstreamer1-devel
             gstreamer1-plugins-base-devel
             taglib-devel
@@ -756,6 +761,7 @@ jobs:
             qtbase5-dev-tools
             qtbase5-private-dev
             qttools5-dev
+            libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             gstreamer1.0-alsa
@@ -813,6 +819,7 @@ jobs:
             qtbase5-dev-tools
             qtbase5-private-dev
             qttools5-dev
+            libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             gstreamer1.0-alsa
@@ -874,6 +881,7 @@ jobs:
             qtbase5-dev-tools
             qtbase5-private-dev
             qttools5-dev
+            libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             libgstreamer-plugins-good1.0-dev
@@ -936,6 +944,7 @@ jobs:
             qtbase5-dev-tools
             qtbase5-private-dev
             qttools5-dev
+            libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             libgstreamer-plugins-good1.0-dev
@@ -998,6 +1007,7 @@ jobs:
             qtbase5-dev-tools
             qtbase5-private-dev
             qttools5-dev
+            libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             libgstreamer-plugins-good1.0-dev
@@ -1060,6 +1070,7 @@ jobs:
             qtbase5-dev-tools
             qtbase5-private-dev
             qttools5-dev
+            libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             libgstreamer-plugins-good1.0-dev

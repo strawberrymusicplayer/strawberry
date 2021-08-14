@@ -177,6 +177,10 @@ if(QT_VERSION_MAJOR)
   set(QT_DEFAULT_MAJOR_VERSION ${QT_VERSION_MAJOR})
 endif()
 
+if(X11_FOUND AND BUILD_WITH_QT5)
+  list(APPEND QT_OPTIONAL_COMPONENTS X11Extras)
+endif()
+
 find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} REQUIRED COMPONENTS ${QT_COMPONENTS} OPTIONAL_COMPONENTS ${QT_OPTIONAL_COMPONENTS})
 
 set(QtCore_LIBRARIES Qt${QT_VERSION_MAJOR}::Core)
@@ -190,6 +194,11 @@ if(Qt${QT_VERSION_MAJOR}DBus_FOUND)
   set(QtDBus_LIBRARIES Qt${QT_VERSION_MAJOR}::DBus)
   list(APPEND QT_LIBRARIES Qt${QT_VERSION_MAJOR}::DBus)
   get_target_property(QT_DBUSXML2CPP_EXECUTABLE Qt${QT_VERSION_MAJOR}::qdbusxml2cpp LOCATION)
+endif()
+if(BUILD_WITH_QT5 AND Qt5X11Extras_FOUND)
+  set(HAVE_X11EXTRAS ON)
+  set(QtX11Extras_LIBRARIES Qt5::X11Extras)
+  list(APPEND QT_LIBRARIES Qt5::X11Extras)
 endif()
 if(Qt${QT_VERSION_MAJOR}Test_FOUND)
   set(QtTest_LIBRARIES Qt${QT_VERSION_MAJOR}::Test)
@@ -232,12 +241,14 @@ if(X11_FOUND)
     message(WARNING, "Missing X11/XF86keysym.h")
   endif()
 
-  find_path(QPA_QPLATFORMNATIVEINTERFACE_H qpa/qplatformnativeinterface.h PATHS ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
-  if(QPA_QPLATFORMNATIVEINTERFACE_H)
-    set(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H ON)
-    message(STATUS "Have qpa/qplatformnativeinterface.h header.")
-  else()
-    message(STATUS "Missing qpa/qplatformnativeinterface.h header.")
+  if(BUILD_WITH_QT5 OR (BUILD_WITH_QT6 AND Qt6Core_VERSION VERSION_LESS 6.2.0))
+    find_path(QPA_QPLATFORMNATIVEINTERFACE_H qpa/qplatformnativeinterface.h PATHS ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
+    if(QPA_QPLATFORMNATIVEINTERFACE_H)
+      set(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H ON)
+      message(STATUS "Have qpa/qplatformnativeinterface.h header.")
+    else()
+      message(STATUS "Missing qpa/qplatformnativeinterface.h header.")
+    endif()
   endif()
 endif(X11_FOUND)
 
@@ -351,10 +362,17 @@ optional_component(GLOBALSHORTCUTS ON "Global shortcuts"
   DEPENDS "D-Bus, X11, Windows or macOS" HAVE_GLOBALSHORTCUTS_SUPPORT
 )
 
-optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
-  DEPENDS "X11" X11_FOUND
-  DEPENDS "qpa/qplatformnativeinterface.h" HAVE_QPA_QPLATFORMNATIVEINTERFACE_H
-)
+if(BUILD_WITH_QT6 AND (Qt6Core_VERSION VERSION_EQUAL 6.2.0 OR Qt6Core_VERSION VERSION_GREATER 6.2.0))
+  optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts" DEPENDS "X11" X11_FOUND)
+else()
+  if(HAVE_X11EXTRAS OR HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+    set(HAVE_X11EXTRAS_OR_QPA_QPLATFORMNATIVEINTERFACE_H ON)
+  endif()
+  optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
+    DEPENDS "X11" X11_FOUND
+    DEPENDS "Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header" HAVE_X11EXTRAS_OR_QPA_QPLATFORMNATIVEINTERFACE_H
+  )
+endif()
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
   DEPENDS "libcdio" LIBCDIO_FOUND

@@ -37,13 +37,38 @@
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
 
-#include <qpa/qplatformnativeinterface.h>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+#  include <QGuiApplication>
+#elif defined(HAVE_X11EXTRAS)
+#  include <QX11Info>
+#elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+#  include <qpa/qplatformnativeinterface.h>
+#else
+#  error "Missing Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header."
+#endif
 
 const QVector<quint32> GlobalShortcut::mask_modifiers_ = QVector<quint32>() << 0 << Mod2Mask << LockMask << (Mod2Mask | LockMask);
 
 namespace {
 
 Display *X11Display() {
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)  // 6.2: Use the new native interface.
+
+  if (!qApp) return nullptr;
+
+  if (QNativeInterface::QX11Application *x11_app = qApp->nativeInterface<QNativeInterface::QX11Application>()) {
+   return x11_app->display();
+  }
+  else {
+    return nullptr;
+  }
+
+#elif defined(HAVE_X11EXTRAS)  // Qt 5: Use X11Extras
+
+  return QX11Info::display();
+
+#elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)  // Use private headers.
 
   if (!qApp) return nullptr;
 
@@ -53,9 +78,30 @@ Display *X11Display() {
   void *display = native->nativeResourceForIntegration("display");
   return reinterpret_cast<Display*>(display);
 
+#else
+
+#  error "Missing Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header."
+
+#endif
+
 }
 
 quint32 AppRootWindow() {
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)  // 6.2: Use the new native interface.
+
+  if (QNativeInterface::QX11Application *x11_app = qApp->nativeInterface<QNativeInterface::QX11Application>()) {
+    return static_cast<xcb_window_t>(reinterpret_cast<quintptr>(x11_app->connection()));
+  }
+  else {
+    return 0;
+  }
+
+#elif defined(HAVE_X11EXTRAS)  // Qt 5: Use X11Extras
+
+  return QX11Info::appRootWindow();
+
+#elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)  // Use private headers.
 
   if (!qApp) return 0;
 
@@ -66,6 +112,12 @@ quint32 AppRootWindow() {
   if (!screen) return 0;
 
   return static_cast<xcb_window_t>(reinterpret_cast<quintptr>(native->nativeResourceForScreen("rootwindow", screen)));
+
+#else
+
+#  error "Missing Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header."
+
+#endif
 
 }
 
