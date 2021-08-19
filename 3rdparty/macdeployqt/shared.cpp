@@ -858,17 +858,11 @@ void changeInstallName(const QString &bundlePath, const FrameworkInfo &framework
         } else {
             deployedInstallName = framework.deployedInstallName;
         }
-        changeInstallName(framework.installName, deployedInstallName, binary);
-        // Workaround for the case when the library ID name is a symlink, while the dependencies
-        // specified using the canonical path to the library (QTBUG-56814)
-        QString canonicalInstallName = QFileInfo(framework.installName).canonicalFilePath();
-        if (!canonicalInstallName.isEmpty() && canonicalInstallName != framework.installName) {
-            changeInstallName(canonicalInstallName, deployedInstallName, binary);
+        if (!framework.sourceFilePath.isEmpty()) {
+            changeInstallName(framework.sourceFilePath, deployedInstallName, binary);
         }
-        // Homebrew workaround, resolve symlink /usr/local/opt/library to /usr/local/Cellar/library
-        if (framework.installName.startsWith("/usr/local/opt/") && framework.installName.count('/') >= 5) {
-            canonicalInstallName = QFileInfo(framework.installName.section('/', 0, 4)).canonicalFilePath() + "/" + framework.installName.section('/', 5);
-            changeInstallName(canonicalInstallName, deployedInstallName, binary);
+        if (!framework.installName.isEmpty() && framework.installName != framework.sourceFilePath) {
+            changeInstallName(framework.installName, deployedInstallName, binary);
         }
     }
 }
