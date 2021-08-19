@@ -274,10 +274,6 @@ int main(int argc, char **argv)
     if (runStripEnabled)
         stripAppBinary(appBundlePath);
 
-    if (!FinalCheck(appBundlePath)) {
-        return 1;
-    }
-
     if (runCodesign)
         codesign(codesignIdentiy, appBundlePath);
 
