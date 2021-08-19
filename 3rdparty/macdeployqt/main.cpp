@@ -64,7 +64,6 @@ int main(int argc, char **argv)
         qDebug() << "   -appstore-compliant           : Skip deployment of components that use private API";
         qDebug() << "   -libpath=<path>               : Add the given path to the library search path";
         qDebug() << "   -fs=<filesystem>              : Set the filesystem used for the .dmg disk image (defaults to HFS+)";
-        qDebug() << "   -plugins-dir=<path>           : Set plugins directory";
         qDebug() << "";
         qDebug() << "macdeployqt takes an application bundle as input and makes it";
         qDebug() << "self-contained by copying in the Qt frameworks and plugins that";
@@ -110,7 +109,6 @@ int main(int argc, char **argv)
     extern bool appstoreCompliant;
     extern bool deployFramework;
     extern bool secureTimestamp;
-    QString plugin_dir;
 
     for (int i = 2; i < argc; ++i) {
         QByteArray argument = QByteArray(argv[i]);
@@ -210,13 +208,6 @@ int main(int argc, char **argv)
                 LogError() << "Missing filesystem type";
             else
                 filesystem = argument.mid(index+1);
-        } else if (argument.startsWith(QByteArray("-plugins-dir"))) {
-            LogDebug() << "Argument found:" << argument;
-            int index = argument.indexOf('=');
-            if (index == -1)
-                LogError() << "Missing filesystem type";
-            else
-                plugin_dir = argument.mid(index+1);
         } else if (argument.startsWith("-")) {
             LogError() << "Unknown argument" << argument << "\n";
             return 1;
@@ -252,31 +243,32 @@ int main(int argc, char **argv)
                           deploymentInfo.deployedFrameworks.end()).values();
     }
 
+    // Handle plugins
     if (plugins) {
-      if (plugin_dir.isEmpty()) {
+        // Set the plugins search directory
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         deploymentInfo.pluginPath = QLibraryInfo::path(QLibraryInfo::PluginsPath);
 #else
         deploymentInfo.pluginPath = QLibraryInfo::location(QLibraryInfo::PluginsPath);
 #endif
-      }
-      else {
-        deploymentInfo.pluginPath = plugin_dir;
-      }
-      if (deploymentInfo.pluginPath.isEmpty()) {
-        LogError() << "Missing Qt plugins path\n";
-        return 1;
-      }
-      if (!QDir(deploymentInfo.pluginPath).exists()) {
-        LogError() << "Plugins path does not exist\n" << deploymentInfo.pluginPath;
-        return 1;
-      }
-      Q_ASSERT(!deploymentInfo.pluginPath.isEmpty());
-      if (!deploymentInfo.pluginPath.isEmpty()) {
-        LogNormal();
-        deployPlugins(appBundlePath, deploymentInfo, useDebugLibs);
-        createQtConf(appBundlePath);
-      }
+        // Sanity checks
+        if (deploymentInfo.pluginPath.isEmpty()) {
+            LogError() << "Missing Qt plugins path\n";
+            return 1;
+        }
+
+        if (!QDir(deploymentInfo.pluginPath).exists()) {
+            LogError() << "Plugins path does not exist" << deploymentInfo.pluginPath << "\n";
+            return 1;
+        }
+
+        // Deploy plugins
+        Q_ASSERT(!deploymentInfo.pluginPath.isEmpty());
+        if (!deploymentInfo.pluginPath.isEmpty()) {
+            LogNormal();
+            deployPlugins(appBundlePath, deploymentInfo, useDebugLibs);
+            createQtConf(appBundlePath);
+        }
     }
 
     if (runStripEnabled)
