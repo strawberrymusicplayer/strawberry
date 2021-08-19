@@ -334,9 +334,11 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
 }
 
 void SongLoader::LoadMetadataBlocking() {
+
   for (int i = 0; i < songs_.size(); i++) {
     EffectiveSongLoad(&songs_[i]);
   }
+
 }
 
 void SongLoader::EffectiveSongLoad(Song *song) {
@@ -354,7 +356,7 @@ void SongLoader::EffectiveSongLoad(Song *song) {
     *song = collection_song;
   }
   else {
-    // it's a normal media file
+    // It's a normal media file
     QString filename = song->url().toLocalFile();
     TagReaderClient::Instance()->ReadFileBlocking(filename, song);
   }
