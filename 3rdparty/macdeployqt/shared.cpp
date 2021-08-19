@@ -1427,9 +1427,11 @@ bool deployQmlImports(const QString &appBundlePath, DeploymentInfo deploymentInf
     LogNormal() << "QML module search path(s) is" << qmlImportPaths;
 
     // Use qmlimportscanner from QLibraryInfo::LibraryExecutablesPath
-    QString qmlImportScannerPath =
-        QDir::cleanPath(QLibraryInfo::path(QLibraryInfo::LibraryExecutablesPath)
-                + "/qmlimportscanner");
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QString qmlImportScannerPath = QDir::cleanPath(QLibraryInfo::path(QLibraryInfo::LibraryExecutablesPath) + "/qmlimportscanner");
+#else
+    QString qmlImportScannerPath = QDir::cleanPath(QLibraryInfo::location(QLibraryInfo::LibraryExecutablesPath) + "/qmlimportscanner");
+#endif
 
     // Fallback: Look relative to the macdeployqt binary
     if (!QFile(qmlImportScannerPath).exists())
