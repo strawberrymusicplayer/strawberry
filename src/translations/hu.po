@@ -1504,12 +1504,12 @@ msgstr "Nem lehet megnyitni az URL-t. Próbálja meg böngészőben megnyitni"
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:372
+#: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:478
+#: core/songloader.cpp:480
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
