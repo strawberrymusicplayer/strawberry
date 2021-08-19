@@ -1,6 +1,6 @@
 qt_wrap_cpp(MACDEPLOYCHECK_MOC ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common/core/logging.h)
+link_directories(${GLIB_LIBRARY_DIRS})
 add_executable(macdeploycheck macdeploycheck.cpp ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common/core/logging.cpp ${MACDEPLOYCHECK_MOC})
-link_directories(macdeploycheck ${GLIB_LIBRARY_DIRS})
 target_include_directories(macdeploycheck PUBLIC SYSTEM
   ${GLIB_INCLUDE_DIRS}
 )
