@@ -1027,6 +1027,14 @@ if(HAVE_LIBMTP)
   link_directories(${LIBMTP_LIBRARY_DIRS})
 endif()
 
+if(USE_TAGLIB AND TAGLIB_FOUND)
+  link_directories(${TAGLIB_LIBRARY_DIRS})
+endif()
+
+if(USE_TAGPARSER AND TAGPARSER_FOUND)
+  link_directories(${TAGPARSER_LIBRARY_DIRS})
+endif()
+
 add_library(strawberry_lib STATIC
   ${SOURCES}
   ${MOC}
