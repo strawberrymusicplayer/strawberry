@@ -1019,8 +1019,7 @@ if(HAVE_AUDIOCD)
 endif()
 
 if(HAVE_LIBGPOD)
-  link_directories(${LIBGPOD_LIBRARY_DIRS})
-  link_directories(${GDK_PIXBUF_LIBRARY_DIRS})
+  link_directories(${LIBGPOD_LIBRARY_DIRS} ${GDK_PIXBUF_LIBRARY_DIRS})
 endif()
 
 if(HAVE_LIBMTP)
