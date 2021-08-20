@@ -1615,7 +1615,7 @@ jobs:
     name: Build FreeBSD
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1.2.0
     - name: Build FreeBSD
       id: build-freebsd
       uses: vmactions/freebsd-vm@v0.1.5
@@ -1624,7 +1624,6 @@ jobs:
         mem: 4096
         prepare: pkg install -y git cmake pkgconf gettext-tools boost-libs glib gnutls qt5-core qt5-concurrent qt5-network qt5-sql qt5-dbus qt5-gui qt5-widgets qt5-buildtools qt5-linguisttools qt5-qmake qt5-sqldrivers-sqlite3 qt5-testlib sqlite gstreamer1 gstreamer1-plugins chromaprint protobuf protobuf-c taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 googletest iconv
         run: |
-          sed -i'.original' -e 's/set(INCLUDE_GIT_REVISION ON)/set(INCLUDE_GIT_REVISION OFF)/g' cmake/Version.cmake
           cmake -E make_directory build
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Debug
