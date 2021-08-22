@@ -49,7 +49,7 @@ if(USE_TAGPARSER AND TAGPARSER_FOUND)
   target_link_libraries(strawberry-tagreader PRIVATE ${TAGPARSER_LIBRARIES})
 endif()
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+if(FREEBSD)
   target_link_libraries(strawberry-tagreader PRIVATE execinfo)
 endif()
 
