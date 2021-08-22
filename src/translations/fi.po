@@ -156,7 +156,7 @@ msgstr "%1 vaatii tunnistautumisen."
 msgid "%1 playlists (%2)"
 msgstr "%1-soittolistat (%2)"
 
-#: playlist/playlistmanager.cpp:472
+#: playlist/playlistmanager.cpp:473
 #, qt-format
 msgid "%1 selected of"
 msgstr "valittuna %1 /"
@@ -198,7 +198,7 @@ msgstr ""
 msgid "%1 songs selected."
 msgstr ""
 
-#: playlist/playlistmanager.cpp:479 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:480 queue/queue.cpp:255
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 kappaletta"
@@ -443,7 +443,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 päivä"
 
-#: playlist/playlistmanager.cpp:479 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:480 queue/queue.cpp:255
 msgid "1 track"
 msgstr "1 kappale"
 
@@ -1424,12 +1424,12 @@ msgstr "Kopioi albumien kansikuvat"
 msgid "Copy to collection..."
 msgstr "Kopioi kirjastoon"
 
-#: playlist/playlistlistcontainer.cpp:364
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Copy to device"
 msgstr "Kopioi laitteeseen"
 
 #: core/mainwindow.cpp:725 context/contextalbumsview.cpp:271
-#: collection/collectionview.cpp:353 playlist/playlistlistcontainer.cpp:89
+#: collection/collectionview.cpp:353 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "Kopioi laitteelle..."
@@ -1474,7 +1474,7 @@ msgstr ""
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:207
+#: playlist/playlistmanager.cpp:208
 msgid "Couldn't create playlist"
 msgstr "Soittolistan luominen epäonnistui"
 
@@ -1648,7 +1648,7 @@ msgstr ""
 msgid "Custom..."
 msgstr "Mukautettu..."
 
-#: device/udisks2lister.cpp:116
+#: device/udisks2lister.cpp:117
 msgid "D-Bus path"
 msgstr "D-Bus-polku"
 
@@ -1688,7 +1688,7 @@ msgstr ""
 msgid "Defaults"
 msgstr "Oletusasetukset"
 
-#: playlist/playlistlistcontainer.cpp:86
+#: playlist/playlistlistcontainer.cpp:87
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "Poista"
@@ -2020,7 +2020,7 @@ msgstr "Etsi tästä"
 msgid "Enter the URL of a stream:"
 msgstr "Syötä virran URL:"
 
-#: playlist/playlistlistcontainer.cpp:207
+#: playlist/playlistlistcontainer.cpp:208
 msgid "Enter the name of the folder"
 msgstr "Anna kansion nimi"
 
@@ -2588,7 +2588,7 @@ msgstr "Kuvake"
 msgid "Icon sizes"
 msgstr "Kuvakkeen koot"
 
-#: widgets/fancytabwidget.cpp:721
+#: widgets/fancytabwidget.cpp:722
 msgid "Icons on top"
 msgstr "Kuvakkeet ylhäällä"
 
@@ -2746,7 +2746,7 @@ msgstr "Suuri halli"
 msgid "Large album cover"
 msgstr "Suuri kansikuva"
 
-#: widgets/fancytabwidget.cpp:717
+#: widgets/fancytabwidget.cpp:718
 msgid "Large sidebar"
 msgstr "Suuri sivupalkki"
 
@@ -2839,7 +2839,7 @@ msgstr "Ladataan iPod-tietokantaa"
 msgid "Loading smart playlist"
 msgstr "Ladataan älykästä soittolistaa"
 
-#: collection/collectionmodel.cpp:212
+#: collection/collectionmodel.cpp:213
 msgid "Loading songs"
 msgstr "Ladataan kappaleita"
 
@@ -2851,7 +2851,7 @@ msgstr "Ladataan kappaleita"
 msgid "Loading tracks info"
 msgstr "Lataa kappaleen tietoja"
 
-#: collection/collectionmodel.cpp:205
+#: collection/collectionmodel.cpp:206
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:288
 msgid "Loading..."
@@ -3089,7 +3089,7 @@ msgstr "Eniten toistetut"
 msgid "Mount point"
 msgstr "Liitoskohta"
 
-#: device/udisks2lister.cpp:118
+#: device/udisks2lister.cpp:119
 msgid "Mount points"
 msgstr "Liitoskohdat"
 
@@ -3146,7 +3146,7 @@ msgstr ""
 msgid "Never start playing"
 msgstr "Älä koskaan aloita toistoa"
 
-#: playlist/playlistlistcontainer.cpp:85 playlist/playlistlistcontainer.cpp:207
+#: playlist/playlistlistcontainer.cpp:86 playlist/playlistlistcontainer.cpp:208
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "Uusi kansio"
@@ -3420,7 +3420,7 @@ msgstr ""
 msgid "P&laylist"
 msgstr "Soitto&lista"
 
-#: device/udisks2lister.cpp:119
+#: device/udisks2lister.cpp:120
 msgid "Partition label"
 msgstr "Osion nimike"
 
@@ -3468,7 +3468,7 @@ msgstr "Esittäjä"
 msgid "Pixel"
 msgstr "Pikseli"
 
-#: widgets/fancytabwidget.cpp:719
+#: widgets/fancytabwidget.cpp:720
 msgid "Plain sidebar"
 msgstr "Pelkistetty sivupalkki"
 
@@ -3525,9 +3525,9 @@ msgstr ""
 msgid "Player options"
 msgstr "Soittimen asetukset"
 
-#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:272
-#: playlist/playlistlistcontainer.cpp:369 playlist/playlistmanager.cpp:112
-#: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:568
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
+#: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:569
 #: playlist/playlisttabbar.cpp:410 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "Soittolista"
@@ -3547,7 +3547,7 @@ msgid ""
 "playlist?"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:364
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
 msgstr "Soittolista täytyy avata ensin."
 
@@ -3858,7 +3858,7 @@ msgstr "Poista soittolistalta"
 msgid "Remove playlist"
 msgstr "Poista soittolista"
 
-#: playlist/playlistlistcontainer.cpp:411
+#: playlist/playlistlistcontainer.cpp:412
 msgid "Remove playlists"
 msgstr "Poista soittolistat"
 
@@ -4092,12 +4092,12 @@ msgstr "Tallenna levyn kansikuva kiintolevylle..."
 msgid "Save current grouping"
 msgstr "Tallenna nykyinen ryhmittely"
 
-#: playlist/playlistlistcontainer.cpp:87
+#: playlist/playlistlistcontainer.cpp:88
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Tallenna soittolista"
 
-#: playlist/playlistmanager.cpp:276
+#: playlist/playlistmanager.cpp:277
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Tallenna soittolista"
@@ -4239,7 +4239,7 @@ msgstr ""
 msgid "Select..."
 msgstr "Valitse..."
 
-#: device/udisks2lister.cpp:117
+#: device/udisks2lister.cpp:118
 msgid "Serial number"
 msgstr "Sarjanumero"
 
@@ -4500,7 +4500,7 @@ msgstr "Ohita kappale"
 msgid "Small album cover"
 msgstr "Pieni kansikuva"
 
-#: widgets/fancytabwidget.cpp:718
+#: widgets/fancytabwidget.cpp:719
 msgid "Small sidebar"
 msgstr "Pieni sivupalkki"
 
@@ -4758,7 +4758,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:720
+#: widgets/fancytabwidget.cpp:721
 msgid "Tabs on top"
 msgstr "Välilehdet ylhäällä"
 
@@ -5038,7 +5038,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "Osoite/osoitteet"
 
-#: device/udisks2lister.cpp:120
+#: device/udisks2lister.cpp:121
 msgid "UUID"
 msgstr "UUID"
 
@@ -5050,12 +5050,12 @@ msgstr "Todella laaja kaista (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:603 collection/collectionmodel.cpp:481
-#: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
-#: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
-#: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:356 playlist/playlistmanager.cpp:576
-#: playlist/playlistmanager.cpp:577 dialogs/edittagdialog.cpp:711
+#: core/song.cpp:603 collection/collectionmodel.cpp:482
+#: collection/collectionmodel.cpp:487 collection/collectionmodel.cpp:491
+#: collection/collectionmodel.cpp:495 collection/collectionmodel.cpp:499
+#: collection/collectionmodel.cpp:1611 collection/savedgroupingmanager.cpp:146
+#: playlist/playlistdelegates.cpp:356 playlist/playlistmanager.cpp:577
+#: playlist/playlistmanager.cpp:578 dialogs/edittagdialog.cpp:711
 #: dialogs/edittagdialog.cpp:738 ../build/src/ui_scrobblersettingspage.h:427
 msgid "Unknown"
 msgstr "Tuntematon"
@@ -5240,8 +5240,8 @@ msgstr "Valikon avulla kappaleen lisäys..."
 msgid "Variable bit rate"
 msgstr "Muuttuva bittinopeus"
 
-#: collection/collectionmodel.cpp:298 collection/collectionmodel.cpp:299
-#: playlist/playlistmanager.cpp:588 covermanager/albumcovermanager.cpp:361
+#: collection/collectionmodel.cpp:299 collection/collectionmodel.cpp:300
+#: playlist/playlistmanager.cpp:589 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Useita esittäjiä"
@@ -5359,7 +5359,7 @@ msgstr "vuotta"
 msgid "Yesterday"
 msgstr "Eilen"
 
-#: playlist/playlistlistcontainer.cpp:411
+#: playlist/playlistlistcontainer.cpp:412
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"

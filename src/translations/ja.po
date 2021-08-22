@@ -164,7 +164,7 @@ msgstr "%1 には認証が必要です。"
 msgid "%1 playlists (%2)"
 msgstr "%1 プレイリスト (%2)"
 
-#: playlist/playlistmanager.cpp:472
+#: playlist/playlistmanager.cpp:473
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 個選択中"
@@ -206,7 +206,7 @@ msgstr "%2 個の異なるディレクトリにある %1 曲が選択されて�
 msgid "%1 songs selected."
 msgstr "%1 曲が選択されました"
 
-#: playlist/playlistmanager.cpp:479 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:480 queue/queue.cpp:255
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 トラック"
@@ -451,7 +451,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 日"
 
-#: playlist/playlistmanager.cpp:479 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:480 queue/queue.cpp:255
 msgid "1 track"
 msgstr "1 トラック"
 
@@ -1428,12 +1428,12 @@ msgstr "アルバムのカバーアートワークをコピー"
 msgid "Copy to collection..."
 msgstr "ライブラリへコピー..."
 
-#: playlist/playlistlistcontainer.cpp:364
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Copy to device"
 msgstr "デバイスへコピー"
 
 #: core/mainwindow.cpp:725 context/contextalbumsview.cpp:271
-#: collection/collectionview.cpp:353 playlist/playlistlistcontainer.cpp:89
+#: collection/collectionview.cpp:353 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "デバイスへコピー..."
@@ -1476,7 +1476,7 @@ msgstr ""
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:207
+#: playlist/playlistmanager.cpp:208
 msgid "Couldn't create playlist"
 msgstr "プレイリストを作成できません"
 
@@ -1648,7 +1648,7 @@ msgstr "カスタムテキスト設定"
 msgid "Custom..."
 msgstr "カスタム..."
 
-#: device/udisks2lister.cpp:116
+#: device/udisks2lister.cpp:117
 msgid "D-Bus path"
 msgstr "D-Bus パス"
 
@@ -1688,7 +1688,7 @@ msgstr "既定の背景(&K)"
 msgid "Defaults"
 msgstr "デフォルト"
 
-#: playlist/playlistlistcontainer.cpp:86
+#: playlist/playlistlistcontainer.cpp:87
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "削除"
@@ -2020,7 +2020,7 @@ msgstr "ここに検索条件を入力してください"
 msgid "Enter the URL of a stream:"
 msgstr "ストリームのURLを入力:"
 
-#: playlist/playlistlistcontainer.cpp:207
+#: playlist/playlistlistcontainer.cpp:208
 msgid "Enter the name of the folder"
 msgstr "フォルダ名を入力してください"
 
@@ -2584,7 +2584,7 @@ msgstr "アイコン"
 msgid "Icon sizes"
 msgstr "アイコンサイズ"
 
-#: widgets/fancytabwidget.cpp:721
+#: widgets/fancytabwidget.cpp:722
 msgid "Icons on top"
 msgstr "アイコンを上に配置"
 
@@ -2736,7 +2736,7 @@ msgstr "広間"
 msgid "Large album cover"
 msgstr "大きいアルバムカバー"
 
-#: widgets/fancytabwidget.cpp:717
+#: widgets/fancytabwidget.cpp:718
 msgid "Large sidebar"
 msgstr "大きいサイドバー"
 
@@ -2829,7 +2829,7 @@ msgstr "iPod データベースの読み込み中"
 msgid "Loading smart playlist"
 msgstr ""
 
-#: collection/collectionmodel.cpp:212
+#: collection/collectionmodel.cpp:213
 msgid "Loading songs"
 msgstr "曲の読み込み中"
 
@@ -2841,7 +2841,7 @@ msgstr "トラックの読み込み中"
 msgid "Loading tracks info"
 msgstr "トラック情報の読み込み中"
 
-#: collection/collectionmodel.cpp:205
+#: collection/collectionmodel.cpp:206
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:288
 msgid "Loading..."
@@ -3078,7 +3078,7 @@ msgstr ""
 msgid "Mount point"
 msgstr "マウントポイント"
 
-#: device/udisks2lister.cpp:118
+#: device/udisks2lister.cpp:119
 msgid "Mount points"
 msgstr "マウントポイント"
 
@@ -3135,7 +3135,7 @@ msgstr "未再生"
 msgid "Never start playing"
 msgstr "再生を開始しない"
 
-#: playlist/playlistlistcontainer.cpp:85 playlist/playlistlistcontainer.cpp:207
+#: playlist/playlistlistcontainer.cpp:86 playlist/playlistlistcontainer.cpp:208
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "新しいフォルダー"
@@ -3406,7 +3406,7 @@ msgstr ""
 msgid "P&laylist"
 msgstr "プレイリスト(&l)"
 
-#: device/udisks2lister.cpp:119
+#: device/udisks2lister.cpp:120
 msgid "Partition label"
 msgstr "パーティションのラベル"
 
@@ -3454,7 +3454,7 @@ msgstr "出演者"
 msgid "Pixel"
 msgstr "ピクセル"
 
-#: widgets/fancytabwidget.cpp:719
+#: widgets/fancytabwidget.cpp:720
 msgid "Plain sidebar"
 msgstr "プレーンサイドバー"
 
@@ -3511,9 +3511,9 @@ msgstr "%1 曲の再生回数を受信しました。"
 msgid "Player options"
 msgstr "プレーヤーのオプション"
 
-#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:272
-#: playlist/playlistlistcontainer.cpp:369 playlist/playlistmanager.cpp:112
-#: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:568
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
+#: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:569
 #: playlist/playlisttabbar.cpp:410 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "プレイリスト"
@@ -3533,7 +3533,7 @@ msgid ""
 "playlist?"
 msgstr "プレイリストに %1 曲があり、大きすぎて元に戻せません。プレイリストをクリアしてもよろしいですか？"
 
-#: playlist/playlistlistcontainer.cpp:364
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
 msgstr "プレイリストを最初に開く必要があります。"
 
@@ -3848,7 +3848,7 @@ msgstr "プレイリストから削除"
 msgid "Remove playlist"
 msgstr "プレイリストを削除する"
 
-#: playlist/playlistlistcontainer.cpp:411
+#: playlist/playlistlistcontainer.cpp:412
 msgid "Remove playlists"
 msgstr "プレイリストを削除する"
 
@@ -4079,12 +4079,12 @@ msgstr "カバーをディスクに保存..."
 msgid "Save current grouping"
 msgstr "現在の分類を保存する"
 
-#: playlist/playlistlistcontainer.cpp:87
+#: playlist/playlistlistcontainer.cpp:88
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "プレイリストを保存する"
 
-#: playlist/playlistmanager.cpp:276
+#: playlist/playlistmanager.cpp:277
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "プレイリストを保存する"
@@ -4226,7 +4226,7 @@ msgstr ""
 msgid "Select..."
 msgstr "選択..."
 
-#: device/udisks2lister.cpp:117
+#: device/udisks2lister.cpp:118
 msgid "Serial number"
 msgstr "シリアル番号"
 
@@ -4487,7 +4487,7 @@ msgstr "トラックをスキップする"
 msgid "Small album cover"
 msgstr "小さいアルバムカバー"
 
-#: widgets/fancytabwidget.cpp:718
+#: widgets/fancytabwidget.cpp:719
 msgid "Small sidebar"
 msgstr "小さいサイドバー"
 
@@ -4745,7 +4745,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:720
+#: widgets/fancytabwidget.cpp:721
 msgid "Tabs on top"
 msgstr "タブを上に配置"
 
@@ -5012,7 +5012,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL"
 
-#: device/udisks2lister.cpp:120
+#: device/udisks2lister.cpp:121
 msgid "UUID"
 msgstr "UUID"
 
@@ -5024,12 +5024,12 @@ msgstr "超高速回線 (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:603 collection/collectionmodel.cpp:481
-#: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
-#: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
-#: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:356 playlist/playlistmanager.cpp:576
-#: playlist/playlistmanager.cpp:577 dialogs/edittagdialog.cpp:711
+#: core/song.cpp:603 collection/collectionmodel.cpp:482
+#: collection/collectionmodel.cpp:487 collection/collectionmodel.cpp:491
+#: collection/collectionmodel.cpp:495 collection/collectionmodel.cpp:499
+#: collection/collectionmodel.cpp:1611 collection/savedgroupingmanager.cpp:146
+#: playlist/playlistdelegates.cpp:356 playlist/playlistmanager.cpp:577
+#: playlist/playlistmanager.cpp:578 dialogs/edittagdialog.cpp:711
 #: dialogs/edittagdialog.cpp:738 ../build/src/ui_scrobblersettingspage.h:427
 msgid "Unknown"
 msgstr "不明"
@@ -5212,8 +5212,8 @@ msgstr "メニューから曲を追加した場合..."
 msgid "Variable bit rate"
 msgstr "可変ビットレート"
 
-#: collection/collectionmodel.cpp:298 collection/collectionmodel.cpp:299
-#: playlist/playlistmanager.cpp:588 covermanager/albumcovermanager.cpp:361
+#: collection/collectionmodel.cpp:299 collection/collectionmodel.cpp:300
+#: playlist/playlistmanager.cpp:589 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "さまざまなアーティスト"
@@ -5329,7 +5329,7 @@ msgstr "年"
 msgid "Yesterday"
 msgstr "昨日"
 
-#: playlist/playlistlistcontainer.cpp:411
+#: playlist/playlistlistcontainer.cpp:412
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"

@@ -154,7 +154,7 @@ msgstr ""
 msgid "%1 playlists (%2)"
 msgstr "%1 spillelister (%2)"
 
-#: playlist/playlistmanager.cpp:472
+#: playlist/playlistmanager.cpp:473
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 valgte av"
@@ -196,7 +196,7 @@ msgstr ""
 msgid "%1 songs selected."
 msgstr ""
 
-#: playlist/playlistmanager.cpp:479 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:480 queue/queue.cpp:255
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 spor"
@@ -443,7 +443,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 dag"
 
-#: playlist/playlistmanager.cpp:479 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:480 queue/queue.cpp:255
 msgid "1 track"
 msgstr "1 spor"
 
@@ -1422,12 +1422,12 @@ msgstr "Kopier album omslaggrafikk"
 msgid "Copy to collection..."
 msgstr "Kopier til samling…"
 
-#: playlist/playlistlistcontainer.cpp:364
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Copy to device"
 msgstr ""
 
 #: core/mainwindow.cpp:725 context/contextalbumsview.cpp:271
-#: collection/collectionview.cpp:353 playlist/playlistlistcontainer.cpp:89
+#: collection/collectionview.cpp:353 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "Kopier til enhet…"
@@ -1471,7 +1471,7 @@ msgstr ""
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:207
+#: playlist/playlistmanager.cpp:208
 msgid "Couldn't create playlist"
 msgstr "Kunne ikke opprette spilleliste"
 
@@ -1645,7 +1645,7 @@ msgstr "Egendefinert tekst innstilling"
 msgid "Custom..."
 msgstr "Egendefinert…"
 
-#: device/udisks2lister.cpp:116
+#: device/udisks2lister.cpp:117
 msgid "D-Bus path"
 msgstr "D-Bus sti"
 
@@ -1685,7 +1685,7 @@ msgstr "Forhåndsvalgt bak&grunnsbilde"
 msgid "Defaults"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:86
+#: playlist/playlistlistcontainer.cpp:87
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "Slett"
@@ -2017,7 +2017,7 @@ msgstr "Skriv inn søkeord her"
 msgid "Enter the URL of a stream:"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:207
+#: playlist/playlistlistcontainer.cpp:208
 msgid "Enter the name of the folder"
 msgstr "Skriv inn navn på mappa"
 
@@ -2584,7 +2584,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:721
+#: widgets/fancytabwidget.cpp:722
 msgid "Icons on top"
 msgstr "Ikoner øverst"
 
@@ -2738,7 +2738,7 @@ msgstr "Storsal"
 msgid "Large album cover"
 msgstr "Stort omslag"
 
-#: widgets/fancytabwidget.cpp:717
+#: widgets/fancytabwidget.cpp:718
 msgid "Large sidebar"
 msgstr "Stort sidefelt"
 
@@ -2831,7 +2831,7 @@ msgstr "Åpner iPod-database"
 msgid "Loading smart playlist"
 msgstr ""
 
-#: collection/collectionmodel.cpp:212
+#: collection/collectionmodel.cpp:213
 msgid "Loading songs"
 msgstr "Åpner sanger"
 
@@ -2843,7 +2843,7 @@ msgstr "Åpner spor"
 msgid "Loading tracks info"
 msgstr "Henter informasjon om spor"
 
-#: collection/collectionmodel.cpp:205
+#: collection/collectionmodel.cpp:206
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:288
 msgid "Loading..."
@@ -3080,7 +3080,7 @@ msgstr ""
 msgid "Mount point"
 msgstr "Monteringspunkt"
 
-#: device/udisks2lister.cpp:118
+#: device/udisks2lister.cpp:119
 msgid "Mount points"
 msgstr "Monteringspunkter"
 
@@ -3137,7 +3137,7 @@ msgstr ""
 msgid "Never start playing"
 msgstr "Aldri begynn avspilling"
 
-#: playlist/playlistlistcontainer.cpp:85 playlist/playlistlistcontainer.cpp:207
+#: playlist/playlistlistcontainer.cpp:86 playlist/playlistlistcontainer.cpp:208
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "Ny mappe"
@@ -3408,7 +3408,7 @@ msgstr "Bare overskriv mindre"
 msgid "P&laylist"
 msgstr "Spilleliste"
 
-#: device/udisks2lister.cpp:119
+#: device/udisks2lister.cpp:120
 msgid "Partition label"
 msgstr "Partisjonsnavn"
 
@@ -3456,7 +3456,7 @@ msgstr "Utøver"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:719
+#: widgets/fancytabwidget.cpp:720
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
@@ -3513,9 +3513,9 @@ msgstr ""
 msgid "Player options"
 msgstr "Innstillinger for avspiller"
 
-#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:272
-#: playlist/playlistlistcontainer.cpp:369 playlist/playlistmanager.cpp:112
-#: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:568
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
+#: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:569
 #: playlist/playlisttabbar.cpp:410 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "Spilleliste"
@@ -3535,7 +3535,7 @@ msgid ""
 "playlist?"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:364
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
 msgstr ""
 
@@ -3849,7 +3849,7 @@ msgstr "Fjern fra spillelisten"
 msgid "Remove playlist"
 msgstr "Fjern spilleliste"
 
-#: playlist/playlistlistcontainer.cpp:411
+#: playlist/playlistlistcontainer.cpp:412
 msgid "Remove playlists"
 msgstr "Fjern spillelister"
 
@@ -4082,12 +4082,12 @@ msgstr "Lagre bilde til disk…"
 msgid "Save current grouping"
 msgstr "Lagre nåværende gruppering"
 
-#: playlist/playlistlistcontainer.cpp:87
+#: playlist/playlistlistcontainer.cpp:88
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Lagre spilleliste"
 
-#: playlist/playlistmanager.cpp:276
+#: playlist/playlistmanager.cpp:277
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Lagre spilleliste"
@@ -4229,7 +4229,7 @@ msgstr "Velg tabbar farge:"
 msgid "Select..."
 msgstr "Velg…"
 
-#: device/udisks2lister.cpp:117
+#: device/udisks2lister.cpp:118
 msgid "Serial number"
 msgstr "Serienummer"
 
@@ -4490,7 +4490,7 @@ msgstr "Hopp over spor"
 msgid "Small album cover"
 msgstr "Lite albumomslag"
 
-#: widgets/fancytabwidget.cpp:718
+#: widgets/fancytabwidget.cpp:719
 msgid "Small sidebar"
 msgstr "Lite sidefelt"
 
@@ -4751,7 +4751,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:720
+#: widgets/fancytabwidget.cpp:721
 msgid "Tabs on top"
 msgstr "Faner på toppen"
 
@@ -5033,7 +5033,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL(er)"
 
-#: device/udisks2lister.cpp:120
+#: device/udisks2lister.cpp:121
 msgid "UUID"
 msgstr "UUID"
 
@@ -5045,12 +5045,12 @@ msgstr "Ultrabredt bånd (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:603 collection/collectionmodel.cpp:481
-#: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
-#: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
-#: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:356 playlist/playlistmanager.cpp:576
-#: playlist/playlistmanager.cpp:577 dialogs/edittagdialog.cpp:711
+#: core/song.cpp:603 collection/collectionmodel.cpp:482
+#: collection/collectionmodel.cpp:487 collection/collectionmodel.cpp:491
+#: collection/collectionmodel.cpp:495 collection/collectionmodel.cpp:499
+#: collection/collectionmodel.cpp:1611 collection/savedgroupingmanager.cpp:146
+#: playlist/playlistdelegates.cpp:356 playlist/playlistmanager.cpp:577
+#: playlist/playlistmanager.cpp:578 dialogs/edittagdialog.cpp:711
 #: dialogs/edittagdialog.cpp:738 ../build/src/ui_scrobblersettingspage.h:427
 msgid "Unknown"
 msgstr "Ukjent"
@@ -5235,8 +5235,8 @@ msgstr "Bruk av menyen for å legge til et spor vil…"
 msgid "Variable bit rate"
 msgstr "Variabel bitrate"
 
-#: collection/collectionmodel.cpp:298 collection/collectionmodel.cpp:299
-#: playlist/playlistmanager.cpp:588 covermanager/albumcovermanager.cpp:361
+#: collection/collectionmodel.cpp:299 collection/collectionmodel.cpp:300
+#: playlist/playlistmanager.cpp:589 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Diverse artister"
@@ -5352,7 +5352,7 @@ msgstr ""
 msgid "Yesterday"
 msgstr "I går"
 
-#: playlist/playlistlistcontainer.cpp:411
+#: playlist/playlistlistcontainer.cpp:412
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"

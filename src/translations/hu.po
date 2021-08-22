@@ -173,7 +173,7 @@ msgstr "A(z) %1 hitelesítést igényel."
 msgid "%1 playlists (%2)"
 msgstr "%1 lejátszólista (%2)"
 
-#: playlist/playlistmanager.cpp:472
+#: playlist/playlistmanager.cpp:473
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 kiválasztva ennyiből:"
@@ -217,7 +217,7 @@ msgstr ""
 msgid "%1 songs selected."
 msgstr "%1 szám kiválasztva."
 
-#: playlist/playlistmanager.cpp:479 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:480 queue/queue.cpp:255
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 szám"
@@ -466,7 +466,7 @@ msgstr "0 px"
 msgid "1 day"
 msgstr "1 nap"
 
-#: playlist/playlistmanager.cpp:479 queue/queue.cpp:255
+#: playlist/playlistmanager.cpp:480 queue/queue.cpp:255
 msgid "1 track"
 msgstr "1 szám"
 
@@ -1465,12 +1465,12 @@ msgstr "Albumborító másolása"
 msgid "Copy to collection..."
 msgstr "Másolás a gyűjteménybe…"
 
-#: playlist/playlistlistcontainer.cpp:364
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Copy to device"
 msgstr "Másolás eszközre"
 
 #: core/mainwindow.cpp:725 context/contextalbumsview.cpp:271
-#: collection/collectionview.cpp:353 playlist/playlistlistcontainer.cpp:89
+#: collection/collectionview.cpp:353 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "Másolás eszközre…"
@@ -1514,7 +1514,7 @@ msgstr ""
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:207
+#: playlist/playlistmanager.cpp:208
 msgid "Couldn't create playlist"
 msgstr "Nem lehet létrehozni a lejátszólistát"
 
@@ -1688,7 +1688,7 @@ msgstr "Egyéni szövegbeállítások"
 msgid "Custom..."
 msgstr "Egyéni…"
 
-#: device/udisks2lister.cpp:116
+#: device/udisks2lister.cpp:117
 msgid "D-Bus path"
 msgstr "D-Bus elérési út"
 
@@ -1728,7 +1728,7 @@ msgstr "A&lapértelmezett háttérkép"
 msgid "Defaults"
 msgstr "Alapértelmezett"
 
-#: playlist/playlistlistcontainer.cpp:86
+#: playlist/playlistlistcontainer.cpp:87
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "Törlés"
@@ -2061,7 +2061,7 @@ msgstr "Adja meg a keresett kifejezést"
 msgid "Enter the URL of a stream:"
 msgstr "Közvetítés URL-jének megadása:"
 
-#: playlist/playlistlistcontainer.cpp:207
+#: playlist/playlistlistcontainer.cpp:208
 msgid "Enter the name of the folder"
 msgstr "Adja meg a mappa nevét"
 
@@ -2630,7 +2630,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr "Ikonméretek"
 
-#: widgets/fancytabwidget.cpp:721
+#: widgets/fancytabwidget.cpp:722
 msgid "Icons on top"
 msgstr "Ikonok felül"
 
@@ -2792,7 +2792,7 @@ msgstr "Nagy terem"
 msgid "Large album cover"
 msgstr "Nagy albumborító"
 
-#: widgets/fancytabwidget.cpp:717
+#: widgets/fancytabwidget.cpp:718
 msgid "Large sidebar"
 msgstr "Nagy oldalsáv"
 
@@ -2885,7 +2885,7 @@ msgstr "iPod adatbázis betöltése"
 msgid "Loading smart playlist"
 msgstr "Okos lejátszólista betöltése"
 
-#: collection/collectionmodel.cpp:212
+#: collection/collectionmodel.cpp:213
 msgid "Loading songs"
 msgstr "Számok betöltése"
 
@@ -2897,7 +2897,7 @@ msgstr "Számok betöltése"
 msgid "Loading tracks info"
 msgstr "Száminformációk betöltése"
 
-#: collection/collectionmodel.cpp:205
+#: collection/collectionmodel.cpp:206
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:288
 msgid "Loading..."
@@ -3134,7 +3134,7 @@ msgstr "Legtöbbet játszott"
 msgid "Mount point"
 msgstr "Csatolási pont"
 
-#: device/udisks2lister.cpp:118
+#: device/udisks2lister.cpp:119
 msgid "Mount points"
 msgstr "Csatolási pontok"
 
@@ -3191,7 +3191,7 @@ msgstr "Nem volt még lejátszva"
 msgid "Never start playing"
 msgstr "Soha ne indítsa el a lejátszást"
 
-#: playlist/playlistlistcontainer.cpp:85 playlist/playlistlistcontainer.cpp:207
+#: playlist/playlistlistcontainer.cpp:86 playlist/playlistlistcontainer.cpp:208
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "Új mappa"
@@ -3469,7 +3469,7 @@ msgstr "&Csak a kisebbeket írja felül"
 msgid "P&laylist"
 msgstr "&Lejátszólista"
 
-#: device/udisks2lister.cpp:119
+#: device/udisks2lister.cpp:120
 msgid "Partition label"
 msgstr "Partíció címke"
 
@@ -3517,7 +3517,7 @@ msgstr "Előadó"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:719
+#: widgets/fancytabwidget.cpp:720
 msgid "Plain sidebar"
 msgstr "Egyszerű oldalsáv"
 
@@ -3574,9 +3574,9 @@ msgstr ""
 msgid "Player options"
 msgstr "Lejátszó beállítások"
 
-#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:272
-#: playlist/playlistlistcontainer.cpp:369 playlist/playlistmanager.cpp:112
-#: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:568
+#: playlist/playlistcontainer.cpp:328 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
+#: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:569
 #: playlist/playlisttabbar.cpp:410 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "Lejátszólista"
@@ -3598,7 +3598,7 @@ msgstr ""
 "%1 dal van a lejátszólistán, túl nagy ahhoz, hogy visszavonja, biztosan "
 "törli a lejátszólistát?"
 
-#: playlist/playlistlistcontainer.cpp:364
+#: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
 msgstr "A lejátszási lista először meg kell lennie nyitva."
 
@@ -3919,7 +3919,7 @@ msgstr "Eltávolítás a lejátszólistáról"
 msgid "Remove playlist"
 msgstr "Lejátszólista eltávolítása"
 
-#: playlist/playlistlistcontainer.cpp:411
+#: playlist/playlistlistcontainer.cpp:412
 msgid "Remove playlists"
 msgstr "Lejátszólisták eltávolítása"
 
@@ -4151,12 +4151,12 @@ msgstr "Borító mentése lemezre..."
 msgid "Save current grouping"
 msgstr "Jelenlegi csoportosítás mentése"
 
-#: playlist/playlistlistcontainer.cpp:87
+#: playlist/playlistlistcontainer.cpp:88
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Lejátszólista mentése"
 
-#: playlist/playlistmanager.cpp:276
+#: playlist/playlistmanager.cpp:277
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Lejátszólista mentése"
@@ -4298,7 +4298,7 @@ msgstr "Lapsáv színének kiválasztása:"
 msgid "Select..."
 msgstr "Kiválasztás..."
 
-#: device/udisks2lister.cpp:117
+#: device/udisks2lister.cpp:118
 msgid "Serial number"
 msgstr "Sorozatszám"
 
@@ -4559,7 +4559,7 @@ msgstr "Szám kihagyása"
 msgid "Small album cover"
 msgstr "Kis albumborító"
 
-#: widgets/fancytabwidget.cpp:718
+#: widgets/fancytabwidget.cpp:719
 msgid "Small sidebar"
 msgstr "Kis oldalsáv"
 
@@ -4825,7 +4825,7 @@ msgstr "Lapsáv nagy mód"
 msgid "Tabbar small mode"
 msgstr "Lapsáv kis mód"
 
-#: widgets/fancytabwidget.cpp:720
+#: widgets/fancytabwidget.cpp:721
 msgid "Tabs on top"
 msgstr "Fülek felül"
 
@@ -5110,7 +5110,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL(-ek)"
 
-#: device/udisks2lister.cpp:120
+#: device/udisks2lister.cpp:121
 msgid "UUID"
 msgstr "UUID"
 
@@ -5122,12 +5122,12 @@ msgstr "Ultra szélessávú (UWB)"
 msgid "Uninstall the snap with:"
 msgstr "Snap eltávolítása ezzel:"
 
-#: core/song.cpp:603 collection/collectionmodel.cpp:481
-#: collection/collectionmodel.cpp:486 collection/collectionmodel.cpp:490
-#: collection/collectionmodel.cpp:494 collection/collectionmodel.cpp:498
-#: collection/collectionmodel.cpp:1610 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:356 playlist/playlistmanager.cpp:576
-#: playlist/playlistmanager.cpp:577 dialogs/edittagdialog.cpp:711
+#: core/song.cpp:603 collection/collectionmodel.cpp:482
+#: collection/collectionmodel.cpp:487 collection/collectionmodel.cpp:491
+#: collection/collectionmodel.cpp:495 collection/collectionmodel.cpp:499
+#: collection/collectionmodel.cpp:1611 collection/savedgroupingmanager.cpp:146
+#: playlist/playlistdelegates.cpp:356 playlist/playlistmanager.cpp:577
+#: playlist/playlistmanager.cpp:578 dialogs/edittagdialog.cpp:711
 #: dialogs/edittagdialog.cpp:738 ../build/src/ui_scrobblersettingspage.h:427
 msgid "Unknown"
 msgstr "Ismeretlen"
@@ -5312,8 +5312,8 @@ msgstr "Szám hozzáadásakor a menü használatával..."
 msgid "Variable bit rate"
 msgstr "Változó bitráta"
 
-#: collection/collectionmodel.cpp:298 collection/collectionmodel.cpp:299
-#: playlist/playlistmanager.cpp:588 covermanager/albumcovermanager.cpp:361
+#: collection/collectionmodel.cpp:299 collection/collectionmodel.cpp:300
+#: playlist/playlistmanager.cpp:589 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:94 internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Egyes előadók"
@@ -5430,7 +5430,7 @@ msgstr "Évek"
 msgid "Yesterday"
 msgstr "Tegnap"
 
-#: playlist/playlistlistcontainer.cpp:411
+#: playlist/playlistlistcontainer.cpp:412
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
