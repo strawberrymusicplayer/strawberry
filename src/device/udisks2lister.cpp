@@ -113,7 +113,7 @@ QVariantMap Udisks2Lister::DeviceHardwareInfo(const QString &id) {
 
   QVariantMap result;
 
-  const auto &data = device_data_[id];
+  const PartitionData &data = device_data_[id];
   result[QT_TR_NOOP("D-Bus path")] = data.dbus_path;
   result[QT_TR_NOOP("Serial number")] = data.serial;
   result[QT_TR_NOOP("Mount points")] = data.mount_paths.join(", ");
@@ -195,7 +195,7 @@ bool Udisks2Lister::Init() {
 
   QList<QDBusObjectPath> paths = reply.value().keys();
   for (const QDBusObjectPath &path : paths) {
-    auto partition_data = ReadPartitionData(path);
+    Udisks2Lister::PartitionData partition_data = ReadPartitionData(path);
 
     if (!partition_data.dbus_path.isEmpty()) {
       QWriteLocker locker(&device_data_lock_);
@@ -310,7 +310,7 @@ void Udisks2Lister::JobCompleted(const bool success, const QString &message) {
 
   Q_UNUSED(message);
 
-  auto job = qobject_cast<OrgFreedesktopUDisks2JobInterface*>(sender());
+  OrgFreedesktopUDisks2JobInterface *job = qobject_cast<OrgFreedesktopUDisks2JobInterface*>(sender());
   QDBusObjectPath jobPath(job->path());
 
   if (!job->isValid() || !success || !mounting_jobs_.contains(jobPath)) return;
@@ -340,7 +340,7 @@ void Udisks2Lister::HandleFinishedUnmountJob(const Udisks2Lister::PartitionData 
 
   QWriteLocker locker(&device_data_lock_);
   QString id;
-  for (auto &data : device_data_) {
+  for (PartitionData &data : device_data_) {
     if (data.mount_paths.contains(mounted_object.path())) {
       qLog(Debug) << "UDisks2 umount job finished, found corresponding device: Drive = " << data.dbus_drive_path << " | Partition = " << data.dbus_path;
       data.mount_paths.removeOne(mounted_object.path());
