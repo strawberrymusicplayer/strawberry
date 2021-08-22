@@ -195,7 +195,7 @@ bool Udisks2Lister::Init() {
 
   QList<QDBusObjectPath> paths = reply.value().keys();
   for (const QDBusObjectPath &path : paths) {
-    Udisks2Lister::PartitionData partition_data = ReadPartitionData(path);
+    PartitionData partition_data = ReadPartitionData(path);
 
     if (!partition_data.dbus_path.isEmpty()) {
       QWriteLocker locker(&device_data_lock_);
@@ -326,7 +326,7 @@ void Udisks2Lister::JobCompleted(const bool success, const QString &message) {
 
 }
 
-void Udisks2Lister::HandleFinishedMountJob(const Udisks2Lister::PartitionData &partition_data) {
+void Udisks2Lister::HandleFinishedMountJob(const PartitionData &partition_data) {
 
   qLog(Debug) << "UDisks2 mount job finished: Drive = " << partition_data.dbus_drive_path << " | Partition = " << partition_data.dbus_path;
   QWriteLocker locker(&device_data_lock_);
@@ -336,7 +336,7 @@ void Udisks2Lister::HandleFinishedMountJob(const Udisks2Lister::PartitionData &p
 
 }
 
-void Udisks2Lister::HandleFinishedUnmountJob(const Udisks2Lister::PartitionData &partition_data, const QDBusObjectPath &mounted_object) {
+void Udisks2Lister::HandleFinishedUnmountJob(const PartitionData &partition_data, const QDBusObjectPath &mounted_object) {
 
   QWriteLocker locker(&device_data_lock_);
   QString id;
