@@ -24,6 +24,7 @@
 #include <memory>
 #include <functional>
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QtGlobal>
@@ -586,7 +587,7 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
   }
 
   // Delete empty dividers
-  for (const QString &divider_key : qAsConst(divider_keys)) {
+  for (const QString &divider_key : std::as_const(divider_keys)) {
     if (!divider_nodes_.contains(divider_key)) continue;
 
     // Look to see if there are any other items still under this divider

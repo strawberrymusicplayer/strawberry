@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <memory>
+#include <utility>
 
 #include <QObject>
 #include <QWidget>
@@ -416,7 +417,7 @@ void PlaylistListContainer::Delete() {
   }
 
   // Unfavorite the playlists
-  for (const int id : qAsConst(ids)) {
+  for (const int id : std::as_const(ids)) {
     app_->playlist_manager()->Favorite(id, false);
   }
 

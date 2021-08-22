@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <memory>
+#include <utility>
 
 #include <dbus/objectmanager.h>
 #include <dbus/udisks2block.h>
@@ -273,7 +274,7 @@ void Udisks2Lister::RemoveDevice(const QDBusObjectPath &device_path) {
 
   QWriteLocker locker(&device_data_lock_);
   QString id;
-  for (const auto &data : qAsConst(device_data_)) {
+  for (const PartitionData &data : std::as_const(device_data_)) {
     if (data.dbus_path == device_path.path()) {
       id = data.unique_id();
       break;

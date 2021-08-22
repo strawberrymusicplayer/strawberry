@@ -23,6 +23,7 @@
 
 #include <memory>
 #include <functional>
+#include <utility>
 
 #include <QtGlobal>
 #include <QObject>
@@ -496,7 +497,7 @@ void PlaylistManager::SongsDiscovered(const SongList &songs) {
   // Some songs might've changed in the collection, let's update any playlist items we have that match those songs
 
   for (const Song &song : songs) {
-    for (const Data &data : qAsConst(playlists_)) {
+    for (const Data &data : std::as_const(playlists_)) {
       PlaylistItemList items = data.p->collection_items_by_id(song.id());
       for (PlaylistItemPtr item : items) {
         if (item->Metadata().directory_id() != song.directory_id()) continue;

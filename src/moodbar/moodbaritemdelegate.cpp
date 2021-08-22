@@ -278,7 +278,7 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
   const QSortFilterProxyModel *filter = playlist->proxy();
 
   // Update all the indices with the new pixmap.
-  for (const QPersistentModelIndex &idx : qAsConst(data->indexes_)) {
+  for (const QPersistentModelIndex &idx : std::as_const(data->indexes_)) {
     if (idx.isValid() && idx.sibling(idx.row(), Playlist::Column_Filename).data().toUrl() == url) {
       QModelIndex source_index = idx;
       if (idx.model() == filter) {

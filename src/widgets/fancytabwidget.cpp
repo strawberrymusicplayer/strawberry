@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 #include <chrono>
 
 #include <QtGlobal>
@@ -477,7 +478,7 @@ void FancyTabWidget::Load(const QString &kSettingsGroup) {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   QMultiMap <int, TabData*> tabs;
-  for (TabData *tab : qAsConst(tabs_)) {
+  for (TabData *tab : std::as_const(tabs_)) {
     int idx = s.value("tab_" + tab->name(), tab->index()).toInt();
     while (tabs.contains(idx)) { ++idx; }
     tabs.insert(idx, tab);
@@ -505,7 +506,7 @@ void FancyTabWidget::SaveSettings(const QString &kSettingsGroup) {
   s.setValue("tab_mode", mode_);
   s.setValue("current_tab", currentIndex());
 
-  for (TabData *tab : qAsConst(tabs_)) {
+  for (TabData *tab : std::as_const(tabs_)) {
     QString k = "tab_" + tab->name();
     int idx = QTabWidget::indexOf(tab->page());
     if (idx < 0) {

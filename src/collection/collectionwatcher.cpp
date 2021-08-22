@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <chrono>
 #include <cassert>
 
@@ -163,8 +164,7 @@ void CollectionWatcher::ReloadSettings() {
   }
   else if (monitor_ && !was_monitoring_before) {
     // Add all directories to all QFileSystemWatchers again
-    QList<Directory> dirs = watched_dirs_.values();
-    for (const Directory &dir : dirs) {
+    for (const Directory &dir : std::as_const(watched_dirs_)) {
       SubdirectoryList subdirs = backend_->SubdirsInDirectory(dir.id);
       for (const Subdirectory &subdir : subdirs) {
         AddWatch(dir, subdir.path);
@@ -414,7 +414,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   // Do not scan symlinked dirs that are already in collection
   if (path_info.isSymLink()) {
     QString real_path = path_info.symLinkTarget();
-    for (const Directory &dir : qAsConst(watched_dirs_)) {
+    for (const Directory &dir : std::as_const(watched_dirs_)) {
       if (real_path.startsWith(dir.path)) {
         return;
       }
@@ -1145,8 +1145,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 
   stop_requested_ = false;
 
-  QList<Directory> dirs = watched_dirs_.values();
-  for (const Directory &dir : dirs) {
+  for (const Directory &dir : std::as_const(watched_dirs_)) {
 
     if (stop_requested_) break;
 
@@ -1195,7 +1194,7 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
       }
       if (path_info.isSymLink()) {
         QString real_path = path_info.symLinkTarget();
-        for (const Directory &dir : qAsConst(watched_dirs_)) {
+        for (const Directory &dir : std::as_const(watched_dirs_)) {
           if (real_path.startsWith(dir.path)) {
             continue;
           }
