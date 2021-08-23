@@ -266,8 +266,9 @@ void TrackSelectionDialog::SaveData(const QList<Data> &data) {
 
   for (int i = 0; i < data.count(); ++i) {
     const Data &ref = data[i];
-    if (ref.pending_ || ref.results_.isEmpty() || ref.selected_result_ == -1)
+    if (ref.pending_ || ref.results_.isEmpty() || ref.selected_result_ == -1) {
       continue;
+    }
 
     const Song &new_metadata = ref.results_[ref.selected_result_];
 
@@ -302,8 +303,9 @@ void TrackSelectionDialog::accept() {
   QDialog::accept();
 
   for (const Data &tag_data : data_) {
-    if (tag_data.pending_ || tag_data.results_.isEmpty() || tag_data.selected_result_ == -1)
+    if (tag_data.pending_ || tag_data.results_.isEmpty() || tag_data.selected_result_ == -1) {
       continue;
+    }
 
     const Song &new_metadata = tag_data.results_[tag_data.selected_result_];
 

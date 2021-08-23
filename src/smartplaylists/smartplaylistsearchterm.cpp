@@ -101,22 +101,29 @@ QString SmartPlaylistSearchTerm::ToSql() const {
     case Op_EndsWith:
       return col + " LIKE '%" + value + "'";
     case Op_Equals:
-      if (TypeOf(field_) == Type_Text)
+      if (TypeOf(field_) == Type_Text) {
         return col + " LIKE '" + value + "'";
-      else if (TypeOf(field_) == Type_Date || TypeOf(field_) == Type_Time || TypeOf(field_) == Type_Rating)
+      }
+      else if (TypeOf(field_) == Type_Date || TypeOf(field_) == Type_Time || TypeOf(field_) == Type_Rating) {
         return col + " = " + value;
-      else
+      }
+      else {
         return col + " = '" + value + "'";
+      }
     case Op_GreaterThan:
-      if (TypeOf(field_) == Type_Date || TypeOf(field_) == Type_Time || TypeOf(field_) == Type_Rating)
+      if (TypeOf(field_) == Type_Date || TypeOf(field_) == Type_Time || TypeOf(field_) == Type_Rating) {
         return col + " > " + value;
-      else
+      }
+      else {
         return col + " > '" + value + "'";
+      }
     case Op_LessThan:
-      if (TypeOf(field_) == Type_Date || TypeOf(field_) == Type_Time || TypeOf(field_) == Type_Rating)
+      if (TypeOf(field_) == Type_Date || TypeOf(field_) == Type_Time || TypeOf(field_) == Type_Rating) {
         return col + " < " + value;
-      else
+      }
+      else {
         return col + " < '" + value + "'";
+      }
     case Op_NumericDate:
       return col + " > " + "DATETIME('now', '-" + value + " " + date + "', 'localtime')";
     case Op_NumericDateNot:

@@ -311,10 +311,12 @@ bool CommandlineOptions::Parse() {
   for (int i = optind; i < argc_; ++i) {
     QString value = QFile::decodeName(argv_[i]);
     QFileInfo file_info(value);
-    if (file_info.exists())
+    if (file_info.exists()) {
       urls_ << QUrl::fromLocalFile(file_info.canonicalFilePath());
-    else
+    }
+    else {
       urls_ << QUrl::fromUserInput(value);
+    }
   }
 
   return true;

@@ -189,19 +189,24 @@ void VLCEngine::Seek(const quint64 offset_nanosec) {
 }
 
 void VLCEngine::SetVolumeSW(const uint percent) {
+
   if (!Initialized()) return;
   if (!volume_control_ && percent != 100) return;
   libvlc_audio_set_volume(player_, percent);
+
 }
 
 qint64 VLCEngine::position_nanosec() const {
+
   if (state_ == Engine::Empty) return 0;
   const qint64 result = (position() * kNsecPerMsec);
   return qint64(qMax(0LL, result));
 
+
 }
 
 qint64 VLCEngine::length_nanosec() const {
+
   if (state_ == Engine::Empty) return 0;
   const qint64 result = (end_nanosec_ - beginning_nanosec_);
   if (result > 0) {
@@ -211,6 +216,7 @@ qint64 VLCEngine::length_nanosec() const {
     // Get the length from the pipeline if we don't know.
     return (length() * kNsecPerMsec);
   }
+
 }
 
 EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
@@ -330,7 +336,7 @@ EngineBase::PluginDetailsList VLCEngine::GetPluginList() const {
     ret << details;
   }
 
-  for (libvlc_audio_output_t *audio_output = audio_output_list ; audio_output ; audio_output = audio_output->p_next) {
+  for (libvlc_audio_output_t *audio_output = audio_output_list; audio_output; audio_output = audio_output->p_next) {
     PluginDetails details;
     details.name = QString::fromUtf8(audio_output->psz_name);
     details.description = QString::fromUtf8(audio_output->psz_description);
@@ -349,7 +355,7 @@ void VLCEngine::GetDevicesList(const QString &output) const {
   Q_UNUSED(output);
 
   libvlc_audio_output_device_t *audio_output_device_list = libvlc_audio_output_device_list_get(instance_, output_.toUtf8().constData());
-  for (libvlc_audio_output_device_t *audio_device = audio_output_device_list ; audio_device ; audio_device = audio_device->p_next) {
+  for (libvlc_audio_output_device_t *audio_device = audio_output_device_list; audio_device; audio_device = audio_device->p_next) {
     qLog(Debug) << audio_device->psz_device << audio_device->psz_description;
   }
   libvlc_audio_output_device_list_release(audio_output_device_list);

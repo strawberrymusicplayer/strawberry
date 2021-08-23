@@ -297,12 +297,15 @@ void GlobalShortcutsSettingsPage::ItemClicked(QTreeWidgetItem *item) {
   ui_->shortcut_options->setEnabled(true);
   ui_->shortcut_options->setTitle(tr("Shortcut for %1").arg(shortcut.s.action->text()));
 
-  if (shortcut.key == shortcut.s.default_key)
+  if (shortcut.key == shortcut.s.default_key) {
     ui_->radio_default->setChecked(true);
-  else if (shortcut.key.isEmpty())
+  }
+  else if (shortcut.key.isEmpty()) {
     ui_->radio_none->setChecked(true);
-  else
+  }
+  else {
     ui_->radio_custom->setChecked(true);
+  }
 
 }
 

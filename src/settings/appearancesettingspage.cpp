@@ -288,10 +288,12 @@ void AppearanceSettingsPage::Save() {
   }
   s.setValue(kBackgroundImageType, background_image_type_);
 
-  if (background_image_type_ == BackgroundImageType_Custom)
+  if (background_image_type_ == BackgroundImageType_Custom) {
     s.setValue(kBackgroundImageFilename, background_image_filename_);
-  else
+  }
+  else {
     s.remove(kBackgroundImageFilename);
+  }
 
   BackgroundImagePosition backgroundimageposition = BackgroundImagePosition(ui_->combobox_backgroundimageposition->itemData(ui_->combobox_backgroundimageposition->currentIndex()).toInt());
   s.setValue(kBackgroundImageMaxSize, ui_->spinbox_background_image_maxsize->value());

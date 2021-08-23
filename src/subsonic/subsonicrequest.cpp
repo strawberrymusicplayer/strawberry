@@ -307,7 +307,7 @@ void SubsonicRequest::AlbumsFinishCheck(const int offset, const int size, const 
 
   if (albums_requests_queue_.isEmpty() && albums_requests_active_ <= 0) { // Albums list is finished, get songs for all albums.
 
-    for (QHash<QString, Request> ::iterator it = album_songs_requests_pending_.begin() ; it != album_songs_requests_pending_.end() ; ++it) {
+    for (QHash<QString, Request> ::iterator it = album_songs_requests_pending_.begin(); it != album_songs_requests_pending_.end(); ++it) {
       Request request = it.value();
       AddAlbumSongsRequest(request.artist_id, request.album_id, request.album_artist);
     }

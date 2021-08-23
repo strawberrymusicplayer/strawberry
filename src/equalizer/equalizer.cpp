@@ -209,8 +209,9 @@ void Equalizer::SavePreset() {
 QString Equalizer::SaveCurrentPreset() {
 
   QString name = QInputDialog::getText(this, tr("Save preset"), tr("Name"), QLineEdit::Normal, tr(qPrintable(last_preset_)));
-  if (name.isEmpty())
+  if (name.isEmpty()) {
     return QString();
+  }
 
   AddPreset(name, current_params());
   Save();
@@ -362,6 +363,7 @@ Equalizer::Params::Params() : preamp(0) {
 }
 
 Equalizer::Params::Params(int g0, int g1, int g2, int g3, int g4, int g5, int g6, int g7, int g8, int g9, int pre) : preamp(pre) {
+
   gain[0] = g0;
   gain[1] = g1;
   gain[2] = g2;
@@ -372,14 +374,17 @@ Equalizer::Params::Params(int g0, int g1, int g2, int g3, int g4, int g5, int g6
   gain[7] = g7;
   gain[8] = g8;
   gain[9] = g9;
+
 }
 
 bool Equalizer::Params::operator==(const Equalizer::Params &other) const {
+
   if (preamp != other.preamp) return false;
   for (int i = 0; i < Equalizer::kBands; ++i) {
     if (gain[i] != other.gain[i]) return false;
   }
   return true;
+
 }
 
 bool Equalizer::Params::operator!=(const Equalizer::Params &other) const {
@@ -387,13 +392,17 @@ bool Equalizer::Params::operator!=(const Equalizer::Params &other) const {
 }
 
 QDataStream &operator<<(QDataStream &s, const Equalizer::Params &p) {
+
   s << p.preamp;
   for (int i = 0; i < Equalizer::kBands; ++i) s << p.gain[i];
   return s;
+
 }
 
 QDataStream &operator>>(QDataStream &s, Equalizer::Params &p) {
+
   s >> p.preamp;
   for (int i = 0; i < Equalizer::kBands; ++i) s >> p.gain[i];
   return s;
+
 }

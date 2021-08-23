@@ -85,7 +85,7 @@ void LyricsFetcherSearch::ProviderSearchFinished(const quint64 id, const LyricsS
 
   LyricsSearchResults results_copy(results);
   float higest_score = 0.0;
-  for (int i = 0 ; i < results_copy.count() ; ++i) {
+  for (int i = 0; i < results_copy.count(); ++i) {
     results_copy[i].provider = provider->name();
     results_copy[i].score = 0.0;
     if (results_copy[i].artist.compare(request_.artist, Qt::CaseInsensitive) == 0) {

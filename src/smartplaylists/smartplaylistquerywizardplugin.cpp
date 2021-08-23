@@ -331,8 +331,9 @@ void SmartPlaylistQueryWizardPlugin::MoveTermListToBottom(int min, int max) {
 
   Q_UNUSED(min);
   // Only scroll to the bottom if a new term is added
-  if (previous_scrollarea_max_ < max)
+  if (previous_scrollarea_max_ < max) {
     search_page_->ui_->terms_scroll_area->verticalScrollBar()->setValue(max);
+  }
 
   previous_scrollarea_max_ = max;
 

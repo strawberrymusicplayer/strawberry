@@ -60,8 +60,9 @@ QModelIndex Queue::mapFromSource(const QModelIndex &source_index) const {
 
   const int source_row = source_index.row();
   for (int i = 0; i < source_indexes_.count(); ++i) {
-    if (source_indexes_[i].row() == source_row)
+    if (source_indexes_[i].row() == source_row) {
       return index(i, source_index.column());
+    }
   }
   return QModelIndex();
 
@@ -394,7 +395,7 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, 
     if (!source_indexes.isEmpty()) {
       const int insert_point = row == -1 ? static_cast<int>(source_indexes_.count()) : row;
       beginInsertRows(QModelIndex(), insert_point, insert_point + static_cast<int>(source_indexes.count() - 1));
-      for (int i = 0 ; i < source_indexes.count() ; ++i) {
+      for (int i = 0; i < source_indexes.count(); ++i) {
         source_indexes_.insert(insert_point + i, source_indexes[i]);
       }
       endInsertRows();
@@ -409,10 +410,12 @@ Qt::ItemFlags Queue::flags(const QModelIndex &idx) const {
 
   Qt::ItemFlags flags = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
-  if (idx.isValid())
+  if (idx.isValid()) {
     flags |= Qt::ItemIsDragEnabled;
-  else
+  }
+  else {
     flags |= Qt::ItemIsDropEnabled;
+  }
 
   return flags;
 

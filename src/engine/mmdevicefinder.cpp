@@ -53,7 +53,7 @@ QList<DeviceFinder::Device> MMDeviceFinder::ListDevices() {
       UINT count;
       hr = collection->GetCount(&count);
       if (hr == S_OK) {
-        for (ULONG i = 0 ; i < count ; i++) {
+        for (ULONG i = 0; i < count; i++) {
           IMMDevice *endpoint = nullptr;
           hr = collection->Item(i, &endpoint);
           if (hr == S_OK) {

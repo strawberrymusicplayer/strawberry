@@ -130,17 +130,21 @@ GstEnginePipeline::~GstEnginePipeline() {
 
   if (pipeline_) {
 
-    if (pad_added_cb_id_ != -1)
+    if (pad_added_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(pipeline_), pad_added_cb_id_);
+    }
 
-    if (notify_source_cb_id_ != -1)
+    if (notify_source_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(pipeline_), notify_source_cb_id_);
+    }
 
-    if (about_to_finish_cb_id_ != -1)
+    if (about_to_finish_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(pipeline_), about_to_finish_cb_id_);
+    }
 
-    if (bus_cb_id_ != -1)
+    if (bus_cb_id_ != -1) {
       g_source_remove(bus_cb_id_);
+    }
 
     GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
     if (bus) {
@@ -170,9 +174,11 @@ void GstEnginePipeline::set_volume_enabled(const bool enabled) {
 }
 
 void GstEnginePipeline::set_stereo_balancer_enabled(const bool enabled) {
+
   stereo_balancer_enabled_ = enabled;
   if (!enabled) stereo_balance_ = 0.0F;
   if (pipeline_) UpdateStereoBalance();
+
 }
 
 void GstEnginePipeline::set_equalizer_enabled(const bool enabled) {
@@ -647,7 +653,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
     int16_t *d = static_cast<int16_t*>(g_malloc(buf16_size));
     memset(d, 0, buf16_size);
-    for (int i = 0 ; i < (samples * channels) ; ++i) {
+    for (int i = 0; i < (samples * channels); ++i) {
       d[i] = static_cast<int16_t>((s[i] >> 16));
     }
     gst_buffer_unmap(buf, &map_info);
@@ -668,7 +674,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
     int16_t *d = static_cast<int16_t*>(g_malloc(buf16_size));
     memset(d, 0, buf16_size);
-    for (int i = 0 ; i < (samples * channels) ; ++i) {
+    for (int i = 0; i < (samples * channels); ++i) {
       float sample_float = (s[i] * float(32768.0));
       d[i] = static_cast<int16_t>(sample_float);
     }
@@ -690,7 +696,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
     int16_t *s16 = static_cast<int16_t*>(g_malloc(buf16_size));
     memset(s16, 0, buf16_size);
-    for (int i = 0 ; i < (samples * channels) ; ++i) {
+    for (int i = 0; i < (samples * channels); ++i) {
       s16[i] = *(reinterpret_cast<int16_t*>(s24+1));
       s24 += 3;
       if (s24 >= s24e) break;
@@ -1071,8 +1077,9 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 
 qint64 GstEnginePipeline::position() const {
 
-  if (pipeline_is_initialized_)
+  if (pipeline_is_initialized_) {
     gst_element_query_position(pipeline_, GST_FORMAT_TIME, &last_known_position_ns_);
+  }
 
   return last_known_position_ns_;
 
@@ -1090,8 +1097,9 @@ qint64 GstEnginePipeline::length() const {
 GstState GstEnginePipeline::state() const {
 
   GstState s = GST_STATE_NULL, sp = GST_STATE_NULL;
-  if (!pipeline_ || gst_element_get_state(pipeline_, &s, &sp, kGstStateTimeoutNanosecs) == GST_STATE_CHANGE_FAILURE)
+  if (!pipeline_ || gst_element_get_state(pipeline_, &s, &sp, kGstStateTimeoutNanosecs) == GST_STATE_CHANGE_FAILURE) {
     return GST_STATE_NULL;
+  }
 
   return s;
 
@@ -1179,10 +1187,12 @@ void GstEnginePipeline::UpdateEqualizer() {
   // Update band gains
   for (int i = 0; i < kEqBandCount; ++i) {
     float gain = eq_enabled_ ? eq_band_gains_[i] : float(0.0);
-    if (gain < 0)
+    if (gain < 0) {
       gain *= 0.24;
-    else
+    }
+    else {
       gain *= 0.12;
+    }
 
     const int index_in_eq = i + 1;
     // Offset because of the first dummy band we created.

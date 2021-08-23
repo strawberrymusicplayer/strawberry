@@ -311,8 +311,9 @@ static void input_data_mixed_int24_max (const guint8 * _in, double* out, guint l
 #else
     gint32 value = GST_READ_UINT24_LE (_in);
 #endif
-    if (value & 0x00800000)
+    if (value & 0x00800000) {
       value |= 0xff000000;
+    }
 
     out[op] = value / max_value;
     op = (op + 1) % nfft;
@@ -374,8 +375,9 @@ static void gst_fastspectrum_run_fft (GstFastSpectrum * spectrum, guint input_po
   guint bands = spectrum->bands;
   guint nfft = 2 * bands - 2;
 
-  for (i = 0; i < nfft; i++)
+  for (i = 0; i < nfft; i++) {
     spectrum->fft_input[i] = spectrum->input_ring_buffer[(input_pos + i) % nfft];
+  }
 
   // Should be safe to execute the same plan multiple times in parallel.
   fftw_execute(spectrum->plan);
@@ -435,8 +437,9 @@ static GstFlowReturn gst_fastspectrum_transform_ip (GstBaseTransform *trans, Gst
     /* rounding error for frames_per_interval in ns,
      * aggregated it in accumulated_error */
     spectrum->error_per_interval = (spectrum->interval * rate) % GST_SECOND;
-    if (spectrum->frames_per_interval == 0)
+    if (spectrum->frames_per_interval == 0) {
       spectrum->frames_per_interval = 1;
+    }
 
     GST_INFO_OBJECT (spectrum, "interval %" GST_TIME_FORMAT ", fpi %"
         G_GUINT64_FORMAT ", error %" GST_TIME_FORMAT,
@@ -448,8 +451,9 @@ static GstFlowReturn gst_fastspectrum_transform_ip (GstBaseTransform *trans, Gst
     gst_fastspectrum_flush (spectrum);
   }
 
-  if (spectrum->num_frames == 0)
+  if (spectrum->num_frames == 0) {
     spectrum->message_ts = GST_BUFFER_TIMESTAMP (buffer);
+  }
 
   input_pos = spectrum->input_pos;
   input_data = spectrum->input_data;
@@ -462,10 +466,12 @@ static GstFlowReturn gst_fastspectrum_transform_ip (GstBaseTransform *trans, Gst
         "message frames todo: %u, fft frames todo: %u, input frames %"
         G_GSIZE_FORMAT, msg_todo, fft_todo, (size / bpf));
     block_size = msg_todo;
-    if (block_size > (size / bpf))
+    if (block_size > (size / bpf)) {
       block_size = (size / bpf);
-    if (block_size > fft_todo)
+    }
+    if (block_size > fft_todo) {
       block_size = fft_todo;
+    }
 
     /* Move the current frames into our ringbuffers */
     input_data(data, spectrum->input_ring_buffer, block_size, max_value, input_pos, nfft);
@@ -514,8 +520,9 @@ static GstFlowReturn gst_fastspectrum_transform_ip (GstBaseTransform *trans, Gst
         memset(spectrum->spect_magnitude, 0, spectrum->bands * sizeof(double));
       }
 
-      if (GST_CLOCK_TIME_IS_VALID (spectrum->message_ts))
+      if (GST_CLOCK_TIME_IS_VALID (spectrum->message_ts)) {
         spectrum->message_ts += gst_util_uint64_scale (spectrum->num_frames, GST_SECOND, rate);
+      }
 
       spectrum->num_frames = 0;
       spectrum->num_fft = 0;

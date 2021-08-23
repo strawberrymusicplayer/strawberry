@@ -543,8 +543,9 @@ void OrganizeDialog::UpdatePreviews() {
     }
   }
 
-  if (devices_)
+  if (devices_) {
     AdjustSize();
+  }
 
 }
 

@@ -209,8 +209,9 @@ void CollectionModel::Init(const bool async) {
     endResetModel();
 
     // Show a loading indicator in the status bar too.
-    if (app_)
+    if (app_) {
       init_task_id_ = app_->task_manager()->StartTask(tr("Loading songs"));
+    }
 
     ResetAsync();
   }
@@ -256,11 +257,14 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
         key.append(ContainerKey(type, song));
 
         // Does it exist already?
-        if (!container_nodes_[i].contains(key)) {
-          // Create the container
-          container_nodes_[i][key] = ItemFromSong(type, true, i == 0, container, song, i);
+        if (container_nodes_[i].contains(key)) {
+          container = container_nodes_[i][key];
         }
-        container = container_nodes_[i][key];
+        else {
+          // Create the container
+          container = ItemFromSong(type, true, i == 0, container, song, i);
+          container_nodes_[i].insert(key, container);
+        }
 
       }
 
@@ -270,7 +274,7 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
     if (!container->lazy_loaded && use_lazy_loading_) continue;
 
     // We've gone all the way down to the deepest level and everything was already lazy loaded, so now we have to create the song in the container.
-    song_nodes_[song.id()] = ItemFromSong(GroupBy_None, true, false, container, song, -1);
+    song_nodes_.insert(song.id(), ItemFromSong(GroupBy_None, true, false, container, song, -1));
   }
 
 }
@@ -570,7 +574,7 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       }
 
       // Remove from pending art loading
-      for (QMap<quint64, ItemAndCacheKey>::iterator it = pending_art_.begin() ; it != pending_art_.end();) {
+      for (QMap<quint64, ItemAndCacheKey>::iterator it = pending_art_.begin(); it != pending_art_.end();) {
         if (it.value().first == node) {
           it = pending_art_.erase(it);  // clazy:exclude=strict-iterators
         }
@@ -897,10 +901,10 @@ void CollectionModel::PostQuery(CollectionItem *parent, const CollectionModel::Q
 
     // Save a pointer to it for later
     if (child_type == GroupBy_None) {
-      song_nodes_[item->metadata.id()] = item;
+      song_nodes_.insert(item->metadata.id(), item);
     }
     else {
-      container_nodes_[child_level][item->key] = item;
+      container_nodes_[child_level].insert(item->key, item);
     }
   }
 

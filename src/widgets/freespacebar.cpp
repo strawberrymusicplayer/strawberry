@@ -172,7 +172,7 @@ void FreeSpaceBar::DrawBar(QPainter *p, const QRect r) {
   p->setOpacity(0.35);
   p->setRenderHint(QPainter::Antialiasing, false);
   p->setPen(QPen(palette().color(QPalette::Light), 1.0));
-  for (int x = r.left() + kMarkerSpacing ; x < r.right() ; x += kMarkerSpacing) {
+  for (int x = r.left() + kMarkerSpacing; x < r.right(); x += kMarkerSpacing) {
     p->drawLine(x, r.top() + 2, x, r.bottom() - 2);
   }
 

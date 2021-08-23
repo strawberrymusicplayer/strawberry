@@ -111,7 +111,7 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
 
   Engine::EngineType use_enginetype(Engine::None);
 
-  for (int i = 0 ; use_enginetype == Engine::None ; i++) {
+  for (int i = 0; use_enginetype == Engine::None; i++) {
     switch(enginetype) {
       case Engine::None:
 #ifdef HAVE_GSTREAMER

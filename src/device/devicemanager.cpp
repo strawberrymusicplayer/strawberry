@@ -339,8 +339,9 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
       return info->task_percentage_;
 
     case MusicStorage::Role_Storage:
-      if (!info->device_ && info->database_id_ != -1)
+      if (!info->device_ && info->database_id_ != -1) {
         const_cast<DeviceManager*>(this)->Connect(info);
+      }
       if (!info->device_) return QVariant();
       return QVariant::fromValue<std::shared_ptr<MusicStorage>>(info->device_);
 
@@ -452,7 +453,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
   // Do we have this device already?
   DeviceInfo *info = FindDeviceById(id);
   if (info) {
-    for (int backend_index = 0 ; backend_index < info->backends_.count() ; ++backend_index) {
+    for (int backend_index = 0; backend_index < info->backends_.count(); ++backend_index) {
       if (info->backends_[backend_index].unique_id_ == id) {
         info->backends_[backend_index].lister_ = lister;
         break;
@@ -506,7 +507,7 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
 
   if (info->database_id_ != -1) {
     // Keep the structure around, but just "disconnect" it
-    for (int backend_index = 0 ; backend_index < info->backends_.count() ; ++backend_index) {
+    for (int backend_index = 0; backend_index < info->backends_.count(); ++backend_index) {
       if (info->backends_[backend_index].unique_id_ == id) {
         info->backends_[backend_index].lister_ = nullptr;
         break;
@@ -523,7 +524,7 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
   }
   else {
     // If this was the last lister for the device then remove it from the model
-    for (int backend_index = 0 ; backend_index < info->backends_.count() ; ++backend_index) {
+    for (int backend_index = 0; backend_index < info->backends_.count(); ++backend_index) {
       if (info->backends_[backend_index].unique_id_ == id) {
         info->backends_.removeAt(backend_index);
         break;
@@ -817,8 +818,9 @@ void DeviceManager::SetDeviceOptions(const QModelIndex &idx, const QString &frie
 
   emit dataChanged(idx, idx);
 
-  if (info->database_id_ != -1)
+  if (info->database_id_ != -1) {
     backend_->SetDeviceOptions(info->database_id_, friendly_name, icon_name, mode, format);
+  }
 
 }
 
@@ -853,10 +855,12 @@ void DeviceManager::TasksChanged() {
     if (!idx.isValid()) continue;
 
     DeviceInfo *info = IndexToItem(idx);
-    if (task.progress_max)
+    if (task.progress_max) {
       info->task_percentage_ = static_cast<int>(float(task.progress) / task.progress_max * 100);
-    else
+    }
+    else {
       info->task_percentage_ = 0;
+    }
 
     emit dataChanged(idx, idx);
     finished_tasks.removeAll(idx);

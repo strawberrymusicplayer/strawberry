@@ -165,10 +165,12 @@ class DropTailComparatorDecorator : public SearchTermComparator {
   explicit DropTailComparatorDecorator(SearchTermComparator *cmp) : cmp_(cmp) {}
 
   bool Matches(const QString &element) const override {
-    if (element.length() > 9)
+    if (element.length() > 9) {
       return cmp_->Matches(element.left(element.length() - 9));
-    else
+    }
+    else {
       return cmp_->Matches(element);
+    }
   }
  private:
   QScopedPointer<SearchTermComparator> cmp_;
@@ -406,10 +408,12 @@ FilterTree *FilterParser::parseSearchTerm() {
   bool inQuotes = false;
   for (; iter_ != end_; ++iter_) {
     if (inQuotes) {
-      if (*iter_ == '"')
+      if (*iter_ == '"') {
         inQuotes = false;
-      else
+      }
+      else {
         buf_ += *iter_;
+      }
     }
     else {
       if (*iter_ == '"') {

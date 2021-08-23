@@ -88,15 +88,17 @@ void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
   if (rows_ != oldRows) {
     barpixmap_ = QPixmap(kWidth, rows_ * (kHeight + 1));
 
-    for (uint i = 0; i < kFadeSize; ++i)
+    for (uint i = 0; i < kFadeSize; ++i) {
       fade_bars_[i] = QPixmap(kWidth, rows_ * (kHeight + 1));
+    }
 
     yscale_.resize(rows_ + 1);
 
     const int PRE = 1, PRO = 1;  // PRE and PRO allow us to restrict the range somewhat
 
-    for (int z = 0; z < rows_; ++z)
+    for (int z = 0; z < rows_; ++z) {
       yscale_[z] = 1 - (log10(PRE + z) / log10(PRE + rows_ + PRO));
+    }
 
     yscale_[rows_] = 0;
 
@@ -168,10 +170,12 @@ void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_fram
     for (y = 0; scope_[x] < yscale_[y]; ++y) continue;
 
     // This is opposite to what you'd think, higher than y means the bar is lower than y (physically)
-    if (static_cast<double>(y) > store_[x])
+    if (static_cast<double>(y) > store_[x]) {
       y = static_cast<int>(store_[x] += step_);
-    else
+    }
+    else {
       store_[x] = y;
+    }
 
     // If y is lower than fade_pos_, then the bar has exceeded the height of the fadeout
     // if the fadeout is quite faded now, then display the new one
@@ -192,8 +196,9 @@ void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_fram
     canvas_painter.drawPixmap(x * (kWidth + 1), y * (kHeight + 1) + y_, *bar(), 0, y * (kHeight + 1), bar()->width(), bar()->height());
   }
 
-  for (int x = 0; x < store_.size(); ++x)
+  for (int x = 0; x < store_.size(); ++x) {
     canvas_painter.drawPixmap(x * (kWidth + 1), static_cast<int>(store_[x]) * (kHeight + 1) + y_, topbarpixmap_);
+  }
 
   p.drawPixmap(0, 0, canvas_);
 
@@ -279,20 +284,24 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
 
     // check the saturation for the two colours is sufficient that hue alone can
     // provide sufficient contrast
-    if (ds > amount / 2 && (bs > 125 && fs > 125))
+    if (ds > amount / 2 && (bs > 125 && fs > 125)) {
       return fg;
-    else if (dv > amount / 2 && (bv > 125 && fv > 125))
+    }
+    else if (dv > amount / 2 && (bv > 125 && fv > 125)) {
       return fg;
+    }
   }
 
   if (fs < 50 && ds < 40) {
     // low saturation on a low saturation is sad
     const int tmp = 50 - fs;
     fs = 50;
-    if (static_cast<int>(amount) > tmp)
+    if (static_cast<int>(amount) > tmp) {
       amount -= tmp;
-    else
+    }
+    else {
       amount = 0;
+    }
   }
 
   // test that there is available value to honor our contrast requirement
@@ -309,19 +318,24 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
     return QColor::fromHsv(fh, fs, fv);
   }
 
-  if (fv > bv && bv > static_cast<int>(amount))
+  if (fv > bv && bv > static_cast<int>(amount)) {
     return QColor::fromHsv(fh, fs, bv - static_cast<int>(amount));
+  }
 
-  if (fv < bv && fv > static_cast<int>(amount))
+  if (fv < bv && fv > static_cast<int>(amount)) {
     return QColor::fromHsv(fh, fs, fv - amount);
+  }
 
-  if (fv > bv && (255 - fv > static_cast<int>(amount)))
+  if (fv > bv && (255 - fv > static_cast<int>(amount))) {
     return QColor::fromHsv(fh, fs, fv + amount);
+  }
 
-  if (fv < bv && (255 - bv > static_cast<int>(amount)))
+  if (fv < bv && (255 - bv > static_cast<int>(amount))) {
     return QColor::fromHsv(fh, fs, bv + amount);
+  }
 
   return Qt::blue;
+
 }
 
 void BlockAnalyzer::paletteChange(const QPalette&) {
@@ -339,9 +353,10 @@ void BlockAnalyzer::paletteChange(const QPalette&) {
   bar()->fill(bg);
 
   QPainter p(bar());
-  for (int y = 0; y < rows_; ++y)
+  for (int y = 0; y < rows_; ++y) {
     // graduate the fg color
     p.fillRect(0, y * (kHeight + 1), kWidth, kHeight, QColor(r + static_cast<int>(dr * y), g + static_cast<int>(dg * y), b + static_cast<int>(db * y)));
+  }
 
   {
     const QColor bg2 = palette().color(QPalette::Window).darker(112);
@@ -387,8 +402,10 @@ void BlockAnalyzer::drawBackground() {
 
   if (!p.paintEngine()) return;
 
-  for (int x = 0; x < columns_; ++x)
-    for (int y = 0; y < rows_; ++y)
+  for (int x = 0; x < columns_; ++x) {
+    for (int y = 0; y < rows_; ++y) {
       p.fillRect(x * (kWidth + 1), y * (kHeight + 1) + y_, kWidth, kHeight, bgdark);
+    }
+  }
 
 }

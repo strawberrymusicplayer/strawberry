@@ -143,10 +143,12 @@ void SongLoaderInserter::AudioCDTagsLoaded(const bool success) {
   SongLoader *loader = qobject_cast<SongLoader*>(sender());
   if (!loader || !destination_) return;
 
-  if (success)
+  if (success) {
     destination_->UpdateItems(loader->songs());
-  else
+  }
+  else {
     qLog(Error) << "Error while getting audio CD metadata from MusicBrainz";
+  }
 
   deleteLater();
 

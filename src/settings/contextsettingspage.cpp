@@ -138,7 +138,7 @@ void ContextSettingsPage::Load() {
   ui_->context_custom_text1->setText(s.value(kSettingsTitleFmt, "%title% - %artist%").toString());
   ui_->context_custom_text2->setText(s.value(kSettingsSummaryFmt, "%album%").toString());
 
-  for (int i = 0 ; i < ContextSettingsOrder::NELEMS ; ++i) {
+  for (int i = 0; i < ContextSettingsOrder::NELEMS; ++i) {
     checkboxes_[i]->setChecked(s.value(kSettingsGroupEnable[i], checkboxes_[i]->isChecked()).toBool());
   }
 

@@ -126,10 +126,12 @@ void Analyzer::Base::paintEvent(QPaintEvent *e) {
 
 int Analyzer::Base::resizeExponent(int exp) {
 
-  if (exp < 3)
+  if (exp < 3) {
     exp = 3;
-  else if (exp > 9)
+  }
+  else if (exp > 9) {
     exp = 9;
+  }
 
   if (exp != fht_->sizeExp()) {
     delete fht_;
@@ -142,18 +144,24 @@ int Analyzer::Base::resizeExponent(int exp) {
 int Analyzer::Base::resizeForBands(const int bands) {
 
   int exp = 0;
-  if (bands <= 8)
+  if (bands <= 8) {
     exp = 4;
-  else if (bands <= 16)
+  }
+  else if (bands <= 16) {
     exp = 5;
-  else if (bands <= 32)
+  }
+  else if (bands <= 32) {
     exp = 6;
-  else if (bands <= 64)
+  }
+  else if (bands <= 64) {
     exp = 7;
-  else if (bands <= 128)
+  }
+  else if (bands <= 128) {
     exp = 8;
-  else
+  }
+  else {
     exp = 9;
+}
 
   resizeExponent(exp);
   return fht_->size() / 2;
@@ -164,18 +172,22 @@ void Analyzer::Base::demo(QPainter &p) {
 
   static int t = 201;  // FIXME make static to namespace perhaps
 
-  if (t > 999) t = 1;  // 0 = wasted calculations
+  if (t > 999) {
+    t = 1;  // 0 = wasted calculations
+  }
   if (t < 201) {
     Scope s(32);
 
     const double dt = double(t) / 200;
-    for (uint i = 0; i < s.size(); ++i)
+    for (uint i = 0; i < s.size(); ++i) {
       s[i] = dt * (sin(M_PI + (i * M_PI) / s.size()) + 1.0);
+    }
 
     analyze(p, s, new_frame_);
   }
-  else
+  else {
     analyze(p, Scope(32, 0), new_frame_);
+  }
 
   ++t;
 
@@ -196,11 +208,15 @@ void Analyzer::interpolate(const Scope &inVec, Scope &outVec) {
 
     uint64_t indexLeft = offset + 0;
 
-    if (indexLeft >= inVec.size()) indexLeft = inVec.size() - 1;
+    if (indexLeft >= inVec.size()) {
+      indexLeft = inVec.size() - 1;
+    }
 
     uint64_t indexRight = offset + 1;
 
-    if (indexRight >= inVec.size()) indexRight = inVec.size() - 1;
+    if (indexRight >= inVec.size()) {
+      indexRight = inVec.size() - 1;
+    }
 
     outVec[i] = inVec[indexLeft] * (1.0 - error) + inVec[indexRight] * error;
   }
@@ -222,7 +238,9 @@ void Analyzer::initSin(Scope &v, const uint size) {
 void Analyzer::Base::timerEvent(QTimerEvent *e) {
 
   QWidget::timerEvent(e);
-  if (e->timerId() != timer_.timerId()) return;
+  if (e->timerId() != timer_.timerId()) {
+    return;
+  }
 
   new_frame_ = true;
   update();

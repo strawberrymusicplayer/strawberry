@@ -92,8 +92,9 @@ void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
 
   menu_section_ = logicalIndexAt(e->pos());
 
-  if (menu_section_ == -1 || (menu_section_ == logicalIndex(0) && logicalIndex(1) == -1))
+  if (menu_section_ == -1 || (menu_section_ == logicalIndex(0) && logicalIndex(1) == -1)) {
     action_hide_->setVisible(false);
+  }
   else {
     action_hide_->setVisible(true);
 
@@ -112,7 +113,7 @@ void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
 
   qDeleteAll(show_actions_);
   show_actions_.clear();
-  for (int i = 0 ; i < count() ; ++i) {
+  for (int i = 0; i < count(); ++i) {
     AddColumnAction(i);
   }
 

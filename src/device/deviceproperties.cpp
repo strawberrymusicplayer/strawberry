@@ -144,8 +144,9 @@ void DeviceProperties::ModelChanged() {
 
   if (!isVisible()) return;
 
-  if (!index_.isValid())
+  if (!index_.isValid()) {
     reject();  // Device went away
+  }
   else {
     UpdateHardwareInfo();
     UpdateFormats();

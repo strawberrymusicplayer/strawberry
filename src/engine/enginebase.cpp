@@ -175,8 +175,9 @@ void Engine::Base::ReloadSettings() {
 
 void Engine::Base::EmitAboutToEnd() {
 
-  if (about_to_end_emitted_)
+  if (about_to_end_emitted_) {
     return;
+  }
 
   about_to_end_emitted_ = true;
   emit TrackAboutToEnd();

@@ -193,8 +193,9 @@ void OSDPretty::showEvent(QShowEvent *e) {
     fader_->start();  // Timeout will be started in FaderFinished
   }
   else if (mode_ == Mode_Popup) {
-    if (!disable_duration())
+    if (!disable_duration()) {
       timeout_->start();
+    }
     // Ensures it is above when showing the preview
     raise();
   }
@@ -370,18 +371,21 @@ void OSDPretty::ShowMessage(const QString &summary, const QString &message, cons
     if (toggle_mode()) {
       set_toggle_mode(false);
       // If timeout is disabled, timer hadn't been started
-      if (!disable_duration())
+      if (!disable_duration()) {
         timeout_->stop();
+      }
       hide();
     }
     else {
-      if (!disable_duration())
+      if (!disable_duration()) {
         timeout_->start();  // Restart the timer
+      }
     }
   }
   else {
-    if (toggle_mode())
+    if (toggle_mode()) {
       set_toggle_mode(false);
+    }
     // The OSD is not visible, show it
     show();
   }
@@ -402,10 +406,12 @@ void OSDPretty::setVisible(bool visible) {
 
 void OSDPretty::FaderFinished() {
 
-  if (fader_->direction() == QTimeLine::Backward)
+  if (fader_->direction() == QTimeLine::Backward) {
     hide();
-  else if (mode_ == Mode_Popup && !disable_duration())
+  }
+  else if (mode_ == Mode_Popup && !disable_duration()) {
     timeout_->start();
+  }
 
 }
 
@@ -462,8 +468,10 @@ void OSDPretty::enterEvent(QEnterEvent*) {
 #else
 void OSDPretty::enterEvent(QEvent*) {
 #endif
-  if (mode_ == Mode_Popup)
+  if (mode_ == Mode_Popup) {
     setWindowOpacity(0.25);
+  }
+
 }
 
 void OSDPretty::leaveEvent(QEvent*) {
@@ -472,8 +480,9 @@ void OSDPretty::leaveEvent(QEvent*) {
 
 void OSDPretty::mousePressEvent(QMouseEvent *e) {
 
-  if (mode_ == Mode_Popup)
+  if (mode_ == Mode_Popup) {
     hide();
+  }
   else {
     original_window_pos_ = pos();
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))

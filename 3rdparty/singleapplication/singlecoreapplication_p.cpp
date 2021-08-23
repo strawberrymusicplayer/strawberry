@@ -237,8 +237,9 @@ bool SingleCoreApplicationPrivate::connectToPrimary(const int timeout, const Con
     forever {
       randomSleep();
 
-      if (socket_->state() != QLocalSocket::ConnectingState)
+      if (socket_->state() != QLocalSocket::ConnectingState) {
         socket_->connectToServer(blockServerName_);
+      }
 
       if (socket_->state() == QLocalSocket::ConnectingState) {
         socket_->waitForConnected(static_cast<int>(timeout - time.elapsed()));

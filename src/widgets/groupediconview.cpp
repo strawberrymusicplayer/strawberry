@@ -140,8 +140,10 @@ void GroupedIconView::dataChanged(const QModelIndex &topLeft, const QModelIndex 
 }
 
 void GroupedIconView::LayoutItems() {
-  if (!model())
+
+  if (!model()) {
     return;
+  }
 
   const int count = model()->rowCount();
 
@@ -210,29 +212,34 @@ void GroupedIconView::LayoutItems() {
 
   verticalScrollBar()->setRange(0, next_position.y() + max_row_height - viewport()->height());
   update();
+
 }
 
 QRect GroupedIconView::visualRect(const QModelIndex &idx) const {
 
-  if (idx.row() < 0 || idx.row() >= visual_rects_.count())
+  if (idx.row() < 0 || idx.row() >= visual_rects_.count()) {
     return QRect();
+  }
   return visual_rects_[idx.row()].translated(-horizontalOffset(), -verticalOffset());
 
 }
 
 QModelIndex GroupedIconView::indexAt(const QPoint &p) const {
+
   const QPoint viewport_p = p + QPoint(horizontalOffset(), verticalOffset());
 
   const int count = visual_rects_.count();
-  for (int i=0 ; i<count ; ++i) {
+  for (int i = 0; i<count; ++i) {
     if (visual_rects_[i].contains(viewport_p)) {
       return model()->index(i, 0);
     }
   }
   return QModelIndex();
+
 }
 
 void GroupedIconView::paintEvent(QPaintEvent *e) {
+
   // This code was adapted from QListView::paintEvent(), changed to use the visualRect() of items, and to draw headers.
 
   QStyleOptionViewItem option;
@@ -241,8 +248,9 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
 #else
   option = viewOptions();
 #endif
-  if (isWrapping())
+  if (isWrapping()) {
     option.features = QStyleOptionViewItem::WrapText;
+  }
   option.locale = locale();
   option.locale.setNumberOptions(QLocale::OmitGroupSeparator);
   option.widget = this;
@@ -270,10 +278,12 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
 
     option.rect = visualRect(*it);
 
-    if (flow() == TopToBottom)
+    if (flow() == TopToBottom) {
       option.rect.setWidth(qMin(maxSize, option.rect.width()));
-    else
+    }
+    else {
       option.rect.setHeight(qMin(maxSize, option.rect.height()));
+    }
 
     option.state = state;
     if (selections && selections->isSelected(*it))
@@ -291,8 +301,9 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
     }
     if (focus && current == *it) {
       option.state |= QStyle::State_HasFocus;
-      if (viewState == EditingState)
+      if (viewState == EditingState) {
         option.state |= QStyle::State_Editing;
+      }
     }
 
     itemDelegate()->paint(&painter, option, *it);
@@ -314,6 +325,7 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
                palette(),
                model()->index(header.first_row, 0).data(Role_Group).toString());
   }
+
 }
 
 void GroupedIconView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) {

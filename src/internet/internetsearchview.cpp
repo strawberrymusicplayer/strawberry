@@ -509,7 +509,7 @@ void InternetSearchView::SearchDone(const int service_id, const SongList &songs,
   }
 
   // Load cached pixmaps into the results
-  for (InternetSearchView::ResultList::iterator it = results.begin() ; it != results.end() ; ++it) {
+  for (InternetSearchView::ResultList::iterator it = results.begin(); it != results.end(); ++it) {
     it->pixmap_cache_key_ = PixmapCacheKey(*it);
   }
 
@@ -594,7 +594,7 @@ MimeData *InternetSearchView::SelectedMimeData() {
   QModelIndexList indexes = ui_->results->selectionModel()->selectedRows();
   if (indexes.isEmpty()) {
     // There's nothing selected - take the first thing in the model that isn't a divider.
-    for (int i = 0 ; i < front_proxy_->rowCount() ; ++i) {
+    for (int i = 0; i < front_proxy_->rowCount(); ++i) {
       QModelIndex idx = front_proxy_->index(i, 0);
       if (!idx.data(CollectionModel::Role_IsDivider).toBool()) {
         indexes << idx;  // clazy:exclude=reserve-candidates

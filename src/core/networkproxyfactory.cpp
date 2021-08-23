@@ -114,10 +114,12 @@ QList<QNetworkProxy> NetworkProxyFactory::queryProxy(const QNetworkProxyQuery &q
         ret.setPort(env_url_.port());
         ret.setUser(env_url_.userName());
         ret.setPassword(env_url_.password());
-        if (env_url_.scheme().startsWith("http"))
+        if (env_url_.scheme().startsWith("http")) {
           ret.setType(QNetworkProxy::HttpProxy);
-        else
+        }
+        else {
           ret.setType(QNetworkProxy::Socks5Proxy);
+        }
         qLog(Debug) << "Using proxy URL:" << env_url_;
       }
       break;

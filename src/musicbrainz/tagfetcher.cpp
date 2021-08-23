@@ -63,7 +63,7 @@ void TagFetcher::StartFetch(const SongList &songs) {
   }
 
   if (have_fingerprints) {
-    for (int i = 0 ; i < songs_.count() ; ++i) {
+    for (int i = 0; i < songs_.count(); ++i) {
       const Song &song = songs_[i];
       emit Progress(song, tr("Identifying song"));
       acoustid_client_->Start(i, song.fingerprint(), static_cast<int>(song.length_nanosec() / kNsecPerMsec));

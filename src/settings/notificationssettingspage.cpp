@@ -111,8 +111,9 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, QWi
   QObject::connect(ui_->notifications_exp_chooser2, &QToolButton::triggered, this, &NotificationsSettingsPage::InsertVariableSecondLine);
   QObject::connect(ui_->notifications_disable_duration, &QCheckBox::toggled, ui_->notifications_duration, &NotificationsSettingsPage::setDisabled);
 
-  if (!dialog->osd()->SupportsNativeNotifications())
+  if (!dialog->osd()->SupportsNativeNotifications()) {
     ui_->notifications_native->setEnabled(false);
+  }
   if (!dialog->osd()->SupportsTrayPopups()) ui_->notifications_tray->setEnabled(false);
 
   QObject::connect(ui_->notifications_pretty, &QRadioButton::toggled, this, &NotificationsSettingsPage::UpdatePopupVisible);
@@ -191,12 +192,15 @@ void NotificationsSettingsPage::Load() {
   ui_->notifications_opacity->setValue(static_cast<int>(pretty_popup_->background_opacity() * 100));
 
   QRgb color = pretty_popup_->background_color();
-  if (color == OSDPretty::kPresetBlue)
+  if (color == OSDPretty::kPresetBlue) {
     ui_->notifications_bg_preset->setCurrentIndex(0);
-  else if (color == OSDPretty::kPresetRed)
+  }
+  else if (color == OSDPretty::kPresetRed) {
     ui_->notifications_bg_preset->setCurrentIndex(1);
-  else
+  }
+  else {
     ui_->notifications_bg_preset->setCurrentIndex(2);
+  }
   ui_->notifications_bg_preset->setItemData(2, QColor(color), Qt::DecorationRole);
   ui_->notifications_disable_duration->setChecked(pretty_popup_->disable_duration());
 
@@ -285,8 +289,7 @@ void NotificationsSettingsPage::PrettyColorPresetChanged(int index) {
 void NotificationsSettingsPage::ChooseBgColor() {
 
   QColor color = QColorDialog::getColor(pretty_popup_->background_color(), this);
-  if (!color.isValid())
-    return;
+  if (!color.isValid()) return;
 
   pretty_popup_->set_background_color(color.rgb());
   ui_->notifications_bg_preset->setItemData(2, color, Qt::DecorationRole);
@@ -298,8 +301,7 @@ void NotificationsSettingsPage::ChooseBgColor() {
 void NotificationsSettingsPage::ChooseFgColor() {
 
   QColor color = QColorDialog::getColor(pretty_popup_->foreground_color(), this);
-  if (!color.isValid())
-    return;
+  if (!color.isValid()) return;
 
   pretty_popup_->set_foreground_color(color.rgb());
 

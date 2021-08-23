@@ -254,8 +254,9 @@ void CheckBox::resizeEvent(QResizeEvent *e) {
 
 QString SpinBox::textFromValue(int val) const {
 
-  if (val <= 0 && !hint_.isEmpty())
+  if (val <= 0 && !hint_.isEmpty()) {
     return "-";
+  }
   return QSpinBox::textFromValue(val);
 
 }

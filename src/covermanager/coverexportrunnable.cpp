@@ -47,10 +47,12 @@ void CoverExportRunnable::run() {
     EmitCoverSkipped();
   }
   else {
-    if (dialog_result_.RequiresCoverProcessing())
+    if (dialog_result_.RequiresCoverProcessing()) {
       ProcessAndExportCover();
-    else
+    }
+    else {
       ExportCover();
+    }
   }
 
 }
@@ -148,10 +150,12 @@ void CoverExportRunnable::ProcessAndExportCover() {
     }
   }
 
-  if (cover.save(new_file))
+  if (cover.save(new_file)) {
     EmitCoverExported();
-  else
+  }
+  else {
     EmitCoverSkipped();
+  }
 
 }
 

@@ -211,7 +211,9 @@ void BackendSettingsPage::Load() {
 
   enginetype = ui_->combobox_engine->itemData(ui_->combobox_engine->currentIndex()).value<Engine::EngineType>();
   QString output_name;
-  if (ui_->combobox_output->currentText().isEmpty()) output_name = engine()->DefaultOutput();
+  if (ui_->combobox_output->currentText().isEmpty()) {
+    output_name = engine()->DefaultOutput();
+  }
   else {
     EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
     output_name = output.name;
@@ -439,7 +441,9 @@ void BackendSettingsPage::Save() {
   QString output_name;
   QVariant device_value;
 
-  if (ui_->combobox_output->currentText().isEmpty()) output_name = engine()->DefaultOutput();
+  if (ui_->combobox_output->currentText().isEmpty()) {
+    output_name = engine()->DefaultOutput();
+  }
   else {
     EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
     output_name = output.name;

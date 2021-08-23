@@ -670,8 +670,9 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(tidal_view_->albums_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(tidal_view_->songs_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(tidal_view_->search_view(), &InternetSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
-  if (TidalService *tidalservice = qobject_cast<TidalService*> (app_->internet_services()->ServiceBySource(Song::Source_Tidal)))
+  if (TidalService *tidalservice = qobject_cast<TidalService*> (app_->internet_services()->ServiceBySource(Song::Source_Tidal))) {
     QObject::connect(this, &MainWindow::AuthorizationUrlReceived, tidalservice, &TidalService::AuthorizationUrlReceived);
+  }
 #endif
 
 #ifdef HAVE_QOBUZ
@@ -1087,10 +1088,12 @@ void MainWindow::ReloadSettings() {
   s.beginGroup(SubsonicSettingsPage::kSettingsGroup);
   bool enable_subsonic = s.value("enabled", false).toBool();
   s.endGroup();
-  if (enable_subsonic)
+  if (enable_subsonic) {
     ui_->tabs->EnableTab(subsonic_view_);
-  else
+  }
+  else {
     ui_->tabs->DisableTab(subsonic_view_);
+  }
   app_->scrobbler()->Service<SubsonicScrobbler>()->ReloadSettings();
 #endif
 
@@ -1098,20 +1101,24 @@ void MainWindow::ReloadSettings() {
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
   bool enable_tidal = s.value("enabled", false).toBool();
   s.endGroup();
-  if (enable_tidal)
+  if (enable_tidal) {
     ui_->tabs->EnableTab(tidal_view_);
-  else
+  }
+  else {
     ui_->tabs->DisableTab(tidal_view_);
+  }
 #endif
 
 #ifdef HAVE_QOBUZ
   s.beginGroup(QobuzSettingsPage::kSettingsGroup);
   bool enable_qobuz = s.value("enabled", false).toBool();
   s.endGroup();
-  if (enable_qobuz)
+  if (enable_qobuz) {
     ui_->tabs->EnableTab(qobuz_view_);
-  else
+  }
+  else {
     ui_->tabs->DisableTab(qobuz_view_);
+  }
 #endif
 
   ui_->tabs->ReloadSettings();
@@ -1884,10 +1891,12 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
     else if (in_queue == 0 && not_in_queue > 1) playlist_queue_->setText(tr("Queue selected tracks"));
     else playlist_queue_->setText(tr("Toggle queue status"));
 
-    if (selected > 1)
+    if (selected > 1) {
       playlist_queue_play_next_->setText(tr("Queue selected tracks to play next"));
-    else
+    }
+    else {
       playlist_queue_play_next_->setText(tr("Queue to play next"));
+    }
 
     if (in_skipped == 1 && not_in_skipped == 0) playlist_skip_->setText(tr("Unskip track"));
     else if (in_skipped > 1 && not_in_skipped == 0) playlist_skip_->setText(tr("Unskip selected tracks"));
@@ -2816,7 +2825,7 @@ void MainWindow::CheckFullRescanRevisions() {
 
   // Collect all reasons
   QSet<QString> reasons;
-  for (int i = from ; i <= to ; ++i) {
+  for (int i = from; i <= to; ++i) {
     QString reason = app_->collection()->full_rescan_reason(i);
     if (!reason.isEmpty()) {
       reasons.insert(reason);

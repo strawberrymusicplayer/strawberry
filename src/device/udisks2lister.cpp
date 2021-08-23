@@ -164,8 +164,9 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
       auto eject_result = drive.Eject(QVariantMap());
       eject_result.waitForFinished();
 
-      if (eject_result.isError())
+      if (eject_result.isError()) {
         qLog(Warning) << "Failed to eject " << id << ": " << eject_result.error();
+      }
     }
 
     device_data_.remove(id);
@@ -313,7 +314,9 @@ void Udisks2Lister::JobCompleted(const bool success, const QString &message) {
   OrgFreedesktopUDisks2JobInterface *job = qobject_cast<OrgFreedesktopUDisks2JobInterface*>(sender());
   QDBusObjectPath jobPath(job->path());
 
-  if (!job->isValid() || !success || !mounting_jobs_.contains(jobPath)) return;
+  if (!job->isValid() || !success || !mounting_jobs_.contains(jobPath)) {
+    return;
+  }
 
   qLog(Debug) << "Pending Job Completed | Path = " << job->path() << " | Mount? = " << mounting_jobs_[jobPath].is_mount << " | Success = " << success;
 

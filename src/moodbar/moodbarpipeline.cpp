@@ -173,10 +173,12 @@ void MoodbarPipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
   gst_structure_get_int(structure, "rate", &rate);
   gst_caps_unref(caps);
 
-  if (self->builder_)
+  if (self->builder_) {
     self->builder_->Init(kBands, rate);
-  else
+  }
+  else {
     qLog(Error) << "Builder does not exist";
+  }
 
 }
 

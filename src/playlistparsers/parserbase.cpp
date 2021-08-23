@@ -110,8 +110,9 @@ QString ParserBase::URLOrFilename(const QUrl &url, const QDir &dir, Playlist::Pa
   if (path_type != Playlist::Path_Absolute && QDir::isAbsolutePath(filename)) {
     const QString relative = dir.relativeFilePath(filename);
 
-    if (!relative.startsWith("../") || path_type == Playlist::Path_Relative)
+    if (!relative.startsWith("../") || path_type == Playlist::Path_Relative) {
       return relative;
+    }
   }
   return filename;
 

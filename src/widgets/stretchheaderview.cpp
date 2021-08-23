@@ -71,24 +71,25 @@ void StretchHeaderView::NormaliseWidths(const QList<int> &sections) {
 
   if (!sections.isEmpty()) {
     selected_sum = 0.0;
-    for (int i = 0 ; i < count() ; ++i)
-      if (sections.contains(i))
+    for (int i = 0; i < count(); ++i)
+      if (sections.contains(i)) {
         selected_sum += column_widths_[i];
+      }
   }
 
   if (total_sum != 0.0 && !qFuzzyCompare(total_sum, 1.0)) {
     const ColumnWidthType mult = (selected_sum + (1.0 - total_sum)) / selected_sum;
-    for (int i = 0 ; i < column_widths_.count() ; ++i) {
-      if (sections.isEmpty() || sections.contains(i))
+    for (int i = 0; i < column_widths_.count(); ++i) {
+      if (sections.isEmpty() || sections.contains(i)) {
         column_widths_[i] *= mult;
+      }
     }
   }
 }
 
 void StretchHeaderView::UpdateWidths(const QList<int> &sections) {
 
-  if (!stretch_enabled_)
-    return;
+  if (!stretch_enabled_) return;
 
   ColumnWidthType total_w = 0.0;
 
@@ -98,17 +99,20 @@ void StretchHeaderView::UpdateWidths(const QList<int> &sections) {
 
     total_w += w;
 
-    if (!sections.isEmpty() && !sections.contains(i))
+    if (!sections.isEmpty() && !sections.contains(i)) {
       continue;
+    }
 
-    if (pixels == 0 && !isSectionHidden(i))
+    if (pixels == 0 && !isSectionHidden(i)) {
       hideSection(i);
+    }
     else if (pixels != 0 && isSectionHidden(i)) {
       showSection(i);
     }
 
-    if (pixels != 0)
+    if (pixels != 0) {
       resizeSection(i, pixels);
+    }
   }
 
 }
@@ -117,7 +121,7 @@ void StretchHeaderView::HideSection(const int logical) {
 
   // Would this hide the last section?
   bool all_hidden = true;
-  for (int i = 0 ; i < count() ; ++i) {
+  for (int i = 0; i < count(); ++i) {
     if (i != logical && !isSectionHidden(i) && sectionSize(i) > 0) {
       all_hidden = false;
       break;
@@ -147,9 +151,10 @@ void StretchHeaderView::ShowSection(int logical) {
 
   // How many sections are visible already?
   int visible_count = 0;
-  for (int i = 0 ; i < count() ; ++i) {
-    if (!isSectionHidden(i))
+  for (int i = 0; i < count(); ++i) {
+    if (!isSectionHidden(i)) {
       ++visible_count;
+    }
   }
 
   column_widths_[logical] = visible_count == 0 ? 1.0 : 1.0 / visible_count;
@@ -199,8 +204,9 @@ void StretchHeaderView::SectionResized(const int logical, const int, const int n
     int visual = visualIndex(logical);
     QList<int> logical_sections_to_resize;
     for (int i = 0; i < count(); ++i) {
-      if (!isSectionHidden(i) && visualIndex(i) > visual)
+      if (!isSectionHidden(i) && visualIndex(i) > visual) {
         logical_sections_to_resize << i;
+      }
     }
 
     // Resize just those columns
@@ -244,9 +250,11 @@ void StretchHeaderView::SetColumnWidth(const int logical, const ColumnWidthType 
   column_widths_[logical] = width;
 
   QList<int> other_columns;
-  for (int i = 0 ; i < count() ; ++i)
-    if (!isSectionHidden(i) && i != logical)
+  for (int i = 0; i < count(); ++i) {
+    if (!isSectionHidden(i) && i != logical) {
       other_columns << i;
+    }
+  }
 
   NormaliseWidths(other_columns);
 
@@ -357,7 +365,7 @@ QByteArray StretchHeaderView::ResetState() {
   visual_indices.reserve(count());
   pixel_widths.reserve(count());
 
-  for (int i = 0 ; i < count() ; ++i) {
+  for (int i = 0; i < count(); ++i) {
     pixel_widths << 10;
     visual_indices << count();
   }

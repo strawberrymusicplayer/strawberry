@@ -187,14 +187,18 @@ QString PrettySize(const quint64 bytes) {
   QString ret;
 
   if (bytes > 0) {
-    if (bytes <= 1000)
+    if (bytes <= 1000) {
       ret = QString::number(bytes) + " bytes";
-    else if (bytes <= 1000 * 1000)
+    }
+    else if (bytes <= 1000 * 1000) {
       ret = QString::asprintf("%.1f KB", float(bytes) / 1000);
-    else if (bytes <= 1000 * 1000 * 1000)
+    }
+    else if (bytes <= 1000 * 1000 * 1000) {
       ret = QString::asprintf("%.1f MB", float(bytes) / (1000 * 1000));
-    else
+    }
+    else {
       ret = QString::asprintf("%.1f GB", float(bytes) / (1000 * 1000 * 1000));
+    }
   }
   return ret;
 
@@ -239,13 +243,15 @@ bool MoveToTrashRecursive(const QString &path) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   QDir dir(path);
   for (const QString &child : dir.entryList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Hidden)) {
-    if (!MoveToTrashRecursive(path + "/" + child))
+    if (!MoveToTrashRecursive(path + "/" + child)) {
       return false;
+    }
   }
 
   for (const QString &child : dir.entryList(QDir::NoDotAndDotDot | QDir::Files | QDir::Hidden)) {
-    if (!QFile::moveToTrash(path + "/" + child))
+    if (!QFile::moveToTrash(path + "/" + child)) {
       return false;
+    }
   }
 
   return dir.rmdir(path);
@@ -262,13 +268,15 @@ bool RemoveRecursive(const QString &path) {
 
   QDir dir(path);
   for (const QString &child : dir.entryList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Hidden)) {
-    if (!RemoveRecursive(path + "/" + child))
+    if (!RemoveRecursive(path + "/" + child)) {
       return false;
+    }
   }
 
   for (const QString &child : dir.entryList(QDir::NoDotAndDotDot | QDir::Files | QDir::Hidden)) {
-    if (!QFile::remove(path + "/" + child))
+    if (!QFile::remove(path + "/" + child)) {
       return false;
+    }
   }
 
   return dir.rmdir(path);
@@ -736,7 +744,7 @@ QString CryptographicRandomString(const int len) {
 QString GetRandomString(const int len, const QString &UseCharacters) {
 
   QString randstr;
-  for (int i = 0 ; i < len ; ++i) {
+  for (int i = 0; i < len; ++i) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     const int index = QRandomGenerator::global()->bounded(0, UseCharacters.length());
 #else
@@ -844,7 +852,7 @@ QString ReplaceMessage(const QString &message, const Song &song, const QString &
   // Replace the first line
   int pos = 0;
   QRegularExpressionMatch match;
-  for (match = variable_replacer.match(message, pos) ; match.hasMatch() ; match = variable_replacer.match(message, pos)) {
+  for (match = variable_replacer.match(message, pos); match.hasMatch(); match = variable_replacer.match(message, pos)) {
     pos = match.capturedStart();
     QStringList captured = match.capturedTexts();
     copy.replace(captured[0], ReplaceVariable(captured[0], song, newline, html_escaped));
@@ -976,7 +984,7 @@ HRGN toHRGN(const QRegion &region) {
   HRGN resultRgn = nullptr;
   QRegion::const_iterator rects = region.begin();
   resultRgn = qt_RectToHRGN(rects[0]);
-  for (int i = 1 ; i < rect_count ; ++i) {
+  for (int i = 1; i < rect_count; ++i) {
     HRGN tmpRgn = qt_RectToHRGN(rects[i]);
     const int res = CombineRgn(resultRgn, resultRgn, tmpRgn, RGN_OR);
     if (res == ERROR) qWarning("Error combining HRGNs.");

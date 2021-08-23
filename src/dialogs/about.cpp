@@ -192,8 +192,10 @@ QString About::ContributorsHtml() const {
 
 QString About::PersonToHtml(const Person &person) {
 
-  if (person.email.isNull())
+  if (person.email.isEmpty()) {
     return person.name;
-  else
+  }
+  else {
     return QString("%1 &lt;<a href=\"mailto:%2\">%3</a>&gt;").arg(person.name, person.email, person.email);
+  }
 }

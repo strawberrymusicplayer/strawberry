@@ -377,12 +377,14 @@ void PlaylistTabBar::dragMoveEvent(QDragMoveEvent *e) {
     e->setDropAction(Qt::CopyAction);
     e->accept(tabRect(drag_hover_tab_));
 
-    if (!drag_hover_timer_.isActive())
+    if (!drag_hover_timer_.isActive()) {
       drag_hover_timer_.start(kDragHoverTimeout, this);
+    }
   }
   else {
     drag_hover_timer_.stop();
   }
+
 }
 
 void PlaylistTabBar::dragLeaveEvent(QDragLeaveEvent*) {

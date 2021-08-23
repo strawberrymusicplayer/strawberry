@@ -543,8 +543,9 @@ GstPadProbeReturn SongLoader::DataReady(GstPad*, GstPadProbeInfo *info, gpointer
 
   SongLoader *instance = reinterpret_cast<SongLoader*>(self);
 
-  if (instance->state_ == Finished)
+  if (instance->state_ == Finished) {
     return GST_PAD_PROBE_OK;
+  }
 
   GstBuffer *buffer = gst_pad_probe_info_get_buffer(info);
   GstMapInfo map;

@@ -708,7 +708,7 @@ void QobuzRequest::AlbumsFinishCheck(const QString &artist_id, const int limit, 
     // Get songs for all the albums.
 
     QHash<QString, Request> ::iterator it;
-    for (it = album_songs_requests_pending_.begin() ; it != album_songs_requests_pending_.end() ; ++it) {
+    for (it = album_songs_requests_pending_.begin(); it != album_songs_requests_pending_.end(); ++it) {
       Request request = it.value();
       AddAlbumSongsRequest(request.artist_id, request.album_id, request.album_artist, request.album);
     }

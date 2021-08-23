@@ -878,8 +878,9 @@ void EditTagDialog::FieldValueEdited() {
   if (ignore_edits_) return;
 
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
-  if (sel.isEmpty())
+  if (sel.isEmpty()) {
     return;
+  }
 
   QWidget *w = qobject_cast<QWidget*>(sender());
 
@@ -896,8 +897,9 @@ void EditTagDialog::FieldValueEdited() {
 void EditTagDialog::ResetField() {
 
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
-  if (sel.isEmpty())
+  if (sel.isEmpty()) {
     return;
+  }
 
   QWidget *w = qobject_cast<QWidget*>(sender());
 

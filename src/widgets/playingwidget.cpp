@@ -379,7 +379,9 @@ void PlayingWidget::UpdateHeight() {
 
   // Update the animation settings and resize the widget now if we're visible
   timeline_show_hide_->setFrameRange(0, total_height_);
-  if (visible_ && active_ && timeline_show_hide_->state() != QTimeLine::Running) setMaximumHeight(total_height_);
+  if (visible_ && active_ && timeline_show_hide_->state() != QTimeLine::Running) {
+    setMaximumHeight(total_height_);
+  }
 
   // Re-scale the current image
   if (song_.is_valid()) {

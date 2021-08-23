@@ -65,22 +65,26 @@ void AutoExpandingTreeView::RecursivelyExpandSlot(const QModelIndex &idx) {
 
 bool AutoExpandingTreeView::RecursivelyExpand(const QModelIndex &idx, int *count) {
 
-  if (!CanRecursivelyExpand(idx))
+  if (!CanRecursivelyExpand(idx)) {
     return true;
+  }
 
-  if (model()->canFetchMore(idx))
+  if (model()->canFetchMore(idx)) {
     model()->fetchMore(idx);
+  }
 
   int children = model()->rowCount(idx);
-  if (*count + children > kRowsToShow)
+  if (*count + children > kRowsToShow) {
     return false;
+  }
 
   expand(idx);
   *count += children;
 
-  for (int i = 0 ; i < children ; ++i) {
-    if (!RecursivelyExpand(model()->index(i, 0, idx), count))
+  for (int i = 0; i < children; ++i) {
+    if (!RecursivelyExpand(model()->index(i, 0, idx), count)) {
       return false;
+    }
   }
 
   return true;

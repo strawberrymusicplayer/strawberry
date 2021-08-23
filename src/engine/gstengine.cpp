@@ -122,10 +122,12 @@ GstEngine::~GstEngine() {
 
   if (discoverer_) {
 
-    if (discovery_discovered_cb_id_ != -1)
+    if (discovery_discovered_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(discoverer_), discovery_discovered_cb_id_);
-    if (discovery_finished_cb_id_ != -1)
+    }
+    if (discovery_finished_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(discoverer_), discovery_finished_cb_id_);
+    }
 
     gst_discoverer_stop(discoverer_);
     g_object_unref(discoverer_);
@@ -210,8 +212,9 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
   SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
 
   // Maybe fade in this track
-  if (crossfade)
+  if (crossfade) {
     current_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Forward);
+  }
 
   // Setting up stream discoverer
   if (!discoverer_) {
@@ -640,6 +643,7 @@ void GstEngine::SeekNow() {
   if (!current_pipeline_->Seek(seek_pos_)) {
     qLog(Warning) << "Seek failed";
   }
+
 }
 
 void GstEngine::PlayDone(const GstStateChangeReturn ret, const quint64 offset_nanosec, const int pipeline_id) {

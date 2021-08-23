@@ -397,7 +397,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
     }
 
     if (page == 1) {
-      for (int i = 2 ; i <= pages ; ++i) {
+      for (int i = 2; i <= pages; ++i) {
         AddGetRecentTracksRequest(i);
       }
     }
@@ -518,7 +518,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
   else {
 
     QJsonArray array_track = json_obj["track"].toArray();
-    for (QJsonArray::iterator it = array_track.begin() ; it != array_track.end() ; ++it) {
+    for (QJsonArray::iterator it = array_track.begin(); it != array_track.end(); ++it) {
 
       const QJsonValue &value_track = *it;
 
@@ -554,7 +554,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
     }
 
     if (page == 1) {
-      for (int i = 2 ; i <= pages ; ++i) {
+      for (int i = 2; i <= pages; ++i) {
         AddGetTopTracksRequest(i);
       }
     }

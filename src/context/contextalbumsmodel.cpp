@@ -84,12 +84,15 @@ void ContextAlbumsModel::AddSongs(const SongList &songs) {
 
   for (const Song &song : songs) {
     if (song_nodes_.contains(song.id())) continue;
-    CollectionItem *container = root_;
     QString key = CollectionModel::ContainerKey(CollectionModel::GroupBy_Album, song);
-    if (!container_nodes_.contains(key)) {
-      container_nodes_.insert(key, ItemFromSong(CollectionItem::Type_Container, true, container, song, 0));
+    CollectionItem *container = nullptr;
+    if (container_nodes_.contains(key)) {
+      container = container_nodes_[key];
     }
-    container = container_nodes_[key];
+    else {
+      container = ItemFromSong(CollectionItem::Type_Container, true, container, song, 0);
+      container_nodes_.insert(key, container);
+    }
     song_nodes_[song.id()] = ItemFromSong(CollectionItem::Type_Song, true, container, song, -1);
   }
 
@@ -240,7 +243,7 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
 
 void ContextAlbumsModel::Reset() {
 
-  for (QMap<QString, CollectionItem*>::iterator it = container_nodes_.begin() ; it != container_nodes_.end(); ++it) {
+  for (QMap<QString, CollectionItem*>::iterator it = container_nodes_.begin(); it != container_nodes_.end(); ++it) {
     const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(it.value()));
     QPixmapCache::remove(cache_key);
   }

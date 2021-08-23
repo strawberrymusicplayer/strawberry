@@ -217,8 +217,9 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
   UpdateNoMatchesLabel();
 
   // Ensure that tab is current
-  if (ui_->tab_bar->current_id() != manager_->current_id())
+  if (ui_->tab_bar->current_id() != manager_->current_id()) {
     ui_->tab_bar->set_current_id(manager_->current_id());
+  }
 
   // Sort out the undo/redo actions
   delete undo_;

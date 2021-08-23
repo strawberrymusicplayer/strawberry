@@ -505,8 +505,9 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
     const_cast<PlaylistView*>(this)->last_glow_rect_ = opt.rect;
 
     int step = glow_intensity_step_;
-    if (step >= kGlowIntensitySteps)
+    if (step >= kGlowIntensitySteps) {
       step = 2 * (kGlowIntensitySteps - 1) - step + 1;
+    }
 
     int row_height = opt.rect.height();
     if (row_height != row_height_) {
@@ -607,8 +608,9 @@ void PlaylistView::StopGlowing() {
 void PlaylistView::StartGlowing() {
 
   currently_glowing_ = true;
-  if (isVisible() && glow_enabled_)
+  if (isVisible() && glow_enabled_) {
     glow_timer_.start(1500 / kGlowIntensitySteps, this);
+  }
 
 }
 
@@ -619,8 +621,9 @@ void PlaylistView::hideEvent(QHideEvent *e) {
 
 void PlaylistView::showEvent(QShowEvent *e) {
 
-  if (currently_glowing_ && glow_enabled_)
+  if (currently_glowing_ && glow_enabled_) {
     glow_timer_.start(1500 / kGlowIntensitySteps, this);
+  }
 
   MaybeAutoscroll(Playlist::AutoScroll_Maybe);
 
@@ -710,8 +713,9 @@ void PlaylistView::RemoveSelected() {
   // Select the new current item, we want always the item after the last selected
   if (new_idx.isValid()) {
     // Workaround to update keyboard selected row, if it's not the first row (this also triggers selection)
-    if (new_row != 0)
+    if (new_row != 0) {
       keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier));
+    }
     // Update visual selection with the entire row
     selectionModel()->select(new_idx, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
   }
@@ -742,8 +746,9 @@ QModelIndex PlaylistView::NextEditableIndex(const QModelIndex &current) {
   QHeaderView *h = header();
   int idx = columns.indexOf(h->visualIndex(current.column()));
 
-  if (idx + 1 >= columns.size())
+  if (idx + 1 >= columns.size()) {
     return model()->index(current.row() + 1, h->logicalIndex(columns.first()));
+  }
 
   return model()->index(current.row(), h->logicalIndex(columns[idx + 1]));
 
@@ -755,8 +760,9 @@ QModelIndex PlaylistView::PrevEditableIndex(const QModelIndex &current) {
   QHeaderView *h = header();
   int idx = columns.indexOf(h->visualIndex(current.column()));
 
-  if (idx - 1 < 0)
+  if (idx - 1 < 0) {
     return model()->index(current.row() - 1, h->logicalIndex(columns.last()));
+  }
 
   return model()->index(current.row(), h->logicalIndex(columns[idx - 1]));
 
@@ -780,18 +786,20 @@ void PlaylistView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHi
   else if (hint == QAbstractItemDelegate::EditNextItem || hint == QAbstractItemDelegate::EditPreviousItem) {
 
     QModelIndex idx;
-    if (hint == QAbstractItemDelegate::EditNextItem)
+    if (hint == QAbstractItemDelegate::EditNextItem) {
       idx = NextEditableIndex(currentIndex());
-    else
-      idx = PrevEditableIndex(currentIndex());
-
-    if (!idx.isValid()) {
-      QTreeView::closeEditor(editor, QAbstractItemDelegate::SubmitModelCache);
     }
     else {
+      idx = PrevEditableIndex(currentIndex());
+    }
+
+    if (idx.isValid()) {
       QTreeView::closeEditor(editor, QAbstractItemDelegate::NoHint);
       setCurrentIndex(idx);
       QAbstractItemView::edit(idx);
+    }
+    else {
+      QTreeView::closeEditor(editor, QAbstractItemDelegate::SubmitModelCache);
     }
   }
   else {
@@ -905,7 +913,11 @@ void PlaylistView::InhibitAutoscrollTimeout() {
 }
 
 void PlaylistView::MaybeAutoscroll(const Playlist::AutoScroll autoscroll) {
-  if (autoscroll == Playlist::AutoScroll_Always || (autoscroll == Playlist::AutoScroll_Maybe && !inhibit_autoscroll_)) JumpToCurrentlyPlayingTrack();
+
+  if (autoscroll == Playlist::AutoScroll_Always || (autoscroll == Playlist::AutoScroll_Maybe && !inhibit_autoscroll_)) {
+    JumpToCurrentlyPlayingTrack();
+  }
+
 }
 
 void PlaylistView::JumpToCurrentlyPlayingTrack() {
@@ -1077,10 +1089,12 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
       break;
 
     case QAbstractItemView::OnViewport:
-      if (model()->rowCount() == 0)
+      if (model()->rowCount() == 0) {
         drop_pos = 1;
-      else
+      }
+      else {
         drop_pos = 1 + visualRect(model()->index(model()->rowCount() - 1, first_column)).bottom();
+      }
       break;
   }
 
@@ -1123,23 +1137,29 @@ void PlaylistView::dragMoveEvent(QDragMoveEvent *event) {
 }
 
 void PlaylistView::dragEnterEvent(QDragEnterEvent *event) {
+
   QTreeView::dragEnterEvent(event);
   cached_tree_ = QPixmap();
   drag_over_ = true;
+
 }
 
 void PlaylistView::dragLeaveEvent(QDragLeaveEvent *event) {
+
   QTreeView::dragLeaveEvent(event);
   cached_tree_ = QPixmap();
   drag_over_ = false;
   drop_indicator_row_ = -1;
+
 }
 
 void PlaylistView::dropEvent(QDropEvent *event) {
+
   QTreeView::dropEvent(event);
   cached_tree_ = QPixmap();
   drop_indicator_row_ = -1;
   drag_over_ = false;
+
 }
 
 void PlaylistView::PlaylistDestroyed() {
@@ -1438,7 +1458,7 @@ void PlaylistView::set_background_image(const QImage &image) {
   if (!background_image_.isNull()) {
     // Apply opacity filter
     uchar *bits = background_image_.bits();
-    for (int i = 0 ; i < background_image_.height() * background_image_.bytesPerLine() ; i += 4) {
+    for (int i = 0; i < background_image_.height() * background_image_.bytesPerLine(); i += 4) {
       bits[i + 3] = (opacity_level_ / 100.0) * 255;
     }
 

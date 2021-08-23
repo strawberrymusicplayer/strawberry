@@ -461,10 +461,11 @@ void PlaylistManager::UpdateSummaryText() {
     if (!range.isValid()) continue;
 
     selected += range.bottom() - range.top() + 1;
-    for (int i = range.top() ; i <= range.bottom() ; ++i) {
+    for (int i = range.top(); i <= range.bottom(); ++i) {
       qint64 length = range.model()->index(i, Playlist::Column_Length).data().toLongLong();
-      if (length > 0)
+      if (length > 0) {
         nanoseconds += length;
+      }
     }
   }
 

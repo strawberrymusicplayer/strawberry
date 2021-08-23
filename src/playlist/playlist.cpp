@@ -503,8 +503,9 @@ int Playlist::NextVirtualIndex(int i, const bool ignore_repeat_track) const {
 
   // This one's easy - if we have to repeat the current track then just return i
   if (repeat_mode == PlaylistSequence::Repeat_Track && !ignore_repeat_track) {
-    if (!FilterContainsVirtualIndex(i))
+    if (!FilterContainsVirtualIndex(i)) {
       return virtual_items_.count();  // It's not in the filter any more
+    }
     return i;
   }
 
@@ -782,10 +783,12 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
   if (const SongMimeData *song_data = qobject_cast<const SongMimeData*>(data)) {
     // Dragged from a collection
     // We want to check if these songs are from the actual local file backend, if they are we treat them differently.
-    if (song_data->backend && song_data->backend->songs_table() == SCollection::kSongsTable)
+    if (song_data->backend && song_data->backend->songs_table() == SCollection::kSongsTable) {
       InsertSongItems<CollectionPlaylistItem>(song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
-    else
+    }
+    else {
       InsertSongItems<SongPlaylistItem>(song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
+    }
   }
   else if (const PlaylistItemMimeData *item_data = qobject_cast<const PlaylistItemMimeData*>(data)) {
     InsertItems(item_data->items_, row, play_now, enqueue_now, enqueue_next_now);
@@ -1184,7 +1187,7 @@ void Playlist::UpdateItems(SongList songs) {
   // then we remove song from our list because we will not need to check it again.
   // And we also update undo actions.
 
-  for (int i = 0;  i < items_.size() ; i++) {
+  for (int i = 0;  i < items_.size(); i++) {
     // Update current items list
     QMutableListIterator<Song> it(songs);
     while (it.hasNext()) {
@@ -1203,7 +1206,7 @@ void Playlist::UpdateItems(SongList songs) {
         items_[i] = new_item;
         emit dataChanged(index(i, 0), index(i, ColumnCount - 1));
         // Also update undo actions
-        for (int y = 0 ; y < undo_stack_->count() ; y++) {
+        for (int y = 0; y < undo_stack_->count(); y++) {
           QUndoCommand *undo_action = const_cast<QUndoCommand*>(undo_stack_->command(i));
           PlaylistUndoCommands::InsertItems *undo_action_insert = dynamic_cast<PlaylistUndoCommands::InsertItems*>(undo_action);
           if (undo_action_insert) {
@@ -1883,13 +1886,15 @@ void Playlist::Shuffle() {
 
   int begin = 0;
   if (current_item_index_.isValid()) {
-    if (new_items[0] != new_items[current_item_index_.row()])
+    if (new_items[0] != new_items[current_item_index_.row()]) {
       std::swap(new_items[0], new_items[current_item_index_.row()]);
+    }
     begin = 1;
   }
 
-  if (dynamic_playlist_ && current_item_index_.isValid())
+  if (dynamic_playlist_ && current_item_index_.isValid()) {
     begin += current_item_index_.row() + 1;
+  }
 
   const int count = items_.count();
   for (int i = begin; i < count; ++i) {
@@ -1925,16 +1930,18 @@ void Playlist::ReshuffleIndices() {
   if (playlist_sequence_->shuffle_mode() == PlaylistSequence::Shuffle_Off) {
     // No shuffling - sort the virtual item list normally.
     std::sort(virtual_items_.begin(), virtual_items_.end());
-    if (current_row() != -1)
+    if (current_row() != -1) {
       current_virtual_index_ = virtual_items_.indexOf(current_row());
+    }
     return;
   }
 
   // If the user is already playing a song, advance the begin iterator to only shuffle items that haven't been played yet.
   QList<int>::iterator begin = virtual_items_.begin();
   QList<int>::iterator end = virtual_items_.end();
-  if (current_virtual_index_ != -1)
+  if (current_virtual_index_ != -1) {
     std::advance(begin, current_virtual_index_ + 1);
+  }
 
   std::random_device rd;
   std::mt19937 g(rd());

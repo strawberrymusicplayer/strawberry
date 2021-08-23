@@ -154,18 +154,24 @@ bool QobuzSettingsPage::eventFilter(QObject *object, QEvent *event) {
 }
 
 void QobuzSettingsPage::LogoutClicked() {
+
   service_->Logout();
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
   ui_->button_login->setEnabled(true);
+
 }
 
 void QobuzSettingsPage::LoginSuccess() {
+
   if (!this->isVisible()) return;
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
   ui_->button_login->setEnabled(true);
+
 }
 
 void QobuzSettingsPage::LoginFailure(const QString &failure_reason) {
+
   if (!this->isVisible()) return;
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
+
 }

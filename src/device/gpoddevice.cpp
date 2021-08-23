@@ -315,8 +315,9 @@ void GPodDevice::StartDelete() { Start(); }
 bool GPodDevice::RemoveTrackFromITunesDb(const QString &path, const QString &relative_to) {
 
   QString ipod_filename = path;
-  if (!relative_to.isEmpty() && path.startsWith(relative_to))
+  if (!relative_to.isEmpty() && path.startsWith(relative_to)) {
     ipod_filename.remove(0, relative_to.length() + (relative_to.endsWith('/') ? -1 : 0));
+  }
 
   ipod_filename.replace('/', ':');
 
@@ -337,7 +338,7 @@ bool GPodDevice::RemoveTrackFromITunesDb(const QString &path, const QString &rel
   }
 
   // Remove the track from all playlists
-  for (GList *playlists = db_->playlists ; playlists != nullptr ; playlists = playlists->next) {
+  for (GList *playlists = db_->playlists; playlists != nullptr; playlists = playlists->next) {
     Itdb_Playlist *playlist = static_cast<Itdb_Playlist*>(playlists->data);
 
     if (itdb_playlist_contains_track(playlist, track)) {
@@ -356,11 +357,14 @@ bool GPodDevice::DeleteFromStorage(const DeleteJob &job) {
 
   Q_ASSERT(db_);
 
-  if (!RemoveTrackFromITunesDb(job.metadata_.url().toLocalFile(), url_.path()))
+  if (!RemoveTrackFromITunesDb(job.metadata_.url().toLocalFile(), url_.path())) {
     return false;
+  }
 
   // Remove the file
-  if (!QFile::remove(job.metadata_.url().toLocalFile())) return false;
+  if (!QFile::remove(job.metadata_.url().toLocalFile())) {
+    return false;
+  }
 
   // Remove it from our collection model
   songs_to_remove_ << job.metadata_;
@@ -382,4 +386,3 @@ bool GPodDevice::GetSupportedFiletypes(QList<Song::FileType> *ret) {
   *ret << Song::FileType_MPEG;
   return true;
 }
-

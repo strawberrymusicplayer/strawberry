@@ -142,7 +142,7 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(const int id, const CoverPro
 void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, const CoverProviderSearchResults &results) {
 
   CoverProviderSearchResults results_copy(results);
-  for (int i = 0 ; i < results_copy.count() ; ++i) {
+  for (int i = 0; i < results_copy.count(); ++i) {
 
     results_copy[i].provider = provider->name();
     results_copy[i].score_provider = provider->quality();

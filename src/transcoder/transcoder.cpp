@@ -105,13 +105,13 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
   GstRegistry *registry = gst_registry_get();
   GList *const features = gst_registry_get_feature_list(registry, GST_TYPE_ELEMENT_FACTORY);
 
-  for (GList *f = features ; f ; f = g_list_next(f)) {
+  for (GList *f = features; f; f = g_list_next(f)) {
     GstElementFactory *factory = GST_ELEMENT_FACTORY(f->data);
 
     // Is this the right type of plugin?
     if (QString(gst_element_factory_get_klass(factory)).contains(element_type)) {
       const GList *const templates = gst_element_factory_get_static_pad_templates(factory);
-      for (const GList *t = templates ; t ; t = g_list_next(t)) {
+      for (const GList *t = templates; t; t = g_list_next(t)) {
         // Only interested in source pads
         GstStaticPadTemplate *pad_template = reinterpret_cast<GstStaticPadTemplate*>(t->data);
         if (pad_template->direction != GST_PAD_SRC) continue;
@@ -484,9 +484,8 @@ bool Transcoder::event(QEvent *e) {
 
     // Find this job in the list
     JobStateList::iterator it = current_jobs_.begin();
-    while (it != current_jobs_.end()) {
+    for (; it != current_jobs_.end(); ++it) {
       if (it->get() == finished_event->state_) break;
-      ++it;
     }
     if (it == current_jobs_.end()) {
       // Couldn't find it, maybe GStreamer gave us an event after we'd destroyed the pipeline?

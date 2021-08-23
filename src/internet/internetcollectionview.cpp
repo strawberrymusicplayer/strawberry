@@ -222,10 +222,12 @@ void InternetCollectionView::TotalSongCountUpdated(int count) {
   total_song_count_ = count;
   if (old != total_song_count_) update();
 
-  if (total_song_count_ == 0)
+  if (total_song_count_ == 0) {
     setCursor(Qt::PointingHandCursor);
-  else
+  }
+  else {
     unsetCursor();
+  }
 
   emit TotalSongCountUpdated_();
 
@@ -237,10 +239,12 @@ void InternetCollectionView::TotalArtistCountUpdated(int count) {
   total_artist_count_ = count;
   if (old != total_artist_count_) update();
 
-  if (total_artist_count_ == 0)
+  if (total_artist_count_ == 0) {
     setCursor(Qt::PointingHandCursor);
-  else
+  }
+  else {
     unsetCursor();
+  }
 
   emit TotalArtistCountUpdated_();
 
@@ -252,10 +256,12 @@ void InternetCollectionView::TotalAlbumCountUpdated(int count) {
   total_album_count_ = count;
   if (old != total_album_count_) update();
 
-  if (total_album_count_ == 0)
+  if (total_album_count_ == 0) {
     setCursor(Qt::PointingHandCursor);
-  else
+  }
+  else {
     unsetCursor();
+  }
 
   emit TotalAlbumCountUpdated_();
 
@@ -406,10 +412,12 @@ void InternetCollectionView::keyboardSearch(const QString &search) {
 
 void InternetCollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
 
-  if (is_in_keyboard_search_)
+  if (is_in_keyboard_search_) {
     QTreeView::scrollTo(idx, QAbstractItemView::PositionAtTop);
-  else
+  }
+  else {
     QTreeView::scrollTo(idx, hint);
+  }
 
 }
 

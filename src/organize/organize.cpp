@@ -268,8 +268,9 @@ void Organize::ProcessSomeFiles() {
     }
 
     // Clean up the temporary transcoded file
-    if (!task.transcoded_filename_.isEmpty())
+    if (!task.transcoded_filename_.isEmpty()) {
       QFile::remove(task.transcoded_filename_);
+    }
 
     tasks_complete_++;
   }

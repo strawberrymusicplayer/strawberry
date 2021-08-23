@@ -244,8 +244,9 @@ bool SingleCoreApplication::sendMessage(const QByteArray &message, const int tim
   if (isPrimary()) return false;
 
   // Make sure the socket is connected
-  if (!d->connectToPrimary(timeout, SingleCoreApplicationPrivate::Reconnect))
+  if (!d->connectToPrimary(timeout, SingleCoreApplicationPrivate::Reconnect)) {
     return false;
+  }
 
   d->socket_->write(message);
   const bool dataWritten = d->socket_->waitForBytesWritten(timeout);

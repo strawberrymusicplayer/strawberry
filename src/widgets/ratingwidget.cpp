@@ -41,7 +41,7 @@ RatingPainter::RatingPainter() {
   QPixmap off(star_off.pixmap(star_off_sizes.last()));
 
   // Generate the 10 states, better to do it now than on the fly
-  for (int i = 0 ; i < kStarCount * 2 + 1 ; ++i) {
+  for (int i = 0; i < kStarCount * 2 + 1; ++i) {
     const double rating = double(i) / double(2.0);
 
     // Clear the pixmap
@@ -51,7 +51,7 @@ RatingPainter::RatingPainter() {
 
     // Draw the stars
     int x = 0;
-    for (int y = 0 ; y < kStarCount ; ++y, x += kStarSize) {
+    for (int y = 0; y < kStarCount; ++y, x += kStarSize) {
       const QRect rect(x, 0, kStarSize, kStarSize);
 
       if (rating - 0.25 <= y) {  // Totally empty

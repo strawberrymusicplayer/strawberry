@@ -90,8 +90,9 @@ qreal StyleHelper::sidebarFontSize() {
 QColor StyleHelper::notTooBrightHighlightColor() {
 
   QColor highlightColor = QApplication::palette().highlight().color();
-  if (0.5 * highlightColor.saturationF() + 0.75 - highlightColor.valueF() < 0)
+  if (0.5 * highlightColor.saturationF() + 0.75 - highlightColor.valueF() < 0) {
     highlightColor.setHsvF(highlightColor.hsvHueF(), 0.1 + highlightColor.saturationF() * 2.0, highlightColor.valueF());
+  }
   return highlightColor;
 
 }
@@ -108,29 +109,36 @@ QPalette StyleHelper::sidebarFontPalette(const QPalette &original) {
 
 QColor StyleHelper::panelTextColor(bool lightColored) {
 
-  if (!lightColored)
-    return Qt::white;
-  else
+  if (lightColored) {
     return Qt::black;
+  }
+  else {
+    return Qt::white;
+  }
 
 }
 
 QColor StyleHelper::baseColor(bool lightColored) {
 
-  if (!lightColored)
-    return m_baseColor;
-  else
+  if (lightColored) {
     return m_baseColor.lighter(230);
+  }
+  else {
+    return m_baseColor;
+  }
 
 }
 
 QColor StyleHelper::highlightColor(bool lightColored) {
 
   QColor result = baseColor(lightColored);
-  if (!lightColored)
-    result.setHsv(result.hue(), clamp(result.saturation()), clamp(result.value() * 1.16));
-  else
+  if (lightColored) {
     result.setHsv(result.hue(), clamp(result.saturation()), clamp(result.value() * 1.06));
+  }
+  else {
+    result.setHsv(result.hue(), clamp(result.saturation()), clamp(result.value() * 1.16));
+  }
+
   return result;
 
 }
@@ -284,8 +292,9 @@ static void menuGradientHelper(QPainter *p, const QRect spanRect, const QRect re
 
 void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter, const QStyleOption *option) {
 
-  if (option->rect.width() <= 1 || option->rect.height() <= 1)
+  if (option->rect.width() <= 1 || option->rect.height() <= 1) {
     return;
+  }
 
   const qreal devicePixelRatio = painter->device()->devicePixelRatio();
   const bool enabled = option->state & QStyle::State_Enabled;
@@ -383,24 +392,30 @@ void StyleHelper::drawCornerImage(const QImage &img, QPainter *painter, const QR
   const QSize size = img.size();
   if (top > 0) { //top
     painter->drawImage(QRectF(rect.left() + left, rect.top(), rect.width() -right - left, top), img, QRectF(leftDIP, 0, size.width() - rightDIP - leftDIP, topDIP));
-    if (left > 0) //top-left
+    if (left > 0) { //top-left
       painter->drawImage(QRectF(rect.left(), rect.top(), left, top), img, QRectF(0, 0, leftDIP, topDIP));
-    if (right > 0) //top-right
+    }
+    if (right > 0) { //top-right
       painter->drawImage(QRectF(rect.left() + rect.width() - right, rect.top(), right, top), img, QRectF(size.width() - rightDIP, 0, rightDIP, topDIP));
+    }
   }
   //left
-  if (left > 0)
+  if (left > 0) {
     painter->drawImage(QRectF(rect.left(), rect.top()+top, left, rect.height() - top - bottom), img, QRectF(0, topDIP, leftDIP, size.height() - bottomDIP - topDIP));
+  }
   //center
   painter->drawImage(QRectF(rect.left() + left, rect.top()+top, rect.width() -right - left, rect.height() - bottom - top), img, QRectF(leftDIP, topDIP, size.width() - rightDIP - leftDIP, size.height() - bottomDIP - topDIP));
-  if (right > 0) //right
+  if (right > 0) { //right
     painter->drawImage(QRectF(rect.left() +rect.width() - right, rect.top()+top, right, rect.height() - top - bottom), img, QRectF(size.width() - rightDIP, topDIP, rightDIP, size.height() - bottomDIP - topDIP));
+  }
   if (bottom > 0) { //bottom
     painter->drawImage(QRectF(rect.left() +left, rect.top() + rect.height() - bottom, rect.width() - right - left, bottom), img, QRectF(leftDIP, size.height() - bottomDIP, size.width() - rightDIP - leftDIP, bottomDIP));
-  if (left > 0) //bottom-left
-    painter->drawImage(QRectF(rect.left(), rect.top() + rect.height() - bottom, left, bottom), img, QRectF(0, size.height() - bottomDIP, leftDIP, bottomDIP));
-  if (right > 0) //bottom-right
-    painter->drawImage(QRectF(rect.left() + rect.width() - right, rect.top() + rect.height() - bottom, right, bottom), img, QRectF(size.width() - rightDIP, size.height() - bottomDIP, rightDIP, bottomDIP));
+    if (left > 0) { //bottom-left
+      painter->drawImage(QRectF(rect.left(), rect.top() + rect.height() - bottom, left, bottom), img, QRectF(0, size.height() - bottomDIP, leftDIP, bottomDIP));
+    }
+    if (right > 0) { //bottom-right
+      painter->drawImage(QRectF(rect.left() + rect.width() - right, rect.top() + rect.height() - bottom, right, bottom), img, QRectF(size.width() - rightDIP, size.height() - bottomDIP, rightDIP, bottomDIP));
+    }
   }
 
 }
@@ -445,8 +460,9 @@ QString StyleHelper::dpiSpecificImageFile(const QString &fileName) {
   // See QIcon::addFile()
   if (qApp->devicePixelRatio() > 1.0) {
     const QString atDprfileName = imageFileWithResolution(fileName, qRound(qApp->devicePixelRatio()));
-    if (QFile::exists(atDprfileName))
+    if (QFile::exists(atDprfileName)) {
       return atDprfileName;
+    }
   }
   return fileName;
 
@@ -463,9 +479,11 @@ QList<int> StyleHelper::availableImageResolutions(const QString &fileName) {
 
   QList<int> result;
   const int maxResolutions = qApp->devicePixelRatio();
-  for (int i = 1; i <= maxResolutions; ++i)
-    if (QFile::exists(imageFileWithResolution(fileName, i)))
+  for (int i = 1; i <= maxResolutions; ++i) {
+    if (QFile::exists(imageFileWithResolution(fileName, i))) {
       result.append(i);
+    }
+  }
   return result;
 
 }

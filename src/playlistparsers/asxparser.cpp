@@ -51,7 +51,7 @@ SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const 
   // Some playlists have unescaped & characters in URLs :(
   QRegularExpression ex("(href\\s*=\\s*\")([^\"]+)\"", QRegularExpression::CaseInsensitiveOption);
   int index = 0;
-  for (QRegularExpressionMatch re_match = ex.match(data, index) ; re_match.hasMatch() ; re_match = ex.match(data, index)) {
+  for (QRegularExpressionMatch re_match = ex.match(data, index); re_match.hasMatch(); re_match = ex.match(data, index)) {
     index = re_match.capturedStart();
     QString url = re_match.captured(2);
     url.replace(QRegularExpression("&(?!amp;|quot;|apos;|lt;|gt;)"), "&amp;");

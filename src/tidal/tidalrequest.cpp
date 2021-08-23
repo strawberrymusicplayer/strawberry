@@ -728,7 +728,7 @@ void TidalRequest::AlbumsFinishCheck(const QString &artist_id, const int limit, 
 
     // Get songs for all the albums.
 
-    for (QHash<QString, Request> ::iterator it = album_songs_requests_pending_.begin() ; it != album_songs_requests_pending_.end() ; ++it) {
+    for (QHash<QString, Request> ::iterator it = album_songs_requests_pending_.begin(); it != album_songs_requests_pending_.end(); ++it) {
       Request request = it.value();
       AddAlbumSongsRequest(request.artist_id, request.album_id, request.album_artist, request.album, request.album_explicit);
     }

@@ -136,8 +136,9 @@ void SliderSlider::mousePressEvent(QMouseEvent *e) {
 
 void SliderSlider::mouseReleaseEvent(QMouseEvent*) {
 
-  if (!outside_ && QSlider::value() != prev_value_)
+  if (!outside_ && QSlider::value() != prev_value_) {
     emit sliderReleased(value());
+  }
 
   sliding_ = false;
   outside_ = false;

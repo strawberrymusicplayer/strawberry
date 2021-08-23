@@ -87,11 +87,13 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
   QSize sizeHint() const override {
 
     FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
-    if (tabWidget->mode() == FancyTabWidget::Mode_Tabs || tabWidget->mode() == FancyTabWidget::Mode_IconOnlyTabs) return QTabBar::sizeHint();
+    if (tabWidget->mode() == FancyTabWidget::Mode_Tabs || tabWidget->mode() == FancyTabWidget::Mode_IconOnlyTabs) {
+      return QTabBar::sizeHint();
+    }
 
     QSize size;
     int h = 0;
-    for (int i = 0 ; i < count() ; ++i) {
+    for (int i = 0; i < count(); ++i) {
       if (tabSizeHint(i).width() > size.width()) size.setWidth(tabSizeHint(i).width());
       h += tabSizeHint(i).height();
     }
@@ -105,7 +107,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
     FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
     if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar || tabWidget->mode() == FancyTabWidget::Mode_SmallSidebar) {
       int w = 0;
-      for (int i = 0 ; i < count() ; ++i) {
+      for (int i = 0; i < count(); ++i) {
         if (tabSizeHint(i).width() > w) w = tabSizeHint(i).width();
       }
       return w;
@@ -129,7 +131,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
 
       // If the text of any tab is wider than the set width then use that instead.
       int w = std::max(FancyTabWidget::TabSize_LargeSidebarMinWidth, tabWidget->iconsize_largesidebar() + 22);
-      for (int i = 0 ; i < count() ; ++i) {
+      for (int i = 0; i < count(); ++i) {
         QRect rect = fm.boundingRect(QRect(0, 0, std::max(FancyTabWidget::TabSize_LargeSidebarMinWidth, tabWidget->iconsize_largesidebar() + 22), height()), Qt::TextWordWrap, QTabBar::tabText(i));
         rect.setWidth(rect.width() + 10);
         if (rect.width() > w) w = rect.width();
@@ -168,8 +170,9 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
     QPoint pos = event->pos();
 
     mouseHoverTabIndex = tabAt(pos);
-    if (mouseHoverTabIndex > -1)
+    if (mouseHoverTabIndex > -1) {
       update();
+    }
     QTabBar::mouseMoveEvent(event);
 
   }
@@ -180,8 +183,9 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
 
     bool verticalTextTabs = false;
 
-    if (tabWidget->mode() == FancyTabWidget::Mode_SmallSidebar)
+    if (tabWidget->mode() == FancyTabWidget::Mode_SmallSidebar) {
       verticalTextTabs = true;
+    }
 
     // if LargeSidebar, restore spacers
     if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar && spacers.count() > 0) {
@@ -194,7 +198,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
     }
     else if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar) {
       // traverse in the opposite order to save indices of spacers
-      for (int i = count() - 1 ; i >= 0 ; --i) {
+      for (int i = count() - 1; i >= 0; --i) {
         // spacers are disabled tabs
         if (!isTabEnabled(i) && !spacers.contains(i)) {
           spacers[i] = tabWidget->widget(i);
@@ -206,7 +210,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
 
     // Restore any label text that was hidden/cached for the IconOnlyTabs mode
     if (labelCache.count() > 0 && tabWidget->mode() != FancyTabWidget::Mode_IconOnlyTabs) {
-      for (int i = 0 ; i < count() ; ++i) {
+      for (int i = 0; i < count(); ++i) {
         setTabToolTip(i, "");
         setTabText(i, labelCache[tabWidget->widget(i)]);
       }
@@ -215,7 +219,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
     if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar && tabWidget->mode() != FancyTabWidget::Mode_SmallSidebar) {
       // Cache and hide label text for IconOnlyTabs mode
       if (tabWidget->mode() == FancyTabWidget::Mode_IconOnlyTabs && labelCache.count() == 0) {
-        for(int i = 0 ; i < count() ; ++i) {
+        for(int i = 0; i < count(); ++i) {
           labelCache[tabWidget->widget(i)] = tabText(i);
           setTabToolTip(i, tabText(i));
           setTabText(i, "");
@@ -486,7 +490,7 @@ void FancyTabWidget::Load(const QString &kSettingsGroup) {
   s.endGroup();
 
   QMultiMap <int, TabData*> ::iterator i;
-  for (i = tabs.begin() ; i != tabs.end() ; ++i) {
+  for (i = tabs.begin(); i != tabs.end(); ++i) {
     TabData *tab = i.value();
     const int idx = insertTab(i.key(), tab->page(), tab->icon(), tab->label());
     tabBar()->setTabData(idx, QVariant(tab->name()));

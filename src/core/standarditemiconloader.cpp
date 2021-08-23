@@ -71,7 +71,7 @@ void StandardItemIconLoader::LoadIcon(const Song &song, QStandardItem *for_item)
 
 void StandardItemIconLoader::RowsAboutToBeRemoved(const QModelIndex &parent, int begin, int end) {
 
-  for (QMap<quint64, QStandardItem*>::iterator it = pending_covers_.begin() ; it != pending_covers_.end() ; ) {
+  for (QMap<quint64, QStandardItem*>::iterator it = pending_covers_.begin(); it != pending_covers_.end();) {
     const QStandardItem *item = it.value();
     const QStandardItem *item_parent = item->parent();
 

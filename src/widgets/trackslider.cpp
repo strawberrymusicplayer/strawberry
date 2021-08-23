@@ -74,24 +74,30 @@ TrackSlider::TrackSlider(QWidget *parent)
 }
 
 TrackSlider::~TrackSlider() {
+
   delete ui_;
 #ifdef HAVE_MOODBAR
   if (moodbar_style_) moodbar_style_->deleteLater();
 #endif
+
 }
 
 void TrackSlider::SetApplication(Application *app) {
+
 #ifdef HAVE_MOODBAR
   if (!moodbar_style_) moodbar_style_ = new MoodbarProxyStyle(app, ui_->slider);
 #else
   Q_UNUSED(app);
 #endif
+
 }
 
 void TrackSlider::UpdateLabelWidth() {
+
   // We set the label's minimum size so it won't resize itself when the user is dragging the slider.
   UpdateLabelWidth(ui_->elapsed, "0:00:00");
   UpdateLabelWidth(ui_->remaining, "-0:00:00");
+
 }
 
 void TrackSlider::UpdateLabelWidth(QLabel *label, const QString &text) {
@@ -168,15 +174,20 @@ void TrackSlider::SetCanSeek(const bool can_seek) {
 }
 
 void TrackSlider::Seek(const int gap) {
-  if (ui_->slider->isEnabled())
+
+  if (ui_->slider->isEnabled()) {
     ui_->slider->setValue(static_cast<int>(ui_->slider->value() + gap * kMsecPerSec));
+  }
+
 }
 
 void TrackSlider::ValueMaybeChanged(const int value) {
+
   if (setting_value_) return;
 
   UpdateTimes(static_cast<int>(value / kMsecPerSec));
   emit ValueChangedSeconds(static_cast<int>(value / kMsecPerSec));
+
 }
 
 bool TrackSlider::event(QEvent *e) {

@@ -234,7 +234,7 @@ void QSearchField::setFocus() {
 void QSearchField::showEvent(QShowEvent *e) {
 
   if (!e->spontaneous()) {
-    for (int i = 0 ; i < layout()->count() ; ++i) {
+    for (int i = 0; i < layout()->count(); ++i) {
       QWidget *widget = layout()->itemAt(i)->widget();
       layout()->removeWidget(widget);
       delete widget;

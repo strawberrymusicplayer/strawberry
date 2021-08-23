@@ -97,10 +97,12 @@ int MultiSortFilterProxy::Compare(const QVariant &left, const QVariant &right) c
     case QVariant::String:
 #endif
     default:
-      if (isSortLocaleAware())
+      if (isSortLocaleAware()) {
         return left.toString().localeAwareCompare(right.toString());
-      else
+      }
+      else {
         return left.toString().compare(right.toString(), sortCaseSensitivity());
+      }
   }
 
   return 0;

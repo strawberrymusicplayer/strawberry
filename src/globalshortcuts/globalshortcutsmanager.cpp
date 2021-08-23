@@ -93,16 +93,19 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
 #endif
 
 #ifdef Q_OS_MACOS
-  if (!system_backend_)
+  if (!system_backend_) {
     system_backend_ = new GlobalShortcutsBackendMacOS(this);
+  }
 #endif
 #ifdef Q_OS_WIN
-  if (!system_backend_)
+  if (!system_backend_) {
     system_backend_ = new GlobalShortcutsBackendSystem(this);
+  }
 #endif
 #ifdef HAVE_X11_GLOBALSHORTCUTS
-  if (!system_backend_ && IsX11Available())
+  if (!system_backend_ && IsX11Available()) {
     system_backend_ = new GlobalShortcutsBackendSystem(this);
+  }
 #endif
 
   ReloadSettings();

@@ -71,8 +71,9 @@ QList<QUrl> FileViewList::UrlListFromSelection() const {
   QList<QUrl> urls;
   const QModelIndexList indexes = menu_selection_.indexes();
   for (const QModelIndex &index : indexes) {
-    if (index.column() == 0)
+    if (index.column() == 0) {
       urls << QUrl::fromLocalFile(qobject_cast<QFileSystemModel*>(model())->fileInfo(index).canonicalFilePath());
+    }
   }
   std::sort(urls.begin(), urls.end());
 
@@ -122,8 +123,9 @@ QStringList FileViewList::FilenamesFromSelection() const {
   QStringList filenames;
   const QModelIndexList indexes = menu_selection_.indexes();
   for (const QModelIndex &index : indexes) {
-    if (index.column() == 0)
+    if (index.column() == 0) {
       filenames << qobject_cast<QFileSystemModel*>(model())->filePath(index);
+    }
   }
   return filenames;
 

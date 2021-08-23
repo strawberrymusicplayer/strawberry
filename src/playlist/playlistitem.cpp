@@ -141,7 +141,9 @@ void PlaylistItem::RemoveBackgroundColor(short priority) {
 }
 QColor PlaylistItem::GetCurrentBackgroundColor() const {
 
-  if (background_colors_.isEmpty()) return QColor();
+  if (background_colors_.isEmpty()) {
+    return QColor();
+  }
   else {
     QList<short> background_colors_keys = background_colors_.keys();
     return background_colors_[background_colors_keys.last()];

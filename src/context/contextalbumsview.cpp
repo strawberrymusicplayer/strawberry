@@ -366,10 +366,12 @@ void ContextAlbumsView::OpenInNewPlaylist() {
 
 void ContextAlbumsView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
 
-  if (is_in_keyboard_search_)
+  if (is_in_keyboard_search_) {
     QTreeView::scrollTo(idx, QAbstractItemView::PositionAtTop);
-  else
+  }
+  else {
     QTreeView::scrollTo(idx, hint);
+  }
 
 }
 
@@ -386,8 +388,9 @@ void ContextAlbumsView::Organize() {
 
   organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
   organize_dialog_->SetCopy(false);
-  if (organize_dialog_->SetSongs(GetSelectedSongs()))
+  if (organize_dialog_->SetSongs(GetSelectedSongs())) {
     organize_dialog_->show();
+  }
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }

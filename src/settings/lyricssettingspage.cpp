@@ -97,7 +97,7 @@ void LyricsSettingsPage::Load() {
 void LyricsSettingsPage::Save() {
 
   QStringList providers;
-  for (int i = 0 ; i < ui_->providers->count() ; ++i) {
+  for (int i = 0; i < ui_->providers->count(); ++i) {
     const QListWidgetItem *item = ui_->providers->item(i);
     if (item->checkState() == Qt::Checked) providers << item->text();  // clazy:exclude=reserve-candidates
   }

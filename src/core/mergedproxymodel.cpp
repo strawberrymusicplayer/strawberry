@@ -237,8 +237,9 @@ void MergedProxyModel::SubModelResetSlot() {
 
 QModelIndex MergedProxyModel::GetActualSourceParent(const QModelIndex &source_parent, QAbstractItemModel *model) const {
 
-  if (!source_parent.isValid() && model != sourceModel())
+  if (!source_parent.isValid() && model != sourceModel()) {
     return merge_points_.value(model);
+  }
   return source_parent;
 
 }
@@ -303,10 +304,12 @@ QModelIndex MergedProxyModel::index(int row, int column, const QModelIndex &pare
     QModelIndex source_parent = mapToSource(parent);
     const QAbstractItemModel *child_model = merge_points_.key(source_parent);
 
-    if (child_model)
+    if (child_model) {
       source_index = child_model->index(row, column, QModelIndex());
-    else
+    }
+    else {
       source_index = source_parent.model()->index(row, column, source_parent);
+    }
   }
 
   return mapFromSource(source_index);
@@ -316,13 +319,16 @@ QModelIndex MergedProxyModel::index(int row, int column, const QModelIndex &pare
 QModelIndex MergedProxyModel::parent(const QModelIndex &child) const {
 
   QModelIndex source_child = mapToSource(child);
-  if (source_child.model() == sourceModel())
+  if (source_child.model() == sourceModel()) {
     return mapFromSource(source_child.parent());
+  }
 
   if (!IsKnownModel(source_child.model())) return QModelIndex();
 
-  if (!source_child.parent().isValid())
+  if (!source_child.parent().isValid()) {
     return mapFromSource(merge_points_.value(GetModel(source_child)));
+  }
+
   return mapFromSource(source_child.parent());
 
 }
@@ -404,8 +410,10 @@ bool MergedProxyModel::setData(const QModelIndex &idx, const QVariant &value, in
 
   QModelIndex source_index = mapToSource(idx);
 
-  if (!source_index.isValid())
+  if (!source_index.isValid()) {
     return sourceModel()->setData(idx, value, role);
+  }
+
   return GetModel(idx)->setData(idx, value, role);
 
 }
@@ -471,8 +479,10 @@ bool MergedProxyModel::canFetchMore(const QModelIndex &parent) const {
 
   QModelIndex source_index = mapToSource(parent);
 
-  if (!source_index.isValid())
+  if (!source_index.isValid()) {
     return sourceModel()->canFetchMore(QModelIndex());
+  }
+
   return source_index.model()->canFetchMore(source_index);
 
 }
@@ -481,10 +491,12 @@ void MergedProxyModel::fetchMore(const QModelIndex &parent) {
 
   QModelIndex source_index = mapToSource(parent);
 
-  if (!source_index.isValid())
+  if (!source_index.isValid()) {
     sourceModel()->fetchMore(QModelIndex());
-  else
+  }
+  else {
     GetModel(source_index)->fetchMore(source_index);
+  }
 
 }
 
@@ -497,6 +509,7 @@ QAbstractItemModel *MergedProxyModel::GetModel(const QModelIndex &source_index) 
   for (QAbstractItemModel *submodel : submodels) {
     if (submodel == const_model) return submodel;
   }
+
   return nullptr;
 
 }

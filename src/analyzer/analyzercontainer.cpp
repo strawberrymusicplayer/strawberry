@@ -103,7 +103,9 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
 
 void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
 
-  if (engine_->type() != Engine::EngineType::GStreamer) return;
+  if (engine_->type() != Engine::EngineType::GStreamer) {
+    return;
+  }
 
   if (e->button() == Qt::RightButton) {
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
@@ -124,8 +126,10 @@ void AnalyzerContainer::wheelEvent(QWheelEvent *e) {
 }
 
 void AnalyzerContainer::SetEngine(EngineBase *engine) {
+
   if (current_analyzer_) current_analyzer_->set_engine(engine);
   engine_ = engine;
+
 }
 
 void AnalyzerContainer::DisableAnalyzer() {

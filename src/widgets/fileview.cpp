@@ -113,10 +113,14 @@ void FileView::ReloadSettings() {
 }
 
 void FileView::SetPath(const QString &path) {
-  if (!model_)
-    lazy_set_path_ = path;
-  else
+
+  if (model_) {
     ChangeFilePathWithoutUndo(path);
+  }
+  else {
+    lazy_set_path_ = path;
+  }
+
 }
 
 void FileView::SetTaskManager(TaskManager *task_manager) {
@@ -150,12 +154,14 @@ void FileView::ChangeFilePath(const QString &new_path_native) {
   QString new_path = QDir::fromNativeSeparators(new_path_native);
 
   QFileInfo info(new_path);
-  if (!info.exists() || !info.isDir())
+  if (!info.exists() || !info.isDir()) {
     return;
+  }
 
   QString old_path(model_->rootPath());
-  if (old_path == new_path)
+  if (old_path == new_path) {
     return;
+  }
 
   undo_stack_->push(new UndoCommand(this, new_path));
 
@@ -180,8 +186,9 @@ void FileView::ItemActivated(const QModelIndex &idx) {
 
 void FileView::ItemDoubleClick(const QModelIndex &idx) {
 
-  if (model_->isDir(idx))
+  if (model_->isDir(idx)) {
     return;
+  }
 
   QString file_path = model_->filePath(idx);
 
@@ -287,4 +294,3 @@ void FileView::keyPressEvent(QKeyEvent *e) {
   QWidget::keyPressEvent(e);
 
 }
-

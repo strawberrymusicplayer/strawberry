@@ -113,6 +113,7 @@ void LoginStateWidget::FocusLastCredentialField() {
       line_edit->selectAll();
     }
   }
+
 }
 
 void LoginStateWidget::HideLoggedInState() {
@@ -130,6 +131,7 @@ void LoginStateWidget::AddCredentialGroup(QWidget *widget) {
 }
 
 bool LoginStateWidget::eventFilter(QObject *object, QEvent *event) {
+
   if (!credential_fields_.contains(object))
     return QWidget::eventFilter(object, event);
 
@@ -142,6 +144,7 @@ bool LoginStateWidget::eventFilter(QObject *object, QEvent *event) {
   }
 
   return QWidget::eventFilter(object, event);
+
 }
 
 void LoginStateWidget::SetExpires(const QDate expires) {
@@ -152,4 +155,5 @@ void LoginStateWidget::SetExpires(const QDate expires) {
     const QString expires_text = QLocale().toString(expires, QLocale::LongFormat);
     ui_->expires_label->setText(tr("Expires on %1").arg("<b>" + expires_text + "</b>"));
   }
+
 }

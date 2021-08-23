@@ -93,10 +93,12 @@ bool GlobalShortcutGrabber::event(QEvent *e) {
   if (e->type() == QEvent::ShortcutOverride) {
     QKeyEvent *ke = static_cast<QKeyEvent*>(e);
 
-    if (modifier_keys_.contains(ke->key()))
+    if (modifier_keys_.contains(ke->key())) {
       ret_ = QKeySequence(ke->modifiers());
-    else
+    }
+    else {
       ret_ = QKeySequence(ke->modifiers() | ke->key());
+    }
 
     UpdateText();
 

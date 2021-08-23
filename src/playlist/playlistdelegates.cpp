@@ -235,8 +235,9 @@ QStyleOptionViewItem PlaylistDelegateBase::Adjusted(const QStyleOptionViewItem &
 
   QPoint top_left(-view_->horizontalScrollBar()->value(), -view_->verticalScrollBar()->value());
 
-  if (view_->header()->logicalIndexAt(top_left) != idx.column())
+  if (view_->header()->logicalIndexAt(top_left) != idx.column()) {
     return option;
+  }
 
   QStyleOptionViewItem ret(option);
 
@@ -327,8 +328,9 @@ QString DateItemDelegate::displayText(const QVariant &value, const QLocale &loca
   bool ok = false;
   qint64 time = value.toLongLong(&ok);
 
-  if (!ok || time == -1)
+  if (!ok || time == -1) {
     return QString();
+  }
 
   return QDateTime::fromSecsSinceEpoch(time).toString(QLocale::system().dateTimeFormat(QLocale::ShortFormat));
 
@@ -339,8 +341,9 @@ QString LastPlayedItemDelegate::displayText(const QVariant &value, const QLocale
   bool ok = false;
   const qint64 time = value.toLongLong(&ok);
 
-  if (!ok || time == -1)
+  if (!ok || time == -1) {
     return tr("Never");
+  }
 
   return Utilities::Ago(time, locale);
 

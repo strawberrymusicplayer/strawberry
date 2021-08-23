@@ -44,7 +44,7 @@ QList<DeviceFinder::Device> AlsaPCMDeviceFinder::ListDevices() {
     return ret;
   }
 
-  for (void **n = hints ; *n ; ++n) {
+  for (void **n = hints; *n; ++n) {
     char *io = snd_device_name_get_hint(*n, "IOID");
     char *name = snd_device_name_get_hint(*n, "NAME");
     char *desc = snd_device_name_get_hint(*n, "DESC");
@@ -52,7 +52,7 @@ QList<DeviceFinder::Device> AlsaPCMDeviceFinder::ListDevices() {
 
       char *desc_last = desc;
       QString description;
-      for (char *desc_i = desc ; desc_i && *desc_i != '\0' ; ++desc_i) {
+      for (char *desc_i = desc; desc_i && *desc_i != '\0'; ++desc_i) {
         if (*desc_i == '\n') {
           *desc_i = '\0';
           if (!description.isEmpty()) description.append(' ');

@@ -135,10 +135,12 @@ QSqlDatabase Database::Connect() {
   db.setConnectOptions("QSQLITE_BUSY_TIMEOUT=30000");
   //qLog(Debug) << "Opened database with connection id" << connection_id;
 
-  if (!injected_database_name_.isNull())
-    db.setDatabaseName(injected_database_name_);
-  else
+  if (injected_database_name_.isNull()) {
     db.setDatabaseName(directory_ + "/" + kDatabaseFilename);
+  }
+  else {
+    db.setDatabaseName(injected_database_name_);
+  }
 
   if (!db.open()) {
     app_->AddError("Database: " + db.lastError().text());
@@ -206,8 +208,9 @@ QSqlDatabase Database::Connect() {
   // We might have to initialize the schema in some attached databases now, if they were deleted and don't match up with the main schema version.
   keys = attached_databases_.keys();
   for (const QString &key : keys) {
-    if (attached_databases_[key].is_temporary_ && attached_databases_[key].schema_.isEmpty())
+    if (attached_databases_[key].is_temporary_ && attached_databases_[key].schema_.isEmpty()) {
       continue;
+    }
     // Find out if there are any tables in this database
     QSqlQuery q(db);
     q.prepare(QString("SELECT ROWID FROM %1.sqlite_master WHERE type='table'").arg(key));
@@ -346,7 +349,9 @@ void Database::DetachDatabase(const QString &database_name) {
 void Database::UpdateDatabaseSchema(int version, QSqlDatabase &db) {
 
   QString filename;
-  if (version == 0) filename = ":/schema/schema.sql";
+  if (version == 0) {
+    filename = ":/schema/schema.sql";
+  }
   else {
     filename = QString(":/schema/schema-%1.sql").arg(version);
     qLog(Debug) << "Applying database schema update" << version << "from" << filename;

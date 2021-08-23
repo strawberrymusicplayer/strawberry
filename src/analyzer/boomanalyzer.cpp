@@ -158,8 +158,9 @@ void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame
     y = height() - static_cast<int>(bar_height_[i]);
     canvas_painter.drawPixmap(x + 1, y, barPixmap_, 0, y, -1, -1);
     canvas_painter.setPen(fg_);
-    if (bar_height_[i] > 0)
+    if (bar_height_[i] > 0) {
       canvas_painter.drawRect(x, y, kColumnWidth - 1, height() - y - 1);
+    }
 
     y = height() - static_cast<int>(peak_height_[i]);
     canvas_painter.setPen(palette().color(QPalette::Midlight));

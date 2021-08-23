@@ -28,11 +28,13 @@
 #include <QVector>
 
 FHT::FHT(int n) : num_((n < 3) ? 0 : 1 << n), exp2_((n < 3) ? -1 : n) {
+
   if (n > 3) {
     buf_vector_.resize(num_);
     tab_vector_.resize(num_ * 2);
     makeCasTable();
   }
+
 }
 
 FHT::~FHT() = default;
@@ -45,6 +47,7 @@ float *FHT::tab_() { return tab_vector_.data(); }
 int *FHT::log_() { return log_vector_.data(); }
 
 void FHT::makeCasTable(void) {
+
   float *costab = tab_();
   float *sintab = tab_() + num_ / 2 + 1;
 
@@ -56,6 +59,7 @@ void FHT::makeCasTable(void) {
     sintab += 2;
     if (sintab > tab_() + num_ * 2) sintab = tab_() + 1;
   }
+
 }
 
 void FHT::scale(float *p, float d) const {
@@ -94,25 +98,33 @@ void FHT::logSpectrum(float *out, float *p) {
 }
 
 void FHT::semiLogSpectrum(float *p) {
+
   power2(p);
   for (int i = 0; i < (num_ / 2); i++, p++) {
     float e = 10.0 * log10(sqrt(*p / 2));
     *p = e < 0 ? 0 : e;
   }
+
 }
 
 void FHT::spectrum(float *p) {
+
   power2(p);
-  for (int i = 0; i < (num_ / 2); i++, p++)
+  for (int i = 0; i < (num_ / 2); i++, p++) {
     *p = static_cast<float>(sqrt(*p / 2));
+  }
+
 }
 
 void FHT::power(float *p) {
+
   power2(p);
   for (int i = 0; i < (num_ / 2); i++) *p++ /= 2;
+
 }
 
 void FHT::power2(float *p) {
+
   _transform(p, num_, 0);
 
   *p = static_cast<float>(2 * pow(*p, 2));
@@ -124,13 +136,18 @@ void FHT::power2(float *p) {
     p++;
     q--;
   }
+
 }
 
 void FHT::transform(float *p) {
-  if (num_ == 8)
+
+  if (num_ == 8) {
     transform8(p);
-  else
+  }
+  else {
     _transform(p, num_, 0);
+  }
+
 }
 
 void FHT::transform8(float *p) {

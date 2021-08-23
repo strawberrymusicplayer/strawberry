@@ -168,7 +168,7 @@ void ScrobblerCache::WriteCache() {
   QJsonArray array;
 
   QHash <quint64, std::shared_ptr<ScrobblerCacheItem>> ::iterator i;
-  for (i = scrobbler_cache_.begin() ; i != scrobbler_cache_.end() ; ++i) {
+  for (i = scrobbler_cache_.begin(); i != scrobbler_cache_.end(); ++i) {
     ScrobblerCacheItemPtr item = i.value();
     QJsonObject object;
     object.insert("timestamp", QJsonValue::fromVariant(item->timestamp_));

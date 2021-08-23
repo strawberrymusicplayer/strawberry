@@ -87,8 +87,9 @@ QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const QList<P
   if (!url.path().isEmpty() && url.path().right(1) == "/") {
     url.setPath(url.path() + QString("rest/") + ressource_name + QString(".view"));
   }
-  else
+  else {
     url.setPath(url.path() + QString("/rest/") + ressource_name + QString(".view"));
+  }
 
   url.setQuery(url_query);
 

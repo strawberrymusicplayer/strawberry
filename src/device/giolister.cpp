@@ -47,10 +47,12 @@ QString GioLister::DeviceInfo::unique_id() const {
 
   if (!volume_root_uri.isEmpty()) return volume_root_uri;
 
-  if (mount_ptr)
+  if (mount_ptr) {
     return QString("Gio/%1/%2/%3").arg(mount_uuid, filesystem_type).arg(filesystem_size);
-  else
+  }
+  else {
     return QString("Gio/unmounted/%1").arg(reinterpret_cast<qulonglong>(volume_ptr.get()));
+  }
 
 }
 
@@ -205,11 +207,13 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
   }
 
   QStringList uris;
-  if (!volume_root_uri.isEmpty())
+  if (!volume_root_uri.isEmpty()) {
     uris << volume_root_uri;
+  }
 
-  if (!mount_uri.isEmpty())
+  if (!mount_uri.isEmpty()) {
     uris << mount_uri;
+  }
 
   QList<QUrl> ret;
 
@@ -288,9 +292,10 @@ void GioLister::VolumeAdded(GVolume *volume) {
     return;
   }
 #ifdef HAVE_AUDIOCD
-  if (info.volume_root_uri.startsWith("cdda"))
+  if (info.volume_root_uri.startsWith("cdda")) {
     // Audio CD devices are already handled by CDDA lister
     return;
+  }
 #endif
   info.ReadDriveInfo(g_volume_get_drive(volume));
   info.ReadMountInfo(g_volume_get_mount(volume));
@@ -331,9 +336,10 @@ void GioLister::MountAdded(GMount *mount) {
     return;
   }
 #ifdef HAVE_AUDIOCD
-  if (info.volume_root_uri.startsWith("cdda"))
+  if (info.volume_root_uri.startsWith("cdda")) {
     // Audio CD devices are already handled by CDDA lister
     return;
+  }
 #endif
   info.ReadMountInfo(mount);
   info.ReadDriveInfo(g_mount_get_drive(mount));
@@ -363,10 +369,12 @@ void GioLister::MountAdded(GMount *mount) {
     devices_[info.unique_id()] = info;
   }
 
-  if (!old_id.isEmpty())
-    emit DeviceChanged(old_id);
-  else
+  if (old_id.isEmpty()) {
     emit DeviceAdded(info.unique_id());
+  }
+  else {
+    emit DeviceChanged(old_id);
+  }
 
 }
 
@@ -386,8 +394,9 @@ void GioLister::MountChanged(GMount *mount) {
     new_info.ReadDriveInfo(g_mount_get_drive(mount));
 
     // Ignore the change if the new info is useless
-    if (new_info.invalid_enclosing_mount || (devices_[id].filesystem_size != 0 && new_info.filesystem_size == 0) || (!devices_[id].filesystem_type.isEmpty() && new_info.filesystem_type.isEmpty()))
+    if (new_info.invalid_enclosing_mount || (devices_[id].filesystem_size != 0 && new_info.filesystem_size == 0) || (!devices_[id].filesystem_type.isEmpty() && new_info.filesystem_type.isEmpty())) {
       return;
+    }
 
     devices_[id] = new_info;
   }
@@ -412,9 +421,11 @@ void GioLister::MountRemoved(GMount *mount) {
 }
 
 QString GioLister::DeviceInfo::ConvertAndFree(char *str) {
+
   QString ret = QString::fromUtf8(str);
   g_free(str);
   return ret;
+
 }
 
 void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {

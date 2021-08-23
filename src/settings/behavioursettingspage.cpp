@@ -205,10 +205,12 @@ void BehaviourSettingsPage::Load() {
 #endif
 
   QString name = language_map_.key(s.value("language").toString());
-  if (name.isEmpty())
+  if (name.isEmpty()) {
     ui_->combobox_language->setCurrentIndex(0);
-  else
+  }
+  else {
     ui_->combobox_language->setCurrentIndex(ui_->combobox_language->findText(name));
+  }
 
   ui_->combobox_menuplaymode->setCurrentIndex(ui_->combobox_menuplaymode->findData(s.value("menu_playmode", PlayBehaviour_Never).toInt()));
 

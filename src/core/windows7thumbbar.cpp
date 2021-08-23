@@ -135,7 +135,7 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
 
     // Add the buttons
     THUMBBUTTON buttons[kMaxButtonCount];
-    for (int i = 0 ; i < actions_.count() ; ++i) {
+    for (int i = 0; i < actions_.count(); ++i) {
       const QAction *action = actions_[i];
       THUMBBUTTON *button = &buttons[i];
       button->iId = i;
@@ -148,7 +148,7 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
       qLog(Debug) << "Failed to add buttons" << Qt::hex << DWORD (hr);
     }
 
-    for (int i = 0 ; i < actions_.count() ; ++i) {
+    for (int i = 0; i < actions_.count(); ++i) {
       if (buttons[i].hIcon) {
         DestroyIcon(buttons[i].hIcon);
       }
@@ -182,7 +182,7 @@ void Windows7ThumbBar::ActionChanged() {
   qLog(Debug) << "Updating" << actions_.count() << "buttons";
 
   THUMBBUTTON buttons[kMaxButtonCount];
-  for (int i = 0 ; i < actions_.count() ; ++i) {
+  for (int i = 0; i < actions_.count(); ++i) {
     QAction *action = actions_[i];
     THUMBBUTTON *button = &buttons[i];
 
@@ -196,7 +196,7 @@ void Windows7ThumbBar::ActionChanged() {
     qLog(Debug) << "Failed to update buttons" << Qt::hex << DWORD (hr);
   }
 
-  for (int i = 0 ; i < actions_.count() ; ++i) {
+  for (int i = 0; i < actions_.count(); ++i) {
     if (buttons[i].hIcon) {
       DestroyIcon(buttons[i].hIcon);
     }
