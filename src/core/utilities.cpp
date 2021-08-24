@@ -697,7 +697,7 @@ QString GetEnv(const QString &key) {
 void SetEnv(const char *key, const QString &value) {
 
 #ifdef Q_OS_WIN32
-  putenv(QString("%1=%2").arg(key, value).toLocal8Bit().constData());
+  _putenv(QString("%1=%2").arg(key, value).toLocal8Bit().constData());
 #else
   setenv(key, value.toLocal8Bit().constData(), 1);
 #endif
@@ -785,7 +785,19 @@ QString DesktopEnvironment() {
 
 }
 
-QString UnicodeToAscii(const QString &unicode) {
+QString UnicodeToAscii(QString unicode) {
+
+#ifdef _MSC_VER
+
+  return unicode
+    .replace(QChar(229), "a")
+    .replace(QChar(197), 'A')
+    .replace(QChar(230), "ae")
+    .replace(QChar(198), "AE")
+    .replace(QChar(248), 'o')
+    .replace(QChar(216), 'O');
+
+#else
 
 #ifdef LC_ALL
   setlocale(LC_ALL, "");
@@ -815,6 +827,8 @@ QString UnicodeToAscii(const QString &unicode) {
   delete[] output_ptr;
 
   return ret;
+
+#endif // _MSC_VER
 
 }
 

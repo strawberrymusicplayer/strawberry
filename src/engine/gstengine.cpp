@@ -875,7 +875,7 @@ void GstEngine::UpdateScope(const int chunk_length) {
   sample_type *dest = scope_.data();
   source += (chunk_size / sizeof(sample_type)) * scope_chunk_;
 
-  int bytes = 0;
+  size_t bytes = 0;
 
   // Make sure we don't go beyond the end of the buffer
   if (scope_chunk_ == scope_chunks_ - 1) {

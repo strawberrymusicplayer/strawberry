@@ -18,10 +18,13 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
 #include <sys/time.h>
+#endif
 #include <iostream>
 
-#include <QtGlobal>
 #include <QCoreApplication>
 #include <QList>
 #include <QString>

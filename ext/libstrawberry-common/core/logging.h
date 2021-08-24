@@ -29,12 +29,20 @@
 #  define qLog(level) while (false) QNoDebug()
 #  define qLogCat(level, category) while (false) QNoDebug()
 #else
-#  define qLog(level) logging::CreateLogger##level(__LINE__, __PRETTY_FUNCTION__, nullptr)
+#  ifdef _MSC_VER
+#    define qLog(level) logging::CreateLogger##level(__LINE__, __FUNCSIG__, nullptr)
+#  else
+#    define qLog(level) logging::CreateLogger##level(__LINE__, __PRETTY_FUNCTION__, nullptr)
+#  endif  // _MSC_VER
 
 // This macro specifies a separate category for message filtering.
 // The default qLog will use the class name extracted from the function name for this purpose.
 // The category is also printed in the message along with the class name.
-#  define qLogCat(level, category) logging::CreateLogger##level(__LINE__, __PRETTY_FUNCTION__, category)
+#  ifdef _MSC_VER
+#    define qLogCat(level, category) logging::CreateLogger##level(__LINE__, __FUNCSIG__, category)
+#  else
+#    define qLogCat(level, category) logging::CreateLogger##level(__LINE__, __PRETTY_FUNCTION__, category)
+#  endif  // _MSC_VER
 
 #endif  // QT_NO_DEBUG_STREAM
 

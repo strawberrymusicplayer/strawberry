@@ -35,29 +35,33 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-list(APPEND COMPILE_OPTIONS
-  $<$<COMPILE_LANGUAGE:C>:-std=c99>
-  $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>
-  -Wall
-  -Wextra
-  -Wpedantic
-  -Wunused
-  -Wshadow
-  -Wundef
-  -Wuninitialized
-  -Wredundant-decls
-  -Wcast-align
-  -Winit-self
-  -Wmissing-include-dirs
-  -Wmissing-declarations
-  -Wstrict-overflow=2
-  -Wunused-parameter
-  -Wformat=2
-  -Wdisabled-optimization
-  $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
-  $<$<COMPILE_LANGUAGE:CXX>:-Wno-old-style-cast>
-  $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
-)
+if(MSVC)
+  list(APPEND COMPILE_OPTIONS /std:c++17 /MP)
+else()
+  list(APPEND COMPILE_OPTIONS
+    $<$<COMPILE_LANGUAGE:C>:-std=c99>
+    $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Wunused
+    -Wshadow
+    -Wundef
+    -Wuninitialized
+    -Wredundant-decls
+    -Wcast-align
+    -Winit-self
+    -Wmissing-include-dirs
+    -Wmissing-declarations
+    -Wstrict-overflow=2
+    -Wunused-parameter
+    -Wformat=2
+    -Wdisabled-optimization
+    $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
+    $<$<COMPILE_LANGUAGE:CXX>:-Wno-old-style-cast>
+    $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
+  )
+endif()
 
 option(BUILD_WERROR "Build with -Werror" OFF)
 if(BUILD_WERROR)
@@ -307,7 +311,7 @@ if(NOT SPARKLE AND (APPLE OR WIN32))
   endif()
 endif()
 
-if(WIN32)
+if(WIN32 AND NOT MSVC)
   # RC compiler
   string(REPLACE "gcc" "windres" CMAKE_RC_COMPILER_INIT ${CMAKE_C_COMPILER})
   enable_language(RC)
@@ -487,6 +491,9 @@ add_definitions(-DQT_NO_CAST_TO_ASCII)
 
 if(WIN32)
   add_definitions(-DUNICODE)
+  if(MSVC)
+    add_definitions(-DPROTOBUF_USE_DLLS)
+  endif()
 endif()
 
 # Subdirectories

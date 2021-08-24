@@ -40,10 +40,12 @@ class DirectSoundDeviceFinder : public DeviceFinder {
     QList<Device> devices;
   };
 
-  static BOOL EnumerateCallback(LPGUID guid,
-                                LPCSTR description,
-                                LPCSTR module,
-                                LPVOID state_voidptr) __attribute__((stdcall));
+  static BOOL EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr)
+#ifdef _MSC_VER
+    ;
+#else
+    __attribute__((stdcall));
+#endif
 };
 
 #endif  // DIRECTSOUNDDEVICEFINDER_H

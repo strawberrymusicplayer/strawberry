@@ -2164,13 +2164,13 @@ void Playlist::RemoveDeletedSongs() {
 namespace {
 
 struct SongSimilarHash {
-  long operator() (const Song &song) const {
+  size_t operator() (const Song &song) const {
     return HashSimilar(song);
   }
 };
 
 struct SongSimilarEqual {
-  long operator()(const Song &song1, const Song &song2) const {
+  size_t operator()(const Song &song1, const Song &song2) const {
     return song1.IsSimilar(song2);
   }
 };

@@ -1179,6 +1179,9 @@ endif()
 
 if(WIN32)
   target_link_libraries(strawberry_lib PRIVATE dsound dwmapi)
+  if(MSVC)
+    target_link_libraries(strawberry_lib PRIVATE sqlite3)
+  endif()
 endif()
 
 

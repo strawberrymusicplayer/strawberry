@@ -24,7 +24,9 @@
 #include <cstring>
 #include <iostream>
 #include <memory>
-#include <cxxabi.h>
+#ifndef _MSC_VER
+#  include <cxxabi.h>
+#endif
 #include <glib.h>
 
 #ifdef HAVE_BACKTRACE
@@ -275,8 +277,8 @@ static T CreateLogger(Level level, const QString &class_name, int line, const ch
   return ret.space();
 }
 
+#ifdef Q_OS_UNIX
 QString CXXDemangle(const QString &mangled_function);
-
 QString CXXDemangle(const QString &mangled_function) {
 
   int status = 0;
@@ -289,9 +291,24 @@ QString CXXDemangle(const QString &mangled_function) {
   return mangled_function;  // Probably not a C++ function.
 
 }
+#endif  // Q_OS_UNIX
 
+#ifdef Q_OS_LINUX
+QString LinuxDemangle(const QString &symbol);
+QString LinuxDemangle(const QString &symbol) {
+
+  QRegularExpression regex("\\(([^+]+)");
+  QRegularExpressionMatch match = regex.match(symbol);
+  if (!match.hasMatch()) {
+    return symbol;
+  }
+  QString mangled_function = match.captured(1);
+  return CXXDemangle(mangled_function);
+}
+#endif  // Q_OS_LINUX
+
+#ifdef Q_OS_MACOS
 QString DarwinDemangle(const QString &symbol);
-
 QString DarwinDemangle(const QString &symbol) {
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
@@ -303,23 +320,9 @@ QString DarwinDemangle(const QString &symbol) {
   return CXXDemangle(mangled_function);
 
 }
-
-QString LinuxDemangle(const QString &symbol);
-
-QString LinuxDemangle(const QString &symbol) {
-
-  QRegularExpression regex("\\(([^+]+)");
-  QRegularExpressionMatch match = regex.match(symbol);
-  if (!match.hasMatch()) {
-    return symbol;
-  }
-  QString mangled_function = match.captured(1);
-  return CXXDemangle(mangled_function);
-
-}
+#endif  // Q_OS_MACOS
 
 QString DemangleSymbol(const QString &symbol);
-
 QString DemangleSymbol(const QString &symbol) {
 #ifdef Q_OS_MACOS
   return DarwinDemangle(symbol);

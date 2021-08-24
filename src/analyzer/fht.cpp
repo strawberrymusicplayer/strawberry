@@ -26,6 +26,7 @@
 #include <cmath>
 
 #include <QVector>
+#include <QtMath>
 
 FHT::FHT(int n) : num_((n < 3) ? 0 : 1 << n), exp2_((n < 3) ? -1 : n) {
 
