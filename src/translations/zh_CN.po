@@ -915,7 +915,7 @@ msgstr "外观"
 msgid "Append explicit to album title for explicit albums"
 msgstr ""
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:187
 msgid "Append files/URLs to the playlist"
 msgstr "添加文件/URL 到播放列表"
 
@@ -1212,7 +1212,7 @@ msgstr "更改快捷键..."
 msgid "Change the currently playing song"
 msgstr "改变正在播放歌曲"
 
-#: core/commandlineoptions.cpp:190
+#: core/commandlineoptions.cpp:193
 msgid "Change the language"
 msgstr "更改语言"
 
@@ -1335,7 +1335,7 @@ msgstr ""
 msgid "Colors"
 msgstr "颜色"
 
-#: core/commandlineoptions.cpp:194
+#: core/commandlineoptions.cpp:197
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "class:level 列表用逗号分隔，level 范围 0-3"
 
@@ -1550,7 +1550,7 @@ msgstr ""
 msgid "Covers from %1"
 msgstr "来自%1的封面"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:186
 msgid "Create a new playlist with files"
 msgstr ""
 
@@ -1674,11 +1674,11 @@ msgstr "修改日期"
 msgid "Days"
 msgstr ""
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:179
 msgid "Decrease the volume by 4 percent"
 msgstr ""
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:181
 msgid "Decrease the volume by <value> percent"
 msgstr "降低音量 <value> %"
 
@@ -1804,7 +1804,7 @@ msgstr ""
 msgid "Display options"
 msgstr "显示选项"
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:191
 msgid "Display the on-screen-display"
 msgstr "显示屏幕显示"
 
@@ -2042,11 +2042,11 @@ msgstr "整个集合"
 msgid "Equalizer"
 msgstr "均衡器"
 
-#: core/commandlineoptions.cpp:192
+#: core/commandlineoptions.cpp:195
 msgid "Equivalent to --log-levels *:1"
 msgstr "相当于 --log-levels *:1"
 
-#: core/commandlineoptions.cpp:193
+#: core/commandlineoptions.cpp:196
 msgid "Equivalent to --log-levels *:3"
 msgstr "相当于 --log-levels *:3"
 
@@ -2656,11 +2656,11 @@ msgstr "在通知中加入专辑封面"
 msgid "Include all songs"
 msgstr ""
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:178
 msgid "Increase the volume by 4 percent"
 msgstr ""
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:180
 msgid "Increase the volume by <value> percent"
 msgstr "提升音量 <value>%"
 
@@ -2849,7 +2849,7 @@ msgstr "正在加载曲目信息"
 msgid "Loading..."
 msgstr "正在载入..."
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:188
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "载入文件或URL，替换当前播放列表"
 
@@ -3379,7 +3379,7 @@ msgstr "原始年份 - 专辑"
 msgid "Original year - Album - Disc"
 msgstr ""
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:191
 msgid "Other options"
 msgstr "其它选项"
 
@@ -3437,7 +3437,7 @@ msgstr ""
 msgid "Pause"
 msgstr "暂停"
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:173
 msgid "Pause playback"
 msgstr "暂停播放"
 
@@ -3478,11 +3478,11 @@ msgstr "播放计数"
 msgid "Play counts"
 msgstr ""
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:190
 msgid "Play given playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:172
 msgid "Play if stopped, pause if playing"
 msgstr "若停止则播放，若播放则停止"
 
@@ -3495,7 +3495,7 @@ msgstr "如无歌曲播放则自动播放添加的歌曲"
 msgid "Play next"
 msgstr ""
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:189
 msgid "Play the <n>th track in the playlist"
 msgstr "播放列表中的第<n>首"
 
@@ -3509,7 +3509,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr ""
 
-#: core/commandlineoptions.cpp:167
+#: core/commandlineoptions.cpp:170
 msgid "Player options"
 msgstr "播放器选项"
 
@@ -3539,7 +3539,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr ""
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:185
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "播放列表选项"
@@ -3656,7 +3656,7 @@ msgstr "上一首"
 msgid "Previous track"
 msgstr ""
 
-#: core/commandlineoptions.cpp:195
+#: core/commandlineoptions.cpp:198
 msgid "Print out version information"
 msgstr "输出版本信息"
 
@@ -3934,7 +3934,7 @@ msgstr "重置"
 msgid "Reset play counts"
 msgstr "重置播放计数"
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:194
 msgid "Resize the window"
 msgstr ""
 
@@ -3942,7 +3942,7 @@ msgstr ""
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "按一次重新播放歌曲，连按两次则播放上首歌"
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:184
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr "重播当前曲目，如果曲目开播不足8秒钟则播放上一曲。"
@@ -4184,11 +4184,11 @@ msgstr "第二等级"
 msgid "Second level"
 msgstr "第二阶段"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:183
 msgid "Seek the currently playing track by a relative amount"
 msgstr "当前播放的曲目以相对步长快进/快退"
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:182
 msgid "Seek the currently playing track to an absolute position"
 msgstr "当前播放的曲目快进/快退至指定时间点"
 
@@ -4245,7 +4245,7 @@ msgstr ""
 msgid "Set %1 to \"%2\"..."
 msgstr "将 %1 设置为 %2..."
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:177
 msgid "Set the volume to <value> percent"
 msgstr "设置音量为 <value>%"
 
@@ -4461,7 +4461,7 @@ msgstr "大小:"
 msgid "Ska"
 msgstr "Ska"
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:175
 msgid "Skip backwards in playlist"
 msgstr "在播放列表中后退"
 
@@ -4469,7 +4469,7 @@ msgstr "在播放列表中后退"
 msgid "Skip count"
 msgstr "跳过计数"
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:176
 msgid "Skip forwards in playlist"
 msgstr "在播放列表中前进"
 
@@ -4561,7 +4561,7 @@ msgstr ""
 msgid "Standard"
 msgstr "标准"
 
-#: core/commandlineoptions.cpp:168
+#: core/commandlineoptions.cpp:171
 msgid "Start the playlist currently playing"
 msgstr "开始播放当前播放列表"
 
@@ -4586,11 +4586,11 @@ msgstr "播放每个曲目前停止"
 msgid "Stop after this track"
 msgstr "在此曲目后停止"
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:173
 msgid "Stop playback"
 msgstr "停止播放"
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:174
 msgid "Stop playback after current track"
 msgstr "播放完此曲目后停止"
 
@@ -4945,7 +4945,7 @@ msgstr "切换歌曲记录"
 msgid "Toggle skip status"
 msgstr ""
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:192
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "切换 OSD 可见性"
 
@@ -5004,7 +5004,7 @@ msgstr ""
 msgid "URI"
 msgstr "URI"
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:169
 msgid "URL(s)"
 msgstr "URL"
 
@@ -5081,7 +5081,7 @@ msgstr ""
 msgid "Upper Right"
 msgstr ""
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:169
 msgid "Usage"
 msgstr "用法"
 
@@ -5554,7 +5554,7 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:169
 msgid "options"
 msgstr "选项"
 
