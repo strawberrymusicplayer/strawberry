@@ -197,6 +197,7 @@
 
 #include "smartplaylists/smartplaylistsviewcontainer.h"
 #include "smartplaylists/smartplaylistsview.h"
+#include <chrono>
 
 #ifdef Q_OS_WIN
 #  include "windows7thumbbar.h"
@@ -209,6 +210,8 @@
 #    include <qtsparkle-qt5/Updater>
 #  endif
 #endif  // HAVE_QTSPARKLE
+
+using namespace std::chrono_literals;
 
 const char *MainWindow::kSettingsGroup = "MainWindow";
 const char *MainWindow::kAllFilesFilterSpec = QT_TR_NOOP("All Files (*)");
@@ -1441,7 +1444,7 @@ void MainWindow::LoadPlaybackStatus() {
     std::shared_ptr<QMetaObject::Connection> connection = std::make_shared<QMetaObject::Connection>();
     *connection = QObject::connect(app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, [this, connection]() {
       QObject::disconnect(*connection);
-      QTimer::singleShot(400, this, &MainWindow::ResumePlayback);
+      QTimer::singleShot(400ms, this, &MainWindow::ResumePlayback);
     });
   }
 
