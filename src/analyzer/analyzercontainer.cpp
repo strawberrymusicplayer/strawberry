@@ -236,6 +236,6 @@ void AnalyzerContainer::AddFramerate(const QString &name, const int framerate) {
   group_framerate_->addAction(action);
   framerate_list_ << framerate;
   action->setCheckable(true);
-  QObject::connect(action, &QAction::triggered, [this, framerate]() { ChangeFramerate(framerate); } );
+  QObject::connect(action, &QAction::triggered, this, [this, framerate]() { ChangeFramerate(framerate); } );
 
 }

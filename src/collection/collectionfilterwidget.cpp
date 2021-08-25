@@ -165,7 +165,7 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
   QList<QAction*> filter_ages = filter_ages_.keys();
   for (QAction *action : filter_ages) {
     int age = filter_ages_[action];
-    QObject::connect(action, &QAction::triggered, [this, age]() { model_->SetFilterAge(age); } );
+    QObject::connect(action, &QAction::triggered, this, [this, age]() { model_->SetFilterAge(age); } );
   }
 
   // Load settings
