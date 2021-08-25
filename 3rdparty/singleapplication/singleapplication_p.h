@@ -82,7 +82,7 @@ class SingleApplicationPrivate : public QObject {
 
   static QString getUsername();
   void genBlockServerName();
-  void initializeMemoryBlock();
+  void initializeMemoryBlock() const;
   void startPrimary();
   void startSecondary();
   bool connectToPrimary(const int timeout, const ConnectionType connectionType);

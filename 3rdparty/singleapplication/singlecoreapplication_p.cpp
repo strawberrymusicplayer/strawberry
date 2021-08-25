@@ -169,7 +169,7 @@ void SingleCoreApplicationPrivate::genBlockServerName() {
 
 }
 
-void SingleCoreApplicationPrivate::initializeMemoryBlock() {
+void SingleCoreApplicationPrivate::initializeMemoryBlock() const {
 
   InstancesInfo *inst = static_cast<InstancesInfo*>(memory_->data());
   inst->primary = false;
