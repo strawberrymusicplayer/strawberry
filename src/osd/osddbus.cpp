@@ -181,7 +181,7 @@ void OSDDBus::CallFinished(QDBusPendingCallWatcher *watcher) {
 
   std::unique_ptr<QDBusPendingCallWatcher> w(watcher);
 
-  QDBusPendingReply<uint> reply = *w.get();
+  QDBusPendingReply<uint> reply = *w;
   if (reply.isError()) {
     qLog(Warning) << "Error sending notification" << reply.error().name();
     return;
