@@ -500,7 +500,7 @@ msgid ""
 msgstr ""
 "スマートプレイリストは、コレクションから一定の作成される動的なプレイリストです。さまざまな選曲方法を提供する異なるタイプのスマートプレイリストがあります。"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:163
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:158
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr "これらの条件に一致する曲がプレイリストに含まれます"
@@ -585,7 +585,7 @@ msgstr "ディレクトリとサブディレクトリにあるすべてのトラ
 msgid "Add directory..."
 msgstr "ディレクトリを追加..."
 
-#: core/mainwindow.cpp:2172
+#: core/mainwindow.cpp:2175
 msgid "Add file"
 msgstr "ファイルを追加"
 
@@ -601,7 +601,7 @@ msgstr "ファイルをトランスコーダーに追加"
 msgid "Add files to transcode"
 msgstr "変換するファイルを追加"
 
-#: core/mainwindow.cpp:2198 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2201 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "フォルダーを追加"
 
@@ -711,7 +711,7 @@ msgstr "ストリームを追加..."
 msgid "Add to albums"
 msgstr "アルバムに追加"
 
-#: core/mainwindow.cpp:1974
+#: core/mainwindow.cpp:1977
 msgid "Add to another playlist"
 msgstr "別のプレイリストに追加"
 
@@ -769,7 +769,7 @@ msgstr "コピー後..."
 msgid "Albu&m cover"
 msgstr "アルバムカバー(&m)"
 
-#: collection/savedgroupingmanager.cpp:91 playlist/playlist.cpp:1335
+#: collection/savedgroupingmanager.cpp:91 playlist/playlist.cpp:1338
 #: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:186
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:107
@@ -789,7 +789,7 @@ msgstr "アルバム (すべてのトラックで最適な音量)"
 msgid "Album - Disc"
 msgstr "アルバム - ディスク"
 
-#: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1342
+#: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1345
 #: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
 #: ../build/src/ui_edittagdialog.h:827
@@ -834,7 +834,7 @@ msgstr "カバー付きのアルバム"
 msgid "Albums without covers"
 msgstr "カバーなしのアルバム数"
 
-#: core/mainwindow.cpp:214
+#: core/mainwindow.cpp:217
 msgid "All Files (*)"
 msgstr "すべてのファイル (*)"
 
@@ -951,7 +951,7 @@ msgstr "自動アート"
 msgid "Art Manual"
 msgstr "手動アート"
 
-#: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1334
+#: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1337
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:103
@@ -1105,7 +1105,7 @@ msgid "Best"
 msgstr "良"
 
 #: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:139
-#: playlist/playlist.cpp:1352 organize/organizedialog.cpp:120
+#: playlist/playlist.cpp:1355 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:800
 msgid "Bit depth"
@@ -1116,7 +1116,7 @@ msgid "Bit rate"
 msgstr "ビットレート"
 
 #: context/contextview.cpp:219 collection/savedgroupingmanager.cpp:142
-#: playlist/playlist.cpp:1353 ../build/src/ui_groupbydialog.h:202
+#: playlist/playlist.cpp:1356 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:132
 #: ../build/src/ui_transcoderoptionsopus.h:76
@@ -1211,7 +1211,7 @@ msgstr "再生中の曲を変更する"
 msgid "Change the language"
 msgstr "言語の変更"
 
-#: core/mainwindow.cpp:773
+#: core/mainwindow.cpp:776
 msgid "Check for updates..."
 msgstr "更新のチェック..."
 
@@ -1231,7 +1231,7 @@ msgstr "last.fm からインポートするデータを選択"
 msgid "Choose font..."
 msgstr "フォントの選択..."
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:165
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:160
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr "プレイリストの並び順と含まれる曲数を選択します。"
 
@@ -1260,7 +1260,7 @@ msgstr "ディスクキャッシュをクリア"
 msgid "Clear cover"
 msgstr "カバーを選択"
 
-#: core/mainwindow.cpp:2263 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2266 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "プレイリストをクリア"
 
@@ -1305,7 +1305,7 @@ msgstr "このウィンドウを閉じるとアルバムカバーの検索を中
 msgid "Club"
 msgstr "クラブ"
 
-#: core/mainwindow.cpp:344 ../build/src/ui_collectionsettingspage.h:473
+#: core/mainwindow.cpp:347 ../build/src/ui_collectionsettingspage.h:473
 #: ../build/src/ui_scrobblersettingspage.h:417
 msgid "Collection"
 msgstr "ライブラリ"
@@ -1318,11 +1318,11 @@ msgstr "コレクションフィルター"
 msgid "Collection advanced grouping"
 msgstr "ライブラリの高度なグループ化"
 
-#: core/mainwindow.cpp:2842
+#: core/mainwindow.cpp:2845
 msgid "Collection rescan notice"
 msgstr "ライブラリー再スキャン通知"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:96
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:91
 msgid "Collection search"
 msgstr "コレクション検索"
 
@@ -1334,7 +1334,7 @@ msgstr "色"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "コンマ区切りの クラス:レベル のリスト、レベルは 0-3"
 
-#: playlist/playlist.cpp:1362 smartplaylists/smartplaylistsearchterm.cpp:381
+#: playlist/playlist.cpp:1365 smartplaylists/smartplaylistsearchterm.cpp:381
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:831
 msgid "Comment"
 msgstr "コメント"
@@ -1351,7 +1351,7 @@ msgstr "タグの自動補完"
 msgid "Complete tags automatically..."
 msgstr "タグを自動補完..."
 
-#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1343
+#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1346
 #: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:832
@@ -1379,7 +1379,7 @@ msgstr "%1 の設定..."
 msgid "Configure buttons"
 msgstr "設定ボタン"
 
-#: core/mainwindow.cpp:650
+#: core/mainwindow.cpp:653
 msgid "Configure collection..."
 msgstr "ライブラリの設定..."
 
@@ -1395,7 +1395,7 @@ msgstr "コンソール"
 msgid "Constant bitrate"
 msgstr "固定ビットレート"
 
-#: core/mainwindow.cpp:343 ../build/src/ui_contextsettingspage.h:370
+#: core/mainwindow.cpp:346 ../build/src/ui_contextsettingspage.h:370
 msgid "Context"
 msgstr "コンテキスト"
 
@@ -1415,7 +1415,7 @@ msgstr "すべての曲を変換する"
 msgid "Convert any music that the device can't play"
 msgstr "デバイスが再生できないすべての曲を変換する"
 
-#: core/mainwindow.cpp:719
+#: core/mainwindow.cpp:722
 msgid "Copy URL(s)..."
 msgstr "URLをコピー"
 
@@ -1423,7 +1423,7 @@ msgstr "URLをコピー"
 msgid "Copy album cover artwork"
 msgstr "アルバムのカバーアートワークをコピー"
 
-#: core/mainwindow.cpp:723 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:726 widgets/fileviewlist.cpp:47
 #: device/deviceview.cpp:248
 msgid "Copy to collection..."
 msgstr "ライブラリへコピー..."
@@ -1432,7 +1432,7 @@ msgstr "ライブラリへコピー..."
 msgid "Copy to device"
 msgstr "デバイスへコピー"
 
-#: core/mainwindow.cpp:726 context/contextalbumsview.cpp:271
+#: core/mainwindow.cpp:729 context/contextalbumsview.cpp:271
 #: collection/collectionview.cpp:359 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
@@ -1660,11 +1660,11 @@ msgstr "ダンス"
 msgid "Database corruption detected."
 msgstr "データベースの不整合が検出されました。"
 
-#: playlist/playlist.cpp:1360 ../build/src/ui_edittagdialog.h:806
+#: playlist/playlist.cpp:1363 ../build/src/ui_edittagdialog.h:806
 msgid "Date created"
 msgstr "作成日時"
 
-#: playlist/playlist.cpp:1359 ../build/src/ui_edittagdialog.h:804
+#: playlist/playlist.cpp:1362 ../build/src/ui_edittagdialog.h:804
 msgid "Date modified"
 msgstr "更新日時"
 
@@ -1705,7 +1705,7 @@ msgstr "ファイルの削除"
 msgid "Delete from device..."
 msgstr "デバイスから削除..."
 
-#: core/mainwindow.cpp:728 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:731 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:50
 msgid "Delete from disk..."
 msgstr "ディスクから削除..."
@@ -1727,11 +1727,11 @@ msgstr "元のファイルを削除する"
 msgid "Deleting files"
 msgstr "ファイルの削除中"
 
-#: core/mainwindow.cpp:1889
+#: core/mainwindow.cpp:1892
 msgid "Dequeue selected tracks"
 msgstr "選択されたトラックをキューから削除する"
 
-#: core/mainwindow.cpp:1888
+#: core/mainwindow.cpp:1891
 msgid "Dequeue track"
 msgstr "トラックをキューから削除"
 
@@ -1757,7 +1757,7 @@ msgstr "デバイスのプロパティ"
 msgid "Device properties..."
 msgstr "デバイスのプロパティ..."
 
-#: core/mainwindow.cpp:351
+#: core/mainwindow.cpp:354
 msgid "Devices"
 msgstr "デバイス"
 
@@ -1782,7 +1782,7 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "無効"
 
-#: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1337
+#: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1340
 #: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
 #: ../build/src/ui_edittagdialog.h:826
@@ -1890,7 +1890,7 @@ msgstr "スマートプレイリストを編集"
 msgid "Edit smart playlist..."
 msgstr "スマートプレイリストを編集..."
 
-#: core/mainwindow.cpp:1932
+#: core/mainwindow.cpp:1935
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "タグ「%1」を編集..."
@@ -2048,7 +2048,7 @@ msgstr "--log-levels *:1 と同じ"
 msgid "Equivalent to --log-levels *:3"
 msgstr "--log-levels *:3 と同じ"
 
-#: core/mainwindow.cpp:2573 core/mainwindow.cpp:2724
+#: core/mainwindow.cpp:2576 core/mainwindow.cpp:2727
 #: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
 msgid "Error"
 msgstr "エラー"
@@ -2235,11 +2235,11 @@ msgstr "ファイル拡張子"
 msgid "File formats"
 msgstr "ファイル形式"
 
-#: playlist/playlist.cpp:1355
+#: playlist/playlist.cpp:1358
 msgid "File name"
 msgstr "ファイル名"
 
-#: playlist/playlist.cpp:1356
+#: playlist/playlist.cpp:1359
 msgid "File name (without path)"
 msgstr "ファイル名 (パスなし)"
 
@@ -2247,11 +2247,11 @@ msgstr "ファイル名 (パスなし)"
 msgid "File paths"
 msgstr "ファイルのパス"
 
-#: playlist/playlist.cpp:1357 ../build/src/ui_edittagdialog.h:812
+#: playlist/playlist.cpp:1360 ../build/src/ui_edittagdialog.h:812
 msgid "File size"
 msgstr "ファイルサイズ"
 
-#: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1358
+#: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1361
 #: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
 #: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:799
 msgid "File type"
@@ -2265,7 +2265,7 @@ msgstr "ファイル名"
 msgid "Filename:"
 msgstr "ファイル名:"
 
-#: core/mainwindow.cpp:348
+#: core/mainwindow.cpp:351
 msgid "Files"
 msgstr "ファイル"
 
@@ -2281,7 +2281,7 @@ msgstr ""
 msgid "Filetype"
 msgstr "ファイルタイプ"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:99
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:94
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr "指定した条件でコレクションを検索します"
 
@@ -2408,7 +2408,7 @@ msgstr "全般設定"
 msgid "Genius Authentication"
 msgstr "Genius 認証"
 
-#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1341
+#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1344
 #: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 #: ../build/src/ui_edittagdialog.h:825
@@ -2516,7 +2516,7 @@ msgstr "ジャンル/アルバム、アーティスト/アルバムでグルー�
 msgid "Group by Genre/Artist/Album"
 msgstr "ジャンル/アーティスト/アルバムでグループ化"
 
-#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1345
+#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1348
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:835
@@ -2740,7 +2740,7 @@ msgstr "大きいアルバムカバー"
 msgid "Large sidebar"
 msgstr "大きいサイドバー"
 
-#: playlist/playlist.cpp:1349 smartplaylists/smartplaylistsmodel.cpp:94
+#: playlist/playlist.cpp:1352 smartplaylists/smartplaylistsmodel.cpp:94
 #: ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "最終再生"
@@ -2767,7 +2767,7 @@ msgstr ""
 msgid "Left"
 msgstr "左"
 
-#: context/contextview.cpp:216 playlist/playlist.cpp:1338
+#: context/contextview.cpp:216 playlist/playlist.cpp:1341
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:798
 msgid "Length"
 msgstr "長さ"
@@ -3057,7 +3057,7 @@ msgstr "ライブラリの変更を監視する"
 msgid "Months"
 msgstr "月"
 
-#: playlist/playlist.cpp:1364
+#: playlist/playlist.cpp:1367
 msgid "Mood"
 msgstr "ムード"
 
@@ -3087,7 +3087,7 @@ msgstr "マウントポイント"
 msgid "Move down"
 msgstr "下へ移動"
 
-#: core/mainwindow.cpp:724 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:727 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
 msgstr "ライブラリへ移動..."
 
@@ -3096,7 +3096,7 @@ msgstr "ライブラリへ移動..."
 msgid "Move up"
 msgstr "上へ移動"
 
-#: core/mainwindow.cpp:2172 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2175 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "ミュージック"
 
@@ -3140,7 +3140,7 @@ msgstr "再生を開始しない"
 msgid "New folder"
 msgstr "新しいフォルダー"
 
-#: core/mainwindow.cpp:1990
+#: core/mainwindow.cpp:1993
 msgid "New playlist"
 msgstr "新しいプレイリスト"
 
@@ -3211,7 +3211,7 @@ msgstr "曲が再生されていません"
 msgid "None"
 msgstr "なし"
 
-#: core/mainwindow.cpp:2573 core/mainwindow.cpp:2724
+#: core/mainwindow.cpp:2576 core/mainwindow.cpp:2727
 #: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "デバイスへのコピーに適切な曲が選択されていません"
@@ -3349,7 +3349,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "ファイルを管理"
 
-#: core/mainwindow.cpp:722 context/contextalbumsview.cpp:269
+#: core/mainwindow.cpp:725 context/contextalbumsview.cpp:269
 #: collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr "ファイルを管理..."
@@ -3362,7 +3362,7 @@ msgstr "ファイルを管理中"
 msgid "Original tags"
 msgstr "元のタグ"
 
-#: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1340
+#: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1343
 #: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Original year"
@@ -3430,7 +3430,7 @@ msgstr "パス"
 msgid "Pattern"
 msgstr "パターン"
 
-#: core/mainwindow.cpp:1292 core/mainwindow.cpp:1787
+#: core/mainwindow.cpp:1295 core/mainwindow.cpp:1790
 #: core/qtsystemtrayicon.cpp:146
 msgid "Pause"
 msgstr "一時停止"
@@ -3443,7 +3443,7 @@ msgstr "再生を一時停止します"
 msgid "Paused"
 msgstr "一時停止中"
 
-#: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1344
+#: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1347
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:834
@@ -3458,8 +3458,8 @@ msgstr "ピクセル"
 msgid "Plain sidebar"
 msgstr "プレーンサイドバー"
 
-#: core/mainwindow.cpp:691 core/mainwindow.cpp:1249 core/mainwindow.cpp:1276
-#: core/mainwindow.cpp:1791 core/qtsystemtrayicon.cpp:159
+#: core/mainwindow.cpp:694 core/mainwindow.cpp:1252 core/mainwindow.cpp:1279
+#: core/mainwindow.cpp:1794 core/qtsystemtrayicon.cpp:159
 #: core/qtsystemtrayicon.cpp:173
 msgid "Play"
 msgstr "再生"
@@ -3468,7 +3468,7 @@ msgstr "再生"
 msgid "Play control buttons"
 msgstr ""
 
-#: playlist/playlist.cpp:1347 ../build/src/ui_edittagdialog.h:805
+#: playlist/playlist.cpp:1350 ../build/src/ui_edittagdialog.h:805
 msgid "Play count"
 msgstr "再生回数"
 
@@ -3526,7 +3526,7 @@ msgstr "プレイリストボタン"
 msgid "Playlist finished"
 msgstr "プレイリストが完了しました"
 
-#: core/mainwindow.cpp:2263
+#: core/mainwindow.cpp:2266
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3550,7 +3550,7 @@ msgstr ""
 msgid "Playlist type"
 msgstr "プレイリストタイプ"
 
-#: core/mainwindow.cpp:346
+#: core/mainwindow.cpp:349
 msgid "Playlists"
 msgstr "プレイリスト"
 
@@ -3670,7 +3670,7 @@ msgstr "進行状況"
 msgid "Put songs in a random order"
 msgstr "曲をランダムに並び替える"
 
-#: core/mainwindow.cpp:360 ../build/src/ui_scrobblersettingspage.h:422
+#: core/mainwindow.cpp:363 ../build/src/ui_scrobblersettingspage.h:422
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3695,24 +3695,24 @@ msgstr "品質"
 msgid "Querying device..."
 msgstr "デバイスを照会しています..."
 
-#: core/mainwindow.cpp:345
+#: core/mainwindow.cpp:348
 msgid "Queue"
 msgstr "キュー"
 
-#: core/mainwindow.cpp:1891
+#: core/mainwindow.cpp:1894
 msgid "Queue selected tracks"
 msgstr "選択されたトラックをキューに追加"
 
-#: core/mainwindow.cpp:697 core/mainwindow.cpp:1895
+#: core/mainwindow.cpp:700 core/mainwindow.cpp:1898
 msgid "Queue selected tracks to play next"
 msgstr "選択したトラックを次に再生する"
 
-#: core/mainwindow.cpp:1898 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1901 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:322
 msgid "Queue to play next"
 msgstr "次に再生する"
 
-#: core/mainwindow.cpp:1890 context/contextalbumsview.cpp:266
+#: core/mainwindow.cpp:1893 context/contextalbumsview.cpp:266
 #: collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
 #: internet/internetsearchview.cpp:326 internet/internetcollectionview.cpp:321
@@ -3731,7 +3731,7 @@ msgstr "ラジオ (すべてのトラックで均一の音量)"
 msgid "Radio Paradise"
 msgstr ""
 
-#: core/mainwindow.cpp:349
+#: core/mainwindow.cpp:352
 msgid "Radios"
 msgstr ""
 
@@ -3739,7 +3739,7 @@ msgstr ""
 msgid "Random"
 msgstr "ランダム"
 
-#: playlist/playlist.cpp:1365
+#: playlist/playlist.cpp:1368
 msgid "Rating"
 msgstr "評価"
 
@@ -3924,7 +3924,7 @@ msgstr "再装着"
 msgid "Rescan song(s)"
 msgstr "曲を再スキャン"
 
-#: core/mainwindow.cpp:713
+#: core/mainwindow.cpp:716
 msgid "Rescan song(s)..."
 msgstr "曲を再スキャン中..."
 
@@ -4040,7 +4040,7 @@ msgstr "デバイスを安全に取り外す"
 msgid "Safely remove the device after copying"
 msgstr "コピー後にデバイスを安全に取り外す"
 
-#: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1351
+#: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1354
 #: organize/organizedialog.cpp:119 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 #: ../build/src/ui_edittagdialog.h:808
@@ -4163,11 +4163,11 @@ msgstr ""
 msgid "Search mode"
 msgstr "検索モード"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:164
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:159
 msgid "Search options"
 msgstr "検索オプション"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:162
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:157
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
 msgstr "検索語"
@@ -4242,7 +4242,7 @@ msgstr "サーバーURLが不正です。"
 msgid "Server-side scrobbling"
 msgstr "サーバーサイドの scrobbling"
 
-#: core/mainwindow.cpp:1931
+#: core/mainwindow.cpp:1934
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 を「%2」に設定します..."
@@ -4329,7 +4329,7 @@ msgstr "コレクションでアルバムカバーアートを表示"
 msgid "Show albums by artist"
 msgstr "アーティストごとにアルバムを表示"
 
-#: core/mainwindow.cpp:639
+#: core/mainwindow.cpp:642
 msgid "Show all songs"
 msgstr "すべての曲を表示する"
 
@@ -4353,7 +4353,7 @@ msgstr "エンジンとデバイスを表示"
 msgid "Show fullsize..."
 msgstr "原寸表示..."
 
-#: core/mainwindow.cpp:720
+#: core/mainwindow.cpp:723
 msgid "Show in collection..."
 msgstr "ライブラリーに表示..."
 
@@ -4361,7 +4361,7 @@ msgstr "ライブラリーに表示..."
 msgid "Show in file browser"
 msgstr "ファイルブラウザーで表示"
 
-#: core/mainwindow.cpp:721 context/contextalbumsview.cpp:277
+#: core/mainwindow.cpp:724 context/contextalbumsview.cpp:277
 #: collection/collectionview.cpp:366 widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "ファイルブラウザーで表示..."
@@ -4378,11 +4378,11 @@ msgstr "Loveボタンを表示"
 msgid "Show moodbar"
 msgstr "ムードバーを表示"
 
-#: core/mainwindow.cpp:640
+#: core/mainwindow.cpp:643
 msgid "Show only duplicates"
 msgstr "重複するものだけ表示"
 
-#: core/mainwindow.cpp:641
+#: core/mainwindow.cpp:644
 msgid "Show only untagged"
 msgstr "タグのないものだけ表示"
 
@@ -4467,7 +4467,7 @@ msgstr "Ska"
 msgid "Skip backwards in playlist"
 msgstr "プレイリストで後ろにスキップ"
 
-#: playlist/playlist.cpp:1348 ../build/src/ui_edittagdialog.h:803
+#: playlist/playlist.cpp:1351 ../build/src/ui_edittagdialog.h:803
 msgid "Skip count"
 msgstr "スキップ回数"
 
@@ -4475,11 +4475,11 @@ msgstr "スキップ回数"
 msgid "Skip forwards in playlist"
 msgstr "プレイリストで前にスキップ"
 
-#: core/mainwindow.cpp:1904
+#: core/mainwindow.cpp:1907
 msgid "Skip selected tracks"
 msgstr "選択したトラックをスキップする"
 
-#: core/mainwindow.cpp:1903
+#: core/mainwindow.cpp:1906
 msgid "Skip track"
 msgstr "トラックをスキップする"
 
@@ -4495,7 +4495,7 @@ msgstr "小さいサイドバー"
 msgid "Smart playlist"
 msgstr "スマートプレイリスト"
 
-#: core/mainwindow.cpp:347
+#: core/mainwindow.cpp:350
 msgid "Smart playlists"
 msgstr "スマートプレイリスト"
 
@@ -4547,7 +4547,7 @@ msgstr "曲を並べ替え"
 msgid "Sorting"
 msgstr "整列"
 
-#: playlist/playlist.cpp:1363
+#: playlist/playlist.cpp:1366
 msgid "Source"
 msgstr "ソース"
 
@@ -4584,7 +4584,7 @@ msgstr "各トラック後に停止"
 msgid "Stop after every track"
 msgstr "各トラック後に停止"
 
-#: core/mainwindow.cpp:693 ../build/src/ui_mainwindow.h:627
+#: core/mainwindow.cpp:696 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
 msgstr "このトラック後に停止"
 
@@ -4688,7 +4688,7 @@ msgstr "スタイル"
 msgid "Submit scrobbles every"
 msgstr ""
 
-#: core/mainwindow.cpp:354 ../build/src/ui_scrobblersettingspage.h:418
+#: core/mainwindow.cpp:357 ../build/src/ui_scrobblersettingspage.h:418
 #: ../build/src/ui_subsonicsettingspage.h:223
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4823,7 +4823,7 @@ msgstr "指定されたサイトは存在しません!"
 msgid "The site you requested is not an image!"
 msgstr "指定されたサイトは画像ではありません!"
 
-#: core/mainwindow.cpp:2837
+#: core/mainwindow.cpp:2840
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4911,7 +4911,7 @@ msgstr "このオプションは設定の「動作」で変更できます。"
 msgid "This type of device is not supported: %1"
 msgstr "この種類のデバイスはサポートされていません: %1"
 
-#: core/mainwindow.cpp:357 ../build/src/ui_scrobblersettingspage.h:420
+#: core/mainwindow.cpp:360 ../build/src/ui_scrobblersettingspage.h:420
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -4926,7 +4926,7 @@ msgstr ""
 msgid "Time step"
 msgstr "時間刻み"
 
-#: playlist/playlist.cpp:1333 organize/organizedialog.cpp:103
+#: playlist/playlist.cpp:1336 organize/organizedialog.cpp:103
 #: ../build/src/ui_contextsettingspage.h:435
 #: ../build/src/ui_edittagdialog.h:824
 #: ../build/src/ui_trackselectiondialog.h:209
@@ -4937,7 +4937,7 @@ msgstr "タイトル"
 msgid "Today"
 msgstr "今日"
 
-#: core/mainwindow.cpp:694 core/mainwindow.cpp:1892
+#: core/mainwindow.cpp:697 core/mainwindow.cpp:1895
 msgid "Toggle queue status"
 msgstr "キュー状態の切り替え"
 
@@ -4945,7 +4945,7 @@ msgstr "キュー状態の切り替え"
 msgid "Toggle scrobbling"
 msgstr "scrobbling の切り替え"
 
-#: core/mainwindow.cpp:700 core/mainwindow.cpp:1905
+#: core/mainwindow.cpp:703 core/mainwindow.cpp:1908
 msgid "Toggle skip status"
 msgstr ""
 
@@ -4973,7 +4973,7 @@ msgstr "合計転送バイト数"
 msgid "Total network requests made"
 msgstr "合計ネットワーク要求回数"
 
-#: playlist/playlist.cpp:1336 organize/organizedialog.cpp:111
+#: playlist/playlist.cpp:1339 organize/organizedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:836
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Track"
@@ -5047,11 +5047,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "カバーを未設定にする"
 
-#: core/mainwindow.cpp:1902
+#: core/mainwindow.cpp:1905
 msgid "Unskip selected tracks"
 msgstr "選択したトラックをスキップしない"
 
-#: core/mainwindow.cpp:1901
+#: core/mainwindow.cpp:1904
 msgid "Unskip track"
 msgstr "トラックをスキップしない"
 
@@ -5295,7 +5295,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2841
+#: core/mainwindow.cpp:2844
 msgid "Would you like to run a full rescan right now?"
 msgstr "全体の再スキャンを今すぐ実行しますか?"
 
@@ -5303,7 +5303,7 @@ msgstr "全体の再スキャンを今すぐ実行しますか?"
 msgid "Write metadata when saving playlists"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1339
+#: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1342
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:837
