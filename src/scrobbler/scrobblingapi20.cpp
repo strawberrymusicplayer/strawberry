@@ -583,7 +583,7 @@ void ScrobblingAPI20::Submit() {
   int i = 0;
   QList<quint64> list;
   QList<ScrobblerCacheItemPtr> items = cache()->List();
-  for (ScrobblerCacheItemPtr item : items) {  // clazy:exclude=range-loop
+  for (ScrobblerCacheItemPtr item : items) {  // clazy:exclude=range-loop-reference
     if (item->sent_) continue;
     item->sent_ = true;
     if (!batch_) {

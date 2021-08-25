@@ -344,7 +344,7 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList &items, 
   if (db_->CheckErrors(clear)) return;
 
   // Save the new ones
-  for (PlaylistItemPtr item : items) {  // clazy:exclude=range-loop
+  for (PlaylistItemPtr item : items) {  // clazy:exclude=range-loop-reference
     insert.bindValue(":playlist", playlist);
     item->BindToQuery(&insert);
 

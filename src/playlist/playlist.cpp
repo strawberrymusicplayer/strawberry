@@ -1025,7 +1025,7 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, const int pos, const
   // Exercise vetoes
   SongList songs;
   songs.reserve(items.count());
-  for (PlaylistItemPtr item : items) {  // clazy:exclude=range-loop
+  for (PlaylistItemPtr item : items) {  // clazy:exclude=range-loop-reference
     songs << item->Metadata();
   }
 
@@ -2015,7 +2015,7 @@ SongList Playlist::GetAllSongs() const {
 
   SongList ret;
   ret.reserve(items_.count());
-  for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop
+  for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop-reference
     ret << item->Metadata();
   }
   return ret;
@@ -2027,7 +2027,7 @@ PlaylistItemList Playlist::GetAllItems() const { return items_; }
 quint64 Playlist::GetTotalLength() const {
 
   quint64 ret = 0;
-  for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop
+  for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop-reference
     quint64 length = item->Metadata().length_nanosec();
     if (length > 0) ret += length;
   }

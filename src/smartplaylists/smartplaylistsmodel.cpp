@@ -138,7 +138,7 @@ void SmartPlaylistsModel::Init() {
     // Append the new ones
     s.beginWriteArray(backend_->songs_table(), playlist_index + unwritten_defaults);
     for (; version < default_smart_playlists_.count(); ++version) {
-      for (PlaylistGeneratorPtr gen : default_smart_playlists_[version]) {  // clazy:exclude=range-loop
+      for (PlaylistGeneratorPtr gen : default_smart_playlists_[version]) {  // clazy:exclude=range-loop-reference
         SaveGenerator(&s, playlist_index++, gen);
       }
     }
