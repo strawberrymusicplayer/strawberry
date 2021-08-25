@@ -56,12 +56,7 @@ class SmartPlaylistQueryWizardPlugin::SearchPage : public QWizardPage {  // claz
     if (ui_->type->currentIndex() == 2) {  // All songs
       return true;
     }
-
-    if (std::any_of(terms_.begin(), terms_.end(), [](SmartPlaylistSearchTermWidget *widget) { return !widget->Term().is_valid(); })) {
-      return false;
-    }
-
-    return true;
+    return !std::any_of(terms_.begin(), terms_.end(), [](SmartPlaylistSearchTermWidget *widget) { return !widget->Term().is_valid(); });
   }
 
   QVBoxLayout *layout_;

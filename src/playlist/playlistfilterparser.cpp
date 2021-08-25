@@ -236,10 +236,7 @@ class OrFilter : public FilterTree {
   ~OrFilter() override { qDeleteAll(children_); }
   virtual void add(FilterTree *child) { children_.append(child); }
   bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
-    if (std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return child->accept(row, parent, model); })) {
-      return true;
-    }
-    return false;
+    return std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return child->accept(row, parent, model); });
   }
   FilterType type() override { return Or; }
  private:
@@ -251,10 +248,7 @@ class AndFilter : public FilterTree {
   ~AndFilter() override { qDeleteAll(children_); }
   virtual void add(FilterTree *child) { children_.append(child); }
   bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
-    if (std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return !child->accept(row, parent, model); })) {
-      return false;
-    }
-    return true;
+    return !std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return !child->accept(row, parent, model); });
   }
   FilterType type() override { return And; }
  private:
