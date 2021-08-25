@@ -23,5 +23,5 @@
 
 const std::string TagReaderBase::kEmbeddedCover = "(embedded)";
 
-TagReaderBase::TagReaderBase() {}
-TagReaderBase::~TagReaderBase() {}
+TagReaderBase::TagReaderBase() = default;
+TagReaderBase::~TagReaderBase() = default;

@@ -43,9 +43,9 @@
 #include "core/messagehandler.h"
 #include "core/timeconstants.h"
 
-TagReaderTagParser::TagReaderTagParser() {}
+TagReaderTagParser::TagReaderTagParser() = default;
 
-TagReaderTagParser::~TagReaderTagParser() {}
+TagReaderTagParser::~TagReaderTagParser() = default;
 
 bool TagReaderTagParser::IsMediaFile(const QString &filename) const {
 
