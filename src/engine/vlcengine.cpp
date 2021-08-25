@@ -249,7 +249,7 @@ bool VLCEngine::ValidOutput(const QString &output) {
 }
 
 bool VLCEngine::CustomDeviceSupport(const QString &output) {
-  return (output == "auto" ? false : true);
+  return (output != "auto");
 }
 
 bool VLCEngine::ALSADeviceSupport(const QString &output) {
