@@ -216,7 +216,7 @@ void PlayingWidget::CreateModeAction(const Mode mode, const QString &text, QActi
 
   QAction *action = new QAction(text, group);
   action->setCheckable(true);
-  QObject::connect(action, &QAction::triggered, [this, mode]() { SetMode(mode); });
+  QObject::connect(action, &QAction::triggered, this, [this, mode]() { SetMode(mode); });
 
   if (mode == mode_) action->setChecked(true);
 
