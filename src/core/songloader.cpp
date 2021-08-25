@@ -281,7 +281,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
   // It's a local file, so check if it looks like a playlist. Read the first few bytes.
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly)) {
-    errors_ << tr("Could not open file %1 for reading: %2").arg(filename).arg(file.errorString());
+    errors_ << tr("Could not open file %1 for reading: %2").arg(filename, file.errorString());
     return Error;
   }
   QByteArray data(file.read(PlaylistParser::kMagicSize));
@@ -313,7 +313,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
       return Success;
     }
     else {
-      errors_ << tr("Could not open CUE file %1 for reading: %2").arg(matching_cue).arg(cue.errorString());
+      errors_ << tr("Could not open CUE file %1 for reading: %2").arg(matching_cue, cue.errorString());
       return Error;
     }
   }
@@ -371,7 +371,7 @@ void SongLoader::LoadPlaylist(ParserBase *parser, const QString &filename) {
     file.close();
   }
   else {
-    errors_ << tr("Could not open playlist file %1 for reading: %2").arg(filename).arg(file.errorString());
+    errors_ << tr("Could not open playlist file %1 for reading: %2").arg(filename, file.errorString());
   }
 
 }
