@@ -1243,7 +1243,10 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
   }
 
   QBuffer buf;
-  if (!buf.open(QIODevice::WriteOnly)) return nullptr;
+  if (!buf.open(QIODevice::WriteOnly)) {
+    delete mimedata;
+    return nullptr;
+  }
   QDataStream stream(&buf);
 
   const Playlist *self = this;
