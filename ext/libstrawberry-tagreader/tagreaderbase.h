@@ -46,6 +46,8 @@ class TagReaderBase {
 
  protected:
   static const std::string kEmbeddedCover;
+
+  Q_DISABLE_COPY(TagReaderBase)
 };
 
 #endif  // TAGREADERBASE_H

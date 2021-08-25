@@ -45,7 +45,7 @@ class TagReaderTagParser : public TagReaderBase {
   QByteArray LoadEmbeddedArt(const QString &filename) const override;
   bool SaveEmbeddedArt(const QString &filename, const QByteArray &data) override;
 
- private:
+  Q_DISABLE_COPY(TagReaderTagParser)
 };
 
 #endif  // TAGREADERTAGPARSER_H
