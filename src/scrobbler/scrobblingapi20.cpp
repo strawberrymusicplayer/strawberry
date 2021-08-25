@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QtGlobal>
 #include <QApplication>
@@ -720,7 +721,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
     return;
   }
 
-  for (const QJsonValueRef value : array_scrobble) {  // clazy:exclude=range-loop
+  for (const QJsonValueRef value : std::as_const(array_scrobble)) {
 
     if (!value.isObject()) {
       Error("Json scrobbles scrobble array value is not an object.");
