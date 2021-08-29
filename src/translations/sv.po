@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-08-15 12:25-0400\n"
+"PO-Revision-Date: 2021-08-26 02:06-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -1829,7 +1829,7 @@ msgstr "Visningsalternativ"
 
 #: core/commandlineoptions.cpp:191
 msgid "Display the on-screen-display"
-msgstr "Visa on-screen-display"
+msgstr "Visa avisering"
 
 #: ../build/src/ui_deviceproperties.h:378
 msgid "Do not convert any music"
@@ -4437,7 +4437,7 @@ msgstr "Visa endast dubbletter"
 
 #: core/mainwindow.cpp:644
 msgid "Show only untagged"
-msgstr "Visa med saknade taggar"
+msgstr "Visa endast utan taggar"
 
 #: ../build/src/ui_behavioursettingspage.h:284
 msgid "Show playing widget"
@@ -5031,7 +5031,7 @@ msgstr "Växla status för hoppa över"
 
 #: core/commandlineoptions.cpp:192
 msgid "Toggle visibility for the pretty on-screen-display"
-msgstr "Växla synlighet för snygg avisering"
+msgstr "Växla synlighet fr snygg avisering"
 
 #: core/utilities.cpp:177
 msgid "Tomorrow"
