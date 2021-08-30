@@ -1183,6 +1183,14 @@ jobs:
           cp -v /usr/local/opt/sparkle/Sparkle.framework/Sparkle strawberry.app/Contents/Frameworks/Sparkle.framework/
           cp -v /usr/local/opt/sparkle/Sparkle.framework/Versions/A/Sparkle strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/A/
           cp -v -R /usr/local/opt/sparkle/Sparkle.framework/Versions/Current strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/
+      - name: Deploy
+        working-directory: build
+        shell: bash
+        run: make deploy
+      - name: Deploy check
+        working-directory: build
+        shell: bash
+        run: make deploycheck
       - name: Create DMG
         working-directory: build
         shell: bash
@@ -1279,6 +1287,14 @@ jobs:
           cp -v /usr/local/opt/sparkle/Sparkle.framework/Sparkle strawberry.app/Contents/Frameworks/Sparkle.framework/
           cp -v /usr/local/opt/sparkle/Sparkle.framework/Versions/A/Sparkle strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/A/
           cp -v -R /usr/local/opt/sparkle/Sparkle.framework/Versions/Current strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/
+      - name: Deploy
+        working-directory: build
+        shell: bash
+        run: make deploy
+      - name: Deploy check
+        working-directory: build
+        shell: bash
+        run: make deploycheck
       - name: Create DMG
         working-directory: build
         shell: bash
