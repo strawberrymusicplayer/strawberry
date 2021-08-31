@@ -48,6 +48,7 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
 
  public:
   explicit RadioModel(Application *app, QObject *parent = nullptr);
+  ~RadioModel() override;
 
   enum Role {
     Role_Type = Qt::UserRole + 1,

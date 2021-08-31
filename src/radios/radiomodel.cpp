@@ -60,6 +60,10 @@ RadioModel::RadioModel(Application *app, QObject *parent)
 
 }
 
+RadioModel::~RadioModel() {
+  delete root_;
+}
+
 Qt::ItemFlags RadioModel::flags(const QModelIndex &idx) const {
 
   switch (IndexToItem(idx)->type) {
