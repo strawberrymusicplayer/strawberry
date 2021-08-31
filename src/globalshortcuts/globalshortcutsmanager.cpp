@@ -87,24 +87,24 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
 
   // Create backends - these do the actual shortcut registration
 #ifdef HAVE_DBUS
-  kde_backend_ = new GlobalShortcutsBackendKDE(this);
-  gnome_backend_ = new GlobalShortcutsBackendGnome(this);
-  mate_backend_ = new GlobalShortcutsBackendMate(this);
+  kde_backend_ = new GlobalShortcutsBackendKDE(this, this);
+  gnome_backend_ = new GlobalShortcutsBackendGnome(this, this);
+  mate_backend_ = new GlobalShortcutsBackendMate(this, this);
 #endif
 
 #ifdef Q_OS_MACOS
   if (!system_backend_) {
-    system_backend_ = new GlobalShortcutsBackendMacOS(this);
+    system_backend_ = new GlobalShortcutsBackendMacOS(this, this);
   }
 #endif
 #ifdef Q_OS_WIN
   if (!system_backend_) {
-    system_backend_ = new GlobalShortcutsBackendSystem(this);
+    system_backend_ = new GlobalShortcutsBackendSystem(this, this);
   }
 #endif
 #ifdef HAVE_X11_GLOBALSHORTCUTS
   if (!system_backend_ && IsX11Available()) {
-    system_backend_ = new GlobalShortcutsBackendSystem(this);
+    system_backend_ = new GlobalShortcutsBackendSystem(this, this);
   }
 #endif
 
