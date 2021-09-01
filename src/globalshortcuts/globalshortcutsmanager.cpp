@@ -200,11 +200,12 @@ bool GlobalShortcutsManager::IsX11Available() {
 bool GlobalShortcutsManager::Register() {
 
   for (GlobalShortcutsBackend *backend : backends_) {
-    if (backend && backend->IsAvailable() && !backend->is_active() && backends_enabled_.contains(backend->type())) {
-      qLog(Info) << "Using" << backend->name() << "backend for global shortcuts.";
+    if (backend->IsAvailable() && backends_enabled_.contains(backend->type())) {
       return backend->Register();
     }
   }
+
+  qLog(Warning) << "No global shortcuts enabled.";
 
   return false;
 
@@ -213,7 +214,7 @@ bool GlobalShortcutsManager::Register() {
 void GlobalShortcutsManager::Unregister() {
 
   for (GlobalShortcutsBackend *backend : backends_) {
-    if (backend && backend->is_active()) {
+    if (backend->is_active()) {
       backend->Unregister();
     }
   }
