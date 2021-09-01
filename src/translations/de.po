@@ -65,28 +65,28 @@ msgstr ""
 "\n"
 "Favorisierte Wiedergabelisten werden hier gespeichert"
 
-#: settings/globalshortcutssettingspage.cpp:360
+#: settings/globalshortcutssettingspage.cpp:357
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in cinnamon-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:357
+#: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in gnome-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:363
+#: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
 "configured there instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:354
+#: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
@@ -316,11 +316,11 @@ msgstr "Wiedergabeliste zurücksetzen"
 msgid "&Cover Manager"
 msgstr "&Titelbildverwaltung"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:283
+#: ../build/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
 msgstr "&Benutzerdefiniert"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:282
+#: ../build/src/ui_globalshortcutssettingspage.h:285
 msgid "&Default"
 msgstr "&Default"
 
@@ -381,7 +381,7 @@ msgstr "Nächstes Lied"
 msgid "&No background image"
 msgstr "Kein Hintergrundbild"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:281
+#: ../build/src/ui_globalshortcutssettingspage.h:284
 msgid "&None"
 msgstr "&Keine"
 
@@ -594,7 +594,7 @@ msgstr "Absolu&t"
 msgid "Absolute"
 msgstr "Absolut"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:279
+#: ../build/src/ui_globalshortcutssettingspage.h:282
 msgctxt "Category label"
 msgid "Action"
 msgstr "Aktion"
@@ -1237,7 +1237,7 @@ msgstr "Abgebrochen."
 msgid "Change art"
 msgstr ""
 
-#: ../build/src/ui_globalshortcutssettingspage.h:284
+#: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
 msgstr "Tastenkürzel ändern …"
 
@@ -2477,7 +2477,7 @@ msgstr "Genre"
 msgid "Getting %1 channels"
 msgstr ""
 
-#: ../build/src/ui_globalshortcutssettingspage.h:265
+#: ../build/src/ui_globalshortcutssettingspage.h:268
 msgid "Global Shortcuts"
 msgstr ""
 
@@ -3170,7 +3170,7 @@ msgstr "Nach oben"
 msgid "Music"
 msgstr "Musik"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:77
+#: globalshortcuts/globalshortcutsmanager.cpp:72
 msgid "Mute"
 msgstr "Stumm"
 
@@ -3401,9 +3401,9 @@ msgstr ""
 msgid "Open in new playlist"
 msgstr "In einer neuen Wiedergabeliste öffnen"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:267
-#: ../build/src/ui_globalshortcutssettingspage.h:269
-#: ../build/src/ui_globalshortcutssettingspage.h:276
+#: ../build/src/ui_globalshortcutssettingspage.h:270
+#: ../build/src/ui_globalshortcutssettingspage.h:272
+#: ../build/src/ui_globalshortcutssettingspage.h:279
 msgid "Open..."
 msgstr "Öffnen …"
 
@@ -4358,12 +4358,12 @@ msgstr "Einstellungen"
 msgid "Settings require restart."
 msgstr "Einstellungen erfordern einen Neustart. "
 
-#: ../build/src/ui_globalshortcutssettingspage.h:278
+#: ../build/src/ui_globalshortcutssettingspage.h:281
 msgid "Shortcut"
 msgstr "Tastenkürzel"
 
-#: settings/globalshortcutssettingspage.cpp:298
-#: ../build/src/ui_globalshortcutssettingspage.h:280
+#: settings/globalshortcutssettingspage.cpp:295
+#: ../build/src/ui_globalshortcutssettingspage.h:283
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "Tastenkürzel für %1"
@@ -4900,8 +4900,8 @@ msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 "Dank an all die anderen, die zu Amarok und Clementine beigetragen haben."
 
-#: settings/globalshortcutssettingspage.cpp:266
-#: settings/globalshortcutssettingspage.cpp:276
+#: settings/globalshortcutssettingspage.cpp:263
+#: settings/globalshortcutssettingspage.cpp:273
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Der Befehl »%1« konnte nicht ausgeführt werden."
@@ -5218,7 +5218,7 @@ msgstr "Oben rechts"
 msgid "Usage"
 msgstr "Benutzung"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:266
+#: ../build/src/ui_globalshortcutssettingspage.h:269
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr "Verwenden Sie Gnome-Verknüpfungen (GSD), sofern verfügbar"
 
@@ -5230,11 +5230,11 @@ msgstr ""
 msgid "Use HTTPS for local redirectserver"
 msgstr "Verwende HTTPS für lokalen Umleitungsserver"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:270
+#: ../build/src/ui_globalshortcutssettingspage.h:273
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr "Verwenden Sie KDE-Verknüpfungen (KGlobalAccel), sofern verfügbar"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:268
+#: ../build/src/ui_globalshortcutssettingspage.h:271
 msgid "Use MATE shortcuts when available"
 msgstr ""
 
@@ -5254,7 +5254,7 @@ msgstr "Replay Gain Metadaten benutzen, wenn verfügbar"
 msgid "Use Tidal settings to authenticate."
 msgstr "Benutze Tidal Einstellungen zum Authentifizieren. "
 
-#: ../build/src/ui_globalshortcutssettingspage.h:271
+#: ../build/src/ui_globalshortcutssettingspage.h:274
 msgid "Use X11 shortcuts when available"
 msgstr "Verwenden Sie X11-Verknüpfungen, sofern verfügbar"
 
@@ -5326,7 +5326,7 @@ msgstr "Benutzerschlüssel"
 msgid "Username"
 msgstr "Benutzername"
 
-#: settings/globalshortcutssettingspage.cpp:352
+#: settings/globalshortcutssettingspage.cpp:349
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5516,7 +5516,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Du brauchst GStreamer für diese URL."
 
-#: ../build/src/ui_globalshortcutssettingspage.h:275
+#: ../build/src/ui_globalshortcutssettingspage.h:278
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -5525,16 +5525,6 @@ msgstr ""
 "Sie müssen die Systemeinstellungen öffnen und »<span style=\" font-style:"
 "italic;\">Zugriff für Hilfsgeräte aktivieren</span>« in »Bedienhilfen« "
 "aktivieren, um Strawberrys Tastenkürzel zu benutzen."
-
-#: ../build/src/ui_globalshortcutssettingspage.h:274
-msgid ""
-"You need to launch System Preferences and turn on \"<span style=\" font-"
-"style:italic;\">Enable access for assistive devices</span>\" to use global "
-"shortcuts in Strawberry."
-msgstr ""
-"Sie müssen die Systemeinstellungen starten und \"<span style=\" font-style:"
-"kursiv;\">Zugriff für Hilfsgeräte aktivieren</span>\" aktivieren, um globale "
-"Tastenkombinationen in Strawberry zu verwenden."
 
 #: dialogs/about.cpp:120
 #, qt-format

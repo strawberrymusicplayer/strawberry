@@ -45,7 +45,7 @@ msgstr ""
 "\n"
 "Favoriserade spellistor kommer att sparas här"
 
-#: settings/globalshortcutssettingspage.cpp:360
+#: settings/globalshortcutssettingspage.cpp:357
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
@@ -54,7 +54,7 @@ msgstr ""
 " Genvägar till %1 används vanligtvis via Gnome-inställningsdemon och ska "
 "istället konfigureras i cinnamon-settings-daemon."
 
-#: settings/globalshortcutssettingspage.cpp:357
+#: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
@@ -63,7 +63,7 @@ msgstr ""
 " Genvägar till %1 används vanligtvis via Gnome-inställningsdemon och ska "
 "istället konfigureras i gnome-settings-daemon."
 
-#: settings/globalshortcutssettingspage.cpp:363
+#: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
@@ -72,7 +72,7 @@ msgstr ""
 " Genvägar till %1 används vanligtvis via Mate-inställningsdemon och ska "
 "istället konfigureras där."
 
-#: settings/globalshortcutssettingspage.cpp:354
+#: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr " Genvägar på %1 används vanligtvis via MPRIS och KGlobalAccel."
@@ -299,11 +299,11 @@ msgstr "&Rensa spellista"
 msgid "&Cover Manager"
 msgstr "&Omslagshanterare"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:283
+#: ../build/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
 msgstr "A&npassad"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:282
+#: ../build/src/ui_globalshortcutssettingspage.h:285
 msgid "&Default"
 msgstr "&Standard"
 
@@ -364,7 +364,7 @@ msgstr "&Nästa spår"
 msgid "&No background image"
 msgstr "&Ingen bakgrundsbild"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:281
+#: ../build/src/ui_globalshortcutssettingspage.h:284
 msgid "&None"
 msgstr "I&nga"
 
@@ -575,7 +575,7 @@ msgstr "Absolu&ta"
 msgid "Absolute"
 msgstr "Absolut"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:279
+#: ../build/src/ui_globalshortcutssettingspage.h:282
 msgctxt "Category label"
 msgid "Action"
 msgstr "Åtgärd"
@@ -1215,7 +1215,7 @@ msgstr "Avbruten."
 msgid "Change art"
 msgstr "Byt omslag"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:284
+#: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
 msgstr "Byt genväg..."
 
@@ -2449,7 +2449,7 @@ msgstr "Genre"
 msgid "Getting %1 channels"
 msgstr "Hämtar %1 kanaler"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:265
+#: ../build/src/ui_globalshortcutssettingspage.h:268
 msgid "Global Shortcuts"
 msgstr "Globala genvägar"
 
@@ -3139,7 +3139,7 @@ msgstr "Flytta uppåt"
 msgid "Music"
 msgstr "Musik"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:77
+#: globalshortcuts/globalshortcutsmanager.cpp:72
 msgid "Mute"
 msgstr "Tysta"
 
@@ -3366,9 +3366,9 @@ msgstr "Öppna webbplats"
 msgid "Open in new playlist"
 msgstr "Öppna i ny spellista"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:267
-#: ../build/src/ui_globalshortcutssettingspage.h:269
-#: ../build/src/ui_globalshortcutssettingspage.h:276
+#: ../build/src/ui_globalshortcutssettingspage.h:270
+#: ../build/src/ui_globalshortcutssettingspage.h:272
+#: ../build/src/ui_globalshortcutssettingspage.h:279
 msgid "Open..."
 msgstr "Öppna..."
 
@@ -4316,12 +4316,12 @@ msgstr "Inställningar"
 msgid "Settings require restart."
 msgstr "Inställningar kräver omstart."
 
-#: ../build/src/ui_globalshortcutssettingspage.h:278
+#: ../build/src/ui_globalshortcutssettingspage.h:281
 msgid "Shortcut"
 msgstr "Genväg"
 
-#: settings/globalshortcutssettingspage.cpp:298
-#: ../build/src/ui_globalshortcutssettingspage.h:280
+#: settings/globalshortcutssettingspage.cpp:295
+#: ../build/src/ui_globalshortcutssettingspage.h:283
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "Genväg för %1"
@@ -4854,8 +4854,8 @@ msgstr "Tack till"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Tack till alla andra Amarok- och Clementine-bidragsgivare."
 
-#: settings/globalshortcutssettingspage.cpp:266
-#: settings/globalshortcutssettingspage.cpp:276
+#: settings/globalshortcutssettingspage.cpp:263
+#: settings/globalshortcutssettingspage.cpp:273
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Kommandot \"%1\" kunde inte startas."
@@ -5169,7 +5169,7 @@ msgstr "Övre högra"
 msgid "Usage"
 msgstr "Användning"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:266
+#: ../build/src/ui_globalshortcutssettingspage.h:269
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr "Använd Gnome (GSD)-genvägar när de är tillgängliga"
 
@@ -5181,11 +5181,11 @@ msgstr "Använd HTTP2 när det är möjligt"
 msgid "Use HTTPS for local redirectserver"
 msgstr "Använd HTTPS för lokal omdirigeringsserver"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:270
+#: ../build/src/ui_globalshortcutssettingspage.h:273
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr "Använd KDE (KGlobalAccel) genvägar när de är tillgängliga"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:268
+#: ../build/src/ui_globalshortcutssettingspage.h:271
 msgid "Use MATE shortcuts when available"
 msgstr "Använd MATE-genvägar när de är tillgängliga"
 
@@ -5205,7 +5205,7 @@ msgstr "Använd Replay Gain-metadata om det finns tillgängligt"
 msgid "Use Tidal settings to authenticate."
 msgstr "Använd Tidal-inställningar för att autentisera."
 
-#: ../build/src/ui_globalshortcutssettingspage.h:271
+#: ../build/src/ui_globalshortcutssettingspage.h:274
 msgid "Use X11 shortcuts when available"
 msgstr "Använd X11-genvägar när de är tillgängliga"
 
@@ -5277,7 +5277,7 @@ msgstr "Användartoken:"
 msgid "Username"
 msgstr "Användarnamn"
 
-#: settings/globalshortcutssettingspage.cpp:352
+#: settings/globalshortcutssettingspage.cpp:349
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5466,7 +5466,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Du behöver GStreamer för den här webbadressen."
 
-#: ../build/src/ui_globalshortcutssettingspage.h:275
+#: ../build/src/ui_globalshortcutssettingspage.h:278
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -5474,16 +5474,6 @@ msgid ""
 msgstr ""
 "Du behöver starta Systeminställningar och tillåta Strawberry att \"<span "
 "style=\"font-style:italic\">kontrollera din dator</span>\" för att använda "
-"globala genvägar i Strawberry."
-
-#: ../build/src/ui_globalshortcutssettingspage.h:274
-msgid ""
-"You need to launch System Preferences and turn on \"<span style=\" font-"
-"style:italic;\">Enable access for assistive devices</span>\" to use global "
-"shortcuts in Strawberry."
-msgstr ""
-"Du behöver starta Systeminställningar och aktivera \"<span style=\" font-"
-"style:italic;\">Aktivera åtkomst för hjälpmedel </span>\" för att använda "
 "globala genvägar i Strawberry."
 
 #: dialogs/about.cpp:120

@@ -38,28 +38,28 @@ msgstr ""
 "\n"
 "Oblíbené seznamy skladeb budou uloženy zde"
 
-#: settings/globalshortcutssettingspage.cpp:360
+#: settings/globalshortcutssettingspage.cpp:357
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in cinnamon-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:357
+#: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in gnome-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:363
+#: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
 "configured there instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:354
+#: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr "Zkratky na %1 jsou většinou používány přes MPRIS a KGlobalAccel."
@@ -287,11 +287,11 @@ msgstr "&Vyčistit seznam skladeb"
 msgid "&Cover Manager"
 msgstr "&Správce obalů"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:283
+#: ../build/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
 msgstr "Vl&astní"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:282
+#: ../build/src/ui_globalshortcutssettingspage.h:285
 msgid "&Default"
 msgstr "&Výchozí"
 
@@ -352,7 +352,7 @@ msgstr "&Další skladba"
 msgid "&No background image"
 msgstr "&Chybějící obrázek na pozadí"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:281
+#: ../build/src/ui_globalshortcutssettingspage.h:284
 msgid "&None"
 msgstr "Žád&né"
 
@@ -561,7 +561,7 @@ msgstr "Absolut&ní"
 msgid "Absolute"
 msgstr "Absolutní"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:279
+#: ../build/src/ui_globalshortcutssettingspage.h:282
 msgctxt "Category label"
 msgid "Action"
 msgstr "Činnost"
@@ -1202,7 +1202,7 @@ msgstr "Zrušeno."
 msgid "Change art"
 msgstr ""
 
-#: ../build/src/ui_globalshortcutssettingspage.h:284
+#: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
 msgstr "Změnit klávesovou zkratku..."
 
@@ -2432,7 +2432,7 @@ msgstr "Žánr"
 msgid "Getting %1 channels"
 msgstr ""
 
-#: ../build/src/ui_globalshortcutssettingspage.h:265
+#: ../build/src/ui_globalshortcutssettingspage.h:268
 msgid "Global Shortcuts"
 msgstr ""
 
@@ -3125,7 +3125,7 @@ msgstr "Posunout nahoru"
 msgid "Music"
 msgstr "Hudba"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:77
+#: globalshortcuts/globalshortcutsmanager.cpp:72
 msgid "Mute"
 msgstr "Ztlumit"
 
@@ -3353,9 +3353,9 @@ msgstr ""
 msgid "Open in new playlist"
 msgstr "Otevřít v novém seznamu skladeb"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:267
-#: ../build/src/ui_globalshortcutssettingspage.h:269
-#: ../build/src/ui_globalshortcutssettingspage.h:276
+#: ../build/src/ui_globalshortcutssettingspage.h:270
+#: ../build/src/ui_globalshortcutssettingspage.h:272
+#: ../build/src/ui_globalshortcutssettingspage.h:279
 msgid "Open..."
 msgstr "Otevřít..."
 
@@ -4302,12 +4302,12 @@ msgstr "Nastavení"
 msgid "Settings require restart."
 msgstr ""
 
-#: ../build/src/ui_globalshortcutssettingspage.h:278
+#: ../build/src/ui_globalshortcutssettingspage.h:281
 msgid "Shortcut"
 msgstr "Klávesová zkratka"
 
-#: settings/globalshortcutssettingspage.cpp:298
-#: ../build/src/ui_globalshortcutssettingspage.h:280
+#: settings/globalshortcutssettingspage.cpp:295
+#: ../build/src/ui_globalshortcutssettingspage.h:283
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "Klávesová zkratka pro %1"
@@ -4841,8 +4841,8 @@ msgstr "Díky"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
 
-#: settings/globalshortcutssettingspage.cpp:266
-#: settings/globalshortcutssettingspage.cpp:276
+#: settings/globalshortcutssettingspage.cpp:263
+#: settings/globalshortcutssettingspage.cpp:273
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Příkaz \"%1\" se nepodařilo provést."
@@ -5153,7 +5153,7 @@ msgstr "Vpravo nahoře"
 msgid "Usage"
 msgstr "Zacházení"
 
-#: ../build/src/ui_globalshortcutssettingspage.h:266
+#: ../build/src/ui_globalshortcutssettingspage.h:269
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr ""
 
@@ -5165,11 +5165,11 @@ msgstr ""
 msgid "Use HTTPS for local redirectserver"
 msgstr ""
 
-#: ../build/src/ui_globalshortcutssettingspage.h:270
+#: ../build/src/ui_globalshortcutssettingspage.h:273
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr ""
 
-#: ../build/src/ui_globalshortcutssettingspage.h:268
+#: ../build/src/ui_globalshortcutssettingspage.h:271
 msgid "Use MATE shortcuts when available"
 msgstr ""
 
@@ -5189,7 +5189,7 @@ msgstr "Používat metadata pro zesílení přehrávaných skladeb, jsou-li dost
 msgid "Use Tidal settings to authenticate."
 msgstr "Použijte nastavení Tidal pro přihlášení."
 
-#: ../build/src/ui_globalshortcutssettingspage.h:271
+#: ../build/src/ui_globalshortcutssettingspage.h:274
 msgid "Use X11 shortcuts when available"
 msgstr ""
 
@@ -5261,7 +5261,7 @@ msgstr "Uživatelský token:"
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: settings/globalshortcutssettingspage.cpp:352
+#: settings/globalshortcutssettingspage.cpp:349
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -5444,7 +5444,7 @@ msgstr ""
 msgid "You need GStreamer for this URL."
 msgstr "Pro tento odkaz je potřeba GStreamer."
 
-#: ../build/src/ui_globalshortcutssettingspage.h:275
+#: ../build/src/ui_globalshortcutssettingspage.h:278
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
@@ -5453,16 +5453,6 @@ msgstr ""
 "Aby bylo možné v Strawberry používat globální klávesové zkratky, je nutné "
 "spustit Nastavení Systému a povolit Strawberry \"<span style=\"font-style:"
 "italic\">ovládat váš počítač</span>\"."
-
-#: ../build/src/ui_globalshortcutssettingspage.h:274
-msgid ""
-"You need to launch System Preferences and turn on \"<span style=\" font-"
-"style:italic;\">Enable access for assistive devices</span>\" to use global "
-"shortcuts in Strawberry."
-msgstr ""
-"Aby bylo možné v Strawberry používat globální klávesové zkratky, je nutné "
-"spustit Nastavení Systému a zapnout \"<span style=\" font-style:"
-"italic;\">Povolit přístup pro pomocná zařízení</span>\"."
 
 #: dialogs/about.cpp:120
 #, qt-format
