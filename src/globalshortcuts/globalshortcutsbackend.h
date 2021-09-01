@@ -44,7 +44,7 @@ class GlobalShortcutsBackend : public QObject {
 
   explicit GlobalShortcutsBackend(GlobalShortcutsManager *manager, const Type type, QObject *parent = nullptr);
 
-  bool type() const { return type_; }
+  Type type() const { return type_; }
   QString name() const;
 
   virtual bool IsAvailable() const = 0;
