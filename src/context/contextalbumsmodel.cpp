@@ -90,7 +90,7 @@ void ContextAlbumsModel::AddSongs(const SongList &songs) {
       container = container_nodes_[key];
     }
     else {
-      container = ItemFromSong(CollectionItem::Type_Container, true, container, song, 0);
+      container = ItemFromSong(CollectionItem::Type_Container, true, root_, song, 0);
       container_nodes_.insert(key, container);
     }
     song_nodes_[song.id()] = ItemFromSong(CollectionItem::Type_Song, true, container, song, -1);
