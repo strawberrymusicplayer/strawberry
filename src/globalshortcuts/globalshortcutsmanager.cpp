@@ -116,8 +116,6 @@ void GlobalShortcutsManager::ReloadSettings() {
   backends_enabled_ << GlobalShortcutsBackend::Type_Win;
 #endif
 
-  settings_.beginGroup(GlobalShortcutsSettingsPage::kSettingsGroup);
-
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
   if (settings_.value("use_kde", true).toBool()) {
     backends_enabled_ << GlobalShortcutsBackend::Type_KDE;
