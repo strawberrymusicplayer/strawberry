@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,8 +33,6 @@
 #include <QAction>
 #include <QKeySequence>
 
-class GlobalShortcut;
-
 class GlobalShortcutsBackendMacOSPrivate;
 
 class GlobalShortcutsBackendMacOS : public GlobalShortcutsBackend {
@@ -43,12 +42,12 @@ class GlobalShortcutsBackendMacOS : public GlobalShortcutsBackend {
   explicit GlobalShortcutsBackendMacOS(GlobalShortcutsManager *manager, QObject *parent = nullptr);
   virtual ~GlobalShortcutsBackendMacOS();
 
-  bool IsAvailable() override { return true; }
+  bool IsAvailable() const override { return true; }
 
-  bool IsAccessibilityEnabled() const;
-  void ShowAccessibilityDialog();
+  static bool IsAccessibilityEnabled();
+  static void ShowAccessibilityDialog();
 
-  void MacMediaKeyPressed(int key);
+  void MacMediaKeyPressed(const int key);
 
  protected:
   bool DoRegister() override;

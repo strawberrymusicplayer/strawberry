@@ -25,18 +25,46 @@
 #include "globalshortcutsbackend.h"
 #include "globalshortcutsmanager.h"
 
-GlobalShortcutsBackend::GlobalShortcutsBackend(GlobalShortcutsManager *manager, QObject *parent)
+GlobalShortcutsBackend::GlobalShortcutsBackend(GlobalShortcutsManager *manager, const Type type, QObject *parent)
     : QObject(parent),
       manager_(manager),
+      type_(type),
       active_(false) {}
 
+QString GlobalShortcutsBackend::name() const {
+
+  switch(type_) {
+    case Type_None:
+      return "None";
+    case Type_KDE:
+      return "KDE";
+    case Type_Gnome:
+      return "Gnome";
+    case Type_Mate:
+      return "Mate";
+    case Type_X11:
+      return "X11";
+    case Type_MacOS:
+      return "macOS";
+    case Type_Win:
+      return "Windows";
+  }
+
+  return QString();
+
+}
+
 bool GlobalShortcutsBackend::Register() {
+
   bool ret = DoRegister();
   if (ret) active_ = true;
   return ret;
+
 }
 
 void GlobalShortcutsBackend::Unregister() {
+
   DoUnregister();
   active_ = false;
+
 }

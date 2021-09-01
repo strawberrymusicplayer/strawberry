@@ -156,6 +156,18 @@
    <item>
     <widget class="QWidget" name="widget_warning" native="true">
      <layout class="QHBoxLayout" name="layout_warning">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_warn_icon">
         <property name="sizePolicy">
@@ -210,11 +222,8 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="widget_macos" native="true">
+    <widget class="QWidget" name="widget_macos_access" native="true">
      <layout class="QHBoxLayout" name="layout_macos">
-      <property name="spacing">
-       <number>0</number>
-      </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -228,23 +237,41 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="label_macos">
+       <widget class="QLabel" name="label_macos_access_icon">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="text">
-         <string>You need to launch System Preferences and turn on &quot;&lt;span style=&quot; font-style:italic;&quot;&gt;Enable access for assistive devices&lt;/span&gt;&quot; to use global shortcuts in Strawberry.</string>
+        <property name="minimumSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
         </property>
-        <property name="wordWrap">
-         <bool>true</bool>
+        <property name="maximumSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>64</width>
+          <height>64</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="../../data/icons.qrc">:/icons/48x48/dialog-warning.png</pixmap>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_macos_mavericks">
+       <widget class="QLabel" name="label_macos_access">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -260,7 +287,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="button_macos_open">
+       <widget class="QPushButton" name="button_macos_preferences">
         <property name="text">
          <string>Open...</string>
         </property>
@@ -360,7 +387,7 @@
   <tabstop>checkbox_gnome</tabstop>
   <tabstop>button_gnome_open</tabstop>
   <tabstop>checkbox_x11</tabstop>
-  <tabstop>button_macos_open</tabstop>
+  <tabstop>button_macos_preferences</tabstop>
   <tabstop>list</tabstop>
   <tabstop>radio_none</tabstop>
   <tabstop>radio_default</tabstop>

@@ -43,11 +43,15 @@ const char *GlobalShortcutsBackendGnome::kService2 = "org.gnome.SettingsDaemon";
 const char *GlobalShortcutsBackendGnome::kPath = "/org/gnome/SettingsDaemon/MediaKeys";
 
 GlobalShortcutsBackendGnome::GlobalShortcutsBackendGnome(GlobalShortcutsManager *manager, QObject *parent)
-    : GlobalShortcutsBackend(manager, parent),
+    : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type_Gnome, parent),
       interface_(nullptr),
       is_connected_(false) {}
 
-bool GlobalShortcutsBackendGnome::IsAvailable() {
+bool GlobalShortcutsBackendGnome::IsAvailable() const {
+  return IsGnomeAvailable();
+}
+
+bool GlobalShortcutsBackendGnome::IsGnomeAvailable() {
 
   return QDBusConnection::sessionBus().interface()->isServiceRegistered(kService1) || QDBusConnection::sessionBus().interface()->isServiceRegistered(kService2);
 

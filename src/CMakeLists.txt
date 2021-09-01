@@ -580,16 +580,14 @@ if(HAVE_GLOBALSHORTCUTS)
     SOURCES globalshortcuts/globalshortcutsbackend-kde.cpp globalshortcuts/globalshortcutsbackend-gnome.cpp globalshortcuts/globalshortcutsbackend-mate.cpp
     HEADERS globalshortcuts/globalshortcutsbackend-kde.h globalshortcuts/globalshortcutsbackend-gnome.h globalshortcuts/globalshortcutsbackend-mate.h
   )
-  # Native shortcuts for X11 and Windows
-  if(HAVE_X11_GLOBALSHORTCUTS OR WIN32)
-    SET(X11_OR_WIN ON)
-    optional_source(X11_OR_WIN
-      SOURCES globalshortcuts/globalshortcutsbackend-system.cpp globalshortcuts/globalshortcut.cpp
-      HEADERS globalshortcuts/globalshortcutsbackend-system.h globalshortcuts/globalshortcut.h
-    )
-    optional_source(HAVE_X11_GLOBALSHORTCUTS SOURCES globalshortcuts/globalshortcut-x11.cpp)
-    optional_source(WIN32 SOURCES globalshortcuts/globalshortcut-win.cpp)
-  endif()
+  optional_source(HAVE_X11_GLOBALSHORTCUTS
+    SOURCES globalshortcuts/globalshortcutsbackend-x11.cpp globalshortcuts/globalshortcut.cpp globalshortcuts/globalshortcut-x11.cpp
+    HEADERS globalshortcuts/globalshortcutsbackend-x11.h globalshortcuts/globalshortcut.h
+  )
+  optional_source(WIN32
+    SOURCES globalshortcuts/globalshortcutsbackend-win.cpp globalshortcuts/globalshortcut.cpp globalshortcuts/globalshortcut-win.cpp
+    HEADERS globalshortcuts/globalshortcutsbackend-win.h globalshortcuts/globalshortcut.h
+  )
 endif(HAVE_GLOBALSHORTCUTS)
 
 # ALSA

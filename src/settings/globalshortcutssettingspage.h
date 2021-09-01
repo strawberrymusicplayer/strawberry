@@ -49,8 +49,6 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
 
   static const char *kSettingsGroup;
 
-  bool IsEnabled() const override;
-
   void Load() override;
   void Save() override;
 

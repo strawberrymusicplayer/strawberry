@@ -43,7 +43,8 @@ class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
  public:
   explicit GlobalShortcutsBackendKDE(GlobalShortcutsManager *manager, QObject *parent = nullptr);
 
-  bool IsAvailable() override;
+  bool IsAvailable() const override;
+  static bool IsKDEAvailable();
 
  protected:
   bool DoRegister() override;

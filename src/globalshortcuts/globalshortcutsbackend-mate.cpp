@@ -41,11 +41,17 @@ const char *GlobalShortcutsBackendMate::kService2 = "org.mate.SettingsDaemon";
 const char *GlobalShortcutsBackendMate::kPath = "/org/mate/SettingsDaemon/MediaKeys";
 
 GlobalShortcutsBackendMate::GlobalShortcutsBackendMate(GlobalShortcutsManager *manager, QObject *parent)
-    : GlobalShortcutsBackend(manager, parent),
+    : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type_Mate, parent),
       interface_(nullptr),
       is_connected_(false) {}
 
-bool GlobalShortcutsBackendMate::IsAvailable() {
+bool GlobalShortcutsBackendMate::IsAvailable() const {
+
+  return IsMateAvailable();
+
+}
+
+bool GlobalShortcutsBackendMate::IsMateAvailable() {
 
   return QDBusConnection::sessionBus().interface()->isServiceRegistered(kService1) || QDBusConnection::sessionBus().interface()->isServiceRegistered(kService2);
 

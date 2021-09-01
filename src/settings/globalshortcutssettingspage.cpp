@@ -42,9 +42,6 @@
 #include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/utilities.h"
-#ifdef Q_OS_MACOS
-#  include "core/mac_utilities.h"
-#endif
 #include "globalshortcuts/globalshortcutgrabber.h"
 #include "globalshortcuts/globalshortcutsmanager.h"
 #include "settingspage.h"
@@ -71,40 +68,31 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog,
   QObject::connect(ui_->radio_custom, &QRadioButton::clicked, this, &GlobalShortcutsSettingsPage::ChangeClicked);
   QObject::connect(ui_->button_change, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::ChangeClicked);
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
-#  ifdef HAVE_DBUS
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
   QObject::connect(ui_->checkbox_kde, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
   QObject::connect(ui_->checkbox_gnome, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
   QObject::connect(ui_->checkbox_mate, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
   QObject::connect(ui_->button_gnome_open, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties);
   QObject::connect(ui_->button_mate_open, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::OpenMateKeybindingProperties);
-#  endif
-#  ifdef HAVE_X11_GLOBALSHORTCUTS
-  QObject::connect(ui_->checkbox_x11, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
-#  endif
 #else
   ui_->widget_kde->hide();
   ui_->widget_gnome->hide();
   ui_->widget_mate->hide();
+#endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+
+#ifdef HAVE_X11_GLOBALSHORTCUTS
+  QObject::connect(ui_->checkbox_x11, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
+#else
   ui_->widget_x11->hide();
-#endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+#endif  // HAVE_X11_GLOBALSHORTCUTS
+
+#ifndef Q_OS_MACOS
+  ui_->widget_macos_access->hide();
+#endif  // Q_OS_MACOS
 
 }
 
 GlobalShortcutsSettingsPage::~GlobalShortcutsSettingsPage() { delete ui_; }
-
-bool GlobalShortcutsSettingsPage::IsEnabled() const {
-
-#ifdef Q_OS_MACOS
-  qLog(Debug) << Utilities::GetMacOsVersion();
-  if (Utilities::GetMacOsVersion() < 6) {  // Leopard and earlier.
-    return false;
-  }
-#endif
-
-  return true;
-
-}
 
 void GlobalShortcutsSettingsPage::Load() {
 
@@ -119,10 +107,13 @@ void GlobalShortcutsSettingsPage::Load() {
     de_ = Utilities::DesktopEnvironment();
     ui_->widget_warning->hide();
 
-    QObject::connect(ui_->button_macos_open, &QPushButton::clicked, manager, &GlobalShortcutsManager::ShowMacAccessibilityDialog);
+#ifdef Q_OS_MACOS
+    QObject::connect(ui_->button_macos_preferences, &QPushButton::clicked, manager, &GlobalShortcutsManager::ShowMacAccessibilityDialog);
+#endif
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
-    if (manager->IsKdeAvailable()) {
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+
+    if (GlobalShortcutsManager::IsKdeAvailable()) {
       qLog(Debug) << "KDE (KGlobalAccel) backend is available.";
       ui_->widget_kde->show();
     }
@@ -131,7 +122,7 @@ void GlobalShortcutsSettingsPage::Load() {
       ui_->widget_kde->hide();
     }
 
-    if (manager->IsGnomeAvailable()) {
+    if (GlobalShortcutsManager::IsGnomeAvailable()) {
       qLog(Debug) << "Gnome (GSD) backend is available.";
       ui_->widget_gnome->show();
     }
@@ -140,7 +131,7 @@ void GlobalShortcutsSettingsPage::Load() {
       ui_->widget_gnome->hide();
     }
 
-    if (manager->IsMateAvailable()) {
+    if (GlobalShortcutsManager::IsMateAvailable()) {
       qLog(Debug) << "MATE backend is available.";
       ui_->widget_mate->show();
     }
@@ -149,7 +140,10 @@ void GlobalShortcutsSettingsPage::Load() {
       ui_->widget_mate->hide();
     }
 
-    if (manager->IsX11Available()) {
+#endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+
+#ifdef HAVE_X11_GLOBALSHORTCUTS
+    if (GlobalShortcutsManager::IsX11Available()) {
       qLog(Debug) << "X11 backend is available.";
       ui_->widget_x11->show();
     }
@@ -157,7 +151,7 @@ void GlobalShortcutsSettingsPage::Load() {
       qLog(Debug) << "X11 backend is unavailable.";
       ui_->widget_x11->hide();
     }
-#endif
+#endif  // HAVE_X11_GLOBALSHORTCUTS
 
     QList<GlobalShortcutsManager::Shortcut> shortcuts = manager->shortcuts().values();
     for (const GlobalShortcutsManager::Shortcut &i : shortcuts) {
@@ -178,7 +172,7 @@ void GlobalShortcutsSettingsPage::Load() {
     SetShortcut(shortcut.s.id, shortcut.s.action->shortcut());
   }
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
 
   if (ui_->widget_kde->isVisibleTo(this)) {
     ui_->checkbox_kde->setChecked(s.value("use_kde", true).toBool());
@@ -192,20 +186,20 @@ void GlobalShortcutsSettingsPage::Load() {
     ui_->checkbox_mate->setChecked(s.value("use_mate", true).toBool());
   }
 
+#endif // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+
+#ifdef HAVE_X11_GLOBALSHORTCUTS
   if (ui_->widget_x11->isVisibleTo(this)) {
     ui_->checkbox_x11->setChecked(s.value("use_x11", false).toBool());
   }
-#endif
+#endif  // HAVE_X11_GLOBALSHORTCUTS
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && (defined(HAVE_DBUS) || defined(HAVE_X11_GLOBALSHORTCUTS))
   ShortcutOptionsChanged();
 #endif
 
-  ui_->widget_macos->setVisible(!manager->IsMacAccessibilityEnabled());
 #ifdef Q_OS_MACOS
-  qint32 macos_version = Utilities::GetMacOsVersion();
-  ui_->label_macos->setVisible(macos_version < 9);
-  ui_->label_macos_mavericks->setVisible(macos_version >= 9);
+  ui_->widget_macos_access->setVisible(!GlobalShortcutsManager::IsMacAccessibilityEnabled());
 #endif  // Q_OS_MACOS
 
   s.endGroup();
@@ -228,12 +222,15 @@ void GlobalShortcutsSettingsPage::Save() {
     s.setValue(shortcut.s.id, shortcut.key.toString());
   }
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
   s.setValue("use_kde", ui_->checkbox_kde->isChecked());
   s.setValue("use_gnome", ui_->checkbox_gnome->isChecked());
   s.setValue("use_mate", ui_->checkbox_mate->isChecked());
+#endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+
+#ifdef HAVE_X11_GLOBALSHORTCUTS
   s.setValue("use_x11", ui_->checkbox_x11->isChecked());
-#endif
+#endif  // HAVE_X11_GLOBALSHORTCUTS
 
   s.endGroup();
 

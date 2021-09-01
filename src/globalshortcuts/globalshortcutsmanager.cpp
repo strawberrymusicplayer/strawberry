@@ -30,37 +30,32 @@
 #include <QAction>
 #include <QShortcut>
 #include <QKeySequence>
-#ifdef HAVE_DBUS
-# include <QDBusConnectionInterface>
-#endif
+#include <QSettings>
 
 #include "globalshortcutsmanager.h"
 #include "globalshortcutsbackend.h"
 
-#ifdef HAVE_DBUS
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
 #  include "globalshortcutsbackend-kde.h"
 #  include "globalshortcutsbackend-gnome.h"
 #  include "globalshortcutsbackend-mate.h"
 #endif
-#if defined(HAVE_X11_GLOBALSHORTCUTS) || defined(Q_OS_WIN)
-#  include "globalshortcutsbackend-system.h"
+
+#ifdef HAVE_X11_GLOBALSHORTCUTS
+#  include "globalshortcutsbackend-x11.h"
 #endif
+
+#ifdef Q_OS_WIN
+#  include "globalshortcutsbackend-win.h"
+#endif
+
 #ifdef Q_OS_MACOS
 #  include "globalshortcutsbackend-macos.h"
 #endif
 
 #include "settings/globalshortcutssettingspage.h"
 
-GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
-    : QWidget(parent),
-      kde_backend_(nullptr),
-      gnome_backend_(nullptr),
-      mate_backend_(nullptr),
-      system_backend_(nullptr),
-      use_kde_(true),
-      use_gnome_(true),
-      use_mate_(true),
-      use_x11_(false) {
+GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent) : QWidget(parent) {
 
   settings_.beginGroup(GlobalShortcutsSettingsPage::kSettingsGroup);
 
@@ -86,26 +81,23 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
   AddShortcut("love", "Love", std::bind(&GlobalShortcutsManager::Love, this));
 
   // Create backends - these do the actual shortcut registration
-#ifdef HAVE_DBUS
-  kde_backend_ = new GlobalShortcutsBackendKDE(this, this);
-  gnome_backend_ = new GlobalShortcutsBackendGnome(this, this);
-  mate_backend_ = new GlobalShortcutsBackendMate(this, this);
+
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+  backends_ << new GlobalShortcutsBackendKDE(this, this);
+  backends_ << new GlobalShortcutsBackendGnome(this, this);
+  backends_ << new GlobalShortcutsBackendMate(this, this);
 #endif
 
 #ifdef Q_OS_MACOS
-  if (!system_backend_) {
-    system_backend_ = new GlobalShortcutsBackendMacOS(this, this);
-  }
+  backends_ << new GlobalShortcutsBackendMacOS(this, this);
 #endif
+
 #ifdef Q_OS_WIN
-  if (!system_backend_) {
-    system_backend_ = new GlobalShortcutsBackendSystem(this, this);
-  }
+  backends_ << new GlobalShortcutsBackendWin(this, this);
 #endif
+
 #ifdef HAVE_X11_GLOBALSHORTCUTS
-  if (!system_backend_ && IsX11Available()) {
-    system_backend_ = new GlobalShortcutsBackendSystem(this, this);
-  }
+  backends_ << new GlobalShortcutsBackendX11(this, this);
 #endif
 
   ReloadSettings();
@@ -114,11 +106,35 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent)
 
 void GlobalShortcutsManager::ReloadSettings() {
 
-  // The actual shortcuts have been set in our actions for us by the config dialog already - we just need to reread the gnome settings.
-  use_kde_ = settings_.value("use_kde", true).toBool();
-  use_gnome_ = settings_.value("use_gnome", true).toBool();
-  use_mate_ = settings_.value("use_mate", true).toBool();
-  use_x11_ = settings_.value("use_x11", false).toBool();
+  backends_enabled_.clear();
+
+#ifdef Q_OS_MACOS
+  backends_enabled_ << GlobalShortcutsBackend::Type_MacOS;
+#endif
+
+#ifdef Q_OS_WIN
+  backends_enabled_ << GlobalShortcutsBackend::Type_Win;
+#endif
+
+  settings_.beginGroup(GlobalShortcutsSettingsPage::kSettingsGroup);
+
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+  if (settings_.value("use_kde", true).toBool()) {
+    backends_enabled_ << GlobalShortcutsBackend::Type_KDE;
+  }
+  if (settings_.value("use_gnome", true).toBool()) {
+    backends_enabled_ << GlobalShortcutsBackend::Type_Gnome;
+  }
+  if (settings_.value("use_mate", true).toBool()) {
+    backends_enabled_ << GlobalShortcutsBackend::Type_Mate;
+  }
+#endif
+
+#ifdef HAVE_X11_GLOBALSHORTCUTS
+  if (settings_.value("use_x11", false).toBool()) {
+    backends_enabled_ << GlobalShortcutsBackend::Type_X11;
+  }
+#endif
 
   Unregister();
   Register();
@@ -151,80 +167,75 @@ GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(const QStri
 
 }
 
-bool GlobalShortcutsManager::IsKdeAvailable() const {
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
 
-#ifdef HAVE_DBUS
-  return kde_backend_->IsAvailable();
-#else
-  return false;
-#endif
+bool GlobalShortcutsManager::IsKdeAvailable() {
+
+  return GlobalShortcutsBackendKDE::IsKDEAvailable();
 
 }
 
-bool GlobalShortcutsManager::IsGnomeAvailable() const {
+bool GlobalShortcutsManager::IsGnomeAvailable() {
 
-#ifdef HAVE_DBUS
-  return gnome_backend_->IsAvailable();
-#else
-  return false;
-#endif
+  return GlobalShortcutsBackendGnome::IsGnomeAvailable();
 
 }
 
-bool GlobalShortcutsManager::IsMateAvailable() const {
+bool GlobalShortcutsManager::IsMateAvailable() {
 
-#ifdef HAVE_DBUS
-  return mate_backend_->IsAvailable();
-#else
-  return false;
-#endif
+  return GlobalShortcutsBackendMate::IsMateAvailable();
 
 }
+
+#  endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+
+#ifdef HAVE_X11_GLOBALSHORTCUTS
 
 bool GlobalShortcutsManager::IsX11Available() {
 
-  return QApplication::platformName() == "xcb";
+  return GlobalShortcutsBackendX11::IsX11Available();
 
 }
 
-void GlobalShortcutsManager::Register() {
+#endif  // HAVE_X11_GLOBALSHORTCUTS
 
-  if (use_kde_ && kde_backend_ && kde_backend_->Register()) return;
-  if (use_gnome_ && gnome_backend_ && gnome_backend_->Register()) return;
-  if (use_mate_ && mate_backend_ && mate_backend_->Register()) return;
+bool GlobalShortcutsManager::Register() {
 
-#ifdef HAVE_X11_GLOBALSHORTCUTS
-  if (use_x11_) {
-#endif
-    if (system_backend_) {
-      system_backend_->Register();
+  for (GlobalShortcutsBackend *backend : backends_) {
+    if (backend && backend->IsAvailable() && !backend->is_active() && backends_enabled_.contains(backend->type())) {
+      qLog(Info) << "Using" << backend->name() << "backend for global shortcuts.";
+      return backend->Register();
     }
-#ifdef HAVE_X11_GLOBALSHORTCUTS
-   }
-#endif
+  }
+
+  return false;
 
 }
 
 void GlobalShortcutsManager::Unregister() {
 
-  if (kde_backend_ && kde_backend_->is_active()) kde_backend_->Unregister();
-  if (gnome_backend_ && gnome_backend_->is_active()) gnome_backend_->Unregister();
-  if (mate_backend_ && mate_backend_->is_active()) mate_backend_->Unregister();
-  if (system_backend_ && system_backend_->is_active()) system_backend_->Unregister();
+  for (GlobalShortcutsBackend *backend : backends_) {
+    if (backend && backend->is_active()) {
+      backend->Unregister();
+    }
+  }
 
 }
 
-bool GlobalShortcutsManager::IsMacAccessibilityEnabled() const {
 #ifdef Q_OS_MACOS
-  if (system_backend_) return qobject_cast<GlobalShortcutsBackendMacOS*>(system_backend_)->IsAccessibilityEnabled();
-  else return false;
-#else
-  return true;
-#endif
+
+bool GlobalShortcutsManager::IsMacAccessibilityEnabled() {
+
+  return GlobalShortcutsBackendMacOS::IsAccessibilityEnabled();
+
 }
 
-void GlobalShortcutsManager::ShowMacAccessibilityDialog() const {
+#endif  // Q_OS_MACOS
+
+void GlobalShortcutsManager::ShowMacAccessibilityDialog() {
+
 #ifdef Q_OS_MACOS
-  if (system_backend_) qobject_cast<GlobalShortcutsBackendMacOS*>(system_backend_)->ShowAccessibilityDialog();
+  GlobalShortcutsBackendMacOS::ShowAccessibilityDialog();
 #endif
+
 }

@@ -42,13 +42,19 @@ const char *GlobalShortcutsBackendKDE::kKdeService = "org.kde.kglobalaccel";
 const char *GlobalShortcutsBackendKDE::kKdePath = "/kglobalaccel";
 
 GlobalShortcutsBackendKDE::GlobalShortcutsBackendKDE(GlobalShortcutsManager *manager, QObject *parent)
-    : GlobalShortcutsBackend(manager, parent),
+    : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type_KDE, parent),
       interface_(nullptr),
       component_(nullptr) {}
 
-bool GlobalShortcutsBackendKDE::IsAvailable() {
+bool GlobalShortcutsBackendKDE::IsKDEAvailable() {
 
   return QDBusConnection::sessionBus().interface()->isServiceRegistered(kKdeService);
+
+}
+
+bool GlobalShortcutsBackendKDE::IsAvailable() const {
+
+  return IsKDEAvailable();
 
 }
 

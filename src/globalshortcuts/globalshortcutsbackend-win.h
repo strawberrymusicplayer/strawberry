@@ -17,12 +17,10 @@
  *
  */
 
-#ifndef GLOBALSHORTCUTSBACKEND_SYSTEM_H
-#define GLOBALSHORTCUTSBACKEND_SYSTEM_H
+#ifndef GLOBALSHORTCUTSBACKEND_WIN_H
+#define GLOBALSHORTCUTSBACKEND_WIN_H
 
 #include "config.h"
-
-#include "core/logging.h"
 
 #include <QObject>
 #include <QList>
@@ -34,14 +32,14 @@ class QAction;
 class GlobalShortcutsManager;
 class GlobalShortcut;
 
-class GlobalShortcutsBackendSystem : public GlobalShortcutsBackend {
+class GlobalShortcutsBackendWin : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutsBackendSystem(GlobalShortcutsManager *manager, QObject *parent = nullptr);
-  ~GlobalShortcutsBackendSystem() override;
+  explicit GlobalShortcutsBackendWin(GlobalShortcutsManager *manager, QObject *parent = nullptr);
+  ~GlobalShortcutsBackendWin() override;
 
-  bool IsAvailable() override { return true; }
+  bool IsAvailable() const override;
 
  protected:
   bool DoRegister() override;
@@ -56,4 +54,4 @@ class GlobalShortcutsBackendSystem : public GlobalShortcutsBackend {
 
 };
 
-#endif  // GLOBALSHORTCUTSBACKEND_SYSTEM_H
+#endif  // GLOBALSHORTCUTSBACKEND_WIN_H

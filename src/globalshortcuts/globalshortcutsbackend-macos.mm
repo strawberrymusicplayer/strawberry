@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -78,7 +79,7 @@ class GlobalShortcutsBackendMacOSPrivate : boost::noncopyable {
 };
 
 GlobalShortcutsBackendMacOS::GlobalShortcutsBackendMacOS(GlobalShortcutsManager *manager, QObject *parent)
-    : GlobalShortcutsBackend(manager, parent),
+    : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type_MacOS, parent),
       p_(new GlobalShortcutsBackendMacOSPrivate(this)) {}
 
 GlobalShortcutsBackendMacOS::~GlobalShortcutsBackendMacOS() {}
@@ -104,7 +105,7 @@ void GlobalShortcutsBackendMacOS::DoUnregister() {
 
 }
 
-void GlobalShortcutsBackendMacOS::MacMediaKeyPressed(int key) {
+void GlobalShortcutsBackendMacOS::MacMediaKeyPressed(const int key) {
 
   switch (key) {
     case NX_KEYTYPE_PLAY:
@@ -134,7 +135,7 @@ bool GlobalShortcutsBackendMacOS::KeyPressed(const QKeySequence &sequence) {
 
 }
 
-bool GlobalShortcutsBackendMacOS::IsAccessibilityEnabled() const {
+bool GlobalShortcutsBackendMacOS::IsAccessibilityEnabled() {
 
   NSDictionary *options = @{(id)kAXTrustedCheckOptionPrompt: @YES};
   return AXIsProcessTrustedWithOptions((CFDictionaryRef)options);
@@ -165,4 +166,5 @@ void GlobalShortcutsBackendMacOS::ShowAccessibilityDialog() {
       }
     }
   }
+
 }
