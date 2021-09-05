@@ -201,7 +201,6 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     else {
       Error("Json error object is missing code or message.", json_obj);
       AlbumsFinishCheck(offset_requested, size_requested);
-      return;
     }
     return;
   }
