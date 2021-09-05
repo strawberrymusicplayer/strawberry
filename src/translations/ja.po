@@ -3961,13 +3961,13 @@ msgstr "FATファイルシステムで許可されている文字に制限"
 msgid "Resume playback on start"
 msgstr "起動時に再生を再開する"
 
-#: subsonic/subsonicrequest.cpp:687 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "アルバム %1 からアルバムカバーを取得..."
 
-#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:691 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -3983,7 +3983,7 @@ msgstr "アーティスト %1 からアルバムを取得..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "アーティスト %1 からアルバムを取得..."
 
-#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:130 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "アルバムを取得..."
@@ -3992,13 +3992,13 @@ msgstr "アルバムを取得..."
 msgid "Retrieving artists..."
 msgstr "アーティストを取得..."
 
-#: subsonic/subsonicrequest.cpp:317 tidal/tidalrequest.cpp:738
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:738
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "アルバム %1 から曲を取得..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:739
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -5034,7 +5034,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "不明"
 
-#: subsonic/subsonicrequest.cpp:875 tidal/tidalrequest.cpp:1279
+#: subsonic/subsonicrequest.cpp:879 tidal/tidalrequest.cpp:1279
 #: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "不明なエラー"

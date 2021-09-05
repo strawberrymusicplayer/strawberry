@@ -4014,13 +4014,13 @@ msgstr "Begränsa till tecken som är tillåtna i FAT-filsystem"
 msgid "Resume playback on start"
 msgstr "Fortsätt uppspelning vid start"
 
-#: subsonic/subsonicrequest.cpp:687 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Hämtar albumomslag för %1 album..."
 
-#: subsonic/subsonicrequest.cpp:688 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:691 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -4036,7 +4036,7 @@ msgstr "Hämtar album för %1 artist..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Hämtar album för %1 artister..."
 
-#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:130 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "Hämtar album..."
@@ -4045,13 +4045,13 @@ msgstr "Hämtar album..."
 msgid "Retrieving artists..."
 msgstr "Hämtar artister..."
 
-#: subsonic/subsonicrequest.cpp:317 tidal/tidalrequest.cpp:738
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:738
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Hämtar låtar för %1 album..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:739
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -5114,7 +5114,7 @@ msgstr "Avinstallera snap med:"
 msgid "Unknown"
 msgstr "Okänt"
 
-#: subsonic/subsonicrequest.cpp:875 tidal/tidalrequest.cpp:1279
+#: subsonic/subsonicrequest.cpp:879 tidal/tidalrequest.cpp:1279
 #: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "Okänt fel"
