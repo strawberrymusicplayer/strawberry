@@ -870,10 +870,12 @@ void SubsonicRequest::FinishCheck() {
       emit Results(SongList(), QString());
     }
     else {
-      if (songs_.isEmpty() && errors_.isEmpty())
+      if (songs_.isEmpty() && errors_.isEmpty()) {
         emit Results(songs_.values(), tr("Unknown error"));
-      else
+      }
+      else {
         emit Results(songs_.values(), ErrorsToHTML(errors_));
+      }
     }
 
   }
