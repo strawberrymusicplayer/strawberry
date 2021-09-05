@@ -47,6 +47,7 @@
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "core/imageutils.h"
+#include "core/networktimeouts.h"
 #include "covermanager/albumcoverloader.h"
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
@@ -63,6 +64,7 @@ SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *u
       url_handler_(url_handler),
       app_(app),
       network_(new QNetworkAccessManager),
+      timeouts_(new NetworkTimeouts(30000, this)),
       finished_(false),
       albums_requests_active_(0),
       album_songs_requests_active_(0),
@@ -155,6 +157,7 @@ void SubsonicRequest::FlushAlbumsRequests() {
     QNetworkReply *reply = CreateGetRequest(QString("getAlbumList2"), params);
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumsReplyReceived(reply, request.offset, request.size); });
+    timeouts_->AddReply(reply);
 
   }
 
@@ -347,6 +350,7 @@ void SubsonicRequest::FlushAlbumSongsRequests() {
     QNetworkReply *reply = CreateGetRequest(QString("getAlbum"), params);
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.album_artist); });
+    timeouts_->AddReply(reply);
 
   }
 
@@ -748,6 +752,7 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
     QNetworkReply *reply = network_->get(req);
     album_cover_replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumCoverReceived(reply, request.url, request.filename); });
+    timeouts_->AddReply(reply);
 
   }
 

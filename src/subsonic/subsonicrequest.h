@@ -47,6 +47,7 @@ class QNetworkReply;
 class Application;
 class SubsonicService;
 class SubsonicUrlHandler;
+class NetworkTimeouts;
 
 class SubsonicRequest : public SubsonicBaseRequest {
   Q_OBJECT
@@ -118,6 +119,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   SubsonicUrlHandler *url_handler_;
   Application *app_;
   std::unique_ptr<QNetworkAccessManager> network_;
+  NetworkTimeouts *timeouts_;
 
   bool finished_;
 
