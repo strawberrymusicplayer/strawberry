@@ -81,7 +81,7 @@ void SubsonicSettingsPage::Load() {
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
   ui_->checkbox_server_scrobbling->setChecked(s.value("serversidescrobbling", false).toBool());
 
-  AuthMethod auth_method = static_cast<AuthMethod>(s.value("auth_method", AuthMethod_MD5).toInt());
+  AuthMethod auth_method = static_cast<AuthMethod>(s.value("authmethod", AuthMethod_MD5).toInt());
   switch(auth_method) {
     case AuthMethod_Hex:
       ui_->auth_method_hex->setChecked(true);
