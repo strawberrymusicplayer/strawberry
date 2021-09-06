@@ -247,7 +247,9 @@ ContextView::ContextView(QWidget *parent)
   label_play_lyrics_->setWordWrap(true);
   label_play_lyrics_->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
+  widget_albums_->hide();
   label_play_albums_->setWordWrap(true);
+  label_play_albums_->hide();
 
   layout_play_->setContentsMargins(5, 0, 40, 0);
   layout_play_->addWidget(widget_play_output_);
