@@ -111,22 +111,22 @@ msgstr ""
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 스크로블러 인증"
 
-#: context/contextview.cpp:469
+#: context/contextview.cpp:471
 #, qt-format
 msgid "%1 album"
 msgstr "앨범 %1개"
 
-#: context/contextview.cpp:470
+#: context/contextview.cpp:472
 #, qt-format
 msgid "%1 albums"
 msgstr "앨범 %1개"
 
-#: context/contextview.cpp:465
+#: context/contextview.cpp:467
 #, qt-format
 msgid "%1 artist"
 msgstr "아티스트 %1명"
 
-#: context/contextview.cpp:466
+#: context/contextview.cpp:468
 #, qt-format
 msgid "%1 artists"
 msgstr "아티스트 %1명"
@@ -167,7 +167,7 @@ msgstr "재생 목록 %1개(%2)"
 msgid "%1 selected of"
 msgstr "%1개 선택됨,"
 
-#: context/contextview.cpp:461
+#: context/contextview.cpp:463
 #, qt-format
 msgid "%1 song"
 msgstr "노래 %1곡"
@@ -177,7 +177,7 @@ msgstr "노래 %1곡"
 msgid "%1 song%2"
 msgstr "노래 %1곡"
 
-#: context/contextview.cpp:462
+#: context/contextview.cpp:464
 #, qt-format
 msgid "%1 songs"
 msgstr "노래 %1곡"
@@ -812,7 +812,7 @@ msgstr "앨범아트 크기"
 msgid "Albums"
 msgstr "앨범"
 
-#: context/contextview.cpp:611
+#: context/contextview.cpp:613
 #, qt-format
 msgid "Albums by %1"
 msgstr "%1의 앨범"
@@ -1040,7 +1040,7 @@ msgstr "한 개의 하위 항목만 있을 때 자동으로 열기"
 msgid "Automatically search for album cover"
 msgstr "자동으로 앨범아트 찾기"
 
-#: context/contextview.cpp:340 ../build/src/ui_contextsettingspage.h:446
+#: context/contextview.cpp:342 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
 msgstr "자동으로 가사 찾기"
 
@@ -3200,7 +3200,7 @@ msgstr "아무 곳도 선택되지 않았습니다."
 msgid "No short blocks"
 msgstr "짧은 블록 없음"
 
-#: context/contextview.cpp:458
+#: context/contextview.cpp:460
 msgid "No song playing"
 msgstr "재생 중인 곡 없음"
 
@@ -4314,7 +4314,7 @@ msgstr "예쁜 OSD 표시"
 msgid "Show above status bar"
 msgstr "상태 표시줄 위에 표시"
 
-#: context/contextview.cpp:320
+#: context/contextview.cpp:322
 msgid "Show album cover"
 msgstr "앨범아트 보기"
 
@@ -4322,7 +4322,7 @@ msgstr "앨범아트 보기"
 msgid "Show album cover art in collection"
 msgstr "앨범 목록에 앨범아트 표시"
 
-#: context/contextview.cpp:332
+#: context/contextview.cpp:334
 msgid "Show albums by artist"
 msgstr "아티스트별로 앨범 표시"
 
@@ -4342,7 +4342,7 @@ msgstr "에러 내용 보기"
 msgid "Show dividers"
 msgstr "구분자 표시"
 
-#: context/contextview.cpp:328
+#: context/contextview.cpp:330
 msgid "Show engine and device"
 msgstr "엔진과 장치 표시"
 
@@ -4395,7 +4395,7 @@ msgstr "스크로블 단추 표시"
 msgid "Show sidebar"
 msgstr "사이드바 표시"
 
-#: context/contextview.cpp:336
+#: context/contextview.cpp:338
 msgid "Show song lyrics"
 msgstr "노래 가사 표시"
 
@@ -4403,7 +4403,7 @@ msgstr "노래 가사 표시"
 msgid "Show song progress on system tray icon"
 msgstr "트레이 아이콘에 곡 재생 상황 표시"
 
-#: context/contextview.cpp:324
+#: context/contextview.cpp:326
 msgid "Show song technical data"
 msgstr "노래의 기술적 데이터 표시"
 
@@ -5497,7 +5497,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:546 context/contextview.cpp:697
+#: context/contextview.cpp:548 context/contextview.cpp:699
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:733
 msgid "kbps"
 msgstr "kbps"
