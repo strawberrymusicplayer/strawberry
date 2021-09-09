@@ -233,9 +233,9 @@ void WorkerPool<HandlerType>::DoStart() {
   executable_path_ = executable_name_;
 
   QStringList search_path;
-  search_path << qApp->applicationDirPath();
+  search_path << QCoreApplication::applicationDirPath();
 #if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
-  search_path << qApp->applicationDirPath() + "/" + USE_BUNDLE_DIR;
+  search_path << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
 #endif
 
   for (const QString &path_prefix : search_path) {

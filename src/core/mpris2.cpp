@@ -298,7 +298,7 @@ QStringList Mpris2::SupportedMimeTypes() {
 
 void Mpris2::Raise() { emit RaiseMainWindow(); }
 
-void Mpris2::Quit() { qApp->quit(); }
+void Mpris2::Quit() { QCoreApplication::quit(); }
 
 QString Mpris2::PlaybackStatus() const {
   return PlaybackStatus(app_->player()->GetState());

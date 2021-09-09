@@ -166,7 +166,7 @@ OSDPretty::~OSDPretty() {
 void OSDPretty::showEvent(QShowEvent *e) {
 
   screens_.clear();
-  for(QScreen *screen : qApp->screens()) {
+  for(QScreen *screen : QGuiApplication::screens()) {
     screens_.insert(screen->name(), screen);
   }
 
@@ -221,7 +221,7 @@ bool OSDPretty::IsTransparencyAvailable() {
   return QX11Info::isCompositingManagerRunning();
 #elif defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
   if (qApp) {
-    QPlatformNativeInterface *native = qApp->platformNativeInterface();
+    QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
     QScreen *screen = popup_screen_ == nullptr ? QGuiApplication::primaryScreen() : popup_screen_;
     if (native && screen) {
       return native->nativeResourceForScreen(QByteArray("compositingEnabled"), screen);

@@ -1196,7 +1196,7 @@ void MainWindow::Exit() {
 
   if (exit_count_ > 1) {
     exit_ = true;
-    qApp->quit();
+    QCoreApplication::quit();
   }
   else {
     if (app_->player()->engine()->is_fadeout_enabled()) {
@@ -1226,7 +1226,7 @@ void MainWindow::DoExit() {
 void MainWindow::ExitFinished() {
 
   exit_ = true;
-  qApp->quit();
+  QCoreApplication::quit();
 
 }
 
