@@ -1139,11 +1139,11 @@ jobs:
           path: build/strawberry-*.dmg
 
 
-  build-windows-qt5:
-    name: Build Windows Qt 5
+  build-windows-mingw-qt5:
+    name: Build Windows MinGW Qt 5
     runs-on: ubuntu-latest
     container:
-      image: jonaski/strawberry-mxe2
+      image: jonaski/strawberry-mxe-x86_64
     steps:
       - uses: actions/checkout@v1.2.0
 
@@ -1287,11 +1287,11 @@ jobs:
         working-directory: build
         run: makensis strawberry.nsi
 
-  build-windows-qt6:
-    name: Build Windows Qt 6
+  build-windows-mingw-qt6:
+    name: Build Windows MinGW Qt 6
     runs-on: ubuntu-latest
     container:
-      image: jonaski/strawberry-mxe2
+      image: jonaski/strawberry-mxe-x86_64
     steps:
       - uses: actions/checkout@v1.2.0
 
@@ -1404,7 +1404,7 @@ jobs:
 
       - name: Copy extra binaries
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{libssl-1_1-x64.dll,libcrypto-1_1-x64.dll,sqlite3.exe,killproc.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe} .
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,killproc.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe} .
 
       - name: Copy dependencies
         working-directory: build
