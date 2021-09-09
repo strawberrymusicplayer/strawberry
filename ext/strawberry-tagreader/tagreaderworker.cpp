@@ -59,5 +59,5 @@ void TagReaderWorker::MessageArrived(const spb::tagreader::Message &message) {
 void TagReaderWorker::DeviceClosed() {
   AbstractMessageHandler<spb::tagreader::Message>::DeviceClosed();
 
-  qApp->exit();
+  QCoreApplication::exit();
 }

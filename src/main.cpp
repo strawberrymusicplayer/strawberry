@@ -192,7 +192,7 @@ int main(int argc, char *argv[]) {
     }
     return 0;
   }
-  a.setQuitOnLastWindowClosed(false);
+  QGuiApplication::setQuitOnLastWindowClosed(false);
 
 #if defined(USE_BUNDLE) && (defined(Q_OS_LINUX) || defined(Q_OS_MACOS))
   qLog(Debug) << "Looking for resources in" << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
@@ -272,7 +272,7 @@ int main(int argc, char *argv[]) {
 #endif
   translations->LoadTranslation("strawberry", ":/translations", language);
   translations->LoadTranslation("strawberry", TRANSLATIONS_DIR, language);
-  translations->LoadTranslation("strawberry", a.applicationDirPath(), language);
+  translations->LoadTranslation("strawberry", QCoreApplication::applicationDirPath(), language);
   translations->LoadTranslation("strawberry", QDir::currentPath(), language);
 
 #ifdef HAVE_QTSPARKLE
@@ -313,7 +313,7 @@ int main(int argc, char *argv[]) {
 #endif
   QObject::connect(&a, &SingleApplication::receivedMessage, &w, QOverload<quint32, const QByteArray&>::of(&MainWindow::CommandlineOptionsReceived));
 
-  int ret = a.exec();
+  int ret = QCoreApplication::exec();
 
   return ret;
 }

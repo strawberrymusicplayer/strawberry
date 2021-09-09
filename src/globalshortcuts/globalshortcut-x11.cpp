@@ -72,7 +72,7 @@ Display *X11Display() {
 
   if (!qApp) return nullptr;
 
-  QPlatformNativeInterface *native = qApp->platformNativeInterface();
+  QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
   if (!native) return nullptr;
 
   void *display = native->nativeResourceForIntegration("display");
@@ -105,7 +105,7 @@ quint32 AppRootWindow() {
 
   if (!qApp) return 0;
 
-  QPlatformNativeInterface *native = qApp->platformNativeInterface();
+  QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
   if (!native) return 0;
 
   QScreen *screen = QGuiApplication::primaryScreen();
