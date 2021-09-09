@@ -62,7 +62,7 @@ void DeviceDatabaseBackend::Close() {
 }
 
 void DeviceDatabaseBackend::ExitAsync() {
-  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
 }
 
 void DeviceDatabaseBackend::Exit() {

@@ -2117,7 +2117,7 @@ void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelI
   if (reply->is_successful() && idx.isValid()) {
     app_->playlist_manager()->current()->ReloadItems(QList<int>() << idx.row());
   }
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
 }
 

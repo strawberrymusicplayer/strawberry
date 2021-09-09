@@ -82,7 +82,7 @@ void CollectionBackend::Close() {
 }
 
 void CollectionBackend::ExitAsync() {
-  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
 }
 
 void CollectionBackend::Exit() {
@@ -110,31 +110,31 @@ void CollectionBackend::ReportErrors(const CollectionQuery &query) {
 }
 
 void CollectionBackend::LoadDirectoriesAsync() {
-  metaObject()->invokeMethod(this, "LoadDirectories", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "LoadDirectories", Qt::QueuedConnection);
 }
 
 void CollectionBackend::UpdateTotalSongCountAsync() {
-  metaObject()->invokeMethod(this, "UpdateTotalSongCount", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "UpdateTotalSongCount", Qt::QueuedConnection);
 }
 
 void CollectionBackend::UpdateTotalArtistCountAsync() {
-  metaObject()->invokeMethod(this, "UpdateTotalArtistCount", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "UpdateTotalArtistCount", Qt::QueuedConnection);
 }
 
 void CollectionBackend::UpdateTotalAlbumCountAsync() {
-  metaObject()->invokeMethod(this, "UpdateTotalAlbumCount", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "UpdateTotalAlbumCount", Qt::QueuedConnection);
 }
 
 void CollectionBackend::IncrementPlayCountAsync(const int id) {
-  metaObject()->invokeMethod(this, "IncrementPlayCount", Qt::QueuedConnection, Q_ARG(int, id));
+  QMetaObject::invokeMethod(this, "IncrementPlayCount", Qt::QueuedConnection, Q_ARG(int, id));
 }
 
 void CollectionBackend::IncrementSkipCountAsync(const int id, const float progress) {
-  metaObject()->invokeMethod(this, "IncrementSkipCount", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(float, progress));
+  QMetaObject::invokeMethod(this, "IncrementSkipCount", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(float, progress));
 }
 
 void CollectionBackend::ResetStatisticsAsync(const int id) {
-  metaObject()->invokeMethod(this, "ResetStatistics", Qt::QueuedConnection, Q_ARG(int, id));
+  QMetaObject::invokeMethod(this, "ResetStatistics", Qt::QueuedConnection, Q_ARG(int, id));
 }
 
 void CollectionBackend::LoadDirectories() {
@@ -501,7 +501,7 @@ void CollectionBackend::AddOrUpdateSubdirs(const SubdirectoryList &subdirs) {
 }
 
 void CollectionBackend::AddOrUpdateSongsAsync(const SongList &songs) {
-  metaObject()->invokeMethod(this, "AddOrUpdateSongs", Qt::QueuedConnection, Q_ARG(SongList, songs));
+  QMetaObject::invokeMethod(this, "AddOrUpdateSongs", Qt::QueuedConnection, Q_ARG(SongList, songs));
 }
 
 void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
@@ -1366,7 +1366,7 @@ CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &effective
 
 void CollectionBackend::UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic) {
 
-  metaObject()->invokeMethod(this, "UpdateManualAlbumArt", Qt::QueuedConnection, Q_ARG(QString, effective_albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url), Q_ARG(bool, clear_art_automatic));
+  QMetaObject::invokeMethod(this, "UpdateManualAlbumArt", Qt::QueuedConnection, Q_ARG(QString, effective_albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url), Q_ARG(bool, clear_art_automatic));
 
 }
 
@@ -1433,7 +1433,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartis
 
 void CollectionBackend::UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url) {
 
-  metaObject()->invokeMethod(this, "UpdateAutomaticAlbumArt", Qt::QueuedConnection, Q_ARG(QString, effective_albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url));
+  QMetaObject::invokeMethod(this, "UpdateAutomaticAlbumArt", Qt::QueuedConnection, Q_ARG(QString, effective_albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url));
 
 }
 
@@ -1806,11 +1806,11 @@ void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const doubl
 }
 
 void CollectionBackend::UpdateSongRatingAsync(const int id, const double rating) {
-  metaObject()->invokeMethod(this, "UpdateSongRating", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(double, rating));
+  QMetaObject::invokeMethod(this, "UpdateSongRating", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(double, rating));
 }
 
 void CollectionBackend::UpdateSongsRatingAsync(const QList<int> &ids, const double rating) {
-  metaObject()->invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(double, rating));
+  QMetaObject::invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(double, rating));
 }
 
 void CollectionBackend::UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days) {

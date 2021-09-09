@@ -1335,7 +1335,7 @@ void EditTagDialog::SongSaveTagsComplete(TagReaderReply *reply, const QString &f
     collection_songs_.insert(song.id(), song);
   }
 
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   if (save_tag_pending_ <= 0 && save_art_pending_ <= 0) AcceptFinished();
 
@@ -1377,7 +1377,7 @@ void EditTagDialog::SongSaveArtComplete(TagReaderReply *reply, const QString &fi
     app_->current_albumcover_loader()->LoadAlbumCover(song);
   }
 
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   if (save_tag_pending_ <= 0 && save_art_pending_ <= 0) AcceptFinished();
 

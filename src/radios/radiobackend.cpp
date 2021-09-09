@@ -46,7 +46,7 @@ void RadioBackend::Close() {
 }
 
 void RadioBackend::ExitAsync() {
-  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
 }
 
 void RadioBackend::Exit() {
@@ -59,7 +59,7 @@ void RadioBackend::Exit() {
 }
 
 void RadioBackend::AddChannelsAsync(const RadioChannelList &channels) {
-  metaObject()->invokeMethod(this, "AddChannels", Qt::QueuedConnection, Q_ARG(RadioChannelList, channels));
+  QMetaObject::invokeMethod(this, "AddChannels", Qt::QueuedConnection, Q_ARG(RadioChannelList, channels));
 }
 
 void RadioBackend::AddChannels(const RadioChannelList &channels) {
@@ -87,7 +87,7 @@ void RadioBackend::AddChannels(const RadioChannelList &channels) {
 
 void RadioBackend::GetChannelsAsync() {
 
-  metaObject()->invokeMethod(this, "GetChannels", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "GetChannels", Qt::QueuedConnection);
 
 }
 
@@ -119,7 +119,7 @@ void RadioBackend::GetChannels() {
 }
 
 void RadioBackend::DeleteChannelsAsync() {
-  metaObject()->invokeMethod(this, "DeleteChannels", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "DeleteChannels", Qt::QueuedConnection);
 }
 
 void RadioBackend::DeleteChannels() {

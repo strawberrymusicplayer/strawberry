@@ -55,7 +55,7 @@ TagReaderClient::TagReaderClient(QObject *parent) : QObject(parent), worker_pool
 void TagReaderClient::Start() { worker_pool_->Start(); }
 
 void TagReaderClient::ExitAsync() {
-  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
 }
 
 void TagReaderClient::Exit() {
@@ -137,7 +137,7 @@ void TagReaderClient::ReadFileBlocking(const QString &filename, Song *song) {
   if (reply->WaitForFinished()) {
     song->InitFromProtobuf(reply->message().read_file_response().metadata());
   }
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
 }
 
@@ -151,7 +151,7 @@ bool TagReaderClient::SaveFileBlocking(const QString &filename, const Song &meta
   if (reply->WaitForFinished()) {
     ret = reply->message().save_file_response().success();
   }
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   return ret;
 
@@ -167,7 +167,7 @@ bool TagReaderClient::IsMediaFileBlocking(const QString &filename) {
   if (reply->WaitForFinished()) {
     ret = reply->message().is_media_file_response().success();
   }
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   return ret;
 
@@ -184,7 +184,7 @@ QByteArray TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename) {
     const std::string &data_str = reply->message().load_embedded_art_response().data();
     ret = QByteArray(data_str.data(), data_str.size());
   }
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   return ret;
 
@@ -201,7 +201,7 @@ QImage TagReaderClient::LoadEmbeddedArtAsImageBlocking(const QString &filename) 
     const std::string &data_str = reply->message().load_embedded_art_response().data();
     ret.loadFromData(QByteArray(data_str.data(), data_str.size()));
   }
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   return ret;
 
@@ -217,7 +217,7 @@ bool TagReaderClient::SaveEmbeddedArtBlocking(const QString &filename, const QBy
   if (reply->WaitForFinished()) {
     ret = reply->message().save_embedded_art_response().success();
   }
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   return ret;
 

@@ -714,7 +714,7 @@ void SongLoader::StopTypefindAsync(bool success) {
   state_ = Finished;
   success_ = success;
 
-  metaObject()->invokeMethod(this, "StopTypefind", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "StopTypefind", Qt::QueuedConnection);
 
 }
 #endif
@@ -726,7 +726,7 @@ void SongLoader::ScheduleTimeoutAsync() {
     ScheduleTimeout();
   }
   else {
-    metaObject()->invokeMethod(this, "ScheduleTimeout", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, "ScheduleTimeout", Qt::QueuedConnection);
   }
 
 }

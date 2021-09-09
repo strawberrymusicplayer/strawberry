@@ -427,7 +427,7 @@ void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelInd
     }
   }
 
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
 }
 
@@ -1472,7 +1472,7 @@ void Playlist::ScheduleSaveAsync() {
     ScheduleSave();
   }
   else {
-    metaObject()->invokeMethod(this, "ScheduleSave", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, "ScheduleSave", Qt::QueuedConnection);
   }
 
 }

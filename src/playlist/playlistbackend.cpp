@@ -79,7 +79,7 @@ void PlaylistBackend::Close() {
 }
 
 void PlaylistBackend::ExitAsync() {
-  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
 }
 
 void PlaylistBackend::Exit() {
@@ -324,7 +324,7 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::share
 
 void PlaylistBackend::SavePlaylistAsync(int playlist, const PlaylistItemList &items, int last_played, PlaylistGeneratorPtr dynamic) {
 
-  metaObject()->invokeMethod(this, "SavePlaylist", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(PlaylistItemList, items), Q_ARG(int, last_played), Q_ARG(PlaylistGeneratorPtr, dynamic));
+  QMetaObject::invokeMethod(this, "SavePlaylist", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(PlaylistItemList, items), Q_ARG(int, last_played), Q_ARG(PlaylistGeneratorPtr, dynamic));
 
 }
 

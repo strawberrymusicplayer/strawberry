@@ -219,7 +219,7 @@ void WorkerPool<HandlerType>::SetExecutableName(const QString &executable_name) 
 
 template <typename HandlerType>
 void WorkerPool<HandlerType>::Start() {
-  metaObject()->invokeMethod(this, "DoStart");
+  QMetaObject::invokeMethod(this, "DoStart");
 }
 
 template <typename HandlerType>
@@ -382,7 +382,7 @@ WorkerPool<HandlerType>::SendMessageWithReply(MessageType *message) {
   }
 
   // Wake up the main thread
-  metaObject()->invokeMethod(this, "SendQueuedMessages", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "SendQueuedMessages", Qt::QueuedConnection);
 
   return reply;
 

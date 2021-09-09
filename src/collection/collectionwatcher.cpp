@@ -120,7 +120,7 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
 }
 
 void CollectionWatcher::ExitAsync() {
-  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
 }
 
 void CollectionWatcher::Exit() {

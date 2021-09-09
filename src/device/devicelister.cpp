@@ -73,13 +73,13 @@ void DeviceLister::ThreadStarted() { Init(); }
 int DeviceLister::MountDeviceAsync(const QString &id) {
 
   const int request_id = next_mount_request_id_++;
-  metaObject()->invokeMethod(this, "MountDevice", Qt::QueuedConnection, Q_ARG(QString, id), Q_ARG(int, request_id));
+  QMetaObject::invokeMethod(this, "MountDevice", Qt::QueuedConnection, Q_ARG(QString, id), Q_ARG(int, request_id));
   return request_id;
 
 }
 
 void DeviceLister::UnmountDeviceAsync(const QString &id) {
-  metaObject()->invokeMethod(this, "UnmountDevice", Qt::QueuedConnection, Q_ARG(QString, id));
+  QMetaObject::invokeMethod(this, "UnmountDevice", Qt::QueuedConnection, Q_ARG(QString, id));
 }
 
 void DeviceLister::MountDevice(const QString &id, const int request_id) {
@@ -87,7 +87,7 @@ void DeviceLister::MountDevice(const QString &id, const int request_id) {
 }
 
 void DeviceLister::ExitAsync() {
-  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
 }
 
 void DeviceLister::Exit() {

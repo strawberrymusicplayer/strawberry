@@ -130,7 +130,7 @@ void AbstractMessageHandler<MT>::SendMessage(const MessageType &message) {
 template <typename MT>
 void AbstractMessageHandler<MT>::SendMessageAsync(const MessageType &message) {
   std::string data = message.SerializeAsString();
-  metaObject()->invokeMethod(this, "WriteMessage", Qt::QueuedConnection, Q_ARG(QByteArray, QByteArray(data.data(), data.size())));
+  QMetaObject::invokeMethod(this, "WriteMessage", Qt::QueuedConnection, Q_ARG(QByteArray, QByteArray(data.data(), data.size())));
 }
 
 template<typename MT>
