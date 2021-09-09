@@ -26,6 +26,7 @@
 
 #include "core/logging.h"
 #include "core/database.h"
+#include "core/sqlquery.h"
 #include "core/song.h"
 #include "radiobackend.h"
 #include "radiochannel.h"
@@ -66,16 +67,17 @@ void RadioBackend::AddChannels(const RadioChannelList &channels) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  QSqlQuery q(db);
+  SqlQuery q(db);
   q.prepare(QString("INSERT INTO radio_channels (source, name, url, thumbnail_url) VALUES (:source, :name, :url, :thumbnail_url)"));
 
   for (const RadioChannel &channel : channels) {
-    q.bindValue(":source", channel.source);
-    q.bindValue(":name", channel.name);
-    q.bindValue(":url", channel.url);
-    q.bindValue(":thumbnail_url", channel.thumbnail_url);
-    if (!q.exec()) {
-      db_->CheckErrors(q);
+    q.BindValue(":source", channel.source);
+    q.BindValue(":name", channel.name);
+    q.BindValue(":url", channel.url);
+    q.BindValue(":thumbnail_url", channel.thumbnail_url);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
     }
   }
 
@@ -94,11 +96,11 @@ void RadioBackend::GetChannels() {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  QSqlQuery q(db);
+  SqlQuery q(db);
   q.prepare("SELECT source, name, url, thumbnail_url FROM radio_channels");
 
-  if (!q.exec()) {
-    db_->CheckErrors(q);
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
     return;
   }
 
@@ -125,11 +127,11 @@ void RadioBackend::DeleteChannels() {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  QSqlQuery q(db);
+  SqlQuery q(db);
   q.prepare("DELETE FROM radio_channels");
 
-  if (!q.exec()) {
-    db_->CheckErrors(q);
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
   }
 
 }

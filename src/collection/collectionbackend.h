@@ -35,6 +35,7 @@
 #include <QSqlQuery>
 
 #include "core/song.h"
+#include "core/sqlquery.h"
 #include "collectionquery.h"
 #include "directory.h"
 
@@ -131,6 +132,8 @@ class CollectionBackend : public CollectionBackendInterface {
 
   void ExitAsync();
 
+  void ReportErrors(const CollectionQuery &query);
+
   Database *db() const override { return db_; }
 
   QString songs_table() const override { return songs_table_; }
@@ -180,7 +183,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void AddDirectory(const QString &path) override;
   void RemoveDirectory(const Directory &dir) override;
 
-  SongList ExecCollectionQuery(CollectionQuery *query);
+  bool ExecCollectionQuery(CollectionQuery *query, SongList &songs);
 
   void IncrementPlayCountAsync(const int id);
   void IncrementSkipCountAsync(const int id, const float progress);
@@ -250,6 +253,8 @@ class CollectionBackend : public CollectionBackendInterface {
 
   void ExitFinished();
 
+  void Error(QString);
+
  private:
   struct CompilationInfo {
     CompilationInfo() : has_compilation_detected(0), has_not_compilation_detected(0) {}
@@ -261,7 +266,7 @@ class CollectionBackend : public CollectionBackendInterface {
     int has_not_compilation_detected;
   };
 
-  void UpdateCompilations(QSqlQuery &find_song, QSqlQuery &update_song, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected);
+  bool UpdateCompilations(const QSqlDatabase &db, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected);
   AlbumList GetAlbums(const QString &artist, const QString &album_artist, const bool compilation_required = false, const QueryOptions &opt = QueryOptions());
   AlbumList GetAlbums(const QString &artist, const bool compilation_required, const QueryOptions &opt = QueryOptions());
   SubdirectoryList SubdirsInDirectory(const int id, QSqlDatabase &db);

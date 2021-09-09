@@ -217,6 +217,8 @@ Application::Application(QObject *parent)
   collection()->Init();
   tag_reader_client();
 
+  QObject::connect(database(), &Database::Error, this, &Application::ErrorAdded);
+
 }
 
 Application::~Application() {

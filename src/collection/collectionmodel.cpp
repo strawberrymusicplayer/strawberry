@@ -826,7 +826,10 @@ bool CollectionModel::HasCompilations(const QSqlDatabase &db, const CollectionQu
   q.AddCompilationRequirement(true);
   q.SetLimit(1);
 
-  if (!q.Exec()) return false;
+  if (!q.Exec()) {
+    backend_->ReportErrors(q);
+    return false;
+  }
 
   return q.Next();
 
@@ -872,6 +875,9 @@ CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
       while (q.Next()) {
         result.rows << SqlRow(q);
       }
+    }
+    else {
+      backend_->ReportErrors(q);
     }
 
   }

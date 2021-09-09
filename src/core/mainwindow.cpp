@@ -607,6 +607,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(ui_->track_slider, &TrackSlider::Next, app_->player(), &Player::Next);
 
   // Collection connections
+  QObject::connect(app_->collection(), &SCollection::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(collection_view_->view(), &CollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(collection_view_->view(), &CollectionView::ShowConfigDialog, this, &MainWindow::ShowCollectionConfig);
   QObject::connect(collection_view_->view(), &CollectionView::Error, this, &MainWindow::ShowErrorDialog);

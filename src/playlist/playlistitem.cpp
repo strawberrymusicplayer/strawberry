@@ -31,6 +31,7 @@
 #include <QtDebug>
 
 #include "core/logging.h"
+#include "core/sqlquery.h"
 #include "core/song.h"
 
 #include "collection/collection.h"
@@ -91,10 +92,10 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
 
 PlaylistItem::~PlaylistItem() = default;
 
-void PlaylistItem::BindToQuery(QSqlQuery *query) const {
+void PlaylistItem::BindToQuery(SqlQuery *query) const {
 
-  query->bindValue(":type", source_);
-  query->bindValue(":collection_id", DatabaseValue(Column_CollectionId));
+  query->BindValue(":type", source_);
+  query->BindValue(":collection_id", DatabaseValue(Column_CollectionId));
 
   DatabaseSongMetadata().BindToQuery(query);
 

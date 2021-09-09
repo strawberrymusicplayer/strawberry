@@ -28,6 +28,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QMap>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 

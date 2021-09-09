@@ -103,7 +103,7 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetAllFavoritePlaylists() {
   return GetPlaylists(GetPlaylists_Favorite);
 }
 
-PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(GetPlaylistsFlags flags) {
+PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFlags flags) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -122,10 +122,12 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(GetPlaylistsFlags fl
     condition = " WHERE " + condition_list.join(" OR ");
   }
 
-  QSqlQuery q(db);
+  SqlQuery q(db);
   q.prepare("SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend FROM playlists " + condition + " ORDER BY ui_order");
-  q.exec();
-  if (db_->CheckErrors(q)) return ret;
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+    return ret;
+  }
 
   while (q.next()) {
     Playlist p;
@@ -145,17 +147,19 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(GetPlaylistsFlags fl
 
 }
 
-PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(int id) {
+PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  QSqlQuery q(db);
+  SqlQuery q(db);
   q.prepare("SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend FROM playlists WHERE ROWID=:id");
 
-  q.bindValue(":id", id);
-  q.exec();
-  if (db_->CheckErrors(q)) return Playlist();
+  q.BindValue(":id", id);
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+    return Playlist();
+  }
 
   q.next();
 
@@ -174,32 +178,25 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(int id) {
 
 }
 
-QSqlQuery PlaylistBackend::GetPlaylistRows(int playlist) {
-
-  QMutexLocker l(db_->Mutex());
-  QSqlDatabase db(db_->Connect());
-
-  QString query = "SELECT songs.ROWID, " + Song::JoinSpec("songs") + ", p.ROWID, " + Song::JoinSpec("p") + ", p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist";
-  QSqlQuery q(db);
-  // Forward iterations only may be faster
-  q.setForwardOnly(true);
-  q.prepare(query);
-  q.bindValue(":playlist", playlist);
-  q.exec();
-
-  return q;
-
-}
-
-QList<PlaylistItemPtr> PlaylistBackend::GetPlaylistItems(int playlist) {
+QList<PlaylistItemPtr> PlaylistBackend::GetPlaylistItems(const int playlist) {
 
   QList<PlaylistItemPtr> playlistitems;
 
   {
 
-    QSqlQuery q = GetPlaylistRows(playlist);
-    // Note that as this only accesses the query, not the db, we don't need the mutex.
-    if (db_->CheckErrors(q)) return QList<PlaylistItemPtr>();
+    QMutexLocker l(db_->Mutex());
+    QSqlDatabase db(db_->Connect());
+
+    QString query = "SELECT songs.ROWID, " + Song::JoinSpec("songs") + ", p.ROWID, " + Song::JoinSpec("p") + ", p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist";
+    SqlQuery q(db);
+    // Forward iterations only may be faster
+    q.setForwardOnly(true);
+    q.prepare(query);
+    q.BindValue(":playlist", playlist);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return QList<PlaylistItemPtr>();
+    }
 
     // it's probable that we'll have a few songs associated with the same CUE so we're caching results of parsing CUEs
     std::shared_ptr<NewSongFromQueryState> state_ptr = std::make_shared<NewSongFromQueryState>();
@@ -217,15 +214,24 @@ QList<PlaylistItemPtr> PlaylistBackend::GetPlaylistItems(int playlist) {
 
 }
 
-QList<Song> PlaylistBackend::GetPlaylistSongs(int playlist) {
+QList<Song> PlaylistBackend::GetPlaylistSongs(const int playlist) {
 
   SongList songs;
 
   {
+    QMutexLocker l(db_->Mutex());
+    QSqlDatabase db(db_->Connect());
 
-    QSqlQuery q = GetPlaylistRows(playlist);
-    // Note that as this only accesses the query, not the db, we don't need the mutex.
-    if (db_->CheckErrors(q)) return QList<Song>();
+    QString query = "SELECT songs.ROWID, " + Song::JoinSpec("songs") + ", p.ROWID, " + Song::JoinSpec("p") + ", p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist";
+    SqlQuery q(db);
+    // Forward iterations only may be faster
+    q.setForwardOnly(true);
+    q.prepare(query);
+    q.BindValue(":playlist", playlist);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return QList<Song>();
+    }
 
     // it's probable that we'll have a few songs associated with the same CUE so we're caching results of parsing CUEs
     std::shared_ptr<NewSongFromQueryState> state_ptr = std::make_shared<NewSongFromQueryState>();
@@ -329,44 +335,53 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList &items, 
 
   qLog(Debug) << "Saving playlist" << playlist;
 
-  QSqlQuery clear(db);
-  clear.prepare("DELETE FROM playlist_items WHERE playlist = :playlist");
-  QSqlQuery insert(db);
-  insert.prepare("INSERT INTO playlist_items (playlist, type, collection_id, " + Song::kColumnSpec + ") VALUES (:playlist, :type, :collection_id, " + Song::kBindSpec + ")");
-  QSqlQuery update(db);
-  update.prepare("UPDATE playlists SET last_played=:last_played, dynamic_playlist_type=:dynamic_type, dynamic_playlist_data=:dynamic_data, dynamic_playlist_backend=:dynamic_backend WHERE ROWID=:playlist");
-
   ScopedTransaction transaction(&db);
 
   // Clear the existing items in the playlist
-  clear.bindValue(":playlist", playlist);
-  clear.exec();
-  if (db_->CheckErrors(clear)) return;
+  {
+    SqlQuery q(db);
+    q.prepare("DELETE FROM playlist_items WHERE playlist = :playlist");
+    q.BindValue(":playlist", playlist);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
+  }
 
   // Save the new ones
   for (PlaylistItemPtr item : items) {  // clazy:exclude=range-loop-reference
-    insert.bindValue(":playlist", playlist);
-    item->BindToQuery(&insert);
+    SqlQuery q(db);
+    q.prepare("INSERT INTO playlist_items (playlist, type, collection_id, " + Song::kColumnSpec + ") VALUES (:playlist, :type, :collection_id, " + Song::kBindSpec + ")");
+    q.BindValue(":playlist", playlist);
+    item->BindToQuery(&q);
 
-    insert.exec();
-    db_->CheckErrors(insert);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
   }
 
   // Update the last played track number
-  update.bindValue(":last_played", last_played);
-  if (dynamic) {
-    update.bindValue(":dynamic_type", dynamic->type());
-    update.bindValue(":dynamic_data", dynamic->Save());
-    update.bindValue(":dynamic_backend", dynamic->collection()->songs_table());
+  {
+    SqlQuery q(db);
+    q.prepare("UPDATE playlists SET last_played=:last_played, dynamic_playlist_type=:dynamic_type, dynamic_playlist_data=:dynamic_data, dynamic_playlist_backend=:dynamic_backend WHERE ROWID=:playlist");
+    q.BindValue(":last_played", last_played);
+    if (dynamic) {
+      q.BindValue(":dynamic_type", dynamic->type());
+      q.BindValue(":dynamic_data", dynamic->Save());
+      q.BindValue(":dynamic_backend", dynamic->collection()->songs_table());
+    }
+    else {
+      q.BindValue(":dynamic_type", 0);
+      q.BindValue(":dynamic_data", QByteArray());
+      q.BindValue(":dynamic_backend", QString());
+    }
+    q.BindValue(":playlist", playlist);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
   }
-  else {
-    update.bindValue(":dynamic_type", 0);
-    update.bindValue(":dynamic_data", QByteArray());
-    update.bindValue(":dynamic_backend", QString());
-  }
-  update.bindValue(":playlist", playlist);
-  update.exec();
-  if (db_->CheckErrors(update)) return;
 
   transaction.Commit();
 
@@ -377,12 +392,14 @@ int PlaylistBackend::CreatePlaylist(const QString &name, const QString &special_
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  QSqlQuery q(db);
+  SqlQuery q(db);
   q.prepare("INSERT INTO playlists (name, special_type) VALUES (:name, :special_type)");
-  q.bindValue(":name", name);
-  q.bindValue(":special_type", special_type);
-  q.exec();
-  if (db_->CheckErrors(q)) return -1;
+  q.BindValue(":name", name);
+  q.BindValue(":special_type", special_type);
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+    return -1;
+  }
 
   return q.lastInsertId().toInt();
 
@@ -392,51 +409,60 @@ void PlaylistBackend::RemovePlaylist(int id) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
-  QSqlQuery delete_playlist(db);
-  delete_playlist.prepare("DELETE FROM playlists WHERE ROWID=:id");
-  QSqlQuery delete_items(db);
-  delete_items.prepare("DELETE FROM playlist_items WHERE playlist=:id");
-
-  delete_playlist.bindValue(":id", id);
-  delete_items.bindValue(":id", id);
 
   ScopedTransaction transaction(&db);
 
-  delete_playlist.exec();
-  if (db_->CheckErrors(delete_playlist)) return;
+  {
+    SqlQuery q(db);
+    q.prepare("DELETE FROM playlists WHERE ROWID=:id");
+    q.BindValue(":id", id);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
+  }
 
-  delete_items.exec();
-  if (db_->CheckErrors(delete_items)) return;
+  {
+    SqlQuery q(db);
+    q.prepare("DELETE FROM playlist_items WHERE playlist=:id");
+    q.BindValue(":id", id);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
+  }
 
   transaction.Commit();
 
 }
 
-void PlaylistBackend::RenamePlaylist(int id, const QString &new_name) {
+void PlaylistBackend::RenamePlaylist(const int id, const QString &new_name) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
-  QSqlQuery q(db);
+  SqlQuery q(db);
   q.prepare("UPDATE playlists SET name=:name WHERE ROWID=:id");
-  q.bindValue(":name", new_name);
-  q.bindValue(":id", id);
+  q.BindValue(":name", new_name);
+  q.BindValue(":id", id);
 
-  q.exec();
-  db_->CheckErrors(q);
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+  }
 
 }
 
-void PlaylistBackend::FavoritePlaylist(int id, bool is_favorite) {
+void PlaylistBackend::FavoritePlaylist(const int id, const bool is_favorite) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
-  QSqlQuery q(db);
+  SqlQuery q(db);
   q.prepare("UPDATE playlists SET is_favorite=:is_favorite WHERE ROWID=:id");
-  q.bindValue(":is_favorite", is_favorite ? 1 : 0);
-  q.bindValue(":id", id);
+  q.BindValue(":is_favorite", is_favorite ? 1 : 0);
+  q.BindValue(":id", id);
 
-  q.exec();
-  db_->CheckErrors(q);
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+  }
 
 }
 
@@ -446,36 +472,42 @@ void PlaylistBackend::SetPlaylistOrder(const QList<int> &ids) {
   QSqlDatabase db(db_->Connect());
   ScopedTransaction transaction(&db);
 
-  QSqlQuery q(db);
+  SqlQuery q(db);
   q.prepare("UPDATE playlists SET ui_order=-1");
-  q.exec();
-  if (db_->CheckErrors(q)) return;
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+    return;
+  }
 
   q.prepare("UPDATE playlists SET ui_order=:index WHERE ROWID=:id");
   for (int i = 0; i < ids.count(); ++i) {
-    q.bindValue(":index", i);
-    q.bindValue(":id", ids[i]);
-    q.exec();
-    if (db_->CheckErrors(q)) return;
+    q.BindValue(":index", i);
+    q.BindValue(":id", ids[i]);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
   }
 
   transaction.Commit();
 
 }
 
-void PlaylistBackend::SetPlaylistUiPath(int id, const QString &path) {
+void PlaylistBackend::SetPlaylistUiPath(const int id, const QString &path) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
-  QSqlQuery q(db);
+  SqlQuery q(db);
   q.prepare("UPDATE playlists SET ui_path=:path WHERE ROWID=:id");
 
   ScopedTransaction transaction(&db);
 
-  q.bindValue(":path", path);
-  q.bindValue(":id", id);
-  q.exec();
-  if (db_->CheckErrors(q)) return;
+  q.BindValue(":path", path);
+  q.BindValue(":id", id);
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+    return;
+  }
 
   transaction.Commit();
 

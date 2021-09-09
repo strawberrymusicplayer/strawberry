@@ -220,18 +220,7 @@ bool CollectionQuery::Exec() {
     addBindValue(value);
   }
 
-  const bool result = exec();
-
-  if (!result) {
-    QSqlError last_error = lastError();
-    if (last_error.isValid()) {
-      qLog(Error) << "DB error: " << last_error;
-      qLog(Error) << "Faulty query: " << lastQuery();
-      qLog(Error) << "Bound values: " << boundValues();
-    }
-  }
-
-  return result;
+  return exec();
 
 }
 

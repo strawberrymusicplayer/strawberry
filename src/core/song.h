@@ -39,7 +39,7 @@
 #include <QImage>
 #include <QIcon>
 
-class QSqlQuery;
+class SqlQuery;
 
 namespace Engine {
 struct SimpleMetaBundle;
@@ -185,8 +185,8 @@ class Song {
   void MergeUserSetData(const Song &other);
 
   // Save
-  void BindToQuery(QSqlQuery *query) const;
-  void BindToFtsQuery(QSqlQuery *query) const;
+  void BindToQuery(SqlQuery *query) const;
+  void BindToFtsQuery(SqlQuery *query) const;
   void ToXesam(QVariantMap *map) const;
   void ToProtobuf(spb::tagreader::SongMetadata *pb) const;
 

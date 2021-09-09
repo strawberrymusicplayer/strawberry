@@ -79,6 +79,7 @@ class SCollection : public QObject {
   void ExitReceived();
 
  signals:
+  void Error(QString);
   void ExitFinished();
 
  private:

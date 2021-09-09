@@ -11,6 +11,7 @@ set(SOURCES
   core/player.cpp
   core/commandlineoptions.cpp
   core/database.cpp
+  core/sqlquery.cpp
   core/metatypes.cpp
   core/deletefiles.cpp
   core/filesystemmusicstorage.cpp

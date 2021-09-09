@@ -35,6 +35,7 @@
 #include <QSqlQuery>
 
 #include "core/song.h"
+#include "core/sqlquery.h"
 #include "collection/sqlrow.h"
 #include "playlistitem.h"
 #include "smartplaylists/playlistgenerator.h"
@@ -72,25 +73,25 @@ class PlaylistBackend : public QObject {
   PlaylistList GetAllPlaylists();
   PlaylistList GetAllOpenPlaylists();
   PlaylistList GetAllFavoritePlaylists();
-  PlaylistBackend::Playlist GetPlaylist(int id);
+  PlaylistBackend::Playlist GetPlaylist(const int id);
 
-  QList<PlaylistItemPtr> GetPlaylistItems(int playlist);
-  QList<Song> GetPlaylistSongs(int playlist);
+  QList<PlaylistItemPtr> GetPlaylistItems(const int playlist);
+  QList<Song> GetPlaylistSongs(const int playlist);
 
   void SetPlaylistOrder(const QList<int> &ids);
-  void SetPlaylistUiPath(int id, const QString &path);
+  void SetPlaylistUiPath(const int id, const QString &path);
 
   int CreatePlaylist(const QString &name, const QString &special_type);
-  void SavePlaylistAsync(int playlist, const PlaylistItemList &items, int last_played, PlaylistGeneratorPtr dynamic);
-  void RenamePlaylist(int id, const QString &new_name);
-  void FavoritePlaylist(int id, bool is_favorite);
-  void RemovePlaylist(int id);
+  void SavePlaylistAsync(const int playlist, const PlaylistItemList &items, const int last_played, PlaylistGeneratorPtr dynamic);
+  void RenamePlaylist(const int id, const QString &new_name);
+  void FavoritePlaylist(const int id, bool is_favorite);
+  void RemovePlaylist(const int id);
 
   Application *app() const { return app_; }
 
  public slots:
   void Exit();
-  void SavePlaylist(int playlist, const PlaylistItemList &items, int last_played, PlaylistGeneratorPtr dynamic);
+  void SavePlaylist(const int playlist, const PlaylistItemList &items, const int last_played, PlaylistGeneratorPtr dynamic);
 
  signals:
   void ExitFinished();
@@ -101,8 +102,6 @@ class PlaylistBackend : public QObject {
     QMutex mutex_;
   };
 
-  QSqlQuery GetPlaylistRows(int playlist);
-
   Song NewSongFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state);
   PlaylistItemPtr NewPlaylistItemFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state);
   PlaylistItemPtr RestoreCueData(PlaylistItemPtr item, std::shared_ptr<NewSongFromQueryState> state);
@@ -112,7 +111,7 @@ class PlaylistBackend : public QObject {
     GetPlaylists_Favorite = 2,
     GetPlaylists_All = GetPlaylists_OpenInUi | GetPlaylists_Favorite
   };
-  PlaylistList GetPlaylists(GetPlaylistsFlags flags);
+  PlaylistList GetPlaylists(const GetPlaylistsFlags flags);
 
   Application *app_;
   Database *db_;

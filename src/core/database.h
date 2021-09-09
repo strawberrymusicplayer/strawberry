@@ -38,6 +38,8 @@
 #  include <QRecursiveMutex>
 #endif
 
+#include "sqlquery.h"
+
 class QThread;
 class Application;
 
@@ -65,7 +67,7 @@ class Database : public QObject {
   void ExitAsync();
   QSqlDatabase Connect();
   void Close();
-  static bool CheckErrors(const QSqlQuery &query);
+  void ReportErrors(const SqlQuery &query);
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
   QRecursiveMutex *Mutex() { return &mutex_; }
@@ -85,7 +87,8 @@ class Database : public QObject {
 
  signals:
   void ExitFinished();
-  void Error(QString message);
+  void Error(QString error);
+  void Errors(QStringList errors);
 
  private slots:
   void Exit();
@@ -98,11 +101,11 @@ class Database : public QObject {
   void UpdateMainSchema(QSqlDatabase *db);
 
   void ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, int schema_version, bool in_transaction = false);
-  static void ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands);
+  void ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands);
 
   void UpdateDatabaseSchema(int version, QSqlDatabase &db);
-  static void UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db);
-  QStringList SongsTables(QSqlDatabase &db, int schema_version) const;
+  void UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db);
+  QStringList SongsTables(QSqlDatabase &db, const int schema_version);
   bool IntegrityCheck(const QSqlDatabase &db);
   void BackupFile(const QString &filename);
   static bool OpenDatabase(const QString &filename, sqlite3 **connection);

@@ -60,6 +60,7 @@
 #include "utilities.h"
 #include "song.h"
 #include "application.h"
+#include "sqlquery.h"
 #include "mpris_common.h"
 #include "collection/sqlrow.h"
 #include "tagreadermessages.pb.h"
@@ -1369,7 +1370,7 @@ bool Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
 
 }
 
-void Song::BindToQuery(QSqlQuery *query) const {
+void Song::BindToQuery(SqlQuery *query) const {
 
 #define strval(x) ((x).isNull() ? "" : (x))
 #define intval(x) ((x) <= 0 ? -1 : (x))
@@ -1377,63 +1378,63 @@ void Song::BindToQuery(QSqlQuery *query) const {
 
   // Remember to bind these in the same order as kBindSpec
 
-  query->bindValue(":title", strval(d->title_));
-  query->bindValue(":album", strval(d->album_));
-  query->bindValue(":artist", strval(d->artist_));
-  query->bindValue(":albumartist", strval(d->albumartist_));
-  query->bindValue(":track", intval(d->track_));
-  query->bindValue(":disc", intval(d->disc_));
-  query->bindValue(":year", intval(d->year_));
-  query->bindValue(":originalyear", intval(d->originalyear_));
-  query->bindValue(":genre", strval(d->genre_));
-  query->bindValue(":compilation", d->compilation_ ? 1 : 0);
-  query->bindValue(":composer", strval(d->composer_));
-  query->bindValue(":performer", strval(d->performer_));
-  query->bindValue(":grouping", strval(d->grouping_));
-  query->bindValue(":comment", strval(d->comment_));
-  query->bindValue(":lyrics", strval(d->lyrics_));
+  query->BindValue(":title", strval(d->title_));
+  query->BindValue(":album", strval(d->album_));
+  query->BindValue(":artist", strval(d->artist_));
+  query->BindValue(":albumartist", strval(d->albumartist_));
+  query->BindValue(":track", intval(d->track_));
+  query->BindValue(":disc", intval(d->disc_));
+  query->BindValue(":year", intval(d->year_));
+  query->BindValue(":originalyear", intval(d->originalyear_));
+  query->BindValue(":genre", strval(d->genre_));
+  query->BindValue(":compilation", d->compilation_ ? 1 : 0);
+  query->BindValue(":composer", strval(d->composer_));
+  query->BindValue(":performer", strval(d->performer_));
+  query->BindValue(":grouping", strval(d->grouping_));
+  query->BindValue(":comment", strval(d->comment_));
+  query->BindValue(":lyrics", strval(d->lyrics_));
 
-  query->bindValue(":artist_id", strval(d->artist_id_));
-  query->bindValue(":album_id", strval(d->album_id_));
-  query->bindValue(":song_id", strval(d->song_id_));
+  query->BindValue(":artist_id", strval(d->artist_id_));
+  query->BindValue(":album_id", strval(d->album_id_));
+  query->BindValue(":song_id", strval(d->song_id_));
 
-  query->bindValue(":beginning", d->beginning_);
-  query->bindValue(":length", intval(length_nanosec()));
+  query->BindValue(":beginning", d->beginning_);
+  query->BindValue(":length", intval(length_nanosec()));
 
-  query->bindValue(":bitrate", intval(d->bitrate_));
-  query->bindValue(":samplerate", intval(d->samplerate_));
-  query->bindValue(":bitdepth", intval(d->bitdepth_));
+  query->BindValue(":bitrate", intval(d->bitrate_));
+  query->BindValue(":samplerate", intval(d->samplerate_));
+  query->BindValue(":bitdepth", intval(d->bitdepth_));
 
-  query->bindValue(":source", d->source_);
-  query->bindValue(":directory_id", notnullintval(d->directory_id_));
-  query->bindValue(":url", d->url_.toString(QUrl::FullyEncoded));
-  query->bindValue(":filetype", d->filetype_);
-  query->bindValue(":filesize", notnullintval(d->filesize_));
-  query->bindValue(":mtime", notnullintval(d->mtime_));
-  query->bindValue(":ctime", notnullintval(d->ctime_));
-  query->bindValue(":unavailable", d->unavailable_ ? 1 : 0);
+  query->BindValue(":source", d->source_);
+  query->BindValue(":directory_id", notnullintval(d->directory_id_));
+  query->BindValue(":url", d->url_.toString(QUrl::FullyEncoded));
+  query->BindValue(":filetype", d->filetype_);
+  query->BindValue(":filesize", notnullintval(d->filesize_));
+  query->BindValue(":mtime", notnullintval(d->mtime_));
+  query->BindValue(":ctime", notnullintval(d->ctime_));
+  query->BindValue(":unavailable", d->unavailable_ ? 1 : 0);
 
-  query->bindValue(":fingerprint", strval(d->fingerprint_));
+  query->BindValue(":fingerprint", strval(d->fingerprint_));
 
-  query->bindValue(":playcount", d->playcount_);
-  query->bindValue(":skipcount", d->skipcount_);
-  query->bindValue(":lastplayed", intval(d->lastplayed_));
-  query->bindValue(":lastseen", intval(d->lastseen_));
+  query->BindValue(":playcount", d->playcount_);
+  query->BindValue(":skipcount", d->skipcount_);
+  query->BindValue(":lastplayed", intval(d->lastplayed_));
+  query->BindValue(":lastseen", intval(d->lastseen_));
 
-  query->bindValue(":compilation_detected", d->compilation_detected_ ? 1 : 0);
-  query->bindValue(":compilation_on", d->compilation_on_ ? 1 : 0);
-  query->bindValue(":compilation_off", d->compilation_off_ ? 1 : 0);
-  query->bindValue(":compilation_effective", is_compilation() ? 1 : 0);
+  query->BindValue(":compilation_detected", d->compilation_detected_ ? 1 : 0);
+  query->BindValue(":compilation_on", d->compilation_on_ ? 1 : 0);
+  query->BindValue(":compilation_off", d->compilation_off_ ? 1 : 0);
+  query->BindValue(":compilation_effective", is_compilation() ? 1 : 0);
 
-  query->bindValue(":art_automatic", d->art_automatic_.isValid() ? d->art_automatic_.toString(QUrl::FullyEncoded) : "");
-  query->bindValue(":art_manual", d->art_manual_.isValid() ? d->art_manual_.toString(QUrl::FullyEncoded) : "");
+  query->BindValue(":art_automatic", d->art_automatic_.isValid() ? d->art_automatic_.toString(QUrl::FullyEncoded) : "");
+  query->BindValue(":art_manual", d->art_manual_.isValid() ? d->art_manual_.toString(QUrl::FullyEncoded) : "");
 
-  query->bindValue(":effective_albumartist", strval(this->effective_albumartist()));
-  query->bindValue(":effective_originalyear", intval(this->effective_originalyear()));
+  query->BindValue(":effective_albumartist", strval(this->effective_albumartist()));
+  query->BindValue(":effective_originalyear", intval(this->effective_originalyear()));
 
-  query->bindValue(":cue_path", d->cue_path_);
+  query->BindValue(":cue_path", d->cue_path_);
 
-  query->bindValue(":rating", intval(d->rating_));
+  query->BindValue(":rating", intval(d->rating_));
 
 #undef intval
 #undef notnullintval
@@ -1441,17 +1442,17 @@ void Song::BindToQuery(QSqlQuery *query) const {
 
 }
 
-void Song::BindToFtsQuery(QSqlQuery *query) const {
+void Song::BindToFtsQuery(SqlQuery *query) const {
 
-  query->bindValue(":ftstitle", d->title_);
-  query->bindValue(":ftsalbum", d->album_);
-  query->bindValue(":ftsartist", d->artist_);
-  query->bindValue(":ftsalbumartist", d->albumartist_);
-  query->bindValue(":ftscomposer", d->composer_);
-  query->bindValue(":ftsperformer", d->performer_);
-  query->bindValue(":ftsgrouping", d->grouping_);
-  query->bindValue(":ftsgenre", d->genre_);
-  query->bindValue(":ftscomment", d->comment_);
+  query->BindValue(":ftstitle", d->title_);
+  query->BindValue(":ftsalbum", d->album_);
+  query->BindValue(":ftsartist", d->artist_);
+  query->BindValue(":ftsalbumartist", d->albumartist_);
+  query->BindValue(":ftscomposer", d->composer_);
+  query->BindValue(":ftsperformer", d->performer_);
+  query->BindValue(":ftsgrouping", d->grouping_);
+  query->BindValue(":ftsgenre", d->genre_);
+  query->BindValue(":ftscomment", d->comment_);
 
 }
 
