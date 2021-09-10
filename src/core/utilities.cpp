@@ -148,7 +148,7 @@ QString WordyTime(const quint64 seconds) {
 
 }
 
-QString WordyTimeNanosec(const qint64 nanoseconds) {
+QString WordyTimeNanosec(const quint64 nanoseconds) {
   return WordyTime(nanoseconds / kNsecPerSec);
 }
 
