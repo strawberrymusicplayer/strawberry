@@ -229,7 +229,7 @@ QByteArray DiscogsCoverProvider::GetReplyData(QNetworkReply *reply) {
 
 }
 
-void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
+void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -285,7 +285,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
       Error("Invalid Json reply, results value object is missing ID, title or resource_url.", obj_result);
       continue;
     }
-    quint64 release_id = obj_result["id"].toDouble();
+    quint64 release_id = obj_result["id"].toInt();
     QUrl resource_url(obj_result["resource_url"].toString());
     QString title = obj_result["title"].toString();
 
@@ -336,7 +336,7 @@ void DiscogsCoverProvider::SendReleaseRequest(const DiscogsCoverReleaseContext &
 
 }
 
-void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int search_id, const quint64 release_id) {
+void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const quint64 search_id, const quint64 release_id) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -440,7 +440,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
     int width = obj_image["width"].toInt();
     int height = obj_image["height"].toInt();
     if (width < 300 || height < 300) continue;
-    const float aspect_score = float(1.0) - float(std::max(width, height) - std::min(width, height)) / std::max(height, width);
+    const float aspect_score = float(1.0) - float(std::max(width, height) - std::min(width, height)) / float(std::max(height, width));
     if (aspect_score < 0.85) continue;
     CoverProviderSearchResult result;
     result.artist = artist;
