@@ -214,7 +214,7 @@ class AlbumCoverManager : public QMainWindow {
   QPushButton *abort_progress_;
   int jobs_;
 
-  QMultiMap<qint64, AlbumItem*> cover_save_tasks_;
+  QMultiMap<quint64, AlbumItem*> cover_save_tasks_;
   QList<AlbumItem*> cover_save_tasks2_;
 
   QListWidgetItem *all_artists_;

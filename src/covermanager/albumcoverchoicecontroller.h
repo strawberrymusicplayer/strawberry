@@ -129,7 +129,7 @@ class AlbumCoverChoiceController : public QWidget {
   void ShowCover(const Song &song, const QPixmap &pixmap);
 
   // Search for covers automatically
-  qint64 SearchCoverAutomatically(const Song &song);
+  quint64 SearchCoverAutomatically(const Song &song);
 
   // Saves the chosen cover as manual cover path of this song in collection.
   void SaveArtAutomaticToSong(Song *song, const QUrl &art_automatic);
@@ -185,7 +185,7 @@ class AlbumCoverChoiceController : public QWidget {
   QAction *search_cover_auto_;
 
   QMap<quint64, Song> cover_fetching_tasks_;
-  QMap<qint64, Song> cover_save_tasks_;
+  QMap<quint64, Song> cover_save_tasks_;
   QMutex mutex_cover_save_tasks_;
 
   CollectionSettingsPage::SaveCoverType save_cover_type_;
