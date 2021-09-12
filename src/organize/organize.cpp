@@ -263,7 +263,7 @@ void Organize::ProcessSomeFiles() {
         emit SongPathChanged(song, new_file);
       }
       if (job.mark_as_listened_) {
-        emit FileCopied(job.metadata_.id());
+        emit FileCopied(job.metadata_.id().value());
       }
     }
 

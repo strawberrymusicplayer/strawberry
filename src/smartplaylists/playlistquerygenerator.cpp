@@ -94,7 +94,7 @@ PlaylistItemList PlaylistQueryGenerator::GenerateMore(const int count) {
   items.reserve(songs.count());
   for (const Song &song : songs) {
     items << PlaylistItemPtr(PlaylistItem::NewFromSong(song));
-    previous_ids_ << song.id();
+    previous_ids_ << song.id().value();
 
     if (previous_ids_.count() > GetDynamicFuture() + GetDynamicHistory()) {
       previous_ids_.removeFirst();

@@ -52,7 +52,7 @@ class QXmlStreamReader;
 namespace Utilities {
 QString PrettyTime(int seconds);
 QString PrettyTimeDelta(const int seconds);
-QString PrettyTimeNanosec(const qint64 nanoseconds);
+QString PrettyTimeNanosec(const quint64 nanoseconds);
 QString PrettySize(const quint64 bytes);
 QString PrettySize(const QSize size);
 QString WordyTime(const quint64 seconds);

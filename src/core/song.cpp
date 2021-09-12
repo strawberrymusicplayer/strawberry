@@ -164,7 +164,7 @@ struct Song::Private : public QSharedData {
   explicit Private(Source source = Source_Unknown);
 
   bool valid_;
-  int id_;
+  std::optional<uint> id_;
 
   QString title_;
   QString title_sortable_;
@@ -174,10 +174,10 @@ struct Song::Private : public QSharedData {
   QString artist_sortable_;
   QString albumartist_;
   QString albumartist_sortable_;
-  int track_;
-  int disc_;
-  int year_;
-  int originalyear_;
+  std::optional<uint> track_;
+  std::optional<uint> disc_;
+  std::optional<uint> year_;
+  std::optional<uint> originalyear_;
   QString genre_;
   bool compilation_;		// From the file tag
   QString composer_;
@@ -190,29 +190,29 @@ struct Song::Private : public QSharedData {
   QString album_id_;
   QString song_id_;
 
-  qint64 beginning_;
-  qint64 end_;
+  std::optional<quint64> beginning_;
+  std::optional<quint64> end_;
 
-  int bitrate_;
-  int samplerate_;
-  int bitdepth_;
+  std::optional<uint> bitrate_;
+  std::optional<uint> samplerate_;
+  std::optional<uint> bitdepth_;
 
   Source source_;
-  int directory_id_;
+  std::optional<uint> directory_id_;
   QString basefilename_;
   QUrl url_;
   FileType filetype_;
-  int filesize_;
-  qint64 mtime_;
-  qint64 ctime_;
+  std::optional<uint> filesize_;
+  std::optional<quint64> mtime_;
+  std::optional<quint64> ctime_;
   bool unavailable_;
 
   QString fingerprint_;
 
   int playcount_;
   int skipcount_;
-  qint64 lastplayed_;
-  qint64 lastseen_;
+  std::optional<quint64> lastplayed_;
+  std::optional<quint64> lastseen_;
 
   bool compilation_detected_;   // From the collection scanner
   bool compilation_on_;         // Set by the user
@@ -224,7 +224,7 @@ struct Song::Private : public QSharedData {
 
   QString cue_path_;            // If the song has a CUE, this contains it's path.
 
-  double rating_;               // Database rating, not read from tags.
+  std::optional<double> rating_;               // Database rating, not read from tags.
 
   QUrl stream_url_;             // Temporary stream url set by url handler.
   QImage image_;                // Album Cover image set by album cover loader.
@@ -235,39 +235,39 @@ struct Song::Private : public QSharedData {
 
 Song::Private::Private(Song::Source source)
     : valid_(false),
-      id_(-1),
+      id_(std::optional<int>()),
 
-      track_(-1),
-      disc_(-1),
-      year_(-1),
-      originalyear_(-1),
+      track_(std::optional<uint>()),
+      disc_(std::optional<uint>()),
+      year_(std::optional<uint>()),
+      originalyear_(std::optional<uint>()),
       compilation_(false),
 
       beginning_(0),
-      end_(-1),
+      end_(std::optional<quint64>()),
 
-      bitrate_(-1),
-      samplerate_(-1),
-      bitdepth_(-1),
+      bitrate_(std::optional<uint>()),
+      samplerate_(std::optional<uint>()),
+      bitdepth_(std::optional<uint>()),
 
       source_(source),
-      directory_id_(-1),
+      directory_id_(std::optional<uint>()),
       filetype_(FileType_Unknown),
-      filesize_(-1),
-      mtime_(-1),
-      ctime_(-1),
+      filesize_(std::optional<uint>()),
+      mtime_(std::optional<quint64>()),
+      ctime_(std::optional<quint64>()),
       unavailable_(false),
 
       playcount_(0),
       skipcount_(0),
-      lastplayed_(-1),
-      lastseen_(-1),
+      lastplayed_(std::optional<quint64>()),
+      lastseen_(std::optional<quint64>()),
 
       compilation_detected_(false),
       compilation_on_(false),
       compilation_off_(false),
 
-      rating_(-1),
+      rating_(std::optional<double>()),
 
       init_from_file_(false),
       suspicious_tags_(false)
@@ -285,7 +285,7 @@ Song &Song::operator=(const Song &other) {
 
 bool Song::is_valid() const { return d->valid_; }
 bool Song::is_unavailable() const { return d->unavailable_; }
-int Song::id() const { return d->id_; }
+std::optional<uint> Song::id() const { return d->id_; }
 
 QString Song::artist_id() const { return d->artist_id_.isNull() ? "" : d->artist_id_; }
 QString Song::album_id() const { return d->album_id_.isNull() ? "" : d->album_id_; }
@@ -305,11 +305,11 @@ const QString &Song::effective_albumartist() const { return d->albumartist_.isEm
 const QString &Song::effective_albumartist_sortable() const { return d->albumartist_.isEmpty() ? d->artist_sortable_ : d->albumartist_sortable_; }
 const QString &Song::playlist_albumartist() const { return is_compilation() ? d->albumartist_ : effective_albumartist(); }
 const QString &Song::playlist_albumartist_sortable() const { return is_compilation() ? d->albumartist_sortable_ : effective_albumartist_sortable(); }
-int Song::track() const { return d->track_; }
-int Song::disc() const { return d->disc_; }
-int Song::year() const { return d->year_; }
-int Song::originalyear() const { return d->originalyear_; }
-int Song::effective_originalyear() const { return d->originalyear_ < 0 ? d->year_ : d->originalyear_; }
+std::optional<uint> Song::track() const { return d->track_; }
+std::optional<uint> Song::disc() const { return d->disc_; }
+std::optional<uint> Song::year() const { return d->year_; }
+std::optional<uint> Song::originalyear() const { return d->originalyear_; }
+std::optional<uint> Song::effective_originalyear() const { return d->originalyear_ ? d->originalyear_ : d->year_; }
 const QString &Song::genre() const { return d->genre_; }
 bool Song::compilation() const { return d->compilation_; }
 const QString &Song::composer() const { return d->composer_; }
@@ -318,29 +318,29 @@ const QString &Song::grouping() const { return d->grouping_; }
 const QString &Song::comment() const { return d->comment_; }
 const QString &Song::lyrics() const { return d->lyrics_; }
 
-qint64 Song::beginning_nanosec() const { return d->beginning_; }
-qint64 Song::end_nanosec() const { return d->end_; }
-qint64 Song::length_nanosec() const { return d->end_ - d->beginning_; }
+std::optional<quint64> Song::beginning_nanosec() const { return d->beginning_; }
+std::optional<quint64> Song::end_nanosec() const { return d->end_; }
+std::optional<quint64> Song::length_nanosec() const { return d->end_ && d->beginning_ ? d->end_.value() - d->beginning_.value() : std::optional<quint64>(); }
 
-int Song::bitrate() const { return d->bitrate_; }
-int Song::samplerate() const { return d->samplerate_; }
-int Song::bitdepth() const { return d->bitdepth_; }
+std::optional<uint> Song::bitrate() const { return d->bitrate_; }
+std::optional<uint> Song::samplerate() const { return d->samplerate_; }
+std::optional<uint> Song::bitdepth() const { return d->bitdepth_; }
 
 Song::Source Song::source() const { return d->source_; }
-int Song::directory_id() const { return d->directory_id_; }
+std::optional<uint> Song::directory_id() const { return d->directory_id_; }
 const QUrl &Song::url() const { return d->url_; }
 const QString &Song::basefilename() const { return d->basefilename_; }
 Song::FileType Song::filetype() const { return d->filetype_; }
-int Song::filesize() const { return d->filesize_; }
-qint64 Song::mtime() const { return d->mtime_; }
-qint64 Song::ctime() const { return d->ctime_; }
+std::optional<uint> Song::filesize() const { return d->filesize_; }
+std::optional<quint64> Song::mtime() const { return d->mtime_; }
+std::optional<quint64> Song::ctime() const { return d->ctime_; }
 
 QString Song::fingerprint() const { return d->fingerprint_; }
 
 int Song::playcount() const { return d->playcount_; }
 int Song::skipcount() const { return d->skipcount_; }
-qint64 Song::lastplayed() const { return d->lastplayed_; }
-qint64 Song::lastseen() const { return d->lastseen_; }
+std::optional<qint64> Song::lastplayed() const { return d->lastplayed_; }
+std::optional<quint64> Song::lastseen() const { return d->lastseen_; }
 
 bool Song::compilation_detected() const { return d->compilation_detected_; }
 bool Song::compilation_off() const { return d->compilation_off_; }
@@ -373,7 +373,7 @@ bool Song::init_from_file() const { return d->init_from_file_; }
 const QString &Song::cue_path() const { return d->cue_path_; }
 bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
 
-double Song::rating() const { return d->rating_; }
+std::optional<double> Song::rating() const { return d->rating_; }
 
 bool Song::is_collection_song() const { return d->source_ == Source_Collection; }
 bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.isEmpty() && !d->title_.isEmpty(); }
@@ -407,7 +407,7 @@ bool Song::art_manual_is_valid() const {
 
 bool Song::has_valid_art() const { return art_automatic_is_valid() || art_manual_is_valid(); }
 
-void Song::set_id(int id) { d->id_ = id; }
+void Song::set_id(uint id) { d->id_ = id; }
 void Song::set_valid(bool v) { d->valid_ = v; }
 
 void Song::set_artist_id(const QString &v) { d->artist_id_ = v; }
@@ -432,10 +432,10 @@ void Song::set_title(const QString &v) { d->title_sortable_ = sortable(v); d->ti
 void Song::set_album(const QString &v) { d->album_sortable_ = sortable(v); d->album_ = v; }
 void Song::set_artist(const QString &v) { d->artist_sortable_ = sortable(v); d->artist_ = v; }
 void Song::set_albumartist(const QString &v) { d->albumartist_sortable_ = sortable(v); d->albumartist_ = v; }
-void Song::set_track(int v) { d->track_ = v; }
-void Song::set_disc(int v) { d->disc_ = v; }
-void Song::set_year(int v) { d->year_ = v; }
-void Song::set_originalyear(int v) { d->originalyear_ = v; }
+void Song::set_track(std::optional<uint> v) { d->track_ = v; }
+void Song::set_disc(std::optional<uint> v) { d->disc_ = v; }
+void Song::set_year(std::optional<uint> v) { d->year_ = v; }
+void Song::set_originalyear(std::optional<uint> v) { d->originalyear_ = v; }
 void Song::set_genre(const QString &v) { d->genre_ = v; }
 void Song::set_compilation(bool v) { d->compilation_ = v; }
 void Song::set_composer(const QString &v) { d->composer_ = v; }
@@ -446,14 +446,20 @@ void Song::set_lyrics(const QString &v) { d->lyrics_ = v; }
 
 void Song::set_beginning_nanosec(qint64 v) { d->beginning_ = qMax(0LL, v); }
 void Song::set_end_nanosec(qint64 v) { d->end_ = v; }
-void Song::set_length_nanosec(qint64 v) { d->end_ = d->beginning_ + v; }
+void Song::set_length_nanosec(qint64 v) {
+  if(!d->beginning_) {
+    // Setting length only makes sense if it begins at some point
+    d->beginning_ = 0;
+  }
+  d->end_ = d->beginning_.value() + v;
+}
 
-void Song::set_bitrate(int v) { d->bitrate_ = v; }
-void Song::set_samplerate(int v) { d->samplerate_ = v; }
-void Song::set_bitdepth(int v) { d->bitdepth_ = v; }
+void Song::set_bitrate(std::optional<uint> v) { d->bitrate_ = v; }
+void Song::set_samplerate(std::optional<uint> v) { d->samplerate_ = v; }
+void Song::set_bitdepth(std::optional<uint> v) { d->bitdepth_ = v; }
 
 void Song::set_source(Source v) { d->source_ = v; }
-void Song::set_directory_id(int v) { d->directory_id_ = v; }
+void Song::set_directory_id(std::optional<uint> v) { d->directory_id_ = v; }
 void Song::set_url(const QUrl &v) { d->url_ = v; }
 void Song::set_basefilename(const QString &v) { d->basefilename_ = v; }
 void Song::set_filetype(FileType v) { d->filetype_ = v; }
@@ -862,26 +868,26 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
   pb->set_performer(DataCommaSizeFromQString(d->performer_));
   pb->set_grouping(DataCommaSizeFromQString(d->grouping_));
   pb->set_lyrics(DataCommaSizeFromQString(d->lyrics_));
-  pb->set_track(d->track_);
-  pb->set_disc(d->disc_);
-  pb->set_year(d->year_);
-  pb->set_originalyear(d->originalyear_);
+  if(d->track_) pb->set_track(d->track_.value());
+  if(d->disc_) pb->set_disc(d->disc_.value());
+  if(d->year_) pb->set_year(d->year_.value());
+  if(d->originalyear_) pb->set_originalyear(d->originalyear_.value());
   pb->set_genre(DataCommaSizeFromQString(d->genre_));
   pb->set_comment(DataCommaSizeFromQString(d->comment_));
   pb->set_compilation(d->compilation_);
   pb->set_playcount(d->playcount_);
   pb->set_skipcount(d->skipcount_);
-  pb->set_lastplayed(d->lastplayed_);
-  pb->set_lastseen(d->lastseen_);
-  pb->set_length_nanosec(length_nanosec());
-  pb->set_bitrate(d->bitrate_);
-  pb->set_samplerate(d->samplerate_);
-  pb->set_bitdepth(d->bitdepth_);
+  if(d->lastplayed_) pb->set_lastplayed(d->lastplayed_.value());
+  if(d->lastseen_) pb->set_lastseen(d->lastseen_.value());
+  if(length_nanosec()) pb->set_length_nanosec(length_nanosec().value());
+  if(d->bitrate_) pb->set_bitrate(d->bitrate_.value());
+  if(d->samplerate_) pb->set_samplerate(d->samplerate_.value());
+  if(d->bitdepth_) pb->set_bitdepth(d->bitdepth_.value());
   pb->set_url(url.constData(), url.size());
   pb->set_basefilename(DataCommaSizeFromQString(d->basefilename_));
-  pb->set_mtime(d->mtime_);
-  pb->set_ctime(d->ctime_);
-  pb->set_filesize(d->filesize_);
+  if(d->mtime_) pb->set_mtime(d->mtime_.value());
+  if(d->ctime_) pb->set_ctime(d->ctime_.value());
+  if(d->filesize_) pb->set_filesize(d->filesize_.value());
   pb->set_suspicious_tags(d->suspicious_tags_);
   pb->set_art_automatic(art_automatic.constData(), art_automatic.size());
   pb->set_filetype(static_cast<spb::tagreader::SongMetadata_FileType>(d->filetype_));
@@ -1196,30 +1202,30 @@ void Song::ToItdb(Itdb_Track *track) const {
   track->album = strdup(d->album_.toUtf8().constData());
   track->artist = strdup(d->artist_.toUtf8().constData());
   track->albumartist = strdup(d->albumartist_.toUtf8().constData());
-  track->track_nr = d->track_;
-  track->cd_nr = d->disc_;
-  track->year = d->year_;
+  if(d->track_) track->track_nr = d->track_.value();
+  if(d->disc_) track->cd_nr = d->disc_.value();
+  if(d->year_) track->year = d->year_.value();
   track->genre = strdup(d->genre_.toUtf8().constData());
   track->compilation = d->compilation_;
   track->composer = strdup(d->composer_.toUtf8().constData());
   track->grouping = strdup(d->grouping_.toUtf8().constData());
   track->comment = strdup(d->comment_.toUtf8().constData());
 
-  track->tracklen = length_nanosec() / kNsecPerMsec;
+  if(length_nanosec()) track->tracklen = length_nanosec().value() / kNsecPerMsec;
 
-  track->bitrate = d->bitrate_;
-  track->samplerate = d->samplerate_;
+  if(d->bitrate_) track->bitrate = d->bitrate_.value();
+  if(d->samplerate_) track->samplerate = d->samplerate_.value();
 
   track->type1 = (d->filetype_ == FileType_MPEG ? 1 : 0);
   track->type2 = (d->filetype_ == FileType_MPEG ? 1 : 0);
   track->mediatype = 1;              // Audio
-  track->size = d->filesize_;
-  track->time_modified = d->mtime_;
-  track->time_added = d->ctime_;
+  if(d->filesize_) track->size = d->filesize_.value();
+  if(d->mtime_) track->time_modified = d->mtime_.value();
+  if(d->ctime_) track->time_added = d->ctime_.value();
 
   track->playcount = d->playcount_;
   track->skipcount = d->skipcount_;
-  track->time_played = d->lastplayed_;
+  if(d->lastplayed_) track->time_played = d->lastplayed_.value();
 
 }
 #endif
@@ -1280,7 +1286,7 @@ void Song::ToMTP(LIBMTP_track_t *track) const {
   track->album = strdup(d->album_.toUtf8().constData());
   track->genre = strdup(d->genre_.toUtf8().constData());
   track->date = nullptr;
-  track->tracknumber = d->track_;
+  if(d->track_) track->tracknumber = d->track_.value();
   if (d->composer_.isEmpty())
     track->composer = nullptr;
   else
@@ -1288,14 +1294,14 @@ void Song::ToMTP(LIBMTP_track_t *track) const {
 
   track->filename = strdup(d->basefilename_.toUtf8().constData());
 
-  track->filesize = d->filesize_;
-  track->modificationdate = d->mtime_;
+  if(d->filesize_) track->filesize = d->filesize_.value();
+  if(d->mtime_) track->modificationdate = d->mtime_.value();
 
-  track->duration = length_nanosec() / kNsecPerMsec;
+  if(length_nanosec()) track->duration = length_nanosec().value() / kNsecPerMsec;
 
-  track->bitrate = d->bitrate_;
+  if(d->bitrate_) track->bitrate = d->bitrate_.value();
   track->bitratetype = 0;
-  track->samplerate = d->samplerate_;
+  if(d->samplerate_) track->samplerate = d->samplerate_.value();
   track->nochannels = 0;
   track->wavecodec = 0;
 
@@ -1373,8 +1379,8 @@ bool Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
 void Song::BindToQuery(SqlQuery *query) const {
 
 #define strval(x) ((x).isNull() ? "" : (x))
-#define intval(x) ((x) <= 0 ? -1 : (x))
-#define notnullintval(x) ((x) == -1 ? QVariant() : (x))
+#define intval(x) ((x).value_or(-1))
+#define notnullintval(x) ((x)? QVariant() : (x).value())
 
   // Remember to bind these in the same order as kBindSpec
 
@@ -1398,7 +1404,7 @@ void Song::BindToQuery(SqlQuery *query) const {
   query->BindValue(":album_id", strval(d->album_id_));
   query->BindValue(":song_id", strval(d->song_id_));
 
-  query->BindValue(":beginning", d->beginning_);
+  query->BindValue(":beginning", intval(d->beginning_));
   query->BindValue(":length", intval(length_nanosec()));
 
   query->BindValue(":bitrate", intval(d->bitrate_));
@@ -1478,27 +1484,21 @@ QString Song::PrettyTitleWithArtist() const {
 }
 
 QString Song::PrettyLength() const {
+  if (!length_nanosec()) return QString();
 
-  if (length_nanosec() == -1) return QString();
-
-  return Utilities::PrettyTimeNanosec(length_nanosec());
-
+  return Utilities::PrettyTimeNanosec(length_nanosec().value());
 }
 
 QString Song::PrettyYear() const {
+  if (!d->year_) return QString();
 
-  if (d->year_ == -1) return QString();
-
-  return QString::number(d->year_);
-
+  return QString::number(d->year_.value());
 }
 
 QString Song::PrettyOriginalYear() const {
+  if (!effective_originalyear()) return QString();
 
-  if (effective_originalyear() == -1) return QString();
-
-  return QString::number(effective_originalyear());
-
+  return QString::number(effective_originalyear().value());
 }
 
 QString Song::TitleWithCompilationArtist() const {
@@ -1515,20 +1515,17 @@ QString Song::TitleWithCompilationArtist() const {
 
 QString Song::SampleRateBitDepthToText() const {
 
-  if (d->samplerate_ == -1) return QString("");
-  if (d->bitdepth_ == -1) return QString("%1 hz").arg(d->samplerate_);
+  if (!d->samplerate_) return QString("");
+  if (!d->bitdepth_) return QString("%1 hz").arg(d->samplerate_.value());
 
-  return QString("%1 hz / %2 bit").arg(d->samplerate_).arg(d->bitdepth_);
+  return QString("%1 hz / %2 bit").arg(d->samplerate_.value()).arg(d->bitdepth_.value());
 
 }
 
 QString Song::PrettyRating() const {
+  if (!d->rating_) return "0";
 
-  double rating = d->rating_;
-
-  if (rating == -1.0F) return "0";
-
-  return QString::number(static_cast<int>(rating * 100));
+  return QString::number(static_cast<int>(d->rating_.value() * 100));
 
 }
 
@@ -1592,7 +1589,7 @@ size_t qHash(const Song &song) {
 uint qHash(const Song &song) {
 #endif
   // Should compare the same fields as operator==
-  return qHash(song.url().toString()) ^ qHash(song.beginning_nanosec());
+  return qHash(song.url().toString()) ^ qHash(song.beginning_nanosec().value_or(-1));
 }
 
 bool Song::IsSimilar(const Song &other) const {
@@ -1635,7 +1632,11 @@ void Song::ToXesam(QVariantMap *map) const {
   AddMetadataAsList("xesam:artist", artist(), map);
   AddMetadata("xesam:album", album(), map);
   AddMetadataAsList("xesam:albumArtist", albumartist(), map);
-  AddMetadata("mpris:length", length_nanosec() / kNsecPerUsec, map);
+  if(length_nanosec()) {
+    AddMetadata("mpris:length", length_nanosec().value() / quint64(kNsecPerUsec), map);
+  } else {
+    AddMetadata("mpris:length", std::optional<quint64>(), map);
+  }
   AddMetadata("xesam:trackNumber", track(), map);
   AddMetadataAsList("xesam:genre", genre(), map);
   AddMetadata("xesam:discNumber", disc(), map);
@@ -1648,13 +1649,11 @@ void Song::ToXesam(QVariantMap *map) const {
 }
 
 void Song::MergeUserSetData(const Song &other) {
-
   set_playcount(other.playcount());
   set_skipcount(other.skipcount());
-  set_lastplayed(other.lastplayed());
+  if(other.lastplayed()) set_lastplayed(other.lastplayed().value());
   set_art_manual(other.art_manual());
   set_compilation_on(other.compilation_on());
   set_compilation_off(other.compilation_off());
-  set_rating(other.rating());
-
+  if(other.rating()) set_rating(other.rating().value());
 }

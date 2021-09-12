@@ -414,8 +414,8 @@ double Mpris2::Volume() const { return app_->player()->GetVolume() / 100.0; }
 
 void Mpris2::SetVolume(double value) { app_->player()->SetVolume(static_cast<int>(value * 100)); }
 
-qint64 Mpris2::Position() const {
-  return app_->player()->engine()->position_nanosec() / kNsecPerUsec;
+quint64 Mpris2::Position() const {
+  return app_->player()->engine()->position_nanosec().value_or(0) / kNsecPerUsec;
 }
 
 double Mpris2::MaximumRate() { return 1.0; }
@@ -482,14 +482,14 @@ void Mpris2::Play() {
 void Mpris2::Seek(qint64 offset) {
 
   if (CanSeek()) {
-    app_->player()->SeekTo(app_->player()->engine()->position_nanosec() / kNsecPerSec + offset / kUsecPerSec);
+    app_->player()->SeekTo(app_->player()->engine()->position_nanosec().value_or(0) / kNsecPerSec + offset / kUsecPerSec);
   }
 
 }
 
-void Mpris2::SetPosition(const QDBusObjectPath &trackId, qint64 offset) {
+void Mpris2::SetPosition(const QDBusObjectPath &trackId, quint64 offset) {
 
-  if (CanSeek() && trackId.path() == current_track_id() && offset >= 0) {
+  if (CanSeek() && trackId.path() == current_track_id()) {
     offset *= kNsecPerUsec;
 
     if (offset < app_->player()->GetCurrentItem()->Metadata().length_nanosec()) {

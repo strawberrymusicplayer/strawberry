@@ -193,7 +193,7 @@ class Song {
   // Simple accessors
   bool is_valid() const;
   bool is_unavailable() const;
-  int id() const;
+  std::optional<uint> id() const;
 
   const QString &title() const;
   const QString &title_sortable() const;
@@ -203,10 +203,10 @@ class Song {
   const QString &artist_sortable() const;
   const QString &albumartist() const;
   const QString &albumartist_sortable() const;
-  int track() const;
-  int disc() const;
-  int year() const;
-  int originalyear() const;
+  std::optional<uint> track() const;
+  std::optional<uint> disc() const;
+  std::optional<uint> year() const;
+  std::optional<uint> originalyear() const;
   const QString &genre() const;
   bool compilation() const;
   const QString &composer() const;
@@ -219,29 +219,29 @@ class Song {
   QString album_id() const;
   QString song_id() const;
 
-  qint64 beginning_nanosec() const;
-  qint64 end_nanosec() const;
-  qint64 length_nanosec() const;
+  std::optional<quint64> beginning_nanosec() const;
+  std::optional<quint64> end_nanosec() const;
+  std::optional<quint64> length_nanosec() const;
 
-  int bitrate() const;
-  int samplerate() const;
-  int bitdepth() const;
+  std::optional<uint> bitrate() const;
+  std::optional<uint> samplerate() const;
+  std::optional<uint> bitdepth() const;
 
   Source source() const;
-  int directory_id() const;
+  std::optional<uint> directory_id() const;
   const QUrl &url() const;
   const QString &basefilename() const;
   FileType filetype() const;
-  int filesize() const;
-  qint64 mtime() const;
-  qint64 ctime() const;
+  std::optional<uint> filesize() const;
+  std::optional<quint64> mtime() const;
+  std::optional<quint64> ctime() const;
 
   QString fingerprint() const;
 
   int playcount() const;
   int skipcount() const;
-  qint64 lastplayed() const;
-  qint64 lastseen() const;
+  std::optional<qint64> lastplayed() const;
+  std::optional<quint64> lastseen() const;
 
   bool compilation_detected() const;
   bool compilation_off() const;
@@ -253,10 +253,10 @@ class Song {
   const QString &cue_path() const;
   bool has_cue() const;
 
-  double rating() const;
+  std::optional<double> rating() const;
 
   const QString &effective_album() const;
-  int effective_originalyear() const;
+  std::optional<uint> effective_originalyear() const;
   const QString &effective_albumartist() const;
   const QString &effective_albumartist_sortable() const;
 
@@ -312,17 +312,17 @@ class Song {
   // Setters
   bool IsEditable() const;
 
-  void set_id(int id);
+  void set_id(uint id);
   void set_valid(bool v);
 
   void set_title(const QString &v);
   void set_album(const QString &v);
   void set_artist(const QString &v);
   void set_albumartist(const QString &v);
-  void set_track(int v);
-  void set_disc(int v);
-  void set_year(int v);
-  void set_originalyear(int v);
+  void set_track(std::optional<uint> v);
+  void set_disc(std::optional<uint> v);
+  void set_year(std::optional<uint> v);
+  void set_originalyear(std::optional<uint> v);
   void set_genre(const QString &v);
   void set_compilation(bool v);
   void set_composer(const QString &v);
@@ -339,12 +339,12 @@ class Song {
   void set_end_nanosec(qint64 v);
   void set_length_nanosec(qint64 v);
 
-  void set_bitrate(int v);
-  void set_samplerate(int v);
-  void set_bitdepth(int v);
+  void set_bitrate(std::optional<uint> v);
+  void set_samplerate(std::optional<uint> v);
+  void set_bitdepth(std::optional<uint> v);
 
   void set_source(Source v);
-  void set_directory_id(int v);
+  void set_directory_id(std::optional<uint> v);
   void set_url(const QUrl &v);
   void set_basefilename(const QString &v);
   void set_filetype(FileType v);

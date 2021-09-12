@@ -162,7 +162,7 @@ Engine::State GstEngine::state() const {
 
 }
 
-void GstEngine::StartPreloading(const QUrl &stream_url, const QUrl &original_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec) {
+void GstEngine::StartPreloading(const QUrl &stream_url, const QUrl &original_url, const bool force_stop_at_end, const std::optional<quint64> beginning_nanosec, const std::optional<quint64> end_nanosec) {
 
   EnsureInitialized();
 
@@ -181,7 +181,7 @@ void GstEngine::StartPreloading(const QUrl &stream_url, const QUrl &original_url
 
 }
 
-bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
+bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const std::optional<quint64> end_nanosec) {
 
   EnsureInitialized();
 
@@ -199,7 +199,7 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
     return true;
   }
 
-  std::shared_ptr<GstEnginePipeline> pipeline = CreatePipeline(gst_url, original_url, force_stop_at_end ? end_nanosec : 0);
+  std::shared_ptr<GstEnginePipeline> pipeline = CreatePipeline(gst_url, original_url, force_stop_at_end ? end_nanosec.value_or(0) : 0);
   if (!pipeline) return false;
 
   if (crossfade) StartFadeout();
@@ -266,7 +266,8 @@ void GstEngine::Stop(const bool stop_after) {
 
   stream_url_ = QUrl();  // To ensure we return Empty from state()
   original_url_ = QUrl();
-  beginning_nanosec_ = end_nanosec_ = 0;
+  beginning_nanosec_ = 0;
+  end_nanosec_ = 0;
 
   // Check if we started a fade out. If it isn't finished yet and the user pressed stop, we cancel the fader and just stop the playback.
   if (is_fading_out_to_pause_) {
@@ -351,23 +352,21 @@ void GstEngine::SetVolumeSW(const uint percent) {
   if (current_pipeline_) current_pipeline_->SetVolume(percent);
 }
 
-qint64 GstEngine::position_nanosec() const {
+std::optional<quint64> GstEngine::position_nanosec() const {
 
-  if (!current_pipeline_) return 0;
+  if (!current_pipeline_) return std::optional<quint64>();
 
-  const qint64 result = current_pipeline_->position() - beginning_nanosec_;
-  return qint64(qMax(0LL, result));
+  const quint64 result = current_pipeline_->position() - beginning_nanosec_;
+  return result;
 
 }
 
-qint64 GstEngine::length_nanosec() const {
+std::optional<quint64> GstEngine::length_nanosec() const {
 
-  if (!current_pipeline_) return 0;
+  if (!current_pipeline_) return std::optional<quint64>();
 
-  const qint64 result = end_nanosec_ - beginning_nanosec_;
-
-  if (result > 0) {
-    return result;
+  if (end_nanosec_) {
+    return  end_nanosec_.value() - beginning_nanosec_;
   }
   else {
     // Get the length from the pipeline if we don't know.
@@ -528,13 +527,13 @@ void GstEngine::timerEvent(QTimerEvent *e) {
   if (e->timerId() != timer_id_) return;
 
   if (current_pipeline_) {
-    const qint64 current_position = position_nanosec();
-    const qint64 current_length = length_nanosec();
+    const quint64 current_position = position_nanosec().value_or(0);
+    const quint64 current_length = length_nanosec().value_or(current_position);
 
-    const qint64 remaining = current_length - current_position;
+    const quint64 remaining = current_length - current_position;
 
-    const qint64 fudge = kTimerIntervalNanosec + 100 * kNsecPerMsec;  // Mmm fudge
-    const qint64 gap = buffer_duration_nanosec_ + (autocrossfade_enabled_ ? fadeout_duration_nanosec_ : kPreloadGapNanosec);
+    const quint64 fudge = kTimerIntervalNanosec + 100 * kNsecPerMsec;  // Mmm fudge
+    const quint64 gap = buffer_duration_nanosec_ + (autocrossfade_enabled_ ? fadeout_duration_nanosec_ : kPreloadGapNanosec);
 
     // only if we know the length of the current stream...
     if (current_length > 0) {
@@ -840,7 +839,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
 }
 
-std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &gst_url, const QUrl &original_url, const qint64 end_nanosec) {
+std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &gst_url, const QUrl &original_url, const std::optional<quint64> end_nanosec) {
 
   std::shared_ptr<GstEnginePipeline> ret = CreatePipeline();
   if (!ret->InitFromUrl(gst_url, original_url, end_nanosec)) ret.reset();

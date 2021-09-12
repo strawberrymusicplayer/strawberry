@@ -117,8 +117,8 @@ const char *Playlist::kWriteMetadata = "write_metadata";
 const int Playlist::kUndoStackSize = 20;
 const int Playlist::kUndoItemLimit = 500;
 
-const qint64 Playlist::kMinScrobblePointNsecs = 31LL * kNsecPerSec;
-const qint64 Playlist::kMaxScrobblePointNsecs = 240LL * kNsecPerSec;
+const quint64 Playlist::kMinScrobblePointNsecs = 31LL * kNsecPerSec;
+const quint64 Playlist::kMaxScrobblePointNsecs = 240LL * kNsecPerSec;
 
 Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, const int id, const QString &special_type, const bool favorite, QObject *parent)
     : QAbstractListModel(parent),
@@ -294,6 +294,8 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
     case Qt::EditRole:
     case Qt::ToolTipRole:
     case Qt::DisplayRole: {
+#define nonnullval(x) ((x)? (x).value() : QVariant())
+
       PlaylistItemPtr item = items_[idx.row()];
       Song song = item->Metadata();
 
@@ -302,11 +304,11 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
         case Column_Title:              return song.PrettyTitle();
         case Column_Artist:             return song.artist();
         case Column_Album:              return song.album();
-        case Column_Length:             return song.length_nanosec();
-        case Column_Track:              return song.track();
-        case Column_Disc:               return song.disc();
-        case Column_Year:               return song.year();
-        case Column_OriginalYear:       return song.effective_originalyear();
+        case Column_Length:             return nonnullval(song.length_nanosec());
+        case Column_Track:              return nonnullval(song.track());
+        case Column_Disc:               return nonnullval(song.disc());
+        case Column_Year:               return nonnullval(song.year());
+        case Column_OriginalYear:       return nonnullval(song.effective_originalyear());
         case Column_Genre:              return song.genre();
         case Column_AlbumArtist:        return song.playlist_albumartist();
         case Column_Composer:           return song.composer();
@@ -315,18 +317,18 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
 
         case Column_PlayCount:          return song.playcount();
         case Column_SkipCount:          return song.skipcount();
-        case Column_LastPlayed:         return song.lastplayed();
+        case Column_LastPlayed:         return nonnullval(song.lastplayed());
 
-        case Column_Samplerate:         return song.samplerate();
-        case Column_Bitdepth:           return song.bitdepth();
-        case Column_Bitrate:            return song.bitrate();
+        case Column_Samplerate:         return nonnullval(song.samplerate());
+        case Column_Bitdepth:           return nonnullval(song.bitdepth());
+        case Column_Bitrate:            return nonnullval(song.bitrate());
 
         case Column_Filename:           return song.effective_stream_url();
         case Column_BaseFilename:       return song.basefilename();
-        case Column_Filesize:           return song.filesize();
+        case Column_Filesize:           return nonnullval(song.filesize());
         case Column_Filetype:           return song.filetype();
-        case Column_DateModified:       return song.mtime();
-        case Column_DateCreated:        return song.ctime();
+        case Column_DateModified:       return nonnullval(song.mtime());
+        case Column_DateCreated:        return nonnullval(song.ctime());
 
         case Column_Comment:
           if (role == Qt::DisplayRole)  return song.comment().simplified();
@@ -334,10 +336,10 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
 
         case Column_Source:             return song.source();
 
-        case Column_Rating:             return song.rating();
+        case Column_Rating:             return nonnullval(song.rating());
 
       }
-
+#undef nonnullval
       return QVariant();
     }
 
@@ -381,7 +383,6 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
     default:
       return QVariant();
   }
-
 }
 
 #ifdef HAVE_MOODBAR
@@ -1089,9 +1090,8 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, const int p
     virtual_items_ << virtual_items_.count();
 
     if (item->source() == Song::Source_Collection) {
-      int id = item->Metadata().id();
-      if (id != -1) {
-        collection_items_by_id_.insert(id, item);
+      if (item->Metadata().id()) {
+        collection_items_by_id_.insert(item->Metadata().id().value(), item);
       }
     }
 
@@ -1197,8 +1197,8 @@ void Playlist::UpdateItems(SongList songs) {
         PlaylistItemPtr new_item;
         if (song.is_collection_song()) {
           new_item = std::make_shared<CollectionPlaylistItem>(song);
-          if (collection_items_by_id_.contains(song.id(), item)) collection_items_by_id_.remove(song.id(), item);
-          collection_items_by_id_.insert(song.id(), new_item);
+          if (collection_items_by_id_.contains(song.id().value(), item)) collection_items_by_id_.remove(song.id().value(), item);
+          collection_items_by_id_.insert(song.id().value(), new_item);
         }
         else {
           new_item = std::make_shared<SongPlaylistItem>(song);
@@ -1664,9 +1664,9 @@ PlaylistItemList Playlist::RemoveItemsWithoutUndo(const int row, const int count
     ret << item;
 
     if (item->source() == Song::Source_Collection) {
-      int id = item->Metadata().id();
-      if (id != -1 && collection_items_by_id_.contains(id, item)) {
-        collection_items_by_id_.remove(id, item);
+      std::optional<uint> id = item->Metadata().id();
+      if (id && collection_items_by_id_.contains(id.value(), item)) {
+        collection_items_by_id_.remove(id.value(), item);
       }
     }
   }
@@ -2028,8 +2028,8 @@ quint64 Playlist::GetTotalLength() const {
 
   quint64 ret = 0;
   for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop-reference
-    quint64 length = item->Metadata().length_nanosec();
-    if (length > 0) ret += length;
+    std::optional<quint64> length = item->Metadata().length_nanosec();
+    if (length) ret += length.value();
   }
   return ret;
 
@@ -2273,24 +2273,24 @@ void Playlist::SkipTracks(const QModelIndexList &source_indexes) {
 
 }
 
-void Playlist::UpdateScrobblePoint(const qint64 seek_point_nanosec) {
+void Playlist::UpdateScrobblePoint(const std::optional<quint64> seek_point_nanosec) {
 
-  const qint64 length = current_item_metadata().length_nanosec();
+  const std::optional<quint64> length = current_item_metadata().length_nanosec();
 
-  if (seek_point_nanosec <= 0) {
-    if (length == 0) {
+  if (!seek_point_nanosec) {
+    if (!length) {
       scrobble_point_ = kMaxScrobblePointNsecs;
     }
     else {
-      scrobble_point_ = qBound(kMinScrobblePointNsecs, length / 2, kMaxScrobblePointNsecs);
+      scrobble_point_ = qBound(kMinScrobblePointNsecs, length.value() / 2, kMaxScrobblePointNsecs);
     }
   }
   else {
-    if (length <= 0) {
-      scrobble_point_ = seek_point_nanosec + kMaxScrobblePointNsecs;
+    if (!length) {
+      scrobble_point_ = seek_point_nanosec.value() + kMaxScrobblePointNsecs;
     }
     else {
-      scrobble_point_ = qBound(seek_point_nanosec + kMinScrobblePointNsecs, seek_point_nanosec + (length / 2), seek_point_nanosec + kMaxScrobblePointNsecs);
+      scrobble_point_ = qBound(seek_point_nanosec.value() + kMinScrobblePointNsecs, seek_point_nanosec.value() + (length.value() / 2), seek_point_nanosec.value() + kMaxScrobblePointNsecs);
     }
   }
 
@@ -2334,8 +2334,8 @@ void Playlist::RateSong(const QModelIndex &idx, const double rating) {
 
   if (has_item_at(idx.row())) {
     PlaylistItemPtr item = item_at(idx.row());
-    if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
-      collection_->UpdateSongRatingAsync(item->Metadata().id(), rating);
+    if (item && item->IsLocalCollectionItem() && item->Metadata().id()) {
+      collection_->UpdateSongRatingAsync(item->Metadata().id().value(), rating);
     }
   }
 
@@ -2348,8 +2348,8 @@ void Playlist::RateSongs(const QModelIndexList &index_list, const double rating)
     const int row = idx.row();
     if (has_item_at(row)) {
       PlaylistItemPtr item = item_at(row);
-      if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
-        id_list << item->Metadata().id();  // clazy:exclude=reserve-candidates
+      if (item && item->IsLocalCollectionItem() && item->Metadata().id()) {
+        id_list << item->Metadata().id().value();  // clazy:exclude=reserve-candidates
       }
     }
   }

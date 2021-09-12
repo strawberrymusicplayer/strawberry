@@ -139,7 +139,7 @@ void M3UParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
       continue;
     }
     if (writeMetadata) {
-      QString meta = QString("#EXTINF:%1,%2 - %3\n").arg(song.length_nanosec() / kNsecPerSec).arg(song.artist(), song.title());
+      QString meta = QString("#EXTINF:%1,%2 - %3\n").arg(song.length_nanosec().value_or(0) / kNsecPerSec).arg(song.artist(), song.title());
       device->write(meta.toUtf8());
     }
     device->write(URLOrFilename(song.url(), dir, path_type).toUtf8());

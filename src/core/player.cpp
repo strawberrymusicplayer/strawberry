@@ -303,19 +303,19 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       }
 
       // If there was no samplerate info in song's metadata, use the one provided by URL handler, if there is one.
-      if (song.samplerate() <= 0 && result.samplerate_ > 0) {
+      if (!song.samplerate() && result.samplerate_ > 0) {
         song.set_samplerate(result.samplerate_);
         update = true;
       }
 
       // If there was no bit depth info in song's metadata, use the one provided by URL handler, if there is one.
-      if (song.bitdepth() <= 0 && result.bit_depth_ > 0) {
+      if (!song.bitdepth() && result.bit_depth_ > 0) {
         song.set_bitdepth(result.bit_depth_);
         update = true;
       }
 
       // If there was no length info in song's metadata, use the one provided by URL handler, if there is one.
-      if (song.length_nanosec() <= 0 && result.length_nanosec_ != -1) {
+      if (!song.length_nanosec() && result.length_nanosec_ != -1) {
         song.set_length_nanosec(result.length_nanosec_);
         update = true;
       }
@@ -334,7 +334,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       if (is_current) {
         qLog(Debug) << "Playing song" << item->Metadata().title() << result.stream_url_ << "position" << play_offset_nanosec_;
-        engine_->Play(result.stream_url_, result.original_url_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec(), play_offset_nanosec_);
+        engine_->Play(result.stream_url_, result.original_url_, stream_change_type_, song.has_cue(), song.beginning_nanosec().value(), song.end_nanosec(), play_offset_nanosec_);
         current_item_ = item;
         play_offset_nanosec_ = 0;
       }
@@ -461,8 +461,8 @@ bool Player::HandleStopAfter(const Playlist::AutoScroll autoscroll) {
 
 void Player::TrackEnded() {
 
-  if (current_item_ && current_item_->IsLocalCollectionItem() && current_item_->Metadata().id() != -1) {
-    app_->playlist_manager()->collection_backend()->IncrementPlayCountAsync(current_item_->Metadata().id());
+  if (current_item_ && current_item_->IsLocalCollectionItem() && current_item_->Metadata().id()) {
+    app_->playlist_manager()->collection_backend()->IncrementPlayCountAsync(current_item_->Metadata().id().value());
   }
 
   if (HandleStopAfter(Playlist::AutoScroll_Maybe)) return;
@@ -485,7 +485,7 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
       }
       else {
         pause_time_ = QDateTime::currentDateTime();
-        play_offset_nanosec_ = engine_->position_nanosec();
+        play_offset_nanosec_ = engine_->position_nanosec().value_or(0);
         engine_->Pause();
       }
       break;
@@ -516,7 +516,7 @@ void Player::UnPause() {
       const quint64 time = QDateTime::currentDateTime().toSecsSinceEpoch() - pause_time_.toSecsSinceEpoch();
       if (time >= 30) { // Stream URL might be expired.
         qLog(Debug) << "Re-requesting stream URL for" << song.url();
-        play_offset_nanosec_ = engine_->position_nanosec();
+        play_offset_nanosec_ = engine_->position_nanosec().value_or(0);
         HandleLoadResult(url_handlers_[song.url().scheme()]->StartLoading(song.url()));
         return;
       }
@@ -609,7 +609,7 @@ void Player::EngineStateChanged(const Engine::State state) {
   switch (state) {
     case Engine::Paused:
       pause_time_ = QDateTime::currentDateTime();
-      play_offset_nanosec_ = engine_->position_nanosec();
+      play_offset_nanosec_ = engine_->position_nanosec().value_or(0);
       emit Paused();
       break;
     case Engine::Playing:
@@ -692,20 +692,20 @@ void Player::PlayAt(const int index, const qint64 offset_nanosec, Engine::TrackC
 void Player::CurrentMetadataChanged(const Song &metadata) {
 
   // Those things might have changed (especially when a previously invalid song was reloaded) so we push the latest version into Engine
-  engine_->RefreshMarkers(metadata.beginning_nanosec(), metadata.end_nanosec());
+  engine_->RefreshMarkers(metadata.beginning_nanosec().value(), metadata.end_nanosec().value());
 
 }
 
-void Player::SeekTo(const qint64 seconds) {
+void Player::SeekTo(const quint64 seconds) {
 
-  const qint64 length_nanosec = engine_->length_nanosec();
+  const std::optional<quint64> length_nanosec = engine_->length_nanosec();
 
   // If the length is 0 then either there is no song playing, or the song isn't seekable.
-  if (length_nanosec <= 0) {
+  if (!length_nanosec) {
     return;
   }
 
-  const qint64 nanosec = qBound(0LL, seconds * kNsecPerSec, length_nanosec);
+  const quint64 nanosec = qBound(quint64(0), seconds * kNsecPerSec, length_nanosec.value());
   engine_->Seek(nanosec);
 
   qLog(Debug) << "Track seeked to" << nanosec << "ns - updating scrobble point";
@@ -720,11 +720,11 @@ void Player::SeekTo(const qint64 seconds) {
 }
 
 void Player::SeekForward() {
-  SeekTo(engine()->position_nanosec() / kNsecPerSec + seek_step_sec_);
+  SeekTo(engine()->position_nanosec().value_or(0) / kNsecPerSec + seek_step_sec_);
 }
 
 void Player::SeekBackward() {
-  SeekTo(engine()->position_nanosec() / kNsecPerSec - seek_step_sec_);
+  SeekTo(engine()->position_nanosec().value_or(0) / kNsecPerSec - seek_step_sec_);
 }
 
 void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {

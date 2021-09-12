@@ -87,8 +87,12 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   Song StreamMetadata() { return HasTemporaryMetadata() ? temp_metadata_ : Metadata(); }
   QUrl StreamUrl() const { return HasTemporaryMetadata() && temp_metadata_.effective_stream_url().isValid() ? temp_metadata_.effective_stream_url() : Url(); }
 
-  qint64 effective_beginning_nanosec() const { return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.beginning_nanosec() != -1 ? temp_metadata_.beginning_nanosec() : Metadata().beginning_nanosec(); }
-  qint64 effective_end_nanosec() const { return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.end_nanosec() != -1 ? temp_metadata_.end_nanosec() : Metadata().end_nanosec(); }
+  quint64 effective_beginning_nanosec() const {
+    return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.beginning_nanosec() ? temp_metadata_.beginning_nanosec().value() : Metadata().beginning_nanosec().value();
+  }
+  quint64 effective_end_nanosec() const {
+    return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.end_nanosec() ? temp_metadata_.end_nanosec().value() : Metadata().end_nanosec().value();
+  }
 
   virtual void SetArtManual(const QUrl &cover_url) = 0;
 

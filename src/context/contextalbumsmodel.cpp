@@ -83,7 +83,8 @@ ContextAlbumsModel::~ContextAlbumsModel() { delete root_; }
 void ContextAlbumsModel::AddSongs(const SongList &songs) {
 
   for (const Song &song : songs) {
-    if (song_nodes_.contains(song.id())) continue;
+    if(!song.id()) continue;
+    if (song_nodes_.contains(song.id().value())) continue;
     QString key = CollectionModel::ContainerKey(CollectionModel::GroupBy_Album, song);
     CollectionItem *container = nullptr;
     if (container_nodes_.contains(key)) {
@@ -93,7 +94,7 @@ void ContextAlbumsModel::AddSongs(const SongList &songs) {
       container = ItemFromSong(CollectionItem::Type_Container, true, root_, song, 0);
       container_nodes_.insert(key, container);
     }
-    song_nodes_[song.id()] = ItemFromSong(CollectionItem::Type_Song, true, container, song, -1);
+    song_nodes_[song.id().value()] = ItemFromSong(CollectionItem::Type_Song, true, container, song, -1);
   }
 
 }
@@ -357,9 +358,9 @@ void ContextAlbumsModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, 
 
     case CollectionItem::Type_Song:
       urls->append(item->metadata.url());
-      if (!song_ids->contains(item->metadata.id())) {
+      if (!song_ids->contains(item->metadata.id().value())) {
         songs->append(item->metadata);
-        song_ids->insert(item->metadata.id());
+        song_ids->insert(item->metadata.id().value());
       }
       break;
 

@@ -237,8 +237,8 @@ void Queue::UpdateTotalLength() {
 
     Q_ASSERT(playlist_->has_item_at(id));
 
-    quint64 length = playlist_->item_at(id)->Metadata().length_nanosec();
-    if (length > 0) total += length;
+    std::optional<quint64> length = playlist_->item_at(id)->Metadata().length_nanosec();
+    if (length) total += length.value();
   }
 
   total_length_ns_ = total;

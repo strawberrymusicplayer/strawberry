@@ -703,7 +703,8 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
 
   QHash<quint64, Song> sections_map;
   for (const Song &song : old_cue_songs) {
-    sections_map.insert(song.beginning_nanosec(), song);
+    if(!song.beginning_nanosec()) continue;
+    sections_map.insert(song.beginning_nanosec().value(), song);
   }
 
   // Load new CUE songs
@@ -717,19 +718,19 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
   cue_file.close();
 
   // Update every song that's in the CUE and collection
-  QSet<int> used_ids;
+  QSet<uint> used_ids;
   for (Song new_cue_song : songs) {
     new_cue_song.set_source(source_);
     new_cue_song.set_directory_id(t->dir());
     new_cue_song.set_fingerprint(fingerprint);
 
-    if (sections_map.contains(new_cue_song.beginning_nanosec())) {  // Changed section
-      const Song matching_cue_song = sections_map[new_cue_song.beginning_nanosec()];
-      new_cue_song.set_id(matching_cue_song.id());
+    if (sections_map.contains(new_cue_song.beginning_nanosec().value())) {  // Changed section
+      const Song matching_cue_song = sections_map[new_cue_song.beginning_nanosec().value()];
+      new_cue_song.set_id(matching_cue_song.id().value());
       if (!new_cue_song.has_embedded_cover()) new_cue_song.set_art_automatic(image);
       new_cue_song.MergeUserSetData(matching_cue_song);
       AddChangedSong(file, matching_cue_song, new_cue_song, t);
-      used_ids.insert(matching_cue_song.id());
+      used_ids.insert(matching_cue_song.id().value());
     }
     else {  // A new section
       t->new_songs << new_cue_song;
@@ -738,7 +739,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
 
   // Sections that are now missing
   for (const Song &old_cue : old_cue_songs) {
-    if (!used_ids.contains(old_cue.id())) {
+    if (!used_ids.contains(old_cue.id().value())) {
       t->deleted_songs << old_cue;
     }
   }
@@ -767,7 +768,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
   if (song_on_disk.is_valid()) {
     song_on_disk.set_source(source_);
     song_on_disk.set_directory_id(t->dir());
-    song_on_disk.set_id(matching_song.id());
+    song_on_disk.set_id(matching_song.id().value());
     song_on_disk.set_fingerprint(fingerprint);
     if (!song_on_disk.has_embedded_cover()) song_on_disk.set_art_automatic(image);
     song_on_disk.MergeUserSetData(matching_song);
@@ -1125,8 +1126,8 @@ void CollectionWatcher::RescanTracksNow() {
     Song song = song_rescan_queue_.takeFirst();
     QString songdir = song.url().toLocalFile().section('/', 0, -2);
     if (!scanned_dirs.contains(songdir)) {
-      qLog(Debug) << "Song" << song.title() << "dir id" << song.directory_id() << "dir" << songdir;
-      ScanTransaction transaction(this, song.directory_id(), false, false, mark_songs_unavailable_);
+      qLog(Debug) << "Song" << song.title() << "dir id" << song.directory_id().value_or(-1) << "dir" << songdir;
+      ScanTransaction transaction(this, song.directory_id().value(), false, false, mark_songs_unavailable_);
       quint64 files_count = FilesCountForPath(&transaction, songdir);
       ScanSubdirectory(songdir, Subdirectory(), files_count, &transaction);
       scanned_dirs << songdir;

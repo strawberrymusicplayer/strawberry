@@ -24,7 +24,7 @@
 
 #include "scrobblercacheitem.h"
 
-ScrobblerCacheItem::ScrobblerCacheItem(const QString &artist, const QString &album, const QString &song, const QString &albumartist, const int track, const qint64 duration, const quint64 timestamp, QObject *parent)
+ScrobblerCacheItem::ScrobblerCacheItem(const QString &artist, const QString &album, const QString &song, const QString &albumartist, const std::optional<uint> track, const std::optional<quint64> duration, const quint64 timestamp, QObject *parent)
     : QObject(parent),
       artist_(artist),
       album_(album),

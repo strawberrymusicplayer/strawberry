@@ -130,7 +130,7 @@ QString PrettyTime(int seconds) {
 
 }
 
-QString PrettyTimeNanosec(const qint64 nanoseconds) {
+QString PrettyTimeNanosec(const quint64 nanoseconds) {
   return PrettyTime(static_cast<int>(nanoseconds / kNsecPerSec));
 }
 
@@ -897,10 +897,10 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
     value = song.effective_albumartist();
   }
   else if (variable == "%track%") {
-    value.setNum(song.track());
+    value.setNum(song.track().value_or(-1));
   }
   else if (variable == "%disc%") {
-    value.setNum(song.disc());
+    value.setNum(song.disc().value_or(-1));
   }
   else if (variable == "%year%") {
     value = song.PrettyYear();
