@@ -190,8 +190,8 @@ struct Song::Private : public QSharedData {
   QString album_id_;
   QString song_id_;
 
-  quint64 beginning_;
-  quint64 end_;
+  qint64 beginning_;
+  qint64 end_;
 
   int bitrate_;
   int samplerate_;
@@ -318,9 +318,9 @@ const QString &Song::grouping() const { return d->grouping_; }
 const QString &Song::comment() const { return d->comment_; }
 const QString &Song::lyrics() const { return d->lyrics_; }
 
-quint64 Song::beginning_nanosec() const { return d->beginning_; }
-quint64 Song::end_nanosec() const { return d->end_; }
-quint64 Song::length_nanosec() const { return d->end_ - d->beginning_; }
+qint64 Song::beginning_nanosec() const { return d->beginning_; }
+qint64 Song::end_nanosec() const { return d->end_; }
+qint64 Song::length_nanosec() const { return d->end_ - d->beginning_; }
 
 int Song::bitrate() const { return d->bitrate_; }
 int Song::samplerate() const { return d->samplerate_; }
@@ -445,8 +445,8 @@ void Song::set_comment(const QString &v) { d->comment_ = v; }
 void Song::set_lyrics(const QString &v) { d->lyrics_ = v; }
 
 void Song::set_beginning_nanosec(qint64 v) { d->beginning_ = qMax(0LL, v); }
-void Song::set_end_nanosec(quint64 v) { d->end_ = v; }
-void Song::set_length_nanosec(quint64 v) { d->end_ = d->beginning_ + v; }
+void Song::set_end_nanosec(qint64 v) { d->end_ = v; }
+void Song::set_length_nanosec(qint64 v) { d->end_ = d->beginning_ + v; }
 
 void Song::set_bitrate(int v) { d->bitrate_ = v; }
 void Song::set_samplerate(int v) { d->samplerate_ = v; }

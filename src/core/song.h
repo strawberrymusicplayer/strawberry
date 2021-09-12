@@ -219,9 +219,9 @@ class Song {
   QString album_id() const;
   QString song_id() const;
 
-  quint64 beginning_nanosec() const;
-  quint64 end_nanosec() const;
-  quint64 length_nanosec() const;
+  qint64 beginning_nanosec() const;
+  qint64 end_nanosec() const;
+  qint64 length_nanosec() const;
 
   int bitrate() const;
   int samplerate() const;
@@ -336,8 +336,8 @@ class Song {
   void set_song_id(const QString &v);
 
   void set_beginning_nanosec(qint64 v);
-  void set_end_nanosec(quint64 v);
-  void set_length_nanosec(quint64 v);
+  void set_end_nanosec(qint64 v);
+  void set_length_nanosec(qint64 v);
 
   void set_bitrate(int v);
   void set_samplerate(int v);
