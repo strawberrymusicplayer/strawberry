@@ -90,8 +90,8 @@ class DiscogsCoverProvider : public JsonCoverProvider {
 
  private slots:
   void FlushRequests();
-  void HandleSearchReply(QNetworkReply *reply, const int id);
-  void HandleReleaseReply(QNetworkReply *reply, const int id, const quint64 release_id);
+  void HandleSearchReply(QNetworkReply *reply, const quint64 id);
+  void HandleReleaseReply(QNetworkReply *reply, const quint64 id, const quint64 release_id);
 
  private:
   static const char *kUrlSearch;

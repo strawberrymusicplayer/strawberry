@@ -63,7 +63,7 @@ class FHT {
   * should be at least 3. Values of more than 3 need a trigonometry table.
   * @see makeCasTable()
   */
-  explicit FHT(int);
+  explicit FHT(uint);
 
   ~FHT();
   int sizeExp() const;

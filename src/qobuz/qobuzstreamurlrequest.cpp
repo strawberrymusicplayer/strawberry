@@ -224,7 +224,7 @@ void QobuzStreamURLRequest::StreamURLReceived() {
 
   qint64 duration = -1;
   if (json_obj.contains("duration")) {
-    duration = json_obj["duration"].toDouble() * kNsecPerSec;
+    duration = json_obj["duration"].toInt() * kNsecPerSec;
   }
   int samplerate = -1;
   if (json_obj.contains("sampling_rate")) {

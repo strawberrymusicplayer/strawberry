@@ -80,7 +80,7 @@ SpotifyCoverProvider::SpotifyCoverProvider(Application *app, NetworkAccessManage
   s.endGroup();
 
   if (!refresh_token_.isEmpty()) {
-    qint64 time = expires_in_ - (QDateTime::currentDateTime().toSecsSinceEpoch() - login_time_);
+    quint64 time = expires_in_ - (QDateTime::currentDateTime().toSecsSinceEpoch() - login_time_);
     if (time < 1) time = 1;
     refresh_login_timer_.setInterval(static_cast<int>(time * kMsecPerSec));
     refresh_login_timer_.start();

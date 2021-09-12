@@ -145,7 +145,7 @@ class OSDPretty : public QWidget {
   // Settings loaded from QSettings
   QColor foreground_color_;
   QColor background_color_;
-  float background_opacity_;
+  qreal background_opacity_;
   QString popup_screen_name_;
   QPoint popup_pos_;
   QScreen *popup_screen_;

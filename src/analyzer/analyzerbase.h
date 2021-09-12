@@ -57,11 +57,11 @@ class Base : public QWidget {
  public:
   ~Base() override { delete fht_; }
 
-  uint timeout() const { return timeout_; }
+  int timeout() const { return timeout_; }
 
   void set_engine(EngineBase *engine) { engine_ = engine; }
 
-  void changeTimeout(uint newTimeout) {
+  void changeTimeout(int newTimeout) {
     timeout_ = newTimeout;
     if (timer_.isActive()) {
       timer_.stop();
@@ -90,7 +90,7 @@ class Base : public QWidget {
 
  protected:
   QBasicTimer timer_;
-  uint timeout_;
+  int timeout_;
   FHT *fht_;
   EngineBase *engine_;
   Scope lastscope_;

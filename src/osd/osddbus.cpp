@@ -164,7 +164,7 @@ void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, 
 
   hints["transient"] = QVariant(true);
 
-  int id = 0;
+  quint64 id = 0;
   if (last_notification_time_.secsTo(QDateTime::currentDateTime()) * 1000 < timeout_msec()) {
     // Reuse the existing popup if it's still open.  The reason we don't always
     // reuse the popup is because the notification daemon on KDE4 won't re-show the bubble if it's already gone to the tray.  See issue #118

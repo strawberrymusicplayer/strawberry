@@ -545,55 +545,55 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cov
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QString &cover_filename) {
+quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QString &cover_filename) {
 
   QMutexLocker l(&mutex_save_image_async_);
-  qint64 id = ++save_image_async_id_;
+  quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(qint64, id), Q_ARG(QString, song_filename), Q_ARG(QString, cover_filename));
   return id;
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QImage &image) {
+quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QImage &image) {
 
   QMutexLocker l(&mutex_save_image_async_);
-  qint64 id = ++save_image_async_id_;
+  quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(qint64, id), Q_ARG(QString, song_filename), Q_ARG(QImage, image));
   return id;
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QByteArray &image_data) {
+quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QByteArray &image_data) {
 
   QMutexLocker l(&mutex_save_image_async_);
-  qint64 id = ++save_image_async_id_;
+  quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(qint64, id), Q_ARG(QString, song_filename), Q_ARG(QByteArray, image_data));
   return id;
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QString &cover_filename) {
+quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QString &cover_filename) {
 
   QMutexLocker l(&mutex_save_image_async_);
-  qint64 id = ++save_image_async_id_;
+  quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(qint64, id), Q_ARG(QList<QUrl>, urls), Q_ARG(QString, cover_filename));
   return id;
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QImage &image) {
+quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QImage &image) {
 
   QMutexLocker l(&mutex_save_image_async_);
-  qint64 id = ++save_image_async_id_;
+  quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(qint64, id), Q_ARG(QList<QUrl>, urls), Q_ARG(QImage, image));
   return id;
 
 }
 
-qint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QByteArray &image_data) {
+quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QByteArray &image_data) {
 
   QMutexLocker l(&mutex_save_image_async_);
-  qint64 id = ++save_image_async_id_;
+  quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(qint64, id), Q_ARG(QList<QUrl>, urls), Q_ARG(QByteArray, image_data));
   return id;
 

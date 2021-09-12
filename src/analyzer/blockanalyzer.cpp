@@ -62,7 +62,7 @@ BlockAnalyzer::BlockAnalyzer(QWidget *parent)
   setMaximumWidth(kMaxColumns * (kWidth + 1) - 1);
 
   // mxcl says null pixmaps cause crashes, so let's play it safe
-  for (uint i = 0; i < kFadeSize; ++i) fade_bars_[i] = QPixmap(1, 1);
+  std::fill(fade_bars_.begin(), fade_bars_.end(),  QPixmap(1, 1));
 
 }
 
@@ -78,7 +78,7 @@ void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
   // all is explained in analyze()..
   // +1 to counter -1 in maxSizes, trust me we need this!
   columns_ = qMin(static_cast<int>(static_cast<double>(width() + 1) / (kWidth + 1)) + 1, kMaxColumns);
-  rows_ = static_cast<uint>(static_cast<double>(height() + 1) / (kHeight + 1));
+  rows_ = static_cast<int>(static_cast<double>(height() + 1) / (kHeight + 1));
 
   // this is the y-offset for drawing from the top of the widget
   y_ = (height() - (rows_ * (kHeight + 1)) + 2) / 2;
@@ -88,9 +88,7 @@ void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
   if (rows_ != oldRows) {
     barpixmap_ = QPixmap(kWidth, rows_ * (kHeight + 1));
 
-    for (uint i = 0; i < kFadeSize; ++i) {
-      fade_bars_[i] = QPixmap(kWidth, rows_ * (kHeight + 1));
-    }
+    std::fill(fade_bars_.begin(), fade_bars_.end(),  QPixmap(kWidth, rows_ * (kHeight + 1)));
 
     yscale_.resize(rows_ + 1);
 
@@ -373,7 +371,7 @@ void BlockAnalyzer::paletteChange(const QPalette&) {
     const int r2 = bg2.red(), g2 = bg2.green(), b2 = bg2.blue();
 
     // Precalculate all fade-bar pixmaps
-    for (uint y = 0; y < kFadeSize; ++y) {
+    for (int y = 0; y < kFadeSize; ++y) {
       fade_bars_[y].fill(palette().color(QPalette::Window));
       QPainter f(&fade_bars_[y]);
       for (int z = 0; z < rows_; ++z) {
