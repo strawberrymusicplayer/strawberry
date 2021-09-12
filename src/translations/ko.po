@@ -1852,7 +1852,7 @@ msgstr "재생 목록의 노래를 두 번 클릭했을 때..."
 msgid "Double clicking a song will..."
 msgstr "노래를 두 번 클릭했을 때..."
 
-#: playlist/playlisttabbar.cpp:336
+#: playlist/playlisttabbar.cpp:345
 msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
@@ -3513,7 +3513,7 @@ msgstr "재생기 옵션"
 #: playlist/playlistcontainer.cpp:329 playlist/playlistlistcontainer.cpp:273
 #: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
 #: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:570
-#: playlist/playlisttabbar.cpp:412 ../build/src/ui_playlistsettingspage.h:164
+#: playlist/playlisttabbar.cpp:421 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "재생 목록"
 
