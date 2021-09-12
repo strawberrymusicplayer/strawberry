@@ -156,12 +156,11 @@ void PlaylistTabBar::mouseDoubleClickEvent(QMouseEvent *e) {
       new_->activate(QAction::Trigger);
     }
     else {
-      //update current tab
       menu_index_ = index;
-
-      //set position
+      QString new_text = tabText(index);
+      new_text = new_text.replace("&&", "&");
       rename_editor_->setGeometry(tabRect(index));
-      rename_editor_->setText(tabText(index));
+      rename_editor_->setText(new_text);
       rename_editor_->setVisible(true);
       rename_editor_->setFocus();
     }
@@ -176,11 +175,12 @@ void PlaylistTabBar::RenameSlot() {
   if (menu_index_ == -1) return;
 
   QString name = tabText(menu_index_);
-  name = QInputDialog::getText(this, tr("Rename playlist"), tr("Enter a new name for this playlist"), QLineEdit::Normal, name);
+  name = name.replace("&&", "&");
+  QString new_name = QInputDialog::getText(this, tr("Rename playlist"), tr("Enter a new name for this playlist"), QLineEdit::Normal, name);
 
-  if (name.isNull()) return;
+  if (new_name.isEmpty()) return;
 
-  emit Rename(tabData(menu_index_).toInt(), name);
+  emit Rename(tabData(menu_index_).toInt(), new_name);
 
 }
 
@@ -318,8 +318,12 @@ void PlaylistTabBar::RemoveTab(const int id) {
 }
 
 void PlaylistTabBar::set_text_by_id(const int id, const QString &text) {
-  setTabText(index_of(id), text);
+
+  QString new_text = text;
+  new_text = new_text.replace("&", "&&");
+  setTabText(index_of(id), new_text);
   setTabToolTip(index_of(id), text);
+
 }
 
 void PlaylistTabBar::CurrentIndexChanged(const int index) {
@@ -328,8 +332,13 @@ void PlaylistTabBar::CurrentIndexChanged(const int index) {
 
 void PlaylistTabBar::InsertTab(const int id, const int index, const QString &text, const bool favorite) {
 
+  QString new_text = text;
+  if (new_text.contains('&')) {
+    new_text = new_text.replace('&', "&&");
+  }
+
   suppress_current_changed_ = true;
-  insertTab(index, text);
+  insertTab(index, new_text);
   setTabData(index, id);
   setTabToolTip(index, text);
   FavoriteWidget *widget = new FavoriteWidget(id, favorite);

@@ -40,8 +40,6 @@ class RenameTabLineEdit : public QLineEdit {
  signals:
   void EditingCanceled();
 
- public slots:
-
  protected:
   void focusOutEvent(QFocusEvent *e) override;
   void keyPressEvent(QKeyEvent *e) override;
