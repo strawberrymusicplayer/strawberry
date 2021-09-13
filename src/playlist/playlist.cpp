@@ -2028,7 +2028,7 @@ quint64 Playlist::GetTotalLength() const {
 
   quint64 ret = 0;
   for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop-reference
-    quint64 length = item->Metadata().length_nanosec();
+    qint64 length = item->Metadata().length_nanosec();
     if (length > 0) ret += length;
   }
   return ret;
