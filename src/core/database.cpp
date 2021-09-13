@@ -548,7 +548,7 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
 
 void Database::DoBackup() {
 
-  QSqlDatabase db(this->Connect());
+  QSqlDatabase db(Connect());
 
   if (!db.isOpen()) return;
 

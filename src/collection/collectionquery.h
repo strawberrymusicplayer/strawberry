@@ -53,17 +53,17 @@ struct QueryOptions {
 
   QString filter() const { return filter_; }
   void set_filter(const QString &filter) {
-    this->filter_ = filter;
-    this->query_mode_ = QueryMode_All;
+    filter_ = filter;
+    query_mode_ = QueryMode_All;
   }
 
   int max_age() const { return max_age_; }
-  void set_max_age(int max_age) { this->max_age_ = max_age; }
+  void set_max_age(int max_age) { max_age_ = max_age; }
 
   QueryMode query_mode() const { return query_mode_; }
   void set_query_mode(QueryMode query_mode) {
-    this->query_mode_ = query_mode;
-    this->filter_ = QString();
+    query_mode_ = query_mode;
+    filter_ = QString();
   }
 
  private:

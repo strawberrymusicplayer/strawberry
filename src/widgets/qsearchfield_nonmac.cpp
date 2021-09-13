@@ -111,11 +111,11 @@ void QSearchField::setIconSize(const int iconsize) {
 
 }
 
-void QSearchField::setText(const QString &text) {
+void QSearchField::setText(const QString &new_text) {
 
   Q_ASSERT(pimpl && pimpl->clearbutton_ && pimpl->lineedit_);
   if (!(pimpl && pimpl->clearbutton_ && pimpl->lineedit_)) return;
-  if (text != this->text()) pimpl->lineedit_->setText(text);
+  if (new_text != text()) pimpl->lineedit_->setText(new_text);
 
 }
 

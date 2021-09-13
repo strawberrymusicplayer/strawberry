@@ -25,7 +25,7 @@ class QSearchField : public QWidget {
   void setFocus(Qt::FocusReason);
 
  public slots:
-  void setText(const QString &text);
+  void setText(const QString &new_text);
   void setPlaceholderText(const QString &text);
   void clear();
   void selectAll();

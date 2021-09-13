@@ -237,7 +237,7 @@ void LyricsSettingsPage::AuthenticationSuccess() {
   if (!provider) return;
   DisconnectAuthentication(provider);
 
-  if (!this->isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
+  if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
   ui_->button_authenticate->setEnabled(true);
@@ -250,7 +250,7 @@ void LyricsSettingsPage::AuthenticationFailure(const QStringList &errors) {
   if (!provider) return;
   DisconnectAuthentication(provider);
 
-  if (!this->isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
+  if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
   QMessageBox::warning(this, tr("Authentication failed"), errors.join("\n"));
 

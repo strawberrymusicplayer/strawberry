@@ -36,7 +36,7 @@
 SnapDialog::SnapDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_SnapDialog) {
 
   ui_->setupUi(this);
-  setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);
+  setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
   setWindowTitle(tr("Strawberry is running as a Snap"));
 
   QString text;

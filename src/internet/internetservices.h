@@ -43,7 +43,7 @@ class InternetServices : public QObject {
   InternetService *ServiceBySource(const Song::Source source) const;
   template <typename T>
   T *Service() {
-    return static_cast<T*>(this->ServiceBySource(T::kSource));
+    return static_cast<T*>(ServiceBySource(T::kSource));
   }
 
   void AddService(InternetService *service);

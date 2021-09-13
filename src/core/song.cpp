@@ -1429,8 +1429,8 @@ void Song::BindToQuery(SqlQuery *query) const {
   query->BindValue(":art_automatic", d->art_automatic_.isValid() ? d->art_automatic_.toString(QUrl::FullyEncoded) : "");
   query->BindValue(":art_manual", d->art_manual_.isValid() ? d->art_manual_.toString(QUrl::FullyEncoded) : "");
 
-  query->BindValue(":effective_albumartist", strval(this->effective_albumartist()));
-  query->BindValue(":effective_originalyear", intval(this->effective_originalyear()));
+  query->BindValue(":effective_albumartist", strval(effective_albumartist()));
+  query->BindValue(":effective_originalyear", intval(effective_originalyear()));
 
   query->BindValue(":cue_path", d->cue_path_);
 

@@ -299,9 +299,9 @@ QMimeData *SmartPlaylistsModel::mimeData(const QModelIndexList &indexes) const {
   PlaylistGeneratorPtr generator = CreateGenerator(indexes.first());
   if (!generator) return nullptr;
 
-  PlaylistGeneratorMimeData *data = new PlaylistGeneratorMimeData(generator);
-  data->setData(kSmartPlaylistsMimeType, QByteArray());
-  data->name_for_new_playlist_ = this->data(indexes.first()).toString();
-  return data;
+  PlaylistGeneratorMimeData *mimedata = new PlaylistGeneratorMimeData(generator);
+  mimedata->setData(kSmartPlaylistsMimeType, QByteArray());
+  mimedata->name_for_new_playlist_ = data(indexes.first()).toString();
+  return mimedata;
 
 }

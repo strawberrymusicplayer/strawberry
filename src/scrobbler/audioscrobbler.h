@@ -59,7 +59,7 @@ class AudioScrobbler : public QObject {
 
   template <typename T>
   T *Service() {
-    return qobject_cast<T*>(this->ServiceByName(T::kName));
+    return qobject_cast<T*>(ServiceByName(T::kName));
   }
 
  public slots:

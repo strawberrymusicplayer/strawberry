@@ -151,7 +151,7 @@ bool SubsonicSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
 void SubsonicSettingsPage::TestSuccess() {
 
-  if (!this->isVisible()) return;
+  if (!isVisible()) return;
   ui_->button_test->setEnabled(true);
 
   QMessageBox::information(this, tr("Test successful!"), tr("Test successful!"));
@@ -160,7 +160,7 @@ void SubsonicSettingsPage::TestSuccess() {
 
 void SubsonicSettingsPage::TestFailure(const QString &failure_reason) {
 
-  if (!this->isVisible()) return;
+  if (!isVisible()) return;
   ui_->button_test->setEnabled(true);
 
   QMessageBox::warning(this, tr("Test failed!"), failure_reason);

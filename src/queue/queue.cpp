@@ -109,7 +109,7 @@ void Queue::SourceDataChanged(const QModelIndex &top_left, const QModelIndex &bo
 
     emit dataChanged(proxy_index, proxy_index);
   }
-  emit ItemCountChanged(this->ItemCount());
+  emit ItemCountChanged(ItemCount());
 
 }
 
@@ -128,7 +128,7 @@ void Queue::SourceLayoutChanged() {
 
   signal_item_count_changed_ = QObject::connect(this, &Queue::ItemCountChanged, this, &Queue::UpdateTotalLength);
 
-  emit ItemCountChanged(this->ItemCount());
+  emit ItemCountChanged(ItemCount());
 
 }
 
@@ -250,8 +250,8 @@ void Queue::UpdateTotalLength() {
 void Queue::UpdateSummaryText() {
 
   QString summary;
-  int tracks = this->ItemCount();
-  quint64 nanoseconds = this->GetTotalLength();
+  int tracks = ItemCount();
+  quint64 nanoseconds = GetTotalLength();
 
   summary += tracks == 1 ? tr("1 track") : tr("%1 tracks").arg(tracks);
 

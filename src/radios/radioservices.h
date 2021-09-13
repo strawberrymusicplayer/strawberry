@@ -48,7 +48,7 @@ class RadioServices : public QObject {
 
   template <typename T>
   T *Service() {
-    return static_cast<T*>(this->ServiceBySource(T::source));
+    return static_cast<T*>(ServiceBySource(T::source));
   }
 
   void ReloadSettings();

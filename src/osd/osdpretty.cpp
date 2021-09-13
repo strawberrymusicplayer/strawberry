@@ -458,7 +458,7 @@ void OSDPretty::Reposition() {
 
   // On windows, enable blurbehind on the masked area
 #ifdef Q_OS_WIN
-  Utilities::enableBlurBehindWindow(this->windowHandle(), QRegion(mask));
+  Utilities::enableBlurBehindWindow(windowHandle(), QRegion(mask));
 #endif
 
 }

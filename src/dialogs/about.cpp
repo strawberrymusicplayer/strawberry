@@ -40,7 +40,7 @@
 About::About(QWidget *parent) : QDialog(parent) {
 
   ui_.setupUi(this);
-  setWindowFlags(this->windowFlags()|Qt::WindowStaysOnTopHint);
+  setWindowFlags(windowFlags()|Qt::WindowStaysOnTopHint);
   setWindowTitle(tr("About Strawberry"));
 
   strawberry_authors_ \
