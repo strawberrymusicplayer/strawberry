@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <cmath>
+
 #include <QtGlobal>
 #include <QApplication>
 #include <QObject>
@@ -539,7 +541,7 @@ QString RatingItemDelegate::displayText(const QVariant &value, const QLocale&) c
   if (value.isNull() || value.toDouble() <= 0) return QString();
 
   // Round to the nearest 0.5
-  const double rating = double(int(value.toDouble() * RatingPainter::kStarCount * 2 + 0.5)) / 2;
+  const double rating = double(lround(value.toDouble() * RatingPainter::kStarCount * 2)) / 2;
 
   return QString::number(rating, 'f', 1);
 
