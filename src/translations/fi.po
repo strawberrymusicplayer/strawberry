@@ -1125,7 +1125,7 @@ msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
 msgstr "Bittinopeus"
 
-#: analyzer/blockanalyzer.cpp:45
+#: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
 msgstr "Block analyzer"
 
@@ -3133,7 +3133,7 @@ msgstr "Kapeakaistainen (NB)"
 msgid "Network Proxy"
 msgstr "Verkon välityspalvelin"
 
-#: playlist/playlistdelegates.cpp:345 dialogs/edittagdialog.cpp:835
+#: playlist/playlistdelegates.cpp:347 dialogs/edittagdialog.cpp:835
 msgid "Never"
 msgstr "Ei koskaan"
 
@@ -5054,7 +5054,7 @@ msgstr ""
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
 #: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:503
 #: collection/collectionmodel.cpp:1621 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:359 playlist/playlistmanager.cpp:578
+#: playlist/playlistdelegates.cpp:361 playlist/playlistmanager.cpp:578
 #: playlist/playlistmanager.cpp:579 dialogs/edittagdialog.cpp:711
 #: dialogs/edittagdialog.cpp:738 ../build/src/ui_scrobblersettingspage.h:427
 msgid "Unknown"
@@ -5635,7 +5635,7 @@ msgstr "järjestä kappaleet"
 msgid "starts with"
 msgstr ""
 
-#: playlist/playlistdelegates.cpp:226
+#: playlist/playlistdelegates.cpp:228
 msgid "stop"
 msgstr "pysäytä"
 

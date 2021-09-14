@@ -1131,7 +1131,7 @@ msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
 msgstr "비트레이트"
 
-#: analyzer/blockanalyzer.cpp:45
+#: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
 msgstr "블록 분석기"
 
@@ -3121,7 +3121,7 @@ msgstr "협대역(NB)"
 msgid "Network Proxy"
 msgstr "네트워크 프록시"
 
-#: playlist/playlistdelegates.cpp:345 dialogs/edittagdialog.cpp:835
+#: playlist/playlistdelegates.cpp:347 dialogs/edittagdialog.cpp:835
 msgid "Never"
 msgstr "없음"
 
@@ -5025,7 +5025,7 @@ msgstr ""
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
 #: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:503
 #: collection/collectionmodel.cpp:1621 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:359 playlist/playlistmanager.cpp:578
+#: playlist/playlistdelegates.cpp:361 playlist/playlistmanager.cpp:578
 #: playlist/playlistmanager.cpp:579 dialogs/edittagdialog.cpp:711
 #: dialogs/edittagdialog.cpp:738 ../build/src/ui_scrobblersettingspage.h:427
 msgid "Unknown"
@@ -5595,7 +5595,7 @@ msgstr "음악 정렬"
 msgid "starts with"
 msgstr ""
 
-#: playlist/playlistdelegates.cpp:226
+#: playlist/playlistdelegates.cpp:228
 msgid "stop"
 msgstr "정지"
 

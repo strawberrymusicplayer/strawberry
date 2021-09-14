@@ -1160,7 +1160,7 @@ msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
 msgstr "Tasa de bits"
 
-#: analyzer/blockanalyzer.cpp:45
+#: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
 msgstr "Analizador de bloques"
 
@@ -3186,7 +3186,7 @@ msgstr "Banda estrecha (NB)"
 msgid "Network Proxy"
 msgstr "Proxy de la red"
 
-#: playlist/playlistdelegates.cpp:345 dialogs/edittagdialog.cpp:835
+#: playlist/playlistdelegates.cpp:347 dialogs/edittagdialog.cpp:835
 msgid "Never"
 msgstr "Nunca"
 
@@ -5138,7 +5138,7 @@ msgstr "Desinstale el «snap» con:"
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
 #: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:503
 #: collection/collectionmodel.cpp:1621 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:359 playlist/playlistmanager.cpp:578
+#: playlist/playlistdelegates.cpp:361 playlist/playlistmanager.cpp:578
 #: playlist/playlistmanager.cpp:579 dialogs/edittagdialog.cpp:711
 #: dialogs/edittagdialog.cpp:738 ../build/src/ui_scrobblersettingspage.h:427
 msgid "Unknown"
@@ -5726,7 +5726,7 @@ msgstr "ordenar temas"
 msgid "starts with"
 msgstr "comienza por"
 
-#: playlist/playlistdelegates.cpp:226
+#: playlist/playlistdelegates.cpp:228
 msgid "stop"
 msgstr "detener"
 
