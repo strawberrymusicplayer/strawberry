@@ -481,7 +481,7 @@ void AlbumCoverManager::UpdateFilter() {
   qint32 without_cover = 0;
 
   for (int i = 0; i < ui_->albums->count(); ++i) {
-    AlbumItem *item = static_cast<AlbumItem*>(ui_->albums->item(i));
+    AlbumItem *item = dynamic_cast<AlbumItem*>(ui_->albums->item(i));
     bool should_hide = ShouldHide(*item, filter, hide);
     item->setHidden(should_hide);
 
@@ -528,7 +528,7 @@ bool AlbumCoverManager::ShouldHide(const AlbumItem &item, const QString &filter,
 void AlbumCoverManager::FetchAlbumCovers() {
 
   for (int i = 0; i < ui_->albums->count(); ++i) {
-    AlbumItem *item = static_cast<AlbumItem*>(ui_->albums->item(i));
+    AlbumItem *item = dynamic_cast<AlbumItem*>(ui_->albums->item(i));
     if (item->isHidden()) continue;
     if (ItemHasCover(*item)) continue;
 
@@ -604,7 +604,7 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
     bool some_clear = false;
 
     for (QListWidgetItem *item : context_menu_items_) {
-      AlbumItem *album_item = static_cast<AlbumItem*>(item);
+      AlbumItem *album_item = dynamic_cast<AlbumItem*>(item);
       if (ItemHasCover(*album_item)) some_with_covers = true;
       if (album_item->data(Role_PathManual).toUrl().path() == Song::kManuallyUnsetCover) {
         some_unset = true;
@@ -623,7 +623,7 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
     album_cover_choice_controller_->clear_cover_action()->setEnabled(some_with_covers || some_unset);
     album_cover_choice_controller_->delete_cover_action()->setEnabled(some_with_covers);
 
-    QContextMenuEvent *context_menu_event = static_cast<QContextMenuEvent*>(e);
+    QContextMenuEvent *context_menu_event = dynamic_cast<QContextMenuEvent*>(e);
     context_menu_->popup(context_menu_event->globalPos());
     return true;
   }
@@ -683,7 +683,7 @@ void AlbumCoverManager::ShowCover() {
 void AlbumCoverManager::FetchSingleCover() {
 
   for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    AlbumItem *album_item = dynamic_cast<AlbumItem*>(item);
     quint64 id = cover_fetcher_->FetchAlbumCover(album_item->data(Role_AlbumArtist).toString(), album_item->data(Role_Album).toString(), QString(), false);
     cover_fetching_tasks_[id] = album_item;
     jobs_++;
@@ -796,7 +796,7 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
   QList<QUrl> urls;
   QList<AlbumItem*> album_items;
   for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    AlbumItem *album_item = dynamic_cast<AlbumItem*>(item);
     switch (album_cover_choice_controller_->get_save_album_cover_type()) {
       case CollectionSettingsPage::SaveCoverType_Cache:
       case CollectionSettingsPage::SaveCoverType_Album:{
@@ -833,13 +833,13 @@ void AlbumCoverManager::UnsetCover() {
   Song song = GetFirstSelectedAsSong();
   if (!song.is_valid()) return;
 
-  AlbumItem *first_album_item = static_cast<AlbumItem*>(context_menu_items_[0]);
+  AlbumItem *first_album_item = dynamic_cast<AlbumItem*>(context_menu_items_[0]);
 
   QUrl cover_url = album_cover_choice_controller_->UnsetCover(&song);
 
   // Force the 'none' cover on all of the selected items
   for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    AlbumItem *album_item = dynamic_cast<AlbumItem*>(item);
     album_item->setIcon(icon_nocover_item_);
     album_item->setData(Role_PathManual, cover_url);
 
@@ -857,13 +857,13 @@ void AlbumCoverManager::ClearCover() {
   Song song = GetFirstSelectedAsSong();
   if (!song.is_valid()) return;
 
-  AlbumItem *first_album_item = static_cast<AlbumItem*>(context_menu_items_[0]);
+  AlbumItem *first_album_item = dynamic_cast<AlbumItem*>(context_menu_items_[0]);
 
   album_cover_choice_controller_->ClearCover(&song);
 
   // Force the 'none' cover on all of the selected items
   for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    AlbumItem *album_item = dynamic_cast<AlbumItem*>(item);
     album_item->setIcon(icon_nocover_item_);
     album_item->setData(Role_PathManual, QUrl());
 
@@ -879,7 +879,7 @@ void AlbumCoverManager::ClearCover() {
 void AlbumCoverManager::DeleteCover() {
 
   for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    AlbumItem *album_item = dynamic_cast<AlbumItem*>(item);
     Song song = ItemAsSong(album_item);
     album_cover_choice_controller_->DeleteCover(&song);
     album_item->setIcon(icon_nocover_item_);
@@ -1018,7 +1018,7 @@ void AlbumCoverManager::ExportCovers() {
   cover_exporter_->SetDialogResult(result);
 
   for (int i = 0; i < ui_->albums->count(); ++i) {
-    AlbumItem *item = static_cast<AlbumItem*>(ui_->albums->item(i));
+    AlbumItem *item = dynamic_cast<AlbumItem*>(ui_->albums->item(i));
 
     // skip hidden and coverless albums
     if (item->isHidden() || !ItemHasCover(*item)) {

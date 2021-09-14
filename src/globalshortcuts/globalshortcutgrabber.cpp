@@ -91,7 +91,7 @@ void GlobalShortcutGrabber::releaseKeyboard() {
 bool GlobalShortcutGrabber::event(QEvent *e) {
 
   if (e->type() == QEvent::ShortcutOverride) {
-    QKeyEvent *ke = static_cast<QKeyEvent*>(e);
+    QKeyEvent *ke = dynamic_cast<QKeyEvent*>(e);
 
     if (modifier_keys_.contains(ke->key())) {
       ret_ = QKeySequence(ke->modifiers());

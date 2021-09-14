@@ -1515,7 +1515,7 @@ void Playlist::Restore() {
 
 void Playlist::ItemsLoaded() {
 
-  QFutureWatcher<PlaylistItemList> *watcher = static_cast<QFutureWatcher<PlaylistItemList>*>(sender());
+  QFutureWatcher<PlaylistItemList> *watcher = dynamic_cast<QFutureWatcher<PlaylistItemList>*>(sender());
   PlaylistItemList items = watcher->result();
   watcher->deleteLater();
 

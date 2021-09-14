@@ -307,7 +307,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
   if (o == ui_->tags_art) {
     switch (e->type()) {
       case QEvent::MouseButtonRelease:{
-        QMouseEvent *mouse_event = static_cast<QMouseEvent*>(e);
+        QMouseEvent *mouse_event = dynamic_cast<QMouseEvent*>(e);
         if (mouse_event && mouse_event->button() == Qt::RightButton) {
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
           cover_menu_->popup(mouse_event->globalPosition().toPoint());
@@ -323,7 +323,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
         break;
 
       case QEvent::DragEnter: {
-        QDragEnterEvent *event = static_cast<QDragEnterEvent*>(e);
+        QDragEnterEvent *event = dynamic_cast<QDragEnterEvent*>(e);
         if (AlbumCoverChoiceController::CanAcceptDrag(event)) {
           event->acceptProposedAction();
         }
@@ -331,7 +331,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
       }
 
       case QEvent::Drop: {
-        const QDropEvent *event = static_cast<QDropEvent*>(e);
+        const QDropEvent *event = dynamic_cast<QDropEvent*>(e);
         if (event->mimeData()->hasImage()) {
           QImage image = qvariant_cast<QImage>(event->mimeData()->imageData());
           if (!image.isNull()) {
@@ -418,7 +418,7 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
 
 void EditTagDialog::SetSongsFinished() {
 
-  QFutureWatcher<QList<Data>> *watcher = static_cast<QFutureWatcher<QList<Data>>*>(sender());
+  QFutureWatcher<QList<Data>> *watcher = dynamic_cast<QFutureWatcher<QList<Data>>*>(sender());
   QList<Data> result_data = watcher->result();
   watcher->deleteLater();
 

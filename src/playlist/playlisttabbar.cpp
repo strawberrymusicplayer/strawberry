@@ -434,7 +434,7 @@ bool PlaylistTabBar::event(QEvent *e) {
 
   switch (e->type()) {
     case QEvent::ToolTip: {
-      QHelpEvent *he = static_cast<QHelpEvent*>(e);
+      QHelpEvent *he = dynamic_cast<QHelpEvent*>(e);
 
       QSize real_tab = tabSizeHint(tabAt(he->pos()));
       QRect displayed_tab = tabRect(tabAt(he->pos()));

@@ -132,7 +132,7 @@ class AlbumCoverManager : public QMainWindow {
   // Returns the first of the selected elements in form of a Song ready to be used by AlbumCoverChoiceController or invalid song if there's nothing selected.
   Song GetFirstSelectedAsSong();
 
-  Song ItemAsSong(QListWidgetItem *item) { return ItemAsSong(static_cast<AlbumItem*>(item)); }
+  Song ItemAsSong(QListWidgetItem *item) { return ItemAsSong(dynamic_cast<AlbumItem*>(item)); }
   static Song ItemAsSong(AlbumItem *item);
 
   void UpdateStatusText();

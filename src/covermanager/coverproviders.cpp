@@ -134,7 +134,7 @@ void CoverProviders::RemoveProvider(CoverProvider *provider) {
 
 void CoverProviders::ProviderDestroyed() {
 
-  CoverProvider *provider = static_cast<CoverProvider*>(sender());
+  CoverProvider *provider = dynamic_cast<CoverProvider*>(sender());
   RemoveProvider(provider);
 
 }

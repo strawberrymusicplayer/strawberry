@@ -125,7 +125,7 @@ void SmartPlaylistSearchPreview::RunSearch(const SmartPlaylistSearch &search) {
 
 void SmartPlaylistSearchPreview::SearchFinished() {
 
-  QFutureWatcher<PlaylistItemList> *watcher = static_cast<QFutureWatcher<PlaylistItemList>*>(sender());
+  QFutureWatcher<PlaylistItemList> *watcher = dynamic_cast<QFutureWatcher<PlaylistItemList>*>(sender());
   PlaylistItemList all_items = watcher->result();
   watcher->deleteLater();
 

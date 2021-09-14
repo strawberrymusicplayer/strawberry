@@ -133,7 +133,7 @@ void LyricsProviders::RemoveProvider(LyricsProvider *provider) {
 
 void LyricsProviders::ProviderDestroyed() {
 
-  LyricsProvider *provider = static_cast<LyricsProvider*>(sender());
+  LyricsProvider *provider = dynamic_cast<LyricsProvider*>(sender());
   RemoveProvider(provider);
 
 }

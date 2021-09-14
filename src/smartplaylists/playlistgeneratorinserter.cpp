@@ -79,7 +79,7 @@ void PlaylistGeneratorInserter::Load(Playlist *destination, const int row, const
 
 void PlaylistGeneratorInserter::Finished() {
 
-  QFutureWatcher<PlaylistItemList> *watcher = static_cast<QFutureWatcher<PlaylistItemList>*>(sender());
+  QFutureWatcher<PlaylistItemList> *watcher = dynamic_cast<QFutureWatcher<PlaylistItemList>*>(sender());
   PlaylistItemList items = watcher->result();
   watcher->deleteLater();
 

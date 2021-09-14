@@ -134,7 +134,7 @@ void FileView::FileUp() {
 
   // Is this the same as going back?  If so just go back, so we can keep the view scroll position.
   if (undo_stack_->canUndo()) {
-    const UndoCommand *last_dir = static_cast<const UndoCommand*>(undo_stack_->command(undo_stack_->index() - 1));
+    const UndoCommand *last_dir = dynamic_cast<const UndoCommand*>(undo_stack_->command(undo_stack_->index() - 1));
     if (last_dir->undo_path() == dir.path()) {
       undo_stack_->undo();
       return;

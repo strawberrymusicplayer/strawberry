@@ -316,7 +316,7 @@ void TrackSelectionDialog::accept() {
 
 void TrackSelectionDialog::AcceptFinished() {
 
-  QFutureWatcher<void> *watcher = static_cast<QFutureWatcher<void>*>(sender());
+  QFutureWatcher<void> *watcher = dynamic_cast<QFutureWatcher<void>*>(sender());
   if (!watcher) return;
   watcher->deleteLater();
 

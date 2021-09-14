@@ -941,7 +941,7 @@ void CollectionModel::ResetAsync() {
 
 void CollectionModel::ResetAsyncQueryFinished() {
 
-  QFutureWatcher<CollectionModel::QueryResult> *watcher = static_cast<QFutureWatcher<CollectionModel::QueryResult>*>(sender());
+  QFutureWatcher<CollectionModel::QueryResult> *watcher = dynamic_cast<QFutureWatcher<CollectionModel::QueryResult>*>(sender());
   const struct QueryResult result = watcher->result();
   watcher->deleteLater();
 

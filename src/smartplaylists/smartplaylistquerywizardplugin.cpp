@@ -113,7 +113,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
   QObject::connect(search_page_->new_term_, &SmartPlaylistSearchTermWidget::Clicked, this, &SmartPlaylistQueryWizardPlugin::AddSearchTerm);
 
   // Add an empty initial term
-  search_page_->layout_ = static_cast<QVBoxLayout*>(search_page_->ui_->terms_scroll_area_content->layout());
+  search_page_->layout_ = dynamic_cast<QVBoxLayout*>(search_page_->ui_->terms_scroll_area_content->layout());
   search_page_->layout_->addWidget(search_page_->new_term_);
   AddSearchTerm();
 
@@ -121,7 +121,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
   QObject::connect(search_page_->ui_->terms_scroll_area->verticalScrollBar(), &QScrollBar::rangeChanged, this, &SmartPlaylistQueryWizardPlugin::MoveTermListToBottom);
 
   // Add the preview widget at the bottom of the search terms page
-  QVBoxLayout *terms_page_layout = static_cast<QVBoxLayout*>(search_page_->layout());
+  QVBoxLayout *terms_page_layout = dynamic_cast<QVBoxLayout*>(search_page_->layout());
   terms_page_layout->addStretch();
   search_page_->preview_ = new SmartPlaylistSearchPreview(search_page_);
   search_page_->preview_->set_application(app_);

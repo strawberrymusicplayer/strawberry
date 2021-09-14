@@ -419,7 +419,7 @@ TagCompleter::~TagCompleter() {
 
 void TagCompleter::ModelReady() {
 
-  QFutureWatcher<TagCompletionModel*> *watcher = static_cast<QFutureWatcher<TagCompletionModel*>*>(sender());
+  QFutureWatcher<TagCompletionModel*> *watcher = dynamic_cast<QFutureWatcher<TagCompletionModel*>*>(sender());
   TagCompletionModel *model = watcher->result();
   watcher->deleteLater();
   setModel(model);

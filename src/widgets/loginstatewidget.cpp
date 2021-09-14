@@ -136,7 +136,7 @@ bool LoginStateWidget::eventFilter(QObject *object, QEvent *event) {
     return QWidget::eventFilter(object, event);
 
   if (event->type() == QEvent::KeyPress) {
-    QKeyEvent *key_event = static_cast<QKeyEvent*>(event);
+    QKeyEvent *key_event = dynamic_cast<QKeyEvent*>(event);
     if (key_event->key() == Qt::Key_Enter || key_event->key() == Qt::Key_Return) {
       emit LoginClicked();
       return true;

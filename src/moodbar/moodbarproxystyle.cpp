@@ -173,7 +173,7 @@ bool MoodbarProxyStyle::eventFilter(QObject *object, QEvent *event) {
         break;
 
       case QEvent::ContextMenu:
-        ShowContextMenu(static_cast<QContextMenuEvent*>(event)->globalPos());
+        ShowContextMenu(dynamic_cast<QContextMenuEvent*>(event)->globalPos());
         return true;
 
       default:

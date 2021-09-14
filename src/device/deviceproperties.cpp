@@ -289,7 +289,7 @@ void DeviceProperties::OpenDevice() { manager_->Connect(index_); }
 
 void DeviceProperties::UpdateFormatsFinished() {
 
-  QFutureWatcher<bool> *watcher = static_cast<QFutureWatcher<bool>*>(sender());
+  QFutureWatcher<bool> *watcher = dynamic_cast<QFutureWatcher<bool>*>(sender());
   bool result = watcher->result();
   watcher->deleteLater();
 

@@ -480,7 +480,7 @@ Transcoder::JobState::~JobState() {
 bool Transcoder::event(QEvent *e) {
 
   if (e->type() == JobFinishedEvent::sEventType) {
-    JobFinishedEvent *finished_event = static_cast<JobFinishedEvent*>(e);
+    JobFinishedEvent *finished_event = dynamic_cast<JobFinishedEvent*>(e);
 
     // Find this job in the list
     JobStateList::iterator it = current_jobs_.begin();

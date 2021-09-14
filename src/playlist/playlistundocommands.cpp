@@ -92,7 +92,7 @@ void RemoveItems::undo() {
 
 bool RemoveItems::mergeWith(const QUndoCommand *other) {
 
-  const RemoveItems *remove_command = static_cast<const RemoveItems*>(other);
+  const RemoveItems *remove_command = dynamic_cast<const RemoveItems*>(other);
   ranges_.append(remove_command->ranges_);
 
   int sum = 0;

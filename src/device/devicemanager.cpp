@@ -221,7 +221,7 @@ void DeviceManager::ListerClosed() {
 
 void DeviceManager::DeviceDestroyed() {
 
-  ConnectedDevice *device = static_cast<ConnectedDevice*>(sender());
+  ConnectedDevice *device = dynamic_cast<ConnectedDevice*>(sender());
   if (!wait_for_exit_.contains(device) || !backend_) return;
 
   wait_for_exit_.removeAll(device);

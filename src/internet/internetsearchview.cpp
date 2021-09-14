@@ -272,12 +272,12 @@ void InternetSearchView::showEvent(QShowEvent *e) {
 bool InternetSearchView::eventFilter(QObject *object, QEvent *e) {
 
   if (object == ui_->search && e->type() == QEvent::KeyRelease) {
-    if (SearchKeyEvent(static_cast<QKeyEvent*>(e))) {
+    if (SearchKeyEvent(dynamic_cast<QKeyEvent*>(e))) {
       return true;
     }
   }
   else if (object == ui_->results_stack && e->type() == QEvent::ContextMenu) {
-    if (ResultsContextMenuEvent(static_cast<QContextMenuEvent*>(e))) {
+    if (ResultsContextMenuEvent(dynamic_cast<QContextMenuEvent*>(e))) {
       return true;
     }
   }

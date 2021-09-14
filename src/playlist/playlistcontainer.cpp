@@ -482,7 +482,7 @@ bool PlaylistContainer::eventFilter(QObject *objectWatched, QEvent *event) {
 
   if (objectWatched == ui_->filter) {
     if (event->type() == QEvent::KeyPress) {
-      QKeyEvent *e = static_cast<QKeyEvent*>(event);
+      QKeyEvent *e = dynamic_cast<QKeyEvent*>(event);
       switch (e->key()) {
         //case Qt::Key_Up:
         case Qt::Key_Down:

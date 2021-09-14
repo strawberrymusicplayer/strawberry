@@ -219,7 +219,7 @@ void MergedProxyModel::SubModelAboutToBeReset() {
 
 void MergedProxyModel::SubModelResetSlot() {
 
-  QAbstractItemModel *submodel = static_cast<QAbstractItemModel*>(sender());
+  QAbstractItemModel *submodel = dynamic_cast<QAbstractItemModel*>(sender());
 
   QModelIndex source_parent = merge_points_.value(submodel);
   QModelIndex proxy_parent = mapFromSource(source_parent);
