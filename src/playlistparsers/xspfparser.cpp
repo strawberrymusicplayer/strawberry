@@ -166,11 +166,11 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
       if (!song.album().isEmpty()) {
         writer.writeTextElement("album", song.album());
       }
-      if (song.length_nanosec() != -1) {
-        writer.writeTextElement("duration", QString::number(song.length_nanosec() / kNsecPerMsec));
+      if (song.length_nanosec()) {
+        writer.writeTextElement("duration", QString::number(song.length_nanosec().value() / kNsecPerMsec));
       }
-      if (song.track() > 0) {
-        writer.writeTextElement("trackNum", QString::number(song.track()));
+      if (song.track()) {
+        writer.writeTextElement("trackNum", QString::number(song.track().value()));
       }
 
       QUrl cover_url = song.art_manual().isEmpty() || song.art_manual().path().isEmpty() ? song.art_automatic() : song.art_manual();

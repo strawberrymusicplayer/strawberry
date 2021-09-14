@@ -26,6 +26,7 @@
 #include <functional>
 #include <algorithm>
 #include <cmath>
+#include <optional>
 
 #include <QMainWindow>
 #include <QApplication>
@@ -1358,18 +1359,18 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
 
   // If it was a collection item then we have to increment its skipped count in the database.
 
-  if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
+  if (item && item->IsLocalCollectionItem() && item->Metadata().id()) {
 
     Song song = item->Metadata();
-    const qint64 position = app_->player()->engine()->position_nanosec();
-    const qint64 length = app_->player()->engine()->length_nanosec();
+    const quint64 position = app_->player()->engine()->position_nanosec().value_or(0);
+    const quint64 length = app_->player()->engine()->length_nanosec().value_or(0);
     const float percentage = (length == 0 ? 1 : float(position) / length);
 
-    const qint64 seconds_left = (length - position) / kNsecPerSec;
-    const qint64 seconds_total = length / kNsecPerSec;
+    const quint64 seconds_left = (length - position) / kNsecPerSec;
+    const quint64 seconds_total = length / kNsecPerSec;
 
     if (((0.05 * seconds_total > 60 && percentage < 0.98) || percentage < 0.95) && seconds_left > 5) {  // Never count the skip if under 5 seconds left
-      app_->collection_backend()->IncrementSkipCountAsync(song.id(), percentage);
+      app_->collection_backend()->IncrementSkipCountAsync(song.id().value(), percentage);
     }
   }
 
@@ -1418,7 +1419,7 @@ void MainWindow::SavePlaybackStatus() {
   s.setValue("playback_state", app_->player()->GetState());
   if (app_->player()->GetState() == Engine::Playing || app_->player()->GetState() == Engine::Paused) {
     s.setValue("playback_playlist", app_->playlist_manager()->active()->id());
-    s.setValue("playback_position", app_->player()->engine()->position_nanosec() / kNsecPerSec);
+    s.setValue("playback_position", app_->player()->engine()->position_nanosec().value_or(0) / kNsecPerSec);
   }
   else {
     s.setValue("playback_playlist", -1);
@@ -1621,9 +1622,9 @@ void MainWindow::FilePathChanged(const QString &path) {
 
 void MainWindow::Seeked(const qint64 microseconds) {
 
-  const qint64 position = microseconds / kUsecPerSec;
-  const qint64 length = app_->player()->GetCurrentItem()->Metadata().length_nanosec() / kNsecPerSec;
-  tray_icon_->SetProgress(static_cast<int>(double(position) / length * 100));
+  const quint64 position = microseconds / kUsecPerSec;
+  const quint64 length = app_->player()->GetCurrentItem()->Metadata().length_nanosec().value() / kNsecPerSec;
+  tray_icon_->SetProgress(static_cast<int>(double(position) / double(length) * 100));
 
 }
 
@@ -1632,9 +1633,11 @@ void MainWindow::UpdateTrackPosition() {
   PlaylistItemPtr item(app_->player()->GetCurrentItem());
   if (!item) return;
 
-  const qint64 length = (item->Metadata().length_nanosec() / kNsecPerSec);
-  if (length <= 0) return;
-  const int position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerSec + 0.5);
+  const std::optional<quint64> length_nanosec = item->Metadata().length_nanosec();
+  if (!length_nanosec || length_nanosec.value() == 0) return;
+
+  const quint64 length = item->Metadata().length_nanosec().value() / kNsecPerSec;
+  const int position = std::floor(float(app_->player()->engine()->position_nanosec().value_or(0)) / kNsecPerSec + 0.5);
 
   // Update the tray icon every 10 seconds
   if (position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(double(position) / length * 100));
@@ -1657,8 +1660,8 @@ void MainWindow::UpdateTrackSliderPosition() {
 
   PlaylistItemPtr item(app_->player()->GetCurrentItem());
 
-  const int slider_position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerMsec);
-  const int slider_length = static_cast<int>(app_->player()->engine()->length_nanosec() / kNsecPerMsec);
+  const int slider_position = std::floor(float(app_->player()->engine()->position_nanosec().value_or(0)) / kNsecPerMsec);
+  const int slider_length = static_cast<int>(app_->player()->engine()->length_nanosec().value_or(0) / kNsecPerMsec);
 
   // Update the slider
   ui_->track_slider->SetValue(slider_position, slider_length);
@@ -1937,7 +1940,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
 
     // Is it a collection item?
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
-    if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
+    if (item && item->IsLocalCollectionItem() && item->Metadata().id()) {
       playlist_organize_->setVisible(local_songs > 0 && editable > 0 && !cue_selected);
       playlist_show_in_collection_->setVisible(true);
       playlist_open_in_browser_->setVisible(true);
@@ -2092,7 +2095,9 @@ void MainWindow::RenumberTracks() {
   // if first selected song has a track number set, start from that offset
   if (!indexes.isEmpty()) {
     const Song first_song = app_->playlist_manager()->current()->item_at(indexes[0].row())->OriginalMetadata();
-    if (first_song.track() > 0) track = first_song.track();
+    if (first_song.track()) {
+      track = first_song.track().value();
+    }
   }
 
   for (const QModelIndex &proxy_index : indexes) {
@@ -2433,7 +2438,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
     app_->player()->SeekTo(options.seek_to());
   }
   else if (options.seek_by() != 0) {
-    app_->player()->SeekTo(app_->player()->engine()->position_nanosec() / kNsecPerSec + options.seek_by());
+    app_->player()->SeekTo(app_->player()->engine()->position_nanosec().value_or(0) / kNsecPerSec + options.seek_by());
   }
 
   if (options.play_track_at() != -1) app_->player()->PlayAt(options.play_track_at(), 0, Engine::Manual, Playlist::AutoScroll_Maybe, true);

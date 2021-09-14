@@ -23,6 +23,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QObject>
 #include <QVariantMap>
 #include <QDateTime>
@@ -43,20 +45,32 @@ inline void AddMetadata(const QString &key, int metadata, QVariantMap *map) {
   if (metadata > 0) (*map)[key] = metadata;
 }
 
-inline void AddMetadata(const QString &key, qint64 metadata, QVariantMap *map) {
+inline void AddMetadata(const QString &key, const std::optional<uint> &metadata, QVariantMap *map) {
+  if (metadata) (*map)[key] = metadata.value();
+}
+
+inline void AddMetadata(const QString &key, quint64 metadata, QVariantMap *map) {
   if (metadata > 0) (*map)[key] = metadata;
+}
+
+inline void AddMetadata(const QString &key, const std::optional<quint64> &metadata, QVariantMap *map) {
+  if (metadata) (*map)[key] = metadata.value();
 }
 
 inline void AddMetadata(const QString &key, double metadata, QVariantMap *map) {
   if (metadata != 0.0) (*map)[key] = metadata;
 }
 
+inline void AddMetadata(const QString &key, const std::optional<double> &metadata, QVariantMap *map) {
+  if (metadata) (*map)[key] = metadata.value();
+}
+
 inline void AddMetadata(const QString &key, const QDateTime &metadata, QVariantMap *map) {
   if (metadata.isValid()) (*map)[key] = metadata;
 }
 
-inline QString AsMPRISDateTimeType(const qint64 time) {
-  return time != -1 ? QDateTime::fromSecsSinceEpoch(time).toString(Qt::ISODate) : "";
+inline QString AsMPRISDateTimeType(const std::optional<qint64> time) {
+  return time? QDateTime::fromSecsSinceEpoch(time.value()).toString(Qt::ISODate) : "";
 }
 
 }  // namespace mpris

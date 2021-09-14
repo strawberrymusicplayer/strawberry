@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QString>
@@ -57,7 +59,8 @@ class UrlHandler : public QObject {
       Error,
     };
 
-    explicit LoadResult(const QUrl &original_url = QUrl(), const Type type = NoMoreTracks, const QUrl &stream_url = QUrl(), const Song::FileType filetype = Song::FileType_Stream, const int samplerate = -1, const int bit_depth = -1, const qint64 length_nanosec = -1, const QString &error = QString());
+    explicit LoadResult(const QUrl &original_url = QUrl(), const Type type = NoMoreTracks, const QUrl &stream_url = QUrl(), const Song::FileType filetype = Song::FileType_Stream,
+      const std::optional<uint> samplerate = std::optional<uint>(), const std::optional<uint> bit_depth = std::optional<uint>(), const std::optional<quint64> length_nanosec = std::optional<uint>(), const QString &error = QString());
 
     explicit LoadResult(const QUrl &original_url, const Type type, const QString &error);
 
@@ -75,13 +78,13 @@ class UrlHandler : public QObject {
     Song::FileType filetype_;
 
     // Track sample rate
-    int samplerate_;
+    std::optional<uint> samplerate_;
 
     // Track bit depth
-    int bit_depth_;
+    std::optional<uint> bit_depth_;
 
     // Track length
-    qint64 length_nanosec_;
+    std::optional<quint64> length_nanosec_;
 
     // Error message, if any
     QString error_;

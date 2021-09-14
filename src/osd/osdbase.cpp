@@ -148,11 +148,11 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
     if (!song.album().isEmpty()) {
       message_parts << song.album();
     }
-    if (song.disc() > 0) {
-      message_parts << tr("disc %1").arg(song.disc());
+    if (song.disc()) {
+      message_parts << tr("disc %1").arg(song.disc().value());
     }
-    if (song.track() > 0) {
-      message_parts << tr("track %1").arg(song.track());
+    if (song.track()) {
+      message_parts << tr("track %1").arg(song.track().value());
     }
     if (behaviour_ == Pretty) {
       summary = summary.toHtmlEscaped();

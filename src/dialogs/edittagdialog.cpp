@@ -462,7 +462,7 @@ void EditTagDialog::SetSongListVisibility(bool visible) {
 }
 
 QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
-
+#define nonnullval(x) ((x)? (x).value() : QVariant())
   if (id == "title") return song.title();
   if (id == "artist") return song.artist();
   if (id == "album") return song.album();
@@ -473,13 +473,13 @@ QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
   if (id == "genre") return song.genre();
   if (id == "comment") return song.comment();
   if (id == "lyrics") return song.lyrics();
-  if (id == "track") return song.track();
-  if (id == "disc") return song.disc();
-  if (id == "year") return song.year();
+  if (id == "track") return nonnullval(song.track());
+  if (id == "disc") return nonnullval(song.disc());
+  if (id == "year") return nonnullval(song.year());
   if (id == "compilation") return song.compilation();
   qLog(Warning) << "Unknown ID" << id;
+#undef nonnullval
   return QVariant();
-
 }
 
 void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
@@ -726,19 +726,19 @@ void EditTagDialog::UpdateSummaryTab(const Song &song, const UpdateCoverAction c
 
   ui_->summary->setText(summary);
 
-  ui_->length->setText(Utilities::PrettyTimeNanosec(song.length_nanosec()));
+  ui_->length->setText(Utilities::PrettyTimeNanosec(song.length_nanosec().value_or(0)));
 
-  SetText(ui_->samplerate, song.samplerate(), "Hz");
-  SetText(ui_->bitdepth, song.bitdepth(), "Bit");
-  SetText(ui_->bitrate, song.bitrate(), tr("kbps"));
-  SetDate(ui_->mtime, song.mtime());
-  SetDate(ui_->ctime, song.ctime());
+  SetText(ui_->samplerate, song.samplerate().value_or(0), "Hz");
+  SetText(ui_->bitdepth, song.bitdepth().value_or(0), "Bit");
+  SetText(ui_->bitrate, song.bitrate().value_or(0), tr("kbps"));
+  SetDate(ui_->mtime, song.mtime().value_or(0));
+  SetDate(ui_->ctime, song.ctime().value_or(0));
 
-  if (song.filesize() == -1) {
+  if (!song.filesize()) {
     ui_->filesize->setText(tr("Unknown"));
   }
   else {
-    ui_->filesize->setText(Utilities::PrettySize(song.filesize()));
+    ui_->filesize->setText(Utilities::PrettySize(song.filesize().value()));
   }
 
   ui_->filetype->setText(song.TextForFiletype());
@@ -832,7 +832,7 @@ void EditTagDialog::UpdateStatisticsTab(const Song &song) {
   ui_->playcount->setText(QString::number(qMax(0, song.playcount())));
   ui_->skipcount->setText(QString::number(qMax(0, song.skipcount())));
 
-  ui_->lastplayed->setText(song.lastplayed() <= 0 ? tr("Never") : QDateTime::fromSecsSinceEpoch(song.lastplayed()).toString(QLocale::system().dateTimeFormat(QLocale::LongFormat)));
+  ui_->lastplayed->setText(!song.lastplayed()? tr("Never") : QDateTime::fromSecsSinceEpoch(song.lastplayed().value()).toString(QLocale::system().dateTimeFormat(QLocale::LongFormat)));
 
 }
 
@@ -1205,7 +1205,7 @@ void EditTagDialog::SaveData() {
       }
       else if (!ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) {
         if (ref.current_.is_collection_song()) {
-          collection_songs_.insert(ref.current_.id(), ref.current_);
+          collection_songs_.insert(ref.current_.id().value(), ref.current_);
         }
         if (ref.current_ == app_->current_albumcover_loader()->last_song()) {
           app_->current_albumcover_loader()->LoadAlbumCover(ref.current_);
@@ -1248,7 +1248,7 @@ void EditTagDialog::ResetPlayCounts() {
   song->set_lastplayed(-1);
 
   if (song->is_collection_song()) {
-    app_->collection_backend()->ResetStatisticsAsync(song->id());
+    app_->collection_backend()->ResetStatisticsAsync(song->id().value());
   }
 
   UpdateStatisticsTab(*song);
@@ -1327,12 +1327,12 @@ void EditTagDialog::SongSaveTagsComplete(TagReaderReply *reply, const QString &f
     emit Error(message);
   }
   else if (song.is_collection_song()) {
-    if (collection_songs_.contains(song.id())) {
-      Song old_song = collection_songs_.take(song.id());
+    if (collection_songs_.contains(song.id().value())) {
+      Song old_song = collection_songs_.take(song.id().value());
       song.set_art_automatic(old_song.art_automatic());
       song.set_art_manual(old_song.art_manual());
     }
-    collection_songs_.insert(song.id(), song);
+    collection_songs_.insert(song.id().value(), song);
   }
 
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
@@ -1350,8 +1350,8 @@ void EditTagDialog::SongSaveArtComplete(TagReaderReply *reply, const QString &fi
     emit Error(message);
   }
   else if (song.is_collection_song()) {
-    if (collection_songs_.contains(song.id())) {
-      song = collection_songs_.take(song.id());
+    if (collection_songs_.contains(song.id().value())) {
+      song = collection_songs_.take(song.id().value());
     }
     switch (cover_action) {
       case UpdateCoverAction_None:
@@ -1370,7 +1370,7 @@ void EditTagDialog::SongSaveArtComplete(TagReaderReply *reply, const QString &fi
         song.set_manually_unset_cover();
         break;
     }
-    collection_songs_.insert(song.id(), song);
+    collection_songs_.insert(song.id().value(), song);
   }
 
   if (song == app_->current_albumcover_loader()->last_song()) {

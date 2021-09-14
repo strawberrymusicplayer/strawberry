@@ -29,6 +29,7 @@
 #include <sys/types.h>
 #include <cstdint>
 #include <vector>
+#include <optional>
 
 #include <QtGlobal>
 #include <QObject>
@@ -67,8 +68,8 @@ class Base : public QObject {
 
   virtual bool Init() = 0;
   virtual State state() const = 0;
-  virtual void StartPreloading(const QUrl&, const QUrl&, const bool, const qint64, const qint64) {}
-  virtual bool Load(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
+  virtual void StartPreloading(const QUrl&, const QUrl&, const bool, const std::optional<quint64>, const std::optional<quint64>) {}
+  virtual bool Load(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const std::optional<quint64> end_nanosec);
   virtual bool Play(const quint64 offset_nanosec) = 0;
   virtual void Stop(const bool stop_after = false) = 0;
   virtual void Pause() = 0;
@@ -76,14 +77,14 @@ class Base : public QObject {
   virtual void Seek(const quint64 offset_nanosec) = 0;
   virtual void SetVolumeSW(const uint percent) = 0;
 
-  virtual qint64 position_nanosec() const = 0;
-  virtual qint64 length_nanosec() const = 0;
+  virtual std::optional<quint64> position_nanosec() const = 0;
+  virtual std::optional<quint64> length_nanosec() const = 0;
 
   virtual const Scope &scope(const int chunk_length) { Q_UNUSED(chunk_length); return scope_; }
 
   // Sets new values for the beginning and end markers of the currently playing song.
   // This doesn't change the state of engine or the stream's current position.
-  virtual void RefreshMarkers(const quint64 beginning_nanosec, const qint64 end_nanosec) {
+  virtual void RefreshMarkers(const quint64 beginning_nanosec, const std::optional<quint64> end_nanosec) {
     beginning_nanosec_ = beginning_nanosec;
     end_nanosec_ = end_nanosec;
   }
@@ -96,7 +97,7 @@ class Base : public QObject {
 
   // Plays a media stream represented with the URL 'u' from the given 'beginning' to the given 'end' (usually from 0 to a song's length).
   // Both markers should be passed in nanoseconds. 'end' can be negative, indicating that the real length of 'u' stream is unknown.
-  bool Play(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const quint64 offset_nanosec);
+  bool Play(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const std::optional<quint64> end_nanosec, const quint64 offset_nanosec);
   void SetVolume(const uint value);
   static uint MakeVolumeLogarithmic(const uint volume);
 
@@ -166,7 +167,7 @@ class Base : public QObject {
   bool volume_control_;
   uint volume_;
   quint64 beginning_nanosec_;
-  qint64 end_nanosec_;
+  std::optional<quint64> end_nanosec_;
   QUrl stream_url_;
   QUrl original_url_;
   Scope scope_;

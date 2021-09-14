@@ -121,7 +121,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       break;
 
     case CollectionModel::GroupBy_AlbumDisc:{
-      int disc = qMax(0, s.disc());
+      int disc = s.disc().value_or(0);
       display_text = CollectionModel::PrettyAlbumDisc(s.album(), disc);
       sort_text = s.album() + CollectionModel::SortTextForNumber(disc);
       unique_tag = s.album_id();
@@ -130,7 +130,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
     }
 
     case CollectionModel::GroupBy_YearAlbum:{
-      int year = qMax(0, s.year());
+      int year = s.year().value_or(0);
       display_text = CollectionModel::PrettyYearAlbum(year, s.album());
       sort_text = CollectionModel::SortTextForNumber(year) + s.album();
       unique_tag = s.album_id();
@@ -139,8 +139,8 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
     }
 
     case CollectionModel::GroupBy_YearAlbumDisc:{
-      int year = qMax(0, s.year());
-      int disc = qMax(0, s.disc());
+      int year = s.year().value_or(0);
+      int disc = s.disc().value_or(0);
       display_text = CollectionModel::PrettyYearAlbumDisc(year, s.album(), disc);
       sort_text = CollectionModel::SortTextForNumber(year) + s.album() + CollectionModel::SortTextForNumber(disc);
       unique_tag = s.album_id();
@@ -149,7 +149,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
     }
 
     case CollectionModel::GroupBy_OriginalYearAlbum:{
-      int year = qMax(0, s.effective_originalyear());
+      int year = s.effective_originalyear().value_or(0);
       display_text = CollectionModel::PrettyYearAlbum(year, s.album());
       sort_text = CollectionModel::SortTextForNumber(year) + s.album();
       unique_tag = s.album_id();
@@ -158,8 +158,8 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
     }
 
     case CollectionModel::GroupBy_OriginalYearAlbumDisc:{
-      const int year = qMax(0, s.effective_originalyear());
-      const int disc = qMax(0, s.disc());
+      const int year = s.effective_originalyear().value_or(0);
+      const int disc = s.disc().value_or(0);
       display_text = CollectionModel::PrettyYearAlbumDisc(year, s.album(), disc);
       sort_text = CollectionModel::SortTextForNumber(year) + s.album() + CollectionModel::SortTextForNumber(disc);
       unique_tag = s.album_id();
@@ -174,14 +174,14 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       break;
 
     case CollectionModel::GroupBy_Year:{
-      const int year = qMax(0, s.year());
+      const int year = s.year().value_or(0);
       display_text = QString::number(year);
       sort_text = CollectionModel::SortTextForNumber(year) + " ";
       break;
     }
 
     case CollectionModel::GroupBy_OriginalYear:{
-      const int year = qMax(0, s.effective_originalyear());
+      const int year = s.effective_originalyear().value_or(0);
       display_text = QString::number(year);
       sort_text = CollectionModel::SortTextForNumber(year) + " ";
       break;
@@ -217,32 +217,32 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       break;
 
     case CollectionModel::GroupBy_Format:
-      if (s.samplerate() <= 0) {
+      if (!s.samplerate()) {
         display_text = s.TextForFiletype();
       }
       else {
-        if (s.bitdepth() <= 0) {
-          display_text = QString("%1 (%2)").arg(s.TextForFiletype(), QString::number(s.samplerate() / 1000.0, 'G', 5));
+        if (!s.bitdepth()) {
+          display_text = QString("%1 (%2)").arg(s.TextForFiletype(), QString::number(s.samplerate().value() / 1000.0, 'G', 5));
         }
         else {
-          display_text = QString("%1 (%2/%3)").arg(s.TextForFiletype(), QString::number(s.samplerate() / 1000.0, 'G', 5), QString::number(s.bitdepth()));
+          display_text = QString("%1 (%2/%3)").arg(s.TextForFiletype(), QString::number(s.samplerate().value() / 1000.0, 'G', 5), QString::number(s.bitdepth().value()));
         }
       }
       sort_text = display_text;
       break;
 
     case CollectionModel::GroupBy_Samplerate:
-      display_text = QString::number(s.samplerate());
+      display_text = QString::number(s.samplerate().value_or(0));
       sort_text = display_text;
       break;
 
     case CollectionModel::GroupBy_Bitdepth:
-      display_text = QString::number(s.bitdepth());
+      display_text = QString::number(s.bitdepth().value_or(0));
       sort_text = display_text;
       break;
 
     case CollectionModel::GroupBy_Bitrate:
-      display_text = QString::number(s.bitrate());
+      display_text = QString::number(s.bitrate().value_or(0));
       sort_text = display_text;
       break;
 

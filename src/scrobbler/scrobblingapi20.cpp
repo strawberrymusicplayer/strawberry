@@ -593,15 +593,15 @@ void ScrobblingAPI20::Submit() {
     params << Param(QString("%1[%2]").arg("artist").arg(i), prefer_albumartist_ ? item->effective_albumartist() : item->artist_);
     params << Param(QString("%1[%2]").arg("track").arg(i), item->song_);
     params << Param(QString("%1[%2]").arg("timestamp").arg(i), QString::number(item->timestamp_));
-    params << Param(QString("%1[%2]").arg("duration").arg(i), QString::number(item->duration_ / kNsecPerSec));
+    params << Param(QString("%1[%2]").arg("duration").arg(i), QString::number(item->duration_.value_or(0) / kNsecPerSec));
     if (!item->album_.isEmpty()) {
       params << Param(QString("%1[%2]").arg("album").arg(i), item->album_);
     }
     if (!prefer_albumartist_ && !item->albumartist_.isEmpty() && item->albumartist_.compare(Song::kVariousArtists, Qt::CaseInsensitive) != 0) {
       params << Param(QString("%1[%2]").arg("albumArtist").arg(i), item->albumartist_);
     }
-    if (item->track_ > 0) {
-      params << Param(QString("%1[%2]").arg("trackNumber").arg(i), QString::number(item->track_));
+    if (item->track_) {
+      params << Param(QString("%1[%2]").arg("trackNumber").arg(i), QString::number(item->track_.value()));
     }
     ++i;
     if (i >= kScrobblesPerRequest) break;
@@ -793,7 +793,7 @@ void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
     << Param("artist", prefer_albumartist_ ? item->effective_albumartist() : item->artist_)
     << Param("track", item->song_)
     << Param("timestamp", QString::number(item->timestamp_))
-    << Param("duration", QString::number(item->duration_ / kNsecPerSec));
+    << Param("duration", QString::number(item->duration_.value_or(0) / kNsecPerSec));
 
   if (!item->album_.isEmpty()) {
     params << Param("album", item->album_);
@@ -801,8 +801,8 @@ void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
   if (!prefer_albumartist_ && !item->albumartist_.isEmpty() && item->albumartist_.compare(Song::kVariousArtists, Qt::CaseInsensitive) != 0) {
     params << Param("albumArtist", item->albumartist_);
   }
-  if (item->track_ > 0) {
-    params << Param("trackNumber", QString::number(item->track_));
+  if (item->track_) {
+    params << Param("trackNumber", QString::number(item->track_.value()));
   }
 
   QNetworkReply *reply = CreateRequest(params);

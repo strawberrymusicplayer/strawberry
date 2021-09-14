@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractItemModel>
@@ -173,8 +175,8 @@ class Playlist : public QAbstractListModel {
   static const int kUndoStackSize;
   static const int kUndoItemLimit;
 
-  static const qint64 kMinScrobblePointNsecs;
-  static const qint64 kMaxScrobblePointNsecs;
+  static const quint64 kMinScrobblePointNsecs;
+  static const quint64 kMaxScrobblePointNsecs;
 
   static bool CompareItems(const int column, const Qt::SortOrder order, PlaylistItemPtr a, PlaylistItemPtr b);
 
@@ -236,7 +238,7 @@ class Playlist : public QAbstractListModel {
   void set_scrobbled(const bool state) { scrobbled_ = state; }
   void set_editing(const int row) { editing_ = row; }
   qint64 scrobble_point_nanosec() const { return scrobble_point_; }
-  void UpdateScrobblePoint(const qint64 seek_point_nanosec = 0);
+  void UpdateScrobblePoint(const std::optional<quint64> seek_point_nanosec = 0);
 
   // Changing the playlist
   void InsertItems(const PlaylistItemList &itemsIn, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);

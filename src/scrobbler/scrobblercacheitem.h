@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <memory>
+#include <optional>
 
 #include <QtGlobal>
 #include <QObject>
@@ -34,7 +35,7 @@ class ScrobblerCacheItem : public QObject {
   Q_OBJECT
 
  public:
-  explicit ScrobblerCacheItem(const QString &artist, const QString &album, const QString &song, const QString &albumartist, const int track, const qint64 duration, const quint64 timestamp, QObject *parent = nullptr);
+  explicit ScrobblerCacheItem(const QString &artist, const QString &album, const QString &song, const QString &albumartist, const std::optional<uint> track, const std::optional<quint64> duration, const quint64 timestamp, QObject *parent = nullptr);
 
   QString effective_albumartist() const { return albumartist_.isEmpty() || albumartist_.compare(Song::kVariousArtists, Qt::CaseInsensitive) == 0 ? artist_ : albumartist_; }
 
@@ -43,8 +44,8 @@ class ScrobblerCacheItem : public QObject {
   QString album_;
   QString song_;
   QString albumartist_;
-  int track_;
-  qint64 duration_;
+  std::optional<quint64> track_;
+  std::optional<quint64> duration_;
   quint64 timestamp_;
   bool sent_;
 

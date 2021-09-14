@@ -176,8 +176,8 @@ void ScrobblerCache::WriteCache() {
     object.insert("album", QJsonValue::fromVariant(item->album_));
     object.insert("song", QJsonValue::fromVariant(item->song_));
     object.insert("albumartist", QJsonValue::fromVariant(item->albumartist_));
-    object.insert("track", QJsonValue::fromVariant(item->track_));
-    object.insert("duration", QJsonValue::fromVariant(item->duration_));
+    object.insert("track", QJsonValue::fromVariant(item->track_? item->track_.value() : QVariant()));
+    object.insert("duration", QJsonValue::fromVariant(item->duration_? item->duration_.value() : QVariant()));
     array.append(QJsonValue::fromVariant(object));
   }
 

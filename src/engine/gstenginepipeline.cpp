@@ -91,9 +91,6 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine, QObject *parent)
       channels_(0),
       segment_start_(0),
       segment_start_received_(false),
-      end_offset_nanosec_(-1),
-      next_beginning_offset_nanosec_(-1),
-      next_end_offset_nanosec_(-1),
       ignore_next_seek_(false),
       ignore_tags_(false),
       pipeline_is_initialized_(false),
@@ -220,7 +217,7 @@ void GstEnginePipeline::set_channels(const bool enabled, const int channels) {
   channels_ = channels;
 }
 
-bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec) {
+bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const std::optional<quint64> end_nanosec) {
 
   stream_url_ = stream_url;
   original_url_ = original_url;
@@ -1285,7 +1282,7 @@ void GstEnginePipeline::RemoveAllBufferConsumers() {
   buffer_consumers_.clear();
 }
 
-void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 beginning_nanosec, const qint64 end_nanosec) {
+void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, const std::optional<quint64> beginning_nanosec, const std::optional<quint64> end_nanosec) {
 
   next_stream_url_ = stream_url;
   next_original_url_ = original_url;

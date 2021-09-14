@@ -227,6 +227,8 @@ QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *any_em
 
 QString OrganizeFormat::TagValue(const QString &tag, const Song &song) const {
 
+#define nonnullstr(x) ((x)? QString::number((x).value()) : "")
+
   QString value;
 
   if (tag == "title") {
@@ -257,28 +259,33 @@ QString OrganizeFormat::TagValue(const QString &tag, const Song &song) const {
     value = song.comment();
   }
   else if (tag == "year") {
-    value = QString::number(song.year());
+    value = nonnullstr(song.year());
   }
   else if (tag == "originalyear") {
-    value = QString::number(song.effective_originalyear());
+    value = nonnullstr(song.effective_originalyear());
   }
   else if (tag == "track") {
-    value = QString::number(song.track());
+    value = nonnullstr(song.track());
   }
   else if (tag == "disc") {
-    value = QString::number(song.disc());
+    value = nonnullstr(song.disc());
   }
   else if (tag == "length") {
-    value = QString::number(song.length_nanosec() / kNsecPerSec);
+    if (!song.length_nanosec()) {
+      value = "";
+    }
+    else {
+      value = QString::number(song.length_nanosec().value() / kNsecPerSec);
+    }
   }
   else if (tag == "bitrate") {
-    value = QString::number(song.bitrate());
+    value = nonnullstr(song.bitrate());
   }
   else if (tag == "samplerate") {
-    value = QString::number(song.samplerate());
+    value = nonnullstr(song.samplerate());
   }
   else if (tag == "bitdepth") {
-    value = QString::number(song.bitdepth());
+    value = nonnullstr(song.bitdepth());
   }
   else if (tag == "extension") {
     value = QFileInfo(song.url().toLocalFile()).suffix();

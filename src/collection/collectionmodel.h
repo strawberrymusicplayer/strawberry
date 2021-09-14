@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractItemModel>
@@ -168,16 +170,16 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   // Utility functions for manipulating text
   static QString TextOrUnknown(const QString &text);
-  static QString PrettyYearAlbum(const int year, const QString &album);
-  static QString PrettyAlbumDisc(const QString &album, const int disc);
-  static QString PrettyYearAlbumDisc(const int year, const QString &album, const int disc);
-  static QString PrettyDisc(const int disc);
+  static QString PrettyYearAlbum(const std::optional<uint> year, const QString &album);
+  static QString PrettyAlbumDisc(const QString &album, const std::optional<uint> disc);
+  static QString PrettyYearAlbumDisc(const std::optional<uint> year, const QString &album, const std::optional<uint> disc);
+  static QString PrettyDisc(const std::optional<uint> disc);
   static QString SortText(QString text);
-  static QString SortTextForNumber(const int number);
+  static QString SortTextForNumber(const std::optional<uint> number);
   static QString SortTextForArtist(QString artist);
   static QString SortTextForSong(const Song &song);
-  static QString SortTextForYear(const int year);
-  static QString SortTextForBitrate(const int bitrate);
+  static QString SortTextForYear(const std::optional<uint> year);
+  static QString SortTextForBitrate(const std::optional<uint> bitrate);
 
   quint64 icon_cache_disk_size() { return sIconCache->cacheSize(); }
 

@@ -521,7 +521,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
     if (!dirs_table_.isEmpty()) {
       SqlQuery check_dir(db);
       check_dir.prepare(QString("SELECT ROWID FROM %1 WHERE ROWID = :id").arg(dirs_table_));
-      check_dir.BindValue(":id", song.directory_id());
+      check_dir.BindValue(":id", song.directory_id().value());
       if (!check_dir.Exec()) {
         db_->ReportErrors(check_dir);
         return;
@@ -534,7 +534,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
     if (song.id() != -1) {  // This song exists in the DB.
 
       // Get the previous song data first
-      Song old_song(GetSongById(song.id()));
+      Song old_song(GetSongById(song.id().value()));
       if (!old_song.is_valid()) continue;
 
       // Update
@@ -542,7 +542,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
         SqlQuery q(db);
         q.prepare(QString("UPDATE %1 SET " + Song::kUpdateSpec + " WHERE ROWID = :id").arg(songs_table_));
         song.BindToQuery(&q);
-        q.BindValue(":id", song.id());
+        q.BindValue(":id", song.id().value());
         if (!q.Exec()) {
           db_->ReportErrors(q);
           return;
@@ -553,7 +553,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
         SqlQuery q(db);
         q.prepare(QString("UPDATE %1 SET " + Song::kFtsUpdateSpec + " WHERE ROWID = :id").arg(fts_table_));
         song.BindToFtsQuery(&q);
-        q.BindValue(":id", song.id());
+        q.BindValue(":id", song.id().value());
         if (!q.Exec()) {
           db_->ReportErrors(q);
           return;
@@ -574,14 +574,14 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
       if (old_song.is_valid() && old_song.id() != -1) {
 
         Song new_song = song;
-        new_song.set_id(old_song.id());
+        new_song.set_id(old_song.id().value());
 
         // Update
         {
           SqlQuery q(db);
           q.prepare(QString("UPDATE %1 SET " + Song::kUpdateSpec + " WHERE ROWID = :id").arg(songs_table_));
           new_song.BindToQuery(&q);
-          q.BindValue(":id", new_song.id());
+          q.BindValue(":id", new_song.id().value());
           if (!q.Exec()) {
             db_->ReportErrors(q);
             return;
@@ -592,7 +592,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
           SqlQuery q(db);
           q.prepare(QString("UPDATE %1 SET " + Song::kFtsUpdateSpec + " WHERE ROWID = :id").arg(fts_table_));
           new_song.BindToFtsQuery(&q);
-          q.BindValue(":id", new_song.id());
+          q.BindValue(":id", new_song.id().value());
           if (!q.Exec()) {
             db_->ReportErrors(q);
             return;
@@ -661,8 +661,8 @@ void CollectionBackend::UpdateMTimesOnly(const SongList &songs) {
 
   ScopedTransaction transaction(&db);
   for (const Song &song : songs) {
-    q.BindValue(":mtime", song.mtime());
-    q.BindValue(":id", song.id());
+    q.BindValue(":mtime", song.mtime().value());
+    q.BindValue(":id", song.id().value());
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return;
@@ -684,13 +684,13 @@ void CollectionBackend::DeleteSongs(const SongList &songs) {
 
   ScopedTransaction transaction(&db);
   for (const Song &song : songs) {
-    remove.BindValue(":id", song.id());
+    remove.BindValue(":id", song.id().value());
     if (!remove.Exec()) {
       db_->ReportErrors(remove);
       return;
     }
 
-    remove_fts.BindValue(":id", song.id());
+    remove_fts.BindValue(":id", song.id().value());
     if (!remove_fts.Exec()) {
       db_->ReportErrors(remove_fts);
       return;
@@ -716,7 +716,7 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool u
 
   ScopedTransaction transaction(&db);
   for (const Song &song : songs) {
-    remove.BindValue(":id", song.id());
+    remove.BindValue(":id", song.id().value());
     if (!remove.Exec()) {
       db_->ReportErrors(remove);
       return;
@@ -1731,7 +1731,7 @@ void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &a
     SqlQuery q(db);
     q.prepare(QString("UPDATE %1 SET lastplayed = :lastplayed WHERE ROWID = :id").arg(songs_table_));
     q.BindValue(":lastplayed", lastplayed);
-    q.BindValue(":id", song.id());
+    q.BindValue(":id", song.id().value());
     if (!q.Exec()) {
       db_->ReportErrors(q);
       continue;
@@ -1757,7 +1757,7 @@ void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &ti
     SqlQuery q(db);
     q.prepare(QString("UPDATE %1 SET playcount = :playcount WHERE ROWID = :id").arg(songs_table_));
     q.BindValue(":playcount", playcount);
-    q.BindValue(":id", song.id());
+    q.BindValue(":id", song.id().value());
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return;

@@ -30,7 +30,8 @@
 
 UrlHandler::UrlHandler(QObject *parent) : QObject(parent) {}
 
-UrlHandler::LoadResult::LoadResult(const QUrl &original_url, const Type type, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 length_nanosec, const QString &error) :
+UrlHandler::LoadResult::LoadResult(const QUrl &original_url, const Type type, const QUrl &stream_url, const Song::FileType filetype, const std::optional<uint> samplerate,
+  const std::optional<uint> bit_depth, const std::optional<quint64> length_nanosec, const QString &error) :
   original_url_(original_url),
   type_(type),
   stream_url_(stream_url),
@@ -45,8 +46,5 @@ UrlHandler::LoadResult::LoadResult(const QUrl &original_url, const Type type, co
   original_url_(original_url),
   type_(type),
   filetype_(Song::FileType_Stream),
-  samplerate_(-1),
-  bit_depth_(-1),
-  length_nanosec_(-1),
   error_(error)
   {}

@@ -146,7 +146,7 @@ class Mpris2 : public QObject {
   QVariantMap Metadata() const;
   double Volume() const;
   void SetVolume(double value);
-  qint64 Position() const;
+  quint64 Position() const;
   static double MaximumRate();
   static double MinimumRate();
   bool CanGoNext() const;
@@ -164,7 +164,7 @@ class Mpris2 : public QObject {
   void Stop();
   void Play();
   void Seek(qint64 offset);
-  void SetPosition(const QDBusObjectPath &trackId, qint64 offset);
+  void SetPosition(const QDBusObjectPath &trackId, quint64 offset);
   void OpenUri(const QString &uri);
 
   // TrackList Properties

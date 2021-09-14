@@ -101,7 +101,7 @@ bool VLCEngine::Init() {
 
 }
 
-bool VLCEngine::Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
+bool VLCEngine::Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const std::optional<quint64> end_nanosec) {
 
   Q_UNUSED(original_url);
   Q_UNUSED(change);
@@ -196,21 +196,19 @@ void VLCEngine::SetVolumeSW(const uint percent) {
 
 }
 
-qint64 VLCEngine::position_nanosec() const {
+std::optional<quint64> VLCEngine::position_nanosec() const {
 
-  if (state_ == Engine::Empty) return 0;
-  const qint64 result = (position() * kNsecPerMsec);
-  return qint64(qMax(0LL, result));
+  if (state_ == Engine::Empty) return std::optional<quint64>();
+  return position() * kNsecPerMsec;
 
 
 }
 
-qint64 VLCEngine::length_nanosec() const {
+std::optional<quint64> VLCEngine::length_nanosec() const {
 
-  if (state_ == Engine::Empty) return 0;
-  const qint64 result = (end_nanosec_ - beginning_nanosec_);
-  if (result > 0) {
-    return result;
+  if (state_ == Engine::Empty) return std::optional<quint64>();
+  if (end_nanosec_) {
+    return (end_nanosec_.value() - beginning_nanosec_);
   }
   else {
     // Get the length from the pipeline if we don't know.

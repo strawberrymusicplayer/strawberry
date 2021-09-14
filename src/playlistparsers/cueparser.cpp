@@ -232,7 +232,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
     // Cue song has mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
     if (cue_mtime.isValid()) {
-      song.set_mtime(qMax(cue_mtime.toSecsSinceEpoch(), song.mtime()));
+      song.set_mtime(qMax(cue_mtime.toSecsSinceEpoch(), qint64(song.mtime().value_or(-1))));
     }
     song.set_cue_path(playlist_path);
 

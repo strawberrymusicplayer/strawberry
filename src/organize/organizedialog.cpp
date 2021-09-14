@@ -355,7 +355,7 @@ bool OrganizeDialog::SetSongs(const SongList &songs) {
       continue;
     }
 
-    if (song.filesize() > 0) total_size_ += song.filesize();
+    if (song.filesize()) total_size_ += song.filesize().value();
 
     songs_ << song;
   }

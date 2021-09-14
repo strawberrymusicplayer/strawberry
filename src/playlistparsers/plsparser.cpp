@@ -64,9 +64,11 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
       Song song = LoadSong(value, 0, dir, collection_search);
 
       // Use the title and length we've already loaded if any
-      if (!songs[n].title().isEmpty()) song.set_title(songs[n].title());
-      if (songs[n].length_nanosec() != -1) {
-        song.set_length_nanosec(songs[n].length_nanosec());
+      if (!songs[n].title().isEmpty()) {
+        song.set_title(songs[n].title());
+      }
+      if (songs[n].length_nanosec()) {
+        song.set_length_nanosec(songs[n].length_nanosec().value());
       }
 
       songs[n] = song;
@@ -97,7 +99,7 @@ void PLSParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
   for (const Song &song : songs) {
     s << "File" << n << "=" << URLOrFilename(song.url(), dir, path_type) << qt_endl;
     s << "Title" << n << "=" << song.title() << qt_endl;
-    s << "Length" << n << "=" << song.length_nanosec() / kNsecPerSec << qt_endl;
+    s << "Length" << n << "=" << song.length_nanosec().value_or(0) / kNsecPerSec << qt_endl;
     ++n;
   }
 

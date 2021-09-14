@@ -66,7 +66,7 @@ void TagFetcher::StartFetch(const SongList &songs) {
     for (int i = 0; i < songs_.count(); ++i) {
       const Song &song = songs_[i];
       emit Progress(song, tr("Identifying song"));
-      acoustid_client_->Start(i, song.fingerprint(), static_cast<int>(song.length_nanosec() / kNsecPerMsec));
+      acoustid_client_->Start(i, song.fingerprint(), static_cast<int>(song.length_nanosec().value_or(0) / kNsecPerMsec));
     }
   }
   else {
@@ -110,7 +110,7 @@ void TagFetcher::FingerprintFound(const int index) {
   }
 
   emit Progress(song, tr("Identifying song"));
-  acoustid_client_->Start(index, fingerprint, static_cast<int>(song.length_nanosec() / kNsecPerMsec));
+  acoustid_client_->Start(index, fingerprint, static_cast<int>(song.length_nanosec().value_or(0) / kNsecPerMsec));
 
 }
 

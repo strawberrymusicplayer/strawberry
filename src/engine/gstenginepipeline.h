@@ -29,6 +29,7 @@
 #include <glib-object.h>
 #include <glib/gtypes.h>
 #include <gst/gst.h>
+#include <optional>
 
 #include <QtGlobal>
 #include <QObject>
@@ -77,7 +78,7 @@ class GstEnginePipeline : public QObject {
   void set_channels(const bool enabled, const int channels);
 
   // Creates the pipeline, returns false on error
-  bool InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec);
+  bool InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const std::optional<quint64> end_nanosec);
 
   // GstBufferConsumers get fed audio data.  Thread-safe.
   void AddBufferConsumer(GstBufferConsumer *consumer);
@@ -94,7 +95,7 @@ class GstEnginePipeline : public QObject {
   void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction = QTimeLine::Forward, const QEasingCurve::Type shape = QEasingCurve::Linear, const bool use_fudge_timer = true);
 
   // If this is set then it will be loaded automatically when playback finishes for gapless playback
-  void SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, qint64 beginning_nanosec, qint64 end_nanosec);
+  void SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, std::optional<quint64> beginning_nanosec, std::optional<quint64> end_nanosec);
   bool has_next_valid_url() const { return !next_stream_url_.isEmpty(); }
 
   void SetSourceDevice(const QString &device) { source_device_ = device; }
@@ -239,11 +240,11 @@ class GstEnginePipeline : public QObject {
   QUrl next_original_url_;
 
   // If this is > 0 then the pipeline will be forced to stop when playback goes past this position.
-  qint64 end_offset_nanosec_;
+  std::optional<quint64> end_offset_nanosec_;
 
   // We store the beginning and end for the preloading song too, so we can just carry on without reloading the file if the sections carry on from each other.
-  qint64 next_beginning_offset_nanosec_;
-  qint64 next_end_offset_nanosec_;
+  std::optional<quint64> next_beginning_offset_nanosec_;
+  std::optional<quint64> next_end_offset_nanosec_;
 
   // Set temporarily when moving to the next contiguous section in a multi-part file.
   bool ignore_next_seek_;
