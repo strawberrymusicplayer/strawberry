@@ -20,6 +20,8 @@
 
 #include "ratingwidget.h"
 
+#include <cmath>
+
 #include <QStyleOptionFrame>
 #include <QStylePainter>
 #include <QIcon>
@@ -91,7 +93,7 @@ double RatingPainter::RatingForPos(const QPoint pos, const QRect rect) {
   if (raw > 1) return 1;
 
   // Round to the nearest 0.1
-  return double(int(raw * kStarCount * 2 + 0.5)) / (kStarCount * 2);
+  return double(lround(raw * kStarCount * 2)) / (kStarCount * 2);
 
 }
 
@@ -103,7 +105,7 @@ void RatingPainter::Paint(QPainter *painter, const QRect rect, double rating) co
   rating *= kStarCount;
 
   // Draw the stars
-  const int star = qBound(0, int(rating * 2.0 + 0.5), kStarCount * 2);
+  const int star = qBound(0, static_cast<int>(lround(rating * 2.0)), kStarCount * 2);
   painter->drawPixmap(QRect(pos, size), stars_[star], QRect(QPoint(0, 0), size));
 
 }
