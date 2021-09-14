@@ -24,6 +24,7 @@
 #include "blockanalyzer.h"
 
 #include <cstdlib>
+#include <algorithm>
 #include <cmath>
 
 #include <QWidget>
