@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>411</width>
-    <height>180</height>
+    <width>600</width>
+    <height>260</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Strawberry Error</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../data/icons.qrc">
+   <iconset>
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
