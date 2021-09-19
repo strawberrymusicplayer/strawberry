@@ -193,6 +193,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 
   QList<QAction*> actions = album_cover_choice_controller_->GetAllActions();
 
+  QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &EditTagDialog::Error);
   QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &EditTagDialog::LoadCoverFromFile);
   QObject::connect(album_cover_choice_controller_->cover_to_file_action(), &QAction::triggered, this, &EditTagDialog::SaveCoverToFile);
   QObject::connect(album_cover_choice_controller_->cover_from_url_action(), &QAction::triggered, this, &EditTagDialog::LoadCoverFromURL);

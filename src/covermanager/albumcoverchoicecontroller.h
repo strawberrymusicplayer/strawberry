@@ -157,6 +157,7 @@ class AlbumCoverChoiceController : public QWidget {
   void SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success, const bool cleared);
 
  signals:
+  void Error(QString);
   void AutomaticCoverSearchDone();
 
  private:

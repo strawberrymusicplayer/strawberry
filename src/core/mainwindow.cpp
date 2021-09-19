@@ -253,6 +253,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
         cover_manager->Init();
 
         // Cover manager connections
+        QObject::connect(cover_manager, &AlbumCoverManager::Error, this, &MainWindow::ShowErrorDialog);
         QObject::connect(cover_manager, &AlbumCoverManager::AddToPlaylist, this, &MainWindow::AddToPlaylist);
         return cover_manager;
       }),
@@ -621,6 +622,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(app_->task_manager(), &TaskManager::ResumeCollectionWatchers, app_->collection(), &SCollection::ResumeWatcher);
 
   QObject::connect(app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &MainWindow::AlbumCoverLoaded);
+  QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &MainWindow::LoadCoverFromFile);
   QObject::connect(album_cover_choice_controller_->cover_to_file_action(), &QAction::triggered, this, &MainWindow::SaveCoverToFile);
   QObject::connect(album_cover_choice_controller_->cover_from_url_action(), &QAction::triggered, this, &MainWindow::LoadCoverFromURL);

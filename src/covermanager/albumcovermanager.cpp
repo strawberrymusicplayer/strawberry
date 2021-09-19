@@ -189,6 +189,7 @@ void AlbumCoverManager::Init() {
 
   QList<QAction*> actions = album_cover_choice_controller_->GetAllActions();
 
+  QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &AlbumCoverManager::Error);
   QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &AlbumCoverManager::LoadCoverFromFile);
   QObject::connect(album_cover_choice_controller_->cover_to_file_action(), &QAction::triggered, this, &AlbumCoverManager::SaveCoverToFile);
   QObject::connect(album_cover_choice_controller_->cover_from_url_action(), &QAction::triggered, this, &AlbumCoverManager::LoadCoverFromURL);
