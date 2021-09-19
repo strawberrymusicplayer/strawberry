@@ -210,29 +210,10 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
     QXmlStreamReader xml_reader(data_manifest);
     if (xml_reader.readNextStartElement()) {
-
-      QString filepath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/tidalstreams";
-      QString filename = "tidal-" + QString::number(song_id_) + ".xml";
-      if (!QDir().mkpath(filepath)) {
-        Error(QString("Failed to create directory %1.").arg(filepath), json_obj);
-        emit StreamURLFinished(id_, original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, errors_.first());
-        return;
-      }
-      QUrl url("file://" + filepath + "/" + filename);
-      QFile file(url.toLocalFile());
-      if (file.exists()) {
-        file.remove();
-      }
-      if (!file.open(QIODevice::WriteOnly)) {
-        Error(QString("Failed to open file %1 for writing: %2.").arg(url.toLocalFile(), file.errorString()), json_obj);
-        emit StreamURLFinished(id_, original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, errors_.first());
-        return;
-      }
-      file.write(data_manifest);
-      file.close();
-
+      QUrl url;
+      url.setScheme("data");
+      url.setPath(QString("application/dash+xml;base64,%1").arg(manifest));
       urls << url;
-
     }
 
     else {
