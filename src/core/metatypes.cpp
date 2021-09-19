@@ -99,8 +99,10 @@ void RegisterMetaTypes() {
   qRegisterMetaType<Subdirectory>("Subdirectory");
   qRegisterMetaType<SubdirectoryList>("SubdirectoryList");
   qRegisterMetaType<Song>("Song");
-  qRegisterMetaType<QList<Song>>("QList<Song>");
   qRegisterMetaType<SongList>("SongList");
+  qRegisterMetaType<SongMap>("SongMap");
+  qRegisterMetaType<QList<Song>>("QList<Song>");
+  qRegisterMetaType<QMap<QString, Song>>("QMap<QString, Song>");
   qRegisterMetaType<Engine::EngineType>("EngineType");
   qRegisterMetaType<Engine::SimpleMetaBundle>("Engine::SimpleMetaBundle");
   qRegisterMetaType<Engine::State>("Engine::State");

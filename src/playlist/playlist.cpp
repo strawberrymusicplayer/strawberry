@@ -797,7 +797,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     InsertSmartPlaylist(generator_data->generator_, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
-    InsertInternetItems(internet_song_data->service, internet_song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
+    InsertInternetItems(internet_song_data->service, internet_song_data->songs.values(), row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (const RadioMimeData *radio_data = qobject_cast<const RadioMimeData*>(data)) {
     InsertRadioItems(radio_data->songs, row, play_now, enqueue_now, enqueue_next_now);

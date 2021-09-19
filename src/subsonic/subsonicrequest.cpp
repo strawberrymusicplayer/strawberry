@@ -872,14 +872,14 @@ void SubsonicRequest::FinishCheck() {
   ) {
     finished_ = true;
     if (no_results_ && songs_.isEmpty()) {
-      emit Results(SongList(), QString());
+      emit Results(SongMap(), QString());
     }
     else {
       if (songs_.isEmpty() && errors_.isEmpty()) {
-        emit Results(songs_.values(), tr("Unknown error"));
+        emit Results(songs_, tr("Unknown error"));
       }
       else {
-        emit Results(songs_.values(), ErrorsToHTML(errors_));
+        emit Results(songs_, ErrorsToHTML(errors_));
       }
     }
 

@@ -76,7 +76,7 @@ class PlaylistBackend : public QObject {
   PlaylistBackend::Playlist GetPlaylist(const int id);
 
   QList<PlaylistItemPtr> GetPlaylistItems(const int playlist);
-  QList<Song> GetPlaylistSongs(const int playlist);
+  SongList GetPlaylistSongs(const int playlist);
 
   void SetPlaylistOrder(const QList<int> &ids);
   void SetPlaylistUiPath(const int id, const QString &path);

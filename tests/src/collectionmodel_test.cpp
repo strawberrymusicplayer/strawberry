@@ -51,7 +51,7 @@ class CollectionModelTest : public ::testing::Test {
   void SetUp() override {
     database_ = std::make_shared<MemoryDatabase>(nullptr);
     backend_ = std::make_unique<CollectionBackend>();
-    backend_->Init(database_.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+    backend_->Init(database_.get(), nullptr, Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
     model_ = std::make_unique<CollectionModel>(backend_.get(), nullptr);
 
     added_dir_ = false;

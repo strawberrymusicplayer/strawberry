@@ -46,16 +46,19 @@
 #include "core/logging.h"
 #include "core/database.h"
 #include "core/scopedtransaction.h"
+#include "core/song.h"
 #include "smartplaylists/smartplaylistsearch.h"
 
 #include "directory.h"
+#include "sqlrow.h"
 #include "collectionbackend.h"
 #include "collectionquery.h"
-#include "sqlrow.h"
+#include "collectiontask.h"
 
 CollectionBackend::CollectionBackend(QObject *parent)
     : CollectionBackendInterface(parent),
       db_(nullptr),
+      task_manager_(nullptr),
       source_(Song::Source_Unknown),
       original_thread_(nullptr) {
 
@@ -63,13 +66,16 @@ CollectionBackend::CollectionBackend(QObject *parent)
 
 }
 
-void CollectionBackend::Init(Database *db, const Song::Source source, const QString &songs_table, const QString &fts_table, const QString &dirs_table, const QString &subdirs_table) {
+void CollectionBackend::Init(Database *db, TaskManager *task_manager, const Song::Source source, const QString &songs_table, const QString &fts_table, const QString &dirs_table, const QString &subdirs_table) {
+
   db_ = db;
+  task_manager_ = task_manager;
   source_ = source;
   songs_table_ = songs_table;
   dirs_table_ = dirs_table;
   subdirs_table_ = subdirs_table;
   fts_table_ = fts_table;
+
 }
 
 void CollectionBackend::Close() {
@@ -623,6 +629,8 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
       id = q.lastInsertId().toInt();
     }
 
+    if (id == -1) return;
+
     { // Add to the FTS index
       SqlQuery q(db);
       q.prepare(QString("INSERT INTO %1 (ROWID, " + Song::kFtsColumnSpec + ") VALUES (:id, " + Song::kFtsBindSpec + ")").arg(fts_table_));
@@ -634,10 +642,140 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
       }
     }
 
-    Song copy(song);
-    copy.set_id(id);
-    added_songs << copy;
+    Song song_copy(song);
+    song_copy.set_id(id);
+    added_songs << song_copy;
 
+  }
+
+  transaction.Commit();
+
+  if (!deleted_songs.isEmpty()) emit SongsDeleted(deleted_songs);
+  if (!added_songs.isEmpty()) emit SongsDiscovered(added_songs);
+
+  UpdateTotalSongCountAsync();
+  UpdateTotalArtistCountAsync();
+  UpdateTotalAlbumCountAsync();
+
+}
+
+void CollectionBackend::UpdateSongsBySongIDAsync(const SongMap &new_songs) {
+  QMetaObject::invokeMethod(this, "UpdateSongsBySongID", Qt::QueuedConnection, Q_ARG(SongMap, new_songs));
+}
+
+void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  CollectionTask task(task_manager_, tr("Updating %1 database.").arg(Song::TextForSource(source_)));
+  ScopedTransaction transaction(&db);
+
+  SongList added_songs;
+  SongList deleted_songs;
+
+  SongMap old_songs;
+  {
+    CollectionQuery query(db, songs_table_, fts_table_);
+    if (!ExecCollectionQuery(&query, old_songs)) {
+      ReportErrors(query);
+      return;
+    }
+  }
+
+  // Add or update songs.
+  for (const Song &new_song : new_songs) {
+    if (old_songs.contains(new_song.song_id())) {
+
+      Song old_song = old_songs[new_song.song_id()];
+
+      if (!new_song.IsMetadataEqual(old_song)) {  // Update existing song.
+
+        {
+          SqlQuery q(db);
+          q.prepare(QString("UPDATE %1 SET " + Song::kUpdateSpec + " WHERE ROWID = :id").arg(songs_table_));
+          new_song.BindToQuery(&q);
+          q.BindValue(":id", old_song.id());
+          if (!q.Exec()) {
+            db_->ReportErrors(q);
+            return;
+          }
+        }
+        {
+          SqlQuery q(db);
+          q.prepare(QString("UPDATE %1 SET " + Song::kFtsUpdateSpec + " WHERE ROWID = :id").arg(fts_table_));
+          new_song.BindToFtsQuery(&q);
+          q.BindValue(":id", old_song.id());
+          if (!q.Exec()) {
+            db_->ReportErrors(q);
+            return;
+          }
+        }
+
+        deleted_songs << old_song;
+        Song new_song_copy(new_song);
+        new_song_copy.set_id(old_song.id());
+        added_songs << new_song_copy;
+
+      }
+
+    }
+    else {  // Add new song
+      int id = -1;
+      {
+        SqlQuery q(db);
+        q.prepare(QString("INSERT INTO %1 (" + Song::kColumnSpec + ") VALUES (" + Song::kBindSpec + ")").arg(songs_table_));
+        new_song.BindToQuery(&q);
+        if (!q.Exec()) {
+          db_->ReportErrors(q);
+          return;
+        }
+        // Get the new ID
+        id = q.lastInsertId().toInt();
+      }
+
+      if (id == -1) return;
+
+      {  // Add to the FTS index
+        SqlQuery q(db);
+        q.prepare(QString("INSERT INTO %1 (ROWID, " + Song::kFtsColumnSpec + ") VALUES (:id, " + Song::kFtsBindSpec + ")").arg(fts_table_));
+        q.BindValue(":id", id);
+        new_song.BindToFtsQuery(&q);
+        if (!q.Exec()) {
+          db_->ReportErrors(q);
+          return;
+        }
+      }
+
+      Song new_song_copy(new_song);
+      new_song_copy.set_id(id);
+      added_songs << new_song_copy;
+    }
+  }
+
+  // Delete songs
+  for (const Song &old_song : old_songs) {
+    if (!new_songs.contains(old_song.song_id())) {
+      {
+        SqlQuery q(db);
+        q.prepare(QString("DELETE FROM %1 WHERE ROWID = :id").arg(songs_table_));
+        q.BindValue(":id", old_song.id());
+        if (!q.Exec()) {
+          db_->ReportErrors(q);
+          return;
+        }
+      }
+      {
+        SqlQuery q(db);
+        q.prepare(QString("DELETE FROM %1 WHERE ROWID = :id").arg(fts_table_));
+        q.BindValue(":id", old_song.id());
+        if (!q.Exec()) {
+          db_->ReportErrors(q);
+          return;
+        }
+      }
+      deleted_songs << old_song;
+    }
   }
 
   transaction.Commit();
@@ -877,6 +1015,21 @@ bool CollectionBackend::ExecCollectionQuery(CollectionQuery *query, SongList &so
     Song song(source_);
     song.InitFromQuery(*query, true);
     songs << song;
+  }
+  return true;
+
+}
+
+bool CollectionBackend::ExecCollectionQuery(CollectionQuery *query, SongMap &songs) {
+
+  query->SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
+
+  if (!query->Exec()) return false;
+
+  while (query->Next()) {
+    Song song(source_);
+    song.InitFromQuery(*query, true);
+    songs.insert(song.song_id(), song);
   }
   return true;
 

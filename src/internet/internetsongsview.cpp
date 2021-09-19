@@ -21,6 +21,7 @@
 
 #include <QtGlobal>
 #include <QWidget>
+#include <QMap>
 #include <QString>
 #include <QStackedWidget>
 #include <QContextMenuEvent>
@@ -62,7 +63,7 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
   ui_->filter_widget->AddMenuAction(action_configure);
 
   QObject::connect(ui_->view, &InternetCollectionView::GetSongs, this, &InternetSongsView::GetSongs);
-  QObject::connect(ui_->view, &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveSongs);
+  QObject::connect(ui_->view, &InternetCollectionView::RemoveSongs, service_, QOverload<SongList>::of(&InternetService::RemoveSongs));
 
   QObject::connect(ui_->refresh, &QPushButton::clicked, this, &InternetSongsView::GetSongs);
   QObject::connect(ui_->close, &QPushButton::clicked, this, &InternetSongsView::AbortGetSongs);
@@ -121,7 +122,7 @@ void InternetSongsView::AbortGetSongs() {
 
 }
 
-void InternetSongsView::SongsFinished(const SongList &songs, const QString &error) {
+void InternetSongsView::SongsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
     ui_->status->setText(error);
@@ -131,10 +132,9 @@ void InternetSongsView::SongsFinished(const SongList &songs, const QString &erro
     ui_->close->show();
   }
   else {
-    service_->songs_collection_backend()->DeleteAll();
     ui_->stacked->setCurrentWidget(ui_->internetcollection_page);
     ui_->status->clear();
-    service_->songs_collection_backend()->AddOrUpdateSongsAsync(songs);
+    service_->songs_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }
 
 }

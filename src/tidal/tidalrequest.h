@@ -81,7 +81,7 @@ class TidalRequest : public TidalBaseRequest {
  signals:
   void LoginSuccess();
   void LoginFailure(QString failure_reason);
-  void Results(int id, SongList songs, QString error);
+  void Results(int id, SongMap songs, QString error);
   void UpdateStatus(int id, QString text);
   void ProgressSetMaximum(int id, int max);
   void UpdateProgress(int id, int max);
@@ -199,7 +199,7 @@ class TidalRequest : public TidalBaseRequest {
   int album_covers_requested_;
   int album_covers_received_;
 
-  QMap<QString, Song> songs_;
+  SongMap songs_;
   QStringList errors_;
   bool need_login_;
   bool no_results_;

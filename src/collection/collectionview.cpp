@@ -471,7 +471,7 @@ void CollectionView::SetShowInVarious(const bool on) {
   if (on && albums.keys().count() == 1) {
     const QStringList albums_list = albums.keys();
     const QString album = albums_list.first();
-    QList<Song> all_of_album = app_->collection_backend()->GetSongsByAlbum(album);
+    SongList all_of_album = app_->collection_backend()->GetSongsByAlbum(album);
     QSet<QString> other_artists;
     for (const Song &s : all_of_album) {
       if (!albums.contains(album, s.artist()) && !other_artists.contains(s.artist())) {

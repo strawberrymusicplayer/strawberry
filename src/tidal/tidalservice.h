@@ -138,10 +138,10 @@ class TidalService : public InternetService {
   void HandleAuthReply(QNetworkReply *reply);
   void ResetLoginAttempts();
   void StartSearch();
-  void ArtistsResultsReceived(const int id, const SongList &songs, const QString &error);
-  void AlbumsResultsReceived(const int id, const SongList &songs, const QString &error);
-  void SongsResultsReceived(const int id, const SongList &songs, const QString &error);
-  void SearchResultsReceived(const int id, const SongList &songs, const QString &error);
+  void ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error);
+  void AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error);
+  void SongsResultsReceived(const int id, const SongMap &songs, const QString &error);
+  void SearchResultsReceived(const int id, const SongMap &songs, const QString &error);
   void ArtistsUpdateStatusReceived(const int id, const QString &text);
   void AlbumsUpdateStatusReceived(const int id, const QString &text);
   void SongsUpdateStatusReceived(const int id, const QString &text);

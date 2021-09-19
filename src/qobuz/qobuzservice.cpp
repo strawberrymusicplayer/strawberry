@@ -25,6 +25,7 @@
 #include <QByteArray>
 #include <QPair>
 #include <QList>
+#include <QMap>
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
@@ -111,15 +112,15 @@ QobuzService::QobuzService(Application *app, QObject *parent)
 
   artists_collection_backend_ = new CollectionBackend();
   artists_collection_backend_->moveToThread(app_->database()->thread());
-  artists_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kArtistsSongsTable, kArtistsSongsFtsTable);
+  artists_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Qobuz, kArtistsSongsTable, kArtistsSongsFtsTable);
 
   albums_collection_backend_ = new CollectionBackend();
   albums_collection_backend_->moveToThread(app_->database()->thread());
-  albums_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kAlbumsSongsTable, kAlbumsSongsFtsTable);
+  albums_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Qobuz, kAlbumsSongsTable, kAlbumsSongsFtsTable);
 
   songs_collection_backend_ = new CollectionBackend();
   songs_collection_backend_->moveToThread(app_->database()->thread());
-  songs_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kSongsTable, kSongsFtsTable);
+  songs_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Qobuz, kSongsTable, kSongsFtsTable);
 
   artists_collection_model_ = new CollectionModel(artists_collection_backend_, app_, this);
   albums_collection_model_ = new CollectionModel(albums_collection_backend_, app_, this);
@@ -160,7 +161,8 @@ QobuzService::QobuzService(Application *app, QObject *parent)
 
   QObject::connect(this, &QobuzService::RemoveArtists, favorite_request_, &QobuzFavoriteRequest::RemoveArtists);
   QObject::connect(this, &QobuzService::RemoveAlbums, favorite_request_, &QobuzFavoriteRequest::RemoveAlbums);
-  QObject::connect(this, &QobuzService::RemoveSongs, favorite_request_, &QobuzFavoriteRequest::RemoveSongs);
+  QObject::connect(this, QOverload<SongList>::of(&QobuzService::RemoveSongs), favorite_request_, QOverload<const SongList&>::of(&QobuzFavoriteRequest::RemoveSongs));
+  QObject::connect(this, QOverload<SongMap>::of(&QobuzService::RemoveSongs), favorite_request_, QOverload<const SongMap&>::of(&QobuzFavoriteRequest::RemoveSongs));
 
   QObject::connect(favorite_request_, &QobuzFavoriteRequest::ArtistsAdded, artists_collection_backend_, &CollectionBackend::AddOrUpdateSongs);
   QObject::connect(favorite_request_, &QobuzFavoriteRequest::AlbumsAdded, albums_collection_backend_, &CollectionBackend::AddOrUpdateSongs);
@@ -285,7 +287,7 @@ void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &QobuzService::HandleLoginSSLErrors);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { HandleAuthReply(reply); });
 
-  qLog(Debug) << "Qobuz: Sending request" << url << query;
+  //qLog(Debug) << "Qobuz: Sending request" << url << query;
 
 }
 
@@ -496,12 +498,12 @@ void QobuzService::ResetArtistsRequest() {
 void QobuzService::GetArtists() {
 
   if (app_id().isEmpty()) {
-    emit ArtistsResults(SongList(), tr("Missing Qobuz app ID."));
+    emit ArtistsResults(SongMap(), tr("Missing Qobuz app ID."));
     return;
   }
 
   if (!authenticated()) {
-    emit ArtistsResults(SongList(), tr("Not authenticated with Qobuz."));
+    emit ArtistsResults(SongMap(), tr("Not authenticated with Qobuz."));
     return;
   }
 
@@ -518,7 +520,7 @@ void QobuzService::GetArtists() {
 
 }
 
-void QobuzService::ArtistsResultsReceived(const int id, const SongList &songs, const QString &error) {
+void QobuzService::ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error) {
   Q_UNUSED(id);
   emit ArtistsResults(songs, error);
 }
@@ -551,12 +553,12 @@ void QobuzService::ResetAlbumsRequest() {
 void QobuzService::GetAlbums() {
 
   if (app_id().isEmpty()) {
-    emit AlbumsResults(SongList(), tr("Missing Qobuz app ID."));
+    emit AlbumsResults(SongMap(), tr("Missing Qobuz app ID."));
     return;
   }
 
   if (!authenticated()) {
-    emit AlbumsResults(SongList(), tr("Not authenticated with Qobuz."));
+    emit AlbumsResults(SongMap(), tr("Not authenticated with Qobuz."));
     return;
   }
 
@@ -571,7 +573,7 @@ void QobuzService::GetAlbums() {
 
 }
 
-void QobuzService::AlbumsResultsReceived(const int id, const SongList &songs, const QString &error) {
+void QobuzService::AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error) {
   Q_UNUSED(id);
   emit AlbumsResults(songs, error);
 }
@@ -604,12 +606,12 @@ void QobuzService::ResetSongsRequest() {
 void QobuzService::GetSongs() {
 
   if (app_id().isEmpty()) {
-    emit SongsResults(SongList(), tr("Missing Qobuz app ID."));
+    emit SongsResults(SongMap(), tr("Missing Qobuz app ID."));
     return;
   }
 
   if (!authenticated()) {
-    emit SongsResults(SongList(), tr("Not authenticated with Qobuz."));
+    emit SongsResults(SongMap(), tr("Not authenticated with Qobuz."));
     return;
   }
 
@@ -624,7 +626,7 @@ void QobuzService::GetSongs() {
 
 }
 
-void QobuzService::SongsResultsReceived(const int id, const SongList &songs, const QString &error) {
+void QobuzService::SongsResultsReceived(const int id, const SongMap &songs, const QString &error) {
   Q_UNUSED(id);
   emit SongsResults(songs, error);
 }
@@ -669,7 +671,7 @@ void QobuzService::StartSearch() {
   search_text_ = pending_search_text_;
 
   if (app_id_.isEmpty()) {  // App ID is the only thing needed to search.
-    emit SearchResults(search_id_, SongList(), tr("Missing Qobuz app ID."));
+    emit SearchResults(search_id_, SongMap(), tr("Missing Qobuz app ID."));
     return;
   }
 
@@ -708,7 +710,7 @@ void QobuzService::SendSearch() {
 
 }
 
-void QobuzService::SearchResultsReceived(const int id, const SongList &songs, const QString &error) {
+void QobuzService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
   emit SearchResults(id, songs, error);
 }
 

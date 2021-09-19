@@ -26,6 +26,7 @@
 #include <QSortFilterProxyModel>
 #include <QAbstractItemView>
 #include <QItemSelectionModel>
+#include <QMap>
 #include <QVariant>
 #include <QString>
 #include <QUrl>

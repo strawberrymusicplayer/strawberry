@@ -21,6 +21,8 @@
 #ifndef INTERNETSONGMIMEDATA_H
 #define INTERNETSONGMIMEDATA_H
 
+#include <QMap>
+
 #include "core/mimedata.h"
 #include "core/song.h"
 
@@ -33,7 +35,7 @@ class InternetSongMimeData : public MimeData {
   explicit InternetSongMimeData(InternetService *_service, QObject* = nullptr) : service(_service) {}
 
   InternetService *service;
-  SongList songs;
+  SongMap songs;
 };
 
 #endif  // INTERNETSONGMIMEDATA_H

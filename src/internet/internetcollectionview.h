@@ -28,6 +28,7 @@
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QSet>
+#include <QMap>
 #include <QString>
 #include <QPixmap>
 
@@ -86,7 +87,7 @@ class InternetCollectionView : public AutoExpandingTreeView {
   void TotalArtistCountUpdated_();
   void TotalAlbumCountUpdated_();
   void Error(QString);
-  void RemoveSongs(SongList);
+  void RemoveSongs(SongList songs);
 
  protected:
   // QWidget

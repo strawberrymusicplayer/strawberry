@@ -28,6 +28,7 @@
 #include <QByteArray>
 #include <QPair>
 #include <QList>
+#include <QMap>
 #include <QString>
 #include <QChar>
 #include <QUrl>
@@ -127,15 +128,15 @@ TidalService::TidalService(Application *app, QObject *parent)
 
   artists_collection_backend_ = new CollectionBackend();
   artists_collection_backend_->moveToThread(app_->database()->thread());
-  artists_collection_backend_->Init(app_->database(), Song::Source_Tidal, kArtistsSongsTable, kArtistsSongsFtsTable);
+  artists_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Tidal, kArtistsSongsTable, kArtistsSongsFtsTable);
 
   albums_collection_backend_ = new CollectionBackend();
   albums_collection_backend_->moveToThread(app_->database()->thread());
-  albums_collection_backend_->Init(app_->database(), Song::Source_Tidal, kAlbumsSongsTable, kAlbumsSongsFtsTable);
+  albums_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Tidal, kAlbumsSongsTable, kAlbumsSongsFtsTable);
 
   songs_collection_backend_ = new CollectionBackend();
   songs_collection_backend_->moveToThread(app_->database()->thread());
-  songs_collection_backend_->Init(app_->database(), Song::Source_Tidal, kSongsTable, kSongsFtsTable);
+  songs_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Tidal, kSongsTable, kSongsFtsTable);
 
   artists_collection_model_ = new CollectionModel(artists_collection_backend_, app_, this);
   albums_collection_model_ = new CollectionModel(albums_collection_backend_, app_, this);
@@ -180,7 +181,8 @@ TidalService::TidalService(Application *app, QObject *parent)
 
   QObject::connect(this, &TidalService::RemoveArtists, favorite_request_, &TidalFavoriteRequest::RemoveArtists);
   QObject::connect(this, &TidalService::RemoveAlbums, favorite_request_, &TidalFavoriteRequest::RemoveAlbums);
-  QObject::connect(this, &TidalService::RemoveSongs, favorite_request_, &TidalFavoriteRequest::RemoveSongs);
+  QObject::connect(this, QOverload<SongList>::of(&TidalService::RemoveSongs), favorite_request_, QOverload<const SongList&>::of(&TidalFavoriteRequest::RemoveSongs));
+  QObject::connect(this, QOverload<SongMap>::of(&TidalService::RemoveSongs), favorite_request_, QOverload<const SongMap&>::of(&TidalFavoriteRequest::RemoveSongs));
 
   QObject::connect(favorite_request_, &TidalFavoriteRequest::RequestLogin, this, &TidalService::SendLogin);
 
@@ -743,12 +745,12 @@ void TidalService::GetArtists() {
 
   if (!authenticated()) {
     if (oauth_) {
-      emit ArtistsResults(SongList(), tr("Not authenticated with Tidal."));
+      emit ArtistsResults(SongMap(), tr("Not authenticated with Tidal."));
       ShowConfig();
       return;
     }
     else if (api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
-      emit ArtistsResults(SongList(), tr("Missing Tidal API token, username or password."));
+      emit ArtistsResults(SongMap(), tr("Missing Tidal API token, username or password."));
       ShowConfig();
       return;
     }
@@ -769,7 +771,7 @@ void TidalService::GetArtists() {
 
 }
 
-void TidalService::ArtistsResultsReceived(const int id, const SongList &songs, const QString &error) {
+void TidalService::ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error) {
   Q_UNUSED(id);
   emit ArtistsResults(songs, error);
 }
@@ -803,12 +805,12 @@ void TidalService::GetAlbums() {
 
   if (!authenticated()) {
     if (oauth_) {
-      emit AlbumsResults(SongList(), tr("Not authenticated with Tidal."));
+      emit AlbumsResults(SongMap(), tr("Not authenticated with Tidal."));
       ShowConfig();
       return;
     }
     else if (api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
-      emit AlbumsResults(SongList(), tr("Missing Tidal API token, username or password."));
+      emit AlbumsResults(SongMap(), tr("Missing Tidal API token, username or password."));
       ShowConfig();
       return;
     }
@@ -827,7 +829,7 @@ void TidalService::GetAlbums() {
 
 }
 
-void TidalService::AlbumsResultsReceived(const int id, const SongList &songs, const QString &error) {
+void TidalService::AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error) {
   Q_UNUSED(id);
   emit AlbumsResults(songs, error);
 }
@@ -861,12 +863,12 @@ void TidalService::GetSongs() {
 
   if (!authenticated()) {
     if (oauth_) {
-      emit SongsResults(SongList(), tr("Not authenticated with Tidal."));
+      emit SongsResults(SongMap(), tr("Not authenticated with Tidal."));
       ShowConfig();
       return;
     }
     else if (api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
-      emit SongsResults(SongList(), tr("Missing Tidal API token, username or password."));
+      emit SongsResults(SongMap(), tr("Missing Tidal API token, username or password."));
       ShowConfig();
       return;
     }
@@ -885,7 +887,7 @@ void TidalService::GetSongs() {
 
 }
 
-void TidalService::SongsResultsReceived(const int id, const SongList &songs, const QString &error) {
+void TidalService::SongsResultsReceived(const int id, const SongMap &songs, const QString &error) {
   Q_UNUSED(id);
   emit SongsResults(songs, error);
 }
@@ -927,12 +929,12 @@ void TidalService::StartSearch() {
 
   if (!authenticated()) {
     if (oauth_) {
-      emit SearchResults(pending_search_id_, SongList(), tr("Not authenticated with Tidal."));
+      emit SearchResults(pending_search_id_, SongMap(), tr("Not authenticated with Tidal."));
       ShowConfig();
       return;
     }
     else if (api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
-      emit SearchResults(pending_search_id_, SongList(), tr("Missing Tidal API token, username or password."));
+      emit SearchResults(pending_search_id_, SongMap(), tr("Missing Tidal API token, username or password."));
       ShowConfig();
       return;
     }
@@ -981,7 +983,7 @@ void TidalService::SendSearch() {
 
 }
 
-void TidalService::SearchResultsReceived(const int id, const SongList &songs, const QString &error) {
+void TidalService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
   emit SearchResults(id, songs, error);
 }
 

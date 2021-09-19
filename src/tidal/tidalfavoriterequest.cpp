@@ -66,9 +66,25 @@ QString TidalFavoriteRequest::FavoriteText(const FavoriteType type) {
     case FavoriteType_Albums:
       return "albums";
     case FavoriteType_Songs:
-    default:
       return "tracks";
   }
+
+  return QString();
+
+}
+
+QString TidalFavoriteRequest::FavoriteMethod(const FavoriteType type) {
+
+  switch (type) {
+    case FavoriteType_Artists:
+      return "artistIds";
+    case FavoriteType_Albums:
+      return "albumIds";
+    case FavoriteType_Songs:
+      return "trackIds";
+  }
+
+  return QString();
 
 }
 
@@ -80,26 +96,11 @@ void TidalFavoriteRequest::AddAlbums(const SongList &songs) {
   AddFavorites(FavoriteType_Albums, songs);
 }
 
-void TidalFavoriteRequest::AddSongs(const SongList &songs) {
-  AddFavorites(FavoriteType_Songs, songs);
+void TidalFavoriteRequest::AddSongs(const SongMap &songs) {
+  AddFavoritesRequest(FavoriteType_Songs, songs.keys(), songs.values());
 }
 
 void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList &songs) {
-
-  if (songs.isEmpty()) return;
-
-  QString text;
-  switch (type) {
-    case FavoriteType_Artists:
-      text = "artistIds";
-      break;
-    case FavoriteType_Albums:
-      text = "albumIds";
-      break;
-    case FavoriteType_Songs:
-      text = "trackIds";
-      break;
-  }
 
   QStringList id_list;
   for (const Song &song : songs) {
@@ -118,15 +119,21 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
         id = song.song_id();
         break;
     }
-    if (id.isEmpty()) continue;
-    if (!id_list.contains(id)) {
+    if (!id.isEmpty() && !id_list.contains(id)) {
       id_list << id;
     }
   }
+
   if (id_list.isEmpty()) return;
 
+  AddFavoritesRequest(type, id_list, songs);
+
+}
+
+void TidalFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QStringList &id_list, const SongList &songs) {
+
   ParamList params = ParamList() << Param("countryCode", country_code())
-                                 << Param(text, id_list.join(','));
+                                 << Param(FavoriteMethod(type), id_list.join(','));
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -197,11 +204,17 @@ void TidalFavoriteRequest::RemoveSongs(const SongList &songs) {
   RemoveFavorites(FavoriteType_Songs, songs);
 }
 
+void TidalFavoriteRequest::RemoveSongs(const SongMap &songs) {
+
+  SongList songs_list = songs.values();
+  for (const Song &song : songs_list) {
+    RemoveFavoritesRequest(FavoriteType_Songs, song.song_id(), SongList() << song);
+  }
+
+}
+
 void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongList &songs) {
 
-  if (songs.isEmpty()) return;
-
-  QStringList ids;
   QMultiMap<QString, Song> songs_map;
   for (const Song &song : songs) {
     QString id;
@@ -219,18 +232,19 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
         id = song.song_id();
         break;
     }
-    if (!ids.contains(id)) ids << id;
-    songs_map.insert(id, song);
+    if (!id.isEmpty()) {
+      songs_map.insert(id, song);
+    }
   }
 
+  QStringList ids = songs_map.uniqueKeys();
   for (const QString &id : ids) {
-    SongList songs_list = songs_map.values(id);
-    RemoveFavorites(type, id, songs_list);
+    RemoveFavoritesRequest(type, id, songs_map.values(id));
   }
 
 }
 
-void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const QString &id, const SongList &songs) {
+void TidalFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const QString &id, const SongList &songs) {
 
   ParamList params = ParamList() << Param("countryCode", country_code());
 

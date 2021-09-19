@@ -26,6 +26,7 @@
 #include <QMimeData>
 #include <QList>
 #include <QSet>
+#include <QMap>
 #include <QVariant>
 #include <QString>
 #include <QPixmap>
@@ -392,12 +393,11 @@ MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &
     return nullptr;
   }
 
-  SongList songs;
+  SongMap songs;
   QList<QUrl> urls;
-  songs.reserve(results.count());
   urls.reserve(results.count());
   for (const InternetSearchView::Result &result : results) {
-    songs << result.metadata_;
+    songs.insert(result.metadata_.song_id(), result.metadata_);
     urls << result.metadata_.url();
   }
 

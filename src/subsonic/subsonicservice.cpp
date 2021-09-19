@@ -26,6 +26,7 @@
 #include <QByteArray>
 #include <QPair>
 #include <QList>
+#include <QMap>
 #include <QString>
 #include <QVariant>
 #include <QUrl>
@@ -86,7 +87,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
 
   collection_backend_ = new CollectionBackend();
   collection_backend_->moveToThread(app_->database()->thread());
-  collection_backend_->Init(app_->database(), Song::Source_Subsonic, kSongsTable, kSongsFtsTable);
+  collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Subsonic, kSongsTable, kSongsFtsTable);
 
   // Model
 
@@ -425,12 +426,12 @@ void SubsonicService::ResetSongsRequest() {
 void SubsonicService::GetSongs() {
 
   if (!server_url().isValid()) {
-    emit SongsResults(SongList(), tr("Server URL is invalid."));
+    emit SongsResults(SongMap(), tr("Server URL is invalid."));
     return;
   }
 
   if (username().isEmpty() || password().isEmpty()) {
-    emit SongsResults(SongList(), tr("Missing username or password."));
+    emit SongsResults(SongMap(), tr("Missing username or password."));
     return;
   }
 
@@ -445,7 +446,7 @@ void SubsonicService::GetSongs() {
 
 }
 
-void SubsonicService::SongsResultsReceived(const SongList &songs, const QString &error) {
+void SubsonicService::SongsResultsReceived(const SongMap &songs, const QString &error) {
 
   emit SongsResults(songs, error);
 

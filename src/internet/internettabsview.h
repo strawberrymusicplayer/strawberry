@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include <QWidget>
+#include <QMap>
 #include <QString>
 
 #include "settings/settingsdialog.h"
@@ -60,9 +61,9 @@ class InternetTabsView : public QWidget {
   void AbortGetArtists();
   void AbortGetAlbums();
   void AbortGetSongs();
-  void ArtistsFinished(const SongList &songs, const QString &error);
-  void AlbumsFinished(const SongList &songs, const QString &error);
-  void SongsFinished(const SongList &songs, const QString &error);
+  void ArtistsFinished(const SongMap &songs, const QString &error);
+  void AlbumsFinished(const SongMap &songs, const QString &error);
+  void SongsFinished(const SongMap &songs, const QString &error);
 
  private:
   Application *app_;

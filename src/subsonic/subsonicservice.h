@@ -28,6 +28,7 @@
 #include <QPair>
 #include <QSet>
 #include <QList>
+#include <QMap>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -96,7 +97,7 @@ class SubsonicService : public InternetService {
  private slots:
   void HandlePingSSLErrors(const QList<QSslError> &ssl_errors);
   void HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method);
-  void SongsResultsReceived(const SongList &songs, const QString &error);
+  void SongsResultsReceived(const SongMap &songs, const QString &error);
 
  private:
   typedef QPair<QString, QString> Param;

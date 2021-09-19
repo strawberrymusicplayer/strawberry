@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QMap>
 #include <QVariant>
 #include <QString>
 
@@ -62,16 +63,20 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
  public slots:
   void AddArtists(const SongList &songs);
   void AddAlbums(const SongList &songs);
-  void AddSongs(const SongList &songs);
+  void AddSongs(const SongMap &songs);
   void RemoveArtists(const SongList &songs);
   void RemoveAlbums(const SongList &songs);
   void RemoveSongs(const SongList &songs);
+  void RemoveSongs(const SongMap &songs);
 
  private:
   void Error(const QString &error, const QVariant &debug = QVariant());
   static QString FavoriteText(const FavoriteType type);
+  static QString FavoriteMethod(const FavoriteType type);
   void AddFavorites(const FavoriteType type, const SongList &songs);
+  void AddFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs);
   void RemoveFavorites(const FavoriteType type, const SongList &songs);
+  void RemoveFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs);
 
   QobuzService *service_;
   NetworkAccessManager *network_;

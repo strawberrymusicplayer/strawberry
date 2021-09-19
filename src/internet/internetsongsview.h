@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include <QWidget>
+#include <QMap>
 #include <QString>
 
 #include "core/song.h"
@@ -51,7 +52,7 @@ class InternetSongsView : public QWidget {
   void OpenSettingsDialog();
   void GetSongs();
   void AbortGetSongs();
-  void SongsFinished(const SongList &songs, const QString &error);
+  void SongsFinished(const SongMap &songs, const QString &error);
 
  private:
   Application *app_;

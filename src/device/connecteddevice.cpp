@@ -63,6 +63,7 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
   }
 
   backend_->Init(app_->database(),
+                 app_->task_manager(),
                  Song::Source_Device,
                  QString("device_%1_songs").arg(database_id),
                  QString("device_%1_fts").arg(database_id),

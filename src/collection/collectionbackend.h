@@ -40,6 +40,7 @@
 #include "directory.h"
 
 class QThread;
+class TaskManager;
 class Database;
 class SmartPlaylistSearch;
 
@@ -127,7 +128,7 @@ class CollectionBackend : public CollectionBackendInterface {
 
   Q_INVOKABLE explicit CollectionBackend(QObject *parent = nullptr);
 
-  void Init(Database *db, const Song::Source source, const QString &songs_table, const QString &fts_table, const QString &dirs_table = QString(), const QString &subdirs_table = QString());
+  void Init(Database *db, TaskManager *task_manager, const Song::Source source, const QString &songs_table, const QString &fts_table, const QString &dirs_table = QString(), const QString &subdirs_table = QString());
   void Close();
 
   void ExitAsync();
@@ -184,6 +185,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void RemoveDirectory(const Directory &dir) override;
 
   bool ExecCollectionQuery(CollectionQuery *query, SongList &songs);
+  bool ExecCollectionQuery(CollectionQuery *query, SongMap &songs);
 
   void IncrementPlayCountAsync(const int id);
   void IncrementSkipCountAsync(const int id, const float progress);
@@ -202,6 +204,7 @@ class CollectionBackend : public CollectionBackendInterface {
   Song::Source Source() const;
 
   void AddOrUpdateSongsAsync(const SongList &songs);
+  void UpdateSongsBySongIDAsync(const SongMap &new_songs);
 
   void UpdateSongRatingAsync(const int id, const double rating);
   void UpdateSongsRatingAsync(const QList<int> &ids, const double rating);
@@ -213,6 +216,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateTotalArtistCount();
   void UpdateTotalAlbumCount();
   void AddOrUpdateSongs(const SongList &songs);
+  void UpdateSongsBySongID(const SongMap &new_songs);
   void UpdateMTimesOnly(const SongList &songs);
   void DeleteSongs(const SongList &songs);
   void MarkSongsUnavailable(const SongList &songs, const bool unavailable = true);
@@ -279,6 +283,7 @@ class CollectionBackend : public CollectionBackendInterface {
 
  private:
   Database *db_;
+  TaskManager *task_manager_;
   Song::Source source_;
   QString songs_table_;
   QString dirs_table_;

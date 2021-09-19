@@ -214,7 +214,7 @@ QList<PlaylistItemPtr> PlaylistBackend::GetPlaylistItems(const int playlist) {
 
 }
 
-QList<Song> PlaylistBackend::GetPlaylistSongs(const int playlist) {
+SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
 
   SongList songs;
 
@@ -230,7 +230,7 @@ QList<Song> PlaylistBackend::GetPlaylistSongs(const int playlist) {
     q.BindValue(":playlist", playlist);
     if (!q.Exec()) {
       db_->ReportErrors(q);
-      return QList<Song>();
+      return SongList();
     }
 
     // it's probable that we'll have a few songs associated with the same CUE so we're caching results of parsing CUEs

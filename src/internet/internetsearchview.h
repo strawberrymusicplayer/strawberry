@@ -140,13 +140,13 @@ class InternetSearchView : public QWidget {
   void AddToPlaylist(QMimeData*);
   void AddArtistsSignal(SongList);
   void AddAlbumsSignal(SongList);
-  void AddSongsSignal(SongList);
+  void AddSongsSignal(SongMap);
 
  private slots:
   void SwapModels();
   void TextEdited(const QString &text);
   void StartSearch(const QString &query);
-  void SearchDone(const int service_id, const SongList &songs, const QString &error);
+  void SearchDone(const int service_id, const SongMap &songs, const QString &error);
 
   void UpdateStatus(const int service_id, const QString &text);
   void ProgressSetMaximum(const int service_id, const int max);

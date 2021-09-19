@@ -23,6 +23,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QMetaType>
+#include <QMap>
 #include <QString>
 #include <QUrl>
 #include <QIcon>
@@ -95,38 +96,39 @@ class InternetService : public QObject {
   void TestComplete(bool success, QString error = QString());
 
   void Error(QString error);
-  void Results(SongList songs, QString error);
+  void Results(SongMap songs, QString error);
   void UpdateStatus(QString text);
   void ProgressSetMaximum(int max);
   void UpdateProgress(int max);
 
-  void ArtistsResults(SongList songs, QString error);
+  void ArtistsResults(SongMap songs, QString error);
   void ArtistsUpdateStatus(QString text);
   void ArtistsProgressSetMaximum(int max);
   void ArtistsUpdateProgress(int max);
 
-  void AlbumsResults(SongList songs, QString error);
+  void AlbumsResults(SongMap songs, QString error);
   void AlbumsUpdateStatus(QString text);
   void AlbumsProgressSetMaximum(int max);
   void AlbumsUpdateProgress(int max);
 
-  void SongsResults(SongList songs, QString error);
+  void SongsResults(SongMap songs, QString error);
   void SongsUpdateStatus(QString text);
   void SongsProgressSetMaximum(int max);
   void SongsUpdateProgress(int max);
 
-  void SearchResults(int id, SongList songs, QString error);
+  void SearchResults(int id, SongMap songs, QString error);
   void SearchUpdateStatus(int id, QString text);
   void SearchProgressSetMaximum(int id, int max);
   void SearchUpdateProgress(int id, int max);
 
-  void AddArtists(SongList);
-  void AddAlbums(SongList);
-  void AddSongs(SongList);
+  void AddArtists(SongList songs);
+  void AddAlbums(SongList songs);
+  void AddSongs(SongMap songs);
 
-  void RemoveArtists(SongList);
-  void RemoveAlbums(SongList);
-  void RemoveSongs(SongList);
+  void RemoveArtists(SongList songs);
+  void RemoveAlbums(SongList songs);
+  void RemoveSongs(SongList songs);
+  void RemoveSongs(SongMap songs);
 
   void StreamURLFinished(QUrl original_url, QUrl stream_url, Song::FileType filetype, int samplerate, int bit_depth, qint64 duration, QString error = QString());
 

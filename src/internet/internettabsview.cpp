@@ -21,6 +21,7 @@
 
 #include <QtGlobal>
 #include <QWidget>
+#include <QMap>
 #include <QVariant>
 #include <QString>
 #include <QLabel>
@@ -137,7 +138,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
     ui_->songs_collection->filter_widget()->AddMenuAction(action_configure);
 
     QObject::connect(ui_->songs_collection->view(), &InternetCollectionView::GetSongs, this, &InternetTabsView::GetSongs);
-    QObject::connect(ui_->songs_collection->view(), &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveSongs);
+    QObject::connect(ui_->songs_collection->view(), &InternetCollectionView::RemoveSongs, service_, QOverload<SongList>::of(&InternetService::RemoveSongs));
 
     QObject::connect(ui_->songs_collection->button_refresh(), &QPushButton::clicked, this, &InternetTabsView::GetSongs);
     QObject::connect(ui_->songs_collection->button_close(), &QPushButton::clicked, this, &InternetTabsView::AbortGetSongs);
@@ -230,7 +231,7 @@ void InternetTabsView::AbortGetArtists() {
 
 }
 
-void InternetTabsView::ArtistsFinished(const SongList &songs, const QString &error) {
+void InternetTabsView::ArtistsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
     ui_->artists_collection->status()->setText(error);
@@ -240,10 +241,9 @@ void InternetTabsView::ArtistsFinished(const SongList &songs, const QString &err
     ui_->artists_collection->button_close()->show();
   }
   else {
-    service_->artists_collection_backend()->DeleteAll();
     ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->internetcollection_page());
     ui_->artists_collection->status()->clear();
-    service_->artists_collection_backend()->AddOrUpdateSongsAsync(songs);
+    service_->artists_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }
 
 }
@@ -273,7 +273,7 @@ void InternetTabsView::AbortGetAlbums() {
 
 }
 
-void InternetTabsView::AlbumsFinished(const SongList &songs, const QString &error) {
+void InternetTabsView::AlbumsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
     ui_->albums_collection->status()->setText(error);
@@ -283,10 +283,9 @@ void InternetTabsView::AlbumsFinished(const SongList &songs, const QString &erro
     ui_->albums_collection->button_close()->show();
   }
   else {
-    service_->albums_collection_backend()->DeleteAll();
     ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->internetcollection_page());
     ui_->albums_collection->status()->clear();
-    service_->albums_collection_backend()->AddOrUpdateSongsAsync(songs);
+    service_->albums_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }
 
 }
@@ -316,7 +315,7 @@ void InternetTabsView::AbortGetSongs() {
 
 }
 
-void InternetTabsView::SongsFinished(const SongList &songs, const QString &error) {
+void InternetTabsView::SongsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
     ui_->songs_collection->status()->setText(error);
@@ -326,10 +325,9 @@ void InternetTabsView::SongsFinished(const SongList &songs, const QString &error
     ui_->songs_collection->button_close()->show();
   }
   else {
-    service_->songs_collection_backend()->DeleteAll();
     ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->internetcollection_page());
     ui_->songs_collection->status()->clear();
-    service_->songs_collection_backend()->AddOrUpdateSongsAsync(songs);
+    service_->songs_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }
 
 }

@@ -151,7 +151,7 @@ void SomaFMService::GetStreamUrlsReply(QNetworkReply *reply, const int task_id, 
   reply->deleteLater();
 
   PlaylistParser parser;
-  QList<Song> songs = parser.LoadFromDevice(reply);
+  SongList songs = parser.LoadFromDevice(reply);
   if (!songs.isEmpty()) {
     channel.url = songs.first().url();
   }

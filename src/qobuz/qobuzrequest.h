@@ -62,7 +62,7 @@ class QobuzRequest : public QobuzBaseRequest {
  signals:
   void LoginSuccess();
   void LoginFailure(QString failure_reason);
-  void Results(int id, SongList songs, QString error);
+  void Results(int id, SongMap songs, QString error);
   void UpdateStatus(int id, QString text);
   void ProgressSetMaximum(int id, int max);
   void UpdateProgress(int id, int max);
@@ -191,7 +191,7 @@ class QobuzRequest : public QobuzBaseRequest {
   int album_covers_requested_;
   int album_covers_received_;
 
-  QMap<QString, Song> songs_;
+  SongMap songs_;
   QStringList errors_;
   bool no_results_;
   QList<QNetworkReply*> replies_;

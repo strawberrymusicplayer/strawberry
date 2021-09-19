@@ -1315,15 +1315,15 @@ void QobuzRequest::FinishCheck() {
     finished_ = true;
     if (no_results_ && songs_.isEmpty()) {
       if (IsSearch())
-        emit Results(query_id_, SongList(), tr("No match."));
+        emit Results(query_id_, SongMap(), tr("No match."));
       else
-        emit Results(query_id_, SongList(), QString());
+        emit Results(query_id_, SongMap(), QString());
     }
     else {
       if (songs_.isEmpty() && errors_.isEmpty())
-        emit Results(query_id_, songs_.values(), tr("Unknown error"));
+        emit Results(query_id_, songs_, tr("Unknown error"));
       else
-        emit Results(query_id_, songs_.values(), ErrorsToHTML(errors_));
+        emit Results(query_id_, songs_, ErrorsToHTML(errors_));
     }
   }
 

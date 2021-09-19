@@ -487,7 +487,7 @@ void InternetSearchView::SearchAsync(const int id, const QString &query, const S
 
 }
 
-void InternetSearchView::SearchDone(const int service_id, const SongList &songs, const QString &error) {
+void InternetSearchView::SearchDone(const int service_id, const SongMap &songs, const QString &error) {
 
   if (!pending_searches_.contains(service_id)) return;
 
@@ -758,7 +758,7 @@ void InternetSearchView::AddArtists() {
   MimeData *mimedata = SelectedMimeData();
   if (!mimedata) return;
   if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(mimedata)) {
-    emit AddArtistsSignal(internet_song_data->songs);
+    emit AddArtistsSignal(internet_song_data->songs.values());
   }
 
 }
@@ -768,7 +768,7 @@ void InternetSearchView::AddAlbums() {
   MimeData *mimedata = SelectedMimeData();
   if (!mimedata) return;
   if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(mimedata)) {
-    emit AddAlbumsSignal(internet_song_data->songs);
+    emit AddAlbumsSignal(internet_song_data->songs.values());
   }
 
 }

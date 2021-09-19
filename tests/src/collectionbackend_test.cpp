@@ -46,7 +46,7 @@ class CollectionBackendTest : public ::testing::Test {
   void SetUp() override {
     database_.reset(new MemoryDatabase(nullptr));
     backend_ = std::make_unique<CollectionBackend>();
-    backend_->Init(database_.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+    backend_->Init(database_.get(), nullptr, Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
   }
 
   static Song MakeDummySong(int directory_id) {
@@ -426,6 +426,177 @@ TEST_F(SingleSong, TestUrls) {
       EXPECT_EQ(url, q.value(0).toUrl());
       EXPECT_EQ(url, QUrl::fromEncoded(q.value(0).toByteArray()));
     }
+
+  }
+
+}
+
+TEST_F(CollectionBackendTest, UpdateSongsBySongID) {
+
+    QStringList song_ids = QStringList() << "song1"
+                                         << "song2"
+                                         << "song3"
+                                         << "song4"
+                                         << "song5"
+                                         << "song6";
+
+  { // Add songs
+    SongMap songs;
+
+    for (const QString &song_id : song_ids) {
+
+      QUrl url;
+      url.setScheme("file");
+      url.setPath("/music/" + song_id);
+
+      Song song(Song::Source_Collection);
+      song.set_song_id(song_id);
+      song.set_directory_id(1);
+      song.set_title("Test Title " + song_id);
+      song.set_album("Test Album");
+      song.set_artist("Test Artist");
+      song.set_url(url);
+      song.set_length_nanosec(kNsecPerSec);
+      song.set_mtime(1);
+      song.set_ctime(1);
+      song.set_filesize(1);
+      song.set_valid(true);
+
+      songs.insert(song_id, song);
+
+    }
+
+    QSignalSpy spy(backend_.get(), &CollectionBackend::SongsDiscovered);
+
+    backend_->UpdateSongsBySongID(songs);
+
+    ASSERT_EQ(1, spy.count());
+    SongList new_songs = spy[0][0].value<SongList>();
+    EXPECT_EQ(new_songs.count(), song_ids.count());
+    EXPECT_EQ(song_ids[0], new_songs[0].song_id());
+    EXPECT_EQ(song_ids[1], new_songs[1].song_id());
+    EXPECT_EQ(song_ids[2], new_songs[2].song_id());
+    EXPECT_EQ(song_ids[3], new_songs[3].song_id());
+    EXPECT_EQ(song_ids[4], new_songs[4].song_id());
+    EXPECT_EQ(song_ids[5], new_songs[5].song_id());
+
+  }
+
+  {  // Check that all songs are added.
+
+    SongMap songs;
+    {
+      QSqlDatabase db(database_->Connect());
+      CollectionQuery query(db, SCollection::kSongsTable, SCollection::kFtsTable);
+      EXPECT_TRUE(backend_->ExecCollectionQuery(&query, songs));
+    }
+
+    EXPECT_EQ(songs.count(), song_ids.count());
+
+    for (QMap<QString, Song>::const_iterator it = songs.begin() ; it != songs.end() ; ++it) {
+      EXPECT_EQ(it.key(), it.value().song_id());
+    }
+
+    for (const QString &song_id : song_ids) {
+      EXPECT_TRUE(songs.contains(song_id));
+    }
+
+  }
+
+  {  // Remove some songs
+    QSignalSpy spy1(backend_.get(), &CollectionBackend::SongsDiscovered);
+    QSignalSpy spy2(backend_.get(), &CollectionBackend::SongsDeleted);
+
+    SongMap songs;
+
+    QStringList song_ids2 = QStringList() << "song1"
+                                          << "song4"
+                                          << "song5"
+                                          << "song6";
+
+    for (const QString &song_id : song_ids2) {
+
+      QUrl url;
+      url.setScheme("file");
+      url.setPath("/music/" + song_id);
+
+      Song song(Song::Source_Collection);
+      song.set_song_id(song_id);
+      song.set_directory_id(1);
+      song.set_title("Test Title " + song_id);
+      song.set_album("Test Album");
+      song.set_artist("Test Artist");
+      song.set_url(url);
+      song.set_length_nanosec(kNsecPerSec);
+      song.set_mtime(1);
+      song.set_ctime(1);
+      song.set_filesize(1);
+      song.set_valid(true);
+
+      songs.insert(song_id, song);
+
+    }
+
+    backend_->UpdateSongsBySongID(songs);
+
+    ASSERT_EQ(0, spy1.count());
+    ASSERT_EQ(1, spy2.count());
+    SongList deleted_songs = spy2[0][0].value<SongList>();
+    EXPECT_EQ(deleted_songs.count(), 2);
+    EXPECT_EQ(deleted_songs[0].song_id(), "song2");
+    EXPECT_EQ(deleted_songs[1].song_id(), "song3");
+
+  }
+
+  {  // Update some songs
+    QSignalSpy spy1(backend_.get(), &CollectionBackend::SongsDeleted);
+    QSignalSpy spy2(backend_.get(), &CollectionBackend::SongsDiscovered);
+
+    SongMap songs;
+
+    QStringList song_ids2 = QStringList() << "song1"
+                                          << "song4"
+                                          << "song5"
+                                          << "song6";
+
+    for (const QString &song_id : song_ids2) {
+
+      QUrl url;
+      url.setScheme("file");
+      url.setPath("/music/" + song_id);
+
+      Song song(Song::Source_Collection);
+      song.set_song_id(song_id);
+      song.set_directory_id(1);
+      song.set_title("Test Title " + song_id);
+      song.set_album("Test Album");
+      song.set_artist("Test Artist");
+      song.set_url(url);
+      song.set_length_nanosec(kNsecPerSec);
+      song.set_mtime(1);
+      song.set_ctime(1);
+      song.set_filesize(1);
+      song.set_valid(true);
+
+      songs.insert(song_id, song);
+
+    }
+
+    songs["song1"].set_artist("New artist");
+    songs["song6"].set_artist("New artist");
+
+    backend_->UpdateSongsBySongID(songs);
+
+    ASSERT_EQ(1, spy1.count());
+    ASSERT_EQ(1, spy2.count());
+    SongList deleted_songs = spy1[0][0].value<SongList>();
+    SongList added_songs = spy2[0][0].value<SongList>();
+    EXPECT_EQ(deleted_songs.count(), 2);
+    EXPECT_EQ(added_songs.count(), 2);
+    EXPECT_EQ(deleted_songs[0].song_id(), "song1");
+    EXPECT_EQ(deleted_songs[1].song_id(), "song6");
+    EXPECT_EQ(added_songs[0].song_id(), "song1");
+    EXPECT_EQ(added_songs[1].song_id(), "song6");
 
   }
 

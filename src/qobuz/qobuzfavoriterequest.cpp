@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QPair>
+#include <QMap>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
@@ -66,6 +67,24 @@ QString QobuzFavoriteRequest::FavoriteText(const FavoriteType type) {
 
 }
 
+QString QobuzFavoriteRequest::FavoriteMethod(const FavoriteType type) {
+
+  switch (type) {
+    case FavoriteType_Artists:
+      return "artist_ids";
+      break;
+    case FavoriteType_Albums:
+      return "album_ids";
+      break;
+    case FavoriteType_Songs:
+      return "track_ids";
+      break;
+  }
+
+  return QString();
+
+}
+
 void QobuzFavoriteRequest::AddArtists(const SongList &songs) {
   AddFavorites(FavoriteType_Artists, songs);
 }
@@ -74,26 +93,11 @@ void QobuzFavoriteRequest::AddAlbums(const SongList &songs) {
   AddFavorites(FavoriteType_Albums, songs);
 }
 
-void QobuzFavoriteRequest::AddSongs(const SongList &songs) {
-  AddFavorites(FavoriteType_Songs, songs);
+void QobuzFavoriteRequest::AddSongs(const SongMap &songs) {
+  AddFavoritesRequest(FavoriteType_Songs, songs.keys(), songs.values());
 }
 
 void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList &songs) {
-
-  if (songs.isEmpty()) return;
-
-  QString text;
-  switch (type) {
-    case FavoriteType_Artists:
-      text = "artist_ids";
-      break;
-    case FavoriteType_Albums:
-      text = "album_ids";
-      break;
-    case FavoriteType_Songs:
-      text = "track_ids";
-      break;
-  }
 
   QStringList ids_list;
   for (const Song &song : songs) {
@@ -112,18 +116,22 @@ void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
         id = song.song_id();
         break;
     }
-    if (id.isEmpty()) continue;
-    if (!ids_list.contains(id)) {
+    if (!id.isEmpty() && !ids_list.contains(id)) {
       ids_list << id;
     }
   }
+
   if (ids_list.isEmpty()) return;
 
-  QString ids = ids_list.join(',');
+  AddFavoritesRequest(type, ids_list, songs);
+
+}
+
+void QobuzFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs) {
 
   ParamList params = ParamList() << Param("app_id", app_id())
                                  << Param("user_auth_token", user_auth_token())
-                                 << Param(text, ids);
+                                 << Param(FavoriteMethod(type), ids_list.join(','));
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -180,22 +188,11 @@ void QobuzFavoriteRequest::RemoveSongs(const SongList &songs) {
   RemoveFavorites(FavoriteType_Songs, songs);
 }
 
+void QobuzFavoriteRequest::RemoveSongs(const SongMap &songs) {
+  RemoveFavoritesRequest(FavoriteType_Songs, songs.keys(), songs.values());
+}
+
 void QobuzFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongList &songs) {
-
-  if (songs.isEmpty()) return;
-
-  QString text;
-  switch (type) {
-    case FavoriteType_Artists:
-      text = "artist_ids";
-      break;
-    case FavoriteType_Albums:
-      text = "album_ids";
-      break;
-    case FavoriteType_Songs:
-      text = "track_ids";
-      break;
-  }
 
   QStringList ids_list;
   for (const Song &song : songs) {
@@ -214,18 +211,22 @@ void QobuzFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
         id = song.song_id();
         break;
     }
-    if (id.isEmpty()) continue;
-    if (!ids_list.contains(id)) {
+    if (!id.isEmpty() && !ids_list.contains(id)) {
       ids_list << id;
     }
   }
+
   if (ids_list.isEmpty()) return;
 
-  QString ids = ids_list.join(',');
+  RemoveFavoritesRequest(type, ids_list, songs);
+
+}
+
+void QobuzFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs) {
 
   ParamList params = ParamList() << Param("app_id", app_id())
                                  << Param("user_auth_token", user_auth_token())
-                                 << Param(text, ids);
+                                 << Param(FavoriteMethod(type), ids_list.join(','));
 
   QUrlQuery url_query;
   for (const Param &param : params) {

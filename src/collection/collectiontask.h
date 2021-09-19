@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,36 +17,24 @@
  *
  */
 
-#include "config.h"
+#ifndef COLLECTIONTASK_H
+#define COLLECTIONTASK_H
 
-#include <QSqlDatabase>
+#include <QtGlobal>
+#include <QString>
 
-#include "core/logging.h"
-#include "scopedtransaction.h"
+class TaskManager;
 
-ScopedTransaction::ScopedTransaction(QSqlDatabase *db) : db_(db), pending_(true) {
+class CollectionTask {
+ public:
+  explicit CollectionTask(TaskManager *task_manager, const QString &message);
+  ~CollectionTask();
 
-  db->transaction();
+ private:
+  TaskManager *task_manager_;
+  int task_id_;
 
-}
+  Q_DISABLE_COPY(CollectionTask)
+};
 
-ScopedTransaction::~ScopedTransaction() {
-
-  if (pending_) {
-    qLog(Warning) << "Rolling back transaction";
-    db_->rollback();
-  }
-
-}
-
-void ScopedTransaction::Commit() {
-
-  if (!pending_) {
-    qLog(Warning) << "Tried to commit a ScopedTransaction twice";
-    return;
-  }
-
-  db_->commit();
-  pending_ = false;
-
-}
+#endif  // COLLECTIONTASK_H

@@ -62,7 +62,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void Reset();
 
  signals:
-  void Results(SongList songs, QString error);
+  void Results(SongMap songs, QString error);
   void UpdateStatus(QString text);
   void ProgressSetMaximum(int max);
   void UpdateProgress(int max);
@@ -140,7 +140,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   int album_covers_requested_;
   int album_covers_received_;
 
-  QMap<QString, Song> songs_;
+  SongMap songs_;
   QStringList errors_;
   bool no_results_;
   QList<QNetworkReply*> replies_;

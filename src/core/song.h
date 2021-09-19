@@ -30,6 +30,7 @@
 #include <QMetaType>
 #include <QList>
 #include <QSet>
+#include <QMap>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
@@ -396,10 +397,13 @@ class Song {
 
   QSharedDataPointer<Private> d;
 };
-Q_DECLARE_METATYPE(Song)
 
 typedef QList<Song> SongList;
-Q_DECLARE_METATYPE(QList<Song>)
+typedef QMap<QString, Song> SongMap;
+
+Q_DECLARE_METATYPE(Song)
+Q_DECLARE_METATYPE(SongList)
+Q_DECLARE_METATYPE(SongMap)
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 size_t qHash(const Song &song);

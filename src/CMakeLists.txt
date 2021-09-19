@@ -76,6 +76,7 @@ set(SOURCES
   collection/sqlrow.cpp
   collection/savedgroupingmanager.cpp
   collection/groupbydialog.cpp
+  collection/collectiontask.cpp
 
   playlist/playlist.cpp
   playlist/playlistbackend.cpp
