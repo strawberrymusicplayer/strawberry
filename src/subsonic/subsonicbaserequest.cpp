@@ -203,7 +203,7 @@ QJsonObject SubsonicBaseRequest::ExtractJsonObj(QByteArray &data) {
     return QJsonObject();
   }
 
-  if (json_doc.isNull() || json_doc.isEmpty()) {
+  if (json_doc.isEmpty()) {
     Error("Received empty Json document.", data);
     return QJsonObject();
   }
