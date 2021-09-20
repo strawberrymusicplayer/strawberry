@@ -62,7 +62,7 @@ class QobuzBaseRequest : public QObject {
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
-  QNetworkReply *CreateRequest(const QString &ressource_name, const QList<Param> &params_provided);
+  QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_provided);
   QByteArray GetReplyData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(QByteArray &data);
   QJsonValue ExtractItems(QByteArray &data);

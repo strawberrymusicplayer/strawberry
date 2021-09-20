@@ -45,7 +45,7 @@ TidalBaseRequest::TidalBaseRequest(TidalService *service, NetworkAccessManager *
       service_(service),
       network_(network) {}
 
-QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, const QList<Param> &params_provided) {
+QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, const ParamList &params_provided) {
 
   ParamList params = ParamList() << params_provided
                                  << Param("countryCode", country_code());

@@ -48,7 +48,7 @@ QobuzBaseRequest::QobuzBaseRequest(QobuzService *service, NetworkAccessManager *
 
 QobuzBaseRequest::~QobuzBaseRequest() = default;
 
-QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, const QList<Param> &params_provided) {
+QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, const ParamList &params_provided) {
 
   ParamList params = ParamList() << params_provided
                                  << Param("app_id", app_id());
