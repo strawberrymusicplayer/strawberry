@@ -37,6 +37,7 @@
 #include <QJsonObject>
 
 #include "subsonicservice.h"
+#include "settings/subsonicsettingspage.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -51,8 +52,12 @@ class SubsonicBaseRequest : public QObject {
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
-  QUrl CreateUrl(const QString &ressource_name, const QList<Param> &params_provided) const;
-  QNetworkReply *CreateGetRequest(const QString &ressource_name, const QList<Param> &params_provided);
+ public:
+  static void AddPasswordToParams(ParamList &params, const SubsonicSettingsPage::AuthMethod auth_method, const QString &password);
+
+ protected:
+  QUrl CreateUrl(const QString &ressource_name, const ParamList &params_provided) const;
+  QNetworkReply *CreateGetRequest(const QString &ressource_name, const ParamList &params_provided) const;
   QByteArray GetReplyData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(QByteArray &data);
 
@@ -64,6 +69,7 @@ class SubsonicBaseRequest : public QObject {
   QUrl server_url() const { return service_->server_url(); }
   QString username() const { return service_->username(); }
   QString password() const { return service_->password(); }
+  SubsonicSettingsPage::AuthMethod auth_method() const { return service_->auth_method(); }
   bool http2() const { return service_->http2(); }
   bool verify_certificate() const { return service_->verify_certificate(); }
   bool download_album_covers() const { return service_->download_album_covers(); }

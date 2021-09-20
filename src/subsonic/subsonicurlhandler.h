@@ -42,9 +42,12 @@ class SubsonicUrlHandler : public UrlHandler {
   explicit SubsonicUrlHandler(Application *app, SubsonicService *service);
 
   QString scheme() const override { return service_->url_scheme(); }
+  QString client_name() const { return service_->client_name(); }
+  QString api_version() const { return service_->api_version(); }
   QUrl server_url() const { return service_->server_url(); }
   QString username() const { return service_->username(); }
   QString password() const { return service_->password(); }
+  SubsonicSettingsPage::AuthMethod auth_method() const { return service_->auth_method(); }
 
   LoadResult StartLoading(const QUrl &url) override;
 

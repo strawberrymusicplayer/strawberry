@@ -57,7 +57,25 @@ SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *pare
 
 }
 
-QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const QList<Param> &params_provided) const {
+void SubsonicBaseRequest::AddPasswordToParams(ParamList &params, const SubsonicSettingsPage::AuthMethod auth_method, const QString &password) {
+
+  if (password.isEmpty()) return;
+
+  if (auth_method == SubsonicSettingsPage::AuthMethod_Hex) {
+    params << Param("p", QString("enc:" + password.toUtf8().toHex()));
+  }
+  else {
+    const QString salt = Utilities::CryptographicRandomString(20);
+    QCryptographicHash md5(QCryptographicHash::Md5);
+    md5.addData(password.toUtf8());
+    md5.addData(salt.toUtf8());
+    params << Param("s", salt);
+    params << Param("t", md5.result().toHex());
+  }
+
+}
+
+QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const ParamList &params_provided) const {
 
   ParamList params = ParamList() << params_provided
                                  << Param("c", client_name())
@@ -65,17 +83,7 @@ QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const QList<P
                                  << Param("f", "json")
                                  << Param("u", username());
 
-  if (service_->auth_method() == SubsonicSettingsPage::AuthMethod_Hex) {
-    params << Param("p", QString("enc:" + password().toUtf8().toHex()));
-  }
-  else {
-    const QString salt = Utilities::CryptographicRandomString(20);
-    QCryptographicHash md5(QCryptographicHash::Md5);
-    md5.addData(password().toUtf8());
-    md5.addData(salt.toUtf8());
-    params << Param("s", salt);
-    params << Param("t", md5.result().toHex());
-  }
+  AddPasswordToParams(params, auth_method(), password());
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -97,7 +105,7 @@ QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const QList<P
 
 }
 
-QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_name, const QList<Param> &params_provided) {
+QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_name, const ParamList &params_provided) const {
 
   QUrl url = CreateUrl(ressource_name, params_provided);
   QNetworkRequest req(url);

@@ -27,6 +27,7 @@
 #include "core/song.h"
 
 #include "subsonicservice.h"
+#include "subsonicbaserequest.h"
 #include "subsonicurlhandler.h"
 
 class Application;
@@ -45,12 +46,13 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
     return LoadResult(url, LoadResult::Error, tr("Missing Subsonic username or password."));
   }
 
-  ParamList params = ParamList() << Param("c", service_->client_name())
-                                 << Param("v", service_->api_version())
+  ParamList params = ParamList() << Param("c", client_name())
+                                 << Param("v", api_version())
                                  << Param("f", "json")
-                                 << Param("u", service_->username())
-                                 << Param("p", QString("enc:" + service_->password().toUtf8().toHex()))
+                                 << Param("u", username())
                                  << Param("id", url.path());
+
+  SubsonicBaseRequest::AddPasswordToParams(params, auth_method(), password());
 
   QUrlQuery url_query;
   for (const Param &param : params) {
