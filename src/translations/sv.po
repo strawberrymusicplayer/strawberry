@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-09-19 05:19-0400\n"
+"PO-Revision-Date: 2021-09-20 03:22-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -43,7 +43,7 @@ msgstr ""
 "Du kan göra spellistor till favoriter genom att klicka på stjärnikonen "
 "intill ett namn på en spellista\n"
 "\n"
-"Favoriserade spellistor kommer att sparas här"
+"Favoritspellistor sparas här"
 
 #: settings/globalshortcutssettingspage.cpp:357
 #, qt-format
@@ -1889,8 +1889,8 @@ msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
-"Dubbelklicka här för att favoritlista den här spellistan så att den sparas "
-"och förblir tillgänglig via panelen \"Spellistor\" till vänster. "
+"Dubbelklicka här för att favorisera den här spellistan så att den sparas och "
+"förblir tillgänglig från panelen \"Spellistor\" på det vänstra sidofältet"
 
 #: ../build/src/ui_subsonicsettingspage.h:236
 #: ../build/src/ui_tidalsettingspage.h:335
@@ -5474,8 +5474,9 @@ msgid ""
 "playlists: the playlist will be deleted (this action cannot be undone). \n"
 "Are you sure you want to continue?"
 msgstr ""
-"Du är på väg att ta bort en spellista som inte är en av dina favoriserade "
-"spellistor: spellistan kommer att tas bort (denna åtgärd kan inte ångras).\n"
+"Du är på väg att ta bort en spellista som inte ingår i dina "
+"favoritspellistor: spellistan kommer att tas bort (den här åtgärden kan inte "
+"ångras).\n"
 "Är du säker på att du vill fortsätta?"
 
 #: ../build/src/ui_loginstatewidget.h:165
