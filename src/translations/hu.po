@@ -3088,7 +3088,7 @@ msgstr "Hiányzó Qobuz jelszó."
 msgid "Missing Qobuz username."
 msgstr "Hiányzó Qobuz felhasználónév."
 
-#: subsonic/subsonicurlhandler.cpp:45
+#: subsonic/subsonicurlhandler.cpp:46
 msgid "Missing Subsonic username or password."
 msgstr "Hiányzó Subsonic felhasználónév vagy jelszó."
 
@@ -4810,7 +4810,7 @@ msgstr "Scrobble-ok beküldése minden"
 msgid "Subsonic"
 msgstr "Subsonic"
 
-#: subsonic/subsonicurlhandler.cpp:41
+#: subsonic/subsonicurlhandler.cpp:42
 msgid "Subsonic server URL is invalid."
 msgstr "A Subsonic szerver URL-je érvénytelen."
 

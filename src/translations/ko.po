@@ -3031,7 +3031,7 @@ msgstr "Qobuz 암호가 없습니다."
 msgid "Missing Qobuz username."
 msgstr "Qobuz 사용자 이름이 없습니다."
 
-#: subsonic/subsonicurlhandler.cpp:45
+#: subsonic/subsonicurlhandler.cpp:46
 msgid "Missing Subsonic username or password."
 msgstr "Subsonic 사용자 이름이나 암호가 없습니다."
 
@@ -4727,7 +4727,7 @@ msgstr "스크로블 제출 주기"
 msgid "Subsonic"
 msgstr "Subsonic"
 
-#: subsonic/subsonicurlhandler.cpp:41
+#: subsonic/subsonicurlhandler.cpp:42
 msgid "Subsonic server URL is invalid."
 msgstr "Subsonic 서버 URL이 잘못되었습니다."
 

@@ -3085,7 +3085,7 @@ msgstr "Brakuje hasła Qobuz."
 msgid "Missing Qobuz username."
 msgstr "Brakuje nazwy użytkownika Qobuz."
 
-#: subsonic/subsonicurlhandler.cpp:45
+#: subsonic/subsonicurlhandler.cpp:46
 msgid "Missing Subsonic username or password."
 msgstr "Brakuje nazwy użytkownika lub hasła Subsonic."
 
@@ -4814,7 +4814,7 @@ msgstr "Przesyłaj scrobble co"
 msgid "Subsonic"
 msgstr "Subsonic"
 
-#: subsonic/subsonicurlhandler.cpp:41
+#: subsonic/subsonicurlhandler.cpp:42
 msgid "Subsonic server URL is invalid."
 msgstr "Adres URL serwera Subsonic jest niepoprawny."
 

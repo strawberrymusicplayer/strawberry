@@ -3064,7 +3064,7 @@ msgstr "Отсутствует пароль Qobuz."
 msgid "Missing Qobuz username."
 msgstr "Отсутствует имя пользователя Qobuz."
 
-#: subsonic/subsonicurlhandler.cpp:45
+#: subsonic/subsonicurlhandler.cpp:46
 msgid "Missing Subsonic username or password."
 msgstr "Отсутствует имя пользователя или пароль Subsonic."
 
@@ -4771,7 +4771,7 @@ msgstr "Отправить скробблы каждые"
 msgid "Subsonic"
 msgstr "Subsonic"
 
-#: subsonic/subsonicurlhandler.cpp:41
+#: subsonic/subsonicurlhandler.cpp:42
 msgid "Subsonic server URL is invalid."
 msgstr "URL-адрес дозвукового сервера недействителен."
 

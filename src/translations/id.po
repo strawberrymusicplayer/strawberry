@@ -3042,7 +3042,7 @@ msgstr "Kata sandi Qobuz tidak tersedia."
 msgid "Missing Qobuz username."
 msgstr "Nama pengguna Qobuz tidak tersedia."
 
-#: subsonic/subsonicurlhandler.cpp:45
+#: subsonic/subsonicurlhandler.cpp:46
 msgid "Missing Subsonic username or password."
 msgstr "Nama pengguna atau kata sandi Subsonic tidak tersedia."
 
@@ -4747,7 +4747,7 @@ msgstr "Kirimkan scrobble setiap"
 msgid "Subsonic"
 msgstr "Subsonic"
 
-#: subsonic/subsonicurlhandler.cpp:41
+#: subsonic/subsonicurlhandler.cpp:42
 msgid "Subsonic server URL is invalid."
 msgstr "URL server Subsonic tidak benar."
 

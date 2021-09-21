@@ -3043,7 +3043,7 @@ msgstr "Qobuz-salasana puuttuu."
 msgid "Missing Qobuz username."
 msgstr "Gobuz-käyttäjätunnus puuttuu."
 
-#: subsonic/subsonicurlhandler.cpp:45
+#: subsonic/subsonicurlhandler.cpp:46
 msgid "Missing Subsonic username or password."
 msgstr "Subsonic-käyttäjätunnus tai -salasana puuttuu."
 
@@ -4743,7 +4743,7 @@ msgstr "Lähetä scrobblet kerran"
 msgid "Subsonic"
 msgstr "Subsonic"
 
-#: subsonic/subsonicurlhandler.cpp:41
+#: subsonic/subsonicurlhandler.cpp:42
 msgid "Subsonic server URL is invalid."
 msgstr "Subsonic-palvelimen osoite ei kelpaa"
 

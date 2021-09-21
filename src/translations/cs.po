@@ -3057,7 +3057,7 @@ msgstr "Chybějící Qobuz heslo."
 msgid "Missing Qobuz username."
 msgstr "Chybějící Qobuz uživatelské jméno."
 
-#: subsonic/subsonicurlhandler.cpp:45
+#: subsonic/subsonicurlhandler.cpp:46
 msgid "Missing Subsonic username or password."
 msgstr "Chybějící uživatelské jméno nebo heslo pro Subsonic."
 
@@ -4777,7 +4777,7 @@ msgstr "Odeslat přehrané skladby každých"
 msgid "Subsonic"
 msgstr "Subsonic"
 
-#: subsonic/subsonicurlhandler.cpp:41
+#: subsonic/subsonicurlhandler.cpp:42
 msgid "Subsonic server URL is invalid."
 msgstr "Adresa serveru Subsonic není správná."
 
