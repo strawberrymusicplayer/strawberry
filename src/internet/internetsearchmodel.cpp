@@ -243,7 +243,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       break;
 
     case CollectionModel::GroupBy_Bitrate:
-      display_text = QString::number(s.bitrate());
+      display_text = QString::number(s.bitrate() ? static_cast<int>(s.bitrate().value()) : -1);
       sort_text = display_text;
       break;
 

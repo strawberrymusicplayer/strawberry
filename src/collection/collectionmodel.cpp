@@ -377,7 +377,7 @@ QString CollectionModel::ContainerKey(const GroupBy type, const Song &song) {
       key = QString::number(qMax(0, song.bitdepth()));
       break;
     case GroupBy_Bitrate:
-      key = QString::number(qMax(0, song.bitrate()));
+      key = QString::number(song.bitrate().value_or(0));
       break;
     case GroupBy_Format:
       if (song.samplerate() <= 0) {
@@ -449,7 +449,7 @@ QString CollectionModel::DividerKey(const GroupBy type, CollectionItem *item) {
       return SortTextForNumber(item->metadata.bitdepth());
 
     case GroupBy_Bitrate:
-      return SortTextForNumber(item->metadata.bitrate());
+      return SortTextForNumber(item->metadata.bitrate() ? static_cast<int>(item->metadata.bitrate().value()) : -1);
 
     case GroupBy_None:
     case GroupByCount:
@@ -1162,7 +1162,7 @@ void CollectionModel::FilterQuery(const GroupBy type, CollectionItem *item, Coll
       q->AddWhere("bitdepth", item->metadata.bitdepth());
       break;
     case GroupBy_Bitrate:
-      q->AddWhere("bitrate", item->metadata.bitrate());
+      q->AddWhere("bitrate", item->metadata.bitrate()? static_cast<int>(item->metadata.bitrate().value()) : -1);
       break;
     case GroupBy_None:
     case GroupByCount:
@@ -1357,7 +1357,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
     case GroupBy_Bitrate:{
       item->metadata.set_bitrate(row.value(0).toInt());
       item->key.append(ContainerKey(type, item->metadata));
-      const int bitrate = qMax(0, item->metadata.bitrate());
+      const int bitrate = item->metadata.bitrate().value_or(0);
       item->display_text = QString::number(bitrate);
       item->sort_text = SortTextForNumber(bitrate) + " ";
       break;
@@ -1551,9 +1551,9 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       break;
     }
     case GroupBy_Bitrate:{
-      item->metadata.set_bitrate(s.bitrate());
+      if(s.bitrate()) item->metadata.set_bitrate(s.bitrate().value());
       item->key.append(ContainerKey(type, s));
-      const int bitrate = qMax(0, s.bitrate());
+      const int bitrate = s.bitrate().value_or(0);
       item->display_text = QString::number(bitrate);
       item->sort_text = SortTextForNumber(bitrate) + " ";
       break;

@@ -319,7 +319,7 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
 
         case Column_Samplerate:         return song.samplerate();
         case Column_Bitdepth:           return song.bitdepth();
-        case Column_Bitrate:            return song.bitrate();
+        case Column_Bitrate:            return song.bitrate() ? static_cast<int>(song.bitrate().value()) : -1;
 
         case Column_Filename:           return song.effective_stream_url();
         case Column_BaseFilename:       return song.basefilename();

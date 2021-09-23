@@ -272,7 +272,7 @@ QString OrganizeFormat::TagValue(const QString &tag, const Song &song) const {
     value = QString::number(song.length_nanosec() / kNsecPerSec);
   }
   else if (tag == "bitrate") {
-    value = QString::number(song.bitrate());
+    value = QString::number(song.bitrate()? static_cast<int>(song.bitrate().value()) : -1);
   }
   else if (tag == "samplerate") {
     value = QString::number(song.samplerate());

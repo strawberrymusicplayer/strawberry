@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QSharedData>
 #include <QSharedDataPointer>
@@ -224,7 +226,7 @@ class Song {
   qint64 end_nanosec() const;
   qint64 length_nanosec() const;
 
-  int bitrate() const;
+  std::optional<uint> bitrate() const;
   int samplerate() const;
   int bitdepth() const;
 
@@ -340,7 +342,7 @@ class Song {
   void set_end_nanosec(qint64 v);
   void set_length_nanosec(qint64 v);
 
-  void set_bitrate(int v);
+  void set_bitrate(uint v);
   void set_samplerate(int v);
   void set_bitdepth(int v);
 

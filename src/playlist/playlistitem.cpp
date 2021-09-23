@@ -113,9 +113,15 @@ void PlaylistItem::UpdateTemporaryMetadata(const Song &metadata) {
   temp_metadata_ = metadata;
 
   // Keep samplerate, bitdepth and bitrate from the old metadata if it's not present in the new.
-  if (temp_metadata_.samplerate() <= 0 && old_metadata.samplerate() > 0) temp_metadata_.set_samplerate(old_metadata.samplerate());
-  if (temp_metadata_.bitdepth() <= 0 && old_metadata.bitdepth() > 0) temp_metadata_.set_bitdepth(old_metadata.bitdepth());
-  if (temp_metadata_.bitrate() <= 0 && old_metadata.bitrate() > 0) temp_metadata_.set_bitrate(old_metadata.bitrate());
+  if (temp_metadata_.samplerate() <= 0 && old_metadata.samplerate() > 0){
+    temp_metadata_.set_samplerate(old_metadata.samplerate());
+  }
+  if (temp_metadata_.bitdepth() <= 0 && old_metadata.bitdepth() > 0) {
+    temp_metadata_.set_bitdepth(old_metadata.bitdepth());
+  }
+  if ((!temp_metadata_.bitrate() || temp_metadata_.bitrate() == 0) && (old_metadata.bitrate() && old_metadata.bitrate() > 0)) {
+    temp_metadata_.set_bitrate(old_metadata.bitrate().value());
+  }
 
 }
 

@@ -193,7 +193,7 @@ struct Song::Private : public QSharedData {
   qint64 beginning_;
   qint64 end_;
 
-  int bitrate_;
+  std::optional<uint> bitrate_;
   int samplerate_;
   int bitdepth_;
 
@@ -246,7 +246,6 @@ Song::Private::Private(Song::Source source)
       beginning_(0),
       end_(-1),
 
-      bitrate_(-1),
       samplerate_(-1),
       bitdepth_(-1),
 
@@ -322,7 +321,7 @@ qint64 Song::beginning_nanosec() const { return d->beginning_; }
 qint64 Song::end_nanosec() const { return d->end_; }
 qint64 Song::length_nanosec() const { return d->end_ - d->beginning_; }
 
-int Song::bitrate() const { return d->bitrate_; }
+std::optional<uint> Song::bitrate() const { return d->bitrate_; }
 int Song::samplerate() const { return d->samplerate_; }
 int Song::bitdepth() const { return d->bitdepth_; }
 
@@ -448,7 +447,7 @@ void Song::set_beginning_nanosec(qint64 v) { d->beginning_ = qMax(0LL, v); }
 void Song::set_end_nanosec(qint64 v) { d->end_ = v; }
 void Song::set_length_nanosec(qint64 v) { d->end_ = d->beginning_ + v; }
 
-void Song::set_bitrate(int v) { d->bitrate_ = v; }
+void Song::set_bitrate(uint v) { d->bitrate_ = v; }
 void Song::set_samplerate(int v) { d->samplerate_ = v; }
 void Song::set_bitdepth(int v) { d->bitdepth_ = v; }
 
@@ -821,7 +820,7 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
   d->comment_ = QStringFromStdString(pb.comment());
   d->lyrics_ = QStringFromStdString(pb.lyrics());
   set_length_nanosec(pb.length_nanosec());
-  d->bitrate_ = pb.bitrate();
+  d->bitrate_ = pb.bitrate() != -1? std::optional<uint>(static_cast<uint>(pb.bitrate())) : std::optional<uint>();
   d->samplerate_ = pb.samplerate();
   d->bitdepth_ = pb.bitdepth();
   set_url(QUrl::fromEncoded(QByteArray(pb.url().data(), pb.url().size())));
@@ -874,7 +873,7 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
   pb->set_lastplayed(d->lastplayed_);
   pb->set_lastseen(d->lastseen_);
   pb->set_length_nanosec(length_nanosec());
-  pb->set_bitrate(d->bitrate_);
+  pb->set_bitrate(d->bitrate_? static_cast<::google::protobuf::int32>(d->bitrate_.value()) : -1);
   pb->set_samplerate(d->samplerate_);
   pb->set_bitdepth(d->bitdepth_);
   pb->set_url(url.constData(), url.size());
@@ -890,6 +889,7 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
 
 #define tostr(n) (q.value(n).isNull() ? QString() : q.value(n).toString())
 #define toint(n) (q.value(n).isNull() ? -1 : q.value(n).toInt())
+#define tooptionaluint(n) (q.value(n).isNull() ? std::optional<uint>() :  std::optional<uint>(static_cast<uint>(q.value(n).toInt())))
 #define tolonglong(n) (q.value(n).isNull() ? -1 : q.value(n).toLongLong())
 #define todouble(n) (q.value(n).isNull() ? -1 : q.value(n).toDouble())
 
@@ -974,7 +974,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     }
 
     else if (Song::kColumns.value(i) == "bitrate") {
-      d->bitrate_ = toint(x);
+      d->bitrate_ = tooptionaluint(x);
     }
     else if (Song::kColumns.value(i) == "samplerate") {
       d->samplerate_ = toint(x);
@@ -1149,7 +1149,7 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
 
   set_length_nanosec(track->tracklen * kNsecPerMsec);
 
-  d->bitrate_ = track->bitrate;
+  d->bitrate_ = track->bitrate != -1? std::optional<uint>(static_cast<uint>(track->bitrate)) : std::optional<uint>();
   d->samplerate_ = track->samplerate;
   d->bitdepth_ = -1; //track->bitdepth;
 
@@ -1207,7 +1207,7 @@ void Song::ToItdb(Itdb_Track *track) const {
 
   track->tracklen = length_nanosec() / kNsecPerMsec;
 
-  track->bitrate = d->bitrate_;
+  track->bitrate = d->bitrate_? static_cast<gint32>(d->bitrate_.value()) : -1;
   track->samplerate = d->samplerate_;
 
   track->type1 = (d->filetype_ == FileType_MPEG ? 1 : 0);
@@ -1247,7 +1247,8 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
 
   d->samplerate_ = track->samplerate;
   d->bitdepth_ = 0;
-  d->bitrate_ = track->bitrate;
+  //The documentation for LIBMTP_track_t::bitrate specifies a minimum value of 1
+  d->bitrate_ = track->bitrate != 0? track->bitrate : std::optional<uint>();
 
   d->playcount_ = track->usecount;
 
@@ -1293,7 +1294,10 @@ void Song::ToMTP(LIBMTP_track_t *track) const {
 
   track->duration = length_nanosec() / kNsecPerMsec;
 
-  track->bitrate = d->bitrate_;
+  //The documentation for LIBMTP_track_t::bitrate specifies a minimum value of 1
+  if(d->bitrate_) {
+    track->bitrate = d->bitrate_.value();
+  }
   track->bitratetype = 0;
   track->samplerate = d->samplerate_;
   track->nochannels = 0;
@@ -1374,6 +1378,7 @@ void Song::BindToQuery(SqlQuery *query) const {
 
 #define strval(x) ((x).isNull() ? "" : (x))
 #define intval(x) ((x) <= 0 ? -1 : (x))
+#define optionalintval(x) ((x) && (x).value() > 0 ? static_cast<int>((x).value()) : -1)
 #define notnullintval(x) ((x) == -1 ? QVariant() : (x))
 
   // Remember to bind these in the same order as kBindSpec
@@ -1401,7 +1406,7 @@ void Song::BindToQuery(SqlQuery *query) const {
   query->BindValue(":beginning", d->beginning_);
   query->BindValue(":length", intval(length_nanosec()));
 
-  query->BindValue(":bitrate", intval(d->bitrate_));
+  query->BindValue(":bitrate", optionalintval(d->bitrate_));
   query->BindValue(":samplerate", intval(d->samplerate_));
   query->BindValue(":bitdepth", intval(d->bitdepth_));
 
@@ -1436,6 +1441,7 @@ void Song::BindToQuery(SqlQuery *query) const {
 
   query->BindValue(":rating", intval(d->rating_));
 
+#undef optionalintval
 #undef intval
 #undef notnullintval
 #undef strval

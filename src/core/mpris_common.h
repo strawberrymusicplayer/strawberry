@@ -23,6 +23,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QObject>
 #include <QVariantMap>
 #include <QDateTime>
@@ -41,6 +43,10 @@ inline void AddMetadataAsList(const QString &key, const QString &metadata, QVari
 
 inline void AddMetadata(const QString &key, int metadata, QVariantMap *map) {
   if (metadata > 0) (*map)[key] = metadata;
+}
+
+inline void AddMetadata(const QString &key, std::optional<uint> metadata, QVariantMap *map) {
+  if (metadata && metadata > 0) (*map)[key] = metadata.value();
 }
 
 inline void AddMetadata(const QString &key, qint64 metadata, QVariantMap *map) {

@@ -731,7 +731,9 @@ void EditTagDialog::UpdateSummaryTab(const Song &song, const UpdateCoverAction c
 
   SetText(ui_->samplerate, song.samplerate(), "Hz");
   SetText(ui_->bitdepth, song.bitdepth(), "Bit");
-  SetText(ui_->bitrate, song.bitrate(), tr("kbps"));
+  if(song.bitrate()) {
+    SetText(ui_->bitrate, song.bitrate().value(), tr("kbps"));
+  }
   SetDate(ui_->mtime, song.mtime());
   SetDate(ui_->ctime, song.ctime());
 

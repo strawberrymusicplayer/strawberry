@@ -537,7 +537,7 @@ void ContextView::SetSong() {
       label_bitdepth_->show();
       SetLabelText(label_bitdepth_, song_playing_.bitdepth(), "Bit");
     }
-    if (song_playing_.bitrate() <= 0) {
+    if (!song_playing_.bitrate() || song_playing_.bitrate().value() == 0) {
       label_bitrate_title_->hide();
       label_bitrate_->hide();
       label_bitrate_->clear();
@@ -545,7 +545,7 @@ void ContextView::SetSong() {
     else {
       label_bitrate_title_->show();
       label_bitrate_->show();
-      SetLabelText(label_bitrate_, song_playing_.bitrate(), tr("kbps"));
+      SetLabelText(label_bitrate_, song_playing_.bitrate().value(), tr("kbps"));
     }
     spacer_play_data_->changeSize(20, 20, QSizePolicy::Fixed);
   }
@@ -687,7 +687,7 @@ void ContextView::UpdateSong(const Song &song) {
       }
     }
     if (song.bitrate() != song_playing_.bitrate()) {
-      if (song.bitrate() <= 0) {
+      if (!song.bitrate() || song.bitrate() == 0) {
         label_bitrate_title_->hide();
         label_bitrate_->hide();
         label_bitrate_->clear();
@@ -695,7 +695,7 @@ void ContextView::UpdateSong(const Song &song) {
       else {
         label_bitrate_title_->show();
         label_bitrate_->show();
-        SetLabelText(label_bitrate_, song.bitrate(), tr("kbps"));
+        SetLabelText(label_bitrate_, song.bitrate().value(), tr("kbps"));
       }
     }
   }

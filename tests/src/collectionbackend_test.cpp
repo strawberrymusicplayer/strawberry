@@ -493,7 +493,7 @@ TEST_F(CollectionBackendTest, UpdateSongsBySongID) {
 
     EXPECT_EQ(songs.count(), song_ids.count());
 
-    for (QMap<QString, Song>::const_iterator it = songs.begin() ; it != songs.end() ; ++it) {
+    for (QMap<QString, Song>::iterator it = songs.begin() ; it != songs.end() ; ++it) {
       EXPECT_EQ(it.key(), it.value().song_id());
     }
 
@@ -504,9 +504,6 @@ TEST_F(CollectionBackendTest, UpdateSongsBySongID) {
   }
 
   {  // Remove some songs
-    QSignalSpy spy1(backend_.get(), &CollectionBackend::SongsDiscovered);
-    QSignalSpy spy2(backend_.get(), &CollectionBackend::SongsDeleted);
-
     SongMap songs;
 
     QStringList song_ids2 = QStringList() << "song1"
@@ -536,6 +533,9 @@ TEST_F(CollectionBackendTest, UpdateSongsBySongID) {
       songs.insert(song_id, song);
 
     }
+
+    QSignalSpy spy1(backend_.get(), &CollectionBackend::SongsDiscovered);
+    QSignalSpy spy2(backend_.get(), &CollectionBackend::SongsDeleted);
 
     backend_->UpdateSongsBySongID(songs);
 
