@@ -53,10 +53,9 @@ class SubsonicBaseRequest : public QObject {
   typedef QList<Param> ParamList;
 
  public:
-  static void AddPasswordToParams(ParamList &params, const SubsonicSettingsPage::AuthMethod auth_method, const QString &password);
+  static QUrl CreateUrl(const QUrl &server_url, const SubsonicSettingsPage::AuthMethod auth_method, const QString &username, const QString &password, const QString &ressource_name, const ParamList &params_provided);
 
  protected:
-  QUrl CreateUrl(const QString &ressource_name, const ParamList &params_provided) const;
   QNetworkReply *CreateGetRequest(const QString &ressource_name, const ParamList &params_provided) const;
   QByteArray GetReplyData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(QByteArray &data);
@@ -64,8 +63,6 @@ class SubsonicBaseRequest : public QObject {
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
   static QString ErrorsToHTML(const QStringList &errors);
 
-  QString client_name() const { return service_->client_name(); }
-  QString api_version() const { return service_->api_version(); }
   QUrl server_url() const { return service_->server_url(); }
   QString username() const { return service_->username(); }
   QString password() const { return service_->password(); }

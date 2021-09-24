@@ -60,14 +60,14 @@ class SubsonicService : public InternetService {
   ~SubsonicService() override;
 
   static const Song::Source kSource;
+  static const char *kClientName;
+  static const char *kApiVersion;
 
   void ReloadSettings() override;
   void Exit() override;
 
   Application *app() const { return app_; }
 
-  QString client_name() const { return kClientName; }
-  QString api_version() const { return kApiVersion; }
   QUrl server_url() const { return server_url_; }
   QString username() const { return username_; }
   QString password() const { return password_; }
@@ -105,8 +105,6 @@ class SubsonicService : public InternetService {
 
   void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  static const char *kClientName;
-  static const char *kApiVersion;
   static const char *kSongsTable;
   static const char *kSongsFtsTable;
   static const int kMaxRedirects;

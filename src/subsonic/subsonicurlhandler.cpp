@@ -46,29 +46,7 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
     return LoadResult(url, LoadResult::Error, tr("Missing Subsonic username or password."));
   }
 
-  ParamList params = ParamList() << Param("c", client_name())
-                                 << Param("v", api_version())
-                                 << Param("f", "json")
-                                 << Param("u", username())
-                                 << Param("id", url.path());
-
-  SubsonicBaseRequest::AddPasswordToParams(params, auth_method(), password());
-
-  QUrlQuery url_query;
-  for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-  }
-
-  QUrl stream_url(server_url());
-
-  if (!stream_url.path().isEmpty() && stream_url.path().right(1) == "/") {
-    stream_url.setPath(stream_url.path() + QString("rest/stream.view"));
-  }
-  else {
-    stream_url.setPath(stream_url.path() + QString("/rest/stream.view"));
-  }
-
-  stream_url.setQuery(url_query);
+  const QUrl stream_url = SubsonicBaseRequest::CreateUrl(server_url(), auth_method(), username(), password(), "stream", ParamList() << Param("id", url.path()));
 
   return LoadResult(url, LoadResult::TrackAvailable, stream_url);
 

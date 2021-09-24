@@ -57,9 +57,13 @@ SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *pare
 
 }
 
-void SubsonicBaseRequest::AddPasswordToParams(ParamList &params, const SubsonicSettingsPage::AuthMethod auth_method, const QString &password) {
+QUrl SubsonicBaseRequest::CreateUrl(const QUrl &server_url, const SubsonicSettingsPage::AuthMethod auth_method, const QString &username, const QString &password, const QString &ressource_name, const ParamList &params_provided) {
 
-  if (password.isEmpty()) return;
+  ParamList params = ParamList() << params_provided
+                                 << Param("c", SubsonicService::kClientName)
+                                 << Param("v", SubsonicService::kApiVersion)
+                                 << Param("f", "json")
+                                 << Param("u", username);
 
   if (auth_method == SubsonicSettingsPage::AuthMethod_Hex) {
     params << Param("p", QString("enc:" + password.toUtf8().toHex()));
@@ -73,24 +77,12 @@ void SubsonicBaseRequest::AddPasswordToParams(ParamList &params, const SubsonicS
     params << Param("t", md5.result().toHex());
   }
 
-}
-
-QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const ParamList &params_provided) const {
-
-  ParamList params = ParamList() << params_provided
-                                 << Param("c", client_name())
-                                 << Param("v", api_version())
-                                 << Param("f", "json")
-                                 << Param("u", username());
-
-  AddPasswordToParams(params, auth_method(), password());
-
   QUrlQuery url_query;
   for (const Param &param : params) {
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(server_url());
+  QUrl url(server_url);
 
   if (!url.path().isEmpty() && url.path().right(1) == "/") {
     url.setPath(url.path() + QString("rest/") + ressource_name + QString(".view"));
@@ -107,7 +99,7 @@ QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const ParamLi
 
 QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_name, const ParamList &params_provided) const {
 
-  QUrl url = CreateUrl(ressource_name, params_provided);
+  QUrl url = CreateUrl(server_url(), auth_method(), username(), password(), ressource_name, params_provided);
   QNetworkRequest req(url);
 
   if (url.scheme() == "https" && !verify_certificate()) {

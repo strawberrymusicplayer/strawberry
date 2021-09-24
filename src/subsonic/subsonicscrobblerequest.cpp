@@ -75,12 +75,11 @@ void SubsonicScrobbleRequest::FlushScrobbleRequests() {
     Request request = scrobble_requests_queue_.dequeue();
     ++scrobble_requests_active_;
 
-    ParamList params = ParamList() <<
-      Param("id", request.song_id) <<
-      Param("submission", QVariant(request.submission).toString()) <<
-      Param("time", QVariant(request.time_ms).toString());
+    ParamList params = ParamList() << Param("id", request.song_id)
+                                   << Param("submission", QVariant(request.submission).toString())
+                                   << Param("time", QVariant(request.time_ms).toString());
 
-    QNetworkReply *reply = CreateGetRequest(QString("scrobble"), params);
+    QNetworkReply *reply = CreateGetRequest("scrobble", params);
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { ScrobbleReplyReceived(reply); });
 

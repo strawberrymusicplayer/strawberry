@@ -346,8 +346,7 @@ void SubsonicRequest::FlushAlbumSongsRequests() {
 
     Request request = album_songs_requests_queue_.dequeue();
     ++album_songs_requests_active_;
-    ParamList params = ParamList() << Param("id", request.album_id);
-    QNetworkReply *reply = CreateGetRequest(QString("getAlbum"), params);
+    QNetworkReply *reply = CreateGetRequest(QString("getAlbum"), ParamList() << Param("id", request.album_id));
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.album_artist); });
     timeouts_->AddReply(reply);
@@ -635,7 +634,7 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
 
   QUrl cover_url;
   if (!cover_art_id.isEmpty()) {
-    cover_url = CreateUrl("getCoverArt", ParamList() << Param("id", cover_art_id));
+    cover_url = CreateUrl(server_url(), auth_method(), username(), password(), "getCoverArt", ParamList() << Param("id", cover_art_id));
   }
 
   Song::FileType filetype(Song::FileType_Stream);
