@@ -116,34 +116,37 @@ TEST_F(CollectionBackendTest, AddInvalidSong) {
   // Adding a song without certain fields set should fail
   backend_->AddDirectory("/tmp");
   Song s;
-  //s.set_url(QUrl::fromLocalFile("foo.flac"));
+  s.set_url(QUrl::fromLocalFile("foo.flac"));
   s.set_directory_id(1);
 
   QSignalSpy spy(database_.get(), &Database::Error);
 
   backend_->AddOrUpdateSongs(SongList() << s);
-  //ASSERT_EQ(1, spy.count()); spy.takeFirst();
+  ASSERT_EQ(1, spy.count());
+  spy.takeFirst();
 
   s.set_url(QUrl::fromLocalFile("foo.flac"));
   backend_->AddOrUpdateSongs(SongList() << s);
-  //ASSERT_EQ(1, spy.count()); spy.takeFirst();
+  ASSERT_EQ(1, spy.count());
+  spy.takeFirst();
 
   s.set_filesize(100);
   backend_->AddOrUpdateSongs(SongList() << s);
-  //ASSERT_EQ(1, spy.count()); spy.takeFirst();
+  ASSERT_EQ(1, spy.count());
+  spy.takeFirst();
 
   s.set_mtime(100);
   backend_->AddOrUpdateSongs(SongList() << s);
-  //ASSERT_EQ(1, spy.count()); spy.takeFirst();
+  ASSERT_EQ(1, spy.count());
+  spy.takeFirst();
 
   s.set_ctime(100);
   backend_->AddOrUpdateSongs(SongList() << s);
-  //ASSERT_EQ(0, spy.count());
+  ASSERT_EQ(0, spy.count());
 
 }
 
-TEST_F(CollectionBackendTest, GetAlbumArtNonExistent) {
-}
+TEST_F(CollectionBackendTest, GetAlbumArtNonExistent) {}
 
 // Test adding a single song to the database, then getting various information back about it.
 class SingleSong : public CollectionBackendTest {
@@ -189,19 +192,21 @@ class SingleSong : public CollectionBackendTest {
 TEST_F(SingleSong, GetSongWithNoAlbum) {
 
   song_.set_album("");
-  AddDummySong(); if (HasFatalFailure()) return;
-  
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
   EXPECT_EQ(1, backend_->GetAllArtists().size());
-  //CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
-  //EXPECT_EQ(1, albums.size());
-  //EXPECT_EQ("Artist", albums[0].artist);
-  //EXPECT_EQ("", albums[0].album);
+  CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
+  EXPECT_EQ(1, albums.size());
+  EXPECT_EQ("Artist", albums[0].album_artist);
+  EXPECT_EQ("", albums[0].album);
 
 }
 
 TEST_F(SingleSong, GetAllArtists) {
 
-  AddDummySong();  if (HasFatalFailure()) return;
+  AddDummySong();
+  if (HasFatalFailure()) return;
 
   QStringList artists = backend_->GetAllArtists();
   ASSERT_EQ(1, artists.size());
@@ -211,7 +216,8 @@ TEST_F(SingleSong, GetAllArtists) {
 
 TEST_F(SingleSong, GetAllAlbums) {
 
-  AddDummySong();  if (HasFatalFailure()) return;
+  AddDummySong();
+  if (HasFatalFailure()) return;
 
   CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
   ASSERT_EQ(1, albums.size());
@@ -222,7 +228,8 @@ TEST_F(SingleSong, GetAllAlbums) {
 
 TEST_F(SingleSong, GetAlbumsByArtist) {
 
-  AddDummySong();  if (HasFatalFailure()) return;
+  AddDummySong();
+  if (HasFatalFailure()) return;
 
   CollectionBackend::AlbumList albums = backend_->GetAlbumsByArtist("Artist");
   ASSERT_EQ(1, albums.size());
@@ -233,7 +240,8 @@ TEST_F(SingleSong, GetAlbumsByArtist) {
 
 TEST_F(SingleSong, GetAlbumArt) {
 
-  AddDummySong();  if (HasFatalFailure()) return;
+  AddDummySong();
+  if (HasFatalFailure()) return;
 
   CollectionBackend::Album album = backend_->GetAlbumArt("Artist", "Album");
   EXPECT_EQ(song_.album(), album.album);
@@ -243,7 +251,8 @@ TEST_F(SingleSong, GetAlbumArt) {
 
 TEST_F(SingleSong, GetSongs) {
 
-  AddDummySong();  if (HasFatalFailure()) return;
+  AddDummySong();
+  if (HasFatalFailure()) return;
 
   SongList songs = backend_->GetAlbumSongs("Artist", "Album");
   ASSERT_EQ(1, songs.size());
@@ -256,7 +265,8 @@ TEST_F(SingleSong, GetSongs) {
 
 TEST_F(SingleSong, GetSongById) {
 
-  AddDummySong();  if (HasFatalFailure()) return;
+  AddDummySong();
+  if (HasFatalFailure()) return;
 
   Song song = backend_->GetSongById(1);
   EXPECT_EQ(song_.album(), song.album());
@@ -268,7 +278,8 @@ TEST_F(SingleSong, GetSongById) {
 
 TEST_F(SingleSong, FindSongsInDirectory) {
 
-  AddDummySong();  if (HasFatalFailure()) return;
+  AddDummySong();
+  if (HasFatalFailure()) return;
 
   SongList songs = backend_->FindSongsInDirectory(1);
   ASSERT_EQ(1, songs.size());
@@ -281,7 +292,8 @@ TEST_F(SingleSong, FindSongsInDirectory) {
 
 TEST_F(SingleSong, UpdateSong) {
 
-  AddDummySong();  if (HasFatalFailure()) return;
+  AddDummySong();
+  if (HasFatalFailure()) return;
 
   Song new_song(song_);
   new_song.set_id(1);
@@ -308,7 +320,8 @@ TEST_F(SingleSong, UpdateSong) {
 
 TEST_F(SingleSong, DeleteSongs) {
 
-  AddDummySong();  if (HasFatalFailure()) return;
+  AddDummySong();
+  if (HasFatalFailure()) return;
 
   Song new_song(song_);
   new_song.set_id(1);
@@ -340,7 +353,8 @@ TEST_F(SingleSong, DeleteSongs) {
 
 TEST_F(SingleSong, MarkSongsUnavailable) {
 
-  AddDummySong();  if (HasFatalFailure()) return;
+  AddDummySong();
+  if (HasFatalFailure()) return;
 
   Song new_song(song_);
   new_song.set_id(1);
@@ -370,7 +384,15 @@ TEST_F(SingleSong, MarkSongsUnavailable) {
 
 }
 
-TEST_F(SingleSong, TestUrls) {
+class TestUrls : public CollectionBackendTest {
+ protected:
+  void SetUp() override {
+    CollectionBackendTest::SetUp();
+    backend_->AddDirectory("/mnt/music");
+  }
+};
+
+TEST_F(TestUrls, TestUrls) {
 
   QStringList strings = QStringList() << "file:///mnt/music/01 - Pink Floyd - Echoes.flac"
                                       << "file:///mnt/music/02 - Björn Afzelius - Det räcker nu.flac"
@@ -378,12 +400,11 @@ TEST_F(SingleSong, TestUrls) {
                                       << "file:///mnt/music/Test !#$%&'()-@^_`{}~..flac";
 
   QList<QUrl> urls = QUrl::fromStringList(strings);
-
+  SongList songs;
   for (const QUrl &url : urls) {
 
-    QString str = url.toString(QUrl::FullyEncoded);
-    QUrl test_url = QUrl::fromEncoded(str.toUtf8());
-    EXPECT_EQ(url, test_url);
+    EXPECT_EQ(url, QUrl::fromEncoded(url.toString(QUrl::FullyEncoded).toUtf8()));
+    EXPECT_EQ(url.toString(QUrl::FullyEncoded), url.toEncoded());
 
     Song song(Song::Source_Collection);
     song.set_directory_id(1);
@@ -397,10 +418,22 @@ TEST_F(SingleSong, TestUrls) {
     song.set_filesize(1);
     song.set_valid(true);
 
-    backend_->AddOrUpdateSongs(SongList() << song);
-    if (HasFatalFailure()) continue;
+    songs << song;
 
-    SongList songs = backend_->GetSongsByUrl(url);
+  }
+
+  QSignalSpy spy(backend_.get(), &CollectionBackend::SongsDiscovered);
+
+  backend_->AddOrUpdateSongs(songs);
+  if (HasFatalFailure()) return;
+
+  ASSERT_EQ(1, spy.count());
+  SongList new_songs = spy[0][0].value<SongList>();
+  EXPECT_EQ(new_songs.count(), strings.count());
+
+  for (const QUrl &url : urls) {
+
+    songs = backend_->GetSongsByUrl(url);
     EXPECT_EQ(1, songs.count());
     if (songs.count() < 1) continue;
 
@@ -420,7 +453,7 @@ TEST_F(SingleSong, TestUrls) {
     q.prepare(QString("SELECT url FROM %1 WHERE url = :url").arg(SCollection::kSongsTable));
 
     q.bindValue(":url", url.toString(QUrl::FullyEncoded));
-    q.exec();
+    EXPECT_TRUE(q.exec());
 
     while (q.next()) {
       EXPECT_EQ(url, q.value(0).toUrl());
@@ -431,7 +464,15 @@ TEST_F(SingleSong, TestUrls) {
 
 }
 
-TEST_F(CollectionBackendTest, UpdateSongsBySongID) {
+class UpdateSongsBySongID : public CollectionBackendTest {
+ protected:
+  void SetUp() override {
+    CollectionBackendTest::SetUp();
+    backend_->AddDirectory("/mnt/music");
+  }
+};
+
+TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
     QStringList song_ids = QStringList() << "song1"
                                          << "song2"
