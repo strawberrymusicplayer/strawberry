@@ -4036,13 +4036,13 @@ msgstr "Omezit na znaky dostupné na FAT systémech souborů"
 msgid "Resume playback on start"
 msgstr "Obnovit přehrávání při spuštění"
 
-#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Načítání obalů alb pro %1 album..."
 
-#: subsonic/subsonicrequest.cpp:691 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -5135,7 +5135,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: subsonic/subsonicrequest.cpp:879 tidal/tidalrequest.cpp:1279
+#: subsonic/subsonicrequest.cpp:878 tidal/tidalrequest.cpp:1279
 #: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "Neznámá chyba"

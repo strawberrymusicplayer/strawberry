@@ -4001,13 +4001,13 @@ msgstr "Begrens til tegn tillat på FAT filsystem"
 msgid "Resume playback on start"
 msgstr "Gjenoppta avspilling etter oppstart"
 
-#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mottar album kover for %1 album..."
 
-#: subsonic/subsonicrequest.cpp:691 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -5092,7 +5092,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "Ukjent"
 
-#: subsonic/subsonicrequest.cpp:879 tidal/tidalrequest.cpp:1279
+#: subsonic/subsonicrequest.cpp:878 tidal/tidalrequest.cpp:1279
 #: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "Ukjent feil"

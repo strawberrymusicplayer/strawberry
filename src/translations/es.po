@@ -4081,13 +4081,13 @@ msgstr "Limitar a caracteres permitidos en sistemas de archivos FAT"
 msgid "Resume playback on start"
 msgstr "Reanudar la reproducción al iniciar"
 
-#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Buscando cubierta del álbum %1..."
 
-#: subsonic/subsonicrequest.cpp:691 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -5181,7 +5181,7 @@ msgstr "Desinstale el «snap» con:"
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: subsonic/subsonicrequest.cpp:879 tidal/tidalrequest.cpp:1279
+#: subsonic/subsonicrequest.cpp:878 tidal/tidalrequest.cpp:1279
 #: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "Error desconocido"

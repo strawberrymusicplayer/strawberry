@@ -4026,13 +4026,13 @@ msgstr "Restringi i caratteri a quelli permessi dal filesystem FAT"
 msgid "Resume playback on start"
 msgstr "Riprendi la riproduzione all'avvio"
 
-#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Recupero della copertina per l'album %1..."
 
-#: subsonic/subsonicrequest.cpp:691 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -5129,7 +5129,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: subsonic/subsonicrequest.cpp:879 tidal/tidalrequest.cpp:1279
+#: subsonic/subsonicrequest.cpp:878 tidal/tidalrequest.cpp:1279
 #: qobuz/qobuzrequest.cpp:1324
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
