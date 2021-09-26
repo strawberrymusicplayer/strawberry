@@ -80,4 +80,4 @@ CREATE VIRTUAL TABLE device_%deviceid_fts USING fts5(
   tokenize = "unicode61 remove_diacritics 1"
 );
 
-UPDATE devices SET schema_version=2 WHERE ROWID=%deviceid;
+UPDATE devices SET schema_version=3 WHERE ROWID=%deviceid;
