@@ -87,7 +87,7 @@ void MoodbarPipeline::Start() {
   }
 
   // Join them together
-  if (!gst_element_link(convert_element_, spectrum) || !gst_element_link(spectrum, fakesink)) {
+  if (!gst_element_link_many(convert_element_, spectrum, fakesink, nullptr)) {
     qLog(Error) << "Failed to link elements";
     gst_object_unref(GST_OBJECT(pipeline_));
     pipeline_ = nullptr;
