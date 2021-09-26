@@ -39,8 +39,6 @@ class MoodbarPipeline : public QObject {
   explicit MoodbarPipeline(const QUrl &local_filename, QObject *parent = nullptr);
   ~MoodbarPipeline() override;
 
-  static bool IsAvailable();
-
   bool success() const { return success_; }
   const QByteArray &data() const { return data_; }
 
@@ -63,7 +61,6 @@ class MoodbarPipeline : public QObject {
   static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage *msg, gpointer data);
 
  private:
-  static bool sIsAvailable;
   static const int kBands;
 
   QUrl local_filename_;

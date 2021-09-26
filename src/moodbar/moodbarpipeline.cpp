@@ -35,7 +35,6 @@
 
 #include "ext/gstmoodbar/gstfastspectrum.h"
 
-bool MoodbarPipeline::sIsAvailable = false;
 const int MoodbarPipeline::kBands = 128;
 
 MoodbarPipeline::MoodbarPipeline(const QUrl &local_filename, QObject *parent)
@@ -47,22 +46,6 @@ MoodbarPipeline::MoodbarPipeline(const QUrl &local_filename, QObject *parent)
       running_(false) {}
 
 MoodbarPipeline::~MoodbarPipeline() { Cleanup(); }
-
-bool MoodbarPipeline::IsAvailable() {
-
-  if (!sIsAvailable) {
-    GstElementFactory *factory = gst_element_factory_find("fftwspectrum");
-    if (!factory) {
-      return false;
-    }
-    gst_object_unref(factory);
-
-    sIsAvailable = true;
-  }
-
-  return sIsAvailable;
-
-}
 
 GstElement *MoodbarPipeline::CreateElement(const QString &factory_name) {
 
