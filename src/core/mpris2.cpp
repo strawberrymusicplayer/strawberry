@@ -226,11 +226,11 @@ void Mpris2::EmitNotification(const QString &name) {
 
 //------------------Root Interface--------------------------//
 
-bool Mpris2::CanQuit() { return true; }
+bool Mpris2::CanQuit() const { return true; }
 
-bool Mpris2::CanRaise() { return true; }
+bool Mpris2::CanRaise() const { return true; }
 
-bool Mpris2::HasTrackList() { return true; }
+bool Mpris2::HasTrackList() const { return true; }
 
 QString Mpris2::Identity() const { return app_name_; }
 
@@ -250,7 +250,7 @@ QString Mpris2::DesktopEntryAbsolutePath() const {
 
 QString Mpris2::DesktopEntry() const { return desktop_file_; }
 
-QStringList Mpris2::SupportedUriSchemes() {
+QStringList Mpris2::SupportedUriSchemes() const {
 
   static QStringList res = QStringList() << "file"
                                          << "http"
@@ -261,7 +261,7 @@ QStringList Mpris2::SupportedUriSchemes() {
 
 }
 
-QStringList Mpris2::SupportedMimeTypes() {
+QStringList Mpris2::SupportedMimeTypes() const {
 
   static QStringList res = QStringList() << "x-content/audio-player"
                                          << "application/ogg"
@@ -304,7 +304,7 @@ QString Mpris2::PlaybackStatus() const {
   return PlaybackStatus(app_->player()->GetState());
 }
 
-QString Mpris2::PlaybackStatus(Engine::State state) {
+QString Mpris2::PlaybackStatus(Engine::State state) const {
 
   switch (state) {
     case Engine::Playing: return "Playing";
@@ -347,7 +347,7 @@ void Mpris2::SetLoopStatus(const QString &value) {
 
 }
 
-double Mpris2::Rate() { return 1.0; }
+double Mpris2::Rate() const { return 1.0; }
 
 void Mpris2::SetRate(double rate) {
 
@@ -418,9 +418,9 @@ qint64 Mpris2::Position() const {
   return app_->player()->engine()->position_nanosec() / kNsecPerUsec;
 }
 
-double Mpris2::MaximumRate() { return 1.0; }
+double Mpris2::MaximumRate() const { return 1.0; }
 
-double Mpris2::MinimumRate() { return 1.0; }
+double Mpris2::MinimumRate() const { return 1.0; }
 
 bool Mpris2::CanGoNext() const {
   return app_->playlist_manager()->active() && app_->playlist_manager()->active()->next_row() != -1;
@@ -445,7 +445,7 @@ bool Mpris2::CanSeek(Engine::State state) const {
   return app_->player()->GetCurrentItem() && state != Engine::Empty && !app_->player()->GetCurrentItem()->Metadata().is_stream();
 }
 
-bool Mpris2::CanControl() { return true; }
+bool Mpris2::CanControl() const { return true; }
 
 void Mpris2::Next() {
   if (CanGoNext()) {
@@ -503,14 +503,14 @@ void Mpris2::OpenUri(const QString &uri) {
   app_->playlist_manager()->active()->InsertUrls(QList<QUrl>() << QUrl(uri), -1, true);
 }
 
-Track_Ids Mpris2::Tracks() {
+Track_Ids Mpris2::Tracks() const {
   // TODO
   return Track_Ids();
 }
 
-bool Mpris2::CanEditTracks() { return false; }
+bool Mpris2::CanEditTracks() const { return false; }
 
-TrackMetadata Mpris2::GetTracksMetadata(const Track_Ids &tracks) {
+TrackMetadata Mpris2::GetTracksMetadata(const Track_Ids &tracks) const {
 
   Q_UNUSED(tracks);
 
@@ -543,7 +543,7 @@ quint32 Mpris2::PlaylistCount() const {
   return app_->playlist_manager()->GetAllPlaylists().size();
 }
 
-QStringList Mpris2::Orderings() { return QStringList() << "User"; }
+QStringList Mpris2::Orderings() const { return QStringList() << "User"; }
 
 namespace {
 
