@@ -23,6 +23,8 @@ message SongMetadata {
     DSDIFF = 15;
     PCM = 16;
     APE = 17;
+    MOD = 18;
+    S3M = 19;
     CDDA = 90;
     STREAM = 91;
   }

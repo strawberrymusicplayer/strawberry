@@ -598,6 +598,8 @@ QString Song::TextForFiletype(FileType filetype) {
     case Song::FileType_DSDIFF:      return "DSDIFF";
     case Song::FileType_PCM:         return "PCM";
     case Song::FileType_APE:         return "Monkey's Audio";
+    case Song::FileType_MOD:         return "Module Music Format";
+    case Song::FileType_S3M:         return "Module Music Format";
     case Song::FileType_CDDA:        return "CDDA";
     case Song::FileType_Stream:      return "Stream";
     case Song::FileType_Unknown:
@@ -625,6 +627,8 @@ QString Song::ExtensionForFiletype(FileType filetype) {
     case Song::FileType_DSF:         return "dsf";
     case Song::FileType_DSDIFF:      return "dsd";
     case Song::FileType_APE:         return "ape";
+    case Song::FileType_MOD:         return "mod";
+    case Song::FileType_S3M:         return "s3m";
     case Song::FileType_Unknown:
     default:                         return "dat";
   }
@@ -651,6 +655,8 @@ QIcon Song::IconForFiletype(FileType filetype) {
     case Song::FileType_DSDIFF:      return IconLoader::Load("dsd");
     case Song::FileType_PCM:         return IconLoader::Load("pcm");
     case Song::FileType_APE:         return IconLoader::Load("ape");
+    case Song::FileType_MOD:         return IconLoader::Load("mod");
+    case Song::FileType_S3M:         return IconLoader::Load("s3m");
     case Song::FileType_CDDA:        return IconLoader::Load("cd");
     case Song::FileType_Stream:      return IconLoader::Load("applications-internet");
     case Song::FileType_Unknown:
@@ -695,6 +701,9 @@ Song::FileType Song::FiletypeByMimetype(const QString &mimetype) {
   else if (mimetype.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return Song::FileType_DSF;
   else if (mimetype.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return Song::FileType_DSDIFF;
   else if (mimetype.compare("audio/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("application/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return Song::FileType_APE;
+  else if (mimetype.compare("audio/x-mod", Qt::CaseInsensitive) == 0) return Song::FileType_MOD;
+  else if (mimetype.compare("audio/x-s3m", Qt::CaseInsensitive) == 0) return Song::FileType_S3M;
+
   else return Song::FileType_Unknown;
 
 }
@@ -715,6 +724,8 @@ Song::FileType Song::FiletypeByDescription(const QString &text) {
   else if (text.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return Song::FileType_DSF;
   else if (text.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return Song::FileType_DSDIFF;
   else if (text.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return Song::FileType_APE;
+  else if (text.compare("Module Music Format (MOD)", Qt::CaseInsensitive) == 0) return Song::FileType_MOD;
+  else if (text.compare("Module Music Format (MOD)", Qt::CaseInsensitive) == 0) return Song::FileType_S3M;
   else return Song::FileType_Unknown;
 
 }
@@ -735,6 +746,12 @@ Song::FileType Song::FiletypeByExtension(const QString &ext) {
   else if (ext.compare("dsf", Qt::CaseInsensitive) == 0) return Song::FileType_DSF;
   else if (ext.compare("dsd", Qt::CaseInsensitive) == 0 || ext.compare("dff", Qt::CaseInsensitive) == 0) return Song::FileType_DSDIFF;
   else if (ext.compare("ape", Qt::CaseInsensitive) == 0) return Song::FileType_APE;
+  else if (ext.compare("mod", Qt::CaseInsensitive) == 0 ||
+           ext.compare("module", Qt::CaseInsensitive) == 0 ||
+           ext.compare("nst", Qt::CaseInsensitive) == 0||
+           ext.compare("wow", Qt::CaseInsensitive) == 0) return Song::FileType_MOD;
+  else if (ext.compare("s3m", Qt::CaseInsensitive) == 0) return Song::FileType_S3M;
+
   else return Song::FileType_Unknown;
 
 }

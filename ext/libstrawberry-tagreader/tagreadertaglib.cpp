@@ -67,6 +67,8 @@
 #include <taglib/opusfile.h>
 #include <taglib/trueaudiofile.h>
 #include <taglib/apefile.h>
+#include <taglib/modfile.h>
+#include <taglib/s3mfile.h>
 #ifdef HAVE_TAGLIB_DSFFILE
 #  include <taglib/dsffile.h>
 #endif
@@ -163,6 +165,8 @@ spb::tagreader::SongMetadata_FileType TagReaderTagLib::GuessFileType(TagLib::Fil
   if (dynamic_cast<TagLib::MPC::File*>(fileref->file())) return spb::tagreader::SongMetadata_FileType_MPC;
   if (dynamic_cast<TagLib::TrueAudio::File*>(fileref->file())) return spb::tagreader::SongMetadata_FileType_TRUEAUDIO;
   if (dynamic_cast<TagLib::APE::File*>(fileref->file())) return spb::tagreader::SongMetadata_FileType_APE;
+  if (dynamic_cast<TagLib::Mod::File*>(fileref->file())) return spb::tagreader::SongMetadata_FileType_MOD;
+  if (dynamic_cast<TagLib::S3M::File*>(fileref->file())) return spb::tagreader::SongMetadata_FileType_S3M;
 #ifdef HAVE_TAGLIB_DSFFILE
   if (dynamic_cast<TagLib::DSF::File*>(fileref->file())) return spb::tagreader::SongMetadata_FileType_DSF;
 #endif

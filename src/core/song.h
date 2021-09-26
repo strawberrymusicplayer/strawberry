@@ -102,6 +102,8 @@ class Song {
     FileType_DSDIFF = 15,
     FileType_PCM = 16,
     FileType_APE = 17,
+    FileType_MOD = 18,
+    FileType_S3M = 19,
     FileType_CDDA = 90,
     FileType_Stream = 91,
   };
