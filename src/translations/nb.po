@@ -1351,14 +1351,14 @@ msgstr "Full ut etiketter automatisk…"
 msgid "Composer"
 msgstr "Komponist"
 
-#: settings/subsonicsettingspage.cpp:127 settings/tidalsettingspage.cpp:157
+#: settings/subsonicsettingspage.cpp:129 settings/tidalsettingspage.cpp:157
 #: settings/tidalsettingspage.cpp:164 settings/tidalsettingspage.cpp:168
 #: settings/tidalsettingspage.cpp:172 settings/qobuzsettingspage.cpp:129
 #: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
 msgid "Configuration incomplete"
 msgstr "Oppsett ikke komplett"
 
-#: settings/subsonicsettingspage.cpp:133
+#: settings/subsonicsettingspage.cpp:135
 msgid "Configuration incorrect"
 msgstr "Uriktig oppsett"
 
@@ -3068,7 +3068,7 @@ msgstr ""
 msgid "Missing password."
 msgstr ""
 
-#: settings/subsonicsettingspage.cpp:127
+#: settings/subsonicsettingspage.cpp:129
 msgid "Missing server url, username or password."
 msgstr "Mangler server URL, brukernavn eller passord."
 
@@ -4274,7 +4274,7 @@ msgstr "Serienummer"
 msgid "Server URL"
 msgstr "Server URL"
 
-#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:133
+#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:135
 msgid "Server URL is invalid."
 msgstr "Server URL er ugyldig."
 
@@ -4816,11 +4816,11 @@ msgstr "Tekno"
 msgid "Test"
 msgstr "Test"
 
-#: settings/subsonicsettingspage.cpp:166
+#: settings/subsonicsettingspage.cpp:168
 msgid "Test failed!"
 msgstr "Test feilet!"
 
-#: settings/subsonicsettingspage.cpp:157
+#: settings/subsonicsettingspage.cpp:159
 msgid "Test successful!"
 msgstr "Test successful!"
 
@@ -5082,7 +5082,7 @@ msgstr "Ultrabredt bånd (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:604 collection/collectionmodel.cpp:486
+#: core/song.cpp:606 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
 #: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:503
 #: collection/collectionmodel.cpp:1621 collection/savedgroupingmanager.cpp:146

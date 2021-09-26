@@ -1365,14 +1365,14 @@ msgstr "Labels automatisch voltooien…"
 msgid "Composer"
 msgstr "Componist"
 
-#: settings/subsonicsettingspage.cpp:127 settings/tidalsettingspage.cpp:157
+#: settings/subsonicsettingspage.cpp:129 settings/tidalsettingspage.cpp:157
 #: settings/tidalsettingspage.cpp:164 settings/tidalsettingspage.cpp:168
 #: settings/tidalsettingspage.cpp:172 settings/qobuzsettingspage.cpp:129
 #: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
 msgid "Configuration incomplete"
 msgstr ""
 
-#: settings/subsonicsettingspage.cpp:133
+#: settings/subsonicsettingspage.cpp:135
 msgid "Configuration incorrect"
 msgstr ""
 
@@ -3087,7 +3087,7 @@ msgstr ""
 msgid "Missing password."
 msgstr ""
 
-#: settings/subsonicsettingspage.cpp:127
+#: settings/subsonicsettingspage.cpp:129
 msgid "Missing server url, username or password."
 msgstr ""
 
@@ -4295,7 +4295,7 @@ msgstr "Serienummer"
 msgid "Server URL"
 msgstr ""
 
-#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:133
+#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:135
 msgid "Server URL is invalid."
 msgstr ""
 
@@ -4836,11 +4836,11 @@ msgstr "Techno"
 msgid "Test"
 msgstr "Test"
 
-#: settings/subsonicsettingspage.cpp:166
+#: settings/subsonicsettingspage.cpp:168
 msgid "Test failed!"
 msgstr "Test gefaald!"
 
-#: settings/subsonicsettingspage.cpp:157
+#: settings/subsonicsettingspage.cpp:159
 msgid "Test successful!"
 msgstr "Test geslaagd!"
 
@@ -5109,7 +5109,7 @@ msgstr "Zeer snel internet"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:604 collection/collectionmodel.cpp:486
+#: core/song.cpp:606 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
 #: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:503
 #: collection/collectionmodel.cpp:1621 collection/savedgroupingmanager.cpp:146

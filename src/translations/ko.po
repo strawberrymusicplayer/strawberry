@@ -1358,14 +1358,14 @@ msgstr "자동으로 태그 완성..."
 msgid "Composer"
 msgstr "작곡가"
 
-#: settings/subsonicsettingspage.cpp:127 settings/tidalsettingspage.cpp:157
+#: settings/subsonicsettingspage.cpp:129 settings/tidalsettingspage.cpp:157
 #: settings/tidalsettingspage.cpp:164 settings/tidalsettingspage.cpp:168
 #: settings/tidalsettingspage.cpp:172 settings/qobuzsettingspage.cpp:129
 #: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
 msgid "Configuration incomplete"
 msgstr "설정이 불완전함"
 
-#: settings/subsonicsettingspage.cpp:133
+#: settings/subsonicsettingspage.cpp:135
 msgid "Configuration incorrect"
 msgstr "설정이 잘못됨"
 
@@ -3065,7 +3065,7 @@ msgstr "app_id가 없습니다."
 msgid "Missing password."
 msgstr "패스워드가 없습니다."
 
-#: settings/subsonicsettingspage.cpp:127
+#: settings/subsonicsettingspage.cpp:129
 msgid "Missing server url, username or password."
 msgstr "서버 URL, 사용자 이름이나 암호가 없습니다."
 
@@ -4268,7 +4268,7 @@ msgstr "일련 번호"
 msgid "Server URL"
 msgstr "서버 URL"
 
-#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:133
+#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:135
 msgid "Server URL is invalid."
 msgstr "서버 URL이 잘못되었습니다."
 
@@ -4807,11 +4807,11 @@ msgstr "테크노"
 msgid "Test"
 msgstr "테스트"
 
-#: settings/subsonicsettingspage.cpp:166
+#: settings/subsonicsettingspage.cpp:168
 msgid "Test failed!"
 msgstr "테스트 실패!"
 
-#: settings/subsonicsettingspage.cpp:157
+#: settings/subsonicsettingspage.cpp:159
 msgid "Test successful!"
 msgstr "테스트 성공!"
 
@@ -5058,7 +5058,7 @@ msgstr "초광대역(UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:604 collection/collectionmodel.cpp:486
+#: core/song.cpp:606 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
 #: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:503
 #: collection/collectionmodel.cpp:1621 collection/savedgroupingmanager.cpp:146

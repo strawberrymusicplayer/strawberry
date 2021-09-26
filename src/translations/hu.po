@@ -1394,14 +1394,14 @@ msgstr "Címkék automatikus kiegészítése…"
 msgid "Composer"
 msgstr "Zeneszerző"
 
-#: settings/subsonicsettingspage.cpp:127 settings/tidalsettingspage.cpp:157
+#: settings/subsonicsettingspage.cpp:129 settings/tidalsettingspage.cpp:157
 #: settings/tidalsettingspage.cpp:164 settings/tidalsettingspage.cpp:168
 #: settings/tidalsettingspage.cpp:172 settings/qobuzsettingspage.cpp:129
 #: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
 msgid "Configuration incomplete"
 msgstr "A konfiguráció hiányos"
 
-#: settings/subsonicsettingspage.cpp:133
+#: settings/subsonicsettingspage.cpp:135
 msgid "Configuration incorrect"
 msgstr "A konfiguráció hibás"
 
@@ -3122,7 +3122,7 @@ msgstr "Hiányzó alkalmazás id."
 msgid "Missing password."
 msgstr "Hiányzó jelszó."
 
-#: settings/subsonicsettingspage.cpp:127
+#: settings/subsonicsettingspage.cpp:129
 msgid "Missing server url, username or password."
 msgstr "Hiányzó szerver URL, felhasználónév vagy jelszó."
 
@@ -4343,7 +4343,7 @@ msgstr "Sorozatszám"
 msgid "Server URL"
 msgstr "Szerver URL"
 
-#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:133
+#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:135
 msgid "Server URL is invalid."
 msgstr "A szerver URL-je érvénytelen."
 
@@ -4890,11 +4890,11 @@ msgstr "Techno"
 msgid "Test"
 msgstr "Teszt"
 
-#: settings/subsonicsettingspage.cpp:166
+#: settings/subsonicsettingspage.cpp:168
 msgid "Test failed!"
 msgstr "Teszt sikertelen!"
 
-#: settings/subsonicsettingspage.cpp:157
+#: settings/subsonicsettingspage.cpp:159
 msgid "Test successful!"
 msgstr "Teszt sikeres!"
 
@@ -5159,7 +5159,7 @@ msgstr "Ultra szélessávú (UWB)"
 msgid "Uninstall the snap with:"
 msgstr "Snap eltávolítása ezzel:"
 
-#: core/song.cpp:604 collection/collectionmodel.cpp:486
+#: core/song.cpp:606 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
 #: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:503
 #: collection/collectionmodel.cpp:1621 collection/savedgroupingmanager.cpp:146
