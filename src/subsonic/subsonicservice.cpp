@@ -75,7 +75,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
       collection_backend_(nullptr),
       collection_model_(nullptr),
       collection_sort_model_(new QSortFilterProxyModel(this)),
-      http2_(true),
+      http2_(false),
       verify_certificate_(false),
       download_album_covers_(true),
       auth_method_(SubsonicSettingsPage::AuthMethod_MD5),
@@ -137,7 +137,7 @@ void SubsonicService::ReloadSettings() {
   if (password.isEmpty()) password_.clear();
   else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
 
-  http2_ = s.value("http2", true).toBool();
+  http2_ = s.value("http2", false).toBool();
   verify_certificate_ = s.value("verifycertificate", false).toBool();
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
   auth_method_ = static_cast<SubsonicSettingsPage::AuthMethod>(s.value("authmethod", SubsonicSettingsPage::AuthMethod_MD5).toInt());

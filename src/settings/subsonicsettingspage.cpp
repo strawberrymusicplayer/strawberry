@@ -78,7 +78,7 @@ void SubsonicSettingsPage::Load() {
   QByteArray password = s.value("password").toByteArray();
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
-  ui_->checkbox_http2->setChecked(s.value("http2", true).toBool());
+  ui_->checkbox_http2->setChecked(s.value("http2", false).toBool());
   ui_->checkbox_verify_certificate->setChecked(s.value("verifycertificate", false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
   ui_->checkbox_server_scrobbling->setChecked(s.value("serversidescrobbling", false).toBool());
