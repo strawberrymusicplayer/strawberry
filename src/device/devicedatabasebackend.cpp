@@ -84,7 +84,7 @@ DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
     QSqlDatabase db(db_->Connect());
     SqlQuery q(db);
     q.prepare("SELECT ROWID, unique_id, friendly_name, size, icon, schema_version, transcode_mode, transcode_format FROM devices");
-    if (q.Exec()) {
+    if (!q.Exec()) {
       db_->ReportErrors(q);
       return ret;
     }
