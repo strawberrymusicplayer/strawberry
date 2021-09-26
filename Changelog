@@ -11,6 +11,7 @@ Unreleased:
     * Fix compile of Utilities::Hmac with Qt 6.2.
     * Fix a memory leak when using right click context menu in internet search.
     * Fix a gstreamer bus leak when adding streams and remote playlists.
+    * Escape ampersands in playlist tabs.
     * (Windows) Fix adding songs with Japanese characters from the files tab.
 
   Enhancements:
@@ -26,13 +27,18 @@ Unreleased:
     * Re-request stream URL for Tidal and QObuz when resuming playback after pausing for more than 30 seconds.
     * Add Finnish, Ukrainian, Dutch, Japanese, Chinese, Catalan and Portuguese (Brazil).
     * Add support for TagParser (https://github.com/Martchus/tagparser) as an alternative to TagLib.
-    * Add Subsonic option to turn off HTTP2.
+    * Add Subsonic option to turn off HTTP/2.
     * Fix minor Clang-Tidy and Clazy warnings.
     * Use higher resolution images from last.fm API.
     * Add MD5 token authentication for Subsonic.
     * Use 500 albums per request when receiving albums from Subsonic.
     * Use QX11Application with Qt >= 6.2 for X11 global shortcuts.
     * Allow fading when a ALSA PCM device is selected.
+    * Store Tidal MPEG-DASH file in data uri.
+    * Use XSPF image elements as manually set artwork.
+    * Make error dialog larger.
+    * Show error dialog for failed SQL queries.
+    * Show error dialog when failing to read or write album covers.
     * (macOS) Build with libgpod.
     * (Windows) Fix compile with MSVC.
 
