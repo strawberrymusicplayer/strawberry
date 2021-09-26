@@ -107,8 +107,10 @@ void MoodbarPipeline::Start() {
   // Connect signals
   CHECKED_GCONNECT(decodebin, "pad-added", &NewPadCallback, this);
   GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
-  gst_bus_set_sync_handler(bus, BusCallbackSync, this, nullptr);
-  gst_object_unref(bus);
+  if (bus) {
+    gst_bus_set_sync_handler(bus, BusCallbackSync, this, nullptr);
+    gst_object_unref(bus);
+  }
 
   // Start playing
   running_ = true;
@@ -141,6 +143,7 @@ void MoodbarPipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
   }
 
   GstPad *const audiopad = gst_element_get_static_pad(self->convert_element_, "sink");
+  if (!audiopad) return;
 
   if (GST_PAD_IS_LINKED(audiopad)) {
     qLog(Warning) << "audiopad is already linked, unlinking old pad";
@@ -152,9 +155,13 @@ void MoodbarPipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
 
   int rate = 0;
   GstCaps *caps = gst_pad_get_current_caps(pad);
-  GstStructure *structure = gst_caps_get_structure(caps, 0);
-  gst_structure_get_int(structure, "rate", &rate);
-  gst_caps_unref(caps);
+  if (caps) {
+    GstStructure *structure = gst_caps_get_structure(caps, 0);
+    if (structure) {
+      gst_structure_get_int(structure, "rate", &rate);
+    }
+    gst_caps_unref(caps);
+  }
 
   if (self->builder_) {
     self->builder_->Init(kBands, rate);
@@ -207,8 +214,10 @@ void MoodbarPipeline::Cleanup() {
   running_ = false;
   if (pipeline_) {
     GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
-    gst_bus_set_sync_handler(bus, nullptr, nullptr, nullptr);
-    gst_object_unref(bus);
+    if (bus) {
+      gst_bus_set_sync_handler(bus, nullptr, nullptr, nullptr);
+      gst_object_unref(bus);
+    }
 
     gst_element_set_state(pipeline_, GST_STATE_NULL);
     gst_object_unref(pipeline_);
