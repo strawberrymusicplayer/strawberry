@@ -128,6 +128,7 @@ void MergedProxyModel::RemoveSubModel(const QModelIndex &source_parent) {
   QModelIndex proxy_parent = mapFromSource(source_parent);
 
   // We can't know how many children it had, since we can't dereference it
+  // FIXME: This is a bad idea.
   resetting_model_ = submodel;
   beginRemoveRows(proxy_parent, 0, std::numeric_limits<int>::max() - 1);
   endRemoveRows();
