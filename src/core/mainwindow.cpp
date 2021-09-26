@@ -25,6 +25,7 @@
 #include <memory>
 #include <functional>
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 
 #include <QMainWindow>
@@ -197,7 +198,6 @@
 
 #include "smartplaylists/smartplaylistsviewcontainer.h"
 #include "smartplaylists/smartplaylistsview.h"
-#include <chrono>
 
 #ifdef Q_OS_WIN
 #  include "windows7thumbbar.h"
