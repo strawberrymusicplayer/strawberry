@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QApplication>
@@ -429,7 +431,7 @@ SongList CollectionBackend::SongsWithMissingFingerprint(const int id) {
 
 }
 
-void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_file) {
+void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_file, const std::optional<int> new_collection_directory_id) {
 
   // Take a song and update its path
   Song updated_song = song;
@@ -437,6 +439,9 @@ void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_f
   updated_song.set_url(QUrl::fromLocalFile(new_file.absoluteFilePath()));
   updated_song.set_basefilename(new_file.fileName());
   updated_song.InitArtManual();
+  if (updated_song.is_collection_song() && new_collection_directory_id) {
+    updated_song.set_directory_id(new_collection_directory_id.value());
+  }
 
   AddOrUpdateSongs(SongList() << updated_song);
 

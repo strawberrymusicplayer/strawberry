@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QFileInfo>
@@ -228,7 +230,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void IncrementPlayCount(const int id);
   void IncrementSkipCount(const int id, const float progress);
   void ResetStatistics(const int id);
-  void SongPathChanged(const Song &song, const QFileInfo &new_file);
+  void SongPathChanged(const Song &song, const QFileInfo &new_file, const std::optional<int> new_collection_directory_id);
 
   SongList GetSongsBy(const QString &artist, const QString &album, const QString &title);
   void UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const qint64 lastplayed);

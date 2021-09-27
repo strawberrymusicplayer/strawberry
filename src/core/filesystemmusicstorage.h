@@ -24,21 +24,25 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QString>
 
 #include "musicstorage.h"
 
 class FilesystemMusicStorage : public virtual MusicStorage {
  public:
-  explicit FilesystemMusicStorage(const QString &root);
+  explicit FilesystemMusicStorage(const QString &root, const std::optional<int> collection_directory_id = std::optional<int>());
 
   QString LocalPath() const override { return root_; }
+  std::optional<int> collection_directory_id() const { return collection_directory_id_; }
 
   bool CopyToStorage(const CopyJob &job) override;
   bool DeleteFromStorage(const DeleteJob &job) override;
 
  private:
   QString root_;
+  std::optional<int> collection_directory_id_;
 
   Q_DISABLE_COPY(FilesystemMusicStorage)
 };

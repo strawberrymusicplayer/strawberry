@@ -28,6 +28,7 @@
 
 #include <functional>
 #include <memory>
+#include <optional>
 
 #include <QMetaType>
 #include <QString>
@@ -78,6 +79,7 @@ class MusicStorage {
   };
 
   virtual QString LocalPath() const { return QString(); }
+  virtual std::optional<int> collection_directory_id() const { return std::optional<int>(); }
 
   virtual TranscodeMode GetTranscodeMode() const { return Transcode_Never; }
   virtual Song::FileType GetTranscodeFormat() const { return Song::FileType_Unknown; }

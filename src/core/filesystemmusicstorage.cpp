@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -35,7 +37,7 @@
 
 #include "filesystemmusicstorage.h"
 
-FilesystemMusicStorage::FilesystemMusicStorage(const QString &root) : root_(root) {}
+FilesystemMusicStorage::FilesystemMusicStorage(const QString &root, const std::optional<int> collection_directory_id) : root_(root), collection_directory_id_(collection_directory_id) {}
 
 bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
 

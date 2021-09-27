@@ -25,6 +25,7 @@
 #include "config.h"
 
 #include <memory>
+#include <optional>
 
 #include <QObject>
 #include <QBasicTimer>
@@ -73,7 +74,7 @@ class Organize : public QObject {
  signals:
   void Finished(QStringList files_with_errors, QStringList);
   void FileCopied(int database_id);
-  void SongPathChanged(Song song, QFileInfo new_file);
+  void SongPathChanged(Song song, QFileInfo new_file, std::optional<int> new_collection_directory_id);
 
  protected:
   void timerEvent(QTimerEvent *e) override;
