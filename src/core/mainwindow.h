@@ -272,6 +272,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void PlaylistDelete();
 
+  void FocusSearchField();
+
  public slots:
   void CommandlineOptionsReceived(const quint32 instanceId, const QByteArray &string_options);
   void Raise();

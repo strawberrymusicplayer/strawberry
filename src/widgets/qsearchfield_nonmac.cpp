@@ -131,6 +131,11 @@ QString QSearchField::placeholderText() const {
   return pimpl->lineedit_->placeholderText();
 }
 
+bool QSearchField::hasFocus() const {
+  Q_ASSERT(pimpl && pimpl->lineedit_);
+  return pimpl && pimpl->lineedit_ && pimpl->lineedit_->hasFocus();
+}
+
 void QSearchField::setFocus(Qt::FocusReason reason) {
   Q_ASSERT(pimpl && pimpl->lineedit_);
   if (pimpl && pimpl->lineedit_) pimpl->lineedit_->setFocus(reason);

@@ -85,6 +85,9 @@ class InternetSearchView : public QWidget {
 
   void Init(Application *app, InternetService *service);
 
+  bool SearchFieldHasFocus() const;
+  void FocusSearchField();
+
   void LazyLoadAlbumCover(const QModelIndex &proxy_index);
 
  protected:
@@ -121,7 +124,6 @@ class InternetSearchView : public QWidget {
 
   bool SearchKeyEvent(QKeyEvent *e);
   bool ResultsContextMenuEvent(QContextMenuEvent *e);
-  void FocusSearchField();
 
   MimeData *SelectedMimeData();
 

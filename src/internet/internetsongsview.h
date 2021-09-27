@@ -48,6 +48,9 @@ class InternetSongsView : public QWidget {
 
   InternetCollectionView *view() const { return ui_->view; }
 
+  bool SearchFieldHasFocus() const { return ui_->filter_widget->SearchFieldHasFocus(); }
+  void FocusSearchField() { ui_->filter_widget->FocusSearchField(); }
+
  private slots:
   void OpenSettingsDialog();
   void GetSongs();

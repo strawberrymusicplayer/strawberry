@@ -82,6 +82,9 @@ class CollectionFilterWidget : public QWidget {
 
   void ReloadSettings();
 
+  bool SearchFieldHasFocus() const;
+  void FocusSearchField();
+
  public slots:
   void SetQueryMode(QueryOptions::QueryMode query_mode);
   void FocusOnFilter(QKeyEvent *e);

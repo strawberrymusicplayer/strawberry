@@ -44,6 +44,8 @@ class InternetCollectionViewContainer : public QWidget {
   ~InternetCollectionViewContainer() override;
 
   void ReloadSettings() const;
+  bool SearchFieldHasFocus() const;
+  void FocusSearchField();
 
   QStackedWidget *stacked() const { return ui_->stacked; }
   QWidget *help_page() const { return ui_->help_page; }

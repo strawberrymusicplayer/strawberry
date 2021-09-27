@@ -336,6 +336,17 @@ void CollectionFilterWidget::ShowGroupingManager() {
 
 }
 
+bool CollectionFilterWidget::SearchFieldHasFocus() const {
+
+  return ui_->search_field->hasFocus();
+
+}
+
+void CollectionFilterWidget::FocusSearchField() {
+
+  ui_->search_field->setFocus();
+
+}
 
 void CollectionFilterWidget::FocusOnFilter(QKeyEvent *event) {
 

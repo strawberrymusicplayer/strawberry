@@ -53,6 +53,9 @@ class InternetTabsView : public QWidget {
   InternetCollectionView *songs_collection_view() const { return ui_->songs_collection->view(); }
   InternetSearchView *search_view() const { return ui_->search_view; }
 
+  bool SearchFieldHasFocus() const;
+  void FocusSearchField();
+
  private slots:
   void OpenSettingsDialog();
   void GetArtists();

@@ -57,6 +57,9 @@ class PlaylistContainer : public QWidget {
   void SetManager(PlaylistManager *manager);
   void ReloadSettings();
 
+  bool SearchFieldHasFocus() const;
+  void FocusSearchField();
+
   PlaylistView *view() const;
 
   bool eventFilter(QObject *objectWatched, QEvent *event) override;

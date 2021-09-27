@@ -658,6 +658,12 @@ void InternetSearchView::SearchForThis() {
   StartSearch(ui_->results->selectionModel()->selectedRows().first().data().toString());
 }
 
+bool InternetSearchView::SearchFieldHasFocus() const {
+
+  return ui_->search->hasFocus();
+
+}
+
 void InternetSearchView::FocusSearchField() {
 
   ui_->search->setFocus();

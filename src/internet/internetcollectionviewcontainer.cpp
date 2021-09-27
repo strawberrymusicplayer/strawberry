@@ -35,12 +35,12 @@ InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent
       ui_(new Ui_InternetCollectionViewContainer) {
 
   ui_->setupUi(this);
-  view()->SetFilter(filter_widget());
+  ui_->view->SetFilter(ui_->filter_widget);
 
-  QObject::connect(filter_widget(), &CollectionFilterWidget::UpPressed, view(), &InternetCollectionView::UpAndFocus);
-  QObject::connect(filter_widget(), &CollectionFilterWidget::DownPressed, view(), &InternetCollectionView::DownAndFocus);
-  QObject::connect(filter_widget(), &CollectionFilterWidget::ReturnPressed, view(), &InternetCollectionView::FilterReturnPressed);
-  QObject::connect(view(), &InternetCollectionView::FocusOnFilterSignal, filter_widget(), &CollectionFilterWidget::FocusOnFilter);
+  QObject::connect(ui_->filter_widget, &CollectionFilterWidget::UpPressed, ui_->view, &InternetCollectionView::UpAndFocus);
+  QObject::connect(ui_->filter_widget, &CollectionFilterWidget::DownPressed, ui_->view, &InternetCollectionView::DownAndFocus);
+  QObject::connect(ui_->filter_widget, &CollectionFilterWidget::ReturnPressed, ui_->view, &InternetCollectionView::FilterReturnPressed);
+  QObject::connect(ui_->view, &InternetCollectionView::FocusOnFilterSignal, ui_->filter_widget, &CollectionFilterWidget::FocusOnFilter);
 
   ui_->progressbar->hide();
 
@@ -51,8 +51,18 @@ InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent
 InternetCollectionViewContainer::~InternetCollectionViewContainer() { delete ui_; }
 
 void InternetCollectionViewContainer::ReloadSettings() const {
-  filter_widget()->ReloadSettings();
-  view()->ReloadSettings();
+
+  ui_->filter_widget->ReloadSettings();
+  ui_->view->ReloadSettings();
+
+}
+
+bool InternetCollectionViewContainer::SearchFieldHasFocus() const {
+  return ui_->filter_widget->SearchFieldHasFocus();
+}
+
+void InternetCollectionViewContainer::FocusSearchField() {
+  ui_->filter_widget->FocusSearchField();
 }
 
 void InternetCollectionViewContainer::contextMenuEvent(QContextMenuEvent *e) { Q_UNUSED(e); }

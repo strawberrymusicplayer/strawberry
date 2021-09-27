@@ -263,6 +263,14 @@ void PlaylistContainer::ReloadSettings() {
 
 }
 
+bool PlaylistContainer::SearchFieldHasFocus() const {
+  return ui_->filter->hasFocus();
+}
+
+void PlaylistContainer::FocusSearchField() {
+  ui_->filter->setFocus();
+}
+
 void PlaylistContainer::ActivePlaying() {
   UpdateActiveIcon(QIcon(":/pictures/tiny-play.png"));
 }
@@ -456,6 +464,7 @@ void PlaylistContainer::FocusOnFilter(QKeyEvent *event) {
       ui_->filter->setText(ui_->filter->text() + event->text());
       break;
   }
+
 }
 
 void PlaylistContainer::RepositionNoMatchesLabel(const bool force) {

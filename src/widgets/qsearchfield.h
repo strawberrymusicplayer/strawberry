@@ -22,6 +22,10 @@ class QSearchField : public QWidget {
 
   QString text() const;
   QString placeholderText() const;
+
+#ifndef Q_OS_MACOS
+  bool hasFocus() const;
+#endif
   void setFocus(Qt::FocusReason);
 
  public slots:

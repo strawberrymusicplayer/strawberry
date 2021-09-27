@@ -206,6 +206,32 @@ void InternetTabsView::ReloadSettings() {
 
 }
 
+bool InternetTabsView::SearchFieldHasFocus() const {
+
+  return ((ui_->tabs->currentWidget() == ui_->artists && ui_->artists_collection->SearchFieldHasFocus()) ||
+      (ui_->tabs->currentWidget() == ui_->albums && ui_->albums_collection->SearchFieldHasFocus()) ||
+      (ui_->tabs->currentWidget() == ui_->songs && ui_->songs_collection->SearchFieldHasFocus()) ||
+      (ui_->tabs->currentWidget() == ui_->search && ui_->search_view->SearchFieldHasFocus()));
+
+}
+
+void InternetTabsView::FocusSearchField() {
+
+  if (ui_->tabs->currentWidget() == ui_->artists) {
+    ui_->artists_collection->FocusSearchField();
+  }
+  else if (ui_->tabs->currentWidget() == ui_->albums) {
+    ui_->albums_collection->FocusSearchField();
+  }
+  else if (ui_->tabs->currentWidget() == ui_->songs) {
+    ui_->songs_collection->FocusSearchField();
+  }
+  else if (ui_->tabs->currentWidget() == ui_->search) {
+    ui_->search_view->FocusSearchField();
+  }
+
+}
+
 void InternetTabsView::GetArtists() {
 
   if (!service_->authenticated() && service_->oauth()) {

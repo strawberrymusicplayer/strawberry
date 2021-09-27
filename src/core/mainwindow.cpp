@@ -980,6 +980,11 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   close_window_shortcut->setKey(Qt::CTRL | Qt::Key_W);
   QObject::connect(close_window_shortcut, &QShortcut::activated, this, &MainWindow::ToggleHide);
 
+  QAction *action_focus_search = new QAction(this);
+  action_focus_search->setShortcuts(QList<QKeySequence>() << QKeySequence("Ctrl+F"));
+  addAction(action_focus_search);
+  QObject::connect(action_focus_search, &QAction::triggered, this, &MainWindow::FocusSearchField);
+
   CheckFullRescanRevisions();
 
   CommandlineOptionsReceived(options);
@@ -3155,5 +3160,31 @@ void MainWindow::PlaylistDelete() {
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, true);
   //QObject::connect(delete_files, &DeleteFiles::Finished, this, &MainWindow::DeleteFinished);
   delete_files->Start(selected_songs);
+
+}
+
+void MainWindow::FocusSearchField() {
+
+  if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(collection_view_) && !collection_view_->filter_widget()->SearchFieldHasFocus()) {
+    collection_view_->filter_widget()->FocusSearchField();
+  }
+#ifdef HAVE_SUBSONIC
+  else if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(subsonic_view_) && !subsonic_view_->SearchFieldHasFocus()) {
+    subsonic_view_->FocusSearchField();
+  }
+#endif
+#ifdef HAVE_TIDAL
+  else if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(tidal_view_) && !tidal_view_->SearchFieldHasFocus()) {
+    tidal_view_->FocusSearchField();
+  }
+#endif
+#ifdef HAVE_QOBUZ
+  else if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(qobuz_view_) && !qobuz_view_->SearchFieldHasFocus()) {
+    qobuz_view_->FocusSearchField();
+  }
+#endif
+ else if (!ui_->playlist->SearchFieldHasFocus()) {
+   ui_->playlist->FocusSearchField();
+ }
 
 }
