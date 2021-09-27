@@ -438,6 +438,8 @@ void PlayingWidget::paintEvent(QPaintEvent *e) {
 
 void PlayingWidget::DrawContents(QPainter *p) {
 
+  p->setRenderHint(QPainter::SmoothPixmapTransform);
+
   switch (mode_) {
     case SmallSongDetails:
       // Draw the cover
