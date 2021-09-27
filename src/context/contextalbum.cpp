@@ -114,6 +114,8 @@ void ContextAlbum::paintEvent(QPaintEvent*) {
 }
 
 void ContextAlbum::DrawImage(QPainter *p) {
+  
+  p->setRenderHint(QPainter::SmoothPixmapTransform);
 
   if (width() != prev_width_) {
     cover_loader_options_.desired_height_ = width() - kWidgetSpacing;
