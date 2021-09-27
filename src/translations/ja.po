@@ -585,7 +585,7 @@ msgstr "ディレクトリとサブディレクトリにあるすべてのトラ
 msgid "Add directory..."
 msgstr "ディレクトリを追加..."
 
-#: core/mainwindow.cpp:2178
+#: core/mainwindow.cpp:2183
 msgid "Add file"
 msgstr "ファイルを追加"
 
@@ -601,7 +601,7 @@ msgstr "ファイルをトランスコーダーに追加"
 msgid "Add files to transcode"
 msgstr "変換するファイルを追加"
 
-#: core/mainwindow.cpp:2204 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2209 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "フォルダーを追加"
 
@@ -711,7 +711,7 @@ msgstr "ストリームを追加..."
 msgid "Add to albums"
 msgstr "アルバムに追加"
 
-#: core/mainwindow.cpp:1980
+#: core/mainwindow.cpp:1985
 msgid "Add to another playlist"
 msgstr "別のプレイリストに追加"
 
@@ -1084,7 +1084,7 @@ msgstr "背景画像"
 msgid "Background opacity"
 msgstr "背景の不透明度"
 
-#: core/database.cpp:586
+#: core/database.cpp:585
 msgid "Backing up database"
 msgstr "データベースをバックアップ中"
 
@@ -1260,7 +1260,7 @@ msgstr "ディスクキャッシュをクリア"
 msgid "Clear cover"
 msgstr "カバーを選択"
 
-#: core/mainwindow.cpp:2269 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2274 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "プレイリストをクリア"
 
@@ -1318,7 +1318,7 @@ msgstr "コレクションフィルター"
 msgid "Collection advanced grouping"
 msgstr "ライブラリの高度なグループ化"
 
-#: core/mainwindow.cpp:2848
+#: core/mainwindow.cpp:2853
 msgid "Collection rescan notice"
 msgstr "ライブラリー再スキャン通知"
 
@@ -1661,7 +1661,7 @@ msgstr "D-Bus パス"
 msgid "Dance"
 msgstr "ダンス"
 
-#: core/database.cpp:533
+#: core/database.cpp:532
 msgid "Database corruption detected."
 msgstr "データベースの不整合が検出されました。"
 
@@ -1732,11 +1732,11 @@ msgstr "元のファイルを削除する"
 msgid "Deleting files"
 msgstr "ファイルの削除中"
 
-#: core/mainwindow.cpp:1895
+#: core/mainwindow.cpp:1900
 msgid "Dequeue selected tracks"
 msgstr "選択されたトラックをキューから削除する"
 
-#: core/mainwindow.cpp:1894
+#: core/mainwindow.cpp:1899
 msgid "Dequeue track"
 msgstr "トラックをキューから削除"
 
@@ -1895,7 +1895,7 @@ msgstr "スマートプレイリストを編集"
 msgid "Edit smart playlist..."
 msgstr "スマートプレイリストを編集..."
 
-#: core/mainwindow.cpp:1938
+#: core/mainwindow.cpp:1943
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "タグ「%1」を編集..."
@@ -2053,7 +2053,7 @@ msgstr "--log-levels *:1 と同じ"
 msgid "Equivalent to --log-levels *:3"
 msgstr "--log-levels *:3 と同じ"
 
-#: core/mainwindow.cpp:2579 core/mainwindow.cpp:2730
+#: core/mainwindow.cpp:2584 core/mainwindow.cpp:2735
 #: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
 msgid "Error"
 msgstr "エラー"
@@ -2711,7 +2711,7 @@ msgstr "挿入..."
 msgid "Install strawberry through PPA:<br />"
 msgstr ""
 
-#: core/database.cpp:516
+#: core/database.cpp:515
 msgid "Integrity check"
 msgstr "整合性の検査"
 
@@ -2850,7 +2850,7 @@ msgstr "ディスクからカバーの読み込み"
 msgid "Load cover from disk..."
 msgstr "ディスクからカバーの読み込み..."
 
-#: playlist/playlistcontainer.cpp:334
+#: playlist/playlistcontainer.cpp:342
 msgid "Load playlist"
 msgstr "プレイリストの読み込み"
 
@@ -3133,7 +3133,7 @@ msgstr "ライブラリへ移動..."
 msgid "Move up"
 msgstr "上へ移動"
 
-#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2183 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "ミュージック"
 
@@ -3177,7 +3177,7 @@ msgstr "再生を開始しない"
 msgid "New folder"
 msgstr "新しいフォルダー"
 
-#: core/mainwindow.cpp:1996
+#: core/mainwindow.cpp:2001
 msgid "New playlist"
 msgstr "新しいプレイリスト"
 
@@ -3225,7 +3225,7 @@ msgstr "長いブロックなし"
 msgid "No match."
 msgstr "見つかりません"
 
-#: playlist/playlistcontainer.cpp:424
+#: playlist/playlistcontainer.cpp:432
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "見つかりません。再びプレイリスト全体を表示するには検索ボックスをクリアします。"
@@ -3248,7 +3248,7 @@ msgstr "曲が再生されていません"
 msgid "None"
 msgstr "なし"
 
-#: core/mainwindow.cpp:2579 core/mainwindow.cpp:2730
+#: core/mainwindow.cpp:2584 core/mainwindow.cpp:2735
 #: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "デバイスへのコピーに適切な曲が選択されていません"
@@ -3467,7 +3467,7 @@ msgstr "パス"
 msgid "Pattern"
 msgstr "パターン"
 
-#: core/mainwindow.cpp:1298 core/mainwindow.cpp:1793
+#: core/mainwindow.cpp:1303 core/mainwindow.cpp:1798
 #: core/qtsystemtrayicon.cpp:146
 msgid "Pause"
 msgstr "一時停止"
@@ -3495,8 +3495,8 @@ msgstr "ピクセル"
 msgid "Plain sidebar"
 msgstr "プレーンサイドバー"
 
-#: core/mainwindow.cpp:697 core/mainwindow.cpp:1255 core/mainwindow.cpp:1282
-#: core/mainwindow.cpp:1797 core/qtsystemtrayicon.cpp:159
+#: core/mainwindow.cpp:697 core/mainwindow.cpp:1260 core/mainwindow.cpp:1287
+#: core/mainwindow.cpp:1802 core/qtsystemtrayicon.cpp:159
 #: core/qtsystemtrayicon.cpp:173
 msgid "Play"
 msgstr "再生"
@@ -3548,7 +3548,7 @@ msgstr "%1 曲の再生回数を受信しました。"
 msgid "Player options"
 msgstr "プレーヤーのオプション"
 
-#: playlist/playlistcontainer.cpp:329 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistcontainer.cpp:337 playlist/playlistlistcontainer.cpp:273
 #: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
 #: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:570
 #: playlist/playlisttabbar.cpp:421 ../build/src/ui_playlistsettingspage.h:164
@@ -3563,7 +3563,7 @@ msgstr "プレイリストボタン"
 msgid "Playlist finished"
 msgstr "プレイリストが完了しました"
 
-#: core/mainwindow.cpp:2269
+#: core/mainwindow.cpp:2274
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3736,20 +3736,20 @@ msgstr "デバイスを照会しています..."
 msgid "Queue"
 msgstr "キュー"
 
-#: core/mainwindow.cpp:1897
+#: core/mainwindow.cpp:1902
 msgid "Queue selected tracks"
 msgstr "選択されたトラックをキューに追加"
 
-#: core/mainwindow.cpp:703 core/mainwindow.cpp:1901
+#: core/mainwindow.cpp:703 core/mainwindow.cpp:1906
 msgid "Queue selected tracks to play next"
 msgstr "選択したトラックを次に再生する"
 
-#: core/mainwindow.cpp:1904 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1909 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:323
 msgid "Queue to play next"
 msgstr "次に再生する"
 
-#: core/mainwindow.cpp:1896 context/contextalbumsview.cpp:266
+#: core/mainwindow.cpp:1901 context/contextalbumsview.cpp:266
 #: collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
 #: internet/internetsearchview.cpp:326 internet/internetcollectionview.cpp:322
@@ -4279,7 +4279,7 @@ msgstr "サーバーURLが不正です。"
 msgid "Server-side scrobbling"
 msgstr "サーバーサイドの scrobbling"
 
-#: core/mainwindow.cpp:1937
+#: core/mainwindow.cpp:1942
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 を「%2」に設定します..."
@@ -4512,11 +4512,11 @@ msgstr "スキップ回数"
 msgid "Skip forwards in playlist"
 msgstr "プレイリストで前にスキップ"
 
-#: core/mainwindow.cpp:1910
+#: core/mainwindow.cpp:1915
 msgid "Skip selected tracks"
 msgstr "選択したトラックをスキップする"
 
-#: core/mainwindow.cpp:1909
+#: core/mainwindow.cpp:1914
 msgid "Skip track"
 msgstr "トラックをスキップする"
 
@@ -4860,7 +4860,7 @@ msgstr "指定されたサイトは存在しません!"
 msgid "The site you requested is not an image!"
 msgstr "指定されたサイトは画像ではありません!"
 
-#: core/mainwindow.cpp:2843
+#: core/mainwindow.cpp:2848
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4974,7 +4974,7 @@ msgstr "タイトル"
 msgid "Today"
 msgstr "今日"
 
-#: core/mainwindow.cpp:700 core/mainwindow.cpp:1898
+#: core/mainwindow.cpp:700 core/mainwindow.cpp:1903
 msgid "Toggle queue status"
 msgstr "キュー状態の切り替え"
 
@@ -4982,7 +4982,7 @@ msgstr "キュー状態の切り替え"
 msgid "Toggle scrobbling"
 msgstr "scrobbling の切り替え"
 
-#: core/mainwindow.cpp:706 core/mainwindow.cpp:1911
+#: core/mainwindow.cpp:706 core/mainwindow.cpp:1916
 msgid "Toggle skip status"
 msgstr ""
 
@@ -5084,11 +5084,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "カバーを未設定にする"
 
-#: core/mainwindow.cpp:1908
+#: core/mainwindow.cpp:1913
 msgid "Unskip selected tracks"
 msgstr "選択したトラックをスキップしない"
 
-#: core/mainwindow.cpp:1907
+#: core/mainwindow.cpp:1912
 msgid "Unskip track"
 msgstr "トラックをスキップしない"
 
@@ -5096,12 +5096,12 @@ msgstr "トラックをスキップしない"
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry の起動時にライブラリを更新する"
 
-#: collection/collectionwatcher.cpp:203
+#: collection/collectionwatcher.cpp:202
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 の更新中"
 
-#: collection/collectionbackend.cpp:671
+#: collection/collectionbackend.cpp:674
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""
@@ -5111,7 +5111,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "更新しています %1%..."
 
-#: collection/collectionwatcher.cpp:200
+#: collection/collectionwatcher.cpp:199
 msgid "Updating collection"
 msgstr "ライブラリの更新中"
 
@@ -5337,7 +5337,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2847
+#: core/mainwindow.cpp:2852
 msgid "Would you like to run a full rescan right now?"
 msgstr "全体の再スキャンを今すぐ実行しますか?"
 

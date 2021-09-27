@@ -622,7 +622,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Verzeichnis hinzufügen …"
 
-#: core/mainwindow.cpp:2178
+#: core/mainwindow.cpp:2183
 msgid "Add file"
 msgstr "Datei hinzufügen"
 
@@ -638,7 +638,7 @@ msgstr "Datei(en) zum Umwandler hinzufügen"
 msgid "Add files to transcode"
 msgstr "Dateien zum Umwandeln hinzufügen"
 
-#: core/mainwindow.cpp:2204 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2209 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Ordner hinzufügen"
 
@@ -748,7 +748,7 @@ msgstr "Datenstrom hinzufügen..."
 msgid "Add to albums"
 msgstr "Zu Alben hinzufügen"
 
-#: core/mainwindow.cpp:1980
+#: core/mainwindow.cpp:1985
 msgid "Add to another playlist"
 msgstr "Zu anderer Wiedergabeliste hinzufügen"
 
@@ -1122,7 +1122,7 @@ msgstr "Hintergrundbild"
 msgid "Background opacity"
 msgstr "Deckkraft:"
 
-#: core/database.cpp:586
+#: core/database.cpp:585
 msgid "Backing up database"
 msgstr "Die Datenbank wird gesichert"
 
@@ -1301,7 +1301,7 @@ msgstr "Lösche Plattenspeicher"
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2269 ../build/src/ui_mainwindow.h:634
+#: core/mainwindow.cpp:2274 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
 msgstr "Wiedergabeliste leeren"
 
@@ -1359,7 +1359,7 @@ msgstr "Sammlungsfilter"
 msgid "Collection advanced grouping"
 msgstr "Erweiterte Bibliothekssortierung"
 
-#: core/mainwindow.cpp:2848
+#: core/mainwindow.cpp:2853
 msgid "Collection rescan notice"
 msgstr "Hinweis beim erneuten durchsuchen der Bibliothek"
 
@@ -1707,7 +1707,7 @@ msgstr "D-Bus Pfad"
 msgid "Dance"
 msgstr "Dance"
 
-#: core/database.cpp:533
+#: core/database.cpp:532
 msgid "Database corruption detected."
 msgstr "Datenbankfehler festgestellt"
 
@@ -1778,11 +1778,11 @@ msgstr "Ursprüngliche Dateien löschen"
 msgid "Deleting files"
 msgstr "Dateien werden gelöscht"
 
-#: core/mainwindow.cpp:1895
+#: core/mainwindow.cpp:1900
 msgid "Dequeue selected tracks"
 msgstr "Titel aus der Warteschlange nehmen"
 
-#: core/mainwindow.cpp:1894
+#: core/mainwindow.cpp:1899
 msgid "Dequeue track"
 msgstr "Titel aus der Warteschlange nehmen"
 
@@ -1941,7 +1941,7 @@ msgstr "Bearbeiten Sie die intelligente Wiedergabeliste"
 msgid "Edit smart playlist..."
 msgstr "Bearbeiten Sie die intelligente Wiedergabeliste..."
 
-#: core/mainwindow.cpp:1938
+#: core/mainwindow.cpp:1943
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Schlagwort »%1« bearbeiten …"
@@ -2104,7 +2104,7 @@ msgstr "Äquivalent zu --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Äquivalent zu --log-levels *:3"
 
-#: core/mainwindow.cpp:2579 core/mainwindow.cpp:2730
+#: core/mainwindow.cpp:2584 core/mainwindow.cpp:2735
 #: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Fehler"
@@ -2778,7 +2778,7 @@ msgstr "Einfügen …"
 msgid "Install strawberry through PPA:<br />"
 msgstr "Installiere Strawberry durch ein PPA:<br />"
 
-#: core/database.cpp:516
+#: core/database.cpp:515
 msgid "Integrity check"
 msgstr "Integritätsprüfung"
 
@@ -2920,7 +2920,7 @@ msgstr "Titelbild aus Datei laden"
 msgid "Load cover from disk..."
 msgstr "Titelbild von Datenträger wählen …"
 
-#: playlist/playlistcontainer.cpp:334
+#: playlist/playlistcontainer.cpp:342
 msgid "Load playlist"
 msgstr "Wiedergabeliste laden"
 
@@ -3203,7 +3203,7 @@ msgstr "Zur Bibliothek verschieben …"
 msgid "Move up"
 msgstr "Nach oben"
 
-#: core/mainwindow.cpp:2178 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2183 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Musik"
 
@@ -3247,7 +3247,7 @@ msgstr "Nie mit der Wiedergabe beginnen"
 msgid "New folder"
 msgstr "Neuer Ordner"
 
-#: core/mainwindow.cpp:1996
+#: core/mainwindow.cpp:2001
 msgid "New playlist"
 msgstr "Neue Wiedergabeliste"
 
@@ -3295,7 +3295,7 @@ msgstr "Keine langen Blöcke"
 msgid "No match."
 msgstr "Keine Übereinstimmung."
 
-#: playlist/playlistcontainer.cpp:424
+#: playlist/playlistcontainer.cpp:432
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -3320,7 +3320,7 @@ msgstr "Kein Lied wird gespielt"
 msgid "None"
 msgstr "Nichts"
 
-#: core/mainwindow.cpp:2579 core/mainwindow.cpp:2730
+#: core/mainwindow.cpp:2584 core/mainwindow.cpp:2735
 #: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Keiner der gewählten Titel war zum Kopieren auf ein Gerät geeignet."
@@ -3545,7 +3545,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1298 core/mainwindow.cpp:1793
+#: core/mainwindow.cpp:1303 core/mainwindow.cpp:1798
 #: core/qtsystemtrayicon.cpp:146
 msgid "Pause"
 msgstr "Pause"
@@ -3573,8 +3573,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Einfache Seitenleiste"
 
-#: core/mainwindow.cpp:697 core/mainwindow.cpp:1255 core/mainwindow.cpp:1282
-#: core/mainwindow.cpp:1797 core/qtsystemtrayicon.cpp:159
+#: core/mainwindow.cpp:697 core/mainwindow.cpp:1260 core/mainwindow.cpp:1287
+#: core/mainwindow.cpp:1802 core/qtsystemtrayicon.cpp:159
 #: core/qtsystemtrayicon.cpp:173
 msgid "Play"
 msgstr "Wiedergabe"
@@ -3628,7 +3628,7 @@ msgstr "Wiedergabezahl für %1 empfangene Lieder."
 msgid "Player options"
 msgstr "Spielereinstellungen"
 
-#: playlist/playlistcontainer.cpp:329 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistcontainer.cpp:337 playlist/playlistlistcontainer.cpp:273
 #: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
 #: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:570
 #: playlist/playlisttabbar.cpp:421 ../build/src/ui_playlistsettingspage.h:164
@@ -3643,7 +3643,7 @@ msgstr "Steuerung der Playliste"
 msgid "Playlist finished"
 msgstr "Wiedergabeliste beendet"
 
-#: core/mainwindow.cpp:2269
+#: core/mainwindow.cpp:2274
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3823,22 +3823,22 @@ msgstr "Gerät wird abgefragt …"
 msgid "Queue"
 msgstr "Warteschlange"
 
-#: core/mainwindow.cpp:1897
+#: core/mainwindow.cpp:1902
 msgid "Queue selected tracks"
 msgstr "Titel in die Warteschlange einreihen"
 
-#: core/mainwindow.cpp:703 core/mainwindow.cpp:1901
+#: core/mainwindow.cpp:703 core/mainwindow.cpp:1906
 msgid "Queue selected tracks to play next"
 msgstr ""
 "Ausgewählte Titel in die Warteschlange stellen, um sie als nächstes "
 "abzuspielen"
 
-#: core/mainwindow.cpp:1904 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1909 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:323
 msgid "Queue to play next"
 msgstr "In die Warteschlange, um sie als nächstes abzuspielen"
 
-#: core/mainwindow.cpp:1896 context/contextalbumsview.cpp:266
+#: core/mainwindow.cpp:1901 context/contextalbumsview.cpp:266
 #: collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
 #: internet/internetsearchview.cpp:326 internet/internetcollectionview.cpp:322
@@ -4374,7 +4374,7 @@ msgstr "Server URL ist ungültig."
 msgid "Server-side scrobbling"
 msgstr "Serverseitiges Scrobbling"
 
-#: core/mainwindow.cpp:1937
+#: core/mainwindow.cpp:1942
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 zu »%2« einstellen …"
@@ -4609,11 +4609,11 @@ msgstr "Übersprungzähler"
 msgid "Skip forwards in playlist"
 msgstr "Nächsten Titel in der Wiedergabeliste"
 
-#: core/mainwindow.cpp:1910
+#: core/mainwindow.cpp:1915
 msgid "Skip selected tracks"
 msgstr "Ausgewählte Titel überspringen"
 
-#: core/mainwindow.cpp:1909
+#: core/mainwindow.cpp:1914
 msgid "Skip track"
 msgstr "Titel überspringen"
 
@@ -4967,7 +4967,7 @@ msgstr "Die aufgerufene Seite existiert nicht!"
 msgid "The site you requested is not an image!"
 msgstr "Die angeforderte Seite ist kein Bild!"
 
-#: core/mainwindow.cpp:2843
+#: core/mainwindow.cpp:2848
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5103,7 +5103,7 @@ msgstr "Titel"
 msgid "Today"
 msgstr "Heute"
 
-#: core/mainwindow.cpp:700 core/mainwindow.cpp:1898
+#: core/mainwindow.cpp:700 core/mainwindow.cpp:1903
 msgid "Toggle queue status"
 msgstr "Einreihungsstatus ändern"
 
@@ -5111,7 +5111,7 @@ msgstr "Einreihungsstatus ändern"
 msgid "Toggle scrobbling"
 msgstr "Scrobbeln ein- oder ausschalten"
 
-#: core/mainwindow.cpp:706 core/mainwindow.cpp:1911
+#: core/mainwindow.cpp:706 core/mainwindow.cpp:1916
 msgid "Toggle skip status"
 msgstr "Überspring-Status umschalten"
 
@@ -5213,11 +5213,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Titelbild entfernen"
 
-#: core/mainwindow.cpp:1908
+#: core/mainwindow.cpp:1913
 msgid "Unskip selected tracks"
 msgstr "Überspringen der ausgewählten Titel aufheben"
 
-#: core/mainwindow.cpp:1907
+#: core/mainwindow.cpp:1912
 msgid "Unskip track"
 msgstr "Titel nicht überspringen"
 
@@ -5225,12 +5225,12 @@ msgstr "Titel nicht überspringen"
 msgid "Update the collection when Strawberry starts"
 msgstr "Bibliothek beim Programmstart aktualisieren"
 
-#: collection/collectionwatcher.cpp:203
+#: collection/collectionwatcher.cpp:202
 #, qt-format
 msgid "Updating %1"
 msgstr "Aktualisiere %1"
 
-#: collection/collectionbackend.cpp:671
+#: collection/collectionbackend.cpp:674
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""
@@ -5240,7 +5240,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "%1% wird aktualisiert …"
 
-#: collection/collectionwatcher.cpp:200
+#: collection/collectionwatcher.cpp:199
 msgid "Updating collection"
 msgstr "Bibliothek wird aktualisiert"
 
@@ -5478,7 +5478,7 @@ msgstr ""
 "Möchten Sie die anderen Songs auf diesem Album auch zu Various Artists "
 "verschieben?"
 
-#: core/mainwindow.cpp:2847
+#: core/mainwindow.cpp:2852
 msgid "Would you like to run a full rescan right now?"
 msgstr "Möchten Sie jetzt Ihre Musiksammlung erneut einlesen?"
 
