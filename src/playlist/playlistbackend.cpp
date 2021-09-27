@@ -23,7 +23,6 @@
 
 #include <memory>
 #include <functional>
-#include <cassert>
 
 #include <QObject>
 #include <QApplication>
@@ -84,7 +83,7 @@ void PlaylistBackend::ExitAsync() {
 
 void PlaylistBackend::Exit() {
 
-  assert(QThread::currentThread() == thread());
+  Q_ASSERT(QThread::currentThread() == thread());
 
   moveToThread(original_thread_);
   emit ExitFinished();

@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include <cstddef>
-#include <cassert>
 #include <sqlite3.h>
 #include <boost/scope_exit.hpp>
 
@@ -102,7 +101,7 @@ void Database::ExitAsync() {
 
 void Database::Exit() {
 
-  assert(QThread::currentThread() == thread());
+  Q_ASSERT(QThread::currentThread() == thread());
   Close();
   moveToThread(original_thread_);
   emit ExitFinished();

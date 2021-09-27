@@ -21,8 +21,6 @@
 
 #include "config.h"
 
-#include <cassert>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QApplication>
@@ -93,7 +91,7 @@ void CollectionBackend::ExitAsync() {
 
 void CollectionBackend::Exit() {
 
-  assert(QThread::currentThread() == thread());
+  Q_ASSERT(QThread::currentThread() == thread());
 
   moveToThread(original_thread_);
   emit ExitFinished();

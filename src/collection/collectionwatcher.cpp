@@ -23,7 +23,6 @@
 
 #include <utility>
 #include <chrono>
-#include <cassert>
 
 #include <QObject>
 #include <QThread>
@@ -125,7 +124,7 @@ void CollectionWatcher::ExitAsync() {
 
 void CollectionWatcher::Exit() {
 
-  assert(QThread::currentThread() == thread());
+  Q_ASSERT(QThread::currentThread() == thread());
 
   Stop();
   if (backend_) backend_->Close();

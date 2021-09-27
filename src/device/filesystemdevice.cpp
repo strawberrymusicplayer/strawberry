@@ -21,8 +21,6 @@
 
 #include "config.h"
 
-#include <cassert>
-
 #include <QThread>
 #include <QString>
 #include <QUrl>
@@ -90,7 +88,7 @@ void FilesystemDevice::CloseAsync() {
 
 void FilesystemDevice::Close() {
 
-  assert(QThread::currentThread() == thread());
+  Q_ASSERT(QThread::currentThread() == thread());
 
   wait_for_exit_ << backend_ << watcher_;
 

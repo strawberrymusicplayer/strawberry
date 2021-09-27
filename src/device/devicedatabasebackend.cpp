@@ -21,8 +21,6 @@
 
 #include "config.h"
 
-#include <cassert>
-
 #include <QObject>
 #include <QThread>
 #include <QMutex>
@@ -67,7 +65,7 @@ void DeviceDatabaseBackend::ExitAsync() {
 
 void DeviceDatabaseBackend::Exit() {
 
-  assert(QThread::currentThread() == thread());
+  Q_ASSERT(QThread::currentThread() == thread());
   Close();
   moveToThread(original_thread_);
   emit ExitFinished();

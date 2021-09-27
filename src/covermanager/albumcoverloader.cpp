@@ -84,7 +84,7 @@ void AlbumCoverLoader::ExitAsync() {
 
 void AlbumCoverLoader::Exit() {
 
-  assert(QThread::currentThread() == thread());
+  Q_ASSERT(QThread::currentThread() == thread());
   moveToThread(original_thread_);
   emit ExitFinished();
 

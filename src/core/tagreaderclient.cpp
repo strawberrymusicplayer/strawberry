@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include <string>
-#include <cassert>
 
 #include <QtGlobal>
 #include <QObject>
@@ -60,7 +59,7 @@ void TagReaderClient::ExitAsync() {
 
 void TagReaderClient::Exit() {
 
-  assert(QThread::currentThread() == thread());
+  Q_ASSERT(QThread::currentThread() == thread());
   moveToThread(original_thread_);
   emit ExitFinished();
 
