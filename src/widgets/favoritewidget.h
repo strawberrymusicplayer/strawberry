@@ -40,7 +40,8 @@ class FavoriteWidget : public QWidget {
   explicit FavoriteWidget(const int tab_index, const bool favorite = false, QWidget *parent = nullptr);
 
   // Change the value if different from the current one and then update display and emit FavoriteStateChanged signal
-  void SetFavorite(bool favorite);
+  bool IsFavorite() const { return favorite_; }
+  void SetFavorite(const bool favorite);
 
   QSize sizeHint() const override;
 

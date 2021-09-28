@@ -40,7 +40,7 @@ FavoriteWidget::FavoriteWidget(const int tab_index, const bool favorite, QWidget
       off_(":/icons/64x64/star-grey.png"),
       rect_(0, 0, kStarSize, kStarSize) {}
 
-void FavoriteWidget::SetFavorite(bool favorite) {
+void FavoriteWidget::SetFavorite(const bool favorite) {
 
   if (favorite_ != favorite) {
     favorite_ = favorite;

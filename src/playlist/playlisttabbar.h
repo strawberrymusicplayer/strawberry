@@ -95,6 +95,7 @@ class PlaylistTabBar : public QTabBar {
   void RenameSlot();
   void RenameInline();
   void HideEditor();
+  void StarSlot();
   void CloseSlot();
   void CloseFromTabIndex(const int index);
   // Used when playlist's favorite flag isn't changed from the favorite widget (e.g. from the playlistlistcontainer): will update the favorite widget
@@ -109,10 +110,11 @@ class PlaylistTabBar : public QTabBar {
 
   QMenu *menu_;
   int menu_index_;
-  QAction *new_;
-  QAction *rename_;
-  QAction *close_;
-  QAction *save_;
+  QAction *action_star_;
+  QAction *action_close_;
+  QAction *action_rename_;
+  QAction *action_save_;
+  QAction *action_new_;
 
   QBasicTimer drag_hover_timer_;
   int drag_hover_tab_;

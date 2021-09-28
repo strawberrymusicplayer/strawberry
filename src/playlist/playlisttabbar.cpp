@@ -62,10 +62,11 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent)
       manager_(nullptr),
       menu_(new QMenu(this)),
       menu_index_(-1),
-      new_(nullptr),
-      rename_(nullptr),
-      close_(nullptr),
-      save_(nullptr),
+      action_star_(nullptr),
+      action_close_(nullptr),
+      action_rename_(nullptr),
+      action_save_(nullptr),
+      action_new_(nullptr),
       drag_hover_tab_(0),
       suppress_current_changed_(false),
       initialized_(false),
@@ -76,9 +77,10 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent)
   setUsesScrollButtons(true);
   setTabsClosable(true);
 
-  close_ = menu_->addAction(IconLoader::Load("list-remove"), tr("Close playlist"), this, &PlaylistTabBar::CloseSlot);
-  rename_ = menu_->addAction(IconLoader::Load("edit-rename"), tr("Rename playlist..."), this, &PlaylistTabBar::RenameSlot);
-  save_ = menu_->addAction(IconLoader::Load("document-save"), tr("Save playlist..."), this, &PlaylistTabBar::SaveSlot);
+  action_star_ = menu_->addAction(IconLoader::Load("star"), tr("Star playlist"), this, &PlaylistTabBar::StarSlot);
+  action_close_ = menu_->addAction(IconLoader::Load("list-remove"), tr("Close playlist"), this, &PlaylistTabBar::CloseSlot);
+  action_rename_ = menu_->addAction(IconLoader::Load("edit-rename"), tr("Rename playlist..."), this, &PlaylistTabBar::RenameSlot);
+  action_save_ = menu_->addAction(IconLoader::Load("document-save"), tr("Save playlist..."), this, &PlaylistTabBar::SaveSlot);
   menu_->addSeparator();
 
   rename_editor_->setVisible(false);
@@ -97,7 +99,7 @@ void PlaylistTabBar::SetActions(QAction *new_playlist, QAction *load_playlist) {
   menu_->insertAction(nullptr, new_playlist);
   menu_->insertAction(nullptr, load_playlist);
 
-  new_ = new_playlist;
+  action_new_ = new_playlist;
 
 }
 
@@ -126,9 +128,9 @@ void PlaylistTabBar::contextMenuEvent(QContextMenuEvent *e) {
   }
 
   menu_index_ = tabAt(e->pos());
-  rename_->setEnabled(menu_index_ != -1);
-  close_->setEnabled(menu_index_ != -1 && count() > 1);
-  save_->setEnabled(menu_index_ != -1);
+  action_rename_->setEnabled(menu_index_ != -1);
+  action_close_->setEnabled(menu_index_ != -1 && count() > 1);
+  action_save_->setEnabled(menu_index_ != -1);
 
   menu_->popup(e->globalPos());
 
@@ -153,7 +155,7 @@ void PlaylistTabBar::mouseDoubleClickEvent(QMouseEvent *e) {
   // Discard a double click with the middle button
   if (e->button() != Qt::MiddleButton) {
     if (index == -1) {
-      new_->activate(QAction::Trigger);
+      action_new_->activate(QAction::Trigger);
     }
     else {
       menu_index_ = index;
@@ -196,6 +198,17 @@ void PlaylistTabBar::HideEditor() {
 
   // Hack to give back focus to playlist view
   manager_->SetCurrentPlaylist(manager_->current()->id());
+
+}
+
+void PlaylistTabBar::StarSlot() {
+
+  if (menu_index_ == -1) return;
+
+  FavoriteWidget *favorite_widget = qobject_cast<FavoriteWidget*>(tabButton(menu_index_, QTabBar::LeftSide));
+  if (favorite_widget) {
+    favorite_widget->SetFavorite(!favorite_widget->IsFavorite());
+  }
 
 }
 
