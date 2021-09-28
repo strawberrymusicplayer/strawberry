@@ -1327,7 +1327,7 @@ msgstr "Kliens azonosító"
 msgid "Close"
 msgstr "Bezárás"
 
-#: playlist/playlisttabbar.cpp:79
+#: playlist/playlisttabbar.cpp:81
 msgid "Close playlist"
 msgstr "Lejátszólista bezárása"
 
@@ -1899,7 +1899,7 @@ msgstr "Dupla kattintásra egy szám a lejátszólistában…"
 msgid "Double clicking a song will..."
 msgstr "Dupla kattintásra egy szám…"
 
-#: playlist/playlisttabbar.cpp:345
+#: playlist/playlisttabbar.cpp:359
 msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
@@ -2049,7 +2049,7 @@ msgstr "Albumborító letöltése az alábbi URL-ről:"
 msgid "Enter a filename for exported covers (no extension):"
 msgstr "Adja meg az exportálandó borítók nevét (kiterjesztés nélkül):"
 
-#: playlist/playlisttabbar.cpp:179
+#: playlist/playlisttabbar.cpp:182
 msgid "Enter a new name for this playlist"
 msgstr "Adjon új nevet ennek a lejátszólistának"
 
@@ -3614,7 +3614,7 @@ msgstr "Lejátszó beállítások"
 #: playlist/playlistcontainer.cpp:337 playlist/playlistlistcontainer.cpp:273
 #: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
 #: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:570
-#: playlist/playlisttabbar.cpp:421 ../build/src/ui_playlistsettingspage.h:164
+#: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "Lejátszólista"
 
@@ -3952,7 +3952,7 @@ msgstr "Eltávolítás a kedvencek közül"
 msgid "Remove from playlist"
 msgstr "Eltávolítás a lejátszólistáról"
 
-#: playlist/playlisttabbar.cpp:216
+#: playlist/playlisttabbar.cpp:230
 msgid "Remove playlist"
 msgstr "Lejátszólista eltávolítása"
 
@@ -3964,11 +3964,11 @@ msgstr "Lejátszólisták eltávolítása"
 msgid "Remove problematic characters from filenames"
 msgstr "Problémás karakterek eltávolítása a fájlnevekből"
 
-#: playlist/playlisttabbar.cpp:179
+#: playlist/playlisttabbar.cpp:182
 msgid "Rename playlist"
 msgstr "Lejátszólista átnevezése"
 
-#: playlist/playlisttabbar.cpp:80
+#: playlist/playlisttabbar.cpp:82
 msgid "Rename playlist..."
 msgstr "Lejátszólista átnevezése…"
 
@@ -4198,7 +4198,7 @@ msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Lejátszólista mentése"
 
-#: playlist/playlisttabbar.cpp:81
+#: playlist/playlisttabbar.cpp:83
 msgid "Save playlist..."
 msgstr "Lejátszólista mentése..."
 
@@ -4675,6 +4675,10 @@ msgstr "Spotify hitelesítés"
 msgid "Standard"
 msgstr "Normál"
 
+#: playlist/playlisttabbar.cpp:80
+msgid "Star playlist"
+msgstr ""
+
 #: core/commandlineoptions.cpp:171
 msgid "Start the playlist currently playing"
 msgstr "Az éppen játszott lejátszólista indítása"
@@ -5035,7 +5039,7 @@ msgstr ""
 "Ez az első alkalom, hogy csatlakoztatta ezt az eszközt. A Strawberry "
 "átvizsgálja zenefájlok után, ami kis időbe telhet."
 
-#: playlist/playlisttabbar.cpp:228
+#: playlist/playlisttabbar.cpp:242
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "Ez a beállítás változtatható a \"Működés\" menüben"
 
@@ -5386,7 +5390,7 @@ msgstr "Hangerő %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:225 ../build/src/ui_playlistsettingspage.h:167
+#: playlist/playlisttabbar.cpp:239 ../build/src/ui_playlistsettingspage.h:167
 msgid "Warn me when closing a playlist tab"
 msgstr "Figyelmeztessen a lejátszólista bezárásakor"
 
@@ -5479,7 +5483,7 @@ msgid ""
 msgstr ""
 "Biztos, hogy törölni szeretné a(z) %1 lejátszólistát a kedvencek közül?"
 
-#: playlist/playlisttabbar.cpp:219
+#: playlist/playlisttabbar.cpp:233
 msgid ""
 "You are about to remove a playlist which is not part of your favorite "
 "playlists: the playlist will be deleted (this action cannot be undone). \n"

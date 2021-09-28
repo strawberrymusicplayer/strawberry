@@ -1310,7 +1310,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:79
+#: playlist/playlisttabbar.cpp:81
 msgid "Close playlist"
 msgstr "Закрити список відтворення"
 
@@ -1880,7 +1880,7 @@ msgstr "Подвійне клацання на пункті у списку ко
 msgid "Double clicking a song will..."
 msgstr "Подвійне клацання на пісні:"
 
-#: playlist/playlisttabbar.cpp:345
+#: playlist/playlisttabbar.cpp:359
 msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
@@ -2029,7 +2029,7 @@ msgstr "Введіть посилання для завантаження обк
 msgid "Enter a filename for exported covers (no extension):"
 msgstr "Вкажіть назву файла для експортованих обкладинок (без суфікса назви):"
 
-#: playlist/playlisttabbar.cpp:179
+#: playlist/playlisttabbar.cpp:182
 msgid "Enter a new name for this playlist"
 msgstr "Введіть нову назву для цього списку відтворення"
 
@@ -3582,7 +3582,7 @@ msgstr "Налаштування програвача"
 #: playlist/playlistcontainer.cpp:337 playlist/playlistlistcontainer.cpp:273
 #: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
 #: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:570
-#: playlist/playlisttabbar.cpp:421 ../build/src/ui_playlistsettingspage.h:164
+#: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "Список відтворення"
 
@@ -3911,7 +3911,7 @@ msgstr ""
 msgid "Remove from playlist"
 msgstr "Вилучити зі списку відтворення"
 
-#: playlist/playlisttabbar.cpp:216
+#: playlist/playlisttabbar.cpp:230
 msgid "Remove playlist"
 msgstr "Вилучення списку відтворення"
 
@@ -3923,11 +3923,11 @@ msgstr "Вилучення списків відтворення"
 msgid "Remove problematic characters from filenames"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:179
+#: playlist/playlisttabbar.cpp:182
 msgid "Rename playlist"
 msgstr "Перейменувати список відтворення"
 
-#: playlist/playlisttabbar.cpp:80
+#: playlist/playlisttabbar.cpp:82
 msgid "Rename playlist..."
 msgstr "Перейменувати список відтворення…"
 
@@ -4160,7 +4160,7 @@ msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Збереження списку відтворення"
 
-#: playlist/playlisttabbar.cpp:81
+#: playlist/playlisttabbar.cpp:83
 msgid "Save playlist..."
 msgstr "Зберегти список відтворення…"
 
@@ -4634,6 +4634,10 @@ msgstr ""
 msgid "Standard"
 msgstr "Типово"
 
+#: playlist/playlisttabbar.cpp:80
+msgid "Star playlist"
+msgstr ""
+
 #: core/commandlineoptions.cpp:171
 msgid "Start the playlist currently playing"
 msgstr "Запустити список відтворення, що відтворюється на цей час"
@@ -4985,7 +4989,7 @@ msgstr ""
 "Під час першого під’єднання пристрою, Strawberry скануватиме його, щоб "
 "знайти музичні файли — це може зайняти деякий час."
 
-#: playlist/playlisttabbar.cpp:228
+#: playlist/playlisttabbar.cpp:242
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr ""
 "Значення цього параметра можна змінити на сторінці «Поведінка» налаштувань "
@@ -5334,7 +5338,7 @@ msgstr "Гучність %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:225 ../build/src/ui_playlistsettingspage.h:167
+#: playlist/playlisttabbar.cpp:239 ../build/src/ui_playlistsettingspage.h:167
 msgid "Warn me when closing a playlist tab"
 msgstr "Попереджати про закриття вкладки списку відтворення"
 
@@ -5429,7 +5433,7 @@ msgstr ""
 "Ви маєте намір вилучити %1 списків відтворення зі списку улюблених. Ви "
 "впевнені у цьому?"
 
-#: playlist/playlisttabbar.cpp:219
+#: playlist/playlisttabbar.cpp:233
 msgid ""
 "You are about to remove a playlist which is not part of your favorite "
 "playlists: the playlist will be deleted (this action cannot be undone). \n"

@@ -1299,7 +1299,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:79
+#: playlist/playlisttabbar.cpp:81
 msgid "Close playlist"
 msgstr "Afspeellijst sluiten"
 
@@ -1869,7 +1869,7 @@ msgstr "Dubbelkilikken op een afspeellijst zal..."
 msgid "Double clicking a song will..."
 msgstr "Dubbelklikken op een nummer zal…"
 
-#: playlist/playlisttabbar.cpp:345
+#: playlist/playlisttabbar.cpp:359
 msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
@@ -2019,7 +2019,7 @@ msgid "Enter a filename for exported covers (no extension):"
 msgstr ""
 "Geef een bestandsnaam voor de geëxporteerde albumhoezen (geen extensie)"
 
-#: playlist/playlisttabbar.cpp:179
+#: playlist/playlisttabbar.cpp:182
 msgid "Enter a new name for this playlist"
 msgstr "Voer een nieuwe naam voor deze afspeellijst in"
 
@@ -3576,7 +3576,7 @@ msgstr "Speler-opties"
 #: playlist/playlistcontainer.cpp:337 playlist/playlistlistcontainer.cpp:273
 #: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
 #: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:570
-#: playlist/playlisttabbar.cpp:421 ../build/src/ui_playlistsettingspage.h:164
+#: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "Afspeellijst"
 
@@ -3903,7 +3903,7 @@ msgstr ""
 msgid "Remove from playlist"
 msgstr "Uit afspeellijst verwijderen"
 
-#: playlist/playlisttabbar.cpp:216
+#: playlist/playlisttabbar.cpp:230
 msgid "Remove playlist"
 msgstr "Afspeellijst verwijderen"
 
@@ -3915,11 +3915,11 @@ msgstr "Afspeellijsten verwijderen"
 msgid "Remove problematic characters from filenames"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:179
+#: playlist/playlisttabbar.cpp:182
 msgid "Rename playlist"
 msgstr "Afspeellijst hernoemen"
 
-#: playlist/playlisttabbar.cpp:80
+#: playlist/playlisttabbar.cpp:82
 msgid "Rename playlist..."
 msgstr "Afspeellijst hernoemen..."
 
@@ -4150,7 +4150,7 @@ msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Afspeellijst opslaan"
 
-#: playlist/playlisttabbar.cpp:81
+#: playlist/playlisttabbar.cpp:83
 msgid "Save playlist..."
 msgstr "Afspeellijst opslaan..."
 
@@ -4624,6 +4624,10 @@ msgstr "Spotify verificatie"
 msgid "Standard"
 msgstr "Standaard"
 
+#: playlist/playlisttabbar.cpp:80
+msgid "Star playlist"
+msgstr ""
+
 #: core/commandlineoptions.cpp:171
 msgid "Start the playlist currently playing"
 msgstr "Momenteel spelende afspeellijst starten"
@@ -4985,7 +4989,7 @@ msgstr ""
 "Dit is de eerste keer dat u dit apparaat hebt verbonden. Strawberry zal nu "
 "het apparaat op muziekbestanden doorzoeken - dit kan even duren."
 
-#: playlist/playlisttabbar.cpp:228
+#: playlist/playlisttabbar.cpp:242
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "Deze optie kan aangepast worden bij de \"Gedrag\" instellingen"
 
@@ -5336,7 +5340,7 @@ msgstr "Volume %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:225 ../build/src/ui_playlistsettingspage.h:167
+#: playlist/playlisttabbar.cpp:239 ../build/src/ui_playlistsettingspage.h:167
 msgid "Warn me when closing a playlist tab"
 msgstr "Waarschuw mij wanneer een afspeellijst tab wordt gesloten"
 
@@ -5430,7 +5434,7 @@ msgstr ""
 "U staat op het punt om %1 afspeellijsten uit uw favorieten te verwijderen, "
 "weet u het zeker?"
 
-#: playlist/playlisttabbar.cpp:219
+#: playlist/playlisttabbar.cpp:233
 msgid ""
 "You are about to remove a playlist which is not part of your favorite "
 "playlists: the playlist will be deleted (this action cannot be undone). \n"

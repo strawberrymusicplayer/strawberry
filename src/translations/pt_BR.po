@@ -1295,7 +1295,7 @@ msgstr ""
 msgid "Close"
 msgstr "Fechar"
 
-#: playlist/playlisttabbar.cpp:79
+#: playlist/playlisttabbar.cpp:81
 msgid "Close playlist"
 msgstr "Fechar lista de reprodução"
 
@@ -1865,7 +1865,7 @@ msgstr "Clique duplo numa música da lista de reprodução irá..."
 msgid "Double clicking a song will..."
 msgstr "Clique duplo em uma música irá..."
 
-#: playlist/playlisttabbar.cpp:345
+#: playlist/playlisttabbar.cpp:359
 msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
@@ -2014,7 +2014,7 @@ msgstr "Insira uma URL para fazer baixar uma capa da Internet:"
 msgid "Enter a filename for exported covers (no extension):"
 msgstr "Digite um nome de arquivo para capas exportadas (sem extensão):"
 
-#: playlist/playlisttabbar.cpp:179
+#: playlist/playlisttabbar.cpp:182
 msgid "Enter a new name for this playlist"
 msgstr "Digite um novo nome para esta lista"
 
@@ -3572,7 +3572,7 @@ msgstr "Opções do player"
 #: playlist/playlistcontainer.cpp:337 playlist/playlistlistcontainer.cpp:273
 #: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
 #: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:570
-#: playlist/playlisttabbar.cpp:421 ../build/src/ui_playlistsettingspage.h:164
+#: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:164
 msgid "Playlist"
 msgstr "Lista de Reprodução"
 
@@ -3898,7 +3898,7 @@ msgstr ""
 msgid "Remove from playlist"
 msgstr "Remover da lista de reprodução"
 
-#: playlist/playlisttabbar.cpp:216
+#: playlist/playlisttabbar.cpp:230
 msgid "Remove playlist"
 msgstr "Remover lista de reprodução"
 
@@ -3910,11 +3910,11 @@ msgstr "Remover listas de reprodução"
 msgid "Remove problematic characters from filenames"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:179
+#: playlist/playlisttabbar.cpp:182
 msgid "Rename playlist"
 msgstr "Renomear lista de reprodução"
 
-#: playlist/playlisttabbar.cpp:80
+#: playlist/playlisttabbar.cpp:82
 msgid "Rename playlist..."
 msgstr "Renomear lista de reprodução..."
 
@@ -4147,7 +4147,7 @@ msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Salvar lista de reprodução"
 
-#: playlist/playlisttabbar.cpp:81
+#: playlist/playlisttabbar.cpp:83
 msgid "Save playlist..."
 msgstr "Salvar lista de reprodução..."
 
@@ -4621,6 +4621,10 @@ msgstr ""
 msgid "Standard"
 msgstr "Padrão"
 
+#: playlist/playlisttabbar.cpp:80
+msgid "Star playlist"
+msgstr ""
+
 #: core/commandlineoptions.cpp:171
 msgid "Start the playlist currently playing"
 msgstr "Iniciar a lista que está em execução"
@@ -4977,7 +4981,7 @@ msgstr ""
 "Esta é a primeira vez que você conecta este dispositivo. O Strawberry vai "
 "escaneá-lo agora para achar músicas - isso pode levar algum tempo."
 
-#: playlist/playlisttabbar.cpp:228
+#: playlist/playlisttabbar.cpp:242
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "Essa opção pode ser alterada nas preferências de \"Comportamento\""
 
@@ -5324,7 +5328,7 @@ msgstr "Volume %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:225 ../build/src/ui_playlistsettingspage.h:167
+#: playlist/playlisttabbar.cpp:239 ../build/src/ui_playlistsettingspage.h:167
 msgid "Warn me when closing a playlist tab"
 msgstr "Avisar-me quando fechar uma guia de lista de reprodução"
 
@@ -5417,7 +5421,7 @@ msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Você está prestes a apagar %1 listas de seus favoritos, tem certeza?"
 
-#: playlist/playlisttabbar.cpp:219
+#: playlist/playlisttabbar.cpp:233
 msgid ""
 "You are about to remove a playlist which is not part of your favorite "
 "playlists: the playlist will be deleted (this action cannot be undone). \n"
