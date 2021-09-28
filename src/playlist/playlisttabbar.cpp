@@ -128,8 +128,9 @@ void PlaylistTabBar::contextMenuEvent(QContextMenuEvent *e) {
   }
 
   menu_index_ = tabAt(e->pos());
-  action_rename_->setEnabled(menu_index_ != -1);
+  action_star_->setEnabled(menu_index_ != -1 && count() > 1);
   action_close_->setEnabled(menu_index_ != -1 && count() > 1);
+  action_rename_->setEnabled(menu_index_ != -1);
   action_save_->setEnabled(menu_index_ != -1);
 
   menu_->popup(e->globalPos());
