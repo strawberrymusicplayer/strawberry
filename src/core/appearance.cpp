@@ -51,10 +51,10 @@ void Appearance::LoadUserTheme() {
   bool use_a_custom_color_set = s.value(AppearanceSettingsPage::kUseCustomColorSet).toBool();
   s.endGroup();
 
-  if (!use_a_custom_color_set) return;
-
-  ChangeForegroundColor(foreground_color_);
-  ChangeBackgroundColor(background_color_);
+  if (use_a_custom_color_set) {
+    ChangeForegroundColor(foreground_color_);
+    ChangeBackgroundColor(background_color_);
+  }
 
 }
 

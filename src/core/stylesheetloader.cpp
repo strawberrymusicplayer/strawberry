@@ -21,7 +21,7 @@
 
 #include "config.h"
 
-#include <chrono>
+#include <memory>
 
 #include <QtGlobal>
 #include <QObject>
@@ -40,18 +40,7 @@
 #include "core/logging.h"
 #include "stylesheetloader.h"
 
-using namespace std::chrono_literals;
-
-StyleSheetLoader::StyleSheetLoader(QObject *parent)
-    : QObject(parent),
-      timer_reset_counter_(new QTimer(this)) {
-
-  timer_reset_counter_->setSingleShot(true);
-  timer_reset_counter_->setInterval(1s);
-
-  QObject::connect(timer_reset_counter_, &QTimer::timeout, this, &StyleSheetLoader::ResetCounters);
-
-}
+StyleSheetLoader::StyleSheetLoader(QObject *parent) : QObject(parent) {}
 
 void StyleSheetLoader::SetStyleSheet(QWidget *widget, const QString &filename) {
 
@@ -70,31 +59,38 @@ void StyleSheetLoader::SetStyleSheet(QWidget *widget, const QString &filename) {
   }
   file.close();
 
-  StyleSheetData styledata;
-  styledata.filename_ = filename;
-  styledata.stylesheet_template_ = stylesheet;
-  styledata.stylesheet_current_ = widget->styleSheet();
-  styledata_[widget] = styledata;
+  std::shared_ptr<StyleSheetData> styledata = std::make_shared<StyleSheetData>();
+  styledata->filename_ = filename;
+  styledata->stylesheet_template_ = stylesheet;
+  styledata->stylesheet_current_ = widget->styleSheet();
+  styledata_.insert(widget, styledata);
 
   widget->installEventFilter(this);
   UpdateStyleSheet(widget, styledata);
 
 }
 
-void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, StyleSheetData styledata) {
+void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, std::shared_ptr<StyleSheetData> styledata) {
 
-  QString stylesheet = styledata.stylesheet_template_;
+  QString stylesheet = styledata->stylesheet_template_;
 
   // Replace %palette-role with actual colours
   QPalette p(widget->palette());
 
-  QColor alt = p.color(QPalette::AlternateBase);
-  alt.setAlpha(50);
-  stylesheet.replace("%palette-alternate-base", QString("rgba(%1,%2,%3,%4%)")
-                                                  .arg(alt.red())
-                                                  .arg(alt.green())
-                                                  .arg(alt.blue())
-                                                  .arg(alt.alpha()));
+  {
+    QColor alt = p.color(QPalette::AlternateBase);
+#ifdef Q_OS_MACOS
+    if (alt.lightness() > 180) {
+      alt.setAlpha(130);
+    }
+    else {
+      alt.setAlpha(16);
+    }
+#else
+    alt.setAlpha(130);
+#endif
+    stylesheet.replace("%palette-alternate-base", QString("rgba(%1,%2,%3,%4)").arg(alt.red()).arg(alt.green()).arg(alt.blue()).arg(alt.alpha()));
+  }
 
   ReplaceColor(&stylesheet, "Window", p, QPalette::Window);
   ReplaceColor(&stylesheet, "Background", p, QPalette::Window);
@@ -121,15 +117,14 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, StyleSheetData styledat
   stylesheet.replace("macos", "*");
 #endif
 
-  if (stylesheet != styledata.stylesheet_current_) {
+  if (stylesheet != styledata->stylesheet_current_) {
+    styledata->stylesheet_current_ = stylesheet;
     widget->setStyleSheet(stylesheet);
-    styledata.stylesheet_current_ = widget->styleSheet();
-    styledata_[widget] = styledata;
   }
 
 }
 
-void StyleSheetLoader::ReplaceColor(QString *css, const QString &name, const QPalette &palette, QPalette::ColorRole role) {
+void StyleSheetLoader::ReplaceColor(QString *css, const QString &name, const QPalette &palette, const QPalette::ColorRole role) {
 
   css->replace("%palette-" + name + "-lighter", palette.color(role).lighter().name(), Qt::CaseInsensitive);
   css->replace("%palette-" + name + "-darker", palette.color(role).darker().name(), Qt::CaseInsensitive);
@@ -139,26 +134,13 @@ void StyleSheetLoader::ReplaceColor(QString *css, const QString &name, const QPa
 
 bool StyleSheetLoader::eventFilter(QObject *obj, QEvent *event) {
 
-  if (event->type() != QEvent::PaletteChange) return false;
-
-  QWidget *widget = qobject_cast<QWidget*>(obj);
-  if (!widget || !styledata_.contains(widget)) return false;
-
-  StyleSheetData styledata = styledata_[widget];
-  ++styledata.count_;
-  styledata_[widget] = styledata;
-  timer_reset_counter_->start();
-  if (styledata.count_ < 5) {
-    UpdateStyleSheet(widget, styledata);
+  if (event->type() == QEvent::PaletteChange) {
+    QWidget *widget = qobject_cast<QWidget*>(obj);
+    if (widget && styledata_.contains(widget)) {
+      UpdateStyleSheet(widget, styledata_[widget]);
+    }
   }
+
   return false;
-
-}
-
-void StyleSheetLoader::ResetCounters() {
-
-  for (QHash<QWidget*, StyleSheetData>::iterator it = styledata_.begin(); it != styledata_.end(); ++it) {
-    it.value().count_ = 0;
-  }
 
 }

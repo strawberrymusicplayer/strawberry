@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QObject>
 #include <QPair>
 #include <QHash>
@@ -31,7 +33,6 @@
 #include <QString>
 
 class QWidget;
-class QTimer;
 class QEvent;
 
 class StyleSheetLoader : public QObject {
@@ -50,23 +51,18 @@ class StyleSheetLoader : public QObject {
 
  private:
   struct StyleSheetData {
-    StyleSheetData() : count_(0) {}
+    StyleSheetData() {}
     QString filename_;
     QString stylesheet_template_;
     QString stylesheet_current_;
-    int count_;
   };
 
  private:
-  void UpdateStyleSheet(QWidget *widget, StyleSheetData styledata);
-  static void ReplaceColor(QString *css, const QString &name, const QPalette &palette, QPalette::ColorRole role);
-
- private slots:
-  void ResetCounters();
+  void UpdateStyleSheet(QWidget *widget, std::shared_ptr<StyleSheetData> styledata);
+  static void ReplaceColor(QString *css, const QString &name, const QPalette &palette, const QPalette::ColorRole role);
 
  private:
-  QHash<QWidget*, StyleSheetData> styledata_;
-  QTimer *timer_reset_counter_;
+  QHash<QWidget*, std::shared_ptr<StyleSheetData>> styledata_;
 };
 
 #endif  // STYLESHEETLOADER_H
