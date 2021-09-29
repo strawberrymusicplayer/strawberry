@@ -53,6 +53,8 @@ class BlockAnalyzer : public Analyzer::Base {
   static const char *kName;
 
  protected:
+  QColor bg_;
+  QColor fg_;
   void transform(Analyzer::Scope&) override;
   void analyze(QPainter &p, const Analyzer::Scope&, bool new_frame) override;
   void resizeEvent(QResizeEvent*) override;

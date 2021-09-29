@@ -36,8 +36,8 @@
 #include "analyzerbase.h"
 #include "fht.h"
 
-const int BlockAnalyzer::kHeight = 2;
-const int BlockAnalyzer::kWidth = 4;
+const int BlockAnalyzer::kHeight = 3;
+const int BlockAnalyzer::kWidth = 5;
 const int BlockAnalyzer::kMinRows = 3;       // arbitrary
 const int BlockAnalyzer::kMinColumns = 32;   // arbitrary
 const int BlockAnalyzer::kMaxColumns = 256;  // must be 2**n
@@ -47,6 +47,8 @@ const char *BlockAnalyzer::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Block
 
 BlockAnalyzer::BlockAnalyzer(QWidget *parent)
     : Analyzer::Base(parent, 9),
+      bg_(palette().color(QPalette::Window)),
+      fg_(palette().color(QPalette::Highlight)),
       columns_(0),
       rows_(0),
       y_(0),
@@ -203,153 +205,16 @@ void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_fram
 
 }
 
-static inline void adjustToLimits(const int b, int &f, int &amount) {
-
-  // with a range of 0-255 and maximum adjustment of amount, maximise the difference between f and b
-
-  if (b < f) {
-    if (b > 255 - f) {
-      amount -= f;
-      f = 0;
-    }
-    else {
-      amount -= (255 - f);
-      f = 255;
-    }
-  }
-  else {
-    if (f > 255 - b) {
-      amount -= f;
-      f = 0;
-    }
-    else {
-      amount -= (255 - f);
-      f = 255;
-    }
-  }
-
-}
-
-/**
- * Clever contrast function
- *
- * It will try to adjust the foreground color such that it contrasts well with
- *the background
- * It won't modify the hue of fg unless absolutely necessary
- * @return the adjusted form of fg
- */
-QColor ensureContrast(const QColor &bg, const QColor &fg, int amount = 150);
-QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
-
-  class OutputOnExit {
-   public:
-    explicit OutputOnExit(const QColor &color) : c(color) {}
-    ~OutputOnExit() {
-      int h = 0, s = 0, v = 0;
-      c.getHsv(&h, &s, &v);
-    }
-
-   private:
-    const QColor &c;
-
-    Q_DISABLE_COPY(OutputOnExit)
-  };
-
-  OutputOnExit allocateOnTheStack(fg);
-
-  int bh = 0, bs = 0, bv = 0;
-  int fh = 0, fs = 0, fv = 0;
-
-  bg.getHsv(&bh, &bs, &bv);
-  fg.getHsv(&fh, &fs, &fv);
-
-  int dv = abs(bv - fv);
-
-  // value is the best measure of contrast
-  // if there is enough difference in value already, return fg unchanged
-  if (dv > static_cast<int>(amount)) return fg;
-
-  int ds = abs(bs - fs);
-
-  // saturation is good enough too. But not as good. TODO adapt this a little
-  if (ds > static_cast<int>(amount)) return fg;
-
-  int dh = abs(bh - fh);
-
-  if (dh > 120) {
-    // a third of the colour wheel automatically guarantees contrast
-    // but only if the values are high enough and saturations significant enough
-    // to allow the colours to be visible and not be shades of grey or black
-
-    // check the saturation for the two colours is sufficient that hue alone can
-    // provide sufficient contrast
-    if (ds > amount / 2 && (bs > 125 && fs > 125)) {
-      return fg;
-    }
-    else if (dv > amount / 2 && (bv > 125 && fv > 125)) {
-      return fg;
-    }
-  }
-
-  if (fs < 50 && ds < 40) {
-    // low saturation on a low saturation is sad
-    const int tmp = 50 - fs;
-    fs = 50;
-    if (static_cast<int>(amount) > tmp) {
-      amount -= tmp;
-    }
-    else {
-      amount = 0;
-    }
-  }
-
-  // test that there is available value to honor our contrast requirement
-  if (255 - dv < amount) {
-    // we have to modify the value and saturation of fg
-    // adjustToLimits( bv, fv, amount );
-    // see if we need to adjust the saturation
-    if (amount > 0) adjustToLimits(bs, fs, amount);
-
-    // see if we need to adjust the hue
-    if (static_cast<int>(amount) > 0)
-      fh += static_cast<int>(amount);  // cycles around;
-
-    return QColor::fromHsv(fh, fs, fv);
-  }
-
-  if (fv > bv && bv > static_cast<int>(amount)) {
-    return QColor::fromHsv(fh, fs, bv - static_cast<int>(amount));
-  }
-
-  if (fv < bv && fv > static_cast<int>(amount)) {
-    return QColor::fromHsv(fh, fs, fv - amount);
-  }
-
-  if (fv > bv && (255 - fv > static_cast<int>(amount))) {
-    return QColor::fromHsv(fh, fs, fv + amount);
-  }
-
-  if (fv < bv && (255 - bv > static_cast<int>(amount))) {
-    return QColor::fromHsv(fh, fs, bv + amount);
-  }
-
-  return Qt::blue;
-
-}
-
 void BlockAnalyzer::paletteChange(const QPalette&) {
 
-  const QColor bg = palette().color(QPalette::Window);
-  const QColor fg = ensureContrast(bg, palette().color(QPalette::Highlight));
+  topbarpixmap_.fill(fg_);
 
-  topbarpixmap_.fill(fg);
+  const double dr = 15 * static_cast<double>(bg_.red() - fg_.red()) / (rows_ * 16);
+  const double dg = 15 * static_cast<double>(bg_.green() - fg_.green()) / (rows_ * 16);
+  const double db = 15 * static_cast<double>(bg_.blue() - fg_.blue()) / (rows_ * 16);
+  const int r = fg_.red(), g = fg_.green(), b = fg_.blue();
 
-  const double dr = 15 * static_cast<double>(bg.red() - fg.red()) / (rows_ * 16);
-  const double dg = 15 * static_cast<double>(bg.green() - fg.green()) / (rows_ * 16);
-  const double db = 15 * static_cast<double>(bg.blue() - fg.blue()) / (rows_ * 16);
-  const int r = fg.red(), g = fg.green(), b = fg.blue();
-
-  bar()->fill(bg);
+  bar()->fill(bg_);
 
   QPainter p(bar());
   for (int y = 0; y < rows_; ++y) {
@@ -392,10 +257,9 @@ void BlockAnalyzer::drawBackground() {
     return;
   }
 
-  const QColor bg = palette().color(QPalette::Window);
-  const QColor bgdark = bg.darker(112);
+  const QColor bgdark = bg_.darker(112);
 
-  background_.fill(bg);
+  background_.fill(bg_);
 
   QPainter p(&background_);
 
