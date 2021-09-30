@@ -12,8 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-06-05 07:32-0400\n"
-"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
+"PO-Revision-Date: 2021-09-30 09:16-0400\n"
+"Last-Translator: Victor <victor.butko@gmail.com>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 "
@@ -1009,7 +1009,7 @@ msgstr "аудіо"
 
 #: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:255
 msgid "Authenticating..."
-msgstr ""
+msgstr "Автентифікація..."
 
 #: ../build/src/ui_coverssettingspage.h:167
 #: ../build/src/ui_lyricssettingspage.h:167
@@ -1026,7 +1026,7 @@ msgstr "Помилка автентификації"
 
 #: ../build/src/ui_subsonicsettingspage.h:229
 msgid "Authentication method:"
-msgstr ""
+msgstr "Метод автентифікації:"
 
 #: dialogs/about.cpp:143
 msgid "Author and maintainer"
@@ -1055,19 +1055,19 @@ msgstr "Автоматично відкривати одиночні катег�
 
 #: ../build/src/ui_contextsettingspage.h:445
 msgid "Automatically search for album cover"
-msgstr ""
+msgstr "Автоматичний пошук обкладинки альбому"
 
 #: context/contextview.cpp:342 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
-msgstr ""
+msgstr "Автоматичний пошук текстів пісень"
 
 #: ../build/src/ui_playlistsettingspage.h:171
 msgid "Automatically select current playing track"
-msgstr ""
+msgstr "Автоматично вибирати поточний трек "
 
 #: ../build/src/ui_playlistsettingspage.h:174
 msgid "Automatically sort playlist when inserting songs"
-msgstr ""
+msgstr "Автоматично сортувати список відтворення під час додавання пісень "
 
 #: widgets/freespacebar.cpp:67
 msgid "Available"
@@ -1075,7 +1075,7 @@ msgstr "Доступне"
 
 #: collection/collectionfilterwidget.cpp:82
 msgid "Available fields"
-msgstr ""
+msgstr "Доступні поля"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:221
 msgid "Average bitrate"
@@ -1126,7 +1126,7 @@ msgstr "Найкраще"
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:800
 msgid "Bit depth"
-msgstr ""
+msgstr "Розрядна глибина"
 
 #: ../build/src/ui_edittagdialog.h:811
 msgid "Bit rate"
@@ -1146,7 +1146,7 @@ msgstr "Бітова швидкість"
 #: organize/organizedialog.cpp:118
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr ""
+msgstr "Бітрейт"
 
 #: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
@@ -1170,11 +1170,11 @@ msgstr "Плаваючий аналізатор"
 
 #: ../build/src/ui_appearancesettingspage.h:613
 msgid "Bottom Left"
-msgstr ""
+msgstr "Внизу ліворуч"
 
 #: ../build/src/ui_appearancesettingspage.h:614
 msgid "Bottom Right"
-msgstr ""
+msgstr "Внизу праворуч"
 
 #: ../build/src/ui_appearancesettingspage.h:608
 msgid "Browse..."
@@ -1206,11 +1206,11 @@ msgstr "CDDA"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 #: tidal/tidalstreamurlrequest.cpp:109 qobuz/qobuzstreamurlrequest.cpp:104
 msgid "Cancelled."
-msgstr ""
+msgstr "Скасовано."
 
 #: ../build/src/ui_edittagdialog.h:817
 msgid "Change art"
@@ -1234,7 +1234,7 @@ msgstr "Перевірити оновлення…"
 
 #: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Choose a name for your smart playlist"
-msgstr ""
+msgstr "Виберіть назву для свого розумного списку відтворення "
 
 #: ../build/src/ui_notificationssettingspage.h:502
 msgid "Choose color..."
@@ -1242,7 +1242,7 @@ msgstr "Вибрати колір…"
 
 #: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
-msgstr ""
+msgstr "Виберіть дані для імпорту з last.fm"
 
 #: ../build/src/ui_notificationssettingspage.h:501
 msgid "Choose font..."
@@ -1251,14 +1251,20 @@ msgstr "Вибрати шрифт…"
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:160
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
+"Виберіть спосіб сортування списку відтворення та кількість пісень, які він "
+"міститиме."
 
 #: ../build/src/ui_coverssettingspage.h:164
 msgid "Choose the providers you want to use when searching for covers."
 msgstr ""
+"Виберіть постачальників, яких потрібно використовувати під час пошуку "
+"обкладинок."
 
 #: ../build/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr ""
+"Виберіть постачальників, яких ви хочете використовувати під час пошуку "
+"текстів пісень."
 
 #: equalizer/equalizer.cpp:140
 msgid "Classical"
@@ -1271,11 +1277,11 @@ msgstr "Очистити"
 
 #: ../build/src/ui_collectionsettingspage.h:511
 msgid "Clear Disk Cache"
-msgstr ""
+msgstr "Очистити кеш диска"
 
 #: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Clear cover"
-msgstr ""
+msgstr "Стерти обкладинку "
 
 #: core/mainwindow.cpp:2274 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
