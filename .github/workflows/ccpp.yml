@@ -1185,21 +1185,21 @@ jobs:
         working-directory: build
         run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/lib/gio/modules/libgiognutls.dll ${GITHUB_WORKSPACE}/build/gio-modules/
 
-      - name: Copy Qt platforms plugins
+      - name: Copy Qt platform plugins
         working-directory: build
         run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/platforms/qwindows.dll ${GITHUB_WORKSPACE}/build/platforms/
 
-      - name: Copy Qt styles plugins
+      - name: Copy Qt styles
         working-directory: build
         run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/styles/qwindowsvistastyle.dll ${GITHUB_WORKSPACE}/build/styles/
 
-      - name: Copy Qt SQL drivers plugins
+      - name: Copy Qt SQL drivers
         working-directory: build
         run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/sqldrivers/qsqlite.dll ${GITHUB_WORKSPACE}/build/sqldrivers/
 
-      - name: Copy Qt imageformats plugins
+      - name: Copy Qt imageformats
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/imageformats/*.dll ${GITHUB_WORKSPACE}/build/imageformats/
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/imageformats/{qgif.dll,qico.dll,qjpeg.dll} ${GITHUB_WORKSPACE}/build/imageformats/
 
       - name: Copy gstreamer plugins
         working-directory: build
@@ -1328,27 +1328,31 @@ jobs:
 
       - name: Create directories
         working-directory: build
-        run: mkdir -p gio-modules platforms sqldrivers imageformats styles gstreamer-plugins nsisplugins
+        run: mkdir -p gio-modules platforms sqldrivers tls imageformats styles gstreamer-plugins nsisplugins
 
       - name: Copy GIO modules
         working-directory: build
         run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/lib/gio/modules/libgiognutls.dll ${GITHUB_WORKSPACE}/build/gio-modules/
 
-      - name: Copy Qt platforms plugins
+      - name: Copy Qt platform plugins
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/platforms/qwindows.dll ${GITHUB_WORKSPACE}/build/platforms/
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/platforms/qwindows.dll ${GITHUB_WORKSPACE}/build/platforms/
 
-      - name: Copy Qt styles plugins
+      - name: Copy Qt styles
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/styles/qwindowsvistastyle.dll ${GITHUB_WORKSPACE}/build/styles/
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/styles/qwindowsvistastyle.dll ${GITHUB_WORKSPACE}/build/styles/
 
-      - name: Copy Qt SQL drivers plugins
+      - name: Copy Qt TLS plugins
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/sqldrivers/qsqlite.dll ${GITHUB_WORKSPACE}/build/sqldrivers/
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/tls/qopensslbackend.dll ${GITHUB_WORKSPACE}/build/tls/
 
-      - name: Copy Qt imageformats plugins
+      - name: Copy Qt SQL drivers
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/imageformats/*.dll ${GITHUB_WORKSPACE}/build/imageformats/
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/sqldrivers/qsqlite.dll ${GITHUB_WORKSPACE}/build/sqldrivers/
+
+      - name: Copy Qt imageformats
+        working-directory: build
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/imageformats/{qgif.dll,qico.dll,qjpeg.dll} ${GITHUB_WORKSPACE}/build/imageformats/
 
       - name: Copy gstreamer plugins
         working-directory: build
@@ -1415,8 +1419,9 @@ jobs:
           -F .
           -F ./platforms
           -F ./styles
-          -F ./sqldrivers
           -F ./imageformats
+          -F ./tls
+          -F ./sqldrivers
           -F ./gstreamer-plugins
           -R /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared
 

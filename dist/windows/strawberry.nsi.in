@@ -340,26 +340,33 @@ Section "GIO modules" gio-modules
   File "/oname=libgiognutls.dll" "gio-modules\libgiognutls.dll"
 SectionEnd
 
-Section "Qt Platforms" platforms
+Section "Qt Platform plugins" platforms
   SetOutPath "$INSTDIR\platforms"
   File "/oname=qwindows.dll" "platforms\qwindows.dll"
 SectionEnd
 
-Section "Qt SQL Drivers" sqldrivers
-  SetOutPath "$INSTDIR\sqldrivers"
-  File "/oname=qsqlite.dll" "sqldrivers\qsqlite.dll"
+Section "Qt styles" styles
+  SetOutPath "$INSTDIR\styles"
+  File "/oname=qwindowsvistastyle.dll" "styles\qwindowsvistastyle.dll"
 SectionEnd
 
-Section "Qt image format plugins" imageformats
+Section "Qt imageformats" imageformats
   SetOutPath "$INSTDIR\imageformats"
   File "/oname=qgif.dll" "imageformats\qgif.dll"
   File "/oname=qico.dll" "imageformats\qico.dll"
   File "/oname=qjpeg.dll" "imageformats\qjpeg.dll"
 SectionEnd
 
-Section "Qt style plugins" styles
-  SetOutPath "$INSTDIR\styles"
-  File "/oname=qwindowsvistastyle.dll" "styles\qwindowsvistastyle.dll"
+!ifdef with_qt6
+Section "Qt TLS plugins" tls
+  SetOutPath "$INSTDIR\tls"
+  File "/oname=qopensslbackend.dll" "tls\qopensslbackend.dll"
+SectionEnd
+!endif
+
+Section "Qt SQL Drivers" sqldrivers
+  SetOutPath "$INSTDIR\sqldrivers"
+  File "/oname=qsqlite.dll" "sqldrivers\qsqlite.dll"
 SectionEnd
 
 Section "Gstreamer plugins" gstreamer-plugins
@@ -564,8 +571,11 @@ Section "Uninstall"
 
   Delete "$INSTDIR\gio-modules\libgiognutls.dll"
   Delete "$INSTDIR\platforms\qwindows.dll"
-  Delete "$INSTDIR\sqldrivers\qsqlite.dll"
   Delete "$INSTDIR\styles\qwindowsvistastyle.dll"
+!ifdef with_qt6
+  Delete "$INSTDIR\tls\qopensslbackend.dll"
+!endif
+  Delete "$INSTDIR\sqldrivers\qsqlite.dll"
 
   Delete "$INSTDIR\imageformats\qgif.dll"
   Delete "$INSTDIR\imageformats\qico.dll"
