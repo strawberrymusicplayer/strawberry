@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-09-20 03:22-0400\n"
+"PO-Revision-Date: 2021-10-02 07:05-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -1562,7 +1562,7 @@ msgstr "Omslaget bytt: ställer in nytt när det sparas. "
 #: covermanager/albumcoverchoicecontroller.cpp:187
 #, qt-format
 msgid "Cover file %1 is empty."
-msgstr ""
+msgstr "Omslagsfilen %1 är tom."
 
 #: ../build/src/ui_coverssettingspage.h:163
 msgid "Cover providers"
@@ -2219,33 +2219,33 @@ msgstr "Toningsvaraktighet"
 #: covermanager/albumcoverchoicecontroller.cpp:422
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
-msgstr ""
+msgstr "Det gick inte att ta bort omslagsfilen %1: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:197
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
-msgstr ""
+msgstr "Det gick inte att öppna omslagsfilen %1 för läsning: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:271
 #: covermanager/albumcoverchoicecontroller.cpp:638
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
-msgstr ""
+msgstr "Det gick inte att öppna omslagsfilen %1 för att skriva: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:632
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
-msgstr ""
+msgstr "Det gick inte att skriva omslaget till filen %1: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:277
 #, qt-format
 msgid "Failed writing cover to file %1."
-msgstr ""
+msgstr "Det gick inte att skriva omslaget till filen %1."
 
 #: covermanager/albumcoverchoicecontroller.cpp:265
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
-msgstr ""
+msgstr "Det gick inte att skriva omslaget till filen %1: %2"
 
 #: ../build/src/ui_backendsettingspage.h:564
 msgid "Fallback-gain"
@@ -4658,7 +4658,7 @@ msgstr "Standard"
 
 #: playlist/playlisttabbar.cpp:80
 msgid "Star playlist"
-msgstr ""
+msgstr "Stjärnmarkera spellista"
 
 #: core/commandlineoptions.cpp:171
 msgid "Start the playlist currently playing"
@@ -5188,7 +5188,7 @@ msgstr "Uppdaterar %1"
 #: collection/collectionbackend.cpp:674
 #, qt-format
 msgid "Updating %1 database."
-msgstr ""
+msgstr "Uppdaterar %1-databasen."
 
 #: device/deviceview.cpp:125
 #, qt-format
