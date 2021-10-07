@@ -633,6 +633,7 @@ Section "Uninstall"
   ; Remove the installation folders.
   RMDir "$INSTDIR\platforms"
   RMDir "$INSTDIR\styles"
+  RMDir "$INSTDIR\tls"
   RMDir "$INSTDIR\sqldrivers"
   RMDir "$INSTDIR\imageformats"
   RMDir "$INSTDIR\gio-modules"
