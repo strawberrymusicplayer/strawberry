@@ -753,7 +753,7 @@ QString copyDylib(const FrameworkInfo &framework, const QString path)
         return QString();
     }
 
-    // Return if the dylib has aleardy been deployed
+    // Return if the dylib has already been deployed
     if (QFileInfo(dylibDestinationBinaryPath).exists() && !alwaysOwerwriteEnabled)
         return dylibDestinationBinaryPath;
 
