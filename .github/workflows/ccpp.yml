@@ -238,6 +238,170 @@ jobs:
           CXX: g++-10
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
+  build_opensuse_tumbleweed_qt5:
+    name: Build openSUSE Tumbleweed Qt 5
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/tumbleweed
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Add tagparser repo
+        run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Tumbleweed/ repo-tagparser
+      - name: Update packages
+        run: zypper --non-interactive --gpg-auto-import-keys ref
+      - name: Upgrade packages
+        run: zypper --non-interactive --gpg-auto-import-keys dup
+      - name: Install openSUSE dependencies
+        run: >
+            zypper --non-interactive --gpg-auto-import-keys install
+            lsb-release
+            rpm-build
+            git
+            tar
+            make
+            cmake
+            gcc
+            gcc-c++
+            gettext-tools
+            glibc-devel
+            libboost_headers-devel
+            boost-devel
+            glib2-devel
+            glib2-tools
+            dbus-1-devel
+            alsa-devel
+            libnotify-devel
+            libgnutls-devel
+            protobuf-devel
+            sqlite3-devel
+            libpulse-devel
+            gstreamer-devel
+            gstreamer-plugins-base-devel
+            vlc-devel
+            taglib-devel
+            tagparser-devel
+            libQt5Core-devel
+            libQt5Gui-devel
+            libQt5Gui-private-headers-devel
+            libQt5Widgets-devel
+            libQt5Concurrent-devel
+            libQt5Network-devel
+            libQt5Sql-devel
+            libQt5DBus-devel
+            libQt5Test-devel
+            libqt5-qtbase-common-devel
+            libQt5Sql5-sqlite
+            libqt5-linguist-devel
+            libqt5-qtx11extras-devel
+            libcdio-devel
+            libgpod-devel
+            libmtp-devel
+            libchromaprint-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_opensuse_tumbleweed_qt6:
+    name: Build openSUSE Tumbleweed Qt 6
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/tumbleweed
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Add tagparser repo
+        run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Tumbleweed/ repo-tagparser
+      - name: Update packages
+        run: zypper --non-interactive --gpg-auto-import-keys ref
+      - name: Upgrade packages
+        run: zypper --non-interactive --gpg-auto-import-keys dup
+      - name: Install openSUSE dependencies
+        run: >
+            zypper --non-interactive --gpg-auto-import-keys install
+            lsb-release
+            rpm-build
+            git
+            tar
+            make
+            cmake
+            gcc
+            gcc-c++
+            gettext-tools
+            glibc-devel
+            libboost_headers-devel
+            boost-devel
+            glib2-devel
+            glib2-tools
+            dbus-1-devel
+            alsa-devel
+            libnotify-devel
+            libgnutls-devel
+            protobuf-devel
+            sqlite3-devel
+            libpulse-devel
+            gstreamer-devel
+            gstreamer-plugins-base-devel
+            vlc-devel
+            taglib-devel
+            tagparser-devel
+            qt6-core-devel
+            qt6-gui-devel
+            qt6-gui-private-devel
+            qt6-widgets-devel
+            qt6-concurrent-devel
+            qt6-network-devel
+            qt6-sql-devel
+            qt6-dbus-devel
+            qt6-test-devel
+            qt6-base-common-devel
+            qt6-sql-sqlite
+            qt6-linguist-devel
+            libcdio-devel
+            libgpod-devel
+            libmtp-devel
+            libchromaprint-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
 
   build_fedora_34:
     name: Build Fedora 34
