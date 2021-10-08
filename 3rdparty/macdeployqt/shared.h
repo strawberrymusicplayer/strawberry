@@ -136,6 +136,6 @@ QSet<QString> codesignBundle(const QString &identity,
 void codesign(const QString &identity, const QString &appBundlePath);
 void createDiskImage(const QString &appBundlePath, const QString &filesystemType);
 void fixupFramework(const QString &appBundlePath);
-bool FinalCheck(const QString &appBundlePath);
+
 
 #endif
