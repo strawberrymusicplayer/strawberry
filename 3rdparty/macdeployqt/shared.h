@@ -62,7 +62,7 @@ public:
 
     bool isDebugLibrary() const
     {
-        return binaryName.contains(QLatin1String("_debug"));
+        return binaryName.endsWith(QStringLiteral("_debug"));
     }
 };
 
@@ -101,7 +101,7 @@ public:
     QString qtPath;
     QString pluginPath;
     QStringList deployedFrameworks;
-    QSet<QString> rpathsUsed;
+    QList<QString> rpathsUsed;
     bool useLoaderPath;
     bool isFramework;
     bool isDebug;
@@ -112,10 +112,10 @@ public:
 inline QDebug operator<<(QDebug debug, const ApplicationBundleInfo &info);
 
 OtoolInfo findDependencyInfo(const QString &binaryPath);
-FrameworkInfo parseOtoolLibraryLine(const QString &line, const QString &appBundlePath, const QSet<QString> &rpaths, bool useDebugLibs);
+FrameworkInfo parseOtoolLibraryLine(const QString &line, const QString &appBundlePath, const QList<QString> &rpaths, bool useDebugLibs);
 QString findAppBinary(const QString &appBundlePath);
-QList<FrameworkInfo> getQtFrameworks(const QString &path, const QString &appBundlePath, const QSet<QString> &rpaths, bool useDebugLibs);
-QList<FrameworkInfo> getQtFrameworks(const QStringList &otoolLines, const QString &appBundlePath, const QSet<QString> &rpaths, bool useDebugLibs);
+QList<FrameworkInfo> getQtFrameworks(const QString &path, const QString &appBundlePath, const QList<QString> &rpaths, bool useDebugLibs);
+QList<FrameworkInfo> getQtFrameworks(const QStringList &otoolLines, const QString &appBundlePath, const QList<QString> &rpaths, bool useDebugLibs);
 QString copyFramework(const FrameworkInfo &framework, const QString path);
 DeploymentInfo deployQtFrameworks(const QString &appBundlePath, const QStringList &additionalExecutables, bool useDebugLibs);
 DeploymentInfo deployQtFrameworks(QList<FrameworkInfo> frameworks,const QString &bundlePath, const QStringList &binaryPaths, bool useDebugLibs, bool useLoaderPath);
