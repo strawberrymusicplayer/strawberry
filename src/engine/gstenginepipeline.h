@@ -289,7 +289,6 @@ class GstEnginePipeline : public QObject {
   int pad_added_cb_id_;
   int notify_source_cb_id_;
   int about_to_finish_cb_id_;
-  int bus_cb_id_;
 
   QThreadPool set_state_threadpool_;
 
