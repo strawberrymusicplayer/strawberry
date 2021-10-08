@@ -1125,7 +1125,7 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
 
     // Network
     if (deploymentInfo.containsModule("Network", libInfix))
-        addPlugins(QStringLiteral("bearer"));
+        addPlugins(QStringLiteral("tls"));
 
     // All image formats (svg if QtSvg is used)
     const bool usesSvg = deploymentInfo.containsModule("Svg", libInfix);
