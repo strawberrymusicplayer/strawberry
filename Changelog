@@ -11,7 +11,9 @@ Unreleased:
     * Fix compile of Utilities::Hmac with Qt 6.2.
     * Fix a memory leak when using right click context menu in internet search.
     * Fix a gstreamer bus leak when adding streams and remote playlists.
+    * Fix "Source ID x was not found when attempting to remove it" error.
     * Escape ampersands in playlist tabs.
+    * (macOS) Fix incorrect alternating playlist row colors with dark theme.
     * (Windows) Fix adding songs with Japanese characters from the files tab.
 
   Enhancements:
@@ -39,6 +41,10 @@ Unreleased:
     * Make error dialog larger.
     * Show error dialog for failed SQL queries.
     * Show error dialog when failing to read or write album covers.
+    * Add mod and s3m to detected filetypes (unsupported).
+    * Update directory ID and song path immediately when organizing collection songs.
+    * Add right click option to star a playlist in playlist tabs.
+    * Use seconds instead of minutes for scrobble submit delay.
     * (macOS) Build with libgpod.
     * (Windows) Fix compile with MSVC.
 
