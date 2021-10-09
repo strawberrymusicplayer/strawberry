@@ -550,7 +550,7 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
       Submit();
     }
     else if (!timer_submit_.isActive()) {
-      timer_submit_.setInterval(static_cast<int>(app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec));
+      timer_submit_.setInterval(static_cast<int>(app_->scrobbler()->SubmitDelay() * kMsecPerSec));
       timer_submit_.start();
     }
   }
@@ -562,7 +562,7 @@ void ScrobblingAPI20::DoSubmit() {
   if (!submitted_ && cache()->Count() > 0) {
     submitted_ = true;
     if (!timer_submit_.isActive()) {
-      timer_submit_.setInterval(static_cast<int>(app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec));
+      timer_submit_.setInterval(static_cast<int>(app_->scrobbler()->SubmitDelay() * kMsecPerSec));
       timer_submit_.start();
     }
   }

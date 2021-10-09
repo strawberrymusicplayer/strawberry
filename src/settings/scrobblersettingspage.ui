@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>460</width>
-    <height>1075</height>
+    <height>1103</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,10 +70,13 @@
      <item>
       <widget class="QSpinBox" name="spinbox_submit">
        <property name="suffix">
-        <string> minutes</string>
+        <string> seconds</string>
        </property>
        <property name="prefix">
         <string/>
+       </property>
+       <property name="maximum">
+        <number>900</number>
        </property>
       </widget>
      </item>
@@ -95,7 +98,7 @@
    <item>
     <widget class="QLabel" name="label_submit_info">
      <property name="text">
-      <string>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 minutes will submit scrobbles immediately).</string>
+      <string>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
