@@ -1159,7 +1159,7 @@ msgstr "Buffer"
 msgid "Buffer duration"
 msgstr "Mellomlagringslengde"
 
-#: engine/gstengine.cpp:691
+#: engine/gstengine.cpp:689
 msgid "Buffering"
 msgstr "Mellomlagring"
 
