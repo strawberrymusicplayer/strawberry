@@ -47,7 +47,6 @@
 class QTimerEvent;
 class GstEngine;
 class GstBufferConsumer;
-class GstElementDeleter;
 
 namespace Engine {
 struct SimpleMetaBundle;
@@ -176,8 +175,6 @@ class GstEnginePipeline : public QObject {
   static const int kFaderFudgeMsec;
   static const int kEqBandCount;
   static const int kEqBandFrequencies[];
-
-  static GstElementDeleter *sElementDeleter;
 
   GstEngine *engine_;
 

@@ -56,7 +56,6 @@
 #include "gstengine.h"
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
-#include "gstelementdeleter.h"
 
 const int GstEnginePipeline::kGstStateTimeoutNanosecs = 10000000;
 const int GstEnginePipeline::kFaderFudgeMsec = 2000;
@@ -65,7 +64,6 @@ const int GstEnginePipeline::kEqBandCount = 10;
 const int GstEnginePipeline::kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
 
 int GstEnginePipeline::sId = 1;
-GstElementDeleter *GstEnginePipeline::sElementDeleter = nullptr;
 
 GstEnginePipeline::GstEnginePipeline(GstEngine *engine, QObject *parent)
     : QObject(parent),
@@ -115,10 +113,6 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine, QObject *parent)
       notify_source_cb_id_(-1),
       about_to_finish_cb_id_(-1),
       unsupported_analyzer_(false) {
-
-  if (!sElementDeleter) {
-    sElementDeleter = new GstElementDeleter(engine_);
-  }
 
   eq_band_gains_.reserve(kEqBandCount);
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;

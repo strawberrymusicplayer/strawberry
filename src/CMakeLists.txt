@@ -600,8 +600,8 @@ optional_source(HAVE_DBUS SOURCES osd/osddbus.cpp HEADERS osd/osddbus.h)
 
 # GStreamer
 optional_source(HAVE_GSTREAMER
-  SOURCES engine/gststartup.cpp engine/gstengine.cpp engine/gstenginepipeline.cpp engine/gstelementdeleter.cpp
-  HEADERS engine/gststartup.h engine/gstengine.h engine/gstenginepipeline.h engine/gstelementdeleter.h
+  SOURCES engine/gststartup.cpp engine/gstengine.cpp engine/gstenginepipeline.cpp
+  HEADERS engine/gststartup.h engine/gstengine.h engine/gstenginepipeline.h
 )
 
 # VLC
