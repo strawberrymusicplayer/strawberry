@@ -185,9 +185,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   int equalizer_preamp_;
   QList<int> equalizer_gains_;
 
-  mutable bool can_decode_success_;
-  mutable bool can_decode_last_;
-
   // Hack to stop seeks happening too often
   QTimer *seek_timer_;
   bool waiting_to_seek_;
