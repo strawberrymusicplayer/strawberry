@@ -853,7 +853,7 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool u
   QSqlDatabase db(db_->Connect());
 
   SqlQuery remove(db);
-  remove.prepare(QString("UPDATE %1 SET unavailable = %2 WHERE ROWID = :id").arg(songs_table_).arg(int(unavailable)));
+  remove.prepare(QString("UPDATE %1 SET unavailable = %2 WHERE ROWID = :id").arg(songs_table_).arg(static_cast<int>(unavailable)));
 
   ScopedTransaction transaction(&db);
   for (const Song &song : songs) {
@@ -1394,7 +1394,7 @@ bool CollectionBackend::UpdateCompilations(const QSqlDatabase &db, SongList &del
   // Update the song
   SqlQuery q(db);
   q.prepare(QString("UPDATE %1 SET compilation_detected = :compilation_detected, compilation_effective = ((compilation OR :compilation_detected OR compilation_on) AND NOT compilation_off) + 0 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = 0").arg(songs_table_));
-  q.BindValue(":compilation_detected", int(compilation_detected));
+  q.BindValue(":compilation_detected", static_cast<int>(compilation_detected));
   q.BindValue(":url1", url);
   q.BindValue(":url2", url.toString());
   q.BindValue(":url3", url.toString(QUrl::FullyEncoded));

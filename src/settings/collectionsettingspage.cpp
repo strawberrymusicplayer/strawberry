@@ -252,12 +252,12 @@ void CollectionSettingsPage::Save() {
   if (ui_->radiobutton_save_albumcover_cache->isChecked()) save_cover_type = SaveCoverType_Cache;
   else if (ui_->radiobutton_save_albumcover_albumdir->isChecked()) save_cover_type = SaveCoverType_Album;
   else if (ui_->radiobutton_save_albumcover_embedded->isChecked()) save_cover_type = SaveCoverType_Embedded;
-  s.setValue("save_cover_type", int(save_cover_type));
+  s.setValue("save_cover_type", static_cast<int>(save_cover_type));
 
   SaveCoverFilename save_cover_filename = SaveCoverFilename_Hash;
   if (ui_->radiobutton_cover_hash->isChecked()) save_cover_filename = SaveCoverFilename_Hash;
   else if (ui_->radiobutton_cover_pattern->isChecked()) save_cover_filename = SaveCoverFilename_Pattern;
-  s.setValue("save_cover_filename", int(save_cover_filename));
+  s.setValue("save_cover_filename", static_cast<int>(save_cover_filename));
 
   s.setValue("cover_pattern", ui_->lineedit_cover_pattern->text());
   s.setValue("cover_overwrite", ui_->checkbox_cover_overwrite->isChecked());

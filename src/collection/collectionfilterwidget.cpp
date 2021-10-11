@@ -176,9 +176,9 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
     if (s.contains(group_by_version())) version = s.value(group_by_version(), 0).toInt();
     if (version == 1) {
       model_->SetGroupBy(CollectionModel::Grouping(
-          CollectionModel::GroupBy(s.value(group_by(1), int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-          CollectionModel::GroupBy(s.value(group_by(2), int(CollectionModel::GroupBy_AlbumDisc)).toInt()),
-          CollectionModel::GroupBy(s.value(group_by(3), int(CollectionModel::GroupBy_None)).toInt())));
+          CollectionModel::GroupBy(s.value(group_by(1), static_cast<int>(CollectionModel::GroupBy_AlbumArtist)).toInt()),
+          CollectionModel::GroupBy(s.value(group_by(2), static_cast<int>(CollectionModel::GroupBy_AlbumDisc)).toInt()),
+          CollectionModel::GroupBy(s.value(group_by(3), static_cast<int>(CollectionModel::GroupBy_None)).toInt())));
     }
     else {
       model_->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc, CollectionModel::GroupBy_None));
@@ -374,9 +374,9 @@ void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping g) 
     QSettings s;
     s.beginGroup(settings_group_);
     s.setValue(group_by_version(), 1);
-    s.setValue(group_by(1), int(g[0]));
-    s.setValue(group_by(2), int(g[1]));
-    s.setValue(group_by(3), int(g[2]));
+    s.setValue(group_by(1), static_cast<int>(g[0]));
+    s.setValue(group_by(2), static_cast<int>(g[1]));
+    s.setValue(group_by(3), static_cast<int>(g[2]));
     s.endGroup();
   }
 

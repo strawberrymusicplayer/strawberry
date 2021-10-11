@@ -191,13 +191,13 @@ QString PrettySize(const quint64 bytes) {
       ret = QString::number(bytes) + " bytes";
     }
     else if (bytes <= 1000 * 1000) {
-      ret = QString::asprintf("%.1f KB", float(bytes) / 1000);
+      ret = QString::asprintf("%.1f KB", static_cast<float>(bytes) / 1000);
     }
     else if (bytes <= 1000 * 1000 * 1000) {
-      ret = QString::asprintf("%.1f MB", float(bytes) / (1000 * 1000));
+      ret = QString::asprintf("%.1f MB", static_cast<float>(bytes) / (1000 * 1000));
     }
     else {
-      ret = QString::asprintf("%.1f GB", float(bytes) / (1000 * 1000 * 1000));
+      ret = QString::asprintf("%.1f GB", static_cast<float>(bytes) / (1000 * 1000 * 1000));
     }
   }
   return ret;
@@ -482,8 +482,8 @@ QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptograp
   const int kBlockSize = 64;  // bytes
   Q_ASSERT(key.length() <= kBlockSize);
 
-  QByteArray inner_padding(kBlockSize, char(0x36));
-  QByteArray outer_padding(kBlockSize, char(0x5c));
+  QByteArray inner_padding(kBlockSize, static_cast<char>(0x36));
+  QByteArray outer_padding(kBlockSize, static_cast<char>(0x5c));
 
   for (int i = 0; i < key.length(); ++i) {
     inner_padding[i] = inner_padding[i] ^ key[i];

@@ -249,7 +249,7 @@ void BehaviourSettingsPage::Save() {
   if (ui_->radiobutton_hide->isChecked()) behaviour = Startup_Hide;
   if (ui_->radiobutton_show_maximized->isChecked()) behaviour = Startup_ShowMaximized;
   if (ui_->radiobutton_show_minimized->isChecked()) behaviour = Startup_ShowMinimized;
-  s.setValue("startupbehaviour", int(behaviour));
+  s.setValue("startupbehaviour", static_cast<int>(behaviour));
 
   s.setValue("language", language_map_.contains(ui_->combobox_language->currentText()) ? language_map_[ui_->combobox_language->currentText()] : QString());
 

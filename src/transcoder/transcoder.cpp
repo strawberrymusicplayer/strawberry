@@ -552,7 +552,7 @@ QMap<QString, float> Transcoder::GetProgress() const {
     gst_element_query_position(state->pipeline_, GST_FORMAT_TIME, &position);
     gst_element_query_duration(state->pipeline_, GST_FORMAT_TIME, &duration);
 
-    ret[state->job_.input] = float(position) / duration;
+    ret[state->job_.input] = static_cast<float>(position) / duration;
   }
 
   return ret;

@@ -182,7 +182,7 @@ void VLCEngine::Seek(const quint64 offset_nanosec) {
   uint len = length();
   if (len == 0) return;
 
-  float pos = float(offset) / len;
+  float pos = static_cast<float>(offset) / len;
 
   libvlc_media_player_set_position(player_, pos);
 

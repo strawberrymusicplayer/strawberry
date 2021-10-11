@@ -98,7 +98,7 @@ void Analyzer::Base::paintEvent(QPaintEvent *e) {
 
       // convert to mono here - our built in analyzers need mono, but the engines provide interleaved pcm
       for (uint x = 0; static_cast<int>(x) < fht_->size(); ++x) {
-        lastscope_[x] = double(thescope[i] + thescope[i + 1]) / (2 * (1 << 15));
+        lastscope_[x] = static_cast<float>(thescope[i] + thescope[i + 1]) / (2 * (1U << 15U));
         i += 2;
       }
 
@@ -178,7 +178,7 @@ void Analyzer::Base::demo(QPainter &p) {
   if (t < 201) {
     Scope s(32);
 
-    const double dt = double(t) / 200;
+    const double dt = static_cast<double>(t) / 200;
     for (uint i = 0; i < s.size(); ++i) {
       s[i] = dt * (sin(M_PI + (i * M_PI) / s.size()) + 1.0);
     }

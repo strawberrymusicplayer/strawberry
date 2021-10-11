@@ -28,7 +28,7 @@
 #include <QVector>
 #include <QtMath>
 
-FHT::FHT(uint n) : num_((n < 3) ? 0 : 1 << n), exp2_((n < 3) ? int(-1) : int(n)) {
+FHT::FHT(uint n) : num_((n < 3) ? 0 : 1 << n), exp2_((n < 3) ? static_cast<int>(-1) : static_cast<int>(n)) {
 
   if (n > 3) {
     buf_vector_.resize(num_);
