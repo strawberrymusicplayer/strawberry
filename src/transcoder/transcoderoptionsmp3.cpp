@@ -88,7 +88,7 @@ void TranscoderOptionsMP3::Save() {
 }
 
 void TranscoderOptionsMP3::QualitySliderChanged(int value) {
-  ui_->quality_spinbox->setValue(float(value) / 100);
+  ui_->quality_spinbox->setValue(static_cast<float>(value) / 100);
 }
 
 void TranscoderOptionsMP3::QualitySpinboxChanged(double value) {

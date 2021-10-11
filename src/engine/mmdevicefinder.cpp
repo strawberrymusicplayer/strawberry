@@ -54,7 +54,7 @@ QList<DeviceFinder::Device> MMDeviceFinder::ListDevices() {
   devices.append(default_device);
 
   IMMDeviceEnumerator *enumerator = nullptr;
-  HRESULT hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, (void**)&enumerator);
+  HRESULT hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, reinterpret_cast<void**>(&enumerator));
   if (hr == S_OK) {
     IMMDeviceCollection *collection = nullptr;
     hr = enumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &collection);

@@ -384,7 +384,7 @@ bool GstEnginePipeline::InitAudioBin() {
       g_object_set(G_OBJECT(rgvolume), "album-mode", rg_mode_, nullptr);
       g_object_set(G_OBJECT(rgvolume), "pre-amp", rg_preamp_, nullptr);
       g_object_set(G_OBJECT(rgvolume), "fallback-gain", rg_fallbackgain_, nullptr);
-      g_object_set(G_OBJECT(rglimiter), "enabled", int(rg_compression_), nullptr);
+      g_object_set(G_OBJECT(rglimiter), "enabled", static_cast<int>(rg_compression_), nullptr);
     }
   }
 
@@ -665,7 +665,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     int16_t *d = static_cast<int16_t*>(g_malloc(buf16_size));
     memset(d, 0, buf16_size);
     for (int i = 0; i < (samples * channels); ++i) {
-      float sample_float = (s[i] * float(32768.0));
+      float sample_float = (s[i] * static_cast<float>(32768.0));
       d[i] = static_cast<int16_t>(sample_float);
     }
     gst_buffer_unmap(buf, &map_info);
@@ -1142,7 +1142,7 @@ void GstEnginePipeline::SetVolumeModifier(const qreal mod) {
 void GstEnginePipeline::UpdateVolume() {
 
   if (!volume_) return;
-  double vol = double(volume_percent_) * double(0.01) * volume_modifier_;
+  double vol = static_cast<double>(volume_percent_) * static_cast<double>(0.01) * volume_modifier_;
   g_object_set(G_OBJECT(volume_), "volume", vol, nullptr);
 
 }
@@ -1176,7 +1176,7 @@ void GstEnginePipeline::UpdateEqualizer() {
 
   // Update band gains
   for (int i = 0; i < kEqBandCount; ++i) {
-    float gain = eq_enabled_ ? eq_band_gains_[i] : float(0.0);
+    float gain = eq_enabled_ ? eq_band_gains_[i] : static_cast<float>(0.0);
     if (gain < 0) {
       gain *= 0.24;
     }
@@ -1193,7 +1193,7 @@ void GstEnginePipeline::UpdateEqualizer() {
 
   // Update preamp
   float preamp = 1.0;
-  if (eq_enabled_) preamp = float(eq_preamp_ + 100) * float(0.01);  // To scale from 0.0 to 2.0
+  if (eq_enabled_) preamp = static_cast<float>(eq_preamp_ + 100) * static_cast<float>(0.01);  // To scale from 0.0 to 2.0
 
   g_object_set(G_OBJECT(equalizer_preamp_), "volume", preamp, nullptr);
 

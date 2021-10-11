@@ -466,8 +466,8 @@ void BackendSettingsPage::Save() {
 
   s.setValue("rgenabled", ui_->checkbox_replaygain->isChecked());
   s.setValue("rgmode", ui_->combobox_replaygainmode->currentIndex());
-  s.setValue("rgpreamp", double(ui_->stickyslider_replaygainpreamp->value()) / 10 - 60);
-  s.setValue("rgfallbackgain", double(ui_->stickyslider_replaygainfallbackgain->value()) / 10 - 60);
+  s.setValue("rgpreamp", static_cast<double>(ui_->stickyslider_replaygainpreamp->value()) / 10 - 60);
+  s.setValue("rgfallbackgain", static_cast<double>(ui_->stickyslider_replaygainfallbackgain->value()) / 10 - 60);
   s.setValue("rgcompression", ui_->checkbox_replaygaincompression->isChecked());
 
   s.setValue("FadeoutEnabled", ui_->checkbox_fadeout_stop->isChecked());
@@ -626,7 +626,7 @@ void BackendSettingsPage::DeviceStringChanged() {
 
 void BackendSettingsPage::RgPreampChanged(const int value) {
 
-  double db = double(value) / 10 - 60;
+  double db = static_cast<double>(value) / 10 - 60;
   QString db_str = QString::asprintf("%+.1f dB", db);
   ui_->label_replaygainpreamp->setText(db_str);
 
@@ -634,7 +634,7 @@ void BackendSettingsPage::RgPreampChanged(const int value) {
 
 void BackendSettingsPage::RgFallbackGainChanged(const int value) {
 
-  double db = double(value) / 10 - 60;
+  double db = static_cast<double>(value) / 10 - 60;
   QString db_str = QString::asprintf("%+.1f dB", db);
   ui_->label_replaygainfallbackgain->setText(db_str);
 

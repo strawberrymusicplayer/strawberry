@@ -80,7 +80,7 @@ void TranscoderOptionsVorbis::Save() {
   GET_BITRATE(max_bitrate, ui_->max_bitrate_slider);
 #undef GET_BITRATE
 
-  s.setValue("quality", double(ui_->quality_slider->value()) / 10);
+  s.setValue("quality", static_cast<double>(ui_->quality_slider->value()) / 10);
   s.setValue("managed", ui_->managed->isChecked());
   s.setValue("bitrate", bitrate);
   s.setValue("min-bitrate", min_bitrate);

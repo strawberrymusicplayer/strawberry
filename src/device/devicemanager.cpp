@@ -856,7 +856,7 @@ void DeviceManager::TasksChanged() {
 
     DeviceInfo *info = IndexToItem(idx);
     if (task.progress_max) {
-      info->task_percentage_ = static_cast<int>(float(task.progress) / task.progress_max * 100);
+      info->task_percentage_ = static_cast<int>(static_cast<float>(task.progress) / static_cast<float>(task.progress_max) * 100);
     }
     else {
       info->task_percentage_ = 0;

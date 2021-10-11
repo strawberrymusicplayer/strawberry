@@ -45,7 +45,7 @@ QPixmap SystemTrayIcon::CreateIcon(const QPixmap &icon, const QPixmap &grey_icon
   if (trayicon_progress_) {
     // The angle of the line that's used to cover the icon.
     // Centered on rect.topLeft()
-    double angle = double(100 - song_progress_) / 100.0 * M_PI_2;
+    double angle = static_cast<double>(100 - song_progress_) / 100.0 * M_PI_2;
     double length = sqrt(pow(rect.width(), 2.0) + pow(rect.height(), 2.0));
 
     QPolygon mask;

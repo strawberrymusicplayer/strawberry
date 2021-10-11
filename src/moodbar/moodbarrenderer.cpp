@@ -77,9 +77,9 @@ ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle s
   // Read the colors, keeping track of some histograms
   for (int i = 0; i < samples; ++i) {
     QColor color;
-    color.setRed(int(*data_p++));
-    color.setGreen(int(*data_p++));
-    color.setBlue(int(*data_p++));
+    color.setRed(static_cast<int>(*data_p++));
+    color.setGreen(static_cast<int>(*data_p++));
+    color.setBlue(static_cast<int>(*data_p++));
 
     colors << color;
 
@@ -141,12 +141,12 @@ void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect
     screen_colors[x].getHsv(&h, &s, &v);
 
     for (int y = 0; y <= rect.height() / 2; ++y) {
-      float coeff = float(y) / float(rect.height() / 2);  // NOLINT(bugprone-integer-division)
+      float coeff = static_cast<float>(y) / static_cast<float>(rect.height() / 2);  // NOLINT(bugprone-integer-division)
       float coeff2 = 1.0F - ((1.0F - coeff) * (1.0F - coeff));
       coeff = 1.0F - (1.0F - coeff) / 2.0F;
       coeff2 = 1.F - (1.F - coeff2) / 2.0F;
 
-      p->setPen(QColor::fromHsv(h, qBound(0, int(float(s) * coeff), 255), qBound(0, int(255.F - (255.F - float(v)) * coeff2), 255)));
+      p->setPen(QColor::fromHsv(h, qBound(0, static_cast<int>(static_cast<float>(s) * coeff), 255), qBound(0, static_cast<int>(255.F - (255.F - static_cast<float>(v)) * coeff2), 255)));
 
       p->drawPoint(rect.left() + x, rect.top() + y);
       p->drawPoint(rect.left() + x, rect.top() + rect.height() - 1 - y);

@@ -315,7 +315,7 @@ Song::FileType Organize::CheckTranscode(Song::FileType original_type) const {
 void Organize::SetSongProgress(float progress, bool transcoded) {
 
   const int max = transcoded ? 50 : 100;
-  current_copy_progress_ = (transcoded ? 50 : 0) + qBound(0, static_cast<int>(progress * float(max)), max - 1);
+  current_copy_progress_ = (transcoded ? 50 : 0) + qBound(0, static_cast<int>(progress * static_cast<float>(max)), max - 1);
   UpdateProgress();
 
 }

@@ -225,7 +225,7 @@ void InternetSearchView::ReloadSettings() {
 
   // Internet search settings
 
-  search_type_ = InternetSearchView::SearchType(s.value("type", int(InternetSearchView::SearchType_Artists)).toInt());
+  search_type_ = InternetSearchView::SearchType(s.value("type", static_cast<int>(InternetSearchView::SearchType_Artists)).toInt());
   switch (search_type_) {
     case InternetSearchView::SearchType_Artists:
       ui_->radiobutton_search_artists->setChecked(true);
@@ -241,9 +241,9 @@ void InternetSearchView::ReloadSettings() {
   int group_by_version = s.value("search_group_by_version", 0).toInt();
   if (group_by_version == 1 && s.contains("search_group_by1") && s.contains("search_group_by2") && s.contains("search_group_by3")) {
     SetGroupBy(CollectionModel::Grouping(
-        CollectionModel::GroupBy(s.value("search_group_by1", int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-        CollectionModel::GroupBy(s.value("search_group_by2", int(CollectionModel::GroupBy_AlbumDisc)).toInt()),
-        CollectionModel::GroupBy(s.value("search_group_by3", int(CollectionModel::GroupBy_None)).toInt())));
+        CollectionModel::GroupBy(s.value("search_group_by1", static_cast<int>(CollectionModel::GroupBy_AlbumArtist)).toInt()),
+        CollectionModel::GroupBy(s.value("search_group_by2", static_cast<int>(CollectionModel::GroupBy_AlbumDisc)).toInt()),
+        CollectionModel::GroupBy(s.value("search_group_by3", static_cast<int>(CollectionModel::GroupBy_None)).toInt())));
   }
   else {
     SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy(CollectionModel::GroupBy_AlbumArtist), CollectionModel::GroupBy(CollectionModel::GroupBy_AlbumDisc), CollectionModel::GroupBy(CollectionModel::GroupBy_None)));
@@ -713,9 +713,9 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping g) {
   QSettings s;
   s.beginGroup(service_->settings_group());
   s.setValue("search_group_by_version", 1);
-  s.setValue("search_group_by1", int(g.first));
-  s.setValue("search_group_by2", int(g.second));
-  s.setValue("search_group_by3", int(g.third));
+  s.setValue("search_group_by1", static_cast<int>(g.first));
+  s.setValue("search_group_by2", static_cast<int>(g.second));
+  s.setValue("search_group_by3", static_cast<int>(g.third));
   s.endGroup();
 
   // Make sure the correct action is checked.
@@ -752,7 +752,7 @@ void InternetSearchView::SetSearchType(const InternetSearchView::SearchType type
 
   QSettings s;
   s.beginGroup(service_->settings_group());
-  s.setValue("type", int(search_type_));
+  s.setValue("type", static_cast<int>(search_type_));
   s.endGroup();
 
   TextEdited(ui_->search->text());
