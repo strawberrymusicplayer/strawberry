@@ -1340,7 +1340,7 @@ void MainWindow::VolumeChanged(const int volume) {
 
 void MainWindow::SongChanged(const Song &song) {
 
-  qLog(Debug) << "Song changed to" << song.artist() << song.album() << song.title();
+  qLog(Debug) << "Song changed to" << song.artist() << song.album() << song.PrettyTitle();
 
   song_playing_ = song;
   song_ = song;
