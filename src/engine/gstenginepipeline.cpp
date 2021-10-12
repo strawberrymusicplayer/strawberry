@@ -112,7 +112,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine, QObject *parent)
       pad_added_cb_id_(-1),
       notify_source_cb_id_(-1),
       about_to_finish_cb_id_(-1),
-      unsupported_analyzer_(false) {
+      logged_unsupported_analyzer_format_(false) {
 
   eq_band_gains_.reserve(kEqBandCount);
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
@@ -461,7 +461,7 @@ bool GstEnginePipeline::InitAudioBin() {
   gst_bus_add_watch(bus, BusCallback, this);
   gst_object_unref(bus);
 
-  unsupported_analyzer_ = false;
+  logged_unsupported_analyzer_format_ = false;
 
   return true;
 
@@ -631,7 +631,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
   qint64 end_time = start_time + duration;
 
   if (format.startsWith("S16LE")) {
-    instance->unsupported_analyzer_ = false;
+    instance->logged_unsupported_analyzer_format_ = false;
   }
   else if (format.startsWith("S32LE")) {
 
@@ -651,7 +651,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
     buf = buf16;
 
-    instance->unsupported_analyzer_ = false;
+    instance->logged_unsupported_analyzer_format_ = false;
   }
 
   else if (format.startsWith("F32LE")) {
@@ -673,7 +673,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
     buf = buf16;
 
-    instance->unsupported_analyzer_ = false;
+    instance->logged_unsupported_analyzer_format_ = false;
   }
   else if (format.startsWith("S24LE")) {
 
@@ -696,11 +696,11 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
     buf = buf16;
 
-    instance->unsupported_analyzer_ = false;
+    instance->logged_unsupported_analyzer_format_ = false;
   }
-  else if (!instance->unsupported_analyzer_) {
-    instance->unsupported_analyzer_ = true;
-    qLog(Debug) << "Unsupported audio format for the analyzer" << format;
+  else if (!instance->logged_unsupported_analyzer_format_) {
+    instance->logged_unsupported_analyzer_format_ = true;
+    qLog(Error) << "Unsupported audio format for the analyzer" << format;
   }
 
   QList<GstBufferConsumer*> consumers;

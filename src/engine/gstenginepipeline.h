@@ -291,7 +291,7 @@ class GstEnginePipeline : public QObject {
 
   GstSegment last_playbin_segment_{};
 
-  bool unsupported_analyzer_;
+  bool logged_unsupported_analyzer_format_;
 
 };
 
