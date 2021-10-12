@@ -888,6 +888,7 @@ void GstEngine::UpdateScope(const int chunk_length) {
   if (buffer_format_.startsWith("S16LE") ||
       buffer_format_.startsWith("U16LE") ||
       buffer_format_.startsWith("S24LE") ||
+      buffer_format_.startsWith("S24_32LE") ||
       buffer_format_.startsWith("S32LE") ||
       buffer_format_.startsWith("F32LE")
   ) {
