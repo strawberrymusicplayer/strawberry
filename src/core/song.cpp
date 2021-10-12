@@ -382,6 +382,7 @@ bool Song::is_radio() const { return d->source_ == Source_Stream || d->source_ =
 bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
 bool Song::is_compilation() const { return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && !d->compilation_off_; }
 bool Song::stream_url_can_expire() const { return d->source_ == Song::Source_Tidal || d->source_ == Song::Source_Qobuz; }
+bool Song::is_module_music() const { return d->filetype_ == Song::FileType_MOD || d->filetype_ == Song::FileType_S3M || d->filetype_ == Song::FileType_XM || d->filetype_ == Song::FileType_IT; }
 
 bool Song::art_automatic_is_valid() const {
   return !d->art_automatic_.isEmpty() &&

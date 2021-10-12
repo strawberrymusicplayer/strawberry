@@ -275,6 +275,7 @@ class Song {
   bool has_valid_art() const;
   bool is_compilation() const;
   bool stream_url_can_expire() const;
+  bool is_module_music() const;
 
   // Playlist views are special because you don't want to fill in album artists automatically for compilations, but you do for normal albums:
   const QString &playlist_albumartist() const;
