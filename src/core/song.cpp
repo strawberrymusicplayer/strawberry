@@ -600,6 +600,8 @@ QString Song::TextForFiletype(FileType filetype) {
     case Song::FileType_APE:         return "Monkey's Audio";
     case Song::FileType_MOD:         return "Module Music Format";
     case Song::FileType_S3M:         return "Module Music Format";
+    case Song::FileType_XM:          return "Module Music Format";
+    case Song::FileType_IT:          return "Module Music Format";
     case Song::FileType_CDDA:        return "CDDA";
     case Song::FileType_Stream:      return "Stream";
     case Song::FileType_Unknown:
@@ -629,6 +631,8 @@ QString Song::ExtensionForFiletype(FileType filetype) {
     case Song::FileType_APE:         return "ape";
     case Song::FileType_MOD:         return "mod";
     case Song::FileType_S3M:         return "s3m";
+    case Song::FileType_XM:          return "xm";
+    case Song::FileType_IT:          return "it";
     case Song::FileType_Unknown:
     default:                         return "dat";
   }
@@ -657,6 +661,8 @@ QIcon Song::IconForFiletype(FileType filetype) {
     case Song::FileType_APE:         return IconLoader::Load("ape");
     case Song::FileType_MOD:         return IconLoader::Load("mod");
     case Song::FileType_S3M:         return IconLoader::Load("s3m");
+    case Song::FileType_XM:          return IconLoader::Load("xm");
+    case Song::FileType_IT:          return IconLoader::Load("it");
     case Song::FileType_CDDA:        return IconLoader::Load("cd");
     case Song::FileType_Stream:      return IconLoader::Load("applications-internet");
     case Song::FileType_Unknown:
@@ -751,6 +757,8 @@ Song::FileType Song::FiletypeByExtension(const QString &ext) {
            ext.compare("nst", Qt::CaseInsensitive) == 0||
            ext.compare("wow", Qt::CaseInsensitive) == 0) return Song::FileType_MOD;
   else if (ext.compare("s3m", Qt::CaseInsensitive) == 0) return Song::FileType_S3M;
+  else if (ext.compare("xm", Qt::CaseInsensitive) == 0) return Song::FileType_XM;
+  else if (ext.compare("it", Qt::CaseInsensitive) == 0) return Song::FileType_IT;
 
   else return Song::FileType_Unknown;
 
