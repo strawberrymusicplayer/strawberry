@@ -338,7 +338,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
         current_item_ = item;
         play_offset_nanosec_ = 0;
       }
-      else if (is_next) {
+      else if (is_next && !item->Metadata().is_module_music()) {
         qLog(Debug) << "Preloading next song" << next_item->Metadata().title() << result.stream_url_;
         engine_->StartPreloading(result.stream_url_, next_item->Url(), song.has_cue(), song.beginning_nanosec(), song.end_nanosec());
       }
@@ -854,6 +854,12 @@ void Player::TrackAboutToEnd() {
         next_item->SetTemporaryMetadata(song);
         break;
     }
+  }
+
+  // Preloading any format while currently playing module music is broken in GStreamer.
+  // See: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/769
+  if (current_item_ && current_item_->Metadata().is_module_music()) {
+    return;
   }
 
   engine_->StartPreloading(url, next_item->Url(), next_item->Metadata().has_cue(), next_item->effective_beginning_nanosec(), next_item->effective_end_nanosec());
