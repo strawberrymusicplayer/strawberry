@@ -614,14 +614,20 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
-  GstCaps *caps = gst_pad_get_current_caps(pad);
-  GstStructure *structure = gst_caps_get_structure(caps, 0);
-  QString format = QString(gst_structure_get_string(structure, "format"));
+  QString format;
   int channels = 0;
   int rate = 0;
-  gst_structure_get_int(structure, "channels", &channels);
-  gst_structure_get_int(structure, "rate", &rate);
-  gst_caps_unref(caps);
+
+  GstCaps *caps = gst_pad_get_current_caps(pad);
+  if (caps) {
+    GstStructure *structure = gst_caps_get_structure(caps, 0);
+    if (structure) {
+      format = QString(gst_structure_get_string(structure, "format"));
+      gst_structure_get_int(structure, "channels", &channels);
+      gst_structure_get_int(structure, "rate", &rate);
+    }
+    gst_caps_unref(caps);
+  }
 
   GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
   GstBuffer *buf16 = nullptr;
