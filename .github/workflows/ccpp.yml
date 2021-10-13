@@ -1305,7 +1305,7 @@ jobs:
 
   build-freebsd:
     name: Build FreeBSD
-    runs-on: macos-latest
+    runs-on: macos-10.15
     steps:
     - uses: actions/checkout@v1.2.0
     - name: Build FreeBSD
