@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+1.0.0:
 
   Bugfixes:
     * Fix updating temporary metadata when reloading songs outside of the collection.
@@ -13,7 +13,8 @@ Unreleased:
     * Fix a gstreamer bus leak when adding streams and remote playlists.
     * Fix "Source ID x was not found when attempting to remove it" error.
     * Escape ampersands in playlist tabs.
-    * (macOS) Fix incorrect alternating playlist row colors with dark theme.
+    * Fix analyzer with S24_32LE audio format.
+    * (macOS) Fix incorrect playlist alternating row colors with dark theme.
     * (Windows) Fix adding songs with Japanese characters from the files tab.
 
   Enhancements:
@@ -41,7 +42,8 @@ Unreleased:
     * Make error dialog larger.
     * Show error dialog for failed SQL queries.
     * Show error dialog when failing to read or write album covers.
-    * Add mod and s3m to detected filetypes (unsupported).
+    * Add module music formats (mod, s3m, xm, it) to detected filetypes.
+    * Disable gapless playback for module music formats to workaround gstreamer bug.
     * Update directory ID and song path immediately when organizing collection songs.
     * Add right click option to star a playlist in playlist tabs.
     * Use seconds instead of minutes for scrobble submit delay.
