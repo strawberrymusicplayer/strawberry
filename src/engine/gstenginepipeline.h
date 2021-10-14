@@ -47,7 +47,6 @@
 class QTimerEvent;
 class GstEngine;
 class GstBufferConsumer;
-class GstElementDeleter;
 
 namespace Engine {
 struct SimpleMetaBundle;
@@ -177,8 +176,6 @@ class GstEnginePipeline : public QObject {
   static const int kEqBandCount;
   static const int kEqBandFrequencies[];
 
-  static GstElementDeleter *sElementDeleter;
-
   GstEngine *engine_;
 
   // Using == to compare two pipelines is a bad idea, because new ones often get created in the same address as old ones.  This ID will be unique for each pipeline.
@@ -289,13 +286,12 @@ class GstEnginePipeline : public QObject {
   int pad_added_cb_id_;
   int notify_source_cb_id_;
   int about_to_finish_cb_id_;
-  int bus_cb_id_;
 
   QThreadPool set_state_threadpool_;
 
   GstSegment last_playbin_segment_{};
 
-  bool unsupported_analyzer_;
+  bool logged_unsupported_analyzer_format_;
 
 };
 

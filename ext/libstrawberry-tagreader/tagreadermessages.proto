@@ -25,6 +25,8 @@ message SongMetadata {
     APE = 17;
     MOD = 18;
     S3M = 19;
+    XM = 20;
+    IT = 21;
     CDDA = 90;
     STREAM = 91;
   }

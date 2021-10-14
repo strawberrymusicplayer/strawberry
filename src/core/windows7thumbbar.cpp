@@ -80,7 +80,7 @@ ITaskbarList3 *Windows7ThumbBar::CreateTaskbarList() {
   static const GUID CLSID_ITaskbarList = { 0x56FDF344,0xFD6D,0x11d0,{0x95,0x8A,0x00,0x60,0x97,0xC9,0xA0,0x90}};
 
   // Create the taskbar list
-  HRESULT hr = CoCreateInstance(CLSID_ITaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&taskbar_list);
+  HRESULT hr = CoCreateInstance(CLSID_ITaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, reinterpret_cast<void**>(&taskbar_list));
   if (hr != S_OK) {
     qLog(Warning) << "Error creating the ITaskbarList3 interface" << Qt::hex << DWORD (hr);
     return nullptr;

@@ -119,7 +119,7 @@ void BlockAnalyzer::determineStep() {
   // the fall time of 30 is too slow on framerates above 50fps
   const double fallTime = static_cast<double>(timeout() < 20 ? 20 * rows_ : 30 * rows_);
 
-  step_ = double(rows_ * timeout()) / fallTime;
+  step_ = static_cast<double>(rows_ * timeout()) / fallTime;
 
 }
 

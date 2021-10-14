@@ -12,8 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-06-05 07:32-0400\n"
-"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
+"PO-Revision-Date: 2021-09-30 09:16-0400\n"
+"Last-Translator: Victor <victor.butko@gmail.com>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 "
@@ -81,10 +81,6 @@ msgstr "Ярлики на %1 зазвичай використовують че�
 msgid " kbps"
 msgstr " кб/с"
 
-#: ../build/src/ui_scrobblersettingspage.h:411
-msgid " minutes"
-msgstr "хвилин"
-
 #: ../build/src/ui_backendsettingspage.h:551
 #: ../build/src/ui_backendsettingspage.h:571
 #: ../build/src/ui_backendsettingspage.h:574
@@ -100,6 +96,7 @@ msgstr "пт"
 msgid " s"
 msgstr "с"
 
+#: ../build/src/ui_scrobblersettingspage.h:412
 #: ../build/src/ui_notificationssettingspage.h:484
 msgid " seconds"
 msgstr " секунд"
@@ -423,14 +420,12 @@ msgstr "Використати стандартний  системний кол
 msgid "&Use the system proxy settings"
 msgstr "Використати системні налаштування проксі"
 
-#: ../build/src/ui_scrobblersettingspage.h:413
+#: ../build/src/ui_scrobblersettingspage.h:414
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
-"submitted to the server. Setting the time to 0 minutes will submit scrobbles "
+"submitted to the server. Setting the time to 0 seconds will submit scrobbles "
 "immediately)."
 msgstr ""
-"(Це затримка між скроблінгом композиції та відправленням даних на сервер. "
-"Якщо встановити 0 хвилин, дані будуть відправлятись негайно)."
 
 #: dialogs/edittagdialog.cpp:99
 msgid "(different across multiple songs)"
@@ -1009,7 +1004,7 @@ msgstr "аудіо"
 
 #: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:255
 msgid "Authenticating..."
-msgstr ""
+msgstr "Автентифікація..."
 
 #: ../build/src/ui_coverssettingspage.h:167
 #: ../build/src/ui_lyricssettingspage.h:167
@@ -1026,7 +1021,7 @@ msgstr "Помилка автентификації"
 
 #: ../build/src/ui_subsonicsettingspage.h:229
 msgid "Authentication method:"
-msgstr ""
+msgstr "Метод автентифікації:"
 
 #: dialogs/about.cpp:143
 msgid "Author and maintainer"
@@ -1055,19 +1050,19 @@ msgstr "Автоматично відкривати одиночні катег�
 
 #: ../build/src/ui_contextsettingspage.h:445
 msgid "Automatically search for album cover"
-msgstr ""
+msgstr "Автоматичний пошук обкладинки альбому"
 
 #: context/contextview.cpp:342 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
-msgstr ""
+msgstr "Автоматичний пошук текстів пісень"
 
 #: ../build/src/ui_playlistsettingspage.h:171
 msgid "Automatically select current playing track"
-msgstr ""
+msgstr "Автоматично вибирати поточний трек "
 
 #: ../build/src/ui_playlistsettingspage.h:174
 msgid "Automatically sort playlist when inserting songs"
-msgstr ""
+msgstr "Автоматично сортувати список відтворення під час додавання пісень "
 
 #: widgets/freespacebar.cpp:67
 msgid "Available"
@@ -1075,7 +1070,7 @@ msgstr "Доступне"
 
 #: collection/collectionfilterwidget.cpp:82
 msgid "Available fields"
-msgstr ""
+msgstr "Доступні поля"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:221
 msgid "Average bitrate"
@@ -1126,7 +1121,7 @@ msgstr "Найкраще"
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:800
 msgid "Bit depth"
-msgstr ""
+msgstr "Розрядна глибина"
 
 #: ../build/src/ui_edittagdialog.h:811
 msgid "Bit rate"
@@ -1146,7 +1141,7 @@ msgstr "Бітова швидкість"
 #: organize/organizedialog.cpp:118
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr ""
+msgstr "Бітрейт"
 
 #: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
@@ -1170,11 +1165,11 @@ msgstr "Плаваючий аналізатор"
 
 #: ../build/src/ui_appearancesettingspage.h:613
 msgid "Bottom Left"
-msgstr ""
+msgstr "Внизу ліворуч"
 
 #: ../build/src/ui_appearancesettingspage.h:614
 msgid "Bottom Right"
-msgstr ""
+msgstr "Внизу праворуч"
 
 #: ../build/src/ui_appearancesettingspage.h:608
 msgid "Browse..."
@@ -1188,7 +1183,7 @@ msgstr ""
 msgid "Buffer duration"
 msgstr "Місткість буфера"
 
-#: engine/gstengine.cpp:691
+#: engine/gstengine.cpp:689
 msgid "Buffering"
 msgstr "Буферизація"
 
@@ -1200,17 +1195,17 @@ msgstr ""
 msgid "CD playback is only available with the GStreamer engine."
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:423
+#: ../build/src/ui_scrobblersettingspage.h:424
 msgid "CDDA"
 msgstr "CDDA"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 #: tidal/tidalstreamurlrequest.cpp:109 qobuz/qobuzstreamurlrequest.cpp:104
 msgid "Cancelled."
-msgstr ""
+msgstr "Скасовано."
 
 #: ../build/src/ui_edittagdialog.h:817
 msgid "Change art"
@@ -1234,7 +1229,7 @@ msgstr "Перевірити оновлення…"
 
 #: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Choose a name for your smart playlist"
-msgstr ""
+msgstr "Виберіть назву для свого розумного списку відтворення "
 
 #: ../build/src/ui_notificationssettingspage.h:502
 msgid "Choose color..."
@@ -1242,7 +1237,7 @@ msgstr "Вибрати колір…"
 
 #: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
-msgstr ""
+msgstr "Виберіть дані для імпорту з last.fm"
 
 #: ../build/src/ui_notificationssettingspage.h:501
 msgid "Choose font..."
@@ -1251,14 +1246,20 @@ msgstr "Вибрати шрифт…"
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:160
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
+"Виберіть спосіб сортування списку відтворення та кількість пісень, які він "
+"міститиме."
 
 #: ../build/src/ui_coverssettingspage.h:164
 msgid "Choose the providers you want to use when searching for covers."
 msgstr ""
+"Виберіть постачальників, яких потрібно використовувати під час пошуку "
+"обкладинок."
 
 #: ../build/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr ""
+"Виберіть постачальників, яких ви хочете використовувати під час пошуку "
+"текстів пісень."
 
 #: equalizer/equalizer.cpp:140
 msgid "Classical"
@@ -1271,11 +1272,11 @@ msgstr "Очистити"
 
 #: ../build/src/ui_collectionsettingspage.h:511
 msgid "Clear Disk Cache"
-msgstr ""
+msgstr "Очистити кеш диска"
 
 #: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Clear cover"
-msgstr ""
+msgstr "Стерти обкладинку "
 
 #: core/mainwindow.cpp:2274 ../build/src/ui_mainwindow.h:634
 msgid "Clear playlist"
@@ -1323,7 +1324,7 @@ msgid "Club"
 msgstr "Клубна"
 
 #: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:473
-#: ../build/src/ui_scrobblersettingspage.h:417
+#: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Фонотека"
 
@@ -1771,7 +1772,7 @@ msgstr "Детальніше…"
 
 #: context/contextview.cpp:186 device/giolister.cpp:188
 #: ../build/src/ui_backendsettingspage.h:539
-#: ../build/src/ui_scrobblersettingspage.h:421
+#: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr "Пристрій"
 
@@ -1946,10 +1947,10 @@ msgstr ""
 msgid "Embedded cover"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:405
-#: ../build/src/ui_scrobblersettingspage.h:429
-#: ../build/src/ui_scrobblersettingspage.h:433
-#: ../build/src/ui_scrobblersettingspage.h:436
+#: ../build/src/ui_scrobblersettingspage.h:406
+#: ../build/src/ui_scrobblersettingspage.h:430
+#: ../build/src/ui_scrobblersettingspage.h:434
+#: ../build/src/ui_scrobblersettingspage.h:437
 #: ../build/src/ui_subsonicsettingspage.h:224
 #: ../build/src/ui_tidalsettingspage.h:319
 #: ../build/src/ui_qobuzsettingspage.h:271
@@ -1981,7 +1982,7 @@ msgstr ""
 msgid "Enable playlist clear button"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:416
+#: ../build/src/ui_scrobblersettingspage.h:417
 msgid "Enable scrobbling for the following sources:"
 msgstr ""
 
@@ -2821,7 +2822,7 @@ msgstr "Останні відтворені"
 msgid "Last played for %1 songs received."
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:428
+#: ../build/src/ui_scrobblersettingspage.h:429
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2838,7 +2839,7 @@ msgstr "Ліворуч"
 msgid "Length"
 msgstr "Тривалість"
 
-#: ../build/src/ui_scrobblersettingspage.h:432
+#: ../build/src/ui_scrobblersettingspage.h:433
 msgid "Libre.fm"
 msgstr ""
 
@@ -2850,7 +2851,7 @@ msgstr ""
 msgid "ListenBrainz Authentication"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:435
+#: ../build/src/ui_scrobblersettingspage.h:436
 msgid "Listenbrainz"
 msgstr ""
 
@@ -2917,13 +2918,13 @@ msgstr "Завантаження…"
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Завантажити файли/адреси, замінюючи поточний список відтворення"
 
-#: ../build/src/ui_scrobblersettingspage.h:419
+#: ../build/src/ui_scrobblersettingspage.h:420
 msgid "Local file"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:431
-#: ../build/src/ui_scrobblersettingspage.h:434
-#: ../build/src/ui_scrobblersettingspage.h:439
+#: ../build/src/ui_scrobblersettingspage.h:432
+#: ../build/src/ui_scrobblersettingspage.h:435
+#: ../build/src/ui_scrobblersettingspage.h:440
 #: ../build/src/ui_coverssettingspage.h:169
 #: ../build/src/ui_lyricssettingspage.h:169
 #: ../build/src/ui_tidalsettingspage.h:327
@@ -3653,7 +3654,7 @@ msgstr ""
 msgid "Pre-amp"
 msgstr "Підсилення"
 
-#: ../build/src/ui_scrobblersettingspage.h:414
+#: ../build/src/ui_scrobblersettingspage.h:415
 msgid "Prefer album artist when sending scrobbles"
 msgstr ""
 "Надавати перевагу виконавцю альбому під час надсилання даних скроблінгу"
@@ -3741,7 +3742,7 @@ msgstr "Поступ"
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:364 ../build/src/ui_scrobblersettingspage.h:422
+#: core/mainwindow.cpp:364 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr ""
@@ -3796,7 +3797,7 @@ msgstr ""
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Радіо (однакова гучність всіх композицій)"
 
-#: ../build/src/ui_scrobblersettingspage.h:426
+#: ../build/src/ui_scrobblersettingspage.h:427
 msgid "Radio Paradise"
 msgstr ""
 
@@ -4192,7 +4193,7 @@ msgstr "Профіль масштабованої частоти вибірки 
 msgid "Scale size"
 msgstr "Масштабований розмір"
 
-#: ../build/src/ui_scrobblersettingspage.h:404
+#: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Scrobbler"
 msgstr ""
 
@@ -4408,7 +4409,7 @@ msgstr "Показати всі композиції"
 msgid "Show all the songs"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:415
+#: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Show dialog for errors"
 msgstr ""
 
@@ -4441,7 +4442,7 @@ msgstr "Показати в оглядачі файлів…"
 msgid "Show in various artists"
 msgstr "Показувати в різних виконавцях"
 
-#: ../build/src/ui_scrobblersettingspage.h:409
+#: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Show love button"
 msgstr ""
 
@@ -4461,7 +4462,7 @@ msgstr "Показати тільки без міток"
 msgid "Show playing widget"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:408
+#: ../build/src/ui_scrobblersettingspage.h:409
 msgid "Show scrobble button"
 msgstr ""
 
@@ -4578,7 +4579,7 @@ msgstr "Легка"
 msgid "Soft Rock"
 msgstr "Легкий рок"
 
-#: ../build/src/ui_scrobblersettingspage.h:424
+#: ../build/src/ui_scrobblersettingspage.h:425
 msgid "SomaFM"
 msgstr ""
 
@@ -4594,7 +4595,7 @@ msgstr ""
 msgid "Songs"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:406
+#: ../build/src/ui_scrobblersettingspage.h:407
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -4738,7 +4739,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry не зміг здобути результатів для цього файлу"
 
-#: ../build/src/ui_scrobblersettingspage.h:425
+#: ../build/src/ui_scrobblersettingspage.h:426
 msgid "Stream"
 msgstr "Потік"
 
@@ -4759,11 +4760,11 @@ msgstr ""
 msgid "Style"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:410
+#: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Submit scrobbles every"
 msgstr ""
 
-#: core/mainwindow.cpp:358 ../build/src/ui_scrobblersettingspage.h:418
+#: core/mainwindow.cpp:358 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:223
 msgid "Subsonic"
 msgstr ""
@@ -5000,7 +5001,7 @@ msgstr ""
 msgid "This type of device is not supported: %1"
 msgstr "Цей тип пристрою не підтримується: %1"
 
-#: core/mainwindow.cpp:361 ../build/src/ui_scrobblersettingspage.h:420
+#: core/mainwindow.cpp:361 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr ""
@@ -5113,13 +5114,13 @@ msgstr "Надзвичайно широка смуга (UWB)"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:606 collection/collectionmodel.cpp:486
+#: core/song.cpp:609 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
 #: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:503
 #: collection/collectionmodel.cpp:1621 collection/savedgroupingmanager.cpp:146
 #: playlist/playlistdelegates.cpp:361 playlist/playlistmanager.cpp:578
 #: playlist/playlistmanager.cpp:579 dialogs/edittagdialog.cpp:712
-#: dialogs/edittagdialog.cpp:739 ../build/src/ui_scrobblersettingspage.h:427
+#: dialogs/edittagdialog.cpp:739 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Невідомо"
 
@@ -5188,10 +5189,10 @@ msgid "Use Gnome (GSD) shortcuts when available"
 msgstr ""
 
 #: ../build/src/ui_subsonicsettingspage.h:234
-msgid "Use HTTP2 when possible"
+msgid "Use HTTP/2 when possible"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:430
+#: ../build/src/ui_scrobblersettingspage.h:431
 msgid "Use HTTPS for local redirectserver"
 msgstr ""
 
@@ -5279,7 +5280,7 @@ msgstr "Використано"
 msgid "User interface"
 msgstr "Інтерфейс користувача"
 
-#: ../build/src/ui_scrobblersettingspage.h:437
+#: ../build/src/ui_scrobblersettingspage.h:438
 msgid "User token:"
 msgstr ""
 
@@ -5381,7 +5382,7 @@ msgstr "Широка смуга (WB)"
 msgid "Without cover:"
 msgstr "Без обкладинки:"
 
-#: ../build/src/ui_scrobblersettingspage.h:407
+#: ../build/src/ui_scrobblersettingspage.h:408
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr ""
 

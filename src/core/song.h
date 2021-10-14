@@ -104,6 +104,8 @@ class Song {
     FileType_APE = 17,
     FileType_MOD = 18,
     FileType_S3M = 19,
+    FileType_XM = 20,
+    FileType_IT = 21,
     FileType_CDDA = 90,
     FileType_Stream = 91,
   };
@@ -273,6 +275,7 @@ class Song {
   bool has_valid_art() const;
   bool is_compilation() const;
   bool stream_url_can_expire() const;
+  bool is_module_music() const;
 
   // Playlist views are special because you don't want to fill in album artists automatically for compilations, but you do for normal albums:
   const QString &playlist_albumartist() const;

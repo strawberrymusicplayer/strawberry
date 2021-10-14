@@ -100,7 +100,7 @@ void QueuedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     if (ok && queue_pos != -1) {
       float opacity = static_cast<float>(kQueueOpacitySteps - qMin(kQueueOpacitySteps, queue_pos));
       opacity /= kQueueOpacitySteps;
-      opacity *= float(1.0) - float(kQueueOpacityLowerBound);
+      opacity *= static_cast<float>(1.0) - static_cast<float>(kQueueOpacityLowerBound);
       opacity += kQueueOpacityLowerBound;
       DrawBox(painter, option.rect, option.font, QString::number(queue_pos + 1), kQueueBoxLength, opacity);
     }
@@ -541,7 +541,7 @@ QString RatingItemDelegate::displayText(const QVariant &value, const QLocale&) c
   if (value.isNull() || value.toDouble() <= 0) return QString();
 
   // Round to the nearest 0.5
-  const double rating = double(lround(value.toDouble() * RatingPainter::kStarCount * 2)) / 2;
+  const double rating = static_cast<double>(lround(value.toDouble() * RatingPainter::kStarCount * 2)) / 2;
 
   return QString::number(rating, 'f', 1);
 

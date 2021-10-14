@@ -93,7 +93,7 @@ DeleteConfirmationDialog::DeleteConfirmationDialog(const QStringList &files, QWi
 #endif
   if (screen) {
     max_width = static_cast<int>(screen->geometry().size().width() / 0.5);
-    max_height = static_cast<int>(float(screen->geometry().size().height()) / float(1.5));
+    max_height = static_cast<int>(static_cast<float>(screen->geometry().size().height()) / static_cast<float>(1.5));
   }
   int min_width = std::min(list->sizeHintForColumn(0) + 100, max_width);
   int min_height = std::min((list->sizeHintForRow(0) * list->count()) + 160, max_height);

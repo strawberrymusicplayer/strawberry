@@ -187,9 +187,9 @@ QByteArray MoodbarBuilder::Finish(int width) {
 
     const int n = end - start;
 
-    *(data++) = char(rgb.r / n);
-    *(data++) = char(rgb.g / n);
-    *(data++) = char(rgb.b / n);
+    *(data++) = static_cast<char>(rgb.r / n);
+    *(data++) = static_cast<char>(rgb.g / n);
+    *(data++) = static_cast<char>(rgb.b / n);
 
   }
   return ret;

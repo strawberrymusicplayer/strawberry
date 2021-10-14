@@ -56,7 +56,6 @@
 #include "gstengine.h"
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
-#include "gstelementdeleter.h"
 
 const int GstEnginePipeline::kGstStateTimeoutNanosecs = 10000000;
 const int GstEnginePipeline::kFaderFudgeMsec = 2000;
@@ -65,7 +64,6 @@ const int GstEnginePipeline::kEqBandCount = 10;
 const int GstEnginePipeline::kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
 
 int GstEnginePipeline::sId = 1;
-GstElementDeleter *GstEnginePipeline::sElementDeleter = nullptr;
 
 GstEnginePipeline::GstEnginePipeline(GstEngine *engine, QObject *parent)
     : QObject(parent),
@@ -114,12 +112,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine, QObject *parent)
       pad_added_cb_id_(-1),
       notify_source_cb_id_(-1),
       about_to_finish_cb_id_(-1),
-      bus_cb_id_(-1),
-      unsupported_analyzer_(false) {
-
-  if (!sElementDeleter) {
-    sElementDeleter = new GstElementDeleter(engine_);
-  }
+      logged_unsupported_analyzer_format_(false) {
 
   eq_band_gains_.reserve(kEqBandCount);
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
@@ -142,12 +135,9 @@ GstEnginePipeline::~GstEnginePipeline() {
       g_signal_handler_disconnect(G_OBJECT(pipeline_), about_to_finish_cb_id_);
     }
 
-    if (bus_cb_id_ != -1) {
-      g_source_remove(bus_cb_id_);
-    }
-
     GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
     if (bus) {
+      gst_bus_remove_watch(bus);
       gst_bus_set_sync_handler(bus, nullptr, nullptr, nullptr);
       gst_object_unref(bus);
     }
@@ -394,7 +384,7 @@ bool GstEnginePipeline::InitAudioBin() {
       g_object_set(G_OBJECT(rgvolume), "album-mode", rg_mode_, nullptr);
       g_object_set(G_OBJECT(rgvolume), "pre-amp", rg_preamp_, nullptr);
       g_object_set(G_OBJECT(rgvolume), "fallback-gain", rg_fallbackgain_, nullptr);
-      g_object_set(G_OBJECT(rglimiter), "enabled", int(rg_compression_), nullptr);
+      g_object_set(G_OBJECT(rglimiter), "enabled", static_cast<int>(rg_compression_), nullptr);
     }
   }
 
@@ -468,10 +458,10 @@ bool GstEnginePipeline::InitAudioBin() {
 
   GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
   gst_bus_set_sync_handler(bus, BusCallbackSync, this, nullptr);
-  bus_cb_id_ = gst_bus_add_watch(bus, BusCallback, this);
+  gst_bus_add_watch(bus, BusCallback, this);
   gst_object_unref(bus);
 
-  unsupported_analyzer_ = false;
+  logged_unsupported_analyzer_format_ = false;
 
   return true;
 
@@ -624,14 +614,20 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
-  GstCaps *caps = gst_pad_get_current_caps(pad);
-  GstStructure *structure = gst_caps_get_structure(caps, 0);
-  QString format = QString(gst_structure_get_string(structure, "format"));
+  QString format;
   int channels = 0;
   int rate = 0;
-  gst_structure_get_int(structure, "channels", &channels);
-  gst_structure_get_int(structure, "rate", &rate);
-  gst_caps_unref(caps);
+
+  GstCaps *caps = gst_pad_get_current_caps(pad);
+  if (caps) {
+    GstStructure *structure = gst_caps_get_structure(caps, 0);
+    if (structure) {
+      format = QString(gst_structure_get_string(structure, "format"));
+      gst_structure_get_int(structure, "channels", &channels);
+      gst_structure_get_int(structure, "rate", &rate);
+    }
+    gst_caps_unref(caps);
+  }
 
   GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
   GstBuffer *buf16 = nullptr;
@@ -641,7 +637,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
   qint64 end_time = start_time + duration;
 
   if (format.startsWith("S16LE")) {
-    instance->unsupported_analyzer_ = false;
+    instance->logged_unsupported_analyzer_format_ = false;
   }
   else if (format.startsWith("S32LE")) {
 
@@ -661,7 +657,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
     buf = buf16;
 
-    instance->unsupported_analyzer_ = false;
+    instance->logged_unsupported_analyzer_format_ = false;
   }
 
   else if (format.startsWith("F32LE")) {
@@ -675,7 +671,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     int16_t *d = static_cast<int16_t*>(g_malloc(buf16_size));
     memset(d, 0, buf16_size);
     for (int i = 0; i < (samples * channels); ++i) {
-      float sample_float = (s[i] * float(32768.0));
+      float sample_float = (s[i] * static_cast<float>(32768.0));
       d[i] = static_cast<int16_t>(sample_float);
     }
     gst_buffer_unmap(buf, &map_info);
@@ -683,7 +679,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
     buf = buf16;
 
-    instance->unsupported_analyzer_ = false;
+    instance->logged_unsupported_analyzer_format_ = false;
   }
   else if (format.startsWith("S24LE")) {
 
@@ -706,11 +702,36 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
     buf = buf16;
 
-    instance->unsupported_analyzer_ = false;
+    instance->logged_unsupported_analyzer_format_ = false;
   }
-  else if (!instance->unsupported_analyzer_) {
-    instance->unsupported_analyzer_ = true;
-    qLog(Debug) << "Unsupported audio format for the analyzer" << format;
+  else if (format.startsWith("S24_32LE")) {
+
+    GstMapInfo map_info;
+    gst_buffer_map(buf, &map_info, GST_MAP_READ);
+
+    int32_t *s32 = reinterpret_cast<int32_t*>(map_info.data);
+    int32_t *s32e = s32 + map_info.size;
+    int32_t *s32p = s32;
+    int samples = static_cast<int>((map_info.size / sizeof(int32_t)) / channels);
+    int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
+    int16_t *s16 = static_cast<int16_t*>(g_malloc(buf16_size));
+    memset(s16, 0, buf16_size);
+    for (int i = 0; i < (samples * channels); ++i) {
+      char *s24 = reinterpret_cast<char*>(s32p);
+      s16[i] = *(reinterpret_cast<int16_t*>(s24+1));
+      ++s32p;
+      if (s32p > s32e) break;
+    }
+    gst_buffer_unmap(buf, &map_info);
+    buf16 = gst_buffer_new_wrapped(s16, buf16_size);
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
+    buf = buf16;
+
+    instance->logged_unsupported_analyzer_format_ = false;
+  }
+  else if (!instance->logged_unsupported_analyzer_format_) {
+    instance->logged_unsupported_analyzer_format_ = true;
+    qLog(Error) << "Unsupported audio format for the analyzer" << format;
   }
 
   QList<GstBufferConsumer*> consumers;
@@ -1152,7 +1173,7 @@ void GstEnginePipeline::SetVolumeModifier(const qreal mod) {
 void GstEnginePipeline::UpdateVolume() {
 
   if (!volume_) return;
-  double vol = double(volume_percent_) * double(0.01) * volume_modifier_;
+  double vol = static_cast<double>(volume_percent_) * static_cast<double>(0.01) * volume_modifier_;
   g_object_set(G_OBJECT(volume_), "volume", vol, nullptr);
 
 }
@@ -1186,7 +1207,7 @@ void GstEnginePipeline::UpdateEqualizer() {
 
   // Update band gains
   for (int i = 0; i < kEqBandCount; ++i) {
-    float gain = eq_enabled_ ? eq_band_gains_[i] : float(0.0);
+    float gain = eq_enabled_ ? eq_band_gains_[i] : static_cast<float>(0.0);
     if (gain < 0) {
       gain *= 0.24;
     }
@@ -1203,7 +1224,7 @@ void GstEnginePipeline::UpdateEqualizer() {
 
   // Update preamp
   float preamp = 1.0;
-  if (eq_enabled_) preamp = float(eq_preamp_ + 100) * float(0.01);  // To scale from 0.0 to 2.0
+  if (eq_enabled_) preamp = static_cast<float>(eq_preamp_ + 100) * static_cast<float>(0.01);  // To scale from 0.0 to 2.0
 
   g_object_set(G_OBJECT(equalizer_preamp_), "volume", preamp, nullptr);
 

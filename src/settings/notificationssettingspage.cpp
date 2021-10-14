@@ -225,7 +225,7 @@ void NotificationsSettingsPage::Save() {
   else if (ui_->notifications_pretty->isChecked()) osd_behaviour = OSDBase::Pretty;
 
   s.beginGroup(OSDBase::kSettingsGroup);
-  s.setValue("Behaviour", int(osd_behaviour));
+  s.setValue("Behaviour", static_cast<int>(osd_behaviour));
   s.setValue("Timeout", ui_->notifications_duration->value() * 1000);
   s.setValue("ShowOnVolumeChange", ui_->notifications_volume->isChecked());
   s.setValue("ShowOnPlayModeChange", ui_->notifications_play_mode->isChecked());

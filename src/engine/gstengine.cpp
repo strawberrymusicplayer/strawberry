@@ -87,8 +87,6 @@ GstEngine::GstEngine(TaskManager *task_manager, QObject *parent)
       stereo_balance_(0.0F),
       equalizer_enabled_(false),
       equalizer_preamp_(0),
-      can_decode_success_(false),
-      can_decode_last_(false),
       seek_timer_(new QTimer(this)),
       waiting_to_seek_(false),
       seek_pos_(0),
@@ -890,6 +888,7 @@ void GstEngine::UpdateScope(const int chunk_length) {
   if (buffer_format_.startsWith("S16LE") ||
       buffer_format_.startsWith("U16LE") ||
       buffer_format_.startsWith("S24LE") ||
+      buffer_format_.startsWith("S24_32LE") ||
       buffer_format_.startsWith("S32LE") ||
       buffer_format_.startsWith("F32LE")
   ) {

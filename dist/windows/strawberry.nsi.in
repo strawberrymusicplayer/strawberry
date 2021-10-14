@@ -229,6 +229,7 @@ Section "Strawberry" Strawberry
   File "libgobject-2.0-0.dll"
   File "libgstapp-1.0-0.dll"
   File "libgstaudio-1.0-0.dll"
+  File "libgstbadaudio-1.0-0.dll"
   File "libgstbase-1.0-0.dll"
   File "libgstfft-1.0-0.dll"
   File "libgstnet-1.0-0.dll"
@@ -250,6 +251,7 @@ Section "Strawberry" Strawberry
   File "libmp3lame-0.dll"
   File "libnettle-8.dll"
   File "libogg-0.dll"
+  File "libopenmpt-0.dll"
   File "libopus-0.dll"
   File "liborc-0.4-0.dll"
   File "libpcre-1.dll"
@@ -267,6 +269,7 @@ Section "Strawberry" Strawberry
   File "libunistring-2.dll"
   File "libvorbis-0.dll"
   File "libvorbisenc-2.dll"
+  File "libvorbisfile-3.dll"
   File "libwavpack-1.dll"
   File "libwinpthread-1.dll"
   File "libxml2-2.dll"
@@ -340,26 +343,33 @@ Section "GIO modules" gio-modules
   File "/oname=libgiognutls.dll" "gio-modules\libgiognutls.dll"
 SectionEnd
 
-Section "Qt Platforms" platforms
+Section "Qt Platform plugins" platforms
   SetOutPath "$INSTDIR\platforms"
   File "/oname=qwindows.dll" "platforms\qwindows.dll"
 SectionEnd
 
-Section "Qt SQL Drivers" sqldrivers
-  SetOutPath "$INSTDIR\sqldrivers"
-  File "/oname=qsqlite.dll" "sqldrivers\qsqlite.dll"
+Section "Qt styles" styles
+  SetOutPath "$INSTDIR\styles"
+  File "/oname=qwindowsvistastyle.dll" "styles\qwindowsvistastyle.dll"
 SectionEnd
 
-Section "Qt image format plugins" imageformats
+Section "Qt imageformats" imageformats
   SetOutPath "$INSTDIR\imageformats"
   File "/oname=qgif.dll" "imageformats\qgif.dll"
   File "/oname=qico.dll" "imageformats\qico.dll"
   File "/oname=qjpeg.dll" "imageformats\qjpeg.dll"
 SectionEnd
 
-Section "Qt style plugins" styles
-  SetOutPath "$INSTDIR\styles"
-  File "/oname=qwindowsvistastyle.dll" "styles\qwindowsvistastyle.dll"
+!ifdef with_qt6
+Section "Qt TLS plugins" tls
+  SetOutPath "$INSTDIR\tls"
+  File "/oname=qopensslbackend.dll" "tls\qopensslbackend.dll"
+SectionEnd
+!endif
+
+Section "Qt SQL Drivers" sqldrivers
+  SetOutPath "$INSTDIR\sqldrivers"
+  File "/oname=qsqlite.dll" "sqldrivers\qsqlite.dll"
 SectionEnd
 
 Section "Gstreamer plugins" gstreamer-plugins
@@ -411,6 +421,7 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=libgstpbtypes.dll" "gstreamer-plugins\libgstpbtypes.dll"
   File "/oname=libgstrtp.dll" "gstreamer-plugins\libgstrtp.dll"
   File "/oname=libgstrtsp.dll" "gstreamer-plugins\libgstrtsp.dll"
+  File "/oname=libgstopenmpt.dll" "gstreamer-plugins\libgstopenmpt.dll"
 
 SectionEnd
 
@@ -492,6 +503,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libgobject-2.0-0.dll"
   Delete "$INSTDIR\libgstapp-1.0-0.dll"
   Delete "$INSTDIR\libgstaudio-1.0-0.dll"
+  Delete "$INSTDIR\libgstbadaudio-1.0-0.dll"
   Delete "$INSTDIR\libgstbase-1.0-0.dll"
   Delete "$INSTDIR\libgstfft-1.0-0.dll"
   Delete "$INSTDIR\libgstnet-1.0-0.dll"
@@ -513,6 +525,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libmp3lame-0.dll"
   Delete "$INSTDIR\libnettle-8.dll"
   Delete "$INSTDIR\libogg-0.dll"
+  Delete "$INSTDIR\libopenmpt-0.dll"
   Delete "$INSTDIR\libopus-0.dll"
   Delete "$INSTDIR\liborc-0.4-0.dll"
   Delete "$INSTDIR\libpcre-1.dll"
@@ -532,6 +545,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libunistring-2.dll"
   Delete "$INSTDIR\libvorbis-0.dll"
   Delete "$INSTDIR\libvorbisenc-2.dll"
+  Delete "$INSTDIR\libvorbisfile-3.dll"
   Delete "$INSTDIR\libwavpack-1.dll"
   Delete "$INSTDIR\libwinpthread-1.dll"
   Delete "$INSTDIR\libxml2-2.dll"
@@ -564,8 +578,11 @@ Section "Uninstall"
 
   Delete "$INSTDIR\gio-modules\libgiognutls.dll"
   Delete "$INSTDIR\platforms\qwindows.dll"
-  Delete "$INSTDIR\sqldrivers\qsqlite.dll"
   Delete "$INSTDIR\styles\qwindowsvistastyle.dll"
+!ifdef with_qt6
+  Delete "$INSTDIR\tls\qopensslbackend.dll"
+!endif
+  Delete "$INSTDIR\sqldrivers\qsqlite.dll"
 
   Delete "$INSTDIR\imageformats\qgif.dll"
   Delete "$INSTDIR\imageformats\qico.dll"
@@ -617,12 +634,14 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\libgstpbtypes.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstrtp.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstrtsp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstopenmpt.dll"
 
   Delete "$INSTDIR\Uninstall.exe"
 
   ; Remove the installation folders.
   RMDir "$INSTDIR\platforms"
   RMDir "$INSTDIR\styles"
+  RMDir "$INSTDIR\tls"
   RMDir "$INSTDIR\sqldrivers"
   RMDir "$INSTDIR\imageformats"
   RMDir "$INSTDIR\gio-modules"

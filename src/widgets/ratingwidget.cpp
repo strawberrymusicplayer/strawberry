@@ -44,7 +44,7 @@ RatingPainter::RatingPainter() {
 
   // Generate the 10 states, better to do it now than on the fly
   for (int i = 0; i < kStarCount * 2 + 1; ++i) {
-    const double rating = double(i) / double(2.0);
+    const double rating = static_cast<double>(i) / static_cast<double>(2.0);
 
     // Clear the pixmap
     stars_[i] = QPixmap(kStarSize * kStarCount, kStarSize);
@@ -86,14 +86,14 @@ QRect RatingPainter::Contents(const QRect rect) {
 double RatingPainter::RatingForPos(const QPoint pos, const QRect rect) {
 
   const QRect contents = Contents(rect);
-  const double raw = double(pos.x() - contents.left()) / contents.width();
+  const double raw = static_cast<double>(pos.x() - contents.left()) / contents.width();
 
   // Check if the position was to the right or left of the rectangle.
   if (raw < 0) return 0;
   if (raw > 1) return 1;
 
   // Round to the nearest 0.1
-  return double(lround(raw * kStarCount * 2)) / (kStarCount * 2);
+  return static_cast<double>(lround(raw * kStarCount * 2)) / (kStarCount * 2);
 
 }
 

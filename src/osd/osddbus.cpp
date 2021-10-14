@@ -68,8 +68,8 @@ QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
   // ABGR -> GBAR
   QImage i(scaled.size(), scaled.format());
   for (int y = 0; y < i.height(); ++y) {
-    QRgb *p = (QRgb*)scaled.scanLine(y);
-    QRgb *q = (QRgb*)i.scanLine(y);
+    QRgb *p = reinterpret_cast<QRgb*>(scaled.scanLine(y));
+    QRgb *q = reinterpret_cast<QRgb*>(i.scanLine(y));
     QRgb *end = p + scaled.width();
     while (p < end) {
       *q = qRgba(qGreen(*p), qBlue(*p), qAlpha(*p), qRed(*p));

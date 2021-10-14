@@ -1340,7 +1340,7 @@ void MainWindow::VolumeChanged(const int volume) {
 
 void MainWindow::SongChanged(const Song &song) {
 
-  qLog(Debug) << "Song changed to" << song.artist() << song.album() << song.title();
+  qLog(Debug) << "Song changed to" << song.artist() << song.album() << song.PrettyTitle();
 
   song_playing_ = song;
   song_ = song;
@@ -1370,7 +1370,7 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
     Song song = item->Metadata();
     const qint64 position = app_->player()->engine()->position_nanosec();
     const qint64 length = app_->player()->engine()->length_nanosec();
-    const float percentage = (length == 0 ? 1 : float(position) / length);
+    const float percentage = (length == 0 ? 1 : static_cast<float>(position) / static_cast<float>(length));
 
     const qint64 seconds_left = (length - position) / kNsecPerSec;
     const qint64 seconds_total = length / kNsecPerSec;
@@ -1630,7 +1630,7 @@ void MainWindow::Seeked(const qint64 microseconds) {
 
   const qint64 position = microseconds / kUsecPerSec;
   const qint64 length = app_->player()->GetCurrentItem()->Metadata().length_nanosec() / kNsecPerSec;
-  tray_icon_->SetProgress(static_cast<int>(double(position) / length * 100));
+  tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / length * 100));
 
 }
 
@@ -1641,10 +1641,10 @@ void MainWindow::UpdateTrackPosition() {
 
   const qint64 length = (item->Metadata().length_nanosec() / kNsecPerSec);
   if (length <= 0) return;
-  const int position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerSec + 0.5);
+  const int position = std::floor(static_cast<float>(app_->player()->engine()->position_nanosec()) / kNsecPerSec + 0.5);
 
   // Update the tray icon every 10 seconds
-  if (position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(double(position) / length * 100));
+  if (position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / length * 100));
 
   // Send Scrobble
   if (app_->scrobbler()->IsEnabled() && item->Metadata().is_metadata_good()) {
@@ -1664,7 +1664,7 @@ void MainWindow::UpdateTrackSliderPosition() {
 
   PlaylistItemPtr item(app_->player()->GetCurrentItem());
 
-  const int slider_position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerMsec);
+  const int slider_position = std::floor(static_cast<float>(app_->player()->engine()->position_nanosec()) / kNsecPerMsec);
   const int slider_length = static_cast<int>(app_->player()->engine()->length_nanosec() / kNsecPerMsec);
 
   // Update the slider
