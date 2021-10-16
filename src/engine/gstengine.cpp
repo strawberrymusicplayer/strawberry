@@ -91,7 +91,6 @@ GstEngine::GstEngine(TaskManager *task_manager, QObject *parent)
       waiting_to_seek_(false),
       seek_pos_(0),
       timer_id_(-1),
-      next_element_id_(0),
       is_fading_out_to_pause_(false),
       has_faded_out_(false),
       scope_chunk_(0),
@@ -448,25 +447,6 @@ void GstEngine::ReloadSettings() {
 
 }
 
-GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin, const bool showerror) {
-
-  // Make a unique name
-  QString name = factoryName + "-" + QString::number(next_element_id_++);
-
-  GstElement *element = gst_element_factory_make(factoryName.toUtf8().constData(), name.toUtf8().constData());
-  if (!element) {
-    if (showerror) emit Error(QString("GStreamer could not create the element: %1.").arg(factoryName));
-    else qLog(Error) << "GStreamer could not create the element:" << factoryName;
-    emit StateChanged(Engine::Error);
-    emit FatalError();
-    return nullptr;
-  }
-
-  if (bin) gst_bin_add(GST_BIN(bin), element);
-
-  return element;
-}
-
 void GstEngine::ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) {
 
   // Schedule this to run in the GUI thread.  The buffer gets added to the queue and unreffed by UpdateScope.
@@ -810,7 +790,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
   EnsureInitialized();
 
-  std::shared_ptr<GstEnginePipeline> ret = std::make_shared<GstEnginePipeline>(this);
+  std::shared_ptr<GstEnginePipeline> ret = std::make_shared<GstEnginePipeline>();
   ret->set_output_device(output_, device_);
   ret->set_volume_enabled(volume_control_);
   ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
@@ -841,7 +821,14 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &gst_url, const QUrl &original_url, const qint64 end_nanosec) {
 
   std::shared_ptr<GstEnginePipeline> ret = CreatePipeline();
-  if (!ret->InitFromUrl(gst_url, original_url, end_nanosec)) ret.reset();
+  QString error;
+  if (!ret->InitFromUrl(gst_url, original_url, end_nanosec, error)) {
+    ret.reset();
+    emit Error(error);
+    emit StateChanged(Engine::Error);
+    emit FatalError();
+  }
+
   return ret;
 
 }
