@@ -864,6 +864,9 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
   if (pb.has_playcount()) {
     d->playcount_ = pb.playcount();
   }
+  if (pb.has_rating()) {
+    d->rating_ = pb.rating();
+  }
 
   if (pb.has_art_automatic()) {
     QByteArray art_automatic(pb.art_automatic().data(), pb.art_automatic().size());
@@ -911,6 +914,7 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
   pb->set_suspicious_tags(d->suspicious_tags_);
   pb->set_art_automatic(art_automatic.constData(), art_automatic.size());
   pb->set_filetype(static_cast<spb::tagreader::SongMetadata_FileType>(d->filetype_));
+  pb->set_rating(d->rating_);
 
 }
 
