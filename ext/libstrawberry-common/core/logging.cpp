@@ -55,8 +55,7 @@ static Level sDefaultLevel = Level_Debug;
 static QMap<QString, Level>* sClassLevels = nullptr;
 static QIODevice *sNullDevice = nullptr;
 
-//const char* kDefaultLogLevels = "*:3";
-const char *kDefaultLogLevels = "GstEnginePipeline:2,*:3";
+const char* kDefaultLogLevels = "*:3";
 
 static const char *kMessageHandlerMagic = "__logging_message__";
 static const size_t kMessageHandlerMagicLength = strlen(kMessageHandlerMagic);
