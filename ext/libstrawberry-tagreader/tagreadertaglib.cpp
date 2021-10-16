@@ -35,6 +35,7 @@
 #include <taglib/attachedpictureframe.h>
 #include <taglib/textidentificationframe.h>
 #include <taglib/unsynchronizedlyricsframe.h>
+#include <taglib/popularimeterframe.h>
 #include <taglib/xiphcomment.h>
 #include <taglib/commentsframe.h>
 #include <taglib/tag.h>
@@ -129,10 +130,11 @@ TagLib::String QStringToTaglibString(const QString &s) {
 }  // namespace
 
 namespace {
-// Tags containing the year the album was originally released (in contrast to other tags that contain the release year of the current edition)
-const char *kMP4_OriginalYear_ID = "----:com.apple.iTunes:ORIGINAL YEAR";
-const char *kASF_OriginalDate_ID = "WM/OriginalReleaseTime";
-const char *kASF_OriginalYear_ID = "WM/OriginalReleaseYear";
+const char *kMP4_OriginalYear_ID =   "----:com.apple.iTunes:ORIGINAL YEAR";
+const char *kMP4_FMPS_Playcount_ID = "----:com.apple.iTunes:FMPS_Playcount";
+const char *kMP4_FMPS_Rating_ID =    "----:com.apple.iTunes:FMPS_Rating";
+const char *kASF_OriginalDate_ID =   "WM/OriginalReleaseTime";
+const char *kASF_OriginalYear_ID =   "WM/OriginalReleaseYear";
 }  // namespace
 
 
@@ -316,6 +318,18 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         }
       }
 
+      if (!map["POPM"].isEmpty()) {
+        const TagLib::ID3v2::PopularimeterFrame* frame = dynamic_cast<const TagLib::ID3v2::PopularimeterFrame*>(map["POPM"].front());
+        if (frame) {
+          if (song->playcount() <= 0 && frame->counter() > 0) {
+            song->set_playcount(frame->counter());
+          }
+          if (song->rating() <= 0 && frame->rating() > 0) {
+            song->set_rating(ConvertPOPMRating(frame->rating()));
+          }
+        }
+      }
+
     }
   }
 
@@ -357,6 +371,26 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         song->set_originalyear(TStringToQString(mp4_tag->item(kMP4_OriginalYear_ID).toStringList().toString('\n')).left(4).toInt());
       }
 
+      {
+        TagLib::MP4::Item item = mp4_tag->item(kMP4_FMPS_Playcount_ID);
+        if (item.isValid()) {
+          const int playcount = TStringToQString(item.toStringList().toString('\n')).toFloat();
+          if (song->playcount() <= 0 && playcount > 0) {
+            song->set_playcount(playcount);
+          }
+        }
+      }
+
+      {
+        TagLib::MP4::Item item = mp4_tag->item(kMP4_FMPS_Rating_ID);
+        if (item.isValid()) {
+          const float rating = TStringToQString(item.toStringList().toString('\n')).toFloat();
+          if (song->rating() <= 0 && rating > 0) {
+            song->set_rating(rating);
+          }
+        }
+      }
+
       Decode(mp4_tag->comment(), song->mutable_comment());
     }
   }
@@ -367,22 +401,44 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
     if (file_asf->tag()) {
       Decode(file_asf->tag()->comment(), song->mutable_comment());
+
+      const TagLib::ASF::AttributeListMap &attributes_map = file_asf->tag()->attributeListMap();
+
+      if (attributes_map.contains(kASF_OriginalDate_ID)) {
+        const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_OriginalDate_ID];
+        if (!attributes.isEmpty()) {
+          song->set_originalyear(TStringToQString(attributes.front().toString()).left(4).toInt());
+        }
+      }
+      else if (attributes_map.contains(kASF_OriginalYear_ID)) {
+        const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_OriginalYear_ID];
+        if (!attributes.isEmpty()) {
+          song->set_originalyear(TStringToQString(attributes.front().toString()).left(4).toInt());
+        }
+      }
+
+      if (attributes_map.contains("FMPS/Playcount")) {
+        const TagLib::ASF::AttributeList &attributes = attributes_map["FMPS/Playcount"];
+        if (!attributes.isEmpty()) {
+          int playcount = TStringToQString(attributes.front().toString()).toInt();
+          if (song->playcount() <= 0 && playcount > 0) {
+            song->set_playcount(playcount);
+          }
+        }
+      }
+
+      if (attributes_map.contains("FMPS/Rating")) {
+        const TagLib::ASF::AttributeList& attributes = attributes_map["FMPS/Rating"];
+        if (!attributes.isEmpty()) {
+          float rating = TStringToQString(attributes.front().toString()).toFloat();
+          if (song->rating() <= 0 && rating > 0) {
+            song->set_rating(rating);
+          }
+        }
+      }
+
     }
 
-    const TagLib::ASF::AttributeListMap &attributes_map = file_asf->tag()->attributeListMap();
-
-    if (attributes_map.contains(kASF_OriginalDate_ID)) {
-      const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_OriginalDate_ID];
-      if (!attributes.isEmpty()) {
-        song->set_originalyear(TStringToQString(attributes.front().toString()).left(4).toInt());
-      }
-    }
-    else if (attributes_map.contains(kASF_OriginalYear_ID)) {
-      const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_OriginalYear_ID];
-      if (!attributes.isEmpty()) {
-        song->set_originalyear(TStringToQString(attributes.front().toString()).left(4).toInt());
-      }
-    }
   }
 
   else if (TagLib::MPC::File *file_mpc = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
@@ -465,6 +521,7 @@ void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString 
   if (!map["METADATA_BLOCK_PICTURE"].isEmpty()) song->set_art_automatic(kEmbeddedCover);
 
   if (!map["FMPS_PLAYCOUNT"].isEmpty() && song->playcount() <= 0) song->set_playcount(TStringToQString( map["FMPS_PLAYCOUNT"].front() ).trimmed().toFloat());
+  if (!map["FMPS_RATING"].isEmpty() && song->rating() <= 0) song->set_rating(TStringToQString(map["FMPS_RATING"].front()).trimmed().toFloat());
 
   if (!map["LYRICS"].isEmpty()) Decode(map["LYRICS"].front(), song->mutable_lyrics());
   else if (!map["UNSYNCEDLYRICS"].isEmpty()) Decode(map["UNSYNCEDLYRICS"].front(), song->mutable_lyrics());
@@ -507,9 +564,16 @@ void TagReaderTagLib::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *
   }
 
   if (map.contains("FMPS_PLAYCOUNT")) {
-    int playcount = TStringToQString(map["FMPS_PLAYCOUNT"].toString()).toFloat();
+    const int playcount = TStringToQString(map["FMPS_PLAYCOUNT"].toString()).toFloat();
     if (song->playcount() <= 0 && playcount > 0) {
       song->set_playcount(playcount);
+    }
+  }
+
+  if (map.contains("FMPS_RATING")) {
+    const float rating = TStringToQString(map["FMPS_RATING"].toString()).toFloat();
+    if (song->rating() <= 0 && rating > 0) {
+      song->set_rating(rating);
     }
   }
 
@@ -895,5 +959,47 @@ bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray 
   else return false;
 
   return ref.file()->save();
+
+}
+
+TagLib::ID3v2::PopularimeterFrame *TagReaderTagLib::GetPOPMFrameFromTag(TagLib::ID3v2::Tag *tag) {
+
+  TagLib::ID3v2::PopularimeterFrame *frame = nullptr;
+
+  const TagLib::ID3v2::FrameListMap &map = tag->frameListMap();
+  if (!map["POPM"].isEmpty()) {
+    frame = dynamic_cast<TagLib::ID3v2::PopularimeterFrame*>(map["POPM"].front());
+  }
+
+  if (!frame) {
+    frame = new TagLib::ID3v2::PopularimeterFrame();
+    tag->addFrame(frame);
+  }
+
+  return frame;
+
+}
+
+float TagReaderTagLib::ConvertPOPMRating(const int POPM_rating) {
+
+       if (POPM_rating < 0x01) return 0.0;
+  else if (POPM_rating < 0x40) return 0.20;
+  else if (POPM_rating < 0x80) return 0.40;
+  else if (POPM_rating < 0xC0) return 0.60;
+  else if (POPM_rating < 0xFC) return 0.80;
+
+  return 1.0;
+
+}
+
+int TagReaderTagLib::ConvertToPOPMRating(const float rating) {
+
+       if (rating < 0.20) return 0x00;
+  else if (rating < 0.40) return 0x01;
+  else if (rating < 0.60) return 0x40;
+  else if (rating < 0.80) return 0x80;
+  else if (rating < 1.0)  return 0xC0;
+
+  return 0xFF;
 
 }

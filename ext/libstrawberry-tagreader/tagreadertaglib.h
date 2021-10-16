@@ -32,6 +32,7 @@
 #include <taglib/apetag.h>
 #include <taglib/apefile.h>
 #include <taglib/id3v2tag.h>
+#include <taglib/popularimeterframe.h>
 
 #include "tagreaderbase.h"
 #include "tagreadermessages.pb.h"
@@ -72,6 +73,10 @@ class TagReaderTagLib : public TagReaderBase {
   void SetUnsyncLyricsFrame(const std::string& value, TagLib::ID3v2::Tag* tag) const;
 
   QByteArray LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const;
+
+  static float ConvertPOPMRating(const int POPM_rating);
+  static int ConvertToPOPMRating(const float rating);
+  static TagLib::ID3v2::PopularimeterFrame *GetPOPMFrameFromTag(TagLib::ID3v2::Tag* tag);
 
  private:
   FileRefFactory *factory_;
