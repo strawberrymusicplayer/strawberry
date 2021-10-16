@@ -859,7 +859,6 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
   d->skipcount_ = pb.skipcount();
   d->lastplayed_ = pb.lastplayed();
   d->lastseen_ = pb.lastseen();
-  d->suspicious_tags_ = pb.suspicious_tags();
 
   if (pb.has_playcount()) {
     d->playcount_ = pb.playcount();
@@ -872,6 +871,8 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
     QByteArray art_automatic(pb.art_automatic().data(), pb.art_automatic().size());
     if (!art_automatic.isEmpty()) set_art_automatic(QUrl::fromLocalFile(art_automatic));
   }
+
+  d->suspicious_tags_ = pb.suspicious_tags();
 
   InitArtManual();
 
@@ -887,34 +888,34 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
   pb->set_album(DataCommaSizeFromQString(d->album_));
   pb->set_artist(DataCommaSizeFromQString(d->artist_));
   pb->set_albumartist(DataCommaSizeFromQString(d->albumartist_));
-  pb->set_composer(DataCommaSizeFromQString(d->composer_));
-  pb->set_performer(DataCommaSizeFromQString(d->performer_));
-  pb->set_grouping(DataCommaSizeFromQString(d->grouping_));
-  pb->set_lyrics(DataCommaSizeFromQString(d->lyrics_));
   pb->set_track(d->track_);
   pb->set_disc(d->disc_);
   pb->set_year(d->year_);
   pb->set_originalyear(d->originalyear_);
   pb->set_genre(DataCommaSizeFromQString(d->genre_));
-  pb->set_comment(DataCommaSizeFromQString(d->comment_));
   pb->set_compilation(d->compilation_);
-  pb->set_playcount(d->playcount_);
-  pb->set_skipcount(d->skipcount_);
-  pb->set_lastplayed(d->lastplayed_);
-  pb->set_lastseen(d->lastseen_);
+  pb->set_composer(DataCommaSizeFromQString(d->composer_));
+  pb->set_performer(DataCommaSizeFromQString(d->performer_));
+  pb->set_grouping(DataCommaSizeFromQString(d->grouping_));
+  pb->set_comment(DataCommaSizeFromQString(d->comment_));
+  pb->set_lyrics(DataCommaSizeFromQString(d->lyrics_));
   pb->set_length_nanosec(length_nanosec());
   pb->set_bitrate(d->bitrate_);
   pb->set_samplerate(d->samplerate_);
   pb->set_bitdepth(d->bitdepth_);
   pb->set_url(url.constData(), url.size());
   pb->set_basefilename(DataCommaSizeFromQString(d->basefilename_));
+  pb->set_filetype(static_cast<spb::tagreader::SongMetadata_FileType>(d->filetype_));
+  pb->set_filesize(d->filesize_);
   pb->set_mtime(d->mtime_);
   pb->set_ctime(d->ctime_);
-  pb->set_filesize(d->filesize_);
-  pb->set_suspicious_tags(d->suspicious_tags_);
+  pb->set_playcount(d->playcount_);
+  pb->set_skipcount(d->skipcount_);
+  pb->set_lastplayed(d->lastplayed_);
+  pb->set_lastseen(d->lastseen_);
   pb->set_art_automatic(art_automatic.constData(), art_automatic.size());
-  pb->set_filetype(static_cast<spb::tagreader::SongMetadata_FileType>(d->filetype_));
   pb->set_rating(d->rating_);
+  pb->set_suspicious_tags(d->suspicious_tags_);
 
 }
 
