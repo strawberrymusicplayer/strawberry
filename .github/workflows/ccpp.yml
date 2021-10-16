@@ -636,11 +636,11 @@ jobs:
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
 
-  build_ubuntu_groovy:
-    name: Build Ubuntu Groovy
+  build_ubuntu_hirsute:
+    name: Build Ubuntu Hirsute
     runs-on: ubuntu-latest
     container:
-      image: ubuntu:groovy
+      image: ubuntu:hirsute
     steps:
       - uses: actions/checkout@v1.2.0
       - name: Install Ubuntu dependencies
@@ -699,11 +699,11 @@ jobs:
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
 
-  build_ubuntu_hirsute:
-    name: Build Ubuntu Hirsute
+  build_ubuntu_impish:
+    name: Build Ubuntu Impish
     runs-on: ubuntu-latest
     container:
-      image: ubuntu:hirsute
+      image: ubuntu:impish
     steps:
       - uses: actions/checkout@v1.2.0
       - name: Install Ubuntu dependencies
