@@ -1183,7 +1183,7 @@ msgstr ""
 msgid "Buffer duration"
 msgstr "Місткість буфера"
 
-#: engine/gstengine.cpp:689
+#: engine/gstengine.cpp:669
 msgid "Buffering"
 msgstr "Буферизація"
 

@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-10-04 11:28-0400\n"
+"PO-Revision-Date: 2021-10-16 09:10-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -435,6 +435,9 @@ msgid ""
 "submitted to the server. Setting the time to 0 seconds will submit scrobbles "
 "immediately)."
 msgstr ""
+"(Detta är fördröjningen mellan när en låt skrobblar och när skrobblingar "
+"skickas till servern. Om tiden ställs in på 0 sekunder skickas skrobblingar "
+"direkt)."
 
 #: dialogs/edittagdialog.cpp:99
 msgid "(different across multiple songs)"
@@ -1181,7 +1184,7 @@ msgstr "Buffert"
 msgid "Buffer duration"
 msgstr "Buffert varaktighet"
 
-#: engine/gstengine.cpp:689
+#: engine/gstengine.cpp:669
 msgid "Buffering"
 msgstr "Buffrar"
 
@@ -1248,11 +1251,11 @@ msgstr ""
 
 #: ../build/src/ui_coverssettingspage.h:164
 msgid "Choose the providers you want to use when searching for covers."
-msgstr "Välj de leverantörer du vill använda vid sökning efter omslag."
+msgstr "Välj leverantörerna du vill använda vid sökning efter omslag."
 
 #: ../build/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
-msgstr "Välj de leverantörer du vill använda vid sökning efter låttexter."
+msgstr "Välj leverantörerna du vill använda vid sökning efter låttexter."
 
 #: equalizer/equalizer.cpp:140
 msgid "Classical"
@@ -2673,7 +2676,7 @@ msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
-"Om du gillar Strawberry och kan använda det, överväg att sponsra eller "
+"Om du gillar Strawberry och har nytta av det, överväg att sponsra eller "
 "donera."
 
 #: covermanager/albumcoverchoicecontroller.cpp:75
@@ -3138,7 +3141,7 @@ msgstr "Stämningsdiagram"
 
 #: moodbar/moodbarproxystyle.cpp:379 ../build/src/ui_moodbarsettingspage.h:95
 msgid "Moodbar style"
-msgstr "Stil på stämningsdiagrammet"
+msgstr "Format på stämningsdiagrammet"
 
 #: smartplaylists/smartplaylistsmodel.cpp:100
 msgid "Most played"
@@ -5215,7 +5218,7 @@ msgstr "Använd Gnome (GSD)-genvägar när de är tillgängliga"
 
 #: ../build/src/ui_subsonicsettingspage.h:234
 msgid "Use HTTP/2 when possible"
-msgstr ""
+msgstr "Använd HTTP/2 när det är möjligt"
 
 #: ../build/src/ui_scrobblersettingspage.h:431
 msgid "Use HTTPS for local redirectserver"

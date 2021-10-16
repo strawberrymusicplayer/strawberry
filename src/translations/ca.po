@@ -1163,7 +1163,7 @@ msgstr ""
 msgid "Buffer duration"
 msgstr "Durada de la memòria intermèdia"
 
-#: engine/gstengine.cpp:689
+#: engine/gstengine.cpp:669
 msgid "Buffering"
 msgstr "Emplenant la memòria intermèdia"
 

@@ -1168,7 +1168,7 @@ msgstr "バッファ"
 msgid "Buffer duration"
 msgstr "バッファーの長さ"
 
-#: engine/gstengine.cpp:689
+#: engine/gstengine.cpp:669
 msgid "Buffering"
 msgstr "バッファ中"
 
