@@ -48,6 +48,7 @@ StretchHeaderView::StretchHeaderView(const Qt::Orientation orientation, QWidget 
 
   QObject::connect(this, &StretchHeaderView::sectionResized, this, &StretchHeaderView::SectionResized);
   setMinimumSectionSize(kMinimumColumnWidth);
+  setTextElideMode(Qt::ElideRight);
 
 }
 
