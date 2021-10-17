@@ -1680,12 +1680,18 @@ void Song::ToXesam(QVariantMap *map) const {
 
 void Song::MergeUserSetData(const Song &other) {
 
-  set_playcount(other.playcount());
+  if (other.playcount() > 0) {
+    set_playcount(other.playcount());
+  }
+
+  if (other.rating() > 0) {
+    set_rating(other.rating());
+  }
+
   set_skipcount(other.skipcount());
   set_lastplayed(other.lastplayed());
   set_art_manual(other.art_manual());
   set_compilation_on(other.compilation_on());
   set_compilation_off(other.compilation_off());
-  set_rating(other.rating());
 
 }
