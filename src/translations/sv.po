@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-10-16 09:10-0400\n"
+"PO-Revision-Date: 2021-10-17 04:35-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -435,7 +435,7 @@ msgid ""
 "submitted to the server. Setting the time to 0 seconds will submit scrobbles "
 "immediately)."
 msgstr ""
-"(Detta är fördröjningen mellan när en låt skrobblar och när skrobblingar "
+"(Det här är fördröjningen mellan när en låt skrobblar och när skrobblingar "
 "skickas till servern. Om tiden ställs in på 0 sekunder skickas skrobblingar "
 "direkt)."
 
@@ -516,7 +516,7 @@ msgstr ""
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr ""
-"En låt kommer att inkluderas i spellistan om den matchar dessa villkor."
+"En låt kommer att inkluderas i spellistan om den matchar de här villkoren."
 
 #: ../build/src/ui_playlistsettingspage.h:176
 msgid "A&utomatic"
@@ -751,11 +751,11 @@ msgstr "Lägg till..."
 
 #: ../build/src/ui_collectionfilterwidget.h:98
 msgid "Added this month"
-msgstr "Tillagda denna månad"
+msgstr "Tillagda den här månaden"
 
 #: ../build/src/ui_collectionfilterwidget.h:92
 msgid "Added this week"
-msgstr "Tillagda denna vecka"
+msgstr "Tillagda den här veckan"
 
 #: ../build/src/ui_collectionfilterwidget.h:97
 msgid "Added this year"
@@ -1314,7 +1314,7 @@ msgstr "Stäng spellista"
 #: covermanager/albumcovermanager.cpp:263
 msgid "Closing this window will stop searching for album covers."
 msgstr ""
-"Stängning av detta fönster kommer att stoppa sökningen efter albumomslag."
+"Stängning av det här fönstret kommer att stoppa sökningen efter albumomslag."
 
 #: equalizer/equalizer.cpp:141
 msgid "Club"
@@ -1847,7 +1847,7 @@ msgstr "Skriv inte över"
 
 #: ../build/src/ui_snapdialog.h:120
 msgid "Do not show this message again."
-msgstr "Visa inte detta meddelande igen."
+msgstr "Visa inte det här meddelandet igen."
 
 #: osd/osdbase.cpp:354 ../build/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
@@ -2034,7 +2034,7 @@ msgstr "Ange ett filnamn för exporterade omslag (utan ändelse):"
 
 #: playlist/playlisttabbar.cpp:182
 msgid "Enter a new name for this playlist"
-msgstr "Ange ett nytt namn för denna spellista"
+msgstr "Ange ett nytt namn för den här spellistan"
 
 #: internet/internetsearchview.cpp:409 ../build/src/ui_internetsearchview.h:229
 msgid "Enter search terms above to find music"
@@ -2404,7 +2404,7 @@ msgid ""
 "to rescan all the songs again next time you connect it."
 msgstr ""
 "Om en enhet glöms kommer den att tas bort från den här listan och Strawberry "
-"kommer att behöva skanna alla låtar igen nästa gång du ansluter den."
+"kommer att behöva skanna om alla låtar nästa gång du ansluter den."
 
 #: ../build/src/ui_collectionviewcontainer.h:55
 #: ../build/src/ui_playlistcontainer.h:148
@@ -2668,7 +2668,7 @@ msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
 msgstr ""
-"Om du fortsätter kommer denna enhet att arbeta långsamt och låtar som "
+"Om du fortsätter kommer den här enheten att arbeta långsamt och låtar som "
 "kopierats till den kanske inte fungerar."
 
 #: dialogs/about.cpp:124
@@ -3763,9 +3763,9 @@ msgid ""
 "Qobuz support is not official and requires an API app ID and secret from a "
 "registered application to work. We can't help you getting these."
 msgstr ""
-"Qobuz-support är inte officiellt och kräver ett API-app-ID och hemlighet "
-"från en registrerad applikation för att fungera. Vi kan inte hjälpa dig att "
-"få dessa."
+"Qobuz stöds inte officiellt och kräver ett API-app-ID och hemlighet från en "
+"registrerad applikation för att fungera. Vi kan inte hjälpa dig att få dessa."
+""
 
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
@@ -3951,7 +3951,7 @@ msgstr "Byt namn på spellista..."
 
 #: ../build/src/ui_mainwindow.h:643
 msgid "Renumber tracks in this order..."
-msgstr "Omnumrera spår i denna ordning..."
+msgstr "Omnumrera spår i den här ordningen..."
 
 #: ../build/src/ui_playlistsequence.h:119
 msgid "Repeat"
@@ -4244,7 +4244,7 @@ msgstr "Sök efter albumomslag..."
 
 #: internet/internetsearchview.cpp:344
 msgid "Search for this"
-msgstr "Sök efter detta"
+msgstr "Sök efter det här"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
@@ -4426,7 +4426,7 @@ msgstr "Visa alla låtarna"
 
 #: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Show dialog for errors"
-msgstr "Visa dialogruta för fel"
+msgstr "Visa dialogruta vid fel"
 
 #: ../build/src/ui_collectionsettingspage.h:492
 msgid "Show dividers"
@@ -4527,7 +4527,7 @@ msgstr "Blanda alla"
 
 #: osd/osdbase.cpp:341 ../build/src/ui_playlistsequence.h:115
 msgid "Shuffle tracks in this album"
-msgstr "Blanda låtar i detta album"
+msgstr "Blanda låtar i det här albumet"
 
 #: ../build/src/ui_loginstatewidget.h:166
 msgid "Sign out"
@@ -4618,7 +4618,7 @@ msgid ""
 msgstr ""
 "Låtar är skrobblade om de har giltiga metadata och är längre än 30 sekunder, "
 "har spelats i minst hälften av dess varaktighet eller i 4 minuter (beroende "
-"på vilket som inträffar tidigare)."
+"på vilket som inträffar först)."
 
 #: ../build/src/ui_tidalsettingspage.h:334
 #: ../build/src/ui_qobuzsettingspage.h:285
@@ -4680,7 +4680,7 @@ msgstr "Stoppa efter varje låt"
 
 #: core/mainwindow.cpp:699 ../build/src/ui_mainwindow.h:627
 msgid "Stop after this track"
-msgstr "Stoppa efter detta spår"
+msgstr "Stoppa efter det här spåret"
 
 #: core/commandlineoptions.cpp:173
 msgid "Stop playback"
@@ -4928,7 +4928,7 @@ msgid ""
 "rescan because of the new features listed below:"
 msgstr ""
 "Den version av Strawberry som du just har uppdaterat till kräver en "
-"fullständig omskanning av samlingen på grund av de nya funktionerna nedan:"
+"omskanning av hela samlingen på grund av de nya funktionerna nedan:"
 
 #: collection/collectionview.cpp:482
 msgid "There are other songs in this album"
@@ -4961,14 +4961,15 @@ msgstr ""
 #: ../build/src/ui_collectionsettingspage.h:474
 msgid "These folders will be scanned for music to make up your collection"
 msgstr ""
-"Dessa mappar kommer att skannas för musik för att fylla upp ditt bibliotek"
+"De här mapparna kommer att skannas för musik för att fylla upp ditt "
+"bibliotek"
 
 #: ../build/src/ui_transcodersettingspage.h:186
 msgid ""
 "These settings are used in the \"Transcode Music\" dialog, and when "
 "converting music before copying it to a device."
 msgstr ""
-"Dessa inställningar används i dialogrutan \"Omkoda musik\" och vid "
+"De här inställningarna används i dialogrutan \"Omkoda musik\" och vid "
 "konvertering av musik innan den kopieras till en enhet."
 
 #: collection/savedgroupingmanager.cpp:60
@@ -4981,7 +4982,7 @@ msgstr "Tredje nivå"
 
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
 msgid "This can be changed later through the preferences"
-msgstr "Detta kan ändras senare genom inställningarna"
+msgstr "Det här kan ändras senare genom inställningarna"
 
 #: ../build/src/ui_deviceproperties.h:382
 msgid ""
@@ -4993,17 +4994,17 @@ msgstr ""
 
 #: ../build/src/ui_deviceproperties.h:376
 msgid "This device supports the following file formats:"
-msgstr "Denna enhet stöder följande filformat:"
+msgstr "Den här enheten stöder följande filformat:"
 
 #: device/devicemanager.cpp:609 device/devicemanager.cpp:617
 msgid "This device will not work properly"
-msgstr "Denna enhet kommer inte att fungera ordentligt"
+msgstr "Den här enheten kommer inte att fungera ordentligt"
 
 #: device/devicemanager.cpp:610
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr ""
-"Detta är en MTP-enhet, men du kompilerade Strawberry utan stöd av libmtp."
+"Det här är en MTP-enhet, men du kompilerade Strawberry utan stöd av libmtp."
 
 #: device/devicemanager.cpp:618
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
@@ -5020,12 +5021,12 @@ msgstr ""
 
 #: playlist/playlisttabbar.cpp:242
 msgid "This option can be changed in the \"Behavior\" preferences"
-msgstr "Detta alternativ kan ändras i inställningarna för \"Beteende\""
+msgstr "Det här alternativet kan ändras i inställningarna för \"Beteende\""
 
 #: device/devicemanager.cpp:633
 #, qt-format
 msgid "This type of device is not supported: %1"
-msgstr "Denna typ av enhet är inte stödd: %1"
+msgstr "Den här typen av enhet är inte stödd: %1"
 
 #: core/mainwindow.cpp:361 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5400,7 +5401,7 @@ msgid ""
 "If there are no matches then it will use the largest image in the directory."
 msgstr ""
 "Vid sökning efter albumomslag letar Strawberry först efter bildfiler som "
-"innehåller ett av dessa ord.\n"
+"innehåller ett av de här orden.\n"
 "Om det inte finns några matchningar så kommer den största bilden i mappen "
 "att användas."
 
@@ -5526,8 +5527,8 @@ msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program.  If not, see %1"
 msgstr ""
-"Du borde ha fått en kopia av GNU General Public License tillsammans med "
-"detta program. Om inte, se %1"
+"Du borde ha fått en kopia av GNU General Public License tillsammans med det "
+"här programmet. Om inte, se %1"
 
 #: ../build/src/ui_behavioursettingspage.h:294
 msgid "You will need to restart Strawberry if you change the language."
