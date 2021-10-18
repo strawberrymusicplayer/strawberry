@@ -69,6 +69,17 @@ void TagReaderClient::WorkerFailedToStart() {
   qLog(Error) << "The" << kWorkerExecutableName << "executable was not found in the current directory or on the PATH.  Strawberry will not be able to read music file tags without it.";
 }
 
+TagReaderReply *TagReaderClient::IsMediaFile(const QString &filename) {
+
+  spb::tagreader::Message message;
+  spb::tagreader::IsMediaFileRequest *req = message.mutable_is_media_file_request();
+
+  req->set_filename(DataCommaSizeFromQString(filename));
+
+  return worker_pool_->SendMessageWithReply(&message);
+
+}
+
 TagReaderReply *TagReaderClient::ReadFile(const QString &filename) {
 
   spb::tagreader::Message message;
@@ -91,17 +102,6 @@ TagReaderReply *TagReaderClient::SaveFile(const QString &filename, const Song &m
   ReplyType *reply = worker_pool_->SendMessageWithReply(&message);
 
   return reply;
-
-}
-
-TagReaderReply *TagReaderClient::IsMediaFile(const QString &filename) {
-
-  spb::tagreader::Message message;
-  spb::tagreader::IsMediaFileRequest *req = message.mutable_is_media_file_request();
-
-  req->set_filename(DataCommaSizeFromQString(filename));
-
-  return worker_pool_->SendMessageWithReply(&message);
 
 }
 
@@ -128,6 +128,22 @@ TagReaderReply *TagReaderClient::SaveEmbeddedArt(const QString &filename, const 
 
 }
 
+bool TagReaderClient::IsMediaFileBlocking(const QString &filename) {
+
+  Q_ASSERT(QThread::currentThread() != thread());
+
+  bool ret = false;
+
+  TagReaderReply *reply = IsMediaFile(filename);
+  if (reply->WaitForFinished()) {
+    ret = reply->message().is_media_file_response().success();
+  }
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+
+  return ret;
+
+}
+
 void TagReaderClient::ReadFileBlocking(const QString &filename, Song *song) {
 
   Q_ASSERT(QThread::currentThread() != thread());
@@ -149,22 +165,6 @@ bool TagReaderClient::SaveFileBlocking(const QString &filename, const Song &meta
   TagReaderReply *reply = SaveFile(filename, metadata);
   if (reply->WaitForFinished()) {
     ret = reply->message().save_file_response().success();
-  }
-  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
-
-  return ret;
-
-}
-
-bool TagReaderClient::IsMediaFileBlocking(const QString &filename) {
-
-  Q_ASSERT(QThread::currentThread() != thread());
-
-  bool ret = false;
-
-  TagReaderReply *reply = IsMediaFile(filename);
-  if (reply->WaitForFinished()) {
-    ret = reply->message().is_media_file_response().success();
   }
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 

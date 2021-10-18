@@ -34,15 +34,14 @@ void TagReaderWorker::MessageArrived(const spb::tagreader::Message &message) {
 
   spb::tagreader::Message reply;
 
-  if (message.has_read_file_request()) {
+  if (message.has_is_media_file_request()) {
+    reply.mutable_is_media_file_response()->set_success(tag_reader_.IsMediaFile(QStringFromStdString(message.is_media_file_request().filename())));
+  }
+  else if (message.has_read_file_request()) {
     tag_reader_.ReadFile(QStringFromStdString(message.read_file_request().filename()), reply.mutable_read_file_response()->mutable_metadata());
   }
   else if (message.has_save_file_request()) {
     reply.mutable_save_file_response()->set_success(tag_reader_.SaveFile(QStringFromStdString(message.save_file_request().filename()), message.save_file_request().metadata()));
-  }
-
-  else if (message.has_is_media_file_request()) {
-    reply.mutable_is_media_file_response()->set_success(tag_reader_.IsMediaFile(QStringFromStdString(message.is_media_file_request().filename())));
   }
   else if (message.has_load_embedded_art_request()) {
     QByteArray data = tag_reader_.LoadEmbeddedArt(QStringFromStdString(message.load_embedded_art_request().filename()));
