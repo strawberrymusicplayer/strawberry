@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-01-16 06:53-0500\n"
+"PO-Revision-Date: 2021-10-18 06:33-0400\n"
 "Last-Translator: bertus <bertus.w@gmail.com>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -42,6 +42,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in cinnamon-settings-daemon instead."
 msgstr ""
+"Snelkoppelingen op %1 worden meestal gebruikt via Gnome Settings Daemon en "
+"moeten geconfigureerd worden in cinnamon-settings-daemon instead."
 
 #: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
@@ -49,6 +51,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in gnome-settings-daemon instead."
 msgstr ""
+"Snelkoppelingen op %1 worden meestal gebruikt via Gnome Settings Daemon en "
+"moeten geconfigureerd worden in gnome-settings-daemon instead."
 
 #: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
@@ -56,6 +60,8 @@ msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
 "configured there instead."
 msgstr ""
+"Snelkoppelingen op %1 worden meestal gebruikt via MATE Settings Daemon en "
+"kunnen daar geconfigureerd worden"
 
 #: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
@@ -102,7 +108,7 @@ msgstr "nummers"
 #: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
 #, qt-format
 msgid "%1 Scrobbler Authentication"
-msgstr ""
+msgstr "%1 Scrobbler authenticatie"
 
 #: context/contextview.cpp:471
 #, qt-format
@@ -128,7 +134,7 @@ msgstr "%1 artiesten"
 #: equalizer/equalizerslider.cpp:47 equalizer/equalizerslider.cpp:64
 #, qt-format
 msgid "%1 dB"
-msgstr "1% dB"
+msgstr "%1 dB"
 
 #: core/utilities.cpp:144
 #, qt-format
@@ -197,7 +203,7 @@ msgstr ""
 #: dialogs/edittagdialog.cpp:648
 #, qt-format
 msgid "%1 songs selected."
-msgstr ""
+msgstr "%1 nummers geselecteerd."
 
 #: playlist/playlistmanager.cpp:481 queue/queue.cpp:256
 #, qt-format
@@ -257,7 +263,7 @@ msgstr "%title - %artist%"
 #: ../build/src/ui_contextsettingspage.h:420
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
-msgstr ""
+msgstr "%url%"
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
@@ -269,11 +275,11 @@ msgstr ""
 
 #: playlist/playlistheader.cpp:63
 msgid "&Align text"
-msgstr "Tekst &uitlijnen"
+msgstr ""
 
 #: playlist/playlistheader.cpp:66
 msgid "&Center"
-msgstr "&Centreren"
+msgstr ""
 
 #: ../build/src/ui_mainwindow.h:632
 msgid "&Clear playlist"
@@ -285,7 +291,7 @@ msgstr ""
 
 #: ../build/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
-msgstr "Aan&gepast"
+msgstr ""
 
 #: ../build/src/ui_globalshortcutssettingspage.h:285
 msgid "&Default"
@@ -517,7 +523,7 @@ msgstr "AAC"
 
 #: ../build/src/ui_backendsettingspage.h:543
 msgid "ALSA plugin:"
-msgstr ""
+msgstr "ALSA plugin:"
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
@@ -543,7 +549,7 @@ msgstr "Over"
 
 #: ../build/src/ui_mainwindow.h:694
 msgid "About &Qt"
-msgstr "Over & Qt"
+msgstr "Over &Qt"
 
 #: dialogs/about.cpp:44
 msgid "About Strawberry"
@@ -611,105 +617,105 @@ msgstr "Nieuwe map toevoegen…"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
-msgstr ""
+msgstr "Zoekterm toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:422
 #: ../build/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
-msgstr ""
+msgstr "URL toevoegen"
 
 #: ../build/src/ui_contextsettingspage.h:375
 #: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song album tag"
-msgstr "Album-label toevoegen"
+msgstr "Album-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:381
 #: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song albumartist tag"
-msgstr "Albumartiest-label toevoegen"
+msgstr "Albumartiest-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:372
 #: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song artist tag"
-msgstr "Artiest-label toevoegen"
+msgstr "Artiest-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:387
 #: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song composer tag"
-msgstr "Componist-label toevoegen"
+msgstr "Componist-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:396
 #: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song disc tag"
-msgstr "Schijf-label toevoegen"
+msgstr "Schijf-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:418
 #: ../build/src/ui_notificationssettingspage.h:466
 msgid "Add song filename"
-msgstr "Bestandsnaam toevoegen"
+msgstr "Bestandsnaam toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:402
 #: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song genre tag"
-msgstr "Genre-label toevoegen"
+msgstr "Genre-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:393
 #: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song grouping tag"
-msgstr "Groepering-label toevoegen"
+msgstr "Groepering-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:405
 #: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song length tag"
-msgstr "Lengte toevoegen"
+msgstr "Lengte-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:430
 #: ../build/src/ui_notificationssettingspage.h:474
 msgid "Add song original year tag"
-msgstr ""
+msgstr "origineel jaar-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:390
 #: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
-msgstr "Uitvoerend artiest-label toevoegen"
+msgstr "Uitvoerend artiest-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:408
 #: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song play count"
-msgstr "Aantal maal afgespeeld toevoegen"
+msgstr "Aantal maal afgespeeld toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:426
 #: ../build/src/ui_notificationssettingspage.h:459
 msgid "Add song rating"
-msgstr "Waardering toevoegen"
+msgstr "Waardering toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:411
 #: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add song skip count"
-msgstr "Aantal maal overgeslagen toevoegen"
+msgstr "Aantal maal overgeslagen toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:378
 #: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song title tag"
-msgstr "Titel-label toevoegen"
+msgstr "Titel-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:399
 #: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song track tag"
-msgstr "Nummer-label toevoegen"
+msgstr "Nummer-label toevoegen aan lied"
 
 #: ../build/src/ui_contextsettingspage.h:384
 #: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song year tag"
-msgstr "Jaar-label toevoegen"
+msgstr "Jaar-label toevoegen aan lied"
 
 #: ../build/src/ui_mainwindow.h:712
 msgid "Add stream..."
-msgstr ""
+msgstr "Stream... toevoegen"
 
 #: internet/internetsearchview.cpp:335
 msgid "Add to albums"
-msgstr ""
+msgstr "Aan de albums toevoegen"
 
 #: core/mainwindow.cpp:1985
 msgid "Add to another playlist"
@@ -717,7 +723,7 @@ msgstr "Aan een andere afspeellijst toevoegen"
 
 #: internet/internetsearchview.cpp:332
 msgid "Add to artists"
-msgstr ""
+msgstr "Aan de artiest toevoegen"
 
 #: ../build/src/ui_albumcovermanager.h:215
 msgid "Add to playlist"
@@ -725,7 +731,7 @@ msgstr "Aan afspeellijst toevoegen"
 
 #: internet/internetsearchview.cpp:338
 msgid "Add to songs"
-msgstr ""
+msgstr "Aan lied toevoegen"
 
 #: ../build/src/ui_behavioursettingspage.h:308
 #: ../build/src/ui_behavioursettingspage.h:316
@@ -734,7 +740,7 @@ msgstr "Aan de wachtrij toevoegen"
 
 #: ../build/src/ui_transcodedialog.h:220
 msgid "Add..."
-msgstr ""
+msgstr "Toevoegen..."
 
 #: ../build/src/ui_collectionfilterwidget.h:98
 msgid "Added this month"
@@ -767,7 +773,7 @@ msgstr "Na het kopiëren…"
 
 #: ../build/src/ui_appearancesettingspage.h:605
 msgid "Albu&m cover"
-msgstr ""
+msgstr "Albu&m Hoes"
 
 #: collection/savedgroupingmanager.cpp:91 playlist/playlist.cpp:1338
 #: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:186
@@ -787,7 +793,7 @@ msgstr "Album (ideaal volume voor alle nummers)"
 #: collection/savedgroupingmanager.cpp:94 ../build/src/ui_groupbydialog.h:187
 #: ../build/src/ui_groupbydialog.h:209 ../build/src/ui_groupbydialog.h:231
 msgid "Album - Disc"
-msgstr ""
+msgstr "Album - cd"
 
 #: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1345
 #: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:185
@@ -806,11 +812,11 @@ msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:337
 msgid "Album cover size"
-msgstr ""
+msgstr "Album hoes grote"
 
 #: ../build/src/ui_internettabsview.h:114
 msgid "Albums"
-msgstr ""
+msgstr "Albums"
 
 #: context/contextview.cpp:612
 #, qt-format
@@ -819,12 +825,12 @@ msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:443
 msgid "Albums by Artist"
-msgstr ""
+msgstr "Albums bij Artiest"
 
 #: ../build/src/ui_tidalsettingspage.h:333
 #: ../build/src/ui_qobuzsettingspage.h:284
 msgid "Albums search limit"
-msgstr ""
+msgstr "Albums zoek limiet"
 
 #: covermanager/albumcovermanager.cpp:175
 msgid "Albums with covers"
@@ -857,11 +863,11 @@ msgstr "Alle afspeellijsten (%1)"
 
 #: smartplaylists/smartplaylistsmodel.cpp:119
 msgid "All tracks"
-msgstr ""
+msgstr "Alle nummers"
 
 #: ../build/src/ui_organizedialog.h:282
 msgid "Allow extended ASCII characters"
-msgstr ""
+msgstr "Uitgebreide ASCII-tekens toestaan"
 
 #: ../build/src/ui_transcoderoptionsaac.h:141
 msgid "Allow mid/side encoding"
@@ -884,6 +890,7 @@ msgstr "Er is een fout opgetreden tijdens het laden van de iTunes-database"
 #, qt-format
 msgid "An error occurred writing cover art to '%1'"
 msgstr ""
+"Er is een fout opgetreden bij het wegschrijven van hoes afbeelding naar %1"
 
 #: playlist/playlist.cpp:426 dialogs/edittagdialog.cpp:1327
 #, qt-format
@@ -932,7 +939,7 @@ msgstr "Compressie toepassen om vervorming te voorkomen"
 
 #: dialogs/deleteconfirmationdialog.cpp:71
 msgid "Are you sure you want to continue?"
-msgstr ""
+msgstr "Bent u zeker dat u wilt door gaan ?"
 
 #: equalizer/equalizer.cpp:230
 #, qt-format
@@ -966,12 +973,12 @@ msgstr "Artiest's initiaal"
 
 #: ../build/src/ui_internettabsview.h:113
 msgid "Artists"
-msgstr ""
+msgstr "Artiesten"
 
 #: ../build/src/ui_tidalsettingspage.h:332
 #: ../build/src/ui_qobuzsettingspage.h:283
 msgid "Artists search limit"
-msgstr ""
+msgstr "Artiest zoek limiet"
 
 #: ../build/src/ui_playlistsettingspage.h:179
 msgid "As&k when saving"
@@ -988,11 +995,11 @@ msgstr "Audiouitvoer"
 
 #: ../build/src/ui_tidalsettingspage.h:329
 msgid "Audio quality"
-msgstr ""
+msgstr "Audio kwaliteit"
 
 #: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:255
 msgid "Authenticating..."
-msgstr ""
+msgstr "Authenticatie"
 
 #: ../build/src/ui_coverssettingspage.h:167
 #: ../build/src/ui_lyricssettingspage.h:167
@@ -1000,20 +1007,20 @@ msgstr ""
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:273
 msgid "Authentication"
-msgstr ""
+msgstr "Authenticatie"
 
 #: settings/coverssettingspage.cpp:275 settings/lyricssettingspage.cpp:255
 #: settings/tidalsettingspage.cpp:219 settings/qobuzsettingspage.cpp:175
 msgid "Authentication failed"
-msgstr "Aanmelden mislukt"
+msgstr "Authenticatie mislukt"
 
 #: ../build/src/ui_subsonicsettingspage.h:229
 msgid "Authentication method:"
-msgstr ""
+msgstr "Authenticatie metode"
 
 #: dialogs/about.cpp:143
 msgid "Author and maintainer"
-msgstr ""
+msgstr "Auteur en onderhouder"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:225
 msgid "Auto"
@@ -3633,7 +3640,7 @@ msgstr "Poort"
 
 #: ../build/src/ui_appearancesettingspage.h:609
 msgid "Position"
-msgstr ""
+msgstr "Positie"
 
 #: equalizer/equalizer.cpp:67 ../build/src/ui_backendsettingspage.h:562
 msgid "Pre-amp"
@@ -3641,7 +3648,7 @@ msgstr "Voorversterking"
 
 #: ../build/src/ui_scrobblersettingspage.h:415
 msgid "Prefer album artist when sending scrobbles"
-msgstr ""
+msgstr "Geef de voorkeur aan albumartiest bij het verzenden van scrobbles"
 
 #: ../build/src/ui_subsonicsettingspage.h:233
 #: ../build/src/ui_tidalsettingspage.h:328
@@ -3676,6 +3683,8 @@ msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
 msgstr ""
+"Druk op \"Opslaan\" om de URL naar het klembord te kopiëren en deze "
+"handmatig in een webbrowser te openen."
 
 #: ../build/src/ui_globalshortcutgrabber.h:68
 msgid "Press a key"
@@ -3709,7 +3718,7 @@ msgstr "Vorige"
 
 #: ../build/src/ui_mainwindow.h:607
 msgid "Previous track"
-msgstr ""
+msgstr "Vorig nummer"
 
 #: core/commandlineoptions.cpp:198
 msgid "Print out version information"
@@ -3725,12 +3734,12 @@ msgstr "Voortgang"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:135
 msgid "Put songs in a random order"
-msgstr ""
+msgstr "Zet nummers in willekeurige volgorde"
 
 #: core/mainwindow.cpp:364 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
-msgstr ""
+msgstr "Qobuz"
 
 #: ../build/src/ui_qobuzsettingspage.h:272
 msgid ""
@@ -3752,7 +3761,7 @@ msgstr "apparaat afzoeken..."
 
 #: core/mainwindow.cpp:349
 msgid "Queue"
-msgstr ""
+msgstr "Rij"
 
 #: core/mainwindow.cpp:1902
 msgid "Queue selected tracks"
@@ -3761,6 +3770,7 @@ msgstr "Geselecteerde nummers in de wachtrij plaatsen"
 #: core/mainwindow.cpp:703 core/mainwindow.cpp:1906
 msgid "Queue selected tracks to play next"
 msgstr ""
+"Geselecteerde nummers in de wachtrij zetten om op volgorde af te spelen"
 
 #: core/mainwindow.cpp:1909 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:323
@@ -3784,19 +3794,19 @@ msgstr "Radio (gelijk volume voor alle nummers)"
 
 #: ../build/src/ui_scrobblersettingspage.h:427
 msgid "Radio Paradise"
-msgstr ""
+msgstr "Radio Paradise"
 
 #: core/mainwindow.cpp:353
 msgid "Radios"
-msgstr ""
+msgstr "Radio's"
 
 #: ../build/src/ui_collectionsettingspage.h:500
 msgid "Random"
-msgstr ""
+msgstr "Willekeurig"
 
 #: playlist/playlist.cpp:1368
 msgid "Rating"
-msgstr ""
+msgstr "Beoordeling"
 
 #: ../build/src/ui_playlistsettingspage.h:178
 msgid "Re&lative"
@@ -3809,22 +3819,24 @@ msgstr "Werkelijk annuleren?"
 #: covermanager/spotifycoverprovider.cpp:197
 #: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:207
 msgid "Received invalid reply from web browser."
-msgstr ""
+msgstr "Ongeldig antwoord ontvangen van webbrowser."
 
 #: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
 msgstr ""
+"Ongeldig antwoord ontvangen van webbrowser. Probeer de HTTPS-optie of "
+"gebruik een andere browser zoals Chromium of Chrome."
 
 #: dialogs/lastfmimportdialog.cpp:74
 msgid "Receiving initial data from last.fm..."
-msgstr ""
+msgstr "Initiële gegevens ontvangen van last.fm..."
 
 #: dialogs/lastfmimportdialog.cpp:134
 #, qt-format
 msgid "Receiving last played for %1 songs."
-msgstr ""
+msgstr "Laatst afgespeeld lied voor %1 ontvangen."
 
 #: dialogs/lastfmimportdialog.cpp:131
 #, qt-format
@@ -3891,7 +3903,7 @@ msgstr "Map verwijderen"
 
 #: internet/internetcollectionview.cpp:328
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Verwijder van favorieten"
 
 #: ../build/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
@@ -3907,7 +3919,7 @@ msgstr "Afspeellijsten verwijderen"
 
 #: ../build/src/ui_organizedialog.h:279
 msgid "Remove problematic characters from filenames"
-msgstr ""
+msgstr "Verwijder problematische tekens uit bestandsnamen"
 
 #: playlist/playlisttabbar.cpp:182
 msgid "Rename playlist"
@@ -3947,11 +3959,11 @@ msgstr "Huidige afspeellijst vervangen"
 
 #: ../build/src/ui_collectionsettingspage.h:504
 msgid "Replace spaces with dashes"
-msgstr ""
+msgstr "Vervang spaties door streepjes"
 
 #: ../build/src/ui_organizedialog.h:283
 msgid "Replace spaces with underscores"
-msgstr ""
+msgstr "Spaties vervangen door onderstrepingstekens"
 
 #: ../build/src/ui_behavioursettingspage.h:306
 msgid "Replace the playlist"
@@ -3975,11 +3987,11 @@ msgstr ""
 
 #: collection/collectionview.cpp:370
 msgid "Rescan song(s)"
-msgstr ""
+msgstr "Nummer(s) opnieuw scannen"
 
 #: core/mainwindow.cpp:719
 msgid "Rescan song(s)..."
-msgstr ""
+msgstr "Nummer(s) opnieuw scannen..."
 
 #: widgets/lineedit.cpp:71
 msgid "Reset"
@@ -3991,7 +4003,7 @@ msgstr "Reset afspeelstatistieken"
 
 #: core/commandlineoptions.cpp:194
 msgid "Resize the window"
-msgstr ""
+msgstr "Formaat van het venster wijzigen"
 
 #: ../build/src/ui_behavioursettingspage.h:302
 msgid "Restart song, then jump to previous if pressed again"
@@ -4006,11 +4018,11 @@ msgstr ""
 
 #: ../build/src/ui_organizedialog.h:281
 msgid "Restrict characters to ASCII"
-msgstr ""
+msgstr "Beperk tekens tot ASCII"
 
 #: ../build/src/ui_organizedialog.h:280
 msgid "Restrict to characters allowed on FAT filesystems"
-msgstr ""
+msgstr "Beperken tot tekens toegestaan ​​op FAT-bestandssystemen"
 
 #: ../build/src/ui_behavioursettingspage.h:283
 msgid "Resume playback on start"
@@ -4020,48 +4032,48 @@ msgstr "Afspelen hervatten bij opstarten"
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
-msgstr ""
+msgstr "Albumhoes ophalen voor %1 album..."
 
 #: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr ""
+msgstr "Albumhoezen ophalen voor %1 album..."
 
 #: tidal/tidalrequest.cpp:466 qobuz/qobuzrequest.cpp:466
 #, qt-format
 msgid "Retrieving albums for %1 artist..."
-msgstr ""
+msgstr "Albums ophalen voor %1 artiest..."
 
 #: tidal/tidalrequest.cpp:467 qobuz/qobuzrequest.cpp:467
 #, qt-format
 msgid "Retrieving albums for %1 artists..."
-msgstr ""
+msgstr "Albums ophalen voor %1 artiesten..."
 
 #: subsonic/subsonicrequest.cpp:130 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
-msgstr ""
+msgstr "Albums ophalen..."
 
 #: tidal/tidalrequest.cpp:157 qobuz/qobuzrequest.cpp:132
 msgid "Retrieving artists..."
-msgstr ""
+msgstr "Artiesten ophalen..."
 
 #: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:738
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
-msgstr ""
+msgstr "Nummers ophalen voor %1 album..."
 
 #: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
-msgstr ""
+msgstr "Liedjes ophalen voor %1 albums..."
 
 #: tidal/tidalrequest.cpp:245 qobuz/qobuzrequest.cpp:228
 msgid "Retrieving songs..."
-msgstr ""
+msgstr "Liedjes ophalen..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
@@ -4162,7 +4174,7 @@ msgstr "Opgeslagen groeperingbeheerder"
 
 #: ../build/src/ui_collectionsettingspage.h:493
 msgid "Saving album covers"
-msgstr ""
+msgstr "Album hoezen weg schrijven"
 
 #: dialogs/edittagdialog.cpp:300 dialogs/trackselectiondialog.cpp:292
 msgid "Saving tracks"
@@ -4178,17 +4190,17 @@ msgstr "Groote schalen"
 
 #: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Scrobbler"
-msgstr ""
+msgstr "Scrobbler"
 
 #: scrobbler/scrobblingapi20.cpp:1024
 #, qt-format
 msgid "Scrobbler %1 error: %2"
-msgstr ""
+msgstr "Scrobbler %1 error: %2"
 
 #: scrobbler/scrobblingapi20.cpp:543
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
-msgstr ""
+msgstr "Scrobbler %1 is niet geverifieerd!"
 
 #: covermanager/albumcoversearcher.cpp:204
 #: covermanager/albumcoversearcher.cpp:222
@@ -4204,7 +4216,7 @@ msgstr "Automatisch zoeken"
 #: ../build/src/ui_tidalsettingspage.h:330
 #: ../build/src/ui_qobuzsettingspage.h:281
 msgid "Search delay"
-msgstr ""
+msgstr "Zoek vertraging"
 
 #: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Search for album covers..."
@@ -4212,26 +4224,26 @@ msgstr "Naar albumhoezen zoeken…"
 
 #: internet/internetsearchview.cpp:344
 msgid "Search for this"
-msgstr "Zoek naar dit"
+msgstr "Zoek hier naar"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
-msgstr ""
+msgstr "Zoek mode"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:159
 msgid "Search options"
-msgstr ""
+msgstr "zoek opties"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:157
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
-msgstr ""
+msgstr "Zoektermen"
 
 #: tidal/tidalrequest.cpp:289 tidal/tidalrequest.cpp:303
 #: tidal/tidalrequest.cpp:317 qobuz/qobuzrequest.cpp:276
 #: qobuz/qobuzrequest.cpp:290 qobuz/qobuzrequest.cpp:304
 msgid "Searching..."
-msgstr ""
+msgstr "Zoeken..."
 
 #: collection/savedgroupingmanager.cpp:59
 msgid "Second Level"
@@ -4287,15 +4299,15 @@ msgstr "Serienummer"
 
 #: ../build/src/ui_subsonicsettingspage.h:225
 msgid "Server URL"
-msgstr ""
+msgstr "Server-URL"
 
 #: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:135
 msgid "Server URL is invalid."
-msgstr ""
+msgstr "Server-URL is ongeldig."
 
 #: ../build/src/ui_subsonicsettingspage.h:237
 msgid "Server-side scrobbling"
-msgstr ""
+msgstr "Server-side scrobbling"
 
 #: core/mainwindow.cpp:1942
 #, qt-format
@@ -4316,7 +4328,7 @@ msgstr "Instellingen"
 
 #: ../build/src/ui_appearancesettingspage.h:585
 msgid "Settings require restart."
-msgstr ""
+msgstr "Instellingen vereisen opnieuw opstarten."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:281
 msgid "Shortcut"
@@ -4358,7 +4370,7 @@ msgstr "Notificatie weergeven wanneer ik het afspelen pauzeer"
 
 #: ../build/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I resume playback"
-msgstr ""
+msgstr "Een melding weergeven wanneer ik het afspelen hervat"
 
 #: ../build/src/ui_notificationssettingspage.h:481
 msgid "Show a popup fro&m the system tray"
@@ -4431,7 +4443,7 @@ msgstr ""
 
 #: moodbar/moodbarproxystyle.cpp:374
 msgid "Show moodbar"
-msgstr ""
+msgstr "Toon moodbar"
 
 #: core/mainwindow.cpp:646
 msgid "Show only duplicates"
@@ -4443,19 +4455,19 @@ msgstr "Nummers zonder labels tonen"
 
 #: ../build/src/ui_behavioursettingspage.h:284
 msgid "Show playing widget"
-msgstr ""
+msgstr "Speel widget weergeven"
 
 #: ../build/src/ui_scrobblersettingspage.h:409
 msgid "Show scrobble button"
-msgstr ""
+msgstr "Toon scrobble-knop"
 
 #: ../build/src/ui_mainwindow.h:713
 msgid "Show sidebar"
-msgstr ""
+msgstr "Toon zijbalk"
 
 #: context/contextview.cpp:338
 msgid "Show song lyrics"
-msgstr ""
+msgstr "Songteksten weergeven"
 
 #: ../build/src/ui_behavioursettingspage.h:282
 msgid "Show song progress on system tray icon"
@@ -4463,7 +4475,7 @@ msgstr ""
 
 #: context/contextview.cpp:326
 msgid "Show song technical data"
-msgstr ""
+msgstr "Technische gegevens lied weergeven"
 
 #: ../build/src/ui_behavioursettingspage.h:280
 msgid "Show system tray icon"
@@ -4564,7 +4576,7 @@ msgstr "Soft Rock"
 
 #: ../build/src/ui_scrobblersettingspage.h:425
 msgid "SomaFM"
-msgstr ""
+msgstr "SomaFM"
 
 #: ../build/src/ui_contextsettingspage.h:444
 msgid "Song Lyrics"
@@ -4707,11 +4719,11 @@ msgstr ""
 
 #: dialogs/snapdialog.cpp:40
 msgid "Strawberry is running as a Snap"
-msgstr ""
+msgstr "Strawberry draait als een Snap"
 
 #: ../build/src/ui_snapdialog.h:117
 msgid "Strawberry is running as a snap"
-msgstr ""
+msgstr "Strawberry draait als een snap"
 
 #: dialogs/snapdialog.cpp:48
 msgid ""
@@ -4719,6 +4731,10 @@ msgid ""
 "the root filesystem (/) will not work. There also might be other "
 "restrictions such as accessing certain devices or network shares."
 msgstr ""
+"Strawberry is langzamer en heeft beperkingen wanneer het als Snap wordt "
+"uitgevoerd.Toegang tot het root bestandssysteem (/) zal niet werken. Er "
+"kunnen ook andere beperkingen zijn, zoals toegang tot bepaalde apparaten of "
+"netwerkshares."
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Strawberry was unable to find results for this file"
@@ -4747,7 +4763,7 @@ msgstr "Stijl"
 
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Submit scrobbles every"
-msgstr ""
+msgstr "Dien scrobble in elke"
 
 #: core/mainwindow.cpp:358 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:223
@@ -4756,7 +4772,7 @@ msgstr "Subsonic"
 
 #: subsonic/subsonicurlhandler.cpp:42
 msgid "Subsonic server URL is invalid."
-msgstr "Subsonische server-URL is ongeldig."
+msgstr "Subsonic server-URL is ongeldig."
 
 #: ../data/html/oauthsuccess.html:36
 msgid "Success!"
@@ -4816,7 +4832,7 @@ msgstr "Labels ophalen"
 
 #: ../build/src/ui_edittagdialog.h:838
 msgid "Tags"
-msgstr ""
+msgstr "Tags"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
@@ -5030,7 +5046,7 @@ msgstr "Zet scrobbling aan/uit"
 
 #: core/mainwindow.cpp:706 core/mainwindow.cpp:1916
 msgid "Toggle skip status"
-msgstr ""
+msgstr "Schakel status overslaan in"
 
 #: core/commandlineoptions.cpp:192
 msgid "Toggle visibility for the pretty on-screen-display"
@@ -5068,7 +5084,7 @@ msgstr "Muziek converteren"
 
 #: ../build/src/ui_transcodelogdialog.h:60
 msgid "Transcoder Log"
-msgstr "Conversielog"
+msgstr "Conversie-Log"
 
 #: ../build/src/ui_transcodersettingspage.h:185
 msgid "Transcoding"
@@ -5124,7 +5140,7 @@ msgstr "Onbekende fout"
 
 #: dialogs/edittagdialog.cpp:760
 msgid "Unset"
-msgstr ""
+msgstr "Uitgeschakeld"
 
 #: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Unset cover"
@@ -5150,7 +5166,7 @@ msgstr "%1 bijwerken"
 #: collection/collectionbackend.cpp:674
 #, qt-format
 msgid "Updating %1 database."
-msgstr ""
+msgstr "%1 database bijwerken."
 
 #: device/deviceview.cpp:125
 #, qt-format
@@ -5163,7 +5179,7 @@ msgstr "Bibliotheek wordt bijgewerkt"
 
 #: ../build/src/ui_backendsettingspage.h:548
 msgid "Upmix / downmix to"
-msgstr ""
+msgstr "Upmix / downmix naar"
 
 #: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
@@ -5183,7 +5199,7 @@ msgstr "Gebruik Gnome (GSD) -snelkoppelingen indien beschikbaar"
 
 #: ../build/src/ui_subsonicsettingspage.h:234
 msgid "Use HTTP/2 when possible"
-msgstr ""
+msgstr "Gebruik HTTP/2 waar nodig"
 
 #: ../build/src/ui_scrobblersettingspage.h:431
 msgid "Use HTTPS for local redirectserver"
@@ -5195,7 +5211,7 @@ msgstr "Gebruik KDE (KGlobalAccel) -snelkoppelingen indien beschikbaar"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:271
 msgid "Use MATE shortcuts when available"
-msgstr ""
+msgstr "Gebruik MATE-snelkoppelingen indien beschikbaar"
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
@@ -5227,7 +5243,7 @@ msgstr "Een aangepast bericht voor notificaties gebruiken"
 
 #: ../build/src/ui_playlistsettingspage.h:165
 msgid "Use alternating row colors"
-msgstr ""
+msgstr "Gebruik afwisselende rijkleuren"
 
 #: ../build/src/ui_networkproxysettingspage.h:178
 msgid "Use authentication"
@@ -5243,11 +5259,11 @@ msgstr "Gebruik een aangepaste kleur"
 
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:81
 msgid "Use dynamic mode"
-msgstr ""
+msgstr "Dynamische modus gebruiken"
 
 #: ../build/src/ui_appearancesettingspage.h:596
 msgid "Use gradient background"
-msgstr ""
+msgstr "Achtergrond met kleurovergang gebruiken"
 
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
@@ -5385,6 +5401,8 @@ msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"
 msgstr ""
+"Wil je de andere nummers op dit album ook verplaatsen naar Diverse "
+"Artiesten?"
 
 #: core/mainwindow.cpp:2852
 msgid "Would you like to run a full rescan right now?"
@@ -5392,7 +5410,7 @@ msgstr "Wilt u op dit moment een volledige herscan laten uitvoeren?"
 
 #: ../build/src/ui_playlistsettingspage.h:185
 msgid "Write metadata when saving playlists"
-msgstr ""
+msgstr "Schrijf metadata bij het opslaan van afspeellijsten"
 
 #: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1342
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:191
@@ -5463,7 +5481,9 @@ msgstr ""
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
 "through %2."
-msgstr "Je kan de schrijvers hier sponseren %1 "
+msgstr ""
+"Je kan de schrijvers hier sponseren %1 U kunt ook een eenmalige betaling "
+"doen via %2"
 
 #: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
@@ -5485,6 +5505,8 @@ msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program.  If not, see %1"
 msgstr ""
+"U moet bij dit programma een kopie van de GNU General Public License hebben "
+"ontvangen. Zo niet, zie %1"
 
 #: ../build/src/ui_behavioursettingspage.h:294
 msgid "You will need to restart Strawberry if you change the language."
@@ -5514,7 +5536,7 @@ msgstr "na"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:273
 msgid "ago"
-msgstr ""
+msgstr "geleden"
 
 #: ../build/src/ui_internetsearchview.h:226
 msgid "albums"
@@ -5550,7 +5572,7 @@ msgstr "grootste eerst"
 
 #: ../build/src/ui_backendsettingspage.h:549
 msgid "channels"
-msgstr ""
+msgstr "kanalen"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:264
 msgid "contains"
@@ -5558,7 +5580,7 @@ msgstr "bevat"
 
 #: ../build/src/ui_collectionsettingspage.h:483
 msgid "days"
-msgstr ""
+msgstr "dagen"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:203
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
@@ -5661,7 +5683,7 @@ msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:546
 msgid "pcm"
-msgstr ""
+msgstr "pcm"
 
 #: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:100
 #, c-format, qt-plural-format
