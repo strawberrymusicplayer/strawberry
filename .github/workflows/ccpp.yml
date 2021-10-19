@@ -1087,11 +1087,12 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstasfmux.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstlibav.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstopenmpt.dll
+          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstdash.dll
           ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
 
       - name: Copy extra binaries
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,killproc.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe} .
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe} .
 
       - name: Copy dependencies
         working-directory: build
@@ -1241,11 +1242,12 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstasfmux.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstlibav.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstopenmpt.dll
+          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstdash.dll
           ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
 
       - name: Copy extra binaries
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,killproc.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe} .
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe} .
 
       - name: Copy dependencies
         working-directory: build
