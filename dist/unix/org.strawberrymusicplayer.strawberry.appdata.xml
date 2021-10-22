@@ -49,4 +49,7 @@
     </screenshot>
   </screenshots>
   <update_contact>eclipseo@fedoraproject.org</update_contact>
+    <releases>
+        <release version="1.0.0" date="2021-10-16"/>
+    </releases>
 </component>
