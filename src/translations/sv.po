@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-10-18 01:12-0400\n"
+"PO-Revision-Date: 2021-10-22 09:02-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -347,7 +347,7 @@ msgstr "&Musik"
 
 #: ../build/src/ui_mainwindow.h:695
 msgid "&Mute"
-msgstr "&Tysta"
+msgstr "&Ljud av"
 
 #: ../build/src/ui_mainwindow.h:679
 msgid "&New playlist"
@@ -3175,7 +3175,7 @@ msgstr "Musik"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:72
 msgid "Mute"
-msgstr "Tysta"
+msgstr "Ljud av"
 
 #: equalizer/equalizer.cpp:211 collection/savedgroupingmanager.cpp:57
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:80
