@@ -68,6 +68,7 @@ void PlaylistSettingsPage::Load() {
   ui_->checkbox_greyout_songs_startup->setChecked(s.value("greyout_songs_startup", true).toBool());
   ui_->checkbox_greyout_songs_play->setChecked(s.value("greyout_songs_play", true).toBool());
   ui_->checkbox_select_track->setChecked(s.value("select_track", false).toBool());
+  ui_->checkbox_show_toolbar->setChecked(s.value("show_toolbar", true).toBool());
   ui_->checkbox_playlist_clear->setChecked(s.value("playlist_clear", true).toBool());
   ui_->checkbox_auto_sort->setChecked(s.value("auto_sort", false).toBool());
 
