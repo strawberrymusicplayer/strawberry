@@ -271,7 +271,7 @@ bool PlaylistContainer::SearchFieldHasFocus() const {
 }
 
 void PlaylistContainer::FocusSearchField() {
-  if ui_->toolbar->isVisible()) {
+  if (ui_->toolbar->isVisible()) {
     ui_->filter->setFocus();
   }
 }
