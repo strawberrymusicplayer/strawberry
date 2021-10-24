@@ -2,6 +2,20 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fix collection and internet search filter menu button arrow overlap.
+    * Fix stop after this track button with Qt 6.
+
+  Enhancements:
+    * Make playlist header column text elided.
+    * Add support for reading and writing playcounts and ratings to/from tags.
+    * Add support for setting rating using the edit tag dialog.
+    * Add setting to enable/disable playlist toolbar.
+    * Add component type, content_rating type and releases to appstream data file.
+    * (Windows) Add gstreamer dash plugin.
+
 Version 1.0.0 (2021.10.14)
 
   Bugfixes:
