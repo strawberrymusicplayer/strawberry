@@ -233,9 +233,9 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
   // apart, so we keep specific behavior for some formats by adding another "else if" block below.
-  if (TagLib::Ogg::XiphComment *tag_ogg = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    ParseOggTag(tag_ogg->fieldListMap(), &disc, &compilation, song);
-    if (!tag_ogg->pictureList().isEmpty()) {
+  if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
+    ParseOggTag(xiph_comment->fieldListMap(), &disc, &compilation, song);
+    if (!xiph_comment->pictureList().isEmpty()) {
       song->set_art_automatic(kEmbeddedCover);
     }
   }
@@ -319,7 +319,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
       }
 
       if (!map["POPM"].isEmpty()) {
-        const TagLib::ID3v2::PopularimeterFrame* frame = dynamic_cast<const TagLib::ID3v2::PopularimeterFrame*>(map["POPM"].front());
+        const TagLib::ID3v2::PopularimeterFrame *frame = dynamic_cast<const TagLib::ID3v2::PopularimeterFrame*>(map["POPM"].front());
         if (frame) {
           if (song->playcount() <= 0 && frame->counter() > 0) {
             song->set_playcount(frame->counter());
@@ -520,7 +520,7 @@ void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString 
   if (!map["COVERART"].isEmpty()) song->set_art_automatic(kEmbeddedCover);
   if (!map["METADATA_BLOCK_PICTURE"].isEmpty()) song->set_art_automatic(kEmbeddedCover);
 
-  if (!map["FMPS_PLAYCOUNT"].isEmpty() && song->playcount() <= 0) song->set_playcount(TStringToQString( map["FMPS_PLAYCOUNT"].front() ).trimmed().toFloat());
+  if (!map["FMPS_PLAYCOUNT"].isEmpty() && song->playcount() <= 0) song->set_playcount(TStringToQString(map["FMPS_PLAYCOUNT"].front()).trimmed().toFloat());
   if (!map["FMPS_RATING"].isEmpty() && song->rating() <= 0) song->set_rating(TStringToQString(map["FMPS_RATING"].front()).trimmed().toFloat());
 
   if (!map["LYRICS"].isEmpty()) Decode(map["LYRICS"].front(), song->mutable_lyrics());
@@ -663,8 +663,8 @@ bool TagReaderTagLib::SaveFile(const QString &filename, const spb::tagreader::So
 
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
   // apart, so we keep specific behavior for some formats by adding another "else if" block above.
-  if (TagLib::Ogg::XiphComment *tag = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    SetVorbisComments(tag, song);
+  if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
+    SetVorbisComments(xiph_comment, song);
   }
 
   result = fileref->save();
@@ -725,6 +725,31 @@ void TagReaderTagLib::SetTextFrame(const char *id, const std::string &value, Tag
     // add frame takes ownership and clears the memory
     tag->addFrame(frame);
   }
+
+}
+
+void TagReaderTagLib::SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const {
+
+  const QByteArray descr_utf8(description.toUtf8());
+  const QByteArray value_utf8(value.toUtf8());
+  qLog(Debug) << "Setting FMPSFrame:" << description << ", " << value;
+  SetUserTextFrame(std::string(descr_utf8.constData(), descr_utf8.length()), std::string(value_utf8.constData(), value_utf8.length()), tag);
+
+}
+
+void TagReaderTagLib::SetUserTextFrame(const std::string &description, const std::string &value, TagLib::ID3v2::Tag *tag) const {
+
+  const TagLib::String t_description = StdStringToTaglibString(description);
+  TagLib::ID3v2::UserTextIdentificationFrame *frame = TagLib::ID3v2::UserTextIdentificationFrame::find(tag, t_description);
+  if (frame) {
+    tag->removeFrame(frame);
+  }
+
+  // Create and add a new frame
+  frame = new TagLib::ID3v2::UserTextIdentificationFrame(TagLib::String::UTF8);
+  frame->setDescription(t_description);
+  frame->setText(StdStringToTaglibString(value));
+  tag->addFrame(frame);
 
 }
 
@@ -1001,5 +1026,178 @@ int TagReaderTagLib::ConvertToPOPMRating(const float rating) {
   else if (rating < 1.0)  return 0xC0;
 
   return 0xFF;
+
+}
+
+bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
+
+  if (filename.isEmpty()) return false;
+
+  qLog(Debug) << "Saving song playcount to" << filename;
+
+  std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  if (!fileref || fileref->isNull()) return false;
+
+  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
+    TagLib::Ogg::XiphComment *vorbis_comments = flac_file->xiphComment(true);
+    if (vorbis_comments) {
+      if (song.playcount() > 0) {
+        vorbis_comments->addField("FMPS_PLAYCOUNT", TagLib::String::number(song.playcount()), true);
+      }
+      else {
+        vorbis_comments->removeFields("FMPS_PLAYCOUNT");
+      }
+    }
+  }
+  else if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
+    TagLib::APE::Tag *tag = wavpack_file->APETag(true);
+    if (tag && song.playcount() > 0) {
+      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(song.playcount())));
+    }
+  }
+  else if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
+    TagLib::APE::Tag *tag = ape_file->APETag(true);
+    if (tag && song.playcount() > 0) {
+      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(song.playcount())));
+    }
+  }
+  else if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
+    if (song.playcount() > 0) {
+      xiph_comment->addField("FMPS_PLAYCOUNT", TagLib::String::number(song.playcount()), true);
+    }
+    else {
+      xiph_comment->removeFields("FMPS_PLAYCOUNT");
+    }
+  }
+  else if (TagLib::MPEG::File *mpeg_file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
+    TagLib::ID3v2::Tag *tag = mpeg_file->ID3v2Tag(true);
+    if (tag && song.playcount() > 0) {
+      SetUserTextFrame("FMPS_PlayCount", QString::number(song.playcount()), tag);
+      TagLib::ID3v2::PopularimeterFrame *frame = GetPOPMFrameFromTag(tag);
+      if (frame) {
+        frame->setCounter(song.playcount());
+      }
+    }
+
+  }
+  else if (TagLib::MP4::File *mp4_file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
+    TagLib::MP4::Tag *tag = mp4_file->tag();
+    if (tag && song.playcount() > 0) {
+      tag->setItem(kMP4_FMPS_Playcount_ID, TagLib::MP4::Item(TagLib::String::number(song.playcount())));
+    }
+  }
+  else if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
+    TagLib::APE::Tag *tag = mpc_file->APETag(true);
+    if (tag && song.playcount() > 0) {
+      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(song.playcount())));
+    }
+  }
+  else if (TagLib::ASF::File *asf_file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
+    TagLib::ASF::Tag *tag = asf_file->tag();
+    if (tag && song.playcount() > 0) {
+      tag->addAttribute("FMPS/Playcount", TagLib::ASF::Attribute(QStringToTaglibString(QString::number(song.playcount()))));
+    }
+  }
+  else {
+    return true;
+  }
+
+  bool ret = fileref->save();
+#ifdef Q_OS_LINUX
+  if (ret) {
+    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
+    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
+  }
+#endif  // Q_OS_LINUX
+
+  return ret;
+}
+
+bool TagReaderTagLib::SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
+
+  if (filename.isNull()) return false;
+
+  qLog(Debug) << "Saving song rating to" << filename;
+
+  if (song.rating() < 0) {
+    return true;
+  }
+
+  std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+
+  if (!fileref || fileref->isNull()) return false;
+
+  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
+    TagLib::Ogg::XiphComment *vorbis_comments = flac_file->xiphComment(true);
+    if (vorbis_comments) {
+      if (song.rating() > 0) {
+        vorbis_comments->addField("FMPS_RATING", QStringToTaglibString(QString::number(song.rating())), true);
+      }
+      else {
+        vorbis_comments->removeFields("FMPS_RATING");
+      }
+    }
+  }
+  else if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
+    TagLib::APE::Tag *tag = wavpack_file->APETag(true);
+    if (tag) {
+      tag->setItem("FMPS_Rating", TagLib::APE::Item("FMPS_Rating", TagLib::StringList(QStringToTaglibString(QString::number(song.rating())))));
+    }
+  }
+  else if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
+    TagLib::APE::Tag *tag = ape_file->APETag(true);
+    if (tag) {
+      tag->setItem("FMPS_Rating", TagLib::APE::Item("FMPS_Rating", TagLib::StringList(QStringToTaglibString(QString::number(song.rating())))));
+    }
+  }
+  else if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
+    if (song.rating() > 0) {
+      xiph_comment->addField("FMPS_RATING", QStringToTaglibString(QString::number(song.rating())), true);
+    }
+    else {
+      xiph_comment->removeFields("FMPS_RATING");
+    }
+  }
+  else if (TagLib::MPEG::File *mpeg_file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
+    TagLib::ID3v2::Tag *tag = mpeg_file->ID3v2Tag(true);
+    if (tag) {
+      SetUserTextFrame("FMPS_Rating", QString::number(song.rating()), tag);
+      TagLib::ID3v2::PopularimeterFrame *frame = GetPOPMFrameFromTag(tag);
+      if (frame) {
+        frame->setRating(ConvertToPOPMRating(song.rating()));
+      }
+    }
+  }
+  else if (TagLib::MP4::File *mp4_file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
+    TagLib::MP4::Tag *tag = mp4_file->tag();
+    if (tag) {
+      tag->setItem(kMP4_FMPS_Rating_ID, TagLib::StringList(QStringToTaglibString(QString::number(song.rating()))));
+    }
+  }
+  else if (TagLib::ASF::File *asf_file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
+    TagLib::ASF::Tag *tag = asf_file->tag();
+    if (tag) {
+      tag->addAttribute("FMPS/Rating", TagLib::ASF::Attribute(QStringToTaglibString(QString::number(song.rating()))));
+    }
+  }
+  else if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
+    TagLib::APE::Tag *tag = mpc_file->APETag(true);
+    if (tag) {
+      tag->setItem("FMPS_Rating", TagLib::APE::Item("FMPS_Rating", TagLib::StringList(QStringToTaglibString(QString::number(song.rating())))));
+    }
+  }
+  else {
+    return true;
+  }
+
+  bool ret = fileref->save();
+#ifdef Q_OS_LINUX
+  if (ret) {
+    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
+    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
+  }
+#endif  // Q_OS_LINUX
+
+  return ret;
 
 }

@@ -56,6 +56,9 @@ class TagReaderTagLib : public TagReaderBase {
   QByteArray LoadEmbeddedArt(const QString &filename) const override;
   bool SaveEmbeddedArt(const QString &filename, const QByteArray &data) override;
 
+  bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+  bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+
  private:
   spb::tagreader::SongMetadata_FileType GuessFileType(TagLib::FileRef *fileref) const;
 
@@ -70,6 +73,8 @@ class TagReaderTagLib : public TagReaderBase {
 
   void SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const;
+  void SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const;
+  void SetUserTextFrame(const std::string &description, const std::string &value, TagLib::ID3v2::Tag *tag) const;
   void SetUnsyncLyricsFrame(const std::string& value, TagLib::ID3v2::Tag* tag) const;
 
   QByteArray LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const;

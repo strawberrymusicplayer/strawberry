@@ -51,6 +51,13 @@ void TagReaderWorker::MessageArrived(const spb::tagreader::Message &message) {
     reply.mutable_save_embedded_art_response()->set_success(tag_reader_.SaveEmbeddedArt(QStringFromStdString(message.save_embedded_art_request().filename()), QByteArray(message.save_embedded_art_request().data().data(), message.save_embedded_art_request().data().size())));
   }
 
+  else if (message.has_save_song_playcount_to_file_request()) {
+    reply.mutable_save_song_playcount_to_file_response()->set_success(tag_reader_.SaveSongPlaycountToFile(QStringFromStdString(message.save_song_playcount_to_file_request().filename()), message.save_song_playcount_to_file_request().metadata()));
+  }
+  else if (message.has_save_song_rating_to_file_request()) {
+    reply.mutable_save_song_rating_to_file_response()->set_success(tag_reader_.SaveSongRatingToFile(QStringFromStdString(message.save_song_rating_to_file_request().filename()), message.save_song_rating_to_file_request().metadata()));
+  }
+
   SendReply(message, &reply);
 
 }

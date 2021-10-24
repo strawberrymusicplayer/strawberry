@@ -82,6 +82,7 @@ class CollectionSettingsPage : public SettingsPage {
   void ClearPixmapDiskCache();
   void CacheSizeUnitChanged(int index);
   void DiskCacheSizeUnitChanged(int index);
+  void WriteAllSongsStatisticsToFiles();
 
  private:
   Ui_CollectionSettingsPage *ui_;

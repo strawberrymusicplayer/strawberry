@@ -117,6 +117,24 @@ message SaveEmbeddedArtResponse {
   optional bool success = 1;
 }
 
+message SaveSongPlaycountToFileRequest {
+  optional string filename = 1;
+  optional SongMetadata metadata = 2;
+}
+
+message SaveSongPlaycountToFileResponse {
+  optional bool success = 1;
+}
+
+message SaveSongRatingToFileRequest {
+  optional string filename = 1;
+  optional SongMetadata metadata = 2;
+}
+
+message SaveSongRatingToFileResponse {
+  optional bool success = 1;
+}
+
 message Message {
   optional int32 id = 1;
 
@@ -134,5 +152,11 @@ message Message {
 
   optional SaveEmbeddedArtRequest save_embedded_art_request = 10;
   optional SaveEmbeddedArtResponse save_embedded_art_response = 11;
+
+  optional SaveSongPlaycountToFileRequest save_song_playcount_to_file_request = 12;
+  optional SaveSongPlaycountToFileResponse save_song_playcount_to_file_response = 13;
+
+  optional SaveSongRatingToFileRequest save_song_rating_to_file_request = 14;
+  optional SaveSongRatingToFileResponse save_song_rating_to_file_response = 15;
 
 }

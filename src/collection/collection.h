@@ -59,9 +59,10 @@ class SCollection : public QObject {
 
   QString full_rescan_reason(int schema_version) const { return full_rescan_revisions_.value(schema_version, QString()); }
 
-  int Total_Albums = 0;
-  int total_songs_ = 0;
-  int Total_Artists = 0;
+  void SyncPlaycountAndRatingToFilesAsync();
+
+ private:
+  void SyncPlaycountAndRatingToFiles();
 
  public slots:
   void ReloadSettings();
@@ -77,6 +78,8 @@ class SCollection : public QObject {
 
  private slots:
   void ExitReceived();
+  void SongsPlaycountChanged(const SongList &songs);
+  void SongsRatingChanged(const SongList &songs, const bool save_tags = false);
 
  signals:
   void Error(QString);
@@ -95,6 +98,9 @@ class SCollection : public QObject {
   QHash<int, QString> full_rescan_revisions_;
 
   QList<QObject*> wait_for_exit_;
+
+  bool save_playcounts_to_files_;
+  bool save_ratings_to_files_;
 };
 
 #endif

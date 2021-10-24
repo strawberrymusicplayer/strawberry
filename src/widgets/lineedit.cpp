@@ -260,3 +260,12 @@ QString SpinBox::textFromValue(int val) const {
   return QSpinBox::textFromValue(val);
 
 }
+
+RatingBox::RatingBox(QWidget *parent)
+  : RatingWidget(parent),
+    ExtendedEditor(this) {
+
+  clear_button_->hide();
+  reset_button_->hide();
+
+}

@@ -33,6 +33,8 @@
 #include <QSpinBox>
 #include <QCheckBox>
 
+#include "ratingwidget.h"
+
 class QToolButton;
 class QPaintDevice;
 class QPaintEvent;
@@ -229,6 +231,27 @@ class CheckBox : public QCheckBox, public ExtendedEditor {
 
  signals:
   void Reset();
+};
+
+class RatingBox : public RatingWidget, public ExtendedEditor {
+  Q_OBJECT
+
+  Q_PROPERTY(QString hint READ hint WRITE set_hint)
+
+ public:
+  explicit RatingBox(QWidget *parent = nullptr);
+
+  void set_enabled(bool enabled) override { RatingWidget::setEnabled(enabled); }
+
+  QVariant value() const override { return RatingWidget::rating(); }
+  void set_value(const QVariant &value) override { RatingWidget::set_rating(value.toDouble()); }
+
+  void set_partially() override { RatingWidget::set_rating(0.0); }
+
+ public slots:
+  void set_focus() override { RatingWidget::setFocus(); }
+  void clear() override {}
+
 };
 
 #endif  // LINEEDIT_H
