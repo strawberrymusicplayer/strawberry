@@ -89,7 +89,11 @@ void OSDBase::ReloadSettings() {
   custom_text2_ = s.value("CustomText2").toString();
   s.endGroup();
 
+#ifdef Q_OS_WIN32
+  if (!SupportsNativeNotifications() && !SupportsTrayPopups() && behaviour_ == Native) {
+#else
   if (!SupportsNativeNotifications() && behaviour_ == Native) {
+#endif
     behaviour_ = Pretty;
   }
 
@@ -302,6 +306,10 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
   else {
     switch (behaviour_) {
       case Native:
+#ifdef Q_OS_WIN32
+      Q_UNUSED(icon)
+      // fallthrough
+#else
         if (image.isNull()) {
           ShowMessageNative(summary, message, icon, QImage());
         }
@@ -309,13 +317,14 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
           ShowMessageNative(summary, message, QString(), image);
         }
         break;
-
-#ifndef Q_OS_MACOS
+#endif
       case TrayPopup:
+#ifdef Q_OS_MACOS
+      // fallthrough
+#else
         if (tray_icon_) tray_icon_->ShowPopup(summary, message, timeout_msec_);
         break;
 #endif
-
       case Disabled:
         if (!force_show_next_) break;
         force_show_next_ = false;
@@ -393,6 +402,8 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
         }
       }
       break;
+#elif defined(Q_OS_WIN32)
+    // fallthrough
 #else
       // Other OSes doesn't support native notifications.
       qLog(Debug) << "Native notifications are not supported on this OS.";
