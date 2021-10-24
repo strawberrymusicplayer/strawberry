@@ -45,7 +45,7 @@
       </size>
      </property>
      <property name="popupMode">
-      <enum>QToolButton::MenuButtonPopup</enum>
+      <enum>QToolButton::InstantPopup</enum>
      </property>
     </widget>
    </item>
