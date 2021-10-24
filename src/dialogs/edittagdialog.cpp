@@ -1271,7 +1271,7 @@ void EditTagDialog::SongRated(const float rating) {
   if (indexes.isEmpty()) return;
 
   for (const QModelIndex &idx : indexes) {
-    if (!data_[idx.row()].current_.is_valid() || data_[idx.row()].current_.id() == -1) return;
+    if (!data_[idx.row()].current_.is_valid() || data_[idx.row()].current_.id() == -1) continue;
     data_[idx.row()].current_.set_rating(rating);
   }
 
