@@ -61,7 +61,7 @@ class Organize : public QObject {
   };
   typedef QList<NewSongInfo> NewSongInfoList;
 
-  explicit Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool mark_as_listened, const bool albumcover, const NewSongInfoList &songs, const bool eject_after, const QString &playlist = QString(), QObject *parent = nullptr);
+  explicit Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool albumcover, const NewSongInfoList &songs, const bool eject_after, const QString &playlist = QString(), QObject *parent = nullptr);
   ~Organize() override;
 
   static const int kBatchSize;
@@ -117,7 +117,6 @@ class Organize : public QObject {
   const OrganizeFormat format_;
   const bool copy_;
   const bool overwrite_;
-  const bool mark_as_listened_;
   const bool albumcover_;
   const bool eject_after_;
   int task_count_;
