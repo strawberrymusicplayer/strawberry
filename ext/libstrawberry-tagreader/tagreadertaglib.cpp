@@ -318,6 +318,16 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         }
       }
 
+      if (TagLib::ID3v2::UserTextIdentificationFrame *frame_fmps_rating = TagLib::ID3v2::UserTextIdentificationFrame::find(file_mpeg->ID3v2Tag(), "FMPS_Rating")) {
+        TagLib::StringList frame_field_list = frame_fmps_rating->fieldList();
+        if (frame_field_list.size() > 1) {
+          double rating = TStringToQString(frame_field_list[1]).toDouble();
+          if (song->rating() <= 0 && rating > 0 && rating <= 1.0) {
+            song->set_rating(rating);
+          }
+        }
+      }
+
       if (!map["POPM"].isEmpty()) {
         const TagLib::ID3v2::PopularimeterFrame *frame = dynamic_cast<const TagLib::ID3v2::PopularimeterFrame*>(map["POPM"].front());
         if (frame) {
