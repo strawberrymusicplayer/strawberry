@@ -744,7 +744,6 @@ void TagReaderTagLib::SetUserTextFrame(const QString &description, const QString
 
   const QByteArray descr_utf8(description.toUtf8());
   const QByteArray value_utf8(value.toUtf8());
-  qLog(Debug) << "Setting FMPSFrame:" << description << ", " << value;
   SetUserTextFrame(std::string(descr_utf8.constData(), descr_utf8.length()), std::string(value_utf8.constData(), value_utf8.length()), tag);
 
 }
