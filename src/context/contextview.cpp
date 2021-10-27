@@ -294,7 +294,10 @@ ContextView::ContextView(QWidget *parent)
 
 void ContextView::resizeEvent(QResizeEvent*) {
 
-  widget_album_->setFixedSize(width() - 15, width());
+  if (width() != prev_width_) {
+    widget_album_->setFixedSize(width() - 15, width());
+    prev_width_ = width();
+  }
 
 }
 
