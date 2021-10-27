@@ -119,22 +119,22 @@ msgstr " számok"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 scrobbler hitelesítés"
 
-#: context/contextview.cpp:471
+#: context/contextview.cpp:474
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:472
+#: context/contextview.cpp:475
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 album"
 
-#: context/contextview.cpp:467
+#: context/contextview.cpp:470
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 előadó"
 
-#: context/contextview.cpp:468
+#: context/contextview.cpp:471
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 előadó"
@@ -175,7 +175,7 @@ msgstr "%1 lejátszólista (%2)"
 msgid "%1 selected of"
 msgstr "%1 kiválasztva ennyiből:"
 
-#: context/contextview.cpp:463
+#: context/contextview.cpp:466
 #, qt-format
 msgid "%1 song"
 msgstr "%1 szám"
@@ -185,7 +185,7 @@ msgstr "%1 szám"
 msgid "%1 song%2"
 msgstr "%1 szám%2"
 
-#: context/contextview.cpp:464
+#: context/contextview.cpp:467
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 szám"
@@ -826,7 +826,7 @@ msgstr "Albumborító mérete"
 msgid "Albums"
 msgstr "Albumok"
 
-#: context/contextview.cpp:612
+#: context/contextview.cpp:615
 #, qt-format
 msgid "Albums by %1"
 msgstr "Albumok ettől: %1"
@@ -1060,7 +1060,7 @@ msgstr "Egyelemű kategóriák automatikus listázása a gyűjteményben"
 msgid "Automatically search for album cover"
 msgstr "Albumborító automatikus keresése"
 
-#: context/contextview.cpp:342 ../build/src/ui_contextsettingspage.h:446
+#: context/contextview.cpp:345 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
 msgstr "Dalszövegek automatikus keresése"
 
@@ -3285,7 +3285,7 @@ msgstr "Nincsenek szolgáltatók kiválasztva."
 msgid "No short blocks"
 msgstr "Rövid blokkok nélkül"
 
-#: context/contextview.cpp:460
+#: context/contextview.cpp:463
 msgid "No song playing"
 msgstr "Nincs lejátszott szám"
 
@@ -4431,7 +4431,7 @@ msgstr "Saját OSD megjelenítése"
 msgid "Show above status bar"
 msgstr "Megjelenítés az állapotsáv felett"
 
-#: context/contextview.cpp:322
+#: context/contextview.cpp:325
 msgid "Show album cover"
 msgstr "Albumborító megjelenítése"
 
@@ -4439,7 +4439,7 @@ msgstr "Albumborító megjelenítése"
 msgid "Show album cover art in collection"
 msgstr "Albumborító megjelenítése a gyűjteményben"
 
-#: context/contextview.cpp:334
+#: context/contextview.cpp:337
 msgid "Show albums by artist"
 msgstr "Albumok megjelenítése az előadótól"
 
@@ -4459,7 +4459,7 @@ msgstr "Párbeszédablak megjelenítése hibáknál"
 msgid "Show dividers"
 msgstr "Elválasztók megjelenítése"
 
-#: context/contextview.cpp:330
+#: context/contextview.cpp:333
 msgid "Show engine and device"
 msgstr "Motor és eszköz megjelenítése"
 
@@ -4512,7 +4512,7 @@ msgstr "Scrobble gomb megjelenítése"
 msgid "Show sidebar"
 msgstr "Oldalsáv megjelenítése"
 
-#: context/contextview.cpp:338
+#: context/contextview.cpp:341
 msgid "Show song lyrics"
 msgstr "Dalszöveg megjelenítése"
 
@@ -4520,7 +4520,7 @@ msgstr "Dalszöveg megjelenítése"
 msgid "Show song progress on system tray icon"
 msgstr "Lejátszási folyamatjelző megjelenítése a rendszertálca ikonon"
 
-#: context/contextview.cpp:326
+#: context/contextview.cpp:329
 msgid "Show song technical data"
 msgstr "Műszaki adatok megjelenítése"
 
@@ -5670,7 +5670,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "a végén"
 
-#: context/contextview.cpp:548 context/contextview.cpp:698
+#: context/contextview.cpp:551 context/contextview.cpp:701
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "kb/s"

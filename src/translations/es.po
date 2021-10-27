@@ -129,22 +129,22 @@ msgstr "temas"
 msgid "%1 Scrobbler Authentication"
 msgstr "Autenticación en el servicio de registro de reproducciones %1"
 
-#: context/contextview.cpp:471
+#: context/contextview.cpp:474
 #, qt-format
 msgid "%1 album"
 msgstr "%1 álbum"
 
-#: context/contextview.cpp:472
+#: context/contextview.cpp:475
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 álbumes"
 
-#: context/contextview.cpp:467
+#: context/contextview.cpp:470
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artista"
 
-#: context/contextview.cpp:468
+#: context/contextview.cpp:471
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artistas"
@@ -185,7 +185,7 @@ msgstr "%1 listas de reproducción (%2)"
 msgid "%1 selected of"
 msgstr "%1 seleccionado de"
 
-#: context/contextview.cpp:463
+#: context/contextview.cpp:466
 #, qt-format
 msgid "%1 song"
 msgstr "%1 canción"
@@ -195,7 +195,7 @@ msgstr "%1 canción"
 msgid "%1 song%2"
 msgstr "%1 canción%2"
 
-#: context/contextview.cpp:464
+#: context/contextview.cpp:467
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 canciones"
@@ -835,7 +835,7 @@ msgstr "Tamaño de la cubierta del álbum"
 msgid "Albums"
 msgstr "Álbumes"
 
-#: context/contextview.cpp:612
+#: context/contextview.cpp:615
 #, qt-format
 msgid "Albums by %1"
 msgstr "Álbumes de %1"
@@ -1069,7 +1069,7 @@ msgstr "Expandir automáticamente categorías únicas en la colección"
 msgid "Automatically search for album cover"
 msgstr "Buscar automáticamente la cubierta del álbum"
 
-#: context/contextview.cpp:342 ../build/src/ui_contextsettingspage.h:446
+#: context/contextview.cpp:345 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
 msgstr "Buscar automáticamente la letra de la canción"
 
@@ -3304,7 +3304,7 @@ msgstr "No se ha seleccionado ningún proveedor."
 msgid "No short blocks"
 msgstr "Sin bloques cortos"
 
-#: context/contextview.cpp:460
+#: context/contextview.cpp:463
 msgid "No song playing"
 msgstr "No suena nada"
 
@@ -4453,7 +4453,7 @@ msgstr "Mostrar panel de información en pantalla chulo"
 msgid "Show above status bar"
 msgstr "Mostrar sobre la barra de estado"
 
-#: context/contextview.cpp:322
+#: context/contextview.cpp:325
 msgid "Show album cover"
 msgstr "Mostrar cubierta del álbum"
 
@@ -4461,7 +4461,7 @@ msgstr "Mostrar cubierta del álbum"
 msgid "Show album cover art in collection"
 msgstr "Mostrar cubierta del álbum en la colección"
 
-#: context/contextview.cpp:334
+#: context/contextview.cpp:337
 msgid "Show albums by artist"
 msgstr "Mostrar álbumes por artista"
 
@@ -4481,7 +4481,7 @@ msgstr "Mostrar errores"
 msgid "Show dividers"
 msgstr "Mostrar divisores"
 
-#: context/contextview.cpp:330
+#: context/contextview.cpp:333
 msgid "Show engine and device"
 msgstr "Mostrar motor y dispositivo"
 
@@ -4534,7 +4534,7 @@ msgstr "Mostrar botón de registro de reproducción"
 msgid "Show sidebar"
 msgstr "Mostrar barra lateral"
 
-#: context/contextview.cpp:338
+#: context/contextview.cpp:341
 msgid "Show song lyrics"
 msgstr "Mostrar letras"
 
@@ -4542,7 +4542,7 @@ msgstr "Mostrar letras"
 msgid "Show song progress on system tray icon"
 msgstr "Mostrar avance en el icono de la bandeja del sistema"
 
-#: context/contextview.cpp:326
+#: context/contextview.cpp:329
 msgid "Show song technical data"
 msgstr "Mostrar información técnica de la canción"
 
@@ -5698,7 +5698,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "en el último"
 
-#: context/contextview.cpp:548 context/contextview.cpp:698
+#: context/contextview.cpp:551 context/contextview.cpp:701
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "kb/s"
