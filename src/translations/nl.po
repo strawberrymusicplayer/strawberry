@@ -8,14 +8,15 @@
 # PapaCoen <transifex@navelpluis.nl>, 2012
 # valorcurse <valorcurse@gmail.com>, 2012
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
+# Wim Cossement <sonicwim@gmail.com>, 2021. #zanata
 # bertus <bertus.w@gmail.com>, 2021. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-10-18 06:33-0400\n"
-"Last-Translator: bertus <bertus.w@gmail.com>\n"
+"PO-Revision-Date: 2021-10-28 10:33-0400\n"
+"Last-Translator: Wim Cossement <sonicwim@gmail.com>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -250,11 +251,11 @@ msgstr "%n resterend"
 #: ../build/src/ui_contextsettingspage.h:428
 #: ../build/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
-msgstr "%originalyear%"
+msgstr "%origineeljaar%"
 
 #: ../build/src/ui_contextsettingspage.h:424
 msgid "%rating%"
-msgstr "%rating%"
+msgstr "%waardering%"
 
 #: ../build/src/ui_contextsettingspage.h:433
 msgid "%title - %artist%"
@@ -267,43 +268,43 @@ msgstr "%url%"
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
-msgstr ""
+msgstr "&Over Strawberry"
 
 #: ../build/src/ui_mainwindow.h:661
 msgid "&Add file..."
-msgstr ""
+msgstr "&Bestand toevoegen..."
 
 #: playlist/playlistheader.cpp:63
 msgid "&Align text"
-msgstr ""
+msgstr "&Tekst uitlijnen"
 
 #: playlist/playlistheader.cpp:66
 msgid "&Center"
-msgstr ""
+msgstr "&Centreren"
 
 #: ../build/src/ui_mainwindow.h:632
 msgid "&Clear playlist"
-msgstr ""
+msgstr "&Afspeellijst wissen"
 
 #: ../build/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
-msgstr ""
+msgstr "&Albumhoesbeheerder"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
-msgstr ""
+msgstr "&Op maat"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:285
 msgid "&Default"
-msgstr ""
+msgstr "&Standaard"
 
 #: ../build/src/ui_mainwindow.h:699
 msgid "&Do a full collection rescan"
-msgstr ""
+msgstr "&Herscan volledige collectie"
 
 #: ../build/src/ui_mainwindow.h:672
 msgid "&Equalizer"
-msgstr ""
+msgstr "&Equalizer"
 
 #: playlist/playlistheader.cpp:102
 #, qt-format
@@ -316,7 +317,7 @@ msgstr "&Verbergen…"
 
 #: ../build/src/ui_mainwindow.h:675
 msgid "&Jump to the currently playing track"
-msgstr ""
+msgstr "&Spring naar het nummer dat nu wordt afgespeed"
 
 #: playlist/playlistheader.cpp:65
 msgid "&Left"
@@ -324,15 +325,15 @@ msgstr "&Links"
 
 #: ../build/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
-msgstr ""
+msgstr "&Afspeellijst laden..."
 
 #: playlist/playlistheader.cpp:59
 msgid "&Lock rating"
-msgstr ""
+msgstr "&Waardering vergrendelen"
 
 #: ../build/src/ui_networkproxysettingspage.h:173
 msgid "&Manual proxy configuration"
-msgstr ""
+msgstr "&Handmatige configuratie proxy"
 
 #: ../build/src/ui_mainwindow.h:716
 msgid "&Music"
@@ -340,19 +341,19 @@ msgstr "&Muziek"
 
 #: ../build/src/ui_mainwindow.h:695
 msgid "&Mute"
-msgstr ""
+msgstr "&Dempen"
 
 #: ../build/src/ui_mainwindow.h:679
 msgid "&New playlist"
-msgstr ""
+msgstr "&Nieuwe afspeellijst"
 
 #: ../build/src/ui_mainwindow.h:619
 msgid "&Next track"
-msgstr ""
+msgstr "&Volgend nummer"
 
 #: ../build/src/ui_appearancesettingspage.h:601
 msgid "&No background image"
-msgstr ""
+msgstr "&Geen achtergrondafbeelding"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:284
 msgid "&None"
@@ -360,11 +361,11 @@ msgstr "Gee&n"
 
 #: ../build/src/ui_mainwindow.h:665
 msgid "&Open file..."
-msgstr ""
+msgstr "&Bestand openen..."
 
 #: ../build/src/ui_mainwindow.h:611
 msgid "&Play"
-msgstr ""
+msgstr "&Afspelen"
 
 #: ../build/src/ui_mainwindow.h:623
 msgid "&Quit"
@@ -376,7 +377,7 @@ msgstr "&Herhaalmodus"
 
 #: playlist/playlistheader.cpp:58
 msgid "&Reset columns to default"
-msgstr ""
+msgstr "&Kolommen opnieuw instellen"
 
 #: playlist/playlistheader.cpp:67
 msgid "&Right"
@@ -384,7 +385,7 @@ msgstr "&Rechts"
 
 #: ../build/src/ui_mainwindow.h:649
 msgid "&Settings..."
-msgstr ""
+msgstr "&Instellingen..."
 
 #: ../build/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
@@ -392,7 +393,7 @@ msgstr "&Willekeurige modus"
 
 #: ../build/src/ui_mainwindow.h:615
 msgid "&Stop"
-msgstr ""
+msgstr "&Stoppen"
 
 #: playlist/playlistheader.cpp:57
 msgid "&Stretch columns to fit window"
@@ -404,11 +405,11 @@ msgstr "&Hulpmiddelen"
 
 #: ../build/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
-msgstr ""
+msgstr "&Muziek transcoderen"
 
 #: ../build/src/ui_mainwindow.h:693
 msgid "&Update changed collection folders"
-msgstr ""
+msgstr "&Aangepaste mappen in collectie bijwerken"
 
 #: ../build/src/ui_appearancesettingspage.h:594
 msgid "&Use the system default color"
