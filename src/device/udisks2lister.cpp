@@ -53,8 +53,6 @@
 
 #include "udisks2lister.h"
 
-constexpr char Udisks2Lister::udisks2_service_[];
-
 Udisks2Lister::Udisks2Lister(QObject *parent) : DeviceLister(parent) {}
 
 Udisks2Lister::~Udisks2Lister() = default;
