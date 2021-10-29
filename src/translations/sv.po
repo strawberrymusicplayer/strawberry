@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-10-22 09:02-0400\n"
+"PO-Revision-Date: 2021-10-29 12:59-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -961,6 +961,8 @@ msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
 msgstr ""
+"Är du säker på att du vill skriva uppspelningsantal och betyg för alla låtar "
+"i din samling?"
 
 #: ../build/src/ui_edittagdialog.h:826
 msgid "Art Automatic"
@@ -1992,7 +1994,7 @@ msgstr "Aktivera spellistans rensningsknapp"
 
 #: ../build/src/ui_playlistsettingspage.h:178
 msgid "Enable playlist toolbar"
-msgstr ""
+msgstr "Aktivera verktygsfältet för spellistan"
 
 #: ../build/src/ui_scrobblersettingspage.h:417
 msgid "Enable scrobbling for the following sources:"
@@ -3583,12 +3585,13 @@ msgstr "Spela det <n> spåret i spellistan"
 #: dialogs/lastfmimportdialog.cpp:154
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
-msgstr "Spelantal för %1 låtar och senast spelat för %2 mottagna låtar."
+msgstr ""
+"Uppspelningsantal för %1 låtar och senast spelat för %2 mottagna låtar."
 
 #: dialogs/lastfmimportdialog.cpp:160
 #, qt-format
 msgid "Playcounts for %1 songs received."
-msgstr "Spelantal för %1 mottagna låtar."
+msgstr "Uppspelningsantal för %1 mottagna låtar."
 
 #: core/commandlineoptions.cpp:170
 msgid "Player options"
@@ -3866,12 +3869,13 @@ msgstr "Tar emot senast spelade för %1 låtar."
 #: dialogs/lastfmimportdialog.cpp:131
 #, qt-format
 msgid "Receiving playcount for %1 songs and last played for %2 songs."
-msgstr "Tar emot spelantal för %1 låtar och spelades senast för %2 låtar."
+msgstr ""
+"Tar emot uppspelningsantal för %1 låtar och spelades senast för %2 låtar."
 
 #: dialogs/lastfmimportdialog.cpp:137
 #, qt-format
 msgid "Receiving playcounts for %1 songs."
-msgstr "Tar emot spelantal för %1 låtar."
+msgstr "Tar emot uppspelningsantal för %1 låtar."
 
 #: lyrics/geniuslyricsprovider.cpp:205
 msgid "Redirect from Genius is missing query items code or state."
@@ -4174,11 +4178,11 @@ msgstr "Spara aktuell gruppering"
 
 #: ../build/src/ui_collectionsettingspage.h:553
 msgid "Save playcounts and ratings to files now"
-msgstr ""
+msgstr "Spara uppspelningsantal och betyg till filer nu"
 
 #: ../build/src/ui_collectionsettingspage.h:551
 msgid "Save playcounts to song tags when possible"
-msgstr ""
+msgstr "Spara uppspelningsantal till låttaggar när det är möjligt "
 
 #: playlist/playlistlistcontainer.cpp:88
 msgctxt "Save playlist menu action."
@@ -4200,7 +4204,7 @@ msgstr "Spara förinställning"
 
 #: ../build/src/ui_collectionsettingspage.h:552
 msgid "Save ratings to song tags when possible"
-msgstr ""
+msgstr "Spara betyg till låttaggar när det är möjligt"
 
 #: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Save the .mood files directly in the songs folders"
@@ -4216,7 +4220,7 @@ msgstr "Spara albumomslag"
 
 #: collection/collection.cpp:196
 msgid "Saving playcounts and ratings"
-msgstr ""
+msgstr "Sparar uppspelningsantal och betyg"
 
 #: dialogs/edittagdialog.cpp:304 dialogs/trackselectiondialog.cpp:292
 msgid "Saving tracks"
@@ -4630,7 +4634,7 @@ msgstr "Fingeravtryck och spårning av låtar"
 
 #: ../build/src/ui_collectionsettingspage.h:550
 msgid "Song playcounts and ratings"
-msgstr ""
+msgstr "Uppspelningsantal och betyg för låtar"
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Songs"
@@ -5461,7 +5465,7 @@ msgstr "Vill du köra en fullständig omskanning nu?"
 
 #: settings/collectionsettingspage.cpp:350
 msgid "Write all playcounts and ratings to files"
-msgstr ""
+msgstr "Skriv alla uppspelningsantal och betyg till filer"
 
 #: ../build/src/ui_playlistsettingspage.h:192
 msgid "Write metadata when saving playlists"
