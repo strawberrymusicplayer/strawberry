@@ -123,6 +123,8 @@ QVariant RadioModel::data(const RadioItem *item, int role) const {
       if (service) return service->Donate();
       break;
     }
+    default:
+      return QVariant();
   }
 
   return QVariant();

@@ -282,6 +282,8 @@ QVariant SmartPlaylistsModel::data(const QModelIndex &idx, const int role) const
     case Qt::DisplayRole:
     case Qt::ToolTipRole:
       return item->DisplayText();
+    default:
+      return QVariant();
   }
 
   return QVariant();

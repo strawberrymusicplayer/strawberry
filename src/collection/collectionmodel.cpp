@@ -808,7 +808,10 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
 
     case Role_SortText:
       return item->SortText();
+    default:
+      return QVariant();
   }
+
   return QVariant();
 
 }
@@ -1871,6 +1874,7 @@ const CollectionModel::GroupBy &CollectionModel::Grouping::operator[](const int 
     case 0: return first;
     case 1: return second;
     case 2: return third;
+    default: break;
   }
   qLog(Error) << "CollectionModel::Grouping[] index out of range" << i;
   return first;
@@ -1883,6 +1887,7 @@ CollectionModel::GroupBy &CollectionModel::Grouping::operator[](const int i) {
     case 0: return first;
     case 1: return second;
     case 2: return third;
+    default: break;
   }
   qLog(Error) << "CollectionModel::Grouping[] index out of range" << i;
 

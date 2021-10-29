@@ -236,7 +236,11 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
 
     case Role_SortText:
       return item->SortText();
+
+    default:
+      return QVariant();
   }
+
   return QVariant();
 
 }
