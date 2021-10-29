@@ -534,7 +534,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
     EXPECT_EQ(songs.count(), song_ids.count());
 
-    for (QMap<QString, Song>::const_iterator it = songs.begin() ; it != songs.end() ; ++it) {
+    for (QMap<QString, Song>::const_iterator it = songs.constBegin() ; it != songs.constEnd() ; ++it) {
       EXPECT_EQ(it.key(), it.value().song_id());
     }
 

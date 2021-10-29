@@ -43,7 +43,7 @@ bool SqlQuery::Exec() {
   last_query_ = executedQuery();
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  for (QMap<QString, QVariant>::const_iterator it = bound_values_.begin(); it != bound_values_.end(); ++it) {
+  for (QMap<QString, QVariant>::const_iterator it = bound_values_.constBegin(); it != bound_values_.constEnd(); ++it) {
     last_query_.replace(it.key(), it.value().toString());
   }
   bound_values_.clear();
