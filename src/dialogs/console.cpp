@@ -40,7 +40,7 @@
 #include "core/application.h"
 #include "core/database.h"
 
-Console::Console(Application *app, QWidget *parent) : QDialog(parent), app_(app) {
+Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_{}, app_(app) {
 
   ui_.setupUi(this);
 
