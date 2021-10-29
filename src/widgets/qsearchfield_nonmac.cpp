@@ -76,7 +76,7 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
 
   clearbutton->setIcon(clearIcon);
   clearbutton->setIconSize(QSize(20, 20));
-  clearbutton->setStyleSheet("border: none; padding: 0px;");
+  clearbutton->setStyleSheet("border: none; padding: 2px;");
   clearbutton->resize(clearbutton->sizeHint());
 
   QObject::connect(clearbutton, &QToolButton::clicked, this, &QSearchField::clear);
