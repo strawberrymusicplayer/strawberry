@@ -19,7 +19,7 @@
 #define GST_MOODBAR_PLUGIN_H
 
 extern "C" {
-  int gstfastspectrum_register_static();
+int gstfastspectrum_register_static();
 }
 
 #endif  // GST_MOODBAR_PLUGIN_H
