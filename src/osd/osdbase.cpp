@@ -57,8 +57,6 @@ OSDBase::OSDBase(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QO
       show_on_pause_(true),
       show_on_resume_(false),
       use_custom_text_(false),
-      custom_text1_(QString()),
-      custom_text2_(QString()),
       force_show_next_(false),
       ignore_next_stopped_(false),
       playing_(false) {
