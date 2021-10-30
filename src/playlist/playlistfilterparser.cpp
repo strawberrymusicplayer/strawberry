@@ -256,7 +256,7 @@ class AndFilter : public FilterTree {
   QList<FilterTree*> children_;
 };
 
-FilterParser::FilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols) : filterstring_(filter), columns_(columns), numerical_columns_(numerical_cols) {}
+FilterParser::FilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols) : iter_{}, end_{}, filterstring_(filter), columns_(columns), numerical_columns_(numerical_cols) {}
 
 FilterTree *FilterParser::parse() {
   iter_ = filterstring_.constBegin();
