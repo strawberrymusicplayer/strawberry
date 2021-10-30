@@ -1948,7 +1948,7 @@ void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &ti
 
 }
 
-void CollectionBackend::UpdateSongRating(const int id, const double rating, const bool save_tags) {
+void CollectionBackend::UpdateSongRating(const int id, const float rating, const bool save_tags) {
 
   if (id == -1) return;
 
@@ -1956,7 +1956,7 @@ void CollectionBackend::UpdateSongRating(const int id, const double rating, cons
 
 }
 
-void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const double rating, const bool save_tags) {
+void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const float rating, const bool save_tags) {
 
   if (id_list.isEmpty()) return;
 
@@ -1983,12 +1983,12 @@ void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const doubl
 
 }
 
-void CollectionBackend::UpdateSongRatingAsync(const int id, const double rating, const bool save_tags) {
-  QMetaObject::invokeMethod(this, "UpdateSongRating", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(double, rating), Q_ARG(bool, save_tags));
+void CollectionBackend::UpdateSongRatingAsync(const int id, const float rating, const bool save_tags) {
+  QMetaObject::invokeMethod(this, "UpdateSongRating", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(float, rating), Q_ARG(bool, save_tags));
 }
 
-void CollectionBackend::UpdateSongsRatingAsync(const QList<int> &ids, const double rating, const bool save_tags) {
-  QMetaObject::invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(double, rating), Q_ARG(bool, save_tags));
+void CollectionBackend::UpdateSongsRatingAsync(const QList<int> &ids, const float rating, const bool save_tags) {
+  QMetaObject::invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(float, rating), Q_ARG(bool, save_tags));
 }
 
 void CollectionBackend::UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days) {

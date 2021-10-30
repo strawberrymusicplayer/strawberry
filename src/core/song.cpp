@@ -224,7 +224,7 @@ struct Song::Private : public QSharedData {
 
   QString cue_path_;            // If the song has a CUE, this contains it's path.
 
-  double rating_;               // Database rating, not read from tags.
+  float rating_;                // Database rating, initial rating read from tag.
 
   QUrl stream_url_;             // Temporary stream url set by url handler.
   QImage image_;                // Album Cover image set by album cover loader.
@@ -373,7 +373,7 @@ bool Song::init_from_file() const { return d->init_from_file_; }
 const QString &Song::cue_path() const { return d->cue_path_; }
 bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
 
-double Song::rating() const { return d->rating_; }
+float Song::rating() const { return d->rating_; }
 
 bool Song::is_collection_song() const { return d->source_ == Source_Collection; }
 bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.isEmpty() && !d->title_.isEmpty(); }
@@ -478,7 +478,7 @@ void Song::set_art_automatic(const QUrl &v) { d->art_automatic_ = v; }
 void Song::set_art_manual(const QUrl &v) { d->art_manual_ = v; }
 void Song::set_cue_path(const QString &v) { d->cue_path_ = v; }
 
-void Song::set_rating(double v) { d->rating_ = v; }
+void Song::set_rating(float v) { d->rating_ = v; }
 
 void Song::set_stream_url(const QUrl &v) { d->stream_url_ = v; }
 void Song::set_image(const QImage &i) { d->image_ = i; }
@@ -922,7 +922,7 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
 #define tostr(n) (q.value(n).isNull() ? QString() : q.value(n).toString())
 #define toint(n) (q.value(n).isNull() ? -1 : q.value(n).toInt())
 #define tolonglong(n) (q.value(n).isNull() ? -1 : q.value(n).toLongLong())
-#define todouble(n) (q.value(n).isNull() ? -1 : q.value(n).toDouble())
+#define tofloat(n) (q.value(n).isNull() ? -1 : q.value(n).toFloat())
 
 void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
 
@@ -1098,7 +1098,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     }
 
     else if (Song::kColumns.value(i) == "rating") {
-      d->rating_ = todouble(x);
+      d->rating_ = tofloat(x);
     }
 
     else {
@@ -1114,7 +1114,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
 #undef tostr
 #undef toint
 #undef tolonglong
-#undef todouble
+#undef tofloat
 
 }
 
@@ -1555,7 +1555,7 @@ QString Song::SampleRateBitDepthToText() const {
 
 QString Song::PrettyRating() const {
 
-  double rating = d->rating_;
+  float rating = d->rating_;
 
   if (rating == -1.0F) return "0";
 

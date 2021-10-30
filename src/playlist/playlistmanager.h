@@ -108,9 +108,9 @@ class PlaylistManagerInterface : public QObject {
   virtual void SetActiveStopped() = 0;
 
   // Rate current song using 0.0 - 1.0 scale.
-  virtual void RateCurrentSong(const double rating) = 0;
+  virtual void RateCurrentSong(const float rating) = 0;
   // Rate current song using 0 - 5 scale.
-  virtual void RateCurrentSong(const int rating) = 0;
+  virtual void RateCurrentSong2(const int rating) = 0;
 
  signals:
   void PlaylistManagerInitialized();
@@ -218,9 +218,9 @@ class PlaylistManager : public PlaylistManagerInterface {
   void PlaySmartPlaylist(PlaylistGeneratorPtr generator, const bool as_new, const bool clear) override;
 
   // Rate current song using 0.0 - 1.0 scale.
-  void RateCurrentSong(const double rating) override;
+  void RateCurrentSong(const float rating) override;
   // Rate current song using 0 - 5 scale.
-  void RateCurrentSong(const int rating) override;
+  void RateCurrentSong2(const int rating) override;
 
  private slots:
   void SetActivePlaying() override;

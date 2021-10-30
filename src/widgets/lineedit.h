@@ -244,9 +244,9 @@ class RatingBox : public RatingWidget, public ExtendedEditor {
   void set_enabled(bool enabled) override { RatingWidget::setEnabled(enabled); }
 
   QVariant value() const override { return RatingWidget::rating(); }
-  void set_value(const QVariant &value) override { RatingWidget::set_rating(value.toDouble()); }
+  void set_value(const QVariant &value) override { RatingWidget::set_rating(value.toFloat()); }
 
-  void set_partially() override { RatingWidget::set_rating(0.0); }
+  void set_partially() override { RatingWidget::set_rating(0.0F); }
 
  public slots:
   void set_focus() override { RatingWidget::setFocus(); }

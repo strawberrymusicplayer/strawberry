@@ -859,7 +859,7 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
       case Qt::LeftButton:{
         if (idx.data(Playlist::Role_CanSetRating).toBool() && !rating_locked_) {
           // Calculate which star was clicked
-          double new_rating = RatingPainter::RatingForPos(event->pos(), visualRect(idx));
+          float new_rating = RatingPainter::RatingForPos(event->pos(), visualRect(idx));
           if (selectedIndexes().contains(idx)) {
             // Update all the selected item ratings
             QModelIndexList src_index_list;

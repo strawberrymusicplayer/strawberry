@@ -33,9 +33,9 @@ class RatingPainter {
   static const int kStarCount = 5;
   static const int kStarSize = 16;
   static QRect Contents(const QRect rect);
-  static double RatingForPos(const QPoint pos, const QRect rect);
+  static float RatingForPos(const QPoint pos, const QRect rect);
 
-  void Paint(QPainter *painter, const QRect rect, double rating) const;
+  void Paint(QPainter *painter, const QRect rect, float rating) const;
 
  private:
   QPixmap stars_[kStarCount * 2 + 1];
@@ -44,18 +44,18 @@ class RatingPainter {
 class RatingWidget : public QWidget {
   Q_OBJECT
 
-  Q_PROPERTY(double rating READ rating WRITE set_rating)
+  Q_PROPERTY(float rating READ rating WRITE set_rating)
 
  public:
   RatingWidget(QWidget *parent = nullptr);
 
   QSize sizeHint() const override;
 
-  double rating() const { return rating_; }
-  void set_rating(const double rating);
+  float rating() const { return rating_; }
+  void set_rating(const float rating);
 
  signals:
-  void RatingChanged(double);
+  void RatingChanged(float);
 
  protected:
   void paintEvent(QPaintEvent*) override;
@@ -65,8 +65,8 @@ class RatingWidget : public QWidget {
 
  private:
   RatingPainter painter_;
-  double rating_;
-  double hover_rating_;
+  float rating_;
+  float hover_rating_;
 };
 
 #endif  // RATINGWIDGET_H

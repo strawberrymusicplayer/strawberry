@@ -212,8 +212,8 @@ class CollectionBackend : public CollectionBackendInterface {
   void AddOrUpdateSongsAsync(const SongList &songs);
   void UpdateSongsBySongIDAsync(const SongMap &new_songs);
 
-  void UpdateSongRatingAsync(const int id, const double rating, const bool save_tags = false);
-  void UpdateSongsRatingAsync(const QList<int> &ids, const double rating, const bool save_tags = false);
+  void UpdateSongRatingAsync(const int id, const float rating, const bool save_tags = false);
+  void UpdateSongsRatingAsync(const QList<int> &ids, const float rating, const bool save_tags = false);
 
  public slots:
   void Exit();
@@ -240,8 +240,8 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const qint64 lastplayed);
   void UpdatePlayCount(const QString &artist, const QString &title, const int playcount);
 
-  void UpdateSongRating(const int id, const double rating, const bool save_tags = false);
-  void UpdateSongsRating(const QList<int> &id_list, const double rating, const bool save_tags = false);
+  void UpdateSongRating(const int id, const float rating, const bool save_tags = false);
+  void UpdateSongsRating(const QList<int> &id_list, const float rating, const bool save_tags = false);
 
   void UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days);
   void ExpireSongs(const int directory_id, const int expire_unavailable_songs_days);

@@ -295,8 +295,8 @@ class Playlist : public QAbstractListModel {
   void ItemChanged(const int row);
 
   // Changes rating of a song to the given value asynchronously
-  void RateSong(const QModelIndex &idx, const double rating);
-  void RateSongs(const QModelIndexList &index_list, const double rating);
+  void RateSong(const QModelIndex &idx, const float rating);
+  void RateSongs(const QModelIndexList &index_list, const float rating);
 
   void set_auto_sort(const bool auto_sort) { auto_sort_ = auto_sort; }
 

@@ -69,7 +69,7 @@ message SongMetadata {
 
   optional string art_automatic = 31;
 
-  optional double rating = 32;
+  optional float rating = 32;
 
   optional bool suspicious_tags = 40;
 

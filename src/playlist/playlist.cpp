@@ -2330,7 +2330,7 @@ void Playlist::TurnOffDynamicPlaylist() {
 
 }
 
-void Playlist::RateSong(const QModelIndex &idx, const double rating) {
+void Playlist::RateSong(const QModelIndex &idx, const float rating) {
 
   if (has_item_at(idx.row())) {
     PlaylistItemPtr item = item_at(idx.row());
@@ -2341,7 +2341,7 @@ void Playlist::RateSong(const QModelIndex &idx, const double rating) {
 
 }
 
-void Playlist::RateSongs(const QModelIndexList &index_list, const double rating) {
+void Playlist::RateSongs(const QModelIndexList &index_list, const float rating) {
 
   QList<int> id_list;
   for (const QModelIndex &idx : index_list) {

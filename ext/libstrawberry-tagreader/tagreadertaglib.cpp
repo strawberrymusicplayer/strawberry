@@ -321,7 +321,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
       if (TagLib::ID3v2::UserTextIdentificationFrame *frame_fmps_rating = TagLib::ID3v2::UserTextIdentificationFrame::find(file_mpeg->ID3v2Tag(), "FMPS_Rating")) {
         TagLib::StringList frame_field_list = frame_fmps_rating->fieldList();
         if (frame_field_list.size() > 1) {
-          double rating = TStringToQString(frame_field_list[1]).toDouble();
+          float rating = TStringToQString(frame_field_list[1]).toFloat();
           if (song->rating() <= 0 && rating > 0 && rating <= 1.0) {
             song->set_rating(rating);
           }
@@ -394,7 +394,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
       {
         TagLib::MP4::Item item = mp4_tag->item(kMP4_FMPS_Rating_ID);
         if (item.isValid()) {
-          const double rating = TStringToQString(item.toStringList().toString('\n')).toDouble();
+          const float rating = TStringToQString(item.toStringList().toString('\n')).toFloat();
           if (song->rating() <= 0 && rating > 0) {
             song->set_rating(rating);
           }
@@ -440,7 +440,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
       if (attributes_map.contains("FMPS/Rating")) {
         const TagLib::ASF::AttributeList& attributes = attributes_map["FMPS/Rating"];
         if (!attributes.isEmpty()) {
-          double rating = TStringToQString(attributes.front().toString()).toDouble();
+          float rating = TStringToQString(attributes.front().toString()).toFloat();
           if (song->rating() <= 0 && rating > 0) {
             song->set_rating(rating);
           }
@@ -531,7 +531,7 @@ void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString 
   if (!map["METADATA_BLOCK_PICTURE"].isEmpty()) song->set_art_automatic(kEmbeddedCover);
 
   if (!map["FMPS_PLAYCOUNT"].isEmpty() && song->playcount() <= 0) song->set_playcount(TStringToQString(map["FMPS_PLAYCOUNT"].front()).trimmed().toInt());
-  if (!map["FMPS_RATING"].isEmpty() && song->rating() <= 0) song->set_rating(TStringToQString(map["FMPS_RATING"].front()).trimmed().toDouble());
+  if (!map["FMPS_RATING"].isEmpty() && song->rating() <= 0) song->set_rating(TStringToQString(map["FMPS_RATING"].front()).trimmed().toFloat());
 
   if (!map["LYRICS"].isEmpty()) Decode(map["LYRICS"].front(), song->mutable_lyrics());
   else if (!map["UNSYNCEDLYRICS"].isEmpty()) Decode(map["UNSYNCEDLYRICS"].front(), song->mutable_lyrics());
@@ -581,7 +581,7 @@ void TagReaderTagLib::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *
   }
 
   if (map.contains("FMPS_RATING")) {
-    const double rating = TStringToQString(map["FMPS_RATING"].toString()).toDouble();
+    const float rating = TStringToQString(map["FMPS_RATING"].toString()).toFloat();
     if (song->rating() <= 0 && rating > 0) {
       song->set_rating(rating);
     }
@@ -1023,7 +1023,7 @@ TagLib::ID3v2::PopularimeterFrame *TagReaderTagLib::GetPOPMFrameFromTag(TagLib::
 
 }
 
-double TagReaderTagLib::ConvertPOPMRating(const int POPM_rating) {
+float TagReaderTagLib::ConvertPOPMRating(const int POPM_rating) {
 
   if (POPM_rating < 0x01) return 0.0;
   else if (POPM_rating < 0x40) return 0.20;
@@ -1035,7 +1035,7 @@ double TagReaderTagLib::ConvertPOPMRating(const int POPM_rating) {
 
 }
 
-int TagReaderTagLib::ConvertToPOPMRating(const double rating) {
+int TagReaderTagLib::ConvertToPOPMRating(const float rating) {
 
   if (rating < 0.20) return 0x00;
   else if (rating < 0.40) return 0x01;

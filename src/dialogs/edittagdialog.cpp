@@ -504,7 +504,7 @@ void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
   else if (id == "disc") current_.set_disc(value.toInt());
   else if (id == "year") current_.set_year(value.toInt());
   else if (id == "compilation") current_.set_compilation(value.toBool());
-  else if (id == "rating") { current_.set_rating(value.toDouble()); }
+  else if (id == "rating") { current_.set_rating(value.toFloat()); }
   else qLog(Warning) << "Unknown ID" << id;
 
 }

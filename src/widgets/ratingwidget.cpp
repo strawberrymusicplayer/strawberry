@@ -44,7 +44,7 @@ RatingPainter::RatingPainter() {
 
   // Generate the 10 states, better to do it now than on the fly
   for (int i = 0; i < kStarCount * 2 + 1; ++i) {
-    const double rating = static_cast<double>(i) / static_cast<double>(2.0);
+    const float rating = static_cast<float>(i) / 2.0F;
 
     // Clear the pixmap
     stars_[i] = QPixmap(kStarSize * kStarCount, kStarSize);
@@ -83,21 +83,21 @@ QRect RatingPainter::Contents(const QRect rect) {
 
 }
 
-double RatingPainter::RatingForPos(const QPoint pos, const QRect rect) {
+ float RatingPainter::RatingForPos(const QPoint pos, const QRect rect) {
 
   const QRect contents = Contents(rect);
-  const double raw = static_cast<double>(pos.x() - contents.left()) / contents.width();
+  const float raw = static_cast<float>(pos.x() - contents.left()) / static_cast<float>(contents.width());
 
   // Check if the position was to the right or left of the rectangle.
   if (raw < 0) return 0;
   if (raw > 1) return 1;
 
   // Round to the nearest 0.1
-  return static_cast<double>(lround(raw * kStarCount * 2)) / (kStarCount * 2);
+  return static_cast<float>(lround(raw * kStarCount * 2)) / (kStarCount * 2);
 
 }
 
-void RatingPainter::Paint(QPainter *painter, const QRect rect, double rating) const {
+void RatingPainter::Paint(QPainter *painter, const QRect rect, float rating) const {
 
   QSize size(qMin(kStarSize * kStarCount, rect.width()), qMin(kStarSize, rect.height()));
   QPoint pos(rect.center() - QPoint(size.width() / 2, size.height() / 2));
@@ -124,7 +124,7 @@ QSize RatingWidget::sizeHint() const {
 
 }
 
-void RatingWidget::set_rating(const double rating) {
+void RatingWidget::set_rating(const float rating) {
 
   rating_ = rating;
   update();
