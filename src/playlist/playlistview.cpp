@@ -532,6 +532,7 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
 
     // Draw the play icon
     QPoint play_pos(currenttrack_bar_left_[0].width() / 3 * 2, (row_height - currenttrack_play_.height()) / 2);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->drawPixmap(opt.rect.topLeft() + play_pos, is_paused ? currenttrack_pause_ : currenttrack_play_);
 
     // Set the font
