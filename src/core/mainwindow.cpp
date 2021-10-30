@@ -457,11 +457,11 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   ui_->action_transcoder->setIcon(IconLoader::Load("tools-wizard"));
   ui_->action_update_collection->setIcon(IconLoader::Load("view-refresh"));
   ui_->action_full_collection_scan->setIcon(IconLoader::Load("view-refresh"));
-  ui_->action_abort_collection_scan->setIcon(IconLoader::Load("process-stop"));
+  ui_->action_abort_collection_scan->setIcon(IconLoader::Load("dialog-error"));
   ui_->action_settings->setIcon(IconLoader::Load("configure"));
   ui_->action_import_data_from_last_fm->setIcon(IconLoader::Load("scrobble"));
-  ui_->action_console->setIcon(IconLoader::Load("window"));
-  ui_->action_toggle_show_sidebar->setIcon(IconLoader::Load("sidebar-collapse"));
+  ui_->action_console->setIcon(IconLoader::Load("keyboard"));
+  ui_->action_toggle_show_sidebar->setIcon(IconLoader::Load("view-choose"));
 
   // Scrobble
 
