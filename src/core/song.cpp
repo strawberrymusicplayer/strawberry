@@ -1588,7 +1588,9 @@ bool Song::IsMetadataEqual(const Song &other) const {
          d->bitrate_ == other.d->bitrate_ &&
          d->samplerate_ == other.d->samplerate_ &&
          d->bitdepth_ == other.d->bitdepth_ &&
-         d->cue_path_ == other.d->cue_path_;
+         d->cue_path_ == other.d->cue_path_ &&
+         d->playcount_ == other.d->playcount_ &&
+         d->rating_ == other.d->rating_;
 }
 
 bool Song::IsMetadataAndMoreEqual(const Song &other) const {
