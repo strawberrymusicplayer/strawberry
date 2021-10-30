@@ -104,7 +104,7 @@ void MoodbarBuilder::Normalize(QList<Rgb> *vals, double Rgb::*member) {
   for (const Rgb &rgb : *vals) {
     const double value = rgb.*member;
     if (value != mini && value != maxi) {
-      avg += value / vals->count();
+      avg += value / static_cast<double>(vals->count());
     }
   }
 

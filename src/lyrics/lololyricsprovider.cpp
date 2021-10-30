@@ -54,7 +54,7 @@ LoloLyricsProvider::~LoloLyricsProvider() {
 
 }
 
-bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
+bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   Q_UNUSED(album);
 
@@ -84,9 +84,9 @@ bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album
 
 }
 
-void LoloLyricsProvider::CancelSearch(const quint64 id) { Q_UNUSED(id); }
+void LoloLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
-void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title) {
+void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &title) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);

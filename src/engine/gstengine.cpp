@@ -352,7 +352,7 @@ qint64 GstEngine::position_nanosec() const {
 
   if (!current_pipeline_) return 0;
 
-  const qint64 result = current_pipeline_->position() - beginning_nanosec_;
+  const qint64 result = current_pipeline_->position() - static_cast<qint64>(beginning_nanosec_);
   return qint64(qMax(0LL, result));
 
 }
@@ -361,7 +361,7 @@ qint64 GstEngine::length_nanosec() const {
 
   if (!current_pipeline_) return 0;
 
-  const qint64 result = end_nanosec_ - beginning_nanosec_;
+  const qint64 result = end_nanosec_ - static_cast<qint64>(beginning_nanosec_);
 
   if (result > 0) {
     return result;
@@ -512,7 +512,7 @@ void GstEngine::timerEvent(QTimerEvent *e) {
     const qint64 remaining = current_length - current_position;
 
     const qint64 fudge = kTimerIntervalNanosec + 100 * kNsecPerMsec;  // Mmm fudge
-    const qint64 gap = buffer_duration_nanosec_ + (autocrossfade_enabled_ ? fadeout_duration_nanosec_ : kPreloadGapNanosec);
+    const qint64 gap = static_cast<qint64>(buffer_duration_nanosec_) + (autocrossfade_enabled_ ? fadeout_duration_nanosec_ : kPreloadGapNanosec);
 
     // only if we know the length of the current stream...
     if (current_length > 0) {
@@ -618,7 +618,7 @@ void GstEngine::SeekNow() {
 
   if (!current_pipeline_) return;
 
-  if (!current_pipeline_->Seek(seek_pos_)) {
+  if (!current_pipeline_->Seek(static_cast<qint64>(seek_pos_))) {
     qLog(Warning) << "Seek failed";
   }
 
@@ -924,9 +924,9 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
       bundle.url = instance->current_pipeline_->next_original_url();
     }
     bundle.stream_url = QUrl(discovered_url);
-    bundle.samplerate = gst_discoverer_audio_info_get_sample_rate(GST_DISCOVERER_AUDIO_INFO(stream_info));
-    bundle.bitdepth = gst_discoverer_audio_info_get_depth(GST_DISCOVERER_AUDIO_INFO(stream_info));
-    bundle.bitrate = gst_discoverer_audio_info_get_bitrate(GST_DISCOVERER_AUDIO_INFO(stream_info)) / 1000;
+    bundle.samplerate = static_cast<int>(gst_discoverer_audio_info_get_sample_rate(GST_DISCOVERER_AUDIO_INFO(stream_info)));
+    bundle.bitdepth = static_cast<int>(gst_discoverer_audio_info_get_depth(GST_DISCOVERER_AUDIO_INFO(stream_info)));
+    bundle.bitrate = static_cast<int>(gst_discoverer_audio_info_get_bitrate(GST_DISCOVERER_AUDIO_INFO(stream_info)) / 1000);
 
     GstCaps *caps = gst_discoverer_stream_info_get_caps(stream_info);
 

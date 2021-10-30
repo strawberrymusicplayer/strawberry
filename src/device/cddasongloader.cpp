@@ -175,7 +175,7 @@ void CddaSongLoader::LoadSongs() {
         int i = 0;
         for (GList *node = entries; node != nullptr; node = node->next) {
           GstTocEntry *entry = static_cast<GstTocEntry*>(node->data);
-          quint64 duration = 0;
+          qint64 duration = 0;
           gint64 start = 0, stop = 0;
           if (gst_toc_entry_get_start_stop_times(entry, &start, &stop)) duration = stop - start;
           songs[i++].set_length_nanosec(duration);

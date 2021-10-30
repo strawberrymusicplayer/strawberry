@@ -48,7 +48,7 @@ void TagReaderWorker::MessageArrived(const spb::tagreader::Message &message) {
     reply.mutable_load_embedded_art_response()->set_data(data.constData(), data.size());
   }
   else if (message.has_save_embedded_art_request()) {
-    reply.mutable_save_embedded_art_response()->set_success(tag_reader_.SaveEmbeddedArt(QStringFromStdString(message.save_embedded_art_request().filename()), QByteArray(message.save_embedded_art_request().data().data(), message.save_embedded_art_request().data().size())));
+    reply.mutable_save_embedded_art_response()->set_success(tag_reader_.SaveEmbeddedArt(QStringFromStdString(message.save_embedded_art_request().filename()), QByteArray(message.save_embedded_art_request().data().data(), static_cast<qint64>(message.save_embedded_art_request().data().size()))));
   }
 
   else if (message.has_save_song_playcount_to_file_request()) {

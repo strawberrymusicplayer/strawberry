@@ -51,7 +51,7 @@ OVHLyricsProvider::~OVHLyricsProvider() {
 
 }
 
-bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
+bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   Q_UNUSED(album);
 
@@ -72,9 +72,9 @@ bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album,
 
 }
 
-void OVHLyricsProvider::CancelSearch(const quint64 id) { Q_UNUSED(id); }
+void OVHLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
-void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title) {
+void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &title) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);

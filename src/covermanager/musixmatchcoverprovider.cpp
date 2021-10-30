@@ -127,11 +127,11 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
   QString content = data;
   QString data_begin = "var __mxmState = ";
   QString data_end = ";</script>";
-  int begin_idx = content.indexOf(data_begin);
+  qint64 begin_idx = content.indexOf(data_begin);
   QString content_json;
   if (begin_idx > 0) {
     begin_idx += data_begin.length();
-    int end_idx = content.indexOf(data_end, begin_idx);
+    qint64 end_idx = content.indexOf(data_end, begin_idx);
     if (end_idx > begin_idx) {
       content_json = content.mid(begin_idx, end_idx - begin_idx);
     }

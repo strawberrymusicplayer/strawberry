@@ -108,7 +108,7 @@ void DeleteFiles::ProcessSomeFiles() {
 
   // We process files in batches so we can be cancelled part-way through.
 
-  const int n = qMin(songs_.count(), progress_ + kBatchSize);
+  const qint64 n = qMin(songs_.count(), static_cast<qint64>(progress_ + kBatchSize));
   for (; progress_ < n; ++progress_) {
     task_manager_->SetTaskProgress(task_id_, progress_, songs_.count());
 

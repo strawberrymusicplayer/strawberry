@@ -1007,7 +1007,7 @@ QString QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, QString
   QString title = json_obj["title"].toString();
   int track = json_obj["track_number"].toInt();
   QString copyright = json_obj["copyright"].toString();
-  quint64 duration = json_obj["duration"].toInt() * kNsecPerSec;
+  qint64 duration = json_obj["duration"].toInt() * kNsecPerSec;
   //bool streamable = json_obj["streamable"].toBool();
   QString composer;
   QString performer;

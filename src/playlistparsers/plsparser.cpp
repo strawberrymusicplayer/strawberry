@@ -53,7 +53,7 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
 
   while (!device->atEnd()) {
     QString line = QString::fromUtf8(device->readLine()).trimmed();
-    int equals = line.indexOf('=');
+    qint64 equals = line.indexOf('=');
     QString key = line.left(equals).toLower();
     QString value = line.mid(equals + 1);
 

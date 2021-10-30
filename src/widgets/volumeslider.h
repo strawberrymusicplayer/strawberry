@@ -44,7 +44,7 @@ class SliderSlider : public QSlider {
   Q_OBJECT
 
  public:
-  explicit SliderSlider(const Qt::Orientation, QWidget*, const uint max = 0);
+  explicit SliderSlider(const Qt::Orientation, QWidget*, const int max = 0);
 
   virtual void setValue(int);
 

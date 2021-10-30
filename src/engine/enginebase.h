@@ -237,7 +237,7 @@ struct SimpleMetaBundle {
   Song::FileType filetype;
   int samplerate;
   int bitdepth;
-  qint64 bitrate;
+  int bitrate;
   QString lyrics;
 };
 

@@ -229,7 +229,7 @@ QByteArray DiscogsCoverProvider::GetReplyData(QNetworkReply *reply) {
 
 }
 
-void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id) {
+void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -336,7 +336,7 @@ void DiscogsCoverProvider::SendReleaseRequest(const DiscogsCoverReleaseContext &
 
 }
 
-void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const quint64 search_id, const quint64 release_id) {
+void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int search_id, const quint64 release_id) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);

@@ -48,7 +48,7 @@
 #include <QFlags>
 #include <QtEvents>
 
-SliderSlider::SliderSlider(const Qt::Orientation orientation, QWidget *parent, const uint max)
+SliderSlider::SliderSlider(const Qt::Orientation orientation, QWidget *parent, const int max)
     : QSlider(orientation, parent),
       sliding_(false),
       outside_(false),
@@ -165,7 +165,7 @@ void SliderSlider::setValue(int newValue) {
 #define MARGIN 3
 
 PrettySlider::PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget *parent, const uint max)
-    : SliderSlider(orientation, parent, max), m_mode(mode) {
+    : SliderSlider(orientation, parent, static_cast<int>(max)), m_mode(mode) {
 
   if (m_mode == Pretty) {
     setFocusPolicy(Qt::NoFocus);
@@ -220,7 +220,7 @@ QSize PrettySlider::sizeHint() const {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
-    : SliderSlider(Qt::Horizontal, parent, max),
+    : SliderSlider(Qt::Horizontal, parent, static_cast<int>(max)),
       anim_enter_(false),
       anim_count_(0),
       timer_anim_(new QTimer(this)),
@@ -317,7 +317,7 @@ void VolumeSlider::slideEvent(QMouseEvent *e) {
 
 void VolumeSlider::wheelEvent(QWheelEvent *e) {
 
-  const uint step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
+  const int step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
   QSlider::setValue(SliderSlider::value() + step);  // clazy:exclude=skipped-base-method
   emit sliderReleased(value());
 

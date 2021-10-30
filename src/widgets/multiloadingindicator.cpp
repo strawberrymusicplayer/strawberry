@@ -82,7 +82,7 @@ void MultiLoadingIndicator::UpdateText() {
     task_text[0] = task_text[0].toLower();
 
     if (task.progress_max > 0) {
-      int percentage = static_cast<int>(static_cast<float>(task.progress) / task.progress_max * 100);
+      int percentage = static_cast<int>(static_cast<float>(task.progress) / static_cast<float>(task.progress_max) * 100.0F);
       task_text += QString(" %1%").arg(percentage);
     }
 
@@ -95,7 +95,7 @@ void MultiLoadingIndicator::UpdateText() {
     text_ += "...";
   }
 
-  emit TaskCountChange(tasks.count());
+  emit TaskCountChange(static_cast<int>(tasks.count()));
   update();
   updateGeometry();
 

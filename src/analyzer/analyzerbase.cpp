@@ -180,7 +180,7 @@ void Analyzer::Base::demo(QPainter &p) {
 
     const double dt = static_cast<double>(t) / 200;
     for (uint i = 0; i < s.size(); ++i) {
-      s[i] = dt * (sin(M_PI + (i * M_PI) / s.size()) + 1.0);
+      s[i] = static_cast<float>(dt * (sin(M_PI + (i * M_PI) / static_cast<double>(s.size())) + 1.0));
     }
 
     analyze(p, s, new_frame_);
@@ -200,7 +200,7 @@ void Analyzer::Base::polishEvent() {
 void Analyzer::interpolate(const Scope &inVec, Scope &outVec) {
 
   double pos = 0.0;
-  const double step = static_cast<double>(inVec.size()) / outVec.size();
+  const double step = static_cast<double>(inVec.size()) / static_cast<double>(outVec.size());
 
   for (uint i = 0; i < outVec.size(); ++i, pos += step) {
     const double error = pos - std::floor(pos);
@@ -218,7 +218,7 @@ void Analyzer::interpolate(const Scope &inVec, Scope &outVec) {
       indexRight = inVec.size() - 1;
     }
 
-    outVec[i] = inVec[indexLeft] * (1.0 - error) + inVec[indexRight] * error;
+    outVec[i] = inVec[indexLeft] * (1.0F - static_cast<float>(error)) + inVec[indexRight] * static_cast<float>(error);
   }
 
 }
@@ -229,7 +229,7 @@ void Analyzer::initSin(Scope &v, const uint size) {
   double radian = 0;
 
   for (uint i = 0; i < size; i++) {
-    v.push_back(sin(radian));
+    v.push_back(static_cast<float>(sin(radian)));
     radian += step;
   }
 

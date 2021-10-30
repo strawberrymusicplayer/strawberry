@@ -223,7 +223,7 @@ QByteArray TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename) {
   TagReaderReply *reply = LoadEmbeddedArt(filename);
   if (reply->WaitForFinished()) {
     const std::string &data_str = reply->message().load_embedded_art_response().data();
-    ret = QByteArray(data_str.data(), data_str.size());
+    ret = QByteArray(data_str.data(), static_cast<qint64>(data_str.size()));
   }
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
@@ -240,7 +240,7 @@ QImage TagReaderClient::LoadEmbeddedArtAsImageBlocking(const QString &filename) 
   TagReaderReply *reply = LoadEmbeddedArt(filename);
   if (reply->WaitForFinished()) {
     const std::string &data_str = reply->message().load_embedded_art_response().data();
-    ret.loadFromData(QByteArray(data_str.data(), data_str.size()));
+    ret.loadFromData(QByteArray(data_str.data(), static_cast<qint64>(data_str.size())));
   }
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 

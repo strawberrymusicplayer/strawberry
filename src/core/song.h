@@ -237,7 +237,7 @@ class Song {
   const QUrl &url() const;
   const QString &basefilename() const;
   FileType filetype() const;
-  int filesize() const;
+  qint64 filesize() const;
   qint64 mtime() const;
   qint64 ctime() const;
 
@@ -354,7 +354,7 @@ class Song {
   void set_url(const QUrl &v);
   void set_basefilename(const QString &v);
   void set_filetype(FileType v);
-  void set_filesize(int v);
+  void set_filesize(qint64 v);
   void set_mtime(qint64 v);
   void set_ctime(qint64 v);
   void set_unavailable(bool v);

@@ -317,7 +317,7 @@ void Organize::SetSongProgress(float progress, bool transcoded) {
 
 void Organize::UpdateProgress() {
 
-  const int total = task_count_ * 100;
+  const quint64 total = task_count_ * 100;
 
 #ifdef HAVE_GSTREAMER
   // Update transcoding progress

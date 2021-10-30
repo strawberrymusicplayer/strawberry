@@ -55,7 +55,7 @@ struct InstancesInfo {
 
 struct ConnectionInfo {
   explicit ConnectionInfo() : msgLen(0), instanceId(0), stage(0) {}
-  qint64 msgLen;
+  quint64 msgLen;
   quint32 instanceId;
   quint8 stage;
 };

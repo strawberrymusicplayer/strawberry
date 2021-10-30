@@ -76,7 +76,7 @@ Rainbow::RainbowAnalyzer::RainbowAnalyzer(const RainbowType rbtype, QWidget *par
 
     // pow constants computed so that
     // | band_scale(0) | ~= .5 and | band_scale(5) | ~= 32
-    band_scale_[i] = -std::cos(M_PI * i / (kRainbowBands - 1)) * 0.5 * std::pow(2.3, i);
+    band_scale_[i] = -static_cast<float>(std::cos(M_PI * i / (kRainbowBands - 1))) * 0.5F * static_cast<float>(std::pow(2.3, i));
   }
 
 }
@@ -103,7 +103,7 @@ void Rainbow::RainbowAnalyzer::resizeEvent(QResizeEvent *e) {
   buffer_[1] = QPixmap();
 
   available_rainbow_width_ = width() - kWidth[rainbowtype] + kRainbowOverlap[rainbowtype];
-  px_per_frame_ = static_cast<float>(available_rainbow_width_) / (kHistorySize - 1) + 1;
+  px_per_frame_ = available_rainbow_width_ / (kHistorySize - 1) + 1;
   x_offset_ = px_per_frame_ * (kHistorySize - 1) - available_rainbow_width_;
 
 }
@@ -144,7 +144,7 @@ void Rainbow::RainbowAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bo
     const float top_of = static_cast<float>(height()) / 2 - static_cast<float>(kRainbowHeight[rainbowtype]) / 2;
     for (int band = 0; band < kRainbowBands; ++band) {
       // Calculate the Y position of this band.
-      const float y = static_cast<float>(kRainbowHeight[rainbowtype]) / (kRainbowBands + 1) * (band + 0.5) + top_of;
+      const float y = static_cast<float>(kRainbowHeight[rainbowtype]) / static_cast<float>(kRainbowBands + 1) * (static_cast<float>(band) + 0.5F) + top_of;
 
       // Add each point in the line.
       for (int x = 0; x < kHistorySize; ++x) {

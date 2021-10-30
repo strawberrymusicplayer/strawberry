@@ -197,7 +197,7 @@ void SCollection::SyncPlaycountAndRatingToFiles() {
   app_->task_manager()->SetTaskBlocksCollectionScans(task_id);
 
   const SongList songs = backend_->GetAllSongs();
-  const int nb_songs = songs.size();
+  const qint64 nb_songs = songs.size();
   int i = 0;
   for (const Song &song : songs) {
     TagReaderClient::Instance()->UpdateSongPlaycountBlocking(song);

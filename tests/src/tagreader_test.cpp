@@ -1882,7 +1882,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileRating) {
 
   {
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_NE(0.4, song.rating());
+    EXPECT_EQ(0.4, song.rating());
   }
 
 }
@@ -1899,7 +1899,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileRating) {
 
   {
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_NE(0.4, song.rating());
+    EXPECT_EQ(0.4, song.rating());
   }
 
 }
@@ -1916,7 +1916,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileRating) {
 
   {
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_NE(0.4, song.rating());
+    EXPECT_EQ(0.4, song.rating());
   }
 
 }
@@ -1933,7 +1933,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileRating) {
 
   {
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_NE(0.4, song.rating());
+    EXPECT_EQ(0.4, song.rating());
   }
 
 }
@@ -1950,7 +1950,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileRating) {
 
   {
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_NE(0.4, song.rating());
+    EXPECT_EQ(0.4, song.rating());
   }
 
 }
@@ -1967,7 +1967,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileRating) {
 
   {
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_NE(0.4, song.rating());
+    EXPECT_EQ(0.4, song.rating());
   }
 
 }
@@ -1984,7 +1984,7 @@ TEST_F(TagReaderTest, TestASFAudioFileRating) {
 
   {
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_NE(0.4, song.rating());
+    EXPECT_EQ(0.4, song.rating());
   }
 
 }
@@ -2001,7 +2001,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileRating) {
 
   {
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_NE(0.4, song.rating());
+    EXPECT_EQ(0.4, song.rating());
   }
 
 }
@@ -2018,7 +2018,7 @@ TEST_F(TagReaderTest, TestMP4AudioFileRating) {
 
   {
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_NE(0.4, song.rating());
+    EXPECT_EQ(0.4, song.rating());
   }
 
 }

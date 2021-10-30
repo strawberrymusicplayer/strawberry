@@ -68,7 +68,7 @@ class GstEnginePipeline : public QObject {
   void set_stereo_balancer_enabled(const bool enabled);
   void set_equalizer_enabled(const bool enabled);
   void set_replaygain(const bool enabled, const int mode, const double preamp, const double fallbackgain, const bool compression);
-  void set_buffer_duration_nanosec(const qint64 duration_nanosec);
+  void set_buffer_duration_nanosec(const quint64 duration_nanosec);
   void set_buffer_low_watermark(const double value);
   void set_buffer_high_watermark(const double value);
   void set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass);
@@ -85,7 +85,7 @@ class GstEnginePipeline : public QObject {
   // Control the music playback
   QFuture<GstStateChangeReturn> SetState(const GstState state);
   Q_INVOKABLE bool Seek(const qint64 nanosec);
-  void SetVolume(const int percent);
+  void SetVolume(const uint percent);
   void SetStereoBalance(const float value);
   void SetEqualizerParams(const int preamp, const QList<int> &band_gains);
 
@@ -138,7 +138,7 @@ class GstEnginePipeline : public QObject {
   void timerEvent(QTimerEvent*) override;
 
  private:
-  GstElement *CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error);
+  GstElement *CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const;
   bool InitAudioBin(QString &error);
 
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
@@ -266,7 +266,7 @@ class GstEnginePipeline : public QObject {
   // Complete the transition to the next song when it starts playing
   bool next_uri_set_;
 
-  int volume_percent_;
+  uint volume_percent_;
   qreal volume_modifier_;
 
   std::unique_ptr<QTimeLine> fader_;

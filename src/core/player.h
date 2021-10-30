@@ -61,7 +61,7 @@ class PlayerInterface : public QObject {
 
   virtual EngineBase *engine() const = 0;
   virtual Engine::State GetState() const = 0;
-  virtual int GetVolume() const = 0;
+  virtual uint GetVolume() const = 0;
 
   virtual PlaylistItemPtr GetCurrentItem() const = 0;
   virtual PlaylistItemPtr GetItemAt(const int pos) const = 0;
@@ -73,7 +73,7 @@ class PlayerInterface : public QObject {
   virtual void ReloadSettings() = 0;
 
   // Manual track change to the specified track
-  virtual void PlayAt(const int index, const qint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) = 0;
+  virtual void PlayAt(const int index, const quint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) = 0;
 
   // If there's currently a song playing, pause it, otherwise play the track that was playing last, or the first one on the playlist
   virtual void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) = 0;
@@ -84,10 +84,10 @@ class PlayerInterface : public QObject {
   virtual void Next() = 0;
   virtual void Previous() = 0;
   virtual void PlayPlaylist(const QString &playlist_name) = 0;
-  virtual void SetVolume(const int value) = 0;
+  virtual void SetVolume(const uint value) = 0;
   virtual void VolumeUp() = 0;
   virtual void VolumeDown() = 0;
-  virtual void SeekTo(const qint64 seconds) = 0;
+  virtual void SeekTo(const quint64 seconds) = 0;
   // Moves the position of the currently playing song five seconds forward.
   virtual void SeekForward() = 0;
   // Moves the position of the currently playing song five seconds backwards.
@@ -111,7 +111,7 @@ class PlayerInterface : public QObject {
   void Error(QString message = QString());
   void PlaylistFinished();
   void VolumeEnabled(bool);
-  void VolumeChanged(int volume);
+  void VolumeChanged(uint volume);
   void TrackSkipped(PlaylistItemPtr old_track);
   // Emitted when there's a manual change to the current's track position.
   void Seeked(qint64 microseconds);
@@ -141,7 +141,7 @@ class Player : public PlayerInterface {
 
   EngineBase *engine() const override { return engine_.get(); }
   Engine::State GetState() const override { return last_state_; }
-  int GetVolume() const override;
+  uint GetVolume() const override;
 
   PlaylistItemPtr GetCurrentItem() const override { return current_item_; }
   PlaylistItemPtr GetItemAt(const int pos) const override;
@@ -159,17 +159,17 @@ class Player : public PlayerInterface {
  public slots:
   void ReloadSettings() override;
 
-  void PlayAt(const int index, const qint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
+  void PlayAt(const int index, const quint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
   void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) override;
   void PlayPauseHelper() override { PlayPause(play_offset_nanosec_); }
   void RestartOrPrevious() override;
   void Next() override;
   void Previous() override;
   void PlayPlaylist(const QString &playlist_name) override;
-  void SetVolume(const int value) override;
+  void SetVolume(const uint value) override;
   void VolumeUp() override { SetVolume(GetVolume() + 5); }
   void VolumeDown() override { SetVolume(GetVolume() - 5); }
-  void SeekTo(const qint64 seconds) override;
+  void SeekTo(const quint64 seconds) override;
   void SeekForward() override;
   void SeekBackward() override;
 
@@ -235,7 +235,7 @@ class Player : public PlayerInterface {
   QMap<QString, UrlHandler*> url_handlers_;
 
   QList<QUrl> loading_async_;
-  int volume_before_mute_;
+  uint volume_before_mute_;
   QDateTime last_pressed_previous_;
 
   bool continue_on_error_;

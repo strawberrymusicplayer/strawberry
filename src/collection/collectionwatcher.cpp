@@ -520,10 +520,10 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       }
 
       // CUE sheet's path from collection (if any).
-      qint64 matching_song_cue_mtime = GetMtimeForCue(matching_song.cue_path());
+      qint64 matching_song_cue_mtime = static_cast<qint64>(GetMtimeForCue(matching_song.cue_path()));
 
       // CUE sheet's path from this file (if any).
-      qint64 new_cue_mtime = GetMtimeForCue(new_cue);
+      qint64 new_cue_mtime = static_cast<qint64>(GetMtimeForCue(new_cue));
 
       bool cue_added = new_cue_mtime != 0 && !matching_song.has_cue();
       bool cue_deleted = matching_song_cue_mtime == 0 && matching_song.has_cue();
@@ -619,7 +619,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
         }
 
         // CUE sheet's path from this file (if any).
-        const qint64 new_cue_mtime = GetMtimeForCue(new_cue);
+        const qint64 new_cue_mtime = static_cast<qint64>(GetMtimeForCue(new_cue));
 
         const bool cue_deleted = new_cue_mtime == 0 && matching_songs_has_cue;
         const bool cue_added = new_cue_mtime != 0 && !matching_songs_has_cue;

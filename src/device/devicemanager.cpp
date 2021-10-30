@@ -265,7 +265,7 @@ void DeviceManager::AddDeviceFromDB(DeviceInfo *info) {
   }
   else {
     qLog(Info) << "Device added from database: " << info->friendly_name_;
-    beginInsertRows(ItemToIndex(root_), devices_.count(), devices_.count());
+    beginInsertRows(ItemToIndex(root_), static_cast<int>(devices_.count()), static_cast<int>(devices_.count()));
     devices_ << info;
     endInsertRows();
   }
@@ -485,7 +485,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
       info->friendly_name_ = lister->MakeFriendlyName(id);
       info->size_ = lister->DeviceCapacity(id);
       info->LoadIcon(lister->DeviceIcons(id), info->friendly_name_);
-      beginInsertRows(ItemToIndex(root_), devices_.count(), devices_.count());
+      beginInsertRows(ItemToIndex(root_), static_cast<int>(devices_.count()), static_cast<int>(devices_.count()));
       devices_ << info;
       endInsertRows();
     }

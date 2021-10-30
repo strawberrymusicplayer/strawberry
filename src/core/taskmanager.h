@@ -41,8 +41,8 @@ class TaskManager : public QObject {
     Task() : id(0), progress(0), progress_max(0), blocks_collection_scans(false) {}
     int id;
     QString name;
-    qint64 progress;
-    qint64 progress_max;
+    quint64 progress;
+    quint64 progress_max;
     bool blocks_collection_scans;
   };
 
@@ -64,10 +64,10 @@ class TaskManager : public QObject {
 
   int StartTask(const QString &name);
   void SetTaskBlocksCollectionScans(const int id);
-  void SetTaskProgress(const int id, const qint64 progress, const qint64 max = 0);
-  void IncreaseTaskProgress(const int id, const qint64 progress, const qint64 max = 0);
+  void SetTaskProgress(const int id, const quint64 progress, const quint64 max = 0);
+  void IncreaseTaskProgress(const int id, const quint64 progress, const quint64 max = 0);
   void SetTaskFinished(const int id);
-  int GetTaskProgress(const int id);
+  quint64 GetTaskProgress(const int id);
 
  signals:
   void TasksChanged();

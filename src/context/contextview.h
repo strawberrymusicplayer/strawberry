@@ -93,7 +93,7 @@ class ContextView : public QWidget {
   void ActionSearchLyrics();
   void UpdateNoSong();
   void FadeStopFinished();
-  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
+  void UpdateLyrics(const int id, const QString &provider, const QString &lyrics);
 
  public slots:
   void ReloadSettings();
@@ -171,7 +171,7 @@ class ContextView : public QWidget {
   Song song_prev_;
   QImage image_original_;
   bool lyrics_tried_;
-  qint64 lyrics_id_;
+  int lyrics_id_;
   QString lyrics_;
   QString title_fmt_;
   QString summary_fmt_;

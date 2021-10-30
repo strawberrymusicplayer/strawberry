@@ -61,7 +61,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
   QString unique_id() const { return unique_id_; }
   CollectionModel *model() const { return model_; }
   QUrl url() const { return url_; }
-  int song_count() const { return song_count_; }
+  qint64 song_count() const { return song_count_; }
 
   void FinishCopy(bool success) override;
   void FinishDelete(bool success) override;
@@ -94,7 +94,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
   CollectionBackend *backend_;
   CollectionModel *model_;
 
-  int song_count_;
+  qint64 song_count_;
 
  private slots:
   void BackendTotalSongCountUpdated(int count);

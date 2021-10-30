@@ -262,7 +262,7 @@ void TidalService::LoadSession() {
   s.endGroup();
 
   if (!refresh_token_.isEmpty()) {
-    qint64 time = expires_in_ - (QDateTime::currentDateTime().toSecsSinceEpoch() - login_time_);
+    qint64 time = static_cast<qint64>(expires_in_) - (QDateTime::currentDateTime().toSecsSinceEpoch() - static_cast<qint64>(login_time_));
     if (time <= 0) {
       timer_refresh_login_->setInterval(200ms);
     }
@@ -302,7 +302,7 @@ void TidalService::ReloadSettings() {
 
   s.endGroup();
 
-  timer_search_delay_->setInterval(search_delay);
+  timer_search_delay_->setInterval(static_cast<int>(search_delay));
 
 }
 

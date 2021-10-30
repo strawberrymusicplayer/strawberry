@@ -40,14 +40,14 @@ class LoloLyricsProvider : public LyricsProvider {
   explicit LoloLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
   ~LoloLyricsProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) override;
-  void CancelSearch(const quint64 id) override;
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
+  void CancelSearch(const int id) override;
 
  private:
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
+  void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &title);
 
  private:
   static const char *kUrlSearch;

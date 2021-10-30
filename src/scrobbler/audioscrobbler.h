@@ -52,7 +52,7 @@ class AudioScrobbler : public QObject {
 
   void UpdateNowPlaying(const Song &song);
   void ClearPlaying();
-  void Scrobble(const Song &song, const int scrobble_point);
+  void Scrobble(const Song &song, const qint64 scrobble_point);
   void ShowConfig();
 
   ScrobblerService *ServiceByName(const QString &name) const { return scrobbler_services_->ServiceByName(name); }

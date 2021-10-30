@@ -119,7 +119,7 @@ class Organize : public QObject {
   const bool overwrite_;
   const bool albumcover_;
   const bool eject_after_;
-  int task_count_;
+  quint64 task_count_;
   const QString playlist_;
 
   QBasicTimer transcode_progress_timer_;

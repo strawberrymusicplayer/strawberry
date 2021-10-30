@@ -185,7 +185,7 @@ void GstEnginePipeline::set_replaygain(const bool enabled, const int mode, const
 
 }
 
-void GstEnginePipeline::set_buffer_duration_nanosec(const qint64 buffer_duration_nanosec) {
+void GstEnginePipeline::set_buffer_duration_nanosec(const quint64 buffer_duration_nanosec) {
   buffer_duration_nanosec_ = buffer_duration_nanosec;
 }
 
@@ -209,14 +209,14 @@ void GstEnginePipeline::set_channels(const bool enabled, const int channels) {
   channels_ = channels;
 }
 
-GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) {
+GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const {
 
   QString unique_name = QString("pipeline") + "-" + QString::number(id_) + "-" + (name.isEmpty() ? factory_name : name);
 
   GstElement *element = gst_element_factory_make(factory_name.toUtf8().constData(), unique_name.toUtf8().constData());
   if (!element) {
     qLog(Error) << "GStreamer could not create the element" << factory_name << "with name" << unique_name;
-    error = QString("GStreamer could not create the element %1 with name %2.").arg(factory_name).arg(unique_name);
+    error = QString("GStreamer could not create the element %1 with name %2.").arg(factory_name, unique_name);
   }
 
   if (bin && element) gst_bin_add(GST_BIN(bin), element);
@@ -586,7 +586,7 @@ GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeIn
         // The segment start time is used to calculate the proper offset of data buffers from the start of the stream
         const GstSegment *segment = nullptr;
         gst_event_parse_segment(e, &segment);
-        instance->segment_start_ = segment->start;
+        instance->segment_start_ = static_cast<qint64>(segment->start);
         instance->segment_start_received_ = true;
       }
       break;
@@ -663,7 +663,7 @@ void GstEnginePipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer self) 
   // Offset the timestamps on all the buffers coming out of the playbin so they line up exactly with the end of the last buffer from the old playbin.
   // "Running time" is the time since the last flushing seek.
   GstClockTime running_time = gst_segment_to_running_time(&instance->last_playbin_segment_, GST_FORMAT_TIME, instance->last_playbin_segment_.position);
-  gst_pad_set_offset(pad, running_time);
+  gst_pad_set_offset(pad, static_cast<gint64>(running_time));
 
   // Add a probe to the pad so we can update last_playbin_segment_.
   gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM | GST_PAD_PROBE_TYPE_EVENT_FLUSH), PlaybinProbe, instance, nullptr);
@@ -720,7 +720,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
   QString format;
-  int channels = 0;
+  int channels = 1;
   int rate = 0;
 
   GstCaps *caps = gst_pad_get_current_caps(pad);
@@ -739,7 +739,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
 
   quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_;
   quint64 duration = GST_BUFFER_DURATION(buf);
-  qint64 end_time = start_time + duration;
+  qint64 end_time = static_cast<qint64>(start_time + duration);
 
   if (format.startsWith("S16LE")) {
     instance->logged_unsupported_analyzer_format_ = false;
@@ -1079,7 +1079,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   bundle.artist = ParseStrTag(taglist, GST_TAG_ARTIST);
   bundle.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
   bundle.album = ParseStrTag(taglist, GST_TAG_ALBUM);
-  bundle.bitrate = ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000;
+  bundle.bitrate = static_cast<int>(ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000);
   bundle.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
 
   if (!bundle.title.isEmpty() && bundle.artist.isEmpty() && bundle.album.isEmpty()) {
@@ -1259,7 +1259,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
 }
 
-void GstEnginePipeline::SetVolume(const int percent) {
+void GstEnginePipeline::SetVolume(const uint percent) {
 
   if (!volume_) return;
   volume_percent_ = percent;
@@ -1312,7 +1312,7 @@ void GstEnginePipeline::UpdateEqualizer() {
 
   // Update band gains
   for (int i = 0; i < kEqBandCount; ++i) {
-    float gain = eq_enabled_ ? eq_band_gains_[i] : static_cast<float>(0.0);
+    float gain = eq_enabled_ ? static_cast<float>(eq_band_gains_[i]) : static_cast<float>(0.0);
     if (gain < 0) {
       gain *= 0.24;
     }
@@ -1357,7 +1357,7 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
   QObject::connect(fader_.get(), &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
   fader_->setDirection(direction);
   fader_->setEasingCurve(shape);
-  fader_->setCurrentTime(start_time);
+  fader_->setCurrentTime(static_cast<int>(start_time));
   fader_->resume();
 
   fader_fudge_timer_.stop();

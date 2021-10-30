@@ -222,8 +222,8 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
     Decode(tag->artist(), song->mutable_artist());  // TPE1
     Decode(tag->album(), song->mutable_album());
     Decode(tag->genre(), song->mutable_genre());
-    song->set_year(tag->year());
-    song->set_track(tag->track());
+    song->set_year(static_cast<int>(tag->year()));
+    song->set_track(static_cast<int>(tag->track()));
     song->set_valid(true);
   }
 
@@ -332,7 +332,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         const TagLib::ID3v2::PopularimeterFrame *frame = dynamic_cast<const TagLib::ID3v2::PopularimeterFrame*>(map["POPM"].front());
         if (frame) {
           if (song->playcount() <= 0 && frame->counter() > 0) {
-            song->set_playcount(frame->counter());
+            song->set_playcount(static_cast<int>(frame->counter()));
           }
           if (song->rating() <= 0 && frame->rating() > 0) {
             song->set_rating(ConvertPOPMRating(frame->rating()));
@@ -384,7 +384,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
       {
         TagLib::MP4::Item item = mp4_tag->item(kMP4_FMPS_Playcount_ID);
         if (item.isValid()) {
-          const int playcount = TStringToQString(item.toStringList().toString('\n')).toDouble();
+          const int playcount = TStringToQString(item.toStringList().toString('\n')).toInt();
           if (song->playcount() <= 0 && playcount > 0) {
             song->set_playcount(playcount);
           }
@@ -463,7 +463,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
   }
 
   if (!disc.isEmpty()) {
-    const int i = disc.indexOf('/');
+    const qint64 i = disc.indexOf('/');
     if (i != -1) {
       // disc.right( i ).toInt() is total number of discs, we don't use this at the moment
       song->set_disc(disc.left(i).toInt());
@@ -530,7 +530,7 @@ void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString 
   if (!map["COVERART"].isEmpty()) song->set_art_automatic(kEmbeddedCover);
   if (!map["METADATA_BLOCK_PICTURE"].isEmpty()) song->set_art_automatic(kEmbeddedCover);
 
-  if (!map["FMPS_PLAYCOUNT"].isEmpty() && song->playcount() <= 0) song->set_playcount(TStringToQString(map["FMPS_PLAYCOUNT"].front()).trimmed().toDouble());
+  if (!map["FMPS_PLAYCOUNT"].isEmpty() && song->playcount() <= 0) song->set_playcount(TStringToQString(map["FMPS_PLAYCOUNT"].front()).trimmed().toInt());
   if (!map["FMPS_RATING"].isEmpty() && song->rating() <= 0) song->set_rating(TStringToQString(map["FMPS_RATING"].front()).trimmed().toDouble());
 
   if (!map["LYRICS"].isEmpty()) Decode(map["LYRICS"].front(), song->mutable_lyrics());
@@ -574,7 +574,7 @@ void TagReaderTagLib::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *
   }
 
   if (map.contains("FMPS_PLAYCOUNT")) {
-    const int playcount = TStringToQString(map["FMPS_PLAYCOUNT"].toString()).toDouble();
+    const int playcount = TStringToQString(map["FMPS_PLAYCOUNT"].toString()).toInt();
     if (song->playcount() <= 0 && playcount > 0) {
       song->set_playcount(playcount);
     }
@@ -1025,7 +1025,7 @@ TagLib::ID3v2::PopularimeterFrame *TagReaderTagLib::GetPOPMFrameFromTag(TagLib::
 
 double TagReaderTagLib::ConvertPOPMRating(const int POPM_rating) {
 
-       if (POPM_rating < 0x01) return 0.0;
+  if (POPM_rating < 0x01) return 0.0;
   else if (POPM_rating < 0x40) return 0.20;
   else if (POPM_rating < 0x80) return 0.40;
   else if (POPM_rating < 0xC0) return 0.60;
@@ -1037,7 +1037,7 @@ double TagReaderTagLib::ConvertPOPMRating(const int POPM_rating) {
 
 int TagReaderTagLib::ConvertToPOPMRating(const double rating) {
 
-       if (rating < 0.20) return 0x00;
+  if (rating < 0.20) return 0x00;
   else if (rating < 0.40) return 0x01;
   else if (rating < 0.60) return 0x40;
   else if (rating < 0.80) return 0x80;

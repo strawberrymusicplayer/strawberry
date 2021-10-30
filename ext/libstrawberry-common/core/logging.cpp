@@ -212,9 +212,9 @@ static QString ParsePrettyFunction(const char *pretty_function) {
 
   // Get the class name out of the function name.
   QString class_name = pretty_function;
-  const int paren = class_name.indexOf('(');
+  const qint64 paren = class_name.indexOf('(');
   if (paren != -1) {
-    const int colons = class_name.lastIndexOf("::", paren);
+    const qint64 colons = class_name.lastIndexOf("::", paren);
     if (colons != -1) {
       class_name = class_name.left(colons);
     }
@@ -223,7 +223,7 @@ static QString ParsePrettyFunction(const char *pretty_function) {
     }
   }
 
-  const int space = class_name.lastIndexOf(' ');
+  const qint64 space = class_name.lastIndexOf(' ');
   if (space != -1) {
     class_name = class_name.mid(space + 1);
   }

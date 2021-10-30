@@ -79,7 +79,7 @@ void TaskManager::SetTaskBlocksCollectionScans(const int id) {
 
 }
 
-void TaskManager::SetTaskProgress(const int id, const qint64 progress, const qint64 max) {
+void TaskManager::SetTaskProgress(const int id, const quint64 progress, const quint64 max) {
 
   {
     QMutexLocker l(&mutex_);
@@ -93,7 +93,7 @@ void TaskManager::SetTaskProgress(const int id, const qint64 progress, const qin
   emit TasksChanged();
 }
 
-void TaskManager::IncreaseTaskProgress(const int id, const qint64 progress, const qint64 max) {
+void TaskManager::IncreaseTaskProgress(const int id, const quint64 progress, const quint64 max) {
 
   {
     QMutexLocker l(&mutex_);
@@ -134,7 +134,7 @@ void TaskManager::SetTaskFinished(const int id) {
 
 }
 
-int TaskManager::GetTaskProgress(int id) {
+quint64 TaskManager::GetTaskProgress(int id) {
 
   {
     QMutexLocker l(&mutex_);

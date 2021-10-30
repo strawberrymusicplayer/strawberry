@@ -144,7 +144,7 @@ QModelIndex Queue::parent(const QModelIndex &child) const {
 
 int Queue::rowCount(const QModelIndex &parent) const {
   if (parent.isValid()) return 0;
-  return source_indexes_.count();
+  return static_cast<int>(source_indexes_.count());
 }
 
 int Queue::columnCount(const QModelIndex&) const { return 1; }
@@ -184,7 +184,7 @@ void Queue::ToggleTracks(const QModelIndexList &source_indexes) {
     }
     else {
       // Enqueue the track
-      const int row = source_indexes_.count();
+      const int row = static_cast<int>(source_indexes_.count());
       beginInsertRows(QModelIndex(), row, row);
       source_indexes_ << QPersistentModelIndex(source_index);
       endInsertRows();
@@ -206,7 +206,7 @@ void Queue::InsertFirst(const QModelIndexList &source_indexes) {
     }
   }
 
-  const int rows = source_indexes.count();
+  const int rows = static_cast<int>(source_indexes.count());
   // Enqueue the tracks at the beginning
   beginInsertRows(QModelIndex(), 0, rows - 1);
   int offset = 0;
@@ -224,7 +224,7 @@ int Queue::PositionOf(const QModelIndex &source_index) const {
 
 bool Queue::is_empty() const { return source_indexes_.isEmpty(); }
 
-int Queue::ItemCount() const { return source_indexes_.length(); }
+int Queue::ItemCount() const { return static_cast<int>(source_indexes_.length()); }
 
 quint64 Queue::GetTotalLength() const { return total_length_ns_; }
 
@@ -295,7 +295,7 @@ void Queue::Move(const QList<int> &proxy_rows, int pos) {
 
   // Update persistent indexes
   for (const QModelIndex &pidx : persistentIndexList()) {
-    const int dest_offset = proxy_rows.indexOf(pidx.row());
+    const int dest_offset = static_cast<int>(proxy_rows.indexOf(pidx.row()));
     if (dest_offset != -1) {
       // This index was moved
       changePersistentIndex(pidx, index(start + dest_offset, pidx.column(), QModelIndex()));
@@ -305,7 +305,7 @@ void Queue::Move(const QList<int> &proxy_rows, int pos) {
       for (int row : proxy_rows) {
         if (pidx.row() > row) d--;
       }
-      if (pidx.row() + d >= start) d += proxy_rows.count();
+      if (pidx.row() + d >= start) d += static_cast<int>(proxy_rows.count());
 
       changePersistentIndex(pidx, index(pidx.row() + d, pidx.column(), QModelIndex()));
     }

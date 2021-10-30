@@ -95,7 +95,7 @@ bool LocalRedirectServer::GenerateCertificate() {
     return false;
   }
 
-  QSslKey ssl_key(QByteArray(buffer, buffer_size), QSsl::Rsa);
+  QSslKey ssl_key(QByteArray(buffer, static_cast<qint64>(buffer_size)), QSsl::Rsa);
   if (ssl_key.isNull()) {
     error_ = QString("Failed to generate random private key.");
     gnutls_x509_privkey_deinit(key);
@@ -146,8 +146,8 @@ bool LocalRedirectServer::GenerateCertificate() {
     return false;
   }
   quint64 time = QDateTime::currentDateTime().toSecsSinceEpoch();
-  gnutls_x509_crt_set_activation_time(crt, time);
-  if (int result = gnutls_x509_crt_set_expiration_time(crt, time + 31536000L) != GNUTLS_E_SUCCESS) {
+  gnutls_x509_crt_set_activation_time(crt, static_cast<time_t>(time));
+  if (int result = gnutls_x509_crt_set_expiration_time(crt, static_cast<time_t>(time + 31536000L)) != GNUTLS_E_SUCCESS) {
     error_ = QString("Failed to set the activation time of the certificate: %1").arg(gnutls_strerror(result));
     gnutls_x509_privkey_deinit(key);
     gnutls_x509_crt_deinit(crt);
@@ -220,7 +220,7 @@ bool LocalRedirectServer::GenerateCertificate() {
   gnutls_x509_privkey_deinit(key);
   gnutls_privkey_deinit(pkey);
 
-  QSslCertificate ssl_certificate(QByteArray(buffer, buffer_size));
+  QSslCertificate ssl_certificate(QByteArray(buffer, static_cast<qint64>(buffer_size)));
   if (ssl_certificate.isNull()) {
     error_ = "Failed to generate random client certificate.";
     gnutls_global_deinit();
@@ -346,7 +346,7 @@ void LocalRedirectServer::WriteTemplate() const {
   page_file.close();
 
   QRegularExpression tr_regexp("tr\\(\"([^\"]+)\"\\)");
-  int offset = 0;
+  qint64 offset = 0;
   forever {
     QRegularExpressionMatch re_match = tr_regexp.match(page_data, offset);
     if (!re_match.hasMatch()) break;

@@ -78,7 +78,7 @@ void LyricsFetcherSearch::Start(LyricsProviders *lyrics_providers) {
 
 }
 
-void LyricsFetcherSearch::ProviderSearchFinished(const quint64 id, const LyricsSearchResults &results) {
+void LyricsFetcherSearch::ProviderSearchFinished(const int id, const LyricsSearchResults &results) {
 
   if (!pending_requests_.contains(id)) return;
   LyricsProvider *provider = pending_requests_.take(id);

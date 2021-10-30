@@ -58,7 +58,7 @@ message SongMetadata {
   optional string url = 21;
   optional string basefilename = 22;
   optional FileType filetype = 23;
-  optional int32 filesize = 24;
+  optional int64 filesize = 24;
   optional int64 mtime = 25;
   optional int64 ctime = 26;
 
@@ -69,7 +69,7 @@ message SongMetadata {
 
   optional string art_automatic = 31;
 
-  optional float rating = 32;
+  optional double rating = 32;
 
   optional bool suspicious_tags = 40;
 

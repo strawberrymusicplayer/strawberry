@@ -123,9 +123,9 @@ quint32 AppRootWindow() {
 
 }  // namespace
 
-quint32 GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
+int GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
 
-  quint32 native_mods = 0;
+  int native_mods = 0;
   if (qt_mods & Qt::ShiftModifier)    native_mods |= ShiftMask;
   if (qt_mods & Qt::ControlModifier)  native_mods |= ControlMask;
   if (qt_mods & Qt::AltModifier)      native_mods |= Mod1Mask;
@@ -134,7 +134,7 @@ quint32 GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
 
 }
 
-quint32 GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
+int GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
 
   Display *disp = X11Display();
   if (!disp) return false;
@@ -151,7 +151,7 @@ quint32 GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
 
 }
 
-bool GlobalShortcut::registerShortcut(quint32 native_key, quint32 native_mods) {
+bool GlobalShortcut::registerShortcut(int native_key, int native_mods) {
 
   Display *disp = X11Display();
   if (!disp) return false;
@@ -163,7 +163,7 @@ bool GlobalShortcut::registerShortcut(quint32 native_key, quint32 native_mods) {
 
 }
 
-bool GlobalShortcut::unregisterShortcut(quint32 native_key, quint32 native_mods) {
+bool GlobalShortcut::unregisterShortcut(int native_key, int native_mods) {
 
   Display *disp = X11Display();
   if (!disp) return false;

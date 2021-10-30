@@ -235,7 +235,7 @@ void SmartPlaylistQueryWizardPlugin::AddSearchTerm() {
   QObject::connect(widget, &SmartPlaylistSearchTermWidget::RemoveClicked, this, &SmartPlaylistQueryWizardPlugin::RemoveSearchTerm);
   QObject::connect(widget, &SmartPlaylistSearchTermWidget::Changed, this, &SmartPlaylistQueryWizardPlugin::UpdateTermPreview);
 
-  search_page_->layout_->insertWidget(search_page_->terms_.count(), widget);
+  search_page_->layout_->insertWidget(static_cast<int>(search_page_->terms_.count()), widget);
   search_page_->terms_ << widget;
 
   UpdateTermPreview();
@@ -247,7 +247,7 @@ void SmartPlaylistQueryWizardPlugin::RemoveSearchTerm() {
   SmartPlaylistSearchTermWidget *widget = qobject_cast<SmartPlaylistSearchTermWidget*>(sender());
   if (!widget) return;
 
-  const int index = search_page_->terms_.indexOf(widget);
+  const qint64 index = search_page_->terms_.indexOf(widget);
   if (index == -1) return;
 
   search_page_->terms_.takeAt(index)->deleteLater();

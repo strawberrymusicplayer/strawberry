@@ -177,7 +177,7 @@ void CollectionBackend::ChangeDirPath(const int id, const QString &old_path, con
   const QByteArray old_url = QUrl::fromLocalFile(old_path).toEncoded();
   const QByteArray new_url = QUrl::fromLocalFile(new_path).toEncoded();
 
-  const int path_len = old_url.length();
+  const qint64 path_len = old_url.length();
 
   // Do the subdirs table
   {
@@ -709,7 +709,8 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
   }
 
   // Add or update songs.
-  for (const Song &new_song : new_songs) {
+  QList new_songs_list = new_songs.values();
+  for (const Song &new_song : new_songs_list) {
     if (old_songs.contains(new_song.song_id())) {
 
       Song old_song = old_songs[new_song.song_id()];
@@ -779,7 +780,8 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
   }
 
   // Delete songs
-  for (const Song &old_song : old_songs) {
+  QList old_songs_list = old_songs.values();
+  for (const Song &old_song : old_songs_list) {
     if (!new_songs.contains(old_song.song_id())) {
       {
         SqlQuery q(db);
@@ -1109,7 +1111,7 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
   QVector<Song> ret(ids.count());
   while (q.next()) {
     const QString foreign_id = q.value(static_cast<int>(Song::kColumns.count()) + 1).toString();
-    const int index = ids.indexOf(foreign_id);
+    const qint64 index = ids.indexOf(foreign_id);
     if (index == -1) continue;
 
     ret[index].InitFromQuery(q, true);

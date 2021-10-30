@@ -504,7 +504,7 @@ int Playlist::NextVirtualIndex(int i, const bool ignore_repeat_track) const {
   // This one's easy - if we have to repeat the current track then just return i
   if (repeat_mode == PlaylistSequence::Repeat_Track && !ignore_repeat_track) {
     if (!FilterContainsVirtualIndex(i)) {
-      return virtual_items_.count();  // It's not in the filter any more
+      return static_cast<int>(virtual_items_.count());  // It's not in the filter any more
     }
     return i;
   }
@@ -536,7 +536,7 @@ int Playlist::NextVirtualIndex(int i, const bool ignore_repeat_track) const {
   }
 
   // Couldn't find one - return past the end of the list
-  return virtual_items_.count();
+  return static_cast<int>(virtual_items_.count());
 
 }
 
@@ -625,7 +625,7 @@ int Playlist::previous_row(const bool ignore_repeat_track) const {
         break;
 
       default:
-        prev_virtual_index = PreviousVirtualIndex(virtual_items_.count(), ignore_repeat_track);
+        prev_virtual_index = PreviousVirtualIndex(static_cast<int>(virtual_items_.count()), ignore_repeat_track);
         break;
     }
   }
@@ -684,7 +684,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
     current_virtual_index_ = 0;
   }
   else if (is_shuffled_) {
-    current_virtual_index_ = virtual_items_.indexOf(i);
+    current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(i));
   }
   else {
     current_virtual_index_ = i;
@@ -913,7 +913,7 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
   moved_items.reserve(source_rows.count());
 
   if (pos < 0) {
-    pos = items_.count();
+    pos = static_cast<int>(items_.count());
   }
 
   // Take the items out of the list first, keeping track of whether the insertion point changes
@@ -935,7 +935,7 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
 
   // Update persistent indexes
   for (const QModelIndex &pidx : persistentIndexList()) {
-    const int dest_offset = source_rows.indexOf(pidx.row());
+    const int dest_offset = static_cast<int>(source_rows.indexOf(pidx.row()));
     if (dest_offset != -1) {
       // This index was moved
       changePersistentIndex(pidx, index(start + dest_offset, pidx.column(), QModelIndex()));
@@ -945,12 +945,12 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
       for (int source_row : source_rows) {
         if (pidx.row() > source_row) d--;
       }
-      if (pidx.row() + d >= start) d += source_rows.count();
+      if (pidx.row() + d >= start) d += static_cast<int>(source_rows.count());
 
       changePersistentIndex(pidx, index(pidx.row() + d, pidx.column(), QModelIndex()));
     }
   }
-  current_virtual_index_ = virtual_items_.indexOf(current_row());
+  current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_row()));
 
   emit layoutChanged();
 
@@ -996,7 +996,7 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
     else {
       int d = 0;
       if (pidx.row() >= start + dest_rows.count()) {
-        d -= dest_rows.count();
+        d -= static_cast<int>(dest_rows.count());
       }
 
       for (int dest_row : dest_rows) {
@@ -1006,7 +1006,7 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
       changePersistentIndex(pidx, index(pidx.row() + d, pidx.column(), QModelIndex()));
     }
   }
-  current_virtual_index_ = virtual_items_.indexOf(current_row());
+  current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_row()));
 
   emit layoutChanged();
 
@@ -1029,7 +1029,7 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, const int pos, const
     songs << item->Metadata();
   }
 
-  const int song_count = songs.length();
+  const qint64 song_count = songs.length();
   QSet<Song> vetoed;
   for (SongInsertVetoListener *listener : veto_listeners_) {
     for (const Song &song : listener->AboutToInsertSongs(GetAllSongs(), songs)) {
@@ -1086,7 +1086,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, const int p
   for (int i = start; i <= end; ++i) {
     PlaylistItemPtr item = items[i - start];
     items_.insert(i, item);
-    virtual_items_ << virtual_items_.count();
+    virtual_items_ << static_cast<int>(virtual_items_.count());
 
     if (item->source() == Song::Source_Collection) {
       int id = item->Metadata().id();
@@ -1323,8 +1323,8 @@ bool Playlist::ComparePathDepths(const Qt::SortOrder order, std::shared_ptr<Play
   std::shared_ptr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
   std::shared_ptr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
 
-  int a_dir_level = a->Url().path().count('/');
-  int b_dir_level = b->Url().path().count('/');
+  qint64 a_dir_level = a->Url().path().count('/');
+  qint64 b_dir_level = b->Url().path().count('/');
 
   return a_dir_level < b_dir_level;
 
@@ -1638,7 +1638,7 @@ bool Playlist::removeRows(QList<int> &rows) {
     }
 
     // and now we're removing the current sequence
-    if (!removeRows(part.last(), part.size())) {
+    if (!removeRows(part.last(), static_cast<int>(part.size()))) {
       return false;
     }
 
@@ -1686,14 +1686,14 @@ PlaylistItemList Playlist::RemoveItemsWithoutUndo(const int row, const int count
   // Reset current_virtual_index_
   if (current_row() == -1) {
     if (row - 1 > 0 && row - 1 < items_.size()) {
-      current_virtual_index_ = virtual_items_.indexOf(row - 1);
+      current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(row - 1));
     }
     else {
       current_virtual_index_ = -1;
     }
   }
   else {
-    current_virtual_index_ = virtual_items_.indexOf(current_row());
+    current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_row()));
   }
 
   ScheduleSave();
@@ -1781,7 +1781,7 @@ void Playlist::Clear() {
   // If loading songs from session restore async, don't insert them
   cancel_restore_ = true;
 
-  const int count = items_.count();
+  const int count = static_cast<int>(items_.count());
 
   if (count > kUndoItemLimit) {
     // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
@@ -1818,7 +1818,7 @@ void Playlist::ExpandDynamicPlaylist() {
 void Playlist::RemoveItemsNotInQueue() {
 
   if (queue_->is_empty() && !current_item_index_.isValid()) {
-    RemoveItemsWithoutUndo(0, items_.count());
+    RemoveItemsWithoutUndo(0, static_cast<int>(items_.count()));
     return;
   }
 
@@ -1899,7 +1899,7 @@ void Playlist::Shuffle() {
     begin += current_item_index_.row() + 1;
   }
 
-  const int count = items_.count();
+  const int count = static_cast<int>(items_.count());
   for (int i = begin; i < count; ++i) {
     int new_pos = i + (rand() % (count - i));
 
@@ -1934,7 +1934,7 @@ void Playlist::ReshuffleIndices() {
     // No shuffling - sort the virtual item list normally.
     std::sort(virtual_items_.begin(), virtual_items_.end());
     if (current_row() != -1) {
-      current_virtual_index_ = virtual_items_.indexOf(current_row());
+      current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_row()));
     }
     return;
   }
@@ -1979,7 +1979,7 @@ void Playlist::ReshuffleIndices() {
       // Or if the song was not playing but it was selected, force its album to be first.
       if (current_virtual_index_ != -1 || current_row() != -1) {
         const QString key = items_[current_row()]->Metadata().AlbumKey();
-        const int pos = shuffled_album_keys.indexOf(key);
+        const qint64 pos = shuffled_album_keys.indexOf(key);
         if (pos >= 1) {
           std::swap(shuffled_album_keys[0], shuffled_album_keys[pos]);
         }

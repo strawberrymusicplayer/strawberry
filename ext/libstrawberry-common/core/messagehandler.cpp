@@ -99,7 +99,7 @@ void _MessageHandlerBase::WriteMessage(const QByteArray &data) {
 
   QDataStream s(device_);
   s << quint32(data.length());
-  s.writeRawData(data.data(), data.length());
+  s.writeRawData(data.data(), static_cast<int>(data.length()));
 
   // Sorry.
   if (flush_abstract_socket_) {

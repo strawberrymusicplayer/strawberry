@@ -388,7 +388,7 @@ Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectP
 
       for (const QByteArray &p : filesystem.mountPoints()) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)  // Workaround a bytearray to string conversion issue with Qt 6
-        QString mountpoint = QByteArray(p.data(), strlen(p.data()));
+        QString mountpoint = QByteArray(p.data(), static_cast<qint64>(strlen(p.data())));
 #else
         QString mountpoint = p;
 #endif
