@@ -45,7 +45,7 @@ LyricsFetcher::LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent)
 
 }
 
-int LyricsFetcher::Search(const QString &artist, const QString &album, const QString &title) {
+quint64 LyricsFetcher::Search(const QString &artist, const QString &album, const QString &title) {
 
   LyricsSearchRequest request;
   request.artist = artist;
@@ -53,7 +53,7 @@ int LyricsFetcher::Search(const QString &artist, const QString &album, const QSt
   request.album.remove(Song::kAlbumRemoveMisc);
   request.title = title;
   request.title.remove(Song::kTitleRemoveMisc);
-  request.id = next_id_++;
+  request.id = ++next_id_;
   AddRequest(request);
 
   return request.id;
@@ -105,7 +105,7 @@ void LyricsFetcher::StartRequests() {
 
 }
 
-void LyricsFetcher::SingleSearchFinished(const int request_id, const LyricsSearchResults &results) {
+void LyricsFetcher::SingleSearchFinished(const quint64 request_id, const LyricsSearchResults &results) {
 
   if (!active_requests_.contains(request_id)) return;
 
@@ -115,7 +115,7 @@ void LyricsFetcher::SingleSearchFinished(const int request_id, const LyricsSearc
 
 }
 
-void LyricsFetcher::SingleLyricsFetched(const int request_id, const QString &provider, const QString &lyrics) {
+void LyricsFetcher::SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics) {
 
   if (!active_requests_.contains(request_id)) return;
 

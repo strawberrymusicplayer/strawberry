@@ -431,7 +431,7 @@ void ContextView::SearchLyrics() {
   if (lyrics_.isEmpty() && action_show_lyrics_->isChecked() && action_search_lyrics_->isChecked() && !song_playing_.artist().isEmpty() && !song_playing_.title().isEmpty() && !lyrics_tried_ && lyrics_id_ == -1) {
     lyrics_fetcher_->Clear();
     lyrics_tried_ = true;
-    lyrics_id_ = lyrics_fetcher_->Search(song_playing_.effective_albumartist(), song_playing_.album(), song_playing_.title());
+    lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song_playing_.effective_albumartist(), song_playing_.album(), song_playing_.title()));
   }
 
 }
@@ -715,9 +715,9 @@ void ContextView::ResetSong() {
 
 }
 
-void ContextView::UpdateLyrics(const int id, const QString &provider, const QString &lyrics) {
+void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics) {
 
-  if (id != lyrics_id_) return;
+  if (static_cast<qint64>(id) != lyrics_id_) return;
   lyrics_ = lyrics + "\n\n(Lyrics from " + provider + ")\n";
   lyrics_id_ = -1;
   if (action_show_lyrics_->isChecked()) {

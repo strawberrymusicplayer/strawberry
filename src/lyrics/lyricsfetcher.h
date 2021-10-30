@@ -38,7 +38,7 @@ class LyricsFetcherSearch;
 
 struct LyricsSearchRequest {
   explicit LyricsSearchRequest() : id(-1) {}
-  int id;
+  quint64 id;
   QString artist;
   QString album;
   QString title;
@@ -65,29 +65,29 @@ class LyricsFetcher : public QObject {
   explicit LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent = nullptr);
   ~LyricsFetcher() override {}
 
-  int Search(const QString &artist, const QString &album, const QString &title);
+  quint64 Search(const QString &artist, const QString &album, const QString &title);
   void Clear();
 
  private:
   void AddRequest(const LyricsSearchRequest &req);
 
  signals:
-  void LyricsFetched(int request_id, QString provider, QString lyrics);
-  void SearchFinished(int request_id, LyricsSearchResults results);
+  void LyricsFetched(quint64 request_id, QString provider, QString lyrics);
+  void SearchFinished(quint64 request_id, LyricsSearchResults results);
 
  private slots:
-  void SingleSearchFinished(const int request_id, const LyricsSearchResults &results);
-  void SingleLyricsFetched(const int request_id, const QString &provider, const QString &lyrics);
+  void SingleSearchFinished(const quint64 request_id, const LyricsSearchResults &results);
+  void SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics);
   void StartRequests();
 
  private:
   static const int kMaxConcurrentRequests;
 
   LyricsProviders *lyrics_providers_;
-  int next_id_;
+  quint64 next_id_;
 
   QQueue<LyricsSearchRequest> queued_requests_;
-  QHash<int, LyricsFetcherSearch*> active_requests_;
+  QHash<quint64, LyricsFetcherSearch*> active_requests_;
 
   QTimer *request_starter_;
 
