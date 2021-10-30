@@ -247,7 +247,7 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
 
 void ContextAlbumsModel::Reset() {
 
-  for (QMap<QString, CollectionItem*>::iterator it = container_nodes_.begin(); it != container_nodes_.end(); ++it) {
+  for (QMap<QString, CollectionItem*>::const_iterator it = container_nodes_.constBegin(); it != container_nodes_.constEnd(); ++it) {
     const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(it.value()));
     QPixmapCache::remove(cache_key);
   }
