@@ -145,7 +145,7 @@ void SomaFMService::GetStreamUrl(const int task_id, const RadioChannel &channel)
 
 }
 
-void SomaFMService::GetStreamUrlsReply(QNetworkReply *reply, const int task_id, RadioChannel channel) {
+void SomaFMService::GetStreamUrlsReply(QNetworkReply *reply, const int task_id, RadioChannel channel) {  // clazy:exclude=function-args-by-ref
 
   if (replies_.contains(reply)) replies_.removeAll(reply);
   reply->deleteLater();
