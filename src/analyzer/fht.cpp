@@ -76,7 +76,7 @@ void FHT::logSpectrum(float *out, float *p) {
   int n = num_ / 2, i = 0, k = 0, *r = nullptr;
   if (log_vector_.size() < n) {
     log_vector_.resize(n);
-    float f = static_cast<float>(n) / static_cast<float>(log10(static_cast<float>(n)));
+    float f = static_cast<float>(n) / static_cast<float>(log10(static_cast<double>(n)));
     for (i = 0, r = log_(); i < n; i++, r++) {
       int j = static_cast<int>(rint(log10(i + 1.0) * f));
       *r = j >= n ? n - 1 : j;
