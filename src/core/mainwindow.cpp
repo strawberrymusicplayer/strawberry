@@ -461,6 +461,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   ui_->action_settings->setIcon(IconLoader::Load("configure"));
   ui_->action_import_data_from_last_fm->setIcon(IconLoader::Load("scrobble"));
   ui_->action_console->setIcon(IconLoader::Load("window"));
+  ui_->action_toggle_show_sidebar->setIcon(IconLoader::Load("sidebar-collapse"));
 
   // Scrobble
 
