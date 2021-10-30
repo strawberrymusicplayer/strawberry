@@ -122,8 +122,8 @@ enum IoPriority {
   };
 static const int IOPRIO_CLASS_SHIFT = 13;
 
-int SetThreadIOPriority(const IoPriority priority);
-int GetThreadId();
+long SetThreadIOPriority(const IoPriority priority);
+long GetThreadId();
 
 QString GetRandomStringWithChars(const int len);
 QString GetRandomStringWithCharsAndNumbers(const int len);

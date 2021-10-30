@@ -658,7 +658,7 @@ QString DecodeHtmlEntities(const QString &text) {
 
 }
 
-int SetThreadIOPriority(const IoPriority priority) {
+long SetThreadIOPriority(const IoPriority priority) {
 
 #ifdef Q_OS_LINUX
   return syscall(SYS_ioprio_set, IOPRIO_WHO_PROCESS, GetThreadId(), 4 | priority << IOPRIO_CLASS_SHIFT);
@@ -671,7 +671,7 @@ int SetThreadIOPriority(const IoPriority priority) {
 
 }
 
-int GetThreadId() {
+long GetThreadId() {
 
 #ifdef Q_OS_LINUX
   return syscall(SYS_gettid);
