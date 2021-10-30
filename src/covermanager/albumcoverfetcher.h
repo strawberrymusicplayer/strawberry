@@ -46,7 +46,7 @@ class AlbumCoverFetcherSearch;
 
 // This class represents a single search-for-cover request. It identifies and describes the request.
 struct CoverSearchRequest {
-  explicit CoverSearchRequest() : id(-1), search(false), batch(false) {}
+  explicit CoverSearchRequest() : id(0), search(false), batch(false) {}
 
   // An unique (for one AlbumCoverFetcher) request identifier
   quint64 id;
