@@ -912,7 +912,7 @@ gboolean GstEnginePipeline::BusCallback(GstBus*, GstMessage *msg, gpointer self)
       break;
   }
 
-  return FALSE;
+  return TRUE;
 
 }
 
