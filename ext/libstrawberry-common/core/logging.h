@@ -68,28 +68,27 @@ enum Level {
 };
 
   void Init();
-  void SetLevels(const QString& levels);
+  void SetLevels(const QString &levels);
 
   void DumpStackTrace();
 
-QDebug CreateLoggerInfo(int line, const char *pretty_function, const char* category);
-QDebug CreateLoggerFatal(int line, const char *pretty_function, const char* category);
-QDebug CreateLoggerError(int line, const char *pretty_function, const char* category);
+QDebug CreateLoggerInfo(int line, const char *pretty_function, const char *category);
+QDebug CreateLoggerFatal(int line, const char *pretty_function, const char *category);
+QDebug CreateLoggerError(int line, const char *pretty_function, const char *category);
 
 #ifdef QT_NO_WARNING_OUTPUT
   QNoDebug CreateLoggerWarning(int, const char*, const char*);
 #else
-  QDebug CreateLoggerWarning(int line, const char *pretty_function, const char* category);
+  QDebug CreateLoggerWarning(int line, const char *pretty_function, const char *category);
 #endif // QT_NO_WARNING_OUTPUT
 
 #ifdef QT_NO_DEBUG_OUTPUT
   QNoDebug CreateLoggerDebug(int, const char*, const char*);
 #else
-  QDebug CreateLoggerDebug(int line, const char *pretty_function, const char* category);
+  QDebug CreateLoggerDebug(int line, const char *pretty_function, const char *category);
 #endif  // QT_NO_DEBUG_OUTPUT
 
-
-void GLog(const char* domain, int level, const char* message, void* user_data);
+void GLog(const char *domain, int level, const char *message, void *user_data);
 
 extern const char *kDefaultLogLevels;
 

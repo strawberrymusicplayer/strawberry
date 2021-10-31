@@ -52,17 +52,17 @@
 namespace logging {
 
 static Level sDefaultLevel = Level_Debug;
-static QMap<QString, Level>* sClassLevels = nullptr;
+static QMap<QString, Level> *sClassLevels = nullptr;
 static QIODevice *sNullDevice = nullptr;
 
-const char* kDefaultLogLevels = "*:3";
+const char *kDefaultLogLevels = "*:3";
 
 static const char *kMessageHandlerMagic = "__logging_message__";
 static const size_t kMessageHandlerMagicLength = strlen(kMessageHandlerMagic);
 static QtMessageHandler sOriginalMessageHandler = nullptr;
 
 template <class T>
-static T CreateLogger(Level level, const QString& class_name, int line, const char* category);
+static T CreateLogger(Level level, const QString &class_name, int line, const char *category);
 
 void GLog(const char *domain, int level, const char *message, void*) {
 
@@ -93,8 +93,8 @@ class DebugBase : public QDebug {
  public:
   DebugBase() : QDebug(sNullDevice) {}
   explicit DebugBase(QtMsgType t) : QDebug(t) {}
-  T& space() { return static_cast<T&>(QDebug::space()); }
-  T& noSpace() { return static_cast<T&>(QDebug::nospace()); }
+  T &space() { return static_cast<T&>(QDebug::space()); }
+  T &nospace() { return static_cast<T&>(QDebug::nospace()); }
 };
 
 // Debug message will be stored in a buffer.
@@ -111,7 +111,7 @@ class BufferedDebug : public DebugBase<BufferedDebug> {
 
   // Delete function for the buffer. Since a base class is holding a reference to the raw pointer,
   // it shouldn't be deleted until after the deletion of this object is complete.
-  static void later_deleter(QBuffer* b) { b->deleteLater(); }
+  static void later_deleter(QBuffer *b) { b->deleteLater(); }
 
   std::shared_ptr<QBuffer> buf_;
 };
@@ -145,7 +145,7 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QStr
       break;
   }
 
-  for (const QString& line : message.split('\n')) {
+  for (const QString &line : message.split('\n')) {
     BufferedDebug d = CreateLogger<BufferedDebug>(level, "unknown", -1, nullptr);
     d << line.toLocal8Bit().constData();
     if (d.buf_) {
@@ -173,6 +173,7 @@ void Init() {
   if (!sOriginalMessageHandler) {
     sOriginalMessageHandler = qInstallMessageHandler(MessageHandler);
   }
+
 }
 
 void SetLevels(const QString &levels) {
@@ -229,10 +230,11 @@ static QString ParsePrettyFunction(const char *pretty_function) {
   }
 
   return class_name;
+
 }
 
 template <class T>
-static T CreateLogger(Level level, const QString &class_name, int line, const char* category) {
+static T CreateLogger(Level level, const QString &class_name, int line, const char *category) {
 
   // Map the level to a string
   const char *level_name = nullptr;
@@ -269,11 +271,10 @@ static T CreateLogger(Level level, const QString &class_name, int line, const ch
   }
 
   T ret(type);
-  ret.nospace() << QDateTime::currentDateTime().toString("hh:mm:ss.zzz").toLatin1().constData()
-                << level_name
-                << function_line.leftJustified(32).toLatin1().constData();
+  ret.nospace() << QDateTime::currentDateTime().toString("hh:mm:ss.zzz").toLatin1().constData() << level_name << function_line.leftJustified(32).toLatin1().constData();
 
   return ret.space();
+
 }
 
 #ifdef Q_OS_UNIX
@@ -303,6 +304,7 @@ QString LinuxDemangle(const QString &symbol) {
   }
   QString mangled_function = match.captured(1);
   return CXXDemangle(mangled_function);
+
 }
 #endif  // Q_OS_LINUX
 
@@ -323,6 +325,7 @@ QString DarwinDemangle(const QString &symbol) {
 
 QString DemangleSymbol(const QString &symbol);
 QString DemangleSymbol(const QString &symbol) {
+
 #ifdef Q_OS_MACOS
   return DarwinDemangle(symbol);
 #elif defined(Q_OS_LINUX)
@@ -330,9 +333,11 @@ QString DemangleSymbol(const QString &symbol) {
 #else
   return symbol;
 #endif
+
 }
 
 void DumpStackTrace() {
+
 #ifdef HAVE_BACKTRACE
   void *callstack[128];
   int callstack_size = backtrace(reinterpret_cast<void**>(&callstack), sizeof(callstack));
@@ -345,11 +350,11 @@ void DumpStackTrace() {
 #else
   qLog(Debug) << "FIXME: Implement printing stack traces on this platform";
 #endif
+
 }
 
-// These are the functions that create loggers for the rest of Clementine.
-// It's okay that the LoggedDebug instance is copied to a QDebug in these. It
-// doesn't override any behavior that should be needed after return.
+// These are the functions that create loggers for the rest of Strawberry.
+// It's okay that the LoggedDebug instance is copied to a QDebug in these. It doesn't override any behavior that should be needed after return.
 #define qCreateLogger(line, pretty_function, category, level) logging::CreateLogger<LoggedDebug>(logging::Level_##level, logging::ParsePrettyFunction(pretty_function), line, category)
 
 QDebug CreateLoggerInfo(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Info); }
@@ -359,13 +364,13 @@ QDebug CreateLoggerError(int line, const char *pretty_function, const char *cate
 #ifdef QT_NO_WARNING_OUTPUT
   QNoDebug CreateLoggerWarning(int, const char*, const char*) { return QNoDebug(); }
 #else
-  QDebug CreateLoggerWarning(int line, const char *pretty_function, const char* category) { return qCreateLogger(line, pretty_function, category, Warning); }
+  QDebug CreateLoggerWarning(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Warning); }
 #endif // QT_NO_WARNING_OUTPUT
 
 #ifdef QT_NO_DEBUG_OUTPUT
   QNoDebug CreateLoggerDebug(int, const char*, const char*) { return QNoDebug(); }
 #else
-  QDebug CreateLoggerDebug(int line, const char *pretty_function, const char* category) { return qCreateLogger(line, pretty_function, category, Debug); }
+  QDebug CreateLoggerDebug(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Debug); }
 #endif // QT_NO_DEBUG_OUTPUT
 
 }  // namespace logging
@@ -383,4 +388,3 @@ QDebug operator<<(QDebug dbg, std::chrono::seconds secs) {
   dbg.nospace() << print_duration(secs, "s");
   return dbg.space();
 }
-
