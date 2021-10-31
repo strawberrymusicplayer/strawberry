@@ -19,6 +19,17 @@
   background-clip: content;
 }
 
+macos QToolButton {
+  border: 2px solid transparent;
+  border-radius: 3px;
+  padding: 1px;
+}
+
+macos QToolButton::menu-button {
+  width: 16px;
+  border: none;
+}
+
 QToolButton[popupMode="1"] {
   padding-right: 16px;
 }
@@ -27,12 +38,20 @@ QToolButton:hover {
   background-color: %palette-highlight-lighter;
 }
 
+macos QToolButton:hover {
+  border: 2px solid %palette-highlight;
+}
+
 QToolButton:hover[popupMode="1"] {
   padding-right: 16px;
 }
 
 QToolButton:pressed {
   background-color: %palette-highlight-lighter;
+}
+
+macos QToolButton:pressed {
+  border: 2px solid %palette-highlight-darker;
 }
 
 QToolButton:pressed[popupMode="1"] {
