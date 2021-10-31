@@ -1680,13 +1680,13 @@ void Song::ToXesam(QVariantMap *map) const {
 
 }
 
-void Song::MergeUserSetData(const Song &other) {
+void Song::MergeUserSetData(const Song &other, const bool merge_rating) {
 
   if (other.playcount() > 0) {
     set_playcount(other.playcount());
   }
 
-  if (other.rating() > 0) {
+  if (merge_rating && other.rating() > 0.0F) {
     set_rating(other.rating());
   }
 

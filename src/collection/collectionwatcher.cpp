@@ -150,6 +150,7 @@ void CollectionWatcher::ReloadSettings() {
   song_tracking_ = s.value("song_tracking", false).toBool();
   mark_songs_unavailable_ = song_tracking_ ? true : s.value("mark_songs_unavailable", true).toBool();
   expire_unavailable_songs_days_ = s.value("expire_unavailable_songs", 60).toInt();
+  overwrite_rating_ = s.value("overwrite_rating", false).toBool();
   s.endGroup();
 
   best_image_filters_.clear();
@@ -726,7 +727,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
       const Song matching_cue_song = sections_map[new_cue_song.beginning_nanosec()];
       new_cue_song.set_id(matching_cue_song.id());
       if (!new_cue_song.has_embedded_cover()) new_cue_song.set_art_automatic(image);
-      new_cue_song.MergeUserSetData(matching_cue_song);
+      new_cue_song.MergeUserSetData(matching_cue_song, true);
       AddChangedSong(file, matching_cue_song, new_cue_song, t);
       used_ids.insert(matching_cue_song.id());
     }
@@ -769,7 +770,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
     song_on_disk.set_id(matching_song.id());
     song_on_disk.set_fingerprint(fingerprint);
     if (!song_on_disk.has_embedded_cover()) song_on_disk.set_art_automatic(image);
-    song_on_disk.MergeUserSetData(matching_song);
+    song_on_disk.MergeUserSetData(matching_song, !overwrite_rating_);
     AddChangedSong(file, matching_song, song_on_disk, t);
   }
 

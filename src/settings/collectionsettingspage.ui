@@ -561,6 +561,13 @@ If there are no matches then it will use the largest image in the directory.</st
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkbox_overwrite_rating">
+        <property name="text">
+         <string>Overwrite database rating when songs are re-read from disk</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="layout_statistics_button">
         <item>
          <widget class="QPushButton" name="button_save_stats">

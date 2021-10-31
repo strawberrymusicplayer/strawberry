@@ -213,6 +213,7 @@ class CollectionWatcher : public QObject {
   bool song_tracking_;
   bool mark_songs_unavailable_;
   int expire_unavailable_songs_days_;
+  bool overwrite_rating_;
 
   bool stop_requested_;
   bool rescan_in_progress_;  // True if RescanTracksNow() has been called and is working.
