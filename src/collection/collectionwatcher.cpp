@@ -87,6 +87,7 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
       song_tracking_(true),
       mark_songs_unavailable_(true),
       expire_unavailable_songs_days_(60),
+      overwrite_rating_(false),
       stop_requested_(false),
       rescan_in_progress_(false),
       rescan_timer_(new QTimer(this)),
