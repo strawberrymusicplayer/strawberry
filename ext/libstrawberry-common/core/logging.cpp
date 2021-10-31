@@ -125,8 +125,9 @@ class LoggedDebug : public DebugBase<LoggedDebug> {
 
 static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QString &message) {
 
-  if (strncmp(kMessageHandlerMagic, message.toLocal8Bit().data(), kMessageHandlerMagicLength) == 0) {
-    fprintf(stderr, "%s\n", message.toLocal8Bit().data() + kMessageHandlerMagicLength);
+  if (message.startsWith(kMessageHandlerMagic)) {
+    fprintf(type == QtCriticalMsg || type == QtFatalMsg ? stderr : stdout, "%s\n", message.toUtf8().data() + kMessageHandlerMagicLength);
+    fflush(type == QtCriticalMsg || type == QtFatalMsg ? stderr : stdout);
     return;
   }
 
@@ -150,7 +151,8 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QStr
     d << line.toLocal8Bit().constData();
     if (d.buf_) {
       d.buf_->close();
-      fprintf(stderr, "%s\n", d.buf_->buffer().data());
+      fprintf(type == QtCriticalMsg || type == QtFatalMsg ? stderr : stdout, "%s\n", d.buf_->buffer().data());
+      fflush(type == QtCriticalMsg || type == QtFatalMsg ? stderr : stdout);
     }
   }
 
