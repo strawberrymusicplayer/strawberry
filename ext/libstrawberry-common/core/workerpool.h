@@ -19,6 +19,7 @@
 #ifndef WORKERPOOL_H
 #define WORKERPOOL_H
 
+#include <cstdio>
 #include <cstddef>
 
 #include <QtGlobal>
@@ -56,6 +57,8 @@ class _WorkerPoolBase : public QObject {
  protected slots:
   virtual void DoStart() {}
   virtual void NewConnection() {}
+  virtual void ProcessReadyReadStandardOutput() {}
+  virtual void ProcessReadyReadStandardError() {}
   virtual void ProcessError(QProcess::ProcessError) {}
   virtual void SendQueuedMessages() {}
 };
@@ -98,6 +101,8 @@ class WorkerPool : public _WorkerPoolBase {
   // These are all reimplemented slots, they are called on the WorkerPool's thread.
   void DoStart() override;
   void NewConnection() override;
+  void ProcessReadyReadStandardOutput() override;
+  void ProcessReadyReadStandardError() override;
   void ProcessError(QProcess::ProcessError error) override;
   void SendQueuedMessages() override;
 
@@ -176,6 +181,8 @@ WorkerPool<HandlerType>::~WorkerPool() {
   for (const Worker &worker : workers_) {
     if (worker.local_socket_ && worker.process_) {
       QObject::disconnect(worker.process_, &QProcess::errorOccurred, this, &WorkerPool::ProcessError);
+      QObject::disconnect(worker.process_, &QProcess::readyReadStandardOutput, this, &WorkerPool::ProcessReadyReadStandardOutput);
+      QObject::disconnect(worker.process_, &QProcess::readyReadStandardError, this, &WorkerPool::ProcessReadyReadStandardError);
 
       // The worker is connected.  Close his socket and wait for him to exit.
       qLog(Debug) << "Closing worker socket";
@@ -276,6 +283,8 @@ void WorkerPool<HandlerType>::StartOneWorker(Worker *worker) {
 
   QObject::connect(worker->local_server_, &QLocalServer::newConnection, this, &WorkerPool::NewConnection);
   QObject::connect(worker->process_, &QProcess::errorOccurred, this, &WorkerPool::ProcessError);
+  QObject::connect(worker->process_, &QProcess::readyReadStandardOutput, this, &WorkerPool::ProcessReadyReadStandardOutput);
+  QObject::connect(worker->process_, &QProcess::readyReadStandardError, this, &WorkerPool::ProcessReadyReadStandardError);
 
   // Create a server, find an unused name and start listening
   forever {
@@ -293,12 +302,12 @@ void WorkerPool<HandlerType>::StartOneWorker(Worker *worker) {
 
   qLog(Debug) << "Starting worker" << worker << executable_path_ << worker->local_server_->fullServerName();
 
-  // Start the process
-#if defined(Q_OS_WIN32) && defined(QT_NO_DEBUG_OUTPUT) && !defined(ENABLE_WIN32_CONSOLE)
+#ifdef Q_OS_WIN32
   worker->process_->setProcessChannelMode(QProcess::SeparateChannels);
 #else
   worker->process_->setProcessChannelMode(QProcess::ForwardedChannels);
 #endif
+
   worker->process_->start(executable_path_, QStringList() << worker->local_server_->fullServerName());
 
 }
@@ -328,6 +337,7 @@ void WorkerPool<HandlerType>::NewConnection() {
   worker->handler_ = new HandlerType(worker->local_socket_, this);
 
   SendQueuedMessages();
+
 }
 
 template <typename HandlerType>
@@ -355,6 +365,30 @@ void WorkerPool<HandlerType>::ProcessError(QProcess::ProcessError error) {
       StartOneWorker(worker);
       break;
   }
+
+}
+
+template <typename HandlerType>
+void WorkerPool<HandlerType>::ProcessReadyReadStandardOutput() {
+
+  Q_ASSERT(QThread::currentThread() == thread());
+
+  QProcess *process = qobject_cast<QProcess*>(sender());
+
+  fprintf(stdout, "%s", process->readAllStandardOutput().data());
+  fflush(stdout);
+
+}
+
+template <typename HandlerType>
+void WorkerPool<HandlerType>::ProcessReadyReadStandardError() {
+
+  Q_ASSERT(QThread::currentThread() == thread());
+
+  QProcess *process = qobject_cast<QProcess*>(sender());
+
+  fprintf(stderr, "%s", process->readAllStandardError().data());
+  fflush(stderr);
 
 }
 
