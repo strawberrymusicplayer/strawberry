@@ -423,7 +423,7 @@ bool TagReaderTagParser::SaveEmbeddedArt(const QString &filename, const QByteArr
 
 }
 
-bool TagReaderTagParser::SaveSongPlaycountToFile(const QString&, const spb::tagreader::SongMetadata&) const {}
+bool TagReaderTagParser::SaveSongPlaycountToFile(const QString&, const spb::tagreader::SongMetadata&) const { return false; }
 
 bool TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
 
