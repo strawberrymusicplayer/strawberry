@@ -374,8 +374,9 @@ void WorkerPool<HandlerType>::ProcessReadyReadStandardOutput() {
   Q_ASSERT(QThread::currentThread() == thread());
 
   QProcess *process = qobject_cast<QProcess*>(sender());
+  QByteArray data = process->readAllStandardOutput();
 
-  fprintf(stdout, "%s", process->readAllStandardOutput().data());
+  fprintf(stdout, "%s", data.data());
   fflush(stdout);
 
 }
@@ -386,8 +387,9 @@ void WorkerPool<HandlerType>::ProcessReadyReadStandardError() {
   Q_ASSERT(QThread::currentThread() == thread());
 
   QProcess *process = qobject_cast<QProcess*>(sender());
+  QByteArray data = process->readAllStandardError();
 
-  fprintf(stderr, "%s", process->readAllStandardError().data());
+  fprintf(stderr, "%s", data.data());
   fflush(stderr);
 
 }
