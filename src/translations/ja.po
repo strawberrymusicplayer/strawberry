@@ -217,7 +217,7 @@ msgstr "%1 転送済み"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:539
+#: ../build/src/ui_collectionsettingspage.h:545
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -602,7 +602,7 @@ msgstr "変換するファイルを追加"
 msgid "Add folder"
 msgstr "フォルダーを追加"
 
-#: ../build/src/ui_collectionsettingspage.h:513
+#: ../build/src/ui_collectionsettingspage.h:519
 msgid "Add new folder..."
 msgstr "新しいフォルダーを追加..."
 
@@ -797,7 +797,7 @@ msgstr "アルバムアーティスト"
 msgid "Album cover editing is only available for collection songs."
 msgstr "アルバムカバーの編集はコレクションだけで可能です。"
 
-#: ../build/src/ui_collectionsettingspage.h:543
+#: ../build/src/ui_collectionsettingspage.h:549
 msgid "Album cover pixmap cache"
 msgstr "アルバムカバーpixmapキャッシュ"
 
@@ -940,7 +940,7 @@ msgstr "プリセット「%1」を削除してもよろしいですか?"
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "この曲の統計をリセットしてもよろしいですか?"
 
-#: settings/collectionsettingspage.cpp:350
+#: settings/collectionsettingspage.cpp:352
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1026,7 +1026,7 @@ msgstr "自動"
 msgid "Automatic"
 msgstr "自動"
 
-#: ../build/src/ui_collectionsettingspage.h:515
+#: ../build/src/ui_collectionsettingspage.h:521
 msgid "Automatic updating"
 msgstr "自動更新中"
 
@@ -1035,7 +1035,7 @@ msgstr "自動更新中"
 msgid "Automatically cover art from %1 is missing"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:528
+#: ../build/src/ui_collectionsettingspage.h:534
 msgid "Automatically open single categories in the collection tree"
 msgstr "下位カテゴリが 1 つしかないときは、ライブラリツリーを自動で開く"
 
@@ -1255,7 +1255,7 @@ msgstr "クラシック"
 msgid "Clear"
 msgstr "クリア"
 
-#: ../build/src/ui_collectionsettingspage.h:549
+#: ../build/src/ui_collectionsettingspage.h:555
 msgid "Clear Disk Cache"
 msgstr "ディスクキャッシュをクリア"
 
@@ -1308,7 +1308,7 @@ msgstr "このウィンドウを閉じるとアルバムカバーの検索を中
 msgid "Club"
 msgstr "クラブ"
 
-#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:511
+#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:517
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "ライブラリ"
@@ -1628,7 +1628,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
-#: ../build/src/ui_collectionsettingspage.h:547
+#: ../build/src/ui_collectionsettingspage.h:553
 msgid "Current disk cache in use:"
 msgstr ""
 
@@ -1801,12 +1801,12 @@ msgstr "ディスク"
 msgid "Discontinuous transmission"
 msgstr "不連続送信 (DTX)"
 
-#: ../build/src/ui_collectionsettingspage.h:546
+#: ../build/src/ui_collectionsettingspage.h:552
 msgid "Disk Cache Size"
 msgstr "ディスクキャッシュサイズ"
 
 #: collection/collectionfilterwidget.cpp:129
-#: ../build/src/ui_collectionsettingspage.h:527
+#: ../build/src/ui_collectionsettingspage.h:533
 msgid "Display options"
 msgstr "画面のオプション"
 
@@ -1938,7 +1938,7 @@ msgstr "埋め込みカバー"
 msgid "Enable"
 msgstr "有効"
 
-#: ../build/src/ui_collectionsettingspage.h:545
+#: ../build/src/ui_collectionsettingspage.h:551
 msgid "Enable Disk Cache"
 msgstr "ディスクキャッシュ有効化"
 
@@ -1946,7 +1946,7 @@ msgstr "ディスクキャッシュ有効化"
 msgid "Enable Items"
 msgstr "アイテム有効化"
 
-#: ../build/src/ui_collectionsettingspage.h:554
+#: ../build/src/ui_collectionsettingspage.h:561
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Enable delete files in the right click context menu"
 msgstr "右クリックメニューでの削除を有効化"
@@ -2115,7 +2115,7 @@ msgstr "既存のカバー"
 msgid "Expand"
 msgstr "展開"
 
-#: ../build/src/ui_collectionsettingspage.h:520
+#: ../build/src/ui_collectionsettingspage.h:526
 msgid "Expire unavailable songs after"
 msgstr ""
 
@@ -2305,7 +2305,7 @@ msgstr "ファイルの種類"
 msgid "Filename"
 msgstr "ファイル名"
 
-#: ../build/src/ui_collectionsettingspage.h:536
+#: ../build/src/ui_collectionsettingspage.h:542
 msgid "Filename:"
 msgstr "ファイル名:"
 
@@ -2930,7 +2930,7 @@ msgstr "Low Complexity プロファイル (LC)"
 msgid "Low watermark"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:541
+#: ../build/src/ui_collectionsettingspage.h:547
 msgid "Lowercase filename"
 msgstr ""
 
@@ -2972,7 +2972,7 @@ msgstr ""
 msgid "Manufacturer"
 msgstr "製造元"
 
-#: ../build/src/ui_collectionsettingspage.h:519
+#: ../build/src/ui_collectionsettingspage.h:525
 msgid "Mark disappeared songs unavailable"
 msgstr ""
 
@@ -3089,7 +3089,7 @@ msgstr "ユーザー名がありません"
 msgid "Model"
 msgstr "モデル"
 
-#: ../build/src/ui_collectionsettingspage.h:517
+#: ../build/src/ui_collectionsettingspage.h:523
 msgid "Monitor the collection for changes"
 msgstr "ライブラリの変更を監視する"
 
@@ -3430,7 +3430,11 @@ msgstr "出力"
 msgid "Output options"
 msgstr "出力のオプション"
 
-#: ../build/src/ui_collectionsettingspage.h:540
+#: ../build/src/ui_collectionsettingspage.h:559
+msgid "Overwrite database rating when songs are re-read from disk"
+msgstr ""
+
+#: ../build/src/ui_collectionsettingspage.h:546
 msgid "Overwrite existing file"
 msgstr "既存ファイルを上書きする"
 
@@ -3466,7 +3470,7 @@ msgstr "パスワード"
 msgid "Path"
 msgstr "パス"
 
-#: ../build/src/ui_collectionsettingspage.h:537
+#: ../build/src/ui_collectionsettingspage.h:543
 msgid "Pattern"
 msgstr "パターン"
 
@@ -3633,7 +3637,7 @@ msgstr "Scrobbles を送信するときにアルバムアーティストを優�
 msgid "Preferences"
 msgstr "設定"
 
-#: ../build/src/ui_collectionsettingspage.h:522
+#: ../build/src/ui_collectionsettingspage.h:528
 msgid "Preferred album art filenames (comma separated)"
 msgstr "優先するアルバムアートのファイル名 (コンマ区切り)"
 
@@ -3775,7 +3779,7 @@ msgstr ""
 msgid "Radios"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:538
+#: ../build/src/ui_collectionsettingspage.h:544
 msgid "Random"
 msgstr "ランダム"
 
@@ -3872,7 +3876,7 @@ msgstr "プレイリストから重複を削除する(&d)"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "プレイリストから利用できないトラックを削除する(&u)"
 
-#: ../build/src/ui_collectionsettingspage.h:514
+#: ../build/src/ui_collectionsettingspage.h:520
 msgid "Remove folder"
 msgstr "フォルダーの削除"
 
@@ -3932,7 +3936,7 @@ msgstr "トラックをリピート"
 msgid "Replace current playlist"
 msgstr "現在のプレイリストを置き換える"
 
-#: ../build/src/ui_collectionsettingspage.h:542
+#: ../build/src/ui_collectionsettingspage.h:548
 msgid "Replace spaces with dashes"
 msgstr ""
 
@@ -4099,15 +4103,15 @@ msgstr "プレイリストを保存(&s)"
 msgid "Save album cover"
 msgstr "カバーアートの保存"
 
-#: ../build/src/ui_collectionsettingspage.h:535
+#: ../build/src/ui_collectionsettingspage.h:541
 msgid "Save album covers as embedded cover"
 msgstr "アルバムカバーを埋め込みカバーとして保存"
 
-#: ../build/src/ui_collectionsettingspage.h:533
+#: ../build/src/ui_collectionsettingspage.h:539
 msgid "Save album covers in album directory"
 msgstr "アルバムカバーをアルバムディレクトリに保存"
 
-#: ../build/src/ui_collectionsettingspage.h:534
+#: ../build/src/ui_collectionsettingspage.h:540
 msgid "Save album covers in cache directory"
 msgstr "アルバムカバーをキャッシュディレクトリに保存"
 
@@ -4119,11 +4123,11 @@ msgstr "カバーをディスクに保存..."
 msgid "Save current grouping"
 msgstr "現在の分類を保存する"
 
-#: ../build/src/ui_collectionsettingspage.h:553
+#: ../build/src/ui_collectionsettingspage.h:560
 msgid "Save playcounts and ratings to files now"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:551
+#: ../build/src/ui_collectionsettingspage.h:557
 msgid "Save playcounts to song tags when possible"
 msgstr ""
 
@@ -4145,7 +4149,7 @@ msgstr "プレイリストの保存..."
 msgid "Save preset"
 msgstr "プリセットの保存"
 
-#: ../build/src/ui_collectionsettingspage.h:552
+#: ../build/src/ui_collectionsettingspage.h:558
 msgid "Save ratings to song tags when possible"
 msgstr ""
 
@@ -4157,7 +4161,7 @@ msgstr ""
 msgid "Saved Grouping Manager"
 msgstr "保存した分類マネージャー"
 
-#: ../build/src/ui_collectionsettingspage.h:531
+#: ../build/src/ui_collectionsettingspage.h:537
 msgid "Saving album covers"
 msgstr "アルバムカバーを保存"
 
@@ -4377,7 +4381,7 @@ msgstr "ステータスバーの上に表示"
 msgid "Show album cover"
 msgstr "アルバムカバーを表示"
 
-#: ../build/src/ui_collectionsettingspage.h:529
+#: ../build/src/ui_collectionsettingspage.h:535
 msgid "Show album cover art in collection"
 msgstr "コレクションでアルバムカバーアートを表示"
 
@@ -4397,7 +4401,7 @@ msgstr "すべての曲を表示"
 msgid "Show dialog for errors"
 msgstr "エラーダイアログを表示"
 
-#: ../build/src/ui_collectionsettingspage.h:530
+#: ../build/src/ui_collectionsettingspage.h:536
 msgid "Show dividers"
 msgstr "区切りを表示する"
 
@@ -4507,7 +4511,7 @@ msgid "Signing in..."
 msgstr "サインインしています..."
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:544
+#: ../build/src/ui_collectionsettingspage.h:550
 msgid "Size"
 msgstr "サイズ"
 
@@ -4571,11 +4575,11 @@ msgstr ""
 msgid "Song Lyrics"
 msgstr "歌詞"
 
-#: ../build/src/ui_collectionsettingspage.h:518
+#: ../build/src/ui_collectionsettingspage.h:524
 msgid "Song fingerprinting and tracking"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:550
+#: ../build/src/ui_collectionsettingspage.h:556
 msgid "Song playcounts and ratings"
 msgstr ""
 
@@ -4915,7 +4919,7 @@ msgid ""
 "continue?"
 msgstr "これらのファイルはデバイスから削除されます。続行してもよろしいですか?"
 
-#: ../build/src/ui_collectionsettingspage.h:512
+#: ../build/src/ui_collectionsettingspage.h:518
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "これらのフォルダーはライブラリを作成するためにスキャンされます"
 
@@ -5119,11 +5123,11 @@ msgstr "選択したトラックをスキップしない"
 msgid "Unskip track"
 msgstr "トラックをスキップしない"
 
-#: ../build/src/ui_collectionsettingspage.h:516
+#: ../build/src/ui_collectionsettingspage.h:522
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry の起動時にライブラリを更新する"
 
-#: collection/collectionwatcher.cpp:202
+#: collection/collectionwatcher.cpp:204
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 の更新中"
@@ -5138,7 +5142,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "更新しています %1%..."
 
-#: collection/collectionwatcher.cpp:199
+#: collection/collectionwatcher.cpp:201
 msgid "Updating collection"
 msgstr "ライブラリの更新中"
 
@@ -5333,7 +5337,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr "週"
 
-#: ../build/src/ui_collectionsettingspage.h:524
+#: ../build/src/ui_collectionsettingspage.h:530
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5368,7 +5372,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "全体の再スキャンを今すぐ実行しますか?"
 
-#: settings/collectionsettingspage.cpp:350
+#: settings/collectionsettingspage.cpp:352
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
@@ -5529,7 +5533,7 @@ msgstr "チャネル"
 msgid "contains"
 msgstr "含む"
 
-#: ../build/src/ui_collectionsettingspage.h:521
+#: ../build/src/ui_collectionsettingspage.h:527
 msgid "days"
 msgstr "日"
 

@@ -228,7 +228,7 @@ msgstr "%1 átküldve"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:539
+#: ../build/src/ui_collectionsettingspage.h:545
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -618,7 +618,7 @@ msgstr "Fájlok hozzáadása átkódoláshoz"
 msgid "Add folder"
 msgstr "Mappa hozzáadása"
 
-#: ../build/src/ui_collectionsettingspage.h:513
+#: ../build/src/ui_collectionsettingspage.h:519
 msgid "Add new folder..."
 msgstr "Új mappa hozzáadása…"
 
@@ -814,7 +814,7 @@ msgid "Album cover editing is only available for collection songs."
 msgstr ""
 "Az albumborító szerkesztése csak a gyűjteményben lévő számoknál érhető el."
 
-#: ../build/src/ui_collectionsettingspage.h:543
+#: ../build/src/ui_collectionsettingspage.h:549
 msgid "Album cover pixmap cache"
 msgstr "Albumborító-gyorsítótár"
 
@@ -957,7 +957,7 @@ msgstr "Biztos, hogy törli a(z) „%1” előbeállítást?"
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Biztos, hogy visszaállítja a szám statisztikáit?"
 
-#: settings/collectionsettingspage.cpp:350
+#: settings/collectionsettingspage.cpp:352
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1043,7 +1043,7 @@ msgstr "Automatikus"
 msgid "Automatic"
 msgstr "Automatikus"
 
-#: ../build/src/ui_collectionsettingspage.h:515
+#: ../build/src/ui_collectionsettingspage.h:521
 msgid "Automatic updating"
 msgstr "Automatikus frissítés"
 
@@ -1052,7 +1052,7 @@ msgstr "Automatikus frissítés"
 msgid "Automatically cover art from %1 is missing"
 msgstr "A(z) %1 automatikus albumborítója hiányzik"
 
-#: ../build/src/ui_collectionsettingspage.h:528
+#: ../build/src/ui_collectionsettingspage.h:534
 msgid "Automatically open single categories in the collection tree"
 msgstr "Egyelemű kategóriák automatikus listázása a gyűjteményben"
 
@@ -1275,7 +1275,7 @@ msgstr "Klasszikus"
 msgid "Clear"
 msgstr "Ürítés"
 
-#: ../build/src/ui_collectionsettingspage.h:549
+#: ../build/src/ui_collectionsettingspage.h:555
 msgid "Clear Disk Cache"
 msgstr "Lemezgyorsítótár törlése"
 
@@ -1328,7 +1328,7 @@ msgstr "Ezen ablak bezárása megszakítja az albumborítók keresését."
 msgid "Club"
 msgstr "Klub"
 
-#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:511
+#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:517
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Gyűjtemény"
@@ -1654,7 +1654,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Fel"
 
-#: ../build/src/ui_collectionsettingspage.h:547
+#: ../build/src/ui_collectionsettingspage.h:553
 msgid "Current disk cache in use:"
 msgstr "Jelenleg használt lemezgyorsítótár:"
 
@@ -1827,12 +1827,12 @@ msgstr "Lemez"
 msgid "Discontinuous transmission"
 msgstr "Szakaszos átvitel"
 
-#: ../build/src/ui_collectionsettingspage.h:546
+#: ../build/src/ui_collectionsettingspage.h:552
 msgid "Disk Cache Size"
 msgstr "Lemezgyorsítótár mérete"
 
 #: collection/collectionfilterwidget.cpp:129
-#: ../build/src/ui_collectionsettingspage.h:527
+#: ../build/src/ui_collectionsettingspage.h:533
 msgid "Display options"
 msgstr "Megjelenítési beállítások"
 
@@ -1964,7 +1964,7 @@ msgstr "Beágyazott albumborító"
 msgid "Enable"
 msgstr "Engedélyezés"
 
-#: ../build/src/ui_collectionsettingspage.h:545
+#: ../build/src/ui_collectionsettingspage.h:551
 msgid "Enable Disk Cache"
 msgstr "Lemezgyorsítótár engedélyezése"
 
@@ -1972,7 +1972,7 @@ msgstr "Lemezgyorsítótár engedélyezése"
 msgid "Enable Items"
 msgstr "Elemek engedélyezése"
 
-#: ../build/src/ui_collectionsettingspage.h:554
+#: ../build/src/ui_collectionsettingspage.h:561
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Enable delete files in the right click context menu"
 msgstr "Fájlok törlésének engedélyezése a jobb-kattintásos menüből"
@@ -2142,7 +2142,7 @@ msgstr "Meglévő borítók"
 msgid "Expand"
 msgstr "Kibontás"
 
-#: ../build/src/ui_collectionsettingspage.h:520
+#: ../build/src/ui_collectionsettingspage.h:526
 msgid "Expire unavailable songs after"
 msgstr "Nem elérhető számok elévülése ennyi idő után"
 
@@ -2332,7 +2332,7 @@ msgstr "Fájltípus"
 msgid "Filename"
 msgstr "Fájlnév"
 
-#: ../build/src/ui_collectionsettingspage.h:536
+#: ../build/src/ui_collectionsettingspage.h:542
 msgid "Filename:"
 msgstr "Fájlnév:"
 
@@ -2972,7 +2972,7 @@ msgstr "Alacsony komplexitású profil (LC)"
 msgid "Low watermark"
 msgstr "Alacsony vízjel"
 
-#: ../build/src/ui_collectionsettingspage.h:541
+#: ../build/src/ui_collectionsettingspage.h:547
 msgid "Lowercase filename"
 msgstr "Kisbetűs fájlnevek"
 
@@ -3014,7 +3014,7 @@ msgstr "Albumborító manuális beállítása innen: %1"
 msgid "Manufacturer"
 msgstr "Gyártó"
 
-#: ../build/src/ui_collectionsettingspage.h:519
+#: ../build/src/ui_collectionsettingspage.h:525
 msgid "Mark disappeared songs unavailable"
 msgstr "Eltűnt számok megjelölése nem elérhetőként"
 
@@ -3131,7 +3131,7 @@ msgstr "Hiányzó felhasználónév."
 msgid "Model"
 msgstr "Modell"
 
-#: ../build/src/ui_collectionsettingspage.h:517
+#: ../build/src/ui_collectionsettingspage.h:523
 msgid "Monitor the collection for changes"
 msgstr "Gyűjtemény figyelése változások után"
 
@@ -3479,7 +3479,11 @@ msgstr "Kimenet"
 msgid "Output options"
 msgstr "Kimenet beállításai"
 
-#: ../build/src/ui_collectionsettingspage.h:540
+#: ../build/src/ui_collectionsettingspage.h:559
+msgid "Overwrite database rating when songs are re-read from disk"
+msgstr ""
+
+#: ../build/src/ui_collectionsettingspage.h:546
 msgid "Overwrite existing file"
 msgstr "Létező fájl felülírása"
 
@@ -3515,7 +3519,7 @@ msgstr "Jelszó"
 msgid "Path"
 msgstr "Útvonal"
 
-#: ../build/src/ui_collectionsettingspage.h:537
+#: ../build/src/ui_collectionsettingspage.h:543
 msgid "Pattern"
 msgstr "Minta"
 
@@ -3684,7 +3688,7 @@ msgstr "Albumelőadó előnyben részesítése scrobble-ok beküldésénél"
 msgid "Preferences"
 msgstr "Beállítások"
 
-#: ../build/src/ui_collectionsettingspage.h:522
+#: ../build/src/ui_collectionsettingspage.h:528
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Előnyben részesített albumborító fájlnevek (vesszővel elválasztva)"
 
@@ -3831,7 +3835,7 @@ msgstr ""
 msgid "Radios"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:538
+#: ../build/src/ui_collectionsettingspage.h:544
 msgid "Random"
 msgstr "Véletlenszerű"
 
@@ -3929,7 +3933,7 @@ msgstr "Más&olatok törlése a lejátszólistáról"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "&Nem elérhető számok törlése a lejátszólistáról"
 
-#: ../build/src/ui_collectionsettingspage.h:514
+#: ../build/src/ui_collectionsettingspage.h:520
 msgid "Remove folder"
 msgstr "Mappa eltávolítása"
 
@@ -3989,7 +3993,7 @@ msgstr "Szám ismétlése"
 msgid "Replace current playlist"
 msgstr "Aktuális lejátszólista cseréje"
 
-#: ../build/src/ui_collectionsettingspage.h:542
+#: ../build/src/ui_collectionsettingspage.h:548
 msgid "Replace spaces with dashes"
 msgstr "Szóközök lecserélése kötőjelekkel"
 
@@ -4157,15 +4161,15 @@ msgstr "Leját&szólista mentése..."
 msgid "Save album cover"
 msgstr "Albumborító mentése"
 
-#: ../build/src/ui_collectionsettingspage.h:535
+#: ../build/src/ui_collectionsettingspage.h:541
 msgid "Save album covers as embedded cover"
 msgstr "Albumborítók mentése beágyazott borítóként"
 
-#: ../build/src/ui_collectionsettingspage.h:533
+#: ../build/src/ui_collectionsettingspage.h:539
 msgid "Save album covers in album directory"
 msgstr "Albumborítók mentése az album könyvtárába"
 
-#: ../build/src/ui_collectionsettingspage.h:534
+#: ../build/src/ui_collectionsettingspage.h:540
 msgid "Save album covers in cache directory"
 msgstr "Albumborítók mentése gyorsítótárba"
 
@@ -4177,11 +4181,11 @@ msgstr "Borító mentése lemezre..."
 msgid "Save current grouping"
 msgstr "Jelenlegi csoportosítás mentése"
 
-#: ../build/src/ui_collectionsettingspage.h:553
+#: ../build/src/ui_collectionsettingspage.h:560
 msgid "Save playcounts and ratings to files now"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:551
+#: ../build/src/ui_collectionsettingspage.h:557
 msgid "Save playcounts to song tags when possible"
 msgstr ""
 
@@ -4203,7 +4207,7 @@ msgstr "Lejátszólista mentése..."
 msgid "Save preset"
 msgstr "Beállítás mentése"
 
-#: ../build/src/ui_collectionsettingspage.h:552
+#: ../build/src/ui_collectionsettingspage.h:558
 msgid "Save ratings to song tags when possible"
 msgstr ""
 
@@ -4215,7 +4219,7 @@ msgstr "A .mood fájlok mentése a számok mappáiba"
 msgid "Saved Grouping Manager"
 msgstr "Csoportosításkezelő"
 
-#: ../build/src/ui_collectionsettingspage.h:531
+#: ../build/src/ui_collectionsettingspage.h:537
 msgid "Saving album covers"
 msgstr "Albumborítók mentése"
 
@@ -4435,7 +4439,7 @@ msgstr "Megjelenítés az állapotsáv felett"
 msgid "Show album cover"
 msgstr "Albumborító megjelenítése"
 
-#: ../build/src/ui_collectionsettingspage.h:529
+#: ../build/src/ui_collectionsettingspage.h:535
 msgid "Show album cover art in collection"
 msgstr "Albumborító megjelenítése a gyűjteményben"
 
@@ -4455,7 +4459,7 @@ msgstr "Összes szám megjelenítése"
 msgid "Show dialog for errors"
 msgstr "Párbeszédablak megjelenítése hibáknál"
 
-#: ../build/src/ui_collectionsettingspage.h:530
+#: ../build/src/ui_collectionsettingspage.h:536
 msgid "Show dividers"
 msgstr "Elválasztók megjelenítése"
 
@@ -4565,7 +4569,7 @@ msgid "Signing in..."
 msgstr "Belépés..."
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:544
+#: ../build/src/ui_collectionsettingspage.h:550
 msgid "Size"
 msgstr "Méret"
 
@@ -4629,11 +4633,11 @@ msgstr ""
 msgid "Song Lyrics"
 msgstr "Dalszöveg"
 
-#: ../build/src/ui_collectionsettingspage.h:518
+#: ../build/src/ui_collectionsettingspage.h:524
 msgid "Song fingerprinting and tracking"
 msgstr "Számok ujjlenyomat-készítése és követése"
 
-#: ../build/src/ui_collectionsettingspage.h:550
+#: ../build/src/ui_collectionsettingspage.h:556
 msgid "Song playcounts and ratings"
 msgstr ""
 
@@ -4988,7 +4992,7 @@ msgid ""
 msgstr ""
 "Ezek a fájlok törölve lesznek az eszközről. Biztos benne, hogy folytatja?"
 
-#: ../build/src/ui_collectionsettingspage.h:512
+#: ../build/src/ui_collectionsettingspage.h:518
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "Ezek a mappák lesznek figyelve a gyűjtemény feltöltéséhez"
 
@@ -5203,11 +5207,11 @@ msgstr "A kiválasztott számok lejátszása"
 msgid "Unskip track"
 msgstr "Szám lejátszása"
 
-#: ../build/src/ui_collectionsettingspage.h:516
+#: ../build/src/ui_collectionsettingspage.h:522
 msgid "Update the collection when Strawberry starts"
 msgstr "Gyűjtemény frissítése a Strawberry indításakor"
 
-#: collection/collectionwatcher.cpp:202
+#: collection/collectionwatcher.cpp:204
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 frissítése"
@@ -5222,7 +5226,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "%1% frissítése..."
 
-#: collection/collectionwatcher.cpp:199
+#: collection/collectionwatcher.cpp:201
 msgid "Updating collection"
 msgstr "Gyűjtemény frissítése"
 
@@ -5419,7 +5423,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr "Hetek"
 
-#: ../build/src/ui_collectionsettingspage.h:524
+#: ../build/src/ui_collectionsettingspage.h:530
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5455,7 +5459,7 @@ msgstr "Áthelyezi az album többi számát is a különböző előadókhoz?"
 msgid "Would you like to run a full rescan right now?"
 msgstr "Futtat most egy teljes újraolvasást?"
 
-#: settings/collectionsettingspage.cpp:350
+#: settings/collectionsettingspage.cpp:352
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
@@ -5627,7 +5631,7 @@ msgstr "csatorna"
 msgid "contains"
 msgstr "tartalmazza"
 
-#: ../build/src/ui_collectionsettingspage.h:521
+#: ../build/src/ui_collectionsettingspage.h:527
 msgid "days"
 msgstr "nap"
 
