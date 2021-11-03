@@ -19,6 +19,8 @@
 #ifndef WORKERPOOL_H
 #define WORKERPOOL_H
 
+#include "config.h"
+
 #include <cstdio>
 #include <cstddef>
 
