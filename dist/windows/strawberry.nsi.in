@@ -18,10 +18,6 @@
   !define debug
 !endif
 
-!if "@BUILD_WITH_QT6@" == "ON"
-  !define with_qt6
-!endif
-
 !ifdef debug
   !define PRODUCT_NAME "Strawberry Music Player Debug"
   !define PRODUCT_NAME_SHORT "Strawberry"
@@ -103,33 +99,17 @@ UninstPage custom un.LockedListPageShow
 Name "${PRODUCT_NAME}"
 !ifdef arch_x86
   !ifdef debug
-    !ifdef with_qt6
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-Debug-x86.exe"
-    !else
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt5-Debug-x86.exe"
-    !endif
+    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x86.exe"
   !else
-    !ifdef with_qt6
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-x86.exe"
-    !else
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt5-x86.exe"
-    !endif
+    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x86.exe"
   !endif
 !endif
 
 !ifdef arch_x64
   !ifdef debug
-    !ifdef with_qt6
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-Debug-x64.exe"
-    !else
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt5-Debug-x64.exe"
-    !endif
+    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x64.exe"
   !else
-    !ifdef with_qt6
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt6-x64.exe"
-    !else
-      OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Qt5-x64.exe"
-    !endif
+    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x64.exe"
   !endif
 !endif
 
@@ -262,6 +242,7 @@ Section "Strawberry" Strawberry
   File "libpng16-16.dll"
   File "libpsl-5.dll"
   File "libprotobuf-30.dll"
+  File "libqtsparkle-qt6.dll"
   File "libspeex-1.dll"
   File "libsqlite3-0.dll"
   File "libssp-0.dll"
@@ -278,27 +259,15 @@ Section "Strawberry" Strawberry
   File "libxml2-2.dll"
   File "libzstd.dll"
   File "postproc-55.dll"
-  File "swresample-3.dll"
-  File "swscale-5.dll"
-  File "zlib1.dll"
-
-!ifdef with_qt6
   File "Qt6Concurrent.dll"
   File "Qt6Core.dll"
   File "Qt6Gui.dll"
   File "Qt6Network.dll"
   File "Qt6Sql.dll"
   File "Qt6Widgets.dll"
-  File "libqtsparkle-qt6.dll"
-!else
-  File "Qt5Concurrent.dll"
-  File "Qt5Core.dll"
-  File "Qt5Gui.dll"
-  File "Qt5Network.dll"
-  File "Qt5Sql.dll"
-  File "Qt5Widgets.dll"
-  File "libqtsparkle-qt5.dll"
-!endif
+  File "swresample-3.dll"
+  File "swscale-5.dll"
+  File "zlib1.dll"
 
 !ifdef debug
   File "gdb.exe"
@@ -356,12 +325,10 @@ Section "Qt styles" styles
   File "/oname=qwindowsvistastyle.dll" "styles\qwindowsvistastyle.dll"
 SectionEnd
 
-!ifdef with_qt6
 Section "Qt TLS plugins" tls
   SetOutPath "$INSTDIR\tls"
   File "/oname=qopensslbackend.dll" "tls\qopensslbackend.dll"
 SectionEnd
-!endif
 
 Section "Qt SQL Drivers" sqldrivers
   SetOutPath "$INSTDIR\sqldrivers"
@@ -540,7 +507,6 @@ Section "Uninstall"
   Delete "$INSTDIR\libpng16-16.dll"
   Delete "$INSTDIR\libpsl-5.dll"
   Delete "$INSTDIR\libprotobuf-30.dll"
-  Delete "$INSTDIR\libqtsparkle-qt5.dll"
   Delete "$INSTDIR\libqtsparkle-qt6.dll"
   Delete "$INSTDIR\libspeex-1.dll"
   Delete "$INSTDIR\libsqlite3-0.dll"
@@ -558,12 +524,6 @@ Section "Uninstall"
   Delete "$INSTDIR\libxml2-2.dll"
   Delete "$INSTDIR\libzstd.dll"
   Delete "$INSTDIR\postproc-55.dll"
-  Delete "$INSTDIR\Qt5Concurrent.dll"
-  Delete "$INSTDIR\Qt5Core.dll"
-  Delete "$INSTDIR\Qt5Gui.dll"
-  Delete "$INSTDIR\Qt5Network.dll"
-  Delete "$INSTDIR\Qt5Sql.dll"
-  Delete "$INSTDIR\Qt5Widgets.dll"
   Delete "$INSTDIR\Qt6Concurrent.dll"
   Delete "$INSTDIR\Qt6Core.dll"
   Delete "$INSTDIR\Qt6Gui.dll"
@@ -586,9 +546,7 @@ Section "Uninstall"
   Delete "$INSTDIR\gio-modules\libgiognutls.dll"
   Delete "$INSTDIR\platforms\qwindows.dll"
   Delete "$INSTDIR\styles\qwindowsvistastyle.dll"
-!ifdef with_qt6
   Delete "$INSTDIR\tls\qopensslbackend.dll"
-!endif
   Delete "$INSTDIR\sqldrivers\qsqlite.dll"
 
   Delete "$INSTDIR\imageformats\qgif.dll"
