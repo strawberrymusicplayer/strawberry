@@ -56,9 +56,9 @@ class FreeSpaceBar : public QWidget {
   static const QRgb kColorBar2;
   static const QRgb kColorBorder;
 
-  void set_free_bytes(const qint64 bytes) { free_ = bytes; update(); }
-  void set_additional_bytes(const qint64 bytes) { additional_ = bytes; update(); }
-  void set_total_bytes(const qint64 bytes) { total_ = bytes; update(); }
+  void set_free_bytes(const quint64 bytes) { free_ = bytes; update(); }
+  void set_additional_bytes(const quint64 bytes) { additional_ = bytes; update(); }
+  void set_total_bytes(const quint64 bytes) { total_ = bytes; update(); }
 
   void set_free_text(const QString &text) { free_text_ = text; update(); }
   void set_additional_text(const QString &text) { additional_text_ = text; update(); }
@@ -77,15 +77,15 @@ class FreeSpaceBar : public QWidget {
     QColor color;
   };
 
-  static QString TextForSize(const QString &prefix, const qint64 size);
+  static QString TextForSize(const QString &prefix, const quint64 size);
 
   void DrawBar(QPainter *p, const QRect r);
   void DrawText(QPainter *p, const QRect r);
 
  private:
-  qint64 free_;
-  qint64 additional_;
-  qint64 total_;
+  quint64 free_;
+  quint64 additional_;
+  quint64 total_;
 
   QString free_text_;
   QString additional_text_;

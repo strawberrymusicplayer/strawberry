@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>517</width>
-    <height>562</height>
+    <height>673</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,6 +60,13 @@
     <widget class="QCheckBox" name="checkbox_select_track">
      <property name="text">
       <string>Automatically select current playing track</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkbox_show_toolbar">
+     <property name="text">
+      <string>Enable playlist toolbar</string>
      </property>
     </widget>
    </item>

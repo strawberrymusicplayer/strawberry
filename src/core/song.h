@@ -187,7 +187,7 @@ class Song {
 
   // Copies important statistics from the other song to this one, overwriting any data that already exists.
   // Useful when you want updated tags from disk but you want to keep user stats.
-  void MergeUserSetData(const Song &other);
+  void MergeUserSetData(const Song &other, const bool merge_rating);
 
   // Save
   void BindToQuery(SqlQuery *query) const;
@@ -237,7 +237,7 @@ class Song {
   const QUrl &url() const;
   const QString &basefilename() const;
   FileType filetype() const;
-  int filesize() const;
+  qint64 filesize() const;
   qint64 mtime() const;
   qint64 ctime() const;
 
@@ -258,7 +258,7 @@ class Song {
   const QString &cue_path() const;
   bool has_cue() const;
 
-  double rating() const;
+  float rating() const;
 
   const QString &effective_album() const;
   int effective_originalyear() const;
@@ -354,7 +354,7 @@ class Song {
   void set_url(const QUrl &v);
   void set_basefilename(const QString &v);
   void set_filetype(FileType v);
-  void set_filesize(int v);
+  void set_filesize(qint64 v);
   void set_mtime(qint64 v);
   void set_ctime(qint64 v);
   void set_unavailable(bool v);
@@ -375,7 +375,7 @@ class Song {
 
   void set_cue_path(const QString &v);
 
-  void set_rating(const double v);
+  void set_rating(const float v);
 
   void set_stream_url(const QUrl &v);
   void set_image(const QImage &i);

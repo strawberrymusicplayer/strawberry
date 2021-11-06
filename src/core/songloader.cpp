@@ -552,7 +552,7 @@ GstPadProbeReturn SongLoader::DataReady(GstPad*, GstPadProbeInfo *info, gpointer
   gst_buffer_map(buffer, &map, GST_MAP_READ);
 
   // Append the data to the buffer
-  instance->buffer_.append(reinterpret_cast<const char*>(map.data), map.size);
+  instance->buffer_.append(reinterpret_cast<const char*>(map.data), static_cast<qint64>(map.size));
   qLog(Debug) << "Received total" << instance->buffer_.size() << "bytes";
   gst_buffer_unmap(buffer, &map);
 

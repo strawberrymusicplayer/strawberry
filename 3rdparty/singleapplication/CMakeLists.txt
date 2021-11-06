@@ -3,10 +3,8 @@ cmake_minimum_required(VERSION 3.0)
 include(CheckIncludeFiles)
 include(CheckFunctionExists)
 
-if(CMAKE_VERSION VERSION_GREATER 3.0)
-  check_function_exists(geteuid HAVE_GETEUID)
-  check_function_exists(getpwuid HAVE_GETPWUID)
-endif()
+check_function_exists(geteuid HAVE_GETEUID)
+check_function_exists(getpwuid HAVE_GETPWUID)
 
 set(SINGLEAPP-SOURCES singleapplication.cpp singleapplication_p.cpp)
 set(SINGLEAPP-MOC-HEADERS singleapplication.h singleapplication_p.h)

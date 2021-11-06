@@ -92,6 +92,8 @@ class CollectionBackendInterface : public QObject {
   virtual DirectoryList GetAllDirectories() = 0;
   virtual void ChangeDirPath(const int id, const QString &old_path, const QString &new_path) = 0;
 
+  virtual SongList GetAllSongs() = 0;
+
   virtual QStringList GetAllArtists(const QueryOptions &opt = QueryOptions()) = 0;
   virtual QStringList GetAllArtistsWithAlbums(const QueryOptions &opt = QueryOptions()) = 0;
   virtual SongList GetArtistSongs(const QString &effective_albumartist, const QueryOptions &opt = QueryOptions()) = 0;
@@ -157,6 +159,8 @@ class CollectionBackend : public CollectionBackendInterface {
   DirectoryList GetAllDirectories() override;
   void ChangeDirPath(const int id, const QString &old_path, const QString &new_path) override;
 
+  SongList GetAllSongs() override;
+
   QStringList GetAll(const QString &column, const QueryOptions &opt = QueryOptions());
   QStringList GetAllArtists(const QueryOptions &opt = QueryOptions()) override;
   QStringList GetAllArtistsWithAlbums(const QueryOptions &opt = QueryOptions()) override;
@@ -208,8 +212,8 @@ class CollectionBackend : public CollectionBackendInterface {
   void AddOrUpdateSongsAsync(const SongList &songs);
   void UpdateSongsBySongIDAsync(const SongMap &new_songs);
 
-  void UpdateSongRatingAsync(const int id, const double rating);
-  void UpdateSongsRatingAsync(const QList<int> &ids, const double rating);
+  void UpdateSongRatingAsync(const int id, const float rating, const bool save_tags = false);
+  void UpdateSongsRatingAsync(const QList<int> &ids, const float rating, const bool save_tags = false);
 
  public slots:
   void Exit();
@@ -236,8 +240,8 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const qint64 lastplayed);
   void UpdatePlayCount(const QString &artist, const QString &title, const int playcount);
 
-  void UpdateSongRating(const int id, const double rating);
-  void UpdateSongsRating(const QList<int> &id_list, const double rating);
+  void UpdateSongRating(const int id, const float rating, const bool save_tags = false);
+  void UpdateSongsRating(const QList<int> &id_list, const float rating, const bool save_tags = false);
 
   void UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days);
   void ExpireSongs(const int directory_id, const int expire_unavailable_songs_days);
@@ -255,7 +259,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void TotalSongCountUpdated(int);
   void TotalArtistCountUpdated(int);
   void TotalAlbumCountUpdated(int);
-  void SongsRatingChanged(SongList);
+  void SongsRatingChanged(SongList, bool);
 
   void ExitFinished();
 

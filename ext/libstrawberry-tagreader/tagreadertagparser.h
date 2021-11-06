@@ -45,6 +45,9 @@ class TagReaderTagParser : public TagReaderBase {
   QByteArray LoadEmbeddedArt(const QString &filename) const override;
   bool SaveEmbeddedArt(const QString &filename, const QByteArray &data) override;
 
+  bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+  bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+
   Q_DISABLE_COPY(TagReaderTagParser)
 };
 

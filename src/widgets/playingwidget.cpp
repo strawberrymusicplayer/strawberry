@@ -456,7 +456,7 @@ void PlayingWidget::DrawContents(QPainter *p) {
 
     case LargeSongDetails:
       // Work out how high the text is going to be
-      const int text_height = details_->size().height();
+      const int text_height = static_cast<int>(details_->size().height());
       const int cover_size = fit_width_ ? width() : qMin(kMaxCoverSize, width());
       const int x_offset = (width() - cover_loader_options_.desired_height_) / 2;
 

@@ -31,7 +31,7 @@
 class SqlQuery : public QSqlQuery {
 
  public:
-  explicit SqlQuery(QSqlDatabase db) : QSqlQuery(db) {}
+  explicit SqlQuery(const QSqlDatabase &db) : QSqlQuery(db) {}
 
   void BindValue(const QString &placeholder, const QVariant &value);
   bool Exec();

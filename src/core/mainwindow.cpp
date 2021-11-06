@@ -380,7 +380,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   app_->player()->SetEqualizer(equalizer_.get());
   app_->player()->Init();
   EngineChanged(app_->player()->engine()->type());
-  int volume = app_->player()->GetVolume();
+  int volume = static_cast<int>(app_->player()->GetVolume());
   ui_->volume->setValue(volume);
   VolumeChanged(volume);
 
@@ -457,8 +457,11 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   ui_->action_transcoder->setIcon(IconLoader::Load("tools-wizard"));
   ui_->action_update_collection->setIcon(IconLoader::Load("view-refresh"));
   ui_->action_full_collection_scan->setIcon(IconLoader::Load("view-refresh"));
+  ui_->action_abort_collection_scan->setIcon(IconLoader::Load("dialog-error"));
   ui_->action_settings->setIcon(IconLoader::Load("configure"));
   ui_->action_import_data_from_last_fm->setIcon(IconLoader::Load("scrobble"));
+  ui_->action_console->setIcon(IconLoader::Load("keyboard"));
+  ui_->action_toggle_show_sidebar->setIcon(IconLoader::Load("view-choose"));
 
   // Scrobble
 
@@ -1375,7 +1378,7 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
     const qint64 seconds_left = (length - position) / kNsecPerSec;
     const qint64 seconds_total = length / kNsecPerSec;
 
-    if (((0.05 * seconds_total > 60 && percentage < 0.98) || percentage < 0.95) && seconds_left > 5) {  // Never count the skip if under 5 seconds left
+    if (((0.05 * static_cast<double>(seconds_total) > 60.0 && percentage < 0.98) || percentage < 0.95) && seconds_left > 5) {  // Never count the skip if under 5 seconds left
       app_->collection_backend()->IncrementSkipCountAsync(song.id(), percentage);
     }
   }
@@ -1630,7 +1633,7 @@ void MainWindow::Seeked(const qint64 microseconds) {
 
   const qint64 position = microseconds / kUsecPerSec;
   const qint64 length = app_->player()->GetCurrentItem()->Metadata().length_nanosec() / kNsecPerSec;
-  tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / length * 100));
+  tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
 }
 
@@ -1641,10 +1644,10 @@ void MainWindow::UpdateTrackPosition() {
 
   const qint64 length = (item->Metadata().length_nanosec() / kNsecPerSec);
   if (length <= 0) return;
-  const int position = std::floor(static_cast<float>(app_->player()->engine()->position_nanosec()) / kNsecPerSec + 0.5);
+  const int position = std::floor(static_cast<float>(app_->player()->engine()->position_nanosec()) / static_cast<float>(kNsecPerSec) + 0.5);
 
   // Update the tray icon every 10 seconds
-  if (position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / length * 100));
+  if (position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
   // Send Scrobble
   if (app_->scrobbler()->IsEnabled() && item->Metadata().is_metadata_good()) {
@@ -1816,7 +1819,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   // Are any of the selected songs editable or queued?
   QModelIndexList selection = ui_->playlist->view()->selectionModel()->selectedRows();
   bool cue_selected = false;
-  int selected = ui_->playlist->view()->selectionModel()->selectedRows().count();
+  qint64 selected = ui_->playlist->view()->selectionModel()->selectedRows().count();
   int editable = 0;
   int in_queue = 0;
   int not_in_queue = 0;
@@ -2433,7 +2436,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
   if (options.set_volume() != -1) app_->player()->SetVolume(options.set_volume());
 
   if (options.volume_modifier() != 0) {
-    app_->player()->SetVolume(app_->player()->GetVolume() +options.volume_modifier());
+    app_->player()->SetVolume(app_->player()->GetVolume() + options.volume_modifier());
   }
 
   if (options.seek_to() != -1) {
@@ -3183,8 +3186,8 @@ void MainWindow::FocusSearchField() {
     qobuz_view_->FocusSearchField();
   }
 #endif
- else if (!ui_->playlist->SearchFieldHasFocus()) {
-   ui_->playlist->FocusSearchField();
- }
+  else if (!ui_->playlist->SearchFieldHasFocus()) {
+    ui_->playlist->FocusSearchField();
+  }
 
 }

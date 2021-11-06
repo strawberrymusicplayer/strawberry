@@ -40,10 +40,12 @@
 #include <QRadioButton>
 #include <QSpinBox>
 #include <QSettings>
+#include <QMessageBox>
 
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/utilities.h"
+#include "collection/collection.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectiondirectorymodel.h"
 #include "collectionsettingspage.h"
@@ -94,6 +96,8 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
   QObject::connect(ui_->combobox_cache_size, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CollectionSettingsPage::CacheSizeUnitChanged);
   QObject::connect(ui_->combobox_disk_cache_size, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CollectionSettingsPage::DiskCacheSizeUnitChanged);
 
+  QObject::connect(ui_->button_save_stats, &QPushButton::clicked, this, &CollectionSettingsPage::WriteAllSongsStatisticsToFiles);
+
 #ifndef HAVE_SONGFINGERPRINTING
   ui_->song_tracking->hide();
 #endif
@@ -110,7 +114,7 @@ void CollectionSettingsPage::Add() {
   QString path(s.value("last_path", QStandardPaths::writableLocation(QStandardPaths::MusicLocation)).toString());
   path = QFileDialog::getExistingDirectory(this, tr("Add directory..."), path);
 
-  if (!path.isNull()) {
+  if (!path.isEmpty()) {
     dialog()->collection_directory_model()->AddDirectory(path);
   }
 
@@ -206,6 +210,10 @@ void CollectionSettingsPage::Load() {
   ui_->combobox_disk_cache_size->setCurrentIndex(s.value(kSettingsDiskCacheSizeUnit, static_cast<int>(CacheSizeUnit_MB)).toInt());
   if (ui_->combobox_disk_cache_size->currentIndex() == -1) ui_->combobox_cache_size->setCurrentIndex(static_cast<int>(CacheSizeUnit_MB));
 
+  ui_->checkbox_save_playcounts->setChecked(s.value("save_playcounts", false).toBool());
+  ui_->checkbox_save_ratings->setChecked(s.value("save_ratings", false).toBool());
+  ui_->checkbox_overwrite_rating->setChecked(s.value("overwrite_rating", false).toBool());
+
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   ui_->checkbox_delete_files->setChecked(s.value("delete_files", false).toBool());
 #else
@@ -270,6 +278,10 @@ void CollectionSettingsPage::Save() {
   s.setValue(kSettingsDiskCacheSize, ui_->spinbox_disk_cache_size->value());
   s.setValue(kSettingsDiskCacheSizeUnit, ui_->combobox_disk_cache_size->currentIndex());
 
+  s.setValue("save_playcounts", ui_->checkbox_save_playcounts->isChecked());
+  s.setValue("save_ratings", ui_->checkbox_save_ratings->isChecked());
+  s.setValue("overwrite_rating", ui_->checkbox_overwrite_rating->isChecked());
+
   s.setValue("delete_files", ui_->checkbox_delete_files->isChecked());
 
   s.endGroup();
@@ -332,5 +344,16 @@ void CollectionSettingsPage::DiskCacheSizeUnitChanged(int index) {
       ui_->spinbox_disk_cache_size->setMaximum(std::numeric_limits<int>::max());
       break;
   }
+
+}
+
+void CollectionSettingsPage::WriteAllSongsStatisticsToFiles() {
+
+  QMessageBox confirmation_dialog(QMessageBox::Question, tr("Write all playcounts and ratings to files"), tr("Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"), QMessageBox::Yes | QMessageBox::Cancel);
+  if (confirmation_dialog.exec() != QMessageBox::Yes) {
+    return;
+  }
+
+  dialog()->app()->collection()->SyncPlaycountAndRatingToFilesAsync();
 
 }

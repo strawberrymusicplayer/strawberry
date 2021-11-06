@@ -205,7 +205,7 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, cons
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  const int nb_removed = requests_.remove(id, reply);
+  const qint64 nb_removed = requests_.remove(id, reply);
   if (nb_removed != 1) {
     qLog(Debug) << "MusicBrainz: Unknown reply received:" << nb_removed << "requests removed, while only one was supposed to be removed";
   }

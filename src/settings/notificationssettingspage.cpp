@@ -111,10 +111,18 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, QWi
   QObject::connect(ui_->notifications_exp_chooser2, &QToolButton::triggered, this, &NotificationsSettingsPage::InsertVariableSecondLine);
   QObject::connect(ui_->notifications_disable_duration, &QCheckBox::toggled, ui_->notifications_duration, &NotificationsSettingsPage::setDisabled);
 
+#ifdef Q_OS_WIN32
+  if (!dialog->osd()->SupportsNativeNotifications() && !dialog->osd()->SupportsTrayPopups()) {
+    ui_->notifications_native->setEnabled(false);
+  }
+#else
   if (!dialog->osd()->SupportsNativeNotifications()) {
     ui_->notifications_native->setEnabled(false);
   }
-  if (!dialog->osd()->SupportsTrayPopups()) ui_->notifications_tray->setEnabled(false);
+#endif
+  if (!dialog->osd()->SupportsTrayPopups()) {
+    ui_->notifications_tray->setEnabled(false);
+  }
 
   QObject::connect(ui_->notifications_pretty, &QRadioButton::toggled, this, &NotificationsSettingsPage::UpdatePopupVisible);
 
@@ -150,7 +158,11 @@ void NotificationsSettingsPage::Load() {
   OSDBase::Behaviour osd_behaviour = OSDBase::Behaviour(s.value("Behaviour", OSDBase::Native).toInt());
   switch (osd_behaviour) {
     case OSDBase::Native:
+#ifdef Q_OS_WIN32
+      if (dialog()->osd()->SupportsNativeNotifications() || dialog()->osd()->SupportsTrayPopups()) {
+#else
       if (dialog()->osd()->SupportsNativeNotifications()) {
+#endif
         ui_->notifications_native->setChecked(true);
         break;
       }

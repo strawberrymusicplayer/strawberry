@@ -30,7 +30,6 @@ static gboolean gst_moodbar_plugin_init(GstPlugin *plugin) {
   }
 
   return TRUE;
-
 }
 
 }  // namespace

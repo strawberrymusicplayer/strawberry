@@ -25,9 +25,12 @@
 #include <QObject>
 #include <QThread>
 #include <QList>
+#include <QSettings>
+#include <QtConcurrentRun>
 #include <QtDebug>
 
 #include "core/application.h"
+#include "core/taskmanager.h"
 #include "core/database.h"
 #include "core/player.h"
 #include "core/tagreaderclient.h"
@@ -41,6 +44,7 @@
 #include "collectionmodel.h"
 #include "playlist/playlistmanager.h"
 #include "scrobbler/lastfmimport.h"
+#include "settings/collectionsettingspage.h"
 
 const char *SCollection::kSongsTable = "songs";
 const char *SCollection::kFtsTable = "songs_fts";
@@ -54,7 +58,9 @@ SCollection::SCollection(Application *app, QObject *parent)
       model_(nullptr),
       watcher_(nullptr),
       watcher_thread_(nullptr),
-      original_thread_(nullptr) {
+      original_thread_(nullptr),
+      save_playcounts_to_files_(false),
+      save_ratings_to_files_(false) {
 
   original_thread_ = thread();
 
@@ -100,6 +106,9 @@ void SCollection::Init() {
   QObject::connect(backend_, &CollectionBackend::Error, this, &SCollection::Error);
   QObject::connect(backend_, &CollectionBackend::DirectoryDiscovered, watcher_, &CollectionWatcher::AddDirectory);
   QObject::connect(backend_, &CollectionBackend::DirectoryDeleted, watcher_, &CollectionWatcher::RemoveDirectory);
+  QObject::connect(backend_, &CollectionBackend::SongsRatingChanged, this, &SCollection::SongsRatingChanged);
+  QObject::connect(backend_, &CollectionBackend::SongsStatisticsChanged, this, &SCollection::SongsPlaycountChanged);
+
   QObject::connect(watcher_, &CollectionWatcher::NewOrUpdatedSongs, backend_, &CollectionBackend::AddOrUpdateSongs);
   QObject::connect(watcher_, &CollectionWatcher::SongsMTimeUpdated, backend_, &CollectionBackend::UpdateMTimesOnly);
   QObject::connect(watcher_, &CollectionWatcher::SongsDeleted, backend_, &CollectionBackend::DeleteSongs);
@@ -163,5 +172,54 @@ void SCollection::ReloadSettings() {
 
   watcher_->ReloadSettingsAsync();
   model_->ReloadSettings();
+
+  QSettings s;
+  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
+  save_playcounts_to_files_ = s.value("save_playcounts", false).toBool();
+  save_ratings_to_files_ = s.value("save_ratings", false).toBool();
+  s.endGroup();
+
+}
+
+void SCollection::SyncPlaycountAndRatingToFilesAsync() {
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  (void)QtConcurrent::run(&SCollection::SyncPlaycountAndRatingToFiles, this);
+#else
+  (void)QtConcurrent::run(this, &SCollection::SyncPlaycountAndRatingToFiles);
+#endif
+
+}
+
+void SCollection::SyncPlaycountAndRatingToFiles() {
+
+  const int task_id = app_->task_manager()->StartTask(tr("Saving playcounts and ratings"));
+  app_->task_manager()->SetTaskBlocksCollectionScans(task_id);
+
+  const SongList songs = backend_->GetAllSongs();
+  const qint64 nb_songs = songs.size();
+  int i = 0;
+  for (const Song &song : songs) {
+    TagReaderClient::Instance()->UpdateSongPlaycountBlocking(song);
+    TagReaderClient::Instance()->UpdateSongRatingBlocking(song);
+    app_->task_manager()->SetTaskProgress(task_id, ++i, nb_songs);
+  }
+  app_->task_manager()->SetTaskFinished(task_id);
+
+}
+
+void SCollection::SongsPlaycountChanged(const SongList &songs) {
+
+  if (save_playcounts_to_files_) {
+    app_->tag_reader_client()->UpdateSongsPlaycount(songs);
+  }
+
+}
+
+void SCollection::SongsRatingChanged(const SongList &songs, const bool save_tags) {
+
+  if (save_tags || save_ratings_to_files_) {
+    app_->tag_reader_client()->UpdateSongsRating(songs);
+  }
 
 }

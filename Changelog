@@ -2,7 +2,21 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-1.0.0:
+Unreleased:
+
+  Bugfixes:
+    * Fix collection and internet search filter menu button arrow overlap.
+    * Fix stop after this track button with Qt 6.
+
+  Enhancements:
+    * Make playlist header column text elided.
+    * Add support for reading and writing playcounts and ratings to/from tags.
+    * Add support for setting rating using the edit tag dialog.
+    * Add setting to enable/disable playlist toolbar.
+    * Add component type, content_rating type and releases to appstream data file.
+    * (Windows) Add gstreamer dash plugin.
+
+Version 1.0.0 (2021.10.14)
 
   Bugfixes:
     * Fix updating temporary metadata when reloading songs outside of the collection.
@@ -56,7 +70,8 @@ ChangeLog
     * Add support for native global shortcuts on MATE.
     * Add radios view with channels from Radio Paradise and SomaFM.
 
-0.9.3:
+
+Version 0.9.3 (2021.04.18)
 
   Bugfixes:
     * Fix "Show in file browser" to work with thunar.
@@ -79,7 +94,8 @@ ChangeLog
     * (macOS) Make macdeployqt work with Qt 5 too.
     * (macOS) Show keep running option in behaviour settings.
 
-0.9.2:
+
+Version 0.9.2 (2021.03.25)
 
   Bugfixes:
     * Fix marking songs available.
@@ -90,7 +106,8 @@ ChangeLog
     * (macOS) Fix crash when opening cover manager.
     * (macOS) Fix broken Qt plugins resulting in album covers not showing.
 
-0.9.1:
+
+Version 0.9.1 (2021.03.13)
 
   Bugfixes:
     * Fix duplicating songs in the DB when organizing songs between 2 different collection directories.
@@ -125,7 +142,8 @@ ChangeLog
   New features:
     * Add option and support for saving embedded covers for FLAC, Ogg Vorbis, MP3 and MP4/AAC.
 
-0.8.5:
+
+Version 0.8.5 (2020.12.19)
 
   Bugfixes:
     * Fix return type of SmartPlaylistQueryWizardPlugin::type().
@@ -144,7 +162,8 @@ ChangeLog
     * Add command line option to play a playlist based on name.
     * Change double-click behaviour in cover manager to open fullsize cover.
 
-0.8.4:
+
+Version 0.8.4 (2020.11.15)
 
   Bugfixes:
     * Fix preventing session logout when window is maxmimized.
@@ -170,7 +189,8 @@ ChangeLog
     * Remove remaining uses of QTextCodec.
     * Remove Core5Compat dependency.
 
-0.8.3:
+
+Version 0.8.3 (2020.10.24)
 
   Bugfixes:
     * Fixed updating playing widget song details in small cover mode.
@@ -185,7 +205,8 @@ ChangeLog
   Enhancements:
     * (Windows) Added WASAPI plugin.
 
-0.8.2:
+
+Version 0.8.2 (2020.10.13)
 
   Bugfixes:
     * Fixed broken transition to next song for CUE files with certain audio formats (regression since version 0.6.13).
@@ -197,7 +218,8 @@ ChangeLog
     * Removed use of HTML in system tray icon tooltip for all desktop environments instead of just KDE and Cinnamon.
     * (Windows) Ignore "IDirectSoundBuffer_GetStatus The operation completed successfully" false error when switching device while playing.
 
-0.8.1:
+
+Version 0.8.1 (2020.10.09)
 
   Bugfixes:
     * Fixed engine selection in backend settings with Qt 6.
@@ -244,14 +266,15 @@ ChangeLog
     * Added Subsonic server side scrobbling support.
     * Load thumbnails from iPods to show under device collection.
 
-0.7.2:
+Version 0.7.2 (2020.08.15)
 
   Bugfixes:
     * Fixed installation directory for translations.
     * Fixed collection sorting for non-ASCII characters.
     * Fixed closing connected devices on exit.
 
-0.7.1:
+
+Version 0.7.1 (2020.08.15)
 
   Bugfixes:
     * Fixed incorrectly mapped global shortcuts keys "2" and "3".
@@ -290,7 +313,8 @@ ChangeLog
     * Removed Xine engine support.
     * Removed broken imobiledevice (iPhone) support.
 
-0.6.13:
+
+Version 0.6.13 (2020.07.13)
 
   Bugfixes:
     * Fixed cut-off text in about dialog.
@@ -316,7 +340,8 @@ ChangeLog
     * Fixed unit test for testing playlist model.
     * Added new unit tests for tagreader.
 
-0.6.12:
+
+Version 0.6.12 (2020.06.07)
 
   Bugfixes:
     * Fixed height of about dialog.
@@ -329,7 +354,8 @@ ChangeLog
     * Sort folders added from file view.
     * Changed default collection grouping to album - disc.
 
-0.6.11:
+
+Version 0.6.11 (2020.05.16)
 
   Bugfixes:
     * Fixed MPRIS missing art url when playing albums with embedded cover.
@@ -355,7 +381,8 @@ ChangeLog
     * Added album covers from Musixmatch and Spotify.
     * Added lyrics from Genius, Musixmatch and ChartLyrics.
 
-0.6.10:
+
+Version 0.6.10 (2020.05.01)
 
   Bugfixes:
     * Fixed Subsonic album covers not working for albums with non ASCII characters.
@@ -395,7 +422,8 @@ ChangeLog
   Removed features:
     * Removed Phonon engine support.
 
-Version 0.6.9:
+
+Version 0.6.9 (2020.03.09)
 
   BugFixes:
     * Fixed playlist metadata updating interfering with manual tag editing.
@@ -427,7 +455,8 @@ Version 0.6.9:
     * Tidal support (No agreement).
     * QObuz support (No agreement).
 
-Version 0.6.8:
+
+Version 0.6.8 (2020.01.05)
 
     * Fixed stuck tabbar and collection GUI with some themes.
     * Fixed possible crashes related to QProxyStyle.
@@ -444,7 +473,8 @@ Version 0.6.8:
     * (macOS) Fixed filesystem watcher to correctly pick up changed collection directories.
     * (Windows) Fixed translations not being included.
 
-Version 0.6.7:
+
+Version 0.6.7 (2019.11.27)
 
     * Fixed crash when cancelling scrobbler authentication
     * Fixed "Double clicking a song in the playlist" behaviour setting
@@ -461,7 +491,8 @@ Version 0.6.7:
     * Removed left click on analyzer to popup menu
     * (Windows) Added killproc executable to terminate running process before uninstalling
 
-Version 0.6.6:
+
+Version 0.6.6 (2019.11.09)
 
     * Fixed lowercased album artist in playlist column
     * Fixed compiling with different optional features turned off
@@ -479,7 +510,8 @@ Version 0.6.6:
     * Added option to automatically select current playing track
     * (Windows) Added support for WASAPI
 
-Version 0.6.5:
+
+Version 0.6.5 (2019.09.30)
 
     * Fixed scrobbler not to send scrobbles multiple times when metadata is updated
     * Fixed Listenbrainz scrobbler not don't send "various artists" as album artist
@@ -488,7 +520,8 @@ Version 0.6.5:
     * Fixed OSD pretty positioning on Windows on screens with negative geometry
     * Fixed appdata file to pass full validation
 
-Version 0.6.4:
+
+Version 0.6.4 (2019.09.25)
 
     * Added setting for fancy tabbar background color
     * Added setting to make marking songs unavailable optional
@@ -515,18 +548,21 @@ Version 0.6.4:
     * Fixed restoring to original window size when restoring from system tray
     * Updated 3rdparty taglib
 
-Version 0.6.3:
+
+Version 0.6.3 (2019.08.05)
 
     * Fixed crash when using internet services.
     * Fixed musicbrainz tagfetcher only showing 1 result per song.
     * Fixed collection watcher to unwatch deleted directories.
     * Added "album - disc" grouping.
 
-Version 0.6.2:
+
+Version 0.6.2 (2019.08.03)
 
     * Disabled fatal error for FTS5 cmake test.
 
-Version 0.6.1:
+
+Version 0.6.1 (2019.08.03)
 
     * Compare artist and album case-insensitive when generating score for album covers.
     * Fixed broken return value of sendMessage() in SingleApplication causing application to be started twice.
@@ -572,11 +608,13 @@ Version 0.6.1:
     * Fixed certain cases where the playing widget gets stuck when switching fast between context and other widgets.
     * Removed ChartLyrics provider (service have been down for a long time).
 
-Version 0.5.5:
+
+Version 0.5.5 (2019.05.05)
 
     * Fixed Tidal API url
 
-Version 0.5.4:
+
+Version 0.5.4 (2019.05.05)
 
     * Changed description for offline mode scrobbling for less confusion
     * Fixed scrobbler to not send "playing now" when in offline mode
@@ -607,7 +645,8 @@ Version 0.5.4:
     * Fixed and improved snap including upgrading to core18 and adding proper alsa support
     * Fixed resume playback on startup not working for other than the first playlist
 
-Version 0.5.3:
+
+Version 0.5.3 (2019.03.02)
 
     * Changed default tagging to albumartist in organise dialog
     * Removed support for older taglib in tagreader
@@ -647,7 +686,8 @@ Version 0.5.3:
     * Added group by format
     * Fixed gstreamer leaks
 
-Version 0.5.2:
+
+Version 0.5.2 (2019.01.26)
 
     * Added error handling and message for URL handler
     * Added SingleCoreApplication secondary check
@@ -664,7 +704,8 @@ Version 0.5.2:
     * Added option to copy album cover in organise dialog (filesystem and libgpod devices)
     * Added raise() to make sure window is on top when strawberry is started twice
 
-Version 0.5.1:
+
+Version 0.5.1 (2019.01.12)
 
     * Added scrobbler with support for Last.fm, Libre.fm and ListenBrainz
     * Fixed key up causing playback to reset
@@ -695,7 +736,8 @@ Version 0.5.1:
     * Added debian copyright file
     * Fixed some compile errors
 
-Version 0.4.2:
+
+Version 0.4.2 (2018.11.28)
 
     * Updated AppStream data file to newer specifications
     * Fixed Deezer engine to use quality setting
@@ -709,7 +751,8 @@ Version 0.4.2:
     * (Windows) Corrected uninstalled files on x64 installer
     * (macOS) Fixed poor performance
 
-Version 0.4.1:
+
+Version 0.4.1 (2018.11.01)
 
     * Fixed crash in analyzer
     * Fixed trying to use systray even if the desktop had no systray
@@ -727,11 +770,13 @@ Version 0.4.1:
     * Added AppStream data file
     * Fixed compiling with Qt 5 versions of system QtSingleApplication and Qxt library
 
-Version 0.3.3:
+
+Version 0.3.3 (2018.09.24)
 
     * Fixed Tidal login
 
-Version 0.3.2:
+
+Version 0.3.2 (2018.09.24)
 
     * Fixed search error not shown in Tidal search
     * Added URL handler for Tidal, now retrieving URL's when playing instead of when searching
@@ -743,7 +788,8 @@ Version 0.3.2:
     * Added encoding of Tidal token in the source code
     * Added encoding of Tidal password in the configuration
 
-Version 0.3.1:
+
+Version 0.3.1 (2018.09.15)
 
     * Added new lyrics provider with lyrics from AudD and API Seeds
     * New improved context widget with albums and lyrics
@@ -765,7 +811,8 @@ Version 0.3.1:
     * Added support for reading/writing lyrics to tags
     * Fixed saving tags (APE) for WavPack files
 
-Version 0.2.1:
+
+Version 0.2.1 (2018.07.05)
 
     * Fixed crash with newer Qt
     * Fixed setting output/device for Xine and VLC backend
@@ -775,19 +822,23 @@ Version 0.2.1:
     * Fixed device selection on macOS
     * Added xine on to windows build
 
-Version 0.1.6:
+
+Version 0.1.6 (2018.06.07)
     * Fixed crash on exit caused by NVIDIA driver
     * Fixed PulseAudio device selection
     * Improvements to device selection
 
-Version 0.1.5:
+
+Version 0.1.5 (2018.05.16)
     * Makefile fixes for building
 
-Version 0.1.4:
+
+Version 0.1.4 (2018.05.14)
     * Fixed compliation with clang compiler
     * This release is mainly to get it working on openbsd and freebsd.
 
-Version 0.1.3:
+
+Version 0.1.3 (2018.05.12)
     * Audio file detection by content
     * Added builtin taglib to 3rdparty to support detecting audio by content instead of just file extension
     * Removed unneeded qsqlite from 3rdparty
@@ -795,7 +846,8 @@ Version 0.1.3:
     * Replaced incorrect DLL libgstdirectsoundsink.dll (from gst 1.12.4) instead of libgstdirectsound.dll (from gst 1.14.0) for windows build
     * Fixed git versioning
 
-Version 0.1.2:
+
+Version 0.1.2 (2018.05.02)
     * Fixed playback of WavPack files
     * Fixed musicbrainz tagfetcher
     * Use common regex (Song::kCoverRemoveDisc) for removing Disc/CD from album
@@ -805,5 +857,6 @@ Version 0.1.2:
     * Fixed problems with windows build missing some DLL's, only supplying required gstreamer-plugins now
     * Removed redundant code
 
-Version 0.1.1:
+
+Version 0.1.1 (2018.04.07)
     * Initial release

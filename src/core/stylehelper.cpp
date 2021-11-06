@@ -91,7 +91,7 @@ QColor StyleHelper::notTooBrightHighlightColor() {
 
   QColor highlightColor = QApplication::palette().highlight().color();
   if (0.5 * highlightColor.saturationF() + 0.75 - highlightColor.valueF() < 0) {
-    highlightColor.setHsvF(highlightColor.hsvHueF(), 0.1 + highlightColor.saturationF() * 2.0, highlightColor.valueF());
+    highlightColor.setHsvF(highlightColor.hsvHueF(), 0.1F + highlightColor.saturationF() * 2.0F, highlightColor.valueF());
   }
   return highlightColor;
 
@@ -133,10 +133,10 @@ QColor StyleHelper::highlightColor(bool lightColored) {
 
   QColor result = baseColor(lightColored);
   if (lightColored) {
-    result.setHsv(result.hue(), clamp(result.saturation()), clamp(result.value() * 1.06));
+    result.setHsv(result.hue(), clamp(static_cast<float>(result.saturation())), clamp(static_cast<float>(result.value()) * 1.06F));
   }
   else {
-    result.setHsv(result.hue(), clamp(result.saturation()), clamp(result.value() * 1.16));
+    result.setHsv(result.hue(), clamp(static_cast<float>(result.saturation())), clamp(static_cast<float>(result.value()) * 1.16F));
   }
 
   return result;
@@ -146,7 +146,7 @@ QColor StyleHelper::highlightColor(bool lightColored) {
 QColor StyleHelper::shadowColor(bool lightColored) {
 
   QColor result = baseColor(lightColored);
-  result.setHsv(result.hue(), clamp(result.saturation() * 1.1), clamp(result.value() * 0.70));
+  result.setHsv(result.hue(), clamp(static_cast<float>(result.saturation()) * 1.1F), clamp(static_cast<float>(result.value()) * 0.70F));
   return result;
 
 }
@@ -162,7 +162,7 @@ QColor StyleHelper::borderColor(bool lightColored) {
 QColor StyleHelper::toolBarBorderColor() {
 
   const QColor base = baseColor();
-  return QColor::fromHsv(base.hue(), base.saturation(), clamp(base.value() * 0.80F));
+  return QColor::fromHsv(base.hue(), base.saturation(), clamp(static_cast<float>(base.value()) * 0.80F));
 
 }
 
@@ -172,7 +172,7 @@ void StyleHelper::setBaseColor(const QColor &newcolor) {
   m_requestedBaseColor = newcolor;
 
   QColor color;
-  color.setHsv(newcolor.hue(), newcolor.saturation() * 0.7, 64 + newcolor.value() / 3);
+  color.setHsv(newcolor.hue(), static_cast<int>(static_cast<float>(newcolor.saturation()) * 0.7F), 64 + newcolor.value() / 3);
 
   if (color.isValid() && color != m_baseColor) {
     m_baseColor = color;
@@ -303,7 +303,7 @@ void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter,
   QPixmap pixmap;
   QString pixmapName = QString::asprintf("StyleHelper::drawArrow-%d-%d-%d-%f", element, size, (enabled ? 1 : 0), devicePixelRatio);
   if (!QPixmapCache::find(pixmapName, &pixmap)) {
-    QImage image(size * devicePixelRatio, size * devicePixelRatio, QImage::Format_ARGB32_Premultiplied);
+    QImage image(size * static_cast<int>(devicePixelRatio), size * static_cast<int>(devicePixelRatio), QImage::Format_ARGB32_Premultiplied);
     image.fill(Qt::transparent);
     QPainter p(&image);
 
@@ -325,7 +325,7 @@ void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter,
       drawCommonStyleArrow(image.rect(), m_IconsDisabledColor);
     }
     else {
-      drawCommonStyleArrow(image.rect().translated(0, devicePixelRatio), toolBarDropShadowColor());
+      drawCommonStyleArrow(image.rect().translated(0, static_cast<int>(devicePixelRatio)), toolBarDropShadowColor());
       drawCommonStyleArrow(image.rect(), m_IconsBaseColor);
     }
     p.end();
@@ -434,7 +434,7 @@ void StyleHelper::tintImage(QImage &img, const QColor &tintColor) {
 
       if (alpha > 0) {
         c.toHsl();
-        qreal l = c.lightnessF();
+        float l = c.lightnessF();
         QColor newColor = QColor::fromHslF(tintColor.hslHueF(), tintColor.hslSaturationF(), l);
         newColor.setAlpha(alpha);
         img.setPixel(x, y, newColor.rgba());

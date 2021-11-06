@@ -632,11 +632,11 @@ void Player::EngineStateChanged(const Engine::State state) {
 
 }
 
-void Player::SetVolume(const int value) {
+void Player::SetVolume(const uint value) {
 
-  int old_volume = engine_->volume();
+  uint old_volume = engine_->volume();
 
-  int volume = qBound(0, value, 100);
+  uint volume = qBound(0U, value, 100U);
   settings_.setValue("volume", volume);
   engine_->SetVolume(volume);
 
@@ -646,9 +646,9 @@ void Player::SetVolume(const int value) {
 
 }
 
-int Player::GetVolume() const { return engine_->volume(); }
+uint Player::GetVolume() const { return engine_->volume(); }
 
-void Player::PlayAt(const int index, const qint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform) {
+void Player::PlayAt(const int index, const quint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform) {
 
   pause_time_ = QDateTime();
   play_offset_nanosec_ = offset_nanosec;
@@ -696,7 +696,7 @@ void Player::CurrentMetadataChanged(const Song &metadata) {
 
 }
 
-void Player::SeekTo(const qint64 seconds) {
+void Player::SeekTo(const quint64 seconds) {
 
   const qint64 length_nanosec = engine_->length_nanosec();
 
@@ -705,7 +705,7 @@ void Player::SeekTo(const qint64 seconds) {
     return;
   }
 
-  const qint64 nanosec = qBound(0LL, seconds * kNsecPerSec, length_nanosec);
+  const qint64 nanosec = qBound(0LL, static_cast<qint64>(seconds) * kNsecPerSec, length_nanosec);
   engine_->Seek(nanosec);
 
   qLog(Debug) << "Track seeked to" << nanosec << "ns - updating scrobble point";
@@ -766,7 +766,7 @@ void Player::Mute() {
 
   if (!volume_control_) return;
 
-  const int current_volume = engine_->volume();
+  const uint current_volume = engine_->volume();
 
   if (current_volume == 0) {
     SetVolume(volume_before_mute_);

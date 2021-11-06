@@ -62,7 +62,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
 
   struct DiscogsCoverReleaseContext {
     explicit DiscogsCoverReleaseContext(const quint64 _search_id = 0, const quint64 _id = 0, const QUrl &_url = QUrl()) : search_id(_search_id), id(_id), url(_url) {}
-    quint64 search_id;
+    int search_id;
     quint64 id;
     QUrl url;
   };
@@ -90,8 +90,8 @@ class DiscogsCoverProvider : public JsonCoverProvider {
 
  private slots:
   void FlushRequests();
-  void HandleSearchReply(QNetworkReply *reply, const quint64 id);
-  void HandleReleaseReply(QNetworkReply *reply, const quint64 id, const quint64 release_id);
+  void HandleSearchReply(QNetworkReply *reply, const int id);
+  void HandleReleaseReply(QNetworkReply *reply, const int search_id, const quint64 release_id);
 
  private:
   static const char *kUrlSearch;

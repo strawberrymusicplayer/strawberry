@@ -43,7 +43,7 @@ InsertItems::InsertItems(Playlist *playlist, const PlaylistItemList &items, int 
       enqueue_(enqueue),
       enqueue_next_(enqueue_next) {
 
-  setText(tr("add %n songs", "", items_.count()));
+  setText(tr("add %n songs", "", static_cast<int>(items_.count())));
 
 }
 
@@ -53,7 +53,7 @@ void InsertItems::redo() {
 
 void InsertItems::undo() {
   const int start = pos_ == -1 ? static_cast<int>(playlist_->rowCount() - items_.count()) : pos_;
-  playlist_->RemoveItemsWithoutUndo(start, items_.count());
+  playlist_->RemoveItemsWithoutUndo(start, static_cast<int>(items_.count()));
 }
 
 bool InsertItems::UpdateItem(const PlaylistItemPtr &updated_item) {
@@ -109,7 +109,7 @@ MoveItems::MoveItems(Playlist *playlist, const QList<int> &source_rows, int pos)
       source_rows_(source_rows),
       pos_(pos) {
 
-  setText(tr("move %n songs", "", source_rows.count()));
+  setText(tr("move %n songs", "", static_cast<int>(source_rows.count())));
 
 }
 

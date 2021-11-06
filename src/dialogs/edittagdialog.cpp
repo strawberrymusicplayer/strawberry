@@ -166,6 +166,9 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
         QObject::connect(checkbox, &QCheckBox::stateChanged, this, &EditTagDialog::FieldValueEdited);
         QObject::connect(checkbox, &CheckBox::Reset, this, &EditTagDialog::ResetField);
       }
+      else if (RatingBox *ratingbox = qobject_cast<RatingBox*>(widget)) {
+        QObject::connect(ratingbox, &RatingWidget::RatingChanged, this, &EditTagDialog::FieldValueEdited);
+      }
     }
   }
 
@@ -184,6 +187,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   QObject::connect(ui_->song_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EditTagDialog::SelectionChanged);
   QObject::connect(ui_->button_box, &QDialogButtonBox::clicked, this, &EditTagDialog::ButtonClicked);
   QObject::connect(ui_->playcount_reset, &QPushButton::clicked, this, &EditTagDialog::ResetPlayCounts);
+  QObject::connect(ui_->rating, &RatingWidget::RatingChanged, this, &EditTagDialog::SongRated);
 #ifdef HAVE_MUSICBRAINZ
   QObject::connect(ui_->fetch_tag, &QPushButton::clicked, this, &EditTagDialog::FetchTag);
 #endif
@@ -389,7 +393,7 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) {
       Song copy(song);
       TagReaderClient::Instance()->ReadFileBlocking(copy.url().toLocalFile(), &copy);
       if (copy.is_valid()) {
-        copy.MergeUserSetData(song);
+        copy.MergeUserSetData(song, false);
         ret << Data(copy);
       }
     }
@@ -478,6 +482,7 @@ QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
   if (id == "disc") return song.disc();
   if (id == "year") return song.year();
   if (id == "compilation") return song.compilation();
+  if (id == "rating") { return song.rating(); }
   qLog(Warning) << "Unknown ID" << id;
   return QVariant();
 
@@ -499,6 +504,7 @@ void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
   else if (id == "disc") current_.set_disc(value.toInt());
   else if (id == "year") current_.set_year(value.toInt());
   else if (id == "compilation") current_.set_compilation(value.toBool());
+  else if (id == "rating") { current_.set_rating(value.toFloat()); }
   else qLog(Warning) << "Unknown ID" << id;
 
 }
@@ -832,7 +838,6 @@ void EditTagDialog::UpdateStatisticsTab(const Song &song) {
 
   ui_->playcount->setText(QString::number(qMax(0, song.playcount())));
   ui_->skipcount->setText(QString::number(qMax(0, song.skipcount())));
-
   ui_->lastplayed->setText(song.lastplayed() <= 0 ? tr("Never") : QDateTime::fromSecsSinceEpoch(song.lastplayed()).toString(QLocale::system().dateTimeFormat(QLocale::LongFormat)));
 
 }
@@ -1094,6 +1099,10 @@ void EditTagDialog::SaveData() {
       QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() { SongSaveTagsComplete(reply, ref.current_.url().toLocalFile(), ref.current_); }, Qt::QueuedConnection);
     }
 
+    if (ref.current_.rating() != ref.original_.rating() && ref.current_.is_collection_song()) {
+      app_->collection_backend()->UpdateSongRatingAsync(ref.current_.id(), ref.current_.rating(), true);
+    }
+
     QString embedded_cover_from_file;
     // If embedded album cover is selected and it isn't saved to the tags, then save it even if no action was done.
     if (ui_->checkbox_embedded_cover->isChecked() && ref.cover_action_ == UpdateCoverAction_None && !ref.original_.has_embedded_cover() && ref.original_.save_embedded_cover_supported()) {
@@ -1253,6 +1262,18 @@ void EditTagDialog::ResetPlayCounts() {
   }
 
   UpdateStatisticsTab(*song);
+
+}
+
+void EditTagDialog::SongRated(const float rating) {
+
+  const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
+  if (indexes.isEmpty()) return;
+
+  for (const QModelIndex &idx : indexes) {
+    if (!data_[idx.row()].current_.is_valid() || data_[idx.row()].current_.id() == -1) continue;
+    data_[idx.row()].current_.set_rating(rating);
+  }
 
 }
 

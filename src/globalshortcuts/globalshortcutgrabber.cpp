@@ -94,10 +94,10 @@ bool GlobalShortcutGrabber::event(QEvent *e) {
     QKeyEvent *ke = static_cast<QKeyEvent*>(e);
 
     if (modifier_keys_.contains(ke->key())) {
-      ret_ = QKeySequence(ke->modifiers());
+      ret_ = QKeySequence(static_cast<int>(ke->modifiers()));
     }
     else {
-      ret_ = QKeySequence(ke->modifiers() | ke->key());
+      ret_ = QKeySequence(static_cast<int>(ke->modifiers() | ke->key()));
     }
 
     UpdateText();

@@ -48,6 +48,7 @@ StretchHeaderView::StretchHeaderView(const Qt::Orientation orientation, QWidget 
 
   QObject::connect(this, &StretchHeaderView::sectionResized, this, &StretchHeaderView::SectionResized);
   setMinimumSectionSize(kMinimumColumnWidth);
+  setTextElideMode(Qt::ElideRight);
 
 }
 
@@ -91,13 +92,10 @@ void StretchHeaderView::UpdateWidths(const QList<int> &sections) {
 
   if (!stretch_enabled_) return;
 
-  ColumnWidthType total_w = 0.0;
-
   for (int i = 0; i < column_widths_.count(); ++i) {
     const ColumnWidthType w = column_widths_[i];
-    int pixels = w * width();
 
-    total_w += w;
+    int pixels = static_cast<int>(w * width());
 
     if (!sections.isEmpty() && !sections.contains(i)) {
       continue;
@@ -286,7 +284,7 @@ bool StretchHeaderView::RestoreState(const QByteArray &sdata) {
 
   setSortIndicator(sort_indicator_section, Qt::SortOrder(sort_indicator_order));
 
-  const int persisted_column_count = qMin(qMin(visual_indices.count(), pixel_widths.count()), column_widths_.count());
+  const qint64 persisted_column_count = qMin(qMin(visual_indices.count(), pixel_widths.count()), column_widths_.count());
 
   // Set column visible state, visual indices and, if we're not in stretch mode, pixel widths.
   for (int i = 0; i < count() && i < persisted_column_count; ++i) {

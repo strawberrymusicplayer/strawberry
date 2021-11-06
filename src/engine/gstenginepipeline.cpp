@@ -65,9 +65,8 @@ const int GstEnginePipeline::kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3
 
 int GstEnginePipeline::sId = 1;
 
-GstEnginePipeline::GstEnginePipeline(GstEngine *engine, QObject *parent)
+GstEnginePipeline::GstEnginePipeline(QObject *parent)
     : QObject(parent),
-      engine_(engine),
       id_(sId++),
       valid_(false),
       volume_enabled_(true),
@@ -186,7 +185,7 @@ void GstEnginePipeline::set_replaygain(const bool enabled, const int mode, const
 
 }
 
-void GstEnginePipeline::set_buffer_duration_nanosec(const qint64 buffer_duration_nanosec) {
+void GstEnginePipeline::set_buffer_duration_nanosec(const quint64 buffer_duration_nanosec) {
   buffer_duration_nanosec_ = buffer_duration_nanosec;
 }
 
@@ -210,16 +209,39 @@ void GstEnginePipeline::set_channels(const bool enabled, const int channels) {
   channels_ = channels;
 }
 
-bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec) {
+GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const {
+
+  QString unique_name = QString("pipeline") + "-" + QString::number(id_) + "-" + (name.isEmpty() ? factory_name : name);
+
+  GstElement *element = gst_element_factory_make(factory_name.toUtf8().constData(), unique_name.toUtf8().constData());
+  if (!element) {
+    qLog(Error) << "GStreamer could not create the element" << factory_name << "with name" << unique_name;
+    error = QString("GStreamer could not create the element %1 with name %2.").arg(factory_name, unique_name);
+  }
+
+  if (bin && element) gst_bin_add(GST_BIN(bin), element);
+
+  return element;
+
+}
+
+bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec, QString &error) {
 
   stream_url_ = stream_url;
   original_url_ = original_url;
   end_offset_nanosec_ = end_nanosec;
 
-  pipeline_ = engine_->CreateElement("playbin");
+  pipeline_ = CreateElement("playbin", "pipeline", nullptr, error);
   if (!pipeline_) return false;
 
-  g_object_set(G_OBJECT(pipeline_), "uri", stream_url.constData(), nullptr);
+  pad_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &NewPadCallback, this);
+  notify_source_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "notify::source", &SourceSetupCallback, this);
+  about_to_finish_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
+
+  if (!InitAudioBin(error)) return false;
+
+  // Set playbin's sink to be our custom audio-sink.
+  g_object_set(GST_OBJECT(pipeline_), "audio-sink", audiobin_, nullptr);
 
   gint flags = 0;
   g_object_get(G_OBJECT(pipeline_), "flags", &flags, nullptr);
@@ -231,23 +253,17 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &or
   else {
     flags &= ~0x00000010;
   }
+
   g_object_set(G_OBJECT(pipeline_), "flags", flags, nullptr);
+  g_object_set(G_OBJECT(pipeline_), "uri", stream_url.constData(), nullptr);
 
-  pad_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &NewPadCallback, this);
-  notify_source_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "notify::source", &SourceSetupCallback, this);
-  about_to_finish_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
-
-  if (!InitAudioBin()) return false;
-
-  // Set playbin's sink to be our custom audio-sink.
-  g_object_set(GST_OBJECT(pipeline_), "audio-sink", audiobin_, nullptr);
   pipeline_is_connected_ = true;
 
   return true;
 
 }
 
-bool GstEnginePipeline::InitAudioBin() {
+bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   gst_segment_init(&last_playbin_segment_, GST_FORMAT_TIME);
 
@@ -256,7 +272,7 @@ bool GstEnginePipeline::InitAudioBin() {
   if (!audiobin_) return false;
 
   // Create the sink
-  GstElement *audiosink = engine_->CreateElement(output_, audiobin_);
+  GstElement *audiosink = CreateElement(output_, output_, audiobin_, error);
   if (!audiosink) {
     gst_object_unref(GST_OBJECT(audiobin_));
     return false;
@@ -309,10 +325,15 @@ bool GstEnginePipeline::InitAudioBin() {
 
   // Create all the other elements
 
-  audioqueue_ = engine_->CreateElement("queue2", audiobin_);
-  GstElement *audioconverter = engine_->CreateElement("audioconvert", audiobin_);
+  audioqueue_ = CreateElement("queue2", "audioqueue", audiobin_, error);
+  if (!audioqueue_) {
+    gst_object_unref(GST_OBJECT(audiobin_));
+    audiobin_ = nullptr;
+    return false;
+  }
 
-  if (!audioqueue_ || !audioconverter) {
+  GstElement *audioconverter = CreateElement("audioconvert", "audioconverter", audiobin_, error);
+  if (!audioconverter) {
     gst_object_unref(GST_OBJECT(audiobin_));
     audiobin_ = nullptr;
     return false;
@@ -320,20 +341,40 @@ bool GstEnginePipeline::InitAudioBin() {
 
   // Create the volume elements if it's enabled.
   if (volume_enabled_) {
-    volume_ = engine_->CreateElement("volume", audiobin_);
+    volume_ = CreateElement("volume", "volume", audiobin_, error);
+    if (!volume_) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      return false;
+    }
   }
 
   // Create the stereo balancer elements if it's enabled.
   if (stereo_balancer_enabled_) {
-    audiopanorama_ = engine_->CreateElement("audiopanorama", audiobin_, false);
+    audiopanorama_ = CreateElement("audiopanorama", "audiopanorama", audiobin_, error);
+    if (!audiopanorama_) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      return false;
+    }
     // Set the stereo balance.
-    if (audiopanorama_) g_object_set(G_OBJECT(audiopanorama_), "panorama", stereo_balance_, nullptr);
+    g_object_set(G_OBJECT(audiopanorama_), "panorama", stereo_balance_, nullptr);
   }
 
   // Create the equalizer elements if it's enabled.
   if (eq_enabled_) {
-    equalizer_preamp_ = engine_->CreateElement("volume", audiobin_, false);
-    equalizer_ = engine_->CreateElement("equalizer-nbands", audiobin_, false);
+    equalizer_preamp_ = CreateElement("volume", "equalizer_preamp", audiobin_, error);
+    if (!equalizer_preamp_) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      return false;
+    }
+    equalizer_ = CreateElement("equalizer-nbands", "equalizer_nbands", audiobin_, error);
+    if (!equalizer_) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      return false;
+    }
     // Setting the equalizer bands:
     //
     // GStreamer's GstIirEqualizerNBands sets up shelve filters for the first and last bands as corner cases.
@@ -341,32 +382,36 @@ bool GstEnginePipeline::InitAudioBin() {
     // As a workaround, we create two dummy bands at both ends of the spectrum.
     // This causes the actual first and last adjustable bands to be implemented using band-pass filters.
 
-    if (equalizer_) {
-      g_object_set(G_OBJECT(equalizer_), "num-bands", 10 + 2, nullptr);
+    g_object_set(G_OBJECT(equalizer_), "num-bands", 10 + 2, nullptr);
 
-      // Dummy first band (bandwidth 0, cutting below 20Hz):
-      GstObject *first_band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), 0));
+    // Dummy first band (bandwidth 0, cutting below 20Hz):
+    GstObject *first_band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), 0));
+    if (first_band) {
       g_object_set(G_OBJECT(first_band), "freq", 20.0, "bandwidth", 0, "gain", 0.0F, nullptr);
       g_object_unref(G_OBJECT(first_band));
+    }
 
-      // Dummy last band (bandwidth 0, cutting over 20KHz):
-      GstObject *last_band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), kEqBandCount + 1));
+    // Dummy last band (bandwidth 0, cutting over 20KHz):
+    GstObject *last_band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), kEqBandCount + 1));
+    if (last_band) {
       g_object_set(G_OBJECT(last_band), "freq", 20000.0, "bandwidth", 0, "gain", 0.0F, nullptr);
       g_object_unref(G_OBJECT(last_band));
+    }
 
-      int last_band_frequency = 0;
-      for (int i = 0; i < kEqBandCount; ++i) {
-        const int index_in_eq = i + 1;
-        GstObject *band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), index_in_eq));
-
+    int last_band_frequency = 0;
+    for (int i = 0; i < kEqBandCount; ++i) {
+      const int index_in_eq = i + 1;
+      GstObject *band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), index_in_eq));
+      if (band) {
         const float frequency = static_cast<float>(kEqBandFrequencies[i]);
         const float bandwidth = frequency - static_cast<float>(last_band_frequency);
         last_band_frequency = static_cast<int>(frequency);
-
         g_object_set(G_OBJECT(band), "freq", frequency, "bandwidth", bandwidth, "gain", 0.0F, nullptr);
         g_object_unref(G_OBJECT(band));
       }
-    }
+
+    }  // for
+
   }
 
   // Create the replaygain elements if it's enabled.
@@ -375,29 +420,49 @@ bool GstEnginePipeline::InitAudioBin() {
   GstElement *rglimiter = nullptr;
   GstElement *rgconverter = nullptr;
   if (rg_enabled_) {
-    rgvolume = engine_->CreateElement("rgvolume", audiobin_, false);
-    rglimiter = engine_->CreateElement("rglimiter", audiobin_, false);
-    rgconverter = engine_->CreateElement("audioconvert", audiobin_, false);
-    if (rgvolume && rglimiter && rgconverter) {
-      eventprobe = rgconverter;
-      // Set replaygain settings
-      g_object_set(G_OBJECT(rgvolume), "album-mode", rg_mode_, nullptr);
-      g_object_set(G_OBJECT(rgvolume), "pre-amp", rg_preamp_, nullptr);
-      g_object_set(G_OBJECT(rgvolume), "fallback-gain", rg_fallbackgain_, nullptr);
-      g_object_set(G_OBJECT(rglimiter), "enabled", static_cast<int>(rg_compression_), nullptr);
+    rgvolume = CreateElement("rgvolume", "rgvolume", audiobin_, error);
+    if (!rgvolume) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      return false;
+    }
+    rglimiter = CreateElement("rglimiter", "rglimiter", audiobin_, error);
+    if (!rglimiter) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      return false;
+    }
+    rgconverter = CreateElement("audioconvert", "rgconverter", audiobin_, error);
+    if (!rgconverter) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      return false;
+    }
+    eventprobe = rgconverter;
+    // Set replaygain settings
+    g_object_set(G_OBJECT(rgvolume), "album-mode", rg_mode_, nullptr);
+    g_object_set(G_OBJECT(rgvolume), "pre-amp", rg_preamp_, nullptr);
+    g_object_set(G_OBJECT(rgvolume), "fallback-gain", rg_fallbackgain_, nullptr);
+    g_object_set(G_OBJECT(rglimiter), "enabled", static_cast<int>(rg_compression_), nullptr);
+  }
+
+  {  // Create a pad on the outside of the audiobin and connect it to the pad of the first element.
+    GstPad *pad = gst_element_get_static_pad(audioqueue_, "sink");
+    if (pad) {
+      gst_element_add_pad(audiobin_, gst_ghost_pad_new("sink", pad));
+      gst_object_unref(pad);
     }
   }
 
-  // Create a pad on the outside of the audiobin and connect it to the pad of the first element.
-  GstPad *pad = gst_element_get_static_pad(audioqueue_, "sink");
-  gst_element_add_pad(audiobin_, gst_ghost_pad_new("sink", pad));
-  gst_object_unref(pad);
-
   // Add a data probe on the src pad of the audioconvert element for our scope.
   // We do it here because we want pre-equalized and pre-volume samples so that our visualization are not be affected by them.
-  pad = gst_element_get_static_pad(eventprobe, "src");
-  gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_EVENT_UPSTREAM, &EventHandoffCallback, this, nullptr);
-  gst_object_unref(pad);
+  {
+    GstPad *pad = gst_element_get_static_pad(eventprobe, "src");
+    if (pad) {
+      gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_EVENT_UPSTREAM, &EventHandoffCallback, this, nullptr);
+      gst_object_unref(pad);
+    }
+  }
 
   // Set the buffer duration.
   // We set this on this queue instead of the playbin because setting it on the playbin only affects network sources.
@@ -419,47 +484,87 @@ bool GstEnginePipeline::InitAudioBin() {
 
   // Link replaygain elements if enabled.
   if (rg_enabled_ && rgvolume && rglimiter && rgconverter) {
-    gst_element_link_many(next, rgvolume, rglimiter, rgconverter, nullptr);
+    if (!gst_element_link_many(next, rgvolume, rglimiter, rgconverter, nullptr)) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      error = "gst_element_link_many() failed.";
+      return false;
+    }
     next = rgconverter;
   }
 
   // Link equalizer elements if enabled.
   if (eq_enabled_ && equalizer_ && equalizer_preamp_) {
-    gst_element_link_many(next, equalizer_preamp_, equalizer_, nullptr);
+    if (!gst_element_link_many(next, equalizer_preamp_, equalizer_, nullptr)) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      error = "gst_element_link_many() failed.";
+      return false;
+    }
     next = equalizer_;
   }
 
   // Link stereo balancer elements if enabled.
   if (stereo_balancer_enabled_ && audiopanorama_) {
-    gst_element_link(next, audiopanorama_);
+    if (!gst_element_link(next, audiopanorama_)) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      error = "gst_element_link() failed.";
+      return false;
+    }
     next = audiopanorama_;
   }
 
   // Link volume elements if enabled.
   if (volume_enabled_ && volume_) {
-    gst_element_link(next, volume_);
+    if (!gst_element_link(next, volume_)) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      error = "gst_element_link() failed.";
+      return false;
+    }
     next = volume_;
   }
 
-  gst_element_link(next, audioconverter);
-
-  GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
-  if (channels_enabled_ && channels_ > 0) {
-    qLog(Debug) << "Setting channels to" << channels_;
-    gst_caps_set_simple(caps, "channels", G_TYPE_INT, channels_, nullptr);
+  if (!gst_element_link(next, audioconverter)) {
+    gst_object_unref(GST_OBJECT(audiobin_));
+    audiobin_ = nullptr;
+    error = "gst_element_link() failed.";
+    return false;
   }
-  gst_element_link_filtered(audioconverter, audiosink, caps);
-  gst_caps_unref(caps);
 
-  // Add probes and handlers.
-  pad = gst_element_get_static_pad(audioqueue_, "src");
-  gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, HandoffCallback, this, nullptr);
-  gst_object_unref(pad);
+  {
+    GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
+    if (!caps) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      error = "gst_caps_new_empty_simple() failed.";
+      return false;
+    }
+    if (channels_enabled_ && channels_ > 0) {
+      qLog(Debug) << "Setting channels to" << channels_;
+      gst_caps_set_simple(caps, "channels", G_TYPE_INT, channels_, nullptr);
+    }
+    gst_element_link_filtered(audioconverter, audiosink, caps);
+    gst_caps_unref(caps);
+  }
 
-  GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
-  gst_bus_set_sync_handler(bus, BusCallbackSync, this, nullptr);
-  gst_bus_add_watch(bus, BusCallback, this);
-  gst_object_unref(bus);
+  { // Add probes and handlers.
+    GstPad *pad = gst_element_get_static_pad(audioqueue_, "src");
+    if (pad) {
+      gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, HandoffCallback, this, nullptr);
+      gst_object_unref(pad);
+    }
+  }
+
+  {
+    GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
+    if (bus) {
+      gst_bus_set_sync_handler(bus, BusCallbackSync, this, nullptr);
+      gst_bus_add_watch(bus, BusCallback, this);
+      gst_object_unref(bus);
+    }
+  }
 
   logged_unsupported_analyzer_format_ = false;
 
@@ -481,7 +586,7 @@ GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeIn
         // The segment start time is used to calculate the proper offset of data buffers from the start of the stream
         const GstSegment *segment = nullptr;
         gst_event_parse_segment(e, &segment);
-        instance->segment_start_ = segment->start;
+        instance->segment_start_ = static_cast<qint64>(segment->start);
         instance->segment_start_received_ = true;
       }
       break;
@@ -558,7 +663,7 @@ void GstEnginePipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer self) 
   // Offset the timestamps on all the buffers coming out of the playbin so they line up exactly with the end of the last buffer from the old playbin.
   // "Running time" is the time since the last flushing seek.
   GstClockTime running_time = gst_segment_to_running_time(&instance->last_playbin_segment_, GST_FORMAT_TIME, instance->last_playbin_segment_.position);
-  gst_pad_set_offset(pad, running_time);
+  gst_pad_set_offset(pad, static_cast<gint64>(running_time));
 
   // Add a probe to the pad so we can update last_playbin_segment_.
   gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM | GST_PAD_PROBE_TYPE_EVENT_FLUSH), PlaybinProbe, instance, nullptr);
@@ -615,7 +720,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
   QString format;
-  int channels = 0;
+  int channels = 1;
   int rate = 0;
 
   GstCaps *caps = gst_pad_get_current_caps(pad);
@@ -634,7 +739,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
 
   quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_;
   quint64 duration = GST_BUFFER_DURATION(buf);
-  qint64 end_time = start_time + duration;
+  qint64 end_time = static_cast<qint64>(start_time + duration);
 
   if (format.startsWith("S16LE")) {
     instance->logged_unsupported_analyzer_format_ = false;
@@ -807,7 +912,7 @@ gboolean GstEnginePipeline::BusCallback(GstBus*, GstMessage *msg, gpointer self)
       break;
   }
 
-  return FALSE;
+  return TRUE;
 
 }
 
@@ -974,7 +1079,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   bundle.artist = ParseStrTag(taglist, GST_TAG_ARTIST);
   bundle.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
   bundle.album = ParseStrTag(taglist, GST_TAG_ALBUM);
-  bundle.bitrate = ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000;
+  bundle.bitrate = static_cast<int>(ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000);
   bundle.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
 
   if (!bundle.title.isEmpty() && bundle.artist.isEmpty() && bundle.album.isEmpty()) {
@@ -1154,7 +1259,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
 }
 
-void GstEnginePipeline::SetVolume(const int percent) {
+void GstEnginePipeline::SetVolume(const uint percent) {
 
   if (!volume_) return;
   volume_percent_ = percent;
@@ -1207,7 +1312,7 @@ void GstEnginePipeline::UpdateEqualizer() {
 
   // Update band gains
   for (int i = 0; i < kEqBandCount; ++i) {
-    float gain = eq_enabled_ ? eq_band_gains_[i] : static_cast<float>(0.0);
+    float gain = eq_enabled_ ? static_cast<float>(eq_band_gains_[i]) : static_cast<float>(0.0);
     if (gain < 0) {
       gain *= 0.24;
     }
@@ -1252,7 +1357,7 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
   QObject::connect(fader_.get(), &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
   fader_->setDirection(direction);
   fader_->setEasingCurve(shape);
-  fader_->setCurrentTime(start_time);
+  fader_->setCurrentTime(static_cast<int>(start_time));
   fader_->resume();
 
   fader_fudge_timer_.stop();

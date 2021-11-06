@@ -445,7 +445,7 @@ QStringList InternetSearchView::TokenizeQuery(const QString &query) {
     (*it).remove(')');
     (*it).remove('"');
 
-    const int colon = (*it).indexOf(":");
+    const qint64 colon = (*it).indexOf(":");
     if (colon != -1) {
       (*it).remove(0, colon + 1);
     }

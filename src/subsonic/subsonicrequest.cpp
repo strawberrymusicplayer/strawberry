@@ -554,7 +554,7 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
     size = json_obj["size"].toInt();
   }
 
-  quint64 duration = 0;
+  qint64 duration = 0;
   if (json_obj["duration"].type() == QJsonValue::String) {
     duration = json_obj["duration"].toString().toInt() * kNsecPerSec;
   }

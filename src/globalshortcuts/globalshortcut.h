@@ -55,11 +55,11 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
 
   static void activateShortcut(quint32 native_key, quint32 native_mods);
 
-  static quint32 nativeModifiers(Qt::KeyboardModifiers qt_mods);
-  static quint32 nativeKeycode(Qt::Key qt_keycode);
+  static int nativeModifiers(Qt::KeyboardModifiers qt_mods);
+  static int nativeKeycode(Qt::Key qt_keycode);
 
-  static bool registerShortcut(quint32 native_key, quint32 native_mods);
-  static bool unregisterShortcut(quint32 native_key, quint32 native_mods);
+  static bool registerShortcut(int native_key, int native_mods);
+  static bool unregisterShortcut(int native_key, int native_mods);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   bool nativeEventFilter(const QByteArray &eventtype, void *message, qintptr *result) override;
@@ -75,8 +75,8 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
   QKeySequence shortcut_;
   Qt::Key qt_key_;
   Qt::KeyboardModifiers qt_mods_;
-  quint32 native_key_;
-  quint32 native_mods_;
+  int native_key_;
+  int native_mods_;
 
 };
 

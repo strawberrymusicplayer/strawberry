@@ -532,6 +532,7 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
 
     // Draw the play icon
     QPoint play_pos(currenttrack_bar_left_[0].width() / 3 * 2, (row_height - currenttrack_play_.height()) / 2);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->drawPixmap(opt.rect.topLeft() + play_pos, is_paused ? currenttrack_pause_ : currenttrack_play_);
 
     // Set the font
@@ -744,7 +745,7 @@ QModelIndex PlaylistView::NextEditableIndex(const QModelIndex &current) {
 
   QList<int> columns = GetEditableColumns();
   QHeaderView *h = header();
-  int idx = columns.indexOf(h->visualIndex(current.column()));
+  int idx = static_cast<int>(columns.indexOf(h->visualIndex(current.column())));
 
   if (idx + 1 >= columns.size()) {
     return model()->index(current.row() + 1, h->logicalIndex(columns.first()));
@@ -758,7 +759,7 @@ QModelIndex PlaylistView::PrevEditableIndex(const QModelIndex &current) {
 
   QList<int> columns = GetEditableColumns();
   QHeaderView *h = header();
-  int idx = columns.indexOf(h->visualIndex(current.column()));
+  int idx = static_cast<int>(columns.indexOf(h->visualIndex(current.column())));
 
   if (idx - 1 < 0) {
     return model()->index(current.row() - 1, h->logicalIndex(columns.last()));
@@ -858,7 +859,7 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
       case Qt::LeftButton:{
         if (idx.data(Playlist::Role_CanSetRating).toBool() && !rating_locked_) {
           // Calculate which star was clicked
-          double new_rating = RatingPainter::RatingForPos(event->pos(), visualRect(idx));
+          float new_rating = RatingPainter::RatingForPos(event->pos(), visualRect(idx));
           if (selectedIndexes().contains(idx)) {
             // Update all the selected item ratings
             QModelIndexList src_index_list;
@@ -1459,7 +1460,7 @@ void PlaylistView::set_background_image(const QImage &image) {
     // Apply opacity filter
     uchar *bits = background_image_.bits();
     for (int i = 0; i < background_image_.height() * background_image_.bytesPerLine(); i += 4) {
-      bits[i + 3] = (opacity_level_ / 100.0) * 255;
+      bits[i + 3] = static_cast<uchar>((opacity_level_ / 100.0) * 255);
     }
 
     if (blur_radius_ != 0) {

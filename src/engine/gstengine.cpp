@@ -91,7 +91,6 @@ GstEngine::GstEngine(TaskManager *task_manager, QObject *parent)
       waiting_to_seek_(false),
       seek_pos_(0),
       timer_id_(-1),
-      next_element_id_(0),
       is_fading_out_to_pause_(false),
       has_faded_out_(false),
       scope_chunk_(0),
@@ -353,7 +352,7 @@ qint64 GstEngine::position_nanosec() const {
 
   if (!current_pipeline_) return 0;
 
-  const qint64 result = current_pipeline_->position() - beginning_nanosec_;
+  const qint64 result = current_pipeline_->position() - static_cast<qint64>(beginning_nanosec_);
   return qint64(qMax(0LL, result));
 
 }
@@ -362,7 +361,7 @@ qint64 GstEngine::length_nanosec() const {
 
   if (!current_pipeline_) return 0;
 
-  const qint64 result = end_nanosec_ - beginning_nanosec_;
+  const qint64 result = end_nanosec_ - static_cast<qint64>(beginning_nanosec_);
 
   if (result > 0) {
     return result;
@@ -448,25 +447,6 @@ void GstEngine::ReloadSettings() {
 
 }
 
-GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin, const bool showerror) {
-
-  // Make a unique name
-  QString name = factoryName + "-" + QString::number(next_element_id_++);
-
-  GstElement *element = gst_element_factory_make(factoryName.toUtf8().constData(), name.toUtf8().constData());
-  if (!element) {
-    if (showerror) emit Error(QString("GStreamer could not create the element: %1.").arg(factoryName));
-    else qLog(Error) << "GStreamer could not create the element:" << factoryName;
-    emit StateChanged(Engine::Error);
-    emit FatalError();
-    return nullptr;
-  }
-
-  if (bin) gst_bin_add(GST_BIN(bin), element);
-
-  return element;
-}
-
 void GstEngine::ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) {
 
   // Schedule this to run in the GUI thread.  The buffer gets added to the queue and unreffed by UpdateScope.
@@ -532,7 +512,7 @@ void GstEngine::timerEvent(QTimerEvent *e) {
     const qint64 remaining = current_length - current_position;
 
     const qint64 fudge = kTimerIntervalNanosec + 100 * kNsecPerMsec;  // Mmm fudge
-    const qint64 gap = buffer_duration_nanosec_ + (autocrossfade_enabled_ ? fadeout_duration_nanosec_ : kPreloadGapNanosec);
+    const qint64 gap = static_cast<qint64>(buffer_duration_nanosec_) + (autocrossfade_enabled_ ? fadeout_duration_nanosec_ : kPreloadGapNanosec);
 
     // only if we know the length of the current stream...
     if (current_length > 0) {
@@ -638,7 +618,7 @@ void GstEngine::SeekNow() {
 
   if (!current_pipeline_) return;
 
-  if (!current_pipeline_->Seek(seek_pos_)) {
+  if (!current_pipeline_->Seek(static_cast<qint64>(seek_pos_))) {
     qLog(Warning) << "Seek failed";
   }
 
@@ -810,7 +790,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
   EnsureInitialized();
 
-  std::shared_ptr<GstEnginePipeline> ret = std::make_shared<GstEnginePipeline>(this);
+  std::shared_ptr<GstEnginePipeline> ret = std::make_shared<GstEnginePipeline>();
   ret->set_output_device(output_, device_);
   ret->set_volume_enabled(volume_control_);
   ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
@@ -841,7 +821,14 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &gst_url, const QUrl &original_url, const qint64 end_nanosec) {
 
   std::shared_ptr<GstEnginePipeline> ret = CreatePipeline();
-  if (!ret->InitFromUrl(gst_url, original_url, end_nanosec)) ret.reset();
+  QString error;
+  if (!ret->InitFromUrl(gst_url, original_url, end_nanosec, error)) {
+    ret.reset();
+    emit Error(error);
+    emit StateChanged(Engine::Error);
+    emit FatalError();
+  }
+
   return ret;
 
 }
@@ -937,9 +924,9 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
       bundle.url = instance->current_pipeline_->next_original_url();
     }
     bundle.stream_url = QUrl(discovered_url);
-    bundle.samplerate = gst_discoverer_audio_info_get_sample_rate(GST_DISCOVERER_AUDIO_INFO(stream_info));
-    bundle.bitdepth = gst_discoverer_audio_info_get_depth(GST_DISCOVERER_AUDIO_INFO(stream_info));
-    bundle.bitrate = gst_discoverer_audio_info_get_bitrate(GST_DISCOVERER_AUDIO_INFO(stream_info)) / 1000;
+    bundle.samplerate = static_cast<int>(gst_discoverer_audio_info_get_sample_rate(GST_DISCOVERER_AUDIO_INFO(stream_info)));
+    bundle.bitdepth = static_cast<int>(gst_discoverer_audio_info_get_depth(GST_DISCOVERER_AUDIO_INFO(stream_info)));
+    bundle.bitrate = static_cast<int>(gst_discoverer_audio_info_get_bitrate(GST_DISCOVERER_AUDIO_INFO(stream_info)) / 1000);
 
     GstCaps *caps = gst_discoverer_stream_info_get_caps(stream_info);
 

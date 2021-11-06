@@ -228,7 +228,7 @@ QModelIndex GroupedIconView::indexAt(const QPoint &p) const {
 
   const QPoint viewport_p = p + QPoint(horizontalOffset(), verticalOffset());
 
-  const int count = visual_rects_.count();
+  const int count = static_cast<int>(visual_rects_.count());
   for (int i = 0; i<count; ++i) {
     if (visual_rects_[i].contains(viewport_p)) {
       return model()->index(i, 0);
@@ -347,7 +347,7 @@ QVector<QModelIndex> GroupedIconView::IntersectingItems(const QRect rect) const 
 
   QVector<QModelIndex> ret;
 
-  const int count = visual_rects_.count();
+  const int count = static_cast<int>(visual_rects_.count());
   for (int i = 0; i < count; ++i) {
     if (rect.intersects(visual_rects_[i])) {
       ret.append(model()->index(i, 0));

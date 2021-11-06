@@ -52,7 +52,7 @@ MusixmatchLyricsProvider::~MusixmatchLyricsProvider() {
 
 }
 
-bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
+bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   QString artist_stripped = artist;
   QString title_stripped = title;
@@ -93,9 +93,9 @@ bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString 
 
 }
 
-void MusixmatchLyricsProvider::CancelSearch(const quint64 id) { Q_UNUSED(id); }
+void MusixmatchLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
-void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &album, const QString &title) {
+void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album, const QString &title) {
 
   Q_UNUSED(album);
 
@@ -127,11 +127,11 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, const qui
   QString content = data;
   QString data_begin = "var __mxmState = ";
   QString data_end = ";</script>";
-  int begin_idx = content.indexOf(data_begin);
+  qint64 begin_idx = content.indexOf(data_begin);
   QString content_json;
   if (begin_idx > 0) {
     begin_idx += data_begin.length();
-    int end_idx = content.indexOf(data_end, begin_idx);
+    qint64 end_idx = content.indexOf(data_end, begin_idx);
     if (end_idx > begin_idx) {
       content_json = content.mid(begin_idx, end_idx - begin_idx);
     }

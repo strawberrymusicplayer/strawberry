@@ -126,7 +126,7 @@ void SmartPlaylistsModel::Init() {
   // How many defaults do we have to write?
   int unwritten_defaults = 0;
   for (int i = version; i < default_smart_playlists_.count(); ++i) {
-    unwritten_defaults += default_smart_playlists_[i].count();
+    unwritten_defaults += static_cast<int>(default_smart_playlists_[i].count());
   }
 
   // Save the defaults if there are any unwritten ones
@@ -230,7 +230,7 @@ void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
   s.beginGroup(kSettingsGroup);
 
   // Rewrite all the items to the settings
-  s.beginWriteArray(backend_->songs_table(), root_->children.count());
+  s.beginWriteArray(backend_->songs_table(), static_cast<int>(root_->children.count()));
   int i = 0;
   for (SmartPlaylistsItem *item : root_->children) {
     s.setArrayIndex(i++);
@@ -282,6 +282,8 @@ QVariant SmartPlaylistsModel::data(const QModelIndex &idx, const int role) const
     case Qt::DisplayRole:
     case Qt::ToolTipRole:
       return item->DisplayText();
+    default:
+      return QVariant();
   }
 
   return QVariant();

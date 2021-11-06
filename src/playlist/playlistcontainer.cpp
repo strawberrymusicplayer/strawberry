@@ -261,6 +261,9 @@ void PlaylistContainer::ReloadSettings() {
     ui_->clear->hide();
   }
 
+  bool show_toolbar = settings_.value("show_toolbar", true).toBool();
+  ui_->toolbar->setVisible(show_toolbar);
+
 }
 
 bool PlaylistContainer::SearchFieldHasFocus() const {
@@ -268,7 +271,9 @@ bool PlaylistContainer::SearchFieldHasFocus() const {
 }
 
 void PlaylistContainer::FocusSearchField() {
-  ui_->filter->setFocus();
+  if (ui_->toolbar->isVisible()) {
+    ui_->filter->setFocus();
+  }
 }
 
 void PlaylistContainer::ActivePlaying() {

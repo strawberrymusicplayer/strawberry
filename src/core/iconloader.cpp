@@ -133,6 +133,10 @@ QIcon IconLoader::Load(const QString &name, const int fixed_size, const int min_
     if (QFile::exists(filename)) ret.addFile(filename, QSize(s, s));
   }
 
+  if (ret.isNull() && !system_icons_ && !custom_icons_) {
+    qLog(Error) << "Couldn't load icon" << name;
+  }
+
   return ret;
 
 }

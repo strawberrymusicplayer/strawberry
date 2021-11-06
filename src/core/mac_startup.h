@@ -31,11 +31,6 @@ void SetShortcutHandler(GlobalShortcutsBackendMacOS *handler);
 void SetApplicationHandler(PlatformInterface *handler);
 void CheckForUpdates();
 
-QString GetBundlePath();
-QString GetResourcesPath();
-QString GetApplicationSupportPath();
-QString GetMusicDirectory();
-
 void EnableFullScreen(const QWidget &main_window);
 
 }  // namespace mac

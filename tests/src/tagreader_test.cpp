@@ -94,6 +94,28 @@ class TagReaderTest : public ::testing::Test {
     return QString();
   }
 
+  static void WriteSongPlaycountToFile(const Song &song, const QString &filename) {
+#if defined(USE_TAGLIB)
+    TagReaderTagLib tag_reader;
+#elif defined(USE_TAGPARSER)
+    TagReaderTagParser tag_reader;
+#endif
+    spb::tagreader::SongMetadata pb_song;
+    song.ToProtobuf(&pb_song);
+    tag_reader.SaveSongPlaycountToFile(filename, pb_song);
+  }
+
+  static void WriteSongRatingToFile(const Song &song, const QString &filename) {
+#if defined(USE_TAGLIB)
+    TagReaderTagLib tag_reader;
+#elif defined(USE_TAGPARSER)
+    TagReaderTagParser tag_reader;
+#endif
+    spb::tagreader::SongMetadata pb_song;
+    song.ToProtobuf(&pb_song);
+    tag_reader.SaveSongRatingToFile(filename, pb_song);
+  }
+
 };
 
 TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
@@ -1687,6 +1709,316 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
     //EXPECT_EQ(sha256sum, sha256sum_notags);
+  }
+
+}
+
+#ifndef USE_TAGPARSER
+
+TEST_F(TagReaderTest, TestFLACAudioFilePlaycount) {
+
+  TemporaryResource r(":/audio/strawberry.flac");
+
+  {
+    Song song;
+    song.set_playcount(4);
+    WriteSongPlaycountToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(4, song.playcount());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestWavPackAudioFilePlaycount) {
+
+  TemporaryResource r(":/audio/strawberry.wv");
+
+  {
+    Song song;
+    song.set_playcount(4);
+    WriteSongPlaycountToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(4, song.playcount());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestOggFLACAudioFilePlaycount) {
+
+  TemporaryResource r(":/audio/strawberry.oga");
+
+  {
+    Song song;
+    song.set_playcount(4);
+    WriteSongPlaycountToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(4, song.playcount());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestOggVorbisAudioFilePlaycount) {
+
+  TemporaryResource r(":/audio/strawberry.ogg");
+
+  {
+    Song song;
+    song.set_playcount(4);
+    WriteSongPlaycountToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(4, song.playcount());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestOggOpusAudioFilePlaycount) {
+
+  TemporaryResource r(":/audio/strawberry.opus");
+
+  {
+    Song song;
+    song.set_playcount(4);
+    WriteSongPlaycountToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(4, song.playcount());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestOggSpeexAudioFilePlaycount) {
+
+  TemporaryResource r(":/audio/strawberry.spx");
+
+  {
+    Song song;
+    song.set_playcount(4);
+    WriteSongPlaycountToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(4, song.playcount());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestOggASFAudioFilePlaycount) {
+
+  TemporaryResource r(":/audio/strawberry.asf");
+
+  {
+    Song song;
+    song.set_playcount(4);
+    WriteSongPlaycountToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(4, song.playcount());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestOggMP3AudioFilePlaycount) {
+
+  TemporaryResource r(":/audio/strawberry.mp3");
+
+  {
+    Song song;
+    song.set_playcount(4);
+    WriteSongPlaycountToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(4, song.playcount());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestOggMP4AudioFilePlaycount) {
+
+  TemporaryResource r(":/audio/strawberry.m4a");
+
+  {
+    Song song;
+    song.set_playcount(4);
+    WriteSongPlaycountToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(4, song.playcount());
+  }
+
+}
+
+#endif  // USE_TAGPARSER
+
+TEST_F(TagReaderTest, TestFLACAudioFileRating) {
+
+  TemporaryResource r(":/audio/strawberry.flac");
+
+  {
+    Song song;
+    song.set_rating(0.4);
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(0.4F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestWavPackAudioFileRating) {
+
+  TemporaryResource r(":/audio/strawberry.wv");
+
+  {
+    Song song;
+    song.set_rating(0.4);
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(0.4F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestOggFLACAudioFileRating) {
+
+  TemporaryResource r(":/audio/strawberry.oga");
+
+  {
+    Song song;
+    song.set_rating(0.4);
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(0.4F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestOggVorbisAudioFileRating) {
+
+  TemporaryResource r(":/audio/strawberry.ogg");
+
+  {
+    Song song;
+    song.set_rating(0.4);
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(0.4F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestOggOpusAudioFileRating) {
+
+  TemporaryResource r(":/audio/strawberry.opus");
+
+  {
+    Song song;
+    song.set_rating(0.4);
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(0.4F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestOggSpeexAudioFileRating) {
+
+  TemporaryResource r(":/audio/strawberry.spx");
+
+  {
+    Song song;
+    song.set_rating(0.4);
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(0.4F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestASFAudioFileRating) {
+
+  TemporaryResource r(":/audio/strawberry.asf");
+
+  {
+    Song song;
+    song.set_rating(0.4);
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(0.4F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestMP3AudioFileRating) {
+
+  TemporaryResource r(":/audio/strawberry.mp3");
+
+  {
+    Song song;
+    song.set_rating(0.4);
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(0.4F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestMP4AudioFileRating) {
+
+  TemporaryResource r(":/audio/strawberry.m4a");
+
+  {
+    Song song;
+    song.set_rating(0.4);
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(0.4F, song.rating());
   }
 
 }

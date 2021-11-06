@@ -106,11 +106,11 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
   song->set_basefilename(DataCommaSizeFromQString(fileinfo.fileName()));
   song->set_url(url.constData(), url.size());
   song->set_filesize(fileinfo.size());
-  song->set_mtime(fileinfo.lastModified().toSecsSinceEpoch());
+  song->set_mtime(fileinfo.lastModified().isValid() ? fileinfo.lastModified().toSecsSinceEpoch() : 0);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
-  song->set_ctime(fileinfo.birthTime().isValid() ? fileinfo.birthTime().toSecsSinceEpoch() : fileinfo.lastModified().toSecsSinceEpoch());
+  song->set_ctime(fileinfo.birthTime().isValid() ? fileinfo.birthTime().toSecsSinceEpoch() : fileinfo.lastModified().isValid() ? fileinfo.lastModified().toSecsSinceEpoch() : 0);
 #else
-  song->set_ctime(fileinfo.created().toSecsSinceEpoch());
+  song->set_ctime(fileinfo.created().isValid() ? fileinfo.created().toSecsSinceEpoch() : fileinfo.lastModified().isValid() ? fileinfo.lastModified().toSecsSinceEpoch() : 0);
 #endif
   song->set_lastseen(QDateTime::currentDateTime().toSecsSinceEpoch());
 
@@ -420,5 +420,64 @@ bool TagReaderTagParser::SaveEmbeddedArt(const QString &filename, const QByteArr
   catch(...) {}
 
   return false;
+
+}
+
+bool TagReaderTagParser::SaveSongPlaycountToFile(const QString&, const spb::tagreader::SongMetadata&) const { return false; }
+
+bool TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
+
+    if (filename.isEmpty()) return false;
+
+    qLog(Debug) << "Saving song rating to" << filename;
+
+    try {
+      TagParser::MediaFileInfo taginfo;
+      TagParser::Diagnostics diag;
+      TagParser::AbortableProgressFeedback progress;
+  #ifdef Q_OS_WIN32
+      taginfo.setPath(filename.toStdWString().toStdString());
+  #else
+      taginfo.setPath(QFile::encodeName(filename).toStdString());
+  #endif
+      taginfo.open(false);
+
+      taginfo.parseContainerFormat(diag, progress);
+      if (progress.isAborted()) {
+        taginfo.close();
+        return false;
+      }
+
+      taginfo.parseTracks(diag, progress);
+      if (progress.isAborted()) {
+        taginfo.close();
+        return false;
+      }
+
+      taginfo.parseTags(diag, progress);
+      if (progress.isAborted()) {
+        taginfo.close();
+        return false;
+      }
+
+      if (taginfo.tags().size() <= 0) {
+        taginfo.createAppropriateTags();
+      }
+
+      for (const auto tag : taginfo.tags()) {
+        tag->setValue(TagParser::KnownField::Rating, TagParser::TagValue(song.rating()));
+      }
+      taginfo.applyChanges(diag, progress);
+      taginfo.close();
+
+      for (const TagParser::DiagMessage &msg : diag) {
+        qLog(Debug) << QString::fromStdString(msg.message());
+      }
+
+      return true;
+    }
+    catch(...) {}
+
+    return false;
 
 }

@@ -123,6 +123,8 @@ QVariant RadioModel::data(const RadioItem *item, int role) const {
       if (service) return service->Donate();
       break;
     }
+    default:
+      return QVariant();
   }
 
   return QVariant();
@@ -172,7 +174,7 @@ void RadioModel::AddChannels(const RadioChannelList &channels) {
       container = container_nodes_[channel.source];
     }
     else {
-      beginInsertRows(ItemToIndex(root_), root_->children.count(), root_->children.count());
+      beginInsertRows(ItemToIndex(root_), static_cast<int>(root_->children.count()), static_cast<int>(root_->children.count()));
       RadioItem *item = new RadioItem(RadioItem::Type_Service, root_);
       item->source = channel.source;
       item->display_text = Song::DescriptionForSource(channel.source);
@@ -182,7 +184,7 @@ void RadioModel::AddChannels(const RadioChannelList &channels) {
       endInsertRows();
       container = item;
     }
-    beginInsertRows(ItemToIndex(container), container->children.count(), container->children.count());
+    beginInsertRows(ItemToIndex(container), static_cast<int>(container->children.count()), static_cast<int>(container->children.count()));
     RadioItem *item = new RadioItem(RadioItem::Type_Channel, container);
     item->source = channel.source;
     item->display_text = channel.name;

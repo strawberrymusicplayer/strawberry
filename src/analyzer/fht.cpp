@@ -53,8 +53,8 @@ void FHT::makeCasTable(void) {
   float *sintab = tab_() + num_ / 2 + 1;
 
   for (int ul = 0; ul < num_; ul++) {
-    float d = M_PI * ul / (num_ / 2);  // NOLINT(bugprone-integer-division)
-    *costab = *sintab = cos(d);
+    double d = M_PI * static_cast<double>(ul) / (static_cast<double>(num_) / 2.0);
+    *costab = *sintab = static_cast<float>(cos(d));
 
     costab += 2;
     sintab += 2;
@@ -73,25 +73,25 @@ void FHT::ewma(float *d, float *s, float w) const {
 
 void FHT::logSpectrum(float *out, float *p) {
 
-  int n = num_ / 2, i = 0, j = 0, k = 0, *r = nullptr;
+  int n = num_ / 2, i = 0, k = 0, *r = nullptr;
   if (log_vector_.size() < n) {
     log_vector_.resize(n);
-    float f = n / log10(static_cast<double>(n));
+    float f = static_cast<float>(n) / static_cast<float>(log10(static_cast<double>(n)));
     for (i = 0, r = log_(); i < n; i++, r++) {
-      j = static_cast<int>(rint(log10(i + 1.0) * f));
+      int j = static_cast<int>(rint(log10(i + 1.0) * f));
       *r = j >= n ? n - 1 : j;
     }
   }
   semiLogSpectrum(p);
   *out++ = *p = *p / 100;
   for (k = i = 1, r = log_(); i < n; i++) {
-    j = *r++;
+    int j = *r++;
     if (i == j) {
       *out++ = p[i];
     }
     else {
       float base = p[k - 1];
-      float step = (p[j] - base) / (j - (k - 1));
+      float step = (p[j] - base) / static_cast<float>(j - (k - 1));
       for (float corr = 0; k <= j; k++, corr += step) *out++ = base + corr;
     }
   }
@@ -102,7 +102,7 @@ void FHT::semiLogSpectrum(float *p) {
 
   power2(p);
   for (int i = 0; i < (num_ / 2); i++, p++) {
-    float e = 10.0 * log10(sqrt(*p / 2));
+    float e = 10.0F * static_cast<float>(log10(sqrt(*p / static_cast<float>(2))));
     *p = e < 0 ? 0 : e;
   }
 
@@ -158,8 +158,8 @@ void FHT::transform8(float *p) {
 
   a = *p++, b = *p++, c = *p++, d = *p++;
   e = *p++, f = *p++, g = *p++, h = *p;
-  b_f2 = (b - f) * M_SQRT2;
-  d_h2 = (d - h) * M_SQRT2;
+  b_f2 = (b - f) * static_cast<float>(M_SQRT2);
+  d_h2 = (d - h) * static_cast<float>(M_SQRT2);
 
   a_c_eg = a - c - e + g;
   a_ce_g = a - c + e - g;

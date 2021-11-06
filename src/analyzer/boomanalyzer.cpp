@@ -75,7 +75,7 @@ void BoomAnalyzer::resizeEvent(QResizeEvent *e) {
 
   QWidget::resizeEvent(e);
 
-  const uint HEIGHT = height() - 2;
+  const int HEIGHT = height() - 2;
   const double h = 1.2 / HEIGHT;
 
   bands_ = qMin(static_cast<int>(static_cast<double>(width() + 1) / (kColumnWidth + 1)) + 1, kMaxBandCount);
@@ -88,7 +88,7 @@ void BoomAnalyzer::resizeEvent(QResizeEvent *e) {
   canvas_.fill(palette().color(QPalette::Window));
 
   QPainter p(&barPixmap_);
-  for (uint y = 0; y < HEIGHT; ++y) {
+  for (int y = 0; y < HEIGHT; ++y) {
     const double F = static_cast<double>(y) * h;
 
     p.setPen(QColor(qMax(0, 255 - static_cast<int>(229.0 * F)),

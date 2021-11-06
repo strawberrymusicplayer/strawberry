@@ -55,7 +55,7 @@ const int Organize::kBatchSize = 10;
 const int Organize::kTranscodeProgressInterval = 500;
 #endif
 
-Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool mark_as_listened, const bool albumcover, const NewSongInfoList &songs_info, const bool eject_after, const QString &playlist, QObject *parent)
+Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool albumcover, const NewSongInfoList &songs_info, const bool eject_after, const QString &playlist, QObject *parent)
     : QObject(parent),
       thread_(nullptr),
       task_manager_(task_manager),
@@ -67,7 +67,6 @@ Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
       format_(format),
       copy_(copy),
       overwrite_(overwrite),
-      mark_as_listened_(mark_as_listened),
       albumcover_(albumcover),
       eject_after_(eject_after),
       task_count_(songs_info.count()),
@@ -225,7 +224,6 @@ void Organize::ProcessSomeFiles() {
     job.destination_ = task.song_info_.new_filename_;
     job.metadata_ = song;
     job.overwrite_ = overwrite_;
-    job.mark_as_listened_ = mark_as_listened_;
     job.albumcover_ = albumcover_;
     job.remove_original_ = !copy_;
     job.playlist_ = playlist_;
@@ -261,9 +259,6 @@ void Organize::ProcessSomeFiles() {
         QString root = destination_->LocalPath();
         QFileInfo new_file = QFileInfo(root + "/" + task.song_info_.new_filename_);
         emit SongPathChanged(song, new_file, destination_->collection_directory_id());
-      }
-      if (job.mark_as_listened_) {
-        emit FileCopied(job.metadata_.id());
       }
     }
 
@@ -322,7 +317,7 @@ void Organize::SetSongProgress(float progress, bool transcoded) {
 
 void Organize::UpdateProgress() {
 
-  const int total = task_count_ * 100;
+  const quint64 total = task_count_ * 100;
 
 #ifdef HAVE_GSTREAMER
   // Update transcoding progress

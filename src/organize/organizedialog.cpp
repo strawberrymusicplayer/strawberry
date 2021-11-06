@@ -187,7 +187,7 @@ void OrganizeDialog::accept() {
 
   // It deletes itself when it's finished.
   const bool copy = ui_->aftercopying->currentIndex() == 0;
-  Organize *organize = new Organize(task_manager_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->mark_as_listened->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, ui_->eject_after->isChecked(), playlist_);
+  Organize *organize = new Organize(task_manager_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, ui_->eject_after->isChecked(), playlist_);
   QObject::connect(organize, &Organize::Finished, this, &OrganizeDialog::OrganizeFinished);
   QObject::connect(organize, &Organize::FileCopied, this, &OrganizeDialog::FileCopied);
   if (backend_) {
@@ -291,7 +291,6 @@ void OrganizeDialog::RestoreDefaults() {
   ui_->allow_ascii_ext->setChecked(false);
   ui_->replace_spaces->setChecked(true);
   ui_->overwrite->setChecked(false);
-  ui_->mark_as_listened->setChecked(false);
   ui_->albumcover->setChecked(true);
   ui_->eject_after->setChecked(false);
 
@@ -311,7 +310,6 @@ void OrganizeDialog::LoadSettings() {
   ui_->replace_spaces->setChecked(s.value("replace_spaces", true).toBool());
   ui_->overwrite->setChecked(s.value("overwrite", false).toBool());
   ui_->albumcover->setChecked(s.value("albumcover", true).toBool());
-  ui_->mark_as_listened->setChecked(s.value("mark_as_listened", false).toBool());
   ui_->eject_after->setChecked(s.value("eject_after", false).toBool());
 
   QString destination = s.value("destination").toString();
@@ -337,7 +335,6 @@ void OrganizeDialog::SaveSettings() {
   s.setValue("allow_ascii_ext", ui_->allow_ascii_ext->isChecked());
   s.setValue("replace_spaces", ui_->replace_spaces->isChecked());
   s.setValue("overwrite", ui_->overwrite->isChecked());
-  s.setValue("mark_as_listened", ui_->overwrite->isChecked());
   s.setValue("albumcover", ui_->albumcover->isChecked());
   s.setValue("destination", ui_->destination->currentText());
   s.setValue("eject_after", ui_->eject_after->isChecked());

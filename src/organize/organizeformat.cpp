@@ -194,7 +194,7 @@ QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *any_em
   QRegularExpression block_regexp(kBlockPattern);
 
   // Find any blocks first
-  int pos = 0;
+  qint64 pos = 0;
   QRegularExpressionMatch re_match;
   for (re_match = block_regexp.match(block, pos);  re_match.hasMatch(); re_match = block_regexp.match(block, pos)) {
     pos = re_match.capturedStart();
@@ -331,7 +331,7 @@ QValidator::State OrganizeFormat::Validator::validate(QString &input, int&) cons
 
   // Make sure the tags are valid
   QRegularExpressionMatch re_match;
-  int pos = 0;
+  qint64 pos = 0;
   for (re_match = tag_regexp.match(input, pos); re_match.hasMatch(); re_match = tag_regexp.match(input, pos)) {
     pos = re_match.capturedStart();
     if (!OrganizeFormat::kKnownTags.contains(re_match.captured(1))) {
@@ -365,14 +365,14 @@ void OrganizeFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
   block_format.setBackground(QColor(block_color));
 
   // Reset formatting
-  setFormat(0, text.length(), QTextCharFormat());
+  setFormat(0, static_cast<int>(text.length()), QTextCharFormat());
 
   // Blocks
   QRegularExpressionMatch re_match;
-  int pos = 0;
+  qint64 pos = 0;
   for (re_match = block_regexp.match(text, pos); re_match.hasMatch(); re_match = block_regexp.match(text, pos)) {
     pos = re_match.capturedStart();
-    setFormat(pos, re_match.capturedLength(), block_format);
+    setFormat(static_cast<int>(pos), static_cast<int>(re_match.capturedLength()), block_format);
     pos += re_match.capturedLength();
   }
 
@@ -380,10 +380,10 @@ void OrganizeFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
   pos = 0;
   for (re_match = tag_regexp.match(text, pos); re_match.hasMatch(); re_match = tag_regexp.match(text, pos)) {
     pos = re_match.capturedStart();
-    QTextCharFormat f = format(pos);
+    QTextCharFormat f = format(static_cast<int>(pos));
     f.setForeground(QColor(OrganizeFormat::kKnownTags.contains(re_match.captured(1)) ? valid_tag_color : invalid_tag_color));
 
-    setFormat(pos, re_match.capturedLength(), f);
+    setFormat(static_cast<int>(pos), static_cast<int>(re_match.capturedLength()), f);
     pos += re_match.capturedLength();
   }
 

@@ -309,55 +309,6 @@ void CheckForUpdates() {
 #endif
 }
 
-QString GetBundlePath() {
-
-  ScopedCFTypeRef<CFURLRef> app_url(CFBundleCopyBundleURL(CFBundleGetMainBundle()));
-  ScopedCFTypeRef<CFStringRef> mac_path(CFURLCopyFileSystemPath(app_url.get(), kCFURLPOSIXPathStyle));
-  const char *path = CFStringGetCStringPtr(mac_path.get(), CFStringGetSystemEncoding());
-  QString bundle_path = QString::fromUtf8(path);
-  return bundle_path;
-
-}
-
-QString GetResourcesPath() {
-
-  QString bundle_path = GetBundlePath();
-  return bundle_path + "/Contents/Resources";
-
-}
-
-QString GetApplicationSupportPath() {
-
-  ScopedNSAutoreleasePool pool;
-  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-  QString ret;
-  if ([paths count] > 0) {
-    NSString *user_path = [paths objectAtIndex:0];
-    ret = QString::fromUtf8([user_path UTF8String]);
-  }
-  else {
-    ret = "~/Library/Application Support";
-  }
-  return ret;
-
-}
-
-QString GetMusicDirectory() {
-
-  ScopedNSAutoreleasePool pool;
-  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSMusicDirectory, NSUserDomainMask, YES);
-  QString ret;
-  if ([paths count] > 0) {
-    NSString *user_path = [paths objectAtIndex:0];
-    ret = QString::fromUtf8([user_path UTF8String]);
-  }
-  else {
-    ret = "~/Music";
-  }
-  return ret;
-
-}
-
 static int MapFunctionKey(int keycode) {
 
   switch (keycode) {

@@ -44,6 +44,9 @@ class TagReaderBase {
   virtual QByteArray LoadEmbeddedArt(const QString &filename) const = 0;
   virtual bool SaveEmbeddedArt(const QString &filename, const QByteArray &data) = 0;
 
+  virtual bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const = 0;
+  virtual bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const = 0;
+
  protected:
   static const std::string kEmbeddedCover;
 

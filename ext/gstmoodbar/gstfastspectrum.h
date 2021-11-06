@@ -38,38 +38,37 @@
 G_BEGIN_DECLS
 
 #define GST_TYPE_FASTSPECTRUM            (gst_fastspectrum_get_type())
-#define GST_FASTSPECTRUM(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_FASTSPECTRUM,GstFastSpectrum))
-#define GST_IS_FASTSPECTRUM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_FASTSPECTRUM))
-#define GST_FASTSPECTRUM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GST_TYPE_FASTSPECTRUM,GstFastSpectrumClass))
+#define GST_FASTSPECTRUM(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), GST_TYPE_FASTSPECTRUM, GstFastSpectrum))
+#define GST_IS_FASTSPECTRUM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), GST_TYPE_FASTSPECTRUM))
+#define GST_FASTSPECTRUM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GST_TYPE_FASTSPECTRUM, GstFastSpectrumClass))
 #define GST_IS_FASTSPECTRUM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GST_TYPE_FASTSPECTRUM))
 
 class QMutex;
 
-typedef void (*GstFastSpectrumInputData)(const guint8* in, double* out, guint len, double max_value, guint op, guint nfft);
+typedef void (*GstFastSpectrumInputData)(const guint8 *in, double *out, guint len, double max_value, guint op, guint nfft);
 
-typedef std::function<void(double* magnitudes, int size)> OutputCallback;
+typedef std::function<void(double *magnitudes, int size)> OutputCallback;
 
 struct GstFastSpectrum {
   GstAudioFilter parent;
 
-  /* properties */
-  guint64 interval;             /* how many nanoseconds between emits */
-  guint64 frames_per_interval;  /* how many frames per interval */
+  // Properties
+  guint64 interval;            // How many nanoseconds between emits
+  guint64 frames_per_interval; // How many frames per interval
   guint64 frames_todo;
-  guint bands;                  /* number of spectrum bands */
-  gboolean multi_channel;       /* send separate channel results */
+  guint bands;                 // Number of spectrum bands
+  gboolean multi_channel;      // Send separate channel results
 
-  guint64 num_frames;           /* frame count (1 sample per channel)
-                                 * since last emit */
-  guint64 num_fft;              /* number of FFTs since last emit */
-  GstClockTime message_ts;      /* starttime for next message */
+  guint64 num_frames;          // Frame count (1 sample per channel) since last emit
+  guint64 num_fft;             // Number of FFTs since last emit
+  GstClockTime message_ts;     // Starttime for next message
 
-  /* <private> */
+  // <private>
   bool channel_data_initialized;
-  double* input_ring_buffer;
-  double* fft_input;
-  fftw_complex* fft_output;
-  double* spect_magnitude;
+  double *input_ring_buffer;
+  double *fft_input;
+  fftw_complex *fft_output;
+  double *spect_magnitude;
   fftw_plan plan;
 
   guint input_pos;
@@ -87,11 +86,11 @@ struct GstFastSpectrumClass {
   GstAudioFilterClass parent_class;
 
   // Static lock for creating & destroying FFTW plans.
-  QMutex* fftw_lock;
+  QMutex *fftw_lock;
 };
 
-GType gst_fastspectrum_get_type (void);
+GType gst_fastspectrum_get_type(void);
 
 G_END_DECLS
 
-#endif // GST_MOODBAR_FASTSPECTRUM_H
+#endif  // GST_MOODBAR_FASTSPECTRUM_H

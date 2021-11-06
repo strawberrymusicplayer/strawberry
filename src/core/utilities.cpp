@@ -191,13 +191,13 @@ QString PrettySize(const quint64 bytes) {
       ret = QString::number(bytes) + " bytes";
     }
     else if (bytes <= 1000 * 1000) {
-      ret = QString::asprintf("%.1f KB", static_cast<float>(bytes) / 1000);
+      ret = QString::asprintf("%.1f KB", static_cast<float>(bytes) / 1000.0F);
     }
     else if (bytes <= 1000 * 1000 * 1000) {
-      ret = QString::asprintf("%.1f MB", static_cast<float>(bytes) / (1000 * 1000));
+      ret = QString::asprintf("%.1f MB", static_cast<float>(bytes) / (1000.0F * 1000.0F));
     }
     else {
-      ret = QString::asprintf("%.1f GB", static_cast<float>(bytes) / (1000 * 1000 * 1000));
+      ret = QString::asprintf("%.1f GB", static_cast<float>(bytes) / (1000.0F * 1000.0F * 1000.0F));
     }
   }
   return ret;
@@ -658,7 +658,7 @@ QString DecodeHtmlEntities(const QString &text) {
 
 }
 
-int SetThreadIOPriority(const IoPriority priority) {
+long SetThreadIOPriority(const IoPriority priority) {
 
 #ifdef Q_OS_LINUX
   return syscall(SYS_ioprio_set, IOPRIO_WHO_PROCESS, GetThreadId(), 4 | priority << IOPRIO_CLASS_SHIFT);
@@ -671,7 +671,7 @@ int SetThreadIOPriority(const IoPriority priority) {
 
 }
 
-int GetThreadId() {
+long GetThreadId() {
 
 #ifdef Q_OS_LINUX
   return syscall(SYS_gettid);
@@ -746,7 +746,7 @@ QString GetRandomString(const int len, const QString &UseCharacters) {
   QString randstr;
   for (int i = 0; i < len; ++i) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-    const int index = QRandomGenerator::global()->bounded(0, UseCharacters.length());
+    const qint64 index = QRandomGenerator::global()->bounded(0, UseCharacters.length());
 #else
     const int index = qrand() % UseCharacters.length();
 #endif
@@ -767,7 +767,7 @@ QString DesktopEnvironment() {
   if (!qEnvironmentVariableIsEmpty("GNOME_DESKTOP_SESSION_ID")) return "Gnome";
 
   QString session = GetEnv("DESKTOP_SESSION");
-  int slash = session.lastIndexOf('/');
+  qint64 slash = session.lastIndexOf('/');
   if (slash != -1) {
     QSettings desktop_file(QString(session + ".desktop"), QSettings::IniFormat);
     desktop_file.beginGroup("Desktop Entry");
@@ -864,7 +864,7 @@ QString ReplaceMessage(const QString &message, const Song &song, const QString &
   QString copy(message);
 
   // Replace the first line
-  int pos = 0;
+  qint64 pos = 0;
   QRegularExpressionMatch match;
   for (match = variable_replacer.match(message, pos); match.hasMatch(); match = variable_replacer.match(message, pos)) {
     pos = match.capturedStart();
@@ -873,7 +873,7 @@ QString ReplaceMessage(const QString &message, const Song &song, const QString &
     pos += match.capturedLength();
   }
 
-  int index_of = copy.indexOf(QRegularExpression(" - (>|$)"));
+  qint64 index_of = copy.indexOf(QRegularExpression(" - (>|$)"));
   if (index_of >= 0) copy = copy.remove(index_of, 3);
 
   return copy;
@@ -1039,4 +1039,3 @@ ScopedWCharArray::ScopedWCharArray(const QString &str)
   str.toWCharArray(data_.get());
   data_[chars_] = '\0';
 }
-

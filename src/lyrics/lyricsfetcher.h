@@ -37,7 +37,7 @@ class LyricsProviders;
 class LyricsFetcherSearch;
 
 struct LyricsSearchRequest {
-  explicit LyricsSearchRequest() : id(-1) {}
+  explicit LyricsSearchRequest() : id(0) {}
   quint64 id;
   QString artist;
   QString album;

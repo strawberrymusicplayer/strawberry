@@ -53,8 +53,8 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   void Authenticate() override;
   void Deauthenticate() override { access_token_.clear(); }
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id) override;
-  void CancelSearch(const quint64 id) override;
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, int id) override;
+  void CancelSearch(const int id) override;
 
  public:
   struct GeniusLyricsLyricContext {
@@ -82,7 +82,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);
   void RedirectArrived();
   void AccessTokenRequestFinished(QNetworkReply *reply);
-  void HandleSearchReply(QNetworkReply *reply, const quint64 id);
+  void HandleSearchReply(QNetworkReply *reply, const int id);
   void HandleLyricReply(QNetworkReply *reply, const int search_id, const QUrl &url);
 
  private:

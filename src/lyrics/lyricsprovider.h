@@ -49,8 +49,8 @@ class LyricsProvider : public QObject {
   void set_enabled(const bool enabled) { enabled_ = enabled; }
   void set_order(const int order) { order_ = order; }
 
-  virtual bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) = 0;
-  virtual void CancelSearch(const quint64 id) { Q_UNUSED(id); }
+  virtual bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) = 0;
+  virtual void CancelSearch(const int id) { Q_UNUSED(id); }
   virtual bool AuthenticationRequired() const { return authentication_required_; }
   virtual void Authenticate() {}
   virtual bool IsAuthenticated() const { return !authentication_required_; }

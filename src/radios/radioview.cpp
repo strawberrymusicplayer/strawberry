@@ -152,7 +152,7 @@ void RadioView::Homepage() {
   for (const QModelIndex &idx : selected_indexes) {
     QUrl url = idx.data(RadioModel::Role_Homepage).toUrl();
     if (!urls.contains(url)) {
-      urls << url;
+      urls << url;  // clazy:exclude=reserve-candidates
     }
   }
 
@@ -171,7 +171,7 @@ void RadioView::Donate() {
   for (const QModelIndex &idx : selected_indexes) {
     QUrl url = idx.data(RadioModel::Role_Donate).toUrl();
     if (!urls.contains(url)) {
-      urls << url;
+      urls << url;  // clazy:exclude=reserve-candidates
     }
   }
 

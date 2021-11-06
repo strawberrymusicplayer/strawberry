@@ -1049,7 +1049,7 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
   url.setPath(song_id);
 
   QVariant q_duration = json_duration.toVariant();
-  quint64 duration = 0;
+  qint64 duration = 0;
   if (q_duration.isValid()) {
     duration = q_duration.toLongLong() * kNsecPerSec;
   }

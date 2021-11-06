@@ -69,6 +69,17 @@ void TagReaderClient::WorkerFailedToStart() {
   qLog(Error) << "The" << kWorkerExecutableName << "executable was not found in the current directory or on the PATH.  Strawberry will not be able to read music file tags without it.";
 }
 
+TagReaderReply *TagReaderClient::IsMediaFile(const QString &filename) {
+
+  spb::tagreader::Message message;
+  spb::tagreader::IsMediaFileRequest *req = message.mutable_is_media_file_request();
+
+  req->set_filename(DataCommaSizeFromQString(filename));
+
+  return worker_pool_->SendMessageWithReply(&message);
+
+}
+
 TagReaderReply *TagReaderClient::ReadFile(const QString &filename) {
 
   spb::tagreader::Message message;
@@ -94,17 +105,6 @@ TagReaderReply *TagReaderClient::SaveFile(const QString &filename, const Song &m
 
 }
 
-TagReaderReply *TagReaderClient::IsMediaFile(const QString &filename) {
-
-  spb::tagreader::Message message;
-  spb::tagreader::IsMediaFileRequest *req = message.mutable_is_media_file_request();
-
-  req->set_filename(DataCommaSizeFromQString(filename));
-
-  return worker_pool_->SendMessageWithReply(&message);
-
-}
-
 TagReaderReply *TagReaderClient::LoadEmbeddedArt(const QString &filename) {
 
   spb::tagreader::Message message;
@@ -125,6 +125,64 @@ TagReaderReply *TagReaderClient::SaveEmbeddedArt(const QString &filename, const 
   req->set_data(data.constData(), data.size());
 
   return worker_pool_->SendMessageWithReply(&message);
+
+}
+
+TagReaderReply *TagReaderClient::UpdateSongPlaycount(const Song &metadata) {
+
+  spb::tagreader::Message message;
+  spb::tagreader::SaveSongPlaycountToFileRequest *req = message.mutable_save_song_playcount_to_file_request();
+
+  req->set_filename(DataCommaSizeFromQString(metadata.url().toLocalFile()));
+  metadata.ToProtobuf(req->mutable_metadata());
+
+  return worker_pool_->SendMessageWithReply(&message);
+
+}
+
+void TagReaderClient::UpdateSongsPlaycount(const SongList &songs) {
+
+  for (const Song &song : songs) {
+    TagReaderReply *reply = UpdateSongPlaycount(song);
+    QObject::connect(reply, &TagReaderReply::Finished, reply, &TagReaderReply::deleteLater);
+  }
+
+}
+
+TagReaderReply *TagReaderClient::UpdateSongRating(const Song &metadata) {
+
+  spb::tagreader::Message message;
+  spb::tagreader::SaveSongRatingToFileRequest *req = message.mutable_save_song_rating_to_file_request();
+
+  req->set_filename(DataCommaSizeFromQString(metadata.url().toLocalFile()));
+  metadata.ToProtobuf(req->mutable_metadata());
+
+  return worker_pool_->SendMessageWithReply(&message);
+
+}
+
+void TagReaderClient::UpdateSongsRating(const SongList &songs) {
+
+  for (const Song &song : songs) {
+    TagReaderReply *reply = UpdateSongRating(song);
+    QObject::connect(reply, &TagReaderReply::Finished, reply, &TagReaderReply::deleteLater);
+  }
+
+}
+
+bool TagReaderClient::IsMediaFileBlocking(const QString &filename) {
+
+  Q_ASSERT(QThread::currentThread() != thread());
+
+  bool ret = false;
+
+  TagReaderReply *reply = IsMediaFile(filename);
+  if (reply->WaitForFinished()) {
+    ret = reply->message().is_media_file_response().success();
+  }
+  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+
+  return ret;
 
 }
 
@@ -156,22 +214,6 @@ bool TagReaderClient::SaveFileBlocking(const QString &filename, const Song &meta
 
 }
 
-bool TagReaderClient::IsMediaFileBlocking(const QString &filename) {
-
-  Q_ASSERT(QThread::currentThread() != thread());
-
-  bool ret = false;
-
-  TagReaderReply *reply = IsMediaFile(filename);
-  if (reply->WaitForFinished()) {
-    ret = reply->message().is_media_file_response().success();
-  }
-  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
-
-  return ret;
-
-}
-
 QByteArray TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename) {
 
   Q_ASSERT(QThread::currentThread() != thread());
@@ -181,7 +223,7 @@ QByteArray TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename) {
   TagReaderReply *reply = LoadEmbeddedArt(filename);
   if (reply->WaitForFinished()) {
     const std::string &data_str = reply->message().load_embedded_art_response().data();
-    ret = QByteArray(data_str.data(), data_str.size());
+    ret = QByteArray(data_str.data(), static_cast<qint64>(data_str.size()));
   }
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
@@ -198,7 +240,7 @@ QImage TagReaderClient::LoadEmbeddedArtAsImageBlocking(const QString &filename) 
   TagReaderReply *reply = LoadEmbeddedArt(filename);
   if (reply->WaitForFinished()) {
     const std::string &data_str = reply->message().load_embedded_art_response().data();
-    ret.loadFromData(QByteArray(data_str.data(), data_str.size()));
+    ret.loadFromData(QByteArray(data_str.data(), static_cast<qint64>(data_str.size())));
   }
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
@@ -210,14 +252,46 @@ bool TagReaderClient::SaveEmbeddedArtBlocking(const QString &filename, const QBy
 
   Q_ASSERT(QThread::currentThread() != thread());
 
-  bool ret = false;
+  bool success = false;
 
   TagReaderReply *reply = SaveEmbeddedArt(filename, data);
   if (reply->WaitForFinished()) {
-    ret = reply->message().save_embedded_art_response().success();
+    success = reply->message().save_embedded_art_response().success();
   }
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
-  return ret;
+  return success;
+
+}
+
+bool TagReaderClient::UpdateSongPlaycountBlocking(const Song &metadata) {
+
+  Q_ASSERT(QThread::currentThread() != thread());
+
+  bool success = false;
+
+  TagReaderReply *reply = UpdateSongPlaycount(metadata);
+  if (reply->WaitForFinished()) {
+    success = reply->message().save_song_playcount_to_file_response().success();
+  }
+  reply->deleteLater();
+
+  return success;
+
+}
+
+bool TagReaderClient::UpdateSongRatingBlocking(const Song &metadata) {
+
+  Q_ASSERT(QThread::currentThread() != thread());
+
+  bool success = false;
+
+  TagReaderReply *reply = UpdateSongRating(metadata);
+  if (reply->WaitForFinished()) {
+    success = reply->message().save_song_rating_to_file_response().success();
+  }
+  reply->deleteLater();
+
+  return success;
 
 }

@@ -34,22 +34,28 @@ void TagReaderWorker::MessageArrived(const spb::tagreader::Message &message) {
 
   spb::tagreader::Message reply;
 
-  if (message.has_read_file_request()) {
+  if (message.has_is_media_file_request()) {
+    reply.mutable_is_media_file_response()->set_success(tag_reader_.IsMediaFile(QStringFromStdString(message.is_media_file_request().filename())));
+  }
+  else if (message.has_read_file_request()) {
     tag_reader_.ReadFile(QStringFromStdString(message.read_file_request().filename()), reply.mutable_read_file_response()->mutable_metadata());
   }
   else if (message.has_save_file_request()) {
     reply.mutable_save_file_response()->set_success(tag_reader_.SaveFile(QStringFromStdString(message.save_file_request().filename()), message.save_file_request().metadata()));
-  }
-
-  else if (message.has_is_media_file_request()) {
-    reply.mutable_is_media_file_response()->set_success(tag_reader_.IsMediaFile(QStringFromStdString(message.is_media_file_request().filename())));
   }
   else if (message.has_load_embedded_art_request()) {
     QByteArray data = tag_reader_.LoadEmbeddedArt(QStringFromStdString(message.load_embedded_art_request().filename()));
     reply.mutable_load_embedded_art_response()->set_data(data.constData(), data.size());
   }
   else if (message.has_save_embedded_art_request()) {
-    reply.mutable_save_embedded_art_response()->set_success(tag_reader_.SaveEmbeddedArt(QStringFromStdString(message.save_embedded_art_request().filename()), QByteArray(message.save_embedded_art_request().data().data(), message.save_embedded_art_request().data().size())));
+    reply.mutable_save_embedded_art_response()->set_success(tag_reader_.SaveEmbeddedArt(QStringFromStdString(message.save_embedded_art_request().filename()), QByteArray(message.save_embedded_art_request().data().data(), static_cast<qint64>(message.save_embedded_art_request().data().size()))));
+  }
+
+  else if (message.has_save_song_playcount_to_file_request()) {
+    reply.mutable_save_song_playcount_to_file_response()->set_success(tag_reader_.SaveSongPlaycountToFile(QStringFromStdString(message.save_song_playcount_to_file_request().filename()), message.save_song_playcount_to_file_request().metadata()));
+  }
+  else if (message.has_save_song_rating_to_file_request()) {
+    reply.mutable_save_song_rating_to_file_response()->set_success(tag_reader_.SaveSongRatingToFile(QStringFromStdString(message.save_song_rating_to_file_request().filename()), message.save_song_rating_to_file_request().metadata()));
   }
 
   SendReply(message, &reply);

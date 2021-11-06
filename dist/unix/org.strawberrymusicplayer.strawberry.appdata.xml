@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component>
+<component type="desktop-application">
   <id>org.strawberrymusicplayer.strawberry</id>
   <launchable type="desktop-id">org.strawberrymusicplayer.strawberry.desktop</launchable>
   <metadata_license>CC0-1.0</metadata_license>
@@ -13,6 +13,7 @@
   <url type="homepage">https://www.strawberrymusicplayer.org/</url>
   <url type="bugtracker">https://github.com/strawberrymusicplayer/strawberry/</url>
   ​<translation type="qt">strawberry</translation>
+  <content_rating type="oars-1.1" />
   <description>
     <p>
       Strawberry is a music player and music collection organizer. It is aimed at music collectors and audiophiles. With Strawberry you can play and manage your digital music collection, or stream your favorite radios. It also has unofficial streaming support for Tidal and Qobuz. Strawberry is free software released under GPL. The source code is available on GitHub. It's written in C++ using the Qt toolkit and GStreamer. Strawberry is compatible with both Qt version 5 and 6.
@@ -48,4 +49,7 @@
     </screenshot>
   </screenshots>
   <update_contact>eclipseo@fedoraproject.org</update_contact>
+    <releases>
+        <release version="1.0.0" date="2021-10-16"/>
+    </releases>
 </component>

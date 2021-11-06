@@ -46,7 +46,7 @@ class LyricsFetcherSearch : public QObject {
   void LyricsFetched(quint64, QString provider, QString lyrics);
 
  private slots:
-  void ProviderSearchFinished(const quint64 id, const LyricsSearchResults &results);
+  void ProviderSearchFinished(const int id, const LyricsSearchResults &results);
   void TerminateSearch();
 
  private:

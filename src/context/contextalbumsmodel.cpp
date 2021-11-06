@@ -236,14 +236,18 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
 
     case Role_SortText:
       return item->SortText();
+
+    default:
+      return QVariant();
   }
+
   return QVariant();
 
 }
 
 void ContextAlbumsModel::Reset() {
 
-  for (QMap<QString, CollectionItem*>::iterator it = container_nodes_.begin(); it != container_nodes_.end(); ++it) {
+  for (QMap<QString, CollectionItem*>::const_iterator it = container_nodes_.constBegin(); it != container_nodes_.constEnd(); ++it) {
     const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(it.value()));
     QPixmapCache::remove(cache_key);
   }
@@ -263,7 +267,7 @@ void ContextAlbumsModel::Reset() {
 
 CollectionItem *ContextAlbumsModel::ItemFromSong(CollectionItem::Type item_type, const bool signal, CollectionItem *parent, const Song &s, const int container_level) {
 
-  if (signal) beginInsertRows(ItemToIndex(parent), parent->children.count(), parent->children.count());
+  if (signal) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
 
   CollectionItem *item = new CollectionItem(item_type, parent);
   item->container_level = container_level;

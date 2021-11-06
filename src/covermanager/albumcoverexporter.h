@@ -46,7 +46,7 @@ class AlbumCoverExporter : public QObject {
   void StartExporting();
   void Cancel();
 
-  int request_count() { return requests_.size(); }
+  int request_count() { return static_cast<int>(requests_.size()); }
 
  signals:
   void AlbumCoversExportUpdate(int exported, int skipped, int all);

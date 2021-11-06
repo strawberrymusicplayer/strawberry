@@ -45,7 +45,6 @@
 #include <QUrl>
 
 class QTimerEvent;
-class GstEngine;
 class GstBufferConsumer;
 
 namespace Engine {
@@ -57,7 +56,7 @@ class GstEnginePipeline : public QObject {
   Q_OBJECT
 
  public:
-  explicit GstEnginePipeline(GstEngine *engine, QObject *parent = nullptr);
+  explicit GstEnginePipeline(QObject *parent = nullptr);
   ~GstEnginePipeline() override;
 
   // Globally unique across all pipelines.
@@ -69,14 +68,14 @@ class GstEnginePipeline : public QObject {
   void set_stereo_balancer_enabled(const bool enabled);
   void set_equalizer_enabled(const bool enabled);
   void set_replaygain(const bool enabled, const int mode, const double preamp, const double fallbackgain, const bool compression);
-  void set_buffer_duration_nanosec(const qint64 duration_nanosec);
+  void set_buffer_duration_nanosec(const quint64 duration_nanosec);
   void set_buffer_low_watermark(const double value);
   void set_buffer_high_watermark(const double value);
   void set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass);
   void set_channels(const bool enabled, const int channels);
 
   // Creates the pipeline, returns false on error
-  bool InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec);
+  bool InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec, QString &error);
 
   // GstBufferConsumers get fed audio data.  Thread-safe.
   void AddBufferConsumer(GstBufferConsumer *consumer);
@@ -86,7 +85,7 @@ class GstEnginePipeline : public QObject {
   // Control the music playback
   QFuture<GstStateChangeReturn> SetState(const GstState state);
   Q_INVOKABLE bool Seek(const qint64 nanosec);
-  void SetVolume(const int percent);
+  void SetVolume(const uint percent);
   void SetStereoBalance(const float value);
   void SetEqualizerParams(const int preamp, const QList<int> &band_gains);
 
@@ -124,11 +123,11 @@ class GstEnginePipeline : public QObject {
   void SetVolumeModifier(qreal mod);
 
  signals:
+  void Error(int pipeline_id, QString message, const int domain, const int error_code);
+
   void EndOfStreamReached(int pipeline_id, bool has_next_track);
   void MetadataFound(int pipeline_id, const Engine::SimpleMetaBundle &bundle);
-  // This indicates an error, delegated from GStreamer, in the pipeline.
-  // The message, domain and error_code are related to GStreamer's GError.
-  void Error(int pipeline_id, QString message, int domain, int error_code);
+
   void FaderFinished();
 
   void BufferingStarted();
@@ -139,7 +138,8 @@ class GstEnginePipeline : public QObject {
   void timerEvent(QTimerEvent*) override;
 
  private:
-  bool InitAudioBin();
+  GstElement *CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const;
+  bool InitAudioBin(QString &error);
 
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
   static GstPadProbeReturn EventHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
@@ -175,8 +175,6 @@ class GstEnginePipeline : public QObject {
   static const int kFaderFudgeMsec;
   static const int kEqBandCount;
   static const int kEqBandFrequencies[];
-
-  GstEngine *engine_;
 
   // Using == to compare two pipelines is a bad idea, because new ones often get created in the same address as old ones.  This ID will be unique for each pipeline.
   // Threading warning: access to the static ID field isn't protected by a mutex because all pipeline creation is currently done in the main thread.
@@ -268,7 +266,7 @@ class GstEnginePipeline : public QObject {
   // Complete the transition to the next song when it starts playing
   bool next_uri_set_;
 
-  int volume_percent_;
+  uint volume_percent_;
   qreal volume_modifier_;
 
   std::unique_ptr<QTimeLine> fader_;

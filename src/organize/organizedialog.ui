@@ -146,13 +146,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="mark_as_listened">
-        <property name="text">
-         <string>Mark as listened</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QCheckBox" name="albumcover">
         <property name="text">
          <string>Copy album cover artwork</string>
@@ -306,7 +299,6 @@
   <tabstop>allow_ascii_ext</tabstop>
   <tabstop>replace_spaces</tabstop>
   <tabstop>overwrite</tabstop>
-  <tabstop>mark_as_listened</tabstop>
   <tabstop>albumcover</tabstop>
   <tabstop>eject_after</tabstop>
   <tabstop>preview</tabstop>

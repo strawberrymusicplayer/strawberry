@@ -720,7 +720,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
     return;
   }
 
-  for (const QJsonValueRef value : array_scrobble) {  // clazy:exclude=range-loop
+  for (const QJsonValueRef value : array_scrobble) {  // clazy:exclude=range-loop-detach
 
     if (!value.isObject()) {
       Error("Json scrobbles scrobble array value is not an object.");
@@ -1092,7 +1092,8 @@ QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) {
 
 void ScrobblingAPI20::CheckScrobblePrevSong() {
 
-  quint64 duration = QDateTime::currentDateTime().toSecsSinceEpoch() - timestamp_;
+  qint64 duration = QDateTime::currentDateTime().toSecsSinceEpoch() - static_cast<qint64>(timestamp_);
+  if (duration < 0) duration = 0;
 
   if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.is_radio() && duration > 30) {
     Song song(song_playing_);

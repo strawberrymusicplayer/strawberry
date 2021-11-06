@@ -177,7 +177,7 @@ void CollectionBackend::ChangeDirPath(const int id, const QString &old_path, con
   const QByteArray old_url = QUrl::fromLocalFile(old_path).toEncoded();
   const QByteArray new_url = QUrl::fromLocalFile(new_path).toEncoded();
 
-  const int path_len = old_url.length();
+  const qint64 path_len = old_url.length();
 
   // Do the subdirs table
   {
@@ -509,6 +509,28 @@ void CollectionBackend::AddOrUpdateSubdirs(const SubdirectoryList &subdirs) {
 
 }
 
+SongList CollectionBackend::GetAllSongs() {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  SqlQuery q(db);
+  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1").arg(songs_table_));
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+    return SongList();
+  }
+
+  SongList songs;
+  while (q.next()) {
+    Song song;
+    song.InitFromQuery(q, true);
+    songs << song;
+  }
+  return songs;
+
+}
+
 void CollectionBackend::AddOrUpdateSongsAsync(const SongList &songs) {
   QMetaObject::invokeMethod(this, "AddOrUpdateSongs", Qt::QueuedConnection, Q_ARG(SongList, songs));
 }
@@ -687,7 +709,8 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
   }
 
   // Add or update songs.
-  for (const Song &new_song : new_songs) {
+  QList new_songs_list = new_songs.values();
+  for (const Song &new_song : new_songs_list) {
     if (old_songs.contains(new_song.song_id())) {
 
       Song old_song = old_songs[new_song.song_id()];
@@ -757,7 +780,8 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
   }
 
   // Delete songs
-  for (const Song &old_song : old_songs) {
+  QList old_songs_list = old_songs.values();
+  for (const Song &old_song : old_songs_list) {
     if (!new_songs.contains(old_song.song_id())) {
       {
         SqlQuery q(db);
@@ -1087,7 +1111,7 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
   QVector<Song> ret(ids.count());
   while (q.next()) {
     const QString foreign_id = q.value(static_cast<int>(Song::kColumns.count()) + 1).toString();
-    const int index = ids.indexOf(foreign_id);
+    const qint64 index = ids.indexOf(foreign_id);
     if (index == -1) continue;
 
     ret[index].InitFromQuery(q, true);
@@ -1924,17 +1948,15 @@ void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &ti
 
 }
 
-void CollectionBackend::UpdateSongRating(const int id, const double rating) {
+void CollectionBackend::UpdateSongRating(const int id, const float rating, const bool save_tags) {
 
   if (id == -1) return;
 
-  QList<int> id_list;
-  id_list << id;
-  UpdateSongsRating(id_list, rating);
+  UpdateSongsRating(QList<int>() << id, rating, save_tags);
 
 }
 
-void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const double rating) {
+void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const float rating, const bool save_tags) {
 
   if (id_list.isEmpty()) return;
 
@@ -1957,16 +1979,16 @@ void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const doubl
 
   SongList new_song_list = GetSongsById(id_str_list, db);
 
-  emit SongsRatingChanged(new_song_list);
+  emit SongsRatingChanged(new_song_list, save_tags);
 
 }
 
-void CollectionBackend::UpdateSongRatingAsync(const int id, const double rating) {
-  QMetaObject::invokeMethod(this, "UpdateSongRating", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(double, rating));
+void CollectionBackend::UpdateSongRatingAsync(const int id, const float rating, const bool save_tags) {
+  QMetaObject::invokeMethod(this, "UpdateSongRating", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(float, rating), Q_ARG(bool, save_tags));
 }
 
-void CollectionBackend::UpdateSongsRatingAsync(const QList<int> &ids, const double rating) {
-  QMetaObject::invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(double, rating));
+void CollectionBackend::UpdateSongsRatingAsync(const QList<int> &ids, const float rating, const bool save_tags) {
+  QMetaObject::invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(float, rating), Q_ARG(bool, save_tags));
 }
 
 void CollectionBackend::UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days) {
@@ -2013,4 +2035,5 @@ void CollectionBackend::ExpireSongs(const int directory_id, const int expire_una
   if (!songs.isEmpty()) DeleteSongs(songs);
 
 }
+
 

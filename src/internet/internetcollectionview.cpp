@@ -338,7 +338,7 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   context_menu_index_ = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(context_menu_index_);
   QModelIndexList selected_indexes = qobject_cast<QSortFilterProxyModel*>(model())->mapSelectionToSource(selectionModel()->selection()).indexes();
-  int songs_selected = selected_indexes.count();;
+  qint64 songs_selected = selected_indexes.count();
 
   // In all modes
   load_->setEnabled(songs_selected > 0);

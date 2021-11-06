@@ -42,15 +42,15 @@ class AuddLyricsProvider : public JsonLyricsProvider {
   explicit AuddLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
   ~AuddLyricsProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id) override;
-  void CancelSearch(const quint64 id) override;
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, int id) override;
+  void CancelSearch(const int id) override;
 
  private:
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   QJsonArray ExtractResult(QNetworkReply *reply, const QString &artist, const QString &title);
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
+  void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &title);
 
  private:
   static const char *kUrlSearch;

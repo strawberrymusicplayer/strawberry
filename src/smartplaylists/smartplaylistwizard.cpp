@@ -129,7 +129,7 @@ void SmartPlaylistWizard::SetGenerator(PlaylistGeneratorPtr gen) {
 
 void SmartPlaylistWizard::AddPlugin(SmartPlaylistWizardPlugin *plugin) {
 
-  const int index = plugins_.count();
+  const int index = static_cast<int>(plugins_.count());
   plugins_ << plugin;
   plugin->Init(this, finish_id_);
 

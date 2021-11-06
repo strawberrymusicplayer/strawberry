@@ -500,7 +500,7 @@ void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   QPixmap pixmap = LookupPixmap(source, option_copy.decorationSize);
 
   QWidget *parent_widget = qobject_cast<QWidget*>(parent());
-  int device_pixel_ratio = parent_widget->devicePixelRatio();
+  qreal device_pixel_ratio = parent_widget->devicePixelRatio();
 
   // Draw the pixmap in the middle of the rectangle
   QRect draw_rect(QPoint(0, 0), option_copy.decorationSize / device_pixel_ratio);
@@ -522,7 +522,7 @@ void RatingItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
   const bool hover = mouse_over_index_.isValid() && (mouse_over_index_ == idx || (selected_indexes_.contains(mouse_over_index_) && selected_indexes_.contains(idx)));
 
-  const double rating = (hover ? RatingPainter::RatingForPos(mouse_over_pos_, option.rect) : idx.data().toDouble());
+  const float rating = (hover ? RatingPainter::RatingForPos(mouse_over_pos_, option.rect) : idx.data().toFloat());
 
   painter_.Paint(painter, option.rect, rating);
 
@@ -538,10 +538,10 @@ QSize RatingItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QMo
 
 QString RatingItemDelegate::displayText(const QVariant &value, const QLocale&) const {
 
-  if (value.isNull() || value.toDouble() <= 0) return QString();
+  if (value.isNull() || value.toFloat() <= 0) return QString();
 
   // Round to the nearest 0.5
-  const double rating = static_cast<double>(lround(value.toDouble() * RatingPainter::kStarCount * 2)) / 2;
+  const float rating = static_cast<float>(lround(value.toFloat() * RatingPainter::kStarCount * 2)) / 2;
 
   return QString::number(rating, 'f', 1);
 

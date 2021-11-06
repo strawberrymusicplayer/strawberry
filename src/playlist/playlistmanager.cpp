@@ -643,10 +643,10 @@ void PlaylistManager::PlaySmartPlaylist(PlaylistGeneratorPtr generator, bool as_
 
 }
 
-void PlaylistManager::RateCurrentSong(const double rating) {
+void PlaylistManager::RateCurrentSong(const float rating) {
   active()->RateSong(active()->current_index(), rating);
 }
 
-void PlaylistManager::RateCurrentSong(const int rating) {
-  RateCurrentSong(rating / 5.0);
+void PlaylistManager::RateCurrentSong2(const int rating) {
+  RateCurrentSong(static_cast<float>(rating) / 5.0F);
 }

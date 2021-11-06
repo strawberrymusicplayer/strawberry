@@ -149,7 +149,7 @@ QString Chromaprinter::CreateFingerprint() {
     gst_message_unref(msg);
   }
 
-  const int decode_time = time.restart();
+  const qint64 decode_time = time.restart();
 
   buffer_.close();
 
@@ -177,7 +177,7 @@ QString Chromaprinter::CreateFingerprint() {
   }
   chromaprint_free(chromaprint);
 
-  const int codegen_time = time.elapsed();
+  const qint64 codegen_time = time.elapsed();
 
   qLog(Debug) << "Decode time:" << decode_time << "Codegen time:" << codegen_time;
 
@@ -216,7 +216,7 @@ GstFlowReturn Chromaprinter::NewBufferCallback(GstAppSink *app_sink, gpointer se
   if (buffer) {
     GstMapInfo map;
     if (gst_buffer_map(buffer, &map, GST_MAP_READ)) {
-      me->buffer_.write(reinterpret_cast<const char*>(map.data), map.size);
+      me->buffer_.write(reinterpret_cast<const char*>(map.data), static_cast<qint64>(map.size));
       gst_buffer_unmap(buffer, &map);
     }
   }

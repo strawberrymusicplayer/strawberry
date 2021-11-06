@@ -182,7 +182,7 @@ void VLCEngine::Seek(const quint64 offset_nanosec) {
   uint len = length();
   if (len == 0) return;
 
-  float pos = static_cast<float>(offset) / len;
+  float pos = static_cast<float>(offset) / static_cast<float>(len);
 
   libvlc_media_player_set_position(player_, pos);
 
@@ -192,7 +192,7 @@ void VLCEngine::SetVolumeSW(const uint percent) {
 
   if (!Initialized()) return;
   if (!volume_control_ && percent != 100) return;
-  libvlc_audio_set_volume(player_, percent);
+  libvlc_audio_set_volume(player_, static_cast<int>(percent));
 
 }
 
@@ -208,7 +208,7 @@ qint64 VLCEngine::position_nanosec() const {
 qint64 VLCEngine::length_nanosec() const {
 
   if (state_ == Engine::Empty) return 0;
-  const qint64 result = (end_nanosec_ - beginning_nanosec_);
+  const qint64 result = (end_nanosec_ - static_cast<qint64>(beginning_nanosec_));
   if (result > 0) {
     return result;
   }
@@ -261,7 +261,7 @@ uint VLCEngine::position() const {
   if (!Initialized() || !libvlc_media_player_is_playing(player_)) return 0;
 
   float pos = libvlc_media_player_get_position(player_);
-  return (pos * length());
+  return (static_cast<uint>(pos) * length());
 
 }
 

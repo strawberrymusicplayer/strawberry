@@ -396,7 +396,7 @@ void SingleCoreApplicationPrivate::readInitMessageBody(QLocalSocket *sock) {
   }
 
   // Read the message body
-  QByteArray msgBytes = sock->read(info.msgLen);
+  QByteArray msgBytes = sock->read(static_cast<qint64>(info.msgLen));
   QDataStream readStream(msgBytes);
   readStream.setVersion(QDataStream::Qt_5_8);
 

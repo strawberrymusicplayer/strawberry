@@ -25,9 +25,9 @@
 #include "globalshortcut.h"
 #include "keymapper_win.h"
 
-quint32 GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
+int GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
 
-  quint32 native_mods = 0;
+  int native_mods = 0;
   if (qt_mods & Qt::ShiftModifier) native_mods |= MOD_SHIFT;
   if (qt_mods & Qt::ControlModifier) native_mods |= MOD_CONTROL;
   if (qt_mods & Qt::AltModifier) native_mods |= MOD_ALT;
@@ -36,9 +36,9 @@ quint32 GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
 
 }
 
-quint32 GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
+int GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
 
-  quint32 key_code = 0;
+  int key_code = 0;
   if (KeyMapperWin::keymapper_win_.contains(qt_key)) {
     key_code = KeyMapperWin::keymapper_win_.value(qt_key);
   }
@@ -46,11 +46,11 @@ quint32 GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
 
 }
 
-bool GlobalShortcut::registerShortcut(quint32 native_key, quint32 native_mods) {
+bool GlobalShortcut::registerShortcut(int native_key, int native_mods) {
   return RegisterHotKey(0, native_mods ^ native_key, native_mods, native_key);
 }
 
-bool GlobalShortcut::unregisterShortcut(quint32 native_key, quint32 native_mods) {
+bool GlobalShortcut::unregisterShortcut(int native_key, int native_mods) {
   return UnregisterHotKey(0, native_mods ^ native_key);
 }
 

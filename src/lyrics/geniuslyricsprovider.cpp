@@ -300,7 +300,7 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
 
 }
 
-bool GeniusLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
+bool GeniusLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   Q_UNUSED(album);
 
@@ -339,9 +339,9 @@ bool GeniusLyricsProvider::StartSearch(const QString &artist, const QString &alb
 
 }
 
-void GeniusLyricsProvider::CancelSearch(const quint64 id) { Q_UNUSED(id); }
+void GeniusLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
-void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id) {
+void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -499,11 +499,11 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
 
   QString tag_begin = "<div class=\"lyrics\">";
   QString tag_end = "</div>";
-  int begin_idx = content.indexOf(tag_begin);
+  qint64 begin_idx = content.indexOf(tag_begin);
   QString lyrics;
   if (begin_idx > 0) {
     begin_idx += tag_begin.length();
-    int end_idx = content.indexOf(tag_end, begin_idx);
+    qint64 end_idx = content.indexOf(tag_end, begin_idx);
     lyrics = content.mid(begin_idx, end_idx - begin_idx);
     lyrics = lyrics.remove(QRegularExpression("<[^>]*>"));
     lyrics = lyrics.trimmed();

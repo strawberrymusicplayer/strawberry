@@ -295,7 +295,7 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(const bool signal, 
 
   Q_ASSERT(parent->compilation_artist_node_ == nullptr);
 
-  if (signal) beginInsertRows(ItemToIndex(parent), parent->children.count(), parent->children.count());
+  if (signal) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
 
   parent->compilation_artist_node_ = new CollectionItem(CollectionItem::Type_Container, parent);
   parent->compilation_artist_node_->compilation_artist_node_ = nullptr;
@@ -808,7 +808,10 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
 
     case Role_SortText:
       return item->SortText();
+    default:
+      return QVariant();
   }
+
   return QVariant();
 
 }
@@ -1176,7 +1179,7 @@ CollectionItem *CollectionModel::InitItem(const GroupBy type, const bool signal,
 
   CollectionItem::Type item_type = type == GroupBy_None ? CollectionItem::Type_Song : CollectionItem::Type_Container;
 
-  if (signal) beginInsertRows(ItemToIndex(parent), parent->children.count(), parent->children.count());
+  if (signal) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
 
   // Initialize the item depending on what type it's meant to be
   CollectionItem *item = new CollectionItem(item_type, parent);
@@ -1597,7 +1600,7 @@ void CollectionModel::FinishItem(const GroupBy type, const bool signal, const bo
 
     if (!divider_key.isEmpty() && !divider_nodes_.contains(divider_key)) {
       if (signal) {
-        beginInsertRows(ItemToIndex(parent), parent->children.count(), parent->children.count());
+        beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
       }
 
       CollectionItem *divider = new CollectionItem(CollectionItem::Type_Divider, root_);
@@ -1676,7 +1679,7 @@ QString CollectionModel::SortTextForArtist(QString artist) {
 
   for (const auto &i : Song::kArticles) {
     if (artist.startsWith(i)) {
-      int ilen = i.length();
+      qint64 ilen = i.length();
       artist = artist.right(artist.length() - ilen) + ", " + i.left(ilen - 1);
       break;
     }
@@ -1871,6 +1874,7 @@ const CollectionModel::GroupBy &CollectionModel::Grouping::operator[](const int 
     case 0: return first;
     case 1: return second;
     case 2: return third;
+    default: break;
   }
   qLog(Error) << "CollectionModel::Grouping[] index out of range" << i;
   return first;
@@ -1883,6 +1887,7 @@ CollectionModel::GroupBy &CollectionModel::Grouping::operator[](const int i) {
     case 0: return first;
     case 1: return second;
     case 2: return third;
+    default: break;
   }
   qLog(Error) << "CollectionModel::Grouping[] index out of range" << i;
 

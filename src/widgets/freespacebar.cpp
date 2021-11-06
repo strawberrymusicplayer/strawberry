@@ -150,7 +150,7 @@ void FreeSpaceBar::DrawBar(QPainter *p, const QRect r) {
   if (additional_ > 0) {
     QRect additional_rect(bar_rect);
     additional_rect.setLeft(bar_rect.right());
-    additional_rect.setWidth(static_cast<int>(static_cast<float>(r.width()) * (static_cast<float>(qMin(free_, additional_)) / total_) + 1));
+    additional_rect.setWidth(static_cast<int>(static_cast<float>(r.width()) * (static_cast<float>(qMin(free_, additional_)) / static_cast<float>(total_)) + 1.0F));
 
     QLinearGradient additional_gradient(additional_rect.topLeft(), additional_rect.bottomLeft());
     additional_gradient.setColorAt(0, kColorAdd1);
@@ -233,14 +233,11 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
 
 }
 
-QString FreeSpaceBar::TextForSize(const QString &prefix, const qint64 size) {
+QString FreeSpaceBar::TextForSize(const QString &prefix, const quint64 size) {
 
   QString ret;
   if (size > 0) {
     ret = Utilities::PrettySize(size);
-  }
-  else if (size < 0) {
-    ret = "-" + Utilities::PrettySize(-size);
   }
   else {
     ret = "0 MB";

@@ -559,7 +559,7 @@ void FancyTabWidget::addBottomWidget(QWidget *widget_view) {
 
 void FancyTabWidget::AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label) {
 
-  TabData *tab = new TabData(widget_view, name, icon, label, tabs_.count(), this);
+  TabData *tab = new TabData(widget_view, name, icon, label, static_cast<int>(tabs_.count()), this);
   tabs_.insert(widget_view, tab);
 
 }

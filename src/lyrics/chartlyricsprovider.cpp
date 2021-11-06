@@ -53,7 +53,7 @@ ChartLyricsProvider::~ChartLyricsProvider() {
 
 }
 
-bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, const QString &title, const quint64 id) {
+bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, const QString &title, const int id) {
 
   const ParamList params = ParamList() << Param("artist", artist)
                                        << Param("song", title);
@@ -81,9 +81,9 @@ bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, con
 
 }
 
-void ChartLyricsProvider::CancelSearch(const quint64) {}
+void ChartLyricsProvider::CancelSearch(const int) {}
 
-void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title) {
+void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &title) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);

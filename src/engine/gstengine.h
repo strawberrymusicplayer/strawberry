@@ -88,7 +88,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void SetStartup(GstStartup *gst_startup) { gst_startup_ = gst_startup; }
   void EnsureInitialized() { gst_startup_->EnsureInitialized(); }
 
-  GstElement *CreateElement(const QString &factoryName, GstElement *bin = nullptr, const bool showerror = true);
   void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) override;
 
  public slots:
@@ -191,7 +190,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   quint64 seek_pos_;
 
   int timer_id_;
-  int next_element_id_;
 
   bool is_fading_out_to_pause_;
   bool has_faded_out_;

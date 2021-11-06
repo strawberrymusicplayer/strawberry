@@ -58,6 +58,8 @@ class TagReaderClient : public QObject {
   ReplyType *IsMediaFile(const QString &filename);
   ReplyType *LoadEmbeddedArt(const QString &filename);
   ReplyType *SaveEmbeddedArt(const QString &filename, const QByteArray &data);
+  ReplyType* UpdateSongPlaycount(const Song &metadata);
+  ReplyType* UpdateSongRating(const Song &metadata);
 
   // Convenience functions that call the above functions and wait for a response.
   // These block the calling thread with a semaphore, and must NOT be called from the TagReaderClient's thread.
@@ -67,6 +69,8 @@ class TagReaderClient : public QObject {
   QByteArray LoadEmbeddedArtBlocking(const QString &filename);
   QImage LoadEmbeddedArtAsImageBlocking(const QString &filename);
   bool SaveEmbeddedArtBlocking(const QString &filename, const QByteArray &data);
+  bool UpdateSongPlaycountBlocking(const Song &metadata);
+  bool UpdateSongRatingBlocking(const Song &metadata);
 
   // TODO: Make this not a singleton
   static TagReaderClient *Instance() { return sInstance; }
@@ -77,6 +81,10 @@ class TagReaderClient : public QObject {
  private slots:
   void Exit();
   void WorkerFailedToStart();
+
+ public slots:
+  void UpdateSongsPlaycount(const SongList &songs);
+  void UpdateSongsRating(const SongList &songs);
 
  private:
   static TagReaderClient *sInstance;

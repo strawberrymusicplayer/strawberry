@@ -53,7 +53,7 @@ quint64 LyricsFetcher::Search(const QString &artist, const QString &album, const
   request.album.remove(Song::kAlbumRemoveMisc);
   request.title = title;
   request.title.remove(Song::kTitleRemoveMisc);
-  request.id = next_id_++;
+  request.id = ++next_id_;
   AddRequest(request);
 
   return request.id;

@@ -169,7 +169,7 @@ void AudioScrobbler::ClearPlaying() {
 
 }
 
-void AudioScrobbler::Scrobble(const Song &song, const int scrobble_point) {
+void AudioScrobbler::Scrobble(const Song &song, const qint64 scrobble_point) {
 
   if (!sources_.contains(song.source())) return;
 
