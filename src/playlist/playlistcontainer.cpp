@@ -264,6 +264,7 @@ void PlaylistContainer::ReloadSettings() {
   bool show_toolbar = settings_.value("show_toolbar", true).toBool();
   ui_->toolbar->setVisible(show_toolbar);
 
+  if (!show_toolbar) ui_->filter->clear();
 }
 
 bool PlaylistContainer::SearchFieldHasFocus() const {
@@ -271,9 +272,7 @@ bool PlaylistContainer::SearchFieldHasFocus() const {
 }
 
 void PlaylistContainer::FocusSearchField() {
-  if (ui_->toolbar->isVisible()) {
-    ui_->filter->setFocus();
-  }
+  if (ui_->toolbar->isVisible()) ui_->filter->setFocus();
 }
 
 void PlaylistContainer::ActivePlaying() {
@@ -455,21 +454,22 @@ void PlaylistContainer::resizeEvent(QResizeEvent *e) {
 
 void PlaylistContainer::FocusOnFilter(QKeyEvent *event) {
 
-  ui_->filter->setFocus();
+    if (ui_->toolbar->isVisible()) {
+        ui_->filter->setFocus();
 
-  switch (event->key()) {
-    case Qt::Key_Backspace:
-      break;
+        switch (event->key()) {
+          case Qt::Key_Backspace:
+            break;
 
-    case Qt::Key_Escape:
-      ui_->filter->clear();
-      break;
+        case Qt::Key_Escape:
+          ui_->filter->clear();
+            break;
 
-    default:
-      ui_->filter->setText(ui_->filter->text() + event->text());
-      break;
-  }
-
+        default:
+          ui_->filter->setText(ui_->filter->text() + event->text());
+            break;
+        }
+    }
 }
 
 void PlaylistContainer::RepositionNoMatchesLabel(const bool force) {
