@@ -223,7 +223,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
       if (json_obj.contains("encryptionType") && json_obj.contains("keyId")) {
         QString encryption_type = json_obj["encryptionType"].toString();
-        QString key_id = json_obj["encryptionType"].toString();
+        QString key_id = json_obj["keyId"].toString();
         if (!encryption_type.isEmpty() && !key_id.isEmpty()) {
           Error(tr("Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.").arg(encryption_type));
           emit StreamURLFailure(id_, original_url_, errors_.first());
