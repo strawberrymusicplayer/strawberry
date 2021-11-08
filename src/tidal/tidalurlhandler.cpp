@@ -32,38 +32,53 @@
 TidalUrlHandler::TidalUrlHandler(Application *app, TidalService *service)
     : UrlHandler(service),
       app_(app),
-      service_(service),
-      task_id_(-1) {
+      service_(service) {
 
-  QObject::connect(service, &TidalService::StreamURLFinished, this, &TidalUrlHandler::GetStreamURLFinished);
+  QObject::connect(service, &TidalService::StreamURLFailure, this, &TidalUrlHandler::GetStreamURLFailure);
+  QObject::connect(service, &TidalService::StreamURLSuccess, this, &TidalUrlHandler::GetStreamURLSuccess);
 
 }
 
 UrlHandler::LoadResult TidalUrlHandler::StartLoading(const QUrl &url) {
 
+  Request req;
+  req.task_id = app_->task_manager()->StartTask(QString("Loading %1 stream...").arg(url.scheme()));
+  QString error;
+  req.id = service_->GetStreamURL(url, error);
+  if (req.id == 0) {
+    CancelTask(req.task_id);
+    return LoadResult(url, LoadResult::Error, error);
+  }
+
+  requests_.insert(req.id, req);
+
   LoadResult ret(url);
-  if (task_id_ != -1) return ret;
-  task_id_ = app_->task_manager()->StartTask(QString("Loading %1 stream...").arg(url.scheme()));
-  service_->GetStreamURL(url);
   ret.type_ = LoadResult::WillLoadAsynchronously;
+
   return ret;
 
 }
 
-void TidalUrlHandler::GetStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error) {
+void TidalUrlHandler::GetStreamURLFailure(const uint id, const QUrl &original_url, const QString &error) {
 
-  if (task_id_ == -1) return;
-  CancelTask();
-  if (error.isEmpty()) {
-    emit AsyncLoadComplete(LoadResult(original_url, LoadResult::TrackAvailable, stream_url, filetype, samplerate, bit_depth, duration));
-  }
-  else {
-    emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Error, error));
-  }
+  if (!requests_.contains(id)) return;
+  Request req = requests_.take(id);
+  CancelTask(req.task_id);
+
+  emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Error, error));
 
 }
 
-void TidalUrlHandler::CancelTask() {
-  app_->task_manager()->SetTaskFinished(task_id_);
-  task_id_ = -1;
+void TidalUrlHandler::GetStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration) {
+
+  if (!requests_.contains(id)) return;
+  Request req = requests_.take(id);
+  CancelTask(req.task_id);
+
+  emit AsyncLoadComplete(LoadResult(original_url, LoadResult::TrackAvailable, stream_url, filetype, samplerate, bit_depth, duration));
+
+}
+
+void TidalUrlHandler::CancelTask(const int task_id) {
+  app_->task_manager()->SetTaskFinished(task_id);
 }

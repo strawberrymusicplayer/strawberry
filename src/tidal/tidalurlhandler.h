@@ -24,6 +24,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QMap>
 #include <QString>
 #include <QUrl>
 
@@ -42,15 +43,22 @@ class TidalUrlHandler : public UrlHandler {
   QString scheme() const override { return service_->url_scheme(); }
   LoadResult StartLoading(const QUrl &url) override;
 
-  void CancelTask();
+ private:
+  void CancelTask(const int task_id);
 
  private slots:
-  void GetStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error = QString());
+  void GetStreamURLFailure(const uint id, const QUrl &original_url, const QString &error);
+  void GetStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
  private:
+  struct Request {
+    Request() : id(0), task_id(-1) {}
+    uint id;
+    int task_id;
+  };
   Application *app_;
   TidalService *service_;
-  int task_id_;
+  QMap<uint, Request> requests_;
 
 };
 

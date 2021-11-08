@@ -178,10 +178,16 @@ QobuzService::QobuzService(Application *app, QObject *parent)
 
 QobuzService::~QobuzService() {
 
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    QObject::disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
   while (!stream_url_requests_.isEmpty()) {
     std::shared_ptr<QobuzStreamURLRequest> stream_url_req = stream_url_requests_.take(stream_url_requests_.firstKey());
     QObject::disconnect(stream_url_req.get(), nullptr, this, nullptr);
-    stream_url_req->deleteLater();
   }
 
   artists_collection_backend_->deleteLater();
@@ -714,31 +720,44 @@ void QobuzService::SearchResultsReceived(const int id, const SongMap &songs, con
   emit SearchResults(id, songs, error);
 }
 
-void QobuzService::GetStreamURL(const QUrl &url) {
+uint QobuzService::GetStreamURL(const QUrl &url, QString &error) {
 
   if (app_id().isEmpty() || app_secret().isEmpty()) { // Don't check for login here, because we allow automatic login.
-    emit StreamURLFinished(url, url, Song::FileType_Stream, -1, -1, -1, tr("Missing Qobuz app ID or secret."));
-    return;
+    error = tr("Missing Qobuz app ID or secret.");
+    return 0;
   }
 
-  const int id = ++next_stream_url_request_id_;
+  uint id = 0;
+  while (id == 0) id = ++next_stream_url_request_id_;
   std::shared_ptr<QobuzStreamURLRequest> stream_url_req = std::make_shared<QobuzStreamURLRequest>(this, network_, url, id);
   stream_url_requests_.insert(id, stream_url_req);
 
   QObject::connect(stream_url_req.get(), &QobuzStreamURLRequest::TryLogin, this, &QobuzService::TryLogin);
-  QObject::connect(stream_url_req.get(), &QobuzStreamURLRequest::StreamURLFinished, this, &QobuzService::HandleStreamURLFinished);
+  QObject::connect(stream_url_req.get(), &QobuzStreamURLRequest::StreamURLFailure, this, &QobuzService::HandleStreamURLFailure);
+  QObject::connect(stream_url_req.get(), &QobuzStreamURLRequest::StreamURLSuccess, this, &QobuzService::HandleStreamURLSuccess);
   QObject::connect(this, &QobuzService::LoginComplete, stream_url_req.get(), &QobuzStreamURLRequest::LoginComplete);
 
   stream_url_req->Process();
 
+  return id;
+
 }
 
-void QobuzService::HandleStreamURLFinished(const int id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error) {
+void QobuzService::HandleStreamURLFailure(const uint id, const QUrl &original_url, const QString &error) {
 
   if (!stream_url_requests_.contains(id)) return;
   std::shared_ptr<QobuzStreamURLRequest> stream_url_req = stream_url_requests_.take(id);
 
-  emit StreamURLFinished(original_url, stream_url, filetype, samplerate, bit_depth, duration, error);
+  emit StreamURLFailure(id, original_url, error);
+
+}
+
+void QobuzService::HandleStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration) {
+
+  if (!stream_url_requests_.contains(id)) return;
+  std::shared_ptr<QobuzStreamURLRequest> stream_url_req = stream_url_requests_.take(id);
+
+  emit StreamURLSuccess(id, original_url, stream_url, filetype, samplerate, bit_depth, duration);
 
 }
 

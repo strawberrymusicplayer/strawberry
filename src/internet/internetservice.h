@@ -130,7 +130,8 @@ class InternetService : public QObject {
   void RemoveSongs(SongList songs);
   void RemoveSongs(SongMap songs);
 
-  void StreamURLFinished(QUrl original_url, QUrl stream_url, Song::FileType filetype, int samplerate, int bit_depth, qint64 duration, QString error = QString());
+  void StreamURLFailure(uint id, QUrl original_url, QString error);
+  void StreamURLSuccess(uint id, QUrl original_url, QUrl stream_url, Song::FileType filetype, int samplerate, int bit_depth, qint64 duration);
 
  protected:
   Application *app_;

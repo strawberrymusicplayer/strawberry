@@ -93,7 +93,7 @@ class QobuzService : public InternetService {
   bool login_sent() { return login_sent_; }
   bool login_attempts() { return login_attempts_; }
 
-  void GetStreamURL(const QUrl &url);
+  uint GetStreamURL(const QUrl &url, QString &error);
 
   CollectionBackend *artists_collection_backend() override { return artists_collection_backend_; }
   CollectionBackend *albums_collection_backend() override { return albums_collection_backend_; }
@@ -138,7 +138,8 @@ class QobuzService : public InternetService {
   void ArtistsUpdateProgressReceived(const int id, const int progress);
   void AlbumsUpdateProgressReceived(const int id, const int progress);
   void SongsUpdateProgressReceived(const int id, const int progress);
-  void HandleStreamURLFinished(const int id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, const QString &error);
+  void HandleStreamURLFailure(const uint id, const QUrl &original_url, const QString &error);
+  void HandleStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
  private:
   typedef QPair<QString, QString> Param;
@@ -211,8 +212,8 @@ class QobuzService : public InternetService {
   bool login_sent_;
   int login_attempts_;
 
-  int next_stream_url_request_id_;
-  QMap<int, std::shared_ptr<QobuzStreamURLRequest>> stream_url_requests_;
+  uint next_stream_url_request_id_;
+  QMap<uint, std::shared_ptr<QobuzStreamURLRequest>> stream_url_requests_;
 
   QStringList login_errors_;
 

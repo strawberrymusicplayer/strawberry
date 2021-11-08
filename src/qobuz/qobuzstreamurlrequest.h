@@ -40,7 +40,7 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   Q_OBJECT
 
  public:
-  explicit QobuzStreamURLRequest(QobuzService *service, NetworkAccessManager *network, const QUrl &original_url, const int id, QObject *parent = nullptr);
+  explicit QobuzStreamURLRequest(QobuzService *service, NetworkAccessManager *network, const QUrl &original_url, const uint id, QObject *parent = nullptr);
   ~QobuzStreamURLRequest();
 
   void GetStreamURL();
@@ -54,7 +54,8 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
 
  signals:
   void TryLogin();
-  void StreamURLFinished(int id, QUrl original_url, QUrl stream_url, Song::FileType filetype, int samplerate, int bit_depth, qint64 duration, QString error = QString());
+  void StreamURLFailure(uint id, QUrl original_url, QString error);
+  void StreamURLSuccess(uint id, QUrl original_url, QUrl stream_url, Song::FileType filetype, int samplerate, int bit_depth, qint64 duration);
 
  private slots:
   void StreamURLReceived();
@@ -68,7 +69,7 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   QobuzService *service_;
   QNetworkReply *reply_;
   QUrl original_url_;
-  int id_;
+  uint id_;
   int song_id_;
   int tries_;
   bool need_login_;
