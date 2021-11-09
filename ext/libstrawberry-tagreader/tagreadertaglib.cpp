@@ -332,7 +332,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         const TagLib::ID3v2::PopularimeterFrame *frame = dynamic_cast<const TagLib::ID3v2::PopularimeterFrame*>(map["POPM"].front());
         if (frame) {
           if (song->playcount() <= 0 && frame->counter() > 0) {
-            song->set_playcount(static_cast<int>(frame->counter()));
+            song->set_playcount(frame->counter());
           }
           if (song->rating() <= 0 && frame->rating() > 0) {
             song->set_rating(ConvertPOPMRating(frame->rating()));
@@ -386,7 +386,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         if (item.isValid()) {
           const int playcount = TStringToQString(item.toStringList().toString('\n')).toInt();
           if (song->playcount() <= 0 && playcount > 0) {
-            song->set_playcount(playcount);
+            song->set_playcount(static_cast<uint>(playcount));
           }
         }
       }
@@ -432,7 +432,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         if (!attributes.isEmpty()) {
           int playcount = TStringToQString(attributes.front().toString()).toInt();
           if (song->playcount() <= 0 && playcount > 0) {
-            song->set_playcount(playcount);
+            song->set_playcount(static_cast<uint>(playcount));
           }
         }
       }
@@ -486,16 +486,15 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
   if (!lyrics.isEmpty()) song->set_lyrics(lyrics.toStdString());
 
   // Set integer fields to -1 if they're not valid
-  #define SetDefault(field) if (song->field() <= 0) { song->set_##field(-1); }
-  SetDefault(track);
-  SetDefault(disc);
-  SetDefault(year);
-  SetDefault(originalyear);
-  SetDefault(bitrate);
-  SetDefault(samplerate);
-  SetDefault(bitdepth);
-  SetDefault(lastplayed);
-  #undef SetDefault
+
+  if (song->track() <= 0) { song->set_track(-1); }
+  if (song->disc() <= 0) { song->set_disc(-1); }
+  if (song->year() <= 0) { song->set_year(-1); }
+  if (song->originalyear() <= 0) { song->set_originalyear(-1); }
+  if (song->samplerate() <= 0) { song->set_samplerate(-1); }
+  if (song->bitdepth() <= 0) { song->set_bitdepth(-1); }
+  if (song->bitrate() <= 0) { song->set_bitrate(-1); }
+  if (song->lastplayed() <= 0) { song->set_lastplayed(-1); }
 
 }
 
@@ -530,7 +529,10 @@ void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString 
   if (!map["COVERART"].isEmpty()) song->set_art_automatic(kEmbeddedCover);
   if (!map["METADATA_BLOCK_PICTURE"].isEmpty()) song->set_art_automatic(kEmbeddedCover);
 
-  if (!map["FMPS_PLAYCOUNT"].isEmpty() && song->playcount() <= 0) song->set_playcount(TStringToQString(map["FMPS_PLAYCOUNT"].front()).trimmed().toInt());
+  if (!map["FMPS_PLAYCOUNT"].isEmpty() && song->playcount() <= 0) {
+    const int playcount = TStringToQString(map["FMPS_PLAYCOUNT"].front()).trimmed().toInt();
+    song->set_playcount(static_cast<uint>(playcount));
+  }
   if (!map["FMPS_RATING"].isEmpty() && song->rating() <= 0) song->set_rating(TStringToQString(map["FMPS_RATING"].front()).trimmed().toFloat());
 
   if (!map["LYRICS"].isEmpty()) Decode(map["LYRICS"].front(), song->mutable_lyrics());
@@ -576,7 +578,7 @@ void TagReaderTagLib::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *
   if (map.contains("FMPS_PLAYCOUNT")) {
     const int playcount = TStringToQString(map["FMPS_PLAYCOUNT"].toString()).toInt();
     if (song->playcount() <= 0 && playcount > 0) {
-      song->set_playcount(playcount);
+      song->set_playcount(static_cast<uint>(playcount));
     }
   }
 
@@ -1060,7 +1062,7 @@ bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb
     TagLib::Ogg::XiphComment *vorbis_comments = flac_file->xiphComment(true);
     if (!vorbis_comments) return false;
     if (song.playcount() > 0) {
-      vorbis_comments->addField("FMPS_PLAYCOUNT", TagLib::String::number(song.playcount()), true);
+      vorbis_comments->addField("FMPS_PLAYCOUNT", TagLib::String::number(static_cast<int>(song.playcount())), true);
     }
     else {
       vorbis_comments->removeFields("FMPS_PLAYCOUNT");
@@ -1070,19 +1072,19 @@ bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb
     TagLib::APE::Tag *tag = wavpack_file->APETag(true);
     if (!tag) return false;
     if (song.playcount() > 0) {
-      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(song.playcount())));
+      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(static_cast<int>(song.playcount()))));
     }
   }
   else if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = ape_file->APETag(true);
     if (!tag) return false;
     if (song.playcount() > 0) {
-      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(song.playcount())));
+      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(static_cast<int>(song.playcount()))));
     }
   }
   else if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
     if (song.playcount() > 0) {
-      xiph_comment->addField("FMPS_PLAYCOUNT", TagLib::String::number(song.playcount()), true);
+      xiph_comment->addField("FMPS_PLAYCOUNT", TagLib::String::number(static_cast<int>(song.playcount())), true);
     }
     else {
       xiph_comment->removeFields("FMPS_PLAYCOUNT");
@@ -1104,14 +1106,14 @@ bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb
     TagLib::MP4::Tag *tag = mp4_file->tag();
     if (!tag) return false;
     if (song.playcount() > 0) {
-      tag->setItem(kMP4_FMPS_Playcount_ID, TagLib::MP4::Item(TagLib::String::number(song.playcount())));
+      tag->setItem(kMP4_FMPS_Playcount_ID, TagLib::MP4::Item(TagLib::String::number(static_cast<int>(song.playcount()))));
     }
   }
   else if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = mpc_file->APETag(true);
     if (!tag) return false;
     if (song.playcount() > 0) {
-      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(song.playcount())));
+      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(static_cast<int>(song.playcount()))));
     }
   }
   else if (TagLib::ASF::File *asf_file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {

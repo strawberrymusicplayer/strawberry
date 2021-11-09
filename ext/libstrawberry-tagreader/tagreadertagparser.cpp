@@ -225,20 +225,19 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
     }
 
     // Set integer fields to -1 if they're not valid
-    #define SetDefault(field) if (song->field() <= 0) { song->set_##field(-1); }
-    SetDefault(track);
-    SetDefault(disc);
-    SetDefault(year);
-    SetDefault(originalyear);
-    SetDefault(bitrate);
-    SetDefault(samplerate);
-    SetDefault(bitdepth);
-    SetDefault(lastplayed);
-    #undef SetDefault
+    if (song->track() <= 0) { song->set_track(-1); }
+    if (song->disc() <= 0) { song->set_disc(-1); }
+    if (song->year() <= 0) { song->set_year(-1); }
+    if (song->originalyear() <= 0) { song->set_originalyear(-1); }
+    if (song->samplerate() <= 0) { song->set_samplerate(-1); }
+    if (song->bitdepth() <= 0) { song->set_bitdepth(-1); }
+    if (song->bitrate() <= 0) { song->set_bitrate(-1); }
+    if (song->lastplayed() <= 0) { song->set_lastplayed(-1); }
 
     song->set_valid(true);
 
     taginfo.close();
+
   }
   catch(...) {}
 

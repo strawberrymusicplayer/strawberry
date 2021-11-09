@@ -62,8 +62,8 @@ message SongMetadata {
   optional int64 mtime = 25;
   optional int64 ctime = 26;
 
-  optional int32 playcount = 27;
-  optional int32 skipcount = 28;
+  optional uint32 playcount = 27;
+  optional uint32 skipcount = 28;
   optional int64 lastplayed = 29;
   optional int64 lastseen = 30;
 

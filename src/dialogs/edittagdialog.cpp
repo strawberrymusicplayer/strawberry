@@ -836,8 +836,8 @@ QString EditTagDialog::GetArtSummary(const Song &song, const UpdateCoverAction c
 
 void EditTagDialog::UpdateStatisticsTab(const Song &song) {
 
-  ui_->playcount->setText(QString::number(qMax(0, song.playcount())));
-  ui_->skipcount->setText(QString::number(qMax(0, song.skipcount())));
+  ui_->playcount->setText(QString::number(song.playcount()));
+  ui_->skipcount->setText(QString::number(song.skipcount()));
   ui_->lastplayed->setText(song.lastplayed() <= 0 ? tr("Never") : QDateTime::fromSecsSinceEpoch(song.lastplayed()).toString(QLocale::system().dateTimeFormat(QLocale::LongFormat)));
 
 }

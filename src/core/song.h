@@ -168,7 +168,7 @@ class Song {
   void Init(const QString &title, const QString &artist, const QString &album, qint64 length_nanosec);
   void Init(const QString &title, const QString &artist, const QString &album, qint64 beginning, qint64 end);
   void InitFromProtobuf(const spb::tagreader::SongMetadata &pb);
-  void InitFromQuery(const SqlRow &query, bool reliable_metadata, int col = 0);
+  void InitFromQuery(const SqlRow &query, const bool reliable_metadata);
   void InitFromFilePartial(const QString &filename, const QFileInfo &fileinfo);
   void InitArtManual();
   void InitArtAutomatic();
@@ -243,8 +243,8 @@ class Song {
 
   QString fingerprint() const;
 
-  int playcount() const;
-  int skipcount() const;
+  uint playcount() const;
+  uint skipcount() const;
   qint64 lastplayed() const;
   qint64 lastseen() const;
 
@@ -318,16 +318,16 @@ class Song {
   // Setters
   bool IsEditable() const;
 
-  void set_id(int id);
-  void set_valid(bool v);
+  void set_id(const int id);
+  void set_valid(const bool v);
 
   void set_title(const QString &v);
   void set_album(const QString &v);
   void set_artist(const QString &v);
   void set_albumartist(const QString &v);
-  void set_track(int v);
-  void set_disc(int v);
-  void set_year(int v);
+  void set_track(const int v);
+  void set_disc(const int v);
+  void set_year(const int v);
   void set_originalyear(int v);
   void set_genre(const QString &v);
   void set_compilation(bool v);
@@ -345,30 +345,30 @@ class Song {
   void set_end_nanosec(qint64 v);
   void set_length_nanosec(qint64 v);
 
-  void set_bitrate(int v);
-  void set_samplerate(int v);
-  void set_bitdepth(int v);
+  void set_bitrate(const int v);
+  void set_samplerate(const int v);
+  void set_bitdepth(const int v);
 
-  void set_source(Source v);
-  void set_directory_id(int v);
+  void set_source(const Source v);
+  void set_directory_id(const int v);
   void set_url(const QUrl &v);
   void set_basefilename(const QString &v);
-  void set_filetype(FileType v);
-  void set_filesize(qint64 v);
-  void set_mtime(qint64 v);
-  void set_ctime(qint64 v);
-  void set_unavailable(bool v);
+  void set_filetype(const FileType v);
+  void set_filesize(const qint64 v);
+  void set_mtime(const qint64 v);
+  void set_ctime(const qint64 v);
+  void set_unavailable(const bool v);
 
   void set_fingerprint(const QString &v);
 
-  void set_playcount(int v);
-  void set_skipcount(int v);
-  void set_lastplayed(qint64 v);
-  void set_lastseen(qint64 v);
+  void set_playcount(const uint v);
+  void set_skipcount(const uint v);
+  void set_lastplayed(const qint64 v);
+  void set_lastseen(const qint64 v);
 
-  void set_compilation_detected(bool v);
-  void set_compilation_on(bool v);
-  void set_compilation_off(bool v);
+  void set_compilation_detected(const bool v);
+  void set_compilation_on(const bool v);
+  void set_compilation_off(const bool v);
 
   void set_art_automatic(const QUrl &v);
   void set_art_manual(const QUrl &v);

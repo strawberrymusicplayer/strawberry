@@ -209,8 +209,8 @@ struct Song::Private : public QSharedData {
 
   QString fingerprint_;
 
-  int playcount_;
-  int skipcount_;
+  uint playcount_;
+  uint skipcount_;
   qint64 lastplayed_;
   qint64 lastseen_;
 
@@ -337,8 +337,8 @@ qint64 Song::ctime() const { return d->ctime_; }
 
 QString Song::fingerprint() const { return d->fingerprint_; }
 
-int Song::playcount() const { return d->playcount_; }
-int Song::skipcount() const { return d->skipcount_; }
+uint Song::playcount() const { return d->playcount_; }
+uint Song::skipcount() const { return d->skipcount_; }
 qint64 Song::lastplayed() const { return d->lastplayed_; }
 qint64 Song::lastseen() const { return d->lastseen_; }
 
@@ -408,8 +408,8 @@ bool Song::art_manual_is_valid() const {
 
 bool Song::has_valid_art() const { return art_automatic_is_valid() || art_manual_is_valid(); }
 
-void Song::set_id(int id) { d->id_ = id; }
-void Song::set_valid(bool v) { d->valid_ = v; }
+void Song::set_id(const int id) { d->id_ = id; }
+void Song::set_valid(const bool v) { d->valid_ = v; }
 
 void Song::set_artist_id(const QString &v) { d->artist_id_ = v; }
 void Song::set_album_id(const QString &v) { d->album_id_ = v; }
@@ -433,10 +433,10 @@ void Song::set_title(const QString &v) { d->title_sortable_ = sortable(v); d->ti
 void Song::set_album(const QString &v) { d->album_sortable_ = sortable(v); d->album_ = v; }
 void Song::set_artist(const QString &v) { d->artist_sortable_ = sortable(v); d->artist_ = v; }
 void Song::set_albumartist(const QString &v) { d->albumartist_sortable_ = sortable(v); d->albumartist_ = v; }
-void Song::set_track(int v) { d->track_ = v; }
-void Song::set_disc(int v) { d->disc_ = v; }
-void Song::set_year(int v) { d->year_ = v; }
-void Song::set_originalyear(int v) { d->originalyear_ = v; }
+void Song::set_track(const int v) { d->track_ = v; }
+void Song::set_disc(const int v) { d->disc_ = v; }
+void Song::set_year(const int v) { d->year_ = v; }
+void Song::set_originalyear(const int v) { d->originalyear_ = v; }
 void Song::set_genre(const QString &v) { d->genre_ = v; }
 void Song::set_compilation(bool v) { d->compilation_ = v; }
 void Song::set_composer(const QString &v) { d->composer_ = v; }
@@ -445,40 +445,40 @@ void Song::set_grouping(const QString &v) { d->grouping_ = v; }
 void Song::set_comment(const QString &v) { d->comment_ = v; }
 void Song::set_lyrics(const QString &v) { d->lyrics_ = v; }
 
-void Song::set_beginning_nanosec(qint64 v) { d->beginning_ = qMax(0LL, v); }
-void Song::set_end_nanosec(qint64 v) { d->end_ = v; }
-void Song::set_length_nanosec(qint64 v) { d->end_ = d->beginning_ + v; }
+void Song::set_beginning_nanosec(const qint64 v) { d->beginning_ = qMax(0LL, v); }
+void Song::set_end_nanosec(const qint64 v) { d->end_ = v; }
+void Song::set_length_nanosec(const qint64 v) { d->end_ = d->beginning_ + v; }
 
-void Song::set_bitrate(int v) { d->bitrate_ = v; }
-void Song::set_samplerate(int v) { d->samplerate_ = v; }
-void Song::set_bitdepth(int v) { d->bitdepth_ = v; }
+void Song::set_bitrate(const int v) { d->bitrate_ = v; }
+void Song::set_samplerate(const int v) { d->samplerate_ = v; }
+void Song::set_bitdepth(const int v) { d->bitdepth_ = v; }
 
-void Song::set_source(Source v) { d->source_ = v; }
-void Song::set_directory_id(int v) { d->directory_id_ = v; }
+void Song::set_source(const Source v) { d->source_ = v; }
+void Song::set_directory_id(const int v) { d->directory_id_ = v; }
 void Song::set_url(const QUrl &v) { d->url_ = v; }
 void Song::set_basefilename(const QString &v) { d->basefilename_ = v; }
-void Song::set_filetype(FileType v) { d->filetype_ = v; }
-void Song::set_filesize(qint64 v) { d->filesize_ = v; }
-void Song::set_mtime(qint64 v) { d->mtime_ = v; }
-void Song::set_ctime(qint64 v) { d->ctime_ = v; }
-void Song::set_unavailable(bool v) { d->unavailable_ = v; }
+void Song::set_filetype(const FileType v) { d->filetype_ = v; }
+void Song::set_filesize(const qint64 v) { d->filesize_ = v; }
+void Song::set_mtime(const qint64 v) { d->mtime_ = v; }
+void Song::set_ctime(const qint64 v) { d->ctime_ = v; }
+void Song::set_unavailable(const bool v) { d->unavailable_ = v; }
 
 void Song::set_fingerprint(const QString &v) { d->fingerprint_ = v; }
 
-void Song::set_playcount(int v) { d->playcount_ = v; }
-void Song::set_skipcount(int v) { d->skipcount_ = v; }
-void Song::set_lastplayed(qint64 v) { d->lastplayed_ = v; }
-void Song::set_lastseen(qint64 v) { d->lastseen_ = v; }
+void Song::set_playcount(const uint v) { d->playcount_ = v; }
+void Song::set_skipcount(const uint v) { d->skipcount_ = v; }
+void Song::set_lastplayed(const qint64 v) { d->lastplayed_ = v; }
+void Song::set_lastseen(const qint64 v) { d->lastseen_ = v; }
 
-void Song::set_compilation_detected(bool v) { d->compilation_detected_ = v; }
-void Song::set_compilation_on(bool v) { d->compilation_on_ = v; }
-void Song::set_compilation_off(bool v) { d->compilation_off_ = v; }
+void Song::set_compilation_detected(const bool v) { d->compilation_detected_ = v; }
+void Song::set_compilation_on(const bool v) { d->compilation_on_ = v; }
+void Song::set_compilation_off(const bool v) { d->compilation_off_ = v; }
 
 void Song::set_art_automatic(const QUrl &v) { d->art_automatic_ = v; }
 void Song::set_art_manual(const QUrl &v) { d->art_manual_ = v; }
 void Song::set_cue_path(const QString &v) { d->cue_path_ = v; }
 
-void Song::set_rating(float v) { d->rating_ = v; }
+void Song::set_rating(const float v) { d->rating_ = v; }
 
 void Song::set_stream_url(const QUrl &v) { d->stream_url_ = v; }
 void Song::set_image(const QImage &i) { d->image_ = i; }
@@ -919,202 +919,76 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
 
 }
 
-#define tostr(n) (q.value(n).isNull() ? QString() : q.value(n).toString())
-#define toint(n) (q.value(n).isNull() ? -1 : q.value(n).toInt())
-#define tolonglong(n) (q.value(n).isNull() ? -1 : q.value(n).toLongLong())
-#define tofloat(n) (q.value(n).isNull() ? -1 : q.value(n).toFloat())
+void Song::InitFromQuery(const SqlRow &q, const bool reliable_metadata) {
 
-void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
+  d->id_ = q.value("rowid").isNull() ? -1 : q.value("rowid").toInt();
 
-  //qLog(Debug) << "Song::kColumns.size():" << Song::kColumns.size() << "q.columns_.size():" << q.columns_.size() << "col:" << col;
-
-  int x = col;
-  d->id_ = toint(col);
-
-  for (int i = 0; i < Song::kColumns.size(); i++) {
-    x++;
-
-    if (x >= q.columns_.size()) {
-      qLog(Error) << "Skipping" << Song::kColumns.value(i);
-      break;
+  set_title(q.ValueToString("title"));
+  set_album(q.ValueToString("album"));
+  set_artist(q.ValueToString("artist"));
+  set_albumartist(q.ValueToString("albumartist"));
+  d->track_ = q.ValueToInt("track");
+  d->disc_ = q.ValueToInt("disc");
+  d->year_ = q.ValueToInt("year");
+  d->originalyear_ = q.ValueToInt("originalyear");
+  d->genre_ = q.ValueToString("genre");
+  d->compilation_ = q.value("compilation").toBool();
+  d->composer_ = q.ValueToString("composer");
+  d->performer_ = q.ValueToString("performer");
+  d->grouping_ = q.ValueToString("grouping");
+  d->comment_ = q.ValueToString("comment");
+  d->lyrics_ = q.ValueToString("lyrics");
+  d->artist_id_ = q.ValueToString("artist_id");
+  d->album_id_ = q.ValueToString("album_id");
+  d->song_id_ = q.ValueToString("song_id");
+  d->beginning_ = q.value("beginning").isNull() ? 0 : q.value("beginning").toLongLong();
+  set_length_nanosec(q.ValueToLongLong("length"));
+  d->bitrate_ = q.ValueToInt("bitrate");
+  d->samplerate_ = q.ValueToInt("samplerate");
+  d->bitdepth_ = q.ValueToInt("bitdepth");
+  d->source_ = Source(q.value("source").isNull() ? 0 : q.value("source").toInt());
+  d->directory_id_ = q.ValueToInt("directory_id");
+  set_url(QUrl::fromEncoded(q.ValueToString("url").toUtf8()));
+  d->basefilename_ = QFileInfo(d->url_.toLocalFile()).fileName();
+  d->filetype_ = FileType(q.value("filetype").isNull() ? 0 : q.value("filetype").toInt());
+  d->filesize_ = q.ValueToLongLong("filesize");
+  d->mtime_ = q.ValueToLongLong("mtime");
+  d->ctime_ = q.ValueToLongLong("ctime");
+  d->unavailable_ = q.value("unavailable").toBool();
+  d->fingerprint_ = q.ValueToString("fingerprint");
+  d->playcount_ = q.ValueToUInt("playcount");
+  d->skipcount_ = q.ValueToUInt("skipcount");
+  d->lastplayed_ = q.ValueToLongLong("lastplayed");
+  d->lastseen_ = q.ValueToLongLong("lastseen");
+  d->compilation_detected_ = q.ValueToBool("compilation_detected");
+  d->compilation_on_ = q.ValueToBool("compilation_on");
+  d->compilation_off_ = q.ValueToBool("compilation_off");
+  QString art_automatic = q.ValueToString("art_automatic");
+  if (!art_automatic.isEmpty()) {
+    if (art_automatic.contains(QRegularExpression("..+:.*"))) {
+      set_art_automatic(QUrl::fromEncoded(art_automatic.toUtf8()));
     }
-
-    //qLog(Debug) << "Index:" << i << x << Song::kColumns.value(i) << q.value(x).toString();
-
-    if (Song::kColumns.value(i) == "title") {
-      set_title(tostr(x));
-    }
-    else if (Song::kColumns.value(i) == "album") {
-      set_album(tostr(x));
-    }
-    else if (Song::kColumns.value(i) == "artist") {
-      set_artist(tostr(x));
-    }
-    else if (Song::kColumns.value(i) == "albumartist") {
-      set_albumartist(tostr(x));
-    }
-    else if (Song::kColumns.value(i) == "track") {
-      d->track_ = toint(x);
-    }
-    else if (Song::kColumns.value(i) == "disc") {
-      d->disc_ = toint(x);
-    }
-    else if (Song::kColumns.value(i) == "year") {
-      d->year_ = toint(x);
-    }
-    else if (Song::kColumns.value(i) == "originalyear") {
-      d->originalyear_ = toint(x);
-    }
-    else if (Song::kColumns.value(i) == "genre") {
-      d->genre_ = tostr(x);
-    }
-    else if (Song::kColumns.value(i) == "compilation") {
-      d->compilation_ = q.value(x).toBool();
-    }
-    else if (Song::kColumns.value(i) == "composer") {
-      d->composer_ = tostr(x);
-    }
-    else if (Song::kColumns.value(i) == "performer") {
-      d->performer_ = tostr(x);
-    }
-    else if (Song::kColumns.value(i) == "grouping") {
-      d->grouping_ = tostr(x);
-    }
-    else if (Song::kColumns.value(i) == "comment") {
-      d->comment_ = tostr(x);
-    }
-    else if (Song::kColumns.value(i) == "lyrics") {
-      d->lyrics_ = tostr(x);
-    }
-
-    else if (Song::kColumns.value(i) == "artist_id") {
-      d->artist_id_ = tostr(x);
-    }
-    else if (Song::kColumns.value(i) == "album_id") {
-      d->album_id_ = tostr(x);
-    }
-    else if (Song::kColumns.value(i) == "song_id") {
-      d->song_id_ = tostr(x);
-    }
-
-    else if (Song::kColumns.value(i) == "beginning") {
-      d->beginning_ = q.value(x).isNull() ? 0 : q.value(x).toLongLong();
-    }
-    else if (Song::kColumns.value(i) == "length") {
-      set_length_nanosec(tolonglong(x));
-    }
-
-    else if (Song::kColumns.value(i) == "bitrate") {
-      d->bitrate_ = toint(x);
-    }
-    else if (Song::kColumns.value(i) == "samplerate") {
-      d->samplerate_ = toint(x);
-    }
-    else if (Song::kColumns.value(i) == "bitdepth") {
-      d->bitdepth_ = toint(x);
-    }
-
-    else if (Song::kColumns.value(i) == "source") {
-      d->source_ = Source(q.value(x).toInt());
-    }
-    else if (Song::kColumns.value(i) == "directory_id") {
-      d->directory_id_ = toint(x);
-    }
-    else if (Song::kColumns.value(i) == "url") {
-      set_url(QUrl::fromEncoded(tostr(x).toUtf8()));
-      d->basefilename_ = QFileInfo(d->url_.toLocalFile()).fileName();
-    }
-    else if (Song::kColumns.value(i) == "filetype") {
-      d->filetype_ = FileType(q.value(x).toInt());
-    }
-    else if (Song::kColumns.value(i) == "filesize") {
-      d->filesize_ = tolonglong(x);
-    }
-    else if (Song::kColumns.value(i) == "mtime") {
-      d->mtime_ = tolonglong(x);
-    }
-    else if (Song::kColumns.value(i) == "ctime") {
-      d->ctime_ = tolonglong(x);
-    }
-    else if (Song::kColumns.value(i) == "unavailable") {
-      d->unavailable_ = q.value(x).toBool();
-    }
-
-    else if (Song::kColumns.value(i) == "fingerprint") {
-      d->fingerprint_ = tostr(x);
-    }
-
-    else if (Song::kColumns.value(i) == "playcount") {
-      d->playcount_ = q.value(x).isNull() ? 0 : q.value(x).toInt();
-    }
-    else if (Song::kColumns.value(i) == "skipcount") {
-      d->skipcount_ = q.value(x).isNull() ? 0 : q.value(x).toInt();
-    }
-    else if (Song::kColumns.value(i) == "lastplayed") {
-      d->lastplayed_ = tolonglong(x);
-    }
-    else if (Song::kColumns.value(i) == "lastseen") {
-      d->lastseen_ = tolonglong(x);
-    }
-
-    else if (Song::kColumns.value(i) == "compilation_detected") {
-      d->compilation_detected_ = q.value(x).toBool();
-    }
-    else if (Song::kColumns.value(i) == "compilation_on") {
-      d->compilation_on_ = q.value(x).toBool();
-    }
-    else if (Song::kColumns.value(i) == "compilation_off") {
-      d->compilation_off_ = q.value(x).toBool();
-    }
-    else if (Song::kColumns.value(i) == "compilation_effective") {
-    }
-
-    else if (Song::kColumns.value(i) == "art_automatic") {
-      QString art_automatic = tostr(x);
-      if (art_automatic.contains(QRegularExpression("..+:.*"))) {
-        set_art_automatic(QUrl::fromEncoded(art_automatic.toUtf8()));
-      }
-      else {
-        set_art_automatic(QUrl::fromLocalFile(art_automatic));
-      }
-    }
-    else if (Song::kColumns.value(i) == "art_manual") {
-      QString art_manual = tostr(x);
-      if (art_manual.contains(QRegularExpression("..+:.*"))) {
-        set_art_manual(QUrl::fromEncoded(art_manual.toUtf8()));
-      }
-      else {
-        set_art_manual(QUrl::fromLocalFile(art_manual));
-      }
-    }
-
-    else if (Song::kColumns.value(i) == "effective_albumartist") {
-    }
-    else if (Song::kColumns.value(i) == "effective_originalyear") {
-    }
-
-    else if (Song::kColumns.value(i) == "cue_path") {
-      d->cue_path_ = tostr(x);
-    }
-
-    else if (Song::kColumns.value(i) == "rating") {
-      d->rating_ = tofloat(x);
-    }
-
     else {
-      qLog(Error) << "Forgot to handle" << Song::kColumns.value(i);
+      set_art_automatic(QUrl::fromLocalFile(art_automatic));
     }
   }
+  QString art_manual = q.ValueToString("art_manual");
+  if (!art_manual.isEmpty()) {
+    if (art_manual.contains(QRegularExpression("..+:.*"))) {
+      set_art_manual(QUrl::fromEncoded(art_manual.toUtf8()));
+    }
+    else {
+      set_art_manual(QUrl::fromLocalFile(art_manual));
+    }
+  }
+
+  d->cue_path_ = q.ValueToString("cue_path");
+  d->rating_ = q.ValueToFloat("rating");
 
   d->valid_ = true;
   d->init_from_file_ = reliable_metadata;
 
   InitArtManual();
-
-#undef tostr
-#undef toint
-#undef tolonglong
-#undef tofloat
 
 }
 
@@ -1280,7 +1154,7 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
   d->bitdepth_ = 0;
   d->bitrate_ = static_cast<int>(track->bitrate);
 
-  d->playcount_ = static_cast<int>(track->usecount);
+  d->playcount_ = track->usecount;
 
   switch (track->filetype) {
       case LIBMTP_FILETYPE_WAV:  d->filetype_ = FileType_WAV;       break;
@@ -1403,73 +1277,65 @@ bool Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
 
 void Song::BindToQuery(SqlQuery *query) const {
 
-#define strval(x) ((x).isNull() ? "" : (x))
-#define intval(x) ((x) <= 0 ? -1 : (x))
-#define notnullintval(x) ((x) == -1 ? QVariant() : (x))
-
   // Remember to bind these in the same order as kBindSpec
 
-  query->BindValue(":title", strval(d->title_));
-  query->BindValue(":album", strval(d->album_));
-  query->BindValue(":artist", strval(d->artist_));
-  query->BindValue(":albumartist", strval(d->albumartist_));
-  query->BindValue(":track", intval(d->track_));
-  query->BindValue(":disc", intval(d->disc_));
-  query->BindValue(":year", intval(d->year_));
-  query->BindValue(":originalyear", intval(d->originalyear_));
-  query->BindValue(":genre", strval(d->genre_));
-  query->BindValue(":compilation", d->compilation_ ? 1 : 0);
-  query->BindValue(":composer", strval(d->composer_));
-  query->BindValue(":performer", strval(d->performer_));
-  query->BindValue(":grouping", strval(d->grouping_));
-  query->BindValue(":comment", strval(d->comment_));
-  query->BindValue(":lyrics", strval(d->lyrics_));
+  query->BindStringValue(":title", d->title_);
+  query->BindStringValue(":album", d->album_);
+  query->BindStringValue(":artist", d->artist_);
+  query->BindStringValue(":albumartist", d->albumartist_);
+  query->BindIntValue(":track", d->track_);
+  query->BindIntValue(":disc", d->disc_);
+  query->BindIntValue(":year", d->year_);
+  query->BindIntValue(":originalyear", d->originalyear_);
+  query->BindStringValue(":genre", d->genre_);
+  query->BindBoolValue(":compilation", d->compilation_);
+  query->BindStringValue(":composer", d->composer_);
+  query->BindStringValue(":performer", d->performer_);
+  query->BindStringValue(":grouping", d->grouping_);
+  query->BindStringValue(":comment", d->comment_);
+  query->BindStringValue(":lyrics", d->lyrics_);
 
-  query->BindValue(":artist_id", strval(d->artist_id_));
-  query->BindValue(":album_id", strval(d->album_id_));
-  query->BindValue(":song_id", strval(d->song_id_));
+  query->BindStringValue(":artist_id", d->artist_id_);
+  query->BindStringValue(":album_id", d->album_id_);
+  query->BindStringValue(":song_id", d->song_id_);
 
   query->BindValue(":beginning", d->beginning_);
-  query->BindValue(":length", intval(length_nanosec()));
+  query->BindLongLongValue(":length", length_nanosec());
 
-  query->BindValue(":bitrate", intval(d->bitrate_));
-  query->BindValue(":samplerate", intval(d->samplerate_));
-  query->BindValue(":bitdepth", intval(d->bitdepth_));
+  query->BindIntValue(":bitrate", d->bitrate_);
+  query->BindIntValue(":samplerate", d->samplerate_);
+  query->BindIntValue(":bitdepth", d->bitdepth_);
 
   query->BindValue(":source", d->source_);
-  query->BindValue(":directory_id", notnullintval(d->directory_id_));
-  query->BindValue(":url", d->url_.toString(QUrl::FullyEncoded));
+  query->BindNotNullIntValue(":directory_id", d->directory_id_);
+  query->BindUrlValue(":url", d->url_);
   query->BindValue(":filetype", d->filetype_);
-  query->BindValue(":filesize", notnullintval(d->filesize_));
-  query->BindValue(":mtime", notnullintval(d->mtime_));
-  query->BindValue(":ctime", notnullintval(d->ctime_));
-  query->BindValue(":unavailable", d->unavailable_ ? 1 : 0);
+  query->BindNotNullLongLongValue(":filesize", d->filesize_);
+  query->BindNotNullLongLongValue(":mtime", d->mtime_);
+  query->BindNotNullLongLongValue(":ctime", d->ctime_);
+  query->BindBoolValue(":unavailable", d->unavailable_);
 
-  query->BindValue(":fingerprint", strval(d->fingerprint_));
+  query->BindStringValue(":fingerprint", d->fingerprint_);
 
   query->BindValue(":playcount", d->playcount_);
   query->BindValue(":skipcount", d->skipcount_);
-  query->BindValue(":lastplayed", intval(d->lastplayed_));
-  query->BindValue(":lastseen", intval(d->lastseen_));
+  query->BindLongLongValue(":lastplayed", d->lastplayed_);
+  query->BindLongLongValue(":lastseen", d->lastseen_);
 
-  query->BindValue(":compilation_detected", d->compilation_detected_ ? 1 : 0);
-  query->BindValue(":compilation_on", d->compilation_on_ ? 1 : 0);
-  query->BindValue(":compilation_off", d->compilation_off_ ? 1 : 0);
-  query->BindValue(":compilation_effective", is_compilation() ? 1 : 0);
+  query->BindBoolValue(":compilation_detected", d->compilation_detected_);
+  query->BindBoolValue(":compilation_on", d->compilation_on_);
+  query->BindBoolValue(":compilation_off", d->compilation_off_);
+  query->BindBoolValue(":compilation_effective", is_compilation());
 
-  query->BindValue(":art_automatic", d->art_automatic_.isValid() ? d->art_automatic_.toString(QUrl::FullyEncoded) : "");
-  query->BindValue(":art_manual", d->art_manual_.isValid() ? d->art_manual_.toString(QUrl::FullyEncoded) : "");
+  query->BindUrlValue(":art_automatic", d->art_automatic_);
+  query->BindUrlValue(":art_manual", d->art_manual_);
 
-  query->BindValue(":effective_albumartist", strval(effective_albumartist()));
-  query->BindValue(":effective_originalyear", intval(effective_originalyear()));
+  query->BindStringValue(":effective_albumartist", effective_albumartist());
+  query->BindIntValue(":effective_originalyear", effective_originalyear());
 
   query->BindValue(":cue_path", d->cue_path_);
 
-  query->BindValue(":rating", intval(d->rating_));
-
-#undef intval
-#undef notnullintval
-#undef strval
+  query->BindFloatValue(":rating", d->rating_);
 
 }
 
@@ -1603,12 +1469,7 @@ bool Song::IsMetadataAndMoreEqual(const Song &other) const {
 }
 
 bool Song::IsEditable() const {
-
-  return d->valid_ &&
-         !d->url_.isEmpty() &&
-         (d->url_.isLocalFile() || d->source_ == Source_Stream) &&
-         !has_cue();
-
+  return d->valid_ && d->url_.isValid() && (d->url_.isLocalFile() || d->source_ == Source_Stream) && !has_cue();
 }
 
 bool Song::operator==(const Song &other) const {
@@ -1668,7 +1529,7 @@ void Song::ToXesam(QVariantMap *map) const {
   AddMetadataAsList("xesam:artist", artist(), map);
   AddMetadata("xesam:album", album(), map);
   AddMetadataAsList("xesam:albumArtist", albumartist(), map);
-  AddMetadata("mpris:length", length_nanosec() / kNsecPerUsec, map);
+  AddMetadata("mpris:length", (length_nanosec() / kNsecPerUsec), map);
   AddMetadata("xesam:trackNumber", track(), map);
   AddMetadataAsList("xesam:genre", genre(), map);
   AddMetadata("xesam:discNumber", disc(), map);
@@ -1676,7 +1537,7 @@ void Song::ToXesam(QVariantMap *map) const {
   AddMetadata("xesam:contentCreated", AsMPRISDateTimeType(ctime()), map);
   AddMetadata("xesam:lastUsed", AsMPRISDateTimeType(lastplayed()), map);
   AddMetadataAsList("xesam:composer", composer(), map);
-  AddMetadata("xesam:useCount", playcount(), map);
+  AddMetadata("xesam:useCount", static_cast<int>(playcount()), map);
 
 }
 
