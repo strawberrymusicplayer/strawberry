@@ -189,14 +189,18 @@ QString PlaylistDelegateBase::displayText(const QVariant &value, const QLocale&)
       if (v > 0) text = QString::number(v);
       break;
     }
-
+    case QMetaType::Long:
+    case QMetaType::LongLong: {
+      qint64 v = value.toLongLong();
+      if (v > 0) text = QString::number(v);
+      break;
+    }
     case QMetaType::Float:
     case QMetaType::Double: {
       double v = value.toDouble();
       if (v > 0) text = QString::number(v);
       break;
     }
-
     default:
       text = value.toString();
       break;
@@ -316,9 +320,9 @@ QString LengthItemDelegate::displayText(const QVariant &value, const QLocale&) c
 QString SizeItemDelegate::displayText(const QVariant &value, const QLocale&) const {
 
   bool ok = false;
-  int bytes = value.toInt(&ok);
+  qint64 bytes = value.toLongLong(&ok);
 
-  if (ok) return Utilities::PrettySize(bytes);
+  if (ok && bytes > 0) return Utilities::PrettySize(static_cast<quint64>(bytes));
   return QString();
 
 }
