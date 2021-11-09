@@ -47,14 +47,14 @@ void TranscoderOptionsVorbis::Load() {
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
 
-#define GET_BITRATE(variable, property)         \
-  int variable = s.value(property, -1).toInt(); \
-  (variable) = ((variable) == -1 ? 0 : (variable) / 1000)
+  int bitrate = s.value("bitrate", -1).toInt();
+  bitrate = bitrate == -1 ? 0 : bitrate / 1000;
 
-  GET_BITRATE(bitrate, "bitrate");
-  GET_BITRATE(min_bitrate, "min-bitrate");
-  GET_BITRATE(max_bitrate, "max-bitrate");
-#undef GET_BITRATE
+  int min_bitrate = s.value("min-bitrate", -1).toInt();
+  min_bitrate = min_bitrate == -1 ? 0 : min_bitrate / 1000;
+
+  int max_bitrate = s.value("max-bitrate", -1).toInt();
+  max_bitrate = max_bitrate == -1 ? 0 : max_bitrate / 1000;
 
   ui_->quality_slider->setValue(static_cast<int>(s.value("quality", 1.0).toDouble() * 10));
   ui_->managed->setChecked(s.value("managed", false).toBool());
@@ -71,14 +71,14 @@ void TranscoderOptionsVorbis::Save() {
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
 
-#define GET_BITRATE(variable, ui_slider) \
-  int variable = (ui_slider)->value();     \
-  (variable) = ((variable) == 0 ? -1 : (variable) * 1000)
+  int bitrate = ui_->bitrate_slider->value();
+  bitrate = bitrate == 0 ? -1 : bitrate * 1000;
 
-  GET_BITRATE(bitrate, ui_->bitrate_slider);
-  GET_BITRATE(min_bitrate, ui_->min_bitrate_slider);
-  GET_BITRATE(max_bitrate, ui_->max_bitrate_slider);
-#undef GET_BITRATE
+  int min_bitrate = ui_->min_bitrate_slider->value();
+  min_bitrate = min_bitrate == 0 ? -1 : min_bitrate * 1000;
+
+  int max_bitrate = ui_->max_bitrate_slider->value();
+  max_bitrate = max_bitrate == 0 ? -1 : max_bitrate * 1000;
 
   s.setValue("quality", static_cast<double>(ui_->quality_slider->value()) / 10);
   s.setValue("managed", ui_->managed->isChecked());
