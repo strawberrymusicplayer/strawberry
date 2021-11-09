@@ -479,15 +479,15 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
 
 QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptographicHash::Algorithm method) {
 
-  const int kBlockSize = 64;  // bytes
-  Q_ASSERT(key.length() <= kBlockSize);
+  constexpr int block_size = 64;
+  Q_ASSERT(key.length() <= block_size);
 
-  QByteArray inner_padding(kBlockSize, static_cast<char>(0x36));
-  QByteArray outer_padding(kBlockSize, static_cast<char>(0x5c));
+  QByteArray inner_padding(block_size, static_cast<char>(0x36));
+  QByteArray outer_padding(block_size, static_cast<char>(0x5c));
 
   for (int i = 0; i < key.length(); ++i) {
-    inner_padding[i] = inner_padding[i] ^ key[i];
-    outer_padding[i] = outer_padding[i] ^ key[i];
+    inner_padding[i] = static_cast<char>(inner_padding[i] ^ key[i]);
+    outer_padding[i] = static_cast<char>(outer_padding[i] ^ key[i]);
   }
 
   QByteArray part;
