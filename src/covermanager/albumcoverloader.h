@@ -98,14 +98,14 @@ class AlbumCoverLoader : public QObject {
   void ProcessTasks();
   void RemoteFetchFinished(QNetworkReply *reply, const QUrl &cover_url);
 
-  void SaveEmbeddedCover(const qint64 id, const QString &song_filename, const QString &cover_filename);
-  void SaveEmbeddedCover(const qint64 id, const QString &song_filename, const QImage &image);
-  void SaveEmbeddedCover(const qint64 id, const QString &song_filename, const QByteArray &image_data);
-  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> &urls, const QImage &image);
-  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> &urls, const QString &cover_filename);
-  void SaveEmbeddedCover(const qint64 id, const QList<QUrl> &urls, const QByteArray &image_data);
+  void SaveEmbeddedCover(const quint64 id, const QString &song_filename, const QString &cover_filename);
+  void SaveEmbeddedCover(const quint64 id, const QString &song_filename, const QImage &image);
+  void SaveEmbeddedCover(const quint64 id, const QString &song_filename, const QByteArray &image_data);
+  void SaveEmbeddedCover(const quint64 id, const QList<QUrl> &urls, const QImage &image);
+  void SaveEmbeddedCover(const quint64 id, const QList<QUrl> &urls, const QString &cover_filename);
+  void SaveEmbeddedCover(const quint64 id, const QList<QUrl> &urls, const QByteArray &image_data);
 
-  void SaveEmbeddedArtFinished(const qint64 id, TagReaderReply *reply, const bool cleared);
+  void SaveEmbeddedArtFinished(const quint64 id, TagReaderReply *reply, const bool cleared);
 
  protected:
 
@@ -167,7 +167,7 @@ class AlbumCoverLoader : public QObject {
 
   QThread *original_thread_;
 
-  QMultiMap<qint64, TagReaderReply*> tagreader_save_embedded_art_requests_;
+  QMultiMap<quint64, TagReaderReply*> tagreader_save_embedded_art_requests_;
 
 };
 
