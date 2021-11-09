@@ -526,13 +526,14 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
     }
 
     // Draw the bar
+    painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->drawPixmap(opt.rect.topLeft(), currenttrack_bar_left_[step]);
     painter->drawPixmap(opt.rect.topRight() - currenttrack_bar_right_[0].rect().topRight(), currenttrack_bar_right_[step]);
     painter->drawPixmap(middle, currenttrack_bar_mid_[step]);
 
     // Draw the play icon
     QPoint play_pos(currenttrack_bar_left_[0].width() / 3 * 2, (row_height - currenttrack_play_.height()) / 2);
-    painter->setRenderHint(QPainter::SmoothPixmapTransform);
+    //painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->drawPixmap(opt.rect.topLeft() + play_pos, is_paused ? currenttrack_pause_ : currenttrack_play_);
 
     // Set the font
