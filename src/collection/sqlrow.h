@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,23 +24,32 @@
 
 #include <QList>
 #include <QVariant>
+#include <QUrl>
 #include <QSqlQuery>
-
-class CollectionQuery;
 
 class SqlRow {
 
  public:
   SqlRow(const QSqlQuery &query);
 
-  const QVariant &value(int i) const { return columns_[i]; }
+  const QVariant value(const int number) const;
+  const QVariant value(const QString &name) const;
 
-  QList<QVariant> columns_;
+  QString ValueToString(const QString &n) const;
+  QUrl ValueToUrl(const QString &n) const;
+  int ValueToInt(const QString &n) const;
+  uint ValueToUInt(const QString &n) const;
+  qint64 ValueToLongLong(const QString &n) const;
+  float ValueToFloat(const QString &n) const;
+  bool ValueToBool(const QString& n) const;
 
  private:
   SqlRow();
 
   void Init(const QSqlQuery &query);
+
+  QMap<int, QVariant> columns_by_number_;
+  QMap<QString, QVariant> columns_by_name_;
 
 };
 
