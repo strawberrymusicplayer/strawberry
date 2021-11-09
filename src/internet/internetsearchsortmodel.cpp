@@ -55,23 +55,16 @@ bool InternetSearchSortModel::lessThan(const QModelIndex &left, const QModelInde
   const InternetSearchView::Result r1 = left.data(InternetSearchModel::Role_Result).value<InternetSearchView::Result>();
   const InternetSearchView::Result r2 = right.data(InternetSearchModel::Role_Result).value<InternetSearchView::Result>();
 
-#define CompareInt(field)                                       \
-  if (r1.metadata_.field() < r2.metadata_.field()) return true; \
-  if (r1.metadata_.field() > r2.metadata_.field()) return false
+  if (r1.metadata_.disc() < r2.metadata_.disc()) return true;
+  if (r1.metadata_.disc() > r2.metadata_.disc()) return false;
 
-  int ret = 0;
+  if (r1.metadata_.track() < r2.metadata_.track()) return true;
+  if (r1.metadata_.track() > r2.metadata_.track()) return false;
 
-#define CompareString(field)                                                     \
-  ret = QString::localeAwareCompare(r1.metadata_.field(), r2.metadata_.field()); \
-  if (ret < 0) return true;                                                      \
-  if (ret > 0) return false
-
-  CompareInt(disc);
-  CompareInt(track);
-  CompareString(title);
+  int ret = QString::localeAwareCompare(r1.metadata_.title(), r2.metadata_.title());
+  if (ret < 0) return true;
+  if (ret > 0) return false;
 
   return false;
 
-#undef CompareInt
-#undef CompareString
 }
