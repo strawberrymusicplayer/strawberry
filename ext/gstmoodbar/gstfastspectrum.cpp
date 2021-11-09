@@ -34,30 +34,20 @@
 #include "gstfastspectrum.h"
 
 GST_DEBUG_CATEGORY_STATIC(gst_fastspectrum_debug);
-#define GST_CAT_DEFAULT gst_fastspectrum_debug
 
-// elementfactory information
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-#  define FORMATS "{ S16LE, S24LE, S32LE, F32LE, F64LE }"
-#else
-#  define FORMATS "{ S16BE, S24BE, S32BE, F32BE, F64BE }"
-#endif
-
-#define ALLOWED_CAPS                \
-  GST_AUDIO_CAPS_MAKE(FORMATS)      \
-  ", "                              \
-  "layout = (string) interleaved, " \
-  "channels = 1"
+namespace {
 
 // Spectrum properties
-#define DEFAULT_INTERVAL (GST_SECOND / 10)
-#define DEFAULT_BANDS    128
+constexpr auto DEFAULT_INTERVAL = (GST_SECOND / 10);
+constexpr auto DEFAULT_BANDS = 128;
 
 enum {
   PROP_0,
   PROP_INTERVAL,
   PROP_BANDS
 };
+
+}  // namespace
 
 #define gst_fastspectrum_parent_class parent_class
 G_DEFINE_TYPE(GstFastSpectrum, gst_fastspectrum, GST_TYPE_AUDIO_FILTER)
@@ -102,7 +92,12 @@ static void gst_fastspectrum_class_init(GstFastSpectrumClass *klass) {
     "Stefan Kost <ensonic@users.sf.net>, "
     "Sebastian Dröge <sebastian.droege@collabora.co.uk>");
 
-  caps = gst_caps_from_string(ALLOWED_CAPS);
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+  caps = gst_caps_from_string(GST_AUDIO_CAPS_MAKE("{ S16LE, S24LE, S32LE, F32LE, F64LE }") ", layout = (string) interleaved, channels = 1");
+#else
+  caps = gst_caps_from_string(GST_AUDIO_CAPS_MAKE("{ S16BE, S24BE, S32BE, F32BE, F64BE }") ", layout = (string) interleaved, channels = 1");
+#endif
+
   gst_audio_filter_class_add_pad_templates(filter_class, caps);
   gst_caps_unref(caps);
 
