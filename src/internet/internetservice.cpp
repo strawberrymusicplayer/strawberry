@@ -26,7 +26,7 @@
 
 class Application;
 
-InternetService::InternetService(Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, SettingsDialog::Page settings_page, Application *app, QObject *parent)
+InternetService::InternetService(const Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, const SettingsDialog::Page settings_page, Application *app, QObject *parent)
     : QObject(parent),
       app_(app),
       source_(source),

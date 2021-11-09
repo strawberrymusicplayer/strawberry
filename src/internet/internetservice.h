@@ -41,7 +41,7 @@ class InternetService : public QObject {
   Q_OBJECT
 
  public:
-  explicit InternetService(Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, SettingsDialog::Page settings_page, Application *app, QObject *parent = nullptr);
+  explicit InternetService(const Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, const SettingsDialog::Page settings_page, Application *app, QObject *parent = nullptr);
 
   ~InternetService() override {}
   virtual void Exit() {}
