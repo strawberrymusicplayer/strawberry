@@ -36,9 +36,9 @@
 class CollectionBackendInterface;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-#  define qt_endl Qt::endl
+constexpr auto qt_endl = Qt::endl;
 #else
-#  define qt_endl endl
+constexpr auto qt_endl = endl;
 #endif
 
 PLSParser::PLSParser(CollectionBackendInterface *collection, QObject *parent)
