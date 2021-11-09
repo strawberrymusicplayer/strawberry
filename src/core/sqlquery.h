@@ -34,6 +34,15 @@ class SqlQuery : public QSqlQuery {
   explicit SqlQuery(const QSqlDatabase &db) : QSqlQuery(db) {}
 
   void BindValue(const QString &placeholder, const QVariant &value);
+  void BindStringValue(const QString &placeholder, const QString &value);
+  void BindUrlValue(const QString &placeholder, const QUrl &value);
+  void BindIntValue(const QString &placeholder, const int value);
+  void BindLongLongValue(const QString &placeholder, const qint64 value);
+  void BindFloatValue(const QString &placeholder, const float value);
+  void BindBoolValue(const QString &placeholder, const bool value);
+  void BindNotNullIntValue(const QString &placeholder, const int value);
+  void BindNotNullLongLongValue(const QString &placeholder, const qint64 value);
+
   bool Exec();
   QString LastQuery() const;
 
