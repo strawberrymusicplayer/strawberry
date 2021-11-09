@@ -113,8 +113,8 @@ void RegisterMetaTypes() {
   qRegisterMetaType<GstElement*>("GstElement*");
   qRegisterMetaType<GstEnginePipeline*>("GstEnginePipeline*");
 #endif
-  qRegisterMetaType<PlaylistItemList>("PlaylistItemList");
   qRegisterMetaType<PlaylistItemPtr>("PlaylistItemPtr");
+  qRegisterMetaType<PlaylistItemList>("PlaylistItemList");
   qRegisterMetaType<QList<PlaylistItemPtr>>("QList<PlaylistItemPtr>");
   qRegisterMetaType<PlaylistSequence::RepeatMode>("PlaylistSequence::RepeatMode");
   qRegisterMetaType<PlaylistSequence::ShuffleMode>("PlaylistSequence::ShuffleMode");
