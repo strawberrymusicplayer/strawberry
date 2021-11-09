@@ -43,7 +43,6 @@
 #include "core/song.h"
 #include "collection/collectionquery.h"
 #include "collection/collectionitem.h"
-#include "collection/sqlrow.h"
 #include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 
@@ -70,11 +69,6 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
     Role_Artist,
     Role_Editable,
     LastRole
-  };
-
-  struct QueryResult {
-    QueryResult() {}
-    SqlRowList rows;
   };
 
   void GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const;

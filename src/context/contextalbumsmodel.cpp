@@ -46,7 +46,6 @@
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionitem.h"
-#include "collection/sqlrow.h"
 #include "playlist/playlistmanager.h"
 #include "playlist/songmimedata.h"
 #include "covermanager/albumcoverloader.h"
