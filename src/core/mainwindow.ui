@@ -448,7 +448,7 @@
      <x>0</x>
      <y>0</y>
      <width>1131</width>
-     <height>24</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_music">
@@ -792,10 +792,6 @@
    </property>
   </action>
   <action name="action_auto_complete_tags">
-   <property name="icon">
-    <iconset resource="../../data/data.qrc">
-     <normaloff>:/pictures/musicbrainz.png</normaloff>:/pictures/musicbrainz.png</iconset>
-   </property>
    <property name="text">
     <string>Complete tags automatically...</string>
    </property>
