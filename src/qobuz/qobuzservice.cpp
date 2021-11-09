@@ -161,8 +161,8 @@ QobuzService::QobuzService(Application *app, QObject *parent)
 
   QObject::connect(this, &QobuzService::RemoveArtists, favorite_request_, &QobuzFavoriteRequest::RemoveArtists);
   QObject::connect(this, &QobuzService::RemoveAlbums, favorite_request_, &QobuzFavoriteRequest::RemoveAlbums);
-  QObject::connect(this, QOverload<SongList>::of(&QobuzService::RemoveSongs), favorite_request_, QOverload<const SongList&>::of(&QobuzFavoriteRequest::RemoveSongs));
-  QObject::connect(this, QOverload<SongMap>::of(&QobuzService::RemoveSongs), favorite_request_, QOverload<const SongMap&>::of(&QobuzFavoriteRequest::RemoveSongs));
+  QObject::connect(this, &QobuzService::RemoveSongsByList, favorite_request_, QOverload<const SongList&>::of(&QobuzFavoriteRequest::RemoveSongs));
+  QObject::connect(this, &QobuzService::RemoveSongsByMap, favorite_request_, QOverload<const SongMap&>::of(&QobuzFavoriteRequest::RemoveSongs));
 
   QObject::connect(favorite_request_, &QobuzFavoriteRequest::ArtistsAdded, artists_collection_backend_, &CollectionBackend::AddOrUpdateSongs);
   QObject::connect(favorite_request_, &QobuzFavoriteRequest::AlbumsAdded, albums_collection_backend_, &CollectionBackend::AddOrUpdateSongs);

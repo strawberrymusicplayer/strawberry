@@ -127,8 +127,8 @@ class InternetService : public QObject {
 
   void RemoveArtists(SongList songs);
   void RemoveAlbums(SongList songs);
-  void RemoveSongs(SongList songs);
-  void RemoveSongs(SongMap songs);
+  void RemoveSongsByList(SongList songs);
+  void RemoveSongsByMap(SongMap songs);
 
   void StreamURLFailure(uint id, QUrl original_url, QString error);
   void StreamURLSuccess(uint id, QUrl original_url, QUrl stream_url, Song::FileType filetype, int samplerate, int bit_depth, qint64 duration);

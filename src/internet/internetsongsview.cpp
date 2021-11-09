@@ -63,7 +63,7 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
   ui_->filter_widget->AddMenuAction(action_configure);
 
   QObject::connect(ui_->view, &InternetCollectionView::GetSongs, this, &InternetSongsView::GetSongs);
-  QObject::connect(ui_->view, &InternetCollectionView::RemoveSongs, service_, QOverload<SongList>::of(&InternetService::RemoveSongs));
+  QObject::connect(ui_->view, &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveSongsByList);
 
   QObject::connect(ui_->refresh, &QPushButton::clicked, this, &InternetSongsView::GetSongs);
   QObject::connect(ui_->close, &QPushButton::clicked, this, &InternetSongsView::AbortGetSongs);
