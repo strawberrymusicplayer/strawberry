@@ -988,7 +988,7 @@ msgstr "音频输出"
 msgid "Audio quality"
 msgstr "音频质量"
 
-#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:255
+#: tidal/tidalrequest.cpp:118 qobuz/qobuzservice.cpp:261
 msgid "Authenticating..."
 msgstr "正在验证..."
 
@@ -2984,7 +2984,7 @@ msgstr ""
 msgid "Maximum bitrate"
 msgstr "最大位速率"
 
-#: qobuz/qobuzservice.cpp:468
+#: qobuz/qobuzservice.cpp:474
 msgid "Maximum number of login attempts reached."
 msgstr ""
 
@@ -3009,21 +3009,21 @@ msgstr "最小位速率"
 msgid "Missing API token."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:720 qobuz/qobuzstreamurlrequest.cpp:85
+#: qobuz/qobuzservice.cpp:726 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:472 qobuz/qobuzservice.cpp:501
-#: qobuz/qobuzservice.cpp:556 qobuz/qobuzservice.cpp:609
-#: qobuz/qobuzservice.cpp:674
+#: qobuz/qobuzservice.cpp:478 qobuz/qobuzservice.cpp:507
+#: qobuz/qobuzservice.cpp:562 qobuz/qobuzservice.cpp:615
+#: qobuz/qobuzservice.cpp:680
 msgid "Missing Qobuz app ID."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:480
+#: qobuz/qobuzservice.cpp:486
 msgid "Missing Qobuz password."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:476
+#: qobuz/qobuzservice.cpp:482
 msgid "Missing Qobuz username."
 msgstr ""
 
@@ -3031,13 +3031,13 @@ msgstr ""
 msgid "Missing Subsonic username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:753 tidal/tidalservice.cpp:813
-#: tidal/tidalservice.cpp:871 tidal/tidalservice.cpp:937
-#: tidal/tidalservice.cpp:998 tidal/tidalstreamurlrequest.cpp:91
+#: tidal/tidalservice.cpp:752 tidal/tidalservice.cpp:812
+#: tidal/tidalservice.cpp:870 tidal/tidalservice.cpp:936
+#: tidal/tidalservice.cpp:997 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:714
+#: tidal/tidalservice.cpp:713
 msgid "Missing Tidal API token."
 msgstr ""
 
@@ -3045,11 +3045,11 @@ msgstr ""
 msgid "Missing Tidal client ID."
 msgstr ""
 
-#: tidal/tidalservice.cpp:722
+#: tidal/tidalservice.cpp:721
 msgid "Missing Tidal password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:718
+#: tidal/tidalservice.cpp:717
 msgid "Missing Tidal username."
 msgstr ""
 
@@ -3256,19 +3256,19 @@ msgstr ""
 msgid "Normal block type"
 msgstr "普通块类型"
 
-#: qobuz/qobuzservice.cpp:506 qobuz/qobuzservice.cpp:561
-#: qobuz/qobuzservice.cpp:614
+#: qobuz/qobuzservice.cpp:512 qobuz/qobuzservice.cpp:567
+#: qobuz/qobuzservice.cpp:620
 msgid "Not authenticated with Qobuz."
 msgstr ""
 
-#: tidal/tidalservice.cpp:726
+#: tidal/tidalservice.cpp:725
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 
-#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:808
-#: tidal/tidalservice.cpp:866 tidal/tidalservice.cpp:932
-#: tidal/tidalservice.cpp:994 tidal/tidalstreamurlrequest.cpp:87
+#: tidal/tidalservice.cpp:747 tidal/tidalservice.cpp:807
+#: tidal/tidalservice.cpp:865 tidal/tidalservice.cpp:931
+#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr ""
 
@@ -3785,6 +3785,19 @@ msgstr ""
 msgid "Really cancel?"
 msgstr "确实取消？"
 
+#: tidal/tidalstreamurlrequest.cpp:228
+#, qt-format
+msgid ""
+"Received URL with %1 encrypted stream from Tidal. Strawberry does not "
+"currently support encrypted streams."
+msgstr ""
+
+#: tidal/tidalstreamurlrequest.cpp:281 tidal/tidalstreamurlrequest.cpp:291
+msgid ""
+"Received URL with encrypted stream from Tidal. Strawberry does not currently "
+"support encrypted streams."
+msgstr ""
+
 #: covermanager/spotifycoverprovider.cpp:197
 #: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:207
 msgid "Received invalid reply from web browser."
@@ -3944,7 +3957,7 @@ msgstr "回放增益"
 msgid "Replay Gain mode"
 msgstr "回放增益模式"
 
-#: tidal/tidalservice.cpp:375
+#: tidal/tidalservice.cpp:374
 msgid "Reply from Tidal is missing query items."
 msgstr ""
 
