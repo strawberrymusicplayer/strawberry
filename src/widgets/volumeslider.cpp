@@ -161,9 +161,6 @@ void SliderSlider::setValue(int newValue) {
 /// CLASS PrettySlider
 //////////////////////////////////////////////////////////////////////////////////////////
 
-#define THICKNESS 7
-#define MARGIN 3
-
 PrettySlider::PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget *parent, const uint max)
     : SliderSlider(orientation, parent, static_cast<int>(max)), m_mode(mode) {
 
