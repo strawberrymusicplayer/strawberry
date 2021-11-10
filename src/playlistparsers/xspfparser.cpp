@@ -154,7 +154,7 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
 
   StreamElement tracklist("trackList", &writer);
   for (const Song &song : songs) {
-    QString filename_or_url = URLOrFilename(song.url(), dir, path_type).toUtf8();
+    QString filename_or_url = QUrl::toPercentEncoding(URLOrFilename(song.url(), dir, path_type));
 
     StreamElement track("track", &writer);
     writer.writeTextElement("location", filename_or_url);
