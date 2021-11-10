@@ -432,7 +432,7 @@ bool GstEngine::ValidOutput(const QString &output) {
 }
 
 bool GstEngine::CustomDeviceSupport(const QString &output) {
-  return (output == kALSASink || output == kOpenALSASink || output == kOSSSink || output == kOSS4Sink || output == kPulseSink || output == kA2DPSink || output == kAVDTPSink);
+  return (output == kALSASink || output == kOpenALSASink || output == kOSSSink || output == kOSS4Sink || output == kPulseSink || output == kA2DPSink || output == kAVDTPSink || output == kJackAudioSink);
 }
 
 bool GstEngine::ALSADeviceSupport(const QString &output) {
