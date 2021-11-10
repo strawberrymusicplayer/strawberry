@@ -278,49 +278,111 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     return false;
   }
 
-  if (device_.isValid() && g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink), "device")) {
+  if (device_.isValid()) {
+    if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink), "device")) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    switch (device_.metaType().id()) {
-      case QMetaType::QString:
+      switch (device_.metaType().id()) {
 #else
-    switch (device_.type()) {
-      case QVariant::String:
+      switch (device_.type()) {
 #endif
-        if (device_.toString().isEmpty()) break;
-        g_object_set(G_OBJECT(audiosink), "device", device_.toString().toUtf8().constData(), nullptr);
-        break;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-      case QMetaType::QByteArray:
+        case QMetaType::QString:{
 #else
-      case QVariant::ByteArray:
+        case QVariant::String:{
 #endif
-        g_object_set(G_OBJECT(audiosink), "device", device_.toByteArray().constData(), nullptr);
-        break;
+          QString device = device_.toString();
+          if (!device.isEmpty()) {
+            qLog(Debug) << "Setting device" << device << "for" << output_;
+            g_object_set(G_OBJECT(audiosink), "device", device.toUtf8().constData(), nullptr);
+          }
+          break;
+        }
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-      case QMetaType::LongLong:
+        case QMetaType::QByteArray:{
 #else
-      case QVariant::LongLong:
+        case QVariant::ByteArray:{
 #endif
-        g_object_set(G_OBJECT(audiosink), "device", device_.toLongLong(), nullptr);
-        break;
+          QByteArray device = device_.toByteArray();
+          if (!device.isEmpty()) {
+            qLog(Debug) << "Setting device" << device_ << "for" << output_;
+            g_object_set(G_OBJECT(audiosink), "device", device.constData(), nullptr);
+          }
+          break;
+        }
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-      case QMetaType::Int:
+        case QMetaType::LongLong:{
 #else
-      case QVariant::Int:
+        case QVariant::LongLong:{
 #endif
-        g_object_set(G_OBJECT(audiosink), "device", device_.toInt(), nullptr);
-        break;
+          qint64 device = device_.toLongLong();
+          qLog(Debug) << "Setting device" << device << "for" << output_;
+          g_object_set(G_OBJECT(audiosink), "device", device, nullptr);
+          break;
+        }
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-      case QMetaType::QUuid:
+        case QMetaType::Int:{
 #else
-      case QVariant::Uuid:
+        case QVariant::Int:{
 #endif
-        g_object_set(G_OBJECT(audiosink), "device", device_.toUuid(), nullptr);
-        break;
-      default:
-        qLog(Warning) << "Unknown device type" << device_;
-        break;
+          int device = device_.toInt();
+          qLog(Debug) << "Setting device" << device << "for" << output_;
+          g_object_set(G_OBJECT(audiosink), "device", device, nullptr);
+          break;
+        }
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::QUuid:{
+#else
+        case QVariant::Uuid:{
+#endif
+          QUuid device = device_.toUuid();
+          qLog(Debug) << "Setting device" << device << "for" << output_;
+          g_object_set(G_OBJECT(audiosink), "device", device, nullptr);
+          break;
+        }
+        default:
+          qLog(Warning) << "Unknown device type" << device_;
+          break;
+      }
     }
+
+    else if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink), "port-pattern")) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+      switch (device_.metaType().id()) {
+#else
+      switch (device_.type()) {
+#endif
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::QString:{
+#else
+        case QVariant::String:{
+#endif
+          QString port_pattern = device_.toString();
+          if (!port_pattern.isEmpty()) {
+            qLog(Debug) << "Setting port pattern" << port_pattern << "for" << output_;
+            g_object_set(G_OBJECT(audiosink), "port-pattern", port_pattern.toUtf8().constData(), nullptr);
+          }
+          break;
+        }
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::QByteArray:{
+#else
+        case QVariant::ByteArray:{
+#endif
+          QByteArray port_pattern = device_.toByteArray();
+          if (!port_pattern.isEmpty()) {
+            qLog(Debug) << "Setting port pattern" << port_pattern << "for" << output_;
+            g_object_set(G_OBJECT(audiosink), "port-pattern", port_pattern.constData(), nullptr);
+          }
+          break;
+        }
+
+        default:
+          break;
+
+      }
+    }
+
   }
 
   // Create all the other elements
