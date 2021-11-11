@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-11-02 11:36-0400\n"
+"PO-Revision-Date: 2021-11-10 01:08-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -3477,7 +3477,7 @@ msgstr "Alternativ för utgång"
 
 #: ../build/src/ui_collectionsettingspage.h:559
 msgid "Overwrite database rating when songs are re-read from disk"
-msgstr ""
+msgstr "Skriv över databasbetyg när låtar läses om från disk"
 
 #: ../build/src/ui_collectionsettingspage.h:546
 msgid "Overwrite existing file"
@@ -3854,12 +3854,16 @@ msgid ""
 "Received URL with %1 encrypted stream from Tidal. Strawberry does not "
 "currently support encrypted streams."
 msgstr ""
+"Mottagen webbadress med %1 krypterad ström från Tidal. Strawberry stöder för "
+"närvarande inte krypterade flöden."
 
 #: tidal/tidalstreamurlrequest.cpp:281 tidal/tidalstreamurlrequest.cpp:291
 msgid ""
 "Received URL with encrypted stream from Tidal. Strawberry does not currently "
 "support encrypted streams."
 msgstr ""
+"Mottagen webbadress med krypterad ström från Tidal. Strawberry stöder för "
+"närvarande inte krypterade flöden."
 
 #: covermanager/spotifycoverprovider.cpp:197
 #: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:207
@@ -4869,7 +4873,7 @@ msgstr "Väldigt hög (%1 fps)"
 
 #: ../build/src/ui_deviceproperties.h:375
 msgid "Supported formats"
-msgstr "Stödda format"
+msgstr "Format som stöds"
 
 #: moodbar/moodbarrenderer.cpp:179
 msgid "System colors"
@@ -5073,7 +5077,7 @@ msgstr "Det här alternativet kan ändras i inställningarna för \"Beteende\""
 #: device/devicemanager.cpp:633
 #, qt-format
 msgid "This type of device is not supported: %1"
-msgstr "Den här typen av enhet är inte stödd: %1"
+msgstr "Den här typen av enhet stöds inte: %1"
 
 #: core/mainwindow.cpp:361 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
