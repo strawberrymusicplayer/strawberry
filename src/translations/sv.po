@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-11-10 01:08-0500\n"
+"PO-Revision-Date: 2021-11-12 03:39-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -52,7 +52,7 @@ msgid ""
 "be configured in cinnamon-settings-daemon instead."
 msgstr ""
 " Genvägar till %1 används vanligtvis via Gnome-inställningsdemon och ska "
-"istället konfigureras i cinnamon-settings-daemon."
+"istället anpassas i cinnamon-settings-daemon."
 
 #: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
@@ -61,7 +61,7 @@ msgid ""
 "be configured in gnome-settings-daemon instead."
 msgstr ""
 " Genvägar till %1 används vanligtvis via Gnome-inställningsdemon och ska "
-"istället konfigureras i gnome-settings-daemon."
+"istället anpassas i gnome-settings-daemon."
 
 #: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
@@ -70,7 +70,7 @@ msgid ""
 "configured there instead."
 msgstr ""
 " Genvägar till %1 används vanligtvis via Mate-inställningsdemon och ska "
-"istället konfigureras där."
+"istället anpassas där."
 
 #: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
@@ -1396,15 +1396,15 @@ msgstr "Konfiguration felaktig"
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
-msgstr "Konfigurera %1..."
+msgstr "Anpassa %1..."
 
 #: ../build/src/ui_appearancesettingspage.h:628
 msgid "Configure buttons"
-msgstr "Konfigurera knappar"
+msgstr "Anpassa knappar"
 
 #: core/mainwindow.cpp:660
 msgid "Configure collection..."
-msgstr "Konfigurera samling..."
+msgstr "Anpassa samling..."
 
 #: device/devicemanager.cpp:353 device/devicemanager.cpp:354
 msgid "Connect device"
