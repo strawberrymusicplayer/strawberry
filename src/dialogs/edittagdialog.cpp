@@ -134,7 +134,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   ui_->loading_label->hide();
   ui_->label_lyrics->hide();
 
-  ui_->fetch_tag->setIcon(QPixmap::fromImage(QImage(":/pictures/musicbrainz.png")));
+  ui_->fetch_tag->setIcon(IconLoader::Load("musicbrainz"));
 #ifdef HAVE_MUSICBRAINZ
   ui_->fetch_tag->setEnabled(true);
 #else

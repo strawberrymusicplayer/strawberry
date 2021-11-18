@@ -842,7 +842,7 @@ p, li { white-space: pre-wrap; }
             </property>
             <property name="icon">
              <iconset resource="../../data/data.qrc">
-              <normaloff>:/pictures/musicbrainz.png</normaloff>:/pictures/musicbrainz.png</iconset>
+              <normaloff>:/icons/32x32/musicbrainz.png</normaloff>:/icons/32x32/musicbrainz.png</iconset>
             </property>
             <property name="iconSize">
              <size>
