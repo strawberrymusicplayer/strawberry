@@ -38,13 +38,14 @@
 # Achim Schaefer <translate.zanata.org@schaefer-home.eu>, 2019. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Guido T. <GuidoTelscher@web.de>, 2020. #zanata
+# Lian Begett <zanata@bunbun.de>, 2021. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-11-19 03:15-0500\n"
-"Last-Translator: Guido T. <GuidoTelscher@web.de>\n"
+"PO-Revision-Date: 2021-11-21 05:36-0500\n"
+"Last-Translator: Lian Begett <zanata@bunbun.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -71,6 +72,9 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in cinnamon-settings-daemon instead."
 msgstr ""
+"Verknüpfungen zu %1 werden normalerweise über Gnome Settings Daemon "
+"verwendet und sollten stattdessen im cinnamon-settings-daemon konfiguriert "
+"werden."
 
 #: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
@@ -78,6 +82,9 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in gnome-settings-daemon instead."
 msgstr ""
+"Verknüpfungen zu %1 werden normalerweise über Gnome Settings Daemon "
+"verwendet und sollten stattdessen im gnome-settings-daemon konfiguriert "
+"werden."
 
 #: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
@@ -85,6 +92,8 @@ msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
 "configured there instead."
 msgstr ""
+"Verknüpfungen zu %1 werden normalerweise über MATE Settings Daemon verwendet "
+"und sollten stattdessen dort konfiguriert werden."
 
 #: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
@@ -227,7 +236,7 @@ msgstr ""
 #: dialogs/edittagdialog.cpp:654
 #, qt-format
 msgid "%1 songs selected."
-msgstr ""
+msgstr "%1 Lieder ausgewählt."
 
 #: playlist/playlistmanager.cpp:481 queue/queue.cpp:256
 #, qt-format
@@ -274,11 +283,11 @@ msgstr "%n verbleibend"
 #: ../build/src/ui_contextsettingspage.h:428
 #: ../build/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
-msgstr ""
+msgstr "%originalyear%"
 
 #: ../build/src/ui_contextsettingspage.h:424
 msgid "%rating%"
-msgstr ""
+msgstr "%rating%"
 
 #: ../build/src/ui_contextsettingspage.h:433
 msgid "%title - %artist%"
@@ -287,7 +296,7 @@ msgstr "%Titel - %Künstler%"
 #: ../build/src/ui_contextsettingspage.h:420
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
-msgstr ""
+msgstr "%url%"
 
 #: ../build/src/ui_mainwindow.h:650
 msgid "&About Strawberry"
@@ -499,6 +508,16 @@ msgid ""
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
 "size:10pt;\"><br /></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" "
+"/><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Noto Sans'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt;\"><br /></p></body></html>"
 
 #: ../build/src/ui_organizedialog.h:267
 msgid ""
@@ -548,7 +567,7 @@ msgstr "AAC"
 
 #: ../build/src/ui_backendsettingspage.h:543
 msgid "ALSA plugin:"
-msgstr ""
+msgstr "ALSA-Plugin:"
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
@@ -647,7 +666,7 @@ msgstr "Ergänze Suchbegriff"
 #: ../build/src/ui_contextsettingspage.h:422
 #: ../build/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
-msgstr ""
+msgstr "Lied-URL hinzufügen"
 
 #: ../build/src/ui_contextsettingspage.h:375
 #: ../build/src/ui_notificationssettingspage.h:420
@@ -697,7 +716,7 @@ msgstr "Titellänge hinzufügen"
 #: ../build/src/ui_contextsettingspage.h:430
 #: ../build/src/ui_notificationssettingspage.h:474
 msgid "Add song original year tag"
-msgstr ""
+msgstr "Original-Titelerscheinungsjahr hinzufügen"
 
 #: ../build/src/ui_contextsettingspage.h:390
 #: ../build/src/ui_notificationssettingspage.h:435
@@ -829,7 +848,7 @@ msgstr "Album-Interpret"
 
 #: dialogs/edittagdialog.cpp:830
 msgid "Album cover editing is only available for collection songs."
-msgstr ""
+msgstr "Das Bearbeiten von Titelbildern ist nur in der Sammlung möglich."
 
 #: ../build/src/ui_collectionsettingspage.h:549
 msgid "Album cover pixmap cache"
@@ -914,7 +933,7 @@ msgstr "Beim Laden der iTunes-Datenbank ist ein Fehler aufgetreten"
 #: dialogs/edittagdialog.cpp:1371
 #, qt-format
 msgid "An error occurred writing cover art to '%1'"
-msgstr ""
+msgstr "Beim Schreiben des Titelbilds für '%1' trat ein Fehler auf"
 
 #: playlist/playlist.cpp:426 dialogs/edittagdialog.cpp:1348
 #, qt-format
@@ -939,7 +958,7 @@ msgstr "Erscheinungsbild"
 
 #: ../build/src/ui_tidalsettingspage.h:339
 msgid "Append explicit to album title for explicit albums"
-msgstr ""
+msgstr "\"Nicht jugendfrei\" zu Titeln nicht jugendfreier Alben hinzufügen"
 
 #: core/commandlineoptions.cpp:187
 msgid "Append files/URLs to the playlist"
@@ -980,14 +999,16 @@ msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
 msgstr ""
+"Sind Sie sicher, dass Sie Wiedergaben und Bewertungen für alle Lieder in der "
+"Sammlung in eine Datei schreiben möchten?"
 
 #: ../build/src/ui_edittagdialog.h:826
 msgid "Art Automatic"
-msgstr ""
+msgstr "Bild automatisch"
 
 #: ../build/src/ui_edittagdialog.h:823
 msgid "Art Manual"
-msgstr ""
+msgstr "Bild manuell"
 
 #: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1337
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
@@ -1047,7 +1068,7 @@ msgstr "Legitimierung fehlgeschlagen"
 
 #: ../build/src/ui_subsonicsettingspage.h:229
 msgid "Authentication method:"
-msgstr ""
+msgstr "Authentifizierungsmethode:"
 
 #: dialogs/about.cpp:143
 msgid "Author and maintainer"
@@ -1068,7 +1089,7 @@ msgstr "Automatisches Aktualisieren"
 #: dialogs/edittagdialog.cpp:825
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
-msgstr ""
+msgstr "Automatisches Titelbild von %1 fehlt"
 
 #: ../build/src/ui_collectionsettingspage.h:534
 msgid "Automatically open single categories in the collection tree"
@@ -1235,7 +1256,7 @@ msgstr "Abgebrochen."
 
 #: ../build/src/ui_edittagdialog.h:830
 msgid "Change art"
-msgstr ""
+msgstr "Bild ändern"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
@@ -1299,7 +1320,7 @@ msgstr "Lösche Plattenspeicher"
 
 #: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Clear cover"
-msgstr ""
+msgstr "Bild zurücksetzen"
 
 #: core/mainwindow.cpp:2278 ../build/src/ui_mainwindow.h:631
 msgid "Clear playlist"
@@ -1486,6 +1507,9 @@ msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
 "avoid losing configuration before you uninstall the snap:"
 msgstr ""
+"Bevor Sie den Snap deinstallieren, sollten Sie die strawberry.conf und "
+"strawberry.db aus dem Ordner ~/snap kopieren, um Ihre Einstellungen nicht zu "
+"verlieren:"
 
 #: transcoder/transcoder.cpp:66
 #, qt-format
@@ -1499,7 +1523,7 @@ msgstr ""
 #: core/songloader.cpp:316
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
-msgstr ""
+msgstr "Konnte nicht CUE-Datei %1 zum Lesen öffnen: %2"
 
 #: scrobbler/scrobblingapi20.cpp:176
 msgid "Could not open URL. Please open this URL in your browser"
@@ -1508,17 +1532,17 @@ msgstr "Konnte die URL nicht öffnen. Bitte diese URL im Browser öffnen"
 #: core/songloader.cpp:284
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
-msgstr ""
+msgstr "Konnte Datei %1 nicht zum Lesen öffnen: %2"
 
 #: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
-msgstr ""
+msgstr "Konnte nicht die Wiedergabeliste %1 zum Lesen öffnen: %2"
 
 #: core/songloader.cpp:480
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
-msgstr ""
+msgstr "Konnte GStreamer-Quellelement für %1 nicht erzeugen"
 
 #: playlist/playlistmanager.cpp:208
 msgid "Couldn't create playlist"
@@ -1550,7 +1574,7 @@ msgstr "Titelbildverwaltung"
 #: dialogs/edittagdialog.cpp:819
 #, qt-format
 msgid "Cover art automatically loaded from %1"
-msgstr ""
+msgstr "Automatisch geladenes Titelbild von %1"
 
 #: dialogs/edittagdialog.cpp:816
 msgid "Cover art from embedded image"
@@ -1566,24 +1590,24 @@ msgstr "Titelbild nicht ausgewählt"
 
 #: dialogs/edittagdialog.cpp:791
 msgid "Cover changed: Will be cleared when saved."
-msgstr ""
+msgstr "Titelbild geändert: wird beim Speichern geleert."
 
 #: dialogs/edittagdialog.cpp:797
 msgid "Cover changed: Will be deleted when saved."
-msgstr ""
+msgstr "Titelbild geändert: wird beim Speichern gelöscht."
 
 #: dialogs/edittagdialog.cpp:794
 msgid "Cover changed: Will be unset when saved."
-msgstr ""
+msgstr "Titelbild geändert: wird beim Speichern zurückgesetzt."
 
 #: dialogs/edittagdialog.cpp:800
 msgid "Cover changed: Will set new when saved."
-msgstr ""
+msgstr "Titelbild geändert: wird beim Speichern neu gesetzt."
 
 #: covermanager/albumcoverchoicecontroller.cpp:187
 #, qt-format
 msgid "Cover file %1 is empty."
-msgstr ""
+msgstr "Titelbild-Datei %1 ist leer."
 
 #: ../build/src/ui_coverssettingspage.h:163
 msgid "Cover providers"
@@ -1681,7 +1705,7 @@ msgstr "Benutzerdefiniert"
 
 #: ../build/src/ui_appearancesettingspage.h:633
 msgid "Custom color"
-msgstr ""
+msgstr "Benutzerdefinierte Farbe"
 
 #: ../build/src/ui_appearancesettingspage.h:607
 msgid "Custom image:"
@@ -1746,7 +1770,7 @@ msgstr "Löschen"
 
 #: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Delete cover"
-msgstr ""
+msgstr "Titelbild löschen"
 
 #: dialogs/deleteconfirmationdialog.cpp:44 device/deviceview.cpp:428
 msgid "Delete files"
@@ -1814,7 +1838,7 @@ msgstr "Geräte"
 
 #: dialogs/edittagdialog.cpp:100
 msgid "Different art across multiple songs."
-msgstr ""
+msgstr "Verschiedene Bilder über mehrere Lieder hinweg."
 
 #: ../build/src/ui_networkproxysettingspage.h:172
 msgid "Direct internet connection"
@@ -1891,7 +1915,7 @@ msgstr "Nicht anhalten!"
 
 #: radios/radioview.cpp:87
 msgid "Donate"
-msgstr ""
+msgstr "Spenden"
 
 #: device/deviceview.cpp:138
 msgid "Double click to open"
@@ -1910,6 +1934,9 @@ msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
+"Hier doppelklicken, um diese Wiedergabeliste zu Favoriten hinzuzufügen, "
+"damit sie gespeichert und  in der linken Seitenleiste unter "
+"\"Wiedergabelisten\" zugänglich gemacht wird."
 
 #: ../build/src/ui_subsonicsettingspage.h:236
 #: ../build/src/ui_tidalsettingspage.h:335
@@ -1965,11 +1992,11 @@ msgstr "Metadaten bearbeiten …"
 
 #: dialogs/edittagdialog.cpp:776
 msgid "Embedded"
-msgstr ""
+msgstr "Eingebettet"
 
 #: ../build/src/ui_edittagdialog.h:831
 msgid "Embedded cover"
-msgstr ""
+msgstr "Eingebettetes Titelbild"
 
 #: ../build/src/ui_scrobblersettingspage.h:406
 #: ../build/src/ui_scrobblersettingspage.h:430
@@ -2002,7 +2029,7 @@ msgstr "Equalizer aktivieren"
 
 #: ../build/src/ui_notificationssettingspage.h:508
 msgid "Enable fading"
-msgstr ""
+msgstr "Ein-/Ausblenden aktivieren"
 
 #: ../build/src/ui_playlistsettingspage.h:179
 msgid "Enable playlist clear button"
@@ -2010,7 +2037,7 @@ msgstr "Wiedergabeliste löschen - Knopf aktivieren"
 
 #: ../build/src/ui_playlistsettingspage.h:178
 msgid "Enable playlist toolbar"
-msgstr ""
+msgstr "Wiedergabelisten-Toolbar aktivieren"
 
 #: ../build/src/ui_scrobblersettingspage.h:417
 msgid "Enable scrobbling for the following sources:"
@@ -2165,7 +2192,7 @@ msgstr "Ausdehnen"
 
 #: ../build/src/ui_collectionsettingspage.h:526
 msgid "Expire unavailable songs after"
-msgstr ""
+msgstr "Nicht verfügbare Lieder laufen ab nach"
 
 #: widgets/loginstatewidget.cpp:156
 #, qt-format
