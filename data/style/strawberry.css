@@ -64,6 +64,7 @@ macos {
 
 macos QMenu {
   font-size: 13pt;
+  color: white;
 }
 
 #context-layout-container {
