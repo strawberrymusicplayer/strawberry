@@ -512,9 +512,9 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
 
       // The song is in the database and still on disk.
       // Check the mtime to see if it's been changed since it was added.
-      QFileInfo file_info(file);
+      QFileInfo fileinfo(file);
 
-      if (!file_info.exists()) {
+      if (!fileinfo.exists()) {
         // Partially fixes race condition - if file was removed between being added to the list and now.
         files_on_disk.removeAll(file);
         t->AddToProgress(1);
@@ -531,7 +531,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       bool cue_deleted = matching_song_cue_mtime == 0 && matching_song.has_cue();
 
       // Watch out for CUE songs which have their mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
-      bool changed = (matching_song.mtime() != qMax(file_info.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added;
+      bool changed = (matching_song.mtime() != qMax(fileinfo.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added;
 
       // Also want to look to see whether the album art has changed
       QUrl image = ImageForSong(file, album_art);
@@ -596,8 +596,8 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
 
         // The song is in the database and still on disk.
         // Check the mtime to see if it's been changed since it was added.
-        QFileInfo file_info(file);
-        if (!file_info.exists()) {
+        QFileInfo fileinfo(file);
+        if (!fileinfo.exists()) {
           // Partially fixes race condition - if file was removed between being added to the list and now.
           files_on_disk.removeAll(file);
           t->AddToProgress(1);
@@ -862,12 +862,12 @@ quint64 CollectionWatcher::GetMtimeForCue(const QString &cue_path) {
     return 0;
   }
 
-  const QFileInfo file_info(cue_path);
-  if (!file_info.exists()) {
+  const QFileInfo fileinfo(cue_path);
+  if (!fileinfo.exists()) {
     return 0;
   }
 
-  const QDateTime cue_last_modified = file_info.lastModified();
+  const QDateTime cue_last_modified = fileinfo.lastModified();
 
   return cue_last_modified.isValid() ? cue_last_modified.toSecsSinceEpoch() : 0;
 }
@@ -1009,8 +1009,8 @@ QString CollectionWatcher::PickBestImage(const QStringList &images) {
   for (const QString &filter_text : best_image_filters_) {
     // The images in the images list are represented by a full path, so we need to isolate just the filename
     for (const QString &image : images) {
-      QFileInfo file_info(image);
-      QString filename(file_info.fileName());
+      QFileInfo fileinfo(image);
+      QString filename(fileinfo.fileName());
       if (filename.contains(filter_text, Qt::CaseInsensitive))
         filtered << image;
     }
