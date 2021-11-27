@@ -39,6 +39,7 @@ echo 'This scipt will **delete all information** from Strawberry database!'
 read -r -p 'Do you want to continue? (the only YES is accepted) ' answer
 if [ "$answer" != "YES" ]; then exit 1; fi
 
+# 'heredoc' with substitution of variables, see `man bash`, "Here Documents":
 sqlite3 -batch << EOF
 .echo on
 ATTACH '$FILE_DST' AS strawberry;
