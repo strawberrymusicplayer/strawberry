@@ -194,6 +194,8 @@ class CollectionWatcher : public QObject {
   quint64 FilesCountForPath(ScanTransaction *t, const QString &path);
   quint64 FilesCountForSubdirs(ScanTransaction *t, const SubdirectoryList &subdirs, QMap<QString, quint64> &subdir_files_count);
 
+  QString FindCueFilename(const QString &filename);
+
  private:
   Song::Source source_;
   CollectionBackend *backend_;

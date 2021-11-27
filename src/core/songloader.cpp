@@ -300,7 +300,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
   }
 
   // Check if it's a CUE file
-  QString matching_cue = filename.section('.', 0, -2) + ".cue";
+  QString matching_cue = CueParser::FindCueFilename(filename);
   if (QFile::exists(matching_cue)) {
     // It's a CUE - create virtual tracks
     QFile cue(matching_cue);

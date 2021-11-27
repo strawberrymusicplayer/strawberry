@@ -379,3 +379,16 @@ bool CueParser::TryMagic(const QByteArray &data) const {
   return false;
 
 }
+
+QString CueParser::FindCueFilename(const QString &filename) {
+
+  QStringList cue_files = QStringList() << filename + ".cue"
+                                        << filename.section('.', 0, -2) + ".cue";
+
+  for (const QString &cuefile : cue_files) {
+    if (QFileInfo::exists(cuefile)) return cuefile;
+  }
+
+  return QString();
+
+}

@@ -503,7 +503,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
     if (stop_requested_) return;
 
     // Associated CUE
-    QString new_cue = NoExtensionPart(file) + ".cue";
+    QString new_cue = CueParser::FindCueFilename(file);
 
     SongList matching_songs;
     if (FindSongsByPath(songs_in_db, file, &matching_songs)) {  // Found matching song in DB by path.
@@ -525,13 +525,17 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       qint64 matching_song_cue_mtime = static_cast<qint64>(GetMtimeForCue(matching_song.cue_path()));
 
       // CUE sheet's path from this file (if any).
-      qint64 new_cue_mtime = static_cast<qint64>(GetMtimeForCue(new_cue));
+      qint64 new_cue_mtime = 0;
+      if (!new_cue.isEmpty()) {
+        new_cue_mtime = static_cast<qint64>(GetMtimeForCue(new_cue));
+      }
 
-      bool cue_added = new_cue_mtime != 0 && !matching_song.has_cue();
-      bool cue_deleted = matching_song_cue_mtime == 0 && matching_song.has_cue();
+      const bool cue_added = new_cue_mtime != 0 && !matching_song.has_cue();
+      const bool cue_changed = new_cue_mtime != 0 && matching_song.has_cue() && new_cue != matching_song.cue_path();
+      const bool cue_deleted = matching_song.has_cue() && new_cue_mtime == 0;
 
       // Watch out for CUE songs which have their mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
-      bool changed = (matching_song.mtime() != qMax(fileinfo.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added;
+      bool changed = (matching_song.mtime() != qMax(fileinfo.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added || cue_changed;
 
       // Also want to look to see whether the album art has changed
       QUrl image = ImageForSong(file, album_art);
@@ -567,12 +571,13 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
         }
 #endif
 
-        if (!cue_deleted && (matching_song.has_cue() || cue_added)) {  // If CUE associated.
-          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, image, matching_songs, t);
-        }
-        else {  // If no CUE or it's about to lose it.
+        if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
           UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, image, cue_deleted, t);
         }
+        else {  // If CUE associated.
+          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, image, matching_songs, t);
+        }
+
       }
 
       // Nothing has changed - mark the song available without re-scanning
@@ -604,7 +609,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
           continue;
         }
 
-        // Make sure the songs aren't deleted, as they still exist elsewhere with a different fingerprint.
+        // Make sure the songs aren't deleted, as they still exist elsewhere with a different file path.
         bool matching_songs_has_cue = false;
         for (const Song &matching_song : matching_songs) {
           QString matching_filename = matching_song.url().toLocalFile();
@@ -621,19 +626,19 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
         }
 
         // CUE sheet's path from this file (if any).
-        const qint64 new_cue_mtime = static_cast<qint64>(GetMtimeForCue(new_cue));
-
-        const bool cue_deleted = new_cue_mtime == 0 && matching_songs_has_cue;
-        const bool cue_added = new_cue_mtime != 0 && !matching_songs_has_cue;
+        qint64 new_cue_mtime = 0;
+        if (!new_cue.isEmpty()) {
+          new_cue_mtime = static_cast<qint64>(GetMtimeForCue(new_cue));
+        }
 
         // Get new album art
         QUrl image = ImageForSong(file, album_art);
 
-        if (!cue_deleted && (matching_songs_has_cue || cue_added)) {  // CUE associated.
-          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, image, matching_songs, t);
+        if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
+          UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, image, matching_songs_has_cue && new_cue_mtime == 0, t);
         }
-        else {  // If no CUE or it's about to lose it.
-          UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, image, cue_deleted, t);
+        else {  // If CUE associated.
+          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, image, matching_songs, t);
         }
 
       }
