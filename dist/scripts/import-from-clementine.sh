@@ -30,12 +30,12 @@ shopt -s dotglob
 FILE_SRC=${1:-~/.config/Clementine/clementine.db}
 FILE_DST=${2:-~/.local/share/strawberry/strawberry/strawberry.db}
 
-test -f "$FILE_SRC" || { echo "No file: $FILE_SRC"; exit 1; }
-test -f "$FILE_DST" || { echo "No file: $FILE_DST"; exit 1; }
+test -f "$FILE_SRC" || { echo "No such file: $FILE_SRC"; exit 1; }
+test -f "$FILE_DST" || { echo "No such file: $FILE_DST"; exit 1; }
 
 echo "Will try to copy information from $FILE_SRC to $FILE_DST."
 echo
-echo 'This scipt will **delete all information** from Strawberry database!'
+echo 'This script will **delete all information** from Strawberry database!'
 read -r -p 'Do you want to continue? (the only YES is accepted) ' answer
 if [ "$answer" != "YES" ]; then exit 1; fi
 
