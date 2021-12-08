@@ -782,7 +782,7 @@ msgstr "Efter kopiering..."
 msgid "Albu&m cover"
 msgstr "Albu&momslag"
 
-#: collection/savedgroupingmanager.cpp:91 playlist/playlist.cpp:1338
+#: collection/savedgroupingmanager.cpp:91 playlist/playlist.cpp:1340
 #: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:186
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:107
@@ -802,7 +802,7 @@ msgstr "Album (lämplig ljudstyrka för alla spår)"
 msgid "Album - Disc"
 msgstr "Album - Skiva"
 
-#: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1345
+#: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1347
 #: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
 #: ../build/src/ui_edittagdialog.h:839
@@ -972,7 +972,7 @@ msgstr "Automatiska omslag"
 msgid "Art Manual"
 msgstr "Manuella omslag"
 
-#: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1337
+#: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1339
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:103
@@ -1126,7 +1126,7 @@ msgid "Best"
 msgstr "Bästa"
 
 #: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:139
-#: playlist/playlist.cpp:1355 organize/organizedialog.cpp:120
+#: playlist/playlist.cpp:1357 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:813
 msgid "Bit depth"
@@ -1137,7 +1137,7 @@ msgid "Bit rate"
 msgstr "Bithastighet"
 
 #: context/contextview.cpp:219 collection/savedgroupingmanager.cpp:142
-#: playlist/playlist.cpp:1356 ../build/src/ui_groupbydialog.h:202
+#: playlist/playlist.cpp:1358 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:132
 #: ../build/src/ui_transcoderoptionsopus.h:76
@@ -1357,7 +1357,7 @@ msgstr "Färger"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Kommaseparerad lista över class:level; level är 0-3"
 
-#: playlist/playlist.cpp:1365 smartplaylists/smartplaylistsearchterm.cpp:381
+#: playlist/playlist.cpp:1367 smartplaylists/smartplaylistsearchterm.cpp:381
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:847
 msgid "Comment"
 msgstr "Kommentar"
@@ -1374,7 +1374,7 @@ msgstr "Fyll i taggar automatiskt"
 msgid "Complete tags automatically..."
 msgstr "Fyll i taggar automatiskt..."
 
-#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1346
+#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1348
 #: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:844
@@ -1695,11 +1695,11 @@ msgstr "Dans"
 msgid "Database corruption detected."
 msgstr "Databasskada upptäcktes."
 
-#: playlist/playlist.cpp:1363 ../build/src/ui_edittagdialog.h:819
+#: playlist/playlist.cpp:1365 ../build/src/ui_edittagdialog.h:819
 msgid "Date created"
 msgstr "Datum skapad"
 
-#: playlist/playlist.cpp:1362 ../build/src/ui_edittagdialog.h:817
+#: playlist/playlist.cpp:1364 ../build/src/ui_edittagdialog.h:817
 msgid "Date modified"
 msgstr "Datum ändrad"
 
@@ -1817,7 +1817,7 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Inaktiverad"
 
-#: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1340
+#: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1342
 #: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
 #: ../build/src/ui_edittagdialog.h:837
@@ -2308,11 +2308,11 @@ msgstr "Filändelse"
 msgid "File formats"
 msgstr "Filformat"
 
-#: playlist/playlist.cpp:1358
+#: playlist/playlist.cpp:1360
 msgid "File name"
 msgstr "Filnamn"
 
-#: playlist/playlist.cpp:1359
+#: playlist/playlist.cpp:1361
 msgid "File name (without path)"
 msgstr "Filnamn (utan sökväg)"
 
@@ -2320,11 +2320,11 @@ msgstr "Filnamn (utan sökväg)"
 msgid "File paths"
 msgstr "Filsökvägar"
 
-#: playlist/playlist.cpp:1360 ../build/src/ui_edittagdialog.h:825
+#: playlist/playlist.cpp:1362 ../build/src/ui_edittagdialog.h:825
 msgid "File size"
 msgstr "Filstorlek"
 
-#: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1361
+#: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1363
 #: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
 #: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:812
 msgid "File type"
@@ -2483,7 +2483,7 @@ msgstr "Allmänna inställningar"
 msgid "Genius Authentication"
 msgstr "Genius-autentisering"
 
-#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1344
+#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1346
 #: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 #: ../build/src/ui_edittagdialog.h:846
@@ -2591,7 +2591,7 @@ msgstr "Gruppera efter genre/albumartist/album"
 msgid "Group by Genre/Artist/Album"
 msgstr "Gruppera efter genre/artist/album"
 
-#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1348
+#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1350
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:838
@@ -2825,7 +2825,7 @@ msgstr "Stort albumomslag"
 msgid "Large sidebar"
 msgstr "Stort sidofält"
 
-#: playlist/playlist.cpp:1352 smartplaylists/smartplaylistsmodel.cpp:94
+#: playlist/playlist.cpp:1354 smartplaylists/smartplaylistsmodel.cpp:94
 #: ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Senast spelade"
@@ -2852,7 +2852,7 @@ msgstr "Minst omtyckta spår"
 msgid "Left"
 msgstr "Vänster"
 
-#: context/contextview.cpp:216 playlist/playlist.cpp:1341
+#: context/contextview.cpp:216 playlist/playlist.cpp:1343
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:811
 msgid "Length"
 msgstr "Längd"
@@ -3138,7 +3138,7 @@ msgstr "Bevaka ändringar i samlingen"
 msgid "Months"
 msgstr "Månader"
 
-#: playlist/playlist.cpp:1367
+#: playlist/playlist.cpp:1369
 msgid "Mood"
 msgstr "Stämning"
 
@@ -3447,7 +3447,7 @@ msgstr "Organiserar filer"
 msgid "Original tags"
 msgstr "Ursprungliga taggar"
 
-#: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1343
+#: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1345
 #: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Original year"
@@ -3532,7 +3532,7 @@ msgstr "Pausa uppspelning"
 msgid "Paused"
 msgstr "Pausad"
 
-#: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1347
+#: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1349
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:848
@@ -3557,7 +3557,7 @@ msgstr "Spela"
 msgid "Play control buttons"
 msgstr "Spela kontrollknappar"
 
-#: playlist/playlist.cpp:1350 ../build/src/ui_edittagdialog.h:818
+#: playlist/playlist.cpp:1352 ../build/src/ui_edittagdialog.h:818
 msgid "Play count"
 msgstr "Antal spelningar"
 
@@ -3836,7 +3836,7 @@ msgstr "Radiokanaler"
 msgid "Random"
 msgstr "Slumpat"
 
-#: playlist/playlist.cpp:1368 ../build/src/ui_edittagdialog.h:851
+#: playlist/playlist.cpp:1370 ../build/src/ui_edittagdialog.h:851
 msgid "Rating"
 msgstr "Betyg"
 
@@ -4158,7 +4158,7 @@ msgstr "Säker borttagning av enhet"
 msgid "Safely remove the device after copying"
 msgstr "Säker borttagning av enheten efter kopiering"
 
-#: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1354
+#: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1356
 #: organize/organizedialog.cpp:119 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 #: ../build/src/ui_edittagdialog.h:821
@@ -4601,7 +4601,7 @@ msgstr "Ska"
 msgid "Skip backwards in playlist"
 msgstr "Hoppa bakåt i spellista"
 
-#: playlist/playlist.cpp:1351 ../build/src/ui_edittagdialog.h:816
+#: playlist/playlist.cpp:1353 ../build/src/ui_edittagdialog.h:816
 msgid "Skip count"
 msgstr "Antal överhoppningar"
 
@@ -4688,7 +4688,7 @@ msgstr "Sortera låtar efter"
 msgid "Sorting"
 msgstr "Sortering"
 
-#: playlist/playlist.cpp:1366
+#: playlist/playlist.cpp:1368
 msgid "Source"
 msgstr "Källa"
 
@@ -5096,7 +5096,7 @@ msgstr ""
 msgid "Time step"
 msgstr "Tidssteg"
 
-#: playlist/playlist.cpp:1336 organize/organizedialog.cpp:103
+#: playlist/playlist.cpp:1338 organize/organizedialog.cpp:103
 #: ../build/src/ui_contextsettingspage.h:435
 #: ../build/src/ui_edittagdialog.h:842
 #: ../build/src/ui_trackselectiondialog.h:209
@@ -5143,7 +5143,7 @@ msgstr "Totalt överförda byte"
 msgid "Total network requests made"
 msgstr "Totalt antal nätverksförfrågningar"
 
-#: playlist/playlist.cpp:1339 organize/organizedialog.cpp:111
+#: playlist/playlist.cpp:1341 organize/organizedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:850
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Track"
@@ -5492,7 +5492,7 @@ msgstr "Skriv alla uppspelningsantal och betyg till filer"
 msgid "Write metadata when saving playlists"
 msgstr "Skriv metadata när spellistor sparas"
 
-#: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1342
+#: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1344
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_edittagdialog.h:841
