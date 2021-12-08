@@ -1220,6 +1220,8 @@ void Playlist::UpdateItems(SongList songs) {
     }
   }
 
+  emit PlaylistChanged();
+
   ScheduleSave();
 
 }
