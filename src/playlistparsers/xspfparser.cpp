@@ -149,7 +149,7 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
 
   QSettings s;
   s.beginGroup(Playlist::kSettingsGroup);
-  bool writeMetadata = s.value(Playlist::kWriteMetadata, true).toBool();
+  bool write_metadata = s.value(Playlist::kWriteMetadata, true).toBool();
   s.endGroup();
 
   StreamElement tracklist("trackList", &writer);
@@ -159,7 +159,7 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
     StreamElement track("track", &writer);
     writer.writeTextElement("location", filename_or_url);
 
-    if (writeMetadata) {
+    if (write_metadata || (song.is_stream() && !song.is_radio())) {
       writer.writeTextElement("title", song.title());
       if (!song.artist().isEmpty()) {
         writer.writeTextElement("creator", song.artist());
