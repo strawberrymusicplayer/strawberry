@@ -137,7 +137,7 @@ Features:
 %if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
   export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
 %endif
-%{cmake} -DCMAKE_BUILD_TYPE:STRING=Release -DQT_VERSION_MAJOR=@QT_VERSION_MAJOR@
+%{cmake} -DQT_VERSION_MAJOR=@QT_VERSION_MAJOR@
 %if 0%{?centos} || (0%{?mageia} && 0%{?mageia} <= 7)
   %make_build
 %else
