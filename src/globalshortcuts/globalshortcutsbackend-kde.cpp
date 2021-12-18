@@ -58,6 +58,16 @@ bool GlobalShortcutsBackendKDE::IsAvailable() const {
 
 }
 
+bool GlobalShortcutsBackendKDE::IsMediaShortcut(const GlobalShortcutsManager::Shortcut &shortcut) const {
+
+  return (shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaPlay) ||
+          shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaStop) ||
+          shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaNext) ||
+          shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaPrevious));
+
+}
+
+
 bool GlobalShortcutsBackendKDE::DoRegister() {
 
   qLog(Debug) << "Registering";
@@ -136,14 +146,6 @@ bool GlobalShortcutsBackendKDE::RegisterShortcut(const GlobalShortcutsManager::S
 
   if (!interface_ || !interface_->isValid() || shortcut.id.isEmpty() || !shortcut.action || shortcut.action->shortcut().isEmpty()) return false;
 
-  if (shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaPlay) ||
-      shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaStop) ||
-      shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaNext) ||
-      shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaPrevious)) {
-    qLog(Info) << "Media shortcut" << shortcut.id << shortcut.action->shortcut();
-    return true;
-  }
-
   QStringList action_id = GetActionId(shortcut.id, shortcut.action);
   actions_.insert(shortcut.id, shortcut.action);
   interface_->doRegister(action_id);
@@ -152,16 +154,15 @@ bool GlobalShortcutsBackendKDE::RegisterShortcut(const GlobalShortcutsManager::S
 
   const QList<int> result = interface_->setShortcut(action_id, ToIntList(active_shortcut), 0x2);
   const QList<QKeySequence> result_sequence = ToKeySequenceList(result);
-  if (result_sequence != active_shortcut) {
-    if (result_sequence.isEmpty()) {
-      shortcut.action->setShortcut(QKeySequence());
-    }
-    else {
+  if (result_sequence == active_shortcut) {
+    qLog(Info) << "Registered shortcut" << shortcut.id << shortcut.action->shortcut();
+  }
+  else {
+    qLog(Error) << "KGlobalAccel returned" << result_sequence << "when setting shortcut" << active_shortcut;
+    if (!result_sequence.isEmpty() && !IsMediaShortcut(shortcut)) {
       shortcut.action->setShortcut(result_sequence[0]);
     }
   }
-
-  qLog(Info) << "Registered shortcut" << shortcut.id << shortcut.action->shortcut();
 
   return true;
 

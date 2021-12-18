@@ -51,6 +51,7 @@ class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
   void DoUnregister() override;
 
  private:
+  bool IsMediaShortcut(const GlobalShortcutsManager::Shortcut &shortcut) const;
   bool RegisterShortcut(const GlobalShortcutsManager::Shortcut &shortcut);
   static QStringList GetActionId(const QString &id, const QAction *action);
   static QList<int> ToIntList(const QList<QKeySequence> &sequence_list);
