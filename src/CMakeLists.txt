@@ -635,34 +635,6 @@ if(UNIX AND HAVE_DBUS)
   qt_add_dbus_interface(SOURCES dbus/org.kde.KGlobalAccel.xml dbus/kglobalaccel)
   qt_add_dbus_interface(SOURCES dbus/org.kde.KGlobalAccel.Component.xml dbus/kglobalaccelcomponent)
 
-  # org.freedesktop.Avahi.Server interface
-  add_custom_command(
-      OUTPUT
-      ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahiserver.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahiserver.h
-      COMMAND ${QT_DBUSXML2CPP_EXECUTABLE}
-      dbus/org.freedesktop.Avahi.Server.xml
-      -p ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahiserver
-      -i dbus/metatypes.h
-      DEPENDS dbus/org.freedesktop.Avahi.Server.xml
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-  list(APPEND HEADERS ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahiserver.h)
-  list(APPEND SOURCES ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahiserver.cpp)
-
-  # org.freedesktop.Avahi.EntryGroup interface
-  add_custom_command(
-      OUTPUT
-      ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahientrygroup.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahientrygroup.h
-      COMMAND ${QT_DBUSXML2CPP_EXECUTABLE}
-      dbus/org.freedesktop.Avahi.EntryGroup.xml
-      -p ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahientrygroup
-      -i dbus/metatypes.h
-      DEPENDS dbus/org.freedesktop.Avahi.EntryGroup.xml
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-  list(APPEND HEADERS ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahientrygroup.h)
-  list(APPEND SOURCES ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahientrygroup.cpp)
-
   if(HAVE_UDISKS2)
     set_source_files_properties(dbus/org.freedesktop.DBus.ObjectManager.xml PROPERTIES NO_NAMESPACE dbus/objectmanager INCLUDE dbus/metatypes.h)
     set_source_files_properties(dbus/org.freedesktop.UDisks2.Filesystem.xml PROPERTIES NO_NAMESPACE dbus/udisks2filesystem INCLUDE dbus/metatypes.h)
