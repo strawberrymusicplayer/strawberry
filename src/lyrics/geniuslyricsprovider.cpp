@@ -231,7 +231,7 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
     }
     else {
       // See if there is Json data containing "status" and "userMessage" then use that instead.
-      QByteArray data(reply->readAll());
+      QByteArray data = reply->readAll();
       QJsonParseError json_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
@@ -255,7 +255,7 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
     }
   }
 
-  QByteArray data(reply->readAll());
+  QByteArray data = reply->readAll();
 
   QJsonParseError json_error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
@@ -332,8 +332,6 @@ bool GeniusLyricsProvider::StartSearch(const QString &artist, const QString &alb
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { HandleSearchReply(reply, id); });
-
-  //qLog(Debug) << "GeniusLyrics: Sending request for" << url;
 
   return true;
 
@@ -504,9 +502,33 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
   if (begin_idx > 0) {
     begin_idx += tag_begin.length();
     qint64 end_idx = content.indexOf(tag_end, begin_idx);
-    lyrics = content.mid(begin_idx, end_idx - begin_idx);
-    lyrics = lyrics.remove(QRegularExpression("<[^>]*>"));
-    lyrics = lyrics.trimmed();
+    if (end_idx > 0) {
+      QString text = content.mid(begin_idx, end_idx - begin_idx);
+      text = text.replace(QRegularExpression("<br[^>]+>"), "\n");
+      text = text.remove(QRegularExpression("<[^>]*>"));
+      text = text.trimmed();
+      if (text.length() < 6000) {
+        lyrics = text;
+      }
+    }
+  }
+  else {
+    QRegularExpressionMatch rematch = QRegularExpression("<div data-lyrics-container=[^>]+>").match(content);
+    if (rematch.hasMatch()) {
+      begin_idx = content.indexOf(rematch.captured());
+      if (begin_idx > 0) {
+        qint64 end_idx = content.indexOf("</div>", begin_idx + rematch.captured().length());
+        if (end_idx > 0) {
+          QString text = content.mid(begin_idx, end_idx - begin_idx);
+          text = text.replace(QRegularExpression("<br[^>]+>"), "\n");
+          text = text.remove(QRegularExpression("<[^>]*>"));
+          text = text.trimmed();
+          if (text.length() < 6000 && !text.contains("there are no lyrics to", Qt::CaseInsensitive)) {
+            lyrics = text;
+          }
+        }
+      }
+    }
   }
 
   if (!lyrics.isEmpty()) {

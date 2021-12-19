@@ -652,7 +652,8 @@ QString DecodeHtmlEntities(const QString &text) {
       .replace("&lt;", "<")
       .replace("&#60;", "<")
       .replace("&gt;", ">")
-      .replace("&#62;", ">");
+      .replace("&#62;", ">")
+      .replace("&#x27;", "'");
 
   return copy;
 
