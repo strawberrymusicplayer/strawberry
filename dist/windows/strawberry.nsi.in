@@ -393,6 +393,7 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=libgstwasapi.dll" "gstreamer-plugins\libgstwasapi.dll"
   File "/oname=libgstwavpack.dll" "gstreamer-plugins\libgstwavpack.dll"
   File "/oname=libgstwavparse.dll" "gstreamer-plugins\libgstwavparse.dll"
+  File "/oname=libgstxingmux.dll" "gstreamer-plugins\libgstxingmux.dll"
 
 SectionEnd
 
@@ -601,6 +602,7 @@ Section "Uninstall"
   Delete $INSTDIR\gstreamer-plugins\libgstwasapi.dll"
   Delete $INSTDIR\gstreamer-plugins\libgstwavpack.dll"
   Delete $INSTDIR\gstreamer-plugins\libgstwavparse.dll"
+  Delete $INSTDIR\gstreamer-plugins\libgstxingmux.dll"
 
   Delete $INSTDIR\Uninstall.exe"
 
