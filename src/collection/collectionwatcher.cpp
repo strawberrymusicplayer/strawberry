@@ -834,28 +834,47 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
 
 void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching_song, const Song &new_song, ScanTransaction *t) {
 
+  bool notify_new = false;
+  QStringList changes;
+
   if (matching_song.is_unavailable()) {
-    qLog(Debug) << file << "unavailable song restored.";
-    t->new_songs << new_song;
-  }
-  else if (!matching_song.IsMetadataEqual(new_song)) {
-    qLog(Debug) << file << "metadata changed.";
-    t->new_songs << new_song;
-  }
-  else if (matching_song.fingerprint() != new_song.fingerprint()) {
-    qLog(Debug) << file << "fingerprint changed.";
-    t->new_songs << new_song;
-  }
-  else if (matching_song.art_automatic() != new_song.art_automatic() || matching_song.art_manual() != new_song.art_manual()) {
-    qLog(Debug) << file << "art changed.";
-    t->new_songs << new_song;
-  }
-  else if (matching_song.mtime() != new_song.mtime()) {
-    qLog(Debug) << file << "mtime changed.";
-    t->touched_songs << new_song;
+    qLog(Debug) << "unavailable song" << file << "restored.";
+    notify_new = true;
   }
   else {
-    qLog(Debug) << file << "unchanged.";
+    if (matching_song.url() != new_song.url()) {
+      changes << "file path";
+      notify_new = true;
+    }
+    if (matching_song.fingerprint() != new_song.fingerprint()) {
+      changes << "fingerprint";
+      notify_new = true;
+    }
+    if (!matching_song.IsMetadataEqual(new_song)) {
+      changes << "metadata";
+      notify_new = true;
+    }
+    if (matching_song.art_automatic() != new_song.art_automatic() || matching_song.art_manual() != new_song.art_manual()) {
+      changes << "album art";
+      notify_new = true;
+    }
+    if (matching_song.mtime() != new_song.mtime()) {
+      changes << "mtime";
+    }
+
+    if (changes.isEmpty()) {
+      qLog(Debug) << "Song" << file << "unchanged.";
+    }
+    else {
+      qLog(Debug) << "Song" << file << changes.join(", ") << "changed.";
+    }
+
+  }
+
+  if (notify_new) {
+    t->new_songs << new_song;
+  }
+  else {
     t->touched_songs << new_song;
   }
 
