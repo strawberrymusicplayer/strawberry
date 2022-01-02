@@ -517,6 +517,7 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
     if (rematch.hasMatch()) {
       begin_idx = content.indexOf(rematch.captured());
       if (begin_idx > 0) {
+        begin_idx += rematch.captured().length();
         qint64 end_idx = content.indexOf("</div>", begin_idx + rematch.captured().length());
         if (end_idx > 0) {
           QString text = content.mid(begin_idx, end_idx - begin_idx);
