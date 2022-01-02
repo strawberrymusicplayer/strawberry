@@ -523,6 +523,10 @@ elseif(NOT HAVE_GSTREAMER)
   message(WARNING "GStreamer is the only engine that is fully implemented. Using other engines is possible but not recommended.")
 endif()
 
+if(QT_VERSION_MAJOR EQUAL 5)
+  message(WARNING "It is detected that Strawberry is being built with Qt 5.  There are no bugfix releases for the latest minor LTS version of Qt 5 available to open-source users, only commercial users.  Therefore Strawberry should be built with Qt 6 when possible. Building with Qt 6 will also take advantage of improvements and new features not available in Qt 5.  To build with Qt 6 specify -DBUILD_WITH_QT6=ON to automatically detect Qt 6, or for example -DCMAKE_PREFIX_PATH=/usr/local/lib64/cmake to manually specify the Qt 6 directory.")
+endif()
+
 if(NOT CMAKE_CROSSCOMPILING)
   if(QT_SQLITE_TEST)
     if(NOT SQLITE_FTS5_TEST)
