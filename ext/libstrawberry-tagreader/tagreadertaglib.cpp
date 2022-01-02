@@ -668,10 +668,10 @@ bool TagReaderTagLib::SaveFile(const QString &filename, const spb::tagreader::So
     TagLib::MP4::Tag *tag = file_mp4->tag();
     if (!tag) return false;
     tag->setItem("disk", TagLib::MP4::Item(song.disc() <= 0 -1 ? 0 : song.disc(), 0));
-    tag->setItem("\251wrt", TagLib::StringList(song.composer().c_str()));
-    tag->setItem("\251grp", TagLib::StringList(song.grouping().c_str()));
-    tag->setItem("\251lyr", TagLib::StringList(song.lyrics().c_str()));
-    tag->setItem("aART", TagLib::StringList(song.albumartist().c_str()));
+    tag->setItem("\251wrt", TagLib::StringList(TagLib::String(song.composer(), TagLib::String::UTF8)));
+    tag->setItem("\251grp", TagLib::StringList(TagLib::String(song.grouping(), TagLib::String::UTF8)));
+    tag->setItem("\251lyr", TagLib::StringList(TagLib::String(song.lyrics(), TagLib::String::UTF8)));
+    tag->setItem("aART", TagLib::StringList(TagLib::String(song.albumartist(), TagLib::String::UTF8)));
     tag->setItem("cpil", TagLib::StringList(song.compilation() ? "1" : "0"));
   }
 
