@@ -360,6 +360,7 @@ bool Song::save_embedded_cover_supported(const FileType filetype) {
 
   return filetype == FileType_FLAC ||
          filetype == FileType_OggVorbis ||
+         filetype == FileType_OggOpus ||
          filetype == FileType_MPEG ||
          filetype == FileType_MP4;
 

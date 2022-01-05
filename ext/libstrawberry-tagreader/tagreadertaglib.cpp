@@ -235,8 +235,14 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
   // apart, so we keep specific behavior for some formats by adding another "else if" block below.
   if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
     ParseOggTag(xiph_comment->fieldListMap(), &disc, &compilation, song);
-    if (!xiph_comment->pictureList().isEmpty()) {
-      song->set_art_automatic(kEmbeddedCover);
+    TagLib::List<TagLib::FLAC::Picture*> pictures = xiph_comment->pictureList();
+    if (!pictures.isEmpty()) {
+      for (TagLib::FLAC::Picture *picture : pictures) {
+        if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
+          song->set_art_automatic(kEmbeddedCover);
+          break;
+        }
+      }
     }
   }
 
@@ -246,8 +252,14 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
     if (file_flac->xiphComment()) {
       ParseOggTag(file_flac->xiphComment()->fieldListMap(), &disc, &compilation, song);
-      if (!file_flac->pictureList().isEmpty()) {
-        song->set_art_automatic(kEmbeddedCover);
+      TagLib::List<TagLib::FLAC::Picture*> pictures = file_flac->pictureList();
+      if (!pictures.isEmpty()) {
+        for (TagLib::FLAC::Picture *picture : pictures) {
+          if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
+            song->set_art_automatic(kEmbeddedCover);
+            break;
+          }
+        }
       }
     }
     if (tag) Decode(tag->comment(), song->mutable_comment());
@@ -805,67 +817,65 @@ QByteArray TagReaderTagLib::LoadEmbeddedArt(const QString &filename) const {
   qLog(Debug) << "Loading art from" << filename;
 
 #ifdef Q_OS_WIN32
-  TagLib::FileRef ref(filename.toStdWString().c_str());
+  TagLib::FileRef fileref(filename.toStdWString().c_str());
 #else
-  TagLib::FileRef ref(QFile::encodeName(filename).constData());
+  TagLib::FileRef fileref(QFile::encodeName(filename).constData());
 #endif
 
-  if (ref.isNull() || !ref.file()) return QByteArray();
+  if (fileref.isNull() || !fileref.file()) return QByteArray();
 
   // FLAC
-  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(ref.file())) {
+  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref.file())) {
     if (flac_file->xiphComment()) {
-      TagLib::List<TagLib::FLAC::Picture*> pics = flac_file->pictureList();
-      if (!pics.isEmpty()) {
-        TagLib::FLAC::Picture *picture = nullptr;
-        for (std::list<TagLib::FLAC::Picture*>::iterator it = pics.begin() ; it != pics.end() ; ++it) {
-          picture = *it;
-          if (picture->type() == TagLib::FLAC::Picture::FrontCover) {
-            break;
+      TagLib::List<TagLib::FLAC::Picture*> pictures = flac_file->pictureList();
+      if (!pictures.isEmpty()) {
+        for (TagLib::FLAC::Picture *picture : pictures) {
+          if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
+            QByteArray data(picture->data().data(), picture->data().size());
+            if (!data.isEmpty()) {
+              return data;
+            }
           }
         }
-        if (picture) return QByteArray(picture->data().data(), picture->data().size());
       }
     }
   }
 
   // WavPack
-  if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(ref.file())) {
+  if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref.file())) {
     if (wavpack_file->APETag()) {
       return LoadEmbeddedAPEArt(wavpack_file->APETag()->itemListMap());
     }
   }
 
   // APE
-  if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(ref.file())) {
+  if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref.file())) {
     if (ape_file->APETag()) {
       return LoadEmbeddedAPEArt(ape_file->APETag()->itemListMap());
     }
   }
 
   // MPC
-  if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(ref.file())) {
+  if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(fileref.file())) {
     if (mpc_file->APETag()) {
       return LoadEmbeddedAPEArt(mpc_file->APETag()->itemListMap());
     }
   }
 
-  // Ogg Vorbis / Speex
-  if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(ref.file()->tag())) {
+  // Ogg Vorbis / Vorbis / Speex
+  if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref.file()->tag())) {
     TagLib::Ogg::FieldListMap map = xiph_comment->fieldListMap();
 
-    TagLib::List<TagLib::FLAC::Picture*> pics = xiph_comment->pictureList();
-    if (!pics.isEmpty()) {
-      for (auto p : pics) {
-        if (p->type() == TagLib::FLAC::Picture::FrontCover) {
-          return QByteArray(p->data().data(), p->data().size());
+    TagLib::List<TagLib::FLAC::Picture*> pictures = xiph_comment->pictureList();
+    if (!pictures.isEmpty()) {
+      for (TagLib::FLAC::Picture *picture : pictures) {
+        if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
+          QByteArray data(picture->data().data(), picture->data().size());
+          if (!data.isEmpty()) {
+            return data;
+          }
         }
       }
-      // If there was no specific front cover, just take the first picture
-      std::list<TagLib::FLAC::Picture*>::iterator it = pics.begin();
-      TagLib::FLAC::Picture *picture = *it;
-
-      return QByteArray(picture->data().data(), picture->data().size());
     }
 
     // Ogg lacks a definitive standard for embedding cover art, but it seems b64 encoding a field called COVERART is the general convention
@@ -877,21 +887,21 @@ QByteArray TagReaderTagLib::LoadEmbeddedArt(const QString &filename) const {
   }
 
   // MP3
-  if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(ref.file())) {
+  if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(fileref.file())) {
     if (file_mp3->ID3v2Tag()) {
       TagLib::ID3v2::FrameList apic_frames = file_mp3->ID3v2Tag()->frameListMap()["APIC"];
       if (apic_frames.isEmpty()) {
         return QByteArray();
       }
 
-      TagLib::ID3v2::AttachedPictureFrame *pic = static_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
+      TagLib::ID3v2::AttachedPictureFrame *picture = static_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
 
-      return QByteArray(reinterpret_cast<const char*>(pic->picture().data()), pic->picture().size());
+      return QByteArray(reinterpret_cast<const char*>(picture->picture().data()), picture->picture().size());
     }
   }
 
   // MP4/AAC
-  if (TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(ref.file())) {
+  if (TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(fileref.file())) {
     TagLib::MP4::Tag *tag = aac_file->tag();
     if (tag && tag->item("covr").isValid()) {
       const TagLib::MP4::CoverArtList &art_list = tag->item("covr").toCoverArtList();
@@ -933,15 +943,15 @@ bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray 
   qLog(Debug) << "Saving art to" << filename;
 
 #ifdef Q_OS_WIN32
-  TagLib::FileRef ref(filename.toStdWString().c_str());
+  TagLib::FileRef fileref(filename.toStdWString().c_str());
 #else
-  TagLib::FileRef ref(QFile::encodeName(filename).constData());
+  TagLib::FileRef fileref(QFile::encodeName(filename).constData());
 #endif
 
-  if (ref.isNull() || !ref.file()) return false;
+  if (fileref.isNull() || !fileref.file()) return false;
 
   // FLAC
-  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(ref.file())) {
+  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref.file())) {
     TagLib::Ogg::XiphComment *vorbis_comments = flac_file->xiphComment(true);
     if (!vorbis_comments) return false;
     flac_file->removePictures();
@@ -954,17 +964,20 @@ bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray 
     }
   }
 
-  // Ogg Vorbis / Speex
-  else if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(ref.file()->tag())) {
-    TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
-    picture->setType(TagLib::FLAC::Picture::FrontCover);
-    picture->setMimeType("image/jpeg");
-    picture->setData(TagLib::ByteVector(data.constData(), data.size()));
-    xiph_comment->addPicture(picture);
+  // Ogg Vorbis / Opus / Speex
+  else if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref.file()->tag())) {
+    xiph_comment->removeAllPictures();
+    if (!data.isEmpty()) {
+      TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
+      picture->setType(TagLib::FLAC::Picture::FrontCover);
+      picture->setMimeType("image/jpeg");
+      picture->setData(TagLib::ByteVector(data.constData(), data.size()));
+      xiph_comment->addPicture(picture);
+    }
   }
 
   // MP3
-  else if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(ref.file())) {
+  else if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(fileref.file())) {
     TagLib::ID3v2::Tag *tag = file_mp3->ID3v2Tag();
     if (!tag) return false;
 
@@ -987,7 +1000,7 @@ bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray 
   }
 
   // MP4/AAC
-  else if (TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(ref.file())) {
+  else if (TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(fileref.file())) {
     TagLib::MP4::Tag *tag = aac_file->tag();
     if (!tag) return false;
     TagLib::MP4::CoverArtList covers;
@@ -1003,7 +1016,7 @@ bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray 
   // Not supported.
   else return false;
 
-  return ref.file()->save();
+  return fileref.file()->save();
 
 }
 
