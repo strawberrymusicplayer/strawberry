@@ -93,9 +93,9 @@ QStringList MoodbarLoader::MoodFilenames(const QString &song_filename) {
 
 }
 
-MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, QByteArray *data, MoodbarPipeline **async_pipeline) {
+MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, QByteArray *data, MoodbarPipeline **async_pipeline) {
 
-  if (url.scheme() != "file") {
+  if (!url.isLocalFile() || has_cue) {
     return CannotLoad;
   }
 

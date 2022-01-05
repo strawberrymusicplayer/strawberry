@@ -336,6 +336,8 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
 
         case Column_Rating:             return song.rating();
 
+        case Column_HasCUE:             return song.has_cue();
+
       }
 
       return QVariant();
@@ -1310,6 +1312,8 @@ bool Playlist::CompareItems(const int column, const Qt::SortOrder order, std::sh
 
     case Column_Rating:       cmp(rating);
 
+    case Column_HasCUE:       cmp(has_cue);
+
     default: qLog(Error) << "No such column" << column;
   }
 
@@ -1368,6 +1372,7 @@ QString Playlist::column_name(Column column) {
     case Column_Source:       return tr("Source");
     case Column_Mood:         return tr("Mood");
     case Column_Rating:       return tr("Rating");
+    case Column_HasCUE:       return tr("CUE");
     default:                  qLog(Error) << "No such column" << column;;
   }
   return "";

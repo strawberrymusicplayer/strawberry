@@ -397,6 +397,7 @@ void PlaylistView::RestoreHeaderState() {
     header_->HideSection(Playlist::Column_Grouping);
     header_->HideSection(Playlist::Column_Mood);
     header_->HideSection(Playlist::Column_Rating);
+    header_->HideSection(Playlist::Column_HasCUE);
 
     header_->moveSection(header_->visualIndex(Playlist::Column_Track), 0);
 

@@ -59,7 +59,7 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
 
   QByteArray data;
   MoodbarPipeline *pipeline = nullptr;
-  const MoodbarLoader::Result result = app_->moodbar_loader()->Load(song.url(), &data, &pipeline);
+  const MoodbarLoader::Result result = app_->moodbar_loader()->Load(song.url(), song.has_cue(), &data, &pipeline);
 
   switch (result) {
     case MoodbarLoader::CannotLoad:

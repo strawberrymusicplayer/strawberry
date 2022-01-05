@@ -102,6 +102,7 @@ QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize 
 
   // Pixmaps are keyed off URL.
   const QUrl url = idx.sibling(idx.row(), Playlist::Column_Filename).data().toUrl();
+  const bool has_cue = idx.sibling(idx.row(), Playlist::Column_HasCUE).data().toBool();
 
   Data *data = nullptr;
   if (data_.contains(url)) {
@@ -135,20 +136,20 @@ QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize 
   }
 
   // We have to start loading the data from scratch.
-  StartLoadingData(url, data);
+  StartLoadingData(url, has_cue, data);
 
   return QPixmap();
 
 }
 
-void MoodbarItemDelegate::StartLoadingData(const QUrl &url, Data *data) {
+void MoodbarItemDelegate::StartLoadingData(const QUrl &url, const bool has_cue, Data *data) {
 
   data->state_ = Data::State_LoadingData;
 
   // Load a mood file for this song and generate some colors from it
   QByteArray bytes;
   MoodbarPipeline *pipeline = nullptr;
-  switch (app_->moodbar_loader()->Load(url, &bytes, &pipeline)) {
+  switch (app_->moodbar_loader()->Load(url, has_cue, &bytes, &pipeline)) {
     case MoodbarLoader::CannotLoad:
       data->state_ = Data::State_CannotLoad;
       break;
@@ -183,7 +184,7 @@ void MoodbarItemDelegate::ReloadAllColors() {
     Data *data = data_[url];
 
     if (data->state_ == Data::State_Loaded) {
-      StartLoadingData(url, data);
+      StartLoadingData(url, false, data);
     }
   }
 

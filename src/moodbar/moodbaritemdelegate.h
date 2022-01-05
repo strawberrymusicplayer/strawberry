@@ -77,7 +77,7 @@ class MoodbarItemDelegate : public QItemDelegate {
 
  private:
   QPixmap PixmapForIndex(const QModelIndex &idx, const QSize size);
-  void StartLoadingData(const QUrl &url, Data *data);
+  void StartLoadingData(const QUrl &url, const bool has_cue, Data *data);
   void StartLoadingColors(const QUrl &url, const QByteArray &bytes, Data *data);
   void StartLoadingImage(const QUrl &url, Data *data);
 

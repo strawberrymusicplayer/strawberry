@@ -131,6 +131,7 @@ class Playlist : public QAbstractListModel {
     Column_Source,
     Column_Mood,
     Column_Rating,
+    Column_HasCUE,
     ColumnCount
   };
 
