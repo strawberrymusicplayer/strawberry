@@ -862,7 +862,7 @@ QByteArray TagReaderTagLib::LoadEmbeddedArt(const QString &filename) const {
     }
   }
 
-  // Ogg Vorbis / Vorbis / Speex
+  // Ogg Vorbis / Opus / Speex
   if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref.file()->tag())) {
     TagLib::Ogg::FieldListMap map = xiph_comment->fieldListMap();
 
