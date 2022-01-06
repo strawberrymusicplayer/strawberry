@@ -137,6 +137,7 @@ void SCollection::Exit() {
   QObject::connect(backend_, &CollectionBackend::ExitFinished, this, &SCollection::ExitReceived);
   QObject::connect(watcher_, &CollectionWatcher::ExitFinished, this, &SCollection::ExitReceived);
   backend_->ExitAsync();
+  watcher_->Abort();
   watcher_->ExitAsync();
 
 }

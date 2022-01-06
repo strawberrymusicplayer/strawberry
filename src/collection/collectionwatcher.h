@@ -62,6 +62,7 @@ class CollectionWatcher : public QObject {
   void ReloadSettingsAsync();
 
   void Stop() { stop_requested_ = true; }
+  void Abort() { abort_requested_ = true; }
 
   void ExitAsync();
 
@@ -218,6 +219,7 @@ class CollectionWatcher : public QObject {
   bool overwrite_rating_;
 
   bool stop_requested_;
+  bool abort_requested_;
   bool rescan_in_progress_;  // True if RescanTracksNow() has been called and is working.
 
   QMap<int, Directory> watched_dirs_;
