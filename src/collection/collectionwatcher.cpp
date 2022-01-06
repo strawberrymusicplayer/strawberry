@@ -374,6 +374,8 @@ SubdirectoryList CollectionWatcher::ScanTransaction::GetAllSubdirs() {
 
 void CollectionWatcher::AddDirectory(const Directory &dir, const SubdirectoryList &subdirs) {
 
+  stop_requested_ = false;
+
   watched_dirs_[dir.id] = dir;
 
   if (subdirs.isEmpty()) {
