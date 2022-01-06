@@ -107,7 +107,7 @@ class CollectionBackendInterface : public QObject {
   virtual AlbumList GetCompilationAlbums(const QueryOptions &opt = QueryOptions()) = 0;
 
   virtual void UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false) = 0;
-  virtual void UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url) = 0;
+  virtual void UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual = false) = 0;
 
   virtual Album GetAlbumArt(const QString &effective_albumartist, const QString &album) = 0;
 
@@ -175,7 +175,7 @@ class CollectionBackend : public CollectionBackendInterface {
   AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions()) override;
 
   void UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false) override;
-  void UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url) override;
+  void UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual = false) override;
 
   Album GetAlbumArt(const QString &effective_albumartist, const QString &album) override;
 
@@ -229,7 +229,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void AddOrUpdateSubdirs(const SubdirectoryList &subdirs);
   void CompilationsNeedUpdating();
   void UpdateManualAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false);
-  void UpdateAutomaticAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url);
+  void UpdateAutomaticAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual = false);
   void ForceCompilation(const QString &album, const QList<QString> &artists, const bool on);
   void IncrementPlayCount(const int id);
   void IncrementSkipCount(const int id, const float progress);

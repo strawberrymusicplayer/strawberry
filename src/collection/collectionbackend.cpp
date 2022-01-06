@@ -1574,7 +1574,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartis
   }
 
   // Update the songs
-  QString sql(QString("UPDATE %1 SET art_manual = :cover").arg(songs_table_));
+  QString sql = QString("UPDATE %1 SET art_manual = :cover").arg(songs_table_);
   if (clear_art_automatic) {
     sql += ", art_automatic = ''";
   }
@@ -1611,13 +1611,13 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartis
 
 }
 
-void CollectionBackend::UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url) {
+void CollectionBackend::UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual) {
 
-  QMetaObject::invokeMethod(this, "UpdateAutomaticAlbumArt", Qt::QueuedConnection, Q_ARG(QString, effective_albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url));
+  QMetaObject::invokeMethod(this, "UpdateAutomaticAlbumArt", Qt::QueuedConnection, Q_ARG(QString, effective_albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url), Q_ARG(bool, clear_art_manual));
 
 }
 
-void CollectionBackend::UpdateAutomaticAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url) {
+void CollectionBackend::UpdateAutomaticAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -1641,7 +1641,11 @@ void CollectionBackend::UpdateAutomaticAlbumArt(const QString &effective_albumar
   }
 
   // Update the songs
-  QString sql(QString("UPDATE %1 SET art_automatic = :cover WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+  QString sql = QString("UPDATE %1 SET art_automatic = :cover").arg(songs_table_);
+  if (clear_art_manual) {
+    sql += ", art_manual = ''";
+  }
+  sql += " WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0";
 
   SqlQuery q(db);
   q.prepare(sql);

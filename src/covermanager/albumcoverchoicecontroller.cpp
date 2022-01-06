@@ -534,9 +534,12 @@ void AlbumCoverChoiceController::SaveArtAutomaticToSong(Song *song, const QUrl &
   if (!song->is_valid()) return;
 
   song->set_art_automatic(art_automatic);
+  if (song->has_embedded_cover()) {
+    song->clear_art_manual();
+  }
 
   if (song->source() == Song::Source_Collection) {
-    app_->collection_backend()->UpdateAutomaticAlbumArtAsync(song->effective_albumartist(), song->album(), art_automatic);
+    app_->collection_backend()->UpdateAutomaticAlbumArtAsync(song->effective_albumartist(), song->album(), art_automatic, song->has_embedded_cover());
   }
 
   if (*song == app_->current_albumcover_loader()->last_song()) {
