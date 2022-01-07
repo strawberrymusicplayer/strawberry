@@ -2213,12 +2213,12 @@ msgid "Failed to open cover file %1 for reading: %2"
 msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:271
-#: covermanager/albumcoverchoicecontroller.cpp:638
+#: covermanager/albumcoverchoicecontroller.cpp:641
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:632
+#: covermanager/albumcoverchoicecontroller.cpp:635
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr ""
@@ -4195,7 +4195,7 @@ msgstr ""
 msgid "Saving album covers"
 msgstr "Tallennetaan kansikuvia"
 
-#: collection/collection.cpp:196
+#: collection/collection.cpp:197
 msgid "Saving playcounts and ratings"
 msgstr ""
 
@@ -5170,7 +5170,7 @@ msgstr ""
 msgid "Update the collection when Strawberry starts"
 msgstr "Päivitä kirjasto Strawberry käynnistyessä"
 
-#: collection/collectionwatcher.cpp:204
+#: collection/collectionwatcher.cpp:205
 #, qt-format
 msgid "Updating %1"
 msgstr "Päivitetään %1"
@@ -5185,7 +5185,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "Päivitetään %1 %..."
 
-#: collection/collectionwatcher.cpp:201
+#: collection/collectionwatcher.cpp:202
 msgid "Updating collection"
 msgstr "Päivitetään kirjastoa"
 
