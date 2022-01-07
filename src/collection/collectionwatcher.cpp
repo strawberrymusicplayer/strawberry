@@ -457,7 +457,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   }
 
   // First we "quickly" get a list of the files in the directory that we think might be music.  While we're here, we also look for new subdirectories and possible album artwork.
-  QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
+  QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
   while (it.hasNext()) {
 
     if (stop_requested_ || abort_requested_) return;
@@ -466,7 +466,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
     QFileInfo child_info(child);
 
     if (child_info.isDir()) {
-      if (!child_info.isHidden() && !t->HasSeenSubdir(child)) {
+      if (!t->HasSeenSubdir(child)) {
         // We haven't seen this subdirectory before - add it to a list and later we'll tell the backend about it and scan it.
         Subdirectory new_subdir;
         new_subdir.directory_id = -1;
@@ -1208,7 +1208,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &path) {
 
   quint64 i = 0;
-  QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
+  QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
   while (it.hasNext()) {
 
     if (stop_requested_ || abort_requested_) break;
