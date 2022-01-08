@@ -5,15 +5,39 @@ ChangeLog
 Unreleased:
 
   Bugfixes:
-    * Fix collection and internet search filter menu button arrow overlap.
-    * Fix stop after this track button with Qt 6.
+    * Fixed collection and internet search filter tool button menu arrow overlap (#796).
+    * Fixed stop after this track button with Qt 6 (#795).
+    * Fixed not updating the URL when songs were moved on disk when the fingerprinting feature is enabled.
+    * Fixed SQL query error for songs with an invalid modification time (#815).
+    * Fixed blocky rendering of the currently playing track with high resolution screens (#794).
+    * Fixed incorrect playlist column filesize for radio streams.
+    * Fixed deleting embedded album cover from Ogg songs.
+    * Fixed parsing of Cue tracks with 1-digit minutes (#836).
+    * Fixed updating of playlist summary after reloading items when adding songs from files outside of the collection (#848).
+    * Fixed always saving metadata when saving playlists for Tidal, Qobuz and Subsonic songs independent of playlist setting (#851).
+    * Fixed setting media shortcuts when using kglobalaccel (#849).
+    * Fixed parsing of Genius lyrics when they are sometimes received in a different HTML format.
+    * Fixed saving MP4 specific tags as UTF-8 (#830).
+    * Fixed clearing "manually set" cover when saving album covers embedded from outside of the tag editor (#858).
+    * Fixed aborting collection scan when Strawberry exists to avoid hang on exit.
+    * Fixed resuming collection scan when adding a new directory after collection scan was aborted.
+    * Fixed excluding hidden songs from the collection.
+    * Disabled moodbar for CUE songs since they can not be supported properly (#865).
+    * (Windows) Added gstreamer gstxingmux plugin to fix transcoding to MP3 (#856).
 
   Enhancements:
-    * Make playlist header column text elided.
-    * Add support for reading and writing playcounts and ratings to/from tags.
-    * Add support for setting rating using the edit tag dialog.
-    * Add setting to enable/disable playlist toolbar.
-    * Add component type, content_rating type and releases to appstream data file.
+    * Made playlist header column text elided (#801).
+    * Added support for reading and writing playcounts and ratings from/to tags.
+    * Added support for setting rating using the edit tag dialog.
+    * Added setting to enable/disable playlist toolbar (#809).
+    * Added component type, content_rating type and releases to AppStream data file (#806).
+    * Removed unused "mark as listened" option in organize dialog.
+    * Fixed some clazy warnings and narrowing conversions in the source code.
+    * Replaced uses of macros in the source code.
+    * Added a more user-friendly error message when receiving encrypted streams from Tidal (#824).
+    * Added support for port-pattern entered in the device textbox when using Jack as output (#828).
+    * Added Spanish (Spain) translation.
+    * Added support for more CUE filenames (#835).
     * (Windows) Add gstreamer dash plugin.
 
 Version 1.0.0 (2021.10.14)
