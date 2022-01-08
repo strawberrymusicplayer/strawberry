@@ -39,9 +39,8 @@
    <item>
     <widget class="QToolButton" name="options">
      <property name="styleSheet">
-      <string notr="true">QToolButton, QToolButton:hover, QToolButton:pressed {
-  padding-right: 16px;
-}</string>
+      <string notr="true">padding-right: 16px;
+</string>
      </property>
      <property name="iconSize">
       <size>

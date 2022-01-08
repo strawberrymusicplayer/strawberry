@@ -88,9 +88,8 @@
           <item>
            <widget class="QToolButton" name="view">
             <property name="styleSheet">
-             <string notr="true">QToolButton, QToolButton:hover, QToolButton:pressed {
-  padding-right: 16px;
-}</string>
+             <string notr="true">padding-right: 16px;
+</string>
             </property>
             <property name="text">
              <string>View</string>
