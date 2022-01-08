@@ -19,13 +19,25 @@
   background-clip: content;
 }
 
-macos QToolButton {
+#context-layout-container {
+  background-color: %palette-base;
+}
+
+#context-widget-scrollarea {
+  background-color: %palette-base;
+}
+
+#context-layout-scrollarea {
+  background-color: %palette-base;
+}
+
+QToolButton {
   border: 2px solid transparent;
   border-radius: 3px;
   padding: 1px;
 }
 
-macos QToolButton::menu-button {
+QToolButton::menu-button {
   width: 16px;
   border: none;
 }
@@ -35,11 +47,8 @@ QToolButton[popupMode="1"] {
 }
 
 QToolButton:hover {
-  background-color: %palette-highlight-lighter;
-}
-
-macos QToolButton:hover {
   border: 2px solid %palette-highlight;
+  background-color: %palette-highlight-lighter;
 }
 
 QToolButton:hover[popupMode="1"] {
@@ -47,11 +56,8 @@ QToolButton:hover[popupMode="1"] {
 }
 
 QToolButton:pressed {
-  background-color: %palette-highlight-lighter;
-}
-
-macos QToolButton:pressed {
   border: 2px solid %palette-highlight-darker;
+  background-color: %palette-highlight-lighter;
 }
 
 QToolButton:pressed[popupMode="1"] {
@@ -66,14 +72,3 @@ macos QMenu {
   font-size: 13pt;
 }
 
-#context-layout-container {
-  background-color: %palette-base;
-}
-
-#context-widget-scrollarea {
-  background-color: %palette-base;
-}
-
-#context-layout-scrollarea {
-  background-color: %palette-base;
-}

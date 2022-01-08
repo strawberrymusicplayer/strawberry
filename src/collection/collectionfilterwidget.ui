@@ -38,6 +38,11 @@
    </item>
    <item>
     <widget class="QToolButton" name="options">
+     <property name="styleSheet">
+      <string notr="true">QToolButton, QToolButton:hover, QToolButton:pressed {
+  padding-right: 16px;
+}</string>
+     </property>
      <property name="iconSize">
       <size>
        <width>16</width>
@@ -45,7 +50,10 @@
       </size>
      </property>
      <property name="popupMode">
-      <enum>QToolButton::InstantPopup</enum>
+      <enum>QToolButton::MenuButtonPopup</enum>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

@@ -151,6 +151,12 @@
                   <property name="enabled">
                    <bool>false</bool>
                   </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton, QToolButton:hover, QToolButton:pressed {
+  padding-right: 16px;
+}
+</string>
+                  </property>
                   <property name="iconSize">
                    <size>
                     <width>32</width>

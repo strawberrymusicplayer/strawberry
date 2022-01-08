@@ -54,6 +54,12 @@
               <height>0</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">QToolButton, QToolButton:hover, QToolButton:pressed {
+  padding-right: 16px;
+}
+</string>
+            </property>
             <property name="iconSize">
              <size>
               <width>16</width>
@@ -61,7 +67,7 @@
              </size>
             </property>
             <property name="popupMode">
-             <enum>QToolButton::InstantPopup</enum>
+             <enum>QToolButton::MenuButtonPopup</enum>
             </property>
             <property name="autoRaise">
              <bool>true</bool>
@@ -231,7 +237,7 @@
             <x>0</x>
             <y>0</y>
             <width>398</width>
-            <height>518</height>
+            <height>520</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
