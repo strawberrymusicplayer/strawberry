@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.1 (2022.01.08)
 
   Bugfixes:
     * Fixed collection and internet search filter tool button menu arrow overlap (#796).
