@@ -255,11 +255,11 @@ msgstr "%title - %artist%"
 msgid "%url%"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:650
+#: ../build/src/ui_mainwindow.h:651
 msgid "&About Strawberry"
 msgstr "&Circa  Strawberry"
 
-#: ../build/src/ui_mainwindow.h:658
+#: ../build/src/ui_mainwindow.h:659
 msgid "&Add file..."
 msgstr "&Aggiungi file..."
 
@@ -271,11 +271,11 @@ msgstr "&Allinea il testo"
 msgid "&Center"
 msgstr "&Centra"
 
-#: ../build/src/ui_mainwindow.h:629
+#: ../build/src/ui_mainwindow.h:630
 msgid "&Clear playlist"
 msgstr "&Pulisci playlist"
 
-#: ../build/src/ui_mainwindow.h:664
+#: ../build/src/ui_mainwindow.h:665
 msgid "&Cover Manager"
 msgstr "&Manager Copertine"
 
@@ -287,11 +287,11 @@ msgstr "&Personalizzata"
 msgid "&Default"
 msgstr "&Default"
 
-#: ../build/src/ui_mainwindow.h:696
+#: ../build/src/ui_mainwindow.h:697
 msgid "&Do a full collection rescan"
 msgstr "&Fai una nuova scansione della collezione"
 
-#: ../build/src/ui_mainwindow.h:669
+#: ../build/src/ui_mainwindow.h:670
 msgid "&Equalizer"
 msgstr "&Equalizzatore"
 
@@ -304,7 +304,7 @@ msgstr "&Nascondi %1"
 msgid "&Hide..."
 msgstr "&Nascondi..."
 
-#: ../build/src/ui_mainwindow.h:672
+#: ../build/src/ui_mainwindow.h:673
 msgid "&Jump to the currently playing track"
 msgstr "&Salta sulla traccia in esecuzione"
 
@@ -312,7 +312,7 @@ msgstr "&Salta sulla traccia in esecuzione"
 msgid "&Left"
 msgstr "&sinistra"
 
-#: ../build/src/ui_mainwindow.h:684
+#: ../build/src/ui_mainwindow.h:685
 msgid "&Load playlist..."
 msgstr "&Carica playlist"
 
@@ -324,19 +324,19 @@ msgstr ""
 msgid "&Manual proxy configuration"
 msgstr "&Configurazione proxy manuale"
 
-#: ../build/src/ui_mainwindow.h:713
+#: ../build/src/ui_mainwindow.h:714
 msgid "&Music"
 msgstr "&Musica"
 
-#: ../build/src/ui_mainwindow.h:692
+#: ../build/src/ui_mainwindow.h:693
 msgid "&Mute"
 msgstr "&Muto"
 
-#: ../build/src/ui_mainwindow.h:676
+#: ../build/src/ui_mainwindow.h:677
 msgid "&New playlist"
 msgstr "&Nuova playlist"
 
-#: ../build/src/ui_mainwindow.h:616
+#: ../build/src/ui_mainwindow.h:617
 msgid "&Next track"
 msgstr "&Prossima traccia"
 
@@ -348,19 +348,19 @@ msgstr "&Nessuna immagine di sfondo"
 msgid "&None"
 msgstr "&Nessuna"
 
-#: ../build/src/ui_mainwindow.h:662
+#: ../build/src/ui_mainwindow.h:663
 msgid "&Open file..."
 msgstr "&Apri file"
 
-#: ../build/src/ui_mainwindow.h:608
+#: ../build/src/ui_mainwindow.h:609
 msgid "&Play"
 msgstr "&Play"
 
-#: ../build/src/ui_mainwindow.h:620
+#: ../build/src/ui_mainwindow.h:621
 msgid "&Quit"
 msgstr "&Esci"
 
-#: ../build/src/ui_mainwindow.h:667
+#: ../build/src/ui_mainwindow.h:668
 msgid "&Repeat mode"
 msgstr "&Modalità ripetizione"
 
@@ -372,15 +372,15 @@ msgstr "&Resetta le colonne ai valori di default"
 msgid "&Right"
 msgstr "&Destra"
 
-#: ../build/src/ui_mainwindow.h:646
+#: ../build/src/ui_mainwindow.h:647
 msgid "&Settings..."
 msgstr "&Impostazioni"
 
-#: ../build/src/ui_mainwindow.h:666
+#: ../build/src/ui_mainwindow.h:667
 msgid "&Shuffle mode"
 msgstr "&Modalità causale"
 
-#: ../build/src/ui_mainwindow.h:612
+#: ../build/src/ui_mainwindow.h:613
 msgid "&Stop"
 msgstr "&Stop"
 
@@ -388,15 +388,15 @@ msgstr "&Stop"
 msgid "&Stretch columns to fit window"
 msgstr "&Allunga le colonne per adattarle alla finestra"
 
-#: ../build/src/ui_mainwindow.h:716
+#: ../build/src/ui_mainwindow.h:717
 msgid "&Tools"
 msgstr "&Strumenti"
 
-#: ../build/src/ui_mainwindow.h:670
+#: ../build/src/ui_mainwindow.h:671
 msgid "&Transcode Music"
 msgstr "&Transcodifica Musica"
 
-#: ../build/src/ui_mainwindow.h:690
+#: ../build/src/ui_mainwindow.h:691
 msgid "&Update changed collection folders"
 msgstr "&Update le cartelle modificate della collezione"
 
@@ -423,8 +423,8 @@ msgstr ""
 msgid "(different across multiple songs)"
 msgstr "(differente tra diversi brani)"
 
-#: ../build/src/ui_albumcovermanager.h:220
-#: ../build/src/ui_albumcovermanager.h:221
+#: ../build/src/ui_albumcovermanager.h:222
+#: ../build/src/ui_albumcovermanager.h:223
 msgid "0"
 msgstr "0"
 
@@ -525,7 +525,7 @@ msgstr "ASF (WMA)"
 msgid "Abort"
 msgstr "Interrompi"
 
-#: ../build/src/ui_mainwindow.h:697
+#: ../build/src/ui_mainwindow.h:698
 msgid "Abort collection scan"
 msgstr "Annulla lo scan della collezione"
 
@@ -533,7 +533,7 @@ msgstr "Annulla lo scan della collezione"
 msgid "About"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:691
+#: ../build/src/ui_mainwindow.h:692
 msgid "About &Qt"
 msgstr "Circa &Qt"
 
@@ -554,7 +554,7 @@ msgctxt "Category label"
 msgid "Action"
 msgstr "Azione"
 
-#: ../build/src/ui_mainwindow.h:671
+#: ../build/src/ui_mainwindow.h:672
 msgid "Add &folder..."
 msgstr "Aggiungi &folder..."
 
@@ -580,11 +580,11 @@ msgstr "Aggiungi cartella..."
 msgid "Add file"
 msgstr "Aggiungi file"
 
-#: ../build/src/ui_mainwindow.h:707
+#: ../build/src/ui_mainwindow.h:708
 msgid "Add file to transcoder"
 msgstr "Aggiungi file al transcodificatore"
 
-#: ../build/src/ui_mainwindow.h:705
+#: ../build/src/ui_mainwindow.h:706
 msgid "Add file(s) to transcoder"
 msgstr "Aggiungi file al transcodificatore"
 
@@ -694,7 +694,7 @@ msgstr "Aggiungi il tag traccia al brano"
 msgid "Add song year tag"
 msgstr "Aggiungi il tag anno al brano"
 
-#: ../build/src/ui_mainwindow.h:709
+#: ../build/src/ui_mainwindow.h:710
 msgid "Add stream..."
 msgstr ""
 
@@ -710,7 +710,7 @@ msgstr "Aggiungi a un'altra scaletta"
 msgid "Add to artists"
 msgstr "Aggiungi agli artisti"
 
-#: ../build/src/ui_albumcovermanager.h:215
+#: ../build/src/ui_albumcovermanager.h:217
 msgid "Add to playlist"
 msgstr "Aggiungi alla scaletta"
 
@@ -727,24 +727,24 @@ msgstr "Aggiungi alla coda"
 msgid "Add..."
 msgstr "Aggiungi..."
 
-#: ../build/src/ui_collectionfilterwidget.h:98
+#: ../build/src/ui_collectionfilterwidget.h:101
 msgid "Added this month"
 msgstr "Aggiunti questo mese"
 
-#: ../build/src/ui_collectionfilterwidget.h:92
+#: ../build/src/ui_collectionfilterwidget.h:95
 msgid "Added this week"
 msgstr "Aggiunti questa settimana"
 
-#: ../build/src/ui_collectionfilterwidget.h:97
+#: ../build/src/ui_collectionfilterwidget.h:100
 msgid "Added this year"
 msgstr "Aggiunti quest'anno"
 
-#: ../build/src/ui_collectionfilterwidget.h:91
+#: ../build/src/ui_collectionfilterwidget.h:94
 msgid "Added today"
 msgstr "Aggiunti oggi"
 
-#: ../build/src/ui_collectionfilterwidget.h:93
-#: ../build/src/ui_collectionfilterwidget.h:95
+#: ../build/src/ui_collectionfilterwidget.h:96
+#: ../build/src/ui_collectionfilterwidget.h:98
 msgid "Added within three months"
 msgstr "Aggiunti negli ultimi tre mesi"
 
@@ -1173,7 +1173,7 @@ msgstr "Durata del buffer"
 msgid "Buffering"
 msgstr "Riempimento buffer in corso"
 
-#: ../build/src/ui_mainwindow.h:665
+#: ../build/src/ui_mainwindow.h:666
 msgid "C&onsole"
 msgstr "C&onsole"
 
@@ -1263,7 +1263,7 @@ msgstr ""
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2278 ../build/src/ui_mainwindow.h:631
+#: core/mainwindow.cpp:2278 ../build/src/ui_mainwindow.h:632
 msgid "Clear playlist"
 msgstr "Svuota la scaletta"
 
@@ -1313,7 +1313,7 @@ msgstr "Club"
 msgid "Collection"
 msgstr "Raccolta"
 
-#: ../build/src/ui_collectionfilterwidget.h:89
+#: ../build/src/ui_collectionfilterwidget.h:92
 msgid "Collection Filter"
 msgstr "Filtro della Collezione"
 
@@ -1350,7 +1350,7 @@ msgstr ""
 msgid "Complete tags automatically"
 msgstr "Completa automaticamente i tag"
 
-#: ../build/src/ui_mainwindow.h:698
+#: ../build/src/ui_mainwindow.h:699
 msgid "Complete tags automatically..."
 msgstr "Completa automaticamente i tag..."
 
@@ -1504,7 +1504,7 @@ msgstr ""
 "Impossibile trovare un codificatore per %1, verifica l'installazione del "
 "plugin GStreamer corretto"
 
-#: ../build/src/ui_albumcovermanager.h:212
+#: ../build/src/ui_albumcovermanager.h:214
 #: ../build/src/ui_albumcoversearcher.h:101
 msgid "Cover Manager"
 msgstr "Gestore delle copertine"
@@ -1573,7 +1573,7 @@ msgstr "Dissolvenza incrociata al cambio automatico di traccia"
 msgid "Cross-fade when changing tracks manually"
 msgstr "Dissolvenza incrociata al cambio manuale di traccia"
 
-#: ../build/src/ui_mainwindow.h:626
+#: ../build/src/ui_mainwindow.h:627
 msgid "Ctrl+Alt+V"
 msgstr "Ctrl+Alt+V"
 
@@ -1581,51 +1581,51 @@ msgstr "Ctrl+Alt+V"
 msgid "Ctrl+Down"
 msgstr "Ctrl+Down"
 
-#: ../build/src/ui_mainwindow.h:638
+#: ../build/src/ui_mainwindow.h:639
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: ../build/src/ui_mainwindow.h:656
+#: ../build/src/ui_mainwindow.h:657
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: ../build/src/ui_mainwindow.h:674
+#: ../build/src/ui_mainwindow.h:675
 msgid "Ctrl+J"
 msgstr "Ctrl+J"
 
-#: ../build/src/ui_mainwindow.h:634 ../build/src/ui_queueview.h:144
+#: ../build/src/ui_mainwindow.h:635 ../build/src/ui_queueview.h:144
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: ../build/src/ui_mainwindow.h:694
+#: ../build/src/ui_mainwindow.h:695
 msgid "Ctrl+M"
 msgstr "Ctrl+M"
 
-#: ../build/src/ui_mainwindow.h:678
+#: ../build/src/ui_mainwindow.h:679
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: ../build/src/ui_mainwindow.h:648
+#: ../build/src/ui_mainwindow.h:649
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: ../build/src/ui_mainwindow.h:622
+#: ../build/src/ui_mainwindow.h:623
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: ../build/src/ui_mainwindow.h:682
+#: ../build/src/ui_mainwindow.h:683
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: ../build/src/ui_mainwindow.h:660
+#: ../build/src/ui_mainwindow.h:661
 msgid "Ctrl+Shift+A"
 msgstr "Ctrl+Shift+A"
 
-#: ../build/src/ui_mainwindow.h:686
+#: ../build/src/ui_mainwindow.h:687
 msgid "Ctrl+Shift+O"
 msgstr "Ctrl+Shift+O"
 
-#: ../build/src/ui_mainwindow.h:700
+#: ../build/src/ui_mainwindow.h:701
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
@@ -1908,7 +1908,7 @@ msgstr ""
 msgid "Edit tag \"%1\"..."
 msgstr "Modifica tag \"%1\"..."
 
-#: ../build/src/ui_mainwindow.h:642
+#: ../build/src/ui_mainwindow.h:643
 msgid "Edit tag..."
 msgstr "Modifica tag..."
 
@@ -1917,7 +1917,7 @@ msgid "Edit track information"
 msgstr "Modifica informazioni della traccia"
 
 #: context/contextalbumsview.cpp:275 collection/collectionview.cpp:364
-#: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:636
+#: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:637
 msgid "Edit track information..."
 msgstr "Modifica informazioni sulla traccia..."
 
@@ -2024,14 +2024,14 @@ msgstr "Digita un nome file per le copertine esportate (nessuna estensione):"
 msgid "Enter a new name for this playlist"
 msgstr "Inserisci un nuovo nome per questa scaletta"
 
-#: internet/internetsearchview.cpp:409 ../build/src/ui_internetsearchview.h:229
+#: internet/internetsearchview.cpp:409 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr ""
 "Inserisci i termini per la ricerca qui sopra per trovare la musica che "
 "cerchi"
 
-#: ../build/src/ui_collectionfilterwidget.h:101
-#: ../build/src/ui_albumcovermanager.h:216
+#: ../build/src/ui_collectionfilterwidget.h:104
+#: ../build/src/ui_albumcovermanager.h:218
 msgid "Enter search terms here"
 msgstr "Inserisci qui i termini di ricerca"
 
@@ -2051,7 +2051,7 @@ msgstr ""
 msgid "Enter your user token from"
 msgstr "Inserisci il tuo token utente da"
 
-#: ../build/src/ui_collectionfilterwidget.h:90
+#: ../build/src/ui_collectionfilterwidget.h:93
 msgid "Entire collection"
 msgstr "Collezione completa"
 
@@ -2131,7 +2131,7 @@ msgstr ""
 msgid "Expires on %1"
 msgstr "Scade il %1"
 
-#: ../build/src/ui_albumcovermanager.h:223
+#: ../build/src/ui_albumcovermanager.h:225
 msgid "Export Covers"
 msgstr "Esporta copertine"
 
@@ -2157,27 +2157,27 @@ msgstr "Esporta completate"
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Esportate %1 copertine di %2 (%3 saltate)"
 
-#: ../build/src/ui_mainwindow.h:652
+#: ../build/src/ui_mainwindow.h:653
 msgid "F1"
 msgstr "F1"
 
-#: ../build/src/ui_mainwindow.h:644
+#: ../build/src/ui_mainwindow.h:645
 msgid "F2"
 msgstr "F2"
 
-#: ../build/src/ui_mainwindow.h:606
+#: ../build/src/ui_mainwindow.h:607
 msgid "F5"
 msgstr "F5"
 
-#: ../build/src/ui_mainwindow.h:610
+#: ../build/src/ui_mainwindow.h:611
 msgid "F6"
 msgstr "F6"
 
-#: ../build/src/ui_mainwindow.h:614
+#: ../build/src/ui_mainwindow.h:615
 msgid "F7"
 msgstr "F7"
 
-#: ../build/src/ui_mainwindow.h:618
+#: ../build/src/ui_mainwindow.h:619
 msgid "F8"
 msgstr "F8"
 
@@ -2247,11 +2247,11 @@ msgstr "Veloce"
 msgid "Favourite tracks"
 msgstr ""
 
-#: ../build/src/ui_albumcovermanager.h:222
+#: ../build/src/ui_albumcovermanager.h:224
 msgid "Fetch Missing Covers"
 msgstr "Scarica copertine mancanti"
 
-#: ../build/src/ui_albumcovermanager.h:213
+#: ../build/src/ui_albumcovermanager.h:215
 msgid "Fetch automatically"
 msgstr "Scarica automaticamente"
 
@@ -2478,11 +2478,11 @@ msgstr ""
 msgid "Global Shortcuts"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:688
+#: ../build/src/ui_mainwindow.h:689
 msgid "Go to next playlist tab"
 msgstr "Vai alla scheda della scaletta successiva"
 
-#: ../build/src/ui_mainwindow.h:689
+#: ../build/src/ui_mainwindow.h:690
 msgid "Go to previous playlist tab"
 msgstr "Vai alla scheda della scaletta precedente"
 
@@ -2604,7 +2604,7 @@ msgstr ""
 "Le informazioni hardware sono disponibili solo quando il dispositivo è "
 "connesso."
 
-#: ../build/src/ui_mainwindow.h:715
+#: ../build/src/ui_mainwindow.h:716
 msgid "Help"
 msgstr "Aiuto"
 
@@ -2684,7 +2684,7 @@ msgstr "Immagini (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgid "Import data from last.fm"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:711
+#: ../build/src/ui_mainwindow.h:712
 msgid "Import data from last.fm..."
 msgstr ""
 
@@ -2740,7 +2740,7 @@ msgstr ""
 msgid "Integrity check"
 msgstr "Controllo d'integrità"
 
-#: ../build/src/ui_internetsearchview.h:223
+#: ../build/src/ui_internetsearchview.h:225
 msgid "Internet Search View"
 msgstr ""
 
@@ -2854,7 +2854,7 @@ msgstr "Listenbrainz"
 msgid "Live"
 msgstr "Live"
 
-#: ../build/src/ui_albumcovermanager.h:214
+#: ../build/src/ui_albumcovermanager.h:216
 msgid "Load"
 msgstr "Carica"
 
@@ -2931,7 +2931,7 @@ msgstr "Accedi"
 msgid "Long term prediction profile (LTP)"
 msgstr "Profilo con predizione di lungo termine (LTP)"
 
-#: ../build/src/ui_mainwindow.h:628
+#: ../build/src/ui_mainwindow.h:629
 msgid "Love"
 msgstr "Love"
 
@@ -2972,7 +2972,7 @@ msgstr "MP3"
 msgid "Main profile (MAIN)"
 msgstr "Profilo principale (MAIN)"
 
-#: ../build/src/ui_collectionfilterwidget.h:100
+#: ../build/src/ui_collectionfilterwidget.h:103
 msgid "Manage saved groupings"
 msgstr "Gestisci raggruppamenti salvati"
 
@@ -3366,7 +3366,7 @@ msgstr "Aprire l'URL nel browser web?"
 msgid "Open a directory to import music from"
 msgstr "Apri una cartella da cui importare la musica"
 
-#: ../build/src/ui_mainwindow.h:663
+#: ../build/src/ui_mainwindow.h:664
 msgid "Open audio &CD..."
 msgstr "Apri un &CD audio"
 
@@ -3469,7 +3469,7 @@ msgstr "Sovrascrivi i file esistenti"
 msgid "Overwrite s&maller ones only"
 msgstr "Sovrascrivi solamente i più &piccoli "
 
-#: ../build/src/ui_mainwindow.h:714
+#: ../build/src/ui_mainwindow.h:715
 msgid "P&laylist"
 msgstr "P&laylist"
 
@@ -3723,7 +3723,7 @@ msgstr "Anteprima"
 msgid "Previous"
 msgstr "Precedente"
 
-#: ../build/src/ui_mainwindow.h:604
+#: ../build/src/ui_mainwindow.h:605
 msgid "Previous track"
 msgstr "Traccia precedente"
 
@@ -3908,11 +3908,11 @@ msgstr "Ricorda la mia scelta"
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: ../build/src/ui_mainwindow.h:703
+#: ../build/src/ui_mainwindow.h:704
 msgid "Remove &duplicates from playlist"
 msgstr "Rimuovi i &duplicati dalla playlist"
 
-#: ../build/src/ui_mainwindow.h:704
+#: ../build/src/ui_mainwindow.h:705
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Rimuovi le tracce &non disponibili dalla playlist"
 
@@ -3924,7 +3924,7 @@ msgstr "Rimuovi cartella"
 msgid "Remove from favorites"
 msgstr "Rimuovi dai preferiti"
 
-#: ../build/src/ui_mainwindow.h:668
+#: ../build/src/ui_mainwindow.h:669
 msgid "Remove from playlist"
 msgstr "Rimuovi dalla scaletta"
 
@@ -3948,7 +3948,7 @@ msgstr "Rinomina la scaletta"
 msgid "Rename playlist..."
 msgstr "Rinomina la scaletta..."
 
-#: ../build/src/ui_mainwindow.h:640
+#: ../build/src/ui_mainwindow.h:641
 msgid "Renumber tracks in this order..."
 msgstr "Ricorda l'ordine delle tracce..."
 
@@ -4110,7 +4110,7 @@ msgstr "Rock"
 msgid "Run"
 msgstr "Esegui"
 
-#: ../build/src/ui_mainwindow.h:654
+#: ../build/src/ui_mainwindow.h:655
 msgid "S&huffle playlist"
 msgstr "M&escola la playlist"
 
@@ -4137,7 +4137,7 @@ msgstr "Campionamento"
 msgid "Samplerate"
 msgstr "Campionamento"
 
-#: ../build/src/ui_mainwindow.h:680
+#: ../build/src/ui_mainwindow.h:681
 msgid "Save &playlist..."
 msgstr "Salva la &playlist"
 
@@ -4161,7 +4161,7 @@ msgstr ""
 msgid "Save cover to disk..."
 msgstr "Salva la copertina su disco..."
 
-#: ../build/src/ui_collectionfilterwidget.h:99
+#: ../build/src/ui_collectionfilterwidget.h:102
 msgid "Save current grouping"
 msgstr "Salva il raggruppamento attuale"
 
@@ -4355,7 +4355,7 @@ msgstr "Imposta %1 a \"%2\"..."
 msgid "Set the volume to <value> percent"
 msgstr "Imposta il volume al <value> percento"
 
-#: ../build/src/ui_mainwindow.h:641
+#: ../build/src/ui_mainwindow.h:642
 msgid "Set value for all selected tracks..."
 msgstr "Imposta valore per tutte le tracce selezionate..."
 
@@ -4499,7 +4499,7 @@ msgstr "Mostra il widget in riproduzione"
 msgid "Show scrobble button"
 msgstr "Mostra il pulsante di scrobble"
 
-#: ../build/src/ui_mainwindow.h:710
+#: ../build/src/ui_mainwindow.h:711
 msgid "Show sidebar"
 msgstr ""
 
@@ -4701,7 +4701,7 @@ msgstr "Ferma dopo ogni traccia"
 msgid "Stop after every track"
 msgstr "Ferma dopo tutte le tracce"
 
-#: core/mainwindow.cpp:703 ../build/src/ui_mainwindow.h:624
+#: core/mainwindow.cpp:703 ../build/src/ui_mainwindow.h:625
 msgid "Stop after this track"
 msgstr "Ferma dopo questa traccia"
 
@@ -4730,7 +4730,7 @@ msgstr ""
 msgid "Strawberry Error"
 msgstr "Errore di Strawberry"
 
-#: ../build/src/ui_mainwindow.h:603
+#: ../build/src/ui_mainwindow.h:604
 msgid "Strawberry Music Player"
 msgstr "Lettore musicale Strawberry"
 
@@ -5081,7 +5081,7 @@ msgstr "Oggi"
 msgid "Toggle queue status"
 msgstr "Cambia lo stato della coda"
 
-#: ../build/src/ui_mainwindow.h:702
+#: ../build/src/ui_mainwindow.h:703
 msgid "Toggle scrobbling"
 msgstr "Commuta lo scrobbling"
 
@@ -5101,7 +5101,7 @@ msgstr "Domani"
 msgid "Too many songs selected."
 msgstr "Troppe canzoni selezionate."
 
-#: ../build/src/ui_albumcovermanager.h:218
+#: ../build/src/ui_albumcovermanager.h:220
 msgid "Total albums:"
 msgstr "Album totali:"
 
@@ -5374,7 +5374,7 @@ msgstr "Verifica il certificato del server"
 msgid "Version %1"
 msgstr "Versione %1"
 
-#: ../build/src/ui_albumcovermanager.h:217
+#: ../build/src/ui_albumcovermanager.h:219
 msgid "View"
 msgstr "Visualizza"
 
@@ -5430,7 +5430,7 @@ msgstr "Quando salvi una scaletta, i percorsi dei file dovrebbero essere"
 msgid "Wide band (WB)"
 msgstr "Banda larga (WB)"
 
-#: ../build/src/ui_albumcovermanager.h:219
+#: ../build/src/ui_albumcovermanager.h:221
 msgid "Without cover:"
 msgstr "Senza copertina:"
 
@@ -5574,7 +5574,7 @@ msgstr ""
 msgid "ago"
 msgstr ""
 
-#: ../build/src/ui_internetsearchview.h:226
+#: ../build/src/ui_internetsearchview.h:228
 msgid "albums"
 msgstr ""
 
@@ -5586,7 +5586,7 @@ msgstr ""
 msgid "artist"
 msgstr "artista"
 
-#: ../build/src/ui_internetsearchview.h:225
+#: ../build/src/ui_internetsearchview.h:227
 msgid "artists"
 msgstr ""
 
@@ -5744,7 +5744,7 @@ msgstr "mescola i brani"
 msgid "smallest first"
 msgstr ""
 
-#: ../build/src/ui_internetsearchview.h:227
+#: ../build/src/ui_internetsearchview.h:229
 msgid "songs"
 msgstr ""
 
