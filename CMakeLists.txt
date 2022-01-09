@@ -117,6 +117,9 @@ endif()
 pkg_check_modules(GLIB REQUIRED glib-2.0)
 pkg_check_modules(GOBJECT REQUIRED gobject-2.0)
 pkg_check_modules(GIO REQUIRED gio-2.0)
+if(UNIX)
+  pkg_check_modules(GIO_UNIX gio-unix-2.0)
+endif()
 pkg_check_modules(LIBCDIO libcdio)
 pkg_check_modules(GSTREAMER gstreamer-1.0)
 pkg_check_modules(GSTREAMER_BASE gstreamer-base-1.0)
@@ -389,6 +392,11 @@ optional_component(UDISKS2 ON "Devices: UDisks2 backend"
 optional_component(GIO ON "Devices: GIO device backend"
   DEPENDS "libgio" GIO_FOUND
   DEPENDS "Unix or Windows" "NOT APPLE"
+)
+
+optional_component(GIO_UNIX ON "Devices: GIO device backend (Unix support)"
+  DEPENDS "libgio-unix" GIO_UNIX_FOUND
+  DEPENDS "Unix" "UNIX"
 )
 
 optional_component(LIBGPOD ON "Devices: iPod classic support"

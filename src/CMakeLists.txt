@@ -986,6 +986,10 @@ if(HAVE_GIO)
   link_directories(${GIO_LIBRARY_DIRS})
 endif()
 
+if(HAVE_GIO_UNIX)
+  link_directories(${GIO_UNIX_LIBRARY_DIRS})
+endif()
+
 if(HAVE_AUDIOCD)
   link_directories(${LIBCDIO_LIBRARY_DIRS})
 endif()
@@ -1111,6 +1115,11 @@ endif()
 if(HAVE_GIO)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${GIO_INCLUDE_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${GIO_LIBRARIES})
+endif()
+
+if(HAVE_GIO_UNIX)
+  target_include_directories(strawberry_lib SYSTEM PRIVATE ${GIO_UNIX_INCLUDE_DIRS})
+  target_link_libraries(strawberry_lib PRIVATE ${GIO_UNIX_LIBRARIES})
 endif()
 
 if(HAVE_AUDIOCD)

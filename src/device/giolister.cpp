@@ -25,6 +25,9 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>
+#ifdef HAVE_GIO_UNIX
+#  include <gio/gunixmounts.h>
+#endif
 
 #include <QtGlobal>
 #include <QObject>
@@ -59,6 +62,8 @@ QString GioLister::DeviceInfo::unique_id() const {
 bool GioLister::DeviceInfo::is_suitable() const {
 
   if (!volume_ptr) return false;  // This excludes smb or ssh mounts
+
+  if (is_system_internal) return false;
 
   if (drive_ptr && !drive_removable) return false;  // This excludes internal drives
 
@@ -447,7 +452,8 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
   }
   g_object_unref(icon);
 
-  GFile *root = g_mount_get_root(mount);
+  ScopedGObject<GFile> root;
+  root.reset_without_add(g_mount_get_root(mount));
 
   // Get the mount path
   mount_path = ConvertAndFree(g_file_get_path(root));
@@ -465,6 +471,21 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
   else if (actual_mount) {
     g_object_unref(actual_mount);
   }
+
+#ifdef HAVE_GIO_UNIX
+  GUnixMountEntry *unix_mount = g_unix_mount_for(g_file_get_path(root), NULL);
+  if (unix_mount) {
+    // the GIO's definition of system internal mounts include filesystems like
+    // autofs, tmpfs, sysfs, etc, and various system directories, including the root,
+    // /boot, /var, /home, etc.
+    is_system_internal = g_unix_mount_is_system_internal(unix_mount);
+    g_unix_mount_free(unix_mount);
+    // Although checking most of the internal mounts is safe,
+    // we really don't want to touch autofs filesystems, as that would
+    // trigger automounting.
+    if (is_system_internal) return;
+  }
+#endif
 
   // Query the filesystem info for size, free space, and type
   error = nullptr;
@@ -494,9 +515,6 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
       g_object_unref(info);
     }
   }
-
-  g_object_unref(root);
-
 }
 
 void GioLister::DeviceInfo::ReadVolumeInfo(GVolume *volume) {
