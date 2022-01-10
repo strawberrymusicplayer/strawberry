@@ -208,6 +208,8 @@ void InternetSearchView::Init(Application *app, InternetService *service) {
   QObject::connect(app_, &Application::SettingsChanged, this, &InternetSearchView::ReloadSettings);
   QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &InternetSearchView::AlbumCoverLoaded);
 
+  QObject::connect(ui_->settings, &QToolButton::clicked, ui_->settings, &QToolButton::showMenu);
+
   ReloadSettings();
 
 }

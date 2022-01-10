@@ -136,6 +136,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   ui_->options->setMenu(collection_menu_);
 
   QObject::connect(ui_->search_field, &QSearchField::textChanged, this, &CollectionFilterWidget::FilterTextChanged);
+  QObject::connect(ui_->options, &QToolButton::clicked, ui_->options, &QToolButton::showMenu);
 
   ReloadSettings();
 
