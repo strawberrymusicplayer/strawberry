@@ -699,7 +699,7 @@ msgstr "添加歌曲年份标签"
 msgid "Add stream..."
 msgstr "添加流..."
 
-#: internet/internetsearchview.cpp:335
+#: internet/internetsearchview.cpp:337
 msgid "Add to albums"
 msgstr "添加到专辑"
 
@@ -707,7 +707,7 @@ msgstr "添加到专辑"
 msgid "Add to another playlist"
 msgstr "添加到另一播放列表"
 
-#: internet/internetsearchview.cpp:332
+#: internet/internetsearchview.cpp:334
 msgid "Add to artists"
 msgstr "添加到艺术家"
 
@@ -715,7 +715,7 @@ msgstr "添加到艺术家"
 msgid "Add to playlist"
 msgstr "添加到播放列表"
 
-#: internet/internetsearchview.cpp:338
+#: internet/internetsearchview.cpp:340
 msgid "Add to songs"
 msgstr "添加到歌曲"
 
@@ -749,7 +749,7 @@ msgstr "今日加入"
 msgid "Added within three months"
 msgstr "于三个月内加入"
 
-#: collection/collectionfilterwidget.cpp:299
+#: collection/collectionfilterwidget.cpp:300
 msgid "Advanced grouping..."
 msgstr "高级分组..."
 
@@ -908,7 +908,7 @@ msgstr "添加文件/URL 到播放列表"
 
 #: context/contextalbumsview.cpp:261 collection/collectionview.cpp:348
 #: smartplaylists/smartplaylistsviewcontainer.cpp:69
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:321
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:323
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:71
 #: device/deviceview.cpp:243
 msgid "Append to current playlist"
@@ -1371,7 +1371,7 @@ msgstr ""
 msgid "Configuration incorrect"
 msgstr ""
 
-#: internet/internetsearchview.cpp:186 internet/internetsearchview.cpp:350
+#: internet/internetsearchview.cpp:186 internet/internetsearchview.cpp:352
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
@@ -2015,7 +2015,7 @@ msgstr "输入导出封面的文件名(不含扩展名):"
 msgid "Enter a new name for this playlist"
 msgstr "输入播放列表的新名称"
 
-#: internet/internetsearchview.cpp:409 ../build/src/ui_internetsearchview.h:231
+#: internet/internetsearchview.cpp:411 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr ""
 
@@ -2496,63 +2496,63 @@ msgid "Group Collection by..."
 msgstr "媒体库分组..."
 
 #: collection/collectionfilterwidget.cpp:121
-#: internet/internetsearchview.cpp:348
+#: internet/internetsearchview.cpp:350
 msgid "Group by"
 msgstr "分组"
 
-#: collection/collectionfilterwidget.cpp:264
+#: collection/collectionfilterwidget.cpp:265
 msgid "Group by Album"
 msgstr "按专辑分组"
 
-#: collection/collectionfilterwidget.cpp:261
+#: collection/collectionfilterwidget.cpp:262
 msgid "Group by Album Artist"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:248
+#: collection/collectionfilterwidget.cpp:249
 msgid "Group by Album artist/Album"
 msgstr "按专辑 艺人/专辑来分组"
 
-#: collection/collectionfilterwidget.cpp:249
+#: collection/collectionfilterwidget.cpp:250
 msgid "Group by Album artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:251
 msgid "Group by Album artist/Year - Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:251
+#: collection/collectionfilterwidget.cpp:252
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:262
+#: collection/collectionfilterwidget.cpp:263
 msgid "Group by Artist"
 msgstr "按艺人分组"
 
-#: collection/collectionfilterwidget.cpp:253
+#: collection/collectionfilterwidget.cpp:254
 msgid "Group by Artist/Album"
 msgstr "按艺人/专辑分组"
 
-#: collection/collectionfilterwidget.cpp:254
+#: collection/collectionfilterwidget.cpp:255
 msgid "Group by Artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:255
+#: collection/collectionfilterwidget.cpp:256
 msgid "Group by Artist/Year - Album"
 msgstr "按艺人/年份分组 - 专辑"
 
-#: collection/collectionfilterwidget.cpp:256
+#: collection/collectionfilterwidget.cpp:257
 msgid "Group by Artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:265
+#: collection/collectionfilterwidget.cpp:266
 msgid "Group by Genre/Album"
 msgstr "按流派/专辑分组"
 
-#: collection/collectionfilterwidget.cpp:258
+#: collection/collectionfilterwidget.cpp:259
 msgid "Group by Genre/Album artist/Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:259
+#: collection/collectionfilterwidget.cpp:260
 msgid "Group by Genre/Artist/Album"
 msgstr "按流派/艺人/专辑分组"
 
@@ -2563,11 +2563,11 @@ msgstr "按流派/艺人/专辑分组"
 msgid "Grouping"
 msgstr "分组"
 
-#: collection/collectionfilterwidget.cpp:320
+#: collection/collectionfilterwidget.cpp:321
 msgid "Grouping Name"
 msgstr "分组名称"
 
-#: collection/collectionfilterwidget.cpp:320
+#: collection/collectionfilterwidget.cpp:321
 msgid "Grouping name:"
 msgstr "分组名称:"
 
@@ -3353,7 +3353,7 @@ msgstr ""
 
 #: context/contextalbumsview.cpp:263 collection/collectionview.cpp:350
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:323
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:325
 #: internet/internetcollectionview.cpp:319 radios/radioview.cpp:79
 #: device/deviceview.cpp:245 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
@@ -3753,7 +3753,7 @@ msgstr ""
 #: core/mainwindow.cpp:1905 context/contextalbumsview.cpp:266
 #: collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
-#: internet/internetsearchview.cpp:326 internet/internetcollectionview.cpp:322
+#: internet/internetsearchview.cpp:328 internet/internetcollectionview.cpp:322
 msgid "Queue track"
 msgstr "加入队列"
 
@@ -3935,7 +3935,7 @@ msgstr "单曲循环"
 
 #: context/contextalbumsview.cpp:262 collection/collectionview.cpp:349
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:322
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:324
 #: internet/internetcollectionview.cpp:318 radios/radioview.cpp:75
 #: device/deviceview.cpp:244
 msgid "Replace current playlist"
@@ -4220,7 +4220,7 @@ msgstr ""
 msgid "Search for album covers..."
 msgstr "搜索专辑封面..."
 
-#: internet/internetsearchview.cpp:344
+#: internet/internetsearchview.cpp:346
 msgid "Search for this"
 msgstr ""
 

@@ -698,7 +698,7 @@ msgstr "Aggiungi il tag anno al brano"
 msgid "Add stream..."
 msgstr ""
 
-#: internet/internetsearchview.cpp:335
+#: internet/internetsearchview.cpp:337
 msgid "Add to albums"
 msgstr "Aggiungi agli album"
 
@@ -706,7 +706,7 @@ msgstr "Aggiungi agli album"
 msgid "Add to another playlist"
 msgstr "Aggiungi a un'altra scaletta"
 
-#: internet/internetsearchview.cpp:332
+#: internet/internetsearchview.cpp:334
 msgid "Add to artists"
 msgstr "Aggiungi agli artisti"
 
@@ -714,7 +714,7 @@ msgstr "Aggiungi agli artisti"
 msgid "Add to playlist"
 msgstr "Aggiungi alla scaletta"
 
-#: internet/internetsearchview.cpp:338
+#: internet/internetsearchview.cpp:340
 msgid "Add to songs"
 msgstr "Aggiungi alle canzoni"
 
@@ -748,7 +748,7 @@ msgstr "Aggiunti oggi"
 msgid "Added within three months"
 msgstr "Aggiunti negli ultimi tre mesi"
 
-#: collection/collectionfilterwidget.cpp:299
+#: collection/collectionfilterwidget.cpp:300
 msgid "Advanced grouping..."
 msgstr "Raggruppamento avanzato..."
 
@@ -908,7 +908,7 @@ msgstr "Aggiungi file/URL alla scaletta"
 
 #: context/contextalbumsview.cpp:261 collection/collectionview.cpp:348
 #: smartplaylists/smartplaylistsviewcontainer.cpp:69
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:321
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:323
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:71
 #: device/deviceview.cpp:243
 msgid "Append to current playlist"
@@ -1372,7 +1372,7 @@ msgstr "Configurazione incompleta"
 msgid "Configuration incorrect"
 msgstr "Configurazione incorretta"
 
-#: internet/internetsearchview.cpp:186 internet/internetsearchview.cpp:350
+#: internet/internetsearchview.cpp:186 internet/internetsearchview.cpp:352
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
@@ -2024,7 +2024,7 @@ msgstr "Digita un nome file per le copertine esportate (nessuna estensione):"
 msgid "Enter a new name for this playlist"
 msgstr "Inserisci un nuovo nome per questa scaletta"
 
-#: internet/internetsearchview.cpp:409 ../build/src/ui_internetsearchview.h:231
+#: internet/internetsearchview.cpp:411 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr ""
 "Inserisci i termini per la ricerca qui sopra per trovare la musica che "
@@ -2511,63 +2511,63 @@ msgid "Group Collection by..."
 msgstr "Raggruppa raccolta per..."
 
 #: collection/collectionfilterwidget.cpp:121
-#: internet/internetsearchview.cpp:348
+#: internet/internetsearchview.cpp:350
 msgid "Group by"
 msgstr "Raggruppa per"
 
-#: collection/collectionfilterwidget.cpp:264
+#: collection/collectionfilterwidget.cpp:265
 msgid "Group by Album"
 msgstr "Raggruppa per album"
 
-#: collection/collectionfilterwidget.cpp:261
+#: collection/collectionfilterwidget.cpp:262
 msgid "Group by Album Artist"
 msgstr "Raggruppa in base all'Artista dell'Album"
 
-#: collection/collectionfilterwidget.cpp:248
+#: collection/collectionfilterwidget.cpp:249
 msgid "Group by Album artist/Album"
 msgstr "Raggruppa per artista dell'album/album"
 
-#: collection/collectionfilterwidget.cpp:249
+#: collection/collectionfilterwidget.cpp:250
 msgid "Group by Album artist/Album - Disc"
 msgstr "Raggruppa in base ad Artista dell'Album/Disco - Album"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:251
 msgid "Group by Album artist/Year - Album"
 msgstr "Raggruppa in base ad Artista dell'Album/Anno - Album"
 
-#: collection/collectionfilterwidget.cpp:251
+#: collection/collectionfilterwidget.cpp:252
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Raggruppa in base ad Artista dell'album/Anno - Album - Disco"
 
-#: collection/collectionfilterwidget.cpp:262
+#: collection/collectionfilterwidget.cpp:263
 msgid "Group by Artist"
 msgstr "Raggruppa per artista"
 
-#: collection/collectionfilterwidget.cpp:253
+#: collection/collectionfilterwidget.cpp:254
 msgid "Group by Artist/Album"
 msgstr "Raggruppa per artista/album"
 
-#: collection/collectionfilterwidget.cpp:254
+#: collection/collectionfilterwidget.cpp:255
 msgid "Group by Artist/Album - Disc"
 msgstr "Raggruppa in base ad Artista/Album - Disco"
 
-#: collection/collectionfilterwidget.cpp:255
+#: collection/collectionfilterwidget.cpp:256
 msgid "Group by Artist/Year - Album"
 msgstr "Raggruppa per artista/anno - album"
 
-#: collection/collectionfilterwidget.cpp:256
+#: collection/collectionfilterwidget.cpp:257
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Raggruppa in base ad Artista/Anno - Album - Disco"
 
-#: collection/collectionfilterwidget.cpp:265
+#: collection/collectionfilterwidget.cpp:266
 msgid "Group by Genre/Album"
 msgstr "Raggruppa per genere/album"
 
-#: collection/collectionfilterwidget.cpp:258
+#: collection/collectionfilterwidget.cpp:259
 msgid "Group by Genre/Album artist/Album"
 msgstr "Raggruppa in base a Genere/Artista dell'Album/Album"
 
-#: collection/collectionfilterwidget.cpp:259
+#: collection/collectionfilterwidget.cpp:260
 msgid "Group by Genre/Artist/Album"
 msgstr "Raggruppa per genere/artista/album"
 
@@ -2578,11 +2578,11 @@ msgstr "Raggruppa per genere/artista/album"
 msgid "Grouping"
 msgstr "Gruppo"
 
-#: collection/collectionfilterwidget.cpp:320
+#: collection/collectionfilterwidget.cpp:321
 msgid "Grouping Name"
 msgstr "Nome raggruppamento"
 
-#: collection/collectionfilterwidget.cpp:320
+#: collection/collectionfilterwidget.cpp:321
 msgid "Grouping name:"
 msgstr "Nome raggruppamento:"
 
@@ -3380,7 +3380,7 @@ msgstr ""
 
 #: context/contextalbumsview.cpp:263 collection/collectionview.cpp:350
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:323
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:325
 #: internet/internetcollectionview.cpp:319 radios/radioview.cpp:79
 #: device/deviceview.cpp:245 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
@@ -3786,7 +3786,7 @@ msgstr "Accoda cosa riprodurre dopo"
 #: core/mainwindow.cpp:1905 context/contextalbumsview.cpp:266
 #: collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
-#: internet/internetsearchview.cpp:326 internet/internetcollectionview.cpp:322
+#: internet/internetsearchview.cpp:328 internet/internetcollectionview.cpp:322
 msgid "Queue track"
 msgstr "Accoda la traccia"
 
@@ -3970,7 +3970,7 @@ msgstr "Ripeti traccia"
 
 #: context/contextalbumsview.cpp:262 collection/collectionview.cpp:349
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:322
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:324
 #: internet/internetcollectionview.cpp:318 radios/radioview.cpp:75
 #: device/deviceview.cpp:244
 msgid "Replace current playlist"
@@ -4257,7 +4257,7 @@ msgstr "Ritardo nella ricerca"
 msgid "Search for album covers..."
 msgstr "Cerca copertine degli album..."
 
-#: internet/internetsearchview.cpp:344
+#: internet/internetsearchview.cpp:346
 msgid "Search for this"
 msgstr "Cerca questo"
 

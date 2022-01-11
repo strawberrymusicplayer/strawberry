@@ -720,7 +720,7 @@ msgstr "Lägg till tagg för år"
 msgid "Add stream..."
 msgstr "Lägg till flöde..."
 
-#: internet/internetsearchview.cpp:335
+#: internet/internetsearchview.cpp:337
 msgid "Add to albums"
 msgstr "Lägg till i album"
 
@@ -728,7 +728,7 @@ msgstr "Lägg till i album"
 msgid "Add to another playlist"
 msgstr "Lägg till i en annan spellista"
 
-#: internet/internetsearchview.cpp:332
+#: internet/internetsearchview.cpp:334
 msgid "Add to artists"
 msgstr "Lägg till i artister"
 
@@ -736,7 +736,7 @@ msgstr "Lägg till i artister"
 msgid "Add to playlist"
 msgstr "Lägg till i spellista"
 
-#: internet/internetsearchview.cpp:338
+#: internet/internetsearchview.cpp:340
 msgid "Add to songs"
 msgstr "Lägg till låtar"
 
@@ -770,7 +770,7 @@ msgstr "Tillagda idag"
 msgid "Added within three months"
 msgstr "Tillagda inom tre månader"
 
-#: collection/collectionfilterwidget.cpp:299
+#: collection/collectionfilterwidget.cpp:300
 msgid "Advanced grouping..."
 msgstr "Avancerad gruppering..."
 
@@ -929,7 +929,7 @@ msgstr "Lägg till filer/webbadresser till spellistan"
 
 #: context/contextalbumsview.cpp:261 collection/collectionview.cpp:348
 #: smartplaylists/smartplaylistsviewcontainer.cpp:69
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:321
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:323
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:71
 #: device/deviceview.cpp:243
 msgid "Append to current playlist"
@@ -1396,7 +1396,7 @@ msgstr "Konfigurationen ofullständig"
 msgid "Configuration incorrect"
 msgstr "Konfiguration felaktig"
 
-#: internet/internetsearchview.cpp:186 internet/internetsearchview.cpp:350
+#: internet/internetsearchview.cpp:186 internet/internetsearchview.cpp:352
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
@@ -2052,7 +2052,7 @@ msgstr "Ange ett filnamn för exporterade omslag (utan ändelse):"
 msgid "Enter a new name for this playlist"
 msgstr "Ange ett nytt namn för den här spellistan"
 
-#: internet/internetsearchview.cpp:409 ../build/src/ui_internetsearchview.h:231
+#: internet/internetsearchview.cpp:411 ../build/src/ui_internetsearchview.h:231
 msgid "Enter search terms above to find music"
 msgstr "Ange söktermer ovan för att hitta musik"
 
@@ -2535,63 +2535,63 @@ msgid "Group Collection by..."
 msgstr "Gruppera samling av..."
 
 #: collection/collectionfilterwidget.cpp:121
-#: internet/internetsearchview.cpp:348
+#: internet/internetsearchview.cpp:350
 msgid "Group by"
 msgstr "Gruppera efter"
 
-#: collection/collectionfilterwidget.cpp:264
+#: collection/collectionfilterwidget.cpp:265
 msgid "Group by Album"
 msgstr "Gruppera efter album"
 
-#: collection/collectionfilterwidget.cpp:261
+#: collection/collectionfilterwidget.cpp:262
 msgid "Group by Album Artist"
 msgstr "Gruppera efter Albumartist"
 
-#: collection/collectionfilterwidget.cpp:248
+#: collection/collectionfilterwidget.cpp:249
 msgid "Group by Album artist/Album"
 msgstr "Gruppera efter artist/album"
 
-#: collection/collectionfilterwidget.cpp:249
+#: collection/collectionfilterwidget.cpp:250
 msgid "Group by Album artist/Album - Disc"
 msgstr "Gruppera efter albumartist/album - Skiva"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:251
 msgid "Group by Album artist/Year - Album"
 msgstr "Gruppera efter albumartist/år - album"
 
-#: collection/collectionfilterwidget.cpp:251
+#: collection/collectionfilterwidget.cpp:252
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Gruppera efter albumartist/år - album - skiva"
 
-#: collection/collectionfilterwidget.cpp:262
+#: collection/collectionfilterwidget.cpp:263
 msgid "Group by Artist"
 msgstr "Gruppera efter artist"
 
-#: collection/collectionfilterwidget.cpp:253
+#: collection/collectionfilterwidget.cpp:254
 msgid "Group by Artist/Album"
 msgstr "Gruppera efter artist/album"
 
-#: collection/collectionfilterwidget.cpp:254
+#: collection/collectionfilterwidget.cpp:255
 msgid "Group by Artist/Album - Disc"
 msgstr "Gruppera efter artist/album - skiva"
 
-#: collection/collectionfilterwidget.cpp:255
+#: collection/collectionfilterwidget.cpp:256
 msgid "Group by Artist/Year - Album"
 msgstr "Gruppera efter artist/år - album"
 
-#: collection/collectionfilterwidget.cpp:256
+#: collection/collectionfilterwidget.cpp:257
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Gruppera efter artist/år - album - skiva"
 
-#: collection/collectionfilterwidget.cpp:265
+#: collection/collectionfilterwidget.cpp:266
 msgid "Group by Genre/Album"
 msgstr "Gruppera efter genre/album"
 
-#: collection/collectionfilterwidget.cpp:258
+#: collection/collectionfilterwidget.cpp:259
 msgid "Group by Genre/Album artist/Album"
 msgstr "Gruppera efter genre/albumartist/album"
 
-#: collection/collectionfilterwidget.cpp:259
+#: collection/collectionfilterwidget.cpp:260
 msgid "Group by Genre/Artist/Album"
 msgstr "Gruppera efter genre/artist/album"
 
@@ -2602,11 +2602,11 @@ msgstr "Gruppera efter genre/artist/album"
 msgid "Grouping"
 msgstr "Gruppering"
 
-#: collection/collectionfilterwidget.cpp:320
+#: collection/collectionfilterwidget.cpp:321
 msgid "Grouping Name"
 msgstr "Grupperingsnamn"
 
-#: collection/collectionfilterwidget.cpp:320
+#: collection/collectionfilterwidget.cpp:321
 msgid "Grouping name:"
 msgstr "Grupperingsnamn:"
 
@@ -3406,7 +3406,7 @@ msgstr "Öppna webbplats"
 
 #: context/contextalbumsview.cpp:263 collection/collectionview.cpp:350
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:323
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:325
 #: internet/internetcollectionview.cpp:319 radios/radioview.cpp:79
 #: device/deviceview.cpp:245 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
@@ -3816,7 +3816,7 @@ msgstr "Lägg till i kön för att spela som nästa"
 #: core/mainwindow.cpp:1905 context/contextalbumsview.cpp:266
 #: collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
-#: internet/internetsearchview.cpp:326 internet/internetcollectionview.cpp:322
+#: internet/internetsearchview.cpp:328 internet/internetcollectionview.cpp:322
 msgid "Queue track"
 msgstr "Lägg till spår i kön"
 
@@ -4006,7 +4006,7 @@ msgstr "Upprepa spår"
 
 #: context/contextalbumsview.cpp:262 collection/collectionview.cpp:349
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:322
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:324
 #: internet/internetcollectionview.cpp:318 radios/radioview.cpp:75
 #: device/deviceview.cpp:244
 msgid "Replace current playlist"
@@ -4293,7 +4293,7 @@ msgstr "Sökfördröjning"
 msgid "Search for album covers..."
 msgstr "Sök efter albumomslag..."
 
-#: internet/internetsearchview.cpp:344
+#: internet/internetsearchview.cpp:346
 msgid "Search for this"
 msgstr "Sök efter det här"
 
