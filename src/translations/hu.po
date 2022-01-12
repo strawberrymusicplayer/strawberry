@@ -1781,7 +1781,7 @@ msgstr "Cél"
 msgid "Details..."
 msgstr "Részletek…"
 
-#: context/contextview.cpp:186 device/giolister.cpp:188
+#: context/contextview.cpp:186 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:539
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -3160,7 +3160,7 @@ msgstr "Hangulatsáv stílusa"
 msgid "Most played"
 msgstr "Legtöbbet játszott"
 
-#: device/giolister.cpp:187
+#: device/giolister.cpp:192
 msgid "Mount point"
 msgstr "Csatolási pont"
 
@@ -5173,7 +5173,7 @@ msgstr "Kódolási opciók"
 msgid "Turn off"
 msgstr "Kikapcsolás"
 
-#: device/giolister.cpp:189
+#: device/giolister.cpp:194
 msgid "URI"
 msgstr "URI"
 

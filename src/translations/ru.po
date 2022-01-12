@@ -1775,7 +1775,7 @@ msgstr "Назначение"
 msgid "Details..."
 msgstr "Подробнее…"
 
-#: context/contextview.cpp:186 device/giolister.cpp:188
+#: context/contextview.cpp:186 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:539
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -3147,7 +3147,7 @@ msgstr "Стиль Moodbar"
 msgid "Most played"
 msgstr ""
 
-#: device/giolister.cpp:187
+#: device/giolister.cpp:192
 msgid "Mount point"
 msgstr "Точка монтирования"
 
@@ -5143,7 +5143,7 @@ msgstr "Настройки конвертации"
 msgid "Turn off"
 msgstr ""
 
-#: device/giolister.cpp:189
+#: device/giolister.cpp:194
 msgid "URI"
 msgstr "URI"
 

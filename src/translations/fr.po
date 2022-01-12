@@ -1811,7 +1811,7 @@ msgstr "Destination"
 msgid "Details..."
 msgstr "Détails..."
 
-#: context/contextview.cpp:186 device/giolister.cpp:188
+#: context/contextview.cpp:186 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:539
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -3206,7 +3206,7 @@ msgstr "Style de la barre d'humeur"
 msgid "Most played"
 msgstr "Le plus écouté"
 
-#: device/giolister.cpp:187
+#: device/giolister.cpp:192
 msgid "Mount point"
 msgstr "Point de montage"
 
@@ -5241,7 +5241,7 @@ msgstr "Option de transcodage"
 msgid "Turn off"
 msgstr "Éteindre"
 
-#: device/giolister.cpp:189
+#: device/giolister.cpp:194
 msgid "URI"
 msgstr "URI"
 

@@ -1755,7 +1755,7 @@ msgstr "Kohde"
 msgid "Details..."
 msgstr "Tiedot..."
 
-#: context/contextview.cpp:186 device/giolister.cpp:188
+#: context/contextview.cpp:186 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:539
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -3129,7 +3129,7 @@ msgstr "Mielialapalkin tyyli"
 msgid "Most played"
 msgstr "Eniten toistetut"
 
-#: device/giolister.cpp:187
+#: device/giolister.cpp:192
 msgid "Mount point"
 msgstr "Liitoskohta"
 
@@ -5115,7 +5115,7 @@ msgstr "Muunnosvalinnat"
 msgid "Turn off"
 msgstr ""
 
-#: device/giolister.cpp:189
+#: device/giolister.cpp:194
 msgid "URI"
 msgstr "URI"
 

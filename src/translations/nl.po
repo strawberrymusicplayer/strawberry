@@ -1770,7 +1770,7 @@ msgstr "Bestemming"
 msgid "Details..."
 msgstr "Details…"
 
-#: context/contextview.cpp:186 device/giolister.cpp:188
+#: context/contextview.cpp:186 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:539
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -3144,7 +3144,7 @@ msgstr ""
 msgid "Most played"
 msgstr ""
 
-#: device/giolister.cpp:187
+#: device/giolister.cpp:192
 msgid "Mount point"
 msgstr "Koppelpunt"
 
@@ -5151,7 +5151,7 @@ msgstr "Conversieopties"
 msgid "Turn off"
 msgstr "Zet uit"
 
-#: device/giolister.cpp:189
+#: device/giolister.cpp:194
 msgid "URI"
 msgstr "URI"
 

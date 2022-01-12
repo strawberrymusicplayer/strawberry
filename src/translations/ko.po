@@ -1752,7 +1752,7 @@ msgstr "대상"
 msgid "Details..."
 msgstr "자세히..."
 
-#: context/contextview.cpp:186 device/giolister.cpp:188
+#: context/contextview.cpp:186 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:539
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -3116,7 +3116,7 @@ msgstr "무드바 스타일"
 msgid "Most played"
 msgstr "많이 재생된 곡"
 
-#: device/giolister.cpp:187
+#: device/giolister.cpp:192
 msgid "Mount point"
 msgstr "마운트 지점"
 
@@ -5085,7 +5085,7 @@ msgstr "변환 옵션"
 msgid "Turn off"
 msgstr ""
 
-#: device/giolister.cpp:189
+#: device/giolister.cpp:194
 msgid "URI"
 msgstr "URI"
 
