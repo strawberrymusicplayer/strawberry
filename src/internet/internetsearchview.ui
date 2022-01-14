@@ -54,10 +54,6 @@
               <height>0</height>
              </size>
             </property>
-            <property name="styleSheet">
-             <string notr="true">padding-right: 16px;
-</string>
-            </property>
             <property name="iconSize">
              <size>
               <width>16</width>
@@ -235,7 +231,7 @@
             <x>0</x>
             <y>0</y>
             <width>398</width>
-            <height>520</height>
+            <height>518</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">

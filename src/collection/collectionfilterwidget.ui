@@ -38,10 +38,6 @@
    </item>
    <item>
     <widget class="QToolButton" name="options">
-     <property name="styleSheet">
-      <string notr="true">padding-right: 16px;
-</string>
-     </property>
      <property name="iconSize">
       <size>
        <width>16</width>

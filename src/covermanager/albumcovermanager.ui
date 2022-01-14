@@ -87,10 +87,6 @@
           </item>
           <item>
            <widget class="QToolButton" name="view">
-            <property name="styleSheet">
-             <string notr="true">padding-right: 16px;
-</string>
-            </property>
             <property name="text">
              <string>View</string>
             </property>
