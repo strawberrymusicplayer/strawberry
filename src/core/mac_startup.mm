@@ -56,7 +56,7 @@
 #include "globalshortcuts/globalshortcutsbackend-macos.h"
 
 #ifdef HAVE_SPARKLE
-#  import <SUUpdater.h>
+#  import <SPUStandardUpdaterController.h>
 #endif
 
 #include <QApplication>
@@ -290,7 +290,7 @@ void MacMain() {
   [MacApplication sharedApplication];
 #ifdef HAVE_SPARKLE
   // Creates and sets the magic global variable for Sparkle.
-  [ [SUUpdater sharedUpdater] setDelegate:NSApp];
+  [ [SPUStandardUpdaterController sharedUpdater] setDelegate:NSApp];
 #endif
 
 }
@@ -305,7 +305,7 @@ void SetApplicationHandler(PlatformInterface *handler) {
 
 void CheckForUpdates() {
 #ifdef HAVE_SPARKLE
-  [ [SUUpdater sharedUpdater] checkForUpdates:NSApp];
+  [ [SPUStandardUpdaterController sharedUpdater] checkForUpdates:NSApp];
 #endif
 }
 
