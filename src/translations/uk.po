@@ -7,12 +7,13 @@
 # Jonas Kvinge <jonas@jkvinge.net>, 2021. #zanata
 # Pavlo Marianov <acid@jack.kiev.ua>, 2021. #zanata
 # Victor <victor.butko@gmail.com>, 2021. #zanata
+# Pavlo Marianov <acid@jack.kiev.ua>, 2022. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-11-02 12:04-0400\n"
+"PO-Revision-Date: 2022-01-13 09:31-0500\n"
 "Last-Translator: Pavlo Marianov <acid@jack.kiev.ua>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -1211,7 +1212,7 @@ msgstr "CDDA"
 
 #: playlist/playlist.cpp:1375
 msgid "CUE"
-msgstr ""
+msgstr "CUE"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
@@ -3874,12 +3875,16 @@ msgid ""
 "Received URL with %1 encrypted stream from Tidal. Strawberry does not "
 "currently support encrypted streams."
 msgstr ""
+"Отримано URL-адресу з %1 зашифрованим потоком з Tidal. Strawberry наразі не "
+"підтримує зашифровані потоки."
 
 #: tidal/tidalstreamurlrequest.cpp:281 tidal/tidalstreamurlrequest.cpp:291
 msgid ""
 "Received URL with encrypted stream from Tidal. Strawberry does not currently "
 "support encrypted streams."
 msgstr ""
+"Отримано URL-адресу з зашифрованим потоком з Tidal. Strawberry наразі не "
+"підтримує зашифровані потоки."
 
 #: covermanager/spotifycoverprovider.cpp:197
 #: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:207
