@@ -1312,9 +1312,7 @@ jobs:
           taglib
           libplist
           gdk-pixbuf
-
-      - name: Install Sparkle
-        run: brew install --cask sparkle
+          sparkle
 
       - name: Link Sparkle
         shell: bash
@@ -1415,9 +1413,7 @@ jobs:
           taglib
           libplist
           gdk-pixbuf
-
-      - name: Install Sparkle
-        run: brew install --cask sparkle
+          sparkle
 
       - name: Link Sparkle
         shell: bash
