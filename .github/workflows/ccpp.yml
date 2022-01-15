@@ -791,6 +791,90 @@ jobs:
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
+  build_openmandriva_cooker:
+    name: Build OpenMandriva Cooker
+    runs-on: ubuntu-latest
+    container:
+      image: openmandriva/cooker
+    env:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - uses: actions/checkout@v1.2.0
+
+      - name: Update packages
+        run: dnf update --assumeyes
+
+      - name: Upgrade packages
+        run: dnf upgrade --assumeyes
+
+      - name: Install OpenMandriva dependencies
+        run: >
+          dnf install --assumeyes
+          glibc
+          gcc-c++
+          git
+          gnutar
+          make
+          cmake
+          glib
+          gettext
+          lsb-release
+          rpmdevtools
+          rpm-build
+          glibc-devel
+          boost-devel
+          dbus-devel
+          protobuf-devel
+          protobuf-compiler
+          sqlite-devel
+          libasound-devel
+          pulseaudio-devel
+          gnutls-devel
+          lib64GL-devel
+          libgst-plugins-base1.0-devel
+          taglib-devel
+          chromaprint-devel
+          fftw-devel
+          libcdio-devel
+          libgpod-devel
+          libmtp-devel
+          lib64Qt6Core-devel
+          lib64Qt6Concurrent-devel
+          lib64Qt6Network-devel
+          lib64Qt6Sql-devel
+          lib64Qt6DBus-devel
+          lib64Qt6Gui-devel
+          lib64Qt6Widgets-devel
+          lib64Qt6Test-devel
+          qt6-cmake
+          qt6-qtbase-tools
+          qt6-qttools
+          desktop-file-utils
+          appstream
+          appstream-util
+          hicolor-icon-theme
+
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WERROR=ON
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        working-directory: build
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
 
   build_debian_buster:
     name: Build Debian Buster

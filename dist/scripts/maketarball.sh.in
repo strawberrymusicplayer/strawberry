@@ -11,10 +11,33 @@ if ! [ "$gitrev" = "ON" ]; then
   exclude_vcs="--exclude-vcs"
 fi
 
+cmds="gtar tar"
+for cmd in $cmds
+do
+  which $cmd >/dev/null 2>&1
+  if [ ! $? -eq 0 ]; then
+    continue
+  fi
+  result=$($cmd --version 2>&1 | head -n1)
+  if [ ! $? -eq 0 ]; then
+    continue
+  fi
+  echo "$result" | grep "^.* (GNU tar) .*$" >/dev/null 2>&1
+  if [ ! $? -eq 0 ]; then
+    continue
+  fi
+  TAR=$cmd
+done
+
+if [ "$TAR" = "" ]; then
+  echo "ERROR: Missing GNU Tar"
+  exit 1
+fi
+
 echo "Creating $name-$version.tar.xz..."
 
 rm -f "$name-$version.tar.xz"
-tar -cJf $name-$version.tar.xz \
+${TAR} -cJf $name-$version.tar.xz \
     --transform "s,^$rootnoslash,$name-$version," $exclude_vcs \
     --exclude=".directory" \
     --exclude="*.tar" \
