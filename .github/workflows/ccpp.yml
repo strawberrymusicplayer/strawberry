@@ -1363,9 +1363,9 @@ jobs:
           cp -v /usr/local/lib/libgpod.dylib strawberry.app/Contents/Frameworks/
           install_name_tool -change "@rpath/libgpod.dylib" "@loader_path/../Frameworks/libgpod.dylib" strawberry.app/Contents/MacOS/strawberry
           # Sparkle
-          mkdir -p strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/A
+          mkdir -p strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/B
           cp -v /usr/local/opt/sparkle/Sparkle.framework/Sparkle strawberry.app/Contents/Frameworks/Sparkle.framework/
-          cp -v /usr/local/opt/sparkle/Sparkle.framework/Versions/A/Sparkle strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/A/
+          cp -v /usr/local/opt/sparkle/Sparkle.framework/Versions/B/Sparkle strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/B/
           cp -v -R /usr/local/opt/sparkle/Sparkle.framework/Versions/Current strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/
       - name: Deploy
         working-directory: build
@@ -1465,9 +1465,9 @@ jobs:
           mkdir -p strawberry.app/Contents/Frameworks/
           cp -v /usr/local/lib/libbrotlicommon.1.dylib strawberry.app/Contents/Frameworks/
           # Sparkle
-          mkdir -p strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/A
+          mkdir -p strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/B
           cp -v /usr/local/opt/sparkle/Sparkle.framework/Sparkle strawberry.app/Contents/Frameworks/Sparkle.framework/
-          cp -v /usr/local/opt/sparkle/Sparkle.framework/Versions/A/Sparkle strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/A/
+          cp -v /usr/local/opt/sparkle/Sparkle.framework/Versions/B/Sparkle strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/B/
           cp -v -R /usr/local/opt/sparkle/Sparkle.framework/Versions/Current strawberry.app/Contents/Frameworks/Sparkle.framework/Versions/
       - name: Deploy
         working-directory: build
