@@ -12,10 +12,17 @@ if (LSB_RELEASE_EXEC AND RPMBUILD_EXEC)
     OUTPUT_VARIABLE DIST_RELEASE
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
-  execute_process(COMMAND /bin/sh "-c" "${LSB_RELEASE_EXEC} -ds | tr '[:upper:]' '[:lower:]' | sed 's/\"//g' | sed 's/\\.//g' | cut -d' ' -f3"
-    OUTPUT_VARIABLE DIST_VERSION
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-  )
+  if (${DIST_NAME} STREQUAL "openmandrivalinux")
+    execute_process(COMMAND /bin/sh "-c" "${LSB_RELEASE_EXEC} -ds | tr '[:upper:]' '[:lower:]' | sed 's/\"//g' | sed 's/\\./0/g' | cut -d' ' -f3"
+      OUTPUT_VARIABLE DIST_VERSION
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+  else()
+    execute_process(COMMAND /bin/sh "-c" "${LSB_RELEASE_EXEC} -ds | tr '[:upper:]' '[:lower:]' | sed 's/\"//g' | sed 's/\\.//g' | cut -d' ' -f3"
+      OUTPUT_VARIABLE DIST_VERSION
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+  endif()
   if (DIST_NAME)
 
     message(STATUS "Distro Name: ${DIST_NAME}")
@@ -44,6 +51,8 @@ if (LSB_RELEASE_EXEC AND RPMBUILD_EXEC)
       set(RPM_DISTRO "el${DIST_VERSION}")
     elseif (${DIST_NAME} STREQUAL "mageia" AND DIST_RELEASE)
       set(RPM_DISTRO "mga${DIST_RELEASE}")
+    elseif (${DIST_NAME} STREQUAL "openmandrivalinux" AND DIST_VERSION)
+      set(RPM_DISTRO "omv${DIST_VERSION}")
     endif()
 
     if(NOT RPM_DISTRO)

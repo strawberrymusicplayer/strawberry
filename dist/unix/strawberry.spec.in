@@ -138,7 +138,7 @@ Features:
   export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
 %endif
 %{cmake} -DQT_VERSION_MAJOR=@QT_VERSION_MAJOR@
-%if 0%{?centos} || (0%{?mageia} && 0%{?mageia} <= 7)
+%if 0%{?centos} || (0%{?mageia} && 0%{?mageia} <= 7) || "%{?_vendor}" == "openmandriva"
   %make_build
 %else
   %cmake_build
@@ -148,7 +148,7 @@ Features:
 %if 0%{?centos}
   %make_install
 %else
-%if 0%{?mageia}
+%if 0%{?mageia} || "%{?_vendor}" == "openmandriva"
   %make_install -C build
 %else
   %cmake_install
