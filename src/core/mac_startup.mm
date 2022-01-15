@@ -55,10 +55,6 @@
 #include "globalshortcuts/globalshortcutsmanager.h"
 #include "globalshortcuts/globalshortcutsbackend-macos.h"
 
-#ifdef HAVE_SPARKLE
-#  import <SPUStandardUpdaterController.h>
-#endif
-
 #include <QApplication>
 #include <QCoreApplication>
 #include <QWidget>
@@ -288,10 +284,6 @@ void MacMain() {
   ScopedNSAutoreleasePool pool;
   // Creates and sets the magic global variable so QApplication will find it.
   [MacApplication sharedApplication];
-#ifdef HAVE_SPARKLE
-  // Creates and sets the magic global variable for Sparkle.
-  [ [SPUStandardUpdaterController sharedUpdater] setDelegate:NSApp];
-#endif
 
 }
 
@@ -301,12 +293,6 @@ void SetShortcutHandler(GlobalShortcutsBackendMacOS *handler) {
 
 void SetApplicationHandler(PlatformInterface *handler) {
   [NSApp SetApplicationHandler:handler];
-}
-
-void CheckForUpdates() {
-#ifdef HAVE_SPARKLE
-  [ [SPUStandardUpdaterController sharedUpdater] checkForUpdates:NSApp];
-#endif
 }
 
 static int MapFunctionKey(int keycode) {

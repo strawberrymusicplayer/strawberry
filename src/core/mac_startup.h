@@ -29,7 +29,6 @@ namespace mac {
 void MacMain();
 void SetShortcutHandler(GlobalShortcutsBackendMacOS *handler);
 void SetApplicationHandler(PlatformInterface *handler);
-void CheckForUpdates();
 
 void EnableFullScreen(const QWidget &main_window);
 

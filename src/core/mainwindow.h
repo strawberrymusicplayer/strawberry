@@ -219,8 +219,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void AddStream();
   void AddStreamAccepted();
 
-  void CheckForUpdates();
-
   void PlayingWidgetPositionChanged(const bool above_status_bar);
 
   void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx);

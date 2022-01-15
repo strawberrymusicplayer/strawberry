@@ -779,10 +779,9 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   thumbbar_->SetActions(QList<QAction*>() << ui_->action_previous_track << ui_->action_play_pause << ui_->action_stop << ui_->action_next_track << nullptr << ui_->action_love);
 #endif
 
-#if defined(HAVE_SPARKLE) || defined(HAVE_QTSPARKLE)
+#if defined(HAVE_QTSPARKLE)
   QAction *check_updates = ui_->menu_tools->addAction(tr("Check for updates..."));
   check_updates->setMenuRole(QAction::ApplicationSpecificRole);
-  QObject::connect(check_updates, &QAction::triggered, this, &MainWindow::CheckForUpdates);
 #endif
 
 #ifdef HAVE_GLOBALSHORTCUTS
@@ -2490,12 +2489,6 @@ bool MainWindow::LoadUrl(const QString &url) {
 
   return false;
 
-}
-
-void MainWindow::CheckForUpdates() {
-#if defined(Q_OS_MACOS)
-  mac::CheckForUpdates();
-#endif
 }
 
 void MainWindow::PlaylistUndoRedoChanged(QAction *undo, QAction *redo) {
