@@ -51,6 +51,11 @@ QToolButton[popupMode="MenuButtonPopup"], QToolButton:hover[popupMode="MenuButto
   padding-right: 16px;
 }
 
+/* For backwards compatibility with Qt 5 as it does not support property name */
+QToolButton[popupMode="1"], QToolButton:hover[popupMode="1"], QToolButton:pressed[popupMode="1"] {
+  padding-right: 16px;
+}
+
 QToolButton::menu-button {
   width: 16px;
   border: none;
