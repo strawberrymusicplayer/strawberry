@@ -47,14 +47,7 @@
 //
 // TODO:
 // Make an INSTRUCTIONS file
-// can't mod scope in analyze you have to use transform
-// for 2D use setErasePixmap Qt function insetead of m_background
-
-// make the linker happy only for gcc < 4.0
-#if !(__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 0)) && \
-    !defined(Q_OS_WIN32)
-template class Analyzer::Base<QWidget>;
-#endif
+// can't mod scope in analyze you have to use transform for 2D use setErasePixmap Qt function insetead of m_background
 
 Analyzer::Base::Base(QWidget *parent, const uint scopeSize)
     : QWidget(parent),
