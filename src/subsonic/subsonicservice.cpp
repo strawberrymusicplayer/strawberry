@@ -171,7 +171,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
   else {
     const QString salt = Utilities::CryptographicRandomString(20);
     QCryptographicHash md5(QCryptographicHash::Md5);
-    md5.addData(password_.toUtf8());
+    md5.addData(password.toUtf8());
     md5.addData(salt.toUtf8());
     params << Param("s", salt);
     params << Param("t", md5.result().toHex());
