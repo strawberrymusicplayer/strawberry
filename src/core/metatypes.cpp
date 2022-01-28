@@ -74,6 +74,10 @@
 
 #include "radios/radiochannel.h"
 
+#ifdef HAVE_LIBMTP
+  #include "device/mtpconnection.h"
+#endif
+
 void RegisterMetaTypes() {
 
   qRegisterMetaType<const char*>("const char*");
@@ -146,5 +150,9 @@ void RegisterMetaTypes() {
   qRegisterMetaType<PlaylistGeneratorPtr>("PlaylistGeneratorPtr");
 
   qRegisterMetaType<RadioChannelList>("RadioChannelList");
+
+#ifdef HAVE_LIBMTP
+  qRegisterMetaType<MtpConnection*>("MtpConnection*");
+#endif
 
 }
