@@ -50,6 +50,7 @@ SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *dialog, QWidget *pare
   setWindowIcon(IconLoader::Load("subsonic"));
 
   QObject::connect(ui_->button_test, &QPushButton::clicked, this, &SubsonicSettingsPage::TestClicked);
+  QObject::connect(ui_->button_deletesongs, &QPushButton::clicked, service_, &SubsonicService::DeleteSongs);
 
   QObject::connect(this, &SubsonicSettingsPage::Test, service_, &SubsonicService::SendPingWithCredentials);
 

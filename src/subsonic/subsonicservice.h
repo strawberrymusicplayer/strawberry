@@ -92,6 +92,7 @@ class SubsonicService : public InternetService {
   void SendPing();
   void SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method, const bool redirect = false);
   void GetSongs() override;
+  void DeleteSongs();
   void ResetSongsRequest() override;
 
  private slots:

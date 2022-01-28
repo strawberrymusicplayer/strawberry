@@ -197,7 +197,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void IncrementSkipCountAsync(const int id, const float progress);
   void ResetStatisticsAsync(const int id);
 
-  void DeleteAll();
+  void DeleteAllAsync();
 
   Song GetSongBySongId(const QString &song_id);
   SongList GetSongsBySongId(const QStringList &song_ids);
@@ -234,6 +234,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void IncrementPlayCount(const int id);
   void IncrementSkipCount(const int id, const float progress);
   void ResetStatistics(const int id);
+  void DeleteAll();
   void SongPathChanged(const Song &song, const QFileInfo &new_file, const std::optional<int> new_collection_directory_id);
 
   SongList GetSongsBy(const QString &artist, const QString &album, const QString &title);

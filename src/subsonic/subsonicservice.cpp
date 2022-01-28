@@ -446,6 +446,12 @@ void SubsonicService::GetSongs() {
 
 }
 
+void SubsonicService::DeleteSongs() {
+
+  collection_backend_->DeleteAllAsync();
+
+}
+
 void SubsonicService::SongsResultsReceived(const SongMap &songs, const QString &error) {
 
   emit SongsResults(songs, error);

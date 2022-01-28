@@ -1801,6 +1801,12 @@ void CollectionBackend::ResetStatistics(const int id) {
 
 }
 
+void CollectionBackend::DeleteAllAsync() {
+
+  QMetaObject::invokeMethod(this, "DeleteAll", Qt::QueuedConnection);
+
+}
+
 void CollectionBackend::DeleteAll() {
 
   {
