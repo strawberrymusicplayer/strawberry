@@ -51,6 +51,8 @@ class CollectionWatcher : public QObject {
  public:
   explicit CollectionWatcher(Song::Source source, QObject *parent = nullptr);
 
+  Song::Source source() { return source_; }
+
   void set_backend(CollectionBackend *backend) { backend_ = backend; }
   void set_task_manager(TaskManager *task_manager) { task_manager_ = task_manager; }
   void set_device_name(const QString &device_name) { device_name_ = device_name; }

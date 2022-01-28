@@ -84,8 +84,8 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
       original_thread_(nullptr),
       scan_on_startup_(true),
       monitor_(true),
-      song_tracking_(true),
-      mark_songs_unavailable_(true),
+      song_tracking_(false),
+      mark_songs_unavailable_(source_ == Song::Source_Collection),
       expire_unavailable_songs_days_(60),
       overwrite_rating_(false),
       stop_requested_(false),
@@ -149,8 +149,14 @@ void CollectionWatcher::ReloadSettings() {
   scan_on_startup_ = s.value("startup_scan", true).toBool();
   monitor_ = s.value("monitor", true).toBool();
   QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
-  song_tracking_ = s.value("song_tracking", false).toBool();
-  mark_songs_unavailable_ = song_tracking_ ? true : s.value("mark_songs_unavailable", true).toBool();
+  if (source_ == Song::Source_Collection) {
+    song_tracking_ = s.value("song_tracking", false).toBool();
+    mark_songs_unavailable_ = song_tracking_ ? true : s.value("mark_songs_unavailable", true).toBool();
+  }
+  else {
+    song_tracking_ = false;
+    mark_songs_unavailable_ = false;
+  }
   expire_unavailable_songs_days_ = s.value("expire_unavailable_songs", 60).toInt();
   overwrite_rating_ = s.value("overwrite_rating", false).toBool();
   s.endGroup();
@@ -238,7 +244,7 @@ void CollectionWatcher::ScanTransaction::AddToProgressMax(const quint64 n) {
 void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
 
   if (!deleted_songs.isEmpty()) {
-    if (mark_songs_unavailable_) {
+    if (mark_songs_unavailable_ && watcher_->source() == Song::Source_Collection) {
       emit watcher_->SongsUnavailable(deleted_songs);
     }
     else {

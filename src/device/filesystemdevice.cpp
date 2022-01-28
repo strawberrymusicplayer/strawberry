@@ -58,9 +58,12 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
   QObject::connect(watcher_, &CollectionWatcher::NewOrUpdatedSongs, backend_, &CollectionBackend::AddOrUpdateSongs);
   QObject::connect(watcher_, &CollectionWatcher::SongsMTimeUpdated, backend_, &CollectionBackend::UpdateMTimesOnly);
   QObject::connect(watcher_, &CollectionWatcher::SongsDeleted, backend_, &CollectionBackend::DeleteSongs);
+  QObject::connect(watcher_, &CollectionWatcher::SongsUnavailable, backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(watcher_, &CollectionWatcher::SongsReadded, backend_, &CollectionBackend::MarkSongsUnavailable);
   QObject::connect(watcher_, &CollectionWatcher::SubdirsDiscovered, backend_, &CollectionBackend::AddOrUpdateSubdirs);
   QObject::connect(watcher_, &CollectionWatcher::SubdirsMTimeUpdated, backend_, &CollectionBackend::AddOrUpdateSubdirs);
   QObject::connect(watcher_, &CollectionWatcher::CompilationsNeedUpdating, backend_, &CollectionBackend::CompilationsNeedUpdating);
+  QObject::connect(watcher_, &CollectionWatcher::UpdateLastSeen, backend_, &CollectionBackend::UpdateLastSeen);
   QObject::connect(watcher_, &CollectionWatcher::ScanStarted, this, &FilesystemDevice::TaskStarted);
 
 }
