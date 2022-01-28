@@ -68,11 +68,6 @@
 
 using namespace std::chrono_literals;
 
-namespace {
-static const char *kNoMediaFile = ".nomedia";
-static const char *kNoMusicFile = ".nomusic";
-}  // namespace
-
 QStringList CollectionWatcher::sValidImages = QStringList() << "jpg" << "png" << "gif" << "jpeg";
 
 CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
@@ -419,7 +414,6 @@ void CollectionWatcher::AddDirectory(const Directory &dir, const SubdirectoryLis
 void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory &subdir, const quint64 files_count, ScanTransaction *t, const bool force_noincremental) {
 
   QFileInfo path_info(path);
-  QDir path_dir(path);
 
   // Do not scan symlinked dirs that are already in collection
   if (path_info.isSymLink()) {
@@ -429,11 +423,6 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
         return;
       }
     }
-  }
-
-  // Do not scan directories containing a .nomedia or .nomusic file
-  if (path_dir.exists(kNoMediaFile) || path_dir.exists(kNoMusicFile)) {
-    return;
   }
 
   bool songs_missing_fingerprint = false;
@@ -1226,9 +1215,6 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
     QFileInfo path_info(child);
 
     if (path_info.isDir()) {
-      if (path_info.exists(kNoMediaFile) || path_info.exists(kNoMusicFile)) {
-        continue;
-      }
       if (path_info.isSymLink()) {
         QString real_path = path_info.symLinkTarget();
         for (const Directory &dir : std::as_const(watched_dirs_)) {
