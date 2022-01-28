@@ -2,6 +2,23 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased
+
+  Bugfixes:
+    * Fixed showing menu when clicking icon for collection and internet search tool buttons
+    * Fixed ignoring devices with system mounts as defined by GIO.
+    * Fixed updating database when deleting songs from filesystem devices.
+    * Fixed listing songs from MTP devices with Qt 6.
+    * Fixed using entered password when testing Subsonic settings before pressing save.
+
+  Enhancements
+    * Log Qt version on startup.
+    * Add button for deleting existing Subsonic songs.
+    * Make collection watcher ignore files with "qt_temp" filename and tmp extension.
+
+  Removed features:
+    * Removed broken "nomedia" / "nomusic" file handling.
+
 Version 1.0.1 (2022.01.08)
 
   Bugfixes:
