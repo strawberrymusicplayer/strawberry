@@ -117,7 +117,7 @@
       <item>
        <widget class="QRadioButton" name="auth_method_hex">
         <property name="text">
-         <string>Hex (insecure)</string>
+         <string>Hex</string>
         </property>
        </widget>
       </item>
