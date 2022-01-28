@@ -473,7 +473,7 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
   }
 
 #ifdef HAVE_GIO_UNIX
-  GUnixMountEntry *unix_mount = g_unix_mount_for(g_file_get_path(root), NULL);
+  GUnixMountEntry *unix_mount = g_unix_mount_for(g_file_get_path(root), nullptr);
   if (unix_mount) {
     // the GIO's definition of system internal mounts include filesystems like
     // autofs, tmpfs, sysfs, etc, and various system directories, including the root,
