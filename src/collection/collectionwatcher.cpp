@@ -485,7 +485,10 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
     else {
       QString ext_part(ExtensionPart(child));
       QString dir_part(DirectoryPart(child));
-      if (sValidImages.contains(ext_part)) {
+      if (child_info.suffix() == "tmp" || child_info.baseName() == "qt_temp") {
+        t->AddToProgress(1);
+      }
+      else if (sValidImages.contains(ext_part)) {
         album_art[dir_part] << child;
         t->AddToProgress(1);
       }
