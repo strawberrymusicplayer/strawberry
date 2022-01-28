@@ -295,7 +295,6 @@ set(SINGLEAPPLICATION_LIBRARIES singleapplication)
 set(SINGLECOREAPPLICATION_LIBRARIES singlecoreapplication)
 
 if(APPLE)
-  find_library(SPARKLE Sparkle PATHS "/usr/local/opt/sparkle")
   add_subdirectory(3rdparty/SPMediaKeyTap)
   set(SPMEDIAKEYTAP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/SPMediaKeyTap)
   set(SPMEDIAKEYTAP_LIBRARIES SPMediaKeyTap)
@@ -303,7 +302,7 @@ if(APPLE)
   add_subdirectory(ext/macdeploycheck)
 endif()
 
-if(NOT SPARKLE AND (APPLE OR WIN32))
+if(WIN32)
   if(BUILD_WITH_QT6)
     pkg_check_modules(QTSPARKLE qtsparkle-qt6)
   else()
@@ -406,11 +405,6 @@ optional_component(LIBGPOD ON "Devices: iPod classic support"
 
 optional_component(LIBMTP ON "Devices: MTP support"
   DEPENDS "libmtp" LIBMTP_FOUND
-)
-
-optional_component(SPARKLE ON "Sparkle integration"
-  DEPENDS "macOS" APPLE
-  DEPENDS "Sparkle" SPARKLE
 )
 
 if(BUILD_WITH_QT6)

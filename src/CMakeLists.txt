@@ -1152,10 +1152,6 @@ if(APPLE)
     "-framework ScriptingBridge"
   )
   target_link_libraries(strawberry_lib PRIVATE ${SPMEDIAKEYTAP_LIBRARIES})
-  if(HAVE_SPARKLE)
-    target_include_directories(strawberry_lib SYSTEM PRIVATE ${SPARKLE}/Headers)
-    target_link_libraries(strawberry_lib PRIVATE ${SPARKLE})
-  endif()
 endif()
 
 if(WIN32)
