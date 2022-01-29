@@ -75,9 +75,7 @@ SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *u
       album_covers_received_(0),
       no_results_(false) {
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
   network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
-#endif
 
 }
 
@@ -732,11 +730,7 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
     ++album_covers_requests_active_;
 
     QNetworkRequest req(request.url);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
     req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-    req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     req.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2());

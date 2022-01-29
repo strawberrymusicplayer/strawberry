@@ -80,13 +80,11 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
       QFile::rename(cover_src.absoluteFilePath(), cover_dest.absoluteFilePath());
     }
     // Remove empty directories.
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
     QDir remove_dir(src.absolutePath(), QString(), QDir::Name, QDir::NoDotAndDotDot);
     while (remove_dir.isEmpty()) {
       if (!QDir().rmdir(remove_dir.absolutePath())) break;
       remove_dir.cdUp();
     }
-#endif
   }
   else {
     if (dest.exists() && !job.overwrite_) {

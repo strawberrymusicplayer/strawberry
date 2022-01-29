@@ -245,11 +245,7 @@ void ListenBrainzScrobbler::RequestAccessToken(const QUrl &redirect_url, const Q
   QUrl session_url(kOAuthAccessTokenUrl);
 
   QNetworkRequest req(session_url);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
@@ -350,11 +346,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
 QNetworkReply *ListenBrainzScrobbler::CreateRequest(const QUrl &url, const QJsonDocument &json_doc) {
 
   QNetworkRequest req(url);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
   req.setRawHeader("Authorization", QString("Token %1").arg(user_token_).toUtf8());
   QNetworkReply *reply = network_->post(req, json_doc.toJson());

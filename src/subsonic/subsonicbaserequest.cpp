@@ -51,9 +51,7 @@ SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *pare
       service_(service),
       network_(new QNetworkAccessManager) {
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
   network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
-#endif
 
 }
 
@@ -109,11 +107,7 @@ QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_na
   }
 
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   req.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2());

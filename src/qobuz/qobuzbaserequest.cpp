@@ -63,11 +63,7 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
   QUrl url(QobuzService::kApiUrl + QString("/") + ressource_name);
   url.setQuery(url_query);
   QNetworkRequest req(url);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   req.setRawHeader("X-App-Id", app_id().toUtf8());
   if (authenticated()) req.setRawHeader("X-User-Auth-Token", user_auth_token().toUtf8());

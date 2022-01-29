@@ -154,9 +154,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
 
   if (!network_ || !redirect) {
     network_ = std::make_unique<QNetworkAccessManager>();
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
     network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
-#endif
     ping_redirects_ = 0;
   }
 
@@ -201,12 +199,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
     req.setSslConfiguration(sslconfig);
   }
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
-
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)

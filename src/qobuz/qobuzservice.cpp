@@ -279,11 +279,7 @@ void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString
 
   QUrl url(kAuthUrl);
   QNetworkRequest req(url);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
 
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 

@@ -37,10 +37,7 @@
 NetworkAccessManager::NetworkAccessManager(QObject *parent)
     : QNetworkAccessManager(parent) {
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
   setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
-#endif
-
   setCache(new ThreadSafeNetworkDiskCache(this));
 
 }
@@ -56,11 +53,7 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
   }
 
   QNetworkRequest new_request(request);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   new_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  new_request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   new_request.setRawHeader("User-Agent", user_agent);
 
   if (op == QNetworkAccessManager::PostOperation && !new_request.header(QNetworkRequest::ContentTypeHeader).isValid()) {

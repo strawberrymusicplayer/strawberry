@@ -121,11 +121,7 @@ QNetworkReply *LastFMImport::CreateRequest(const ParamList &request_params) {
   QUrl url(LastFMScrobbler::kApiUrl);
   url.setQuery(url_query);
   QNetworkRequest req(url);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
   QNetworkReply *reply = network_->get(req);

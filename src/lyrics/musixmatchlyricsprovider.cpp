@@ -75,11 +75,7 @@ bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString 
 
   QUrl url(QString("https://www.musixmatch.com/lyrics/%1/%2").arg(artist_stripped, title_stripped));
   QNetworkRequest req(url);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   req.setAttribute(QNetworkRequest::Http2AllowedAttribute, false);
 #endif

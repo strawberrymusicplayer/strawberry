@@ -69,11 +69,7 @@ bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album
   QUrl url(kUrlSearch);
   url.setQuery(url_query);
   QNetworkRequest req(url);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, artist, title]() { HandleSearchReply(reply, id, artist, title); });

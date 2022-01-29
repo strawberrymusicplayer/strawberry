@@ -1133,11 +1133,7 @@ void TidalRequest::FlushAlbumCoverRequests() {
     ++album_covers_requests_active_;
 
     QNetworkRequest req(request.url);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
     req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-    req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
     QNetworkReply *reply = network_->get(req);
     album_cover_replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumCoverReceived(reply, request.album_id, request.url, request.filename); });

@@ -405,11 +405,7 @@ void TidalService::RequestAccessToken(const QString &code) {
 
   QUrl url(kOAuthAccessTokenUrl);
   QNetworkRequest req(url);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#else
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
 
   login_errors_.clear();
