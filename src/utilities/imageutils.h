@@ -37,7 +37,6 @@ class ImageUtils {
  public:
   static QStringList SupportedImageMimeTypes();
   static QStringList SupportedImageFormats();
-  static QByteArrayList ImageFormatsForMimeType(const QByteArray &mimetype);
   static QByteArray SaveImageToJpegData(const QImage &image = QImage());
   static QByteArray FileToJpegData(const QString &filename);
   static QPixmap TryLoadPixmap(const QUrl &automatic, const QUrl &manual, const QUrl &url = QUrl());

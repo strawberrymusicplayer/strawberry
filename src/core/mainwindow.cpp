@@ -844,11 +844,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(ui_->analyzer, &AnalyzerContainer::WheelEvent, this, &MainWindow::VolumeWheelEvent);
 
   // Statusbar widgets
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
   ui_->playlist_summary->setMinimumWidth(QFontMetrics(font()).horizontalAdvance("WW selected of WW tracks - [ WW:WW ]"));
-#else
-  ui_->playlist_summary->setMinimumWidth(QFontMetrics(font()).width("WW selected of WW tracks - [ WW:WW ]"));
-#endif
   ui_->status_bar_stack->setCurrentWidget(ui_->playlist_summary_page);
   QObject::connect(ui_->multi_loading_indicator, &MultiLoadingIndicator::TaskCountChange, this, &MainWindow::TaskCountChanged);
 

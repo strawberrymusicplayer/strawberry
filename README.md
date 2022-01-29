@@ -73,7 +73,7 @@ To build Strawberry from source you need the following installed on your system 
 * [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) or [pkgconf](https://github.com/pkgconf/pkgconf)
 * [Boost](https://www.boost.org/)
 * [GLib](https://developer.gnome.org/glib/)
-* [Qt 6 or Qt 5.9 or higher with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
+* [Qt 6 or Qt 5.12 or higher with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
 * [SQLite 3.9 or newer with FTS5](https://www.sqlite.org)
 * [Protobuf](https://developers.google.com/protocol-buffers/)
 * [ALSA (Required on Linux)](https://www.alsa-project.org/)
@@ -118,4 +118,3 @@ To compile on Windows with Visual Studio 2019 or 2022, see https://github.com/st
 ### :penguin:	Packaging status
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/strawberry.svg?exclude_unsupported=1)](https://repology.org/metapackage/strawberry/versions)
-

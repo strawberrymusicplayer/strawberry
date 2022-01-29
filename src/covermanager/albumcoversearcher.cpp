@@ -92,11 +92,7 @@ void SizeOverlayDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
   const QFontMetrics metrics(font);
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
   const int text_width = metrics.horizontalAdvance(text);
-#else
-  const int text_width = metrics.width(text);
-#endif
 
   const QRect icon_rect(option.rect.left(), option.rect.top(), option.rect.width(), option.rect.width());
 

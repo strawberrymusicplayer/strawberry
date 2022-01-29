@@ -99,11 +99,7 @@ void PlaylistProxyStyle::drawControl(ControlElement element, const QStyleOption 
     const QFontMetrics &font_metrics = header_option->fontMetrics;
 
     // Spaces added to make transition less abrupt
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
     if (rect.width() < font_metrics.horizontalAdvance(text + "  ")) {
-#else
-    if (rect.width() < font_metrics.width(text + "  ")) {
-#endif
       const Playlist::Column column = static_cast<Playlist::Column>(header_option->section);
       QStyleOptionHeader new_option(*header_option);
       new_option.text = Playlist::abbreviated_column_name(column);
@@ -183,9 +179,7 @@ PlaylistView::PlaylistView(QWidget *parent)
 
   setHeader(header_);
   header_->setSectionsMovable(true);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
   header_->setFirstSectionMovable(true);
-#endif
   header_->setSortIndicator(Playlist::Column_Title, Qt::AscendingOrder);
 
   setStyle(style_);

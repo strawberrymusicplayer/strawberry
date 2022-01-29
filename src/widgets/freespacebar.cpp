@@ -196,11 +196,7 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
 
   int text_width = 0;
   for (const Label &label : labels) {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
     text_width += kLabelBoxSize + kLabelBoxPadding + kLabelSpacing + small_metrics.horizontalAdvance(label.text);
-#else
-    text_width += kLabelBoxSize + kLabelBoxPadding + kLabelSpacing + small_metrics.width(label.text);
-#endif
   }
 
   // Draw the text
@@ -215,18 +211,10 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
     p->setBrush(label.color);
     p->drawRect(box);
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
     QRect text(x + kLabelBoxSize + kLabelBoxPadding, r.top(), small_metrics.horizontalAdvance(label.text), r.height());
-#else
-    QRect text(x + kLabelBoxSize + kLabelBoxPadding, r.top(), small_metrics.width(label.text), r.height());
-#endif
     p->setPen(light ? label.color.darker() : label.color);
     p->drawText(text, Qt::AlignCenter, label.text);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
     x += kLabelBoxSize + kLabelBoxPadding + kLabelSpacing + small_metrics.horizontalAdvance(label.text);
-#else
-    x += kLabelBoxSize + kLabelBoxPadding + kLabelSpacing + small_metrics.width(label.text);
-#endif
   }
 
 }

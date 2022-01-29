@@ -40,17 +40,15 @@ LineTextEdit::LineTextEdit(QWidget *parent) : QTextEdit(parent) {
 }
 
 QSize LineTextEdit::sizeHint() const {
+
   QFontMetrics fm(font());
 
   static const int kMargin = 5;
   int h = 2 * kMargin + qMax(fm.height(), 14);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
   int w = 2 * kMargin + fm.horizontalAdvance("W") * 15;
-#else
-  int w = 2 * kMargin + fm.width("W") * 15;
-#endif
 
   return QSize(w, h);
+
 }
 
 QSize LineTextEdit::minimumSizeHint() const {

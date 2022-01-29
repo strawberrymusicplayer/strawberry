@@ -1358,7 +1358,7 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
     return;
   }
 
-  QByteArrayList format_list = ImageUtils::ImageFormatsForMimeType(mimetype.toUtf8());
+  QByteArrayList format_list = QImageReader::imageFormatsForMimeType(mimetype.toUtf8());
   char *format = nullptr;
   if (!format_list.isEmpty()) {
     format = format_list.first().data();

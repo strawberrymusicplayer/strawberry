@@ -84,11 +84,7 @@ QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
   qint32 bitspersample = i.depth() / channels;
   arg << bitspersample;
   arg << channels;
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
   arg << QByteArray(reinterpret_cast<const char*>(i.constBits()), static_cast<int>(i.sizeInBytes()));
-#else
-  arg << QByteArray(reinterpret_cast<const char*>(i.constBits()), i.byteCount());
-#endif
   arg.endStructure();
 
   return arg;

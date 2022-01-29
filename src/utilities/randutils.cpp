@@ -20,9 +20,7 @@
 #include <QString>
 #include <QChar>
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-#  include <QRandomGenerator>
-#endif
+#include <QRandomGenerator>
 
 #include "randutils.h"
 
@@ -47,11 +45,7 @@ QString GetRandomString(const int len, const QString &UseCharacters) {
 
   QString randstr;
   for (int i = 0; i < len; ++i) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     const qint64 index = QRandomGenerator::global()->bounded(0, UseCharacters.length());
-#else
-    const int index = qrand() % UseCharacters.length();
-#endif
     QChar nextchar = UseCharacters.at(index);
     randstr.append(nextchar);
   }

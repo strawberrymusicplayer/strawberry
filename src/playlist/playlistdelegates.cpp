@@ -110,11 +110,7 @@ void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect line_rect, const
   smaller.setBold(true);
 
   if (width == -1) {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
     width = QFontMetrics(font).horizontalAdvance(text + "  ");
-#else
-    width = QFontMetrics(font).width(text + "  ");
-#endif
   }
 
   QRect rect(line_rect);

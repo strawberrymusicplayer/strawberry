@@ -819,7 +819,7 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverR
     return;
   }
 
-  QByteArrayList format_list = ImageUtils::ImageFormatsForMimeType(mimetype.toUtf8());
+  QByteArrayList format_list = QImageReader::imageFormatsForMimeType(mimetype.toUtf8());
   char *format = nullptr;
   if (!format_list.isEmpty()) {
     format = format_list.first().data();

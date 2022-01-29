@@ -36,11 +36,7 @@ QString MacAddress() {
         !(netif.flags() & QNetworkInterface::IsUp) ||
         !(netif.flags() & QNetworkInterface::IsRunning)
         ) { continue; }
-    if (ret.isEmpty()
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
-        || netif.type() == QNetworkInterface::Ethernet || netif.type() == QNetworkInterface::Wifi
-#endif
-    ) {
+    if (ret.isEmpty() || netif.type() == QNetworkInterface::Ethernet || netif.type() == QNetworkInterface::Wifi) {
       ret = netif.hardwareAddress();
     }
   }

@@ -61,20 +61,6 @@ QStringList ImageUtils::SupportedImageFormats() {
 
 }
 
-QByteArrayList ImageUtils::ImageFormatsForMimeType(const QByteArray &mimetype) {
-
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
-  return QImageReader::imageFormatsForMimeType(mimetype);
-#else
-  if (mimetype == "image/bmp") return QByteArrayList() << "BMP";
-  else if (mimetype == "image/gif") return QByteArrayList() << "GIF";
-  else if (mimetype == "image/jpeg") return QByteArrayList() << "JPG";
-  else if (mimetype == "image/png") return QByteArrayList() << "PNG";
-  else return QByteArrayList();
-#endif
-
-}
-
 QPixmap ImageUtils::TryLoadPixmap(const QUrl &art_automatic, const QUrl &art_manual, const QUrl &url) {
 
   QPixmap ret;

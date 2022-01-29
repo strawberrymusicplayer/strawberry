@@ -486,11 +486,7 @@ void SmartPlaylistSearchTermWidget::Overlay::paintEvent(QPaintEvent*) {
 
   // Geometry
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
   const QSize contents_size(kIconSize + kSpacing + fontMetrics().horizontalAdvance(text_), qMax(kIconSize, fontMetrics().height()));
-#else
-  const QSize contents_size(kIconSize + kSpacing + fontMetrics().width(text_), qMax(kIconSize, fontMetrics().height()));
-#endif
 
   const QRect contents(QPoint((width() - contents_size.width()) / 2, (height() - contents_size.height()) / 2), contents_size);
   const QRect icon(contents.topLeft(), QSize(kIconSize, kIconSize));

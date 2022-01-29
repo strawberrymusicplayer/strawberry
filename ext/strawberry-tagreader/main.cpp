@@ -20,9 +20,6 @@
 
 #include <QtGlobal>
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
-#  include <sys/time.h>
-#endif
 #include <iostream>
 
 #include <QCoreApplication>
@@ -46,13 +43,6 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  // Seed random number generator
-#if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
-  timeval time;
-  gettimeofday(&time, nullptr);
-  qsrand((time.tv_sec * 1000) + (time.tv_usec / 1000));
-#endif
-
   logging::Init();
   qLog(Info) << "TagReader worker connecting to" << args[1];
 
@@ -67,4 +57,5 @@ int main(int argc, char **argv) {
   TagReaderWorker worker(&socket);
 
   return a.exec();
+  
 }
