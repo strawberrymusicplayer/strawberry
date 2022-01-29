@@ -999,7 +999,7 @@ msgstr "認証中..."
 
 #: ../build/src/ui_coverssettingspage.h:167
 #: ../build/src/ui_lyricssettingspage.h:167
-#: ../build/src/ui_subsonicsettingspage.h:226
+#: ../build/src/ui_subsonicsettingspage.h:246
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:273
 msgid "Authentication"
@@ -1010,7 +1010,7 @@ msgstr "認証"
 msgid "Authentication failed"
 msgstr "認証に失敗しました"
 
-#: ../build/src/ui_subsonicsettingspage.h:229
+#: ../build/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
 msgstr ""
 
@@ -1365,14 +1365,14 @@ msgstr "タグを自動補完..."
 msgid "Composer"
 msgstr "作曲者"
 
-#: settings/subsonicsettingspage.cpp:129 settings/tidalsettingspage.cpp:157
+#: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:157
 #: settings/tidalsettingspage.cpp:164 settings/tidalsettingspage.cpp:168
 #: settings/tidalsettingspage.cpp:172 settings/qobuzsettingspage.cpp:129
 #: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
 msgid "Configuration incomplete"
 msgstr "設定に失敗"
 
-#: settings/subsonicsettingspage.cpp:135
+#: settings/subsonicsettingspage.cpp:136
 msgid "Configuration incorrect"
 msgstr "設定が不正"
 
@@ -1731,6 +1731,10 @@ msgstr "プリセットの削除"
 msgid "Delete smart playlist"
 msgstr "スマートプレイリストを削除"
 
+#: ../build/src/ui_subsonicsettingspage.h:259
+msgid "Delete songs"
+msgstr ""
+
 #: ../build/src/ui_organizedialog.h:263
 msgid "Delete the original files"
 msgstr "元のファイルを削除する"
@@ -1872,7 +1876,7 @@ msgid ""
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr "このプレイリストを左側のサイドバーの\"プレイリスト\"からアクセスできるようにするにはここをダブルクリックします。"
 
-#: ../build/src/ui_subsonicsettingspage.h:236
+#: ../build/src/ui_subsonicsettingspage.h:255
 #: ../build/src/ui_tidalsettingspage.h:335
 #: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Download album covers"
@@ -1936,7 +1940,7 @@ msgstr "埋め込みカバー"
 #: ../build/src/ui_scrobblersettingspage.h:430
 #: ../build/src/ui_scrobblersettingspage.h:434
 #: ../build/src/ui_scrobblersettingspage.h:437
-#: ../build/src/ui_subsonicsettingspage.h:224
+#: ../build/src/ui_subsonicsettingspage.h:244
 #: ../build/src/ui_tidalsettingspage.h:319
 #: ../build/src/ui_qobuzsettingspage.h:271
 msgid "Enable"
@@ -2599,8 +2603,8 @@ msgstr "ハードウェアの情報はデバイス接続中のみ利用できま
 msgid "Help"
 msgstr "ヘルプ"
 
-#: ../build/src/ui_subsonicsettingspage.h:230
-msgid "Hex (insecure)"
+#: ../build/src/ui_subsonicsettingspage.h:250
+msgid "Hex"
 msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:288
@@ -2946,7 +2950,7 @@ msgstr "歌詞"
 msgid "Lyrics providers"
 msgstr ""
 
-#: ../build/src/ui_subsonicsettingspage.h:231
+#: ../build/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token"
 msgstr ""
 
@@ -3073,7 +3077,7 @@ msgstr "app id がありません"
 msgid "Missing password."
 msgstr "パスワードがありません"
 
-#: settings/subsonicsettingspage.cpp:129
+#: settings/subsonicsettingspage.cpp:130
 msgid "Missing server url, username or password."
 msgstr "サーバーの URL、ユーザー名またはパスワードがありません"
 
@@ -3464,7 +3468,7 @@ msgstr "パーティー"
 
 #: ../build/src/ui_networkproxysettingspage.h:180
 #: ../build/src/ui_userpassdialog.h:92
-#: ../build/src/ui_subsonicsettingspage.h:228
+#: ../build/src/ui_subsonicsettingspage.h:248
 #: ../build/src/ui_tidalsettingspage.h:326
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Password"
@@ -3635,7 +3639,7 @@ msgstr "プリアンプ"
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Scrobbles を送信するときにアルバムアーティストを優先する"
 
-#: ../build/src/ui_subsonicsettingspage.h:233
+#: ../build/src/ui_subsonicsettingspage.h:252
 #: ../build/src/ui_tidalsettingspage.h:328
 #: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Preferences"
@@ -4307,15 +4311,15 @@ msgstr "選択..."
 msgid "Serial number"
 msgstr "シリアル番号"
 
-#: ../build/src/ui_subsonicsettingspage.h:225
+#: ../build/src/ui_subsonicsettingspage.h:245
 msgid "Server URL"
 msgstr "サーバーURL"
 
-#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:135
+#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "サーバーURLが不正です。"
 
-#: ../build/src/ui_subsonicsettingspage.h:237
+#: ../build/src/ui_subsonicsettingspage.h:256
 msgid "Server-side scrobbling"
 msgstr "サーバーサイドの scrobbling"
 
@@ -4774,7 +4778,7 @@ msgid "Submit scrobbles every"
 msgstr ""
 
 #: core/mainwindow.cpp:358 ../build/src/ui_scrobblersettingspage.h:419
-#: ../build/src/ui_subsonicsettingspage.h:223
+#: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4854,15 +4858,15 @@ msgstr "技術データ"
 msgid "Techno"
 msgstr "テクノ"
 
-#: ../build/src/ui_subsonicsettingspage.h:232
+#: ../build/src/ui_subsonicsettingspage.h:258
 msgid "Test"
 msgstr "テスト"
 
-#: settings/subsonicsettingspage.cpp:168
+#: settings/subsonicsettingspage.cpp:169
 msgid "Test failed!"
 msgstr "テスト失敗!"
 
-#: settings/subsonicsettingspage.cpp:159
+#: settings/subsonicsettingspage.cpp:160
 msgid "Test successful!"
 msgstr "テスト成功!"
 
@@ -5144,7 +5148,7 @@ msgstr "トラックをスキップしない"
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry の起動時にライブラリを更新する"
 
-#: collection/collectionwatcher.cpp:205
+#: collection/collectionwatcher.cpp:206
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 の更新中"
@@ -5159,7 +5163,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "更新しています %1%..."
 
-#: collection/collectionwatcher.cpp:202
+#: collection/collectionwatcher.cpp:203
 msgid "Updating collection"
 msgstr "ライブラリの更新中"
 
@@ -5183,7 +5187,7 @@ msgstr "使用量"
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr "可能なら Gnome (GSD) のショートカットを使用する"
 
-#: ../build/src/ui_subsonicsettingspage.h:234
+#: ../build/src/ui_subsonicsettingspage.h:253
 msgid "Use HTTP/2 when possible"
 msgstr ""
 
@@ -5281,7 +5285,7 @@ msgstr "ユーザートークン:"
 
 #: ../build/src/ui_networkproxysettingspage.h:179
 #: ../build/src/ui_userpassdialog.h:91
-#: ../build/src/ui_subsonicsettingspage.h:227
+#: ../build/src/ui_subsonicsettingspage.h:247
 #: ../build/src/ui_tidalsettingspage.h:325
 #: ../build/src/ui_qobuzsettingspage.h:275
 msgid "Username"
@@ -5308,7 +5312,7 @@ msgstr "可変ビットレート"
 msgid "Various artists"
 msgstr "さまざまなアーティスト"
 
-#: ../build/src/ui_subsonicsettingspage.h:235
+#: ../build/src/ui_subsonicsettingspage.h:254
 msgid "Verify server certificate"
 msgstr "サーバー証明書の検証"
 

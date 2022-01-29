@@ -1017,7 +1017,7 @@ msgstr "Autentisering..."
 
 #: ../build/src/ui_coverssettingspage.h:167
 #: ../build/src/ui_lyricssettingspage.h:167
-#: ../build/src/ui_subsonicsettingspage.h:226
+#: ../build/src/ui_subsonicsettingspage.h:246
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:273
 msgid "Authentication"
@@ -1028,7 +1028,7 @@ msgstr "Autentisering"
 msgid "Authentication failed"
 msgstr "Autentisering misslyckades"
 
-#: ../build/src/ui_subsonicsettingspage.h:229
+#: ../build/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
 msgstr "Autentiseringsmetod:"
 
@@ -1385,14 +1385,14 @@ msgstr "Fyll i taggar automatiskt..."
 msgid "Composer"
 msgstr "Kompositör"
 
-#: settings/subsonicsettingspage.cpp:129 settings/tidalsettingspage.cpp:157
+#: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:157
 #: settings/tidalsettingspage.cpp:164 settings/tidalsettingspage.cpp:168
 #: settings/tidalsettingspage.cpp:172 settings/qobuzsettingspage.cpp:129
 #: settings/qobuzsettingspage.cpp:133 settings/qobuzsettingspage.cpp:137
 msgid "Configuration incomplete"
 msgstr "Konfigurationen ofullständig"
 
-#: settings/subsonicsettingspage.cpp:135
+#: settings/subsonicsettingspage.cpp:136
 msgid "Configuration incorrect"
 msgstr "Konfiguration felaktig"
 
@@ -1758,6 +1758,10 @@ msgstr "Ta bort förinställning"
 msgid "Delete smart playlist"
 msgstr "Ta bort smart spellista"
 
+#: ../build/src/ui_subsonicsettingspage.h:259
+msgid "Delete songs"
+msgstr ""
+
 #: ../build/src/ui_organizedialog.h:263
 msgid "Delete the original files"
 msgstr "Ta bort originalfiler"
@@ -1901,7 +1905,7 @@ msgstr ""
 "Dubbelklicka här för att favorisera den här spellistan så att den sparas och "
 "förblir tillgänglig från panelen \"Spellistor\" på det vänstra sidofältet"
 
-#: ../build/src/ui_subsonicsettingspage.h:236
+#: ../build/src/ui_subsonicsettingspage.h:255
 #: ../build/src/ui_tidalsettingspage.h:335
 #: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Download album covers"
@@ -1965,7 +1969,7 @@ msgstr "Inbäddat omslag"
 #: ../build/src/ui_scrobblersettingspage.h:430
 #: ../build/src/ui_scrobblersettingspage.h:434
 #: ../build/src/ui_scrobblersettingspage.h:437
-#: ../build/src/ui_subsonicsettingspage.h:224
+#: ../build/src/ui_subsonicsettingspage.h:244
 #: ../build/src/ui_tidalsettingspage.h:319
 #: ../build/src/ui_qobuzsettingspage.h:271
 msgid "Enable"
@@ -2630,9 +2634,9 @@ msgstr "Hårdvaruinformation är endast tillgänglig när enheten är ansluten."
 msgid "Help"
 msgstr "Hjälp"
 
-#: ../build/src/ui_subsonicsettingspage.h:230
-msgid "Hex (insecure)"
-msgstr "Hex (osäker)"
+#: ../build/src/ui_subsonicsettingspage.h:250
+msgid "Hex"
+msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
@@ -2987,7 +2991,7 @@ msgstr "Låttexter"
 msgid "Lyrics providers"
 msgstr "Låttextleverantörer"
 
-#: ../build/src/ui_subsonicsettingspage.h:231
+#: ../build/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token"
 msgstr "MD5-token"
 
@@ -3114,7 +3118,7 @@ msgstr "App-id saknas."
 msgid "Missing password."
 msgstr "Lösenord saknas."
 
-#: settings/subsonicsettingspage.cpp:129
+#: settings/subsonicsettingspage.cpp:130
 msgid "Missing server url, username or password."
 msgstr "Serveradress, användarnamn eller lösenord saknas."
 
@@ -3509,7 +3513,7 @@ msgstr "Fest"
 
 #: ../build/src/ui_networkproxysettingspage.h:180
 #: ../build/src/ui_userpassdialog.h:92
-#: ../build/src/ui_subsonicsettingspage.h:228
+#: ../build/src/ui_subsonicsettingspage.h:248
 #: ../build/src/ui_tidalsettingspage.h:326
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Password"
@@ -3683,7 +3687,7 @@ msgstr "Förförstärkare"
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Föredra albumartist vid sändning av skrobblingar"
 
-#: ../build/src/ui_subsonicsettingspage.h:233
+#: ../build/src/ui_subsonicsettingspage.h:252
 #: ../build/src/ui_tidalsettingspage.h:328
 #: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Preferences"
@@ -4368,15 +4372,15 @@ msgstr "Välj..."
 msgid "Serial number"
 msgstr "Serienummer"
 
-#: ../build/src/ui_subsonicsettingspage.h:225
+#: ../build/src/ui_subsonicsettingspage.h:245
 msgid "Server URL"
 msgstr "Serverwebbadress"
 
-#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:135
+#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "Serverwebbadressen är ogiltig."
 
-#: ../build/src/ui_subsonicsettingspage.h:237
+#: ../build/src/ui_subsonicsettingspage.h:256
 msgid "Server-side scrobbling"
 msgstr "Skrobbling på serversidan"
 
@@ -4843,7 +4847,7 @@ msgid "Submit scrobbles every"
 msgstr "Skicka skrobblingar varje"
 
 #: core/mainwindow.cpp:358 ../build/src/ui_scrobblersettingspage.h:419
-#: ../build/src/ui_subsonicsettingspage.h:223
+#: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4923,15 +4927,15 @@ msgstr "Tekniska data"
 msgid "Techno"
 msgstr "Techno"
 
-#: ../build/src/ui_subsonicsettingspage.h:232
+#: ../build/src/ui_subsonicsettingspage.h:258
 msgid "Test"
 msgstr "Testa"
 
-#: settings/subsonicsettingspage.cpp:168
+#: settings/subsonicsettingspage.cpp:169
 msgid "Test failed!"
 msgstr "Testet misslyckades!"
 
-#: settings/subsonicsettingspage.cpp:159
+#: settings/subsonicsettingspage.cpp:160
 msgid "Test successful!"
 msgstr "Testet lyckades!"
 
@@ -5232,7 +5236,7 @@ msgstr "Hoppa inte över valt spår"
 msgid "Update the collection when Strawberry starts"
 msgstr "Uppdatera samlingen när Strawberry startar"
 
-#: collection/collectionwatcher.cpp:205
+#: collection/collectionwatcher.cpp:206
 #, qt-format
 msgid "Updating %1"
 msgstr "Uppdaterar %1"
@@ -5247,7 +5251,7 @@ msgstr "Uppdaterar %1-databasen."
 msgid "Updating %1%..."
 msgstr "Uppdaterar %1%..."
 
-#: collection/collectionwatcher.cpp:202
+#: collection/collectionwatcher.cpp:203
 msgid "Updating collection"
 msgstr "Uppdaterar samlingen"
 
@@ -5271,7 +5275,7 @@ msgstr "Användning"
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr "Använd Gnome (GSD)-genvägar när de är tillgängliga"
 
-#: ../build/src/ui_subsonicsettingspage.h:234
+#: ../build/src/ui_subsonicsettingspage.h:253
 msgid "Use HTTP/2 when possible"
 msgstr "Använd HTTP/2 när det är möjligt"
 
@@ -5369,7 +5373,7 @@ msgstr "Användartoken:"
 
 #: ../build/src/ui_networkproxysettingspage.h:179
 #: ../build/src/ui_userpassdialog.h:91
-#: ../build/src/ui_subsonicsettingspage.h:227
+#: ../build/src/ui_subsonicsettingspage.h:247
 #: ../build/src/ui_tidalsettingspage.h:325
 #: ../build/src/ui_qobuzsettingspage.h:275
 msgid "Username"
@@ -5398,7 +5402,7 @@ msgstr "Variabel bithastighet"
 msgid "Various artists"
 msgstr "Diverse artister"
 
-#: ../build/src/ui_subsonicsettingspage.h:235
+#: ../build/src/ui_subsonicsettingspage.h:254
 msgid "Verify server certificate"
 msgstr "Verifiera servercertifikat"
 
