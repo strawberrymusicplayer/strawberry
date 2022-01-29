@@ -23,6 +23,7 @@
 
 #include "player.h"
 
+#include <algorithm>
 #include <memory>
 
 #include <QtGlobal>
@@ -632,6 +633,12 @@ void Player::EngineStateChanged(const Engine::State state) {
 
 }
 
+uint Player::GetVolume() const {
+
+  return engine_->volume();
+
+}
+
 void Player::SetVolume(const uint value) {
 
   uint old_volume = engine_->volume();
@@ -646,7 +653,23 @@ void Player::SetVolume(const uint value) {
 
 }
 
-uint Player::GetVolume() const { return engine_->volume(); }
+void Player::VolumeUp() {
+
+  uint old_volume = GetVolume();
+  uint new_volume = std::min(old_volume + 5, static_cast<uint>(100));
+  if (new_volume == old_volume) return;
+  SetVolume(new_volume);
+
+}
+
+void Player::VolumeDown() {
+
+  uint old_volume = GetVolume();
+  uint new_volume = static_cast<uint>(std::max(static_cast<int>(old_volume) - 5, 0));
+  if (new_volume == old_volume) return;
+  SetVolume(new_volume);
+
+}
 
 void Player::PlayAt(const int index, const quint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform) {
 

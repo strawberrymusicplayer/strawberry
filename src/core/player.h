@@ -167,8 +167,8 @@ class Player : public PlayerInterface {
   void Previous() override;
   void PlayPlaylist(const QString &playlist_name) override;
   void SetVolume(const uint value) override;
-  void VolumeUp() override { SetVolume(GetVolume() + 5); }
-  void VolumeDown() override { SetVolume(GetVolume() - 5); }
+  void VolumeUp() override;
+  void VolumeDown() override;
   void SeekTo(const quint64 seconds) override;
   void SeekForward() override;
   void SeekBackward() override;
