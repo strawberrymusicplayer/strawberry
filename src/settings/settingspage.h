@@ -69,6 +69,7 @@ class SettingsPage : public QWidget {
 
   static void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const QString &default_value);
   static void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value);
+  static void ComboBoxLoadFromSettingsByIndex(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value);
 
  private:
   virtual void Save() = 0;

@@ -151,3 +151,13 @@ void SettingsPage::ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combo
   combobox->setCurrentIndex(i);
 
 }
+
+void SettingsPage::ComboBoxLoadFromSettingsByIndex(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value) {
+
+  if (combobox->count() == 0) return;
+  int i = s.value(setting, default_value).toInt();
+  if (i <= 0 || i >= combobox->count()) i = 0;
+  combobox->setCurrentIndex(i);
+
+}
+

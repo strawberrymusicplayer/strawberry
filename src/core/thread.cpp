@@ -23,6 +23,13 @@
 #include "utilities.h"
 
 void Thread::run() {
-  Utilities::SetThreadIOPriority(io_priority_);
+
+#ifndef Q_OS_WIN32
+  if (io_priority_ != Utilities::IOPRIO_CLASS_NONE) {
+    Utilities::SetThreadIOPriority(io_priority_);
+  }
+#endif
+
   QThread::run();
+
 }

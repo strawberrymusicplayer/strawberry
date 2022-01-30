@@ -29,6 +29,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QImage>
+#include <QSettings>
 #include <QtDebug>
 
 #include "core/logging.h"
@@ -36,6 +37,7 @@
 
 #include "song.h"
 #include "tagreaderclient.h"
+#include "settings/collectionsettingspage.h"
 
 const char *TagReaderClient::kWorkerExecutableName = "strawberry-tagreader";
 TagReaderClient *TagReaderClient::sInstance = nullptr;
@@ -45,8 +47,15 @@ TagReaderClient::TagReaderClient(QObject *parent) : QObject(parent), worker_pool
   sInstance = this;
   original_thread_ = thread();
 
+  QSettings s;
+  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
+  int workers = s.value("tagreader_workers", qBound(1, QThread::idealThreadCount() / 2, 4)).toInt();
+  s.endGroup();
+
+  qLog(Debug) << "Using" << workers << "tagreader workers.";
+
   worker_pool_->SetExecutableName(kWorkerExecutableName);
-  worker_pool_->SetWorkerCount(qBound(1, QThread::idealThreadCount() / 2, 4));
+  worker_pool_->SetWorkerCount(workers);
   QObject::connect(worker_pool_, &WorkerPool<HandlerType>::WorkerFailedToStart, this, &TagReaderClient::WorkerFailedToStart);
 
 }

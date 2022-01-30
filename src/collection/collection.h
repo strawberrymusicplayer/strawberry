@@ -28,10 +28,10 @@
 #include <QList>
 #include <QHash>
 #include <QString>
+#include <QThread>
 
 #include "core/song.h"
-
-class QThread;
+#include "core/utilities.h"
 
 class Application;
 class Thread;
@@ -99,6 +99,8 @@ class SCollection : public QObject {
 
   QList<QObject*> wait_for_exit_;
 
+  Utilities::IoPriority io_priority_;
+  QThread::Priority thread_priority_;
   bool save_playcounts_to_files_;
   bool save_ratings_to_files_;
 };

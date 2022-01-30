@@ -23,6 +23,7 @@
 
 #include <limits>
 
+#include <QThread>
 #include <QStandardPaths>
 #include <QAbstractItemModel>
 #include <QItemSelectionModel>
@@ -78,6 +79,9 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
   ui_->combobox_cache_size->addItems({"KB", "MB"});
   ui_->combobox_disk_cache_size->addItems({"KB", "MB", "GB"});
 
+  ui_->combobox_iopriority->addItems({"Auto", "Realtime", "Best effort", "Idle"});
+  ui_->combobox_threadpriority->addItems({"Idle", "Lowest", "Low", "Normal"});
+
   QObject::connect(ui_->add, &QPushButton::clicked, this, &CollectionSettingsPage::Add);
   QObject::connect(ui_->remove, &QPushButton::clicked, this, &CollectionSettingsPage::Remove);
 
@@ -100,6 +104,11 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
 
 #ifndef HAVE_SONGFINGERPRINTING
   ui_->song_tracking->hide();
+#endif
+
+#ifdef Q_OS_WIN32
+  ui_->label_iopriority->hide();
+  ui_->combobox_iopriority->hide();
 #endif
 
 }
@@ -221,6 +230,18 @@ void CollectionSettingsPage::Load() {
   ui_->checkbox_delete_files->hide();
 #endif
 
+#ifndef Q_OS_WIN32
+  ComboBoxLoadFromSettingsByIndex(s, ui_->combobox_iopriority, "io_priority", Utilities::IOPRIO_CLASS_IDLE);
+#endif
+
+  ComboBoxLoadFromSettingsByIndex(s, ui_->combobox_threadpriority, "thread_priority", QThread::Priority::IdlePriority);
+
+  int workers = s.value("tagreader_workers", qBound(1, QThread::idealThreadCount() / 2, 4)).toInt();
+  if (workers <= 0 || workers > 4) {
+    workers = 4;
+  }
+  ui_->spinbox_tagreaderworkers->setValue(workers);
+
   s.endGroup();
 
   DiskCacheEnable(ui_->checkbox_disk_cache->checkState());
@@ -283,6 +304,13 @@ void CollectionSettingsPage::Save() {
   s.setValue("overwrite_rating", ui_->checkbox_overwrite_rating->isChecked());
 
   s.setValue("delete_files", ui_->checkbox_delete_files->isChecked());
+
+#ifndef Q_OS_WIN32
+  s.setValue("io_priority", ui_->combobox_iopriority->currentIndex());
+#endif
+
+  s.setValue("thread_priority", ui_->combobox_threadpriority->currentIndex());
+  s.setValue("tagreader_workers", ui_->spinbox_tagreaderworkers->value());
 
   s.endGroup();
 
