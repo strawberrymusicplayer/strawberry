@@ -61,19 +61,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void GetAlbums();
   void Reset();
 
- signals:
-  void Results(SongMap songs, QString error);
-  void UpdateStatus(QString text);
-  void ProgressSetMaximum(int max);
-  void UpdateProgress(int max);
-
- private slots:
-  void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested, const int size_requested);
-  void AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const QString &album_artist);
-  void AlbumCoverReceived(QNetworkReply *reply, const QUrl &url, const QString &filename);
-
- private:
-
+  private:
   struct Request {
     explicit Request() : offset(0), size(0) {}
     QString artist_id;
@@ -86,9 +74,23 @@ class SubsonicRequest : public SubsonicBaseRequest {
   struct AlbumCoverRequest {
     QString artist_id;
     QString album_id;
+    QString cover_id;
     QUrl url;
     QString filename;
   };
+
+ signals:
+  void Results(SongMap songs, QString error);
+  void UpdateStatus(QString text);
+  void ProgressSetMaximum(int max);
+  void UpdateProgress(int max);
+
+ private slots:
+  void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested, const int size_requested);
+  void AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const QString &album_artist);
+  void AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverRequest &request);
+
+ private:
 
   void AddAlbumsRequest(const int offset = 0, const int size = 500);
   void FlushAlbumsRequests();
@@ -128,7 +130,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   QQueue<AlbumCoverRequest> album_cover_requests_queue_;
 
   QHash<QString, Request> album_songs_requests_pending_;
-  QMultiMap<QUrl, QString> album_covers_requests_sent_;
+  QMultiMap<QString, QString> album_covers_requests_sent_;
 
   int albums_requests_active_;
 
@@ -141,6 +143,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   int album_covers_received_;
 
   SongMap songs_;
+  QMap<QString, QUrl> cover_urls_;
   QStringList errors_;
   bool no_results_;
   QList<QNetworkReply*> replies_;
