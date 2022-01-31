@@ -238,7 +238,7 @@ msgstr "%1 transferido"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:545
+#: ../build/src/ui_collectionsettingspage.h:611
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -602,7 +602,7 @@ msgstr "Añadir un salto de renglón si el tipo de notificación lo permite"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Añadir todas las pistas de una carpeta y sus subcarpetas"
 
-#: settings/collectionsettingspage.cpp:115
+#: settings/collectionsettingspage.cpp:124
 msgid "Add directory..."
 msgstr "Añadir carpeta…"
 
@@ -626,7 +626,7 @@ msgstr "Añadir archivos que convertir"
 msgid "Add folder"
 msgstr "Añadir carpeta"
 
-#: ../build/src/ui_collectionsettingspage.h:519
+#: ../build/src/ui_collectionsettingspage.h:585
 msgid "Add new folder..."
 msgstr "Añadir carpeta nueva…"
 
@@ -778,9 +778,17 @@ msgstr "Añadidas hoy"
 msgid "Added within three months"
 msgstr "Añadidas en los últimos tres meses"
 
+#: ../build/src/ui_collectionsettingspage.h:628
+msgid "Advanced"
+msgstr ""
+
 #: collection/collectionfilterwidget.cpp:300
 msgid "Advanced grouping..."
 msgstr "Agrupamiento avanzado…"
+
+#: ../build/src/ui_collectionsettingspage.h:632
+msgid "Advanced settings require restart."
+msgstr ""
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -823,7 +831,7 @@ msgstr ""
 "La edición de las cubiertas de los álbumes solo está disponible para las "
 "canciones de la fonoteca."
 
-#: ../build/src/ui_collectionsettingspage.h:549
+#: ../build/src/ui_collectionsettingspage.h:615
 msgid "Album cover pixmap cache"
 msgstr "Antememoria de mapa de bits de cubiertas"
 
@@ -966,7 +974,7 @@ msgstr "¿Confirma que quiere eliminar el ajuste predefinido «%1»?"
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "¿Confirma que quiere restablecer las estadísticas de esta canción?"
 
-#: settings/collectionsettingspage.cpp:352
+#: settings/collectionsettingspage.cpp:380
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1052,7 +1060,7 @@ msgstr "Autom."
 msgid "Automatic"
 msgstr "Automático"
 
-#: ../build/src/ui_collectionsettingspage.h:521
+#: ../build/src/ui_collectionsettingspage.h:587
 msgid "Automatic updating"
 msgstr "Actualización automática"
 
@@ -1061,7 +1069,7 @@ msgstr "Actualización automática"
 msgid "Automatically cover art from %1 is missing"
 msgstr "Falta la cubierta automática de %1"
 
-#: ../build/src/ui_collectionsettingspage.h:534
+#: ../build/src/ui_collectionsettingspage.h:600
 msgid "Automatically open single categories in the collection tree"
 msgstr "Expandir automáticamente categorías únicas en la colección"
 
@@ -1285,7 +1293,7 @@ msgstr "Clásica"
 msgid "Clear"
 msgstr "Borrar"
 
-#: ../build/src/ui_collectionsettingspage.h:555
+#: ../build/src/ui_collectionsettingspage.h:621
 msgid "Clear Disk Cache"
 msgstr "Vaciar antememoria de disco"
 
@@ -1340,7 +1348,7 @@ msgstr ""
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:517
+#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:583
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Colección"
@@ -1665,7 +1673,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Arriba"
 
-#: ../build/src/ui_collectionsettingspage.h:553
+#: ../build/src/ui_collectionsettingspage.h:619
 msgid "Current disk cache in use:"
 msgstr "Antememoria de disco en uso:"
 
@@ -1842,12 +1850,12 @@ msgstr "Disco"
 msgid "Discontinuous transmission"
 msgstr "Transmisión discontinua"
 
-#: ../build/src/ui_collectionsettingspage.h:552
+#: ../build/src/ui_collectionsettingspage.h:618
 msgid "Disk Cache Size"
 msgstr "Tamaño de antememoria de disco"
 
 #: collection/collectionfilterwidget.cpp:129
-#: ../build/src/ui_collectionsettingspage.h:533
+#: ../build/src/ui_collectionsettingspage.h:599
 msgid "Display options"
 msgstr "Opciones de visualización"
 
@@ -1981,7 +1989,7 @@ msgstr "Cubierta incrustada"
 msgid "Enable"
 msgstr "Activar"
 
-#: ../build/src/ui_collectionsettingspage.h:551
+#: ../build/src/ui_collectionsettingspage.h:617
 msgid "Enable Disk Cache"
 msgstr "Activar antememoria de disco"
 
@@ -1989,7 +1997,7 @@ msgstr "Activar antememoria de disco"
 msgid "Enable Items"
 msgstr "Activar elementos"
 
-#: ../build/src/ui_collectionsettingspage.h:561
+#: ../build/src/ui_collectionsettingspage.h:627
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Enable delete files in the right click context menu"
 msgstr ""
@@ -2162,7 +2170,7 @@ msgstr "Cubiertas existentes"
 msgid "Expand"
 msgstr "Expandir"
 
-#: ../build/src/ui_collectionsettingspage.h:526
+#: ../build/src/ui_collectionsettingspage.h:592
 msgid "Expire unavailable songs after"
 msgstr ""
 
@@ -2303,8 +2311,8 @@ msgstr "Descarga finalizada"
 msgid "Fetch entire albums when searching songs"
 msgstr "Devolver el álbum completo al buscar pistas"
 
-#: covermanager/coverfromurldialog.cpp:91
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:87
+#: covermanager/coverfromurldialog.cpp:101
 msgid "Fetching cover error"
 msgstr "Error al obtener la cubierta"
 
@@ -2352,7 +2360,7 @@ msgstr "Tipo"
 msgid "Filename"
 msgstr "Nombre del archivo"
 
-#: ../build/src/ui_collectionsettingspage.h:542
+#: ../build/src/ui_collectionsettingspage.h:608
 msgid "Filename:"
 msgstr "Archivo:"
 
@@ -2678,6 +2686,10 @@ msgstr "Marca de agua alta"
 msgid "Hours"
 msgstr "Horas"
 
+#: ../build/src/ui_collectionsettingspage.h:631
+msgid "I/O priority"
+msgstr ""
+
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
 msgstr "Icono"
@@ -2999,7 +3011,7 @@ msgstr "Perfil de baja complejidad (LC)"
 msgid "Low watermark"
 msgstr "Marca de agua baja"
 
-#: ../build/src/ui_collectionsettingspage.h:547
+#: ../build/src/ui_collectionsettingspage.h:613
 msgid "Lowercase filename"
 msgstr "Nombre de archivo en minúsculas"
 
@@ -3041,7 +3053,7 @@ msgstr "Cubierta manual de %1"
 msgid "Manufacturer"
 msgstr "Fabricante"
 
-#: ../build/src/ui_collectionsettingspage.h:525
+#: ../build/src/ui_collectionsettingspage.h:591
 msgid "Mark disappeared songs unavailable"
 msgstr "Marcar las pistas desaparecidas como no disponibles"
 
@@ -3061,7 +3073,7 @@ msgstr "Tamaño máximo de cubierta"
 msgid "Maximum bitrate"
 msgstr "Tasa de bits máxima"
 
-#: qobuz/qobuzservice.cpp:474
+#: qobuz/qobuzservice.cpp:470
 msgid "Maximum number of login attempts reached."
 msgstr "Se ha alcanzado el número máximo de intentos de acceso."
 
@@ -3086,21 +3098,21 @@ msgstr "Tasa de bits mínima"
 msgid "Missing API token."
 msgstr "Falta la ficha de la API."
 
-#: qobuz/qobuzservice.cpp:726 qobuz/qobuzstreamurlrequest.cpp:85
+#: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr "Falta el identificador de aplicación o el secreto de Qobuz."
 
-#: qobuz/qobuzservice.cpp:478 qobuz/qobuzservice.cpp:507
-#: qobuz/qobuzservice.cpp:562 qobuz/qobuzservice.cpp:615
-#: qobuz/qobuzservice.cpp:680
+#: qobuz/qobuzservice.cpp:474 qobuz/qobuzservice.cpp:503
+#: qobuz/qobuzservice.cpp:558 qobuz/qobuzservice.cpp:611
+#: qobuz/qobuzservice.cpp:676
 msgid "Missing Qobuz app ID."
 msgstr "Falta el identificador de aplicación de Qobuz."
 
-#: qobuz/qobuzservice.cpp:486
+#: qobuz/qobuzservice.cpp:482
 msgid "Missing Qobuz password."
 msgstr "Falta la contraseña de Qobuz."
 
-#: qobuz/qobuzservice.cpp:482
+#: qobuz/qobuzservice.cpp:478
 msgid "Missing Qobuz username."
 msgstr "Falta el usuario de Qobuz."
 
@@ -3108,13 +3120,13 @@ msgstr "Falta el usuario de Qobuz."
 msgid "Missing Subsonic username or password."
 msgstr "Falta el usuario o la contraseña de Qobuz."
 
-#: tidal/tidalservice.cpp:752 tidal/tidalservice.cpp:812
-#: tidal/tidalservice.cpp:870 tidal/tidalservice.cpp:936
-#: tidal/tidalservice.cpp:997 tidal/tidalstreamurlrequest.cpp:91
+#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:808
+#: tidal/tidalservice.cpp:866 tidal/tidalservice.cpp:932
+#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr "Falta la ficha de la API de Tidal, el usuario o la contraseña."
 
-#: tidal/tidalservice.cpp:713
+#: tidal/tidalservice.cpp:709
 msgid "Missing Tidal API token."
 msgstr "Falta la ficha de API de Tidal."
 
@@ -3122,11 +3134,11 @@ msgstr "Falta la ficha de API de Tidal."
 msgid "Missing Tidal client ID."
 msgstr "Falta el identificador de cliente de Tidal."
 
-#: tidal/tidalservice.cpp:721
+#: tidal/tidalservice.cpp:717
 msgid "Missing Tidal password."
 msgstr "Falta la contraseña de Tidal."
 
-#: tidal/tidalservice.cpp:717
+#: tidal/tidalservice.cpp:713
 msgid "Missing Tidal username."
 msgstr "Falta el usuario de Tidal."
 
@@ -3142,11 +3154,11 @@ msgstr "Falta la contraseña."
 msgid "Missing server url, username or password."
 msgstr "Falta el URL del servidor, el usuario o la contraseña."
 
-#: subsonic/subsonicservice.cpp:434
+#: subsonic/subsonicservice.cpp:427
 msgid "Missing username or password."
 msgstr "Falta el usuario o la contraseña."
 
-#: scrobbler/lastfmimport.cpp:218
+#: scrobbler/lastfmimport.cpp:214
 msgid "Missing username, please login to last.fm first!"
 msgstr "Falta el usuario; acceda a Last.fm primero."
 
@@ -3158,7 +3170,7 @@ msgstr "Falta el usuario."
 msgid "Model"
 msgstr "Modelo"
 
-#: ../build/src/ui_collectionsettingspage.h:523
+#: ../build/src/ui_collectionsettingspage.h:589
 msgid "Monitor the collection for changes"
 msgstr "Vigilar cambios en la colección"
 
@@ -3293,7 +3305,7 @@ msgstr "No hay ninguna cubierta que exportar."
 msgid "No long blocks"
 msgstr "Sin bloques largos"
 
-#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1314
 msgid "No match."
 msgstr "Sin coincidencias."
 
@@ -3336,20 +3348,20 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Tipo de bloque normal"
 
-#: qobuz/qobuzservice.cpp:512 qobuz/qobuzservice.cpp:567
-#: qobuz/qobuzservice.cpp:620
+#: qobuz/qobuzservice.cpp:508 qobuz/qobuzservice.cpp:563
+#: qobuz/qobuzservice.cpp:616
 msgid "Not authenticated with Qobuz."
 msgstr "No se ha accedido a Qobuz."
 
-#: tidal/tidalservice.cpp:725
+#: tidal/tidalservice.cpp:721
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Se ha alcanzado el número máximo de intentos sin lograr acceder a Tidal."
 
-#: tidal/tidalservice.cpp:747 tidal/tidalservice.cpp:807
-#: tidal/tidalservice.cpp:865 tidal/tidalservice.cpp:931
-#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:87
+#: tidal/tidalservice.cpp:743 tidal/tidalservice.cpp:803
+#: tidal/tidalservice.cpp:861 tidal/tidalservice.cpp:927
+#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr "No se ha accedido a Tidal."
 
@@ -3505,11 +3517,11 @@ msgstr "Salida"
 msgid "Output options"
 msgstr "Opciones de salida"
 
-#: ../build/src/ui_collectionsettingspage.h:559
+#: ../build/src/ui_collectionsettingspage.h:625
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:546
+#: ../build/src/ui_collectionsettingspage.h:612
 msgid "Overwrite existing file"
 msgstr "Sobrescribir archivo existente"
 
@@ -3545,7 +3557,7 @@ msgstr "Contraseña"
 msgid "Path"
 msgstr "Ruta"
 
-#: ../build/src/ui_collectionsettingspage.h:543
+#: ../build/src/ui_collectionsettingspage.h:609
 msgid "Pattern"
 msgstr "Pauta"
 
@@ -3715,7 +3727,7 @@ msgstr "Preferir artista del álbum al registrar reproducción"
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: ../build/src/ui_collectionsettingspage.h:528
+#: ../build/src/ui_collectionsettingspage.h:594
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Nombres de archivo preferidos para las portadas (separados por comas)"
 
@@ -3862,7 +3874,7 @@ msgstr ""
 msgid "Radios"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:544
+#: ../build/src/ui_collectionsettingspage.h:610
 msgid "Random"
 msgstr "Al azar"
 
@@ -3925,7 +3937,7 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr "Recibiendo info de nº de reproducciones para %1 temas."
 
-#: lyrics/geniuslyricsprovider.cpp:205
+#: lyrics/geniuslyricsprovider.cpp:201
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "Redirección Genius carece de código de elementos de búsqueda o estado."
@@ -3975,7 +3987,7 @@ msgstr "Quitar &duplicados de la lista de reproducción"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Quitar pistas &no disponibles de la lista de reproducción"
 
-#: ../build/src/ui_collectionsettingspage.h:520
+#: ../build/src/ui_collectionsettingspage.h:586
 msgid "Remove folder"
 msgstr "Quitar carpeta"
 
@@ -4035,7 +4047,7 @@ msgstr "Repetir pista"
 msgid "Replace current playlist"
 msgstr "Reemplazar lista de reproducción actual"
 
-#: ../build/src/ui_collectionsettingspage.h:548
+#: ../build/src/ui_collectionsettingspage.h:614
 msgid "Replace spaces with dashes"
 msgstr "Sustituir espacios por guiones"
 
@@ -4106,13 +4118,13 @@ msgstr "Limitar a caracteres permitidos en sistemas de archivos FAT"
 msgid "Resume playback on start"
 msgstr "Reanudar la reproducción al iniciar"
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:694 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Buscando cubierta del álbum %1..."
 
-#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:695 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -4128,7 +4140,7 @@ msgstr "Buscando álbumes de %1 artista..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Buscando álbumes de %1 artistas..."
 
-#: subsonic/subsonicrequest.cpp:130 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "Buscando álbumes..."
@@ -4137,13 +4149,13 @@ msgstr "Buscando álbumes..."
 msgid "Retrieving artists..."
 msgstr "Buscando artistas..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:738
+#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:738
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Buscando pistas de %1 álbum..."
 
-#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:739
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -4204,15 +4216,15 @@ msgstr "Guardar lista de re&producción"
 msgid "Save album cover"
 msgstr "Guardar la cubierta del álbum"
 
-#: ../build/src/ui_collectionsettingspage.h:541
+#: ../build/src/ui_collectionsettingspage.h:607
 msgid "Save album covers as embedded cover"
 msgstr "Guardar cubiertas del álbum como elementos incrustados"
 
-#: ../build/src/ui_collectionsettingspage.h:539
+#: ../build/src/ui_collectionsettingspage.h:605
 msgid "Save album covers in album directory"
 msgstr "Guardar las cubiertas en la carpeta de álbumes"
 
-#: ../build/src/ui_collectionsettingspage.h:540
+#: ../build/src/ui_collectionsettingspage.h:606
 msgid "Save album covers in cache directory"
 msgstr "Guardar cubiertas en directorio de antememoria"
 
@@ -4224,11 +4236,11 @@ msgstr "Guardar la cubierta en el disco…"
 msgid "Save current grouping"
 msgstr "Guardar agrupamiento actual"
 
-#: ../build/src/ui_collectionsettingspage.h:560
+#: ../build/src/ui_collectionsettingspage.h:626
 msgid "Save playcounts and ratings to files now"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:557
+#: ../build/src/ui_collectionsettingspage.h:623
 msgid "Save playcounts to song tags when possible"
 msgstr ""
 
@@ -4250,7 +4262,7 @@ msgstr "Guardar lista de reproducción…"
 msgid "Save preset"
 msgstr "Guardar ajuste predefinido"
 
-#: ../build/src/ui_collectionsettingspage.h:558
+#: ../build/src/ui_collectionsettingspage.h:624
 msgid "Save ratings to song tags when possible"
 msgstr ""
 
@@ -4262,11 +4274,11 @@ msgstr "Guardar archivos .mood directamente en las carpetas de las pistas"
 msgid "Saved Grouping Manager"
 msgstr "Gestor de agrupamientos guardados"
 
-#: ../build/src/ui_collectionsettingspage.h:537
+#: ../build/src/ui_collectionsettingspage.h:603
 msgid "Saving album covers"
 msgstr "Guardando cubiertas de álbumes"
 
-#: collection/collection.cpp:197
+#: collection/collection.cpp:206
 msgid "Saving playcounts and ratings"
 msgstr ""
 
@@ -4286,12 +4298,12 @@ msgstr "Tamaño de escala"
 msgid "Scrobbler"
 msgstr "Registro de reproducción"
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Registro de reproducción %1 error: %2\n"
 
-#: scrobbler/scrobblingapi20.cpp:543
+#: scrobbler/scrobblingapi20.cpp:535
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "¡No se ha iniciado sesión en servicio de registro de reproducción %1!"
@@ -4395,7 +4407,7 @@ msgstr "Número de serie"
 msgid "Server URL"
 msgstr "URL del servidor"
 
-#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "La dirección URL del servidor es inválida."
 
@@ -4482,7 +4494,7 @@ msgstr "Mostrar sobre la barra de estado"
 msgid "Show album cover"
 msgstr "Mostrar cubierta del álbum"
 
-#: ../build/src/ui_collectionsettingspage.h:535
+#: ../build/src/ui_collectionsettingspage.h:601
 msgid "Show album cover art in collection"
 msgstr "Mostrar cubierta del álbum en la colección"
 
@@ -4502,7 +4514,7 @@ msgstr "Mostrar todos los temas"
 msgid "Show dialog for errors"
 msgstr "Mostrar errores"
 
-#: ../build/src/ui_collectionsettingspage.h:536
+#: ../build/src/ui_collectionsettingspage.h:602
 msgid "Show dividers"
 msgstr "Mostrar divisores"
 
@@ -4612,7 +4624,7 @@ msgid "Signing in..."
 msgstr "Iniciando sesión…"
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:550
+#: ../build/src/ui_collectionsettingspage.h:616
 msgid "Size"
 msgstr "Tamaño"
 
@@ -4676,11 +4688,11 @@ msgstr ""
 msgid "Song Lyrics"
 msgstr "Letra de la canción"
 
-#: ../build/src/ui_collectionsettingspage.h:524
+#: ../build/src/ui_collectionsettingspage.h:590
 msgid "Song fingerprinting and tracking"
 msgstr "Identificación y seguimiento de canciones"
 
-#: ../build/src/ui_collectionsettingspage.h:556
+#: ../build/src/ui_collectionsettingspage.h:622
 msgid "Song playcounts and ratings"
 msgstr ""
 
@@ -4927,6 +4939,10 @@ msgstr "Pestañas en la parte superior"
 msgid "Tag fetcher"
 msgstr "Obtener etiquetas"
 
+#: ../build/src/ui_collectionsettingspage.h:629
+msgid "Tagreader workers"
+msgstr ""
+
 #: ../build/src/ui_edittagdialog.h:852
 msgid "Tags"
 msgstr "Etiquetas"
@@ -4989,11 +5005,11 @@ msgstr "La colección de Internet está vacía."
 msgid "The second value must be greater than the first one!"
 msgstr "El segundo valor debe ser mayor que el primero."
 
-#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:87
 msgid "The site you requested does not exist!"
 msgstr "El sitio indicado no existe."
 
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:101
 msgid "The site you requested is not an image!"
 msgstr "El sitio indicado no es una imagen."
 
@@ -5033,7 +5049,7 @@ msgstr ""
 "Se eliminarán estos archivos del dispositivo. ¿Confirma que quiere "
 "continuar?"
 
-#: ../build/src/ui_collectionsettingspage.h:518
+#: ../build/src/ui_collectionsettingspage.h:584
 msgid "These folders will be scanned for music to make up your collection"
 msgstr ""
 "Estas carpetas se analizarán en busca de música para crear su colección"
@@ -5104,6 +5120,10 @@ msgstr ""
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "No se admite este tipo de dispositivo: %1"
+
+#: ../build/src/ui_collectionsettingspage.h:630
+msgid "Thread priority"
+msgstr ""
 
 #: core/mainwindow.cpp:361 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5230,8 +5250,8 @@ msgstr "Desinstale el «snap» con:"
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: subsonic/subsonicrequest.cpp:878 tidal/tidalrequest.cpp:1279
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:887 tidal/tidalrequest.cpp:1275
+#: qobuz/qobuzrequest.cpp:1320
 msgid "Unknown error"
 msgstr "Error desconocido"
 
@@ -5251,7 +5271,7 @@ msgstr "No omitir pistas seleccionadas"
 msgid "Unskip track"
 msgstr "No omitir pista"
 
-#: ../build/src/ui_collectionsettingspage.h:522
+#: ../build/src/ui_collectionsettingspage.h:588
 msgid "Update the collection when Strawberry starts"
 msgstr "Actualizar la colección al iniciar Strawberry"
 
@@ -5473,7 +5493,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr "Semanas"
 
-#: ../build/src/ui_collectionsettingspage.h:530
+#: ../build/src/ui_collectionsettingspage.h:596
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5510,7 +5530,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "¿Quiere ejecutar un nuevo análisis completo ahora?"
 
-#: settings/collectionsettingspage.cpp:352
+#: settings/collectionsettingspage.cpp:380
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
@@ -5680,7 +5700,7 @@ msgstr "canales"
 msgid "contains"
 msgstr "contiene"
 
-#: ../build/src/ui_collectionsettingspage.h:527
+#: ../build/src/ui_collectionsettingspage.h:593
 msgid "days"
 msgstr "días"
 

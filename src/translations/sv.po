@@ -226,7 +226,7 @@ msgstr "%1 överfört"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:545
+#: ../build/src/ui_collectionsettingspage.h:611
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -594,7 +594,7 @@ msgstr "Lägg till en ny rad om det stöds av aviseringstypen"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Lägg till alla låtar från en mapp och alla dess undermappar"
 
-#: settings/collectionsettingspage.cpp:115
+#: settings/collectionsettingspage.cpp:124
 msgid "Add directory..."
 msgstr "Lägg till mapp..."
 
@@ -618,7 +618,7 @@ msgstr "Lägg till filer för omkodning"
 msgid "Add folder"
 msgstr "Lägg till mapp"
 
-#: ../build/src/ui_collectionsettingspage.h:519
+#: ../build/src/ui_collectionsettingspage.h:585
 msgid "Add new folder..."
 msgstr "Lägg till ny mapp..."
 
@@ -770,9 +770,17 @@ msgstr "Tillagda idag"
 msgid "Added within three months"
 msgstr "Tillagda inom tre månader"
 
+#: ../build/src/ui_collectionsettingspage.h:628
+msgid "Advanced"
+msgstr ""
+
 #: collection/collectionfilterwidget.cpp:300
 msgid "Advanced grouping..."
 msgstr "Avancerad gruppering..."
+
+#: ../build/src/ui_collectionsettingspage.h:632
+msgid "Advanced settings require restart."
+msgstr ""
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -813,7 +821,7 @@ msgstr "Albumartist"
 msgid "Album cover editing is only available for collection songs."
 msgstr "Redigering av albumomslag är endast tillgänglig för samlingslåtar."
 
-#: ../build/src/ui_collectionsettingspage.h:549
+#: ../build/src/ui_collectionsettingspage.h:615
 msgid "Album cover pixmap cache"
 msgstr "Albumomslag pixmap-cache"
 
@@ -956,7 +964,7 @@ msgstr "Är du säker på att du vill ta bort förinställningen \"%1\"?"
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Är du säker på att du vill återställa den här låtens statistik?"
 
-#: settings/collectionsettingspage.cpp:352
+#: settings/collectionsettingspage.cpp:380
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1044,7 +1052,7 @@ msgstr "Auto"
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: ../build/src/ui_collectionsettingspage.h:521
+#: ../build/src/ui_collectionsettingspage.h:587
 msgid "Automatic updating"
 msgstr "Automatisk uppdatering"
 
@@ -1053,7 +1061,7 @@ msgstr "Automatisk uppdatering"
 msgid "Automatically cover art from %1 is missing"
 msgstr "Automatiskt omslag från %1 saknas "
 
-#: ../build/src/ui_collectionsettingspage.h:534
+#: ../build/src/ui_collectionsettingspage.h:600
 msgid "Automatically open single categories in the collection tree"
 msgstr "Öppna enskilda kategorier automatiskt i samlingsträdet"
 
@@ -1278,7 +1286,7 @@ msgstr "Klassisk"
 msgid "Clear"
 msgstr "Rensa"
 
-#: ../build/src/ui_collectionsettingspage.h:555
+#: ../build/src/ui_collectionsettingspage.h:621
 msgid "Clear Disk Cache"
 msgstr "Rensa diskcache"
 
@@ -1332,7 +1340,7 @@ msgstr ""
 msgid "Club"
 msgstr "Klubb"
 
-#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:517
+#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:583
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Samling"
@@ -1659,7 +1667,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Upp"
 
-#: ../build/src/ui_collectionsettingspage.h:553
+#: ../build/src/ui_collectionsettingspage.h:619
 msgid "Current disk cache in use:"
 msgstr "Aktuell diskcache i användning:"
 
@@ -1836,12 +1844,12 @@ msgstr "Skiva"
 msgid "Discontinuous transmission"
 msgstr "Icke-kontinuerlig sändning"
 
-#: ../build/src/ui_collectionsettingspage.h:552
+#: ../build/src/ui_collectionsettingspage.h:618
 msgid "Disk Cache Size"
 msgstr "Diskcache storlek"
 
 #: collection/collectionfilterwidget.cpp:129
-#: ../build/src/ui_collectionsettingspage.h:533
+#: ../build/src/ui_collectionsettingspage.h:599
 msgid "Display options"
 msgstr "Visningsalternativ"
 
@@ -1975,7 +1983,7 @@ msgstr "Inbäddat omslag"
 msgid "Enable"
 msgstr "Aktivera"
 
-#: ../build/src/ui_collectionsettingspage.h:551
+#: ../build/src/ui_collectionsettingspage.h:617
 msgid "Enable Disk Cache"
 msgstr "Aktivera diskcache"
 
@@ -1983,7 +1991,7 @@ msgstr "Aktivera diskcache"
 msgid "Enable Items"
 msgstr "Aktivera poster"
 
-#: ../build/src/ui_collectionsettingspage.h:561
+#: ../build/src/ui_collectionsettingspage.h:627
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Enable delete files in the right click context menu"
 msgstr "Aktivera att ta bort filer i högerklickssnabbmenyn"
@@ -2152,7 +2160,7 @@ msgstr "Befintliga omslag"
 msgid "Expand"
 msgstr "Expandera"
 
-#: ../build/src/ui_collectionsettingspage.h:526
+#: ../build/src/ui_collectionsettingspage.h:592
 msgid "Expire unavailable songs after"
 msgstr "Utgå otillgängliga låtar efter"
 
@@ -2293,8 +2301,8 @@ msgstr "Hämtning klar"
 msgid "Fetch entire albums when searching songs"
 msgstr "Hämta hela album vid sökning av låtar"
 
-#: covermanager/coverfromurldialog.cpp:91
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:87
+#: covermanager/coverfromurldialog.cpp:101
 msgid "Fetching cover error"
 msgstr "Fel vid hämtning av omslag"
 
@@ -2342,7 +2350,7 @@ msgstr "Filtyp"
 msgid "Filename"
 msgstr "Filnamn"
 
-#: ../build/src/ui_collectionsettingspage.h:542
+#: ../build/src/ui_collectionsettingspage.h:608
 msgid "Filename:"
 msgstr "Filnamn:"
 
@@ -2658,6 +2666,10 @@ msgstr "Hög vattenstämpel"
 #: smartplaylists/smartplaylistsearchterm.cpp:439
 msgid "Hours"
 msgstr "Timmar"
+
+#: ../build/src/ui_collectionsettingspage.h:631
+msgid "I/O priority"
+msgstr ""
 
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
@@ -2979,7 +2991,7 @@ msgstr "Låg komplexitetprofil (LC)"
 msgid "Low watermark"
 msgstr "Låg vattenstämpel"
 
-#: ../build/src/ui_collectionsettingspage.h:547
+#: ../build/src/ui_collectionsettingspage.h:613
 msgid "Lowercase filename"
 msgstr "Filnamn med gemener"
 
@@ -3021,7 +3033,7 @@ msgstr "Ställ in omslag manuellt från %1"
 msgid "Manufacturer"
 msgstr "Tillverkare"
 
-#: ../build/src/ui_collectionsettingspage.h:525
+#: ../build/src/ui_collectionsettingspage.h:591
 msgid "Mark disappeared songs unavailable"
 msgstr "Markera försvunna låtar som otillgängliga"
 
@@ -3041,7 +3053,7 @@ msgstr "Största omslagsstorleken"
 msgid "Maximum bitrate"
 msgstr "Högsta bitfrekvensen"
 
-#: qobuz/qobuzservice.cpp:474
+#: qobuz/qobuzservice.cpp:470
 msgid "Maximum number of login attempts reached."
 msgstr "Högsta antalet inloggningsförsök har uppnåtts."
 
@@ -3066,21 +3078,21 @@ msgstr "Lägsta bitfrekvensen"
 msgid "Missing API token."
 msgstr "API-token saknas."
 
-#: qobuz/qobuzservice.cpp:726 qobuz/qobuzstreamurlrequest.cpp:85
+#: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr "Qobuz-app-ID eller hemlighet saknas."
 
-#: qobuz/qobuzservice.cpp:478 qobuz/qobuzservice.cpp:507
-#: qobuz/qobuzservice.cpp:562 qobuz/qobuzservice.cpp:615
-#: qobuz/qobuzservice.cpp:680
+#: qobuz/qobuzservice.cpp:474 qobuz/qobuzservice.cpp:503
+#: qobuz/qobuzservice.cpp:558 qobuz/qobuzservice.cpp:611
+#: qobuz/qobuzservice.cpp:676
 msgid "Missing Qobuz app ID."
 msgstr "Qobuz-app-id saknas."
 
-#: qobuz/qobuzservice.cpp:486
+#: qobuz/qobuzservice.cpp:482
 msgid "Missing Qobuz password."
 msgstr "Qobuz-lösenord saknas."
 
-#: qobuz/qobuzservice.cpp:482
+#: qobuz/qobuzservice.cpp:478
 msgid "Missing Qobuz username."
 msgstr "Qobuz-användarnamn saknas."
 
@@ -3088,13 +3100,13 @@ msgstr "Qobuz-användarnamn saknas."
 msgid "Missing Subsonic username or password."
 msgstr "Användarnamn eller lösenord saknas för Subsonic."
 
-#: tidal/tidalservice.cpp:752 tidal/tidalservice.cpp:812
-#: tidal/tidalservice.cpp:870 tidal/tidalservice.cpp:936
-#: tidal/tidalservice.cpp:997 tidal/tidalstreamurlrequest.cpp:91
+#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:808
+#: tidal/tidalservice.cpp:866 tidal/tidalservice.cpp:932
+#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr "Användarnamn eller lösenord saknas för Tidal API-token."
 
-#: tidal/tidalservice.cpp:713
+#: tidal/tidalservice.cpp:709
 msgid "Missing Tidal API token."
 msgstr "Tidal-API-token saknas."
 
@@ -3102,11 +3114,11 @@ msgstr "Tidal-API-token saknas."
 msgid "Missing Tidal client ID."
 msgstr "Tidal-klient-ID saknas."
 
-#: tidal/tidalservice.cpp:721
+#: tidal/tidalservice.cpp:717
 msgid "Missing Tidal password."
 msgstr "Tidal-lösenord saknas."
 
-#: tidal/tidalservice.cpp:717
+#: tidal/tidalservice.cpp:713
 msgid "Missing Tidal username."
 msgstr "Tidal-användarnamn saknas."
 
@@ -3122,11 +3134,11 @@ msgstr "Lösenord saknas."
 msgid "Missing server url, username or password."
 msgstr "Serveradress, användarnamn eller lösenord saknas."
 
-#: subsonic/subsonicservice.cpp:434
+#: subsonic/subsonicservice.cpp:427
 msgid "Missing username or password."
 msgstr "Användarnamn eller lösenord saknas."
 
-#: scrobbler/lastfmimport.cpp:218
+#: scrobbler/lastfmimport.cpp:214
 msgid "Missing username, please login to last.fm first!"
 msgstr "Användarnamn saknas, vänligen logga in på last.fm först!"
 
@@ -3138,7 +3150,7 @@ msgstr "Användarnamn saknas."
 msgid "Model"
 msgstr "Modell"
 
-#: ../build/src/ui_collectionsettingspage.h:523
+#: ../build/src/ui_collectionsettingspage.h:589
 msgid "Monitor the collection for changes"
 msgstr "Bevaka ändringar i samlingen"
 
@@ -3273,7 +3285,7 @@ msgstr "Inga omslag att exportera."
 msgid "No long blocks"
 msgstr "Inga långa block"
 
-#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1314
 msgid "No match."
 msgstr "Ingen matchning."
 
@@ -3314,20 +3326,20 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Normal blocktyp"
 
-#: qobuz/qobuzservice.cpp:512 qobuz/qobuzservice.cpp:567
-#: qobuz/qobuzservice.cpp:620
+#: qobuz/qobuzservice.cpp:508 qobuz/qobuzservice.cpp:563
+#: qobuz/qobuzservice.cpp:616
 msgid "Not authenticated with Qobuz."
 msgstr "Inte autentiserad med Qobuz."
 
-#: tidal/tidalservice.cpp:725
+#: tidal/tidalservice.cpp:721
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Inte autentiserad med Tidal och nådde högsta antalet inloggningsförsök."
 
-#: tidal/tidalservice.cpp:747 tidal/tidalservice.cpp:807
-#: tidal/tidalservice.cpp:865 tidal/tidalservice.cpp:931
-#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:87
+#: tidal/tidalservice.cpp:743 tidal/tidalservice.cpp:803
+#: tidal/tidalservice.cpp:861 tidal/tidalservice.cpp:927
+#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr "Inte autentiserad med Tidal."
 
@@ -3483,11 +3495,11 @@ msgstr "Utgång"
 msgid "Output options"
 msgstr "Alternativ för utgång"
 
-#: ../build/src/ui_collectionsettingspage.h:559
+#: ../build/src/ui_collectionsettingspage.h:625
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr "Skriv över databasbetyg när låtar läses om från disk"
 
-#: ../build/src/ui_collectionsettingspage.h:546
+#: ../build/src/ui_collectionsettingspage.h:612
 msgid "Overwrite existing file"
 msgstr "Skriv över befintlig fil"
 
@@ -3523,7 +3535,7 @@ msgstr "Lösenord"
 msgid "Path"
 msgstr "Sökväg"
 
-#: ../build/src/ui_collectionsettingspage.h:543
+#: ../build/src/ui_collectionsettingspage.h:609
 msgid "Pattern"
 msgstr "Mönster"
 
@@ -3693,7 +3705,7 @@ msgstr "Föredra albumartist vid sändning av skrobblingar"
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ../build/src/ui_collectionsettingspage.h:528
+#: ../build/src/ui_collectionsettingspage.h:594
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Föredragna filnamn för albumomslagsbilder (kommaseparerade)"
 
@@ -3840,7 +3852,7 @@ msgstr "Radio Paradise"
 msgid "Radios"
 msgstr "Radiokanaler"
 
-#: ../build/src/ui_collectionsettingspage.h:544
+#: ../build/src/ui_collectionsettingspage.h:610
 msgid "Random"
 msgstr "Slumpat"
 
@@ -3906,7 +3918,7 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr "Tar emot uppspelningsantal för %1 låtar."
 
-#: lyrics/geniuslyricsprovider.cpp:205
+#: lyrics/geniuslyricsprovider.cpp:201
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "Omdirigering från Genius saknar förfrågningsobjektkod eller tillstånd."
@@ -3956,7 +3968,7 @@ msgstr "Ta bort &dubbletter från spellista"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Ta bort &otillgängliga spår från spellista"
 
-#: ../build/src/ui_collectionsettingspage.h:520
+#: ../build/src/ui_collectionsettingspage.h:586
 msgid "Remove folder"
 msgstr "Ta bort mapp"
 
@@ -4016,7 +4028,7 @@ msgstr "Upprepa spår"
 msgid "Replace current playlist"
 msgstr "Ersätt aktuell spellista"
 
-#: ../build/src/ui_collectionsettingspage.h:548
+#: ../build/src/ui_collectionsettingspage.h:614
 msgid "Replace spaces with dashes"
 msgstr "Ersätter mellanslag med understreck"
 
@@ -4087,13 +4099,13 @@ msgstr "Begränsa till tecken som är tillåtna i FAT-filsystem"
 msgid "Resume playback on start"
 msgstr "Fortsätt uppspelning vid start"
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:694 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Hämtar albumomslag för %1 album..."
 
-#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:695 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -4109,7 +4121,7 @@ msgstr "Hämtar album för %1 artist..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Hämtar album för %1 artister..."
 
-#: subsonic/subsonicrequest.cpp:130 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "Hämtar album..."
@@ -4118,13 +4130,13 @@ msgstr "Hämtar album..."
 msgid "Retrieving artists..."
 msgstr "Hämtar artister..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:738
+#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:738
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Hämtar låtar för %1 album..."
 
-#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:739
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -4185,15 +4197,15 @@ msgstr "Spara &spellista..."
 msgid "Save album cover"
 msgstr "Spara albumomslag"
 
-#: ../build/src/ui_collectionsettingspage.h:541
+#: ../build/src/ui_collectionsettingspage.h:607
 msgid "Save album covers as embedded cover"
 msgstr "Spara albumomslag som inbäddat omslag"
 
-#: ../build/src/ui_collectionsettingspage.h:539
+#: ../build/src/ui_collectionsettingspage.h:605
 msgid "Save album covers in album directory"
 msgstr "Spara albumomslag i albummappen"
 
-#: ../build/src/ui_collectionsettingspage.h:540
+#: ../build/src/ui_collectionsettingspage.h:606
 msgid "Save album covers in cache directory"
 msgstr "Spara albumomslag i cachemappen"
 
@@ -4205,11 +4217,11 @@ msgstr "Spara omslag till disk..."
 msgid "Save current grouping"
 msgstr "Spara aktuell gruppering"
 
-#: ../build/src/ui_collectionsettingspage.h:560
+#: ../build/src/ui_collectionsettingspage.h:626
 msgid "Save playcounts and ratings to files now"
 msgstr "Spara uppspelningsantal och betyg till filer nu"
 
-#: ../build/src/ui_collectionsettingspage.h:557
+#: ../build/src/ui_collectionsettingspage.h:623
 msgid "Save playcounts to song tags when possible"
 msgstr "Spara uppspelningsantal till låttaggar när det är möjligt "
 
@@ -4231,7 +4243,7 @@ msgstr "Spara spellista..."
 msgid "Save preset"
 msgstr "Spara förinställning"
 
-#: ../build/src/ui_collectionsettingspage.h:558
+#: ../build/src/ui_collectionsettingspage.h:624
 msgid "Save ratings to song tags when possible"
 msgstr "Spara betyg till låttaggar när det är möjligt"
 
@@ -4243,11 +4255,11 @@ msgstr "Spara .mood-filerna direkt i låtmapparna"
 msgid "Saved Grouping Manager"
 msgstr "Sparad grupperingshanterare"
 
-#: ../build/src/ui_collectionsettingspage.h:537
+#: ../build/src/ui_collectionsettingspage.h:603
 msgid "Saving album covers"
 msgstr "Spara albumomslag"
 
-#: collection/collection.cpp:197
+#: collection/collection.cpp:206
 msgid "Saving playcounts and ratings"
 msgstr "Sparar uppspelningsantal och betyg"
 
@@ -4267,12 +4279,12 @@ msgstr "Skalningsstorlek"
 msgid "Scrobbler"
 msgstr "Skrobblare"
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Skrobblare %1 fel: %2"
 
-#: scrobbler/scrobblingapi20.cpp:543
+#: scrobbler/scrobblingapi20.cpp:535
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Skrobblare %1 är inte autentiserad!"
@@ -4376,7 +4388,7 @@ msgstr "Serienummer"
 msgid "Server URL"
 msgstr "Serverwebbadress"
 
-#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "Serverwebbadressen är ogiltig."
 
@@ -4463,7 +4475,7 @@ msgstr "Visa ovanför statusraden"
 msgid "Show album cover"
 msgstr "Visa albumomslag"
 
-#: ../build/src/ui_collectionsettingspage.h:535
+#: ../build/src/ui_collectionsettingspage.h:601
 msgid "Show album cover art in collection"
 msgstr "Visa omslagsbilder i samlingen"
 
@@ -4483,7 +4495,7 @@ msgstr "Visa alla låtarna"
 msgid "Show dialog for errors"
 msgstr "Visa dialogruta vid fel"
 
-#: ../build/src/ui_collectionsettingspage.h:536
+#: ../build/src/ui_collectionsettingspage.h:602
 msgid "Show dividers"
 msgstr "Visa avdelare"
 
@@ -4593,7 +4605,7 @@ msgid "Signing in..."
 msgstr "Loggar in..."
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:550
+#: ../build/src/ui_collectionsettingspage.h:616
 msgid "Size"
 msgstr "Storlek"
 
@@ -4657,11 +4669,11 @@ msgstr "SomaFM"
 msgid "Song Lyrics"
 msgstr "Låttexter"
 
-#: ../build/src/ui_collectionsettingspage.h:524
+#: ../build/src/ui_collectionsettingspage.h:590
 msgid "Song fingerprinting and tracking"
 msgstr "Fingeravtryck och spårning av låtar"
 
-#: ../build/src/ui_collectionsettingspage.h:556
+#: ../build/src/ui_collectionsettingspage.h:622
 msgid "Song playcounts and ratings"
 msgstr "Uppspelningsantal och betyg för låtar"
 
@@ -4911,6 +4923,10 @@ msgstr "Flikar längst upp"
 msgid "Tag fetcher"
 msgstr "Tagghämtare"
 
+#: ../build/src/ui_collectionsettingspage.h:629
+msgid "Tagreader workers"
+msgstr ""
+
 #: ../build/src/ui_edittagdialog.h:852
 msgid "Tags"
 msgstr "Taggar"
@@ -4973,11 +4989,11 @@ msgstr "Internetsamlingen är tom!"
 msgid "The second value must be greater than the first one!"
 msgstr "Det andra värdet måste vara större än det första!"
 
-#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:87
 msgid "The site you requested does not exist!"
 msgstr "Webbplatsen du söker finns inte!"
 
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:101
 msgid "The site you requested is not an image!"
 msgstr "Webbplatsen du söker är inte en bild!"
 
@@ -5017,7 +5033,7 @@ msgstr ""
 "Filerna kommer att tas bort från enheten, är du säker på att du vill "
 "fortsätta?"
 
-#: ../build/src/ui_collectionsettingspage.h:518
+#: ../build/src/ui_collectionsettingspage.h:584
 msgid "These folders will be scanned for music to make up your collection"
 msgstr ""
 "Dessa mappar kommer att skannas för musik för att fylla upp ditt bibliotek"
@@ -5085,6 +5101,10 @@ msgstr "Det här alternativet kan ändras i inställningarna för \"Beteende\""
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Den här typen av enhet stöds inte: %1"
+
+#: ../build/src/ui_collectionsettingspage.h:630
+msgid "Thread priority"
+msgstr ""
 
 #: core/mainwindow.cpp:361 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5211,8 +5231,8 @@ msgstr "Avinstallera snap med:"
 msgid "Unknown"
 msgstr "Okänt"
 
-#: subsonic/subsonicrequest.cpp:878 tidal/tidalrequest.cpp:1279
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:887 tidal/tidalrequest.cpp:1275
+#: qobuz/qobuzrequest.cpp:1320
 msgid "Unknown error"
 msgstr "Okänt fel"
 
@@ -5232,7 +5252,7 @@ msgstr "Hoppa inte över valda spår"
 msgid "Unskip track"
 msgstr "Hoppa inte över valt spår"
 
-#: ../build/src/ui_collectionsettingspage.h:522
+#: ../build/src/ui_collectionsettingspage.h:588
 msgid "Update the collection when Strawberry starts"
 msgstr "Uppdatera samlingen när Strawberry startar"
 
@@ -5452,7 +5472,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr "Veckor"
 
-#: ../build/src/ui_collectionsettingspage.h:530
+#: ../build/src/ui_collectionsettingspage.h:596
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5491,7 +5511,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vill du köra en fullständig omskanning nu?"
 
-#: settings/collectionsettingspage.cpp:352
+#: settings/collectionsettingspage.cpp:380
 msgid "Write all playcounts and ratings to files"
 msgstr "Skriv alla uppspelningsantal och betyg till filer"
 
@@ -5662,7 +5682,7 @@ msgstr "kanaler"
 msgid "contains"
 msgstr "som innehåller"
 
-#: ../build/src/ui_collectionsettingspage.h:527
+#: ../build/src/ui_collectionsettingspage.h:593
 msgid "days"
 msgstr "dagar"
 

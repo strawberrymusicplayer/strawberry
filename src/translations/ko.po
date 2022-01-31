@@ -215,7 +215,7 @@ msgstr "%1개 전송됨"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:545
+#: ../build/src/ui_collectionsettingspage.h:611
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -577,7 +577,7 @@ msgstr "알림 형식이 지원한다면 새로운 줄 추가"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "디렉터리와 모든 하위 디렉터리의 트랙을 추가합니다"
 
-#: settings/collectionsettingspage.cpp:115
+#: settings/collectionsettingspage.cpp:124
 msgid "Add directory..."
 msgstr "디렉터리 추가..."
 
@@ -601,7 +601,7 @@ msgstr "변환할 파일 추가"
 msgid "Add folder"
 msgstr "폴더 추가"
 
-#: ../build/src/ui_collectionsettingspage.h:519
+#: ../build/src/ui_collectionsettingspage.h:585
 msgid "Add new folder..."
 msgstr "새로운 폴더 추가..."
 
@@ -753,9 +753,17 @@ msgstr "오늘 추가됨"
 msgid "Added within three months"
 msgstr "3개월 이내에 추가됨"
 
+#: ../build/src/ui_collectionsettingspage.h:628
+msgid "Advanced"
+msgstr ""
+
 #: collection/collectionfilterwidget.cpp:300
 msgid "Advanced grouping..."
 msgstr "고급 그룹..."
+
+#: ../build/src/ui_collectionsettingspage.h:632
+msgid "Advanced settings require restart."
+msgstr ""
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -796,7 +804,7 @@ msgstr "앨범 아티스트"
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:549
+#: ../build/src/ui_collectionsettingspage.h:615
 msgid "Album cover pixmap cache"
 msgstr ""
 
@@ -939,7 +947,7 @@ msgstr "\"%1\" 사전 설정을 지우시겠습니까?"
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "이 곡의 통계를 초기화하시겠습니까?"
 
-#: settings/collectionsettingspage.cpp:352
+#: settings/collectionsettingspage.cpp:380
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1025,7 +1033,7 @@ msgstr "자동"
 msgid "Automatic"
 msgstr "자동"
 
-#: ../build/src/ui_collectionsettingspage.h:521
+#: ../build/src/ui_collectionsettingspage.h:587
 msgid "Automatic updating"
 msgstr "자동 업데이트 중"
 
@@ -1034,7 +1042,7 @@ msgstr "자동 업데이트 중"
 msgid "Automatically cover art from %1 is missing"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:534
+#: ../build/src/ui_collectionsettingspage.h:600
 msgid "Automatically open single categories in the collection tree"
 msgstr "한 개의 하위 항목만 있을 때 자동으로 열기"
 
@@ -1258,7 +1266,7 @@ msgstr "클래식"
 msgid "Clear"
 msgstr "비우기"
 
-#: ../build/src/ui_collectionsettingspage.h:555
+#: ../build/src/ui_collectionsettingspage.h:621
 msgid "Clear Disk Cache"
 msgstr "디스크 캐시 비우기"
 
@@ -1311,7 +1319,7 @@ msgstr "이 창을 닫으면 앨범아트 검색을 정지합니다."
 msgid "Club"
 msgstr "클럽"
 
-#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:517
+#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:583
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "라이브러리"
@@ -1629,7 +1637,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
-#: ../build/src/ui_collectionsettingspage.h:553
+#: ../build/src/ui_collectionsettingspage.h:619
 msgid "Current disk cache in use:"
 msgstr "현재 사용중인 디스크 캐시 :"
 
@@ -1806,12 +1814,12 @@ msgstr "디스크"
 msgid "Discontinuous transmission"
 msgstr "불연속적인 전송"
 
-#: ../build/src/ui_collectionsettingspage.h:552
+#: ../build/src/ui_collectionsettingspage.h:618
 msgid "Disk Cache Size"
 msgstr "디스크 캐시 크기"
 
 #: collection/collectionfilterwidget.cpp:129
-#: ../build/src/ui_collectionsettingspage.h:533
+#: ../build/src/ui_collectionsettingspage.h:599
 msgid "Display options"
 msgstr "옵션 표시"
 
@@ -1943,7 +1951,7 @@ msgstr ""
 msgid "Enable"
 msgstr "활성화"
 
-#: ../build/src/ui_collectionsettingspage.h:551
+#: ../build/src/ui_collectionsettingspage.h:617
 msgid "Enable Disk Cache"
 msgstr "디스크 캐시 활성화"
 
@@ -1951,7 +1959,7 @@ msgstr "디스크 캐시 활성화"
 msgid "Enable Items"
 msgstr "항목 활성화"
 
-#: ../build/src/ui_collectionsettingspage.h:561
+#: ../build/src/ui_collectionsettingspage.h:627
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Enable delete files in the right click context menu"
 msgstr "마우스 우클릭 메뉴로부터 파일 제거 활성화"
@@ -2120,7 +2128,7 @@ msgstr "존재하는 표지"
 msgid "Expand"
 msgstr "확장"
 
-#: ../build/src/ui_collectionsettingspage.h:526
+#: ../build/src/ui_collectionsettingspage.h:592
 msgid "Expire unavailable songs after"
 msgstr ""
 
@@ -2261,8 +2269,8 @@ msgstr "가져오기 완료"
 msgid "Fetch entire albums when searching songs"
 msgstr "곡을 검색할 때 전체 앨범 가져오기"
 
-#: covermanager/coverfromurldialog.cpp:91
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:87
+#: covermanager/coverfromurldialog.cpp:101
 msgid "Fetching cover error"
 msgstr "표지 가져오기 오류"
 
@@ -2310,7 +2318,7 @@ msgstr "파일 형식"
 msgid "Filename"
 msgstr "파일 이름"
 
-#: ../build/src/ui_collectionsettingspage.h:542
+#: ../build/src/ui_collectionsettingspage.h:608
 msgid "Filename:"
 msgstr "파일 이름:"
 
@@ -2626,6 +2634,10 @@ msgstr ""
 msgid "Hours"
 msgstr ""
 
+#: ../build/src/ui_collectionsettingspage.h:631
+msgid "I/O priority"
+msgstr ""
+
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
 msgstr "아이콘"
@@ -2936,7 +2948,7 @@ msgstr "낮은 복잡도 프로필(LC)"
 msgid "Low watermark"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:547
+#: ../build/src/ui_collectionsettingspage.h:613
 msgid "Lowercase filename"
 msgstr "소문자 파일 이름"
 
@@ -2978,7 +2990,7 @@ msgstr ""
 msgid "Manufacturer"
 msgstr "제조사"
 
-#: ../build/src/ui_collectionsettingspage.h:525
+#: ../build/src/ui_collectionsettingspage.h:591
 msgid "Mark disappeared songs unavailable"
 msgstr "사라진 곡을 사용할 수 없는 것으로 표시"
 
@@ -2998,7 +3010,7 @@ msgstr "최대 표지 크기"
 msgid "Maximum bitrate"
 msgstr "최대 비트 전송률"
 
-#: qobuz/qobuzservice.cpp:474
+#: qobuz/qobuzservice.cpp:470
 msgid "Maximum number of login attempts reached."
 msgstr "최대 로그인 시도 횟수에 도달했습니다."
 
@@ -3023,21 +3035,21 @@ msgstr "최소 비트 전송률"
 msgid "Missing API token."
 msgstr "API 토큰이 없습니다."
 
-#: qobuz/qobuzservice.cpp:726 qobuz/qobuzstreamurlrequest.cpp:85
+#: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr "Qobuz 앱 ID나 비밀 값이 없습니다."
 
-#: qobuz/qobuzservice.cpp:478 qobuz/qobuzservice.cpp:507
-#: qobuz/qobuzservice.cpp:562 qobuz/qobuzservice.cpp:615
-#: qobuz/qobuzservice.cpp:680
+#: qobuz/qobuzservice.cpp:474 qobuz/qobuzservice.cpp:503
+#: qobuz/qobuzservice.cpp:558 qobuz/qobuzservice.cpp:611
+#: qobuz/qobuzservice.cpp:676
 msgid "Missing Qobuz app ID."
 msgstr "Qobuz 앱 ID가 없습니다."
 
-#: qobuz/qobuzservice.cpp:486
+#: qobuz/qobuzservice.cpp:482
 msgid "Missing Qobuz password."
 msgstr "Qobuz 암호가 없습니다."
 
-#: qobuz/qobuzservice.cpp:482
+#: qobuz/qobuzservice.cpp:478
 msgid "Missing Qobuz username."
 msgstr "Qobuz 사용자 이름이 없습니다."
 
@@ -3045,13 +3057,13 @@ msgstr "Qobuz 사용자 이름이 없습니다."
 msgid "Missing Subsonic username or password."
 msgstr "Subsonic 사용자 이름이나 암호가 없습니다."
 
-#: tidal/tidalservice.cpp:752 tidal/tidalservice.cpp:812
-#: tidal/tidalservice.cpp:870 tidal/tidalservice.cpp:936
-#: tidal/tidalservice.cpp:997 tidal/tidalstreamurlrequest.cpp:91
+#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:808
+#: tidal/tidalservice.cpp:866 tidal/tidalservice.cpp:932
+#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr "타이달 API토큰, 계정 혹은 비밀번호가 없습니다."
 
-#: tidal/tidalservice.cpp:713
+#: tidal/tidalservice.cpp:709
 msgid "Missing Tidal API token."
 msgstr "Tidal API 토큰이 없습니다."
 
@@ -3059,11 +3071,11 @@ msgstr "Tidal API 토큰이 없습니다."
 msgid "Missing Tidal client ID."
 msgstr "Tidal 클라이언트 ID가 없습니다."
 
-#: tidal/tidalservice.cpp:721
+#: tidal/tidalservice.cpp:717
 msgid "Missing Tidal password."
 msgstr "Tidal 암호가 없습니다."
 
-#: tidal/tidalservice.cpp:717
+#: tidal/tidalservice.cpp:713
 msgid "Missing Tidal username."
 msgstr "Tidal 사용자 이름이 없습니다."
 
@@ -3079,11 +3091,11 @@ msgstr "패스워드가 없습니다."
 msgid "Missing server url, username or password."
 msgstr "서버 URL, 사용자 이름이나 암호가 없습니다."
 
-#: subsonic/subsonicservice.cpp:434
+#: subsonic/subsonicservice.cpp:427
 msgid "Missing username or password."
 msgstr "사용자 이름이나 암호가 없습니다."
 
-#: scrobbler/lastfmimport.cpp:218
+#: scrobbler/lastfmimport.cpp:214
 msgid "Missing username, please login to last.fm first!"
 msgstr "계정명이 없습니다. last.fm에 먼저 로그인해주세요."
 
@@ -3095,7 +3107,7 @@ msgstr "계정명이 없습니다."
 msgid "Model"
 msgstr "모델"
 
-#: ../build/src/ui_collectionsettingspage.h:523
+#: ../build/src/ui_collectionsettingspage.h:589
 msgid "Monitor the collection for changes"
 msgstr "라이브러리 변화 감지"
 
@@ -3230,7 +3242,7 @@ msgstr "내보낼 표지가 없습니다."
 msgid "No long blocks"
 msgstr "긴 블록 없음"
 
-#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1314
 msgid "No match."
 msgstr "일치하는 결과가 없습니다."
 
@@ -3270,19 +3282,19 @@ msgstr "일반"
 msgid "Normal block type"
 msgstr "일반 블록 형식"
 
-#: qobuz/qobuzservice.cpp:512 qobuz/qobuzservice.cpp:567
-#: qobuz/qobuzservice.cpp:620
+#: qobuz/qobuzservice.cpp:508 qobuz/qobuzservice.cpp:563
+#: qobuz/qobuzservice.cpp:616
 msgid "Not authenticated with Qobuz."
 msgstr "Qobuz에 인증되지 않았습니다."
 
-#: tidal/tidalservice.cpp:725
+#: tidal/tidalservice.cpp:721
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr "Tidal에 인증되지 않았으며 최대 로그인 시도 횟수에 도달했습니다."
 
-#: tidal/tidalservice.cpp:747 tidal/tidalservice.cpp:807
-#: tidal/tidalservice.cpp:865 tidal/tidalservice.cpp:931
-#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:87
+#: tidal/tidalservice.cpp:743 tidal/tidalservice.cpp:803
+#: tidal/tidalservice.cpp:861 tidal/tidalservice.cpp:927
+#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr "Tidal에 인증되지 않았습니다."
 
@@ -3436,11 +3448,11 @@ msgstr "출력"
 msgid "Output options"
 msgstr "저장 옵션"
 
-#: ../build/src/ui_collectionsettingspage.h:559
+#: ../build/src/ui_collectionsettingspage.h:625
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:546
+#: ../build/src/ui_collectionsettingspage.h:612
 msgid "Overwrite existing file"
 msgstr "기존 파일 덮어쓰기"
 
@@ -3476,7 +3488,7 @@ msgstr "암호"
 msgid "Path"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:543
+#: ../build/src/ui_collectionsettingspage.h:609
 msgid "Pattern"
 msgstr ""
 
@@ -3643,7 +3655,7 @@ msgstr "스크로블을 보낼 때 앨범 아티스트 선호"
 msgid "Preferences"
 msgstr "설정"
 
-#: ../build/src/ui_collectionsettingspage.h:528
+#: ../build/src/ui_collectionsettingspage.h:594
 msgid "Preferred album art filenames (comma separated)"
 msgstr "선호하는 앨범아트 파일 이름(쉼표로 구분)"
 
@@ -3783,7 +3795,7 @@ msgstr ""
 msgid "Radios"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:544
+#: ../build/src/ui_collectionsettingspage.h:610
 msgid "Random"
 msgstr ""
 
@@ -3844,7 +3856,7 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:205
+#: lyrics/geniuslyricsprovider.cpp:201
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
@@ -3893,7 +3905,7 @@ msgstr "재생 목록에서 중복 항목 삭제(&D)"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "재생 목록에서 사용할 수 없는 트랙 삭제(&U)"
 
-#: ../build/src/ui_collectionsettingspage.h:520
+#: ../build/src/ui_collectionsettingspage.h:586
 msgid "Remove folder"
 msgstr "폴더 삭제"
 
@@ -3953,7 +3965,7 @@ msgstr "한 곡 반복"
 msgid "Replace current playlist"
 msgstr "현재 재생 목록 대체"
 
-#: ../build/src/ui_collectionsettingspage.h:548
+#: ../build/src/ui_collectionsettingspage.h:614
 msgid "Replace spaces with dashes"
 msgstr "공백을 줄표로 대체"
 
@@ -4022,13 +4034,13 @@ msgstr "FAT 파일 시스템에서 사용할 수 있는 글자로 제한"
 msgid "Resume playback on start"
 msgstr "시작할 때 재생 다시 시작"
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:694 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:695 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -4044,7 +4056,7 @@ msgstr "아티스트 %1명의 앨범 가져오는 중..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "아티스트 %1명의 앨범 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:130 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "앨범 가져오는 중..."
@@ -4053,13 +4065,13 @@ msgstr "앨범 가져오는 중..."
 msgid "Retrieving artists..."
 msgstr "아티스트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:738
+#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:738
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "앨범 %1개의 노래 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:739
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -4120,15 +4132,15 @@ msgstr "재생 목록 저장(&P)..."
 msgid "Save album cover"
 msgstr "앨범아트 저장"
 
-#: ../build/src/ui_collectionsettingspage.h:541
+#: ../build/src/ui_collectionsettingspage.h:607
 msgid "Save album covers as embedded cover"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:539
+#: ../build/src/ui_collectionsettingspage.h:605
 msgid "Save album covers in album directory"
 msgstr "앨범아트를 앨범 디렉터리에 저장"
 
-#: ../build/src/ui_collectionsettingspage.h:540
+#: ../build/src/ui_collectionsettingspage.h:606
 msgid "Save album covers in cache directory"
 msgstr ""
 
@@ -4140,11 +4152,11 @@ msgstr "디스크에 표지 저장..."
 msgid "Save current grouping"
 msgstr "현재 그룹 저장"
 
-#: ../build/src/ui_collectionsettingspage.h:560
+#: ../build/src/ui_collectionsettingspage.h:626
 msgid "Save playcounts and ratings to files now"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:557
+#: ../build/src/ui_collectionsettingspage.h:623
 msgid "Save playcounts to song tags when possible"
 msgstr ""
 
@@ -4166,7 +4178,7 @@ msgstr "재생 목록 저장..."
 msgid "Save preset"
 msgstr "사전 설정 저장"
 
-#: ../build/src/ui_collectionsettingspage.h:558
+#: ../build/src/ui_collectionsettingspage.h:624
 msgid "Save ratings to song tags when possible"
 msgstr ""
 
@@ -4178,11 +4190,11 @@ msgstr "노래 폴더에 .mood 파일 직접 저장"
 msgid "Saved Grouping Manager"
 msgstr "그룹 관리자 저장됨"
 
-#: ../build/src/ui_collectionsettingspage.h:537
+#: ../build/src/ui_collectionsettingspage.h:603
 msgid "Saving album covers"
 msgstr "앨범아트 저장 중"
 
-#: collection/collection.cpp:197
+#: collection/collection.cpp:206
 msgid "Saving playcounts and ratings"
 msgstr ""
 
@@ -4202,12 +4214,12 @@ msgstr "크기 조정"
 msgid "Scrobbler"
 msgstr "스크로블러"
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:543
+#: scrobbler/scrobblingapi20.cpp:535
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "스크로블러 %1이(가) 인증되지 않았습니다!"
@@ -4311,7 +4323,7 @@ msgstr "일련 번호"
 msgid "Server URL"
 msgstr "서버 URL"
 
-#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "서버 URL이 잘못되었습니다."
 
@@ -4398,7 +4410,7 @@ msgstr "상태 표시줄 위에 표시"
 msgid "Show album cover"
 msgstr "앨범아트 보기"
 
-#: ../build/src/ui_collectionsettingspage.h:535
+#: ../build/src/ui_collectionsettingspage.h:601
 msgid "Show album cover art in collection"
 msgstr "앨범 목록에 앨범아트 표시"
 
@@ -4418,7 +4430,7 @@ msgstr "모든 곡 보기"
 msgid "Show dialog for errors"
 msgstr "에러 내용 보기"
 
-#: ../build/src/ui_collectionsettingspage.h:536
+#: ../build/src/ui_collectionsettingspage.h:602
 msgid "Show dividers"
 msgstr "구분자 표시"
 
@@ -4528,7 +4540,7 @@ msgid "Signing in..."
 msgstr "로그인 중..."
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:550
+#: ../build/src/ui_collectionsettingspage.h:616
 msgid "Size"
 msgstr "크기"
 
@@ -4592,11 +4604,11 @@ msgstr ""
 msgid "Song Lyrics"
 msgstr "노래 가사"
 
-#: ../build/src/ui_collectionsettingspage.h:524
+#: ../build/src/ui_collectionsettingspage.h:590
 msgid "Song fingerprinting and tracking"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:556
+#: ../build/src/ui_collectionsettingspage.h:622
 msgid "Song playcounts and ratings"
 msgstr ""
 
@@ -4838,6 +4850,10 @@ msgstr "위쪽에 탭 표시"
 msgid "Tag fetcher"
 msgstr "태그 가져오기"
 
+#: ../build/src/ui_collectionsettingspage.h:629
+msgid "Tagreader workers"
+msgstr ""
+
 #: ../build/src/ui_edittagdialog.h:852
 msgid "Tags"
 msgstr ""
@@ -4900,11 +4916,11 @@ msgstr "인터넷 라이브러리가 비어 있습니다!"
 msgid "The second value must be greater than the first one!"
 msgstr "두번째 값은 첫번째보다 커야 합니다."
 
-#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:87
 msgid "The site you requested does not exist!"
 msgstr "요청한 사이트가 존재하지 않습니다!"
 
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:101
 msgid "The site you requested is not an image!"
 msgstr "요청한 사이트는 이미지가 아닙니다!"
 
@@ -4936,7 +4952,7 @@ msgid ""
 "continue?"
 msgstr "장치에서 다음 파일을 삭제합니다. 계속 진행하시겠습니까?"
 
-#: ../build/src/ui_collectionsettingspage.h:518
+#: ../build/src/ui_collectionsettingspage.h:584
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "라이브러리를 생성할 때 다음 폴더를 검색합니다"
 
@@ -4995,6 +5011,10 @@ msgstr "이 옵션은 \"행동\" 설정에서 변경할 수 있습니다"
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "다음 장치의 형식은 지원하지 않습니다: %1"
+
+#: ../build/src/ui_collectionsettingspage.h:630
+msgid "Thread priority"
+msgstr ""
 
 #: core/mainwindow.cpp:361 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5119,8 +5139,8 @@ msgstr ""
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: subsonic/subsonicrequest.cpp:878 tidal/tidalrequest.cpp:1279
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:887 tidal/tidalrequest.cpp:1275
+#: qobuz/qobuzrequest.cpp:1320
 msgid "Unknown error"
 msgstr "알 수 없는 오류"
 
@@ -5140,7 +5160,7 @@ msgstr "선택한 트랙 건너뛰기 해제"
 msgid "Unskip track"
 msgstr "트랙 건너뛰기 해제"
 
-#: ../build/src/ui_collectionsettingspage.h:522
+#: ../build/src/ui_collectionsettingspage.h:588
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry 시작 시 라이브러리 업데이트"
 
@@ -5354,7 +5374,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:530
+#: ../build/src/ui_collectionsettingspage.h:596
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5389,7 +5409,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "지금 전부 다시 검색하시겠습니까?"
 
-#: settings/collectionsettingspage.cpp:352
+#: settings/collectionsettingspage.cpp:380
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
@@ -5551,7 +5571,7 @@ msgstr ""
 msgid "contains"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:527
+#: ../build/src/ui_collectionsettingspage.h:593
 msgid "days"
 msgstr ""
 

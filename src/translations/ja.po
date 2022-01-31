@@ -217,7 +217,7 @@ msgstr "%1 転送済み"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:545
+#: ../build/src/ui_collectionsettingspage.h:611
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -578,7 +578,7 @@ msgstr "改行を追加 (通知形式が対応している場合)"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "ディレクトリとサブディレクトリにあるすべてのトラックを追加"
 
-#: settings/collectionsettingspage.cpp:115
+#: settings/collectionsettingspage.cpp:124
 msgid "Add directory..."
 msgstr "ディレクトリを追加..."
 
@@ -602,7 +602,7 @@ msgstr "変換するファイルを追加"
 msgid "Add folder"
 msgstr "フォルダーを追加"
 
-#: ../build/src/ui_collectionsettingspage.h:519
+#: ../build/src/ui_collectionsettingspage.h:585
 msgid "Add new folder..."
 msgstr "新しいフォルダーを追加..."
 
@@ -754,9 +754,17 @@ msgstr "今日追加されたもの"
 msgid "Added within three months"
 msgstr "3 ヶ月以内に追加されたもの"
 
+#: ../build/src/ui_collectionsettingspage.h:628
+msgid "Advanced"
+msgstr ""
+
 #: collection/collectionfilterwidget.cpp:300
 msgid "Advanced grouping..."
 msgstr "高度なグループ化..."
+
+#: ../build/src/ui_collectionsettingspage.h:632
+msgid "Advanced settings require restart."
+msgstr ""
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -797,7 +805,7 @@ msgstr "アルバムアーティスト"
 msgid "Album cover editing is only available for collection songs."
 msgstr "アルバムカバーの編集はコレクションだけで可能です。"
 
-#: ../build/src/ui_collectionsettingspage.h:549
+#: ../build/src/ui_collectionsettingspage.h:615
 msgid "Album cover pixmap cache"
 msgstr "アルバムカバーpixmapキャッシュ"
 
@@ -940,7 +948,7 @@ msgstr "プリセット「%1」を削除してもよろしいですか?"
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "この曲の統計をリセットしてもよろしいですか?"
 
-#: settings/collectionsettingspage.cpp:352
+#: settings/collectionsettingspage.cpp:380
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1026,7 +1034,7 @@ msgstr "自動"
 msgid "Automatic"
 msgstr "自動"
 
-#: ../build/src/ui_collectionsettingspage.h:521
+#: ../build/src/ui_collectionsettingspage.h:587
 msgid "Automatic updating"
 msgstr "自動更新中"
 
@@ -1035,7 +1043,7 @@ msgstr "自動更新中"
 msgid "Automatically cover art from %1 is missing"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:534
+#: ../build/src/ui_collectionsettingspage.h:600
 msgid "Automatically open single categories in the collection tree"
 msgstr "下位カテゴリが 1 つしかないときは、ライブラリツリーを自動で開く"
 
@@ -1259,7 +1267,7 @@ msgstr "クラシック"
 msgid "Clear"
 msgstr "クリア"
 
-#: ../build/src/ui_collectionsettingspage.h:555
+#: ../build/src/ui_collectionsettingspage.h:621
 msgid "Clear Disk Cache"
 msgstr "ディスクキャッシュをクリア"
 
@@ -1312,7 +1320,7 @@ msgstr "このウィンドウを閉じるとアルバムカバーの検索を中
 msgid "Club"
 msgstr "クラブ"
 
-#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:517
+#: core/mainwindow.cpp:348 ../build/src/ui_collectionsettingspage.h:583
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "ライブラリ"
@@ -1632,7 +1640,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
-#: ../build/src/ui_collectionsettingspage.h:553
+#: ../build/src/ui_collectionsettingspage.h:619
 msgid "Current disk cache in use:"
 msgstr ""
 
@@ -1809,12 +1817,12 @@ msgstr "ディスク"
 msgid "Discontinuous transmission"
 msgstr "不連続送信 (DTX)"
 
-#: ../build/src/ui_collectionsettingspage.h:552
+#: ../build/src/ui_collectionsettingspage.h:618
 msgid "Disk Cache Size"
 msgstr "ディスクキャッシュサイズ"
 
 #: collection/collectionfilterwidget.cpp:129
-#: ../build/src/ui_collectionsettingspage.h:533
+#: ../build/src/ui_collectionsettingspage.h:599
 msgid "Display options"
 msgstr "画面のオプション"
 
@@ -1946,7 +1954,7 @@ msgstr "埋め込みカバー"
 msgid "Enable"
 msgstr "有効"
 
-#: ../build/src/ui_collectionsettingspage.h:551
+#: ../build/src/ui_collectionsettingspage.h:617
 msgid "Enable Disk Cache"
 msgstr "ディスクキャッシュ有効化"
 
@@ -1954,7 +1962,7 @@ msgstr "ディスクキャッシュ有効化"
 msgid "Enable Items"
 msgstr "アイテム有効化"
 
-#: ../build/src/ui_collectionsettingspage.h:561
+#: ../build/src/ui_collectionsettingspage.h:627
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Enable delete files in the right click context menu"
 msgstr "右クリックメニューでの削除を有効化"
@@ -2123,7 +2131,7 @@ msgstr "既存のカバー"
 msgid "Expand"
 msgstr "展開"
 
-#: ../build/src/ui_collectionsettingspage.h:526
+#: ../build/src/ui_collectionsettingspage.h:592
 msgid "Expire unavailable songs after"
 msgstr ""
 
@@ -2264,8 +2272,8 @@ msgstr "取得完了"
 msgid "Fetch entire albums when searching songs"
 msgstr "曲検索時にアルバム全体を取得する"
 
-#: covermanager/coverfromurldialog.cpp:91
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:87
+#: covermanager/coverfromurldialog.cpp:101
 msgid "Fetching cover error"
 msgstr "カバーの取得エラー"
 
@@ -2313,7 +2321,7 @@ msgstr "ファイルの種類"
 msgid "Filename"
 msgstr "ファイル名"
 
-#: ../build/src/ui_collectionsettingspage.h:542
+#: ../build/src/ui_collectionsettingspage.h:608
 msgid "Filename:"
 msgstr "ファイル名:"
 
@@ -2628,6 +2636,10 @@ msgstr ""
 msgid "Hours"
 msgstr "時間"
 
+#: ../build/src/ui_collectionsettingspage.h:631
+msgid "I/O priority"
+msgstr ""
+
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
 msgstr "アイコン"
@@ -2938,7 +2950,7 @@ msgstr "Low Complexity プロファイル (LC)"
 msgid "Low watermark"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:547
+#: ../build/src/ui_collectionsettingspage.h:613
 msgid "Lowercase filename"
 msgstr ""
 
@@ -2980,7 +2992,7 @@ msgstr ""
 msgid "Manufacturer"
 msgstr "製造元"
 
-#: ../build/src/ui_collectionsettingspage.h:525
+#: ../build/src/ui_collectionsettingspage.h:591
 msgid "Mark disappeared songs unavailable"
 msgstr ""
 
@@ -3000,7 +3012,7 @@ msgstr "最大カバーサイズ"
 msgid "Maximum bitrate"
 msgstr "最高ビットレート"
 
-#: qobuz/qobuzservice.cpp:474
+#: qobuz/qobuzservice.cpp:470
 msgid "Maximum number of login attempts reached."
 msgstr "ログイン試行数が最大数に達しました"
 
@@ -3025,21 +3037,21 @@ msgstr "最低ビットレート"
 msgid "Missing API token."
 msgstr "API トークンがありません"
 
-#: qobuz/qobuzservice.cpp:726 qobuz/qobuzstreamurlrequest.cpp:85
+#: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr "Qobuz app ID またはシークレットがありません"
 
-#: qobuz/qobuzservice.cpp:478 qobuz/qobuzservice.cpp:507
-#: qobuz/qobuzservice.cpp:562 qobuz/qobuzservice.cpp:615
-#: qobuz/qobuzservice.cpp:680
+#: qobuz/qobuzservice.cpp:474 qobuz/qobuzservice.cpp:503
+#: qobuz/qobuzservice.cpp:558 qobuz/qobuzservice.cpp:611
+#: qobuz/qobuzservice.cpp:676
 msgid "Missing Qobuz app ID."
 msgstr "Qobuz app ID がありません"
 
-#: qobuz/qobuzservice.cpp:486
+#: qobuz/qobuzservice.cpp:482
 msgid "Missing Qobuz password."
 msgstr "Qobuz パスワードがありません"
 
-#: qobuz/qobuzservice.cpp:482
+#: qobuz/qobuzservice.cpp:478
 msgid "Missing Qobuz username."
 msgstr "Qobuz ユーザー名がありません"
 
@@ -3047,13 +3059,13 @@ msgstr "Qobuz ユーザー名がありません"
 msgid "Missing Subsonic username or password."
 msgstr "Subsonic ユーザー名またはシークレットがありません"
 
-#: tidal/tidalservice.cpp:752 tidal/tidalservice.cpp:812
-#: tidal/tidalservice.cpp:870 tidal/tidalservice.cpp:936
-#: tidal/tidalservice.cpp:997 tidal/tidalstreamurlrequest.cpp:91
+#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:808
+#: tidal/tidalservice.cpp:866 tidal/tidalservice.cpp:932
+#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr "Tidal API トークン、ユーザー名またはパスワードがありません"
 
-#: tidal/tidalservice.cpp:713
+#: tidal/tidalservice.cpp:709
 msgid "Missing Tidal API token."
 msgstr "Tidal API トークンがありません"
 
@@ -3061,11 +3073,11 @@ msgstr "Tidal API トークンがありません"
 msgid "Missing Tidal client ID."
 msgstr "Tidal Client ID がありません"
 
-#: tidal/tidalservice.cpp:721
+#: tidal/tidalservice.cpp:717
 msgid "Missing Tidal password."
 msgstr "Tidal パスワードがありません"
 
-#: tidal/tidalservice.cpp:717
+#: tidal/tidalservice.cpp:713
 msgid "Missing Tidal username."
 msgstr "Tidal ユーザー名がありません"
 
@@ -3081,11 +3093,11 @@ msgstr "パスワードがありません"
 msgid "Missing server url, username or password."
 msgstr "サーバーの URL、ユーザー名またはパスワードがありません"
 
-#: subsonic/subsonicservice.cpp:434
+#: subsonic/subsonicservice.cpp:427
 msgid "Missing username or password."
 msgstr "ユーザー名またはパスワードがありません"
 
-#: scrobbler/lastfmimport.cpp:218
+#: scrobbler/lastfmimport.cpp:214
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
 
@@ -3097,7 +3109,7 @@ msgstr "ユーザー名がありません"
 msgid "Model"
 msgstr "モデル"
 
-#: ../build/src/ui_collectionsettingspage.h:523
+#: ../build/src/ui_collectionsettingspage.h:589
 msgid "Monitor the collection for changes"
 msgstr "ライブラリの変更を監視する"
 
@@ -3232,7 +3244,7 @@ msgstr "エクスポートしたカバーはありません"
 msgid "No long blocks"
 msgstr "長いブロックなし"
 
-#: tidal/tidalrequest.cpp:1273 qobuz/qobuzrequest.cpp:1318
+#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1314
 msgid "No match."
 msgstr "見つかりません"
 
@@ -3272,19 +3284,19 @@ msgstr "ノーマル"
 msgid "Normal block type"
 msgstr "通常ブロックタイプ"
 
-#: qobuz/qobuzservice.cpp:512 qobuz/qobuzservice.cpp:567
-#: qobuz/qobuzservice.cpp:620
+#: qobuz/qobuzservice.cpp:508 qobuz/qobuzservice.cpp:563
+#: qobuz/qobuzservice.cpp:616
 msgid "Not authenticated with Qobuz."
 msgstr "Qobuz で認証されませんでした"
 
-#: tidal/tidalservice.cpp:725
+#: tidal/tidalservice.cpp:721
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 
-#: tidal/tidalservice.cpp:747 tidal/tidalservice.cpp:807
-#: tidal/tidalservice.cpp:865 tidal/tidalservice.cpp:931
-#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:87
+#: tidal/tidalservice.cpp:743 tidal/tidalservice.cpp:803
+#: tidal/tidalservice.cpp:861 tidal/tidalservice.cpp:927
+#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr "Tidal で認証されませんでした"
 
@@ -3438,11 +3450,11 @@ msgstr "出力"
 msgid "Output options"
 msgstr "出力のオプション"
 
-#: ../build/src/ui_collectionsettingspage.h:559
+#: ../build/src/ui_collectionsettingspage.h:625
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:546
+#: ../build/src/ui_collectionsettingspage.h:612
 msgid "Overwrite existing file"
 msgstr "既存ファイルを上書きする"
 
@@ -3478,7 +3490,7 @@ msgstr "パスワード"
 msgid "Path"
 msgstr "パス"
 
-#: ../build/src/ui_collectionsettingspage.h:543
+#: ../build/src/ui_collectionsettingspage.h:609
 msgid "Pattern"
 msgstr "パターン"
 
@@ -3645,7 +3657,7 @@ msgstr "Scrobbles を送信するときにアルバムアーティストを優�
 msgid "Preferences"
 msgstr "設定"
 
-#: ../build/src/ui_collectionsettingspage.h:528
+#: ../build/src/ui_collectionsettingspage.h:594
 msgid "Preferred album art filenames (comma separated)"
 msgstr "優先するアルバムアートのファイル名 (コンマ区切り)"
 
@@ -3787,7 +3799,7 @@ msgstr ""
 msgid "Radios"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:544
+#: ../build/src/ui_collectionsettingspage.h:610
 msgid "Random"
 msgstr "ランダム"
 
@@ -3848,7 +3860,7 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:205
+#: lyrics/geniuslyricsprovider.cpp:201
 msgid "Redirect from Genius is missing query items code or state."
 msgstr "Genius からのリダイレクトにクエリアイテムのコードまたは状態がありません。"
 
@@ -3897,7 +3909,7 @@ msgstr "プレイリストから重複を削除する(&d)"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "プレイリストから利用できないトラックを削除する(&u)"
 
-#: ../build/src/ui_collectionsettingspage.h:520
+#: ../build/src/ui_collectionsettingspage.h:586
 msgid "Remove folder"
 msgstr "フォルダーの削除"
 
@@ -3957,7 +3969,7 @@ msgstr "トラックをリピート"
 msgid "Replace current playlist"
 msgstr "現在のプレイリストを置き換える"
 
-#: ../build/src/ui_collectionsettingspage.h:548
+#: ../build/src/ui_collectionsettingspage.h:614
 msgid "Replace spaces with dashes"
 msgstr ""
 
@@ -4026,13 +4038,13 @@ msgstr "FATファイルシステムで許可されている文字に制限"
 msgid "Resume playback on start"
 msgstr "起動時に再生を再開する"
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:694 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "アルバム %1 からアルバムカバーを取得..."
 
-#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:695 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -4048,7 +4060,7 @@ msgstr "アーティスト %1 からアルバムを取得..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "アーティスト %1 からアルバムを取得..."
 
-#: subsonic/subsonicrequest.cpp:130 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "アルバムを取得..."
@@ -4057,13 +4069,13 @@ msgstr "アルバムを取得..."
 msgid "Retrieving artists..."
 msgstr "アーティストを取得..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:738
+#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:738
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "アルバム %1 から曲を取得..."
 
-#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:739
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -4124,15 +4136,15 @@ msgstr "プレイリストを保存(&s)"
 msgid "Save album cover"
 msgstr "カバーアートの保存"
 
-#: ../build/src/ui_collectionsettingspage.h:541
+#: ../build/src/ui_collectionsettingspage.h:607
 msgid "Save album covers as embedded cover"
 msgstr "アルバムカバーを埋め込みカバーとして保存"
 
-#: ../build/src/ui_collectionsettingspage.h:539
+#: ../build/src/ui_collectionsettingspage.h:605
 msgid "Save album covers in album directory"
 msgstr "アルバムカバーをアルバムディレクトリに保存"
 
-#: ../build/src/ui_collectionsettingspage.h:540
+#: ../build/src/ui_collectionsettingspage.h:606
 msgid "Save album covers in cache directory"
 msgstr "アルバムカバーをキャッシュディレクトリに保存"
 
@@ -4144,11 +4156,11 @@ msgstr "カバーをディスクに保存..."
 msgid "Save current grouping"
 msgstr "現在の分類を保存する"
 
-#: ../build/src/ui_collectionsettingspage.h:560
+#: ../build/src/ui_collectionsettingspage.h:626
 msgid "Save playcounts and ratings to files now"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:557
+#: ../build/src/ui_collectionsettingspage.h:623
 msgid "Save playcounts to song tags when possible"
 msgstr ""
 
@@ -4170,7 +4182,7 @@ msgstr "プレイリストの保存..."
 msgid "Save preset"
 msgstr "プリセットの保存"
 
-#: ../build/src/ui_collectionsettingspage.h:558
+#: ../build/src/ui_collectionsettingspage.h:624
 msgid "Save ratings to song tags when possible"
 msgstr ""
 
@@ -4182,11 +4194,11 @@ msgstr ""
 msgid "Saved Grouping Manager"
 msgstr "保存した分類マネージャー"
 
-#: ../build/src/ui_collectionsettingspage.h:537
+#: ../build/src/ui_collectionsettingspage.h:603
 msgid "Saving album covers"
 msgstr "アルバムカバーを保存"
 
-#: collection/collection.cpp:197
+#: collection/collection.cpp:206
 msgid "Saving playcounts and ratings"
 msgstr ""
 
@@ -4206,12 +4218,12 @@ msgstr "サイズを調整する"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1024
+#: scrobbler/scrobblingapi20.cpp:1016
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 のエラー: %2"
 
-#: scrobbler/scrobblingapi20.cpp:543
+#: scrobbler/scrobblingapi20.cpp:535
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -4315,7 +4327,7 @@ msgstr "シリアル番号"
 msgid "Server URL"
 msgstr "サーバーURL"
 
-#: subsonic/subsonicservice.cpp:429 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "サーバーURLが不正です。"
 
@@ -4402,7 +4414,7 @@ msgstr "ステータスバーの上に表示"
 msgid "Show album cover"
 msgstr "アルバムカバーを表示"
 
-#: ../build/src/ui_collectionsettingspage.h:535
+#: ../build/src/ui_collectionsettingspage.h:601
 msgid "Show album cover art in collection"
 msgstr "コレクションでアルバムカバーアートを表示"
 
@@ -4422,7 +4434,7 @@ msgstr "すべての曲を表示"
 msgid "Show dialog for errors"
 msgstr "エラーダイアログを表示"
 
-#: ../build/src/ui_collectionsettingspage.h:536
+#: ../build/src/ui_collectionsettingspage.h:602
 msgid "Show dividers"
 msgstr "区切りを表示する"
 
@@ -4532,7 +4544,7 @@ msgid "Signing in..."
 msgstr "サインインしています..."
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:550
+#: ../build/src/ui_collectionsettingspage.h:616
 msgid "Size"
 msgstr "サイズ"
 
@@ -4596,11 +4608,11 @@ msgstr ""
 msgid "Song Lyrics"
 msgstr "歌詞"
 
-#: ../build/src/ui_collectionsettingspage.h:524
+#: ../build/src/ui_collectionsettingspage.h:590
 msgid "Song fingerprinting and tracking"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:556
+#: ../build/src/ui_collectionsettingspage.h:622
 msgid "Song playcounts and ratings"
 msgstr ""
 
@@ -4842,6 +4854,10 @@ msgstr "タブを上に配置"
 msgid "Tag fetcher"
 msgstr "タグ取得ツール"
 
+#: ../build/src/ui_collectionsettingspage.h:629
+msgid "Tagreader workers"
+msgstr ""
+
 #: ../build/src/ui_edittagdialog.h:852
 msgid "Tags"
 msgstr "タグ"
@@ -4904,11 +4920,11 @@ msgstr ""
 msgid "The second value must be greater than the first one!"
 msgstr ""
 
-#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:87
 msgid "The site you requested does not exist!"
 msgstr "指定されたサイトは存在しません!"
 
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:101
 msgid "The site you requested is not an image!"
 msgstr "指定されたサイトは画像ではありません!"
 
@@ -4940,7 +4956,7 @@ msgid ""
 "continue?"
 msgstr "これらのファイルはデバイスから削除されます。続行してもよろしいですか?"
 
-#: ../build/src/ui_collectionsettingspage.h:518
+#: ../build/src/ui_collectionsettingspage.h:584
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "これらのフォルダーはライブラリを作成するためにスキャンされます"
 
@@ -4999,6 +5015,10 @@ msgstr "このオプションは設定の「動作」で変更できます。"
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "この種類のデバイスはサポートされていません: %1"
+
+#: ../build/src/ui_collectionsettingspage.h:630
+msgid "Thread priority"
+msgstr ""
 
 #: core/mainwindow.cpp:361 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5123,8 +5143,8 @@ msgstr ""
 msgid "Unknown"
 msgstr "不明"
 
-#: subsonic/subsonicrequest.cpp:878 tidal/tidalrequest.cpp:1279
-#: qobuz/qobuzrequest.cpp:1324
+#: subsonic/subsonicrequest.cpp:887 tidal/tidalrequest.cpp:1275
+#: qobuz/qobuzrequest.cpp:1320
 msgid "Unknown error"
 msgstr "不明なエラー"
 
@@ -5144,7 +5164,7 @@ msgstr "選択したトラックをスキップしない"
 msgid "Unskip track"
 msgstr "トラックをスキップしない"
 
-#: ../build/src/ui_collectionsettingspage.h:522
+#: ../build/src/ui_collectionsettingspage.h:588
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry の起動時にライブラリを更新する"
 
@@ -5358,7 +5378,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr "週"
 
-#: ../build/src/ui_collectionsettingspage.h:530
+#: ../build/src/ui_collectionsettingspage.h:596
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5393,7 +5413,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "全体の再スキャンを今すぐ実行しますか?"
 
-#: settings/collectionsettingspage.cpp:352
+#: settings/collectionsettingspage.cpp:380
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
@@ -5554,7 +5574,7 @@ msgstr "チャネル"
 msgid "contains"
 msgstr "含む"
 
-#: ../build/src/ui_collectionsettingspage.h:527
+#: ../build/src/ui_collectionsettingspage.h:593
 msgid "days"
 msgstr "日"
 
