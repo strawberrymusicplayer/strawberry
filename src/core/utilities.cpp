@@ -823,6 +823,7 @@ QString UnicodeToAscii(QString unicode) {
   iconv_close(conv);
 
   QString ret(output_ptr);
+  ret = ret.replace('?', '_');
 
   delete[] input_ptr;
   delete[] output_ptr;

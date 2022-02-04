@@ -177,7 +177,7 @@ TEST_F(OrganizeFormatTest, ReplaceNonAscii) {
   EXPECT_EQ("Royksopp", format_.GetFilenameForSong(song_));
 
   song_.set_artist(QString::fromUtf8("Владимир Высоцкий"));
-  EXPECT_EQ("????????_????????", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("_________________", format_.GetFilenameForSong(song_));
 
 }
 
