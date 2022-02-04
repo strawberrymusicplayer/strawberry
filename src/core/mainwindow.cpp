@@ -1244,11 +1244,11 @@ void MainWindow::ExitFinished() {
 void MainWindow::EngineChanged(Engine::EngineType enginetype) {
 
   ui_->action_equalizer->setEnabled(enginetype == Engine::EngineType::GStreamer);
-#ifdef Q_OS_WIN
+#if defined(HAVE_AUDIOCD) && !defined(Q_OS_WIN)
+  ui_->action_open_cd->setEnabled(enginetype == Engine::EngineType::GStreamer);
+#else
   ui_->action_open_cd->setEnabled(false);
   ui_->action_open_cd->setVisible(false);
-#else
-  ui_->action_open_cd->setEnabled(enginetype == Engine::EngineType::GStreamer);
 #endif
 
 }
