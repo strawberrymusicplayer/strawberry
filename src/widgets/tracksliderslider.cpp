@@ -72,7 +72,11 @@ void TrackSliderSlider::mousePressEvent(QMouseEvent *e) {
     }
   }
 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
   QMouseEvent new_event(e->type(), e->pos(), e->globalPosition(), new_button, new_button, e->modifiers());
+#else
+  QMouseEvent new_event(e->type(), e->pos(), e->globalPos(), new_button, new_button, e->modifiers());
+#endif
   QSlider::mousePressEvent(&new_event);
 
   if (new_event.isAccepted()) {
