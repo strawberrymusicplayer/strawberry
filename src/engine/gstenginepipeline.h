@@ -269,7 +269,7 @@ class GstEnginePipeline : public QObject {
   uint volume_percent_;
   qreal volume_modifier_;
 
-  std::unique_ptr<QTimeLine> fader_;
+  std::shared_ptr<QTimeLine> fader_;
   QBasicTimer fader_fudge_timer_;
   bool use_fudge_timer_;
 

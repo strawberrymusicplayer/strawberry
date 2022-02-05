@@ -122,6 +122,13 @@ GstEnginePipeline::~GstEnginePipeline() {
 
   if (pipeline_) {
 
+    if (fader_) {
+      if (fader_->state() != QTimeLine::NotRunning) {
+        fader_->stop();
+      }
+      fader_.reset();
+    }
+
     if (pad_added_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(pipeline_), pad_added_cb_id_);
     }
@@ -1414,7 +1421,12 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
     }
   }
 
-  fader_ = std::make_unique<QTimeLine>(duration_msec, this);
+  fader_.reset(new QTimeLine(duration_msec), [](QTimeLine *timeline) {
+    if (timeline->state() != QTimeLine::NotRunning) {
+      timeline->stop();
+    }
+    timeline->deleteLater();
+  });
   QObject::connect(fader_.get(), &QTimeLine::valueChanged, this, &GstEnginePipeline::SetVolumeModifier);
   QObject::connect(fader_.get(), &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
   fader_->setDirection(direction);
