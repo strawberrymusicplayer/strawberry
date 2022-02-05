@@ -469,7 +469,7 @@ msgstr "40%"
 msgid "50 random tracks"
 msgstr "50 losowych utworów"
 
-#: ../build/src/ui_edittagdialog.h:806 ../build/src/ui_edittagdialog.h:832
+#: ../build/src/ui_edittagdialog.h:798 ../build/src/ui_edittagdialog.h:824
 msgid ""
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
 "REC-html40/strict.dtd\">\n"
@@ -794,7 +794,7 @@ msgstr "Okładka albu&mu"
 #: ../build/src/ui_albumcoversearcher.h:107
 #: ../build/src/ui_albumcoversearcher.h:109
 #: ../build/src/ui_contextsettingspage.h:440
-#: ../build/src/ui_edittagdialog.h:840
+#: ../build/src/ui_edittagdialog.h:832
 #: ../build/src/ui_trackselectiondialog.h:207
 msgid "Album"
 msgstr "Album"
@@ -811,7 +811,7 @@ msgstr "Album - Płyta"
 #: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1351
 #: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
-#: ../build/src/ui_edittagdialog.h:839
+#: ../build/src/ui_edittagdialog.h:831
 msgid "Album artist"
 msgstr "Artysta albumu"
 
@@ -968,11 +968,11 @@ msgid ""
 "songs in your collection?"
 msgstr ""
 
-#: ../build/src/ui_edittagdialog.h:826
+#: ../build/src/ui_edittagdialog.h:818
 msgid "Art Automatic"
 msgstr "Automatycznie"
 
-#: ../build/src/ui_edittagdialog.h:823
+#: ../build/src/ui_edittagdialog.h:815
 msgid "Art Manual"
 msgstr "Manualnie"
 
@@ -980,7 +980,7 @@ msgstr "Manualnie"
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:103
-#: ../build/src/ui_albumcoversearcher.h:105 ../build/src/ui_edittagdialog.h:843
+#: ../build/src/ui_albumcoversearcher.h:105 ../build/src/ui_edittagdialog.h:835
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Artist"
 msgstr "Artysta"
@@ -1132,11 +1132,11 @@ msgstr "Najlepsza"
 #: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:139
 #: playlist/playlist.cpp:1361 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
-#: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:813
+#: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:805
 msgid "Bit depth"
 msgstr "Rozdzielczość bitowa"
 
-#: ../build/src/ui_edittagdialog.h:824
+#: ../build/src/ui_edittagdialog.h:816
 msgid "Bit rate"
 msgstr "Przepływność"
 
@@ -1224,7 +1224,7 @@ msgstr "Anuluj"
 msgid "Cancelled."
 msgstr "Anulowano."
 
-#: ../build/src/ui_edittagdialog.h:830
+#: ../build/src/ui_edittagdialog.h:822
 msgid "Change art"
 msgstr "Zmień okładkę"
 
@@ -1367,15 +1367,15 @@ msgstr ""
 "do 3"
 
 #: playlist/playlist.cpp:1371 smartplaylists/smartplaylistsearchterm.cpp:381
-#: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:847
+#: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:839
 msgid "Comment"
 msgstr "Komentarz"
 
-#: ../build/src/ui_edittagdialog.h:849
+#: ../build/src/ui_edittagdialog.h:841
 msgid "Compilation"
 msgstr "Kompilacja"
 
-#: ../build/src/ui_edittagdialog.h:845
+#: ../build/src/ui_edittagdialog.h:837
 msgid "Complete tags automatically"
 msgstr "Automatycznie uzupełnij znaczniki"
 
@@ -1386,7 +1386,7 @@ msgstr "Automatycznie uzupełnij znaczniki…"
 #: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1352
 #: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
-#: ../build/src/ui_edittagdialog.h:844
+#: ../build/src/ui_edittagdialog.h:836
 msgid "Composer"
 msgstr "Kompozytor"
 
@@ -1702,11 +1702,11 @@ msgstr "Dance"
 msgid "Database corruption detected."
 msgstr "Wykryto uszkodzenie bazy danych!"
 
-#: playlist/playlist.cpp:1369 ../build/src/ui_edittagdialog.h:819
+#: playlist/playlist.cpp:1369 ../build/src/ui_edittagdialog.h:811
 msgid "Date created"
 msgstr "Data utworzenia"
 
-#: playlist/playlist.cpp:1368 ../build/src/ui_edittagdialog.h:817
+#: playlist/playlist.cpp:1368 ../build/src/ui_edittagdialog.h:809
 msgid "Date modified"
 msgstr "Data modyfikacji"
 
@@ -1831,7 +1831,7 @@ msgstr "Wyłączone"
 #: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1346
 #: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
-#: ../build/src/ui_edittagdialog.h:837
+#: ../build/src/ui_edittagdialog.h:829
 msgid "Disc"
 msgstr "Płyta"
 
@@ -1945,7 +1945,7 @@ msgstr "Edytuj znacznik „%1”…"
 msgid "Edit tag..."
 msgstr "Edytuj znacznik…"
 
-#: ../build/src/ui_edittagdialog.h:804
+#: ../build/src/ui_edittagdialog.h:796
 msgid "Edit track information"
 msgstr "Edytuj informacje o ścieżce"
 
@@ -1962,7 +1962,7 @@ msgstr "Edytuj informacje o ścieżkach…"
 msgid "Embedded"
 msgstr "Wbudowany"
 
-#: ../build/src/ui_edittagdialog.h:831
+#: ../build/src/ui_edittagdialog.h:823
 msgid "Embedded cover"
 msgstr "Okładka wbudowana"
 
@@ -2331,17 +2331,17 @@ msgstr "Nazwa pliku (bez ścieżki)"
 msgid "File paths"
 msgstr "Ścieżki plików"
 
-#: playlist/playlist.cpp:1366 ../build/src/ui_edittagdialog.h:825
+#: playlist/playlist.cpp:1366 ../build/src/ui_edittagdialog.h:817
 msgid "File size"
 msgstr "Wielkość pliku"
 
 #: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1367
 #: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
-#: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:812
+#: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:804
 msgid "File type"
 msgstr "Rodzaj pliku"
 
-#: ../build/src/ui_edittagdialog.h:814 ../build/src/ui_transcodedialog.h:219
+#: ../build/src/ui_edittagdialog.h:806 ../build/src/ui_transcodedialog.h:219
 msgid "Filename"
 msgstr "Nazwa pliku"
 
@@ -2498,7 +2498,7 @@ msgstr "Uwierzytelnianie Geniusa"
 #: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1350
 #: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
-#: ../build/src/ui_edittagdialog.h:846
+#: ../build/src/ui_edittagdialog.h:838
 msgid "Genre"
 msgstr "Gatunek"
 
@@ -2608,7 +2608,7 @@ msgstr "Gatunek/Artysta/Album"
 #: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1354
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
-#: ../build/src/ui_edittagdialog.h:838
+#: ../build/src/ui_edittagdialog.h:830
 msgid "Grouping"
 msgstr "Grupowanie"
 
@@ -2850,7 +2850,7 @@ msgstr "Duży pasek boczny"
 msgid "Last played"
 msgstr "Ostatnio odtwarzane"
 
-#: ../build/src/ui_edittagdialog.h:822
+#: ../build/src/ui_edittagdialog.h:814
 msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Ostatnio odtwarzane"
@@ -2873,7 +2873,7 @@ msgid "Left"
 msgstr "Lewy"
 
 #: context/contextview.cpp:216 playlist/playlist.cpp:1347
-#: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:811
+#: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:803
 msgid "Length"
 msgstr "Długość"
 
@@ -2995,7 +2995,7 @@ msgstr "Niski znak wodny"
 msgid "Lowercase filename"
 msgstr "Nazwa pliku małymi literami"
 
-#: ../build/src/ui_lyricssettingspage.h:162 ../build/src/ui_edittagdialog.h:854
+#: ../build/src/ui_lyricssettingspage.h:162 ../build/src/ui_edittagdialog.h:846
 msgid "Lyrics"
 msgstr "Tekst"
 
@@ -3533,7 +3533,7 @@ msgstr "Impreza"
 msgid "Password"
 msgstr "Hasło"
 
-#: ../build/src/ui_edittagdialog.h:820
+#: ../build/src/ui_edittagdialog.h:812
 msgid "Path"
 msgstr "Ścieżka"
 
@@ -3557,7 +3557,7 @@ msgstr "Wstrzymane"
 #: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1353
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
-#: ../build/src/ui_edittagdialog.h:848
+#: ../build/src/ui_edittagdialog.h:840
 msgid "Performer"
 msgstr "Wykonawca"
 
@@ -3579,7 +3579,7 @@ msgstr "Odtwarzaj"
 msgid "Play control buttons"
 msgstr "Odtwarzacz"
 
-#: playlist/playlist.cpp:1356 ../build/src/ui_edittagdialog.h:818
+#: playlist/playlist.cpp:1356 ../build/src/ui_edittagdialog.h:810
 msgid "Play count"
 msgstr "Liczba odtworzeń"
 
@@ -3861,7 +3861,7 @@ msgstr ""
 msgid "Random"
 msgstr "Losowo"
 
-#: playlist/playlist.cpp:1374 ../build/src/ui_edittagdialog.h:851
+#: playlist/playlist.cpp:1374 ../build/src/ui_edittagdialog.h:843
 msgid "Rating"
 msgstr "Ocena"
 
@@ -4070,7 +4070,7 @@ msgstr "Przeskanuj ponownie utwory…"
 msgid "Reset"
 msgstr "Wyzeruj"
 
-#: dialogs/edittagdialog.cpp:1252 ../build/src/ui_edittagdialog.h:827
+#: dialogs/edittagdialog.cpp:1252 ../build/src/ui_edittagdialog.h:819
 msgid "Reset play counts"
 msgstr "Wyzeruj licznik odtworzeń"
 
@@ -4183,7 +4183,7 @@ msgstr "Bezpiecznie usuń urządzenie po skopiowaniu"
 #: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1360
 #: organize/organizedialog.cpp:119 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
-#: ../build/src/ui_edittagdialog.h:821
+#: ../build/src/ui_edittagdialog.h:813
 msgid "Sample rate"
 msgstr "Częstotliwość próbkowania"
 
@@ -4623,7 +4623,7 @@ msgstr "Ska"
 msgid "Skip backwards in playlist"
 msgstr "Przeskocz wstecz na liście odtwarzania"
 
-#: playlist/playlist.cpp:1357 ../build/src/ui_edittagdialog.h:816
+#: playlist/playlist.cpp:1357 ../build/src/ui_edittagdialog.h:808
 msgid "Skip count"
 msgstr "Liczba pominięć utworu"
 
@@ -4885,7 +4885,7 @@ msgstr "Sugerowane znaczniki"
 
 #: ../build/src/ui_contextsettingspage.h:436
 #: ../build/src/ui_notificationssettingspage.h:495
-#: ../build/src/ui_edittagdialog.h:828
+#: ../build/src/ui_edittagdialog.h:820
 msgid "Summary"
 msgstr "Podsumowanie"
 
@@ -4930,7 +4930,7 @@ msgstr "Uzupełnianie znaczników"
 msgid "Tagreader workers"
 msgstr ""
 
-#: ../build/src/ui_edittagdialog.h:852
+#: ../build/src/ui_edittagdialog.h:844
 msgid "Tags"
 msgstr "Tagi"
 
@@ -5126,7 +5126,7 @@ msgstr "Odstęp czasu"
 
 #: playlist/playlist.cpp:1342 organize/organizedialog.cpp:103
 #: ../build/src/ui_contextsettingspage.h:435
-#: ../build/src/ui_edittagdialog.h:842
+#: ../build/src/ui_edittagdialog.h:834
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Title"
 msgstr "Tytuł"
@@ -5172,7 +5172,7 @@ msgid "Total network requests made"
 msgstr "Całkowita liczba wykonanych zapytań sieciowych"
 
 #: playlist/playlist.cpp:1345 organize/organizedialog.cpp:111
-#: ../build/src/ui_edittagdialog.h:850
+#: ../build/src/ui_edittagdialog.h:842
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Track"
 msgstr "Ścieżka"
@@ -5522,7 +5522,7 @@ msgstr "Zapisuj medatane podczas zapisywania list odtwarzania"
 #: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1348
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
-#: ../build/src/ui_edittagdialog.h:841
+#: ../build/src/ui_edittagdialog.h:833
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Year"
 msgstr "Rok"
