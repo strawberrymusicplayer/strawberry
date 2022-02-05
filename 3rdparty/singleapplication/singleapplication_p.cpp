@@ -142,7 +142,7 @@ QString SingleApplicationPrivate::getUsername() {
 void SingleApplicationPrivate::genBlockServerName() {
 
   QCryptographicHash appData(QCryptographicHash::Sha256);
-  appData.addData("SingleApplication", 17);
+  appData.addData("SingleApplication");
   appData.addData(SingleApplication::app_t::applicationName().toUtf8());
   appData.addData(SingleApplication::app_t::organizationName().toUtf8());
   appData.addData(SingleApplication::app_t::organizationDomain().toUtf8());
