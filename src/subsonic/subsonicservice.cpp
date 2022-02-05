@@ -399,7 +399,7 @@ void SubsonicService::Scrobble(const QString &song_id, const bool submission, co
 
   if (!scrobble_request_) {
     // We're doing requests every 30-240s the whole time, so keep reusing this instance
-    scrobble_request_ = std::make_shared<SubsonicScrobbleRequest>(this, url_handler_, app_);
+    scrobble_request_.reset(new SubsonicScrobbleRequest(this, url_handler_, app_), [](SubsonicScrobbleRequest *request) { request->deleteLater(); });
   }
 
   scrobble_request_->CreateScrobbleRequest(song_id, submission, time);
@@ -429,7 +429,7 @@ void SubsonicService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_ = std::make_shared<SubsonicRequest>(this, url_handler_, app_);
+  songs_request_.reset(new SubsonicRequest(this, url_handler_, app_), [](SubsonicRequest *request) { request->deleteLater(); });
   QObject::connect(songs_request_.get(), &SubsonicRequest::Results, this, &SubsonicService::SongsResultsReceived);
   QObject::connect(songs_request_.get(), &SubsonicRequest::UpdateStatus, this, &SubsonicService::SongsUpdateStatus);
   QObject::connect(songs_request_.get(), &SubsonicRequest::ProgressSetMaximum, this, &SubsonicService::SongsProgressSetMaximum);
@@ -448,6 +448,8 @@ void SubsonicService::DeleteSongs() {
 void SubsonicService::SongsResultsReceived(const SongMap &songs, const QString &error) {
 
   emit SongsResults(songs, error);
+
+  ResetSongsRequest();
 
 }
 

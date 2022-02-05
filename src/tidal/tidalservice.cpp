@@ -752,9 +752,7 @@ void TidalService::GetArtists() {
   }
 
   ResetArtistsRequest();
-
-  artists_request_ = std::make_shared<TidalRequest>(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Artists, this);
-
+  artists_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Artists, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(artists_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(artists_request_.get(), &TidalRequest::Results, this, &TidalService::ArtistsResultsReceived);
   QObject::connect(artists_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::ArtistsUpdateStatusReceived);
@@ -767,8 +765,11 @@ void TidalService::GetArtists() {
 }
 
 void TidalService::ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error) {
+
   Q_UNUSED(id);
   emit ArtistsResults(songs, error);
+  ResetArtistsRequest();
+
 }
 
 void TidalService::ArtistsUpdateStatusReceived(const int id, const QString &text) {
@@ -812,7 +813,7 @@ void TidalService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_ = std::make_shared<TidalRequest>(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Albums, this);
+  albums_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Albums, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(albums_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(albums_request_.get(), &TidalRequest::Results, this, &TidalService::AlbumsResultsReceived);
   QObject::connect(albums_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::AlbumsUpdateStatusReceived);
@@ -825,8 +826,11 @@ void TidalService::GetAlbums() {
 }
 
 void TidalService::AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error) {
+
   Q_UNUSED(id);
   emit AlbumsResults(songs, error);
+  ResetAlbumsRequest();
+
 }
 
 void TidalService::AlbumsUpdateStatusReceived(const int id, const QString &text) {
@@ -870,7 +874,7 @@ void TidalService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_ = std::make_shared<TidalRequest>(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Songs, this);
+  songs_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Songs, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(songs_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(songs_request_.get(), &TidalRequest::Results, this, &TidalService::SongsResultsReceived);
   QObject::connect(songs_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::SongsUpdateStatusReceived);
@@ -883,8 +887,11 @@ void TidalService::GetSongs() {
 }
 
 void TidalService::SongsResultsReceived(const int id, const SongMap &songs, const QString &error) {
+
   Q_UNUSED(id);
   emit SongsResults(songs, error);
+  ResetSongsRequest();
+
 }
 
 void TidalService::SongsUpdateStatusReceived(const int id, const QString &text) {
@@ -964,7 +971,7 @@ void TidalService::SendSearch() {
       return;
   }
 
-  search_request_ = std::make_shared<TidalRequest>(this, url_handler_, app_, network_, type, this);
+  search_request_.reset(new TidalRequest(this, url_handler_, app_, network_, type, this), [](TidalRequest *request) { request->deleteLater(); });
 
   QObject::connect(search_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(search_request_.get(), &TidalRequest::Results, this, &TidalService::SearchResultsReceived);
@@ -979,7 +986,10 @@ void TidalService::SendSearch() {
 }
 
 void TidalService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
+
   emit SearchResults(id, songs, error);
+  search_request_.reset();
+
 }
 
 uint TidalService::GetStreamURL(const QUrl &url, QString &error) {
@@ -997,7 +1007,8 @@ uint TidalService::GetStreamURL(const QUrl &url, QString &error) {
 
   uint id = 0;
   while (id == 0) id = ++next_stream_url_request_id_;
-  std::shared_ptr<TidalStreamURLRequest> stream_url_req = std::make_shared<TidalStreamURLRequest>(this, network_, url, id);
+  std::shared_ptr<TidalStreamURLRequest> stream_url_req;
+  stream_url_req.reset(new TidalStreamURLRequest(this, network_, url, id), [](TidalStreamURLRequest *request) { request->deleteLater(); });
   stream_url_requests_.insert(id, stream_url_req);
 
   QObject::connect(stream_url_req.get(), &TidalStreamURLRequest::TryLogin, this, &TidalService::TryLogin);
@@ -1014,7 +1025,7 @@ uint TidalService::GetStreamURL(const QUrl &url, QString &error) {
 void TidalService::HandleStreamURLFailure(const uint id, const QUrl &original_url, const QString &error) {
 
   if (!stream_url_requests_.contains(id)) return;
-  std::shared_ptr<TidalStreamURLRequest> stream_url_req = stream_url_requests_.take(id);
+  stream_url_requests_.remove(id);
 
   emit StreamURLFailure(id, original_url, error);
 
@@ -1023,7 +1034,7 @@ void TidalService::HandleStreamURLFailure(const uint id, const QUrl &original_ur
 void TidalService::HandleStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration) {
 
   if (!stream_url_requests_.contains(id)) return;
-  std::shared_ptr<TidalStreamURLRequest> stream_url_req = stream_url_requests_.take(id);
+  stream_url_requests_.remove(id);
 
   emit StreamURLSuccess(id, original_url, stream_url, filetype, samplerate, bit_depth, duration);
 

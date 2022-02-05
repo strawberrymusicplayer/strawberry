@@ -19,8 +19,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QDir>
 #include <QMimeType>
@@ -63,7 +61,7 @@ SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *u
       service_(service),
       url_handler_(url_handler),
       app_(app),
-      network_(new QNetworkAccessManager),
+      network_(new QNetworkAccessManager(this)),
       timeouts_(new NetworkTimeouts(30000, this)),
       finished_(false),
       albums_requests_active_(0),

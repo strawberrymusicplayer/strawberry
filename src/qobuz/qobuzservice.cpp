@@ -510,9 +510,7 @@ void QobuzService::GetArtists() {
   }
 
   ResetArtistsRequest();
-
-  artists_request_ = std::make_shared<QobuzRequest>(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Artists);
-
+  artists_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Artists), [](QobuzRequest *request) { request->deleteLater(); });
   QObject::connect(artists_request_.get(), &QobuzRequest::Results, this, &QobuzService::ArtistsResultsReceived);
   QObject::connect(artists_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::ArtistsUpdateStatusReceived);
   QObject::connect(artists_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::ArtistsProgressSetMaximumReceived);
@@ -523,8 +521,11 @@ void QobuzService::GetArtists() {
 }
 
 void QobuzService::ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error) {
+
   Q_UNUSED(id);
   emit ArtistsResults(songs, error);
+  ResetArtistsRequest();
+
 }
 
 void QobuzService::ArtistsUpdateStatusReceived(const int id, const QString &text) {
@@ -565,7 +566,7 @@ void QobuzService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_ = std::make_shared<QobuzRequest>(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Albums);
+  albums_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Albums), [](QobuzRequest *request) { request->deleteLater(); });
   QObject::connect(albums_request_.get(), &QobuzRequest::Results, this, &QobuzService::AlbumsResultsReceived);
   QObject::connect(albums_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::AlbumsUpdateStatusReceived);
   QObject::connect(albums_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::AlbumsProgressSetMaximumReceived);
@@ -576,8 +577,11 @@ void QobuzService::GetAlbums() {
 }
 
 void QobuzService::AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error) {
+
   Q_UNUSED(id);
   emit AlbumsResults(songs, error);
+  ResetAlbumsRequest();
+
 }
 
 void QobuzService::AlbumsUpdateStatusReceived(const int id, const QString &text) {
@@ -618,7 +622,7 @@ void QobuzService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_ = std::make_shared<QobuzRequest>(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Songs);
+  songs_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Songs), [](QobuzRequest *request) { request->deleteLater(); });
   QObject::connect(songs_request_.get(), &QobuzRequest::Results, this, &QobuzService::SongsResultsReceived);
   QObject::connect(songs_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::SongsUpdateStatusReceived);
   QObject::connect(songs_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::SongsProgressSetMaximumReceived);
@@ -629,8 +633,11 @@ void QobuzService::GetSongs() {
 }
 
 void QobuzService::SongsResultsReceived(const int id, const SongMap &songs, const QString &error) {
+
   Q_UNUSED(id);
   emit SongsResults(songs, error);
+  ResetSongsRequest();
+
 }
 
 void QobuzService::SongsUpdateStatusReceived(const int id, const QString &text) {
@@ -700,7 +707,7 @@ void QobuzService::SendSearch() {
       break;
   }
 
-  search_request_ = std::make_shared<QobuzRequest>(this, url_handler_, app_, network_, type);
+  search_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, type), [](QobuzRequest *request) { request->deleteLater(); } );
 
   QObject::connect(search_request_.get(), &QobuzRequest::Results, this, &QobuzService::SearchResultsReceived);
   QObject::connect(search_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::SearchUpdateStatus);
@@ -713,7 +720,10 @@ void QobuzService::SendSearch() {
 }
 
 void QobuzService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
+
+  search_request_.reset();
   emit SearchResults(id, songs, error);
+
 }
 
 uint QobuzService::GetStreamURL(const QUrl &url, QString &error) {
@@ -725,7 +735,8 @@ uint QobuzService::GetStreamURL(const QUrl &url, QString &error) {
 
   uint id = 0;
   while (id == 0) id = ++next_stream_url_request_id_;
-  std::shared_ptr<QobuzStreamURLRequest> stream_url_req = std::make_shared<QobuzStreamURLRequest>(this, network_, url, id);
+  std::shared_ptr<QobuzStreamURLRequest> stream_url_req;
+  stream_url_req.reset(new QobuzStreamURLRequest(this, network_, url, id), [](QobuzStreamURLRequest *request) { request->deleteLater(); });
   stream_url_requests_.insert(id, stream_url_req);
 
   QObject::connect(stream_url_req.get(), &QobuzStreamURLRequest::TryLogin, this, &QobuzService::TryLogin);
@@ -742,7 +753,7 @@ uint QobuzService::GetStreamURL(const QUrl &url, QString &error) {
 void QobuzService::HandleStreamURLFailure(const uint id, const QUrl &original_url, const QString &error) {
 
   if (!stream_url_requests_.contains(id)) return;
-  std::shared_ptr<QobuzStreamURLRequest> stream_url_req = stream_url_requests_.take(id);
+  stream_url_requests_.remove(id);
 
   emit StreamURLFailure(id, original_url, error);
 
@@ -751,7 +762,7 @@ void QobuzService::HandleStreamURLFailure(const uint id, const QUrl &original_ur
 void QobuzService::HandleStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration) {
 
   if (!stream_url_requests_.contains(id)) return;
-  std::shared_ptr<QobuzStreamURLRequest> stream_url_req = stream_url_requests_.take(id);
+  stream_url_requests_.remove(id);
 
   emit StreamURLSuccess(id, original_url, stream_url, filetype, samplerate, bit_depth, duration);
 

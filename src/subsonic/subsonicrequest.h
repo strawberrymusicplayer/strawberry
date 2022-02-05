@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QPair>
@@ -37,12 +35,12 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QNetworkAccessManager>
 #include <QJsonObject>
 
 #include "core/song.h"
 #include "subsonicbaserequest.h"
 
+class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
 class SubsonicService;
@@ -120,7 +118,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   SubsonicService *service_;
   SubsonicUrlHandler *url_handler_;
   Application *app_;
-  std::unique_ptr<QNetworkAccessManager> network_;
+  QNetworkAccessManager *network_;
   NetworkTimeouts *timeouts_;
 
   bool finished_;
