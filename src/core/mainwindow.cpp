@@ -3135,8 +3135,10 @@ void MainWindow::PlaylistDelete() {
     QModelIndex source_idx = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_idx);
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_idx.row());
     if (!item || !item->Metadata().url().isLocalFile()) continue;
+    QString filename = item->Metadata().url().toLocalFile();
+    if (files.contains(filename)) continue;
     selected_songs << item->Metadata();
-    files << item->Metadata().url().toLocalFile();
+    files << filename;
     if (item == app_->player()->GetCurrentItem()) is_current_item = true;
   }
   if (selected_songs.isEmpty()) return;

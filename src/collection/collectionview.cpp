@@ -425,7 +425,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-  action_delete_files_->setVisible(regular_elements == regular_editable && delete_files_);
+  action_delete_files_->setVisible(delete_files_);
 #else
   action_delete_files_->setVisible(false);
 #endif
@@ -440,7 +440,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-  action_delete_files_->setEnabled(regular_elements == regular_editable && delete_files_);
+  action_delete_files_->setEnabled(delete_files_);
 #else
   action_delete_files_->setEnabled(false);
 #endif
@@ -671,10 +671,17 @@ void CollectionView::Delete() {
   if (!delete_files_) return;
 
   SongList selected_songs = GetSelectedSongs();
+
+  SongList songs;
   QStringList files;
+  songs.reserve(selected_songs.count());
   files.reserve(selected_songs.count());
   for (const Song &song : selected_songs) {
-    files << song.url().toString();
+    QString filename = song.url().toLocalFile();
+    if (!files.contains(filename)) {
+      songs << song;
+      files << filename;
+    }
   }
   if (DeleteConfirmationDialog::warning(files) != QDialogButtonBox::Yes) return;
 
@@ -683,7 +690,7 @@ void CollectionView::Delete() {
 
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, true);
   QObject::connect(delete_files, &DeleteFiles::Finished, this, &CollectionView::DeleteFilesFinished);
-  delete_files->Start(selected_songs);
+  delete_files->Start(songs);
 
 }
 
