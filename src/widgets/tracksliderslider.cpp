@@ -72,7 +72,7 @@ void TrackSliderSlider::mousePressEvent(QMouseEvent *e) {
     }
   }
 
-  QMouseEvent new_event(e->type(), e->pos(), new_button, new_button, e->modifiers());
+  QMouseEvent new_event(e->type(), e->pos(), e->globalPosition(), new_button, new_button, e->modifiers());
   QSlider::mousePressEvent(&new_event);
 
   if (new_event.isAccepted()) {
