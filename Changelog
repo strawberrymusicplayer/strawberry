@@ -6,15 +6,26 @@ Unreleased
 
   Bugfixes:
     * Fixed showing menu when clicking icon for collection and internet search tool buttons
-    * Fixed ignoring devices with system mounts as defined by GIO.
+    * Fixed ignoring devices with system mounts as defined by GIO (#410).
     * Fixed updating database when deleting songs from filesystem devices.
     * Fixed listing songs from MTP devices with Qt 6.
-    * Fixed using entered password when testing Subsonic settings before pressing save.
+    * Fixed using entered password when testing Subsonic settings before pressing save (#879).
+    * Fixed downloading Subsonic album covers.
+    * Fixed downloading album covers once for each album when MD5 authentication is enabled (#885).
+    * Fixed volume going to 100% when pressing volume down with global shortcuts (#884).
+    * Fixed delete from disk not showing up in the menu when one or more CUE songs were selected.
+    * Fixed crash when switching songs when fading is enabled (#890).
 
   Enhancements
     * Log Qt version on startup.
-    * Add button for deleting existing Subsonic songs.
+    * Add button for deleting existing Subsonic songs (#883).
     * Make collection watcher ignore files with "qt_temp" filename and tmp extension.
+    * Require Qt 5.9 or higher.
+    * Added scrollbars to edit tag dialog (#888).
+    * Added advanced settings for configuring collection watcher.
+    * Disable open audio CD menu when compiled without audio CD support.
+    * Replaced use of deprecated QMouseEvent constructor as of Qt 6.4.
+    * Replaced use of deprecated QCryptographicHash::addData as of Qt 6.4.
 
   Removed features:
     * Removed broken "nomedia" / "nomusic" file handling.
