@@ -54,7 +54,7 @@
  * @param options Optional flags to toggle specific behaviour
  * @param timeout Maximum time blocking functions are allowed during app load
  */
-SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allowSecondary, Options options, int timeout)
+SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], const bool allowSecondary, const Options options, const int timeout)
     : app_t(argc, argv),
       d_ptr(new SingleCoreApplicationPrivate(this)) {
 
@@ -67,7 +67,7 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
   d->genBlockServerName();
 
   // To mitigate QSharedMemory issues with large amount of processes attempting to attach at the same time
-  d->randomSleep();
+  SingleCoreApplicationPrivate::randomSleep();
 
 #ifdef Q_OS_UNIX
   // By explicitly attaching it and then deleting it we make sure that the memory is deleted even after the process has crashed on Unix.
@@ -106,14 +106,14 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
     }
   }
 
-  InstancesInfo *inst = static_cast<InstancesInfo*>(d->memory_->data());
+  InstancesInfo *instance = static_cast<InstancesInfo*>(d->memory_->data());
   QElapsedTimer time;
   time.start();
 
   // Make sure the shared memory block is initialised and in consistent state
   forever {
     // If the shared memory block's checksum is valid continue
-    if (d->blockChecksum() == inst->checksum) break;
+    if (d->blockChecksum() == instance->checksum) break;
 
     // If more than 5s have elapsed, assume the primary instance crashed and assume it's position
     if (time.elapsed() > 5000) {
@@ -127,14 +127,14 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
       qDebug() << "SingleCoreApplication: Unable to unlock memory for random wait.";
       qDebug() << d->memory_->errorString();
     }
-    d->randomSleep();
+    SingleCoreApplicationPrivate::randomSleep();
     if (!d->memory_->lock()) {
       qCritical() << "SingleCoreApplication: Unable to lock memory after random wait.";
       abortSafely();
     }
   }
 
-  if (!inst->primary) {
+  if (!instance->primary) {
     d->startPrimary();
     if (!d->memory_->unlock()) {
       qDebug() << "SingleCoreApplication: Unable to unlock memory after primary start.";
@@ -178,8 +178,8 @@ SingleCoreApplication::~SingleCoreApplication() {
  * Checks if the current application instance is primary.
  * @return Returns true if the instance is primary, false otherwise.
  */
-bool SingleCoreApplication::isPrimary() {
-  Q_D(SingleCoreApplication);
+bool SingleCoreApplication::isPrimary() const {
+  Q_D(const SingleCoreApplication);
   return d->server_ != nullptr;
 }
 
@@ -187,8 +187,8 @@ bool SingleCoreApplication::isPrimary() {
  * Checks if the current application instance is secondary.
  * @return Returns true if the instance is secondary, false otherwise.
  */
-bool SingleCoreApplication::isSecondary() {
-  Q_D(SingleCoreApplication);
+bool SingleCoreApplication::isSecondary() const {
+  Q_D(const SingleCoreApplication);
   return d->server_ == nullptr;
 }
 
@@ -197,8 +197,8 @@ bool SingleCoreApplication::isSecondary() {
  * It is reset when the first (primary) instance of your app starts and only incremented afterwards.
  * @return Returns a unique instance id.
  */
-quint32 SingleCoreApplication::instanceId() {
-  Q_D(SingleCoreApplication);
+quint32 SingleCoreApplication::instanceId() const {
+  Q_D(const SingleCoreApplication);
   return d->instanceNumber_;
 }
 
@@ -207,8 +207,8 @@ quint32 SingleCoreApplication::instanceId() {
  * Especially useful when SingleCoreApplication is coupled with OS. specific APIs.
  * @return Returns the primary instance PID.
  */
-qint64 SingleCoreApplication::primaryPid() {
-  Q_D(SingleCoreApplication);
+qint64 SingleCoreApplication::primaryPid() const {
+  Q_D(const SingleCoreApplication);
   return d->primaryPid();
 }
 
@@ -216,8 +216,8 @@ qint64 SingleCoreApplication::primaryPid() {
  * Returns the username the primary instance is running as.
  * @return Returns the username the primary instance is running as.
  */
-QString SingleCoreApplication::primaryUser() {
-  Q_D(SingleCoreApplication);
+QString SingleCoreApplication::primaryUser() const {
+  Q_D(const SingleCoreApplication);
   return d->primaryUser();
 }
 
@@ -225,9 +225,8 @@ QString SingleCoreApplication::primaryUser() {
  * Returns the username the current instance is running as.
  * @return Returns the username the current instance is running as.
  */
-QString SingleCoreApplication::currentUser() {
-  Q_D(SingleCoreApplication);
-  return d->getUsername();
+QString SingleCoreApplication::currentUser() const {
+  return SingleCoreApplicationPrivate::getUsername();
 }
 
 /**
@@ -248,11 +247,7 @@ bool SingleCoreApplication::sendMessage(const QByteArray &message, const int tim
     return false;
   }
 
-  d->socket_->write(message);
-  const bool dataWritten = d->socket_->waitForBytesWritten(timeout);
-  d->socket_->flush();
-  return dataWritten;
-
+  return d->writeConfirmedMessage(timeout, message);
 }
 
 /**
@@ -265,6 +260,7 @@ void SingleCoreApplication::abortSafely() {
 
   qCritical() << "SingleCoreApplication: " << d->memory_->error() << d->memory_->errorString();
   delete d;
+
   ::exit(EXIT_FAILURE);
 
 }

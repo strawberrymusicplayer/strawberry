@@ -71,9 +71,10 @@ class SingleApplicationPrivate : public QObject {
     Reconnect = 3
   };
   enum ConnectionStage : quint8 {
-    StageHeader = 0,
-    StageBody = 1,
-    StageConnected = 2,
+    StageInitHeader = 0,
+    StageInitBody = 1,
+    StageConnectedHeader = 2,
+    StageConnectedBody = 3,
   };
   Q_DECLARE_PUBLIC(SingleApplication)
 
@@ -89,8 +90,12 @@ class SingleApplicationPrivate : public QObject {
   quint16 blockChecksum() const;
   qint64 primaryPid() const;
   QString primaryUser() const;
-  void readInitMessageHeader(QLocalSocket *socket);
+  bool isFrameComplete(QLocalSocket *sock);
+  void readMessageHeader(QLocalSocket *socket, const ConnectionStage nextStage);
   void readInitMessageBody(QLocalSocket *socket);
+  void writeAck(QLocalSocket *sock);
+  bool writeConfirmedFrame(const int timeout, const QByteArray &msg);
+  bool writeConfirmedMessage(const int timeout, const QByteArray &msg);
   static void randomSleep();
 
   SingleApplication *q_ptr;
