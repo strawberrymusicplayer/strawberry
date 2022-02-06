@@ -73,7 +73,7 @@ void Analyzer::Base::transform(Scope &scope) {
   }
 
   fht_->logSpectrum(scope.data(), aux.data());
-  fht_->scale(scope.data(), 1.0 / 20);
+  fht_->scale(scope.data(), 1.0F / 20);
 
   scope.resize(fht_->size() / 2);  // second half of values are rubbish
 

@@ -102,7 +102,7 @@ void BoomAnalyzer::resizeEvent(QResizeEvent *e) {
 void BoomAnalyzer::transform(Scope &s) {
 
   fht_->spectrum(s.data());
-  fht_->scale(s.data(), 1.0 / 50);
+  fht_->scale(s.data(), 1.0F / 50);
 
   s.resize(scope_.size() <= static_cast<quint64>(kMaxBandCount) / 2 ? kMaxBandCount / 2 : scope_.size());
 

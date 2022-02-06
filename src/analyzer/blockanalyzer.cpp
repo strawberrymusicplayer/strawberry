@@ -130,7 +130,7 @@ void BlockAnalyzer::transform(Analyzer::Scope &s) {
   for (uint x = 0; x < s.size(); ++x) s[x] *= 2;
 
   fht_->spectrum(s.data());
-  fht_->scale(s.data(), 1.0 / 20);
+  fht_->scale(s.data(), 1.0F / 20);
 
   // the second half is pretty dull, so only show it if the user has a large analyzer by setting to scope_.size() if large we prevent interpolation of large analyzers, this is good!
   s.resize(scope_.size() <= kMaxColumns / 2 ? kMaxColumns / 2 : scope_.size());

@@ -424,8 +424,8 @@ void VolumeSlider::drawVolumeSliderHandle() {
   painter.drawImage(0, 0, pixmapHandle);
 
   // BEGIN Calculate handle animation pixmaps for mouse-over effect
-  float opacity = 0.0;
-  const float step = 1.0 / ANIM_MAX;
+  float opacity = 0.0F;
+  const float step = 1.0F / ANIM_MAX;
   QImage dst;
   handle_pixmaps_.clear();
   for (int i = 0; i < ANIM_MAX; ++i) {

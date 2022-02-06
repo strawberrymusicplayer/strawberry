@@ -82,7 +82,7 @@ const int QueuedItemDelegate::kQueueBoxLength = 30;
 const QRgb QueuedItemDelegate::kQueueBoxGradientColor1 = qRgb(102, 150, 227);
 const QRgb QueuedItemDelegate::kQueueBoxGradientColor2 = qRgb(77, 121, 200);
 const int QueuedItemDelegate::kQueueOpacitySteps = 10;
-const float QueuedItemDelegate::kQueueOpacityLowerBound = 0.4;
+const float QueuedItemDelegate::kQueueOpacityLowerBound = 0.4F;
 
 const int PlaylistDelegateBase::kMinHeight = 19;
 
@@ -100,7 +100,7 @@ void QueuedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     if (ok && queue_pos != -1) {
       float opacity = static_cast<float>(kQueueOpacitySteps - qMin(kQueueOpacitySteps, queue_pos));
       opacity /= kQueueOpacitySteps;
-      opacity *= static_cast<float>(1.0) - static_cast<float>(kQueueOpacityLowerBound);
+      opacity *= 1.0F - kQueueOpacityLowerBound;
       opacity += kQueueOpacityLowerBound;
       DrawBox(painter, option.rect, option.font, QString::number(queue_pos + 1), kQueueBoxLength, opacity);
     }

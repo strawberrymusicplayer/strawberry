@@ -1383,10 +1383,10 @@ void GstEnginePipeline::UpdateEqualizer() {
   for (int i = 0; i < kEqBandCount; ++i) {
     float gain = eq_enabled_ ? static_cast<float>(eq_band_gains_[i]) : static_cast<float>(0.0);
     if (gain < 0) {
-      gain *= 0.24;
+      gain *= 0.24F;
     }
     else {
-      gain *= 0.12;
+      gain *= 0.12F;
     }
 
     const int index_in_eq = i + 1;
@@ -1397,8 +1397,8 @@ void GstEnginePipeline::UpdateEqualizer() {
   }
 
   // Update preamp
-  float preamp = 1.0;
-  if (eq_enabled_) preamp = static_cast<float>(eq_preamp_ + 100) * static_cast<float>(0.01);  // To scale from 0.0 to 2.0
+  float preamp = 1.0F;
+  if (eq_enabled_) preamp = static_cast<float>(eq_preamp_ + 100) * 0.01F;  // To scale from 0.0 to 2.0
 
   g_object_set(G_OBJECT(equalizer_preamp_), "volume", preamp, nullptr);
 

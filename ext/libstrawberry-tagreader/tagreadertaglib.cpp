@@ -1040,13 +1040,13 @@ TagLib::ID3v2::PopularimeterFrame *TagReaderTagLib::GetPOPMFrameFromTag(TagLib::
 
 float TagReaderTagLib::ConvertPOPMRating(const int POPM_rating) {
 
-  if (POPM_rating < 0x01) return 0.0;
-  else if (POPM_rating < 0x40) return 0.20;
-  else if (POPM_rating < 0x80) return 0.40;
-  else if (POPM_rating < 0xC0) return 0.60;
-  else if (POPM_rating < 0xFC) return 0.80;
+  if (POPM_rating < 0x01) return 0.0F;
+  else if (POPM_rating < 0x40) return 0.20F;
+  else if (POPM_rating < 0x80) return 0.40F;
+  else if (POPM_rating < 0xC0) return 0.60F;
+  else if (POPM_rating < 0xFC) return 0.80F;
 
-  return 1.0;
+  return 1.0F;
 
 }
 
