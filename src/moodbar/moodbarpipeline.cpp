@@ -127,7 +127,7 @@ void MoodbarPipeline::ReportError(GstMessage *msg) {
   QString message = QString::fromLocal8Bit(error->message);
 
   g_error_free(error);
-  free(debugs);
+  g_free(debugs);
 
   qLog(Error) << "Error processing" << local_filename_ << ":" << message;
 
