@@ -403,7 +403,7 @@ void Transcoder::JobState::ReportError(GstMessage *msg) const {
   QString message = QString::fromLocal8Bit(error->message);
 
   g_error_free(error);
-  free(debugs);
+  g_free(debugs);
 
   emit parent_->LogLine(tr("Error processing %1: %2").arg(QDir::toNativeSeparators(job_.input), message));
 
