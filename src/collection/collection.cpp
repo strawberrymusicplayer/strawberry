@@ -59,6 +59,8 @@ SCollection::SCollection(Application *app, QObject *parent)
       watcher_(nullptr),
       watcher_thread_(nullptr),
       original_thread_(nullptr),
+      io_priority_(Utilities::IoPriority::IOPRIO_CLASS_IDLE),
+      thread_priority_(QThread::Priority::IdlePriority),
       save_playcounts_to_files_(false),
       save_ratings_to_files_(false) {
 
