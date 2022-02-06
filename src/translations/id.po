@@ -3044,13 +3044,13 @@ msgstr "Lajubit minimum"
 msgid "Missing API token."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:85
+#: qobuz/qobuzservice.cpp:732 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr "App ID atau secret Qobuz tidak tersedia."
 
 #: qobuz/qobuzservice.cpp:474 qobuz/qobuzservice.cpp:503
-#: qobuz/qobuzservice.cpp:558 qobuz/qobuzservice.cpp:611
-#: qobuz/qobuzservice.cpp:676
+#: qobuz/qobuzservice.cpp:559 qobuz/qobuzservice.cpp:615
+#: qobuz/qobuzservice.cpp:683
 msgid "Missing Qobuz app ID."
 msgstr "App ID Qobuz tidak tersedia."
 
@@ -3066,9 +3066,9 @@ msgstr "Nama pengguna Qobuz tidak tersedia."
 msgid "Missing Subsonic username or password."
 msgstr "Nama pengguna atau kata sandi Subsonic tidak tersedia."
 
-#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:808
-#: tidal/tidalservice.cpp:866 tidal/tidalservice.cpp:932
-#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:91
+#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:809
+#: tidal/tidalservice.cpp:870 tidal/tidalservice.cpp:939
+#: tidal/tidalservice.cpp:1003 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
@@ -3294,8 +3294,8 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Tipe blok normal"
 
-#: qobuz/qobuzservice.cpp:508 qobuz/qobuzservice.cpp:563
-#: qobuz/qobuzservice.cpp:616
+#: qobuz/qobuzservice.cpp:508 qobuz/qobuzservice.cpp:564
+#: qobuz/qobuzservice.cpp:620
 msgid "Not authenticated with Qobuz."
 msgstr "Tidak terautentikasi dengan Qobuz."
 
@@ -3305,9 +3305,9 @@ msgid ""
 msgstr ""
 "Tidak terautentikasi dengan Tidal dan jumlah maksimum upaya masuk tercapai."
 
-#: tidal/tidalservice.cpp:743 tidal/tidalservice.cpp:803
-#: tidal/tidalservice.cpp:861 tidal/tidalservice.cpp:927
-#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:87
+#: tidal/tidalservice.cpp:743 tidal/tidalservice.cpp:804
+#: tidal/tidalservice.cpp:865 tidal/tidalservice.cpp:934
+#: tidal/tidalservice.cpp:999 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr "Tidak terautentikasi dengan Tidal."
 
@@ -4049,13 +4049,13 @@ msgstr "Bataskan ke karakter yang diperbolehkan oleh sistem file FAT"
 msgid "Resume playback on start"
 msgstr "Lanjutkan pemutaran saat memulai Strawberry"
 
-#: subsonic/subsonicrequest.cpp:694 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:692 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:695 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:693 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -4071,7 +4071,7 @@ msgstr "Mengambil album untuk %1 artis..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Mengambil album untuk %1 artis..."
 
-#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "Mengambil album..."
@@ -4080,13 +4080,13 @@ msgstr "Mengambil album..."
 msgid "Retrieving artists..."
 msgstr "Mengambil artis..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:738
+#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:738
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Mengambil lagu untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:739
+#: subsonic/subsonicrequest.cpp:317 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -5175,7 +5175,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: subsonic/subsonicrequest.cpp:887 tidal/tidalrequest.cpp:1275
+#: subsonic/subsonicrequest.cpp:885 tidal/tidalrequest.cpp:1275
 #: qobuz/qobuzrequest.cpp:1320
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"

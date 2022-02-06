@@ -3035,13 +3035,13 @@ msgstr "최소 비트 전송률"
 msgid "Missing API token."
 msgstr "API 토큰이 없습니다."
 
-#: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:85
+#: qobuz/qobuzservice.cpp:732 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr "Qobuz 앱 ID나 비밀 값이 없습니다."
 
 #: qobuz/qobuzservice.cpp:474 qobuz/qobuzservice.cpp:503
-#: qobuz/qobuzservice.cpp:558 qobuz/qobuzservice.cpp:611
-#: qobuz/qobuzservice.cpp:676
+#: qobuz/qobuzservice.cpp:559 qobuz/qobuzservice.cpp:615
+#: qobuz/qobuzservice.cpp:683
 msgid "Missing Qobuz app ID."
 msgstr "Qobuz 앱 ID가 없습니다."
 
@@ -3057,9 +3057,9 @@ msgstr "Qobuz 사용자 이름이 없습니다."
 msgid "Missing Subsonic username or password."
 msgstr "Subsonic 사용자 이름이나 암호가 없습니다."
 
-#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:808
-#: tidal/tidalservice.cpp:866 tidal/tidalservice.cpp:932
-#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:91
+#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:809
+#: tidal/tidalservice.cpp:870 tidal/tidalservice.cpp:939
+#: tidal/tidalservice.cpp:1003 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr "타이달 API토큰, 계정 혹은 비밀번호가 없습니다."
 
@@ -3282,8 +3282,8 @@ msgstr "일반"
 msgid "Normal block type"
 msgstr "일반 블록 형식"
 
-#: qobuz/qobuzservice.cpp:508 qobuz/qobuzservice.cpp:563
-#: qobuz/qobuzservice.cpp:616
+#: qobuz/qobuzservice.cpp:508 qobuz/qobuzservice.cpp:564
+#: qobuz/qobuzservice.cpp:620
 msgid "Not authenticated with Qobuz."
 msgstr "Qobuz에 인증되지 않았습니다."
 
@@ -3292,9 +3292,9 @@ msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr "Tidal에 인증되지 않았으며 최대 로그인 시도 횟수에 도달했습니다."
 
-#: tidal/tidalservice.cpp:743 tidal/tidalservice.cpp:803
-#: tidal/tidalservice.cpp:861 tidal/tidalservice.cpp:927
-#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:87
+#: tidal/tidalservice.cpp:743 tidal/tidalservice.cpp:804
+#: tidal/tidalservice.cpp:865 tidal/tidalservice.cpp:934
+#: tidal/tidalservice.cpp:999 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr "Tidal에 인증되지 않았습니다."
 
@@ -4034,13 +4034,13 @@ msgstr "FAT 파일 시스템에서 사용할 수 있는 글자로 제한"
 msgid "Resume playback on start"
 msgstr "시작할 때 재생 다시 시작"
 
-#: subsonic/subsonicrequest.cpp:694 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:692 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:695 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:693 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -4056,7 +4056,7 @@ msgstr "아티스트 %1명의 앨범 가져오는 중..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "아티스트 %1명의 앨범 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "앨범 가져오는 중..."
@@ -4065,13 +4065,13 @@ msgstr "앨범 가져오는 중..."
 msgid "Retrieving artists..."
 msgstr "아티스트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:738
+#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:738
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "앨범 %1개의 노래 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:739
+#: subsonic/subsonicrequest.cpp:317 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -5139,7 +5139,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: subsonic/subsonicrequest.cpp:887 tidal/tidalrequest.cpp:1275
+#: subsonic/subsonicrequest.cpp:885 tidal/tidalrequest.cpp:1275
 #: qobuz/qobuzrequest.cpp:1320
 msgid "Unknown error"
 msgstr "알 수 없는 오류"

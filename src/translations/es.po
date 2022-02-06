@@ -3098,13 +3098,13 @@ msgstr "Tasa de bits mínima"
 msgid "Missing API token."
 msgstr "Falta la ficha de la API."
 
-#: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:85
+#: qobuz/qobuzservice.cpp:732 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
 msgstr "Falta el identificador de aplicación o el secreto de Qobuz."
 
 #: qobuz/qobuzservice.cpp:474 qobuz/qobuzservice.cpp:503
-#: qobuz/qobuzservice.cpp:558 qobuz/qobuzservice.cpp:611
-#: qobuz/qobuzservice.cpp:676
+#: qobuz/qobuzservice.cpp:559 qobuz/qobuzservice.cpp:615
+#: qobuz/qobuzservice.cpp:683
 msgid "Missing Qobuz app ID."
 msgstr "Falta el identificador de aplicación de Qobuz."
 
@@ -3120,9 +3120,9 @@ msgstr "Falta el usuario de Qobuz."
 msgid "Missing Subsonic username or password."
 msgstr "Falta el usuario o la contraseña de Qobuz."
 
-#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:808
-#: tidal/tidalservice.cpp:866 tidal/tidalservice.cpp:932
-#: tidal/tidalservice.cpp:993 tidal/tidalstreamurlrequest.cpp:91
+#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:809
+#: tidal/tidalservice.cpp:870 tidal/tidalservice.cpp:939
+#: tidal/tidalservice.cpp:1003 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
 msgstr "Falta la ficha de la API de Tidal, el usuario o la contraseña."
 
@@ -3348,8 +3348,8 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Tipo de bloque normal"
 
-#: qobuz/qobuzservice.cpp:508 qobuz/qobuzservice.cpp:563
-#: qobuz/qobuzservice.cpp:616
+#: qobuz/qobuzservice.cpp:508 qobuz/qobuzservice.cpp:564
+#: qobuz/qobuzservice.cpp:620
 msgid "Not authenticated with Qobuz."
 msgstr "No se ha accedido a Qobuz."
 
@@ -3359,9 +3359,9 @@ msgid ""
 msgstr ""
 "Se ha alcanzado el número máximo de intentos sin lograr acceder a Tidal."
 
-#: tidal/tidalservice.cpp:743 tidal/tidalservice.cpp:803
-#: tidal/tidalservice.cpp:861 tidal/tidalservice.cpp:927
-#: tidal/tidalservice.cpp:989 tidal/tidalstreamurlrequest.cpp:87
+#: tidal/tidalservice.cpp:743 tidal/tidalservice.cpp:804
+#: tidal/tidalservice.cpp:865 tidal/tidalservice.cpp:934
+#: tidal/tidalservice.cpp:999 tidal/tidalstreamurlrequest.cpp:87
 msgid "Not authenticated with Tidal."
 msgstr "No se ha accedido a Tidal."
 
@@ -4118,13 +4118,13 @@ msgstr "Limitar a caracteres permitidos en sistemas de archivos FAT"
 msgid "Resume playback on start"
 msgstr "Reanudar la reproducción al iniciar"
 
-#: subsonic/subsonicrequest.cpp:694 tidal/tidalrequest.cpp:1101
+#: subsonic/subsonicrequest.cpp:692 tidal/tidalrequest.cpp:1101
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Buscando cubierta del álbum %1..."
 
-#: subsonic/subsonicrequest.cpp:695 tidal/tidalrequest.cpp:1102
+#: subsonic/subsonicrequest.cpp:693 tidal/tidalrequest.cpp:1102
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
@@ -4140,7 +4140,7 @@ msgstr "Buscando álbumes de %1 artista..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Buscando álbumes de %1 artistas..."
 
-#: subsonic/subsonicrequest.cpp:129 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
 #: qobuz/qobuzrequest.cpp:180
 msgid "Retrieving albums..."
 msgstr "Buscando álbumes..."
@@ -4149,13 +4149,13 @@ msgstr "Buscando álbumes..."
 msgid "Retrieving artists..."
 msgstr "Buscando artistas..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:738
+#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:738
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Buscando pistas de %1 álbum..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:739
+#: subsonic/subsonicrequest.cpp:317 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
@@ -5250,7 +5250,7 @@ msgstr "Desinstale el «snap» con:"
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: subsonic/subsonicrequest.cpp:887 tidal/tidalrequest.cpp:1275
+#: subsonic/subsonicrequest.cpp:885 tidal/tidalrequest.cpp:1275
 #: qobuz/qobuzrequest.cpp:1320
 msgid "Unknown error"
 msgstr "Error desconocido"
