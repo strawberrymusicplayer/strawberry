@@ -427,11 +427,7 @@ bool SingleCoreApplicationPrivate::isFrameComplete(QLocalSocket *sock) {
   }
 
   ConnectionInfo &info = connectionMap_[sock];
-  if (sock->bytesAvailable() < static_cast<qint64>(info.msgLen)) {
-    return false;
-  }
-
-  return true;
+  return (sock->bytesAvailable() >= static_cast<qint64>(info.msgLen));
 
 }
 
