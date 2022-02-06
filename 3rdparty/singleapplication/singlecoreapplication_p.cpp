@@ -286,7 +286,7 @@ void SingleCoreApplicationPrivate::writeAck(QLocalSocket *sock) {
   sock->putChar('\n');
 }
 
-bool SingleCoreApplicationPrivate::writeConfirmedMessage(const int timeout, const QByteArray &msg) {
+bool SingleCoreApplicationPrivate::writeConfirmedMessage(const int timeout, const QByteArray &msg) const {
 
   QElapsedTimer time;
   time.start();
@@ -306,7 +306,7 @@ bool SingleCoreApplicationPrivate::writeConfirmedMessage(const int timeout, cons
 
 }
 
-bool SingleCoreApplicationPrivate::writeConfirmedFrame(const int timeout, const QByteArray &msg) {
+bool SingleCoreApplicationPrivate::writeConfirmedFrame(const int timeout, const QByteArray &msg) const {
 
   socket_->write(msg);
   socket_->flush();

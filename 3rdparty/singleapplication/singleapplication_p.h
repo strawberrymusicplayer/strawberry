@@ -94,8 +94,8 @@ class SingleApplicationPrivate : public QObject {
   void readMessageHeader(QLocalSocket *socket, const ConnectionStage nextStage);
   void readInitMessageBody(QLocalSocket *socket);
   void writeAck(QLocalSocket *sock);
-  bool writeConfirmedFrame(const int timeout, const QByteArray &msg);
-  bool writeConfirmedMessage(const int timeout, const QByteArray &msg);
+  bool writeConfirmedFrame(const int timeout, const QByteArray &msg) const;
+  bool writeConfirmedMessage(const int timeout, const QByteArray &msg) const;
   static void randomSleep();
 
   SingleApplication *q_ptr;
