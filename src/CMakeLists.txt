@@ -1160,8 +1160,15 @@ if(WIN32)
   if(MSVC)
     target_link_libraries(strawberry_lib PRIVATE sqlite3)
   endif()
+  if(MSVC)
+    if (GETOPT_INCLUDE_DIRS)
+      target_include_directories(strawberry_lib SYSTEM PRIVATE ${GETOPT_INCLUDE_DIRS})
+    endif()
+    if(GETOPT_LIBRARIES)
+      target_link_libraries(strawberry_lib PRIVATE ${GETOPT_LIBRARIES})
+    endif()
+  endif()
 endif()
-
 
 ###############################################################################
 

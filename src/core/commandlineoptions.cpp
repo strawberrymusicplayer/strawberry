@@ -22,9 +22,7 @@
 #include "version.h"
 
 #include <cstdlib>
-#ifndef _MSC_VER
-#  include <getopt.h>
-#endif
+#include <getopt.h>
 #include <iostream>
 #include <type_traits>
 
@@ -121,7 +119,6 @@ void CommandlineOptions::RemoveArg(const QString &starts_with, int count) {
 
 bool CommandlineOptions::Parse() {
 
-#ifndef _MSC_VER  // TODO: Consider QCommandLineOption.
   static const struct option kOptions[] = {
       {"help", no_argument, nullptr, 'h'},
       {"play", no_argument, nullptr, 'p'},
@@ -321,8 +318,6 @@ bool CommandlineOptions::Parse() {
       urls_ << QUrl::fromUserInput(value);
     }
   }
-
-  #endif  // _MSC_VER
 
   return true;
 

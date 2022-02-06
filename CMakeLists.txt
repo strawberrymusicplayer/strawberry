@@ -313,6 +313,12 @@ if(WIN32)
   endif()
 endif()
 
+if(WIN32 AND MSVC)
+  add_subdirectory(3rdparty/getopt)
+  set(GETOPT_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/getopt)
+  set(GETOPT_LIBRARIES getopt)
+endif()
+
 if(WIN32 AND NOT MSVC)
   # RC compiler
   string(REPLACE "gcc" "windres" CMAKE_RC_COMPILER_INIT ${CMAKE_C_COMPILER})
