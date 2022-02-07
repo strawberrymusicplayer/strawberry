@@ -1,21 +1,47 @@
-!if "@ARCH@" == x86
+!define build_type ""
+!define compiler "unknown"
+!define arch "unknown"
+
+!if "@ARCH@" == "x86"
   !define arch_x86
+  !undef arch
+  !define arch "x86"
 !endif
 
-!if "@ARCH@" == i686-w64-mingw32.shared
+!if "@ARCH@" == "i686-w64-mingw32.shared"
   !define arch_x86
+  !undef arch
+  !define arch "x86"
 !endif
 
-!if "@ARCH@" == x86_64
+!if "@ARCH@" == "x86_64"
   !define arch_x64
+  !undef arch
+  !define arch "x64"
 !endif
 
-!if "@ARCH@" == x86_64-w64-mingw32.shared
+!if "@ARCH@" == "x86_64-w64-mingw32.shared"
   !define arch_x64
+  !undef arch
+  !define arch "x64"
 !endif
 
-!if "@CMAKE_BUILD_TYPE@" == Debug
+!if "@MINGW@" == "1"
+  !define mingw
+  !undef compiler
+  !define compiler "mingw"
+!endif
+
+!if "@MSVC@" == "1"
+  !define msvc
+  !undef compiler
+  !define compiler "msvc"
+!endif
+
+!if "@CMAKE_BUILD_TYPE@" == "Debug"
   !define debug
+  !undef build_type
+  !define build_type "-debug"
 !endif
 
 !ifdef debug
@@ -76,8 +102,16 @@ SetCompressor /SOLID lzma
 
 !define MUI_COMPONENTSPAGE_SMALLDESC
 
-ReserveFile "${NSISDIR}/Plugins/x86-unicode/LockedList.dll"
-ReserveFile "${NSISDIR}/Plugins/LockedList64.dll"
+!ifdef mingw
+  ReserveFile "${NSISDIR}/Plugins/x86-unicode/LockedList.dll"
+  ReserveFile "${NSISDIR}/Plugins/LockedList64.dll"
+!endif
+
+!ifdef msvc
+  ReserveFile "${NSISDIR}\Plugins\LockedList.dll"
+  ReserveFile "${NSISDIR}\Plugins\LockedList64.dll"
+!endif
+
 !define LockedListPATH	$InstallDir
 
 ; Installer pages
@@ -97,21 +131,8 @@ UninstPage custom un.LockedListPageShow
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
 
 Name "${PRODUCT_NAME}"
-!ifdef arch_x86
-  !ifdef debug
-    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x86.exe"
-  !else
-    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x86.exe"
-  !endif
-!endif
 
-!ifdef arch_x64
-  !ifdef debug
-    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x64.exe"
-  !else
-    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x64.exe"
-  !endif
-!endif
+OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}${build_type}-${compiler}-${arch}.exe"
 
 InstallDir "${PRODUCT_INSTALL_DIR}"
 
@@ -166,19 +187,26 @@ SectionEnd
 Section "Strawberry" Strawberry
   SetOutPath "$INSTDIR"
 
+  ; Common executables
+
   File "strawberry.exe"
   File "strawberry-tagreader.exe"
   File "strawberry.ico"
+!ifdef mingw
   File "sqlite3.exe"
+!endif
   File "gst-launch-1.0.exe"
   File "gst-discoverer-1.0.exe"
+
+  ; MinGW specific files
+
+!ifdef mingw
 
 !ifdef arch_x86
   File "libgcc_s_sjlj-1.dll"
   File "libcrypto-3.dll"
   File "libssl-3.dll"
 !endif
-
 !ifdef arch_x64
   File "libgcc_s_seh-1.dll"
   File "libcrypto-3-x64.dll"
@@ -195,12 +223,10 @@ Section "Strawberry" Strawberry
   File "libcdio-19.dll"
   File "libchromaprint.dll"
   File "libdl.dll"
-  File "libffi-8.dll"
-  File "libfftw3-3.dll"
-  File "libFLAC-8.dll"
-  File "libfreetype-6.dll"
   File "libfaac-0.dll"
   File "libfaad-2.dll"
+  File "libffi-8.dll"
+  File "libfreetype-6.dll"
   File "libgio-2.0-0.dll"
   File "libglib-2.0-0.dll"
   File "libgmodule-2.0-0.dll"
@@ -226,46 +252,32 @@ Section "Strawberry" Strawberry
   File "libgstvideo-1.0-0.dll"
   File "libharfbuzz-0.dll"
   File "libhogweed-6.dll"
-  File "libiconv-2.dll"
   File "libidn2-0.dll"
   File "libintl-8.dll"
   File "libjpeg-9.dll"
   File "liblzma-5.dll"
-  File "libmp3lame-0.dll"
   File "libnettle-8.dll"
-  File "libogg-0.dll"
+  File "libnghttp2.dll"
   File "libopenmpt-0.dll"
   File "libopus-0.dll"
   File "liborc-0.4-0.dll"
   File "libpcre-1.dll"
   File "libpcre2-16-0.dll"
   File "libpng16-16.dll"
-  File "libpsl-5.dll"
   File "libprotobuf-30.dll"
+  File "libpsl-5.dll"
   File "libqtsparkle-qt6.dll"
-  File "libspeex-1.dll"
+  File "libsoup-3.0-0.dll"
   File "libsqlite3-0.dll"
   File "libssp-0.dll"
   File "libstdc++-6.dll"
-  File "libsoup-3.0-0.dll"
   File "libtag.dll"
   File "libtasn1-6.dll"
   File "libunistring-2.dll"
-  File "libvorbis-0.dll"
-  File "libvorbisenc-2.dll"
   File "libvorbisfile-3.dll"
   File "libwavpack-1.dll"
-  File "libwinpthread-1.dll"
-  File "libxml2-2.dll"
   File "libzstd.dll"
   File "postproc-56.dll"
-  File "libnghttp2.dll"
-  File "Qt6Concurrent.dll"
-  File "Qt6Core.dll"
-  File "Qt6Gui.dll"
-  File "Qt6Network.dll"
-  File "Qt6Sql.dll"
-  File "Qt6Widgets.dll"
   File "swresample-4.dll"
   File "swscale-6.dll"
   File "zlib1.dll"
@@ -278,6 +290,78 @@ Section "Strawberry" Strawberry
   File "libreadline8.dll"
   File "libtermcap.dll"
 !endif
+
+!endif ; MinGW
+
+  ; MSVC specific files
+
+!ifdef msvc
+
+!ifdef arch_x86
+  File "libcrypto-1_1.dll"
+  File "libssl-1_1.dll"
+!endif
+!ifdef arch_x64
+  File "libcrypto-1_1-x64.dll"
+  File "libssl-1_1-x64.dll"
+!endif
+
+  File "avcodec-58.dll"
+  File "avfilter-7.dll"
+  File "avformat-58.dll"
+  File "avutil-56.dll"
+  File "bz2.dll"
+  File "chromaprint.dll"
+  File "ffi-7.dll"
+  File "gio-2.0-0.dll"
+  File "glib-2.0-0.dll"
+  File "gmodule-2.0-0.dll"
+  File "gnutls.dll"
+  File "gobject-2.0-0.dll"
+  File "gstapp-1.0-0.dll"
+  File "gstaudio-1.0-0.dll"
+  File "gstbase-1.0-0.dll"
+  File "gstfft-1.0-0.dll"
+  File "gstnet-1.0-0.dll"
+  File "gstpbutils-1.0-0.dll"
+  File "gstreamer-1.0-0.dll"
+  File "gstriff-1.0-0.dll"
+  File "gstrtp-1.0-0.dll"
+  File "gstrtsp-1.0-0.dll"
+  File "gstsdp-1.0-0.dll"
+  File "gsttag-1.0-0.dll"
+  File "gstvideo-1.0-0.dll"
+  File "intl-8.dll"
+  File "libprotobuf.dll"
+  File "opus-0.dll"
+  File "orc-0.4-0.dll"
+  File "psl-5.dll"
+  File "soup-2.4-1.dll"
+  File "sqlite3-0.dll"
+  File "swresample-3.dll"
+  File "tag.dll"
+  File "z-1.dll"
+
+!endif ; MSVC
+
+  ; Common files
+
+  File "libfftw3-3.dll"
+  File "libFLAC-8.dll"
+  File "libiconv-2.dll"
+  File "libmp3lame-0.dll"
+  File "libogg-0.dll"
+  File "libspeex-1.dll"
+  File "libvorbis-0.dll"
+  File "libvorbisenc-2.dll"
+  File "libwinpthread-1.dll"
+  File "libxml2-2.dll"
+  File "Qt6Concurrent.dll"
+  File "Qt6Core.dll"
+  File "Qt6Gui.dll"
+  File "Qt6Network.dll"
+  File "Qt6Sql.dll"
+  File "Qt6Widgets.dll"
 
   ; Register Strawberry with Default Programs
   Var /GLOBAL AppIcon
@@ -313,7 +397,12 @@ SectionEnd
 
 Section "GIO modules" gio-modules
   SetOutPath "$INSTDIR\gio-modules"
+!ifdef mingw
   File "/oname=libgiognutls.dll" "gio-modules\libgiognutls.dll"
+!endif
+!ifdef msvc
+  File "/oname=giognutls.dll" "gio-modules\giognutls.dll"
+!endif
 SectionEnd
 
 Section "Qt Platform plugins" platforms
@@ -346,6 +435,7 @@ SectionEnd
 Section "Gstreamer plugins" gstreamer-plugins
   SetOutPath "$INSTDIR\gstreamer-plugins"
 
+!ifdef mingw
   File "/oname=libgstaiff.dll" "gstreamer-plugins\libgstaiff.dll"
   File "/oname=libgstapetag.dll" "gstreamer-plugins\libgstapetag.dll"
   File "/oname=libgstapp.dll" "gstreamer-plugins\libgstapp.dll"
@@ -395,6 +485,53 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=libgstwavpack.dll" "gstreamer-plugins\libgstwavpack.dll"
   File "/oname=libgstwavparse.dll" "gstreamer-plugins\libgstwavparse.dll"
   File "/oname=libgstxingmux.dll" "gstreamer-plugins\libgstxingmux.dll"
+!endif ; MinGW
+
+!ifdef msvc
+  File "/oname=gstaiff.dll" "gstreamer-plugins\gstaiff.dll"
+  File "/oname=gstapetag.dll" "gstreamer-plugins\gstapetag.dll"
+  File "/oname=gstapp.dll" "gstreamer-plugins\gstapp.dll"
+  File "/oname=gstasf.dll" "gstreamer-plugins\gstasf.dll"
+  File "/oname=gstasfmux.dll" "gstreamer-plugins\gstasfmux.dll"
+  File "/oname=gstaudioconvert.dll" "gstreamer-plugins\gstaudioconvert.dll"
+  File "/oname=gstaudiofx.dll" "gstreamer-plugins\gstaudiofx.dll"
+  File "/oname=gstaudiomixer.dll" "gstreamer-plugins\gstaudiomixer.dll"
+  File "/oname=gstaudioparsers.dll" "gstreamer-plugins\gstaudioparsers.dll"
+  File "/oname=gstaudiorate.dll" "gstreamer-plugins\gstaudiorate.dll"
+  File "/oname=gstaudioresample.dll" "gstreamer-plugins\gstaudioresample.dll"
+  File "/oname=gstaudiotestsrc.dll" "gstreamer-plugins\gstaudiotestsrc.dll"
+  File "/oname=gstautodetect.dll" "gstreamer-plugins\gstautodetect.dll"
+  File "/oname=gstcoreelements.dll" "gstreamer-plugins\gstcoreelements.dll"
+  File "/oname=gstdash.dll" "gstreamer-plugins\gstdash.dll"
+  File "/oname=gstdirectsound.dll" "gstreamer-plugins\gstdirectsound.dll"
+  File "/oname=gstequalizer.dll" "gstreamer-plugins\gstequalizer.dll"
+  File "/oname=gstflac.dll" "gstreamer-plugins\gstflac.dll"
+  File "/oname=gstgio.dll" "gstreamer-plugins\gstgio.dll"
+  File "/oname=gsticydemux.dll" "gstreamer-plugins\gsticydemux.dll"
+  File "/oname=gstid3demux.dll" "gstreamer-plugins\gstid3demux.dll"
+  File "/oname=gstisomp4.dll" "gstreamer-plugins\gstisomp4.dll"
+  File "/oname=gstlame.dll" "gstreamer-plugins\gstlame.dll"
+  File "/oname=gstlibav.dll" "gstreamer-plugins\gstlibav.dll"
+  File "/oname=gstogg.dll" "gstreamer-plugins\gstogg.dll"
+  File "/oname=gstopus.dll" "gstreamer-plugins\gstopus.dll"
+  File "/oname=gstopusparse.dll" "gstreamer-plugins\gstopusparse.dll"
+  File "/oname=gstplayback.dll" "gstreamer-plugins\gstplayback.dll"
+  File "/oname=gstreplaygain.dll" "gstreamer-plugins\gstreplaygain.dll"
+  File "/oname=gstrtp.dll" "gstreamer-plugins\gstrtp.dll"
+  File "/oname=gstrtsp.dll" "gstreamer-plugins\gstrtsp.dll"
+  File "/oname=gstsoup.dll" "gstreamer-plugins\gstsoup.dll"
+  File "/oname=gstspectrum.dll" "gstreamer-plugins\gstspectrum.dll"
+  File "/oname=gstspeex.dll" "gstreamer-plugins\gstspeex.dll"
+  File "/oname=gsttcp.dll" "gstreamer-plugins\gsttcp.dll"
+  File "/oname=gsttypefindfunctions.dll" "gstreamer-plugins\gsttypefindfunctions.dll"
+  File "/oname=gstudp.dll" "gstreamer-plugins\gstudp.dll"
+  File "/oname=gstvolume.dll" "gstreamer-plugins\gstvolume.dll"
+  File "/oname=gstvorbis.dll" "gstreamer-plugins\gstvorbis.dll"
+  File "/oname=gstwasapi.dll" "gstreamer-plugins\gstwasapi.dll"
+  File "/oname=gstwavpack.dll" "gstreamer-plugins\gstwavpack.dll"
+  File "/oname=gstwavparse.dll" "gstreamer-plugins\gstwavparse.dll"
+  File "/oname=gstxingmux.dll" "gstreamer-plugins\gstxingmux.dll"
+!endif ; MSVC
 
 SectionEnd
 
@@ -436,9 +573,15 @@ Section "Uninstall"
   Delete "$INSTDIR\strawberry.exe"
   Delete "$INSTDIR\strawberry-tagreader.exe"
   Delete "$INSTDIR\strawberry.ico"
+!ifdef mingw
   Delete "$INSTDIR\sqlite3.exe"
+!endif
   Delete "$INSTDIR\gst-launch-1.0.exe"
   Delete "$INSTDIR\gst-discoverer-1.0.exe"
+
+  ; MinGW specific files
+
+!ifdef mingw
 
 !ifdef arch_x86
   Delete "$INSTDIR\libgcc_s_sjlj-1.dll"
@@ -462,12 +605,10 @@ Section "Uninstall"
   Delete "$INSTDIR\libcdio-19.dll"
   Delete "$INSTDIR\libchromaprint.dll"
   Delete "$INSTDIR\libdl.dll"
-  Delete "$INSTDIR\libffi-8.dll"
-  Delete "$INSTDIR\libfftw3-3.dll"
-  Delete "$INSTDIR\libFLAC-8.dll"
-  Delete "$INSTDIR\libfreetype-6.dll"
   Delete "$INSTDIR\libfaac-0.dll"
   Delete "$INSTDIR\libfaad-2.dll"
+  Delete "$INSTDIR\libffi-8.dll"
+  Delete "$INSTDIR\libfreetype-6.dll"
   Delete "$INSTDIR\libgio-2.0-0.dll"
   Delete "$INSTDIR\libglib-2.0-0.dll"
   Delete "$INSTDIR\libgmodule-2.0-0.dll"
@@ -493,49 +634,35 @@ Section "Uninstall"
   Delete "$INSTDIR\libgstvideo-1.0-0.dll"
   Delete "$INSTDIR\libharfbuzz-0.dll"
   Delete "$INSTDIR\libhogweed-6.dll"
-  Delete "$INSTDIR\libiconv-2.dll"
   Delete "$INSTDIR\libidn2-0.dll"
   Delete "$INSTDIR\libintl-8.dll"
   Delete "$INSTDIR\libjpeg-9.dll"
   Delete "$INSTDIR\liblzma-5.dll"
-  Delete "$INSTDIR\libmp3lame-0.dll"
   Delete "$INSTDIR\libnettle-8.dll"
-  Delete "$INSTDIR\libogg-0.dll"
+  Delete "$INSTDIR\libnghttp2.dll"
   Delete "$INSTDIR\libopenmpt-0.dll"
   Delete "$INSTDIR\libopus-0.dll"
   Delete "$INSTDIR\liborc-0.4-0.dll"
   Delete "$INSTDIR\libpcre-1.dll"
   Delete "$INSTDIR\libpcre2-16-0.dll"
   Delete "$INSTDIR\libpng16-16.dll"
-  Delete "$INSTDIR\libpsl-5.dll"
   Delete "$INSTDIR\libprotobuf-30.dll"
+  Delete "$INSTDIR\libpsl-5.dll"
   Delete "$INSTDIR\libqtsparkle-qt6.dll"
-  Delete "$INSTDIR\libspeex-1.dll"
+  Delete "$INSTDIR\libsoup-3.0-0.dll"
   Delete "$INSTDIR\libsqlite3-0.dll"
   Delete "$INSTDIR\libssp-0.dll"
   Delete "$INSTDIR\libstdc++-6.dll"
-  Delete "$INSTDIR\libsoup-3.0-0.dll"
   Delete "$INSTDIR\libtag.dll"
   Delete "$INSTDIR\libtasn1-6.dll"
   Delete "$INSTDIR\libunistring-2.dll"
-  Delete "$INSTDIR\libvorbis-0.dll"
-  Delete "$INSTDIR\libvorbisenc-2.dll"
   Delete "$INSTDIR\libvorbisfile-3.dll"
   Delete "$INSTDIR\libwavpack-1.dll"
-  Delete "$INSTDIR\libwinpthread-1.dll"
-  Delete "$INSTDIR\libxml2-2.dll"
   Delete "$INSTDIR\libzstd.dll"
   Delete "$INSTDIR\postproc-56.dll"
-  Delete "$INSTDIR\Qt6Concurrent.dll"
-  Delete "$INSTDIR\Qt6Core.dll"
-  Delete "$INSTDIR\Qt6Gui.dll"
-  Delete "$INSTDIR\Qt6Network.dll"
-  Delete "$INSTDIR\Qt6Sql.dll"
-  Delete "$INSTDIR\Qt6Widgets.dll"
   Delete "$INSTDIR\swresample-4.dll"
   Delete "$INSTDIR\swscale-6.dll"
   Delete "$INSTDIR\zlib1.dll"
-  Delete "$INSTDIR\libnghttp2.dll"
 
 !ifdef debug
   Delete "$INSTDIR\gdb.exe"
@@ -546,7 +673,85 @@ Section "Uninstall"
   Delete "$INSTDIR\libtermcap.dll"
 !endif
 
+!endif ; MinGW
+
+; MSVC specific files
+
+!ifdef msvc
+
+!ifdef arch_x86
+  Delete "$INSTDIR\libcrypto-1_1.dll"
+  Delete "$INSTDIR\libssl-1_1.dll"
+!endif
+!ifdef arch_x64
+  Delete "$INSTDIR\libcrypto-1_1-x64.dll"
+  Delete "$INSTDIR\libssl-1_1-x64.dll"
+!endif
+
+  Delete "$INSTDIR\avcodec-58.dll"
+  Delete "$INSTDIR\avfilter-7.dll"
+  Delete "$INSTDIR\avformat-58.dll"
+  Delete "$INSTDIR\avutil-56.dll"
+  Delete "$INSTDIR\bz2.dll"
+  Delete "$INSTDIR\chromaprint.dll"
+  Delete "$INSTDIR\ffi-7.dll"
+  Delete "$INSTDIR\gio-2.0-0.dll"
+  Delete "$INSTDIR\glib-2.0-0.dll"
+  Delete "$INSTDIR\gmodule-2.0-0.dll"
+  Delete "$INSTDIR\gnutls.dll"
+  Delete "$INSTDIR\gobject-2.0-0.dll"
+  Delete "$INSTDIR\gstapp-1.0-0.dll"
+  Delete "$INSTDIR\gstaudio-1.0-0.dll"
+  Delete "$INSTDIR\gstbase-1.0-0.dll"
+  Delete "$INSTDIR\gstfft-1.0-0.dll"
+  Delete "$INSTDIR\gstnet-1.0-0.dll"
+  Delete "$INSTDIR\gstpbutils-1.0-0.dll"
+  Delete "$INSTDIR\gstreamer-1.0-0.dll"
+  Delete "$INSTDIR\gstriff-1.0-0.dll"
+  Delete "$INSTDIR\gstrtp-1.0-0.dll"
+  Delete "$INSTDIR\gstrtsp-1.0-0.dll"
+  Delete "$INSTDIR\gstsdp-1.0-0.dll"
+  Delete "$INSTDIR\gsttag-1.0-0.dll"
+  Delete "$INSTDIR\gstvideo-1.0-0.dll"
+  Delete "$INSTDIR\intl-8.dll"
+  Delete "$INSTDIR\libprotobuf.dll"
+  Delete "$INSTDIR\opus-0.dll"
+  Delete "$INSTDIR\orc-0.4-0.dll"
+  Delete "$INSTDIR\psl-5.dll"
+  Delete "$INSTDIR\soup-2.4-1.dll"
+  Delete "$INSTDIR\sqlite3-0.dll"
+  Delete "$INSTDIR\swresample-3.dll"
+  Delete "$INSTDIR\tag.dll"
+  Delete "$INSTDIR\z-1.dll"
+
+!endif ; MSVC
+
+  ; Common files
+
+  Delete "$INSTDIR\libfftw3-3.dll"
+  Delete "$INSTDIR\libFLAC-8.dll"
+  Delete "$INSTDIR\libiconv-2.dll"
+  Delete "$INSTDIR\libmp3lame-0.dll"
+  Delete "$INSTDIR\libogg-0.dll"
+  Delete "$INSTDIR\libspeex-1.dll"
+  Delete "$INSTDIR\libvorbis-0.dll"
+  Delete "$INSTDIR\libvorbisenc-2.dll"
+  Delete "$INSTDIR\libwinpthread-1.dll"
+  Delete "$INSTDIR\libxml2-2.dll"
+  Delete "$INSTDIR\Qt6Concurrent.dll"
+  Delete "$INSTDIR\Qt6Core.dll"
+  Delete "$INSTDIR\Qt6Gui.dll"
+  Delete "$INSTDIR\Qt6Network.dll"
+  Delete "$INSTDIR\Qt6Sql.dll"
+  Delete "$INSTDIR\Qt6Widgets.dll"
+
+!ifdef mingw
   Delete "$INSTDIR\gio-modules\libgiognutls.dll"
+!endif
+!ifdef msvc
+  Delete "$INSTDIR\gio-modules\giognutls.dll"
+!endif
+
   Delete "$INSTDIR\platforms\qwindows.dll"
   Delete "$INSTDIR\styles\qwindowsvistastyle.dll"
   Delete "$INSTDIR\tls\qopensslbackend.dll"
@@ -556,55 +761,107 @@ Section "Uninstall"
   Delete "$INSTDIR\imageformats\qico.dll"
   Delete "$INSTDIR\imageformats\qjpeg.dll"
 
-  Delete $INSTDIR\gstreamer-plugins\libgstaiff.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstapetag.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstapp.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstasf.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstasfmux.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstaudioconvert.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstaudiofx.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstaudiomixer.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstaudioparsers.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstaudiorate.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstaudioresample.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstaudiotestsrc.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstautodetect.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstcdio.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstcoreelements.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstdash.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstdirectsound.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstequalizer.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstflac.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstfaac.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstfaad.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstgio.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgsticydemux.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstid3demux.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstisomp4.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstlame.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstlibav.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstogg.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstopenmpt.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstopus.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstopusparse.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstpbtypes.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstplayback.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstreplaygain.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstrtp.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstrtsp.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstsoup.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstspectrum.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstspeex.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgsttaglib.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgsttcp.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgsttypefindfunctions.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstudp.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstvolume.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstvorbis.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstwasapi.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstwavpack.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstwavparse.dll"
-  Delete $INSTDIR\gstreamer-plugins\libgstxingmux.dll"
+  ; MinGW GStreamer plugins
+
+!ifdef mingw
+  Delete "$INSTDIR\gstreamer-plugins\libgstaiff.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstapetag.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstapp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstasf.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstasfmux.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstaudioconvert.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstaudiofx.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstaudiomixer.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstaudioparsers.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstaudiorate.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstaudioresample.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstaudiotestsrc.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstautodetect.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstcdio.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstcoreelements.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstdash.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstdirectsound.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstequalizer.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstflac.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstfaac.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstfaad.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstgio.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgsticydemux.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstid3demux.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstisomp4.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstlame.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstlibav.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstogg.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstopenmpt.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstopus.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstopusparse.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstpbtypes.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstplayback.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstreplaygain.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstrtp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstrtsp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstsoup.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstspectrum.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstspeex.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgsttaglib.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgsttcp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgsttypefindfunctions.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstudp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstvolume.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstvorbis.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstwasapi.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstwavpack.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstwavparse.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstxingmux.dll"
+!endif ; mingw
+
+  ; MSVC GStreamer plugins
+
+!ifdef msvc
+  Delete "$INSTDIR\gstreamer-plugins\gstaiff.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstapetag.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstapp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstasf.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstasfmux.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstaudioconvert.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstaudiofx.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstaudiomixer.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstaudioparsers.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstaudiorate.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstaudioresample.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstaudiotestsrc.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstautodetect.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstcoreelements.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstdash.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstdirectsound.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstequalizer.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstflac.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstgio.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gsticydemux.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstid3demux.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstisomp4.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstlame.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstlibav.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstogg.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstopus.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstopusparse.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstplayback.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstreplaygain.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstrtp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstrtsp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstsoup.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstspectrum.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstspeex.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gsttcp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gsttypefindfunctions.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstudp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstvolume.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstvorbis.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstwasapi.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstwavpack.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstwavparse.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstxingmux.dll"
+!endif ; msvc
 
   Delete $INSTDIR\Uninstall.exe"
 
