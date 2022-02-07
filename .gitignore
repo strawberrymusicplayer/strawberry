@@ -119,3 +119,8 @@ stage/
 *.snap
 /snap/.snapcraft/
 /*_source.tar.bz2
+
+# MSVC
+CMakeSettings.json
+/.vs/
+/out/
