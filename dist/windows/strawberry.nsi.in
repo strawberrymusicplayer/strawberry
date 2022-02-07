@@ -108,7 +108,7 @@ SetCompressor /SOLID lzma
 !endif
 
 !ifdef msvc
-  ReserveFile "${NSISDIR}\Plugins\LockedList.dll"
+  ReserveFile "${NSISDIR}\Plugins\x86-unicode\LockedList.dll"
   ReserveFile "${NSISDIR}\Plugins\LockedList64.dll"
 !endif
 
