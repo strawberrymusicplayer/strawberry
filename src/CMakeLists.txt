@@ -943,7 +943,6 @@ link_directories(
   ${SQLITE_LIBRARY_DIRS}
   ${SINGLEAPPLICATION_LIBRARY_DIRS}
   ${SINGLECOREAPPLICATION_LIBRARY_DIRS}
-  ${QTSPARKLE_LIBRARY_DIRS}
   ${Iconv_LIBRARY_DIRS}
 )
 
@@ -1010,6 +1009,10 @@ if(USE_TAGPARSER AND TAGPARSER_FOUND)
   link_directories(${TAGPARSER_LIBRARY_DIRS})
 endif()
 
+if(HAVE_QTSPARKLE)
+  link_directories(${QTSPARKLE_LIBRARY_DIRS})
+endif()
+
 add_library(strawberry_lib STATIC
   ${SOURCES}
   ${MOC}
@@ -1054,7 +1057,6 @@ target_link_libraries(strawberry_lib PUBLIC
   ${QT_LIBRARIES}
   ${SINGLEAPPLICATION_LIBRARIES}
   ${SINGLECOREAPPLICATION_LIBRARIES}
-  ${QTSPARKLE_LIBRARIES}
   ${Iconv_LIBRARIES}
   libstrawberry-common
   libstrawberry-tagreader
@@ -1159,8 +1161,6 @@ if(WIN32)
   target_link_libraries(strawberry_lib PRIVATE dsound dwmapi)
   if(MSVC)
     target_link_libraries(strawberry_lib PRIVATE sqlite3)
-  endif()
-  if(MSVC)
     if (GETOPT_INCLUDE_DIRS)
       target_include_directories(strawberry_lib SYSTEM PRIVATE ${GETOPT_INCLUDE_DIRS})
     endif()
@@ -1168,6 +1168,11 @@ if(WIN32)
       target_link_libraries(strawberry_lib PRIVATE ${GETOPT_LIBRARIES})
     endif()
   endif()
+endif()
+
+if(HAVE_QTSPARKLE)
+  target_include_directories(strawberry_lib SYSTEM PRIVATE ${QTSPARKLE_INCLUDE_DIRS})
+  target_link_libraries(strawberry_lib PRIVATE ${QTSPARKLE_LIBRARIES})
 endif()
 
 ###############################################################################
