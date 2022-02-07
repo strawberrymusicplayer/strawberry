@@ -910,7 +910,7 @@ msgstr "Aspetto"
 msgid "Append explicit to album title for explicit albums"
 msgstr ""
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:184
 msgid "Append files/URLs to the playlist"
 msgstr "Aggiungi file/URL alla scaletta"
 
@@ -1218,7 +1218,7 @@ msgstr "Cambia la scorciatoia..."
 msgid "Change the currently playing song"
 msgstr "Cambierà la traccia in riproduzione"
 
-#: core/commandlineoptions.cpp:193
+#: core/commandlineoptions.cpp:190
 msgid "Change the language"
 msgstr "Cambia la lingua"
 
@@ -1341,7 +1341,7 @@ msgstr ""
 msgid "Colors"
 msgstr "Colori"
 
-#: core/commandlineoptions.cpp:197
+#: core/commandlineoptions.cpp:194
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Elenco separato da virgole di classe:livello, livello è 0-3"
 
@@ -1569,7 +1569,7 @@ msgstr ""
 msgid "Covers from %1"
 msgstr "Copertine da %1"
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:183
 msgid "Create a new playlist with files"
 msgstr "Crea una nuova playlist con i file"
 
@@ -1693,11 +1693,11 @@ msgstr "Data di creazione"
 msgid "Days"
 msgstr ""
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:176
 msgid "Decrease the volume by 4 percent"
 msgstr "Diminuisce il volume del 4 percento"
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:178
 msgid "Decrease the volume by <value> percent"
 msgstr "Riduci il volume del <value> percento"
 
@@ -1827,7 +1827,7 @@ msgstr ""
 msgid "Display options"
 msgstr "Opzioni di visualizzazione"
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:188
 msgid "Display the on-screen-display"
 msgstr "Visualizza l'on-screen-display"
 
@@ -2071,11 +2071,11 @@ msgstr "Collezione completa"
 msgid "Equalizer"
 msgstr "Equalizzatore"
 
-#: core/commandlineoptions.cpp:195
+#: core/commandlineoptions.cpp:192
 msgid "Equivalent to --log-levels *:1"
 msgstr "Equivalente a --log-levels *:1"
 
-#: core/commandlineoptions.cpp:196
+#: core/commandlineoptions.cpp:193
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente a --log-levels *:3"
 
@@ -2732,11 +2732,11 @@ msgstr "Includi copertina nella notifica"
 msgid "Include all songs"
 msgstr ""
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:175
 msgid "Increase the volume by 4 percent"
 msgstr "Aumenta il volume del 4 percento"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:177
 msgid "Increase the volume by <value> percent"
 msgstr "Aumenta il volume del <value> percento"
 
@@ -2925,7 +2925,7 @@ msgstr "Caricamento informazioni della traccia"
 msgid "Loading..."
 msgstr "Caricamento in corso..."
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:185
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Carica file/URL, sostituendo la scaletta attuale"
 
@@ -3456,7 +3456,7 @@ msgstr "Anno originale - Album"
 msgid "Original year - Album - Disc"
 msgstr ""
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:188
 msgid "Other options"
 msgstr "Altre opzioni"
 
@@ -3518,7 +3518,7 @@ msgstr ""
 msgid "Pause"
 msgstr "Pausa"
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:170
 msgid "Pause playback"
 msgstr "Sospendi riproduzione"
 
@@ -3559,11 +3559,11 @@ msgstr "Contatore di riproduzione"
 msgid "Play counts"
 msgstr ""
 
-#: core/commandlineoptions.cpp:190
+#: core/commandlineoptions.cpp:187
 msgid "Play given playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:169
 msgid "Play if stopped, pause if playing"
 msgstr "Riproduci se fermata, sospendi se in riproduzione"
 
@@ -3576,7 +3576,7 @@ msgstr "Riproduci se non c'è altro in riproduzione"
 msgid "Play next"
 msgstr ""
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:186
 msgid "Play the <n>th track in the playlist"
 msgstr "Riproduci la traccia numero <n> della scaletta"
 
@@ -3590,7 +3590,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr ""
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:167
 msgid "Player options"
 msgstr "Opzioni del lettore"
 
@@ -3620,7 +3620,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr ""
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:182
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Opzioni della scaletta"
@@ -3743,7 +3743,7 @@ msgstr "Precedente"
 msgid "Previous track"
 msgstr "Traccia precedente"
 
-#: core/commandlineoptions.cpp:198
+#: core/commandlineoptions.cpp:195
 msgid "Print out version information"
 msgstr "Mostra le informazioni di versione"
 
@@ -4036,7 +4036,7 @@ msgstr "Azzera"
 msgid "Reset play counts"
 msgstr "Azzera i contatori"
 
-#: core/commandlineoptions.cpp:194
+#: core/commandlineoptions.cpp:191
 msgid "Resize the window"
 msgstr ""
 
@@ -4044,7 +4044,7 @@ msgstr ""
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "Riavvia il brano, poi salta alla precedente se premuto ancora"
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:181
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
@@ -4223,7 +4223,7 @@ msgstr "Gestore raggruppamenti salvati"
 msgid "Saving album covers"
 msgstr "Salvataggio delle copertine dell'album"
 
-#: collection/collection.cpp:206
+#: collection/collection.cpp:208
 msgid "Saving playcounts and ratings"
 msgstr ""
 
@@ -4304,11 +4304,11 @@ msgstr "Secondo livello"
 msgid "Second level"
 msgstr "Secondo livello"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:180
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Sposta la traccia in riproduzione di una quantità relativa"
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:179
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Sposta la traccia in riproduzione su una posizione assoluta"
 
@@ -4367,7 +4367,7 @@ msgstr ""
 msgid "Set %1 to \"%2\"..."
 msgstr "Imposta %1 a \"%2\"..."
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:174
 msgid "Set the volume to <value> percent"
 msgstr "Imposta il volume al <value> percento"
 
@@ -4584,7 +4584,7 @@ msgstr "Dimensioni:"
 msgid "Ska"
 msgstr "Ska"
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:172
 msgid "Skip backwards in playlist"
 msgstr "Salta indietro nella scaletta"
 
@@ -4592,7 +4592,7 @@ msgstr "Salta indietro nella scaletta"
 msgid "Skip count"
 msgstr "Salta il conteggio"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:173
 msgid "Skip forwards in playlist"
 msgstr "Salta in avanti nella scaletta"
 
@@ -4696,7 +4696,7 @@ msgstr "Standard"
 msgid "Star playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:168
 msgid "Start the playlist currently playing"
 msgstr "Avvia la scaletta attualmente in riproduzione"
 
@@ -4721,11 +4721,11 @@ msgstr "Ferma dopo tutte le tracce"
 msgid "Stop after this track"
 msgstr "Ferma dopo questa traccia"
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:170
 msgid "Stop playback"
 msgstr "Ferma riproduzione"
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:171
 msgid "Stop playback after current track"
 msgstr "Ferma la riproduzione dopo la traccia corrente"
 
@@ -5113,7 +5113,7 @@ msgstr "Commuta lo scrobbling"
 msgid "Toggle skip status"
 msgstr "Attiva / Disattiva lo status di ignoramento"
 
-#: core/commandlineoptions.cpp:192
+#: core/commandlineoptions.cpp:189
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Commuta la visibilità di Pretty OSD"
 
@@ -5172,7 +5172,7 @@ msgstr ""
 msgid "URI"
 msgstr "URI"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:166
 msgid "URL(s)"
 msgstr "URL"
 
@@ -5254,7 +5254,7 @@ msgstr "Superiore Sinistro"
 msgid "Upper Right"
 msgstr "Superiore Destro"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:166
 msgid "Usage"
 msgstr "Utilizzo"
 
@@ -5733,7 +5733,7 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:166
 msgid "options"
 msgstr "opzioni"
 

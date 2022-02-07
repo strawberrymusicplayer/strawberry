@@ -933,7 +933,7 @@ msgstr "Вигляд"
 msgid "Append explicit to album title for explicit albums"
 msgstr "Додати явний текст до назви альбому для явних альбомів"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:184
 msgid "Append files/URLs to the playlist"
 msgstr "Додати файли/адреси до списку відтворення"
 
@@ -1242,7 +1242,7 @@ msgstr "Змінити комбінацію клавіш..."
 msgid "Change the currently playing song"
 msgstr "Змінити поточну відтворювану композицію"
 
-#: core/commandlineoptions.cpp:193
+#: core/commandlineoptions.cpp:190
 msgid "Change the language"
 msgstr "Змінити мову"
 
@@ -1371,7 +1371,7 @@ msgstr "Пошук по фонотеці"
 msgid "Colors"
 msgstr "Кольори"
 
-#: core/commandlineoptions.cpp:197
+#: core/commandlineoptions.cpp:194
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr ""
 "Список, розділений комами, виду клас:рівень, рівень може бути від 0 до 3"
@@ -1602,7 +1602,7 @@ msgstr "Обкладинки"
 msgid "Covers from %1"
 msgstr "Обкладинки з %1"
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:183
 msgid "Create a new playlist with files"
 msgstr "Створити новий список відтворення з файлів"
 
@@ -1726,11 +1726,11 @@ msgstr "Дата зміни"
 msgid "Days"
 msgstr "Дні"
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:176
 msgid "Decrease the volume by 4 percent"
 msgstr "Зменшити гучність на 4 відсотки"
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:178
 msgid "Decrease the volume by <value> percent"
 msgstr "Зменшити гучність на <value> відсотків"
 
@@ -1860,7 +1860,7 @@ msgstr "Розмір кешу диска"
 msgid "Display options"
 msgstr "Налаштування відображення"
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:188
 msgid "Display the on-screen-display"
 msgstr "Показувати екранні повідомлення"
 
@@ -2104,11 +2104,11 @@ msgstr "Вся фонотека"
 msgid "Equalizer"
 msgstr "Еквалайзер"
 
-#: core/commandlineoptions.cpp:195
+#: core/commandlineoptions.cpp:192
 msgid "Equivalent to --log-levels *:1"
 msgstr "Відповідає --log-levels *:1"
 
-#: core/commandlineoptions.cpp:196
+#: core/commandlineoptions.cpp:193
 msgid "Equivalent to --log-levels *:3"
 msgstr "Відповідає --log-levels *:3"
 
@@ -2768,11 +2768,11 @@ msgstr "Показувати обкладинку в сповіщенні"
 msgid "Include all songs"
 msgstr "Показати всі композиції"
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:175
 msgid "Increase the volume by 4 percent"
 msgstr "Збільшити гучність на 4 відсотки"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:177
 msgid "Increase the volume by <value> percent"
 msgstr "Збільшити гучність на <value> відсотків"
 
@@ -2963,7 +2963,7 @@ msgstr "Завантаження даних композицій"
 msgid "Loading..."
 msgstr "Завантаження..."
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:185
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Завантажити файли/адреси і замінити поточний список відтворення"
 
@@ -3495,7 +3495,7 @@ msgstr "Рік оригіналу – Альбом"
 msgid "Original year - Album - Disc"
 msgstr "Рік оригіналу – Альбом – Диск"
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:188
 msgid "Other options"
 msgstr "Інші налаштування"
 
@@ -3559,7 +3559,7 @@ msgstr "Шаблон"
 msgid "Pause"
 msgstr "Призупинити"
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:170
 msgid "Pause playback"
 msgstr "Призупинити відтворення"
 
@@ -3600,11 +3600,11 @@ msgstr "Кількість відтворень"
 msgid "Play counts"
 msgstr "Кількості відтворень"
 
-#: core/commandlineoptions.cpp:190
+#: core/commandlineoptions.cpp:187
 msgid "Play given playlist"
 msgstr "Відтворити наданий список відтворення"
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:169
 msgid "Play if stopped, pause if playing"
 msgstr "Відтворити, якщо зупинено. Призупинити, якщо відтворюється"
 
@@ -3617,7 +3617,7 @@ msgstr "Відтворювати, якщо зараз нічого не відт
 msgid "Play next"
 msgstr "Відтворити наступну"
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:186
 msgid "Play the <n>th track in the playlist"
 msgstr "Відтворити композицію <n> у списку відтворення"
 
@@ -3633,7 +3633,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr "Кількість відтворень для %1 отриманих композицій."
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:167
 msgid "Player options"
 msgstr "Налаштування програвача"
 
@@ -3665,7 +3665,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr "Спочатку необхідно відкрити список відтворення."
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:182
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Налаштування списку відтворення"
@@ -3787,7 +3787,7 @@ msgstr "Попередня"
 msgid "Previous track"
 msgstr "Попередня композиція"
 
-#: core/commandlineoptions.cpp:198
+#: core/commandlineoptions.cpp:195
 msgid "Print out version information"
 msgstr "Показати відомості про версію"
 
@@ -4089,7 +4089,7 @@ msgstr "Скинути"
 msgid "Reset play counts"
 msgstr "Скинути лічильник відтворень"
 
-#: core/commandlineoptions.cpp:194
+#: core/commandlineoptions.cpp:191
 msgid "Resize the window"
 msgstr "Змінити розмір вікна"
 
@@ -4099,7 +4099,7 @@ msgstr ""
 "Перезапустити композицію, потім перейти до попередньої, якщо натиснуто ще "
 "раз"
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:181
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
@@ -4278,7 +4278,7 @@ msgstr "Керування збереженими групуваннями"
 msgid "Saving album covers"
 msgstr "Збереження обкладинок альбомів"
 
-#: collection/collection.cpp:206
+#: collection/collection.cpp:208
 msgid "Saving playcounts and ratings"
 msgstr "Збереження кількостей відтворювань і рейтингів композицій"
 
@@ -4359,11 +4359,11 @@ msgstr "Другий рівень"
 msgid "Second level"
 msgstr "Другий рівень"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:180
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Трохи перемотати поточну композицію"
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:179
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Перемотати поточну композицію на абсолютну позицію"
 
@@ -4420,7 +4420,7 @@ msgstr "Скроблінг на боці сервера"
 msgid "Set %1 to \"%2\"..."
 msgstr "Встановити %1 у «%2»..."
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:174
 msgid "Set the volume to <value> percent"
 msgstr "Встановити гучність у <value> відсотків"
 
@@ -4636,7 +4636,7 @@ msgstr "Розмір:"
 msgid "Ska"
 msgstr "Ска"
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:172
 msgid "Skip backwards in playlist"
 msgstr "Перескочити назад в списку композицій"
 
@@ -4644,7 +4644,7 @@ msgstr "Перескочити назад в списку композицій"
 msgid "Skip count"
 msgstr "Кількість пропусків"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:173
 msgid "Skip forwards in playlist"
 msgstr "Перескочити вперед у списку композицій"
 
@@ -4747,7 +4747,7 @@ msgstr "Стандартний"
 msgid "Star playlist"
 msgstr "Список відтворення із зіркою"
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:168
 msgid "Start the playlist currently playing"
 msgstr "Запустити список відтворення, що відтворюється на цей час"
 
@@ -4772,11 +4772,11 @@ msgstr "Зупинятися після будь-якої композиції"
 msgid "Stop after this track"
 msgstr "Зупинити після цієї композиції"
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:170
 msgid "Stop playback"
 msgstr "Зупинити відтворення"
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:171
 msgid "Stop playback after current track"
 msgstr "Зупинити відтворення після поточної композиції"
 
@@ -5162,7 +5162,7 @@ msgstr "Змінити режим скроблінгу"
 msgid "Toggle skip status"
 msgstr "Змінити стан пропуску"
 
-#: core/commandlineoptions.cpp:192
+#: core/commandlineoptions.cpp:189
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Змінити режим видимості сповіщень"
 
@@ -5221,7 +5221,7 @@ msgstr "Вимкнути"
 msgid "URI"
 msgstr "Адреса"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:166
 msgid "URL(s)"
 msgstr "Адреси"
 
@@ -5303,7 +5303,7 @@ msgstr "Вгорі ліворуч"
 msgid "Upper Right"
 msgstr "Вгорі праворуч"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:166
 msgid "Usage"
 msgstr "Використання"
 
@@ -5791,7 +5791,7 @@ msgstr "спочатку настаріші"
 msgid "on"
 msgstr "на"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:166
 msgid "options"
 msgstr "налаштування"
 

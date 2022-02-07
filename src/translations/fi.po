@@ -907,7 +907,7 @@ msgstr "Ulkoasu"
 msgid "Append explicit to album title for explicit albums"
 msgstr ""
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:184
 msgid "Append files/URLs to the playlist"
 msgstr "Lisää tiedostoja/verkko-osoitteita soittolistalle"
 
@@ -1216,7 +1216,7 @@ msgstr "Vaihda pikanäppäin..."
 msgid "Change the currently playing song"
 msgstr "Vaihda parhaillaan toistettavaa kappaletta"
 
-#: core/commandlineoptions.cpp:193
+#: core/commandlineoptions.cpp:190
 msgid "Change the language"
 msgstr "Vaihda kieltä"
 
@@ -1340,7 +1340,7 @@ msgstr ""
 msgid "Colors"
 msgstr "Värit"
 
-#: core/commandlineoptions.cpp:197
+#: core/commandlineoptions.cpp:194
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr ""
 "Pilkuin erotettu lista luokka:taso -määritteitä, jossa taso on väliltä 0-3"
@@ -1568,7 +1568,7 @@ msgstr "Kansikuvat"
 msgid "Covers from %1"
 msgstr "Kansikuvat kohteesta %1"
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:183
 msgid "Create a new playlist with files"
 msgstr ""
 
@@ -1692,11 +1692,11 @@ msgstr "Muokattu"
 msgid "Days"
 msgstr "päivää"
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:176
 msgid "Decrease the volume by 4 percent"
 msgstr "Vähennä äänenvoimakkuutta 4 prosentilla"
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:178
 msgid "Decrease the volume by <value> percent"
 msgstr "Vähennä äänenvoimakkuutta <value> prosentilla"
 
@@ -1826,7 +1826,7 @@ msgstr "Levyvälimuistin koko"
 msgid "Display options"
 msgstr "Näkymäasetukset"
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:188
 msgid "Display the on-screen-display"
 msgstr "Näytä kuvaruutunäyttö"
 
@@ -2068,11 +2068,11 @@ msgstr "Koko kokoelma"
 msgid "Equalizer"
 msgstr "Taajuuskorjain"
 
-#: core/commandlineoptions.cpp:195
+#: core/commandlineoptions.cpp:192
 msgid "Equivalent to --log-levels *:1"
 msgstr "Vastaa --log-levels *:1"
 
-#: core/commandlineoptions.cpp:196
+#: core/commandlineoptions.cpp:193
 msgid "Equivalent to --log-levels *:3"
 msgstr "Vastaa --log-levels *:3"
 
@@ -2728,11 +2728,11 @@ msgstr "Näytä kansikuva ilmoituksen yhteydessä"
 msgid "Include all songs"
 msgstr ""
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:175
 msgid "Increase the volume by 4 percent"
 msgstr "Lisää äänenvoimakkuutta 4 prosentilla"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:177
 msgid "Increase the volume by <value> percent"
 msgstr "Lisää äänenvoimakkuutta <value> prosentilla"
 
@@ -2921,7 +2921,7 @@ msgstr "Lataa kappaleen tietoja"
 msgid "Loading..."
 msgstr "Ladataan..."
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:185
 msgid "Loads files/URLs, replacing current playlist"
 msgstr ""
 "Lataa tiedostoja tai verkko-osoitteita, korvaa samalla nykyinen soittolista"
@@ -3451,7 +3451,7 @@ msgstr "Alkuperäinen vuosi - albumi"
 msgid "Original year - Album - Disc"
 msgstr ""
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:188
 msgid "Other options"
 msgstr "Muut valinnat"
 
@@ -3513,7 +3513,7 @@ msgstr ""
 msgid "Pause"
 msgstr "Keskeytä"
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:170
 msgid "Pause playback"
 msgstr "Keskeytä toisto"
 
@@ -3554,11 +3554,11 @@ msgstr "Soittokertoja"
 msgid "Play counts"
 msgstr ""
 
-#: core/commandlineoptions.cpp:190
+#: core/commandlineoptions.cpp:187
 msgid "Play given playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:169
 msgid "Play if stopped, pause if playing"
 msgstr "Aloittaa tai pysäyttää soittamisen"
 
@@ -3571,7 +3571,7 @@ msgstr "Aloita toisto, jos mikään ei soi parhaillaan"
 msgid "Play next"
 msgstr "Toista seuraava"
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:186
 msgid "Play the <n>th track in the playlist"
 msgstr "Soita soittolistan <n>. kappale"
 
@@ -3585,7 +3585,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr ""
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:167
 msgid "Player options"
 msgstr "Soittimen asetukset"
 
@@ -3615,7 +3615,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr "Soittolista täytyy avata ensin."
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:182
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Soittolistan valinnat"
@@ -3732,7 +3732,7 @@ msgstr "Edellinen"
 msgid "Previous track"
 msgstr "Edellinen kappale"
 
-#: core/commandlineoptions.cpp:198
+#: core/commandlineoptions.cpp:195
 msgid "Print out version information"
 msgstr "Tulosta versiotiedot"
 
@@ -4023,7 +4023,7 @@ msgstr "Oletukset"
 msgid "Reset play counts"
 msgstr "Nollaa soittokerrat"
 
-#: core/commandlineoptions.cpp:194
+#: core/commandlineoptions.cpp:191
 msgid "Resize the window"
 msgstr ""
 
@@ -4032,7 +4032,7 @@ msgid "Restart song, then jump to previous if pressed again"
 msgstr ""
 "Käynnistä kappale uudelleen, siirry edelliseen jos painetaan uudellaan"
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:181
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
@@ -4211,7 +4211,7 @@ msgstr ""
 msgid "Saving album covers"
 msgstr "Tallennetaan kansikuvia"
 
-#: collection/collection.cpp:206
+#: collection/collection.cpp:208
 msgid "Saving playcounts and ratings"
 msgstr ""
 
@@ -4292,11 +4292,11 @@ msgstr "Toinen taso"
 msgid "Second level"
 msgstr "Toinen taso"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:180
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Siirry nykyisessä kappaleessa suhteellinen määrä"
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:179
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Siirry nykyisessä kappaleessa tiettyyn kohtaan"
 
@@ -4353,7 +4353,7 @@ msgstr ""
 msgid "Set %1 to \"%2\"..."
 msgstr "Aseta %1 %2:een"
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:174
 msgid "Set the volume to <value> percent"
 msgstr "Säädä äänenvoimakkuus <value> prosenttia"
 
@@ -4569,7 +4569,7 @@ msgstr "Koko:"
 msgid "Ska"
 msgstr "Ska"
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:172
 msgid "Skip backwards in playlist"
 msgstr "Siirry soittolistan edelliseen kappaleeseen"
 
@@ -4577,7 +4577,7 @@ msgstr "Siirry soittolistan edelliseen kappaleeseen"
 msgid "Skip count"
 msgstr "Ohituskerrat"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:173
 msgid "Skip forwards in playlist"
 msgstr "Siirry soittolistan seuraavaan kappaleeseen"
 
@@ -4677,7 +4677,7 @@ msgstr "Normaali"
 msgid "Star playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:168
 msgid "Start the playlist currently playing"
 msgstr ""
 
@@ -4702,11 +4702,11 @@ msgstr ""
 msgid "Stop after this track"
 msgstr "Pysäytä toistettavan kappaleen jälkeen"
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:170
 msgid "Stop playback"
 msgstr "Pysäytä toisto"
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:171
 msgid "Stop playback after current track"
 msgstr ""
 
@@ -5084,7 +5084,7 @@ msgstr "Valitse scrobbling"
 msgid "Toggle skip status"
 msgstr ""
 
-#: core/commandlineoptions.cpp:192
+#: core/commandlineoptions.cpp:189
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Kuvaruutunäyttö päälle / pois"
 
@@ -5143,7 +5143,7 @@ msgstr ""
 msgid "URI"
 msgstr "URI"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:166
 msgid "URL(s)"
 msgstr "Osoite/osoitteet"
 
@@ -5225,7 +5225,7 @@ msgstr "Vasen yläkulma"
 msgid "Upper Right"
 msgstr "Oikea yläkulma"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:166
 msgid "Usage"
 msgstr "Käyttötaso"
 
@@ -5707,7 +5707,7 @@ msgstr "vanhin ensin"
 msgid "on"
 msgstr ""
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:166
 msgid "options"
 msgstr "valinnat"
 
