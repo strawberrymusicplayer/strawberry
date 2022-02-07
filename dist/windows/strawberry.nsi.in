@@ -41,7 +41,7 @@
 !if "@CMAKE_BUILD_TYPE@" == "Debug"
   !define debug
   !undef build_type
-  !define build_type "-debug"
+  !define build_type "-Debug"
 !endif
 
 !ifdef debug
