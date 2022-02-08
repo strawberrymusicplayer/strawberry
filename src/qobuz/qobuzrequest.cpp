@@ -1123,6 +1123,8 @@ QString QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, QString
   song.set_url(url);
   song.set_length_nanosec(duration);
   song.set_art_automatic(cover_url);
+  song.set_performer(performer);
+  song.set_composer(composer);
   song.set_comment(copyright);
   song.set_directory_id(0);
   song.set_filetype(Song::FileType_Stream);
