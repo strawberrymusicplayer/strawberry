@@ -3286,7 +3286,7 @@ msgstr "Nincsenek exportálandó borítók."
 msgid "No long blocks"
 msgstr "Hosszú blokkok nélkül"
 
-#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1314
+#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1316
 msgid "No match."
 msgstr "Nincs egyezés."
 
@@ -4097,13 +4097,13 @@ msgid "Resume playback on start"
 msgstr "Lejátszás folytatása induláskor"
 
 #: subsonic/subsonicrequest.cpp:692 tidal/tidalrequest.cpp:1101
-#: qobuz/qobuzrequest.cpp:1146
+#: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Albumborító lekérése %1 albumhoz..."
 
 #: subsonic/subsonicrequest.cpp:693 tidal/tidalrequest.cpp:1102
-#: qobuz/qobuzrequest.cpp:1147
+#: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Albumborítók lekérése %1 albumokhoz..."
@@ -5228,7 +5228,7 @@ msgid "Unknown"
 msgstr "Ismeretlen"
 
 #: subsonic/subsonicrequest.cpp:885 tidal/tidalrequest.cpp:1275
-#: qobuz/qobuzrequest.cpp:1320
+#: qobuz/qobuzrequest.cpp:1322
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 

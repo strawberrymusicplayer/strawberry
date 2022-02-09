@@ -3270,7 +3270,7 @@ msgstr "No hay ninguna cubierta que exportar."
 msgid "No long blocks"
 msgstr "Sin bloques largos"
 
-#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1314
+#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1316
 msgid "No match."
 msgstr "Sin coincidencias."
 
@@ -4084,13 +4084,13 @@ msgid "Resume playback on start"
 msgstr "Reanudar la reproducción al iniciar"
 
 #: subsonic/subsonicrequest.cpp:692 tidal/tidalrequest.cpp:1101
-#: qobuz/qobuzrequest.cpp:1146
+#: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Buscando cubierta del álbum %1..."
 
 #: subsonic/subsonicrequest.cpp:693 tidal/tidalrequest.cpp:1102
-#: qobuz/qobuzrequest.cpp:1147
+#: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Buscando cubiertas de %1 álbumes."
@@ -5216,7 +5216,7 @@ msgid "Unknown"
 msgstr "Desconocido"
 
 #: subsonic/subsonicrequest.cpp:885 tidal/tidalrequest.cpp:1275
-#: qobuz/qobuzrequest.cpp:1320
+#: qobuz/qobuzrequest.cpp:1322
 msgid "Unknown error"
 msgstr "Error desconocido"
 

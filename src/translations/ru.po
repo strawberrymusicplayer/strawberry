@@ -3273,7 +3273,7 @@ msgstr "Нет обложек для экспорта."
 msgid "No long blocks"
 msgstr "Без длинных блоков"
 
-#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1314
+#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1316
 msgid "No match."
 msgstr "Не совпадает."
 
@@ -4073,13 +4073,13 @@ msgid "Resume playback on start"
 msgstr "Продолжить воспроизведение при запуске"
 
 #: subsonic/subsonicrequest.cpp:692 tidal/tidalrequest.cpp:1101
-#: qobuz/qobuzrequest.cpp:1146
+#: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Получение обложки альбома для %1"
 
 #: subsonic/subsonicrequest.cpp:693 tidal/tidalrequest.cpp:1102
-#: qobuz/qobuzrequest.cpp:1147
+#: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Получение обложек альбомов для %1"
@@ -5198,7 +5198,7 @@ msgid "Unknown"
 msgstr "Неизвестный"
 
 #: subsonic/subsonicrequest.cpp:885 tidal/tidalrequest.cpp:1275
-#: qobuz/qobuzrequest.cpp:1320
+#: qobuz/qobuzrequest.cpp:1322
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 

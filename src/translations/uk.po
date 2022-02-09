@@ -3296,7 +3296,7 @@ msgstr "Немає зображень обкладинок для експорт
 msgid "No long blocks"
 msgstr "Без довгих блоків"
 
-#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1314
+#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1316
 msgid "No match."
 msgstr "Немає збігів."
 
@@ -4119,13 +4119,13 @@ msgid "Resume playback on start"
 msgstr "Відновлювати відтворення після запуску"
 
 #: subsonic/subsonicrequest.cpp:692 tidal/tidalrequest.cpp:1101
-#: qobuz/qobuzrequest.cpp:1146
+#: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Завантаження обкладинки для %1 альбому..."
 
 #: subsonic/subsonicrequest.cpp:693 tidal/tidalrequest.cpp:1102
-#: qobuz/qobuzrequest.cpp:1147
+#: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Завантаження обкладинок для %1 альбомів..."
@@ -5248,7 +5248,7 @@ msgid "Unknown"
 msgstr "Невідомо"
 
 #: subsonic/subsonicrequest.cpp:885 tidal/tidalrequest.cpp:1275
-#: qobuz/qobuzrequest.cpp:1320
+#: qobuz/qobuzrequest.cpp:1322
 msgid "Unknown error"
 msgstr "Невідома помилка"
 

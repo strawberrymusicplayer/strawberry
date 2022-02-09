@@ -3285,7 +3285,7 @@ msgstr "Inga omslag att exportera."
 msgid "No long blocks"
 msgstr "Inga långa block"
 
-#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1314
+#: tidal/tidalrequest.cpp:1269 qobuz/qobuzrequest.cpp:1316
 msgid "No match."
 msgstr "Ingen matchning."
 
@@ -4100,13 +4100,13 @@ msgid "Resume playback on start"
 msgstr "Fortsätt uppspelning vid start"
 
 #: subsonic/subsonicrequest.cpp:692 tidal/tidalrequest.cpp:1101
-#: qobuz/qobuzrequest.cpp:1146
+#: qobuz/qobuzrequest.cpp:1148
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Hämtar albumomslag för %1 album..."
 
 #: subsonic/subsonicrequest.cpp:693 tidal/tidalrequest.cpp:1102
-#: qobuz/qobuzrequest.cpp:1147
+#: qobuz/qobuzrequest.cpp:1149
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Hämtar albumomslag för %1 album..."
@@ -5232,7 +5232,7 @@ msgid "Unknown"
 msgstr "Okänt"
 
 #: subsonic/subsonicrequest.cpp:885 tidal/tidalrequest.cpp:1275
-#: qobuz/qobuzrequest.cpp:1320
+#: qobuz/qobuzrequest.cpp:1322
 msgid "Unknown error"
 msgstr "Okänt fel"
 
