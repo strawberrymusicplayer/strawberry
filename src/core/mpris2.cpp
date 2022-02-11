@@ -410,9 +410,13 @@ void Mpris2::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &re
 
 }
 
-double Mpris2::Volume() const { return app_->player()->GetVolume() / 100.0; }
+double Mpris2::Volume() const {
+  return app_->player()->GetVolume() / 100.0;
+}
 
-void Mpris2::SetVolume(double value) { app_->player()->SetVolume(static_cast<int>(value * 100)); }
+void Mpris2::SetVolume(const double value) {
+  app_->player()->SetVolume(static_cast<uint>(std::max(std::min(lround(value * 100.0), 100L), 0L)));
+}
 
 qint64 Mpris2::Position() const {
   return app_->player()->engine()->position_nanosec() / kNsecPerUsec;

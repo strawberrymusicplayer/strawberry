@@ -145,7 +145,7 @@ class Mpris2 : public QObject {
   void SetShuffle(bool enable);
   QVariantMap Metadata() const;
   double Volume() const;
-  void SetVolume(double value);
+  void SetVolume(const double value);
   qint64 Position() const;
   double MaximumRate() const;
   double MinimumRate() const;
