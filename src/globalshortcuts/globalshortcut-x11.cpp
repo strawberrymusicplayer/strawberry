@@ -75,8 +75,7 @@ Display *X11Display() {
   QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
   if (!native) return nullptr;
 
-  void *display = native->nativeResourceForIntegration("display");
-  return reinterpret_cast<Display*>(display);
+  return reinterpret_cast<Display*>(native->nativeResourceForIntegration("display"));
 
 #else
 
