@@ -37,14 +37,14 @@
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
-#  include <QGuiApplication>
-#elif defined(HAVE_X11EXTRAS)
+#include <QGuiApplication>
+
+#if defined(HAVE_X11EXTRAS)
 #  include <QX11Info>
 #elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
 #  include <qpa/qplatformnativeinterface.h>
 #else
-#  error "Missing Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header."
+#  error "Missing X11Extras or qpa/qplatformnativeinterface.h header."
 #endif
 
 const QVector<quint32> GlobalShortcut::mask_modifiers_ = QVector<quint32>() << 0 << Mod2Mask << LockMask << (Mod2Mask | LockMask);
@@ -87,10 +87,10 @@ Display *X11Display() {
 
 quint32 AppRootWindow() {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)  // 6.2: Use the new native interface.
+#if 0  // 6.2: There currently isn't a way to access rootWindow through QX11Application.
 
   if (QNativeInterface::QX11Application *x11_app = qApp->nativeInterface<QNativeInterface::QX11Application>()) {
-    return static_cast<xcb_window_t>(reinterpret_cast<quintptr>(x11_app->connection()));
+    return static_cast<xcb_window_t>(reinterpret_cast<quintptr>(x11_app->rootWindow()));
   }
   else {
     return 0;
