@@ -183,10 +183,10 @@ bool GlobalShortcut::nativeEventFilter(const QByteArray &eventtype, void *messag
   Q_UNUSED(eventtype);
   Q_UNUSED(result);
 
-  xcb_generic_event_t *event = static_cast<xcb_generic_event_t *>(message);
+  xcb_generic_event_t *event = static_cast<xcb_generic_event_t*>(message);
   if ((event->response_type & 127) != XCB_KEY_PRESS) return false;
 
-  xcb_key_press_event_t *key_press_event = static_cast<xcb_key_press_event_t *>(message);
+  xcb_key_press_event_t *key_press_event = static_cast<xcb_key_press_event_t*>(message);
   if (!key_press_event) return false;
 
   quint32 keycode = key_press_event->detail;
