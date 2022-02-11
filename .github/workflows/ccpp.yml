@@ -559,10 +559,10 @@ jobs:
 
 
   build_openmandriva_cooker:
-    name: Build OpenMandriva Cooker
+    name: Build OpenMandriva Lx 4.2
     runs-on: ubuntu-latest
     container:
-      image: openmandriva/cooker
+      image: openmandriva/4.2
     env:
       RPM_BUILD_NCPUS: "2"
     steps:
