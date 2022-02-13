@@ -18,12 +18,13 @@
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Jonatan Nyberg <jonatan@autistici.org>, 2020. #zanata
 # Jonatan Nyberg <jonatan@autistici.org>, 2021. #zanata
+# Jonatan Nyberg <jonatan@autistici.org>, 2022. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-12-12 04:07-0500\n"
+"PO-Revision-Date: 2022-02-12 01:38-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -772,7 +773,7 @@ msgstr "Tillagda inom tre månader"
 
 #: ../build/src/ui_collectionsettingspage.h:628
 msgid "Advanced"
-msgstr ""
+msgstr "Avancerat"
 
 #: collection/collectionfilterwidget.cpp:300
 msgid "Advanced grouping..."
@@ -1768,7 +1769,7 @@ msgstr "Ta bort smart spellista"
 
 #: ../build/src/ui_subsonicsettingspage.h:259
 msgid "Delete songs"
-msgstr ""
+msgstr "Ta bort låtar"
 
 #: ../build/src/ui_organizedialog.h:263
 msgid "Delete the original files"
@@ -2669,7 +2670,7 @@ msgstr "Timmar"
 
 #: ../build/src/ui_collectionsettingspage.h:631
 msgid "I/O priority"
-msgstr ""
+msgstr "I/O-prioritet"
 
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
@@ -5104,7 +5105,7 @@ msgstr "Den här typen av enhet stöds inte: %1"
 
 #: ../build/src/ui_collectionsettingspage.h:630
 msgid "Thread priority"
-msgstr ""
+msgstr "Trådprioritet"
 
 #: core/mainwindow.cpp:361 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
