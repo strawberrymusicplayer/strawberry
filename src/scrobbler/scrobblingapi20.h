@@ -130,7 +130,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   void SendSingleScrobble(ScrobblerCacheItemPtr item);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   static QString ErrorString(const ScrobbleErrorCode error);
-  void DoSubmit() override;
+  void StartSubmit(const bool initial = false) override;
   void CheckScrobblePrevSong();
 
   QString name_;
@@ -154,6 +154,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   Song song_playing_;
   bool scrobbled_;
   quint64 timestamp_;
+  bool submit_error_;
 
   QTimer timer_submit_;
 

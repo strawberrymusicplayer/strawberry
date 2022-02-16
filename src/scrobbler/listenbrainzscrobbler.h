@@ -89,7 +89,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void AuthError(const QString &error);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   void RequestAccessToken(const QUrl &redirect_url = QUrl(), const QString &code = QString());
-  void DoSubmit() override;
+  void StartSubmit(const bool initial = false) override;
   void CheckScrobblePrevSong();
 
   static const char *kOAuthAuthorizeUrl;
@@ -118,6 +118,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   quint64 timestamp_;
   QTimer refresh_login_timer_;
   QTimer timer_submit_;
+  bool submit_error_;
 
   QList<QNetworkReply*> replies_;
 

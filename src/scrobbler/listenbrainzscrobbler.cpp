@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QtGlobal>
 #include <QDesktopServices>
 #include <QVariant>
@@ -73,7 +75,8 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent)
       login_time_(0),
       submitted_(false),
       scrobbled_(false),
-      timestamp_(0) {
+      timestamp_(0),
+      submit_error_(false) {
 
   refresh_login_timer_.setSingleShot(true);
   QObject::connect(&refresh_login_timer_, &QTimer::timeout, this, &ListenBrainzScrobbler::RequestNewAccessToken);
@@ -339,7 +342,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
 
   qLog(Debug) << "ListenBrainz: Authentication was successful, login expires in" << expires_in_;
 
-  DoSubmit();
+  StartSubmit();
 
 }
 
@@ -509,25 +512,22 @@ void ListenBrainzScrobbler::Scrobble(const Song &song) {
 
   if (app_->scrobbler()->IsOffline() || !IsAuthenticated()) return;
 
-  if (!submitted_) {
-    submitted_ = true;
-    if (app_->scrobbler()->SubmitDelay() <= 0) {
-      Submit();
-    }
-    else if (!timer_submit_.isActive()) {
-      timer_submit_.setInterval(static_cast<int>(app_->scrobbler()->SubmitDelay() * kMsecPerSec));
-      timer_submit_.start();
-    }
-  }
+  StartSubmit();
 
 }
 
-void ListenBrainzScrobbler::DoSubmit() {
+void ListenBrainzScrobbler::StartSubmit(const bool initial) {
 
   if (!submitted_ && cache_->Count() > 0) {
-    submitted_ = true;
-    if (!timer_submit_.isActive()) {
-      timer_submit_.setInterval(static_cast<int>(app_->scrobbler()->SubmitDelay() * kMsecPerSec));
+    if (initial && app_->scrobbler()->SubmitDelay() <= 0 && !submit_error_) {
+      if (timer_submit_.isActive()) {
+        timer_submit_.stop();
+      }
+      Submit();
+    }
+    else if (!timer_submit_.isActive()) {
+      int submit_delay = static_cast<int>(std::max(app_->scrobbler()->SubmitDelay(), submit_error_ ? 30 : 5) * kMsecPerSec);
+      timer_submit_.setInterval(submit_delay);
       timer_submit_.start();
     }
   }
@@ -537,8 +537,6 @@ void ListenBrainzScrobbler::DoSubmit() {
 void ListenBrainzScrobbler::Submit() {
 
   qLog(Debug) << "ListenBrainz: Submitting scrobbles.";
-
-  submitted_ = false;
 
   if (!IsEnabled() || !IsAuthenticated() || app_->scrobbler()->IsOffline()) return;
 
@@ -573,6 +571,8 @@ void ListenBrainzScrobbler::Submit() {
 
   if (i <= 0) return;
 
+  submitted_ = true;
+
   QJsonObject object;
   object.insert("listen_type", "import");
   object.insert("payload", array);
@@ -591,17 +591,21 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, const 
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
+  submitted_ = false;
+
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
     cache_->ClearSent(list);
-    DoSubmit();
+    submit_error_ = true;
+    StartSubmit();
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     cache_->ClearSent(list);
-    DoSubmit();
+    submit_error_ = true;
+    StartSubmit();
     return;
   }
 
@@ -609,7 +613,8 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, const 
     QString error_desc = json_obj["error_description"].toString();
     Error(error_desc);
     cache_->ClearSent(list);
-    DoSubmit();
+    submit_error_ = true;
+    StartSubmit();
     return;
   }
 
@@ -619,7 +624,8 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, const 
   }
 
   cache_->Flush(list);
-  DoSubmit();
+  submit_error_ = false;
+  StartSubmit();
 
 }
 

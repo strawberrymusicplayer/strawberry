@@ -79,7 +79,8 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
       subscriber_(false),
       submitted_(false),
       scrobbled_(false),
-      timestamp_(0) {
+      timestamp_(0),
+      submit_error_(false) {
 
   timer_submit_.setSingleShot(true);
   QObject::connect(&timer_submit_, &QTimer::timeout, this, &ScrobblingAPI20::Submit);
@@ -345,7 +346,7 @@ void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
 
   emit AuthenticationComplete(true);
 
-  DoSubmit();
+  StartSubmit();
 
 }
 
@@ -536,25 +537,22 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
     return;
   }
 
-  if (!submitted_) {
-    submitted_ = true;
-    if (!batch_ || app_->scrobbler()->SubmitDelay() <= 0) {
-      Submit();
-    }
-    else if (!timer_submit_.isActive()) {
-      timer_submit_.setInterval(static_cast<int>(app_->scrobbler()->SubmitDelay() * kMsecPerSec));
-      timer_submit_.start();
-    }
-  }
+  StartSubmit(true);
 
 }
 
-void ScrobblingAPI20::DoSubmit() {
+void ScrobblingAPI20::StartSubmit(const bool initial) {
 
   if (!submitted_ && cache()->Count() > 0) {
-    submitted_ = true;
-    if (!timer_submit_.isActive()) {
-      timer_submit_.setInterval(static_cast<int>(app_->scrobbler()->SubmitDelay() * kMsecPerSec));
+    if (initial && (!batch_ || app_->scrobbler()->SubmitDelay() <= 0) && !submit_error_) {
+      if (timer_submit_.isActive()) {
+        timer_submit_.stop();
+      }
+      Submit();
+    }
+    else if (!timer_submit_.isActive()) {
+      int submit_delay = static_cast<int>(std::max(app_->scrobbler()->SubmitDelay(), submit_error_ ? 30 : 5) * kMsecPerSec);
+      timer_submit_.setInterval(submit_delay);
       timer_submit_.start();
     }
   }
@@ -562,8 +560,6 @@ void ScrobblingAPI20::DoSubmit() {
 }
 
 void ScrobblingAPI20::Submit() {
-
-  submitted_ = false;
 
   if (!IsEnabled() || !IsAuthenticated() || app_->scrobbler()->IsOffline()) return;
 
@@ -601,6 +597,8 @@ void ScrobblingAPI20::Submit() {
 
   if (!batch_ || i <= 0) return;
 
+  submitted_ = true;
+
   QNetworkReply *reply = CreateRequest(params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, list]() { ScrobbleRequestFinished(reply, list); });
 
@@ -613,17 +611,21 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
+  submitted_ = false;
+
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
     cache()->ClearSent(list);
-    DoSubmit();
+    submit_error_ = true;
+    StartSubmit();
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     cache()->ClearSent(list);
-    DoSubmit();
+    submit_error_ = true;
+    StartSubmit();
     return;
   }
 
@@ -633,52 +635,53 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
     QString error_reason = QString("%1 (%2)").arg(error_message).arg(error_code);
     Error(error_reason);
     cache()->ClearSent(list);
-    DoSubmit();
-    return;
-  }
-
-  if (!json_obj.contains("scrobbles")) {
-    Error("Json reply from server is missing scrobbles.", json_obj);
-    cache()->ClearSent(list);
-    DoSubmit();
+    submit_error_ = true;
+    StartSubmit();
     return;
   }
 
   cache()->Flush(list);
+  submit_error_ = false;
+
+  if (!json_obj.contains("scrobbles")) {
+    Error("Json reply from server is missing scrobbles.", json_obj);
+    StartSubmit();
+    return;
+  }
 
   QJsonValue value_scrobbles = json_obj["scrobbles"];
   if (!value_scrobbles.isObject()) {
     Error("Json scrobbles is not an object.", json_obj);
-    DoSubmit();
+    StartSubmit();
     return;
   }
   json_obj = value_scrobbles.toObject();
   if (json_obj.isEmpty()) {
     Error("Json scrobbles object is empty.", value_scrobbles);
-    DoSubmit();
+    StartSubmit();
     return;
   }
   if (!json_obj.contains("@attr") || !json_obj.contains("scrobble")) {
     Error("Json scrobbles object is missing values.", json_obj);
-    DoSubmit();
+    StartSubmit();
     return;
   }
 
   QJsonValue value_attr = json_obj["@attr"];
   if (!value_attr.isObject()) {
     Error("Json scrobbles attr is not an object.", value_attr);
-    DoSubmit();
+    StartSubmit();
     return;
   }
   QJsonObject obj_attr = value_attr.toObject();
   if (obj_attr.isEmpty()) {
     Error("Json scrobbles attr is empty.", value_attr);
-    DoSubmit();
+    StartSubmit();
     return;
   }
   if (!obj_attr.contains("accepted") || !obj_attr.contains("ignored")) {
     Error("Json scrobbles attr is missing values.", obj_attr);
-    DoSubmit();
+    StartSubmit();
     return;
   }
   int accepted = obj_attr["accepted"].toInt();
@@ -693,7 +696,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
     QJsonObject obj_scrobble = value_scrobble.toObject();
     if (obj_scrobble.isEmpty()) {
       Error("Json scrobbles scrobble object is empty.", obj_scrobble);
-      DoSubmit();
+      StartSubmit();
       return;
     }
     array_scrobble.append(obj_scrobble);
@@ -702,13 +705,13 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
     array_scrobble = value_scrobble.toArray();
     if (array_scrobble.isEmpty()) {
       Error("Json scrobbles scrobble array is empty.", value_scrobble);
-      DoSubmit();
+      StartSubmit();
       return;
     }
   }
   else {
     Error("Json scrobbles scrobble is not an object or array.", value_scrobble);
-    DoSubmit();
+    StartSubmit();
     return;
   }
 
@@ -774,7 +777,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
 
  }
 
-  DoSubmit();
+  StartSubmit();
 
 }
 

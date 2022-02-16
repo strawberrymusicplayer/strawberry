@@ -52,7 +52,7 @@ class ScrobblerService : public QObject {
   virtual void Love() {}
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
 
-  virtual void DoSubmit() = 0;
+  virtual void StartSubmit(const bool initial = false) = 0;
   virtual void Submitted() = 0;
   virtual bool IsSubmitted() const { return false; }
 

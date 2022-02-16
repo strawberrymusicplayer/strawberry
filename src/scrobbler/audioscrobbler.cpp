@@ -195,7 +195,7 @@ void AudioScrobbler::Submit() {
 
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled() || !service->IsAuthenticated() || service->IsSubmitted()) continue;
-    service->DoSubmit();
+    service->StartSubmit();
   }
 
 }
