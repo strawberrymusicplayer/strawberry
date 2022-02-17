@@ -114,7 +114,7 @@ msgstr " sekunder"
 msgid " songs"
 msgstr " låtar"
 
-#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
+#: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Skrobblarautentisering"
@@ -1496,7 +1496,7 @@ msgstr ""
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr "Det gick inte att öppna CUE-filen %1 för läsning: %2"
 
-#: scrobbler/scrobblingapi20.cpp:176
+#: scrobbler/scrobblingapi20.cpp:177
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 "Det gick inte att öppna webbadressen. Vänligen öppna den här webbadressen i "
@@ -2794,7 +2794,7 @@ msgstr "Internet-flikvy"
 msgid "Intro tracks"
 msgstr "Introduktionsspår"
 
-#: scrobbler/scrobblingapi20.cpp:211
+#: scrobbler/scrobblingapi20.cpp:212
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Ogiltigt svar från webbläsaren. Saknar token."
 
@@ -2886,7 +2886,7 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr "Begränsningar"
 
-#: scrobbler/listenbrainzscrobbler.cpp:181
+#: scrobbler/listenbrainzscrobbler.cpp:184
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz-autentisering"
 
@@ -3401,7 +3401,7 @@ msgstr "Visa endast de första"
 msgid "Opacity"
 msgstr "Opacitet"
 
-#: scrobbler/scrobblingapi20.cpp:167
+#: scrobbler/scrobblingapi20.cpp:168
 msgid "Open URL in web browser?"
 msgstr "Öppna webbadress i webbläsaren?"
 
@@ -3672,7 +3672,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Vänligen stäng din webbläsare och återgå till Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:148
-#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:181
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:184
 msgid "Please open this URL in your browser"
 msgstr "Vänligen öppna den här webbadressen i din webbläsare"
 
@@ -3729,7 +3729,7 @@ msgstr "Förinläsningsfunktionen var inte inställd för blockering."
 msgid "Preset:"
 msgstr "Förval:"
 
-#: scrobbler/scrobblingapi20.cpp:167
+#: scrobbler/scrobblingapi20.cpp:168
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3887,11 +3887,11 @@ msgstr ""
 "närvarande inte krypterade flöden."
 
 #: covermanager/spotifycoverprovider.cpp:197
-#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:207
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:210
 msgid "Received invalid reply from web browser."
 msgstr "Tog emot ogiltigt svar från webbläsaren."
 
-#: scrobbler/scrobblingapi20.cpp:215
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3928,7 +3928,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr "Omdirigering saknar tokenkod eller tillstånd!"
 
-#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:203
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:206
 msgid "Redirect missing token code!"
 msgstr "Omdirigering saknar token-kod!"
 
@@ -4280,12 +4280,12 @@ msgstr "Skalningsstorlek"
 msgid "Scrobbler"
 msgstr "Skrobblare"
 
-#: scrobbler/scrobblingapi20.cpp:1016
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Skrobblare %1 fel: %2"
 
-#: scrobbler/scrobblingapi20.cpp:535
+#: scrobbler/scrobblingapi20.cpp:536
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Skrobblare %1 är inte autentiserad!"

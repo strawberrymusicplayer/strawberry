@@ -104,7 +104,7 @@ msgstr " segundos"
 msgid " songs"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
+#: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr ""
@@ -1473,7 +1473,7 @@ msgstr ""
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:176
+#: scrobbler/scrobblingapi20.cpp:177
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
@@ -2768,7 +2768,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Introdução das faixas"
 
-#: scrobbler/scrobblingapi20.cpp:211
+#: scrobbler/scrobblingapi20.cpp:212
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Resposta inválida do servidor web. Faltando o token. "
 
@@ -2858,7 +2858,7 @@ msgstr ""
 msgid "Limits"
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:181
+#: scrobbler/listenbrainzscrobbler.cpp:184
 msgid "ListenBrainz Authentication"
 msgstr "Autenticação no ListenBrainz"
 
@@ -3373,7 +3373,7 @@ msgstr ""
 msgid "Opacity"
 msgstr "Opacidade"
 
-#: scrobbler/scrobblingapi20.cpp:167
+#: scrobbler/scrobblingapi20.cpp:168
 msgid "Open URL in web browser?"
 msgstr ""
 
@@ -3641,7 +3641,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Por favor, feche seu navegador e volte ao Strawberry"
 
 #: covermanager/spotifycoverprovider.cpp:148
-#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:181
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:184
 msgid "Please open this URL in your browser"
 msgstr ""
 
@@ -3696,7 +3696,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "Pré-regulagem:"
 
-#: scrobbler/scrobblingapi20.cpp:167
+#: scrobbler/scrobblingapi20.cpp:168
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3845,11 +3845,11 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:197
-#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:207
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:210
 msgid "Received invalid reply from web browser."
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:215
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3882,7 +3882,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:203
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:206
 msgid "Redirect missing token code!"
 msgstr ""
 
@@ -4236,12 +4236,12 @@ msgstr "Tamanho de escala"
 msgid "Scrobbler"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:1016
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:535
+#: scrobbler/scrobblingapi20.cpp:536
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""

@@ -114,7 +114,7 @@ msgstr " másodperc"
 msgid " songs"
 msgstr " számok"
 
-#: scrobbler/scrobblingapi20.cpp:167 scrobbler/scrobblingapi20.cpp:176
+#: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
 #, fuzzy, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 scrobbler hitelesítés"
@@ -1496,7 +1496,7 @@ msgstr ""
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:176
+#: scrobbler/scrobblingapi20.cpp:177
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Nem lehet megnyitni az URL-t. Próbálja meg böngészőben megnyitni"
 
@@ -2794,7 +2794,7 @@ msgstr "Internet lap nézet"
 msgid "Intro tracks"
 msgstr "Bevezető számok"
 
-#: scrobbler/scrobblingapi20.cpp:211
+#: scrobbler/scrobblingapi20.cpp:212
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Érvénytelen válasz a böngészőből. Hiányzó token."
 
@@ -2886,7 +2886,7 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr "Korlátok"
 
-#: scrobbler/listenbrainzscrobbler.cpp:181
+#: scrobbler/listenbrainzscrobbler.cpp:184
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz hitelesítés"
 
@@ -3404,7 +3404,7 @@ msgstr "Csak az első megjelenítése"
 msgid "Opacity"
 msgstr "Átlátszatlanság"
 
-#: scrobbler/scrobblingapi20.cpp:167
+#: scrobbler/scrobblingapi20.cpp:168
 msgid "Open URL in web browser?"
 msgstr "URL megnyitása böngészőben?"
 
@@ -3674,7 +3674,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Zárja be a böngészőjét, és térjen vissza a Strawberry-be."
 
 #: covermanager/spotifycoverprovider.cpp:148
-#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:181
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:184
 msgid "Please open this URL in your browser"
 msgstr "Nyissa meg ezt az URL-t a böngészőben"
 
@@ -3731,7 +3731,7 @@ msgstr "Nem volt előtöltési függvény beállítva a blokkoló művelethez."
 msgid "Preset:"
 msgstr "Beállítás:"
 
-#: scrobbler/scrobblingapi20.cpp:167
+#: scrobbler/scrobblingapi20.cpp:168
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3885,11 +3885,11 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:197
-#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:207
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:210
 msgid "Received invalid reply from web browser."
 msgstr "Érvénytelen válasz érkezett a böngészőből."
 
-#: scrobbler/scrobblingapi20.cpp:215
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3925,7 +3925,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr "Az átirányításból hiányzik a token kód vagy az állapot."
 
-#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:203
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:206
 msgid "Redirect missing token code!"
 msgstr "Az átirányításból hiányzik a token kód."
 
@@ -4276,12 +4276,12 @@ msgstr "Skála méret"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1016
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 hiba: %2"
 
-#: scrobbler/scrobblingapi20.cpp:535
+#: scrobbler/scrobblingapi20.cpp:536
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "A %1 scrobbler nincs hitelesítve!"
