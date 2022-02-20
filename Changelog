@@ -17,6 +17,7 @@ Unreleased
     * Fixed delete from disk not showing up in the menu when one or more CUE songs were selected.
     * Fixed possible crashes when switching songs when fading is enabled (#890).
     * Fixed X11 global shortcuts not working unless window was in focus with Qt 6.2 and higher (#893).
+    * Fixed scrobbler re-sending scrobbles to fast on error (#898).
 
   Enhancements
     * Log Qt version on startup.
