@@ -1436,6 +1436,7 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstopenmpt.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstdash.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstxingmux.dll
+          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstmpg123.dll
           ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
 
       - name: Copy extra binaries
@@ -1929,6 +1930,7 @@ jobs:
           copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
           copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
           copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
+          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
 
       - name: Download copydlldeps.sh
         shell: bash
