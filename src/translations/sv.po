@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-02-12 01:38-0500\n"
+"PO-Revision-Date: 2022-02-20 02:10-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -781,7 +781,7 @@ msgstr "Avancerad gruppering..."
 
 #: ../build/src/ui_collectionsettingspage.h:632
 msgid "Advanced settings require restart."
-msgstr ""
+msgstr "Avancerade inställningar kräver omstart."
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
