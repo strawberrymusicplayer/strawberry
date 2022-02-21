@@ -106,8 +106,8 @@ void AlbumCoverLoader::ReloadSettings() {
 
 QString AlbumCoverLoader::AlbumCoverFilename(QString artist, QString album, const QString &extension) {
 
-  artist.remove('/').remove("\\");
-  album.remove('/').remove("\\");
+  artist.remove('/').remove('\\');
+  album.remove('/').remove('\\');
 
   QString filename = artist + "-" + album;
   filename = Utilities::UnicodeToAscii(filename.toLower());
@@ -157,7 +157,7 @@ QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString
       save_cover_filename_ == CollectionSettingsPage::SaveCoverFilename_Pattern &&
       !cover_pattern_.isEmpty()) {
     filename = CoverFilenameFromVariable(artist, album);
-    filename.remove(OrganizeFormat::kInvalidFatCharacters).remove('/').remove("\\");
+    filename.remove(OrganizeFormat::kInvalidFatCharacters).remove('/').remove('\\');
     if (cover_lowercase_) filename = filename.toLower();
     if (cover_replace_spaces_) filename.replace(QRegularExpression("\\s"), "-");
     if (!extension.isEmpty()) {
