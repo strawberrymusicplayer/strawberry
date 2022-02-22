@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-01-13 09:31-0500\n"
+"PO-Revision-Date: 2022-02-21 04:07-0500\n"
 "Last-Translator: Pavlo Marianov <acid@jack.kiev.ua>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -774,7 +774,7 @@ msgstr "Додано за три місяці"
 
 #: ../build/src/ui_collectionsettingspage.h:628
 msgid "Advanced"
-msgstr ""
+msgstr "Додатково"
 
 #: collection/collectionfilterwidget.cpp:300
 msgid "Advanced grouping..."
@@ -782,7 +782,7 @@ msgstr "Розширене групування..."
 
 #: ../build/src/ui_collectionsettingspage.h:632
 msgid "Advanced settings require restart."
-msgstr ""
+msgstr "Для застосування додаткових налаштувать потрібен перезапуск."
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -955,7 +955,7 @@ msgstr "Застосувати стиснення для запобігання 
 
 #: dialogs/deleteconfirmationdialog.cpp:71
 msgid "Are you sure you want to continue?"
-msgstr "Ви впевнені, що хочете продовжити?"
+msgstr "Дійсно продовжити?"
 
 #: equalizer/equalizer.cpp:230
 #, qt-format
@@ -964,7 +964,7 @@ msgstr "Дійсно видалити визначені налаштуванн�
 
 #: dialogs/edittagdialog.cpp:1252
 msgid "Are you sure you want to reset this song's statistics?"
-msgstr "Впевнені, що бажаєте скинути статистику цієї композиції?"
+msgstr "Дійсно скинути статистику для цієї композиції?"
 
 #: settings/collectionsettingspage.cpp:380
 msgid ""
@@ -1775,7 +1775,7 @@ msgstr "Видалити розумний список відтворення"
 
 #: ../build/src/ui_subsonicsettingspage.h:259
 msgid "Delete songs"
-msgstr ""
+msgstr "Видалити пісні"
 
 #: ../build/src/ui_organizedialog.h:263
 msgid "Delete the original files"
@@ -2001,7 +2001,7 @@ msgstr "Увімкнути елементи"
 #: ../build/src/ui_collectionsettingspage.h:627
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Enable delete files in the right click context menu"
-msgstr "Додає у контекстне меню команду для видалення файлів"
+msgstr "Додати у контекстне меню команду для видалення файлів"
 
 #: ../build/src/ui_equalizer.h:174
 msgid "Enable equalizer"
@@ -2654,7 +2654,7 @@ msgstr "Довідка"
 
 #: ../build/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
-msgstr ""
+msgstr "Шістнадцяткове"
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
@@ -2679,7 +2679,7 @@ msgstr "Години"
 
 #: ../build/src/ui_collectionsettingspage.h:631
 msgid "I/O priority"
-msgstr ""
+msgstr "Пріоритет вводу-виводу"
 
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
@@ -4945,7 +4945,7 @@ msgstr "Завантажувач тегів"
 
 #: ../build/src/ui_collectionsettingspage.h:629
 msgid "Tagreader workers"
-msgstr ""
+msgstr "Потоки читання тегів"
 
 #: ../build/src/ui_edittagdialog.h:844
 msgid "Tags"
@@ -5120,7 +5120,7 @@ msgstr "Цей тип пристрою не підтримується: %1"
 
 #: ../build/src/ui_collectionsettingspage.h:630
 msgid "Thread priority"
-msgstr ""
+msgstr "Пріоритет потоку"
 
 #: core/mainwindow.cpp:361 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
