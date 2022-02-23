@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-02-21 04:07-0500\n"
+"PO-Revision-Date: 2022-02-22 10:01-0500\n"
 "Last-Translator: Pavlo Marianov <acid@jack.kiev.ua>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -2579,11 +2579,11 @@ msgstr "Групувати за виконавцем альбому/альбом
 
 #: collection/collectionfilterwidget.cpp:251
 msgid "Group by Album artist/Year - Album"
-msgstr "Групувати зак виконавцем альбому/роком - альбомом"
+msgstr "Групувати за виконавцем альбому/роком - альбомом"
 
 #: collection/collectionfilterwidget.cpp:252
 msgid "Group by Album artist/Year - Album - Disc"
-msgstr "Групувати зак виконавцем альбому/роком - альбомом - диском"
+msgstr "Групувати за виконавцем альбому/роком - альбомом - диском"
 
 #: collection/collectionfilterwidget.cpp:263
 msgid "Group by Artist"
@@ -2599,11 +2599,11 @@ msgstr "Групувати за виконавцем/альбомом - диск
 
 #: collection/collectionfilterwidget.cpp:256
 msgid "Group by Artist/Year - Album"
-msgstr "Групувати зак виконавцем/роком - альбомом"
+msgstr "Групувати за виконавцем/роком - альбомом"
 
 #: collection/collectionfilterwidget.cpp:257
 msgid "Group by Artist/Year - Album - Disc"
-msgstr "Групувати зак виконавцем/роком - альбомом - диском"
+msgstr "Групувати за виконавцем/роком - альбомом - диском"
 
 #: collection/collectionfilterwidget.cpp:266
 msgid "Group by Genre/Album"
