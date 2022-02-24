@@ -2476,7 +2476,6 @@ void MainWindow::ForceShowOSD(const Song &song, const bool toggle) {
 }
 
 void MainWindow::Activate() {
-
   show();
 }
 
