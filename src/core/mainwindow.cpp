@@ -1789,13 +1789,13 @@ void MainWindow::PlaylistMenuHidden() {
 }
 
 void MainWindow::PlaylistClick(const QModelIndex &index) {
+
   QModelIndex source_index = index;
   if (index.model() == app_->playlist_manager()->current()->proxy()) {
     source_index = app_->playlist_manager()->current()->proxy()->mapToSource(index);
   }
   playlist_menu_index_ = source_index;
 }
-
 
 void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &index) {
 
