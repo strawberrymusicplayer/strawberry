@@ -878,6 +878,7 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
             playlist_->RateSong(playlist_->proxy()->mapToSource(idx), new_rating);
           }
         }
+        emit Clicked(indexAt(event->pos()));
         break;
       }
       default:
