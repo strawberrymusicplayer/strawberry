@@ -156,7 +156,6 @@ const QStringList Song::kArticles = QStringList() << "the " << "a " << "an ";
 const QStringList Song::kAcceptedExtensions = QStringList() << "wav" << "flac" << "wv" << "ogg" << "oga" << "opus" << "spx" << "ape" << "mpc"
                                                             << "mp2" << "mp3" <<  "m4a" << "mp4" << "aac" << "asf" << "asx" << "wma"
                                                             << "aif << aiff" << "mka" << "tta" << "dsf" << "dsd"
-                                                            << "cue" << "m3u" << "m3u8" << "pls" << "xspf" << "asxini"
                                                             << "ac3" << "dts";
 
 struct Song::Private : public QSharedData {
