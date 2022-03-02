@@ -5296,7 +5296,7 @@ msgstr "Ulte Weit Band (UWB)"
 msgid "Uninstall the snap with:"
 msgstr "Deinstalliere den Snap mit:"
 
-#: core/song.cpp:610 collection/collectionmodel.cpp:486
+#: core/song.cpp:609 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
 #: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:503
 #: collection/collectionmodel.cpp:1624 collection/savedgroupingmanager.cpp:146

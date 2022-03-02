@@ -5237,7 +5237,7 @@ msgstr "Надзвичайно широка смуга (UWB)"
 msgid "Uninstall the snap with:"
 msgstr "Видалити snap з:"
 
-#: core/song.cpp:610 collection/collectionmodel.cpp:486
+#: core/song.cpp:609 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
 #: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:503
 #: collection/collectionmodel.cpp:1624 collection/savedgroupingmanager.cpp:146
