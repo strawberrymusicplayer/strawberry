@@ -210,6 +210,9 @@ class Base : public QObject {
   bool channels_enabled_;
   int channels_;
 
+  // Options
+  bool bs2b_enabled_;
+
  private:
   bool about_to_end_emitted_;
   Q_DISABLE_COPY(Base)

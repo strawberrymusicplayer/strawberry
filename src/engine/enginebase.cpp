@@ -67,6 +67,7 @@ Engine::Base::Base(const EngineType type, QObject *parent)
       proxy_authentication_(false),
       channels_enabled_(false),
       channels_(0),
+      bs2b_enabled_(false),
       about_to_end_emitted_(false) {}
 
 Engine::Base::~Base() = default;
@@ -141,6 +142,8 @@ void Engine::Base::ReloadSettings() {
   fadeout_duration_nanosec_ = (fadeout_duration_ * kNsecPerMsec);
   fadeout_pause_duration_ = s.value("FadeoutPauseDuration", 250).toLongLong();
   fadeout_pause_duration_nanosec_ = (fadeout_pause_duration_ * kNsecPerMsec);
+
+  bs2b_enabled_ = s.value("bs2b", false).toBool();
 
   s.endGroup();
 

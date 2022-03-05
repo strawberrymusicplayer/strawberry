@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>583</width>
-    <height>880</height>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -153,6 +153,15 @@
         </layout>
        </widget>
       </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Options</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QCheckBox" name="checkbox_volume_control">
         <property name="text">
@@ -234,6 +243,13 @@
           </spacer>
          </item>
         </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_bs2b">
+        <property name="text">
+         <string>Improve headphone listening of stereo audio records (bs2b)</string>
+        </property>
        </widget>
       </item>
      </layout>
@@ -699,7 +715,6 @@
   <tabstop>radiobutton_alsa_hw</tabstop>
   <tabstop>radiobutton_alsa_plughw</tabstop>
   <tabstop>radiobutton_alsa_pcm</tabstop>
-  <tabstop>checkbox_volume_control</tabstop>
   <tabstop>checkbox_channels</tabstop>
   <tabstop>spinbox_channels</tabstop>
   <tabstop>spinbox_bufferduration</tabstop>

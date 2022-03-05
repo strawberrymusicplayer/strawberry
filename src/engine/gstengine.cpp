@@ -801,6 +801,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   ret->set_buffer_high_watermark(buffer_high_watermark_);
   ret->set_proxy_settings(proxy_address_, proxy_authentication_, proxy_user_, proxy_pass_);
   ret->set_channels(channels_enabled_, channels_);
+  ret->set_bs2b_enabled(bs2b_enabled_);
 
   ret->AddBufferConsumer(this);
   for (GstBufferConsumer *consumer : buffer_consumers_) {

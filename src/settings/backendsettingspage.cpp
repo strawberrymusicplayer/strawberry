@@ -164,6 +164,8 @@ void BackendSettingsPage::Load() {
   ui_->spinbox_channels->setValue(s.value("channels", 2).toInt());
   ui_->widget_channels->setEnabled(ui_->checkbox_channels->isChecked());
 
+  ui_->checkbox_bs2b->setChecked(s.value("bs2b", false).toBool());
+
   ui_->spinbox_bufferduration->setValue(s.value("bufferduration", kDefaultBufferDuration).toInt());
   ui_->spinbox_low_watermark->setValue(s.value("bufferlowwatermark", kDefaultBufferLowWatermark).toDouble());
   ui_->spinbox_high_watermark->setValue(s.value("bufferhighwatermark", kDefaultBufferHighWatermark).toDouble());
@@ -460,6 +462,20 @@ void BackendSettingsPage::Save() {
   s.setValue("output", output_name);
   s.setValue("device", device_value);
 
+#ifdef HAVE_ALSA
+  if (ui_->radiobutton_alsa_hw->isChecked()) s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_hw));
+  else if (ui_->radiobutton_alsa_plughw->isChecked()) s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_plughw));
+  else if (ui_->radiobutton_alsa_pcm->isChecked()) s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_pcm));
+  else s.remove("alsaplugin");
+#endif
+
+  s.setValue("volume_control", ui_->checkbox_volume_control->isChecked());
+
+  s.setValue("channels_enabled", ui_->checkbox_channels->isChecked());
+  s.setValue("channels", ui_->spinbox_channels->value());
+
+  s.setValue("bs2b", ui_->checkbox_bs2b->isChecked());
+
   s.setValue("bufferduration", ui_->spinbox_bufferduration->value());
   s.setValue("bufferlowwatermark", ui_->spinbox_low_watermark->value());
   s.setValue("bufferhighwatermark", ui_->spinbox_high_watermark->value());
@@ -477,18 +493,6 @@ void BackendSettingsPage::Save() {
   s.setValue("FadeoutPauseEnabled", ui_->checkbox_fadeout_pauseresume->isChecked());
   s.setValue("FadeoutDuration", ui_->spinbox_fadeduration->value());
   s.setValue("FadeoutPauseDuration", ui_->spinbox_fadeduration_pauseresume->value());
-
-#ifdef HAVE_ALSA
-  if (ui_->radiobutton_alsa_hw->isChecked()) s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_hw));
-  else if (ui_->radiobutton_alsa_plughw->isChecked()) s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_plughw));
-  else if (ui_->radiobutton_alsa_pcm->isChecked()) s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_pcm));
-  else s.remove("alsaplugin");
-#endif
-
-  s.setValue("volume_control", ui_->checkbox_volume_control->isChecked());
-
-  s.setValue("channels_enabled", ui_->checkbox_channels->isChecked());
-  s.setValue("channels", ui_->spinbox_channels->value());
 
   s.endGroup();
 

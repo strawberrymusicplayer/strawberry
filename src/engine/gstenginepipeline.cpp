@@ -86,6 +86,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       proxy_authentication_(false),
       channels_enabled_(false),
       channels_(0),
+      bs2b_enabled_(false),
       segment_start_(0),
       segment_start_received_(false),
       end_offset_nanosec_(-1),
@@ -214,6 +215,10 @@ void GstEnginePipeline::set_proxy_settings(const QString &address, const bool au
 void GstEnginePipeline::set_channels(const bool enabled, const int channels) {
   channels_enabled_ = enabled;
   channels_ = channels;
+}
+
+void GstEnginePipeline::set_bs2b_enabled(const bool enabled) {
+  bs2b_enabled_ = enabled;
 }
 
 GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const {
@@ -515,6 +520,16 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     g_object_set(G_OBJECT(rglimiter), "enabled", static_cast<int>(rg_compression_), nullptr);
   }
 
+  GstElement *bs2b = nullptr;
+  if (bs2b_enabled_) {
+    bs2b = CreateElement("bs2b", "bs2b", audiobin_, error);
+    if (!bs2b) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      return false;
+    }
+  }
+
   {  // Create a pad on the outside of the audiobin and connect it to the pad of the first element.
     GstPad *pad = gst_element_get_static_pad(audioqueue_, "sink");
     if (pad) {
@@ -593,6 +608,18 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       return false;
     }
     next = volume_;
+  }
+
+  // Link bs2b element if enabled.
+  if (bs2b_enabled_ && bs2b) {
+    qLog(Debug) << "Enabling bs2b";
+    if (!gst_element_link(next, bs2b)) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      error = "gst_element_link() failed.";
+      return false;
+    }
+    next = bs2b;
   }
 
   if (!gst_element_link(next, audioconverter)) {
