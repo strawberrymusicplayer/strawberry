@@ -1,6 +1,6 @@
 Name:           strawberry
 Version:        @STRAWBERRY_VERSION_RPM_V@
-%if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
+%if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos} || "%{?_vendor}" == "openmandriva"
 Release:        @STRAWBERRY_VERSION_RPM_R@%{?dist}
 %else
 Release:        @STRAWBERRY_VERSION_RPM_R@.@RPM_DISTRO@
