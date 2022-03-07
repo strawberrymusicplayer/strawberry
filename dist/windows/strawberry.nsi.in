@@ -407,6 +407,7 @@ Section "GIO modules" gio-modules
   SetOutPath "$INSTDIR\gio-modules"
 !ifdef mingw
   File "/oname=libgiognutls.dll" "gio-modules\libgiognutls.dll"
+  File "/oname=libgioopenssl.dll" "gio-modules\libgioopenssl.dll"
 !endif
 !ifdef msvc
   File "/oname=giognutls.dll" "gio-modules\giognutls.dll"
@@ -770,6 +771,7 @@ Section "Uninstall"
 
 !ifdef mingw
   Delete "$INSTDIR\gio-modules\libgiognutls.dll"
+  Delete "$INSTDIR\gio-modules\libgioopenssl.dll"
 !endif
 !ifdef msvc
   Delete "$INSTDIR\gio-modules\giognutls.dll"
