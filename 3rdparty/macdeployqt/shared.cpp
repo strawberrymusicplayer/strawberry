@@ -1214,27 +1214,34 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
 
     // GIO modules
     {
-      QString sourcePath = qgetenv("GIO_EXTRA_MODULES");
-      if (sourcePath.isEmpty()) {
-        if (QFileInfo::exists("/usr/local/lib/gio/modules/libgiognutls.so")) {
-          sourcePath = "/usr/local/lib/gio/modules/libgiognutls.so";
+      QString giomodule_path = qgetenv("GIO_EXTRA_MODULES");
+      if (giomodule_path.isEmpty()) {
+        if (QDir().exists("/usr/local/lib/gio/modules")) {
+          giomodule_path = "/usr/local/lib/gio/modules";
         }
-        else if (QFileInfo::exists("/opt/local/lib/gio/modules/libgiognutls.so")) {
-          sourcePath = "/opt/local/lib/gio/modules/libgiognutls.so";
+        else if (QDir().exists("/opt/local/lib/gio/modules")) {
+          giomodule_path = "/opt/local/lib/gio/modules";
         }
         else {
           qFatal("Missing GIO_EXTRA_MODULES");
         }
       }
-      else {
-        sourcePath = sourcePath + "/libgiognutls.so";
-      }
-      const QString destinationPath = appBundleInfo.path + "/Contents/PlugIns/gio-modules/libgiognutls.so";
-      QDir dir;
-      if (dir.mkpath(QFileInfo(destinationPath).path()) && copyFilePrintStatus(sourcePath, destinationPath)) {
-        runStrip(destinationPath);
-        QList<FrameworkInfo> frameworks = getQtFrameworks(destinationPath, appBundleInfo.path, deploymentInfo.rpathsUsed, useDebugLibs);
-        deployQtFrameworks(frameworks, appBundleInfo.path, QStringList() << destinationPath, useDebugLibs, deploymentInfo.useLoaderPath);
+
+      const QStringList giomodules = QStringList() << "libgiognutls.so" << "libgioopenssl.so";
+      for (const QString &giomodule : giomodules) {
+        const QString sourcePath = giomodule_path + "/" + giomodule;
+        QFileInfo fileinfo(sourcePath);
+        if (!fileinfo.exists()) {
+          LogError() << "Missing GIO module" << fileinfo.baseName();
+          qFatal("Missing GIO modules.");
+        }
+        const QString destinationPath = appBundleInfo.path + "/Contents/PlugIns/gio-modules/" + giomodule;
+        QDir dir;
+        if (dir.mkpath(QFileInfo(destinationPath).path()) && copyFilePrintStatus(sourcePath, destinationPath)) {
+          runStrip(destinationPath);
+          QList<FrameworkInfo> frameworks = getQtFrameworks(destinationPath, appBundleInfo.path, deploymentInfo.rpathsUsed, useDebugLibs);
+          deployQtFrameworks(frameworks, appBundleInfo.path, QStringList() << destinationPath, useDebugLibs, deploymentInfo.useLoaderPath);
+        }
       }
     }
 
@@ -1262,8 +1269,13 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
     }
 
     // GStreamer plugins.
-    QStringList gstreamer_plugins = QStringList() << "libgstapetag.dylib"
+    QStringList gstreamer_plugins = QStringList()
+                                                  << "libgstaes.dylib"
+                                                  << "libgstaiff.dylib"
+                                                  << "libgstapetag.dylib"
                                                   << "libgstapp.dylib"
+                                                  << "libgstasf.dylib"
+                                                  << "libgstasfmux.dylib"
                                                   << "libgstaudioconvert.dylib"
                                                   << "libgstaudiofx.dylib"
                                                   << "libgstaudiomixer.dylib"
@@ -1271,48 +1283,48 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
                                                   << "libgstaudiorate.dylib"
                                                   << "libgstaudioresample.dylib"
                                                   << "libgstaudiotestsrc.dylib"
-                                                  << "libgstaudiovisualizers.dylib"
-                                                  << "libgstauparse.dylib"
-                                                  << "libgstautoconvert.dylib"
                                                   << "libgstautodetect.dylib"
+                                                  << "libgstbs2b.dylib"
+                                                  << "libgstcdio.dylib"
                                                   << "libgstcoreelements.dylib"
+                                                  << "libgstdash.dylib"
                                                   << "libgstequalizer.dylib"
+                                                  << "libgstflac.dylib"
+                                                  << "libgstfaac.dylib"
+                                                  << "libgstfaad.dylib"
+                                                  << "libgstfdkaac.dylib"
                                                   << "libgstgio.dylib"
                                                   << "libgsticydemux.dylib"
                                                   << "libgstid3demux.dylib"
-                                                  << "libgstlevel.dylib"
+                                                  << "libgstisomp4.dylib"
+                                                  << "libgstlame.dylib"
+                                                  << "libgstlibav.dylib"
+                                                  << "libgstmpg123.dylib"
+                                                  << "libgstmusepack.dylib"
+                                                  << "libgstogg.dylib"
+                                                  << "libgstopenmpt.dylib"
+                                                  << "libgstopus.dylib"
+                                                  << "libgstopusparse.dylib"
                                                   << "libgstosxaudio.dylib"
-                                                  << "libgstplayback.dylib"
-                                                  << "libgstrawparse.dylib"
-                                                  << "libgstreplaygain.dylib"
-                                                  << "libgstsoup.dylib"
-                                                  << "libgstspectrum.dylib"
-                                                  << "libgsttypefindfunctions.dylib"
-                                                  << "libgstvolume.dylib"
-                                                  << "libgstxingmux.dylib"
-                                                  << "libgsttcp.dylib"
-                                                  << "libgstudp.dylib"
                                                   << "libgstpbtypes.dylib"
+                                                  << "libgstplayback.dylib"
+                                                  << "libgstreplaygain.dylib"
                                                   << "libgstrtp.dylib"
                                                   << "libgstrtsp.dylib"
-                                                  << "libgstflac.dylib"
-                                                  << "libgstwavparse.dylib"
-                                                  << "libgstfaad.dylib"
-                                                  << "libgstogg.dylib"
-                                                  << "libgstopus.dylib"
-                                                  << "libgstasf.dylib"
+                                                  << "libgstsoup.dylib"
+                                                  << "libgstspectrum.dylib"
                                                   << "libgstspeex.dylib"
                                                   << "libgsttaglib.dylib"
+                                                  << "libgsttcp.dylib"
+                                                  << "libgsttypefindfunctions.dylib"
+                                                  << "libgstudp.dylib"
+                                                  << "libgstvolume.dylib"
                                                   << "libgstvorbis.dylib"
-                                                  << "libgstisomp4.dylib"
-                                                  << "libgstlibav.dylib"
-                                                  << "libgstaiff.dylib"
-                                                  << "libgstlame.dylib";
+                                                  << "libgstwavpack.dylib"
+                                                  << "libgstwavparse.dylib"
+                                                  << "libgstxingmux.dylib";
 
-    // macports does not have these.
-    QStringList gstreamer_plugins_optional = QStringList() << "libgstopusparse.dylib"
-                                                           << "libgstfaac.dylib"
-                                                           << "libgstmusepack.dylib";
+    QStringList gstreamer_plugins_optional = QStringList();
 
     QString gstreamer_plugins_dir = qgetenv("GST_PLUGIN_PATH");
     if (gstreamer_plugins_dir.isEmpty()) {

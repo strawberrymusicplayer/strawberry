@@ -21,10 +21,7 @@ if(MACDEPLOYQT_EXECUTABLE)
     COMMAND mkdir -p ${CMAKE_BINARY_DIR}/strawberry.app/Contents/{Frameworks,Resources}
     COMMAND cp -v ${CMAKE_SOURCE_DIR}/dist/macos/Info.plist ${CMAKE_BINARY_DIR}/strawberry.app/Contents/
     COMMAND cp -v ${CMAKE_SOURCE_DIR}/dist/macos/strawberry.icns ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources/
-    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3
-      -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader
-      -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/gio-modules/libgiognutls.so
-      #-executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/gst-plugin-scanner
+    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     DEPENDS strawberry strawberry-tagreader copy_gstreamer_plugins macdeployqt
   )

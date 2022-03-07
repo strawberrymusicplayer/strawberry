@@ -1300,186 +1300,145 @@ jobs:
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
 
-  build-macos-qt5:
-    name: Build macOS Qt 5
+  build-macos:
+    name: Build macOS
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v1.2.0
+
+      - name: Install macports
+        run: |
+          wget https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1-10.15-Catalina.pkg
+          sudo installer -pkg ./MacPorts-2.7.1-10.15-Catalina.pkg -target /
+
+      - name: Uninstall homebrew
+        run: |
+          curl -sLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
+          chmod +x ./uninstall.sh
+          sudo ./uninstall.sh --force
+
+      - name: Update macports
+        run: sudo /opt/local/bin/port -v selfupdate
+
       - name: Install packages
         run: >
-          brew install
+          sudo /opt/local/bin/port -N -p install
+          gsed
           wget
-          glib
           pkgconfig
-          boost
-          libffi
-          protobuf
-          protobuf-c
-          qt5
-          gettext
-          gnutls
-          fftw
-          sqlite
-          chromaprint
-          gstreamer
-          gst-plugins-base
-          gst-plugins-good
-          gst-plugins-bad
-          gst-plugins-ugly
-          gst-libav
-          libcdio
-          libmtp
-          create-dmg
-          taglib
-          libplist
-          gdk-pixbuf
+          autoconf
+          automake
+          libtool
+          intltool
+          cmake
+          meson
+          p7zip
+          lzip
+          xz
+          bison
+          flex
+          gtk-doc
 
-      - name: Build libgpod
-        shell: bash
-        env:
-          PERL_MM_USE_DEFAULT: 1
+      - name: Install create-dmg
         run: |
-          git clone https://github.com/strawberrymusicplayer/strawberry-libgpod
-          cd strawberry-libgpod
-          mkdir build
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          make -j 4
-          sudo make install
+            git clone https://github.com/create-dmg/create-dmg.git
+            cd create-dmg
+            make install
+
+      - name: Get macOS dependencies
+        shell: bash
+        run: |
+          cd ../../
+          mkdir -p strawberry-macos-dependencies/strawberry-macos-dependencies
+          cd strawberry-macos-dependencies/strawberry-macos-dependencies
+          /opt/local/bin/wget https://github.com/strawberrymusicplayer/strawberry-macos-dependencies/releases/download/latest/strawberry-macos-catalina-dependencies.tar.xz
+          tar -xf strawberry-macos-catalina-dependencies.tar.xz
 
       - name: Create Build Environment
         shell: bash
-        run: cmake -E make_directory build
+        run: |
+          export PATH="${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/bin:/opt/local/bin:$PATH"
+          cmake -E make_directory build
+
+      - name: Remove -Wundef
+        shell: bash
+        run: /opt/local/bin/gsed -i '/-Wundef/d' CMakeLists.txt
+
       - name: Configure CMake
         shell: bash
         env:
           MACOSX_DEPLOYMENT_TARGET: 10.15
-          PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
-          GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
-          GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
-          GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
+          CFLAGS: -I${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/include
+          CXXFLAGS: -I${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/include
+          LDFLAGS: -L${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib -Wl,-rpath,${{github.workspace}}/strawberry-macos-dependencies/usr/lib
+          PKG_CONFIG_EXECUTABLE: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/bin/pkg-config
+          PKG_CONFIG_PATH: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/pkgconfig
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WITH_QT5=ON -DBUILD_WERROR=ON -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt5/lib/cmake
+        run: |
+            pwd
+            export PATH="${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/bin:/opt/local/bin:$PATH"
+            cmake .. -DCMAKE_BUILD_TYPE=Release \
+                     -DCMAKE_PREFIX_PATH=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/cmake \
+                     -DBUILD_WITH_QT6=ON \
+                     -DBUILD_WERROR=OFF \
+                     -DUSE_BUNDLE=ON \
+                     -DBoost_INCLUDE_DIR=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/include \
+                     -DProtobuf_INCLUDE_DIR=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/include \
+                     -DProtobuf_INCLUDE_DIRS=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/include \
+                     -DProtobuf_LIBRARY=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/libprotobuf.dylib \
+                     -DProtobuf_PROTOC_EXECUTABLE=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/bin/protoc \
+                     -DFFTW3_DIR=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr
+
       - name: Build
         working-directory: build
         shell: bash
-        run: cmake --build . --config Debug --parallel 4
+        run: |
+          export PATH="${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/bin:/opt/local/bin:$PATH"
+          cmake --build . --config Release --parallel 4
+
+      - name: Fix macdeployqt and macdeploycheck
+        working-directory: build
+        shell: bash
+        run: |
+          install_name_tool -change "@rpath/QtCore.framework/Versions/A/QtCore" "/Users/runner/work/strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/QtCore.framework/Versions/A/QtCore" /Users/runner/work/strawberry/strawberry/build/3rdparty/macdeployqt/macdeployqt
+          install_name_tool -change "@rpath/QtCore.framework/Versions/A/QtCore" "/Users/runner/work/strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/QtCore.framework/Versions/A/QtCore" /Users/runner/work/strawberry/strawberry/build/ext/macdeploycheck/macdeploycheck
+
       - name: Install
         working-directory: build
         shell: bash
-        run: make install
-      - name: Manually copy files not handled by macdeployqt
-        working-directory: build
-        shell: bash
         run: |
-          mkdir -p strawberry.app/Contents/Frameworks/
-          cp -v /usr/local/lib/libbrotlicommon.1.dylib strawberry.app/Contents/Frameworks/
-          cp -v /usr/local/opt/icu4c/lib/libicudata.69.dylib strawberry.app/Contents/Frameworks/
-          cp -v /usr/local/lib/libgpod.dylib strawberry.app/Contents/Frameworks/
-          install_name_tool -change "@rpath/libgpod.dylib" "@loader_path/../Frameworks/libgpod.dylib" strawberry.app/Contents/MacOS/strawberry
+            export PATH="${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/bin:/opt/local/bin:$PATH"
+            make install
+
       - name: Deploy
         working-directory: build
         shell: bash
-        run: make deploy
+        env:
+          GIO_EXTRA_MODULES: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/gio/modules
+          GST_PLUGIN_SCANNER: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/libexec/gst-plugin-scanner
+          GST_PLUGIN_PATH: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/gstreamer-1.0
+        run: |
+            export PATH="${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/bin:/opt/local/bin:$PATH"
+            make deploy
+
       - name: Deploy check
         working-directory: build
         shell: bash
-        run: make deploycheck
+        run: |
+            export PATH="${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/bin:/opt/local/bin:$PATH"
+            make deploycheck
+
       - name: Create DMG
         working-directory: build
         shell: bash
-        run: make dmg
-
-  build-macos-qt6:
-    name: Build macOS Qt 6
-    runs-on: macos-10.15
-    steps:
-      - uses: actions/checkout@v1.2.0
-      - name: Install packages
-        run: >
-          brew install
-          wget
-          glib
-          pkgconfig
-          boost
-          libffi
-          protobuf
-          protobuf-c
-          qt6
-          gettext
-          gnutls
-          fftw
-          sqlite
-          chromaprint
-          gstreamer
-          gst-plugins-base
-          gst-plugins-good
-          gst-plugins-bad
-          gst-plugins-ugly
-          gst-libav
-          libcdio
-          libmtp
-          create-dmg
-          taglib
-          libplist
-          gdk-pixbuf
-
-      - name: Build libgpod
-        shell: bash
         env:
-          PERL_MM_USE_DEFAULT: 1
+          GIO_EXTRA_MODULES: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/gio/modules
+          GST_PLUGIN_SCANNER: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/libexec/gst-plugin-scanner
+          GST_PLUGIN_PATH: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/gstreamer-1.0
         run: |
-          git clone https://github.com/strawberrymusicplayer/strawberry-libgpod
-          cd strawberry-libgpod
-          mkdir build
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          make -j 4
-          sudo make install
+            export PATH="${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/bin:/opt/local/bin:$PATH"
+            make dmg
 
-      - name: Remove problematic files
-        shell: bash
-        run: sudo rm -rf /usr/local/opt/qt6/share/qt/plugins/virtualkeyboard /usr/local/opt/qt6/share/qt/plugins/platforminputcontexts
-
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        env:
-          MACOSX_DEPLOYMENT_TARGET: 10.15
-          PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
-          GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
-          GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
-          GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=ON -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake
-      - name: Build
-        working-directory: build
-        shell: bash
-        run: cmake --build . --config Release --parallel 4
-      - name: Install
-        working-directory: build
-        shell: bash
-        run: make install
-      - name: Manually copy files not handled by macdeployqt
-        working-directory: build
-        shell: bash
-        run: |
-          mkdir -p strawberry.app/Contents/Frameworks/
-          cp -v /usr/local/lib/libbrotlicommon.1.dylib strawberry.app/Contents/Frameworks/
-      - name: Deploy
-        working-directory: build
-        shell: bash
-        run: make deploy
-      - name: Deploy check
-        working-directory: build
-        shell: bash
-        run: make deploycheck
-      - name: Create DMG
-        working-directory: build
-        shell: bash
-        run: make dmg
       - uses: actions/upload-artifact@v2
         with:
           name: upload-macos
@@ -2167,7 +2126,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     needs:
-      - build-macos-qt6
+      - build-macos
     steps:
       - uses: actions/checkout@v1.2.0
       - uses: actions/download-artifact@v2
