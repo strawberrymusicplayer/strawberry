@@ -1417,7 +1417,7 @@ jobs:
         shell: bash
         env:
           GIO_EXTRA_MODULES: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/gio/modules
-          GST_PLUGIN_SCANNER: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/libexec/gst-plugin-scanner
+          GST_PLUGIN_SCANNER: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: ${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/gstreamer-1.0
         run: |
             export PATH="${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/bin:/opt/local/bin:$PATH"
