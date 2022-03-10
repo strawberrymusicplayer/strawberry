@@ -1321,23 +1321,7 @@ jobs:
         run: sudo /opt/local/bin/port -v selfupdate
 
       - name: Install packages
-        run: >
-          sudo /opt/local/bin/port -N -p install
-          gsed
-          wget
-          pkgconfig
-          autoconf
-          automake
-          libtool
-          intltool
-          cmake
-          meson
-          p7zip
-          lzip
-          xz
-          bison
-          flex
-          gtk-doc
+        run: sudo /opt/local/bin/port -N -p install gsed wget cmake xz
 
       - name: Install create-dmg
         run: |
