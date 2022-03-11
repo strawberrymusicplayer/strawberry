@@ -77,9 +77,9 @@ msgstr ""
 msgid " kbps"
 msgstr " kbps"
 
-#: ../build/src/ui_backendsettingspage.h:551
-#: ../build/src/ui_backendsettingspage.h:571
-#: ../build/src/ui_backendsettingspage.h:574
+#: ../build/src/ui_backendsettingspage.h:567
+#: ../build/src/ui_backendsettingspage.h:587
+#: ../build/src/ui_backendsettingspage.h:590
 msgid " ms"
 msgstr " ms"
 
@@ -509,7 +509,7 @@ msgstr "A-Z"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:543
+#: ../build/src/ui_backendsettingspage.h:557
 msgid "ALSA plugin:"
 msgstr ""
 
@@ -780,7 +780,7 @@ msgstr ""
 msgid "Album"
 msgstr "专辑"
 
-#: ../build/src/ui_backendsettingspage.h:560
+#: ../build/src/ui_backendsettingspage.h:576
 msgid "Album (ideal loudness for all tracks)"
 msgstr "专辑(所有曲目采用合适音量)"
 
@@ -926,7 +926,7 @@ msgstr "追加至当前播放列表"
 msgid "Append to the playlist"
 msgstr "追加至播放列表"
 
-#: ../build/src/ui_backendsettingspage.h:563
+#: ../build/src/ui_backendsettingspage.h:579
 msgid "Apply compression to prevent clipping"
 msgstr "允许压缩以阻止剪切"
 
@@ -988,7 +988,7 @@ msgstr ""
 msgid "Audio format"
 msgstr "音频格式"
 
-#: ../build/src/ui_backendsettingspage.h:538
+#: ../build/src/ui_backendsettingspage.h:552
 msgid "Audio output"
 msgstr "音频输出"
 
@@ -1074,7 +1074,7 @@ msgstr "平均位速率"
 msgid "Average image size"
 msgstr "图片平均大小"
 
-#: ../build/src/ui_backendsettingspage.h:537
+#: ../build/src/ui_backendsettingspage.h:551
 msgid "Backend"
 msgstr "后端"
 
@@ -1169,11 +1169,11 @@ msgstr ""
 msgid "Browse..."
 msgstr "浏览..."
 
-#: ../build/src/ui_backendsettingspage.h:550
+#: ../build/src/ui_backendsettingspage.h:566
 msgid "Buffer"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:552
+#: ../build/src/ui_backendsettingspage.h:568
 msgid "Buffer duration"
 msgstr "缓冲时长"
 
@@ -1564,11 +1564,11 @@ msgstr "来自%1的封面"
 msgid "Create a new playlist with files"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:568
+#: ../build/src/ui_backendsettingspage.h:584
 msgid "Cross-fade when changing tracks automatically"
 msgstr "自动换曲时淡入淡出"
 
-#: ../build/src/ui_backendsettingspage.h:567
+#: ../build/src/ui_backendsettingspage.h:583
 msgid "Cross-fade when changing tracks manually"
 msgstr "手动换曲时淡入淡出"
 
@@ -1696,7 +1696,7 @@ msgstr "降低音量 <value> %"
 msgid "Default bac&kground image"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:555
+#: ../build/src/ui_backendsettingspage.h:571
 msgid "Defaults"
 msgstr ""
 
@@ -1760,7 +1760,7 @@ msgid "Details..."
 msgstr "详情..."
 
 #: context/contextview.cpp:186 device/giolister.cpp:193
-#: ../build/src/ui_backendsettingspage.h:539
+#: ../build/src/ui_backendsettingspage.h:553
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr "设备"
@@ -1987,7 +1987,7 @@ msgstr "启用单击后行内编辑元数据"
 msgid "Enable stereo balancer"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:547
+#: ../build/src/ui_backendsettingspage.h:562
 msgid "Enable volume control"
 msgstr ""
 
@@ -2007,7 +2007,7 @@ msgstr "编码引擎质量"
 msgid "Encoding mode"
 msgstr "编码模式"
 
-#: context/contextview.cpp:185 ../build/src/ui_backendsettingspage.h:542
+#: context/contextview.cpp:185 ../build/src/ui_backendsettingspage.h:556
 msgid "Engine"
 msgstr ""
 
@@ -2111,7 +2111,7 @@ msgstr ""
 msgid "Ever played"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:569
+#: ../build/src/ui_backendsettingspage.h:585
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "同一专辑歌曲或者同一CUE sheet不淡出"
 
@@ -2186,20 +2186,20 @@ msgstr ""
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:572
+#: ../build/src/ui_backendsettingspage.h:588
 msgid "Fade out on pause / fade in on resume"
 msgstr "暂停时淡出/恢复时淡入"
 
-#: ../build/src/ui_backendsettingspage.h:566
+#: ../build/src/ui_backendsettingspage.h:582
 msgid "Fade out when stopping a track"
 msgstr "停止播放曲目时淡出"
 
-#: ../build/src/ui_backendsettingspage.h:565
+#: ../build/src/ui_backendsettingspage.h:581
 msgid "Fading"
 msgstr "淡出"
 
-#: ../build/src/ui_backendsettingspage.h:570
-#: ../build/src/ui_backendsettingspage.h:573
+#: ../build/src/ui_backendsettingspage.h:586
+#: ../build/src/ui_backendsettingspage.h:589
 msgid "Fading duration"
 msgstr "淡出时长"
 
@@ -2235,7 +2235,7 @@ msgstr ""
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:564
+#: ../build/src/ui_backendsettingspage.h:580
 msgid "Fallback-gain"
 msgstr ""
 
@@ -2620,7 +2620,7 @@ msgstr "高"
 msgid "High (%1 fps)"
 msgstr "高(%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:553
+#: ../build/src/ui_backendsettingspage.h:569
 msgid "High watermark"
 msgstr ""
 
@@ -2684,6 +2684,10 @@ msgstr ""
 
 #: ../build/src/ui_transcodedialog.h:225
 msgid "Import..."
+msgstr ""
+
+#: ../build/src/ui_backendsettingspage.h:565
+msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
 #: core/utilities.cpp:178
@@ -2938,7 +2942,7 @@ msgstr "低(%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "低复杂度 (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:554
+#: ../build/src/ui_backendsettingspage.h:570
 msgid "Low watermark"
 msgstr ""
 
@@ -3389,6 +3393,10 @@ msgstr ""
 msgid "Optimize for &quality"
 msgstr ""
 
+#: ../build/src/ui_backendsettingspage.h:561
+msgid "Options"
+msgstr ""
+
 #: ../build/src/ui_transcodedialog.h:228
 msgid "Options..."
 msgstr "选项..."
@@ -3434,7 +3442,7 @@ msgid "Other options"
 msgstr "其它选项"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:541
+#: ../build/src/ui_backendsettingspage.h:555
 msgid "Output"
 msgstr "输出"
 
@@ -3635,7 +3643,7 @@ msgstr "端口"
 msgid "Position"
 msgstr ""
 
-#: equalizer/equalizer.cpp:67 ../build/src/ui_backendsettingspage.h:562
+#: equalizer/equalizer.cpp:67 ../build/src/ui_backendsettingspage.h:578
 msgid "Pre-amp"
 msgstr "前置放大"
 
@@ -3777,7 +3785,7 @@ msgstr "加入队列"
 msgid "QueueView"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:559
+#: ../build/src/ui_backendsettingspage.h:575
 msgid "Radio (equal loudness for all tracks)"
 msgstr "电台(所有曲目采用相同的音量)"
 
@@ -3969,11 +3977,11 @@ msgstr ""
 msgid "Replace the playlist"
 msgstr "移除播放列表"
 
-#: ../build/src/ui_backendsettingspage.h:556
+#: ../build/src/ui_backendsettingspage.h:572
 msgid "Replay Gain"
 msgstr "回放增益"
 
-#: ../build/src/ui_backendsettingspage.h:558
+#: ../build/src/ui_backendsettingspage.h:574
 msgid "Replay Gain mode"
 msgstr "回放增益模式"
 
@@ -5173,7 +5181,7 @@ msgstr "正在更新 %1%..."
 msgid "Updating collection"
 msgstr "正在更新媒体库"
 
-#: ../build/src/ui_backendsettingspage.h:548
+#: ../build/src/ui_backendsettingspage.h:563
 msgid "Upmix / downmix to"
 msgstr ""
 
@@ -5217,7 +5225,7 @@ msgstr ""
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:557
+#: ../build/src/ui_backendsettingspage.h:573
 msgid "Use Replay Gain metadata if it is available"
 msgstr "使用播放增益元数据(如果可用)"
 
@@ -5552,7 +5560,7 @@ msgstr ""
 msgid "biggest first"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:549
+#: ../build/src/ui_backendsettingspage.h:564
 msgid "channels"
 msgstr ""
 
@@ -5595,7 +5603,7 @@ msgstr ""
 msgid "greater than"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:544
+#: ../build/src/ui_backendsettingspage.h:558
 msgid "hw"
 msgstr ""
 
@@ -5659,11 +5667,11 @@ msgstr ""
 msgid "options"
 msgstr "选项"
 
-#: ../build/src/ui_backendsettingspage.h:545
+#: ../build/src/ui_backendsettingspage.h:559
 msgid "p&lughw"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:546
+#: ../build/src/ui_backendsettingspage.h:560
 msgid "pcm"
 msgstr ""
 

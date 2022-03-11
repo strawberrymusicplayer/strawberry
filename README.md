@@ -95,8 +95,6 @@ You should also install the gstreamer plugins base and good, and optionally bad,
 To ease the development, you can use the development container feature of VSCode. Just `Ctrl+Shift+P` and `Remote-Containers: Open Folder In Container`. 
 This should open VSCode inside a develpoment container specified in `./devcontainer` all dependencies are already installed inside this container, and you should be able to launch cmake right away.
 
-
-
 ### :wrench:	Compiling from source
 
 ### Get the code:
@@ -118,4 +116,3 @@ To compile with Qt 6 use:
 ### :penguin:	Packaging status
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/strawberry.svg)](https://repology.org/metapackage/strawberry/versions)
-
