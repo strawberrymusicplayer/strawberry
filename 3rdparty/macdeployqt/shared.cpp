@@ -1270,7 +1270,6 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
 
     // GStreamer plugins.
     QStringList gstreamer_plugins = QStringList()
-                                                  << "libgstaes.dylib"
                                                   << "libgstaiff.dylib"
                                                   << "libgstapetag.dylib"
                                                   << "libgstapp.dylib"
@@ -1324,8 +1323,6 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
                                                   << "libgstwavparse.dylib"
                                                   << "libgstxingmux.dylib";
 
-    QStringList gstreamer_plugins_optional = QStringList();
-
     QString gstreamer_plugins_dir = qgetenv("GST_PLUGIN_PATH");
     if (gstreamer_plugins_dir.isEmpty()) {
       if (QDir().exists("/usr/local/lib/gstreamer-1.0")) {
@@ -1346,24 +1343,6 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
             if (!info.exists()) {
                 LogError() << "Missing gstreamer plugin" << info.baseName();
                 qFatal("Missing %s", info.baseName().toUtf8().constData());
-            }
-        }
-        const QString &sourcePath = info.filePath();
-        const QString destinationPath = appBundleInfo.path + "/Contents/PlugIns/gstreamer/" + info.fileName();
-        if (QDir().mkpath(QFileInfo(destinationPath).path()) && copyFilePrintStatus(sourcePath, destinationPath)) {
-            runStrip(destinationPath);
-            QList<FrameworkInfo> frameworks = getQtFrameworks(destinationPath, appBundleInfo.path, deploymentInfo.rpathsUsed, useDebugLibs);
-            deployQtFrameworks(frameworks, appBundleInfo.path, QStringList() << destinationPath, useDebugLibs, deploymentInfo.useLoaderPath);
-        }
-    }
-
-    for (const QString &plugin : gstreamer_plugins_optional) {
-        QFileInfo info(gstreamer_plugins_dir + "/" + plugin);
-        if (!info.exists()) {
-            info.setFile(gstreamer_plugins_dir + "/" + info.baseName() + QString(".so"));
-            if (!info.exists()) {
-                LogWarning() << "Skip missing gstreamer plugin" << info.baseName();
-                continue;
             }
         }
         const QString &sourcePath = info.filePath();
