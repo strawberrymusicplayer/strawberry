@@ -91,6 +91,12 @@ Optional dependencies:
 Either GStreamer or VLC engine is required, but only GStreamer is fully implemented, and works best, it is therefore recommended to use GStreamer.
 You should also install the gstreamer plugins base and good, and optionally bad, ugly and libav.
 
+#### For VSCode users 
+To ease the development, you can use the development container feature of VSCode. Just `Ctrl+Shift+P` and `Remote-Containers: Open Folder In Container`. 
+This should open VSCode inside a develpoment container specified in `./devcontainer` all dependencies are already installed inside this container, and you should be able to launch cmake right away.
+
+
+
 ### :wrench:	Compiling from source
 
 ### Get the code:
