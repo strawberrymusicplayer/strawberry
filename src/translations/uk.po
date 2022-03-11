@@ -82,9 +82,9 @@ msgstr " Ярлики на %1 зазвичай використовують че
 msgid " kbps"
 msgstr " кб/с"
 
-#: ../build/src/ui_backendsettingspage.h:551
-#: ../build/src/ui_backendsettingspage.h:571
-#: ../build/src/ui_backendsettingspage.h:574
+#: ../build/src/ui_backendsettingspage.h:567
+#: ../build/src/ui_backendsettingspage.h:587
+#: ../build/src/ui_backendsettingspage.h:590
 msgid " ms"
 msgstr " мс"
 
@@ -532,7 +532,7 @@ msgstr "А-Я"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:543
+#: ../build/src/ui_backendsettingspage.h:557
 msgid "ALSA plugin:"
 msgstr "Плагін ALSA:"
 
@@ -803,7 +803,7 @@ msgstr "Обкладинка &альбому"
 msgid "Album"
 msgstr "Альбом"
 
-#: ../build/src/ui_backendsettingspage.h:560
+#: ../build/src/ui_backendsettingspage.h:576
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Альбом (ідеальна гучність для всіх композицій)"
 
@@ -949,7 +949,7 @@ msgstr "Додати до списку відтворення"
 msgid "Append to the playlist"
 msgstr "Додати  до списку відтворення"
 
-#: ../build/src/ui_backendsettingspage.h:563
+#: ../build/src/ui_backendsettingspage.h:579
 msgid "Apply compression to prevent clipping"
 msgstr "Застосувати стиснення для запобігання зрізанню"
 
@@ -1013,7 +1013,7 @@ msgstr "&Питати при збереженні"
 msgid "Audio format"
 msgstr "Аудіо-формат"
 
-#: ../build/src/ui_backendsettingspage.h:538
+#: ../build/src/ui_backendsettingspage.h:552
 msgid "Audio output"
 msgstr "Виведення звуку"
 
@@ -1099,7 +1099,7 @@ msgstr "Середня бітова швидкість"
 msgid "Average image size"
 msgstr "Середній розмір малюнку"
 
-#: ../build/src/ui_backendsettingspage.h:537
+#: ../build/src/ui_backendsettingspage.h:551
 msgid "Backend"
 msgstr "Бекенд"
 
@@ -1194,11 +1194,11 @@ msgstr "Внизу праворуч"
 msgid "Browse..."
 msgstr "Огляд..."
 
-#: ../build/src/ui_backendsettingspage.h:550
+#: ../build/src/ui_backendsettingspage.h:566
 msgid "Buffer"
 msgstr "Буфер"
 
-#: ../build/src/ui_backendsettingspage.h:552
+#: ../build/src/ui_backendsettingspage.h:568
 msgid "Buffer duration"
 msgstr "Місткість буфера"
 
@@ -1606,11 +1606,11 @@ msgstr "Обкладинки з %1"
 msgid "Create a new playlist with files"
 msgstr "Створити новий список відтворення з файлів"
 
-#: ../build/src/ui_backendsettingspage.h:568
+#: ../build/src/ui_backendsettingspage.h:584
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Перехресне згасання під час автоматичної зміни композицій"
 
-#: ../build/src/ui_backendsettingspage.h:567
+#: ../build/src/ui_backendsettingspage.h:583
 msgid "Cross-fade when changing tracks manually"
 msgstr "Перехресне згасання під час ручної зміни композицій"
 
@@ -1738,7 +1738,7 @@ msgstr "Зменшити гучність на <value> відсотків"
 msgid "Default bac&kground image"
 msgstr "Стандартне &фонове зображення"
 
-#: ../build/src/ui_backendsettingspage.h:555
+#: ../build/src/ui_backendsettingspage.h:571
 msgid "Defaults"
 msgstr "Стандартні значення"
 
@@ -1802,7 +1802,7 @@ msgid "Details..."
 msgstr "Детальніше..."
 
 #: context/contextview.cpp:186 device/giolister.cpp:193
-#: ../build/src/ui_backendsettingspage.h:539
+#: ../build/src/ui_backendsettingspage.h:553
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr "Пристрій"
@@ -2031,7 +2031,7 @@ msgstr "Дозволити вбудоване редагування метад�
 msgid "Enable stereo balancer"
 msgstr "Увімкнути балансування стерео"
 
-#: ../build/src/ui_backendsettingspage.h:547
+#: ../build/src/ui_backendsettingspage.h:562
 msgid "Enable volume control"
 msgstr "Дозволити керування гучністю"
 
@@ -2051,7 +2051,7 @@ msgstr "Якість кодування"
 msgid "Encoding mode"
 msgstr "Режим кодування"
 
-#: context/contextview.cpp:185 ../build/src/ui_backendsettingspage.h:542
+#: context/contextview.cpp:185 ../build/src/ui_backendsettingspage.h:556
 msgid "Engine"
 msgstr "Обробник"
 
@@ -2155,7 +2155,7 @@ msgstr "Не вдалось перевести пристрій CDDA у стан
 msgid "Ever played"
 msgstr "Коли-небудь відтворювалась"
 
-#: ../build/src/ui_backendsettingspage.h:569
+#: ../build/src/ui_backendsettingspage.h:585
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Крім як між композиціями у одному альбомі, або в тому ж CUE-листі"
 
@@ -2230,22 +2230,22 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:572
+#: ../build/src/ui_backendsettingspage.h:588
 msgid "Fade out on pause / fade in on resume"
 msgstr ""
 "Поступово заглушати під час призупинення і поступово робити голоснішим під "
 "час відновлення"
 
-#: ../build/src/ui_backendsettingspage.h:566
+#: ../build/src/ui_backendsettingspage.h:582
 msgid "Fade out when stopping a track"
 msgstr "Поступово заглушати під час зупинки відтворення"
 
-#: ../build/src/ui_backendsettingspage.h:565
+#: ../build/src/ui_backendsettingspage.h:581
 msgid "Fading"
 msgstr "Згасання"
 
-#: ../build/src/ui_backendsettingspage.h:570
-#: ../build/src/ui_backendsettingspage.h:573
+#: ../build/src/ui_backendsettingspage.h:586
+#: ../build/src/ui_backendsettingspage.h:589
 msgid "Fading duration"
 msgstr "Тривалість згасання"
 
@@ -2281,7 +2281,7 @@ msgstr "Не вдалось записати обкладинку в файл %1
 msgid "Failed writing cover to file %1: %2"
 msgstr "Не вдалось записати обкладинку в файл %1: %2"
 
-#: ../build/src/ui_backendsettingspage.h:564
+#: ../build/src/ui_backendsettingspage.h:580
 msgid "Fallback-gain"
 msgstr "Вирівнювання гучності"
 
@@ -2669,7 +2669,7 @@ msgstr "Високий"
 msgid "High (%1 fps)"
 msgstr "Висока (%1 к/с)"
 
-#: ../build/src/ui_backendsettingspage.h:553
+#: ../build/src/ui_backendsettingspage.h:569
 msgid "High watermark"
 msgstr "Водяний знак зверху"
 
@@ -2741,6 +2741,10 @@ msgstr "Імпортувати дані з last.fm..."
 #: ../build/src/ui_transcodedialog.h:225
 msgid "Import..."
 msgstr "Імпортувати..."
+
+#: ../build/src/ui_backendsettingspage.h:565
+msgid "Improve headphone listening of stereo audio records (bs2b)"
+msgstr ""
 
 #: core/utilities.cpp:178
 #, qt-format
@@ -2998,7 +3002,7 @@ msgstr "Низька (%1 к/с)"
 msgid "Low complexity profile (LC)"
 msgstr "Профіль низької складності (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:554
+#: ../build/src/ui_backendsettingspage.h:570
 msgid "Low watermark"
 msgstr "Водяний знак знизу"
 
@@ -3455,6 +3459,10 @@ msgstr "Оптимізувати під &бітову швидкість"
 msgid "Optimize for &quality"
 msgstr "Оптимізувати під &якість"
 
+#: ../build/src/ui_backendsettingspage.h:561
+msgid "Options"
+msgstr ""
+
 #: ../build/src/ui_transcodedialog.h:228
 msgid "Options..."
 msgstr "Налаштування..."
@@ -3500,7 +3508,7 @@ msgid "Other options"
 msgstr "Інші налаштування"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:541
+#: ../build/src/ui_backendsettingspage.h:555
 msgid "Output"
 msgstr "Результат"
 
@@ -3707,7 +3715,7 @@ msgstr "Порт"
 msgid "Position"
 msgstr "Розташування"
 
-#: equalizer/equalizer.cpp:67 ../build/src/ui_backendsettingspage.h:562
+#: equalizer/equalizer.cpp:67 ../build/src/ui_backendsettingspage.h:578
 msgid "Pre-amp"
 msgstr "Підсилення"
 
@@ -3857,7 +3865,7 @@ msgstr "Додати до черги"
 msgid "QueueView"
 msgstr "Подання черги"
 
-#: ../build/src/ui_backendsettingspage.h:559
+#: ../build/src/ui_backendsettingspage.h:575
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Радіо (однакова гучність всіх композицій)"
 
@@ -4057,11 +4065,11 @@ msgstr "Замінити пробіли символами підкреслен�
 msgid "Replace the playlist"
 msgstr "Замінити список відтворення"
 
-#: ../build/src/ui_backendsettingspage.h:556
+#: ../build/src/ui_backendsettingspage.h:572
 msgid "Replay Gain"
 msgstr "Вирівнювання гучності"
 
-#: ../build/src/ui_backendsettingspage.h:558
+#: ../build/src/ui_backendsettingspage.h:574
 msgid "Replay Gain mode"
 msgstr "Режим вирівнювання гучності"
 
@@ -5291,7 +5299,7 @@ msgstr "Оновлення %1%..."
 msgid "Updating collection"
 msgstr "Оновлення фонотеки"
 
-#: ../build/src/ui_backendsettingspage.h:548
+#: ../build/src/ui_backendsettingspage.h:563
 msgid "Upmix / downmix to"
 msgstr "Знижувальне/збільшувальне мікшування"
 
@@ -5335,7 +5343,7 @@ msgstr "Використовувати OAuth"
 msgid "Use Qobuz settings to authenticate."
 msgstr "Використовувати налаштування Qobuz для автентифікації."
 
-#: ../build/src/ui_backendsettingspage.h:557
+#: ../build/src/ui_backendsettingspage.h:573
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Використовувати метадані Replay Gain, якщо можливо"
 
@@ -5688,7 +5696,7 @@ msgstr "поміж"
 msgid "biggest first"
 msgstr "спочатку найбільші"
 
-#: ../build/src/ui_backendsettingspage.h:549
+#: ../build/src/ui_backendsettingspage.h:564
 msgid "channels"
 msgstr "канали"
 
@@ -5731,7 +5739,7 @@ msgstr "дорівнює"
 msgid "greater than"
 msgstr "більше ніж"
 
-#: ../build/src/ui_backendsettingspage.h:544
+#: ../build/src/ui_backendsettingspage.h:558
 msgid "hw"
 msgstr "hw"
 
@@ -5795,11 +5803,11 @@ msgstr "на"
 msgid "options"
 msgstr "налаштування"
 
-#: ../build/src/ui_backendsettingspage.h:545
+#: ../build/src/ui_backendsettingspage.h:559
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: ../build/src/ui_backendsettingspage.h:546
+#: ../build/src/ui_backendsettingspage.h:560
 msgid "pcm"
 msgstr "pcm"
 
