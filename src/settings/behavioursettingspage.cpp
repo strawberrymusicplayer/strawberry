@@ -93,9 +93,9 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
 
     QString code = re_match.captured(1);
     QString lookup_code = QString(code)
-                              .replace("@latin", "_Latn")
-                              .replace("_CN", "_Hans_CN")
-                              .replace("_TW", "_Hant_TW");
+                            .replace("@latin", "_Latn")
+                            .replace("_CN", "_Hans_CN")
+                            .replace("_TW", "_Hant_TW");
 
     QString language_name = QLocale::languageToString(QLocale(lookup_code).language());
     QString native_name = QLocale(lookup_code).nativeLanguageName();
@@ -136,7 +136,6 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
 
   ui_->combobox_doubleclickplaylistaddmode->setItemData(0, PlaylistAddBehaviour_Play);
   ui_->combobox_doubleclickplaylistaddmode->setItemData(1, PlaylistAddBehaviour_Enqueue);
-
 }
 
 BehaviourSettingsPage::~BehaviourSettingsPage() {
@@ -194,8 +193,7 @@ void BehaviourSettingsPage::Load() {
       if (systemtray_available_) {
         ui_->radiobutton_hide->setChecked(true);
         break;
-      }
-      ;
+      };
       // fallthrough
     case BehaviourSettingsPage::Startup_Remember:
     default:
@@ -229,7 +227,6 @@ void BehaviourSettingsPage::Load() {
   Init(ui_->layout_behavioursettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
-
 }
 
 void BehaviourSettingsPage::Save() {
@@ -271,7 +268,6 @@ void BehaviourSettingsPage::Save() {
   s.setValue("seek_step_sec", ui_->spinbox_seekstepsec->value());
 
   s.endGroup();
-
 }
 
 void BehaviourSettingsPage::ShowTrayIconToggled(bool on) {
@@ -280,5 +276,4 @@ void BehaviourSettingsPage::ShowTrayIconToggled(bool on) {
   if (!on && ui_->radiobutton_hide->isChecked()) ui_->radiobutton_remember->setChecked(true);
   ui_->checkbox_keeprunning->setEnabled(on);
   ui_->checkbox_trayicon_progress->setEnabled(on);
-
 }

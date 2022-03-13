@@ -63,16 +63,15 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
   }
 
   backend_->Init(app_->database(),
-                 app_->task_manager(),
-                 Song::Source_Device,
-                 QString("device_%1_songs").arg(database_id),
-                 QString("device_%1_fts").arg(database_id),
-                 QString("device_%1_directories").arg(database_id),
-                 QString("device_%1_subdirectories").arg(database_id));
+    app_->task_manager(),
+    Song::Source_Device,
+    QString("device_%1_songs").arg(database_id),
+    QString("device_%1_fts").arg(database_id),
+    QString("device_%1_directories").arg(database_id),
+    QString("device_%1_subdirectories").arg(database_id));
 
   // Create the model
   model_ = new CollectionModel(backend_, app_, this);
-
 }
 
 ConnectedDevice::~ConnectedDevice() {
@@ -104,7 +103,6 @@ void ConnectedDevice::InitBackendDirectory(const QString &mount_point, const boo
     // Load the directory properly now
     backend_->LoadDirectoriesAsync();
   }
-
 }
 
 void ConnectedDevice::ConnectAsync() { emit DeviceConnectFinished(unique_id_, true); }
@@ -113,13 +111,11 @@ void ConnectedDevice::Close() {
 
   QObject::connect(backend_, &CollectionBackend::ExitFinished, this, &ConnectedDevice::BackendCloseFinished);
   backend_->ExitAsync();
-
 }
 
 void ConnectedDevice::BackendCloseFinished() {
 
   emit DeviceCloseFinished(unique_id_);
-
 }
 
 void ConnectedDevice::Eject() {
@@ -131,7 +127,6 @@ void ConnectedDevice::Eject() {
   if (!idx.isValid()) return;
 
   manager_->UnmountAsync(idx);
-
 }
 
 void ConnectedDevice::FinishCopy(bool) {
@@ -151,7 +146,6 @@ MusicStorage::TranscodeMode ConnectedDevice::GetTranscodeMode() const {
   if (!idx.isValid()) return MusicStorage::TranscodeMode();
 
   return MusicStorage::TranscodeMode(idx.data(DeviceManager::Role_TranscodeMode).toInt());
-
 }
 
 Song::FileType ConnectedDevice::GetTranscodeFormat() const {
@@ -163,11 +157,9 @@ Song::FileType ConnectedDevice::GetTranscodeFormat() const {
   if (!idx.isValid()) return Song::FileType_Unknown;
 
   return Song::FileType(idx.data(DeviceManager::Role_TranscodeFormat).toInt());
-
 }
 
 void ConnectedDevice::BackendTotalSongCountUpdated(int count) {
   song_count_ = count;
   emit SongCountUpdated(count);
 }
-

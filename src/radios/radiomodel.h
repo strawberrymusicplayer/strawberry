@@ -88,12 +88,12 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
 
  private:
   static const int kTreeIconSize;
-  typedef QPair<RadioItem*, QString> ItemAndCacheKey;
+  typedef QPair<RadioItem *, QString> ItemAndCacheKey;
 
   Application *app_;
   AlbumCoverLoaderOptions cover_loader_options_;
-  QMap<Song::Source, RadioItem*> container_nodes_;
-  QList<RadioItem*> items_;
+  QMap<Song::Source, RadioItem *> container_nodes_;
+  QList<RadioItem *> items_;
   QMap<quint64, ItemAndCacheKey> pending_art_;
   QSet<QString> pending_cache_keys_;
 };

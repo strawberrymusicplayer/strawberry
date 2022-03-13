@@ -91,7 +91,6 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent)
   QObject::connect(this, &PlaylistTabBar::tabMoved, this, &PlaylistTabBar::TabMoved);
   // We can't just emit Close signal, we need to extract the playlist id first
   QObject::connect(this, &PlaylistTabBar::tabCloseRequested, this, &PlaylistTabBar::CloseFromTabIndex);
-
 }
 
 void PlaylistTabBar::SetActions(QAction *new_playlist, QAction *load_playlist) {
@@ -100,7 +99,6 @@ void PlaylistTabBar::SetActions(QAction *new_playlist, QAction *load_playlist) {
   menu_->insertAction(nullptr, load_playlist);
 
   action_new_ = new_playlist;
-
 }
 
 void PlaylistTabBar::SetManager(PlaylistManager *manager) {
@@ -108,7 +106,6 @@ void PlaylistTabBar::SetManager(PlaylistManager *manager) {
   manager_ = manager;
   QObject::connect(manager_, &PlaylistManager::PlaylistFavorited, this, &PlaylistTabBar::PlaylistFavoritedSlot);
   QObject::connect(manager_, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistTabBar::PlaylistManagerInitialized);
-
 }
 
 void PlaylistTabBar::PlaylistManagerInitialized() {
@@ -116,7 +113,6 @@ void PlaylistTabBar::PlaylistManagerInitialized() {
   // Signal that we are done loading and thus further changes should be committed to the db.
   initialized_ = true;
   QObject::disconnect(manager_, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistTabBar::PlaylistManagerInitialized);
-
 }
 
 void PlaylistTabBar::contextMenuEvent(QContextMenuEvent *e) {
@@ -134,7 +130,6 @@ void PlaylistTabBar::contextMenuEvent(QContextMenuEvent *e) {
   action_save_->setEnabled(menu_index_ != -1);
 
   menu_->popup(e->globalPos());
-
 }
 
 void PlaylistTabBar::mouseReleaseEvent(QMouseEvent *e) {
@@ -146,7 +141,6 @@ void PlaylistTabBar::mouseReleaseEvent(QMouseEvent *e) {
   }
 
   QTabBar::mouseReleaseEvent(e);
-
 }
 
 void PlaylistTabBar::mouseDoubleClickEvent(QMouseEvent *e) {
@@ -170,7 +164,6 @@ void PlaylistTabBar::mouseDoubleClickEvent(QMouseEvent *e) {
   }
 
   QTabBar::mouseDoubleClickEvent(e);
-
 }
 
 void PlaylistTabBar::RenameSlot() {
@@ -184,7 +177,6 @@ void PlaylistTabBar::RenameSlot() {
   if (new_name.isEmpty()) return;
 
   emit Rename(tabData(menu_index_).toInt(), new_name);
-
 }
 
 void PlaylistTabBar::RenameInline() {
@@ -199,18 +191,16 @@ void PlaylistTabBar::HideEditor() {
 
   // Hack to give back focus to playlist view
   manager_->SetCurrentPlaylist(manager_->current()->id());
-
 }
 
 void PlaylistTabBar::StarSlot() {
 
   if (menu_index_ == -1) return;
 
-  FavoriteWidget *favorite_widget = qobject_cast<FavoriteWidget*>(tabButton(menu_index_, QTabBar::LeftSide));
+  FavoriteWidget *favorite_widget = qobject_cast<FavoriteWidget *>(tabButton(menu_index_, QTabBar::LeftSide));
   if (favorite_widget) {
     favorite_widget->SetFavorite(!favorite_widget->IsFavorite());
   }
-
 }
 
 void PlaylistTabBar::CloseSlot() {
@@ -230,10 +220,10 @@ void PlaylistTabBar::CloseSlot() {
     confirmation_box.setWindowTitle(tr("Remove playlist"));
     confirmation_box.setIcon(QMessageBox::Question);
     confirmation_box.setText(
-        tr("You are about to remove a playlist which is not part of your "
-           "favorite playlists: "
-           "the playlist will be deleted (this action cannot be undone). \n"
-           "Are you sure you want to continue?"));
+      tr("You are about to remove a playlist which is not part of your "
+         "favorite playlists: "
+         "the playlist will be deleted (this action cannot be undone). \n"
+         "Are you sure you want to continue?"));
     confirmation_box.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
 
     QCheckBox dont_prompt_again(tr("Warn me when closing a playlist tab"), &confirmation_box);
@@ -241,8 +231,8 @@ void PlaylistTabBar::CloseSlot() {
     dont_prompt_again.blockSignals(true);
     dont_prompt_again.setToolTip(tr("This option can be changed in the \"Behavior\" preferences"));
 
-    QGridLayout *grid = qobject_cast<QGridLayout*>(confirmation_box.layout());
-    QDialogButtonBox *buttons = confirmation_box.findChild<QDialogButtonBox*>();
+    QGridLayout *grid = qobject_cast<QGridLayout *>(confirmation_box.layout());
+    QDialogButtonBox *buttons = confirmation_box.findChild<QDialogButtonBox *>();
     if (grid && buttons) {
       const int index = grid->indexOf(buttons);
       int row = 0, column = 0, row_span = 0, column_span = 0;
@@ -276,7 +266,6 @@ void PlaylistTabBar::CloseSlot() {
 
   // Update playlist tab order/visibility
   TabMoved();
-
 }
 
 void PlaylistTabBar::CloseFromTabIndex(int index) {
@@ -284,7 +273,6 @@ void PlaylistTabBar::CloseFromTabIndex(int index) {
   // Update the global index
   menu_index_ = index;
   CloseSlot();
-
 }
 
 void PlaylistTabBar::SaveSlot() {
@@ -292,7 +280,6 @@ void PlaylistTabBar::SaveSlot() {
   if (menu_index_ == -1) return;
 
   emit Save(tabData(menu_index_).toInt());
-
 }
 
 int PlaylistTabBar::current_id() const {
@@ -308,7 +295,6 @@ int PlaylistTabBar::index_of(const int id) const {
     }
   }
   return -1;
-
 }
 
 void PlaylistTabBar::set_current_id(const int id) { setCurrentIndex(index_of(id)); }
@@ -320,7 +306,6 @@ int PlaylistTabBar::id_of(const int index) const {
     return 0;
   }
   return tabData(index).toInt();
-
 }
 
 void PlaylistTabBar::set_icon_by_id(const int id, const QIcon &icon) {
@@ -337,7 +322,6 @@ void PlaylistTabBar::set_text_by_id(const int id, const QString &text) {
   new_text = new_text.replace("&", "&&");
   setTabText(index_of(id), new_text);
   setTabToolTip(index_of(id), text);
-
 }
 
 void PlaylistTabBar::CurrentIndexChanged(const int index) {
@@ -368,7 +352,6 @@ void PlaylistTabBar::InsertTab(const int id, const int index, const QString &tex
     // Update playlist tab order/visibility
     TabMoved();
   }
-
 }
 
 void PlaylistTabBar::TabMoved() {
@@ -379,11 +362,10 @@ void PlaylistTabBar::TabMoved() {
     ids << tabData(i).toInt();
   }
   emit PlaylistOrderChanged(ids);
-
 }
 
 void PlaylistTabBar::dragEnterEvent(QDragEnterEvent *e) {
-  if (e->mimeData()->hasUrls() || e->mimeData()->hasFormat(Playlist::kRowsMimetype) || qobject_cast<const MimeData*>(e->mimeData())) {
+  if (e->mimeData()->hasUrls() || e->mimeData()->hasFormat(Playlist::kRowsMimetype) || qobject_cast<const MimeData *>(e->mimeData())) {
     e->acceptProposedAction();
   }
 }
@@ -407,10 +389,9 @@ void PlaylistTabBar::dragMoveEvent(QDragMoveEvent *e) {
   else {
     drag_hover_timer_.stop();
   }
-
 }
 
-void PlaylistTabBar::dragLeaveEvent(QDragLeaveEvent*) {
+void PlaylistTabBar::dragLeaveEvent(QDragLeaveEvent *) {
   drag_hover_timer_.stop();
 }
 
@@ -427,8 +408,8 @@ void PlaylistTabBar::timerEvent(QTimerEvent *e) {
 void PlaylistTabBar::dropEvent(QDropEvent *e) {
 
   if (drag_hover_tab_ == -1) {
-    const MimeData *mime_data = qobject_cast<const MimeData*>(e->mimeData());
-    if(mime_data && !mime_data->name_for_new_playlist_.isEmpty()) {
+    const MimeData *mime_data = qobject_cast<const MimeData *>(e->mimeData());
+    if (mime_data && !mime_data->name_for_new_playlist_.isEmpty()) {
       manager_->New(mime_data->name_for_new_playlist_);
     }
     else {
@@ -441,14 +422,13 @@ void PlaylistTabBar::dropEvent(QDropEvent *e) {
   }
 
   manager_->current()->dropMimeData(e->mimeData(), e->proposedAction(), -1, 0, QModelIndex());
-
 }
 
 bool PlaylistTabBar::event(QEvent *e) {
 
   switch (e->type()) {
     case QEvent::ToolTip: {
-      QHelpEvent *he = static_cast<QHelpEvent*>(e);
+      QHelpEvent *he = static_cast<QHelpEvent *>(e);
 
       QSize real_tab = tabSizeHint(tabAt(he->pos()));
       QRect displayed_tab = tabRect(tabAt(he->pos()));
@@ -466,15 +446,13 @@ bool PlaylistTabBar::event(QEvent *e) {
     default:
       return QTabBar::event(e);
   }
-
 }
 
 void PlaylistTabBar::PlaylistFavoritedSlot(const int id, const bool favorite) {
 
   const int index = index_of(id);
-  FavoriteWidget *favorite_widget = qobject_cast<FavoriteWidget*>(tabButton(index, QTabBar::LeftSide));
+  FavoriteWidget *favorite_widget = qobject_cast<FavoriteWidget *>(tabButton(index, QTabBar::LeftSide));
   if (favorite_widget) {
     favorite_widget->SetFavorite(favorite);
   }
-
 }

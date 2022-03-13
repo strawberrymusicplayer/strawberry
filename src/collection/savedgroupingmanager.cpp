@@ -66,7 +66,6 @@ SavedGroupingManager::SavedGroupingManager(QWidget *parent)
   QObject::connect(ui_->list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &SavedGroupingManager::UpdateButtonState);
 
   QObject::connect(ui_->remove, &QPushButton::clicked, this, &SavedGroupingManager::Remove);
-
 }
 
 SavedGroupingManager::~SavedGroupingManager() {
@@ -144,7 +143,6 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy g) 
   }
 
   return tr("Unknown");
-
 }
 
 void SavedGroupingManager::UpdateModel() {
@@ -162,7 +160,7 @@ void SavedGroupingManager::UpdateModel() {
       CollectionModel::Grouping g;
       ds >> g;
 
-      QList<QStandardItem*> list;
+      QList<QStandardItem *> list;
       list << new QStandardItem(saved.at(i))
            << new QStandardItem(GroupByToString(g.first))
            << new QStandardItem(GroupByToString(g.second))
@@ -179,7 +177,6 @@ void SavedGroupingManager::UpdateModel() {
     }
   }
   s.endGroup();
-
 }
 
 void SavedGroupingManager::Remove() {
@@ -197,7 +194,6 @@ void SavedGroupingManager::Remove() {
   }
   UpdateModel();
   filter_->UpdateGroupByActions();
-
 }
 
 void SavedGroupingManager::UpdateButtonState() {
@@ -209,5 +205,4 @@ void SavedGroupingManager::UpdateButtonState() {
   else {
     ui_->remove->setEnabled(false);
   }
-
 }

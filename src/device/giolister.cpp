@@ -56,7 +56,6 @@ QString GioLister::DeviceInfo::unique_id() const {
   else {
     return QString("Gio/unmounted/%1").arg(reinterpret_cast<qulonglong>(volume_ptr.get()));
   }
-
 }
 
 bool GioLister::DeviceInfo::is_suitable() const {
@@ -70,13 +69,12 @@ bool GioLister::DeviceInfo::is_suitable() const {
   if (filesystem_type.isEmpty()) return true;
 
   return filesystem_type != "udf" && filesystem_type != "smb" && filesystem_type != "cifs" && filesystem_type != "ssh" && filesystem_type != "isofs";
-
 }
 
-template <typename T, typename F>
+template<typename T, typename F>
 void OperationFinished(F f, GObject *object, GAsyncResult *result) {
 
-  T *obj = reinterpret_cast<T*>(object);
+  T *obj = reinterpret_cast<T *>(object);
   GError *error = nullptr;
 
   f(obj, result, &error);
@@ -85,7 +83,6 @@ void OperationFinished(F f, GObject *object, GAsyncResult *result) {
     qLog(Error) << "Mount/unmount error:" << error->message;
     g_error_free(error);
   }
-
 }
 
 void GioLister::VolumeMountFinished(GObject *object, GAsyncResult *result, gpointer) {
@@ -99,7 +96,7 @@ bool GioLister::Init() {
   // Get existing volumes
   GList *const volumes = g_volume_monitor_get_volumes(monitor_);
   for (GList *p = volumes; p; p = p->next) {
-    GVolume *volume = static_cast<GVolume*>(p->data);
+    GVolume *volume = static_cast<GVolume *>(p->data);
 
     VolumeAdded(volume);
     g_object_unref(volume);
@@ -109,7 +106,7 @@ bool GioLister::Init() {
   // Get existing mounts
   GList *const mounts = g_volume_monitor_get_mounts(monitor_);
   for (GList *p = mounts; p; p = p->next) {
-    GMount *mount = static_cast<GMount*>(p->data);
+    GMount *mount = static_cast<GMount *>(p->data);
 
     MountAdded(mount);
     g_object_unref(mount);
@@ -124,7 +121,6 @@ bool GioLister::Init() {
   signals_.append(CHECKED_GCONNECT(monitor_, "mount-removed", &MountRemovedCallback, this));
 
   return true;
-
 }
 
 GioLister::~GioLister() {
@@ -154,10 +150,12 @@ QVariantList GioLister::DeviceIcons(const QString &id) {
   ret << DeviceLister::GuessIconForModel(QString(), info.mount_name);
 
   return ret;
-
 }
 
-QString GioLister::DeviceManufacturer(const QString &id) { Q_UNUSED(id); return QString(); }
+QString GioLister::DeviceManufacturer(const QString &id) {
+  Q_UNUSED(id);
+  return QString();
+}
 
 QString GioLister::DeviceModel(const QString &id) {
 
@@ -166,7 +164,6 @@ QString GioLister::DeviceModel(const QString &id) {
   const DeviceInfo &info = devices_[id];
 
   return info.drive_name.isEmpty() ? info.volume_name : info.drive_name;
-
 }
 
 quint64 GioLister::DeviceCapacity(const QString &id) {
@@ -193,7 +190,6 @@ QVariantMap GioLister::DeviceHardwareInfo(const QString &id) {
   ret[QT_TR_NOOP("Device")] = info.volume_unix_device;
   ret[QT_TR_NOOP("URI")] = info.mount_uri;
   return ret;
-
 }
 
 QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
@@ -253,7 +249,6 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
       }
 
       ret << url;  // clazy:exclude=reserve-candidates
-
     }
   }
 
@@ -263,27 +258,26 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
   }
 
   return ret;
-
 }
 
-void GioLister::VolumeAddedCallback(GVolumeMonitor*, GVolume *v, gpointer d) {
-  static_cast<GioLister*>(d)->VolumeAdded(v);
+void GioLister::VolumeAddedCallback(GVolumeMonitor *, GVolume *v, gpointer d) {
+  static_cast<GioLister *>(d)->VolumeAdded(v);
 }
 
-void GioLister::VolumeRemovedCallback(GVolumeMonitor*, GVolume *v, gpointer d) {
-  static_cast<GioLister*>(d)->VolumeRemoved(v);
+void GioLister::VolumeRemovedCallback(GVolumeMonitor *, GVolume *v, gpointer d) {
+  static_cast<GioLister *>(d)->VolumeRemoved(v);
 }
 
-void GioLister::MountAddedCallback(GVolumeMonitor*, GMount *m, gpointer d) {
-  static_cast<GioLister*>(d)->MountAdded(m);
+void GioLister::MountAddedCallback(GVolumeMonitor *, GMount *m, gpointer d) {
+  static_cast<GioLister *>(d)->MountAdded(m);
 }
 
-void GioLister::MountChangedCallback(GVolumeMonitor*, GMount *m, gpointer d) {
-  static_cast<GioLister*>(d)->MountChanged(m);
+void GioLister::MountChangedCallback(GVolumeMonitor *, GMount *m, gpointer d) {
+  static_cast<GioLister *>(d)->MountChanged(m);
 }
 
-void GioLister::MountRemovedCallback(GVolumeMonitor*, GMount *m, gpointer d) {
-  static_cast<GioLister*>(d)->MountRemoved(m);
+void GioLister::MountRemovedCallback(GVolumeMonitor *, GMount *m, gpointer d) {
+  static_cast<GioLister *>(d)->MountRemoved(m);
 }
 
 void GioLister::VolumeAdded(GVolume *volume) {
@@ -312,7 +306,6 @@ void GioLister::VolumeAdded(GVolume *volume) {
   }
 
   emit DeviceAdded(info.unique_id());
-
 }
 
 void GioLister::VolumeRemoved(GVolume *volume) {
@@ -380,7 +373,6 @@ void GioLister::MountAdded(GMount *mount) {
   else {
     emit DeviceChanged(old_id);
   }
-
 }
 
 void GioLister::MountChanged(GMount *mount) {
@@ -407,7 +399,6 @@ void GioLister::MountChanged(GMount *mount) {
   }
 
   emit DeviceChanged(id);
-
 }
 
 void GioLister::MountRemoved(GMount *mount) {
@@ -422,7 +413,6 @@ void GioLister::MountRemoved(GMount *mount) {
   }
 
   emit DeviceRemoved(id);
-
 }
 
 QString GioLister::DeviceInfo::ConvertAndFree(char *str) {
@@ -430,7 +420,6 @@ QString GioLister::DeviceInfo::ConvertAndFree(char *str) {
   QString ret = QString::fromUtf8(str);
   g_free(str);
   return ret;
-
 }
 
 void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
@@ -531,7 +520,6 @@ void GioLister::DeviceInfo::ReadVolumeInfo(GVolume *volume) {
     volume_root_uri = g_file_get_uri(root);
     g_object_unref(root);
   }
-
 }
 
 void GioLister::DeviceInfo::ReadDriveInfo(GDrive *drive) {
@@ -549,7 +537,6 @@ QString GioLister::FindUniqueIdByMount(GMount *mount) const {
     if (info.mount_ptr == mount) return info.unique_id();
   }
   return QString();
-
 }
 
 QString GioLister::FindUniqueIdByVolume(GVolume *volume) const {
@@ -558,7 +545,6 @@ QString GioLister::FindUniqueIdByVolume(GVolume *volume) const {
     if (info.volume_ptr == volume) return info.unique_id();
   }
   return QString();
-
 }
 
 void GioLister::VolumeEjectFinished(GObject *object, GAsyncResult *result, gpointer) {
@@ -598,14 +584,12 @@ void GioLister::UpdateDeviceFreeSpace(const QString &id) {
   }
 
   emit DeviceChanged(id);
-
 }
 
 bool GioLister::DeviceNeedsMount(const QString &id) {
 
   QMutexLocker l(&mutex_);
   return devices_.contains(id) && !devices_[id].mount_ptr && !devices_[id].volume_root_uri.startsWith("mtp://") && !devices_[id].volume_root_uri.startsWith("gphoto2://");
-
 }
 
 void GioLister::MountDevice(const QString &id, const int request_id) {
@@ -625,7 +609,6 @@ void GioLister::MountDevice(const QString &id, const int request_id) {
 
   g_volume_mount(info.volume_ptr, G_MOUNT_MOUNT_NONE, nullptr, nullptr, VolumeMountFinished, nullptr);
   emit DeviceMounted(id, request_id, true);
-
 }
 
 void GioLister::UnmountDevice(const QString &id) {
@@ -643,7 +626,8 @@ void GioLister::UnmountDevice(const QString &id) {
       return;
     }
   }
-  else return;
+  else
+    return;
 
   if (g_mount_can_eject(info.mount_ptr)) {
     g_mount_eject_with_operation(info.mount_ptr, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, reinterpret_cast<GAsyncReadyCallback>(MountEjectFinished), nullptr);
@@ -651,5 +635,4 @@ void GioLister::UnmountDevice(const QString &id) {
   else if (g_mount_can_unmount(info.mount_ptr)) {
     g_mount_unmount_with_operation(info.mount_ptr, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, reinterpret_cast<GAsyncReadyCallback>(MountUnmountFinished), nullptr);
   }
-
 }

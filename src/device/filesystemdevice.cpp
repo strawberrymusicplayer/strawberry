@@ -40,10 +40,10 @@
 class DeviceLister;
 
 FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent)
-      : FilesystemMusicStorage(url.toLocalFile()),
-        ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
-        watcher_(new CollectionWatcher(Song::Source_Device)),
-        watcher_thread_(new QThread(this)) {
+    : FilesystemMusicStorage(url.toLocalFile()),
+      ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
+      watcher_(new CollectionWatcher(Song::Source_Device)),
+      watcher_thread_(new QThread(this)) {
 
   watcher_->moveToThread(watcher_thread_);
   watcher_thread_->start(QThread::IdlePriority);
@@ -65,7 +65,6 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
   QObject::connect(watcher_, &CollectionWatcher::CompilationsNeedUpdating, backend_, &CollectionBackend::CompilationsNeedUpdating);
   QObject::connect(watcher_, &CollectionWatcher::UpdateLastSeen, backend_, &CollectionBackend::UpdateLastSeen);
   QObject::connect(watcher_, &CollectionWatcher::ScanStarted, this, &FilesystemDevice::TaskStarted);
-
 }
 
 FilesystemDevice::~FilesystemDevice() {
@@ -74,7 +73,6 @@ FilesystemDevice::~FilesystemDevice() {
   watcher_->deleteLater();
   watcher_thread_->exit();
   watcher_thread_->wait();
-
 }
 
 bool FilesystemDevice::Init() {
@@ -82,7 +80,6 @@ bool FilesystemDevice::Init() {
   InitBackendDirectory(url_.toLocalFile(), first_time_);
   model_->Init();
   return true;
-
 }
 
 void FilesystemDevice::CloseAsync() {
@@ -102,7 +99,6 @@ void FilesystemDevice::Close() {
   QObject::connect(watcher_, &CollectionWatcher::ExitFinished, this, &FilesystemDevice::ExitFinished);
   backend_->ExitAsync();
   watcher_->ExitAsync();
-
 }
 
 void FilesystemDevice::ExitFinished() {
@@ -115,5 +111,4 @@ void FilesystemDevice::ExitFinished() {
   if (wait_for_exit_.isEmpty()) {
     emit DeviceCloseFinished(unique_id());
   }
-
 }

@@ -20,7 +20,11 @@ class Base;
  *
  * It is vital to be Idle just after the track has ended!
  */
-enum State { Empty, Idle, Playing, Paused, Error };
+enum State { Empty,
+  Idle,
+  Playing,
+  Paused,
+  Error };
 
 enum TrackChangeType {
   // One of:

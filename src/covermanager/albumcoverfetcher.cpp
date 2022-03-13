@@ -47,18 +47,16 @@ AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *p
 
   request_starter_->setInterval(1s);
   QObject::connect(request_starter_, &QTimer::timeout, this, &AlbumCoverFetcher::StartRequests);
-
 }
 
 AlbumCoverFetcher::~AlbumCoverFetcher() {
 
-  QList<AlbumCoverFetcherSearch*> searches = active_requests_.values();
+  QList<AlbumCoverFetcherSearch *> searches = active_requests_.values();
   for (AlbumCoverFetcherSearch *search : searches) {
     search->disconnect();
     search->deleteLater();
   }
   active_requests_.clear();
-
 }
 
 quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString &album, const QString &title, const bool batch) {
@@ -75,7 +73,6 @@ quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString 
 
   AddRequest(request);
   return request.id;
-
 }
 
 quint64 AlbumCoverFetcher::SearchForCovers(const QString &artist, const QString &album, const QString &title) {
@@ -92,7 +89,6 @@ quint64 AlbumCoverFetcher::SearchForCovers(const QString &artist, const QString 
 
   AddRequest(request);
   return request.id;
-
 }
 
 void AlbumCoverFetcher::AddRequest(const CoverSearchRequest &req) {
@@ -102,20 +98,18 @@ void AlbumCoverFetcher::AddRequest(const CoverSearchRequest &req) {
   if (!request_starter_->isActive()) request_starter_->start();
 
   if (active_requests_.size() < kMaxConcurrentRequests) StartRequests();
-
 }
 
 void AlbumCoverFetcher::Clear() {
 
   queued_requests_.clear();
 
-  QList<AlbumCoverFetcherSearch*> searches = active_requests_.values();
+  QList<AlbumCoverFetcherSearch *> searches = active_requests_.values();
   for (AlbumCoverFetcherSearch *search : searches) {
     search->Cancel();
     search->deleteLater();
   }
   active_requests_.clear();
-
 }
 
 void AlbumCoverFetcher::StartRequests() {
@@ -138,7 +132,6 @@ void AlbumCoverFetcher::StartRequests() {
 
     search->Start(cover_providers_);
   }
-
 }
 
 void AlbumCoverFetcher::SingleSearchFinished(const quint64 request_id, const CoverProviderSearchResults &results) {
@@ -148,7 +141,6 @@ void AlbumCoverFetcher::SingleSearchFinished(const quint64 request_id, const Cov
 
   search->deleteLater();
   emit SearchFinished(request_id, results, search->statistics());
-
 }
 
 void AlbumCoverFetcher::SingleCoverFetched(const quint64 request_id, const AlbumCoverImageResult &result) {
@@ -158,5 +150,4 @@ void AlbumCoverFetcher::SingleCoverFetched(const quint64 request_id, const Album
 
   search->deleteLater();
   emit AlbumCoverFetched(request_id, result, search->statistics());
-
 }

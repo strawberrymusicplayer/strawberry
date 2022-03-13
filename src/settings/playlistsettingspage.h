@@ -45,7 +45,6 @@ class PlaylistSettingsPage : public SettingsPage {
 
  private:
   Ui_PlaylistSettingsPage *ui_;
-
 };
 
 #endif  // PLAYLISTSETTINGSPAGE_H

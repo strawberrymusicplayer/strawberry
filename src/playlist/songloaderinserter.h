@@ -72,10 +72,9 @@ class SongLoaderInserter : public QObject {
 
   SongList songs_;
 
-  QList<SongLoader*> pending_;
+  QList<SongLoader *> pending_;
   CollectionBackendInterface *collection_;
   const Player *player_;
-
 };
 
 #endif  // SONGLOADERINSERTER_H

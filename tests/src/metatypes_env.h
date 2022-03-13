@@ -42,6 +42,7 @@ class MetatypesEnvironment : public ::testing::Environment {
     qRegisterMetaType<QModelIndex>("QModelIndex");
     qRegisterMetaType<SongLoader::Result>("SongLoader::Result");
   }
+
  private:
   Q_DISABLE_COPY(MetatypesEnvironment)
 };

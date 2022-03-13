@@ -50,7 +50,6 @@ MusixmatchCoverProvider::~MusixmatchCoverProvider() {
     reply->abort();
     reply->deleteLater();
   }
-
 }
 
 bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -61,18 +60,18 @@ bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &
   QString album_stripped = album;
 
   artist_stripped = artist_stripped.replace('/', '-')
-                                   .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
-                                   .simplified()
-                                   .replace(' ', '-')
-                                   .replace(QRegularExpression("(-)\\1+"), "-")
-                                   .toLower();
+                      .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
+                      .simplified()
+                      .replace(' ', '-')
+                      .replace(QRegularExpression("(-)\\1+"), "-")
+                      .toLower();
 
   album_stripped = album_stripped.replace('/', '-')
-                                 .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
-                                 .simplified()
-                                 .replace(' ', '-')
-                                 .replace(QRegularExpression("(-)\\1+"), "-")
-                                 .toLower();
+                     .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
+                     .simplified()
+                     .replace(' ', '-')
+                     .replace(QRegularExpression("(-)\\1+"), "-")
+                     .toLower();
 
   if (artist_stripped.isEmpty() || album_stripped.isEmpty()) return false;
 
@@ -89,7 +88,6 @@ bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &
   //qLog(Debug) << "Musixmatch: Sending request for" << artist_stripped << album_stripped << url;
 
   return true;
-
 }
 
 void MusixmatchCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
@@ -215,12 +213,10 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
   }
 
   emit SearchFinished(id, results);
-
 }
 
 void MusixmatchCoverProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Musixmatch:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-
 }

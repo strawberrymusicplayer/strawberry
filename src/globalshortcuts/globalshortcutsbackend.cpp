@@ -33,7 +33,7 @@ GlobalShortcutsBackend::GlobalShortcutsBackend(GlobalShortcutsManager *manager, 
 
 QString GlobalShortcutsBackend::name() const {
 
-  switch(type_) {
+  switch (type_) {
     case Type_None:
       return "None";
     case Type_KDE:
@@ -51,7 +51,6 @@ QString GlobalShortcutsBackend::name() const {
   }
 
   return QString();
-
 }
 
 bool GlobalShortcutsBackend::Register() {
@@ -59,12 +58,10 @@ bool GlobalShortcutsBackend::Register() {
   bool ret = DoRegister();
   if (ret) active_ = true;
   return ret;
-
 }
 
 void GlobalShortcutsBackend::Unregister() {
 
   DoUnregister();
   active_ = false;
-
 }

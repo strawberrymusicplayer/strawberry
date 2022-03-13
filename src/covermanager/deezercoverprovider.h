@@ -58,8 +58,7 @@ class DeezerCoverProvider : public JsonCoverProvider {
   static const char *kApiUrl;
   static const int kLimit;
 
-  QList<QNetworkReply*> replies_;
-
+  QList<QNetworkReply *> replies_;
 };
 
 #endif  // DEEZERCOVERPROVIDER_H

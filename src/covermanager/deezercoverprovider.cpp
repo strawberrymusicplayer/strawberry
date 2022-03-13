@@ -63,7 +63,6 @@ DeezerCoverProvider::~DeezerCoverProvider() {
     reply->abort();
     reply->deleteLater();
   }
-
 }
 
 bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -106,7 +105,6 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { HandleSearchReply(reply, id); });
 
   return true;
-
 }
 
 void DeezerCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
@@ -156,7 +154,6 @@ QByteArray DeezerCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
-
 }
 
 QJsonValue DeezerCoverProvider::ExtractData(const QByteArray &data) {
@@ -183,11 +180,12 @@ QJsonValue DeezerCoverProvider::ExtractData(const QByteArray &data) {
   }
 
   QJsonValue value_data;
-  if (json_obj.contains("data")) value_data = json_obj["data"];
-  else value_data = json_obj["DATA"];
+  if (json_obj.contains("data"))
+    value_data = json_obj["data"];
+  else
+    value_data = json_obj["DATA"];
 
   return value_data;
-
 }
 
 void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
@@ -299,7 +297,6 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
     if (!have_cover) {
       Error("Invalid Json reply, data array value album object is missing cover.", obj_album);
     }
-
   }
 
   if (results.isEmpty()) {
@@ -310,7 +307,6 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
     std::stable_sort(cover_results.begin(), cover_results.end(), AlbumCoverFetcherSearch::CoverProviderSearchResultCompareNumber);
     emit SearchFinished(id, cover_results);
   }
-
 }
 
 void DeezerCoverProvider::Error(const QString &error, const QVariant &debug) {

@@ -41,7 +41,6 @@ class DeviceViewContainer : public QWidget {
   DeviceView *view() const;
 
  protected:
-
  private:
   Ui_DeviceViewContainer *ui_;
 };

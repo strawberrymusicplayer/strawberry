@@ -38,7 +38,6 @@ PlaylistQueryGenerator::PlaylistQueryGenerator(const QString &name, const SmartP
       current_pos_(0) {
 
   set_name(name);
-
 }
 
 void PlaylistQueryGenerator::Load(const SmartPlaylistSearch &search) {
@@ -46,7 +45,6 @@ void PlaylistQueryGenerator::Load(const SmartPlaylistSearch &search) {
   search_ = search;
   dynamic_ = false;
   current_pos_ = 0;
-
 }
 
 void PlaylistQueryGenerator::Load(const QByteArray &data) {
@@ -54,7 +52,6 @@ void PlaylistQueryGenerator::Load(const QByteArray &data) {
   QDataStream s(data);
   s >> search_;
   s >> dynamic_;
-
 }
 
 QByteArray PlaylistQueryGenerator::Save() const {
@@ -65,7 +62,6 @@ QByteArray PlaylistQueryGenerator::Save() const {
   s << dynamic_;
 
   return ret;
-
 }
 
 PlaylistItemList PlaylistQueryGenerator::Generate() {
@@ -73,7 +69,6 @@ PlaylistItemList PlaylistQueryGenerator::Generate() {
   previous_ids_.clear();
   current_pos_ = 0;
   return GenerateMore(0);
-
 }
 
 PlaylistItemList PlaylistQueryGenerator::GenerateMore(const int count) {
@@ -102,5 +97,4 @@ PlaylistItemList PlaylistQueryGenerator::GenerateMore(const int count) {
   }
 
   return items;
-
 }

@@ -106,8 +106,7 @@ class LastFMImport : public QObject {
   int lastplayed_received_;
   QQueue<GetRecentTracksRequest> recent_tracks_requests_;
   QQueue<GetTopTracksRequest> top_tracks_requests_;
-  QList<QNetworkReply*> replies_;
-
+  QList<QNetworkReply *> replies_;
 };
 
 #endif  // LASTFMIMPORT_H

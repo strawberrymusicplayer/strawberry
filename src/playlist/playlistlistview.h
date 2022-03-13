@@ -46,7 +46,7 @@ class PlaylistListView : public AutoExpandingTreeView {
  protected:
   // QWidget
   void paintEvent(QPaintEvent *event) override;
-  void selectionChanged(const QItemSelection&, const QItemSelection&) override;
+  void selectionChanged(const QItemSelection &, const QItemSelection &) override;
 };
 
 #endif  // PLAYLISTVIEW_H

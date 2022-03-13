@@ -50,7 +50,6 @@ class QobuzRequest : public QobuzBaseRequest {
   Q_OBJECT
 
  public:
-
   explicit QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent = nullptr);
   ~QobuzRequest();
 
@@ -82,7 +81,6 @@ class QobuzRequest : public QobuzBaseRequest {
   void AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_url, const QString &filename);
 
  private:
-
   struct Request {
     Request() : offset(0), limit(0) {}
     QString artist_id;
@@ -194,9 +192,8 @@ class QobuzRequest : public QobuzBaseRequest {
   SongMap songs_;
   QStringList errors_;
   bool no_results_;
-  QList<QNetworkReply*> replies_;
-  QList<QNetworkReply*> album_cover_replies_;
-
+  QList<QNetworkReply *> replies_;
+  QList<QNetworkReply *> album_cover_replies_;
 };
 
 #endif  // QOBUZREQUEST_H

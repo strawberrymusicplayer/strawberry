@@ -56,21 +56,18 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *pare
 
   QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CurrentAlbumCoverLoader::TempAlbumCoverLoaded);
   QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &CurrentAlbumCoverLoader::LoadAlbumCover);
-
 }
 
 CurrentAlbumCoverLoader::~CurrentAlbumCoverLoader() {
 
   if (temp_cover_) temp_cover_->remove();
   if (temp_cover_thumbnail_) temp_cover_thumbnail_->remove();
-
 }
 
 void CurrentAlbumCoverLoader::LoadAlbumCover(const Song &song) {
 
   last_song_ = song;
   id_ = app_->album_cover_loader()->LoadImageAsync(options_, last_song_);
-
 }
 
 void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResult result) {
@@ -117,5 +114,4 @@ void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverL
 
   emit AlbumCoverLoaded(last_song_, result);
   emit ThumbnailLoaded(last_song_, thumbnail_url, result.image_thumbnail);
-
 }

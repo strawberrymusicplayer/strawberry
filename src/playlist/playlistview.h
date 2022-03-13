@@ -145,7 +145,7 @@ class PlaylistView : public QTreeView {
   void timerEvent(QTimerEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
-  void leaveEvent(QEvent*) override;
+  void leaveEvent(QEvent *) override;
   void paintEvent(QPaintEvent *event) override;
   void dragMoveEvent(QDragMoveEvent *event) override;
   void dragEnterEvent(QDragEnterEvent *event) override;
@@ -300,7 +300,6 @@ class PlaylistView : public QTreeView {
   RatingItemDelegate *rating_delegate_;
 
   QColor playlist_playing_song_color_;
-
 };
 
 #endif  // PLAYLISTVIEW_H

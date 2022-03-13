@@ -56,7 +56,7 @@ class SystemTrayIcon : public QSystemTrayIcon {
   void SetStopped();
   void SetProgress(const int percentage);
   void MuteButtonStateChanged(const bool value);
-  void SetNowPlaying(const Song &song, const QUrl&);
+  void SetNowPlaying(const Song &song, const QUrl &);
   void ClearNowPlaying();
   void LoveVisibilityChanged(const bool value);
   void LoveStateChanged(const bool value);
@@ -100,7 +100,6 @@ class SystemTrayIcon : public QSystemTrayIcon {
   int song_progress_;
 
   QPixmap current_state_icon_;
-
 };
 
 #endif  // QTSYSTEMTRAYICON_H

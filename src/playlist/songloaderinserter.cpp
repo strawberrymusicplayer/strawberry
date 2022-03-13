@@ -119,7 +119,6 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
     delete loader;
   }
   // Songs will be loaded later: see AudioCDTracksLoadFinished and AudioCDTagsLoaded slots
-
 }
 
 void SongLoaderInserter::DestinationDestroyed() { destination_ = nullptr; }
@@ -135,12 +134,11 @@ void SongLoaderInserter::AudioCDTracksLoadFinished(SongLoader *loader) {
   else {
     InsertSongs();
   }
-
 }
 
 void SongLoaderInserter::AudioCDTagsLoaded(const bool success) {
 
-  SongLoader *loader = qobject_cast<SongLoader*>(sender());
+  SongLoader *loader = qobject_cast<SongLoader *>(sender());
   if (!loader || !destination_) return;
 
   if (success) {
@@ -151,7 +149,6 @@ void SongLoaderInserter::AudioCDTagsLoaded(const bool success) {
   }
 
   deleteLater();
-
 }
 
 void SongLoaderInserter::InsertSongs() {
@@ -160,7 +157,6 @@ void SongLoaderInserter::InsertSongs() {
   if (destination_) {
     destination_->InsertSongsOrCollectionItems(songs_, row_, play_now_, enqueue_, enqueue_next_);
   }
-
 }
 
 void SongLoaderInserter::AsyncLoad() {
@@ -190,7 +186,6 @@ void SongLoaderInserter::AsyncLoad() {
     }
 
     songs_ << loader->songs();
-
   }
   task_manager_->SetTaskFinished(async_load_id);
   emit PreloadFinished();
@@ -215,5 +210,4 @@ void SongLoaderInserter::AsyncLoad() {
   emit EffectiveLoadFinished(songs);
 
   deleteLater();
-
 }

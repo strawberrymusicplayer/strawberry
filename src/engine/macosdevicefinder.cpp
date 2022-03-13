@@ -34,7 +34,7 @@
 
 namespace {
 
-template <typename T>
+template<typename T>
 std::unique_ptr<T> GetProperty(const AudioDeviceID &device_id, const AudioObjectPropertyAddress &address, UInt32 *size_bytes_out = nullptr) {
 
   UInt32 size_bytes = 0;
@@ -44,7 +44,7 @@ std::unique_ptr<T> GetProperty(const AudioDeviceID &device_id, const AudioObject
     return std::unique_ptr<T>();
   }
 
-  std::unique_ptr<T> ret(reinterpret_cast<T*>(malloc(size_bytes)));
+  std::unique_ptr<T> ret(reinterpret_cast<T *>(malloc(size_bytes)));
 
   status = AudioObjectGetPropertyData(device_id, &address, 0, NULL, &size_bytes, ret.get());
   if (status != kAudioHardwareNoError) {
@@ -108,6 +108,4 @@ QList<DeviceFinder::Device> MacOsDeviceFinder::ListDevices() {
     ret.append(dev);
   }
   return ret;
-
 }
-

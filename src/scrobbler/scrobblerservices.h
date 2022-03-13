@@ -41,14 +41,14 @@ class ScrobblerServices : public QObject {
 
   void AddService(ScrobblerService *service);
   void RemoveService(ScrobblerService *service);
-  QList<ScrobblerService*> List() const { return scrobbler_services_.values(); }
+  QList<ScrobblerService *> List() const { return scrobbler_services_.values(); }
   bool HasAnyServices() const { return !scrobbler_services_.isEmpty(); }
   int NextId();
 
   ScrobblerService *ServiceByName(const QString &name);
-  template <typename T>
+  template<typename T>
   T *Service() {
-    return qobject_cast<T*>(ServiceByName(T::kName));
+    return qobject_cast<T *>(ServiceByName(T::kName));
   }
 
  private:
@@ -58,7 +58,6 @@ class ScrobblerServices : public QObject {
   QMutex mutex_;
 
   QAtomicInt next_id_;
-
 };
 
 #endif  // SCROBBLERSERVICES_H

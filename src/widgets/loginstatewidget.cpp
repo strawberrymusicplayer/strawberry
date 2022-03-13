@@ -54,7 +54,6 @@ LoginStateWidget::LoginStateWidget(QWidget *parent)
   ui_->signed_out_label->setFont(bold_font);
 
   QObject::connect(ui_->sign_out, &QPushButton::clicked, this, &LoginStateWidget::Logout);
-
 }
 
 LoginStateWidget::~LoginStateWidget() { delete ui_; }
@@ -81,8 +80,10 @@ void LoginStateWidget::SetLoggedIn(const State state, const QString &account_nam
   ui_->signed_out->setVisible(state != LoggedIn);
   ui_->busy->setVisible(state == LoginInProgress);
 
-  if (account_name.isEmpty()) ui_->signed_in_label->setText("<b>" + tr("You are signed in.") + "</b>");
-  else ui_->signed_in_label->setText(tr("You are signed in as %1.").arg("<b>" + account_name + "</b>"));
+  if (account_name.isEmpty())
+    ui_->signed_in_label->setText("<b>" + tr("You are signed in.") + "</b>");
+  else
+    ui_->signed_in_label->setText(tr("You are signed in as %1.").arg("<b>" + account_name + "</b>"));
 
   for (QWidget *widget : credential_groups_) {
     widget->setVisible(state != LoggedIn);
@@ -95,15 +96,14 @@ void LoginStateWidget::SetLoggedIn(const State state, const QString &account_nam
     // event loop because the user might have just closed a dialog and our widget might not be active yet.
     QTimer::singleShot(0, this, &LoginStateWidget::FocusLastCredentialField);
   }
-
 }
 
 void LoginStateWidget::FocusLastCredentialField() {
 
   if (!credential_fields_.isEmpty()) {
     QObject *object = credential_fields_.last();
-    QWidget *widget = qobject_cast<QWidget*>(object);
-    QLineEdit *line_edit = qobject_cast<QLineEdit*>(object);
+    QWidget *widget = qobject_cast<QWidget *>(object);
+    QLineEdit *line_edit = qobject_cast<QLineEdit *>(object);
 
     if (widget) {
       widget->setFocus();
@@ -113,7 +113,6 @@ void LoginStateWidget::FocusLastCredentialField() {
       line_edit->selectAll();
     }
   }
-
 }
 
 void LoginStateWidget::HideLoggedInState() {
@@ -136,7 +135,7 @@ bool LoginStateWidget::eventFilter(QObject *object, QEvent *event) {
     return QWidget::eventFilter(object, event);
 
   if (event->type() == QEvent::KeyPress) {
-    QKeyEvent *key_event = static_cast<QKeyEvent*>(event);
+    QKeyEvent *key_event = static_cast<QKeyEvent *>(event);
     if (key_event->key() == Qt::Key_Enter || key_event->key() == Qt::Key_Return) {
       emit LoginClicked();
       return true;
@@ -144,7 +143,6 @@ bool LoginStateWidget::eventFilter(QObject *object, QEvent *event) {
   }
 
   return QWidget::eventFilter(object, event);
-
 }
 
 void LoginStateWidget::SetExpires(const QDate expires) {
@@ -155,5 +153,4 @@ void LoginStateWidget::SetExpires(const QDate expires) {
     const QString expires_text = QLocale().toString(expires, QLocale::LongFormat);
     ui_->expires_label->setText(tr("Expires on %1").arg("<b>" + expires_text + "</b>"));
   }
-
 }

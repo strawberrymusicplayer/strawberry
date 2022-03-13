@@ -39,7 +39,6 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent)
 
   setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
   setCache(new ThreadSafeNetworkDiskCache(this));
-
 }
 
 QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) {
@@ -66,5 +65,4 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
   }
 
   return QNetworkAccessManager::createRequest(op, new_request, outgoingData);
-
 }

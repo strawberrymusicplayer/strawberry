@@ -42,8 +42,8 @@ class QSearchField : public QWidget {
 
  protected:
   void showEvent(QShowEvent *e) override;
-  void resizeEvent(QResizeEvent*) override;
-  bool eventFilter(QObject*, QEvent*) override;
+  void resizeEvent(QResizeEvent *) override;
+  bool eventFilter(QObject *, QEvent *) override;
 
  private:
   friend class QSearchFieldPrivate;

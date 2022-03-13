@@ -59,7 +59,7 @@ class AlbumCoverExporter : public QObject {
   void AddJobsToPool();
   AlbumCoverExport::DialogResult dialog_result_;
 
-  QQueue<CoverExportRunnable*> requests_;
+  QQueue<CoverExportRunnable *> requests_;
   QThreadPool *thread_pool_;
 
   int exported_;
@@ -68,4 +68,3 @@ class AlbumCoverExporter : public QObject {
 };
 
 #endif  // ALBUMCOVEREXPORTER_H
-

@@ -55,7 +55,7 @@ class FHT {
   /**
    * Recursive in-place Hartley transform. For internal use only!
    */
-  void _transform(float*, int, int);
+  void _transform(float *, int, int);
 
  public:
   /**
@@ -68,7 +68,7 @@ class FHT {
   ~FHT();
   int sizeExp() const;
   int size() const;
-  void scale(float*, float) const;
+  void scale(float *, float) const;
 
   /**
    * Exponentially Weighted Moving Average (EWMA) filter.
@@ -90,12 +90,12 @@ class FHT {
   /**
    * Semi-logarithmic audio spectrum.
    */
-  void semiLogSpectrum(float*);
+  void semiLogSpectrum(float *);
 
   /**
    * Fourier spectrum.
    */
-  void spectrum(float*);
+  void spectrum(float *);
 
   /**
    * Calculates a mathematically correct FFT power spectrum.
@@ -103,7 +103,7 @@ class FHT {
    * and factor the 0.5 in the final scaling factor.
    * @see FHT::power2()
    */
-  void power(float*);
+  void power(float *);
 
   /**
    * Calculates an FFT power spectrum with doubled values as a
@@ -112,14 +112,14 @@ class FHT {
    * of @f$2^n@f$ input values. This is the fastest transform.
    * @see FHT::power()
    */
-  void power2(float*);
+  void power2(float *);
 
   /**
    * Discrete Hartley transform of data sets with 8 values.
    */
-  static void transform8(float*);
+  static void transform8(float *);
 
-  void transform(float*);
+  void transform(float *);
 };
 
 #endif  // FHT_H

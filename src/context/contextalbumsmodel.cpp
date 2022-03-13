@@ -74,7 +74,6 @@ ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *
   QIcon nocover = IconLoader::Load("cdcase");
   QList<QSize> nocover_sizes = nocover.availableSizes();
   no_cover_icon_ = nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
 }
 
 ContextAlbumsModel::~ContextAlbumsModel() { delete root_; }
@@ -94,7 +93,6 @@ void ContextAlbumsModel::AddSongs(const SongList &songs) {
     }
     song_nodes_[song.id()] = ItemFromSong(CollectionItem::Type_Song, true, container, song, -1);
   }
-
 }
 
 QString ContextAlbumsModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) {
@@ -106,7 +104,6 @@ QString ContextAlbumsModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) {
     index_copy = index_copy.parent();
   }
   return "contextalbumsart:" + path.join("/");
-
 }
 
 QVariant ContextAlbumsModel::AlbumIcon(const QModelIndex &idx) {
@@ -136,7 +133,6 @@ QVariant ContextAlbumsModel::AlbumIcon(const QModelIndex &idx) {
   }
 
   return no_cover_icon_;
-
 }
 
 void ContextAlbumsModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
@@ -167,7 +163,6 @@ void ContextAlbumsModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoad
   const QModelIndex idx = ItemToIndex(item);
 
   emit dataChanged(idx, idx);
-
 }
 
 QVariant ContextAlbumsModel::data(const QModelIndex &idx, int role) const {
@@ -175,11 +170,10 @@ QVariant ContextAlbumsModel::data(const QModelIndex &idx, int role) const {
   const CollectionItem *item = IndexToItem(idx);
 
   if (role == Qt::DecorationRole && item->type == CollectionItem::Type_Container && item->container_level == 0) {
-    return const_cast<ContextAlbumsModel*>(this)->AlbumIcon(idx);
+    return const_cast<ContextAlbumsModel *>(this)->AlbumIcon(idx);
   }
 
   return data(item, role);
-
 }
 
 QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
@@ -192,7 +186,9 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
     case Qt::DecorationRole:
       switch (item->type) {
         case CollectionItem::Type_Container:
-          if (item->type == CollectionItem::Type_Container && item->container_level == 0) { return album_icon_; }
+          if (item->type == CollectionItem::Type_Container && item->container_level == 0) {
+            return album_icon_;
+          }
           break;
         default:
           break;
@@ -241,12 +237,11 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
   }
 
   return QVariant();
-
 }
 
 void ContextAlbumsModel::Reset() {
 
-  for (QMap<QString, CollectionItem*>::const_iterator it = container_nodes_.constBegin(); it != container_nodes_.constEnd(); ++it) {
+  for (QMap<QString, CollectionItem *>::const_iterator it = container_nodes_.constBegin(); it != container_nodes_.constEnd(); ++it) {
     const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(it.value()));
     QPixmapCache::remove(cache_key);
   }
@@ -261,7 +256,6 @@ void ContextAlbumsModel::Reset() {
   root_ = new CollectionItem(this);
   root_->lazy_loaded = true;
   endResetModel();
-
 }
 
 CollectionItem *ContextAlbumsModel::ItemFromSong(CollectionItem::Type item_type, const bool signal, CollectionItem *parent, const Song &s, const int container_level) {
@@ -287,7 +281,6 @@ CollectionItem *ContextAlbumsModel::ItemFromSong(CollectionItem::Type item_type,
   if (signal) endInsertRows();
 
   return item;
-
 }
 
 Qt::ItemFlags ContextAlbumsModel::flags(const QModelIndex &idx) const {
@@ -301,7 +294,6 @@ Qt::ItemFlags ContextAlbumsModel::flags(const QModelIndex &idx) const {
     default:
       return Qt::ItemIsEnabled;
   }
-
 }
 
 QStringList ContextAlbumsModel::mimeTypes() const {
@@ -326,7 +318,6 @@ QMimeData *ContextAlbumsModel::mimeData(const QModelIndexList &indexes) const {
   data->name_for_new_playlist_ = PlaylistManager::GetNameForNewPlaylist(data->songs);
 
   return data;
-
 }
 
 bool ContextAlbumsModel::CompareItems(const CollectionItem *a, const CollectionItem *b) const {
@@ -340,16 +331,16 @@ bool ContextAlbumsModel::CompareItems(const CollectionItem *a, const CollectionI
   if (left.type() == QVariant::Int)
 #endif
     return left.toInt() < right.toInt();
-  else return left.toString() < right.toString();
-
+  else
+    return left.toString() < right.toString();
 }
 
 void ContextAlbumsModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const {
 
   switch (item->type) {
-    case CollectionItem::Type_Container:{
+    case CollectionItem::Type_Container: {
 
-      QList<CollectionItem*> children = item->children;
+      QList<CollectionItem *> children = item->children;
       std::sort(children.begin(), children.end(), std::bind(&ContextAlbumsModel::CompareItems, this, std::placeholders::_1, std::placeholders::_2));
 
       for (CollectionItem *child : children) {
@@ -369,7 +360,6 @@ void ContextAlbumsModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, 
     default:
       break;
   }
-
 }
 
 SongList ContextAlbumsModel::GetChildSongs(const QModelIndexList &indexes) const {
@@ -382,7 +372,6 @@ SongList ContextAlbumsModel::GetChildSongs(const QModelIndexList &indexes) const
     GetChildSongs(IndexToItem(idx), &dontcare, &ret, &song_ids);
   }
   return ret;
-
 }
 
 SongList ContextAlbumsModel::GetChildSongs(const QModelIndex &idx) const {

@@ -37,8 +37,8 @@
 #include "core/logging.h"
 
 #ifdef _MSC_VER
-  DEFINE_GUID(IID_IMMDeviceEnumerator, 0xa95664d2, 0x9614, 0x4f35, 0xa7, 0x46, 0xde, 0x8d, 0xb6, 0x36, 0x17, 0xe6);
-  DEFINE_GUID(CLSID_MMDeviceEnumerator, 0xbcde0395, 0xe52f, 0x467c, 0x8e, 0x3d, 0xc4, 0x57, 0x92, 0x91, 0x69, 0x2e);
+DEFINE_GUID(IID_IMMDeviceEnumerator, 0xa95664d2, 0x9614, 0x4f35, 0xa7, 0x46, 0xde, 0x8d, 0xb6, 0x36, 0x17, 0xe6);
+DEFINE_GUID(CLSID_MMDeviceEnumerator, 0xbcde0395, 0xe52f, 0x467c, 0x8e, 0x3d, 0xc4, 0x57, 0x92, 0x91, 0x69, 0x2e);
 #endif
 
 MMDeviceFinder::MMDeviceFinder() : DeviceFinder("mmdevice", { "wasapisink" }) {}
@@ -54,7 +54,7 @@ QList<DeviceFinder::Device> MMDeviceFinder::ListDevices() {
   devices.append(default_device);
 
   IMMDeviceEnumerator *enumerator = nullptr;
-  HRESULT hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, reinterpret_cast<void**>(&enumerator));
+  HRESULT hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, reinterpret_cast<void **>(&enumerator));
   if (hr == S_OK) {
     IMMDeviceCollection *collection = nullptr;
     hr = enumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &collection);
@@ -120,5 +120,4 @@ QList<DeviceFinder::Device> MMDeviceFinder::ListDevices() {
   if (hr_coinit == S_OK || hr_coinit == S_FALSE) CoUninitialize();
 
   return devices;
-
 }

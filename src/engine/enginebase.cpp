@@ -84,7 +84,6 @@ bool Engine::Base::Load(const QUrl &stream_url, const QUrl &original_url, const 
   about_to_end_emitted_ = false;
 
   return true;
-
 }
 
 bool Engine::Base::Play(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const quint64 offset_nanosec) {
@@ -94,19 +93,17 @@ bool Engine::Base::Play(const QUrl &stream_url, const QUrl &original_url, const 
   }
 
   return Play(offset_nanosec);
-
 }
 
 void Engine::Base::SetVolume(const uint value) {
 
   volume_ = value;
   SetVolumeSW(MakeVolumeLogarithmic(value));
-
 }
 
 uint Engine::Base::MakeVolumeLogarithmic(const uint volume) {
   // We're using a logarithmic function to make the volume ramp more natural.
-  return static_cast<uint>( 100 - 100.0 * std::log10( ( 100 - volume ) * 0.09 + 1.0 ) );
+  return static_cast<uint>(100 - 100.0 * std::log10((100 - volume) * 0.09 + 1.0));
 }
 
 void Engine::Base::ReloadSettings() {
@@ -173,7 +170,6 @@ void Engine::Base::ReloadSettings() {
   }
 
   s.endGroup();
-
 }
 
 void Engine::Base::EmitAboutToEnd() {
@@ -191,5 +187,4 @@ bool Engine::Base::ValidOutput(const QString &output) {
   Q_UNUSED(output);
 
   return (true);
-
 }

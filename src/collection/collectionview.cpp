@@ -108,7 +108,6 @@ CollectionView::CollectionView(QWidget *parent)
   setSelectionMode(QAbstractItemView::ExtendedSelection);
 
   setStyleSheet("QTreeView::item{padding-top:1px;}");
-
 }
 
 CollectionView::~CollectionView() = default;
@@ -127,7 +126,7 @@ void CollectionView::SaveFocus() {
 
   switch (type.toInt()) {
     case CollectionItem::Type_Song: {
-      QModelIndex index = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
+      QModelIndex index = qobject_cast<QSortFilterProxyModel *>(model())->mapToSource(current);
       SongList songs = app_->collection_model()->GetChildSongs(index);
       if (!songs.isEmpty()) {
         last_selected_song_ = songs.last();
@@ -147,7 +146,6 @@ void CollectionView::SaveFocus() {
   }
 
   SaveContainerPath(current);
-
 }
 
 void CollectionView::SaveContainerPath(const QModelIndex &child) {
@@ -161,7 +159,6 @@ void CollectionView::SaveContainerPath(const QModelIndex &child) {
   QString text = model()->data(current, CollectionModel::Role_SortText).toString();
   last_selected_path_ << text;
   SaveContainerPath(current);
-
 }
 
 void CollectionView::RestoreFocus() {
@@ -170,7 +167,6 @@ void CollectionView::RestoreFocus() {
     return;
   }
   RestoreLevelFocus();
-
 }
 
 bool CollectionView::RestoreLevelFocus(const QModelIndex &parent) {
@@ -185,7 +181,7 @@ bool CollectionView::RestoreLevelFocus(const QModelIndex &parent) {
     switch (type.toInt()) {
       case CollectionItem::Type_Song:
         if (!last_selected_song_.url().isEmpty()) {
-          QModelIndex index = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
+          QModelIndex index = qobject_cast<QSortFilterProxyModel *>(model())->mapToSource(current);
           const SongList songs = app_->collection_model()->GetChildSongs(index);
           if (std::any_of(songs.begin(), songs.end(), [this](const Song &song) { return song == last_selected_song_; })) {
             setCurrentIndex(current);
@@ -217,7 +213,6 @@ bool CollectionView::RestoreLevelFocus(const QModelIndex &parent) {
     }
   }
   return false;
-
 }
 
 void CollectionView::ReloadSettings() {
@@ -235,7 +230,6 @@ void CollectionView::ReloadSettings() {
   delete_files_ = settings.value("delete_files", false).toBool();
 
   settings.endGroup();
-
 }
 
 void CollectionView::SetApplication(Application *app) {
@@ -243,7 +237,6 @@ void CollectionView::SetApplication(Application *app) {
   app_ = app;
 
   ReloadSettings();
-
 }
 
 void CollectionView::SetFilter(CollectionFilterWidget *filter) { filter_ = filter; }
@@ -262,7 +255,6 @@ void CollectionView::TotalSongCountUpdated(const int count) {
   }
 
   emit TotalSongCountUpdated_();
-
 }
 
 void CollectionView::TotalArtistCountUpdated(const int count) {
@@ -279,7 +271,6 @@ void CollectionView::TotalArtistCountUpdated(const int count) {
   }
 
   emit TotalArtistCountUpdated_();
-
 }
 
 void CollectionView::TotalAlbumCountUpdated(const int count) {
@@ -296,7 +287,6 @@ void CollectionView::TotalAlbumCountUpdated(const int count) {
   }
 
   emit TotalAlbumCountUpdated_();
-
 }
 
 void CollectionView::paintEvent(QPaintEvent *event) {
@@ -328,7 +318,6 @@ void CollectionView::paintEvent(QPaintEvent *event) {
   else {
     QTreeView::paintEvent(event);
   }
-
 }
 
 void CollectionView::mouseReleaseEvent(QMouseEvent *e) {
@@ -338,7 +327,6 @@ void CollectionView::mouseReleaseEvent(QMouseEvent *e) {
   if (total_song_count_ == 0) {
     emit ShowConfigDialog();
   }
-
 }
 
 void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
@@ -381,15 +369,14 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
     action_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
     QObject::connect(app_->device_manager()->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, action_copy_to_device_, &QAction::setDisabled);
 #endif
-
   }
 
   context_menu_index_ = indexAt(e->pos());
   if (!context_menu_index_.isValid()) return;
 
-  context_menu_index_ = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(context_menu_index_);
+  context_menu_index_ = qobject_cast<QSortFilterProxyModel *>(model())->mapToSource(context_menu_index_);
 
-  QModelIndexList selected_indexes = qobject_cast<QSortFilterProxyModel*>(model())->mapSelectionToSource(selectionModel()->selection()).indexes();
+  QModelIndexList selected_indexes = qobject_cast<QSortFilterProxyModel *>(model())->mapSelectionToSource(selectionModel()->selection()).indexes();
 
   int regular_elements = 0;
   int regular_editable = 0;
@@ -446,7 +433,6 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 #endif
 
   context_menu_->popup(e->globalPos());
-
 }
 
 void CollectionView::ShowInVarious() { SetShowInVarious(true); }
@@ -495,53 +481,47 @@ void CollectionView::SetShowInVarious(const bool on) {
   for (const QString &album : albums_set) {
     app_->collection_backend()->ForceCompilation(album, albums.values(album), on);
   }
-
 }
 
 void CollectionView::Load() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
-  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+  if (MimeData *mimedata = qobject_cast<MimeData *>(q_mimedata)) {
     mimedata->clear_first_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
-
 }
 
 void CollectionView::AddToPlaylist() {
 
   emit AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
-
 }
 
 void CollectionView::AddToPlaylistEnqueue() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
-  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+  if (MimeData *mimedata = qobject_cast<MimeData *>(q_mimedata)) {
     mimedata->enqueue_now_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
-
 }
 
 void CollectionView::AddToPlaylistEnqueueNext() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
-  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+  if (MimeData *mimedata = qobject_cast<MimeData *>(q_mimedata)) {
     mimedata->enqueue_next_now_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
-
 }
 
 void CollectionView::OpenInNewPlaylist() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
-  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+  if (MimeData *mimedata = qobject_cast<MimeData *>(q_mimedata)) {
     mimedata->open_in_new_playlist_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
-
 }
 
 void CollectionView::keyboardSearch(const QString &search) {
@@ -549,7 +529,6 @@ void CollectionView::keyboardSearch(const QString &search) {
   is_in_keyboard_search_ = true;
   QTreeView::keyboardSearch(search);
   is_in_keyboard_search_ = false;
-
 }
 
 void CollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
@@ -560,14 +539,12 @@ void CollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
   else {
     QTreeView::scrollTo(idx, hint);
   }
-
 }
 
 SongList CollectionView::GetSelectedSongs() const {
 
-  QModelIndexList selected_indexes = qobject_cast<QSortFilterProxyModel*>(model())->mapSelectionToSource(selectionModel()->selection()).indexes();
+  QModelIndexList selected_indexes = qobject_cast<QSortFilterProxyModel *>(model())->mapSelectionToSource(selectionModel()->selection()).indexes();
   return app_->collection_model()->GetChildSongs(selected_indexes);
-
 }
 
 void CollectionView::Organize() {
@@ -585,7 +562,6 @@ void CollectionView::Organize() {
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
-
 }
 
 void CollectionView::EditTracks() {
@@ -597,7 +573,6 @@ void CollectionView::EditTracks() {
   const SongList songs = GetSelectedSongs();
   edit_tag_dialog_->SetSongs(songs);
   edit_tag_dialog_->show();
-
 }
 
 void CollectionView::EditTagError(const QString &message) {
@@ -607,7 +582,6 @@ void CollectionView::EditTagError(const QString &message) {
 void CollectionView::RescanSongs() {
 
   app_->collection()->Rescan(GetSelectedSongs());
-
 }
 
 void CollectionView::CopyToDevice() {
@@ -622,7 +596,6 @@ void CollectionView::CopyToDevice() {
   organize_dialog_->SetSongs(GetSelectedSongs());
   organize_dialog_->show();
 #endif
-
 }
 
 void CollectionView::FilterReturnPressed() {
@@ -653,7 +626,6 @@ void CollectionView::ShowInBrowser() const {
   }
 
   Utilities::OpenInFileBrowser(urls);
-
 }
 
 int CollectionView::TotalSongs() const {
@@ -691,7 +663,6 @@ void CollectionView::Delete() {
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, true);
   QObject::connect(delete_files, &DeleteFiles::Finished, this, &CollectionView::DeleteFilesFinished);
   delete_files->Start(songs);
-
 }
 
 void CollectionView::DeleteFilesFinished(const SongList &songs_with_errors) {
@@ -701,5 +672,4 @@ void CollectionView::DeleteFilesFinished(const SongList &songs_with_errors) {
   OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
   dialog->Show(OrganizeErrorDialog::Type_Delete, songs_with_errors);
   // It deletes itself when the user closes it
-
 }

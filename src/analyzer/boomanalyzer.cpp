@@ -60,7 +60,6 @@ BoomAnalyzer::BoomAnalyzer(QWidget *parent)
 
   setMinimumWidth(kMinBandCount * (kColumnWidth + 1) - 1);
   setMaximumWidth(kMaxBandCount * (kColumnWidth + 1) - 1);
-
 }
 
 void BoomAnalyzer::changeK_barHeight(const int newValue) {
@@ -92,11 +91,10 @@ void BoomAnalyzer::resizeEvent(QResizeEvent *e) {
     const double F = static_cast<double>(y) * h;
 
     p.setPen(QColor(qMax(0, 255 - static_cast<int>(229.0 * F)),
-                    qMax(0, 255 - static_cast<int>(229.0 * F)),
-                    qMax(0, 255 - static_cast<int>(191.0 * F))));
+      qMax(0, 255 - static_cast<int>(229.0 * F)),
+      qMax(0, 255 - static_cast<int>(191.0 * F))));
     p.drawLine(0, y, kColumnWidth - 2, y);
   }
-
 }
 
 void BoomAnalyzer::transform(Scope &s) {
@@ -105,7 +103,6 @@ void BoomAnalyzer::transform(Scope &s) {
   fht_->scale(s.data(), 1.0F / 50);
 
   s.resize(scope_.size() <= static_cast<quint64>(kMaxBandCount) / 2 ? kMaxBandCount / 2 : scope_.size());
-
 }
 
 void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame) {
@@ -168,5 +165,4 @@ void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame
   }
 
   p.drawPixmap(0, 0, canvas_);
-
 }

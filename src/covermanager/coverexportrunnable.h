@@ -53,7 +53,6 @@ class CoverExportRunnable : public QObject, public QRunnable {
 
   AlbumCoverExport::DialogResult dialog_result_;
   Song song_;
-
 };
 
 #endif  // COVEREXPORTRUNNABLE_H

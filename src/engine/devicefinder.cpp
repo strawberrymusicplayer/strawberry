@@ -52,5 +52,4 @@ QString DeviceFinder::GuessIconName(const QString &description) {
   }
 
   return "soundcard";
-
 }

@@ -76,7 +76,6 @@ class LocalRedirectServer : public QTcpServer {
   QAbstractSocket *socket_;
   QByteArray buffer_;
   QString error_;
-
 };
 
 #endif  // LOCALREDIRECTSERVER_H

@@ -72,20 +72,20 @@ class Base : public QWidget {
   virtual void framerateChanged() {}
 
  protected:
-  explicit Base(QWidget*, const uint scopeSize = 7);
+  explicit Base(QWidget *, const uint scopeSize = 7);
 
-  void hideEvent(QHideEvent*) override;
-  void showEvent(QShowEvent*) override;
-  void paintEvent(QPaintEvent*) override;
-  void timerEvent(QTimerEvent*) override;
+  void hideEvent(QHideEvent *) override;
+  void showEvent(QShowEvent *) override;
+  void paintEvent(QPaintEvent *) override;
+  void timerEvent(QTimerEvent *) override;
 
   void polishEvent();
 
   int resizeExponent(int);
   int resizeForBands(const int);
   virtual void init() {}
-  virtual void transform(Scope&);
-  virtual void analyze(QPainter &p, const Scope&, const bool new_frame) = 0;
+  virtual void transform(Scope &);
+  virtual void analyze(QPainter &p, const Scope &, const bool new_frame) = 0;
   virtual void demo(QPainter &p);
 
  protected:
@@ -99,10 +99,9 @@ class Base : public QWidget {
   bool is_playing_;
 };
 
-void interpolate(const Scope&, Scope&);
-void initSin(Scope&, const uint = 6000);
+void interpolate(const Scope &, Scope &);
+void initSin(Scope &, const uint = 6000);
 
 }  //  namespace Analyzer
 
 #endif  // ANALYZERBASE_H
-

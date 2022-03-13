@@ -51,7 +51,6 @@ LoloLyricsProvider::~LoloLyricsProvider() {
     reply->abort();
     reply->deleteLater();
   }
-
 }
 
 bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -77,7 +76,6 @@ bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album
   //qLog(Debug) << "LoloLyrics: Sending request for" << url;
 
   return true;
-
 }
 
 void LoloLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
@@ -142,16 +140,16 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
     }
   }
 
-  if (results.isEmpty()) qLog(Debug) << "LoloLyrics: No lyrics for" << artist << title << failure_reason;
-  else qLog(Debug) << "LoloLyrics: Got lyrics for" << artist << title;
+  if (results.isEmpty())
+    qLog(Debug) << "LoloLyrics: No lyrics for" << artist << title << failure_reason;
+  else
+    qLog(Debug) << "LoloLyrics: Got lyrics for" << artist << title;
 
   emit SearchFinished(id, results);
-
 }
 
 void LoloLyricsProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "LoloLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-
 }

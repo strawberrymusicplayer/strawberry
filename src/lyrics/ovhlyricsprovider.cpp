@@ -48,7 +48,6 @@ OVHLyricsProvider::~OVHLyricsProvider() {
     reply->abort();
     reply->deleteLater();
   }
-
 }
 
 bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -65,7 +64,6 @@ bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album,
   //qLog(Debug) << "OVHLyrics: Sending request for" << url;
 
   return true;
-
 }
 
 void OVHLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
@@ -106,8 +104,7 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, co
     result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
     qLog(Debug) << "OVHLyrics: Got lyrics for" << artist << title;
     emit SearchFinished(id, LyricsSearchResults() << result);
- }
-
+  }
 }
 
 
@@ -115,5 +112,4 @@ void OVHLyricsProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "OVHLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-
 }

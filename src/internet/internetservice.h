@@ -57,7 +57,11 @@ class InternetService : public QObject {
   virtual QIcon Icon() { return Song::IconForSource(source_); }
   virtual bool oauth() { return false; }
   virtual bool authenticated() { return false; }
-  virtual int Search(const QString &query, InternetSearchView::SearchType type) { Q_UNUSED(query); Q_UNUSED(type); return 0; }
+  virtual int Search(const QString &query, InternetSearchView::SearchType type) {
+    Q_UNUSED(query);
+    Q_UNUSED(type);
+    return 0;
+  }
   virtual void CancelSearch() {}
 
   virtual CollectionBackend *artists_collection_backend() { return nullptr; }
@@ -142,8 +146,7 @@ class InternetService : public QObject {
   QString url_scheme_;
   QString settings_group_;
   SettingsDialog::Page settings_page_;
-
 };
-Q_DECLARE_METATYPE(InternetService*)
+Q_DECLARE_METATYPE(InternetService *)
 
 #endif  // INTERNETSERVICE_H

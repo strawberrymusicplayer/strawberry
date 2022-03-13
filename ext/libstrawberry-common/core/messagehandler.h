@@ -35,7 +35,7 @@
 
 class QIODevice;
 
-#define QStringFromStdString(x) QString::fromUtf8((x).data(), (x).size())
+#define QStringFromStdString(x)     QString::fromUtf8((x).data(), (x).size())
 #define DataCommaSizeFromQString(x) (x).toUtf8().constData(), (x).toUtf8().length()
 
 // Reads and writes uint32 length encoded protobufs to a socket.
@@ -79,7 +79,7 @@ class _MessageHandlerBase : public QObject {
 
 // Reads and writes uint32 length encoded MessageType messages to a socket.
 // You should subclass this and implement the MessageArrived(MessageType) method.
-template <typename MT>
+template<typename MT>
 class AbstractMessageHandler : public _MessageHandlerBase {
  public:
   AbstractMessageHandler(QIODevice *device, QObject *parent);
@@ -112,14 +112,14 @@ class AbstractMessageHandler : public _MessageHandlerBase {
   void AbortAll() override;
 
  private:
-  QMap<int, ReplyType*> pending_replies_;
+  QMap<int, ReplyType *> pending_replies_;
 };
 
-template <typename MT>
+template<typename MT>
 AbstractMessageHandler<MT>::AbstractMessageHandler(QIODevice *device, QObject *parent)
     : _MessageHandlerBase(device, parent) {}
 
-template <typename MT>
+template<typename MT>
 void AbstractMessageHandler<MT>::SendMessage(const MessageType &message) {
   Q_ASSERT(QThread::currentThread() == thread());
 
@@ -127,7 +127,7 @@ void AbstractMessageHandler<MT>::SendMessage(const MessageType &message) {
   WriteMessage(QByteArray(data.data(), data.size()));
 }
 
-template <typename MT>
+template<typename MT>
 void AbstractMessageHandler<MT>::SendMessageAsync(const MessageType &message) {
   std::string data = message.SerializeAsString();
   QMetaObject::invokeMethod(this, "WriteMessage", Qt::QueuedConnection, Q_ARG(QByteArray, QByteArray(data.data(), data.size())));
@@ -163,7 +163,6 @@ bool AbstractMessageHandler<MT>::RawMessageArrived(const QByteArray &data) {
   }
 
   return true;
-
 }
 
 template<typename MT>
@@ -173,7 +172,6 @@ void AbstractMessageHandler<MT>::AbortAll() {
     reply->Abort();
   }
   pending_replies_.clear();
-
 }
 
 #endif  // MESSAGEHANDLER_H

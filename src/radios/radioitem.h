@@ -28,7 +28,6 @@
 
 class RadioItem : public SimpleTreeItem<RadioItem> {
  public:
-
   enum Type {
     Type_LoadingIndicator,
     Type_Root,

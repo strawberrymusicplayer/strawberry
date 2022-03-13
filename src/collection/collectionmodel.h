@@ -188,8 +188,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   void set_use_lazy_loading(const bool value) { use_lazy_loading_ = value; }
 
-  QMap<QString, CollectionItem*> container_nodes(const int i) { return container_nodes_[i]; }
-  QList<CollectionItem*> song_nodes() const { return song_nodes_.values(); }
+  QMap<QString, CollectionItem *> container_nodes(const int i) { return container_nodes_[i]; }
+  QList<CollectionItem *> song_nodes() const { return song_nodes_.values(); }
   int divider_nodes_count() const { return divider_nodes_.count(); }
 
   void ExpandAll(CollectionItem *item = nullptr) const;
@@ -286,13 +286,13 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   Grouping group_by_;
 
   // Keyed on database ID
-  QMap<int, CollectionItem*> song_nodes_;
+  QMap<int, CollectionItem *> song_nodes_;
 
   // Keyed on whatever the key is for that level - artist, album, year, etc.
-  QMap<QString, CollectionItem*> container_nodes_[3];
+  QMap<QString, CollectionItem *> container_nodes_[3];
 
   // Keyed on a letter, a year, a century, etc.
-  QMap<QString, CollectionItem*> divider_nodes_;
+  QMap<QString, CollectionItem *> divider_nodes_;
 
   QIcon artist_icon_;
   QIcon album_icon_;
@@ -310,7 +310,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   AlbumCoverLoaderOptions cover_loader_options_;
 
-  typedef QPair<CollectionItem*, QString> ItemAndCacheKey;
+  typedef QPair<CollectionItem *, QString> ItemAndCacheKey;
   QMap<quint64, ItemAndCacheKey> pending_art_;
   QSet<QString> pending_cache_keys_;
 };

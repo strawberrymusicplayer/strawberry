@@ -32,7 +32,7 @@ struct CoverSearchStatistics {
 
   explicit CoverSearchStatistics();
 
-  CoverSearchStatistics &operator +=(const CoverSearchStatistics &other);
+  CoverSearchStatistics &operator+=(const CoverSearchStatistics &other);
 
   quint64 network_requests_made_;
   quint64 bytes_transferred_;
@@ -46,7 +46,6 @@ struct CoverSearchStatistics {
   quint64 chosen_height_;
 
   QString AverageDimensions() const;
-
 };
 
 #endif  // COVERSEARCHSTATISTICS_H

@@ -39,5 +39,4 @@ PlaylistGeneratorPtr PlaylistGenerator::Create(const Type type) {
   Q_UNUSED(type)
 
   return PlaylistGeneratorPtr(new PlaylistQueryGenerator);
-
 }

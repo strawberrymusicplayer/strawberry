@@ -41,41 +41,41 @@
 #include "core/logging.h"
 
 const char *CommandlineOptions::kHelpText =
-    "%1: strawberry [%2] [%3]\n"
-    "\n"
-    "%4:\n"
-    "  -p, --play                 %5\n"
-    "  -t, --play-pause           %6\n"
-    "  -u, --pause                %7\n"
-    "  -s, --stop                 %8\n"
-    "  -q, --stop-after-current   %9\n"
-    "  -r, --previous             %10\n"
-    "  -f, --next                 %11\n"
-    "  -v, --volume <value>       %12\n"
-    "  --volume-up                %13\n"
-    "  --volume-down              %14\n"
-    "  --volume-increase-by       %15\n"
-    "  --volume-decrease-by       %16\n"
-    "  --seek-to <seconds>        %17\n"
-    "  --seek-by <seconds>        %18\n"
-    "  --restart-or-previous      %19\n"
-    "\n"
-    "%20:\n"
-    "  -c, --create <name>        %21\n"
-    "  -a, --append               %22\n"
-    "  -l, --load                 %23\n"
-    "  -k, --play-track <n>       %24\n"
-    "  -i, --play-playlist <name> %25\n"
-    "\n"
-    "%26:\n"
-    "  -o, --show-osd             %27\n"
-    "  -y, --toggle-pretty-osd    %28\n"
-    "  -g, --language <lang>      %29\n"
-    "  -w, --resize-window <WxH>  %30\n"
-    "      --quiet                %31\n"
-    "      --verbose              %32\n"
-    "      --log-levels <levels>  %33\n"
-    "      --version              %34\n";
+  "%1: strawberry [%2] [%3]\n"
+  "\n"
+  "%4:\n"
+  "  -p, --play                 %5\n"
+  "  -t, --play-pause           %6\n"
+  "  -u, --pause                %7\n"
+  "  -s, --stop                 %8\n"
+  "  -q, --stop-after-current   %9\n"
+  "  -r, --previous             %10\n"
+  "  -f, --next                 %11\n"
+  "  -v, --volume <value>       %12\n"
+  "  --volume-up                %13\n"
+  "  --volume-down              %14\n"
+  "  --volume-increase-by       %15\n"
+  "  --volume-decrease-by       %16\n"
+  "  --seek-to <seconds>        %17\n"
+  "  --seek-by <seconds>        %18\n"
+  "  --restart-or-previous      %19\n"
+  "\n"
+  "%20:\n"
+  "  -c, --create <name>        %21\n"
+  "  -a, --append               %22\n"
+  "  -l, --load                 %23\n"
+  "  -k, --play-track <n>       %24\n"
+  "  -i, --play-playlist <name> %25\n"
+  "\n"
+  "%26:\n"
+  "  -o, --show-osd             %27\n"
+  "  -y, --toggle-pretty-osd    %28\n"
+  "  -g, --language <lang>      %29\n"
+  "  -w, --resize-window <WxH>  %30\n"
+  "      --quiet                %31\n"
+  "      --verbose              %32\n"
+  "      --log-levels <levels>  %33\n"
+  "      --version              %34\n";
 
 const char *CommandlineOptions::kVersionText = "Strawberry %1";
 
@@ -114,42 +114,42 @@ void CommandlineOptions::RemoveArg(const QString &starts_with, int count) {
       break;
     }
   }
-
 }
 
 bool CommandlineOptions::Parse() {
 
   static const struct option kOptions[] = {
-      {"help", no_argument, nullptr, 'h'},
-      {"play", no_argument, nullptr, 'p'},
-      {"play-pause", no_argument, nullptr, 't'},
-      {"pause", no_argument, nullptr, 'u'},
-      {"stop", no_argument, nullptr, 's'},
-      {"stop-after-current", no_argument, nullptr, 'q'},
-      {"previous", no_argument, nullptr, 'r'},
-      {"next", no_argument, nullptr, 'f'},
-      {"volume", required_argument, nullptr, 'v'},
-      {"volume-up", no_argument, nullptr, VolumeUp},
-      {"volume-down", no_argument, nullptr, VolumeDown},
-      {"volume-increase-by", required_argument, nullptr, VolumeIncreaseBy},
-      {"volume-decrease-by", required_argument, nullptr, VolumeDecreaseBy},
-      {"seek-to", required_argument, nullptr, SeekTo},
-      {"seek-by", required_argument, nullptr, SeekBy},
-      {"restart-or-previous", no_argument, nullptr, RestartOrPrevious},
-      {"create", required_argument, nullptr, 'c'},
-      {"append", no_argument, nullptr, 'a'},
-      {"load", no_argument, nullptr, 'l'},
-      {"play-track", required_argument, nullptr, 'k'},
-      {"play-playlist", required_argument, nullptr, 'i'},
-      {"show-osd", no_argument, nullptr, 'o'},
-      {"toggle-pretty-osd", no_argument, nullptr, 'y'},
-      {"language", required_argument, nullptr, 'g'},
-      {"resize-window", required_argument, nullptr, 'w'},
-      {"quiet", no_argument, nullptr, Quiet},
-      {"verbose", no_argument, nullptr, Verbose},
-      {"log-levels", required_argument, nullptr, LogLevels},
-      {"version", no_argument, nullptr, Version},
-      {nullptr, 0, nullptr, 0}};
+    { "help", no_argument, nullptr, 'h' },
+    { "play", no_argument, nullptr, 'p' },
+    { "play-pause", no_argument, nullptr, 't' },
+    { "pause", no_argument, nullptr, 'u' },
+    { "stop", no_argument, nullptr, 's' },
+    { "stop-after-current", no_argument, nullptr, 'q' },
+    { "previous", no_argument, nullptr, 'r' },
+    { "next", no_argument, nullptr, 'f' },
+    { "volume", required_argument, nullptr, 'v' },
+    { "volume-up", no_argument, nullptr, VolumeUp },
+    { "volume-down", no_argument, nullptr, VolumeDown },
+    { "volume-increase-by", required_argument, nullptr, VolumeIncreaseBy },
+    { "volume-decrease-by", required_argument, nullptr, VolumeDecreaseBy },
+    { "seek-to", required_argument, nullptr, SeekTo },
+    { "seek-by", required_argument, nullptr, SeekBy },
+    { "restart-or-previous", no_argument, nullptr, RestartOrPrevious },
+    { "create", required_argument, nullptr, 'c' },
+    { "append", no_argument, nullptr, 'a' },
+    { "load", no_argument, nullptr, 'l' },
+    { "play-track", required_argument, nullptr, 'k' },
+    { "play-playlist", required_argument, nullptr, 'i' },
+    { "show-osd", no_argument, nullptr, 'o' },
+    { "toggle-pretty-osd", no_argument, nullptr, 'y' },
+    { "language", required_argument, nullptr, 'g' },
+    { "resize-window", required_argument, nullptr, 'w' },
+    { "quiet", no_argument, nullptr, Quiet },
+    { "verbose", no_argument, nullptr, Verbose },
+    { "log-levels", required_argument, nullptr, LogLevels },
+    { "version", no_argument, nullptr, Version },
+    { nullptr, 0, nullptr, 0 }
+  };
 
   // Parse the arguments
   bool ok = false;
@@ -162,37 +162,37 @@ bool CommandlineOptions::Parse() {
     switch (c) {
       case 'h': {
         QString translated_help_text =
-            QString(kHelpText)
-                .arg(tr("Usage"), tr("options"), tr("URL(s)"),
-                     tr("Player options"),
-                     tr("Start the playlist currently playing"),
-                     tr("Play if stopped, pause if playing"),
-                     tr("Pause playback"), tr("Stop playback"),
-                     tr("Stop playback after current track"))
-                .arg(tr("Skip backwards in playlist"),
-                     tr("Skip forwards in playlist"),
-                     tr("Set the volume to <value> percent"),
-                     tr("Increase the volume by 4 percent"),
-                     tr("Decrease the volume by 4 percent"),
-                     tr("Increase the volume by <value> percent"),
-                     tr("Decrease the volume by <value> percent"))
-                .arg(tr("Seek the currently playing track to an absolute position"),
-                     tr("Seek the currently playing track by a relative amount"),
-                     tr("Restart the track, or play the previous track if within 8 seconds of start."),
-                     tr("Playlist options"),
-                     tr("Create a new playlist with files"),
-                     tr("Append files/URLs to the playlist"),
-                     tr("Loads files/URLs, replacing current playlist"),
-                     tr("Play the <n>th track in the playlist"),
-                     tr("Play given playlist"))
-                .arg(tr("Other options"), tr("Display the on-screen-display"),
-                     tr("Toggle visibility for the pretty on-screen-display"),
-                     tr("Change the language"),
-                     tr("Resize the window"),
-                     tr("Equivalent to --log-levels *:1"),
-                     tr("Equivalent to --log-levels *:3"),
-                     tr("Comma separated list of class:level, level is 0-3"))
-                .arg(tr("Print out version information"));
+          QString(kHelpText)
+            .arg(tr("Usage"), tr("options"), tr("URL(s)"),
+              tr("Player options"),
+              tr("Start the playlist currently playing"),
+              tr("Play if stopped, pause if playing"),
+              tr("Pause playback"), tr("Stop playback"),
+              tr("Stop playback after current track"))
+            .arg(tr("Skip backwards in playlist"),
+              tr("Skip forwards in playlist"),
+              tr("Set the volume to <value> percent"),
+              tr("Increase the volume by 4 percent"),
+              tr("Decrease the volume by 4 percent"),
+              tr("Increase the volume by <value> percent"),
+              tr("Decrease the volume by <value> percent"))
+            .arg(tr("Seek the currently playing track to an absolute position"),
+              tr("Seek the currently playing track by a relative amount"),
+              tr("Restart the track, or play the previous track if within 8 seconds of start."),
+              tr("Playlist options"),
+              tr("Create a new playlist with files"),
+              tr("Append files/URLs to the playlist"),
+              tr("Loads files/URLs, replacing current playlist"),
+              tr("Play the <n>th track in the playlist"),
+              tr("Play given playlist"))
+            .arg(tr("Other options"), tr("Display the on-screen-display"),
+              tr("Toggle visibility for the pretty on-screen-display"),
+              tr("Change the language"),
+              tr("Resize the window"),
+              tr("Equivalent to --log-levels *:1"),
+              tr("Equivalent to --log-levels *:3"),
+              tr("Comma separated list of class:level, level is 0-3"))
+            .arg(tr("Print out version information"));
 
         std::cout << translated_help_text.toLocal8Bit().constData();
         return false;
@@ -320,19 +320,18 @@ bool CommandlineOptions::Parse() {
   }
 
   return true;
-
 }
 
 bool CommandlineOptions::is_empty() const {
   return player_action_ == Player_None &&
-         set_volume_ == -1 &&
-         volume_modifier_ == 0 &&
-         seek_to_ == -1 &&
-         seek_by_ == 0 &&
-         play_track_at_ == -1 &&
-         !show_osd_ &&
-         !toggle_pretty_osd_ &&
-         urls_.isEmpty();
+    set_volume_ == -1 &&
+    volume_modifier_ == 0 &&
+    seek_to_ == -1 &&
+    seek_by_ == 0 &&
+    play_track_at_ == -1 &&
+    !show_osd_ &&
+    !toggle_pretty_osd_ &&
+    urls_.isEmpty();
 }
 
 bool CommandlineOptions::contains_play_options() const {
@@ -349,7 +348,6 @@ QByteArray CommandlineOptions::Serialize() const {
   }
 
   return buf.data().toBase64();
-
 }
 
 void CommandlineOptions::Load(const QByteArray &serialized) {
@@ -360,7 +358,6 @@ void CommandlineOptions::Load(const QByteArray &serialized) {
     QDataStream s(&buf);
     s >> *this;
   }
-
 }
 
 QString CommandlineOptions::tr(const char *source_text) {
@@ -384,7 +381,6 @@ QDataStream &operator<<(QDataStream &s, const CommandlineOptions &a) {
     << a.window_size_;
 
   return s;
-
 }
 
 QDataStream &operator>>(QDataStream &s, CommandlineOptions &a) {
@@ -392,23 +388,10 @@ QDataStream &operator>>(QDataStream &s, CommandlineOptions &a) {
   quint32 player_action = 0;
   quint32 url_list_action = 0;
 
-  s >> player_action
-    >> url_list_action
-    >> a.set_volume_
-    >> a.volume_modifier_
-    >> a.seek_to_
-    >> a.seek_by_
-    >> a.play_track_at_
-    >> a.show_osd_
-    >> a.urls_
-    >> a.log_levels_
-    >> a.toggle_pretty_osd_
-    >> a.playlist_name_
-    >> a.window_size_;
+  s >> player_action >> url_list_action >> a.set_volume_ >> a.volume_modifier_ >> a.seek_to_ >> a.seek_by_ >> a.play_track_at_ >> a.show_osd_ >> a.urls_ >> a.log_levels_ >> a.toggle_pretty_osd_ >> a.playlist_name_ >> a.window_size_;
 
   a.player_action_ = CommandlineOptions::PlayerAction(player_action);
   a.url_list_action_ = CommandlineOptions::UrlListAction(url_list_action);
 
   return s;
-
 }

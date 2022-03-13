@@ -66,7 +66,6 @@ class MockCollectionBackend : public CollectionBackendInterface {
   MOCK_METHOD1(ExecQuery, bool(CollectionQuery*));
 
   MOCK_METHOD2(GetSongsByAlbum, SongList(const QString&, const QueryOptions&));
-
 };
 
 #endif  // MOCKCOLLECTIONBACKEND_H

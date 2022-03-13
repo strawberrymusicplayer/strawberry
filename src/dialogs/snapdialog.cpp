@@ -90,7 +90,6 @@ SnapDialog::SnapDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_SnapDialog
   ui_->buttonBox->button(QDialogButtonBox::Ok)->setShortcut(QKeySequence::Close);
 
   QObject::connect(ui_->checkbox_do_not_show_message_again, &QCheckBox::toggled, this, &SnapDialog::DoNotShowMessageAgain);
-
 }
 
 SnapDialog::~SnapDialog() { delete ui_; }
@@ -101,5 +100,4 @@ void SnapDialog::DoNotShowMessageAgain() {
   s.beginGroup(MainWindow::kSettingsGroup);
   s.setValue("ignore_snap", ui_->checkbox_do_not_show_message_again->isChecked());
   s.endGroup();
-
 }

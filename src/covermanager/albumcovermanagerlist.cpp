@@ -42,9 +42,9 @@
 AlbumCoverManagerList::AlbumCoverManagerList(QWidget *parent) : QListWidget(parent), manager_(nullptr) {}
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem*> &items) const {
+QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem *> &items) const {
 #else
-QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem*> items) const {
+QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem *> items) const {
 #endif
 
   // Get songs
@@ -72,5 +72,4 @@ QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem*> items) 
   mime_data->setData(orig_data->formats()[0], orig_data->data(orig_data->formats()[0]));
 
   return mime_data;
-
 }

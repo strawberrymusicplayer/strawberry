@@ -75,5 +75,4 @@ QPixmap SystemTrayIcon::CreateIcon(const QPixmap &icon, const QPixmap &grey_icon
   p.end();
 
   return ret;
-
 }

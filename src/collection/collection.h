@@ -97,7 +97,7 @@ class SCollection : public QObject {
   // DB schema versions which should trigger a full collection rescan (each of those with a short reason why).
   QHash<int, QString> full_rescan_revisions_;
 
-  QList<QObject*> wait_for_exit_;
+  QList<QObject *> wait_for_exit_;
 
   Utilities::IoPriority io_priority_;
   QThread::Priority thread_priority_;

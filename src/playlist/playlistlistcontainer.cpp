@@ -113,7 +113,6 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   model_->invisibleRootItem()->setData(PlaylistListModel::Type_Folder, PlaylistListModel::Role_Type);
 
   ReloadSettings();
-
 }
 
 PlaylistListContainer::~PlaylistListContainer() { delete ui_; }
@@ -142,7 +141,6 @@ void PlaylistListContainer::SetApplication(Application *app) {
     QStandardItem *parent_folder = model_->FolderByPath(p.ui_path);
     parent_folder->appendRow(playlist_item);
   }
-
 }
 
 void PlaylistListContainer::ReloadSettings() {
@@ -155,7 +153,6 @@ void PlaylistListContainer::ReloadSettings() {
   ui_->new_folder->setIconSize(QSize(iconsize, iconsize));
   ui_->remove->setIconSize(QSize(iconsize, iconsize));
   ui_->save_playlist->setIconSize(QSize(iconsize, iconsize));
-
 }
 
 void PlaylistListContainer::showEvent(QShowEvent *e) {
@@ -175,14 +172,12 @@ void PlaylistListContainer::showEvent(QShowEvent *e) {
 
     // Apply these icons to items that have already been created.
     RecursivelySetIcons(model_->invisibleRootItem());
-
   }
 
   ui_->remove->setEnabled(ui_->tree->ItemsSelected());
   ui_->save_playlist->setEnabled(ui_->tree->ItemsSelected());
 
   QWidget::showEvent(e);
-
 }
 
 void PlaylistListContainer::RecursivelySetIcons(QStandardItem *parent) const {
@@ -200,7 +195,6 @@ void PlaylistListContainer::RecursivelySetIcons(QStandardItem *parent) const {
         break;
     }
   }
-
 }
 
 void PlaylistListContainer::NewFolderClicked() {
@@ -213,7 +207,6 @@ void PlaylistListContainer::NewFolderClicked() {
   name.replace("/", " ");
 
   model_->invisibleRootItem()->appendRow(model_->NewFolder(name));
-
 }
 
 void PlaylistListContainer::AddPlaylist(const int id, const QString &name, const bool favorite) {
@@ -232,7 +225,6 @@ void PlaylistListContainer::AddPlaylist(const int id, const QString &name, const
   QStandardItem *playlist_item = model_->NewPlaylist(name, id);
   QStandardItem *parent_folder = model_->FolderByPath(ui_path);
   parent_folder->appendRow(playlist_item);
-
 }
 
 void PlaylistListContainer::PlaylistRenamed(const int id, const QString &new_name) {
@@ -243,7 +235,6 @@ void PlaylistListContainer::PlaylistRenamed(const int id, const QString &new_nam
   }
 
   item->setText(new_name);
-
 }
 
 void PlaylistListContainer::RemovePlaylist(const int id) {
@@ -256,7 +247,6 @@ void PlaylistListContainer::RemovePlaylist(const int id) {
     }
     parent->removeRow(item->row());
   }
-
 }
 
 void PlaylistListContainer::SavePlaylist() {
@@ -273,7 +263,6 @@ void PlaylistListContainer::SavePlaylist() {
     QString playlist_name = item ? item->text() : tr("Playlist");
     app_->playlist_manager()->SaveWithUI(playlist_id, playlist_name);
   }
-
 }
 
 void PlaylistListContainer::PlaylistFavoriteStateChanged(const int id, const bool favorite) {
@@ -285,7 +274,6 @@ void PlaylistListContainer::PlaylistFavoriteStateChanged(const int id, const boo
   else {
     RemovePlaylist(id);
   }
-
 }
 
 void PlaylistListContainer::ActiveChanged(Playlist *new_playlist) {
@@ -297,7 +285,6 @@ void PlaylistListContainer::ActiveChanged(Playlist *new_playlist) {
   }
 
   active_playlist_id_ = new_id;
-
 }
 
 void PlaylistListContainer::CurrentChanged(Playlist *new_playlist) {
@@ -315,7 +302,6 @@ void PlaylistListContainer::CurrentChanged(Playlist *new_playlist) {
   QModelIndex idx = proxy_->mapFromSource(item->index());
   ui_->tree->selectionModel()->setCurrentIndex(idx, QItemSelectionModel::ClearAndSelect);
   ui_->tree->scrollTo(idx);
-
 }
 
 void PlaylistListContainer::PlaylistPathChanged(const int id, const QString &new_path) {
@@ -327,7 +313,6 @@ void PlaylistListContainer::PlaylistPathChanged(const int id, const QString &new
   if (playlist) {
     playlist->set_ui_path(new_path);
   }
-
 }
 
 void PlaylistListContainer::ItemsSelectedChanged(const bool selected) {
@@ -344,7 +329,6 @@ void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_idx) {
   if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
     app_->playlist_manager()->SetCurrentOrOpen(idx.data(PlaylistListModel::Role_PlaylistId).toInt());
   }
-
 }
 
 void PlaylistListContainer::CopyToDevice() {
@@ -380,7 +364,6 @@ void PlaylistListContainer::CopyToDevice() {
     organize_dialog_->show();
   }
 #endif
-
 }
 
 void PlaylistListContainer::Delete() {
@@ -427,7 +410,6 @@ void PlaylistListContainer::Delete() {
       model_->removeRow(idx.row(), idx.parent());
     }
   }
-
 }
 
 void PlaylistListContainer::RecursivelyFindPlaylists(const QModelIndex &parent, QSet<int> *ids) const {
@@ -443,7 +425,6 @@ void PlaylistListContainer::RecursivelyFindPlaylists(const QModelIndex &parent, 
       }
       break;
   }
-
 }
 
 void PlaylistListContainer::contextMenuEvent(QContextMenuEvent *e) {
@@ -467,7 +448,6 @@ void PlaylistListContainer::contextMenuEvent(QContextMenuEvent *e) {
 #endif
 
   menu_->popup(e->globalPos());
-
 }
 
 void PlaylistListContainer::ActivePlaying() {
@@ -484,7 +464,6 @@ void PlaylistListContainer::ActivePlaying() {
     padded_play_icon_.addPixmap(new_pixmap);
   }
   UpdateActiveIcon(active_playlist_id_, padded_play_icon_);
-
 }
 
 void PlaylistListContainer::ActivePaused() {
@@ -512,5 +491,4 @@ void PlaylistListContainer::UpdateActiveIcon(const int id, const QIcon &icon) {
   else {
     item->setIcon(icon);
   }
-
 }

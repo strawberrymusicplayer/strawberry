@@ -101,7 +101,10 @@ class SongLoader : public QObject {
 #endif  // HAVE_AUDIOCD && HAVE_GSTREAMER
 
  private:
-  enum State { WaitingForType, WaitingForMagic, WaitingForData, Finished };
+  enum State { WaitingForType,
+    WaitingForMagic,
+    WaitingForData,
+    Finished };
 
   Result LoadLocal(const QString &filename);
   SongLoader::Result LoadLocalAsync(const QString &filename);
@@ -117,9 +120,9 @@ class SongLoader : public QObject {
 
   // GStreamer callbacks
   static void TypeFound(GstElement *typefind, uint probability, GstCaps *caps, void *self);
-  static GstPadProbeReturn DataReady(GstPad*, GstPadProbeInfo *info, gpointer self);
-  static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage*, gpointer);
-  static gboolean BusCallback(GstBus*, GstMessage*, gpointer);
+  static GstPadProbeReturn DataReady(GstPad *, GstPadProbeInfo *info, gpointer self);
+  static GstBusSyncReply BusCallbackSync(GstBus *, GstMessage *, gpointer);
+  static gboolean BusCallback(GstBus *, GstMessage *, gpointer);
 
   void StopTypefindAsync(bool success);
   void ErrorMessageReceived(GstMessage *msg);
@@ -158,7 +161,6 @@ class SongLoader : public QObject {
   QThreadPool thread_pool_;
 
   QStringList errors_;
-
 };
 
 #endif  // SONGLOADER_H

@@ -73,7 +73,6 @@ bool GPodDevice::Init() {
   QObject::connect(loader_thread_, &QThread::started, loader_, &GPodLoader::LoadDatabase);
 
   return true;
-
 }
 
 GPodDevice::~GPodDevice() {
@@ -85,13 +84,11 @@ GPodDevice::~GPodDevice() {
     loader_ = nullptr;
     loader_thread_ = nullptr;
   }
-
 }
 
 void GPodDevice::ConnectAsync() {
 
   loader_thread_->start();
-
 }
 
 void GPodDevice::Close() {
@@ -104,7 +101,6 @@ void GPodDevice::Close() {
   else {
     ConnectedDevice::Close();
   }
-
 }
 
 void GPodDevice::LoadFinished(Itdb_iTunesDB *db, const bool success) {
@@ -129,7 +125,6 @@ void GPodDevice::LoadFinished(Itdb_iTunesDB *db, const bool success) {
   else {
     emit DeviceConnectFinished(unique_id_, success);
   }
-
 }
 
 void GPodDevice::LoaderError(const QString &message) { app_->AddError(message); }
@@ -144,7 +139,6 @@ void GPodDevice::Start() {
 
   // Ensure only one "organize files" can be active at any one time
   db_busy_.lock();
-
 }
 
 bool GPodDevice::StartCopy(QList<Song::FileType> *supported_filetypes) {
@@ -154,7 +148,6 @@ bool GPodDevice::StartCopy(QList<Song::FileType> *supported_filetypes) {
   if (supported_filetypes) GetSupportedFiletypes(supported_filetypes);
 
   return true;
-
 }
 
 Itdb_Track *GPodDevice::AddTrackToITunesDb(const Song &metadata) {
@@ -170,7 +163,6 @@ Itdb_Track *GPodDevice::AddTrackToITunesDb(const Song &metadata) {
   itdb_playlist_add_track(mpl, track, -1);
 
   return track;
-
 }
 
 void GPodDevice::AddTrackToModel(Itdb_Track *track, const QString &prefix) {
@@ -180,7 +172,6 @@ void GPodDevice::AddTrackToModel(Itdb_Track *track, const QString &prefix) {
   metadata_on_device.InitFromItdb(track, prefix);
   metadata_on_device.set_directory_id(1);
   songs_to_add_ << metadata_on_device;
-
 }
 
 bool GPodDevice::CopyToStorage(const CopyJob &job) {
@@ -264,7 +255,6 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
   }
 
   return true;
-
 }
 
 bool GPodDevice::WriteDatabase() {
@@ -279,8 +269,8 @@ bool GPodDevice::WriteDatabase() {
     g_error_free(error);
     return false;
   }
-  else return true;
-
+  else
+    return true;
 }
 
 void GPodDevice::Finish(const bool success) {
@@ -299,7 +289,6 @@ void GPodDevice::Finish(const bool success) {
   cover_files_.clear();
 
   db_busy_.unlock();
-
 }
 
 void GPodDevice::FinishCopy(bool success) {
@@ -307,7 +296,6 @@ void GPodDevice::FinishCopy(bool success) {
   if (success) success = WriteDatabase();
   Finish(success);
   ConnectedDevice::FinishCopy(success);
-
 }
 
 void GPodDevice::StartDelete() { Start(); }
@@ -324,7 +312,7 @@ bool GPodDevice::RemoveTrackFromITunesDb(const QString &path, const QString &rel
   // Find the track in the itdb, identify it by its filename
   Itdb_Track *track = nullptr;
   for (GList *tracks = db_->tracks; tracks != nullptr; tracks = tracks->next) {
-    Itdb_Track *t = static_cast<Itdb_Track*>(tracks->data);
+    Itdb_Track *t = static_cast<Itdb_Track *>(tracks->data);
 
     if (t->ipod_path == ipod_filename) {
       track = t;
@@ -339,7 +327,7 @@ bool GPodDevice::RemoveTrackFromITunesDb(const QString &path, const QString &rel
 
   // Remove the track from all playlists
   for (GList *playlists = db_->playlists; playlists != nullptr; playlists = playlists->next) {
-    Itdb_Playlist *playlist = static_cast<Itdb_Playlist*>(playlists->data);
+    Itdb_Playlist *playlist = static_cast<Itdb_Playlist *>(playlists->data);
 
     if (itdb_playlist_contains_track(playlist, track)) {
       itdb_playlist_remove_track(playlist, track);
@@ -350,7 +338,6 @@ bool GPodDevice::RemoveTrackFromITunesDb(const QString &path, const QString &rel
   itdb_track_remove(track);
 
   return true;
-
 }
 
 bool GPodDevice::DeleteFromStorage(const DeleteJob &job) {
@@ -370,7 +357,6 @@ bool GPodDevice::DeleteFromStorage(const DeleteJob &job) {
   songs_to_remove_ << job.metadata_;
 
   return true;
-
 }
 
 void GPodDevice::FinishDelete(bool success) {
@@ -378,7 +364,6 @@ void GPodDevice::FinishDelete(bool success) {
   if (success) success = WriteDatabase();
   Finish(success);
   ConnectedDevice::FinishDelete(success);
-
 }
 
 bool GPodDevice::GetSupportedFiletypes(QList<Song::FileType> *ret) {

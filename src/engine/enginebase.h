@@ -67,7 +67,7 @@ class Base : public QObject {
 
   virtual bool Init() = 0;
   virtual State state() const = 0;
-  virtual void StartPreloading(const QUrl&, const QUrl&, const bool, const qint64, const qint64) {}
+  virtual void StartPreloading(const QUrl &, const QUrl &, const bool, const qint64, const qint64) {}
   virtual bool Load(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
   virtual bool Play(const quint64 offset_nanosec) = 0;
   virtual void Stop(const bool stop_after = false) = 0;
@@ -79,7 +79,10 @@ class Base : public QObject {
   virtual qint64 position_nanosec() const = 0;
   virtual qint64 length_nanosec() const = 0;
 
-  virtual const Scope &scope(const int chunk_length) { Q_UNUSED(chunk_length); return scope_; }
+  virtual const Scope &scope(const int chunk_length) {
+    Q_UNUSED(chunk_length);
+    return scope_;
+  }
 
   // Sets new values for the beginning and end markers of the currently playing song.
   // This doesn't change the state of engine or the stream's current position.
@@ -107,7 +110,6 @@ class Base : public QObject {
   void EmitAboutToEnd();
 
  public:
-
   // Simple accessors
   EngineType type() const { return type_; }
   bool volume_control() const { return volume_control_; }
@@ -127,7 +129,7 @@ class Base : public QObject {
   virtual void SetStereoBalancerEnabled(const bool) {}
   virtual void SetStereoBalance(const float) {}
   virtual void SetEqualizerEnabled(const bool) {}
-  virtual void SetEqualizerParameters(const int, const QList<int>&) {}
+  virtual void SetEqualizerParameters(const int, const QList<int> &) {}
 
  signals:
   // Emitted when crossfading is enabled and the track is crossfade_duration_ away from finishing
@@ -154,7 +156,6 @@ class Base : public QObject {
   void StateChanged(Engine::State);
 
  protected:
-
   struct PluginDetails {
     QString name;
     QString description;
@@ -216,7 +217,6 @@ class Base : public QObject {
  private:
   bool about_to_end_emitted_;
   Q_DISABLE_COPY(Base)
-
 };
 
 struct SimpleMetaBundle {

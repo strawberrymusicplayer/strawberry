@@ -84,12 +84,12 @@ class MacOsDeviceLister : public DeviceLister {
  private:
   bool Init();
 
-  static void DiskAddedCallback(DADiskRef disk, void* context);
-  static void DiskRemovedCallback(DADiskRef disk, void* context);
+  static void DiskAddedCallback(DADiskRef disk, void *context);
+  static void DiskRemovedCallback(DADiskRef disk, void *context);
   static void USBDeviceAddedCallback(void *refcon, io_iterator_t it);
   static void USBDeviceRemovedCallback(void *refcon, io_iterator_t it);
 
-  static void DiskUnmountCallback(DADiskRef disk, DADissenterRef dissenter, void* context);
+  static void DiskUnmountCallback(DADiskRef disk, DADissenterRef dissenter, void *context);
 
   void FoundMTPDevice(const MTPDevice &device, const QString &serial);
   void RemovedMTPDevice(const QString &serial);

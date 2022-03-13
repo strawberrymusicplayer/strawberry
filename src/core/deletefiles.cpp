@@ -63,7 +63,6 @@ void DeleteFiles::Start(const SongList &songs) {
 
   moveToThread(thread_);
   thread_->start();
-
 }
 
 void DeleteFiles::Start(const QStringList &filenames) {
@@ -77,7 +76,6 @@ void DeleteFiles::Start(const QStringList &filenames) {
   }
 
   Start(songs);
-
 }
 
 void DeleteFiles::ProcessSomeFiles() {
@@ -124,5 +122,4 @@ void DeleteFiles::ProcessSomeFiles() {
   }
 
   QTimer::singleShot(0, this, &DeleteFiles::ProcessSomeFiles);
-
 }

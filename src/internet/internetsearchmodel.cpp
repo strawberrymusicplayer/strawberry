@@ -53,7 +53,6 @@ InternetSearchModel::InternetSearchModel(InternetService *service, QObject *pare
 
   QList<QSize> nocover_sizes = album_icon_.availableSizes();
   no_cover_icon_ = album_icon_.pixmap(nocover_sizes.last()).scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
 }
 
 void InternetSearchModel::AddResults(const InternetSearchView::ResultList &results) {
@@ -71,9 +70,7 @@ void InternetSearchModel::AddResults(const InternetSearchView::ResultList &resul
     item->setData(QVariant::fromValue(result), Role_Result);
 
     parent->appendRow(item);
-
   }
-
 }
 
 QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, const int level) {
@@ -121,7 +118,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       has_album_icon = true;
       break;
 
-    case CollectionModel::GroupBy_AlbumDisc:{
+    case CollectionModel::GroupBy_AlbumDisc: {
       int disc = qMax(0, s.disc());
       display_text = CollectionModel::PrettyAlbumDisc(s.album(), disc);
       sort_text = s.album() + CollectionModel::SortTextForNumber(disc);
@@ -130,7 +127,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       break;
     }
 
-    case CollectionModel::GroupBy_YearAlbum:{
+    case CollectionModel::GroupBy_YearAlbum: {
       int year = qMax(0, s.year());
       display_text = CollectionModel::PrettyYearAlbum(year, s.album());
       sort_text = CollectionModel::SortTextForNumber(year) + s.album();
@@ -139,7 +136,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       break;
     }
 
-    case CollectionModel::GroupBy_YearAlbumDisc:{
+    case CollectionModel::GroupBy_YearAlbumDisc: {
       int year = qMax(0, s.year());
       int disc = qMax(0, s.disc());
       display_text = CollectionModel::PrettyYearAlbumDisc(year, s.album(), disc);
@@ -149,7 +146,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       break;
     }
 
-    case CollectionModel::GroupBy_OriginalYearAlbum:{
+    case CollectionModel::GroupBy_OriginalYearAlbum: {
       int year = qMax(0, s.effective_originalyear());
       display_text = CollectionModel::PrettyYearAlbum(year, s.album());
       sort_text = CollectionModel::SortTextForNumber(year) + s.album();
@@ -158,7 +155,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       break;
     }
 
-    case CollectionModel::GroupBy_OriginalYearAlbumDisc:{
+    case CollectionModel::GroupBy_OriginalYearAlbumDisc: {
       const int year = qMax(0, s.effective_originalyear());
       const int disc = qMax(0, s.disc());
       display_text = CollectionModel::PrettyYearAlbumDisc(year, s.album(), disc);
@@ -174,14 +171,14 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       has_album_icon = true;
       break;
 
-    case CollectionModel::GroupBy_Year:{
+    case CollectionModel::GroupBy_Year: {
       const int year = qMax(0, s.year());
       display_text = QString::number(year);
       sort_text = CollectionModel::SortTextForNumber(year) + " ";
       break;
     }
 
-    case CollectionModel::GroupBy_OriginalYear:{
+    case CollectionModel::GroupBy_OriginalYear: {
       const int year = qMax(0, s.effective_originalyear());
       display_text = QString::number(year);
       sort_text = CollectionModel::SortTextForNumber(year) + " ";
@@ -284,41 +281,37 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
 
   // Create the container for the next level.
   return BuildContainers(s, container, key, level + 1);
-
 }
 
 void InternetSearchModel::Clear() {
 
   containers_.clear();
   clear();
-
 }
 
 InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QModelIndexList &indexes) const {
 
-  QList<QStandardItem*> items;
+  QList<QStandardItem *> items;
   items.reserve(indexes.count());
   for (const QModelIndex &idx : indexes) {
     items << itemFromIndex(idx);
   }
   return GetChildResults(items);
-
 }
 
-InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QList<QStandardItem*> &items) const {
+InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QList<QStandardItem *> &items) const {
 
   InternetSearchView::ResultList results;
-  QSet<const QStandardItem*> visited;
+  QSet<const QStandardItem *> visited;
 
   for (QStandardItem *item : items) {
     GetChildResults(item, &results, &visited);
   }
 
   return results;
-
 }
 
-void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const {
+void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSearchView::ResultList *results, QSet<const QStandardItem *> *visited) const {
 
   if (visited->contains(item)) {
     return;
@@ -343,13 +336,11 @@ void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSea
       results->append(result.value<InternetSearchView::Result>());
     }
   }
-
 }
 
 QMimeData *InternetSearchModel::mimeData(const QModelIndexList &indexes) const {
 
   return LoadTracks(GetChildResults(indexes));
-
 }
 
 namespace {
@@ -365,7 +356,6 @@ void GatherResults(const QStandardItem *parent, InternetSearchView::ResultList *
   for (int i = 0; i < parent->rowCount(); ++i) {
     GatherResults(parent->child(i), results);
   }
-
 }
 
 }  // namespace
@@ -384,7 +374,6 @@ void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping grouping, c
     Clear();
     AddResults(results);
   }
-
 }
 
 MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &results) const {
@@ -408,5 +397,4 @@ MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &
   mime_data->setUrls(urls);
 
   return mime_data;
-
 }

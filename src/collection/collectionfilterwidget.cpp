@@ -68,24 +68,23 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   QString available_fields = Song::kFtsColumns.join(", ").replace(QRegularExpression("\\bfts"), "");
 
   ui_->search_field->setToolTip(
-  QString("<html><head/><body><p>") +
-  tr("Prefix a word with a field name to limit the search to that field, e.g.:") +
-  QString(" ") +
-  QString("<span style=\"font-weight:600;\">") +
-  tr("artist") +
-  QString(":") +
-  QString("</span><span style=\"font-style:italic;\">Strawbs</span>") +
-  QString(" ") +
-  tr("searches the collection for all artists that contain the word") +
-  QString(" Strawbs.") +
-  QString("</p><p><span style=\"font-weight:600;\">") +
-  tr("Available fields") +
-  QString(": ") +
-  "</span><span style=\"font-style:italic;\">" +
-  available_fields +
-  QString("</span>.") +
-  QString("</p></body></html>")
-  );
+    QString("<html><head/><body><p>") +
+    tr("Prefix a word with a field name to limit the search to that field, e.g.:") +
+    QString(" ") +
+    QString("<span style=\"font-weight:600;\">") +
+    tr("artist") +
+    QString(":") +
+    QString("</span><span style=\"font-style:italic;\">Strawbs</span>") +
+    QString(" ") +
+    tr("searches the collection for all artists that contain the word") +
+    QString(" Strawbs.") +
+    QString("</p><p><span style=\"font-weight:600;\">") +
+    tr("Available fields") +
+    QString(": ") +
+    "</span><span style=\"font-style:italic;\">" +
+    available_fields +
+    QString("</span>.") +
+    QString("</p></body></html>"));
 
   QObject::connect(ui_->search_field, &QSearchField::returnPressed, this, &CollectionFilterWidget::ReturnPressed);
   QObject::connect(filter_delay_, &QTimer::timeout, this, &CollectionFilterWidget::FilterDelayTimeout);
@@ -139,7 +138,6 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   QObject::connect(ui_->options, &QToolButton::clicked, ui_->options, &QToolButton::showMenu);
 
   ReloadSettings();
-
 }
 
 CollectionFilterWidget::~CollectionFilterWidget() { delete ui_; }
@@ -150,7 +148,7 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
     QObject::disconnect(model_, nullptr, this, nullptr);
     QObject::disconnect(model_, nullptr, group_by_dialog_.get(), nullptr);
     QObject::disconnect(group_by_dialog_.get(), nullptr, model_, nullptr);
-    QList<QAction*> filter_ages = filter_ages_.keys();
+    QList<QAction *> filter_ages = filter_ages_.keys();
     for (QAction *action : filter_ages) {
       QObject::disconnect(action, &QAction::triggered, model_, nullptr);
     }
@@ -163,10 +161,10 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
   QObject::connect(model_, &CollectionModel::GroupingChanged, this, &CollectionFilterWidget::GroupingChanged);
   QObject::connect(group_by_dialog_.get(), &GroupByDialog::Accepted, model_, &CollectionModel::SetGroupBy);
 
-  QList<QAction*> filter_ages = filter_ages_.keys();
+  QList<QAction *> filter_ages = filter_ages_.keys();
   for (QAction *action : filter_ages) {
     int age = filter_ages_[action];
-    QObject::connect(action, &QAction::triggered, this, [this, age]() { model_->SetFilterAge(age); } );
+    QObject::connect(action, &QAction::triggered, this, [this, age]() { model_->SetFilterAge(age); });
   }
 
   // Load settings
@@ -177,16 +175,15 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
     if (s.contains(group_by_version())) version = s.value(group_by_version(), 0).toInt();
     if (version == 1) {
       model_->SetGroupBy(CollectionModel::Grouping(
-          CollectionModel::GroupBy(s.value(group_by(1), static_cast<int>(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-          CollectionModel::GroupBy(s.value(group_by(2), static_cast<int>(CollectionModel::GroupBy_AlbumDisc)).toInt()),
-          CollectionModel::GroupBy(s.value(group_by(3), static_cast<int>(CollectionModel::GroupBy_None)).toInt())));
+        CollectionModel::GroupBy(s.value(group_by(1), static_cast<int>(CollectionModel::GroupBy_AlbumArtist)).toInt()),
+        CollectionModel::GroupBy(s.value(group_by(2), static_cast<int>(CollectionModel::GroupBy_AlbumDisc)).toInt()),
+        CollectionModel::GroupBy(s.value(group_by(3), static_cast<int>(CollectionModel::GroupBy_None)).toInt())));
     }
     else {
       model_->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc, CollectionModel::GroupBy_None));
     }
     s.endGroup();
   }
-
 }
 
 void CollectionFilterWidget::ReloadSettings() {
@@ -197,7 +194,6 @@ void CollectionFilterWidget::ReloadSettings() {
   s.endGroup();
   ui_->options->setIconSize(QSize(iconsize, iconsize));
   ui_->search_field->setIconSize(iconsize);
-
 }
 
 QString CollectionFilterWidget::group_by() {
@@ -208,7 +204,6 @@ QString CollectionFilterWidget::group_by() {
   else {
     return QString("%1_group_by").arg(settings_prefix_);
   }
-
 }
 
 QString CollectionFilterWidget::group_by_version() {
@@ -219,7 +214,6 @@ QString CollectionFilterWidget::group_by_version() {
   else {
     return QString("%1_group_by_version").arg(settings_prefix_);
   }
-
 }
 
 QString CollectionFilterWidget::group_by(const int number) { return group_by() + QString::number(number); }
@@ -238,7 +232,6 @@ void CollectionFilterWidget::UpdateGroupByActions() {
   if (model_) {
     CheckCurrentGrouping(model_->GetGroupBy());
   }
-
 }
 
 
@@ -300,7 +293,6 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(QObject *parent) {
   ret->addAction(CreateGroupByAction(tr("Advanced grouping..."), parent, CollectionModel::Grouping()));
 
   return ret;
-
 }
 
 QAction *CollectionFilterWidget::CreateGroupByAction(const QString &text, QObject *parent, const CollectionModel::Grouping grouping) {
@@ -313,7 +305,6 @@ QAction *CollectionFilterWidget::CreateGroupByAction(const QString &text, QObjec
   }
 
   return ret;
-
 }
 
 void CollectionFilterWidget::SaveGroupBy() {
@@ -323,7 +314,6 @@ void CollectionFilterWidget::SaveGroupBy() {
     model_->SaveGrouping(text);
     UpdateGroupByActions();
   }
-
 }
 
 void CollectionFilterWidget::ShowGroupingManager() {
@@ -334,26 +324,22 @@ void CollectionFilterWidget::ShowGroupingManager() {
   groupings_manager_->SetFilter(this);
   groupings_manager_->UpdateModel();
   groupings_manager_->show();
-
 }
 
 bool CollectionFilterWidget::SearchFieldHasFocus() const {
 
   return ui_->search_field->hasFocus();
-
 }
 
 void CollectionFilterWidget::FocusSearchField() {
 
   ui_->search_field->setFocus();
-
 }
 
 void CollectionFilterWidget::FocusOnFilter(QKeyEvent *event) {
 
   ui_->search_field->setFocus();
   QApplication::sendEvent(ui_->search_field, event);
-
 }
 
 void CollectionFilterWidget::GroupByClicked(QAction *action) {
@@ -365,7 +351,6 @@ void CollectionFilterWidget::GroupByClicked(QAction *action) {
 
   CollectionModel::Grouping g = action->property("group_by").value<CollectionModel::Grouping>();
   model_->SetGroupBy(g);
-
 }
 
 void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping g) {
@@ -383,7 +368,6 @@ void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping g) 
 
   // Now make sure the correct action is checked
   CheckCurrentGrouping(g);
-
 }
 
 void CollectionFilterWidget::CheckCurrentGrouping(const CollectionModel::Grouping g) {
@@ -398,10 +382,9 @@ void CollectionFilterWidget::CheckCurrentGrouping(const CollectionModel::Groupin
   }
 
   // Check the advanced action
-  QList<QAction*> actions = group_by_group_->actions();
+  QList<QAction *> actions = group_by_group_->actions();
   QAction *action = actions.last();
   action->setChecked(true);
-
 }
 
 void CollectionFilterWidget::SetFilterHint(const QString &hint) {
@@ -414,7 +397,6 @@ void CollectionFilterWidget::SetQueryMode(QueryOptions::QueryMode query_mode) {
   ui_->search_field->setEnabled(query_mode == QueryOptions::QueryMode_All);
 
   model_->SetFilterQueryMode(query_mode);
-
 }
 
 void CollectionFilterWidget::ShowInCollection(const QString &search) {
@@ -453,7 +435,6 @@ void CollectionFilterWidget::keyReleaseEvent(QKeyEvent *e) {
   }
 
   QWidget::keyReleaseEvent(e);
-
 }
 
 void CollectionFilterWidget::FilterTextChanged(const QString &text) {
@@ -470,7 +451,6 @@ void CollectionFilterWidget::FilterTextChanged(const QString &text) {
     filter_delay_->stop();
     FilterDelayTimeout();
   }
-
 }
 
 void CollectionFilterWidget::FilterDelayTimeout() {
@@ -479,5 +459,4 @@ void CollectionFilterWidget::FilterDelayTimeout() {
   if (filter_applies_to_model_) {
     model_->SetFilterText(ui_->search_field->text());
   }
-
 }

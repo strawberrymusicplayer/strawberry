@@ -98,90 +98,89 @@ using namespace std::chrono_literals;
 
 class ApplicationImpl {
  public:
-  explicit ApplicationImpl(Application *app) :
-       tag_reader_client_([=]() {
-          TagReaderClient *client = new TagReaderClient(app);
-          app->MoveToNewThread(client);
-          client->Start();
-          return client;
-        }),
-        database_([=]() {
-          Database *db = new Database(app, app);
-          app->MoveToNewThread(db);
-          QTimer::singleShot(30s, db, &Database::DoBackup);
-          return db;
-        }),
-        appearance_([=]() { return new Appearance(app); }),
-        task_manager_([=]() { return new TaskManager(app); }),
-        player_([=]() { return new Player(app, app); }),
-        device_finders_([=]() { return new DeviceFinders(app); }),
+  explicit ApplicationImpl(Application *app) : tag_reader_client_([=]() {
+                                                 TagReaderClient *client = new TagReaderClient(app);
+                                                 app->MoveToNewThread(client);
+                                                 client->Start();
+                                                 return client;
+                                               }),
+                                               database_([=]() {
+                                                 Database *db = new Database(app, app);
+                                                 app->MoveToNewThread(db);
+                                                 QTimer::singleShot(30s, db, &Database::DoBackup);
+                                                 return db;
+                                               }),
+                                               appearance_([=]() { return new Appearance(app); }),
+                                               task_manager_([=]() { return new TaskManager(app); }),
+                                               player_([=]() { return new Player(app, app); }),
+                                               device_finders_([=]() { return new DeviceFinders(app); }),
 #ifndef Q_OS_WIN
-        device_manager_([=]() { return new DeviceManager(app, app); }),
+                                               device_manager_([=]() { return new DeviceManager(app, app); }),
 #endif
-        collection_([=]() { return new SCollection(app, app); }),
-        playlist_backend_([=]() {
-          PlaylistBackend *backend = new PlaylistBackend(app, app);
-          app->MoveToThread(backend, database_->thread());
-          return backend;
-        }),
-        playlist_manager_([=]() { return new PlaylistManager(app); }),
-        cover_providers_([=]() {
-          CoverProviders *cover_providers = new CoverProviders(app);
-          // Initialize the repository of cover providers.
-          cover_providers->AddProvider(new LastFmCoverProvider(app, cover_providers->network(), app));
-          cover_providers->AddProvider(new MusicbrainzCoverProvider(app, cover_providers->network(), app));
-          cover_providers->AddProvider(new DiscogsCoverProvider(app, cover_providers->network(), app));
-          cover_providers->AddProvider(new DeezerCoverProvider(app, cover_providers->network(), app));
-          cover_providers->AddProvider(new MusixmatchCoverProvider(app, cover_providers->network(), app));
-          cover_providers->AddProvider(new SpotifyCoverProvider(app, cover_providers->network(), app));
+                                               collection_([=]() { return new SCollection(app, app); }),
+                                               playlist_backend_([=]() {
+                                                 PlaylistBackend *backend = new PlaylistBackend(app, app);
+                                                 app->MoveToThread(backend, database_->thread());
+                                                 return backend;
+                                               }),
+                                               playlist_manager_([=]() { return new PlaylistManager(app); }),
+                                               cover_providers_([=]() {
+                                                 CoverProviders *cover_providers = new CoverProviders(app);
+                                                 // Initialize the repository of cover providers.
+                                                 cover_providers->AddProvider(new LastFmCoverProvider(app, cover_providers->network(), app));
+                                                 cover_providers->AddProvider(new MusicbrainzCoverProvider(app, cover_providers->network(), app));
+                                                 cover_providers->AddProvider(new DiscogsCoverProvider(app, cover_providers->network(), app));
+                                                 cover_providers->AddProvider(new DeezerCoverProvider(app, cover_providers->network(), app));
+                                                 cover_providers->AddProvider(new MusixmatchCoverProvider(app, cover_providers->network(), app));
+                                                 cover_providers->AddProvider(new SpotifyCoverProvider(app, cover_providers->network(), app));
 #ifdef HAVE_TIDAL
-          cover_providers->AddProvider(new TidalCoverProvider(app, cover_providers->network(), app));
+                                                 cover_providers->AddProvider(new TidalCoverProvider(app, cover_providers->network(), app));
 #endif
 #ifdef HAVE_QOBUZ
-          cover_providers->AddProvider(new QobuzCoverProvider(app, cover_providers->network(), app));
+                                                 cover_providers->AddProvider(new QobuzCoverProvider(app, cover_providers->network(), app));
 #endif
-          cover_providers->ReloadSettings();
-          return cover_providers;
-        }),
-        album_cover_loader_([=]() {
-          AlbumCoverLoader *loader = new AlbumCoverLoader(app);
-          app->MoveToNewThread(loader);
-          return loader;
-        }),
-        current_albumcover_loader_([=]() { return new CurrentAlbumCoverLoader(app, app); }),
-        lyrics_providers_([=]() {
-          LyricsProviders *lyrics_providers = new LyricsProviders(app);
-          // Initialize the repository of lyrics providers.
-          lyrics_providers->AddProvider(new AuddLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->AddProvider(new GeniusLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->AddProvider(new OVHLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->AddProvider(new LoloLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->AddProvider(new MusixmatchLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->AddProvider(new ChartLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->ReloadSettings();
-          return lyrics_providers;
-        }),
-        internet_services_([=]() {
-          InternetServices *internet_services = new InternetServices(app);
+                                                 cover_providers->ReloadSettings();
+                                                 return cover_providers;
+                                               }),
+                                               album_cover_loader_([=]() {
+                                                 AlbumCoverLoader *loader = new AlbumCoverLoader(app);
+                                                 app->MoveToNewThread(loader);
+                                                 return loader;
+                                               }),
+                                               current_albumcover_loader_([=]() { return new CurrentAlbumCoverLoader(app, app); }),
+                                               lyrics_providers_([=]() {
+                                                 LyricsProviders *lyrics_providers = new LyricsProviders(app);
+                                                 // Initialize the repository of lyrics providers.
+                                                 lyrics_providers->AddProvider(new AuddLyricsProvider(lyrics_providers->network(), app));
+                                                 lyrics_providers->AddProvider(new GeniusLyricsProvider(lyrics_providers->network(), app));
+                                                 lyrics_providers->AddProvider(new OVHLyricsProvider(lyrics_providers->network(), app));
+                                                 lyrics_providers->AddProvider(new LoloLyricsProvider(lyrics_providers->network(), app));
+                                                 lyrics_providers->AddProvider(new MusixmatchLyricsProvider(lyrics_providers->network(), app));
+                                                 lyrics_providers->AddProvider(new ChartLyricsProvider(lyrics_providers->network(), app));
+                                                 lyrics_providers->ReloadSettings();
+                                                 return lyrics_providers;
+                                               }),
+                                               internet_services_([=]() {
+                                                 InternetServices *internet_services = new InternetServices(app);
 #ifdef HAVE_SUBSONIC
-          internet_services->AddService(new SubsonicService(app, internet_services));
+                                                 internet_services->AddService(new SubsonicService(app, internet_services));
 #endif
 #ifdef HAVE_TIDAL
-          internet_services->AddService(new TidalService(app, internet_services));
+                                                 internet_services->AddService(new TidalService(app, internet_services));
 #endif
 #ifdef HAVE_QOBUZ
-          internet_services->AddService(new QobuzService(app, internet_services));
+                                                 internet_services->AddService(new QobuzService(app, internet_services));
 #endif
-          return internet_services;
-        }),
-        radio_services_([=]() { return new RadioServices(app, app); }),
-        scrobbler_([=]() { return new AudioScrobbler(app, app); }),
+                                                 return internet_services;
+                                               }),
+                                               radio_services_([=]() { return new RadioServices(app, app); }),
+                                               scrobbler_([=]() { return new AudioScrobbler(app, app); }),
 #ifdef HAVE_MOODBAR
-        moodbar_loader_([=]() { return new MoodbarLoader(app, app); }),
-        moodbar_controller_([=]() { return new MoodbarController(app, app); }),
+                                               moodbar_loader_([=]() { return new MoodbarLoader(app, app); }),
+                                               moodbar_controller_([=]() { return new MoodbarController(app, app); }),
 #endif
-        lastfm_import_([=]() { return new LastFMImport(app); })
-  {}
+                                               lastfm_import_([=]() { return new LastFMImport(app); }) {
+  }
 
   Lazy<TagReaderClient> tag_reader_client_;
   Lazy<Database> database_;
@@ -207,7 +206,6 @@ class ApplicationImpl {
   Lazy<MoodbarController> moodbar_controller_;
 #endif
   Lazy<LastFMImport> lastfm_import_;
-
 };
 
 Application::Application(QObject *parent)
@@ -218,7 +216,6 @@ Application::Application(QObject *parent)
   tag_reader_client();
 
   QObject::connect(database(), &Database::Error, this, &Application::ErrorAdded);
-
 }
 
 Application::~Application() {
@@ -237,7 +234,6 @@ Application::~Application() {
     thread->wait();
     thread->deleteLater();
   }
-
 }
 
 QThread *Application::MoveToNewThread(QObject *object) {
@@ -250,7 +246,6 @@ QThread *Application::MoveToNewThread(QObject *object) {
   threads_ << thread;
 
   return thread;
-
 }
 
 void Application::MoveToThread(QObject *object, QThread *thread) {
@@ -293,7 +288,6 @@ void Application::Exit() {
 
   QObject::connect(radio_services()->radio_backend(), &RadioBackend::ExitFinished, this, &Application::ExitReceived);
   radio_services()->radio_backend()->ExitAsync();
-
 }
 
 void Application::ExitReceived() {
@@ -309,7 +303,6 @@ void Application::ExitReceived() {
     QObject::connect(database(), &Database::ExitFinished, this, &Application::ExitFinished);
     database()->ExitAsync();
   }
-
 }
 
 void Application::AddError(const QString &message) { emit ErrorAdded(message); }

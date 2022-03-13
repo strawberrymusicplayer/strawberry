@@ -49,22 +49,19 @@ GlobalShortcutsBackendKDE::GlobalShortcutsBackendKDE(GlobalShortcutsManager *man
 bool GlobalShortcutsBackendKDE::IsKDEAvailable() {
 
   return QDBusConnection::sessionBus().interface()->isServiceRegistered(kKdeService);
-
 }
 
 bool GlobalShortcutsBackendKDE::IsAvailable() const {
 
   return IsKDEAvailable();
-
 }
 
 bool GlobalShortcutsBackendKDE::IsMediaShortcut(const GlobalShortcutsManager::Shortcut &shortcut) const {
 
   return (shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaPlay) ||
-          shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaStop) ||
-          shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaNext) ||
-          shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaPrevious));
-
+    shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaStop) ||
+    shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaNext) ||
+    shortcut.action->shortcut() == QKeySequence(Qt::Key_MediaPrevious));
 }
 
 
@@ -91,7 +88,6 @@ bool GlobalShortcutsBackendKDE::DoRegister() {
   QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, &GlobalShortcutsBackendKDE::RegisterFinished);
 
   return true;
-
 }
 
 void GlobalShortcutsBackendKDE::RegisterFinished(QDBusPendingCallWatcher *watcher) {
@@ -118,7 +114,6 @@ void GlobalShortcutsBackendKDE::RegisterFinished(QDBusPendingCallWatcher *watche
   QObject::connect(component_, &org::kde::kglobalaccel::Component::globalShortcutPressed, this, &GlobalShortcutsBackendKDE::GlobalShortcutPressed, Qt::UniqueConnection);
 
   qLog(Debug) << "Registered.";
-
 }
 
 void GlobalShortcutsBackendKDE::DoUnregister() {
@@ -139,7 +134,6 @@ void GlobalShortcutsBackendKDE::DoUnregister() {
   if (component_) QObject::disconnect(component_, nullptr, this, nullptr);
 
   qLog(Debug) << "Unregistered";
-
 }
 
 bool GlobalShortcutsBackendKDE::RegisterShortcut(const GlobalShortcutsManager::Shortcut &shortcut) {
@@ -165,7 +159,6 @@ bool GlobalShortcutsBackendKDE::RegisterShortcut(const GlobalShortcutsManager::S
   }
 
   return true;
-
 }
 
 QStringList GlobalShortcutsBackendKDE::GetActionId(const QString &id, const QAction *action) {
@@ -178,7 +171,6 @@ QStringList GlobalShortcutsBackendKDE::GetActionId(const QString &id, const QAct
   if (ret.back().isEmpty()) ret.back() = id;
 
   return ret;
-
 }
 
 QList<int> GlobalShortcutsBackendKDE::ToIntList(const QList<QKeySequence> &sequence_list) {
@@ -194,7 +186,6 @@ QList<int> GlobalShortcutsBackendKDE::ToIntList(const QList<QKeySequence> &seque
   }
 
   return ret;
-
 }
 
 QList<QKeySequence> GlobalShortcutsBackendKDE::ToKeySequenceList(const QList<int> &sequence_list) {
@@ -206,7 +197,6 @@ QList<QKeySequence> GlobalShortcutsBackendKDE::ToKeySequenceList(const QList<int
   }
 
   return ret;
-
 }
 
 void GlobalShortcutsBackendKDE::GlobalShortcutPressed(const QString &component_unique, const QString &shortcut_unique, qint64) {
@@ -217,5 +207,4 @@ void GlobalShortcutsBackendKDE::GlobalShortcutPressed(const QString &component_u
       if (action->isEnabled()) action->trigger();
     }
   }
-
 }

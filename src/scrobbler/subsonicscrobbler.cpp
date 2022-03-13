@@ -50,7 +50,6 @@ SubsonicScrobbler::SubsonicScrobbler(Application *app, QObject *parent)
 
   timer_submit_.setSingleShot(true);
   QObject::connect(&timer_submit_, &QTimer::timeout, this, &SubsonicScrobbler::Submit);
-
 }
 
 void SubsonicScrobbler::ReloadSettings() {
@@ -59,7 +58,6 @@ void SubsonicScrobbler::ReloadSettings() {
   s.beginGroup(SubsonicSettingsPage::kSettingsGroup);
   enabled_ = s.value("serversidescrobbling", false).toBool();
   s.endGroup();
-
 }
 
 void SubsonicScrobbler::UpdateNowPlaying(const Song &song) {
@@ -72,14 +70,12 @@ void SubsonicScrobbler::UpdateNowPlaying(const Song &song) {
   if (!song.is_metadata_good() || app_->scrobbler()->IsOffline()) return;
 
   service_->Scrobble(song.song_id(), false, time_);
-
 }
 
 void SubsonicScrobbler::ClearPlaying() {
 
   song_playing_ = Song();
   time_ = QDateTime();
-
 }
 
 void SubsonicScrobbler::Scrobble(const Song &song) {
@@ -98,7 +94,6 @@ void SubsonicScrobbler::Scrobble(const Song &song) {
       timer_submit_.start();
     }
   }
-
 }
 
 void SubsonicScrobbler::Submit() {
@@ -109,12 +104,10 @@ void SubsonicScrobbler::Submit() {
   if (app_->scrobbler()->IsOffline()) return;
 
   service_->Scrobble(song_playing_.song_id(), true, time_);
-
 }
 
 void SubsonicScrobbler::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "SubsonicScrobbler:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-
 }

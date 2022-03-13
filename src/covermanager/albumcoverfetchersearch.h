@@ -102,8 +102,8 @@ class AlbumCoverFetcherSearch : public QObject {
   // Complete results (from all of the available providers).
   CoverProviderSearchResults results_;
 
-  QMap<int, CoverProvider*> pending_requests_;
-  QHash<QNetworkReply*, CoverProviderSearchResult> pending_image_loads_;
+  QMap<int, CoverProvider *> pending_requests_;
+  QHash<QNetworkReply *, CoverProviderSearchResult> pending_image_loads_;
   NetworkTimeouts *image_load_timeout_;
 
   // QMap is sorted by key (score).
@@ -117,7 +117,6 @@ class AlbumCoverFetcherSearch : public QObject {
   NetworkAccessManager *network_;
 
   bool cancel_requested_;
-
 };
 
 #endif  // ALBUMCOVERFETCHERSEARCH_H

@@ -41,9 +41,9 @@ class InternetServices : public QObject {
   ~InternetServices() override;
 
   InternetService *ServiceBySource(const Song::Source source) const;
-  template <typename T>
+  template<typename T>
   T *Service() {
-    return static_cast<T*>(ServiceBySource(T::kSource));
+    return static_cast<T *>(ServiceBySource(T::kSource));
   }
 
   void AddService(InternetService *service);
@@ -58,9 +58,8 @@ class InternetServices : public QObject {
   void ExitReceived();
 
  private:
-  QMap<Song::Source, InternetService*> services_;
-  QList<InternetService*> wait_for_exit_;
-
+  QMap<Song::Source, InternetService *> services_;
+  QList<InternetService *> wait_for_exit_;
 };
 
 #endif  // INTERNETSERVICES_H

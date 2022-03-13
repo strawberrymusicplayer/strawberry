@@ -45,7 +45,6 @@ DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent)
       original_thread_(nullptr) {
 
   original_thread_ = thread();
-
 }
 
 void DeviceDatabaseBackend::Init(Database *db) { db_ = db; }
@@ -56,7 +55,6 @@ void DeviceDatabaseBackend::Close() {
     QMutexLocker l(db_->Mutex());
     db_->Close();
   }
-
 }
 
 void DeviceDatabaseBackend::ExitAsync() {
@@ -69,7 +67,6 @@ void DeviceDatabaseBackend::Exit() {
   Close();
   moveToThread(original_thread_);
   emit ExitFinished();
-
 }
 
 DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
@@ -113,7 +110,6 @@ DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
   Close();
 
   return ret;
-
 }
 
 int DeviceDatabaseBackend::AddDevice(const Device &device) {
@@ -152,7 +148,6 @@ int DeviceDatabaseBackend::AddDevice(const Device &device) {
   t.Commit();
 
   return id;
-
 }
 
 void DeviceDatabaseBackend::RemoveDevice(const int id) {
@@ -178,7 +173,6 @@ void DeviceDatabaseBackend::RemoveDevice(const int id) {
   db.exec(QString("DROP TABLE device_%1_subdirectories").arg(id));
 
   t.Commit();
-
 }
 
 void DeviceDatabaseBackend::SetDeviceOptions(const int id, const QString &friendly_name, const QString &icon_name, const MusicStorage::TranscodeMode mode, const Song::FileType format) {
@@ -188,12 +182,12 @@ void DeviceDatabaseBackend::SetDeviceOptions(const int id, const QString &friend
 
   SqlQuery q(db);
   q.prepare(
-      "UPDATE devices"
-      " SET friendly_name=:friendly_name,"
-      "     icon=:icon_name,"
-      "     transcode_mode=:transcode_mode,"
-      "     transcode_format=:transcode_format"
-      " WHERE ROWID=:id");
+    "UPDATE devices"
+    " SET friendly_name=:friendly_name,"
+    "     icon=:icon_name,"
+    "     transcode_mode=:transcode_mode,"
+    "     transcode_format=:transcode_format"
+    " WHERE ROWID=:id");
   q.BindValue(":friendly_name", friendly_name);
   q.BindValue(":icon_name", icon_name);
   q.BindValue(":transcode_mode", mode);
@@ -202,5 +196,4 @@ void DeviceDatabaseBackend::SetDeviceOptions(const int id, const QString &friend
   if (!q.Exec()) {
     db_->ReportErrors(q);
   }
-
 }

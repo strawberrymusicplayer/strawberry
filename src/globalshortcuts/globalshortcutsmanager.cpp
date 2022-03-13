@@ -101,7 +101,6 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent) : QWidget(parent
 #endif
 
   ReloadSettings();
-
 }
 
 void GlobalShortcutsManager::ReloadSettings() {
@@ -136,14 +135,12 @@ void GlobalShortcutsManager::ReloadSettings() {
 
   Unregister();
   Register();
-
 }
 
 void GlobalShortcutsManager::AddShortcut(const QString &id, const QString &name, std::function<void()> signal, const QKeySequence &default_key) {  // clazy:exclude=function-args-by-ref
 
   Shortcut shortcut = AddShortcut(id, name, default_key);
   QObject::connect(shortcut.action, &QAction::triggered, this, signal);
-
 }
 
 GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key) {
@@ -162,7 +159,6 @@ GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(const QStri
   shortcuts_[id] = shortcut;
 
   return shortcut;
-
 }
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
@@ -170,29 +166,25 @@ GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(const QStri
 bool GlobalShortcutsManager::IsKdeAvailable() {
 
   return GlobalShortcutsBackendKDE::IsKDEAvailable();
-
 }
 
 bool GlobalShortcutsManager::IsGnomeAvailable() {
 
   return GlobalShortcutsBackendGnome::IsGnomeAvailable();
-
 }
 
 bool GlobalShortcutsManager::IsMateAvailable() {
 
   return GlobalShortcutsBackendMate::IsMateAvailable();
-
 }
 
-#  endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+#endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
 
 bool GlobalShortcutsManager::IsX11Available() {
 
   return GlobalShortcutsBackendX11::IsX11Available();
-
 }
 
 #endif  // HAVE_X11_GLOBALSHORTCUTS
@@ -208,7 +200,6 @@ bool GlobalShortcutsManager::Register() {
   qLog(Warning) << "No global shortcuts enabled.";
 
   return false;
-
 }
 
 void GlobalShortcutsManager::Unregister() {
@@ -218,7 +209,6 @@ void GlobalShortcutsManager::Unregister() {
       backend->Unregister();
     }
   }
-
 }
 
 #ifdef Q_OS_MACOS
@@ -226,7 +216,6 @@ void GlobalShortcutsManager::Unregister() {
 bool GlobalShortcutsManager::IsMacAccessibilityEnabled() {
 
   return GlobalShortcutsBackendMacOS::IsAccessibilityEnabled();
-
 }
 
 #endif  // Q_OS_MACOS
@@ -236,5 +225,4 @@ void GlobalShortcutsManager::ShowMacAccessibilityDialog() {
 #ifdef Q_OS_MACOS
   GlobalShortcutsBackendMacOS::ShowAccessibilityDialog();
 #endif
-
 }

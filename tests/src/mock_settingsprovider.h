@@ -42,15 +42,14 @@ class DummySettingsProvider : public SettingsProvider {
  public:
   DummySettingsProvider() {}
 
-  void set_group(const char*) {}
+  void set_group(const char *) {}
 
-  QVariant value(const QString&, const QVariant& = QVariant()) const { return QVariant(); }
-  void setValue(const QString&, const QVariant&) {}
-  int beginReadArray(const QString&) { return 0; }
-  void beginWriteArray(const QString&, int = -1) {}
+  QVariant value(const QString &, const QVariant & = QVariant()) const { return QVariant(); }
+  void setValue(const QString &, const QVariant &) {}
+  int beginReadArray(const QString &) { return 0; }
+  void beginWriteArray(const QString &, int = -1) {}
   void setArrayIndex(int) {}
   void endArray() {}
-
 };
 
 #endif  // MOCK_SETTINGSPROVIDER_H

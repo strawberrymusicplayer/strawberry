@@ -51,7 +51,7 @@ class MultiLoadingIndicator : public QWidget {
   void TaskCountChange(int tasks);
 
  protected:
-  void paintEvent(QPaintEvent*) override;
+  void paintEvent(QPaintEvent *) override;
 
  private slots:
   void UpdateText();

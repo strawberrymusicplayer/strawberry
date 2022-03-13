@@ -87,7 +87,6 @@ class ScrobblingAPI20 : public ScrobblerService {
   void LoveRequestFinished(QNetworkReply *reply);
 
  private:
-
   enum ScrobbleErrorCode {
     NoError = 1,
     InvalidService = 2,
@@ -158,8 +157,7 @@ class ScrobblingAPI20 : public ScrobblerService {
 
   QTimer timer_submit_;
 
-  QList<QNetworkReply*> replies_;
-
+  QList<QNetworkReply *> replies_;
 };
 
 #endif  // SCROBBLINGAPI20_H

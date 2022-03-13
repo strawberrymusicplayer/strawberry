@@ -40,7 +40,9 @@ class LoginStateWidget : public QWidget {
   explicit LoginStateWidget(QWidget *parent = nullptr);
   ~LoginStateWidget() override;
 
-  enum State { LoggedIn, LoginInProgress, LoggedOut };
+  enum State { LoggedIn,
+    LoginInProgress,
+    LoggedOut };
 
   // Installs an event handler on the field so that pressing enter will emit
   // LoginClicked() instead of doing the default action (closing the dialog).
@@ -77,8 +79,8 @@ class LoginStateWidget : public QWidget {
 
   State state_;
 
-  QList<QObject*> credential_fields_;
-  QList<QWidget*> credential_groups_;
+  QList<QObject *> credential_fields_;
+  QList<QWidget *> credential_groups_;
 };
 
 #endif  // LOGINSTATEWIDGET_H

@@ -102,7 +102,7 @@ class GlobalShortcutsManager : public QWidget {
   Shortcut AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key);
 
  private:
-  QList<GlobalShortcutsBackend*> backends_;
+  QList<GlobalShortcutsBackend *> backends_;
   QSettings settings_;
   QList<GlobalShortcutsBackend::Type> backends_enabled_;
   QMap<QString, Shortcut> shortcuts_;

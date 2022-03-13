@@ -87,7 +87,6 @@ Equalizer::Equalizer(QWidget *parent)
 
   QShortcut *close = new QShortcut(QKeySequence::Close, this);
   QObject::connect(close, &QShortcut::activated, this, &Equalizer::close);
-
 }
 
 Equalizer::~Equalizer() {
@@ -131,31 +130,29 @@ void Equalizer::ReloadSettings() {
   StereoBalanceSliderChanged(stereo_balance);
 
   PresetChanged(selected_preset);
-
 }
 
 void Equalizer::LoadDefaultPresets() {
 
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Custom"),             Params(0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Classical"),          Params(0, 0, 0, 0, 0, 0, -40, -40, -40, -50));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Club"),               Params(0, 0, 20, 30, 30, 30, 20, 0, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Dance"),              Params(50, 35, 10, 0, 0, -30, -40, -40, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Full Bass"),          Params(70, 70, 70, 40, 20, -45, -50, -55, -55, -55));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Full Treble"),        Params(-50, -50, -50, -25, 15, 55, 80, 80, 80, 85));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Custom"), Params(0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Classical"), Params(0, 0, 0, 0, 0, 0, -40, -40, -40, -50));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Club"), Params(0, 0, 20, 30, 30, 30, 20, 0, 0, 0));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Dance"), Params(50, 35, 10, 0, 0, -30, -40, -40, 0, 0));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Full Bass"), Params(70, 70, 70, 40, 20, -45, -50, -55, -55, -55));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Full Treble"), Params(-50, -50, -50, -25, 15, 55, 80, 80, 80, 85));
   AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Full Bass + Treble"), Params(35, 30, 0, -40, -25, 10, 45, 55, 60, 60));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Laptop/Headphones"),  Params(25, 50, 25, -20, 0, -30, -40, -40, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Large Hall"),         Params(50, 50, 30, 30, 0, -25, -25, -25, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Live"),               Params(-25, 0, 20, 25, 30, 30, 20, 15, 15, 10));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Party"),              Params(35, 35, 0, 0, 0, 0, 0, 0, 35, 35));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Pop"),                Params(-10, 25, 35, 40, 25, -5, -15, -15, -10, -10));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Reggae"),             Params(0, 0, -5, -30, 0, -35, -35, 0, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Rock"),               Params(40, 25, -30, -40, -20, 20, 45, 55, 55, 55));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Soft"),               Params(25, 10, -5, -15, -5, 20, 45, 50, 55, 60));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Ska"),                Params(-15, -25, -25, -5, 20, 30, 45, 50, 55, 50));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Soft Rock"),          Params(20, 20, 10, -5, -25, -30, -20, -5, 15, 45));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Techno"),             Params(40, 30, 0, -30, -25, 0, 40, 50, 50, 45));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Zero"),               Params(0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Laptop/Headphones"), Params(25, 50, 25, -20, 0, -30, -40, -40, 0, 0));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Large Hall"), Params(50, 50, 30, 30, 0, -25, -25, -25, 0, 0));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Live"), Params(-25, 0, 20, 25, 30, 30, 20, 15, 15, 10));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Party"), Params(35, 35, 0, 0, 0, 0, 0, 0, 35, 35));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Pop"), Params(-10, 25, 35, 40, 25, -5, -15, -15, -10, -10));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Reggae"), Params(0, 0, -5, -30, 0, -35, -35, 0, 0, 0));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Rock"), Params(40, 25, -30, -40, -20, 20, 45, 55, 55, 55));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Soft"), Params(25, 10, -5, -15, -5, 20, 45, 50, 55, 60));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Ska"), Params(-15, -25, -25, -5, 20, 30, 45, 50, 55, 50));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Soft Rock"), Params(20, 20, 10, -5, -25, -30, -20, -5, 15, 45));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Techno"), Params(40, 30, 0, -30, -25, 0, 40, 50, 50, 45));
+  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Zero"), Params(0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 }
 
 void Equalizer::AddPreset(const QString &name, const Params &params) {
@@ -165,8 +162,8 @@ void Equalizer::AddPreset(const QString &name, const Params &params) {
 
   if (ui_->preset->findText(name_displayed) == -1) {
     ui_->preset->addItem(name_displayed,  // name to display (translated)
-    QVariant(name)   // original name
-                         );
+      QVariant(name)                      // original name
+    );
   }
 }
 
@@ -193,7 +190,6 @@ void Equalizer::PresetChanged(const QString &name) {
 
   EqualizerParametersChangedSlot();
   Save();
-
 }
 
 void Equalizer::SavePreset() {
@@ -203,7 +199,6 @@ void Equalizer::SavePreset() {
     last_preset_ = name;
     ui_->preset->setCurrentIndex(ui_->preset->findText(tr(qPrintable(name))));
   }
-
 }
 
 QString Equalizer::SaveCurrentPreset() {
@@ -216,7 +211,6 @@ QString Equalizer::SaveCurrentPreset() {
   AddPreset(name, current_params());
   Save();
   return name;
-
 }
 
 void Equalizer::DelPreset() {
@@ -226,16 +220,15 @@ void Equalizer::DelPreset() {
   if (!presets_.contains(name) || name.isEmpty()) return;
 
   int ret = QMessageBox::question(
-      this, tr("Delete preset"),
-      tr("Are you sure you want to delete the \"%1\" preset?").arg(name_displayed),
-      QMessageBox::Yes, QMessageBox::No);
+    this, tr("Delete preset"),
+    tr("Are you sure you want to delete the \"%1\" preset?").arg(name_displayed),
+    QMessageBox::Yes, QMessageBox::No);
 
   if (ret == QMessageBox::No) return;
 
   presets_.remove(name);
   ui_->preset->removeItem(ui_->preset->currentIndex());
   Save();
-
 }
 
 EqualizerSlider *Equalizer::AddSlider(const QString &label) {
@@ -245,7 +238,6 @@ EqualizerSlider *Equalizer::AddSlider(const QString &label) {
   QObject::connect(ret, &EqualizerSlider::ValueChanged, this, &Equalizer::EqualizerParametersChangedSlot);
 
   return ret;
-
 }
 
 bool Equalizer::is_stereo_balancer_enabled() const {
@@ -268,7 +260,6 @@ QList<int> Equalizer::gain_values() const {
     ret << gain_[i]->value();
   }
   return ret;
-
 }
 
 Equalizer::Params Equalizer::current_params() const {
@@ -279,7 +270,6 @@ Equalizer::Params Equalizer::current_params() const {
   ret.preamp = preamp_value();
   std::copy(gains.begin(), gains.end(), ret.gain);
   return ret;
-
 }
 
 float Equalizer::stereo_balance() const {
@@ -295,14 +285,12 @@ void Equalizer::StereoBalancerEnabledChangedSlot(const bool enabled) {
   ui_->stereo_balance_slider->setEnabled(enabled);
   emit StereoBalancerEnabledChanged(enabled);
   Save();
-
 }
 
 void Equalizer::StereoBalanceSliderChanged(const int) {
 
   emit StereoBalanceChanged(stereo_balance());
   Save();
-
 }
 
 void Equalizer::EqualizerEnabledChangedSlot(const bool enabled) {
@@ -310,14 +298,12 @@ void Equalizer::EqualizerEnabledChangedSlot(const bool enabled) {
   emit EqualizerEnabledChanged(enabled);
   ui_->slider_container->setEnabled(enabled);
   Save();
-
 }
 
 void Equalizer::EqualizerParametersChangedSlot() {
 
   if (loading_) return;
   emit EqualizerParametersChanged(preamp_value(), gain_values());
-
 }
 
 void Equalizer::Save() {
@@ -344,10 +330,9 @@ void Equalizer::Save() {
 
   s.setValue("enable_stereo_balancer", ui_->enable_stereo_balancer->isChecked());
   s.setValue("stereo_balance", ui_->stereo_balance_slider->value());
-
 }
 
-void Equalizer::closeEvent(QCloseEvent*) {
+void Equalizer::closeEvent(QCloseEvent *) {
 
   QString name = ui_->preset->currentText();
   if (!presets_.contains(name)) return;
@@ -355,7 +340,6 @@ void Equalizer::closeEvent(QCloseEvent*) {
   if (presets_[name] == current_params()) return;
 
   SavePreset();
-
 }
 
 Equalizer::Params::Params() : preamp(0) {
@@ -374,7 +358,6 @@ Equalizer::Params::Params(int g0, int g1, int g2, int g3, int g4, int g5, int g6
   gain[7] = g7;
   gain[8] = g8;
   gain[9] = g9;
-
 }
 
 bool Equalizer::Params::operator==(const Equalizer::Params &other) const {
@@ -384,11 +367,10 @@ bool Equalizer::Params::operator==(const Equalizer::Params &other) const {
     if (gain[i] != other.gain[i]) return false;
   }
   return true;
-
 }
 
 bool Equalizer::Params::operator!=(const Equalizer::Params &other) const {
-  return ! (*this == other);
+  return !(*this == other);
 }
 
 QDataStream &operator<<(QDataStream &s, const Equalizer::Params &p) {
@@ -396,7 +378,6 @@ QDataStream &operator<<(QDataStream &s, const Equalizer::Params &p) {
   s << p.preamp;
   for (int i = 0; i < Equalizer::kBands; ++i) s << p.gain[i];
   return s;
-
 }
 
 QDataStream &operator>>(QDataStream &s, Equalizer::Params &p) {
@@ -404,5 +385,4 @@ QDataStream &operator>>(QDataStream &s, Equalizer::Params &p) {
   s >> p.preamp;
   for (int i = 0; i < Equalizer::kBands; ++i) s >> p.gain[i];
   return s;
-
 }

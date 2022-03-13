@@ -56,7 +56,6 @@ QString CddaLister::DeviceManufacturer(const QString &id) {
   }
   cdio_destroy(cdio);
   return QString();
-
 }
 
 QString CddaLister::DeviceModel(const QString &id) {
@@ -69,14 +68,13 @@ QString CddaLister::DeviceModel(const QString &id) {
   }
   cdio_destroy(cdio);
   return QString();
-
 }
 
-quint64 CddaLister::DeviceCapacity(const QString&) { return 0; }
+quint64 CddaLister::DeviceCapacity(const QString &) { return 0; }
 
-quint64 CddaLister::DeviceFreeSpace(const QString&) { return 0; }
+quint64 CddaLister::DeviceFreeSpace(const QString &) { return 0; }
 
-QVariantMap CddaLister::DeviceHardwareInfo(const QString&) {
+QVariantMap CddaLister::DeviceHardwareInfo(const QString &) {
   return QVariantMap();
 }
 
@@ -90,7 +88,6 @@ QString CddaLister::MakeFriendlyName(const QString &id) {
   }
   cdio_destroy(cdio);
   return QString("CD (") + id + ")";
-
 }
 
 QList<QUrl> CddaLister::MakeDeviceUrls(const QString &id) {
@@ -101,7 +98,7 @@ void CddaLister::UnmountDevice(const QString &id) {
   cdio_eject_media_drive(id.toLocal8Bit().constData());
 }
 
-void CddaLister::UpdateDeviceFreeSpace(const QString&) {}
+void CddaLister::UpdateDeviceFreeSpace(const QString &) {}
 
 bool CddaLister::Init() {
 
@@ -135,5 +132,4 @@ bool CddaLister::Init() {
   }
 
   return true;
-
 }

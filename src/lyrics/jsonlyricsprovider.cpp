@@ -46,7 +46,6 @@ QByteArray JsonLyricsProvider::ExtractData(QNetworkReply *reply) {
   }
 
   return reply->readAll();
-
 }
 
 QJsonObject JsonLyricsProvider::ExtractJsonObj(const QByteArray &data) {
@@ -80,11 +79,9 @@ QJsonObject JsonLyricsProvider::ExtractJsonObj(const QByteArray &data) {
   }
 
   return json_obj;
-
 }
 
 QJsonObject JsonLyricsProvider::ExtractJsonObj(QNetworkReply *reply) {
 
   return ExtractJsonObj(ExtractData(reply));
-
 }

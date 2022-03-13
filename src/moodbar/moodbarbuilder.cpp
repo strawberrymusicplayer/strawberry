@@ -27,8 +27,8 @@
 namespace {
 
 static const int sBarkBands[] = {
-    100,  200,  300,  400,  510,  630,  770,  920,  1080, 1270, 1480,  1720,
-    2000, 2320, 2700, 3150, 3700, 4400, 5300, 6400, 7700, 9500, 12000, 15500
+  100, 200, 300, 400, 510, 630, 770, 920, 1080, 1270, 1480, 1720,
+  2000, 2320, 2700, 3150, 3700, 4400, 5300, 6400, 7700, 9500, 12000, 15500
 };
 
 static const int sBarkBandCount = arraysize(sBarkBands);
@@ -57,7 +57,6 @@ void MoodbarBuilder::Init(int bands, int rate_hz) {
 
     barkband_table_.append(barkband);
   }
-
 }
 
 void MoodbarBuilder::AddFrame(const double *magnitudes, int size) {
@@ -83,7 +82,6 @@ void MoodbarBuilder::AddFrame(const double *magnitudes, int size) {
   }
 
   frames_.append(Rgb(sqrt(rgb[0]), sqrt(rgb[1]), sqrt(rgb[2])));
-
 }
 
 void MoodbarBuilder::Normalize(QList<Rgb> *vals, double Rgb::*member) {
@@ -159,7 +157,6 @@ void MoodbarBuilder::Normalize(QList<Rgb> *vals, double Rgb::*member) {
     double *value = &((*it).*member);
     *value = std::isfinite(*value) ? qBound(0.0, (*value - mini) / delta, 1.0) : 0;
   }
-
 }
 
 QByteArray MoodbarBuilder::Finish(int width) {
@@ -190,8 +187,6 @@ QByteArray MoodbarBuilder::Finish(int width) {
     *(data++) = static_cast<char>(rgb.r / n);
     *(data++) = static_cast<char>(rgb.g / n);
     *(data++) = static_cast<char>(rgb.b / n);
-
   }
   return ret;
-
 }

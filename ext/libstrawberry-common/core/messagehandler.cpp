@@ -48,18 +48,17 @@ void _MessageHandlerBase::SetDevice(QIODevice *device) {
   QObject::connect(device, &QIODevice::readyRead, this, &_MessageHandlerBase::DeviceReadyRead);
 
   // Yeah I know.
-  if (QAbstractSocket *abstractsocket = qobject_cast<QAbstractSocket*>(device)) {
+  if (QAbstractSocket *abstractsocket = qobject_cast<QAbstractSocket *>(device)) {
     flush_abstract_socket_ = &QAbstractSocket::flush;
     QObject::connect(abstractsocket, &QAbstractSocket::disconnected, this, &_MessageHandlerBase::DeviceClosed);
   }
-  else if (QLocalSocket *localsocket = qobject_cast<QLocalSocket*>(device)) {
+  else if (QLocalSocket *localsocket = qobject_cast<QLocalSocket *>(device)) {
     flush_local_socket_ = &QLocalSocket::flush;
     QObject::connect(localsocket, &QLocalSocket::disconnected, this, &_MessageHandlerBase::DeviceClosed);
   }
   else {
     qFatal("Unsupported device type passed to _MessageHandlerBase");
   }
-
 }
 
 void _MessageHandlerBase::DeviceReadyRead() {
@@ -92,7 +91,6 @@ void _MessageHandlerBase::DeviceReadyRead() {
       reading_protobuf_ = false;
     }
   }
-
 }
 
 void _MessageHandlerBase::WriteMessage(const QByteArray &data) {
@@ -103,12 +101,11 @@ void _MessageHandlerBase::WriteMessage(const QByteArray &data) {
 
   // Sorry.
   if (flush_abstract_socket_) {
-    ((qobject_cast<QAbstractSocket*>(device_))->*(flush_abstract_socket_))();
+    ((qobject_cast<QAbstractSocket *>(device_))->*(flush_abstract_socket_))();
   }
   else if (flush_local_socket_) {
-    ((qobject_cast<QLocalSocket*>(device_))->*(flush_local_socket_))();
+    ((qobject_cast<QLocalSocket *>(device_))->*(flush_local_socket_))();
   }
-
 }
 
 void _MessageHandlerBase::DeviceClosed() {

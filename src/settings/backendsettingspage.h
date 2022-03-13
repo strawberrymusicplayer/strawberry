@@ -99,7 +99,6 @@ class BackendSettingsPage : public SettingsPage {
   Engine::EngineType enginetype_current_;
   QString output_current_;
   QVariant device_current_;
-
 };
 
 #endif  // BACKENDSETTINGSPAGE_H

@@ -48,7 +48,6 @@ LibreFMScrobbler::LibreFMScrobbler(Application *app, QObject *parent)
 
   ReloadSettings();
   LoadSession();
-
 }
 
 LibreFMScrobbler::~LibreFMScrobbler() = default;

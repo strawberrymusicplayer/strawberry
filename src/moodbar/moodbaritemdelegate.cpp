@@ -58,7 +58,6 @@ MoodbarItemDelegate::MoodbarItemDelegate(Application *app, PlaylistView *view, Q
 
   QObject::connect(app_, &Application::SettingsChanged, this, &MoodbarItemDelegate::ReloadSettings);
   ReloadSettings();
-
 }
 
 void MoodbarItemDelegate::ReloadSettings() {
@@ -77,7 +76,6 @@ void MoodbarItemDelegate::ReloadSettings() {
     style_ = new_style;
     ReloadAllColors();
   }
-
 }
 
 void MoodbarItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
@@ -85,7 +83,7 @@ void MoodbarItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
   QPixmap pixmap;
 
   if (enabled_) {
-    pixmap = const_cast<MoodbarItemDelegate*>(this)->PixmapForIndex(idx, option.rect.size());
+    pixmap = const_cast<MoodbarItemDelegate *>(this)->PixmapForIndex(idx, option.rect.size());
   }
 
   drawBackground(painter, option, idx);
@@ -95,7 +93,6 @@ void MoodbarItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     const QRect moodbar_rect(option.rect.adjusted(1, 1, -1, -1));
     painter->drawPixmap(moodbar_rect, pixmap);
   }
-
 }
 
 QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize size) {
@@ -139,7 +136,6 @@ QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize 
   StartLoadingData(url, has_cue, data);
 
   return QPixmap();
-
 }
 
 void MoodbarItemDelegate::StartLoadingData(const QUrl &url, const bool has_cue, Data *data) {
@@ -164,18 +160,18 @@ void MoodbarItemDelegate::StartLoadingData(const QUrl &url, const bool has_cue, 
       QObject::connect(pipeline, &MoodbarPipeline::Finished, this, [this, url, pipeline]() { DataLoaded(url, pipeline); });
       break;
   }
-
 }
 
 bool MoodbarItemDelegate::RemoveFromCacheIfIndexesInvalid(const QUrl &url, Data *data) {
 
   QSet<QPersistentModelIndex> indexes = data->indexes_;
 
-  if (std::any_of(indexes.begin(), indexes.end(), [](const QPersistentModelIndex &idx) { return idx.isValid(); })) { return false; }
+  if (std::any_of(indexes.begin(), indexes.end(), [](const QPersistentModelIndex &idx) { return idx.isValid(); })) {
+    return false;
+  }
 
   data_.remove(url);
   return true;
-
 }
 
 void MoodbarItemDelegate::ReloadAllColors() {
@@ -187,7 +183,6 @@ void MoodbarItemDelegate::ReloadAllColors() {
       StartLoadingData(url, false, data);
     }
   }
-
 }
 
 void MoodbarItemDelegate::DataLoaded(const QUrl &url, MoodbarPipeline *pipeline) {
@@ -207,7 +202,6 @@ void MoodbarItemDelegate::DataLoaded(const QUrl &url, MoodbarPipeline *pipeline)
 
   // Load the colors next.
   StartLoadingColors(url, pipeline->data(), data);
-
 }
 
 void MoodbarItemDelegate::StartLoadingColors(const QUrl &url, const QByteArray &bytes, Data *data) {
@@ -221,7 +215,6 @@ void MoodbarItemDelegate::StartLoadingColors(const QUrl &url, const QByteArray &
     watcher->deleteLater();
   });
   watcher->setFuture(future);
-
 }
 
 void MoodbarItemDelegate::ColorsLoaded(const QUrl &url, const ColorVector &colors) {
@@ -238,7 +231,6 @@ void MoodbarItemDelegate::ColorsLoaded(const QUrl &url, const ColorVector &color
 
   // Load the image next.
   StartLoadingImage(url, data);
-
 }
 
 void MoodbarItemDelegate::StartLoadingImage(const QUrl &url, Data *data) {
@@ -252,7 +244,6 @@ void MoodbarItemDelegate::StartLoadingImage(const QUrl &url, Data *data) {
     watcher->deleteLater();
   });
   watcher->setFuture(future);
-
 }
 
 void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
@@ -295,5 +286,4 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
       playlist->MoodbarUpdated(source_index);
     }
   }
-
 }

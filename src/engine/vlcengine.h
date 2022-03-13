@@ -81,7 +81,6 @@ class VLCEngine : public Engine::Base {
 
   PluginDetailsList GetPluginList() const;
   void GetDevicesList(const QString &output) const;
-
 };
 
 #endif  // VLCENGINE_H

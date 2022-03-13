@@ -233,7 +233,6 @@ bool LocalRedirectServer::GenerateCertificate() {
   ssl_key_ = ssl_key;
 
   return true;
-
 }
 
 bool LocalRedirectServer::Listen() {
@@ -246,15 +245,16 @@ bool LocalRedirectServer::Listen() {
     return false;
   }
 
-  if (https_) url_.setScheme("https");
-  else url_.setScheme("http");
+  if (https_)
+    url_.setScheme("https");
+  else
+    url_.setScheme("http");
   url_.setHost("localhost");
   url_.setPort(serverPort());
   url_.setPath("/");
   QObject::connect(this, &QTcpServer::newConnection, this, &LocalRedirectServer::NewConnection);
 
   return true;
-
 }
 
 void LocalRedirectServer::NewConnection() {
@@ -262,7 +262,6 @@ void LocalRedirectServer::NewConnection() {
   while (hasPendingConnections()) {
     incomingConnection(nextPendingConnection()->socketDescriptor());
   }
-
 }
 
 void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
@@ -289,7 +288,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
     ssl_socket->setProtocol(QSsl::TlsV1_2);
     ssl_socket->startServerEncryption();
 
-    QObject::connect(ssl_socket, QOverload<const QList<QSslError>&>::of(&QSslSocket::sslErrors), this, &LocalRedirectServer::SSLErrors);
+    QObject::connect(ssl_socket, QOverload<const QList<QSslError> &>::of(&QSslSocket::sslErrors), this, &LocalRedirectServer::SSLErrors);
     QObject::connect(ssl_socket, &QSslSocket::encrypted, this, &LocalRedirectServer::Encrypted);
 
     socket_ = ssl_socket;
@@ -309,7 +308,6 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
   QObject::connect(socket_, &QAbstractSocket::connected, this, &LocalRedirectServer::Connected);
   QObject::connect(socket_, &QAbstractSocket::disconnected, this, &LocalRedirectServer::Disconnected);
   QObject::connect(socket_, &QAbstractSocket::readyRead, this, &LocalRedirectServer::ReadyRead);
-
 }
 
 void LocalRedirectServer::SSLErrors(const QList<QSslError> &errors) { Q_UNUSED(errors); }
@@ -335,7 +333,6 @@ void LocalRedirectServer::ReadyRead() {
   else {
     QObject::connect(socket_, &QAbstractSocket::readyRead, this, &LocalRedirectServer::ReadyRead);
   }
-
 }
 
 void LocalRedirectServer::WriteTemplate() const {
@@ -362,10 +359,10 @@ void LocalRedirectServer::WriteTemplate() const {
   QBuffer image_buffer;
   if (image_buffer.open(QIODevice::ReadWrite)) {
     QApplication::style()
-        ->standardIcon(QStyle::SP_DialogOkButton)
-        .pixmap(16)
-        .toImage()
-        .save(&image_buffer, "PNG");
+      ->standardIcon(QStyle::SP_DialogOkButton)
+      .pixmap(16)
+      .toImage()
+      .save(&image_buffer, "PNG");
     page_data.replace("@IMAGE_DATA@", image_buffer.data().toBase64());
     image_buffer.close();
   }
@@ -375,7 +372,6 @@ void LocalRedirectServer::WriteTemplate() const {
   socket_->write("\r\n\r\n");
   socket_->write(page_data.toUtf8());
   socket_->flush();
-
 }
 
 QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray &request) const {
@@ -386,5 +382,4 @@ QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray &request) const {
   QUrl base_url = url_;
   QUrl request_url(base_url.toString() + path.mid(1), QUrl::StrictMode);
   return request_url;
-
 }

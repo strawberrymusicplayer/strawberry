@@ -129,7 +129,6 @@ class CollectionBackend : public CollectionBackendInterface {
   Q_OBJECT
 
  public:
-
   Q_INVOKABLE explicit CollectionBackend(QObject *parent = nullptr);
 
   void Init(Database *db, TaskManager *task_manager, const Song::Source source, const QString &songs_table, const QString &fts_table, const QString &dirs_table = QString(), const QString &subdirs_table = QString());
@@ -297,8 +296,6 @@ class CollectionBackend : public CollectionBackendInterface {
   QString subdirs_table_;
   QString fts_table_;
   QThread *original_thread_;
-
 };
 
 #endif  // COLLECTIONBACKEND_H
-

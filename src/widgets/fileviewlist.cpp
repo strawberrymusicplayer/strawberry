@@ -54,7 +54,6 @@ FileViewList::FileViewList(QWidget *parent)
   menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, &FileViewList::ShowInBrowser);
 
   setAttribute(Qt::WA_MacShowFocusRect, false);
-
 }
 
 void FileViewList::contextMenuEvent(QContextMenuEvent *e) {
@@ -63,7 +62,6 @@ void FileViewList::contextMenuEvent(QContextMenuEvent *e) {
 
   menu_->popup(e->globalPos());
   e->accept();
-
 }
 
 QList<QUrl> FileViewList::UrlListFromSelection() const {
@@ -72,13 +70,12 @@ QList<QUrl> FileViewList::UrlListFromSelection() const {
   const QModelIndexList indexes = menu_selection_.indexes();
   for (const QModelIndex &index : indexes) {
     if (index.column() == 0) {
-      urls << QUrl::fromLocalFile(qobject_cast<QFileSystemModel*>(model())->fileInfo(index).canonicalFilePath());
+      urls << QUrl::fromLocalFile(qobject_cast<QFileSystemModel *>(model())->fileInfo(index).canonicalFilePath());
     }
   }
   std::sort(urls.begin(), urls.end());
 
   return urls;
-
 }
 
 MimeData *FileViewList::MimeDataFromSelection() const {
@@ -99,7 +96,7 @@ MimeData *FileViewList::MimeDataFromSelection() const {
   }
   // otherwise, use the current root path
   else {
-    QString path = qobject_cast<QFileSystemModel*>(model())->rootPath();
+    QString path = qobject_cast<QFileSystemModel *>(model())->rootPath();
     if (path.length() > 20) {
       QFileInfo info(path);
       if (info.isDir()) {
@@ -115,7 +112,6 @@ MimeData *FileViewList::MimeDataFromSelection() const {
   }
 
   return mimedata;
-
 }
 
 QStringList FileViewList::FilenamesFromSelection() const {
@@ -124,11 +120,10 @@ QStringList FileViewList::FilenamesFromSelection() const {
   const QModelIndexList indexes = menu_selection_.indexes();
   for (const QModelIndex &index : indexes) {
     if (index.column() == 0) {
-      filenames << qobject_cast<QFileSystemModel*>(model())->filePath(index);
+      filenames << qobject_cast<QFileSystemModel *>(model())->filePath(index);
     }
   }
   return filenames;
-
 }
 
 void FileViewList::LoadSlot() {
@@ -136,7 +131,6 @@ void FileViewList::LoadSlot() {
   MimeData *mimedata = MimeDataFromSelection();
   mimedata->clear_first_ = true;
   emit AddToPlaylist(mimedata);
-
 }
 
 void FileViewList::AddToPlaylistSlot() {
@@ -148,7 +142,6 @@ void FileViewList::OpenInNewPlaylistSlot() {
   MimeData *mimedata = MimeDataFromSelection();
   mimedata->open_in_new_playlist_ = true;
   emit AddToPlaylist(mimedata);
-
 }
 
 void FileViewList::CopyToCollectionSlot() {
@@ -197,7 +190,6 @@ void FileViewList::mousePressEvent(QMouseEvent *e) {
       QListView::mousePressEvent(e);
       break;
   }
-
 }
 
 void FileViewList::ShowInBrowser() {

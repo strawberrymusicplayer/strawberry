@@ -63,7 +63,6 @@ CollectionBackend::CollectionBackend(QObject *parent)
       original_thread_(nullptr) {
 
   original_thread_ = thread();
-
 }
 
 void CollectionBackend::Init(Database *db, TaskManager *task_manager, const Song::Source source, const QString &songs_table, const QString &fts_table, const QString &dirs_table, const QString &subdirs_table) {
@@ -75,7 +74,6 @@ void CollectionBackend::Init(Database *db, TaskManager *task_manager, const Song
   dirs_table_ = dirs_table;
   subdirs_table_ = subdirs_table;
   fts_table_ = fts_table;
-
 }
 
 void CollectionBackend::Close() {
@@ -84,7 +82,6 @@ void CollectionBackend::Close() {
     QMutexLocker l(db_->Mutex());
     db_->Close();
   }
-
 }
 
 void CollectionBackend::ExitAsync() {
@@ -97,7 +94,6 @@ void CollectionBackend::Exit() {
 
   moveToThread(original_thread_);
   emit ExitFinished();
-
 }
 
 void CollectionBackend::ReportErrors(const CollectionQuery &query) {
@@ -112,7 +108,6 @@ void CollectionBackend::ReportErrors(const CollectionQuery &query) {
     error += "Faulty SQL query: " + query.lastQuery();
     emit Error(error);
   }
-
 }
 
 void CollectionBackend::LoadDirectoriesAsync() {
@@ -153,7 +148,6 @@ void CollectionBackend::LoadDirectories() {
   for (const Directory &dir : dirs) {
     emit DirectoryDiscovered(dir, SubdirsInDirectory(dir.id, db));
   }
-
 }
 
 void CollectionBackend::ChangeDirPath(const int id, const QString &old_path, const QString &new_path) {
@@ -204,7 +198,6 @@ void CollectionBackend::ChangeDirPath(const int id, const QString &old_path, con
   }
 
   t.Commit();
-
 }
 
 DirectoryList CollectionBackend::GetAllDirectories() {
@@ -229,7 +222,6 @@ DirectoryList CollectionBackend::GetAllDirectories() {
     ret << dir;
   }
   return ret;
-
 }
 
 SubdirectoryList CollectionBackend::SubdirsInDirectory(const int id) {
@@ -237,7 +229,6 @@ SubdirectoryList CollectionBackend::SubdirsInDirectory(const int id) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db = db_->Connect();
   return SubdirsInDirectory(id, db);
-
 }
 
 SubdirectoryList CollectionBackend::SubdirsInDirectory(const int id, QSqlDatabase &db) {
@@ -260,7 +251,6 @@ SubdirectoryList CollectionBackend::SubdirsInDirectory(const int id, QSqlDatabas
   }
 
   return subdirs;
-
 }
 
 void CollectionBackend::UpdateTotalSongCount() {
@@ -280,7 +270,6 @@ void CollectionBackend::UpdateTotalSongCount() {
   }
 
   emit TotalSongCountUpdated(q.value(0).toInt());
-
 }
 
 void CollectionBackend::UpdateTotalArtistCount() {
@@ -300,7 +289,6 @@ void CollectionBackend::UpdateTotalArtistCount() {
   }
 
   emit TotalArtistCountUpdated(q.value(0).toInt());
-
 }
 
 void CollectionBackend::UpdateTotalAlbumCount() {
@@ -320,7 +308,6 @@ void CollectionBackend::UpdateTotalAlbumCount() {
   }
 
   emit TotalAlbumCountUpdated(q.value(0).toInt());
-
 }
 
 void CollectionBackend::AddDirectory(const QString &path) {
@@ -335,8 +322,8 @@ void CollectionBackend::AddDirectory(const QString &path) {
   q.prepare(QString("INSERT INTO %1 (path, subdirs) VALUES (:path, 1)").arg(dirs_table_));
   q.BindValue(":path", db_path);
   if (!q.Exec()) {
-   db_->ReportErrors(q);
-   return;
+    db_->ReportErrors(q);
+    return;
   }
 
   Directory dir;
@@ -344,7 +331,6 @@ void CollectionBackend::AddDirectory(const QString &path) {
   dir.id = q.lastInsertId().toInt();
 
   emit DirectoryDiscovered(dir, SubdirectoryList());
-
 }
 
 void CollectionBackend::RemoveDirectory(const Directory &dir) {
@@ -382,7 +368,6 @@ void CollectionBackend::RemoveDirectory(const Directory &dir) {
   emit DirectoryDeleted(dir);
 
   transaction.Commit();
-
 }
 
 SongList CollectionBackend::FindSongsInDirectory(const int id) {
@@ -405,7 +390,6 @@ SongList CollectionBackend::FindSongsInDirectory(const int id) {
     ret << song;
   }
   return ret;
-
 }
 
 SongList CollectionBackend::SongsWithMissingFingerprint(const int id) {
@@ -428,7 +412,6 @@ SongList CollectionBackend::SongsWithMissingFingerprint(const int id) {
     ret << song;
   }
   return ret;
-
 }
 
 void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_file, const std::optional<int> new_collection_directory_id) {
@@ -444,7 +427,6 @@ void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_f
   }
 
   AddOrUpdateSongs(SongList() << updated_song);
-
 }
 
 void CollectionBackend::AddOrUpdateSubdirs(const SubdirectoryList &subdirs) {
@@ -506,7 +488,6 @@ void CollectionBackend::AddOrUpdateSubdirs(const SubdirectoryList &subdirs) {
   }
 
   transaction.Commit();
-
 }
 
 SongList CollectionBackend::GetAllSongs() {
@@ -528,7 +509,6 @@ SongList CollectionBackend::GetAllSongs() {
     songs << song;
   }
   return songs;
-
 }
 
 void CollectionBackend::AddOrUpdateSongsAsync(const SongList &songs) {
@@ -559,7 +539,6 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
       }
 
       if (!check_dir.next()) continue;
-
     }
 
     if (song.id() != -1) {  // This song exists in the DB.
@@ -595,7 +574,6 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
       added_songs << song;
 
       continue;
-
     }
     else if (!song.song_id().isEmpty()) {  // Song has a unique id, check if the song exists.
 
@@ -634,15 +612,13 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
         added_songs << new_song;
 
         continue;
-
       }
-
     }
 
     // Create new song
 
     int id = -1;
-    { // Insert the row and create a new ID
+    {  // Insert the row and create a new ID
       SqlQuery q(db);
       q.prepare(QString("INSERT INTO %1 (" + Song::kColumnSpec + ") VALUES (" + Song::kBindSpec + ")").arg(songs_table_));
       song.BindToQuery(&q);
@@ -656,7 +632,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
     if (id == -1) return;
 
-    { // Add to the FTS index
+    {  // Add to the FTS index
       SqlQuery q(db);
       q.prepare(QString("INSERT INTO %1 (ROWID, " + Song::kFtsColumnSpec + ") VALUES (:id, " + Song::kFtsBindSpec + ")").arg(fts_table_));
       q.BindValue(":id", id);
@@ -670,7 +646,6 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
     Song song_copy(song);
     song_copy.set_id(id);
     added_songs << song_copy;
-
   }
 
   transaction.Commit();
@@ -681,7 +656,6 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
   UpdateTotalSongCountAsync();
   UpdateTotalArtistCountAsync();
   UpdateTotalAlbumCountAsync();
-
 }
 
 void CollectionBackend::UpdateSongsBySongIDAsync(const SongMap &new_songs) {
@@ -742,9 +716,7 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
         Song new_song_copy(new_song);
         new_song_copy.set_id(old_song.id());
         added_songs << new_song_copy;
-
       }
-
     }
     else {  // Add new song
       int id = -1;
@@ -813,7 +785,6 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
   UpdateTotalSongCountAsync();
   UpdateTotalArtistCountAsync();
   UpdateTotalAlbumCountAsync();
-
 }
 
 void CollectionBackend::UpdateMTimesOnly(const SongList &songs) {
@@ -834,7 +805,6 @@ void CollectionBackend::UpdateMTimesOnly(const SongList &songs) {
     }
   }
   transaction.Commit();
-
 }
 
 void CollectionBackend::DeleteSongs(const SongList &songs) {
@@ -868,7 +838,6 @@ void CollectionBackend::DeleteSongs(const SongList &songs) {
   UpdateTotalSongCountAsync();
   UpdateTotalArtistCountAsync();
   UpdateTotalAlbumCountAsync();
-
 }
 
 void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool unavailable) {
@@ -899,7 +868,6 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool u
   UpdateTotalSongCountAsync();
   UpdateTotalArtistCountAsync();
   UpdateTotalAlbumCountAsync();
-
 }
 
 QStringList CollectionBackend::GetAll(const QString &column, const QueryOptions &opt) {
@@ -921,7 +889,6 @@ QStringList CollectionBackend::GetAll(const QString &column, const QueryOptions 
     ret << query.Value(0).toString();
   }
   return ret;
-
 }
 
 QStringList CollectionBackend::GetAllArtists(const QueryOptions &opt) {
@@ -966,7 +933,6 @@ QStringList CollectionBackend::GetAllArtistsWithAlbums(const QueryOptions &opt) 
   }
 
   return QStringList(artists.values());
-
 }
 
 CollectionBackend::AlbumList CollectionBackend::GetAllAlbums(const QueryOptions &opt) {
@@ -992,7 +958,6 @@ SongList CollectionBackend::GetArtistSongs(const QString &effective_albumartist,
   }
 
   return songs;
-
 }
 
 SongList CollectionBackend::GetAlbumSongs(const QString &effective_albumartist, const QString &album, const QueryOptions &opt) {
@@ -1011,7 +976,6 @@ SongList CollectionBackend::GetAlbumSongs(const QString &effective_albumartist, 
   }
 
   return songs;
-
 }
 
 SongList CollectionBackend::GetSongsByAlbum(const QString &album, const QueryOptions &opt) {
@@ -1029,7 +993,6 @@ SongList CollectionBackend::GetSongsByAlbum(const QString &album, const QueryOpt
   }
 
   return songs;
-
 }
 
 bool CollectionBackend::ExecCollectionQuery(CollectionQuery *query, SongList &songs) {
@@ -1044,7 +1007,6 @@ bool CollectionBackend::ExecCollectionQuery(CollectionQuery *query, SongList &so
     songs << song;
   }
   return true;
-
 }
 
 bool CollectionBackend::ExecCollectionQuery(CollectionQuery *query, SongMap &songs) {
@@ -1059,7 +1021,6 @@ bool CollectionBackend::ExecCollectionQuery(CollectionQuery *query, SongMap &son
     songs.insert(song.song_id(), song);
   }
   return true;
-
 }
 
 Song CollectionBackend::GetSongById(const int id) {
@@ -1067,7 +1028,6 @@ Song CollectionBackend::GetSongById(const int id) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
   return GetSongById(id, db);
-
 }
 
 SongList CollectionBackend::GetSongsById(const QList<int> &ids) {
@@ -1082,7 +1042,6 @@ SongList CollectionBackend::GetSongsById(const QList<int> &ids) {
   }
 
   return GetSongsById(str_ids, db);
-
 }
 
 SongList CollectionBackend::GetSongsById(const QStringList &ids) {
@@ -1091,7 +1050,6 @@ SongList CollectionBackend::GetSongsById(const QStringList &ids) {
   QSqlDatabase db(db_->Connect());
 
   return GetSongsById(ids, db);
-
 }
 
 SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QString &table, const QString &column) {
@@ -1117,7 +1075,6 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
     ret[index].InitFromQuery(q, true);
   }
   return ret.toList();
-
 }
 
 Song CollectionBackend::GetSongById(const int id, QSqlDatabase &db) {
@@ -1125,7 +1082,6 @@ Song CollectionBackend::GetSongById(const int id, QSqlDatabase &db) {
   SongList list = GetSongsById(QStringList() << QString::number(id), db);
   if (list.isEmpty()) return Song();
   return list.first();
-
 }
 
 SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &db) {
@@ -1146,7 +1102,6 @@ SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &d
     ret << song;
   }
   return ret;
-
 }
 
 Song CollectionBackend::GetSongByUrl(const QUrl &url, const qint64 beginning) {
@@ -1176,7 +1131,6 @@ Song CollectionBackend::GetSongByUrl(const QUrl &url, const qint64 beginning) {
   song.InitFromQuery(q, true);
 
   return song;
-
 }
 
 SongList CollectionBackend::GetSongsByUrl(const QUrl &url, const bool unavailable) {
@@ -1206,7 +1160,6 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url, const bool unavailabl
   }
 
   return songs;
-
 }
 
 
@@ -1215,7 +1168,6 @@ Song CollectionBackend::GetSongBySongId(const QString &song_id) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
   return GetSongBySongId(song_id, db);
-
 }
 
 SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids) {
@@ -1224,7 +1176,6 @@ SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids) {
   QSqlDatabase db(db_->Connect());
 
   return GetSongsBySongId(song_ids, db);
-
 }
 
 Song CollectionBackend::GetSongBySongId(const QString &song_id, QSqlDatabase &db) {
@@ -1232,7 +1183,6 @@ Song CollectionBackend::GetSongBySongId(const QString &song_id, QSqlDatabase &db
   SongList list = GetSongsBySongId(QStringList() << song_id, db);
   if (list.isEmpty()) return Song();
   return list.first();
-
 }
 
 SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDatabase &db) {
@@ -1259,7 +1209,6 @@ SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDa
   }
 
   return ret;
-
 }
 
 SongList CollectionBackend::GetSongsByFingerprint(const QString &fingerprint) {
@@ -1283,7 +1232,6 @@ SongList CollectionBackend::GetSongsByFingerprint(const QString &fingerprint) {
   }
 
   return songs;
-
 }
 
 
@@ -1313,7 +1261,6 @@ SongList CollectionBackend::GetCompilationSongs(const QString &album, const Quer
     ret << song;
   }
   return ret;
-
 }
 
 Song::Source CollectionBackend::Source() const {
@@ -1345,15 +1292,17 @@ void CollectionBackend::CompilationsNeedUpdating() {
     if (album.isEmpty()) continue;
 
     // Find the directory the song is in
-    QString directory = url.toString(QUrl::PreferLocalFile|QUrl::RemoveFilename);
+    QString directory = url.toString(QUrl::PreferLocalFile | QUrl::RemoveFilename);
 
     CompilationInfo &info = compilation_info[directory + album];
     info.urls << url;
     if (!info.artists.contains(artist)) {
       info.artists << artist;
     }
-    if (compilation_detected) info.has_compilation_detected++;
-    else info.has_not_compilation_detected++;
+    if (compilation_detected)
+      info.has_compilation_detected++;
+    else
+      info.has_not_compilation_detected++;
   }
 
   // Now mark the songs that we think are in compilations
@@ -1369,7 +1318,7 @@ void CollectionBackend::CompilationsNeedUpdating() {
     // If there were more than one 'effective album artist' for this album directory, then it's a compilation.
 
     for (const QUrl &url : info.urls) {
-      if (info.artists.count() > 1) {  // This directory+album is a compilation.
+      if (info.artists.count() > 1) {                 // This directory+album is a compilation.
         if (info.has_not_compilation_detected > 0) {  // Run updates if any of the songs is not marked as compilations.
           UpdateCompilations(db, deleted_songs, added_songs, url, true);
         }
@@ -1388,7 +1337,6 @@ void CollectionBackend::CompilationsNeedUpdating() {
     emit SongsDeleted(deleted_songs);
     emit SongsDiscovered(added_songs);
   }
-
 }
 
 bool CollectionBackend::UpdateCompilations(const QSqlDatabase &db, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected) {
@@ -1429,7 +1377,6 @@ bool CollectionBackend::UpdateCompilations(const QSqlDatabase &db, SongList &del
   }
 
   return true;
-
 }
 
 CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist, const bool compilation_required, const QueryOptions &opt) {
@@ -1506,11 +1453,9 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
       info.urls << url;
       albums.insert(key, info);
     }
-
   }
 
   return albums.values();
-
 }
 
 CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &effective_albumartist, const QString &album) {
@@ -1541,13 +1486,11 @@ CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &effective
   }
 
   return ret;
-
 }
 
 void CollectionBackend::UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic) {
 
   QMetaObject::invokeMethod(this, "UpdateManualAlbumArt", Qt::QueuedConnection, Q_ARG(QString, effective_albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url), Q_ARG(bool, clear_art_automatic));
-
 }
 
 void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic) {
@@ -1608,13 +1551,11 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartis
     emit SongsDeleted(deleted_songs);
     emit SongsDiscovered(added_songs);
   }
-
 }
 
 void CollectionBackend::UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual) {
 
   QMetaObject::invokeMethod(this, "UpdateAutomaticAlbumArt", Qt::QueuedConnection, Q_ARG(QString, effective_albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url), Q_ARG(bool, clear_art_manual));
-
 }
 
 void CollectionBackend::UpdateAutomaticAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual) {
@@ -1675,7 +1616,6 @@ void CollectionBackend::UpdateAutomaticAlbumArt(const QString &effective_albumar
     emit SongsDeleted(deleted_songs);
     emit SongsDiscovered(added_songs);
   }
-
 }
 
 void CollectionBackend::ForceCompilation(const QString &album, const QList<QString> &artists, const bool on) {
@@ -1735,7 +1675,6 @@ void CollectionBackend::ForceCompilation(const QString &album, const QList<QStri
     emit SongsDeleted(deleted_songs);
     emit SongsDiscovered(added_songs);
   }
-
 }
 
 void CollectionBackend::IncrementPlayCount(const int id) {
@@ -1756,7 +1695,6 @@ void CollectionBackend::IncrementPlayCount(const int id) {
 
   Song new_song = GetSongById(id, db);
   emit SongsStatisticsChanged(SongList() << new_song);
-
 }
 
 void CollectionBackend::IncrementSkipCount(const int id, const float progress) {
@@ -1778,7 +1716,6 @@ void CollectionBackend::IncrementSkipCount(const int id, const float progress) {
 
   Song new_song = GetSongById(id, db);
   emit SongsStatisticsChanged(SongList() << new_song);
-
 }
 
 void CollectionBackend::ResetStatistics(const int id) {
@@ -1798,13 +1735,11 @@ void CollectionBackend::ResetStatistics(const int id) {
 
   Song new_song = GetSongById(id, db);
   emit SongsStatisticsChanged(SongList() << new_song);
-
 }
 
 void CollectionBackend::DeleteAllAsync() {
 
   QMetaObject::invokeMethod(this, "DeleteAll", Qt::QueuedConnection);
-
 }
 
 void CollectionBackend::DeleteAll() {
@@ -1836,7 +1771,6 @@ void CollectionBackend::DeleteAll() {
   }
 
   emit DatabaseReset();
-
 }
 
 SongList CollectionBackend::SmartPlaylistsFindSongs(const SmartPlaylistSearch &search) {
@@ -1863,14 +1797,12 @@ SongList CollectionBackend::SmartPlaylistsFindSongs(const SmartPlaylistSearch &s
     ret << song;
   }
   return ret;
-
 }
 
 SongList CollectionBackend::SmartPlaylistsGetAllSongs() {
 
   // Get all the songs!
   return SmartPlaylistsFindSongs(SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::Sort_FieldAsc, SmartPlaylistSearchTerm::Field_Artist, -1));
-
 }
 
 SongList CollectionBackend::GetSongsBy(const QString &artist, const QString &album, const QString &title) {
@@ -1900,7 +1832,6 @@ SongList CollectionBackend::GetSongsBy(const QString &artist, const QString &alb
   }
 
   return songs;
-
 }
 
 void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const qint64 lastplayed) {
@@ -1929,7 +1860,6 @@ void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &a
   }
 
   emit SongsStatisticsChanged(SongList() << songs);
-
 }
 
 void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &title, const int playcount) {
@@ -1955,7 +1885,6 @@ void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &ti
   }
 
   emit SongsStatisticsChanged(SongList() << songs);
-
 }
 
 void CollectionBackend::UpdateSongRating(const int id, const float rating, const bool save_tags) {
@@ -1963,7 +1892,6 @@ void CollectionBackend::UpdateSongRating(const int id, const float rating, const
   if (id == -1) return;
 
   UpdateSongsRating(QList<int>() << id, rating, save_tags);
-
 }
 
 void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const float rating, const bool save_tags) {
@@ -1990,7 +1918,6 @@ void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const float
   SongList new_song_list = GetSongsById(id_str_list, db);
 
   emit SongsRatingChanged(new_song_list, save_tags);
-
 }
 
 void CollectionBackend::UpdateSongRatingAsync(const int id, const float rating, const bool save_tags) {
@@ -2018,7 +1945,6 @@ void CollectionBackend::UpdateLastSeen(const int directory_id, const int expire_
   }
 
   if (expire_unavailable_songs_days > 0) ExpireSongs(directory_id, expire_unavailable_songs_days);
-
 }
 
 void CollectionBackend::ExpireSongs(const int directory_id, const int expire_unavailable_songs_days) {
@@ -2043,7 +1969,4 @@ void CollectionBackend::ExpireSongs(const int directory_id, const int expire_una
   }
 
   if (!songs.isEmpty()) DeleteSongs(songs);
-
 }
-
-

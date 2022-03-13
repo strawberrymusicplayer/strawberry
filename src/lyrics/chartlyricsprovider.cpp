@@ -50,10 +50,9 @@ ChartLyricsProvider::~ChartLyricsProvider() {
     reply->abort();
     reply->deleteLater();
   }
-
 }
 
-bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, const QString &title, const int id) {
+bool ChartLyricsProvider::StartSearch(const QString &artist, const QString &, const QString &title, const int id) {
 
   const ParamList params = ParamList() << Param("artist", artist)
                                        << Param("song", title);
@@ -74,7 +73,6 @@ bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, con
   //qLog(Debug) << "ChartLyrics: Sending request for" << url;
 
   return true;
-
 }
 
 void ChartLyricsProvider::CancelSearch(const int) {}
@@ -130,16 +128,16 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
     }
   }
 
-  if (results.isEmpty()) qLog(Debug) << "ChartLyrics: No lyrics for" << artist << title;
-  else qLog(Debug) << "ChartLyrics: Got lyrics for" << artist << title;
+  if (results.isEmpty())
+    qLog(Debug) << "ChartLyrics: No lyrics for" << artist << title;
+  else
+    qLog(Debug) << "ChartLyrics: Got lyrics for" << artist << title;
 
   emit SearchFinished(id, results);
-
 }
 
 void ChartLyricsProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "ChartLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-
 }

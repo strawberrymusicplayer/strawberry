@@ -141,7 +141,6 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *
 #endif
 
   AppearanceSettingsPage::Load();
-
 }
 
 AppearanceSettingsPage::~AppearanceSettingsPage() {
@@ -242,7 +241,6 @@ void AppearanceSettingsPage::Load() {
   Init(ui_->layout_appearancesettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
-
 }
 
 void AppearanceSettingsPage::Save() {
@@ -324,7 +322,6 @@ void AppearanceSettingsPage::Save() {
   }
 
   s.endGroup();
-
 }
 
 void AppearanceSettingsPage::Cancel() {
@@ -336,7 +333,6 @@ void AppearanceSettingsPage::Cancel() {
   else {
     dialog()->appearance()->ResetToSystemDefaultTheme();
   }
-
 }
 
 void AppearanceSettingsPage::SelectForegroundColor() {
@@ -350,7 +346,6 @@ void AppearanceSettingsPage::SelectForegroundColor() {
   UpdateColorSelectorColor(ui_->select_foreground_color, color_selected);
 
   set_changed();
-
 }
 
 void AppearanceSettingsPage::SelectBackgroundColor() {
@@ -364,7 +359,6 @@ void AppearanceSettingsPage::SelectBackgroundColor() {
   UpdateColorSelectorColor(ui_->select_background_color, color_selected);
 
   set_changed();
-
 }
 
 void AppearanceSettingsPage::UseCustomColorSetOptionChanged(bool checked) {
@@ -381,21 +375,18 @@ void AppearanceSettingsPage::UseCustomColorSetOptionChanged(bool checked) {
     UpdateColorSelectorColor(ui_->select_foreground_color, current_foreground_color_);
     UpdateColorSelectorColor(ui_->select_background_color, current_background_color_);
   }
-
 }
 
 void AppearanceSettingsPage::InitColorSelectorsColors() {
 
   UpdateColorSelectorColor(ui_->select_foreground_color, current_foreground_color_);
   UpdateColorSelectorColor(ui_->select_background_color, current_background_color_);
-
 }
 
 void AppearanceSettingsPage::UpdateColorSelectorColor(QWidget *color_selector, const QColor &color) {
 
   QString css = QString("background-color: rgb(%1, %2, %3); color: rgb(255, 255, 255); border: 1px dotted black;").arg(color.red()).arg(color.green()).arg(color.blue());
   color_selector->setStyleSheet(css);
-
 }
 
 void AppearanceSettingsPage::SelectBackgroundImage() {
@@ -404,7 +395,6 @@ void AppearanceSettingsPage::SelectBackgroundImage() {
   if (selected_filename.isEmpty()) return;
   background_image_filename_ = selected_filename;
   ui_->background_image_filename->setText(background_image_filename_);
-
 }
 
 void AppearanceSettingsPage::BlurLevelChanged(int value) {
@@ -425,7 +415,6 @@ void AppearanceSettingsPage::TabBarSystemColor(bool checked) {
   ui_->select_tabbar_color->setEnabled(!checked);
 
   set_changed();
-
 }
 
 void AppearanceSettingsPage::TabBarSelectBGColor() {
@@ -438,7 +427,6 @@ void AppearanceSettingsPage::TabBarSelectBGColor() {
   UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
 
   set_changed();
-
 }
 
 void AppearanceSettingsPage::PlaylistPlayingSongColorSystem(bool checked) {
@@ -451,7 +439,6 @@ void AppearanceSettingsPage::PlaylistPlayingSongColorSystem(bool checked) {
   ui_->select_playlist_playing_song_color->setEnabled(!checked);
 
   set_changed();
-
 }
 
 void AppearanceSettingsPage::PlaylistPlayingSongSelectColor() {
@@ -464,7 +451,6 @@ void AppearanceSettingsPage::PlaylistPlayingSongSelectColor() {
   UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
 
   set_changed();
-
 }
 
 QColor AppearanceSettingsPage::DefaultTabbarBgColor() {
@@ -474,5 +460,4 @@ QColor AppearanceSettingsPage::DefaultTabbarBgColor() {
     color = color.lighter(130);
   }
   return color;
-
 }

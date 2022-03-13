@@ -53,8 +53,8 @@ class RainbowAnalyzer : public Analyzer::Base {
   RainbowAnalyzer(const RainbowType rbtype, QWidget *parent);
 
  protected:
-  void transform(Analyzer::Scope&) override;
-  void analyze(QPainter &p, const Analyzer::Scope&, bool new_frame) override;
+  void transform(Analyzer::Scope &) override;
+  void analyze(QPainter &p, const Analyzer::Scope &, bool new_frame) override;
 
   void timerEvent(QTimerEvent *e) override;
   void resizeEvent(QResizeEvent *e) override;
@@ -93,7 +93,7 @@ class RainbowAnalyzer : public Analyzer::Base {
 
  private:
   // "constants" that get initialized in the constructor
-  float band_scale_[kRainbowBands]{};
+  float band_scale_[kRainbowBands] {};
   QPen colors_[kRainbowBands];
 
   // Rainbow Nyancat & Dash
@@ -104,7 +104,7 @@ class RainbowAnalyzer : public Analyzer::Base {
   int frame_;
 
   // The y positions of each point on the rainbow.
-  float history_[kHistorySize * kRainbowBands]{};
+  float history_[kHistorySize * kRainbowBands] {};
 
   // A cache of the last frame's rainbow,
   // so it can be used in the next frame.
@@ -142,6 +142,6 @@ class RainbowDashAnalyzer : public RainbowAnalyzer {
 
   static const char *kName;
 };
-}
+}  // namespace Rainbow
 
 #endif  // RAINBOWANALYZER_H

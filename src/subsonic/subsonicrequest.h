@@ -59,7 +59,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void GetAlbums();
   void Reset();
 
-  private:
+ private:
   struct Request {
     explicit Request() : offset(0), size(0) {}
     QString artist_id;
@@ -89,7 +89,6 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverRequest &request);
 
  private:
-
   void AddAlbumsRequest(const int offset = 0, const int size = 500);
   void FlushAlbumsRequests();
 
@@ -144,9 +143,8 @@ class SubsonicRequest : public SubsonicBaseRequest {
   QMap<QString, QUrl> cover_urls_;
   QStringList errors_;
   bool no_results_;
-  QList<QNetworkReply*> replies_;
-  QList<QNetworkReply*> album_cover_replies_;
-
+  QList<QNetworkReply *> replies_;
+  QList<QNetworkReply *> album_cover_replies_;
 };
 
 #endif  // SUBSONICREQUEST_H

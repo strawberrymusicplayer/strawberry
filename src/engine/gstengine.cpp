@@ -104,7 +104,6 @@ GstEngine::GstEngine(TaskManager *task_manager, QObject *parent)
   QObject::connect(seek_timer_, &QTimer::timeout, this, &GstEngine::SeekNow);
 
   GstEngine::ReloadSettings();
-
 }
 
 GstEngine::~GstEngine() {
@@ -129,15 +128,12 @@ GstEngine::~GstEngine() {
     gst_discoverer_stop(discoverer_);
     g_object_unref(discoverer_);
     discoverer_ = nullptr;
-
   }
-
 }
 
 bool GstEngine::Init() {
 
   return true;
-
 }
 
 Engine::State GstEngine::state() const {
@@ -156,7 +152,6 @@ Engine::State GstEngine::state() const {
     default:
       return Engine::Empty;
   }
-
 }
 
 void GstEngine::StartPreloading(const QUrl &stream_url, const QUrl &original_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec) {
@@ -175,7 +170,6 @@ void GstEngine::StartPreloading(const QUrl &stream_url, const QUrl &original_url
       }
     }
   }
-
 }
 
 bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
@@ -231,7 +225,6 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
   }
 
   return true;
-
 }
 
 bool GstEngine::Play(const quint64 offset_nanosec) {
@@ -254,7 +247,6 @@ bool GstEngine::Play(const quint64 offset_nanosec) {
   }
 
   return true;
-
 }
 
 void GstEngine::Stop(const bool stop_after) {
@@ -280,7 +272,6 @@ void GstEngine::Stop(const bool stop_after) {
   current_pipeline_.reset();
   BufferingFinished();
   emit StateChanged(Engine::Empty);
-
 }
 
 void GstEngine::Pause() {
@@ -307,7 +298,6 @@ void GstEngine::Pause() {
       StopTimers();
     }
   }
-
 }
 
 void GstEngine::Unpause() {
@@ -354,7 +344,6 @@ qint64 GstEngine::position_nanosec() const {
 
   const qint64 result = current_pipeline_->position() - static_cast<qint64>(beginning_nanosec_);
   return qint64(qMax(0LL, result));
-
 }
 
 qint64 GstEngine::length_nanosec() const {
@@ -370,7 +359,6 @@ qint64 GstEngine::length_nanosec() const {
     // Get the length from the pipeline if we don't know.
     return current_pipeline_->length();
   }
-
 }
 
 const Engine::Scope &GstEngine::scope(const int chunk_length) {
@@ -395,12 +383,11 @@ const Engine::Scope &GstEngine::scope(const int chunk_length) {
   }
 
   return scope_;
-
 }
 
 EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
 
-  const_cast<GstEngine*>(this)->EnsureInitialized();
+  const_cast<GstEngine *>(this)->EnsureInitialized();
 
   PluginDetailsList plugins = GetPluginList("Sink/Audio");
   EngineBase::OutputDetailsList ret;
@@ -409,17 +396,22 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
     OutputDetails output;
     output.name = plugin.name;
     output.description = plugin.description;
-    if (plugin.name == kAutoSink) output.iconname = "soundcard";
-    else if (plugin.name == kALSASink || plugin.name == kOSS4Sink) output.iconname = "alsa";
-    else if (plugin.name == kJackAudioSink) output.iconname = "jack";
-    else if (plugin.name == kPulseSink) output.iconname = "pulseaudio";
-    else if (plugin.name == kA2DPSink || plugin.name == kAVDTPSink) output.iconname = "bluetooth";
-    else output.iconname = "soundcard";
+    if (plugin.name == kAutoSink)
+      output.iconname = "soundcard";
+    else if (plugin.name == kALSASink || plugin.name == kOSS4Sink)
+      output.iconname = "alsa";
+    else if (plugin.name == kJackAudioSink)
+      output.iconname = "jack";
+    else if (plugin.name == kPulseSink)
+      output.iconname = "pulseaudio";
+    else if (plugin.name == kA2DPSink || plugin.name == kAVDTPSink)
+      output.iconname = "bluetooth";
+    else
+      output.iconname = "soundcard";
     ret.append(output);
   }
 
   return ret;
-
 }
 
 bool GstEngine::ValidOutput(const QString &output) {
@@ -428,7 +420,6 @@ bool GstEngine::ValidOutput(const QString &output) {
 
   PluginDetailsList plugins = GetPluginList("Sink/Audio");
   return std::any_of(plugins.begin(), plugins.end(), [output](const PluginDetails &plugin) { return plugin.name == output; });
-
 }
 
 bool GstEngine::CustomDeviceSupport(const QString &output) {
@@ -444,38 +435,33 @@ void GstEngine::ReloadSettings() {
   Engine::Base::ReloadSettings();
 
   if (output_.isEmpty()) output_ = kAutoSink;
-
 }
 
 void GstEngine::ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) {
 
   // Schedule this to run in the GUI thread.  The buffer gets added to the queue and unreffed by UpdateScope.
-  if (!QMetaObject::invokeMethod(this, "AddBufferToScope", Q_ARG(GstBuffer*, buffer), Q_ARG(int, pipeline_id), Q_ARG(QString, format))) {
+  if (!QMetaObject::invokeMethod(this, "AddBufferToScope", Q_ARG(GstBuffer *, buffer), Q_ARG(int, pipeline_id), Q_ARG(QString, format))) {
     qLog(Warning) << "Failed to invoke AddBufferToScope on GstEngine";
     gst_buffer_unref(buffer);
   }
-
 }
 
 void GstEngine::SetStereoBalancerEnabled(const bool enabled) {
 
   stereo_balancer_enabled_ = enabled;
   if (current_pipeline_) current_pipeline_->set_stereo_balancer_enabled(enabled);
-
 }
 
 void GstEngine::SetStereoBalance(const float value) {
 
   stereo_balance_ = value;
   if (current_pipeline_) current_pipeline_->SetStereoBalance(value);
-
 }
 
 void GstEngine::SetEqualizerEnabled(const bool enabled) {
 
   equalizer_enabled_ = enabled;
   if (current_pipeline_) current_pipeline_->set_equalizer_enabled(enabled);
-
 }
 
 void GstEngine::SetEqualizerParameters(const int preamp, const QList<int> &band_gains) {
@@ -484,21 +470,18 @@ void GstEngine::SetEqualizerParameters(const int preamp, const QList<int> &band_
   equalizer_gains_ = band_gains;
 
   if (current_pipeline_) current_pipeline_->SetEqualizerParams(preamp, band_gains);
-
 }
 
 void GstEngine::AddBufferConsumer(GstBufferConsumer *consumer) {
 
   buffer_consumers_ << consumer;
   if (current_pipeline_) current_pipeline_->AddBufferConsumer(consumer);
-
 }
 
 void GstEngine::RemoveBufferConsumer(GstBufferConsumer *consumer) {
 
   buffer_consumers_.removeAll(consumer);
   if (current_pipeline_) current_pipeline_->RemoveBufferConsumer(consumer);
-
 }
 
 void GstEngine::timerEvent(QTimerEvent *e) {
@@ -522,7 +505,6 @@ void GstEngine::timerEvent(QTimerEvent *e) {
       }
     }
   }
-
 }
 
 void GstEngine::EndOfStreamReached(const int pipeline_id, const bool has_next_track) {
@@ -535,7 +517,6 @@ void GstEngine::EndOfStreamReached(const int pipeline_id, const bool has_next_tr
     BufferingFinished();
   }
   emit TrackEnded();
-
 }
 
 void GstEngine::HandlePipelineError(const int pipeline_id, const QString &message, const int domain, const int error_code) {
@@ -549,28 +530,20 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const QString &messag
   emit StateChanged(Engine::Error);
 
   if (
-      (domain == static_cast<int>(GST_RESOURCE_ERROR) && (
-        error_code == static_cast<int>(GST_RESOURCE_ERROR_NOT_FOUND) ||
-        error_code == static_cast<int>(GST_RESOURCE_ERROR_OPEN_READ) ||
-        error_code == static_cast<int>(GST_RESOURCE_ERROR_NOT_AUTHORIZED)
-      ))
-      || (domain == static_cast<int>(GST_STREAM_ERROR) && error_code == static_cast<int>(GST_STREAM_ERROR_TYPE_NOT_FOUND))
-      ) {
-     emit InvalidSongRequested(stream_url_);
-   }
+    (domain == static_cast<int>(GST_RESOURCE_ERROR) && (error_code == static_cast<int>(GST_RESOURCE_ERROR_NOT_FOUND) || error_code == static_cast<int>(GST_RESOURCE_ERROR_OPEN_READ) || error_code == static_cast<int>(GST_RESOURCE_ERROR_NOT_AUTHORIZED))) || (domain == static_cast<int>(GST_STREAM_ERROR) && error_code == static_cast<int>(GST_STREAM_ERROR_TYPE_NOT_FOUND))) {
+    emit InvalidSongRequested(stream_url_);
+  }
   else {
     emit FatalError();
   }
 
   emit Error(message);
-
 }
 
 void GstEngine::NewMetaData(const int pipeline_id, const Engine::SimpleMetaBundle &bundle) {
 
   if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id) return;
   emit MetaData(bundle);
-
 }
 
 void GstEngine::AddBufferToScope(GstBuffer *buf, const int pipeline_id, const QString &format) {
@@ -587,7 +560,6 @@ void GstEngine::AddBufferToScope(GstBuffer *buf, const int pipeline_id, const QS
   buffer_format_ = format;
   latest_buffer_ = buf;
   have_new_buffer_ = true;
-
 }
 
 void GstEngine::FadeoutFinished() {
@@ -608,7 +580,6 @@ void GstEngine::FadeoutPauseFinished() {
   fadeout_pipeline_.reset();
 
   emit FadeoutFinishedSignal();
-
 }
 
 void GstEngine::SeekNow() {
@@ -621,7 +592,6 @@ void GstEngine::SeekNow() {
   if (!current_pipeline_->Seek(static_cast<qint64>(seek_pos_))) {
     qLog(Warning) << "Seek failed";
   }
-
 }
 
 void GstEngine::PlayDone(const GstStateChangeReturn ret, const quint64 offset_nanosec, const int pipeline_id) {
@@ -657,7 +627,6 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const quint64 offset_na
   emit StateChanged(Engine::Playing);
   // We've successfully started playing a media stream with this url
   emit ValidSongRequested(stream_url_);
-
 }
 
 void GstEngine::BufferingStarted() {
@@ -668,7 +637,6 @@ void GstEngine::BufferingStarted() {
 
   buffering_task_id_ = task_manager_->StartTask(tr("Buffering"));
   task_manager_->SetTaskProgress(buffering_task_id_, 0, 100);
-
 }
 
 void GstEngine::BufferingProgress(const int percent) {
@@ -684,7 +652,7 @@ void GstEngine::BufferingFinished() {
 
 GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) const {
 
-  const_cast<GstEngine*>(this)->EnsureInitialized();
+  const_cast<GstEngine *>(this)->EnsureInitialized();
 
   PluginDetailsList ret;
 
@@ -706,7 +674,6 @@ GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) 
 
   gst_plugin_feature_list_free(features);
   return ret;
-
 }
 
 QByteArray GstEngine::FixupUrl(const QUrl &url) {
@@ -744,7 +711,6 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
   }
 
   return uri;
-
 }
 
 void GstEngine::StartFadeout() {
@@ -757,7 +723,6 @@ void GstEngine::StartFadeout() {
 
   fadeout_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward);
   QObject::connect(fadeout_pipeline_.get(), &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutFinished);
-
 }
 
 void GstEngine::StartFadeoutPause() {
@@ -771,7 +736,6 @@ void GstEngine::StartFadeoutPause() {
   }
   QObject::connect(fadeout_pause_pipeline_.get(), &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutPauseFinished);
   is_fading_out_to_pause_ = true;
-
 }
 
 void GstEngine::StartTimers() {
@@ -816,7 +780,6 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   QObject::connect(ret.get(), &GstEnginePipeline::BufferingFinished, this, &GstEngine::BufferingFinished);
 
   return ret;
-
 }
 
 std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &gst_url, const QUrl &original_url, const qint64 end_nanosec) {
@@ -831,7 +794,6 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &g
   }
 
   return ret;
-
 }
 
 void GstEngine::UpdateScope(const int chunk_length) {
@@ -857,7 +819,7 @@ void GstEngine::UpdateScope(const int chunk_length) {
     return;
   }
 
-  const sample_type *source = reinterpret_cast<sample_type*>(map.data);
+  const sample_type *source = reinterpret_cast<sample_type *>(map.data);
   sample_type *dest = scope_.data();
   source += (chunk_size / sizeof(sample_type)) * scope_chunk_;
 
@@ -865,7 +827,7 @@ void GstEngine::UpdateScope(const int chunk_length) {
 
   // Make sure we don't go beyond the end of the buffer
   if (scope_chunk_ == scope_chunks_ - 1) {
-    bytes = qMin(static_cast<Engine::Scope::size_type>(map.size - (chunk_size  * scope_chunk_)), scope_.size() * sizeof(sample_type));
+    bytes = qMin(static_cast<Engine::Scope::size_type>(map.size - (chunk_size * scope_chunk_)), scope_.size() * sizeof(sample_type));
   }
   else {
     bytes = qMin(static_cast<Engine::Scope::size_type>(chunk_size), scope_.size() * sizeof(sample_type));
@@ -874,12 +836,11 @@ void GstEngine::UpdateScope(const int chunk_length) {
   scope_chunk_++;
 
   if (buffer_format_.startsWith("S16LE") ||
-      buffer_format_.startsWith("U16LE") ||
-      buffer_format_.startsWith("S24LE") ||
-      buffer_format_.startsWith("S24_32LE") ||
-      buffer_format_.startsWith("S32LE") ||
-      buffer_format_.startsWith("F32LE")
-  ) {
+    buffer_format_.startsWith("U16LE") ||
+    buffer_format_.startsWith("S24LE") ||
+    buffer_format_.startsWith("S24_32LE") ||
+    buffer_format_.startsWith("S32LE") ||
+    buffer_format_.startsWith("F32LE")) {
     memcpy(dest, source, bytes);
   }
   else {
@@ -893,12 +854,11 @@ void GstEngine::UpdateScope(const int chunk_length) {
     latest_buffer_ = nullptr;
     buffer_format_.clear();
   }
-
 }
 
-void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError*, gpointer self) {
+void GstEngine::StreamDiscovered(GstDiscoverer *, GstDiscovererInfo *info, GError *, gpointer self) {
 
-  GstEngine *instance = reinterpret_cast<GstEngine*>(self);
+  GstEngine *instance = reinterpret_cast<GstEngine *>(self);
   if (!instance->current_pipeline_) return;
 
   QString discovered_url(gst_discoverer_info_get_uri(info));
@@ -913,7 +873,7 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
   GList *audio_streams = gst_discoverer_info_get_audio_streams(info);
   if (audio_streams) {
 
-    GstDiscovererStreamInfo *stream_info = reinterpret_cast<GstDiscovererStreamInfo*>(g_list_first(audio_streams)->data);
+    GstDiscovererStreamInfo *stream_info = reinterpret_cast<GstDiscovererStreamInfo *>(g_list_first(audio_streams)->data);
 
     Engine::SimpleMetaBundle bundle;
     if (discovered_url == instance->current_pipeline_->stream_url()) {
@@ -962,25 +922,22 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
     qLog(Debug) << "Got stream info for" << discovered_url + ":" << Song::TextForFiletype(bundle.filetype);
 
     emit instance->MetaData(bundle);
-
   }
   else {
     qLog(Error) << "Could not detect an audio stream in" << discovered_url;
   }
-
 }
 
-void GstEngine::StreamDiscoveryFinished(GstDiscoverer*, gpointer) {}
+void GstEngine::StreamDiscoveryFinished(GstDiscoverer *, gpointer) {}
 
 QString GstEngine::GSTdiscovererErrorMessage(GstDiscovererResult result) {
 
   switch (result) {
-    case GST_DISCOVERER_URI_INVALID:     return "The URI is invalid";
-    case GST_DISCOVERER_TIMEOUT:         return "The discovery timed-out";
-    case GST_DISCOVERER_BUSY:            return "The discoverer was already discovering a file";
+    case GST_DISCOVERER_URI_INVALID: return "The URI is invalid";
+    case GST_DISCOVERER_TIMEOUT: return "The discovery timed-out";
+    case GST_DISCOVERER_BUSY: return "The discoverer was already discovering a file";
     case GST_DISCOVERER_MISSING_PLUGINS: return "Some plugins are missing for full discovery";
     case GST_DISCOVERER_ERROR:
-    default:                             return "An error happened and the GError is set";
+    default: return "An error happened and the GError is set";
   }
-
 }

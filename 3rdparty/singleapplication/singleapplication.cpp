@@ -106,7 +106,7 @@ SingleApplication::SingleApplication(int &argc, char *argv[], const bool allowSe
     }
   }
 
-  InstancesInfo *instance = static_cast<InstancesInfo*>(d->memory_->data());
+  InstancesInfo *instance = static_cast<InstancesInfo *>(d->memory_->data());
   QElapsedTimer time;
   time.start();
 
@@ -166,7 +166,6 @@ SingleApplication::SingleApplication(int &argc, char *argv[], const bool allowSe
   delete d;
 
   ::exit(EXIT_SUCCESS);
-
 }
 
 SingleApplication::~SingleApplication() {
@@ -262,5 +261,4 @@ void SingleApplication::abortSafely() {
   delete d;
 
   ::exit(EXIT_FAILURE);
-
 }

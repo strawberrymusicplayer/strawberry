@@ -50,7 +50,6 @@ QobuzFavoriteRequest::~QobuzFavoriteRequest() {
     reply->abort();
     reply->deleteLater();
   }
-
 }
 
 QString QobuzFavoriteRequest::FavoriteText(const FavoriteType type) {
@@ -64,7 +63,6 @@ QString QobuzFavoriteRequest::FavoriteText(const FavoriteType type) {
     default:
       return "tracks";
   }
-
 }
 
 QString QobuzFavoriteRequest::FavoriteMethod(const FavoriteType type) {
@@ -82,7 +80,6 @@ QString QobuzFavoriteRequest::FavoriteMethod(const FavoriteType type) {
   }
 
   return QString();
-
 }
 
 void QobuzFavoriteRequest::AddArtists(const SongList &songs) {
@@ -124,7 +121,6 @@ void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
   if (ids_list.isEmpty()) return;
 
   AddFavoritesRequest(type, ids_list, songs);
-
 }
 
 void QobuzFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs) {
@@ -141,7 +137,6 @@ void QobuzFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QS
   QNetworkReply *reply = CreateRequest("favorite/create", params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { AddFavoritesReply(reply, type, songs); });
   replies_ << reply;
-
 }
 
 void QobuzFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs) {
@@ -173,7 +168,6 @@ void QobuzFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
       emit SongsAdded(songs);
       break;
   }
-
 }
 
 void QobuzFavoriteRequest::RemoveArtists(const SongList &songs) {
@@ -219,7 +213,6 @@ void QobuzFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
   if (ids_list.isEmpty()) return;
 
   RemoveFavoritesRequest(type, ids_list, songs);
-
 }
 
 void QobuzFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs) {
@@ -236,7 +229,6 @@ void QobuzFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const
   QNetworkReply *reply = CreateRequest("favorite/delete", params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });
   replies_ << reply;
-
 }
 
 void QobuzFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs) {
@@ -267,12 +259,10 @@ void QobuzFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
       emit SongsRemoved(songs);
       break;
   }
-
 }
 
 void QobuzFavoriteRequest::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Qobuz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-
 }

@@ -72,7 +72,7 @@ class FancyTabWidget : public QTabWidget {
     Mode_Tabs,
     Mode_IconOnlyTabs,
     Mode_PlainSidebar,
-   };
+  };
 
   static const int TabSize_LargeSidebarMinWidth;
   static const int IconSize_LargeSidebar;
@@ -97,7 +97,7 @@ class FancyTabWidget : public QTabWidget {
   void currentTabChanged(int);
 
  protected:
-  void paintEvent(QPaintEvent*) override;
+  void paintEvent(QPaintEvent *) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
 
  private:
@@ -109,14 +109,13 @@ class FancyTabWidget : public QTabWidget {
   Mode mode_;
   QWidget *bottom_widget_;
 
-  QHash<QWidget*, TabData*> tabs_;
+  QHash<QWidget *, TabData *> tabs_;
 
   bool bg_color_system_;
   bool bg_gradient_;
   QColor bg_color_;
   int iconsize_smallsidebar_;
   int iconsize_largesidebar_;
-
 };
 
 }  // namespace Internal

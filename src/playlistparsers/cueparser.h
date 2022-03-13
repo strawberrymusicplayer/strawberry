@@ -94,8 +94,7 @@ class CueParser : public ParserBase {
     QString PrettyArtist() const { return artist.isEmpty() ? album_artist : artist; }
     QString PrettyComposer() const { return composer.isEmpty() ? album_composer : composer; }
 
-    CueEntry(const QString &_file, const QString &_index, const QString &_title, const QString &_artist, const QString &_album_artist, const QString &_album, const QString &_composer, const QString &_album_composer, const QString &_genre, const QString &_date, const QString &_disc) :
-    file(_file), index(_index), title(_title), artist(_artist), album_artist(_album_artist), album(_album), composer(_composer), album_composer(_album_composer), genre(_genre), date(_date), disc(_disc) {}
+    CueEntry(const QString &_file, const QString &_index, const QString &_title, const QString &_artist, const QString &_album_artist, const QString &_album, const QString &_composer, const QString &_album_composer, const QString &_genre, const QString &_date, const QString &_disc) : file(_file), index(_index), title(_title), artist(_artist), album_artist(_album_artist), album(_album), composer(_composer), album_composer(_album_composer), genre(_genre), date(_date), disc(_disc) {}
   };
 
   static bool UpdateSong(const CueEntry &entry, const QString &next_index, Song *song);

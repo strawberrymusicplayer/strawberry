@@ -58,7 +58,6 @@ ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent)
   timer_flush_->setSingleShot(true);
   timer_flush_->setInterval(10min);
   QObject::connect(timer_flush_, &QTimer::timeout, this, &ScrobblerCache::WriteCache);
-
 }
 
 ScrobblerCache::~ScrobblerCache() {
@@ -121,14 +120,13 @@ void ScrobblerCache::ReadCache() {
     }
     QJsonObject json_obj_track = value.toObject();
     if (
-        !json_obj_track.contains("timestamp") ||
-        !json_obj_track.contains("song") ||
-        !json_obj_track.contains("album") ||
-        !json_obj_track.contains("artist") ||
-        !json_obj_track.contains("albumartist") ||
-        !json_obj_track.contains("track") ||
-        !json_obj_track.contains("duration")
-    ) {
+      !json_obj_track.contains("timestamp") ||
+      !json_obj_track.contains("song") ||
+      !json_obj_track.contains("album") ||
+      !json_obj_track.contains("artist") ||
+      !json_obj_track.contains("albumartist") ||
+      !json_obj_track.contains("track") ||
+      !json_obj_track.contains("duration")) {
       qLog(Error) << "Scrobbler cache JSON tracks array value is missing data.";
       qLog(Debug) << value;
       continue;
@@ -143,14 +141,13 @@ void ScrobblerCache::ReadCache() {
     qint64 duration = json_obj_track["duration"].toVariant().toLongLong();
 
     if (timestamp <= 0 || artist.isEmpty() || song.isEmpty() || duration <= 0) {
-      qLog(Error) << "Invalid cache data" << "for song" << song;
+      qLog(Error) << "Invalid cache data"
+                  << "for song" << song;
       continue;
     }
     if (scrobbler_cache_.contains(timestamp)) continue;
     scrobbler_cache_.insert(timestamp, std::make_shared<ScrobblerCacheItem>(artist, album, song, albumartist, track, duration, timestamp));
-
   }
-
 }
 
 void ScrobblerCache::WriteCache() {
@@ -167,7 +164,7 @@ void ScrobblerCache::WriteCache() {
 
   QJsonArray array;
 
-  QHash <quint64, std::shared_ptr<ScrobblerCacheItem>> ::iterator i;
+  QHash<quint64, std::shared_ptr<ScrobblerCacheItem>>::iterator i;
   for (i = scrobbler_cache_.begin(); i != scrobbler_cache_.end(); ++i) {
     ScrobblerCacheItemPtr item = i.value();
     QJsonObject object;
@@ -197,7 +194,6 @@ void ScrobblerCache::WriteCache() {
 #endif
   stream << doc.toJson();
   file.close();
-
 }
 
 ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 timestamp) {
@@ -219,14 +215,15 @@ ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 timest
   }
 
   return item;
-
 }
 
 ScrobblerCacheItemPtr ScrobblerCache::Get(const quint64 hash) {
 
-  if (scrobbler_cache_.contains(hash)) { return scrobbler_cache_.value(hash); }
-  else return nullptr;
-
+  if (scrobbler_cache_.contains(hash)) {
+    return scrobbler_cache_.value(hash);
+  }
+  else
+    return nullptr;
 }
 
 void ScrobblerCache::Remove(const quint64 hash) {
@@ -237,7 +234,6 @@ void ScrobblerCache::Remove(const quint64 hash) {
   }
 
   scrobbler_cache_.remove(hash);
-
 }
 
 void ScrobblerCache::Remove(ScrobblerCacheItemPtr item) {
@@ -251,7 +247,6 @@ void ScrobblerCache::ClearSent(const QList<quint64> &list) {
     ScrobblerCacheItemPtr item = scrobbler_cache_.value(timestamp);
     item->sent_ = false;
   }
-
 }
 
 void ScrobblerCache::Flush(const QList<quint64> &list) {
@@ -264,5 +259,4 @@ void ScrobblerCache::Flush(const QList<quint64> &list) {
   if (!timer_flush_->isActive()) {
     timer_flush_->start();
   }
-
 }

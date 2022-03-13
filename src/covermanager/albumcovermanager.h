@@ -132,7 +132,7 @@ class AlbumCoverManager : public QMainWindow {
   // Returns the first of the selected elements in form of a Song ready to be used by AlbumCoverChoiceController or invalid song if there's nothing selected.
   Song GetFirstSelectedAsSong();
 
-  Song ItemAsSong(QListWidgetItem *item) { return ItemAsSong(static_cast<AlbumItem*>(item)); }
+  Song ItemAsSong(QListWidgetItem *item) { return ItemAsSong(static_cast<AlbumItem *>(item)); }
   static Song ItemAsSong(AlbumItem *item);
 
   void UpdateStatusText();
@@ -193,10 +193,10 @@ class AlbumCoverManager : public QMainWindow {
   QAction *filter_without_covers_;
 
   AlbumCoverLoaderOptions cover_loader_options_;
-  QMap<quint64, AlbumItem*> cover_loading_tasks_;
+  QMap<quint64, AlbumItem *> cover_loading_tasks_;
 
   AlbumCoverFetcher *cover_fetcher_;
-  QMap<quint64, AlbumItem*> cover_fetching_tasks_;
+  QMap<quint64, AlbumItem *> cover_fetching_tasks_;
   CoverSearchStatistics fetch_statistics_;
 
   AlbumCoverSearcher *cover_searcher_;
@@ -209,17 +209,16 @@ class AlbumCoverManager : public QMainWindow {
   const QIcon icon_nocover_item_;
 
   QMenu *context_menu_;
-  QList<QListWidgetItem*> context_menu_items_;
+  QList<QListWidgetItem *> context_menu_items_;
 
   QProgressBar *progress_bar_;
   QPushButton *abort_progress_;
   int jobs_;
 
-  QMultiMap<quint64, AlbumItem*> cover_save_tasks_;
-  QList<AlbumItem*> cover_save_tasks2_;
+  QMultiMap<quint64, AlbumItem *> cover_save_tasks_;
+  QList<AlbumItem *> cover_save_tasks2_;
 
   QListWidgetItem *all_artists_;
-
 };
 
 #endif  // ALBUMCOVERMANAGER_H

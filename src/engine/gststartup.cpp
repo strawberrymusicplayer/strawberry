@@ -57,7 +57,6 @@ gpointer GstStartup::GLibMainLoopThreadFunc(gpointer) {
   g_main_loop_unref(gloop);
 
   return nullptr;
-
 }
 
 GstStartup::GstStartup(QObject *parent) : QObject(parent) {
@@ -68,7 +67,6 @@ GstStartup::GstStartup(QObject *parent) : QObject(parent) {
   if (mo && strcmp(mo->className(), "QEventDispatcherGlib") != 0 && strcmp(mo->superClass()->className(), "QEventDispatcherGlib") != 0) {
     kGThread = g_thread_new(nullptr, GstStartup::GLibMainLoopThreadFunc, nullptr);
   }
-
 }
 
 GstStartup::~GstStartup() {
@@ -100,7 +98,6 @@ void GstStartup::InitializeGStreamer() {
     if (wasapisink) gst_object_unref(wasapisink);
   }
 #endif
-
 }
 
 void GstStartup::SetEnvironment() {
@@ -120,17 +117,17 @@ void GstStartup::SetEnvironment() {
   QString gst_registry_filename;
 
 #ifdef USE_BUNDLE
-#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
+#  if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
   gio_module_path = bundle_path + "/gio-modules";
-#endif
-#if defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
+#  endif
+#  if defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
   gst_plugin_scanner = bundle_path + "/gst-plugin-scanner";
   gst_plugin_path = bundle_path + "/gstreamer";
-#endif
-#if defined(Q_OS_WIN32)
+#  endif
+#  if defined(Q_OS_WIN32)
   //gst_plugin_scanner = bundle_path + "/gst-plugin-scanner.exe";
   gst_plugin_path = bundle_path + "/gstreamer-plugins";
-#endif
+#  endif
 #endif
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
@@ -175,5 +172,4 @@ void GstStartup::SetEnvironment() {
   }
 
   Utilities::SetEnv("PULSE_PROP_media.role", "music");
-
 }

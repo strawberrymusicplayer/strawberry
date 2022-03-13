@@ -45,7 +45,6 @@ GlobalShortcutGrabber::GlobalShortcutGrabber(QWidget *parent)
 
   QObject::connect(ui_->buttonBox, &QDialogButtonBox::accepted, this, &GlobalShortcutGrabber::Accepted);
   QObject::connect(ui_->buttonBox, &QDialogButtonBox::rejected, this, &GlobalShortcutGrabber::Rejected);
-
 }
 
 GlobalShortcutGrabber::~GlobalShortcutGrabber() {
@@ -61,7 +60,6 @@ QKeySequence GlobalShortcutGrabber::GetKey(const QString &name) {
 
   if (exec() == QDialog::Rejected) return QKeySequence();
   return ret_;
-
 }
 
 void GlobalShortcutGrabber::showEvent(QShowEvent *e) {
@@ -91,7 +89,7 @@ void GlobalShortcutGrabber::releaseKeyboard() {
 bool GlobalShortcutGrabber::event(QEvent *e) {
 
   if (e->type() == QEvent::ShortcutOverride) {
-    QKeyEvent *ke = static_cast<QKeyEvent*>(e);
+    QKeyEvent *ke = static_cast<QKeyEvent *>(e);
 
     if (modifier_keys_.contains(ke->key())) {
       ret_ = QKeySequence(static_cast<int>(ke->modifiers()));
@@ -106,7 +104,6 @@ bool GlobalShortcutGrabber::event(QEvent *e) {
     return true;
   }
   return QDialog::event(e);
-
 }
 
 void GlobalShortcutGrabber::UpdateText() {

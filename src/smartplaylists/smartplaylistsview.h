@@ -35,13 +35,12 @@ class SmartPlaylistsView : public QListView {
   ~SmartPlaylistsView();
 
  protected:
-  void selectionChanged(const QItemSelection&, const QItemSelection&) override;
+  void selectionChanged(const QItemSelection &, const QItemSelection &) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
 
  signals:
   void ItemsSelectedChanged();
   void RightClicked(QPoint global_pos, QModelIndex idx);
-
 };
 
 #endif  // SMARTPLAYLISTSVIEW_H

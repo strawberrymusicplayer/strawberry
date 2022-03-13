@@ -41,6 +41,7 @@ class SearchTermComparator {
   SearchTermComparator() = default;
   virtual ~SearchTermComparator() = default;
   virtual bool Matches(const QString &element) const = 0;
+
  private:
   Q_DISABLE_COPY(SearchTermComparator)
 };
@@ -52,6 +53,7 @@ class DefaultComparator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return element.contains(search_term_);
   }
+
  private:
   QString search_term_;
 
@@ -64,6 +66,7 @@ class EqComparator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return search_term_ == element;
   }
+
  private:
   QString search_term_;
 };
@@ -74,6 +77,7 @@ class NeComparator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return search_term_ != element;
   }
+
  private:
   QString search_term_;
 };
@@ -84,6 +88,7 @@ class LexicalGtComparator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return element > search_term_;
   }
+
  private:
   QString search_term_;
 };
@@ -94,6 +99,7 @@ class LexicalGeComparator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return element >= search_term_;
   }
+
  private:
   QString search_term_;
 };
@@ -104,6 +110,7 @@ class LexicalLtComparator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return element < search_term_;
   }
+
  private:
   QString search_term_;
 };
@@ -114,6 +121,7 @@ class LexicalLeComparator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return element <= search_term_;
   }
+
  private:
   QString search_term_;
 };
@@ -124,6 +132,7 @@ class GtComparator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return element.toInt() > search_term_;
   }
+
  private:
   int search_term_;
 };
@@ -134,6 +143,7 @@ class GeComparator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return element.toInt() >= search_term_;
   }
+
  private:
   int search_term_;
 };
@@ -144,6 +154,7 @@ class LtComparator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return element.toInt() < search_term_;
   }
+
  private:
   int search_term_;
 };
@@ -154,6 +165,7 @@ class LeComparator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return element.toInt() <= search_term_;
   }
+
  private:
   int search_term_;
 };
@@ -173,6 +185,7 @@ class DropTailComparatorDecorator : public SearchTermComparator {
       return cmp_->Matches(element);
     }
   }
+
  private:
   QScopedPointer<SearchTermComparator> cmp_;
 };
@@ -183,6 +196,7 @@ class RatingComparatorDecorator : public SearchTermComparator {
   bool Matches(const QString &element) const override {
     return cmp_->Matches(QString::number(lround(element.toDouble() * 10.0)));
   }
+
  private:
   QScopedPointer<SearchTermComparator> cmp_;
 };
@@ -200,6 +214,7 @@ class FilterTerm : public FilterTree {
     return false;
   }
   FilterType type() override { return Term; }
+
  private:
   QScopedPointer<SearchTermComparator> cmp_;
   QList<int> columns_;
@@ -215,6 +230,7 @@ class FilterColumnTerm : public FilterTree {
     return cmp_->Matches(idx.data().toString().toLower());
   }
   FilterType type() override { return Column; }
+
  private:
   int col;
   QScopedPointer<SearchTermComparator> cmp_;
@@ -228,6 +244,7 @@ class NotFilter : public FilterTree {
     return !child_->accept(row, parent, model);
   }
   FilterType type() override { return Not; }
+
  private:
   QScopedPointer<const FilterTree> child_;
 };
@@ -240,8 +257,9 @@ class OrFilter : public FilterTree {
     return std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return child->accept(row, parent, model); });
   }
   FilterType type() override { return Or; }
+
  private:
-  QList<FilterTree*> children_;
+  QList<FilterTree *> children_;
 };
 
 class AndFilter : public FilterTree {
@@ -252,11 +270,12 @@ class AndFilter : public FilterTree {
     return !std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return !child->accept(row, parent, model); });
   }
   FilterType type() override { return And; }
+
  private:
-  QList<FilterTree*> children_;
+  QList<FilterTree *> children_;
 };
 
-FilterParser::FilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols) : iter_{}, end_{}, filterstring_(filter), columns_(columns), numerical_columns_(numerical_cols) {}
+FilterParser::FilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols) : iter_ {}, end_ {}, filterstring_(filter), columns_(columns), numerical_columns_(numerical_cols) {}
 
 FilterTree *FilterParser::parse() {
   iter_ = filterstring_.constBegin();
@@ -269,7 +288,6 @@ void FilterParser::advance() {
   while (iter_ != end_ && iter_->isSpace()) {
     ++iter_;
   }
-
 }
 
 FilterTree *FilterParser::parseOrGroup() {
@@ -285,7 +303,6 @@ FilterTree *FilterParser::parseOrGroup() {
     advance();
   }
   return group;
-
 }
 
 FilterTree *FilterParser::parseAndGroup() {
@@ -305,7 +322,6 @@ FilterTree *FilterParser::parseAndGroup() {
   } while (iter_ != end_);
 
   return group;
-
 }
 
 bool FilterParser::checkAnd() {
@@ -330,7 +346,6 @@ bool FilterParser::checkAnd() {
     }
   }
   return false;
-
 }
 
 bool FilterParser::checkOr(const bool step_over) {
@@ -364,7 +379,6 @@ bool FilterParser::checkOr(const bool step_over) {
     }
   }
   return false;
-
 }
 
 FilterTree *FilterParser::parseSearchExpression() {
@@ -392,7 +406,6 @@ FilterTree *FilterParser::parseSearchExpression() {
   else {
     return parseSearchTerm();
   }
-
 }
 
 FilterTree *FilterParser::parseSearchTerm() {
@@ -444,7 +457,6 @@ FilterTree *FilterParser::parseSearchTerm() {
   buf_.clear();
 
   return createSearchTermTreeNode(col, prefix, search);
-
 }
 
 FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const {

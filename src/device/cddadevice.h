@@ -50,8 +50,8 @@ class CddaDevice : public ConnectedDevice {
 
   bool Init() override;
   void Refresh() override;
-  bool CopyToStorage(const MusicStorage::CopyJob&) override { return false; }
-  bool DeleteFromStorage(const MusicStorage::DeleteJob&) override { return false; }
+  bool CopyToStorage(const MusicStorage::CopyJob &) override { return false; }
+  bool DeleteFromStorage(const MusicStorage::DeleteJob &) override { return false; }
 
   static QStringList url_schemes() { return QStringList() << "cdda"; }
 

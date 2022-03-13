@@ -82,12 +82,12 @@ class SettingsPage : public QWidget {
   SettingsDialog *dialog_;
   QWidget *ui_widget_;
   bool changed_;
-  QList<QPair<QCheckBox*, Qt::CheckState>> checkboxes_;
-  QList<QPair<QRadioButton*, bool>> radiobuttons_;
-  QList<QPair<QComboBox*, QString>> comboboxes_;
-  QList<QPair<QSpinBox*, int>> spinboxes_;
-  QList<QPair<QSlider*, int>> sliders_;
-  QList<QPair<QLineEdit*, QString>> lineedits_;
+  QList<QPair<QCheckBox *, Qt::CheckState>> checkboxes_;
+  QList<QPair<QRadioButton *, bool>> radiobuttons_;
+  QList<QPair<QComboBox *, QString>> comboboxes_;
+  QList<QPair<QSpinBox *, int>> spinboxes_;
+  QList<QPair<QSlider *, int>> sliders_;
+  QList<QPair<QLineEdit *, QString>> lineedits_;
 };
 
 #endif  // SETTINGSPAGE_H

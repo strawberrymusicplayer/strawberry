@@ -41,7 +41,6 @@ CddaDevice::CddaDevice(const QUrl &url, DeviceLister *lister, const QString &uni
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsDurationLoaded, this, &CddaDevice::SongsLoaded);
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsMetadataLoaded, this, &CddaDevice::SongsLoaded);
   QObject::connect(this, &CddaDevice::SongsDiscovered, model_, &CollectionModel::SongsDiscovered);
-
 }
 
 bool CddaDevice::Init() {
@@ -49,7 +48,6 @@ bool CddaDevice::Init() {
   song_count_ = 0;  // Reset song count, in case it was already set
   cdda_song_loader_.LoadSongs();
   return true;
-
 }
 
 void CddaDevice::Refresh() {
@@ -58,7 +56,6 @@ void CddaDevice::Refresh() {
     return;
   }
   Init();
-
 }
 
 void CddaDevice::SongsLoaded(const SongList &songs) {
@@ -66,5 +63,4 @@ void CddaDevice::SongsLoaded(const SongList &songs) {
   model_->Reset();
   emit SongsDiscovered(songs);
   song_count_ = songs.size();
-
 }

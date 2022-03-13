@@ -116,7 +116,7 @@ class SettingsDialog : public QDialog {
 
  protected:
   void showEvent(QShowEvent *e) override;
-  void closeEvent(QCloseEvent*) override;
+  void closeEvent(QCloseEvent *) override;
 
  private:
   struct PageData {

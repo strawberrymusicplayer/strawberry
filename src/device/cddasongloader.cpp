@@ -60,7 +60,6 @@ QUrl CddaSongLoader::GetUrlFromTrack(int track_number) const {
   else {
     return QUrl(QString("cdda://%1/%2").arg(url_.path()).arg(track_number));
   }
-
 }
 
 void CddaSongLoader::LoadSongs() {
@@ -156,7 +155,7 @@ void CddaSongLoader::LoadSongs() {
   GstMessage *msg_tag = nullptr;
   while ((msg = gst_bus_timed_pop_filtered(GST_ELEMENT_BUS(pipeline), GST_SECOND, static_cast<GstMessageType>(GST_MESSAGE_TOC | GST_MESSAGE_TAG)))) {
     if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TOC) {
-      if (msg_toc) gst_message_unref(msg_toc); // Shouldn't happen, but just in case
+      if (msg_toc) gst_message_unref(msg_toc);  // Shouldn't happen, but just in case
       msg_toc = msg;
     }
     else if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TAG) {
@@ -174,7 +173,7 @@ void CddaSongLoader::LoadSongs() {
       if (entries && static_cast<guint>(songs.size()) <= g_list_length(entries)) {
         int i = 0;
         for (GList *node = entries; node != nullptr; node = node->next) {
-          GstTocEntry *entry = static_cast<GstTocEntry*>(node->data);
+          GstTocEntry *entry = static_cast<GstTocEntry *>(node->data);
           qint64 duration = 0;
           gint64 start = 0, stop = 0;
           if (gst_toc_entry_get_start_stop_times(entry, &start, &stop)) duration = stop - start;
@@ -209,13 +208,12 @@ void CddaSongLoader::LoadSongs() {
   gst_element_set_state(pipeline, GST_STATE_NULL);
   // This will also cause cdda_ to be unref'd.
   gst_object_unref(pipeline);
-
 }
 
 #ifdef HAVE_MUSICBRAINZ
 void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results) {
 
-  MusicBrainzClient *musicbrainz_client = qobject_cast<MusicBrainzClient*>(sender());
+  MusicBrainzClient *musicbrainz_client = qobject_cast<MusicBrainzClient *>(sender());
   musicbrainz_client->deleteLater();
   if (results.empty()) return;
   SongList songs;
@@ -237,7 +235,6 @@ void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &alb
     songs << song;
   }
   emit SongsMetadataLoaded(songs);
-
 }
 #endif
 
@@ -253,12 +250,10 @@ bool CddaSongLoader::HasChanged() {
   mutex_load_.unlock();
 
   return true;
-
 }
 
 void CddaSongLoader::Error(const QString &error) {
 
   qLog(Error) << error;
   emit SongsDurationLoaded(SongList(), error);
-
 }

@@ -69,7 +69,6 @@ class CurrentAlbumCoverLoader : public QObject {
   quint64 id_;
 
   Song last_song_;
-
 };
 
 #endif  // CURRENTALBUMCOVERLOADER_H

@@ -80,7 +80,6 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
   QObject::connect(service_->songs_collection_model(), &CollectionModel::modelReset, ui_->view, &InternetCollectionView::RestoreFocus);
 
   ReloadSettings();
-
 }
 
 InternetSongsView::~InternetSongsView() { delete ui_; }
@@ -89,7 +88,6 @@ void InternetSongsView::ReloadSettings() {
 
   ui_->filter_widget->ReloadSettings();
   ui_->view->ReloadSettings();
-
 }
 
 void InternetSongsView::OpenSettingsDialog() {
@@ -110,7 +108,6 @@ void InternetSongsView::GetSongs() {
   ui_->close->hide();
   ui_->stacked->setCurrentWidget(ui_->help_page);
   service_->GetSongs();
-
 }
 
 void InternetSongsView::AbortGetSongs() {
@@ -119,7 +116,6 @@ void InternetSongsView::AbortGetSongs() {
   ui_->progressbar->setValue(0);
   ui_->status->clear();
   ui_->stacked->setCurrentWidget(ui_->internetcollection_page);
-
 }
 
 void InternetSongsView::SongsFinished(const SongMap &songs, const QString &error) {
@@ -136,5 +132,4 @@ void InternetSongsView::SongsFinished(const SongMap &songs, const QString &error
     ui_->status->clear();
     service_->songs_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }
-
 }

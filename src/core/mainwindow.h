@@ -120,11 +120,11 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void closeEvent(QCloseEvent *e) override;
   void keyPressEvent(QKeyEvent *e) override;
 #ifdef Q_OS_WIN
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) override;
-#else
+#  else
   bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;
-#endif
+#  endif
 #endif
 
   // PlatformInterface
@@ -277,7 +277,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void Raise();
 
  private:
-
   void SaveSettings();
 
   static void ApplyAddBehaviour(const BehaviourSettingsPage::AddBehaviour b, MimeData *mimedata);
@@ -365,7 +364,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlist_queue_play_next_;
   QAction *playlist_skip_;
   QAction *playlist_add_to_another_;
-  QList<QAction*> playlistitem_actions_;
+  QList<QAction *> playlistitem_actions_;
   QAction *playlistitem_actions_separator_;
   QAction *playlist_rescan_songs_;
 
@@ -395,7 +394,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   bool exit_;
   int exit_count_;
   bool delete_files_;
-
 };
 
 #endif  // MAINWINDOW_H

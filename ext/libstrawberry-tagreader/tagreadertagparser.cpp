@@ -86,11 +86,10 @@ bool TagReaderTagParser::IsMediaFile(const QString &filename) const {
       }
     }
     taginfo.close();
+  } catch (...) {
   }
-  catch(...) {}
 
   return false;
-
 }
 
 void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
@@ -151,7 +150,7 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
 
     const auto tracks = taginfo.tracks();
     for (const auto track : tracks) {
-      switch(track->format().general) {
+      switch (track->format().general) {
         case TagParser::GeneralMediaFormat::Flac:
           song->set_filetype(spb::tagreader::SongMetadata_FileType::SongMetadata_FileType_FLAC);
           break;
@@ -174,7 +173,7 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
           song->set_filetype(spb::tagreader::SongMetadata_FileType::SongMetadata_FileType_OGGSPEEX);
           break;
         case TagParser::GeneralMediaFormat::Mpeg1Audio:
-          switch(track->format().sub) {
+          switch (track->format().sub) {
             case TagParser::SubFormats::Mpeg1Layer3:
               song->set_filetype(spb::tagreader::SongMetadata_FileType::SongMetadata_FileType_MPEG);
               break;
@@ -225,22 +224,37 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
     }
 
     // Set integer fields to -1 if they're not valid
-    if (song->track() <= 0) { song->set_track(-1); }
-    if (song->disc() <= 0) { song->set_disc(-1); }
-    if (song->year() <= 0) { song->set_year(-1); }
-    if (song->originalyear() <= 0) { song->set_originalyear(-1); }
-    if (song->samplerate() <= 0) { song->set_samplerate(-1); }
-    if (song->bitdepth() <= 0) { song->set_bitdepth(-1); }
-    if (song->bitrate() <= 0) { song->set_bitrate(-1); }
-    if (song->lastplayed() <= 0) { song->set_lastplayed(-1); }
+    if (song->track() <= 0) {
+      song->set_track(-1);
+    }
+    if (song->disc() <= 0) {
+      song->set_disc(-1);
+    }
+    if (song->year() <= 0) {
+      song->set_year(-1);
+    }
+    if (song->originalyear() <= 0) {
+      song->set_originalyear(-1);
+    }
+    if (song->samplerate() <= 0) {
+      song->set_samplerate(-1);
+    }
+    if (song->bitdepth() <= 0) {
+      song->set_bitdepth(-1);
+    }
+    if (song->bitrate() <= 0) {
+      song->set_bitrate(-1);
+    }
+    if (song->lastplayed() <= 0) {
+      song->set_lastplayed(-1);
+    }
 
     song->set_valid(true);
 
     taginfo.close();
 
+  } catch (...) {
   }
-  catch(...) {}
-
 }
 
 bool TagReaderTagParser::SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
@@ -306,11 +320,10 @@ bool TagReaderTagParser::SaveFile(const QString &filename, const spb::tagreader:
     }
 
     return true;
+  } catch (...) {
   }
-  catch(...) {}
 
   return false;
-
 }
 
 QByteArray TagReaderTagParser::LoadEmbeddedArt(const QString &filename) const {
@@ -359,11 +372,10 @@ QByteArray TagReaderTagParser::LoadEmbeddedArt(const QString &filename) const {
       qLog(Debug) << QString::fromStdString(msg.message());
     }
 
+  } catch (...) {
   }
-  catch(...) {}
 
   return QByteArray();
-
 }
 
 bool TagReaderTagParser::SaveEmbeddedArt(const QString &filename, const QByteArray &data) {
@@ -415,68 +427,66 @@ bool TagReaderTagParser::SaveEmbeddedArt(const QString &filename, const QByteArr
 
     return true;
 
+  } catch (...) {
   }
-  catch(...) {}
 
   return false;
-
 }
 
-bool TagReaderTagParser::SaveSongPlaycountToFile(const QString&, const spb::tagreader::SongMetadata&) const { return false; }
+bool TagReaderTagParser::SaveSongPlaycountToFile(const QString &, const spb::tagreader::SongMetadata &) const { return false; }
 
 bool TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
 
-    if (filename.isEmpty()) return false;
+  if (filename.isEmpty()) return false;
 
-    qLog(Debug) << "Saving song rating to" << filename;
+  qLog(Debug) << "Saving song rating to" << filename;
 
-    try {
-      TagParser::MediaFileInfo taginfo;
-      TagParser::Diagnostics diag;
-      TagParser::AbortableProgressFeedback progress;
-  #ifdef Q_OS_WIN32
-      taginfo.setPath(filename.toStdWString().toStdString());
-  #else
-      taginfo.setPath(QFile::encodeName(filename).toStdString());
-  #endif
-      taginfo.open(false);
+  try {
+    TagParser::MediaFileInfo taginfo;
+    TagParser::Diagnostics diag;
+    TagParser::AbortableProgressFeedback progress;
+#ifdef Q_OS_WIN32
+    taginfo.setPath(filename.toStdWString().toStdString());
+#else
+    taginfo.setPath(QFile::encodeName(filename).toStdString());
+#endif
+    taginfo.open(false);
 
-      taginfo.parseContainerFormat(diag, progress);
-      if (progress.isAborted()) {
-        taginfo.close();
-        return false;
-      }
-
-      taginfo.parseTracks(diag, progress);
-      if (progress.isAborted()) {
-        taginfo.close();
-        return false;
-      }
-
-      taginfo.parseTags(diag, progress);
-      if (progress.isAborted()) {
-        taginfo.close();
-        return false;
-      }
-
-      if (taginfo.tags().size() <= 0) {
-        taginfo.createAppropriateTags();
-      }
-
-      for (const auto tag : taginfo.tags()) {
-        tag->setValue(TagParser::KnownField::Rating, TagParser::TagValue(song.rating()));
-      }
-      taginfo.applyChanges(diag, progress);
+    taginfo.parseContainerFormat(diag, progress);
+    if (progress.isAborted()) {
       taginfo.close();
-
-      for (const TagParser::DiagMessage &msg : diag) {
-        qLog(Debug) << QString::fromStdString(msg.message());
-      }
-
-      return true;
+      return false;
     }
-    catch(...) {}
 
-    return false;
+    taginfo.parseTracks(diag, progress);
+    if (progress.isAborted()) {
+      taginfo.close();
+      return false;
+    }
 
+    taginfo.parseTags(diag, progress);
+    if (progress.isAborted()) {
+      taginfo.close();
+      return false;
+    }
+
+    if (taginfo.tags().size() <= 0) {
+      taginfo.createAppropriateTags();
+    }
+
+    for (const auto tag : taginfo.tags()) {
+      tag->setValue(TagParser::KnownField::Rating, TagParser::TagValue(song.rating()));
+    }
+    taginfo.applyChanges(diag, progress);
+    taginfo.close();
+
+    for (const TagParser::DiagMessage &msg : diag) {
+      qLog(Debug) << QString::fromStdString(msg.message());
+    }
+
+    return true;
+  } catch (...) {
+  }
+
+  return false;
 }

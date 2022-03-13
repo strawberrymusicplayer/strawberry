@@ -49,7 +49,9 @@ class QobuzCoverProvider : public JsonCoverProvider {
   void CancelSearch(const int id) override;
 
   bool IsAuthenticated() const override { return service_ && service_->authenticated(); }
-  void Deauthenticate() override { if (service_) service_->Logout(); }
+  void Deauthenticate() override {
+    if (service_) service_->Logout();
+  }
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const int id);
@@ -65,8 +67,7 @@ class QobuzCoverProvider : public JsonCoverProvider {
   static const int kLimit;
 
   QobuzService *service_;
-  QList<QNetworkReply*> replies_;
-
+  QList<QNetworkReply *> replies_;
 };
 
 #endif  // QOBUZCOVERPROVIDER_H

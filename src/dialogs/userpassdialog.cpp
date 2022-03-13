@@ -25,7 +25,6 @@
 UserPassDialog::UserPassDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_UserPassDialog) {
 
   ui_->setupUi(this);
-
 }
 
 UserPassDialog::~UserPassDialog() { delete ui_; }

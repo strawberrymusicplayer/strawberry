@@ -120,8 +120,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   QTimer timer_submit_;
   bool submit_error_;
 
-  QList<QNetworkReply*> replies_;
-
+  QList<QNetworkReply *> replies_;
 };
 
 #endif  // LISTENBRAINZSCROBBLER_H

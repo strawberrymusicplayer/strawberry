@@ -70,7 +70,7 @@ class _WorkerPoolBase : public QObject {
 // A local socket server is started for each process, and the address is passed to the process as argv[1].
 // The process is expected to connect back to the socket server, and when it does a HandlerType is created for it.
 // Instances of HandlerType are created in the WorkerPool's thread.
-template <typename HandlerType>
+template<typename HandlerType>
 class WorkerPool : public _WorkerPoolBase {
  public:
   explicit WorkerPool(QObject *parent = nullptr);
@@ -121,9 +121,9 @@ class WorkerPool : public _WorkerPoolBase {
   // Must only ever be called on my thread.
   void StartOneWorker(Worker *worker);
 
-  template <typename T>
+  template<typename T>
   Worker *FindWorker(T Worker::*member, T value) {
-    for (typename QList<Worker>::iterator it = workers_.begin() ; it != workers_.end() ; ++it) {
+    for (typename QList<Worker>::iterator it = workers_.begin(); it != workers_.end(); ++it) {
       if ((*it).*member == value) {
         return &(*it);
       }
@@ -131,7 +131,7 @@ class WorkerPool : public _WorkerPoolBase {
     return nullptr;
   }
 
-  template <typename T>
+  template<typename T>
   void DeleteQObjectPointerLater(T **p) {
     if (*p) {
       (*p)->deleteLater();
@@ -158,15 +158,15 @@ class WorkerPool : public _WorkerPoolBase {
   QAtomicInt next_id_;
 
   QMutex message_queue_mutex_;
-  QQueue<ReplyType*> message_queue_;
+  QQueue<ReplyType *> message_queue_;
 };
 
 
-template <typename HandlerType>
+template<typename HandlerType>
 WorkerPool<HandlerType>::WorkerPool(QObject *parent)
-  : _WorkerPoolBase(parent),
-    next_worker_(0),
-    next_id_(0) {
+    : _WorkerPoolBase(parent),
+      next_worker_(0),
+      next_id_(0) {
 
   worker_count_ = qBound(1, QThread::idealThreadCount() / 2, 4);
   local_server_name_ = qApp->applicationName().toLower();
@@ -174,10 +174,9 @@ WorkerPool<HandlerType>::WorkerPool(QObject *parent)
   if (local_server_name_.isEmpty()) {
     local_server_name_ = "workerpool";
   }
-
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 WorkerPool<HandlerType>::~WorkerPool() {
 
   for (const Worker &worker : workers_) {
@@ -205,33 +204,32 @@ WorkerPool<HandlerType>::~WorkerPool() {
   for (ReplyType *reply : message_queue_) {
     reply->Abort();
   }
-
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 void WorkerPool<HandlerType>::SetWorkerCount(const int count) {
   Q_ASSERT(workers_.isEmpty());
   worker_count_ = count;
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 void WorkerPool<HandlerType>::SetLocalServerName(const QString &local_server_name) {
   Q_ASSERT(workers_.isEmpty());
   local_server_name_ = local_server_name;
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 void WorkerPool<HandlerType>::SetExecutableName(const QString &executable_name) {
   Q_ASSERT(workers_.isEmpty());
   executable_name_ = executable_name;
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 void WorkerPool<HandlerType>::Start() {
   QMetaObject::invokeMethod(this, "DoStart");
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 void WorkerPool<HandlerType>::DoStart() {
 
   Q_ASSERT(workers_.isEmpty());
@@ -267,10 +265,9 @@ void WorkerPool<HandlerType>::DoStart() {
 
     workers_ << worker;
   }
-
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 void WorkerPool<HandlerType>::StartOneWorker(Worker *worker) {
 
   Q_ASSERT(QThread::currentThread() == thread());
@@ -311,15 +308,14 @@ void WorkerPool<HandlerType>::StartOneWorker(Worker *worker) {
 #endif
 
   worker->process_->start(executable_path_, QStringList() << worker->local_server_->fullServerName());
-
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 void WorkerPool<HandlerType>::NewConnection() {
 
   Q_ASSERT(QThread::currentThread() == thread());
 
-  QLocalServer *server = qobject_cast<QLocalServer*>(sender());
+  QLocalServer *server = qobject_cast<QLocalServer *>(sender());
 
   // Find the worker with this server.
   Worker *worker = FindWorker(&Worker::local_server_, server);
@@ -339,15 +335,14 @@ void WorkerPool<HandlerType>::NewConnection() {
   worker->handler_ = new HandlerType(worker->local_socket_, this);
 
   SendQueuedMessages();
-
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 void WorkerPool<HandlerType>::ProcessError(QProcess::ProcessError error) {
 
   Q_ASSERT(QThread::currentThread() == thread());
 
-  QProcess *process = qobject_cast<QProcess*>(sender());
+  QProcess *process = qobject_cast<QProcess *>(sender());
 
   // Find the worker with this process.
   Worker *worker = FindWorker(&Worker::process_, process);
@@ -367,48 +362,44 @@ void WorkerPool<HandlerType>::ProcessError(QProcess::ProcessError error) {
       StartOneWorker(worker);
       break;
   }
-
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 void WorkerPool<HandlerType>::ProcessReadyReadStandardOutput() {
 
   Q_ASSERT(QThread::currentThread() == thread());
 
-  QProcess *process = qobject_cast<QProcess*>(sender());
+  QProcess *process = qobject_cast<QProcess *>(sender());
   QByteArray data = process->readAllStandardOutput();
 
   fprintf(stdout, "%s", data.data());
   fflush(stdout);
-
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 void WorkerPool<HandlerType>::ProcessReadyReadStandardError() {
 
   Q_ASSERT(QThread::currentThread() == thread());
 
-  QProcess *process = qobject_cast<QProcess*>(sender());
+  QProcess *process = qobject_cast<QProcess *>(sender());
   QByteArray data = process->readAllStandardError();
 
   fprintf(stderr, "%s", data.data());
   fflush(stderr);
-
 }
 
-template <typename HandlerType>
-typename WorkerPool<HandlerType>::ReplyType*
+template<typename HandlerType>
+typename WorkerPool<HandlerType>::ReplyType *
 WorkerPool<HandlerType>::NewReply(MessageType *message) {
 
   const int id = next_id_.fetchAndAddOrdered(1);
   message->set_id(id);
 
   return new ReplyType(*message);
-
 }
 
-template <typename HandlerType>
-typename WorkerPool<HandlerType>::ReplyType*
+template<typename HandlerType>
+typename WorkerPool<HandlerType>::ReplyType *
 WorkerPool<HandlerType>::SendMessageWithReply(MessageType *message) {
 
   ReplyType *reply = NewReply(message);
@@ -423,10 +414,9 @@ WorkerPool<HandlerType>::SendMessageWithReply(MessageType *message) {
   QMetaObject::invokeMethod(this, "SendQueuedMessages", Qt::QueuedConnection);
 
   return reply;
-
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 void WorkerPool<HandlerType>::SendQueuedMessages() {
 
   QMutexLocker l(&message_queue_mutex_);
@@ -445,10 +435,9 @@ void WorkerPool<HandlerType>::SendQueuedMessages() {
 
     handler->SendRequest(reply);
   }
-
 }
 
-template <typename HandlerType>
+template<typename HandlerType>
 HandlerType *WorkerPool<HandlerType>::NextHandler() const {
 
   for (int i = 0; i < workers_.count(); ++i) {
@@ -461,7 +450,6 @@ HandlerType *WorkerPool<HandlerType>::NextHandler() const {
   }
 
   return nullptr;
-
 }
 
 #endif  // WORKERPOOL_H

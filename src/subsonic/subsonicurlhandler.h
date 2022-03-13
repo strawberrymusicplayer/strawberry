@@ -54,7 +54,6 @@ class SubsonicUrlHandler : public UrlHandler {
   typedef QList<Param> ParamList;
 
   SubsonicService *service_;
-
 };
 
 #endif  // SUBSONICURLHANDLER_H

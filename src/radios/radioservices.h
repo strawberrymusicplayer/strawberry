@@ -46,9 +46,9 @@ class RadioServices : public QObject {
 
   RadioService *ServiceBySource(const Song::Source source) const;
 
-  template <typename T>
+  template<typename T>
   T *Service() {
-    return static_cast<T*>(ServiceBySource(T::source));
+    return static_cast<T *>(ServiceBySource(T::source));
   }
 
   void ReloadSettings();
@@ -71,7 +71,7 @@ class RadioServices : public QObject {
   RadioBackend *backend_;
   RadioModel *model_;
   QSortFilterProxyModel *sort_model_;
-  QMap<Song::Source, RadioService*> services_;
+  QMap<Song::Source, RadioService *> services_;
   bool channels_refresh_;
 };
 

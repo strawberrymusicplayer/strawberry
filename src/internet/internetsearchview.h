@@ -139,7 +139,7 @@ class InternetSearchView : public QWidget {
   int LoadAlbumCoverAsync(const Result &result);
 
  signals:
-  void AddToPlaylist(QMimeData*);
+  void AddToPlaylist(QMimeData *);
   void AddArtistsSignal(SongList);
   void AddAlbumsSignal(SongList);
   void AddSongsSignal(SongMap);
@@ -190,7 +190,7 @@ class InternetSearchView : public QWidget {
   std::unique_ptr<GroupByDialog> group_by_dialog_;
 
   QMenu *context_menu_;
-  QList<QAction*> context_actions_;
+  QList<QAction *> context_actions_;
   QActionGroup *group_by_actions_;
 
   // Like graphics APIs have a front buffer and a back buffer, there's a front model and a back model
@@ -217,7 +217,6 @@ class InternetSearchView : public QWidget {
 
   AlbumCoverLoaderOptions cover_loader_options_;
   QMap<quint64, QPair<QModelIndex, QString>> cover_loader_tasks_;
-
 };
 Q_DECLARE_METATYPE(InternetSearchView::Result)
 Q_DECLARE_METATYPE(InternetSearchView::ResultList)

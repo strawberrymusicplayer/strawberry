@@ -174,7 +174,6 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
         if (!line_additional.isEmpty()) {
           track_type = line_additional;
         }
-
       }
       else if (line_name.compare(kIndex, Qt::CaseInsensitive) == 0) {
 
@@ -275,7 +274,6 @@ QStringList CueParser::SplitCueLine(const QString &line) {
 
   // Let's remove the empty entries while we're at it
   return re_match.capturedTexts().filter(QRegularExpression(".+")).mid(1, -1).replaceInStrings(QRegularExpression("^\"\"$"), "");
-
 }
 
 // Updates the song with data from the .cue entry. This one mustn't be used for the last song in the .cue file.
@@ -301,7 +299,6 @@ bool CueParser::UpdateSong(const CueEntry &entry, const QString &next_index, Son
   if (disc > 0) song->set_disc(disc);
 
   return true;
-
 }
 
 // Updates the song with data from the .cue entry. This one must be used only for the last song in the .cue file.
@@ -333,7 +330,6 @@ bool CueParser::UpdateLastSong(const CueEntry &entry, Song *song) {
   song->set_beginning_nanosec(beginning);
 
   return true;
-
 }
 
 qint64 CueParser::IndexToMarker(const QString &index) {
@@ -347,7 +343,6 @@ qint64 CueParser::IndexToMarker(const QString &index) {
   QStringList splitted = re_match.capturedTexts().mid(1, -1);
   qint64 frames = splitted.at(0).toLongLong() * 60 * 75 + splitted.at(1).toLongLong() * 75 + splitted.at(2).toLongLong();
   return (frames * kNsecPerSec) / 75;
-
 }
 
 void CueParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
@@ -358,7 +353,6 @@ void CueParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
   Q_UNUSED(path_type);
 
   // TODO
-
 }
 
 // Looks for a track starting with one of the .cue's keywords.
@@ -369,15 +363,14 @@ bool CueParser::TryMagic(const QByteArray &data) const {
   for (int i = 0; i < splitted.length(); i++) {
     QString line = splitted.at(i).trimmed();
     if (line.startsWith(kPerformer, Qt::CaseInsensitive) ||
-        line.startsWith(kTitle, Qt::CaseInsensitive) ||
-        line.startsWith(kFile, Qt::CaseInsensitive) ||
-        line.startsWith(kTrack, Qt::CaseInsensitive)) {
+      line.startsWith(kTitle, Qt::CaseInsensitive) ||
+      line.startsWith(kFile, Qt::CaseInsensitive) ||
+      line.startsWith(kTrack, Qt::CaseInsensitive)) {
       return true;
     }
   }
 
   return false;
-
 }
 
 QString CueParser::FindCueFilename(const QString &filename) {
@@ -390,5 +383,4 @@ QString CueParser::FindCueFilename(const QString &filename) {
   }
 
   return QString();
-
 }

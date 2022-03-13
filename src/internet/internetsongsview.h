@@ -63,7 +63,6 @@ class InternetSongsView : public QWidget {
   QString settings_group_;
   SettingsDialog::Page settings_page_;
   Ui_InternetCollectionViewContainer *ui_;
-
 };
 
 #endif  // INTERNETSONGSVIEW_H

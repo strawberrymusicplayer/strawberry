@@ -124,7 +124,6 @@ class PlayerInterface : public QObject {
   void ForceShowOSD(Song, bool toggle);
 
   void Authenticated();
-
 };
 
 class Player : public PlayerInterface {
@@ -202,8 +201,8 @@ class Player : public PlayerInterface {
   void PlayPlaylistInternal(const Engine::TrackChangeFlags, const Playlist::AutoScroll autoscroll, const QString &playlist_name);
 
   void FatalError();
-  void ValidSongRequested(const QUrl&);
-  void InvalidSongRequested(const QUrl&);
+  void ValidSongRequested(const QUrl &);
+  void InvalidSongRequested(const QUrl &);
 
   void UrlHandlerDestroyed(QObject *object);
   void HandleLoadResult(const UrlHandler::LoadResult &result);
@@ -232,7 +231,7 @@ class Player : public PlayerInterface {
   Engine::State last_state_;
   int nb_errors_received_;
 
-  QMap<QString, UrlHandler*> url_handlers_;
+  QMap<QString, UrlHandler *> url_handlers_;
 
   QList<QUrl> loading_async_;
   uint volume_before_mute_;
@@ -247,7 +246,6 @@ class Player : public PlayerInterface {
 
   QDateTime pause_time_;
   quint64 play_offset_nanosec_;
-
 };
 
 #endif  // PLAYER_H

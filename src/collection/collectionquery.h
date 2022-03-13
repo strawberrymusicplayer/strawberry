@@ -125,4 +125,4 @@ class CollectionQuery : public QSqlQuery {
   int limit_;
 };
 
-#endif // COLLECTIONQUERY_H
+#endif  // COLLECTIONQUERY_H

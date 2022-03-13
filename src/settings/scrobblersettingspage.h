@@ -69,7 +69,6 @@ class ScrobblerSettingsPage : public SettingsPage {
   void LastFM_RefreshControls(const bool authenticated);
   void LibreFM_RefreshControls(const bool authenticated);
   void ListenBrainz_RefreshControls(const bool authenticated);
-
 };
 
 #endif  // SCROBBLERSETTINGSPAGE_H

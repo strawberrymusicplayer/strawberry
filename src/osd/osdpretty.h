@@ -115,11 +115,11 @@ class OSDPretty : public QWidget {
  protected:
   void paintEvent(QPaintEvent *e) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  void enterEvent(QEnterEvent*) override;
+  void enterEvent(QEnterEvent *) override;
 #else
-  void enterEvent(QEvent*) override;
+  void enterEvent(QEvent *) override;
 #endif
-  void leaveEvent(QEvent*) override;
+  void leaveEvent(QEvent *) override;
   void mousePressEvent(QMouseEvent *e) override;
   void showEvent(QShowEvent *e) override;
   void mouseMoveEvent(QMouseEvent *e) override;
@@ -172,8 +172,7 @@ class OSDPretty : public QWidget {
   // Toggling requested, we have to show or hide the OSD
   bool toggle_mode_;
 
-  QMap<QString, QScreen*> screens_;
-
+  QMap<QString, QScreen *> screens_;
 };
 
 #endif  // OSDPRETTY_H

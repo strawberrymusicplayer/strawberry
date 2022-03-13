@@ -69,7 +69,7 @@ class MoodbarLoader : public QObject {
 
   const int kMaxActiveRequests;
 
-  QMap<QUrl, MoodbarPipeline*> requests_;
+  QMap<QUrl, MoodbarPipeline *> requests_;
   QList<QUrl> queued_requests_;
   QSet<QUrl> active_requests_;
 

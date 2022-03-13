@@ -52,7 +52,7 @@ class ContextAlbum : public QWidget {
   void SetImage(QImage image = QImage());
 
  protected:
-  void paintEvent(QPaintEvent*) override;
+  void paintEvent(QPaintEvent *) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
   void mouseDoubleClickEvent(QMouseEvent *e) override;
 

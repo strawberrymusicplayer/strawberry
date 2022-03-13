@@ -57,8 +57,8 @@ class SmartPlaylistSearchTermWidget::Overlay : public QWidget {  // clazy:exclud
   static const int kIconSize;
 
  protected:
-  void paintEvent(QPaintEvent*) override;
-  void mouseReleaseEvent(QMouseEvent*) override;
+  void paintEvent(QPaintEvent *) override;
+  void mouseReleaseEvent(QMouseEvent *) override;
   void keyReleaseEvent(QKeyEvent *e) override;
 
  private:
@@ -68,7 +68,6 @@ class SmartPlaylistSearchTermWidget::Overlay : public QWidget {  // clazy:exclud
   QString text_;
   QPixmap pixmap_;
   QPixmap icon_;
-
 };
 
 const int SmartPlaylistSearchTermWidget::Overlay::kSpacing = 6;
@@ -134,7 +133,6 @@ SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(CollectionBackend *
     stylesheet.replace("%base", Utilities::ColorToRgba(base));
     setStyleSheet(stylesheet);
   }
-
 }
 
 SmartPlaylistSearchTermWidget::~SmartPlaylistSearchTermWidget() { delete ui_; }
@@ -200,7 +198,6 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   }
 
   emit Changed();
-
 }
 
 void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
@@ -224,10 +221,9 @@ void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
     ui_->value_stack->setCurrentWidget(page);
   }
   else if (
-      (ui_->value_stack->currentWidget() == ui_->page_date) ||
-      (ui_->value_stack->currentWidget() == ui_->page_date_numeric) ||
-      (ui_->value_stack->currentWidget() == ui_->page_date_relative)
-      ) {
+    (ui_->value_stack->currentWidget() == ui_->page_date) ||
+    (ui_->value_stack->currentWidget() == ui_->page_date_numeric) ||
+    (ui_->value_stack->currentWidget() == ui_->page_date_relative)) {
     QWidget *page = nullptr;
     if (op == SmartPlaylistSearchTerm::Op_NumericDate || op == SmartPlaylistSearchTerm::Op_NumericDateNot) {
       page = ui_->page_date_numeric;
@@ -242,7 +238,6 @@ void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
   }
 
   emit Changed();
-
 }
 
 void SmartPlaylistSearchTermWidget::SetActive(bool active) {
@@ -259,13 +254,12 @@ void SmartPlaylistSearchTermWidget::SetActive(bool active) {
   if (!active) {
     overlay_ = new Overlay(this);
   }
-
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-void SmartPlaylistSearchTermWidget::enterEvent(QEnterEvent*) {
+void SmartPlaylistSearchTermWidget::enterEvent(QEnterEvent *) {
 #else
-void SmartPlaylistSearchTermWidget::enterEvent(QEvent*) {
+void SmartPlaylistSearchTermWidget::enterEvent(QEvent *) {
 #endif
 
   if (!overlay_ || !isEnabled()) return;
@@ -274,10 +268,9 @@ void SmartPlaylistSearchTermWidget::enterEvent(QEvent*) {
   animation_->setEndValue(1.0);
   animation_->setDuration(80);
   animation_->start();
-
 }
 
-void SmartPlaylistSearchTermWidget::leaveEvent(QEvent*) {
+void SmartPlaylistSearchTermWidget::leaveEvent(QEvent *) {
 
   if (!overlay_) return;
 
@@ -285,7 +278,6 @@ void SmartPlaylistSearchTermWidget::leaveEvent(QEvent*) {
   animation_->setEndValue(0.0);
   animation_->setDuration(160);
   animation_->start();
-
 }
 
 void SmartPlaylistSearchTermWidget::resizeEvent(QResizeEvent *e) {
@@ -294,7 +286,6 @@ void SmartPlaylistSearchTermWidget::resizeEvent(QResizeEvent *e) {
   if (overlay_ && overlay_->isVisible()) {
     QTimer::singleShot(0, this, &SmartPlaylistSearchTermWidget::Grab);
   }
-
 }
 
 void SmartPlaylistSearchTermWidget::showEvent(QShowEvent *e) {
@@ -303,7 +294,6 @@ void SmartPlaylistSearchTermWidget::showEvent(QShowEvent *e) {
   if (overlay_) {
     QTimer::singleShot(0, this, &SmartPlaylistSearchTermWidget::Grab);
   }
-
 }
 
 void SmartPlaylistSearchTermWidget::Grab() { overlay_->Grab(); }
@@ -362,7 +352,6 @@ void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term)
     case SmartPlaylistSearchTerm::Type_Invalid:
       break;
   }
-
 }
 
 SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
@@ -405,7 +394,6 @@ SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
   }
 
   return ret;
-
 }
 
 void SmartPlaylistSearchTermWidget::RelativeValueChanged() {
@@ -421,7 +409,6 @@ void SmartPlaylistSearchTermWidget::RelativeValueChanged() {
   }
   // Emit the signal in any case, so the Next button will be disabled
   emit Changed();
-
 }
 
 SmartPlaylistSearchTermWidget::Overlay::Overlay(SmartPlaylistSearchTermWidget *parent)
@@ -433,14 +420,12 @@ SmartPlaylistSearchTermWidget::Overlay::Overlay(SmartPlaylistSearchTermWidget *p
 
   raise();
   setFocusPolicy(Qt::TabFocus);
-
 }
 
 void SmartPlaylistSearchTermWidget::Overlay::SetOpacity(const float opacity) {
 
   opacity_ = opacity;
   update();
-
 }
 
 void SmartPlaylistSearchTermWidget::Overlay::Grab() {
@@ -464,10 +449,9 @@ void SmartPlaylistSearchTermWidget::Overlay::Grab() {
   resize(parent_->size());
   show();
   update();
-
 }
 
-void SmartPlaylistSearchTermWidget::Overlay::paintEvent(QPaintEvent*) {
+void SmartPlaylistSearchTermWidget::Overlay::paintEvent(QPaintEvent *) {
 
   QPainter p(this);
 
@@ -500,10 +484,9 @@ void SmartPlaylistSearchTermWidget::Overlay::paintEvent(QPaintEvent*) {
   p.setPen(palette().color(QPalette::Text));
   p.drawPixmap(icon, icon_);
   p.drawText(text, Qt::TextDontClip | Qt::AlignVCenter, text_);  // NOLINT(bugprone-suspicious-enum-usage)
-
 }
 
-void SmartPlaylistSearchTermWidget::Overlay::mouseReleaseEvent(QMouseEvent*) {
+void SmartPlaylistSearchTermWidget::Overlay::mouseReleaseEvent(QMouseEvent *) {
   emit parent_->Clicked();
 }
 

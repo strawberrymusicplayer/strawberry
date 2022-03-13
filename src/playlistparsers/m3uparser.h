@@ -44,7 +44,8 @@ class M3UParser : public ParserBase {
   explicit M3UParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
 
   QString name() const override { return "M3U"; }
-  QStringList file_extensions() const override { return QStringList() << "m3u" << "m3u8"; }
+  QStringList file_extensions() const override { return QStringList() << "m3u"
+                                                                      << "m3u8"; }
   QString mime_type() const override { return "text/uri-list"; }
 
   bool TryMagic(const QByteArray &data) const override;
@@ -67,7 +68,6 @@ class M3UParser : public ParserBase {
   };
 
   static bool ParseMetadata(const QString &line, Metadata *metadata);
-
 };
 
 #endif  // M3UPARSER_H

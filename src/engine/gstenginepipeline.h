@@ -136,29 +136,29 @@ class GstEnginePipeline : public QObject {
   void BufferingFinished();
 
  protected:
-  void timerEvent(QTimerEvent*) override;
+  void timerEvent(QTimerEvent *) override;
 
  private:
   GstElement *CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const;
   bool InitAudioBin(QString &error);
 
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
-  static GstPadProbeReturn EventHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
-  static void SourceSetupCallback(GstPlayBin*, GParamSpec *pspec, gpointer);
-  static void NewPadCallback(GstElement*, GstPad*, gpointer);
-  static GstPadProbeReturn PlaybinProbe(GstPad*, GstPadProbeInfo*, gpointer);
-  static GstPadProbeReturn HandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
-  static void AboutToFinishCallback(GstPlayBin*, gpointer);
-  static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage*, gpointer);
-  static gboolean BusCallback(GstBus*, GstMessage*, gpointer);
-  static void TaskEnterCallback(GstTask*, GThread*, gpointer);
+  static GstPadProbeReturn EventHandoffCallback(GstPad *, GstPadProbeInfo *, gpointer);
+  static void SourceSetupCallback(GstPlayBin *, GParamSpec *pspec, gpointer);
+  static void NewPadCallback(GstElement *, GstPad *, gpointer);
+  static GstPadProbeReturn PlaybinProbe(GstPad *, GstPadProbeInfo *, gpointer);
+  static GstPadProbeReturn HandoffCallback(GstPad *, GstPadProbeInfo *, gpointer);
+  static void AboutToFinishCallback(GstPlayBin *, gpointer);
+  static GstBusSyncReply BusCallbackSync(GstBus *, GstMessage *, gpointer);
+  static gboolean BusCallback(GstBus *, GstMessage *, gpointer);
+  static void TaskEnterCallback(GstTask *, GThread *, gpointer);
 
-  void TagMessageReceived(GstMessage*);
-  void ErrorMessageReceived(GstMessage*);
-  void ElementMessageReceived(GstMessage*);
-  void StateChangedMessageReceived(GstMessage*);
-  void BufferingMessageReceived(GstMessage*);
-  void StreamStatusMessageReceived(GstMessage*);
+  void TagMessageReceived(GstMessage *);
+  void ErrorMessageReceived(GstMessage *);
+  void ElementMessageReceived(GstMessage *);
+  void StateChangedMessageReceived(GstMessage *);
+  void BufferingMessageReceived(GstMessage *);
+  void StreamStatusMessageReceived(GstMessage *);
   void StreamStartMessageReceived();
 
   static QString ParseStrTag(GstTagList *list, const char *tag);
@@ -226,7 +226,7 @@ class GstEnginePipeline : public QObject {
   bool bs2b_enabled_;
 
   // These get called when there is a new audio buffer available
-  QList<GstBufferConsumer*> buffer_consumers_;
+  QList<GstBufferConsumer *> buffer_consumers_;
   QMutex buffer_consumers_mutex_;
   qint64 segment_start_;
   bool segment_start_received_;
@@ -291,10 +291,9 @@ class GstEnginePipeline : public QObject {
 
   QThreadPool set_state_threadpool_;
 
-  GstSegment last_playbin_segment_{};
+  GstSegment last_playbin_segment_ {};
 
   bool logged_unsupported_analyzer_format_;
-
 };
 
 #endif  // GSTENGINEPIPELINE_H

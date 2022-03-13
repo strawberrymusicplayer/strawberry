@@ -99,13 +99,11 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent
   QObject::connect(ui_->checkbox_volume_control, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
   QObject::connect(ui_->checkbox_channels, &QCheckBox::toggled, ui_->widget_channels, &QSpinBox::setEnabled);
   QObject::connect(ui_->button_buffer_defaults, &QPushButton::clicked, this, &BackendSettingsPage::BufferDefaults);
-
 }
 
 BackendSettingsPage::~BackendSettingsPage() {
 
   delete ui_;
-
 }
 
 void BackendSettingsPage::Load() {
@@ -193,8 +191,10 @@ void BackendSettingsPage::Load() {
   if (!EngineInitialized()) return;
 
   if (engine()->state() == Engine::Empty) {
-    if (ui_->combobox_engine->count() > 1) ui_->combobox_engine->setEnabled(true);
-    else ui_->combobox_engine->setEnabled(false);
+    if (ui_->combobox_engine->count() > 1)
+      ui_->combobox_engine->setEnabled(true);
+    else
+      ui_->combobox_engine->setEnabled(false);
   }
   else {
     ui_->combobox_engine->setEnabled(false);
@@ -221,16 +221,18 @@ void BackendSettingsPage::Load() {
     output_name = output.name;
   }
   QVariant device_value;
-  if (ui_->combobox_device->currentText().isEmpty()) device_value = QVariant();
-  else if (ui_->combobox_device->currentText() == kOutputCustom) device_value = ui_->lineedit_device->text();
-  else device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();
+  if (ui_->combobox_device->currentText().isEmpty())
+    device_value = QVariant();
+  else if (ui_->combobox_device->currentText() == kOutputCustom)
+    device_value = ui_->lineedit_device->text();
+  else
+    device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();
 
   if (enginetype_current_ != enginetype || output_name != output_current_ || device_value != device_current_) {
     set_changed();
   }
 
   s.endGroup();
-
 }
 
 bool BackendSettingsPage::EngineInitialized() {
@@ -240,7 +242,6 @@ bool BackendSettingsPage::EngineInitialized() {
     return false;
   }
   return true;
-
 }
 
 void BackendSettingsPage::Load_Engine(const Engine::EngineType enginetype) {
@@ -274,7 +275,6 @@ void BackendSettingsPage::Load_Engine(const Engine::EngineType enginetype) {
   engineloaded_ = true;
 
   Load_Output(output, device);
-
 }
 
 void BackendSettingsPage::Load_Output(QString output, QVariant device) {
@@ -322,7 +322,6 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   if (ui_->combobox_output->count() >= 1) Load_Device(output, device);
 
   FadingOptionsChanged();
-
 }
 
 void BackendSettingsPage::Load_Device(const QString &output, const QVariant &device) {
@@ -345,7 +344,9 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
     for (const DeviceFinder::Device &d : f->ListDevices()) {
       devices++;
       ui_->combobox_device->addItem(IconLoader::Load(d.iconname), d.description, d.value);
-      if (d.value == device) { df_device = d; }
+      if (d.value == device) {
+        df_device = d;
+      }
     }
   }
 
@@ -412,11 +413,11 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   // This allows a custom ALSA device string ie: "hw:0,0" even if it is not listed.
   if (engine()->CustomDeviceSupport(output) &&
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-      device.metaType().id() == QMetaType::QString
+    device.metaType().id() == QMetaType::QString
 #else
-      device.type() == QVariant::String
+    device.type() == QVariant::String
 #endif
-      && !device.toString().isEmpty()) {
+    && !device.toString().isEmpty()) {
     ui_->lineedit_device->setText(device.toString());
     if (!found) {
       for (int i = 0; i < ui_->combobox_device->count(); ++i) {
@@ -431,7 +432,6 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   ui_->combobox_device->setEnabled(devices > 0 || engine()->CustomDeviceSupport(output));
 
   FadingOptionsChanged();
-
 }
 
 void BackendSettingsPage::Save() {
@@ -451,9 +451,12 @@ void BackendSettingsPage::Save() {
     output_name = output.name;
   }
 
-  if (ui_->combobox_device->currentText().isEmpty()) device_value = QVariant();
-  else if (ui_->combobox_device->currentText() == kOutputCustom) device_value = ui_->lineedit_device->text();
-  else device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();
+  if (ui_->combobox_device->currentText().isEmpty())
+    device_value = QVariant();
+  else if (ui_->combobox_device->currentText() == kOutputCustom)
+    device_value = ui_->lineedit_device->text();
+  else
+    device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -463,10 +466,14 @@ void BackendSettingsPage::Save() {
   s.setValue("device", device_value);
 
 #ifdef HAVE_ALSA
-  if (ui_->radiobutton_alsa_hw->isChecked()) s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_hw));
-  else if (ui_->radiobutton_alsa_plughw->isChecked()) s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_plughw));
-  else if (ui_->radiobutton_alsa_pcm->isChecked()) s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_pcm));
-  else s.remove("alsaplugin");
+  if (ui_->radiobutton_alsa_hw->isChecked())
+    s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_hw));
+  else if (ui_->radiobutton_alsa_plughw->isChecked())
+    s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_plughw));
+  else if (ui_->radiobutton_alsa_pcm->isChecked())
+    s.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_pcm));
+  else
+    s.remove("alsaplugin");
 #endif
 
   s.setValue("volume_control", ui_->checkbox_volume_control->isChecked());
@@ -495,7 +502,6 @@ void BackendSettingsPage::Save() {
   s.setValue("FadeoutPauseDuration", ui_->spinbox_fadeduration_pauseresume->value());
 
   s.endGroup();
-
 }
 
 void BackendSettingsPage::Cancel() {
@@ -504,7 +510,6 @@ void BackendSettingsPage::Cancel() {
     dialog()->app()->player()->CreateEngine(enginetype_current_);
     dialog()->app()->player()->Init();
   }
-
 }
 
 void BackendSettingsPage::EngineChanged(const int index) {
@@ -524,7 +529,6 @@ void BackendSettingsPage::EngineChanged(const int index) {
 
   engineloaded_ = false;
   Load_Engine(enginetype);
-
 }
 
 void BackendSettingsPage::OutputChanged(const int index) {
@@ -533,7 +537,6 @@ void BackendSettingsPage::OutputChanged(const int index) {
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
   Load_Device(output.name, QVariant());
-
 }
 
 void BackendSettingsPage::DeviceSelectionChanged(int index) {
@@ -552,7 +555,8 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
       if (device.type() == QVariant::String)
 #endif
         ui_->lineedit_device->setText(device.toString());
-      else ui_->lineedit_device->clear();
+      else
+        ui_->lineedit_device->clear();
     }
   }
   else {
@@ -561,7 +565,6 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
   }
 
   FadingOptionsChanged();
-
 }
 
 void BackendSettingsPage::DeviceStringChanged() {
@@ -625,7 +628,6 @@ void BackendSettingsPage::DeviceStringChanged() {
   }
 
   FadingOptionsChanged();
-
 }
 
 void BackendSettingsPage::RgPreampChanged(const int value) {
@@ -633,7 +635,6 @@ void BackendSettingsPage::RgPreampChanged(const int value) {
   double db = static_cast<double>(value) / 10 - 60;
   QString db_str = QString::asprintf("%+.1f dB", db);
   ui_->label_replaygainpreamp->setText(db_str);
-
 }
 
 void BackendSettingsPage::RgFallbackGainChanged(const int value) {
@@ -641,7 +642,6 @@ void BackendSettingsPage::RgFallbackGainChanged(const int value) {
   double db = static_cast<double>(value) / 10 - 60;
   QString db_str = QString::asprintf("%+.1f dB", db);
   ui_->label_replaygainfallbackgain->setText(db_str);
-
 }
 
 #ifdef HAVE_ALSA
@@ -650,21 +650,17 @@ void BackendSettingsPage::SwitchALSADevices(const alsa_plugin alsaplugin) {
   // All ALSA devices are listed twice, one for "hw" and one for "plughw"
   // Only show one of them by making the other ones invisible based on the alsa plugin radiobuttons
   for (int i = 0; i < ui_->combobox_device->count(); ++i) {
-    QListView *view = qobject_cast<QListView*>(ui_->combobox_device->view());
+    QListView *view = qobject_cast<QListView *>(ui_->combobox_device->view());
     if (!view) continue;
-    if ((ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^hw:.*")) && alsaplugin != alsa_plugin::alsa_hw)
-        ||
-        (ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^plughw:.*")) && alsaplugin != alsa_plugin::alsa_plughw)
-        ||
-        ((ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^.*:.*CARD=.*")) || ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^.*:.*DEV=.*"))) && alsaplugin != alsa_plugin::alsa_pcm)
-    ) {
+    if ((ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^hw:.*")) && alsaplugin != alsa_plugin::alsa_hw) ||
+      (ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^plughw:.*")) && alsaplugin != alsa_plugin::alsa_plughw) ||
+      ((ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^.*:.*CARD=.*")) || ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^.*:.*DEV=.*"))) && alsaplugin != alsa_plugin::alsa_pcm)) {
       view->setRowHidden(i, true);
     }
     else {
       view->setRowHidden(i, false);
     }
   }
-
 }
 #endif
 
@@ -694,7 +690,6 @@ void BackendSettingsPage::radiobutton_alsa_hw_clicked(const bool checked) {
   SelectDevice(device_new);
 
 #endif
-
 }
 
 void BackendSettingsPage::radiobutton_alsa_plughw_clicked(const bool checked) {
@@ -723,7 +718,6 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(const bool checked) {
   SelectDevice(device_new);
 
 #endif
-
 }
 
 void BackendSettingsPage::radiobutton_alsa_pcm_clicked(const bool checked) {
@@ -748,7 +742,6 @@ void BackendSettingsPage::radiobutton_alsa_pcm_clicked(const bool checked) {
   SelectDevice(device_new);
 
 #endif
-
 }
 
 void BackendSettingsPage::SelectDevice(const QString &device_new) {
@@ -764,7 +757,7 @@ void BackendSettingsPage::SelectDevice(const QString &device_new) {
   else {
     bool found = false;
     for (int i = 0; i < ui_->combobox_device->count(); ++i) {
-      QListView *view = qobject_cast<QListView*>(ui_->combobox_device->view());
+      QListView *view = qobject_cast<QListView *>(ui_->combobox_device->view());
       if (view && view->isRowHidden(i)) continue;
       QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -789,7 +782,6 @@ void BackendSettingsPage::SelectDevice(const QString &device_new) {
       }
     }
   }
-
 }
 
 void BackendSettingsPage::FadingOptionsChanged() {
@@ -798,8 +790,8 @@ void BackendSettingsPage::FadingOptionsChanged() {
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   if (engine()->type() == Engine::GStreamer &&
-      !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty() && (ui_->lineedit_device->text().contains(QRegularExpression("^hw:.*")) || ui_->lineedit_device->text().contains(QRegularExpression("^plughw:.*")))) &&
-      ui_->checkbox_volume_control->isChecked()) {
+    !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty() && (ui_->lineedit_device->text().contains(QRegularExpression("^hw:.*")) || ui_->lineedit_device->text().contains(QRegularExpression("^plughw:.*")))) &&
+    ui_->checkbox_volume_control->isChecked()) {
     ui_->groupbox_fading->setEnabled(true);
   }
   else {
@@ -811,7 +803,6 @@ void BackendSettingsPage::FadingOptionsChanged() {
 
   ui_->widget_fading_options->setEnabled(ui_->checkbox_fadeout_stop->isChecked() || ui_->checkbox_fadeout_cross->isChecked() || ui_->checkbox_fadeout_auto->isChecked());
   ui_->checkbox_fadeout_samealbum->setEnabled(ui_->checkbox_fadeout_auto->isChecked());
-
 }
 
 
@@ -820,5 +811,4 @@ void BackendSettingsPage::BufferDefaults() {
   ui_->spinbox_bufferduration->setValue(kDefaultBufferDuration);
   ui_->spinbox_low_watermark->setValue(kDefaultBufferLowWatermark);
   ui_->spinbox_high_watermark->setValue(kDefaultBufferHighWatermark);
-
 }

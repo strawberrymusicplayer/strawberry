@@ -67,7 +67,6 @@ void StyleSheetLoader::SetStyleSheet(QWidget *widget, const QString &filename) {
 
   widget->installEventFilter(this);
   UpdateStyleSheet(widget, styledata);
-
 }
 
 void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, std::shared_ptr<StyleSheetData> styledata) {
@@ -121,7 +120,6 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, std::shared_ptr<StyleSh
     styledata->stylesheet_current_ = stylesheet;
     widget->setStyleSheet(stylesheet);
   }
-
 }
 
 void StyleSheetLoader::ReplaceColor(QString *css, const QString &name, const QPalette &palette, const QPalette::ColorRole role) {
@@ -129,18 +127,16 @@ void StyleSheetLoader::ReplaceColor(QString *css, const QString &name, const QPa
   css->replace("%palette-" + name + "-lighter", palette.color(role).lighter().name(), Qt::CaseInsensitive);
   css->replace("%palette-" + name + "-darker", palette.color(role).darker().name(), Qt::CaseInsensitive);
   css->replace("%palette-" + name, palette.color(role).name(), Qt::CaseInsensitive);
-
 }
 
 bool StyleSheetLoader::eventFilter(QObject *obj, QEvent *event) {
 
   if (event->type() == QEvent::PaletteChange) {
-    QWidget *widget = qobject_cast<QWidget*>(obj);
+    QWidget *widget = qobject_cast<QWidget *>(obj);
     if (widget && styledata_.contains(widget)) {
       UpdateStyleSheet(widget, styledata_[widget]);
     }
   }
 
   return false;
-
 }

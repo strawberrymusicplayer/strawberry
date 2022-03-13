@@ -37,7 +37,6 @@ TEST(UtilitiesTest, PrettyTimeDelta) {
   ASSERT_EQ(Utilities::PrettyTimeDelta(3600), "+1:00:00");
 
   ASSERT_EQ(Utilities::PrettyTimeDelta(9600), "+2:40:00");
-
 }
 
 TEST(UtilitiesTest, PrettyTime) {
@@ -47,7 +46,6 @@ TEST(UtilitiesTest, PrettyTime) {
   ASSERT_EQ(Utilities::PrettyTime(3600), "1:00:00");
 
   ASSERT_EQ(Utilities::PrettyTime(9600), "2:40:00");
-
 }
 
 TEST(UtilitiesTest, PrettyTimeNanosec) {}
@@ -55,7 +53,6 @@ TEST(UtilitiesTest, PrettyTimeNanosec) {}
 TEST(UtilitiesTest, WordyTime) {
 
   ASSERT_EQ(Utilities::WordyTime(787200), "9 days 2:40:00");
-
 }
 
 TEST(UtilitiesTest, WordyTimeNanosec) {}
@@ -63,7 +60,6 @@ TEST(UtilitiesTest, WordyTimeNanosec) {}
 TEST(UtilitiesTest, Ago) {
 
   ASSERT_EQ(Utilities::Ago(QDateTime::currentDateTime().toSecsSinceEpoch() - 604800, QLocale()), "7 days ago");
-
 }
 
 TEST(UtilitiesTest, PrettyFutureDate) {}
@@ -71,13 +67,11 @@ TEST(UtilitiesTest, PrettyFutureDate) {}
 TEST(UtilitiesTest, PrettySize) {
 
   ASSERT_EQ(Utilities::PrettySize(787200), "787.2 KB");
-
 }
 
 TEST(UtilitiesTest, ColorToRgba) {
 
   ASSERT_EQ(Utilities::ColorToRgba(QColor(33, 22, 128)), "rgba(33, 22, 128, 255)");
-
 }
 
 TEST(UtilitiesTest, HmacFunctions) {
@@ -94,13 +88,11 @@ TEST(UtilitiesTest, HmacFunctions) {
   QString result_hash_sha256 = Utilities::HmacSha256(key.toLocal8Bit(), data.toLocal8Bit()).toHex();
   bool result_sha256 = result_hash_sha256 == QString("f7bc83f430538424b13298e6aa6fb143ef4d59a14946175997479dbc2d1a3cd8");
   EXPECT_TRUE(result_sha256);
-
 }
 
 TEST(UtilitiesTest, PrettySize2) {
 
   ASSERT_EQ(Utilities::PrettySize(QSize(22, 32)), "22x32");
-
 }
 
 TEST(UtilitiesTest, ParseRFC822DateTime) {
@@ -113,7 +105,6 @@ TEST(UtilitiesTest, ParseRFC822DateTime) {
 
   result_DateTime = Utilities::ParseRFC822DateTime(QString("Mon, 12 March 2012 20:00:00 +0100"));
   EXPECT_TRUE(result_DateTime.isValid());
-
 }
 
 TEST(UtilitiesTest, DecodeHtmlEntities) {
@@ -128,19 +119,16 @@ TEST(UtilitiesTest, DecodeHtmlEntities) {
   ASSERT_EQ(Utilities::DecodeHtmlEntities("&#60;"), "<");
   ASSERT_EQ(Utilities::DecodeHtmlEntities("&gt;"), ">");
   ASSERT_EQ(Utilities::DecodeHtmlEntities("&#62;"), ">");
-
 }
 
 TEST(UtilitiesTest, PathWithoutFilenameExtension) {
 
   ASSERT_EQ(Utilities::PathWithoutFilenameExtension("/home/jonas/test/filename.txt"), "/home/jonas/test/filename");
-
 }
 
 TEST(UtilitiesTest, FiddleFileExtension) {
 
   ASSERT_EQ(Utilities::FiddleFileExtension("/home/jonas/test/filename.txt", "db"), "/home/jonas/test/filename.db");
-
 }
 
 TEST(UtilitiesTest, SetEnvGetEnv) {
@@ -151,7 +139,6 @@ TEST(UtilitiesTest, SetEnvGetEnv) {
   Utilities::SetEnv(var.toUtf8(), value);
   ASSERT_EQ(Utilities::GetEnv(var), value);
   Utilities::SetEnv(var.toUtf8(), "");
-
 }
 
 TEST(UtilitiesTest, Random) {
@@ -163,13 +150,11 @@ TEST(UtilitiesTest, Random) {
   EXPECT_FALSE(Utilities::CryptographicRandomString(20) == Utilities::CryptographicRandomString(20));
 
   EXPECT_FALSE(Utilities::GetRandomString(20, "&%XVBGQ") == Utilities::GetRandomString(20, "&%XVBGQ"));
-
 }
 
 TEST(UtilitiesTest, UnicodeToAscii) {
 
   ASSERT_EQ(Utilities::UnicodeToAscii("ÆØÅ"), "AEOA");
-
 }
 
 TEST(UtilitiesTest, ReplaceVariable) {
@@ -211,7 +196,6 @@ TEST(UtilitiesTest, ReplaceVariable) {
   ASSERT_EQ(Utilities::ReplaceVariable("%playcount%", song, ""), QString::number(song.playcount()));
   ASSERT_EQ(Utilities::ReplaceVariable("%skipcount%", song, ""), QString::number(song.skipcount()));
   ASSERT_EQ(Utilities::ReplaceVariable("%rating%", song, ""), song.PrettyRating());
-
 }
 
 TEST(UtilitiesTest, ReplaceMessage) {
@@ -236,5 +220,4 @@ TEST(UtilitiesTest, ReplaceMessage) {
   song.set_rating(1.0);
 
   ASSERT_EQ(Utilities::ReplaceMessage("%title% - %artist%", song, ""), song.title() + " - " + song.artist());
-
 }

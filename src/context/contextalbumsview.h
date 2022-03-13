@@ -131,7 +131,6 @@ class ContextAlbumsView : public AutoExpandingTreeView {
   QSet<QString> last_selected_path_;
 
   ContextAlbumsModel *model_;
-
 };
 
 #endif  // CONTEXTALBUMSVIEW_H

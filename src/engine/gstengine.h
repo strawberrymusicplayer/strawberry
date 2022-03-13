@@ -140,8 +140,8 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
   void UpdateScope(int chunk_length);
 
-  static void StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError*, gpointer self);
-  static void StreamDiscoveryFinished(GstDiscoverer*, gpointer);
+  static void StreamDiscovered(GstDiscoverer *, GstDiscovererInfo *info, GError *, gpointer self);
+  static void StreamDiscoveryFinished(GstDiscoverer *, gpointer);
   static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
 
  private:
@@ -173,7 +173,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   std::shared_ptr<GstEnginePipeline> fadeout_pause_pipeline_;
   QUrl preloaded_url_;
 
-  QList<GstBufferConsumer*> buffer_consumers_;
+  QList<GstBufferConsumer *> buffer_consumers_;
 
   GstBuffer *latest_buffer_;
 
@@ -201,7 +201,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
   int discovery_finished_cb_id_;
   int discovery_discovered_cb_id_;
-
 };
 
 #endif  // GSTENGINE_H

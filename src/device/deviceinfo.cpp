@@ -52,7 +52,6 @@ DeviceDatabaseBackend::Device DeviceInfo::SaveToDb() const {
   ret.unique_id_ = unique_ids.join(",");
 
   return ret;
-
 }
 
 void DeviceInfo::InitFromDb(const DeviceDatabaseBackend::Device &dev) {
@@ -68,7 +67,6 @@ void DeviceInfo::InitFromDb(const DeviceDatabaseBackend::Device &dev) {
   for (const QString &id : unique_ids) {
     backends_ << Backend(nullptr, id);
   }
-
 }
 
 const DeviceInfo::Backend *DeviceInfo::BestBackend() const {
@@ -85,7 +83,6 @@ const DeviceInfo::Backend *DeviceInfo::BestBackend() const {
 
   if (!ret && !backends_.isEmpty()) return &(backends_[0]);
   return ret;
-
 }
 
 void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
@@ -121,10 +118,14 @@ void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
       QString icon_name = icon.toString();
       if (!icon_name.isEmpty()) {
         QString hint = QString(icons.first().toString() + name_hint).toLower();
-        if (hint.contains("phone")) icon_name_ = "device-phone";
-        else if (hint.contains("ipod") || hint.contains("apple")) icon_name_ = "device-ipod";
-        else if ((hint.contains("usb")) && (hint.contains("reader"))) icon_name_ = "device-usb-flash";
-        else if (hint.contains("usb")) icon_name_ = "device-usb-drive";
+        if (hint.contains("phone"))
+          icon_name_ = "device-phone";
+        else if (hint.contains("ipod") || hint.contains("apple"))
+          icon_name_ = "device-ipod";
+        else if ((hint.contains("usb")) && (hint.contains("reader")))
+          icon_name_ = "device-usb-flash";
+        else if (hint.contains("usb"))
+          icon_name_ = "device-usb-drive";
         icon_ = IconLoader::Load(icon_name_);
         if (!icon_.isNull()) {
           return;
@@ -135,5 +136,4 @@ void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
 
   icon_name_ = "device";
   icon_ = IconLoader::Load(icon_name_);
-
 }

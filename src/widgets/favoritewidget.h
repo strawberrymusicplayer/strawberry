@@ -50,7 +50,7 @@ class FavoriteWidget : public QWidget {
 
  protected:
   void paintEvent(QPaintEvent *e) override;
-  void mouseDoubleClickEvent(QMouseEvent*) override;
+  void mouseDoubleClickEvent(QMouseEvent *) override;
 
  private:
   static const int kStarSize;

@@ -65,10 +65,10 @@ class ContextView : public QWidget {
   Song song_playing() const { return song_playing_; }
 
  protected:
-  void resizeEvent(QResizeEvent*) override;
-  void contextMenuEvent(QContextMenuEvent*) override;
-  void dragEnterEvent(QDragEnterEvent*) override;
-  void dropEvent(QDropEvent*) override;
+  void resizeEvent(QResizeEvent *) override;
+  void contextMenuEvent(QContextMenuEvent *) override;
+  void dragEnterEvent(QDragEnterEvent *) override;
+  void dropEvent(QDropEvent *) override;
 
  private:
   void AddActions();
@@ -180,12 +180,11 @@ class ContextView : public QWidget {
   qreal font_size_headline_;
   qreal font_size_normal_;
 
-  QList<QLabel*> labels_play_;
-  QList<QLabel*> labels_play_data_;
-  QList<QLabel*> labels_play_all_;
+  QList<QLabel *> labels_play_;
+  QList<QLabel *> labels_play_data_;
+  QList<QLabel *> labels_play_all_;
 
   int prev_width_;
-
 };
 
 #endif  // CONTEXTVIEW_H

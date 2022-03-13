@@ -43,7 +43,6 @@ void CollectionPlaylistItem::Reload() {
 
   TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
   UpdateTemporaryMetadata(song_);
-
 }
 
 bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
@@ -52,7 +51,6 @@ bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
   song_.InitFromQuery(query, true);
   song_.set_source(Song::Source_Collection);
   return song_.is_valid();
-
 }
 
 QVariant CollectionPlaylistItem::DatabaseValue(DatabaseColumn column) const {
@@ -61,19 +59,16 @@ QVariant CollectionPlaylistItem::DatabaseValue(DatabaseColumn column) const {
     case Column_CollectionId: return song_.id();
     default: return PlaylistItem::DatabaseValue(column);
   }
-
 }
 
 Song CollectionPlaylistItem::Metadata() const {
 
   if (HasTemporaryMetadata()) return temp_metadata_;
   return song_;
-
 }
 
 void CollectionPlaylistItem::SetArtManual(const QUrl &cover_url) {
 
   song_.set_art_manual(cover_url);
   if (HasTemporaryMetadata()) temp_metadata_.set_art_manual(cover_url);
-
 }

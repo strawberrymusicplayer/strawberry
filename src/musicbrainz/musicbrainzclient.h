@@ -57,7 +57,7 @@ class MusicBrainzClient : public QObject {
     Result() : duration_msec_(0), track_(0), year_(-1) {}
 
     bool operator<(const Result &other) const {
-#define cmp(field)                      \
+#define cmp(field)                        \
   if ((field) < other.field) return true; \
   if ((field) > other.field) return false;
 
@@ -71,13 +71,12 @@ class MusicBrainzClient : public QObject {
     }
 
     bool operator==(const Result &other) const {
-      return
-             title_ == other.title_ &&
-             artist_ == other.artist_ &&
-             album_ == other.album_ &&
-             duration_msec_ == other.duration_msec_ &&
-             track_ == other.track_ &&
-             year_ == other.year_;
+      return title_ == other.title_ &&
+        artist_ == other.artist_ &&
+        album_ == other.album_ &&
+        duration_msec_ == other.duration_msec_ &&
+        track_ == other.track_ &&
+        year_ == other.year_;
     }
 
     QString title_;
@@ -200,7 +199,6 @@ class MusicBrainzClient : public QObject {
   static void Error(const QString &error, const QVariant &debug = QVariant());
 
  private:
-
   static const char *kTrackUrl;
   static const char *kDiscUrl;
   static const char *kDateRegex;
@@ -211,11 +209,10 @@ class MusicBrainzClient : public QObject {
   QNetworkAccessManager *network_;
   NetworkTimeouts *timeouts_;
   QMultiMap<int, Request> requests_pending_;
-  QMultiMap<int, QNetworkReply*> requests_;
+  QMultiMap<int, QNetworkReply *> requests_;
   // Results we received so far, kept here until all the replies are finished
   QMap<int, QList<PendingResults>> pending_results_;
   QTimer *timer_flush_requests_;
-
 };
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)

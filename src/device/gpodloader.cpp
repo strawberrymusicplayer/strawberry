@@ -60,7 +60,6 @@ void GPodLoader::LoadDatabase() {
 
   task_manager_->SetTaskFinished(task_id);
   emit LoadFinished(db, !abort_);
-
 }
 
 Itdb_iTunesDB *GPodLoader::TryLoad() {
@@ -91,7 +90,7 @@ Itdb_iTunesDB *GPodLoader::TryLoad() {
 
     if (abort_) break;
 
-    Itdb_Track *track = static_cast<Itdb_Track*>(tracks->data);
+    Itdb_Track *track = static_cast<Itdb_Track *>(tracks->data);
 
     Song song(Song::Source_Device);
     song.InitFromItdb(track, prefix);
@@ -113,5 +112,4 @@ Itdb_iTunesDB *GPodLoader::TryLoad() {
   backend_->Close();
 
   return db;
-
 }

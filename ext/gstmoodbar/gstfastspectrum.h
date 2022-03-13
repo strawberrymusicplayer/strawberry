@@ -53,15 +53,15 @@ struct GstFastSpectrum {
   GstAudioFilter parent;
 
   // Properties
-  guint64 interval;            // How many nanoseconds between emits
-  guint64 frames_per_interval; // How many frames per interval
+  guint64 interval;             // How many nanoseconds between emits
+  guint64 frames_per_interval;  // How many frames per interval
   guint64 frames_todo;
-  guint bands;                 // Number of spectrum bands
-  gboolean multi_channel;      // Send separate channel results
+  guint bands;             // Number of spectrum bands
+  gboolean multi_channel;  // Send separate channel results
 
-  guint64 num_frames;          // Frame count (1 sample per channel) since last emit
-  guint64 num_fft;             // Number of FFTs since last emit
-  GstClockTime message_ts;     // Starttime for next message
+  guint64 num_frames;       // Frame count (1 sample per channel) since last emit
+  guint64 num_fft;          // Number of FFTs since last emit
+  GstClockTime message_ts;  // Starttime for next message
 
   // <private>
   bool channel_data_initialized;

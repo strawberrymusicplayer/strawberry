@@ -47,7 +47,7 @@ BOOL DirectSoundDeviceFinder::EnumerateCallback(LPGUID guid, LPCSTR description,
 
   Q_UNUSED(module);
 
-  State *state = reinterpret_cast<State*>(state_voidptr);
+  State *state = reinterpret_cast<State *>(state_voidptr);
 
   Device dev;
   dev.description = QString::fromLatin1(description);
@@ -56,5 +56,4 @@ BOOL DirectSoundDeviceFinder::EnumerateCallback(LPGUID guid, LPCSTR description,
   state->devices.append(dev);
 
   return 1;
-
 }

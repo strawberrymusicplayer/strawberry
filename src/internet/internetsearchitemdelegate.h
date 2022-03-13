@@ -40,7 +40,6 @@ class InternetSearchItemDelegate : public CollectionItemDelegate {
 
  private:
   InternetSearchView *view_;
-
 };
 
 #endif  // INTERNETSEARCHITEMDELEGATE_H

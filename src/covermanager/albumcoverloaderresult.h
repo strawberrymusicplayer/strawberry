@@ -39,17 +39,16 @@ struct AlbumCoverLoaderResult {
   };
 
   explicit AlbumCoverLoaderResult(const bool _success = false,
-                                  const Type _type = Type_None,
-                                  const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult(),
-                                  const QImage &_image_scaled = QImage(),
-                                  const QImage &_image_thumbnail = QImage(),
-                                  const bool _updated = false) :
-                                  success(_success),
-                                  type(_type),
-                                  album_cover(_album_cover),
-                                  image_scaled(_image_scaled),
-                                  image_thumbnail(_image_thumbnail),
-                                  updated(_updated) {}
+    const Type _type = Type_None,
+    const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult(),
+    const QImage &_image_scaled = QImage(),
+    const QImage &_image_thumbnail = QImage(),
+    const bool _updated = false) : success(_success),
+                                   type(_type),
+                                   album_cover(_album_cover),
+                                   image_scaled(_image_scaled),
+                                   image_thumbnail(_image_thumbnail),
+                                   updated(_updated) {}
 
   bool success;
   Type type;
@@ -59,7 +58,6 @@ struct AlbumCoverLoaderResult {
   bool updated;
 
   QUrl temp_cover_url;
-
 };
 
 #endif  // ALBUMCOVERLOADERRESULT_H

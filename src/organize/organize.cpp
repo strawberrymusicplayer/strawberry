@@ -87,7 +87,6 @@ Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
   for (const NewSongInfo &song_info : songs_info) {
     tasks_pending_ << Task(song_info);
   }
-
 }
 
 Organize::~Organize() {
@@ -96,7 +95,6 @@ Organize::~Organize() {
     thread_->quit();
     thread_->deleteLater();
   }
-
 }
 
 void Organize::Start() {
@@ -115,7 +113,6 @@ void Organize::Start() {
 
   moveToThread(thread_);
   thread_->start();
-
 }
 
 void Organize::ProcessSomeFiles() {
@@ -274,8 +271,6 @@ void Organize::ProcessSomeFiles() {
   if (!process_files_timer_->isActive()) {
     process_files_timer_->start();
   }
-
-
 }
 
 #ifdef HAVE_GSTREAMER
@@ -303,7 +298,6 @@ Song::FileType Organize::CheckTranscode(Song::FileType original_type) const {
       return Transcoder::PickBestFormat(supported_filetypes_);
   }
   return Song::FileType_Unknown;
-
 }
 #endif
 
@@ -312,7 +306,6 @@ void Organize::SetSongProgress(float progress, bool transcoded) {
   const int max = transcoded ? 50 : 100;
   current_copy_progress_ = (transcoded ? 50 : 0) + qBound(0, static_cast<int>(progress * static_cast<float>(max)), max - 1);
   UpdateProgress();
-
 }
 
 void Organize::UpdateProgress() {
@@ -347,7 +340,6 @@ void Organize::UpdateProgress() {
   progress += current_copy_progress_;
 
   task_manager_->SetTaskProgress(task_id_, progress, total);
-
 }
 
 void Organize::FileTranscoded(const QString &input, const QString &output, bool success) {
@@ -368,7 +360,6 @@ void Organize::FileTranscoded(const QString &input, const QString &output, bool 
   if (!process_files_timer_->isActive()) {
     process_files_timer_->start();
   }
-
 }
 
 void Organize::timerEvent(QTimerEvent *e) {
@@ -380,12 +371,10 @@ void Organize::timerEvent(QTimerEvent *e) {
     UpdateProgress();
   }
 #endif
-
 }
 
 void Organize::LogLine(const QString &message) {
 
   QString date(QDateTime::currentDateTime().toString(Qt::TextDate));
   log_.append(QString("%1: %2").arg(date, message));
-
 }

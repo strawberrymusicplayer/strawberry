@@ -69,7 +69,6 @@ GeniusLyricsProvider::GeniusLyricsProvider(NetworkAccessManager *network, QObjec
     access_token_ = s.value("access_token").toString();
   }
   s.endGroup();
-
 }
 
 GeniusLyricsProvider::~GeniusLyricsProvider() {
@@ -80,7 +79,6 @@ GeniusLyricsProvider::~GeniusLyricsProvider() {
     reply->abort();
     reply->deleteLater();
   }
-
 }
 
 void GeniusLyricsProvider::Authenticate() {
@@ -126,7 +124,6 @@ void GeniusLyricsProvider::Authenticate() {
     messagebox.setTextFormat(Qt::RichText);
     messagebox.exec();
   }
-
 }
 
 void GeniusLyricsProvider::RedirectArrived() {
@@ -160,7 +157,6 @@ void GeniusLyricsProvider::RedirectArrived() {
   server_->close();
   server_->deleteLater();
   server_ = nullptr;
-
 }
 
 void GeniusLyricsProvider::RequestAccessToken(const QUrl &url, const QUrl &redirect_url) {
@@ -194,14 +190,12 @@ void GeniusLyricsProvider::RequestAccessToken(const QUrl &url, const QUrl &redir
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::sslErrors, this, &GeniusLyricsProvider::HandleLoginSSLErrors);
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AccessTokenRequestFinished(reply); });
-
   }
 
   else {
     AuthError(tr("Redirect from Genius is missing query items code or state."));
     return;
   }
-
 }
 
 void GeniusLyricsProvider::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
@@ -209,7 +203,6 @@ void GeniusLyricsProvider::HandleLoginSSLErrors(const QList<QSslError> &ssl_erro
   for (const QSslError &ssl_error : ssl_errors) {
     login_errors_ += ssl_error.errorString();
   }
-
 }
 
 void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
@@ -293,7 +286,6 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
 
   emit AuthenticationComplete(true);
   emit AuthenticationSuccess();
-
 }
 
 bool GeniusLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -326,7 +318,6 @@ bool GeniusLyricsProvider::StartSearch(const QString &artist, const QString &alb
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { HandleSearchReply(reply, id); });
 
   return true;
-
 }
 
 void GeniusLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
@@ -439,11 +430,9 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     QNetworkReply *new_reply = network_->get(req);
     replies_ << new_reply;
     QObject::connect(new_reply, &QNetworkReply::finished, this, [this, new_reply, search, url]() { HandleLyricReply(new_reply, search->id, url); });
-
   }
 
   EndSearch(search);
-
 }
 
 void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int search_id, const QUrl &url) {
@@ -529,7 +518,6 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
   }
 
   EndSearch(search, lyric);
-
 }
 
 void GeniusLyricsProvider::AuthError(const QString &error, const QVariant &debug) {
@@ -543,14 +531,12 @@ void GeniusLyricsProvider::AuthError(const QString &error, const QVariant &debug
   emit AuthenticationComplete(false, login_errors_);
 
   login_errors_.clear();
-
 }
 
 void GeniusLyricsProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "GeniusLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-
 }
 
 void GeniusLyricsProvider::EndSearch(std::shared_ptr<GeniusLyricsSearchContext> search, const GeniusLyricsLyricContext &lyric) {
@@ -568,5 +554,4 @@ void GeniusLyricsProvider::EndSearch(std::shared_ptr<GeniusLyricsSearchContext> 
     }
     emit SearchFinished(search->id, search->results);
   }
-
 }

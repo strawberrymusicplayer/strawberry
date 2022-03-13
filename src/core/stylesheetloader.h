@@ -62,7 +62,7 @@ class StyleSheetLoader : public QObject {
   static void ReplaceColor(QString *css, const QString &name, const QPalette &palette, const QPalette::ColorRole role);
 
  private:
-  QHash<QWidget*, std::shared_ptr<StyleSheetData>> styledata_;
+  QHash<QWidget *, std::shared_ptr<StyleSheetData>> styledata_;
 };
 
 #endif  // STYLESHEETLOADER_H

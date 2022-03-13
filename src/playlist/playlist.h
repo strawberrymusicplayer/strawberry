@@ -277,8 +277,8 @@ class Playlist : public QAbstractListModel {
 #endif
 
   // QAbstractListModel
-  int rowCount(const QModelIndex& = QModelIndex()) const override { return items_.count(); }
-  int columnCount(const QModelIndex& = QModelIndex()) const override { return ColumnCount; }
+  int rowCount(const QModelIndex & = QModelIndex()) const override { return items_.count(); }
+  int columnCount(const QModelIndex & = QModelIndex()) const override { return ColumnCount; }
   QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
   bool setData(const QModelIndex &idx, const QVariant &value, int role) override;
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -357,7 +357,7 @@ class Playlist : public QAbstractListModel {
   int PreviousVirtualIndex(int i, const bool ignore_repeat_track) const;
   bool FilterContainsVirtualIndex(const int i) const;
 
-  template <typename T>
+  template<typename T>
   void InsertSongItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next = false);
 
   // Modify the playlist without changing the undo stack.  These are used by our friends in PlaylistUndoCommands
@@ -377,9 +377,9 @@ class Playlist : public QAbstractListModel {
   void InsertDynamicItems(const int count);
 
  private slots:
-  void TracksAboutToBeDequeued(const QModelIndex&, const int begin, const int end);
+  void TracksAboutToBeDequeued(const QModelIndex &, const int begin, const int end);
   void TracksDequeued();
-  void TracksEnqueued(const QModelIndex&, const int begin, const int end);
+  void TracksEnqueued(const QModelIndex &, const int begin, const int end);
   void QueueLayoutChanged();
   void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx, const Song &old_metadata);
   void ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit);
@@ -428,7 +428,7 @@ class Playlist : public QAbstractListModel {
 
   ColumnAlignmentMap column_alignments_;
 
-  QList<SongInsertVetoListener*> veto_listeners_;
+  QList<SongInsertVetoListener *> veto_listeners_;
 
   QString special_type_;
 
@@ -445,7 +445,6 @@ class Playlist : public QAbstractListModel {
   bool auto_sort_;
   int sort_column_;
   Qt::SortOrder sort_order_;
-
 };
 
 #endif  // PLAYLIST_H

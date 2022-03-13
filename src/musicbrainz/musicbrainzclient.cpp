@@ -67,13 +67,11 @@ MusicBrainzClient::MusicBrainzClient(QObject *parent, QNetworkAccessManager *net
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(true);
   QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &MusicBrainzClient::FlushRequests);
-
 }
 
 MusicBrainzClient::~MusicBrainzClient() {
 
   CancelAll();
-
 }
 
 QByteArray MusicBrainzClient::GetReplyData(QNetworkReply *reply, QString &error) {
@@ -108,13 +106,13 @@ QByteArray MusicBrainzClient::GetReplyData(QNetworkReply *reply, QString &error)
         }
         Error(error, data);
       }
-      else Error(error);
+      else
+        Error(error);
     }
     return QByteArray();
   }
 
   return data;
-
 }
 
 void MusicBrainzClient::Cancel(int id) {
@@ -125,14 +123,12 @@ void MusicBrainzClient::Cancel(int id) {
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
-
 }
 
 void MusicBrainzClient::CancelAll() {
 
   qDeleteAll(requests_.values());
   requests_.clear();
-
 }
 
 void MusicBrainzClient::Start(const int id, const QStringList &mbid_list) {
@@ -148,7 +144,6 @@ void MusicBrainzClient::Start(const int id, const QStringList &mbid_list) {
   if (!timer_flush_requests_->isActive()) {
     timer_flush_requests_->start();
   }
-
 }
 
 void MusicBrainzClient::StartDiscIdRequest(const QString &discid) {
@@ -166,7 +161,6 @@ void MusicBrainzClient::StartDiscIdRequest(const QString &discid) {
   QObject::connect(reply, &QNetworkReply::finished, this, [this, discid, reply]() { DiscIdRequestFinished(discid, reply); });
 
   timeouts_->AddReply(reply);
-
 }
 
 void MusicBrainzClient::FlushRequests() {
@@ -189,7 +183,6 @@ void MusicBrainzClient::FlushRequests() {
   requests_.insert(request.id, reply);
 
   timeouts_->AddReply(reply);
-
 }
 
 void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, const int request_number) {
@@ -235,7 +228,6 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, cons
     }
     emit Finished(id, UniqueResults(ret, KeepOriginalOrder), error);
   }
-
 }
 
 void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkReply *reply) {
@@ -316,7 +308,6 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
   }
 
   emit DiscIdFinished(artist, album, UniqueResults(ret, SortResults));
-
 }
 
 bool MusicBrainzClient::MediumHasDiscid(const QString &discid, QXmlStreamReader *reader) {
@@ -334,7 +325,6 @@ bool MusicBrainzClient::MediumHasDiscid(const QString &discid, QXmlStreamReader 
   }
   qLog(Debug) << "Reached end of xml stream without encountering </disc-list>";
   return false;
-
 }
 
 MusicBrainzClient::ResultList MusicBrainzClient::ParseMedium(QXmlStreamReader *reader) {
@@ -358,7 +348,6 @@ MusicBrainzClient::ResultList MusicBrainzClient::ParseMedium(QXmlStreamReader *r
   }
 
   return ret;
-
 }
 
 MusicBrainzClient::Result MusicBrainzClient::ParseTrackFromDisc(QXmlStreamReader *reader) {
@@ -489,7 +478,6 @@ MusicBrainzClient::Release MusicBrainzClient::ParseRelease(QXmlStreamReader *rea
   }
 
   return ret;
-
 }
 
 MusicBrainzClient::ResultList MusicBrainzClient::UniqueResults(const ResultList &results, UniqueResultsSortOption opt) {
@@ -513,12 +501,10 @@ MusicBrainzClient::ResultList MusicBrainzClient::UniqueResults(const ResultList 
     }
   }
   return ret;
-
 }
 
 void MusicBrainzClient::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "MusicBrainz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-
 }

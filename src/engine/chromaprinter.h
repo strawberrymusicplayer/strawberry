@@ -49,7 +49,7 @@ class Chromaprinter {
  private:
   static GstElement *CreateElement(const QString &factory_name, GstElement *bin = nullptr);
 
-  static void NewPadCallback(GstElement*, GstPad *pad, gpointer data);
+  static void NewPadCallback(GstElement *, GstPad *pad, gpointer data);
   static GstFlowReturn NewBufferCallback(GstAppSink *app_sink, gpointer self);
 
  private:
@@ -58,7 +58,6 @@ class Chromaprinter {
   GstElement *convert_element_;
 
   QBuffer buffer_;
-
 };
 
 #endif  // CHROMAPRINTER_H

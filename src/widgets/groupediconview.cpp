@@ -57,7 +57,7 @@ GroupedIconView::GroupedIconView(QWidget *parent)
     : QListView(parent),
       proxy_model_(new MultiSortFilterProxy(this)),
       default_header_height_(fontMetrics().height() +
-      kBarMarginTop + kBarThickness),
+        kBarMarginTop + kBarThickness),
       header_spacing_(10),
       header_indent_(5),
       item_indent_(10),
@@ -73,7 +73,6 @@ GroupedIconView::GroupedIconView(QWidget *parent)
   proxy_model_->setDynamicSortFilter(true);
 
   QObject::connect(proxy_model_, &MultiSortFilterProxy::modelReset, this, &GroupedIconView::LayoutItems);
-
 }
 
 void GroupedIconView::AddSortSpec(const int role, const Qt::SortOrder order) {
@@ -87,7 +86,6 @@ void GroupedIconView::setModel(QAbstractItemModel *model) {
 
   QListView::setModel(proxy_model_);
   LayoutItems();
-
 }
 
 int GroupedIconView::header_height() const {
@@ -134,7 +132,7 @@ void GroupedIconView::rowsInserted(const QModelIndex &parent, int start, int end
   LayoutItems();
 }
 
-void GroupedIconView::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>&) {
+void GroupedIconView::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &) {
   QListView::dataChanged(topLeft, bottomRight);
   LayoutItems();
 }
@@ -212,7 +210,6 @@ void GroupedIconView::LayoutItems() {
 
   verticalScrollBar()->setRange(0, next_position.y() + max_row_height - viewport()->height());
   update();
-
 }
 
 QRect GroupedIconView::visualRect(const QModelIndex &idx) const {
@@ -221,7 +218,6 @@ QRect GroupedIconView::visualRect(const QModelIndex &idx) const {
     return QRect();
   }
   return visual_rects_[idx.row()].translated(-horizontalOffset(), -verticalOffset());
-
 }
 
 QModelIndex GroupedIconView::indexAt(const QPoint &p) const {
@@ -229,13 +225,12 @@ QModelIndex GroupedIconView::indexAt(const QPoint &p) const {
   const QPoint viewport_p = p + QPoint(horizontalOffset(), verticalOffset());
 
   const int count = static_cast<int>(visual_rects_.count());
-  for (int i = 0; i<count; ++i) {
+  for (int i = 0; i < count; ++i) {
     if (visual_rects_[i].contains(viewport_p)) {
       return model()->index(i, 0);
     }
   }
   return QModelIndex();
-
 }
 
 void GroupedIconView::paintEvent(QPaintEvent *e) {
@@ -320,12 +315,11 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
 
     // Draw the header
     DrawHeader(&painter,
-               header_rect.translated(-horizontalOffset(), -verticalOffset()),
-               font(),
-               palette(),
-               model()->index(header.first_row, 0).data(Role_Group).toString());
+      header_rect.translated(-horizontalOffset(), -verticalOffset()),
+      font(),
+      palette(),
+      model()->index(header.first_row, 0).data(Role_Group).toString());
   }
-
 }
 
 void GroupedIconView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) {
@@ -340,7 +334,6 @@ void GroupedIconView::setSelection(const QRect &rect, QItemSelectionModel::Selec
   }
 
   selectionModel()->select(selection, command);
-
 }
 
 QVector<QModelIndex> GroupedIconView::IntersectingItems(const QRect rect) const {
@@ -355,7 +348,6 @@ QVector<QModelIndex> GroupedIconView::IntersectingItems(const QRect rect) const 
   }
 
   return ret;
-
 }
 
 QRegion GroupedIconView::visualRegionForSelection(const QItemSelection &selection) const {
@@ -365,7 +357,6 @@ QRegion GroupedIconView::visualRegionForSelection(const QItemSelection &selectio
     ret += visual_rects_[idx.row()];
   }
   return ret;
-
 }
 
 QModelIndex GroupedIconView::moveCursor(CursorAction action, Qt::KeyboardModifiers) {
@@ -380,20 +371,19 @@ QModelIndex GroupedIconView::moveCursor(CursorAction action, Qt::KeyboardModifie
   }
 
   switch (action) {
-    case MoveUp:    ret = IndexAboveOrBelow(ret, -1); break;
+    case MoveUp: ret = IndexAboveOrBelow(ret, -1); break;
     case MovePrevious:
-    case MoveLeft:  ret --; break;
-    case MoveDown:  ret = IndexAboveOrBelow(ret, +1); break;
+    case MoveLeft: ret--; break;
+    case MoveDown: ret = IndexAboveOrBelow(ret, +1); break;
     case MoveNext:
-    case MoveRight: ret ++; break;
+    case MoveRight: ret++; break;
     case MovePageUp:
-    case MoveHome:  ret = 0; break;
+    case MoveHome: ret = 0; break;
     case MovePageDown:
-    case MoveEnd:   ret = model()->rowCount() - 1; break;
+    case MoveEnd: ret = model()->rowCount() - 1; break;
   }
 
   return model()->index(qBound(0, ret, model()->rowCount()), 0);
-
 }
 
 int GroupedIconView::IndexAboveOrBelow(int index, const int d) const {
@@ -412,5 +402,4 @@ int GroupedIconView::IndexAboveOrBelow(int index, const int d) const {
   }
 
   return index;
-
 }

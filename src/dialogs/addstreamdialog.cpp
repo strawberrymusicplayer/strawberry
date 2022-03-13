@@ -34,7 +34,6 @@ AddStreamDialog::AddStreamDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_
 
   QObject::connect(ui_->url, &QLineEdit::textChanged, this, &AddStreamDialog::TextChanged);
   TextChanged(QString());
-
 }
 
 AddStreamDialog::~AddStreamDialog() { delete ui_; }
@@ -47,12 +46,10 @@ void AddStreamDialog::showEvent(QShowEvent *e) {
   }
 
   QDialog::showEvent(e);
-
 }
 
 void AddStreamDialog::TextChanged(const QString &text) {
 
   QUrl url(text);
   ui_->button_box->button(QDialogButtonBox::Ok)->setEnabled(url.isValid() && !url.scheme().isEmpty() && !url.host().isEmpty());
-
 }

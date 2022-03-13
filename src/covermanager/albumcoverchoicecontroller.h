@@ -91,7 +91,7 @@ class AlbumCoverChoiceController : public QWidget {
   // 3. searching for cover using last.fm
   // 4. unsetting the cover manually
   // 5. showing the cover in original size
-  QList<QAction*> GetAllActions();
+  QList<QAction *> GetAllActions();
 
   // All of the methods below require a currently selected song as an input parameter.
   // Also - LoadCoverFromFile, LoadCoverFromURL, SearchForCover, UnsetCover and SaveCover all update manual path of the given song in collection to the new cover.
@@ -196,7 +196,6 @@ class AlbumCoverChoiceController : public QWidget {
   bool cover_lowercase_;
   bool cover_replace_spaces_;
   bool save_embedded_cover_override_;
-
 };
 
 #endif  // ALBUMCOVERCHOICECONTROLLER_H

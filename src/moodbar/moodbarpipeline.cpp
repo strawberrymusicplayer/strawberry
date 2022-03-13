@@ -59,7 +59,6 @@ GstElement *MoodbarPipeline::CreateElement(const QString &factory_name) {
   }
 
   return ret;
-
 }
 
 void MoodbarPipeline::Start() {
@@ -101,7 +100,7 @@ void MoodbarPipeline::Start() {
   g_object_set(decodebin, "uri", local_filename_.toEncoded().constData(), nullptr);
   g_object_set(spectrum, "bands", kBands, nullptr);
 
-  GstFastSpectrum *fast_spectrum = reinterpret_cast<GstFastSpectrum*>(spectrum);
+  GstFastSpectrum *fast_spectrum = reinterpret_cast<GstFastSpectrum *>(spectrum);
   fast_spectrum->output_callback = [this](double *magnitudes, int size) { builder_->AddFrame(magnitudes, size); };
 
   // Connect signals
@@ -115,7 +114,6 @@ void MoodbarPipeline::Start() {
   // Start playing
   running_ = true;
   gst_element_set_state(pipeline_, GST_STATE_PLAYING);
-
 }
 
 void MoodbarPipeline::ReportError(GstMessage *msg) {
@@ -130,12 +128,11 @@ void MoodbarPipeline::ReportError(GstMessage *msg) {
   g_free(debugs);
 
   qLog(Error) << "Error processing" << local_filename_ << ":" << message;
-
 }
 
-void MoodbarPipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
+void MoodbarPipeline::NewPadCallback(GstElement *, GstPad *pad, gpointer data) {
 
-  MoodbarPipeline *self = reinterpret_cast<MoodbarPipeline*>(data);
+  MoodbarPipeline *self = reinterpret_cast<MoodbarPipeline *>(data);
 
   if (!self->running_) {
     qLog(Warning) << "Received gstreamer callback after pipeline has stopped.";
@@ -169,12 +166,11 @@ void MoodbarPipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
   else {
     qLog(Error) << "Builder does not exist";
   }
-
 }
 
-GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus*, GstMessage *msg, gpointer data) {
+GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *, GstMessage *msg, gpointer data) {
 
-  MoodbarPipeline *self = reinterpret_cast<MoodbarPipeline*>(data);
+  MoodbarPipeline *self = reinterpret_cast<MoodbarPipeline *>(data);
 
   switch (GST_MESSAGE_TYPE(msg)) {
     case GST_MESSAGE_EOS:
@@ -190,7 +186,6 @@ GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus*, GstMessage *msg, gpoin
       break;
   }
   return GST_BUS_PASS;
-
 }
 
 void MoodbarPipeline::Stop(const bool success) {
@@ -203,7 +198,6 @@ void MoodbarPipeline::Stop(const bool success) {
   }
 
   emit Finished(success);
-
 }
 
 void MoodbarPipeline::Cleanup() {
@@ -223,5 +217,4 @@ void MoodbarPipeline::Cleanup() {
     gst_object_unref(pipeline_);
     pipeline_ = nullptr;
   }
-
 }

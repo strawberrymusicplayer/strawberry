@@ -75,7 +75,7 @@
 #include "radios/radiochannel.h"
 
 #ifdef HAVE_LIBMTP
-  #include "device/mtpconnection.h"
+#  include "device/mtpconnection.h"
 #endif
 
 void RegisterMetaTypes() {
@@ -154,5 +154,4 @@ void RegisterMetaTypes() {
 #ifdef HAVE_LIBMTP
   qRegisterMetaType<MtpConnection*>("MtpConnection*");
 #endif
-
 }

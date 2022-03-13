@@ -61,7 +61,7 @@ class FileView : public QWidget {
   void SetTaskManager(TaskManager *task_manager);
 
  protected:
-  void showEvent(QShowEvent*) override;
+  void showEvent(QShowEvent *) override;
   void keyPressEvent(QKeyEvent *e) override;
 
  signals:

@@ -83,9 +83,9 @@ class PlayingWidget : public QWidget {
 
  protected:
   void paintEvent(QPaintEvent *e) override;
-  void resizeEvent(QResizeEvent*) override;
+  void resizeEvent(QResizeEvent *) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
-  void mouseDoubleClickEvent(QMouseEvent*) override;
+  void mouseDoubleClickEvent(QMouseEvent *) override;
   void dragEnterEvent(QDragEnterEvent *e) override;
   void dropEvent(QDropEvent *e) override;
 
@@ -101,7 +101,6 @@ class PlayingWidget : public QWidget {
   void FadePreviousTrack(const qreal value);
 
  private:
-
   enum Mode {
     SmallSongDetails = 0,
     LargeSongDetails = 1,
@@ -151,7 +150,6 @@ class PlayingWidget : public QWidget {
   void DrawContents(QPainter *p);
   void ScaleCover();
   void GetCoverAutomatically();
-
 };
 
 #endif  // PLAYINGWIDGET_H

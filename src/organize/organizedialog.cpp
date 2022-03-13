@@ -88,7 +88,7 @@ OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *bac
 
   ui_->setupUi(this);
 
-  setWindowFlags(windowFlags()|Qt::WindowMaximizeButtonHint);
+  setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
 
   QPushButton *button_save = ui_->button_box->addButton("Save settings", QDialogButtonBox::ApplyRole);
   QObject::connect(button_save, &QPushButton::clicked, this, &OrganizeDialog::SaveSettings);
@@ -145,7 +145,6 @@ OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *bac
   }
 
   ui_->insert->setMenu(tag_menu);
-
 }
 
 OrganizeDialog::~OrganizeDialog() {
@@ -159,20 +158,17 @@ void OrganizeDialog::SetDestinationModel(QAbstractItemModel *model, const bool d
   ui_->eject_after->setVisible(devices);
 
   devices_ = devices;
-
 }
 
-void OrganizeDialog::showEvent(QShowEvent*) {
+void OrganizeDialog::showEvent(QShowEvent *) {
 
   LoadGeometry();
   LoadSettings();
-
 }
 
-void OrganizeDialog::closeEvent(QCloseEvent*) {
+void OrganizeDialog::closeEvent(QCloseEvent *) {
 
   if (!devices_) SaveGeometry();
-
 }
 
 void OrganizeDialog::accept() {
@@ -197,14 +193,12 @@ void OrganizeDialog::accept() {
   organize->Start();
 
   QDialog::accept();
-
 }
 
 void OrganizeDialog::reject() {
 
   SaveGeometry();
   QDialog::reject();
-
 }
 
 void OrganizeDialog::LoadGeometry() {
@@ -235,7 +229,6 @@ void OrganizeDialog::LoadGeometry() {
       move(sr.center() - wr.center());
     }
   }
-
 }
 
 void OrganizeDialog::SaveGeometry() {
@@ -246,7 +239,6 @@ void OrganizeDialog::SaveGeometry() {
     s.setValue("geometry", saveGeometry());
     s.endGroup();
   }
-
 }
 
 void OrganizeDialog::AdjustSize() {
@@ -267,19 +259,20 @@ void OrganizeDialog::AdjustSize() {
   int min_height = 0;
   if (ui_->preview->isVisible()) {
     int h = ui_->layout_copying->sizeHint().height() +
-            ui_->button_box->sizeHint().height() +
-            ui_->eject_after->sizeHint().height() +
-            ui_->free_space->sizeHint().height() +
-            ui_->groupbox_naming->sizeHint().height();
-    if (ui_->preview->count() > 0) h += ui_->preview->sizeHintForRow(0) * ui_->preview->count();
-    else h += ui_->loading_page->sizeHint().height();
+      ui_->button_box->sizeHint().height() +
+      ui_->eject_after->sizeHint().height() +
+      ui_->free_space->sizeHint().height() +
+      ui_->groupbox_naming->sizeHint().height();
+    if (ui_->preview->count() > 0)
+      h += ui_->preview->sizeHintForRow(0) * ui_->preview->count();
+    else
+      h += ui_->loading_page->sizeHint().height();
     min_width = std::min(ui_->preview->sizeHintForColumn(0), max_width);
     min_height = std::min(h, max_height);
   }
 
   setMinimumSize(min_width, min_height);
   adjustSize();
-
 }
 
 void OrganizeDialog::RestoreDefaults() {
@@ -295,7 +288,6 @@ void OrganizeDialog::RestoreDefaults() {
   ui_->eject_after->setChecked(false);
 
   SaveSettings();
-
 }
 
 void OrganizeDialog::LoadSettings() {
@@ -321,7 +313,6 @@ void OrganizeDialog::LoadSettings() {
   s.endGroup();
 
   AllowExtASCII(ui_->remove_non_ascii->isChecked());
-
 }
 
 void OrganizeDialog::SaveSettings() {
@@ -339,7 +330,6 @@ void OrganizeDialog::SaveSettings() {
   s.setValue("destination", ui_->destination->currentText());
   s.setValue("eject_after", ui_->eject_after->isChecked());
   s.endGroup();
-
 }
 
 bool OrganizeDialog::SetSongs(const SongList &songs) {
@@ -367,7 +357,6 @@ bool OrganizeDialog::SetSongs(const SongList &songs) {
   songs_future_ = QFuture<SongList>();
 
   return !songs_.isEmpty();
-
 }
 
 bool OrganizeDialog::SetUrls(const QList<QUrl> &urls) {
@@ -382,7 +371,6 @@ bool OrganizeDialog::SetUrls(const QList<QUrl> &urls) {
   }
 
   return SetFilenames(filenames);
-
 }
 
 bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
@@ -397,7 +385,6 @@ bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
 
   SetLoadingSongs(true);
   return true;
-
 }
 
 void OrganizeDialog::SetLoadingSongs(const bool loading) {
@@ -410,7 +397,6 @@ void OrganizeDialog::SetLoadingSongs(const bool loading) {
     ui_->preview_stack->setCurrentWidget(ui_->preview_page);
     // The Ok button is enabled by UpdatePreviews
   }
-
 }
 
 SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) {
@@ -436,7 +422,6 @@ SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) {
   }
 
   return songs;
-
 }
 
 void OrganizeDialog::SetCopy(const bool copy) {
@@ -469,7 +454,6 @@ Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongLis
     new_songs_info << Organize::NewSongInfo(song, new_filename);
   }
   return new_songs_info;
-
 }
 
 void OrganizeDialog::UpdatePreviews() {
@@ -543,7 +527,6 @@ void OrganizeDialog::UpdatePreviews() {
   if (devices_) {
     AdjustSize();
   }
-
 }
 
 void OrganizeDialog::OrganizeFinished(const QStringList &files_with_errors, const QStringList &log) {
@@ -552,7 +535,6 @@ void OrganizeDialog::OrganizeFinished(const QStringList &files_with_errors, cons
 
   error_dialog_ = std::make_unique<OrganizeErrorDialog>();
   error_dialog_->Show(OrganizeErrorDialog::Type_Copy, files_with_errors, log);
-
 }
 
 void OrganizeDialog::AllowExtASCII(const bool checked) {

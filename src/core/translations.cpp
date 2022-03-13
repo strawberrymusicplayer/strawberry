@@ -33,7 +33,6 @@ Translations::~Translations() {
     QCoreApplication::removeTranslator(t);
     delete t;
   }
-
 }
 
 void Translations::LoadTranslation(const QString &prefix, const QString &path, const QString &language) {
@@ -46,5 +45,4 @@ void Translations::LoadTranslation(const QString &prefix, const QString &path, c
   else {
     delete t;
   }
-
 }

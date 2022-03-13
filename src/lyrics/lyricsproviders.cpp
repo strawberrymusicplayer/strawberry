@@ -47,13 +47,12 @@ LyricsProviders::~LyricsProviders() {
   while (!lyrics_providers_.isEmpty()) {
     delete lyrics_providers_.firstKey();
   }
-
 }
 
 void LyricsProviders::ReloadSettings() {
 
   QMap<int, QString> all_providers;
-  QList<LyricsProvider*> old_providers = lyrics_providers_.keys();
+  QList<LyricsProvider *> old_providers = lyrics_providers_.keys();
   for (LyricsProvider *provider : old_providers) {
     if (!provider->is_enabled()) continue;
     all_providers.insert(provider->order(), provider->name());
@@ -65,7 +64,7 @@ void LyricsProviders::ReloadSettings() {
   s.endGroup();
 
   int i = 0;
-  QList<LyricsProvider*> new_providers;
+  QList<LyricsProvider *> new_providers;
   for (const QString &name : providers_enabled) {
     LyricsProvider *provider = ProviderByName(name);
     if (provider) {
@@ -82,17 +81,15 @@ void LyricsProviders::ReloadSettings() {
       provider->set_order(++i);
     }
   }
-
 }
 
 LyricsProvider *LyricsProviders::ProviderByName(const QString &name) const {
 
-  QList<LyricsProvider*> providers = lyrics_providers_.keys();
+  QList<LyricsProvider *> providers = lyrics_providers_.keys();
   for (LyricsProvider *provider : providers) {
     if (provider->name() == name) return provider;
   }
   return nullptr;
-
 }
 
 void LyricsProviders::AddProvider(LyricsProvider *provider) {
@@ -106,7 +103,6 @@ void LyricsProviders::AddProvider(LyricsProvider *provider) {
   provider->set_order(++NextOrderId);
 
   qLog(Debug) << "Registered lyrics provider" << provider->name();
-
 }
 
 void LyricsProviders::RemoveProvider(LyricsProvider *provider) {
@@ -128,14 +124,12 @@ void LyricsProviders::RemoveProvider(LyricsProvider *provider) {
   else {
     qLog(Debug) << "Unregistered lyrics provider" << name;
   }
-
 }
 
 void LyricsProviders::ProviderDestroyed() {
 
-  LyricsProvider *provider = static_cast<LyricsProvider*>(sender());
+  LyricsProvider *provider = static_cast<LyricsProvider *>(sender());
   RemoveProvider(provider);
-
 }
 
 int LyricsProviders::NextId() { return next_id_.fetchAndAddRelaxed(1); }

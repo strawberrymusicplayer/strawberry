@@ -41,7 +41,7 @@ class SqlRow {
   uint ValueToUInt(const QString &n) const;
   qint64 ValueToLongLong(const QString &n) const;
   float ValueToFloat(const QString &n) const;
-  bool ValueToBool(const QString& n) const;
+  bool ValueToBool(const QString &n) const;
 
  private:
   SqlRow();
@@ -50,7 +50,6 @@ class SqlRow {
 
   QMap<int, QVariant> columns_by_number_;
   QMap<QString, QVariant> columns_by_name_;
-
 };
 
 typedef QList<SqlRow> SqlRowList;

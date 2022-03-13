@@ -136,7 +136,6 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   backend_->UpdateTotalAlbumCountAsync();
 
   ReloadSettings();
-
 }
 
 CollectionModel::~CollectionModel() {
@@ -157,7 +156,6 @@ void CollectionModel::set_show_dividers(const bool show_dividers) {
     show_dividers_ = show_dividers;
     Reset();
   }
-
 }
 
 void CollectionModel::SaveGrouping(const QString &name) {
@@ -173,7 +171,6 @@ void CollectionModel::SaveGrouping(const QString &name) {
   s.setValue("version", "1");
   s.setValue(name, buffer);
   s.endGroup();
-
 }
 
 void CollectionModel::ReloadSettings() {
@@ -195,7 +192,6 @@ void CollectionModel::ReloadSettings() {
   if (!use_disk_cache_) {
     ClearDiskCache();
   }
-
 }
 
 void CollectionModel::Init(const bool async) {
@@ -218,7 +214,6 @@ void CollectionModel::Init(const bool async) {
   else {
     Reset();
   }
-
 }
 
 void CollectionModel::SongsDiscovered(const SongList &songs) {
@@ -265,7 +260,6 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
           container = ItemFromSong(type, true, i == 0, container, song, i);
           container_nodes_[i].insert(key, container);
         }
-
       }
 
       // If we just created the damn thing then we don't need to continue into it any further because it'll get lazy-loaded properly later.
@@ -276,7 +270,6 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
     // We've gone all the way down to the deepest level and everything was already lazy loaded, so now we have to create the song in the container.
     song_nodes_.insert(song.id(), ItemFromSong(GroupBy_None, true, false, container, song, -1));
   }
-
 }
 
 void CollectionModel::SongsSlightlyChanged(const SongList &songs) {
@@ -288,7 +281,6 @@ void CollectionModel::SongsSlightlyChanged(const SongList &songs) {
       song_nodes_[song.id()]->metadata = song;
     }
   }
-
 }
 
 CollectionItem *CollectionModel::CreateCompilationArtistNode(const bool signal, CollectionItem *parent) {
@@ -308,7 +300,6 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(const bool signal, 
   if (signal) endInsertRows();
 
   return parent->compilation_artist_node_;
-
 }
 
 QString CollectionModel::ContainerKey(const GroupBy type, const Song &song) {
@@ -399,7 +390,6 @@ QString CollectionModel::ContainerKey(const GroupBy type, const Song &song) {
   }
 
   return key;
-
 }
 
 QString CollectionModel::DividerKey(const GroupBy type, CollectionItem *item) {
@@ -457,7 +447,6 @@ QString CollectionModel::DividerKey(const GroupBy type, CollectionItem *item) {
   }
   qLog(Error) << "Unknown GroupBy type" << type << "for item" << item->display_text;
   return QString();
-
 }
 
 QString CollectionModel::DividerDisplayText(const GroupBy type, const QString &key) {
@@ -476,7 +465,7 @@ QString CollectionModel::DividerDisplayText(const GroupBy type, const QString &k
     case GroupBy_Genre:
     case GroupBy_FileType:
     case GroupBy_Format:
-    if (key == "0") return "0-9";
+      if (key == "0") return "0-9";
       return key.toUpper();
 
     case GroupBy_YearAlbum:
@@ -510,13 +499,12 @@ QString CollectionModel::DividerDisplayText(const GroupBy type, const QString &k
   }
   qLog(Error) << "Unknown GroupBy type" << type << "for divider key" << key;
   return QString();
-
 }
 
 void CollectionModel::SongsDeleted(const SongList &songs) {
 
   // Delete the actual song nodes first, keeping track of each parent so we might check to see if they're empty later.
-  QSet<CollectionItem*> parents;
+  QSet<CollectionItem *> parents;
   for (const Song &song : songs) {
 
     if (song_nodes_.contains(song.id())) {
@@ -528,7 +516,6 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       node->parent->Delete(node->row);
       song_nodes_.remove(song.id());
       endRemoveRows();
-
     }
     else {
       // If we get here it means some of the songs we want to delete haven't been lazy-loaded yet.
@@ -544,7 +531,7 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
   while (!parents.isEmpty()) {
     // Since we are going to remove elements from the container, we need a copy to iterate over.
     // If we iterate over the original, the behavior will be undefined.
-    QSet<CollectionItem*> parents_copy = parents;
+    QSet<CollectionItem *> parents_copy = parents;
     for (CollectionItem *node : parents_copy) {
       parents.remove(node);
       if (node->children.count() != 0) continue;
@@ -595,8 +582,8 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
     if (!divider_nodes_.contains(divider_key)) continue;
 
     // Look to see if there are any other items still under this divider
-    QList<CollectionItem*> container_nodes = container_nodes_[0].values();
-    if (std::any_of(container_nodes.begin(), container_nodes.end(), [this, divider_key](CollectionItem *node){ return DividerKey(group_by_[0], node) == divider_key; })) {
+    QList<CollectionItem *> container_nodes = container_nodes_[0].values();
+    if (std::any_of(container_nodes.begin(), container_nodes.end(), [this, divider_key](CollectionItem *node) { return DividerKey(group_by_[0], node) == divider_key; })) {
       continue;
     }
 
@@ -607,7 +594,6 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
     endRemoveRows();
     divider_nodes_.remove(divider_key);
   }
-
 }
 
 QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
@@ -620,7 +606,6 @@ QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
   }
 
   return Song::TextForSource(backend_->Source()) + "/" + path.join("/");
-
 }
 
 QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
@@ -662,7 +647,6 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
   }
 
   return no_cover_icon_;
-
 }
 
 void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
@@ -707,7 +691,6 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
   if (!idx.isValid()) return;
 
   emit dataChanged(idx, idx);
-
 }
 
 QVariant CollectionModel::data(const QModelIndex &idx, const int role) const {
@@ -726,12 +709,11 @@ QVariant CollectionModel::data(const QModelIndex &idx, const int role) const {
     }
     if (is_album_node) {
       // It has const behaviour some of the time - that's ok right?
-      return const_cast<CollectionModel*>(this)->AlbumIcon(idx);
+      return const_cast<CollectionModel *>(this)->AlbumIcon(idx);
     }
   }
 
   return data(item, role);
-
 }
 
 QVariant CollectionModel::data(const CollectionItem *item, const int role) const {
@@ -781,9 +763,9 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
     case Role_Artist:
       return item->metadata.artist();
 
-    case Role_Editable:{
+    case Role_Editable: {
       if (!item->lazy_loaded) {
-        const_cast<CollectionModel*>(this)->LazyPopulate(const_cast<CollectionItem*>(item), true);
+        const_cast<CollectionModel *>(this)->LazyPopulate(const_cast<CollectionItem *>(item), true);
       }
 
       if (item->type == CollectionItem::Type_Container) {
@@ -813,7 +795,6 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
   }
 
   return QVariant();
-
 }
 
 bool CollectionModel::HasCompilations(const QSqlDatabase &db, const CollectionQuery &query) {
@@ -835,7 +816,6 @@ bool CollectionModel::HasCompilations(const QSqlDatabase &db, const CollectionQu
   }
 
   return q.Next();
-
 }
 
 CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
@@ -882,7 +862,6 @@ CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
     else {
       backend_->ReportErrors(q);
     }
-
   }
 
   if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
@@ -890,7 +869,6 @@ CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
   }
 
   return result;
-
 }
 
 void CollectionModel::PostQuery(CollectionItem *parent, const CollectionModel::QueryResult &result, const bool signal) {
@@ -916,7 +894,6 @@ void CollectionModel::PostQuery(CollectionItem *parent, const CollectionModel::Q
       container_nodes_[child_level].insert(item->key, item);
     }
   }
-
 }
 
 void CollectionModel::LazyPopulate(CollectionItem *parent, const bool signal) {
@@ -926,7 +903,6 @@ void CollectionModel::LazyPopulate(CollectionItem *parent, const bool signal) {
 
   QueryResult result = RunQuery(parent);
   PostQuery(parent, result, signal);
-
 }
 
 void CollectionModel::ResetAsync() {
@@ -939,12 +915,11 @@ void CollectionModel::ResetAsync() {
   QFutureWatcher<CollectionModel::QueryResult> *watcher = new QFutureWatcher<CollectionModel::QueryResult>();
   QObject::connect(watcher, &QFutureWatcher<CollectionModel::QueryResult>::finished, this, &CollectionModel::ResetAsyncQueryFinished);
   watcher->setFuture(future);
-
 }
 
 void CollectionModel::ResetAsyncQueryFinished() {
 
-  QFutureWatcher<CollectionModel::QueryResult> *watcher = static_cast<QFutureWatcher<CollectionModel::QueryResult>*>(sender());
+  QFutureWatcher<CollectionModel::QueryResult> *watcher = static_cast<QFutureWatcher<CollectionModel::QueryResult> *>(sender());
   const struct QueryResult result = watcher->result();
   watcher->deleteLater();
 
@@ -965,7 +940,6 @@ void CollectionModel::ResetAsyncQueryFinished() {
   }
 
   endResetModel();
-
 }
 
 void CollectionModel::BeginReset() {
@@ -983,7 +957,6 @@ void CollectionModel::BeginReset() {
   root_ = new CollectionItem(this);
   root_->compilation_artist_node_ = nullptr;
   root_->lazy_loaded = false;
-
 }
 
 void CollectionModel::Reset() {
@@ -994,7 +967,6 @@ void CollectionModel::Reset() {
   LazyPopulate(root_, false);
 
   endResetModel();
-
 }
 
 void CollectionModel::InitQuery(const GroupBy type, CollectionQuery *q) {
@@ -1066,7 +1038,6 @@ void CollectionModel::InitQuery(const GroupBy type, CollectionQuery *q) {
       q->SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
       break;
   }
-
 }
 
 void CollectionModel::FilterQuery(const GroupBy type, CollectionItem *item, CollectionQuery *q) {
@@ -1172,7 +1143,6 @@ void CollectionModel::FilterQuery(const GroupBy type, CollectionItem *item, Coll
       qLog(Error) << "Unknown GroupBy type" << type << "used in filter";
       break;
   }
-
 }
 
 CollectionItem *CollectionModel::InitItem(const GroupBy type, const bool signal, CollectionItem *parent, const int container_level) {
@@ -1187,7 +1157,6 @@ CollectionItem *CollectionModel::InitItem(const GroupBy type, const bool signal,
   item->container_level = container_level;
 
   return item;
-
 }
 
 CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, const SqlRow &row, const int container_level) {
@@ -1199,21 +1168,21 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
   }
 
   switch (type) {
-    case GroupBy_AlbumArtist:{
+    case GroupBy_AlbumArtist: {
       item->metadata.set_albumartist(row.value(0).toString());
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.albumartist());
       item->sort_text = SortTextForArtist(item->metadata.albumartist());
       break;
     }
-    case GroupBy_Artist:{
+    case GroupBy_Artist: {
       item->metadata.set_artist(row.value(0).toString());
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.artist());
       item->sort_text = SortTextForArtist(item->metadata.artist());
       break;
     }
-    case GroupBy_Album:{
+    case GroupBy_Album: {
       item->metadata.set_album(row.value(0).toString());
       item->metadata.set_album_id(row.value(1).toString());
       item->key.append(ContainerKey(type, item->metadata));
@@ -1221,7 +1190,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = SortTextForArtist(item->metadata.album());
       break;
     }
-    case GroupBy_AlbumDisc:{
+    case GroupBy_AlbumDisc: {
       item->metadata.set_album(row.value(0).toString());
       item->metadata.set_album_id(row.value(1).toString());
       item->metadata.set_disc(row.value(2).toInt());
@@ -1230,7 +1199,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = item->metadata.album() + SortTextForNumber(qMax(0, item->metadata.disc()));
       break;
     }
-    case GroupBy_YearAlbum:{
+    case GroupBy_YearAlbum: {
       item->metadata.set_year(row.value(0).toInt());
       item->metadata.set_album(row.value(1).toString());
       item->metadata.set_album_id(row.value(2).toString());
@@ -1240,7 +1209,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.year())) + item->metadata.grouping() + item->metadata.album();
       break;
     }
-    case GroupBy_YearAlbumDisc:{
+    case GroupBy_YearAlbumDisc: {
       item->metadata.set_year(row.value(0).toInt());
       item->metadata.set_album(row.value(1).toString());
       item->metadata.set_album_id(row.value(2).toString());
@@ -1250,7 +1219,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.year())) + item->metadata.album() + SortTextForNumber(qMax(0, item->metadata.disc()));
       break;
     }
-    case GroupBy_OriginalYearAlbum:{
+    case GroupBy_OriginalYearAlbum: {
       item->metadata.set_year(row.value(0).toInt());
       item->metadata.set_originalyear(row.value(1).toInt());
       item->metadata.set_album(row.value(2).toString());
@@ -1261,7 +1230,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.effective_originalyear())) + item->metadata.grouping() + item->metadata.album();
       break;
     }
-    case GroupBy_OriginalYearAlbumDisc:{
+    case GroupBy_OriginalYearAlbumDisc: {
       item->metadata.set_year(row.value(0).toInt());
       item->metadata.set_originalyear(row.value(1).toInt());
       item->metadata.set_album(row.value(2).toString());
@@ -1272,7 +1241,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.effective_originalyear())) + item->metadata.album() + SortTextForNumber(qMax(0, item->metadata.disc()));
       break;
     }
-    case GroupBy_Disc:{
+    case GroupBy_Disc: {
       item->metadata.set_disc(row.value(0).toInt());
       item->key.append(ContainerKey(type, item->metadata));
       const int disc = qMax(0, row.value(0).toInt());
@@ -1280,7 +1249,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = SortTextForNumber(disc);
       break;
     }
-    case GroupBy_Year:{
+    case GroupBy_Year: {
       item->metadata.set_year(row.value(0).toInt());
       item->key.append(ContainerKey(type, item->metadata));
       const int year = qMax(0, item->metadata.year());
@@ -1288,7 +1257,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = SortTextForNumber(year) + " ";
       break;
     }
-    case GroupBy_OriginalYear:{
+    case GroupBy_OriginalYear: {
       item->metadata.set_originalyear(row.value(0).toInt());
       item->key.append(ContainerKey(type, item->metadata));
       const int year = qMax(0, item->metadata.originalyear());
@@ -1296,42 +1265,42 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = SortTextForNumber(year) + " ";
       break;
     }
-    case GroupBy_Genre:{
+    case GroupBy_Genre: {
       item->metadata.set_genre(row.value(0).toString());
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.genre());
       item->sort_text = SortTextForArtist(item->metadata.genre());
       break;
     }
-    case GroupBy_Composer:{
+    case GroupBy_Composer: {
       item->metadata.set_composer(row.value(0).toString());
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.composer());
       item->sort_text = SortTextForArtist(item->metadata.composer());
       break;
     }
-    case GroupBy_Performer:{
+    case GroupBy_Performer: {
       item->metadata.set_performer(row.value(0).toString());
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.performer());
       item->sort_text = SortTextForArtist(item->metadata.performer());
       break;
     }
-    case GroupBy_Grouping:{
+    case GroupBy_Grouping: {
       item->metadata.set_grouping(row.value(0).toString());
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.grouping());
       item->sort_text = SortTextForArtist(item->metadata.grouping());
       break;
     }
-    case GroupBy_FileType:{
+    case GroupBy_FileType: {
       item->metadata.set_filetype(Song::FileType(row.value(0).toInt()));
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = item->metadata.TextForFiletype();
       item->sort_text = item->metadata.TextForFiletype();
       break;
     }
-    case GroupBy_Format:{
+    case GroupBy_Format: {
       item->metadata.set_filetype(Song::FileType(row.value(0).toInt()));
       item->metadata.set_samplerate(row.value(1).toInt());
       item->metadata.set_bitdepth(row.value(2).toInt());
@@ -1341,7 +1310,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = key;
       break;
     }
-    case GroupBy_Samplerate:{
+    case GroupBy_Samplerate: {
       item->metadata.set_samplerate(row.value(0).toInt());
       item->key.append(ContainerKey(type, item->metadata));
       const int samplerate = qMax(0, item->metadata.samplerate());
@@ -1349,7 +1318,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = SortTextForNumber(samplerate) + " ";
       break;
     }
-    case GroupBy_Bitdepth:{
+    case GroupBy_Bitdepth: {
       item->metadata.set_bitdepth(row.value(0).toInt());
       item->key.append(ContainerKey(type, item->metadata));
       const int bitdepth = qMax(0, item->metadata.bitdepth());
@@ -1357,7 +1326,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->sort_text = SortTextForNumber(bitdepth) + " ";
       break;
     }
-    case GroupBy_Bitrate:{
+    case GroupBy_Bitrate: {
       item->metadata.set_bitrate(row.value(0).toInt());
       item->key.append(ContainerKey(type, item->metadata));
       const int bitrate = qMax(0, item->metadata.bitrate());
@@ -1382,7 +1351,6 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
   FinishItem(type, signal, create_divider, parent, item);
 
   return item;
-
 }
 
 CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, const Song &s, const int container_level) {
@@ -1394,21 +1362,21 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
   }
 
   switch (type) {
-    case GroupBy_AlbumArtist:{
+    case GroupBy_AlbumArtist: {
       item->metadata.set_albumartist(s.effective_albumartist());
       item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.effective_albumartist());
       item->sort_text = SortTextForArtist(s.effective_albumartist());
       break;
     }
-    case GroupBy_Artist:{
+    case GroupBy_Artist: {
       item->metadata.set_artist(s.artist());
       item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.artist());
       item->sort_text = SortTextForArtist(s.artist());
       break;
     }
-    case GroupBy_Album:{
+    case GroupBy_Album: {
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
       item->key.append(ContainerKey(type, s));
@@ -1416,7 +1384,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = SortTextForArtist(s.album());
       break;
     }
-    case GroupBy_AlbumDisc:{
+    case GroupBy_AlbumDisc: {
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_disc(s.disc());
@@ -1425,7 +1393,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = s.album() + SortTextForNumber(qMax(0, s.disc()));
       break;
     }
-    case GroupBy_YearAlbum:{
+    case GroupBy_YearAlbum: {
       item->metadata.set_year(s.year());
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
@@ -1435,7 +1403,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = SortTextForNumber(qMax(0, s.year())) + s.grouping() + s.album();
       break;
     }
-    case GroupBy_YearAlbumDisc:{
+    case GroupBy_YearAlbumDisc: {
       item->metadata.set_year(s.year());
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
@@ -1445,7 +1413,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = SortTextForNumber(qMax(0, s.year())) + s.album() + SortTextForNumber(qMax(0, s.disc()));
       break;
     }
-    case GroupBy_OriginalYearAlbum:{
+    case GroupBy_OriginalYearAlbum: {
       item->metadata.set_year(s.year());
       item->metadata.set_originalyear(s.originalyear());
       item->metadata.set_album(s.album());
@@ -1456,7 +1424,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = SortTextForNumber(qMax(0, s.effective_originalyear())) + s.grouping() + s.album();
       break;
     }
-    case GroupBy_OriginalYearAlbumDisc:{
+    case GroupBy_OriginalYearAlbumDisc: {
       item->metadata.set_year(s.year());
       item->metadata.set_originalyear(s.originalyear());
       item->metadata.set_album(s.album());
@@ -1468,7 +1436,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = SortTextForNumber(qMax(0, s.effective_originalyear())) + s.album() + SortTextForNumber(qMax(0, s.disc()));
       break;
     }
-    case GroupBy_Disc:{
+    case GroupBy_Disc: {
       item->metadata.set_disc(s.disc());
       item->key.append(ContainerKey(type, s));
       const int disc = qMax(0, s.disc());
@@ -1476,7 +1444,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = SortTextForNumber(disc);
       break;
     }
-    case GroupBy_Year:{
+    case GroupBy_Year: {
       item->metadata.set_year(s.year());
       item->key.append(ContainerKey(type, s));
       const int year = qMax(0, s.year());
@@ -1484,7 +1452,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = SortTextForNumber(year) + " ";
       break;
     }
-    case GroupBy_OriginalYear:{
+    case GroupBy_OriginalYear: {
       item->metadata.set_originalyear(s.effective_originalyear());
       item->key.append(ContainerKey(type, s));
       const int year = qMax(0, s.effective_originalyear());
@@ -1492,42 +1460,42 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = SortTextForNumber(year) + " ";
       break;
     }
-    case GroupBy_Genre:{
+    case GroupBy_Genre: {
       item->metadata.set_genre(s.genre());
       item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.genre());
       item->sort_text = SortTextForArtist(s.genre());
       break;
     }
-    case GroupBy_Composer:{
+    case GroupBy_Composer: {
       item->metadata.set_composer(s.composer());
       item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.composer());
       item->sort_text = SortTextForArtist(s.composer());
       break;
     }
-    case GroupBy_Performer:{
+    case GroupBy_Performer: {
       item->metadata.set_performer(s.performer());
       item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.performer());
       item->sort_text = SortTextForArtist(s.performer());
       break;
     }
-    case GroupBy_Grouping:{
+    case GroupBy_Grouping: {
       item->metadata.set_grouping(s.grouping());
       item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.grouping());
       item->sort_text = SortTextForArtist(s.grouping());
       break;
     }
-    case GroupBy_FileType:{
+    case GroupBy_FileType: {
       item->metadata.set_filetype(s.filetype());
       item->key.append(ContainerKey(type, s));
       item->display_text = s.TextForFiletype();
       item->sort_text = s.TextForFiletype();
       break;
     }
-    case GroupBy_Format:{
+    case GroupBy_Format: {
       item->metadata.set_filetype(s.filetype());
       item->metadata.set_samplerate(s.samplerate());
       item->metadata.set_bitdepth(s.bitdepth());
@@ -1537,7 +1505,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = key;
       break;
     }
-    case GroupBy_Samplerate:{
+    case GroupBy_Samplerate: {
       item->metadata.set_samplerate(s.samplerate());
       item->key.append(ContainerKey(type, s));
       const int samplerate = qMax(0, s.samplerate());
@@ -1545,7 +1513,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = SortTextForNumber(samplerate) + " ";
       break;
     }
-    case GroupBy_Bitdepth:{
+    case GroupBy_Bitdepth: {
       item->metadata.set_bitdepth(s.bitdepth());
       item->key.append(ContainerKey(type, s));
       const int bitdepth = qMax(0, s.bitdepth());
@@ -1553,7 +1521,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->sort_text = SortTextForNumber(bitdepth) + " ";
       break;
     }
-    case GroupBy_Bitrate:{
+    case GroupBy_Bitrate: {
       item->metadata.set_bitrate(s.bitrate());
       item->key.append(ContainerKey(type, s));
       const int bitrate = qMax(0, s.bitrate());
@@ -1562,7 +1530,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       break;
     }
     case GroupBy_None:
-    case GroupByCount:{
+    case GroupByCount: {
       item->metadata = s;
       item->key.append(TextOrUnknown(s.title()));
       item->display_text = s.TitleWithCompilationArtist();
@@ -1580,7 +1548,6 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
   if (s.url().scheme() == "cdda") item->lazy_loaded = true;
 
   return item;
-
 }
 
 void CollectionModel::FinishItem(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, CollectionItem *item) {
@@ -1616,47 +1583,45 @@ void CollectionModel::FinishItem(const GroupBy type, const bool signal, const bo
       }
     }
   }
-
 }
 
 QString CollectionModel::TextOrUnknown(const QString &text) {
 
   if (text.isEmpty()) return tr("Unknown");
   return text;
-
 }
 
 QString CollectionModel::PrettyYearAlbum(const int year, const QString &album) {
 
   if (year <= 0) return TextOrUnknown(album);
   return QString::number(year) + " - " + TextOrUnknown(album);
-
 }
 
 QString CollectionModel::PrettyAlbumDisc(const QString &album, const int disc) {
 
-  if (disc <= 0 || album.contains(Song::kAlbumRemoveDisc)) return TextOrUnknown(album);
-  else return TextOrUnknown(album) + " - (Disc " + QString::number(disc) + ")";
-
+  if (disc <= 0 || album.contains(Song::kAlbumRemoveDisc))
+    return TextOrUnknown(album);
+  else
+    return TextOrUnknown(album) + " - (Disc " + QString::number(disc) + ")";
 }
 
 QString CollectionModel::PrettyYearAlbumDisc(const int year, const QString &album, const int disc) {
 
   QString str;
 
-  if (year <= 0) str = TextOrUnknown(album);
-  else str = QString::number(year) + " - " + TextOrUnknown(album);
+  if (year <= 0)
+    str = TextOrUnknown(album);
+  else
+    str = QString::number(year) + " - " + TextOrUnknown(album);
 
   if (!album.contains(Song::kAlbumRemoveDisc) && disc > 0) str += " - (Disc " + QString::number(disc) + ")";
 
   return str;
-
 }
 
 QString CollectionModel::PrettyDisc(const int disc) {
 
   return "Disc " + QString::number(qMax(1, disc));
-
 }
 
 QString CollectionModel::SortText(QString text) {
@@ -1670,7 +1635,6 @@ QString CollectionModel::SortText(QString text) {
   text = text.remove(QRegularExpression("[^\\w ]", QRegularExpression::UseUnicodePropertiesOption));
 
   return text;
-
 }
 
 QString CollectionModel::SortTextForArtist(QString artist) {
@@ -1686,7 +1650,6 @@ QString CollectionModel::SortTextForArtist(QString artist) {
   }
 
   return artist;
-
 }
 
 QString CollectionModel::SortTextForNumber(const int number) {
@@ -1698,14 +1661,12 @@ QString CollectionModel::SortTextForYear(const int year) {
 
   QString str = QString::number(year);
   return QString("0").repeated(qMax(0, 4 - str.length())) + str;
-
 }
 
 QString CollectionModel::SortTextForBitrate(const int bitrate) {
 
   QString str = QString::number(bitrate);
   return QString("0").repeated(qMax(0, 3 - str.length())) + str;
-
 }
 
 QString CollectionModel::SortTextForSong(const Song &song) {
@@ -1714,7 +1675,6 @@ QString CollectionModel::SortTextForSong(const Song &song) {
   ret.prepend(QString("0").repeated(6 - ret.length()));
   ret.append(song.url().toString());
   return ret;
-
 }
 
 Qt::ItemFlags CollectionModel::flags(const QModelIndex &idx) const {
@@ -1729,7 +1689,6 @@ Qt::ItemFlags CollectionModel::flags(const QModelIndex &idx) const {
     default:
       return Qt::ItemIsEnabled;
   }
-
 }
 
 QStringList CollectionModel::mimeTypes() const {
@@ -1754,7 +1713,6 @@ QMimeData *CollectionModel::mimeData(const QModelIndexList &indexes) const {
   data->name_for_new_playlist_ = PlaylistManager::GetNameForNewPlaylist(data->songs);
 
   return data;
-
 }
 
 bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem *b) const {
@@ -1770,7 +1728,6 @@ bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem
     return left.toInt() < right.toInt();
   else
     return left.toString() < right.toString();
-
 }
 
 qint64 CollectionModel::MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default) {
@@ -1784,16 +1741,15 @@ qint64 CollectionModel::MaximumCacheSize(QSettings *s, const char *size_id, cons
   } while (unit > 0);
 
   return size;
-
 }
 
 void CollectionModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const {
 
   switch (item->type) {
     case CollectionItem::Type_Container: {
-      const_cast<CollectionModel*>(this)->LazyPopulate(item);
+      const_cast<CollectionModel *>(this)->LazyPopulate(item);
 
-      QList<CollectionItem*> children = item->children;
+      QList<CollectionItem *> children = item->children;
       std::sort(children.begin(), children.end(), std::bind(&CollectionModel::CompareItems, this, std::placeholders::_1, std::placeholders::_2));
 
       for (CollectionItem *child : children) {
@@ -1813,7 +1769,6 @@ void CollectionModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, Son
     default:
       break;
   }
-
 }
 
 SongList CollectionModel::GetChildSongs(const QModelIndexList &indexes) const {
@@ -1826,7 +1781,6 @@ SongList CollectionModel::GetChildSongs(const QModelIndexList &indexes) const {
     GetChildSongs(IndexToItem(idx), &dontcare, &ret, &song_ids);
   }
   return ret;
-
 }
 
 SongList CollectionModel::GetChildSongs(const QModelIndex &idx) const {
@@ -1841,13 +1795,11 @@ void CollectionModel::SetFilterAge(const int age) {
 void CollectionModel::SetFilterText(const QString &text) {
   query_options_.set_filter(text);
   ResetAsync();
-
 }
 
 void CollectionModel::SetFilterQueryMode(QueryOptions::QueryMode query_mode) {
   query_options_.set_query_mode(query_mode);
   ResetAsync();
-
 }
 
 bool CollectionModel::canFetchMore(const QModelIndex &parent) const {
@@ -1856,7 +1808,6 @@ bool CollectionModel::canFetchMore(const QModelIndex &parent) const {
 
   CollectionItem *item = IndexToItem(parent);
   return !item->lazy_loaded;
-
 }
 
 void CollectionModel::SetGroupBy(const Grouping g) {
@@ -1865,7 +1816,6 @@ void CollectionModel::SetGroupBy(const Grouping g) {
 
   ResetAsync();
   emit GroupingChanged(g);
-
 }
 
 const CollectionModel::GroupBy &CollectionModel::Grouping::operator[](const int i) const {
@@ -1878,7 +1828,6 @@ const CollectionModel::GroupBy &CollectionModel::Grouping::operator[](const int 
   }
   qLog(Error) << "CollectionModel::Grouping[] index out of range" << i;
   return first;
-
 }
 
 CollectionModel::GroupBy &CollectionModel::Grouping::operator[](const int i) {
@@ -1892,7 +1841,6 @@ CollectionModel::GroupBy &CollectionModel::Grouping::operator[](const int i) {
   qLog(Error) << "CollectionModel::Grouping[] index out of range" << i;
 
   return first;
-
 }
 
 
@@ -1900,21 +1848,18 @@ void CollectionModel::TotalSongCountUpdatedSlot(const int count) {
 
   total_song_count_ = count;
   emit TotalSongCountUpdated(count);
-
 }
 
 void CollectionModel::TotalArtistCountUpdatedSlot(const int count) {
 
   total_artist_count_ = count;
   emit TotalArtistCountUpdated(count);
-
 }
 
 void CollectionModel::TotalAlbumCountUpdatedSlot(const int count) {
 
   total_album_count_ = count;
   emit TotalAlbumCountUpdated(count);
-
 }
 
 void CollectionModel::ClearDiskCache() {
@@ -1924,11 +1869,10 @@ void CollectionModel::ClearDiskCache() {
 void CollectionModel::ExpandAll(CollectionItem *item) const {
 
   if (!item) item = root_;
-  const_cast<CollectionModel*>(this)->LazyPopulate(const_cast<CollectionItem*>(item), false);
+  const_cast<CollectionModel *>(this)->LazyPopulate(const_cast<CollectionItem *>(item), false);
   for (CollectionItem *child : item->children) {
     ExpandAll(child);
   }
-
 }
 
 QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping g) {
@@ -1946,5 +1890,4 @@ QDataStream &operator>>(QDataStream &s, CollectionModel::Grouping &g) {
   s >> buf;
   g.third = CollectionModel::GroupBy(buf);
   return s;
-
 }

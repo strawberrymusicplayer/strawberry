@@ -62,5 +62,4 @@ QJsonObject JsonCoverProvider::ExtractJsonObj(const QByteArray &data) {
   }
 
   return json_obj;
-
 }

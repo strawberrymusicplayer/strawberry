@@ -139,7 +139,6 @@ class Database : public QObject {
   int startup_schema_version_;
 
   QThread *original_thread_;
-
 };
 
 class MemoryDatabase : public Database {

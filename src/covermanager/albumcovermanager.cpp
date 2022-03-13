@@ -157,14 +157,12 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
   cover_loader_options_.create_thumbnail_ = false;
 
   EnableCoversButtons();
-
 }
 
 AlbumCoverManager::~AlbumCoverManager() {
 
   CancelRequests();
   delete ui_;
-
 }
 
 void AlbumCoverManager::Init() {
@@ -187,7 +185,7 @@ void AlbumCoverManager::Init() {
 
   // Context menu
 
-  QList<QAction*> actions = album_cover_choice_controller_->GetAllActions();
+  QList<QAction *> actions = album_cover_choice_controller_->GetAllActions();
 
   QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &AlbumCoverManager::Error);
   QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &AlbumCoverManager::LoadCoverFromFile);
@@ -242,7 +240,6 @@ void AlbumCoverManager::Init() {
   cover_searcher_->Init(cover_fetcher_);
 
   new ForceScrollPerPixel(ui_->albums, this);
-
 }
 
 void AlbumCoverManager::showEvent(QShowEvent *e) {
@@ -254,7 +251,6 @@ void AlbumCoverManager::showEvent(QShowEvent *e) {
   }
 
   QMainWindow::showEvent(e);
-
 }
 
 void AlbumCoverManager::closeEvent(QCloseEvent *e) {
@@ -278,7 +274,6 @@ void AlbumCoverManager::closeEvent(QCloseEvent *e) {
   ui_->albums->clear();
 
   QMainWindow::closeEvent(e);
-
 }
 
 void AlbumCoverManager::LoadGeometry() {
@@ -309,7 +304,6 @@ void AlbumCoverManager::LoadGeometry() {
     resize(wr.size());
     move(sr.center() - wr.center());
   }
-
 }
 
 void AlbumCoverManager::SaveSettings() {
@@ -320,7 +314,6 @@ void AlbumCoverManager::SaveSettings() {
   s.setValue("splitter_state", ui_->splitter->saveState());
   s.setValue("save_cover_type", album_cover_choice_controller_->get_save_album_cover_type());
   s.endGroup();
-
 }
 
 void AlbumCoverManager::CancelRequests() {
@@ -342,7 +335,6 @@ void AlbumCoverManager::CancelRequests() {
   abort_progress_->hide();
   statusBar()->clearMessage();
   EnableCoversButtons();
-
 }
 
 static bool CompareNocase(const QString &left, const QString &right) {
@@ -368,7 +360,6 @@ void AlbumCoverManager::Reset() {
     if (artist.isEmpty()) continue;
     new QListWidgetItem(artist_icon_, artist, ui_->artists, Specific_Artist);
   }
-
 }
 
 void AlbumCoverManager::EnableCoversButtons() {
@@ -395,7 +386,7 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
     case Various_Artists: albums = collection_backend_->GetCompilationAlbums(); break;
     case Specific_Artist: albums = collection_backend_->GetAlbumsByArtist(current->text()); break;
     case All_Artists:
-    default:              albums = collection_backend_->GetAllAlbums(); break;
+    default: albums = collection_backend_->GetAllAlbums(); break;
   }
 
   // Sort by album name.  The list is already sorted by sqlite but it was done case sensitively.
@@ -437,11 +428,9 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
       quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, info.art_automatic, info.art_manual, info.urls.first());
       cover_loading_tasks_[id] = item;
     }
-
   }
 
   UpdateFilter();
-
 }
 
 void AlbumCoverManager::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
@@ -461,7 +450,6 @@ void AlbumCoverManager::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoade
   //item->setData(Role_ImageData, result.image_data);
 
   UpdateFilter();
-
 }
 
 void AlbumCoverManager::UpdateFilter() {
@@ -482,7 +470,7 @@ void AlbumCoverManager::UpdateFilter() {
   qint32 without_cover = 0;
 
   for (int i = 0; i < ui_->albums->count(); ++i) {
-    AlbumItem *item = static_cast<AlbumItem*>(ui_->albums->item(i));
+    AlbumItem *item = static_cast<AlbumItem *>(ui_->albums->item(i));
     bool should_hide = ShouldHide(*item, filter, hide);
     item->setHidden(should_hide);
 
@@ -496,7 +484,6 @@ void AlbumCoverManager::UpdateFilter() {
 
   ui_->total_albums->setText(QString::number(total_count));
   ui_->without_cover->setText(QString::number(without_cover));
-
 }
 
 bool AlbumCoverManager::ShouldHide(const AlbumItem &item, const QString &filter, HideCovers hide) const {
@@ -523,13 +510,12 @@ bool AlbumCoverManager::ShouldHide(const AlbumItem &item, const QString &filter,
   }
 
   return false;
-
 }
 
 void AlbumCoverManager::FetchAlbumCovers() {
 
   for (int i = 0; i < ui_->albums->count(); ++i) {
-    AlbumItem *item = static_cast<AlbumItem*>(ui_->albums->item(i));
+    AlbumItem *item = static_cast<AlbumItem *>(ui_->albums->item(i));
     if (item->isHidden()) continue;
     if (ItemHasCover(*item)) continue;
 
@@ -545,7 +531,6 @@ void AlbumCoverManager::FetchAlbumCovers() {
   abort_progress_->show();
   fetch_statistics_ = CoverSearchStatistics();
   UpdateStatusText();
-
 }
 
 void AlbumCoverManager::AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics) {
@@ -563,15 +548,14 @@ void AlbumCoverManager::AlbumCoverFetched(const quint64 id, const AlbumCoverImag
 
   fetch_statistics_ += statistics;
   UpdateStatusText();
-
 }
 
 void AlbumCoverManager::UpdateStatusText() {
 
   QString message = tr("Got %1 covers out of %2 (%3 failed)")
-                        .arg(fetch_statistics_.chosen_images_)
-                        .arg(jobs_)
-                        .arg(fetch_statistics_.missing_images_);
+                      .arg(fetch_statistics_.chosen_images_)
+                      .arg(jobs_)
+                      .arg(fetch_statistics_.missing_images_);
 
   if (fetch_statistics_.bytes_transferred_ > 0) {
     message += ", " + tr("%1 transferred").arg(Utilities::PrettySize(fetch_statistics_.bytes_transferred_));
@@ -591,7 +575,6 @@ void AlbumCoverManager::UpdateStatusText() {
 
     jobs_ = 0;
   }
-
 }
 
 bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
@@ -605,7 +588,7 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
     bool some_clear = false;
 
     for (QListWidgetItem *item : context_menu_items_) {
-      AlbumItem *album_item = static_cast<AlbumItem*>(item);
+      AlbumItem *album_item = static_cast<AlbumItem *>(item);
       if (ItemHasCover(*album_item)) some_with_covers = true;
       if (album_item->data(Role_PathManual).toUrl().path() == Song::kManuallyUnsetCover) {
         some_unset = true;
@@ -624,13 +607,12 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
     album_cover_choice_controller_->clear_cover_action()->setEnabled(some_with_covers || some_unset);
     album_cover_choice_controller_->delete_cover_action()->setEnabled(some_with_covers);
 
-    QContextMenuEvent *context_menu_event = static_cast<QContextMenuEvent*>(e);
+    QContextMenuEvent *context_menu_event = static_cast<QContextMenuEvent *>(e);
     context_menu_->popup(context_menu_event->globalPos());
     return true;
   }
 
   return QMainWindow::eventFilter(obj, e);
-
 }
 
 Song AlbumCoverManager::GetSingleSelectionAsSong() {
@@ -678,13 +660,12 @@ void AlbumCoverManager::ShowCover() {
   if (!song.is_valid()) return;
 
   album_cover_choice_controller_->ShowCover(song);
-
 }
 
 void AlbumCoverManager::FetchSingleCover() {
 
   for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    AlbumItem *album_item = static_cast<AlbumItem *>(item);
     quint64 id = cover_fetcher_->FetchAlbumCover(album_item->data(Role_AlbumArtist).toString(), album_item->data(Role_Album).toString(), QString(), false);
     cover_fetching_tasks_[id] = album_item;
     jobs_++;
@@ -694,7 +675,6 @@ void AlbumCoverManager::FetchSingleCover() {
   progress_bar_->show();
   abort_progress_->show();
   UpdateStatusText();
-
 }
 
 void AlbumCoverManager::UpdateCoverInList(AlbumItem *item, const QUrl &cover_url) {
@@ -702,7 +682,6 @@ void AlbumCoverManager::UpdateCoverInList(AlbumItem *item, const QUrl &cover_url
   quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, QUrl(), cover_url);
   item->setData(Role_PathManual, cover_url);
   cover_loading_tasks_[id] = item;
-
 }
 
 void AlbumCoverManager::LoadCoverFromFile() {
@@ -714,7 +693,6 @@ void AlbumCoverManager::LoadCoverFromFile() {
   if (!result.image.isNull()) {
     SaveImageToAlbums(&song, result);
   }
-
 }
 
 void AlbumCoverManager::SaveCoverToFile() {
@@ -751,7 +729,6 @@ void AlbumCoverManager::SaveCoverToFile() {
   }
 
   album_cover_choice_controller_->SaveCoverToFileManual(song, result);
-
 }
 
 void AlbumCoverManager::LoadCoverFromURL() {
@@ -763,7 +740,6 @@ void AlbumCoverManager::LoadCoverFromURL() {
   if (result.is_valid()) {
     SaveImageToAlbums(&song, result);
   }
-
 }
 
 void AlbumCoverManager::SearchForCover() {
@@ -775,7 +751,6 @@ void AlbumCoverManager::SearchForCover() {
   if (result.is_valid()) {
     SaveImageToAlbums(&song, result);
   }
-
 }
 
 void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResult &result) {
@@ -795,18 +770,18 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
 
   // Force the found cover on all of the selected items
   QList<QUrl> urls;
-  QList<AlbumItem*> album_items;
+  QList<AlbumItem *> album_items;
   for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    AlbumItem *album_item = static_cast<AlbumItem *>(item);
     switch (album_cover_choice_controller_->get_save_album_cover_type()) {
       case CollectionSettingsPage::SaveCoverType_Cache:
-      case CollectionSettingsPage::SaveCoverType_Album:{
+      case CollectionSettingsPage::SaveCoverType_Album: {
         Song current_song = ItemAsSong(album_item);
         album_cover_choice_controller_->SaveArtManualToSong(&current_song, cover_url);
         UpdateCoverInList(album_item, cover_url);
         break;
       }
-      case CollectionSettingsPage::SaveCoverType_Embedded:{
+      case CollectionSettingsPage::SaveCoverType_Embedded: {
         urls << album_item->urls;
         album_items << album_item;
         break;
@@ -826,7 +801,6 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
       cover_save_tasks_.insert(id, album_item);
     }
   }
-
 }
 
 void AlbumCoverManager::UnsetCover() {
@@ -834,13 +808,13 @@ void AlbumCoverManager::UnsetCover() {
   Song song = GetFirstSelectedAsSong();
   if (!song.is_valid()) return;
 
-  AlbumItem *first_album_item = static_cast<AlbumItem*>(context_menu_items_[0]);
+  AlbumItem *first_album_item = static_cast<AlbumItem *>(context_menu_items_[0]);
 
   QUrl cover_url = album_cover_choice_controller_->UnsetCover(&song);
 
   // Force the 'none' cover on all of the selected items
   for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    AlbumItem *album_item = static_cast<AlbumItem *>(item);
     album_item->setIcon(icon_nocover_item_);
     album_item->setData(Role_PathManual, cover_url);
 
@@ -850,7 +824,6 @@ void AlbumCoverManager::UnsetCover() {
       album_cover_choice_controller_->SaveArtManualToSong(&current_song, cover_url);
     }
   }
-
 }
 
 void AlbumCoverManager::ClearCover() {
@@ -858,13 +831,13 @@ void AlbumCoverManager::ClearCover() {
   Song song = GetFirstSelectedAsSong();
   if (!song.is_valid()) return;
 
-  AlbumItem *first_album_item = static_cast<AlbumItem*>(context_menu_items_[0]);
+  AlbumItem *first_album_item = static_cast<AlbumItem *>(context_menu_items_[0]);
 
   album_cover_choice_controller_->ClearCover(&song);
 
   // Force the 'none' cover on all of the selected items
   for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    AlbumItem *album_item = static_cast<AlbumItem *>(item);
     album_item->setIcon(icon_nocover_item_);
     album_item->setData(Role_PathManual, QUrl());
 
@@ -874,20 +847,18 @@ void AlbumCoverManager::ClearCover() {
       album_cover_choice_controller_->SaveArtManualToSong(&current_song, QUrl(), false);
     }
   }
-
 }
 
 void AlbumCoverManager::DeleteCover() {
 
   for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    AlbumItem *album_item = static_cast<AlbumItem *>(item);
     Song song = ItemAsSong(album_item);
     album_cover_choice_controller_->DeleteCover(&song);
     album_item->setIcon(icon_nocover_item_);
     album_item->setData(Role_PathManual, QUrl());
     album_item->setData(Role_PathAutomatic, QUrl());
   }
-
 }
 
 SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &idx) const {
@@ -917,7 +888,6 @@ SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &idx) const {
     ret << song;
   }
   return ret;
-
 }
 
 SongList AlbumCoverManager::GetSongsInAlbums(const QModelIndexList &indexes) const {
@@ -927,7 +897,6 @@ SongList AlbumCoverManager::GetSongsInAlbums(const QModelIndexList &indexes) con
     ret << GetSongsInAlbum(idx);
   }
   return ret;
-
 }
 
 SongMimeData *AlbumCoverManager::GetMimeDataForAlbums(const QModelIndexList &indexes) const {
@@ -939,15 +908,13 @@ SongMimeData *AlbumCoverManager::GetMimeDataForAlbums(const QModelIndexList &ind
   mimedata->backend = collection_backend_;
   mimedata->songs = songs;
   return mimedata;
-
 }
 
 void AlbumCoverManager::AlbumDoubleClicked(const QModelIndex &idx) {
 
-  AlbumItem *item = static_cast<AlbumItem*>(idx.internalPointer());
+  AlbumItem *item = static_cast<AlbumItem *>(idx.internalPointer());
   if (!item) return;
   album_cover_choice_controller_->ShowCover(ItemAsSong(item));
-
 }
 
 void AlbumCoverManager::AddSelectedToPlaylist() {
@@ -961,7 +928,6 @@ void AlbumCoverManager::LoadSelectedToPlaylist() {
     mimedata->clear_first_ = true;
     emit AddToPlaylist(mimedata);
   }
-
 }
 
 void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, const AlbumCoverImageResult &result) {
@@ -1003,7 +969,6 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, const AlbumCoverImageRe
     // Update the icon in our list
     UpdateCoverInList(item, cover_url);
   }
-
 }
 
 void AlbumCoverManager::ExportCovers() {
@@ -1019,7 +984,7 @@ void AlbumCoverManager::ExportCovers() {
   cover_exporter_->SetDialogResult(result);
 
   for (int i = 0; i < ui_->albums->count(); ++i) {
-    AlbumItem *item = static_cast<AlbumItem*>(ui_->albums->item(i));
+    AlbumItem *item = static_cast<AlbumItem *>(ui_->albums->item(i));
 
     // skip hidden and coverless albums
     if (item->isHidden() || !ItemHasCover(*item)) {
@@ -1042,7 +1007,6 @@ void AlbumCoverManager::ExportCovers() {
     msg.setText(tr("No covers to export."));
     msg.exec();
   }
-
 }
 
 void AlbumCoverManager::UpdateExportStatus(const int exported, const int skipped, const int max) {
@@ -1050,9 +1014,9 @@ void AlbumCoverManager::UpdateExportStatus(const int exported, const int skipped
   progress_bar_->setValue(exported);
 
   QString message = tr("Exported %1 covers out of %2 (%3 skipped)")
-                        .arg(exported)
-                        .arg(max)
-                        .arg(skipped);
+                      .arg(exported)
+                      .arg(max)
+                      .arg(skipped);
   statusBar()->showMessage(message);
 
   // End of the current process
@@ -1068,7 +1032,6 @@ void AlbumCoverManager::UpdateExportStatus(const int exported, const int skipped
     msg.setText(message);
     msg.exec();
   }
-
 }
 
 bool AlbumCoverManager::ItemHasCover(const AlbumItem &item) const {
@@ -1086,5 +1049,4 @@ void AlbumCoverManager::SaveEmbeddedCoverAsyncFinished(quint64 id, const bool su
     quint64 cover_load_id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, album_item->data(Role_PathAutomatic).toUrl(), album_item->data(Role_PathManual).toUrl(), album_item->urls.first());
     cover_loading_tasks_[cover_load_id] = album_item;
   }
-
 }

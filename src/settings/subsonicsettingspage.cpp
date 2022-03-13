@@ -64,7 +64,6 @@ SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *dialog, QWidget *pare
 #else
   ui_->checkbox_http2->hide();
 #endif
-
 }
 
 SubsonicSettingsPage::~SubsonicSettingsPage() { delete ui_; }
@@ -77,15 +76,17 @@ void SubsonicSettingsPage::Load() {
   ui_->server_url->setText(s.value("url").toString());
   ui_->username->setText(s.value("username").toString());
   QByteArray password = s.value("password").toByteArray();
-  if (password.isEmpty()) ui_->password->clear();
-  else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
+  if (password.isEmpty())
+    ui_->password->clear();
+  else
+    ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
   ui_->checkbox_http2->setChecked(s.value("http2", false).toBool());
   ui_->checkbox_verify_certificate->setChecked(s.value("verifycertificate", false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
   ui_->checkbox_server_scrobbling->setChecked(s.value("serversidescrobbling", false).toBool());
 
   AuthMethod auth_method = static_cast<AuthMethod>(s.value("authmethod", AuthMethod_MD5).toInt());
-  switch(auth_method) {
+  switch (auth_method) {
     case AuthMethod_Hex:
       ui_->auth_method_hex->setChecked(true);
       break;
@@ -99,7 +100,6 @@ void SubsonicSettingsPage::Load() {
   Init(ui_->layout_subsonicsettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
-
 }
 
 void SubsonicSettingsPage::Save() {
@@ -121,7 +121,6 @@ void SubsonicSettingsPage::Save() {
     s.setValue("authmethod", AuthMethod_MD5);
   }
   s.endGroup();
-
 }
 
 void SubsonicSettingsPage::TestClicked() {
@@ -139,7 +138,6 @@ void SubsonicSettingsPage::TestClicked() {
 
   emit Test(server_url, ui_->username->text(), ui_->password->text(), ui_->auth_method_hex->isChecked() ? AuthMethod_Hex : AuthMethod_MD5);
   ui_->button_test->setEnabled(false);
-
 }
 
 bool SubsonicSettingsPage::eventFilter(QObject *object, QEvent *event) {
@@ -149,7 +147,6 @@ bool SubsonicSettingsPage::eventFilter(QObject *object, QEvent *event) {
   }
 
   return SettingsPage::eventFilter(object, event);
-
 }
 
 void SubsonicSettingsPage::TestSuccess() {
@@ -158,7 +155,6 @@ void SubsonicSettingsPage::TestSuccess() {
   ui_->button_test->setEnabled(true);
 
   QMessageBox::information(this, tr("Test successful!"), tr("Test successful!"));
-
 }
 
 void SubsonicSettingsPage::TestFailure(const QString &failure_reason) {
@@ -167,5 +163,4 @@ void SubsonicSettingsPage::TestFailure(const QString &failure_reason) {
   ui_->button_test->setEnabled(true);
 
   QMessageBox::warning(this, tr("Test failed!"), failure_reason);
-
 }

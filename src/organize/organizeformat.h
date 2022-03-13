@@ -71,7 +71,7 @@ class OrganizeFormat {
   class Validator : public QValidator {  // clazy:exclude=missing-qobject-macro
    public:
     explicit Validator(QObject *parent = nullptr);
-    QValidator::State validate(QString &input, int&) const override;
+    QValidator::State validate(QString &input, int &) const override;
   };
 
   class SyntaxHighlighter : public QSyntaxHighlighter {  // clazy:exclude=missing-qobject-macro
@@ -99,7 +99,6 @@ class OrganizeFormat {
   bool remove_non_ascii_;
   bool allow_ascii_ext_;
   bool replace_spaces_;
-
 };
 
 #endif  // ORGANISEFORMAT_H

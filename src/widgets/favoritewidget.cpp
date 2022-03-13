@@ -47,7 +47,6 @@ void FavoriteWidget::SetFavorite(const bool favorite) {
     update();
     emit FavoriteStateChanged(tab_index_, favorite_);
   }
-
 }
 
 QSize FavoriteWidget::sizeHint() const {
@@ -67,13 +66,11 @@ void FavoriteWidget::paintEvent(QPaintEvent *e) {
   else {
     p.drawPixmap(rect_, off_);
   }
-
 }
 
-void FavoriteWidget::mouseDoubleClickEvent(QMouseEvent*) {
+void FavoriteWidget::mouseDoubleClickEvent(QMouseEvent *) {
 
   favorite_ = !favorite_;
   update();
   emit FavoriteStateChanged(tab_index_, favorite_);
-
 }

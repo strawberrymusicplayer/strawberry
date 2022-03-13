@@ -58,10 +58,10 @@ class RatingWidget : public QWidget {
   void RatingChanged(float);
 
  protected:
-  void paintEvent(QPaintEvent*) override;
+  void paintEvent(QPaintEvent *) override;
   void mousePressEvent(QMouseEvent *e) override;
   void mouseMoveEvent(QMouseEvent *e) override;
-  void leaveEvent(QEvent*) override;
+  void leaveEvent(QEvent *) override;
 
  private:
   RatingPainter painter_;

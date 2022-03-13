@@ -39,11 +39,11 @@
 #include <xcb/xproto.h>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 2, 0)
-#if defined(HAVE_X11EXTRAS)
-#  include <QX11Info>
-#elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
-#  include <qpa/qplatformnativeinterface.h>
-#endif
+#  if defined(HAVE_X11EXTRAS)
+#    include <QX11Info>
+#  elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+#    include <qpa/qplatformnativeinterface.h>
+#  endif
 #endif
 
 const QVector<quint32> GlobalShortcut::mask_modifiers_ = QVector<quint32>() << 0 << Mod2Mask << LockMask << (Mod2Mask | LockMask);
@@ -57,7 +57,7 @@ Display *X11Display() {
   if (!qApp) return nullptr;
 
   if (QNativeInterface::QX11Application *x11_app = qApp->nativeInterface<QNativeInterface::QX11Application>()) {
-   return x11_app->display();
+    return x11_app->display();
   }
   return nullptr;
 
@@ -72,14 +72,13 @@ Display *X11Display() {
   QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
   if (!native) return nullptr;
 
-  return reinterpret_cast<Display*>(native->nativeResourceForIntegration("display"));
+  return reinterpret_cast<Display *>(native->nativeResourceForIntegration("display"));
 
 #else
 
 #  error "Missing Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header."
 
 #endif
-
 }
 
 quint32 AppRootWindow() {
@@ -114,7 +113,6 @@ quint32 AppRootWindow() {
 #  error "Missing Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header."
 
 #endif
-
 }
 
 }  // namespace
@@ -122,12 +120,11 @@ quint32 AppRootWindow() {
 int GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
 
   int native_mods = 0;
-  if (qt_mods & Qt::ShiftModifier)    native_mods |= ShiftMask;
-  if (qt_mods & Qt::ControlModifier)  native_mods |= ControlMask;
-  if (qt_mods & Qt::AltModifier)      native_mods |= Mod1Mask;
-  if (qt_mods & Qt::MetaModifier)     native_mods |= Mod4Mask;
+  if (qt_mods & Qt::ShiftModifier) native_mods |= ShiftMask;
+  if (qt_mods & Qt::ControlModifier) native_mods |= ControlMask;
+  if (qt_mods & Qt::AltModifier) native_mods |= Mod1Mask;
+  if (qt_mods & Qt::MetaModifier) native_mods |= Mod4Mask;
   return native_mods;
-
 }
 
 int GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
@@ -144,7 +141,6 @@ int GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
     if (keysym == NoSymbol) return 0;
   }
   return XKeysymToKeycode(disp, keysym);
-
 }
 
 bool GlobalShortcut::registerShortcut(int native_key, int native_mods) {
@@ -156,7 +152,6 @@ bool GlobalShortcut::registerShortcut(int native_key, int native_mods) {
     XGrabKey(disp, native_key, (native_mods | mask_mods), AppRootWindow(), True, GrabModeAsync, GrabModeAsync);
   }
   return true;
-
 }
 
 bool GlobalShortcut::unregisterShortcut(int native_key, int native_mods) {
@@ -168,7 +163,6 @@ bool GlobalShortcut::unregisterShortcut(int native_key, int native_mods) {
     XUngrabKey(disp, native_key, native_mods | mask_mods, AppRootWindow());
   }
   return true;
-
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -180,10 +174,10 @@ bool GlobalShortcut::nativeEventFilter(const QByteArray &eventtype, void *messag
   Q_UNUSED(eventtype);
   Q_UNUSED(result);
 
-  xcb_generic_event_t *event = static_cast<xcb_generic_event_t*>(message);
+  xcb_generic_event_t *event = static_cast<xcb_generic_event_t *>(message);
   if ((event->response_type & 127) != XCB_KEY_PRESS) return false;
 
-  xcb_key_press_event_t *key_press_event = static_cast<xcb_key_press_event_t*>(message);
+  xcb_key_press_event_t *key_press_event = static_cast<xcb_key_press_event_t *>(message);
   if (!key_press_event) return false;
 
   quint32 keycode = key_press_event->detail;
@@ -195,5 +189,4 @@ bool GlobalShortcut::nativeEventFilter(const QByteArray &eventtype, void *messag
   activateShortcut(keycode, keystate & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask));
 
   return false;
-
 }

@@ -98,7 +98,6 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
   QObject::connect(double_click_timer_, &QTimer::timeout, this, &AnalyzerContainer::ShowPopupMenu);
 
   Load();
-
 }
 
 void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
@@ -114,7 +113,6 @@ void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
     context_menu_->popup(e->globalPos());
 #endif
   }
-
 }
 
 void AnalyzerContainer::ShowPopupMenu() {
@@ -129,7 +127,6 @@ void AnalyzerContainer::SetEngine(EngineBase *engine) {
 
   if (current_analyzer_) current_analyzer_->set_engine(engine);
   engine_ = engine;
-
 }
 
 void AnalyzerContainer::DisableAnalyzer() {
@@ -141,7 +138,7 @@ void AnalyzerContainer::DisableAnalyzer() {
 
 void AnalyzerContainer::ChangeAnalyzer(const int id) {
 
-  QObject *instance = analyzer_types_[id]->newInstance(Q_ARG(QWidget*, this));
+  QObject *instance = analyzer_types_[id]->newInstance(Q_ARG(QWidget *, this));
 
   if (!instance) {
     qLog(Warning) << "Couldn't initialize a new" << analyzer_types_[id]->className();
@@ -149,7 +146,7 @@ void AnalyzerContainer::ChangeAnalyzer(const int id) {
   }
 
   delete current_analyzer_;
-  current_analyzer_ = qobject_cast<Analyzer::Base*>(instance);
+  current_analyzer_ = qobject_cast<Analyzer::Base *>(instance);
   current_analyzer_->set_engine(engine_);
   // Even if it is not supposed to happen, I don't want to get a dbz error
   current_framerate_ = current_framerate_ == 0 ? kMediumFramerate : current_framerate_;
@@ -158,7 +155,6 @@ void AnalyzerContainer::ChangeAnalyzer(const int id) {
   layout()->addWidget(current_analyzer_);
 
   Save();
-
 }
 
 void AnalyzerContainer::ChangeFramerate(int new_framerate) {
@@ -172,7 +168,6 @@ void AnalyzerContainer::ChangeFramerate(int new_framerate) {
     current_analyzer_->framerateChanged();
   }
   SaveFramerate(new_framerate);
-
 }
 
 void AnalyzerContainer::Load() {
@@ -199,7 +194,7 @@ void AnalyzerContainer::Load() {
   }
 
   // Framerate
-  QList<QAction*> actions = group_framerate_->actions();
+  QList<QAction *> actions = group_framerate_->actions();
   for (int i = 0; i < framerate_list_.count(); ++i) {
     if (current_framerate_ == framerate_list_[i]) {
       ChangeFramerate(current_framerate_);
@@ -207,7 +202,6 @@ void AnalyzerContainer::Load() {
       break;
     }
   }
-
 }
 
 void AnalyzerContainer::SaveFramerate(const int framerate) {
@@ -218,7 +212,6 @@ void AnalyzerContainer::SaveFramerate(const int framerate) {
   s.beginGroup(kSettingsGroup);
   s.setValue(kSettingsFramerate, current_framerate_);
   s.endGroup();
-
 }
 
 void AnalyzerContainer::Save() {
@@ -227,7 +220,6 @@ void AnalyzerContainer::Save() {
   s.beginGroup(kSettingsGroup);
   s.setValue("type", current_analyzer_ ? current_analyzer_->metaObject()->className() : QVariant());
   s.endGroup();
-
 }
 
 void AnalyzerContainer::AddFramerate(const QString &name, const int framerate) {
@@ -236,6 +228,5 @@ void AnalyzerContainer::AddFramerate(const QString &name, const int framerate) {
   group_framerate_->addAction(action);
   framerate_list_ << framerate;
   action->setCheckable(true);
-  QObject::connect(action, &QAction::triggered, this, [this, framerate]() { ChangeFramerate(framerate); } );
-
+  QObject::connect(action, &QAction::triggered, this, [this, framerate]() { ChangeFramerate(framerate); });
 }

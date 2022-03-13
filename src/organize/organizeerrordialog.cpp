@@ -44,7 +44,6 @@ OrganizeErrorDialog::OrganizeErrorDialog(QWidget *parent) : QDialog(parent), ui_
   QIcon icon = style()->standardIcon(QStyle::SP_MessageBoxCritical, nullptr, this);
 
   ui_->icon->setPixmap(icon.pixmap(icon_size));
-
 }
 
 OrganizeErrorDialog::~OrganizeErrorDialog() {
@@ -59,7 +58,6 @@ void OrganizeErrorDialog::Show(OperationType type, const SongList &songs_with_er
     files << song.url().toLocalFile();
   }
   Show(type, files, log);
-
 }
 
 void OrganizeErrorDialog::Show(OperationType type, const QStringList &files_with_errors, const QStringList &log) {

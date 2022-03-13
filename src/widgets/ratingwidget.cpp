@@ -80,10 +80,9 @@ QRect RatingPainter::Contents(const QRect rect) {
   const int x = rect.x() + (rect.width() - width) / 2;
 
   return QRect(x, rect.y(), width, rect.height());
-
 }
 
- float RatingPainter::RatingForPos(const QPoint pos, const QRect rect) {
+float RatingPainter::RatingForPos(const QPoint pos, const QRect rect) {
 
   const QRect contents = Contents(rect);
   const float raw = static_cast<float>(pos.x() - contents.left()) / static_cast<float>(contents.width());
@@ -94,7 +93,6 @@ QRect RatingPainter::Contents(const QRect rect) {
 
   // Round to the nearest 0.1
   return static_cast<float>(lround(raw * kStarCount * 2)) / (kStarCount * 2);
-
 }
 
 void RatingPainter::Paint(QPainter *painter, const QRect rect, float rating) const {
@@ -107,31 +105,27 @@ void RatingPainter::Paint(QPainter *painter, const QRect rect, float rating) con
   // Draw the stars
   const int star = qBound(0, static_cast<int>(lround(rating * 2.0)), kStarCount * 2);
   painter->drawPixmap(QRect(pos, size), stars_[star], QRect(QPoint(0, 0), size));
-
 }
 
 RatingWidget::RatingWidget(QWidget *parent) : QWidget(parent), rating_(0.0), hover_rating_(-1.0) {
 
   setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
   setMouseTracking(true);
-
 }
 
 QSize RatingWidget::sizeHint() const {
 
   const int frame_width = 1 + style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
   return QSize(RatingPainter::kStarSize * (RatingPainter::kStarCount + 2) + frame_width * 2, RatingPainter::kStarSize + frame_width * 2);
-
 }
 
 void RatingWidget::set_rating(const float rating) {
 
   rating_ = rating;
   update();
-
 }
 
-void RatingWidget::paintEvent(QPaintEvent*) {
+void RatingWidget::paintEvent(QPaintEvent *) {
 
   QStylePainter p(this);
 
@@ -147,26 +141,22 @@ void RatingWidget::paintEvent(QPaintEvent*) {
 
   // Draw the stars
   painter_.Paint(&p, rect(), hover_rating_ == -1.0 ? rating_ : hover_rating_);
-
 }
 
 void RatingWidget::mousePressEvent(QMouseEvent *e) {
 
   rating_ = RatingPainter::RatingForPos(e->pos(), rect());
   emit RatingChanged(rating_);
-
 }
 
 void RatingWidget::mouseMoveEvent(QMouseEvent *e) {
 
   hover_rating_ = RatingPainter::RatingForPos(e->pos(), rect());
   update();
-
 }
 
-void RatingWidget::leaveEvent(QEvent*) {
+void RatingWidget::leaveEvent(QEvent *) {
 
   hover_rating_ = -1.0;
   update();
-
 }

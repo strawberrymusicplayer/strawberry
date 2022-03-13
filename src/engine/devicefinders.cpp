@@ -54,7 +54,7 @@ DeviceFinders::~DeviceFinders() {
 
 void DeviceFinders::Init() {
 
-  QList<DeviceFinder*> device_finders;
+  QList<DeviceFinder *> device_finders;
 
 #ifdef HAVE_ALSA
   device_finders.append(new AlsaDeviceFinder);
@@ -80,5 +80,4 @@ void DeviceFinders::Init() {
 
     device_finders_.append(finder);
   }
-
 }

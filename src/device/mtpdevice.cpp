@@ -59,7 +59,6 @@ MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &uniqu
     LIBMTP_Init();
     sInitializedLibMTP = true;
   }
-
 }
 
 MtpDevice::~MtpDevice() {
@@ -71,7 +70,6 @@ MtpDevice::~MtpDevice() {
     db_busy_.unlock();
     loader_thread_->deleteLater();
   }
-
 }
 
 bool MtpDevice::Init() {
@@ -89,14 +87,12 @@ bool MtpDevice::Init() {
   QObject::connect(loader_thread_, &QThread::started, loader_, &MtpLoader::LoadDatabase);
 
   return true;
-
 }
 
 void MtpDevice::ConnectAsync() {
 
   db_busy_.lock();
   loader_thread_->start();
-
 }
 
 void MtpDevice::Close() {
@@ -109,7 +105,6 @@ void MtpDevice::Close() {
   else {
     ConnectedDevice::Close();
   }
-
 }
 
 void MtpDevice::LoadFinished(const bool success, MtpConnection *connection) {
@@ -126,7 +121,6 @@ void MtpDevice::LoadFinished(const bool success, MtpConnection *connection) {
   else {
     emit DeviceConnectFinished(unique_id_, success);
   }
-
 }
 
 void MtpDevice::LoaderError(const QString &message) {
@@ -149,16 +143,14 @@ bool MtpDevice::StartCopy(QList<Song::FileType> *supported_types) {
   }
 
   return true;
-
 }
 
 static int ProgressCallback(uint64_t const sent, uint64_t const total, void const *const data) {
 
-  const MusicStorage::CopyJob *job = reinterpret_cast<const MusicStorage::CopyJob*>(data);
+  const MusicStorage::CopyJob *job = reinterpret_cast<const MusicStorage::CopyJob *>(data);
   job->progress_(static_cast<float>(sent) / static_cast<float>(total));
 
   return 0;
-
 }
 
 bool MtpDevice::CopyToStorage(const CopyJob &job) {
@@ -187,7 +179,6 @@ bool MtpDevice::CopyToStorage(const CopyJob &job) {
   }
 
   return true;
-
 }
 
 void MtpDevice::FinishCopy(const bool success) {
@@ -206,7 +197,6 @@ void MtpDevice::FinishCopy(const bool success) {
   db_busy_.unlock();
 
   ConnectedDevice::FinishCopy(success);
-
 }
 
 void MtpDevice::StartDelete() { StartCopy(nullptr); }
@@ -231,7 +221,6 @@ bool MtpDevice::DeleteFromStorage(const DeleteJob &job) {
   songs_to_remove_ << job.metadata_;
 
   return true;
-
 }
 
 void MtpDevice::FinishDelete(const bool success) { FinishCopy(success); }
@@ -247,7 +236,6 @@ bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret) {
   }
 
   return GetSupportedFiletypes(ret, connection.device());
-
 }
 
 bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret, LIBMTP_mtpdevice_t *device) {
@@ -261,13 +249,13 @@ bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret, LIBMTP_mtpdevi
 
   for (int i = 0; i < length; ++i) {
     switch (LIBMTP_filetype_t(list[i])) {
-      case LIBMTP_FILETYPE_WAV:  *ret << Song::FileType_WAV; break;
+      case LIBMTP_FILETYPE_WAV: *ret << Song::FileType_WAV; break;
       case LIBMTP_FILETYPE_MP2:
-      case LIBMTP_FILETYPE_MP3:  *ret << Song::FileType_MPEG; break;
-      case LIBMTP_FILETYPE_WMA:  *ret << Song::FileType_ASF; break;
+      case LIBMTP_FILETYPE_MP3: *ret << Song::FileType_MPEG; break;
+      case LIBMTP_FILETYPE_WMA: *ret << Song::FileType_ASF; break;
       case LIBMTP_FILETYPE_MP4:
       case LIBMTP_FILETYPE_M4A:
-      case LIBMTP_FILETYPE_AAC:  *ret << Song::FileType_MP4; break;
+      case LIBMTP_FILETYPE_AAC: *ret << Song::FileType_MP4; break;
       case LIBMTP_FILETYPE_FLAC:
         *ret << Song::FileType_FLAC;
         *ret << Song::FileType_OggFlac;
@@ -285,5 +273,4 @@ bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret, LIBMTP_mtpdevi
 
   free(list);
   return true;
-
 }

@@ -51,7 +51,7 @@ class MtpLoader : public QObject {
  signals:
   void Error(QString message);
   void TaskStarted(int task_id);
-  void LoadFinished(bool success, MtpConnection*);
+  void LoadFinished(bool success, MtpConnection *);
 
  private:
   bool TryLoad();
@@ -63,7 +63,6 @@ class MtpLoader : public QObject {
   std::unique_ptr<MtpConnection> connection_;
   QThread *original_thread_;
   bool abort_;
-
 };
 
 #endif  // MTPLOADER_H

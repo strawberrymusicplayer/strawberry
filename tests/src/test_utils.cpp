@@ -33,17 +33,17 @@ std::ostream &operator<<(std::ostream &stream, const QString &str) {
   return stream;
 }
 
-std::ostream &operator <<(std::ostream &stream, const QUrl &url) {
+std::ostream &operator<<(std::ostream &stream, const QUrl &url) {
   stream << url.toString().toStdString();
   return stream;
 }
 
-std::ostream &operator <<(std::ostream &stream, const QNetworkRequest &req) {
+std::ostream &operator<<(std::ostream &stream, const QNetworkRequest &req) {
   stream << req.url().toString().toStdString();
   return stream;
 }
 
-std::ostream &operator <<(std::ostream &stream, const QVariant &var) {
+std::ostream &operator<<(std::ostream &stream, const QVariant &var) {
   stream << var.toString().toStdString();
   return stream;
 }
@@ -70,12 +70,11 @@ TemporaryResource::TemporaryResource(const QString &filename, QObject *parent) :
   write(resource.readAll());
 
   reset();
-
 }
 
 TestQObject::TestQObject(QObject *parent)
-  : QObject(parent),
-    invoked_(0) {
+    : QObject(parent),
+      invoked_(0) {
 }
 
 void TestQObject::Emit() {

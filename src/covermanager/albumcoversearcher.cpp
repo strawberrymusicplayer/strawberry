@@ -111,7 +111,6 @@ void SizeOverlayDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
   painter->setFont(font);
   painter->drawText(text_rect, text);
   painter->restore();
-
 }
 
 AlbumCoverSearcher::AlbumCoverSearcher(const QIcon &no_cover_icon, Application *app, QWidget *parent)
@@ -147,7 +146,6 @@ AlbumCoverSearcher::AlbumCoverSearcher(const QIcon &no_cover_icon, Application *
   new ForceScrollPerPixel(ui_->covers, this);
 
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
-
 }
 
 AlbumCoverSearcher::~AlbumCoverSearcher() {
@@ -158,7 +156,6 @@ void AlbumCoverSearcher::Init(AlbumCoverFetcher *fetcher) {
 
   fetcher_ = fetcher;
   QObject::connect(fetcher_, &AlbumCoverFetcher::SearchFinished, this, &AlbumCoverSearcher::SearchFinished, Qt::QueuedConnection);
-
 }
 
 AlbumCoverImageResult AlbumCoverSearcher::Exec(const QString &artist, const QString &album) {
@@ -183,7 +180,6 @@ AlbumCoverImageResult AlbumCoverSearcher::Exec(const QString &artist, const QStr
   result.mime_type = Utilities::MimeTypeFromData(result.image_data);
 
   return result;
-
 }
 
 void AlbumCoverSearcher::Search() {
@@ -208,7 +204,6 @@ void AlbumCoverSearcher::Search() {
     ui_->album->setEnabled(true);
     ui_->covers->setEnabled(true);
   }
-
 }
 
 void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverProviderSearchResults &results) {
@@ -243,7 +238,6 @@ void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverProviderSea
   }
 
   if (cover_loading_tasks_.isEmpty()) ui_->busy->hide();
-
 }
 
 void AlbumCoverSearcher::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
@@ -272,7 +266,6 @@ void AlbumCoverSearcher::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoad
   item->setData(result.album_cover.image.width() * result.album_cover.image.height(), Role_ImageDimensions);
   item->setData(result.album_cover.image.size(), Role_ImageSize);
   if (!icon.isNull()) item->setIcon(icon);
-
 }
 
 void AlbumCoverSearcher::keyPressEvent(QKeyEvent *e) {
@@ -283,7 +276,6 @@ void AlbumCoverSearcher::keyPressEvent(QKeyEvent *e) {
   }
 
   QDialog::keyPressEvent(e);
-
 }
 
 void AlbumCoverSearcher::CoverDoubleClicked(const QModelIndex &idx) {

@@ -41,7 +41,7 @@ class BlockAnalyzer : public Analyzer::Base {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE explicit BlockAnalyzer(QWidget*);
+  Q_INVOKABLE explicit BlockAnalyzer(QWidget *);
 
   static const int kHeight;
   static const int kWidth;
@@ -53,10 +53,10 @@ class BlockAnalyzer : public Analyzer::Base {
   static const char *kName;
 
  protected:
-  void transform(Analyzer::Scope&) override;
-  void analyze(QPainter &p, const Analyzer::Scope&, bool new_frame) override;
-  void resizeEvent(QResizeEvent*) override;
-  virtual void paletteChange(const QPalette&);
+  void transform(Analyzer::Scope &) override;
+  void analyze(QPainter &p, const Analyzer::Scope &, bool new_frame) override;
+  void resizeEvent(QResizeEvent *) override;
+  virtual void paletteChange(const QPalette &);
   void framerateChanged() override;
 
   void drawBackground();
@@ -65,14 +65,14 @@ class BlockAnalyzer : public Analyzer::Base {
  private:
   QPixmap *bar() { return &barpixmap_; }
 
-  int columns_, rows_;      // number of rows and columns of blocks
-  int y_;                   // y-offset from top of widget
+  int columns_, rows_;  // number of rows and columns of blocks
+  int y_;               // y-offset from top of widget
   QPixmap barpixmap_;
   QPixmap topbarpixmap_;
   QPixmap background_;
   QPixmap canvas_;
-  Analyzer::Scope scope_;    // so we don't create a vector every frame
-  QVector<double> store_;     // current bar heights
+  Analyzer::Scope scope_;  // so we don't create a vector every frame
+  QVector<double> store_;  // current bar heights
   QVector<double> yscale_;
 
   QVector<QPixmap> fade_bars_;

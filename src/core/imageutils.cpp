@@ -49,7 +49,6 @@ QStringList ImageUtils::SupportedImageMimeTypes() {
   }
 
   return kSupportedImageMimeTypes;
-
 }
 
 QStringList ImageUtils::SupportedImageFormats() {
@@ -61,7 +60,6 @@ QStringList ImageUtils::SupportedImageFormats() {
   }
 
   return kSupportedImageFormats;
-
 }
 
 QList<QByteArray> ImageUtils::ImageFormatsForMimeType(const QByteArray &mimetype) {
@@ -69,13 +67,17 @@ QList<QByteArray> ImageUtils::ImageFormatsForMimeType(const QByteArray &mimetype
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
   return QImageReader::imageFormatsForMimeType(mimetype);
 #else
-  if (mimetype == "image/bmp") return QList<QByteArray>() << "BMP";
-  else if (mimetype == "image/gif") return QList<QByteArray>() << "GIF";
-  else if (mimetype == "image/jpeg") return QList<QByteArray>() << "JPG";
-  else if (mimetype == "image/png") return QList<QByteArray>() << "PNG";
-  else return QList<QByteArray>();
+  if (mimetype == "image/bmp")
+    return QList<QByteArray>() << "BMP";
+  else if (mimetype == "image/gif")
+    return QList<QByteArray>() << "GIF";
+  else if (mimetype == "image/jpeg")
+    return QList<QByteArray>() << "JPG";
+  else if (mimetype == "image/png")
+    return QList<QByteArray>() << "PNG";
+  else
+    return QList<QByteArray>();
 #endif
-
 }
 
 QPixmap ImageUtils::TryLoadPixmap(const QUrl &art_automatic, const QUrl &art_manual, const QUrl &url) {
@@ -83,7 +85,8 @@ QPixmap ImageUtils::TryLoadPixmap(const QUrl &art_automatic, const QUrl &art_man
   QPixmap ret;
 
   if (!art_manual.path().isEmpty()) {
-    if (art_manual.path() == Song::kManuallyUnsetCover) return ret;
+    if (art_manual.path() == Song::kManuallyUnsetCover)
+      return ret;
     else if (art_manual.isLocalFile()) {
       ret.load(art_manual.toLocalFile());
     }
@@ -104,7 +107,6 @@ QPixmap ImageUtils::TryLoadPixmap(const QUrl &art_automatic, const QUrl &art_man
   }
 
   return ret;
-
 }
 
 QByteArray ImageUtils::SaveImageToJpegData(const QImage &image) {
@@ -119,7 +121,6 @@ QByteArray ImageUtils::SaveImageToJpegData(const QImage &image) {
   }
 
   return image_data;
-
 }
 
 QByteArray ImageUtils::FileToJpegData(const QString &filename) {
@@ -127,7 +128,8 @@ QByteArray ImageUtils::FileToJpegData(const QString &filename) {
   if (filename.isEmpty()) return QByteArray();
 
   QByteArray image_data = Utilities::ReadDataFromFile(filename);
-  if (Utilities::MimeTypeFromData(image_data) == "image/jpeg") return image_data;
+  if (Utilities::MimeTypeFromData(image_data) == "image/jpeg")
+    return image_data;
   else {
     QImage image;
     if (image.loadFromData(image_data)) {
@@ -138,7 +140,6 @@ QByteArray ImageUtils::FileToJpegData(const QString &filename) {
   }
 
   return image_data;
-
 }
 
 QImage ImageUtils::ScaleAndPad(const QImage &image, const bool scale, const bool pad, const int desired_height) {
@@ -167,7 +168,6 @@ QImage ImageUtils::ScaleAndPad(const QImage &image, const bool scale, const bool
   }
 
   return image_scaled;
-
 }
 
 QImage ImageUtils::CreateThumbnail(const QImage &image, const bool pad, const QSize size) {
@@ -191,7 +191,6 @@ QImage ImageUtils::CreateThumbnail(const QImage &image, const bool pad, const QS
   }
 
   return image_thumbnail;
-
 }
 
 QImage ImageUtils::GenerateNoCoverImage(const QSize size) {
@@ -209,5 +208,4 @@ QImage ImageUtils::GenerateNoCoverImage(const QSize size) {
   p.end();
 
   return image_square;
-
 }

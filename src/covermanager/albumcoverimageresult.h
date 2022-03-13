@@ -30,12 +30,11 @@
 
 struct AlbumCoverImageResult {
   explicit AlbumCoverImageResult(const QUrl &_cover_url = QUrl(),
-                                 const QString &_mime_type = QString(),
-                                 const QByteArray &_image_data = QByteArray(),
-                                 const QImage &_image = QImage()) :
-                                 cover_url(_cover_url),
-                                 mime_type(_mime_type),
-                                 image_data(_image_data), image(_image) {}
+    const QString &_mime_type = QString(),
+    const QByteArray &_image_data = QByteArray(),
+    const QImage &_image = QImage()) : cover_url(_cover_url),
+                                       mime_type(_mime_type),
+                                       image_data(_image_data), image(_image) {}
 
   explicit AlbumCoverImageResult(const QImage &_image) : image(_image) {}
 
@@ -46,7 +45,6 @@ struct AlbumCoverImageResult {
 
   bool is_valid() const { return !image_data.isNull() || !image.isNull(); }
   bool is_jpeg() const { return mime_type == "image/jpeg" && !image_data.isEmpty(); }
-
 };
 Q_DECLARE_METATYPE(AlbumCoverImageResult)
 

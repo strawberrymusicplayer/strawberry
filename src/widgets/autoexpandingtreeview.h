@@ -65,7 +65,10 @@ class AutoExpandingTreeView : public QTreeView {
   void mouseDoubleClickEvent(QMouseEvent *event) override;
   void keyPressEvent(QKeyEvent *event) override;
 
-  virtual bool CanRecursivelyExpand(const QModelIndex &idx) const { Q_UNUSED(idx); return true; }
+  virtual bool CanRecursivelyExpand(const QModelIndex &idx) const {
+    Q_UNUSED(idx);
+    return true;
+  }
 
  private slots:
   void ItemExpanded(const QModelIndex &idx);

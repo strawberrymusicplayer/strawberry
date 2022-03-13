@@ -42,7 +42,6 @@ void TranscoderOptionsWavPack::Load() {
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
   s.endGroup();
-
 }
 
 void TranscoderOptionsWavPack::Save() {
@@ -50,5 +49,4 @@ void TranscoderOptionsWavPack::Save() {
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
   s.endGroup();
-
 }

@@ -47,8 +47,7 @@ class NetworkTimeouts : public QObject {
 
  private:
   int timeout_msec_;
-  QHash<QNetworkReply*, int> timers_;
-
+  QHash<QNetworkReply *, int> timers_;
 };
 
 #endif  // NETWORKTIMEOUTS_H

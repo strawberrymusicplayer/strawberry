@@ -57,4 +57,3 @@ typedef QList<Subdirectory> SubdirectoryList;
 Q_DECLARE_METATYPE(SubdirectoryList)
 
 #endif  // DIRECTORY_H
-

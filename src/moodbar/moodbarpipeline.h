@@ -55,10 +55,10 @@ class MoodbarPipeline : public QObject {
   void Stop(const bool success);
   void Cleanup();
 
-  static void NewPadCallback(GstElement*, GstPad *pad, gpointer data);
+  static void NewPadCallback(GstElement *, GstPad *pad, gpointer data);
   static GstFlowReturn NewBufferCallback(GstAppSink *app_sink, gpointer self);
-  static gboolean BusCallback(GstBus*, GstMessage *msg, gpointer data);
-  static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage *msg, gpointer data);
+  static gboolean BusCallback(GstBus *, GstMessage *msg, gpointer data);
+  static GstBusSyncReply BusCallbackSync(GstBus *, GstMessage *msg, gpointer data);
 
  private:
   static const int kBands;

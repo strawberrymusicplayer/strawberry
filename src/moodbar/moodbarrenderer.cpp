@@ -65,7 +65,7 @@ ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle s
     }
   }
 
-  const unsigned char *data_p = reinterpret_cast<const unsigned char*>(data.constData());
+  const unsigned char *data_p = reinterpret_cast<const unsigned char *>(data.constData());
 
   int hue_distribution[360];
   int total = 0;
@@ -161,7 +161,6 @@ QImage MoodbarRenderer::RenderToImage(const ColorVector &colors, const QSize siz
   Render(colors, &p, image.rect());
   p.end();
   return image;
-
 }
 
 QString MoodbarRenderer::StyleName(const MoodbarStyle style) {
@@ -181,5 +180,4 @@ QString MoodbarRenderer::StyleName(const MoodbarStyle style) {
     default:
       return QString();
   }
-
 }

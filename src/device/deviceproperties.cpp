@@ -72,7 +72,6 @@ DeviceProperties::DeviceProperties(QWidget *parent)
 
   // Maximum height of the icon widget
   ui_->icon->setMaximumHeight(ui_->icon->iconSize().height() + ui_->icon->horizontalScrollBar()->sizeHint().height() + ui_->icon->spacing() * 2 + 5);
-
 }
 
 DeviceProperties::~DeviceProperties() { delete ui_; }
@@ -83,7 +82,6 @@ void DeviceProperties::SetDeviceManager(DeviceManager *manager) {
   QObject::connect(manager_, &DeviceManager::dataChanged, this, &DeviceProperties::ModelChanged);
   QObject::connect(manager_, &DeviceManager::rowsInserted, this, &DeviceProperties::ModelChanged);
   QObject::connect(manager_, &DeviceManager::rowsRemoved, this, &DeviceProperties::ModelChanged);
-
 }
 
 void DeviceProperties::ShowDevice(const QModelIndex &idx) {
@@ -91,13 +89,13 @@ void DeviceProperties::ShowDevice(const QModelIndex &idx) {
   if (ui_->icon->count() == 0) {
     // Only load the icons the first time the dialog is shown
     QStringList icon_names = QStringList()
-                             << "device"
-                             << "device-usb-drive"
-                             << "device-usb-flash"
-                             << "media-optical"
-                             << "device-ipod"
-                             << "device-ipod-nano"
-                             << "device-phone";
+      << "device"
+      << "device-usb-drive"
+      << "device-usb-flash"
+      << "media-optical"
+      << "device-ipod"
+      << "device-ipod-nano"
+      << "device-phone";
 
 
     for (const QString &icon_name : icon_names) {
@@ -132,7 +130,6 @@ void DeviceProperties::ShowDevice(const QModelIndex &idx) {
   UpdateFormats();
 
   show();
-
 }
 
 void DeviceProperties::AddHardwareInfo(const int row, const QString &key, const QString &value) {
@@ -151,7 +148,6 @@ void DeviceProperties::ModelChanged() {
     UpdateHardwareInfo();
     UpdateFormats();
   }
-
 }
 
 void DeviceProperties::UpdateHardwareInfo() {
@@ -200,7 +196,6 @@ void DeviceProperties::UpdateHardwareInfo() {
   else {
     ui_->free_space_bar->hide();
   }
-
 }
 
 void DeviceProperties::UpdateFormats() {
@@ -256,7 +251,6 @@ void DeviceProperties::UpdateFormats() {
     ui_->formats_stack->setCurrentWidget(ui_->formats_page_loading);
     updating_formats_ = true;
   }
-
 }
 
 void DeviceProperties::accept() {
@@ -282,14 +276,13 @@ void DeviceProperties::accept() {
   }
 
   manager_->SetDeviceOptions(index_, ui_->name->text(), icon_name, mode, format);
-
 }
 
 void DeviceProperties::OpenDevice() { manager_->Connect(index_); }
 
 void DeviceProperties::UpdateFormatsFinished() {
 
-  QFutureWatcher<bool> *watcher = static_cast<QFutureWatcher<bool>*>(sender());
+  QFutureWatcher<bool> *watcher = static_cast<QFutureWatcher<bool> *>(sender());
   bool result = watcher->result();
   watcher->deleteLater();
 
@@ -327,5 +320,4 @@ void DeviceProperties::UpdateFormatsFinished() {
 #endif
 
   ui_->formats_stack->setCurrentWidget(ui_->formats_page);
-
 }

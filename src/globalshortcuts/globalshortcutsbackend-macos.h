@@ -56,7 +56,7 @@ class GlobalShortcutsBackendMacOS : public GlobalShortcutsBackend {
  private:
   bool KeyPressed(const QKeySequence &sequence);
 
-  QMap<QKeySequence, QAction*> shortcuts_;
+  QMap<QKeySequence, QAction *> shortcuts_;
 
   friend class GlobalShortcutsBackendMacOSPrivate;
   std::unique_ptr<GlobalShortcutsBackendMacOSPrivate> p_;

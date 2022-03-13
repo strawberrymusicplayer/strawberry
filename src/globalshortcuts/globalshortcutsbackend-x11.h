@@ -50,9 +50,8 @@ class GlobalShortcutsBackendX11 : public GlobalShortcutsBackend {
   bool AddShortcut(QAction *action);
   bool RemoveShortcut(QAction *action);
 
-  QList<GlobalShortcut*> shortcuts_;
+  QList<GlobalShortcut *> shortcuts_;
   GlobalShortcut *gshortcut_init_;
-
 };
 
 #endif  // GLOBALSHORTCUTSBACKEND_X11_H

@@ -56,8 +56,7 @@ class AuddLyricsProvider : public JsonLyricsProvider {
   static const char *kUrlSearch;
   static const char *kAPITokenB64;
   static const int kMaxLength;
-  QList<QNetworkReply*> replies_;
-
+  QList<QNetworkReply *> replies_;
 };
 
 #endif  // AUDDLYRICSPROVIDER_H

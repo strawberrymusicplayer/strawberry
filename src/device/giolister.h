@@ -121,12 +121,12 @@ class GioLister : public DeviceLister {
   void MountChanged(GMount *mount);
   void MountRemoved(GMount *mount);
 
-  static void VolumeAddedCallback(GVolumeMonitor*, GVolume*, gpointer);
-  static void VolumeRemovedCallback(GVolumeMonitor*, GVolume*, gpointer);
+  static void VolumeAddedCallback(GVolumeMonitor *, GVolume *, gpointer);
+  static void VolumeRemovedCallback(GVolumeMonitor *, GVolume *, gpointer);
 
-  static void MountAddedCallback(GVolumeMonitor*, GMount*, gpointer);
-  static void MountChangedCallback(GVolumeMonitor*, GMount*, gpointer);
-  static void MountRemovedCallback(GVolumeMonitor*, GMount*, gpointer);
+  static void MountAddedCallback(GVolumeMonitor *, GMount *, gpointer);
+  static void MountChangedCallback(GVolumeMonitor *, GMount *, gpointer);
+  static void MountRemovedCallback(GVolumeMonitor *, GMount *, gpointer);
 
   static void VolumeMountFinished(GObject *object, GAsyncResult *result, gpointer);
   static void VolumeEjectFinished(GObject *object, GAsyncResult *result, gpointer);
@@ -137,7 +137,7 @@ class GioLister : public DeviceLister {
   QString FindUniqueIdByMount(GMount *mount) const;
   QString FindUniqueIdByVolume(GVolume *volume) const;
 
-  template <typename T>
+  template<typename T>
   T LockAndGetDeviceInfo(const QString &id, T DeviceInfo::*field);
 
  private:
@@ -148,7 +148,7 @@ class GioLister : public DeviceLister {
   QMap<QString, DeviceInfo> devices_;
 };
 
-template <typename T>
+template<typename T>
 T GioLister::LockAndGetDeviceInfo(const QString &id, T DeviceInfo::*field) {
   QMutexLocker l(&mutex_);
   if (!devices_.contains(id)) return T();

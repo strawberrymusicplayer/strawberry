@@ -67,7 +67,6 @@ GstElement *Chromaprinter::CreateElement(const QString &factory_name, GstElement
   }
 
   return ret;
-
 }
 
 QString Chromaprinter::CreateFingerprint() {
@@ -108,7 +107,7 @@ QString Chromaprinter::CreateFingerprint() {
   GstAppSinkCallbacks callbacks;
   memset(&callbacks, 0, sizeof(callbacks));
   callbacks.new_sample = NewBufferCallback;
-  gst_app_sink_set_callbacks(reinterpret_cast<GstAppSink*>(sink), &callbacks, this, nullptr);
+  gst_app_sink_set_callbacks(reinterpret_cast<GstAppSink *>(sink), &callbacks, this, nullptr);
   g_object_set(G_OBJECT(sink), "sync", FALSE, nullptr);
   g_object_set(G_OBJECT(sink), "emit-signals", TRUE, nullptr);
 
@@ -158,7 +157,7 @@ QString Chromaprinter::CreateFingerprint() {
 
   ChromaprintContext *chromaprint = chromaprint_new(CHROMAPRINT_ALGORITHM_DEFAULT);
   chromaprint_start(chromaprint, kDecodeRate, kDecodeChannels);
-  chromaprint_feed(chromaprint, reinterpret_cast<int16_t*>(data.data()), static_cast<int>(data.size() / 2));
+  chromaprint_feed(chromaprint, reinterpret_cast<int16_t *>(data.data()), static_cast<int>(data.size() / 2));
   chromaprint_finish(chromaprint);
 
   u_int32_t *fprint = nullptr;
@@ -170,7 +169,7 @@ QString Chromaprinter::CreateFingerprint() {
     int encoded_size = 0;
     ret = chromaprint_encode_fingerprint(fprint, size, CHROMAPRINT_ALGORITHM_DEFAULT, &encoded, &encoded_size, 1);
     if (ret == 1) {
-      fingerprint.append(reinterpret_cast<char*>(encoded), encoded_size);
+      fingerprint.append(reinterpret_cast<char *>(encoded), encoded_size);
       chromaprint_dealloc(encoded);
     }
     chromaprint_dealloc(fprint);
@@ -188,12 +187,11 @@ QString Chromaprinter::CreateFingerprint() {
   gst_object_unref(pipeline);
 
   return fingerprint;
-
 }
 
-void Chromaprinter::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
+void Chromaprinter::NewPadCallback(GstElement *, GstPad *pad, gpointer data) {
 
-  Chromaprinter *instance = reinterpret_cast<Chromaprinter*>(data);
+  Chromaprinter *instance = reinterpret_cast<Chromaprinter *>(data);
   GstPad *const audiopad = gst_element_get_static_pad(instance->convert_element_, "sink");
 
   if (GST_PAD_IS_LINKED(audiopad)) {
@@ -203,12 +201,11 @@ void Chromaprinter::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
 
   gst_pad_link(pad, audiopad);
   gst_object_unref(audiopad);
-
 }
 
 GstFlowReturn Chromaprinter::NewBufferCallback(GstAppSink *app_sink, gpointer self) {
 
-  Chromaprinter *me = reinterpret_cast<Chromaprinter*>(self);
+  Chromaprinter *me = reinterpret_cast<Chromaprinter *>(self);
 
   GstSample *sample = gst_app_sink_pull_sample(app_sink);
   if (!sample) return GST_FLOW_ERROR;
@@ -216,13 +213,11 @@ GstFlowReturn Chromaprinter::NewBufferCallback(GstAppSink *app_sink, gpointer se
   if (buffer) {
     GstMapInfo map;
     if (gst_buffer_map(buffer, &map, GST_MAP_READ)) {
-      me->buffer_.write(reinterpret_cast<const char*>(map.data), static_cast<qint64>(map.size));
+      me->buffer_.write(reinterpret_cast<const char *>(map.data), static_cast<qint64>(map.size));
       gst_buffer_unmap(buffer, &map);
     }
   }
   gst_sample_unref(sample);
 
   return GST_FLOW_OK;
-
 }
-

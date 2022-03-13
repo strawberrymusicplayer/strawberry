@@ -26,8 +26,10 @@
 #include <QDebug>
 
 #ifdef QT_NO_DEBUG_STREAM
-#  define qLog(level) while (false) QNoDebug()
-#  define qLogCat(level, category) while (false) QNoDebug()
+#  define qLog(level) \
+    while (false) QNoDebug()
+#  define qLogCat(level, category) \
+    while (false) QNoDebug()
 #else
 #  ifdef _MSC_VER
 #    define qLog(level) logging::CreateLogger##level(__LINE__, __FUNCSIG__, nullptr)
@@ -55,8 +57,8 @@ class NullDevice : public QIODevice {
   NullDevice(QObject *parent = nullptr) : QIODevice(parent) {}
 
  protected:
-  qint64 readData(char*, qint64) override { return -1; }
-  qint64 writeData(const char*, qint64 len) override { return len; }
+  qint64 readData(char *, qint64) override { return -1; }
+  qint64 writeData(const char *, qint64 len) override { return len; }
 };
 
 enum Level {
@@ -67,25 +69,25 @@ enum Level {
   Level_Debug,
 };
 
-  void Init();
-  void SetLevels(const QString &levels);
+void Init();
+void SetLevels(const QString &levels);
 
-  void DumpStackTrace();
+void DumpStackTrace();
 
 QDebug CreateLoggerInfo(int line, const char *pretty_function, const char *category);
 QDebug CreateLoggerFatal(int line, const char *pretty_function, const char *category);
 QDebug CreateLoggerError(int line, const char *pretty_function, const char *category);
 
 #ifdef QT_NO_WARNING_OUTPUT
-  QNoDebug CreateLoggerWarning(int, const char*, const char*);
+QNoDebug CreateLoggerWarning(int, const char *, const char *);
 #else
-  QDebug CreateLoggerWarning(int line, const char *pretty_function, const char *category);
-#endif // QT_NO_WARNING_OUTPUT
+QDebug CreateLoggerWarning(int line, const char *pretty_function, const char *category);
+#endif  // QT_NO_WARNING_OUTPUT
 
 #ifdef QT_NO_DEBUG_OUTPUT
-  QNoDebug CreateLoggerDebug(int, const char*, const char*);
+QNoDebug CreateLoggerDebug(int, const char *, const char *);
 #else
-  QDebug CreateLoggerDebug(int line, const char *pretty_function, const char *category);
+QDebug CreateLoggerDebug(int line, const char *pretty_function, const char *category);
 #endif  // QT_NO_DEBUG_OUTPUT
 
 void GLog(const char *domain, int level, const char *message, void *user_data);

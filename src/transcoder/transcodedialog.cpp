@@ -92,7 +92,7 @@ TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
 
   ui_->setupUi(this);
 
-  setWindowFlags(windowFlags()|Qt::WindowMaximizeButtonHint);
+  setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
 
   ui_->files->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
@@ -147,7 +147,6 @@ TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
   QObject::connect(transcoder_, &Transcoder::JobComplete, this, &TranscodeDialog::JobComplete);
   QObject::connect(transcoder_, &Transcoder::LogLine, this, &TranscodeDialog::LogLine);
   QObject::connect(transcoder_, &Transcoder::AllJobsComplete, this, &TranscodeDialog::AllJobsComplete);
-
 }
 
 TranscodeDialog::~TranscodeDialog() {
@@ -160,7 +159,6 @@ void TranscodeDialog::showEvent(QShowEvent *e) {
   if (!e->spontaneous()) LoadGeometry();
 
   QDialog::showEvent(e);
-
 }
 
 void TranscodeDialog::closeEvent(QCloseEvent *e) {
@@ -168,21 +166,18 @@ void TranscodeDialog::closeEvent(QCloseEvent *e) {
   SaveGeometry();
 
   QDialog::closeEvent(e);
-
 }
 
 void TranscodeDialog::accept() {
 
   SaveGeometry();
   QDialog::accept();
-
 }
 
 void TranscodeDialog::reject() {
 
   SaveGeometry();
   QDialog::reject();
-
 }
 
 void TranscodeDialog::LoadGeometry() {
@@ -206,7 +201,6 @@ void TranscodeDialog::LoadGeometry() {
     resize(wr.size());
     move(sr.center() - wr.center());
   }
-
 }
 
 void TranscodeDialog::SaveGeometry() {
@@ -215,7 +209,6 @@ void TranscodeDialog::SaveGeometry() {
   s.beginGroup(kSettingsGroup);
   s.setValue("geometry", saveGeometry());
   s.endGroup();
-
 }
 
 void TranscodeDialog::SetWorking(bool working) {
@@ -231,7 +224,6 @@ void TranscodeDialog::SetWorking(bool working) {
     progress_timer_.start(kProgressInterval, this);
   else
     progress_timer_.stop();
-
 }
 
 void TranscodeDialog::Start() {
@@ -266,14 +258,12 @@ void TranscodeDialog::Start() {
   s.beginGroup(kSettingsGroup);
   s.setValue("last_output_format", preset.codec_mimetype_);
   s.endGroup();
-
 }
 
 void TranscodeDialog::Cancel() {
 
   transcoder_->Cancel();
   SetWorking(false);
-
 }
 
 void TranscodeDialog::JobComplete(const QString &input, const QString &output, bool success) {
@@ -286,7 +276,6 @@ void TranscodeDialog::JobComplete(const QString &input, const QString &output, b
 
   UpdateStatusText();
   UpdateProgress();
-
 }
 
 void TranscodeDialog::UpdateProgress() {
@@ -300,7 +289,6 @@ void TranscodeDialog::UpdateProgress() {
   }
 
   ui_->progress_bar->setValue(progress);
-
 }
 
 void TranscodeDialog::UpdateStatusText() {
@@ -320,7 +308,6 @@ void TranscodeDialog::UpdateStatusText() {
   }
 
   ui_->progress_text->setText(sections.join(", "));
-
 }
 
 void TranscodeDialog::AllJobsComplete() {
@@ -330,8 +317,8 @@ void TranscodeDialog::AllJobsComplete() {
 void TranscodeDialog::Add() {
 
   QStringList filenames = QFileDialog::getOpenFileNames(
-      this, tr("Add files to transcode"), last_add_dir_,
-      QString("%1 (%2);;%3").arg(tr("Music"), FileView::kFileFilter, tr(MainWindow::kAllFilesFilterSpec)));
+    this, tr("Add files to transcode"), last_add_dir_,
+    QString("%1 (%2);;%3").arg(tr("Music"), FileView::kFileFilter, tr(MainWindow::kAllFilesFilterSpec)));
 
   if (filenames.isEmpty()) return;
 
@@ -342,7 +329,6 @@ void TranscodeDialog::Add() {
   s.beginGroup(kSettingsGroup);
   s.setValue("last_add_dir", last_add_dir_);
   s.endGroup();
-
 }
 
 void TranscodeDialog::Import() {
@@ -372,7 +358,6 @@ void TranscodeDialog::Import() {
   s.beginGroup(kSettingsGroup);
   s.setValue("last_import_dir", last_import_dir_);
   s.endGroup();
-
 }
 
 void TranscodeDialog::SetFilenames(const QStringList &filenames) {
@@ -384,7 +369,6 @@ void TranscodeDialog::SetFilenames(const QStringList &filenames) {
     QTreeWidgetItem *item = new QTreeWidgetItem(ui_->files, QStringList() << name << path);
     item->setData(0, Qt::UserRole, filename);
   }
-
 }
 
 void TranscodeDialog::Remove() { qDeleteAll(ui_->files->selectedItems()); }
@@ -393,7 +377,6 @@ void TranscodeDialog::LogLine(const QString &message) {
 
   QString date(QDateTime::currentDateTime().toString(Qt::TextDate));
   log_ui_->log->appendPlainText(QString("%1: %2").arg(date, message));
-
 }
 
 void TranscodeDialog::timerEvent(QTimerEvent *e) {
@@ -403,7 +386,6 @@ void TranscodeDialog::timerEvent(QTimerEvent *e) {
   if (e->timerId() == progress_timer_.timerId()) {
     UpdateProgress();
   }
-
 }
 
 void TranscodeDialog::Options() {
@@ -414,7 +396,6 @@ void TranscodeDialog::Options() {
   if (dialog.is_valid()) {
     dialog.exec();
   }
-
 }
 
 // Adds a folder to the destination box.
@@ -442,7 +423,6 @@ void TranscodeDialog::AddDestination() {
       ui_->destination->setCurrentIndex(duplicate_index);
     }
   }
-
 }
 
 // Returns the rightmost non-empty part of 'path'.
@@ -462,5 +442,4 @@ QString TranscodeDialog::GetOutputFileName(const QString &input, const Transcode
     file_name = file_name.section('.', 0, -2);
     return path + '/' + file_name + '.' + preset.extension_;
   }
-
 }

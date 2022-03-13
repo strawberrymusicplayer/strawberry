@@ -60,7 +60,7 @@ class PlaylistManagerInterface : public QObject {
   virtual Playlist *active() const = 0;
 
   // Returns the collection of playlists managed by this PlaylistManager.
-  virtual QList<Playlist*> GetAllPlaylists() const = 0;
+  virtual QList<Playlist *> GetAllPlaylists() const = 0;
   // Grays out and reloads all deleted songs in all playlists.
   virtual void InvalidateDeletedSongs() = 0;
   // Removes all deleted songs from all playlists.
@@ -152,7 +152,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   Playlist *active() const override { return playlist(active_id()); }
 
   // Returns the collection of playlists managed by this PlaylistManager.
-  QList<Playlist*> GetAllPlaylists() const override;
+  QList<Playlist *> GetAllPlaylists() const override;
   // Grays out and reloads all deleted songs in all playlists.
   void InvalidateDeletedSongs() override;
   // Removes all deleted songs from all playlists.

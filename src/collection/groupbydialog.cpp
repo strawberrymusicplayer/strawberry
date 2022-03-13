@@ -64,10 +64,11 @@ struct tag_group_by {};
 class GroupByDialogPrivate {
  private:
   typedef multi_index_container<
-      Mapping,
-      indexed_by<
-          ordered_unique<tag<tag_index>, member<Mapping, int, &Mapping::combo_box_index> >,
-          ordered_unique<tag<tag_group_by>, member<Mapping, CollectionModel::GroupBy, &Mapping::group_by> > > > MappingContainer;
+    Mapping,
+    indexed_by<
+      ordered_unique<tag<tag_index>, member<Mapping, int, &Mapping::combo_box_index>>,
+      ordered_unique<tag<tag_group_by>, member<Mapping, CollectionModel::GroupBy, &Mapping::group_by>>>>
+    MappingContainer;
 
  public:
   MappingContainer mapping_;
@@ -102,7 +103,6 @@ GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_Grou
   QObject::connect(ui_->buttonbox->button(QDialogButtonBox::Reset), &QPushButton::clicked, this, &GroupByDialog::Reset);
 
   resize(sizeHint());
-
 }
 
 GroupByDialog::~GroupByDialog() = default;
@@ -115,10 +115,9 @@ void GroupByDialog::Reset() {
 
 void GroupByDialog::accept() {
   emit Accepted(CollectionModel::Grouping(
-      p_->mapping_.get<tag_index>().find(ui_->combobox_first->currentIndex())->group_by,
-      p_->mapping_.get<tag_index>().find(ui_->combobox_second->currentIndex())->group_by,
-      p_->mapping_.get<tag_index>().find(ui_->combobox_third->currentIndex())->group_by)
-   );
+    p_->mapping_.get<tag_index>().find(ui_->combobox_first->currentIndex())->group_by,
+    p_->mapping_.get<tag_index>().find(ui_->combobox_second->currentIndex())->group_by,
+    p_->mapping_.get<tag_index>().find(ui_->combobox_third->currentIndex())->group_by));
   QDialog::accept();
 }
 

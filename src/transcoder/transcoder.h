@@ -106,6 +106,7 @@ class Transcoder : public QObject {
     Transcoder *parent_;
     GstElement *pipeline_;
     GstElement *convert_element_;
+
    private:
     Q_DISABLE_COPY(JobState)
   };
@@ -118,6 +119,7 @@ class Transcoder : public QObject {
 
     JobState *state_;
     bool success_;
+
    private:
     Q_DISABLE_COPY(JobFinishedEvent)
   };
@@ -136,8 +138,8 @@ class Transcoder : public QObject {
   GstElement *CreateElementForMimeType(const QString &element_type, const QString &mime_type, GstElement *bin = nullptr);
   void SetElementProperties(const QString &name, GObject *object);
 
-  static void NewPadCallback(GstElement*, GstPad *pad, gpointer data);
-  static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage *msg, gpointer data);
+  static void NewPadCallback(GstElement *, GstPad *pad, gpointer data);
+  static GstBusSyncReply BusCallbackSync(GstBus *, GstMessage *msg, gpointer data);
 
  private:
   typedef QList<std::shared_ptr<JobState>> JobStateList;

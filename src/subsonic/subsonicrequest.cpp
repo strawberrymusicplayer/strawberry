@@ -74,7 +74,6 @@ SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *u
       no_results_(false) {
 
   network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
-
 }
 
 SubsonicRequest::~SubsonicRequest() {
@@ -92,7 +91,6 @@ SubsonicRequest::~SubsonicRequest() {
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
-
 }
 
 void SubsonicRequest::Reset() {
@@ -119,7 +117,6 @@ void SubsonicRequest::Reset() {
   no_results_ = false;
   replies_.clear();
   album_cover_replies_.clear();
-
 }
 
 void SubsonicRequest::GetAlbums() {
@@ -127,7 +124,6 @@ void SubsonicRequest::GetAlbums() {
   emit UpdateStatus(tr("Retrieving albums..."));
   emit UpdateProgress(0);
   AddAlbumsRequest();
-
 }
 
 void SubsonicRequest::AddAlbumsRequest(const int offset, const int size) {
@@ -137,7 +133,6 @@ void SubsonicRequest::AddAlbumsRequest(const int offset, const int size) {
   request.offset = offset;
   albums_requests_queue_.enqueue(request);
   if (albums_requests_active_ < kMaxConcurrentAlbumsRequests) FlushAlbumsRequests();
-
 }
 
 void SubsonicRequest::FlushAlbumsRequests() {
@@ -155,9 +150,7 @@ void SubsonicRequest::FlushAlbumsRequests() {
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumsReplyReceived(reply, request.offset, request.size); });
     timeouts_->AddReply(reply);
-
   }
-
 }
 
 void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested, const int size_requested) {
@@ -211,8 +204,10 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     return;
   }
   QJsonValue value_albumlist;
-  if (json_obj.contains("albumList")) value_albumlist = json_obj["albumList"];
-  else if (json_obj.contains("albumList2")) value_albumlist = json_obj["albumList2"];
+  if (json_obj.contains("albumList"))
+    value_albumlist = json_obj["albumList"];
+  else if (json_obj.contains("albumList2"))
+    value_albumlist = json_obj["albumList2"];
 
   if (!value_albumlist.isObject()) {
     Error("Json album list is not an object.", value_albumlist);
@@ -275,8 +270,10 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
 
     QString artist = obj_album["artist"].toString();
     QString album;
-    if (obj_album.contains("album")) album = obj_album["album"].toString();
-    else if (obj_album.contains("name")) album = obj_album["name"].toString();
+    if (obj_album.contains("album"))
+      album = obj_album["album"].toString();
+    else if (obj_album.contains("name"))
+      album = obj_album["name"].toString();
 
     if (album_songs_requests_pending_.contains(album_id)) continue;
 
@@ -284,11 +281,9 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     request.album_id = album_id;
     request.album_artist = artist;
     album_songs_requests_pending_.insert(album_id, request);
-
   }
 
   AlbumsFinishCheck(offset_requested, size_requested, albums_received);
-
 }
 
 void SubsonicRequest::AlbumsFinishCheck(const int offset, const int size, const int albums_received) {
@@ -304,24 +299,25 @@ void SubsonicRequest::AlbumsFinishCheck(const int offset, const int size, const 
 
   if (!albums_requests_queue_.isEmpty() && albums_requests_active_ < kMaxConcurrentAlbumsRequests) FlushAlbumsRequests();
 
-  if (albums_requests_queue_.isEmpty() && albums_requests_active_ <= 0) { // Albums list is finished, get songs for all albums.
+  if (albums_requests_queue_.isEmpty() && albums_requests_active_ <= 0) {  // Albums list is finished, get songs for all albums.
 
-    for (QHash<QString, Request> ::iterator it = album_songs_requests_pending_.begin(); it != album_songs_requests_pending_.end(); ++it) {
+    for (QHash<QString, Request>::iterator it = album_songs_requests_pending_.begin(); it != album_songs_requests_pending_.end(); ++it) {
       Request request = it.value();
       AddAlbumSongsRequest(request.artist_id, request.album_id, request.album_artist);
     }
     album_songs_requests_pending_.clear();
 
     if (album_songs_requested_ > 0) {
-      if (album_songs_requested_ == 1) emit UpdateStatus(tr("Retrieving songs for %1 album...").arg(album_songs_requested_));
-      else emit UpdateStatus(tr("Retrieving songs for %1 albums...").arg(album_songs_requested_));
+      if (album_songs_requested_ == 1)
+        emit UpdateStatus(tr("Retrieving songs for %1 album...").arg(album_songs_requested_));
+      else
+        emit UpdateStatus(tr("Retrieving songs for %1 albums...").arg(album_songs_requested_));
       emit ProgressSetMaximum(album_songs_requested_);
       emit UpdateProgress(0);
     }
   }
 
   FinishCheck();
-
 }
 
 void SubsonicRequest::AddAlbumSongsRequest(const QString &artist_id, const QString &album_id, const QString &album_artist, const int offset) {
@@ -334,7 +330,6 @@ void SubsonicRequest::AddAlbumSongsRequest(const QString &artist_id, const QStri
   album_songs_requests_queue_.enqueue(request);
   ++album_songs_requested_;
   if (album_songs_requests_active_ < kMaxConcurrentAlbumSongsRequests) FlushAlbumSongsRequests();
-
 }
 
 void SubsonicRequest::FlushAlbumSongsRequests() {
@@ -347,9 +342,7 @@ void SubsonicRequest::FlushAlbumSongsRequests() {
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.album_artist); });
     timeouts_->AddReply(reply);
-
   }
-
 }
 
 void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const QString &album_artist) {
@@ -462,7 +455,6 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
   }
 
   SongsFinishCheck();
-
 }
 
 void SubsonicRequest::SongsFinishCheck() {
@@ -472,19 +464,17 @@ void SubsonicRequest::SongsFinishCheck() {
   if (!album_songs_requests_queue_.isEmpty() && album_songs_requests_active_ < kMaxConcurrentAlbumSongsRequests) FlushAlbumSongsRequests();
 
   if (
-      download_album_covers() &&
-      album_songs_requests_queue_.isEmpty() &&
-      album_songs_requests_active_ <= 0 &&
-      album_cover_requests_queue_.isEmpty() &&
-      album_covers_received_ <= 0 &&
-      album_covers_requests_sent_.isEmpty() &&
-      album_songs_received_ >= album_songs_requested_
-  ) {
+    download_album_covers() &&
+    album_songs_requests_queue_.isEmpty() &&
+    album_songs_requests_active_ <= 0 &&
+    album_cover_requests_queue_.isEmpty() &&
+    album_covers_received_ <= 0 &&
+    album_covers_requests_sent_.isEmpty() &&
+    album_songs_received_ >= album_songs_requested_) {
     GetAlbumCovers();
   }
 
   FinishCheck();
-
 }
 
 QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested, const QString &album_id_requested, const QString &album_artist, const qint64 album_created) {
@@ -493,13 +483,12 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
   Q_UNUSED(album_id_requested);
 
   if (
-      !json_obj.contains("id") ||
-      !json_obj.contains("title") ||
-      !json_obj.contains("size") ||
-      !json_obj.contains("suffix") ||
-      !json_obj.contains("duration") ||
-      !json_obj.contains("type")
-    ) {
+    !json_obj.contains("id") ||
+    !json_obj.contains("title") ||
+    !json_obj.contains("size") ||
+    !json_obj.contains("suffix") ||
+    !json_obj.contains("duration") ||
+    !json_obj.contains("type")) {
     Error("Invalid Json reply, song is missing one or more values.", json_obj);
     return QString();
   }
@@ -678,7 +667,6 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
   song.set_valid(true);
 
   return song_id;
-
 }
 
 void SubsonicRequest::GetAlbumCovers() {
@@ -689,11 +677,12 @@ void SubsonicRequest::GetAlbumCovers() {
   }
   FlushAlbumCoverRequests();
 
-  if (album_covers_requested_ == 1) emit UpdateStatus(tr("Retrieving album cover for %1 album...").arg(album_covers_requested_));
-  else emit UpdateStatus(tr("Retrieving album covers for %1 albums...").arg(album_covers_requested_));
+  if (album_covers_requested_ == 1)
+    emit UpdateStatus(tr("Retrieving album cover for %1 album...").arg(album_covers_requested_));
+  else
+    emit UpdateStatus(tr("Retrieving album covers for %1 albums...").arg(album_covers_requested_));
   emit ProgressSetMaximum(album_covers_requested_);
   emit UpdateProgress(0);
-
 }
 
 void SubsonicRequest::AddAlbumCoverRequest(const Song &song) {
@@ -732,7 +721,6 @@ void SubsonicRequest::AddAlbumCoverRequest(const Song &song) {
   ++album_covers_requested_;
 
   album_cover_requests_queue_.enqueue(request);
-
 }
 
 void SubsonicRequest::FlushAlbumCoverRequests() {
@@ -759,9 +747,7 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
     album_cover_replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumCoverReceived(reply, request); });
     timeouts_->AddReply(reply);
-
   }
-
 }
 
 void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverRequest &request) {
@@ -848,7 +834,6 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverR
   }
 
   AlbumCoverFinishCheck();
-
 }
 
 void SubsonicRequest::AlbumCoverFinishCheck() {
@@ -858,24 +843,22 @@ void SubsonicRequest::AlbumCoverFinishCheck() {
   }
 
   FinishCheck();
-
 }
 
 void SubsonicRequest::FinishCheck() {
 
   if (
-      !finished_ &&
-      albums_requests_queue_.isEmpty() &&
-      album_songs_requests_queue_.isEmpty() &&
-      album_cover_requests_queue_.isEmpty() &&
-      album_songs_requests_pending_.isEmpty() &&
-      album_covers_requests_sent_.isEmpty() &&
-      albums_requests_active_ <= 0 &&
-      album_songs_requests_active_ <= 0 &&
-      album_songs_received_ >= album_songs_requested_ &&
-      album_covers_requests_active_ <= 0 &&
-      album_covers_received_ >= album_covers_requested_
-  ) {
+    !finished_ &&
+    albums_requests_queue_.isEmpty() &&
+    album_songs_requests_queue_.isEmpty() &&
+    album_cover_requests_queue_.isEmpty() &&
+    album_songs_requests_pending_.isEmpty() &&
+    album_covers_requests_sent_.isEmpty() &&
+    albums_requests_active_ <= 0 &&
+    album_songs_requests_active_ <= 0 &&
+    album_songs_received_ >= album_songs_requested_ &&
+    album_covers_requests_active_ <= 0 &&
+    album_covers_received_ >= album_covers_requested_) {
     finished_ = true;
     if (no_results_ && songs_.isEmpty()) {
       emit Results(SongMap(), QString());
@@ -888,9 +871,7 @@ void SubsonicRequest::FinishCheck() {
         emit Results(songs_, ErrorsToHTML(errors_));
       }
     }
-
   }
-
 }
 
 void SubsonicRequest::Error(const QString &error, const QVariant &debug) {
@@ -900,12 +881,10 @@ void SubsonicRequest::Error(const QString &error, const QVariant &debug) {
     errors_ << error;
   }
   if (debug.isValid()) qLog(Debug) << debug;
-
 }
 
 void SubsonicRequest::Warn(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Subsonic:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-
 }

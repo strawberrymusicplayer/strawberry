@@ -60,8 +60,10 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  if (oauth() && !access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
-  else if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
+  if (oauth() && !access_token().isEmpty())
+    req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
+  else if (!session_id().isEmpty())
+    req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
 
   QNetworkReply *reply = network_->get(req);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &TidalBaseRequest::HandleSSLErrors);
@@ -69,7 +71,6 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
   //qLog(Debug) << "Tidal: Sending request" << url;
 
   return reply;
-
 }
 
 void TidalBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
@@ -77,7 +78,6 @@ void TidalBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
   for (const QSslError &ssl_error : ssl_errors) {
     Error(ssl_error.errorString());
   }
-
 }
 
 QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_login) {
@@ -123,10 +123,12 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
           qLog(Error) << "Tidal:" << error;
           set_need_login();
           if (login_sent()) {
-            qLog(Info) << "Tidal:" << "Waiting for login.";
+            qLog(Info) << "Tidal:"
+                       << "Waiting for login.";
           }
           else {
-            qLog(Info) << "Tidal:" << "Attempting to login.";
+            qLog(Info) << "Tidal:"
+                       << "Attempting to login.";
             emit RequestLogin();
           }
         }
@@ -142,7 +144,6 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
   }
 
   return data;
-
 }
 
 QJsonObject TidalBaseRequest::ExtractJsonObj(const QByteArray &data) {
@@ -172,7 +173,6 @@ QJsonObject TidalBaseRequest::ExtractJsonObj(const QByteArray &data) {
   }
 
   return json_obj;
-
 }
 
 QJsonValue TidalBaseRequest::ExtractItems(const QByteArray &data) {
@@ -180,7 +180,6 @@ QJsonValue TidalBaseRequest::ExtractItems(const QByteArray &data) {
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) return QJsonValue();
   return ExtractItems(json_obj);
-
 }
 
 QJsonValue TidalBaseRequest::ExtractItems(const QJsonObject &json_obj) {
@@ -191,7 +190,6 @@ QJsonValue TidalBaseRequest::ExtractItems(const QJsonObject &json_obj) {
   }
   QJsonValue json_items = json_obj["items"];
   return json_items;
-
 }
 
 QString TidalBaseRequest::ErrorsToHTML(const QStringList &errors) {
@@ -201,5 +199,4 @@ QString TidalBaseRequest::ErrorsToHTML(const QStringList &errors) {
     error_html += error + "<br />";
   }
   return error_html;
-
 }

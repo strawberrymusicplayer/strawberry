@@ -141,7 +141,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
  private:
   void AddLister(DeviceLister *lister);
-  template <typename T> void AddDeviceClass();
+  template<typename T> void AddDeviceClass();
 
   DeviceDatabaseBackend::Device InfoToDatabaseDevice(const DeviceInfo &info) const;
 
@@ -159,8 +159,8 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
   QIcon not_connected_overlay_;
 
-  QList<DeviceLister*> listers_;
-  QList<DeviceInfo*> devices_;
+  QList<DeviceLister *> listers_;
+  QList<DeviceInfo *> devices_;
 
   QMultiMap<QString, QMetaObject> device_classes_;
 
@@ -169,11 +169,10 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
   QThreadPool thread_pool_;
 
-  QList<QObject*> wait_for_exit_;
-
+  QList<QObject *> wait_for_exit_;
 };
 
-template <typename T>
+template<typename T>
 void DeviceManager::AddDeviceClass() {
   QStringList schemes = T::url_schemes();
   QMetaObject obj = T::staticMetaObject;

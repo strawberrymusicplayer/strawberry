@@ -105,12 +105,12 @@ class SingleApplicationPrivate : public QObject {
   quint32 instanceNumber_;
   QString blockServerName_;
   SingleApplication::Options options_;
-  QHash<QLocalSocket*, ConnectionInfo> connectionMap_;
+  QHash<QLocalSocket *, ConnectionInfo> connectionMap_;
 
  public slots:
   void slotConnectionEstablished();
-  void slotDataAvailable(QLocalSocket*, const quint32);
-  void slotClientConnectionClosed(QLocalSocket*, const quint32);
+  void slotDataAvailable(QLocalSocket *, const quint32);
+  void slotClientConnectionClosed(QLocalSocket *, const quint32);
 };
 
 #endif  // SINGLEAPPLICATION_P_H

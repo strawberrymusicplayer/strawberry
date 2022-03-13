@@ -61,7 +61,6 @@ class ScrobblerCache : public QObject {
   QString filename_;
   bool loaded_;
   QHash<quint64, ScrobblerCacheItemPtr> scrobbler_cache_;
-
 };
 
 #endif  // SCROBBLERCACHE_H

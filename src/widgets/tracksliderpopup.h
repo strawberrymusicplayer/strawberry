@@ -47,7 +47,7 @@ class TrackSliderPopup : public QWidget {
   void SetPopupPosition(const QPoint pos);
 
  protected:
-  void paintEvent(QPaintEvent*) override;
+  void paintEvent(QPaintEvent *) override;
 
  private:
   static const int kTextMargin;

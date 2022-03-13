@@ -45,6 +45,7 @@ class FilterTree {
     Term
   };
   virtual FilterType type() = 0;
+
  private:
   Q_DISABLE_COPY(FilterTree)
 };
@@ -52,7 +53,12 @@ class FilterTree {
 // Trivial filter that accepts *anything*
 class NopFilter : public FilterTree {
  public:
-  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override { Q_UNUSED(row); Q_UNUSED(parent); Q_UNUSED(model); return true; }
+  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
+    Q_UNUSED(row);
+    Q_UNUSED(parent);
+    Q_UNUSED(model);
+    return true;
+  }
   FilterType type() override { return Nop; }
 };
 

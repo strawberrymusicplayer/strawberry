@@ -72,12 +72,12 @@ struct tag_by_pointer {};
 class MergedProxyModelPrivate {
  private:
   typedef multi_index_container<
-      Mapping*,
-      indexed_by<
-          hashed_unique<tag<tag_by_source>,
-                        member<Mapping, QModelIndex, &Mapping::source_index> >,
-          ordered_unique<tag<tag_by_pointer>, identity<Mapping*> > > >
-      MappingContainer;
+    Mapping *,
+    indexed_by<
+      hashed_unique<tag<tag_by_source>,
+        member<Mapping, QModelIndex, &Mapping::source_index>>,
+      ordered_unique<tag<tag_by_pointer>, identity<Mapping *>>>>
+    MappingContainer;
 
  public:
   MappingContainer mappings_;
@@ -146,7 +146,6 @@ void MergedProxyModel::RemoveSubModel(const QModelIndex &source_parent) {
       ++it;
     }
   }
-
 }
 
 void MergedProxyModel::setSourceModel(QAbstractItemModel *source_model) {
@@ -172,7 +171,6 @@ void MergedProxyModel::setSourceModel(QAbstractItemModel *source_model) {
   QObject::connect(sourceModel(), &QAbstractItemModel::dataChanged, this, &MergedProxyModel::DataChanged);
   QObject::connect(sourceModel(), &QAbstractItemModel::layoutAboutToBeChanged, this, &MergedProxyModel::LayoutAboutToBeChanged);
   QObject::connect(sourceModel(), &QAbstractItemModel::layoutChanged, this, &MergedProxyModel::LayoutChanged);
-
 }
 
 void MergedProxyModel::SourceModelReset() {
@@ -188,12 +186,11 @@ void MergedProxyModel::SourceModelReset() {
   merge_points_.clear();
 
   endResetModel();
-
 }
 
 void MergedProxyModel::SubModelAboutToBeReset() {
 
-  QAbstractItemModel *submodel = qobject_cast<QAbstractItemModel*>(sender());
+  QAbstractItemModel *submodel = qobject_cast<QAbstractItemModel *>(sender());
 
   QModelIndex source_parent = merge_points_.value(submodel);
   QModelIndex proxy_parent = mapFromSource(source_parent);
@@ -215,12 +212,11 @@ void MergedProxyModel::SubModelAboutToBeReset() {
       ++it;
     }
   }
-
 }
 
 void MergedProxyModel::SubModelResetSlot() {
 
-  QAbstractItemModel *submodel = static_cast<QAbstractItemModel*>(sender());
+  QAbstractItemModel *submodel = static_cast<QAbstractItemModel *>(sender());
 
   QModelIndex source_parent = merge_points_.value(submodel);
   QModelIndex proxy_parent = mapFromSource(source_parent);
@@ -233,7 +229,6 @@ void MergedProxyModel::SubModelResetSlot() {
   }
 
   emit SubModelReset(proxy_parent, submodel);
-
 }
 
 QModelIndex MergedProxyModel::GetActualSourceParent(const QModelIndex &source_parent, QAbstractItemModel *model) const {
@@ -242,22 +237,21 @@ QModelIndex MergedProxyModel::GetActualSourceParent(const QModelIndex &source_pa
     return merge_points_.value(model);
   }
   return source_parent;
-
 }
 
 void MergedProxyModel::RowsAboutToBeInserted(const QModelIndex &source_parent, int start, int end) {
-  beginInsertRows(mapFromSource(GetActualSourceParent(source_parent, qobject_cast<QAbstractItemModel*>(sender()))), start, end);
+  beginInsertRows(mapFromSource(GetActualSourceParent(source_parent, qobject_cast<QAbstractItemModel *>(sender()))), start, end);
 }
 
-void MergedProxyModel::RowsInserted(const QModelIndex&, int, int) {
+void MergedProxyModel::RowsInserted(const QModelIndex &, int, int) {
   endInsertRows();
 }
 
 void MergedProxyModel::RowsAboutToBeRemoved(const QModelIndex &source_parent, int start, int end) {
-  beginRemoveRows(mapFromSource(GetActualSourceParent(source_parent, qobject_cast<QAbstractItemModel*>(sender()))), start, end);
+  beginRemoveRows(mapFromSource(GetActualSourceParent(source_parent, qobject_cast<QAbstractItemModel *>(sender()))), start, end);
 }
 
-void MergedProxyModel::RowsRemoved(const QModelIndex&, int, int) {
+void MergedProxyModel::RowsRemoved(const QModelIndex &, int, int) {
   endRemoveRows();
 }
 
@@ -265,13 +259,12 @@ QModelIndex MergedProxyModel::mapToSource(const QModelIndex &proxy_index) const 
 
   if (!proxy_index.isValid()) return QModelIndex();
 
-  Mapping *mapping = static_cast<Mapping*>(proxy_index.internalPointer());
+  Mapping *mapping = static_cast<Mapping *>(proxy_index.internalPointer());
   if (p_->mappings_.get<tag_by_pointer>().find(mapping) == p_->mappings_.get<tag_by_pointer>().end())
     return QModelIndex();
   if (mapping->source_index.model() == resetting_model_) return QModelIndex();
 
   return mapping->source_index;
-
 }
 
 QModelIndex MergedProxyModel::mapFromSource(const QModelIndex &source_index) const {
@@ -287,11 +280,10 @@ QModelIndex MergedProxyModel::mapFromSource(const QModelIndex &source_index) con
   }
   else {
     mapping = new Mapping(source_index);
-    const_cast<MergedProxyModel*>(this)->p_->mappings_.insert(mapping);
+    const_cast<MergedProxyModel *>(this)->p_->mappings_.insert(mapping);
   }
 
   return createIndex(source_index.row(), source_index.column(), mapping);
-
 }
 
 QModelIndex MergedProxyModel::index(int row, int column, const QModelIndex &parent) const {
@@ -314,7 +306,6 @@ QModelIndex MergedProxyModel::index(int row, int column, const QModelIndex &pare
   }
 
   return mapFromSource(source_index);
-
 }
 
 QModelIndex MergedProxyModel::parent(const QModelIndex &child) const {
@@ -331,7 +322,6 @@ QModelIndex MergedProxyModel::parent(const QModelIndex &child) const {
   }
 
   return mapFromSource(source_child.parent());
-
 }
 
 int MergedProxyModel::rowCount(const QModelIndex &parent) const {
@@ -350,7 +340,6 @@ int MergedProxyModel::rowCount(const QModelIndex &parent) const {
   }
 
   return source_parent.model()->rowCount(source_parent);
-
 }
 
 int MergedProxyModel::columnCount(const QModelIndex &parent) const {
@@ -363,7 +352,6 @@ int MergedProxyModel::columnCount(const QModelIndex &parent) const {
   const QAbstractItemModel *child_model = merge_points_.key(source_parent);
   if (child_model) return child_model->columnCount(QModelIndex());
   return source_parent.model()->columnCount(source_parent);
-
 }
 
 bool MergedProxyModel::hasChildren(const QModelIndex &parent) const {
@@ -377,7 +365,6 @@ bool MergedProxyModel::hasChildren(const QModelIndex &parent) const {
 
   if (child_model) return child_model->hasChildren(QModelIndex()) || source_parent.model()->hasChildren(source_parent);
   return source_parent.model()->hasChildren(source_parent);
-
 }
 
 QVariant MergedProxyModel::data(const QModelIndex &proxy_index, int role) const {
@@ -386,7 +373,6 @@ QVariant MergedProxyModel::data(const QModelIndex &proxy_index, int role) const 
   if (!IsKnownModel(source_index.model())) return QVariant();
 
   return source_index.model()->data(source_index, role);
-
 }
 
 QMap<int, QVariant> MergedProxyModel::itemData(const QModelIndex &proxy_index) const {
@@ -395,7 +381,6 @@ QMap<int, QVariant> MergedProxyModel::itemData(const QModelIndex &proxy_index) c
 
   if (!source_index.isValid()) return sourceModel()->itemData(QModelIndex());
   return source_index.model()->itemData(source_index);
-
 }
 
 Qt::ItemFlags MergedProxyModel::flags(const QModelIndex &idx) const {
@@ -404,7 +389,6 @@ Qt::ItemFlags MergedProxyModel::flags(const QModelIndex &idx) const {
 
   if (!source_index.isValid()) return sourceModel()->flags(QModelIndex());
   return source_index.model()->flags(source_index);
-
 }
 
 bool MergedProxyModel::setData(const QModelIndex &idx, const QVariant &value, int role) {
@@ -416,7 +400,6 @@ bool MergedProxyModel::setData(const QModelIndex &idx, const QVariant &value, in
   }
 
   return GetModel(idx)->setData(idx, value, role);
-
 }
 
 QStringList MergedProxyModel::mimeTypes() const {
@@ -424,13 +407,12 @@ QStringList MergedProxyModel::mimeTypes() const {
   QStringList ret;
   ret << sourceModel()->mimeTypes();
 
-  QList<QAbstractItemModel*> models = merge_points_.keys();
+  QList<QAbstractItemModel *> models = merge_points_.keys();
   for (const QAbstractItemModel *model : models) {
     ret << model->mimeTypes();
   }
 
   return ret;
-
 }
 
 QMimeData *MergedProxyModel::mimeData(const QModelIndexList &indexes) const {
@@ -453,7 +435,6 @@ QMimeData *MergedProxyModel::mimeData(const QModelIndexList &indexes) const {
   }
 
   return model->mimeData(indexes_in_model);
-
 }
 
 bool MergedProxyModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
@@ -463,7 +444,6 @@ bool MergedProxyModel::dropMimeData(const QMimeData *data, Qt::DropAction action
   }
 
   return sourceModel()->dropMimeData(data, action, row, column, parent);
-
 }
 
 QModelIndex MergedProxyModel::FindSourceParent(const QModelIndex &proxy_index) const {
@@ -473,7 +453,6 @@ QModelIndex MergedProxyModel::FindSourceParent(const QModelIndex &proxy_index) c
   QModelIndex source_index = mapToSource(proxy_index);
   if (source_index.model() == sourceModel()) return source_index;
   return merge_points_.value(GetModel(source_index));
-
 }
 
 bool MergedProxyModel::canFetchMore(const QModelIndex &parent) const {
@@ -485,7 +464,6 @@ bool MergedProxyModel::canFetchMore(const QModelIndex &parent) const {
   }
 
   return source_index.model()->canFetchMore(source_index);
-
 }
 
 void MergedProxyModel::fetchMore(const QModelIndex &parent) {
@@ -498,7 +476,6 @@ void MergedProxyModel::fetchMore(const QModelIndex &parent) {
   else {
     GetModel(source_index)->fetchMore(source_index);
   }
-
 }
 
 QAbstractItemModel *MergedProxyModel::GetModel(const QModelIndex &source_index) const {
@@ -506,13 +483,12 @@ QAbstractItemModel *MergedProxyModel::GetModel(const QModelIndex &source_index) 
   // This is essentially const_cast<QAbstractItemModel*>(source_index.model()), but without the const_cast
   const QAbstractItemModel *const_model = source_index.model();
   if (const_model == sourceModel()) return sourceModel();
-  QList<QAbstractItemModel*> submodels = merge_points_.keys();
+  QList<QAbstractItemModel *> submodels = merge_points_.keys();
   for (QAbstractItemModel *submodel : submodels) {
     if (submodel == const_model) return submodel;
   }
 
   return nullptr;
-
 }
 
 void MergedProxyModel::DataChanged(const QModelIndex &top_left, const QModelIndex &bottom_right) {
@@ -522,16 +498,15 @@ void MergedProxyModel::DataChanged(const QModelIndex &top_left, const QModelInde
 void MergedProxyModel::LayoutAboutToBeChanged() {
 
   old_merge_points_.clear();
-  QList<QAbstractItemModel*> models = merge_points_.keys();
+  QList<QAbstractItemModel *> models = merge_points_.keys();
   for (QAbstractItemModel *model : models) {
     old_merge_points_[model] = merge_points_.value(model);
   }
-
 }
 
 void MergedProxyModel::LayoutChanged() {
 
-  QList<QAbstractItemModel*> models = merge_points_.keys();
+  QList<QAbstractItemModel *> models = merge_points_.keys();
   for (QAbstractItemModel *model : models) {
     if (!old_merge_points_.contains(model)) continue;
 
@@ -544,13 +519,11 @@ void MergedProxyModel::LayoutChanged() {
       return;
     }
   }
-
 }
 
 bool MergedProxyModel::IsKnownModel(const QAbstractItemModel *model) const {
 
-  return (model == this || model == sourceModel() || merge_points_.contains(const_cast<QAbstractItemModel*>(model)));
-
+  return (model == this || model == sourceModel() || merge_points_.contains(const_cast<QAbstractItemModel *>(model)));
 }
 
 QModelIndexList MergedProxyModel::mapFromSource(const QModelIndexList &source_indexes) const {
@@ -561,7 +534,6 @@ QModelIndexList MergedProxyModel::mapFromSource(const QModelIndexList &source_in
     ret << mapFromSource(idx);
   }
   return ret;
-
 }
 
 QModelIndexList MergedProxyModel::mapToSource(const QModelIndexList &proxy_indexes) const {
@@ -572,5 +544,4 @@ QModelIndexList MergedProxyModel::mapToSource(const QModelIndexList &proxy_index
     ret << mapToSource(idx);
   }
   return ret;
-
 }

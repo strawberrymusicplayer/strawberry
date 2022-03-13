@@ -69,7 +69,7 @@ class InternetSearchModel : public QStandardItemModel {
   void Clear();
 
   InternetSearchView::ResultList GetChildResults(const QModelIndexList &indexes) const;
-  InternetSearchView::ResultList GetChildResults(const QList<QStandardItem*> &items) const;
+  InternetSearchView::ResultList GetChildResults(const QList<QStandardItem *> &items) const;
 
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
@@ -82,7 +82,7 @@ class InternetSearchModel : public QStandardItemModel {
 
  private:
   QStandardItem *BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, const int level = 0);
-  void GetChildResults(const QStandardItem *item, InternetSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const;
+  void GetChildResults(const QStandardItem *item, InternetSearchView::ResultList *results, QSet<const QStandardItem *> *visited) const;
 
  private:
   InternetService *service_;
@@ -92,8 +92,7 @@ class InternetSearchModel : public QStandardItemModel {
   QIcon album_icon_;
   QPixmap no_cover_icon_;
   CollectionModel::Grouping group_by_;
-  QMap<ContainerKey, QStandardItem*> containers_;
-
+  QMap<ContainerKey, QStandardItem *> containers_;
 };
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)

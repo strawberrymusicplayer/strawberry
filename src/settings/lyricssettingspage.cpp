@@ -69,7 +69,6 @@ LyricsSettingsPage::LyricsSettingsPage(SettingsDialog *dialog, QWidget *parent)
   DisableAuthentication();
 
   dialog->installEventFilter(this);
-
 }
 
 LyricsSettingsPage::~LyricsSettingsPage() { delete ui_; }
@@ -78,7 +77,7 @@ void LyricsSettingsPage::Load() {
 
   ui_->providers->clear();
 
-  QList<LyricsProvider*> lyrics_providers_sorted = dialog()->app()->lyrics_providers()->List();
+  QList<LyricsProvider *> lyrics_providers_sorted = dialog()->app()->lyrics_providers()->List();
   std::stable_sort(lyrics_providers_sorted.begin(), lyrics_providers_sorted.end(), ProviderCompareOrder);
 
   for (LyricsProvider *provider : lyrics_providers_sorted) {
@@ -91,7 +90,6 @@ void LyricsSettingsPage::Load() {
   Init(ui_->layout_lyricssettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
-
 }
 
 void LyricsSettingsPage::Save() {
@@ -106,7 +104,6 @@ void LyricsSettingsPage::Save() {
   s.beginGroup(kSettingsGroup);
   s.setValue("providers", providers);
   s.endGroup();
-
 }
 
 void LyricsSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous) {
@@ -143,7 +140,6 @@ void LyricsSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QList
     ui_->providers_down->setEnabled(false);
     provider_selected_ = false;
   }
-
 }
 
 void LyricsSettingsPage::ItemSelectionChanged() {
@@ -160,7 +156,6 @@ void LyricsSettingsPage::ItemSelectionChanged() {
       CurrentItemChanged(ui_->providers->currentItem(), nullptr);
     }
   }
-
 }
 
 void LyricsSettingsPage::ProvidersMoveUp() { ProvidersMove(-1); }
@@ -175,7 +170,6 @@ void LyricsSettingsPage::ProvidersMove(const int d) {
   ui_->providers->setCurrentRow(row + d);
 
   set_changed();
-
 }
 
 void LyricsSettingsPage::ItemChanged(QListWidgetItem *item) {
@@ -183,7 +177,6 @@ void LyricsSettingsPage::ItemChanged(QListWidgetItem *item) {
   item->setForeground((item->checkState() == Qt::Checked) ? palette().color(QPalette::Active, QPalette::Text) : palette().color(QPalette::Disabled, QPalette::Text));
 
   set_changed();
-
 }
 
 void LyricsSettingsPage::NoProviderSelected() {
@@ -196,14 +189,12 @@ void LyricsSettingsPage::DisableAuthentication() {
   ui_->button_authenticate->setEnabled(false);
   ui_->login_state->hide();
   ui_->button_authenticate->hide();
-
 }
 
 void LyricsSettingsPage::DisconnectAuthentication(LyricsProvider *provider) const {
 
   QObject::disconnect(provider, &LyricsProvider::AuthenticationFailure, this, &LyricsSettingsPage::AuthenticationFailure);
   QObject::disconnect(provider, &LyricsProvider::AuthenticationSuccess, this, &LyricsSettingsPage::AuthenticationSuccess);
-
 }
 
 void LyricsSettingsPage::AuthenticateClicked() {
@@ -216,7 +207,6 @@ void LyricsSettingsPage::AuthenticateClicked() {
   QObject::connect(provider, &LyricsProvider::AuthenticationFailure, this, &LyricsSettingsPage::AuthenticationFailure);
   QObject::connect(provider, &LyricsProvider::AuthenticationSuccess, this, &LyricsSettingsPage::AuthenticationSuccess);
   provider->Authenticate();
-
 }
 
 void LyricsSettingsPage::LogoutClicked() {
@@ -228,12 +218,11 @@ void LyricsSettingsPage::LogoutClicked() {
 
   ui_->button_authenticate->setEnabled(true);
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
-
 }
 
 void LyricsSettingsPage::AuthenticationSuccess() {
 
-  LyricsProvider *provider = qobject_cast<LyricsProvider*>(sender());
+  LyricsProvider *provider = qobject_cast<LyricsProvider *>(sender());
   if (!provider) return;
   DisconnectAuthentication(provider);
 
@@ -241,12 +230,11 @@ void LyricsSettingsPage::AuthenticationSuccess() {
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
   ui_->button_authenticate->setEnabled(true);
-
 }
 
 void LyricsSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
-  LyricsProvider *provider = qobject_cast<LyricsProvider*>(sender());
+  LyricsProvider *provider = qobject_cast<LyricsProvider *>(sender());
   if (!provider) return;
   DisconnectAuthentication(provider);
 
@@ -256,7 +244,6 @@ void LyricsSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
   ui_->button_authenticate->setEnabled(true);
-
 }
 
 bool LyricsSettingsPage::ProviderCompareOrder(LyricsProvider *a, LyricsProvider *b) {

@@ -55,7 +55,6 @@ SliderSlider::SliderSlider(const Qt::Orientation orientation, QWidget *parent, c
       prev_value_(0) {
 
   setRange(0, max);
-
 }
 
 void SliderSlider::wheelEvent(QWheelEvent *e) {
@@ -73,7 +72,6 @@ void SliderSlider::wheelEvent(QWheelEvent *e) {
   QSlider::setValue(nval);
 
   emit sliderReleased(value());
-
 }
 
 void SliderSlider::mouseMoveEvent(QMouseEvent *e) {
@@ -95,7 +93,6 @@ void SliderSlider::mouseMoveEvent(QMouseEvent *e) {
   else {
     QSlider::mouseMoveEvent(e);
   }
-
 }
 
 void SliderSlider::slideEvent(QMouseEvent *e) {
@@ -105,20 +102,17 @@ void SliderSlider::slideEvent(QMouseEvent *e) {
   QRect sliderRect(style()->subControlRect(QStyle::CC_Slider, &option, QStyle::SC_SliderHandle, this));
 
   QSlider::setValue(
-      orientation() == Qt::Horizontal
-          ? ((QApplication::layoutDirection() == Qt::RightToLeft)
-                 ? QStyle::sliderValueFromPosition(
-                       minimum(), maximum(),
-                       width() - (e->pos().x() - sliderRect.width() / 2),
-                       width() + sliderRect.width(), true)
-                 : QStyle::sliderValueFromPosition(
-                       minimum(), maximum(),
-                       e->pos().x() - sliderRect.width() / 2,
-                       width() - sliderRect.width()))
-          : QStyle::sliderValueFromPosition(
-                minimum(), maximum(), e->pos().y() - sliderRect.height() / 2,
-                height() - sliderRect.height()));
-
+    orientation() == Qt::Horizontal ? ((QApplication::layoutDirection() == Qt::RightToLeft) ? QStyle::sliderValueFromPosition(
+                                                                                                minimum(), maximum(),
+                                                                                                width() - (e->pos().x() - sliderRect.width() / 2),
+                                                                                                width() + sliderRect.width(), true) :
+                                                                                              QStyle::sliderValueFromPosition(
+                                                                                                minimum(), maximum(),
+                                                                                                e->pos().x() - sliderRect.width() / 2,
+                                                                                                width() - sliderRect.width())) :
+                                      QStyle::sliderValueFromPosition(
+                                        minimum(), maximum(), e->pos().y() - sliderRect.height() / 2,
+                                        height() - sliderRect.height()));
 }
 
 void SliderSlider::mousePressEvent(QMouseEvent *e) {
@@ -131,10 +125,9 @@ void SliderSlider::mousePressEvent(QMouseEvent *e) {
   prev_value_ = QSlider::value();
 
   if (!sliderRect.contains(e->pos())) mouseMoveEvent(e);
-
 }
 
-void SliderSlider::mouseReleaseEvent(QMouseEvent*) {
+void SliderSlider::mouseReleaseEvent(QMouseEvent *) {
 
   if (!outside_ && QSlider::value() != prev_value_) {
     emit sliderReleased(value());
@@ -142,7 +135,6 @@ void SliderSlider::mouseReleaseEvent(QMouseEvent*) {
 
   sliding_ = false;
   outside_ = false;
-
 }
 
 void SliderSlider::setValue(int newValue) {
@@ -154,7 +146,6 @@ void SliderSlider::setValue(int newValue) {
   else {
     prev_value_ = newValue;
   }
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -167,7 +158,6 @@ PrettySlider::PrettySlider(const Qt::Orientation orientation, const SliderMode m
   if (m_mode == Pretty) {
     setFocusPolicy(Qt::NoFocus);
   }
-
 }
 
 void PrettySlider::mousePressEvent(QMouseEvent *e) {
@@ -175,7 +165,6 @@ void PrettySlider::mousePressEvent(QMouseEvent *e) {
   SliderSlider::mousePressEvent(e);
 
   slideEvent(e);
-
 }
 
 void PrettySlider::slideEvent(QMouseEvent *e) {
@@ -186,7 +175,6 @@ void PrettySlider::slideEvent(QMouseEvent *e) {
   else {
     SliderSlider::slideEvent(e);
   }
-
 }
 
 namespace Amarok {
@@ -236,7 +224,6 @@ VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
   setMinimumHeight(pixmap_inset_.height());
 
   QObject::connect(timer_anim_, &QTimer::timeout, this, &VolumeSlider::slotAnimTimer);
-
 }
 
 void VolumeSlider::SetEnabled(const bool enabled) {
@@ -261,7 +248,6 @@ void VolumeSlider::generateGradient() {
   p.end();
 
   pixmap_gradient_ = QPixmap::fromImage(gradient_image);
-
 }
 
 void VolumeSlider::slotAnimTimer() {
@@ -276,7 +262,6 @@ void VolumeSlider::slotAnimTimer() {
     update();
     if (anim_count_ == 0) timer_anim_->stop();
   }
-
 }
 
 void VolumeSlider::mousePressEvent(QMouseEvent *e) {
@@ -285,12 +270,11 @@ void VolumeSlider::mousePressEvent(QMouseEvent *e) {
     SliderSlider::mousePressEvent(e);
     slideEvent(e);
   }
-
 }
 
 void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
 
-  QHash<QAction*, int> values;
+  QHash<QAction *, int> values;
   QMenu menu;
   menu.setTitle("Volume");
   values[menu.addAction("100%")] = 100;
@@ -305,7 +289,6 @@ void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
     QSlider::setValue(values[ret]);  // clazy:exclude=skipped-base-method
     emit sliderReleased(values[ret]);
   }
-
 }
 
 void VolumeSlider::slideEvent(QMouseEvent *e) {
@@ -317,10 +300,9 @@ void VolumeSlider::wheelEvent(QWheelEvent *e) {
   const int step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
   QSlider::setValue(SliderSlider::value() + step);  // clazy:exclude=skipped-base-method
   emit sliderReleased(value());
-
 }
 
-void VolumeSlider::paintEvent(QPaintEvent*) {
+void VolumeSlider::paintEvent(QPaintEvent *) {
 
   QPainter p(this);
 
@@ -350,37 +332,34 @@ void VolumeSlider::paintEvent(QPaintEvent*) {
   p.setFont(vol_font);
   const QRect rect(0, 0, 34, 15);
   p.drawText(rect, Qt::AlignRight | Qt::AlignVCenter, QString::number(value()) + '%');
-
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-void VolumeSlider::enterEvent(QEnterEvent*) {
+void VolumeSlider::enterEvent(QEnterEvent *) {
 #else
-void VolumeSlider::enterEvent(QEvent*) {
+void VolumeSlider::enterEvent(QEvent *) {
 #endif
 
   anim_enter_ = true;
   anim_count_ = 0;
 
   timer_anim_->start(ANIM_INTERVAL);
-
 }
 
-void VolumeSlider::leaveEvent(QEvent*) {
+void VolumeSlider::leaveEvent(QEvent *) {
 
   // This can happen if you enter and leave the widget quickly
   if (anim_count_ == 0) anim_count_ = 1;
 
   anim_enter_ = false;
   timer_anim_->start(ANIM_INTERVAL);
-
 }
 
-void VolumeSlider::paletteChange(const QPalette&) {
+void VolumeSlider::paletteChange(const QPalette &) {
   generateGradient();
 }
 
-QPixmap VolumeSlider::drawVolumePixmap () const {
+QPixmap VolumeSlider::drawVolumePixmap() const {
 
   QPixmap pixmap(112, 36);
   pixmap.fill(Qt::transparent);
@@ -400,7 +379,6 @@ QPixmap VolumeSlider::drawVolumePixmap () const {
 
   // Return QPixmap
   return pixmap;
-
 }
 
 void VolumeSlider::drawVolumeSliderHandle() {
@@ -440,5 +418,4 @@ void VolumeSlider::drawVolumeSliderHandle() {
     opacity += step;
   }
   // END
-
 }

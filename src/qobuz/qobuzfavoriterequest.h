@@ -80,8 +80,7 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
 
   QobuzService *service_;
   NetworkAccessManager *network_;
-  QList<QNetworkReply*> replies_;
-
+  QList<QNetworkReply *> replies_;
 };
 
 #endif  // QOBUZFAVORITEREQUEST_H

@@ -63,7 +63,6 @@ TidalStreamURLRequest::~TidalStreamURLRequest() {
     if (reply_->isRunning()) reply_->abort();
     reply_->deleteLater();
   }
-
 }
 
 void TidalStreamURLRequest::LoginComplete(const bool success, const QString &error) {
@@ -77,7 +76,6 @@ void TidalStreamURLRequest::LoginComplete(const bool success, const QString &err
   }
 
   Process();
-
 }
 
 void TidalStreamURLRequest::Process() {
@@ -97,7 +95,6 @@ void TidalStreamURLRequest::Process() {
   }
 
   GetStreamURL();
-
 }
 
 void TidalStreamURLRequest::Cancel() {
@@ -108,7 +105,6 @@ void TidalStreamURLRequest::Cancel() {
   else {
     emit StreamURLFailure(id_, original_url_, tr("Cancelled."));
   }
-
 }
 
 void TidalStreamURLRequest::GetStreamURL() {
@@ -145,7 +141,6 @@ void TidalStreamURLRequest::GetStreamURL() {
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
   }
-
 }
 
 void TidalStreamURLRequest::StreamURLReceived() {
@@ -249,7 +244,6 @@ void TidalStreamURLRequest::StreamURLReceived() {
         filetype = Song::FileType_Stream;
       }
     }
-
   }
 
   if (json_obj.contains("urls")) {
@@ -301,7 +295,6 @@ void TidalStreamURLRequest::StreamURLReceived() {
   }
 
   emit StreamURLSuccess(id_, original_url_, urls.first(), filetype);
-
 }
 
 void TidalStreamURLRequest::Error(const QString &error, const QVariant &debug) {
@@ -312,5 +305,4 @@ void TidalStreamURLRequest::Error(const QString &error, const QVariant &debug) {
   if (!error.isEmpty()) {
     errors_ << error;
   }
-
 }

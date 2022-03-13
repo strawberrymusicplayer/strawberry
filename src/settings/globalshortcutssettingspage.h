@@ -57,7 +57,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   void OpenGnomeKeybindingProperties();
   void OpenMateKeybindingProperties();
 
-  void ItemClicked(QTreeWidgetItem*);
+  void ItemClicked(QTreeWidgetItem *);
   void NoneClicked();
   void DefaultClicked();
   void ChangeClicked();
@@ -83,7 +83,6 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
 
   QString current_id_;
   QString de_;
-
 };
 
 #endif  // GLOBALSHORTCUTSSETTINGSPAGE_H

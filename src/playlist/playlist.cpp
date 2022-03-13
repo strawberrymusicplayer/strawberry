@@ -169,7 +169,6 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
 
   timer_save_->setSingleShot(true);
   timer_save_->setInterval(900ms);
-
 }
 
 Playlist::~Playlist() {
@@ -177,7 +176,7 @@ Playlist::~Playlist() {
   collection_items_by_id_.clear();
 }
 
-template <typename T>
+template<typename T>
 void Playlist::InsertSongItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
   PlaylistItemList items;
@@ -187,7 +186,6 @@ void Playlist::InsertSongItems(const SongList &songs, const int pos, const bool 
   }
 
   InsertItems(items, pos, play_now, enqueue, enqueue_next);
-
 }
 
 QVariant Playlist::headerData(int section, Qt::Orientation, int role) const {
@@ -198,7 +196,6 @@ QVariant Playlist::headerData(int section, Qt::Orientation, int role) const {
   if (!name.isEmpty()) return name;
 
   return QVariant();
-
 }
 
 bool Playlist::column_is_editable(Playlist::Column column) {
@@ -221,7 +218,6 @@ bool Playlist::column_is_editable(Playlist::Column column) {
       break;
   }
   return false;
-
 }
 
 bool Playlist::set_column_value(Song &song, Playlist::Column column, const QVariant &value) {
@@ -270,7 +266,6 @@ bool Playlist::set_column_value(Song &song, Playlist::Column column, const QVari
   }
 
   return true;
-
 }
 
 QVariant Playlist::data(const QModelIndex &idx, int role) const {
@@ -299,45 +294,44 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
 
       // Don't forget to change Playlist::CompareItems when adding new columns
       switch (idx.column()) {
-        case Column_Title:              return song.PrettyTitle();
-        case Column_Artist:             return song.artist();
-        case Column_Album:              return song.album();
-        case Column_Length:             return song.length_nanosec();
-        case Column_Track:              return song.track();
-        case Column_Disc:               return song.disc();
-        case Column_Year:               return song.year();
-        case Column_OriginalYear:       return song.effective_originalyear();
-        case Column_Genre:              return song.genre();
-        case Column_AlbumArtist:        return song.playlist_albumartist();
-        case Column_Composer:           return song.composer();
-        case Column_Performer:          return song.performer();
-        case Column_Grouping:           return song.grouping();
+        case Column_Title: return song.PrettyTitle();
+        case Column_Artist: return song.artist();
+        case Column_Album: return song.album();
+        case Column_Length: return song.length_nanosec();
+        case Column_Track: return song.track();
+        case Column_Disc: return song.disc();
+        case Column_Year: return song.year();
+        case Column_OriginalYear: return song.effective_originalyear();
+        case Column_Genre: return song.genre();
+        case Column_AlbumArtist: return song.playlist_albumartist();
+        case Column_Composer: return song.composer();
+        case Column_Performer: return song.performer();
+        case Column_Grouping: return song.grouping();
 
-        case Column_PlayCount:          return song.playcount();
-        case Column_SkipCount:          return song.skipcount();
-        case Column_LastPlayed:         return song.lastplayed();
+        case Column_PlayCount: return song.playcount();
+        case Column_SkipCount: return song.skipcount();
+        case Column_LastPlayed: return song.lastplayed();
 
-        case Column_Samplerate:         return song.samplerate();
-        case Column_Bitdepth:           return song.bitdepth();
-        case Column_Bitrate:            return song.bitrate();
+        case Column_Samplerate: return song.samplerate();
+        case Column_Bitdepth: return song.bitdepth();
+        case Column_Bitrate: return song.bitrate();
 
-        case Column_Filename:           return song.effective_stream_url();
-        case Column_BaseFilename:       return song.basefilename();
-        case Column_Filesize:           return song.filesize();
-        case Column_Filetype:           return song.filetype();
-        case Column_DateModified:       return song.mtime();
-        case Column_DateCreated:        return song.ctime();
+        case Column_Filename: return song.effective_stream_url();
+        case Column_BaseFilename: return song.basefilename();
+        case Column_Filesize: return song.filesize();
+        case Column_Filetype: return song.filetype();
+        case Column_DateModified: return song.mtime();
+        case Column_DateCreated: return song.ctime();
 
         case Column_Comment:
-          if (role == Qt::DisplayRole)  return song.comment().simplified();
+          if (role == Qt::DisplayRole) return song.comment().simplified();
           return song.comment();
 
-        case Column_Source:             return song.source();
+        case Column_Source: return song.source();
 
-        case Column_Rating:             return song.rating();
+        case Column_Rating: return song.rating();
 
-        case Column_HasCUE:             return song.has_cue();
-
+        case Column_HasCUE: return song.has_cue();
       }
 
       return QVariant();
@@ -383,7 +377,6 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
     default:
       return QVariant();
   }
-
 }
 
 #ifdef HAVE_MOODBAR
@@ -407,7 +400,12 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, int role) 
   if (song.url().isLocalFile()) {
     TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
     QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
-    QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item]() { SongSaveComplete(reply, persistent_index, item->OriginalMetadata()); }, Qt::QueuedConnection);
+    QObject::connect(
+      reply,
+      &TagReaderReply::Finished,
+      this,
+      [this, reply, persistent_index, item]() { SongSaveComplete(reply, persistent_index, item->OriginalMetadata()); },
+      Qt::QueuedConnection);
   }
   else if (song.source() == Song::Source_Stream) {
     item->SetMetadata(song);
@@ -415,7 +413,6 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, int role) 
   }
 
   return true;
-
 }
 
 void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx, const Song &old_metadata) {
@@ -430,7 +427,6 @@ void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelInd
   }
 
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
-
 }
 
 void Playlist::ItemReload(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit) {
@@ -447,7 +443,6 @@ void Playlist::ItemReload(const QPersistentModelIndex &idx, const Song &old_meta
       watcher->setFuture(future);
     }
   }
-
 }
 
 void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit) {
@@ -457,9 +452,9 @@ void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &
     if (item) {
       if (idx.row() == current_row()) {
         const bool minor = old_metadata.title() == item->Metadata().title() &&
-                           old_metadata.albumartist() == item->Metadata().albumartist() &&
-                           old_metadata.artist() == item->Metadata().artist() &&
-                           old_metadata.album() == item->Metadata().album();
+          old_metadata.albumartist() == item->Metadata().albumartist() &&
+          old_metadata.artist() == item->Metadata().artist() &&
+          old_metadata.album() == item->Metadata().album();
         InformOfCurrentSongChange(AutoScroll_Never, minor);
       }
       else {
@@ -471,7 +466,6 @@ void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &
       ScheduleSaveAsync();
     }
   }
-
 }
 
 int Playlist::current_row() const {
@@ -530,16 +524,15 @@ int Playlist::NextVirtualIndex(int i, const bool ignore_repeat_track) const {
     }
     Song this_song = item_at(virtual_items_[j])->Metadata();
     if (((last_song.is_compilation() && this_song.is_compilation()) ||
-         last_song.effective_albumartist() == this_song.effective_albumartist()) &&
-        last_song.album() == this_song.album() &&
-        FilterContainsVirtualIndex(j)) {
+          last_song.effective_albumartist() == this_song.effective_albumartist()) &&
+      last_song.album() == this_song.album() &&
+      FilterContainsVirtualIndex(j)) {
       return j;  // Found one
     }
   }
 
   // Couldn't find one - return past the end of the list
   return static_cast<int>(virtual_items_.count());
-
 }
 
 int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const {
@@ -577,7 +570,6 @@ int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const 
 
   // Couldn't find one - return before the start of the list
   return -1;
-
 }
 
 int Playlist::next_row(const bool ignore_repeat_track) const {
@@ -609,7 +601,6 @@ int Playlist::next_row(const bool ignore_repeat_track) const {
   if (next_virtual_index < 0 || next_virtual_index >= virtual_items_.count()) return -1;
 
   return virtual_items_[next_virtual_index];
-
 }
 
 int Playlist::previous_row(const bool ignore_repeat_track) const {
@@ -636,7 +627,6 @@ int Playlist::previous_row(const bool ignore_repeat_track) const {
   if (prev_virtual_index < 0) return -1;
 
   return virtual_items_[prev_virtual_index];
-
 }
 
 void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const bool is_stopping, const bool force_inform) {
@@ -729,7 +719,6 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
   }
 
   UpdateScrobblePoint();
-
 }
 
 void Playlist::InsertDynamicItems(const int count) {
@@ -739,7 +728,6 @@ void Playlist::InsertDynamicItems(const int count) {
   QObject::connect(inserter, &PlaylistGeneratorInserter::PlayRequested, this, &Playlist::PlayRequested);
 
   inserter->Load(this, -1, false, false, false, dynamic_playlist_, count);
-
 }
 
 Qt::ItemFlags Playlist::flags(const QModelIndex &idx) const {
@@ -752,20 +740,18 @@ Qt::ItemFlags Playlist::flags(const QModelIndex &idx) const {
   else {
     return Qt::ItemIsDropEnabled;
   }
-
 }
 
 QStringList Playlist::mimeTypes() const {
 
   return QStringList() << "text/uri-list" << kRowsMimetype;
-
 }
 
 Qt::DropActions Playlist::supportedDropActions() const {
   return Qt::MoveAction | Qt::CopyAction | Qt::LinkAction;
 }
 
-bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int, const QModelIndex&) {
+bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int, const QModelIndex &) {
 
   if (action == Qt::IgnoreAction) return false;
 
@@ -773,7 +759,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
   bool enqueue_now = false;
   bool enqueue_next_now = false;
 
-  if (const MimeData *mime_data = qobject_cast<const MimeData*>(data)) {
+  if (const MimeData *mime_data = qobject_cast<const MimeData *>(data)) {
     if (mime_data->clear_first_) {
       Clear();
     }
@@ -782,7 +768,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     enqueue_next_now = mime_data->enqueue_next_now_;
   }
 
-  if (const SongMimeData *song_data = qobject_cast<const SongMimeData*>(data)) {
+  if (const SongMimeData *song_data = qobject_cast<const SongMimeData *>(data)) {
     // Dragged from a collection
     // We want to check if these songs are from the actual local file backend, if they are we treat them differently.
     if (song_data->backend && song_data->backend->songs_table() == SCollection::kSongsTable) {
@@ -792,16 +778,16 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
       InsertSongItems<SongPlaylistItem>(song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
     }
   }
-  else if (const PlaylistItemMimeData *item_data = qobject_cast<const PlaylistItemMimeData*>(data)) {
+  else if (const PlaylistItemMimeData *item_data = qobject_cast<const PlaylistItemMimeData *>(data)) {
     InsertItems(item_data->items_, row, play_now, enqueue_now, enqueue_next_now);
   }
-  else if (const PlaylistGeneratorMimeData *generator_data = qobject_cast<const PlaylistGeneratorMimeData*>(data)) {
+  else if (const PlaylistGeneratorMimeData *generator_data = qobject_cast<const PlaylistGeneratorMimeData *>(data)) {
     InsertSmartPlaylist(generator_data->generator_, row, play_now, enqueue_now, enqueue_next_now);
   }
-  else if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
+  else if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData *>(data)) {
     InsertInternetItems(internet_song_data->service, internet_song_data->songs.values(), row, play_now, enqueue_now, enqueue_next_now);
   }
-  else if (const RadioMimeData *radio_data = qobject_cast<const RadioMimeData*>(data)) {
+  else if (const RadioMimeData *radio_data = qobject_cast<const RadioMimeData *>(data)) {
     InsertRadioItems(radio_data->songs, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (data->hasFormat(kRowsMimetype)) {
@@ -815,10 +801,10 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     qint64 own_pid = QCoreApplication::applicationPid();
 
     QDataStream stream(data->data(kRowsMimetype));
-    stream.readRawData(reinterpret_cast<char*>(&source_playlist), sizeof(source_playlist));  // NOLINT(bugprone-sizeof-expression)
+    stream.readRawData(reinterpret_cast<char *>(&source_playlist), sizeof(source_playlist));  // NOLINT(bugprone-sizeof-expression)
     stream >> source_rows;
     if (!stream.atEnd()) {
-      stream.readRawData(reinterpret_cast<char*>(&pid), sizeof(pid));
+      stream.readRawData(reinterpret_cast<char *>(&pid), sizeof(pid));
     }
     else {
       pid = own_pid;
@@ -864,7 +850,6 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
   }
 
   return true;
-
 }
 
 void Playlist::InsertUrls(const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
@@ -873,7 +858,6 @@ void Playlist::InsertUrls(const QList<QUrl> &urls, const int pos, const bool pla
   QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
 
   inserter->Load(this, pos, play_now, enqueue, enqueue_next, urls);
-
 }
 
 void Playlist::InsertSmartPlaylist(PlaylistGeneratorPtr generator, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
@@ -891,7 +875,6 @@ void Playlist::InsertSmartPlaylist(PlaylistGeneratorPtr generator, const int pos
   if (generator->is_dynamic()) {
     TurnOnDynamicPlaylist(generator);
   }
-
 }
 
 void Playlist::TurnOnDynamicPlaylist(PlaylistGeneratorPtr gen) {
@@ -901,7 +884,6 @@ void Playlist::TurnOnDynamicPlaylist(PlaylistGeneratorPtr gen) {
   emit DynamicModeChanged(true);
 
   ScheduleSave();
-
 }
 
 void Playlist::MoveItemWithoutUndo(const int source, const int dest) {
@@ -957,7 +939,6 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
   emit layoutChanged();
 
   ScheduleSave();
-
 }
 
 void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
@@ -1013,7 +994,6 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
   emit layoutChanged();
 
   ScheduleSave();
-
 }
 
 void Playlist::InsertItems(const PlaylistItemList &itemsIn, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
@@ -1074,7 +1054,6 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, const int pos, const
   }
 
   if (play_now) emit PlayRequested(index(start, 0), AutoScroll_Maybe);
-
 }
 
 void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, const int pos, const bool enqueue, const bool enqueue_next) {
@@ -1129,7 +1108,6 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, const int p
   else {
     ReshuffleIndices();
   }
-
 }
 
 void Playlist::InsertCollectionItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
@@ -1152,7 +1130,6 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos
     }
   }
   InsertItems(items, pos, play_now, enqueue, enqueue_next);
-
 }
 
 void Playlist::InsertInternetItems(InternetService *service, const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
@@ -1164,7 +1141,6 @@ void Playlist::InsertInternetItems(InternetService *service, const SongList &son
   }
 
   InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
-
 }
 
 void Playlist::InsertRadioItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
@@ -1176,7 +1152,6 @@ void Playlist::InsertRadioItems(const SongList &songs, const int pos, const bool
   }
 
   InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
-
 }
 
 void Playlist::UpdateItems(SongList songs) {
@@ -1189,7 +1164,7 @@ void Playlist::UpdateItems(SongList songs) {
   // then we remove song from our list because we will not need to check it again.
   // And we also update undo actions.
 
-  for (int i = 0;  i < items_.size(); i++) {
+  for (int i = 0; i < items_.size(); i++) {
     // Update current items list
     QMutableListIterator<Song> it(songs);
     while (it.hasNext()) {
@@ -1209,8 +1184,8 @@ void Playlist::UpdateItems(SongList songs) {
         emit dataChanged(index(i, 0), index(i, ColumnCount - 1));
         // Also update undo actions
         for (int y = 0; y < undo_stack_->count(); y++) {
-          QUndoCommand *undo_action = const_cast<QUndoCommand*>(undo_stack_->command(i));
-          PlaylistUndoCommands::InsertItems *undo_action_insert = dynamic_cast<PlaylistUndoCommands::InsertItems*>(undo_action);
+          QUndoCommand *undo_action = const_cast<QUndoCommand *>(undo_stack_->command(i));
+          PlaylistUndoCommands::InsertItems *undo_action_insert = dynamic_cast<PlaylistUndoCommands::InsertItems *>(undo_action);
           if (undo_action_insert) {
             bool found_and_updated = undo_action_insert->UpdateItem(new_item);
             if (found_and_updated) break;
@@ -1225,7 +1200,6 @@ void Playlist::UpdateItems(SongList songs) {
   emit PlaylistChanged();
 
   ScheduleSave();
-
 }
 
 QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
@@ -1256,16 +1230,15 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
   const Playlist *self = this;
   const qint64 pid = QCoreApplication::applicationPid();
 
-  stream.writeRawData(reinterpret_cast<char*>(&self), sizeof(self));  // NOLINT(bugprone-sizeof-expression)
+  stream.writeRawData(reinterpret_cast<char *>(&self), sizeof(self));  // NOLINT(bugprone-sizeof-expression)
   stream << rows;
-  stream.writeRawData(reinterpret_cast<const char*>(&pid), sizeof(pid));
+  stream.writeRawData(reinterpret_cast<const char *>(&pid), sizeof(pid));
   buf.close();
 
   mimedata->setUrls(urls);
   mimedata->setData(kRowsMimetype, buf.data());
 
   return mimedata;
-
 }
 
 bool Playlist::CompareItems(const int column, const Qt::SortOrder order, std::shared_ptr<PlaylistItem> _a, std::shared_ptr<PlaylistItem> _b) {
@@ -1273,46 +1246,46 @@ bool Playlist::CompareItems(const int column, const Qt::SortOrder order, std::sh
   std::shared_ptr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
   std::shared_ptr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
 
-#define cmp(field) return a->Metadata().field() < b->Metadata().field()
+#define cmp(field)    return a->Metadata().field() < b->Metadata().field()
 #define strcmp(field) return QString::localeAwareCompare(a->Metadata().field().toLower(), b->Metadata().field().toLower()) < 0;
 
   switch (column) {
 
-    case Column_Title:        strcmp(title_sortable);
-    case Column_Artist:       strcmp(artist_sortable);
-    case Column_Album:        strcmp(album_sortable);
-    case Column_Length:       cmp(length_nanosec);
-    case Column_Track:        cmp(track);
-    case Column_Disc:         cmp(disc);
-    case Column_Year:         cmp(year);
+    case Column_Title: strcmp(title_sortable);
+    case Column_Artist: strcmp(artist_sortable);
+    case Column_Album: strcmp(album_sortable);
+    case Column_Length: cmp(length_nanosec);
+    case Column_Track: cmp(track);
+    case Column_Disc: cmp(disc);
+    case Column_Year: cmp(year);
     case Column_OriginalYear: cmp(originalyear);
-    case Column_Genre:        strcmp(genre);
-    case Column_AlbumArtist:  strcmp(playlist_albumartist_sortable);
-    case Column_Composer:     strcmp(composer);
-    case Column_Performer:    strcmp(performer);
-    case Column_Grouping:     strcmp(grouping);
+    case Column_Genre: strcmp(genre);
+    case Column_AlbumArtist: strcmp(playlist_albumartist_sortable);
+    case Column_Composer: strcmp(composer);
+    case Column_Performer: strcmp(performer);
+    case Column_Grouping: strcmp(grouping);
 
-    case Column_PlayCount:    cmp(playcount);
-    case Column_SkipCount:    cmp(skipcount);
-    case Column_LastPlayed:   cmp(lastplayed);
+    case Column_PlayCount: cmp(playcount);
+    case Column_SkipCount: cmp(skipcount);
+    case Column_LastPlayed: cmp(lastplayed);
 
-    case Column_Bitrate:      cmp(bitrate);
-    case Column_Samplerate:   cmp(samplerate);
-    case Column_Bitdepth:     cmp(bitdepth);
+    case Column_Bitrate: cmp(bitrate);
+    case Column_Samplerate: cmp(samplerate);
+    case Column_Bitdepth: cmp(bitdepth);
     case Column_Filename:
       return (QString::localeAwareCompare(a->Url().path().toLower(), b->Url().path().toLower()) < 0);
     case Column_BaseFilename: cmp(basefilename);
-    case Column_Filesize:     cmp(filesize);
-    case Column_Filetype:     cmp(filetype);
+    case Column_Filesize: cmp(filesize);
+    case Column_Filetype: cmp(filetype);
     case Column_DateModified: cmp(mtime);
-    case Column_DateCreated:  cmp(ctime);
+    case Column_DateCreated: cmp(ctime);
 
-    case Column_Comment:      strcmp(comment);
-    case Column_Source:       cmp(source);
+    case Column_Comment: strcmp(comment);
+    case Column_Source: cmp(source);
 
-    case Column_Rating:       cmp(rating);
+    case Column_Rating: cmp(rating);
 
-    case Column_HasCUE:       cmp(has_cue);
+    case Column_HasCUE: cmp(has_cue);
 
     default: qLog(Error) << "No such column" << column;
   }
@@ -1321,7 +1294,6 @@ bool Playlist::CompareItems(const int column, const Qt::SortOrder order, std::sh
 #undef strcmp
 
   return false;
-
 }
 
 bool Playlist::ComparePathDepths(const Qt::SortOrder order, std::shared_ptr<PlaylistItem> _a, std::shared_ptr<PlaylistItem> _b) {
@@ -1333,50 +1305,48 @@ bool Playlist::ComparePathDepths(const Qt::SortOrder order, std::shared_ptr<Play
   qint64 b_dir_level = b->Url().path().count('/');
 
   return a_dir_level < b_dir_level;
-
 }
 
 QString Playlist::column_name(Column column) {
 
   switch (column) {
-    case Column_Title:        return tr("Title");
-    case Column_Artist:       return tr("Artist");
-    case Column_Album:        return tr("Album");
-    case Column_Track:        return tr("Track");
-    case Column_Disc:         return tr("Disc");
-    case Column_Length:       return tr("Length");
-    case Column_Year:         return tr("Year");
+    case Column_Title: return tr("Title");
+    case Column_Artist: return tr("Artist");
+    case Column_Album: return tr("Album");
+    case Column_Track: return tr("Track");
+    case Column_Disc: return tr("Disc");
+    case Column_Length: return tr("Length");
+    case Column_Year: return tr("Year");
     case Column_OriginalYear: return tr("Original year");
-    case Column_Genre:        return tr("Genre");
-    case Column_AlbumArtist:  return tr("Album artist");
-    case Column_Composer:     return tr("Composer");
-    case Column_Performer:    return tr("Performer");
-    case Column_Grouping:     return tr("Grouping");
+    case Column_Genre: return tr("Genre");
+    case Column_AlbumArtist: return tr("Album artist");
+    case Column_Composer: return tr("Composer");
+    case Column_Performer: return tr("Performer");
+    case Column_Grouping: return tr("Grouping");
 
-    case Column_PlayCount:    return tr("Play count");
-    case Column_SkipCount:    return tr("Skip count");
-    case Column_LastPlayed:   return tr("Last played");
+    case Column_PlayCount: return tr("Play count");
+    case Column_SkipCount: return tr("Skip count");
+    case Column_LastPlayed: return tr("Last played");
 
-    case Column_Samplerate:   return tr("Sample rate");
-    case Column_Bitdepth:     return tr("Bit depth");
-    case Column_Bitrate:      return tr("Bitrate");
+    case Column_Samplerate: return tr("Sample rate");
+    case Column_Bitdepth: return tr("Bit depth");
+    case Column_Bitrate: return tr("Bitrate");
 
-    case Column_Filename:     return tr("File name");
+    case Column_Filename: return tr("File name");
     case Column_BaseFilename: return tr("File name (without path)");
-    case Column_Filesize:     return tr("File size");
-    case Column_Filetype:     return tr("File type");
+    case Column_Filesize: return tr("File size");
+    case Column_Filetype: return tr("File type");
     case Column_DateModified: return tr("Date modified");
-    case Column_DateCreated:  return tr("Date created");
+    case Column_DateCreated: return tr("Date created");
 
-    case Column_Comment:      return tr("Comment");
-    case Column_Source:       return tr("Source");
-    case Column_Mood:         return tr("Mood");
-    case Column_Rating:       return tr("Rating");
-    case Column_HasCUE:       return tr("CUE");
-    default:                  qLog(Error) << "No such column" << column;;
+    case Column_Comment: return tr("Comment");
+    case Column_Source: return tr("Source");
+    case Column_Mood: return tr("Mood");
+    case Column_Rating: return tr("Rating");
+    case Column_HasCUE: return tr("CUE");
+    default: qLog(Error) << "No such column" << column; ;
   }
   return "";
-
 }
 
 QString Playlist::abbreviated_column_name(const Column column) {
@@ -1393,7 +1363,6 @@ QString Playlist::abbreviated_column_name(const Column column) {
       return column_name;
   }
   return "";
-
 }
 
 void Playlist::sort(int column, Qt::SortOrder order) {
@@ -1427,7 +1396,6 @@ void Playlist::sort(int column, Qt::SortOrder order) {
   undo_stack_->push(new PlaylistUndoCommands::SortItems(this, column, order, new_items));
 
   ReshuffleIndices();
-
 }
 
 void Playlist::ReOrderWithoutUndo(const PlaylistItemList &new_items) {
@@ -1437,7 +1405,7 @@ void Playlist::ReOrderWithoutUndo(const PlaylistItemList &new_items) {
   PlaylistItemList old_items = items_;
   items_ = new_items;
 
-  QHash<const PlaylistItem*, int> new_rows;
+  QHash<const PlaylistItem *, int> new_rows;
   for (int i = 0; i < new_items.length(); ++i) {
     new_rows[new_items[i].get()] = i;
   }
@@ -1452,7 +1420,6 @@ void Playlist::ReOrderWithoutUndo(const PlaylistItemList &new_items) {
   emit PlaylistChanged();
 
   ScheduleSave();
-
 }
 
 void Playlist::Playing() { SetCurrentIsPaused(false); }
@@ -1470,7 +1437,6 @@ void Playlist::SetCurrentIsPaused(const bool paused) {
   if (current_item_index_.isValid()) {
     emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
   }
-
 }
 
 void Playlist::ScheduleSaveAsync() {
@@ -1481,7 +1447,6 @@ void Playlist::ScheduleSaveAsync() {
   else {
     QMetaObject::invokeMethod(this, "ScheduleSave", Qt::QueuedConnection);
   }
-
 }
 
 void Playlist::ScheduleSave() {
@@ -1489,7 +1454,6 @@ void Playlist::ScheduleSave() {
   if (!backend_ || is_loading_) return;
 
   timer_save_->start();
-
 }
 
 void Playlist::Save() {
@@ -1497,7 +1461,6 @@ void Playlist::Save() {
   if (!backend_ || is_loading_) return;
 
   backend_->SavePlaylistAsync(id_, items_, last_played_row(), dynamic_playlist_);
-
 }
 
 void Playlist::Restore() {
@@ -1517,12 +1480,11 @@ void Playlist::Restore() {
   QFutureWatcher<PlaylistItemList> *watcher = new QFutureWatcher<PlaylistItemList>();
   QObject::connect(watcher, &QFutureWatcher<PlaylistItemList>::finished, this, &Playlist::ItemsLoaded);
   watcher->setFuture(future);
-
 }
 
 void Playlist::ItemsLoaded() {
 
-  QFutureWatcher<PlaylistItemList> *watcher = static_cast<QFutureWatcher<PlaylistItemList>*>(sender());
+  QFutureWatcher<PlaylistItemList> *watcher = static_cast<QFutureWatcher<PlaylistItemList> *>(sender());
   PlaylistItemList items = watcher->result();
   watcher->deleteLater();
 
@@ -1559,7 +1521,6 @@ void Playlist::ItemsLoaded() {
         gen->Load(p.dynamic_data);
         TurnOnDynamicPlaylist(gen);
       }
-
     }
   }
 
@@ -1580,7 +1541,6 @@ void Playlist::ItemsLoaded() {
   }
 
   emit PlaylistLoaded();
-
 }
 
 static bool DescendingIntLessThan(int a, int b) { return a > b; }
@@ -1603,7 +1563,6 @@ void Playlist::RemoveItemsWithoutUndo(const QList<int> &indicesIn) {
     // Remove the current sequence.
     removeRows(beginning, end - beginning + 1);
   }
-
 }
 
 bool Playlist::removeRows(int row, int count, const QModelIndex &parent) {
@@ -1624,7 +1583,6 @@ bool Playlist::removeRows(int row, int count, const QModelIndex &parent) {
   }
 
   return true;
-
 }
 
 bool Playlist::removeRows(QList<int> &rows) {
@@ -1653,7 +1611,6 @@ bool Playlist::removeRows(QList<int> &rows) {
   }
 
   return true;
-
 }
 
 PlaylistItemList Playlist::RemoveItemsWithoutUndo(const int row, const int count) {
@@ -1706,7 +1663,6 @@ PlaylistItemList Playlist::RemoveItemsWithoutUndo(const int row, const int count
   ScheduleSave();
 
   return ret;
-
 }
 
 void Playlist::StopAfter(const int row) {
@@ -1726,7 +1682,6 @@ void Playlist::StopAfter(const int row) {
   if (stop_after_.isValid()) {
     emit dataChanged(stop_after_, stop_after_.sibling(stop_after_.row(), ColumnCount - 1));
   }
-
 }
 
 void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool minor) {
@@ -1737,7 +1692,6 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool m
   current_item()->SetTemporaryMetadata(song);
   if (update_scrobble_point) UpdateScrobblePoint();
   InformOfCurrentSongChange(AutoScroll_Never, minor);
-
 }
 
 void Playlist::ClearStreamMetadata() {
@@ -1748,7 +1702,6 @@ void Playlist::ClearStreamMetadata() {
   UpdateScrobblePoint();
 
   emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
-
 }
 
 bool Playlist::stop_after_current() const {
@@ -1759,7 +1712,6 @@ bool Playlist::stop_after_current() const {
   }
 
   return stop_after_.isValid() && current_item_index_.isValid() && stop_after_.row() == current_item_index_.row();
-
 }
 
 PlaylistItemPtr Playlist::current_item() const {
@@ -1770,7 +1722,6 @@ PlaylistItemPtr Playlist::current_item() const {
   }
 
   return PlaylistItemPtr();
-
 }
 
 PlaylistItem::Options Playlist::current_item_options() const {
@@ -1802,7 +1753,6 @@ void Playlist::Clear() {
   TurnOffDynamicPlaylist();
 
   ScheduleSave();
-
 }
 
 void Playlist::RepopulateDynamicPlaylist() {
@@ -1811,7 +1761,6 @@ void Playlist::RepopulateDynamicPlaylist() {
 
   RemoveItemsNotInQueue();
   InsertSmartPlaylist(dynamic_playlist_);
-
 }
 
 void Playlist::ExpandDynamicPlaylist() {
@@ -1819,7 +1768,6 @@ void Playlist::ExpandDynamicPlaylist() {
   if (!dynamic_playlist_) return;
 
   InsertDynamicItems(5);
-
 }
 
 void Playlist::RemoveItemsNotInQueue() {
@@ -1849,7 +1797,6 @@ void Playlist::RemoveItemsNotInQueue() {
     RemoveItemsWithoutUndo(start, count);
     start++;
   }
-
 }
 
 void Playlist::ReloadItems(const QList<int> &rows) {
@@ -1861,7 +1808,6 @@ void Playlist::ReloadItems(const QList<int> &rows) {
       ItemReload(idx, item->Metadata(), false);
     }
   }
-
 }
 
 void Playlist::ReloadItemsBlocking(const QList<int> &rows) {
@@ -1873,7 +1819,6 @@ void Playlist::ReloadItemsBlocking(const QList<int> &rows) {
     QPersistentModelIndex idx = index(row, 0);
     ItemReloadComplete(idx, old_metadata, false);
   }
-
 }
 
 void Playlist::AddSongInsertVetoListener(SongInsertVetoListener *listener) {
@@ -1887,7 +1832,7 @@ void Playlist::RemoveSongInsertVetoListener(SongInsertVetoListener *listener) {
 }
 
 void Playlist::SongInsertVetoListenerDestroyed() {
-  veto_listeners_.removeAll(qobject_cast<SongInsertVetoListener*>(sender()));
+  veto_listeners_.removeAll(qobject_cast<SongInsertVetoListener *>(sender()));
 }
 
 void Playlist::Shuffle() {
@@ -1914,7 +1859,6 @@ void Playlist::Shuffle() {
   }
 
   undo_stack_->push(new PlaylistUndoCommands::ShuffleItems(this, new_items));
-
 }
 
 namespace {
@@ -1926,7 +1870,6 @@ bool AlbumShuffleComparator(const QMap<QString, int> &album_key_positions, const
 
   if (left_pos == right_pos) return left < right;
   return left_pos < right_pos;
-
 }
 
 }  // namespace
@@ -2004,7 +1947,6 @@ void Playlist::ReshuffleIndices() {
       break;
     }
   }
-
 }
 
 void Playlist::set_sequence(PlaylistSequence *v) {
@@ -2013,7 +1955,6 @@ void Playlist::set_sequence(PlaylistSequence *v) {
   QObject::connect(v, &PlaylistSequence::ShuffleModeChanged, this, &Playlist::ShuffleModeChanged);
 
   ShuffleModeChanged(v->shuffle_mode());
-
 }
 
 QSortFilterProxyModel *Playlist::proxy() const { return proxy_; }
@@ -2026,7 +1967,6 @@ SongList Playlist::GetAllSongs() const {
     ret << item->Metadata();
   }
   return ret;
-
 }
 
 PlaylistItemList Playlist::GetAllItems() const { return items_; }
@@ -2039,19 +1979,17 @@ quint64 Playlist::GetTotalLength() const {
     if (length > 0) ret += length;
   }
   return ret;
-
 }
 
 PlaylistItemList Playlist::collection_items_by_id(const int id) const {
   return collection_items_by_id_.values(id);
 }
 
-void Playlist::TracksAboutToBeDequeued(const QModelIndex&, int begin, int end) {
+void Playlist::TracksAboutToBeDequeued(const QModelIndex &, int begin, int end) {
 
   for (int i = begin; i <= end; ++i) {
     temp_dequeue_change_indexes_ << queue_->mapToSource(queue_->index(i, Column_Title));
   }
-
 }
 
 void Playlist::TracksDequeued() {
@@ -2061,15 +1999,13 @@ void Playlist::TracksDequeued() {
   }
   temp_dequeue_change_indexes_.clear();
   emit QueueChanged();
-
 }
 
-void Playlist::TracksEnqueued(const QModelIndex&, const int begin, const int end) {
+void Playlist::TracksEnqueued(const QModelIndex &, const int begin, const int end) {
 
   const QModelIndex &b = queue_->mapToSource(queue_->index(begin, Column_Title));
   const QModelIndex &e = queue_->mapToSource(queue_->index(end, Column_Title));
   emit dataChanged(b, e);
-
 }
 
 void Playlist::QueueLayoutChanged() {
@@ -2078,7 +2014,6 @@ void Playlist::QueueLayoutChanged() {
     const QModelIndex &idx = queue_->mapToSource(queue_->index(i, Column_Title));
     emit dataChanged(idx, idx);
   }
-
 }
 
 void Playlist::ItemChanged(const int row) {
@@ -2087,7 +2022,6 @@ void Playlist::ItemChanged(const int row) {
   if (idx.isValid()) {
     emit dataChanged(index(row, 0), index(row, ColumnCount - 1));
   }
-
 }
 
 void Playlist::ItemChanged(PlaylistItemPtr item) {
@@ -2097,7 +2031,6 @@ void Playlist::ItemChanged(PlaylistItemPtr item) {
       ItemChanged(row);
     }
   }
-
 }
 
 void Playlist::InformOfCurrentSongChange(const AutoScroll autoscroll, const bool minor) {
@@ -2117,7 +2050,6 @@ void Playlist::InformOfCurrentSongChange(const AutoScroll autoscroll, const bool
       emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
     }
   }
-
 }
 
 void Playlist::InvalidateDeletedSongs() {
@@ -2151,7 +2083,6 @@ void Playlist::InvalidateDeletedSongs() {
       ReloadItemsBlocking(invalidated_rows);
     }
   }
-
 }
 
 void Playlist::RemoveDeletedSongs() {
@@ -2168,13 +2099,12 @@ void Playlist::RemoveDeletedSongs() {
   }
 
   removeRows(rows_to_remove);
-
 }
 
 namespace {
 
 struct SongSimilarHash {
-  size_t operator() (const Song &song) const {
+  size_t operator()(const Song &song) const {
     return HashSimilar(song);
   }
 };
@@ -2219,7 +2149,6 @@ void Playlist::RemoveDuplicateSongs() {
   }
 
   removeRows(rows_to_remove);
-
 }
 
 void Playlist::RemoveUnavailableSongs() {
@@ -2236,7 +2165,6 @@ void Playlist::RemoveUnavailableSongs() {
   }
 
   removeRows(rows_to_remove);
-
 }
 
 bool Playlist::ApplyValidityOnCurrentSong(const QUrl &url, const bool valid) {
@@ -2263,7 +2191,6 @@ bool Playlist::ApplyValidityOnCurrentSong(const QUrl &url, const bool valid) {
   }
 
   return static_cast<bool>(current);
-
 }
 
 void Playlist::SetColumnAlignment(const ColumnAlignmentMap &alignment) {
@@ -2277,7 +2204,6 @@ void Playlist::SkipTracks(const QModelIndexList &source_indexes) {
     track_to_skip->SetShouldSkip(!((track_to_skip)->GetShouldSkip()));
     emit dataChanged(source_index, source_index);
   }
-
 }
 
 void Playlist::UpdateScrobblePoint(const qint64 seek_point_nanosec) {
@@ -2302,7 +2228,6 @@ void Playlist::UpdateScrobblePoint(const qint64 seek_point_nanosec) {
   }
 
   scrobbled_ = false;
-
 }
 
 void Playlist::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
@@ -2316,7 +2241,6 @@ void Playlist::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &
       ScheduleSaveAsync();
     }
   }
-
 }
 
 int Playlist::dynamic_history_length() const {
@@ -2334,7 +2258,6 @@ void Playlist::TurnOffDynamicPlaylist() {
   emit DynamicModeChanged(false);
 
   ScheduleSave();
-
 }
 
 void Playlist::RateSong(const QModelIndex &idx, const float rating) {
@@ -2345,7 +2268,6 @@ void Playlist::RateSong(const QModelIndex &idx, const float rating) {
       collection_->UpdateSongRatingAsync(item->Metadata().id(), rating);
     }
   }
-
 }
 
 void Playlist::RateSongs(const QModelIndexList &index_list, const float rating) {
@@ -2361,5 +2283,4 @@ void Playlist::RateSongs(const QModelIndexList &index_list, const float rating) 
     }
   }
   collection_->UpdateSongsRatingAsync(id_list, rating);
-
 }

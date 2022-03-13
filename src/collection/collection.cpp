@@ -75,7 +75,6 @@ SCollection::SCollection(Application *app, QObject *parent)
   model_ = new CollectionModel(backend_, app_, this);
 
   ReloadSettings();
-
 }
 
 SCollection::~SCollection() {
@@ -89,7 +88,6 @@ SCollection::~SCollection() {
     watcher_thread_->wait(5000);
   }
   backend_->deleteLater();
-
 }
 
 void SCollection::Init() {
@@ -133,7 +131,6 @@ void SCollection::Init() {
 
   // This will start the watcher checking for updates
   backend_->LoadDirectoriesAsync();
-
 }
 
 void SCollection::Exit() {
@@ -148,7 +145,6 @@ void SCollection::Exit() {
   backend_->ExitAsync();
   watcher_->Abort();
   watcher_->ExitAsync();
-
 }
 
 void SCollection::ExitReceived() {
@@ -158,7 +154,6 @@ void SCollection::ExitReceived() {
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
-
 }
 
 void SCollection::IncrementalScan() { watcher_->IncrementalScanAsync(); }
@@ -171,7 +166,6 @@ void SCollection::Rescan(const SongList &songs) {
 
   qLog(Debug) << "Rescan" << songs.size() << "songs";
   if (!songs.isEmpty()) watcher_->RescanTracksAsync(songs);
-
 }
 
 void SCollection::PauseWatcher() { watcher_->SetRescanPausedAsync(true); }
@@ -190,7 +184,6 @@ void SCollection::ReloadSettings() {
   save_playcounts_to_files_ = s.value("save_playcounts", false).toBool();
   save_ratings_to_files_ = s.value("save_ratings", false).toBool();
   s.endGroup();
-
 }
 
 void SCollection::SyncPlaycountAndRatingToFilesAsync() {
@@ -200,7 +193,6 @@ void SCollection::SyncPlaycountAndRatingToFilesAsync() {
 #else
   (void)QtConcurrent::run(this, &SCollection::SyncPlaycountAndRatingToFiles);
 #endif
-
 }
 
 void SCollection::SyncPlaycountAndRatingToFiles() {
@@ -217,7 +209,6 @@ void SCollection::SyncPlaycountAndRatingToFiles() {
     app_->task_manager()->SetTaskProgress(task_id, ++i, nb_songs);
   }
   app_->task_manager()->SetTaskFinished(task_id);
-
 }
 
 void SCollection::SongsPlaycountChanged(const SongList &songs) {
@@ -225,7 +216,6 @@ void SCollection::SongsPlaycountChanged(const SongList &songs) {
   if (save_playcounts_to_files_) {
     app_->tag_reader_client()->UpdateSongsPlaycount(songs);
   }
-
 }
 
 void SCollection::SongsRatingChanged(const SongList &songs, const bool save_tags) {
@@ -233,5 +223,4 @@ void SCollection::SongsRatingChanged(const SongList &songs, const bool save_tags
   if (save_tags || save_ratings_to_files_) {
     app_->tag_reader_client()->UpdateSongsRating(songs);
   }
-
 }

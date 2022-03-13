@@ -41,5 +41,4 @@ void StickySlider::mouseMoveEvent(QMouseEvent *e) {
   if (v <= sticky_center_ + sticky_threshold_ && v >= sticky_center_ - sticky_threshold_) {
     setSliderPosition(sticky_center_);
   }
-
 }

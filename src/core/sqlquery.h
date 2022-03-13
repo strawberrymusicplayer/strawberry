@@ -51,7 +51,6 @@ class SqlQuery : public QSqlQuery {
   QMap<QString, QVariant> bound_values_;
 #endif
   QString last_query_;
-
 };
 
 #endif  // SQLQUERY_H

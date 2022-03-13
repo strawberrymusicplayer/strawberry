@@ -37,7 +37,7 @@
 
 class QThread;
 class Song;
-template <typename HandlerType> class WorkerPool;
+template<typename HandlerType> class WorkerPool;
 
 class TagReaderClient : public QObject {
   Q_OBJECT
@@ -58,8 +58,8 @@ class TagReaderClient : public QObject {
   ReplyType *IsMediaFile(const QString &filename);
   ReplyType *LoadEmbeddedArt(const QString &filename);
   ReplyType *SaveEmbeddedArt(const QString &filename, const QByteArray &data);
-  ReplyType* UpdateSongPlaycount(const Song &metadata);
-  ReplyType* UpdateSongRating(const Song &metadata);
+  ReplyType *UpdateSongPlaycount(const Song &metadata);
+  ReplyType *UpdateSongRating(const Song &metadata);
 
   // Convenience functions that call the above functions and wait for a response.
   // These block the calling thread with a semaphore, and must NOT be called from the TagReaderClient's thread.

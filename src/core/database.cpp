@@ -60,16 +60,15 @@ const char *Database::kMagicAllSongsTables = "%allsongstables";
 int Database::sNextConnectionId = 1;
 QMutex Database::sNextConnectionIdMutex;
 
-Database::Database(Application *app, QObject *parent, const QString &database_name) :
-      QObject(parent),
-      app_(app),
+Database::Database(Application *app, QObject *parent, const QString &database_name) : QObject(parent),
+                                                                                      app_(app),
 #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
-      mutex_(QMutex::Recursive),
+                                                                                      mutex_(QMutex::Recursive),
 #endif
-      injected_database_name_(database_name),
-      query_hash_(0),
-      startup_schema_version_(-1),
-      original_thread_(nullptr) {
+                                                                                      injected_database_name_(database_name),
+                                                                                      query_hash_(0),
+                                                                                      startup_schema_version_(-1),
+                                                                                      original_thread_(nullptr) {
 
   original_thread_ = thread();
 
@@ -82,7 +81,6 @@ Database::Database(Application *app, QObject *parent, const QString &database_na
 
   QMutexLocker l(&mutex_);
   Connect();
-
 }
 
 Database::~Database() {
@@ -92,7 +90,6 @@ Database::~Database() {
   for (QString &connection_id : QSqlDatabase::connectionNames()) {
     qLog(Error) << "Connection" << connection_id << "is still open!";
   }
-
 }
 
 void Database::ExitAsync() {
@@ -105,7 +102,6 @@ void Database::Exit() {
   Close();
   moveToThread(original_thread_);
   emit ExitFinished();
-
 }
 
 QSqlDatabase Database::Connect() {
@@ -160,11 +156,12 @@ QSqlDatabase Database::Connect() {
 #ifdef SQLITE_DBCONFIG_ENABLE_FTS3_TOKENIZER
     QVariant v = db.driver()->handle();
     if (v.isValid() && qstrcmp(v.typeName(), "sqlite3*") == 0) {
-      sqlite3 *handle = *static_cast<sqlite3**>(v.data());
+      sqlite3 *handle = *static_cast<sqlite3 **>(v.data());
       if (handle) {
         (void)sqlite3_db_config(handle, SQLITE_DBCONFIG_ENABLE_FTS3_TOKENIZER, 1, nullptr);
       }
-      else qLog(Fatal) << "Unable to enable FTS3 tokenizer";
+      else
+        qLog(Fatal) << "Unable to enable FTS3 tokenizer";
     }
 #endif
     SqlQuery get_fts_tokenizer(db);
@@ -221,7 +218,6 @@ QSqlDatabase Database::Connect() {
   }
 
   return db;
-
 }
 
 void Database::Close() {
@@ -241,7 +237,6 @@ void Database::Close() {
     }
     QSqlDatabase::removeDatabase(connection_id);
   }
-
 }
 
 int Database::SchemaVersion(QSqlDatabase *db) {
@@ -257,7 +252,6 @@ int Database::SchemaVersion(QSqlDatabase *db) {
     // Implicit invocation of ~SqlQuery() when leaving the scope to release any remaining database locks!
   }
   return schema_version;
-
 }
 
 void Database::UpdateMainSchema(QSqlDatabase *db) {
@@ -308,7 +302,6 @@ void Database::RecreateAttachedDb(const QString &database_name) {
   for (const QString &name : QSqlDatabase::connectionNames()) {
     QSqlDatabase::removeDatabase(name);
   }
-
 }
 
 void Database::AttachDatabase(const QString &database_name, const AttachedDatabase &database) {
@@ -327,7 +320,6 @@ void Database::AttachDatabaseOnDbConnection(const QString &database_name, const 
   if (!q.Exec()) {
     qFatal("Couldn't attach external database '%s'", database_name.toLatin1().constData());
   }
-
 }
 
 void Database::DetachDatabase(const QString &database_name) {
@@ -346,7 +338,6 @@ void Database::DetachDatabase(const QString &database_name) {
   }
 
   attached_databases_.remove(database_name);
-
 }
 
 void Database::UpdateDatabaseSchema(int version, QSqlDatabase &db) {
@@ -361,7 +352,6 @@ void Database::UpdateDatabaseSchema(int version, QSqlDatabase &db) {
   }
 
   ExecSchemaCommandsFromFile(db, filename, version - 1);
-
 }
 
 void Database::UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db) {
@@ -390,7 +380,6 @@ void Database::UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db) {
       ReportErrors(update);
     }
   }
-
 }
 
 void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, int schema_version, bool in_transaction) {
@@ -403,7 +392,6 @@ void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
   }
   ExecSchemaCommands(db, QString::fromUtf8(schema_file.readAll()), schema_version, in_transaction);
   schema_file.close();
-
 }
 
 void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int schema_version, bool in_transaction) {
@@ -424,7 +412,6 @@ void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int s
   else {
     ExecSongTablesCommands(db, song_tables, commands);
   }
-
 }
 
 void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands) {
@@ -459,7 +446,6 @@ void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_
       }
     }
   }
-
 }
 
 QStringList Database::SongsTables(QSqlDatabase &db, const int schema_version) {
@@ -492,7 +478,6 @@ QStringList Database::SongsTables(QSqlDatabase &db, const int schema_version) {
   ret << "playlist_items";
 
   return ret;
-
 }
 
 void Database::ReportErrors(const SqlQuery &query) {
@@ -506,7 +491,6 @@ void Database::ReportErrors(const SqlQuery &query) {
     error += "Failed query: " + query.LastQuery();
     emit Error(error);
   }
-
 }
 
 bool Database::IntegrityCheck(const QSqlDatabase &db) {
@@ -529,7 +513,9 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
         break;
       }
       else {
-        if (!error_reported) { app_->AddError(tr("Database corruption detected.")); }
+        if (!error_reported) {
+          app_->AddError(tr("Database corruption detected."));
+        }
         app_->AddError("Database: " + message);
         error_reported = true;
       }
@@ -542,7 +528,6 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
   app_->task_manager()->SetTaskFinished(task_id);
 
   return ok;
-
 }
 
 void Database::DoBackup() {
@@ -558,7 +543,6 @@ void Database::DoBackup() {
   if (ok && SchemaVersion(&db) == kSchemaVersion) {
     BackupFile(db.databaseName());
   }
-
 }
 
 bool Database::OpenDatabase(const QString &filename, sqlite3 **connection) {
@@ -575,7 +559,6 @@ bool Database::OpenDatabase(const QString &filename, sqlite3 **connection) {
     return false;
   }
   return true;
-
 }
 
 void Database::BackupFile(const QString &filename) {
@@ -617,13 +600,11 @@ void Database::BackupFile(const QString &filename) {
     ret = sqlite3_backup_step(backup, 16);
     const int page_count = sqlite3_backup_pagecount(backup);
     app_->task_manager()->SetTaskProgress(task_id, page_count - sqlite3_backup_remaining(backup), page_count);
-  }
-  while (ret == SQLITE_OK);
+  } while (ret == SQLITE_OK);
 
   if (ret != SQLITE_DONE) {
     qLog(Error) << "Database backup failed";
   }
 
   sqlite3_backup_finish(backup);
-
 }

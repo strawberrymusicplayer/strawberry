@@ -37,7 +37,6 @@ RadioViewContainer::RadioViewContainer(QWidget *parent)
   ui_->refresh->setIcon(IconLoader::Load("view-refresh"));
 
   ReloadSettings();
-
 }
 
 RadioViewContainer::~RadioViewContainer() { delete ui_; }
@@ -50,5 +49,4 @@ void RadioViewContainer::ReloadSettings() {
   s.endGroup();
 
   ui_->refresh->setIconSize(QSize(iconsize, iconsize));
-
 }

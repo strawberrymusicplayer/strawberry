@@ -39,7 +39,6 @@ void SqlRow::Init(const QSqlQuery &query) {
       columns_by_name_.insert(field_name, query.value(i));
     }
   }
-
 }
 
 const QVariant SqlRow::value(const int number) const {
@@ -50,7 +49,6 @@ const QVariant SqlRow::value(const int number) const {
   else {
     return QVariant();
   }
-
 }
 
 const QVariant SqlRow::value(const QString &name) const {
@@ -61,7 +59,6 @@ const QVariant SqlRow::value(const QString &name) const {
   else {
     return QVariant();
   }
-
 }
 
 QString SqlRow::ValueToString(const QString &n) const {

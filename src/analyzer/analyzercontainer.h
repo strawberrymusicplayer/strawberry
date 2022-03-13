@@ -56,7 +56,7 @@ class AnalyzerContainer : public QWidget {
   void WheelEvent(int delta);
 
  protected:
-  void mouseReleaseEvent(QMouseEvent*) override;
+  void mouseReleaseEvent(QMouseEvent *) override;
   void wheelEvent(QWheelEvent *e) override;
 
  private slots:
@@ -74,7 +74,7 @@ class AnalyzerContainer : public QWidget {
   void Load();
   void Save();
   void SaveFramerate(const int framerate);
-  template <typename T>
+  template<typename T>
   void AddAnalyzerType();
   void AddFramerate(const QString &name, const int framerate);
 
@@ -85,9 +85,9 @@ class AnalyzerContainer : public QWidget {
   QActionGroup *group_;
   QActionGroup *group_framerate_;
 
-  QList<const QMetaObject*> analyzer_types_;
+  QList<const QMetaObject *> analyzer_types_;
   QList<int> framerate_list_;
-  QList<QAction*> actions_;
+  QList<QAction *> actions_;
   QAction *disable_action_;
 
   QTimer *double_click_timer_;
@@ -96,10 +96,9 @@ class AnalyzerContainer : public QWidget {
 
   Analyzer::Base *current_analyzer_;
   EngineBase *engine_;
-
 };
 
-template <typename T>
+template<typename T>
 void AnalyzerContainer::AddAnalyzerType() {
 
   int id = analyzer_types_.count();
@@ -109,8 +108,7 @@ void AnalyzerContainer::AddAnalyzerType() {
   group_->addAction(action);
   action->setCheckable(true);
   actions_ << action;
-  QObject::connect(action, &QAction::triggered, [this, id]() { ChangeAnalyzer(id); } );
-
+  QObject::connect(action, &QAction::triggered, [this, id]() { ChangeAnalyzer(id); });
 }
 
 #endif  // ANALYZERCONTAINER_H

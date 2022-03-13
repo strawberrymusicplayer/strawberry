@@ -34,7 +34,7 @@
 #include "devicefinder.h"
 #include "alsadevicefinder.h"
 
-AlsaDeviceFinder::AlsaDeviceFinder() : DeviceFinder("alsa", { "alsa","alsasink" }) {}
+AlsaDeviceFinder::AlsaDeviceFinder() : DeviceFinder("alsa", { "alsa", "alsasink" }) {}
 
 QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
 
@@ -104,7 +104,6 @@ QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
       ret.append(device);
       device.value = QString("plughw:%1,%2").arg(card).arg(dev);
       ret.append(device);
-
     }
   }
 

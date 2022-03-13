@@ -108,7 +108,6 @@ class AlbumCoverLoader : public QObject {
   void SaveEmbeddedArtFinished(const quint64 id, TagReaderReply *reply, const bool cleared);
 
  protected:
-
   struct Task {
     explicit Task() : id(0), state(State_None), type(AlbumCoverLoaderResult::Type_None), art_updated(false), redirects(0) {}
 
@@ -125,13 +124,12 @@ class AlbumCoverLoader : public QObject {
 
   struct TryLoadResult {
     explicit TryLoadResult(const bool _started_async = false,
-                           const bool _loaded_success = false,
-                           const AlbumCoverLoaderResult::Type _type = AlbumCoverLoaderResult::Type_None,
-                           const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult()) :
-                           started_async(_started_async),
-                           loaded_success(_loaded_success),
-                           type(_type),
-                           album_cover(_album_cover) {}
+      const bool _loaded_success = false,
+      const AlbumCoverLoaderResult::Type _type = AlbumCoverLoaderResult::Type_None,
+      const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult()) : started_async(_started_async),
+                                                                             loaded_success(_loaded_success),
+                                                                             type(_type),
+                                                                             album_cover(_album_cover) {}
 
     bool started_async;
     bool loaded_success;
@@ -150,7 +148,7 @@ class AlbumCoverLoader : public QObject {
   QMutex mutex_load_image_async_;
   QMutex mutex_save_image_async_;
   QQueue<Task> tasks_;
-  QHash<QNetworkReply*, Task> remote_tasks_;
+  QHash<QNetworkReply *, Task> remote_tasks_;
   quint64 load_image_async_id_;
   quint64 save_image_async_id_;
 
@@ -167,8 +165,7 @@ class AlbumCoverLoader : public QObject {
 
   QThread *original_thread_;
 
-  QMultiMap<quint64, TagReaderReply*> tagreader_save_embedded_art_requests_;
-
+  QMultiMap<quint64, TagReaderReply *> tagreader_save_embedded_art_requests_;
 };
 
 #endif  // ALBUMCOVERLOADER_H

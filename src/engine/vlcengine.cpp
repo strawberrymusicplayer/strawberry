@@ -48,7 +48,6 @@ VLCEngine::VLCEngine(TaskManager *task_manager, QObject *parent)
   Q_UNUSED(task_manager);
 
   ReloadSettings();
-
 }
 
 VLCEngine::~VLCEngine() {
@@ -71,7 +70,6 @@ VLCEngine::~VLCEngine() {
 
   libvlc_media_player_release(player_);
   libvlc_release(instance_);
-
 }
 
 bool VLCEngine::Init() {
@@ -98,7 +96,6 @@ bool VLCEngine::Init() {
   AttachCallback(player_em, libvlc_MediaPlayerEndReached, StateChangedCallback);
 
   return true;
-
 }
 
 bool VLCEngine::Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
@@ -117,7 +114,6 @@ bool VLCEngine::Load(const QUrl &stream_url, const QUrl &original_url, const Eng
   libvlc_media_player_set_media(player_, media);
 
   return true;
-
 }
 
 bool VLCEngine::Play(const quint64 offset_nanosec) {
@@ -133,11 +129,11 @@ bool VLCEngine::Play(const quint64 offset_nanosec) {
   // Set audio device
   if (device_.isValid() &&
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-      device_.metaType().id() == QMetaType::QString
+    device_.metaType().id() == QMetaType::QString
 #else
-      device_.type() == QVariant::String
+    device_.type() == QVariant::String
 #endif
-      && !device_.toString().isEmpty()) {
+    && !device_.toString().isEmpty()) {
     libvlc_audio_output_device_set(player_, nullptr, device_.toString().toLocal8Bit().data());
   }
 
@@ -147,7 +143,6 @@ bool VLCEngine::Play(const quint64 offset_nanosec) {
   Seek(offset_nanosec);
 
   return true;
-
 }
 
 void VLCEngine::Stop(const bool stop_after) {
@@ -156,21 +151,18 @@ void VLCEngine::Stop(const bool stop_after) {
 
   if (!Initialized()) return;
   libvlc_media_player_stop(player_);
-
 }
 
 void VLCEngine::Pause() {
 
   if (!Initialized()) return;
   libvlc_media_player_pause(player_);
-
 }
 
 void VLCEngine::Unpause() {
 
   if (!Initialized()) return;
   libvlc_media_player_play(player_);
-
 }
 
 void VLCEngine::Seek(const quint64 offset_nanosec) {
@@ -185,7 +177,6 @@ void VLCEngine::Seek(const quint64 offset_nanosec) {
   float pos = static_cast<float>(offset) / static_cast<float>(len);
 
   libvlc_media_player_set_position(player_, pos);
-
 }
 
 void VLCEngine::SetVolumeSW(const uint percent) {
@@ -193,7 +184,6 @@ void VLCEngine::SetVolumeSW(const uint percent) {
   if (!Initialized()) return;
   if (!volume_control_ && percent != 100) return;
   libvlc_audio_set_volume(player_, static_cast<int>(percent));
-
 }
 
 qint64 VLCEngine::position_nanosec() const {
@@ -201,8 +191,6 @@ qint64 VLCEngine::position_nanosec() const {
   if (state_ == Engine::Empty) return 0;
   const qint64 result = (position() * kNsecPerMsec);
   return qint64(qMax(0LL, result));
-
-
 }
 
 qint64 VLCEngine::length_nanosec() const {
@@ -216,7 +204,6 @@ qint64 VLCEngine::length_nanosec() const {
     // Get the length from the pipeline if we don't know.
     return (length() * kNsecPerMsec);
   }
-
 }
 
 EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
@@ -228,24 +215,28 @@ EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
     OutputDetails output;
     output.name = plugin.name;
     output.description = plugin.description;
-    if (plugin.name == "auto") output.iconname = "soundcard";
-    else if ((plugin.name == "alsa")||(plugin.name == "oss")) output.iconname = "alsa";
-    else if (plugin.name== "jack") output.iconname = "jack";
-    else if (plugin.name == "pulse") output.iconname = "pulseaudio";
-    else if (plugin.name == "afile") output.iconname = "document-new";
-    else output.iconname = "soundcard";
+    if (plugin.name == "auto")
+      output.iconname = "soundcard";
+    else if ((plugin.name == "alsa") || (plugin.name == "oss"))
+      output.iconname = "alsa";
+    else if (plugin.name == "jack")
+      output.iconname = "jack";
+    else if (plugin.name == "pulse")
+      output.iconname = "pulseaudio";
+    else if (plugin.name == "afile")
+      output.iconname = "document-new";
+    else
+      output.iconname = "soundcard";
     ret.append(output);
   }
 
   return ret;
-
 }
 
 bool VLCEngine::ValidOutput(const QString &output) {
 
   PluginDetailsList plugins = GetPluginList();
   return std::any_of(plugins.begin(), plugins.end(), [output](const PluginDetails &plugin) { return plugin.name == output; });
-
 }
 
 bool VLCEngine::CustomDeviceSupport(const QString &output) {
@@ -262,7 +253,6 @@ uint VLCEngine::position() const {
 
   float pos = libvlc_media_player_get_position(player_);
   return (static_cast<uint>(pos) * length());
-
 }
 
 uint VLCEngine::length() const {
@@ -272,22 +262,23 @@ uint VLCEngine::length() const {
   libvlc_time_t len = libvlc_media_player_get_length(player_);
 
   return len;
-
 }
 
-bool VLCEngine::CanDecode(const QUrl &url) { Q_UNUSED(url); return true; }
+bool VLCEngine::CanDecode(const QUrl &url) {
+  Q_UNUSED(url);
+  return true;
+}
 
 void VLCEngine::AttachCallback(libvlc_event_manager_t *em, libvlc_event_type_t type, libvlc_callback_t callback) {
 
   if (libvlc_event_attach(em, type, callback, this) != 0) {
     qLog(Error) << "Failed to attach callback.";
   }
-
 }
 
 void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
 
-  VLCEngine *engine = reinterpret_cast<VLCEngine*>(data);
+  VLCEngine *engine = reinterpret_cast<VLCEngine *>(data);
 
   switch (e->type) {
     case libvlc_MediaPlayerNothingSpecial:
@@ -321,7 +312,6 @@ void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
       emit engine->TrackEnded();
       return;  // Don't emit state changed here
   }
-
 }
 
 EngineBase::PluginDetailsList VLCEngine::GetPluginList() const {
@@ -347,7 +337,6 @@ EngineBase::PluginDetailsList VLCEngine::GetPluginList() const {
   libvlc_audio_output_list_release(audio_output_list);
 
   return ret;
-
 }
 
 void VLCEngine::GetDevicesList(const QString &output) const {
@@ -359,5 +348,4 @@ void VLCEngine::GetDevicesList(const QString &output) const {
     qLog(Debug) << audio_device->psz_device << audio_device->psz_description;
   }
   libvlc_audio_output_device_list_release(audio_output_device_list);
-
 }

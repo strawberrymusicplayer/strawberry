@@ -91,7 +91,6 @@ class MtpDevice : public ConnectedDevice {
   SongList songs_to_remove_;
 
   std::unique_ptr<MtpConnection> connection_;
-
 };
 
 #endif  // MTPDEVICE_H

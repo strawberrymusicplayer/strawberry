@@ -51,8 +51,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
   void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album, const QString &title);
 
  private:
-  QList<QNetworkReply*> replies_;
-
+  QList<QNetworkReply *> replies_;
 };
 
 #endif  // MUSIXMATCHLYRICSPROVIDER_H

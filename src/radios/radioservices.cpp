@@ -53,13 +53,11 @@ RadioServices::RadioServices(Application *app, QObject *parent)
 
   AddService(new SomaFMService(app, network_, this));
   AddService(new RadioParadiseService(app, network_, this));
-
 }
 
 RadioServices::~RadioServices() {
 
   backend_->deleteLater();
-
 }
 
 void RadioServices::AddService(RadioService *service) {
@@ -69,7 +67,6 @@ void RadioServices::AddService(RadioService *service) {
 
   QObject::connect(service, &RadioService::NewChannels, this, &RadioServices::GotChannelsFromService);
   QObject::connect(service, &RadioService::destroyed, this, &RadioServices::ServiceDeleted);
-
 }
 
 void RadioServices::RemoveService(RadioService *service) {
@@ -78,37 +75,32 @@ void RadioServices::RemoveService(RadioService *service) {
 
   services_.remove(service->source());
   QObject::disconnect(service, nullptr, this, nullptr);
-
 }
 
 void RadioServices::ServiceDeleted() {
 
-  RadioService *service = qobject_cast<RadioService*>(sender());
+  RadioService *service = qobject_cast<RadioService *>(sender());
   if (service) RemoveService(service);
-
 }
 
 RadioService *RadioServices::ServiceBySource(const Song::Source source) const {
 
   if (services_.contains(source)) return services_.value(source);
   return nullptr;
-
 }
 
 void RadioServices::ReloadSettings() {
 
-  QList<RadioService*> services = services_.values();
+  QList<RadioService *> services = services_.values();
   for (RadioService *service : services) {
     service->ReloadSettings();
   }
-
 }
 
 void RadioServices::GetChannels() {
 
   model_->Reset();
   backend_->GetChannelsAsync();
-
 }
 
 void RadioServices::RefreshChannels() {
@@ -117,11 +109,10 @@ void RadioServices::RefreshChannels() {
   model_->Reset();
   backend_->DeleteChannelsAsync();
 
-  QList<RadioService*> services = services_.values();
+  QList<RadioService *> services = services_.values();
   for (RadioService *service : services) {
     service->GetChannels();
   }
-
 }
 
 void RadioServices::GotChannelsFromBackend(const RadioChannelList &channels) {
@@ -134,14 +125,12 @@ void RadioServices::GotChannelsFromBackend(const RadioChannelList &channels) {
   else {
     model_->AddChannels(channels);
   }
-
 }
 
 void RadioServices::GotChannelsFromService(const RadioChannelList &channels) {
 
-  RadioService *service = qobject_cast<RadioService*>(sender());
+  RadioService *service = qobject_cast<RadioService *>(sender());
   if (!service) return;
 
   backend_->AddChannelsAsync(channels);
-
 }

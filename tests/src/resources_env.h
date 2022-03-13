@@ -37,6 +37,7 @@ class ResourcesEnvironment : public ::testing::Environment {
     Q_INIT_RESOURCE(translations);
 #endif
   }
+
  private:
   Q_DISABLE_COPY(ResourcesEnvironment)
 };

@@ -59,7 +59,6 @@ class TidalUrlHandler : public UrlHandler {
   Application *app_;
   TidalService *service_;
   QMap<uint, Request> requests_;
-
 };
 
 #endif  // TIDALURLHANDLER_H

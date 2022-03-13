@@ -46,7 +46,6 @@ NetworkProxySettingsPage::NetworkProxySettingsPage(SettingsDialog *dialog, QWidg
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("applications-internet"));
-
 }
 
 NetworkProxySettingsPage::~NetworkProxySettingsPage() { delete ui_; }
@@ -84,7 +83,6 @@ void NetworkProxySettingsPage::Load() {
   Init(ui_->layout_networkproxysettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
-
 }
 
 void NetworkProxySettingsPage::Save() {
@@ -92,9 +90,12 @@ void NetworkProxySettingsPage::Save() {
   QSettings s;
 
   NetworkProxyFactory::Mode mode = NetworkProxyFactory::Mode_System;
-  if (ui_->proxy_direct->isChecked()) mode = NetworkProxyFactory::Mode_Direct;
-  else if (ui_->proxy_system->isChecked()) mode = NetworkProxyFactory::Mode_System;
-  else if (ui_->proxy_manual->isChecked()) mode = NetworkProxyFactory::Mode_Manual;
+  if (ui_->proxy_direct->isChecked())
+    mode = NetworkProxyFactory::Mode_Direct;
+  else if (ui_->proxy_system->isChecked())
+    mode = NetworkProxyFactory::Mode_System;
+  else if (ui_->proxy_manual->isChecked())
+    mode = NetworkProxyFactory::Mode_Manual;
 
   s.beginGroup(NetworkProxyFactory::kSettingsGroup);
   s.setValue("mode", mode);
@@ -108,5 +109,4 @@ void NetworkProxySettingsPage::Save() {
   s.endGroup();
 
   NetworkProxyFactory::Instance()->ReloadSettings();
-
 }

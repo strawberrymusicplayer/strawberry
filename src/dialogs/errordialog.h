@@ -43,7 +43,7 @@ class ErrorDialog : public QDialog {
   void ShowMessage(const QString &message);
 
  protected:
-  void hideEvent(QHideEvent*) override;
+  void hideEvent(QHideEvent *) override;
 
  private:
   void UpdateContent();

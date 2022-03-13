@@ -127,8 +127,8 @@ class CollectionWatcher : public QObject {
     QStringList files_changed_path_;
 
    private:
-    ScanTransaction(const ScanTransaction&) {}
-    ScanTransaction &operator=(const ScanTransaction&) { return *this; }
+    ScanTransaction(const ScanTransaction &) {}
+    ScanTransaction &operator=(const ScanTransaction &) { return *this; }
 
     int task_id_;
     quint64 progress_;
@@ -239,7 +239,6 @@ class CollectionWatcher : public QObject {
   SongList song_rescan_queue_;  // Set by UI thread
 
   qint64 last_scan_time_;
-
 };
 
 inline QString CollectionWatcher::NoExtensionPart(const QString &fileName) {
@@ -247,7 +246,7 @@ inline QString CollectionWatcher::NoExtensionPart(const QString &fileName) {
 }
 // Thanks Amarok
 inline QString CollectionWatcher::ExtensionPart(const QString &fileName) {
-  return fileName.contains( '.' ) ? fileName.mid( fileName.lastIndexOf('.') + 1 ).toLower() : "";
+  return fileName.contains('.') ? fileName.mid(fileName.lastIndexOf('.') + 1).toLower() : "";
 }
 inline QString CollectionWatcher::DirectoryPart(const QString &fileName) {
   return fileName.section('/', 0, -2);

@@ -168,7 +168,6 @@ void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   painter->drawText(line2, Qt::AlignLeft | Qt::AlignTop, status_text);
 
   painter->restore();
-
 }
 
 DeviceView::DeviceView(QWidget *parent)
@@ -224,7 +223,6 @@ void DeviceView::SetApplication(Application *app) {
 
   organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
   organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
-
 }
 
 void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
@@ -276,7 +274,6 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
 
     collection_menu_->popup(e->globalPos());
   }
-
 }
 
 QModelIndex DeviceView::MapToDevice(const QModelIndex &merged_model_index) const {
@@ -284,7 +281,6 @@ QModelIndex DeviceView::MapToDevice(const QModelIndex &merged_model_index) const
   QModelIndex sort_model_index = merged_model_->mapToSource(merged_model_index);
   if (sort_model_index.model() != sort_model_) return QModelIndex();
   return sort_model_->mapToSource(sort_model_index);
-
 }
 
 QModelIndex DeviceView::FindParentDevice(const QModelIndex &merged_model_index) const {
@@ -292,17 +288,15 @@ QModelIndex DeviceView::FindParentDevice(const QModelIndex &merged_model_index) 
   QModelIndex idx = merged_model_->FindSourceParent(merged_model_index);
   if (idx.model() != sort_model_) return QModelIndex();
   return sort_model_->mapToSource(idx);
-
 }
 
 QModelIndex DeviceView::MapToCollection(const QModelIndex &merged_model_index) const {
 
   QModelIndex sort_model_index = merged_model_->mapToSource(merged_model_index);
-  if (const QSortFilterProxyModel *sort_model = qobject_cast<const QSortFilterProxyModel*>(sort_model_index.model())) {
+  if (const QSortFilterProxyModel *sort_model = qobject_cast<const QSortFilterProxyModel *>(sort_model_index.model())) {
     return sort_model->mapToSource(sort_model_index);
   }
   return QModelIndex();
-
 }
 
 void DeviceView::Connect() {
@@ -328,7 +322,6 @@ void DeviceView::DeviceConnected(const QModelIndex &idx) {
   merged_model_->AddSubModel(sort_idx, sort_model);
 
   expand(menu_index_);
-
 }
 
 void DeviceView::DeviceDisconnected(const QModelIndex &idx) {
@@ -342,9 +335,9 @@ void DeviceView::Forget() {
   QString unique_id = app_->device_manager()->data(device_idx, DeviceManager::Role_UniqueId).toString();
   if (app_->device_manager()->GetLister(device_idx) && app_->device_manager()->GetLister(device_idx)->AskForScan(unique_id)) {
     std::unique_ptr<QMessageBox> dialog(new QMessageBox(
-        QMessageBox::Question, tr("Forget device"),
-        tr("Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."),
-        QMessageBox::Cancel, this));
+      QMessageBox::Question, tr("Forget device"),
+      tr("Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."),
+      QMessageBox::Cancel, this));
     QPushButton *forget = dialog->addButton(tr("Forget device"), QMessageBox::DestructiveRole);
     dialog->exec();
 
@@ -352,7 +345,6 @@ void DeviceView::Forget() {
   }
 
   app_->device_manager()->Forget(device_idx);
-
 }
 
 void DeviceView::Properties() {
@@ -371,7 +363,6 @@ void DeviceView::mouseDoubleClickEvent(QMouseEvent *e) {
       Connect();
     }
   }
-
 }
 
 SongList DeviceView::GetSelectedSongs() const {
@@ -382,23 +373,21 @@ SongList DeviceView::GetSelectedSongs() const {
     QModelIndex collection_index = MapToCollection(merged_index);
     if (!collection_index.isValid()) continue;
 
-    const CollectionModel *collection = qobject_cast<const CollectionModel*>(collection_index.model());
+    const CollectionModel *collection = qobject_cast<const CollectionModel *>(collection_index.model());
     if (!collection) continue;
 
     songs << collection->GetChildSongs(collection_index);
   }
   return songs;
-
 }
 
 void DeviceView::Load() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
-  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+  if (MimeData *mimedata = qobject_cast<MimeData *>(q_mimedata)) {
     mimedata->clear_first_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
-
 }
 
 void DeviceView::AddToPlaylist() {
@@ -408,11 +397,10 @@ void DeviceView::AddToPlaylist() {
 void DeviceView::OpenInNewPlaylist() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
-  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+  if (MimeData *mimedata = qobject_cast<MimeData *>(q_mimedata)) {
     mimedata->open_in_new_playlist_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
-
 }
 
 void DeviceView::Delete() {
@@ -434,7 +422,6 @@ void DeviceView::Delete() {
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, false);
   QObject::connect(delete_files, &DeleteFiles::Finished, this, &DeviceView::DeleteFinished);
   delete_files->Start(GetSelectedSongs());
-
 }
 
 void DeviceView::Organize() {
@@ -449,7 +436,6 @@ void DeviceView::Organize() {
   organize_dialog_->SetCopy(true);
   organize_dialog_->SetFilenames(filenames);
   organize_dialog_->show();
-
 }
 
 void DeviceView::Unmount() {
@@ -464,7 +450,6 @@ void DeviceView::DeleteFinished(const SongList &songs_with_errors) {
   OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
   dialog->Show(OrganizeErrorDialog::Type_Delete, songs_with_errors);
   // It deletes itself when the user closes it
-
 }
 
 bool DeviceView::CanRecursivelyExpand(const QModelIndex &idx) const {

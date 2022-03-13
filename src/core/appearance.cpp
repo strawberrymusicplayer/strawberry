@@ -41,7 +41,6 @@ Appearance::Appearance(QObject *parent) : QObject(parent) {
   background_color_ = s.value(AppearanceSettingsPage::kBackgroundColor, p.color(QPalette::WindowText)).value<QColor>();
   foreground_color_ = s.value(AppearanceSettingsPage::kForegroundColor, p.color(QPalette::Window)).value<QColor>();
   s.endGroup();
-
 }
 
 void Appearance::LoadUserTheme() {
@@ -55,7 +54,6 @@ void Appearance::LoadUserTheme() {
     ChangeForegroundColor(foreground_color_);
     ChangeBackgroundColor(background_color_);
   }
-
 }
 
 void Appearance::ResetToSystemDefaultTheme() {
@@ -74,7 +72,6 @@ void Appearance::ChangeForegroundColor(const QColor &color) {
   // Make the modified palette the new application's palette
   QApplication::setPalette(p);
   foreground_color_ = color;
-
 }
 
 void Appearance::ChangeBackgroundColor(const QColor &color) {
@@ -89,5 +86,4 @@ void Appearance::ChangeBackgroundColor(const QColor &color) {
   // Make the modified palette the new application's palette
   QApplication::setPalette(p);
   background_color_ = color;
-
 }

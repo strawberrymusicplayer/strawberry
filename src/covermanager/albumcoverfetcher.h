@@ -94,7 +94,6 @@ struct CoverProviderSearchResult {
 
   // Total score for this result
   float score() const { return score_provider + score_match + score_quality; }
-
 };
 Q_DECLARE_METATYPE(CoverProviderSearchResult)
 
@@ -134,10 +133,9 @@ class AlbumCoverFetcher : public QObject {
   quint64 next_id_;
 
   QQueue<CoverSearchRequest> queued_requests_;
-  QHash<quint64, AlbumCoverFetcherSearch*> active_requests_;
+  QHash<quint64, AlbumCoverFetcherSearch *> active_requests_;
 
   QTimer *request_starter_;
-
 };
 
 #endif  // ALBUMCOVERFETCHER_H

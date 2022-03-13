@@ -101,7 +101,6 @@ Player::Player(Application *app, QObject *parent)
   Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::GStreamer)).toString().toLower());
   s.endGroup();
   CreateEngine(enginetype);
-
 }
 
 Player::~Player() {
@@ -113,11 +112,11 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
   Engine::EngineType use_enginetype(Engine::None);
 
   for (int i = 0; use_enginetype == Engine::None; i++) {
-    switch(enginetype) {
+    switch (enginetype) {
       case Engine::None:
 #ifdef HAVE_GSTREAMER
-      case Engine::GStreamer:{
-        use_enginetype=Engine::GStreamer;
+      case Engine::GStreamer: {
+        use_enginetype = Engine::GStreamer;
         std::unique_ptr<GstEngine> gst_engine(new GstEngine(app_->task_manager()));
         gst_engine->SetStartup(gst_startup_);
         engine_.reset(gst_engine.release());
@@ -126,18 +125,20 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
 #endif
 #ifdef HAVE_VLC
       case Engine::VLC:
-        use_enginetype=Engine::VLC;
+        use_enginetype = Engine::VLC;
         engine_ = std::make_shared<VLCEngine>(app_->task_manager());
         break;
 #endif
       default:
-        if (i > 0) { qFatal("No engine available!"); }
+        if (i > 0) {
+          qFatal("No engine available!");
+        }
         enginetype = Engine::None;
         break;
     }
   }
 
-  if (use_enginetype != enginetype) { // Engine was set to something else. Reset output and device.
+  if (use_enginetype != enginetype) {  // Engine was set to something else. Reset output and device.
     QSettings s;
     s.beginGroup(BackendSettingsPage::kSettingsGroup);
     s.setValue("engine", EngineName(use_enginetype));
@@ -153,7 +154,6 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
   emit EngineChanged(use_enginetype);
 
   return use_enginetype;
-
 }
 
 void Player::Init() {
@@ -167,7 +167,9 @@ void Player::Init() {
     CreateEngine(enginetype);
   }
 
-  if (!engine_->Init()) { qFatal("Error initializing audio engine"); }
+  if (!engine_->Init()) {
+    qFatal("Error initializing audio engine");
+  }
 
   analyzer_->SetEngine(engine_.get());
 
@@ -201,7 +203,6 @@ void Player::Init() {
   }
 
   ReloadSettings();
-
 }
 
 void Player::ReloadSettings() {
@@ -224,7 +225,6 @@ void Player::ReloadSettings() {
   s.endGroup();
 
   engine_->ReloadSettings();
-
 }
 
 void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
@@ -276,29 +276,25 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       qLog(Debug) << "URL handler for" << result.original_url_ << "returned" << result.stream_url_;
 
       Song song;
-      if (is_current) song = item->Metadata();
-      else if (is_next) song = next_item->Metadata();
+      if (is_current)
+        song = item->Metadata();
+      else if (is_next)
+        song = next_item->Metadata();
 
       bool update(false);
 
       // Set the stream url in the temporary metadata.
       if (
-        (result.stream_url_.isValid())
-        &&
-        (result.stream_url_ != song.url())
-         )
-      {
+        (result.stream_url_.isValid()) &&
+        (result.stream_url_ != song.url())) {
         song.set_stream_url(result.stream_url_);
         update = true;
       }
 
       // If there was no filetype in the song's metadata, use the one provided by URL handler, if there is one.
       if (
-        (song.filetype() == Song::FileType_Unknown && result.filetype_ != Song::FileType_Unknown)
-        ||
-        (song.filetype() == Song::FileType_Stream && result.filetype_ != Song::FileType_Stream)
-         )
-      {
+        (song.filetype() == Song::FileType_Unknown && result.filetype_ != Song::FileType_Unknown) ||
+        (song.filetype() == Song::FileType_Stream && result.filetype_ != Song::FileType_Stream)) {
         song.set_filetype(result.filetype_);
         update = true;
       }
@@ -354,7 +350,6 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       loading_async_ << result.original_url_;
       break;
   }
-
 }
 
 void Player::Next() { NextInternal(Engine::Manual, Playlist::AutoScroll_Always); }
@@ -367,7 +362,6 @@ void Player::NextInternal(const Engine::TrackChangeFlags change, const Playlist:
   if (HandleStopAfter(autoscroll)) return;
 
   NextItem(change, autoscroll);
-
 }
 
 void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll) {
@@ -403,7 +397,6 @@ void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::Aut
   }
 
   PlayAt(i, 0, change, autoscroll, false, true);
-
 }
 
 void Player::PlayPlaylist(const QString &playlist_name) {
@@ -426,7 +419,7 @@ void Player::PlayPlaylistInternal(const Engine::TrackChangeFlags change, const P
   if (playlist == nullptr) {
     qLog(Warning) << "Playlist '" << playlist_name << "' not found.";
     return;
-   }
+  }
 
   app_->playlist_manager()->SetActivePlaylist(playlist->id());
   app_->playlist_manager()->SetCurrentPlaylist(playlist->id());
@@ -437,7 +430,6 @@ void Player::PlayPlaylistInternal(const Engine::TrackChangeFlags change, const P
   if (i == -1) i = 0;
 
   PlayAt(i, 0, change, autoscroll, true);
-
 }
 
 
@@ -457,7 +449,6 @@ bool Player::HandleStopAfter(const Playlist::AutoScroll autoscroll) {
   }
 
   return false;
-
 }
 
 void Player::TrackEnded() {
@@ -469,7 +460,6 @@ void Player::TrackEnded() {
   if (HandleStopAfter(Playlist::AutoScroll_Maybe)) return;
 
   NextInternal(Engine::Auto, Playlist::AutoScroll_Maybe);
-
 }
 
 void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll autoscroll) {
@@ -506,7 +496,6 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
       break;
     }
   }
-
 }
 
 void Player::UnPause() {
@@ -515,7 +504,7 @@ void Player::UnPause() {
     const Song &song = current_item_->Metadata();
     if (url_handlers_.contains(song.url().scheme()) && song.stream_url_can_expire()) {
       const quint64 time = QDateTime::currentDateTime().toSecsSinceEpoch() - pause_time_.toSecsSinceEpoch();
-      if (time >= 30) { // Stream URL might be expired.
+      if (time >= 30) {  // Stream URL might be expired.
         qLog(Debug) << "Re-requesting stream URL for" << song.url();
         play_offset_nanosec_ = engine_->position_nanosec();
         HandleLoadResult(url_handlers_[song.url().scheme()]->StartLoading(song.url()));
@@ -528,7 +517,6 @@ void Player::UnPause() {
   play_offset_nanosec_ = 0;
 
   engine_->Unpause();
-
 }
 
 void Player::RestartOrPrevious() {
@@ -542,7 +530,6 @@ void Player::RestartOrPrevious() {
   }
 
   SeekTo(0);
-
 }
 
 void Player::Stop(const bool stop_after) {
@@ -552,7 +539,6 @@ void Player::Stop(const bool stop_after) {
   current_item_.reset();
   pause_time_ = QDateTime();
   play_offset_nanosec_ = 0;
-
 }
 
 void Player::StopAfterCurrent() {
@@ -563,7 +549,6 @@ bool Player::PreviousWouldRestartTrack() const {
 
   // Check if it has been over two seconds since previous button was pressed
   return menu_previousmode_ == BehaviourSettingsPage::PreviousBehaviour_Restart && last_pressed_previous_.isValid() && last_pressed_previous_.secsTo(QDateTime::currentDateTime()) >= 2;
-
 }
 
 void Player::Previous() { PreviousItem(Engine::Manual); }
@@ -595,7 +580,6 @@ void Player::PreviousItem(const Engine::TrackChangeFlags change) {
   }
 
   PlayAt(i, 0, change, Playlist::AutoScroll_Always, false);
-
 }
 
 void Player::EngineStateChanged(const Engine::State state) {
@@ -630,13 +614,11 @@ void Player::EngineStateChanged(const Engine::State state) {
   }
 
   last_state_ = state;
-
 }
 
 uint Player::GetVolume() const {
 
   return engine_->volume();
-
 }
 
 void Player::SetVolume(const uint value) {
@@ -650,7 +632,6 @@ void Player::SetVolume(const uint value) {
   if (volume != old_volume) {
     emit VolumeChanged(volume);
   }
-
 }
 
 void Player::VolumeUp() {
@@ -659,7 +640,6 @@ void Player::VolumeUp() {
   uint new_volume = std::min(old_volume + 5, static_cast<uint>(100));
   if (new_volume == old_volume) return;
   SetVolume(new_volume);
-
 }
 
 void Player::VolumeDown() {
@@ -668,7 +648,6 @@ void Player::VolumeDown() {
   uint new_volume = static_cast<uint>(std::max(static_cast<int>(old_volume) - 5, 0));
   if (new_volume == old_volume) return;
   SetVolume(new_volume);
-
 }
 
 void Player::PlayAt(const int index, const quint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform) {
@@ -709,14 +688,12 @@ void Player::PlayAt(const int index, const quint64 offset_nanosec, Engine::Track
     qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url << "position" << offset_nanosec;
     engine_->Play(url, current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec(), offset_nanosec);
   }
-
 }
 
 void Player::CurrentMetadataChanged(const Song &metadata) {
 
   // Those things might have changed (especially when a previously invalid song was reloaded) so we push the latest version into Engine
   engine_->RefreshMarkers(metadata.beginning_nanosec(), metadata.end_nanosec());
-
 }
 
 void Player::SeekTo(const quint64 seconds) {
@@ -739,7 +716,6 @@ void Player::SeekTo(const quint64 seconds) {
   if (seconds == 0) {
     app_->playlist_manager()->active()->InformOfCurrentSongChange(Playlist::AutoScroll_Maybe, false);
   }
-
 }
 
 void Player::SeekForward() {
@@ -774,7 +750,6 @@ void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
       }
     }
   }
-
 }
 
 PlaylistItemPtr Player::GetItemAt(const int pos) const {
@@ -782,7 +757,6 @@ PlaylistItemPtr Player::GetItemAt(const int pos) const {
   if (pos < 0 || pos >= app_->playlist_manager()->active()->rowCount())
     return PlaylistItemPtr();
   return app_->playlist_manager()->active()->item_at(pos);
-
 }
 
 void Player::Mute() {
@@ -798,7 +772,6 @@ void Player::Mute() {
     volume_before_mute_ = current_volume;
     SetVolume(0);
   }
-
 }
 
 void Player::Pause() { engine_->Pause(); }
@@ -816,7 +789,6 @@ void Player::Play(const quint64 offset_nanosec) {
       PlayPause(offset_nanosec);
       break;
   }
-
 }
 
 void Player::ShowOSD() {
@@ -886,7 +858,6 @@ void Player::TrackAboutToEnd() {
   }
 
   engine_->StartPreloading(url, next_item->Url(), next_item->Metadata().has_cue(), next_item->effective_beginning_nanosec(), next_item->effective_end_nanosec());
-
 }
 
 void Player::FatalError() {
@@ -908,7 +879,6 @@ void Player::InvalidSongRequested(const QUrl &url) {
   }
 
   NextItem(Engine::Auto, Playlist::AutoScroll_Maybe);
-
 }
 
 void Player::RegisterUrlHandler(UrlHandler *handler) {
@@ -924,7 +894,6 @@ void Player::RegisterUrlHandler(UrlHandler *handler) {
   url_handlers_.insert(scheme, handler);
   QObject::connect(handler, &UrlHandler::destroyed, this, &Player::UrlHandlerDestroyed);
   QObject::connect(handler, &UrlHandler::AsyncLoadComplete, this, &Player::HandleLoadResult);
-
 }
 
 void Player::UnregisterUrlHandler(UrlHandler *handler) {
@@ -939,27 +908,24 @@ void Player::UnregisterUrlHandler(UrlHandler *handler) {
   url_handlers_.remove(scheme);
   QObject::disconnect(handler, &UrlHandler::destroyed, this, &Player::UrlHandlerDestroyed);
   QObject::disconnect(handler, &UrlHandler::AsyncLoadComplete, this, &Player::HandleLoadResult);
-
 }
 
 const UrlHandler *Player::HandlerForUrl(const QUrl &url) const {
 
-  QMap<QString, UrlHandler*>::const_iterator it = url_handlers_.constFind(url.scheme());
+  QMap<QString, UrlHandler *>::const_iterator it = url_handlers_.constFind(url.scheme());
   if (it == url_handlers_.constEnd()) {
     return nullptr;
   }
   return *it;
-
 }
 
 void Player::UrlHandlerDestroyed(QObject *object) {
 
-  UrlHandler *handler = static_cast<UrlHandler*>(object);
+  UrlHandler *handler = static_cast<UrlHandler *>(object);
   const QString scheme = url_handlers_.key(handler);
   if (!scheme.isEmpty()) {
     url_handlers_.remove(scheme);
   }
-
 }
 
 void Player::HandleAuthentication() {

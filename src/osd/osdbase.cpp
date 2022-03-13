@@ -64,7 +64,6 @@ OSDBase::OSDBase(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QO
   QObject::connect(app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::ThumbnailLoaded, this, &OSDBase::AlbumCoverLoaded);
 
   app_name_[0] = app_name_[0].toUpper();
-
 }
 
 OSDBase::~OSDBase() {
@@ -100,7 +99,6 @@ void OSDBase::ReloadSettings() {
   }
 
   ReloadPrettyOSDSettings();
-
 }
 
 // Reload just Pretty OSD settings, not everything
@@ -108,14 +106,12 @@ void OSDBase::ReloadPrettyOSDSettings() {
 
   pretty_popup_->set_popup_duration(timeout_msec_);
   pretty_popup_->ReloadSettings();
-
 }
 
 void OSDBase::ReshowCurrentSong() {
 
   force_show_next_ = true;
   ShowPlaying(last_song_, last_image_uri_, last_image_);
-
 }
 
 void OSDBase::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
@@ -127,7 +123,6 @@ void OSDBase::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QI
   last_image_uri_ = cover_url;
 
   ShowPlaying(song, cover_url, image);
-
 }
 
 void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage &image, const bool preview) {
@@ -181,7 +176,6 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
   if (preview) {
     ReloadSettings();
   }
-
 }
 
 void OSDBase::SongChanged(const Song &song) {
@@ -213,7 +207,6 @@ void OSDBase::Paused() {
       ShowMessage(summary, tr("Paused"));
     }
   }
-
 }
 
 void OSDBase::Resumed() {
@@ -221,7 +214,6 @@ void OSDBase::Resumed() {
   if (show_on_resume_) {
     ShowPlaying(last_song_, last_image_uri_, last_image_);
   }
-
 }
 
 void OSDBase::Stopped() {
@@ -262,7 +254,6 @@ void OSDBase::Stopped() {
   last_song_ = Song();
   last_image_ = QImage();
   last_image_uri_.clear();
-
 }
 
 void OSDBase::StopAfterToggle(bool stop) {
@@ -275,7 +266,6 @@ void OSDBase::PlaylistFinished() {
   ignore_next_stopped_ = true;
 
   ShowMessage(app_name_, tr("Playlist finished"));
-
 }
 
 void OSDBase::VolumeChanged(int value) {
@@ -293,7 +283,6 @@ void OSDBase::VolumeChanged(int value) {
 #endif
 
   ShowMessage(app_name_, message);
-
 }
 
 void OSDBase::ShowMessage(const QString &summary, const QString &message, const QString &icon, const QImage &image) {
@@ -305,8 +294,8 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
     switch (behaviour_) {
       case Native:
 #ifdef Q_OS_WIN32
-      Q_UNUSED(icon)
-      // fallthrough
+        Q_UNUSED(icon)
+        // fallthrough
 #else
         if (image.isNull()) {
           ShowMessageNative(summary, message, icon, QImage());
@@ -318,7 +307,7 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
 #endif
       case TrayPopup:
 #ifdef Q_OS_MACOS
-      // fallthrough
+        // fallthrough
 #else
         if (tray_icon_) tray_icon_->ShowPopup(summary, message, timeout_msec_);
         break;
@@ -335,7 +324,6 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
         break;
     }
   }
-
 }
 
 void OSDBase::ShuffleModeChanged(PlaylistSequence::ShuffleMode mode) {
@@ -343,14 +331,13 @@ void OSDBase::ShuffleModeChanged(PlaylistSequence::ShuffleMode mode) {
   if (show_on_play_mode_change_) {
     QString current_mode = QString();
     switch (mode) {
-      case PlaylistSequence::Shuffle_Off:         current_mode = tr("Don't shuffle");   break;
-      case PlaylistSequence::Shuffle_All:         current_mode = tr("Shuffle all");     break;
+      case PlaylistSequence::Shuffle_Off: current_mode = tr("Don't shuffle"); break;
+      case PlaylistSequence::Shuffle_All: current_mode = tr("Shuffle all"); break;
       case PlaylistSequence::Shuffle_InsideAlbum: current_mode = tr("Shuffle tracks in this album"); break;
-      case PlaylistSequence::Shuffle_Albums:      current_mode = tr("Shuffle albums");  break;
+      case PlaylistSequence::Shuffle_Albums: current_mode = tr("Shuffle albums"); break;
     }
     ShowMessage(app_name_, current_mode);
   }
-
 }
 
 void OSDBase::RepeatModeChanged(PlaylistSequence::RepeatMode mode) {
@@ -358,16 +345,15 @@ void OSDBase::RepeatModeChanged(PlaylistSequence::RepeatMode mode) {
   if (show_on_play_mode_change_) {
     QString current_mode = QString();
     switch (mode) {
-      case PlaylistSequence::Repeat_Off:      current_mode = tr("Don't repeat");   break;
-      case PlaylistSequence::Repeat_Track:    current_mode = tr("Repeat track");   break;
-      case PlaylistSequence::Repeat_Album:    current_mode = tr("Repeat album"); break;
+      case PlaylistSequence::Repeat_Off: current_mode = tr("Don't repeat"); break;
+      case PlaylistSequence::Repeat_Track: current_mode = tr("Repeat track"); break;
+      case PlaylistSequence::Repeat_Album: current_mode = tr("Repeat album"); break;
       case PlaylistSequence::Repeat_Playlist: current_mode = tr("Repeat playlist"); break;
       case PlaylistSequence::Repeat_OneByOne: current_mode = tr("Stop after every track"); break;
       case PlaylistSequence::Repeat_Intro: current_mode = tr("Intro tracks"); break;
     }
     ShowMessage(app_name_, current_mode);
   }
-
 }
 
 QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, const Song &song) {
@@ -388,7 +374,7 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
       break;
 #elif defined(HAVE_DBUS)
       switch (type) {
-        case Type_Summary:{
+        case Type_Summary: {
           html_escaped = false;
           newline = "";
           break;
@@ -401,7 +387,7 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
       }
       break;
 #elif defined(Q_OS_WIN32)
-    // fallthrough
+      // fallthrough
 #else
       // Other OSes doesn't support native notifications.
       qLog(Debug) << "Native notifications are not supported on this OS.";
@@ -420,7 +406,6 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
   }
 
   return Utilities::ReplaceMessage(message, song, newline, html_escaped);
-
 }
 
 void OSDBase::ShowPreview(const Behaviour type, const QString &line1, const QString &line2, const Song &song) {
@@ -432,7 +417,6 @@ void OSDBase::ShowPreview(const Behaviour type, const QString &line1, const QStr
 
   // We want to reload the settings, but we can't do this here because the cover art loading is asynch
   ShowPlaying(song, QUrl(), QImage(), true);
-
 }
 
 void OSDBase::SetPrettyOSDToggleMode(bool toggle) {
@@ -447,6 +431,6 @@ bool OSDBase::SupportsTrayPopups() {
   return tray_icon_->IsSystemTrayAvailable();
 }
 
-void OSDBase::ShowMessageNative(const QString&, const QString&, const QString&, const QImage&) {
+void OSDBase::ShowMessageNative(const QString &, const QString &, const QString &, const QImage &) {
   qLog(Warning) << "Native notifications are not supported on this OS.";
 }

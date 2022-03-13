@@ -57,9 +57,9 @@ class AudioScrobbler : public QObject {
 
   ScrobblerService *ServiceByName(const QString &name) const { return scrobbler_services_->ServiceByName(name); }
 
-  template <typename T>
+  template<typename T>
   T *Service() {
-    return qobject_cast<T*>(ServiceByName(T::kName));
+    return qobject_cast<T *>(ServiceByName(T::kName));
   }
 
  public slots:
@@ -89,7 +89,6 @@ class AudioScrobbler : public QObject {
   bool prefer_albumartist_;
   bool show_error_dialog_;
   QList<Song::Source> sources_;
-
 };
 
 #endif  // AUDIOSCROBBLER_H

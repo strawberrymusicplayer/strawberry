@@ -65,7 +65,6 @@ class SqlRow;
 class Song {
 
  public:
-
   enum Source {
     Source_Unknown = 0,
     Source_LocalFile = 1,

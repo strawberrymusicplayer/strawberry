@@ -58,10 +58,16 @@ class DeviceLister : public QObject {
   virtual quint64 DeviceCapacity(const QString &id) = 0;
   virtual quint64 DeviceFreeSpace(const QString &id) = 0;
   virtual QVariantMap DeviceHardwareInfo(const QString &id) = 0;
-  virtual bool DeviceNeedsMount(const QString &id) { Q_UNUSED(id); return false; }
+  virtual bool DeviceNeedsMount(const QString &id) {
+    Q_UNUSED(id);
+    return false;
+  }
 
   // When connecting to a device for the first time, do we want an user's confirmation for scanning it? (by default yes)
-  virtual bool AskForScan(const QString &id) const { Q_UNUSED(id); return true; }
+  virtual bool AskForScan(const QString &id) const {
+    Q_UNUSED(id);
+    return true;
+  }
 
   virtual QString MakeFriendlyName(const QString &id) = 0;
   virtual QList<QUrl> MakeDeviceUrls(const QString &id) = 0;

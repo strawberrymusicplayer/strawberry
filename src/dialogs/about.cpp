@@ -37,54 +37,54 @@
 #include "about.h"
 #include "ui_about.h"
 
-About::About(QWidget *parent) : QDialog(parent), ui_{} {
+About::About(QWidget *parent) : QDialog(parent), ui_ {} {
 
   ui_.setupUi(this);
-  setWindowFlags(windowFlags()|Qt::WindowStaysOnTopHint);
+  setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
   setWindowTitle(tr("About Strawberry"));
 
-  strawberry_authors_ \
-           << Person("Jonas Kvinge", "jonas@jkvinge.net");
+  strawberry_authors_
+    << Person("Jonas Kvinge", "jonas@jkvinge.net");
 
-  strawberry_contributors_ \
-           << Person("Gavin D. Howard", "yzena.tech@gmail.com")
-           << Person("Martin Delille", "martin@delille.org");
+  strawberry_contributors_
+    << Person("Gavin D. Howard", "yzena.tech@gmail.com")
+    << Person("Martin Delille", "martin@delille.org");
 
   clementine_authors_
-           << Person("David Sansome", "me@davidsansome.com")
-           << Person("John Maguire", "john.maguire@gmail.com")
-           << Person(QString::fromUtf8("Paweł Bara"), "keirangtp@gmail.com")
-           << Person("Arnaud Bienner", "arnaud.bienner@gmail.com");
+    << Person("David Sansome", "me@davidsansome.com")
+    << Person("John Maguire", "john.maguire@gmail.com")
+    << Person(QString::fromUtf8("Paweł Bara"), "keirangtp@gmail.com")
+    << Person("Arnaud Bienner", "arnaud.bienner@gmail.com");
 
-  clementine_contributors_ \
-           << Person("Jakub Stachowski", "qbast@go2.pl")
-           << Person("Paul Cifarelli", "paul@cifarelli.net")
-           << Person("Felipe Rivera", "liebremx@users.sourceforge.net")
-           << Person("Alexander Peitz")
-           << Person("Andreas Muttscheller", "asfa194@gmail.com")
-           << Person("Mark Furneaux", "mark@furneaux.ca")
-           << Person("Florian Bigard", "florian.bigard@gmail.com")
-           << Person("Alex Bikadorov", "wegwerf@abwesend.de")
-           << Person("Mattias Andersson", "mandersson444@gmail.com")
-           << Person("Alan Briolat", "alan.briolat@gmail.com")
-           << Person("Arun Narayanankutty", "n.arun.lifescience@gmail.com")
-           << Person(QString::fromUtf8("Bartłomiej Burdukiewicz"), "dev.strikeu@gmail.com")
-           << Person("Andre Siviero", "altsiviero@gmail.com")
-           << Person("Santiago Gil")
-           << Person("Tyler Rhodes", "tyler.s.rhodes@gmail.com")
-           << Person("Vikram Ambrose", "ambroseworks@gmail.com")
-           << Person("David Guillen", "david@davidgf.net")
-           << Person("Krzysztof Sobiecki", "sobkas@gmail.com")
-           << Person("Valeriy Malov", "jazzvoid@gmail.com")
-           << Person("Nick Lanham", "nick@afternight.org");
+  clementine_contributors_
+    << Person("Jakub Stachowski", "qbast@go2.pl")
+    << Person("Paul Cifarelli", "paul@cifarelli.net")
+    << Person("Felipe Rivera", "liebremx@users.sourceforge.net")
+    << Person("Alexander Peitz")
+    << Person("Andreas Muttscheller", "asfa194@gmail.com")
+    << Person("Mark Furneaux", "mark@furneaux.ca")
+    << Person("Florian Bigard", "florian.bigard@gmail.com")
+    << Person("Alex Bikadorov", "wegwerf@abwesend.de")
+    << Person("Mattias Andersson", "mandersson444@gmail.com")
+    << Person("Alan Briolat", "alan.briolat@gmail.com")
+    << Person("Arun Narayanankutty", "n.arun.lifescience@gmail.com")
+    << Person(QString::fromUtf8("Bartłomiej Burdukiewicz"), "dev.strikeu@gmail.com")
+    << Person("Andre Siviero", "altsiviero@gmail.com")
+    << Person("Santiago Gil")
+    << Person("Tyler Rhodes", "tyler.s.rhodes@gmail.com")
+    << Person("Vikram Ambrose", "ambroseworks@gmail.com")
+    << Person("David Guillen", "david@davidgf.net")
+    << Person("Krzysztof Sobiecki", "sobkas@gmail.com")
+    << Person("Valeriy Malov", "jazzvoid@gmail.com")
+    << Person("Nick Lanham", "nick@afternight.org");
 
-  strawberry_thanks_ \
-           << Person("Mark Kretschmann", "kretschmann@kde.org")
-           << Person("Max Howell", "max.howell@methylblue.com")
-           << Person("Artur Rona", "artur.rona@gmail.com")
-           << Person("Robert-André Mauchin", "eclipseo@fedoraproject.org")
-           << Person("Thomas Pierson", "contact@thomaspierson.fr")
-           << Person("Fabio Loli", "fabio.lolix@gmail.com");
+  strawberry_thanks_
+    << Person("Mark Kretschmann", "kretschmann@kde.org")
+    << Person("Max Howell", "max.howell@methylblue.com")
+    << Person("Artur Rona", "artur.rona@gmail.com")
+    << Person("Robert-André Mauchin", "eclipseo@fedoraproject.org")
+    << Person("Thomas Pierson", "contact@thomaspierson.fr")
+    << Person("Fabio Loli", "fabio.lolix@gmail.com");
 
   QFont title_font;
   title_font.setBold(true);
@@ -97,7 +97,6 @@ About::About(QWidget *parent) : QDialog(parent), ui_{} {
   ui_.text_contributors->setText(ContributorsHtml());
 
   ui_.buttonBox->button(QDialogButtonBox::Close)->setShortcut(QKeySequence::Close);
-
 }
 
 QString About::MainHtml() const {
@@ -123,15 +122,11 @@ QString About::MainHtml() const {
   ret += QString("<p>");
   ret += tr("If you like Strawberry and can make use of it, consider sponsoring or donating.");
   ret += QString("<br />");
-  ret += tr("You can sponsor the author on %1. You can also make a one-time payment through %2.").arg(
-    QString("<a style=\"color:%1;\" href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>").arg(palette().text().color().name()),
-    QString("<a style=\"color:%1;\" href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>").arg(palette().text().color().name())
-  );
+  ret += tr("You can sponsor the author on %1. You can also make a one-time payment through %2.").arg(QString("<a style=\"color:%1;\" href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>").arg(palette().text().color().name()), QString("<a style=\"color:%1;\" href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>").arg(palette().text().color().name()));
 
   ret += QString("</p>");
 
   return ret;
-
 }
 
 QString About::ContributorsHtml() const {
@@ -187,7 +182,6 @@ QString About::ContributorsHtml() const {
   ret += tr("Thanks to all the other Amarok and Clementine contributors.");
   ret += QString("</p>");
   return ret;
-
 }
 
 QString About::PersonToHtml(const Person &person) {

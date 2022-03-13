@@ -65,7 +65,6 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, QWidget *parent)
   ui_->format->addItem("FLAC Lossless", 6);
   ui_->format->addItem("FLAC Hi-Res <= 96kHz", 7);
   ui_->format->addItem("FLAC Hi-Res > 96kHz", 27);
-
 }
 
 QobuzSettingsPage::~QobuzSettingsPage() { delete ui_; }
@@ -82,8 +81,10 @@ void QobuzSettingsPage::Load() {
 
   ui_->username->setText(s.value("username").toString());
   QByteArray password = s.value("password").toByteArray();
-  if (password.isEmpty()) ui_->password->clear();
-  else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
+  if (password.isEmpty())
+    ui_->password->clear();
+  else
+    ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
 
   ComboBoxLoadFromSettings(s, ui_->format, "format", 27);
   ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
@@ -99,7 +100,6 @@ void QobuzSettingsPage::Load() {
   Init(ui_->layout_qobuzsettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
-
 }
 
 void QobuzSettingsPage::Save() {
@@ -120,7 +120,6 @@ void QobuzSettingsPage::Save() {
   s.setValue("songssearchlimit", ui_->songssearchlimit->value());
   s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
   s.endGroup();
-
 }
 
 void QobuzSettingsPage::LoginClicked() {
@@ -140,7 +139,6 @@ void QobuzSettingsPage::LoginClicked() {
 
   emit Login(ui_->app_id->text(), ui_->username->text(), ui_->password->text());
   ui_->button_login->setEnabled(false);
-
 }
 
 bool QobuzSettingsPage::eventFilter(QObject *object, QEvent *event) {
@@ -150,7 +148,6 @@ bool QobuzSettingsPage::eventFilter(QObject *object, QEvent *event) {
   }
 
   return SettingsPage::eventFilter(object, event);
-
 }
 
 void QobuzSettingsPage::LogoutClicked() {
@@ -158,7 +155,6 @@ void QobuzSettingsPage::LogoutClicked() {
   service_->Logout();
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
   ui_->button_login->setEnabled(true);
-
 }
 
 void QobuzSettingsPage::LoginSuccess() {
@@ -166,12 +162,10 @@ void QobuzSettingsPage::LoginSuccess() {
   if (!isVisible()) return;
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
   ui_->button_login->setEnabled(true);
-
 }
 
 void QobuzSettingsPage::LoginFailure(const QString &failure_reason) {
 
   if (!isVisible()) return;
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
-
 }

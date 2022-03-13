@@ -38,16 +38,14 @@ void NetworkTimeouts::AddReply(QNetworkReply *reply) {
   QObject::connect(reply, &QNetworkReply::destroyed, this, &NetworkTimeouts::ReplyFinished);
   QObject::connect(reply, &QNetworkReply::finished, this, &NetworkTimeouts::ReplyFinished);
   timers_[reply] = startTimer(timeout_msec_);
-
 }
 
 void NetworkTimeouts::ReplyFinished() {
 
-  QNetworkReply *reply = reinterpret_cast<QNetworkReply*>(sender());
+  QNetworkReply *reply = reinterpret_cast<QNetworkReply *>(sender());
   if (timers_.contains(reply)) {
     killTimer(timers_.take(reply));
   }
-
 }
 
 void NetworkTimeouts::timerEvent(QTimerEvent *e) {
@@ -56,5 +54,4 @@ void NetworkTimeouts::timerEvent(QTimerEvent *e) {
   if (reply) {
     reply->abort();
   }
-
 }

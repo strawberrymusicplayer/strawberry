@@ -24,7 +24,6 @@ TEST(ConcurrentRunTest, ConcurrentRun0StartAndWait) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(1337, watcher.result());
-
 }
 
 int g(int i);
@@ -43,7 +42,6 @@ TEST(ConcurrentRunTest, ConcurrentRun1StartAndWait) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(1337, watcher.result());
-
 }
 
 int max(int i, int j);
@@ -63,7 +61,6 @@ TEST(ConcurrentRunTest, ConcurrentRun2StartAndWait) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(42, watcher.result());
-
 }
 
 int sum(int a, int b, int c);
@@ -84,7 +81,6 @@ TEST(ConcurrentRunTest, ConcurrentRun3StartAndWait) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(102, watcher.result());
-
 }
 
 void aFunction(int* n);
@@ -92,14 +88,14 @@ void aFunction(int* n) {
   *n = 1337;
 }
 
-void bFunction(int* n, int *m);
-void bFunction(int* n, int *m) {
+void bFunction(int* n, int* m);
+void bFunction(int* n, int* m) {
   aFunction(n);
   *m = 1338;
 }
 
-void cFunction(int* n, int *m, int *o);
-void cFunction(int* n, int *m, int *o) {
+void cFunction(int* n, int* m, int* o);
+void cFunction(int* n, int* m, int* o) {
   bFunction(n, m);
   *o = 1339;
 }
@@ -116,7 +112,6 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction1Start) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(1337, n);
-
 }
 
 TEST(ConcurrentRunTest, ConcurrentRunVoidFunction2Start) {
@@ -132,7 +127,6 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction2Start) {
   loop.exec();
   EXPECT_EQ(1337, n);
   EXPECT_EQ(1338, m);
-
 }
 
 TEST(ConcurrentRunTest, ConcurrentRunVoidFunction3Start) {
@@ -149,7 +143,6 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction3Start) {
   EXPECT_EQ(1337, n);
   EXPECT_EQ(1338, m);
   EXPECT_EQ(1339, o);
-
 }
 
 class A {
@@ -172,5 +165,4 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidBindFunctionStart) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(11, nb);
-
 }

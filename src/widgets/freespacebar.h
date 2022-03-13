@@ -56,18 +56,36 @@ class FreeSpaceBar : public QWidget {
   static const QRgb kColorBar2;
   static const QRgb kColorBorder;
 
-  void set_free_bytes(const quint64 bytes) { free_ = bytes; update(); }
-  void set_additional_bytes(const quint64 bytes) { additional_ = bytes; update(); }
-  void set_total_bytes(const quint64 bytes) { total_ = bytes; update(); }
+  void set_free_bytes(const quint64 bytes) {
+    free_ = bytes;
+    update();
+  }
+  void set_additional_bytes(const quint64 bytes) {
+    additional_ = bytes;
+    update();
+  }
+  void set_total_bytes(const quint64 bytes) {
+    total_ = bytes;
+    update();
+  }
 
-  void set_free_text(const QString &text) { free_text_ = text; update(); }
-  void set_additional_text(const QString &text) { additional_text_ = text; update(); }
-  void set_used_text(const QString &text) { used_text_ = text; update(); }
+  void set_free_text(const QString &text) {
+    free_text_ = text;
+    update();
+  }
+  void set_additional_text(const QString &text) {
+    additional_text_ = text;
+    update();
+  }
+  void set_used_text(const QString &text) {
+    used_text_ = text;
+    update();
+  }
 
   QSize sizeHint() const override;
 
  protected:
-  void paintEvent(QPaintEvent*) override;
+  void paintEvent(QPaintEvent *) override;
 
  private:
   struct Label {

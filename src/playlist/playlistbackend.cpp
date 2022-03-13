@@ -65,7 +65,6 @@ PlaylistBackend::PlaylistBackend(Application *app, QObject *parent)
       original_thread_(nullptr) {
 
   original_thread_ = thread();
-
 }
 
 void PlaylistBackend::Close() {
@@ -74,7 +73,6 @@ void PlaylistBackend::Close() {
     QMutexLocker l(db_->Mutex());
     db_->Close();
   }
-
 }
 
 void PlaylistBackend::ExitAsync() {
@@ -87,7 +85,6 @@ void PlaylistBackend::Exit() {
 
   moveToThread(original_thread_);
   emit ExitFinished();
-
 }
 
 PlaylistBackend::PlaylistList PlaylistBackend::GetAllPlaylists() {
@@ -143,7 +140,6 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFl
   }
 
   return ret;
-
 }
 
 PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
@@ -174,7 +170,6 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
   p.dynamic_backend = q.value(8).toString();
 
   return p;
-
 }
 
 PlaylistItemList PlaylistBackend::GetPlaylistItems(const int playlist) {
@@ -202,7 +197,6 @@ PlaylistItemList PlaylistBackend::GetPlaylistItems(const int playlist) {
     while (q.next()) {
       playlistitems << NewPlaylistItemFromQuery(SqlRow(q), state_ptr);
     }
-
   }
 
   if (QThread::currentThread() != thread() && QThread::currentThread() != qApp->thread()) {
@@ -210,7 +204,6 @@ PlaylistItemList PlaylistBackend::GetPlaylistItems(const int playlist) {
   }
 
   return playlistitems;
-
 }
 
 SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
@@ -237,7 +230,6 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
     while (q.next()) {
       songs << NewSongFromQuery(SqlRow(q), state_ptr);
     }
-
   }
 
   if (QThread::currentThread() != thread() && QThread::currentThread() != qApp->thread()) {
@@ -245,7 +237,6 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
   }
 
   return songs;
-
 }
 
 PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state) {
@@ -261,13 +252,11 @@ PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, std
   else {
     return item;
   }
-
 }
 
 Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state) {
 
   return NewPlaylistItemFromQuery(row, state)->Metadata();
-
 }
 
 // If song had a CUE and the CUE still exists, the metadata from it will be applied here.
@@ -318,13 +307,11 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::share
   item->Reload();
 
   return item;
-
 }
 
 void PlaylistBackend::SavePlaylistAsync(int playlist, const PlaylistItemList &items, int last_played, PlaylistGeneratorPtr dynamic) {
 
   QMetaObject::invokeMethod(this, "SavePlaylist", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(PlaylistItemList, items), Q_ARG(int, last_played), Q_ARG(PlaylistGeneratorPtr, dynamic));
-
 }
 
 void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList &items, int last_played, PlaylistGeneratorPtr dynamic) {
@@ -383,7 +370,6 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList &items, 
   }
 
   transaction.Commit();
-
 }
 
 int PlaylistBackend::CreatePlaylist(const QString &name, const QString &special_type) {
@@ -401,7 +387,6 @@ int PlaylistBackend::CreatePlaylist(const QString &name, const QString &special_
   }
 
   return q.lastInsertId().toInt();
-
 }
 
 void PlaylistBackend::RemovePlaylist(int id) {
@@ -432,7 +417,6 @@ void PlaylistBackend::RemovePlaylist(int id) {
   }
 
   transaction.Commit();
-
 }
 
 void PlaylistBackend::RenamePlaylist(const int id, const QString &new_name) {
@@ -447,7 +431,6 @@ void PlaylistBackend::RenamePlaylist(const int id, const QString &new_name) {
   if (!q.Exec()) {
     db_->ReportErrors(q);
   }
-
 }
 
 void PlaylistBackend::FavoritePlaylist(const int id, const bool is_favorite) {
@@ -462,7 +445,6 @@ void PlaylistBackend::FavoritePlaylist(const int id, const bool is_favorite) {
   if (!q.Exec()) {
     db_->ReportErrors(q);
   }
-
 }
 
 void PlaylistBackend::SetPlaylistOrder(const QList<int> &ids) {
@@ -489,7 +471,6 @@ void PlaylistBackend::SetPlaylistOrder(const QList<int> &ids) {
   }
 
   transaction.Commit();
-
 }
 
 void PlaylistBackend::SetPlaylistUiPath(const int id, const QString &path) {
@@ -509,5 +490,4 @@ void PlaylistBackend::SetPlaylistUiPath(const int id, const QString &path) {
   }
 
   transaction.Commit();
-
 }

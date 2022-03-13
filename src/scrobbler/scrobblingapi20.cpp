@@ -84,7 +84,6 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
 
   timer_submit_.setSingleShot(true);
   QObject::connect(&timer_submit_, &QTimer::timeout, this, &ScrobblingAPI20::Submit);
-
 }
 
 ScrobblingAPI20::~ScrobblingAPI20() {
@@ -101,7 +100,6 @@ ScrobblingAPI20::~ScrobblingAPI20() {
     if (server_->isListening()) server_->close();
     server_->deleteLater();
   }
-
 }
 
 void ScrobblingAPI20::ReloadSettings() {
@@ -116,7 +114,6 @@ void ScrobblingAPI20::ReloadSettings() {
   s.beginGroup(ScrobblerSettingsPage::kSettingsGroup);
   prefer_albumartist_ = s.value("albumartist", false).toBool();
   s.endGroup();
-
 }
 
 void ScrobblingAPI20::LoadSession() {
@@ -127,7 +124,6 @@ void ScrobblingAPI20::LoadSession() {
   username_ = s.value("username").toString();
   session_key_ = s.value("session_key").toString();
   s.endGroup();
-
 }
 
 void ScrobblingAPI20::Logout() {
@@ -142,7 +138,6 @@ void ScrobblingAPI20::Logout() {
   settings.remove("username");
   settings.remove("session_key");
   settings.endGroup();
-
 }
 
 void ScrobblingAPI20::Authenticate(const bool https) {
@@ -165,11 +160,11 @@ void ScrobblingAPI20::Authenticate(const bool https) {
   QUrl url(auth_url_);
   url.setQuery(url_query);
 
-  QMessageBox messagebox(QMessageBox::Information, tr("%1 Scrobbler Authentication").arg(name_), tr("Open URL in web browser?") + QString("<br /><a href=\"%1\">%1</a><br />").arg(url.toString()) + tr("Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."), QMessageBox::Open|QMessageBox::Save|QMessageBox::Cancel);
+  QMessageBox messagebox(QMessageBox::Information, tr("%1 Scrobbler Authentication").arg(name_), tr("Open URL in web browser?") + QString("<br /><a href=\"%1\">%1</a><br />").arg(url.toString()) + tr("Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."), QMessageBox::Open | QMessageBox::Save | QMessageBox::Cancel);
   messagebox.setTextFormat(Qt::RichText);
   int result = messagebox.exec();
   switch (result) {
-  case QMessageBox::Open:{
+    case QMessageBox::Open: {
       bool openurl_result = QDesktopServices::openUrl(url);
       if (openurl_result) {
         break;
@@ -178,22 +173,21 @@ void ScrobblingAPI20::Authenticate(const bool https) {
       messagebox_error.setTextFormat(Qt::RichText);
       messagebox_error.exec();
     }
-    // fallthrough
-  case QMessageBox::Save:
-    QApplication::clipboard()->setText(url.toString());
-    break;
-  case QMessageBox::Cancel:
-    if (server_) {
-      server_->close();
-      server_->deleteLater();
-      server_ = nullptr;
-    }
-    emit AuthenticationComplete(false);
-    break;
-  default:
-    break;
+      // fallthrough
+    case QMessageBox::Save:
+      QApplication::clipboard()->setText(url.toString());
+      break;
+    case QMessageBox::Cancel:
+      if (server_) {
+        server_->close();
+        server_->deleteLater();
+        server_ = nullptr;
+      }
+      emit AuthenticationComplete(false);
+      break;
+    default:
+      break;
   }
-
 }
 
 void ScrobblingAPI20::RedirectArrived() {
@@ -223,7 +217,6 @@ void ScrobblingAPI20::RedirectArrived() {
   server_->close();
   server_->deleteLater();
   server_ = nullptr;
-
 }
 
 void ScrobblingAPI20::RequestSession(const QString &token) {
@@ -249,7 +242,6 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
   QNetworkReply *reply = network()->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AuthenticateReplyFinished(reply); });
-
 }
 
 void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
@@ -347,7 +339,6 @@ void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
   emit AuthenticationComplete(true);
 
   StartSubmit();
-
 }
 
 QNetworkReply *ScrobblingAPI20::CreateRequest(const ParamList &request_params) {
@@ -386,7 +377,6 @@ QNetworkReply *ScrobblingAPI20::CreateRequest(const ParamList &request_params) {
   //qLog(Debug) << name_ << "Sending request" << url_query.toString(QUrl::FullyDecoded);
 
   return reply;
-
 }
 
 QByteArray ScrobblingAPI20::GetReplyData(QNetworkReply *reply) {
@@ -425,14 +415,13 @@ QByteArray ScrobblingAPI20::GetReplyData(QNetworkReply *reply) {
         }
       }
       if (reply->error() == QNetworkReply::ContentAccessDenied ||
-          reply->error() == QNetworkReply::ContentOperationNotPermittedError ||
-          reply->error() == QNetworkReply::AuthenticationRequiredError ||
-          error_code == ScrobbleErrorCode::InvalidSessionKey ||
-          error_code == ScrobbleErrorCode::UnauthorizedToken ||
-          error_code == ScrobbleErrorCode::LoginRequired ||
-          error_code == ScrobbleErrorCode::AuthenticationFailed ||
-          error_code == ScrobbleErrorCode::APIKeySuspended
-        ){
+        reply->error() == QNetworkReply::ContentOperationNotPermittedError ||
+        reply->error() == QNetworkReply::AuthenticationRequiredError ||
+        error_code == ScrobbleErrorCode::InvalidSessionKey ||
+        error_code == ScrobbleErrorCode::UnauthorizedToken ||
+        error_code == ScrobbleErrorCode::LoginRequired ||
+        error_code == ScrobbleErrorCode::AuthenticationFailed ||
+        error_code == ScrobbleErrorCode::APIKeySuspended) {
         // Session is probably expired
         Logout();
       }
@@ -442,7 +431,6 @@ QByteArray ScrobblingAPI20::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
-
 }
 
 void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
@@ -477,7 +465,6 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
 
   QNetworkReply *reply = CreateRequest(params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { UpdateNowPlayingRequestFinished(reply); });
-
 }
 
 void ScrobblingAPI20::UpdateNowPlayingRequestFinished(QNetworkReply *reply) {
@@ -509,7 +496,6 @@ void ScrobblingAPI20::UpdateNowPlayingRequestFinished(QNetworkReply *reply) {
     Error("Json reply from server is missing nowplaying.", json_obj);
     return;
   }
-
 }
 
 void ScrobblingAPI20::ClearPlaying() {
@@ -519,7 +505,6 @@ void ScrobblingAPI20::ClearPlaying() {
   song_playing_ = Song();
   scrobbled_ = false;
   timestamp_ = 0;
-
 }
 
 void ScrobblingAPI20::Scrobble(const Song &song) {
@@ -533,12 +518,13 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
   if (app_->scrobbler()->IsOffline()) return;
 
   if (!IsAuthenticated()) {
-    if (app_->scrobbler()->ShowErrorDialog()) { emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_)); }
+    if (app_->scrobbler()->ShowErrorDialog()) {
+      emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_));
+    }
     return;
   }
 
   StartSubmit(true);
-
 }
 
 void ScrobblingAPI20::StartSubmit(const bool initial) {
@@ -556,7 +542,6 @@ void ScrobblingAPI20::StartSubmit(const bool initial) {
       timer_submit_.start();
     }
   }
-
 }
 
 void ScrobblingAPI20::Submit() {
@@ -601,7 +586,6 @@ void ScrobblingAPI20::Submit() {
 
   QNetworkReply *reply = CreateRequest(params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, list]() { ScrobbleRequestFinished(reply, list); });
-
 }
 
 void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<quint64> &list) {
@@ -727,12 +711,11 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
     }
 
     if (!json_track.contains("artist") ||
-        !json_track.contains("album") ||
-        !json_track.contains("albumArtist") ||
-        !json_track.contains("track") ||
-        !json_track.contains("timestamp") ||
-        !json_track.contains("ignoredMessage")
-    ) {
+      !json_track.contains("album") ||
+      !json_track.contains("albumArtist") ||
+      !json_track.contains("track") ||
+      !json_track.contains("timestamp") ||
+      !json_track.contains("ignoredMessage")) {
       Error("Json scrobbles scrobble is missing values.", json_track);
       continue;
     }
@@ -774,11 +757,9 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
     else {
       qLog(Debug) << name_ << "Scrobble for" << song << "accepted";
     }
-
- }
+  }
 
   StartSubmit();
-
 }
 
 void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
@@ -802,7 +783,6 @@ void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
 
   QNetworkReply *reply = CreateRequest(params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, item]() { SingleScrobbleRequestFinished(reply, item->timestamp_); });
-
 }
 
 void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, const quint64 timestamp) {
@@ -929,7 +909,6 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, const 
   else {
     Error(QString("Scrobble for \"%1\" not accepted").arg(song));
   }
-
 }
 
 void ScrobblingAPI20::Love() {
@@ -953,7 +932,6 @@ void ScrobblingAPI20::Love() {
 
   QNetworkReply *reply = CreateRequest(params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply] { LoveRequestFinished(reply); });
-
 }
 
 void ScrobblingAPI20::LoveRequestFinished(QNetworkReply *reply) {
@@ -1004,7 +982,6 @@ void ScrobblingAPI20::LoveRequestFinished(QNetworkReply *reply) {
       }
     }
   }
-
 }
 
 void ScrobblingAPI20::AuthError(const QString &error) {
@@ -1016,8 +993,9 @@ void ScrobblingAPI20::Error(const QString &error, const QVariant &debug) {
   qLog(Error) << name_ << error;
   if (debug.isValid()) qLog(Debug) << debug;
 
-  if (app_->scrobbler()->ShowErrorDialog()) { emit ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_, error)); }
-
+  if (app_->scrobbler()->ShowErrorDialog()) {
+    emit ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_, error));
+  }
 }
 
 QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) {
@@ -1082,7 +1060,6 @@ QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) {
   }
 
   return QString("Unknown error.");
-
 }
 
 void ScrobblingAPI20::CheckScrobblePrevSong() {
@@ -1095,5 +1072,4 @@ void ScrobblingAPI20::CheckScrobblePrevSong() {
     song.set_length_nanosec(duration * kNsecPerSec);
     Scrobble(song);
   }
-
 }

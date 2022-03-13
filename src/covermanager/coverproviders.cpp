@@ -48,13 +48,12 @@ CoverProviders::~CoverProviders() {
   while (!cover_providers_.isEmpty()) {
     delete cover_providers_.firstKey();
   }
-
 }
 
 void CoverProviders::ReloadSettings() {
 
   QMap<int, QString> all_providers;
-  QList<CoverProvider*> old_providers = cover_providers_.keys();
+  QList<CoverProvider *> old_providers = cover_providers_.keys();
   for (CoverProvider *provider : old_providers) {
     if (!provider->is_enabled()) continue;
     all_providers.insert(provider->order(), provider->name());
@@ -66,7 +65,7 @@ void CoverProviders::ReloadSettings() {
   s.endGroup();
 
   int i = 0;
-  QList<CoverProvider*> new_providers;
+  QList<CoverProvider *> new_providers;
   for (const QString &name : providers_enabled) {
     CoverProvider *provider = ProviderByName(name);
     if (provider) {
@@ -83,17 +82,15 @@ void CoverProviders::ReloadSettings() {
       provider->set_order(++i);
     }
   }
-
 }
 
 CoverProvider *CoverProviders::ProviderByName(const QString &name) const {
 
-  QList<CoverProvider*> cover_providers = cover_providers_.keys();
+  QList<CoverProvider *> cover_providers = cover_providers_.keys();
   for (CoverProvider *provider : cover_providers) {
     if (provider->name() == name) return provider;
   }
   return nullptr;
-
 }
 
 void CoverProviders::AddProvider(CoverProvider *provider) {
@@ -107,7 +104,6 @@ void CoverProviders::AddProvider(CoverProvider *provider) {
   provider->set_order(++NextOrderId);
 
   qLog(Debug) << "Registered cover provider" << provider->name();
-
 }
 
 void CoverProviders::RemoveProvider(CoverProvider *provider) {
@@ -129,14 +125,12 @@ void CoverProviders::RemoveProvider(CoverProvider *provider) {
   else {
     qLog(Debug) << "Unregistered cover provider" << name;
   }
-
 }
 
 void CoverProviders::ProviderDestroyed() {
 
-  CoverProvider *provider = static_cast<CoverProvider*>(sender());
+  CoverProvider *provider = static_cast<CoverProvider *>(sender());
   RemoveProvider(provider);
-
 }
 
 int CoverProviders::NextId() { return next_id_.fetchAndAddRelaxed(1); }

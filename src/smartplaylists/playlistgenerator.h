@@ -92,7 +92,6 @@ class PlaylistGenerator : public QObject, public std::enable_shared_from_this<Pl
 
  private:
   QString name_;
-
 };
 
 #include "playlistgenerator_fwd.h"

@@ -66,7 +66,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
 
   virtual Options options() const { return Default; }
 
-  virtual QList<QAction*> actions() { return QList<QAction*>(); }
+  virtual QList<QAction *> actions() { return QList<QAction *>(); }
 
   virtual bool InitFromQuery(const SqlRow &query) = 0;
   void BindToQuery(SqlQuery *query) const;
@@ -77,7 +77,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   virtual Song OriginalMetadata() const = 0;
   virtual QUrl Url() const = 0;
 
-  virtual void SetMetadata(const Song&) {}
+  virtual void SetMetadata(const Song &) {}
 
   void SetTemporaryMetadata(const Song &metadata);
   void UpdateTemporaryMetadata(const Song &metadata);

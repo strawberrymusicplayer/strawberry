@@ -61,10 +61,10 @@ static const char *kMessageHandlerMagic = "__logging_message__";
 static const size_t kMessageHandlerMagicLength = strlen(kMessageHandlerMagic);
 static QtMessageHandler sOriginalMessageHandler = nullptr;
 
-template <class T>
+template<class T>
 static T CreateLogger(Level level, const QString &class_name, int line, const char *category);
 
-void GLog(const char *domain, int level, const char *message, void*) {
+void GLog(const char *domain, int level, const char *message, void *) {
 
   switch (level) {
     case G_LOG_FLAG_RECURSION:
@@ -85,16 +85,15 @@ void GLog(const char *domain, int level, const char *message, void*) {
       qLogCat(Debug, domain) << message;
       break;
   }
-
 }
 
-template <class T>
+template<class T>
 class DebugBase : public QDebug {
  public:
   DebugBase() : QDebug(sNullDevice) {}
   explicit DebugBase(QtMsgType t) : QDebug(t) {}
-  T &space() { return static_cast<T&>(QDebug::space()); }
-  T &nospace() { return static_cast<T&>(QDebug::nospace()); }
+  T &space() { return static_cast<T &>(QDebug::space()); }
+  T &nospace() { return static_cast<T &>(QDebug::nospace()); }
 };
 
 // Debug message will be stored in a buffer.
@@ -123,7 +122,7 @@ class LoggedDebug : public DebugBase<LoggedDebug> {
   explicit LoggedDebug(QtMsgType t) : DebugBase(t) { nospace() << kMessageHandlerMagic; }
 };
 
-static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QString &message) {
+static void MessageHandler(QtMsgType type, const QMessageLogContext &, const QString &message) {
 
   if (message.startsWith(kMessageHandlerMagic)) {
     fprintf(type == QtCriticalMsg || type == QtFatalMsg ? stderr : stdout, "%s\n", message.toUtf8().data() + kMessageHandlerMagicLength);
@@ -159,7 +158,6 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QStr
   if (type == QtFatalMsg) {
     abort();
   }
-
 }
 
 void Init() {
@@ -175,7 +173,6 @@ void Init() {
   if (!sOriginalMessageHandler) {
     sOriginalMessageHandler = qInstallMessageHandler(MessageHandler);
   }
-
 }
 
 void SetLevels(const QString &levels) {
@@ -208,7 +205,6 @@ void SetLevels(const QString &levels) {
       sClassLevels->insert(class_name, static_cast<Level>(level));
     }
   }
-
 }
 
 static QString ParsePrettyFunction(const char *pretty_function) {
@@ -232,20 +228,19 @@ static QString ParsePrettyFunction(const char *pretty_function) {
   }
 
   return class_name;
-
 }
 
-template <class T>
+template<class T>
 static T CreateLogger(Level level, const QString &class_name, int line, const char *category) {
 
   // Map the level to a string
   const char *level_name = nullptr;
   switch (level) {
-    case Level_Debug:   level_name = " DEBUG "; break;
-    case Level_Info:    level_name = " INFO  "; break;
+    case Level_Debug: level_name = " DEBUG "; break;
+    case Level_Info: level_name = " INFO  "; break;
     case Level_Warning: level_name = " WARN  "; break;
-    case Level_Error:   level_name = " ERROR "; break;
-    case Level_Fatal:   level_name = " FATAL "; break;
+    case Level_Error: level_name = " ERROR "; break;
+    case Level_Fatal: level_name = " FATAL "; break;
   }
 
   QString filter_category = (category != nullptr) ? category : class_name;
@@ -276,7 +271,6 @@ static T CreateLogger(Level level, const QString &class_name, int line, const ch
   ret.nospace() << QDateTime::currentDateTime().toString("hh:mm:ss.zzz").toLatin1().constData() << level_name << function_line.leftJustified(32).toLatin1().constData();
 
   return ret.space();
-
 }
 
 #ifdef Q_OS_UNIX
@@ -291,7 +285,6 @@ QString CXXDemangle(const QString &mangled_function) {
     return ret;
   }
   return mangled_function;  // Probably not a C++ function.
-
 }
 #endif  // Q_OS_UNIX
 
@@ -306,7 +299,6 @@ QString LinuxDemangle(const QString &symbol) {
   }
   QString mangled_function = match.captured(1);
   return CXXDemangle(mangled_function);
-
 }
 #endif  // Q_OS_LINUX
 
@@ -314,14 +306,13 @@ QString LinuxDemangle(const QString &symbol) {
 QString DarwinDemangle(const QString &symbol);
 QString DarwinDemangle(const QString &symbol) {
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+#  if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
   QStringList split = symbol.split(' ', Qt::SkipEmptyParts);
-#else
+#  else
   QStringList split = symbol.split(' ', QString::SkipEmptyParts);
-#endif
+#  endif
   QString mangled_function = split[3];
   return CXXDemangle(mangled_function);
-
 }
 #endif  // Q_OS_MACOS
 
@@ -335,15 +326,14 @@ QString DemangleSymbol(const QString &symbol) {
 #else
   return symbol;
 #endif
-
 }
 
 void DumpStackTrace() {
 
 #ifdef HAVE_BACKTRACE
   void *callstack[128];
-  int callstack_size = backtrace(reinterpret_cast<void**>(&callstack), sizeof(callstack));
-  char **symbols = backtrace_symbols(reinterpret_cast<void**>(&callstack), callstack_size);
+  int callstack_size = backtrace(reinterpret_cast<void **>(&callstack), sizeof(callstack));
+  char **symbols = backtrace_symbols(reinterpret_cast<void **>(&callstack), callstack_size);
   // Start from 1 to skip ourself.
   for (int i = 1; i < callstack_size; ++i) {
     std::cerr << DemangleSymbol(QString::fromLatin1(symbols[i])).toStdString() << std::endl;
@@ -352,7 +342,6 @@ void DumpStackTrace() {
 #else
   qLog(Debug) << "FIXME: Implement printing stack traces on this platform";
 #endif
-
 }
 
 // These are the functions that create loggers for the rest of Strawberry.
@@ -364,22 +353,22 @@ QDebug CreateLoggerFatal(int line, const char *pretty_function, const char *cate
 QDebug CreateLoggerError(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Error); }
 
 #ifdef QT_NO_WARNING_OUTPUT
-  QNoDebug CreateLoggerWarning(int, const char*, const char*) { return QNoDebug(); }
+QNoDebug CreateLoggerWarning(int, const char *, const char *) { return QNoDebug(); }
 #else
-  QDebug CreateLoggerWarning(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Warning); }
-#endif // QT_NO_WARNING_OUTPUT
+QDebug CreateLoggerWarning(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Warning); }
+#endif  // QT_NO_WARNING_OUTPUT
 
 #ifdef QT_NO_DEBUG_OUTPUT
-  QNoDebug CreateLoggerDebug(int, const char*, const char*) { return QNoDebug(); }
+QNoDebug CreateLoggerDebug(int, const char *, const char *) { return QNoDebug(); }
 #else
-  QDebug CreateLoggerDebug(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Debug); }
-#endif // QT_NO_DEBUG_OUTPUT
+QDebug CreateLoggerDebug(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Debug); }
+#endif  // QT_NO_DEBUG_OUTPUT
 
 }  // namespace logging
 
 namespace {
 
-template <typename T>
+template<typename T>
 QString print_duration(T duration, const std::string &unit) {
   return QString("%1%2").arg(duration.count()).arg(unit.c_str());
 }

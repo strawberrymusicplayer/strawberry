@@ -61,7 +61,6 @@ AcoustidClient::AcoustidClient(QObject *parent)
 AcoustidClient::~AcoustidClient() {
 
   CancelAll();
-
 }
 
 void AcoustidClient::SetTimeout(const int msec) { timeouts_->SetTimeout(msec); }
@@ -89,21 +88,18 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
   requests_[id] = reply;
 
   timeouts_->AddReply(reply);
-
 }
 
 void AcoustidClient::Cancel(const int id) {
 
   if (requests_.contains(id)) delete requests_.take(id);
-
 }
 
 void AcoustidClient::CancelAll() {
 
-  QList<QNetworkReply*> replies = requests_.values();
+  QList<QNetworkReply *> replies = requests_.values();
   qDeleteAll(replies);
   requests_.clear();
-
 }
 
 namespace {
@@ -187,6 +183,4 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   }
 
   emit Finished(request_id, id_list);
-
 }
-

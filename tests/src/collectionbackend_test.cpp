@@ -60,7 +60,7 @@ class CollectionBackendTest : public ::testing::Test {
     return ret;
   }
 
-  std::shared_ptr<Database> database_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  std::shared_ptr<Database> database_;          // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
   std::unique_ptr<CollectionBackend> backend_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
@@ -72,7 +72,6 @@ TEST_F(CollectionBackendTest, EmptyDatabase) {
 
   CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
   EXPECT_TRUE(albums.isEmpty());
-
 }
 
 TEST_F(CollectionBackendTest, AddDirectory) {
@@ -87,7 +86,6 @@ TEST_F(CollectionBackendTest, AddDirectory) {
   EXPECT_EQ(QFileInfo("/tmp").canonicalFilePath(), dir.path);
   EXPECT_EQ(1, dir.id);
   EXPECT_EQ(0, spy[0][1].value<SubdirectoryList>().size());
-
 }
 
 TEST_F(CollectionBackendTest, RemoveDirectory) {
@@ -108,7 +106,6 @@ TEST_F(CollectionBackendTest, RemoveDirectory) {
   dir = spy[0][0].value<Directory>();
   EXPECT_EQ("/tmp", dir.path);
   EXPECT_EQ(1, dir.id);
-
 }
 
 TEST_F(CollectionBackendTest, AddInvalidSong) {
@@ -143,7 +140,6 @@ TEST_F(CollectionBackendTest, AddInvalidSong) {
   s.set_ctime(100);
   backend_->AddOrUpdateSongs(SongList() << s);
   ASSERT_EQ(0, spy.count());
-
 }
 
 TEST_F(CollectionBackendTest, GetAlbumArtNonExistent) {}
@@ -176,7 +172,7 @@ class SingleSong : public CollectionBackendTest {
     EXPECT_EQ(0, deleted_spy.count());
     ASSERT_EQ(1, added_spy.count());
 
-    SongList list = *(reinterpret_cast<SongList*>(added_spy[0][0].data()));
+    SongList list = *(reinterpret_cast<SongList *>(added_spy[0][0].data()));
     ASSERT_EQ(1, list.count());
     EXPECT_EQ(song_.title(), list[0].title());
     EXPECT_EQ(song_.artist(), list[0].artist());
@@ -186,7 +182,6 @@ class SingleSong : public CollectionBackendTest {
   }
 
   Song song_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-
 };
 
 TEST_F(SingleSong, GetSongWithNoAlbum) {
@@ -200,7 +195,6 @@ TEST_F(SingleSong, GetSongWithNoAlbum) {
   EXPECT_EQ(1, albums.size());
   EXPECT_EQ("Artist", albums[0].album_artist);
   EXPECT_EQ("", albums[0].album);
-
 }
 
 TEST_F(SingleSong, GetAllArtists) {
@@ -211,7 +205,6 @@ TEST_F(SingleSong, GetAllArtists) {
   QStringList artists = backend_->GetAllArtists();
   ASSERT_EQ(1, artists.size());
   EXPECT_EQ(song_.artist(), artists[0]);
-
 }
 
 TEST_F(SingleSong, GetAllAlbums) {
@@ -223,7 +216,6 @@ TEST_F(SingleSong, GetAllAlbums) {
   ASSERT_EQ(1, albums.size());
   EXPECT_EQ(song_.album(), albums[0].album);
   EXPECT_EQ(song_.artist(), albums[0].album_artist);
-
 }
 
 TEST_F(SingleSong, GetAlbumsByArtist) {
@@ -235,7 +227,6 @@ TEST_F(SingleSong, GetAlbumsByArtist) {
   ASSERT_EQ(1, albums.size());
   EXPECT_EQ(song_.album(), albums[0].album);
   EXPECT_EQ(song_.artist(), albums[0].album_artist);
-
 }
 
 TEST_F(SingleSong, GetAlbumArt) {
@@ -246,7 +237,6 @@ TEST_F(SingleSong, GetAlbumArt) {
   CollectionBackend::Album album = backend_->GetAlbumArt("Artist", "Album");
   EXPECT_EQ(song_.album(), album.album);
   EXPECT_EQ(song_.effective_albumartist(), album.album_artist);
-
 }
 
 TEST_F(SingleSong, GetSongs) {
@@ -260,7 +250,6 @@ TEST_F(SingleSong, GetSongs) {
   EXPECT_EQ(song_.artist(), songs[0].artist());
   EXPECT_EQ(song_.title(), songs[0].title());
   EXPECT_EQ(1, songs[0].id());
-
 }
 
 TEST_F(SingleSong, GetSongById) {
@@ -273,7 +262,6 @@ TEST_F(SingleSong, GetSongById) {
   EXPECT_EQ(song_.artist(), song.artist());
   EXPECT_EQ(song_.title(), song.title());
   EXPECT_EQ(1, song.id());
-
 }
 
 TEST_F(SingleSong, FindSongsInDirectory) {
@@ -287,7 +275,6 @@ TEST_F(SingleSong, FindSongsInDirectory) {
   EXPECT_EQ(song_.artist(), songs[0].artist());
   EXPECT_EQ(song_.title(), songs[0].title());
   EXPECT_EQ(1, songs[0].id());
-
 }
 
 TEST_F(SingleSong, UpdateSong) {
@@ -307,15 +294,14 @@ TEST_F(SingleSong, UpdateSong) {
   ASSERT_EQ(1, added_spy.size());
   ASSERT_EQ(1, deleted_spy.size());
 
-  SongList songs_added = *(reinterpret_cast<SongList*>(added_spy[0][0].data()));
-  SongList songs_deleted = *(reinterpret_cast<SongList*>(deleted_spy[0][0].data()));
+  SongList songs_added = *(reinterpret_cast<SongList *>(added_spy[0][0].data()));
+  SongList songs_deleted = *(reinterpret_cast<SongList *>(deleted_spy[0][0].data()));
   ASSERT_EQ(1, songs_added.size());
   ASSERT_EQ(1, songs_deleted.size());
   EXPECT_EQ("Title", songs_deleted[0].title());
   EXPECT_EQ("A different title", songs_added[0].title());
   EXPECT_EQ(1, songs_deleted[0].id());
   EXPECT_EQ(1, songs_added[0].id());
-
 }
 
 TEST_F(SingleSong, DeleteSongs) {
@@ -332,7 +318,7 @@ TEST_F(SingleSong, DeleteSongs) {
 
   ASSERT_EQ(1, deleted_spy.size());
 
-  SongList songs_deleted = *(reinterpret_cast<SongList*>(deleted_spy[0][0].data()));
+  SongList songs_deleted = *(reinterpret_cast<SongList *>(deleted_spy[0][0].data()));
   ASSERT_EQ(1, songs_deleted.size());
   EXPECT_EQ("Title", songs_deleted[0].title());
   EXPECT_EQ(1, songs_deleted[0].id());
@@ -348,7 +334,6 @@ TEST_F(SingleSong, DeleteSongs) {
 
   CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
   EXPECT_EQ(0, albums.size());
-
 }
 
 TEST_F(SingleSong, MarkSongsUnavailable) {
@@ -365,7 +350,7 @@ TEST_F(SingleSong, MarkSongsUnavailable) {
 
   ASSERT_EQ(1, deleted_spy.size());
 
-  SongList songs_deleted = *(reinterpret_cast<SongList*>(deleted_spy[0][0].data()));
+  SongList songs_deleted = *(reinterpret_cast<SongList *>(deleted_spy[0][0].data()));
   ASSERT_EQ(1, songs_deleted.size());
   EXPECT_EQ("Title", songs_deleted[0].title());
   EXPECT_EQ(1, songs_deleted[0].id());
@@ -381,7 +366,6 @@ TEST_F(SingleSong, MarkSongsUnavailable) {
 
   CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
   EXPECT_EQ(0, albums.size());
-
 }
 
 class TestUrls : public CollectionBackendTest {
@@ -419,7 +403,6 @@ TEST_F(TestUrls, TestUrls) {
     song.set_valid(true);
 
     songs << song;
-
   }
 
   QSignalSpy spy(backend_.get(), &CollectionBackend::SongsDiscovered);
@@ -459,9 +442,7 @@ TEST_F(TestUrls, TestUrls) {
       EXPECT_EQ(url, q.value(0).toUrl());
       EXPECT_EQ(url, QUrl::fromEncoded(q.value(0).toByteArray()));
     }
-
   }
-
 }
 
 class UpdateSongsBySongID : public CollectionBackendTest {
@@ -474,14 +455,14 @@ class UpdateSongsBySongID : public CollectionBackendTest {
 
 TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
-    QStringList song_ids = QStringList() << "song1"
-                                         << "song2"
-                                         << "song3"
-                                         << "song4"
-                                         << "song5"
-                                         << "song6";
+  QStringList song_ids = QStringList() << "song1"
+                                       << "song2"
+                                       << "song3"
+                                       << "song4"
+                                       << "song5"
+                                       << "song6";
 
-  { // Add songs
+  {  // Add songs
     SongMap songs;
 
     for (const QString &song_id : song_ids) {
@@ -504,7 +485,6 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
       song.set_valid(true);
 
       songs.insert(song_id, song);
-
     }
 
     QSignalSpy spy(backend_.get(), &CollectionBackend::SongsDiscovered);
@@ -520,7 +500,6 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
     EXPECT_EQ(song_ids[3], new_songs[3].song_id());
     EXPECT_EQ(song_ids[4], new_songs[4].song_id());
     EXPECT_EQ(song_ids[5], new_songs[5].song_id());
-
   }
 
   {  // Check that all songs are added.
@@ -534,14 +513,13 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
     EXPECT_EQ(songs.count(), song_ids.count());
 
-    for (QMap<QString, Song>::const_iterator it = songs.constBegin() ; it != songs.constEnd() ; ++it) {
+    for (QMap<QString, Song>::const_iterator it = songs.constBegin(); it != songs.constEnd(); ++it) {
       EXPECT_EQ(it.key(), it.value().song_id());
     }
 
     for (const QString &song_id : song_ids) {
       EXPECT_TRUE(songs.contains(song_id));
     }
-
   }
 
   {  // Remove some songs
@@ -575,7 +553,6 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
       song.set_valid(true);
 
       songs.insert(song_id, song);
-
     }
 
     backend_->UpdateSongsBySongID(songs);
@@ -586,7 +563,6 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
     EXPECT_EQ(deleted_songs.count(), 2);
     EXPECT_EQ(deleted_songs[0].song_id(), "song2");
     EXPECT_EQ(deleted_songs[1].song_id(), "song3");
-
   }
 
   {  // Update some songs
@@ -620,7 +596,6 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
       song.set_valid(true);
 
       songs.insert(song_id, song);
-
     }
 
     songs["song1"].set_artist("New artist");
@@ -638,9 +613,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
     EXPECT_EQ(deleted_songs[1].song_id(), "song6");
     EXPECT_EQ(added_songs[0].song_id(), "song1");
     EXPECT_EQ(added_songs[1].song_id(), "song6");
-
   }
-
 }
 
-} // namespace
+}  // namespace

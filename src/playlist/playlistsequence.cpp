@@ -85,7 +85,6 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
   QObject::connect(shuffle_group, &QActionGroup::triggered, this, &PlaylistSequence::ShuffleActionTriggered);
 
   Load();
-
 }
 
 PlaylistSequence::~PlaylistSequence() {
@@ -98,7 +97,6 @@ void PlaylistSequence::Load() {
   SetShuffleMode(ShuffleMode(settings_->value("shuffle_mode", Shuffle_Off).toInt()));
   SetRepeatMode(RepeatMode(settings_->value("repeat_mode", Repeat_Off).toInt()));
   loading_ = false;
-
 }
 
 void PlaylistSequence::Save() {
@@ -107,7 +105,6 @@ void PlaylistSequence::Save() {
 
   settings_->setValue("shuffle_mode", shuffle_mode_);
   settings_->setValue("repeat_mode", repeat_mode_);
-
 }
 
 QIcon PlaylistSequence::AddDesaturatedIcon(const QIcon &icon) {
@@ -121,7 +118,6 @@ QIcon PlaylistSequence::AddDesaturatedIcon(const QIcon &icon) {
     ret.addPixmap(on, QIcon::Normal, QIcon::On);
   }
   return ret;
-
 }
 
 QPixmap PlaylistSequence::DesaturatedPixmap(const QPixmap &pixmap) {
@@ -135,7 +131,6 @@ QPixmap PlaylistSequence::DesaturatedPixmap(const QPixmap &pixmap) {
   p.end();
 
   return ret;
-
 }
 
 void PlaylistSequence::RepeatActionTriggered(QAction *action) {
@@ -148,7 +143,6 @@ void PlaylistSequence::RepeatActionTriggered(QAction *action) {
   if (action == ui_->action_repeat_intro) mode = Repeat_Intro;
 
   SetRepeatMode(mode);
-
 }
 
 void PlaylistSequence::ShuffleActionTriggered(QAction *action) {
@@ -159,7 +153,6 @@ void PlaylistSequence::ShuffleActionTriggered(QAction *action) {
   if (action == ui_->action_shuffle_albums) mode = Shuffle_Albums;
 
   SetShuffleMode(mode);
-
 }
 
 void PlaylistSequence::SetRepeatMode(const RepeatMode mode) {
@@ -167,13 +160,12 @@ void PlaylistSequence::SetRepeatMode(const RepeatMode mode) {
   ui_->repeat->setChecked(mode != Repeat_Off);
 
   switch (mode) {
-    case Repeat_Off:      ui_->action_repeat_off->setChecked(true);      break;
-    case Repeat_Track:    ui_->action_repeat_track->setChecked(true);    break;
-    case Repeat_Album:    ui_->action_repeat_album->setChecked(true);    break;
+    case Repeat_Off: ui_->action_repeat_off->setChecked(true); break;
+    case Repeat_Track: ui_->action_repeat_track->setChecked(true); break;
+    case Repeat_Album: ui_->action_repeat_album->setChecked(true); break;
     case Repeat_Playlist: ui_->action_repeat_playlist->setChecked(true); break;
     case Repeat_OneByOne: ui_->action_repeat_onebyone->setChecked(true); break;
-    case Repeat_Intro: ui_->action_repeat_intro->setChecked(true);	 break;
-
+    case Repeat_Intro: ui_->action_repeat_intro->setChecked(true); break;
   }
 
   if (mode != repeat_mode_) {
@@ -182,7 +174,6 @@ void PlaylistSequence::SetRepeatMode(const RepeatMode mode) {
   }
 
   Save();
-
 }
 
 void PlaylistSequence::SetShuffleMode(const ShuffleMode mode) {
@@ -190,10 +181,10 @@ void PlaylistSequence::SetShuffleMode(const ShuffleMode mode) {
   ui_->shuffle->setChecked(mode != Shuffle_Off);
 
   switch (mode) {
-    case Shuffle_Off:         ui_->action_shuffle_off->setChecked(true);          break;
-    case Shuffle_All:         ui_->action_shuffle_all->setChecked(true);          break;
+    case Shuffle_Off: ui_->action_shuffle_off->setChecked(true); break;
+    case Shuffle_All: ui_->action_shuffle_all->setChecked(true); break;
     case Shuffle_InsideAlbum: ui_->action_shuffle_inside_album->setChecked(true); break;
-    case Shuffle_Albums:      ui_->action_shuffle_albums->setChecked(true);       break;
+    case Shuffle_Albums: ui_->action_shuffle_albums->setChecked(true); break;
   }
 
   if (mode != shuffle_mode_) {
@@ -202,7 +193,6 @@ void PlaylistSequence::SetShuffleMode(const ShuffleMode mode) {
   }
 
   Save();
-
 }
 
 PlaylistSequence::ShuffleMode PlaylistSequence::shuffle_mode() const {
@@ -219,14 +209,13 @@ void PlaylistSequence::CycleShuffleMode() {
   ShuffleMode mode = Shuffle_Off;
   //we cycle through the shuffle modes
   switch (shuffle_mode()) {
-    case Shuffle_Off:         mode = Shuffle_All;           break;
-    case Shuffle_All:         mode = Shuffle_InsideAlbum;   break;
-    case Shuffle_InsideAlbum: mode = Shuffle_Albums;        break;
+    case Shuffle_Off: mode = Shuffle_All; break;
+    case Shuffle_All: mode = Shuffle_InsideAlbum; break;
+    case Shuffle_InsideAlbum: mode = Shuffle_Albums; break;
     case Shuffle_Albums: break;
   }
 
   SetShuffleMode(mode);
-
 }
 
 //called from global shortcut
@@ -235,15 +224,14 @@ void PlaylistSequence::CycleRepeatMode() {
   RepeatMode mode = Repeat_Off;
   //we cycle through the repeat modes
   switch (repeat_mode()) {
-    case Repeat_Off:		mode = Repeat_Track;	break;
-    case Repeat_Track:		mode = Repeat_Album;	break;
-    case Repeat_Album:		mode = Repeat_Playlist; break;
-    case Repeat_Playlist:	mode = Repeat_OneByOne; break;
-    case Repeat_OneByOne:	mode = Repeat_Intro;	break;
+    case Repeat_Off: mode = Repeat_Track; break;
+    case Repeat_Track: mode = Repeat_Album; break;
+    case Repeat_Album: mode = Repeat_Playlist; break;
+    case Repeat_Playlist: mode = Repeat_OneByOne; break;
+    case Repeat_OneByOne: mode = Repeat_Intro; break;
     case Repeat_Intro:
       break;
   }
 
   SetRepeatMode(mode);
-
 }

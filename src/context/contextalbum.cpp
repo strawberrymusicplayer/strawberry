@@ -68,7 +68,6 @@ ContextAlbum::ContextAlbum(QWidget *parent)
 
   QObject::connect(timeline_fade_, &QTimeLine::valueChanged, this, &ContextAlbum::FadePreviousTrack);
   timeline_fade_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
-
 }
 
 void ContextAlbum::Init(ContextView *context_view, AlbumCoverChoiceController *album_cover_choice_controller) {
@@ -78,12 +77,11 @@ void ContextAlbum::Init(ContextView *context_view, AlbumCoverChoiceController *a
   album_cover_choice_controller_ = album_cover_choice_controller;
   QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::AutomaticCoverSearchDone, this, &ContextAlbum::AutomaticCoverSearchDone);
 
-  QList<QAction*> cover_actions = album_cover_choice_controller_->GetAllActions();
+  QList<QAction *> cover_actions = album_cover_choice_controller_->GetAllActions();
   menu_->addActions(cover_actions);
   menu_->addSeparator();
   menu_->addAction(album_cover_choice_controller_->search_cover_auto_action());
   menu_->addSeparator();
-
 }
 
 void ContextAlbum::contextMenuEvent(QContextMenuEvent *e) {
@@ -96,10 +94,9 @@ void ContextAlbum::mouseDoubleClickEvent(QMouseEvent *e) {
   if (image_original_ != image_strawberry_ && e->button() == Qt::LeftButton && context_view_->song_playing().is_valid()) {
     album_cover_choice_controller_->ShowCover(context_view_->song_playing(), image_original_);
   }
-
 }
 
-void ContextAlbum::paintEvent(QPaintEvent*) {
+void ContextAlbum::paintEvent(QPaintEvent *) {
 
   QPainter p(this);
 
@@ -110,18 +107,19 @@ void ContextAlbum::paintEvent(QPaintEvent*) {
     p.setOpacity(pixmap_previous_opacity_);
     p.drawPixmap(0, 0, pixmap_previous_);
   }
-
 }
 
 void ContextAlbum::DrawImage(QPainter *p) {
-  
+
   p->setRenderHint(QPainter::SmoothPixmapTransform);
 
   if (width() != prev_width_) {
     cover_loader_options_.desired_height_ = width() - kWidgetSpacing;
     QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
-    if (image.isNull()) pixmap_current_ = QPixmap();
-    else pixmap_current_ = QPixmap::fromImage(image);
+    if (image.isNull())
+      pixmap_current_ = QPixmap();
+    else
+      pixmap_current_ = QPixmap::fromImage(image);
     prev_width_ = width();
   }
 
@@ -129,7 +127,6 @@ void ContextAlbum::DrawImage(QPainter *p) {
   if (downloading_covers_ && spinner_animation_) {
     p->drawPixmap(50, 50, 16, 16, spinner_animation_->currentPixmap());
   }
-
 }
 
 void ContextAlbum::FadePreviousTrack(const qreal value) {
@@ -144,18 +141,18 @@ void ContextAlbum::FadePreviousTrack(const qreal value) {
   if (value == 0 && image_original_ == image_strawberry_) {
     emit FadeStopFinished();
   }
-
 }
 
 void ContextAlbum::ScaleCover() {
 
   cover_loader_options_.desired_height_ = width() - kWidgetSpacing;
   QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
-  if (image.isNull()) pixmap_current_ = QPixmap();
-  else pixmap_current_ = QPixmap::fromImage(image);
+  if (image.isNull())
+    pixmap_current_ = QPixmap();
+  else
+    pixmap_current_ = QPixmap::fromImage(image);
   prev_width_ = width();
   update();
-
 }
 
 void ContextAlbum::SetImage(QImage image) {
@@ -187,7 +184,6 @@ void ContextAlbum::SetImage(QImage image) {
     timeline_fade_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
     timeline_fade_->start();
   }
-
 }
 
 void ContextAlbum::SearchCoverInProgress() {
@@ -199,7 +195,6 @@ void ContextAlbum::SearchCoverInProgress() {
   QObject::connect(spinner_animation_.get(), &QMovie::updated, this, &ContextAlbum::Update);
   spinner_animation_->start();
   update();
-
 }
 
 void ContextAlbum::AutomaticCoverSearchDone() {
@@ -207,5 +202,4 @@ void ContextAlbum::AutomaticCoverSearchDone() {
   downloading_covers_ = false;
   spinner_animation_.reset();
   update();
-
 }

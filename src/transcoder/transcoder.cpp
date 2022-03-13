@@ -70,7 +70,6 @@ GstElement *Transcoder::CreateElement(const QString &factory_name, GstElement *b
   }
 
   return ret;
-
 }
 
 struct SuitableElement {
@@ -83,7 +82,6 @@ struct SuitableElement {
 
   QString name_;
   int rank_;
-
 };
 
 GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, const QString &mime_type, GstElement *bin) {
@@ -113,7 +111,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
       const GList *const templates = gst_element_factory_get_static_pad_templates(factory);
       for (const GList *t = templates; t; t = g_list_next(t)) {
         // Only interested in source pads
-        GstStaticPadTemplate *pad_template = reinterpret_cast<GstStaticPadTemplate*>(t->data);
+        GstStaticPadTemplate *pad_template = reinterpret_cast<GstStaticPadTemplate *>(t->data);
         if (pad_template->direction != GST_PAD_SRC) continue;
 
         // Does this pad support the mime type we want?
@@ -194,7 +192,6 @@ void Transcoder::JobState::PostFinished(const bool success) {
   }
 
   QCoreApplication::postEvent(parent_, new Transcoder::JobFinishedEvent(this, success));
-
 }
 
 Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
@@ -215,7 +212,6 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
   if (s.value("cbr").isNull()) {
     s.setValue("cbr", false);
   }
-
 }
 
 QList<TranscoderPreset> Transcoder::GetAllPresets() {
@@ -232,37 +228,35 @@ QList<TranscoderPreset> Transcoder::GetAllPresets() {
   ret << PresetForFileType(Song::FileType_MP4);
   ret << PresetForFileType(Song::FileType_ASF);
   return ret;
-
 }
 
 TranscoderPreset Transcoder::PresetForFileType(const Song::FileType filetype) {
 
   switch (filetype) {
     case Song::FileType_WAV:
-      return TranscoderPreset(filetype, "Wav",                    "wav",  QString(), "audio/x-wav");
+      return TranscoderPreset(filetype, "Wav", "wav", QString(), "audio/x-wav");
     case Song::FileType_FLAC:
-      return TranscoderPreset(filetype, "FLAC",                   "flac", "audio/x-flac");
+      return TranscoderPreset(filetype, "FLAC", "flac", "audio/x-flac");
     case Song::FileType_WavPack:
-      return TranscoderPreset(filetype, "WavPack",                "wv",   "audio/x-wavpack");
+      return TranscoderPreset(filetype, "WavPack", "wv", "audio/x-wavpack");
     case Song::FileType_OggFlac:
-      return TranscoderPreset(filetype, "Ogg FLAC",               "ogg",  "audio/x-flac", "application/ogg");
+      return TranscoderPreset(filetype, "Ogg FLAC", "ogg", "audio/x-flac", "application/ogg");
     case Song::FileType_OggVorbis:
-      return TranscoderPreset(filetype, "Ogg Vorbis",             "ogg",  "audio/x-vorbis", "application/ogg");
+      return TranscoderPreset(filetype, "Ogg Vorbis", "ogg", "audio/x-vorbis", "application/ogg");
     case Song::FileType_OggOpus:
-      return TranscoderPreset(filetype, "Ogg Opus",               "opus", "audio/x-opus", "application/ogg");
+      return TranscoderPreset(filetype, "Ogg Opus", "opus", "audio/x-opus", "application/ogg");
     case Song::FileType_OggSpeex:
-      return TranscoderPreset(filetype, "Ogg Speex",              "spx",  "audio/x-speex", "application/ogg");
+      return TranscoderPreset(filetype, "Ogg Speex", "spx", "audio/x-speex", "application/ogg");
     case Song::FileType_MPEG:
-      return TranscoderPreset(filetype, "MP3",                    "mp3",  "audio/mpeg, mpegversion=(int)1, layer=(int)3");
+      return TranscoderPreset(filetype, "MP3", "mp3", "audio/mpeg, mpegversion=(int)1, layer=(int)3");
     case Song::FileType_MP4:
-      return TranscoderPreset(filetype, "M4A AAC",                "mp4",  "audio/mpeg, mpegversion=(int)4", "audio/mp4");
+      return TranscoderPreset(filetype, "M4A AAC", "mp4", "audio/mpeg, mpegversion=(int)4", "audio/mp4");
     case Song::FileType_ASF:
-      return TranscoderPreset(filetype, "Windows Media audio",    "wma",  "audio/x-wma", "video/x-ms-asf");
+      return TranscoderPreset(filetype, "Windows Media audio", "wma", "audio/x-wma", "video/x-ms-asf");
     default:
       qLog(Warning) << "Unsupported format in PresetForFileType:" << filetype;
       return TranscoderPreset();
   }
-
 }
 
 Song::FileType Transcoder::PickBestFormat(const QList<Song::FileType> &supported) {
@@ -279,7 +273,6 @@ Song::FileType Transcoder::PickBestFormat(const QList<Song::FileType> &supported
   }
 
   return supported[0];
-
 }
 
 QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset, const QString &output) {
@@ -309,7 +302,6 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
       if (!fileinfo_output.exists()) {
         break;
       }
-
     }
   }
 
@@ -323,7 +315,6 @@ void Transcoder::AddJob(const QString &input, const TranscoderPreset &preset, co
   job.preset = preset;
   job.output = output;
   queued_jobs_ << job;
-
 }
 
 void Transcoder::Start() {
@@ -334,7 +325,6 @@ void Transcoder::Start() {
     StartJobStatus status = MaybeStartNextJob();
     if (status == AllThreadsBusy || status == NoMoreJobs) break;
   }
-
 }
 
 Transcoder::StartJobStatus Transcoder::MaybeStartNextJob() {
@@ -355,12 +345,11 @@ Transcoder::StartJobStatus Transcoder::MaybeStartNextJob() {
 
   emit JobComplete(job.input, job.output, false);
   return FailedToStart;
-
 }
 
-void Transcoder::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
+void Transcoder::NewPadCallback(GstElement *, GstPad *pad, gpointer data) {
 
-  JobState *state = reinterpret_cast<JobState*>(data);
+  JobState *state = reinterpret_cast<JobState *>(data);
   GstPad *const audiopad = gst_element_get_static_pad(state->convert_element_, "sink");
 
   if (GST_PAD_IS_LINKED(audiopad)) {
@@ -370,12 +359,11 @@ void Transcoder::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
 
   gst_pad_link(pad, audiopad);
   gst_object_unref(audiopad);
-
 }
 
-GstBusSyncReply Transcoder::BusCallbackSync(GstBus*, GstMessage *msg, gpointer data) {
+GstBusSyncReply Transcoder::BusCallbackSync(GstBus *, GstMessage *msg, gpointer data) {
 
-  JobState *state = reinterpret_cast<JobState*>(data);
+  JobState *state = reinterpret_cast<JobState *>(data);
   switch (GST_MESSAGE_TYPE(msg)) {
     case GST_MESSAGE_EOS:
       state->PostFinished(true);
@@ -391,7 +379,6 @@ GstBusSyncReply Transcoder::BusCallbackSync(GstBus*, GstMessage *msg, gpointer d
   }
 
   return GST_BUS_PASS;
-
 }
 
 void Transcoder::JobState::ReportError(GstMessage *msg) const {
@@ -406,7 +393,6 @@ void Transcoder::JobState::ReportError(GstMessage *msg) const {
   g_free(debugs);
 
   emit parent_->LogLine(tr("Error processing %1: %2").arg(QDir::toNativeSeparators(job_.input), message));
-
 }
 
 bool Transcoder::StartJob(const Job &job) {
@@ -421,13 +407,13 @@ bool Transcoder::StartJob(const Job &job) {
   if (!state->pipeline_) return false;
 
   // Create all the elements
-  GstElement *src      = CreateElement("filesrc", state->pipeline_);
-  GstElement *decode   = CreateElement("decodebin", state->pipeline_);
-  GstElement *convert  = CreateElement("audioconvert", state->pipeline_);
+  GstElement *src = CreateElement("filesrc", state->pipeline_);
+  GstElement *decode = CreateElement("decodebin", state->pipeline_);
+  GstElement *convert = CreateElement("audioconvert", state->pipeline_);
   GstElement *resample = CreateElement("audioresample", state->pipeline_);
-  GstElement *codec    = CreateElementForMimeType("Codec/Encoder/Audio", job.preset.codec_mimetype_, state->pipeline_);
-  GstElement *muxer    = CreateElementForMimeType("Codec/Muxer", job.preset.muxer_mimetype_, state->pipeline_);
-  GstElement *sink     = CreateElement("filesink", state->pipeline_);
+  GstElement *codec = CreateElementForMimeType("Codec/Encoder/Audio", job.preset.codec_mimetype_, state->pipeline_);
+  GstElement *muxer = CreateElementForMimeType("Codec/Muxer", job.preset.muxer_mimetype_, state->pipeline_);
+  GstElement *sink = CreateElement("filesink", state->pipeline_);
 
   if (!src || !decode || !convert || !sink) return false;
 
@@ -443,9 +429,12 @@ bool Transcoder::StartJob(const Job &job) {
 
   // Join them together
   gst_element_link(src, decode);
-  if (codec && muxer) gst_element_link_many(convert, resample, codec, muxer, sink, nullptr);
-  else if (codec) gst_element_link_many(convert, resample, codec, sink, nullptr);
-  else if (muxer) gst_element_link_many(convert, resample, muxer, sink, nullptr);
+  if (codec && muxer)
+    gst_element_link_many(convert, resample, codec, muxer, sink, nullptr);
+  else if (codec)
+    gst_element_link_many(convert, resample, codec, sink, nullptr);
+  else if (muxer)
+    gst_element_link_many(convert, resample, muxer, sink, nullptr);
 
   // Set properties
   g_object_set(src, "location", job.input.toUtf8().constData(), nullptr);
@@ -465,7 +454,6 @@ bool Transcoder::StartJob(const Job &job) {
   current_jobs_ << state;
 
   return true;
-
 }
 
 Transcoder::JobState::~JobState() {
@@ -474,13 +462,12 @@ Transcoder::JobState::~JobState() {
     gst_element_set_state(pipeline_, GST_STATE_NULL);
     gst_object_unref(pipeline_);
   }
-
 }
 
 bool Transcoder::event(QEvent *e) {
 
   if (e->type() == JobFinishedEvent::sEventType) {
-    JobFinishedEvent *finished_event = static_cast<JobFinishedEvent*>(e);
+    JobFinishedEvent *finished_event = static_cast<JobFinishedEvent *>(e);
 
     // Find this job in the list
     JobStateList::iterator it = current_jobs_.begin();
@@ -511,7 +498,6 @@ bool Transcoder::event(QEvent *e) {
   }
 
   return QObject::event(e);
-
 }
 
 void Transcoder::Cancel() {
@@ -536,7 +522,6 @@ void Transcoder::Cancel() {
     // Remove the job, this destroys the GStreamer pipeline too
     it = current_jobs_.erase(it);  // clazy:exclude=strict-iterators
   }
-
 }
 
 QMap<QString, float> Transcoder::GetProgress() const {
@@ -556,7 +541,6 @@ QMap<QString, float> Transcoder::GetProgress() const {
   }
 
   return ret;
-
 }
 
 void Transcoder::SetElementProperties(const QString &name, GObject *object) {
@@ -593,5 +577,4 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
   }
 
   g_free(properties);
-
 }

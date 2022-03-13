@@ -52,7 +52,6 @@ ThreadSafeNetworkDiskCache::ThreadSafeNetworkDiskCache(QObject *parent) : QAbstr
     sCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/networkcache");
 #endif
   }
-
 }
 
 ThreadSafeNetworkDiskCache::~ThreadSafeNetworkDiskCache() {
@@ -64,7 +63,6 @@ ThreadSafeNetworkDiskCache::~ThreadSafeNetworkDiskCache() {
     sCache->deleteLater();
     sCache = nullptr;
   }
-
 }
 
 qint64 ThreadSafeNetworkDiskCache::cacheSize() const {

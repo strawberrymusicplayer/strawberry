@@ -56,7 +56,6 @@ SongList WplParser::Load(QIODevice *device, const QString &playlist_path, const 
     ParseSeq(dir, &reader, &ret, collection_search);
   }
   return ret;
-
 }
 
 void WplParser::ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *songs, const bool collection_search) const {
@@ -90,7 +89,6 @@ void WplParser::ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *so
         break;
     }
   }
-
 }
 
 void WplParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
@@ -127,5 +125,4 @@ void WplParser::WriteMeta(const QString &name, const QString &content, QXmlStrea
   writer->writeAttribute("name", name);
   writer->writeAttribute("content", content);
   writer->writeEndElement();
-
 }

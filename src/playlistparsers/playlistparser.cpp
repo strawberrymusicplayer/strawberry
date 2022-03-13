@@ -54,7 +54,6 @@ PlaylistParser::PlaylistParser(CollectionBackendInterface *collection, QObject *
   parsers_ << new AsxIniParser(collection, this);
   parsers_ << new CueParser(collection, this);
   parsers_ << new WplParser(collection, this);
-
 }
 
 QStringList PlaylistParser::file_extensions() const {
@@ -67,7 +66,6 @@ QStringList PlaylistParser::file_extensions() const {
 
   std::stable_sort(ret.begin(), ret.end());
   return ret;
-
 }
 
 QStringList PlaylistParser::mime_types() const {
@@ -80,7 +78,6 @@ QStringList PlaylistParser::mime_types() const {
 
   std::stable_sort(ret.begin(), ret.end());
   return ret;
-
 }
 
 QString PlaylistParser::filters() const {
@@ -95,7 +92,6 @@ QString PlaylistParser::filters() const {
   filters.prepend(tr("All playlists (%1)").arg(all_extensions.join(" ")));
 
   return filters.join(";;");
-
 }
 
 QString PlaylistParser::FilterForParser(const ParserBase *parser, QStringList *all_extensions) {
@@ -110,7 +106,6 @@ QString PlaylistParser::FilterForParser(const ParserBase *parser, QStringList *a
   if (all_extensions) *all_extensions << extensions;
 
   return tr("%1 playlists (%2)").arg(parser->name(), extensions.join(" "));
-
 }
 
 QString PlaylistParser::default_extension() const {
@@ -128,7 +123,6 @@ ParserBase *PlaylistParser::ParserForExtension(const QString &suffix) const {
     if (p->file_extensions().contains(suffix)) return p;
   }
   return nullptr;
-
 }
 
 ParserBase *PlaylistParser::ParserForMimeType(const QString &mime_type) const {
@@ -139,7 +133,6 @@ ParserBase *PlaylistParser::ParserForMimeType(const QString &mime_type) const {
     }
   }
   return nullptr;
-
 }
 
 ParserBase *PlaylistParser::ParserForMagic(const QByteArray &data, const QString &mime_type) const {
@@ -150,7 +143,6 @@ ParserBase *PlaylistParser::ParserForMagic(const QByteArray &data, const QString
     }
   }
   return nullptr;
-
 }
 
 SongList PlaylistParser::LoadFromFile(const QString &filename) const {
@@ -172,7 +164,6 @@ SongList PlaylistParser::LoadFromFile(const QString &filename) const {
   file.close();
 
   return ret;
-
 }
 
 SongList PlaylistParser::LoadFromDevice(QIODevice *device, const QString &path_hint, const QDir &dir_hint) const {
@@ -184,7 +175,6 @@ SongList PlaylistParser::LoadFromDevice(QIODevice *device, const QString &path_h
   }
 
   return parser->Load(device, path_hint, dir_hint);
-
 }
 
 void PlaylistParser::Save(const SongList &songs, const QString &filename, const Playlist::Path path_type) const {
@@ -205,5 +195,4 @@ void PlaylistParser::Save(const SongList &songs, const QString &filename, const 
   parser->Save(songs, &file, info.absolutePath(), path_type);
 
   file.close();
-
 }

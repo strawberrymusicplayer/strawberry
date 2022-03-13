@@ -36,6 +36,5 @@ class Translations : public QObject {
   void LoadTranslation(const QString &prefix, const QString &path, const QString &language);
 
  private:
-  QList<QTranslator*> translations_;
-
+  QList<QTranslator *> translations_;
 };

@@ -62,7 +62,7 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
   }
 
   if (url_query.hasQueryItem("vendor")) {
-    LIBMTP_raw_device_t *raw_device = static_cast<LIBMTP_raw_device_t*>(malloc(sizeof(LIBMTP_raw_device_t)));
+    LIBMTP_raw_device_t *raw_device = static_cast<LIBMTP_raw_device_t *>(malloc(sizeof(LIBMTP_raw_device_t)));
     raw_device->device_entry.vendor = url_query.queryItemValue("vendor").toLatin1().data();
     raw_device->device_entry.product = url_query.queryItemValue("product").toLatin1().data();
     raw_device->device_entry.vendor_id = url_query.queryItemValue("vendor_id").toUShort();
@@ -103,7 +103,6 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
   device_ = LIBMTP_Open_Raw_Device(raw_device);
 
   free(raw_devices);
-
 }
 
 MtpConnection::~MtpConnection() {
@@ -123,13 +122,13 @@ bool MtpConnection::GetSupportedFiletypes(QList<Song::FileType> *ret) {
 
   for (int i = 0; i < length; ++i) {
     switch (LIBMTP_filetype_t(list[i])) {
-      case LIBMTP_FILETYPE_WAV:  *ret << Song::FileType_WAV; break;
+      case LIBMTP_FILETYPE_WAV: *ret << Song::FileType_WAV; break;
       case LIBMTP_FILETYPE_MP2:
-      case LIBMTP_FILETYPE_MP3:  *ret << Song::FileType_MPEG; break;
-      case LIBMTP_FILETYPE_WMA:  *ret << Song::FileType_ASF; break;
+      case LIBMTP_FILETYPE_MP3: *ret << Song::FileType_MPEG; break;
+      case LIBMTP_FILETYPE_WMA: *ret << Song::FileType_ASF; break;
       case LIBMTP_FILETYPE_MP4:
       case LIBMTP_FILETYPE_M4A:
-      case LIBMTP_FILETYPE_AAC:  *ret << Song::FileType_MP4; break;
+      case LIBMTP_FILETYPE_AAC: *ret << Song::FileType_MP4; break;
       case LIBMTP_FILETYPE_FLAC:
         *ret << Song::FileType_FLAC;
         *ret << Song::FileType_OggFlac;
@@ -147,5 +146,4 @@ bool MtpConnection::GetSupportedFiletypes(QList<Song::FileType> *ret) {
 
   free(list);
   return true;
-
 }

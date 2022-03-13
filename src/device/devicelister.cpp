@@ -44,7 +44,6 @@ DeviceLister::DeviceLister(QObject *parent)
       next_mount_request_id_(0) {
 
   original_thread_ = thread();
-
 }
 
 DeviceLister::~DeviceLister() {
@@ -54,7 +53,6 @@ DeviceLister::~DeviceLister() {
     thread_->wait(1000);
     thread_->deleteLater();
   }
-
 }
 
 void DeviceLister::Start() {
@@ -65,7 +63,6 @@ void DeviceLister::Start() {
   moveToThread(thread_);
   thread_->start();
   qLog(Debug) << this << "moved to thread" << thread_;
-
 }
 
 void DeviceLister::ThreadStarted() { Init(); }
@@ -75,7 +72,6 @@ int DeviceLister::MountDeviceAsync(const QString &id) {
   const int request_id = next_mount_request_id_++;
   QMetaObject::invokeMethod(this, "MountDevice", Qt::QueuedConnection, Q_ARG(QString, id), Q_ARG(int, request_id));
   return request_id;
-
 }
 
 void DeviceLister::UnmountDeviceAsync(const QString &id) {
@@ -97,7 +93,6 @@ void DeviceLister::Exit() {
     moveToThread(original_thread_);
   }
   emit ExitFinished();
-
 }
 
 namespace {
@@ -156,7 +151,6 @@ QString GetIpodColour(Itdb_IpodModel model) {
     default:
       return QString();
   }
-
 }
 
 QString GetIpodModel(Itdb_IpodModel model) {
@@ -203,7 +197,6 @@ QString GetIpodModel(Itdb_IpodModel model) {
     default:
       return QString();
   }
-
 }
 
 #endif
@@ -219,13 +212,12 @@ QUrl DeviceLister::MakeUrlFromLocalPath(const QString &path) const {
   }
 
   return QUrl::fromLocalFile(path);
-
 }
 
 bool DeviceLister::IsIpod(const QString &path) const {
   return QFile::exists(path + "/iTunes_Control") ||
-         QFile::exists(path + "/iPod_Control") ||
-         QFile::exists(path + "/iTunes/iTunes_Control");
+    QFile::exists(path + "/iPod_Control") ||
+    QFile::exists(path + "/iTunes/iTunes_Control");
 }
 
 QVariantList DeviceLister::GuessIconForPath(const QString &path) {
@@ -257,18 +249,15 @@ QVariantList DeviceLister::GuessIconForPath(const QString &path) {
       if (ret.isEmpty()) {
         ret << "device-ipod";
       }
-
     }
 
     itdb_device_free(device);
-
   }
 #else
   Q_UNUSED(path)
 #endif
 
   return ret;
-
 }
 
 QVariantList DeviceLister::GuessIconForModel(const QString &vendor, const QString &model) {
@@ -278,5 +267,4 @@ QVariantList DeviceLister::GuessIconForModel(const QString &vendor, const QStrin
     ret << "phone-google-nexus-one";
   }
   return ret;
-
 }

@@ -45,7 +45,7 @@ class LyricsProviders : public QObject {
 
   void AddProvider(LyricsProvider *provider);
   void RemoveProvider(LyricsProvider *provider);
-  QList<LyricsProvider*> List() const { return lyrics_providers_.keys(); }
+  QList<LyricsProvider *> List() const { return lyrics_providers_.keys(); }
   bool HasAnyProviders() const { return !lyrics_providers_.isEmpty(); }
   int NextId();
 
@@ -61,8 +61,8 @@ class LyricsProviders : public QObject {
 
   NetworkAccessManager *network_;
 
-  QMap<LyricsProvider*, QString> lyrics_providers_;
-  QList<LyricsProvider*> ordered_providers_;
+  QMap<LyricsProvider *, QString> lyrics_providers_;
+  QList<LyricsProvider *> ordered_providers_;
   QMutex mutex_;
 
   QAtomicInt next_id_;

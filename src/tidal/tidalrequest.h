@@ -203,9 +203,8 @@ class TidalRequest : public TidalBaseRequest {
   QStringList errors_;
   bool need_login_;
   bool no_results_;
-  QList<QNetworkReply*> replies_;
-  QList<QNetworkReply*> album_cover_replies_;
-
+  QList<QNetworkReply *> replies_;
+  QList<QNetworkReply *> album_cover_replies_;
 };
 
 #endif  // TIDALREQUEST_H

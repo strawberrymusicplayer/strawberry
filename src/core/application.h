@@ -128,9 +128,8 @@ class Application : public QObject {
 
  private:
   std::unique_ptr<ApplicationImpl> p_;
-  QList<QThread*> threads_;
-  QList<QObject*> wait_for_exit_;
-
+  QList<QThread *> threads_;
+  QList<QObject *> wait_for_exit_;
 };
 
 #endif  // APPLICATION_H

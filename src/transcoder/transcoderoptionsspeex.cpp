@@ -60,7 +60,6 @@ void TranscoderOptionsSpeex::Load() {
   ui_->nframes->setValue(s.value("nframes", 1).toInt());
 
   s.endGroup();
-
 }
 
 void TranscoderOptionsSpeex::Save() {
@@ -79,5 +78,4 @@ void TranscoderOptionsSpeex::Save() {
   s.setValue("nframes", ui_->nframes->value());
 
   s.endGroup();
-
 }

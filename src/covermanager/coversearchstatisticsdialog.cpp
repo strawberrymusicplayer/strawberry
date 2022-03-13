@@ -45,18 +45,18 @@ CoverSearchStatisticsDialog::CoverSearchStatisticsDialog(QWidget *parent)
   details_layout_->setSpacing(0);
 
   setStyleSheet(
-      "#details {"
-      "  background-color: palette(base);"
-      "}"
-      "#details QLabel[type=\"label\"] {"
-      "  border: 2px solid transparent;"
-      "  border-right: 2px solid palette(midlight);"
-      "  margin-right: 10px;"
-      "}"
-      "#details QLabel[type=\"value\"] {"
-      "  font-weight: bold;"
-      "  max-width: 100px;"
-      "}");
+    "#details {"
+    "  background-color: palette(base);"
+    "}"
+    "#details QLabel[type=\"label\"] {"
+    "  border: 2px solid transparent;"
+    "  border-right: 2px solid palette(midlight);"
+    "  margin-right: 10px;"
+    "}"
+    "#details QLabel[type=\"value\"] {"
+    "  font-weight: bold;"
+    "  max-width: 100px;"
+    "}");
 }
 
 CoverSearchStatisticsDialog::~CoverSearchStatisticsDialog() { delete ui_; }
@@ -67,9 +67,9 @@ void CoverSearchStatisticsDialog::Show(const CoverSearchStatistics &statistics) 
   std::sort(providers.begin(), providers.end());
 
   ui_->summary->setText(tr("Got %1 covers out of %2 (%3 failed)")
-          .arg(statistics.chosen_images_)
-          .arg(statistics.chosen_images_ + statistics.missing_images_)
-          .arg(statistics.missing_images_));
+                          .arg(statistics.chosen_images_)
+                          .arg(statistics.chosen_images_ + statistics.missing_images_)
+                          .arg(statistics.missing_images_));
 
   for (const QString &provider : providers) {
     AddLine(tr("Covers from %1").arg(provider), QString::number(statistics.chosen_images_by_provider_[provider]));
@@ -86,7 +86,6 @@ void CoverSearchStatisticsDialog::Show(const CoverSearchStatistics &statistics) 
   details_layout_->addStretch();
 
   show();
-
 }
 
 void CoverSearchStatisticsDialog::AddLine(const QString &label, const QString &value) {
@@ -101,7 +100,6 @@ void CoverSearchStatisticsDialog::AddLine(const QString &label, const QString &v
   layout->addWidget(label1);
   layout->addWidget(label2);
   details_layout_->addLayout(layout);
-
 }
 
 void CoverSearchStatisticsDialog::AddSpacer() {

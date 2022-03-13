@@ -48,4 +48,3 @@ class CollectionViewContainer : public QWidget {
 };
 
 #endif  // COLLECTIONVIEWCONTAINER_H
-

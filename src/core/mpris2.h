@@ -238,7 +238,6 @@ class Mpris2 : public QObject {
   QStringList desktop_files_;
   QString desktop_file_;
   QVariantMap last_metadata_;
-
 };
 
 }  // namespace mpris

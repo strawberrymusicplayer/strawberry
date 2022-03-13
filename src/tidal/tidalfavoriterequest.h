@@ -85,9 +85,8 @@ class TidalFavoriteRequest : public TidalBaseRequest {
 
   TidalService *service_;
   NetworkAccessManager *network_;
-  QList <QNetworkReply*> replies_;
+  QList<QNetworkReply *> replies_;
   bool need_login_;
-
 };
 
 #endif  // TIDALFAVORITEREQUEST_H

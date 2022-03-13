@@ -33,94 +33,93 @@ class Playlist;
 
 namespace PlaylistUndoCommands {
 
-  enum Types {
-    Type_RemoveItems = 0,
-  };
+enum Types {
+  Type_RemoveItems = 0,
+};
 
-  class Base : public QUndoCommand {
-    Q_DECLARE_TR_FUNCTIONS(PlaylistUndoCommands)
+class Base : public QUndoCommand {
+  Q_DECLARE_TR_FUNCTIONS(PlaylistUndoCommands)
 
-   public:
-    explicit Base(Playlist *playlist);
+ public:
+  explicit Base(Playlist *playlist);
 
-   protected:
-    Playlist *playlist_;
-  };
+ protected:
+  Playlist *playlist_;
+};
 
-  class InsertItems : public Base {
-   public:
-    explicit InsertItems(Playlist *playlist, const PlaylistItemList &items, int pos, bool enqueue = false, bool enqueue_next = false);
+class InsertItems : public Base {
+ public:
+  explicit InsertItems(Playlist *playlist, const PlaylistItemList &items, int pos, bool enqueue = false, bool enqueue_next = false);
 
-    void undo() override;
-    void redo() override;
-    // When load is async, items have already been pushed, so we need to update them.
-    // This function try to find the equivalent item, and replace it with the new (completely loaded) one.
-    // Return true if the was found (and updated), false otherwise
-    bool UpdateItem(const PlaylistItemPtr &updated_item);
+  void undo() override;
+  void redo() override;
+  // When load is async, items have already been pushed, so we need to update them.
+  // This function try to find the equivalent item, and replace it with the new (completely loaded) one.
+  // Return true if the was found (and updated), false otherwise
+  bool UpdateItem(const PlaylistItemPtr &updated_item);
 
-   private:
+ private:
+  PlaylistItemList items_;
+  int pos_;
+  bool enqueue_;
+  bool enqueue_next_;
+};
+
+class RemoveItems : public Base {
+ public:
+  explicit RemoveItems(Playlist *playlist, int pos, int count);
+
+  int id() const override { return Type_RemoveItems; }
+
+  void undo() override;
+  void redo() override;
+  bool mergeWith(const QUndoCommand *other) override;
+
+ private:
+  struct Range {
+    Range(int pos, int count) : pos_(pos), count_(count) {}
+    int pos_;
+    int count_;
     PlaylistItemList items_;
-    int pos_;
-    bool enqueue_;
-    bool enqueue_next_;
   };
 
-  class RemoveItems : public Base {
-   public:
-    explicit RemoveItems(Playlist *playlist, int pos, int count);
+  QList<Range> ranges_;
+};
 
-    int id() const override { return Type_RemoveItems; }
+class MoveItems : public Base {
+ public:
+  explicit MoveItems(Playlist *playlist, const QList<int> &source_rows, int pos);
 
-    void undo() override;
-    void redo() override;
-    bool mergeWith(const QUndoCommand *other) override;
+  void undo() override;
+  void redo() override;
 
-   private:
-    struct Range {
-      Range(int pos, int count) : pos_(pos), count_(count) {}
-      int pos_;
-      int count_;
-      PlaylistItemList items_;
-    };
+ private:
+  QList<int> source_rows_;
+  int pos_;
+};
 
-    QList<Range> ranges_;
-  };
+class ReOrderItems : public Base {
+ public:
+  explicit ReOrderItems(Playlist *playlist, const PlaylistItemList &new_items);
 
-  class MoveItems : public Base {
-   public:
-    explicit MoveItems(Playlist *playlist, const QList<int> &source_rows, int pos);
+  void undo() override;
+  void redo() override;
 
-    void undo() override;
-    void redo() override;
+ private:
+  PlaylistItemList old_items_;
+  PlaylistItemList new_items_;
+};
 
-   private:
-    QList<int> source_rows_;
-    int pos_;
-  };
+class SortItems : public ReOrderItems {
+ public:
+  explicit SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemList &new_items);
+};
 
-  class ReOrderItems : public Base {
-   public:
-    explicit ReOrderItems(Playlist *playlist, const PlaylistItemList &new_items);
+class ShuffleItems : public ReOrderItems {
+ public:
+  explicit ShuffleItems(Playlist *playlist, const PlaylistItemList &new_items);
+};
 
-    void undo() override;
-    void redo() override;
+}  // namespace PlaylistUndoCommands
 
-   private:
-    PlaylistItemList old_items_;
-    PlaylistItemList new_items_;
-  };
-
-  class SortItems : public ReOrderItems {
-   public:
-    explicit SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemList &new_items);
-
-  };
-
-  class ShuffleItems : public ReOrderItems {
-   public:
-    explicit ShuffleItems(Playlist *playlist, const PlaylistItemList &new_items);
-  };
-
-}  // namespace
-
-#endif // PLAYLISTUNDOCOMMANDS_H
+#endif  // PLAYLISTUNDOCOMMANDS_H

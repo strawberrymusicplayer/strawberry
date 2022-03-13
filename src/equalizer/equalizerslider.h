@@ -48,7 +48,6 @@ class EqualizerSlider : public QWidget {
 
  private:
   Ui_EqualizerSlider *ui_;
-
 };
 
 #endif  // EQUALISERSLIDER_H

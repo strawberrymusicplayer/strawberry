@@ -49,7 +49,7 @@ class SystemTrayIcon : public QObject {
   void SetTrayiconProgress(const bool enabled);
 
   void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit);
-  void ShowPopup(const QString&, const QString&, const int) {}
+  void ShowPopup(const QString &, const QString &, const int) {}
 
   bool MuteEnabled() const { return false; }
   void SetMuteEnabled(const bool) {}
@@ -59,7 +59,7 @@ class SystemTrayIcon : public QObject {
   void SetPaused();
   void SetStopped();
 
-  void SetNowPlaying(const Song &song, const QUrl&);
+  void SetNowPlaying(const Song &song, const QUrl &);
   void ClearNowPlaying();
 
   void SetProgress(const int percentage);

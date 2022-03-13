@@ -47,7 +47,6 @@ void TranscoderOptionsASF::Load() {
   s.beginGroup(kSettingsGroup + settings_postfix_);
   ui_->bitrate_slider->setValue(s.value("bitrate", 320000).toInt() / 1000);
   s.endGroup();
-
 }
 
 void TranscoderOptionsASF::Save() {
@@ -56,5 +55,4 @@ void TranscoderOptionsASF::Save() {
   s.beginGroup(kSettingsGroup + settings_postfix_);
   s.setValue("bitrate", ui_->bitrate_slider->value() * 1000);
   s.endGroup();
-
 }

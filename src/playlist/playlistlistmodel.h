@@ -100,8 +100,8 @@ class PlaylistListModel : public QStandardItemModel {
   QIcon playlist_icon_;
   QIcon folder_icon_;
 
-  QMap<int, QStandardItem*> playlists_by_id_;
-  QMap<QString, QStandardItem*> folders_by_path_;
+  QMap<int, QStandardItem *> playlists_by_id_;
+  QMap<QString, QStandardItem *> folders_by_path_;
 };
 
 #endif  // PLAYLISTLISTMODEL_H

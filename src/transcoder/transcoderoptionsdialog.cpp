@@ -49,14 +49,14 @@ TranscoderOptionsDialog::TranscoderOptionsDialog(Song::FileType type, QWidget *p
 
   switch (type) {
     case Song::FileType_FLAC:
-    case Song::FileType_OggFlac:   options_ = new TranscoderOptionsFLAC(this);     break;
-    case Song::FileType_WavPack:   options_ = new TranscoderOptionsWavPack(this);  break;
-    case Song::FileType_OggVorbis: options_ = new TranscoderOptionsVorbis(this);   break;
-    case Song::FileType_OggOpus:   options_ = new TranscoderOptionsOpus(this);     break;
-    case Song::FileType_OggSpeex:  options_ = new TranscoderOptionsSpeex(this);    break;
-    case Song::FileType_MP4:       options_ = new TranscoderOptionsAAC(this);      break;
-    case Song::FileType_MPEG:      options_ = new TranscoderOptionsMP3(this);      break;
-    case Song::FileType_ASF:       options_ = new TranscoderOptionsASF(this);      break;
+    case Song::FileType_OggFlac: options_ = new TranscoderOptionsFLAC(this); break;
+    case Song::FileType_WavPack: options_ = new TranscoderOptionsWavPack(this); break;
+    case Song::FileType_OggVorbis: options_ = new TranscoderOptionsVorbis(this); break;
+    case Song::FileType_OggOpus: options_ = new TranscoderOptionsOpus(this); break;
+    case Song::FileType_OggSpeex: options_ = new TranscoderOptionsSpeex(this); break;
+    case Song::FileType_MP4: options_ = new TranscoderOptionsAAC(this); break;
+    case Song::FileType_MPEG: options_ = new TranscoderOptionsMP3(this); break;
+    case Song::FileType_ASF: options_ = new TranscoderOptionsASF(this); break;
     default:
       break;
   }
@@ -67,7 +67,6 @@ TranscoderOptionsDialog::TranscoderOptionsDialog(Song::FileType type, QWidget *p
     ui_->verticalLayout->insertWidget(0, options_);
     resize(width(), minimumHeight());
   }
-
 }
 
 TranscoderOptionsDialog::~TranscoderOptionsDialog() {
@@ -80,7 +79,6 @@ void TranscoderOptionsDialog::showEvent(QShowEvent *e) {
   if (options_) {
     options_->Load();
   }
-
 }
 
 void TranscoderOptionsDialog::accept() {
@@ -89,7 +87,6 @@ void TranscoderOptionsDialog::accept() {
     options_->Save();
   }
   QDialog::accept();
-
 }
 
 void TranscoderOptionsDialog::set_settings_postfix(const QString &settings_postfix) {
@@ -97,5 +94,4 @@ void TranscoderOptionsDialog::set_settings_postfix(const QString &settings_postf
   if (options_) {
     options_->settings_postfix_ = settings_postfix;
   }
-
 }

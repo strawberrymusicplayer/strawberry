@@ -54,7 +54,6 @@ PlaylistItemList PlaylistGeneratorInserter::Generate(PlaylistGeneratorPtr genera
   else {
     return generator->Generate();
   }
-
 }
 
 void PlaylistGeneratorInserter::Load(Playlist *destination, const int row, const bool play_now, const bool enqueue, const bool enqueue_next, PlaylistGeneratorPtr generator, const int dynamic_count) {
@@ -74,12 +73,11 @@ void PlaylistGeneratorInserter::Load(Playlist *destination, const int row, const
   QFutureWatcher<PlaylistItemList> *watcher = new QFutureWatcher<PlaylistItemList>();
   QObject::connect(watcher, &QFutureWatcher<PlaylistItemList>::finished, this, &PlaylistGeneratorInserter::Finished);
   watcher->setFuture(future);
-
 }
 
 void PlaylistGeneratorInserter::Finished() {
 
-  QFutureWatcher<PlaylistItemList> *watcher = static_cast<QFutureWatcher<PlaylistItemList>*>(sender());
+  QFutureWatcher<PlaylistItemList> *watcher = static_cast<QFutureWatcher<PlaylistItemList> *>(sender());
   PlaylistItemList items = watcher->result();
   watcher->deleteLater();
 
@@ -95,5 +93,4 @@ void PlaylistGeneratorInserter::Finished() {
   task_manager_->SetTaskFinished(task_id_);
 
   deleteLater();
-
 }

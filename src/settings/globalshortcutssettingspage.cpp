@@ -89,7 +89,6 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog,
 #ifndef Q_OS_MACOS
   ui_->widget_macos_access->hide();
 #endif  // Q_OS_MACOS
-
 }
 
 GlobalShortcutsSettingsPage::~GlobalShortcutsSettingsPage() { delete ui_; }
@@ -186,7 +185,7 @@ void GlobalShortcutsSettingsPage::Load() {
     ui_->checkbox_mate->setChecked(s.value("use_mate", true).toBool());
   }
 
-#endif // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+#endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
   if (ui_->widget_x11->isVisibleTo(this)) {
@@ -207,7 +206,6 @@ void GlobalShortcutsSettingsPage::Load() {
   Init(ui_->layout_globalshortcutssettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
-
 }
 
 void GlobalShortcutsSettingsPage::Save() {
@@ -235,13 +233,12 @@ void GlobalShortcutsSettingsPage::Save() {
   s.endGroup();
 
   dialog()->global_shortcuts_manager()->ReloadSettings();
-
 }
 
 void GlobalShortcutsSettingsPage::ShortcutOptionsChanged() {
 
   bool configure_shortcuts = (ui_->widget_kde->isVisibleTo(this) && ui_->checkbox_kde->isChecked()) ||
-                             (ui_->widget_x11->isVisibleTo(this) && ui_->checkbox_x11->isChecked());
+    (ui_->widget_x11->isVisibleTo(this) && ui_->checkbox_x11->isChecked());
 
   ui_->list->setEnabled(configure_shortcuts);
   ui_->shortcut_options->setEnabled(configure_shortcuts);
@@ -253,7 +250,6 @@ void GlobalShortcutsSettingsPage::ShortcutOptionsChanged() {
   else {
     ui_->widget_warning->hide();
   }
-
 }
 
 void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
@@ -263,7 +259,6 @@ void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
       QMessageBox::warning(this, "Error", tr("The \"%1\" command could not be started.").arg("gnome-keybinding-properties"));
     }
   }
-
 }
 
 void GlobalShortcutsSettingsPage::OpenMateKeybindingProperties() {
@@ -273,7 +268,6 @@ void GlobalShortcutsSettingsPage::OpenMateKeybindingProperties() {
       QMessageBox::warning(this, "Error", tr("The \"%1\" command could not be started.").arg("mate-keybinding-properties"));
     }
   }
-
 }
 
 void GlobalShortcutsSettingsPage::SetShortcut(const QString &id, const QKeySequence &key) {
@@ -282,7 +276,6 @@ void GlobalShortcutsSettingsPage::SetShortcut(const QString &id, const QKeySeque
 
   shortcut.key = key;
   shortcut.item->setText(1, key.toString(QKeySequence::NativeText));
-
 }
 
 void GlobalShortcutsSettingsPage::ItemClicked(QTreeWidgetItem *item) {
@@ -303,21 +296,18 @@ void GlobalShortcutsSettingsPage::ItemClicked(QTreeWidgetItem *item) {
   else {
     ui_->radio_custom->setChecked(true);
   }
-
 }
 
 void GlobalShortcutsSettingsPage::NoneClicked() {
 
   SetShortcut(current_id_, QKeySequence());
   set_changed();
-
 }
 
 void GlobalShortcutsSettingsPage::DefaultClicked() {
 
   SetShortcut(current_id_, shortcuts_[current_id_].s.default_key);
   set_changed();
-
 }
 
 void GlobalShortcutsSettingsPage::ChangeClicked() {
@@ -339,7 +329,6 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
   SetShortcut(current_id_, key);
 
   set_changed();
-
 }
 
 void GlobalShortcutsSettingsPage::X11Warning() {
@@ -365,5 +354,4 @@ void GlobalShortcutsSettingsPage::X11Warning() {
   else {
     ui_->widget_warning->hide();
   }
-
 }

@@ -46,7 +46,6 @@ AutoExpandingTreeView::AutoExpandingTreeView(QWidget *parent)
   QObject::connect(this, &AutoExpandingTreeView::expanded, this, &AutoExpandingTreeView::ItemExpanded);
   QObject::connect(this, &AutoExpandingTreeView::clicked, this, &AutoExpandingTreeView::ItemClicked);
   QObject::connect(this, &AutoExpandingTreeView::doubleClicked, this, &AutoExpandingTreeView::ItemDoubleClicked);
-
 }
 
 void AutoExpandingTreeView::reset() {
@@ -88,7 +87,6 @@ bool AutoExpandingTreeView::RecursivelyExpand(const QModelIndex &idx, int *count
   }
 
   return true;
-
 }
 
 void AutoExpandingTreeView::ItemExpanded(const QModelIndex &idx) {
@@ -104,7 +102,6 @@ void AutoExpandingTreeView::ItemClicked(const QModelIndex &idx) {
   }
 
   setExpanded(idx, !isExpanded(idx));
-
 }
 
 void AutoExpandingTreeView::ItemDoubleClicked(const QModelIndex &idx) {
@@ -113,12 +110,11 @@ void AutoExpandingTreeView::ItemDoubleClicked(const QModelIndex &idx) {
 
   if (add_on_double_click_) {
     QMimeData *q_mimedata = model()->mimeData(QModelIndexList() << idx);
-    if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+    if (MimeData *mimedata = qobject_cast<MimeData *>(q_mimedata)) {
       mimedata->from_doubleclick_ = true;
     }
     emit AddToPlaylistSignal(q_mimedata);
   }
-
 }
 
 void AutoExpandingTreeView::mousePressEvent(QMouseEvent *event) {
@@ -132,12 +128,11 @@ void AutoExpandingTreeView::mousePressEvent(QMouseEvent *event) {
   //enqueue to playlist with middleClick
   if (event->button() == Qt::MiddleButton) {
     QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
-    if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+    if (MimeData *mimedata = qobject_cast<MimeData *>(q_mimedata)) {
       mimedata->enqueue_now_ = true;
     }
     emit AddToPlaylistSignal(q_mimedata);
   }
-
 }
 
 void AutoExpandingTreeView::mouseDoubleClickEvent(QMouseEvent *event) {
@@ -152,7 +147,6 @@ void AutoExpandingTreeView::mouseDoubleClickEvent(QMouseEvent *event) {
   if (idx.isValid() && p_state == AnimatingState) {
     emit doubleClicked(idx);
   }
-
 }
 
 void AutoExpandingTreeView::keyPressEvent(QKeyEvent *e) {
@@ -184,7 +178,6 @@ void AutoExpandingTreeView::keyPressEvent(QKeyEvent *e) {
   }
 
   QTreeView::keyPressEvent(e);
-
 }
 
 void AutoExpandingTreeView::UpAndFocus() {

@@ -101,7 +101,7 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
   // Gets the best backend available (the one with the highest priority)
   const Backend *BestBackend() const;
 
-  int database_id_;  // -1 if not remembered in the database
+  int database_id_;                          // -1 if not remembered in the database
   std::shared_ptr<ConnectedDevice> device_;  // nullptr if not connected
   QList<Backend> backends_;
 
@@ -120,7 +120,6 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
   bool forget_;
 
   Q_DISABLE_COPY(DeviceInfo)
-
 };
 
 #endif  // DEVICEINFO_H

@@ -44,7 +44,6 @@ InsertItems::InsertItems(Playlist *playlist, const PlaylistItemList &items, int 
       enqueue_next_(enqueue_next) {
 
   setText(tr("add %n songs", "", static_cast<int>(items_.count())));
-
 }
 
 void InsertItems::redo() {
@@ -79,7 +78,6 @@ void RemoveItems::redo() {
   for (int i = 0; i < ranges_.count(); ++i) {
     ranges_[i].items_ = playlist_->RemoveItemsWithoutUndo(ranges_[i].pos_, ranges_[i].count_);
   }
-
 }
 
 void RemoveItems::undo() {
@@ -87,12 +85,11 @@ void RemoveItems::undo() {
   for (int i = static_cast<int>(ranges_.count() - 1); i >= 0; --i) {
     playlist_->InsertItemsWithoutUndo(ranges_[i].items_, ranges_[i].pos_);
   }
-
 }
 
 bool RemoveItems::mergeWith(const QUndoCommand *other) {
 
-  const RemoveItems *remove_command = static_cast<const RemoveItems*>(other);
+  const RemoveItems *remove_command = static_cast<const RemoveItems *>(other);
   ranges_.append(remove_command->ranges_);
 
   int sum = 0;
@@ -100,7 +97,6 @@ bool RemoveItems::mergeWith(const QUndoCommand *other) {
   setText(tr("remove %n songs", "", sum));
 
   return true;
-
 }
 
 
@@ -110,7 +106,6 @@ MoveItems::MoveItems(Playlist *playlist, const QList<int> &source_rows, int pos)
       pos_(pos) {
 
   setText(tr("move %n songs", "", static_cast<int>(source_rows.count())));
-
 }
 
 void MoveItems::redo() {
@@ -135,7 +130,6 @@ SortItems::SortItems(Playlist *playlist, int column, Qt::SortOrder order, const 
   Q_UNUSED(order);
 
   setText(tr("sort songs"));
-
 }
 
 
@@ -143,7 +137,6 @@ ShuffleItems::ShuffleItems(Playlist *playlist, const PlaylistItemList &new_items
     : ReOrderItems(playlist, new_items) {
 
   setText(tr("shuffle songs"));
-
 }
 
 }  // namespace PlaylistUndoCommands

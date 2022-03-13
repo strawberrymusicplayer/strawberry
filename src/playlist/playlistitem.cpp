@@ -63,7 +63,6 @@ PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
   }
 
   return std::make_shared<SongPlaylistItem>(source);
-
 }
 
 PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
@@ -87,7 +86,6 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
   }
 
   return std::make_shared<SongPlaylistItem>(song);
-
 }
 
 PlaylistItem::~PlaylistItem() = default;
@@ -98,7 +96,6 @@ void PlaylistItem::BindToQuery(SqlQuery *query) const {
   query->BindValue(":collection_id", DatabaseValue(Column_CollectionId));
 
   DatabaseSongMetadata().BindToQuery(query);
-
 }
 
 void PlaylistItem::SetTemporaryMetadata(const Song &metadata) {
@@ -116,7 +113,6 @@ void PlaylistItem::UpdateTemporaryMetadata(const Song &metadata) {
   if (temp_metadata_.samplerate() <= 0 && old_metadata.samplerate() > 0) temp_metadata_.set_samplerate(old_metadata.samplerate());
   if (temp_metadata_.bitdepth() <= 0 && old_metadata.bitdepth() > 0) temp_metadata_.set_bitdepth(old_metadata.bitdepth());
   if (temp_metadata_.bitrate() <= 0 && old_metadata.bitrate() > 0) temp_metadata_.set_bitrate(old_metadata.bitrate());
-
 }
 
 void PlaylistItem::ClearTemporaryMetadata() {
@@ -149,7 +145,6 @@ QColor PlaylistItem::GetCurrentBackgroundColor() const {
     QList<short> background_colors_keys = background_colors_.keys();
     return background_colors_[background_colors_keys.last()];
   }
-
 }
 bool PlaylistItem::HasCurrentBackgroundColor() const {
   return !background_colors_.isEmpty();
@@ -166,12 +161,12 @@ void PlaylistItem::RemoveForegroundColor(const short priority) {
 }
 QColor PlaylistItem::GetCurrentForegroundColor() const {
 
-  if (foreground_colors_.isEmpty()) return QColor();
+  if (foreground_colors_.isEmpty())
+    return QColor();
   else {
     QList<short> foreground_colors_keys = foreground_colors_.keys();
     return foreground_colors_[foreground_colors_keys.last()];
   }
-
 }
 bool PlaylistItem::HasCurrentForegroundColor() const {
   return !foreground_colors_.isEmpty();

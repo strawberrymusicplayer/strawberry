@@ -40,12 +40,12 @@ class BoomAnalyzer : public Analyzer::Base {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE explicit BoomAnalyzer(QWidget*);
+  Q_INVOKABLE explicit BoomAnalyzer(QWidget *);
 
   static const char *kName;
 
   void transform(Analyzer::Scope &s) override;
-  void analyze(QPainter &p, const Analyzer::Scope&, const bool new_frame) override;
+  void analyze(QPainter &p, const Analyzer::Scope &, const bool new_frame) override;
 
  public slots:
   void changeK_barHeight(int);
@@ -70,7 +70,6 @@ class BoomAnalyzer : public Analyzer::Base {
 
   QPixmap barPixmap_;
   QPixmap canvas_;
-
 };
 
 #endif  // BOOMANALYZER_H

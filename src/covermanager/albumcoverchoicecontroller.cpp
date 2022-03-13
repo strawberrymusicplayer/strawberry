@@ -122,7 +122,6 @@ AlbumCoverChoiceController::AlbumCoverChoiceController(QWidget *parent)
   separator2_->setSeparator(true);
 
   ReloadSettings();
-
 }
 
 AlbumCoverChoiceController::~AlbumCoverChoiceController() = default;
@@ -137,7 +136,6 @@ void AlbumCoverChoiceController::Init(Application *app) {
 
   QObject::connect(cover_fetcher_, &AlbumCoverFetcher::AlbumCoverFetched, this, &AlbumCoverChoiceController::AlbumCoverFetched);
   QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::SaveEmbeddedCoverAsyncFinished, this, &AlbumCoverChoiceController::SaveEmbeddedCoverAsyncFinished);
-
 }
 
 void AlbumCoverChoiceController::ReloadSettings() {
@@ -151,22 +149,20 @@ void AlbumCoverChoiceController::ReloadSettings() {
   cover_lowercase_ = s.value("cover_lowercase", false).toBool();
   cover_replace_spaces_ = s.value("cover_replace_spaces", false).toBool();
   s.endGroup();
-
 }
 
-QList<QAction*> AlbumCoverChoiceController::GetAllActions() {
+QList<QAction *> AlbumCoverChoiceController::GetAllActions() {
 
-  return QList<QAction*>() << show_cover_
-                           << cover_to_file_
-                           << separator1_
-                           << cover_from_file_
-                           << cover_from_url_
-                           << search_for_cover_
-                           << separator2_
-                           << unset_cover_
-                           << clear_cover_
-                           << delete_cover_;
-
+  return QList<QAction *>() << show_cover_
+                            << cover_to_file_
+                            << separator1_
+                            << cover_from_file_
+                            << cover_from_url_
+                            << search_for_cover_
+                            << separator2_
+                            << unset_cover_
+                            << clear_cover_
+                            << delete_cover_;
 }
 
 AlbumCoverImageResult AlbumCoverChoiceController::LoadImageFromFile(Song *song) {
@@ -198,7 +194,6 @@ AlbumCoverImageResult AlbumCoverChoiceController::LoadImageFromFile(Song *song) 
   }
 
   return result;
-
 }
 
 QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
@@ -211,7 +206,7 @@ QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
 
   if (QImage(cover_file).isNull()) return QUrl();
 
-  switch(get_save_album_cover_type()) {
+  switch (get_save_album_cover_type()) {
     case CollectionSettingsPage::SaveCoverType_Embedded:
       if (song->save_embedded_cover_supported()) {
         SaveCoverEmbeddedAutomatic(*song, cover_file);
@@ -219,7 +214,7 @@ QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
       }
       // fallthrough
     case CollectionSettingsPage::SaveCoverType_Cache:
-    case CollectionSettingsPage::SaveCoverType_Album:{
+    case CollectionSettingsPage::SaveCoverType_Album: {
       QUrl cover_url = QUrl::fromLocalFile(cover_file);
       SaveArtManualToSong(song, cover_url);
       return cover_url;
@@ -227,7 +222,6 @@ QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
   }
 
   return QUrl();
-
 }
 
 void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const AlbumCoverImageResult &result) {
@@ -277,7 +271,6 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
       emit Error(tr("Failed writing cover to file %1.").arg(save_filename));
     }
   }
-
 }
 
 QString AlbumCoverChoiceController::GetInitialPathForFileDialog(const Song &song, const QString &filename) {
@@ -299,7 +292,6 @@ QString AlbumCoverChoiceController::GetInitialPathForFileDialog(const Song &song
   }
 
   return QDir::home().absolutePath() + filename;
-
 }
 
 QUrl AlbumCoverChoiceController::LoadCoverFromURL(Song *song) {
@@ -314,15 +306,15 @@ QUrl AlbumCoverChoiceController::LoadCoverFromURL(Song *song) {
   else {
     return SaveCoverAutomatic(song, result);
   }
-
 }
 
 AlbumCoverImageResult AlbumCoverChoiceController::LoadImageFromURL() {
 
-  if (!cover_from_url_dialog_) { cover_from_url_dialog_ = new CoverFromURLDialog(this); }
+  if (!cover_from_url_dialog_) {
+    cover_from_url_dialog_ = new CoverFromURLDialog(this);
+  }
 
   return cover_from_url_dialog_->Exec();
-
 }
 
 QUrl AlbumCoverChoiceController::SearchForCover(Song *song) {
@@ -337,7 +329,6 @@ QUrl AlbumCoverChoiceController::SearchForCover(Song *song) {
   else {
     return QUrl();
   }
-
 }
 
 AlbumCoverImageResult AlbumCoverChoiceController::SearchForImage(Song *song) {
@@ -349,7 +340,6 @@ AlbumCoverImageResult AlbumCoverChoiceController::SearchForImage(Song *song) {
 
   // Get something sensible to stick in the search box
   return cover_searcher_->Exec(song->effective_albumartist(), album);
-
 }
 
 QUrl AlbumCoverChoiceController::UnsetCover(Song *song, const bool clear_art_automatic) {
@@ -360,7 +350,6 @@ QUrl AlbumCoverChoiceController::UnsetCover(Song *song, const bool clear_art_aut
   SaveArtManualToSong(song, cover_url, clear_art_automatic);
 
   return cover_url;
-
 }
 
 void AlbumCoverChoiceController::ClearCover(Song *song, const bool clear_art_automatic) {
@@ -370,7 +359,6 @@ void AlbumCoverChoiceController::ClearCover(Song *song, const bool clear_art_aut
   song->clear_art_manual();
   if (clear_art_automatic) song->clear_art_automatic();
   SaveArtManualToSong(song, QUrl(), clear_art_automatic);
-
 }
 
 bool AlbumCoverChoiceController::DeleteCover(Song *song, const bool manually_unset) {
@@ -405,9 +393,11 @@ bool AlbumCoverChoiceController::DeleteCover(Song *song, const bool manually_uns
         emit Error(tr("Failed to delete cover file %1: %2").arg(art_automatic, file.errorString()));
       }
     }
-    else song->clear_art_automatic();
+    else
+      song->clear_art_automatic();
   }
-  else song->clear_art_automatic();
+  else
+    song->clear_art_automatic();
 
   if (!art_manual.isEmpty()) {
     QFile file(art_manual);
@@ -422,26 +412,28 @@ bool AlbumCoverChoiceController::DeleteCover(Song *song, const bool manually_uns
         emit Error(tr("Failed to delete cover file %1: %2").arg(art_manual, file.errorString()));
       }
     }
-    else song->clear_art_manual();
+    else
+      song->clear_art_manual();
   }
-  else song->clear_art_manual();
+  else
+    song->clear_art_manual();
 
   if (success) {
-    if (manually_unset) UnsetCover(song, true);
-    else ClearCover(song, true);
+    if (manually_unset)
+      UnsetCover(song, true);
+    else
+      ClearCover(song, true);
   }
 
   return success;
-
 }
 
 void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage &image) {
 
   if (image.isNull()) {
     if ((song.art_manual().isValid() && song.art_manual().isLocalFile() && QFile::exists(song.art_manual().toLocalFile())) ||
-        (song.art_automatic().isValid() && song.art_automatic().isLocalFile() && QFile::exists(song.art_automatic().toLocalFile())) ||
-        song.has_embedded_cover()
-    ) {
+      (song.art_automatic().isValid() && song.art_automatic().isLocalFile() && QFile::exists(song.art_automatic().toLocalFile())) ||
+      song.has_embedded_cover()) {
       QPixmap pixmap = ImageUtils::TryLoadPixmap(song.art_automatic(), song.art_manual(), song.url());
       if (!pixmap.isNull()) ShowCover(song, pixmap);
     }
@@ -450,7 +442,6 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage &image
     QPixmap pixmap = QPixmap::fromImage(image);
     if (!pixmap.isNull()) ShowCover(song, pixmap);
   }
-
 }
 
 void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixmap) {
@@ -499,7 +490,6 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixm
   dialog->setFixedSize(label->pixmap()->size());
 #endif
   dialog->show();
-
 }
 
 quint64 AlbumCoverChoiceController::SearchCoverAutomatically(const Song &song) {
@@ -509,7 +499,6 @@ quint64 AlbumCoverChoiceController::SearchCoverAutomatically(const Song &song) {
   cover_fetching_tasks_[id] = song;
 
   return id;
-
 }
 
 void AlbumCoverChoiceController::AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics) {
@@ -526,7 +515,6 @@ void AlbumCoverChoiceController::AlbumCoverFetched(const quint64 id, const Album
   }
 
   emit AutomaticCoverSearchDone();
-
 }
 
 void AlbumCoverChoiceController::SaveArtAutomaticToSong(Song *song, const QUrl &art_automatic) {
@@ -545,7 +533,6 @@ void AlbumCoverChoiceController::SaveArtAutomaticToSong(Song *song, const QUrl &
   if (*song == app_->current_albumcover_loader()->last_song()) {
     app_->current_albumcover_loader()->LoadAlbumCover(*song);
   }
-
 }
 
 void AlbumCoverChoiceController::SaveArtManualToSong(Song *song, const QUrl &art_manual, const bool clear_art_automatic) {
@@ -588,28 +575,26 @@ void AlbumCoverChoiceController::SaveArtManualToSong(Song *song, const QUrl &art
   if (*song == app_->current_albumcover_loader()->last_song()) {
     app_->current_albumcover_loader()->LoadAlbumCover(*song);
   }
-
 }
 
 QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song *song, const AlbumCoverImageResult &result, const bool force_overwrite) {
 
   return SaveCoverToFileAutomatic(song->source(),
-                                  song->effective_albumartist(),
-                                  song->effective_album(),
-                                  song->album_id(),
-                                  song->url().adjusted(QUrl::RemoveFilename).path(),
-                                  result,
-                                  force_overwrite);
-
+    song->effective_albumartist(),
+    song->effective_album(),
+    song->album_id(),
+    song->url().adjusted(QUrl::RemoveFilename).path(),
+    result,
+    force_overwrite);
 }
 
 QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source source,
-                                                          const QString &artist,
-                                                          const QString &album,
-                                                          const QString &album_id,
-                                                          const QString &album_dir,
-                                                          const AlbumCoverImageResult &result,
-                                                          const bool force_overwrite) {
+  const QString &artist,
+  const QString &album,
+  const QString &album_id,
+  const QString &album_dir,
+  const AlbumCoverImageResult &result,
+  const bool force_overwrite) {
 
   QString filepath = app_->album_cover_loader()->CoverFilePath(source, artist, album, album_id, album_dir, result.cover_url, "jpg");
   if (filepath.isEmpty()) return QUrl();
@@ -646,7 +631,6 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
   }
 
   return cover_url;
-
 }
 
 void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, const AlbumCoverImageResult &result) {
@@ -685,13 +669,11 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
       app_->album_cover_loader()->SaveEmbeddedCoverAsync(song.url().toLocalFile(), result.image);
     }
   }
-
 }
 
 void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, const QUrl &cover_url) {
 
   SaveCoverEmbeddedAutomatic(song, cover_url.toLocalFile());
-
 }
 
 void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, const QString &cover_filename) {
@@ -718,24 +700,30 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
   else {
     app_->album_cover_loader()->SaveEmbeddedCoverAsync(song.url().toLocalFile(), cover_filename);
   }
-
 }
 
 void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const QList<QUrl> &urls, const QImage &image) {
 
   app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, image);
-
 }
 
 bool AlbumCoverChoiceController::IsKnownImageExtension(const QString &suffix) {
 
   if (!sImageExtensions) {
     sImageExtensions = new QSet<QString>();
-   (*sImageExtensions) << "png" << "jpg" << "jpeg" << "bmp" << "gif" << "xpm" << "pbm" << "pgm" << "ppm" << "xbm";
+    (*sImageExtensions) << "png"
+                        << "jpg"
+                        << "jpeg"
+                        << "bmp"
+                        << "gif"
+                        << "xpm"
+                        << "pbm"
+                        << "pgm"
+                        << "ppm"
+                        << "xbm";
   }
 
   return sImageExtensions->contains(suffix);
-
 }
 
 bool AlbumCoverChoiceController::CanAcceptDrag(const QDragEnterEvent *e) {
@@ -745,7 +733,6 @@ bool AlbumCoverChoiceController::CanAcceptDrag(const QDragEnterEvent *e) {
     if (IsKnownImageExtension(suffix)) return true;
   }
   return e->mimeData()->hasImage();
-
 }
 
 QUrl AlbumCoverChoiceController::SaveCover(Song *song, const QDropEvent *e) {
@@ -775,14 +762,13 @@ QUrl AlbumCoverChoiceController::SaveCover(Song *song, const QDropEvent *e) {
   }
 
   return QUrl();
-
 }
 
 QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCoverImageResult &result) {
 
   QUrl cover_url;
-  switch(get_save_album_cover_type()) {
-    case CollectionSettingsPage::SaveCoverType_Embedded:{
+  switch (get_save_album_cover_type()) {
+    case CollectionSettingsPage::SaveCoverType_Embedded: {
       if (song->save_embedded_cover_supported()) {
         SaveCoverEmbeddedAutomatic(*song, result);
         cover_url = QUrl::fromLocalFile(Song::kEmbeddedCover);
@@ -791,7 +777,7 @@ QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCover
     }
     // fallthrough
     case CollectionSettingsPage::SaveCoverType_Cache:
-    case CollectionSettingsPage::SaveCoverType_Album:{
+    case CollectionSettingsPage::SaveCoverType_Album: {
       cover_url = SaveCoverToFileAutomatic(song, result);
       if (!cover_url.isEmpty()) SaveArtManualToSong(song, cover_url);
       break;
@@ -799,7 +785,6 @@ QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCover
   }
 
   return cover_url;
-
 }
 
 void AlbumCoverChoiceController::SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success, const bool cleared) {
@@ -808,8 +793,9 @@ void AlbumCoverChoiceController::SaveEmbeddedCoverAsyncFinished(quint64 id, cons
 
   Song song = cover_save_tasks_.take(id);
   if (success) {
-    if (cleared) SaveArtAutomaticToSong(&song, QUrl());
-    else SaveArtAutomaticToSong(&song, QUrl::fromLocalFile(Song::kEmbeddedCover));
+    if (cleared)
+      SaveArtAutomaticToSong(&song, QUrl());
+    else
+      SaveArtAutomaticToSong(&song, QUrl::fromLocalFile(Song::kEmbeddedCover));
   }
-
 }

@@ -32,5 +32,4 @@ Song RadioChannel::ToSong() const {
   song.set_url(url);
 
   return song;
-
 }

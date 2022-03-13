@@ -48,7 +48,6 @@ MultiLoadingIndicator::MultiLoadingIndicator(QWidget *parent)
 
   spinner_->move(kHorizontalPadding, kVerticalPadding);
   setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
-
 }
 
 QSize MultiLoadingIndicator::sizeHint() const {
@@ -61,14 +60,12 @@ QSize MultiLoadingIndicator::sizeHint() const {
   const int height = kVerticalPadding * 2 + qMax(spinner_->sizeHint().height(), fontMetrics().height());
 
   return QSize(width, height);
-
 }
 
 void MultiLoadingIndicator::SetTaskManager(TaskManager *task_manager) {
 
   task_manager_ = task_manager;
   QObject::connect(task_manager_, &TaskManager::TasksChanged, this, &MultiLoadingIndicator::UpdateText);
-
 }
 
 void MultiLoadingIndicator::UpdateText() {
@@ -98,17 +95,15 @@ void MultiLoadingIndicator::UpdateText() {
   emit TaskCountChange(static_cast<int>(tasks.count()));
   update();
   updateGeometry();
-
 }
 
-void MultiLoadingIndicator::paintEvent(QPaintEvent*) {
+void MultiLoadingIndicator::paintEvent(QPaintEvent *) {
 
   QPainter p(this);
 
   const QRect text_rect(
-      kHorizontalPadding + spinner_->sizeHint().width() + kSpacing, kVerticalPadding,
-      width() - kHorizontalPadding * 2 - spinner_->sizeHint().width() - kSpacing,
-      height() - kVerticalPadding * 2);
+    kHorizontalPadding + spinner_->sizeHint().width() + kSpacing, kVerticalPadding,
+    width() - kHorizontalPadding * 2 - spinner_->sizeHint().width() - kSpacing,
+    height() - kVerticalPadding * 2);
   p.drawText(text_rect, Qt::TextSingleLine | Qt::AlignLeft, fontMetrics().elidedText(text_, Qt::ElideRight, text_rect.width()));  // NOLINT(bugprone-suspicious-enum-usage)
-
 }

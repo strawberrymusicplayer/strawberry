@@ -50,8 +50,7 @@ class MusixmatchCoverProvider : public JsonCoverProvider {
   void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album);
 
  private:
-  QList<QNetworkReply*> replies_;
-
+  QList<QNetworkReply *> replies_;
 };
 
 #endif  // MUSIXMATCHCOVERPROVIDER_H

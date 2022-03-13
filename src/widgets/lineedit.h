@@ -132,8 +132,8 @@ class LineEdit : public QLineEdit, public ExtendedEditor {
   void clear() override { QLineEdit::clear(); }
 
  protected:
-  void paintEvent(QPaintEvent*) override;
-  void resizeEvent(QResizeEvent*) override;
+  void paintEvent(QPaintEvent *) override;
+  void resizeEvent(QResizeEvent *) override;
 
  private:
   bool is_rtl() const { return is_rtl_; }
@@ -166,8 +166,8 @@ class TextEdit : public QPlainTextEdit, public ExtendedEditor {
   void clear() override { QPlainTextEdit::clear(); }
 
  protected:
-  void paintEvent(QPaintEvent*) override;
-  void resizeEvent(QResizeEvent*) override;
+  void paintEvent(QPaintEvent *) override;
+  void resizeEvent(QResizeEvent *) override;
 
  signals:
   void Reset();
@@ -197,8 +197,8 @@ class SpinBox : public QSpinBox, public ExtendedEditor {
   void clear() override { QSpinBox::clear(); }
 
  protected:
-  void paintEvent(QPaintEvent*) override;
-  void resizeEvent(QResizeEvent*) override;
+  void paintEvent(QPaintEvent *) override;
+  void resizeEvent(QResizeEvent *) override;
 
  signals:
   void Reset();
@@ -226,8 +226,8 @@ class CheckBox : public QCheckBox, public ExtendedEditor {
   void clear() override { QCheckBox::setChecked(false); }
 
  protected:
-  void paintEvent(QPaintEvent*) override;
-  void resizeEvent(QResizeEvent*) override;
+  void paintEvent(QPaintEvent *) override;
+  void resizeEvent(QResizeEvent *) override;
 
  signals:
   void Reset();
@@ -251,7 +251,6 @@ class RatingBox : public RatingWidget, public ExtendedEditor {
  public slots:
   void set_focus() override { RatingWidget::setFocus(); }
   void clear() override {}
-
 };
 
 #endif  // LINEEDIT_H

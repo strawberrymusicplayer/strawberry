@@ -27,7 +27,7 @@
 #include <QObject>
 #include <QAbstractItemModel>
 
-template <typename T>
+template<typename T>
 class SimpleTreeModel : public QAbstractItemModel {
  public:
   explicit SimpleTreeModel(T *root = nullptr, QObject *parent = nullptr);
@@ -59,28 +59,28 @@ class SimpleTreeModel : public QAbstractItemModel {
   T *root_;
 };
 
-template <typename T>
+template<typename T>
 SimpleTreeModel<T>::SimpleTreeModel(T *root, QObject *parent)
     : QAbstractItemModel(parent), root_(root) {}
 
-template <typename T>
+template<typename T>
 T *SimpleTreeModel<T>::IndexToItem(const QModelIndex &idx) const {
   if (!idx.isValid()) return root_;
-  return reinterpret_cast<T*>(idx.internalPointer());
+  return reinterpret_cast<T *>(idx.internalPointer());
 }
 
-template <typename T>
+template<typename T>
 QModelIndex SimpleTreeModel<T>::ItemToIndex(T *item) const {
   if (!item || !item->parent) return QModelIndex();
   return createIndex(item->row, 0, item);
 }
 
-template <typename T>
-int SimpleTreeModel<T>::columnCount(const QModelIndex&) const {
+template<typename T>
+int SimpleTreeModel<T>::columnCount(const QModelIndex &) const {
   return 1;
 }
 
-template <typename T>
+template<typename T>
 QModelIndex SimpleTreeModel<T>::index(int row, int, const QModelIndex &parent) const {
 
   T *parent_item = IndexToItem(parent);
@@ -88,21 +88,20 @@ QModelIndex SimpleTreeModel<T>::index(int row, int, const QModelIndex &parent) c
     return QModelIndex();
 
   return ItemToIndex(parent_item->children[row]);
-
 }
 
-template <typename T>
+template<typename T>
 QModelIndex SimpleTreeModel<T>::parent(const QModelIndex &idx) const {
   return ItemToIndex(IndexToItem(idx)->parent);
 }
 
-template <typename T>
+template<typename T>
 int SimpleTreeModel<T>::rowCount(const QModelIndex &parent) const {
   T *item = IndexToItem(parent);
   return item->children.count();
 }
 
-template <typename T>
+template<typename T>
 bool SimpleTreeModel<T>::hasChildren(const QModelIndex &parent) const {
   T *item = IndexToItem(parent);
   if (item->lazy_loaded)
@@ -111,13 +110,13 @@ bool SimpleTreeModel<T>::hasChildren(const QModelIndex &parent) const {
     return true;
 }
 
-template <typename T>
+template<typename T>
 bool SimpleTreeModel<T>::canFetchMore(const QModelIndex &parent) const {
   T *item = IndexToItem(parent);
   return !item->lazy_loaded;
 }
 
-template <typename T>
+template<typename T>
 void SimpleTreeModel<T>::fetchMore(const QModelIndex &parent) {
   T *item = IndexToItem(parent);
   if (!item->lazy_loaded) {
@@ -125,29 +124,29 @@ void SimpleTreeModel<T>::fetchMore(const QModelIndex &parent) {
   }
 }
 
-template <typename T>
+template<typename T>
 void SimpleTreeModel<T>::BeginInsert(T *parent, int start, int end) {
   if (end == -1) end = start;
   beginInsertRows(ItemToIndex(parent), start, end);
 }
 
-template <typename T>
+template<typename T>
 void SimpleTreeModel<T>::EndInsert() {
   endInsertRows();
 }
 
-template <typename T>
+template<typename T>
 void SimpleTreeModel<T>::BeginDelete(T *parent, int start, int end) {
   if (end == -1) end = start;
   beginRemoveRows(ItemToIndex(parent), start, end);
 }
 
-template <typename T>
+template<typename T>
 void SimpleTreeModel<T>::EndDelete() {
   endRemoveRows();
 }
 
-template <typename T>
+template<typename T>
 void SimpleTreeModel<T>::EmitDataChanged(T *item) {
   QModelIndex index(ItemToIndex(item));
   emit dataChanged(index, index);

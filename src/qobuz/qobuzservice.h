@@ -217,9 +217,8 @@ class QobuzService : public InternetService {
 
   QStringList login_errors_;
 
-  QList<QObject*> wait_for_exit_;
-  QList<QNetworkReply*> replies_;
-
+  QList<QObject *> wait_for_exit_;
+  QList<QNetworkReply *> replies_;
 };
 
 #endif  // QOBUZSERVICE_H

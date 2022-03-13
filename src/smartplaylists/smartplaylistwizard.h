@@ -61,8 +61,7 @@ class SmartPlaylistWizard : public QWizard {
   int finish_id_;
 
   int type_index_;
-  QList<SmartPlaylistWizardPlugin*> plugins_;
-
+  QList<SmartPlaylistWizardPlugin *> plugins_;
 };
 
 #endif  // SMARTPLAYLISTWIZARD_H

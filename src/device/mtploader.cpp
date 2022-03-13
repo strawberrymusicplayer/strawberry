@@ -57,7 +57,6 @@ void MtpLoader::LoadDatabase() {
 
   task_manager_->SetTaskFinished(task_id);
   emit LoadFinished(success, connection_.release());
-
 }
 
 bool MtpLoader::TryLoad() {
@@ -100,6 +99,4 @@ bool MtpLoader::TryLoad() {
   backend_->Close();
 
   return !abort_;
-
 }
-

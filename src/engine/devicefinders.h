@@ -36,11 +36,10 @@ class DeviceFinders : public QObject {
   ~DeviceFinders() override;
 
   void Init();
-  QList<DeviceFinder*> ListFinders() { return device_finders_; }
+  QList<DeviceFinder *> ListFinders() { return device_finders_; }
 
  private:
-  QList<DeviceFinder*> device_finders_;
-
+  QList<DeviceFinder *> device_finders_;
 };
 
 #endif  // DEVICEFINDERS_H

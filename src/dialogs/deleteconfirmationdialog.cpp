@@ -70,16 +70,16 @@ DeleteConfirmationDialog::DeleteConfirmationDialog(const QStringList &files, QWi
   label_text_bottom->setFont(label_text_bottom_font);
   label_text_bottom->setText(tr("Are you sure you want to continue?"));
 
-  button_box_->setStandardButtons(QDialogButtonBox::Yes|QDialogButtonBox::Cancel);
+  button_box_->setStandardButtons(QDialogButtonBox::Yes | QDialogButtonBox::Cancel);
   QObject::connect(button_box_, &QDialogButtonBox::clicked, this, &DeleteConfirmationDialog::ButtonClicked);
 
   // Add layout
   QGridLayout *grid = new QGridLayout(this);
-  grid->addWidget(label_icon,        0, 0, 2, 1, Qt::AlignTop);
-  grid->addWidget(label_text_top,    0, 1, 1, 1);
-  grid->addWidget(list,              1, 1, 1, 2);
+  grid->addWidget(label_icon, 0, 0, 2, 1, Qt::AlignTop);
+  grid->addWidget(label_text_top, 0, 1, 1, 1);
+  grid->addWidget(list, 1, 1, 1, 2);
   grid->addWidget(label_text_bottom, 2, 1, 1, 2);
-  grid->addWidget(button_box_,       3, 1, 1, 2, Qt::AlignRight);
+  grid->addWidget(button_box_, 3, 1, 1, 2, Qt::AlignRight);
   grid->setSizeConstraint(QLayout::SetNoConstraint);
   setLayout(grid);
 
@@ -100,18 +100,15 @@ DeleteConfirmationDialog::DeleteConfirmationDialog(const QStringList &files, QWi
   setMinimumSize(min_width, min_height);
   adjustSize();
   setMinimumSize(0, 0);
-
 }
 
 void DeleteConfirmationDialog::ButtonClicked(QAbstractButton *button) {
 
   done(button_box_->standardButton(button));
-
 }
 
 QDialogButtonBox::StandardButton DeleteConfirmationDialog::warning(const QStringList &files, QWidget *parent) {
 
   DeleteConfirmationDialog box(files, parent);
   return static_cast<QDialogButtonBox::StandardButton>(box.exec());
-
 }

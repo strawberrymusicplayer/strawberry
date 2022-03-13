@@ -98,5 +98,4 @@ bool PlaylistFilter::filterAcceptsRow(int row, const QModelIndex &parent) const 
 
   // Test the row
   return filter_tree_->accept(row, parent, sourceModel());
-
 }

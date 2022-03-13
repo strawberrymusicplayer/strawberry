@@ -54,7 +54,7 @@ class SomaFMService : public RadioService {
 
  private:
   static const char *kApiChannelsUrl;
-  QList<QNetworkReply*> replies_;
+  QList<QNetworkReply *> replies_;
   RadioChannelList channels_;
 };
 

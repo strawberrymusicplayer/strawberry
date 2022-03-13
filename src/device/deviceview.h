@@ -58,7 +58,6 @@ class DeviceItemDelegate : public CollectionItemDelegate {
   static const int kIconPadding;
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
-
 };
 
 class DeviceView : public AutoExpandingTreeView {
@@ -74,7 +73,7 @@ class DeviceView : public AutoExpandingTreeView {
   bool CanRecursivelyExpand(const QModelIndex &idx) const override;
 
  protected:
-  void contextMenuEvent(QContextMenuEvent*) override;
+  void contextMenuEvent(QContextMenuEvent *) override;
   void mouseDoubleClickEvent(QMouseEvent *e) override;
 
  private slots:

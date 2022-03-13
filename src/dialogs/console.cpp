@@ -40,11 +40,11 @@
 #include "core/application.h"
 #include "core/database.h"
 
-Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_{}, app_(app) {
+Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_ {}, app_(app) {
 
   ui_.setupUi(this);
 
-  setWindowFlags(windowFlags()|Qt::WindowMaximizeButtonHint);
+  setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
 
   QObject::connect(ui_.run, &QPushButton::clicked, this, &Console::RunQuery);
 
@@ -53,7 +53,6 @@ Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_{}, ap
 
   ui_.output->setFont(font);
   ui_.query->setFont(font);
-
 }
 
 void Console::RunQuery() {
@@ -80,5 +79,4 @@ void Console::RunQuery() {
   }
 
   ui_.output->verticalScrollBar()->setValue(ui_.output->verticalScrollBar()->maximum());
-
 }

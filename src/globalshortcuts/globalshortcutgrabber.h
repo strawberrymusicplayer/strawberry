@@ -67,7 +67,7 @@ class GlobalShortcutGrabber : public QDialog {
   void UpdateText();
   void SetupMacEventHandler();
   void TeardownMacEventHandler();
-  bool HandleMacEvent(NSEvent*);
+  bool HandleMacEvent(NSEvent *);
 
   Ui_GlobalShortcutGrabber *ui_;
   QKeySequence ret_;

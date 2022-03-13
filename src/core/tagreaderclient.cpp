@@ -57,7 +57,6 @@ TagReaderClient::TagReaderClient(QObject *parent) : QObject(parent), worker_pool
   worker_pool_->SetExecutableName(kWorkerExecutableName);
   worker_pool_->SetWorkerCount(workers);
   QObject::connect(worker_pool_, &WorkerPool<HandlerType>::WorkerFailedToStart, this, &TagReaderClient::WorkerFailedToStart);
-
 }
 
 void TagReaderClient::Start() { worker_pool_->Start(); }
@@ -71,7 +70,6 @@ void TagReaderClient::Exit() {
   Q_ASSERT(QThread::currentThread() == thread());
   moveToThread(original_thread_);
   emit ExitFinished();
-
 }
 
 void TagReaderClient::WorkerFailedToStart() {
@@ -86,7 +84,6 @@ TagReaderReply *TagReaderClient::IsMediaFile(const QString &filename) {
   req->set_filename(DataCommaSizeFromQString(filename));
 
   return worker_pool_->SendMessageWithReply(&message);
-
 }
 
 TagReaderReply *TagReaderClient::ReadFile(const QString &filename) {
@@ -97,7 +94,6 @@ TagReaderReply *TagReaderClient::ReadFile(const QString &filename) {
   req->set_filename(DataCommaSizeFromQString(filename));
 
   return worker_pool_->SendMessageWithReply(&message);
-
 }
 
 TagReaderReply *TagReaderClient::SaveFile(const QString &filename, const Song &metadata) {
@@ -111,7 +107,6 @@ TagReaderReply *TagReaderClient::SaveFile(const QString &filename, const Song &m
   ReplyType *reply = worker_pool_->SendMessageWithReply(&message);
 
   return reply;
-
 }
 
 TagReaderReply *TagReaderClient::LoadEmbeddedArt(const QString &filename) {
@@ -122,7 +117,6 @@ TagReaderReply *TagReaderClient::LoadEmbeddedArt(const QString &filename) {
   req->set_filename(DataCommaSizeFromQString(filename));
 
   return worker_pool_->SendMessageWithReply(&message);
-
 }
 
 TagReaderReply *TagReaderClient::SaveEmbeddedArt(const QString &filename, const QByteArray &data) {
@@ -134,7 +128,6 @@ TagReaderReply *TagReaderClient::SaveEmbeddedArt(const QString &filename, const 
   req->set_data(data.constData(), data.size());
 
   return worker_pool_->SendMessageWithReply(&message);
-
 }
 
 TagReaderReply *TagReaderClient::UpdateSongPlaycount(const Song &metadata) {
@@ -146,7 +139,6 @@ TagReaderReply *TagReaderClient::UpdateSongPlaycount(const Song &metadata) {
   metadata.ToProtobuf(req->mutable_metadata());
 
   return worker_pool_->SendMessageWithReply(&message);
-
 }
 
 void TagReaderClient::UpdateSongsPlaycount(const SongList &songs) {
@@ -155,7 +147,6 @@ void TagReaderClient::UpdateSongsPlaycount(const SongList &songs) {
     TagReaderReply *reply = UpdateSongPlaycount(song);
     QObject::connect(reply, &TagReaderReply::Finished, reply, &TagReaderReply::deleteLater);
   }
-
 }
 
 TagReaderReply *TagReaderClient::UpdateSongRating(const Song &metadata) {
@@ -167,7 +158,6 @@ TagReaderReply *TagReaderClient::UpdateSongRating(const Song &metadata) {
   metadata.ToProtobuf(req->mutable_metadata());
 
   return worker_pool_->SendMessageWithReply(&message);
-
 }
 
 void TagReaderClient::UpdateSongsRating(const SongList &songs) {
@@ -176,7 +166,6 @@ void TagReaderClient::UpdateSongsRating(const SongList &songs) {
     TagReaderReply *reply = UpdateSongRating(song);
     QObject::connect(reply, &TagReaderReply::Finished, reply, &TagReaderReply::deleteLater);
   }
-
 }
 
 bool TagReaderClient::IsMediaFileBlocking(const QString &filename) {
@@ -192,7 +181,6 @@ bool TagReaderClient::IsMediaFileBlocking(const QString &filename) {
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   return ret;
-
 }
 
 void TagReaderClient::ReadFileBlocking(const QString &filename, Song *song) {
@@ -204,7 +192,6 @@ void TagReaderClient::ReadFileBlocking(const QString &filename, Song *song) {
     song->InitFromProtobuf(reply->message().read_file_response().metadata());
   }
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
-
 }
 
 bool TagReaderClient::SaveFileBlocking(const QString &filename, const Song &metadata) {
@@ -220,7 +207,6 @@ bool TagReaderClient::SaveFileBlocking(const QString &filename, const Song &meta
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   return ret;
-
 }
 
 QByteArray TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename) {
@@ -237,7 +223,6 @@ QByteArray TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename) {
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   return ret;
-
 }
 
 QImage TagReaderClient::LoadEmbeddedArtAsImageBlocking(const QString &filename) {
@@ -254,7 +239,6 @@ QImage TagReaderClient::LoadEmbeddedArtAsImageBlocking(const QString &filename) 
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   return ret;
-
 }
 
 bool TagReaderClient::SaveEmbeddedArtBlocking(const QString &filename, const QByteArray &data) {
@@ -270,7 +254,6 @@ bool TagReaderClient::SaveEmbeddedArtBlocking(const QString &filename, const QBy
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
   return success;
-
 }
 
 bool TagReaderClient::UpdateSongPlaycountBlocking(const Song &metadata) {
@@ -286,7 +269,6 @@ bool TagReaderClient::UpdateSongPlaycountBlocking(const Song &metadata) {
   reply->deleteLater();
 
   return success;
-
 }
 
 bool TagReaderClient::UpdateSongRatingBlocking(const Song &metadata) {
@@ -302,5 +284,4 @@ bool TagReaderClient::UpdateSongRatingBlocking(const Song &metadata) {
   reply->deleteLater();
 
   return success;
-
 }

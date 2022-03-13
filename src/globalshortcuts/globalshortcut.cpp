@@ -36,7 +36,7 @@
 #include "globalshortcut.h"
 
 GlobalShortcut *GlobalShortcut::initialized_ = nullptr;
-QHash<QPair<quint32, quint32>, GlobalShortcut*> GlobalShortcut::internal_shortcuts_;
+QHash<QPair<quint32, quint32>, GlobalShortcut *> GlobalShortcut::internal_shortcuts_;
 
 GlobalShortcut::GlobalShortcut(QObject *parent)
     : QObject(parent),
@@ -50,7 +50,6 @@ GlobalShortcut::GlobalShortcut(QObject *parent)
 
   QAbstractEventDispatcher::instance()->installNativeEventFilter(this);
   initialized_ = this;
-
 }
 
 GlobalShortcut::GlobalShortcut(const QKeySequence &shortcut, GlobalShortcutsBackend *backend, QObject *parent)
@@ -64,7 +63,6 @@ GlobalShortcut::GlobalShortcut(const QKeySequence &shortcut, GlobalShortcutsBack
 
   Q_ASSERT(initialized_);
   setShortcut(shortcut);
-
 }
 
 GlobalShortcut::~GlobalShortcut() {
@@ -76,7 +74,6 @@ GlobalShortcut::~GlobalShortcut() {
   else {
     unsetShortcut();
   }
-
 }
 
 bool GlobalShortcut::setShortcut(const QKeySequence &shortcut) {
@@ -110,7 +107,6 @@ bool GlobalShortcut::setShortcut(const QKeySequence &shortcut) {
   }
 
   return result;
-
 }
 
 bool GlobalShortcut::unsetShortcut() {
@@ -140,7 +136,6 @@ bool GlobalShortcut::unsetShortcut() {
   native_mods_ = 0;
 
   return result;
-
 }
 
 void GlobalShortcut::activateShortcut(quint32 native_key, quint32 native_mod) {
@@ -154,5 +149,4 @@ void GlobalShortcut::activateShortcut(quint32 native_key, quint32 native_mod) {
   if (gshortcut && gshortcut != initialized_) {
     emit gshortcut->activated();
   }
-
 }

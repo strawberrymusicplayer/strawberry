@@ -48,8 +48,8 @@ class NotificationsSettingsPage : public SettingsPage {
   void Save() override;
 
  protected:
-  void hideEvent(QHideEvent*) override;
-  void showEvent(QShowEvent*) override;
+  void hideEvent(QHideEvent *) override;
+  void showEvent(QShowEvent *) override;
 
  private slots:
   void NotificationTypeChanged();

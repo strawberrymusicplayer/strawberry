@@ -89,7 +89,6 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
   }
 
   TagReaderClient::Instance()->ReadFileBlocking(filename, song);
-
 }
 
 Song ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning, const QDir &dir, const bool collection_search) const {
@@ -98,7 +97,6 @@ Song ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
   LoadSong(filename_or_url, beginning, dir, &song, collection_search);
 
   return song;
-
 }
 
 QString ParserBase::URLOrFilename(const QUrl &url, const QDir &dir, Playlist::Path path_type) {
@@ -115,5 +113,4 @@ QString ParserBase::URLOrFilename(const QUrl &url, const QDir &dir, Playlist::Pa
     }
   }
   return filename;
-
 }

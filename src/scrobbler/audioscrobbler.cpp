@@ -65,7 +65,6 @@ AudioScrobbler::AudioScrobbler(Application *app, QObject *parent)
   for (ScrobblerService *service : scrobbler_services_->List()) {
     QObject::connect(service, &ScrobblerService::ErrorMessage, this, &AudioScrobbler::ErrorReceived);
   }
-
 }
 
 void AudioScrobbler::ReloadSettings() {
@@ -110,7 +109,6 @@ void AudioScrobbler::ReloadSettings() {
   for (ScrobblerService *service : scrobbler_services_->List()) {
     service->ReloadSettings();
   }
-
 }
 
 void AudioScrobbler::ToggleScrobbling() {
@@ -124,8 +122,9 @@ void AudioScrobbler::ToggleScrobbling() {
   s.endGroup();
 
   if (enabled_ != enabled_old_) emit ScrobblingEnabledChanged(enabled_);
-  if (enabled_ && !offline_) { Submit(); }
-
+  if (enabled_ && !offline_) {
+    Submit();
+  }
 }
 
 void AudioScrobbler::ToggleOffline() {
@@ -138,9 +137,12 @@ void AudioScrobbler::ToggleOffline() {
   s.setValue("offline", offline_);
   s.endGroup();
 
-  if (offline_ != offline_old_) { emit ScrobblingOfflineChanged(offline_); }
-  if (enabled_ && !offline_) { Submit(); }
-
+  if (offline_ != offline_old_) {
+    emit ScrobblingOfflineChanged(offline_);
+  }
+  if (enabled_ && !offline_) {
+    Submit();
+  }
 }
 
 void AudioScrobbler::ShowConfig() {
@@ -157,7 +159,6 @@ void AudioScrobbler::UpdateNowPlaying(const Song &song) {
     if (!service->IsEnabled()) continue;
     service->UpdateNowPlaying(song);
   }
-
 }
 
 void AudioScrobbler::ClearPlaying() {
@@ -166,7 +167,6 @@ void AudioScrobbler::ClearPlaying() {
     if (!service->IsEnabled()) continue;
     service->ClearPlaying();
   }
-
 }
 
 void AudioScrobbler::Scrobble(const Song &song, const qint64 scrobble_point) {
@@ -179,7 +179,6 @@ void AudioScrobbler::Scrobble(const Song &song, const qint64 scrobble_point) {
     if (!service->IsEnabled()) continue;
     service->Scrobble(song);
   }
-
 }
 
 void AudioScrobbler::Love() {
@@ -188,7 +187,6 @@ void AudioScrobbler::Love() {
     if (!service->IsEnabled() || !service->IsAuthenticated()) continue;
     service->Love();
   }
-
 }
 
 void AudioScrobbler::Submit() {
@@ -197,7 +195,6 @@ void AudioScrobbler::Submit() {
     if (!service->IsEnabled() || !service->IsAuthenticated() || service->IsSubmitted()) continue;
     service->StartSubmit();
   }
-
 }
 
 void AudioScrobbler::WriteCache() {
@@ -206,7 +203,6 @@ void AudioScrobbler::WriteCache() {
     if (!service->IsEnabled()) continue;
     service->WriteCache();
   }
-
 }
 
 void AudioScrobbler::ErrorReceived(const QString &error) {

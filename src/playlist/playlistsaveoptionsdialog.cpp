@@ -53,7 +53,6 @@ void PlaylistSaveOptionsDialog::accept() {
   }
 
   QDialog::accept();
-
 }
 
 Playlist::Path PlaylistSaveOptionsDialog::path_type() const {

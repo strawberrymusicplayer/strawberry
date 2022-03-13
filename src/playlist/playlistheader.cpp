@@ -85,7 +85,6 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
   action_rating_lock_->setChecked(s.value("rating_locked", false).toBool());
   s.endGroup();
-
 }
 
 void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
@@ -102,13 +101,15 @@ void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
     action_hide_->setText(tr("&Hide %1").arg(title));
 
     Qt::Alignment alignment = view_->column_alignment(menu_section_);
-    if      (alignment & Qt::AlignLeft)    action_align_left_->setChecked(true);
-    else if (alignment & Qt::AlignHCenter) action_align_center_->setChecked(true);
-    else if (alignment & Qt::AlignRight)   action_align_right_->setChecked(true);
+    if (alignment & Qt::AlignLeft)
+      action_align_left_->setChecked(true);
+    else if (alignment & Qt::AlignHCenter)
+      action_align_center_->setChecked(true);
+    else if (alignment & Qt::AlignRight)
+      action_align_right_->setChecked(true);
 
     // Show rating lock action only for ratings section
     action_rating_lock_->setVisible(menu_section_ == Playlist::Column_Rating);
-
   }
 
   qDeleteAll(show_actions_);
@@ -118,7 +119,6 @@ void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
   }
 
   menu_->popup(e->globalPos());
-
 }
 
 void PlaylistHeader::AddColumnAction(int index) {
@@ -137,7 +137,6 @@ void PlaylistHeader::AddColumnAction(int index) {
   show_actions_ << action;
 
   QObject::connect(action, &QAction::triggered, this, [this, index]() { ToggleVisible(index); });
-
 }
 
 void PlaylistHeader::HideCurrent() {
@@ -155,7 +154,6 @@ void PlaylistHeader::SetColumnAlignment(QAction *action) {
   if (action == action_align_right_) alignment |= Qt::AlignRight;
 
   view_->SetColumnAlignment(menu_section_, alignment);
-
 }
 
 void PlaylistHeader::ToggleVisible(const int section) {
@@ -164,9 +162,9 @@ void PlaylistHeader::ToggleVisible(const int section) {
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-void PlaylistHeader::enterEvent(QEnterEvent*) {
+void PlaylistHeader::enterEvent(QEnterEvent *) {
 #else
-void PlaylistHeader::enterEvent(QEvent*) {
+void PlaylistHeader::enterEvent(QEvent *) {
 #endif
   emit MouseEntered();
 }

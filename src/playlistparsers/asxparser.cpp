@@ -81,7 +81,6 @@ SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const 
   buffer.close();
 
   return ret;
-
 }
 
 Song ASXParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_search) const {
@@ -128,10 +127,9 @@ return_song:
   }
 
   return song;
-
 }
 
-void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir&, Playlist::Path) const {
+void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir &, Playlist::Path) const {
 
   QXmlStreamWriter writer(device);
   writer.setAutoFormatting(true);
@@ -153,7 +151,6 @@ void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir&, Play
     }
   }
   writer.writeEndDocument();
-
 }
 
 bool ASXParser::TryMagic(const QByteArray &data) const {

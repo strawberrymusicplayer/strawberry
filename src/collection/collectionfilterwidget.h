@@ -122,7 +122,7 @@ class CollectionFilterWidget : public QWidget {
   QMenu *group_by_menu_;
   QMenu *collection_menu_;
   QActionGroup *group_by_group_;
-  QHash<QAction*, int> filter_ages_;
+  QHash<QAction *, int> filter_ages_;
 
   QTimer *filter_delay_;
 
@@ -131,8 +131,6 @@ class CollectionFilterWidget : public QWidget {
 
   QString settings_group_;
   QString settings_prefix_;
-
 };
 
 #endif  // COLLECTIONFILTERWIDGET_H
-

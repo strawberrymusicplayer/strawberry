@@ -55,7 +55,6 @@ TidalFavoriteRequest::~TidalFavoriteRequest() {
     reply->abort();
     reply->deleteLater();
   }
-
 }
 
 QString TidalFavoriteRequest::FavoriteText(const FavoriteType type) {
@@ -70,7 +69,6 @@ QString TidalFavoriteRequest::FavoriteText(const FavoriteType type) {
   }
 
   return QString();
-
 }
 
 QString TidalFavoriteRequest::FavoriteMethod(const FavoriteType type) {
@@ -85,7 +83,6 @@ QString TidalFavoriteRequest::FavoriteMethod(const FavoriteType type) {
   }
 
   return QString();
-
 }
 
 void TidalFavoriteRequest::AddArtists(const SongList &songs) {
@@ -127,7 +124,6 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
   if (id_list.isEmpty()) return;
 
   AddFavoritesRequest(type, id_list, songs);
-
 }
 
 void TidalFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QStringList &id_list, const SongList &songs) {
@@ -144,15 +140,16 @@ void TidalFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QS
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  if (oauth() && !access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
-  else if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
+  if (oauth() && !access_token().isEmpty())
+    req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
+  else if (!session_id().isEmpty())
+    req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { AddFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
   qLog(Debug) << "Tidal: Sending request" << url << query;
-
 }
 
 void TidalFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs) {
@@ -185,7 +182,6 @@ void TidalFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
       emit SongsAdded(songs);
       break;
   }
-
 }
 
 void TidalFavoriteRequest::RemoveArtists(const SongList &songs) {
@@ -206,7 +202,6 @@ void TidalFavoriteRequest::RemoveSongs(const SongMap &songs) {
   for (const Song &song : songs_list) {
     RemoveFavoritesRequest(FavoriteType_Songs, song.song_id(), SongList() << song);
   }
-
 }
 
 void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongList &songs) {
@@ -237,7 +232,6 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
   for (const QString &id : ids) {
     RemoveFavoritesRequest(type, id, songs_map.values(id));
   }
-
 }
 
 void TidalFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const QString &id, const SongList &songs) {
@@ -258,14 +252,15 @@ void TidalFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  if (oauth() && !access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
-  else if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
+  if (oauth() && !access_token().isEmpty())
+    req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
+  else if (!session_id().isEmpty())
+    req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
   QNetworkReply *reply = network_->deleteResource(req);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
   qLog(Debug) << "Tidal: Sending request" << url << "with" << songs.count() << "songs";
-
 }
 
 void TidalFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs) {
@@ -297,12 +292,10 @@ void TidalFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
       emit SongsRemoved(songs);
       break;
   }
-
 }
 
 void TidalFavoriteRequest::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Tidal:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-
 }

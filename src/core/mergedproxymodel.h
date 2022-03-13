@@ -107,10 +107,10 @@ class MergedProxyModel : public QAbstractProxyModel {
   void DeleteAllMappings();
   bool IsKnownModel(const QAbstractItemModel *model) const;
 
-  QHash<QAbstractItemModel*, QPersistentModelIndex> merge_points_;
+  QHash<QAbstractItemModel *, QPersistentModelIndex> merge_points_;
   QAbstractItemModel *resetting_model_;
 
-  QHash<QAbstractItemModel*, QModelIndex> old_merge_points_;
+  QHash<QAbstractItemModel *, QModelIndex> old_merge_points_;
 
   std::unique_ptr<MergedProxyModelPrivate> p_;
 };

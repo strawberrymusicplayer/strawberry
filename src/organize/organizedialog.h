@@ -74,8 +74,8 @@ class OrganizeDialog : public QDialog {
   void SetPlaylist(const QString &playlist);
 
  protected:
-  void showEvent(QShowEvent*) override;
-  void closeEvent(QCloseEvent*) override;
+  void showEvent(QShowEvent *) override;
+  void closeEvent(QCloseEvent *) override;
 
  private:
   void LoadGeometry();
@@ -124,7 +124,6 @@ class OrganizeDialog : public QDialog {
   std::unique_ptr<OrganizeErrorDialog> error_dialog_;
 
   bool devices_;
-
 };
 
 #endif  // ORGANISEDIALOG_H

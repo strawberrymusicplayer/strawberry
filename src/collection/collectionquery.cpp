@@ -118,16 +118,14 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
   if (options.query_mode() == QueryOptions::QueryMode_Untagged) {
     where_clauses_ << "(artist = '' OR album = '' OR title ='')";
   }
-
 }
 
 QString CollectionQuery::GetInnerQuery() const {
-  return duplicates_only_
-             ? QString(" INNER JOIN (select * from duplicated_songs) dsongs        "
-                   "ON (%songs_table.artist = dsongs.dup_artist       "
-                   "AND %songs_table.album = dsongs.dup_album     "
-                   "AND %songs_table.title = dsongs.dup_title)    ")
-             : QString();
+  return duplicates_only_ ? QString(" INNER JOIN (select * from duplicated_songs) dsongs        "
+                                    "ON (%songs_table.artist = dsongs.dup_artist       "
+                                    "AND %songs_table.album = dsongs.dup_album     "
+                                    "AND %songs_table.title = dsongs.dup_title)    ") :
+                            QString();
 }
 
 void CollectionQuery::AddWhere(const QString &column, const QVariant &value, const QString &op) {
@@ -155,11 +153,11 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
     }
     else if (
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    value.metaType().id() == QMetaType::QString
+      value.metaType().id() == QMetaType::QString
 #else
-    value.type() == QVariant::String
+      value.type() == QVariant::String
 #endif
-    && value.toString().isNull()) {
+      && value.toString().isNull()) {
       where_clauses_ << QString("%1 %2 ?").arg(column, op);
       bound_values_ << QString("");
     }
@@ -168,7 +166,6 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
       bound_values_ << value;
     }
   }
-
 }
 
 void CollectionQuery::AddWhereArtist(const QVariant &value) {
@@ -176,7 +173,6 @@ void CollectionQuery::AddWhereArtist(const QVariant &value) {
   where_clauses_ << QString("((artist = ? AND albumartist = '') OR albumartist = ?)");
   bound_values_ << value;
   bound_values_ << value;
-
 }
 
 void CollectionQuery::AddCompilationRequirement(const bool compilation) {
@@ -184,7 +180,6 @@ void CollectionQuery::AddCompilationRequirement(const bool compilation) {
   // When joining with fts, sqlite 3.8 has a tendency to use this index and thereby nesting the tables in an order which gives very poor performance
 
   where_clauses_ << QString("+compilation_effective = %1").arg(compilation ? 1 : 0);
-
 }
 
 bool CollectionQuery::Exec() {
@@ -221,7 +216,6 @@ bool CollectionQuery::Exec() {
   }
 
   return exec();
-
 }
 
 bool CollectionQuery::Next() { return next(); }
@@ -240,5 +234,4 @@ bool QueryOptions::Matches(const Song &song) const {
   }
 
   return true;
-
 }

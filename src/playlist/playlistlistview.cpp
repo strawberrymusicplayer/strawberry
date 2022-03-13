@@ -47,21 +47,20 @@ void PlaylistListView::paintEvent(QPaintEvent *event) {
     p.setFont(bold_font);
 
     p.drawText(rect, Qt::AlignHCenter | Qt::TextWordWrap,
-               tr("\n\n"
-                  "You can favorite playlists by clicking the star icon next "
-                  "to a playlist name\n\n"
-                  "Favorited playlists will be saved here"));
+      tr("\n\n"
+         "You can favorite playlists by clicking the star icon next "
+         "to a playlist name\n\n"
+         "Favorited playlists will be saved here"));
   }
   else {
     AutoExpandingTreeView::paintEvent(event);
   }
-
 }
 
 bool PlaylistListView::ItemsSelected() const {
   return selectionModel()->selectedRows().count() > 0;
 }
 
-void PlaylistListView::selectionChanged(const QItemSelection&, const QItemSelection&) {
+void PlaylistListView::selectionChanged(const QItemSelection &, const QItemSelection &) {
   emit ItemsSelectedChanged(selectionModel()->selectedRows().count() > 0);
 }

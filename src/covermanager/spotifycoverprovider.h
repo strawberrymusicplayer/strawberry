@@ -90,8 +90,7 @@ class SpotifyCoverProvider : public JsonCoverProvider {
   quint64 expires_in_;
   quint64 login_time_;
   QTimer refresh_login_timer_;
-  QList<QNetworkReply*> replies_;
-
+  QList<QNetworkReply *> replies_;
 };
 
 #endif  // SPOTIFYCOVERPROVIDER_H

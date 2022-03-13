@@ -106,7 +106,6 @@ bool OrganizeFormat::IsValid() const {
 
   Validator v;
   return v.validate(format_copy, pos) == QValidator::Acceptable;
-
 }
 
 QString OrganizeFormat::GetFilenameForSong(const Song &song, QString extension) const {
@@ -185,7 +184,6 @@ QString OrganizeFormat::GetFilenameForSong(const Song &song, QString extension) 
   }
 
   return filename;
-
 }
 
 QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *any_empty) const {
@@ -196,7 +194,7 @@ QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *any_em
   // Find any blocks first
   qint64 pos = 0;
   QRegularExpressionMatch re_match;
-  for (re_match = block_regexp.match(block, pos);  re_match.hasMatch(); re_match = block_regexp.match(block, pos)) {
+  for (re_match = block_regexp.match(block, pos); re_match.hasMatch(); re_match = block_regexp.match(block, pos)) {
     pos = re_match.capturedStart();
     // Recursively parse the block
     bool empty = false;
@@ -222,7 +220,6 @@ QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *any_em
 
   if (any_empty) *any_empty = empty;
   return block;
-
 }
 
 QString OrganizeFormat::TagValue(const QString &tag, const Song &song) const {
@@ -305,12 +302,11 @@ QString OrganizeFormat::TagValue(const QString &tag, const Song &song) const {
   value = value.trimmed();
 
   return value;
-
 }
 
 OrganizeFormat::Validator::Validator(QObject *parent) : QValidator(parent) {}
 
-QValidator::State OrganizeFormat::Validator::validate(QString &input, int&) const {
+QValidator::State OrganizeFormat::Validator::validate(QString &input, int &) const {
 
   QRegularExpression tag_regexp(kTagPattern);
 
@@ -342,7 +338,6 @@ QValidator::State OrganizeFormat::Validator::validate(QString &input, int&) cons
   }
 
   return QValidator::Acceptable;
-
 }
 
 OrganizeFormat::SyntaxHighlighter::SyntaxHighlighter(QObject *parent) : QSyntaxHighlighter(parent) {}
@@ -386,5 +381,4 @@ void OrganizeFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
     setFormat(static_cast<int>(pos), static_cast<int>(re_match.capturedLength()), f);
     pos += re_match.capturedLength();
   }
-
 }

@@ -44,7 +44,7 @@ class SliderSlider : public QSlider {
   Q_OBJECT
 
  public:
-  explicit SliderSlider(const Qt::Orientation, QWidget*, const int max = 0);
+  explicit SliderSlider(const Qt::Orientation, QWidget *, const int max = 0);
 
   virtual void setValue(int);
 
@@ -56,11 +56,11 @@ class SliderSlider : public QSlider {
   void sliderReleased(int);  // clazy:exclude=overloaded-signal
 
  protected:
-  void wheelEvent(QWheelEvent*) override;
-  void mouseMoveEvent(QMouseEvent*) override;
-  void mouseReleaseEvent(QMouseEvent*) override;
-  void mousePressEvent(QMouseEvent*) override;
-  virtual void slideEvent(QMouseEvent*);
+  void wheelEvent(QWheelEvent *) override;
+  void mouseMoveEvent(QMouseEvent *) override;
+  void mouseReleaseEvent(QMouseEvent *) override;
+  void mousePressEvent(QMouseEvent *) override;
+  virtual void slideEvent(QMouseEvent *);
 
   bool sliding_;
 
@@ -74,8 +74,8 @@ class SliderSlider : public QSlider {
   bool outside_;
   int prev_value_;
 
-  SliderSlider(const SliderSlider&);             // undefined
-  SliderSlider &operator=(const SliderSlider&);  // undefined
+  SliderSlider(const SliderSlider &);             // undefined
+  SliderSlider &operator=(const SliderSlider &);  // undefined
 };
 
 class PrettySlider : public SliderSlider {
@@ -90,12 +90,12 @@ class PrettySlider : public SliderSlider {
   explicit PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget *parent, const uint max = 0);
 
  protected:
-  void slideEvent(QMouseEvent*) override;
-  void mousePressEvent(QMouseEvent*) override;
+  void slideEvent(QMouseEvent *) override;
+  void mousePressEvent(QMouseEvent *) override;
 
  private:
-  PrettySlider(const PrettySlider&);             // undefined
-  PrettySlider &operator=(const PrettySlider&);  // undefined
+  PrettySlider(const PrettySlider &);             // undefined
+  PrettySlider &operator=(const PrettySlider &);  // undefined
 
   SliderMode m_mode;
 };
@@ -108,17 +108,17 @@ class VolumeSlider : public SliderSlider {
   void SetEnabled(const bool enabled);
 
  protected:
-  void paintEvent(QPaintEvent*) override;
+  void paintEvent(QPaintEvent *) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  void enterEvent(QEnterEvent*) override;
+  void enterEvent(QEnterEvent *) override;
 #else
-  void enterEvent(QEvent*) override;
+  void enterEvent(QEvent *) override;
 #endif
-  void leaveEvent(QEvent*) override;
-  virtual void paletteChange(const QPalette&);
-  void slideEvent(QMouseEvent*) override;
-  void mousePressEvent(QMouseEvent*) override;
-  void contextMenuEvent(QContextMenuEvent*) override;
+  void leaveEvent(QEvent *) override;
+  virtual void paletteChange(const QPalette &);
+  void slideEvent(QMouseEvent *) override;
+  void mousePressEvent(QMouseEvent *) override;
+  void contextMenuEvent(QContextMenuEvent *) override;
   void wheelEvent(QWheelEvent *e) override;
 
  private slots:
@@ -129,8 +129,8 @@ class VolumeSlider : public SliderSlider {
   QPixmap drawVolumePixmap() const;
   void drawVolumeSliderHandle();
 
-  VolumeSlider(const VolumeSlider&);             // undefined
-  VolumeSlider &operator=(const VolumeSlider&);  // undefined
+  VolumeSlider(const VolumeSlider &);             // undefined
+  VolumeSlider &operator=(const VolumeSlider &);  // undefined
 
   ////////////////////////////////////////////////////////////////
   static const int ANIM_INTERVAL = 18;
