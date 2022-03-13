@@ -24,6 +24,7 @@
         <file>icons/128x128/document-open-folder.png</file>
         <file>icons/128x128/document-open.png</file>
         <file>icons/128x128/document-save.png</file>
+        <file>icons/128x128/document-save-all.png</file>
         <file>icons/128x128/document-search.png</file>
         <file>icons/128x128/download.png</file>
         <file>icons/128x128/edit-clear-list.png</file>
@@ -120,6 +121,7 @@
         <file>icons/64x64/document-open-folder.png</file>
         <file>icons/64x64/document-open.png</file>
         <file>icons/64x64/document-save.png</file>
+        <file>icons/64x64/document-save-all.png</file>
         <file>icons/64x64/document-search.png</file>
         <file>icons/64x64/download.png</file>
         <file>icons/64x64/edit-clear-list.png</file>
@@ -218,6 +220,7 @@
         <file>icons/48x48/document-open-remote.png</file>
         <file>icons/48x48/document-open.png</file>
         <file>icons/48x48/document-save.png</file>
+        <file>icons/48x48/document-save-all.png</file>
         <file>icons/48x48/document-search.png</file>
         <file>icons/48x48/download.png</file>
         <file>icons/48x48/edit-clear-list.png</file>
@@ -319,6 +322,7 @@
         <file>icons/32x32/document-open-remote.png</file>
         <file>icons/32x32/document-open.png</file>
         <file>icons/32x32/document-save.png</file>
+        <file>icons/32x32/document-save-all.png</file>
         <file>icons/32x32/document-search.png</file>
         <file>icons/32x32/download.png</file>
         <file>icons/32x32/edit-clear-list.png</file>
@@ -420,6 +424,7 @@
         <file>icons/22x22/document-open-remote.png</file>
         <file>icons/22x22/document-open.png</file>
         <file>icons/22x22/document-save.png</file>
+        <file>icons/22x22/document-save-all.png</file>
         <file>icons/22x22/document-search.png</file>
         <file>icons/22x22/download.png</file>
         <file>icons/22x22/edit-clear-list.png</file>

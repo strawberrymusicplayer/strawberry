@@ -222,6 +222,8 @@ class PlaylistManager : public PlaylistManagerInterface {
   // Rate current song using 0 - 5 scale.
   void RateCurrentSong2(const int rating) override;
 
+  void SaveAllPlaylists();
+
  private slots:
   void SetActivePlaying() override;
   void SetActivePaused() override;

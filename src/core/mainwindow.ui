@@ -483,6 +483,7 @@
     <addaction name="action_new_playlist"/>
     <addaction name="action_save_playlist"/>
     <addaction name="action_load_playlist"/>
+    <addaction name="action_save_all_playlists"/>
     <addaction name="separator"/>
     <addaction name="action_jump"/>
     <addaction name="action_clear_playlist"/>
@@ -746,6 +747,11 @@
    <property name="shortcut">
     <string>Ctrl+Shift+O</string>
    </property>
+  </action>
+  <action name="action_save_all_playlists">
+    <property name="text">
+      <string>&amp;Save all playlists</string>
+    </property>
   </action>
   <action name="action_next_playlist">
    <property name="text">
