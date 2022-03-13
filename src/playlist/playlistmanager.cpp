@@ -45,6 +45,7 @@
 #include <QScrollBar>
 #include <QSettings>
 #include <QtDebug>
+#include <QStandardPaths>
 
 #include "core/application.h"
 #include "core/logging.h"
@@ -228,8 +229,25 @@ void PlaylistManager::Save(const int id, const QString &filename, const Playlist
   }
 }
 
+bool CreateAPlaylistsDirectory(const QString playlist_folder_path) {
+  bool success = QDir(playlist_folder_path).mkpath(playlist_folder_path);
+  if (not success) {
+    qDebug() << "Could not create folder: " << playlist_folder_path;
+  }
+  return success;
+}
+
 void PlaylistManager::SaveAllPlaylists() {
-  qDebug() << "Saving all playlits";
+  for (const auto playlist : GetAllPlaylists()) {
+    QString playlist_folder_path = QDir::home().path() + QDir::separator() + "Playlists";
+    if (not CreateAPlaylistsDirectory(playlist_folder_path)) {
+      break;
+    }
+    const auto &id = playlist->id();
+    const QString playlist_file_name = playlist_folder_path + QDir::separator() + GetPlaylistName(id) + ".m3u";
+    qDebug() << "Saving: " << playlist_file_name;
+    Save(id, playlist_file_name, Playlist::Path_Relative);
+  }
 }
 
 void PlaylistManager::ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const Playlist::Path path_type) {
