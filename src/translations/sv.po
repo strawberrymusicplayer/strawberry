@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-02-20 02:10-0500\n"
+"PO-Revision-Date: 2022-03-12 01:50-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -2645,7 +2645,7 @@ msgstr "Hjälp"
 
 #: ../build/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
-msgstr ""
+msgstr "Hex"
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
@@ -2734,7 +2734,7 @@ msgstr "Importera..."
 
 #: ../build/src/ui_backendsettingspage.h:565
 msgid "Improve headphone listening of stereo audio records (bs2b)"
-msgstr ""
+msgstr "Förbättra hörlurslyssning av stereoljudskivor (bs2b)"
 
 #: core/utilities.cpp:178
 #, qt-format
@@ -3449,7 +3449,7 @@ msgstr "Optimera för &kvalitet"
 
 #: ../build/src/ui_backendsettingspage.h:561
 msgid "Options"
-msgstr ""
+msgstr "Alternativ"
 
 #: ../build/src/ui_transcodedialog.h:228
 msgid "Options..."
@@ -4934,7 +4934,7 @@ msgstr "Tagghämtare"
 
 #: ../build/src/ui_collectionsettingspage.h:629
 msgid "Tagreader workers"
-msgstr ""
+msgstr "Taggläsar-arbetare"
 
 #: ../build/src/ui_edittagdialog.h:844
 msgid "Tags"
@@ -5286,7 +5286,7 @@ msgstr "Uppdaterar samlingen"
 
 #: ../build/src/ui_backendsettingspage.h:563
 msgid "Upmix / downmix to"
-msgstr ""
+msgstr "Upmix / downmix till"
 
 #: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
