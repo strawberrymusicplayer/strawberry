@@ -81,14 +81,12 @@ PlaylistManager::PlaylistManager(Application *app, QObject *parent)
   QObject::connect(app_->player(), &Player::Paused, this, &PlaylistManager::SetActivePaused);
   QObject::connect(app_->player(), &Player::Playing, this, &PlaylistManager::SetActivePlaying);
   QObject::connect(app_->player(), &Player::Stopped, this, &PlaylistManager::SetActiveStopped);
-
 }
 
 PlaylistManager::~PlaylistManager() {
 
   QList<Data> datas = playlists_.values();
   for (const Data &data : datas) delete data.p;
-
 }
 
 void PlaylistManager::Init(CollectionBackend *collection_backend, PlaylistBackend *playlist_backend, PlaylistSequence *sequence, PlaylistContainer *playlist_container) {
@@ -113,24 +111,22 @@ void PlaylistManager::Init(CollectionBackend *collection_backend, PlaylistBacken
   if (playlists_.isEmpty()) New(tr("Playlist"));
 
   emit PlaylistManagerInitialized();
-
 }
 
 void PlaylistManager::PlaylistLoaded() {
 
-  Playlist *playlist = qobject_cast<Playlist*>(sender());
+  Playlist *playlist = qobject_cast<Playlist *>(sender());
   if (!playlist) return;
   QObject::disconnect(playlist, &Playlist::PlaylistLoaded, this, &PlaylistManager::PlaylistLoaded);
   --playlists_loading_;
   if (playlists_loading_ == 0) {
     emit AllPlaylistsLoaded();
   }
-
 }
 
-QList<Playlist*> PlaylistManager::GetAllPlaylists() const {
+QList<Playlist *> PlaylistManager::GetAllPlaylists() const {
 
-  QList<Playlist*> result;
+  QList<Playlist *> result;
 
   QList<Data> datas = playlists_.values();
   result.reserve(datas.count());
@@ -139,7 +135,6 @@ QList<Playlist*> PlaylistManager::GetAllPlaylists() const {
   }
 
   return result;
-
 }
 
 QItemSelection PlaylistManager::selection(const int id) const {
@@ -175,7 +170,6 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
   }
 
   return ret;
-
 }
 
 void PlaylistManager::New(const QString &name, const SongList &songs, const QString &special_type) {
@@ -195,7 +189,6 @@ void PlaylistManager::New(const QString &name, const SongList &songs, const QStr
   if (name == tr("Playlist")) {
     Rename(id, QString("%1 %2").arg(name).arg(id));
   }
-
 }
 
 void PlaylistManager::Load(const QString &filename) {
@@ -212,7 +205,6 @@ void PlaylistManager::Load(const QString &filename) {
   Playlist *playlist = AddPlaylist(id, info.completeBaseName(), QString(), QString(), false);
 
   playlist->InsertUrls(QList<QUrl>() << QUrl::fromLocalFile(filename));
-
 }
 
 void PlaylistManager::Save(const int id, const QString &filename, const Playlist::Path path_type) {
@@ -234,13 +226,15 @@ void PlaylistManager::Save(const int id, const QString &filename, const Playlist
     });
     watcher->setFuture(future);
   }
+}
 
+void PlaylistManager::SaveAllPlaylists() {
+  qDebug() << "Saving all playlits";
 }
 
 void PlaylistManager::ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const Playlist::Path path_type) {
 
   parser_->Save(songs, filename, path_type);
-
 }
 
 void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
@@ -306,7 +300,6 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   settings.setValue("last_save_extension", info.suffix());
 
   Save(id == -1 ? current_id() : id, filename, path);
-
 }
 
 void PlaylistManager::Rename(const int id, const QString &new_name) {
@@ -317,7 +310,6 @@ void PlaylistManager::Rename(const int id, const QString &new_name) {
   playlists_[id].name = new_name;
 
   emit PlaylistRenamed(id, new_name);
-
 }
 
 void PlaylistManager::Favorite(const int id, const bool favorite) {
@@ -334,7 +326,6 @@ void PlaylistManager::Favorite(const int id, const bool favorite) {
     playlist_backend_->RemovePlaylist(id);
   }
   emit PlaylistFavorited(id, favorite);
-
 }
 
 bool PlaylistManager::Close(const int id) {
@@ -365,7 +356,6 @@ bool PlaylistManager::Close(const int id) {
   delete data.p;
 
   return true;
-
 }
 
 void PlaylistManager::Delete(const int id) {
@@ -376,11 +366,10 @@ void PlaylistManager::Delete(const int id) {
 
   playlist_backend_->RemovePlaylist(id);
   emit PlaylistDeleted(id);
-
 }
 
 void PlaylistManager::OneOfPlaylistsChanged() {
-  emit PlaylistChanged(qobject_cast<Playlist*>(sender()));
+  emit PlaylistChanged(qobject_cast<Playlist *>(sender()));
 }
 
 void PlaylistManager::SetCurrentPlaylist(const int id) {
@@ -395,7 +384,6 @@ void PlaylistManager::SetCurrentPlaylist(const int id) {
   current_ = id;
   emit CurrentChanged(current(), playlists_[id].scroll_position);
   UpdateSummaryText();
-
 }
 
 void PlaylistManager::SetActivePlaylist(const int id) {
@@ -410,7 +398,6 @@ void PlaylistManager::SetActivePlaylist(const int id) {
   emit ActiveChanged(active());
 
   sequence_->set_dynamic(active()->is_dynamic());
-
 }
 
 void PlaylistManager::SetActiveToCurrent() {
@@ -421,7 +408,6 @@ void PlaylistManager::SetActiveToCurrent() {
   if (current_id() != active_id()) {
     SetActivePlaylist(current_id());
   }
-
 }
 
 void PlaylistManager::ClearCurrent() {
@@ -485,7 +471,6 @@ void PlaylistManager::UpdateSummaryText() {
   }
 
   emit SummaryTextChanged(summary);
-
 }
 
 void PlaylistManager::SelectionChanged(const QItemSelection &selection) {
@@ -508,7 +493,6 @@ void PlaylistManager::SongsDiscovered(const SongList &songs) {
       }
     }
   }
-
 }
 
 // When Player has processed the new song chosen by the user...
@@ -519,7 +503,6 @@ void PlaylistManager::SongChangeRequestProcessed(const QUrl &url, const bool val
       return;
     }
   }
-
 }
 
 void PlaylistManager::InsertUrls(const int id, const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue) {
@@ -527,7 +510,6 @@ void PlaylistManager::InsertUrls(const int id, const QList<QUrl> &urls, const in
   Q_ASSERT(playlists_.contains(id));
 
   playlists_[id].p->InsertUrls(urls, pos, play_now, enqueue);
-
 }
 
 void PlaylistManager::InsertSongs(const int id, const SongList &songs, const int pos, const bool play_now, const bool enqueue) {
@@ -535,7 +517,6 @@ void PlaylistManager::InsertSongs(const int id, const SongList &songs, const int
   Q_ASSERT(playlists_.contains(id));
 
   playlists_[id].p->InsertSongs(songs, pos, play_now, enqueue);
-
 }
 
 void PlaylistManager::RemoveItemsWithoutUndo(const int id, const QList<int> &indices) {
@@ -543,7 +524,6 @@ void PlaylistManager::RemoveItemsWithoutUndo(const int id, const QList<int> &ind
   Q_ASSERT(playlists_.contains(id));
 
   playlists_[id].p->RemoveItemsWithoutUndo(indices);
-
 }
 
 void PlaylistManager::RemoveCurrentSong() const {
@@ -561,7 +541,6 @@ void PlaylistManager::RemoveDeletedSongs() {
   for (Playlist *playlist : GetAllPlaylists()) {
     playlist->RemoveDeletedSongs();
   }
-
 }
 
 QString PlaylistManager::GetNameForNewPlaylist(const SongList &songs) {
@@ -600,7 +579,6 @@ QString PlaylistManager::GetNameForNewPlaylist(const SongList &songs) {
   }
 
   return result;
-
 }
 
 void PlaylistManager::Open(const int id) {
@@ -615,14 +593,12 @@ void PlaylistManager::Open(const int id) {
   }
 
   AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
-
 }
 
 void PlaylistManager::SetCurrentOrOpen(const int id) {
 
   Open(id);
   SetCurrentPlaylist(id);
-
 }
 
 bool PlaylistManager::IsPlaylistOpen(const int id) {
@@ -640,7 +616,6 @@ void PlaylistManager::PlaySmartPlaylist(PlaylistGeneratorPtr generator, bool as_
   }
 
   current()->InsertSmartPlaylist(generator);
-
 }
 
 void PlaylistManager::RateCurrentSong(const float rating) {

@@ -53,7 +53,7 @@ class PlaylistContainer : public QWidget {
 
   static const char *kSettingsGroup;
 
-  void SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist);
+  void SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist, QAction *save_all_playlists);
   void SetManager(PlaylistManager *manager);
   void ReloadSettings();
 
@@ -73,7 +73,7 @@ class PlaylistContainer : public QWidget {
 
  protected:
   // QWidget
-  void resizeEvent(QResizeEvent*) override;
+  void resizeEvent(QResizeEvent *) override;
 
  private slots:
   void NewPlaylist();
@@ -83,6 +83,7 @@ class PlaylistContainer : public QWidget {
   void ClearPlaylist();
   void GoToNextPlaylistTab();
   void GoToPreviousPlaylistTab();
+  void SaveAllPlaylists();
 
   void SetViewModel(Playlist *playlist, const int scroll_position);
   void PlaylistAdded(const int id, const QString &name, bool favorite);

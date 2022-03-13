@@ -60,7 +60,7 @@ class PlaylistManagerInterface : public QObject {
   virtual Playlist *active() const = 0;
 
   // Returns the collection of playlists managed by this PlaylistManager.
-  virtual QList<Playlist*> GetAllPlaylists() const = 0;
+  virtual QList<Playlist *> GetAllPlaylists() const = 0;
   // Grays out and reloads all deleted songs in all playlists.
   virtual void InvalidateDeletedSongs() = 0;
   // Removes all deleted songs from all playlists.
@@ -152,7 +152,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   Playlist *active() const override { return playlist(active_id()); }
 
   // Returns the collection of playlists managed by this PlaylistManager.
-  QList<Playlist*> GetAllPlaylists() const override;
+  QList<Playlist *> GetAllPlaylists() const override;
   // Grays out and reloads all deleted songs in all playlists.
   void InvalidateDeletedSongs() override;
   // Removes all deleted songs from all playlists.
@@ -184,6 +184,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   void Save(const int id, const QString &filename, const Playlist::Path path_type) override;
   // Display a file dialog to let user choose a file before saving the file
   void SaveWithUI(const int id, const QString &playlist_name);
+  void SaveAllPlaylists();
   void Rename(const int id, const QString &new_name) override;
   void Favorite(const int id, bool favorite);
   void Delete(const int id) override;
