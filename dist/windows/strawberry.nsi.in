@@ -96,6 +96,7 @@ SetCompressor /SOLID lzma
 !include "FileAssociation.nsh"
 !include "Capabilities.nsh"
 !include LogicLib.nsh
+!include Registry.nsh
 !include x64.nsh
 
 !define MUI_ICON "strawberry.ico"
@@ -105,11 +106,15 @@ SetCompressor /SOLID lzma
 !ifdef mingw
   ReserveFile "${NSISDIR}/Plugins/x86-unicode/LockedList.dll"
   ReserveFile "${NSISDIR}/Plugins/LockedList64.dll"
+  ReserveFile "${NSISDIR}/Plugins/registry.dll"
+  ReserveFile "${NSISDIR}/Plugins/x86-unicode/INetC.dll"
 !endif
 
 !ifdef msvc
   ReserveFile "${NSISDIR}\Plugins\x86-unicode\LockedList.dll"
   ReserveFile "${NSISDIR}\Plugins\LockedList64.dll"
+  ReserveFile "${NSISDIR}\Plugins\registry.dll"
+  ReserveFile "${NSISDIR}\Plugins\x86-unicode\INetC.dll"
 !endif
 
 !define LockedListPATH	$InstallDir
