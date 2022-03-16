@@ -1592,8 +1592,8 @@ jobs:
         working-directory: build
         run: makensis strawberry.nsi
 
-  build-windows-msvc:
-    name: Build Windows MSVC
+  build-windows-msvc-release:
+    name: Build Windows MSVC Release
     runs-on: windows-2019
     steps:
 
@@ -1604,117 +1604,18 @@ jobs:
 
       - uses: actions/checkout@v1.2.0
 
-      - name: Download Boost
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Boost [this](https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download Qt Base
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Qt Base [this](https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt6_623/qt.qt6.623.win64_msvc2019_64/6.2.3-0-202201260729qtbase-Windows-Windows_10_21H2-MSVC2019-Windows-Windows_10_21H2-X86_64.7z)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download Qt Tools
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Qt Tools [this](https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt6_623/qt.qt6.623.win64_msvc2019_64/6.2.3-0-202201260729qttools-Windows-Windows_10_21H2-MSVC2019-Windows-Windows_10_21H2-X86_64.7z)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download Qt OpenSSL
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Qt OpenSSL [this](https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_openssl_x64/qt.tools.openssl.win_x64/1.1.1-10openssl_1.1.1j_prebuild_x64.7z)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download SQLite
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "SQLite [this](https://sqlite.org/2022/sqlite-autoconf-3370200.tar.gz)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download glib-networking
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "glib-networking [this](https://download.gnome.org/sources/glib-networking/2.62/glib-networking-2.62.4.tar.xz)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download GStreamer
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "GStreamer [this](https://gstreamer.freedesktop.org/data/pkg/windows/1.20.0/msvc/gstreamer-1.0-msvc-x86_64-1.20.0.msi)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download GStreamer Devel
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "GStreamer Devel [this](https://gstreamer.freedesktop.org/data/pkg/windows/1.20.0/msvc/gstreamer-1.0-devel-msvc-x86_64-1.20.0.msi)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download GnuTLS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "GnutTLS [this](https://github.com/ShiftMediaProject/gnutls/releases/download/3.7.2/libgnutls_3.7.2_msvc14.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download GnuTLS PC File
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "GnutTLS PC File [this](https://files.strawberrymusicplayer.org/gnutls.pc)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download TagLib
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "TagLib [this](https://taglib.org/releases/taglib-1.12.tar.gz)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download FFTW
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "FFTW [this](https://fftw.org/pub/fftw/fftw-3.3.5-dll64.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download Chromaprint
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Chromaprint [this](https://github.com/acoustid/chromaprint/releases/download/v1.5.1/chromaprint-1.5.1.tar.gz)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download Protobuf
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Protobuf [this](https://files.strawberrymusicplayer.org/protobuf-3.19.4-msvc.zip)!"
-          # url: "Protobuf [this](https://github.com/protocolbuffers/protobuf/releases/download/v3.19.4/protobuf-cpp-3.19.4.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Create sources directory
-        run: mkdir sources
-
-      - name: Download qtsparkle
+      - name: Delete conflicting files
         shell: bash
-        working-directory: sources
-        run: git clone https://github.com/davidsansome/qtsparkle qtsparkle-git
+        run: |
+          rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
+          rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
 
-      - name: Download qtsparkle pc file
-        shell: bash
-        working-directory: sources/qtsparkle-git
-        run: curl -O -L https://files.strawberrymusicplayer.org/qtsparkle-qt6.pc
+      - name: Download Windows MSVC dependencies
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/latest/strawberry-msvc-dependencies.tar.xz)!"
+          target: downloads/
+          auto-match: true
 
       - name: Download LockedList plugin for NSIS
         uses: suisei-cn/actions-download-file@v1
@@ -1754,179 +1655,14 @@ jobs:
           copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
           copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/INetC.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
 
-      - name: Grant Full Access to c:\windows\temp directory
-        run: icacls "C:\Windows\Temp" /q /c /t /grant Users:F /T
-
-      - name: Install GStreamer
-        working-directory: downloads
-        run: msiexec /a gstreamer-1.0-msvc-x86_64-1.20.0.msi /passive /qn
-
-      - name: Wait for GStreamer installation to complete
-        run: Start-Sleep -s 20
-        shell: powershell
-
-      - name: Install GStreamer Devel
-        working-directory: downloads
-        run: msiexec /a gstreamer-1.0-devel-msvc-x86_64-1.20.0.msi /passive /qn
-
-      - name: Wait for GStreamer Devel installation to complete
-        run: Start-Sleep -s 30
-        shell: powershell
-
-      - name: Extract Boost
-        working-directory: sources
-        run: 7z x ..\downloads\boost_1_78_0.zip
-
-      - name: Copy Boost
-        shell: bash
-        working-directory: sources
-        run: cp -r boost_1_78_0/boost /c/gstreamer/1.0/msvc_x86_64/include/
-
-      - name: Extract Qt
-        working-directory: C:\
+      - name: Extract Windows MSVC dependencies
         shell: bash
         run: |
-          mkdir qt
-          cd qt
-          7z x "${{github.workspace}}/downloads/6.2.3-0-202201260729qtbase-Windows-Windows_10_21H2-MSVC2019-Windows-Windows_10_21H2-X86_64.7z"
-          7z x "${{github.workspace}}/downloads/6.2.3-0-202201260729qttools-Windows-Windows_10_21H2-MSVC2019-Windows-Windows_10_21H2-X86_64.7z"
-          7z x "${{github.workspace}}/downloads/1.1.1-10openssl_1.1.1j_prebuild_x64.7z"
-
-      - name: Extract GnuTLS
-        run: |
-          mkdir gnutls
-          cd gnutls
-          7z x "${{github.workspace}}/downloads/libgnutls_3.7.2_msvc14.zip"
-          xcopy /s /y bin\x64\*.* c:\gstreamer\1.0\msvc_x86_64\bin\
-          xcopy /s /y lib\x64\*.* c:\gstreamer\1.0\msvc_x86_64\lib\
-          xcopy /s /y include\* c:\gstreamer\1.0\msvc_x86_64\include\
-          xcopy /s /y include\* c:\gstreamer\1.0\msvc_x86_64\include\
-          copy "${{github.workspace}}/downloads/gnutls.pc" c:\gstreamer\1.0\msvc_x86_64\lib\pkgconfig\
-
-      - name: Extract TagLib
-        working-directory: sources
-        shell: bash
-        run: tar -xvf ../downloads/taglib-1.12.tar.gz
-
-      - name: Extract Chromaprint
-        working-directory: sources
-        shell: bash
-        run: tar -xvf ../downloads/chromaprint-1.5.1.tar.gz
-
-      - name: Extract glib-networking
-        working-directory: sources
-        shell: bash
-        run: tar -xvf ../downloads/glib-networking-2.62.4.tar.xz
-
-      - name: Extract FFTW
-        run: |
-          mkdir fftw
-          cd fftw
-          7z x "${{github.workspace}}/downloads/fftw-3.3.5-dll64.zip"
-          lib /def:libfftw3-3.def
-          lib /def:libfftw3f-3.def
-          lib /def:libfftw3l-3.def
-          xcopy /s /y *.dll c:\gstreamer\1.0\msvc_x86_64\bin\
-          xcopy /s /y *.lib c:\gstreamer\1.0\msvc_x86_64\lib\
-          xcopy /s /y *.h c:\gstreamer\1.0\msvc_x86_64\include\
-
-      #- name: Compile Protobuf
-      #  env:
-      #    CL: "/MP"
-      #  working-directory: sources/protobuf-3.19.4
-      #  run: |
-      #    cd cmake
-      #    mkdir build
-      #    cd build
-      #    cmake .. -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -Dprotobuf_BUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/protobuf" -Dprotobuf_BUILD_TESTS=OFF
-      #    nmake
-      #    cmake --install .
-      #    copy ..\cmake\build\protobuf.pc c:\gstreamer\1.0\msvc_x86_64\lib\pkgconfig\
-
-      - name: Extract Protobuf
-        run: |
-          7z x downloads\protobuf-3.19.4-msvc.zip
-          xcopy /s /y protobuf-3.19.4-msvc\bin\*.dll c:\gstreamer\1.0\msvc_x86_64\bin\
-          xcopy /s /y protobuf-3.19.4-msvc\bin\*.exe c:\gstreamer\1.0\msvc_x86_64\bin\
-          xcopy /s /y protobuf-3.19.4-msvc\lib\*.lib c:\gstreamer\1.0\msvc_x86_64\lib\
-          xcopy /s /y protobuf-3.19.4-msvc\lib\pkgconfig\*.pc c:\gstreamer\1.0\msvc_x86_64\lib\pkgconfig\
-          xcopy /s /y protobuf-3.19.4-msvc\include\*.* c:\gstreamer\1.0\msvc_x86_64\include\
-
-      - name: Extract SQLite
-        working-directory: sources
-        shell: bash
-        run: tar -xvf ../downloads/sqlite-autoconf-3370200.tar.gz
-
-      - name: Compile SQlite
-        env:
-          CL: "/MP"
-        working-directory: sources/sqlite-autoconf-3370200
-        run: cl shell.c sqlite3.c -Fe:sqlite3.exe
-        #cl -DSQLITE_API="__declspec(dllexport)" sqlite3.c -link -dll -out:sqlite3.dll
-
-      # - name: Copy SQLite
-      #  working-directory: sources/sqlite-autoconf-3370200
-      #  run: |
-      #    copy *.h c:\gstreamer\1.0\msvc_x86_64\include\
-      #    copy *.lib c:\gstreamer\1.0\msvc_x86_64\lib\
-      #    copy *.dll c:\gstreamer\1.0\msvc_x86_64\bin\
-      #    copy *.def c:\gstreamer\1.0\msvc_x86_64\lib\
-      #    copy *.def c:\gstreamer\1.0\msvc_x86_64\bin\
-
-      - name: Compile TagLib
-        env:
-          CL: "/MP"
-        working-directory: sources/taglib-1.12
-        run: |
-          mkdir build
-          cd build
-          cmake .. -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="c:\gstreamer\1.0\msvc_x86_64" -DBUILD_SHARED_LIBS=ON
-          nmake
-          cmake --install .
-
-      - name: Compile Chromaprint
-        env:
-          CL: "/MP"
-        working-directory: sources/chromaprint-1.5.1
-        run: |
-          mkdir build
-          cd build
-          cmake .. -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DFFMPEG_ROOT=C:\gstreamer\1.0\msvc_x86_64 -DCMAKE_INSTALL_PREFIX=C:\gstreamer\1.0\msvc_x86_64
-          nmake
-          cmake --install .
+          tar -xf /d/a/strawberry/strawberry//downloads/strawberry-msvc-dependencies.tar.xz
+          mv c/msvc_x86_64 /c/
 
       - name: Update PATH
-        run: echo "c:\gstreamer\1.0\msvc_x86_64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
-      - name: Compile glib-networking
-        env:
-          CL: "/MP"
-        working-directory: sources/glib-networking-2.62.4
-        run: |
-          echo "c:\gstreamer\1.0\msvc_x86_64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          pip3 install meson
-          meson -Dgnutls=enabled -Dpkg_config_path=c:\gstreamer\1.0\msvc_x86_64\lib\pkgconfig build
-          cd build
-          ninja
-
-      - name: Compile qtsparkle
-        env:
-          CL: "/MP"
-        working-directory: sources/qtsparkle-git
-        run: |
-          copy qtsparkle-qt6.pc c:\gstreamer\1.0\msvc_x86_64\lib\pkgconfig\
-          mkdir build
-          cd build
-          cmake .. -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_PREFIX_PATH=c:\qt\6.2.3\msvc2019_64\lib\cmake -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/qtsparkle"
-          nmake
-          cmake --install .
-          cmake .. -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_PREFIX_PATH=c:\qt\6.2.3\msvc2019_64\lib\cmake -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/qtsparkle"
-          nmake
-          cmake --install .
-
-      - name: Remove find_package(Boost)
-        shell: bash
-        run: sed -i 's/find_package(Boost.*//g' CMakeLists.txt
+        run: echo "c:\msvc_x86_64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Create Build Environment
         run: cmake -E make_directory build
@@ -1935,8 +1671,8 @@ jobs:
         working-directory: build
         run: >
           cmake ..
-          -DCMAKE_BUILD_TYPE=Release
-          -DCMAKE_PREFIX_PATH=c:\qt\6.2.3\msvc2019_64\lib\cmake
+          -DCMAKE_BUILD_TYPE="Release"
+          -DCMAKE_PREFIX_PATH="c:/msvc_x86_64/lib/cmake"
           -DBUILD_WITH_QT6=ON
           -DBUILD_WERROR=OFF
           -DARCH=x86_64
@@ -1945,30 +1681,13 @@ jobs:
           -DENABLE_LIBGPOD=OFF
           -DENABLE_LIBMTP=OFF
           -DUSE_TAGLIB=ON
-          -DPKG_CONFIG_EXECUTABLE=C:/gstreamer/1.0/msvc_x86_64/bin/pkg-config.exe
-          -DGNUTLS_LIBRARY=c:/gstreamer/1.0/msvc_x86_64/lib/gnutls.lib
-          -DGNUTLS_INCLUDE_DIR=c:/gstreamer/1.0/msvc_x86_64/include
-          -DGNUTLS_INCLUDE_DIRS=c:/gstreamer/1.0/msvc_x86_64/include
-          -DBoost_INCLUDE_DIR=c:/gstreamer/1.0/msvc_x86_64/include
-          -DBoost_INCLUDE_DIRS=c:/gstreamer/1.0/msvc_x86_64/include
-          -DProtobuf_LIBRARY=c:/gstreamer/1.0/msvc_x86_64/lib/libprotobuf.lib
-          -DProtobuf_INCLUDE_DIR=c:/gstreamer/1.0/msvc_x86_64/include
-          -DProtobuf_INCLUDE_DIRS=c:/gstreamer/1.0/msvc_x86_64/include
-          -DPROTOBUF_PROTOC_EXECUTABLE=c:/gstreamer/1.0/msvc_x86_64/bin/protoc.exe
-          -DSQLITE_INCLUDE_DIRS=c:/gstreamer/1.0/msvc_x86_64/include
-          -DSQLITE_LIBRARY_DIRS=c:/gstreamer/1.0/msvc_x86_64/lib
-          -DFFTW3_DIR=c:\gstreamer\1.0\msvc_x86_64
-          -DQTSPARKLE_INCLUDE_DIRS="${{github.workspace}}/qtsparkle/include"
-
-      - name: Copy qtsparkle header
-        working-directory: build
-        run: xcopy /s /y "${{github.workspace}}\qtsparkle\include"
+          -DPKG_CONFIG_EXECUTABLE="c:/msvc_x86_64/bin/pkg-config.exe"
 
       - name: Run Make
         env:
           CL: "/MP"
         working-directory: build
-        run: cmake --build . --config Release --parallel $(nproc)
+        run: cmake --build . --config Release --parallel 4
 
       - name: list files
         working-directory: build
@@ -1981,12 +1700,12 @@ jobs:
       - name: Copy extra binaries
         working-directory: build
         run: |
-          copy c:\qt\tools\openssl\win_x64\bin\libssl-1_1-x64.dll
-          copy c:\qt\tools\openssl\win_x64\bin\libcrypto-1_1-x64.dll
-          copy "${{github.workspace}}/sources/sqlite-autoconf-3370200/sqlite3.exe"
-          copy c:\gstreamer\1.0\msvc_x86_64\bin\soup-2.4-1.dll
-          copy c:\gstreamer\1.0\msvc_x86_64\bin\gst-launch-1.0.exe
-          copy c:\gstreamer\1.0\msvc_x86_64\bin\gst-discoverer-1.0.exe
+          copy c:\msvc_x86_64\bin\libssl-3-x64.dll
+          copy c:\msvc_x86_64\bin\libcrypto-3-x64.dll
+          copy c:\msvc_x86_64\bin\soup-2.4-1.dll
+          copy c:\msvc_x86_64\bin\gst-launch-1.0.exe
+          copy c:\msvc_x86_64\bin\gst-discoverer-1.0.exe
+          copy c:\msvc_x86_64\bin\sqlite3.exe
 
       - name: Create directories
         working-directory: build
@@ -2002,77 +1721,76 @@ jobs:
 
       - name: Copy GIO modules
         working-directory: build
-        run: copy "${{github.workspace}}/sources/glib-networking-2.62.4/build/tls/gnutls/giognutls.dll" ./gio-modules/
+        run: copy c:\msvc_x86_64\lib\gio\modules\*.dll .\gio-modules\
 
       - name: Copy Qt platform plugins
         working-directory: build
-        run: copy C:\Qt\6.2.3\msvc2019_64\plugins\platforms\qwindows.dll .\platforms\
+        run: copy c:\msvc_x86_64\plugins\platforms\qwindows.dll .\platforms\
 
       - name: Copy Qt styles
         working-directory: build
-        run: copy C:\Qt\6.2.3\msvc2019_64\plugins\styles\qwindowsvistastyle.dll .\styles\
+        run: copy c:\msvc_x86_64\plugins\styles\qwindowsvistastyle.dll .\styles\
 
       - name: Copy Qt TLS plugins
         working-directory: build
-        run: copy C:\Qt\6.2.3\msvc2019_64\plugins\tls\*.dll .\tls\
+        run: copy c:\msvc_x86_64\plugins\tls\*.dll .\tls\
 
       - name: Copy Qt SQL drivers
         working-directory: build
-        run: copy C:\Qt\6.2.3\msvc2019_64\plugins\sqldrivers\qsqlite.dll .\sqldrivers\
+        run: copy c:\msvc_x86_64\plugins\sqldrivers\qsqlite.dll .\sqldrivers\
 
       - name: Copy Qt imageformats plugins
         working-directory: build
-        run: copy C:\Qt\6.2.3\msvc2019_64\plugins\imageformats\*.dll .\imageformats\
+        run: copy c:\msvc_x86_64\plugins\imageformats\*.dll .\imageformats\
 
       - name: Copy gstreamer plugins
         working-directory: build
         run: |
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstasf.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstasfmux.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstaudioconvert.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstaudiofx.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstaudiomixer.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstaudioparsers.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstaudiorate.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstremovesilence.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstwasapi2.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
-          copy C:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstasf.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstasfmux.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudioconvert.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudiofx.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudiomixer.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudioparsers.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudiorate.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstremovesilence.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwasapi2.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
 
       - name: Download copydlldeps.sh
         shell: bash
@@ -2094,14 +1812,254 @@ jobs:
           -F ./imageformats
           -F ./gio-modules
           -F ./gstreamer-plugins
-          -R /c/qt/6.2.3/msvc2019_64/bin
-          -R /c/gstreamer/1.0/msvc_x86_64
-          -R "${{github.workspace}}/qtsparkle/bin"
+          -R /c/msvc_x86_64/bin
 
-      - name: Strip binaries
+      - name: Copy nsis files
+        working-directory: build
+        run: |
+          copy ..\dist\windows\*.nsi .
+          copy ..\dist\windows\*.nsh .
+          copy ..\dist\windows\*.ico .
+
+      - name: Copy COPYING license file
+        working-directory: build
+        run: copy ..\COPYING .
+
+      - name: list files
+        working-directory: build
+        run: dir
+
+      - name: Create nsis installer
+        working-directory: build
+        run: makensis strawberry.nsi
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: upload-windows
+          path: build/StrawberrySetup*.exe
+
+
+  build-windows-msvc-debug:
+    name: Build Windows MSVC Debug
+    runs-on: windows-2019
+    steps:
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86_64
+          toolset: 14.29
+
+      - uses: actions/checkout@v1.2.0
+
+      - name: Delete conflicting files
+        shell: bash
+        run: |
+          rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
+          rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
+
+      - name: Download Windows MSVC dependencies
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/latest/strawberry-msvc-dependencies.tar.xz)!"
+          target: downloads/
+          auto-match: true
+
+      - name: Download LockedList plugin for NSIS
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url: "LockedList [this](https://nsis.sourceforge.io/mediawiki/images/d/d3/LockedList.zip)!"
+          target: downloads/
+          auto-match: true
+
+      - name: Extract NSIS LockedList plugin
+        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/LockedList.zip"
+
+      - name: Download Registry plugin for NSIS
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url: "Registry [this](https://nsis.sourceforge.io/mediawiki/images/4/47/Registry.zip)!"
+          target: downloads/
+          auto-match: true
+
+      - name: Extract NSIS Registry plugin
+        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Registry.zip"
+
+      - name: Download Inetc plugin for NSIS
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url: "Inetc [this](https://nsis.sourceforge.io/mediawiki/images/c/c9/Inetc.zip)!"
+          target: downloads/
+          auto-match: true
+
+      - name: Extract NSIS Inetc plugin
+        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Inetc.zip"
+
+      - name: Install NSIS plugins
+        run: |
+          copy "${{github.workspace}}/NSIS_Plugins/Plugins/LockedList64.dll" "C:/Program Files (x86)/NSIS/Plugins/"
+          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/LockedList.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
+          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/"
+          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
+          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/INetC.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
+
+      - name: Extract Windows MSVC dependencies
+        shell: bash
+        run: |
+          tar -xf /d/a/strawberry/strawberry//downloads/strawberry-msvc-dependencies.tar.xz
+          mv c/msvc_x86_64 /c/
+
+      - name: Update PATH
+        run: echo "c:\msvc_x86_64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Create Build Environment
+        run: cmake -E make_directory build
+
+      - name: Run CMake
+        working-directory: build
+        run: >
+          cmake ..
+          -DCMAKE_BUILD_TYPE="Debug"
+          -DCMAKE_PREFIX_PATH="c:/msvc_x86_64/lib/cmake"
+          -DBUILD_WITH_QT6=ON
+          -DBUILD_WERROR=OFF
+          -DARCH=x86_64
+          -DENABLE_WIN32_CONSOLE=ON
+          -DENABLE_DBUS=OFF
+          -DENABLE_LIBGPOD=OFF
+          -DENABLE_LIBMTP=OFF
+          -DUSE_TAGLIB=ON
+          -DPKG_CONFIG_EXECUTABLE="c:/msvc_x86_64/bin/pkg-config.exe"
+
+      - name: Run Make
+        env:
+          CL: "/MP"
+        working-directory: build
+        run: cmake --build . --config Release --parallel 4
+
+      - name: list files
+        working-directory: build
+        run: dir
+
+      - name: Copy executables
+        working-directory: build
+        run: copy release\*.exe .
+
+      - name: Copy extra binaries
+        working-directory: build
+        run: |
+          copy c:\msvc_x86_64\bin\libssl-3-x64.dll
+          copy c:\msvc_x86_64\bin\libcrypto-3-x64.dll
+          copy c:\msvc_x86_64\bin\soup-2.4-1.dll
+          copy c:\msvc_x86_64\bin\gst-launch-1.0.exe
+          copy c:\msvc_x86_64\bin\gst-discoverer-1.0.exe
+          copy c:\msvc_x86_64\bin\sqlite3.exe
+
+      - name: Create directories
+        working-directory: build
+        run: |
+          mkdir gio-modules
+          mkdir platforms
+          mkdir styles
+          mkdir tls
+          mkdir sqldrivers
+          mkdir imageformats
+          mkdir gstreamer-plugins
+          mkdir nsisplugins
+
+      - name: Copy GIO modules
+        working-directory: build
+        run: copy c:\msvc_x86_64\lib\gio\modules\*.dll .\gio-modules\
+
+      - name: Copy Qt platform plugins
+        working-directory: build
+        run: copy c:\msvc_x86_64\plugins\platforms\qwindows.dll .\platforms\
+
+      - name: Copy Qt styles
+        working-directory: build
+        run: copy c:\msvc_x86_64\plugins\styles\qwindowsvistastyle.dll .\styles\
+
+      - name: Copy Qt TLS plugins
+        working-directory: build
+        run: copy c:\msvc_x86_64\plugins\tls\*.dll .\tls\
+
+      - name: Copy Qt SQL drivers
+        working-directory: build
+        run: copy c:\msvc_x86_64\plugins\sqldrivers\qsqlite.dll .\sqldrivers\
+
+      - name: Copy Qt imageformats plugins
+        working-directory: build
+        run: copy c:\msvc_x86_64\plugins\imageformats\*.dll .\imageformats\
+
+      - name: Copy gstreamer plugins
+        working-directory: build
+        run: |
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstasf.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstasfmux.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudioconvert.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudiofx.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudiomixer.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudioparsers.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudiorate.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstremovesilence.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwasapi2.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
+
+      - name: Download copydlldeps.sh
         shell: bash
         working-directory: build
-        run: find . -type f \( -iname \*.dll -o -iname \*.exe \) -exec strip {} \;
+        run: curl -O -L https://raw.githubusercontent.com/strawberrymusicplayer/strawberry-mxe/master/tools/copydlldeps.sh
+
+      - name: Copy dependencies
+        shell: bash
+        working-directory: build
+        run: >
+          ./copydlldeps.sh
+          -c
+          -d .
+          -F .
+          -F ./platforms
+          -F ./styles
+          -F ./tls
+          -F ./sqldrivers
+          -F ./imageformats
+          -F ./gio-modules
+          -F ./gstreamer-plugins
+          -R /c/msvc_x86_64/bin
 
       - name: Copy nsis files
         working-directory: build
@@ -2157,7 +2115,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     needs:
-      - build-windows-msvc
+      - build-windows-msvc-release
+      - build-windows-msvc-debug
     steps:
       - uses: actions/checkout@v1.2.0
       - uses: actions/download-artifact@v2
