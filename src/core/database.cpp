@@ -401,15 +401,21 @@ void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
     qFatal("Couldn't open schema file %s for reading: %s", filename.toUtf8().constData(), schema_file.errorString().toUtf8().constData());
     return;
   }
-  ExecSchemaCommands(db, QString::fromUtf8(schema_file.readAll()), schema_version, in_transaction);
+  QByteArray data = schema_file.readAll();
+  QString schema = QString::fromUtf8(data);
+  if (schema.contains("\r\n")) {
+    schema = schema.replace("\r\n", "\n");
+  }
   schema_file.close();
+  ExecSchemaCommands(db, schema, schema_version, in_transaction);
 
 }
 
 void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int schema_version, bool in_transaction) {
 
   // Run each command
-  const QStringList commands(schema.split(QRegularExpression("; *\n\n")));
+  QStringList commands;
+  commands = schema.split(QRegularExpression("; *\n\n"));
 
   // We don't want this list to reflect possible DB schema changes so we initialize it before executing any statements.
   // If no outer transaction is provided the song tables need to be queried before beginning an inner transaction! Otherwise
